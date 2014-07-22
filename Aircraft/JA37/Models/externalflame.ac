@@ -8,7 +8,7 @@ name "ExternalFlame"
 loc 0.13152 0 1.49012e-008
 data 4
 Mesh
-texture "exhaust.rgb"
+texture "exhaust.png"
 crease 80.000000
 numvert 44
 1.99349 0.0278945 0.326248

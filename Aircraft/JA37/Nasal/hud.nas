@@ -20,7 +20,7 @@ var blinking = 0; # how many updates the speed vector symbol has been turned off
 var alt_scale_mode = 0; # the alt scale is not liniar, this indicates which part is showed
 var QFE = 0;
 var countQFE = 0;
-var centerOffset = 102; #verical center of HUD. (in line from pilots eyes) 0.53m is height of HUD bottom. View is 0.57m. Height of HUD is 10 cm.
+var centerOffset = -102; #verical center of HUD. (in line from pilots eyes) 0.51m is height of HUD bottom. View is 0.57m. Height of HUD is 10 cm.
 var pixelPerDegree = 100; #vertical axis
 var radPointerProxim = 60; #when alt indicater is too close to radar ground indicator, hide indicator
 var scalePlace = 380; #horizontal placement of alt scales
@@ -261,6 +261,7 @@ var HUDnasal = {
 # QFE warning (inhg not properly set / is being adjusted)
   m.qfe = m.root.createChild("text");
   m.qfe.setText("QFE");
+  m.qfe.hide();
   m.qfe.setColor(0, 1, 0, 1);
   m.qfe.setAlignment("center-center");
   m.qfe.setTranslation(-450, 200);
@@ -393,6 +394,7 @@ var HUDnasal = {
       alpha:    "/orientation/alpha-deg",
       beta:     "/orientation/side-slip-deg",
       ias:      "/velocities/airspeed-kt",
+      mach:      "/velocities/mach",
       gs:       "/velocities/groundspeed-kt",
       vs:       "/velocities/vertical-speed-fps",
       rad_alt:  "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
@@ -422,12 +424,12 @@ var HUDnasal = {
     update: func()
     {
       # digital speed
-      var mach = me.input.ias.getValue() * 0.0015;
+      var mach = me.input.mach.getValue();
       if (mach >= 0.5) 
       {
         me.airspeed.setText(sprintf("%.2f", mach));
       } else {
-        me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * 0.54));
+        me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * 1.852));
       }
             
       # heading scale
@@ -571,29 +573,29 @@ var HUDnasal = {
         if(low > 1000) {
           me.alt_low.setText(sprintf("%.1f", low/1000));
         } else {
-          me.alt_low.setText(low);
+          me.alt_low.setText(sprintf("%d", low));
         }
         var med = fact;
         if(med > 1000) {
           me.alt_med.setText(sprintf("%.1f", med/1000));
         } else {
-          me.alt_med.setText(med);
+          me.alt_med.setText(sprintf("%d", med));
         }
         var high = fact + 100;
         if(high > 1000) {
           me.alt_high.setText(sprintf("%.1f", high/1000));
         } else {
-          me.alt_high.setText(high);
+          me.alt_high.setText(sprintf("%d", high));
         }
         var higher = fact + 200;
         if(higher > 1000) {
           me.alt_higher.setText(sprintf("%.1f", higher/1000));
         } else {
-          me.alt_higher.setText(higher);
+          me.alt_higher.setText(sprintf("%d", higher));
         }
         # Show radar altimeter ground height
         var rad_offset = 2*altimeterScaleHeight/200 * (radAlt);
-        me.rad_alt_pointer.setTranslation(scalePlace + indicatorOffset, rad_offset - offset);
+        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
         me.rad_alt_pointer.show();
         if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
           me.alt_pointer.show();
@@ -607,6 +609,7 @@ var HUDnasal = {
       # digital altitude
       if (radAlt == nil) {
         me.alt.setText("");
+        countQFE = 0;
       } elsif (radAlt < 100) {
         me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, 100)));
         # check for QFE warning
@@ -742,7 +745,7 @@ var HUDnasal = {
       var angle = (wind_heading -heading) * (math.pi / 180.0); 
       var wind_side = math.sin(angle) * wind_speed;
       #print((wind_heading -heading) ~ " " ~ wind_side);
-      me.takeoff_symbol.setTranslation(clamp(-wind_side * 80, -450, 450), 125);
+      me.takeoff_symbol.setTranslation(clamp(-wind_side * 15, -450, 450), 125);#clamp at 30 kts
     }
 
     # artificial horizon and pitch lines
@@ -758,20 +761,31 @@ var HUDnasal = {
 		   #print("HUD removed");
 	   } else {
 		   #print("HUD repainted");
-	     settimer(func me.update(), 0);
+       if(getprop("/systems/electrical/battery") < 1) {
+        me.root.hide();
+        settimer(func me.update(), 5);
+       } else {
+        me.root.show();
+        me.root.update();
+        settimer(func me.update(), 0);
+       }
+	     
        setprop("sim/hud/visibility[1]", 0);
 	   }
   }
 };
- 
-var init = setlistener("/sim/signals/fdm-initialized", func() {
-  removelistener(init); # only call once
+var id = 0;
+var init = func() {
+  removelistener(id); # only call once
   var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
   setprop("sim/hud/visibility[1]", 0);
   print("HUD initialized.");
   hud_pilot.update();
-});
+};
 
 var init2 = setlistener("/sim/signals/reinit", func() {
   setprop("sim/hud/visibility[1]", 0);
 });
+
+setprop("/systems/electrical/battery", 0);
+id = setlistener("/sim/signals/fdm-initialized", init);

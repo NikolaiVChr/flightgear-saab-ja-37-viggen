@@ -405,7 +405,7 @@ end_aircraft_explode = func
 		setprop("sounds/aircraft-explode/on", 0);
 	}
 
-aircraftbreakprocess();
+#aircraftbreakprocess();
 
 aircraft_crash_sound = func
 	{
@@ -446,3 +446,34 @@ end_aircraft_water_crash = func
 	{
 		setprop("sounds/aircraft-water-crash/on", 0);
 	}
+
+ # Opens fuel valve in autostart
+ var waiting_n1 = func {
+  if (getprop("/engines/engine[0]/n1") > 5.0) {
+    setprop("/controls/engines/engine[0]/cutoff", 0);
+    gui.popupTip("Engine igniting.");
+  } else settimer(waiting_n1, 1);
+ }
+
+#Simulating autostart function
+ var autostart = func {
+    setprop("/controls/engines/engine[0]/cutoff", 1);
+    setprop("/controls/engines/engine[0]/starter", 1);
+    settimer(waiting_n1, 1);
+    gui.popupTip("Engine starting.");
+ }
+
+ #Default 's' button will set starter to false, so will start delayed.
+ var autostarttimer = func {
+    
+    if (getprop("/engines/engine[0]/running") > 0) {
+		setprop("/controls/engines/engine[0]/cutoff", 1);
+		setprop("/controls/engines/engine[0]/starter", 0);
+		gui.popupTip("Stopping engine. Turning off battery.");
+		setprop("/systems/electrical/battery", 0);
+    } else {
+    	settimer(autostart, 3);
+    	setprop("/systems/electrical/battery", 1);
+    	gui.popupTip("Battery turned on. Beginning startup procedure..");
+    }
+ }

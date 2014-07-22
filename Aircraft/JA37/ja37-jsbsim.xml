@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
+<fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Saab JA-37 Viggen" version="2.0" release="ALPHA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
+  <fileheader>
+    <author> Necolatis (Aeromatic v 0.95 / DATCOM) </author>
+    <filecreationdate> 2013-02-15 </filecreationdate>
+    <version> 1.13 </version>
+    <license>
+      <licenseName>GPL 2 (General Public License version 2)</licenseName>
+      <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
+    </license>
+    <description> Models a Saab JA-37 Viggen </description>
+    <note>
+         This model was created using data that is, or has been, publically
+         available by means of technical reports, textbooks, image graphs or
+         published code. This aircraft description file is in no way related 
+         to the manufacturer of the real aircraft.
+         Neither the name of (any of) the authors nor the names of (any of) the
+         manufacturers may be used to endorse or promote products derived from
+         this file.
+ 
+         The data is provided ''as is'' and any express or implied
+         warranties, including, but not limitted to the implied warranties of
+         merchantability and fitness for a particular purpose are disclaimed.
+         
+         Many nice things taken from F16, Buccaneer, 747-400 and Mig-15 plus some more I forgot.
+      </note>
+  </fileheader>
+  
+
+
+ <metrics>
+      <!-- data calculated using DATCOM -->
+      <wingarea unit="FT2">      179.4182  </wingarea>
+      <wingspan unit="FT">        19.3570  </wingspan>
+      <chord unit="FT">           11.0136  </chord>
+      <htailarea unit="FT2">     562.4756  </htailarea>
+      <htailarm unit="FT">        17.4042  </htailarm>
+      <vtailarea unit="FT2">     106.9664  </vtailarea>
+      <vtailarm unit="FT">        21.7358  </vtailarm>
+    <location name="AERORP" unit="M">
+      <x> 2.2 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+    <location name="EYEPOINT" unit="M">
+      <x> -13.61 </x>
+      <y> 0 </y>
+      <z> 0.55 </z>
+    </location>
+    <location name="VRP" unit="M">
+      <x> 0 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+  </metrics>
+  
+  <mass_balance>
+    <!-- inertia is guesstimated -->
+    <ixx unit="SLUG*FT2"> 15000 </ixx>
+    <iyy unit="SLUG*FT2"> 69000 </iyy>
+    <izz unit="SLUG*FT2"> 62000 </izz>
+    <emptywt unit="LBS" >     20950 </emptywt>
+    <location name="CG" unit="M">
+      <x> 2 </x>
+      <!--  -->
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+    <pointmass name="Pilot">
+      <weight unit="LBS"> 175 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> -3.7 </x>
+        <y> 0 </y>
+        <z> 0 </z>
+      </location>
+    </pointmass>
+  </mass_balance>
+  
+  <ground_reactions>
+    <contact type="BOGEY" name="NOSE_LG">
+      <location unit="M">
+        <x> -3.37652 </x>
+        <y> 0 </y>
+        <z> -2.1 </z>
+      </location>
+      <static_friction> 0.8 </static_friction>
+      <dynamic_friction> 0.5 </dynamic_friction>
+      <rolling_friction> 0.02 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 4250 </damping_coeff>
+      <max_steer unit="DEG"> 80 </max_steer>
+      <brake_group> NOSE </brake_group>
+      <retractable>1</retractable>
+    </contact>
+    <contact type="BOGEY" name="LEFT_MLG">
+      <location unit="M">
+        <x> 2.64670 </x>
+        <y> -2.33204 </y>
+        <z> -2.1 </z>
+      </location>
+      <static_friction> 0.8 </static_friction>
+      <dynamic_friction> 0.5 </dynamic_friction>
+      <rolling_friction> 0.02 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff>
+      <max_steer unit="DEG"> 0.0 </max_steer>
+      <brake_group> LEFT </brake_group>
+      <retractable>1</retractable>
+    </contact>
+    <contact type="BOGEY" name="RIGHT_MLG">
+      <location unit="M">
+        <x> 2.64670 </x>
+        <y> 2.33204 </y>
+        <z> -2.1 </z>
+      </location>
+      <static_friction> 0.8 </static_friction>
+      <dynamic_friction> 0.5 </dynamic_friction>
+      <rolling_friction> 0.02 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff>
+      <max_steer unit="DEG"> 0.0 </max_steer>
+      <brake_group> RIGHT </brake_group>
+      <retractable>1</retractable>
+    </contact>
+    <contact type="STRUCTURE" name="LEFT_WT">
+      <location unit="M">
+        <x> 6.43 </x>
+        <y> 5.6 </y>
+        <z> 0 </z>
+      </location>
+      <static_friction> 1.2 </static_friction>
+      <dynamic_friction> 1.2 </dynamic_friction>
+      <rolling_friction> 1.2 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+    </contact>
+    <contact type="STRUCTURE" name="RIGHT_WT">
+      <location unit="M">
+        <x> 6.43 </x>
+        <y> -5.6 </y>
+        <z> 0 </z>
+      </location>
+      <static_friction> 1.2 </static_friction>
+      <dynamic_friction> 1.2 </dynamic_friction>
+      <rolling_friction> 1.2 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+    </contact>
+    <contact type="STRUCTURE" name="TOP_VT">
+      <location unit="M">
+        <x> 6.0 </x>
+        <y> 0 </y>
+        <z> 3.9 </z>
+      </location>
+      <static_friction> 1.2 </static_friction>
+      <dynamic_friction> 1.2 </dynamic_friction>
+      <rolling_friction> 1.2 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+    </contact>
+    <contact type="STRUCTURE" name="RADARDOME">
+      <location unit="M">
+        <x> -7.75 </x>
+        <y> 0 </y>
+        <z> -0.82 </z>
+      </location>
+      <static_friction> 2.2 </static_friction>
+      <dynamic_friction> 2.2 </dynamic_friction>
+      <rolling_friction> 2.2 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+    </contact>
+  </ground_reactions>
+  
+  <propulsion>
+    <engine file="RM8B">
+      <location unit="M">
+        <x> -3.21 </x>
+        <y> 0 </y>
+        <z> 0 </z>
+      </location>
+      <orient unit="DEG">
+        <roll> 0.0 </roll>
+        <pitch> 0 </pitch>
+        <yaw> 0 </yaw>
+      </orient>
+      <feed>0</feed>
+      <feed>1</feed>
+      <feed>2</feed>
+      <feed>3</feed>
+      <thruster file="direct">
+        <location unit="M">
+          <x> 7.8 </x>
+          <y> 0 </y>
+          <z> 0 </z>
+        </location>
+        <orient unit="DEG">
+          <roll> 0.0 </roll>
+          <pitch> 0.0 </pitch>
+          <yaw> 0.0 </yaw>
+        </orient>
+      </thruster>
+    </engine>
+    
+    <tank type="FUEL">
+      <!-- Fuselage Main Tank 1 -->
+      <location unit="M">
+        <x> 1 </x>
+        <y> 0 </y>
+        <z> 0.4 </z>
+      </location>
+      <capacity unit="KG"> 2735 </capacity>
+      <contents unit="KG"> 1500 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Fuselage Forward Tank 2 -->
+      <location unit="M">
+        <x> -1.75 </x>
+        <y> 0 </y>
+        <z> 0.4 </z>
+      </location>
+      <capacity unit="KG"> 1366 </capacity>
+      <contents unit="KG"> 750 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Left Fuselage Minor Tank 3V -->
+      <location unit="M">
+        <x> -0.4 </x>
+        <y> -0.65 </y>
+        <z> 0.4 </z>
+      </location>
+      <capacity unit="KG"> 172 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Right Fuselage Minor Tank 3H -->
+      <location unit="M">
+        <x> -0.4 </x>
+        <y> 0.65 </y>
+        <z> 0.4 </z>
+      </location>
+      <capacity unit="KG"> 172 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Left Minor Wing Tank 5V -->
+      <location unit="M">
+        <x> 1.25 </x>
+        <y> -1.45 </y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 116 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Right Minor Wing Tank 5H -->
+      <location unit="M">
+        <x> 1.25 </x>
+        <y> 1.45</y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 116 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- left wing tank 4V -->
+      <location unit="M">
+        <x> 3.3 </x>
+        <y> -2 </y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 512 </capacity>
+      <contents unit="KG"> 512 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Right wing tank 4H -->
+      <location unit="M">
+        <x> 3.3 </x>
+        <y> 2 </y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 512 </capacity>
+      <contents unit="KG"> 512 </contents>
+    </tank>
+  </propulsion>
+    
+  <flight_control file="ja37-controls"/>
+  
+  <aerodynamics file="ja37-aerodynamics.xml"/>
+  
+</fdm_config>

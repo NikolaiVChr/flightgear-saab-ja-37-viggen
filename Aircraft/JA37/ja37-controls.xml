@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+
+<flight_control name="JA37 FC">
+
+    <channel name="Elevons">
+      <summer name="Pitch Trim Sum">
+          <input>fcs/elevator-cmd-norm</input>
+          <input>fcs/pitch-trim-cmd-norm</input>
+          <clipto>
+              <min>-1</min>
+              <max>1</max>
+          </clipto>
+          <output>fcs/pitch-trim-sum</output>
+      </summer>
+
+      <aerosurface_scale name="Elevator Control">
+          <input>fcs/pitch-trim-sum</input>
+          <range>
+              <min>-0.35</min>
+              <max>0.3</max>
+          </range>
+          <output>fcs/elevator-pos-rad</output>
+      </aerosurface_scale>
+
+      <summer name="Roll Trim Sum">
+          <input>fcs/aileron-cmd-norm</input>
+          <input>fcs/roll-trim-cmd-norm</input>
+          <clipto>
+              <min>-1</min>
+              <max>1</max>
+          </clipto>
+          <output>fcs/roll-trim-sum</output>
+      </summer>
+
+      <aerosurface_scale name="Left Aileron Control">
+          <input>fcs/roll-trim-sum</input>
+          <range>
+              <min>-0.35</min>
+              <max>0.35</max>
+          </range>
+          <output>fcs/left-aileron-pos-rad</output>
+      </aerosurface_scale>
+
+      <aerosurface_scale name="Right Aileron Control">
+          <input>-fcs/roll-trim-sum</input>
+          <range>
+              <min>-0.35</min>
+              <max>0.35</max>
+          </range>
+          <output>fcs/right-aileron-pos-rad</output>
+      </aerosurface_scale>
+
+      <summer name="Left Elevon Pos Rad">
+         <input>fcs/left-aileron-pos-rad</input>
+         <input>fcs/elevator-pos-rad</input>
+         <clipto>
+           <min> -0.35 </min>
+           <max>  0.35 </max>
+         </clipto>
+         <output>fcs/left-elevon-pos-rad</output>
+      </summer>
+
+      <summer name="Right Elevon Pos Rad">
+         <input>fcs/right-aileron-pos-rad</input>
+         <input>fcs/elevator-pos-rad</input>
+         <clipto>
+           <min> -0.35 </min>
+           <max>  0.35 </max>
+         </clipto>
+         <output>fcs/right-elevon-pos-rad</output>
+      </summer> 
+
+      <pure_gain name="Left Elevon Pos Deg">
+          <input>fcs/left-elevon-pos-rad</input>
+          <gain>57.3</gain>
+          <output>/surface-positions/left-elevon-pos-deg</output>
+      </pure_gain>
+
+      <pure_gain name="Right Elevon Pos Deg">
+          <input>fcs/right-elevon-pos-rad</input>
+          <gain>57.3</gain>
+          <output>/surface-positions/right-elevon-pos-deg</output>
+      </pure_gain>
+
+    </channel>
+
+    <channel name="Yaw">
+      <summer name="Rudder Command Sum">
+        <input>fcs/rudder-cmd-norm</input>
+        <input>fcs/yaw-trim-cmd-norm</input>
+        <clipto>
+          <min> -0.3 </min>
+          <max>  0.3 </max>
+        </clipto>
+      </summer>
+      <scheduled_gain name="Yaw Damper Rate">
+        <input>velocities/r-aero-rad_sec</input>
+        <table>
+          <independentVar lookup="row">velocities/ve-kts</independentVar>
+          <tableData>
+            30     0.00
+            60     2.00
+         </tableData>
+        </table>
+        <gain>1</gain>         <!-- yaw damper enabled -->
+        <output>fcs/yaw-damper-rate</output>
+      </scheduled_gain>
+      <summer name="Rudder Sum">
+        <input>fcs/rudder-command-sum</input>
+        <input>fcs/yaw-damper-rate</input>
+        <clipto>
+          <min> -1.1 </min>
+          <max>  1.1 </max>
+        </clipto>
+      </summer>
+      <aerosurface_scale name="Rudder Control">
+        <input>fcs/rudder-sum</input>
+        <domain>
+          <min> -1.1 </min>
+          <max>  1.1 </max>
+        </domain>
+        <range>
+          <min> -0.35 </min>
+          <max>  0.35 </max>
+        </range>
+        <output>fcs/rudder-pos-rad</output>
+      </aerosurface_scale>
+      <aerosurface_scale name="rudder normalization">
+        <input>fcs/rudder-pos-rad</input>
+        <domain>
+          <min> -0.35 </min>
+          <max>  0.35 </max>
+        </domain>
+        <range>
+          <min> -1 </min>
+          <max>  1 </max>
+        </range>
+        <output>fcs/rudder-pos-norm</output>
+      </aerosurface_scale>
+    </channel>
+    <channel name="Landing Gear">
+      <switch name="fcs/gear-wow">
+        <default value="0"/>
+        <test logic="AND" value="1">
+
+                    gear/unit[1]/WOW eq 1
+
+                    gear/unit[2]/WOW eq 1
+
+                </test>
+      </switch>
+      <kinematic name="fcs/gear-control">
+        <input>gear/gear-cmd-norm</input>
+        <traverse>
+          <setting>
+            <position>0</position>
+            <time>0</time>
+          </setting>
+          <setting>
+            <position>1</position>
+            <time>5</time>
+          </setting>
+        </traverse>
+        <output>gear/gear-pos-norm</output>
+      </kinematic>
+      <scheduled_gain name="fcs/scheduled-steer-pos-deg">
+        <input>fcs/steer-cmd-norm</input>
+        <table>
+          <independentVar>velocities/vg-fps</independentVar>
+          <tableData>
+              10.0        80.0
+              50.0        15.0
+              150.0       2.0
+          </tableData>
+        </table>
+        <output>fcs/steer-pos-deg</output>
+      </scheduled_gain>
+    </channel>
+
+    <channel name="Flaps">
+      <kinematic name="Flaps Control">
+        <input>gear/gear-cmd-norm</input><!-- flaps controlled by gear-->
+        <traverse>
+          <setting>
+            <position>  0 </position>
+            <time>      0 </time>
+          </setting>
+          <setting>
+            <position> 30 </position>
+            <time>      3 </time>
+          </setting>
+        </traverse>
+        <output>fcs/flap-pos-deg</output>
+      </kinematic>
+
+      <aerosurface_scale name="flap normalization">
+        <input>fcs/flap-pos-deg</input>
+        <domain>
+          <min>  0 </min>
+          <max> 30 </max>
+        </domain>
+        <range>
+          <min> 0 </min>
+          <max> 1 </max>
+        </range>
+        <output>fcs/flap-pos-norm</output>
+      </aerosurface_scale>
+    </channel>
+
+    <channel name="Throttle">
+      <pure_gain name="fcs/throttle1">
+        <input>fcs/throttle-cmd-norm</input>
+        <gain>2</gain>
+        <output>fcs/throttle-pos-norm</output>
+      </pure_gain>
+    </channel>
+    <channel name="Speedbrake">
+      <!--
+
+              - To prevent deep stall the Flight Computer commands speedbrake
+
+              - deflection at high angle of attack (alpha) and low speeds. This
+
+              - will provide just enough pitch down moment to keep the aircraft
+
+              - under control.
+
+              -->
+      <switch name="fcs/speedbrake-alpha-limiter">
+        <default value="0"/>
+        <test logic="AND" value="1">
+
+                    aero/alpha-deg ge 53 
+
+                    velocities/v-fps le 18
+
+                </test>
+      </switch>
+      <switch name="fcs/speedbrake-initiate">
+        <default value="0"/>
+        <test logic="OR" value="1">
+
+                    fcs/speedbrake-alpha-limiter eq 1
+
+                    fcs/speedbrake-cmd-norm eq 1
+
+                </test>
+      </switch>
+      <!--
+
+              - Speedbrake deflection is limited to 43 degrees (instead of 60
+
+              - degrees) when the gear is extended to prevent physical
+
+              - speedbrake damage on touchdown.
+
+              -->
+      <scheduled_gain name="fcs/speedbrake-scheduler">
+        <input>fcs/speedbrake-initiate</input>
+        <table>
+          <independentVar>gear/gear-cmd-norm</independentVar>
+          <tableData>
+              0    1.0
+              1    0.71667
+          </tableData>
+        </table>
+        <output>fcs/speedbrake-pos-limit</output>
+      </scheduled_gain>
+      <kinematic name="fcs/speedbrake-control">
+        <input>fcs/speedbrake-scheduler</input>
+        <traverse>
+          <setting>
+            <position>0</position>
+            <time>0</time>
+          </setting>
+          <setting>
+            <position>60</position>
+            <time>1</time>
+          </setting>
+        </traverse>
+        <output>fcs/speedbrake-pos-deg</output>
+      </kinematic>
+      <aerosurface_scale name="fcs/speedbrake-position-normalizer">
+        <input>fcs/speedbrake-control</input>
+        <domain>
+          <min>0</min>
+          <max>60</max>
+        </domain>
+        <range>
+          <min>0</min>
+          <max>1</max>
+        </range>
+        <output>fcs/speedbrake-pos-norm</output>
+      </aerosurface_scale>
+    </channel>
+    
+  </flight_control>

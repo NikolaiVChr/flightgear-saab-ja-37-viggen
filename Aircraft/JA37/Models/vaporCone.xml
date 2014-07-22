@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+  <path>vaporCone.ac</path>
+
+  <animation>
+    <type>select</type>
+    <object-name>vaporCone</object-name>
+    <condition>
+      <and>
+        <greater-than>
+          <property>/velocities/mach</property>
+          <value>0.8</value>
+        </greater-than>
+        <less-than>
+          <property>/velocities/mach</property>
+          <value>1.2</value>
+        </less-than>
+        <less-than>
+          <property>/position/altitude-ft</property>
+          <value>5000.0</value>
+        </less-than>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>textranslate</type>
+    <object-name>vaporCone</object-name>
+    <value>0.8</value>
+    <!--<property>sim/model/f-14b/fx/burner</property>-->
+    <!--<factor>-0.123046875</factor>-->
+    <!--<factor>-0.23437</factor>-->
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

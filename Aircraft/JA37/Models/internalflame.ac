@@ -7,7 +7,7 @@ name "InternalFlame"
 loc -3.7077 -0.00970599 0.005932
 data 8
 Mesh.029
-texture "exhaust.rgb"
+texture "exhaust.png"
 crease 80.000000
 numvert 16
 4.2077 0.00763 0.006303

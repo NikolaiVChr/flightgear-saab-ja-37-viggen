@@ -321,13 +321,13 @@
 		<condition>
 		<greater-than>
 			<property>orientation/alpha-deg</property>
-			<value>28</value>
+			<value>23</value>
 		</greater-than>
 		<greater-than>
 			<property>velocities/airspeed-kt</property>
 			<value>10</value>
 		</greater-than>
-		<property>/sim/current-view/internal</property>
+		<!--<property>/sim/current-view/internal</property>-->
 		<not>
       	<property>fdm/jsbsim/systems/crash-detect/crashed</property>
     	</not>
@@ -336,7 +336,7 @@
       <property>gear/gear[2]/wow</property>
      </not>
 		</condition>
-		<volume><factor>1</factor></volume>
+		<volume><factor>4</factor></volume>
 	</stall>
 	
   <crash>
@@ -369,27 +369,31 @@
   
 <stallw>
 		<name>stallwarning</name>
-		<mode>once</mode>
+		<mode>looped</mode>
 		<path>Sounds/stallwarning.wav</path>
 		<condition>
-		<greater-than>
-			<property>orientation/alpha-deg</property>
-			<value>18</value>
-		</greater-than>
-		<greater-than>
-			<property>velocities/airspeed-kt</property>
-			<value>10</value>
-		</greater-than>
-		<property>/sim/current-view/internal</property>
-		<not>
-      	<property>fdm/jsbsim/systems/crash-detect/crashed</property>
-    	</not>
-    	<not>
-      <property>gear/gear[1]/wow</property>
-      <property>gear/gear[2]/wow</property>
-     </not>
+  		<greater-than>
+  			<property>orientation/alpha-deg</property>
+  			<value>17</value>
+  		</greater-than>
+      <less-than>
+        <property>orientation/alpha-deg</property>
+        <value>23</value>
+      </less-than>
+  		<greater-than>
+  			<property>velocities/airspeed-kt</property>
+  			<value>10</value>
+  		</greater-than>
+  		<!--<property>/sim/current-view/internal</property>-->
+  		<not>
+        	<property>fdm/jsbsim/systems/crash-detect/crashed</property>
+      	</not>
+      	<not>
+        <property>gear/gear[1]/wow</property>
+        <property>gear/gear[2]/wow</property>
+       </not>
 		</condition>
-		<volume><factor>0.9</factor></volume>
+		<volume><factor>3.5</factor></volume>
 	</stallw>  
   
 <!--<stallw>

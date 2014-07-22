@@ -71,7 +71,7 @@ Changed 3D model to DATCOM generated one, due to possible license issue with oth
 
 1.11
 ----
-Switched the 3D model to Anders Lejczak's model. (adapted it from Poser, relicensed to GPL 2)
+Switched to Anders Lejczak's 3D model. (adapted it from Poser, relicensed to GPL 2)
 Adjusted many things in model, and xml positions.
 Adjusted materials for metal and glass.
 Animated the rudder, elevons and flaps.
@@ -85,11 +85,53 @@ Modified splash images
 Removed smoke from wingtips
 Adjusted exhaust smoke
 
+1.12
+----
+Added cannon bullets and flares
+Fixed Km/h airspeed was converted from knots opposite
+Added normal map
+Flipped normals on gear, some missile ends and canopy
+Removed vertex colors on fuselage
+Seperated closed gear doors and left gear
+Animated gear doors and left gear
+Fixed altitude numbers on high scale was floating point in 2.11
+Added to fgdata GIT clone
+
+1.13
+----
+Animation: Added proper animation of front and right gears
+Animated front and right gear
+Made fuselage less shiny to look more like military painted metal.
+Adjusted stall warnings to alpha values from plane manual
+Adjusted max sidewind indication to 30 kts, as per Draken, since I do not know Viggens.
+Improved the stall warnings and made them louder.
+Made chase views distance default.
+Moved the HUD down and closer to pilot. Also fixed a xml bug.
+Fixed '77' and 'QFE' symbols in HUD sometimes were displaced.
+Updated wheel contact positions to new model.
+Applied normal map and livery to new names of gear.
+Work-around for shader bug
+Upgraded the aircraft status
+Changed the aerodynamic wing and canard profile. It can now takeoff at 300 Km/h.
+Put in values for very high alpha to better simulate stalls.
+Made stall warning audible in external view.
+Changed lift and drag from DATCOM to graph data.
+Fixed that droptank fuel was calculated into internal fuel tanks.
+Switched afterburner to method 2.
+Adjusted lift and drag from flaps, now almost match takeoff speed of 250Km/h as per the manual.
+Fixed white on droptank
+Set flaps position max to 30 degrees as per manual
+Moved CoG 1 meter back as per document
+Moved aerodynamic ref. point. further back than CoG as per document
+Removed russian chronometer
+Adjusted G-meter to new cockpit.
+Made key 's' autostart and stop
 
 Notes:
 ------
 3D model and textures is made by Anders Lejczak <anders.lejczak@colacola.se>
-
+FDM and everthing else by Necolatis: http://www.flightgear.org/forums/memberlist.php?mode=viewprofile&u=13888
+Hangar home: https://sites.google.com/site/fghangar
 
 HUD info
 --------
@@ -109,7 +151,6 @@ The heading at the top is shown as a scale showing 1/10 of heading in degrees.
 Known bugs:
 -----------
 The '77' symbol seems to be placed right of its place when running with fresh FG install. Wierd that can infuence nasal, needs more testing.
-
 
 Liberties taken:
 ----------------

@@ -10,16 +10,21 @@
     <FDM type="int">1</FDM>
     <systems type="int">0</systems>
     <cockpit type="int">0</cockpit>
-    <model type="int">1</model>
+    <model type="int">2</model>
   </rating>
-  <aircraft-version>1.11</aircraft-version> 
+  <aircraft-version>1.13</aircraft-version> 
  
   <flight-model>jsb</flight-model>
-  <aero>ja37</aero>
+  <aero>ja37-jsbsim</aero>
 
   <startup>
    <splash-texture>ja37-splash.png</splash-texture>
   </startup>
+
+<submodels>
+   <serviceable type="bool">1</serviceable>
+   <path>ja37-submodels.xml</path>
+  </submodels>
 
   <!-- enable "parkpos=AVAILABLE" option for the JA-37 -->
   <dimensions>
@@ -115,15 +120,7 @@
   -->
     </vhf>
    </instrumentation>
-
-   <smoke>
-    <color>
-     <red>1.0</red>
-     <green>1.0</green>
-     <blue>1.0</blue>
-    </color>
-   </smoke>
-  </ja37>
+</ja37>
 
 <livery>
   <file type="string"/>
@@ -133,7 +130,7 @@
 
   </model>
 
-  <chase-distance-m type="double" archive="y">-50.0</chase-distance-m>
+  <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
   <view>
    <internal archive="y">true</internal>
@@ -179,12 +176,16 @@
    </key>
    <key>
    <name>Backspace</name>
-				<desc>Toggle thrust reversers</desc>
+				<desc>Toggle thrust reverser</desc>
 			</key>
    <key>
     <name>u/U</name>
     <desc>seat up/down</desc>
    </key>
+   <key>
+   <name>s</name>
+    <desc>Startup/shutdown</desc>
+    </key>
   </help>
 
   <menubar>
@@ -209,7 +210,7 @@
 
  <engines>
   <engine n="0">
-   <running>true</running>
+   <running>false</running>
    <reverser-pos-norm type="double">0</reverser-pos-norm>
    <reverser-position type="double">0.000000</reverser-position>
   </engine>
@@ -224,8 +225,16 @@
       <binding>
          <command>nasal</command>
          <script>
-           gui.popupTip("HUD cannot be disabled at the moment.");
+           gui.popupTip("HUD is already on in cockpit view.");
          </script>
+      </binding>
+   </key>
+   <key n="115">
+      <name>s</name>
+      <desc>Start engine</desc>
+      <binding>
+         <command>nasal</command>
+         <script>ja37.autostarttimer();</script>
       </binding>
    </key>
     <key n="6">
@@ -381,12 +390,6 @@
    </test-panel>
   </test>
  </controls>
-
- <engines>
-  <engine n="0">
-   <running>true</running>
-  </engine>
- </engines>
 
  <!--<consumables>
   <fuel>

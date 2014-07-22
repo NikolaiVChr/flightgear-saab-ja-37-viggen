@@ -18,9 +18,9 @@
     <path>Models/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>
-      <x-m>.4</x-m>
+      <x-m>.5</x-m>
       <y-m>0.0</y-m>
-      <z-m>0.08</z-m>
+      <z-m>0.06</z-m>
     </offsets>
   </model> 
 
@@ -73,23 +73,6 @@
   </axis>
  </animation>
 
-<animation>
-  <type>blend</type>
-  <object-name>undercarriageop</object-name>
-  <property>gear/gear[0]/position-norm</property>
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 1.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min>0.0</min>
-  <max>1.0</max>
- </animation>
 
 <animation>
   <type>rotate</type>
@@ -103,6 +86,156 @@
    <x2-m> -0.25811 </x2-m>
    <y2-m> 2.59427 </y2-m>
    <z2-m> 0.12740 </z2-m>
+  </axis>
+ </animation>
+
+<!-- Gears -->
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearFrontDoorsOpen</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <object-name>gearRightDoorsClosed</object-name>
+  <object-name>gearFrontDoorsClosed</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearFront</object-name>
+  <object-name>gearFrontHinge</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftHinge</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightHinge</object-name>
+ </animation>
+
+
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFront</object-name>
+  <property>gear/gear[0]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>-3.32410</x-m>
+   <y-m>0.000003</y-m>
+   <z-m>-0.78153</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearLeft</object-name>
+  <property>gear/gear[1]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>2.31352</x-m>
+   <y-m>-2.25034</y-m>
+   <z-m>-0.37244</z-m>
+  </center>
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRight</object-name>
+  <property>gear/gear[2]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>2.31352</x-m>
+   <y-m>2.25035</y-m>
+   <z-m>-0.37244</z-m>
+  </center>
+  <axis>
+   <x>-1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
   </axis>
  </animation>
 
@@ -312,11 +445,71 @@
   <object-name>missile2</object-name>
   <object-name>missile3</object-name>
   <object-name>rudder</object-name>
-  <object-name>undercarriagecl</object-name>
-  <object-name>undercarriageop</object-name>
+  <object-name>gearFront</object-name>
+  <object-name>gearFrontHinge</object-name>
+  <object-name>gearFrontDoorsOpen</object-name>
+  <object-name>gearFrontDoorsClosed</object-name>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearRightDoorsClosed</object-name>
   <property-base>sim/model/livery</property-base>
   <texture-prop>texture</texture-prop>
   <texture>j37_texture.jpg</texture>
  </animation>
+
+ <effect>
+    <inherits-from>Models/Effects/ja37-normal-map</inherits-from>
+    <object-name>canopy</object-name>
+    <!--<object-name>dropTank</object-name>-->
+    <object-name>elevonLeftInner</object-name>
+    <object-name>elevonLeftOuter</object-name>
+    <object-name>elevonRightInner</object-name>
+    <object-name>elevonRightOuter</object-name>
+    <object-name>flaps</object-name>
+    <object-name>fuselage</object-name>
+    <!--<object-name>missile</object-name>
+    <object-name>missile1</object-name>
+    <object-name>missile2</object-name>
+    <object-name>missile3</object-name>-->
+    <object-name>rudder</object-name>
+    <object-name>gearFront</object-name>
+    <object-name>gearFrontHinge</object-name>
+    <object-name>gearFrontDoorsOpen</object-name>
+    <object-name>gearFrontDoorsClosed</object-name>
+    <object-name>gearLeft</object-name>
+    <object-name>gearLeftHinge</object-name>
+    <object-name>gearLeftDoorsOpen</object-name>
+    <object-name>gearLeftDoorsClosed</object-name>
+    <object-name>gearRight</object-name>
+    <object-name>gearRightHinge</object-name>
+    <object-name>gearRightDoorsOpen</object-name>
+    <object-name>gearRightDoorsClosed</object-name>
+ </effect>
+
+<!--<effect>
+  <inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from>
+    <rainbowiness type="float">0.05</rainbowiness>
+    <fresneliness>0.1</fresneliness>
+    <noisiness>0.25</noisiness>
+    <refl_correction>0.0</refl_correction>
+    <ambient_correction>0.25</ambient_correction>
+    <reflect_map>1</reflect_map>
+  <object-name>glass</object-name>
+</effect>-->
+
+  <model>
+    <path>Models/vaporCone.xml</path>
+    <name>VaporCone</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1</z-m>
+    </offsets>
+  </model> 
 
 </PropertyList>

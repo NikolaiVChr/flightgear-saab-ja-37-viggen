@@ -16,10 +16,13 @@
   </offsets>
 
  <condition>
-   <less-than-equals>
-    <property>velocities/airspeed-kt</property>
-    <value>40</value>
-   </less-than-equals>
+   <and>
+    <less-than-equals>   
+     <property>velocities/airspeed-kt</property>
+     <value>40</value>
+    </less-than-equals>
+    <property>engines/engine/running</property>
+   </and>
  </condition>
    
   <attach>world</attach>
