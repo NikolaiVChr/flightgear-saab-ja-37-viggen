@@ -131,7 +131,7 @@ Made key 's' autostart and stop
 ----
 Upgraded aircraft rating.
 Put in aerodynamic tables for Roll Moment coefficient due to roll resistance, Pitch moment due to alpha and Yawing moment induced by banking.
-Added lots of low speed areadynamic tables from NASA document, wont fly properly anymore :(
+Added lots of low speed aerodynamic tables from NASA document, wont fly properly anymore :(
 Flipped normals on glass and made it single sided.
 Added data to modify drag at higher speeds.
 Adjusted turbine fan sounds, and made gear sounds work.
@@ -154,11 +154,55 @@ Fixed yaw damper was off by default
 ----
 Updated the splash and thumbnail images
 
+1.17
+----
+Sim: Made engine use fuel from minor tanks also.
+Sim: Added flightrecorder support.
+Aero: Drag due to mach, gear, flaps, elevons and groundeffect.
+Aero: Wheels brake now is better able to hold plane shortly at augmented thrust.
+Sim: Made engine consume fuel in more realistic order from fuel tanks.
+Sim: Changed startup fuel tank contents.
+Animate: Fixed that afterburner flame was shortly seen at nose, when entering augmented thrust.
+Animate: Adjusted afterburner flame colors and made its size depend on exhaust nozzle opening size.
+Engine: Made afterburner thrust depend on mach and air-density from real RM8B values.
+Engine: Made augmented thrust toggle in at 99% thrust instead of 50%.
+Engine: Reduced reversed thrust to half of mil-thrust and no afterburner when in reverse.
+Aero: During normal flight, flaps is now kept at 4 degrees above the neutral position. Neutral position when battery off.
+Animate: Fixed bug in flare release.
+GUI: Added more info to aircraft help
+
+
+
+Startup
+-----------
+Start up engine and systems
+Wait for the engine to spool up.
+Apply full throttle with afterburner.
+Release parking brakes.
+    
+Takeoff
+------------
+Mind the sidewind indicator in the HUD.
+Takeoff at 315 km/h.
+
+Landing
+-------------
+Land with speeds within 195-249km/h.
+  and an Angle of Attack of 16.5 degrees.
+Deploy reverse thrust after touchdown.
+
+Flaps
+---------
+The JA-37 control the flaps automatically.
+At takeoff and landing it will set flaps to 30 degrees down.
+In flight it will be set at 4 degrees up.
+
 Notes:
 ------
 3D model and textures is made by Anders Lejczak <anders.lejczak@colacola.se>
-FDM and everthing else by Necolatis: http://www.flightgear.org/forums/memberlist.php?mode=viewprofile&u=13888
+FDM and mostly everything else by Necolatis: http://www.flightgear.org/forums/memberlist.php?mode=viewprofile&u=13888
 Hangar home: https://sites.google.com/site/fghangar
+
 
 HUD info
 --------
@@ -175,9 +219,11 @@ On the altimeter the symbol '77' indicates where radar altimeter detects the gro
 Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
 The heading at the top is shown as a scale showing 1/10 of heading in degrees.
 
+
 Known bugs:
 -----------
 The '77' symbol seems to be placed right of its place when running with fresh FG install. Wierd that can infuence nasal, needs more testing.
+
 
 Liberties taken:
 ----------------

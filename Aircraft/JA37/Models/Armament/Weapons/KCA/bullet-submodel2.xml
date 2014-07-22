@@ -4,7 +4,7 @@
 
 	<submodel>
 		<name>bullet splash</name>
-		<model>Aircraft/f16/Models/Armament/Weapons/M61A1/splash.xml</model>
+		<model>Models/Armament/Weapons/KCA/splash.xml</model>
 		<speed>0</speed>
 		<repeat>false</repeat>
 		<delay>0</delay>

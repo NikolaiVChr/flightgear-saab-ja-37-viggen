@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -32,7 +32,7 @@
 
  <model>
   <name>flare_trail</name>
-  <path>Aircraft/f16a/Models/Effects/flare-trail.xml</path>
+  <path>Models/Effects/flare-trail.xml</path>
   <offsets>
    <x-m>0.0</x-m>
    <y-m>0.0</y-m>
@@ -42,7 +42,7 @@
 
  <model>
   <name>flare_smoke</name>
-  <path>Aircraft/f16a/Models/Effects/flare-smoke.xml</path>
+  <path>Models/Effects/flare-smoke.xml</path>
   <offsets>
    <x-m>0.0</x-m>
    <y-m>0.0</y-m>

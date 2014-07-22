@@ -4,7 +4,7 @@
   <fileheader>
     <author> Necolatis (Aeromatic v 0.95 / DATCOM) </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.16 </version>
+    <version> 1.17 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -86,7 +86,7 @@
         <y> 0 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 0.8 </static_friction>
+      <static_friction> 1.1 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
@@ -101,7 +101,7 @@
         <y> -2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 0.8 </static_friction>
+      <static_friction> 1.1 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -116,7 +116,7 @@
         <y> 2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 0.8 </static_friction>
+      <static_friction> 1.1 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -191,6 +191,10 @@
       <feed>1</feed>
       <feed>2</feed>
       <feed>3</feed>
+      <feed>4</feed>
+      <feed>5</feed>
+      <feed>6</feed>
+      <feed>7</feed>
       <thruster file="direct">
         <location unit="M">
           <x> 7.8 </x>
@@ -213,8 +217,8 @@
         <z> 0.4 </z>
       </location>
       <capacity unit="KG"> 2735 </capacity>
-      <contents unit="KG"> 1500 </contents>
-      <priority> 1 </priority>
+      <contents unit="KG"> 2735 </contents>
+      <priority> 5 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Fuselage Forward Tank 2 -->
@@ -224,7 +228,7 @@
         <z> 0.4 </z>
       </location>
       <capacity unit="KG"> 1366 </capacity>
-      <contents unit="KG"> 750 </contents>
+      <contents unit="KG"> 200 </contents>
       <priority> 2 </priority>
     </tank>
     <tank type="FUEL">
@@ -236,7 +240,7 @@
       </location>
       <capacity unit="KG"> 172 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 5 </priority>
+      <priority> 3 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right Fuselage Minor Tank 3H -->
@@ -247,7 +251,7 @@
       </location>
       <capacity unit="KG"> 172 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 5 </priority>
+      <priority> 3 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Left Minor Wing Tank 5V -->
@@ -279,8 +283,8 @@
         <z> -0.55 </z>
       </location>
       <capacity unit="KG"> 512 </capacity>
-      <contents unit="KG"> 512 </contents>
-      <priority> 3 </priority>
+      <contents unit="KG"> 0 </contents>
+      <priority> 1 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right wing tank 4H -->
@@ -290,8 +294,8 @@
         <z> -0.55 </z>
       </location>
       <capacity unit="KG"> 512 </capacity>
-      <contents unit="KG"> 512 </contents>
-      <priority> 3 </priority>
+      <contents unit="KG"> 0 </contents>
+      <priority> 1 </priority>
     </tank>
   </propulsion>
     

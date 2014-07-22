@@ -3,31 +3,42 @@ TODO:
 
 High Priority:
 --------------
-Aero: Got some blueprints of the aircraft now, refine DATCOM to geometry of those.
-Aero: Let DATCOM check for higher alpha values
-Aero: high speed aerodynamics
-Aero: DATCOM: Add engine intake area, and correct exhaust area
-System: Put in alot more instruments
-Animation: Make canopy work
-HUD: add proper sidewind max
-Effect: Complete vapor cone
-Effect: Fix wierd shadow in front of vtail
-Effect: Afterburner flame is sometimes seen at nose
-Aero: Aerodynamic trims
-Aero: droptank
-Aero: drag due to mach, gear, flaps, elevons and groundeffect
+Animation: Heavy stutter when switching to outside views for the first time
+GUI: More and better popup feedback (gear/flaps/stalling/)
+GUI: Checklist
+GUI: More info in aircraft help
+Sim: Make idle thrust depend on mach and air-density from real RM8B values.
+Sim: Make mil thrust depend on mach and air-density from real RM8B values.
+Sound: Stall warnings at lower alpha at higher mach
+Animate: seat up/down is bugged
 
 Normal Priority:
 ----------------
+GUI: Keypress to turn off verbose popups
+Aero: Aerodynamic trims
+System: Put in alot more working instruments and controls
+System: Put in alot more not working instruments and controls for immersion
+Animation: Make canopy work
+Animation: look at bullet splash/tracer in f16, something is missing
+
+
+Lower priority:
+----------------
+Animate: flaps are missing an important polygon
+Aero: DATCOM: Add engine intake area, and correct exhaust area
+HUD: add proper sidewind max
+Effect: Fix wierd shadow in front of vtail
+Effect: Complete vapor cone
+Aero: use droptank as fuel tank, and make it dumpable
+System: Make armament/droptank selectable
 System: All fuel to engine has to go through tank 1
 System: Fuel tanks 3V and 3H is used for flying upside down
 Effect: Make pilot faint/die due to G-forces
-Aero: Clean up the flight controls
 Sound: Better annunciater warnings and other sounds
 Effect: Adapt for Rembrandt (future)
 Effect: Make tires burst if too high speed with parking brakes
 Effect: Make gears break if too high speed with gears down
-Effect: Adjust the engine fire and afterburner flame more precise.
+Effect: Adjust the engine fire and afterburner flame more precise position and size.
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
 HUD: Make desired height columns and boxes
@@ -35,14 +46,11 @@ HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up!
-System: Make armament/droptank selectable
 Effect: Make gun fire bullets from correct position (no idea where it is..)
 Effect: Glass reflection
 Effect: Sun glare
-Effect: Lights should have glare effect
+Effect: Lights should have glare effect in darkness
 Animation: Animate wheels
 Animation: Animate gear compression
 Animation: Proper animation of gear doors
-During normal flight, flaps shall be kept at -4 ° above the neutral position
-Stall warnings at lower alpha at higher mach
-Make engine use fuel from tank 6-7 also.
+Animation: Engine smoke will come out at nosecone when thrust reversed

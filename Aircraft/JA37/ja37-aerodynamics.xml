@@ -15,9 +15,7 @@
 -->
 
 
-<aerodynamics>
-
-      
+<aerodynamics>      
   <!-- from graph page 64 -->
   <function name="aero/function/ground-effect-factor-normal">
      <description>Change in lift due to ground effect factor</description>
@@ -49,7 +47,7 @@
      </product>
   </function>
   <!-- from DATCOM -->
-  <!--<function name="aero/function/ground-effect-factor-drag">
+  <function name="aero/function/ground-effect-factor-drag">
      <description>Change in drag due to ground effect</description>
      <product>
         <table>
@@ -71,9 +69,9 @@
            </tableData>
         </table>
      </product>
-  </function>-->
+  </function>
   <!-- from graph page 18, Australian document -->
-  <!--<function name="aero/function/mach-effect-factor-drag">
+  <function name="aero/function/mach-effect-factor-drag">
      <description>Change in drag due to mach effect</description>
      <product>
         <table>
@@ -90,12 +88,73 @@
             </tableData>
         </table>
      </product>
-  </function>-->
+  </function>
+
+  <function name="aero/coefficient/CDgear">
+      <description>Drag_due_to_gear</description>
+      <product>
+          <!--<property>aero/function/mach-effect-factor-drag</property>-->
+          <property>aero/function/ground-effect-factor-drag</property>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>gear/gear-pos-norm</property>
+          <table>
+           <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                0 0.025
+               90 0
+              179 0.025
+            </tableData>
+          </table>
+      </product>
+  </function>
+  <function name="aero/coefficient/CDflaps">
+      <description>Drag due to flaps</description>
+      <product>
+          <!--<property>aero/function/mach-effect-factor-drag</property>-->
+          <property>aero/function/ground-effect-factor-drag</property>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>fcs/flap-pos-norm</property>
+          <table>
+           <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                0 0.01
+               90 0
+              179 0.01
+            </tableData>
+          </table>  
+      </product>
+  </function>
+
+  <function name="aero/coefficient/Afactors">
+    <description>Change in axial due to mach and ground effect</description>
+    <product>
+        <property>aero/function/ground-effect-factor-drag</property>
+        <!--<property>aero/function/mach-effect-factor-drag</property>-->
+        <cos>
+          <property>aero/alpha-rad</property>
+        </cos>
+    </product>
+  </function>
   
 <!-- ********************************************************************** -->
 
 
   <axis name="NORMAL">
+
+      <function name="aero/coefficient/CDnormal">
+          <description>Drag due to flaps and gear</description>
+          <product>
+              <sum>
+                <property>aero/coefficient/CDgear</property>
+                <property>aero/coefficient/CDflaps</property>
+              </sum>
+              <sin>
+                <property>aero/alpha-rad</property>
+              </sin>
+          </product>
+      </function>
 
      <!-- from graph page 43 and 46 -->
      <function name="aero/coefficient/CN">
@@ -146,36 +205,25 @@
 
 
   <axis name="AXIAL">
-     <!-- from F-16 -->
-    <!--<function name="aero/coefficient/CDgear">
-          <description>Drag_due_to_gear</description>
+        <function name="aero/coefficient/CDaxial">
+          <description>Drag due to flaps and gear</description>
           <product>
-              <property>aero/qbar-psf</property>
-              <property>metrics/Sw-sqft</property>
-              <property>gear/gear-pos-norm</property>
-              <value>0.025</value>
-              
+              <sum>
+                <property>aero/coefficient/CDgear</property>
+                <property>aero/coefficient/CDflaps</property>
+              </sum>
+              <cos>
+                <property>aero/alpha-rad</property>
+              </cos>
           </product>
       </function>
-    <function name="aero/coefficient/CDflaps">
-        <description>Drag due to flaps</description>
-        <product>
-            <property>aero/qbar-psf</property>
-            <property>metrics/Sw-sqft</property>
-            <property>fcs/flap-pos-norm</property>
-            <value>0.010</value>
-            
-        </product>
-    </function>-->
-
      <!-- from graph page 43 -->
      <function name="aero/coefficient/CT">
         <description>
-           Basic Tangential Coefficient
+           Basic Tangential/axial Coefficient
         </description>
         <product>
-           <!--<property>aero/function/ground-effect-factor-drag</property>-->
-           <!--<property>aero/function/mach-effect-factor-drag</property>-->
+           <property>aero/coefficient/Afactors</property>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <table>
@@ -190,7 +238,6 @@
                     20.00      -0.025
               </tableData>
            </table>
-           
         </product>
      </function>
   </axis>
@@ -230,7 +277,6 @@
                  135   0
             </tableData>
          </table>
-         
       </product>
     </function>
   </axis>
@@ -274,6 +320,7 @@
                  <property>metrics/Sw-sqft</property>
                  <property>metrics/bw-ft</property>
                  <property>aero/beta-rad</property>
+                 <value>1</value><!-- fudge -->
                  <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/h_b-mac-ft</independentVar>
@@ -307,7 +354,7 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>velocities/p-rad_sec</property>
-           <value>5</value><!-- fudge -->
+           <value>5</value><!-- fudge 5 -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -320,7 +367,6 @@
                  70  -0.23
             </tableData>
           </table>
-          
        </product>
     </function>
     <!-- from graph page 137 -->
@@ -334,6 +380,7 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>velocities/r-aero-rad_sec</property>
+           <value>0</value><!-- fudge -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -346,7 +393,6 @@
                  80    0
             </tableData>
           </table>
-          
        </product>
     </function>
     <!-- from graph page 137 -->
@@ -360,6 +406,7 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>aero/betadot-rad_sec</property>
+           <value>0</value><!-- fudge -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -384,6 +431,7 @@
           <property>metrics/Sw-sqft</property>
           <property>metrics/bw-ft</property>
           <property>fcs/left-aileron-pos-rad</property>
+          <value>1</value><!-- fudge -->
           <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>

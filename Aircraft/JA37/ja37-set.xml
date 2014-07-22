@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -12,7 +12,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.16</aircraft-version> 
+  <aircraft-version>1.17</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -39,6 +39,55 @@
    <path>/sim/aircraft-class</path>
    <path>/sim/aircraft-operator</path>
   </aircraft-data>
+  
+<flight-recorder>
+    <replay-config type="int">0</replay-config>
+    <config n="0" >
+      <name type="string">JA-37 Flight Recorder</name>
+      <!-- Custom properties -->
+      <signals include="/Aircraft/Generic/flightrecorder/components/environment.xml"/>
+      <signals include="/Aircraft/Generic/flightrecorder/components/position.xml"/>
+      <signals include="/Aircraft/Generic/flightrecorder/components/controls.xml"/>
+      <signals include="/Aircraft/Generic/flightrecorder/components/engine-jet.xml">
+        <count type="int">1</count>
+      </signals>
+      <signals include="/Aircraft/Generic/flightrecorder/components/faults-engines.xml">
+        <count type="int">1</count>
+      </signals>
+      <signals include="/Aircraft/Generic/flightrecorder/components/tanks.xml">
+        <count type="int">8</count>
+      </signals>
+      <signals include="/Aircraft/Generic/flightrecorder/components/gear-retractable.xml">
+        <count type="int">3</count>
+      </signals>
+      <!-- <signal>
+        <type>float</type>
+        <property type="string">/controls/gear/nosegear-steering-cmd-norm</property>
+        <interpolation>linear</interpolation>
+      </signal> -->
+      <!-- More custom signals here -->
+      <signal>
+          <type>float</type>
+          <property type="string">fdm/jsbsim/fcs/flap-pos-deg</property>
+      </signal>
+      <signal>
+          <type>float</type>
+          <property type="string">/surface-positions/left-elevon-pos-deg</property>
+      </signal>
+      <signal>
+          <type>float</type>
+          <property type="string">/surface-positions/right-elevon-pos-deg</property>
+      </signal>
+      <signal>
+          <type>float</type>
+          <property type="string">/surface-positions/rudder-pos-norm</property>
+      </signal>
+      <signal>
+          <type>float</type>
+          <property type="string">/surface-positions/nose-wheel-pos-norm</property>
+      </signal>
+    </config>
+  </flight-recorder>  
   
   <sound>
    <path>ja37-sound.xml</path>
@@ -163,9 +212,13 @@
   <help>
    <title>Saab JA-37 Viggen</title>
    <key>
-    <name>Ctrl-b</name>
-    <desc>toggle speed brake</desc>
+    <name>s</name>
+    <desc>Startup / shutdown</desc>
    </key>
+   <key>
+    <name>Backspace</name>
+		<desc>Toggle thrust reverser</desc>
+	 </key>
    <key>
     <name>Ctrl-f</name>
     <desc>trigger flare release</desc>
@@ -174,22 +227,76 @@
     <name>e (lower case 'e')</name>
     <desc>fire the cannon</desc>
    </key>
-   <key>
-   <name>Backspace</name>
-				<desc>Toggle thrust reverser</desc>
-			</key>
-   <key>
-    <name>u/U</name>
-    <desc>seat up/down</desc>
+    <key>
+    <name>Ctrl-b</name>
+    <desc>toggle speed brake</desc>
    </key>
    <key>
-   <name>s</name>
-    <desc>Startup/shutdown</desc>
-    </key>
-    <key>
-   <name>Del</name>
+    <name>u/U</name>
+    <desc>seat up / down</desc>
+   </key>   
+   <key>
+    <name>Del</name>
     <desc>Yaw damper on/off</desc>
-    </key>
+   </key>
+   <text>    _______________  Saab JA-37 Viggen  ________________
+    Startup
+    ______
+    Start up engine and systems
+    Wait for the engine to spool up.
+    Apply full throttle with afterburner.
+    Release parking brakes.
+    
+    Takeoff
+    ______
+    Mind the sidewind indicator in the HUD.
+    Takeoff at 315 km/h.
+
+    Landing
+    ______
+    Land with speeds within 195-249km/h.
+      and an Angle of Attack of 16.5 degrees.
+    Deploy reverse thrust after touchdown.
+
+    Flaps
+    ____
+    The JA-37 control the flaps automatically.
+    At takeoff and landing it will set flaps to 30 degrees down.
+    In flight it will be set at 4 degrees up.    
+
+    HUD info
+    --------
+    The HUD uses Km/h and meters.
+    When in landing/takeoff mode the sight will move to a side
+      according to sidewind.
+    When in navigation mode the sight will show the direction
+      the plane is headed in, not where it is pointed.
+    The digital altimeter to the left will use rader below 100 meters,
+      a 'R' is shown. when this happens, and regular altimeter above,
+      up till 9999 meters.
+    If the radar-altimeter detects that the altimeter is not calibrated correct,
+      it will blink QFE (happens only below 100 meters above terrain).
+    If QFE is displayed, but not blinking, the radar altimeter have
+      calibrated the altimeter (will only happen when plane not moving).
+    The digital airspeed indicator at the bottom, will use Km/h until
+      mach 0.5, after that it will show mach number.
+    The artificial horizon and pitch lines are spaced 5 degrees.
+    To the right is a altimeter scale, below 100 meter the scale will become
+      more detailed and below 50 even more.
+      Above 1000 meters, one floating point decimal precision.
+    On the altimeter the symbol '77' indicates where radar altimeter detects
+      the ground to be below plane centerline.
+    Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter
+      ground is higher than the altimeter 0.
+    The heading at the top is shown as a scale showing 1/10 of heading
+      in degrees.
+    
+    Notes:
+    _____
+    Hangar homepage: https://sites.google.com/site/fghangar
+    3D model and textures by Anders Lejczak
+    FDM and everything else by Necolatis
+    </text>
   </help>
 
   <menubar>
@@ -346,8 +453,7 @@
     <desc>Toggle Reversers</desc>
     <binding>
      <command>nasal</command>
-     <script>gui.popupTip("Reversing Thrust");reversethrust.togglereverser();
-	</script>
+     <script>reversethrust.togglereverser();</script>
     </binding>
    </key>
    <key n="127">

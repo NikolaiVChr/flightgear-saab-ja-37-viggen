@@ -9,8 +9,38 @@ var cnt = 0;
 
 var update_loop = func {
 	# Sets fuel gauge needles rotation
-    setprop("/instrumentation/fuel/needleF_rot", 
-      getprop("/consumables/fuel/total-fuel-norm")*230);
+    setprop("/instrumentation/fuel/needleF_rot", getprop("/consumables/fuel/total-fuel-norm")*230);
+   
+   # control augmented thrust
+     
+   var n1 = getprop("/engines/engine/n1");
+   var n2 = getprop("/engines/engine/n2");
+   var reversed = getprop("/engines/engine/reversed");
+   
+   if ( (n1 > 99) and (n2 > 97) and (reversed == 0) )
+   {
+    setprop("/controls/engines/engine[0]/augmentation", 1);
+   }
+   else
+   {
+    setprop("/controls/engines/engine[0]/augmentation", 0);
+   }
+   
+   # control flaps
+
+   var flapsCommand = 0;
+   var gear = getprop("/fdm/jsbsim/gear/gear-cmd-norm");
+   var battery = getprop("/systems/electrical/battery");
+   
+   if ((battery == 0) or (gear == nil))
+   {
+     flapsCommand = 0.11765;
+   }
+   else
+  {
+    flapsCommand = gear;
+  }
+  setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
    
 	settimer(update_loop, UPDATE_PERIOD);
 }

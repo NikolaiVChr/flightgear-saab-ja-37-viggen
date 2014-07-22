@@ -2,6 +2,7 @@
 
 <flight_control name="JA37 FC">
     <property>fcs/yaw-damper-enable</property>
+    <property>fcs/flap-pos-cmd</property>
     
     <channel name="Elevons">
       <!-- Can move 20 degrees down, and 25 degrees up, pitching down restricted to 10 degrees -->
@@ -192,10 +193,10 @@
     <channel name="Flaps">
       <!-- Can move 30 degrees down, and 4 degrees up -->
       <kinematic name="Flaps Control">
-        <input>gear/gear-cmd-norm</input><!-- flaps controlled by gear-->
+        <input>fcs/flap-pos-cmd</input><!-- flaps controlled by gear-->
         <traverse>
           <setting>
-            <position>  0 </position>
+            <position>  -4 </position>
             <time>      0 </time>
           </setting>
           <setting>
@@ -223,7 +224,7 @@
     <channel name="Throttle">
       <pure_gain name="fcs/throttle1">
         <input>fcs/throttle-cmd-norm</input>
-        <gain>2</gain>
+        <gain>1</gain>
         <output>fcs/throttle-pos-norm</output>
       </pure_gain>
     </channel>

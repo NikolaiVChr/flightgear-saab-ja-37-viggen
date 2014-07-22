@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -392,13 +392,13 @@
   <name>ExternalFlame</name>
   <path>Models/ExternalFlame.xml</path>
   <offsets>
-   <x-m>-1</x-m>
+   <x-m>5.75</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
  </model>
 
- <animation>
+ <!--<animation>
   <type>translate</type>
   <object-name>ExternalFlame</object-name>
   <property>engines/engine[0]/nozzle-pos-norm</property>
@@ -409,7 +409,29 @@
    <y>0</y>
    <z>0</z>
   </axis>
+ </animation>-->
+ <!--<animation>
+  <type>translate</type>
+  <object-name>ExternalFlame</object-name>
+  <value>25</value>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>-->
+ <animation>
+  <type>scale</type>
+  <object-name>ExternalFlame</object-name>
+  <property>engines/engine[0]/nozzle-pos-norm</property>
+  <x-min>0.2</x-min>
+  <y-min>1.0</y-min>
+  <z-min>1.0</z-min>
+  <x-factor>1.0</x-factor>
+  <y-factor>1.0</y-factor>
+  <z-factor>1.0</z-factor>
  </animation>
+ 
 
 <!-- Visible up to 10km (6 miles) -->
  <animation>

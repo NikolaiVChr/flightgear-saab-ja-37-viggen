@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -7,6 +7,9 @@
   <object-name>ExternalFlame</object-name>
   <condition>
    <property>engines/engine[0]/augmentation</property>
+   <not>
+    <property>engines/engine[0]/reverser-pos-norm</property>
+   </not>
   </condition>
  </animation>
  
@@ -14,7 +17,7 @@
  <name>ExternalFlame</name>
  <path>Models/externalflame.ac</path>
  <offsets> 
-  <x-m>6.5</x-m>
+  <x-m>0</x-m>
   <y-m>0</y-m>
   <z-m>0</z-m>
   <heading-deg>0</heading-deg>
