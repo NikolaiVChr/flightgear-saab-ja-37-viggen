@@ -2,12 +2,12 @@
 
 <PropertyList>
 
- <path>ja37orig.ac</path>
+ <path>ja37.ac</path>
  
  <!-- start effects -->
  <model>
   <name>exhaust_smoke</name>
-  <path>Aircraft/ja37/Models/Effects/exhaust.xml</path>
+  <path>Models/Effects/exhaust.xml</path>
   <offsets>
    <x-m>7.8</x-m>
    <y-m>0.0</y-m>
@@ -18,7 +18,7 @@
  <!-- smokepods -->
  <model>
   <name>Station1_AIM-9_smokewinder_smoke</name>
-  <path>Aircraft/ja37/Models/Effects/smoke.xml</path>
+  <path>Models/Effects/smoke.xml</path>
   <offsets>
    <x-m>6.75</x-m>
    <y-m>5.65</y-m>
@@ -29,7 +29,7 @@
 
  <model>
   <name>Station9_AIM-9_smokewinder_smoke</name>
-  <path>Aircraft/ja37/Models/Effects/smoke.xml</path>
+  <path>Models/Effects/smoke.xml</path>
   <offsets>
    <x-m>6.75</x-m>
    <y-m>-5.65</y-m>
@@ -40,7 +40,7 @@
 
  <model>
   <name>left-strake-vortex</name>
-  <path>Aircraft/ja37/Models/Effects/strake-vortex.xml</path>
+  <path>Models/Effects/strake-vortex.xml</path>
   <offsets>
    <x-m>0.58</x-m>
    <y-m>-1.35</y-m>
@@ -50,7 +50,7 @@
 
  <model>
   <name>right-strake-vortex</name>
-  <path>Aircraft/ja37/Models/Effects/strake-vortex.xml</path>
+  <path>Models/Effects/strake-vortex.xml</path>
   <offsets>
    <x-m>0.58</x-m>
    <y-m>1.35</y-m>
@@ -102,7 +102,7 @@
 
  <model>
   <name>strobe</name>
-  <path>Aircraft/ja37/Models/strobe.xml</path>
+  <path>Models/strobe.xml</path>
   <offsets>
    <x-m>5.3</x-m>
    <y-m>0.0</y-m>
@@ -112,21 +112,15 @@
 
 <!-- ===================== END LIGHTING =========================== -->
 
- <!--<animation>
-  <type>select</type>
-  <object-name>LhoCondensCone</object-name>
-  <object-name>RhoCondensCone</object-name>
-  <property>null</property>
- </animation>-->
-
+ 
 <model>
   <name>InternalFlame</name>
-  <path>Aircraft/ja37/Models/internalflame.xml</path>
+  <path>Models/InternalFlame.xml</path>
  </model>
 
 <model>
   <name>ExternalFlame</name>
-  <path>Aircraft/ja37/Models/externalflame.xml</path>
+  <path>Models/ExternalFlame.xml</path>
  </model>
 
  <animation>

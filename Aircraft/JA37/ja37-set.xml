@@ -12,13 +12,13 @@
     <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.0</aircraft-version> 
+  <aircraft-version>1.1</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
 
   <startup>
-   <splash-texture>Aircraft/ja37/ja37-splash.png</splash-texture>
+   <splash-texture>ja37-splash.png</splash-texture>
   </startup>
 
   <!-- enable "parkpos=AVAILABLE" option for the F-16 -->
@@ -36,7 +36,7 @@
   </aircraft-data>
   
   <sound>
-   <path>Aircraft/ja37/ja37-sound.xml</path>
+   <path>ja37-sound.xml</path>
   </sound>
 
   <virtual-cockpit archive="y">true</virtual-cockpit>
@@ -48,7 +48,7 @@
   </panel_2>
 
   <hud>
-   <path n="1">Aircraft/ja37/Models/Cockpit/hud.xml</path>
+   <path n="1">Models/Cockpit/hud.xml</path>
    <visibility n="1">true</visibility>
    <palette>
     <color n="0">
@@ -78,12 +78,8 @@
    </clipping>
   </hud>
 
-  <instrumentation>
-   <path>Aircraft/ja37/Systems/instrumentation.xml</path>
-  </instrumentation>
-
-  <model>
-   <path archive="y">Aircraft/ja37/Models/ja37-model.xml</path>
+    <model>
+   <path archive="y">Models/ja37-model.xml</path>
    <ja37>
     
     <controls>
@@ -524,12 +520,12 @@
    <file>Aircraft/Generic/aar.nas</file>
   </aar>
   <reversethrust>
-    <file>Aircraft/ja37/Nasal/reversethrust.nas</file>
+    <file>Nasal/reversethrust.nas</file>
   </reversethrust>
   
   <ja37>  
-   <file>Aircraft/ja37/Nasal/ja37.nas</file>
-   <file>Aircraft/ja37/Nasal/tyresmoke.nas</file>
+   <file>Nasal/ja37.nas</file>
+   <file>Nasal/tyresmoke.nas</file>
   </ja37>
 </nasal>
 

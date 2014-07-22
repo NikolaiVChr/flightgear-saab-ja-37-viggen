@@ -5,7 +5,7 @@
  <fx>
   <canopy>
    <name>canopy</name>
-   <path>Aircraft/ja37/Sounds/canopy.wav</path>
+   <path>Sounds/canopy.wav</path>
    <mode>in-transit</mode>
    <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
    <reference-dist>30</reference-dist>
@@ -27,7 +27,7 @@
 
   <canopy>
    <name>canopy_lock</name>
-   <path>Aircraft/ja37/Sounds/canopy_lock.wav</path>
+   <path>Sounds/canopy_lock.wav</path>
    <mode>single</mode>
    <condition>
     <equals>
@@ -317,7 +317,7 @@
 <stall>
 		<name>stall</name>
 		<mode>looped</mode>
-		<path>Aircraft/ja37/Sounds/stall.wav</path>
+		<path>Sounds/stall.wav</path>
 		<condition>
 		<greater-than>
 			<property>orientation/alpha-deg</property>
@@ -349,7 +349,7 @@
   
   <!--<stall>
    <name>stall</name>
-   <path>Aircraft/ja37/Sounds/stall.wav</path>
+   <path>Sounds/stall.wav</path>
    <mode>looped</mode>
    <type>avionics</type>
    <condition>
@@ -370,7 +370,7 @@
 <stallw>
 		<name>stallwarning</name>
 		<mode>once</mode>
-		<path>Aircraft/ja37/Sounds/stallwarning.wav</path>
+		<path>Sounds/stallwarning.wav</path>
 		<condition>
 		<greater-than>
 			<property>orientation/alpha-deg</property>
@@ -394,7 +394,7 @@
   
 <!--<stallw>
    <name>stallwarning</name>
-   <path>Aircraft/ja37/Sounds/stallwarning.wav</path>
+   <path>Sounds/stallwarning.wav</path>
    <mode>single</mode>
    <type>avionics</type>
    <condition>
@@ -418,7 +418,7 @@
     <max-dist>2.0</max-dist>
    <mode>single</mode>
    <type>avionics</type>
-   <path>Aircraft/ja37/Sounds/lowterrain.wav</path>
+   <path>Sounds/lowterrain.wav</path>
    <condition>
     <property>instrumentation/annunciators/gpws/terrain-alert</property>
    </condition>
@@ -430,7 +430,7 @@
 <roll>
    <name>roll</name>
    <mode>looped</mode>
-   <path>Aircraft/ja37/Sounds/roll.wav</path>
+   <path>Sounds/roll.wav</path>
    <condition>
     <or>
      <property>/gear/gear[0]/wow</property>
@@ -448,7 +448,7 @@
 <wind>
 			<name>wind</name>
 			<mode>looped</mode>
-			<path>Aircraft/ja37/Sounds/wind.wav</path>
+			<path>Sounds/wind.wav</path>
 			<condition>
 				<equals>
 					<property>sim/current-view/view-number</property>
@@ -468,7 +468,7 @@
 <air-brakes>
 			<name>air-brakes</name>
 			<mode>looped</mode>
-			<path>Aircraft/ja37/Sounds/air-brakes.wav</path>
+			<path>Sounds/air-brakes.wav</path>
 			<condition>
 				<equals>
 					<property>sim/current-view/view-number</property>
@@ -491,7 +491,7 @@
 
   <cannon>
    <name>cannon</name>
-   <path>Aircraft/ja37/Sounds/M61A1.wav</path>
+   <path>Sounds/M61A1.wav</path>
    <property>controls/armament/trigger</property>
    <mode>looped</mode>
    <position>
@@ -503,7 +503,7 @@
   
 <aircraft-crash>
 		<name>aircraft-crash</name>
-		<path>Aircraft/ja37/Sounds/aircraft-explode.wav</path>
+		<path>Sounds/aircraft-explode.wav</path>
 		<mode>once</mode>
 		<condition>
 			<equals>
@@ -518,7 +518,7 @@
 
 	<aircraft-water-crash>
 		<name>aircraft-water-crash</name>
-		<path>Aircraft/ja37/Sounds/aircraft-water-crash.wav</path>
+		<path>Sounds/aircraft-water-crash.wav</path>
 		<mode>once</mode>
 		<condition>
 			<equals>
