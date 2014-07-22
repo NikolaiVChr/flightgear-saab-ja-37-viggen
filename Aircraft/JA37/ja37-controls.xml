@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 
 <flight_control name="JA37 FC">
-
+    <property>fcs/yaw-damper-enable</property>
+    
     <channel name="Elevons">
+      <!-- Can move 20 degrees down, and 25 degrees up, pitching down restricted to 10 degrees -->
       <summer name="Pitch Trim Sum">
           <input>fcs/elevator-cmd-norm</input>
           <input>fcs/pitch-trim-cmd-norm</input>
@@ -16,11 +18,20 @@
       <aerosurface_scale name="Elevator Control">
           <input>fcs/pitch-trim-sum</input>
           <range>
-              <min>-0.35</min>
-              <max>0.3</max>
+              <min>-0.4363</min>
+              <max>0.1745</max>
           </range>
           <output>fcs/elevator-pos-rad</output>
       </aerosurface_scale>
+
+      <!--<aerosurface_scale name="Elevator Control Degrees">
+          <input>fcs/pitch-trim-sum</input>
+          <range>
+              <min>-25</min>
+              <max>20</max>
+          </range>
+          <output>fcs/elevator-pos-deg</output>
+      </aerosurface_scale>-->
 
       <summer name="Roll Trim Sum">
           <input>fcs/aileron-cmd-norm</input>
@@ -35,8 +46,8 @@
       <aerosurface_scale name="Left Aileron Control">
           <input>fcs/roll-trim-sum</input>
           <range>
-              <min>-0.35</min>
-              <max>0.35</max>
+              <min>-0.4363</min>
+              <max>0.3491</max>
           </range>
           <output>fcs/left-aileron-pos-rad</output>
       </aerosurface_scale>
@@ -44,8 +55,8 @@
       <aerosurface_scale name="Right Aileron Control">
           <input>-fcs/roll-trim-sum</input>
           <range>
-              <min>-0.35</min>
-              <max>0.35</max>
+              <min>-0.4363</min>
+              <max>0.3491</max>
           </range>
           <output>fcs/right-aileron-pos-rad</output>
       </aerosurface_scale>
@@ -54,8 +65,8 @@
          <input>fcs/left-aileron-pos-rad</input>
          <input>fcs/elevator-pos-rad</input>
          <clipto>
-           <min> -0.35 </min>
-           <max>  0.35 </max>
+           <min>-0.4363</min>
+           <max>0.3491</max>
          </clipto>
          <output>fcs/left-elevon-pos-rad</output>
       </summer>
@@ -64,8 +75,8 @@
          <input>fcs/right-aileron-pos-rad</input>
          <input>fcs/elevator-pos-rad</input>
          <clipto>
-           <min> -0.35 </min>
-           <max>  0.35 </max>
+           <min>-0.4363</min>
+           <max>0.3491</max>
          </clipto>
          <output>fcs/right-elevon-pos-rad</output>
       </summer> 
@@ -85,12 +96,13 @@
     </channel>
 
     <channel name="Yaw">
+      <!-- Can move 20 degrees to each side -->
       <summer name="Rudder Command Sum">
         <input>fcs/rudder-cmd-norm</input>
         <input>fcs/yaw-trim-cmd-norm</input>
         <clipto>
-          <min> -0.3 </min>
-          <max>  0.3 </max>
+          <min> -1 </min>
+          <max>  1 </max>
         </clipto>
       </summer>
       <scheduled_gain name="Yaw Damper Rate">
@@ -102,7 +114,7 @@
             60     2.00
          </tableData>
         </table>
-        <gain>1</gain>         <!-- yaw damper enabled -->
+        <gain>fcs/yaw-damper-enable</gain>
         <output>fcs/yaw-damper-rate</output>
       </scheduled_gain>
       <summer name="Rudder Sum">
@@ -120,16 +132,16 @@
           <max>  1.1 </max>
         </domain>
         <range>
-          <min> -0.35 </min>
-          <max>  0.35 </max>
+          <min> -0.3491 </min>
+          <max>  0.3491 </max>
         </range>
         <output>fcs/rudder-pos-rad</output>
       </aerosurface_scale>
       <aerosurface_scale name="rudder normalization">
         <input>fcs/rudder-pos-rad</input>
         <domain>
-          <min> -0.35 </min>
-          <max>  0.35 </max>
+          <min> -0.3491 </min>
+          <max>  0.3491 </max>
         </domain>
         <range>
           <min> -1 </min>
@@ -178,6 +190,7 @@
     </channel>
 
     <channel name="Flaps">
+      <!-- Can move 30 degrees down, and 4 degrees up -->
       <kinematic name="Flaps Control">
         <input>gear/gear-cmd-norm</input><!-- flaps controlled by gear-->
         <traverse>

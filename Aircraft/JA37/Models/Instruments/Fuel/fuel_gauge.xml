@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <path>ja37_fuel.ac</path>
+
+<!--effect>
+	<inherits-from>Effect/model-combined-deferred</inherits-from>
+	<parameters>
+		<texture n="1">
+			<image>fuel_gauge_lm.png</image>
+		</texture>
+		<condition><use>/controls/lighting/logo-lights</use></condition>
+		<factor><use>/controls/lighting/panel-norm</use></factor >
+	</parameters>
+ 	<object-name>Gauge</object-name> 
+</effect -->
+
+<animation>
+        <type>rotate</type>
+        <object-name>Needle_B</object-name>
+        <property>/instrumentation/fuel/needleB_rot</property>
+        <max>325</max>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+</animation>
+
+<animation>
+        <type>rotate</type>
+        <object-name>Needle_F</object-name>
+        <property>/instrumentation/fuel/needleF_rot</property>
+        <max>325</max>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+</animation>
+
+
+</PropertyList>

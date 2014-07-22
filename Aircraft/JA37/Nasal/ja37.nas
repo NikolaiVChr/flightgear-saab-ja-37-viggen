@@ -8,14 +8,10 @@ var g_curr 	= props.globals.getNode("accelerations/pilot-gdamped", 1);
 var cnt = 0;
 
 var update_loop = func {
-	#g_min_max();
-	if ( cnt == 10 ) {
-		# done each 1 sec.
-		# local_mag_deviation();
-		cnt = 0;
-	} else {
-		cnt += 1;
-	}
+	# Sets fuel gauge needles rotation
+    setprop("/instrumentation/fuel/needleF_rot", 
+      getprop("/consumables/fuel/total-fuel-norm")*230);
+   
 	settimer(update_loop, UPDATE_PERIOD);
 }
 
@@ -25,7 +21,7 @@ var update_loop = func {
 # main_init #################
 var main_init = func {
 	print("Initializing JA-37 Viggen systems");
-	#settimer(func { update_loop() }, 0.1);
+	settimer(func { update_loop() }, 0.1);
 }
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {

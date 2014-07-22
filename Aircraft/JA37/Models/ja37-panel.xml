@@ -13,15 +13,16 @@
     </offsets>
   </model>
 
-<!--<model> just for testing
-    <path>Models/Instruments/chronometer.xml</path>
-    <name>Clock</name>
+  <model>
+    <path>Models/Instruments/Fuel/fuel_gauge.xml</path>
+    <name>Fuel Gauge</name>
     <offsets>
-    <pitch-deg>-8</pitch-deg>
-      <x-m> -3.5</x-m>
-      <y-m>0.05</y-m>
-      <z-m>  0.52</z-m>
+    <pitch-deg>-0</pitch-deg>
+      <x-m> -3.825</x-m>
+      <y-m>0.30</y-m>
+      <z-m>  0.25</z-m>
     </offsets>
-  </model>-->
+  </model>
+
 
 </PropertyList>

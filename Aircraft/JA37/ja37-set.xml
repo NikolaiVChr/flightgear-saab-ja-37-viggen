@@ -9,10 +9,10 @@
   <rating>
     <FDM type="int">1</FDM>
     <systems type="int">0</systems>
-    <cockpit type="int">0</cockpit>
+    <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.13</aircraft-version> 
+  <aircraft-version>1.14</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -186,6 +186,10 @@
    <name>s</name>
     <desc>Startup/shutdown</desc>
     </key>
+    <key>
+   <name>Del</name>
+    <desc>Yaw damper on/off</desc>
+    </key>
   </help>
 
   <menubar>
@@ -346,9 +350,16 @@
 	</script>
     </binding>
    </key>
+   <key n="127">
+     <name>Delete</name>
+     <desc>Yaw damper on/off</desc>
+     <binding>
+      <command>property-toggle</command>
+      <property>/fdm/jsbsim/fcs/yaw-damper-enable</property>
+     </binding>
+    </key>
    </keyboard>
   </input>
- 
  <controls>
   <fuel>
    <qty-selector type="int">1</qty-selector>

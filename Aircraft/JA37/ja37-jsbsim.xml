@@ -4,7 +4,7 @@
   <fileheader>
     <author> Necolatis (Aeromatic v 0.95 / DATCOM) </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.13 </version>
+    <version> 1.14 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -30,16 +30,18 @@
 
 
  <metrics>
-      <!-- data calculated using DATCOM -->
-      <wingarea unit="FT2">      179.4182  </wingarea>
-      <wingspan unit="FT">        19.3570  </wingspan>
-      <chord unit="FT">           11.0136  </chord>
-      <htailarea unit="FT2">     562.4756  </htailarea>
+      <!-- from NASA document -->
+      <wingarea unit="M2">     46  </wingarea>
+      <wingspan unit="M">     10  </wingspan>
+      <chord unit="M">         7.4</chord>
+      <htailarea unit="M2">    46  </htailarea>
+      <!-- from Australian document -->
+      <vtailarea unit="FT2">      68.7  </vtailarea>
+      <!-- data calculated using DATCOM -->      
       <htailarm unit="FT">        17.4042  </htailarm>
-      <vtailarea unit="FT2">     106.9664  </vtailarea>
       <vtailarm unit="FT">        21.7358  </vtailarm>
     <location name="AERORP" unit="M">
-      <x> 2.2 </x>
+      <x> 1.785 </x>
       <y> 0 </y>
       <z> 0 </z>
     </location>
@@ -56,13 +58,13 @@
   </metrics>
   
   <mass_balance>
-    <!-- inertia is guesstimated -->
-    <ixx unit="SLUG*FT2"> 15000 </ixx>
-    <iyy unit="SLUG*FT2"> 69000 </iyy>
-    <izz unit="SLUG*FT2"> 62000 </izz>
-    <emptywt unit="LBS" >     20950 </emptywt>
+    <!-- inertia is slightly lighter F16 -->
+    <ixx unit="SLUG*FT2"> 9496 </ixx>
+    <iyy unit="SLUG*FT2"> 55814 </iyy>
+    <izz unit="SLUG*FT2"> 63100 </izz>
+    <emptywt unit="LBS" > 20950 </emptywt>
     <location name="CG" unit="M">
-      <x> 2 </x>
+      <x> 1.485 </x>
       <!--  -->
       <y> 0 </y>
       <z> 0 </z>
@@ -212,6 +214,7 @@
       </location>
       <capacity unit="KG"> 2735 </capacity>
       <contents unit="KG"> 1500 </contents>
+      <priority> 1 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Fuselage Forward Tank 2 -->
@@ -222,6 +225,7 @@
       </location>
       <capacity unit="KG"> 1366 </capacity>
       <contents unit="KG"> 750 </contents>
+      <priority> 2 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Left Fuselage Minor Tank 3V -->
@@ -232,6 +236,7 @@
       </location>
       <capacity unit="KG"> 172 </capacity>
       <contents unit="KG"> 0 </contents>
+      <priority> 5 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right Fuselage Minor Tank 3H -->
@@ -242,6 +247,7 @@
       </location>
       <capacity unit="KG"> 172 </capacity>
       <contents unit="KG"> 0 </contents>
+      <priority> 5 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Left Minor Wing Tank 5V -->
@@ -252,6 +258,7 @@
       </location>
       <capacity unit="KG"> 116 </capacity>
       <contents unit="KG"> 0 </contents>
+      <priority> 4 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right Minor Wing Tank 5H -->
@@ -262,6 +269,7 @@
       </location>
       <capacity unit="KG"> 116 </capacity>
       <contents unit="KG"> 0 </contents>
+      <priority> 4 </priority>
     </tank>
     <tank type="FUEL">
       <!-- left wing tank 4V -->
@@ -272,6 +280,7 @@
       </location>
       <capacity unit="KG"> 512 </capacity>
       <contents unit="KG"> 512 </contents>
+      <priority> 3 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right wing tank 4H -->
@@ -282,6 +291,7 @@
       </location>
       <capacity unit="KG"> 512 </capacity>
       <contents unit="KG"> 512 </contents>
+      <priority> 3 </priority>
     </tank>
   </propulsion>
     

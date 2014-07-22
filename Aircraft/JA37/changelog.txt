@@ -127,6 +127,26 @@ Removed russian chronometer
 Adjusted G-meter to new cockpit.
 Made key 's' autostart and stop
 
+1.14
+----
+Upgraded aircraft rating.
+Put in aerodynamic tables for Roll Moment coefficient due to roll resistance, Pitch moment due to alpha and Yawing moment induced by banking.
+Added lots of low speed areadynamic tables from NASA document, wont fly properly anymore :(
+Flipped normals on glass and made it single sided.
+Added data to modify drag at higher speeds.
+Adjusted turbine fan sounds, and made gear sounds work.
+Added fuel gauge adapted from Draken
+Made cockpit panel grey.
+AeroRP and CoG, finally in the right places.
+Temporary removed estimates. Fixed some interpretations of the tables and added one.
+Refined aerodynamic yaw and pitch moments.
+Converted aerodynamic data to body-frame
+Added aerodynamic effects of lift due to elevons, flaps and ground effects
+Added aerodynamic effects of pitch due to flaps and ground effects
+Added aerodynamic effects of roll resistance due to ground effects
+Made key to toogle yaw damper on/off
+
+
 Notes:
 ------
 3D model and textures is made by Anders Lejczak <anders.lejczak@colacola.se>

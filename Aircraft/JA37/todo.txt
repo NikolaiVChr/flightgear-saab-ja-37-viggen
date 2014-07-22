@@ -4,24 +4,25 @@ TODO:
 High Priority:
 --------------
 Aero: Got some blueprints of the aircraft now, refine DATCOM to geometry of those.
-Aero: Add control surfaces in DATCOM
-Aero: Let DATCOM check for higher pitch values
-Aero: Add engine intake area, and correct exhaust area
-Aero: Add more data from document
+Aero: Let DATCOM check for higher alpha values
+Aero: high speed aerodynamics
+Aero: DATCOM: Add engine intake area, and correct exhaust area
 System: Put in alot more instruments
 Animation: Make canopy work
 HUD: add proper sidewind max
 Effect: Complete vapor cone
-HUD: Realign the HUD to the new 3D model
 Effect: Fix wierd shadow in front of vtail
 Effect: Afterburner flame is sometimes seen at nose
+Aero: Aerodynamic trims
+Aero: droptank
+Aero: drag due to mach, gear, flaps, elevons and groundeffect
 
 Normal Priority:
 ----------------
 System: All fuel to engine has to go through tank 1
 System: Fuel tanks 3V and 3H is used for flying upside down
 Effect: Make pilot faint/die due to G-forces
-Aero: Clean up the Aerodynamic functions and the controls
+Aero: Clean up the flight controls
 Sound: Better annunciater warnings and other sounds
 Effect: Adapt for Rembrandt (future)
 Effect: Make tires burst if too high speed with parking brakes
@@ -43,3 +44,5 @@ Animation: Animate wheels
 Animation: Animate gear compression
 Animation: Proper animation of gear doors
 During normal flight, flaps shall be kept at -4 ° above the neutral position
+Stall warnings at lower alpha at higher mach
+Make engine use fuel from tank 6-7 also.

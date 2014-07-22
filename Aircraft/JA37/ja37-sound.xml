@@ -53,7 +53,14 @@
    <mode>looped</mode>
    <condition>
     <property>sim/current-view/internal</property>
-    <property>engines/engine/running</property>
+    <greater-than>
+      <property>engines/engine/n1</property>
+      <value>0.5</value>
+    </greater-than>
+    <less-than>
+      <property>engines/engine/n1</property>
+      <value>85.0</value>
+    </less-than>
    </condition>
    <reference-dist>30</reference-dist>
    <max-dist>100</max-dist>
@@ -70,9 +77,13 @@
    <pitch>
     <property>engines/engine/n1</property>
     <ofset>0.5</ofset>
-    <factor>.00075</factor>
+    <factor>.0075</factor>
    </pitch>
    <volume>
+    <difference>
+      <value>100</value>
+      <property>engines/engine/n1</property>      
+    </difference>
     <factor>0.01</factor>
    </volume>
   </engine_fan>
@@ -82,7 +93,10 @@
    <path>Sounds/turbojet_fan.wav</path>
    <mode>looped</mode>
    <condition>
-    <property>engines/engine/running</property>
+    <greater-than>
+      <property>engines/engine/n1</property>
+      <value>0.5</value>
+    </greater-than>
     <not>
      <property>sim/current-view/internal</property>
     </not>
@@ -109,12 +123,14 @@
    <pitch>
     <property>engines/engine/n1</property>
     <ofset>0.8</ofset>
-    <factor>.003</factor>
+    <factor>.02</factor>
    </pitch>
    <volume>
-    <property>engines/engine/n1</property>
-    <offset>0.02</offset>
-    <factor>-0.0000025</factor>
+    <difference>
+      <value>100</value>
+      <property>engines/engine/n1</property>      
+    </difference>
+    <factor>0.02</factor>
    </volume>
   </engine_fan>
  
@@ -256,10 +272,14 @@
    <path>Sounds/rumble.wav</path>
    <condition>
     <property>sim/current-view/internal</property>
-    <or>
-     <property>gear/gear[1]/wow</property>
-     <property>gear/gear[2]/wow</property>
-    </or>
+    <greater-than>
+     <property>gear/gear[0]/position-norm</property>
+     <value>0</value>
+    </greater-than>
+    <less-than>
+      <property>gear/gear[0]/position-norm</property>
+      <value>1</value>
+    </less-than>
    </condition>
    <reference-dist>30</reference-dist>
    <max-dist>100</max-dist>
