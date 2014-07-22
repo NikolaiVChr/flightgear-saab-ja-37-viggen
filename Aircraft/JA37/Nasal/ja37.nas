@@ -16,7 +16,7 @@ var cnt = 0;
 
 var update_loop = func {
   # set the full-init property
-  if(getprop("sim/time/elapsed-sec") > getprop("sim/time/elapsed-at-init-sec") + 20) {
+  if(getprop("sim/time/elapsed-sec") > getprop("sim/time/elapsed-at-init-sec") + 5) {
     setprop("sim/time/full-init", 1);
   } else {
     setprop("sim/time/full-init", 0);
@@ -251,6 +251,15 @@ var update_loop = func {
   prevGear1 = gear1;
   prevGear2 = gear2;
 
+  # Make sure have engine sound at reverse thrust
+
+  var thrust = getprop("engines/engine/thrust_lb");
+   
+  if(thrust != nil) {
+    setprop("engines/engine/thrust_lb-absolute", abs(thrust));
+  } else {
+    setprop("engines/engine/thrust_lb-absolute", 0);
+  }
 
 
   settimer(update_loop, UPDATE_PERIOD);

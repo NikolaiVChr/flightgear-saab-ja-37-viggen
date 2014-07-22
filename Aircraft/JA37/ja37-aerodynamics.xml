@@ -450,7 +450,9 @@
 
   <!-- from graph page 64 -->
     <function name="aero/function/ground-effect-factor-Cm">
-       <description>Change in pitch moment due to ground effect</description>
+       <description>
+              Change in pitch moment due to ground effect
+       </description>
        <product>
           <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -470,7 +472,9 @@
 
     <!-- from graph page 66  -->
     <function name="aero/function/air-intake-factor-CA">
-       <description>Air intake factor</description>
+       <description>
+            Air intake factor
+       </description>
        <product>
           <table>
              <independentVar lookup="row">velocities/mach</independentVar>
@@ -488,102 +492,135 @@
        </product>
     </function>
 
+
+    <axis name="PITCH">
+
+      <!-- page 67 fig51b - CmCA -->
+      <function name="aero/coefficient/Cm-due-to-CA">
+        <description>
+              Pitch due to Air intake factor
+        </description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/cbarw-ft</property>
+          <table><!-- CmCA: Cm due to Air intake factor. -->
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">aero/function/air-intake-factor-CA</independentVar>
+            <tableData>
+                 1      3
+             0   0      0
+             30  0      0.02
+            </tableData>
+          </table>
+        </product>
+      </function>
+      
+      <!-- page 74 - zero moment numbers -->
+      <function name="aero/coefficient/Cm-due-to-Zero-moment">
+        <description>
+              Pitch due to Zero moment
+        </description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/cbarw-ft</property>
+          <table><!-- Zero moment: Cm part that is independent of alpha. -->
+            <independentVar lookup="row">gear/gear-pos-norm</independentVar>
+            <tableData>
+               0 -0.006
+               1  0.036
+            </tableData>
+          </table>
+        </product>
+      </function>
+
+      <!-- page 64 - gear and flaps, with and without groundeffect -->
+      <function name="aero/coefficient/Cm-due-to-ground-effect">
+        <description>
+              Pitch due to ground effect
+        </description>
+        <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/cbarw-ft</property>
+          <property>aero/function/ground-effect-factor-Cm</property>
+        </product>
+      </function>
+            
+
       <!-- from graph:
-       page 43 - low alpha range. Due to translation error, is general aircrafts. Not JA-37. Dont use.
+       page 43 - low alpha range. Due to translation error, is general aircrafts. Not JA-37. Don't use.
        page 61 - gear up, unloaded, detailed, not final
        page 62 - gear up, unloaded, full range, final
-       page 64 - gear and flaps, with and without groundeffect
-       page 74 - zero moment numbers
-       oage 67 fig51a - detailed Cm around zero alpha
-       oage 67 fig51b - CmCA -->
-    <axis name="PITCH">
+       page 67 fig51a - detailed Cm around zero alpha-->
       <function name="aero/coefficient/Cm">
         <description>
            Pitch moment due to alpha
         </description>
         <product>
-           <property>aero/qbar-psf</property>
-           <property>metrics/Sw-sqft</property>
-           <property>metrics/cbarw-ft</property>
-           <sum>
-            <table><!-- CmCA: Cm due to Air intake factor. -->
-             <independentVar lookup="row">aero/alpha-deg</independentVar>
-             <independentVar lookup="column">aero/function/air-intake-factor-CA</independentVar>
-              <tableData>
-                     1      3
-                 0   0      0
-                 30  0      0.02
-              </tableData>
-            </table>
-            <table><!-- Zero moment: Cm part that is independent of alpha. -->
-             <independentVar lookup="row">gear/gear-pos-norm</independentVar>
-              <tableData>
-                 0 -0.006
-                 1  0.036
-              </tableData>
-            </table>
-            <property>aero/function/ground-effect-factor-Cm</property>
-            <table><!-- Cma: Cm due to alpha. -->
-              <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">gear/gear-pos-norm</independentVar>
-              <tableData>
-                              0        1
-                    <!--   page 61 - extrapolated -->
-                  -10.0      0.03     0.07
-                    <!--   page 67 - page 64 -->
-                    0.0      0.01     0.0375
-                    2.0      0.003    0.03
-                    <!--   page 62 - page 64 -->
-                    3.0     -0.02     0.0275
-                    8.0     -0.03     0.02
-                   11.5     -0.035    0.015
-                   17.0     -0.055    0            
-                   22.5     -0.07    -0.025            
-                   <!--     page 62 - no gear data --> 
-                  22.68683502847784    -0.07099088079880886    -0.07099088079880886
-                  23.508849140234506   -0.07349658923014049    -0.07349658923014049
-                  24.331206186539244   -0.07516896670962873    -0.07516896670962873
-                  25.236381926206192   -0.075591919318932      -0.075591919318932
-                  26.224033424687278   -0.07559877800989365    -0.07559877800989365
-                  27.129723566176356   -0.0747717341914318     -0.0747717341914318
-                  28.118232401027655   -0.07269526550278488    -0.07269526550278488
-                  29.024779878886946   -0.06978489430471446    -0.06978489430471446
-                  29.849537467028266   -0.06562395512129879    -0.06562395512129879
-                  31.664861497309385   -0.054386561538175754   -0.054386561538175754
-                  32.57260924608696    -0.048559532008653344   -0.048559532008653344
-                  33.64513704521877    -0.04231698011836957    -0.04231698011836957
-                  34.30477164845779    -0.03940489424755875    -0.03940489424755875
-                  34.881416091060544   -0.03815889872285458    -0.03815889872285458
-                  35.86958199136376    -0.03691576098605115    -0.03691576098605115
-                  36.857233489844845   -0.0369226196770128     -0.0369226196770128
-                  39.73551974903749    -0.042687009838870665   -0.042687009838870665
-                  40.47454726935691    -0.046850135462712106   -0.046850135462712106
-                  41.29416797376302    -0.055171823755881894   -0.055171823755881894
-                  42.68666761728218    -0.07139769000427779    -0.07139769000427779
-                  43.915585341508624   -0.08512762013403677    -0.08512762013403677
-                  45.63422215884785    -0.10884015399971482    -0.10884015399971482
-                  46.37136746043062    -0.11757707115357195    -0.11757707115357195
-                  46.78186225581062    -0.12007471838015114    -0.12007471838015114
-                  47.19287038357336    -0.12132496791672609    -0.12132496791672609
-                  48.3451304719806     -0.1213329530871239     -0.1213329530871239
-                  49.003907029801766   -0.12050591758163408    -0.12050591758163408
-                  49.580037074005396   -0.12050991016683302    -0.12050991016683302
-                  50.97784115214599    -0.12384600028518467    -0.12384600028518467
-                  52.94972194495935    -0.1321756737487523     -0.1321756737487523
-                  54.92211607015541    -0.1392579495223157     -0.1392579495223157
-                  56.48333095679451    -0.14550577498930556    -0.14550577498930556
-                  57.96207044061029    -0.15216882931698272    -0.15216882931698272
-                  58.536831598460004   -0.15549921574219305    -0.15549921574219305
-                  60.098046485099076   -0.16174704120918293    -0.16174704120918293
-                  61.988136318266044   -0.16882874661343217    -0.16882874661343217
-                  64.7002424069585     -0.17841095109083127    -0.17841095109083127
-                  65.8509624982176     -0.18216112933124196    -0.18216112933124196
-                  67.5769570797091     -0.18799429630685868    -0.18799429630685868
-                  69.22064736917152    -0.19382689291316124    -0.19382689291316124
-                  72.26197062598033    -0.20341137886781707    -0.20341137886781707
-              </tableData>
-           </table>
-         </sum>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/cbarw-ft</property>
+          <table><!-- Cma: Cm due to alpha. -->
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">gear/gear-pos-norm</independentVar>
+            <tableData>
+                            0        1
+                  <!--   page 61 - extrapolated -->
+                -10.0      0.03     0.07
+                  <!--   page 67 - page 64 minus zero moment 0.036 -->
+                  0.0      0.01     0.0015
+                  <!--   page 62 - page 64 minus zero moment 0.036 -->
+                  3.0     -0.02    -0.0085
+                  8.0     -0.03    -0.016
+                 11.5     -0.035   -0.021
+                 17.0     -0.055   -0.036           
+                 22.5     -0.07    -0.061            
+                 <!--     page 62 - no gear data --> 
+                22.68683502847784    -0.07099088079880886    -0.07099088079880886
+                23.508849140234506   -0.07349658923014049    -0.07349658923014049
+                24.331206186539244   -0.07516896670962873    -0.07516896670962873
+                25.236381926206192   -0.075591919318932      -0.075591919318932
+                26.224033424687278   -0.07559877800989365    -0.07559877800989365
+                27.129723566176356   -0.0747717341914318     -0.0747717341914318
+                28.118232401027655   -0.07269526550278488    -0.07269526550278488
+                29.024779878886946   -0.06978489430471446    -0.06978489430471446
+                29.849537467028266   -0.06562395512129879    -0.06562395512129879
+                31.664861497309385   -0.054386561538175754   -0.054386561538175754
+                32.57260924608696    -0.048559532008653344   -0.048559532008653344
+                33.64513704521877    -0.04231698011836957    -0.04231698011836957
+                34.30477164845779    -0.03940489424755875    -0.03940489424755875
+                34.881416091060544   -0.03815889872285458    -0.03815889872285458
+                35.86958199136376    -0.03691576098605115    -0.03691576098605115
+                36.857233489844845   -0.0369226196770128     -0.0369226196770128
+                39.73551974903749    -0.042687009838870665   -0.042687009838870665
+                40.47454726935691    -0.046850135462712106   -0.046850135462712106
+                41.29416797376302    -0.055171823755881894   -0.055171823755881894
+                42.68666761728218    -0.07139769000427779    -0.07139769000427779
+                43.915585341508624   -0.08512762013403677    -0.08512762013403677
+                45.63422215884785    -0.10884015399971482    -0.10884015399971482
+                46.37136746043062    -0.11757707115357195    -0.11757707115357195
+                46.78186225581062    -0.12007471838015114    -0.12007471838015114
+                47.19287038357336    -0.12132496791672609    -0.12132496791672609
+                48.3451304719806     -0.1213329530871239     -0.1213329530871239
+                49.003907029801766   -0.12050591758163408    -0.12050591758163408
+                49.580037074005396   -0.12050991016683302    -0.12050991016683302
+                50.97784115214599    -0.12384600028518467    -0.12384600028518467
+                52.94972194495935    -0.1321756737487523     -0.1321756737487523
+                54.92211607015541    -0.1392579495223157     -0.1392579495223157
+                56.48333095679451    -0.14550577498930556    -0.14550577498930556
+                57.96207044061029    -0.15216882931698272    -0.15216882931698272
+                58.536831598460004   -0.15549921574219305    -0.15549921574219305
+                60.098046485099076   -0.16174704120918293    -0.16174704120918293
+                61.988136318266044   -0.16882874661343217    -0.16882874661343217
+                64.7002424069585     -0.17841095109083127    -0.17841095109083127
+                65.8509624982176     -0.18216112933124196    -0.18216112933124196
+                67.5769570797091     -0.18799429630685868    -0.18799429630685868
+                69.22064736917152    -0.19382689291316124    -0.19382689291316124
+                72.26197062598033    -0.20341137886781707    -0.20341137886781707
+            </tableData>
+          </table>
         </product>
      </function>
 

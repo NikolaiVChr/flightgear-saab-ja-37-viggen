@@ -3,10 +3,8 @@ TODO for Flightgear JA-37
 
 Do now
 ------
-Crash code should use better properties not spread out all over.
-Switch to combined shader for aircrafts. (als & rembrandt)
-Check engine sound at reverse thrust.
-On Maud PC, the plane easier spins into NaN. Check that.
+Sim: Crash code should use better properties not spread out all over.
+Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe make cap on some moments, use FGGraph to check which ones)
 
 
 Next version?:
@@ -22,10 +20,20 @@ GUI: Stats. topspeed, topalpha, topbeta, topclimb, top altitude
 GUI: Set Radar dist
 
 
+Compatiple version with FG 2.6
+------------------------------
+Smaller textures
+Less polygons
+Less particle effects
+No radar
+Default FG HUD
+More gauges
+
+
 High Priority:
 --------------
-Check UV mapping for engine fire and aug flame, to make the textures smaller.
 Aero: Find cause of buffeting. (autopilot also does it)
+Aero: Find cause if pitch down moment at 13km height+.
 GUI: Find way to measure take-off length, climb-rate, axial force and stopwatch
 Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog.
 GUI: Make HUD switchable to imperial units.
@@ -33,7 +41,6 @@ Sim: Fix autopilot.
 Effect: Adjust normalmap to be more subtle.
 Animation: Second altimeter.
 Animation: Some switches.
-Sound: Prevent sounds from playing at startup. (should work now, needs more testing)
 
 
 Normal Priority:
@@ -42,7 +49,7 @@ Aero: Make canopy increase drag.
 Sim: Make canopy able to break off.
 GUI: Checklist
 Sim: Limit cannon rounds to 150. (146?)
-Effect: Make vortex vapor flat. (flatten texture and stop spinning it)
+Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particale is attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model misses the lamp on front gear though)
 Sim: Overhaul crash code. (hitting trees on water, sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure, hitting buildings)
 Animation: Make wings break off when they break due to structural damage.
@@ -54,7 +61,6 @@ Sim: Instruments should turn on when battery gets turned on, instead of generato
 
 Lower priority:
 ----------------
-HUD: Make combat mode for HUD.
 Sound: More annunciater warnings and other sounds
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Effect: Make pilot faint/die due to G-forces
@@ -62,6 +68,7 @@ Effect: Make tires burst if too high speed with parking brakes
 Effect: Make gears break if too high speed with gears down
 Effect: Sun glare
 Effect: Smoke after structural break.
+HUD: Make combat mode for HUD.
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
 HUD: Make desired height columns and boxes
@@ -69,12 +76,11 @@ HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
-Animation: Animate wheels
-Animation: Pilot from F16CJ?
 Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
-
+Animation: Animate wheels
+Animation: Pilot from F16CJ?
 
 Issues with FG: (or my limited understanding of it)
 ---------------
@@ -93,6 +99,7 @@ Animation: Put in alot more not-working instruments and controls for immersion
 Animation: Animate gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors
 Animation: Model the reverser for reverse thrust.
+Effect: Make gun fire bullets from correct position (should be a pod under belly)
 
 
 Depends on better 3D cockpit:
@@ -105,5 +112,4 @@ Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upsi
 Require more data: (or aerodynamic know-how)
 ------------------
 HUD: add proper sidewind max
-Effect: Make gun fire bullets from correct position (should be a pod under belly)
 Sim: Make aileron and elevator deflection depend on altitude.

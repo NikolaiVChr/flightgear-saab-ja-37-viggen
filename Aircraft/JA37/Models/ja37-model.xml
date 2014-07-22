@@ -651,7 +651,7 @@
  </animation>
 
  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-normal-map</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
     <!-- For Rembrandt: 
     <render-bin>
     <bin-number>1</bin-number>
@@ -685,12 +685,12 @@
  </effect>
 
  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
     <object-name>nozzle</object-name>
  </effect>
 
  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
     <object-name>glass</object-name>
     <object-name>frontglas</object-name>
 </effect>

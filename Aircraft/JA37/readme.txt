@@ -14,8 +14,8 @@ Suggested Settings
 Wildfire: On (for crashing)
 Particles: On (Used for various stuff)
 Advanced weather: Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
-Rembrandt off, as it does not support the aircraft shaders used.
-Atmospheric Light Scattering off, as it does not support the aircraft shaders used.
+Model-shader: top setting
+
 
 Notes
 ---------
@@ -29,7 +29,7 @@ https://sites.google.com/site/fghangar
 
 Help?
 -----
-Looking for person to model 3D cockpit and/or instruments. Contact Necolatis on the forums to get started, got plenty of cockpit pictures.
+Looking for person to model 3D cockpit and/or instruments. Contact Necolatis on the forums to get in contact, got plenty of cockpit pictures.
 
 Liberties taken:
 ----------------

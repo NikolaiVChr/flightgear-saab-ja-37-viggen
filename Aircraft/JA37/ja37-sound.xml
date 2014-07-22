@@ -49,6 +49,7 @@
     <z>0.195</z>
    </position>
    <volume>
+    <property>sim/time/full-init</property>
     <max>0.05</max>
    </volume>
   </canopy>
@@ -118,7 +119,7 @@
    </orientation>
    
    <volume>
-    <property>engines/engine/thrust_lb</property>
+    <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.000050</factor>
    </volume>
    
@@ -160,7 +161,7 @@
    </orientation>
    
    <volume>
-    <property>engines/engine/thrust_lb</property>
+    <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.000050</factor>
    </volume>
    
@@ -202,7 +203,7 @@
    </orientation>
    
    <volume>
-    <property>engines/engine/thrust_lb</property>
+    <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.000150</factor>
    </volume>
    
@@ -279,7 +280,7 @@
     <outer-gain>0.2</outer-gain>
    </orientation>
    <volume>
-    <property>engines/engine/thrust_lb</property>
+    <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.00002</factor>
    </volume>
    <pitch>
@@ -375,7 +376,7 @@
    </pitch>
    <volume>
     <type>inv</type>
-    <property>engines/engine/thrust_lb</property>      
+    <property>engines/engine/thrust_lb-absolute</property>      
     <factor>1000</factor>
     <max>0.25</max>
    </volume>
@@ -431,7 +432,7 @@
     <outer-gain>0.4</outer-gain>
    </orientation>
    <volume>
-    <property>engines/engine/thrust_lb</property>
+    <property>engines/engine/thrust_lb-absolute</property>
     <offset>0.000</offset>
     <factor>0.000020</factor>
    </volume>
