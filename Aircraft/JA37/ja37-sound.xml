@@ -92,10 +92,11 @@
      <property>sim/current-view/name</property>
      <value>Fly-By View</value>
     </equals>
-    <greater-than>
-      <property>velocities/airspeed-kt</property>
-      <value>70.0</value>
-    </greater-than>
+    <not>
+      <property>gear/gear[0]/wow</property>
+      <property>gear/gear[1]/wow</property>
+      <property>gear/gear[2]/wow</property>
+    </not>
     <property>engines/engine/running</property>
   </condition>
 
@@ -133,10 +134,11 @@
      <property>sim/current-view/name</property>
      <value>Fly-By View</value>
     </equals>
-    <greater-than>
-      <property>velocities/airspeed-kt</property>
-      <value>70.0</value>
-    </greater-than>
+    <not>
+      <property>gear/gear[0]/wow</property>
+      <property>gear/gear[1]/wow</property>
+      <property>gear/gear[2]/wow</property>
+    </not>
     <property>engines/engine/running</property>
   </condition>
 
@@ -175,10 +177,11 @@
      <value>Fly-By View</value>
     </equals>
     <property>engines/engine/running</property>
-    <greater-than>
-      <property>velocities/airspeed-kt</property>
-      <value>70.0</value>
-    </greater-than>
+    <not>
+      <property>gear/gear[0]/wow</property>
+      <property>gear/gear[1]/wow</property>
+      <property>gear/gear[2]/wow</property>
+    </not>
   </condition>
 
    <reference-dist>25</reference-dist>

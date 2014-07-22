@@ -305,3 +305,15 @@ Aero: Added zero pitch moment.
 Aero: Improved pitch moment data.
 Engine: Finally found definite numbers on bypass ratio, updated.
 Sound: Fixed cannon too loud.
+
+2.25 - 2014 Feb 1
+----
+Aero: Elevator now deflect less at high speeds. Page 80: (System automatically regulates the interaction between the joystick and the elevator as a function of altitude and mach number.)
+Sound: Fixed fly-by engine sounds stop at low speeds.
+Sim: Made welcome message showing version number.
+Aero: Reduced Static Margin slightly. Can now properly perform the superstall Cobra maneovre as the J35 Draken also could.
+Aero: Readjusted drag due to mach to get 1.1 mach at 50m altitude.
+Sim: Got new engine fire to work on multiplay, and also vapor cone.
+Sim: Added welcome message, showing version number.
+Sim: Filled a bit more more fuel into tanks as default.
+Aero: Made aileron deflection depend on speed.

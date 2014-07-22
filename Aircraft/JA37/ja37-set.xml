@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.24</aircraft-version> 
+  <aircraft-version>1.25</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -197,6 +197,10 @@
         <type>float</type>
         <property type="string">consumables/fuel/tank[8]/jettisoned</property>
       </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">engines/engine/flame</property>
+      </signal>
     </config>
   </flight-recorder>  
   
@@ -340,6 +344,7 @@
     <float n="4" alias="/fdm/jsbsim/fcs/canopy-pos-norm"/>
     <!-- Animating engine -->
     <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
+    <float n="5" alias="/engines/engine/flame"/>
     <int n="3" alias="/engines/engine/running"/>
     <int n="4" alias="/engines/engine[0]/augmentation"/>
     <int n="8" alias="/engines/engine[0]/reversed"/>
@@ -351,6 +356,9 @@
     <!-- Armament -->
     <int n="6" alias="/controls/armament/trigger"/>
     <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
+    <!-- Position and speed -->
+    <float n="6" alias="/position/altitude-ft"/>
+    <float n="7" alias="/velocities/mach"/>
     <!-- for Bombable: -->
     <string n="9" type="string"/>
     <int n="10" alias="controls/armament/trigger"/>
@@ -394,7 +402,7 @@
     <name>C</name>
     <desc>Toggle canopy</desc>
    </key>
-   <text>    _______________  Saab JA-37 Viggen  ________________
+   <text>
     Startup
     ______
     Start up engine and systems
@@ -421,7 +429,7 @@
     In flight it will be set at 4 degrees up.    
 
     HUD info
-    --------
+    ________
     The HUD uses Km/h and meters.
     When in landing/takeoff mode the sight will move to a side according to sidewind.
     When in navigation mode the sight will show the direction the plane is headed in, not where it is pointed.
@@ -435,18 +443,26 @@
     Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
     The heading at the top is shown as a scale showing 1/10 of heading in degrees.
     
+    Warnings
+    ________
+    Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
+    The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not see you perform the Cobra. :)
 
     Failures
     _____
-    Random failures are enabled by default.
-    Each system will fail on average once very 24 hours.
-    This can be disabled in the Menu: Equipment-Random failures
+    Random failures are supported and recommended for more interesting flight.
 
     Trivia
     _____
     This is the mid 80'ties version. So it has no airbrake
     400 meter runway is required to takeoff.
     500 meter runway is required to land.
+    Climb to 10.000m from brakes off in 100 seconds.
+    Supersonic speed at low altitude in less than 100 seconds.
+    Mach 1.1 at 50m altitude.
+    Maximum speed: Mach 2.1 at 11,000m alt.
+    Service ceiling: 18,000 m
+    From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16)
     
     Notes:
     _____
@@ -477,6 +493,18 @@
      </script>
     </binding>
    </item>
+   <!--
+   <item>
+    <label>Options</label>
+    <binding>
+     <command>nasal</command>
+     <script>
+      ja37.options();
+      ja37.dialog.show();
+     </script>
+    </binding>
+   </item>
+   -->
   </menu>
  </default>
 </menubar>
@@ -523,7 +551,7 @@
       </flapscontrol>
     </systems>
     <aero>
-      <mach-drag-factor>0.07</mach-drag-factor>
+      <mach-drag-factor>1</mach-drag-factor>
     </aero>
   </jsbsim>
  </fdm>
@@ -831,6 +859,7 @@
    <file>Nasal/liveries.nas</file>
    <file>Nasal/systemp.nas</file>
    <file>Nasal/radar.nas</file>
+   <file>Nasal/options.nas</file>
   </ja37>
   <canvas_HUD>
     <file>Nasal/hud.nas</file>

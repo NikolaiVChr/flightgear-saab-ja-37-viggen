@@ -48,9 +48,25 @@
           <output>fcs/elevator-pos-radTmp</output>
       </aerosurface_scale>
 
+      <!-- At high speeds elevator deflection is reduced -->
+      <scheduled_gain name="fcs/elevator-mach">
+        <input>fcs/elevator-pos-radTmp</input>
+        <table>
+          <independentVar>velocities/mach</independentVar>
+          <tableData>
+                0         1.00
+              0.5         1.00
+              0.75        0.50
+              1.0         0.35
+              2.2         0.20
+          </tableData>
+        </table>
+        <output>fcs/elevator-pos-rad-mach</output>
+      </scheduled_gain>
+
       <!-- elevator wont deploy if they fail -->
       <switch name="fails/elevator">
-        <default value="fcs/elevator-pos-radTmp"/>
+        <default value="fcs/elevator-pos-rad-mach"/>
         <test value="0">
           fcs/elevator-serviceable == 0
         </test>
@@ -85,20 +101,44 @@
         <output>fcs/roll-trim-sum-fail</output>
       </switch>
 
+      <!-- At high speeds aileron deflection is reduced -->
+      <scheduled_gain name="fcs/aileron-mach">
+        <input>fcs/roll-trim-sum-fail</input>
+        <table>
+          <independentVar>velocities/mach</independentVar>
+          <tableData>
+                0         1.00
+              0.5         1.00
+              0.75        0.75
+              1.0         0.60
+              2.2         0.40
+          </tableData>
+        </table>
+        <output>fcs/aileron-sum-mach</output>
+      </scheduled_gain>
+
       <aerosurface_scale name="Left Aileron Control">
-          <input>fcs/roll-trim-sum-fail</input>
+          <input>fcs/aileron-sum-mach</input>
+          <domain>
+            <min> -1 </min>
+            <max>  1 </max>
+          </domain>
           <range>
               <min>-0.4363</min>
-              <max>0.3491</max>
+              <max>0.4363</max>
           </range>
           <output>fcs/left-aileron-pos-rad</output>
       </aerosurface_scale>
 
       <aerosurface_scale name="Right Aileron Control">
           <input>-fcs/roll-trim-sum-fail</input>
+          <domain>
+            <min> -1 </min>
+            <max>  1 </max>
+          </domain>
           <range>
-              <min>-0.4363</min>
-              <max>0.3491</max>
+              <min>-0.4363</min><!-- why was it -25 to 20? -->
+              <max>0.4363</max>
           </range>
           <output>fcs/right-aileron-pos-rad</output>
       </aerosurface_scale>

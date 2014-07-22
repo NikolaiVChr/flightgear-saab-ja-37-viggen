@@ -515,19 +515,19 @@
    <red>0.01</red>
    <green>0.01</green>
    <blue>0.01</blue>
-   <factor-prop>engines/engine/flame</factor-prop>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </emission>
   <ambient>
    <red>0.00</red>
    <green>0.00</green>
    <blue>0.00</blue>
-   <factor-prop>engines/engine/flame</factor-prop>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </ambient>
   <diffuse>
    <red>0.00</red>
    <green>0.00</green>
    <blue>0.00</blue>
-   <factor-prop>engines/engine/flame</factor-prop>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </diffuse>
  </animation>
  

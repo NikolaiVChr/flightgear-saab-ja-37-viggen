@@ -23,15 +23,15 @@
     <condition>
       <and>
         <greater-than>
-          <property>/velocities/mach</property>
+          <property>sim/multiplay/generic/float[7]</property><!-- /velocities/mach -->
           <value>0.8</value>
         </greater-than>
         <less-than>
-          <property>/velocities/mach</property>
+          <property>sim/multiplay/generic/float[7]</property><!-- /velocities/mach -->
           <value>1.2</value>
         </less-than>
         <less-than>
-          <property>/position/altitude-ft</property>
+          <property>sim/multiplay/generic/float[6]</property><!-- /position/altitude-ft -->
           <value>5000.0</value>
         </less-than>
       </and>

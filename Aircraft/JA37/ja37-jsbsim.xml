@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.24 </version>
+    <version> 1.25 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -50,9 +50,12 @@
       <htailarm unit="FT">        17.4042  </htailarm>
       <vtailarm unit="FT">        21.7358  </vtailarm>
     <location name="AERORP" unit="M">
-      <x> 2.81962 </x><!-- under the vtail start -->
+      <x> 0.6899 </x><!-- Page 47: stability margin at low speed
+will be on the order of O.3 - 0.5 m, which is a rather representative measure
+of the distance between the neutral point and the point of gravity in respect
+to an airplane of that size). -->
       <y> 0 </y>
-      <z> 0 </z>
+      <z> -0.25 </z><!-- setting the aerorp at main wing height -->
     </location>
     <location name="EYEPOINT" unit="M">
       <x> -13.61 </x>
@@ -67,7 +70,7 @@
   </metrics>
   
   <mass_balance>
-    <ixx unit="SLUG*FT2"> 10000 </ixx>
+    <ixx unit="SLUG*FT2"> 15000 </ixx>
     <iyy unit="SLUG*FT2"> 60000 </iyy>
     <izz unit="SLUG*FT2"> 65000 </izz>
     <emptywt unit="LBS" > 20950 </emptywt>
@@ -321,7 +324,7 @@
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <contents unit="KG"> 512 </contents>
       <temperature>70</temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -336,7 +339,7 @@
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <contents unit="KG"> 512 </contents>
       <temperature>70</temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -351,7 +354,7 @@
       </location>
       <radius unit="M"> 0.25 </radius>
       <capacity unit="KG"> 1500 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <contents unit="KG"> 750 </contents>
       <temperature>70</temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>

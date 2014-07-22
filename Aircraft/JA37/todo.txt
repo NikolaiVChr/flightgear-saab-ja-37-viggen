@@ -1,57 +1,48 @@
 TODO for Flightgear JA-37
 =========================
 
-Next version:
-------------
-GUI: Make little option GUI. (to test widgets)
-Aero: Elevator deflect less at high speeds. Page 80: (System automatically regulates the interaction between the joystick and the elevator as a function of altitude and mach number.)
-Sim: Test multiplay again.
+Next version?:
+--------------
+GUI: Make little option GUI. (to test PUI and widgets)
+GUI: Option to turn off verbose popups.
+GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
+GUI: Make crashing, creaking and breaking optional through menu.
+
 
 High Priority:
 --------------
 Effect: Adjust normalmap to be more subtle.
 Animation: Second altimeter.
 Animation: Some switches.
-Sim: Make control surfaces depend on hydralic system.
-Sim: Make proper power flow to external lights and HUD. (use potemkin)
-Sim: Make proper fuel pump system.
-Workaround for normalmap effect don't like inverted normals on doublesided faces. (not the cause)
 Sound: Prevent sounds from playing at startup. (should work now, needs more testing)
 Effect: Check contrail effect is properly installed.
 Animation: Adjust instrument materials.
+Sim: Instruments should turn on when battery gets turned on, instead of generator, but still be able to fail when electrical system fails.
+
 
 Normal Priority:
 ----------------
-Animation: Make canopy increase drag.
-Animation: Make canopy able to break off.
-GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
+Aero: Make canopy increase drag.
+Sim: Make canopy able to break off.
 GUI: Checklist
-GUI: Keypress to turn off verbose popups
-System: Put in more working instruments and controls
-System: Put in alot more not-working instruments and controls for immersion
-Sim: Make crashing, creaking and breaking optional through menu items.
-Sound: Occansional wierd buzz in model view sound when using throttle
 Sim: Limit cannon rounds to 150.
-Effect: Rembrandt makes the afterburner flame not transparent. (test using animator)
-Effect: Rembrandt does not make the engine flame lit enough.
-Effect: Make vortex vapor flat.
-Effect: Landing lightcone
+Effect: Make vortex vapor flat. (flatten texture and stop spinning it)
+Effect: Rembrandt landing lightcone. (the model misses the lamp on front gear though)
+Sim: Make more structural points for more realistic crashing.
+Sim: Overhaul crash code. (hitting trees on water, sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
+Animation: Make wings break off when they break due to structural damage.
+Aero: When wings break, remove most of normal force.
+Sim: Drop tank and missiles should increase drag and have mass.
+
 
 Lower priority:
 ----------------
-Aero: DATCOM: Add engine intake area, and correct exhaust area
-HUD: add proper sidewind max
 System: Make armament selectable
-System: All fuel to engine has to go through tank 1
-System: Fuel tanks 3V and 3H is used for flying upside down
-System: Make 2D cockpit fully functional
 Sound: More annunciater warnings and other sounds
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Effect: Make pilot faint/die due to G-forces
 Effect: Make tires burst if too high speed with parking brakes
 Effect: Make gears break if too high speed with gears down
-Effect: Make gun fire bullets from correct position (no idea where it is..)
-Effect: Glass reflection
 Effect: Sun glare
 Effect: Smoke after structural break.
 HUD: Make TILS landing system in the HUD
@@ -62,7 +53,40 @@ HUD: make more methods out of similar code, introduce more comments and name var
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
 Animation: Animate wheels
-Animation: Animate gear compression. The gears are currently modelled wrong for this.
-Animation: Proper animation of gear doors
 Animation: Pilot from F16C?
 Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
+Sim: Implement ejection seat. (with parachute?)
+Sim: Make braking parachute.
+
+
+Issues with FG: (or my limited understanding of it)
+---------------
+Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
+Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also, which has nothing to do with emissiveness.
+Effect: The normalmap effect makes a strange shadow down the middle.
+Sim: Get flightrecorder to record position with higher frequency.
+Sound: Occansional wierd buzz in model view sound when using throttle
+
+
+Require modeling/texture skills (above my level):
+-------------------------------------------------
+Animation: Model proper panels and cockpit layout.
+Animation: Put in more working instruments and controls (semi doable if can find similar instrument in other plane, but too many to look through)
+Animation: Put in alot more not-working instruments and controls for immersion
+Animation: Animate gear compression. The gears are currently modelled wrong for this.
+Animation: Proper animation of gear doors
+Animation: Model the reverser for reverse thrust.
+
+
+Depends on better 3D cockpit:
+-----------------------------
+Sim: Make control surfaces depend on hydralic system.
+Sim: Make proper power flow to external lights and HUD. (use potemkin)
+Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upside down. All fuel to engine has to go through tank 1)
+
+
+Require more data: (or aerodynamic know-how)
+------------------
+HUD: add proper sidewind max
+Effect: Make gun fire bullets from correct position (no idea where it is..)
+Sim: Make aileron and elevator deflection depend on altitude.

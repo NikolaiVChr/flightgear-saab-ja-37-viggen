@@ -249,15 +249,15 @@ var main_init = func {
   props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
 
   setprop("/sim/failure-manager/display-on-screen", 1);
-  setprop("/sim/failure-manager/global-mcbf-0", 0);
-  setprop("/sim/failure-manager/global-mcbf-500", 1);
-  setprop("/sim/failure-manager/global-mcbf", 500);
-  setprop("/sim/failure-manager/global-mtbf-0", 0);
-  setprop("/sim/failure-manager/global-mtbf-86400", 1);
-  setprop("/sim/failure-manager/global-mtbf", 86400);
+  #setprop("/sim/failure-manager/global-mcbf-0", 0);
+  #setprop("/sim/failure-manager/global-mcbf-500", 1);
+  #setprop("/sim/failure-manager/global-mcbf", 500);
+  #setprop("/sim/failure-manager/global-mtbf-0", 0);
+  #setprop("/sim/failure-manager/global-mtbf-86400", 1);
+  #setprop("/sim/failure-manager/global-mtbf", 86400);
 
-  failures.setAllMCBF(500);
-  failures.setAllMTBF(86400);
+  #failures.setAllMCBF(500);
+  #failures.setAllMTBF(86400);
 
   
   
@@ -267,6 +267,8 @@ var main_init = func {
   setprop("/instrumentation/instrumentation-light/r", 1.0);
   setprop("/instrumentation/instrumentation-light/g", 1.0);
   setprop("/instrumentation/instrumentation-light/b", 0.3);
+
+  screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.0, 0.0);
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
