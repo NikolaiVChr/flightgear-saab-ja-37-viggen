@@ -51,6 +51,20 @@ var update_loop = func {
 # main_init #################
 var main_init = func {
 	print("Initializing JA-37 Viggen systems");
+
+	
+  # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
+  var load_exterior = func{
+    print("Load exterior, wait...");
+    # return to cabin to next cycle
+    settimer( load_interior, 0 );
+    setprop("/sim/current-view/view-number", 1);
+  }
+
+  var load_interior = func{
+    setprop("/sim/current-view/view-number", 0);
+    print("..Done!");
+  }
 	settimer(func { update_loop() }, 0.1);
 }
 

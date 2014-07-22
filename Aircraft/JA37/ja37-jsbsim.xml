@@ -1,10 +1,19 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
-<fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Saab JA-37 Viggen" version="2.0" release="ALPHA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
+
+
+<!--**********************************************************************
+
+                            Main JSBSim Flight Dynamics Model file for JA-37
+
+
+*************************************************************************-->   
+
+<fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Saab JA-37 Viggen" version="2.0" release="BETA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
   <fileheader>
-    <author> Necolatis (Aeromatic v 0.95 / DATCOM) </author>
+    <author> Necolatis </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.17 </version>
+    <version> 1.18 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -23,7 +32,7 @@
          warranties, including, but not limitted to the implied warranties of
          merchantability and fitness for a particular purpose are disclaimed.
          
-         Many nice things taken from F16, Buccaneer, 747-400 and Mig-15 plus some more I forgot.
+         Many nice code pieces and inspiration taken from F16, Buccaneer, 747-400, TU-154B and Mig-15 plus some more I forgot.
       </note>
   </fileheader>
   

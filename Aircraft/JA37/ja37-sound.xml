@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
  
 <PropertyList>
 
@@ -332,8 +332,17 @@
     <offset>1.2</offset>
    </pitch>
   </squeal>
+
+  <crash>
+   <name>crash</name>
+   <condition>
+    <property>fdm/jsbsim/systems/crash-detect/crashed</property>
+   </condition>
+   <path>Sounds/crash.wav</path>
+  </crash>  
  
 
+<!-- Stall warnings taken from high-alpha warnings in Viggen manual page 242 -->
 <stall>
 		<name>stall</name>
 		<mode>looped</mode>
@@ -359,34 +368,6 @@
 		<volume><factor>4</factor></volume>
 	</stall>
 	
-  <crash>
-   <name>crash</name>
-   <condition>
-    <property>fdm/jsbsim/systems/crash-detect/crashed</property>
-   </condition>
-   <path>Sounds/crash.wav</path>
-  </crash>  
-  
-  <!--<stall>
-   <name>stall</name>
-   <path>Sounds/stall.wav</path>
-   <mode>looped</mode>
-   <type>avionics</type>
-   <condition>
-    <and>
-     <property>sim/alarms/stall-warning</property>
-     <less-than>
-      <property>velocities/airspeed-kt</property>
-      <value>250.0</value>
-     </less-than>
-     <not>
-      <property>gear/gear[1]/wow</property>
-      <property>gear/gear[2]/wow</property>
-     </not>
-    </and>
-   </condition>
-  </stall>-->
-  
 <stallw>
 		<name>stallwarning</name>
 		<mode>looped</mode>
@@ -416,6 +397,28 @@
 		<volume><factor>3.5</factor></volume>
 	</stallw>  
   
+  
+  <!-- old stall warnings:-->
+  
+   <!--<stall>
+   <name>stall</name>
+   <path>Sounds/stall.wav</path>
+   <mode>looped</mode>
+   <type>avionics</type>
+   <condition>
+    <and>
+     <property>sim/alarms/stall-warning</property>
+     <less-than>
+      <property>velocities/airspeed-kt</property>
+      <value>250.0</value>
+     </less-than>
+     <not>
+      <property>gear/gear[1]/wow</property>
+      <property>gear/gear[2]/wow</property>
+     </not>
+    </and>
+   </condition>
+  </stall>-->
 <!--<stallw>
    <name>stallwarning</name>
    <path>Sounds/stallwarning.wav</path>

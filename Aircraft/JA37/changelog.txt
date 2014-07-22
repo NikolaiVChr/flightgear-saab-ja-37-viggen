@@ -171,7 +171,16 @@ Aero: During normal flight, flaps is now kept at 4 degrees above the neutral pos
 Animate: Fixed bug in flare release.
 GUI: Added more info to aircraft help
 
-
+1.18
+-----
+Animation: Removed the stutter when switching to outside view for first time.
+Engine: Made idle and mil thrust depend on mach and air-density from real RM8B values.
+Aero: Removed speedbrake controls, as per the mid 1980'ties upgrade.
+Animate: Seat up/down was bugged, is removed, would skew the precisely calibrated view through HUD anyway.
+Sim: Aerodynamic effects tested, and airplane FDM rating upgraded to 4 from 1.
+Sim: Airplane Systems rating upgraded to 1 from 0 after testing generic autopilot.
+Sim: Fixed airplane Model rating upgraded to 3 from 2.
+Sim: Airplane status upgraded to beta from alpha, due to combined status value of 9.
 
 Startup
 -----------
@@ -201,7 +210,8 @@ Notes:
 ------
 3D model and textures is made by Anders Lejczak <anders.lejczak@colacola.se>
 FDM and mostly everything else by Necolatis: http://www.flightgear.org/forums/memberlist.php?mode=viewprofile&u=13888
-Hangar home: https://sites.google.com/site/fghangar
+..except for code snippets and instruments and effects I used (most in modified form) from other aircrafts.
+Hangar home: https://sites.google.com/site/fghangar    (check here to download the newest version)
 
 
 HUD info

@@ -1,18 +1,24 @@
 <?xml version="1.0"?>
+<!--**********************************************************************
+
+                                          Main file for JA-37 Flightgear aircraft
+
+
+*************************************************************************-->   
 
 <PropertyList>
 
  <sim>
   <description>Saab JA-37 Viggen</description>
   <author>Necolatis, Anders Lejczak (model and textures)</author>
-  <status>Alpha</status>
+  <status>Beta</status>
   <rating>
-    <FDM type="int">1</FDM>
-    <systems type="int">0</systems>
+    <FDM type="int">4</FDM>
+    <systems type="int">1</systems>
     <cockpit type="int">1</cockpit>
-    <model type="int">2</model>
+    <model type="int">3</model>
   </rating>
-  <aircraft-version>1.17</aircraft-version> 
+  <aircraft-version>1.18</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -26,20 +32,35 @@
    <path>ja37-submodels.xml</path>
   </submodels>
 
+
+<!--**********************************************************************
+
+                                          Aircraft dimensions, operator and class
+
+
+*************************************************************************-->   
   <!-- enable "parkpos=AVAILABLE" option for the JA-37 -->
   <dimensions>
-   <radius-m type="double">10.0</radius-m>
-   <parkpos-offset-m type="double">0.0</parkpos-offset-m>
+    <radius-m type="double">10.0</radius-m>
+    <parkpos-offset-m type="double">0.0</parkpos-offset-m>
   </dimensions>
   <aircraft-class type="string">mil-fighter</aircraft-class>
   <aircraft-operator>Swedish Air Force</aircraft-operator>
   <aircraft-data>
-   <path>/sim/dimensions/radius-m</path>
-   <path>/sim/dimensions/parkpos-offset-m</path>
-   <path>/sim/aircraft-class</path>
-   <path>/sim/aircraft-operator</path>
+    <path>/sim/dimensions/radius-m</path>
+    <path>/sim/dimensions/parkpos-offset-m</path>
+    <path>/sim/aircraft-class</path>
+    <path>/sim/aircraft-operator</path>
   </aircraft-data>
   
+  
+<!--**********************************************************************
+
+                                          Flight recorder tape
+
+
+*************************************************************************-->   
+
 <flight-recorder>
     <replay-config type="int">0</replay-config>
     <config n="0" >
@@ -101,15 +122,32 @@
    <visibility>false</visibility>
   </panel_2>
 
-  <hud>
+  <hud> <!-- wrong path for default HUD here, to prevent it from showing up -->
    <path n="1">Models/Cockpit/hud.xml</path>
   </hud>
+
+
+<!--**********************************************************************
+
+                                          Model
+
+
+*************************************************************************-->   
 
   <model>
    <path archive="y">Models/ja37-model.xml</path>
    <ja37>
     
     <controls>
+
+
+<!--**********************************************************************
+
+                                          Navigation
+
+
+*************************************************************************-->   
+    
      <navigation>
      
       <!-- INSTRUMENT MODE PANEL -->
@@ -125,7 +163,14 @@
 
      </navigation>
     </controls>
-   
+
+
+<!--**********************************************************************
+
+                                          Instrumentation
+
+
+*************************************************************************-->   
     <instrumentation>
       <radar-altimeter>
         <name>radar-altimeter</name>
@@ -171,6 +216,13 @@
    </instrumentation>
 </ja37>
 
+
+<!--**********************************************************************
+
+                                          Default Livery
+
+
+*************************************************************************-->
 <livery>
   <file type="string"/>
   <name type="string">Swedish Air Force</name>
@@ -181,6 +233,13 @@
 
   <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
+
+<!--**********************************************************************
+
+                                          Views
+
+
+*************************************************************************-->
   <view>
    <internal archive="y">true</internal>
    <config>
@@ -192,6 +251,13 @@
    </config>
   </view>
   
+  
+  <!--**********************************************************************
+
+                                          Rendering
+
+
+*************************************************************************-->
   <rendering>
    <redout>
     <parameters>
@@ -203,12 +269,26 @@
    </redout>
   </rendering>
 
+
+<!--**********************************************************************
+
+                                          Multiplayer
+
+
+*************************************************************************-->
   <multiplay>
    <generic>
     <int n="2" type="int">0</int>    <!-- radar-standby -->
    </generic>
   </multiplay>
 
+
+<!--**********************************************************************
+
+                                          Help
+
+
+*************************************************************************-->
   <help>
    <title>Saab JA-37 Viggen</title>
    <key>
@@ -227,14 +307,6 @@
     <name>e (lower case 'e')</name>
     <desc>fire the cannon</desc>
    </key>
-    <key>
-    <name>Ctrl-b</name>
-    <desc>toggle speed brake</desc>
-   </key>
-   <key>
-    <name>u/U</name>
-    <desc>seat up / down</desc>
-   </key>   
    <key>
     <name>Del</name>
     <desc>Yaw damper on/off</desc>
@@ -299,7 +371,14 @@
     </text>
   </help>
 
-  <menubar>
+
+<!--**********************************************************************
+
+                                          JA-37 Menu
+
+
+*************************************************************************-->
+<menubar>
  <default>
   <menu n="100">
    <label>JA-37</label>
@@ -319,6 +398,12 @@
  </sim>
 
 
+<!--**********************************************************************
+
+                                          Engines
+
+
+*************************************************************************-->
  <engines>
   <engine n="0">
    <running>false</running>
@@ -327,7 +412,13 @@
   </engine>
  </engines>
 
- 
+
+<!--**********************************************************************
+
+                                          Inputs
+
+
+*************************************************************************--> 
  <input>
    <keyboard>
     <key n="104">
@@ -380,74 +471,6 @@
       </binding> 
      </mod-up>
     </key>
-    <key n="85">
-     <name>U</name>
-     <desc>Seat Down</desc>
-     <binding>
-      <command>property-adjust</command>
-      <property>controls/seat/vertical-adjust</property>
-      <step type="double">-0.005</step>
-      <min type="double">0</min>
-      <max type="double">0.12</max>
-      <condition>
-        <equals>
-         <property>sim/current-view/internal</property>
-         <value>true</value>
-        </equals>
-      </condition>
-     </binding>
-     <binding>
-      <condition>
-        <equals>
-         <property>sim/current-view/view-number</property>
-         <value>0</value>
-        </equals>
-      </condition>
-      <command>property-adjust</command>
-       <property>sim/current-view/y-offset-m</property>
-       <step type="double">-0.005</step>
-       <min type="double">0.985</min>
-       <max type="double">1.105</max>
-       <property>sim/current-view/z-offset-m</property>
-       <step type="double">-0.0033</step>
-       <min type="double">-4</min>
-       <max type="double">-3.96</max>
-     </binding>
-    </key>
-    <key n="117">
-     <name>u</name>
-     <desc>Seat Up</desc>
-     <binding>
-      <command>property-adjust</command>
-       <property>controls/seat/vertical-adjust</property>
-        <step type="double">0.005</step>
-        <min type="double">0.</min>
-        <max type="double">0.12</max>
-      <condition>
-       <equals>
-        <property>sim/current-view/internal</property>
-        <value>true</value>
-       </equals>
-      </condition>
-     </binding>
-     <binding>
-      <condition>
-       <equals>
-        <property>sim/current-view/view-number</property>
-        <value>0</value>
-       </equals>
-      </condition>
-      <command>property-adjust</command>
-       <property>sim/current-view/y-offset-m</property>
-       <step type="double">0.005</step>
-       <min type="double">0.985</min>
-       <max type="double">1.105</max>
-       <property>sim/current-view/z-offset-m</property>
-       <step type="double">0.0033</step>
-       <min type="double">-4</min>
-       <max type="double">-3.96</max>
-     </binding>
-    </key>
     <key n="8">
     <name>Backspace</name>
     <desc>Toggle Reversers</desc>
@@ -456,7 +479,22 @@
      <script>reversethrust.togglereverser();</script>
     </binding>
    </key>
-   <key n="127">
+  <key n="127">
+  <name>Shift-Delete</name>
+  <!--<repeatable type="bool">true</repeatable>-->
+  <mod-shift>
+   <desc>Reload autopilot configuration (for debugging AP)</desc>
+   <binding>
+    <command>nasal</command>
+    <script>
+     fgcommand('reinit', props.Node.new({ subsystem: "xml-autopilot" }));
+     print("xml-autopilot reinitialized!");
+     gui.popupTip("Autopilot reinit.");
+    </script>
+   </binding>
+  </mod-shift>
+ </key>
+  <key n="127">
      <name>Delete</name>
      <desc>Yaw damper on/off</desc>
      <binding>
@@ -466,6 +504,14 @@
     </key>
    </keyboard>
   </input>
+ 
+
+<!--**********************************************************************
+
+                                          Controls
+
+
+*************************************************************************--> 
  <controls>
   <fuel>
    <qty-selector type="int">1</qty-selector>
@@ -497,10 +543,6 @@
    </lighting-panel>
   </lighting>
 
-  <seat>
-   <ejection-safety-lever type="bool">true</ejection-safety-lever>
-  </seat>
-
   <test>
    <test-panel>
     <mal-ind-lts type="bool">false</mal-ind-lts>
@@ -508,6 +550,13 @@
   </test>
  </controls>
 
+
+<!--**********************************************************************
+
+                                          Consumables
+
+
+*************************************************************************-->
  <!--<consumables>
   <fuel>
    <tank n="0">
@@ -526,35 +575,45 @@
     <level-gal_us archive="y">300</level-gal_us>
    </tank>
   </fuel>
- </consumables>
-
- <fdm>
-  <jsbsim>
-   <systems>
-    <hook>
-     <tailhook-cmd-norm type="bool">false</tailhook-cmd-norm>
-    </hook>
-   </systems>
-  </jsbsim>
- </fdm>-->
+ </consumables>-->
  
+ 
+<!--**********************************************************************
+
+                                          Systems
+
+
+*************************************************************************--> 
  <systems>
+  <!--<autopilot>
+     <path>Systems/Autopilot.xml</path>
+  </autopilot>-->
   <electrical>
    <outputs>
     <adi type="int">24</adi> 				<!-- satisfying /Models/adi.xml -->
     <rwr type="double">24</rwr>
    </outputs>
   </electrical>
-  <refuel>
-   <type>boom</type>
-   <serviceable type="bool">true</serviceable>
-  </refuel>
  </systems>
 
+
+<!--**********************************************************************
+
+                                          Limits
+
+
+*************************************************************************-->
  <limits>
   <max-gear-extension-speed>300</max-gear-extension-speed>
  </limits>
 
+
+<!--**********************************************************************
+
+                                          Nasal scrips
+
+
+*************************************************************************-->
  <nasal>
   <aar>
    <file>Aircraft/Generic/aar.nas</file>

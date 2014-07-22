@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+ 
+ <PropertyList>
+ <pid-controller>
+  <name>Heading hold</name>
+  <debug>false</debug>
+  <enable>
+   <prop>/autopilot/locks/heading</prop>
+   <value>wing-leveler</value>
+  </enable>
+  <input>
+   <prop>/orientation/roll-deg</prop>
+  </input>
+  <reference>0</reference>
+  <output>
+	<property>/fdm/jsbsim/fcs/roll-trim-cmd-norm</property>
+	</output>
+    <config>
+      <Kp>0.033</Kp>
+      <Ti>100.0</Ti>
+      <Td>0.0</Td>
+      <u_min>-1.0</u_min>
+      <u_max>1.0</u_max>
+  </config>
+ </pid-controller>
+ </PropertyList>
+ 
+ <!-- In progress and disabled atm. Remember: http://forum.flightgear.org/viewtopic.php?f=46&t=10171-->

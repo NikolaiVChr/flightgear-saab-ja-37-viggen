@@ -16,58 +16,89 @@
   <maxthrust unit="LBS"> 28110.0 </maxthrust><!-- from page 5, Australian document -->
   <!--<milthrust unit="N"> 73500.0 </milthrust> Newton must be multiplied by factor 10 to work (bug)
   <maxthrust unit="N"> 127500.0 </maxthrust>-->
-  <bypassratio>     0.97 </bypassratio> <!-- AU doc says 1.10  -->
-  <tsfc>            0.64 </tsfc>
-  <atsfc>           2.52 </atsfc>
+  <bypassratio>     1.10 </bypassratio> <!-- from page 5, Australian document. 0.97 on various websites. -->
+  <tsfc>            0.64 </tsfc><!-- from page 5, Australian document -->
+  <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
   <bleed>           0.03</bleed>
   <idlen1>         30.0 </idlen1>
   <idlen2>         60.0 </idlen2>
   <maxn1>         100.0 </maxn1>
   <maxn2>         100.0 </maxn2>
   <augmented>         1 </augmented>
-  <augmethod>         0 </augmethod>
+  <augmethod>         0 </augmethod> <!-- controlled from Nasal code -->
   <injected>          0 </injected>
 
-  <!-- from f16 -->  
+
+<!--idle 
+
+0.04883236069
+767.3517149-->
+
+  <!-- from table 4, Australian document -->  
   <function name="IdleThrust">
-   <table>
+   <product>
+     <value>0.00006172839506</value> <!-- 1/16200 -->
+     <table>
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
     <tableData>
-                   -10000     0     10000   20000   30000   40000   50000   60000
-            0.0  0.0430  0.0488  0.0528  0.0694  0.0899  0.1183  0.1467  0
-            0.2  0.0500  0.0501  0.0335  0.0544  0.0797  0.1049  0.1342  0
-            0.4  0.0040  0.0047  0.0020  0.0272  0.0595  0.0891  0.1203  0
-            0.6  0.0     0.0     0.0     0.0     0.0276  0.0718  0.1073  0
-            0.8  0.0     0.0     0.0     0.0     0.0474  0.0868  0.0900  0
-            1.0  0.0     0.0     0.0     0.0     0.0     0.0552  0.0800  0
+                        0    10000   20000   30000   40000    50000   60000
+       0.0      8758     5154      3420     2283     1631            0           0
+       0.4      7474     5154      3420     2283     1631            0           0
+       0.6      6824     5140      3484     2380     1631            0           0
+       0.7      6499     5130      3600     2428     1689            0           0
+       0.8      6174     5120      3715     2476     1747            0           0
+       0.9      5676     4989      3773     2562     1744            0           0
+       1.0      4125     4281      3479     2301     1578            0           0
+       1.1      1435     2370      2603     2061     1322            0           0
+       1.2            0       458      1726     1821     1066            0           0
+       1.4            0       229      1151     1214       800            0           0
+       1.6            0           0        575       607       533            0           0
+       1.8            0           0            0          0        267            0           0
+       2.0            0           0            0          0            0            0           0
+       2.2            0           0            0          0            0            0           0
+       2.4            0           0            0          0            0            0           0
+       2.6            0           0            0          0            0            0           0
     </tableData>
    </table>
+  </product>
   </function>
 
-  <!-- from f16 -->
+
+  <!-- from table 4, Australian document -->
   <function name="MilThrust">
-   <table>
-    <independentVar lookup="row">velocities/mach</independentVar>
-    <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-    <tableData>
-          -10000       0   10000   20000   30000   40000   50000   60000
-     0.0   1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490  0
-     0.2   1.1710  0.9340  0.6970  0.5060  0.3550  0.2310  0.1430  0
-     0.4   1.1500  0.9210  0.6920  0.5060  0.3570  0.2330  0.1450  0
-     0.6   1.1810  0.9510  0.7210  0.5320  0.3780  0.2480  0.1540  0
-     0.8   1.2580  1.0200  0.7820  0.5820  0.4170  0.2750  0.1700  0
-     1.0   1.3690  1.1200  0.8710  0.6510  0.4750  0.3150  0.1950  0
-     1.2   1.4850  1.2300  0.9750  0.7440  0.5450  0.3640  0.2250  0
-     1.4   1.5941  1.3400  1.0860  0.8450  0.6280  0.4240  0.2630  0
-    </tableData>
-   </table>
+  <product>
+     <value>0.00006172839506</value> <!-- 1/16200 -->
+     <table>
+      <independentVar lookup="row">velocities/mach</independentVar>
+      <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+      <tableData>
+                        0    10000   20000    30000   40000    50000   60000
+       0.0    14164     8725      5913      3971     2733            0           0
+       0.4    12657     8725      5913      3971     2733            0           0
+       0.6    11984     8864      6017      4190     2733            0           0
+       0.7    11648     8992      6260      4299     2890            0           0
+       0.8    11311     9120      6503      4408     3046            0           0
+       0.9    10988     9224      6861      4651     3151            0           0
+       1.0    10090     9080      6966      4610     3097            0           0
+       1.1      8456     8162      6649      4892     3130            0           0
+       1.2      6398     7243      6331      5173     3163            0           0
+       1.4      6398     3622      4220      3449     2372            0           0
+       1.6      6398           0      2110      1724     1582            0           0
+       1.8      6398           0            0            0       791            0           0
+       2.0      6398           0            0            0           0            0           0
+       2.2      6398           0            0            0           0            0           0
+       2.4      6398           0            0            0           0            0           0
+       2.6      6398           0            0            0           0            0           0
+      </tableData>
+     </table>
+   </product>
   </function>
 
   <!-- from table 4, Australian document -->
   <function name="AugThrust">
   <product>
-  <value>0.0000355871886</value>
+  <value>0.0000357452864</value> <!-- 1/28110 -->
    <table>
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>

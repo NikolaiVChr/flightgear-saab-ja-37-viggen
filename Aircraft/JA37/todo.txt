@@ -3,27 +3,22 @@ TODO:
 
 High Priority:
 --------------
-Animation: Heavy stutter when switching to outside views for the first time
-GUI: More and better popup feedback (gear/flaps/stalling/)
-GUI: Checklist
-GUI: More info in aircraft help
-Sim: Make idle thrust depend on mach and air-density from real RM8B values.
-Sim: Make mil thrust depend on mach and air-density from real RM8B values.
-Sound: Stall warnings at lower alpha at higher mach
-Animate: seat up/down is bugged
+Sim: Aircraft is not placed correctly at end of runway
 
 Normal Priority:
 ----------------
+GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
+GUI: Checklist
 GUI: Keypress to turn off verbose popups
-Aero: Aerodynamic trims
 System: Put in alot more working instruments and controls
 System: Put in alot more not working instruments and controls for immersion
 Animation: Make canopy work
-Animation: look at bullet splash/tracer in f16, something is missing
-
+Systems: Make 2D cockpit fully functional
+Animation: Check that HUD cannot be seen from too far away, and script should be disabled too.
 
 Lower priority:
 ----------------
+Animation: Pilot from F16C?
 Animate: flaps are missing an important polygon
 Aero: DATCOM: Add engine intake area, and correct exhaust area
 HUD: add proper sidewind max
