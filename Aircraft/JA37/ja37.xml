@@ -4,12 +4,12 @@
   <fileheader>
     <author> Necolatis (Aeromatic v 0.95) </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.5 </version>
+    <version> 1.6 </version>
     <license>
       <licenseName>GPL (General Public License)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/gpl.html</licenseURL>
     </license>
-    <description> Models a Saab JA-37 Viggen</description>
+    <description> Models a Saab JA-37 Viggen </description>
     <note>
          This model was created using data that is, or has been, publically
          available by means of technical reports, textbooks, image graphs or
@@ -23,7 +23,9 @@
          warranties, including, but not limitted to the implied warranties of
          merchantability and fitness for a particular purpose are disclaimed.
          
-         Many nice things stolen from F16, 747-400 and Mig-15 plus some more I forgot.
+         Note: the 3D model has different license.
+
+         Many nice things stolen from F16, Buccaneer, 747-400 and Mig-15 plus some more I forgot.
       </note>
   </fileheader>
   
@@ -45,7 +47,7 @@
     <location name="EYEPOINT" unit="M">
       <x> -13.61 </x>
       <y> 0 </y>
-      <z> 0.6 </z>
+      <z> 0.55 </z>
     </location>
     <location name="VRP" unit="IN">
       <x> 0 </x>

@@ -131,7 +131,84 @@
          </product>
       </function>
 
+            <function name="aero/coefficient/CDDsb">
+                <description>Drag_due_to_speedbrake_deflection</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/speedbrake-pos-rad</property>
+                      <table>
+                          <independentVar>aero/alpha-rad</independentVar>
+                          <tableData>
+                              -0.1750 -0.0545
+                              -0.0870 -0.0225
+                               0.0000  0.0096
+                               0.0870  0.0590
+                               0.1750  0.1244
+                               0.2620  0.2182
+                               0.3490  0.2324
+                               0.4360  0.2029
+                               0.5240  0.1435
+                               0.6110  0.1046
+                               0.6980  0.1363
+                               0.7850  0.1196
+                          </tableData>
+                      </table>
+                </product>
+            </function>
 
+            <function name="aero/coefficient/CLDsb">
+                <description>Lift_due_to_speedbrake_deflection</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/speedbrake-pos-rad</property>
+                      <table>
+                          <independentVar>aero/alpha-rad</independentVar>
+                          <tableData>
+                              -0.1750  0.3645
+                              -0.0870  0.3678 
+                              0.0000   0.3684
+                              0.0870   0.2522
+                              0.1750   0.2710
+                              0.2620   0.3615
+                              0.3490   0.1283
+                              0.4360   0.0075
+                              0.5240  -0.1311
+                              0.6110  -0.1836
+                              0.6980  -0.1161
+                              0.7850  -0.1064
+                          </tableData>
+                      </table>
+                </product>
+            </function>
+
+            <function name="aero/coefficient/CmDsb">
+             <description>Change_in_Pitch_moment_due_to_speedbrake</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>metrics/cbarw-ft</property>
+                    <property>fcs/speedbrake-pos-rad</property>
+                      <table>
+                          <independentVar>aero/alpha-rad</independentVar>
+                          <tableData>
+                              -0.1750   -0.0036
+                              -0.0870   -0.0036
+                               0.0000   -0.0036
+                               0.0870    0.0303
+                               0.1750    0.0225
+                               0.2620    0.0128
+                               0.3490    0.0252
+                               0.4360    0.0275
+                               0.5240   -0.0171
+                               0.6110   -0.0448
+                               0.6980   -0.0737
+                               0.7850   -0.0884
+                          </tableData>
+                      </table>
+                </product>
+            </function>
 
 
 

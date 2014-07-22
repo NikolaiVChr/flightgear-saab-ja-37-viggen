@@ -30,19 +30,25 @@ Made texture a bit prettier
 Made new splash image and thumbnail
 Removed some debug messages
 
+1.6
+---
+Made HUD pretty much fully functional
+
 Notes:
 ------
-Beware, even though they are not animated the plane has airbrake, reverse thrust, flaps and gear.
+Beware, even though they are not animated the plane has reverse thrust, flaps and gear. The HUD uses Km/h and meter.
 
 TODO:
 -----
 Animate model
 Retexture model
-Make Canvas HUD specific to this plane
+Make Canvas HUD compass be on a scale
 All fuel to engine has to go through tank 1, model this
 Fuel tanks 3V and 3H is used for flying upside down, model this
 Make pilot faint/die due to G-forces
-Refine FDM
+Refine FDM (alot)
 Put in more instruments
 Better annunciater warnings and other sounds
 Adapt for Rembrandt
+Make tires burst if too high speed with parking brakes
+Make gears break if too high speed with gears down

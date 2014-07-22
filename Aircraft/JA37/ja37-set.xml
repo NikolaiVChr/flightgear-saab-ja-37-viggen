@@ -12,7 +12,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.5</aircraft-version> 
+  <aircraft-version>1.6</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
@@ -73,41 +73,46 @@
     </controls>
    
     <instrumentation>
-    <vhf>
-     <selector type="int">0</selector>               
-     <mode type="int">0</mode>                       
-     <selected-preset type="int">1</selected-preset>
-     <load-state type="int">0</load-state>
-     <presets>
-      <preset n="1" type="float">0</preset>
-      <preset n="2" type="float">0</preset>
-      <preset n="3" type="float">0</preset>
-      <preset n="4" type="float">0</preset>
-      <preset n="5" type="float">0</preset>
-      <preset n="6" type="float">0</preset>
-      <preset n="7" type="float">0</preset>
-      <preset n="8" type="float">0</preset>
-      <preset n="9" type="float">0</preset>
-      <preset n="10" type="float">0</preset>
-      <preset n="11" type="float">0</preset>
-      <preset n="12" type="float">0</preset>
-      <preset n="13" type="float">0</preset>
-      <preset n="14" type="float">0</preset>
-      <preset n="15" type="float">0</preset>
-      <preset n="16" type="float">0</preset>
-      <preset n="17" type="float">0</preset>
-      <preset n="18" type="float">0</preset>
-      <preset n="19" type="float">0</preset>
-      <preset n="20" type="float">0</preset>
-     </presets>
-<!--
-     <frequencies>
-      <alt-selected-mhz-x10 type="int">0</alt-selected-mhz-x10>
-      <alt-selected-mhz-x1 type="int">0</alt-selected-mhz-x1>
-      <alt-selected-mhz-x01 type="int">0</alt-selected-mhz-x01>
-      <alt-selected-mhz-x0001 type="int">0</alt-selected-mhz-x0001>
-     </frequencies>
--->
+      <radar-altimeter>
+        <name>radar-altimeter</name>
+        <number>0</number>
+        <load-state type="int">1</load-state>
+      </radar-altimeter>
+      <vhf>
+       <selector type="int">0</selector>               
+       <mode type="int">0</mode>                       
+       <selected-preset type="int">1</selected-preset>
+       <load-state type="int">0</load-state>
+       <presets>
+        <preset n="1" type="float">0</preset>
+        <preset n="2" type="float">0</preset>
+        <preset n="3" type="float">0</preset>
+        <preset n="4" type="float">0</preset>
+        <preset n="5" type="float">0</preset>
+        <preset n="6" type="float">0</preset>
+        <preset n="7" type="float">0</preset>
+        <preset n="8" type="float">0</preset>
+        <preset n="9" type="float">0</preset>
+        <preset n="10" type="float">0</preset>
+        <preset n="11" type="float">0</preset>
+        <preset n="12" type="float">0</preset>
+        <preset n="13" type="float">0</preset>
+        <preset n="14" type="float">0</preset>
+        <preset n="15" type="float">0</preset>
+        <preset n="16" type="float">0</preset>
+        <preset n="17" type="float">0</preset>
+        <preset n="18" type="float">0</preset>
+        <preset n="19" type="float">0</preset>
+        <preset n="20" type="float">0</preset>
+       </presets>
+  <!--
+       <frequencies>
+        <alt-selected-mhz-x10 type="int">0</alt-selected-mhz-x10>
+        <alt-selected-mhz-x1 type="int">0</alt-selected-mhz-x1>
+        <alt-selected-mhz-x01 type="int">0</alt-selected-mhz-x01>
+        <alt-selected-mhz-x0001 type="int">0</alt-selected-mhz-x0001>
+       </frequencies>
+  -->
     </vhf>
    </instrumentation>
 
@@ -128,7 +133,7 @@
    <config>
      <pitch-offset-deg>0</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
-     <y-offset-m archive="y">0.6</y-offset-m>
+     <y-offset-m archive="y">0.55</y-offset-m>
      <z-offset-m archive="y"> -3.61</z-offset-m>
      <default-field-of-view-deg>55</default-field-of-view-deg>
    </config>
@@ -162,14 +167,6 @@
     <desc>trigger flare release</desc>
    </key>
    <key>
-    <name>Ctrl-h</name>
-    <desc>toggle arrester hook</desc>
-   </key>
-   <key>
-    <name>C</name>
-    <desc>Toggle canopy</desc>
-   </key>
-   <key>
     <name>e (lower case 'e')</name>
     <desc>fire the cannon</desc>
    </key>
@@ -181,22 +178,6 @@
    <name>Backspace</name>
 				<desc>Toggle thrust reversers</desc>
 			</key>
-   <key>
-    <name>Ctrl-n</name>
-    <desc>Toggles Radar RWS / TWS AUTO Modes</desc>
-   </key>
-   <key>
-    <name>E</name>
-    <desc>Decrease Radar Range</desc>
-   </key>
-   <key>
-    <name>R</name>
-    <desc>Increase Radar Range</desc>
-   </key>
-   <key>
-    <name>q</name>
-    <desc>Toggles Radar Standby Mode</desc>
-   </key>
    <key>
     <name>u/U</name>
     <desc>seat up/down</desc>
@@ -216,6 +197,16 @@
  
  <input>
    <keyboard>
+    <key n="104">
+      <name>h</name>
+      <desc>Redefines 'h' key to prevent turning on the HUD</desc>
+      <binding>
+         <command>nasal</command>
+         <script>
+           gui.popupTip("HUD cannot be disabled at the moment.");
+         </script>
+      </binding>
+   </key>
     <key n="6">
      <name>Ctrl-F</name>
      <desc>Trigger flare release</desc>
@@ -426,36 +417,6 @@
    <serviceable type="bool">true</serviceable>
   </refuel>
  </systems>
-
- <instrumentation>
-  <radar>
-   <enabled type="bool">true</enabled>
-   <az-field type="double">120</az-field>
-   <range type="double">160</range>
-   <range-selected type="double">50</range-selected>
-   <display-rdr type="bool">true</display-rdr>
-   <radar-standby type="int">0</radar-standby>
-   <mode>
-    <rws type="bool">true</rws>
-    <tws-auto type="bool">false</tws-auto>
-   </mode>
-  </radar>
-  <radar2>
-   <sweep-width-m type="double">0.0844</sweep-width-m>
-   <range-width-m type="double">0.0846</range-width-m>
-   <radius-ppi-display-m type="double">0.0846</radius-ppi-display-m>
-   <hud-eye-dist-m type="double">0.766</hud-eye-dist-m>
-   <hud-radius-m type="double">0.071</hud-radius-m>
-   <hud-vertical-offset-m type="double">-0.025</hud-vertical-offset-m>
-  </radar2>
-  <rwr>
-   <display-lighting-intens type="double">0.4</display-lighting-intens>
-   <symbology-lighting-intens type="double">1</symbology-lighting-intens>
-  </rwr>
-  <ecm>
-   <on-off type="bool">true</on-off>
-  </ecm>
- </instrumentation>
 
  <limits>
   <max-gear-extension-speed>300</max-gear-extension-speed>
