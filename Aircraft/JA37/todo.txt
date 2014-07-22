@@ -1,17 +1,29 @@
 TODO for Flightgear JA-37
 =========================
 
+Next version:
+------------
+GUI: Make little option GUI. (to test widgets)
+Aero: Elevator deflect less at high speeds. Page 80: (System automatically regulates the interaction between the joystick and the elevator as a function of altitude and mach number.)
+Sim: Test multiplay again.
+
 High Priority:
 --------------
-Make control surfaces depend on hydralic system.
-Make proper power flow to external lights and HUD. (use potemkin)
-Make proper fuel pump system.
+Effect: Adjust normalmap to be more subtle.
+Animation: Second altimeter.
+Animation: Some switches.
+Sim: Make control surfaces depend on hydralic system.
+Sim: Make proper power flow to external lights and HUD. (use potemkin)
+Sim: Make proper fuel pump system.
+Workaround for normalmap effect don't like inverted normals on doublesided faces. (not the cause)
+Sound: Prevent sounds from playing at startup. (should work now, needs more testing)
+Effect: Check contrail effect is properly installed.
+Animation: Adjust instrument materials.
 
 Normal Priority:
 ----------------
 Animation: Make canopy increase drag.
 Animation: Make canopy able to break off.
-Animation: Engine heat should be dark at n1 less than 60
 GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
 GUI: Checklist
 GUI: Keypress to turn off verbose popups

@@ -403,6 +403,7 @@ setprop("fdm/jsbsim/simulation/exploded", 0);
 	setprop("/instrumentation/head-up-display/serviceable", 1);
 	setprop("/instrumentation/instrumentation-light/serviceable", 1);
 	setprop("/instrumentation/radar/serviceable", 1);
+	setprop("/fdm/jsbsim/fcs/canopy/serviceable", 1);
 
 	#JSB instruments and controls
 	setprop("fdm/jsbsim/systems/airspeedometer/serviceable", 1);

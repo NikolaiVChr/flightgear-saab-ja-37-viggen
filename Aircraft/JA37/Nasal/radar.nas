@@ -4,6 +4,7 @@
 
 var abs = func(n) { n < 0 ? -n : n }
 var sgn = func(n) { n < 0 ? -1 : 1 }
+var g = nil;
 
 var radar = {
   new: func()
@@ -23,7 +24,7 @@ var radar = {
     # ... and place it on the object called Screen
     m.canvas.addPlacement({"node": "Screen"});
     m.canvas.setColorBackground(0.10,0.20,0.10);
-    var g = m.canvas.createGroup();
+    g = m.canvas.createGroup();
     var g_tf = g.createTransform();
 
     m.oldmode=0;
@@ -123,6 +124,7 @@ var radar = {
   #Modes 0=Off, 1=Autoscan, 2=Manual, 5=Course guide, 6=Course and glide
     var rmode=1;#getprop("instrumentation/radar/mode");
     if (getprop("systems/electrical/outputs/radar") != nil and getprop("systems/electrical/outputs/radar") > 28 and getprop("instrumentation/radar/serviceable") > 0) {
+      g.show();
       me.radarRange=getprop("instrumentation/radar/range") * 3.2808;
       forindex (i; me.stroke) me.stroke[i].show();
       var te = getprop("sim/time/elapsed-sec");
@@ -159,6 +161,7 @@ var radar = {
 
       settimer(func me.update(), 0.02);
     } else {
+      g.hide();
       settimer(func me.update(), 1);
     }
   },

@@ -3,12 +3,6 @@
 <PropertyList>
 
  <path>ja37.ac</path>
- 
-<effect>
- <inherits-from>Effects/model-transparent</inherits-from>
- <object-name>glass</object-name>
- <object-name>frontglas</object-name>
-</effect>
 
  <model>
     <path>Models/ja37-panel.xml</path>
@@ -609,11 +603,16 @@
   <object-name>gearRightDoorsClosed</object-name>
   <property-base>sim/model/livery</property-base>
   <texture-prop>texture</texture-prop>
-  <texture>j37_texture.jpg</texture>
+  <texture>Models/j37_texture.png</texture>
  </animation>
 
  <effect>
     <inherits-from>Models/Effects/ja37-normal-map</inherits-from>
+    <!-- For Rembrandt: 
+    <render-bin>
+    <bin-number>1</bin-number>
+    <bin-name>RenderBin</bin-name>
+  </render-bin>-->
     <object-name>canopy</object-name>
     <!--<object-name>dropTank</object-name>-->
     <object-name>elevonLeftInner</object-name>
@@ -641,17 +640,21 @@
     <object-name>gearRightDoorsClosed</object-name>
  </effect>
 
-<!--<effect>
-  <inherits-from>Aircraft/Generic/Effects/Fuselagereflect</inherits-from>
-    <rainbowiness type="float">0.05</rainbowiness>
-    <fresneliness>0.1</fresneliness>
-    <noisiness>0.25</noisiness>
-    <refl_correction>0.0</refl_correction>
-    <ambient_correction>0.25</ambient_correction>
-    <reflect_map>1</reflect_map>
-  <object-name>glass</object-name>
-</effect>-->
+ <effect>
+    <inherits-from>Models/Effects/ja37-nozzle</inherits-from>
+    <object-name>nozzle</object-name>
+ </effect>
 
-  
+ <effect>
+    <inherits-from>Models/Effects/ja37-glass</inherits-from>
+    <object-name>glass</object-name>
+    <object-name>frontglas</object-name>
+</effect>
+
+<!--<effect>
+ <inherits-from>Effects/model-transparent</inherits-from>
+ <object-name>glass</object-name>
+ <object-name>frontglas</object-name>
+</effect>-->
 
 </PropertyList>

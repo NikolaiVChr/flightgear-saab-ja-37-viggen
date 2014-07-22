@@ -9,6 +9,13 @@ var auto_gen=0;
 var cnt = 0;
 
 var update_loop = func {
+  # set the full-init property
+  if(getprop("sim/time/elapsed-sec") > getprop("sim/time/elapsed-at-init-sec") + 20) {
+    setprop("sim/time/full-init", 1);
+  } else {
+    setprop("sim/time/full-init", 0);
+  }
+
 	 ## Sets fuel gauge needles rotation ##
 	 
    setprop("/instrumentation/fuel/needleB_rot", getprop("/consumables/fuel/tank[8]/level-norm")*230);
@@ -191,6 +198,8 @@ settimer(func { signal_loop() }, 0.1);
 var main_init = func {
 	print("Initializing JA-37 Viggen systems");
 
+  setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
+
 	setprop("/consumables/fuel/tank[8]/jettisoned", 0);
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
   
@@ -263,6 +272,13 @@ var main_init = func {
 	settimer(func { update_loop() }, 0.1);
 }
 
+# re init
+var re_init = func {
+  print("Re-initializing JA-37 Viggen systems");
+
+  setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
+}
+
 var load_interior = func{
     setprop("/sim/current-view/view-number", 0);
     print("..Done!");
@@ -273,6 +289,9 @@ var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
 	removelistener(main_init_listener);
  }, 0, 0);
 
+var re_init_listener = setlistener("sim/signals/fdm-initialized", func {
+  re_init();
+ }, 0, 0);
 
 ############ droptank #####################
 
@@ -315,22 +334,29 @@ setlistener("/sim/current-view/view-number", func(n) {
  var waiting_n1 = func {
   if (getprop("/engines/engine[0]/n1") > 5.0) {
     if (getprop("/engines/engine[0]/n1") < 20) {
-      setprop("/controls/engines/engine[0]/cutoff", 0);
-      if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
-        gui.popupTip("Engine igniting.");
-        settimer(waiting_n1, 1);
+      if (getprop("/controls/engines/engine[0]/cutoff") == 1) {
+        setprop("/controls/engines/engine[0]/cutoff", 0);
+        if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
+          gui.popupTip("Engine igniting.");
+          settimer(waiting_n1, 1);
+        } else {
+          setprop("/controls/engines/engine[0]/starter", 0);
+          gui.popupTip("Engine not igniting. Aborting engine start.");
+          auto_gen=0;
+        }
       } else {
-        setprop("/controls/engines/engine[0]/starter", 0);
-        gui.popupTip("Engine not igniting. Aborting engine start.");
+        settimer(waiting_n1, 1);
       }
-    }  else {
-      if (auto_gen == 1) {
-        setprop("controls/electric/engine[0]/generator", 1);
-        gui.popupTip("Generator on. Ready.");
-        auto_gen=0;
-      }
+    }  elsif (getprop("/engines/engine[0]/n1") > 15) {
+      setprop("controls/electric/engine[0]/generator", 1);
+      gui.popupTip("Generator on.");
+      auto_gen=0;
+    } else {
+      settimer(waiting_n1, 1);
     }
-   } else settimer(waiting_n1, 1);
+   } else {
+    settimer(waiting_n1, 1);
+  }
  }
 
 
@@ -340,11 +366,11 @@ var autostart = func {
   setprop("/controls/electric/engine[0]/generator", 0);
   if (getprop("controls/electric/engine[0]/generator") == 0) #getprop("/velocities/groundspeed-kt") < 1e-3 and
   {
+    gui.popupTip("Starting engine.");
     setprop("/controls/engines/engine[0]/cutoff", 1);
     setprop("/controls/engines/engine[0]/starter", 1);
     auto_gen=1;
     settimer(waiting_n1, 1);
-    gui.popupTip("Starting engine.");
   } else {
     gui.popupTip("Generator switch turned on. Engine restart aborted.");
   }
@@ -352,18 +378,22 @@ var autostart = func {
 
 #Default 's' button will set starter to false, so will start delayed.
 var autostarttimer = func {
-  if (getprop("/engines/engine[0]/running") > 0) {
-   setprop("/controls/engines/engine[0]/cutoff", 1);
-	 setprop("/controls/engines/engine[0]/starter", 0);
-   setprop("/controls/electric/engine[0]/generator", 0);
-	 gui.popupTip("Stopping engine. Turning off battery.");
-	 setprop("/controls/electric/battery-switch", 0);
-  } else {
-    if (getprop("/fdm/jsbsim/simulation/crashed") < 1) {
-      setprop("/controls/electric/battery-switch", 1);
-      setprop("/systems/electrical/batterysignal", 1);
-      gui.popupTip("Battery on. Check.");
-    	settimer(autostart, 3);
+  if (auto_gen==0) {
+    if (getprop("/engines/engine[0]/running") > 0) {
+     gui.popupTip("Stopping engine. Turning off battery.");
+     setprop("/controls/engines/engine[0]/cutoff", 1);
+  	 setprop("/controls/engines/engine[0]/starter", 0);
+     setprop("/controls/electric/engine[0]/generator", 0);
+  	 setprop("/controls/electric/battery-switch", 0);
+    } else {
+      if (getprop("/fdm/jsbsim/simulation/crashed") < 1) {
+        setprop("/controls/electric/battery-switch", 1);
+        setprop("/systems/electrical/batterysignal", 1);
+        gui.popupTip("Battery switch on. Check.");
+    	  settimer(autostart, 3);
+      } else {
+        gui.popupTip("Engine not reacting. Consider ejecting yourself.");
+      }
     }
   }
 }

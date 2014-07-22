@@ -25,6 +25,7 @@
     <factor>-0.25</factor>
    </pitch>
    <volume>
+    <property>sim/time/full-init</property>
     <max>0.05</max>
    </volume>
   </canopy>
@@ -323,6 +324,7 @@
    <path>Sounds/turbojet_fan.wav</path>
    <mode>looped</mode>
    <condition>
+    <property>engines/engine/running</property>
     <greater-than>
       <property>engines/engine/n1</property>
       <value>1</value>
@@ -789,6 +791,9 @@
     <y>0.8</y>
     <z>0.0</z>
    </position>
+   <volume>
+      <factor>.4</factor>
+    </volume>
   </cannon>
  
 <!--                                                                          crashing                                   -->  
@@ -875,37 +880,39 @@
 
 <!--            breathing  -->
  
-   <voice>
-  <name>Geforce-breath-vox</name>
-  <path>Sounds/Geforce.wav</path>
-  <condition>
-   <greater-than>
-    <property>/accelerations/pilot/z-accel-fps_sec</property>
-    <value>-161</value>
-   </greater-than>   
-  </condition>
-  <reference-dist>2</reference-dist>
-   <max-dist>4</max-dist>
-<volume>
-<factor>0.9</factor>
-</volume>
- </voice>
+  <voice>
+    <name>Geforce-breath-vox</name>
+    <path>Sounds/Geforce.wav</path>
+    <condition> 
+      <greater-than>
+        <property>/accelerations/pilot/z-accel-fps_sec</property>
+        <value>-161</value>
+      </greater-than>   
+    </condition>
+    <reference-dist>2</reference-dist>
+    <max-dist>4</max-dist>
+    <volume>
+      <property>sim/time/full-init</property>
+      <factor>0.9</factor>
+    </volume>
+  </voice>
 
-<voice>
-  <name>Geforce-vox</name>
-  <path>Sounds/geforce1.wav</path>
-  <condition>
-   <less-than>
-    <property>/accelerations/pilot/z-accel-fps_sec</property>
-    <value>-225</value>
-   </less-than>   
-  </condition>
-  <reference-dist>2</reference-dist>
-   <max-dist>4</max-dist>
-<volume>
-<factor>0.9</factor>
-</volume>
- </voice>
+  <voice>
+    <name>Geforce-vox</name>
+    <path>Sounds/geforce1.wav</path>
+    <condition>
+     <less-than>
+      <property>/accelerations/pilot/z-accel-fps_sec</property>
+      <value>-225</value>
+     </less-than>   
+    </condition>
+    <reference-dist>2</reference-dist>
+    <max-dist>4</max-dist>
+    <volume>
+      <property>sim/time/full-init</property>
+      <factor>0.9</factor>
+    </volume>
+  </voice>
 </fx>
  
 </PropertyList>

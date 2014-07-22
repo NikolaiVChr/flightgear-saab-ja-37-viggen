@@ -260,7 +260,7 @@ Aero: More accurate Normal Force Coefficients.
 Sim: First stab at custom Autopilot.
 Engine: Converted mil-thrust from cruise to maximum.
 
-2.23
+2.23 - 2014 Jan 22
 ----
 Animation: Added 5 instruments.
 Animation: Added instrument lights.
@@ -281,3 +281,27 @@ Animation: Changed the formula for how the engine fire lights up.
 Animation: Put LOD on the radio-stack.
 Sim: Adapted radar to the way ja37 works and added a range-selector plus failure.
 Animation: Added 3 indicator lights to the dashboard.
+
+2.24 - 2014 Jan 27
+----
+Effect: Added a specular map for fuselage.
+Animation: Adjusted material on fuselage, glass and lights.
+Animation: Cleared radar screen when it is off.
+Sim: Small fixes to autostart/shutdown/restart.
+Effect: Added reflection and specular effect on glass.
+Effect: Made reflect and rust effect on nozzle.
+Animation: Flipped two places where 59 where 59 where inverted on geardoors.
+Animation: Removed part of geardoors, due to problems with material and angle. (might be put back later)
+Aero: Adjusted ground effect for pitch moment and normal force.
+Aero: Adjusted picth moments, and included pitch moments for flaps and gear down.
+Aero: Adjusted CoG and AeroRP.
+Aero: Inverted elevators effect on normal force.
+Aero: Reintroduced drag due to mach effect.
+Aero: Made ground effect on elevator effect normal force.
+Aero: Sideforce due to sideslip now also depends on gear and flaps.
+Aero: Improved on roll damping due to sideslip.
+Aero: Added pitch moment due to air intake factor.
+Aero: Added zero pitch moment.
+Aero: Improved pitch moment data.
+Engine: Finally found definite numbers on bypass ratio, updated.
+Sound: Fixed cannon too loud.

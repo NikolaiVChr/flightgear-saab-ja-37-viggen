@@ -16,7 +16,7 @@
   <maxthrust unit="LBS"> 28110.0 </maxthrust><!-- from page 5, Australian document -->
   <!--<milthrust unit="N"> 73500.0 </milthrust> Newton must be multiplied by factor 10 to work (bug)
   <maxthrust unit="N"> 127500.0 </maxthrust>-->
-  <bypassratio>     1.02 </bypassratio> <!-- Turbofan and turbojet engines: database handbook. - JT8D-17A -->
+  <bypassratio>     0.97 </bypassratio> <!-- Turbofan and turbojet engines: database handbook. - JT8D-17A: 1.02. But RM8A is 1.07 and RM8B is 0.97 -->
   <tsfc>            0.64 </tsfc><!-- from page 5, Australian document -->
   <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
   <bleed>           0.03</bleed><!-- -->

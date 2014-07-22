@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.23 </version>
+    <version> 1.24 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -40,17 +40,17 @@
 
  <metrics>
       <!-- from NASA document -->
-      <wingarea unit="M2">     46  </wingarea>
-      <wingspan unit="M">     10  </wingspan>
-      <chord unit="M">         7.4</chord>
-      <htailarea unit="M2">    46  </htailarea>
+      <wingarea unit="M2">    46   </wingarea>
+      <wingspan unit="M">     10   </wingspan>
+      <chord unit="M">         7.4 </chord>
+      <htailarea unit="M2">   46   </htailarea>
       <!-- from Australian document -->
       <vtailarea unit="FT2">      68.7  </vtailarea>
       <!-- data calculated using DATCOM -->      
       <htailarm unit="FT">        17.4042  </htailarm>
       <vtailarm unit="FT">        21.7358  </vtailarm>
     <location name="AERORP" unit="M">
-      <x> 1.785 </x>
+      <x> 2.81962 </x><!-- under the vtail start -->
       <y> 0 </y>
       <z> 0 </z>
     </location>
@@ -67,13 +67,12 @@
   </metrics>
   
   <mass_balance>
-    <!-- inertia is slightly lighter F16 -->
-    <ixx unit="SLUG*FT2"> 9496 </ixx>
-    <iyy unit="SLUG*FT2"> 55814 </iyy>
-    <izz unit="SLUG*FT2"> 63100 </izz>
+    <ixx unit="SLUG*FT2"> 10000 </ixx>
+    <iyy unit="SLUG*FT2"> 60000 </iyy>
+    <izz unit="SLUG*FT2"> 65000 </izz>
     <emptywt unit="LBS" > 20950 </emptywt>
     <location name="CG" unit="M">
-      <x> 1.485 </x>
+      <x> 0.3399 </x><!-- Page 43: STA X65B = 12350mm, 1155mm after the flaps -->
       <!--  -->
       <y> 0 </y>
       <z> 0 </z>

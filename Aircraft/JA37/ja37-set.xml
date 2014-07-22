@@ -12,12 +12,12 @@
   <author>Nikolai V. Chr. (FDM, Scripting), Anders Lejczak (3D Model and Textures)</author>
   <status>Beta</status>
   <rating>
-    <FDM type="int">4</FDM>
+    <FDM type="int">3</FDM>
     <systems type="int">1</systems>
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.23</aircraft-version> 
+  <aircraft-version>1.24</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -522,6 +522,9 @@
         <serviceable/>
       </flapscontrol>
     </systems>
+    <aero>
+      <mach-drag-factor>0.07</mach-drag-factor>
+    </aero>
   </jsbsim>
  </fdm>
 
