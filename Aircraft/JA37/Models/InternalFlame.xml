@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+
+<PropertyList>
+
+<animation>
+  <type>select</type>
+  <object-name>InternalFlame</object-name>
+  <condition>
+   <property>engines/engine/running</property>
+  </condition>
+ </animation>
+ 
+<model>
+ <name>InternalFlame</name>
+ <path>Aircraft/ja37/Models/internalflame.ac</path>
+ <offsets> 
+  <x-m>6.5</x-m>
+  <y-m>0</y-m>
+  <z-m>0</z-m>
+  <heading-deg>0</heading-deg>
+ </offsets>
+</model>
+ 
+ </PropertyList>

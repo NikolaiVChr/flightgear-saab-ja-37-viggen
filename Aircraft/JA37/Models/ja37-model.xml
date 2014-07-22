@@ -1,0 +1,157 @@
+﻿<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>ja37orig.ac</path>
+ 
+ <!-- start effects -->
+ <model>
+  <name>exhaust_smoke</name>
+  <path>Aircraft/ja37/Models/Effects/exhaust.xml</path>
+  <offsets>
+   <x-m>7.8</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+ <!-- smokepods -->
+ <model>
+  <name>Station1_AIM-9_smokewinder_smoke</name>
+  <path>Aircraft/ja37/Models/Effects/smoke.xml</path>
+  <offsets>
+   <x-m>6.75</x-m>
+   <y-m>5.65</y-m>
+   <z-m>-0.5</z-m>
+   <pitch-deg>-4.5</pitch-deg>
+  </offsets>
+ </model>
+
+ <model>
+  <name>Station9_AIM-9_smokewinder_smoke</name>
+  <path>Aircraft/ja37/Models/Effects/smoke.xml</path>
+  <offsets>
+   <x-m>6.75</x-m>
+   <y-m>-5.65</y-m>
+   <z-m>-0.5</z-m>
+   <pitch-deg>-4.5</pitch-deg>
+  </offsets>
+ </model>
+
+ <model>
+  <name>left-strake-vortex</name>
+  <path>Aircraft/ja37/Models/Effects/strake-vortex.xml</path>
+  <offsets>
+   <x-m>0.58</x-m>
+   <y-m>-1.35</y-m>
+   <z-m>0.25</z-m>
+  </offsets>
+ </model>
+
+ <model>
+  <name>right-strake-vortex</name>
+  <path>Aircraft/ja37/Models/Effects/strake-vortex.xml</path>
+  <offsets>
+   <x-m>0.58</x-m>
+   <y-m>1.35</y-m>
+   <z-m>0.25</z-m>
+  </offsets>
+ </model>
+
+ <model>
+  <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
+  <name>tyre-smoke-n</name>
+  <offsets>
+   <x-m> -3.4 </x-m>
+        <y-m> 0 </y-m>
+        <z-m> -2.5 </z-m>
+  </offsets>
+ </model>
+
+  <model>
+   <path>Aircraft/Generic/Effects/tyre-smoke-port.xml</path>
+   <name>tyre-smoke-p</name>
+   <offsets>
+    <x-m> 2.4 </x-m>
+        <y-m> -2.5 </y-m>
+        <z-m> -2.5 </z-m>
+   </offsets>
+  </model>
+
+  <model>
+   <path>Aircraft/Generic/Effects/tyre-smoke-stbd.xml</path>
+   <name>tyre-smoke-s</name>
+   <offsets>
+   <x-m> 2.4 </x-m>
+        <y-m> 2.5 </y-m>
+        <z-m> -2.5 </z-m>
+   </offsets>
+  </model>
+ <!-- end effects -->
+
+ <!-- end submodels -->
+
+
+<!-- ===================== START LIGHTING =========================== -->
+
+<!-- start position lights -->
+ 
+ 
+
+<!-- end formation lights -->
+
+ <model>
+  <name>strobe</name>
+  <path>Aircraft/ja37/Models/strobe.xml</path>
+  <offsets>
+   <x-m>5.3</x-m>
+   <y-m>0.0</y-m>
+   <z-m>3.2</z-m>
+  </offsets>
+ </model>
+
+<!-- ===================== END LIGHTING =========================== -->
+
+ <!--<animation>
+  <type>select</type>
+  <object-name>LhoCondensCone</object-name>
+  <object-name>RhoCondensCone</object-name>
+  <property>null</property>
+ </animation>-->
+
+<model>
+  <name>InternalFlame</name>
+  <path>Aircraft/ja37/Models/internalflame.xml</path>
+ </model>
+
+<model>
+  <name>ExternalFlame</name>
+  <path>Aircraft/ja37/Models/externalflame.xml</path>
+ </model>
+
+ <animation>
+  <type>translate</type>
+  <object-name>ExternalFlame</object-name>
+  <property>engines/engine[0]/nozzle-pos-norm</property>
+  <offset-m>-4.0</offset-m>
+  <factor>4.0</factor>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <object-name>Station1_AIM-9_smokewinder_smoke</object-name>
+  <object-name>Station9_AIM-9_smokewinder_smoke</object-name>
+ </animation>
+
+<!-- Visible up to 10km (6 miles) -->
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10000</max-m>
+ </animation>
+
+</PropertyList>
