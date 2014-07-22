@@ -4,7 +4,7 @@
 
  <sim>
   <description>Saab JA-37 Viggen</description>
-  <author>Necolatis, Kazunori Ito (model)</author>
+  <author>Necolatis</author>
   <status>Alpha</status>
   <rating>
     <FDM type="int">1</FDM>
@@ -12,7 +12,7 @@
     <cockpit type="int">0</cockpit>
     <model type="int">1</model>
   </rating>
-  <aircraft-version>1.9</aircraft-version> 
+  <aircraft-version>1.10</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>

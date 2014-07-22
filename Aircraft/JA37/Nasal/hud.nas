@@ -1,8 +1,9 @@
 # ==============================================================================
 # Head up display
 #
-# nicked some code from the buccaneer and the wiki example to get started
+# Nicked some code from the buccaneer and the wiki example to get started
 #
+# Made for the JA-37 by Necolatis
 # ==============================================================================
 
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
@@ -16,7 +17,7 @@ var roundabout = func(x) {
 };
 var deg2rads = math.pi/180.0;
 var blinking = 0; # how many updates the speed vector symbol has been turned off for blinking (convert to time when less lazy)
-var alt_scale_mode = 0;
+var alt_scale_mode = 0; # the alt scale is not liniar, this indicates which part is showed
 var QFE = 0;
 var countQFE = 0;
 var centerOffset = 102; #verical center of HUD. (in line from pilots eyes) 0.53m is height of HUD bottom. View is 0.57m. Height of HUD is 10 cm.
@@ -26,9 +27,9 @@ var scalePlace = 380; #horizontal placement of alt scales
 var numberOffset = 100; #alt scale numbers horizontal offset from scale 
 var indicatorOffset = -10; #alt scale indicators horizontal offset from scale (must be high, due to bug #1054 in canvas) 
 var headScalePlace = 300; # vert placement of alt scale
-var altimeterScaleHeight = 300;
+var altimeterScaleHeight = 300; # the height of the low alt scale. Also used in the other scales as a reference height.
 
-print("making HUD");
+print("Starting JA-37 HUD");
 
 var HUDnasal = {
   canvas_settings: {
@@ -43,41 +44,37 @@ var HUDnasal = {
       parents: [HUDnasal],
       canvas: canvas.new(HUDnasal.canvas_settings),
       text_style: {
-        'font': "LiberationFonts/LiberationMono-Regular.ttf",
-#		'font': "LiberationFonts/LiberationSerif-Regular.ttf",
-#		'font': "LiberationFonts/LiberationSans-Regular.ttf",
+        'font': "LiberationFonts/LiberationMono-Regular.ttf", 
         'character-size': 100,
         
-      }
-    };
+    }
+  };
  
-    m.canvas.addPlacement(placement);
-    m.canvas.setColorBackground(0.36, 1, 0.3, 0.02);
-    m.root = m.canvas.createGroup()
-              .set("font", "LiberationFonts/LiberationMono-Regular.ttf")
-              #.setDouble("character-size", 18)
-              ;#.setDouble("character-aspect-ration", 0.9);
-    var slant = 35; #degrees the HUD is slanted towards the pilot
-    m.root.setScale(math.sin(slant*deg2rads), 1);
-    m.root.setTranslation(512, 512);
- 
-    
+  m.canvas.addPlacement(placement);
+  m.canvas.setColorBackground(0.36, 1, 0.3, 0.02);
+  m.root = m.canvas.createGroup()
+            .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
+  var slant = 35; #degrees the HUD is slanted towards the pilot
+  m.root.setScale(math.sin(slant*deg2rads), 1);
+  m.root.setTranslation(512, 512);
 
-		var w = 10;
-		var r = 0.0;
-		var g = 1.0;
-		var b = 0.0;
-		var a = 0.8;
-	
-	# airspeed kts/mach	
-	m.airspeed = m.root.createChild("text")
-		.setText("000")
-		.setFontSize(100, 0.9)
-		.setColor(0, 1, 0)
-		.setAlignment("center-center")
-		.setTranslation(0 , 400);
+  
 
-# scale heading
+	var w = 10;
+	var r = 0.0;
+	var g = 1.0;
+	var b = 0.0;
+	var a = 0.8;
+
+# digital airspeed kts/mach	
+  m.airspeed = m.root.createChild("text")
+  	.setText("000")
+  	.setFontSize(100, 0.9)
+  	.setColor(0, 1, 0)
+  	.setAlignment("center-center")
+  	.setTranslation(0 , 400);
+
+# scale heading ticks
   m.head_scale_grp = m.root.createChild("group");
   m.head_scale_grp.set("clip", "rect(62px, 587px, 262px, 437px)");#top,right,bottom,left
   m.head_scale_grp_trans = m.head_scale_grp.createTransform();
@@ -95,242 +92,220 @@ var HUDnasal = {
       .setStrokeLineWidth(w)
       .setColor(0,1,0, 1);
 
-# scale heading end lines
-    m.hdgLineL = m.head_scale_grp.createChild("path")
-    .setStrokeLineWidth(w)
-      .setColor(0,1,0, 1)
-      .moveTo(-150, 0)
-      .vert(-40)
-      .close();
-
-    m.hdgLineR = m.head_scale_grp.createChild("path")
-    .setStrokeLineWidth(w)
-      .setColor(0,1,0, 1)
-      .moveTo(150, 0)
-      .vert(-40)
-      .close();
-
-  # headingindicator
-    m.head_scale_indicator = m.root.createChild("path")
+# scale heading end ticks
+  m.hdgLineL = m.head_scale_grp.createChild("path")
+  .setStrokeLineWidth(w)
     .setColor(0,1,0, 1)
+    .moveTo(-150, 0)
+    .vert(-40)
+    .close();
+
+  m.hdgLineR = m.head_scale_grp.createChild("path")
+  .setStrokeLineWidth(w)
+    .setColor(0,1,0, 1)
+    .moveTo(150, 0)
+    .vert(-40)
+    .close();
+
+# headingindicator
+  m.head_scale_indicator = m.root.createChild("path")
+  .setColor(0,1,0, 1)
+  .setStrokeLineWidth(w)
+  .moveTo(-30, -headScalePlace+30)
+  .lineTo(0, -headScalePlace)
+  .lineTo(30, -headScalePlace+30);
+
+# Heading middle number
+  m.hdgM = m.head_scale_grp.createChild("text");
+  m.hdgM.setColor(0, 1, 0, 1);
+  m.hdgM.setAlignment("center-bottom");
+  m.hdgM.setFontSize(50, 0.9);
+
+# Heading left number
+  m.hdgL = m.head_scale_grp.createChild("text");
+  m.hdgL.setColor(0, 1, 0, 1);
+  m.hdgL.setAlignment("center-bottom");
+  m.hdgL.setFontSize(50, 0.9);
+
+# Heading right number
+  m.hdgR = m.head_scale_grp.createChild("text");
+  m.hdgR.setColor(0, 1, 0, 1);
+  m.hdgR.setAlignment("center-bottom");
+  m.hdgR.setFontSize(50, 0.9);
+
+# Altitude
+  m.alt_scale_grp=m.root.createChild("group")
+    .set("clip", "rect(150px, 1800px, 874px, 0px)");#top,right,bottom,left
+  m.alt_scale_grp_trans = m.alt_scale_grp.createTransform();
+
+# alt scale high
+  m.alt_scale_high=m.alt_scale_grp.createChild("path")
+    .moveTo(0, -6*altimeterScaleHeight/2)
+    .horiz(75)
+    .moveTo(0, -5*altimeterScaleHeight/2)
+    .horiz(50)
+    .moveTo(0, -2*altimeterScaleHeight)
+    .horiz(75)
+    .moveTo(0, -3*altimeterScaleHeight/2)
+    .horiz(50)
+    .moveTo(0, -altimeterScaleHeight)
+    .horiz(75)
+    .moveTo(0, -altimeterScaleHeight/2)
+    .horiz(50)
+    .moveTo(0, 0)
+    .horiz(75)
     .setStrokeLineWidth(w)
-    .moveTo(-30, -headScalePlace+30)
-    .lineTo(0, -headScalePlace)
-    .lineTo(30, -headScalePlace+30);
+    .setColor(0,1,0, 1);
 
-  # Heading middle
-    m.hdgM = m.head_scale_grp.createChild("text");
-    m.hdgM.setColor(0, 1, 0, 1);
-    m.hdgM.setAlignment("center-bottom");
-    m.hdgM.setFontSize(50, 0.9);
+# alt scale medium
+  m.alt_scale_med=m.alt_scale_grp.createChild("path")
+    .moveTo(0, -5*altimeterScaleHeight/2)
+    .horiz(50)
+    .moveTo(0, -2*altimeterScaleHeight)
+    .horiz(75)
+    .moveTo(0, -3*altimeterScaleHeight/2)
+    .horiz(50)
+    .moveTo(0, -altimeterScaleHeight)
+    .horiz(75)
+    .moveTo(0, -4*altimeterScaleHeight/5)
+    .horiz(25)
+    .moveTo(0, -3*altimeterScaleHeight/5)
+    .horiz(25)           
+    .moveTo(0, -2*altimeterScaleHeight/5)
+    .horiz(25)
+    .moveTo(0, -1*altimeterScaleHeight/5)
+    .horiz(25)           
+    .moveTo(0, 0)
+    .horiz(75)
+    .setStrokeLineWidth(w)
+    .setColor(0,1,0, 1);
 
-  # Heading left
-    m.hdgL = m.head_scale_grp.createChild("text");
-    m.hdgL.setColor(0, 1, 0, 1);
-    m.hdgL.setAlignment("center-bottom");
-    m.hdgL.setFontSize(50, 0.9);
+# alt scale low
+		m.alt_scale_low = m.alt_scale_grp.createChild("path")
+    .moveTo(0, -7*altimeterScaleHeight/4)
+    .horiz(50)
+    .moveTo(0, -6*altimeterScaleHeight/4)
+    .horiz(75)
+		.moveTo(0, -5*altimeterScaleHeight/4)
+    .horiz(50)
+    .moveTo(0, -altimeterScaleHeight)
+    .horiz(75)
+    .moveTo(0,-4*altimeterScaleHeight/5)
+    .horiz(25)
+    .moveTo(0, -3*altimeterScaleHeight/5)
+    .horiz(25)
+		.moveTo(0, -2*altimeterScaleHeight/5)
+		.horiz(25)					 
+		.moveTo(0,-1*altimeterScaleHeight/5)
+		.horiz(25)
+		.moveTo(0, 0)
+		.horiz(75)
+		.setStrokeLineWidth(w)
+		.setColor(0,1,0, 1);
+    
+# vert line at zero alt if it is lower than radar zero
+    m.alt_scale_line = m.alt_scale_grp.createChild("path")
+    .moveTo(0, 30)
+    .vert(-60)
+    .setStrokeLineWidth(w)
+    .setColor(0,1,0,1);
+# low alt number
+  m.alt_low = m.alt_scale_grp.createChild("text")
+    .setText(".")
+    .setFontSize(75, 0.9)
+    .setColor(0,1,0,1)
+    .setAlignment("left-center")
+    .setTranslation(1, 0);
+# middle alt number	
+	m.alt_med = m.alt_scale_grp.createChild("text")
+		.setText(".")
+    .setFontSize(75, 0.9)
+    .setColor(0,1,0,1)
+		.setAlignment("left-center")
+    .setTranslation(1, 0);
+# high alt number			 
+	m.alt_high = m.alt_scale_grp.createChild("text")
+		.setText(".")
+    .setFontSize(75, 0.9)
+    .setColor(0,1,0,1)
+		.setAlignment("left-center")
+    .setTranslation(1, 0);
 
-  # Heading right
-    m.hdgR = m.head_scale_grp.createChild("text");
-    m.hdgR.setColor(0, 1, 0, 1);
-    m.hdgR.setAlignment("center-bottom");
-    m.hdgR.setFontSize(50, 0.9);
-
-	#m.Vr_group = m.root.createChild("group");
-	#m.Vr_trans = m.Vr_group.createTransform();
-	#m.Vr_pointer = m.Vr_group.createChild("path")
-#		.moveTo(-640,-290)
-#		.vert(20)
-#		.setStrokeLineWidth(w)
-#		.setColor(r, g, b, a);
-
-	# Altitude
-
-    m.alt_scale_grp=m.root.createChild("group")
-      .set("clip", "rect(150px, 1800px, 874px, 0px)");#top,right,bottom,left
-    m.alt_scale_grp_trans = m.alt_scale_grp.createTransform();
-
-  # alt scale high
-    m.alt_scale_high=m.alt_scale_grp.createChild("path")
-      .moveTo(0, -6*altimeterScaleHeight/2)
-      .horiz(75)
-      .moveTo(0, -5*altimeterScaleHeight/2)
-      .horiz(50)
-      .moveTo(0, -2*altimeterScaleHeight)
-      .horiz(75)
-      .moveTo(0, -3*altimeterScaleHeight/2)
-      .horiz(50)
-      .moveTo(0, -altimeterScaleHeight)
-      .horiz(75)
-      .moveTo(0, -altimeterScaleHeight/2)
-      .horiz(50)
-      .moveTo(0, 0)
-      .horiz(75)
-      .setStrokeLineWidth(w)
-      .setColor(0,1,0, 1);
-
-  # alt scale medium
-    m.alt_scale_med=m.alt_scale_grp.createChild("path")
-      .moveTo(0, -5*altimeterScaleHeight/2)
-      .horiz(50)
-      .moveTo(0, -2*altimeterScaleHeight)
-      .horiz(75)
-      .moveTo(0, -3*altimeterScaleHeight/2)
-      .horiz(50)
-      .moveTo(0, -altimeterScaleHeight)
-      .horiz(75)
-      .moveTo(0, -4*altimeterScaleHeight/5)
-      .horiz(25)
-      .moveTo(0, -3*altimeterScaleHeight/5)
-      .horiz(25)           
-      .moveTo(0, -2*altimeterScaleHeight/5)
-      .horiz(25)
-      .moveTo(0, -1*altimeterScaleHeight/5)
-      .horiz(25)           
-      .moveTo(0, 0)
-      .horiz(75)
-      .setStrokeLineWidth(w)
-      .setColor(0,1,0, 1);
-
-	# alt scale low
-  		m.alt_scale_low = m.alt_scale_grp.createChild("path")
-      .moveTo(0, -7*altimeterScaleHeight/4)
-      .horiz(50)
-      .moveTo(0, -6*altimeterScaleHeight/4)
-      .horiz(75)
-			.moveTo(0, -5*altimeterScaleHeight/4)
-      .horiz(50)
-      .moveTo(0, -altimeterScaleHeight)
-      .horiz(75)
-      .moveTo(0,-4*altimeterScaleHeight/5)
-      .horiz(25)
-      .moveTo(0, -3*altimeterScaleHeight/5)
-      .horiz(25)
-			.moveTo(0, -2*altimeterScaleHeight/5)
-			.horiz(25)					 
-			.moveTo(0,-1*altimeterScaleHeight/5)
-			.horiz(25)
-			.moveTo(0, 0)
-			.horiz(75)
-			.setStrokeLineWidth(w)
-			.setColor(0,1,0, 1);
-      
-  # vert line at zero alt if it is lower than radar zero
-      m.alt_scale_line = m.alt_scale_grp.createChild("path")
-      .moveTo(0, 30)
-      .vert(-60)
-      .setStrokeLineWidth(w)
-      .setColor(0,1,0,1);
-# low
-    m.alt_low = m.alt_scale_grp.createChild("text")
-      .setText(".")
-      .setFontSize(75, 0.9)
-      .setColor(0,1,0,1)
-      .setAlignment("left-center")
-      .setTranslation(1, 0);
-# middle	
-		m.alt_med = m.alt_scale_grp.createChild("text")
-			.setText(".")
-      .setFontSize(75, 0.9)
-      .setColor(0,1,0,1)
-			.setAlignment("left-center")
-      .setTranslation(1, 0);
-# high			 
-		m.alt_high = m.alt_scale_grp.createChild("text")
-			.setText(".")
-      .setFontSize(75, 0.9)
-      .setColor(0,1,0,1)
-			.setAlignment("left-center")
-      .setTranslation(1, 0);
-
-# higher     
-    m.alt_higher = m.alt_scale_grp.createChild("text")
-      .setText(".")
-      .setFontSize(75, 0.9)
-      .setColor(0,1,0,1)
-      .setAlignment("left-center")
-      .setTranslation(1, 0);
+# higher alt number     
+  m.alt_higher = m.alt_scale_grp.createChild("text")
+    .setText(".")
+    .setFontSize(75, 0.9)
+    .setColor(0,1,0,1)
+    .setAlignment("left-center")
+    .setTranslation(1, 0);
 # alt scale indicator
-		m.alt_pointer = m.root.createChild("path")
-      .setColor(0,1,0,1)
-      .setStrokeLineWidth(w)
-      .moveTo(0,0)
-      .lineTo(-60,-60)
-      .moveTo(0,0)
-      .lineTo(-60,60)
-      .setTranslation(scalePlace+indicatorOffset, 0);
+	m.alt_pointer = m.root.createChild("path")
+    .setColor(0,1,0,1)
+    .setStrokeLineWidth(w)
+    .moveTo(0,0)
+    .lineTo(-60,-60)
+    .moveTo(0,0)
+    .lineTo(-60,60)
+    .setTranslation(scalePlace+indicatorOffset, 0);
 # alt scale radar ground indicator
-    m.rad_alt_pointer = m.alt_scale_grp.createChild("path")
-      .setColor(0,1,0,1)
-      .setStrokeLineWidth(w)
-      .moveTo(0,0)
-      .lineTo(-60,0)
-      .moveTo(0,0)
-      .lineTo(-30,50)
-      .moveTo(-30,0)
-      .lineTo(-60,50);
+  m.rad_alt_pointer = m.alt_scale_grp.createChild("path")
+    .setColor(0,1,0,1)
+    .setStrokeLineWidth(w)
+    .moveTo(0,0)
+    .lineTo(-60,0)
+    .moveTo(0,0)
+    .lineTo(-30,50)
+    .moveTo(-30,0)
+    .lineTo(-60,50);
   
 # QFE warning (inhg not properly set / is being adjusted)
-    m.qfe = m.root.createChild("text");
-    m.qfe.setText("QFE");
-    m.qfe.setColor(0, 1, 0, 1);
-    m.qfe.setAlignment("center-center");
-    m.qfe.setTranslation(-450, 200);
-    m.qfe.setFontSize(80, 0.9);
+  m.qfe = m.root.createChild("text");
+  m.qfe.setText("QFE");
+  m.qfe.setColor(0, 1, 0, 1);
+  m.qfe.setAlignment("center-center");
+  m.qfe.setTranslation(-450, 200);
+  m.qfe.setFontSize(80, 0.9);
 
 # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
-    m.alt = m.root.createChild("text");
-    m.alt.setColor(0, 1, 0, 1);
-    m.alt.setAlignment("center-center");
-    m.alt.setTranslation(-500, 300);
-    m.alt.setFontSize(85, 0.9);
- 
-    # Waterline / Pitch indicator
-    #m.root.createChild("path")
-    #      .moveTo(-24, 0)
-    #      .horizTo(-8)
-    #      .lineTo(-4, 6)
-    #      .lineTo(0, 0)
-    #      .lineTo(4, 6)
-    #      .lineTo(8, 0)
-    #      .horizTo(24)
-    #      .setStrokeLineWidth(w)
-    #      .setColor(0.36, 1, 0.3, a);
- 
-    # Flightpath/Velocity vector
-    m.vec_vel =
-      m.root.createChild("path")
-      .setColor(0,1,0,1)
-      .moveTo(-90, 0) # draw this symbol in flight when no weapons selected (always as for now)
-      .lineTo(-30, 0)
-      .lineTo(0, 30)
-      .lineTo(30, 0)
-      .lineTo(90, 0)
-      .setStrokeLineWidth(w);
-  # takeoff/landing symbol
-    m.takeoff_symbol = m.root.createChild("path")
-      .moveTo(210, 0)
-      .lineTo(150, 0)
-      .moveTo(90, 0)
-      .lineTo(30, 0)
-      .arcSmallCCW(30, 30, 0, -60, 0)
-      .arcSmallCCW(30, 30, 0,  60, 0)
-      .close()
-      .moveTo(-30, 0)
-      .lineTo(-90, 0)
-      .moveTo(-150, 0)
-      .lineTo(-210, 0)
-      .setStrokeLineWidth(w)
-      .setStrokeLineCap("round")
-      .setColor(0,1,0, 1);
+  m.alt = m.root.createChild("text");
+  m.alt.setColor(0, 1, 0, 1);
+  m.alt.setAlignment("center-center");
+  m.alt.setTranslation(-500, 300);
+  m.alt.setFontSize(85, 0.9);
 
-    # Horizon
+# Flightpath/Velocity vector
+  m.vec_vel =
+    m.root.createChild("path")
+    .setColor(0,1,0,1)
+    .moveTo(-90, 0) # draw this symbol in flight when no weapons selected (always as for now)
+    .lineTo(-30, 0)
+    .lineTo(0, 30)
+    .lineTo(30, 0)
+    .lineTo(90, 0)
+    .setStrokeLineWidth(w);
+# takeoff/landing symbol
+  m.takeoff_symbol = m.root.createChild("path")
+    .moveTo(210, 0)
+    .lineTo(150, 0)
+    .moveTo(90, 0)
+    .lineTo(30, 0)
+    .arcSmallCCW(30, 30, 0, -60, 0)
+    .arcSmallCCW(30, 30, 0,  60, 0)
+    .close()
+    .moveTo(-30, 0)
+    .lineTo(-90, 0)
+    .moveTo(-150, 0)
+    .lineTo(-210, 0)
+    .setStrokeLineWidth(w)
+    .setStrokeLineCap("round")
+    .setColor(0,1,0, 1);
+
+  # Horizon
     m.horizon_group = m.root.createChild("group");
     m.horizon_group2 = m.horizon_group.createChild("group");
-    #m.h_trans = m.horizon_group.createTransform();
     m.h_rot   = m.horizon_group.createTransform();
- 
-    # pitch lines
+
+  # pitch lines
     var distance = pixelPerDegree * 5;
     for(var i = -18; i <= -1; i += 1)
       m.horizon_group2.createChild("path")
@@ -359,37 +334,36 @@ var HUDnasal = {
                      .setStrokeLineWidth(w)
                      .setColor(0,1,0, 1);
 
-for(var i = 1; i <= 18; i += 1)
-      m.horizon_group2.createChild("path")
-                     .moveTo(650, -i * distance)
-                     .horiz(-450)
+    for(var i = 1; i <= 18; i += 1)
+          m.horizon_group2.createChild("path")
+                         .moveTo(650, -i * distance)
+                         .horiz(-450)
 
-                     .moveTo(-650, -i * distance)
-                     .horiz(450)
-                     
-                     .setStrokeLineWidth(w)
-                     .setColor(0,1,0, 1);
+                         .moveTo(-650, -i * distance)
+                         .horiz(450)
+                         
+                         .setStrokeLineWidth(w)
+                         .setColor(0,1,0, 1);
 
-                #pitch line numbers
-                for(var i = -18; i <= 0; i += 1)
-                m.horizon_group2.createChild("text")
-                     .setText(i*5)
-                     .setFontSize(75, 0.9)
-                     .setAlignment("right-bottom")
-                     .setTranslation(-200, -i * distance - 5)
-                     .setColor(0,1,0, 1);
-                for(var i = 1; i <= 18; i += 1)
-                m.horizon_group2.createChild("text")
-                     .setText("+" ~ i*5)
-                     .setFontSize(75, 0.9)
-                     .setAlignment("right-bottom")
-                     .setTranslation(-200, -i * distance - 5)
-                     .setColor(0,1,0, 1);
+                    #pitch line numbers
+                    for(var i = -18; i <= 0; i += 1)
+                    m.horizon_group2.createChild("text")
+                         .setText(i*5)
+                         .setFontSize(75, 0.9)
+                         .setAlignment("right-bottom")
+                         .setTranslation(-200, -i * distance - 5)
+                         .setColor(0,1,0, 1);
+                    for(var i = 1; i <= 18; i += 1)
+                    m.horizon_group2.createChild("text")
+                         .setText("+" ~ i*5)
+                         .setFontSize(75, 0.9)
+                         .setAlignment("right-bottom")
+                         .setTranslation(-200, -i * distance - 5)
+                         .setColor(0,1,0, 1);
                  
 
-    #Horizon line
-    m.horizon =
-      m.horizon_group2.createChild("path")
+  #Horizon line
+    m.horizon = m.horizon_group2.createChild("path")
                      .moveTo(-850, 0)
                      .horiz(650)
                      .moveTo(-30, 5)#-35
@@ -484,26 +458,7 @@ for(var i = 1; i <= 18; i += 1)
       me.hdgL.setTranslation(-100, -65);
       me.hdgL.setText(sprintf("%02d", leftText));
       
-  	  #var bright = me.input.Bright.getValue() or 0.8;
-			#var sw_d = me.input.Dir_sw.getValue() or 0;	
-			#var sw_h = me.input.H_sw.getValue() or 0;
-			#var sw_s = me.input.Speed_sw.getValue() or 0;	
-			#var sw_t = me.input.Test_sw.getValue() or 0;
-
-			#var G = bright;
-			#var A = 0.65 * bright;
-			#var Gd = bright * sw_d;
-			#var Ad = 0.65 * bright * sw_d;
-			#var Gh = bright * sw_h;
-			#var Ah = 0.65 * bright * sw_h;
-			#var Gs = bright * sw_s;
-			#var As = 0.65 * bright * sw_s;
-
-			#me.airspeed_scale.setColor(0.0,Gs,0.0,As);		
-			#me.airspeed_pointer.setColor(0.0,Gs,0.0,As);	
-			#me.Vr_pointer.setColor(0.0,Gs,0.0,As);
-
-      var alt = me.input.alt_ft.getValue() * 0.305;
+  	  var alt = me.input.alt_ft.getValue() * 0.305;
       var radAlt = me.input.rad_alt.getValue() * 0.305;
       # determine which scale to use
       if (alt_scale_mode == 0) {
@@ -797,10 +752,10 @@ for(var i = 1; i <= 18; i += 1)
     me.h_rot.setRotation(rot);
 
 
-    if (getprop("fcs/fbw-override") == 1) #tmp debug stuff
+    if (getprop("fcs/fbw-override") == 1) 
      {
-	     #?
-		   print("HUD removed");
+	     #tmp debug stuff
+		   #print("HUD removed");
 	   } else {
 		   #print("HUD repainted");
 	     settimer(func me.update(), 0);

@@ -64,6 +64,11 @@ Made altimeter calibrate only if plane not moving
 Altimeter indicators are now drawn instead of characters
 Altimeter scale is now slightly more compressed
 
+1.10
+----
+Improved nasal HUD comments, and beautified the script
+Changed 3D model to DATCOM generated one, due to possible license issue in other model, please stop using prior versions of this plane due to that.
+
 Notes:
 ------
 Beware, even though they are not animated the plane has reverse thrust, flaps and gear.
@@ -84,6 +89,9 @@ On the altimeter the symbol '77' indicates where radar altimeter detects the gro
 Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
 The heading at the top is shown as a scale showing 1/10 of heading in degrees.
 
+Known bugs:
+-----------
+The '77' symbol seems to be placed right of its place when running with fresh FG install. Wierd that can infuence nasal, needs more testing.
 
 TODO:
 -----
@@ -92,7 +100,7 @@ All fuel to engine has to go through tank 1
 Fuel tanks 3V and 3H is used for flying upside down
 Make pilot faint/die due to G-forces
 Clean up the Aerodynmaic functions and the controls
-Refine FDM (alot)
+Refine FDM (alot). Got some blueprints of the aircraft now, refine DATCOM to geometry of those.
 Put in more instruments
 Better annunciater warnings and other sounds
 Adapt for Rembrandt (future)
@@ -108,3 +116,8 @@ HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up!
+
+Liberties taken:
+----------------
+In the orig plane the decimal delimiter is ','. I choose to use the english '.' instead.
+The plane can calibrate the altimeter itself, only a placeholder for putting in the altimeter instrument, so the pilot can set it manually.

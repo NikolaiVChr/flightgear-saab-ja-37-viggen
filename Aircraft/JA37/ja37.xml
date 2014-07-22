@@ -4,7 +4,7 @@
   <fileheader>
     <author> Necolatis (Aeromatic v 0.95) </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.8 </version>
+    <version> 1.10 </version>
     <license>
       <licenseName>GPL (General Public License)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/gpl.html</licenseURL>
@@ -25,7 +25,7 @@
          
          Note: the 3D model has different license.
 
-         Many nice things stolen from F16, Buccaneer, 747-400 and Mig-15 plus some more I forgot.
+         Many nice things taken from F16, Buccaneer, 747-400 and Mig-15 plus some more I forgot.
       </note>
   </fileheader>
   
