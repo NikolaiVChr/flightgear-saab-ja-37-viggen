@@ -150,7 +150,9 @@ Made key to toogle yaw damper on/off
 ----
 Fixed yaw damper was off by default
 
-
+1.16
+----
+Updated the splash and thumbnail images
 
 Notes:
 ------
