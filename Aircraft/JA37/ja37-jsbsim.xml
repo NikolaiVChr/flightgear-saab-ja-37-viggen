@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.32 </version>
+    <version> 2.00 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -131,7 +131,7 @@ to an airplane of that size). -->
       </location>
       <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
-      <rolling_friction> 0.02 </rolling_friction>
+      <rolling_friction> 0.01 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 4250 </damping_coeff>
       <max_steer unit="DEG"> 80 </max_steer>
@@ -146,7 +146,7 @@ to an airplane of that size). -->
       </location>
       <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
-      <rolling_friction> 0.02 </rolling_friction>
+      <rolling_friction> 0.01 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff>
       <max_steer unit="DEG"> 0.0 </max_steer>
@@ -161,7 +161,7 @@ to an airplane of that size). -->
       </location>
       <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
-      <rolling_friction> 0.02 </rolling_friction>
+      <rolling_friction> 0.01 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff>
       <max_steer unit="DEG"> 0.0 </max_steer>

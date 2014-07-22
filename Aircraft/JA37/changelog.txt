@@ -369,4 +369,22 @@ Animation: Added chronometer, airspeed indicator, 2 x altimeters, plaque, nozzle
 1.32 - 2014 May 20
 ----
 HUD: In options the HUD brightness can now be modified.
-Effect: The combined shader on cockpit glass has been switched to deferred. Now works in fixed, ALS and Rembrandt. But not fully satisfactory.
+Effect: The combined shader on cockpit glass has been switched to deferred. Now works in standard, ALS and Rembrandt.
+
+1.33 - 2014 May 23
+----
+Effect: Removed the vapour effect at high alpha manoevres.
+Effect: Added wingtip condensation trails.
+Animation: Gear compression is now animated.
+Effect: Fixed normalmap shadow runs along the top of the plane. (still some minor ones left)
+Animation: Closed the two small holes inside the engine inlets.
+
+2.00
+----
+Sim: Gear compression now shows in replay.
+Sim: Fixed payload visuals in replay.
+Sim: Fixed 'e' key would not activate trigger after joystick had fired trigger.
+Sim: Gear compression and payload armament now transmitted over multiplay.
+HUD: Moved QFE text up a small bit.
+Sound: Added sound for multiplayer.
+Aero: Fixed major bug that prevented the aircraft to take-off at 315 Km/h speed. Will also affect overall aerodynamic handling.

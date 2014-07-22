@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
- 
 <PropertyList>
-
  <fx>
 
 <!--                                              canopy                                   --> 
@@ -87,7 +85,6 @@
    <name>high pitch fly by</name>
    <path>Sounds/roar-high.wav</path>
    <mode>looped</mode>
-
   <condition>
    <equals>
      <property>sim/current-view/name</property>
@@ -100,7 +97,6 @@
     </not>
     <property>engines/engine/running</property>
   </condition>
-
    <reference-dist>25</reference-dist>
    <max-dist>10000</max-dist>
    <position>
@@ -108,7 +104,6 @@
     <y>0.0</y>
     <z>0.0</z>
    </position>
-   
    <orientation>
     <x>1.0</x>
     <y>0.0</y>
@@ -117,19 +112,16 @@
     <outer-angle>80.0</outer-angle>
     <outer-gain>0.75</outer-gain>
    </orientation>
-   
    <volume>
     <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.000050</factor>
    </volume>
-   
   </flybyslow>
   
   <flybymed>
    <name>medium pitch fly by</name>
    <path>Aircraft/JA37/Sounds/roar-medium.wav</path>
    <mode>looped</mode>
-
   <condition>
    <equals>
      <property>sim/current-view/name</property>
@@ -142,15 +134,13 @@
     </not>
     <property>engines/engine/running</property>
   </condition>
-
-   <reference-dist>25</reference-dist>
+  <reference-dist>25</reference-dist>
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
     <y>0.0</y>
     <z>0.0</z>
    </position>
-   
    <orientation>
     <x>1.0</x>
     <y>0.0</y>
@@ -159,19 +149,16 @@
     <outer-angle>120.0</outer-angle>
     <outer-gain>0.5</outer-gain>
    </orientation>
-   
    <volume>
     <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.000050</factor>
    </volume>
-   
   </flybymed>
   
   <flybylow>
    <name>low pitch fly by</name>
    <path>Aircraft/JA37/Sounds/roar-low.wav</path>
    <mode>looped</mode>  
-
   <condition>
     <equals>
      <property>sim/current-view/name</property>
@@ -184,7 +171,6 @@
       <property>gear/gear[2]/wow</property>
     </not>
   </condition>
-
    <reference-dist>25</reference-dist>
    <max-dist>10000</max-dist>
    <position>
@@ -192,7 +178,6 @@
     <y>0.0</y>
     <z>0.0</z>
    </position>
-   
    <orientation>
     <x>1.0</x>
     <y>0.0</y>
@@ -201,12 +186,10 @@
     <outer-angle>180.0</outer-angle>
     <outer-gain>0</outer-gain>
    </orientation>
-   
    <volume>
     <property>engines/engine/thrust_lb-absolute</property>
     <factor>0.000150</factor>
    </volume>
-   
   </flybylow>  
   
   
@@ -321,7 +304,7 @@
    </volume>
   </engine_augmented_cockpit>
   
-<!--                               Model View                        engine                                   -->  
+<!--                               Model/tower View                        engine                                   -->  
   
   <engine_idle_model>
    <name>external fan</name>
@@ -355,7 +338,7 @@
     <property>gear/gear[0]/wow</property>
    </condition>
    <reference-dist>5</reference-dist>
-   <max-dist>3000</max-dist>
+   <max-dist>10000</max-dist>
    <position>
     <x>0.6</x>
     <y>0.0</y>
@@ -412,9 +395,14 @@
       <property>engines/engine/n1</property>
       <value>22</value>
     </greater-than-equals>
+
+
+
     <!--<not>
       <property>gear/gear[0]/wow</property>
     </not>-->
+
+    
     </condition>
    <reference-dist>5</reference-dist>
    <max-dist>10000</max-dist>
@@ -436,11 +424,16 @@
     <offset>0.000</offset>
     <factor>0.000020</factor>
    </volume>
+
+
+
    <!--<pitch>
     <property>engines/engine/n1</property>
     <offset>0.3</offset>
     <factor>0.03</factor>
    </pitch>-->
+
+
   </engine_mil_model>
 
  
@@ -449,34 +442,34 @@
    <name>external afterburner</name>
    <path>Sounds/exhaust_loop.wav</path>
    <mode>looped</mode>
+   <type>fx</type>
    <condition>
+    <property>engines/engine/augmentation</property>
     <or>
-      <and>
-        <property>sim/current-view/internal</property>
-        <greater-than>
-          <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
-          <value>0</value>
-        </greater-than>
-      </and>
       <and>
         <not-equals>
           <property>sim/current-view/name</property>
           <value>Fly-By View</value>
         </not-equals>
-        <not-equals>
+        <not>
          <property>sim/current-view/internal</property>
-         <value>1</value>
-        </not-equals>
+        </not>
       </and>
+      <and>
+        <property>sim/current-view/internal</property>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+          <value>0.0</value>
+        </greater-than>
+      </and>      
     </or>
     <!--<greater-than-equals>
       <property>engines/engine/n1</property>
       <value>98</value>
     </greater-than-equals>-->
-    <property>engines/engine/augmentation</property>
-    </condition>
+   </condition>
    <reference-dist>5</reference-dist>
-   <max-dist>30000</max-dist>
+   <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
     <y>0.0</y>
@@ -491,11 +484,16 @@
     <outer-gain>0.2</outer-gain>
    </orientation>
    <volume>
-   <value>1</value>
-    <!--<property>engines/engine/nozzle-pos-norm</property>
-    <offset>0.05</offset>
-    <factor>0.85</factor>-->
+    <property>engines/engine/nozzle-pos-norm</property>
+    <factor>1.0</factor>
+    <min>0.1</min>
+    <max>1.0</max>
+    <offset>0.0</offset>
    </volume>
+   <pitch>
+    <min>1.0</min>
+    <max>1.0</max>
+   </pitch>
   </engine_augmented_model>
 
 <!--                                                                          gears                                   -->  
@@ -504,7 +502,6 @@
    <name>gear rumble</name>
    <mode>looped</mode>
    <path>Sounds/rumble.wav</path>
-   <!--<property>gear/gear[0]/position-norm</property>-->
    <condition>
     <property>sim/current-view/internal</property>
     <greater-than>
@@ -746,7 +743,7 @@
     </and>
    </condition>
   </stallw>-->  
-
+<!--
     <terrain>
      <name>terrain</name>
       <reference-dist>1.0</reference-dist>
@@ -760,7 +757,7 @@
      <volume>
       <property>instrumentation/annunciators/gpws/volume</property>
      </volume>
-    </terrain>  
+    </terrain>  -->
   
 <!--                                                                          wind                                   -->  
 
@@ -798,10 +795,67 @@
      <volume>
         <factor>.4</factor>
       </volume>
-    </cannon>
+    </cannon>-->
    
+<missile1>
+      <name>missile1</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[1]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile1>
+    <missile2>
+      <name>missile2</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[2]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile2>
+    <missile3>
+      <name>missile3</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[3]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile3>
+    <missile4>
+      <name>missile4</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[4]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile4>     
+       
   <!--                                                                          crashing                                   -->  
-   
+
    
    <aircraft-explode>
   		<name>aircraft-explode</name>
@@ -916,63 +970,6 @@
         <property>sim/time/full-init</property>
         <factor>0.9</factor>
       </volume>
-    </voice>
-
-    <missile1>
-      <name>missile1</name>
-      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
-      <mode>once</mode>
-      <condition>
-        <property>controls/armament/station[1]/released</property>
-      </condition>
-      <reference-dist>25</reference-dist>
-      <max-dist>10000</max-dist>
-      <volume>
-        <factor>1</factor>
-        <max>1</max>
-      </volume>
-    </missile1>
-    <missile2>
-      <name>missile2</name>
-      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
-      <mode>once</mode>
-      <condition>
-        <property>controls/armament/station[2]/released</property>
-      </condition>
-      <reference-dist>25</reference-dist>
-      <max-dist>10000</max-dist>
-      <volume>
-        <factor>1</factor>
-        <max>1</max>
-      </volume>
-    </missile2>
-    <missile3>
-      <name>missile3</name>
-      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
-      <mode>once</mode>
-      <condition>
-        <property>controls/armament/station[3]/released</property>
-      </condition>
-      <reference-dist>25</reference-dist>
-      <max-dist>10000</max-dist>
-      <volume>
-        <factor>1</factor>
-        <max>1</max>
-      </volume>
-    </missile3>
-    <missile4>
-      <name>missile4</name>
-      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
-      <mode>once</mode>
-      <condition>
-        <property>controls/armament/station[4]/released</property>
-      </condition>
-      <reference-dist>25</reference-dist>
-      <max-dist>10000</max-dist>
-      <volume>
-        <factor>1</factor>
-        <max>1</max>
-      </volume>
-    </missile4>            
+    </voice>       
   </fx>
 </PropertyList>

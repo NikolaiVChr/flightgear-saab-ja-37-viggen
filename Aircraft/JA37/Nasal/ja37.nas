@@ -15,245 +15,256 @@ var touchdown2 = 0;
 var cnt = 0;
 
 var update_loop = func {
-  # set the full-init property
-  if(getprop("sim/time/elapsed-sec") > getprop("sim/time/elapsed-at-init-sec") + 5) {
-    setprop("sim/time/full-init", 1);
+  if(getprop("sim/replay/replay-state") == 1) {
+    # replay is active, skip rest of loop.
+    settimer(update_loop, UPDATE_PERIOD);
   } else {
-    setprop("sim/time/full-init", 0);
-  }
-
-	 ## Sets fuel gauge needles rotation ##
-	 
-   setprop("/instrumentation/fuel/needleB_rot", getprop("/consumables/fuel/tank[8]/level-norm")*230);
-
-   var total = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[1]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[2]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[3]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[4]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[5]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[6]/capacity-gal_us")
-              + getprop("/consumables/fuel/tank[7]/capacity-gal_us");
-
-  var current = getprop("/consumables/fuel/tank[0]/level-gal_us")
-              + getprop("/consumables/fuel/tank[1]/level-gal_us")
-              + getprop("/consumables/fuel/tank[2]/level-gal_us")
-              + getprop("/consumables/fuel/tank[3]/level-gal_us")
-              + getprop("/consumables/fuel/tank[4]/level-gal_us")
-              + getprop("/consumables/fuel/tank[5]/level-gal_us")
-              + getprop("/consumables/fuel/tank[6]/level-gal_us")
-              + getprop("/consumables/fuel/tank[7]/level-gal_us");
 
 
-   setprop("/instrumentation/fuel/needleF_rot", (current / total) *230);
-   
-   ## control augmented thrust ##
+    # set the full-init property
+    if(getprop("sim/time/elapsed-sec") > getprop("sim/time/elapsed-at-init-sec") + 5) {
+      setprop("sim/time/full-init", 1);
+    } else {
+      setprop("sim/time/full-init", 0);
+    }
+
+  	 ## Sets fuel gauge needles rotation ##
+  	 
+     if(getprop("/consumables/fuel/tank[8]/level-norm") != nil) {
+       setprop("/instrumentation/fuel/needleB_rot", getprop("/consumables/fuel/tank[8]/level-norm")*230);
+     }
+     var total = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[1]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[2]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[3]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[4]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[5]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[6]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[7]/capacity-gal_us");
+
+    var current = getprop("/consumables/fuel/tank[0]/level-gal_us")
+                + getprop("/consumables/fuel/tank[1]/level-gal_us")
+                + getprop("/consumables/fuel/tank[2]/level-gal_us")
+                + getprop("/consumables/fuel/tank[3]/level-gal_us")
+                + getprop("/consumables/fuel/tank[4]/level-gal_us")
+                + getprop("/consumables/fuel/tank[5]/level-gal_us")
+                + getprop("/consumables/fuel/tank[6]/level-gal_us")
+                + getprop("/consumables/fuel/tank[7]/level-gal_us");
+
+
+     setprop("/instrumentation/fuel/needleF_rot", (current / total) *230);
      
-   var n1 = getprop("/engines/engine/n1");
-   var n2 = getprop("/engines/engine/n2");
-   var reversed = getprop("/engines/engine/reversed");
-   
-   if ( (n1 > 99) and (n2 > 97) and (reversed == 0) )
-   {
-    setprop("/controls/engines/engine[0]/augmentation", 1);
-   }
-   else
-   {
-    setprop("/controls/engines/engine[0]/augmentation", 0);
-   }
-   
-   ## control flaps ##
-
-   var flapsCommand = 0;
-   var gear = getprop("/fdm/jsbsim/gear/gear-cmd-norm");
-   var battery = getprop("systems/electrical/outputs/battery");
-   
-   if ((battery < 25) or (gear == nil))
-   {
-     flapsCommand = 0.11765;
-   }
-   else
-  {
-    flapsCommand = gear;
-  }
-  setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
-  
-  if (getprop("systems/electrical/serviceable") < 1) {
-    setprop("/fdm/jsbsim/fcs/canopy/has-power", 0);
-  } else {
-    setprop("/fdm/jsbsim/fcs/canopy/has-power", 1);
-  }
-
-  #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
-  #  setprop("fdm/jsbsim/fcs/rudder/serviceable", 1);
-  #} elsif (getprop("fdm/jsbsim/fcs/rudder/serviceable") == 1) {
-  #  setprop("fdm/jsbsim/fcs/rudder-sum-stuck", getprop("fdm/jsbsim/fcs/rudder-sum"));
-  #  setprop("fdm/jsbsim/fcs/rudder-serviceable", 0);
-  #}
-
-  ## set groundspeed property used for crashcode ##
-  
-  var horz_speed = getprop("/fdm/jsbsim/velocities/vg-fps");
-  var vert_speed = getprop("/velocities/down-relground-fps");
+     ## control augmented thrust ##
+       
+     var n1 = getprop("/engines/engine/n1");
+     var n2 = getprop("/engines/engine/n2");
+     var reversed = getprop("/engines/engine/reversed");
      
-  var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
-  
-  real_speed = real_speed * 0.5924838;
-  
-  setprop("/velocities/groundspeed-3D-kt", real_speed); 
-  
-  setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
-  setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
-  setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
-  setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
+     if ( (n1 > 99) and (n2 > 97) and (reversed == 0) )
+     {
+      setprop("/controls/engines/engine[0]/augmentation", 1);
+     }
+     else
+     {
+      setprop("/controls/engines/engine[0]/augmentation", 0);
+     }
+     
+     ## control flaps ##
 
-  #setprop("systems/electrical/outputs/battery", getprop("/systems/electrical/volts"));
-  setprop("/instrumentation/switches/inst-light-knob/pos", getprop("/instrumentation/instrumentation-light/serviceable"));
-  #setprop("controls/lighting/instruments-norm", getprop("/systems/electrical/battery"));
-  
-  # Animating engine fire
+     var flapsCommand = 0;
+     var gear = getprop("/fdm/jsbsim/gear/gear-cmd-norm");
+     var battery = getprop("systems/electrical/outputs/battery");
+     
+     if ((battery < 25) or (gear == nil))
+     {
+       flapsCommand = 0.11765;
+     }
+     else
+    {
+      flapsCommand = gear;
+    }
+    setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
+    
+    if (getprop("systems/electrical/serviceable") < 1) {
+      setprop("/fdm/jsbsim/fcs/canopy/has-power", 0);
+    } else {
+      setprop("/fdm/jsbsim/fcs/canopy/has-power", 1);
+    }
 
-  var n1 = getprop("engines/engine/n1");
+    #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
+    #  setprop("fdm/jsbsim/fcs/rudder/serviceable", 1);
+    #} elsif (getprop("fdm/jsbsim/fcs/rudder/serviceable") == 1) {
+    #  setprop("fdm/jsbsim/fcs/rudder-sum-stuck", getprop("fdm/jsbsim/fcs/rudder-sum"));
+    #  setprop("fdm/jsbsim/fcs/rudder-serviceable", 0);
+    #}
 
-  if (n1 > 100) n1 = 100;
+    ## set groundspeed property used for crashcode ##
+    
+    var horz_speed = getprop("/fdm/jsbsim/velocities/vg-fps");
+    var vert_speed = getprop("/velocities/down-relground-fps");
+       
+    var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
+    
+    real_speed = real_speed * 0.5924838;
+    
+    setprop("/velocities/groundspeed-3D-kt", real_speed); 
+    
+    setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
+    setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
+    setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
+    setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
 
-  var flame = 100 / (100-n1);
+    #setprop("systems/electrical/outputs/battery", getprop("/systems/electrical/volts"));
+    setprop("/instrumentation/switches/inst-light-knob/pos", getprop("/instrumentation/instrumentation-light/serviceable"));
+    #setprop("controls/lighting/instruments-norm", getprop("/systems/electrical/battery"));
+    
+    # Animating engine fire
 
-  setprop("engines/engine/flame", flame);
+    var n1 = getprop("engines/engine/n1");
+
+    if (n1 > 100) n1 = 100;
+
+    var flame = 100 / (100-n1);
+
+    setprop("engines/engine/flame", flame);
 
 
-  # indicators
-  var joystick = 0;
-  var attitude = 0;
-  var altitude = 0;
+    # indicators
+    var joystick = 0;
+    var attitude = 0;
+    var altitude = 0;
 
-  # joystick indicator
-  if(getprop("/systems/electrical/generator_on") == 1) {
-    if (((getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil) and (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1) {
+    # joystick indicator
+    if(getprop("/systems/electrical/generator_on") == 1) {
+      if (((getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil) and (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1) {
+        joystick = 0;
+      } else {
+        joystick = 1;
+      }
+    } else {
       joystick = 0;
-    } else {
-      joystick = 1;
     }
-  } else {
-    joystick = 0;
-  }
 
-  # attitude indicator
-  if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)) {
-    if (getprop("/instrumentation/attitude-indicator/indicated-roll-deg") > 70 or getprop("/instrumentation/attitude-indicator/indicated-roll-deg") < -70) {
-      attitude = getprop("sim/model/lighting/beacon/state");
-    } else {
-      attitude = 1;
-    }
-  } else {
-    attitude = 0;
-  }
-
-  # altitude indicator
-  if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)) {
-    if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.8 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.2) {
-      altitude = getprop("sim/model/lighting/beacon/state");
-    } else {
-      altitude = 1;
-    }
-  } else {
-    altitude = 0;
-  }
-
-  setprop("/instrumentation/joystick-indicator", joystick);
-  setprop("/instrumentation/attitude-indicator", attitude);
-  setprop("/instrumentation/altitude-indicator", altitude);
-
-  # pylon payloads
-  for(var i=1; i<5; i=i+1) {
-    if(getprop("payload/weight["~ (i-1) ~"]/selected") != "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") == 0) {
-      # payload was loaded manually through payload/fuel dialog, so setting the pylon to not released
-      setprop("controls/armament/station["~i~"]/released", 0);
-    }
-  }
-
-  var trigger = getprop("controls/armament/trigger");
-  var armSelect = getprop("controls/armament/station-select");
-
-  if(trigger == 1) {
-    if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") { 
-      # trigger is pulled, a pylon is selected, the pylon has a missle: fire missile
-      setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
-      setprop("controls/armament/station["~armSelect~"]/released", 1);# setting the pylon as fired
-      #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
-    }
-  }
-
-  if (armSelect == 0) { # cannon
-    # cannon is selected, set the cannons trigger to match the joystick trigger
-    setprop("/controls/armament/station[0]/trigger", trigger);
-  } else {
-    # cannon is not selected, the cannon trigger is off
-    setprop("/controls/armament/station[0]/trigger", 0);
-  }
-  
-  for(var i=0; i<4; i=i+1) {
-    var selected = getprop("payload/weight["~i~"]/selected");
-    if(selected == "none") {
-      # the pylon is empty, set its pointmass to zero
-      setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
-    } elsif (selected == "RB 24J") {
-      # the pylon has a sidewinder, give it a pointmass
-      setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
-    }
-  }
-
-  # automatic reverse thrust enabler
-
-  var gear0 = getprop("/gear/gear[0]/wow");
-  var gear1 = getprop("/gear/gear[1]/wow");
-  var gear2 = getprop("/gear/gear[2]/wow");
-
-  if(getprop("processes/aircraft-break/autoReverseThrust") == 1 and reversed == 0) {
-    if(gear1 == 1) {
-      #left boogie touching
-      if(prevGear1 == 0) {
-        touchdown1 = 1;
+    # attitude indicator
+    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)) {
+      if (getprop("/instrumentation/attitude-indicator/indicated-roll-deg") > 70 or getprop("/instrumentation/attitude-indicator/indicated-roll-deg") < -70) {
+        attitude = getprop("sim/model/lighting/beacon/state");
+      } else {
+        attitude = 1;
       }
     } else {
-      touchdown1 = 0;
+      attitude = 0;
     }
-    if(gear2 == 1) {
-      #right boogie touching
-      if(prevGear2 == 0) {
-        touchdown2 = 1;
+
+    # altitude indicator
+    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)) {
+      if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.8 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.2) {
+        altitude = getprop("sim/model/lighting/beacon/state");
+      } else {
+        altitude = 1;
       }
     } else {
-      touchdown2 = 0;
+      altitude = 0;
     }
-    if(touchdown1 == 1 and touchdown2 == 1) {
-      if(gear0 == 1) {
-        #print("Auto-reversing the thrust");
-        reversethrust.togglereverser();
+
+    setprop("/instrumentation/joystick-indicator", joystick);
+    setprop("/instrumentation/attitude-indicator", attitude);
+    setprop("/instrumentation/altitude-indicator", altitude);
+
+    # pylon payloads
+
+    for(var i=1; i<5; i=i+1) {
+      if(getprop("payload/weight["~ (i-1) ~"]/selected") != "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") == 0) {
+        # payload was loaded manually through payload/fuel dialog, so setting the pylon to not released
+        setprop("controls/armament/station["~i~"]/released", 0);
       }
     }
+
+    var trigger = getprop("controls/armament/trigger");
+    var armSelect = getprop("controls/armament/station-select");
+
+    if(trigger == 1) {
+      if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") { 
+        # trigger is pulled, a pylon is selected, the pylon has a missile: fire missile
+        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+        setprop("controls/armament/station["~armSelect~"]/released", 1);# setting the pylon as fired
+        #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
+      }
+    }
+
+    if (armSelect == 0) { # cannon
+      # cannon is selected, set the cannons trigger to match the joystick trigger
+      setprop("/controls/armament/station[0]/trigger", trigger);
+    } else {
+      # cannon is not selected, the cannon trigger is off
+      setprop("/controls/armament/station[0]/trigger", 0);
+    }
+    
+    for(var i=0; i<4; i=i+1) { # set JSBSim mass
+      var selected = getprop("payload/weight["~i~"]/selected");
+      if(selected == "none") {
+        # the pylon is empty, set its pointmass to zero
+        setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
+      } elsif (selected == "RB 24J") {
+        # the pylon has a sidewinder, give it a pointmass
+        setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+      }
+    }
+
+    # automatic reverse thrust enabler
+
+    var gear0 = getprop("/gear/gear[0]/wow");
+    var gear1 = getprop("/gear/gear[1]/wow");
+    var gear2 = getprop("/gear/gear[2]/wow");
+
+    if(getprop("processes/aircraft-break/autoReverseThrust") == 1 and reversed == 0) {
+      if(gear1 == 1) {
+        #left boogie touching
+        if(prevGear1 == 0) {
+          touchdown1 = 1;
+        }
+      } else {
+        touchdown1 = 0;
+      }
+      if(gear2 == 1) {
+        #right boogie touching
+        if(prevGear2 == 0) {
+          touchdown2 = 1;
+        }
+      } else {
+        touchdown2 = 0;
+      }
+      if(touchdown1 == 1 and touchdown2 == 1) {
+        if(gear0 == 1) {
+          #print("Auto-reversing the thrust");
+          reversethrust.togglereverser();
+        }
+      }
+    }
+
+    prevGear0 = gear0;
+    prevGear1 = gear1;
+    prevGear2 = gear2;
+
+    # Make sure have engine sound at reverse thrust
+
+    var thrust = getprop("engines/engine/thrust_lb");
+     
+    if(thrust != nil) {
+      setprop("engines/engine/thrust_lb-absolute", abs(thrust));
+    } else {
+      setprop("engines/engine/thrust_lb-absolute", 0);
+    }
+
+    # meter altitude property
+
+    setprop("instrumentation/altimeter/indicated-altitude-meter", getprop("instrumentation/altimeter/indicated-altitude-ft")*0.3048);
+
+    # front gear compression calc for spinning of wheel
+    # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
+
+    settimer(update_loop, UPDATE_PERIOD);
   }
-
-  prevGear0 = gear0;
-  prevGear1 = gear1;
-  prevGear2 = gear2;
-
-  # Make sure have engine sound at reverse thrust
-
-  var thrust = getprop("engines/engine/thrust_lb");
-   
-  if(thrust != nil) {
-    setprop("engines/engine/thrust_lb-absolute", abs(thrust));
-  } else {
-    setprop("engines/engine/thrust_lb-absolute", 0);
-  }
-
-  # meter altitude property
-
-  setprop("instrumentation/altimeter/indicated-altitude-meter", getprop("instrumentation/altimeter/indicated-altitude-ft")*0.3048);
-
-
-  settimer(update_loop, UPDATE_PERIOD);
 }
 
 

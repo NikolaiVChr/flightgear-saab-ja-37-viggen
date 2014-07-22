@@ -175,7 +175,7 @@
        <binding>
          <command>set-tooltip</command>
          <tooltip-id>chronometer</tooltip-id>
-         <label>Time: %s</label>
+         <label>Time (UTC default): %s</label>
          <property>instrumentation/clock/indicated-string</property>
       </binding>
    </hovered>

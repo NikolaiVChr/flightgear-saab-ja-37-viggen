@@ -8,10 +8,7 @@ Test new JSBSim ground contact features.
 Test new FGPlot
 HUD: Use instrument properties instead of simulation properties
 Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
-Check all multiplayer properties for regressions.
 Find out why cannon and sidewinder fire randomly after instant replay.
-Check all replay properties for regressions.
-Check HP for potential lost changes.
 Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Reset controls after A/P let go of them.
 
@@ -23,7 +20,7 @@ GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
 GUI: Make crashing, creaking and breaking optional through menu.
 GUI: Show droptank status.
 GUI: Make something procedual, just to test it out.
-GUI: Option to turn of certain effects.
+GUI: Option to turn off certain effects.
 GUI: Stats. topspeed, topalpha, topbeta, topclimb, top altitude
 GUI: Set Radar dist
 
@@ -41,8 +38,7 @@ Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
-Effect: Glass shader is missing rainbow effect.
-Effect: Nozzle shader is missing dirt.
+
 
 Features and improvements:
 --------------------------
@@ -56,7 +52,7 @@ Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe force 
 Animation: Some switches.
 Animation: Make wings break off when they break due to structural damage.
 Animation: Adjust instrument materials, and make the gauges look more similar.
-Animation: Animate wheels
+Animation: Animate wheels (hard when gears get compressed..)
 Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
 Sim: Improve autopilot further, it wobbles.
@@ -69,7 +65,7 @@ Sim: Add Bombable support, if aircraft can still work without having Bombable in
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particale is always attached to world not plane]
-Effect: Rembrandt landing lightcone. (the model misses the lamp on front gear though)
+Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear though)
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces
 Effect: Make tires burst if too high speed with parking brakes
@@ -92,7 +88,6 @@ Issues with FG: (or my limited understanding of it)
 ---------------
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also, which has nothing to do with emissiveness.
-Effect: The normalmap/specularmap and combined shader effect makes a strange shadow down the middle.
 Sim: Get flightrecorder to record position with higher frequency.
 Sound: Occansional wierd buzz in model view sound when using throttle.
 
@@ -102,7 +97,7 @@ Require modeling/texture skills (above my level):
 Animation: Model proper panels and cockpit layout.
 Animation: Put in more working instruments and controls (semi doable if can find similar instrument in other plane, but too many to look through)
 Animation: Put in alot more not-working instruments and controls for immersion
-Animation: Animate gear compression. The gears are currently modelled wrong for this.
+Animation: Animate scissor gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors
 Animation: Model the reverser for reverse thrust.
 Effect: Make gun fire bullets from correct position (should be a pod under belly)

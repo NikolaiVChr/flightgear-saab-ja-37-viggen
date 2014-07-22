@@ -21,6 +21,61 @@
   <heading-deg>0</heading-deg>
  </offsets>-->
 </model>
+
+<animation>
+  <type>material</type>
+  <condition>
+    <not>
+    <property>/sim/rendering/rembrandt/enabled</property>
+  </not>
+  </condition>
+  <object-name>InternalFlamePoly</object-name>
+  <emission>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </emission>
+  <ambient>
+   <red>0.00</red>
+   <green>0.00</green>
+   <blue>0.00</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </ambient>
+  <diffuse>
+   <red>0.00</red>
+   <green>0.00</green>
+   <blue>0.00</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </diffuse>
+ </animation>
+ 
+ <animation><!-- I do not like this workaround -->
+  <type>material</type>
+  <condition>
+    <property>/sim/rendering/rembrandt/enabled</property>
+  </condition>
+  <object-name>InternalFlamePoly</object-name>
+  <emission>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </emission>
+  <ambient>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </ambient>
+  <diffuse>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </diffuse>
+ </animation>
+
  
 <!--<model>
  <name>InternalFlameVolume</name>

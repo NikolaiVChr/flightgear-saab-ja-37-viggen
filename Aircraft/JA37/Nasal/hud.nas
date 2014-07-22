@@ -324,7 +324,7 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-450, 200);
+    HUDnasal.main.qfe.setTranslation(-450, 175);
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
   # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)

@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<PropertyList>
+ <fx>
+
+<!--   **************************************************
+             Multiplayer sound
+       **************************************************
+-->
+
+
+<!--                                              canopy                                   --> 
+ 
+  <canopy>
+   <name>canopy</name>
+   <path>Aircraft/JA37/Sounds/canopy.wav</path>
+   <mode>in-transit</mode>
+   <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
+   <reference-dist>2</reference-dist>
+   <max-dist>30</max-dist>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.195</z>
+   </position>
+   <pitch>
+    <internal>dt_start</internal>
+    <offset>1.25</offset>
+    <factor>-0.25</factor>
+   </pitch>
+   <volume>
+    <max>0.05</max>
+   </volume>
+  </canopy>
+
+<!--                               Fly-By View                        engine                                   -->
+
+  <flybyslow>
+   <name>high pitch fly by</name>
+   <path>Sounds/roar-high.wav</path>
+   <mode>looped</mode>
+  <condition>
+    <not-equals>
+     <property>/sim/current-view/name</property>
+     <value>Model View</value>
+    </not-equals>
+    <not>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </not>
+    <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
+  </condition>
+   <reference-dist>25</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>50.0</inner-angle>
+    <outer-angle>80.0</outer-angle>
+    <outer-gain>0.75</outer-gain>
+   </orientation>
+   <volume>
+    <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
+    <factor>0.000050</factor>
+   </volume>
+  </flybyslow>
+  
+  <flybymed>
+   <name>medium pitch fly by</name>
+   <path>Aircraft/JA37/Sounds/roar-medium.wav</path>
+   <mode>looped</mode>
+  <condition>
+    <not-equals>
+     <property>/sim/current-view/name</property>
+     <value>Model View</value>
+    </not-equals>
+    <not>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </not>
+    <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
+  </condition>
+  <reference-dist>25</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>45.0</inner-angle>
+    <outer-angle>120.0</outer-angle>
+    <outer-gain>0.5</outer-gain>
+   </orientation>
+   <volume>
+    <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
+    <factor>0.000050</factor>
+   </volume>
+  </flybymed>
+  
+  <flybylow>
+   <name>low pitch fly by</name>
+   <path>Aircraft/JA37/Sounds/roar-low.wav</path>
+   <mode>looped</mode>  
+  <condition>
+    <not-equals>
+     <property>/sim/current-view/name</property>
+     <value>Model View</value>
+    </not-equals>
+    <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
+    <not>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </not>
+  </condition>
+   <reference-dist>25</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>45</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>0</outer-gain>
+   </orientation>
+   <volume>
+    <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
+    <factor>0.000150</factor>
+   </volume>
+  </flybylow>  
+  
+  
+  
+<!--                               Model/tower View                        engine                                   -->  
+  
+  <engine_idle_model>
+   <name>external fan</name>
+   <path>Sounds/turbojet_fan.wav</path>
+   <mode>looped</mode>
+   <condition>
+    <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
+    <greater-than>
+      <property>sim/multiplay/generic/float[15]</property><!-- n1 -->
+      <value>1</value>
+    </greater-than>
+    <equals>
+     <property>/sim/current-view/name</property>
+     <value>Model View</value>
+    </equals>
+    <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+   </condition>
+   <reference-dist>5</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>0.6</x>
+    <y>0.0</y>
+    <z>-0.37</z>
+   </position>
+   <orientation>
+    <x>-0.98</x>
+    <y>0.0</y>
+    <z>-0.17</z>
+    <inner-angle>90.0</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>1</outer-gain>
+   </orientation>
+   <pitch>
+    <property>sim/multiplay/generic/float[15]</property><!-- n1 -->
+    <offset>1</offset>
+    <factor>0.005</factor>
+   </pitch>
+   <volume>
+    <type>inv</type>
+    <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
+    <factor>1000</factor>
+    <max>0.25</max>
+   </volume>
+  </engine_idle_model>
+ 
+   
+  <engine_mil_model>
+   <name>external turbine</name>
+   <path>Aircraft/JA37/Sounds/thrust-exterior.wav</path>
+   <mode>looped</mode>
+   <condition>
+    <equals>
+     <property>/sim/current-view/name</property>
+     <value>Model View</value>
+    </equals>
+    <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
+    <greater-than-equals>
+      <property>sim/multiplay/generic/float[15]</property><!-- n1 -->
+      <value>22</value>
+    </greater-than-equals>
+    <!--<not>
+      <property>gear/gear[0]/wow</property>
+    </not>-->
+    </condition>
+   <reference-dist>5</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>90.0</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>0.4</outer-gain>
+   </orientation>
+   <volume>
+    <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
+    <offset>0.000</offset>
+    <factor>0.000020</factor>
+   </volume>
+   <!--<pitch>
+    <property>engines/engine/n1</property>
+    <offset>0.3</offset>
+    <factor>0.03</factor>
+   </pitch>-->
+  </engine_mil_model>
+
+ 
+
+  <engine_augmented_model>
+   <name>external afterburner</name>
+   <path>Sounds/exhaust_loop.wav</path>
+   <mode>looped</mode>
+   <type>fx</type>
+   <condition>
+    <property>sim/multiplay/generic/int[4]</property><!-- engines/engine/augmentation -->
+    <equals>
+     <property>/sim/current-view/name</property>
+     <value>Model View</value>
+    </equals>
+    <!--<greater-than-equals>
+      <property>engines/engine/n1</property>
+      <value>98</value>
+    </greater-than-equals>-->
+   </condition>
+   <reference-dist>5</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>60.0</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>0.2</outer-gain>
+   </orientation>
+   <volume>
+    <property>sim/multiplay/generic/float[3]</property><!--  engines/engine/nozzle-pos-norm -->
+    <factor>1.0</factor>
+    <min>0.1</min>
+    <max>1.0</max>
+    <offset>0.0</offset>
+   </volume>
+   <pitch>
+    <min>1.0</min>
+    <max>1.0</max>
+   </pitch>
+  </engine_augmented_model>
+
+<!--                                                                          gears                                   -->  
+
+  <squeal>
+   <name>touchdown squeal</name>
+   <path>Sounds/squeal.wav</path>
+   <condition>
+    <or>
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </or>
+   </condition>
+   <reference-dist>150</reference-dist>
+   <max-dist>500</max-dist>
+   <position>
+    <x>1.2</x>
+    <y>0.0</y>
+    <z>-0.6</z>
+   </position>
+   <volume>
+    <property>sim/multiplay/generic/float[18]</property><!--  velocities/speed-down-fps -->
+    <factor>0.05</factor>
+   </volume>
+   <volume>
+    <property>sim/multiplay/generic/float[17]</property><!--  velocities/airspeed-kt -->
+    <factor>0.01</factor>
+   </volume>
+   <volume>
+    <internal>dt_stop</internal>
+    <factor>0.05</factor>
+    <max>1.0</max>
+   </volume>
+   <pitch>
+    <property>sim/multiplay/generic/float[17]</property><!--  velocities/airspeed-kt -->
+    <factor>0.0025</factor>
+    <offset>1.2</offset>
+   </pitch>
+  </squeal>
+ </fx>
+</PropertyList>

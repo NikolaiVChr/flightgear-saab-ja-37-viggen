@@ -81,7 +81,7 @@
              </table>
              <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">fcs/elevator-pos-deg</independentVar><!-- same as flightgears definition, even though hard to read from figure -->
+                <independentVar lookup="column">aero/function/elevator-pos-deg-inv</independentVar><!-- same as flightgears definition, even though hard to read from figure -->
                 <tableData><!-- [measured using graph analyser] -->
                                -20      0     20
                        -20  -1.232 -1.178 -1.036
