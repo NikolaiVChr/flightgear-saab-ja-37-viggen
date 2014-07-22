@@ -53,6 +53,10 @@ Lifted pilot view 2cm
 Switched HUD font, which fixed an alignment canvas bug
 Made several adjustments to the HUD
 
+1.8
+---
+Fixed small timing problem in HUD heading scale
+
 Notes:
 ------
 Beware, even though they are not animated the plane has reverse thrust, flaps and gear.

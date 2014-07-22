@@ -463,10 +463,12 @@ for(var i = 1; i <= 18; i += 1)
       var rightText = middleText == 35?0:middleText+1;
       if (headOffset > 0.5) {
         me.head_scale_grp_trans.setTranslation(-(headScaleOffset-1)*100, -headScalePlace);
+        me.head_scale_grp.update();
         me.hdgLineL.show();
         me.hdgLineR.hide();
       } else {
         me.head_scale_grp_trans.setTranslation(-headScaleOffset*100, -headScalePlace);
+        me.head_scale_grp.update();
         me.hdgLineR.show();
         me.hdgLineL.hide();
       }
