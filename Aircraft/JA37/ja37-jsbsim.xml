@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.22 </version>
+    <version> 1.23 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -208,6 +208,7 @@
       <feed>5</feed>
       <feed>6</feed>
       <feed>7</feed>
+      <feed>8</feed>
       <thruster file="direct">
         <location unit="M">
           <x> 7.8 </x>
@@ -229,9 +230,13 @@
         <y> 0 </y>
         <z> 0.4 </z>
       </location>
+      <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 2735 </capacity>
       <contents unit="KG"> 2735 </contents>
-      <priority> 5 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 6 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Fuselage Forward Tank 2 -->
@@ -240,9 +245,13 @@
         <y> 0 </y>
         <z> 0.4 </z>
       </location>
+      <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 1366 </capacity>
       <contents unit="KG"> 200 </contents>
-      <priority> 2 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 3 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Left Fuselage Minor Tank 3V -->
@@ -251,9 +260,13 @@
         <y> -0.65 </y>
         <z> 0.4 </z>
       </location>
+      <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 172 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 3 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 4 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right Fuselage Minor Tank 3H -->
@@ -262,9 +275,13 @@
         <y> 0.65 </y>
         <z> 0.4 </z>
       </location>
+      <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 172 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 3 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 4 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Left Minor Wing Tank 5V -->
@@ -273,9 +290,13 @@
         <y> -1.45 </y>
         <z> -0.55 </z>
       </location>
+      <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 116 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 4 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 5 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right Minor Wing Tank 5H -->
@@ -284,9 +305,13 @@
         <y> 1.45</y>
         <z> -0.55 </z>
       </location>
+      <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 116 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 4 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 5 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Left wing tank 4V -->
@@ -295,9 +320,13 @@
         <y> -2 </y>
         <z> -0.55 </z>
       </location>
+      <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
       <contents unit="KG"> 0 </contents>
-      <priority> 1 </priority>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 2 </priority>
     </tank>
     <tank type="FUEL">
       <!-- Right wing tank 4H -->
@@ -306,8 +335,27 @@
         <y> 2 </y>
         <z> -0.55 </z>
       </location>
+      <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
       <contents unit="KG"> 0 </contents>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
+      <priority> 2 </priority>
+    </tank>
+    <tank type="FUEL">
+      <!-- Drop tank -->
+      <location unit="M">
+        <x> 0.29801 </x>
+        <y> 0.01299 </y>
+        <z> -1.50 </z>
+      </location>
+      <radius unit="M"> 0.25 </radius>
+      <capacity unit="KG"> 1500 </capacity>
+      <contents unit="KG"> 0 </contents>
+      <temperature>70</temperature>
+      <density unit="LBS/GAL"> 6.48 </density>
+      <type>JP-4</type>
       <priority> 1 </priority>
     </tank>
   </propulsion>

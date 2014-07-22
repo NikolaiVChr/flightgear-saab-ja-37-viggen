@@ -11,10 +11,12 @@ Nikolai V. Chr. - emptyyetfull at gmail.com
 Forum name: Necolatis
 
 FDM
+HUD
 Animation
 Nasal
 Effects
-Instruments and HUD
+Instrument adaption
+System adaption
 XML
 Various minor modelling
 
@@ -28,4 +30,15 @@ Thanks to the flightgear project people for a great simulator.
 Note
 ====
 Various stuff adapted from other aircrafts:
-F16, Buccaneer, 747-400, TU-154B, Mig29, F-14b and Mig-15. Plus others.
+
+F16 - Canopy. Inertia. Afterburner flame and engine glow. Texture for Strake-vortex. Cannon.
+J35F - 8 instruments and electrical system
+Mig-15 - Crash code
+Buccaneer - Flight direction indicator in HUD
+TU-154B - Remove delay when switching to external view
+Mig29 - Light glow
+F-14b - Trans-mach vapor cone
+747-400 - Reverse thrust
+BAC-TSR2-GR3 - G-force breathing sounds
+
+Might have forgotten some. (sounds)

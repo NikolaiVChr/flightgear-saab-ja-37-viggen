@@ -46,6 +46,9 @@ aircraft_lock = func
 		setprop("fdm/jsbsim/systems/boostercontrol/serviceable", 0);
 		setprop("fdm/jsbsim/systems/gyrocompass/serviceable", 0);
 		setprop("fdm/jsbsim/systems/altimeter/serviceable", 0);
+		setprop("/instrumentation/head-up-display/serviceable", 0);
+		setprop("/instrumentation/instrumentation-light/serviceable", 0);
+		setprop("/instrumentation/radar/serviceable", 0);
 
 		#Lock controls
 		setprop("instrumentation/gear-control/serviceable", 0);
@@ -365,7 +368,7 @@ aircraftbreakprocess=func
 init_aircraftbreakprocess=func
 {
 #print("init_aircraftbreakprocess");
-	setprop("fdm/jsbsim/simulation/exploded", 0);
+setprop("fdm/jsbsim/simulation/exploded", 0);
 	setprop("fdm/jsbsim/simulation/crashed", 0);
 	setprop("fdm/jsbsim/accelerations/explode-g", 0);
 	setprop("fdm/jsbsim/accelerations/crack", 0);
@@ -377,6 +380,67 @@ init_aircraftbreakprocess=func
 	setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", 0);
 	setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", 0);
 	setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", 0);
+
+	#Start instruments
+	setprop("instrumentation/clock/serviceable", 1);
+	setprop("instrumentation/manometer/serviceable", 1);
+	setprop("instrumentation/gear-indicator/serviceable", 1);
+	setprop("instrumentation/flaps-lamp/serviceable", 1);
+	setprop("instrumentation/fuelometer/serviceable", 1);
+	setprop("instrumentation/altimeter-lamp/serviceable", 1);
+	setprop("instrumentation/gear-lamp/serviceable", 1);
+	setprop("instrumentation/oxygen-pressure-meter/serviceable", 1);
+	setprop("instrumentation/brake-pressure-meter/serviceable", 1);
+	setprop("instrumentation/ignition-lamp/serviceable", 1);
+	setprop("instrumentation/gastermometer/serviceable", 1);
+	setprop("instrumentation/motormeter/serviceable", 1);
+	setprop("instrumentation/machometer/serviceable", 1);
+	setprop("instrumentation/turnometer/serviceable", 1);
+	setprop("instrumentation/vertspeedometer/serviceable", 1);
+	setprop("instrumentation/gear-pressure-indicator/serviceable", 1);
+	setprop("instrumentation/flaps-pressure-indicator/serviceable", 1);
+	setprop("instrumentation/marker-beacon/serviceable", 1);
+	setprop("/instrumentation/head-up-display/serviceable", 1);
+	setprop("/instrumentation/instrumentation-light/serviceable", 1);
+	setprop("/instrumentation/radar/serviceable", 1);
+
+	#JSB instruments and controls
+	setprop("fdm/jsbsim/systems/airspeedometer/serviceable", 1);
+	setprop("fdm/jsbsim/systems/vertspeedometer/serviceable", 1);
+	setprop("fdm/jsbsim/systems/arthorizon/serviceable", 1);
+	setprop("fdm/jsbsim/systems/tachometer/serviceable", 1);
+	setprop("fdm/jsbsim/systems/headsight/serviceable", 1);
+	setprop("fdm/jsbsim/systems/gascontrol/serviceable", 1);
+	setprop("fdm/jsbsim/systems/flapscontrol/serviceable", 1);
+	setprop("fdm/jsbsim/systems/rightpanel/serviceable", 1);
+	setprop("fdm/jsbsim/systems/stopcontrol/serviceable", 1);
+	setprop("fdm/jsbsim/systems/leftpanel/serviceable", 1);
+	setprop("fdm/jsbsim/systems/ignitionbuton/serviceable", 1);
+	setprop("fdm/jsbsim/systems/speedbrakescontrol/serviceable", 1);
+	setprop("fdm/jsbsim/systems/radioaltimeter/serviceable", 1);
+	setprop("fdm/jsbsim/systems/stick/serviceable", 1);
+	setprop("fdm/jsbsim/systems/pedals/serviceable", 1);
+	setprop("fdm/jsbsim/systems/gearvalve/serviceable", 1);
+	setprop("fdm/jsbsim/systems/flapsvalve/serviceable", 1);
+	setprop("fdm/jsbsim/systems/boostercontrol/serviceable", 1);
+	setprop("fdm/jsbsim/systems/gyrocompass/serviceable", 1);
+	setprop("fdm/jsbsim/systems/altimeter/serviceable", 1);
+
+	#Unlock controls
+	setprop("instrumentation/gear-control/serviceable", 1);
+	setprop("instrumentation/flaps-control/serviceable", 1);
+	setprop("instrumentation/speed-brake-control/serviceable", 1);
+	setprop("instrumentation/ignition-button/serviceable", 1);
+	setprop("instrumentation/cannon/serviceable", 1);
+	setprop("instrumentation/trimmer/serviceable", 1);
+	setprop("fdm/jsbsim/systems/radiocompass/serviceable", 1);
+	setprop("instrumentation/photo/serviceable", 1);
+	setprop("instrumentation/drop-tank/serviceable", 1);
+	setprop("instrumentation/pedals/serviceable", 1);
+
+	#Switch on engine
+	setprop("controls/engines/engine/cutoff", 0);
+	setprop("engines/engine/cutoff-reason", "aircraft break");
 }
 
 init_aircraftbreakprocess();

@@ -5,6 +5,22 @@
 
   <path>accelerometer.ac</path>
 
+<animation>
+  <type>pick</type> 
+  <object-name>needle</object-name>
+  <object-name>face</object-name>
+  <object-name>Gauge</object-name>
+  <object-name>Cylinder</object-name>
+  <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>accelerometer</tooltip-id>
+         <label>Pulling %3dG</label>
+         <property>accelerations/pilot-gdamped</property>
+      </binding>
+   </hovered>
+ </animation>
+
   <animation>
     <type>rotate</type>
     <object-name>needle</object-name>
@@ -87,17 +103,18 @@
     </axis>
   </animation>-->
 
-  <animation>
-    <object-name>accel</object-name> 
-    <type>material</type>
-    <condition><not><property>sim/rendering/rembrandt/enabled</property></not></condition>
-    <emission>
-      <factor-prop>controls/lighting/instruments-norm</factor-prop>
-      <red>0.55</red>
-      <green>0.24</green>
-      <blue>0.10</blue>
-    </emission>
-  </animation>
+<animation>
+  <type>material</type> 
+  <object-name>needle</object-name>
+  <object-name>face</object-name>
+  <object-name>Gauge</object-name>
+  <emission>  
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
 
   <!-- *** LoD *** -->
   <animation>

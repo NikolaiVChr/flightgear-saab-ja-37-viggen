@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>range-selector.ac</path>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10</max-m>
+ </animation>
+ 
+ <animation>
+  <type>material</type> 
+  <object-name>D10000</object-name>
+  <object-name>D1000</object-name>
+  <object-name>D100</object-name>
+  <object-name>D10</object-name>
+  <object-name>D1</object-name>
+  <emission>	
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+<animation>
+  <type>pick</type>
+  <object-name>D10000</object-name>
+  <object-name>D1000</object-name>
+  <object-name>D100</object-name>
+  <object-name>D10</object-name>
+  <object-name>D1</object-name>
+  <object-name>CW</object-name>
+  <object-name>CCW</object-name>
+  <object-name>RCube</object-name>
+  <object-name>RCylinder</object-name>
+  <object-name>RPlane</object-name>
+  <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>Radar Range Setting</tooltip-id>
+         <label>Radar Range %5d meter</label>
+         <property>/instrumentation/radar/range</property>
+      </binding>
+   </hovered>
+ </animation>
+
+    <!-- Range Display -->
+    
+    <animation>
+        <type>textranslate</type>
+        <object-name>D10000</object-name>
+        <property>/instrumentation/radar/range</property>
+        <factor>0.00001</factor>
+        <step>10000</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    
+    <animation>
+        <type>textranslate</type>
+        <object-name>D1000</object-name>
+        <property>/instrumentation/radar/range</property>
+        <factor>0.0001</factor>
+        <step>1000</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>D100</object-name>
+        <property>/instrumentation/radar/range</property>
+        <factor>0.001</factor>
+        <step>100</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>D10</object-name>
+        <property>/instrumentation/radar/range</property>
+        <factor>0.01</factor>
+        <step>10</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>D1</object-name>
+        <property>/instrumentation/radar/range</property>
+        <factor>0.1</factor>
+        <step>1</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+
+  <!--             Range setting       -->  
+
+ <animation>
+  <type>pick</type>
+  <object-name>CW</object-name>
+  <visible>false</visible>
+  <action>
+    <name>decrease calibrate fine</name>
+    <button>0</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>-10</step>
+      <min>1000</min>
+      <max>48000.0</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+  <action>
+    <name>decrease calibrate coarse</name>
+    <button>1</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>-1000</step>
+      <min>1000</min>
+      <max>48000</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+  <action>
+    <name>decrease calibrate fine (scrollwheel)</name>
+    <button>3</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>-10</step>
+      <min>1000</min>
+      <max>48000</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+  <action>
+    <name>increase calibrate fine (scrollwheel)</name>
+    <button>4</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>10</step>
+      <min>1000</min>
+      <max>48000</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+  <object-name>CCW</object-name>
+  <visible>false</visible>
+  <action>
+    <name>increase calibrate fine</name>
+    <button>0</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>10</step>
+      <min>1000</min>
+      <max>48000</max>>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+  <action>
+    <name>increase calibrate coarse</name>
+    <button>1</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>1000</step>
+      <min>1000</min>
+      <max>48000</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+  <action>
+    <name>decrease calibrate fine (scrollwheel)</name>
+    <button>3</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>-10</step>
+      <min>1000</min>
+      <max>48000</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+  <action>
+    <name>increase calibrate fine (scrollwheel)</name>
+    <button>4</button>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+        <property>/instrumentation/radar/range</property>
+      <step>10</step>
+      <min>1000</min>
+      <max>48000</max>
+      <wrap>false</wrap>
+    </binding>
+  </action>
+ </animation>
+
+</PropertyList>
+

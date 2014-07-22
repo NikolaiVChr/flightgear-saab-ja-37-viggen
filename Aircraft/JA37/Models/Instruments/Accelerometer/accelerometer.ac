@@ -6,7 +6,7 @@ OBJECT world
 kids 1
 OBJECT group
 name "accel"
-loc 0.00 0.00 0.0
+loc -0.00121871 -0.00304341 0.0109718
 kids 4
 OBJECT poly
 name "button"

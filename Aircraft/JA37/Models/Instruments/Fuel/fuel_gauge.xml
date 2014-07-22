@@ -15,8 +15,54 @@
 </effect -->
 
 <animation>
+  <type>pick</type> 
+  <object-name>Needle_B</object-name>
+  <object-name>Needle_F</object-name>
+  <object-name>Plane</object-name>
+  <condition>   
+    <greater-than>
+    <property>systems/electrical/outputs/fuel</property>
+    <value>150</value>
+   </greater-than>
+  </condition>
+  <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>fuel</tooltip-id>
+         <label>Fuel: %3d lbs</label>
+         <property>/consumables/fuel/total-fuel-lbs</property>
+      </binding>
+   </hovered>
+ </animation>
+
+<animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10</max-m>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>Needle_B</object-name>
+  <object-name>Needle_F</object-name>
+  <object-name>Plane</object-name>
+  <emission>    
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+<animation>
         <type>rotate</type>
         <object-name>Needle_B</object-name>
+        <condition>
+          <greater-than>
+            <property>systems/electrical/outputs/fuel</property>
+            <value>150</value>
+          </greater-than>
+       </condition>
         <property>/instrumentation/fuel/needleB_rot</property>
         <max>325</max>
         <center>
@@ -34,6 +80,12 @@
 <animation>
         <type>rotate</type>
         <object-name>Needle_F</object-name>
+        <condition>
+          <greater-than>
+            <property>systems/electrical/outputs/fuel</property>
+            <value>150</value>
+          </greater-than>
+       </condition>
         <property>/instrumentation/fuel/needleF_rot</property>
         <max>325</max>
         <center>

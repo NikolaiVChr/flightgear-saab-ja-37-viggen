@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <path>rpm.ac</path>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10</max-m>
+ </animation>
+ 
+<animation>
+  <type>pick</type> 
+  <object-name>Needle</object-name>
+  <object-name>Plane</object-name>
+  <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>tachometer</tooltip-id>
+         <label>N1: %3d percent</label>
+         <property>engines/engine/n1</property>
+      </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>Needle</object-name>
+  <object-name>Plane</object-name>
+  <emission>	
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+ 
+<animation>
+        <type>rotate</type>
+        <object-name>Needle</object-name>
+        <property>engines/engine/n1</property>
+        <interpolation>
+            <entry><ind>20</ind><dep>2.5</dep></entry>
+            <entry><ind>110</ind><dep>324</dep></entry>
+        </interpolation>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+</animation>
+
+</PropertyList>

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <path>AoAIndicator.ac</path>
+
+<animation>
+  <type>pick</type> 
+ <object-name>Face</object-name>
+ <object-name>Needle</object-name>
+  <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>AoA Indicator</tooltip-id>
+         <label>Angle of Attack: %3d°</label>
+         <property>orientation/alpha-deg</property>
+      </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10</max-m>
+ </animation>
+ 
+<animation>
+ <type>material</type> 
+ <object-name>Face</object-name>
+ <object-name>Needle</object-name>
+ <emission>	
+  <red-prop>instrumentation/instrumentation-light/r</red-prop>  
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+  <factor-prop>controls/lighting/instruments-norm</factor-prop>
+ </emission>
+</animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>Needle</object-name>
+  <condition>
+   <greater-than>
+    <property>systems/electrical/outputs/battery</property>
+    <value>20</value>
+   </greater-than>
+  </condition>
+  <property>orientation/alpha-deg</property>
+  <interpolation>
+    <entry><ind>-7</ind><dep>-49</dep></entry>
+    <entry><ind>30</ind><dep>236</dep></entry>
+  </interpolation>
+    <center>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </center>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+</animation>
+
+</PropertyList>

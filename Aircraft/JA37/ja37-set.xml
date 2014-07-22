@@ -14,10 +14,10 @@
   <rating>
     <FDM type="int">4</FDM>
     <systems type="int">1</systems>
-    <cockpit type="int">1</cockpit>
+    <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.22</aircraft-version> 
+  <aircraft-version>1.23</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -183,7 +183,19 @@
       </signal>
       <signal>
         <type>float</type>
-        <property type="string">systems/electrical/battery</property>
+        <property type="string">systems/electrical/battery-full</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">systems/electrical/outputs/inst_ac</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">controls/lighting/instruments-norm</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">consumables/fuel/tank[8]/jettisoned</property>
       </signal>
     </config>
   </flight-recorder>  
@@ -245,54 +257,19 @@
 
 <!--**********************************************************************
 
-                                          Instrumentation
+                                          Instrumentation (sim)
 
 
 *************************************************************************-->   
-    <instrumentation>
-      <radar-altimeter>
+</ja37>
+   <instrumentation>
+      <!--<radar-altimeter>
         <name>radar-altimeter</name>
         <number>0</number>
         <load-state type="int">1</load-state>
-      </radar-altimeter>
-      <vhf>
-       <selector type="int">0</selector>               
-       <mode type="int">0</mode>                       
-       <selected-preset type="int">1</selected-preset>
-       <load-state type="int">0</load-state>
-       <presets>
-        <preset n="1" type="float">0</preset>
-        <preset n="2" type="float">0</preset>
-        <preset n="3" type="float">0</preset>
-        <preset n="4" type="float">0</preset>
-        <preset n="5" type="float">0</preset>
-        <preset n="6" type="float">0</preset>
-        <preset n="7" type="float">0</preset>
-        <preset n="8" type="float">0</preset>
-        <preset n="9" type="float">0</preset>
-        <preset n="10" type="float">0</preset>
-        <preset n="11" type="float">0</preset>
-        <preset n="12" type="float">0</preset>
-        <preset n="13" type="float">0</preset>
-        <preset n="14" type="float">0</preset>
-        <preset n="15" type="float">0</preset>
-        <preset n="16" type="float">0</preset>
-        <preset n="17" type="float">0</preset>
-        <preset n="18" type="float">0</preset>
-        <preset n="19" type="float">0</preset>
-        <preset n="20" type="float">0</preset>
-       </presets>
-  <!--
-       <frequencies>
-        <alt-selected-mhz-x10 type="int">0</alt-selected-mhz-x10>
-        <alt-selected-mhz-x1 type="int">0</alt-selected-mhz-x1>
-        <alt-selected-mhz-x01 type="int">0</alt-selected-mhz-x01>
-        <alt-selected-mhz-x0001 type="int">0</alt-selected-mhz-x0001>
-       </frequencies>
-  -->
-    </vhf>
+      </radar-altimeter>-->
    </instrumentation>
-</ja37>
+
 
 
 <!--**********************************************************************
@@ -321,7 +298,7 @@
   <view>
    <internal archive="y">true</internal>
    <config>
-     <pitch-offset-deg>0</pitch-offset-deg>
+     <pitch-offset-deg>-10</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
      <y-offset-m archive="y">0.65</y-offset-m>
      <z-offset-m archive="y"> -3.10</z-offset-m>
@@ -368,8 +345,9 @@
     <int n="8" alias="/engines/engine[0]/reversed"/>
     <!-- Animating light -->
     <int n="5" alias="/sim/model/lighting/strobe/state"/>
-    <int n="9" alias="/systems/electrical/battery"/>
+    <int n="9" alias="/systems/electrical/battery-full"/>
     <int n="15" alias="/sim/model/lighting/beacon/state"/>
+    <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
     <!-- Armament -->
     <int n="6" alias="/controls/armament/trigger"/>
     <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
@@ -398,11 +376,15 @@
 	 </key>
    <key>
     <name>Ctrl-f</name>
-    <desc>trigger flare release</desc>
+    <desc>Trigger flare release</desc>
    </key>
    <key>
     <name>e (lower case 'e')</name>
-    <desc>fire the cannon</desc>
+    <desc>Fire the cannon</desc>
+   </key>
+   <key>
+    <name>J</name>
+    <desc>Jettison Drop tank in flight</desc>
    </key>
    <key>
     <name>Del</name>
@@ -416,7 +398,8 @@
     Startup
     ______
     Start up engine and systems
-    Wait for the engine to spool up.
+    Wait for the engine to spool up and generator to turn on.
+    Calibrate the altimeter.
     Apply full throttle with afterburner.
     Release parking brakes.
     
@@ -444,7 +427,7 @@
     When in navigation mode the sight will show the direction the plane is headed in, not where it is pointed.
     The digital altimeter to the left will use rader below 100 meters, a 'R' is shown. when this happens, and regular altimeter above, up till 9999 meters.
     If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters above terrain).
-    If QFE is displayed, but not blinking, the radar altimeter have calibrated the altimeter (will only happen when plane not moving).
+    If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
     The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number.
     The artificial horizon and pitch lines are spaced 5 degrees.
     To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000 meters, one floating point decimal precision.
@@ -452,6 +435,13 @@
     Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
     The heading at the top is shown as a scale showing 1/10 of heading in degrees.
     
+
+    Failures
+    _____
+    Random failures are enabled by default.
+    Each system will fail on average once very 24 hours.
+    This can be disabled in the Menu: Equipment-Random failures
+
     Trivia
     _____
     This is the mid 80'ties version. So it has no airbrake
@@ -490,7 +480,50 @@
   </menu>
  </default>
 </menubar>
+
+<!--**********************************************************************
+
+                                          Systems
+
+
+*************************************************************************--> 
+ <systems>
+  <path>Systems/systems.xml</path>
+  <!--<electrical>
+   <outputs>
+    <adi type="int">24</adi>
+    <rwr type="double">24</rwr>
+   </outputs>
+  </electrical>-->
+ </systems>
  </sim>
+
+ <fdm>
+  <jsbsim>
+    <fcs>
+      <canopy>
+        <engage/>
+        <has-power/>
+        <serviceable/>
+      </canopy>
+      <yaw-damper-enable/>
+      <flap-pos-cmd/>
+      <flaps-serviceable/>
+      <elevator-serviceable/>
+      <aileron-serviceable/>
+    </fcs>
+    <gear>
+      <serviceable type="bool">
+        1
+      </serviceable>
+    </gear>
+    <systems>
+      <flapscontrol>
+        <serviceable/>
+      </flapscontrol>
+    </systems>
+  </jsbsim>
+ </fdm>
 
 
 <!--**********************************************************************
@@ -617,9 +650,17 @@
      <desc>Toggle canopy</desc>
      <binding>
       <command>property-toggle</command>
-      <property>/fdm/jsbsim/fcs/canopy-engage</property>
+      <property>/fdm/jsbsim/fcs/canopy/engage</property>
      </binding>
     </key>
+    <key n="74">
+      <name>J</name>
+      <desc>Drop droptanks.</desc>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.drop();</script>
+      </binding>
+     </key>
    </keyboard>
   </input>
  
@@ -701,27 +742,22 @@
    <tank n="7">
     <name>Right wing tank</name>
    </tank>
+   <tank n="8">
+    <name>Drop tank</name>
+   </tank>
   </fuel>
  </consumables>
  
  
 <!--**********************************************************************
 
-                                          Systems
+                                          Autopilot
 
 
 *************************************************************************--> 
- <systems>
-  <autopilot>
+<autopilot>
      <path>Systems/Autopilot.xml</path>
-  </autopilot>
-  <electrical>
-   <outputs>
-    <adi type="int">24</adi> 				<!-- satisfying /Models/adi.xml -->
-    <rwr type="double">24</rwr>
-   </outputs>
-  </electrical>
- </systems>
+</autopilot>
 
 
 <!--**********************************************************************
@@ -737,6 +773,41 @@
   <max-negative-g>-2.5</max-negative-g>
  </limits>
 
+<!--**********************************************************************
+
+                                          /Instrumentation
+
+
+*************************************************************************-->
+
+<instrumentation>
+ <switches>
+  <generator>
+   <pos type="int">0</pos>
+  </generator>
+  <inst-light-knob>
+   <pos type="double" archive="y">0</pos>
+  </inst-light-knob>
+ </switches>
+ <transponder>
+    <name type="string">transponder</name>
+    <number type="int">5</number>
+    <mode type="int">1</mode> <!-- 0 = Mode A, 1 = Mode C, 2 = Mode S -->
+    <bus-volts type="double">8.0</bus-volts>
+    <encoder-path type="string">/instrumentation/altimeter</encoder-path>
+    <kt70-compatibility type="bool">0</kt70-compatibility>
+    <inputs>
+      <indent-btn>1</indent-btn>
+      <digit n="0">0</digit>
+      <digit n="1">0</digit>
+      <digit n="2">0</digit>
+      <digit n="3">0</digit>
+    </inputs>
+  </transponder>
+  <radar>
+    <range>2000</range>
+  </radar>
+</instrumentation>
 
 <!--**********************************************************************
 
@@ -755,6 +826,8 @@
    <file>Nasal/ja37.nas</file>
    <file>Nasal/tyresmoke.nas</file>
    <file>Nasal/liveries.nas</file>
+   <file>Nasal/systemp.nas</file>
+   <file>Nasal/radar.nas</file>
   </ja37>
   <canvas_HUD>
     <file>Nasal/hud.nas</file>

@@ -203,7 +203,7 @@ Sim: Added structural G limits.
 Aero: Increased realistic fidelity of elevator effect on pitch.
 Cockpit: Added subtle noise to dashboard to make it appear less dull.
 
-1.20 - 2013 Dec 16
+1.20 - 2013 Dec 16 (stock FG 3.0.0 version)
 ----
 Sim: Made the crash code work properly.
 Engine: Fixed a minor bug in reverse-thrust code.
@@ -253,9 +253,31 @@ Effect: Made Rembrandt somewhat able to animate the emission of engine light.
 Sound: Made model view engine sound a little better
 Aero: Made axial coefficient more accurate.
 
-2.22
+2.22 - 2014 Jan 17
 ----
 Sim: Enabled showing of fueltank names when flying.
 Aero: More accurate Normal Force Coefficients.
 Sim: First stab at custom Autopilot.
 Engine: Converted mil-thrust from cruise to maximum.
+
+2.23
+----
+Animation: Added 5 instruments.
+Animation: Added instrument lights.
+System: Added electrical system.
+Animation: Rotated internal view down a bit.
+Sound: Added g-force breathing sounds.
+Sim: Increased the Flightgear cockpit status to 2.
+Sim: Implemented failures.
+Sim: Fixed engine would not restart if it had been shutdown before generator was fully spooled up.
+Aero: Now can use drop tank as fuel tank, and it is able to jettison.
+Sim: Canopy can now also random fail and fail if electric systems fail.
+Animation: Instruments now have tooltips.
+Sim: Added additional propeties of the fuel type.
+Animation: Changed the drop tank fuel needle to better match original.
+Animation: Added a Radar and basic radio stack.
+Animation: Changed the instrumentation light  color.
+Animation: Changed the formula for how the engine fire lights up.
+Animation: Put LOD on the radio-stack.
+Sim: Adapted radar to the way ja37 works and added a range-selector plus failure.
+Animation: Added 3 indicator lights to the dashboard.

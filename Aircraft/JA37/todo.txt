@@ -3,7 +3,9 @@ TODO for Flightgear JA-37
 
 High Priority:
 --------------
-
+Make control surfaces depend on hydralic system.
+Make proper power flow to external lights and HUD. (use potemkin)
+Make proper fuel pump system.
 
 Normal Priority:
 ----------------
@@ -13,27 +15,25 @@ Animation: Engine heat should be dark at n1 less than 60
 GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
 GUI: Checklist
 GUI: Keypress to turn off verbose popups
-System: Put in alot more working instruments and controls
-System: Put in alot more not working instruments and controls for immersion
-Sim: When crashing and instruments get unservicable, make them not work
+System: Put in more working instruments and controls
+System: Put in alot more not-working instruments and controls for immersion
 Sim: Make crashing, creaking and breaking optional through menu items.
 Sound: Occansional wierd buzz in model view sound when using throttle
 Sim: Limit cannon rounds to 150.
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator)
-Effect: Rembrandt does not make the engine flame lit enough, due to workaround.
-Effect: Make vortex vapor flat and start it from above aircraft.
+Effect: Rembrandt does not make the engine flame lit enough.
+Effect: Make vortex vapor flat.
 Effect: Landing lightcone
 
 Lower priority:
 ----------------
 Aero: DATCOM: Add engine intake area, and correct exhaust area
-Aero: use droptank as fuel tank, and make it dumpable
 HUD: add proper sidewind max
 System: Make armament selectable
 System: All fuel to engine has to go through tank 1
 System: Fuel tanks 3V and 3H is used for flying upside down
 System: Make 2D cockpit fully functional
-Sound: Better annunciater warnings and other sounds
+Sound: More annunciater warnings and other sounds
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Effect: Make pilot faint/die due to G-forces
 Effect: Make tires burst if too high speed with parking brakes
@@ -48,7 +48,7 @@ HUD: Make desired height columns and boxes
 HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
-HUD: make symbol for warning: pull up!
+HUD: make symbol for warning: pull up! (plus annunciater)
 Animation: Animate wheels
 Animation: Animate gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors

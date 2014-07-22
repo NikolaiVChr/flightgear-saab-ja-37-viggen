@@ -493,7 +493,17 @@
 
 <!-- ===================== END LIGHTING =========================== -->
 
- 
+<animation>
+  <object-name>dropTank</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/int[16]</property><!-- consumables/fuel/tank[8]/jettisoned -->
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+
 <model>
   <name>InternalFlame</name>
   <path>Models/Effects/InternalFlame.xml</path>
@@ -511,19 +521,19 @@
    <red>0.01</red>
    <green>0.01</green>
    <blue>0.01</blue>
-   <factor-prop>engines/engine/n1</factor-prop>
+   <factor-prop>engines/engine/flame</factor-prop>
   </emission>
   <ambient>
-   <red>0.01</red>
-   <green>0.01</green>
-   <blue>0.01</blue>
-   <factor-prop>engines/engine/n1</factor-prop>
+   <red>0.00</red>
+   <green>0.00</green>
+   <blue>0.00</blue>
+   <factor-prop>engines/engine/flame</factor-prop>
   </ambient>
   <diffuse>
-   <red>0.01</red>
-   <green>0.01</green>
-   <blue>0.01</blue>
-   <factor-prop>engines/engine/n1</factor-prop>
+   <red>0.00</red>
+   <green>0.00</green>
+   <blue>0.00</blue>
+   <factor-prop>engines/engine/flame</factor-prop>
   </diffuse>
  </animation>
  
@@ -540,7 +550,7 @@
 
  <animation>
   <type>scale</type>
-  <object-name>ExternalFlame</object-name>
+  <object-name>ExternalFlamePoly</object-name>
   <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
   <x-min>0.2</x-min>
   <y-min>1.0</y-min>

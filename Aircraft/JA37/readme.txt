@@ -33,4 +33,3 @@ Looking for person to model 3D cockpit and/or instruments. Contact Necolatis on 
 Liberties taken:
 ----------------
 In the orig plane the HUD decimal delimiter is ','. I choose to use the english '.' instead.
-The plane can calibrate the altimeter itself, only a placeholder for putting in the altimeter instrument, so the pilot can set it manually.

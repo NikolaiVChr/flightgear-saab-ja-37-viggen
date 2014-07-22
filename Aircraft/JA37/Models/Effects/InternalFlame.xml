@@ -22,4 +22,65 @@
  </offsets>-->
 </model>
  
+<!--<model>
+ <name>InternalFlameVolume</name>
+ <path>Models/Effects/internalflame-lightvolume.ac</path>-->
+ <!--<offsets>
+  <pitch-deg>-10.671</pitch-deg> 
+  <x-m>1.80063</x-m>
+  <y-m>0.01</y-m>
+  <z-m>-0.02586</z-m>
+  <heading-deg>0</heading-deg>
+ </offsets>-->
+<!--</model>-->
+
+<!--<animation>
+   <type>light</type>
+   <light-type>point</light-type>
+   <name>LightSrcInternal</name>
+   <object-name>InternalFlameLightVolume</object-name>
+   <nopreview/>
+   <position>
+     <x>6.00832</x>
+     <y>0.00111</y>
+     <z>-0.0151</z>
+   </position>
+   <ambient>
+     <r>0.03</r>
+     <g>0.03</g>
+     <b>0.03</b>
+     <a>1.0</a>
+   </ambient>
+   <diffuse>
+     <r>1.0</r>
+     <g>1.0</g>
+     <b>1.0</b>
+     <a>1.0</a>
+   </diffuse>
+   <specular>
+     <r>0.7</r>
+     <g>0.7</g>
+     <b>0.7</b>
+     <a>1.0</a>
+   </specular>
+   <dim-factor>
+      <property>dimming/property</property>-->
+      <!-- optional begin -->
+      <!--<expression />
+      <interpolation />
+      <factor>1</factor>
+      <offset>0</offset>
+      <min>0</min>
+      <max>1</max>-->
+      <!-- optional end -->
+   <!--</dim-factor>
+   <attenuation>
+     <c>1.0</c>
+     <l>0.002</l>
+     <q>0.00005</q>
+   </attenuation>
+   <near-m>0.01</near-m>
+   <far-m>39</far-m>
+ </animation>-->
+
  </PropertyList>

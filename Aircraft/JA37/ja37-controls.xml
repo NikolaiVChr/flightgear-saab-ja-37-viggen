@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 
 <flight_control name="JA37 FC">
-    <property>fcs/canopy-engage</property>
-    <property>fcs/yaw-damper-enable</property>
-    <property>fcs/flap-pos-cmd</property>
-    
     <channel name="Canopy">
+        <!-- canopy get stuck if it fail -->
+        <switch name="fails/canopy">
+          <default value="fcs/canopy/engage"/>
+          <test logic="OR" value="fcs/canopy-pos-norm">
+            fcs/canopy/serviceable == 0
+            fcs/canopy/has-power == 0
+          </test>
+          <output>fcs/canopy-engageTmp</output>
+        </switch>
         <kinematic name="fcs/canopy-control">
-            <input>fcs/canopy-engage</input>
+            <input>fcs/canopy-engageTmp</input>
             <traverse>
                 <setting>
                     <position>0</position>
@@ -40,8 +45,17 @@
               <min>-0.4363</min>
               <max>0.1745</max>
           </range>
-          <output>fcs/elevator-pos-rad</output>
+          <output>fcs/elevator-pos-radTmp</output>
       </aerosurface_scale>
+
+      <!-- elevator wont deploy if they fail -->
+      <switch name="fails/elevator">
+        <default value="fcs/elevator-pos-radTmp"/>
+        <test value="0">
+          fcs/elevator-serviceable == 0
+        </test>
+        <output>fcs/elevator-pos-rad</output>
+      </switch>
 
       <!--<aerosurface_scale name="Elevator Control Degrees">
           <input>fcs/pitch-trim-sum</input>
@@ -59,11 +73,20 @@
               <min>-1</min>
               <max>1</max>
           </clipto>
-          <output>fcs/roll-trim-sum</output>
+          <output>fcs/roll-trim-sumTmp</output>
       </summer>
 
+      <!-- aileron wont deploy if they fail -->
+      <switch name="fails/aileron">
+        <default value="fcs/roll-trim-sumTmp"/>
+        <test value="0">
+          fcs/aileron-serviceable == 0
+        </test>
+        <output>fcs/roll-trim-sum-fail</output>
+      </switch>
+
       <aerosurface_scale name="Left Aileron Control">
-          <input>fcs/roll-trim-sum</input>
+          <input>fcs/roll-trim-sum-fail</input>
           <range>
               <min>-0.4363</min>
               <max>0.3491</max>
@@ -72,7 +95,7 @@
       </aerosurface_scale>
 
       <aerosurface_scale name="Right Aileron Control">
-          <input>-fcs/roll-trim-sum</input>
+          <input>-fcs/roll-trim-sum-fail</input>
           <range>
               <min>-0.4363</min>
               <max>0.3491</max>
@@ -144,6 +167,13 @@
           <max>  1.1 </max>
         </clipto>
       </summer>
+      <!-- rudder will get stuck if it fail -->
+      <!--<switch name="Rudder Stuck Control">
+        <default value="fcs/rudder-sum"/>
+        <test logic="AND" value="fcs/rudder-sum-stuck">
+          fcs/rudder/serviceable == 0
+        </test>
+      </switch>-->
       <aerosurface_scale name="Rudder Control">
         <input>fcs/rudder-sum</input>
         <domain>
@@ -169,6 +199,8 @@
         <output>fcs/rudder-pos-norm</output>
       </aerosurface_scale>
     </channel>
+
+
     <channel name="Landing Gear">
       <switch name="fcs/gear-wow">
         <default value="0"/>
@@ -180,8 +212,18 @@
 
                 </test>
       </switch>
+<!-- flaps wont deploy if they fail -->
+
+      <switch name="fails/gear">
+        <default value="gear/gear-cmd-norm"/>
+        <test value="0">
+          gear/serviceable == 0
+        </test>
+        <output>gear/gear-cmd-normTmp</output>
+      </switch>
+
       <kinematic name="fcs/gear-control">
-        <input>gear/gear-cmd-norm</input>
+        <input>gear/gear-cmd-normTmp</input>
         <traverse>
           <setting>
             <position>0</position>
@@ -210,6 +252,7 @@
 
     <channel name="Flaps">
       <!-- Can move 30 degrees down, and 4 degrees up -->
+
       <kinematic name="Flaps Control">
         <input>fcs/flap-pos-cmd</input><!-- flaps controlled by gear-->
         <traverse>
@@ -222,8 +265,18 @@
             <time>      3 </time>
           </setting>
         </traverse>
-        <output>fcs/flap-pos-deg</output>
+        <output>fcs/flap-pos-degTmp</output>
       </kinematic>
+
+      <!-- flaps wont deploy if they fail -->
+      <switch name="fails/flaps">
+        <default value="fcs/flap-pos-degTmp"/>
+        <test logic="OR" value="0">
+          fcs/flaps-serviceable == 0
+          systems/flapscontrol/serviceable == 0
+        </test>
+        <output>fcs/flap-pos-deg</output>
+      </switch>
 
       <aerosurface_scale name="flap normalization">
         <input>fcs/flap-pos-deg</input>

@@ -20,6 +20,7 @@ var blinking = 0; # how many updates the speed vector symbol has been turned off
 var alt_scale_mode = 0; # the alt scale is not liniar, this indicates which part is showed
 var QFE = 0;
 var countQFE = 0;
+var QFEcalibrated = 0;
 var centerOffset = -102; #verical center of HUD. (in line from pilots eyes) 0.51m is height of HUD bottom. View is 0.57m. Height of HUD is 10 cm.
 var pixelPerDegree = 100; #vertical axis
 var radPointerProxim = 60; #when alt indicater is too close to radar ground indicator, hide indicator
@@ -429,6 +430,15 @@ var HUDnasal = {
   		},
     update: func()
     {
+      if(getprop("/systems/electrical/outputs/inst_ac") < 40) {
+        me.root.hide();
+        me.root.update();
+        settimer(func me.update(), 1);
+       } elsif (getprop("/instrumentation/head-up-display/serviceable") == 0) {
+        # The HUD has failed, due to the random failure system or crash, it will become frozen.
+        # if it also later loses power, and the power comes back, the HUD will not reappear.
+        settimer(func me.update(), 1);
+       } else {
       # digital speed
       var mach = me.input.mach.getValue();
       if (mach >= 0.5) 
@@ -616,17 +626,36 @@ var HUDnasal = {
       if (radAlt == nil) {
         me.alt.setText("");
         countQFE = 0;
+        QFEcalibrated = 0;
       } elsif (radAlt < 100) {
         me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, 100)));
         # check for QFE warning
         var diff = radAlt - alt;
-        if (countQFE == 0 and (diff > 10 or diff < -10)) {
+        if (countQFE == 0 and (diff > 5 or diff < -5)) {
           #print("QFE warning " ~ countQFE);
-          countQFE = 1;          
+          # is not calibrated, and is not blinking
+          QFEcalibrated = 0;
+          countQFE = 1;     
+          #print("QFE not calibrated, and is not blinking");     
+        } elsif (diff > -5 and diff < 5) {
+            #is calibrated
+          if (QFEcalibrated == 0 and countQFE < 11) {
+            # was not calibrated before, is now.
+            #print("QFE was not calibrated before, is now. "~countQFE);
+            countQFE = 11;
+          }
+        } elsif (QFEcalibrated == 1 and (diff > 5 or diff < -5)) {
+          # was calibrated before, is not anymore.
+          #print("QFE was calibrated before, is not anymore. "~countQFE);
+          countQFE = 1;
+          QFEcalibrated = 0;
         }
       } else {
+        # is above height for checking for calibration
         countQFE = 0;
         QFE = 0;
+        QFEcalibrated = 1;
+        #print("QFE not calibrated, and is not blinking");
         me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
       }
 
@@ -638,12 +667,12 @@ var HUDnasal = {
         }
         if(countQFE < 10) {
            # blink the QFE
-          if (QFE < 1 and QFE != -10) {
+          if (QFE < 1 and QFE != -5) {
               me.qfe.hide();
               QFE = QFE -1;
               #print("blink off");
           } elsif (QFE > 0) {
-            if (QFE == 10) {
+            if (QFE == 5) {
               QFE = -1;
               countQFE = countQFE + 1;
               #print("blink count")
@@ -653,7 +682,7 @@ var HUDnasal = {
             me.qfe.show();
             #print("blink  on");
           } else {
-              if (QFE == -10) {
+              if (QFE == -5) {
                 QFE = 0;
               }
               me.qfe.show();
@@ -661,22 +690,23 @@ var HUDnasal = {
               #print("blink  on");
           }
         } elsif (countQFE == 10) {
-          if(me.input.ias.getValue() < 10) {
-            # adjust the altimeter
-            var inhg = getprop("systems/static/pressure-inhg");
-            setprop("instrumentation/altimeter/setting-inhg", inhg);
-            countQFE = 11;
+          #if(me.input.ias.getValue() < 10) {
+            # adjust the altimeter (commented out after placing altimeter in plane)
+            # var inhg = getprop("systems/static/pressure-inhg");
+            #setprop("instrumentation/altimeter/setting-inhg", inhg);
+           # countQFE = 11;
             #print("QFE adjusted " ~ inhg);
-          } else {
+          #} else {
             countQFE = -100;
-          }
-        } elsif (countQFE < 70) {
+          #}
+        } elsif (countQFE < 125) {
           # QFE is steady
           countQFE = countQFE + 1;
           me.qfe.show();
           #print("steady on");
         } else {
           countQFE = -100;
+          QFEcalibrated = 1;
           #print("off");
         }
       } else {
@@ -718,18 +748,18 @@ var HUDnasal = {
       me.vec_vel.setTranslation(clamp(dir_x * pixelPerDegree, -450, 450), clamp(dir_y * pixelPerDegree, -450-centerOffset, 450-centerOffset)+centerOffset);
       if (dir_y > 8) {
         # blink the flight vector cross hair if alpha is high
-        if (blinking < 1 and blinking != -5) {
+        if (blinking < 1 and blinking != -2) {
             me.vec_vel.hide();
             blinking = blinking -1;
         } elsif (blinking > 0) {
-          if (blinking == 5) {
+          if (blinking == 2) {
             blinking = -1;
           } else {
             blinking = blinking + 1;
           }
           me.vec_vel.show();
         } else {
-            if (blinking == -5) {
+            if (blinking == -2) {
               blinking = 0;
             }
             me.vec_vel.show();
@@ -767,17 +797,14 @@ var HUDnasal = {
 		   #print("HUD removed");
 	   } else {
 		   #print("HUD repainted");
-       if(getprop("/systems/electrical/battery") < 1) {
-        me.root.hide();
-        settimer(func me.update(), 5);
-       } else {
         me.root.show();
         me.root.update();
         settimer(func me.update(), 0.05);
-       }
+       
 	     
        setprop("sim/hud/visibility[1]", 0);
 	   }
+   }
   }
 };
 var id = 0;
@@ -785,6 +812,7 @@ var init = func() {
   removelistener(id); # only call once
   var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
   setprop("sim/hud/visibility[1]", 0);
+  
   print("HUD initialized.");
   hud_pilot.update();
 };
@@ -793,5 +821,5 @@ var init2 = setlistener("/sim/signals/reinit", func() {
   setprop("sim/hud/visibility[1]", 0);
 });
 
-setprop("/systems/electrical/battery", 0);
+#setprop("/systems/electrical/battery", 0);
 id = setlistener("/sim/signals/fdm-initialized", init);

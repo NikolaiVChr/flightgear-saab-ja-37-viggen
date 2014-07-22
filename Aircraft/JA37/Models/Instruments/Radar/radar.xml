@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<PropertyList>
+  <path>radar.ac</path>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>20</max-m>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>Cylinder1</object-name>
+  <object-name>Cylinder1.001</object-name>
+  <object-name>RadarPlane</object-name>
+  <condition>		
+    <greater-than>		
+     <property>/sim/time/sun-angle-rad</property>
+     <value>1.57</value>
+    </greater-than>
+  </condition>
+  <emission>	
+   <red>0.1</red>	
+   <green>0.05</green>	
+   <blue>0.05</blue>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+ 
+<animation>
+  <type>pick</type>
+  <object-name>Cylinder1</object-name>
+  <object-name>Cylinder1.001</object-name>
+  <object-name>RadarPlane</object-name>
+  <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>Radar</tooltip-id>
+         <label>Radar</label>
+         <property>orientation/pitch-deg</property>
+      </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>Screen</object-name>
+  <emission>	
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>systems/electrical/generator_on</factor-prop>
+  </emission>
+ </animation>
+ 
+</PropertyList>
