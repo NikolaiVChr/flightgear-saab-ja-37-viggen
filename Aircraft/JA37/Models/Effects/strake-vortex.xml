@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyList>
   <particlesystem>
-    <name>flare-smoke</name>
+    <name>strake-vortex</name>
     <texture>puff.png</texture>
     <emissive>false</emissive>
     <lighting>false</lighting>
     <offsets>
       <x-m>0</x-m>
       <y-m>0</y-m>
-      <z-m>0</z-m>
+      <z-m>1.5</z-m>
     </offsets>
     <condition>
       <and>
         <greater-than>
           <property>orientation/alpha-deg</property>
-          <value>9.0</value>
+          <value>15.0</value>
         </greater-than>
         <greater-than>
           <property>velocities/airspeed-kt</property>

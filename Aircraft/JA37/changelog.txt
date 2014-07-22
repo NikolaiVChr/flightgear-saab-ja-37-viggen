@@ -1,3 +1,7 @@
+======================================
+Flightgear Saab JA-37 Viggen Changelog
+======================================
+
 1.0
 ---
 Got the idea to work on this plane.
@@ -182,7 +186,7 @@ Sim: Airplane Systems rating upgraded to 1 from 0 after testing generic autopilo
 Sim: Fixed airplane Model rating upgraded to 3 from 2.
 Sim: Airplane status upgraded to beta from alpha, due to combined status value of 9.
 
-1.19
+1.19 - 2013 Dec 9
 ----
 Effect: Made engine fire emission, depend on thrust.
 Effect: Made new animation for transmach vaporcone.
@@ -199,60 +203,59 @@ Sim: Added structural G limits.
 Aero: Increased realistic fidelity of elevator effect on pitch.
 Cockpit: Added subtle noise to dashboard to make it appear less dull.
 
-Startup
------------
-Start up engine and systems.
-Wait for the engine to spool up.
-Apply full throttle with afterburner.
-Release parking brakes.
-    
-Takeoff
-------------
-Mind the sidewind indicator in the HUD.
-Takeoff at 315 km/h.
+1.20 - 2013 Dec 16
+----
+Sim: Made the crash code work properly.
+Engine: Fixed a minor bug in reverse-thrust code.
+Model: Size of all textures is now power of two.
+Sim: Fixed thumbnail picture was wrong size.
+HUD: Removed output in console about missing HUD file.
+HUD: Fixed 'Invalid number of arguments' in FG 3.0.0
+Sim: Moved start-offset-m property from Nasal to XML.
+Sound: Removed nasal sound system reinit code.
+Sim: Fixed wrapping sentences in the aircraft help.
+Engine: Fixed alignments in RM8B IdleThrust and AugThrust tables.
 
-Landing
--------------
-Land with speeds within 195-249km/h.
-  and an Angle of Attack of 16.5 degrees.
-Deploy reverse thrust after touchdown.
+1.21 - 2014 Jan 16
+----
+Sim: Made crash code depend on real speed instead of airspeed.
+HUD: Fixed that rain and snow is not shown though canvas HUD.
+Aero: Added pitch moments for higher and lower alpha values.
+Sim: When crashing the replay is no longer turned off.
+Sound: Removed the stall warnings, replaced with high alpha warnings that work approx like the pilot manual describes.
+Sim: Made flightrecorder track more properties, so sound and animation will function better in replay.
+Sim: Made crash code script pause when replay is in progress.
+Engine: Calculated new values for mil-thrust. It is now less powerful.
+Sim: Enabled animations when viewing the plane in multiplayer.
+Animation: Registered the cockpit glass as transparent.
+Effect: Adapted for Rembrandt. (Afterburner flame will not be transparent in Rembrandt though)
+HUD: Put a limit on the HUD script update speed.
+Engine: Adjusted RB8B engine to JT8D-17A specs, since its the same engine plus afterburner.
+Effect: Fixed engine smoke would come out at nosecone when thrust reversed.
+Sound: The alpha warnings should now stop after crashing.
+Sim: Wing tanks now lose content after structural break.
+Sim: Structural points now have less tendency to make the aircraft bounce at collision.
+Effect: Made trail of engine smoke come out after engine.
+Animation: Made canopy able to open.
+Sim: Is now not able to restart engine after crash.
+Animation: Fixed flaps was missing important polygons.
+Animation: Tilted the dashboard.
+Animation: Made the dashboard support thinner and retracted it a bit.
+Effect: Fixed wierd shadow in front of vtail.
+Effect: Adjusted the engine fire position and size.
+HUD: Made HUD not visible from afar.
+Animation: Made droptank fins visible from right side also.
+Effect: Adjusted trans-mach vapor cone, to better match the plane.
+Sound: Decreased volume for gear rumble and canopy.
+Effect: Made right navigation light green instead of blue.
+Effect: Added glow effect to lights.
+Effect: Made Rembrandt somewhat able to animate the emission of engine light.
+Sound: Made model view engine sound a little better
+Aero: Made axial coefficient more accurate.
 
-Flaps
----------
-The JA-37 control the flaps automatically.
-At takeoff and landing it will set flaps to 30 degrees down.
-In flight it will be set at 4 degrees up.
-
-Notes:
-------
-3D model and textures is made by Anders Lejczak <anders.lejczak@colacola.se>
-FDM and mostly everything else by Necolatis: http://www.flightgear.org/forums/memberlist.php?mode=viewprofile&u=13888
-..except for code snippets and instruments and effects I used (most in modified form) from other aircrafts.
-Hangar home: https://sites.google.com/site/fghangar    (check here to download the newest version)
-
-
-HUD info
---------
-The HUD uses Km/h and meters.
-When in landing/takeoff mode the sight will move to a side according to sidewind
-When in navigation mode the sight will show the direction the plane is headed in, not where it is pointed
-The digital altimeter to the left will use rader below 100 meters, a 'R' is shown when this happens, and regular altimeter above, up till 9999 meters.
-If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters above terrain).
-If QFE is displayed, but not blinking, the radar altimeter have calibrated the altimeter(will only happen when plane not moving)
-The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number
-The artificial horizon and pitch lines are spaced 5 degrees.
-To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000 meters, one floating point decimal precision.
-On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
-Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
-The heading at the top is shown as a scale showing 1/10 of heading in degrees.
-
-
-Known bugs:
------------
-The '77' symbol seems to be placed right of its place when running with fresh FG install. Wierd that can infuence nasal, needs more testing.
-
-
-Liberties taken:
-----------------
-In the orig plane the HUD decimal delimiter is ','. I choose to use the english '.' instead.
-The plane can calibrate the altimeter itself, only a placeholder for putting in the altimeter instrument, so the pilot can set it manually.
+2.22
+----
+Sim: Enabled showing of fueltank names when flying.
+Aero: More accurate Normal Force Coefficients.
+Sim: First stab at custom Autopilot.
+Engine: Converted mil-thrust from cruise to maximum.

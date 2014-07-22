@@ -1,9 +1,27 @@
 <?xml version="1.0"?>
 
 <flight_control name="JA37 FC">
+    <property>fcs/canopy-engage</property>
     <property>fcs/yaw-damper-enable</property>
     <property>fcs/flap-pos-cmd</property>
     
+    <channel name="Canopy">
+        <kinematic name="fcs/canopy-control">
+            <input>fcs/canopy-engage</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>5</time>
+                </setting>
+            </traverse>
+            <output>fcs/canopy-pos-norm</output>
+        </kinematic>
+    </channel>
+
     <channel name="Elevons">
       <!-- Can move 20 degrees down, and 25 degrees up, pitching down restricted to 10 degrees -->
       <summer name="Pitch Trim Sum">

@@ -22,6 +22,9 @@
      <value>40</value>
     </less-than-equals>
     <property>engines/engine/running</property>
+    <not>
+      <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/reversed -->
+    </not>
    </and>
  </condition>
    

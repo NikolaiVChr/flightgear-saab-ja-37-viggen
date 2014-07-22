@@ -4,6 +4,19 @@
 
   <path>vaporCone.ac</path>
 
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>vaporCone</object-name>
+  </effect>
+
+  <animation>
+    <type>noshadow</type>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <object-name>vaporCone</object-name>
+  </animation>
+
   <animation>
     <type>select</type>
     <object-name>vaporCone</object-name>
@@ -25,18 +38,16 @@
     </condition>
   </animation>
 
-  <animation>
+  <!--<animation>
     <type>textranslate</type>
     <object-name>vaporCone</object-name>
-    <value>0.8</value>
-    <!--<property>sim/model/f-14b/fx/burner</property>-->
-    <!--<factor>-0.123046875</factor>-->
-    <!--<factor>-0.23437</factor>-->
+    <property>/velocities/mach</property>
+    <factor>5</factor>
     <axis>
       <x>0</x>
       <y>1</y>
       <z>0</z>
     </axis>
-  </animation>
+  </animation>-->
 
 </PropertyList>

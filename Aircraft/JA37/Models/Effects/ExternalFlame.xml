@@ -2,17 +2,6 @@
 
 <PropertyList>
 
-<animation>
-  <type>select</type>
-  <object-name>ExternalFlame</object-name>
-  <condition>
-   <property>engines/engine[0]/augmentation</property>
-   <not>
-    <property>engines/engine[0]/reverser-pos-norm</property>
-   </not>
-  </condition>
- </animation>
- 
 <model>
  <name>ExternalFlame</name>
  <path>Models/Effects/externalflame.ac</path>
@@ -24,4 +13,28 @@
  </offsets>
 </model>
  
- </PropertyList>
+<effect>
+ <inherits-from>Effects/model-transparent</inherits-from>
+ <object-name>ExternalFlamePoly</object-name>
+</effect>
+
+<animation>
+  <type>noshadow</type>
+  <condition>
+    <property>sim/rendering/rembrandt/enabled</property>
+  </condition>
+  <object-name>ExternalFlamePoly</object-name>
+</animation>
+
+<animation>
+  <type>select</type>
+  <object-name>ExternalFlame</object-name>
+  <condition>
+   <property>sim/multiplay/generic/int[4]</property><!-- engines/engine[0]/augmentation -->
+   <not>
+    <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/reversed -->
+   </not>
+  </condition>
+</animation>
+
+</PropertyList>

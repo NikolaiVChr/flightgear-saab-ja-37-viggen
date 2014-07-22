@@ -2,9 +2,14 @@
 
 <PropertyList>
 
- <path>Models/hud.ac</path>
+	<path>Models/hud.ac</path>
 
-<animation>
+	<effect>
+ 		<inherits-from>Effects/model-transparent</inherits-from>
+ 		<object-name>HUDobject</object-name>
+	</effect>
+
+	<animation>
 		<type>material</type>
 		<object-name>HUDobject</object-name>
 		<emission>
@@ -17,4 +22,11 @@
 		<shininess>100</shininess>
 	</animation> 
  
+	<!-- *** LoD *** -->
+  	<animation>
+    	<type>range</type>
+    	<min-m>0</min-m>
+    	<max-m>2</max-m>
+  	</animation>
+
  </PropertyList>

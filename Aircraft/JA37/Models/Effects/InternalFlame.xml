@@ -2,23 +2,24 @@
 
 <PropertyList>
 
-<animation>
+<!--<animation>
   <type>select</type>
   <object-name>InternalFlame</object-name>
-  <condition>
-   <property>engines/engine/running</property>
-  </condition>
- </animation> 
+   <condition>
+   <property>sim/multiplay/generic/int[3]</property>--><!-- engines/engine/running -->
+  <!--</condition>
+ </animation> -->
  
 <model>
  <name>InternalFlame</name>
  <path>Models/Effects/internalflame.ac</path>
- <offsets> 
-  <x-m>6.5</x-m>
-  <y-m>0</y-m>
-  <z-m>0</z-m>
+ <!--<offsets>
+  <pitch-deg>-10.671</pitch-deg> 
+  <x-m>1.80063</x-m>
+  <y-m>0.01</y-m>
+  <z-m>-0.02586</z-m>
   <heading-deg>0</heading-deg>
- </offsets>
+ </offsets>-->
 </model>
  
  </PropertyList>

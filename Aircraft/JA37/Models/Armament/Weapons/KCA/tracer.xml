@@ -5,7 +5,7 @@
 
   <animation>
     <type>dist-scale</type>
-    <name>7.62 tracer</name>
+    <name>7.62 tracer cannon</name>
     <object-name>trace</object-name>
     <interpolation>
 	<entry>

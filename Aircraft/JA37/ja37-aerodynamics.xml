@@ -9,7 +9,7 @@
         Plan: Low speed Aerodynamics from NASA document above
               High speed aerodynamics from DATCOM and Australian document
 
-        Missing: High-speed aerodynamics
+        Missing: Proper high-speed aerodynamics
                  
      **********************************************************************
 -->
@@ -131,7 +131,7 @@
     <description>Change in axial due to mach and ground effect</description>
     <product>
         <property>aero/function/ground-effect-factor-drag</property>
-        <!--<property>aero/function/mach-effect-factor-drag</property>-->
+        <!--<property>aero/function/mach-effect-factor-drag</property> commented out, since the plane already fits flight envelope without it-->
         <cos>
           <property>aero/alpha-rad</property>
         </cos>
@@ -156,7 +156,7 @@
           </product>
       </function>
 
-     <!-- from graph page 43 and 46 -->
+     <!-- from graphs page 43 and 46 -->
      <function name="aero/coefficient/CN">
         <description>
            Normal force due to alpha
@@ -182,15 +182,25 @@
              <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
                 <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
-                <tableData>
+                <tableData><!-- [measured using graph analyser] -->
                                -20      0     20
-                     -10        -0.7   -0.5    0.2     
-                       0        -0.4    0.0    0.3
-                      30         1.6    1.8    2.2
-                      37.5       1.7    2.1    2.25
-                      50         1.6    1.7    1.8
-                      70         1.55   1.75   1.8
-                      <!-- stall guesstimates: -->
+                       -20  -1.232 -1.178 -1.036
+                         0  -0.300 -0.000  0.184
+                        10   0.166  0.589  0.794
+                        20   1.255  1.433  0.773
+                        26   1.192  1.682  1.817
+                        30.3 1.466  1.893  2.008
+                        35.6 1.733  2.025  2.206
+                        38.6 1.795  2.063  2.222
+                        40.5 1.827  2.063  2.205
+                        45.3 1.864  1.951  2.066
+                        49.8 1.798  1.604  1.715
+                        51.1 1.590  1.694  1.781
+                        55.2 1.589  1.700  1.784
+                        60.2 1.620  1.731  1.787
+                        66.9 1.658  1.769  1.793
+                        72.6 1.692  1.797  1.797
+                        76.9 1.702  1.796  1.796
                 </tableData>
              </table>
             </sum>           
@@ -217,7 +227,7 @@
               </cos>
           </product>
       </function>
-     <!-- from graph page 43 -->
+     <!-- from graph page 43 [measured using graph analyser] -->
      <function name="aero/coefficient/CT">
         <description>
            Basic Tangential/axial Coefficient
@@ -229,13 +239,22 @@
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-                   -5.0         0.025
-                    0.0         0.04
-                    2.500       0.044
-                    5.000       0.038
-                    10.000      0    
-                    15.00      -0.03
-                    20.00      -0.036
+                -3.233  0.029
+                -1.541  0.035
+                 0.151  0.039
+                 1.842  0.042
+                 3.531  0.042
+                 5.217  0.037
+                 6.900  0.027
+                 8.581  0.013
+                10.000  0.000
+                11.943 -0.013
+                13.626 -0.022
+                15.312 -0.028
+                16.999 -0.032
+                18.687 -0.033
+                20.375 -0.035
+                22.064 -0.035
               </tableData>
            </table>
         </product>
@@ -264,16 +283,22 @@
          <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <tableData>
-                 -70   0.62
+                 -80   0.63
+                 -70   0.65
                  -50   1.12
+                 -45   1.14
                  -35   1.12
-                 -25   0.875
-                  15   0.875
+                 -25   0.9
+                 -22.5 0.875
+                  10   0.875
+                  17.5 0.85
                   22.5 0.61
-                  42   0.78
+                  40   0.78
+                  44   0.78
                   55   0.6
                   70   0.55
-                  95   0.12
+                  95   0.13
+                 120   0.06
                  135   0
             </tableData>
          </table>
@@ -462,7 +487,7 @@
 
 <!-- ********************************************************************** -->
 
-      <!-- from graph page 43, conflict with page 62 and 64 -->
+      <!-- from graph page 43 and page 61, 62. Not page 64 -->
      <axis name="PITCH">
           <function name="aero/coefficient/Cm">
             <description>
@@ -477,11 +502,23 @@
                 <table>
                   <independentVar lookup="row">aero/alpha-deg</independentVar>
                   <tableData>
+                        <!-- Extrapolated as per page 61 -->
+                      -10.0           0.03 
+                        <!-- graph page 43 -->
                         0.0           0.02
                         2.5           0
                        10.0          -0.03
                        20.0          -0.07
-                       25.0          -0.09 
+                       25.0          -0.09
+                       <!-- graph page 62 --> 
+                       26.0          -0.093
+                       28.0          -0.085
+                       34.0          -0.05
+                       37.0          -0.045
+                       42.0          -0.05
+                       47.0          -0.125
+                       51.0          -0.125
+                       70.0          -0.18
                   </tableData>
                </table>
              </sum>

@@ -5,7 +5,7 @@
   <submodel>
     <name>flares</name>
     <model>Models/Effects/flare.xml</model>
-    <trigger>ai/submodels/submodel[0]/flare-release</trigger>
+    <trigger>sim/multiplay/generic/int[7]</trigger><!-- ai/submodels/submodel[0]/flare-release -->
     <speed>100.0</speed>   <!-- ft/sec -->
     <repeat>true</repeat>
     <delay>0.75</delay>
@@ -22,7 +22,7 @@
   <submodel>
     <name>gun-pod</name>
     <model>Models/Armament/Weapons/KCA/tracer.xml</model>
-    <trigger>controls/armament/trigger</trigger>
+    <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
     <speed>2041.0</speed>
     <repeat>true</repeat>
     <delay>0.15</delay>
@@ -41,7 +41,7 @@
   <submodel>
     <name>gun-bullet</name>
     <model>Models/Geometry/null.ac</model>
-    <trigger>controls/armament/trigger</trigger>
+    <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
     <speed>2041.0</speed>
     <repeat>true</repeat>
     <delay>0</delay>
@@ -58,7 +58,7 @@
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
     <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bullet</impact-report>
+    <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
     <submodel-path>Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
   </submodel>
 
@@ -66,7 +66,7 @@
   <submodel>
     <name>gunsmoke</name>
     <model>Models/Armament/Weapons/KCA/smoke.xml</model>
-    <trigger>controls/armament/trigger</trigger>
+    <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
     <speed>10</speed>
     <repeat>true</repeat>
     <delay>0.01</delay>

@@ -3,7 +3,7 @@
 <PropertyList>
 
 	<submodel>
-		<name>bullet splash</name>
+		<name>bullet splash cannon</name>
 		<model>Models/Armament/Weapons/KCA/flack.xml</model>
 		<speed>0</speed>
 		<repeat>false</repeat>

@@ -1,12 +1,12 @@
 AC3Db
 MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 10 trans 0.0000
-MATERIAL "ac3dmat1.002" rgb 0.0000 0.0000 0.0000  amb 0.0000 0.0000 0.0000  emis 0.9767 0.9767 0.9767  spec 0.0000 0.0000 0.0000  shi 50 trans 0.7370
+MATERIAL "ac3dmat1.002" rgb 0.5000 0.5000 0.5000  amb 0.0000 0.0000 0.0000  emis 0.9767 0.9767 0.9767  spec 0.0000 0.0000 0.0000  shi 50 trans 0.7370
 MATERIAL "ac3dmat1.001" rgb 0.9140 0.9610 1.0000  amb 0.9583 0.9583 0.9583  emis 0.9163 0.9163 0.9163  spec 0.0000 0.0000 0.0000  shi 50 trans 0.0000
 OBJECT world
 name "Blender_export__externalflame1.ac"
 kids 1
 OBJECT poly
-name "ExternalFlame"
+name "ExternalFlamePoly"
 loc 0.0000000 0.0000000 0.0000000
 texture "exhaust.png"
 texrep 1 1

@@ -13,7 +13,7 @@
   <type>select</type>
   <object-name>strobe</object-name>
   <condition>
-   <property>sim/model/lighting/strobe/state</property>
+   <property>sim/multiplay/generic/int[5]</property><!-- sim/model/lighting/strobe/state -->
   </condition>
  </animation>
 

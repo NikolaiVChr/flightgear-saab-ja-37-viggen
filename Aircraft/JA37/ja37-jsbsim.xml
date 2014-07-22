@@ -11,9 +11,9 @@
 
 <fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Saab JA-37 Viggen" version="2.0" release="BETA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
   <fileheader>
-    <author> Necolatis </author>
+    <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.19 </version>
+    <version> 1.22 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -21,7 +21,7 @@
     <description> Models a Saab JA-37 Viggen </description>
     <note>
          This model was created using data that is, or has been, publically
-         available by means of technical reports, textbooks, image graphs or
+         available by means of (declassified) technical reports, textbooks, image graphs or
          published code. This aircraft description file is in no way related 
          to the manufacturer of the real aircraft.
          Neither the name of (any of) the authors nor the names of (any of) the
@@ -145,6 +145,7 @@
       <rolling_friction> 1.2 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="RIGHT_WT">
       <location unit="M">
@@ -157,6 +158,7 @@
       <rolling_friction> 1.2 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="TOP_VT">
       <location unit="M">
@@ -169,6 +171,7 @@
       <rolling_friction> 1.2 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="RADARDOME">
       <location unit="M">
@@ -181,6 +184,7 @@
       <rolling_friction> 2.2 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
     </contact>
   </ground_reactions>
   
@@ -285,7 +289,7 @@
       <priority> 4 </priority>
     </tank>
     <tank type="FUEL">
-      <!-- left wing tank 4V -->
+      <!-- Left wing tank 4V -->
       <location unit="M">
         <x> 3.3 </x>
         <y> -2 </y>

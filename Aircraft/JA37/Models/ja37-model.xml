@@ -4,6 +4,12 @@
 
  <path>ja37.ac</path>
  
+<effect>
+ <inherits-from>Effects/model-transparent</inherits-from>
+ <object-name>glass</object-name>
+ <object-name>frontglas</object-name>
+</effect>
+
  <model>
     <path>Models/ja37-panel.xml</path>
     <name>Panel</name>
@@ -23,6 +29,66 @@
       <z-m>0.06</z-m>
     </offsets>
   </model> 
+
+  <model>
+    <path>Models/Effects/nav-light-glow-right.xml</path>
+    <name>lightglowR</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model> 
+
+ <model>
+    <path>Models/Effects/nav-light-glow-left.xml</path>
+    <name>lightglowL</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model> 
+
+  <model>
+    <path>Models/Effects/beacon-light-glow-top.xml</path>
+    <name>lightglowT</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Models/Effects/beacon-light-glow-bottom.xml</path>
+    <name>lightglowB</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+<!-- Fuselage animations -->
+
+<animation>
+  <type>rotate</type>
+  <object-name>glass</object-name>
+  <object-name>canopy</object-name>
+ <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
+  <factor>30.0</factor>
+  <center>
+   <x-m>-2.67098</x-m>
+   <y-m>0.000003</y-m>
+   <z-m>1.01043</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>  
 
 <!-- Control surfaces -->
 
@@ -45,7 +111,7 @@
   <type>rotate</type>
   <object-name>elevonRightInner</object-name>
   <object-name>elevonRightOuter</object-name>
-  <property>/surface-positions/right-elevon-pos-deg</property>
+  <property>sim/multiplay/generic/float[0]</property><!-- surface-positions/right-elevon-pos-deg -->
   <factor>1.0</factor>
   <axis>   
    <x1-m> 5.84096 </x1-m>
@@ -61,7 +127,7 @@
   <type>rotate</type>
   <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
-  <property>/surface-positions/left-elevon-pos-deg</property>
+  <property>sim/multiplay/generic/float[1]</property><!-- surface-positions/left-elevon-pos-deg -->
   <factor>1.0</factor>
   <axis>
    <x2-m> 5.84096 </x2-m>
@@ -77,7 +143,7 @@
 <animation>
   <type>rotate</type>
   <object-name>flaps</object-name>
-  <property>fdm/jsbsim/fcs/flap-pos-deg</property>
+  <property>sim/multiplay/generic/float[2]</property><!-- fdm/jsbsim/fcs/flap-pos-deg -->
   <factor>1.0</factor>
   <axis>   
    <x1-m> -0.25811 </x1-m>
@@ -250,6 +316,15 @@
   </offsets>
  </model>
 
+<model>
+  <name>engine_smoke</name>
+  <path>Models/Effects/smoke.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
  
  <model>
   <name>strake-vortex</name>
@@ -273,7 +348,7 @@
   </offsets>
  </model>-->
  
-  <model>
+  <!--<model>
   <name>transsonic-deltawing-vapor-cone</name>
   <path>Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
   <offsets>
@@ -281,7 +356,7 @@
    <y-m>0</y-m>
    <z-m>0.25</z-m>
   </offsets>
- </model> 
+ </model> -->
 
 <model>
     <path>Models/Effects/vaporCone.xml</path>
@@ -289,7 +364,7 @@
     <offsets>
       <x-m>0</x-m>
       <y-m>0.0</y-m>
-      <z-m>1</z-m>
+      <z-m>0</z-m>
     </offsets>
   </model>
 
@@ -334,22 +409,28 @@
  <animation>
   <type>material</type>
   <object-name>lightTop</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
   <emission>
    <red>1.0</red>
    <green>0.0</green>
    <blue>0.0</blue>
-   <factor-prop>sim/model/lighting/beacon/state</factor-prop>
+   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 
 <animation>
   <type>material</type>
   <object-name>lightBottom</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
   <emission>
    <red>1.0</red>
    <green>0.0</green>
    <blue>0.0</blue>
-   <factor-prop>sim/model/lighting/beacon/state</factor-prop>
+   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 
@@ -358,6 +439,9 @@
  <model>
   <name>strobe</name>
   <path>Models/Effects/strobe.xml</path>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
   <offsets>
    <x-m>5.95508</x-m>
    <y-m>0.0</y-m>
@@ -368,11 +452,14 @@
 <animation>
   <type>material</type>
   <object-name>strobe</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
   <emission>
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
-   <factor-prop>sim/model/lighting/strobe/state</factor-prop>
+   <factor-prop>sim/multiplay/generic/int[5]</factor-prop><!-- sim/model/lighting/strobe/state -->
   </emission>
  </animation>
 
@@ -381,6 +468,9 @@
  <animation>
   <type>material</type>
   <object-name>lightLeft</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
   <emission>
    <red>1.0</red>
    <green>0.0</green>
@@ -391,10 +481,13 @@
  <animation>
   <type>material</type>
   <object-name>lightRight</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
   <emission>
    <red>0.0</red>
-   <green>0.0</green>
-   <blue>1.0</blue>
+   <green>1.0</green>
+   <blue>0.0</blue>
   </emission>
  </animation>
 
@@ -405,7 +498,7 @@
   <name>InternalFlame</name>
   <path>Models/Effects/InternalFlame.xml</path>
   <offsets>
-   <x-m>-1</x-m>
+   <x-m>0.0</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
@@ -413,7 +506,7 @@
  
  <animation>
   <type>material</type>
-  <object-name>InternalFlame</object-name>
+  <object-name>InternalFlamePoly</object-name>
   <emission>
    <red>0.01</red>
    <green>0.01</green>
@@ -445,32 +538,10 @@
   </offsets>
  </model>
 
- <!--<animation>
-  <type>translate</type>
-  <object-name>ExternalFlame</object-name>
-  <property>engines/engine[0]/nozzle-pos-norm</property>
-  <offset-m>-4.0</offset-m>
-  <factor>4.0</factor>
-  <axis>
-   <x>1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>-->
- <!--<animation>
-  <type>translate</type>
-  <object-name>ExternalFlame</object-name>
-  <value>25</value>
-  <axis>
-   <x>1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>-->
  <animation>
   <type>scale</type>
   <object-name>ExternalFlame</object-name>
-  <property>engines/engine[0]/nozzle-pos-norm</property>
+  <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
   <x-min>0.2</x-min>
   <y-min>1.0</y-min>
   <z-min>1.0</z-min>

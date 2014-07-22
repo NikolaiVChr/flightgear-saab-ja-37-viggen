@@ -7,10 +7,9 @@
 *************************************************************************-->   
 
 <PropertyList>
-
  <sim>
   <description>Saab JA-37 Viggen</description>
-  <author>Necolatis, Anders Lejczak (model and textures)</author>
+  <author>Nikolai V. Chr. (FDM, Scripting), Anders Lejczak (3D Model and Textures)</author>
   <status>Beta</status>
   <rating>
     <FDM type="int">4</FDM>
@@ -18,7 +17,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.19</aircraft-version> 
+  <aircraft-version>1.22</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -52,7 +51,14 @@
     <path>/sim/aircraft-class</path>
     <path>/sim/aircraft-operator</path>
   </aircraft-data>
-  
+
+  <airport>
+    <runways>
+      <!-- place the aircraft a little forward on the runways,
+             to avoid it standing on the edge.  -->
+      <start-offset-m type="float"> 20 </start-offset-m>
+    </runways>
+  </airport>  
   
 <!--**********************************************************************
 
@@ -93,19 +99,91 @@
       </signal>
       <signal>
           <type>float</type>
-          <property type="string">/surface-positions/left-elevon-pos-deg</property>
+          <property type="string">surface-positions/left-elevon-pos-deg</property>
       </signal>
       <signal>
           <type>float</type>
-          <property type="string">/surface-positions/right-elevon-pos-deg</property>
+          <property type="string">surface-positions/right-elevon-pos-deg</property>
       </signal>
       <signal>
           <type>float</type>
-          <property type="string">/surface-positions/rudder-pos-norm</property>
+          <property type="string">surface-positions/rudder-pos-norm</property>
       </signal>
       <signal>
           <type>float</type>
-          <property type="string">/surface-positions/nose-wheel-pos-norm</property>
+          <property type="string">surface-positions/nose-wheel-pos-norm</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">engines/engine[0]/nozzle-pos-norm</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">engines/engine[0]/augmentation</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">systems/electrical/batterysignal</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">engines/engine/thrust_lb</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">velocities/groundspeed-kt</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">fdm/jsbsim/aero/alpha-deg</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">controls/armament/trigger</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">ai/submodels/submodel[0]/flare-release</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">sounds/aircraft-explode/on</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">sounds/aircraft-crash/on</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">sounds/aircraft-water-crash/on</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">sounds/aircraft-crack/on</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">sounds/aircraft-creaking/on</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">engines/engine[0]/reversed</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">fdm/jsbsim/fcs/canopy-pos-norm</property>
+      </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">systems/electrical/battery</property>
       </signal>
     </config>
   </flight-recorder>  
@@ -123,7 +201,7 @@
   </panel_2>
 
   <hud> <!-- wrong path for default HUD here, to prevent it from showing up -->
-   <path n="1">Models/Cockpit/hud.xml</path>
+   <path n="1">Systems/HUD.xml</path>
   </hud>
 
 
@@ -278,7 +356,26 @@
 *************************************************************************-->
   <multiplay>
    <generic>
-    <int n="2" type="int">0</int>    <!-- radar-standby -->
+    <!-- Animation control surfaces -->
+    <float n="0" alias="/surface-positions/right-elevon-pos-deg"/>
+    <float n="1" alias="/surface-positions/left-elevon-pos-deg"/>
+    <float n="2" alias="/fdm/jsbsim/fcs/flap-pos-deg"/>
+    <float n="4" alias="/fdm/jsbsim/fcs/canopy-pos-norm"/>
+    <!-- Animating engine -->
+    <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
+    <int n="3" alias="/engines/engine/running"/>
+    <int n="4" alias="/engines/engine[0]/augmentation"/>
+    <int n="8" alias="/engines/engine[0]/reversed"/>
+    <!-- Animating light -->
+    <int n="5" alias="/sim/model/lighting/strobe/state"/>
+    <int n="9" alias="/systems/electrical/battery"/>
+    <int n="15" alias="/sim/model/lighting/beacon/state"/>
+    <!-- Armament -->
+    <int n="6" alias="/controls/armament/trigger"/>
+    <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
+    <!-- for Bombable: -->
+    <string n="9" type="string"/>
+    <int n="10" alias="controls/armament/trigger"/>
    </generic>
   </multiplay>
 
@@ -311,6 +408,10 @@
     <name>Del</name>
     <desc>Yaw damper on/off</desc>
    </key>
+   <key>
+    <name>C</name>
+    <desc>Toggle canopy</desc>
+   </key>
    <text>    _______________  Saab JA-37 Viggen  ________________
     Startup
     ______
@@ -339,29 +440,17 @@
     HUD info
     --------
     The HUD uses Km/h and meters.
-    When in landing/takeoff mode the sight will move to a side
-      according to sidewind.
-    When in navigation mode the sight will show the direction
-      the plane is headed in, not where it is pointed.
-    The digital altimeter to the left will use rader below 100 meters,
-      a 'R' is shown. when this happens, and regular altimeter above,
-      up till 9999 meters.
-    If the radar-altimeter detects that the altimeter is not calibrated correct,
-      it will blink QFE (happens only below 100 meters above terrain).
-    If QFE is displayed, but not blinking, the radar altimeter have
-      calibrated the altimeter (will only happen when plane not moving).
-    The digital airspeed indicator at the bottom, will use Km/h until
-      mach 0.5, after that it will show mach number.
+    When in landing/takeoff mode the sight will move to a side according to sidewind.
+    When in navigation mode the sight will show the direction the plane is headed in, not where it is pointed.
+    The digital altimeter to the left will use rader below 100 meters, a 'R' is shown. when this happens, and regular altimeter above, up till 9999 meters.
+    If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters above terrain).
+    If QFE is displayed, but not blinking, the radar altimeter have calibrated the altimeter (will only happen when plane not moving).
+    The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number.
     The artificial horizon and pitch lines are spaced 5 degrees.
-    To the right is a altimeter scale, below 100 meter the scale will become
-      more detailed and below 50 even more.
-      Above 1000 meters, one floating point decimal precision.
-    On the altimeter the symbol '77' indicates where radar altimeter detects
-      the ground to be below plane centerline.
-    Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter
-      ground is higher than the altimeter 0.
-    The heading at the top is shown as a scale showing 1/10 of heading
-      in degrees.
+    To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000 meters, one floating point decimal precision.
+    On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
+    Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
+    The heading at the top is shown as a scale showing 1/10 of heading in degrees.
     
     Trivia
     _____
@@ -373,7 +462,7 @@
     _____
     Hangar homepage: https://sites.google.com/site/fghangar
     3D model and textures by Anders Lejczak
-    FDM and everything else by Necolatis
+    FDM and everything else by Nikolai V. Chr.
     </text>
   </help>
 
@@ -436,15 +525,15 @@
            gui.popupTip("HUD is already on in cockpit view.");
          </script>
       </binding>
-   </key>
-   <key n="115">
+    </key>
+    <key n="115">
       <name>s</name>
       <desc>Start engine</desc>
       <binding>
          <command>nasal</command>
          <script>ja37.autostarttimer();</script>
       </binding>
-   </key>
+    </key>
     <key n="6">
      <name>Ctrl-F</name>
      <desc>Trigger flare release</desc>
@@ -485,42 +574,50 @@
      <script>reversethrust.togglereverser();</script>
     </binding>
    </key>
-  <key n="127">
-  <name>Shift-Delete</name>
-  <!--<repeatable type="bool">true</repeatable>-->
-  <mod-shift>
-   <desc>Reload sound configuration (for debugging AP)</desc>
-   <binding>
-    <command>nasal</command>
-    <script>
-     fgcommand('reinit', props.Node.new({ subsystem: "sound" }));
-     print("sound reinitialized!");
-     gui.popupTip("Sound reinit.");
-    </script>
-   </binding>
-  </mod-shift>
- </key>
- <!--<key n="127">
-  <name>Shift-Delete</name>-->
-  <!--<repeatable type="bool">true</repeatable>-->
-  <!--<mod-shift>
-   <desc>Reload autopilot configuration (for debugging AP)</desc>
-   <binding>
-    <command>nasal</command>
-    <script>
-     fgcommand('reinit', props.Node.new({ subsystem: "xml-autopilot" }));
-     print("xml-autopilot reinitialized!");
-     gui.popupTip("Autopilot reinit.");
-    </script>
-   </binding>
-  </mod-shift>
- </key>-->
-  <key n="127">
+   <!--<key n="127">
+    <name>Shift-Delete</name>-->
+    <!--<repeatable type="bool">true</repeatable>-->
+    <!--<mod-shift>
+     <desc>Reload sound configuration (for debugging AP)</desc>
+     <binding>
+      <command>nasal</command>
+      <script>
+       fgcommand('reinit', props.Node.new({ subsystem: "sound" }));
+       print("sound reinitialized!");
+       gui.popupTip("Sound reinit.");
+      </script>
+     </binding>
+    </mod-shift>
+   </key>-->
+   <key n="127">
+    <name>Shift-Delete</name>-->
+    <!--<repeatable type="bool">true</repeatable>-->
+    <mod-shift>
+     <desc>Reload autopilot configuration (for debugging AP)</desc>
+     <binding>
+      <command>nasal</command>
+      <script>
+       fgcommand('reinit', props.Node.new({ subsystem: "xml-autopilot" }));
+       print("xml-autopilot reinitialized!");
+       gui.popupTip("Autopilot reinit.");
+      </script>
+     </binding>
+    </mod-shift>
+   </key>
+    <key n="127">
      <name>Delete</name>
      <desc>Yaw damper on/off</desc>
      <binding>
       <command>property-toggle</command>
       <property>/fdm/jsbsim/fcs/yaw-damper-enable</property>
+     </binding>
+    </key>
+    <key n="67">
+     <name>C</name>
+     <desc>Toggle canopy</desc>
+     <binding>
+      <command>property-toggle</command>
+      <property>/fdm/jsbsim/fcs/canopy-engage</property>
      </binding>
     </key>
    </keyboard>
@@ -578,25 +675,34 @@
 
 
 *************************************************************************-->
- <!--<consumables>
+ <consumables>
   <fuel>
    <tank n="0">
-    <level-gal_us archive="y">500</level-gal_us>
+    <name>Fuselage Main Tank</name>
    </tank>
    <tank n="1">
-    <level-gal_us archive="y">500</level-gal_us>
+    <name>Fuselage Forward Tank</name>
    </tank>
    <tank n="2">
-    <level-gal_us archive="y">370</level-gal_us>
+    <name>Left Fuselage Minor Tank</name>
    </tank>
    <tank n="3">
-    <level-gal_us archive="y">370</level-gal_us>
+    <name>Right Fuselage Minor Tank</name>
    </tank>
    <tank n="4">
-    <level-gal_us archive="y">300</level-gal_us>
+    <name>Left Minor Wing Tank</name>
+   </tank>
+   <tank n="5">
+    <name>Right Minor Wing Tank</name>
+   </tank>
+   <tank n="6">
+    <name>Left wing tank</name>
+   </tank>
+   <tank n="7">
+    <name>Right wing tank</name>
    </tank>
   </fuel>
- </consumables>-->
+ </consumables>
  
  
 <!--**********************************************************************
@@ -606,9 +712,9 @@
 
 *************************************************************************--> 
  <systems>
-  <!--<autopilot>
+  <autopilot>
      <path>Systems/Autopilot.xml</path>
-  </autopilot>-->
+  </autopilot>
   <electrical>
    <outputs>
     <adi type="int">24</adi> 				<!-- satisfying /Models/adi.xml -->
@@ -656,5 +762,8 @@
   <limits>
     <file>Aircraft/Generic/limits.nas</file>
   </limits>
+  <crash>
+    <file>Nasal/crash.nas</file>
+  </crash>
 </nasal>
 </PropertyList>

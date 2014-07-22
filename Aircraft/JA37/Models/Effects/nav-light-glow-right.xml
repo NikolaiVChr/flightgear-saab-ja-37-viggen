@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+
+<PropertyList>
+
+  <path>nav-light-glow-green.ac</path>
+
+  <offsets>
+    <x-m> 5.65783</x-m>
+    <y-m> 5.09763</y-m>
+    <z-m> -0.3954</z-m>
+  </offsets>
+
+  <!-- Special Shaders -->
+
+  <animation>
+    <type>noshadow</type>
+    <object-name>LightNavGlowR</object-name>
+  </animation>
+
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>LightNavGlowR</object-name>
+  </effect>
+
+  <!-- Animations -->
+
+
+
+  <!-- Right (green) nav light -->
+
+  <animation>
+    <type>select</type>
+    <object-name>LightNavGlowR</object-name>
+    <condition>
+      <property>sim/multiplay/generic/int[9]</property>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>flash</type>
+    <object-name>LightNavGlowR</object-name>
+    <center>
+     <x> 5.65783</x>
+    <y> 5.09763</y>
+    <z> -0.3954</z>
+    </center>
+    <axis>
+     <x>-1</x>
+     <y>1</y>
+     <z>0</z>
+    </axis>
+    <power>4</power>
+    <factor>1</factor>
+    <offset>0.4</offset>
+    <two-sides type="bool">false</two-sides>
+    <min>0.01</min>
+    <max>1</max>
+  </animation>
+
+</PropertyList>
+

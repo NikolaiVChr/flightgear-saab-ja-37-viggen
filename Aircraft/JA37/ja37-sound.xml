@@ -4,15 +4,16 @@
 
  <fx>
 
-<!--                                                                             canopy                                   --> 
+<!--                                              canopy                                   --> 
  
   <canopy>
    <name>canopy</name>
    <path>Sounds/canopy.wav</path>
    <mode>in-transit</mode>
+   <type>avionics</type>
    <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
-   <reference-dist>30</reference-dist>
-   <max-dist>100</max-dist>
+   <reference-dist>2</reference-dist>
+   <max-dist>4</max-dist>
    <position>
     <x>-1.0</x>
     <y>0.0</y>
@@ -24,11 +25,34 @@
     <factor>-0.25</factor>
    </pitch>
    <volume>
-    <max>0.5</max>
+    <max>0.05</max>
    </volume>
   </canopy>
 
-<!--                                                                             battery                                   -->
+  <canopy>
+   <name>canopy_lock</name>
+   <path>Sounds/canopy_lock.wav</path>
+   <mode>single</mode>
+   <type>avionics</type>
+   <condition>
+    <equals>
+     <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+     <value>0.0</value>
+    </equals>
+   </condition>
+   <reference-dist>2</reference-dist>
+   <max-dist>4</max-dist>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.195</z>
+   </position>
+   <volume>
+    <max>0.05</max>
+   </volume>
+  </canopy>
+
+  <!--                                          battery                                   -->
 
   <battery>
    <name>battery_start</name>
@@ -36,9 +60,9 @@
    <mode>single</mode>
    <type>avionics</type>
    <condition>
-   <property>sim/current-view/internal</property>
+    <property>sim/current-view/internal</property>
     <equals>
-     <property>/systems/electrical/batterysignal</property>
+     <property>systems/electrical/batterysignal</property>
      <value>1.0</value>
     </equals>
    </condition>
@@ -69,7 +93,7 @@
     </equals>
     <greater-than>
       <property>velocities/airspeed-kt</property>
-      <value>50.0</value>
+      <value>70.0</value>
     </greater-than>
     <property>engines/engine/running</property>
   </condition>
@@ -110,7 +134,7 @@
     </equals>
     <greater-than>
       <property>velocities/airspeed-kt</property>
-      <value>50.0</value>
+      <value>70.0</value>
     </greater-than>
     <property>engines/engine/running</property>
   </condition>
@@ -152,7 +176,7 @@
     <property>engines/engine/running</property>
     <greater-than>
       <property>velocities/airspeed-kt</property>
-      <value>50.0</value>
+      <value>70.0</value>
     </greater-than>
   </condition>
 
@@ -303,15 +327,26 @@
       <property>engines/engine/n1</property>
       <value>1</value>
     </greater-than>
-    <not-equals>
-     <property>sim/current-view/name</property>
-     <value>Fly-By View</value>
-    </not-equals>
-    <not-equals>
-      <property>sim/current-view/internal</property>
-      <value>1</value>
-    </not-equals>
-    <property>/gear/gear[0]/wow</property>
+    <or>
+      <and>
+        <property>sim/current-view/internal</property>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+          <value>0</value>
+        </greater-than>
+      </and>
+      <and>
+        <not-equals>
+         <property>sim/current-view/name</property>
+         <value>Fly-By View</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/current-view/internal</property>
+          <value>1</value>
+        </not-equals>
+      </and>
+    </or>
+    <property>gear/gear[0]/wow</property>
    </condition>
    <reference-dist>5</reference-dist>
    <max-dist>3000</max-dist>
@@ -334,11 +369,10 @@
     <factor>0.005</factor>
    </pitch>
    <volume>
-    <difference>
-      <value>100</value>
-      <property>engines/engine/n1</property>      
-    </difference>
-    <factor>0.05</factor>
+    <type>inv</type>
+    <property>engines/engine/thrust_lb</property>      
+    <factor>1000</factor>
+    <max>0.25</max>
    </volume>
   </engine_idle_model>
  
@@ -348,22 +382,33 @@
    <path>Sounds/thrust-exterior.wav</path>
    <mode>looped</mode>
    <condition>
-     <not-equals>
-      <property>sim/current-view/name</property>
-      <value>Fly-By View</value>
-    </not-equals>
-    <not-equals>    
-      <property>sim/current-view/internal</property>
-      <value>1</value>    
-    </not-equals>
+    <or>
+      <and>
+        <property>sim/current-view/internal</property>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+          <value>0</value>
+        </greater-than>
+      </and>
+      <and>
+        <not-equals>
+          <property>sim/current-view/name</property>
+          <value>Fly-By View</value>
+        </not-equals>
+        <not-equals>    
+          <property>sim/current-view/internal</property>
+          <value>1</value>    
+        </not-equals>
+      </and>
+    </or>
     <property>engines/engine/running</property>
     <greater-than-equals>
       <property>engines/engine/n1</property>
-      <value>30</value>
+      <value>22</value>
     </greater-than-equals>
-    <not>
-      <property>/gear/gear[0]/wow</property>
-    </not>
+    <!--<not>
+      <property>gear/gear[0]/wow</property>
+    </not>-->
     </condition>
    <reference-dist>5</reference-dist>
    <max-dist>10000</max-dist>
@@ -382,14 +427,14 @@
    </orientation>
    <volume>
     <property>engines/engine/thrust_lb</property>
-    <offset>0.100</offset>
-    <factor>0.000013</factor>
+    <offset>0.000</offset>
+    <factor>0.000020</factor>
    </volume>
-   <pitch>
+   <!--<pitch>
     <property>engines/engine/n1</property>
     <offset>0.3</offset>
     <factor>0.03</factor>
-   </pitch>
+   </pitch>-->
   </engine_mil_model>
 
  
@@ -399,14 +444,29 @@
    <path>Sounds/exhaust_loop.wav</path>
    <mode>looped</mode>
    <condition>
-    <not-equals>
-      <property>sim/current-view/name</property>
-      <value>Fly-By View</value>
-    </not-equals>
-    <not-equals>
-     <property>sim/current-view/internal</property>
-     <value>1</value>
-    </not-equals>
+    <or>
+      <and>
+        <property>sim/current-view/internal</property>
+        <greater-than>
+          <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+          <value>0</value>
+        </greater-than>
+      </and>
+      <and>
+        <not-equals>
+          <property>sim/current-view/name</property>
+          <value>Fly-By View</value>
+        </not-equals>
+        <not-equals>
+         <property>sim/current-view/internal</property>
+         <value>1</value>
+        </not-equals>
+      </and>
+    </or>
+    <!--<greater-than-equals>
+      <property>engines/engine/n1</property>
+      <value>98</value>
+    </greater-than-equals>-->
     <property>engines/engine/augmentation</property>
     </condition>
    <reference-dist>5</reference-dist>
@@ -425,9 +485,10 @@
     <outer-gain>0.2</outer-gain>
    </orientation>
    <volume>
-    <property>engines/engine/nozzle-pos-norm</property>
+   <value>1</value>
+    <!--<property>engines/engine/nozzle-pos-norm</property>
     <offset>0.05</offset>
-    <factor>0.85</factor>
+    <factor>0.85</factor>-->
    </volume>
   </engine_augmented_model>
 
@@ -457,7 +518,7 @@
     <z>-0.6</z>
    </position>
    <volume>
-    <max>1</max>
+    <max>0.40</max>
    </volume>
   </rumble>
 
@@ -468,17 +529,17 @@
    <condition>
     <property>sim/current-view/internal</property>
     <or>
-     <property>/gear/gear[0]/wow</property>
-     <property>/gear/gear[1]/wow</property>
-     <property>/gear/gear[2]/wow</property>
+     <property>gear/gear[0]/wow</property>
+     <property>gear/gear[1]/wow</property>
+     <property>gear/gear[2]/wow</property>
     </or>
     <greater-than>
-					<property>/velocities/groundspeed-kt</property>
+					<property>velocities/groundspeed-kt</property>
 					<value>25</value>
     </greater-than>
    </condition>
    <volume>
-    <property>/velocities/groundspeed-kt</property>
+    <property>velocities/groundspeed-kt</property>
     <type>log</type>
     <factor>0.025</factor>
    </volume>
@@ -523,67 +584,122 @@
    </pitch>
   </squeal>
 
-<!--                                                                          avionics warnings                           -->  
+<!--                                          avionics warnings                           -->  
 
 
- <!-- Stall warnings taken from high-alpha warnings in Viggen manual page 242 -->
-<stall>
-		<name>stall</name>
+ <!-- Alpha warnings taken from Viggen pilot manual page 242 -->
+<alpha>
+		<name>alpha</name>
 		<mode>looped</mode>
-		<path>Sounds/stall.wav</path>
+		<path>Sounds/warning-very-high-alpha.wav</path>
 		<type>avionics</type>
-		<condition>
-		<greater-than>
-			<property>orientation/alpha-deg</property>
-			<value>23</value>
-		</greater-than>
-		<greater-than>
-			<property>velocities/airspeed-kt</property>
-			<value>10</value>
-		</greater-than>
-		<!--<property>/sim/current-view/internal</property>-->
-		<not>
-      	<property>fdm/jsbsim/systems/crash-detect/crashed</property>
-    	</not>
-    	<not>
-      <property>gear/gear[1]/wow</property>
-      <property>gear/gear[2]/wow</property>
-     </not>
-		</condition>
+    <condition>
+      <not>
+        <property>gear/gear/position-norm</property>
+      </not>
+      <property>sim/current-view/internal</property>
+      <or>
+        <and>
+          <greater-than>
+            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <value>23</value>
+          </greater-than>
+          <less-than>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>32808</value>
+          </less-than>
+        </and>
+        <and>
+          <greater-than>
+            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <value>20</value>
+          </greater-than>
+          <greater-than>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>32808</value>
+          </greater-than>
+        </and>
+      </or>
+      <not>
+          <property>fdm/jsbsim/simulation/exploded</property>
+      </not>
+    </condition>
 		<volume><factor>4</factor></volume>
-	</stall>
+	</alpha>
 	
-<stallw>
-		<name>stallwarning</name>
-		<mode>looped</mode>
-		<path>Sounds/stallwarning.wav</path>
+<alphawarn>
+		<name>alphawarning</name>
+		<mode>single</mode>
+		<path>Sounds/caution-high-alpha.wav</path>
 		<type>avionics</type>
 		<condition>
-  		<greater-than>
-  			<property>orientation/alpha-deg</property>
-  			<value>17</value>
-  		</greater-than>
-      <less-than>
-        <property>orientation/alpha-deg</property>
-        <value>23</value>
-      </less-than>
-  		<greater-than>
-  			<property>velocities/airspeed-kt</property>
-  			<value>10</value>
-  		</greater-than>
-  		<!--<property>/sim/current-view/internal</property>-->
+      <not>
+        <property>gear/gear/position-norm</property>
+      </not>
+      <property>sim/current-view/internal</property>
+      <or>
+        <and>
+          <greater-than>
+            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <value>17</value>
+          </greater-than>
+          <less-than>
+            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <value>23</value>
+          </less-than>
+          <less-than>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>32808</value>
+          </less-than>
+        </and>
+        <and>
+          <greater-than>
+            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <value>14</value>
+          </greater-than>
+          <less-than>
+            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <value>20</value>
+          </less-than>
+          <greater-than>
+            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>32808</value>
+          </greater-than>
+        </and>
+      </or>
   		<not>
-        	<property>fdm/jsbsim/systems/crash-detect/crashed</property>
-      	</not>
-      	<not>
-        <property>gear/gear[1]/wow</property>
-        <property>gear/gear[2]/wow</property>
-       </not>
+        	<property>fdm/jsbsim/simulation/exploded</property>
+      </not>
 		</condition>
 		<volume><factor>3.5</factor></volume>
-	</stallw>  
+	</alphawarn>  
   
-  
+  <takeoffalpha>
+    <name>takeoff-and-landing-alpha</name>
+    <mode>single</mode>
+    <path>Sounds/warning-very-high-alpha.wav</path>
+    <type>avionics</type>
+    <condition>
+      <property>gear/gear/position-norm</property>
+      <greater-than>
+        <property>fdm/jsbsim/aero/alpha-deg</property>
+        <value>18</value>
+      </greater-than>
+      <property>sim/current-view/internal</property>
+      <not>
+          <property>fdm/jsbsim/simulation/exploded</property>
+      </not>
+      <not>
+          <property>gear/gear[1]/wow</property>
+      </not>
+      <not>
+          <property>gear/gear[2]/wow</property>
+      </not>
+    </condition>
+    <volume><factor>4</factor></volume>
+  </takeoffalpha>
+
+
   <!-- old stall warnings:-->
   
    <!--<stall>
@@ -648,12 +764,9 @@
 			<mode>looped</mode>
 			<path>Sounds/wind.wav</path>
 			<condition>
-				<equals>
-					<property>sim/current-view/view-number</property>
-					<value>0</value>
-				</equals>
+				<property>sim/current-view/internal</property>
 				<greater-than>
-					<property>canopy/position-norm</property>
+					<property>fdm/jsbsim/fcs/canopy-pos-norm</property>
 					<value>0</value>
 				</greater-than>
 			</condition>
@@ -681,7 +794,86 @@
 <!--                                                                          crashing                                   -->  
  
  
- <crash>
+ <aircraft-explode>
+		<name>aircraft-explode</name>
+		<path>Sounds/aircraft-explode.wav</path>
+		<mode>once</mode>
+		<condition>
+			<equals>
+				<property>sounds/aircraft-explode/on</property>
+				<value>1</value>
+			</equals>
+		</condition>
+		<volume>
+			<factor>1</factor>
+		</volume>
+	</aircraft-explode>
+
+	<aircraft-crash>
+		<name>aircraft-crash</name>
+		<path>Sounds/crash.wav</path>
+		<mode>once</mode>
+		<condition>
+			<equals>
+				<property>sounds/aircraft-crash/on</property>
+				<value>1</value>
+			</equals>
+		</condition>
+		<volume>
+			<factor>1</factor>
+		</volume>
+	</aircraft-crash>
+
+	<aircraft-water-crash>
+		<name>aircraft-water-crash</name>
+		<path>Sounds/aircraft-water-crash.wav</path>
+		<mode>once</mode>
+		<condition>
+			<equals>
+				<property>sounds/aircraft-water-crash/on</property>
+				<value>1</value>
+			</equals>
+		</condition>
+		<volume>
+			<factor>1</factor>
+		</volume>
+	</aircraft-water-crash>
+
+	<aircraft-crack>
+		<name>aircraft-crack</name>
+		<path>Sounds/aircraft-crack.wav</path>
+		<mode>once</mode>
+		<condition>
+		<property>sim/current-view/internal</property>
+			<equals>
+				<property>sounds/aircraft-crack/on</property>
+				<value>1</value>
+			</equals>
+		</condition>
+		<volume>
+			<property>sounds/aircraft-crack/volume</property>
+			<factor>1</factor>
+		</volume>
+	</aircraft-crack>
+
+	<aircraft-creaking>
+		<name>aircraft-creaking</name>
+		<path>Sounds/aircraft-creaking.wav</path>
+		<mode>looped</mode>
+		<condition>
+		<property>sim/current-view/internal</property>
+			<equals>
+				<property>sounds/aircraft-creaking/on</property>
+				<value>1</value>
+			</equals>
+		</condition>
+		<volume>
+			<property>sounds/aircraft-creaking/volume</property>
+			<factor>1</factor>
+		</volume>
+	</aircraft-creaking>
+ 
+ <!--<crash>
    <name>crash</name>
    <condition>
     <property>fdm/jsbsim/systems/crash-detect/crashed</property>
@@ -717,7 +909,7 @@
 		<volume>
 			<factor>1</factor>
 		</volume>
-	</aircraft-water-crash>   
+	</aircraft-water-crash>   -->
 </fx>
  
 </PropertyList>

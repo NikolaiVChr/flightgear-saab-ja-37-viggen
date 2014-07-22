@@ -367,18 +367,24 @@ var HUDnasal = {
     m.horizon = m.horizon_group2.createChild("path")
                      .moveTo(-850, 0)
                      .horiz(650)
-                     .moveTo(-30, 5)#-35
-                     .quadTo(-40, -5)
-                     .moveTo(-100, 5)#-105
-                     .quadTo(-110, -5)
-                     .moveTo(-170, 5)#-175
-                     .quadTo(-180, -5)
-                     .moveTo(170, 5)#175
-                     .quadTo(180, -5)
-                     .moveTo(100, 5)#105
-                     .quadTo(110, -5)
-                     .moveTo(30, 5)#35
-                     .quadTo(40, -5)
+                     .moveTo(-37, 0)#-35
+                     .arcSmallCW(2, 2, 0, -4, 0)
+                     .arcSmallCW(2, 2, 0, 4, 0)
+                     .moveTo(-107, 0)#-105
+                     .arcSmallCW(2, 2, 0, -4, 0)
+                     .arcSmallCW(2, 2, 0, 4, 0)
+                     .moveTo(-177, 0)#-175
+                     .arcSmallCW(2, 2, 0, -4, 0)
+                     .arcSmallCW(2, 2, 0, 4, 0)
+                     .moveTo(177, 0)#175
+                     .arcSmallCW(2, 2, 0, -4, 0)
+                     .arcSmallCW(2, 2, 0, 4, 0)
+                     .moveTo(107, 0)#105
+                     .arcSmallCW(2, 2, 0, -4, 0)
+                     .arcSmallCW(2, 2, 0, 4, 0)
+                     .moveTo(37, 0)#35
+                     .arcSmallCW(2, 2, 0, -4, 0)
+                     .arcSmallCW(2, 2, 0, 4, 0)
                      .moveTo(200, 0)
                      .horiz(650)
                      .setStrokeLineWidth(w)
@@ -767,7 +773,7 @@ var HUDnasal = {
        } else {
         me.root.show();
         me.root.update();
-        settimer(func me.update(), 0);
+        settimer(func me.update(), 0.05);
        }
 	     
        setprop("sim/hud/visibility[1]", 0);

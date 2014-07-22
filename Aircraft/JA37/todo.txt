@@ -1,45 +1,47 @@
-TODO:
-=====
+TODO for Flightgear JA-37
+=========================
 
 High Priority:
 --------------
-Sound: Make model view engine sounds better
-Sound: Wierd buzz in model view sound when using throttle
+
 
 Normal Priority:
 ----------------
-Sim: Get crash code to work every time, incuding playing sounds
+Animation: Make canopy increase drag.
+Animation: Make canopy able to break off.
 Animation: Engine heat should be dark at n1 less than 60
 GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
 GUI: Checklist
 GUI: Keypress to turn off verbose popups
 System: Put in alot more working instruments and controls
 System: Put in alot more not working instruments and controls for immersion
-System: Make 2D cockpit fully functional
-Animation: Check that HUD cannot be seen from too far away, and script should be disabled too.
-Animation: Make canopy work
+Sim: When crashing and instruments get unservicable, make them not work
+Sim: Make crashing, creaking and breaking optional through menu items.
+Sound: Occansional wierd buzz in model view sound when using throttle
+Sim: Limit cannon rounds to 150.
+Effect: Rembrandt makes the afterburner flame not transparent. (test using animator)
+Effect: Rembrandt does not make the engine flame lit enough, due to workaround.
+Effect: Make vortex vapor flat and start it from above aircraft.
+Effect: Landing lightcone
 
 Lower priority:
 ----------------
-Effect: Lights should have glare effect in darkness
 Aero: DATCOM: Add engine intake area, and correct exhaust area
 Aero: use droptank as fuel tank, and make it dumpable
 HUD: add proper sidewind max
-System: Make armament/droptank selectable
+System: Make armament selectable
 System: All fuel to engine has to go through tank 1
 System: Fuel tanks 3V and 3H is used for flying upside down
+System: Make 2D cockpit fully functional
 Sound: Better annunciater warnings and other sounds
-Effect: Fix wierd shadow in front of vtail
-Effect: Complete vapor cone
+Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Effect: Make pilot faint/die due to G-forces
-Effect: Adapt for Rembrandt (afterburnerflame, cockpit glass)
 Effect: Make tires burst if too high speed with parking brakes
 Effect: Make gears break if too high speed with gears down
-Effect: Adjust the engine fire and afterburner flame more precise position and size.
-Effect: Engine smoke will come out at nosecone when thrust reversed
 Effect: Make gun fire bullets from correct position (no idea where it is..)
 Effect: Glass reflection
 Effect: Sun glare
+Effect: Smoke after structural break.
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
 HUD: Make desired height columns and boxes
@@ -47,9 +49,8 @@ HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up!
-Engine: Flight envelope for mil thrust is broken due to JA-37 pilot testiment that it goes 0.9 mach at mil thrust in 500 meters alt
 Animation: Animate wheels
 Animation: Animate gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors
 Animation: Pilot from F16C?
-Animation: Flaps are missing an important polygon
+Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
