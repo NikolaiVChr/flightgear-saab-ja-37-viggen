@@ -7,12 +7,12 @@
   <author>Necolatis, Kazunori Ito (model)</author>
   <status>Alpha</status>
   <rating>
-    <FDM type="int">2</FDM>
-    <systems type="int">1</systems>
-    <cockpit type="int">1</cockpit>
-    <model type="int">2</model>
+    <FDM type="int">1</FDM>
+    <systems type="int">0</systems>
+    <cockpit type="int">0</cockpit>
+    <model type="int">1</model>
   </rating>
-  <aircraft-version>1.6</aircraft-version> 
+  <aircraft-version>1.7</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
@@ -21,7 +21,7 @@
    <splash-texture>ja37-splash.png</splash-texture>
   </startup>
 
-  <!-- enable "parkpos=AVAILABLE" option for the F-16 -->
+  <!-- enable "parkpos=AVAILABLE" option for the JA-37 -->
   <dimensions>
    <radius-m type="double">10.0</radius-m>
    <parkpos-offset-m type="double">0.0</parkpos-offset-m>
@@ -133,7 +133,7 @@
    <config>
      <pitch-offset-deg>0</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
-     <y-offset-m archive="y">0.55</y-offset-m>
+     <y-offset-m archive="y">0.57</y-offset-m>
      <z-offset-m archive="y"> -3.61</z-offset-m>
      <default-field-of-view-deg>55</default-field-of-view-deg>
    </config>

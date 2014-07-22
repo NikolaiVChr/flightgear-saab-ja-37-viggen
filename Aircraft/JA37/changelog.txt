@@ -1,6 +1,13 @@
 1.0
 ---
-Added the accelerometer
+Got the idea to work on this plane.
+JSBSim FDM and engine adapted from Aeromatic output
+Flight controls mainly from F-16 (adjusted some values)
+Engine fire, smoke and other effects adapted from F-16
+Added thrust reverser
+Converted 3D model from FS2004 (License: Creative Commons)
+Added some annunciater sounds
+Adapted some crash code from Mig-15
 
 1.1
 ---
@@ -16,8 +23,8 @@ Put in a Accelerometer (small inaccuracy due to my limited painting skill)
 1.3
 ---
 Mapped fuel tanks to match the real aircraft
-Put in a Canvas HUD (TODO: make specific to JA37)
-Put in a Chronometer (TODO: make specific to JA37)
+Put in a generic Canvas HUD
+Put in a Chronometer from Buccaneer, to make it look less empty
 
 1.4
 ---
@@ -32,23 +39,58 @@ Removed some debug messages
 
 1.6
 ---
-Made HUD pretty much fully functional
+Made HUD pretty much function like the JA-37 (except for combat and landing)
+Lowered pilot view 5cm to better align with the HUD
+
+1.7
+---
+Added more info to the changelog.
+Made HUD heading be a scale
+Put in horizon line and pitch lines
+Fixed some HUD bugs
+Cleaned up the nasal HUD code a bit
+Lifted pilot view 2cm
+Switched HUD font, which fixed an alignment canvas bug
+Made several adjustments to the HUD
 
 Notes:
 ------
-Beware, even though they are not animated the plane has reverse thrust, flaps and gear. The HUD uses Km/h and meter.
+Beware, even though they are not animated the plane has reverse thrust, flaps and gear.
+
+
+HUD info
+--------
+The HUD uses Km/h and meters.
+When in landing/takeoff mode the sight will move to a side according to sidewind
+When flying the sight will show the direction the plane is headed in, not where it is pointed
+The digital altimeter will use rader below 100 meters, and regular altimeter above, up till 9999 meters.
+If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE.
+If QFE is displayed, but not blinking, the radar altimeter have calibrated the altimeter (will only happen under 100 meters)
+The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number
+The artificial horizon and pitch lines are spaced 10 degrees.
+To the right is a altimeter scale, below 100 meter the scale will become more detailed. Above 1000 meters, one floating point decimal precision.
+The heading at the top is shown as a number.
 
 TODO:
 -----
 Animate model
 Retexture model
-Make Canvas HUD compass be on a scale
-All fuel to engine has to go through tank 1, model this
-Fuel tanks 3V and 3H is used for flying upside down, model this
+All fuel to engine has to go through tank 1
+Fuel tanks 3V and 3H is used for flying upside down
 Make pilot faint/die due to G-forces
+Clean up the Aerodynmaic functions and the controls
 Refine FDM (alot)
 Put in more instruments
 Better annunciater warnings and other sounds
-Adapt for Rembrandt
+Adapt for Rembrandt (future)
 Make tires burst if too high speed with parking brakes
 Make gears break if too high speed with gears down
+Make canopy simulation
+Adjust the engine fire and afterburner flame more precise.
+Make lights work.
+HUD: Make TILS landing system in the HUD
+HUD: Make desired heading indicator in the HUD.
+HUD: Make desired height columns and boxes
+HUD: Different kind of pitch lines, depending on mode
+HUD: make more methods out of similar code, introduce more comments and name variables better
+HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (as I understood from the swedish manual)

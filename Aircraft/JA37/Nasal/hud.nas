@@ -1,7 +1,7 @@
 # ==============================================================================
 # Head up display
 #
-# stole some code from the buccaneer and the wiki example
+# nicked some code from the buccaneer and the wiki example to get started
 #
 # ==============================================================================
 
@@ -9,21 +9,31 @@ var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
 var pow2 = func(x) { return x * x; };
 var vec_length = func(x, y) { return math.sqrt(pow2(x) + pow2(y)); };
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
+var roundabout = func(x) {
+  var y = x - int(x);
+
+  return y < 0.5 ? int(x) : 1 + int(x) ;
+};
 var deg2rads = math.pi/180.0;
 var blinking = 0; # how many updates the speed vector symbol has been turned off for blinking (convert to time when less lazy)
 var alt_scale_mode = 0;
 var QFE = 0;
 var countQFE = 0;
-var centerOffset = 275;
-var pixelPerDegree = 50; #vertical axis
+var centerOffset = 102; #verical center of HUD. (in line from pilots eyes) 0.53m is height of HUD bottom. View is 0.57m. Height of HUD is 10 cm.
+var pixelPerDegree = 100; #vertical axis
+var radPointerProxim = 20; #when alt indicater is too close to radar ground indicator, hide indicator
+var scalePlace = 380; #horizontal placement of alt scales
+var numberOffset = 100; #alt scale numbers horizontal offset from scale 
+var indicatorOffset = -10; #alt scale indicators horizontal offset from scale (must be high, due to bug #1054 in canvas) 
+var headScalePlace = 300; # vert placement of alt scale
 
 print("making HUD");
 
 var HUDnasal = {
   canvas_settings: {
     "name": "HUDnasal",
-    "size": [2048, 2048],#width of texture to be replaced
-	  "view": [1024, 1024],#width of canvas
+    "size": [2048, 2048],# width of texture to be replaced
+	  "view": [1024, 1024],# width of canvas
     "mipmapping": 0
   },
   new: func(placement)
@@ -42,21 +52,15 @@ var HUDnasal = {
  
     m.canvas.addPlacement(placement);
     m.canvas.setColorBackground(0.36, 1, 0.3, 0.02);
-    m.root = m.canvas.createGroup();
+    m.root = m.canvas.createGroup()
+              .set("font", "LiberationFonts/LiberationMono-Regular.ttf")
+              #.setDouble("character-size", 18)
+              ;#.setDouble("character-aspect-ration", 0.9);
     var slant = 35; #degrees the HUD is slanted towards the pilot
     m.root.setScale(math.sin(slant*deg2rads), 1);
     m.root.setTranslation(512, 512);
  
-    # Heading
-    m.hdg = m.root.createChild("text");
-    #m.hdg._node.setValues(m.text_style);
-    #m.hdg.setDrawMode(3);
-    #m.hdg.setPadding(2);
-    m.hdg.setColor(0, 1, 0);
-    m.hdg.setColorFill(0.36, 1, 0.3);
-    m.hdg.setAlignment("center-top");
-    m.hdg.setTranslation(0, -400);
-    m.hdg.setFontSize(50, 0.9);
+    
 
 		var w = 10;
 		var r = 0.0;
@@ -67,10 +71,68 @@ var HUDnasal = {
 	# airspeed kts/mach	
 	m.airspeed = m.root.createChild("text")
 		.setText("000")
-		.setFontSize(75, 0.9)
+		.setFontSize(100, 0.9)
 		.setColor(0, 1, 0)
 		.setAlignment("center-center")
 		.setTranslation(0 , 400);
+
+# scale heading
+  m.head_scale_grp = m.root.createChild("group");
+  m.head_scale_grp_trans = m.head_scale_grp.createTransform();
+  m.head_scale = m.head_scale_grp.createChild("path")
+      .moveTo(-100, 0)
+      .vert(-60)
+      .moveTo(0, 0)
+      .vert(-60)
+      .moveTo(100, 0)
+      .vert(-60)
+      .moveTo(-50, 0)
+      .vert(-40)
+      .moveTo(50, 0)
+      .vert(-40)
+      .setStrokeLineWidth(w)
+      .setColor(0,1,0, 1);
+
+# scale heading end lines
+    m.hdgLineL = m.head_scale_grp.createChild("path")
+    .setStrokeLineWidth(w)
+      .setColor(0,1,0, 1)
+      .moveTo(-150, 0)
+      .vert(-40)
+      .close();
+
+    m.hdgLineR = m.head_scale_grp.createChild("path")
+    .setStrokeLineWidth(w)
+      .setColor(0,1,0, 1)
+      .moveTo(150, 0)
+      .vert(-40)
+      .close();
+
+  # headingindicator
+    m.head_scale_indicator = m.root.createChild("path")
+    .setColor(0,1,0, 1)
+    .setStrokeLineWidth(w)
+    .moveTo(-30, -headScalePlace+30)
+    .lineTo(0, -headScalePlace)
+    .lineTo(30, -headScalePlace+30);
+
+  # Heading middle
+    m.hdgM = m.head_scale_grp.createChild("text");
+    m.hdgM.setColor(0, 1, 0, 1);
+    m.hdgM.setAlignment("center-bottom");
+    m.hdgM.setFontSize(45, 0.9);
+
+  # Heading left
+    m.hdgL = m.head_scale_grp.createChild("text");
+    m.hdgL.setColor(0, 1, 0, 1);
+    m.hdgL.setAlignment("center-bottom");
+    m.hdgL.setFontSize(45, 0.9);
+
+  # Heading right
+    m.hdgR = m.head_scale_grp.createChild("text");
+    m.hdgR.setColor(0, 1, 0, 1);
+    m.hdgR.setAlignment("center-bottom");
+    m.hdgR.setFontSize(45, 0.9);
 
 	#m.Vr_group = m.root.createChild("group");
 	#m.Vr_trans = m.Vr_group.createTransform();
@@ -96,14 +158,16 @@ var HUDnasal = {
       .moveTo(0, -400)
       .horiz(75)
       .moveTo(0, -200)
-      .horiz(50)           
+      .horiz(50)
       .moveTo(0, 0)
       .horiz(75)
       .setStrokeLineWidth(w)
-      .setColor(0,0,0, 0);
+      .setColor(0,1,0, 1);
 
   # scale medium
-    m.alt_scale_med=m.root.createChild("path")
+    m.alt_scale_grp_med = m.root.createChild("group");
+    m.alt_scale_grp_med_trans = m.alt_scale_grp_med.createTransform();
+    m.alt_scale_med=m.alt_scale_grp_med.createChild("path")
       .moveTo(0, -1000)
       .horiz(50)
       .moveTo(0, -800)
@@ -123,10 +187,12 @@ var HUDnasal = {
       .moveTo(0, 0)
       .horiz(75)
       .setStrokeLineWidth(w)
-      .setColor(0,0,0, 0);
+      .setColor(0,1,0, 1);
 
 	# scale low
-		m.alt_scale_low=m.root.createChild("path")
+  m.alt_scale_grp_low = m.root.createChild("group");
+  m.alt_scale_grp_low_trans = m.alt_scale_grp_low.createTransform();
+  		m.alt_scale_low = m.alt_scale_grp_low.createChild("path")
 			.moveTo(0, -500)
       .horiz(50)
       .moveTo(0, -400)
@@ -142,65 +208,77 @@ var HUDnasal = {
 			.moveTo(0, 0)
 			.horiz(75)
 			.setStrokeLineWidth(w)
-			.setColor(0,0,0, 0);
+			.setColor(0,1,0, 1);
+      
+      # vert line at zero alt if it is lower than radar zero
+      m.alt_scale_low_line = m.alt_scale_grp_low.createChild("path")
+      .moveTo(0, 30)
+      .vert(-60)
+      .setStrokeLineWidth(w)
+      .setColor(0,1,0,1);
+      m.alt_scale_med_line = m.alt_scale_grp_med.createChild("path")
+      .setStrokeLineWidth(w)
+      .setColor(0,1,0,1)
+      .moveTo(0, 30)
+      .vert(-60);
 # low
     m.alt_low = m.root.createChild("text")
       .setText(".")
-      .setFontSize(50, 0.9)
-      .setColor(0,0,1,1)
+      .setFontSize(75, 0.9)
+      .setColor(0,1,0,1)
       .setAlignment("left-center")
       .setTranslation(1, 0);
 # middle	
 		m.alt_med = m.root.createChild("text")
 			.setText(".")
-      .setFontSize(50, 0.9)
-      .setColor(0,0,1,1)
+      .setFontSize(75, 0.9)
+      .setColor(0,1,0,1)
 			.setAlignment("left-center")
       .setTranslation(1, 0);
 # high			 
 		m.alt_high = m.root.createChild("text")
 			.setText(".")
-      .setFontSize(50, 0.9)
-      .setColor(0,0,1,1)
+      .setFontSize(75, 0.9)
+      .setColor(0,1,0,1)
 			.setAlignment("left-center")
       .setTranslation(1, 0);
 
 # higher     
     m.alt_higher = m.root.createChild("text")
       .setText(".")
-      .setFontSize(50, 0.9)
-      .setColor(0,0,1,1)
+      .setFontSize(75, 0.9)
+      .setColor(0,1,0,1)
       .setAlignment("left-center")
       .setTranslation(1, 0);
-		
+# alt scale indicator
 		m.alt_pointer = m.root.createChild("text")
 			.setText(">")
-      .setFontSize(75, 0.9)
+      .setFontSize(85, 1)
 			.setColor(0,1,0, 1)
-      .setAlignment("left-center")
+      .setAlignment("right-center")
+      .setTranslation(scalePlace+indicatorOffset, 0);
+# alt scale radar ground indicator
+    m.rad_alt_pointer = m.root.createChild("text")
+      .setText("77")
+      .setFontSize(85, 1)
+      .setColor(0,1,0, 1)
+      .setAlignment("right-top")
       .setTranslation(300, 0);
-
-    # Groundspeed
-    #m.groundspeed = m.root.createChild("text");
-    #m.groundspeed._node.setValues(m.text_style);
-    #m.groundspeed.setColor(0.36, 1, 0.3);
-    #m.groundspeed.setAlignment("left-center");
-    #m.groundspeed.setTranslation(-220, 90);
   
-    # QFE warning (inhg not properly set, is being adjusted)
+# QFE warning (inhg not properly set, is being adjusted)
     m.qfe = m.root.createChild("text");
     m.qfe.setText("QFE");
     m.qfe.setColor(0, 0, 0, 0);
     m.qfe.setAlignment("center-center");
-    m.qfe.setTranslation(-500, 200);
-    m.qfe.setFontSize(65, 0.9);
+    m.qfe.setTranslation(-450, 200);
+    m.qfe.setFontSize(80, 0.9);
 
-    # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
+# Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     m.alt = m.root.createChild("text");
     m.alt.setColor(0, 1, 0, 1);
     m.alt.setAlignment("center-center");
     m.alt.setTranslation(-500, 300);
-    m.alt.setFontSize(70, 0.9);
+    m.alt.setFontSize(85, 0.9);
  
     # Waterline / Pitch indicator
     #m.root.createChild("path")
@@ -218,25 +296,25 @@ var HUDnasal = {
     m.vec_vel =
       m.root.createChild("path")
       .setColor(0,0,0)
-      .moveTo(-60, 0) # draw this symbol in flight when no weapons selected (always as for now)
+      .moveTo(-90, 0) # draw this symbol in flight when no weapons selected (always as for now)
       .lineTo(-30, 0)
       .lineTo(0, 30)
       .lineTo(30, 0)
-      .lineTo(60, 0)
-      .setStrokeLineWidth(w);
- 
-    m.takeoff_symbol = m.root.createChild("path")
-      .moveTo(120, 0)
       .lineTo(90, 0)
-      .moveTo(60, 0)
+      .setStrokeLineWidth(w);
+  # takeoff/landing symbol
+    m.takeoff_symbol = m.root.createChild("path")
+      .moveTo(210, 0)
+      .lineTo(150, 0)
+      .moveTo(90, 0)
       .lineTo(30, 0)
       .arcSmallCCW(30, 30, 0, -60, 0)
       .arcSmallCCW(30, 30, 0,  60, 0)
       .close()
       .moveTo(-30, 0)
-      .lineTo(-60, 0)
-      .moveTo(-90, 0)
-      .lineTo(-120, 0)
+      .lineTo(-90, 0)
+      .moveTo(-150, 0)
+      .lineTo(-210, 0)
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(0,1,0, 1);
@@ -248,8 +326,8 @@ var HUDnasal = {
     m.h_rot   = m.horizon_group.createTransform();
  
     # pitch lines
-    var distance = pixelPerDegree * 10;
-    for(var i = -9; i <= 9; i += 1)
+    var distance = pixelPerDegree * 5;
+    for(var i = -18; i <= -1; i += 1)
       m.horizon_group2.createChild("path")
                      .moveTo(200, -i * distance)
                      .horiz(50)
@@ -271,16 +349,58 @@ var HUDnasal = {
                      .moveTo(-500, -i * distance)
                      .horiz(-50)
                      .moveTo(-600, -i * distance)
-                     .horiz(50)
+                     .horiz(-50)
                      
                      .setStrokeLineWidth(w)
                      .setColor(0,1,0, 1);
- 
+
+for(var i = 1; i <= 18; i += 1)
+      m.horizon_group2.createChild("path")
+                     .moveTo(650, -i * distance)
+                     .horiz(-450)
+
+                     .moveTo(-650, -i * distance)
+                     .horiz(450)
+                     
+                     .setStrokeLineWidth(w)
+                     .setColor(0,1,0, 1);
+
+                #pitch line numbers
+                for(var i = -18; i <= 0; i += 1)
+                m.horizon_group2.createChild("text")
+                     .setText(i*5)
+                     .setFontSize(75, 0.9)
+                     .setAlignment("right-bottom")
+                     .setTranslation(-200, -i * distance - 5)
+                     .setColor(0,1,0, 1);
+                for(var i = 1; i <= 18; i += 1)
+                m.horizon_group2.createChild("text")
+                     .setText("+" ~ i*5)
+                     .setFontSize(75, 0.9)
+                     .setAlignment("right-bottom")
+                     .setTranslation(-200, -i * distance - 5)
+                     .setColor(0,1,0, 1);
+                 
+
     #Horizon line
     m.horizon =
       m.horizon_group2.createChild("path")
-                     .moveTo(-650, 0)
-                     .horizTo(650)
+                     .moveTo(-850, 0)
+                     .horiz(650)
+                     .moveTo(-30, 5)#-35
+                     .quadTo(-40, -5)
+                     .moveTo(-100, 5)#-105
+                     .quadTo(-110, -5)
+                     .moveTo(-170, 5)#-175
+                     .quadTo(-180, -5)
+                     .moveTo(170, 5)#175
+                     .quadTo(180, -5)
+                     .moveTo(100, 5)#105
+                     .quadTo(110, -5)
+                     .moveTo(30, 5)#35
+                     .quadTo(40, -5)
+                     .moveTo(200, 0)
+                     .horiz(650)
                      .setStrokeLineWidth(w)
                      .setColor(0,1,0, 1);
  
@@ -331,22 +451,33 @@ var HUDnasal = {
       }
       
       var in_ias = me.input.ias.getValue() or 0;
-      #in_ias = clamp(in_ias, 300, 600);
-      #me.a_trans.setTranslation(0.6 * (in_ias - 300), 0);
-      #var in_Vr = me.input.Vr.getValue() or 0;
-      #me.Vr_trans.setTranslation(4 * in_Vr,0);
-
-      #me.vertical_speed.setText(sprintf("%.1f", me.input.vs.getValue() * 60.0 / 1000));
-   
-      me.hdg.setText(sprintf("%02d", me.input.hdg.getValue()/10));
       
-  	  #var in_pitch = me.input.pitch.getValue() or 0;
-  	  #me.h_trans.setTranslation(0, 12.5 * in_pitch);
-   
-      #var rot = -me.input.roll.getValue() * math.pi / 180.0;
-      #me.h_rot.setRotation(rot);
-
-			#var bright = me.input.Bright.getValue() or 0.8;
+      var heading = me.input.hdg.getValue();
+      var headOffset = heading/10 - int (heading/10);
+      var headScaleOffset = headOffset;
+      var middleText = roundabout(me.input.hdg.getValue()/10);
+      if(middleText == 36) {
+        middleText = 0;
+      }
+      var leftText = middleText == 0?35:middleText-1;
+      var rightText = middleText == 35?0:middleText+1;
+      if (headOffset > 0.5) {
+        me.head_scale_grp_trans.setTranslation(-(headScaleOffset-1)*100, -headScalePlace);
+        me.hdgLineL.show();
+        me.hdgLineR.hide();
+      } else {
+        me.head_scale_grp_trans.setTranslation(-headScaleOffset*100, -headScalePlace);
+        me.hdgLineR.show();
+        me.hdgLineL.hide();
+      }
+      me.hdgR.setTranslation(100, -65);
+      me.hdgR.setText(sprintf("%02d", rightText));
+      me.hdgM.setTranslation(0, -65);
+      me.hdgM.setText(sprintf("%02d", middleText));
+      me.hdgL.setTranslation(-100, -65);
+      me.hdgL.setText(sprintf("%02d", leftText));
+      
+  	  #var bright = me.input.Bright.getValue() or 0.8;
 			#var sw_d = me.input.Dir_sw.getValue() or 0;	
 			#var sw_h = me.input.H_sw.getValue() or 0;
 			#var sw_s = me.input.Speed_sw.getValue() or 0;	
@@ -393,55 +524,86 @@ var HUDnasal = {
       }
       #place the scale
       if (alt_scale_mode == 0) {
-        hide(me.alt_scale_med);
-        hide(me.alt_scale_high);
-        show(me.alt_scale_low);
-        hide(me.alt_higher);
-        show(me.alt_high);
-        hide(me.alt_med);
-        show(me.alt_low);
+        me.alt_scale_med.hide();
+        me.alt_scale_high.hide();
+        me.alt_scale_low.show();
+        me.alt_scale_med_line.hide();
+        me.alt_higher.hide();
+        me.alt_high.show();
+        me.alt_med.hide();
+        me.alt_low.show();
         var offset = 400/50 * alt;
-        me.alt_scale_low.setTranslation(380 , offset);
-        me.alt_low.setTranslation(460 , offset);
-        me.alt_high.setTranslation(460 , offset-400);
+        me.alt_scale_grp_low_trans.setTranslation(scalePlace , offset);
+        me.alt_low.setTranslation(scalePlace + numberOffset , offset);
+        me.alt_high.setTranslation(scalePlace + numberOffset , offset-400);
         me.alt_low.setText("0");
         me.alt_high.setText("50");
-        #print("alt " ~ sprintf("%3d", alt) ~ " placing low " ~ sprintf("%3d", offset));
+        if (radAlt < alt) {
+          me.alt_scale_low_line.show();
+        } else {
+          me.alt_scale_low_line.hide();
+        }
+        # Show radar altimeter ground height
+        var rad_offset = 400/50 * radAlt;
+        me.rad_alt_pointer.setTranslation(scalePlace + indicatorOffset, rad_offset - 5);
+        me.rad_alt_pointer.show();
+        if (radPointerProxim < rad_offset or rad_offset < -radPointerProxim) {
+          me.alt_pointer.show();
+        } else {
+          me.alt_pointer.hide();
+        }
+        #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
       } elsif (alt_scale_mode == 1) {
-        show(me.alt_scale_med);
-        hide(me.alt_scale_high);
-        hide(me.alt_scale_low);
-        hide(me.alt_higher);
-        show(me.alt_high);
-        show(me.alt_med);
-        show(me.alt_low);
+        me.alt_scale_med.show();
+        me.alt_scale_high.hide();
+        me.alt_scale_low.hide();
+        me.alt_scale_low_line.hide();
+        me.alt_higher.hide();
+        me.alt_high.show();
+        me.alt_med.show();
+        me.alt_low.show();
         var offset = 800/100 * alt;
-        me.alt_scale_med.setTranslation(380 , offset);
-        me.alt_low.setTranslation(460 , offset);
-        me.alt_med.setTranslation(460 , offset-400);
-        me.alt_high.setTranslation(460 , offset-800);
+        me.alt_scale_grp_med_trans.setTranslation(scalePlace , offset);
+        me.alt_low.setTranslation(scalePlace + numberOffset , offset);
+        me.alt_med.setTranslation(scalePlace + numberOffset , offset-400);
+        me.alt_high.setTranslation(scalePlace + numberOffset , offset-800);
         me.alt_low.setText("0");
         me.alt_med.setText("50");
         me.alt_high.setText("100");
+        # Show radar altimeter ground height
+        var rad_offset = 800/100 * radAlt;
+        me.rad_alt_pointer.setTranslation(scalePlace + indicatorOffset, rad_offset - 5);
+        me.rad_alt_pointer.show();
+        if (radAlt < alt) {
+          me.alt_scale_low_line.show();
+        } else {
+          me.alt_scale_low_line.hide();
+        }
+        if (radPointerProxim > rad_offset > -radPointerProxim) {
+          me.alt_pointer.show();
+        } else {
+          me.alt_pointer.hide();
+        }
         #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
       } elsif (alt_scale_mode == 2) {
-        hide(me.alt_scale_med);
-        show(me.alt_scale_high);
-        #show(me.alt_scale_high2);
-        hide(me.alt_scale_low);
-        show(me.alt_higher);
-        show(me.alt_high);
-        show(me.alt_med);
-        show(me.alt_low);
+        me.alt_scale_med.hide();
+        me.alt_scale_high.show();
+        me.alt_scale_low.hide();
+        me.alt_scale_low_line.hide();
+        me.alt_scale_med_line.hide();
+        me.alt_higher.show();
+        me.alt_high.show();
+        me.alt_med.show();
+        me.alt_low.show();
         var fact = int(alt / 100) * 100;
         var factor = alt - fact + 100;
         var offset = 800/200 * factor;
-        me.alt_scale_high.setTranslation(380 , offset);
+        me.alt_scale_high.setTranslation(scalePlace , offset);
         #me.alt_scale_high2.setTranslation(380 , offset-800);
-        me.alt_low.setTranslation(460 , offset);
-        me.alt_med.setTranslation(460 , offset-400);
-        me.alt_high.setTranslation(460 , offset-800);
-        me.alt_higher.setTranslation(460 , offset-1200);
+        me.alt_low.setTranslation(scalePlace + numberOffset , offset);
+        me.alt_med.setTranslation(scalePlace + numberOffset , offset-400);
+        me.alt_high.setTranslation(scalePlace + numberOffset , offset-800);
+        me.alt_higher.setTranslation(scalePlace + numberOffset , offset-1200);
         var low = fact - 100;
         if(low > 1000) {
           me.alt_low.setText(sprintf("%.1f", low/1000));
@@ -466,7 +628,16 @@ var HUDnasal = {
         } else {
           me.alt_higher.setText(higher);
         }
-        #print("alt " ~ sprintf("%3d", alt) ~ " offset:" ~ sprintf("%3d", offset) ~ " factor:" ~ sprintf("%3d", factor)~ " fact:" ~ sprintf("%3d", fact));
+        # Show radar altimeter ground height
+        var rad_offset = 800/200 * (radAlt);
+        me.rad_alt_pointer.setTranslation(scalePlace + indicatorOffset, rad_offset - 5);
+        me.rad_alt_pointer.show();
+        if (radPointerProxim > rad_offset > -radPointerProxim) {
+          me.alt_pointer.show();
+        } else {
+          me.alt_pointer.hide();
+        }
+        #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
       }
 
       # digital altitude
@@ -476,7 +647,7 @@ var HUDnasal = {
         me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, 100)));
         # check for QFE warning
         var diff = radAlt - alt;
-        if (countQFE == 0 and (diff > 25 or diff < -25)) {
+        if (countQFE == 0 and (diff > 10 or diff < -10)) {
           #print("QFE warning " ~ countQFE);
           countQFE = 1;          
         }
@@ -518,7 +689,7 @@ var HUDnasal = {
           }
         } elsif (countQFE == 10) {
           # QFE is adjusting the altimeter
-          var inhg = getprop("environment/pressure-inhg");
+          var inhg = getprop("systems/static/pressure-inhg");
           setprop("instrumentation/altimeter/setting-inhg", inhg);
           countQFE = 11;
           #print("QFE adjusted " ~ inhg);
@@ -566,7 +737,7 @@ var HUDnasal = {
       var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
       var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
    
-      me.vec_vel.setTranslation(clamp(dir_x * 40, -450-centerOffset, 450-centerOffset), clamp(dir_y * 40, -450-centerOffset, 450-centerOffset)+centerOffset);
+      me.vec_vel.setTranslation(clamp(dir_x * pixelPerDegree, -450, 450), clamp(dir_y * pixelPerDegree, -450-centerOffset, 450-centerOffset)+centerOffset);
       if (dir_y > 8) {
         # blink the flight vector cross hair if alpha is high
         if (blinking < 1 and blinking != -5) {
