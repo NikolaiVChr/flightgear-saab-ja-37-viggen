@@ -18,46 +18,107 @@
     <path>Models/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>
-      <x-m>0</x-m>
+      <x-m>.4</x-m>
       <y-m>0.0</y-m>
-      <z-m>0</z-m>
+      <z-m>0.08</z-m>
     </offsets>
   </model> 
+
+<!-- Control surfaces -->
+
+<animation>
+  <type>rotate</type>
+  <object-name>rudder</object-name>
+  <property>surface-positions/rudder-pos-norm</property>
+  <factor>60</factor>
+  <axis>   
+   <x2-m> 5.70491</x2-m>
+   <y1-m> 0</y1-m>
+   <z2-m> 3.04123</z2-m>
+   <x1-m> 5.70220</x1-m>
+   <y2-m> 0 </y2-m>
+   <z1-m> 1.09636</z1-m>
+  </axis>
+ </animation>
  
+<animation>
+  <type>rotate</type>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <property>/surface-positions/right-elevon-pos-deg</property>
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> 5.84096 </x1-m>
+   <y1-m> 0.99576 </y1-m>
+   <z1-m> -0.31533 </z1-m>
+   <x2-m> 5.84928 </x2-m>
+   <y2-m> 5.10587 </y2-m>
+   <z2-m> -0.39563 </z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <property>/surface-positions/left-elevon-pos-deg</property>
+  <factor>1.0</factor>
+  <axis>
+   <x2-m> 5.84096 </x2-m>
+   <y2-m> -0.99576 </y2-m>
+   <z2-m> -0.31533 </z2-m>
+   <x1-m> 5.84928 </x1-m>
+   <y1-m> -5.10587 </y1-m>
+   <z1-m> -0.39563 </z1-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>blend</type>
+  <object-name>undercarriageop</object-name>
+  <property>gear/gear[0]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 1.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min>0.0</min>
+  <max>1.0</max>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>flaps</object-name>
+  <property>fdm/jsbsim/fcs/flap-pos-deg</property>
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> -0.25811 </x1-m>
+   <y1-m> -2.59427 </y1-m>
+   <z1-m> 0.12740 </z1-m>
+   <x2-m> -0.25811 </x2-m>
+   <y2-m> 2.59427 </y2-m>
+   <z2-m> 0.12740 </z2-m>
+  </axis>
+ </animation>
+
  <!-- start effects -->
  <model>
   <name>exhaust_smoke</name>
   <path>Models/Effects/exhaust.xml</path>
   <offsets>
-   <x-m>7.8</x-m>
+   <x-m>1.0</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
  </model>
 
  <!-- smokepods -->
- <model>
-  <name>Station1_AIM-9_smokewinder_smoke</name>
-  <path>Models/Effects/smoke.xml</path>
-  <offsets>
-   <x-m>6.75</x-m>
-   <y-m>5.65</y-m>
-   <z-m>-0.5</z-m>
-   <pitch-deg>-4.5</pitch-deg>
-  </offsets>
- </model>
-
- <model>
-  <name>Station9_AIM-9_smokewinder_smoke</name>
-  <path>Models/Effects/smoke.xml</path>
-  <offsets>
-   <x-m>6.75</x-m>
-   <y-m>-5.65</y-m>
-   <z-m>-0.5</z-m>
-   <pitch-deg>-4.5</pitch-deg>
-  </offsets>
- </model>
-
+ 
  <model>
   <name>left-strake-vortex</name>
   <path>Models/Effects/strake-vortex.xml</path>
@@ -112,21 +173,74 @@
 
 <!-- ===================== START LIGHTING =========================== -->
 
-<!-- start position lights -->
- 
- 
+<!-- beacon lights -->
 
-<!-- end formation lights -->
+ <animation>
+  <type>material</type>
+  <object-name>lightTop</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/model/lighting/beacon/state</factor-prop>
+  </emission>
+ </animation>
+
+<animation>
+  <type>material</type>
+  <object-name>lightBottom</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/model/lighting/beacon/state</factor-prop>
+  </emission>
+ </animation>
+
+<!-- strobe light -->
 
  <model>
   <name>strobe</name>
   <path>Models/strobe.xml</path>
   <offsets>
-   <x-m>5.3</x-m>
+   <x-m>5.95508</x-m>
    <y-m>0.0</y-m>
-   <z-m>3.2</z-m>
+   <z-m>3.42411</z-m>
   </offsets>
  </model>
+
+<animation>
+  <type>material</type>
+  <object-name>strobe</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>sim/model/lighting/strobe/state</factor-prop>
+  </emission>
+ </animation>
+
+<!-- Navigation lights -->
+
+ <animation>
+  <type>material</type>
+  <object-name>lightLeft</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>lightRight</object-name>
+  <emission>
+   <red>0.0</red>
+   <green>0.0</green>
+   <blue>1.0</blue>
+  </emission>
+ </animation>
 
 <!-- ===================== END LIGHTING =========================== -->
 
@@ -134,11 +248,21 @@
 <model>
   <name>InternalFlame</name>
   <path>Models/InternalFlame.xml</path>
+  <offsets>
+   <x-m>-1</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
  </model>
 
 <model>
   <name>ExternalFlame</name>
   <path>Models/ExternalFlame.xml</path>
+  <offsets>
+   <x-m>-1</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
  </model>
 
  <animation>
@@ -154,16 +278,45 @@
   </axis>
  </animation>
 
- <animation>
-  <object-name>Station1_AIM-9_smokewinder_smoke</object-name>
-  <object-name>Station9_AIM-9_smokewinder_smoke</object-name>
- </animation>
-
 <!-- Visible up to 10km (6 miles) -->
  <animation>
   <type>range</type>
   <min-m>0</min-m>
   <max-m>10000</max-m>
+ </animation>
+
+<!-- livery selection -->
+
+<nasal>
+  <load>
+   var livery_update = aircraft.livery_update.new(
+        "Aircraft/JA37/Models/Liveries", 10);
+  </load>
+  <unload>
+   livery_update.stop();
+  </unload>
+ </nasal>
+
+ <animation>
+  <type>material</type>
+  <object-name>canopy</object-name>
+  <object-name>dropTank</object-name>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <object-name>flaps</object-name>
+  <object-name>fuselage</object-name>
+  <object-name>missile</object-name>
+  <object-name>missile1</object-name>
+  <object-name>missile2</object-name>
+  <object-name>missile3</object-name>
+  <object-name>rudder</object-name>
+  <object-name>undercarriagecl</object-name>
+  <object-name>undercarriageop</object-name>
+  <property-base>sim/model/livery</property-base>
+  <texture-prop>texture</texture-prop>
+  <texture>j37_texture.jpg</texture>
  </animation>
 
 </PropertyList>

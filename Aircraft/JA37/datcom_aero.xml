@@ -82,7 +82,7 @@
            These terms are not currently used in this model.
       -->
 
-
+<!-- from DATCOM -->
       <function name="aero/function/ground-effect-factor-lift">
          <description>Change in lift due to ground effect factor</description>
          <product>
@@ -106,7 +106,7 @@
             </table>
          </product>
       </function>
-
+<!-- from DATCOM -->
       <function name="aero/function/ground-effect-factor-drag">
          <description>Change in drag due to ground effect</description>
          <product>
@@ -130,7 +130,7 @@
             </table>
          </product>
       </function>
-
+<!-- from F-16 -->
             <function name="aero/coefficient/CDDsb">
                 <description>Drag_due_to_speedbrake_deflection</description>
                 <product>
@@ -156,7 +156,7 @@
                       </table>
                 </product>
             </function>
-
+<!-- from F-16 -->
             <function name="aero/coefficient/CLDsb">
                 <description>Lift_due_to_speedbrake_deflection</description>
                 <product>
@@ -182,7 +182,7 @@
                       </table>
                 </product>
             </function>
-
+<!-- from F-16 -->
             <function name="aero/coefficient/CmDsb">
              <description>Change_in_Pitch_moment_due_to_speedbrake</description>
                 <product>
@@ -217,7 +217,7 @@
 
      <axis name="LIFT">
 
-
+         <!-- from DATCOM -->
          <function name="aero/coefficient/CLwbh">
             <description>
                Lift due to alpha
@@ -256,7 +256,17 @@
             </product>
          </function>
 
-         
+         <!-- from F-16 -->
+         <function name="aero/coefficient/CLDflaps">
+                <description>Lift due to canard flaps</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/flap-pos-norm</property>
+                    <property>aero/function/ground-effect-factor-lift</property>
+                    <value>0.5</value>
+                </product>
+            </function>
 
      </axis>
 
@@ -268,7 +278,7 @@
 
      <axis name="DRAG">
 
-
+         <!-- from DATCOM -->
          <function name="aero/coefficient/CD">
             <description>
                Basic Drag Coefficient
@@ -307,6 +317,25 @@
             </product>
          </function>
 
+         <!-- from F-16 -->
+          <function name="aero/coefficient/CDgear">
+                <description>Drag_due_to_gear</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>gear/gear-pos-norm</property>
+                    <value>0.3</value>
+                </product>
+            </function>
+          <function name="aero/coefficient/CDDflaps">
+                <description>Drag due to flaps</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>fcs/flap-pos-norm</property>
+                    <value>0.1</value>
+                </product>
+            </function>
      </axis>
 
 
@@ -317,7 +346,7 @@
 
         <axis name="SIDE">
 
-
+<!-- from DATCOM -->
          <function name="aero/coefficient/Cyb">
             <description>
                Side Force coefficient due to Sideslip(per degree)
@@ -406,7 +435,7 @@
                </table>
             </product>
          </function>-->
-
+<!-- from F-16 -->
       <function name="aero/moment/Roll_damp">
        <description>Roll moment due to roll rate</description>
        <product>
@@ -418,7 +447,7 @@
            <value>-2</value>
        </product>
     </function>-->
-
+<!-- from F-16 -->
     <function name="aero/moment/Roll_yaw">
        <description>Roll moment due to yaw rate</description>
        <product>
@@ -430,7 +459,7 @@
            <value>0.15</value>
        </product>
     </function>
-
+<!-- from F-16 -->
     <function name="aero/moment/Roll_aileron">
        <description>Roll moment due to aileron</description>
        <product>
@@ -441,7 +470,7 @@
           <value>0.2</value>
        </product>
     </function>
-
+<!-- from F-16 -->
     <function name="aero/moment/Roll_rudder">
        <description>Roll moment due to rudder</description>
        <product>
@@ -499,7 +528,7 @@
                </table>
             </product>
          </function>-->
-
+<!-- from F-16 -->
          <function name="aero/moment/Pitch_alpha">
        <description>Pitch moment due to alpha</description>
        <product>
@@ -510,7 +539,7 @@
            <value>-0.3</value>
        </product>
     </function>
-
+<!-- from F-16 -->
     <function name="aero/moment/Pitch_elevator">
        <description>Pitch moment due to elevator</description>
        <product>
@@ -527,7 +556,7 @@
           </table>
        </product>
     </function>
-
+<!-- from F-16 -->
     <function name="aero/moment/Pitch_damp">
        <description>Pitch moment due to pitch rate</description>
        <product>
@@ -539,7 +568,7 @@
            <value>-18</value>
        </product>
     </function>
-
+<!-- from F-16 -->
     <function name="aero/moment/Pitch_alphadot">
        <description>Pitch moment due to alpha rate</description>
        <product>
@@ -701,7 +730,7 @@
                <value>  -.1047E-02</value>
             </product>
          </function>-->
-
+<!-- from F-16 -->
 <function name="aero/moment/Yaw_damp">
        <description>Yaw moment due to yaw rate</description>
        <product>
@@ -713,7 +742,7 @@
            <value>-0.15</value>
        </product>
     </function>
-    
+    <!-- from F-16 -->
       <function name="aero/moment/Yaw_beta">
        <description>Yaw moment due to beta</description>
        <product>
@@ -724,7 +753,7 @@
            <value>0.12</value>
        </product>
     </function>
-    
+    <!-- from F-16 -->
     <function name="aero/moment/Yaw_aileron">
        <description>Adverse yaw</description>
        <product>
@@ -735,7 +764,7 @@
            <value>0</value>
        </product>
     </function>    
-    
+    <!-- from F-16 -->
     <function name="aero/moment/Yaw_rudder">
        <description>Yaw moment due to rudder</description>
        <product>

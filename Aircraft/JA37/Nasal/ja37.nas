@@ -35,8 +35,12 @@ var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
 
 # strobes ===========================================================
 var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/anti-collision", 1);
-
 aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.9+rand()/5], strobe_switch);
+
+
+var beacon_switch = props.globals.getNode("controls/switches/beacon", 2);
+setprop("controls/switches/beacon", 1);
+var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
 
 setlistener("/sim/current-view/view-number", func(n) {
         setprop("/sim/hud/visibility[1]", !n.getValue());

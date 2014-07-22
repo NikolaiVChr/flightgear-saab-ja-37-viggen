@@ -652,7 +652,7 @@ var HUDnasal = {
               #print("blink  on");
           }
         } elsif (countQFE == 10) {
-          if(me.input.ias.getValue() < 1) {
+          if(me.input.ias.getValue() < 10) {
             # adjust the altimeter
             var inhg = getprop("systems/static/pressure-inhg");
             setprop("instrumentation/altimeter/setting-inhg", inhg);

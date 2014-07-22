@@ -4,7 +4,7 @@
 
  <sim>
   <description>Saab JA-37 Viggen</description>
-  <author>Necolatis</author>
+  <author>Necolatis, Anders Lejczak (model and textures)</author>
   <status>Alpha</status>
   <rating>
     <FDM type="int">1</FDM>
@@ -12,7 +12,7 @@
     <cockpit type="int">0</cockpit>
     <model type="int">1</model>
   </rating>
-  <aircraft-version>1.10</aircraft-version> 
+  <aircraft-version>1.11</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
@@ -51,7 +51,7 @@
    <path n="1">Models/Cockpit/hud.xml</path>
   </hud>
 
-    <model>
+  <model>
    <path archive="y">Models/ja37-model.xml</path>
    <ja37>
     
@@ -124,6 +124,13 @@
     </color>
    </smoke>
   </ja37>
+
+<livery>
+  <file type="string"/>
+  <name type="string">Swedish Air Force</name>
+  <owner type="string">SAF</owner>
+ </livery>
+
   </model>
 
   <chase-distance-m type="double" archive="y">-50.0</chase-distance-m>
@@ -133,8 +140,8 @@
    <config>
      <pitch-offset-deg>0</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
-     <y-offset-m archive="y">0.57</y-offset-m>
-     <z-offset-m archive="y"> -3.61</z-offset-m>
+     <y-offset-m archive="y">0.65</y-offset-m>
+     <z-offset-m archive="y"> -3.10</z-offset-m>
      <default-field-of-view-deg>55</default-field-of-view-deg>
    </config>
   </view>
@@ -171,10 +178,6 @@
     <desc>fire the cannon</desc>
    </key>
    <key>
-    <name>Delete</name>
-    <desc>Toggle Fly by Wire override</desc>
-   </key>
-   <key>
    <name>Backspace</name>
 				<desc>Toggle thrust reversers</desc>
 			</key>
@@ -183,6 +186,24 @@
     <desc>seat up/down</desc>
    </key>
   </help>
+
+  <menubar>
+ <default>
+  <menu n="100">
+   <label>JA-37</label>
+   <enabled type="bool">true</enabled>
+   <item>
+    <label>Select Livery</label>
+    <binding>
+     <command>nasal</command>
+     <script>
+      aircraft.livery.dialog.toggle();
+     </script>
+    </binding>
+   </item>
+  </menu>
+ </default>
+</menubar>
  </sim>
 
 
@@ -238,14 +259,6 @@
        <value>false</value>
       </binding> 
      </mod-up>
-    </key>
-    <key n="127">
-     <name>Delete</name>
-     <desc>FBW override</desc>
-     <binding>
-      <command>property-toggle</command>
-      <property>/fdm/jsbsim/fcs/fbw-override</property>
-     </binding>
     </key>
     <key n="85">
      <name>U</name>
@@ -375,7 +388,7 @@
   </engine>
  </engines>
 
- <consumables>
+ <!--<consumables>
   <fuel>
    <tank n="0">
     <level-gal_us archive="y">500</level-gal_us>
@@ -403,7 +416,7 @@
     </hook>
    </systems>
   </jsbsim>
- </fdm>
+ </fdm>-->
  
  <systems>
   <electrical>
@@ -432,10 +445,10 @@
   <ja37>  
    <file>Nasal/ja37.nas</file>
    <file>Nasal/tyresmoke.nas</file>
+   <file>Nasal/liveries.nas</file>
   </ja37>
   <canvas_HUD>
-  <file>Nasal/hud.nas</file>
+    <file>Nasal/hud.nas</file>
   </canvas_HUD>
 </nasal>
-
 </PropertyList>

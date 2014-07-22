@@ -1,0 +1,24 @@
+TODO:
+-----
+All fuel to engine has to go through tank 1
+Fuel tanks 3V and 3H is used for flying upside down
+Make pilot faint/die due to G-forces
+Clean up the Aerodynamic functions and the controls
+Refine FDM (alot). Got some blueprints of the aircraft now, refine DATCOM to geometry of those.
+Put in more instruments
+Better annunciater warnings and other sounds
+Adapt for Rembrandt (future)
+Make tires burst if too high speed with parking brakes
+Make gears break if too high speed with gears down
+Make canopy work
+Adjust the engine fire and afterburner flame more precise.
+Proper animation of gears
+HUD: Make TILS landing system in the HUD
+HUD: Make desired heading indicator in the HUD.
+HUD: Make desired height columns and boxes
+HUD: Different kind of pitch lines, depending on mode
+HUD: make more methods out of similar code, introduce more comments and name variables better
+HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
+HUD: make symbol for warning: pull up!
+Make armament/droptank selectable
+Make gun fire bullets from correct position
