@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>Models/hud.ac</path>
+
+<animation>
+		<type>material</type>
+		<object-name>HUDobject</object-name>
+		<emission>
+			<!--<factor-prop>/controls/lighting/panel-norm</factor-prop>-->
+			<factor>0.75</factor>
+			<red>1</red>
+			<green>1</green>
+			<blue>1</blue>
+		</emission>
+		<shininess>100</shininess>
+	</animation> 
+ 
+ </PropertyList>

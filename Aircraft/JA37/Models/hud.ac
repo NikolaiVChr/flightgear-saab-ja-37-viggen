@@ -1,0 +1,23 @@
+AC3Db
+MATERIAL "ac3dmat1" rgb 1 1 1  amb 0.2 0.2 0.2  emis 0 0 0  spec 0.2 0.2 0.2  shi 128  trans 1
+OBJECT world
+kids 1
+OBJECT poly
+name "HUDobject"
+loc -4.08 0.57 0.00158041
+texture "hud.png"
+crease 45.000000
+numvert 4
+0.0614362 0.0430181 -0.075
+0.0614362 0.0430181 0.075
+-0.0614362 -0.0430181 0.075
+-0.0614362 -0.0430181 -0.075
+numsurf 1
+SURF 0x0
+mat 0
+refs 4
+0 1 1
+1 0 1
+2 0 0
+3 1 0
+kids 0

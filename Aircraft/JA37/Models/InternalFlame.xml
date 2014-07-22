@@ -8,11 +8,11 @@
   <condition>
    <property>engines/engine/running</property>
   </condition>
- </animation>
+ </animation> 
  
 <model>
  <name>InternalFlame</name>
- <path>Aircraft/ja37/Models/internalflame.ac</path>
+ <path>Models/internalflame.ac</path>
  <offsets> 
   <x-m>6.5</x-m>
   <y-m>0</y-m>

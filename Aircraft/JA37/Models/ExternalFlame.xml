@@ -12,7 +12,7 @@
  
 <model>
  <name>ExternalFlame</name>
- <path>Aircraft/ja37/Models/externalflame.ac</path>
+ <path>Models/externalflame.ac</path>
  <offsets> 
   <x-m>6.5</x-m>
   <y-m>0</y-m>

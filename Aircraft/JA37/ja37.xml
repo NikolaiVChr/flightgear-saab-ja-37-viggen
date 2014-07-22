@@ -263,44 +263,84 @@
     </engine>
     
     <tank type="FUEL">
-      <!-- Tank number 0 -->
-      <location unit="IN">
-        <x> -174.4 </x>
-        <y> 65.0 </y>
-        <z> 5.0 </z>
-      </location>
-      <capacity unit="KG"> 2450 </capacity>
-      <contents unit="KG"> 1000 </contents>
-    </tank>
-    <tank type="FUEL">
-      <!-- Tank number 1 -->
-      <location unit="IN">
-        <x> -174.4 </x>
-        <y> -65.0 </y>
-        <z> 5.0 </z>
-      </location>
-      <capacity unit="KG"> 2450 </capacity>
-      <contents unit="KG"> 1000 </contents>
-    </tank>
-    <tank type="FUEL">
-      <!-- External Tank number 0  (station 4) -->
+      <!-- Fuselage Main Tank 1 -->
       <location unit="M">
-        <x> 5 </x>
-        <y> -2.5 </y>
-        <z> -0.2 </z>
+        <x> 1 </x>
+        <y> 0 </y>
+        <z> 0.4 </z>
       </location>
-      <capacity unit="KG"> 2450 </capacity>
-      <contents unit="KG"> 1000 </contents>
+      <capacity unit="KG"> 4700 </capacity>
+      <contents unit="KG"> 4700 </contents>
     </tank>
     <tank type="FUEL">
-      <!-- External Tank number 1 (station 6) -->
+      <!-- Fuselage Forward Tank 2 -->
       <location unit="M">
-        <x> 5 </x>
-        <y> 2.5 </y>
-        <z> -0.2 </z>
+        <x> -1.75 </x>
+        <y> 0 </y>
+        <z> 0.4 </z>
       </location>
-      <capacity unit="KG"> 2450 </capacity>
-      <contents unit="KG"> 1000 </contents>
+      <capacity unit="KG"> 2350 </capacity>
+      <contents unit="KG"> 2350 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Left Fuselage Minor Tank 3V -->
+      <location unit="M">
+        <x> -0.4 </x>
+        <y> -0.65 </y>
+        <z> 0.4 </z>
+      </location>
+      <capacity unit="KG"> 295 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Right Fuselage Minor Tank 3H -->
+      <location unit="M">
+        <x> -0.4 </x>
+        <y> 0.65 </y>
+        <z> 0.4 </z>
+      </location>
+      <capacity unit="KG"> 295 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Left Minor Wing Tank 5V -->
+      <location unit="M">
+        <x> 1.25 </x>
+        <y> -1.45 </y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 200 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Right Minor Wing Tank 5H -->
+      <location unit="M">
+        <x> 1.25 </x>
+        <y> 1.45</y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 200 </capacity>
+      <contents unit="KG"> 0 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- left wing tank 4V -->
+      <location unit="M">
+        <x> 3.3 </x>
+        <y> -2 </y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 880 </capacity>
+      <contents unit="KG"> 880 </contents>
+    </tank>
+    <tank type="FUEL">
+      <!-- Right wing tank 4H -->
+      <location unit="M">
+        <x> 3.3 </x>
+        <y> 2 </y>
+        <z> -0.55 </z>
+      </location>
+      <capacity unit="KG"> 880 </capacity>
+      <contents unit="KG"> 880 </contents>
     </tank>
   </propulsion>
     

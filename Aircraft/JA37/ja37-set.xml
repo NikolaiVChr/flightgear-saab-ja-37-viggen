@@ -3,7 +3,7 @@
 <PropertyList>
 
  <sim>
-  <description>Saab Ja37 Viggen</description>
+  <description>Saab JA-37 Viggen</description>
   <author>Necolatis, Kazunori Ito (model)</author>
   <status>Alpha</status>
   <rating>
@@ -12,7 +12,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.2</aircraft-version> 
+  <aircraft-version>1.3</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
@@ -499,7 +499,11 @@
   <ja37>  
    <file>Nasal/ja37.nas</file>
    <file>Nasal/tyresmoke.nas</file>
+   
   </ja37>
+  <canvas_HUD>
+  <file>Nasal/hud.nas</file>
+  </canvas_HUD>
 </nasal>
 
 </PropertyList>

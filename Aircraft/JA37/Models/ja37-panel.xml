@@ -13,4 +13,15 @@
     </offsets>
   </model>
 
+<model>
+    <path>Models/Instruments/chronometer.xml</path>
+    <name>Clock</name>
+    <offsets>
+    <pitch-deg>-8</pitch-deg>
+      <x-m> -3.95</x-m>
+      <y-m>0.05</y-m>
+      <z-m>  0.42</z-m>
+    </offsets>
+  </model>
+
 </PropertyList>
