@@ -1,25 +1,10 @@
-var options = func {
-	print("test!");
-}
-
-# Aircraft Design
-# ===============
-#
-#  Still working on a way to display images
-#  In the interim a vrule and an hrule have been added as demarcators
-#     to check the layout.
-#
-
-# aircraft_design.dialog.show() -- displays aircraft design dialog
-#
-
-var AIRCRAFTDESIGNDLG_RUNNING = 0;
+var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 600;
+var DIALOG_HEIGHT = 250;
 var TOPLOGO_HEIGHT = 80;
 var SIDELOGO_WIDTH = 100;
 
-var dialog = {
+var Dialog = {
     init: func(x = nil, y = nil) {
         me.x = x;
         me.y = y;
@@ -60,18 +45,18 @@ var dialog = {
           titlebar.set("valign", "top");
           titlebar.set("pref-width", DIALOG_WIDTH);
           titlebar.addChild("empty").set("stretch", 1);
-          titlebar.addChild("text").set("label", "bla bla");
+          titlebar.addChild("text").set("label", "Saab JA-37 Viggen Options");
           titlebar.addChild("empty").set("stretch", 1);
           var w = titlebar.addChild("button");
             w.node.setValues({ "pref-width": 16, "pref-height": 16, legend: "", default: 0 });
             # "Esc" causes dialog-close
             w.set("key", "Esc");
-            w.setBinding("nasal", "ja37.dialog.del()");
+            w.setBinding("nasal", "ja37.Dialog.del()");
 
         me.dialog.addChild("hrule");
 
         #####   Top logo   #####
-        var topLogo = me.dialog.addChild("group");
+        #var topLogo = me.dialog.addChild("group");
         #topLogo.set("layout", "hbox");
         #topLogo.set("halign", "fill");
         #topLogo.set("valign", "top");
@@ -79,22 +64,28 @@ var dialog = {
         #topLogo.set("row", 0);
         #topLogo.set("col", 0);
 
-        var canvas_settings = {
-          "name": "LogoNasal",
-          "size": [512, 128],# width of texture to be replaced
-          "view": [512, 128],# width of canvas
-          "mipmapping": 0
-        };
-        var canvasLogo = canvas.new(canvas_settings);
+        #var canvas_settings = {
+        #  "name": "LogoNasal",
+        #  "size": [256, 64],# width of texture to be replaced
+        #  "view": [512, 128],# width of canvas
+        #  "mipmapping": 0
+        #};
+        
+        #var canvasLogo = canvas.new(canvas_settings);
+        #canvasLogo.addPlacement({"parent": canvasWidget.prop()});
         #canvasLogo.setSize(512, 128);
-        var root = canvasLogo.createGroup();
-        var splash = root.createChild("image");
-        splash.setFile("viggen-logo.png");
-        splash.setSize(512, 128);
-        splash.setTranslation(0,0);
-        #splash.setSourceRect(top:0, left:0, right:512, bottom: 128, normalized:0);
+        #var root = canvasLogo.createGroup();
+        #var splash = root.createChild("image");
+        #splash.setFile("Aircraft/JA37/viggen-logo.png");
+        #splash.setSize(512, 128);
+        #splash.setTranslation(0,0);
+        #splash.setSourceRect(0, 0, 1, 1, 1);
+        
+        #canvasLogo._node.addChild("pref-width").setValue(100);
+        #canvasLogo._node.addChild("pref-height").setValue(100);
+        #var canvasWidget = me.dialog.addChild("canvas");
+        #canvasWidget.prop().addChild(canvasLogo._node);
 
-        me.dialog.addChild(splash);
         me.dialog.addChild("hrule");
 
         #####   Main Area   #####
@@ -118,32 +109,55 @@ var dialog = {
             workArea.set("valign", "fill");
             workAreaNode = workArea.node;
 
+            #######################
             #####   Content   #####
-            #var content = interim.addChild("group");
-             # content.set("layout", "table");
-              #content.set("valign", "top");
+            #######################
+
+          ######   Top Row break button   #####
+          me.dialog.addChild("hrule");
+          var topRow = workArea.addChild("group");
+          topRow.set("layout", "vbox");
+          topRow.set("pref-height", 40);
+          topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          topRow.set("valign", "center");
+          topRow.addChild("empty").set("stretch", 1);
+          
+          me.dialog.breakButton = topRow.addChild("button");
+          me.dialog.breakButton.node.setValues({ "pref-width": 300, "pref-height": 25, legend: "Aircraft structural break due to G-forces is ", default: 0 });
+          topRow.addChild("empty").set("stretch", 1);
+          me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
+
+          ######   Top Row reverse button   #####
+          
+          me.dialog.reverseButton = topRow.addChild("button");
+          me.dialog.reverseButton.node.setValues({ "pref-width": 300, "pref-height": 25, legend: "Automatic reverse thrust enabler at touchdown: OFF", default: 0 });
+          topRow.addChild("empty").set("stretch", 1);
+          me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
+
+          #var me.dialog.crashButton = topRow.addChild("button");
+          #me.dialog.crashButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Crash", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          #crashButton.setBinding("nasal", "ja37.dialog.crash()");
 
 ####  The table will be filled from the current page after doing some sort
 ####  of combination of wizard.pui and the nasal code in wizard.xml
 
         ######   Bottom Row Buttons   #####
-        me.dialog.addChild("hrule");
-        var bottomRow = me.dialog.addChild("group");
-          bottomRow.set("layout", "hbox");
-          bottomRow.set("pref-height", 40);
-          bottomRow.set("pref-width", DIALOG_WIDTH);
-          bottomRow.set("valign", "bottom");
-          bottomRow.addChild("empty").set("stretch", 1);
-          var testButton = bottomRow.addChild("button");
-             testButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Prev", default: 0 });
-          bottomRow.addChild("empty").set("stretch", 1);
-          var secondButton = bottomRow.addChild("button");
-             secondButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Next", default: 0 });
-          bottomRow.addChild("empty").set("stretch", 1);
+        #me.dialog.addChild("hrule");
+        #var bottomRow = me.dialog.addChild("group");
+        #  bottomRow.set("layout", "hbox");
+        #  bottomRow.set("pref-height", 40);
+        #  bottomRow.set("pref-width", DIALOG_WIDTH);
+        #  bottomRow.set("valign", "bottom");
+        #  bottomRow.addChild("empty").set("stretch", 1);
+        #  var testButton = bottomRow.addChild("button");
+        #     testButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Prev", default: 0 });
+        #  bottomRow.addChild("empty").set("stretch", 1);
+        #  var secondButton = bottomRow.addChild("button");
+        #     secondButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Next", default: 0 });
+        #  bottomRow.addChild("empty").set("stretch", 1);
 
-####  Button bindings still to be done.
-####  Other buttons still to be added.
-
+        me.refreshButtons();
         fgcommand("dialog-new", me.dialog.prop());
         fgcommand("dialog-show", me.dialog.prop());
     },
@@ -152,8 +166,50 @@ var dialog = {
         fgcommand("dialog-close", me.dialog.prop());
     },
 
+    breakToggle: func {
+      var enabled = getprop("processes/aircraft-break/enabled");
+      setprop("processes/aircraft-break/enabled", !enabled);
+      me.refreshButtons();
+    },
+
+    reverseToggle: func {
+      var enabled = getprop("processes/aircraft-break/autoReverseThrust");
+      setprop("processes/aircraft-break/autoReverseThrust", !enabled);
+      me.refreshButtons();
+    },
+
+    refreshButtons: func {
+      # update break button
+      var enabled = getprop("processes/aircraft-break/enabled");
+      var legend = "Aircraft structural break due to G-forces is ";
+      if(enabled == 1) {
+        legend = legend~"ON";
+      } else {
+        legend = legend~"OFF";
+      }
+      me.dialog.breakButton.node.setValues({"legend": legend});
+
+      enabled = getprop("processes/aircraft-break/autoReverseThrust");
+      legend = "Automatic reverse thrust enabler at touchdown: ";
+      if(enabled == 1) {
+        legend = legend~"ON";
+      } else {
+        legend = legend~"OFF";
+      }
+      me.dialog.reverseButton.node.setValues({"legend": legend});
+
+      #props.dump(me.dialog.prop()); # handy command, don't forget it.
+
+      # this is commented out cause it needs a trigger (e.g. button to activate):
+      # me.dialog.setBinding("dialog-close", props.Node.new({"dialog-name": "JA-37 Options"}));
+      # me.dialog.setBinding("dialog-show",  props.Node.new({"dialog-name": "JA-37 Options"}));
+      # this does the same, refresh the dialog:
+      fgcommand("dialog-close", props.Node.new({"dialog-name": "JA-37 Options"}));
+      fgcommand("dialog-show", props.Node.new({"dialog-name": "JA-37 Options"}));
+    },
+
     del: func {
-        AIRCRAFTDESIGNDLG_RUNNING = 0;
+        optionDLG_RUNNING = 0;
         me.close();
 #        foreach (var l; me.listeners)
 #            removelistener(l);
@@ -161,10 +217,14 @@ var dialog = {
     },
 
     show: func {
-        if (!AIRCRAFTDESIGNDLG_RUNNING) {
-            AIRCRAFTDESIGNDLG_RUNNING = 1;
-            me.init();
-            me.create();
-        }
+      var versionString = getprop("sim/version/flightgear");
+      var version = split(".", versionString);
+      if (version[0] == "0" or version[0] == "1" or version[0] == "2") {
+        gui.popupTip("Options is only supported in Flightgear version 3.0 and upwards.");
+      } elsif (!optionDLG_RUNNING) {
+        optionDLG_RUNNING = 1;
+        me.init();
+        me.create();
+      }
     },
 };

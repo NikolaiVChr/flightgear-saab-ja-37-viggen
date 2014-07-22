@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.26</aircraft-version> 
+  <aircraft-version>1.28</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -499,6 +499,11 @@
     _____
     Random failures are supported and recommended for more interesting flight.
 
+    Automatic Thrust reversing
+    __________________________
+    This can be enabled in the JA37-Options menu. It will enable the reverse thrust when you touch down with all 3 gears.
+    If you take off from a rough strip or without runway, the ground bumpiness will enable this and prevent you from taking off. So in that case I recommend switching it off.
+
     Trivia
     _____
     This is the mid 80'ties version. So it has no airbrake
@@ -547,18 +552,15 @@
      <script>ja37.autostarttimer();</script>
     </binding>
    </item>
-   <!--
    <item>
     <label>Options</label>
     <binding>
      <command>nasal</command>
      <script>
-      ja37.options();
-      ja37.dialog.show();
+      ja37.Dialog.show();
      </script>
     </binding>
    </item>
-   -->
   </menu>
  </default>
 </menubar>
@@ -642,9 +644,7 @@
       <aileron-serviceable/>
     </fcs>
     <gear>
-      <serviceable type="bool">
-        1
-      </serviceable>
+      <serviceable type="bool">1</serviceable>
     </gear>
     <systems>
       <flapscontrol>
@@ -661,7 +661,15 @@
     <station-select>0</station-select><!-- cannon selected by default -->
     <trigger>0</trigger>
   </armament>
+  <gear>
+   <brake-parking type="bool">true</brake-parking>
+  </gear>
 </controls>
+<processes>
+  <aircraft-break>
+    <autoReverseThrust type="bool">false</autoReverseThrust>
+  </aircraft-break>
+</processes>
 
 <!--**********************************************************************
 
@@ -849,51 +857,6 @@
 
 <!--**********************************************************************
 
-                                          Controls
-
-
-*************************************************************************--> 
- <controls>
-  <fuel>
-   <qty-selector type="int">1</qty-selector>
-   <external-transfer type="bool">true</external-transfer>
-  </fuel>
-  
-  <gear>
-   <brake-parking type="bool">true</brake-parking>
-  </gear>
-
-  <indicators>
-
-  </indicators>
-
-  <lighting>
-   <ext-lighting-panel>
-    <master type="bool">true</master>
-    <anti-collision type="bool">true</anti-collision>
-    <pos-lights-flash type="bool">true</pos-lights-flash>
-    <wing-tail type="int">2</wing-tail>
-    <fuselage type="int">2</fuselage>
-    <form-knob type="double">1</form-knob>
-    <ar-knob type="double">1</ar-knob>
-   </ext-lighting-panel>
- 
-   <lighting-panel>
-    <pri-inst-pnl type="double">0</pri-inst-pnl>
-    <flood-inst-pnl type="double">0</flood-inst-pnl>
-   </lighting-panel>
-  </lighting>
-
-  <test>
-   <test-panel>
-    <mal-ind-lts type="bool">false</mal-ind-lts>
-   </test-panel>
-  </test>
- </controls>
-
-
-<!--**********************************************************************
-
                                           Consumables
 
 
@@ -1010,7 +973,7 @@
    <file>Aircraft/JA37/Nasal/liveries.nas</file>
    <file>Aircraft/JA37/Nasal/systemp.nas</file>
    <file>Aircraft/JA37/Nasal/radar.nas</file>
-   <!--<file>Aircraft/JA37/Nasal/options.nas</file>--><!-- notice probably only works with 3.0.0 -->
+   <file>Aircraft/JA37/Nasal/options.nas</file><!-- notice probably only works with 3.0.0 -->
   </ja37>
   <canvas_HUD>
     <file>Aircraft/JA37/Nasal/hud.nas</file>

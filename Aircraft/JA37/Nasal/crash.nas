@@ -148,7 +148,7 @@ aircraftbreakprocess=func
 		}
 		if ( in_service != 1 )
 		{
-		print("In service: false");
+		#print("In service: false");
 			stop_aircraftbreakprocess();
 			return ( settimer(aircraftbreakprocess, 0.1) ); 
 		}

@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.26 </version>
+    <version> 1.28 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -40,10 +40,10 @@
 
  <metrics>
       <!-- from NASA document -->
-      <wingarea unit="M2">    46   </wingarea>
-      <wingspan unit="M">     10   </wingspan>
+      <wingarea unit="M2">    46   </wingarea><!-- main wings -->
+      <wingspan unit="M">     10   </wingspan><!-- main wings -->
       <chord unit="M">         7.4 </chord>
-      <htailarea unit="M2">   46   </htailarea>
+      <htailarea unit="M2">   46   </htailarea><!-- using main wings for this since they act as htail also -->
       <!-- from Australian document -->
       <vtailarea unit="FT2">      68.7  </vtailarea>
       <!-- data calculated using DATCOM -->      
@@ -55,7 +55,7 @@ will be on the order of O.3 - 0.5 m, which is a rather representative measure
 of the distance between the neutral point and the point of gravity in respect
 to an airplane of that size). -->
       <y> 0 </y>
-      <z> 0 </z><!-- setting the aerorp at main wing height would be -0.25 -->
+      <z> -0.25 </z><!-- setting the aerorp at main wing height would be -0.25, this makes the roll damping work much more effective. -->
     </location>
     <location name="EYEPOINT" unit="M">
       <x> -3.0 </x>
@@ -129,7 +129,7 @@ to an airplane of that size). -->
         <y> 0 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.5 </static_friction>
+      <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
@@ -144,7 +144,7 @@ to an airplane of that size). -->
         <y> -2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.5 </static_friction>
+      <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -159,7 +159,7 @@ to an airplane of that size). -->
         <y> 2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.5 </static_friction>
+      <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -268,8 +268,8 @@ to an airplane of that size). -->
   
   <propulsion>
     <engine file="RM8B">
-      <location unit="M">
-        <x> -3.21 </x>
+      <location unit="M"><!-- inlet -->
+        <x> -3.4 </x>
         <y> 0 </y>
         <z> 0 </z>
       </location>
@@ -288,8 +288,8 @@ to an airplane of that size). -->
       <feed>7</feed>
       <feed>8</feed>
       <thruster file="direct">
-        <location unit="M">
-          <x> 7.8 </x>
+        <location unit="M"> <!-- exhaust, not end of reverser system -->
+          <x> 6.0 </x>
           <y> 0 </y>
           <z> 0 </z>
         </location>
@@ -301,7 +301,7 @@ to an airplane of that size). -->
       </thruster>
     </engine>
     
-    <tank type="FUEL">
+    <tank type="FUEL"><!-- fuel type used: JP-4 with density of 6.48 -->
       <!-- Fuselage Main Tank 1 -->
       <location unit="M">
         <x> 1 </x>

@@ -21,8 +21,15 @@ var alt_scale_mode = 0; # the alt scale is not liniar, this indicates which part
 var QFE = 0;
 var countQFE = 0;
 var QFEcalibrated = 0;
-var centerOffset = -102; #verical center of HUD. (in line from pilots eyes) 0.51m is height of HUD bottom. View is 0.57m. Height of HUD is 10 cm.
-var pixelPerDegree = 100; #vertical axis
+var centerOffset = -90; #pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+# HUD z is 0.864636-0.334795 (0.529841) to 0.967040-0.334795 (0.632245) and raised 0.06 up. Finally is 0.589841m to 0.692245m, height of HUD is 0.102404m
+# Therefore each pixel is 0.102404 / 1024 = 0.00010000390625m or each meter is 9999.609390258193 pixels.
+# View is 0.65m so 0.692245-0.65 = 0.042245m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
+# 512 - (0.042245 / 0.00010000390625) = 89.56650130854264 pixels up from center. Since -y is upward, result is -90.
+var pixelPerDegree = 65; #vertical axis, view is tilted 10 degrees, zoom in on runway to check it hit the 10deg line
+var slant = 35; #degrees the HUD is slanted away from the pilot.
+var sidewindPosition = centerOffset+(2*pixelPerDegree); #should be 2 degrees under horizon.
+var sidewindPerKnot = 450/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
 var radPointerProxim = 60; #when alt indicater is too close to radar ground indicator, hide indicator
 var scalePlace = 380; #horizontal placement of alt scales
 var numberOffset = 100; #alt scale numbers horizontal offset from scale 
@@ -47,15 +54,14 @@ var HUDnasal = {
       text_style: {
         'font': "LiberationFonts/LiberationMono-Regular.ttf", 
         'character-size': 100,
-        
-    }
-  };
+      }
+    };
  
   m.canvas.addPlacement(placement);
   m.canvas.setColorBackground(0.36, 1, 0.3, 0.02);
   m.root = m.canvas.createGroup()
             .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
-  var slant = 35; #degrees the HUD is slanted towards the pilot
+  
   m.root.setScale(math.sin(slant*deg2rads), 1);
   m.root.setTranslation(512, 512);
 
@@ -394,7 +400,8 @@ var HUDnasal = {
     m.input = {
       pitch:    "/orientation/pitch-deg",
 			roll:     "/orientation/roll-deg",
-			hdg:      "/orientation/heading-deg",
+			hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
+      hdgReal:  "/orientation/heading-deg",
       speed_n:  "velocities/speed-north-fps",
       speed_e:  "velocities/speed-east-fps",
       speed_d:  "velocities/speed-down-fps",
@@ -724,7 +731,7 @@ var HUDnasal = {
       var vel_gy = me.input.speed_e.getValue();
       var vel_gz = me.input.speed_d.getValue();
    
-      var yaw = me.input.hdg.getValue() * math.pi / 180.0;
+      var yaw = me.input.hdgReal.getValue() * math.pi / 180.0;
       var roll = me.input.roll.getValue() * math.pi / 180.0;
       var pitch = me.input.pitch.getValue() * math.pi / 180.0;
    
@@ -745,7 +752,7 @@ var HUDnasal = {
       var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
       var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
    
-      me.vec_vel.setTranslation(clamp(dir_x * pixelPerDegree, -450, 450), clamp(dir_y * pixelPerDegree, -450-centerOffset, 450-centerOffset)+centerOffset);
+      me.vec_vel.setTranslation(clamp(dir_x * pixelPerDegree, -450, 450), clamp((dir_y * pixelPerDegree)+centerOffset, -450, 450));
       if (dir_y > 8) {
         # blink the flight vector cross hair if alpha is high
         if (blinking < 1 and blinking != -2) {
@@ -776,12 +783,12 @@ var HUDnasal = {
       #move takeoff/landing symbol according to side wind:
       var wind_heading = getprop("environment/wind-from-heading-deg");
       var wind_speed = getprop("environment/wind-speed-kt");
-      var heading = me.input.hdg.getValue();
+      var heading = me.input.hdgReal.getValue();
       #var speed = me.input.ias.getValue();
       var angle = (wind_heading -heading) * (math.pi / 180.0); 
       var wind_side = math.sin(angle) * wind_speed;
       #print((wind_heading -heading) ~ " " ~ wind_side);
-      me.takeoff_symbol.setTranslation(clamp(-wind_side * 15, -450, 450), 125);#clamp at 30 kts
+      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
     }
 
     # artificial horizon and pitch lines

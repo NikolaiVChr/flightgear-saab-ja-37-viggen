@@ -318,7 +318,7 @@ Sim: Added welcome message, showing version number.
 Sim: Filled a bit more more fuel into tanks as default.
 Aero: Made aileron deflection depend on speed.
 
-1.26 - 2014 Feb 4
+1.26 - 2014 Feb 5
 ----
 Sim: Fixed aircraft did not work on Windows XP.
 Aero: Made more structural points for more realistic crashing.
@@ -330,4 +330,18 @@ Aero: Less drag due to gear and flaps to make for shorter takeoffs. Also improve
 Sim: Made missiles firable and selectable. And can use the payload dialog to load/reload/unload.
 Aero: Reduced mach 1.2 - 1.8 regime drag.
 Aero: Slightly adjusted pilot mass position.
-Engine: Increased engine mil-thrust performance from cruise to maximum.
+Engine: Increased engine aug-thrust performance from cruise to maximum.
+
+1.27 - 2014 Feb 9
+----
+Engine: Adjusted exhaust position.
+Sim: Increased wheel brake strength.
+HUD: Adjusted HUD to new pilot eye position, and better calculation for pitch-lines pixel positions.
+Animation: Fixed strobe stopped working.
+Aero: Small adjustments.
+HUD: Cleaned up a bit and adjusted center and pixels per degree values.
+
+1.28 - 2014 May 1
+----
+Sim: Made option to toggle automatic thrust reverser.
+Sim: Made option to toogle structural breaking off.

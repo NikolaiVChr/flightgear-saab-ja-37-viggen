@@ -5,6 +5,12 @@ var UPDATE_PERIOD = 0.1;
 var g_curr 	= props.globals.getNode("accelerations/pilot-gdamped", 1);
 var auto_gen=0;
 
+var prevGear0 = 1;
+var prevGear1 = 1;
+var prevGear2 = 1;
+var touchdown1 = 0;
+var touchdown2 = 0;
+
 ############### Main loop ###############
 var cnt = 0;
 
@@ -209,10 +215,48 @@ var update_loop = func {
     setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[4]", 188);
   }
 
-  
+
+  # automatic reverse thrust enabler
+
+  var gear0 = getprop("/gear/gear[0]/wow");
+  var gear1 = getprop("/gear/gear[1]/wow");
+  var gear2 = getprop("/gear/gear[2]/wow");
+
+  if(getprop("processes/aircraft-break/autoReverseThrust") == 1 and reversed == 0) {
+    if(gear1 == 1) {
+      #left boogie touching
+      if(prevGear1 == 0) {
+        touchdown1 = 1;
+      }
+    } else {
+      touchdown1 = 0;
+    }
+    if(gear2 == 1) {
+      #right boogie touching
+      if(prevGear2 == 0) {
+        touchdown2 = 1;
+      }
+    } else {
+      touchdown2 = 0;
+    }
+    if(touchdown1 == 1 and touchdown2 == 1) {
+      if(gear0 == 1) {
+        #print("Auto-reversing the thrust");
+        reversethrust.togglereverser();
+      }
+    }
+  }
+
+  prevGear0 = gear0;
+  prevGear1 = gear1;
+  prevGear2 = gear2;
+
+
 
   settimer(update_loop, UPDATE_PERIOD);
 }
+
+
 
 ###########  loop for handling the battery signal for cockpit sound #########
 var lastsignal = 0;
@@ -369,6 +413,7 @@ var drop = func {
 ############ strobes #####################
 
 var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/anti-collision", 1);
+setprop("controls/lighting/ext-lighting-panel/anti-collision", 1);
 aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.9+rand()/5], strobe_switch);
 
 
