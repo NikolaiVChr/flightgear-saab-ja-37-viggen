@@ -18,3 +18,25 @@ Put in a Accelerometer (small inaccuracy due to my limited painting skill)
 Mapped fuel tanks to match the real aircraft
 Put in a Canvas HUD (TODO: make specific to JA37)
 Put in a Chronometer (TODO: make specific to JA37)
+
+1.4
+---
+Canvas HUD made brighter, and some details from orig plane added
+Flight Dynamic Model now partly made by DATCOM. (drag & lift mainly)
+
+Notes:
+------
+Beware, even though they are not animated the plane has airbrake, reverse thrust, flaps and gear.
+
+TODO:
+-----
+Animate model
+Retexture model
+Make Canvas HUD specific to this plane
+All fuel to engine has to go through tank 1, model this
+Fuel tanks 3V and 3H is used for flying upside down, model this
+Make pilot faint/die due to G-forces
+Refine FDM
+Put in more instruments
+Better annunciater warnings and other sounds
+Adapt for Rembrandt

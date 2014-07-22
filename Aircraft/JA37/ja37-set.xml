@@ -12,7 +12,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.3</aircraft-version> 
+  <aircraft-version>1.4</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
@@ -49,33 +49,6 @@
 
   <hud>
    <path n="1">Models/Cockpit/hud.xml</path>
-   <visibility n="1">true</visibility>
-   <palette>
-    <color n="0">
-     <alpha type="float">0.85</alpha>
-     <antialiased type="bool">true</antialiased>
-     <brightness type="float">0.85</brightness>
-     <transparent type="bool">true</transparent>
-     <red type="float">0.38</red>
-     <green type="float">1.0</green>
-     <blue type="float">0.22</blue>
-    </color>
-    <color n="1">
-     <alpha type="float">0.85</alpha>
-     <antialiased type="bool">true</antialiased>
-     <brightness type="float">0.85</brightness>
-     <transparent type="bool">true</transparent>
-     <red type="float">1.0</red>
-     <green type="float">0.2</green>
-     <blue type="float">0.0</blue>
-    </color>
-   </palette>
-   <clipping>
-    <left type="double">-70</left>
-    <right type="double">70</right>
-    <top type="double">33</top><!-- 20 -->
-    <bottom type="double">-88</bottom><!-- -102 -->
-   </clipping>
   </hud>
 
     <model>
@@ -164,7 +137,7 @@
   <rendering>
    <redout>
     <parameters>
-     <blackout-complete-g>10.0</blackout-complete-g>
+     <blackout-complete-g>11.0</blackout-complete-g>
      <blackout-onset-g>5.0</blackout-onset-g>
      <redout-complete-g>-4.0</redout-complete-g>
      <redout-onset-g>-1.5</redout-onset-g>
@@ -495,11 +468,9 @@
   <reversethrust>
     <file>Nasal/reversethrust.nas</file>
   </reversethrust>
-  
   <ja37>  
    <file>Nasal/ja37.nas</file>
    <file>Nasal/tyresmoke.nas</file>
-   
   </ja37>
   <canvas_HUD>
   <file>Nasal/hud.nas</file>
