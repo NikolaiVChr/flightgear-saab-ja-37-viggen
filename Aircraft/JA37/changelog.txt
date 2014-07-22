@@ -24,6 +24,12 @@ Put in a Chronometer (TODO: make specific to JA37)
 Canvas HUD made brighter, and some details from orig plane added
 Flight Dynamic Model now partly made by DATCOM. (drag & lift mainly)
 
+1.5
+---
+Made texture a bit prettier
+Made new splash image and thumbnail
+Removed some debug messages
+
 Notes:
 ------
 Beware, even though they are not animated the plane has airbrake, reverse thrust, flaps and gear.

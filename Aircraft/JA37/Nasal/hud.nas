@@ -346,11 +346,9 @@ var HUDnasal = {
         me.vec_vel.setColor(0,1,0);
         blinking = 0;
       }
-      print("fly");
     } else {
       me.vec_vel.setColor(0,0,0,0);
       me.takeoff_symbol.setColor(0,1,0,1);
-      print("gear");
     }
     if (getprop("fcs/fbw-override") == 1) #tmp debug stuff
      {
