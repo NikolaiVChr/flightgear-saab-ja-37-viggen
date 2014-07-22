@@ -11,6 +11,7 @@ systems/electrical/outputs/battery,0,.,systems/electrical/outputs/turn-coordinat
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/nav[0],0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/gps,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/dme,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/adi,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/tacan,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/radar,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/transponder,0,0

@@ -29,7 +29,7 @@ Note
 ====
 Various stuff adapted from other aircrafts:
 
-F16 - Canopy. Inertia. Afterburner flame and engine glow. Texture for Strake-vortex. Cannon.
+F16 - Canopy. Inertia. Afterburner flame and engine glow. Texture for Strake-vortex. Cannon. Chronometer. ADI.
 J35F - 8 instruments and electrical system
 Mig-15 - Crash code
 Buccaneer - Flight direction indicator in HUD

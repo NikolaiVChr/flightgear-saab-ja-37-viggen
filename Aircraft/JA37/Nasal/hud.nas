@@ -400,7 +400,9 @@ var HUDnasal = {
     m.input = {
       pitch:    "/orientation/pitch-deg",
 			roll:     "/orientation/roll-deg",
-			hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
+#			hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
+#      hdg:      "/instrumentation/gps/indicated-track-magnetic-deg",
+      hdg:      "/orientation/heading-magnetic-deg",
       hdgReal:  "/orientation/heading-deg",
       speed_n:  "velocities/speed-north-fps",
       speed_e:  "velocities/speed-east-fps",

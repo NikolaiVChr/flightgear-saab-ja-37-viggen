@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!-- 
+Airspeed Indicator
+Syd Adams
+-->
+<PropertyList>
+
+    <path>airspeed.ac</path>
+    
+    <animation>
+        <type>rotate</type>
+        <object-name>ASIneedle</object-name>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <factor>0.22224</factor>
+        <offset-deg>24</offset-deg>
+        <axis>
+            <x>-1.0</x>
+        </axis>
+    </animation>
+
+<animation>
+      <type>pick</type> 
+      <object-name>ASIneedle</object-name>
+      <object-name>ASIface</object-name>
+      <condition>   
+        <greater-than>
+        <property>systems/electrical/outputs/battery</property>
+        <value>20</value>
+       </greater-than>
+      </condition>
+      <hovered>
+           <binding>
+             <command>set-tooltip</command>
+             <tooltip-id>airspeed</tooltip-id>
+             <label>Airspeed: %4d kt</label>
+             <property>/velocities/airspeed-kt</property><!-- /instrumentation/airspeed-indicator/indicated-mach -->
+          </binding>
+       </hovered>
+     </animation>
+
+<!-- lighting -->
+ <animation>
+  <object-name>ASIneedle</object-name>
+  <object-name>ASIface</object-name>
+  <type>material</type>
+  <emission>
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10</max-m>
+ </animation>
+
+</PropertyList>

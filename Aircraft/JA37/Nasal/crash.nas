@@ -225,6 +225,7 @@ aircraftbreakprocess=func
 		{
 			terrain_lege_height=0;
 			i=0;
+			var hit_what = "hit something";
 			foreach(terrain_name; info[1].names)
 			{
 				if (
@@ -235,13 +236,26 @@ aircraftbreakprocess=func
 						or (terrain_name=="DeciduousForest")
 						or (terrain_name=="MixedForest")
 						or (terrain_name=="RainForest")
-						or (terrain_name=="Urban")
+					)
+				)
+				{
+					terrain_lege_height=25;
+					hit_what = "hit tree in "~terrain_name;
+				}
+				if (
+					(terrain_lege_height<25)
+					and
+					(
+						(terrain_name=="Urban")
+						or (terrain_name=="SubUrban")
 						or (terrain_name=="Town")
 					)
 				)
 				{
 					terrain_lege_height=25;
+					hit_what = "hit building in "~terrain_name;
 				}
+
 				if (
 					(terrain_lege_height<20)
 					and
@@ -253,12 +267,56 @@ aircraftbreakprocess=func
 				)
 				{
 					terrain_lege_height=20;
+					hit_what = "hit tree in "~terrain_name;
 				}
+				if (
+					(terrain_lege_height<1)
+					and
+					(
+						(terrain_name=="Ocean")
+						or (terrain_name=="Lake")
+    				)
+				)
+				{
+					terrain_lege_height=1;
+					hit_what = "hit water wave in "~terrain_name;
+				}
+				if (
+					(terrain_lege_height<0.25)
+					and
+					(
+						(terrain_name=="Heath")
+					)
+				)
+				{
+					terrain_lege_height=.25;
+					hit_what = "hit bush in "~terrain_name;
+				}
+				if (
+					(terrain_lege_height<.1)
+					and
+					(
+						(terrain_name=="Pond")
+						or (terrain_name=="Resevoir")
+						or (terrain_name=="Steam")
+						or (terrain_name=="Canal")
+						or (terrain_name=="Lagoon")
+						or (terrain_name=="Estuary")
+						or (terrain_name=="Watercourse")
+						or (terrain_name=="Saline")
+    				)
+				)
+				{
+					terrain_lege_height=.1;
+					hit_what = "hit water wave in "~terrain_name;
+				}
+
 			}
 			#print(real_altitude_m - terrain_lege_height);
 			if (real_altitude_m<terrain_lege_height)
 			{
-				crashed=aircraft_crash("tree hit", pilot_g, info[1].solid);
+				crashed=aircraft_crash(hit_what, pilot_g, info[1].solid);
+				#print(terrain_name);
 			}
 		}
 		if (pilot_g>(maximum_g*0.5))
@@ -338,7 +396,7 @@ aircraftbreakprocess=func
 			)
 		)
 		{
-			crashed=aircraft_crash("ground slide", pilot_g, info[1].solid);
+			crashed=aircraft_crash("slide", pilot_g, info[1].solid);
 		}
 		if (crashed==1)
 		{

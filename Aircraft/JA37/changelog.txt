@@ -358,3 +358,10 @@ Aero: Fixed that zero moment was already factored into the Cm data for landing g
 1.30 - 2014 May 12
 ----
 Aero: Increased elevator deflection in lower air densities. It now pitch better at high altitudes.
+
+1.31
+----
+Sim: Fixed crashing into trees over water, but now possible to hit water waves at very low altitude.
+Sim: Improved autopilot a little, can be a bit wobbly though.
+HUD: Fixed the heading scale was swirling as mechanical compass.
+Animation: Added chronometer, airspeed indicator, 2 x altimeters, plaque, nozzle indicator and ADI.

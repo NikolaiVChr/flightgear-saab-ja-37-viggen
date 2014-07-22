@@ -8,8 +8,30 @@
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.83</x-m>
-      <y-m>  0.19337341</y-m>
-      <z-m>  0.4353082</z-m>
+      <y-m>  0.20</y-m>
+      <z-m>  0.42</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
+    <name>Chronometer</name>
+    <offsets>
+    <pitch-deg>79.329</pitch-deg>
+      <x-m> -3.83</x-m>
+      <y-m>  0.110</y-m>
+      <z-m>  0.50</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Altimeter2/altimeter2.xml</path>
+    <name>Altimeter2</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.82</x-m>
+      <y-m>  0.115</y-m>
+      <z-m>  0.34</z-m>
     </offsets>
   </model>
 
@@ -25,13 +47,24 @@
   </model>
 
 <model>
+    <path>Aircraft/JA37/Models/Instruments/NozzleIndicator/nozzle.xml</path>
+    <name>Nozzle Indicator</name>
+    <offsets>
+    <pitch-deg>79.329</pitch-deg>
+      <x-m> -3.82</x-m>
+      <y-m>  0.20</y-m>
+      <z-m>  0.34</z-m>
+    </offsets>
+  </model>
+
+<model>
     <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
     <name>RPM Indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.81</x-m>
+      <x-m> -3.80</x-m>
       <y-m>  0.20</y-m>
-      <z-m>  0.30</z-m>
+      <z-m>  0.26</z-m>
     </offsets>
   </model>
 
@@ -45,13 +78,35 @@
   <z-offset>0.50</z-offset>
  </animation>
 
+<model>
+    <path>Aircraft/JA37/Models/Instruments/Altimeter3/altimeter3.xml</path>
+    <name>Coarse altitude</name>
+    <offsets>
+    <pitch-deg>79.329</pitch-deg>
+      <x-m> -3.82</x-m>
+      <y-m>  0.28</y-m>
+      <z-m>  0.34</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/HeadingIndicator/heading-indicator.xml</path>
+    <name>ADI</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.80</x-m>
+      <y-m>  0.115</y-m>
+      <z-m>  0.25</z-m>
+    </offsets>
+  </model>
+
   <model>
     <path>Aircraft/JA37/Models/Instruments/Altimeter/altimeter.xml</path>
     <name>Altitude indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.805</x-m>
-      <y-m> -0.147</y-m>
+      <y-m> -0.13</y-m>
       <z-m>  0.27312</z-m>
     </offsets>
   </model>
@@ -61,9 +116,9 @@
     <name>Angle of Attack Indicator</name>
     <offsets>
     <pitch-deg>-14.0</pitch-deg>
-      <x-m> -3.88</x-m>
-      <y-m> -0.10</y-m>
-      <z-m>  0.5</z-m>
+      <x-m> -3.87</x-m>
+      <y-m> -0.11</y-m>
+      <z-m>  0.48</z-m>
     </offsets>
   </model>
 
@@ -73,7 +128,7 @@
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.84</x-m>
-      <y-m> -0.147</y-m>
+      <y-m> -0.13</y-m>
       <z-m>  0.40</z-m>
     </offsets>
   </model>
@@ -84,8 +139,8 @@
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.81194</x-m>
-      <y-m>  0.12</y-m>
-      <z-m>  0.39</z-m>
+      <y-m>  0.11</y-m>
+      <z-m>  0.43</z-m>
     </offsets>
   </model>
 
@@ -107,9 +162,9 @@
     <name>Radiostack</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -4.00</x-m>
+      <x-m> -3.99</x-m>
       <y-m> -0.36</y-m>
-      <z-m>  0.17</z-m>
+      <z-m>  0.10</z-m>
     </offsets>
     <animation>
       <type>range</type>
@@ -118,7 +173,27 @@
     </animation>
   </model>
 
+<model>
+    <path>Aircraft/JA37/Models/Instruments/Airspeed/airspeed.xml</path>
+    <name>Airspeed</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.80</x-m>
+      <y-m> -0.23</y-m>
+      <z-m>  0.40</z-m>
+    </offsets>
+  </model>
 
+ <model>
+    <path>Aircraft/JA37/Models/Instruments/CenterPlaque/center-plaque.xml</path>
+    <name>Center plaque</name>
+    <offsets>
+    <pitch-deg>79.329</pitch-deg>
+      <x-m> -3.78</x-m>
+      <y-m>  0</y-m>
+      <z-m>  0.50</z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Radar/radar.xml</path>
@@ -158,7 +233,7 @@
     <name>Spak</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.70</x-m>
+      <x-m> -3.77</x-m>
       <y-m> -0.20</y-m>
       <z-m>  0.50</z-m>
     </offsets>
@@ -169,7 +244,7 @@
     <name>Att</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.70</x-m>
+      <x-m> -3.77</x-m>
       <y-m> -0.18</y-m>
       <z-m>  0.51</z-m>
     </offsets>
@@ -180,7 +255,7 @@
     <name>Höjd</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.70</x-m>
+      <x-m> -3.77</x-m>
       <y-m> -0.16</y-m>
       <z-m>  0.52</z-m>
     </offsets>

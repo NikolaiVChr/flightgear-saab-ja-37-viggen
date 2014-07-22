@@ -3,12 +3,12 @@ TODO for Flightgear JA-37
 
 Must have for FG 3.2
 ------
-Sim: Crash code should use better properties not spread out all over.
-Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe make cap on some moments, use FGGraph to check which ones)
 Test new failure system.
 Test new JSBSim ground contact features.
-Animation: Make minimal polygon model for multiplayer LOD.
-Sim: Fix autopilot.
+Test new FGPlot
+HUD: Use instrument properties instead of simulation properties
+Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties.
+Effect: The combined shader on cockpit glass is not so good, improve.
 
 
 Option GUI:
@@ -31,64 +31,65 @@ Less polygons
 Less particle effects
 No radar
 Default FG HUD
-More gauges
 
 
 Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
-Effect: Adjust normalmap to be more subtle.
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 
 
-Features:
-----------------
+Features and improvements:
+--------------------------
 GUI: Find way to measure take-off length, climb-rate, axial force and stopwatch.
-Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog.
 GUI: Make HUD switchable to imperial units.
-Animation: Second altimeter.
-Animation: Some switches.
-Aero: Make canopy increase drag.
-Sim: Make canopy able to break off.
 GUI: Checklist
-Sim: Limit cannon rounds to 150. (146?)
-Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particale is attached to world not plane]
-Effect: Rembrandt landing lightcone. (the model misses the lamp on front gear though)
-Sim: Overhaul crash code. (hitting trees on water, sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure, hitting buildings)
-Animation: Make wings break off when they break due to structural damage.
+Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog.
+Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
-Effect: Check contrail effect is properly installed.
-Animation: Adjust instrument materials.
+Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe force JSBSim Hz higher or cap on some dampers, use FGGraph to check which ones)
+Animation: Some switches.
+Animation: Make wings break off when they break due to structural damage.
+Animation: Adjust instrument materials, and make the gauges look more similar.
+Animation: Animate wheels
+Animation: Pilot from F16CJ?
+Animation: Make minimal polygon model for multiplayer LOD.
+Sim: Improve autopilot further, it wobbles.
+Sim: Make canopy able to break off.
+Sim: Limit cannon rounds to 150. (146?)
+Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure, hitting buildings)
+Sim: Crash code should use better properties not spread out all over.
 Sim: Instruments should turn on when battery gets turned on, instead of generator, but still be able to fail when electrical system fails.
-Sound: More annunciater warnings and other sounds
+Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
+Sim: Implement ejection seat. (with parachute?)
+Sim: Make braking parachute.
+Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particale is always attached to world not plane]
+Effect: Rembrandt landing lightcone. (the model misses the lamp on front gear though)
+Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces
 Effect: Make tires burst if too high speed with parking brakes
 Effect: Make gears break if too high speed with gears down
 Effect: Sun glare
 Effect: Smoke after structural break.
+Effect: Adjust normalmap to be more subtle.
+Sound: More annunciater warnings and other sounds
 HUD: Make combat mode for HUD.
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
+HUD: Make individual parts in HUD fail if the corosponding instrument fails. (like heading indicator etc.)
 HUD: Make desired height columns and boxes
 HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
-Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
-Sim: Implement ejection seat. (with parachute?)
-Sim: Make braking parachute.
-Animation: Animate wheels
-Animation: Pilot from F16CJ?
-
 
 Issues with FG: (or my limited understanding of it)
 ---------------
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also, which has nothing to do with emissiveness.
-Effect: The normalmap/specularmap/combined shader effect makes a strange shadow down the middle.
+Effect: The normalmap/specularmap and combined shader effect makes a strange shadow down the middle.
 Sim: Get flightrecorder to record position with higher frequency.
-Sound: Occansional wierd buzz in model view sound when using throttle
-Sim: A property that gives the magnetic heading without acting as a floating compass.
+Sound: Occansional wierd buzz in model view sound when using throttle.
 
 
 Require modeling/texture skills (above my level):
@@ -112,4 +113,3 @@ Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upsi
 Require more data: (or aerodynamic know-how)
 ------------------
 HUD: add proper sidewind max
-Sim: Make aileron and elevator deflection depend on altitude.

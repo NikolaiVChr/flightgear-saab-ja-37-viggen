@@ -261,6 +261,10 @@ var update_loop = func {
     setprop("engines/engine/thrust_lb-absolute", 0);
   }
 
+  # meter altitude property
+
+  setprop("instrumentation/altimeter/indicated-altitude-meter", getprop("instrumentation/altimeter/indicated-altitude-ft")*0.3048);
+
 
   settimer(update_loop, UPDATE_PERIOD);
 }
@@ -375,6 +379,9 @@ var main_init = func {
   setprop("/instrumentation/instrumentation-light/b", 0.3);
 
   screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.0, 0.0);
+
+  # start chronometer loop
+  chrono_loop();
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);

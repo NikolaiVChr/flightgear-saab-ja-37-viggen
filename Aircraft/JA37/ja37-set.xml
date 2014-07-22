@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.30</aircraft-version> 
+  <aircraft-version>1.31</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -574,16 +574,22 @@
 
 
 *************************************************************************--> 
- <systems>
-  <path>Aircraft/JA37/Systems/systems.xml</path>
-  <!--<electrical>
-   <outputs>
-    <adi type="int">24</adi>
-    <rwr type="double">24</rwr>
-   </outputs>
-  </electrical>-->
- </systems>
- </sim>
+    <systems>
+      <path>Aircraft/JA37/Systems/systems.xml</path>
+      <!--<electrical>
+       <outputs>
+        <adi type="int">24</adi>
+        <rwr type="double">24</rwr>
+       </outputs>
+      </electrical>-->
+      <!--*****************************
+                     Autopilot
+      ********************************--> 
+      <autopilot>
+        <path>Aircraft/JA37/Systems/Autopilot.xml</path>
+      </autopilot>
+    </systems>
+  </sim>
 
 <!--**********************************************************************
 
@@ -897,15 +903,7 @@
  </consumables>
  
  
-<!--**********************************************************************
 
-                                          Autopilot
-
-
-*************************************************************************--> 
-<autopilot>
-     <path>Aircraft/JA37/Systems/Autopilot.xml</path>
-</autopilot>
 
 
 <!--**********************************************************************
@@ -977,6 +975,7 @@
    <file>Aircraft/JA37/Nasal/systemp.nas</file>
    <file>Aircraft/JA37/Nasal/radar.nas</file>
    <file>Aircraft/JA37/Nasal/options.nas</file><!-- notice probably only works with 3.0.0 -->
+   <file>Aircraft/JA37/Nasal/chronograph.nas</file>
   </ja37>
   <canvas_HUD>
     <file>Aircraft/JA37/Nasal/hud.nas</file>

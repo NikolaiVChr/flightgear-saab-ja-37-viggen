@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<PropertyList>
+	 <path>nozzle.ac</path>
+
+	 <animation>
+	  <type>rotate</type>
+	  <object-name>TheHand</object-name>
+	  <property>engines/engine/nozzle-pos-norm</property>
+	  <factor>240</factor>
+	  <offset-deg>240</offset-deg>
+	  <axis>
+	   <x>0</x>
+	   <y>0</y>
+	   <z>-1</z>
+	  </axis>
+	 </animation>
+
+	<animation>
+	  <type>pick</type> 
+	  <object-name>CLOCK_face</object-name>
+      <object-name>Mesh.002</object-name>
+      <object-name>Mesh.003</object-name>
+      <object-name>Mesh.004</object-name>
+      <object-name>Mesh.005</object-name>
+      <object-name>Mesh.006</object-name>
+      <object-name>Mesh.007</object-name>
+      <object-name>Mesh.011</object-name>
+      <object-name>Mesh.012</object-name>
+      <object-name>TheHand</object-name>
+	  <condition>   
+	    <greater-than>
+	    <property>systems/electrical/outputs/battery</property>
+	    <value>20</value>
+	   </greater-than>
+	  </condition>
+	  <hovered>
+	       <binding>
+	         <command>set-tooltip</command>
+	         <tooltip-id>nozzle</tooltip-id>
+	         <label>Nozzle position</label>
+	      </binding>
+	   </hovered>
+	 </animation>
+	  
+
+	<!-- lighting -->
+	<animation>
+	  <object-name>CLOCK_face</object-name>
+	  <object-name>CLOCK_mount</object-name>
+      <object-name>Mesh.002</object-name>
+      <object-name>Mesh.003</object-name>
+      <object-name>Mesh.004</object-name>
+      <object-name>Mesh.005</object-name>
+      <object-name>Mesh.006</object-name>
+      <object-name>Mesh.007</object-name>
+      <object-name>Mesh.011</object-name>
+      <object-name>Mesh.012</object-name>
+      <object-name>TheHand</object-name>
+	  <type>material</type>
+	  <emission>
+	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+	     <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+	     <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+	     <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	 <animation>
+	  <type>range</type>
+	  <min-m>0</min-m>
+	  <max-m>15</max-m>
+	 </animation>
+
+</PropertyList>
