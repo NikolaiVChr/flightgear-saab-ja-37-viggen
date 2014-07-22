@@ -36,6 +36,7 @@ aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.9+rand()/5], strobe_swi
 
 var beacon_switch = props.globals.getNode("controls/switches/beacon", 2);
 setprop("controls/switches/beacon", 1);
+setprop("fdm/jsbsim/fcs/yaw-damper-enable", 1);
 var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
 
 setlistener("/sim/current-view/view-number", func(n) {

@@ -146,6 +146,11 @@ Added aerodynamic effects of pitch due to flaps and ground effects
 Added aerodynamic effects of roll resistance due to ground effects
 Made key to toogle yaw damper on/off
 
+1.15
+----
+Fixed yaw damper was off by default
+
+
 
 Notes:
 ------
