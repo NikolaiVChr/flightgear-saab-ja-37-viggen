@@ -1,13 +1,17 @@
 TODO for Flightgear JA-37
 =========================
 
-Do now
+Must have for FG 3.2
 ------
 Sim: Crash code should use better properties not spread out all over.
 Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe make cap on some moments, use FGGraph to check which ones)
+Test new failure system.
+Test new JSBSim ground contact features.
+Animation: Make minimal polygon model for multiplayer LOD.
+Sim: Fix autopilot.
 
 
-Next version?:
+Option GUI:
 --------------
 GUI: Make little option GUI. (to test PUI and widgets)
 GUI: Option to turn off verbose popups.
@@ -20,7 +24,7 @@ GUI: Stats. topspeed, topalpha, topbeta, topclimb, top altitude
 GUI: Set Radar dist
 
 
-Compatiple version with FG 2.6
+Compatible version with FG 2.6
 ------------------------------
 Smaller textures
 Less polygons
@@ -30,21 +34,20 @@ Default FG HUD
 More gauges
 
 
-High Priority:
+Bugs:
 --------------
-Aero: Find cause of buffeting. (autopilot also does it)
-Aero: Find cause if pitch down moment at 13km height+.
-GUI: Find way to measure take-off length, climb-rate, axial force and stopwatch
+Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
+Effect: Adjust normalmap to be more subtle.
+Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
+
+
+Features:
+----------------
+GUI: Find way to measure take-off length, climb-rate, axial force and stopwatch.
 Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog.
 GUI: Make HUD switchable to imperial units.
-Sim: Fix autopilot.
-Effect: Adjust normalmap to be more subtle.
 Animation: Second altimeter.
 Animation: Some switches.
-
-
-Normal Priority:
-----------------
 Aero: Make canopy increase drag.
 Sim: Make canopy able to break off.
 GUI: Checklist
@@ -57,12 +60,7 @@ Aero: When wings break, remove most of normal force.
 Effect: Check contrail effect is properly installed.
 Animation: Adjust instrument materials.
 Sim: Instruments should turn on when battery gets turned on, instead of generator, but still be able to fail when electrical system fails.
-
-
-Lower priority:
-----------------
 Sound: More annunciater warnings and other sounds
-Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Effect: Make pilot faint/die due to G-forces
 Effect: Make tires burst if too high speed with parking brakes
 Effect: Make gears break if too high speed with gears down
@@ -82,13 +80,15 @@ Sim: Make braking parachute.
 Animation: Animate wheels
 Animation: Pilot from F16CJ?
 
+
 Issues with FG: (or my limited understanding of it)
 ---------------
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also, which has nothing to do with emissiveness.
-Effect: The normalmap/specularmap effect makes a strange shadow down the middle.
+Effect: The normalmap/specularmap/combined shader effect makes a strange shadow down the middle.
 Sim: Get flightrecorder to record position with higher frequency.
 Sound: Occansional wierd buzz in model view sound when using throttle
+Sim: A property that gives the magnetic heading without acting as a floating compass.
 
 
 Require modeling/texture skills (above my level):

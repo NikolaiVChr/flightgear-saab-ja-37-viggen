@@ -348,9 +348,13 @@ Sim: Made option to toogle structural breaking off.
 
 1.29 - 2014 May 11
 ----
-Significantly reduced texture sizes for vaporcone, engine fire and afterburner flame.
+Animation: Significantly reduced texture sizes for vaporcone, engine fire and afterburner flame.
 Sound: Fixed no engine sound at reverse thrust.
-Sound: Fixed canopy sounds from playing at startup.
+Sound: Fixed canopy sounds was playing at startup.
 Animation: Switched to combined shaders to make the shaders take effect in als & rembrandt also.
-Engine: Engines will no longer produce thrust at 70,000 feet
+Engine: Engines will no longer produce thrust above 70,000 feet
 Aero: Fixed that zero moment was already factored into the Cm data for landing gear down with flaps. The heavy pitch up effect is now more moderate.
+
+1.30 - 2014 May 12
+----
+Aero: Increased elevator deflection in lower air densities. It now pitch better at high altitudes.

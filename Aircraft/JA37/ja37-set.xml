@@ -9,7 +9,7 @@
 <PropertyList>
  <sim>
   <description>Saab JA-37 Viggen</description>
-  <author>Nikolai V. Chr. (FDM, Scripting), Anders Lejczak (3D Model and Textures)</author>
+  <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
   <status>Beta</status>
   <rating>
     <FDM type="int">3</FDM>
@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.29</aircraft-version> 
+  <aircraft-version>1.30</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -670,6 +670,9 @@
     <autoReverseThrust type="bool">false</autoReverseThrust>
   </aircraft-break>
 </processes>
+<environment>
+  <pressure-inhg>30</pressure-inhg>
+</environment>    
 
 <!--**********************************************************************
 

@@ -39,34 +39,37 @@
           <output>fcs/pitch-trim-sum</output>
       </summer>
 
+      <!-- At high speeds elevator deflection is reduced,
+           At high altitude elevator deflection is increased -->
+      <scheduled_gain name="fcs/elevator-adjust">
+        <input>fcs/pitch-trim-sum</input>
+        <table>
+          <independentVar lookup="row">velocities/mach</independentVar>
+          <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+          <tableData>
+                             0       70000
+                0         1.00         1.0
+              0.5         1.00         1.0
+              0.75        0.50         1.0
+              1.0         0.35         1.0
+              2.2         0.30         1.0
+          </tableData>
+        </table>
+        <output>fcs/elevator-cmd-adjust</output>
+      </scheduled_gain>
+
       <aerosurface_scale name="Elevator Control">
-          <input>fcs/pitch-trim-sum</input>
+          <input>fcs/elevator-cmd-adjust</input>
           <range>
-              <min>-0.4363</min>
-              <max>0.1745</max>
+              <min>-0.4363</min><!--  -25 deg -->
+              <max>0.1745</max><!--    10 deg -->
           </range>
           <output>fcs/elevator-pos-radTmp</output>
       </aerosurface_scale>
 
-      <!-- At high speeds elevator deflection is reduced -->
-      <scheduled_gain name="fcs/elevator-mach">
-        <input>fcs/elevator-pos-radTmp</input>
-        <table>
-          <independentVar>velocities/mach</independentVar>
-          <tableData>
-                0         1.00
-              0.5         1.00
-              0.75        0.50
-              1.0         0.35
-              2.2         0.30
-          </tableData>
-        </table>
-        <output>fcs/elevator-pos-rad-mach</output>
-      </scheduled_gain>
-
       <!-- elevator wont deploy if they fail -->
       <switch name="fails/elevator">
-        <default value="fcs/elevator-pos-rad-mach"/>
+        <default value="fcs/elevator-pos-radTmp"/>
         <test value="0">
           fcs/elevator-serviceable == 0
         </test>
@@ -136,8 +139,8 @@
             <max>  1 </max>
           </domain>
           <range>
-              <min>-0.4363</min><!-- why was it -25 to 20? -->
-              <max>0.4363</max>
+              <min>-0.4363</min><!-- -25 deg --><!-- why was it -25 to 20? -->
+              <max>0.4363</max><!--   25 deg -->
           </range>
           <output>fcs/right-aileron-pos-rad</output>
       </aerosurface_scale>
@@ -156,8 +159,8 @@
          <input>fcs/right-aileron-pos-rad</input>
          <input>fcs/elevator-pos-rad</input>
          <clipto>
-           <min>-0.4363</min>
-           <max>0.3491</max>
+           <min>-0.4363</min><!-- -25 deg -->
+           <max>0.3491</max><!--   20 deg -->
          </clipto>
          <output>fcs/right-elevon-pos-rad</output>
       </summer> 
