@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<PropertyList>
+
+
+  <model>
+    <path>Models/Instruments/accelerometer.xml</path>
+    <name>G Meter</name>
+    <offsets>
+    <pitch-deg>-8</pitch-deg>
+      <x-m> -3.95</x-m>
+      <y-m>0.15</y-m>
+      <z-m>  0.42</z-m>
+    </offsets>
+  </model>
+
+</PropertyList>

@@ -4,6 +4,16 @@
 
  <path>ja37.ac</path>
  
+ <model>
+    <path>Models/ja37-panel.xml</path>
+    <name>Panel</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+ 
  <!-- start effects -->
  <model>
   <name>exhaust_smoke</name>
@@ -88,8 +98,6 @@
    </offsets>
   </model>
  <!-- end effects -->
-
- <!-- end submodels -->
 
 
 <!-- ===================== START LIGHTING =========================== -->

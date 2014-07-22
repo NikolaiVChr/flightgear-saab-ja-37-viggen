@@ -1,7 +1,56 @@
 # $Id$
 
+var UPDATE_PERIOD = 0.1;
+
+var g_max	   	= props.globals.getNode("sim/model/ja37/instrumentation/g-meter/g-max", 1);
+var g_min	   	= props.globals.getNode("sim/model/ja37/instrumentation/g-meter/g-min", 1);
+var g_curr 	= props.globals.getNode("accelerations/pilot-gdamped", 1);
+
+# Main loop ###############
+var cnt = 0;
+
+var update_loop = func {
+	g_min_max();
+	if ( cnt == 10 ) {
+		# done each 1 sec.
+		# local_mag_deviation();
+		cnt = 0;
+	} else {
+		cnt += 1;
+	}
+	settimer(update_loop, UPDATE_PERIOD);
+}
+
+# functions ###############
+
+var g_min_max = func {
+	# records g min and max values
+	var curr = g_curr.getValue();
+	var max = g_max.getValue();
+	var min = g_min.getValue();
+	if ( curr >= max ) {
+		g_max.setDoubleValue(curr);
+	} elsif ( curr <= min ) {
+		g_min.setDoubleValue(curr);
+	}
+}
+g_min.setDoubleValue(1.0);
+g_max.setDoubleValue(1.0);
+
+# main_init #################
+var main_init = func {
+	print("Initializing JA-37 Viggen systems");
+	settimer(func { update_loop() }, 0.1);
+}
+
+var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
+	main_init();
+	removelistener(main_init_listener);
+ }, 0, 0);
+
 # strobes ===========================================================
 var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/anti-collision", 1);
+
 aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.9+rand()/5], strobe_switch);
 
 setlistener("/sim/current-view/view-number", func(n) {

@@ -1,0 +1,10 @@
+1.0
+---
+Added the accelerometer
+
+1.1
+---
+Fixed paths to work on Linux and Mac
+Renamed folder to JA37 from ja37
+Made all paths relative
+Removed extra copies of model and textures

@@ -12,7 +12,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">2</model>
   </rating>
-  <aircraft-version>1.1</aircraft-version> 
+  <aircraft-version>1.2</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37</aero>
@@ -156,7 +156,7 @@
      <pitch-offset-deg>0</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
      <y-offset-m archive="y">0.6</y-offset-m>
-     <z-offset-m archive="y">-3.61</z-offset-m>
+     <z-offset-m archive="y"> -3.61</z-offset-m>
      <default-field-of-view-deg>55</default-field-of-view-deg>
    </config>
   </view>
@@ -165,39 +165,12 @@
    <redout>
     <parameters>
      <blackout-complete-g>10.0</blackout-complete-g>
-     <blackout-onset-g>8.0</blackout-onset-g>
+     <blackout-onset-g>5.0</blackout-onset-g>
+     <redout-complete-g>-4.0</redout-complete-g>
+     <redout-onset-g>-1.5</redout-onset-g>
     </parameters>
    </redout>
   </rendering>
-
-  <menubar>
-   <default>
-    <menu n="100">
-     <label>F-16</label>
-     <enabled type="bool">true</enabled>
-     <item>
-      <label>Select Livery</label>
-      <binding>
-       <command>nasal</command>
-       <script>
-        aircraft.livery.dialog.toggle();
-       </script>
-      </binding>
-     </item>
-    </menu>
-    <menu n="5">
-     <item n="10">
-      <label>Pushback</label>
-      <enabled type="bool">true</enabled>
-      <name>pushback</name>
-      <binding>
-       <command>dialog-show</command>
-       <dialog-name>pushback</dialog-name>
-      </binding>
-     </item>
-    </menu>
-   </default>
-  </menubar>
 
   <multiplay>
    <generic>
@@ -206,7 +179,7 @@
   </multiplay>
 
   <help>
-   <title>General Dynamics F-16</title>
+   <title>Saab JA-37 Viggen</title>
    <key>
     <name>Ctrl-b</name>
     <desc>toggle speed brake</desc>
