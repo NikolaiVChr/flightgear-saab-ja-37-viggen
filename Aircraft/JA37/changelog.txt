@@ -57,6 +57,13 @@ Made several adjustments to the HUD
 ---
 Fixed small timing problem in HUD heading scale
 
+1.9
+---
+HUD heading and alt scales ends now smothly comes into view 
+Made altimeter calibrate only if plane not moving
+Altimeter indicators are now drawn instead of characters
+Altimeter scale is now slightly more compressed
+
 Notes:
 ------
 Beware, even though they are not animated the plane has reverse thrust, flaps and gear.
@@ -66,19 +73,21 @@ HUD info
 --------
 The HUD uses Km/h and meters.
 When in landing/takeoff mode the sight will move to a side according to sidewind
-When flying the sight will show the direction the plane is headed in, not where it is pointed
-The digital altimeter will use rader below 100 meters, and regular altimeter above, up till 9999 meters.
-If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE.
-If QFE is displayed, but not blinking, the radar altimeter have calibrated the altimeter (will only happen under 100 meters)
+When in navigation mode the sight will show the direction the plane is headed in, not where it is pointed
+The digital altimeter to the left will use rader below 100 meters, a 'R' is shown when this happens, and regular altimeter above, up till 9999 meters.
+If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters above terrain).
+If QFE is displayed, but not blinking, the radar altimeter have calibrated the altimeter(will only happen when plane not moving)
 The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number
-The artificial horizon and pitch lines are spaced 10 degrees.
-To the right is a altimeter scale, below 100 meter the scale will become more detailed. Above 1000 meters, one floating point decimal precision.
-The heading at the top is shown as a number.
+The artificial horizon and pitch lines are spaced 5 degrees.
+To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000 meters, one floating point decimal precision.
+On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
+Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
+The heading at the top is shown as a scale showing 1/10 of heading in degrees.
+
 
 TODO:
 -----
-Animate model
-Retexture model
+Contact author of another 3D model, to get well textured, animated plane
 All fuel to engine has to go through tank 1
 Fuel tanks 3V and 3H is used for flying upside down
 Make pilot faint/die due to G-forces
@@ -97,4 +106,5 @@ HUD: Make desired heading indicator in the HUD.
 HUD: Make desired height columns and boxes
 HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
-HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (as I understood from the swedish manual)
+HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
+HUD: make symbol for warning: pull up!
