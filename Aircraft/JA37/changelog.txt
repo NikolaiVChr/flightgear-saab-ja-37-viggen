@@ -359,9 +359,14 @@ Aero: Fixed that zero moment was already factored into the Cm data for landing g
 ----
 Aero: Increased elevator deflection in lower air densities. It now pitch better at high altitudes.
 
-1.31
+1.31 - 2014 May 15
 ----
 Sim: Fixed crashing into trees over water, but now possible to hit water waves at very low altitude.
 Sim: Improved autopilot a little, can be a bit wobbly though.
 HUD: Fixed the heading scale was swirling as mechanical compass.
 Animation: Added chronometer, airspeed indicator, 2 x altimeters, plaque, nozzle indicator and ADI.
+
+1.32 - 2014 May 20
+----
+HUD: In options the HUD brightness can now be modified.
+Effect: The combined shader on cockpit glass has been switched to deferred. Now works in fixed, ALS and Rembrandt. But not fully satisfactory.

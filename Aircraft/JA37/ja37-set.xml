@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.31</aircraft-version> 
+  <aircraft-version>1.32</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>

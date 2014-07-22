@@ -7,9 +7,13 @@ Test new failure system.
 Test new JSBSim ground contact features.
 Test new FGPlot
 HUD: Use instrument properties instead of simulation properties
-Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties.
-Effect: The combined shader on cockpit glass is not so good, improve.
-
+Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
+Check all multiplayer properties for regressions.
+Find out why cannon and sidewinder fire randomly after instant replay.
+Check all replay properties for regressions.
+Check HP for potential lost changes.
+Make verbose property to be used in all nasal scripts. (possible include in options)
+Sim: Reset controls after A/P let go of them.
 
 Option GUI:
 --------------
@@ -37,7 +41,8 @@ Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
-
+Effect: Glass shader is missing rainbow effect.
+Effect: Nozzle shader is missing dirt.
 
 Features and improvements:
 --------------------------

@@ -5,17 +5,7 @@
 <PropertyList>
  <path>altimeter-metric.ac</path>
 
- <animation>
-  <type>select</type>
-  <object-name>altimeter</object-name>
-  <condition>
-   <equals>
-    <property>sim/current-view/name</property>
-    <value>Cockpit View</value>
-   </equals>
-  </condition>
- </animation>
-
+ 
  <animation>
   <type>rotate</type>
   <object-name>needle</object-name>
@@ -287,10 +277,11 @@
   </emission>
 </animation>
 
- <animation>
-  <type>range</type>
-  <min-m>0</min-m>
-  <max-m>15</max-m>
- </animation>
+   <!-- *** LoD *** -->
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>15</max-m>
+  </animation>
 
 </PropertyList>

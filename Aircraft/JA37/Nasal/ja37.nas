@@ -164,11 +164,10 @@ var update_loop = func {
   setprop("/instrumentation/attitude-indicator", attitude);
   setprop("/instrumentation/altitude-indicator", altitude);
 
-  # payload
+  # pylon payloads
   for(var i=1; i<5; i=i+1) {
     if(getprop("payload/weight["~ (i-1) ~"]/selected") != "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") == 0) {
-      # payload was loaded manually through payload/fuel dialog
-      
+      # payload was loaded manually through payload/fuel dialog, so setting the pylon to not released
       setprop("controls/armament/station["~i~"]/released", 0);
     }
   }
@@ -178,43 +177,31 @@ var update_loop = func {
 
   if(trigger == 1) {
     if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") { 
-      # fire missile
-      setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");
-      setprop("controls/armament/station["~armSelect~"]/released", 1);
+      # trigger is pulled, a pylon is selected, the pylon has a missle: fire missile
+      setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+      setprop("controls/armament/station["~armSelect~"]/released", 1);# setting the pylon as fired
+      #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
     }
   }
 
   if (armSelect == 0) { # cannon
+    # cannon is selected, set the cannons trigger to match the joystick trigger
     setprop("/controls/armament/station[0]/trigger", trigger);
   } else {
+    # cannon is not selected, the cannon trigger is off
     setprop("/controls/armament/station[0]/trigger", 0);
   }
   
-  var selected = getprop("payload/weight[0]/selected");
-  if(selected == "none") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 0);
-  } elsif (selected == "RB 24J") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 188);
+  for(var i=0; i<4; i=i+1) {
+    var selected = getprop("payload/weight["~i~"]/selected");
+    if(selected == "none") {
+      # the pylon is empty, set its pointmass to zero
+      setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
+    } elsif (selected == "RB 24J") {
+      # the pylon has a sidewinder, give it a pointmass
+      setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+    }
   }
-  selected = getprop("payload/weight[1]/selected");
-  if(selected == "none") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[2]", 0);
-  } elsif (selected == "RB 24J") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[2]", 188);
-  }
-  selected = getprop("payload/weight[2]/selected");
-  if(selected == "none") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]", 0);
-  } elsif (selected == "RB 24J") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]", 188);
-  }
-  selected = getprop("payload/weight[3]/selected");
-  if(selected == "none") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[4]", 0);
-  } elsif (selected == "RB 24J") {
-    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[4]", 188);
-  }
-
 
   # automatic reverse thrust enabler
 

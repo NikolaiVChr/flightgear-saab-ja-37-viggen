@@ -554,6 +554,11 @@
  
  <animation>
   <type>material</type>
+  <condition>
+    <not>
+    <property>/sim/rendering/rembrandt/enabled</property>
+  </not>
+  </condition>
   <object-name>InternalFlamePoly</object-name>
   <emission>
    <red>0.01</red>
@@ -575,6 +580,31 @@
   </diffuse>
  </animation>
  
+ <animation><!-- I do not like this workaround -->
+  <type>material</type>
+  <condition>
+    <property>/sim/rendering/rembrandt/enabled</property>
+  </condition>
+  <object-name>InternalFlamePoly</object-name>
+  <emission>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </emission>
+  <ambient>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </ambient>
+  <diffuse>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </diffuse>
+ </animation>
 
 <model>
   <name>ExternalFlame</name>
@@ -690,6 +720,33 @@
  </effect>
 
  <effect>
+  <condition>
+    <property>/sim/rendering/rembrandt/enabled</property>
+  </condition>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined-rembrandt</inherits-from>
+    <object-name>glass</object-name>
+    <object-name>frontglas</object-name>
+</effect>
+
+<animation>
+  <type>material</type>
+  <object-name>glass</object-name>
+  <object-name>frontglas</object-name>
+  <condition>
+    <greater-than>
+      <property>/sim/rendering/shaders/model</property>
+      <value>0</value>
+    </greater-than>
+  </condition>
+  <shininess>96</shininess>
+</animation>
+
+<effect>
+  <condition>
+    <not>
+    <property>/sim/rendering/rembrandt/enabled</property>
+  </not>
+  </condition>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
     <object-name>glass</object-name>
     <object-name>frontglas</object-name>

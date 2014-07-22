@@ -21,7 +21,7 @@ var new_connection = func(cv) {
 }
 
 var connections = [];
-var verb = 2;
+var verb = 0;
 var running=0;
 var dt=0;
 var oldtime=0;

@@ -29,7 +29,7 @@ var System_P = {
     var m = {parents:[System_P] };
     m.file=system_file;
     m.connections = [];
-    m.verbose = 1;
+    m.verbose = 0;
     m.running=0;
     m.dt=0;
     m.oldtime=0;
@@ -102,5 +102,5 @@ var System_P = {
 
 var el = System_P.new("Systems/electric.txt");
 el.init();
-print("Electric ... Check");
+# print("Electric ... Check");
 

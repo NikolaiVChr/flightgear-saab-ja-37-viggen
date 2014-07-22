@@ -9,7 +9,7 @@ var g = nil;
 var radar = {
   new: func()
   {
-    print("Powering up radar...");
+    #print("Powering up radar...");
 
     var m = { parents: [radar] };
     

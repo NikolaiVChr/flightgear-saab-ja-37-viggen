@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 250;
+var DIALOG_HEIGHT = 350;
 var TOPLOGO_HEIGHT = 80;
 var SIDELOGO_WIDTH = 100;
 
@@ -134,6 +134,22 @@ var Dialog = {
           topRow.addChild("empty").set("stretch", 1);
           me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
 
+          var hudRow = workArea.addChild("group");
+          hudRow.set("layout", "hbox");
+          hudRow.set("pref-height", 40);
+          hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          hudRow.set("valign", "center");
+          
+          hudRow.addChild("text").set("label", "HUD color:");
+          me.dialog.hudLight = hudRow.addChild("button");
+          me.dialog.hudMedium = hudRow.addChild("button");
+          me.dialog.hudDark = hudRow.addChild("button");
+          me.dialog.hudLight.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Light", default: 0 });
+          me.dialog.hudMedium.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Medium", default: 0 });
+          me.dialog.hudDark.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Dark", default: 0 });
+          me.dialog.hudLight.setBinding("nasal", "ja37.Dialog.light()");
+          me.dialog.hudMedium.setBinding("nasal", "ja37.Dialog.medium()");
+          me.dialog.hudDark.setBinding("nasal", "ja37.Dialog.dark()");
           #var me.dialog.crashButton = topRow.addChild("button");
           #me.dialog.crashButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Crash", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
@@ -176,6 +192,36 @@ var Dialog = {
       var enabled = getprop("processes/aircraft-break/autoReverseThrust");
       setprop("processes/aircraft-break/autoReverseThrust", !enabled);
       me.refreshButtons();
+    },
+
+    light: func {
+      canvas_HUD.r = 0.0;
+      canvas_HUD.g = 1.0;
+      canvas_HUD.b = 0.0;
+      canvas_HUD.a = 1.0;
+      canvas_HUD.w = 10;
+      #canvas_HUD.fs = 1;
+      canvas_HUD.reinit();
+    },
+
+    medium: func {
+      canvas_HUD.r = 0.0;
+      canvas_HUD.g = 0.6;
+      canvas_HUD.b = 0.0;
+      canvas_HUD.a = 1.0;      
+      canvas_HUD.w = 11;
+      #canvas_HUD.fs = 1.1;
+      canvas_HUD.reinit();
+    },
+
+    dark: func {
+      canvas_HUD.r = 0.0;
+      canvas_HUD.g = 0.3;
+      canvas_HUD.b = 0.0;
+      canvas_HUD.a = 1.0;
+      canvas_HUD.w = 12;
+      #canvas_HUD.fs = 1.2;
+      canvas_HUD.reinit();
     },
 
     refreshButtons: func {
