@@ -4,7 +4,10 @@ var UPDATE_PERIOD = 0.1;
 
 var g_curr 	= props.globals.getNode("accelerations/pilot-gdamped", 1);
 
-# Main loop ###############
+# place the aircraft a little forward on the runways to avoid it standing on the edge.
+setprop("/sim/airport/runways/start-offset-m", 20);
+
+############### Main loop ###############
 var cnt = 0;
 
 var update_loop = func {
@@ -26,7 +29,7 @@ var update_loop = func {
     setprop("/controls/engines/engine[0]/augmentation", 0);
    }
    
-   # control flaps
+   ############# control flaps #################
 
    var flapsCommand = 0;
    var gear = getprop("/fdm/jsbsim/gear/gear-cmd-norm");
@@ -42,10 +45,71 @@ var update_loop = func {
   }
   setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
    
+    
+   
 	settimer(update_loop, UPDATE_PERIOD);
 }
 
-# functions ###############
+###########  loop for handling the battery signal for cockpit sound #########
+var lastsignal = 0;
+var signal_loop = func {
+    if (getprop("/systems/electrical/batterysignal") == 1) 
+    {
+      if (lastsignal == 0)
+      {
+        lastsignal = 1;
+        settimer(signal_loop, 6);
+      }
+      else
+      {
+        setprop("/systems/electrical/batterysignal", 0);
+        lastsignal = 0;
+        settimer(signal_loop, 1);
+      }
+    }
+    else
+    {
+      lastsignal = 0;
+      settimer(signal_loop, 1);
+    }
+}
+settimer(func { signal_loop() }, 0.1);
+
+################### reload sound when config change ##################
+
+
+var reload_sound = func {
+  var sf = getprop('/tmp/sound-xml/path');
+  if(sf == nil)
+  {
+    sf = "d:/programfiles/flightgear/data/Aircraft/JA37/ja37-sound.xml";
+    #sf = getprop('/sim/fg-root') ~ folder ~ getprop('/sim/sound/path');
+    setprop('/tmp/sound-xml/path', sf);
+  }
+  var st = io.stat(sf);
+  var lm = getprop('/tmp/sound-xml/modified');
+  if (st == nil )
+  {
+  }
+  else
+  {  
+    if(lm == nil)
+    {
+      lm = st[9];
+      setprop('/tmp/sound-xml/modified', lm);
+    }
+    elsif(lm < st[9])
+    {
+      setprop('/tmp/sound-xml/modified', st[9]);
+      fgcommand('reinit', props.Node.new({ subsystem: "fx" }));
+      gui.popupTip("Sound system reinit.");
+    }
+  }
+  settimer(reload_sound, 2);
+ }
+ settimer(reload_sound, 5);
+
+############################# functions ###############
 
 
 # main_init #################
@@ -54,19 +118,19 @@ var main_init = func {
 
 	
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
-  var load_exterior = func{
-    print("Load exterior, wait...");
-    # return to cabin to next cycle
-    settimer( load_interior, 0 );
-    setprop("/sim/current-view/view-number", 1);
-  }
+  
+  print("Loading exterior, wait...");
+  # return to cabin to next cycle
+  settimer( load_interior, 0 );
+  setprop("/sim/current-view/view-number", 1);
+  
+	settimer(func { update_loop() }, 0.1);
+}
 
-  var load_interior = func{
+var load_interior = func{
     setprop("/sim/current-view/view-number", 0);
     print("..Done!");
   }
-	settimer(func { update_loop() }, 0.1);
-}
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
 	main_init();
@@ -515,6 +579,7 @@ end_aircraft_water_crash = func
     } else {
     	settimer(autostart, 3);
     	setprop("/systems/electrical/battery", 1);
+    	setprop("/systems/electrical/batterysignal", 1);
     	gui.popupTip("Battery turned on. Beginning startup procedure..");
     }
  }

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+  <particlesystem>
+  
+    <!--<type>normal</type>-->
+    <name>transsonic-deltawing-vapor-cone</name>
+    <texture>puff.png</texture>
+    <emissive>false</emissive>
+    <lighting>false</lighting>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+    
+    <condition>
+      <and>
+        <greater-than>
+          <property>/velocities/mach</property>
+          <value>0.8</value>
+        </greater-than>
+        <less-than>
+          <property>/velocities/mach</property>
+          <value>1.2</value>
+        </less-than>
+        <less-than>
+          <property>/position/altitude-ft</property>
+          <value>5000.0</value>
+        </less-than>
+      </and>
+    </condition>
+    
+    <attach>local</attach> <!-- works same as world, same netto effect -->
+    
+    <placer>
+      <type>point</type>
+    </placer>
+    
+    <shooter>
+      <theta-min-deg>85</theta-min-deg>
+      <theta-max-deg>95</theta-max-deg>
+      <phi-min-deg>-10</phi-min-deg>
+      <phi-max-deg>10</phi-max-deg>
+      
+      <speed-mps>
+        <value>000</value>
+        <spread>0</spread>
+      </speed-mps>
+      
+      <rotation-speed>
+        <x-max-deg-sec>300</x-max-deg-sec>
+        <x-min-deg-sec>-300</x-min-deg-sec>
+        <y-max-deg-sec>300</y-max-deg-sec>
+        <y-min-deg-sec>-300</y-min-deg-sec>
+        <z-max-deg-sec>300</z-max-deg-sec>
+        <z-min-deg-sec>-300</z-min-deg-sec>
+      </rotation-speed>
+    </shooter>
+    
+    <counter>
+      <particles-per-sec>
+        <value>600.0</value>
+        <spread>0</spread>
+      </particles-per-sec>
+    </counter>
+    <align>billboard</align>
+    <particle>
+    
+      <start>
+        <color>
+          <red><value>0.9</value></red>
+          <green><value>0.9</value></green>
+          <blue><value>0.9</value></blue>
+          <alpha><value>0.05</value></alpha>
+        </color>
+        <size>
+          <value>0.1</value> <!-- this does not matter much as it pretty fast reaches end size, its not liniar -->
+        </size>
+      </start>
+      
+      <end>
+        <color>
+          <red><value>1</value></red>
+          <green><value>1</value></green>
+          <blue><value>1</value></blue>
+          <alpha><value>0.05</value></alpha>
+        </color>
+        <size>
+          <value>4</value>
+        </size>
+      </end>
+      
+      <life-sec>
+        <value>0.1</value><!-- no reason to make this small, it seem to have an unknown minimum value -->
+        <spread>0</spread>
+      </life-sec>
+      <mass-kg>0.001</mass-kg>
+      <radius-m>0.001</radius-m>
+    </particle>
+    
+    <program>
+      <fluid>air</fluid>
+      <gravity type="bool">false</gravity>
+      <wind type="bool">false</wind>
+    </program>
+    
+  </particlesystem>
+</PropertyList>

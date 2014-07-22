@@ -14,7 +14,7 @@
       <and>
         <greater-than>
           <property>orientation/alpha-deg</property>
-          <value>9.0</value>
+          <value>12.0</value>
         </greater-than>
         <greater-than>
           <property>velocities/airspeed-kt</property>
@@ -47,7 +47,7 @@
     <counter>
       <particles-per-sec>
         <property>velocities/airspeed-kt</property>
-        <factor>1</factor>
+        <factor>10.0</factor>
         <spread>5</spread>
       </particles-per-sec>
     </counter>
@@ -56,20 +56,20 @@
       <start>
         <color>
           <red>
-            <value>1</value>
+            <value>0.9</value>
           </red>
           <green>
-            <value>1</value>
+            <value>0.9</value>
           </green>
           <blue>
-            <value>1</value>
+            <value>0.9</value>
           </blue>
           <alpha>
-            <value>0.2</value>
+            <value>0.05</value>
           </alpha>
         </color>
         <size>
-          <value>4</value>
+          <value>2</value>
         </size>
       </start>
       <end>
@@ -84,7 +84,7 @@
             <value>1</value>
           </blue>
           <alpha>
-            <value>0.2</value>
+            <value>1</value>
           </alpha>
         </color>
         <size>
@@ -92,7 +92,7 @@
         </size>
       </end>
       <life-sec>
-        <value>0.0075</value>
+        <value>0.0005</value>
       </life-sec>
       <mass-kg>0.025</mass-kg>
       <radius-m>0.175</radius-m>

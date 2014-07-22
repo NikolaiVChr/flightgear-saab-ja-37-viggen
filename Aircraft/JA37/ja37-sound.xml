@@ -3,6 +3,9 @@
 <PropertyList>
 
  <fx>
+
+<!--                                                                             canopy                                   --> 
+ 
   <canopy>
    <name>canopy</name>
    <path>Sounds/canopy.wav</path>
@@ -25,18 +28,22 @@
    </volume>
   </canopy>
 
-  <canopy>
-   <name>canopy_lock</name>
-   <path>Sounds/canopy_lock.wav</path>
+<!--                                                                             battery                                   -->
+
+  <battery>
+   <name>battery_start</name>
+   <path>Sounds/BatteryStart.wav</path>
    <mode>single</mode>
+   <type>avionics</type>
    <condition>
+   <property>sim/current-view/internal</property>
     <equals>
-     <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
-     <value>0.0</value>
+     <property>/systems/electrical/batterysignal</property>
+     <value>1.0</value>
     </equals>
    </condition>
-   <reference-dist>10</reference-dist>
-   <max-dist>40</max-dist>
+   <reference-dist>2</reference-dist>
+   <max-dist>5</max-dist>
    <position>
     <x>-1.0</x>
     <y>0.0</y>
@@ -45,12 +52,143 @@
    <volume>
     <max>0.5</max>
    </volume>
-  </canopy>
+  </battery>
 
-  <engine_fan>
+
+<!--                               Fly-By View                        engine                                   -->
+
+  <flybyslow>
+   <name>high pitch fly by</name>
+   <path>Sounds/roar-high.wav</path>
+   <mode>looped</mode>
+
+  <condition>
+   <equals>
+     <property>sim/current-view/name</property>
+     <value>Fly-By View</value>
+    </equals>
+    <greater-than>
+      <property>velocities/airspeed-kt</property>
+      <value>50.0</value>
+    </greater-than>
+    <property>engines/engine/running</property>
+  </condition>
+
+   <reference-dist>25</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>50.0</inner-angle>
+    <outer-angle>80.0</outer-angle>
+    <outer-gain>0.75</outer-gain>
+   </orientation>
+   
+   <volume>
+    <property>engines/engine/thrust_lb</property>
+    <factor>0.000050</factor>
+   </volume>
+   
+  </flybyslow>
+  
+  <flybymed>
+   <name>medium pitch fly by</name>
+   <path>Sounds/roar-medium.wav</path>
+   <mode>looped</mode>
+
+  <condition>
+   <equals>
+     <property>sim/current-view/name</property>
+     <value>Fly-By View</value>
+    </equals>
+    <greater-than>
+      <property>velocities/airspeed-kt</property>
+      <value>50.0</value>
+    </greater-than>
+    <property>engines/engine/running</property>
+  </condition>
+
+   <reference-dist>25</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>45.0</inner-angle>
+    <outer-angle>120.0</outer-angle>
+    <outer-gain>0.5</outer-gain>
+   </orientation>
+   
+   <volume>
+    <property>engines/engine/thrust_lb</property>
+    <factor>0.000050</factor>
+   </volume>
+   
+  </flybymed>
+  
+  <flybylow>
+   <name>low pitch fly by</name>
+   <path>Sounds/roar-low.wav</path>
+   <mode>looped</mode>  
+
+  <condition>
+    <equals>
+     <property>sim/current-view/name</property>
+     <value>Fly-By View</value>
+    </equals>
+    <property>engines/engine/running</property>
+    <greater-than>
+      <property>velocities/airspeed-kt</property>
+      <value>50.0</value>
+    </greater-than>
+  </condition>
+
+   <reference-dist>25</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>45</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>0</outer-gain>
+   </orientation>
+   
+   <volume>
+    <property>engines/engine/thrust_lb</property>
+    <factor>0.000150</factor>
+   </volume>
+   
+  </flybylow>  
+  
+  
+  <!--                               Cockpit View                      engine                                   -->
+
+
+  <engine_idle_cockpit>
    <name>internal fan</name>
    <path>Sounds/whine.wav</path>
    <mode>looped</mode>
+   <type>avionics</type>
    <condition>
     <property>sim/current-view/internal</property>
     <greater-than>
@@ -76,54 +214,8 @@
    </orientation>
    <pitch>
     <property>engines/engine/n1</property>
-    <ofset>0.5</ofset>
+    <offset>0.5</offset>
     <factor>.0075</factor>
-   </pitch>
-   <volume>
-    <difference>
-      <value>100</value>
-      <property>engines/engine/n1</property>      
-    </difference>
-    <factor>0.01</factor>
-   </volume>
-  </engine_fan>
-  
-  <engine_fan>
-   <name>external fan</name>
-   <path>Sounds/turbojet_fan.wav</path>
-   <mode>looped</mode>
-   <condition>
-    <greater-than>
-      <property>engines/engine/n1</property>
-      <value>0.5</value>
-    </greater-than>
-    <not>
-     <property>sim/current-view/internal</property>
-    </not>
-    <less-than>
-      <property>engines/engine/n1</property>
-      <value>85.0</value>
-    </less-than>
-   </condition>
-   <reference-dist>800</reference-dist>
-   <max-dist>3000</max-dist>
-   <position>
-    <x>0.6</x>
-    <y>0.0</y>
-    <z>-0.37</z>
-   </position>
-   <orientation>
-    <x>-0.98</x>
-    <y>0.0</y>
-    <z>-0.17</z>
-    <inner-angle>60.0</inner-angle>
-    <outer-angle>200.0</outer-angle>
-    <outer-gain>0.0</outer-gain>
-   </orientation>
-   <pitch>
-    <property>engines/engine/n1</property>
-    <ofset>0.8</ofset>
-    <factor>.02</factor>
    </pitch>
    <volume>
     <difference>
@@ -132,12 +224,13 @@
     </difference>
     <factor>0.02</factor>
    </volume>
-  </engine_fan>
- 
- <exhaust>
+  </engine_idle_cockpit>
+  
+<engine_mil_cockpit>
    <name>internal turbine</name>
-   <path>Sounds/jet.wav</path>
+   <path>Sounds/thrust-interior.wav</path>
    <mode>looped</mode>
+   <type>avionics</type>
    <condition>
     <property>sim/current-view/internal</property>
     <property>engines/engine/running</property>
@@ -166,48 +259,13 @@
     <offset>0.3</offset>
     <factor>0.01</factor>
    </pitch>
-  </exhaust> 
+  </engine_mil_cockpit>
   
-  <exhaust>
-   <name>external turbine</name>
-   <path>Sounds/jet.wav</path>
-   <mode>looped</mode>
-   <condition>
-   <not>
-     <property>sim/current-view/internal</property>
-    </not>
-    <property>engines/engine/running</property>
-    </condition>
-   <reference-dist>2000</reference-dist>
-   <max-dist>10000</max-dist>
-   <position>
-    <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
-   </position>
-   <orientation>
-    <x>1.0</x>
-    <y>0.0</y>
-    <z>0.0</z>
-    <inner-angle>200.0</inner-angle>
-    <outer-angle>360.0</outer-angle>
-    <outer-gain>0.2</outer-gain>
-   </orientation>
-   <volume>
-    <property>engines/engine/thrust_lb</property>
-    <factor>0.0003</factor>
-   </volume>
-   <pitch>
-    <property>engines/engine/n1</property>
-    <offset>0.3</offset>
-    <factor>0.01</factor>
-   </pitch>
-  </exhaust>
-
-  <afterburner>
+<engine_augmented_cockpit>
    <name>internal afterburner</name>
-   <path>Sounds/exhaust_loop.wav</path>
+   <path>Sounds/afterburner-interior.wav</path>
    <mode>looped</mode>
+   <type>avionics</type>
    <condition>
     <property>sim/current-view/internal</property>
     <property>engines/engine/augmentation</property>
@@ -232,19 +290,126 @@
     <offset>0.05</offset>
     <factor>0.2</factor>
    </volume>
-  </afterburner>
+  </engine_augmented_cockpit>
+  
+<!--                               Model View                        engine                                   -->  
+  
+  <engine_idle_model>
+   <name>external fan</name>
+   <path>Sounds/turbojet_fan.wav</path>
+   <mode>looped</mode>
+   <condition>
+    <greater-than>
+      <property>engines/engine/n1</property>
+      <value>1</value>
+    </greater-than>
+    <not-equals>
+     <property>sim/current-view/name</property>
+     <value>Fly-By View</value>
+    </not-equals>
+    <not-equals>
+      <property>sim/current-view/internal</property>
+      <value>1</value>
+    </not-equals>
+    <property>/gear/gear[0]/wow</property>
+   </condition>
+   <reference-dist>5</reference-dist>
+   <max-dist>3000</max-dist>
+   <position>
+    <x>0.6</x>
+    <y>0.0</y>
+    <z>-0.37</z>
+   </position>
+   <orientation>
+    <x>-0.98</x>
+    <y>0.0</y>
+    <z>-0.17</z>
+    <inner-angle>90.0</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>1</outer-gain>
+   </orientation>
+   <pitch>
+    <property>engines/engine/n1</property>
+    <offset>1</offset>
+    <factor>0.005</factor>
+   </pitch>
+   <volume>
+    <difference>
+      <value>100</value>
+      <property>engines/engine/n1</property>      
+    </difference>
+    <factor>0.05</factor>
+   </volume>
+  </engine_idle_model>
+ 
+   
+  <engine_mil_model>
+   <name>external turbine</name>
+   <path>Sounds/thrust-exterior.wav</path>
+   <mode>looped</mode>
+   <condition>
+     <not-equals>
+      <property>sim/current-view/name</property>
+      <value>Fly-By View</value>
+    </not-equals>
+    <not-equals>    
+      <property>sim/current-view/internal</property>
+      <value>1</value>    
+    </not-equals>
+    <property>engines/engine/running</property>
+    <greater-than-equals>
+      <property>engines/engine/n1</property>
+      <value>30</value>
+    </greater-than-equals>
+    <not>
+      <property>/gear/gear[0]/wow</property>
+    </not>
+    </condition>
+   <reference-dist>5</reference-dist>
+   <max-dist>10000</max-dist>
+   <position>
+    <x>4.6</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <orientation>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+    <inner-angle>90.0</inner-angle>
+    <outer-angle>180.0</outer-angle>
+    <outer-gain>0.4</outer-gain>
+   </orientation>
+   <volume>
+    <property>engines/engine/thrust_lb</property>
+    <offset>0.100</offset>
+    <factor>0.000013</factor>
+   </volume>
+   <pitch>
+    <property>engines/engine/n1</property>
+    <offset>0.3</offset>
+    <factor>0.03</factor>
+   </pitch>
+  </engine_mil_model>
 
-  <afterburner>
+ 
+
+  <engine_augmented_model>
    <name>external afterburner</name>
    <path>Sounds/exhaust_loop.wav</path>
    <mode>looped</mode>
    <condition>
-   <not>
+    <not-equals>
+      <property>sim/current-view/name</property>
+      <value>Fly-By View</value>
+    </not-equals>
+    <not-equals>
      <property>sim/current-view/internal</property>
-    </not>
+     <value>1</value>
+    </not-equals>
     <property>engines/engine/augmentation</property>
     </condition>
-   <reference-dist>5000</reference-dist>
+   <reference-dist>5</reference-dist>
    <max-dist>30000</max-dist>
    <position>
     <x>4.6</x>
@@ -255,21 +420,24 @@
     <x>1.0</x>
     <y>0.0</y>
     <z>0.0</z>
-    <inner-angle>200.0</inner-angle>
-    <outer-angle>360.0</outer-angle>
+    <inner-angle>60.0</inner-angle>
+    <outer-angle>180.0</outer-angle>
     <outer-gain>0.2</outer-gain>
    </orientation>
    <volume>
     <property>engines/engine/nozzle-pos-norm</property>
     <offset>0.05</offset>
-    <factor>0.95</factor>
+    <factor>0.85</factor>
    </volume>
-  </afterburner>
+  </engine_augmented_model>
+
+<!--                                                                          gears                                   -->  
 
   <rumble>
    <name>gear rumble</name>
    <mode>looped</mode>
    <path>Sounds/rumble.wav</path>
+   <!--<property>gear/gear[0]/position-norm</property>-->
    <condition>
     <property>sim/current-view/internal</property>
     <greater-than>
@@ -281,21 +449,43 @@
       <value>1</value>
     </less-than>
    </condition>
-   <reference-dist>30</reference-dist>
-   <max-dist>100</max-dist>
+   <reference-dist>3</reference-dist>
+   <max-dist>10</max-dist>
    <position>
     <x>1.2</x>
     <y>0.0</y>
     <z>-0.6</z>
    </position>
    <volume>
-    <property>velocities/airspeed-kt</property>
-    <factor>.004</factor>
+    <max>1</max>
    </volume>
   </rumble>
 
+<roll>
+   <name>roll on runway</name>
+   <mode>looped</mode>
+   <path>Sounds/roll.wav</path>
+   <condition>
+    <property>sim/current-view/internal</property>
+    <or>
+     <property>/gear/gear[0]/wow</property>
+     <property>/gear/gear[1]/wow</property>
+     <property>/gear/gear[2]/wow</property>
+    </or>
+    <greater-than>
+					<property>/velocities/groundspeed-kt</property>
+					<value>25</value>
+    </greater-than>
+   </condition>
+   <volume>
+    <property>/velocities/groundspeed-kt</property>
+    <type>log</type>
+    <factor>0.025</factor>
+   </volume>
+  </roll>  
+
   <squeal>
-   <name>squeal</name>
+   <name>touchdown squeal</name>
    <path>Sounds/squeal.wav</path>
    <condition>
     <not>
@@ -333,20 +523,15 @@
    </pitch>
   </squeal>
 
-  <crash>
-   <name>crash</name>
-   <condition>
-    <property>fdm/jsbsim/systems/crash-detect/crashed</property>
-   </condition>
-   <path>Sounds/crash.wav</path>
-  </crash>  
- 
+<!--                                                                          avionics warnings                           -->  
 
-<!-- Stall warnings taken from high-alpha warnings in Viggen manual page 242 -->
+
+ <!-- Stall warnings taken from high-alpha warnings in Viggen manual page 242 -->
 <stall>
 		<name>stall</name>
 		<mode>looped</mode>
 		<path>Sounds/stall.wav</path>
+		<type>avionics</type>
 		<condition>
 		<greater-than>
 			<property>orientation/alpha-deg</property>
@@ -372,6 +557,7 @@
 		<name>stallwarning</name>
 		<mode>looped</mode>
 		<path>Sounds/stallwarning.wav</path>
+		<type>avionics</type>
 		<condition>
   		<greater-than>
   			<property>orientation/alpha-deg</property>
@@ -454,23 +640,8 @@
    </volume>
   </terrain>  
   
-<roll>
-   <name>roll</name>
-   <mode>looped</mode>
-   <path>Sounds/roll.wav</path>
-   <condition>
-    <or>
-     <property>/gear/gear[0]/wow</property>
-     <property>/gear/gear[1]/wow</property>
-     <property>/gear/gear[2]/wow</property>
-    </or>
-   </condition>
-   <volume>
-    <property>/velocities/airspeed-kt</property>
-    <type>log</type>
-    <factor>0.025</factor>
-   </volume>
-  </roll>  
+<!--                                                                          wind                                   -->  
+
   
 <wind>
 			<name>wind</name>
@@ -492,29 +663,8 @@
 			</volume>
 		</wind>
 
-<air-brakes>
-			<name>air-brakes</name>
-			<mode>looped</mode>
-			<path>Sounds/air-brakes.wav</path>
-			<condition>
-				<equals>
-					<property>sim/current-view/view-number</property>
-					<value>0</value>
-				</equals>
-				<greater-than>
-					<property>surface-positions/speedbrake-pos-norm</property>
-					<value>0</value>
-				</greater-than>
-			</condition>
-			<volume>
-				<property>velocities/airspeed-kt</property>
-				<factor>0.001</factor>
-			</volume>
-			<volume>
-				<property>surface-positions/speedbrake-pos-norm</property>
-				<factor>1.5</factor>
-			</volume>
-		</air-brakes>
+<!--                                                                          weapons                                   -->  
+
 
   <cannon>
    <name>cannon</name>
@@ -527,6 +677,17 @@
     <z>0.0</z>
    </position>
   </cannon>
+ 
+<!--                                                                          crashing                                   -->  
+ 
+ 
+ <crash>
+   <name>crash</name>
+   <condition>
+    <property>fdm/jsbsim/systems/crash-detect/crashed</property>
+   </condition>
+   <path>Sounds/crash.wav</path>
+  </crash>  
   
 <aircraft-crash>
 		<name>aircraft-crash</name>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -12,7 +12,7 @@
  
 <model>
  <name>InternalFlame</name>
- <path>Models/internalflame.ac</path>
+ <path>Models/Effects/internalflame.ac</path>
  <offsets> 
   <x-m>6.5</x-m>
   <y-m>0</y-m>

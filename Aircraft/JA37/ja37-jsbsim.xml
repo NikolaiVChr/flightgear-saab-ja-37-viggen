@@ -13,7 +13,7 @@
   <fileheader>
     <author> Necolatis </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 1.18 </version>
+    <version> 1.19 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -95,7 +95,7 @@
         <y> 0 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.1 </static_friction>
+      <static_friction> 1.5 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
@@ -110,7 +110,7 @@
         <y> -2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.1 </static_friction>
+      <static_friction> 1.5 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -125,7 +125,7 @@
         <y> 2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.1 </static_friction>
+      <static_friction> 1.5 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
       <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>

@@ -18,7 +18,7 @@
     <cockpit type="int">1</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.18</aircraft-version> 
+  <aircraft-version>1.19</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -363,6 +363,12 @@
     The heading at the top is shown as a scale showing 1/10 of heading
       in degrees.
     
+    Trivia
+    _____
+    This is the mid 80'ties version. So it has no airbrake
+    400 meter runway is required to takeoff.
+    500 meter runway is required to land.
+    
     Notes:
     _____
     Hangar homepage: https://sites.google.com/site/fghangar
@@ -483,6 +489,21 @@
   <name>Shift-Delete</name>
   <!--<repeatable type="bool">true</repeatable>-->
   <mod-shift>
+   <desc>Reload sound configuration (for debugging AP)</desc>
+   <binding>
+    <command>nasal</command>
+    <script>
+     fgcommand('reinit', props.Node.new({ subsystem: "sound" }));
+     print("sound reinitialized!");
+     gui.popupTip("Sound reinit.");
+    </script>
+   </binding>
+  </mod-shift>
+ </key>
+ <!--<key n="127">
+  <name>Shift-Delete</name>-->
+  <!--<repeatable type="bool">true</repeatable>-->
+  <!--<mod-shift>
    <desc>Reload autopilot configuration (for debugging AP)</desc>
    <binding>
     <command>nasal</command>
@@ -493,7 +514,7 @@
     </script>
    </binding>
   </mod-shift>
- </key>
+ </key>-->
   <key n="127">
      <name>Delete</name>
      <desc>Yaw damper on/off</desc>
@@ -605,6 +626,9 @@
 *************************************************************************-->
  <limits>
   <max-gear-extension-speed>300</max-gear-extension-speed>
+  <!-- structural G limits: -->
+  <max-positive-g>13.0</max-positive-g>
+  <max-negative-g>-2.5</max-negative-g>
  </limits>
 
 
@@ -629,5 +653,8 @@
   <canvas_HUD>
     <file>Nasal/hud.nas</file>
   </canvas_HUD>
+  <limits>
+    <file>Aircraft/Generic/limits.nas</file>
+  </limits>
 </nasal>
 </PropertyList>

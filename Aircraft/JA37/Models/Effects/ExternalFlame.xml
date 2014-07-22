@@ -15,7 +15,7 @@
  
 <model>
  <name>ExternalFlame</name>
- <path>Models/externalflame.ac</path>
+ <path>Models/Effects/externalflame.ac</path>
  <offsets> 
   <x-m>0</x-m>
   <y-m>0</y-m>

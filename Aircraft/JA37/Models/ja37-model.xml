@@ -250,27 +250,50 @@
   </offsets>
  </model>
 
- <!-- smokepods -->
  
  <model>
-  <name>left-strake-vortex</name>
+  <name>strake-vortex</name>
   <path>Models/Effects/strake-vortex.xml</path>
   <offsets>
    <x-m>0.58</x-m>
-   <y-m>-1.35</y-m>
+   <y-m>0</y-m>
    <z-m>0.25</z-m>
   </offsets>
  </model>
 
- <model>
-  <name>right-strake-vortex</name>
-  <path>Models/Effects/strake-vortex.xml</path>
+<!--         transsonic-vapor-cones               -->
+
+<!-- <model>
+  <name>transsonic-canard-vapor-cone</name>
+  <path>Models/Effects/transsonic-canard-vapor-cone.xml</path>
   <offsets>
-   <x-m>0.58</x-m>
-   <y-m>1.35</y-m>
+   <x-m>0</x-m>
+   <y-m>0</y-m>
+   <z-m>0.50</z-m>
+  </offsets>
+ </model>-->
+ 
+  <model>
+  <name>transsonic-deltawing-vapor-cone</name>
+  <path>Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
+  <offsets>
+   <x-m>-2</x-m>
+   <y-m>0</y-m>
    <z-m>0.25</z-m>
   </offsets>
- </model>
+ </model> 
+
+<model>
+    <path>Models/Effects/vaporCone.xml</path>
+    <name>VaporCone</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>1</z-m>
+    </offsets>
+  </model>
+
+<!--         tiresmoke               -->
 
  <model>
   <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
@@ -334,7 +357,7 @@
 
  <model>
   <name>strobe</name>
-  <path>Models/strobe.xml</path>
+  <path>Models/Effects/strobe.xml</path>
   <offsets>
    <x-m>5.95508</x-m>
    <y-m>0.0</y-m>
@@ -380,17 +403,41 @@
  
 <model>
   <name>InternalFlame</name>
-  <path>Models/InternalFlame.xml</path>
+  <path>Models/Effects/InternalFlame.xml</path>
   <offsets>
    <x-m>-1</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
  </model>
+ 
+ <animation>
+  <type>material</type>
+  <object-name>InternalFlame</object-name>
+  <emission>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>engines/engine/n1</factor-prop>
+  </emission>
+  <ambient>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>engines/engine/n1</factor-prop>
+  </ambient>
+  <diffuse>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>engines/engine/n1</factor-prop>
+  </diffuse>
+ </animation>
+ 
 
 <model>
   <name>ExternalFlame</name>
-  <path>Models/ExternalFlame.xml</path>
+  <path>Models/Effects/ExternalFlame.xml</path>
   <offsets>
    <x-m>5.75</x-m>
    <y-m>0.0</y-m>
@@ -524,14 +571,6 @@
   <object-name>glass</object-name>
 </effect>-->
 
-  <model>
-    <path>Models/vaporCone.xml</path>
-    <name>VaporCone</name>
-    <offsets>
-      <x-m>0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>1</z-m>
-    </offsets>
-  </model> 
+  
 
 </PropertyList>

@@ -16,7 +16,7 @@
   <maxthrust unit="LBS"> 28110.0 </maxthrust><!-- from page 5, Australian document -->
   <!--<milthrust unit="N"> 73500.0 </milthrust> Newton must be multiplied by factor 10 to work (bug)
   <maxthrust unit="N"> 127500.0 </maxthrust>-->
-  <bypassratio>     1.10 </bypassratio> <!-- from page 5, Australian document. 0.97 on various websites. -->
+  <bypassratio>     0.97 </bypassratio> <!-- from page 5, Australian document. 0.97 on various websites. -->
   <tsfc>            0.64 </tsfc><!-- from page 5, Australian document -->
   <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
   <bleed>           0.03</bleed>
@@ -37,7 +37,7 @@
   <!-- from table 4, Australian document -->  
   <function name="IdleThrust">
    <product>
-     <value>0.00006172839506</value> <!-- 1/16200 -->
+     <value>0.0000031</value> <!-- 1/(16200 x 20)-->
      <table>
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
@@ -64,11 +64,28 @@
   </product>
   </function>
 
-
   <!-- from table 4, Australian document -->
   <function name="MilThrust">
+   <table>
+    <independentVar lookup="row">velocities/mach</independentVar>
+    <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+    <tableData>
+          -10000       0   10000   20000   30000   40000   50000
+     0.0   1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490
+     0.2   1.1710  0.9340  0.6970  0.5060  0.3550  0.2310  0.1430
+     0.4   1.1500  0.9210  0.6920  0.5060  0.3570  0.2330  0.1450
+     0.6   1.1810  0.9510  0.7210  0.5320  0.3780  0.2480  0.1540
+     0.8   1.2580  1.0200  0.7820  0.5820  0.4170  0.2750  0.1700
+     1.0   1.3690  1.1200  0.8710  0.6510  0.4750  0.3150  0.1950
+     1.2   1.4850  1.2300  0.9750  0.7440  0.5450  0.3640  0.2250
+     1.4   1.5941  1.3400  1.0860  0.8450  0.6280  0.4240  0.2630
+    </tableData>
+   </table>
+  </function>
+  
+  <!--<function name="MilThrust">
   <product>
-     <value>0.00006172839506</value> <!-- 1/16200 -->
+     <value>0.000071</value> 1/16200 x 1.15  ( 1.15 is fudge )
      <table>
       <independentVar lookup="row">velocities/mach</independentVar>
       <independentVar lookup="column">atmosphere/density-altitude</independentVar>
@@ -93,7 +110,7 @@
       </tableData>
      </table>
    </product>
-  </function>
+  </function>-->
 
   <!-- from table 4, Australian document -->
   <function name="AugThrust">

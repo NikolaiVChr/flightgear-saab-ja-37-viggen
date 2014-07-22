@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 
 <!-- **********************************************************************
@@ -6,11 +6,11 @@
 
         Page references are given to pdf: http://hdl.handle.net/2060/19860019453
 
-        Plan: Low speed Aerodynamics from NASA document
+        Plan: Low speed Aerodynamics from NASA document above
               High speed aerodynamics from DATCOM and Australian document
 
         Missing: High-speed aerodynamics
-                 Drag due to gear, flaps, elevons and ground effect
+                 
      **********************************************************************
 -->
 
@@ -231,11 +231,11 @@
               <tableData>
                    -5.0         0.025
                     0.0         0.04
-                    2.500       0.045
-                    5.000       0.04
+                    2.500       0.044
+                    5.000       0.038
                     10.000      0    
-                    15.00      -0.02
-                    20.00      -0.025
+                    15.00      -0.03
+                    20.00      -0.036
               </tableData>
            </table>
         </product>
@@ -487,23 +487,25 @@
              </sum>
             </product>
          </function>
-<!-- from graph page 79 -->
+<!-- from lower left graph page 79 -->
     <function name="aero/coefficient/Cmelevator">
        <description>Pitch moment due to elevator</description>
        <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>metrics/cbarw-ft</property>
-          <property>fcs/elevator-pos-deg</property>
           <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
             <tableData>
-                0  -0.009
-               35  -0.006
-               40  -0.004
+                       -25      -20         -10           0            10           20
+                -10     0.21    0.19       0.14      0.0425    -0.045     -0.115
+                   0     0.2      0.175     0.1        0.0          -0.0875   -0.17
+                 10     0.165  0.145     0.065   -0.025      -0.12       -0.195
+                 20     0.145  0.125     0.0425 -0.055      -0.14       -0.2
+                 30     0.13    0.1         0.02     -0.065      -0.115     -0.16
             </tableData>
-         </table>
-         
+         </table>         
        </product>
     </function>
     <!-- from graph page 83 -->
