@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-	<path>Models/hud.ac</path>
+	<path>Aircraft/JA37/Models/hud.ac</path>
 
 	<effect>
  		<inherits-from>Effects/model-transparent</inherits-from>

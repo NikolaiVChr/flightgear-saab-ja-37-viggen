@@ -1,6 +1,11 @@
 TODO for Flightgear JA-37
 =========================
 
+Do now
+------
+Test.
+
+
 Next version?:
 --------------
 GUI: Make little option GUI. (to test PUI and widgets)
@@ -11,6 +16,12 @@ GUI: Make crashing, creaking and breaking optional through menu.
 
 High Priority:
 --------------
+Aero: Find cause of buffeting. (autopilot also does it)
+GUI: Find way to measure take-off length, climb-rate, axial force and stopwatch
+Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog.
+HUD: Make combat mode for HUD.
+GUI: Make HUD switchable to imperial units.
+Sim: Fix autopilot.
 Effect: Adjust normalmap to be more subtle.
 Animation: Second altimeter.
 Animation: Some switches.
@@ -28,16 +39,13 @@ GUI: Checklist
 Sim: Limit cannon rounds to 150.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it)
 Effect: Rembrandt landing lightcone. (the model misses the lamp on front gear though)
-Sim: Make more structural points for more realistic crashing.
 Sim: Overhaul crash code. (hitting trees on water, sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
 Animation: Make wings break off when they break due to structural damage.
 Aero: When wings break, remove most of normal force.
-Sim: Drop tank and missiles should increase drag and have mass.
 
 
 Lower priority:
 ----------------
-System: Make armament selectable
 Sound: More annunciater warnings and other sounds
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Effect: Make pilot faint/die due to G-forces
@@ -63,7 +71,7 @@ Issues with FG: (or my limited understanding of it)
 ---------------
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also, which has nothing to do with emissiveness.
-Effect: The normalmap effect makes a strange shadow down the middle.
+Effect: The normalmap/specularmap effect makes a strange shadow down the middle.
 Sim: Get flightrecorder to record position with higher frequency.
 Sound: Occansional wierd buzz in model view sound when using throttle
 
@@ -88,5 +96,5 @@ Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upsi
 Require more data: (or aerodynamic know-how)
 ------------------
 HUD: add proper sidewind max
-Effect: Make gun fire bullets from correct position (no idea where it is..)
+Effect: Make gun fire bullets from correct position (should be a pod under belly)
 Sim: Make aileron and elevator deflection depend on altitude.

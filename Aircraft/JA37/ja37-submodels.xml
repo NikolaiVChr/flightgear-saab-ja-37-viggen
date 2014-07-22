@@ -4,7 +4,7 @@
 
   <submodel>
     <name>flares</name>
-    <model>Models/Effects/flare.xml</model>
+    <model>Aircraft/JA37/Models/Effects/flare.xml</model>
     <trigger>sim/multiplay/generic/int[7]</trigger><!-- ai/submodels/submodel[0]/flare-release -->
     <speed>100.0</speed>   <!-- ft/sec -->
     <repeat>true</repeat>
@@ -21,7 +21,7 @@
 
   <submodel>
     <name>gun-pod</name>
-    <model>Models/Armament/Weapons/KCA/tracer.xml</model>
+    <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
     <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
     <speed>2041.0</speed>
     <repeat>true</repeat>
@@ -59,15 +59,15 @@
     <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
     <impact>true</impact>
     <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
-    <submodel-path>Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
+    <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
   </submodel>
 
 
   <submodel>
     <name>gunsmoke</name>
-    <model>Models/Armament/Weapons/KCA/smoke.xml</model>
+    <model>Aircraft/JA37/Models/Armament/Weapons/KCA/smoke.xml</model>
     <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
-    <speed>10</speed>
+    <speed>10.0</speed>
     <repeat>true</repeat>
     <delay>0.01</delay>
     <count>-1</count>
@@ -81,4 +81,97 @@
     <buoyancy>33</buoyancy>
     <life>1</life>
   </submodel>
+
+  <submodel>
+    <name>missilesmoke1</name>
+    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
+    <trigger>controls/armament/station[1]/released</trigger><!-- controls/armament/trigger -->
+    <speed>4000.0</speed>
+    <repeat>false</repeat>
+    <delay>0.00</delay>
+    <count>-1</count>
+    <x-offset>  3.15986</x-offset>
+    <y-offset> -2.70311</y-offset>
+    <z-offset> -0.67645</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <cd>0.00003</cd><!-- drag -->
+    <eda>0.00136354</eda><!-- drag area -->
+    <weight>188</weight>
+    <collision>false</collision>
+    <impact>false</impact>
+    <wind>false</wind>
+    <buoyancy>32</buoyancy>
+    <life>10</life>
+  </submodel>
+
+<submodel>
+    <name>missilesmoke2</name>
+    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
+    <trigger>controls/armament/station[2]/released</trigger><!-- controls/armament/trigger -->
+    <speed>4000.0</speed>
+    <repeat>false</repeat>
+    <delay>0.00</delay>
+    <count>-1</count>
+    <x-offset> -1.02697</x-offset>
+    <y-offset> -0.98148</y-offset>
+    <z-offset> -0.94307</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <cd>0.00003</cd><!-- drag -->
+    <eda>0.00136354</eda><!-- drag area -->
+    <weight>188</weight>
+    <collision>false</collision>
+    <impact>false</impact>
+    <wind>false</wind>
+    <buoyancy>32</buoyancy>
+    <life>10</life>
+  </submodel>
+
+<submodel>
+    <name>missilesmoke3</name>
+    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
+    <trigger>controls/armament/station[3]/released</trigger><!-- controls/armament/trigger -->
+    <speed>4000.0</speed>
+    <repeat>false</repeat>
+    <delay>0.00</delay>
+    <count>-1</count>
+    <x-offset>  3.15986</x-offset>
+    <y-offset>  2.70311</y-offset>
+    <z-offset> -0.67645</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <cd>0.00003</cd><!-- drag -->
+    <eda>0.00136354</eda><!-- drag area -->
+    <weight>188</weight>
+    <collision>false</collision>
+    <impact>false</impact>
+    <wind>false</wind>
+    <buoyancy>32</buoyancy>
+    <life>10</life>
+  </submodel>
+
+  <submodel>
+    <name>missilesmoke4</name>
+    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
+    <trigger>controls/armament/station[4]/released</trigger><!-- controls/armament/trigger -->
+    <speed>4000.0</speed>
+    <repeat>false</repeat>
+    <delay>0.00</delay>
+    <count>-1</count>
+    <x-offset> -1.02697</x-offset>
+    <y-offset>  0.98148</y-offset>
+    <z-offset> -0.94307</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <cd>0.00003</cd><!-- drag -->
+    <eda>0.00136354</eda><!-- drag area -->
+    <weight>188</weight>
+    <collision>false</collision>
+    <impact>false</impact>
+    <wind>false</wind>
+    <buoyancy>32</buoyancy>
+    <life>10</life>
+  </submodel>    
 </PropertyList>
+   

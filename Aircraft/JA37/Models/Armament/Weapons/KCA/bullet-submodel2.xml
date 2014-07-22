@@ -4,7 +4,7 @@
 
 	<submodel>
 		<name>bullet splash cannon</name>
-		<model>Models/Armament/Weapons/KCA/splash.xml</model>
+		<model>Aircraft/JA37/Models/Armament/Weapons/KCA/splash.xml</model>
 		<speed>0</speed>
 		<repeat>false</repeat>
 		<delay>0</delay>

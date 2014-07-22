@@ -86,7 +86,7 @@
   <!-- from table 4, Australian document. -->
   <function name="AugThrust">
   <product>
-  <value>0.0000357452864</value> <!-- 1/28110 -->
+  <value>0.00004414799</value> <!-- 1/28110 x 1.241 The 1.241 factor is to convert cruise to maximum -->
    <table>
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>

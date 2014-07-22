@@ -16,104 +16,7 @@
 
 
 <aerodynamics>      
-  <!-- from DATCOM -->
-  <function name="aero/function/ground-effect-factor-drag">
-     <description>Change in drag due to ground effect</description>
-     <product>
-        <table>
-           <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
-           <tableData>
-              0.0  0.480
-              0.1  0.515
-              0.15 0.629
-              0.2  0.709
-              0.3  0.815
-              0.4  0.882
-              0.5  0.928
-              0.6  0.962
-              0.7  0.988
-              0.8  1.0
-              0.9  1.0
-              1.0  1.0
-              1.1  1.0
-           </tableData>
-        </table>
-     </product>
-  </function>
-
-  <!-- from graph page 18, Australian document (heavily modified) -->
-  <function name="aero/function/mach-effect-factor-drag">
-     <description>Change in drag due to mach effect</description>
-     <sum>
-      <product>
-        <table>
-          <independentVar>velocities/mach</independentVar>
-          <tableData>
-                  0.0000  0
-                  0.8200  0
-                  0.8800  0.011
-                  0.9500  0.066
-                  1.0000  0.128
-                  1.1100  0.36
-                  1.3500  0.05
-                  2.1000  0.05
-                  2.2000  1.5
-          </tableData>
-        </table>
-        <property>aero/mach-drag-factor</property><!-- is property so it was easy to adjust when flying -->
-      </product>
-      <value>1</value>
-    </sum>
-  </function>
-
-  <function name="aero/coefficient/CDgear">
-      <description>Drag_due_to_gear</description>
-      <product>
-          <property>aero/function/mach-effect-factor-drag</property>
-          <property>aero/function/ground-effect-factor-drag</property>
-          <property>aero/qbar-psf</property>
-          <property>metrics/Sw-sqft</property>
-          <property>gear/gear-pos-norm</property>
-          <table>
-           <independentVar lookup="row">aero/alpha-deg</independentVar>
-            <tableData>
-                0 0.025
-               90 0
-              179 0.025
-            </tableData>
-          </table>
-      </product>
-  </function>
-
-  <function name="aero/coefficient/CDflaps">
-      <description>Drag due to flaps</description>
-      <product>
-          <property>aero/function/mach-effect-factor-drag</property>
-          <property>aero/function/ground-effect-factor-drag</property>
-          <property>aero/qbar-psf</property>
-          <property>metrics/Sw-sqft</property>
-          <property>fcs/flap-pos-norm</property>
-          <table>
-           <independentVar lookup="row">aero/alpha-deg</independentVar>
-            <tableData>
-                0 0.01
-               90 0
-              179 0.01
-            </tableData>
-          </table>  
-      </product>
-  </function>
-
-  <function name="aero/coefficient/Afactors">
-    <description>Change in axial due to mach and ground effect</description>
-    <product>
-        <property>aero/function/ground-effect-factor-drag</property>
-        <property>aero/function/mach-effect-factor-drag</property>
-        <cos>
-          <property>aero/alpha-rad</property>
-        </cos>
-    </product>
-  </function>
+  
   
 <!-- ********************************************      Normal force      ************************** -->
     <!-- from graph 48a page 64 -->
@@ -143,19 +46,6 @@
 
 
   <axis name="NORMAL">
-
-      <function name="aero/coefficient/CDnormal">
-          <description>Drag due to flaps and gear</description>
-          <product>
-              <sum>
-                <property>aero/coefficient/CDgear</property>
-                <property>aero/coefficient/CDflaps</property>
-              </sum>
-              <sin>
-                <property>aero/alpha-rad</property>
-              </sin>
-          </product>
-      </function>
 
      <!-- from graph page 46 -->
      <function name="aero/coefficient/CN">
@@ -222,24 +112,97 @@
 
 
 <!-- ***********************************************  Axial  *********************** -->
+<!-- from DATCOM -->
+  <function name="aero/function/ground-effect-factor-drag">
+     <description>Change in drag due to ground effect</description>
+     <product>
+        <table>
+           <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
+           <tableData>
+              0.0  0.480
+              0.1  0.515
+              0.15 0.629
+              0.2  0.709
+              0.3  0.815
+              0.4  0.882
+              0.5  0.928
+              0.6  0.962
+              0.7  0.988
+              0.8  1.0
+              0.9  1.0
+              1.0  1.0
+              1.1  1.0
+           </tableData>
+        </table>
+     </product>
+  </function>
 
+  <!-- from graph page 18, Australian document (heavily modified) -->
+  <function name="aero/function/mach-effect-factor-drag">
+     <description>Change in drag due to mach effect</description>
+     <sum>
+      <product>
+        <table>
+          <independentVar>velocities/mach</independentVar>
+          <tableData>
+                  0.0000  0
+                  0.8200  0
+                  0.8800  0.011
+                  0.9500  0.066
+                  1.0000  0.128
+                  1.1100  0.684
+                  2.1000  0.035
+                  2.2000  8
+          </tableData>
+        </table>
+        <property>aero/mach-drag-factor</property><!-- is property so it was easy to adjust when flying -->
+      </product>
+      <value>1</value>
+    </sum>
+  </function>
+
+  <function name="aero/coefficient/CAgear">
+      <description>Drag_due_to_gear</description>
+      <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>gear/gear-pos-norm</property>
+          <value>0.020</value>
+      </product>
+  </function>
+
+  <function name="aero/coefficient/CAflaps">
+      <description>Drag due to flaps</description>
+      <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>fcs/flap-pos-norm</property>
+          <value>0.005</value>  
+      </product>
+  </function>
+
+  <function name="aero/coefficient/Afactors">
+    <description>Change in axial due to mach and ground effect</description>
+    <product>
+      <property>aero/function/ground-effect-factor-drag</property>
+      <property>aero/function/mach-effect-factor-drag</property>
+    </product>
+  </function>
 
   <axis name="AXIAL">
-        <function name="aero/coefficient/CDaxial">
+        <function name="aero/coefficient/CAtakeoff">
           <description>Drag due to flaps and gear</description>
           <product>
-              <sum>
-                <property>aero/coefficient/CDgear</property>
-                <property>aero/coefficient/CDflaps</property>
-              </sum>
-              <cos>
-                <property>aero/alpha-rad</property>
-              </cos>
+            <property>aero/coefficient/Afactors</property>
+            <sum>
+              <property>aero/coefficient/CAgear</property>
+              <property>aero/coefficient/CAflaps</property>
+            </sum>
           </product>
       </function>
 
      <!-- from graph page 43 [measured using graph analyser] (untrustworthy due to might be example from any plane) -->
-     <function name="aero/coefficient/CT">
+     <function name="aero/coefficient/CA">
         <description>
            Basic Tangential/axial Coefficient
         </description>

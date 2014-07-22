@@ -17,18 +17,18 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>1.25</aircraft-version> 
+  <aircraft-version>1.26</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
 
   <startup>
-   <splash-texture>ja37-splash.png</splash-texture>
+   <splash-texture>Aircraft/JA37/ja37-splash.png</splash-texture>
   </startup>
 
 <submodels>
    <serviceable type="bool">1</serviceable>
-   <path>ja37-submodels.xml</path>
+   <path>Aircraft/JA37/ja37-submodels.xml</path>
   </submodels>
 
 
@@ -118,11 +118,11 @@
         <property type="string">engines/engine[0]/nozzle-pos-norm</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">engines/engine[0]/augmentation</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">systems/electrical/batterysignal</property>
       </signal>
       <signal>
@@ -142,39 +142,39 @@
         <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
       </signal>
       <signal>
-        <type>float</type>
-        <property type="string">controls/armament/trigger</property>
+        <type>bool</type>
+        <property type="string">controls/armament/station[0]/trigger</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">ai/submodels/submodel[0]/flare-release</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">sounds/aircraft-explode/on</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">sounds/aircraft-crash/on</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">sounds/aircraft-water-crash/on</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">sounds/aircraft-crack/on</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">sounds/aircraft-creaking/on</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">engines/engine[0]/reversed</property>
       </signal>
       <signal>
@@ -194,18 +194,50 @@
         <property type="string">controls/lighting/instruments-norm</property>
       </signal>
       <signal>
-        <type>float</type>
+        <type>bool</type>
         <property type="string">consumables/fuel/tank[8]/jettisoned</property>
       </signal>
       <signal>
         <type>float</type>
         <property type="string">engines/engine/flame</property>
       </signal>
+      <signal>
+        <type>bool</type>
+        <property type="string">controls/armament/station[1]/released</property>
+      </signal>
+      <signal>
+        <type>bool</type>
+        <property type="string">controls/armament/station[2]/released</property>
+      </signal>
+      <signal>
+        <type>bool</type>
+        <property type="string">controls/armament/station[3]/released</property>
+      </signal>
+      <signal>
+        <type>bool</type>
+        <property type="string">controls/armament/station[4]/released</property>
+      </signal>
+      <signal>
+        <type>double</type>
+        <property type="string">payload/weight[0]/selected</property>
+      </signal>
+      <signal>
+        <type>double</type>
+        <property type="string">payload/weight[1]/selected</property>
+      </signal>
+      <signal>
+        <type>double</type>
+        <property type="string">payload/weight[2]/selected</property>
+      </signal>
+      <signal>
+        <type>double</type>
+        <property type="string">payload/weight[3]/selected</property>
+      </signal>
     </config>
   </flight-recorder>  
   
   <sound>
-   <path>ja37-sound.xml</path>
+   <path>Aircraft/JA37/ja37-sound.xml</path>
   </sound>
 
   <virtual-cockpit archive="y">true</virtual-cockpit>
@@ -217,7 +249,7 @@
   </panel_2>
 
   <hud> <!-- wrong path for default HUD here, to prevent it from showing up -->
-   <path n="1">Systems/HUD.xml</path>
+   <path n="1">Aircraft/JA37/Systems/HUD.xml</path>
   </hud>
 
 
@@ -229,7 +261,7 @@
 *************************************************************************-->   
 
   <model>
-   <path archive="y">Models/ja37-model.xml</path>
+   <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
    <ja37>
     
     <controls>
@@ -299,14 +331,21 @@
 
 
 *************************************************************************-->
+  <current-view>
+   <field-of-view>90</field-of-view>
+   <config>
+    <default-field-of-view-deg archive="y">90</default-field-of-view-deg>
+   </config>
+  </current-view>
+
   <view>
    <internal archive="y">true</internal>
    <config>
      <pitch-offset-deg>-10</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
      <y-offset-m archive="y">0.65</y-offset-m>
-     <z-offset-m archive="y"> -3.10</z-offset-m>
-     <default-field-of-view-deg>55</default-field-of-view-deg>
+     <z-offset-m archive="y">-3.30</z-offset-m>
+     <default-field-of-view-deg>90</default-field-of-view-deg>
    </config>
   </view>
   
@@ -354,7 +393,7 @@
     <int n="15" alias="/sim/model/lighting/beacon/state"/>
     <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
     <!-- Armament -->
-    <int n="6" alias="/controls/armament/trigger"/>
+    <int n="6" alias="/controls/armament/station[0]/trigger"/>
     <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
     <!-- Position and speed -->
     <float n="6" alias="/position/altitude-ft"/>
@@ -376,7 +415,7 @@
    <title>Saab JA-37 Viggen</title>
    <key>
     <name>s</name>
-    <desc>Startup / shutdown</desc>
+    <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
    </key>
    <key>
     <name>Backspace</name>
@@ -388,7 +427,15 @@
    </key>
    <key>
     <name>e (lower case 'e')</name>
-    <desc>Fire the cannon</desc>
+    <desc>Fire selected weapon</desc>
+   </key>
+   <key>
+    <name>5</name>
+    <desc>Select cannon</desc>
+   </key>
+   <key>
+    <name>6-9</name>
+    <desc>Select missiles</desc>
    </key>
    <key>
     <name>J</name>
@@ -493,6 +540,13 @@
      </script>
     </binding>
    </item>
+   <item>
+    <label>Auto start/stop</label>
+    <binding>
+     <command>nasal</command>
+     <script>ja37.autostarttimer();</script>
+    </binding>
+   </item>
    <!--
    <item>
     <label>Options</label>
@@ -509,6 +563,9 @@
  </default>
 </menubar>
 
+
+
+
 <!--**********************************************************************
 
                                           Systems
@@ -516,7 +573,7 @@
 
 *************************************************************************--> 
  <systems>
-  <path>Systems/systems.xml</path>
+  <path>Aircraft/JA37/Systems/systems.xml</path>
   <!--<electrical>
    <outputs>
     <adi type="int">24</adi>
@@ -525,6 +582,50 @@
   </electrical>-->
  </systems>
  </sim>
+
+<!--**********************************************************************
+
+                                          Payload
+
+
+*************************************************************************--> 
+<payload>
+  <weight n="0">
+        <name>Left wing pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="1">
+        <name>Left fuselage pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="2">
+        <name>Right wing pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="3">
+        <name>Right fuselage pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+</payload>
+
+<!--**********************************************************************
+
+                                          Properties
+
+
+*************************************************************************--> 
 
  <fdm>
   <jsbsim>
@@ -555,7 +656,12 @@
     </aero>
   </jsbsim>
  </fdm>
-
+ <controls>
+  <armament>
+    <station-select>0</station-select><!-- cannon selected by default -->
+    <trigger>0</trigger>
+  </armament>
+</controls>
 
 <!--**********************************************************************
 
@@ -613,7 +719,52 @@
        <value type="bool">false</value>
       </binding>
      </mod-up>
+    </key>"controls/armament/station-select"
+    <key n="53">
+     <name>5</name>
+     <desc>Select cannon</desc> 
+     <binding>
+      <command>property-assign</command>
+      <property>controls/armament/station-select</property>
+      <value>0</value>
+     </binding>
     </key>
+    <key n="54">
+     <name>6</name>
+     <desc>Select missile</desc> 
+     <binding>
+      <command>property-assign</command>
+      <property>controls/armament/station-select</property>
+      <value>1</value>
+     </binding>
+    </key>
+    <key n="55">
+     <name>7</name>
+     <desc>Select missile</desc> 
+     <binding>
+      <command>property-assign</command>
+      <property>controls/armament/station-select</property>
+      <value>2</value>
+     </binding>
+    </key>
+    <key n="56">
+     <name>8</name>
+     <desc>Select missile</desc> 
+     <binding>
+      <command>property-assign</command>
+      <property>controls/armament/station-select</property>
+      <value>3</value>
+     </binding>
+    </key>
+    <key n="57">
+     <name>9</name>
+     <desc>Select missile</desc> 
+     <binding>
+      <command>property-assign</command>
+      <property>controls/armament/station-select</property>
+      <value>4</value>
+     </binding>
+    </key>                
     <key n="101">
      <name>e</name>
      <desc>Gun Trigger</desc> 
@@ -787,7 +938,7 @@
 
 *************************************************************************--> 
 <autopilot>
-     <path>Systems/Autopilot.xml</path>
+     <path>Aircraft/JA37/Systems/Autopilot.xml</path>
 </autopilot>
 
 
@@ -851,24 +1002,24 @@
    <file>Aircraft/Generic/aar.nas</file>
   </aar>
   <reversethrust>
-    <file>Nasal/reversethrust.nas</file>
+    <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
   </reversethrust>
   <ja37>  
-   <file>Nasal/ja37.nas</file>
-   <file>Nasal/tyresmoke.nas</file>
-   <file>Nasal/liveries.nas</file>
-   <file>Nasal/systemp.nas</file>
-   <file>Nasal/radar.nas</file>
-   <file>Nasal/options.nas</file>
+   <file>Aircraft/JA37/Nasal/ja37.nas</file>
+   <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
+   <file>Aircraft/JA37/Nasal/liveries.nas</file>
+   <file>Aircraft/JA37/Nasal/systemp.nas</file>
+   <file>Aircraft/JA37/Nasal/radar.nas</file>
+   <!--<file>Aircraft/JA37/Nasal/options.nas</file>--><!-- notice probably only works with 3.0.0 -->
   </ja37>
   <canvas_HUD>
-    <file>Nasal/hud.nas</file>
+    <file>Aircraft/JA37/Nasal/hud.nas</file>
   </canvas_HUD>
   <limits>
     <file>Aircraft/Generic/limits.nas</file>
   </limits>
   <crash>
-    <file>Nasal/crash.nas</file>
+    <file>Aircraft/JA37/Nasal/crash.nas</file>
   </crash>
 </nasal>
 </PropertyList>

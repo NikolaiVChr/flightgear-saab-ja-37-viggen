@@ -3,7 +3,7 @@
 
 
   <model>
-    <path>Models/Instruments/Accelerometer/accelerometer.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
     <name>G Meter</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -14,7 +14,7 @@
   </model>
 
   <model>
-    <path>Models/Instruments/Fuel/fuel_gauge.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Fuel/fuel_gauge.xml</path>
     <name>Fuel Gauge</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -25,7 +25,7 @@
   </model>
 
 <model>
-    <path>Models/Instruments/Tachometer/rpm.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
     <name>RPM Indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -46,7 +46,7 @@
  </animation>
 
   <model>
-    <path>Models/Instruments/Altimeter/altimeter.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Altimeter/altimeter.xml</path>
     <name>Altitude indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -57,7 +57,7 @@
   </model>
 
   <model>
-    <path>Models/Instruments/AoAIndicator/AoAIndicator.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/AoAIndicator/AoAIndicator.xml</path>
     <name>Angle of Attack Indicator</name>
     <offsets>
     <pitch-deg>-14.0</pitch-deg>
@@ -68,7 +68,7 @@
   </model>
 
   <model>
-    <path>Models/Instruments/AttitudeIndicator1/ai1.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>
     <name>Attitude Indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -79,7 +79,7 @@
   </model>
 
   <model>
-    <path>Models/Instruments/AttitudeIndicator2/ai2.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator2/ai2.xml</path>
     <name>Attitude Indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -103,12 +103,12 @@
 <!-- Temporary radio stack till I get a real one in -->
 
 <model>
-    <path>Models/Instruments/Radio/radio-stack.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Radio/radio-stack.xml</path>
     <name>Radiostack</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -4.00</x-m>
-      <y-m> -0.34</y-m>
+      <y-m> -0.36</y-m>
       <z-m>  0.17</z-m>
     </offsets>
     <animation>
@@ -121,7 +121,7 @@
 
 
   <model>
-    <path>Models/Instruments/Radar/radar.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Radar/radar.xml</path>
     <name>Radar</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -143,7 +143,7 @@
  </animation>
 
 <model>
-    <path>Models/Instruments/Radar/range-selector.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Radar/range-selector.xml</path>
     <name>Radar</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -154,7 +154,7 @@
   </model>
 
   <model>
-    <path>Models/Instruments/Indicators/joystick.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/joystick.xml</path>
     <name>Spak</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -165,7 +165,7 @@
   </model>
 
 <model>
-    <path>Models/Instruments/Indicators/attitude.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/attitude.xml</path>
     <name>Att</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -176,7 +176,7 @@
   </model>
 
   <model>
-    <path>Models/Instruments/Indicators/altitude.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/altitude.xml</path>
     <name>Höjd</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>

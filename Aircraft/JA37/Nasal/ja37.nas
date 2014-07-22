@@ -158,7 +158,60 @@ var update_loop = func {
   setprop("/instrumentation/attitude-indicator", attitude);
   setprop("/instrumentation/altitude-indicator", altitude);
 
-	settimer(update_loop, UPDATE_PERIOD);
+  # payload
+  for(var i=1; i<5; i=i+1) {
+    if(getprop("payload/weight["~ (i-1) ~"]/selected") != "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") == 0) {
+      # payload was loaded manually through payload/fuel dialog
+      
+      setprop("controls/armament/station["~i~"]/released", 0);
+    }
+  }
+
+  var trigger = getprop("controls/armament/trigger");
+  var armSelect = getprop("controls/armament/station-select");
+
+  if(trigger == 1) {
+    if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") { 
+      # fire missile
+      setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");
+      setprop("controls/armament/station["~armSelect~"]/released", 1);
+    }
+  }
+
+  if (armSelect == 0) { # cannon
+    setprop("/controls/armament/station[0]/trigger", trigger);
+  } else {
+    setprop("/controls/armament/station[0]/trigger", 0);
+  }
+  
+  var selected = getprop("payload/weight[0]/selected");
+  if(selected == "none") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 0);
+  } elsif (selected == "RB 24J") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 188);
+  }
+  selected = getprop("payload/weight[1]/selected");
+  if(selected == "none") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[2]", 0);
+  } elsif (selected == "RB 24J") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[2]", 188);
+  }
+  selected = getprop("payload/weight[2]/selected");
+  if(selected == "none") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]", 0);
+  } elsif (selected == "RB 24J") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]", 188);
+  }
+  selected = getprop("payload/weight[3]/selected");
+  if(selected == "none") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[4]", 0);
+  } elsif (selected == "RB 24J") {
+    setprop("fdm/jsbsim/inertia/pointmass-weight-lbs[4]", 188);
+  }
+
+  
+
+  settimer(update_loop, UPDATE_PERIOD);
 }
 
 ###########  loop for handling the battery signal for cockpit sound #########

@@ -72,13 +72,30 @@ var dialog = {
 
         #####   Top logo   #####
         var topLogo = me.dialog.addChild("group");
-          topLogo.set("layout", "hbox");
-          topLogo.set("halign", "fill");
-          topLogo.set("valign", "top");
-          topLogo.set("pref-height", TOPLOGO_HEIGHT);
-          topLogo.set("row", 0);
-          topLogo.set("col", 0);
-          me.dialog.addChild("hrule");
+        #topLogo.set("layout", "hbox");
+        #topLogo.set("halign", "fill");
+        #topLogo.set("valign", "top");
+        #topLogo.set("pref-height", TOPLOGO_HEIGHT);
+        #topLogo.set("row", 0);
+        #topLogo.set("col", 0);
+
+        var canvas_settings = {
+          "name": "LogoNasal",
+          "size": [512, 128],# width of texture to be replaced
+          "view": [512, 128],# width of canvas
+          "mipmapping": 0
+        };
+        var canvasLogo = canvas.new(canvas_settings);
+        #canvasLogo.setSize(512, 128);
+        var root = canvasLogo.createGroup();
+        var splash = root.createChild("image");
+        splash.setFile("viggen-logo.png");
+        splash.setSize(512, 128);
+        splash.setTranslation(0,0);
+        #splash.setSourceRect(top:0, left:0, right:512, bottom: 128, normalized:0);
+
+        me.dialog.addChild(splash);
+        me.dialog.addChild("hrule");
 
         #####   Main Area   #####
         var mainArea = me.dialog.addChild("group");

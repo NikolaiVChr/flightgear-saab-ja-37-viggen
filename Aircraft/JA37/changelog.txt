@@ -253,14 +253,14 @@ Effect: Made Rembrandt somewhat able to animate the emission of engine light.
 Sound: Made model view engine sound a little better
 Aero: Made axial coefficient more accurate.
 
-2.22 - 2014 Jan 17
+1.22 - 2014 Jan 17
 ----
 Sim: Enabled showing of fueltank names when flying.
 Aero: More accurate Normal Force Coefficients.
 Sim: First stab at custom Autopilot.
 Engine: Converted mil-thrust from cruise to maximum.
 
-2.23 - 2014 Jan 22
+1.23 - 2014 Jan 22
 ----
 Animation: Added 5 instruments.
 Animation: Added instrument lights.
@@ -282,7 +282,7 @@ Animation: Put LOD on the radio-stack.
 Sim: Adapted radar to the way ja37 works and added a range-selector plus failure.
 Animation: Added 3 indicator lights to the dashboard.
 
-2.24 - 2014 Jan 27
+1.24 - 2014 Jan 27
 ----
 Effect: Added a specular map for fuselage.
 Animation: Adjusted material on fuselage, glass and lights.
@@ -306,7 +306,7 @@ Aero: Improved pitch moment data.
 Engine: Finally found definite numbers on bypass ratio, updated.
 Sound: Fixed cannon too loud.
 
-2.25 - 2014 Feb 1
+1.25 - 2014 Feb 1
 ----
 Aero: Elevator now deflect less at high speeds. Page 80: (System automatically regulates the interaction between the joystick and the elevator as a function of altitude and mach number.)
 Sound: Fixed fly-by engine sounds stop at low speeds.
@@ -317,3 +317,17 @@ Sim: Got new engine fire to work on multiplay, and also vapor cone.
 Sim: Added welcome message, showing version number.
 Sim: Filled a bit more more fuel into tanks as default.
 Aero: Made aileron deflection depend on speed.
+
+1.26 - 2014 Feb 4
+----
+Sim: Fixed aircraft did not work on Windows XP.
+Aero: Made more structural points for more realistic crashing.
+Animation: Moved view forward, and increased field of view.
+Aero: Adjusted pilots head position for g forces.
+Animation: Fixed that wheel positions did not match wheel smoke positions.
+Aero: Decreased static margin even further to get higher maneuvres.
+Aero: Less drag due to gear and flaps to make for shorter takeoffs. Also improved the way they are applied.
+Sim: Made missiles firable and selectable. And can use the payload dialog to load/reload/unload.
+Aero: Reduced mach 1.2 - 1.8 regime drag.
+Aero: Slightly adjusted pilot mass position.
+Engine: Increased engine mil-thrust performance from cruise to maximum.

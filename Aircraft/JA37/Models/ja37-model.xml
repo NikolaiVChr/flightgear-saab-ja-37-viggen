@@ -5,7 +5,7 @@
  <path>ja37.ac</path>
 
  <model>
-    <path>Models/ja37-panel.xml</path>
+    <path>Aircraft/JA37/Models/ja37-panel.xml</path>
     <name>Panel</name>
     <offsets>
       <x-m>0</x-m>
@@ -15,7 +15,7 @@
   </model>
  
 <model>
-    <path>Models/HUD.xml</path>
+    <path>Aircraft/JA37/Models/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>
       <x-m>.5</x-m>
@@ -25,7 +25,7 @@
   </model> 
 
   <model>
-    <path>Models/Effects/nav-light-glow-right.xml</path>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
     <name>lightglowR</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -35,7 +35,7 @@
   </model> 
 
  <model>
-    <path>Models/Effects/nav-light-glow-left.xml</path>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
     <name>lightglowL</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -45,7 +45,7 @@
   </model> 
 
   <model>
-    <path>Models/Effects/beacon-light-glow-top.xml</path>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
     <name>lightglowT</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -55,7 +55,7 @@
   </model>
 
   <model>
-    <path>Models/Effects/beacon-light-glow-bottom.xml</path>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
     <name>lightglowB</name>
     <offsets>
       <x-m>0.0</x-m>
@@ -302,7 +302,7 @@
  <!-- start effects -->
  <model>
   <name>exhaust_smoke</name>
-  <path>Models/Effects/exhaust.xml</path>
+  <path>Aircraft/JA37/Models/Effects/exhaust.xml</path>
   <offsets>
    <x-m>1.0</x-m>
    <y-m>0.0</y-m>
@@ -312,7 +312,7 @@
 
 <model>
   <name>engine_smoke</name>
-  <path>Models/Effects/smoke.xml</path>
+  <path>Aircraft/JA37/Models/Effects/smoke.xml</path>
   <offsets>
    <x-m>8.0</x-m>
    <y-m>0.0</y-m>
@@ -322,7 +322,7 @@
  
  <model>
   <name>strake-vortex</name>
-  <path>Models/Effects/strake-vortex.xml</path>
+  <path>Aircraft/JA37/Models/Effects/strake-vortex.xml</path>
   <offsets>
    <x-m>0.58</x-m>
    <y-m>0</y-m>
@@ -334,7 +334,7 @@
 
 <!-- <model>
   <name>transsonic-canard-vapor-cone</name>
-  <path>Models/Effects/transsonic-canard-vapor-cone.xml</path>
+  <path>Aircraft/JA37/Models/Effects/transsonic-canard-vapor-cone.xml</path>
   <offsets>
    <x-m>0</x-m>
    <y-m>0</y-m>
@@ -344,7 +344,7 @@
  
   <!--<model>
   <name>transsonic-deltawing-vapor-cone</name>
-  <path>Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
+  <path>Aircraft/JA37/Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
   <offsets>
    <x-m>-2</x-m>
    <y-m>0</y-m>
@@ -353,7 +353,7 @@
  </model> -->
 
 <model>
-    <path>Models/Effects/vaporCone.xml</path>
+    <path>Aircraft/JA37/Models/Effects/vaporCone.xml</path>
     <name>VaporCone</name>
     <offsets>
       <x-m>0</x-m>
@@ -364,35 +364,35 @@
 
 <!--         tiresmoke               -->
 
- <model>
+<model>
   <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
   <name>tyre-smoke-n</name>
   <offsets>
-   <x-m> -3.4 </x-m>
-        <y-m> 0 </y-m>
-        <z-m> -2.5 </z-m>
+    <x-m> -3.37652 </x-m>
+    <y-m> 0 </y-m>
+    <z-m> -2.1 </z-m>
   </offsets>
- </model>
+</model>
 
-  <model>
-   <path>Aircraft/Generic/Effects/tyre-smoke-port.xml</path>
-   <name>tyre-smoke-p</name>
-   <offsets>
-    <x-m> 2.4 </x-m>
-        <y-m> -2.5 </y-m>
-        <z-m> -2.5 </z-m>
-   </offsets>
-  </model>
+<model>
+ <path>Aircraft/Generic/Effects/tyre-smoke-port.xml</path>
+ <name>tyre-smoke-left</name>
+ <offsets>
+  <x-m> 2.64670 </x-m>
+  <y-m> -2.33204 </y-m>
+  <z-m> -2.1 </z-m>
+ </offsets>
+</model>
 
-  <model>
-   <path>Aircraft/Generic/Effects/tyre-smoke-stbd.xml</path>
-   <name>tyre-smoke-s</name>
-   <offsets>
-   <x-m> 2.4 </x-m>
-        <y-m> 2.5 </y-m>
-        <z-m> -2.5 </z-m>
-   </offsets>
-  </model>
+<model>
+ <path>Aircraft/Generic/Effects/tyre-smoke-stbd.xml</path>
+ <name>tyre-smoke-right</name>
+ <offsets>
+   <x-m> 2.64670 </x-m>
+   <y-m> 2.33204 </y-m>
+   <z-m> -2.1 </z-m>
+ </offsets>
+</model>
  <!-- end effects -->
 
 
@@ -432,7 +432,7 @@
 
  <model>
   <name>strobe</name>
-  <path>Models/Effects/strobe.xml</path>
+  <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
   <condition>
     <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
   </condition>
@@ -498,9 +498,53 @@
   </condition>
  </animation>
 
+<animation>
+  <object-name>missile</object-name><!-- Left wing pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>payload/weight[0]/selected</property><!--  -->
+    <value>RB 24J</value>
+   </equals>
+  </condition>
+ </animation>
+
+<animation>
+  <object-name>missile2</object-name><!-- Left fuselage pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>payload/weight[1]/selected</property><!--  -->
+    <value>RB 24J</value>
+   </equals>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missile1</object-name><!-- Right wing pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>payload/weight[2]/selected</property><!--  -->
+    <value>RB 24J</value>
+   </equals>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missile3</object-name><!-- Right fuselage pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>payload/weight[3]/selected</property><!--  -->
+    <value>RB 24J</value>
+   </equals>
+  </condition>
+ </animation>
+
 <model>
   <name>InternalFlame</name>
-  <path>Models/Effects/InternalFlame.xml</path>
+  <path>Aircraft/JA37/Models/Effects/InternalFlame.xml</path>
   <offsets>
    <x-m>0.0</x-m>
    <y-m>0.0</y-m>
@@ -534,7 +578,7 @@
 
 <model>
   <name>ExternalFlame</name>
-  <path>Models/Effects/ExternalFlame.xml</path>
+  <path>Aircraft/JA37/Models/Effects/ExternalFlame.xml</path>
   <offsets>
    <x-m>5.75</x-m>
    <y-m>0.0</y-m>
@@ -603,11 +647,11 @@
   <object-name>gearRightDoorsClosed</object-name>
   <property-base>sim/model/livery</property-base>
   <texture-prop>texture</texture-prop>
-  <texture>Models/j37_texture.png</texture>
+  <texture>Aircraft/JA37/Models/j37_texture.png</texture>
  </animation>
 
  <effect>
-    <inherits-from>Models/Effects/ja37-normal-map</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-normal-map</inherits-from>
     <!-- For Rembrandt: 
     <render-bin>
     <bin-number>1</bin-number>
@@ -641,12 +685,12 @@
  </effect>
 
  <effect>
-    <inherits-from>Models/Effects/ja37-nozzle</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle</inherits-from>
     <object-name>nozzle</object-name>
  </effect>
 
  <effect>
-    <inherits-from>Models/Effects/ja37-glass</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass</inherits-from>
     <object-name>glass</object-name>
     <object-name>frontglas</object-name>
 </effect>

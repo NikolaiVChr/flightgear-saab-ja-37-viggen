@@ -3,7 +3,7 @@
   <PropertyList> 
     <path>Aircraft/Instruments-3d/radio_stack/RadioStack.ac</path>
  <panel>
-  <path>Models/Instruments/Radio/radio-panel.xml</path>
+  <path>Aircraft/JA37/Models/Instruments/Radio/radio-panel.xml</path>
   <bottom-left>
     <x-m>0.001</x-m>
     <y-m>-0.08</y-m>

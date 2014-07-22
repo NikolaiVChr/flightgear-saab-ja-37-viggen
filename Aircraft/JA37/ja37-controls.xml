@@ -58,7 +58,7 @@
               0.5         1.00
               0.75        0.50
               1.0         0.35
-              2.2         0.20
+              2.2         0.30
           </tableData>
         </table>
         <output>fcs/elevator-pos-rad-mach</output>

@@ -8,7 +8,7 @@
  
   <canopy>
    <name>canopy</name>
-   <path>Sounds/canopy.wav</path>
+   <path>Aircraft/JA37/Sounds/canopy.wav</path>
    <mode>in-transit</mode>
    <type>avionics</type>
    <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
@@ -32,7 +32,7 @@
 
   <canopy>
    <name>canopy_lock</name>
-   <path>Sounds/canopy_lock.wav</path>
+   <path>Aircraft/JA37/Sounds/canopy_lock.wav</path>
    <mode>single</mode>
    <type>avionics</type>
    <condition>
@@ -57,7 +57,7 @@
 
   <battery>
    <name>battery_start</name>
-   <path>Sounds/BatteryStart.wav</path>
+   <path>Aircraft/JA37/Sounds/BatteryStart.wav</path>
    <mode>single</mode>
    <type>avionics</type>
    <condition>
@@ -126,7 +126,7 @@
   
   <flybymed>
    <name>medium pitch fly by</name>
-   <path>Sounds/roar-medium.wav</path>
+   <path>Aircraft/JA37/Sounds/roar-medium.wav</path>
    <mode>looped</mode>
 
   <condition>
@@ -168,7 +168,7 @@
   
   <flybylow>
    <name>low pitch fly by</name>
-   <path>Sounds/roar-low.wav</path>
+   <path>Aircraft/JA37/Sounds/roar-low.wav</path>
    <mode>looped</mode>  
 
   <condition>
@@ -256,7 +256,7 @@
   
 <engine_mil_cockpit>
    <name>internal turbine</name>
-   <path>Sounds/thrust-interior.wav</path>
+   <path>Aircraft/JA37/Sounds/thrust-interior.wav</path>
    <mode>looped</mode>
    <type>avionics</type>
    <condition>
@@ -291,7 +291,7 @@
   
 <engine_augmented_cockpit>
    <name>internal afterburner</name>
-   <path>Sounds/afterburner-interior.wav</path>
+   <path>Aircraft/JA37/Sounds/afterburner-interior.wav</path>
    <mode>looped</mode>
    <type>avionics</type>
    <condition>
@@ -384,7 +384,7 @@
    
   <engine_mil_model>
    <name>external turbine</name>
-   <path>Sounds/thrust-exterior.wav</path>
+   <path>Aircraft/JA37/Sounds/thrust-exterior.wav</path>
    <mode>looped</mode>
    <condition>
     <or>
@@ -530,7 +530,7 @@
 <roll>
    <name>roll on runway</name>
    <mode>looped</mode>
-   <path>Sounds/roll.wav</path>
+   <path>Aircraft/JA37/Sounds/roll.wav</path>
    <condition>
     <property>sim/current-view/internal</property>
     <or>
@@ -596,7 +596,7 @@
 <alpha>
 		<name>alpha</name>
 		<mode>looped</mode>
-		<path>Sounds/warning-very-high-alpha.wav</path>
+		<path>Aircraft/JA37/Sounds/warning-very-high-alpha.wav</path>
 		<type>avionics</type>
     <condition>
       <not>
@@ -635,7 +635,7 @@
 <alphawarn>
 		<name>alphawarning</name>
 		<mode>single</mode>
-		<path>Sounds/caution-high-alpha.wav</path>
+		<path>Aircraft/JA37/Sounds/caution-high-alpha.wav</path>
 		<type>avionics</type>
 		<condition>
       <not>
@@ -682,7 +682,7 @@
   <takeoffalpha>
     <name>takeoff-and-landing-alpha</name>
     <mode>single</mode>
-    <path>Sounds/warning-very-high-alpha.wav</path>
+    <path>Aircraft/JA37/Sounds/warning-very-high-alpha.wav</path>
     <type>avionics</type>
     <condition>
       <property>gear/gear/position-norm</property>
@@ -746,28 +746,28 @@
    </condition>
   </stallw>-->  
 
-<terrain>
-   <name>terrain</name>
-    <reference-dist>1.0</reference-dist>
-    <max-dist>2.0</max-dist>
-   <mode>single</mode>
-   <type>avionics</type>
-   <path>Sounds/lowterrain.wav</path>
-   <condition>
-    <property>instrumentation/annunciators/gpws/terrain-alert</property>
-   </condition>
-   <volume>
-    <property>instrumentation/annunciators/gpws/volume</property>
-   </volume>
-  </terrain>  
+    <terrain>
+     <name>terrain</name>
+      <reference-dist>1.0</reference-dist>
+      <max-dist>2.0</max-dist>
+     <mode>single</mode>
+     <type>avionics</type>
+     <path>Aircraft/JA37/Sounds/lowterrain.wav</path>
+     <condition>
+      <property>instrumentation/annunciators/gpws/terrain-alert</property>
+     </condition>
+     <volume>
+      <property>instrumentation/annunciators/gpws/volume</property>
+     </volume>
+    </terrain>  
   
 <!--                                                                          wind                                   -->  
 
   
-<wind>
+    <wind>
 			<name>wind</name>
 			<mode>looped</mode>
-			<path>Sounds/wind.wav</path>
+			<path>Aircraft/JA37/Sounds/wind.wav</path>
 			<condition>
 				<property>sim/current-view/internal</property>
 				<greater-than>
@@ -784,138 +784,194 @@
 <!--                                                                          weapons                                   -->  
 
 
-  <cannon>
-   <name>cannon</name>
-   <path>Sounds/M61A1.wav</path>
-   <property>controls/armament/trigger</property>
-   <mode>looped</mode>
-   <position>
-    <x>-1.0</x>
-    <y>0.8</y>
-    <z>0.0</z>
-   </position>
-   <volume>
-      <factor>.4</factor>
-    </volume>
-  </cannon>
- 
-<!--                                                                          crashing                                   -->  
- 
- 
- <aircraft-explode>
-		<name>aircraft-explode</name>
-		<path>Sounds/aircraft-explode.wav</path>
-		<mode>once</mode>
-		<condition>
-			<equals>
-				<property>sounds/aircraft-explode/on</property>
-				<value>1</value>
-			</equals>
-		</condition>
-		<volume>
-			<factor>1</factor>
-		</volume>
-	</aircraft-explode>
+    <cannon>
+     <name>cannon</name>
+     <path>Aircraft/JA37/Sounds/M61A1.wav</path>
+     <property>controls/armament/station[0]/trigger</property>
+     <mode>looped</mode>
+     <position>
+      <x>-1.0</x>
+      <y>0.8</y>
+      <z>0.0</z>
+     </position>
+     <volume>
+        <factor>.4</factor>
+      </volume>
+    </cannon>
+   
+  <!--                                                                          crashing                                   -->  
+   
+   
+   <aircraft-explode>
+  		<name>aircraft-explode</name>
+  		<path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+  		<mode>once</mode>
+  		<condition>
+  			<equals>
+  				<property>sounds/aircraft-explode/on</property>
+  				<value>1</value>
+  			</equals>
+  		</condition>
+  		<volume>
+  			<factor>1</factor>
+  		</volume>
+  	</aircraft-explode>
 
-	<aircraft-crash>
-		<name>aircraft-crash</name>
-		<path>Sounds/crash.wav</path>
-		<mode>once</mode>
-		<condition>
-			<equals>
-				<property>sounds/aircraft-crash/on</property>
-				<value>1</value>
-			</equals>
-		</condition>
-		<volume>
-			<factor>1</factor>
-		</volume>
-	</aircraft-crash>
+  	<aircraft-crash>
+  		<name>aircraft-crash</name>
+  		<path>Sounds/crash.wav</path>
+  		<mode>once</mode>
+  		<condition>
+  			<equals>
+  				<property>sounds/aircraft-crash/on</property>
+  				<value>1</value>
+  			</equals>
+  		</condition>
+  		<volume>
+  			<factor>1</factor>
+  		</volume>
+  	</aircraft-crash>
 
-	<aircraft-water-crash>
-		<name>aircraft-water-crash</name>
-		<path>Sounds/aircraft-water-crash.wav</path>
-		<mode>once</mode>
-		<condition>
-			<equals>
-				<property>sounds/aircraft-water-crash/on</property>
-				<value>1</value>
-			</equals>
-		</condition>
-		<volume>
-			<factor>1</factor>
-		</volume>
-	</aircraft-water-crash>
+  	<aircraft-water-crash>
+  		<name>aircraft-water-crash</name>
+  		<path>Aircraft/JA37/Sounds/aircraft-water-crash.wav</path>
+  		<mode>once</mode>
+  		<condition>
+  			<equals>
+  				<property>sounds/aircraft-water-crash/on</property>
+  				<value>1</value>
+  			</equals>
+  		</condition>
+  		<volume>
+  			<factor>1</factor>
+  		</volume>
+  	</aircraft-water-crash>
 
-	<aircraft-crack>
-		<name>aircraft-crack</name>
-		<path>Sounds/aircraft-crack.wav</path>
-		<mode>once</mode>
-		<condition>
-		<property>sim/current-view/internal</property>
-			<equals>
-				<property>sounds/aircraft-crack/on</property>
-				<value>1</value>
-			</equals>
-		</condition>
-		<volume>
-			<property>sounds/aircraft-crack/volume</property>
-			<factor>1</factor>
-		</volume>
-	</aircraft-crack>
+  	<aircraft-crack>
+  		<name>aircraft-crack</name>
+  		<path>Aircraft/JA37/Sounds/aircraft-crack.wav</path>
+  		<mode>once</mode>
+  		<condition>
+  		<property>sim/current-view/internal</property>
+  			<equals>
+  				<property>sounds/aircraft-crack/on</property>
+  				<value>1</value>
+  			</equals>
+  		</condition>
+  		<volume>
+  			<property>sounds/aircraft-crack/volume</property>
+  			<factor>1</factor>
+  		</volume>
+  	</aircraft-crack>
 
-	<aircraft-creaking>
-		<name>aircraft-creaking</name>
-		<path>Sounds/aircraft-creaking.wav</path>
-		<mode>looped</mode>
-		<condition>
-		<property>sim/current-view/internal</property>
-			<equals>
-				<property>sounds/aircraft-creaking/on</property>
-				<value>1</value>
-			</equals>
-		</condition>
-		<volume>
-			<property>sounds/aircraft-creaking/volume</property>
-			<factor>1</factor>
-		</volume>
-	</aircraft-creaking>
+  	<aircraft-creaking>
+  		<name>aircraft-creaking</name>
+  		<path>Aircraft/JA37/Sounds/aircraft-creaking.wav</path>
+  		<mode>looped</mode>
+  		<condition>
+  		<property>sim/current-view/internal</property>
+  			<equals>
+  				<property>sounds/aircraft-creaking/on</property>
+  				<value>1</value>
+  			</equals>
+  		</condition>
+  		<volume>
+  			<property>sounds/aircraft-creaking/volume</property>
+  			<factor>1</factor>
+  		</volume>
+  	</aircraft-creaking>
 
-<!--            breathing  -->
- 
-  <voice>
-    <name>Geforce-breath-vox</name>
-    <path>Sounds/Geforce.wav</path>
-    <condition> 
-      <greater-than>
+  <!--            breathing  -->
+   
+    <voice>
+      <name>Geforce-breath-vox</name>
+      <path>Aircraft/JA37/Sounds/Geforce.wav</path>
+      <condition> 
+        <greater-than>
+          <property>/accelerations/pilot/z-accel-fps_sec</property>
+          <value>-161</value>
+        </greater-than>   
+      </condition>
+      <reference-dist>2</reference-dist>
+      <max-dist>4</max-dist>
+      <volume>
+        <property>sim/time/full-init</property>
+        <factor>0.9</factor>
+      </volume>
+    </voice>
+
+    <voice>
+      <name>Geforce-vox</name>
+      <path>Aircraft/JA37/Sounds/geforce1.wav</path>
+      <condition>
+       <less-than>
         <property>/accelerations/pilot/z-accel-fps_sec</property>
-        <value>-161</value>
-      </greater-than>   
-    </condition>
-    <reference-dist>2</reference-dist>
-    <max-dist>4</max-dist>
-    <volume>
-      <property>sim/time/full-init</property>
-      <factor>0.9</factor>
-    </volume>
-  </voice>
+        <value>-225</value>
+       </less-than>   
+      </condition>
+      <reference-dist>2</reference-dist>
+      <max-dist>4</max-dist>
+      <volume>
+        <property>sim/time/full-init</property>
+        <factor>0.9</factor>
+      </volume>
+    </voice>
 
-  <voice>
-    <name>Geforce-vox</name>
-    <path>Sounds/geforce1.wav</path>
-    <condition>
-     <less-than>
-      <property>/accelerations/pilot/z-accel-fps_sec</property>
-      <value>-225</value>
-     </less-than>   
-    </condition>
-    <reference-dist>2</reference-dist>
-    <max-dist>4</max-dist>
-    <volume>
-      <property>sim/time/full-init</property>
-      <factor>0.9</factor>
-    </volume>
-  </voice>
-</fx>
- 
+    <missile1>
+      <name>missile1</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[1]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile1>
+    <missile2>
+      <name>missile2</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[2]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile2>
+    <missile3>
+      <name>missile3</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[3]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile3>
+    <missile4>
+      <name>missile4</name>
+      <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>controls/armament/station[4]/released</property>
+      </condition>
+      <reference-dist>25</reference-dist>
+      <max-dist>10000</max-dist>
+      <volume>
+        <factor>1</factor>
+        <max>1</max>
+      </volume>
+    </missile4>            
+  </fx>
 </PropertyList>
