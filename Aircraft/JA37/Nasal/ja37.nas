@@ -109,10 +109,12 @@ var update_loop = func {
     
     setprop("/velocities/groundspeed-3D-kt", real_speed); 
     
-    setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
-    setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
-    setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
-    setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
+    if(getprop("sim/signals/fdm-initialized") == 1) {
+      setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
+      setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
+      setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
+      setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
+    }
 
     #setprop("systems/electrical/outputs/battery", getprop("/systems/electrical/volts"));
     setprop("/instrumentation/switches/inst-light-knob/pos", getprop("/instrumentation/instrumentation-light/serviceable"));
@@ -152,7 +154,7 @@ var update_loop = func {
     if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)
      and getprop("/systems/electrical/outputs/inst_ac") > 40) {
       if (getprop("/instrumentation/attitude-indicator/indicated-roll-deg") > 70 or getprop("/instrumentation/attitude-indicator/indicated-roll-deg") < -70) {
-        attitude = getprop("sim/model/lighting/beacon/state");
+        attitude = getprop("sim/ja37/blink/five-Hz");
       } else {
         attitude = 1;
       }
@@ -163,8 +165,8 @@ var update_loop = func {
     # altitude indicator
     if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)
      and getprop("/systems/electrical/outputs/inst_ac") > 40) {
-      if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.8 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.2) {
-        altitude = getprop("sim/model/lighting/beacon/state");
+      if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05) {
+        altitude = getprop("sim/ja37/blink/five-Hz");
       } else {
         altitude = 1;
       }
@@ -419,62 +421,6 @@ var main_init = func {
   setprop("/sim/current-view/view-number", 1);
   setprop("/sim/gui/tooltips-enabled", 1);
   
-  # random failure code:
-
-  if(getprop("sim/ja37/supported/old-custom-fails") == 1) {
-    var fail = { SERVICEABLE : 1, JAM : 2, ENGINE: 3};
-    var type = { MTBF : 1, MCBF: 2 };
-    var failure_root = "/sim/failure-manager";
-    var prop = "/instrumentation/head-up-display";
-
-    failures.breakHash[prop] = {
-      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Head up display"};
-
-    var o = failures.breakHash[prop];
-    var t = "/mtbf";
-    props.globals.initNode(failure_root ~ prop ~ t, 0);
-    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
-
-    prop = "/instrumentation/instrumentation-light";
-
-    failures.breakHash[prop] = {
-      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Instrumentation light"};
-
-    props.globals.initNode(failure_root ~ prop ~ t, 0);
-    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
-
-    prop = "/fdm/jsbsim/fcs/canopy";
-
-    failures.breakHash[prop] = {
-      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Canopy"};
-
-    props.globals.initNode(failure_root ~ prop ~ t, 0);
-    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
-
-    prop = "/instrumentation/radar";
-
-    failures.breakHash[prop] = {
-      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Radar"};
-
-    props.globals.initNode(failure_root ~ prop ~ t, 0);
-    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
-
-    setprop("/sim/failure-manager/display-on-screen", 1);
-    #setprop("/sim/failure-manager/global-mcbf-0", 0);
-    #setprop("/sim/failure-manager/global-mcbf-500", 1);
-    #setprop("/sim/failure-manager/global-mcbf", 500);
-    #setprop("/sim/failure-manager/global-mtbf-0", 0);
-    #setprop("/sim/failure-manager/global-mtbf-86400", 1);
-    #setprop("/sim/failure-manager/global-mtbf", 86400);
-
-    #failures.setAllMCBF(500);
-    #failures.setAllMTBF(86400);
-
-  } else {
-    # put in 3.2+ failure handling code here
-  }
-  
-
   # inst. light
 
   setprop("/instrumentation/instrumentation-light/r", 1.0);

@@ -70,7 +70,7 @@
               0.5         1.00         1.0
               0.75        0.45         1.0
               1.0         0.25         1.0
-              2.2         0.10         0.5
+              2.2         0.05         0.3
           </tableData>
         </table>
         <output>fcs/elevator-cmd-adjust</output>
@@ -295,8 +295,8 @@
 
                 </test>
       </switch>
-<!-- flaps wont deploy if they fail -->
 
+      <!-- gear wont deploy if they fail -->
       <switch name="fails/gear">
         <default value="gear/gear-cmd-norm"/>
         <test value="0">
@@ -319,14 +319,17 @@
         </traverse>
         <output>gear/gear-pos-norm</output>
       </kinematic>
+
       <scheduled_gain name="fcs/scheduled-steer-pos-deg">
         <input>fcs/steer-cmd-norm</input>
         <table>
           <independentVar>velocities/vg-fps</independentVar>
           <tableData>
               10.0        80.0
-              50.0        15.0
-              150.0       2.0
+              20.0        50.0
+              50.0        10.0
+              150.0       1.0
+              200.0       0.5
           </tableData>
         </table>
         <output>fcs/steer-pos-deg</output>

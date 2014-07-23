@@ -451,3 +451,16 @@ Animation: Front gear now turns when steering.
 Aero: Made the mil thrust flight envelope match new data I got.
 GUI: Improvements to performance monitor; distances now shown also in meter, brakes will no longer auto-apply, re-init now works properly.
 HUD: When changing brightness, it no longer reload canvas, but simply assign colors.
+
+2.07
+----
+Sim: Gears now individually have a chance to fail the locking mechanism when deployed at too high speeds.
+Sim: Added tags for future Aircraft-Center parsing (I hope).
+HUD: The HUD now shows all aircraft MP/AI infront as circles.
+HUD: The HUD now shows nearest aircraft MP/AI infront as a diamond with a distance.
+HUD: The HUD now shows nearest airport tower in as a small diamond with a distance.
+HUD: Resized and rotated the HUD. All parts have been moved/resized to cope with the new size.
+HUD: The key H can now cycle HUD brightness.
+HUD: The key I can now switch HUD bewteen imperial and metric units.
+HUD: Made horizon lines thinner to not interfere visually so much with the altimeter scale.
+Aero: Adjusted how fast the steering of the front gear reacts at different speeds.

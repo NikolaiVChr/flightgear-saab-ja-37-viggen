@@ -517,6 +517,19 @@ init_aircraftbreakprocess=func
 
 	#Unlock controls
 	setprop("instrumentation/gear-control/serviceable", 1);
+	#setprop("fdm/jsbsim/gear/unit[0]/z-position", -82.67716548);
+	#setprop("fdm/jsbsim/gear/unit[1]/z-position", -82.67716548);
+	#setprop("fdm/jsbsim/gear/unit[2]/z-position", -82.67716548);
+
+	if(getprop("sim/ja37/failures/installed") == 1) {
+		FailureMgr.set_failure_level("controls/gear0", 0);
+		FailureMgr.set_failure_level("controls/gear1", 0);
+		FailureMgr.set_failure_level("controls/gear2", 0);
+		FailureMgr.get_trigger("controls/gear0").reset();
+		FailureMgr.get_trigger("controls/gear1").reset();
+		FailureMgr.get_trigger("controls/gear2").reset();
+	}
+
 	setprop("instrumentation/flaps-control/serviceable", 1);
 	setprop("instrumentation/speed-brake-control/serviceable", 1);
 	setprop("instrumentation/ignition-button/serviceable", 1);

@@ -33,9 +33,9 @@
     <path>Aircraft/JA37/Models/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>
-      <x-m>.5</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.06</z-m>
+      <x-m>0.00</x-m>
+      <y-m>0.00</y-m>
+      <z-m>0.00</z-m>
     </offsets>
   </model> 
 

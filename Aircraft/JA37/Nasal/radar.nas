@@ -37,7 +37,7 @@ var radar = {
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
     m.no_stroke = 12;
-    m.no_blip=20;
+    m.no_blip=30;
     m.radarRange=20000;#feet?
     m.stroke_pos= [];
     for(var i=0; i < m.no_stroke; i = i+1) {
@@ -125,7 +125,7 @@ var radar = {
     var rmode=1;#getprop("instrumentation/radar/mode");
     if (getprop("systems/electrical/outputs/radar") != nil and getprop("systems/electrical/outputs/radar") > 28 and getprop("instrumentation/radar/serviceable") > 0) {
       g.show();
-      me.radarRange=getprop("instrumentation/radar/range") * 3.2808;
+      me.radarRange=getprop("instrumentation/radar/range") * 3.2808; #convert to feet
       forindex (i; me.stroke) me.stroke[i].show();
       var te = getprop("sim/time/elapsed-sec");
       
@@ -173,6 +173,10 @@ var radar = {
         var groundAlt=getprop("position/altitude-ft")*0.305;
         var myHeading=getprop("orientation/heading-deg");
         var b_i=0;
+        var index = 0;
+        var shortestDistance = 1000000;
+        var shortestAC = -1;
+        var isShortestMP = -1;
         #do the multiplayers
         foreach (var mp; multiplayer.model.list) {
             var n = mp.node;
@@ -182,12 +186,13 @@ var radar = {
             var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
             var distance = nil;
             call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-            if ((size(err))or(distance==nil)) {
+            if ((size(err))or(distance==nil) or n.getNode("valid").getValue() == 0) {
                 # Oops, have errors. Bogus position data (and distance==nil).
                     print("Received invalid position data: " ~ debug._error(mp.callsign));
             }
             else
              {
+
                 # Node with valid position data (and "distance!=nil").
                 var aircraftAlt=n.getNode("position/altitude-ft").getValue()*0.305; #altitude in meters
                 #ground angle
@@ -198,9 +203,15 @@ var radar = {
                 var ya_rad=xg_rad*math.sin(myRoll)+yg_rad*math.cos(myRoll);
                 var xa_rad=xg_rad*math.cos(myRoll)-yg_rad*math.sin(myRoll);
                 #make blip
-                if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
-                  if (ya_rad > -0.5 and ya_rad < 0.5 and xa_rad > -1 and xa_rad < 1) {
+                if (ya_rad > -0.5 and ya_rad < 0.5 and xa_rad > -1 and xa_rad < 1) {
+                  if(distance < shortestDistance) {
+                        shortestDistance = distance;
+                        shortestAC = index;
+                        isShortestMP = 1;
+                      }
+                  if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
                       #aircraft is within the radar ray cone
+                      
                       if(curr_angle < prev_angle) {
                         var crr_angle = curr_angle;
                         curr_angle = prev_angle;
@@ -227,7 +238,9 @@ var radar = {
                   }
                 }
             }
+            index += 1;
         }
+        var b_j = index;
         #do the AI
         foreach (var mp; props.globals.getNode("/ai/models").getChildren("aircraft")) {
             var distance = nil;
@@ -236,7 +249,7 @@ var radar = {
             var z = mp.getNode("position/global-z").getValue();
             var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
             call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-            if ((size(err))or(distance==nil)) {
+            if ((size(err))or(distance==nil) or mp.getNode("valid").getValue() == 0) {
                 # Oops, have errors. Bogus position data (and distance==nil).
                     #print("Received invalid position data: " ~ debug._error(mp.callsign));
             }
@@ -252,9 +265,16 @@ var radar = {
                 var ya_rad=xg_rad*math.sin(myRoll)+yg_rad*math.cos(myRoll);
                 var xa_rad=xg_rad*math.cos(myRoll)-yg_rad*math.sin(myRoll);
                 #make blip
-                if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
-                  if (ya_rad > -0.5 and ya_rad < 0.5 and xa_rad > -1 and xa_rad < 1) {
+                if (ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
+                  if(distance < shortestDistance) {
+                        shortestDistance = distance;
+                        shortestAC = index-b_j;
+                        isShortestMP = 0;
+                        #print(shortestAC~" shortest "~shortestDistance~" distance "~mp.getNode("callsign").getValue());
+                      }     
+                  if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
                       #aircraft is within the radar ray cone
+                                       
                       if(curr_angle < prev_angle) {
                         var crr_angle = curr_angle;
                         curr_angle = prev_angle;
@@ -281,7 +301,11 @@ var radar = {
                   }
                 }
             }
+            index += 1;
         }
+        setprop("sim/ja37/radar/selected", shortestAC);
+        setprop("sim/ja37/radar/selectedMP", isShortestMP);
+        #print("selected "~shortestAC~" MP "~isShortestMP);
         for (i = b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
     },
 };

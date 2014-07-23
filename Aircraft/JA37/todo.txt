@@ -9,6 +9,7 @@ Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will 
 Report: After A/P the plane consumes too much fuel. [not reproduceable]
 Sound: Occasional wierd buzz in external sounds.
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
+HUD: When the altitude difference to a target is much larger than the horizontal distance, the targets are not drawn correct.
 
 
 Features and improvements:
@@ -17,7 +18,7 @@ GUI: Option to turn off verbose popups.
 GUI: More and better popup feedback. (gear/flaps/stalling/yawstabilizer)
 GUI: Make something procedual, just to test it out.
 GUI: Test new FGPlot.
-GUI: Make HUD switchable to imperial units.
+GUI: Make HUD switchable to imperial units. (also with key)
 GUI: Checklist.
 GUI: Option to switch off hitting stuff above ground.
 Aero: Make canopy increase drag.
@@ -42,7 +43,8 @@ Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particale is always attached to world not plane]
+Sim: Make splash screen different color.
+Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear backwards)
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -53,7 +55,6 @@ Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds
 Sound: Marker warning tone should be removed per default. (tied to radio ILS)
-HUD: Make combat mode for HUD.
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)

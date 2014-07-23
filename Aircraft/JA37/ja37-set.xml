@@ -17,7 +17,24 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>2.06</aircraft-version>
+
+  <tags>
+      <!--<tag>saab</tag>
+      <tag>1990s</tag>-->
+      <tag>jet</tag>
+      <tag>retractable-gear</tag>
+      <tag>supersonic</tag>
+      <tag>coldwar</tag>
+      <tag>fighter</tag>
+      <tag>1980s</tag>
+      <tag>stol</tag>
+      <tag>cannard</tag>
+      <tag>delta</tag>
+      <tag>hud</tag>
+      <tag>afterburner</tag>
+  </tags>
+
+  <aircraft-version>2.07</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -480,6 +497,14 @@
     <name>C</name>
     <desc>Toggle canopy</desc>
    </key>
+   <key>
+    <name>H</name>
+    <desc>HUD Brightness</desc>
+   </key>
+   <key>
+    <name>I</name>
+    <desc>Toggle HUD units. Metric/imperial.</desc>
+   </key>   
    <text>
     Startup
     ______
@@ -662,6 +687,17 @@
         <options type="bool">false</options>
         <initialized type="bool">false</initialized>
       </supported>
+      <radar>
+        <selectedMP type="int">-1</selectedMP>
+        <selected type="int">-1</selected>
+      </radar>
+      <blink>
+        <five-Hz type="bool">false</five-Hz>
+        <ten-Hz type="bool">false</ten-Hz>
+      </blink>
+      <hud>
+        <units-metric type="bool">1</units-metric>
+      </hud>
     </ja37>
   </sim>
 
@@ -793,10 +829,26 @@
       <binding>
          <command>nasal</command>
          <script>
-           gui.popupTip("HUD is already on in cockpit view.");
+           gui.popupTip("HUD is on in cockpit view, when aircraft is started.");
          </script>
       </binding>
     </key>
+    <key n="72">
+      <name>H</name>
+      <desc>Cycle HUD Brightness</desc>
+      <binding>
+       <command>nasal</command>
+       <script>canvas_HUD.cycle_brightness()</script>
+      </binding>
+     </key>
+     <key n="73">
+    <name>I</name>
+    <desc>Switch HUD units.</desc>
+    <binding>
+     <command>nasal</command>
+     <script>canvas_HUD.cycle_units()</script>
+    </binding>
+   </key> 
     <key n="115">
       <name>s</name>
       <desc>Start engine</desc>
@@ -1085,5 +1137,8 @@
   <crash>
     <file>Aircraft/JA37/Nasal/crash.nas</file>
   </crash>
+  <failure-mgr>
+    <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
+  </failure-mgr>
 </nasal>
 </PropertyList>

@@ -138,7 +138,7 @@
       <value>altitude-hold</value>
     </enable>
     <input>
-      <prop>/position/altitude-ft</prop>
+      <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
     </input>
     <reference>
       <prop>/autopilot/settings/target-altitude-ft</prop>
@@ -154,7 +154,7 @@
     </config>
   </pi-simple-controller>
 
-  <!-- Stage #2 drives the elevator-trim to achieve the desired climb rate. -->
+  <!-- Stage #2 drives the elevator to achieve the desired climb rate. -->
   <pid-controller>
     <name>Altitude Hold (Altimeter based) Stage 2</name>
     <debug>false</debug>
