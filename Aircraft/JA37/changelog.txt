@@ -634,5 +634,12 @@ Aero: Make rudder deflect more at low speeds.
 
 2.35 - 2014 July 7
 ====
-Aero: Made gear springs inclease damping about 50%.
+Aero: Made gear springs increase damping about 50%.
 Sim: The key 'm' now toggles nose gear steering.
+
+2.36 - 2014 July 8
+====
+Aero: Gear brakes can now again hold full aug thrust, as documented they should.
+HUD: Flight path indicator now is shown alongside sidewind indicator, when front gear is uncompressed.
+Aero: Made gear springs increase damping further.
+HUD: Moved turn coordinator back into the corner.

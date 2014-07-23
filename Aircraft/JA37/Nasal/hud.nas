@@ -446,7 +446,7 @@ var HUDnasal = {
       .setColor(r,g,b, a);
 
     #turn coordinator
-    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(0, 265);
+    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(325, 425);
     HUDnasal.main.turn_group2 = HUDnasal.main.turn_group.createChild("group");
     HUDnasal.main.t_rot   = HUDnasal.main.turn_group2.createTransform();
     HUDnasal.main.turn_indicator = HUDnasal.main.turn_group2.createChild("path")
@@ -1145,100 +1145,10 @@ var HUDnasal = {
       #print("QFE count " ~ countQFE);
 
 
-      ####   Sights/crosshairs   ####
+      ####   reticle  ####
+      me.showReticle(mode, cannon, out_of_ammo);
 
-      if (mode == COMBAT and cannon == 1) {
-        me.reticle_no_ammo.hide();
-        me.takeoff_symbol.hide();
-        me.aim_reticle.show();
-        
-        me.reticle_group.setTranslation(0, centerOffset);
-        # move fin to alpha
-        me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
-
-        if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
-          # blink the fin if alpha is high
-          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
-            me.aim_reticle_fin.show();
-          } else {
-            me.aim_reticle_fin.hide();
-          }
-        } else {
-          me.aim_reticle_fin.show();
-        }
-      } elsif (mode != TAKEOFF) {
-        # flight path vector (FPV)
-        var vel_gx = me.input.speed_n.getValue();
-        var vel_gy = me.input.speed_e.getValue();
-        var vel_gz = me.input.speed_d.getValue();
-     
-        var yaw = me.input.hdgReal.getValue() * deg2rads;
-        var roll = me.input.roll.getValue() * deg2rads;
-        var pitch = me.input.pitch.getValue() * deg2rads;
-     
-        var sy = math.sin(yaw);   var cy = math.cos(yaw);
-        var sr = math.sin(roll);  var cr = math.cos(roll);
-        var sp = math.sin(pitch); var cp = math.cos(pitch);
-     
-        var vel_bx = vel_gx * cy * cp
-                   + vel_gy * sy * cp
-                   + vel_gz * -sp;
-        var vel_by = vel_gx * (cy * sp * sr - sy * cr)
-                   + vel_gy * (sy * sp * sr + cy * cr)
-                   + vel_gz * cp * sr;
-        var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
-                   + vel_gy * (sy * sp * cr - cy * sr)
-                   + vel_gz * cp * cr;
-     
-        var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * rad2deg;
-        var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * rad2deg;
-        
-        var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
-        var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);
-
-        me.takeoff_symbol.hide();
-
-        if ( out_of_ammo == 1) {
-          me.aim_reticle.hide();
-          me.aim_reticle_fin.hide();
-          me.reticle_no_ammo.show();
-          me.reticle_no_ammo.setTranslation(pos_x, pos_y);
-        } else {
-          me.reticle_no_ammo.hide();
-          me.aim_reticle.show();
-          
-          me.reticle_group.setTranslation(pos_x, pos_y);
-          # move fin to alpha
-          me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
-          if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
-            # blink the fin if alpha is high
-            if(getprop("sim/ja37/blink/ten-Hz") == 1) {
-              me.aim_reticle_fin.show();
-            } else {
-              me.aim_reticle_fin.hide();
-            }
-          } else {
-            me.aim_reticle_fin.show();
-          }
-        }
-      } elsif(mode == TAKEOFF) {
-        me.reticle_no_ammo.hide();
-        me.aim_reticle.hide();
-        me.aim_reticle_fin.hide();
-        me.takeoff_symbol.show();
-        
-        #move takeoff/landing symbol according to side wind:
-        var wind_heading = getprop("environment/wind-from-heading-deg");
-        var wind_speed = getprop("environment/wind-speed-kt");
-        var heading = me.input.hdgReal.getValue();
-        #var speed = me.input.ias.getValue();
-        var angle = (wind_heading -heading) * (math.pi / 180.0); 
-        var wind_side = math.sin(angle) * wind_speed;
-        #print((wind_heading -heading) ~ " " ~ wind_side);
-        me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
-      }
-
-      # artificial horizon and pitch lines
+      ### artificial horizon and pitch lines ###
       me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
       me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
       me.horizon_group.setTranslation(0, centerOffset);
@@ -1252,7 +1162,7 @@ var HUDnasal = {
         me.horizon_dots.show();
       }
 
-      #turn coordinator
+      ### turn coordinator ###
       if (getprop("sim/ja37/hud/bank-indicator") == 1) {
         #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
         me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*20, -150, 150), 0);
@@ -1262,8 +1172,6 @@ var HUDnasal = {
       }
 
       ####  Radar HUD tracks  ###
-
-      
       me.self = geo.aircraft_position();
       me.myPitch=getprop("orientation/pitch-deg")*deg2rads;
       me.myRoll=-getprop("orientation/roll-deg")*deg2rads;
@@ -1592,6 +1500,113 @@ var HUDnasal = {
       }
     }
     return nil;
+  },
+
+  showReticle: func (mode, cannon, out_of_ammo) {
+    if (mode == COMBAT and cannon == 1) {
+      me.reticle_no_ammo.hide();
+      me.showSidewind(0);
+      
+      me.reticle_group.setTranslation(0, centerOffset);
+      # move fin to alpha
+      me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
+
+      if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
+        # blink the fin if alpha is high
+        if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+          me.aim_reticle_fin.show();
+        } else {
+          me.aim_reticle_fin.hide();
+        }
+      } else {
+        me.aim_reticle_fin.show();
+      }
+      me.aim_reticle.show();
+    } elsif (mode != TAKEOFF) {# or me.input.wow_nlg.getValue() == 0
+      # flight path vector (FPV)
+      me.showFlightPathVector(1, out_of_ammo);
+      me.showSidewind(0);
+    } elsif(mode == TAKEOFF) {
+      me.showFlightPathVector(!me.input.wow_nlg.getValue(), out_of_ammo);
+      me.showSidewind(1);
+    }    
+  },
+
+  showSidewind: func(show) {
+    if(show == 1) {
+      #move sidewind symbol according to side wind:
+      var wind_heading = getprop("environment/wind-from-heading-deg");
+      var wind_speed = getprop("environment/wind-speed-kt");
+      var heading = me.input.hdgReal.getValue();
+      #var speed = me.input.ias.getValue();
+      var angle = (wind_heading -heading) * (math.pi / 180.0); 
+      var wind_side = math.sin(angle) * wind_speed;
+      #print((wind_heading -heading) ~ " " ~ wind_side);
+      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);    
+      me.takeoff_symbol.show();
+    } else {
+      me.takeoff_symbol.hide();
+    }
+  },
+
+  showFlightPathVector: func (show, out_of_ammo) {
+    if(show == 1) {
+      var vel_gx = me.input.speed_n.getValue();
+      var vel_gy = me.input.speed_e.getValue();
+      var vel_gz = me.input.speed_d.getValue();
+   
+      var yaw = me.input.hdgReal.getValue() * deg2rads;
+      var roll = me.input.roll.getValue() * deg2rads;
+      var pitch = me.input.pitch.getValue() * deg2rads;
+   
+      var sy = math.sin(yaw);   var cy = math.cos(yaw);
+      var sr = math.sin(roll);  var cr = math.cos(roll);
+      var sp = math.sin(pitch); var cp = math.cos(pitch);
+   
+      var vel_bx = vel_gx * cy * cp
+                 + vel_gy * sy * cp
+                 + vel_gz * -sp;
+      var vel_by = vel_gx * (cy * sp * sr - sy * cr)
+                 + vel_gy * (sy * sp * sr + cy * cr)
+                 + vel_gz * cp * sr;
+      var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
+                 + vel_gy * (sy * sp * cr - cy * sr)
+                 + vel_gz * cp * cr;
+   
+      var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * rad2deg;
+      var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * rad2deg;
+      
+      var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
+      var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);
+
+      if ( out_of_ammo == 1) {
+        me.aim_reticle.hide();
+        me.aim_reticle_fin.hide();
+        me.reticle_no_ammo.show();
+        me.reticle_no_ammo.setTranslation(pos_x, pos_y);
+      } else {
+        me.reticle_no_ammo.hide();
+        me.aim_reticle.show();
+        
+        me.reticle_group.setTranslation(pos_x, pos_y);
+        # move fin to alpha
+        me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
+        if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
+          # blink the fin if alpha is high
+          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+            me.aim_reticle_fin.show();
+          } else {
+            me.aim_reticle_fin.hide();
+          }
+        } else {
+          me.aim_reticle_fin.show();
+        }
+      }    
+    } else {
+      me.aim_reticle_fin.hide();
+      me.aim_reticle.hide();
+      me.reticle_no_ammo.hide();
+    }
   }
 };#end of HUDnasal
 
