@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.21</aircraft-version>
+  <aircraft-version>2.22</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -727,18 +727,22 @@
       <radar>
         <selectedMP type="int">-1</selectedMP>
         <selected type="int">-1</selected>
-        <enabled archive="y" type="bool">1</enabled>
+        <enabled userarchive="y" type="bool">1</enabled>
       </radar>
       <blink>
         <five-Hz type="bool">false</five-Hz>
         <ten-Hz type="bool">false</ten-Hz>
       </blink>
       <hud>
-        <tracks-enabled type="bool">1</tracks-enabled>
-        <units-metric archive="y" type="bool">1</units-metric>
-        <mode  archive="y" type="bool">1</mode>
-        <combat type="bool">0</combat>
+        <tracks-enabled type="bool">true</tracks-enabled>
+        <units-metric userarchive="y" type="bool">true</units-metric>
+        <mode userarchive="y" type="bool">true</mode>
+        <combat type="bool">false</combat>
+        <bank-indicator userarchive="y" type="bool">false</bank-indicator>
       </hud>
+      <damage>
+        <enabled type="bool">true</enabled>
+      </damage>
       <armament>
         <msg type="bool">false</msg>
         <rb24>

@@ -432,6 +432,28 @@ var HUDnasal = {
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
 
+    #turn indicator
+    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(400, 425);
+    HUDnasal.main.turn_group2 = HUDnasal.main.turn_group.createChild("group");
+    HUDnasal.main.t_rot   = HUDnasal.main.turn_group2.createTransform();
+    HUDnasal.main.turn_indicator = HUDnasal.main.turn_group2.createChild("path")
+         .moveTo(-10, 0)
+         .horiz(-75)
+         .moveTo(10, 0)
+         .horiz(75)
+         .moveTo(-10, 0)
+         .vert(10)
+         .moveTo(10, 0)
+         .vert(10)      
+         .setStrokeLineWidth(w)
+         .setColor(r,g,b, a);
+    HUDnasal.main.turn_group3 = HUDnasal.main.turn_group2.createChild("group");
+    HUDnasal.main.slip_indicator = HUDnasal.main.turn_group3.createChild("path")
+         .moveTo(-5, -10)
+         .horiz(10)
+         .setStrokeLineWidth(10)
+         .setColor(r,g,b, a);
+
 
     # Horizon
     HUDnasal.main.horizon_group = HUDnasal.main.root.createChild("group");
@@ -610,8 +632,8 @@ var HUDnasal = {
     }
 
     artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
-             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL,
-             HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low,
+             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator,
+             HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin,
              HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe,
              HUDnasal.main.alt, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
@@ -1107,7 +1129,14 @@ var HUDnasal = {
         me.horizon_dots.show();
       }
 
-
+      #turn indicator
+      if (getprop("sim/ja37/hud/bank-indicator") == 1) {
+        me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
+        me.slip_indicator.setTranslation(getprop("/orientation/side-slip-deg"), 0);
+        me.turn_group.show();
+      } else {
+        me.turn_group.hide();
+      }
 
       ####  Radar HUD    ###
 

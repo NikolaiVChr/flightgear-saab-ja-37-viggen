@@ -527,13 +527,18 @@ GUI: HUD radar-tracks and radar screen, can now be disabled seperately.
 Aero: Stopped sending updates to jsbsim continuelly. Is now only done when properties change.
 Sim: Options if radar is enabled and units in HUD are now saved between flying sessions.
 
-2.20
+2.20 - 2014 June 26
 ----
 HUD: Made lines thinner.
 Sim: Fixed canopy would not get power to open.
 HUD: Symbol for nearest airport now show ICAO also.
 Sim: When crashing the reason is now displayed on screen.
+Sim: Updated the help to reflect the changes to the HUD.
 
-2.21
+2.21 - 2014 June 27
 ----
 HUD: Added key to toggle custom/FG HUD.
+
+2.22
+----
+HUD: Added option to turn on a HUD bank and slip indicator.

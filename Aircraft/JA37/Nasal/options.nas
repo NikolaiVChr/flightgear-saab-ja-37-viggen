@@ -204,6 +204,21 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.tracksButton.setBinding("nasal", "ja37.Dialog.tracksToggle()");
 
+          ######   HUD bank indicator button   #####
+          var bankRow = topRow.addChild("group");
+          bankRow.set("layout", "hbox");
+          bankRow.set("pref-height", 25);
+          bankRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var bankText = bankRow.addChild("text").set("label", "HUD bank indicator: (not authentic)");
+          bankRow.addChild("empty").set("stretch", 1);
+          me.dialog.bankButton = bankRow.addChild("button");
+          me.dialog.bankButton.set("halign", "right");
+          me.dialog.bankButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.bankButton.setBinding("nasal", "ja37.Dialog.bankToggle()");
+
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
           rb24msgRow.set("layout", "hbox");
@@ -318,6 +333,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    bankToggle: func {
+      var enabled = getprop("sim/ja37/hud/bank-indicator");
+      setprop("sim/ja37/hud/bank-indicator", !enabled);
+      me.refreshButtons();
+    },    
+
     rb24msgToggle: func {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
@@ -396,6 +417,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.tracksButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/hud/bank-indicator");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.bankButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {
