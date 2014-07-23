@@ -595,10 +595,13 @@
       <mode>once</mode>
       <condition>
         <property>sim/current-view/internal</property>
-        <equals>
-          <property>sim/ja37/sound/click-on</property>
-          <value>1</value>
-        </equals>
+        <or>
+          <equals>
+            <property>sim/ja37/sound/click-on</property>
+            <value>1</value>
+          </equals>
+          <property>sim/ja37/avionics/master-warning-button</property>
+        </or>
       </condition>
       <volume>
         <factor>1</factor>

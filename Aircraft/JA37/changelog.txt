@@ -684,12 +684,19 @@ GUI: Changes "reversed" to "reverse" popup message.
 Engine: Improved auto-startup final phase.
 Aero: Fixed bug in aileron limiter control system. The plane is now less roll-lazy at medium/high speeds.
 
-2.43
-==== - 2014 July 19
+2.43 - 2014 July 19
+====
 Sim: Fixed a bug when following MP aircraft.
 
-2.44
+2.44 - 2014 July 20
 ====
 Sim: Various nasal optimizations.
 Sound: Made a click sound when toggling parking brake.
 Model: Added a flight stick.
+
+2.45
+====
+Animation: Made instrument lights more red.
+Model: Added master warning button and indicators on main panel.
+Sim: Fixed failure system incompatibility with FG 3.3
+Sim: Adjusted G induced blackout, to make pilot able to work at 8G.

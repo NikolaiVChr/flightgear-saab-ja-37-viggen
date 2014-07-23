@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.44</aircraft-version>
+  <aircraft-version>2.45</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -412,8 +412,9 @@
   <rendering>
    <redout>
     <parameters>
+      <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G but have no official numbers.-->
      <blackout-complete-g>11.0</blackout-complete-g>
-     <blackout-onset-g>5.0</blackout-onset-g>
+     <blackout-onset-g>7.0</blackout-onset-g>
      <redout-complete-g>-4.0</redout-complete-g>
      <redout-onset-g>-1.5</redout-onset-g>
     </parameters>

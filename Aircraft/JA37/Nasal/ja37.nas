@@ -369,6 +369,35 @@ var update_loop = func {
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
+    # Master warning
+    if(getprop("systems/electrical/outputs/battery") > 23 ) {
+      if (getprop("sim/ja37/avionics/master-warning-button") == 1) {
+        # test, should really be turn off sound
+        setprop("/instrumentation/master-warning", 1);
+      } elsif (getprop("engines/engine/running") == 0 and autostarting == 0) {
+        # Major warning
+        if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+          setprop("/instrumentation/master-warning", 1);
+        } else {
+          setprop("/instrumentation/master-warning", 0);
+        }
+      } elsif (1 == 0) {
+        # minor warning
+        if(getprop("sim/ja37/blink/five-Hz") == 1) {
+          setprop("/instrumentation/master-warning", 1);
+        } else {
+          setprop("/instrumentation/master-warning", 0);
+        }
+      } else {
+        setprop("/instrumentation/master-warning", 0);
+      }
+    } else {
+     setprop("/instrumentation/master-warning", 0); 
+    }
+
+    
+
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
@@ -481,9 +510,8 @@ var test_support = func {
     setprop("sim/ja37/supported/options", 1);
     setprop("sim/ja37/supported/radar", 1);
     setprop("sim/ja37/supported/hud", 1);
-    if (version[1] == "1" or version[1] == "2") {
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-    } else {
+    setprop("sim/ja37/supported/old-custom-fails", 0);
+    if (version[1] == "0") {
       setprop("sim/ja37/supported/old-custom-fails", 1);
     }
   }
@@ -527,8 +555,8 @@ var main_init = func {
   # inst. light
 
   setprop("/instrumentation/instrumentation-light/r", 1.0);
-  setprop("/instrumentation/instrumentation-light/g", 1.0);
-  setprop("/instrumentation/instrumentation-light/b", 0.3);
+  setprop("/instrumentation/instrumentation-light/g", 0.3);
+  setprop("/instrumentation/instrumentation-light/b", 0.0);
 
   screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.0, 0.0);
 

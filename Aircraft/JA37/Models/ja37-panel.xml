@@ -26,7 +26,7 @@
     <pitch-deg>79.329</pitch-deg>
       <x-m> -3.85</x-m>
       <y-m>  0.110</y-m>
-      <z-m>  0.50</z-m>
+      <z-m>  0.495</z-m>
     </offsets>
   </model>
 
@@ -123,9 +123,9 @@
     <name>Angle of Attack Indicator</name>
     <offsets>
     <pitch-deg>-14.0</pitch-deg>
-      <x-m> -3.87</x-m>
-      <y-m> -0.11</y-m>
-      <z-m>  0.48</z-m>
+      <x-m> -3.88</x-m>
+      <y-m> -0.095</y-m>
+      <z-m>  0.50</z-m>
     </offsets>
   </model>
 
@@ -252,6 +252,39 @@
       <x-m> -3.84</x-m>
       <y-m> -0.21</y-m>
       <z-m>  0.48</z-m>
+    </offsets>
+  </model>
+
+<model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning.xml</path>
+    <name>Höjd</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.843</x-m>
+      <y-m> -0.1425</y-m>
+      <z-m>  0.465</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning.xml</path>
+    <name>Höjd</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.843</x-m>
+      <y-m> -0.1125</y-m>
+      <z-m>  0.465</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/master-warning-button.xml</path>
+    <name>Höjd</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.843</x-m>
+      <y-m> -0.1575</y-m>
+      <z-m>  0.465</z-m>
     </offsets>
   </model>
 
