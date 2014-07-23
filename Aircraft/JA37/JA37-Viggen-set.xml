@@ -412,11 +412,11 @@
   <rendering>
    <redout>
     <parameters>
-      <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G but have no official numbers.-->
+      <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G-9G but have no official numbers.-->
      <blackout-complete-g>11.0</blackout-complete-g>
-     <blackout-onset-g>7.0</blackout-onset-g>
+     <blackout-onset-g>8.0</blackout-onset-g>
      <redout-complete-g>-4.0</redout-complete-g>
-     <redout-onset-g>-1.5</redout-onset-g>
+     <redout-onset-g>-2.0</redout-onset-g>
     </parameters>
    </redout>
   </rendering>
