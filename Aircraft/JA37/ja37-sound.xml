@@ -720,6 +720,20 @@
     <volume><factor>4</factor></volume>
   </takeoffalpha>
 
+  <pullup>
+    <name>pull-up</name>
+    <mode>single</mode>
+    <path>Aircraft/JA37/Sounds/pull-up.wav</path>
+    <type>avionics</type>
+    <condition>
+      <property>sim/ja37/sound/terrain-on</property>
+      <property>sim/current-view/internal</property>
+      <not>
+          <property>fdm/jsbsim/simulation/exploded</property>
+      </not>
+    </condition>
+    <volume><factor>4</factor></volume>
+  </pullup>
 
   <!-- old stall warnings:-->
   

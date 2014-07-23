@@ -721,3 +721,19 @@ var toggleNosewheelSteer = func {
     gui.popupTip("Nose Wheel Steering: OFF", 1.5);
   }
 }
+
+var follow = func () {
+  setprop("/autopilot/target-tracking-ja37/enable", 0);
+  if(canvas_HUD.diamond_node != nil) {
+    var target = canvas_HUD.diamond_node;
+    setprop("/autopilot/target-tracking-ja37/target-root", target.getPath());
+    #this is done in -set file: /autopilot/target-tracking-ja37/min-speed-kt
+    setprop("/autopilot/target-tracking-ja37/enable", 1);
+    var range = 0.025;
+    setprop("/autopilot/target-tracking-ja37/goal-range-nm", range);
+  }
+}
+
+var unfollow = func () {
+  setprop("/autopilot/target-tracking-ja37/enable", 0);
+}

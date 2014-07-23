@@ -26,7 +26,7 @@ Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
 Animation: Gauges that share mount design should also share geometry and textures.
 Animation: Strobe looks bad in FG 3.0, but better in FG 3.1
-Sim: Improve autopilot further.
+Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend on instrument properties not sim properties.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
@@ -39,11 +39,12 @@ Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Key to match speed of HUD selected radar track.
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
 Sim: Make replay show the new guided missiles flying.
 Sim: Carrier tailhook although the original did not have one.
+Sim: Consider if auto-follow should evoke A/P.
+Sim: Improve terrain warning system.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -51,7 +52,7 @@ Effect: Make tires burst if too high speed with parking brakes.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Effect: Smoke for aerobatic demos. (look at F-7MG)
+Effect: Smoke for aerobatic demos. (look at F-7MG?)
 Sound: More annunciater warnings and other sounds. (fuel low..)
 Sound: Make sounds when taking damage in bombable.
 Sound: Make annunciator warnings only work if the system has power.
@@ -60,14 +61,12 @@ HUD: Make individual parts in HUD fail if the corresponding instrument fails. (l
 HUD: Make desired height columns for landing and boxes for desired pitch.
 HUD: make more methods out of similar code, introduce more comments and name variables better.
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
-HUD: make symbol for warning: pull up! (plus annunciater sound)
 HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle fin down.
-HUD: Seperate landing and takeoff mode. Reticle with fin should also be shown in landing mode.
+HUD: Seperate landing and takeoff mode.
 HUD: Sideslip indicator dot at bottom of HUD?
 HUD: Track semi circles and semi box should have a line in them.
 HUD: Option to see plane type instead of callsign.
-HUD: Smaller symbols, but same font size.
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 
 

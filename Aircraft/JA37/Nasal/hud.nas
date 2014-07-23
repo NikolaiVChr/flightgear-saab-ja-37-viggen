@@ -404,6 +404,32 @@ var HUDnasal = {
     HUDnasal.main.alt.setTranslation(-375, 300);
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
+    # Cannon aiming reticle
+    HUDnasal.main.arrow_group = HUDnasal.main.root.createChild("group");  
+    HUDnasal.main.arrow_trans   = HUDnasal.main.arrow_group.createTransform();
+    HUDnasal.main.arrow =
+      HUDnasal.main.arrow_group.createChild("path")
+      .setColor(r,g,b, a)
+      .moveTo(-15,  90)
+      .lineTo(-15, -90)
+      .lineTo(-30, -90)
+      .lineTo(  0, -120)
+      .lineTo( 30, -90)
+      .lineTo( 15, -90)
+      .lineTo( 15,  90)
+      .setStrokeLineCap("round")
+      .setStrokeLineWidth(w);
+
+    # Cannon aiming reticle
+    HUDnasal.main.reticle_cannon =
+      HUDnasal.main.root.createChild("path")
+      .setColor(r,g,b, a)
+      .moveTo(-15*reticle_factor, 0)
+      .lineTo(15*reticle_factor, 0)
+      .moveTo(0, -15*reticle_factor)
+      .lineTo(0,  15*reticle_factor)
+      .setStrokeLineCap("round")
+      .setStrokeLineWidth(w);
     # Out of ammo flight path indicator
     HUDnasal.main.reticle_no_ammo =
       HUDnasal.main.root.createChild("path")
@@ -671,9 +697,9 @@ var HUDnasal = {
     }
 
     artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug,
-             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator,
+             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator, HUDnasal.main.arrow,
              HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
-             HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin,
+             HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon,
              HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe, HUDnasal.main.target, HUDnasal.main.desired_lines,
              HUDnasal.main.alt, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
@@ -706,6 +732,35 @@ var HUDnasal = {
       if (getprop("/sim/ja37/hud/combat") == 1 and getprop("controls/armament/station-select") != 0 and 
           getprop("payload/weight["~ (getprop("controls/armament/station-select")-1) ~"]/selected") == "none") {
             out_of_ammo = 1;
+      }
+
+      # ground collision warning
+      var rad_alt = me.input.rad_alt.getValue();
+      #var x = mp.getNode("position/global-x").getValue();# meters probably
+      #var y = mp.getNode("position/global-y").getValue();
+      #var z = mp.getNode("position/global-z").getValue();
+      #var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+      #var vel_gx = me.input.speed_n.getValue();#feet per second
+      #var vel_gy = me.input.speed_e.getValue();
+      var vel_gz = me.input.speed_d.getValue();
+
+      #extend vector of ground elevations
+      if(rad_alt != nil and vel_gz != nil) {
+        var time_till_crash = rad_alt / vel_gz;
+
+        # very simple ground detection.
+        if(mode != TAKEOFF and time_till_crash < 10 and time_till_crash > 0) {
+          setprop("sim/ja37/sound/terrain-on", 1);
+          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+            me.arrow_trans.setRotation(- getprop("orientation/roll-deg")*deg2rads);
+            me.arrow.show();
+          } else {
+            me.arrow.hide();
+          }
+        } else {
+          setprop("sim/ja37/sound/terrain-on", 0);
+          me.arrow.hide();
+        }
       }
 
       # digital speed
@@ -1511,31 +1566,21 @@ var HUDnasal = {
 
   showReticle: func (mode, cannon, out_of_ammo) {
     if (mode == COMBAT and cannon == 1) {
-      me.reticle_no_ammo.hide();
       me.showSidewind(0);
       
-      me.reticle_group.setTranslation(0, centerOffset);
-      # move fin to alpha
-      me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
+      me.reticle_cannon.setTranslation(0, centerOffset);
+      me.reticle_cannon.show();
 
-      if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
-        # blink the fin if alpha is high
-        if(getprop("sim/ja37/blink/ten-Hz") == 1) {
-          me.aim_reticle_fin.show();
-        } else {
-          me.aim_reticle_fin.hide();
-        }
-      } else {
-        me.aim_reticle_fin.show();
-      }
-      me.aim_reticle.show();
+      me.showFlightPathVector(1, 0);
     } elsif (mode != TAKEOFF) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       me.showFlightPathVector(1, out_of_ammo);
       me.showSidewind(0);
+      me.reticle_cannon.hide();
     } elsif(mode == TAKEOFF) {
       me.showFlightPathVector(!me.input.wow_nlg.getValue(), out_of_ammo);
       me.showSidewind(1);
+      me.reticle_cannon.hide();
     }    
   },
 

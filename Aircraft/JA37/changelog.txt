@@ -656,6 +656,13 @@ Aero: Made nose-wheel brake, and reduced rear static friction which will help la
 Sim: Moved pilots eye position forward and and up to help see runway on approach.
 HUD: Made a further setting for higher brightness.
 
-2.39
+2.39 - 2014 July 15
 ====
 HUD: Made sidewind and flight path indicator symbols smaller.
+
+2.40 - 2014 July 18
+====
+Sim: Key 'f' and 'F' now will make A/P settings for intercepting and flying in formation with the target at the time of the keypress.
+HUD: Cannon should have its own aiming reticle, besides having a flight path indicator.
+Sound: Made simple terrain warning system.
+HUD: Made arrow for terrain warning system.

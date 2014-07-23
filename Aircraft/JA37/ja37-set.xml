@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.39</aircraft-version>
+  <aircraft-version>2.40</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -543,7 +543,15 @@
    <key>
     <name>m</name>
     <desc>Toggle nose wheel steering</desc>
-   </key>   
+   </key>
+   <key>
+    <name>f</name>
+    <desc>Set autopilot to follow current target</desc>
+   </key>
+   <key>
+    <name>F</name>
+    <desc>Set autopilot to stop follow current target</desc>
+   </key>
    <text>
     Startup
     ______
@@ -573,11 +581,10 @@
     HUD info
     ________
     The HUD uses Km/h and meters, but this can be switched with 'I'.
-    When in landing/takeoff mode the sight will move to a side according to sidewind.
-    When in navigation mode the reticle will show the direction the plane is headed in.
-    The top fin on the reticle will move/blink according to AoA.
-    In combat mode when the cannon is selected, the reticle will not move.
-    In combat mode the reticle change if out of ammo.
+    When in landing/takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
+    The vertical tail on the flight path indicator will move/blink according to AoA.
+    In combat mode when the cannon is selected, a fixed crosshair will appear.
+    In combat mode the reticle change if out of ammo if missiles selected.
     The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
     If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
     If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
@@ -587,6 +594,8 @@
     On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
     Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
     The heading at the top is shown as a scale showing 1/10 of heading in degrees.
+    Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In combat mode the nearest radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
+    Nearest tower is shown as a small diamond, with ICAO and distance.
     
     Warnings
     ________
@@ -601,6 +610,13 @@
     __________________________
     This can be enabled in the JA37-Options menu. It will enable the reverse thrust when you touch down with all 3 gears.
     If you take off from a rough strip or without runway, the ground bumpiness will enable this and prevent you from taking off. So in that case I recommend switching it off.
+
+    Using autopilot to follow target
+    ________________________________
+    The HUD must be in combat mode and a target must be present. Target is shown as a half-box.
+    Press 'f'. Then open the auto-pilot dialog and enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
+    If the target changes during the intercept, it will not switch to the new target.
+    To stop, press 'F' and disable autopilot control.
 
     Trivia
     _____
@@ -745,6 +761,7 @@
       </hud>
       <sound>
         <click-on type="bool">false</click-on>
+        <terrain-on type="bool">false</terrain-on>
       </sound>
       <damage>
         <enabled type="bool">true</enabled>
@@ -849,6 +866,14 @@
 <environment>
   <pressure-inhg>30</pressure-inhg>
 </environment>
+<autopilot>
+  <target-tracking-ja37>
+    <min-speed-kt type="double">200</min-speed-kt>
+  </target-tracking-ja37>
+  <target-tracking>
+    <min-speed-kt type="double">200</min-speed-kt>
+  </target-tracking>
+</autopilot>
 <systems>
   <electrical>
     <battery-full type="int">0</battery-full>
@@ -1084,6 +1109,22 @@
       </binding> 
      </mod-up>
     </key>
+    <key n="102">
+     <name>f</name>
+     <desc>Set autopilot to follow current target</desc> 
+     <binding>
+       <command>nasal</command>
+       <script>ja37.follow();</script>
+     </binding>
+    </key>
+    <key n="70">
+     <name>F</name>
+     <desc>Set autopilot to stop follow current target</desc> 
+     <binding>
+       <command>nasal</command>
+       <script>ja37.unfollow();</script>
+     </binding>
+    </key>
     <key n="8">
     <name>Backspace</name>
     <desc>Toggle Reversers</desc>
@@ -1275,6 +1316,7 @@
    <file>Aircraft/JA37/Nasal/radar.nas</file>
    <file>Aircraft/JA37/Nasal/options.nas</file>
    <file>Aircraft/JA37/Nasal/chronograph.nas</file>
+   <file>Aircraft/JA37/Nasal/track_target.nas</file>
   </ja37>
   <canvas_HUD>
     <file>Aircraft/JA37/Nasal/hud.nas</file>
