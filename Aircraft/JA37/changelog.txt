@@ -501,3 +501,10 @@ Sim: Changed where the cannon muzzle on the aircraft is located.
 2.16 - 2014 June 24
 ----
 Sim: Fixed missile guidence would be turned off, during flight.
+
+2.17 - 2014 June 25
+----
+HUD: Made a combat mode for the HUD. Different pitch lines, reticle and weapon name displayed.
+HUD: Radar no longer can lock onto carriers.
+Sim: Adjusted the RB-24J specs to match Aim-9J.
+Sim: Increased propability when missile explodes that Bombable will register it.

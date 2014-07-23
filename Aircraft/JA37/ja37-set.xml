@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.16</aircraft-version>
+  <aircraft-version>2.17</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -524,6 +524,10 @@
     <desc>HUD Brightness</desc>
    </key>
    <key>
+    <name>h</name>
+    <desc>Toggle masterarm</desc>
+   </key>
+   <key>
     <name>I</name>
     <desc>Toggle HUD units. Metric/imperial.</desc>
    </key>
@@ -728,21 +732,18 @@
       </hud>
         <armament>
         <rb24>
-          <count type="int">0</count>
-          <nearest-target type="int">-1</nearest-target>
           <sound-on-off type="bool">false</sound-on-off>
           <sound-volume type="double">0.12</sound-volume>
-          <target-range-nm type="double">0</target-range-nm>
           <!-- RB-24J specs (Swedish version of sidewinder) -->
-          <max-detection-rng-nm type="int">10</max-detection-rng-nm><!--FIXME: up to 10-16 MN with best conditions-->
+          <max-detection-rng-nm type="int">10</max-detection-rng-nm><!-- Aim-9J/rb-24j range is 7.83nm -->
           <fov-deg type="int">25</fov-deg>                     <!-- seeker optical FOV -->
           <detection-fov-deg type="int">60</detection-fov-deg> <!-- Search pattern diameter (rosette scan) -->
           <track-max-deg type="int">110</track-max-deg>        <!-- Seeker max total angular rotation -->
           <max-g type="int">42</max-g>                         <!-- In turn -->
-          <thrust-lbs type="double">230</thrust-lbs>           <!-- guess -->
-          <thrust-duration-sec type="int">30</thrust-duration-sec><!-- Mk.36 Mod.7,8 -->
-          <weight-launch-lbs>188</weight-launch-lbs>
-          <weight-warhead-lbs>20.8</weight-warhead-lbs>
+          <thrust-lbs type="double">200</thrust-lbs>           <!-- should achieve speed of 2.5+ mach -->
+          <thrust-duration-sec type="int">40</thrust-duration-sec><!-- Aim-9J/rb-24j -->
+          <weight-launch-lbs>188</weight-launch-lbs>           <!-- Aim-9J/rb-24j -->
+          <weight-warhead-lbs>9.92</weight-warhead-lbs>        <!-- Aim-9J/rb-24j -->
           <drag-coeff type="double">0.05</drag-coeff>          <!-- guess -->
           <drag-area type="double">0.043</drag-area>           <!-- sq ft -->
         </rb24>
@@ -893,14 +894,14 @@
 *************************************************************************--> 
  <input>
    <keyboard>
-    <!--<key n="104">
+    <key n="104">
       <name>h</name>
-      <desc>Switching between custom and default HUD</desc>
+      <desc>Toggle masterarm</desc>
       <binding>
-         <command>property-toggle</command>
-         <property>/sim/ja37/hud/mode</property>
+        <command>nasal</command>
+        <script>canvas_HUD.toggle_combat()</script>
       </binding>
-    </key>-->
+    </key>
     <key n="72">
       <name>H</name>
       <desc>Cycle HUD Brightness</desc>

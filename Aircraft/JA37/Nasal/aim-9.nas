@@ -279,8 +279,8 @@ var AIM9 = {
 				pitch_deg = getprop("orientation/pitch-deg");
 			} else {
 				#print("steering");
-				pitch_deg += me.track_signal_e;setprop("sim/ja37/armament/e", me.track_signal_e);
-				hdg_deg += me.track_signal_h;setprop("sim/ja37/armament/h", me.track_signal_h);
+				pitch_deg += me.track_signal_e;
+				hdg_deg += me.track_signal_h;
 			}
 		}
 

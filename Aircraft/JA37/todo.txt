@@ -13,6 +13,7 @@ HUD: When the altitude difference to a target is much larger than the horizontal
 Sim: On Linux, after fireing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Two times I could not autostart. Started before splash finish. Priority! [hard to reproduce, seldom]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
+Sim: Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
 
 
 Features and improvements:
@@ -45,7 +46,10 @@ Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Key to match speed of diamond.
+Sim: Key to match speed of HUD selected track.
+Sim: Air to ground missiles.
+Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
+Sim: If rb-24 loses lock, but last was close to target; explode.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear backwards)
 Effect: Check contrail effect is properly installed.
@@ -61,12 +65,11 @@ HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make desired height columns and boxes.
-HUD: Different kind of pitch lines, depending on mode.
 HUD: make more methods out of similar code, introduce more comments and name variables better.
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
 HUD: Use instrument properties instead of simulation properties.
-HUD: Make combat HUD, never active with landing mode. Different reticle and pitch lines. Diamond should seek when rb24 active. Activated by masterarm. Key h for masterarm.
+HUD: Combat HUD - diamond should seek when rb24 active. No diamond in nav mode.
 
 
 Issues with FG: (or my limited understanding of it)

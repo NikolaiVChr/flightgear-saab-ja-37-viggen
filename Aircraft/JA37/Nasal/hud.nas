@@ -24,6 +24,10 @@ var alt_scale_mode = -1; # the alt scale is not liniar, this indicates which par
 #var QFE = 0;
 var countQFE = 0;
 
+var TAKEOFF = 0;
+var NAV = 1;
+var COMBAT =2;
+
 #loc -0.006662 -0.334795 0.000975132
 #-4.18011 0.864636 -0.0878906
 #-4.18011 0.864636  0.0859375
@@ -371,7 +375,7 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-400, 175);
+    HUDnasal.main.qfe.setTranslation(-375, 175);
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
@@ -407,10 +411,31 @@ var HUDnasal = {
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
+    #aim reticle
+    HUDnasal.main.aim_reticle  = HUDnasal.main.root.createChild("path")
+      .moveTo(90, centerOffset)
+      .lineTo(30, centerOffset)
+      .arcSmallCCW(30, 30, 0, -60, 0)
+      .arcSmallCCW(30, 30, 0,  60, 0)
+      .close()
+      .moveTo(-30, centerOffset)
+      .lineTo(-90, centerOffset)
+      .setStrokeLineWidth(w)
+      .setStrokeLineCap("round")
+      .setColor(r,g,b, a);
+    HUDnasal.main.reticle_group = HUDnasal.main.root.createChild("group");  
+    HUDnasal.main.aim_reticle_line  = HUDnasal.main.reticle_group.createChild("path")
+      .moveTo(0, centerOffset-30)
+      .lineTo(0, centerOffset-60)
+      .setStrokeLineWidth(w)
+      .setStrokeLineCap("round")
+      .setColor(r,g,b, a);
+
 
     # Horizon
     HUDnasal.main.horizon_group = HUDnasal.main.root.createChild("group");
     HUDnasal.main.horizon_group2 = HUDnasal.main.horizon_group.createChild("group");
+    HUDnasal.main.horizon_group3 = HUDnasal.main.horizon_group.createChild("group");
     HUDnasal.main.h_rot   = HUDnasal.main.horizon_group.createTransform();
 
   
@@ -454,6 +479,18 @@ var HUDnasal = {
          
          .setStrokeLineWidth(w/2)
          .setColor(r,g,b, a));
+
+    for(var i = -18; i <= 18; i += 1) {
+      append(artifacts1, HUDnasal.main.horizon_group3.createChild("path")
+         .moveTo(-200, -i * distance)
+         .vert(25)
+
+         .moveTo(200, -i * distance)
+         .vert(25)
+         
+         .setStrokeLineWidth(w/2)
+         .setColor(r,g,b, a));
+    }
 
     #pitch line numbers
     for(var i = -18; i <= 0; i += 1)
@@ -506,7 +543,7 @@ var HUDnasal = {
       #diamond
     HUDnasal.main.diamond_group = HUDnasal.main.radar_group.createChild("group");
     HUDnasal.main.diamond_group.createTransform();
-    var diamond = HUDnasal.main.diamond_group.createChild("path")
+    HUDnasal.main.diamond = HUDnasal.main.diamond_group.createChild("path")
                            .moveTo(-70,   0)
                            .lineTo(  0, -70)
                            .lineTo( 70,   0)
@@ -564,10 +601,10 @@ var HUDnasal = {
     artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL,
              HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low,
-             HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high,
+             HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_line,
              HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe,
-             HUDnasal.main.alt, HUDnasal.main.vec_vel, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon, diamond,
-             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist,HUDnasal.main.diamond_name];
+             HUDnasal.main.alt, HUDnasal.main.vec_vel, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon, HUDnasal.main.diamond,
+             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist,HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
 
 
   },
@@ -591,6 +628,7 @@ var HUDnasal = {
       settimer(func me.update(), 1);
      } else {
       metric = getprop("sim/ja37/hud/units-metric");
+      mode = getprop("gear/gear/position-norm") != 0 ? TAKEOFF : (getprop("/sim/ja37/hud/combat") == 1 ? COMBAT : NAV);
       # digital speed
       var mach = me.input.mach.getValue();
 
@@ -887,9 +925,21 @@ var HUDnasal = {
         me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
       }
 
-      # display and adjust QFE
-      if (countQFE > 0) {
+      # display QFE or weapon
+      if (mode == COMBAT) {
+        var armSelect = getprop("controls/armament/station-select");
+        if(armSelect == 0) {
+          me.qfe.setText("KCA");
+          me.qfe.show();
+        } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") {
+          me.qfe.setText("RB-24");
+          me.qfe.show();
+        } else {
+          me.qfe.hide();
+        }        
+      } elsif (countQFE > 0) {
         # QFE is shown
+        me.qfe.setText("QFE");
         if(countQFE == 1) {
           countQFE = 2;
         }
@@ -928,8 +978,10 @@ var HUDnasal = {
       #print("QFE count " ~ countQFE);
 
       # Sights/crosshairs
-      if(getprop("gear/gear/position-norm") != nil and getprop("gear/gear/position-norm") == 0) {
+      if(mode == NAV) {
         me.takeoff_symbol.hide();
+        me.aim_reticle.hide();
+        me.aim_reticle_line.hide();
         # flight path vector (FPV)
         var vel_gx = me.input.speed_n.getValue();
         var vel_gy = me.input.speed_e.getValue();
@@ -968,8 +1020,10 @@ var HUDnasal = {
           me.vec_vel.show();
           #blinking = 0;
         }
-      } else {
+      } elsif(mode == TAKEOFF) {
         me.vec_vel.hide();
+        me.aim_reticle.hide();
+        me.aim_reticle_line.hide();
         me.takeoff_symbol.show();
         
         #move takeoff/landing symbol according to side wind:
@@ -981,14 +1035,28 @@ var HUDnasal = {
         var wind_side = math.sin(angle) * wind_speed;
         #print((wind_heading -heading) ~ " " ~ wind_side);
         me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
+      } elsif (mode == COMBAT) {
+        me.vec_vel.hide();
+        me.takeoff_symbol.hide();
+        me.aim_reticle.show();
+        me.aim_reticle_line.show();
+
+        # move line to alpha
+        me.reticle_group.setTranslation(0, -getprop("fdm/jsbsim/aero/alpha-deg")/2);
+
       }
 
       # artificial horizon and pitch lines
       me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+      me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
       me.horizon_group.setTranslation(0, centerOffset);
       var rot = -me.input.roll.getValue() * deg2rads;
       me.h_rot.setRotation(rot);
-
+      if(mode == COMBAT) {
+        me.horizon_group3.show();
+      } else {
+        me.horizon_group3.hide();
+      }
 
 
 
@@ -1011,7 +1079,7 @@ var HUDnasal = {
         foreach(item; multiplayer.model.list) {
           append(players, item.node);
         }
-        me.trackAI(players);
+        me.trackAI(players, 1);
 
         #AI planes:
         var node_ai = props.globals.getNode("/ai/models");
@@ -1022,15 +1090,15 @@ var HUDnasal = {
         var vehicles = node_ai.getChildren("groundvehicle");
         #print();
         
-        me.trackAI(carriers);
+        me.trackAI(carriers, 0);
         #print(size(carriers)~"carriers: "~me.track_index);
-        me.trackAI(tankers);
+        me.trackAI(tankers, 1);
         #print(size(tankers)~"tankers: "~me.track_index);
-        me.trackAI(ships);
+        me.trackAI(ships, 1);
         #print(size(ships)~"ship: "~me.track_index);
-        me.trackAI(planes);
+        me.trackAI(planes, 1);
         #print(size(planes)~"planes: "~me.track_index);
-        me.trackAI(vehicles);
+        me.trackAI(vehicles, 1);
         #print();
         if(me.track_index != -1) {
           #hide the the rest unused circles
@@ -1039,8 +1107,8 @@ var HUDnasal = {
           }
         }
 
+        #draw diamond
         if(me.short_dist != nil) {
-          #draw diamond
           var blink = 0;
           if(me.short_dist[0] > 512) {
             blink = 1;
@@ -1058,18 +1126,41 @@ var HUDnasal = {
             blink = 1;
             me.short_dist[1] = -512;
           }
-          diamond_node = me.short_dist[5];
-          me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
-          var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
-          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-          me.diamond_name.setText(me.short_dist[4]);
-          me.target_circle[me.short_dist[3]].hide();
-
-          if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
-            me.diamond_group.hide();
+          if(me.short_dist[6] == 1) {
+            #targetable
+            diamond_node = me.short_dist[5];
+            me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
+            var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
+            me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+            me.diamond_name.setText(me.short_dist[4]);
+            me.target_circle[me.short_dist[3]].hide();
+            me.diamond.show();
+            if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
+              me.diamond_group.hide();
+            } else {
+              me.diamond_group.show();
+            }
           } else {
-            me.diamond_group.show();
+            #untargetable, like carriers and tankers
+            diamond_node = nil;
+            me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
+            me.target_circle[me.short_dist[3]].setTranslation(me.short_dist[0], me.short_dist[1]);
+            var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
+            me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+            me.diamond_name.setText(me.short_dist[4]);
+            #me.target_circle[me.short_dist[3]].hide();
+            if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
+              me.diamond_group.hide();
+              me.target_circle[me.short_dist[3]].hide();
+            } else {
+              me.diamond_group.show();
+              me.diamond.hide();
+              #me.diamond_dist.show();
+              #me.diamond_name.show();
+              me.target_circle[me.short_dist[3]].show()
+            }
           }
+          
           me.target_circle[me.short_dist[3]].update();
           me.diamond_dist.update();
           me.diamond_group.update();
@@ -1146,7 +1237,7 @@ var HUDnasal = {
     }#end of HUD running check
   },#end of update
 
-  trackAI: func (AI_vector) {
+  trackAI: func (AI_vector, diamond) {
     foreach (var mp; AI_vector) {
       if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {
         hud_pos = me.trackItemCalc(mp, 40000);
@@ -1173,6 +1264,7 @@ var HUDnasal = {
 
             append(hud_pos, ident);
             append(hud_pos, mp);
+            append(hud_pos, diamond);
             me.short_dist = hud_pos;
             #print(i~" Diamond: "~mp.getNode("callsign").getValue());
           }
@@ -1189,7 +1281,7 @@ var HUDnasal = {
           if(pos_y < -512) {
             showme = 0;
           }
-
+          
           if(showme == 1) {
             me.target_circle[me.track_index].setTranslation(pos_x, pos_y);
             me.target_circle[me.track_index].show();
@@ -1337,6 +1429,20 @@ var cycle_units = func () {
     aircraft.HUD.cycle_type();
   }
 };
+
+var toggle_combat = func () {
+  if(getprop("sim/ja37/hud/mode") > 0) {
+    var current = getprop("/sim/ja37/hud/combat");
+    if(current == 1) {
+      setprop("/sim/ja37/hud/combat", 0);
+    } else {
+      setprop("/sim/ja37/hud/combat", 1);
+    }
+  } else {
+    aircraft.HUD.cycle_color();
+  }
+};
+
 
 var blinker_five_hz = func() {
   if(getprop("sim/ja37/blink/five-Hz") == 0) {

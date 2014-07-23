@@ -230,10 +230,10 @@ var update_loop = func {
         if(armSelect != i+1) {
           #pylon not selected, missile off
           armament.AIM9.active[i].status = -1;#print("not sel "~(i));
-        } elsif (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none") {
+        } elsif (getprop("/sim/ja37/hud/combat") == 0 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
           #pylon is selected but missile not mounted and not flying
           armament.AIM9.active[i].status = -1;#print("empty "~(i));
-        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none") {
+        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none" and getprop("/sim/ja37/hud/combat") == 1) {
           #pylon selected, activate if not already
           armament.AIM9.active[i].status = 0;#print("active "~(i));
           armament.AIM9.active[i].search();
@@ -342,8 +342,15 @@ var trigger_listener = func {
     var trigger = getprop("controls/armament/trigger");
     var armSelect = getprop("controls/armament/station-select");
 
-    if(trigger == 1) {
-      if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") { 
+    #if masterarm is on, propagate trigger to station
+    if(getprop("/sim/ja37/hud/combat") == 1) {
+      setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
+    } else {
+      setprop("/controls/armament/station["~armSelect~"]/trigger", 0);
+    }
+
+    if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == 1) {
+      if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
         # trigger is pulled, a pylon is selected, the pylon has a missile: fire missile
         if (armament.AIM9.active[armSelect-1] != nil and  armament.AIM9.active[armSelect-1].status == 1 ) {
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
@@ -351,19 +358,8 @@ var trigger_listener = func {
           #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
         
           armament.AIM9.active[armSelect-1].release();#print("release "~(armSelect-1));
-          #armament.AIM9_instance.del();
-          #armament.AIM9_instance = armament.AIM9.new(0);
         }
       }
-    }
-
-    setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
-    if (armSelect == 0) { # cannon
-      # cannon is selected, set the cannons trigger to match the joystick trigger
-      
-    } else {
-      # cannon is not selected, the cannon trigger is off
-      setprop("/controls/armament/station[0]/trigger", 0);
     }
 }
 setlistener("controls/armament/trigger", trigger_listener, 0, 0);
