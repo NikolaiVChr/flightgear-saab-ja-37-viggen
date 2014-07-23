@@ -78,11 +78,10 @@ HUD: make more methods out of similar code, introduce more comments and name var
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
 HUD: Use instrument properties instead of simulation properties.
-HUD: Combat HUD - diamond should seek when rb24 active.
 HUD: Make too low reference speed change reticle fin down.
 HUD: Seperate landing and takeoff mode. Reticle with fin should also be shown in landing mode.
-HUD: Sideslip indicator dot at top of HUD.
-HUD: Tracks should be semi circles with a line in them.
+HUD: Sideslip indicator dot at top of HUD?
+HUD: Track semi circles and semi box should have a line in them.
 
 
 Issues with FG: (or my limited understanding of it)

@@ -499,6 +499,8 @@ var main_init = func {
 
   test_support();
 
+  aircraft.data.add("sim/ja37/radar/enabled", "sim/ja37/hud/units-metric", "sim/ja37/hud/mode", "sim/ja37/hud/bank-indicator", "sim/ja37/autoReverseThrust");
+  aircraft.data.save();
 
   setprop("/consumables/fuel/tank[8]/jettisoned", 0);
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )

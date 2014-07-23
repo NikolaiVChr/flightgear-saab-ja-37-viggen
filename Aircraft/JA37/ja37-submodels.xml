@@ -82,10 +82,10 @@
     <life>1</life>
   </submodel>
 
-  <submodel>
+<!--  <submodel>
     <name>RB-24J missile 1</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[1]/releZYZased</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[1]/released</trigger>
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -95,8 +95,8 @@
     <z-offset> -0.67645</z-offset>
     <yaw-offset>0.0</yaw-offset>
     <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd><!-- drag -->
-    <eda>0.00136354</eda><!-- drag area -->
+    <cd>0.00003</cd>
+    <eda>0.00136354</eda>
     <weight>188</weight>
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
@@ -110,7 +110,7 @@
 <submodel>
     <name>RB-24J missile 2</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[2]/releXYZased</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[2]/released</trigger>
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -120,8 +120,8 @@
     <z-offset> -0.94307</z-offset>
     <yaw-offset>0.0</yaw-offset>
     <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd><!-- drag -->
-    <eda>0.00136354</eda><!-- drag area -->
+    <cd>0.00003</cd>
+    <eda>0.00136354</eda>
     <weight>188</weight>
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
@@ -135,7 +135,7 @@
 <submodel>
     <name>RB-24J missile 3</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[3]/releXYZased</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[3]/released</trigger>
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -145,8 +145,8 @@
     <z-offset> -0.67645</z-offset>
     <yaw-offset>0.0</yaw-offset>
     <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd><!-- drag -->
-    <eda>0.00136354</eda><!-- drag area -->
+    <cd>0.00003</cd>
+    <eda>0.00136354</eda>
     <weight>188</weight>
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
@@ -160,7 +160,7 @@
   <submodel>
     <name>RB-24J missile 4</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[4]/releXYZased</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[4]/released</trigger>
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -170,8 +170,8 @@
     <z-offset> -0.94307</z-offset>
     <yaw-offset>0.0</yaw-offset>
     <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd><!-- drag -->
-    <eda>0.00136354</eda><!-- drag area -->
+    <cd>0.00003</cd>
+    <eda>0.00136354</eda>
     <weight>188</weight>
     <collision>true</collision>
     <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
@@ -180,6 +180,6 @@
     <wind>false</wind>
     <buoyancy>32</buoyancy>
     <life>10</life>
-  </submodel>    
+  </submodel>   --> 
 </PropertyList>
    

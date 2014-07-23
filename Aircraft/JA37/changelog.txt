@@ -559,3 +559,13 @@ Sim: Changed again how missiles keep track of time.
 Sound: Added clicksound when switching various functions.
 HUD: Changed radar track to half-circles and half-boxes. Made diamond only show when has lock.
 Sim: Increased logic explosion size, to better get bombable to register a hit.
+
+2.25 - 2014 June 29
+----
+HUD: Decreased size of alt scale indicator '>' slightly.
+HUD: Made pitch lines not be drawn on top of alt scale.
+HUD: Fixed target track would not change brightness with the rest of the HUD.
+HUD: Doubled size of turn coordinator and made it more sensitive.
+HUD: Decreased font size of all text elements.
+HUD: Switched mach and airspeed-kt as in the original HUD. Removed the 'M' again when in non-interoperability mode as per the original.
+Sim: Made some options saved between sessions. E.g. HUD units, turn coordinator, auto-reverse, radar on/off.

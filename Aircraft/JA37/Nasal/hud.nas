@@ -72,7 +72,7 @@ var b = 0.0;#HUD colors
 var a = 1.0;
 var w = 5;  #line stroke width
 var ar = 0.9;#font aspect ratio
-var fs = 1.0;#font size factor
+var fs = 0.8;#font size factor
 var artifacts0 = nil;
 var artifacts1 = [];
 #print("Starting JA-37 HUD");
@@ -169,7 +169,7 @@ var HUDnasal = {
       .setColor(r,g,b, a)
       .setAlignment("center-center")
       .setTranslation(0 , 400);
-    HUDnasal.main.mach = HUDnasal.main.root.createChild("text")
+    HUDnasal.main.airspeedInt = HUDnasal.main.root.createChild("text")
       .setText("000")
       .setFontSize(100*fs, ar)
       .setColor(r,g,b, a)
@@ -354,9 +354,9 @@ var HUDnasal = {
       .setColor(r,g,b, a)
       .setStrokeLineWidth(w)
       .moveTo(0,0)
-      .lineTo(-60,-60)
+      .lineTo(-45,-45)
       .moveTo(0,0)
-      .lineTo(-60,60)
+      .lineTo(-45, 45)
       .setTranslation(scalePlace+indicatorOffset, 0);
     # alt scale radar ground indicator
     HUDnasal.main.rad_alt_pointer = HUDnasal.main.alt_scale_grp.createChild("path")
@@ -432,31 +432,32 @@ var HUDnasal = {
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
 
-    #turn indicator
-    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(400, 425);
+    #turn coordinator
+    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(325, 425);
     HUDnasal.main.turn_group2 = HUDnasal.main.turn_group.createChild("group");
     HUDnasal.main.t_rot   = HUDnasal.main.turn_group2.createTransform();
     HUDnasal.main.turn_indicator = HUDnasal.main.turn_group2.createChild("path")
-         .moveTo(-10, 0)
-         .horiz(-75)
-         .moveTo(10, 0)
-         .horiz(75)
-         .moveTo(-10, 0)
-         .vert(10)
-         .moveTo(10, 0)
-         .vert(10)      
+         .moveTo(-20, 0)
+         .horiz(-150)
+         .moveTo(20, 0)
+         .horiz(150)
+         .moveTo(-20, 0)
+         .vert(20)
+         .moveTo(20, 0)
+         .vert(20)     
          .setStrokeLineWidth(w)
          .setColor(r,g,b, a);
     HUDnasal.main.turn_group3 = HUDnasal.main.turn_group2.createChild("group");
     HUDnasal.main.slip_indicator = HUDnasal.main.turn_group3.createChild("path")
-         .moveTo(-5, -10)
-         .horiz(10)
-         .setStrokeLineWidth(10)
+         .moveTo(-8, -20)
+         .horiz(16)
+         .setStrokeLineWidth(16)
          .setColor(r,g,b, a);
 
 
     # Horizon
     HUDnasal.main.horizon_group = HUDnasal.main.root.createChild("group");
+    HUDnasal.main.horizon_group.set("clip", "rect(0px, 712px, 1024px, 0px)");#top,right,bottom,left (absolute in canvas)
     HUDnasal.main.horizon_group2 = HUDnasal.main.horizon_group.createChild("group");
     HUDnasal.main.horizon_group3 = HUDnasal.main.horizon_group.createChild("group");
     HUDnasal.main.h_rot   = HUDnasal.main.horizon_group.createTransform();
@@ -592,13 +593,13 @@ var HUDnasal = {
     HUDnasal.main.diamond_dist.setColor(r,g,b, a);
     HUDnasal.main.diamond_dist.setAlignment("left-top");
     HUDnasal.main.diamond_dist.setTranslation(40, 55);
-    HUDnasal.main.diamond_dist.setFontSize(50*fs, ar);
+    HUDnasal.main.diamond_dist.setFontSize(60*fs, ar);
     HUDnasal.main.diamond_name = HUDnasal.main.diamond_group.createChild("text");
     HUDnasal.main.diamond_name.setText("..");
     HUDnasal.main.diamond_name.setColor(r,g,b, a);
     HUDnasal.main.diamond_name.setAlignment("left-bottom");
     HUDnasal.main.diamond_name.setTranslation(40, -55);
-    HUDnasal.main.diamond_name.setFontSize(50*fs, ar);
+    HUDnasal.main.diamond_name.setFontSize(60*fs, ar);
 
         #tower symbol
     HUDnasal.main.tower_symbol = HUDnasal.main.root.createChild("group");
@@ -616,14 +617,14 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_dist.setColor(r,g,b, a);
     HUDnasal.main.tower_symbol_dist.setAlignment("left-top");
     HUDnasal.main.tower_symbol_dist.setTranslation(12, 12);
-    HUDnasal.main.tower_symbol_dist.setFontSize(50*fs, ar);
+    HUDnasal.main.tower_symbol_dist.setFontSize(60*fs, ar);
 
     HUDnasal.main.tower_symbol_icao = HUDnasal.main.tower_symbol.createChild("text");
     HUDnasal.main.tower_symbol_icao.setText("..");
     HUDnasal.main.tower_symbol_icao.setColor(r,g,b, a);
     HUDnasal.main.tower_symbol_icao.setAlignment("left-bottom");
     HUDnasal.main.tower_symbol_icao.setTranslation(12, -12);
-    HUDnasal.main.tower_symbol_icao.setFontSize(50*fs, ar);
+    HUDnasal.main.tower_symbol_icao.setFontSize(60*fs, ar);
 
       #other targets
     HUDnasal.main.target_circle = [];
@@ -640,11 +641,11 @@ var HUDnasal = {
       append(artifacts1, target_circles);
     }
 
-    artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
+    artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator,
              HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin,
-             HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe,
+             HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe, HUDnasal.main.target,
              HUDnasal.main.alt, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
 
@@ -682,17 +683,17 @@ var HUDnasal = {
       var mach = me.input.mach.getValue();
 
       if(metric) {
-        me.mach.hide();
+        me.airspeedInt.hide();
         if (mach >= 0.5) 
         {
-          me.airspeed.setText(sprintf("M%.2f", mach));
+          me.airspeed.setText(sprintf("%.2f", mach));
         } else {
           me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
         }
       } else {
-        me.mach.setText(sprintf("M%.2f", mach));
-        me.mach.show();
-        me.airspeed.setText(sprintf("KT%03d", me.input.ias.getValue()));
+        me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
+        me.airspeedInt.show();
+        me.airspeed.setText(sprintf("M%.2f", mach));
       }
             
       # heading scale
@@ -1141,7 +1142,7 @@ var HUDnasal = {
       #turn indicator
       if (getprop("sim/ja37/hud/bank-indicator") == 1) {
         me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-        me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*6, -75, 75), 0);
+        me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*20, -150, 150), 0);
         me.turn_group.show();
       } else {
         me.turn_group.hide();

@@ -716,7 +716,7 @@
 
 *************************************************************************--> 
     <ja37>
-      <autoReverseThrust type="bool">false</autoReverseThrust>
+      <autoReverseThrust userarchive="y" type="bool">false</autoReverseThrust>
       <supported>
         <old-custom-fails type="bool">false</old-custom-fails>
         <hud type="bool">false</hud>
