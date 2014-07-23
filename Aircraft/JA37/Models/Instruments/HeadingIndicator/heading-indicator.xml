@@ -147,6 +147,10 @@
     <max>180</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -167,6 +171,10 @@
     <max>180</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -187,6 +195,10 @@
     <max>180</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -207,6 +219,10 @@
     <max>180</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -242,6 +258,10 @@
     <max>360</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -262,6 +282,10 @@
     <max>360</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -282,6 +306,10 @@
     <max>360</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 
@@ -302,6 +330,10 @@
     <max>360</max>
     <wrap>true</wrap>
    </binding>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
  </animation>
 

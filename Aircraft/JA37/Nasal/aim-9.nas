@@ -10,7 +10,7 @@ var aim_9_model    = "Aircraft/JA37/Models/Armament/Weapons/RB-24J/rb-24j-";
 var SwSoundOnOff   = AcModel.getNode("armament/rb24/sound-on-off");
 var SwSoundVol     = AcModel.getNode("armament/rb24/sound-volume");
 var vol_search     = 0.09;
-var vol_weak_track = 0.10;
+var vol_weak_track = 0.15;
 var vol_track      = 0.25;
 var update_loop_time = 0.05;
 
@@ -69,7 +69,7 @@ var AIM9 = {
 		m.cd                = getprop("sim/ja37/armament/rb24/drag-coeff");
 		m.eda               = getprop("sim/ja37/armament/rb24/drag-area");
 		m.max_g             = getprop("sim/ja37/armament/rb24/max-g");
-		#m.dt_last           = 0;
+		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
 		# (M. Franz, see Nasal/tanker.nas)
@@ -219,12 +219,12 @@ var AIM9 = {
 			settimer(func me.update(), 0.01);
 			return;
 		}
-		dt = update_loop_time;
-		#var elapsed = getprop("sim/time/elapsed-sec");
-		#if (me.dt_last != 0) {
-		#	dt = elapsed - me.dt_last;  this property is updated too slow, so commented out
-		#}
-		#me.dt_last = elapsed;
+		#dt = update_loop_time;
+		var elapsed = systime();
+		if (me.dt_last != 0) {
+			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
+		}
+		me.dt_last = elapsed;
 
 		var init_launch = 0;
 		if ( me.life_time > 0 ) {
@@ -336,7 +336,7 @@ var AIM9 = {
  			if ( me.free == 0 ) {
 				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
 				if ( g > me.max_g ) {
-					#print("lost lock "~g);
+					#print("lost lock "~g~"G");
 					# Target unreachable, fly free.
 					me.free = 1;
 				}
@@ -349,7 +349,8 @@ var AIM9 = {
 				return;
 			}
 			if (alt_ft < -75) {
-				#it must have hit ground (tmp fix)
+				#it must have hit ground (tmp fix to not keep it flying for a minute)
+				#print("rb24 hit ground");
 				me.del();
 				return;
 			}
@@ -362,7 +363,7 @@ var AIM9 = {
 		me.pitch = pitch_deg;
 		me.hdg = hdg_deg;
 
-		settimer(func me.update(), update_loop_time, 1);#TODO: with low framerate the missiles will have hard to detect a hit, so consider using realtime, but dt must match
+		settimer(func me.update(), 0.03, 1);# update_loop_time, 1);
 		
 	},
 

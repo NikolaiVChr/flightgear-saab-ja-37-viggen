@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 2.23 </version>
+    <version> 2.24 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -325,9 +325,9 @@ to an airplane of that size). -->
     <tank type="FUEL"><!-- fuel type used: JP-4 with density of 6.48 -->
       <!-- Fuselage Main Tank 1 -->
       <location unit="M">
-        <x> 1 </x>
-        <y> 0 </y>
-        <z> 0.4 </z>
+        <x> 0.3399 </x><!--was 1, moved to CoG -->
+        <y> 0.0 </y>
+        <z> 0.0 </z><!-- was 0.4, moved to CoG -->
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 2735 </capacity>

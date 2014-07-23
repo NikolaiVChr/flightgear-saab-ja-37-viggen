@@ -1079,6 +1079,10 @@
           <value type="int">0</value>
         </binding>
       </mod-up>
+          <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
     </action>
   </animation>
 
@@ -1106,6 +1110,10 @@
           <value type="int">0</value>
         </binding>
       </mod-up>
+       <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
     </action>
   </animation>
 

@@ -407,6 +407,7 @@ var cycle_weapons = func {
   if(sel > 4) {
     sel = 0;
   }
+  click();
   setprop("controls/armament/station-select", sel)
 }
 
@@ -557,6 +558,7 @@ var drop = func {
        gui.popupTip("Can not eject drop tank while on ground!"); 
        return;
     }  
+    click();
     setprop("payload/weight[4]/selected", "none");# empty the pylon
     gui.popupTip("Drop tank shut off and ejected. Using internal fuel.");
  }
@@ -586,6 +588,7 @@ setlistener("/sim/current-view/view-number", func(n) {
   if (getprop("/engines/engine[0]/n1") > 5.0) {
     if (getprop("/engines/engine[0]/n1") < 20) {
       if (getprop("/controls/engines/engine[0]/cutoff") == 1) {
+        click();
         setprop("/controls/engines/engine[0]/cutoff", 0);
         if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
           gui.popupTip("Engine igniting.");
@@ -599,6 +602,7 @@ setlistener("/sim/current-view/view-number", func(n) {
         settimer(waiting_n1, 1);
       }
     }  elsif (getprop("/engines/engine[0]/n1") > 15) {
+      click();
       setprop("controls/electric/engine[0]/generator", 1);
       gui.popupTip("Generator on.");
       auto_gen=0;
@@ -618,6 +622,7 @@ var autostart = func {
   if (getprop("controls/electric/engine[0]/generator") == 0) #getprop("/velocities/groundspeed-kt") < 1e-3 and
   {
     gui.popupTip("Starting engine.");
+    click();
     setprop("/controls/engines/engine[0]/cutoff", 1);
     setprop("/controls/engines/engine[0]/starter", 1);
     auto_gen=1;
@@ -632,6 +637,7 @@ var autostarttimer = func {
   if (auto_gen==0) {
     if (getprop("/engines/engine[0]/running") > 0) {
      gui.popupTip("Stopping engine. Turning off battery.");
+     click();
      setprop("/controls/engines/engine[0]/cutoff", 1);
   	 setprop("/controls/engines/engine[0]/starter", 0);
      setprop("/controls/electric/engine[0]/generator", 0);
@@ -640,6 +646,7 @@ var autostarttimer = func {
       if (getprop("sim/ja37/damage/crashed") < 1) {
         setprop("/controls/electric/battery-switch", 1);
         setprop("/systems/electrical/batterysignal", 1);
+        click();
         gui.popupTip("Battery switch on. Check.");
     	  settimer(autostart, 3);
       } else {
@@ -647,4 +654,18 @@ var autostarttimer = func {
       }
     }
   }
+}
+
+var clicking = 0;
+var click = func {
+    if(clicking == 0) {
+      clicking = 1;
+      setprop("sim/ja37/sound/click-on", 1);
+      settimer(clickOff, 0.10, 1);
+    }
+}
+
+var clickOff = func {
+    setprop("sim/ja37/sound/click-on", 0);
+    clicking = 0;
 }

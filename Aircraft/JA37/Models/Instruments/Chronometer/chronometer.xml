@@ -88,6 +88,10 @@
                             <property>instrumentation/clock/offset-sec</property>
                             <step>-60</step>
                     </binding>
+                        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
             </action>
     </animation>
     <animation>
@@ -104,6 +108,10 @@
                             <property>instrumentation/clock/offset-sec</property>
                             <step>-3600</step>
                     </binding>
+                        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
             </action>
     </animation>
     <animation>
@@ -120,6 +128,10 @@
                             <property>instrumentation/clock/offset-sec</property>
                             <step>60</step>
                     </binding>
+                        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
             </action>
     </animation>
     <animation>
@@ -136,6 +148,10 @@
                             <property>instrumentation/clock/offset-sec</property>
                             <step>3600</step>
                     </binding>
+                        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
             </action>
     </animation>
 
@@ -152,6 +168,10 @@
                             <command>nasal</command>
                             <script>ja37.chrono_click()</script>
                     </binding>
+                        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
             </action>
     </animation>
 

@@ -199,6 +199,10 @@
       <max>1200.0</max>
       <wrap>false</wrap>
     </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
   <action>
     <name>decrease calibrate coarse</name>
@@ -211,6 +215,10 @@
       <min>500.0</min>
       <max>1200.0</max>
       <wrap>false</wrap>
+    </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
     </binding>
   </action>
   <action>
@@ -225,6 +233,10 @@
       <max>1200.0</max>
       <wrap>false</wrap>
     </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
   <action>
     <name>increase calibrate fine (scrollwheel)</name>
@@ -237,6 +249,10 @@
       <min>500.0</min>
       <max>1200.0</max>
       <wrap>false</wrap>
+    </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
     </binding>
   </action>
  </animation>
@@ -257,6 +273,10 @@
       <max>1200.0</max>
       <wrap>false</wrap>
     </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
   <action>
     <name>increase calibrate coarse</name>
@@ -269,6 +289,10 @@
       <min>500.0</min>
       <max>1200.0</max>
       <wrap>false</wrap>
+    </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
     </binding>
   </action>
   <action>
@@ -283,6 +307,10 @@
       <max>1200.0</max>
       <wrap>false</wrap>
     </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
   <action>
     <name>increase calibrate fine (scrollwheel)</name>
@@ -295,6 +323,10 @@
       <min>500.0</min>
       <max>1200.0</max>
       <wrap>false</wrap>
+    </binding>
+        <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
     </binding>
   </action>
  </animation>

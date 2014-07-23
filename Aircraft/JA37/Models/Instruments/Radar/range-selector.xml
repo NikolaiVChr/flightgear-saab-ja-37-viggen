@@ -128,6 +128,10 @@
       <max>48000.0</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>
   </action>
   <action>
     <name>decrease calibrate coarse</name>
@@ -141,6 +145,10 @@
       <max>48000</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
   <action>
     <name>decrease calibrate fine (scrollwheel)</name>
@@ -154,6 +162,10 @@
       <max>48000</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
   <action>
     <name>increase calibrate fine (scrollwheel)</name>
@@ -167,6 +179,10 @@
       <max>48000</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
  </animation>
 
@@ -186,6 +202,10 @@
       <max>48000</max>>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
   <action>
     <name>increase calibrate coarse</name>
@@ -199,6 +219,10 @@
       <max>48000</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
   <action>
     <name>decrease calibrate fine (scrollwheel)</name>
@@ -212,6 +236,10 @@
       <max>48000</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
   <action>
     <name>increase calibrate fine (scrollwheel)</name>
@@ -225,6 +253,10 @@
       <max>48000</max>
       <wrap>false</wrap>
     </binding>
+    <binding>
+       <command>nasal</command>
+       <script>ja37.click()</script>
+    </binding>    
   </action>
  </animation>
 

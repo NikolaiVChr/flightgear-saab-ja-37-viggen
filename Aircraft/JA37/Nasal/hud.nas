@@ -569,6 +569,8 @@ var HUDnasal = {
 
       #diamond
     HUDnasal.main.diamond_group = HUDnasal.main.radar_group.createChild("group");
+    #HUDnasal.main.diamond_group_line = HUDnasal.main.diamond_group.createChild("group");
+    #HUDnasal.main.track_line = nil;
     HUDnasal.main.diamond_group.createTransform();
     HUDnasal.main.diamond = HUDnasal.main.diamond_group.createChild("path")
                            .moveTo(-70,   0)
@@ -578,17 +580,24 @@ var HUDnasal = {
                            .lineTo(-70,   0)
                            .setStrokeLineWidth(w)
                            .setColor(r,g,b, a);
+    HUDnasal.main.target = HUDnasal.main.diamond_group.createChild("path")
+                           .moveTo(-50,   0)
+                           .lineTo(-50, -50)
+                           .lineTo( 50, -50)
+                           .lineTo( 50,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);                           
     HUDnasal.main.diamond_dist = HUDnasal.main.diamond_group.createChild("text");
     HUDnasal.main.diamond_dist.setText("..");
     HUDnasal.main.diamond_dist.setColor(r,g,b, a);
     HUDnasal.main.diamond_dist.setAlignment("left-top");
-    HUDnasal.main.diamond_dist.setTranslation(40, 40);
+    HUDnasal.main.diamond_dist.setTranslation(40, 55);
     HUDnasal.main.diamond_dist.setFontSize(50*fs, ar);
     HUDnasal.main.diamond_name = HUDnasal.main.diamond_group.createChild("text");
     HUDnasal.main.diamond_name.setText("..");
     HUDnasal.main.diamond_name.setColor(r,g,b, a);
     HUDnasal.main.diamond_name.setAlignment("left-bottom");
-    HUDnasal.main.diamond_name.setTranslation(40, -40);
+    HUDnasal.main.diamond_name.setTranslation(40, -55);
     HUDnasal.main.diamond_name.setFontSize(50*fs, ar);
 
         #tower symbol
@@ -625,7 +634,7 @@ var HUDnasal = {
       target_circles = target_group.createChild("path")
                            .moveTo(-50, 0)
                            .arcLargeCW(50, 50, 0,  100, 0)
-                           .arcLargeCW(50, 50, 0, -100, 0)
+                           #.arcLargeCW(50, 50, 0, -100, 0)
                            .setStrokeLineWidth(w)
                            .setColor(r,g,b, a);
       append(artifacts1, target_circles);
@@ -683,7 +692,7 @@ var HUDnasal = {
       } else {
         me.mach.setText(sprintf("M%.2f", mach));
         me.mach.show();
-        me.airspeed.setText(sprintf("KTS%03d", me.input.ias.getValue()));
+        me.airspeed.setText(sprintf("KT%03d", me.input.ias.getValue()));
       }
             
       # heading scale
@@ -1132,7 +1141,7 @@ var HUDnasal = {
       #turn indicator
       if (getprop("sim/ja37/hud/bank-indicator") == 1) {
         me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-        me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*4, -75, 75), 0);
+        me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*6, -75, 75), 0);
         me.turn_group.show();
       } else {
         me.turn_group.hide();
@@ -1200,9 +1209,9 @@ var HUDnasal = {
             blink = 1;
             me.short_dist[1] = 512;
           }
-          if(me.short_dist[1] < -512) {
+          if(me.short_dist[1] < -450) {
             blink = 1;
-            me.short_dist[1] = -512;
+            me.short_dist[1] = -450;
           }
           if(me.short_dist[6] == 1 and getprop("sim/ja37/hud/combat") == 1) {
             #targetable
@@ -1212,7 +1221,35 @@ var HUDnasal = {
             me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
             me.diamond_name.setText(me.short_dist[4]);
             me.target_circle[me.short_dist[3]].hide();
-            me.diamond.show();
+
+
+            var armSelect = getprop("controls/armament/station-select");
+            
+            if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
+              me.diamond.show();
+              me.target.hide();
+            } else {
+              me.target.show();
+              me.diamond.hide();
+            }
+
+            #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
+            #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
+            #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
+            #var down = me.myHeading+180.0;
+            #var relative_heading = heading + down - 90.0;
+            #var relative_speed = speed/10.0;
+            #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
+            #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
+
+            #if(me.track_line != nil) {
+            #  me.diamond_group_line.removeAllChildren();
+            #}
+
+            #me.track_line = me.diamond_group_line.createChild("path")
+            #               .lineTo( pos_x, pos_y)
+            #               .setStrokeLineWidth(w)
+            #               .setColor(r,g,b, a);
             if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
               me.diamond_group.hide();
             } else {
@@ -1233,6 +1270,7 @@ var HUDnasal = {
             } else {
               me.diamond_group.show();
               me.diamond.hide();
+              me.target.hide();
               #me.diamond_dist.show();
               #me.diamond_name.show();
               me.target_circle[me.short_dist[3]].show()
@@ -1319,7 +1357,7 @@ var HUDnasal = {
   trackAI: func (AI_vector, diamond) {
     foreach (var mp; AI_vector) {
       if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {
-        hud_pos = me.trackItemCalc(mp, 40000);
+        hud_pos = me.trackItemCalc(mp, 48000);
 
         if(hud_pos != nil) {
           var pos_x = hud_pos[0];
@@ -1480,7 +1518,7 @@ var reinit = func() {#mostly called to change HUD color
    }
 
    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
-
+   ja37.click();
   #print("HUD being reinitialized.");
 };
 
@@ -1498,6 +1536,7 @@ var cycle_brightness = func () {
 
 var cycle_units = func () {
   if(getprop("sim/ja37/hud/mode") > 0) {
+    ja37.click();
     var current = getprop("sim/ja37/hud/units-metric");
     if(current == 1) {
       setprop("sim/ja37/hud/units-metric", 0);
@@ -1511,6 +1550,7 @@ var cycle_units = func () {
 
 var toggle_combat = func () {
   if(getprop("sim/ja37/hud/mode") > 0) {
+    ja37.click();
     var current = getprop("/sim/ja37/hud/combat");
     if(current == 1) {
       setprop("/sim/ja37/hud/combat", 0);

@@ -587,6 +587,24 @@
    </pitch>
   </squeal>
 
+<!--                                          cockpit controls                           -->  
+
+<controls>
+      <name>click</name>
+      <path>Sounds/click.wav</path>
+      <mode>once</mode>
+      <condition>
+        <property>sim/current-view/internal</property>
+        <equals>
+          <property>sim/ja37/sound/click-on</property>
+          <value>1</value>
+        </equals>
+      </condition>
+      <volume>
+        <factor>1</factor>
+      </volume>
+</controls>
+
 <!--                                          avionics warnings                           -->  
 
 
@@ -936,7 +954,7 @@
   		<path>Aircraft/JA37/Sounds/aircraft-creaking.wav</path>
   		<mode>looped</mode>
   		<condition>
-  		<property>sim/current-view/internal</property>
+  		  <property>sim/current-view/internal</property>
   			<equals>
   				<property>sim/ja37/damage/sounds/creaking-on</property>
   				<value>1</value>

@@ -550,3 +550,12 @@ HUD: Made slip indicator be more sensitive.
 HUD: Diamond is now only shown in combat mode.
 Sound: Lowered volume of tracking buzz.
 Sim: Changed the way missiles keep track of time. They are now more precise, especially at long distance.
+Sim: Missiles now work in FG 3.0, but they still wont display.
+
+2.24 - 2014 June 29
+----
+Aero: Moved primary fuel tank to CoG.
+Sim: Changed again how missiles keep track of time.
+Sound: Added clicksound when switching various functions.
+HUD: Changed radar track to half-circles and half-boxes. Made diamond only show when has lock.
+Sim: Increased logic explosion size, to better get bombable to register a hit.

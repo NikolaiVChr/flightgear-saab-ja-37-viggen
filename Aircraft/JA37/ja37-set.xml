@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.23</aircraft-version>
+  <aircraft-version>2.24</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -740,6 +740,9 @@
         <combat type="bool">false</combat>
         <bank-indicator userarchive="y" type="bool">false</bank-indicator>
       </hud>
+      <sound>
+        <click-on type="bool">false</click-on>
+      </sound>
       <damage>
         <enabled type="bool">true</enabled>
       </damage>
@@ -753,7 +756,7 @@
           <fov-deg type="int">25</fov-deg>                     <!-- seeker optical FOV -->
           <detection-fov-deg type="int">60</detection-fov-deg> <!-- Search pattern diameter (rosette scan) -->
           <track-max-deg type="int">110</track-max-deg>        <!-- Seeker max total angular rotation -->
-          <max-g type="int">32</max-g>                         <!-- In turn -->
+          <max-g type="int">39</max-g>                         <!-- In turn -->
           <thrust-lbs type="double">230</thrust-lbs>           <!-- should achieve speed of 2.5+ mach orig:230 -->
           <thrust-duration-sec type="int">40</thrust-duration-sec><!-- Aim-9J/rb-24j -->
           <weight-launch-lbs>188</weight-launch-lbs>           <!-- Aim-9J/rb-24j -->
@@ -981,6 +984,10 @@
       <property>controls/armament/station-select</property>
       <value>0</value>
      </binding>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
     </mod-ctrl>
     </key>
     <key n="49">
@@ -992,6 +999,10 @@
         <property>controls/armament/station-select</property>
         <value>1</value>
        </binding>
+       <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
     </mod-ctrl>
     </key>
     <key n="50">
@@ -1003,6 +1014,10 @@
       <property>controls/armament/station-select</property>
       <value>2</value>
      </binding>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
      </mod-ctrl>
     </key>
     <key n="51">
@@ -1014,6 +1029,10 @@
       <property>controls/armament/station-select</property>
       <value>3</value>
      </binding>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
      </mod-ctrl>
     </key>
     <key n="52">
@@ -1025,6 +1044,10 @@
       <property>controls/armament/station-select</property>
       <value>4</value>
      </binding>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
      </mod-ctrl>
     </key>                
     <key n="101">
@@ -1088,6 +1111,10 @@
       <command>property-toggle</command>
       <property>/fdm/jsbsim/fcs/yaw-damper-enable</property>
      </binding>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
     </key>
     <key n="67">
      <name>C</name>
@@ -1096,6 +1123,10 @@
       <command>property-toggle</command>
       <property>/fdm/jsbsim/fcs/canopy/engage</property>
      </binding>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.click();</script>
+      </binding>
     </key>
     <key n="74">
       <name>J</name>

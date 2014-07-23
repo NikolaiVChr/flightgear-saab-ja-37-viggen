@@ -310,6 +310,7 @@ var Dialog = {
     },
 
     reverseToggle: func {
+      ja37.click();
       var enabled = getprop("sim/ja37/autoReverseThrust");
       setprop("sim/ja37/autoReverseThrust", !enabled);
       me.refreshButtons();
@@ -322,12 +323,14 @@ var Dialog = {
     },  
 
     radarToggle: func {
+      ja37.click();
       var enabled = getprop("sim/ja37/radar/enabled");
       setprop("sim/ja37/radar/enabled", !enabled);
       me.refreshButtons();
     },
 
     tracksToggle: func {
+      ja37.click();
       var enabled = getprop("sim/ja37/hud/tracks-enabled");
       setprop("sim/ja37/hud/tracks-enabled", !enabled);
       me.refreshButtons();
