@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+	<name>Default Aircraft Hud</name>
+	
+	<import>
+		<path>Aircraft/JA37/Systems/hud/turn-bank-indicator.xml</path>
+		<y-offset>-195</y-offset>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/coordinates.xml</path>
+		<y-offset>190</y-offset>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/compass.xml</path>
+		<y-offset>190</y-offset>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/controls.xml</path>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/parameters.xml</path>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/autopilot.xml</path>
+		<x-offset>-100</x-offset>
+		<y-offset>160</y-offset>
+	</import>
+
+    <import>
+		<path>Aircraft/JA37/Systems/hud/gps.xml</path>
+		<x-offset>-300</x-offset>
+		<y-offset>160</y-offset>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/ladder.xml</path>
+	</import>
+
+	<import>
+		<path>Aircraft/JA37/Systems/hud/runway.xml</path>
+	</import>
+</PropertyList>

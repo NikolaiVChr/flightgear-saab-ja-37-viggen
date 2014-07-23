@@ -92,25 +92,28 @@ var Dialog = {
         #####   Main Area   #####
         var mainArea = me.dialog.addChild("group");
           mainArea.set("layout", "hbox");
-          mainArea.set("valign", "fill");
+          mainArea.set("valign", "top");##adjusted fill
           mainArea.set("halign", "fill");
           mainArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT);
-
+          mainArea.setColor(1, 0, 0, 0);
           
           #####   Side logo   #####
           var sideLogo = mainArea.addChild("group");
             sideLogo.set("layout", "vbox");
             sideLogo.set("pref-width", SIDELOGO_WIDTH);
-            sideLogo.set("valign", "fill");
+            sideLogo.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT - 50);
+            sideLogo.set("valign", "top");
             mainArea.addChild("vrule");
+            sideLogo.setColor(0, 0, 1, 0);
 
           #####   Work Area   #####
           var workArea = mainArea.addChild("group");
             workArea.set("layout", "vbox");
             workArea.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-            workArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT - 25);
-            workArea.set("valign", "fill");
+            workArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT - 50);
+            workArea.set("valign", "top");##adjusted fill
             workAreaNode = workArea.node;
+            workArea.setColor(0, 1, 0, 0);
 
             #######################
             #####   Content   #####
@@ -154,6 +157,36 @@ var Dialog = {
           me.dialog.reverseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
+
+          ######   Top Row hud button   #####
+          var hudRow = topRow.addChild("group");
+          hudRow.set("layout", "hbox");
+          hudRow.set("pref-height", 25);
+          hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          hudRow.set("valign", "center");
+          
+          var reverseText = hudRow.addChild("text").set("label", "Custom JA-37 specific HUD:");
+          hudRow.addChild("empty").set("stretch", 1);
+          me.dialog.hudButton = hudRow.addChild("button");
+          me.dialog.hudButton.set("halign", "right");
+          me.dialog.hudButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.hudButton.setBinding("nasal", "ja37.Dialog.hudToggle()");
+
+          ######   Top Row radar button   #####
+          var radarRow = topRow.addChild("group");
+          radarRow.set("layout", "hbox");
+          radarRow.set("pref-height", 25);
+          radarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          radarRow.set("valign", "center");
+          
+          var reverseText = radarRow.addChild("text").set("label", "Radar instrument and radar tracks in custom HUD:");
+          radarRow.addChild("empty").set("stretch", 1);
+          me.dialog.radarButton = radarRow.addChild("button");
+          me.dialog.radarButton.set("halign", "right");
+          me.dialog.radarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.radarButton.setBinding("nasal", "ja37.Dialog.radarToggle()");
 
           var hudRow = workArea.addChild("group");
           hudRow.set("layout", "hbox");
@@ -237,6 +270,18 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    hudToggle: func {
+      var enabled = getprop("sim/ja37/hud/mode");
+      setprop("sim/ja37/hud/mode", !enabled);
+      me.refreshButtons();
+    },  
+
+    radarToggle: func {
+      var enabled = getprop("sim/ja37/radar/enabled");
+      setprop("sim/ja37/radar/enabled", !enabled);
+      me.refreshButtons();
+    },
+
     light: func {
       canvas_HUD.r = 0.0;
       canvas_HUD.g = 1.0;
@@ -285,6 +330,22 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.reverseButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/hud/mode");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.hudButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/radar/enabled");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.radarButton.node.setValues({"legend": legend});
 
       #props.dump(me.dialog.prop()); # handy command, don't forget it.
 

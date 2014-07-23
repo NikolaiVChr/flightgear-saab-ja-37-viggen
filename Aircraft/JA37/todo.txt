@@ -18,7 +18,6 @@ GUI: Option to turn off verbose popups.
 GUI: More and better popup feedback. (gear/flaps/stalling/yawstabilizer)
 GUI: Make something procedual, just to test it out.
 GUI: Test new FGPlot.
-GUI: Make HUD switchable to imperial units. (also with key)
 GUI: Checklist.
 GUI: Option to switch off hitting stuff above ground.
 Aero: Make canopy increase drag.

@@ -469,3 +469,5 @@ Aero: Adjusted how fast the steering of the front gear reacts at different speed
 ----
 GUI: Made splash screen different color.
 HUD: Fixed multiplayer diamond and airport showed 00 distance always in imperial units mode.
+GUI: Made option to switch to default FG HUD.
+GUI: Made option to switch off radar and HUD radar tracks.

@@ -495,8 +495,10 @@ var HUDnasal = {
 
         ####  targets
 
+      HUDnasal.main.radar_group = HUDnasal.main.root.createChild("group");
+
         #diamond
-      HUDnasal.main.diamond_group = HUDnasal.main.root.createChild("group");
+      HUDnasal.main.diamond_group = HUDnasal.main.radar_group.createChild("group");
       HUDnasal.main.diamond_group.createTransform();
       var diamond = HUDnasal.main.diamond_group.createChild("path")
                              .moveTo(-70,   0)
@@ -535,7 +537,7 @@ var HUDnasal = {
         #other targets
       HUDnasal.main.target_circle = [];
       for(var i = 0; i < (maxTargetsAI+maxTargetsMP); i += 1) {      
-        var target_group = HUDnasal.main.root.createChild("group");
+        var target_group = HUDnasal.main.radar_group.createChild("group");
         append(HUDnasal.main.target_circle, target_group);
         target_group.createTransform();
         target_circles = target_group.createChild("path")
@@ -568,10 +570,10 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
     update: func()
     {
       verbose = 0;
-      if(getprop("/systems/electrical/outputs/inst_ac") < 40) {
+      if(getprop("/systems/electrical/outputs/inst_ac") < 40 or getprop("sim/ja37/hud/mode") == 0) {
         me.root.hide();
         me.root.update();
-        settimer(func me.update(), 1);
+        settimer(func me.update(), 0.5);
        } elsif (getprop("/instrumentation/head-up-display/serviceable") == 0) {
         # The HUD has failed, due to the random failure system or crash, it will become frozen.
         # if it also later loses power, and the power comes back, the HUD will not reappear.
@@ -979,7 +981,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
 
 
 
-    ####  Combat HUD    ###
+    ####  Radar HUD    ###
 
     
     var self = geo.aircraft_position();
@@ -990,24 +992,152 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
     var showDiamond = 0;
     var short_dist = 0;
 
-    #do the AI planes
-    for (var i = 0; i < maxTargetsMP ; i += 1) {
-            if(i < size(multiplayer.model.list) and multiplayer.model.list[i].node.getNode("valid").getValue() != 0) {
-              mp = multiplayer.model.list[i];
-              var n = mp.node;
-              var x = n.getNode("position/global-x").getValue();
-              var y = n.getNode("position/global-y").getValue();
-              var z = n.getNode("position/global-z").getValue();
-              var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+    if(getprop("sim/ja37/radar/enabled") == 1) {
+      me.radar_group.show();
+      #do the AI planes
+      for (var i = 0; i < maxTargetsMP ; i += 1) {
+              if(i < size(multiplayer.model.list) and multiplayer.model.list[i].node.getNode("valid").getValue() != 0) {
+                mp = multiplayer.model.list[i];
+                var n = mp.node;
+                var x = n.getNode("position/global-x").getValue();
+                var y = n.getNode("position/global-y").getValue();
+                var z = n.getNode("position/global-z").getValue();
+                var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+                var distance = nil;
+                call(func distance = self.distance_to(aircraftPos), nil, var err = []);
+                if ((size(err))or(distance==nil)) {
+                    # Oops, have errors. Bogus position data (and distance==nil).
+                        #print("Received invalid position data: " ~ debug._error(mp.callsign));
+                    me.target_circle[i].hide();
+                } elsif (distance < 40000) {#is max radar range of ja37
+                    # Node with valid position data (and "distance!=nil").
+                    var aircraftAlt=n.getNode("position/altitude-ft").getValue()*0.3048; #altitude in meters
+                    #ground angle
+                    var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
+                    var xg_rad=(self.course_to(aircraftPos)-myHeading)*deg2rads;
+                    if (xg_rad > math.pi) {
+                      xg_rad = xg_rad - 2*math.pi;
+                    }
+                    if (xg_rad < -math.pi) {
+                      xg_rad = xg_rad + 2*math.pi;
+                    }
+
+                    if (yg_rad > math.pi) {
+                      yg_rad = yg_rad - 2*math.pi;
+                    }
+                    if (yg_rad < -math.pi) {
+                      yg_rad = yg_rad + 2*math.pi;
+                    }
+
+                    #aircraft angle
+                    var ya_rad=xg_rad*math.sin(-myRoll)+yg_rad*math.cos(-myRoll);
+                    var xa_rad=xg_rad*math.cos(-myRoll)-yg_rad*math.sin(-myRoll);
+
+                    if (xa_rad > -math.pi) {
+                      xa_rad = xa_rad - 2*math.pi;
+                    }
+                    if (xg_rad < math.pi) {
+                      xa_rad = xa_rad + 2*math.pi;
+                    }
+
+                    if (ya_rad > math.pi) {
+                      ya_rad = ya_rad - 2*math.pi;
+                    }
+                    if (yg_rad < -math.pi) {
+                      ya_rad = ya_rad + 2*math.pi;
+                    }
+                  var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
+                  var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
+                  var showme = 1;
+                  var selected = 0;
+
+                  if(getprop("sim/ja37/radar/selectedMP") == 1 and getprop("sim/ja37/radar/selected") == i) {
+                    # This is the selected aircraft
+                    selected = 1;
+                    showDiamond = 1;
+                    short_dist = distance;
+                    #print(i~" "~mp.getNode("callsign").getValue());
+                  } else {
+                    #print(getprop("sim/ja37/radar/selectedMP")~"=0 "~getprop("sim/ja37/radar/selected")~"="~i);
+                  }
+
+                  if(pos_x > 512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_x = 512;
+                    }
+                  }
+
+                  if(pos_x < -512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_x = -512;
+                    }
+                  }
+
+                  if(pos_y > 512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_y = 512;
+                    }
+                  }
+
+                  if(pos_y < -512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_y = -512;
+                    }
+                  }
+                  if(selected == 1) {
+                    #print("Diamond pos "~pos_x~" , "~pos_y);
+                    me.diamond_group.setTranslation(pos_x, pos_y);
+                    if(showme == 0 and getprop("sim/ja37/blink/five-Hz") == 0) {
+                      showDiamond = 0;
+                    }
+                    showme = 0;
+                  }
+
+
+                  if(showme == 1) {
+                    me.target_circle[i].setTranslation(pos_x, pos_y);
+                    me.target_circle[i].show();
+                    me.target_circle[i].update();
+                    #print(i~" "~mp.getNode("callsign").getValue());
+                  } else {
+                    me.target_circle[i].hide();
+                    #print(i~" hidden! "~mp.getNode("callsign").getValue());
+                  }
+              } else {
+                me.target_circle[i].hide();
+                #print(i~" hidden!!");
+              }
+          } else {
+              me.target_circle[i].hide();
+              #print(i~" hidden!");
+          }
+      }
+
+      # TODO: Make these similar code blocks into function.
+
+
+      #AI planes:
+      for (var i = 0; i < maxTargetsAI ; i += 1) {
+          var mp = props.globals.getNode("/ai/models").getNode("aircraft["~i~"]");
+          if(mp != nil and mp.getNode("valid").getValue() != 0) {
               var distance = nil;
+              var x = mp.getNode("position/global-x").getValue();
+              var y = mp.getNode("position/global-y").getValue();
+              var z = mp.getNode("position/global-z").getValue();
+              var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
               call(func distance = self.distance_to(aircraftPos), nil, var err = []);
               if ((size(err))or(distance==nil)) {
                   # Oops, have errors. Bogus position data (and distance==nil).
-                      #print("Received invalid position data: " ~ debug._error(mp.callsign));
-                  me.target_circle[i].hide();
+                  #print("Received invalid position data: " ~ debug._error(mp.callsign));
+                  me.target_circle[i+maxTargetsMP].hide();
+                  #print(i~" invalid pos.");
               } elsif (distance < 40000) {#is max radar range of ja37
                   # Node with valid position data (and "distance!=nil").
-                  var aircraftAlt=n.getNode("position/altitude-ft").getValue()*0.3048; #altitude in meters
+                  var aircraftAlt=mp.getNode("position/altitude-ft").getValue()*0.3048; #altitude in meters
                   #ground angle
                   var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
                   var xg_rad=(self.course_to(aircraftPos)-myHeading)*deg2rads;
@@ -1042,213 +1172,90 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
                   if (yg_rad < -math.pi) {
                     ya_rad = ya_rad + 2*math.pi;
                   }
-                var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
-                var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
-                var showme = 1;
-                var selected = 0;
 
-                if(getprop("sim/ja37/radar/selectedMP") == 1 and getprop("sim/ja37/radar/selected") == i) {
-                  # This is the selected aircraft
-                  selected = 1;
-                  showDiamond = 1;
-                  short_dist = distance;
-                  #print(i~" "~mp.getNode("callsign").getValue());
-                } else {
-                  #print(getprop("sim/ja37/radar/selectedMP")~"=0 "~getprop("sim/ja37/radar/selected")~"="~i);
-                }
+                  var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
+                  var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
+                  var showme = 1;
+                  var selected = 0;
 
-                if(pos_x > 512) {
-                  showme = 0;
+                  if(getprop("sim/ja37/radar/selectedMP") == 0 and getprop("sim/ja37/radar/selected") == i) {
+                    # This is the selected aircraft
+                    selected = 1;
+                    showDiamond = 1;
+                    short_dist = distance;
+                    #print(i~" Diamond: "~mp.getNode("callsign").getValue());
+                  } else {
+                    #print(getprop("sim/ja37/radar/selectedMP")~"=0 "~getprop("sim/ja37/radar/selected")~"="~i);
+                  }
+
+                  if(pos_x > 512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_x = 512;
+                    }
+                  }
+
+                  if(pos_x < -512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_x = -512;
+                    }
+                  }
+
+                  if(pos_y > 512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_y = 512;
+                    }
+                  }
+
+                  if(pos_y < -512) {
+                    showme = 0;
+                    if(selected == 1) {
+                      pos_y = -512;
+                    }
+                  }
                   if(selected == 1) {
-                    pos_x = 512;
+                    #print("Diamond pos "~pos_x~" , "~pos_y);
+                    me.diamond_group.setTranslation(pos_x, pos_y);
+                    if(showme == 0 and getprop("sim/ja37/blink/five-Hz") == 0) {
+                      showDiamond = 0;
+                    }
+                    showme = 0;
                   }
-                }
 
-                if(pos_x < -512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_x = -512;
+
+                  if(showme == 1) {
+                    me.target_circle[i+maxTargetsMP].setTranslation(pos_x, pos_y);
+                    me.target_circle[i+maxTargetsMP].show();
+                    me.target_circle[i+maxTargetsMP].update();
+                    #print(i~" "~mp.getNode("callsign").getValue());
+                  } else {
+                    me.target_circle[i+maxTargetsMP].hide();
+                    #print(i~" hidden! "~mp.getNode("callsign").getValue());
                   }
-                }
-
-                if(pos_y > 512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_y = 512;
-                  }
-                }
-
-                if(pos_y < -512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_y = -512;
-                  }
-                }
-                if(selected == 1) {
-                  #print("Diamond pos "~pos_x~" , "~pos_y);
-                  me.diamond_group.setTranslation(pos_x, pos_y);
-                  if(showme == 0 and getprop("sim/ja37/blink/five-Hz") == 0) {
-                    showDiamond = 0;
-                  }
-                  showme = 0;
-                }
-
-
-                if(showme == 1) {
-                  me.target_circle[i].setTranslation(pos_x, pos_y);
-                  me.target_circle[i].show();
-                  me.target_circle[i].update();
-                  #print(i~" "~mp.getNode("callsign").getValue());
-                } else {
-                  me.target_circle[i].hide();
-                  #print(i~" hidden! "~mp.getNode("callsign").getValue());
-                }
-            } else {
-              me.target_circle[i].hide();
-              #print(i~" hidden!!");
-            }
-        } else {
-            me.target_circle[i].hide();
-            #print(i~" hidden!");
-        }
-    }
-
-    # TODO: Make these similar code blocks into function.
-
-
-    #AI planes:
-    for (var i = 0; i < maxTargetsAI ; i += 1) {
-        var mp = props.globals.getNode("/ai/models").getNode("aircraft["~i~"]");
-        if(mp != nil and mp.getNode("valid").getValue() != 0) {
-            var distance = nil;
-            var x = mp.getNode("position/global-x").getValue();
-            var y = mp.getNode("position/global-y").getValue();
-            var z = mp.getNode("position/global-z").getValue();
-            var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-            call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-            if ((size(err))or(distance==nil)) {
-                # Oops, have errors. Bogus position data (and distance==nil).
-                #print("Received invalid position data: " ~ debug._error(mp.callsign));
+              } else {
                 me.target_circle[i+maxTargetsMP].hide();
-                #print(i~" invalid pos.");
-            } elsif (distance < 40000) {#is max radar range of ja37
-                # Node with valid position data (and "distance!=nil").
-                var aircraftAlt=mp.getNode("position/altitude-ft").getValue()*0.3048; #altitude in meters
-                #ground angle
-                var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
-                var xg_rad=(self.course_to(aircraftPos)-myHeading)*deg2rads;
-                if (xg_rad > math.pi) {
-                  xg_rad = xg_rad - 2*math.pi;
-                }
-                if (xg_rad < -math.pi) {
-                  xg_rad = xg_rad + 2*math.pi;
-                }
-
-                if (yg_rad > math.pi) {
-                  yg_rad = yg_rad - 2*math.pi;
-                }
-                if (yg_rad < -math.pi) {
-                  yg_rad = yg_rad + 2*math.pi;
-                }
-
-                #aircraft angle
-                var ya_rad=xg_rad*math.sin(-myRoll)+yg_rad*math.cos(-myRoll);
-                var xa_rad=xg_rad*math.cos(-myRoll)-yg_rad*math.sin(-myRoll);
-
-                if (xa_rad > -math.pi) {
-                  xa_rad = xa_rad - 2*math.pi;
-                }
-                if (xg_rad < math.pi) {
-                  xa_rad = xa_rad + 2*math.pi;
-                }
-
-                if (ya_rad > math.pi) {
-                  ya_rad = ya_rad - 2*math.pi;
-                }
-                if (yg_rad < -math.pi) {
-                  ya_rad = ya_rad + 2*math.pi;
-                }
-
-                var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
-                var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
-                var showme = 1;
-                var selected = 0;
-
-                if(getprop("sim/ja37/radar/selectedMP") == 0 and getprop("sim/ja37/radar/selected") == i) {
-                  # This is the selected aircraft
-                  selected = 1;
-                  showDiamond = 1;
-                  short_dist = distance;
-                  #print(i~" Diamond: "~mp.getNode("callsign").getValue());
-                } else {
-                  #print(getprop("sim/ja37/radar/selectedMP")~"=0 "~getprop("sim/ja37/radar/selected")~"="~i);
-                }
-
-                if(pos_x > 512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_x = 512;
-                  }
-                }
-
-                if(pos_x < -512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_x = -512;
-                  }
-                }
-
-                if(pos_y > 512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_y = 512;
-                  }
-                }
-
-                if(pos_y < -512) {
-                  showme = 0;
-                  if(selected == 1) {
-                    pos_y = -512;
-                  }
-                }
-                if(selected == 1) {
-                  #print("Diamond pos "~pos_x~" , "~pos_y);
-                  me.diamond_group.setTranslation(pos_x, pos_y);
-                  if(showme == 0 and getprop("sim/ja37/blink/five-Hz") == 0) {
-                    showDiamond = 0;
-                  }
-                  showme = 0;
-                }
-
-
-                if(showme == 1) {
-                  me.target_circle[i+maxTargetsMP].setTranslation(pos_x, pos_y);
-                  me.target_circle[i+maxTargetsMP].show();
-                  me.target_circle[i+maxTargetsMP].update();
-                  #print(i~" "~mp.getNode("callsign").getValue());
-                } else {
-                  me.target_circle[i+maxTargetsMP].hide();
-                  #print(i~" hidden! "~mp.getNode("callsign").getValue());
-                }
-            } else {
+                #print(i~" out of range.");
+              }
+          } else {
               me.target_circle[i+maxTargetsMP].hide();
-              #print(i~" out of range.");
-            }
-        } else {
-            me.target_circle[i+maxTargetsMP].hide();
-            #print(i~" invalid.");
-        }
-    }
-    if(showDiamond == 1) {
-      me.diamond_group.show();
-      var diamond_dist = metric ==1  ? short_dist : short_dist/kts2kmh;
-      me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-      me.diamond_group.update();
-      me.diamond_dist.update();
+              #print(i~" invalid.");
+          }
+      }
+      if(showDiamond == 1) {
+        me.diamond_group.show();
+        var diamond_dist = metric ==1  ? short_dist : short_dist/kts2kmh;
+        me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+        me.diamond_group.update();
+        me.diamond_dist.update();
+      } else {
+        me.diamond_group.hide();
+      }
+      #print("");
     } else {
-      me.diamond_group.hide();
+      me.radar_group.hide();
     }
-    #print("");
 
     # tower symbol
     var towerAlt = getprop("sim/tower/altitude-ft");
@@ -1375,7 +1382,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
         settimer(func me.update(), 0.05);
        
 	     
-       setprop("sim/hud/visibility[1]", 0);
+       #setprop("sim/hud/visibility[1]", 0);
 	   }
    }
   }
@@ -1388,7 +1395,7 @@ var init = func() {
   removelistener(id); # only call once
   if(getprop("sim/ja37/supported/hud") == 1) {
     var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
-    setprop("sim/hud/visibility[1]", 0);
+    #setprop("sim/hud/visibility[1]", 0);
     
     #print("HUD initialized.");
     hud_pilot.update();
@@ -1419,19 +1426,27 @@ var reinit = func() {#mostly called to change HUD color
 };
 
 var cycle_brightness = func () {
-  g += 0.2;
-  if(g > 1) {
-    g = 0.2;
+  if(getprop("sim/ja37/hud/mode") > 0) {
+    g += 0.2;
+    if(g > 1) {
+      g = 0.2;
+    }
+    reinit();
+  } else {
+    aircraft.HUD.cycle_brightness();
   }
-  reinit();
 }
 
 var cycle_units = func () {
-  var current = getprop("sim/ja37/hud/units-metric");
-  if(current == 1) {
-    setprop("sim/ja37/hud/units-metric", 0);
+  if(getprop("sim/ja37/hud/mode") > 0) {
+    var current = getprop("sim/ja37/hud/units-metric");
+    if(current == 1) {
+      setprop("sim/ja37/hud/units-metric", 0);
+    } else {
+      setprop("sim/ja37/hud/units-metric", 1);
+    }
   } else {
-    setprop("sim/ja37/hud/units-metric", 1);
+    aircraft.HUD.cycle_type();
   }
 }
 

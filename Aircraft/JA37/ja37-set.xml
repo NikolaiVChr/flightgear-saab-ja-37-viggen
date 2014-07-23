@@ -300,7 +300,7 @@
   </panel_2>
 
   <hud> <!-- wrong path for default HUD here, to prevent it from showing up -->
-   <path n="1">Aircraft/JA37/Systems/HUD.xml</path>
+   <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
   </hud>
 
 
@@ -692,7 +692,7 @@
     </systems>
 <!--**********************************************************************
 
-                          Flightgear version detection
+                                          Properties
 
 
 *************************************************************************--> 
@@ -708,6 +708,7 @@
       <radar>
         <selectedMP type="int">-1</selectedMP>
         <selected type="int">-1</selected>
+        <enabled type="bool">1</enabled>
       </radar>
       <blink>
         <five-Hz type="bool">false</five-Hz>
@@ -715,60 +716,10 @@
       </blink>
       <hud>
         <units-metric type="bool">1</units-metric>
+        <mode type="bool">1</mode>
       </hud>
     </ja37>
   </sim>
-
-<!--**********************************************************************
-
-                                          Payload
-
-
-*************************************************************************--> 
-<payload>
-  <weight n="0">
-        <name>Left wing pylon</name>
-        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
-        <selected>none</selected>
-        <opt><name>none</name><lbs>0</lbs></opt>
-        <opt><name>RB 24J</name><lbs>188</lbs></opt>
-  </weight>
-  <weight n="1">
-        <name>Left fuselage pylon</name>
-        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
-        <selected>none</selected>
-        <opt><name>none</name><lbs>0</lbs></opt>
-        <opt><name>RB 24J</name><lbs>188</lbs></opt>
-  </weight>
-  <weight n="2">
-        <name>Right wing pylon</name>
-        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
-        <selected>none</selected>
-        <opt><name>none</name><lbs>0</lbs></opt>
-        <opt><name>RB 24J</name><lbs>188</lbs></opt>
-  </weight>
-  <weight n="3">
-        <name>Right fuselage pylon</name>
-        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
-        <selected>none</selected>
-        <opt><name>none</name><lbs>0</lbs></opt>
-        <opt><name>RB 24J</name><lbs>188</lbs></opt>
-  </weight>
-  <weight n="4">
-        <name>Center fuselage pylon</name>
-        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[5]"/>
-        <selected>Drop tank</selected>
-        <opt><name>none</name><lbs>0</lbs></opt>
-        <opt><name>Drop tank</name><lbs>400</lbs></opt>
-  </weight>
-</payload>
-
-<!--**********************************************************************
-
-                                          Properties
-
-
-*************************************************************************--> 
 
  <fdm>
   <jsbsim>
@@ -820,6 +771,50 @@
 
 <!--**********************************************************************
 
+                                          Payload
+
+
+*************************************************************************--> 
+<payload>
+  <weight n="0">
+        <name>Left wing pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="1">
+        <name>Left fuselage pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="2">
+        <name>Right wing pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="3">
+        <name>Right fuselage pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
+        <selected>none</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>RB 24J</name><lbs>188</lbs></opt>
+  </weight>
+  <weight n="4">
+        <name>Center fuselage pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[5]"/>
+        <selected>Drop tank</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>Drop tank</name><lbs>400</lbs></opt>
+  </weight>
+</payload>
+
+<!--**********************************************************************
+
                                           Engines
 
 
@@ -841,16 +836,14 @@
 *************************************************************************--> 
  <input>
    <keyboard>
-    <key n="104">
+    <!--<key n="104">
       <name>h</name>
-      <desc>Redefines 'h' key to prevent turning on the HUD</desc>
+      <desc>Switching between custom and default HUD</desc>
       <binding>
-         <command>nasal</command>
-         <script>
-           gui.popupTip("HUD is on in cockpit view, when aircraft is started.");
-         </script>
+         <command>property-toggle</command>
+         <property>/sim/ja37/hud/mode</property>
       </binding>
-    </key>
+    </key>-->
     <key n="72">
       <name>H</name>
       <desc>Cycle HUD Brightness</desc>

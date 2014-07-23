@@ -123,7 +123,7 @@ var radar = {
   {
   #Modes 0=Off, 1=Autoscan, 2=Manual, 5=Course guide, 6=Course and glide
     var rmode=1;#getprop("instrumentation/radar/mode");
-    if (getprop("systems/electrical/outputs/radar") != nil and getprop("systems/electrical/outputs/radar") > 28 and getprop("instrumentation/radar/serviceable") > 0) {
+    if (getprop("systems/electrical/outputs/radar") != nil and getprop("systems/electrical/outputs/radar") > 28 and getprop("instrumentation/radar/serviceable") > 0 and getprop("sim/ja37/radar/enabled") == 1) {
       g.show();
       me.radarRange=getprop("instrumentation/radar/range") * 3.2808; #convert to feet
       forindex (i; me.stroke) me.stroke[i].show();
