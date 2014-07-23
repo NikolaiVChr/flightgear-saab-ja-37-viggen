@@ -525,9 +525,13 @@ init_aircraftbreakprocess=func
 		FailureMgr.set_failure_level("controls/gear0", 0);
 		FailureMgr.set_failure_level("controls/gear1", 0);
 		FailureMgr.set_failure_level("controls/gear2", 0);
-		FailureMgr.get_trigger("controls/gear0").reset();
-		FailureMgr.get_trigger("controls/gear1").reset();
-		FailureMgr.get_trigger("controls/gear2").reset();
+		if(FailureMgr.get_trigger("controls/gear0") == nil) {
+			print("JA-37: Failed to reset trigger for gears, it seems to be removed don't know why!");
+		} else {
+			FailureMgr.get_trigger("controls/gear0").reset();
+			FailureMgr.get_trigger("controls/gear1").reset();
+			FailureMgr.get_trigger("controls/gear2").reset();
+		}
 	}
 
 	setprop("instrumentation/flaps-control/serviceable", 1);

@@ -29,6 +29,7 @@ Animation: Animate wheels. (tough when gears get compressed..)
 Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
+Animation: Move center plaque forward to touch the panel.
 Sim: Improve autopilot further, it wobbles.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.

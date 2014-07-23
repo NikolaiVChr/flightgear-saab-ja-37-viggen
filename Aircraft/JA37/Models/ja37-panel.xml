@@ -192,9 +192,9 @@
     <name>Center plaque</name>
     <offsets>
     <pitch-deg>79.329</pitch-deg>
-      <x-m> -3.78</x-m>
+      <x-m> -3.855</x-m>
       <y-m>  0</y-m>
-      <z-m>  0.50</z-m>
+      <z-m>  0.48</z-m>
     </offsets>
   </model>
 

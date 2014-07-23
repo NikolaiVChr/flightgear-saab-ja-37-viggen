@@ -566,7 +566,7 @@ var HUDnasal = {
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high,
              HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe,
              HUDnasal.main.alt, HUDnasal.main.vec_vel, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon, diamond,
-             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist];
+             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist,HUDnasal.main.diamond_name];
 
 
   },
@@ -580,11 +580,11 @@ var HUDnasal = {
       ############################################################################
   update: func() {
     verbose = 0;
-    if(1==2 and getprop("/systems/electrical/outputs/inst_ac") < 40 or getprop("sim/ja37/hud/mode") == 0) {
+    if(getprop("/systems/electrical/outputs/inst_ac") < 40 or getprop("sim/ja37/hud/mode") == 0) {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.5);
-     } elsif (1==2 and getprop("/instrumentation/head-up-display/serviceable") == 0) {
+     } elsif (getprop("/instrumentation/head-up-display/serviceable") == 0) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);

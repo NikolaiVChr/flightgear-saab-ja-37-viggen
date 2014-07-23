@@ -475,9 +475,12 @@ HUD: Fixed multiplayer diamond and airport showed 00 distance always in imperial
 GUI: Made option to switch to default FG HUD.
 GUI: Made option to switch off radar and HUD radar tracks.
 
-2.13
+2.13 - 2014 June 20
 ----
 Engine: Set idle N1 at 30.
 Aero: Lowered wheels rolling friction.
 HUD: Radar now track various scenario objects, such as ferries, ballons, tankers, carriers, tanks, bus, trains etc.
 HUD: Now display callsign at diamond.
+
+2.14
+----
