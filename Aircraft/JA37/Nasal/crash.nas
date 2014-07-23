@@ -64,22 +64,22 @@ aircraft_lock = func
 
 		#Switch off engine
 		setprop("controls/engines/engine/cutoff", 1);
-		setprop("engines/engine/cutoff-reason", "aircraft break");
+		setprop("sim/ja37/damage/cutoff-reason", "unknown");
 	}
 
 aircraft_crash=func(crashtype, crashg, solid)
 	{
 	  print("Aircraft crashed: "~ crashtype);
-		crashed=getprop("fdm/jsbsim/simulation/crashed");
+		crashed=getprop("sim/ja37/damage/crashed");
 		if (crashed==nil)
 		{
 			return (0);
 		}
 		if (crashed==0)
 		{
-			setprop("fdm/jsbsim/simulation/crash-type", crashtype);
-			setprop("fdm/jsbsim/simulation/crash-g", crashg);
-			setprop("fdm/jsbsim/simulation/crashed", 1);
+			setprop("sim/ja37/damage/crash-type", crashtype);
+			setprop("sim/ja37/damage/crash-g", crashg);
+			setprop("sim/ja37/damage/crashed", 1);
 			aircraft_lock();
 		}
 
@@ -139,7 +139,7 @@ aircraftbreakprocess=func
 			stop_aircraftbreakprocess();
 			return ( settimer(aircraftbreakprocess, 0.1) ); 
 		}
-		in_service = getprop("processes/aircraft-break/enabled" );
+		in_service = getprop("sim/ja37/damage/enabled" );
 		if (in_service == nil)
 		{
 		print("not in service: nil");
@@ -161,9 +161,9 @@ aircraftbreakprocess=func
 		altitude=getprop("position/altitude-ft");
 		elevation=getprop("position/ground-elev-ft");
 		speed=getprop("/velocities/groundspeed-3D-kt");
-		exploded=getprop("fdm/jsbsim/simulation/exploded");
-		crashed=getprop("fdm/jsbsim/simulation/crashed");
-		var wow=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		exploded=getprop("sim/ja37/damage/exploded");
+		crashed=getprop("sim/ja37/damage/crashed");
+		var wow=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		#Gear middle
 		wow[0]=getprop("gear/gear[0]/wow");
 		#Gear left
@@ -178,6 +178,16 @@ aircraftbreakprocess=func
 		wow[5]=getprop("gear/gear[5]/wow");
 		#Fus nose up
 		wow[6]=getprop("gear/gear[6]/wow");
+		#Fus nose up
+		wow[7]=getprop("gear/gear[7]/wow");
+		#Fus nose up
+		wow[8]=getprop("gear/gear[8]/wow");
+		#Fus nose up
+		wow[9]=getprop("gear/gear[9]/wow");
+		#Fus nose up
+		wow[10]=getprop("gear/gear[10]/wow");
+		#Fus nose up
+		wow[11]=getprop("gear/gear[11]/wow");
 		if (
 			(pilot_g==nil)
 			or (maximum_g==nil)
@@ -195,6 +205,11 @@ aircraftbreakprocess=func
 			or (wow[4]==nil)
 			or (wow[5]==nil)
 			or (wow[6]==nil)
+			or (wow[7]==nil)
+			or (wow[8]==nil)
+			or (wow[9]==nil)
+			or (wow[10]==nil)
+			or (wow[11]==nil)
 		)
 		{
 		#print("Something nil");
@@ -323,38 +338,39 @@ aircraftbreakprocess=func
 		{
 			if (pilot_g>maximum_g)
 			{
-				setprop("sounds/aircraft-crack/volume", 1);
-				setprop("sounds/aircraft-creaking/volume", 1);
-				setprop("fdm/jsbsim/gtremble/max", 1);
+				setprop("sim/ja37/damage/sounds/crack-volume", 1);
+				setprop("sim/ja37/damage/sounds/creaking-volume", 1);
+				setprop("sim/ja37/damage/g-tremble-max", 1);
 			}
 			else
 			{
 				tremble_max=math.sqrt((pilot_g-(maximum_g*0.5))/(maximum_g*0.5));
-				setprop("sounds/aircraft-crack/volume", tremble_max);
-				setprop("fdm/jsbsim/gtremble/max", 1);
+				setprop("sim/ja37/damage/sounds/crack-volume", tremble_max);
+				setprop("sim/ja37/damage/g-tremble-max", 1);
 				if (pilot_g>(maximum_g*0.75))
 				{
 					tremble_max=math.sqrt((pilot_g-(maximum_g*0.5))/(maximum_g*0.5));
-					setprop("sounds/aircraft-creaking/volume", tremble_max);
-					setprop("sounds/aircraft-creaking/on", 1);
+					setprop("sim/ja37/damage/sounds/creaking-volume", tremble_max);
+					setprop("sim/ja37/damage/sounds/creaking-on", 1);
 				}
 				else
 				{
-					setprop("sounds/aircraft-creaking/on", 0);
+					setprop("sim/ja37/damage/sounds/creaking-on", 0);
 				}
 			}
-			if (pilot_g>(maximum_g*0.75))
+			if (pilot_g>(maximum_g*0.90))
 			{
-				setprop("fdm/jsbsim/accelerations/crack", 1);
+				setprop("sim/ja37/damage/sounds/crack-on", 1);
+			} else {
+				setprop("sim/ja37/damage/sounds/crack-on", 0);
 			}
-			setprop("fdm/jsbsim/accelerations/crack", 1);
-			setprop("fdm/jsbsim/gtremble/on", 1);
+			setprop("sim/ja37/damage/g-tremble-on", 1);
 		}
 		else
 		{
-			setprop("fdm/jsbsim/accelerations/crack", 0);
-			setprop("sounds/aircraft-creaking/on", 0);
-			setprop("fdm/jsbsim/gtremble/on", 0);
+			setprop("sim/ja37/damage/sounds/crack-on", 0);
+			setprop("sim/ja37/damage/sounds/creaking-on", 0);
+			setprop("sim/ja37/damage/g-tremble-on", 0);
 		}
 		if (
 			(exploded!=1)
@@ -377,6 +393,11 @@ aircraftbreakprocess=func
 				or (wow[4]==1)
 				or (wow[5]==1)
 				or (wow[6]==1)
+				or (wow[7]==1)
+				or (wow[8]==1)
+				or (wow[9]==1)
+				or (wow[10]==1)
+				or (wow[11]==1)
 			)
 			and
 			(
@@ -411,6 +432,11 @@ aircraftbreakprocess=func
 					or (wow[4]==1)
 					or (wow[5]==1)
 					or (wow[6]==1)
+					or (wow[7]==1)
+					or (wow[8]==1)
+					or (wow[9]==1)
+					or (wow[10]==1)
+					or (wow[11]==1)
 				)
 				and (speed_km>10)
 			)
@@ -423,17 +449,21 @@ aircraftbreakprocess=func
 		settimer(aircraftbreakprocess, 0.1);
 	}
 
+repair = func {
+	init_aircraftbreakprocess();
+}
+
 init_aircraftbreakprocess=func
 {
 #print("init_aircraftbreakprocess");
-setprop("fdm/jsbsim/simulation/exploded", 0);
-	setprop("fdm/jsbsim/simulation/crashed", 0);
-	setprop("fdm/jsbsim/accelerations/explode-g", 0);
-	setprop("fdm/jsbsim/accelerations/crack", 0);
-	setprop("fdm/jsbsim/simulation/crash-type", "");
-	setprop("fdm/jsbsim/accelerations/crash-g", 0);
+	setprop("sim/ja37/damage/exploded", 0);
+	setprop("sim/ja37/damage/crashed", 0);
+	setprop("sim/ja37/damage/explode-g", 0);
+	setprop("sim/ja37/damage/sounds/crack-on", 0);
+	setprop("sim/ja37/damage/crash-type", "");
+	setprop("sim/ja37/damage/crash-g", 0);
 	setprop("fdm/jsbsim/velocities/v-down-previous", 0);
-	setprop("processes/aircraft-break/enabled", 1);
+	setprop("sim/ja37/damage/enabled", 1);
 	setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", 0);
 	setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", 0);
 	setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", 0);
@@ -499,7 +529,7 @@ setprop("fdm/jsbsim/simulation/exploded", 0);
 
 	#Switch on engine
 	setprop("controls/engines/engine/cutoff", 0);
-	setprop("engines/engine/cutoff-reason", "aircraft break");
+	setprop("sim/ja37/damage/cutoff-reason", "aircraft break");
 }
 
 init_aircraftbreakprocess();
@@ -507,9 +537,9 @@ init_aircraftbreakprocess();
 aircraft_explode = func(pilot_g)
 	{
 	#print("aircraft_explode");
-		setprop("fdm/jsbsim/simulation/explode-g", pilot_g);
-		setprop("fdm/jsbsim/simulation/exploded", 1);
-		setprop("sounds/aircraft-explode/on", 1);
+		setprop("sim/ja37/damage/explode-g", pilot_g);
+		setprop("sim/ja37/damage/exploded", 1);
+		setprop("sim/ja37/damage/sounds/explode-on", 1);
 		#setprop("sim/replay/disable", 1);
 		#setprop("sim/menubar/default/menu[1]/item[8]/enabled", 0);
 		settimer(end_aircraft_explode, 3);
@@ -524,7 +554,7 @@ end_aircraft_explode = func
 		setprop("fdm/jsbsim/systems/leftpanel/serviceable", 0);
 		setprop("fdm/jsbsim/systems/ignitionbuton/serviceable", 0);
 		setprop("fdm/jsbsim/systems/speedbrakescontrol/serviceable", 0);
-		setprop("sounds/aircraft-explode/on", 0);
+		setprop("sim/ja37/damage/sounds/explode-on", 0);
 	}
 
 #Start
@@ -541,7 +571,7 @@ stop_aircraftbreaklistener = func
 aircraftbreaklistener = func 
 	{
 		# check state
-		in_service = getprop("listneners/aircraft-break/enabled" );
+		in_service = getprop("sim/ja37/damage/break-listener" );
 		if (in_service == nil)
 		{
 			return ( stop_aircraftbreaklistener );
@@ -553,9 +583,9 @@ aircraftbreaklistener = func
 		pilot_g=getprop("fdm/jsbsim/accelerations/Nz");
 		lat = getprop("position/latitude-deg");
 		lon = getprop("position/longitude-deg");
-		exploded=getprop("fdm/jsbsim/simulation/exploded");
-		crashed=getprop("fdm/jsbsim/simulation/crashed");
-		var wow=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		exploded=getprop("sim/ja37/damage/exploded");
+		crashed=getprop("sim/ja37/damage/crashed");
+		var wow=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		#Gear middle
 		wow[0]=getprop("gear/gear[0]/wow");
 		#Gear left
@@ -570,6 +600,16 @@ aircraftbreaklistener = func
 		wow[5]=getprop("gear/gear[5]/wow");
 		#Fus nose up
 		wow[6]=getprop("gear/gear[6]/wow");
+		#Fus nose up
+		wow[7]=getprop("gear/gear[7]/wow");
+		#Fus nose up
+		wow[8]=getprop("gear/gear[8]/wow");
+		#Fus nose up
+		wow[9]=getprop("gear/gear[9]/wow");
+		#Fus nose up
+		wow[10]=getprop("gear/gear[10]/wow");
+		#Fus nose up
+		wow[11]=getprop("gear/gear[11]/wow");
 		
 		gear_started=getprop("fdm/jsbsim/init/finally-initialized");
 		if (
@@ -585,6 +625,11 @@ aircraftbreaklistener = func
 			or (wow[4]==nil)
 			or (wow[5]==nil)
 			or (wow[6]==nil)
+			or (wow[7]==nil)
+			or (wow[8]==nil)
+			or (wow[9]==nil)
+			or (wow[10]==nil)
+			or (wow[11]==nil)
 			or (gear_started==nil)
 		)
 		{
@@ -596,29 +641,35 @@ aircraftbreaklistener = func
 		}
 		if (
 			(
-				(wow[6]==1)
+				(wow[3]==1)
+				or (wow[4]==1)
+				or (wow[5]==1)
+				or (wow[6]==1)
+				or (wow[7]==1)
 				or (wow[8]==1)
 				or (wow[9]==1)
+				or (wow[10]==1)
+				or (wow[11]==1)
 			)
-			or
-			(
-				(
-					(wow[3]==1)
-					or (wow[4]==1)
-					or (wow[5]==1)
-				)
-				and (pilot_g>3)
-			)
-			or (
-				(tanks_fastened==1)
-				and (pilot_g>1.5)
-				and 
-				(
-					((wow[3]==1) and (wow[7]==1))
-					or
-					((wow[4]==1) and (wow[7]==1))
-				)
-			)
+#			or
+#			(
+#				(
+#					(wow[3]==1)
+#					or (wow[4]==1)
+#					or (wow[5]==1)
+#				)
+#				and (pilot_g>3)
+#			)
+		#	or (
+		#		(tanks_fastened==1)
+		#		and (pilot_g>1.5)
+		#		and 
+		#		(
+		#			((wow[3]==1) and (wow[7]==1))    ja37: adapt this for droptank later
+		#			or
+		#			((wow[4]==1) and (wow[7]==1))
+		#		)
+		#	)
 		)
 		{
 			info = geodinfo(lat, lon);
@@ -642,9 +693,9 @@ aircraftbreaklistener = func
 init_aircraftbreaklistener = func 
 {
 #print("init_aircraftbreaklistener");
-	setprop("sounds/aircraft-crash/on", 0);
-	setprop("sounds/aircraft-water-crash/on", 0);
-	setprop("listneners/aircraft-break/enabled", 1);
+	setprop("sim/ja37/damage/sounds/crash-on", 0);
+	setprop("sim/ja37/damage/sounds/water-crash-on", 0);
+	setprop("sim/ja37/damage/break-listener", 1);
 }
 
 init_aircraftbreaklistener();
@@ -652,13 +703,13 @@ init_aircraftbreaklistener();
 aircraft_crash_sound = func
 	{
 		speed=getprop("/velocities/groundspeed-3D-kt");
-		sounded=getprop("sounds/aircraft-crash/on");
+		sounded=getprop("sim/ja37/damage/sounds/crash-on");
 		if ((speed!=nil) and (sounded!=nil))
 		{
 			speed_km=speed*1.852;
 			if ((speed_km>10) and (sounded==0))
 			{
-				setprop("sounds/aircraft-crash/on", 1);
+				setprop("sim/ja37/damage/sounds/crash-on", 1);
 				settimer(end_aircraft_crash, 3);
 			}
 		}
@@ -666,19 +717,19 @@ aircraft_crash_sound = func
 
 end_aircraft_crash = func
 	{
-		setprop("sounds/aircraft-crash/on", 0);
+		setprop("sim/ja37/damage/sounds/crash-on", 0);
 	}
 
 aircraft_water_crash_sound = func
 	{
 		speed=getprop("velocities/groundspeed-3D-kt");
-		sounded=getprop("sounds/aircraft-water-crash/on");
+		sounded=getprop("sim/ja37/damage/sounds/water-crash-on");
 		if ((speed!=nil) and (sounded!=nil))
 		{
 			speed_km=speed*1.852;
 			if ((speed_km>10) and (sounded==0))
 			{
-				setprop("sounds/aircraft-water-crash/on", 1);
+				setprop("sim/ja37/damage/sounds/water-crash-on", 1);
 				settimer(end_aircraft_water_crash, 3);
 			}
 		}
@@ -686,7 +737,7 @@ aircraft_water_crash_sound = func
 
 end_aircraft_water_crash = func
 	{
-		setprop("sounds/aircraft-water-crash/on", 0);
+		setprop("sim/ja37/damage/sounds/water-crash-on", 0);
 	}
 
 setlistener("gear/gear[3]/wow", aircraftbreaklistener);
@@ -697,3 +748,4 @@ setlistener("gear/gear[7]/wow", aircraftbreaklistener);
 setlistener("gear/gear[8]/wow", aircraftbreaklistener);
 setlistener("gear/gear[9]/wow", aircraftbreaklistener);
 setlistener("gear/gear[10]/wow", aircraftbreaklistener);
+setlistener("gear/gear[11]/wow", aircraftbreaklistener);

@@ -1,7 +1,7 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 350;
-var TOPLOGO_HEIGHT = 80;
+var DIALOG_HEIGHT = 400;
+var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
 var Dialog = {
@@ -54,6 +54,7 @@ var Dialog = {
             w.setBinding("nasal", "ja37.Dialog.del()");
 
         me.dialog.addChild("hrule");
+        me.dialog.addChild("hrule");
 
         #####   Top logo   #####
         #var topLogo = me.dialog.addChild("group");
@@ -86,15 +87,16 @@ var Dialog = {
         #var canvasWidget = me.dialog.addChild("canvas");
         #canvasWidget.prop().addChild(canvasLogo._node);
 
-        me.dialog.addChild("hrule");
+        #me.dialog.addChild("hrule");
 
         #####   Main Area   #####
         var mainArea = me.dialog.addChild("group");
           mainArea.set("layout", "hbox");
           mainArea.set("valign", "fill");
           mainArea.set("halign", "fill");
-          mainArea.set("pref-height", DIALOG_HEIGHT - 72 - TOPLOGO_HEIGHT);
+          mainArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT);
 
+          
           #####   Side logo   #####
           var sideLogo = mainArea.addChild("group");
             sideLogo.set("layout", "vbox");
@@ -106,6 +108,7 @@ var Dialog = {
           var workArea = mainArea.addChild("group");
             workArea.set("layout", "vbox");
             workArea.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+            workArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT - 25);
             workArea.set("valign", "fill");
             workAreaNode = workArea.node;
 
@@ -113,30 +116,43 @@ var Dialog = {
             #####   Content   #####
             #######################
 
-          ######   Top Row break button   #####
-          me.dialog.addChild("hrule");
+          
           var topRow = workArea.addChild("group");
           topRow.set("layout", "vbox");
-          topRow.set("pref-height", 40);
+          topRow.set("pref-height", 50);
           topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          topRow.set("valign", "center");
-          topRow.addChild("empty").set("stretch", 1);
+          topRow.set("valign", "top");
+          #topRow.addChild("empty").set("stretch", 1);
           
-          me.dialog.breakButton = topRow.addChild("button");
-          me.dialog.breakButton.node.setValues({ "pref-width": 300, "pref-height": 25, legend: "Aircraft structural break due to G-forces is ", default: 0 });
-          topRow.addChild("empty").set("stretch", 1);
+          ######   Top Row break button   #####
+          var breakRow = topRow.addChild("group");
+          breakRow.set("layout", "hbox");
+          breakRow.set("pref-height", 25);
+          breakRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          breakRow.set("valign", "center");
+          
+          breakRow.addChild("text").set("label", "Structural break due to G-forces:");
+          me.dialog.breakButton = breakRow.addChild("button");
+          me.dialog.breakButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
           me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
 
           ######   Top Row reverse button   #####
+          var reverseRow = topRow.addChild("group");
+          reverseRow.set("layout", "hbox");
+          reverseRow.set("pref-height", 25);
+          reverseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          reverseRow.set("valign", "center");
           
-          me.dialog.reverseButton = topRow.addChild("button");
-          me.dialog.reverseButton.node.setValues({ "pref-width": 300, "pref-height": 25, legend: "Automatic reverse thrust enabler at touchdown: OFF", default: 0 });
-          topRow.addChild("empty").set("stretch", 1);
+          reverseRow.addChild("text").set("label", "Automatic reverse thrust at touchdown:");
+          me.dialog.reverseButton = reverseRow.addChild("button");
+          me.dialog.reverseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
           me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
 
           var hudRow = workArea.addChild("group");
           hudRow.set("layout", "hbox");
-          hudRow.set("pref-height", 40);
+          hudRow.set("pref-height", 25);
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           hudRow.set("valign", "center");
           
@@ -150,11 +166,32 @@ var Dialog = {
           me.dialog.hudLight.setBinding("nasal", "ja37.Dialog.light()");
           me.dialog.hudMedium.setBinding("nasal", "ja37.Dialog.medium()");
           me.dialog.hudDark.setBinding("nasal", "ja37.Dialog.dark()");
+
+          #  mention hangar
+          var hangar = workArea.addChild("group");
+          hangar.set("layout", "vbox");
+          hangar.set("pref-height", 50);
+          hangar.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          hangar.set("valign", "center");
+
+          hangar.addChild("hrule");#.set("valign", "bottom");
+          var ad1 = hangar.addChild("text");
+          ad1.set("label", "Download the newest version from:");
+          ad1.set("halign", "center");
+          ad1.set("valign", "bottom");
+          ad1.node.setValues({ "pref-height": 25});
+          var ad2 = hangar.addChild("text");
+          ad2.set("label", "https://sites.google.com/site/fghangar");
+          ad2.set("halign", "center");
+          ad2.set("valign", "bottom");
+          ad2.node.setValues({ "pref-height": 25});
+          
+          me.dialog.addChild("hrule");
           #var me.dialog.crashButton = topRow.addChild("button");
           #me.dialog.crashButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Crash", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           #crashButton.setBinding("nasal", "ja37.dialog.crash()");
-  print("init Options GUI");
+  
 ####  The table will be filled from the current page after doing some sort
 ####  of combination of wizard.pui and the nasal code in wizard.xml
 
@@ -183,14 +220,14 @@ var Dialog = {
     },
 
     breakToggle: func {
-      var enabled = getprop("processes/aircraft-break/enabled");
-      setprop("processes/aircraft-break/enabled", !enabled);
+      var enabled = getprop("sim/ja37/damage/enabled");
+      setprop("sim/ja37/damage/enabled", !enabled);
       me.refreshButtons();
     },
 
     reverseToggle: func {
-      var enabled = getprop("processes/aircraft-break/autoReverseThrust");
-      setprop("processes/aircraft-break/autoReverseThrust", !enabled);
+      var enabled = getprop("sim/ja37/autoReverseThrust");
+      setprop("sim/ja37/autoReverseThrust", !enabled);
       me.refreshButtons();
     },
 
@@ -226,21 +263,20 @@ var Dialog = {
 
     refreshButtons: func {
       # update break button
-      var enabled = getprop("processes/aircraft-break/enabled");
-      var legend = "Aircraft structural break due to G-forces is ";
+      var enabled = getprop("sim/ja37/damage/enabled");
+      var legend = "";
       if(enabled == 1) {
-        legend = legend~"ON";
+        legend = "Enabled";
       } else {
-        legend = legend~"OFF";
+        legend = "Disabled";
       }
       me.dialog.breakButton.node.setValues({"legend": legend});
 
-      enabled = getprop("processes/aircraft-break/autoReverseThrust");
-      legend = "Automatic reverse thrust enabler at touchdown: ";
+      enabled = getprop("sim/ja37/autoReverseThrust");
       if(enabled == 1) {
-        legend = legend~"ON";
+        legend = "Enabled";
       } else {
-        legend = legend~"OFF";
+        legend = "Disabled";
       }
       me.dialog.reverseButton.node.setValues({"legend": legend});
 
@@ -272,6 +308,7 @@ var Dialog = {
         me.init();
         me.create();
       } else {
+        me.refreshButtons();
         fgcommand("dialog-show", me.dialog.prop());
       }
     },

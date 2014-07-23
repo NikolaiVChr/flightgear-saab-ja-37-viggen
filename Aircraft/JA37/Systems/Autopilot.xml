@@ -96,6 +96,36 @@
     <output>/autopilot/internal/target-pitch-deg</output>
   </filter>
 
+   <!-- Simple angle of attack hold --> 
+ <pid-controller>
+    <name>AOA hold</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>aoa-hold</value>
+    </enable>
+    <input>
+      <prop>/orientation/alpha-deg</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/settings/target-aoa-deg</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/elevator</prop>
+    </output>
+    <config>
+      <Kp>-0.05</Kp>      <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>0.5</Ti>        <!-- integrator time -->
+      <Td>0.00001</Td>    <!-- derivator time -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
   <!-- Altitude hold.  2 stage cascade controller. -->
 
   <!-- Stage #1 sets target rate of climb based on diff between current alt -->

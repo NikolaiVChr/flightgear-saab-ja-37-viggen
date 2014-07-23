@@ -144,8 +144,29 @@
      </product>
   </function>
 
-  <!-- from graph page 18, Australian document (heavily modified) -->
-  <function name="aero/function/mach-effect-factor-drag">
+  <function name="aero/function/mach-effect-prefactor-drag">
+     <description>Change in drag due to mach effect</description>
+     <sum>
+      <product>
+        <table>
+          <independentVar lookup="row">velocities/mach</independentVar>
+          <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+          <tableData>
+                            0    15000   36000
+                  0.8000    0     0       0
+                  1.2000    0.8   0.3     0.25
+                  1.8000    0.8   0.3     0.25
+                  2.2000    1.6   0.6     0.5
+          </tableData>
+        </table>
+        <property>aero/mach-drag-factor</property><!-- is property so it was easy to adjust when flying -->
+      </product>
+      <value>1</value>
+    </sum>
+  </function>
+
+  <!-- from graph page 18, Australian document (heavily modified) not using this anymore, the above is better-->
+  <!--<function name="aero/function/mach-effect-factor-drag">
      <description>Change in drag due to mach effect</description>
      <sum>
       <product>
@@ -162,11 +183,11 @@
                   2.2000  8
           </tableData>
         </table>
-        <property>aero/mach-drag-factor</property><!-- is property so it was easy to adjust when flying -->
-      </product>
+        <property>aero/mach-drag-factor</property>--><!-- is property so it was easy to adjust when flying -->
+      <!--</product>
       <value>1</value>
     </sum>
-  </function>
+  </function>-->
 
   <function name="aero/function/CAgear">
       <description>Drag_due_to_gear</description>
@@ -192,7 +213,7 @@
     <description>Change in axial due to mach and ground effect</description>
     <product>
       <property>aero/function/ground-effect-factor-drag</property>
-      <property>aero/function/mach-effect-factor-drag</property>
+      <property>aero/function/mach-effect-prefactor-drag</property>
     </product>
   </function>
 

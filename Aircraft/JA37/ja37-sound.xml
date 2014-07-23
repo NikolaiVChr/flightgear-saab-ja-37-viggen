@@ -863,7 +863,7 @@
   		<mode>once</mode>
   		<condition>
   			<equals>
-  				<property>sounds/aircraft-explode/on</property>
+  				<property>sim/ja37/damage/sounds/explode-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
@@ -878,7 +878,7 @@
   		<mode>once</mode>
   		<condition>
   			<equals>
-  				<property>sounds/aircraft-crash/on</property>
+  				<property>sim/ja37/damage/sounds/crash-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
@@ -893,7 +893,7 @@
   		<mode>once</mode>
   		<condition>
   			<equals>
-  				<property>sounds/aircraft-water-crash/on</property>
+  				<property>sim/ja37/damage/sounds/water-crash-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
@@ -909,12 +909,12 @@
   		<condition>
   		<property>sim/current-view/internal</property>
   			<equals>
-  				<property>sounds/aircraft-crack/on</property>
+  				<property>sim/ja37/damage/sounds/crack-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
   		<volume>
-  			<property>sounds/aircraft-crack/volume</property>
+  			<property>sim/ja37/damage/sounds/crack-volume</property>
   			<factor>1</factor>
   		</volume>
   	</aircraft-crack>
@@ -926,12 +926,12 @@
   		<condition>
   		<property>sim/current-view/internal</property>
   			<equals>
-  				<property>sounds/aircraft-creaking/on</property>
+  				<property>sim/ja37/damage/sounds/creaking-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
   		<volume>
-  			<property>sounds/aircraft-creaking/volume</property>
+  			<property>sim/ja37/damage/sounds/creaking-volume</property>
   			<factor>1</factor>
   		</volume>
   	</aircraft-creaking>

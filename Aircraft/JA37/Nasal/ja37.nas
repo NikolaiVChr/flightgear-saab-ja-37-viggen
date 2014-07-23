@@ -133,10 +133,13 @@ var update_loop = func {
     var joystick = 0;
     var attitude = 0;
     var altitude = 0;
+    var transonic = 0;
+    var rev = 0;
 
     # joystick indicator
     if(getprop("/systems/electrical/generator_on") == 1) {
-      if (((getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil) and (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1) {
+      if (((getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil) and (getprop("/autopilot/locks/altitude") != ''
+       and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1 and getprop("/systems/electrical/outputs/inst_ac") > 40) {
         joystick = 0;
       } else {
         joystick = 1;
@@ -146,7 +149,8 @@ var update_loop = func {
     }
 
     # attitude indicator
-    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)) {
+    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)
+     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
       if (getprop("/instrumentation/attitude-indicator/indicated-roll-deg") > 70 or getprop("/instrumentation/attitude-indicator/indicated-roll-deg") < -70) {
         attitude = getprop("sim/model/lighting/beacon/state");
       } else {
@@ -157,7 +161,8 @@ var update_loop = func {
     }
 
     # altitude indicator
-    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)) {
+    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)
+     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
       if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.8 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.2) {
         altitude = getprop("sim/model/lighting/beacon/state");
       } else {
@@ -167,9 +172,32 @@ var update_loop = func {
       altitude = 0;
     }
 
+    #transonic indicator
+    if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05
+     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+      transonic = 1;
+    } else {
+      if(getprop("/engines/engine/reversed") and getprop("/instrumentation/airspeed-indicator/indicated-speed-kt") < 64.8 and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+        # warning that speed is so low that its risky to continue reverse thrust
+          transonic = 1;
+        } else {
+          transonic = 0;
+        }
+    }
+
+    # reverse indicator
+    if(getprop("engines/engine/reversed") == 1
+     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+      rev = 1;
+    } else {
+      rev = 0;
+    }
+
     setprop("/instrumentation/joystick-indicator", joystick);
     setprop("/instrumentation/attitude-indicator", attitude);
     setprop("/instrumentation/altitude-indicator", altitude);
+    setprop("/instrumentation/transonic-indicator", transonic);
+    setprop("/instrumentation/reverse-indicator", rev);
 
     # pylon payloads
 
@@ -242,7 +270,7 @@ var update_loop = func {
     var gear1 = getprop("/gear/gear[1]/wow");
     var gear2 = getprop("/gear/gear[2]/wow");
 
-    if(getprop("processes/aircraft-break/autoReverseThrust") == 1 and reversed == 0) {
+    if(getprop("sim/ja37/autoReverseThrust") == 1 and reversed == 0) {
       if(gear1 == 1) {
         #left boogie touching
         if(prevGear1 == 0) {
@@ -324,14 +352,10 @@ var signal_loop = func {
 }
 settimer(func { signal_loop() }, 0.1);
 
+###############  Test which system the flightgear version support.  ###########
 
-############################# main init ###############
-
-
-var main_init = func {
-  setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
-
-  #Test which system the flightgear version support.
+var test_support = func {
+ 
   var versionString = getprop("sim/version/flightgear");
   var version = split(".", versionString);
   if (version[0] == "0" or version[0] == "1") {
@@ -370,9 +394,23 @@ var main_init = func {
     }
   }
   setprop("sim/ja37/supported/initialized", 1);
-  print("Initializing Saab JA-37 Viggen systems. Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]);
 
-	setprop("/consumables/fuel/tank[8]/jettisoned", 0);
+  print("********************************************************************************");
+  print("**  Initializing Saab JA-37 Viggen systems. Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]~"  **");
+  print("********************************************************************************");
+
+}
+
+############################# main init ###############
+
+
+var main_init = func {
+  setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
+
+  test_support();
+
+
+  setprop("/consumables/fuel/tank[8]/jettisoned", 0);
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
   
   print("Loading exterior, wait...");
@@ -455,8 +493,10 @@ var main_init = func {
 # re init
 var re_init = func {
   print("Re-initializing JA-37 Viggen systems");
-
+  
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
+
+  test_support();
 }
 
 var load_interior = func{
@@ -469,7 +509,7 @@ var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
 	removelistener(main_init_listener);
  }, 0, 0);
 
-var re_init_listener = setlistener("sim/signals/fdm-initialized", func {
+var re_init_listener = setlistener("/sim/signals/reinit", func {
   re_init();
  }, 0, 0);
 
@@ -564,7 +604,7 @@ var autostarttimer = func {
      setprop("/controls/electric/engine[0]/generator", 0);
   	 setprop("/controls/electric/battery-switch", 0);
     } else {
-      if (getprop("/fdm/jsbsim/simulation/crashed") < 1) {
+      if (getprop("sim/ja37/damage/crashed") < 1) {
         setprop("/controls/electric/battery-switch", 1);
         setprop("/systems/electrical/batterysignal", 1);
         gui.popupTip("Battery switch on. Check.");

@@ -417,3 +417,16 @@ Aero: Attached drop tank now influence roll and yaw.
 Aero: Solved an aerodynamical conflict, that would make rolling unstable.
 GUI: Fixed disabling crash due to structural damage, and then close options, prevents reenabling of same.
 Aero: Asymmetric wing mounted missiles now affects aerodynamics.
+
+2.04 2014 May 31
+----
+GUI: Aircraft can now be repaired from the the menu.
+Sim: Crash code properties are no longer spread out all over the property tree.
+Aero: Readjusted rudder, elevator and aileron deflection in different airspeeds/air-densities.
+Sim: Added Angle-of-attack hold to autopilot.
+Animaton: Added reverse and transonic indicator.
+Animation: Added electric condition on all indicators.
+Aero: Added fuselage contact point, and updated crashcode for contact point detection.
+Animation: Adjusted some instrument materials.
+Animation: Increased size of large attitude indicator.
+Sim: Fixed reinit bug in radar.

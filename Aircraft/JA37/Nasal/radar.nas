@@ -296,8 +296,9 @@ var calc_c_target= func(crs, trg) {
   return diff;
 }
 
-setlistener("sim/ja37/supported/initialized", func {
+var theinit = setlistener("sim/ja37/supported/initialized", func {
   if(getprop("sim/ja37/supported/radar") == 1) {
+    removelistener(theinit);
     var scope = radar.new();
     scope.update();
   }

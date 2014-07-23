@@ -17,6 +17,12 @@ Advanced weather: Generate aloft-waypoints, Generate thermals, Terrain Effects, 
 Model-shader: top setting
 
 
+Compatibility with Flightgear 2.8
+---------------------------------
+Delete the Material shaders section in JA37/Models/ja37-model.xml and it will fly fine.
+Radar and HUD will be disabled automatically though when using FG 2.8
+
+
 Notes
 ---------
 The aircraft is sorta Rembrandt ready, no glaring issues.

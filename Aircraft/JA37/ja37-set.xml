@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>2.03</aircraft-version>
+  <aircraft-version>2.04</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -159,23 +159,23 @@
       </signal>
       <signal>
         <type>bool</type>
-        <property type="string">sounds/aircraft-explode/on</property>
+        <property type="string">sim/ja37/damage/sounds/explode-on</property>
       </signal>
       <signal>
         <type>bool</type>
-        <property type="string">sounds/aircraft-crash/on</property>
+        <property type="string">sim/ja37/damage/sounds/crash-on</property>
       </signal>
       <signal>
         <type>bool</type>
-        <property type="string">sounds/aircraft-water-crash/on</property>
+        <property type="string">sim/ja37/damage/sounds/water-crash-on</property>
       </signal>
       <signal>
         <type>bool</type>
-        <property type="string">sounds/aircraft-crack/on</property>
+        <property type="string">sim/ja37/damage/sounds/crack-on</property>
       </signal>
       <signal>
         <type>bool</type>
-        <property type="string">sounds/aircraft-creaking/on</property>
+        <property type="string">sim/ja37/damage/sounds/creaking-on</property>
       </signal>
       <signal>
         <type>bool</type>
@@ -584,6 +584,13 @@
     </binding>
    </item>
    <item>
+    <label>Repair</label>
+    <binding>
+     <command>nasal</command>
+     <script>crash.repair();</script>
+    </binding>
+   </item>   
+   <item>
     <label>Options</label>
     <binding>
      <command>nasal</command>
@@ -627,6 +634,7 @@
 
 *************************************************************************--> 
     <ja37>
+      <autoReverseThrust type="bool">false</autoReverseThrust>
       <supported>
         <old-custom-fails type="bool">false</old-custom-fails>
         <hud type="bool">false</hud>
@@ -727,11 +735,6 @@
    <brake-parking type="bool">true</brake-parking>
   </gear>
 </controls>
-<processes>
-  <aircraft-break>
-    <autoReverseThrust type="bool">false</autoReverseThrust>
-  </aircraft-break>
-</processes>
 <environment>
   <pressure-inhg>30</pressure-inhg>
 </environment>
