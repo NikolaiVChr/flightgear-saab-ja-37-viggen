@@ -304,9 +304,48 @@ settimer(func { signal_loop() }, 0.1);
 
 
 var main_init = func {
-	print("Initializing JA-37 Viggen systems");
-
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
+
+  #Test which system the flightgear version support.
+  var versionString = getprop("sim/version/flightgear");
+  var version = split(".", versionString);
+  if (version[0] == "0" or version[0] == "1") {
+    gui.popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+      setprop("sim/ja37/supported/radar", 0);
+      setprop("sim/ja37/supported/hud", 0);
+      setprop("sim/ja37/supported/options", 0);
+      setprop("sim/ja37/supported/old-custom-fails", 0);
+  } elsif (version[0] == "2") {
+    if(version[1] == "0" or version[1] == "2" or version[1] == "4" or version[1] == "6") {
+      gui.popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+      setprop("sim/ja37/supported/radar", 0);
+      setprop("sim/ja37/supported/hud", 0);
+      setprop("sim/ja37/supported/options", 0);
+      setprop("sim/ja37/supported/old-custom-fails", 1);
+    } elsif(version[1] == "8") {
+      gui.popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
+      setprop("sim/ja37/supported/radar", 0);
+      setprop("sim/ja37/supported/hud", 0);
+      setprop("sim/ja37/supported/options", 0);
+      setprop("sim/ja37/supported/old-custom-fails", 1);
+    } else {
+      setprop("sim/ja37/supported/radar", 1);
+      setprop("sim/ja37/supported/hud", 1);
+      setprop("sim/ja37/supported/options", 0);
+      setprop("sim/ja37/supported/old-custom-fails", 1);
+    }
+  } elsif (version[0] == "3") {
+    setprop("sim/ja37/supported/options", 1);
+    setprop("sim/ja37/supported/radar", 1);
+    setprop("sim/ja37/supported/hud", 1);
+    if (version[1] == "1" or version[1] == "2") {
+      setprop("sim/ja37/supported/old-custom-fails", 0);
+    } else {
+      setprop("sim/ja37/supported/old-custom-fails", 1);
+    }
+  }
+  setprop("sim/ja37/supported/initialized", 1);
+  print("Initializing Saab JA-37 Viggen systems. Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]);
 
 	setprop("/consumables/fuel/tank[8]/jettisoned", 0);
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
@@ -319,55 +358,58 @@ var main_init = func {
   
   # random failure code:
 
-  var fail = { SERVICEABLE : 1, JAM : 2, ENGINE: 3};
-  var type = { MTBF : 1, MCBF: 2 };
-  var failure_root = "/sim/failure-manager";
-  var prop = "/instrumentation/head-up-display";
+  if(getprop("sim/ja37/supported/old-custom-fails") == 1) {
+    var fail = { SERVICEABLE : 1, JAM : 2, ENGINE: 3};
+    var type = { MTBF : 1, MCBF: 2 };
+    var failure_root = "/sim/failure-manager";
+    var prop = "/instrumentation/head-up-display";
 
-  failures.breakHash[prop] = {
-    type: type.MTBF, failure: fail.SERVICEABLE, desc: "Head up display"};
+    failures.breakHash[prop] = {
+      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Head up display"};
 
-  var o = failures.breakHash[prop];
-  var t = "/mtbf";
-  props.globals.initNode(failure_root ~ prop ~ t, 0);
-  props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
+    var o = failures.breakHash[prop];
+    var t = "/mtbf";
+    props.globals.initNode(failure_root ~ prop ~ t, 0);
+    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
 
-  prop = "/instrumentation/instrumentation-light";
+    prop = "/instrumentation/instrumentation-light";
 
-  failures.breakHash[prop] = {
-    type: type.MTBF, failure: fail.SERVICEABLE, desc: "Instrumentation light"};
+    failures.breakHash[prop] = {
+      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Instrumentation light"};
 
-  props.globals.initNode(failure_root ~ prop ~ t, 0);
-  props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
+    props.globals.initNode(failure_root ~ prop ~ t, 0);
+    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
 
-  prop = "/fdm/jsbsim/fcs/canopy";
+    prop = "/fdm/jsbsim/fcs/canopy";
 
-  failures.breakHash[prop] = {
-    type: type.MTBF, failure: fail.SERVICEABLE, desc: "Canopy"};
+    failures.breakHash[prop] = {
+      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Canopy"};
 
-  props.globals.initNode(failure_root ~ prop ~ t, 0);
-  props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
+    props.globals.initNode(failure_root ~ prop ~ t, 0);
+    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
 
-  prop = "/instrumentation/radar";
+    prop = "/instrumentation/radar";
 
-  failures.breakHash[prop] = {
-    type: type.MTBF, failure: fail.SERVICEABLE, desc: "Radar"};
+    failures.breakHash[prop] = {
+      type: type.MTBF, failure: fail.SERVICEABLE, desc: "Radar"};
 
-  props.globals.initNode(failure_root ~ prop ~ t, 0);
-  props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
+    props.globals.initNode(failure_root ~ prop ~ t, 0);
+    props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
 
-  setprop("/sim/failure-manager/display-on-screen", 1);
-  #setprop("/sim/failure-manager/global-mcbf-0", 0);
-  #setprop("/sim/failure-manager/global-mcbf-500", 1);
-  #setprop("/sim/failure-manager/global-mcbf", 500);
-  #setprop("/sim/failure-manager/global-mtbf-0", 0);
-  #setprop("/sim/failure-manager/global-mtbf-86400", 1);
-  #setprop("/sim/failure-manager/global-mtbf", 86400);
+    setprop("/sim/failure-manager/display-on-screen", 1);
+    #setprop("/sim/failure-manager/global-mcbf-0", 0);
+    #setprop("/sim/failure-manager/global-mcbf-500", 1);
+    #setprop("/sim/failure-manager/global-mcbf", 500);
+    #setprop("/sim/failure-manager/global-mtbf-0", 0);
+    #setprop("/sim/failure-manager/global-mtbf-86400", 1);
+    #setprop("/sim/failure-manager/global-mtbf", 86400);
 
-  #failures.setAllMCBF(500);
-  #failures.setAllMTBF(86400);
+    #failures.setAllMCBF(500);
+    #failures.setAllMTBF(86400);
 
-  
+  } else {
+    # put in 3.2+ failure handling code here
+  }
   
 
   # inst. light

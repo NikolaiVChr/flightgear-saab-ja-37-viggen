@@ -29,6 +29,16 @@
     </offsets>
   </model> 
 
+<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/ja37/supported/hud</property>
+  </condition>
+  <object-name>HUDobject</object-name>
+</animation>
+
+
+
   <model>
     <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
     <name>lightglowR</name>

@@ -5,15 +5,12 @@ Must have for FG 3.2
 ------
 Test new failure system.
 Test new JSBSim ground contact features.
-Test new FGPlot
-HUD: Use instrument properties instead of simulation properties
-Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
-Find out why cannon and sidewinder fire randomly after instant replay.
-Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Reset controls after A/P let go of them.
+Aerodynamics should be more stable.
+Auto-pilot should be more stable.
 
-Option GUI:
---------------
+
+Options GUI:
+------------
 GUI: Make little option GUI. (to test PUI and widgets)
 GUI: Option to turn off verbose popups.
 GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
@@ -22,7 +19,9 @@ GUI: Show droptank status.
 GUI: Make something procedual, just to test it out.
 GUI: Option to turn off certain effects.
 GUI: Stats. topspeed, topalpha, topbeta, topclimb, top altitude
-GUI: Set Radar dist
+GUI: Set Radar dist.
+GUI: Button to repair plane.
+GUI: Test new FGPlot.
 
 
 Compatible version with FG 2.6
@@ -30,7 +29,8 @@ Compatible version with FG 2.6
 Smaller textures
 Less polygons
 Less particle effects
-No radar
+No radar (done)
+No custom HUD (done)
 Default FG HUD
 
 
@@ -42,10 +42,10 @@ Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will 
 
 Features and improvements:
 --------------------------
-GUI: Find way to measure take-off length, climb-rate, axial force and stopwatch.
+GUI: Find way to measure take-off length, climb-rate, axial force and display in options..
 GUI: Make HUD switchable to imperial units.
 GUI: Checklist
-Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog.
+Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog. (roll: fig104 page128)
 Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
 Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe force JSBSim Hz higher or cap on some dampers, use FGGraph to check which ones)
@@ -55,15 +55,22 @@ Animation: Adjust instrument materials, and make the gauges look more similar.
 Animation: Animate wheels (hard when gears get compressed..)
 Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
+Animation: Make LOD in cockpit panel instead of in each instrument.
+Animation: Turn front gear 180 degrees, it is modeled opposite.
 Sim: Improve autopilot further, it wobbles.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?)
-Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure, hitting buildings)
+Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
 Sim: Crash code should use better properties not spread out all over.
 Sim: Instruments should turn on when battery gets turned on, instead of generator, but still be able to fail when electrical system fails.
 Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
+Sim: Reset controls after A/P let go of them.
+Sim: Stop using integers in xml where floating point is expected.
+Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
+Sim: Find out why cannon and sidewinder fire randomly after instant replay.
+Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particale is always attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear though)
 Effect: Check contrail effect is properly installed.
@@ -74,6 +81,7 @@ Effect: Sun glare
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds
+Sound: Marker warning tone should be removed per default.
 HUD: Make combat mode for HUD.
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
@@ -83,20 +91,21 @@ HUD: Different kind of pitch lines, depending on mode
 HUD: make more methods out of similar code, introduce more comments and name variables better
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
+HUD: Use instrument properties instead of simulation properties
+
 
 Issues with FG: (or my limited understanding of it)
 ---------------
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
-Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also, which has nothing to do with emissiveness.
+Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also.
 Sim: Get flightrecorder to record position with higher frequency.
-Sound: Occansional wierd buzz in model view sound when using throttle.
+Sound: Occansional wierd buzz in external sounds.
 
 
 Require modeling/texture skills (above my level):
 -------------------------------------------------
 Animation: Model proper panels and cockpit layout.
 Animation: Put in more working instruments and controls (semi doable if can find similar instrument in other plane, but too many to look through)
-Animation: Put in alot more not-working instruments and controls for immersion
 Animation: Animate scissor gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors
 Animation: Model the reverser for reverse thrust.
@@ -108,8 +117,10 @@ Depends on better 3D cockpit:
 Sim: Make control surfaces depend on hydralic system.
 Sim: Make proper power flow to external lights and HUD. (use potemkin)
 Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upside down. All fuel to engine has to go through tank 1)
+Animation: Put in alot more not-working instruments and controls for immersion
 
 
 Require more data: (or aerodynamic know-how)
 ------------------
-HUD: add proper sidewind max
+HUD: Proper sidewind max. (using J-35 max currently)
+Aero: Detailed axial coefficient.

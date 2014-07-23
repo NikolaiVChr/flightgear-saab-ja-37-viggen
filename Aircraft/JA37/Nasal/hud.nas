@@ -864,11 +864,13 @@ var id = 0;
 var reinitHUD = 0;
 var init = func() {
   removelistener(id); # only call once
-  var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
-  setprop("sim/hud/visibility[1]", 0);
-  
-  #print("HUD initialized.");
-  hud_pilot.update();
+  if(getprop("sim/ja37/supported/hud") == 1) {
+    var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
+    setprop("sim/hud/visibility[1]", 0);
+    
+    #print("HUD initialized.");
+    hud_pilot.update();
+  }
 };
 
 var init2 = setlistener("/sim/signals/reinit", func() {
@@ -876,7 +878,7 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 });
 
 #setprop("/systems/electrical/battery", 0);
-id = setlistener("/sim/signals/fdm-initialized", init);
+id = setlistener("sim/ja37/supported/initialized", init);
 
 var reinit = func() {#mostly called to change HUD color
   reinitHUD = 1;

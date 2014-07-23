@@ -379,7 +379,7 @@ Animation: Gear compression is now animated.
 Effect: Fixed normalmap shadow runs along the top of the plane. (still some minor ones left)
 Animation: Closed the two small holes inside the engine inlets.
 
-2.00
+2.00 - 2014 May 24
 ----
 Sim: Gear compression now shows in replay.
 Sim: Fixed payload visuals in replay.
@@ -388,3 +388,24 @@ Sim: Gear compression and payload armament now transmitted over multiplay.
 HUD: Moved QFE text up a small bit.
 Sound: Added sound for multiplayer.
 Aero: Fixed major bug that prevented the aircraft to take-off at 315 Km/h speed. Will also affect overall aerodynamic handling.
+
+2.01 - 2014 May 27
+----
+Sim: Fixed fuel tanks no longer showed name in the payload dialog.
+Aero: Added roll moment due to beta and ailerons.
+Aero: Limited ailerons to 15 degree deflections.
+Aero: Increased downward elevator deflection to 20 degrees.
+Aero: Fixed a bug that meant slightly asymmetric aileron control. (visually)
+Aero: Fixed that Aileron and elevator should not be clipped to 25 degrees in elevons (visually), but aileron simply superimposed on elevator.
+Aero: Rudder maximum deflection now also depends on speed and air-density.
+Aero: Readjusted how elevator and aileron maximum deflection depends on speed and air-density.
+Sim: Fixed when replaying after a crash, fly-by view sounds were gone.
+Animation: Added 3 new liveries.
+Sim: HUD and Radar now only gets activated in FG 2.10+
+Sim: A warning message is now displayed if FG is older than 2.8
+
+2.02 - 2014 May 28
+----
+Sim: Fixed pressing '5' would not reset controls.
+Sim: CHanged keybindings for selecting armaments.
+Sim: Added decals on Blue livery.

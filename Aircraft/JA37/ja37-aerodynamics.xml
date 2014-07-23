@@ -81,7 +81,7 @@
              </table>
              <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">aero/function/elevator-pos-deg-inv</independentVar><!-- same as flightgears definition, even though hard to read from figure -->
+                <independentVar lookup="column">aero/function/elevator-pos-deg-inv</independentVar><!-- opposite as flightgears definition, even though rest of document uses same definition. -->
                 <tableData><!-- [measured using graph analyser] -->
                                -20      0     20
                        -20  -1.232 -1.178 -1.036
@@ -161,7 +161,7 @@
     </sum>
   </function>
 
-  <function name="aero/coefficient/CAgear">
+  <function name="aero/function/CAgear">
       <description>Drag_due_to_gear</description>
       <product>
           <property>aero/qbar-psf</property>
@@ -171,7 +171,7 @@
       </product>
   </function>
 
-  <function name="aero/coefficient/CAflaps">
+  <function name="aero/function/CAflaps">
       <description>Drag due to flaps</description>
       <product>
           <property>aero/qbar-psf</property>
@@ -181,7 +181,7 @@
       </product>
   </function>
 
-  <function name="aero/coefficient/Afactors">
+  <function name="aero/function/Afactors">
     <description>Change in axial due to mach and ground effect</description>
     <product>
       <property>aero/function/ground-effect-factor-drag</property>
@@ -193,10 +193,10 @@
         <function name="aero/coefficient/CAtakeoff">
           <description>Drag due to flaps and gear</description>
           <product>
-            <property>aero/coefficient/Afactors</property>
+            <property>aero/function/Afactors</property>
             <sum>
-              <property>aero/coefficient/CAgear</property>
-              <property>aero/coefficient/CAflaps</property>
+              <property>aero/function/CAgear</property>
+              <property>aero/function/CAflaps</property>
             </sum>
           </product>
       </function>
@@ -207,7 +207,7 @@
            Basic Tangential/axial Coefficient
         </description>
         <product>
-           <property>aero/coefficient/Afactors</property>
+           <property>aero/function/Afactors</property>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <table>
@@ -337,7 +337,6 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>velocities/p-rad_sec</property>
-           <value>1</value><!-- -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -364,7 +363,6 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>velocities/r-rad_sec</property>
-           <value>1</value><!-- -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -391,7 +389,6 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>aero/betadot-rad_sec</property>
-           <value>1</value><!-- -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -401,6 +398,30 @@
                27.5 -0.2
                40   -0.3
                55    0
+            </tableData>
+          </table>
+       </product>
+    </function>
+
+    <!-- from graph 108a page 131 -->
+    <function name="aero/coefficient/Clbeta">
+       <description>
+        Roll due to beta and aileron
+      </description>
+       <product>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <property>metrics/bw-ft</property>
+          <table>
+             <independentVar lookup="row">aero/beta-deg</independentVar>
+             <independentVar lookup="column">fcs/left-aileron-pos-deg</independentVar>
+             <tableData>
+                        -10      -5      0      5       10
+                -10    0.008   0.023   0.04   0.06    0.075
+                 -5   -0.01    0.005   0.022  0.04    0.06
+                  0   -0.033  -0.0175  0      0.0175  0.033
+                  5   -0.06   -0.04   -0.022 -0.005   0.01
+                 10   -0.075  -0.06   -0.04  -0.023  -0.008
             </tableData>
           </table>
        </product>
@@ -416,7 +437,6 @@
           <property>metrics/Sw-sqft</property>
           <property>metrics/bw-ft</property>
           <property>fcs/left-aileron-pos-rad</property>
-          <value>0.2</value><!-- full 25 degrees ailerons spins too fast -->
           <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
@@ -647,7 +667,7 @@
     </function>
 
     <!-- from graph page 83 -->
-    <function name="aero/moment/Cmq">
+    <function name="aero/coefficient/Cmq">
        <description>Pitch damping due to pitch rate</description>
        <product>
            <property>aero/qbar-psf</property>
@@ -655,7 +675,6 @@
            <property>metrics/cbarw-ft</property>
            <property>aero/ci2vel</property>
            <property>velocities/q-rad_sec</property>
-           <value>1</value>
            <table>
               <independentVar>aero/alpha-deg</independentVar>
               <tableData>
@@ -681,23 +700,20 @@
            <property>metrics/Sw-sqft</property>
            <property>metrics/cbarw-ft</property>
            <property>aero/ci2vel</property>
-           <property>aero/alphadot-deg_sec</property><!-- document does not specify unit. Degrees are used for alpha rest of doc, so chose that -->
-           <value>1</value>
+<!-- document does not specify unit for alpha-dot. Degree/sec are used for alpha rest of doc, but rad/sec for beta-dot. -->
+       <property>aero/alphadot-deg_sec</property>
            <table>
               <independentVar>aero/alpha-deg</independentVar>
               <tableData>
-                  -40  0
+                  -40 -0.001 
                   -20 -0.45     
                    20 -0.45
-                   40  0
+                   40 -0.001
               </tableData>
           </table>
        </product>
     </function>
   </axis>
-
-
-
 
 <!-- **************************************  Yaw   *********************** -->
 
@@ -747,7 +763,6 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>velocities/p-rad_sec</property>
-           <value>1</value><!-- -->
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
@@ -769,14 +784,13 @@
                  
       <!-- from graph page 116 -->
       <function name="aero/coefficient/Cnr">
-       <description>Yaw due to yaw rate</description>
+       <description>Yaw damping due to yaw rate</description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>velocities/r-rad_sec</property>
-           <value>1</value><!-- -->
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -802,7 +816,6 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>aero/betadot-rad_sec</property>
-           <value>1</value><!-- -->
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
@@ -874,4 +887,4 @@
        </product>
     </function>        
   </axis>
-</aerodynamics>
+</aerodynamics><!-- Clp Cmq gets very big before NaN -->

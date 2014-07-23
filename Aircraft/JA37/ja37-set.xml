@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>2.00</aircraft-version> 
+  <aircraft-version>2.02</aircraft-version> 
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -129,6 +129,10 @@
         <type>float</type>
         <property type="string">engines/engine/thrust_lb</property>
       </signal>
+      <signal>
+        <type>float</type>
+        <property type="string">engines/engine/thrust_lb-absolute</property>
+      </signal>      
       <signal>
         <type>float</type>
         <property type="string">velocities/groundspeed-kt</property>
@@ -328,7 +332,7 @@
 *************************************************************************-->
 <livery>
   <file type="string"/>
-  <name type="string">Swedish Air Force</name>
+  <name type="string">Swedish Air Force 59</name>
   <owner type="string">SAF</owner>
  </livery>
 
@@ -457,11 +461,11 @@
     <desc>Fire selected weapon</desc>
    </key>
    <key>
-    <name>5</name>
+    <name>CTRL-5</name>
     <desc>Select cannon</desc>
    </key>
    <key>
-    <name>6-9</name>
+    <name>CTRL-1..4</name>
     <desc>Select missiles</desc>
    </key>
    <key>
@@ -616,6 +620,21 @@
         <path>Aircraft/JA37/Systems/Autopilot.xml</path>
       </autopilot>
     </systems>
+<!--**********************************************************************
+
+                          Flightgear version detection
+
+
+*************************************************************************--> 
+    <ja37>
+      <supported>
+        <old-custom-fails type="bool">false</old-custom-fails>
+        <hud type="bool">false</hud>
+        <radar type="bool">false</radar>
+        <options type="bool">false</options>
+        <initialized type="bool">false</initialized>
+      </supported>
+    </ja37>
   </sim>
 
 <!--**********************************************************************
@@ -711,13 +730,6 @@
     <battery-full type="int">0</battery-full>
   </electrical>
 </systems>
-<consumables>
-  <fuel>
-    <tank n="8">
-      <jettisoned type="int">0</jettisoned>
-    </tank>
-  </fuel>
-</consumables>
 
 <!--**********************************************************************
 
@@ -777,49 +789,59 @@
      </mod-up>
     </key>"controls/armament/station-select"
     <key n="53">
-     <name>5</name>
+     <name>CTRL-5</name>
+     <mod-ctrl>
      <desc>Select cannon</desc> 
      <binding>
       <command>property-assign</command>
       <property>controls/armament/station-select</property>
       <value>0</value>
      </binding>
+    </mod-ctrl>
     </key>
-    <key n="54">
-     <name>6</name>
-     <desc>Select missile</desc> 
-     <binding>
-      <command>property-assign</command>
-      <property>controls/armament/station-select</property>
-      <value>1</value>
-     </binding>
+    <key n="49">
+     <name>CTRL-1</name>
+     <mod-ctrl>
+      <desc>Select missile 1</desc>
+       <binding>
+        <command>property-assign</command>
+        <property>controls/armament/station-select</property>
+        <value>1</value>
+       </binding>
+    </mod-ctrl>
     </key>
-    <key n="55">
-     <name>7</name>
-     <desc>Select missile</desc> 
+    <key n="50">
+     <name>CTRL-2</name>
+     <mod-ctrl>
+     <desc>Select missile 2</desc> 
      <binding>
       <command>property-assign</command>
       <property>controls/armament/station-select</property>
       <value>2</value>
      </binding>
+     </mod-ctrl>
     </key>
-    <key n="56">
-     <name>8</name>
-     <desc>Select missile</desc> 
+    <key n="51">
+     <name>CTRL-3</name>
+     <mod-ctrl>
+     <desc>Select missile 3</desc> 
      <binding>
       <command>property-assign</command>
       <property>controls/armament/station-select</property>
       <value>3</value>
      </binding>
+     </mod-ctrl>
     </key>
-    <key n="57">
-     <name>9</name>
-     <desc>Select missile</desc> 
+    <key n="52">
+     <name>CTRL-4</name>
+     <mod-ctrl>
+     <desc>Select missile 4</desc> 
      <binding>
       <command>property-assign</command>
       <property>controls/armament/station-select</property>
       <value>4</value>
      </binding>
+     </mod-ctrl>
     </key>                
     <key n="101">
      <name>e</name>
@@ -937,6 +959,7 @@
    </tank>
    <tank n="8">
     <name>Drop tank</name>
+    <jettisoned type="int">0</jettisoned>
    </tank>
   </fuel>
  </consumables>
@@ -1013,7 +1036,7 @@
    <file>Aircraft/JA37/Nasal/liveries.nas</file>
    <file>Aircraft/JA37/Nasal/systemp.nas</file>
    <file>Aircraft/JA37/Nasal/radar.nas</file>
-   <file>Aircraft/JA37/Nasal/options.nas</file><!-- notice probably only works with 3.0.0 -->
+   <file>Aircraft/JA37/Nasal/options.nas</file>
    <file>Aircraft/JA37/Nasal/chronograph.nas</file>
   </ja37>
   <canvas_HUD>

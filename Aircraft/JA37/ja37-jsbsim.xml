@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 2.00 </version>
+    <version> 2.02 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -131,7 +131,7 @@ to an airplane of that size). -->
       </location>
       <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
-      <rolling_friction> 0.01 </rolling_friction>
+      <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 25000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 4250 </damping_coeff>
       <max_steer unit="DEG"> 80 </max_steer>
@@ -146,7 +146,7 @@ to an airplane of that size). -->
       </location>
       <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
-      <rolling_friction> 0.01 </rolling_friction>
+      <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff>
       <max_steer unit="DEG"> 0.0 </max_steer>
@@ -161,7 +161,7 @@ to an airplane of that size). -->
       </location>
       <static_friction> 2.0 </static_friction>
       <dynamic_friction> 0.5 </dynamic_friction>
-      <rolling_friction> 0.01 </rolling_friction>
+      <rolling_friction> 0.02 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff>
       <max_steer unit="DEG"> 0.0 </max_steer>
@@ -442,4 +442,28 @@ to an airplane of that size). -->
   
   <aerodynamics file="ja37-aerodynamics.xml"/>
   
+<!--<output name="ja37_datalog_08.csv" type="CSV" rate="240">-->
+<!--    <property> aero/qbar-psf </property>
+    <property> attitude/phi-rad </property>
+    <property> position/h-sl-ft </property>
+    <property> velocities/vc-kts </property>
+    <property> fcs/throttle-cmd-norm </property>
+    <property> fcs/elevator-cmd-norm </property>
+    <property> fcs/pitch-trim-cmd-norm </property>
+    <property> propulsion/total-fuel-lbs </property>
+    <property> flight-path/gamma-rad </property>
+    <property> accelerations/n-pilot-z-norm </property>
+    <property> accelerations[0]/Nz </property>-->
+<!--    <rates> OFF </rates>
+    <velocities> OFF </velocities>
+    <forces> OFF </forces>
+    <moments> OFF </moments>
+    <position> OFF </position>
+    <coefficients> ON </coefficients>
+    <fcs> OFF </fcs>
+    <propulsion> OFF </propulsion>
+    <aerosurfaces> OFF </aerosurfaces>
+    <ground_reactions> OFF </ground_reactions>
+  </output>-->
+
 </fdm_config>
