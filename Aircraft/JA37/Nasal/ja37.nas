@@ -200,16 +200,41 @@ var update_loop = func {
       setprop("/controls/armament/station[0]/trigger", 0);
     }
     
-    for(var i=0; i<4; i=i+1) { # set JSBSim mass
+    for(var i=0; i<5; i=i+1) { # set JSBSim mass
       var selected = getprop("payload/weight["~i~"]/selected");
       if(selected == "none") {
         # the pylon is empty, set its pointmass to zero
         setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
+        if(i==4) {
+          # no drop tank
+          setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", -1500);
+          setprop("/consumables/fuel/tank[8]/selected", 0);
+          setprop("/consumables/fuel/tank[8]/jettisoned", 1);
+          setprop("/consumables/fuel/tank[8]/level-norm", 0);
+        }
       } elsif (selected == "RB 24J") {
         # the pylon has a sidewinder, give it a pointmass
         setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+      } elsif (selected == "Drop tank") {
+        # the pylon has a drop tank, give it a pointmass
+        setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 400);
+        setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", 0);
+        setprop("/consumables/fuel/tank[8]/selected", 1);
+        setprop("/consumables/fuel/tank[8]/jettisoned", 0);
       }
     }
+
+    if(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") == getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
+      # wing pylons symmetric loaded
+      setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 0);
+    } elsif(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") < getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
+      # right wing pylon has more load than left
+      setprop("fdm/jsbsim/inertia/asymmetric-wing-load", -1);
+    } else {
+      # left wing pylon has more load than right
+      setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 1);
+    }
+
 
     # automatic reverse thrust enabler
 
@@ -459,10 +484,7 @@ var drop = func {
        gui.popupTip("Can not eject drop tank while on ground!"); 
        return;
     }  
-    setprop("/consumables/fuel/tank[8]/level-norm", 0);
-    setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", -1500);
-    setprop("/consumables/fuel/tank[8]/selected", 0);
-    setprop("/consumables/fuel/tank[8]/jettisoned", 1);
+    setprop("payload/weight[4]/selected", "none");# empty the pylon
     gui.popupTip("Drop tank shut off and ejected. Using internal fuel.");
  }
 

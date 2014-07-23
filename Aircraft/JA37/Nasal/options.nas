@@ -154,7 +154,7 @@ var Dialog = {
           #me.dialog.crashButton.node.setValues({ "pref-width": 80, "pref-height": 25, legend: "Crash", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           #crashButton.setBinding("nasal", "ja37.dialog.crash()");
-
+  print("init Options GUI");
 ####  The table will be filled from the current page after doing some sort
 ####  of combination of wizard.pui and the nasal code in wizard.xml
 
@@ -255,11 +255,11 @@ var Dialog = {
     },
 
     del: func {
-        optionDLG_RUNNING = 0;
+        #optionDLG_RUNNING = 0;
         me.close();
 #        foreach (var l; me.listeners)
 #            removelistener(l);
-        delete(gui.dialog, me.name);
+        #delete(gui.dialog, me.name);
     },
 
     show: func {
@@ -271,6 +271,8 @@ var Dialog = {
         optionDLG_RUNNING = 1;
         me.init();
         me.create();
+      } else {
+        fgcommand("dialog-show", me.dialog.prop());
       }
     },
 };

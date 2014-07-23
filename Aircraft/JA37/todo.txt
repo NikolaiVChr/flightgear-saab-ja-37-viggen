@@ -5,7 +5,6 @@ Must have for FG 3.2
 ------
 Test new failure system.
 Test new JSBSim ground contact features.
-Aerodynamics should be more stable.
 Auto-pilot should be more stable.
 
 
@@ -15,7 +14,6 @@ GUI: Make little option GUI. (to test PUI and widgets)
 GUI: Option to turn off verbose popups.
 GUI: More and better popup feedback (gear/flaps/stalling/yawstabilizer)
 GUI: Make crashing, creaking and breaking optional through menu.
-GUI: Show droptank status.
 GUI: Make something procedual, just to test it out.
 GUI: Option to turn off certain effects.
 GUI: Stats. topspeed, topalpha, topbeta, topclimb, top altitude
@@ -38,6 +36,9 @@ Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
+Report: After A/P the plane consumes too much fuel. [not reproducable]
+Sound: Occasional wierd buzz in external sounds.
+Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 
 
 Features and improvements:
@@ -45,10 +46,8 @@ Features and improvements:
 GUI: Find way to measure take-off length, climb-rate, axial force and display in options..
 GUI: Make HUD switchable to imperial units.
 GUI: Checklist
-Aero: Make pointmass and drag for droptank, and consider putting it in payload dialog. (roll: fig104 page128)
 Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
-Aero: On powerful PC, the plane easier spins into NaN. Check that. (maybe force JSBSim Hz higher or cap on some dampers, use FGGraph to check which ones)
 Animation: Some switches.
 Animation: Make wings break off when they break due to structural damage.
 Animation: Adjust instrument materials, and make the gauges look more similar.
@@ -99,7 +98,6 @@ Issues with FG: (or my limited understanding of it)
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also.
 Sim: Get flightrecorder to record position with higher frequency.
-Sound: Occansional wierd buzz in external sounds.
 
 
 Require modeling/texture skills (above my level):
@@ -124,3 +122,4 @@ Require more data: (or aerodynamic know-how)
 ------------------
 HUD: Proper sidewind max. (using J-35 max currently)
 Aero: Detailed axial coefficient.
+Aero: Mass distribution

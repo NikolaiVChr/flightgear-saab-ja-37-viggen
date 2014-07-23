@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>2.02</aircraft-version> 
+  <aircraft-version>2.03</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -672,6 +672,13 @@
         <opt><name>none</name><lbs>0</lbs></opt>
         <opt><name>RB 24J</name><lbs>188</lbs></opt>
   </weight>
+  <weight n="4">
+        <name>Center fuselage pylon</name>
+        <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[5]"/>
+        <selected>Drop tank</selected>
+        <opt><name>none</name><lbs>0</lbs></opt>
+        <opt><name>Drop tank</name><lbs>400</lbs></opt>
+  </weight>
 </payload>
 
 <!--**********************************************************************
@@ -706,6 +713,9 @@
     <aero>
       <mach-drag-factor>1</mach-drag-factor>
     </aero>
+    <inertia>
+      <asymmetric-wing-load>0</asymmetric-wing-load>
+    </inertia>
   </jsbsim>
  </fdm>
  <controls>

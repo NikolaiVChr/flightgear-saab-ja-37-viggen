@@ -18,7 +18,11 @@
 <aerodynamics>      
   
   
-<!-- ********************************************      Normal force      ************************** -->
+<!-- ***********************************************************************************
+                                                                 NORMAL
+     *********************************************************************************** -->
+
+
     <!-- from graph 48a page 64 -->
     <function name="aero/function/ground-effect-factor-normal">
        <description>Change in lift due to ground effect factor</description>
@@ -35,7 +39,6 @@
        </product>
     </function>
 
-    <!-- from graph 48a page 64 -->
     <function name="aero/function/elevator-pos-deg-inv">
        <description>Opposite of flightgears definition</description>
        <product>
@@ -47,7 +50,7 @@
 
   <axis name="NORMAL">
 
-     <!-- from graph page 46 -->
+     
      <function name="aero/coefficient/CN">
         <description>
            Normal force due to alpha, elevator and gear/flaps
@@ -71,7 +74,7 @@
              <table><!-- gear and flaps change CN -->
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
                 <independentVar lookup="column">fcs/flap-pos-norm</independentVar>
-                <tableData>
+                <tableData><!-- from graph 31c page 46 -->
                              0    1          
                        0     0    0.05   
                       25     0    0.05       
@@ -82,7 +85,7 @@
              <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
                 <independentVar lookup="column">aero/function/elevator-pos-deg-inv</independentVar><!-- opposite as flightgears definition, even though rest of document uses same definition. -->
-                <tableData><!-- [measured using graph analyser] -->
+                <tableData><!-- [measured using graph analyser] --><!-- from graph 31a page 46 -->
                                -20      0     20
                        -20  -1.232 -1.178 -1.036
                          0  -0.300  0.035  0.184 <!-- CN at zero alpha taken from page 79 fig 61a -->
@@ -111,7 +114,11 @@
 
 
 
-<!-- ***********************************************  Axial  *********************** -->
+<!-- ***********************************************************************************
+                                                             AXIAL
+     *********************************************************************************** -->
+
+
 <!-- from DATCOM -->
   <function name="aero/function/ground-effect-factor-drag">
      <description>Change in drag due to ground effect</description>
@@ -201,7 +208,7 @@
           </product>
       </function>
 
-     <!-- from graph page 43 [measured using graph analyser] (untrustworthy due to might be example from any plane) -->
+     <!-- from graph 29e page 43 [measured using graph analyser] (untrustworthy due to might be example from any plane) -->
      <function name="aero/coefficient/CA">
         <description>
            Basic Tangential/axial Coefficient
@@ -238,12 +245,15 @@
 
 
 
-<!-- ******************************           Side     ******************************* -->
+<!-- ***********************************************************************************
+                                                                  SIDE
+     *********************************************************************************** -->
 
+<!-- [page 105, figure 86b not included]   -->
 
   <axis name="SIDE">
 
-    <!-- from Component force graph page 105 -->
+    <!-- from Component force graph 86a page 105 -->
     <function name="aero/coefficient/Cyb">
       <description>
          Side Force coefficient due to Sideslip
@@ -282,13 +292,39 @@
          </table>
       </product>
     </function>
+
+    <!-- from Component force graph 86a page 105 -->
+    <function name="aero/coefficient/Cyzero">
+      <description>
+         Side Force coefficient due to assymetric detachment of fuselage vortices
+      </description>
+      <product>
+         <property>aero/qbar-psf</property>
+         <property>metrics/Sw-sqft</property>
+         <property>aero/beta-rad</property>
+         <value>-1</value><!-- Alant: -1 -->
+         <table>
+            <independentVar lookup="row">aero/alpha-deg</independentVar>
+            <tableData>
+                   40   0.0
+                   50   0.05
+                   60   0.06
+                   70   0.045
+                   80   0.025
+                   90   0.0
+            </tableData>
+         </table>
+      </product>
+    </function>
   </axis>
 
 
+<!-- ***********************************************************************************   
+                                                               ROLL
+     *********************************************************************************** -->
 
 
-<!-- *****************************************   Roll   **************** -->
-
+<!-- ADD:   missiles symmetric: 129, 105a -->
 
      <axis name="ROLL">
 
@@ -326,6 +362,33 @@
               </product>
          </function>
 
+         <!-- from graph 104 page 128 -->
+         <function name="aero/coefficient/Cltank">
+            <description>
+               Roll damp due to drop tank
+            </description>
+                <product>
+                 <property>aero/qbar-psf</property>
+                 <property>metrics/Sw-sqft</property>
+                 <property>metrics/bw-ft</property>
+                 <property>aero/beta-rad</property>
+                 <table>
+                    <independentVar lookup="row">aero/alpha-deg</independentVar>
+                    <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
+                    <tableData>
+                               0      400
+                          0    0     -0.01
+                          3    0     -0.01
+                          9    0      0
+                         15    0      0.0175
+                         20    0      0.02
+                         30    0      0.0225
+                         35    0      0.03
+                    </tableData>
+                 </table>
+              </product>
+         </function>
+
       <!-- from graph 111a page 134 -->
       <function name="aero/coefficient/Clp">
         <description>
@@ -352,8 +415,8 @@
        </product>
     </function>
 
-    <!-- from graph page 137 -->
-    <function name="aero/coefficient/Clr">
+    <!-- from graph 115a page 137 -->
+<!--    <function name="aero/coefficient/Clr"> this conflict with Clb, so commented out
        <description>
          Roll due to yaw rate
        </description>
@@ -376,7 +439,7 @@
             </tableData>
           </table>
        </product>
-    </function>
+    </function>-->
 
     <!-- from graph 115b page 137 -->
     <function name="aero/coefficient/Clbdot">
@@ -403,8 +466,29 @@
        </product>
     </function>
 
+    <!-- from graph 106 page 130 -->
+    <function name="aero/coefficient/Clpylon">
+       <description>
+        Roll due to missile asymmetric loaded under wings
+      </description>
+       <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>metrics/bw-ft</property>
+           <table>
+             <independentVar lookup="row">aero/alpha-deg</independentVar>
+             <independentVar lookup="column">inertia/asymmetric-wing-load</independentVar>
+             <tableData>
+                     -1       0     1
+                  0   0       0     0
+                 20  -0.0033  0     0.0033
+            </tableData>
+          </table>
+       </product>
+    </function>
+
     <!-- from graph 108a page 131 -->
-    <function name="aero/coefficient/Clbeta">
+<!--    <function name="aero/coefficient/Claileronbeta"> this is already included in other coefficients
        <description>
         Roll due to beta and aileron
       </description>
@@ -425,7 +509,7 @@
             </tableData>
           </table>
        </product>
-    </function>
+    </function>-->
 
     <!-- from graph 108b page 131 -->
     <function name="aero/coefficient/Claileron">
@@ -465,32 +549,12 @@
 
 
 
-<!-- **************************************      PITCH   ******************* -->
+<!-- ***********************************************************************************
+                                                                  PITCH
+     *********************************************************************************** -->
 
 
-  <!-- from graph page 64 -->
-    <function name="aero/function/ground-effect-factor-Cm">
-       <description>
-              Change in pitch moment due to ground effect
-       </description>
-       <product>
-          <table>
-             <independentVar lookup="row">aero/alpha-deg</independentVar>
-             <independentVar lookup="column">aero/h_b-mac-ft</independentVar>
-             <tableData><!-- At h_b-mac-ft 1.8 the effect can be felt according to Saab. Thats 105 feet. Therefore choose 2.2 for no effect. -->
-                     0.0   2.2
-              -10    0.03   0
-               -2    0.005  0
-                0    0      0
-                5   -0.04   0
-               10   -0.07   0
-               15   -0.1    0
-             </tableData>
-          </table>
-       </product>
-    </function>
-
-    <!-- from graph page 66  -->
+     <!-- from graph page 66  -->
     <function name="aero/function/air-intake-factor-CA">
        <description>
             Air intake factor
@@ -555,7 +619,7 @@
         </product>
       </function>
 
-      <!-- page 64 - gear and flaps, with and without groundeffect -->
+      <!-- graph 48b page 64 - gear and flaps, with and without groundeffect -->
       <function name="aero/coefficient/Cm-due-to-ground-effect">
         <description>
               Pitch due to ground effect
@@ -564,16 +628,27 @@
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>metrics/cbarw-ft</property>
-          <property>aero/function/ground-effect-factor-Cm</property>
+          <table>
+             <independentVar lookup="row">aero/alpha-deg</independentVar>
+             <independentVar lookup="column">aero/h_b-mac-ft</independentVar>
+             <tableData><!-- At h_b-mac-ft 1.8 the effect can be felt according to Saab. Thats 105 feet. Therefore choose 2.2 for no effect. -->
+                     0.0   2.2
+              -10    0.03   0
+               -2    0.005  0
+                0    0      0
+                5   -0.04   0
+               10   -0.07   0
+               15   -0.1    0
+             </tableData>
+          </table>
         </product>
       </function>
             
-
       <!-- from graph:
-       page 43 - low alpha range. Due to translation error, is general aircrafts. Not JA-37. Don't use.
-       page 61 - gear up, unloaded, detailed, not final
+       graph 29b page 43 - low alpha range. Due to translation error, is general aircrafts. Not JA-37. Don't use.
+       graph 46 page 61 - gear up, unloaded, detailed, not final
        page 62 - gear up, unloaded, full range, final
-       page 67 fig51a - detailed Cm around zero alpha-->
+       graph 51a page 67 - detailed Cm around zero alpha-->
       <function name="aero/coefficient/Cm">
         <description>
            Pitch moment due to alpha
@@ -644,7 +719,7 @@
         </product>
      </function>
 
-    <!-- from lower left graph 62a page 79 -->
+    <!-- from graph 62a page 79 -->
     <function name="aero/coefficient/Cmelevator">
        <description>Pitch moment due to elevator</description>
        <product>
@@ -666,7 +741,7 @@
        </product>
     </function>
 
-    <!-- from graph page 83 -->
+    <!-- from graph 66 page 83 -->
     <function name="aero/coefficient/Cmq">
        <description>Pitch damping due to pitch rate</description>
        <product>
@@ -692,7 +767,7 @@
        </product>
     </function>
 
-    <!-- from graph page 83 -->
+    <!-- from graph 66 page 83 -->
     <function name="aero/coefficient/Cmadot">
        <description>Pitch damping due to alpha dot rate</description>
        <product>
@@ -715,13 +790,18 @@
     </function>
   </axis>
 
-<!-- **************************************  Yaw   *********************** -->
+<!-- ***********************************************************************************
+                                                                 YAW
+     *********************************************************************************** -->
 
+<!-- ADD: 133,110b  115, 92a   109, 88c-->
 
     <axis name="YAW">
-      <!-- from graph page 109-->
+      <!-- from graph 88b page 109-->
       <function name="aero/coefficient/Cnb">
-       <description>Yaw due to beta</description>
+       <description>
+                       Yaw due to beta
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
@@ -752,10 +832,10 @@
        </product>
     </function>
 
-    <!-- from graph page 134 and fig 114b page 137 -->
+    <!-- from graph 111b page 134 and graph 114b page 137 -->
      <function name="aero/coefficient/Cnp">
         <description>
-           Yawing due to roll speed
+                        Yawing due to roll speed
         </description>
         <product>
            <property>aero/qbar-psf</property>
@@ -782,9 +862,11 @@
         </product>
      </function>
                  
-      <!-- from graph page 116 -->
+      <!-- from graph 93 page 116 -->
       <function name="aero/coefficient/Cnr">
-       <description>Yaw damping due to yaw rate</description>
+       <description>
+                      Yaw damping due to yaw rate
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
@@ -807,9 +889,11 @@
        </product>
     </function>
 
-    <!-- from graph page 116-->
+    <!-- from graph 93 page 116-->
       <function name="aero/coefficient/Cnbdot">
-       <description>Yaw due to beta dot rate</description>
+       <description>
+                      Yaw due to beta dot rate
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
@@ -829,9 +913,33 @@
        </product>
     </function>
 
+    <!-- from graph 90 page 113-->
+      <function name="aero/coefficient/Cntank">
+       <description>
+                      Yaw due drop tank
+       </description>
+       <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>metrics/bw-ft</property>
+           <table>
+              <independentVar lookup="row">aero/beta-deg</independentVar>
+              <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
+             <tableData>
+                       0        400
+               -15     0         0.01
+                 0     0         0
+                15     0        -0.01
+            </tableData>
+          </table>
+       </product>
+    </function>
+
     <!-- from graph 110a page 133 -->
     <function name="aero/coefficient/Cnaileron">
-       <description>yaw due to aileron and elevator</description>
+       <description>
+                       yaw due to aileron and elevator
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
@@ -856,9 +964,11 @@
        </product>
     </function>
 
-    <!-- from graph page 115 -->
+    <!-- from graph 92b page 115 -->
     <function name="aero/coefficient/Cnrudder">
-       <description>Yaw moment due to rudder</description>
+       <description>
+                       Yaw moment due to rudder
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>

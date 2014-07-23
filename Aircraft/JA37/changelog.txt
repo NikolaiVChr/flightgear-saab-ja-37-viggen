@@ -409,3 +409,11 @@ Sim: A warning message is now displayed if FG is older than 2.8
 Sim: Fixed pressing '5' would not reset controls.
 Sim: CHanged keybindings for selecting armaments.
 Sim: Added decals on Blue livery.
+
+2.03 - 2014 May 29
+----
+Aero: Made empty drop tank weigh something, and can now be selected from the payload dialog.
+Aero: Attached drop tank now influence roll and yaw.
+Aero: Solved an aerodynamical conflict, that would make rolling unstable.
+GUI: Fixed disabling crash due to structural damage, and then close options, prevents reenabling of same.
+Aero: Asymmetric wing mounted missiles now affects aerodynamics.
