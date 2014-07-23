@@ -174,9 +174,9 @@ var radar = {
         var myHeading=getprop("orientation/heading-deg");
         var b_i=0;
         var index = 0;
-        var shortestDistance = 1000000;
-        var shortestAC = -1;
-        var isShortestMP = -1;
+        #var shortestDistance = 1000000;
+        #var shortestAC = -1;
+        #var isShortestMP = -1;
         #do the multiplayers
         foreach (var mp; multiplayer.model.list) {
             var n = mp.node;
@@ -204,11 +204,11 @@ var radar = {
                 var xa_rad=xg_rad*math.cos(myRoll)-yg_rad*math.sin(myRoll);
                 #make blip
                 if (ya_rad > -0.5 and ya_rad < 0.5 and xa_rad > -1 and xa_rad < 1) {
-                  if(distance < shortestDistance) {
-                        shortestDistance = distance;
-                        shortestAC = index;
-                        isShortestMP = 1;
-                      }
+                  #if(distance < shortestDistance) {
+                  #      shortestDistance = distance;
+                  #      shortestAC = index;
+                  #      isShortestMP = 1;
+                  #    }
                   if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
                       #aircraft is within the radar ray cone
                       
@@ -266,12 +266,12 @@ var radar = {
                 var xa_rad=xg_rad*math.cos(myRoll)-yg_rad*math.sin(myRoll);
                 #make blip
                 if (ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
-                  if(distance < shortestDistance) {
-                        shortestDistance = distance;
-                        shortestAC = index-b_j;
-                        isShortestMP = 0;
+                  #if(distance < shortestDistance) {
+                  #      shortestDistance = distance;
+                  #      shortestAC = index-b_j;
+                  #      isShortestMP = 0;
                         #print(shortestAC~" shortest "~shortestDistance~" distance "~mp.getNode("callsign").getValue());
-                      }     
+                  #    }     
                   if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
                       #aircraft is within the radar ray cone
                                        
@@ -303,8 +303,8 @@ var radar = {
             }
             index += 1;
         }
-        setprop("sim/ja37/radar/selected", shortestAC);
-        setprop("sim/ja37/radar/selectedMP", isShortestMP);
+        #setprop("sim/ja37/radar/selected", shortestAC);
+        #setprop("sim/ja37/radar/selectedMP", isShortestMP);
         #print("selected "~shortestAC~" MP "~isShortestMP);
         for (i = b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
     },

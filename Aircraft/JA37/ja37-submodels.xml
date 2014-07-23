@@ -39,7 +39,7 @@
   </submodel>
 
   <submodel>
-    <name>gun-bullet</name>
+    <name>cannon</name>
     <model>Models/Geometry/null.ac</model>
     <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
     <speed>2041.0</speed>
@@ -83,7 +83,7 @@
   </submodel>
 
   <submodel>
-    <name>missilesmoke1</name>
+    <name>RB-24J missile 1</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
     <trigger>controls/armament/station[1]/released</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
@@ -98,15 +98,17 @@
     <cd>0.00003</cd><!-- drag -->
     <eda>0.00136354</eda><!-- drag area -->
     <weight>188</weight>
-    <collision>false</collision>
-    <impact>false</impact>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
     <wind>false</wind>
     <buoyancy>32</buoyancy>
     <life>10</life>
   </submodel>
 
 <submodel>
-    <name>missilesmoke2</name>
+    <name>RB-24J missile 2</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
     <trigger>controls/armament/station[2]/released</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
@@ -121,15 +123,17 @@
     <cd>0.00003</cd><!-- drag -->
     <eda>0.00136354</eda><!-- drag area -->
     <weight>188</weight>
-    <collision>false</collision>
-    <impact>false</impact>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
     <wind>false</wind>
     <buoyancy>32</buoyancy>
     <life>10</life>
   </submodel>
 
 <submodel>
-    <name>missilesmoke3</name>
+    <name>RB-24J missile 3</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
     <trigger>controls/armament/station[3]/released</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
@@ -144,15 +148,17 @@
     <cd>0.00003</cd><!-- drag -->
     <eda>0.00136354</eda><!-- drag area -->
     <weight>188</weight>
-    <collision>false</collision>
-    <impact>false</impact>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
     <wind>false</wind>
     <buoyancy>32</buoyancy>
     <life>10</life>
   </submodel>
 
   <submodel>
-    <name>missilesmoke4</name>
+    <name>RB-24J missile 4</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
     <trigger>controls/armament/station[4]/released</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
@@ -167,8 +173,10 @@
     <cd>0.00003</cd><!-- drag -->
     <eda>0.00136354</eda><!-- drag area -->
     <weight>188</weight>
-    <collision>false</collision>
-    <impact>false</impact>
+    <collision>true</collision>
+    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
+    <impact>true</impact>
+    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
     <wind>false</wind>
     <buoyancy>32</buoyancy>
     <life>10</life>

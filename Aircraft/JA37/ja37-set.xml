@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.10</aircraft-version>
+  <aircraft-version>2.13</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -465,8 +465,12 @@
     <float n="17" alias="/velocities/airspeed-kt"/>
     <float n="18" alias="/velocities/speed-down-fps"/>
     <!-- for Bombable: -->
-    <!--<string n="9" type="string"/>
-    <int n="10" alias="controls/armament/trigger"/>-->
+    <string n="9" type="string"/>
+    <int n="10" alias="/controls/armament/station[0]/trigger"/>
+    <int n="11" alias="/controls/armament/station[1]/trigger"/>
+    <int n="12" alias="/controls/armament/station[2]/trigger"/>
+    <int n="13" alias="/controls/armament/station[3]/trigger"/>
+    <int n="14" alias="/controls/armament/station[4]/trigger"/>
    </generic>
   </multiplay>
 
@@ -584,10 +588,10 @@
     400 meter runway is required to takeoff.
     500 meter runway is required to land.
     Climb to 10.000m from brakes off in 100 seconds.
-    Supersonic speed at low altitude in less than 100 seconds.
+    Supersonic speed at low altitude in less than 60 seconds from take-off.
     Mach 1.1 at 50m altitude.
     Maximum speed: Mach 2.1 at 11,000m alt.
-    Service ceiling: 18,000 m
+    Service ceiling: 18,300 m
     From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16)
     
     Notes:
@@ -1011,7 +1015,7 @@
     </key>
     <key n="74">
       <name>J</name>
-      <desc>Drop droptanks.</desc>
+      <desc>Eject drop tank.</desc>
       <binding>
         <command>nasal</command>
         <script>ja37.drop();</script>

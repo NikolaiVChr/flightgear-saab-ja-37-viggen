@@ -18,6 +18,7 @@ var roundabout = func(x) {
 var deg2rads = math.pi/180.0;
 var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
+var feet2meter = 0.3048;
 #var blinking = 0; # how many updates the speed vector symbol has been turned off for blinking (convert to time when less lazy)
 var alt_scale_mode = -1; # the alt scale is not liniar, this indicates which part is showed
 #var QFE = 0;
@@ -61,29 +62,37 @@ var indicatorOffset = -10; #alt scale indicators horizontal offset from scale (m
 var headScalePlace = 300; # vert placement of alt scale
 var headScaleTickSpacing = 65;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 var altimeterScaleHeight = 225; # the height of the low alt scale. Also used in the other scales as a reference height.
-  var r = 0.0;
-  var g = 1.0;
-  var b = 0.0;#HUD colors
-  var a = 1.0;
-  var w = 8;  #line stroke width
-  var ar = 0.9;#font aspect ratio
-  var fs = 1.0;#font size factor
-  var artifacts0 = nil;
-  var artifacts1 = [];
+var r = 0.0;
+var g = 1.0;
+var b = 0.0;#HUD colors
+var a = 1.0;
+var w = 8;  #line stroke width
+var ar = 0.9;#font aspect ratio
+var fs = 1.0;#font size factor
+var artifacts0 = nil;
+var artifacts1 = [];
 #print("Starting JA-37 HUD");
-var maxTargetsAI = 50;
-var maxTargetsMP = 50;
+var maxTracks = 16;
 
 var HUDnasal = {
   canvas_settings: {
     "name": "HUDnasal",
     "size": [2048, 2048],# width of texture to be replaced
-	  "view": [1024, 1024],# width of canvas
+    "view": [1024, 1024],# width of canvas
     "mipmapping": 1
   },
   main: nil,
-  new: func(placement)
-  {
+
+  #tracking variables
+  self: nil,
+  myPitch: nil,
+  myRoll: nil,
+  groundAlt: nil,
+  myHeading: nil,
+  short_dist: nil,
+  track_index: nil,
+
+  new: func(placement) {
     if(HUDnasal.main == nil) {
       HUDnasal.main = {
         parents: [HUDnasal],
@@ -94,15 +103,12 @@ var HUDnasal = {
         },
         place: placement
       };
-    
- 
-      
-    	
+
       HUDnasal.main.input = {
         pitch:    "/orientation/pitch-deg",
         roll:     "/orientation/roll-deg",
-  #     hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
-  #      hdg:      "/instrumentation/gps/indicated-track-magnetic-deg",
+        #     hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
+        #      hdg:      "/instrumentation/gps/indicated-track-magnetic-deg",
         hdg:      "/orientation/heading-magnetic-deg",
         hdgReal:  "/orientation/heading-deg",
         speed_n:  "velocities/speed-north-fps",
@@ -126,7 +132,6 @@ var HUDnasal = {
         fdpitch:  "/autopilot/settings/fd-pitch-deg",
         fdroll:   "/autopilot/settings/fd-roll-deg",
         fdspeed:  "/autopilot/settings/target-speed-kt"
-
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -152,13 +157,13 @@ var HUDnasal = {
 
 
 
-  # digital airspeed kts/mach	
+    # digital airspeed kts/mach 
     HUDnasal.main.airspeed = HUDnasal.main.root.createChild("text")
-    	.setText("000")
-    	.setFontSize(100*fs, ar)
-    	.setColor(r,g,b, a)
-    	.setAlignment("center-center")
-    	.setTranslation(0 , 400);
+      .setText("000")
+      .setFontSize(100*fs, ar)
+      .setColor(r,g,b, a)
+      .setAlignment("center-center")
+      .setTranslation(0 , 400);
     HUDnasal.main.mach = HUDnasal.main.root.createChild("text")
       .setText("000")
       .setFontSize(100*fs, ar)
@@ -167,7 +172,7 @@ var HUDnasal = {
       .setTranslation(0 , 315);
 
 
-  # scale heading ticks
+    # scale heading ticks
     HUDnasal.main.head_scale_grp = HUDnasal.main.root.createChild("group");
     HUDnasal.main.head_scale_grp.set("clip", "rect(62px, 687px, 262px, 337px)");#top,right,bottom,left
     HUDnasal.main.head_scale_grp_trans = HUDnasal.main.head_scale_grp.createTransform();
@@ -186,7 +191,7 @@ var HUDnasal = {
         .setColor(r,g,b, a)
         .show();
 
-  # scale heading end ticks
+    # scale heading end ticks
     HUDnasal.main.hdgLineL = HUDnasal.main.head_scale_grp.createChild("path")
     .setStrokeLineWidth(w)
       .setColor(r,g,b, a)
@@ -201,7 +206,7 @@ var HUDnasal = {
       .vert(-40)
       .close();
 
-  # headingindicator
+    # headingindicator
     HUDnasal.main.head_scale_indicator = HUDnasal.main.root.createChild("path")
     .setColor(r,g,b, a)
     .setStrokeLineWidth(w)
@@ -209,30 +214,30 @@ var HUDnasal = {
     .lineTo(0, -headScalePlace)
     .lineTo(30, -headScalePlace+30);
 
-  # Heading middle number
+    # Heading middle number
     HUDnasal.main.hdgM = HUDnasal.main.head_scale_grp.createChild("text");
     HUDnasal.main.hdgM.setColor(r,g,b, a);
     HUDnasal.main.hdgM.setAlignment("center-bottom");
     HUDnasal.main.hdgM.setFontSize(65*fs, ar);
 
-  # Heading left number
+    # Heading left number
     HUDnasal.main.hdgL = HUDnasal.main.head_scale_grp.createChild("text");
     HUDnasal.main.hdgL.setColor(r,g,b, a);
     HUDnasal.main.hdgL.setAlignment("center-bottom");
     HUDnasal.main.hdgL.setFontSize(65*fs, ar);
 
-  # Heading right number
+    # Heading right number
     HUDnasal.main.hdgR = HUDnasal.main.head_scale_grp.createChild("text");
     HUDnasal.main.hdgR.setColor(r,g,b, a);
     HUDnasal.main.hdgR.setAlignment("center-bottom");
     HUDnasal.main.hdgR.setFontSize(65*fs, ar);
 
-  # Altitude
+    # Altitude
     HUDnasal.main.alt_scale_grp=HUDnasal.main.root.createChild("group")
       .set("clip", "rect(200px, 1800px, 824px, 0px)");#top,right,bottom,left
     HUDnasal.main.alt_scale_grp_trans = HUDnasal.main.alt_scale_grp.createTransform();
 
-  # alt scale high
+    # alt scale high
     HUDnasal.main.alt_scale_high=HUDnasal.main.alt_scale_grp.createChild("path")
       .moveTo(0, -6*altimeterScaleHeight/2)
       .horiz(75)
@@ -254,7 +259,7 @@ var HUDnasal = {
 
 
 
-  # alt scale medium
+    # alt scale medium
     HUDnasal.main.alt_scale_med=HUDnasal.main.alt_scale_grp.createChild("path")
       .moveTo(0, -5*altimeterScaleHeight/2)
       .horiz(50)
@@ -278,13 +283,13 @@ var HUDnasal = {
       .setColor(r,g,b, a)
       .show();
 
-  # alt scale low
-  	HUDnasal.main.alt_scale_low = HUDnasal.main.alt_scale_grp.createChild("path")
+    # alt scale low
+    HUDnasal.main.alt_scale_low = HUDnasal.main.alt_scale_grp.createChild("path")
       .moveTo(0, -7*altimeterScaleHeight/4)
       .horiz(50)
       .moveTo(0, -6*altimeterScaleHeight/4)
       .horiz(75)
-  		.moveTo(0, -5*altimeterScaleHeight/4)
+      .moveTo(0, -5*altimeterScaleHeight/4)
       .horiz(50)
       .moveTo(0, -altimeterScaleHeight)
       .horiz(75)
@@ -292,55 +297,55 @@ var HUDnasal = {
       .horiz(25)
       .moveTo(0, -3*altimeterScaleHeight/5)
       .horiz(25)
-  		.moveTo(0, -2*altimeterScaleHeight/5)
-  		.horiz(25)					 
-  		.moveTo(0,-1*altimeterScaleHeight/5)
-  		.horiz(25)
-  		.moveTo(0, 0)
-  		.horiz(75)
-  		.setStrokeLineWidth(w)
-  		.setColor(r,g,b, a)
+      .moveTo(0, -2*altimeterScaleHeight/5)
+      .horiz(25)           
+      .moveTo(0,-1*altimeterScaleHeight/5)
+      .horiz(25)
+      .moveTo(0, 0)
+      .horiz(75)
+      .setStrokeLineWidth(w)
+      .setColor(r,g,b, a)
       .show();
 
 
       
-  # vert line at zero alt if it is lower than radar zero
+    # vert line at zero alt if it is lower than radar zero
       HUDnasal.main.alt_scale_line = HUDnasal.main.alt_scale_grp.createChild("path")
       .moveTo(0, 30)
       .vert(-60)
       .setStrokeLineWidth(w)
       .setColor(r,g,b, a);
-  # low alt number
+    # low alt number
     HUDnasal.main.alt_low = HUDnasal.main.alt_scale_grp.createChild("text")
       .setText(".")
       .setFontSize(75*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("left-center")
       .setTranslation(1, 0);
-  # middle alt number	
-  	HUDnasal.main.alt_med = HUDnasal.main.alt_scale_grp.createChild("text")
-  		.setText(".")
+    # middle alt number 
+    HUDnasal.main.alt_med = HUDnasal.main.alt_scale_grp.createChild("text")
+      .setText(".")
       .setFontSize(75*fs, ar)
       .setColor(r,g,b, a)
-  		.setAlignment("left-center")
+      .setAlignment("left-center")
       .setTranslation(1, 0);
-  # high alt number			 
-  	HUDnasal.main.alt_high = HUDnasal.main.alt_scale_grp.createChild("text")
-  		.setText(".")
+    # high alt number      
+    HUDnasal.main.alt_high = HUDnasal.main.alt_scale_grp.createChild("text")
+      .setText(".")
       .setFontSize(75*fs, ar)
       .setColor(r,g,b, a)
-  		.setAlignment("left-center")
+      .setAlignment("left-center")
       .setTranslation(1, 0);
 
-  # higher alt number     
+    # higher alt number     
     HUDnasal.main.alt_higher = HUDnasal.main.alt_scale_grp.createChild("text")
       .setText(".")
       .setFontSize(75*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("left-center")
       .setTranslation(1, 0);
-  # alt scale indicator
-  	HUDnasal.main.alt_pointer = HUDnasal.main.root.createChild("path")
+    # alt scale indicator
+    HUDnasal.main.alt_pointer = HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
       .setStrokeLineWidth(w)
       .moveTo(0,0)
@@ -348,7 +353,7 @@ var HUDnasal = {
       .moveTo(0,0)
       .lineTo(-60,60)
       .setTranslation(scalePlace+indicatorOffset, 0);
-  # alt scale radar ground indicator
+    # alt scale radar ground indicator
     HUDnasal.main.rad_alt_pointer = HUDnasal.main.alt_scale_grp.createChild("path")
       .setColor(r,g,b, a)
       .setStrokeLineWidth(w)
@@ -359,7 +364,7 @@ var HUDnasal = {
       .moveTo(-30,0)
       .lineTo(-60,50);
     
-  # QFE warning (inhg not properly set / is being adjusted)
+    # QFE warning (inhg not properly set / is being adjusted)
     HUDnasal.main.qfe = HUDnasal.main.root.createChild("text");
     HUDnasal.main.qfe.setText("QFE");
     HUDnasal.main.qfe.hide();
@@ -368,14 +373,14 @@ var HUDnasal = {
     HUDnasal.main.qfe.setTranslation(-400, 175);
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
-  # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
+    # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     HUDnasal.main.alt = HUDnasal.main.root.createChild("text");
     HUDnasal.main.alt.setColor(r,g,b, a);
     HUDnasal.main.alt.setAlignment("center-center");
     HUDnasal.main.alt.setTranslation(-375, 350);
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
-  # Flightpath/Velocity vector
+    # Flightpath/Velocity vector
     HUDnasal.main.vec_vel =
       HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
@@ -385,7 +390,7 @@ var HUDnasal = {
       .lineTo(30, 0)
       .lineTo(90, 0)
       .setStrokeLineWidth(w);
-  # takeoff/landing symbol
+    # takeoff/landing symbol
     HUDnasal.main.takeoff_symbol = HUDnasal.main.root.createChild("path")
       .moveTo(210, 0)
       .lineTo(150, 0)
@@ -402,13 +407,13 @@ var HUDnasal = {
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
 
-  # Horizon
+    # Horizon
     HUDnasal.main.horizon_group = HUDnasal.main.root.createChild("group");
     HUDnasal.main.horizon_group2 = HUDnasal.main.horizon_group.createChild("group");
     HUDnasal.main.h_rot   = HUDnasal.main.horizon_group.createTransform();
 
   
-  # pitch lines
+    # pitch lines
     var distance = pixelPerDegreeY * 5;
     for(var i = -18; i <= -1; i += 1) {
       append(artifacts1, HUDnasal.main.horizon_group2.createChild("path")
@@ -465,8 +470,8 @@ var HUDnasal = {
          .setTranslation(-200, -i * distance - 5)
          .setColor(r,g,b, a));
                  
-
-  #Horizon line
+ 
+    #Horizon line
     HUDnasal.main.horizon = HUDnasal.main.horizon_group2.createChild("path")
                      .moveTo(-850, 0)
                      .horiz(650)
@@ -493,39 +498,45 @@ var HUDnasal = {
                      .setStrokeLineWidth(w/2)
                      .setColor(r,g,b, a);
 
-        ####  targets
+      ####  targets
 
-      HUDnasal.main.radar_group = HUDnasal.main.root.createChild("group");
+    HUDnasal.main.radar_group = HUDnasal.main.root.createChild("group");
 
-        #diamond
-      HUDnasal.main.diamond_group = HUDnasal.main.radar_group.createChild("group");
-      HUDnasal.main.diamond_group.createTransform();
-      var diamond = HUDnasal.main.diamond_group.createChild("path")
-                             .moveTo(-70,   0)
-                             .lineTo(  0, -70)
-                             .lineTo( 70,   0)
-                             .lineTo(  0,  70)
-                             .lineTo(-70,   0)
-                             .setStrokeLineWidth(w)
-                             .setColor(r,g,b, a);
+      #diamond
+    HUDnasal.main.diamond_group = HUDnasal.main.radar_group.createChild("group");
+    HUDnasal.main.diamond_group.createTransform();
+    var diamond = HUDnasal.main.diamond_group.createChild("path")
+                           .moveTo(-70,   0)
+                           .lineTo(  0, -70)
+                           .lineTo( 70,   0)
+                           .lineTo(  0,  70)
+                           .lineTo(-70,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);
     HUDnasal.main.diamond_dist = HUDnasal.main.diamond_group.createChild("text");
     HUDnasal.main.diamond_dist.setText("..");
     HUDnasal.main.diamond_dist.setColor(r,g,b, a);
     HUDnasal.main.diamond_dist.setAlignment("left-top");
     HUDnasal.main.diamond_dist.setTranslation(40, 40);
     HUDnasal.main.diamond_dist.setFontSize(50*fs, ar);
+    HUDnasal.main.diamond_name = HUDnasal.main.diamond_group.createChild("text");
+    HUDnasal.main.diamond_name.setText("..");
+    HUDnasal.main.diamond_name.setColor(r,g,b, a);
+    HUDnasal.main.diamond_name.setAlignment("left-bottom");
+    HUDnasal.main.diamond_name.setTranslation(40, -40);
+    HUDnasal.main.diamond_name.setFontSize(50*fs, ar);
 
         #tower symbol
-      HUDnasal.main.tower_symbol = HUDnasal.main.root.createChild("group");
-      HUDnasal.main.tower_symbol.createTransform();
-      var tower = HUDnasal.main.tower_symbol.createChild("path")
-                             .moveTo(-20,   0)
-                             .lineTo(  0, -20)
-                             .lineTo( 20,   0)
-                             .lineTo(  0,  20)
-                             .lineTo(-20,   0)
-                             .setStrokeLineWidth(w)
-                             .setColor(r,g,b, a);
+    HUDnasal.main.tower_symbol = HUDnasal.main.root.createChild("group");
+    HUDnasal.main.tower_symbol.createTransform();
+    var tower = HUDnasal.main.tower_symbol.createChild("path")
+                           .moveTo(-20,   0)
+                           .lineTo(  0, -20)
+                           .lineTo( 20,   0)
+                           .lineTo(  0,  20)
+                           .lineTo(-20,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);
     HUDnasal.main.tower_symbol_dist = HUDnasal.main.tower_symbol.createChild("text");
     HUDnasal.main.tower_symbol_dist.setText("..");
     HUDnasal.main.tower_symbol_dist.setColor(r,g,b, a);
@@ -534,22 +545,22 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_dist.setFontSize(50*fs, ar);
 
 
-        #other targets
-      HUDnasal.main.target_circle = [];
-      for(var i = 0; i < (maxTargetsAI+maxTargetsMP); i += 1) {      
-        var target_group = HUDnasal.main.radar_group.createChild("group");
-        append(HUDnasal.main.target_circle, target_group);
-        target_group.createTransform();
-        target_circles = target_group.createChild("path")
-                             .moveTo(-50, 0)
-                             .arcLargeCW(50, 50, 0,  100, 0)
-                             .arcLargeCW(50, 50, 0, -100, 0)
-                             .setStrokeLineWidth(w)
-                             .setColor(r,g,b, a);
-        append(artifacts1, target_circles);
-      }
+      #other targets
+    HUDnasal.main.target_circle = [];
+    for(var i = 0; i < maxTracks; i += 1) {      
+      var target_group = HUDnasal.main.radar_group.createChild("group");
+      append(HUDnasal.main.target_circle, target_group);
+      target_group.createTransform();
+      target_circles = target_group.createChild("path")
+                           .moveTo(-50, 0)
+                           .arcLargeCW(50, 50, 0,  100, 0)
+                           .arcLargeCW(50, 50, 0, -100, 0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);
+      append(artifacts1, target_circles);
+    }
 
-artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
+    artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL,
              HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low,
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high,
@@ -558,28 +569,27 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
              tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist];
 
 
-    },
-    setColorBackground: func () { 
-  		#me.texture.getNode('background', 1).setValue(_getColor(arg)); 
-  		me; 
-  		},
+  },
+  setColorBackground: func () { 
+    #me.texture.getNode('background', 1).setValue(_getColor(arg)); 
+    me; 
+  },
 
       ############################################################################
       #############             main loop                         ################
       ############################################################################
-    update: func()
-    {
-      verbose = 0;
-      if(getprop("/systems/electrical/outputs/inst_ac") < 40 or getprop("sim/ja37/hud/mode") == 0) {
-        me.root.hide();
-        me.root.update();
-        settimer(func me.update(), 0.5);
-       } elsif (getprop("/instrumentation/head-up-display/serviceable") == 0) {
-        # The HUD has failed, due to the random failure system or crash, it will become frozen.
-        # if it also later loses power, and the power comes back, the HUD will not reappear.
-        settimer(func me.update(), 1);
-       } else {
-        metric = getprop("sim/ja37/hud/units-metric");
+  update: func() {
+    verbose = 0;
+    if(1==2 and getprop("/systems/electrical/outputs/inst_ac") < 40 or getprop("sim/ja37/hud/mode") == 0) {
+      me.root.hide();
+      me.root.update();
+      settimer(func me.update(), 0.5);
+     } elsif (1==2 and getprop("/instrumentation/head-up-display/serviceable") == 0) {
+      # The HUD has failed, due to the random failure system or crash, it will become frozen.
+      # if it also later loses power, and the power comes back, the HUD will not reappear.
+      settimer(func me.update(), 1);
+     } else {
+      metric = getprop("sim/ja37/hud/units-metric");
       # digital speed
       var mach = me.input.mach.getValue();
 
@@ -627,7 +637,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
       
       # alt scale
       var metric = metric;
-  	  var alt = metric ==1 ? me.input.alt_ft.getValue() * 0.305 : me.input.alt_ft.getValue();
+      var alt = metric ==1 ? me.input.alt_ft.getValue() * 0.305 : me.input.alt_ft.getValue();
       var radAlt = metric ==1 ? me.input.rad_alt.getValue() * 0.305 : me.input.rad_alt.getValue();
       # determine which alt scale to use
       if(metric == 1) {
@@ -838,7 +848,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
       }
 
       # digital altitude
-      var radar_clamp = metric ==1 ? 100 : 100/0.3048;
+      var radar_clamp = metric ==1 ? 100 : 100/feet2meter;
       if (radAlt == nil) {
         me.alt.setText("");
         countQFE = 0;
@@ -914,479 +924,354 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
         countQFE = clamp(countQFE+1, -101, 0);
         #print("hide  off");
       }
-    #print("QFE count " ~ countQFE);
+      #print("QFE count " ~ countQFE);
 
       # Sights/crosshairs
-    if(getprop("gear/gear/position-norm") != nil and getprop("gear/gear/position-norm") == 0) {
-      me.takeoff_symbol.hide();
-      # flight path vector (FPV)
-      var vel_gx = me.input.speed_n.getValue();
-      var vel_gy = me.input.speed_e.getValue();
-      var vel_gz = me.input.speed_d.getValue();
-   
-      var yaw = me.input.hdgReal.getValue() * math.pi / 180.0;
-      var roll = me.input.roll.getValue() * math.pi / 180.0;
-      var pitch = me.input.pitch.getValue() * math.pi / 180.0;
-   
-      var sy = math.sin(yaw);   var cy = math.cos(yaw);
-      var sr = math.sin(roll);  var cr = math.cos(roll);
-      var sp = math.sin(pitch); var cp = math.cos(pitch);
-   
-      var vel_bx = vel_gx * cy * cp
-                 + vel_gy * sy * cp
-                 + vel_gz * -sp;
-      var vel_by = vel_gx * (cy * sp * sr - sy * cr)
-                 + vel_gy * (sy * sp * sr + cy * cr)
-                 + vel_gz * cp * sr;
-      var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
-                 + vel_gy * (sy * sp * cr - cy * sr)
-                 + vel_gz * cp * cr;
-   
-      var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
-      var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
-   
-      me.vec_vel.setTranslation(clamp(dir_x * pixelPerDegreeX, -450, 450), clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 450));
-      if (dir_y > 8) {
-        # blink the flight vector cross hair if alpha is high
-        if(getprop("sim/ja37/blink/ten-Hz") == 1) {
-            me.vec_vel.show();
-          } else {
-            me.vec_vel.hide();
-          }
+      if(getprop("gear/gear/position-norm") != nil and getprop("gear/gear/position-norm") == 0) {
+        me.takeoff_symbol.hide();
+        # flight path vector (FPV)
+        var vel_gx = me.input.speed_n.getValue();
+        var vel_gy = me.input.speed_e.getValue();
+        var vel_gz = me.input.speed_d.getValue();
+     
+        var yaw = me.input.hdgReal.getValue() * math.pi / 180.0;
+        var roll = me.input.roll.getValue() * math.pi / 180.0;
+        var pitch = me.input.pitch.getValue() * math.pi / 180.0;
+     
+        var sy = math.sin(yaw);   var cy = math.cos(yaw);
+        var sr = math.sin(roll);  var cr = math.cos(roll);
+        var sp = math.sin(pitch); var cp = math.cos(pitch);
+     
+        var vel_bx = vel_gx * cy * cp
+                   + vel_gy * sy * cp
+                   + vel_gz * -sp;
+        var vel_by = vel_gx * (cy * sp * sr - sy * cr)
+                   + vel_gy * (sy * sp * sr + cy * cr)
+                   + vel_gz * cp * sr;
+        var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
+                   + vel_gy * (sy * sp * cr - cy * sr)
+                   + vel_gz * cp * cr;
+     
+        var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
+        var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
+     
+        me.vec_vel.setTranslation(clamp(dir_x * pixelPerDegreeX, -450, 450), clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 450));
+        if (dir_y > 8) {
+          # blink the flight vector cross hair if alpha is high
+          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+              me.vec_vel.show();
+            } else {
+              me.vec_vel.hide();
+            }
+        } else {
+          me.vec_vel.show();
+          #blinking = 0;
+        }
       } else {
-        me.vec_vel.show();
-        #blinking = 0;
-      }
-    } else {
-      me.vec_vel.hide();
-      me.takeoff_symbol.show();
-      
-      #move takeoff/landing symbol according to side wind:
-      var wind_heading = getprop("environment/wind-from-heading-deg");
-      var wind_speed = getprop("environment/wind-speed-kt");
-      var heading = me.input.hdgReal.getValue();
-      #var speed = me.input.ias.getValue();
-      var angle = (wind_heading -heading) * (math.pi / 180.0); 
-      var wind_side = math.sin(angle) * wind_speed;
-      #print((wind_heading -heading) ~ " " ~ wind_side);
-      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
-    }
-
-    # artificial horizon and pitch lines
-    me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
-    me.horizon_group.setTranslation(0, centerOffset);
-    var rot = -me.input.roll.getValue() * deg2rads;
-    me.h_rot.setRotation(rot);
-
-
-
-
-    ####  Radar HUD    ###
-
-    
-    var self = geo.aircraft_position();
-    var myPitch=getprop("orientation/pitch-deg")*deg2rads;
-    var myRoll=-getprop("orientation/roll-deg")*deg2rads;
-    var groundAlt=getprop("position/altitude-ft")*0.3048;
-    var myHeading=getprop("orientation/heading-deg");
-    var showDiamond = 0;
-    var short_dist = 0;
-
-    if(getprop("sim/ja37/radar/enabled") == 1) {
-      me.radar_group.show();
-      #do the AI planes
-      for (var i = 0; i < maxTargetsMP ; i += 1) {
-              if(i < size(multiplayer.model.list) and multiplayer.model.list[i].node.getNode("valid").getValue() != 0) {
-                mp = multiplayer.model.list[i];
-                var n = mp.node;
-                var x = n.getNode("position/global-x").getValue();
-                var y = n.getNode("position/global-y").getValue();
-                var z = n.getNode("position/global-z").getValue();
-                var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-                var distance = nil;
-                call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-                if ((size(err))or(distance==nil)) {
-                    # Oops, have errors. Bogus position data (and distance==nil).
-                        #print("Received invalid position data: " ~ debug._error(mp.callsign));
-                    me.target_circle[i].hide();
-                } elsif (distance < 40000) {#is max radar range of ja37
-                    # Node with valid position data (and "distance!=nil").
-                    var aircraftAlt=n.getNode("position/altitude-ft").getValue()*0.3048; #altitude in meters
-                    #ground angle
-                    var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
-                    var xg_rad=(self.course_to(aircraftPos)-myHeading)*deg2rads;
-                    if (xg_rad > math.pi) {
-                      xg_rad = xg_rad - 2*math.pi;
-                    }
-                    if (xg_rad < -math.pi) {
-                      xg_rad = xg_rad + 2*math.pi;
-                    }
-
-                    if (yg_rad > math.pi) {
-                      yg_rad = yg_rad - 2*math.pi;
-                    }
-                    if (yg_rad < -math.pi) {
-                      yg_rad = yg_rad + 2*math.pi;
-                    }
-
-                    #aircraft angle
-                    var ya_rad=xg_rad*math.sin(-myRoll)+yg_rad*math.cos(-myRoll);
-                    var xa_rad=xg_rad*math.cos(-myRoll)-yg_rad*math.sin(-myRoll);
-
-                    if (xa_rad > -math.pi) {
-                      xa_rad = xa_rad - 2*math.pi;
-                    }
-                    if (xg_rad < math.pi) {
-                      xa_rad = xa_rad + 2*math.pi;
-                    }
-
-                    if (ya_rad > math.pi) {
-                      ya_rad = ya_rad - 2*math.pi;
-                    }
-                    if (yg_rad < -math.pi) {
-                      ya_rad = ya_rad + 2*math.pi;
-                    }
-                  var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
-                  var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
-                  var showme = 1;
-                  var selected = 0;
-
-                  if(getprop("sim/ja37/radar/selectedMP") == 1 and getprop("sim/ja37/radar/selected") == i) {
-                    # This is the selected aircraft
-                    selected = 1;
-                    showDiamond = 1;
-                    short_dist = distance;
-                    #print(i~" "~mp.getNode("callsign").getValue());
-                  } else {
-                    #print(getprop("sim/ja37/radar/selectedMP")~"=0 "~getprop("sim/ja37/radar/selected")~"="~i);
-                  }
-
-                  if(pos_x > 512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_x = 512;
-                    }
-                  }
-
-                  if(pos_x < -512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_x = -512;
-                    }
-                  }
-
-                  if(pos_y > 512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_y = 512;
-                    }
-                  }
-
-                  if(pos_y < -512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_y = -512;
-                    }
-                  }
-                  if(selected == 1) {
-                    #print("Diamond pos "~pos_x~" , "~pos_y);
-                    me.diamond_group.setTranslation(pos_x, pos_y);
-                    if(showme == 0 and getprop("sim/ja37/blink/five-Hz") == 0) {
-                      showDiamond = 0;
-                    }
-                    showme = 0;
-                  }
-
-
-                  if(showme == 1) {
-                    me.target_circle[i].setTranslation(pos_x, pos_y);
-                    me.target_circle[i].show();
-                    me.target_circle[i].update();
-                    #print(i~" "~mp.getNode("callsign").getValue());
-                  } else {
-                    me.target_circle[i].hide();
-                    #print(i~" hidden! "~mp.getNode("callsign").getValue());
-                  }
-              } else {
-                me.target_circle[i].hide();
-                #print(i~" hidden!!");
-              }
-          } else {
-              me.target_circle[i].hide();
-              #print(i~" hidden!");
-          }
-      }
-
-      # TODO: Make these similar code blocks into function.
-
-
-      #AI planes:
-      for (var i = 0; i < maxTargetsAI ; i += 1) {
-          var mp = props.globals.getNode("/ai/models").getNode("aircraft["~i~"]");
-          if(mp != nil and mp.getNode("valid").getValue() != 0) {
-              var distance = nil;
-              var x = mp.getNode("position/global-x").getValue();
-              var y = mp.getNode("position/global-y").getValue();
-              var z = mp.getNode("position/global-z").getValue();
-              var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-              call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-              if ((size(err))or(distance==nil)) {
-                  # Oops, have errors. Bogus position data (and distance==nil).
-                  #print("Received invalid position data: " ~ debug._error(mp.callsign));
-                  me.target_circle[i+maxTargetsMP].hide();
-                  #print(i~" invalid pos.");
-              } elsif (distance < 40000) {#is max radar range of ja37
-                  # Node with valid position data (and "distance!=nil").
-                  var aircraftAlt=mp.getNode("position/altitude-ft").getValue()*0.3048; #altitude in meters
-                  #ground angle
-                  var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
-                  var xg_rad=(self.course_to(aircraftPos)-myHeading)*deg2rads;
-                  if (xg_rad > math.pi) {
-                    xg_rad = xg_rad - 2*math.pi;
-                  }
-                  if (xg_rad < -math.pi) {
-                    xg_rad = xg_rad + 2*math.pi;
-                  }
-
-                  if (yg_rad > math.pi) {
-                    yg_rad = yg_rad - 2*math.pi;
-                  }
-                  if (yg_rad < -math.pi) {
-                    yg_rad = yg_rad + 2*math.pi;
-                  }
-
-                  #aircraft angle
-                  var ya_rad=xg_rad*math.sin(-myRoll)+yg_rad*math.cos(-myRoll);
-                  var xa_rad=xg_rad*math.cos(-myRoll)-yg_rad*math.sin(-myRoll);
-
-                  if (xa_rad > -math.pi) {
-                    xa_rad = xa_rad - 2*math.pi;
-                  }
-                  if (xg_rad < math.pi) {
-                    xa_rad = xa_rad + 2*math.pi;
-                  }
-
-                  if (ya_rad > math.pi) {
-                    ya_rad = ya_rad - 2*math.pi;
-                  }
-                  if (yg_rad < -math.pi) {
-                    ya_rad = ya_rad + 2*math.pi;
-                  }
-
-                  var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
-                  var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
-                  var showme = 1;
-                  var selected = 0;
-
-                  if(getprop("sim/ja37/radar/selectedMP") == 0 and getprop("sim/ja37/radar/selected") == i) {
-                    # This is the selected aircraft
-                    selected = 1;
-                    showDiamond = 1;
-                    short_dist = distance;
-                    #print(i~" Diamond: "~mp.getNode("callsign").getValue());
-                  } else {
-                    #print(getprop("sim/ja37/radar/selectedMP")~"=0 "~getprop("sim/ja37/radar/selected")~"="~i);
-                  }
-
-                  if(pos_x > 512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_x = 512;
-                    }
-                  }
-
-                  if(pos_x < -512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_x = -512;
-                    }
-                  }
-
-                  if(pos_y > 512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_y = 512;
-                    }
-                  }
-
-                  if(pos_y < -512) {
-                    showme = 0;
-                    if(selected == 1) {
-                      pos_y = -512;
-                    }
-                  }
-                  if(selected == 1) {
-                    #print("Diamond pos "~pos_x~" , "~pos_y);
-                    me.diamond_group.setTranslation(pos_x, pos_y);
-                    if(showme == 0 and getprop("sim/ja37/blink/five-Hz") == 0) {
-                      showDiamond = 0;
-                    }
-                    showme = 0;
-                  }
-
-
-                  if(showme == 1) {
-                    me.target_circle[i+maxTargetsMP].setTranslation(pos_x, pos_y);
-                    me.target_circle[i+maxTargetsMP].show();
-                    me.target_circle[i+maxTargetsMP].update();
-                    #print(i~" "~mp.getNode("callsign").getValue());
-                  } else {
-                    me.target_circle[i+maxTargetsMP].hide();
-                    #print(i~" hidden! "~mp.getNode("callsign").getValue());
-                  }
-              } else {
-                me.target_circle[i+maxTargetsMP].hide();
-                #print(i~" out of range.");
-              }
-          } else {
-              me.target_circle[i+maxTargetsMP].hide();
-              #print(i~" invalid.");
-          }
-      }
-      if(showDiamond == 1) {
-        me.diamond_group.show();
-        var diamond_dist = metric ==1  ? short_dist : short_dist/kts2kmh;
-        me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-        me.diamond_group.update();
-        me.diamond_dist.update();
-      } else {
-        me.diamond_group.hide();
-      }
-      #print("");
-    } else {
-      me.radar_group.hide();
-    }
-
-    # tower symbol
-    var towerAlt = getprop("sim/tower/altitude-ft");
-    var towerLat = getprop("sim/tower/latitude-deg");
-    var towerLon = getprop("sim/tower/longitude-deg");
-    if(towerAlt != nil and towerLat != nil and towerLon != nil) {
-      var towerPos = geo.Coord.new();
-      towerPos.set_latlon(towerLat, towerLon, towerAlt);
-      var course = nil;
-      var distance = nil;
-      var showme = 1;
-      call(func course = self.course_to(towerPos), nil, var err = []);
-      if ((size(err))or(course==nil)) {
-          # Oops, have errors. Bogus position data (and distance==nil).
-          #print("Received invalid position data: " ~ debug._error(mp.callsign));
-          showme = 0;
-          #print(i~" hidden..");
-      }
-      call(func distance = self.distance_to(towerPos), nil, var err = []);
-      if ((size(err))or(distance==nil)) {
-          # Oops, have errors. Bogus position data (and distance==nil).
-          #print("Received invalid position data: " ~ debug._error(mp.callsign));
-          showme = 0;
-          #print(i~" hidden..");
-      }
-      if (showme == 1 and distance < 99000) {
-        # Node with valid position data (and "distance!=nil").
+        me.vec_vel.hide();
+        me.takeoff_symbol.show();
         
-        #ground angle
-        var yg_rad=math.atan2(towerAlt-groundAlt, distance)-myPitch; 
-        var xg_rad=(course-myHeading)*deg2rads;
+        #move takeoff/landing symbol according to side wind:
+        var wind_heading = getprop("environment/wind-from-heading-deg");
+        var wind_speed = getprop("environment/wind-speed-kt");
+        var heading = me.input.hdgReal.getValue();
+        #var speed = me.input.ias.getValue();
+        var angle = (wind_heading -heading) * (math.pi / 180.0); 
+        var wind_side = math.sin(angle) * wind_speed;
+        #print((wind_heading -heading) ~ " " ~ wind_side);
+        me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
+      }
 
-        if (xg_rad > math.pi) {
-          xg_rad = xg_rad - 2*math.pi;
+      # artificial horizon and pitch lines
+      me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+      me.horizon_group.setTranslation(0, centerOffset);
+      var rot = -me.input.roll.getValue() * deg2rads;
+      me.h_rot.setRotation(rot);
+
+
+
+
+      ####  Radar HUD    ###
+
+      
+      me.self = geo.aircraft_position();
+      me.myPitch=getprop("orientation/pitch-deg")*deg2rads;
+      me.myRoll=-getprop("orientation/roll-deg")*deg2rads;
+      me.groundAlt=getprop("position/altitude-ft")*feet2meter;
+      me.myHeading=getprop("orientation/heading-deg");
+      me.track_index = 0;
+      me.short_dist = nil;
+
+      if(getprop("sim/ja37/radar/enabled") == 1) {
+        me.radar_group.show();
+        #do the MP planes
+
+        var players = [];
+        foreach(item; multiplayer.model.list) {
+          append(players, item.node);
         }
-        if (xg_rad < -math.pi) {
-          xg_rad = xg_rad + 2*math.pi;
+        me.trackAI(players);
+
+        #AI planes:
+        var node_ai = props.globals.getNode("/ai/models");
+        var planes = node_ai.getChildren("aircraft");
+        var tankers = node_ai.getChildren("tanker");
+        var ships = node_ai.getChildren("ship");
+        var carriers = node_ai.getChildren("carrier");
+        var vehicles = node_ai.getChildren("groundvehicle");
+        #print();
+        
+        me.trackAI(carriers);
+        #print(size(carriers)~"carriers: "~me.track_index);
+        me.trackAI(tankers);
+        #print(size(tankers)~"tankers: "~me.track_index);
+        me.trackAI(ships);
+        #print(size(ships)~"ship: "~me.track_index);
+        me.trackAI(planes);
+        #print(size(planes)~"planes: "~me.track_index);
+        me.trackAI(vehicles);
+        #print();
+        if(me.track_index != -1) {
+          #hide the the rest unused circles
+          for(i = me.track_index; i < maxTracks ; i+=1) {
+            me.target_circle[i].hide();
+          }
         }
 
-        if (yg_rad > math.pi) {
-          yg_rad = yg_rad - 2*math.pi;
-        }
-        if (yg_rad < -math.pi) {
-          yg_rad = yg_rad + 2*math.pi;
-        }
+        if(me.short_dist != nil) {
+          #draw diamond
+          var blink = 0;
+          if(me.short_dist[0] > 512) {
+            blink = 1;
+            me.short_dist[0] = 512;
+          }
+          if(me.short_dist[0] < -512) {
+            blink = 1;
+            me.short_dist[0] = -512;
+          }
+          if(me.short_dist[1] > 512) {
+            blink = 1;
+            me.short_dist[1] = 512;
+          }
+          if(me.short_dist[1] < -512) {
+            blink = 1;
+            me.short_dist[1] = -512;
+          }
 
-        #aircraft angle
-        var ya_rad=xg_rad*math.sin(-myRoll)+yg_rad*math.cos(-myRoll);
-        var xa_rad=xg_rad*math.cos(-myRoll)-yg_rad*math.sin(-myRoll);
+          me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
+          var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
+          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          me.diamond_name.setText(me.short_dist[4]);
+          me.target_circle[me.short_dist[3]].hide();
 
-        if (xa_rad > -math.pi) {
-          xa_rad = xa_rad - 2*math.pi;
+          if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
+            me.diamond_group.hide();
+          } else {
+            me.diamond_group.show();
+          }
+          me.target_circle[me.short_dist[3]].update();
+          me.diamond_dist.update();
+          me.diamond_group.update();
+        } else {
+          me.diamond_group.hide();
         }
-        if (xg_rad < math.pi) {
-          xa_rad = xa_rad + 2*math.pi;
-        }
+        #print("");
+      } else {
+        me.radar_group.hide();
+      }
 
-        if (ya_rad > math.pi) {
-          ya_rad = ya_rad - 2*math.pi;
-        }
-        if (yg_rad < -math.pi) {
-          ya_rad = ya_rad + 2*math.pi;
-        }
+      # tower symbol
+      var towerAlt = getprop("sim/tower/altitude-ft");
+      var towerLat = getprop("sim/tower/latitude-deg");
+      var towerLon = getprop("sim/tower/longitude-deg");
+      if(towerAlt != nil and towerLat != nil and towerLon != nil) {
+        var towerPos = geo.Coord.new();
+        towerPos.set_latlon(towerLat, towerLon, towerAlt);
+        var showme = 1;
 
-        var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
-        var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
+        var hud_pos = me.trackCalc(towerPos, 99000);
+        if(hud_pos != nil) {
+          var distance = hud_pos[2];
+          var pos_x = hud_pos[0];
+          var pos_y = hud_pos[1];
 
-        if(pos_x > 512) {
-          showme = 0;
-          #pos_x = 512;
-        }
+          if(pos_x > 512) {
+            showme = 0;
+            #pos_x = 512;
+          }
+          if(pos_x < -512) {
+            showme = 0;
+            #pos_x = -512;
+          }
+          if(pos_y > 512) {
+            showme = 0;
+            #pos_y = 512;
+          }
+          if(pos_y < -512) {
+            showme = 0;
+            #pos_y = -512;
+          }
 
-        if(pos_x < -512) {
-          showme = 0;
-          #pos_x = -512;
-        }
-
-        if(pos_y > 512) {
-          showme = 0;
-          #pos_y = 512;
-        }
-
-        if(pos_y < -512) {
-          showme = 0;
-          #pos_y = -512;
-        }
-
-        if(showme == 1) {
-          me.tower_symbol.setTranslation(pos_x, pos_y);
-          var tower_dist = metric ==1  ? distance : distance/kts2kmh;
-          me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
-          me.tower_symbol.show();
-          me.tower_symbol.update();
-          #print(i~" "~mp.getNode("callsign").getValue());
+          if(showme == 1) {
+            me.tower_symbol.setTranslation(pos_x, pos_y);
+            var tower_dist = metric ==1  ? distance : distance/kts2kmh;
+            me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
+            me.tower_symbol.show();
+            me.tower_symbol.update();
+            #print(i~" "~mp.getNode("callsign").getValue());
+          } else {
+            me.tower_symbol.hide();
+            #print(i~" hidden! "~mp.getNode("callsign").getValue());
+          }
         } else {
           me.tower_symbol.hide();
-          #print(i~" hidden! "~mp.getNode("callsign").getValue());
         }
       } else {
         me.tower_symbol.hide();
       }
-    } else {
-      me.tower_symbol.hide();
+
+
+      if(reinitHUD == 1) {
+        me.redraw();
+        reinitHUD = 0;
+        me.update();
+      } else {
+        me.root.show();
+        me.root.update();          
+      }
+      settimer(func me.update(), 0.05);
+      #setprop("sim/hud/visibility[1]", 0);
+    }#end of HUD running check
+  },#end of update
+
+  trackAI: func (AI_vector) {
+    foreach (var mp; AI_vector) {
+      if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {
+        hud_pos = me.trackItemCalc(mp, 40000);
+
+        if(hud_pos != nil) {
+          var pos_x = hud_pos[0];
+          var pos_y = hud_pos[1];
+          var distance = hud_pos[2];
+          var showme = 1;
+
+          if(me.short_dist == nil or distance < me.short_dist[2]) {
+            # This is the nearest aircraft so far
+            append(hud_pos, me.track_index);
+
+            if(mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
+              ident = mp.getNode("callsign").getValue();
+            } elsif (mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
+              ident = mp.getNode("name").getValue();
+            } elsif (mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
+              ident = mp.getNode("sign").getValue();
+            } else {
+              ident = "";
+            }
+
+            append(hud_pos, ident);
+            me.short_dist = hud_pos;
+            #print(i~" Diamond: "~mp.getNode("callsign").getValue());
+          }
+
+          if(pos_x > 512) {
+            showme = 0;
+          }
+          if(pos_x < -512) {
+            showme = 0;
+          }
+          if(pos_y > 512) {
+            showme = 0;
+          }
+          if(pos_y < -512) {
+            showme = 0;
+          }
+
+          if(showme == 1) {
+            me.target_circle[me.track_index].setTranslation(pos_x, pos_y);
+            me.target_circle[me.track_index].show();
+            me.target_circle[me.track_index].update();
+            #print(me.track_index~" "~mp.getNode("callsign").getValue()~" dist="~distance~" shortest="~me.short_dist[2]);
+            me.track_index += 1;
+            if (me.track_index == maxTracks) {
+              me.track_index = -1;
+            }
+          } else {
+            #print(me.track_index~" not shown. Select="~selected);
+          }
+        }#end of error check
+      }#end of valid check
+    }#end of foreach
+  },#end of trackAI
+
+
+  trackItemCalc: func (mp, range) {
+    var x = mp.getNode("position/global-x").getValue();
+    var y = mp.getNode("position/global-y").getValue();
+    var z = mp.getNode("position/global-z").getValue();
+    var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+    return me.trackCalc(aircraftPos, range);
+  },
+
+  trackCalc: func (aircraftPos, range) {
+    var distance = nil;
+    
+    call(func distance = me.self.distance_to(aircraftPos), nil, var err = []);
+    if ((size(err))or(distance==nil)) {
+      # Oops, have errors. Bogus position data (and distance==nil).
+      #print("Received invalid position data: " ~ debug._error(mp.callsign));
+      #me.target_circle[track_index+maxTargetsMP].hide();
+      #print(i~" invalid pos.");
+    } elsif (distance < range) {#is max radar range of ja37
+      # Node with valid position data (and "distance!=nil").
+      #distance = distance*kts2kmh*1000;
+      var aircraftAlt=aircraftPos.alt(); #altitude in meters
+      #ground angle
+      var yg_rad=math.atan2((aircraftAlt-me.groundAlt), distance)-me.myPitch; 
+      var xg_rad=(me.self.course_to(aircraftPos)-me.myHeading)*deg2rads;
+      if (xg_rad > math.pi) {
+        xg_rad = xg_rad - 2*math.pi;
+      }
+      if (xg_rad < -math.pi) {
+        xg_rad = xg_rad + 2*math.pi;
+      }
+
+      if (yg_rad > math.pi) {
+        yg_rad = yg_rad - 2*math.pi;
+      }
+      if (yg_rad < -math.pi) {
+        yg_rad = yg_rad + 2*math.pi;
+      }
+
+      #aircraft angle
+      var ya_rad=xg_rad*math.sin(-me.myRoll)+yg_rad*math.cos(-me.myRoll);
+      var xa_rad=xg_rad*math.cos(-me.myRoll)-yg_rad*math.sin(-me.myRoll);
+
+      if (xa_rad < -math.pi) {
+        xa_rad = xa_rad + 2*math.pi;
+      }
+      if (xa_rad > math.pi) {
+        xa_rad = xa_rad - 2*math.pi;
+      }
+      if (ya_rad > math.pi) {
+        ya_rad = ya_rad - 2*math.pi;
+      }
+      if (ya_rad < -math.pi) {
+        ya_rad = ya_rad + 2*math.pi;
+      }
+
+      if(ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
+        #is within the radar cone
+        var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
+        var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
+
+        return [pos_x, pos_y, distance];
+      }
     }
-
-
-
-
-    if (getprop("fcs/fbw-override") == 1) 
-     {
-	     #tmp debug stuff
-		   #print("HUD removed");
-	   } else {
-		   #print("HUD repainted");
-
-        if(reinitHUD == 1) {
-          me.redraw();
-          reinitHUD = 0;
-          me.update();
-        } else {
-          me.root.show();
-          me.root.update();          
-        }
-        settimer(func me.update(), 0.05);
-       
-	     
-       #setprop("sim/hud/visibility[1]", 0);
-	   }
-   }
+    return nil;
   }
-};
+};#end of HUDnasal
+
 
 var id = 0;
 
@@ -1435,7 +1320,7 @@ var cycle_brightness = func () {
   } else {
     aircraft.HUD.cycle_brightness();
   }
-}
+};
 
 var cycle_units = func () {
   if(getprop("sim/ja37/hud/mode") > 0) {
@@ -1448,7 +1333,7 @@ var cycle_units = func () {
   } else {
     aircraft.HUD.cycle_type();
   }
-}
+};
 
 var blinker_five_hz = func() {
   if(getprop("sim/ja37/blink/five-Hz") == 0) {
@@ -1457,7 +1342,7 @@ var blinker_five_hz = func() {
     setprop("sim/ja37/blink/five-Hz", 0);
   }
   settimer(func blinker_five_hz(), 0.2);
-}
+};
 settimer(func blinker_five_hz(), 0.2);
 
 var blinker_ten_hz = func() {
@@ -1467,5 +1352,5 @@ var blinker_ten_hz = func() {
     setprop("sim/ja37/blink/ten-Hz", 0);
   }
   settimer(func blinker_ten_hz(), 0.1);
-}
+};
 settimer(func blinker_ten_hz(), 0.1);

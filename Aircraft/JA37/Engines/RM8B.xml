@@ -4,7 +4,7 @@
   Author:   Nikolai V. Chr.
 
   Inputs:
-    name:           Volvo RM8B (JT8D-17A with afterburner)
+    name:           Volvo RM8B (JT8D-22 with afterburner)
     type:           turbine
     thrust:         16200 lb
     augmented?      yes
@@ -20,7 +20,7 @@
   <tsfc>            0.64 </tsfc><!-- from page 5, Australian document -->
   <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
   <bleed>           0.03</bleed><!-- -->
-  <idlen1>         22.0 </idlen1>
+  <idlen1>         30.0 </idlen1><!-- http://www.airliners.net/  Also has a source saying 22%, but had to choose -->
   <idlen2>         58.5 </idlen2><!-- http://www.boeing-727.com/ - JT8D-17A -->
   <maxn1>         102.4 </maxn1><!-- http://www.boeing-727.com/ -->
   <maxn2>         100.0 </maxn2><!-- http://www.boeing-727.com/ -->

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<PropertyList>
+<PropertyList include="ja37-bombable.xml">
 
  <path>ja37.ac</path>
 

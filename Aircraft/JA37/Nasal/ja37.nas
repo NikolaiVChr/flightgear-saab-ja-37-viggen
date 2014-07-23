@@ -222,9 +222,10 @@ var update_loop = func {
       }
     }
 
+    setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
     if (armSelect == 0) { # cannon
       # cannon is selected, set the cannons trigger to match the joystick trigger
-      setprop("/controls/armament/station[0]/trigger", trigger);
+      
     } else {
       # cannon is not selected, the cannon trigger is off
       setprop("/controls/armament/station[0]/trigger", 0);

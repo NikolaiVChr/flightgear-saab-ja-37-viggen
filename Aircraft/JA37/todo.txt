@@ -31,7 +31,7 @@ Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
 Sim: Improve autopilot further, it wobbles.
 Sim: Make canopy able to break off.
-Sim: Limit cannon rounds to 150. (146?)
+Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
 Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
 Sim: Instruments should turn on when battery gets turned on, instead of generator, but still be able to fail when electrical system fails.
 Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
@@ -42,6 +42,8 @@ Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
+Sim: Key to match speed of diamond.
+Sim: Guided missile from f-14b.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear backwards)
 Effect: Check contrail effect is properly installed.
