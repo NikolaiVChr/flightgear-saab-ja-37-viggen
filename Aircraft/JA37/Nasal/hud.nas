@@ -28,17 +28,6 @@ var TAKEOFF = 0;
 var NAV = 1;
 var COMBAT =2;
 
-#loc -0.006662 -0.334795 0.000975132
-#-4.18011 0.864636 -0.0878906
-#-4.18011 0.864636  0.0859375
-#-4.05227 0.96704   0.0859375
-#-4.05227 0.96704  -0.0878906
-
-#loc 0.0 0.0 0.0
-#0 0.0 -0.05
-#0 0.0  0.05
-#0 0.1  0.05
-#0 0.1 -0.05
 
 var QFEcalibrated = 0;
 var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
@@ -47,13 +36,6 @@ var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in 
 # View is 0.70m so 0.79-0.70 = 0.09m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.09 / 0.000244140625) = 143.36 pixels up from center. Since -y is upward, result is -143.
 
-
-
-#old result: -90; 
-# HUD z is 0.864636-0.334795 (0.529841) to 0.967040-0.334795 (0.632245) and raised 0.06 up. Finally is 0.589841m to 0.692245m, height of HUD is 0.102404m
-# Therefore each pixel is 0.102404 / 1024 = 0.00010000390625m or each meter is 9999.609390258193 pixels.
-# View is 0.65m so 0.692245-0.65 = 0.042245m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
-# 512 - (0.042245 / 0.00010000390625) = 89.56650130854264 pixels up from center. Since -y is upward, result is -90.
 var pixelPerDegreeY = 37; #vertical axis, view is tilted 10 degrees, zoom in on runway to check it hit the 10deg line
 var pixelPerDegreeX = 37; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
@@ -66,8 +48,8 @@ var indicatorOffset = -10; #alt scale indicators horizontal offset from scale (m
 var headScalePlace = 300; # vert placement of alt scale
 var headScaleTickSpacing = 65;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 var altimeterScaleHeight = 225; # the height of the low alt scale. Also used in the other scales as a reference height.
-var reticle_factor = 1.5;
-var sidewind_factor = 1.0;
+var reticle_factor = 1.5;# size of flight path indicator, aiming reticle, and out of fuel reticle
+var sidewind_factor = 1.0;# size of sidewind indicator
 var r = 0.0;
 var g = 1.0;
 var b = 0.0;#HUD colors
@@ -77,8 +59,7 @@ var ar = 0.9;#font aspect ratio
 var fs = 0.8;#font size factor
 var artifacts0 = nil;
 var artifacts1 = [];
-#print("Starting JA-37 HUD");
-var maxTracks = 16;
+var maxTracks = 16;# how many radar tracks can be shown at once in the HUD
 var diamond_node = nil;
 
 var HUDnasal = {
@@ -670,7 +651,7 @@ var HUDnasal = {
         },
         place: placement
       };
-
+      HUDnasal.main.verbose = 0;
       HUDnasal.main.input = {
         pitch:    "/orientation/pitch-deg",
         roll:     "/orientation/roll-deg",
@@ -725,7 +706,6 @@ var HUDnasal = {
       #############             main loop                         ################
       ############################################################################
   update: func() {
-    verbose = 0;
     if(me.input.elec.getValue() < 24 or me.input.mode.getValue() == 0) {
       me.root.hide();
       me.root.update();
@@ -735,7 +715,6 @@ var HUDnasal = {
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);
      } else {
-      var metric = me.input.units.getValue();
       var mode = me.input.gears.getValue() != 0 ? TAKEOFF : (me.input.combat.getValue() == 1 ? COMBAT : NAV);
       var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == 1;
       var out_of_ammo = 0;
@@ -745,691 +724,40 @@ var HUDnasal = {
       }
 
       # ground collision warning
-      var rad_alt = me.input.rad_alt.getValue();
-      #var x = mp.getNode("position/global-x").getValue();# meters probably
-      #var y = mp.getNode("position/global-y").getValue();
-      #var z = mp.getNode("position/global-z").getValue();
-      #var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-      #var vel_gx = me.input.speed_n.getValue();#feet per second
-      #var vel_gy = me.input.speed_e.getValue();
-      var vel_gz = me.input.speed_d.getValue();
-
-      #extend vector of ground elevations
-      if(rad_alt != nil and vel_gz != nil) {
-        var time_till_crash = rad_alt / vel_gz;
-
-        # very simple ground detection.
-        if(mode != TAKEOFF and time_till_crash < 10 and time_till_crash > 0) {
-          setprop("sim/ja37/sound/terrain-on", 1);
-          if(me.input.tenHz.getValue() == 1) {
-            me.arrow_trans.setRotation(- getprop("orientation/roll-deg")*deg2rads);
-            me.arrow.show();
-          } else {
-            me.arrow.hide();
-          }
-        } else {
-          setprop("sim/ja37/sound/terrain-on", 0);
-          me.arrow.hide();
-        }
-      }
+      me.displayGroundCollisionArrow(mode);
 
       # digital speed
-      var mach = me.input.mach.getValue();
-
-      if(metric) {
-        me.airspeedInt.hide();
-        if (mach >= 0.5) 
-        {
-          me.airspeed.setText(sprintf("%.2f", mach));
-        } else {
-          me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
-        }
-      } else {
-        me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
-        me.airspeedInt.show();
-        me.airspeed.setText(sprintf("M%.2f", mach));
-      }
+      me.displayDigitalSpeed();
             
       # heading scale
-      var heading = me.input.hdg.getValue();
-      var headOffset = heading/10 - int (heading/10);
-      var headScaleOffset = headOffset;
-      var middleText = roundabout(me.input.hdg.getValue()/10);
-      var middleOffset = nil;
-      if(middleText == 36) {
-        middleText = 0;
-      }
-      var leftText = middleText == 0?35:middleText-1;
-      var rightText = middleText == 35?0:middleText+1;
-      if (headOffset > 0.5) {
-        middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
-        me.head_scale_grp_trans.setTranslation(middleOffset, -headScalePlace);
-        me.head_scale_grp.update();
-        me.hdgLineL.show();
-        #me.hdgLineR.hide();
-      } else {
-        middleOffset = -headScaleOffset*headScaleTickSpacing*2;
-        me.head_scale_grp_trans.setTranslation(middleOffset, -headScalePlace);
-        me.head_scale_grp.update();
-        me.hdgLineR.show();
-        #me.hdgLineL.hide();
-      }
-      me.hdgR.setTranslation(headScaleTickSpacing*2, -65);
-      me.hdgR.setText(sprintf("%02d", rightText));
-      me.hdgM.setTranslation(0, -65);
-      me.hdgM.setText(sprintf("%02d", middleText));
-      me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
-      me.hdgL.setText(sprintf("%02d", leftText));
+      me.displayHeadingScale();
 
-      #heading bug
-      var desired_mag_heading = nil;
-      if (getprop("autopilot/locks/heading") == "dg-heading-hold") {
-        desired_mag_heading = getprop("autopilot/settings/heading-bug-deg");
-      } elsif (getprop("autopilot/locks/heading") == "true-heading-hold") {
-        desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
-      } elsif (getprop("autopilot/locks/heading") == "nav1-hold") {
-        desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+me.input.hdg.getValue();
-      } elsif( getprop("autopilot/route-manager/active") == 1) {
-        #var i = getprop("autopilot/route-manager/current-wp");
-        desired_mag_heading = getprop("autopilot/route-manager/wp/bearing-deg");
-      }
-      if(desired_mag_heading != nil) {
-        #print("desired "~desired_mag_heading);
-        while(desired_mag_heading < 0) {
-          desired_mag_heading += 360.0;
-        }
-        while(desired_mag_heading > 360) {
-          desired_mag_heading -= 360.0;
-        }
-        var degOffset = nil;
-        var headingMiddle = roundabout(me.input.hdg.getValue()/10.0)*10.0;
-        #print("desired "~desired_mag_heading~" head-middle "~headingMiddle);
-        #find difference between desired and middleText heading
-        if (headingMiddle > 300 and desired_mag_heading < 60) {
-          headingMiddle = headingMiddle - 360;
-          degOffset = desired_mag_heading - headingMiddle; # positive value
-        } elsif (headingMiddle < 60 and desired_mag_heading > 300) {
-          desired_mag_heading = desired_mag_heading - 360;
-          degOffset = desired_mag_heading - headingMiddle; # negative value
-        } else {
-          degOffset = desired_mag_heading - headingMiddle;
-        }
-        
-        var pos_x = middleOffset + degOffset*(headScaleTickSpacing/5);
-        #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
-        var blink = 0;
-        #62px, 687px, 262px, 337px
-        if (pos_x < 337-512) {
-          blink = 1;
-          pos_x = 337-512;
-        } elsif (pos_x > 687-512) {
-          blink = 1;
-          pos_x = 687-512;
-        }
-        me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
-        if(blink == 0 or me.input.fiveHz.getValue() == 1) {
-          me.heading_bug.show();
-        } else {
-          me.heading_bug.hide();
-        }
-      } else {
-        me.heading_bug.hide();
-      }
+      #heading bug, must be after heading scale
+      me.displayHeadingBug();
 
-      # alt scale
-      var metric = metric;
-      var alt = metric ==1 ? me.input.alt_ft.getValue() * 0.305 : me.input.alt_ft.getValue();
-      var radAlt = metric ==1 ? me.input.rad_alt.getValue() * 0.305 : me.input.rad_alt.getValue();
-      var pixelPerFeet = nil;
-      # determine which alt scale to use
-      if(metric == 1) {
-        pixelPerFeet = altimeterScaleHeight/50;
-        if (alt_scale_mode == -1) {
-          if (alt < 45) {
-            alt_scale_mode = 0;
-          } elsif (alt < 90) {
-            alt_scale_mode = 1;
-          } else {
-            alt_scale_mode = 2;
-            pixelPerFeet = altimeterScaleHeight/100;
-          }
-        } elsif (alt_scale_mode == 0) {
-          if (alt < 45) {
-            alt_scale_mode = 0;
-          } else {
-            alt_scale_mode = 1;
-          }
-        } elsif (alt_scale_mode == 1) {
-          if (alt < 90 and alt >= 40) {
-            alt_scale_mode = 1;
-          } else if (alt >= 90) {
-            alt_scale_mode = 2;
-            pixelPerFeet = altimeterScaleHeight/100;
-          } else if (alt < 40) {
-            alt_scale_mode = 0;
-          } else {
-            alt_scale_mode = 1;
-          }
-        } elsif (alt_scale_mode == 2) {
-          if (alt >= 85) {
-            alt_scale_mode = 2;
-            pixelPerFeet = altimeterScaleHeight/100;
-          } else {
-            alt_scale_mode = 1;
-          }
-        }
-      } else {#imperial
-        pixelPerFeet = altimeterScaleHeight/200;
-        if (alt_scale_mode == -1) {
-          if (alt < 190) {
-            alt_scale_mode = 0;
-          } elsif (alt < 380) {
-            alt_scale_mode = 1;
-          } else {
-            alt_scale_mode = 2;
-            pixelPerFeet = altimeterScaleHeight/500;
-          }
-        } elsif (alt_scale_mode == 0) {
-          if (alt < 190) {
-            alt_scale_mode = 0;
-          } else {
-            alt_scale_mode = 1;
-          }
-        } elsif (alt_scale_mode == 1) {
-          if (alt < 380 and alt >= 180) {
-            alt_scale_mode = 1;
-          } else if (alt >= 380) {
-            alt_scale_mode = 2;
-            pixelPerFeet = altimeterScaleHeight/500;
-          } else if (alt < 180) {
-            alt_scale_mode = 0;
-          } else {
-            alt_scale_mode = 1;
-          }
-        } elsif (alt_scale_mode == 2) {
-          if (alt >= 380) {
-            alt_scale_mode = 2;
-            pixelPerFeet = altimeterScaleHeight/500;
-          } else {
-            alt_scale_mode = 1;
-          }
-        }
-      }
-      if(verbose > 1) print("Alt scale mode = "~alt_scale_mode);
-      if(verbose > 1) print("Alt = "~alt);
-      #place the scale
-      me.alt_pointer.setTranslation(scalePlace+indicatorOffset, 0);
-      if (alt_scale_mode == 0) {
-        var alt_scale_factor = metric == 1 ? 50 : 200;
-        var offset = altimeterScaleHeight/alt_scale_factor * alt;#vertical placement of scale. Half-scale-height/alt-in-half-scale * alt
-        if(verbose > 1) print("Alt offset = "~offset);
-        me.alt_scale_grp_trans.setTranslation(scalePlace, offset);
-        me.alt_scale_med.hide();
-        me.alt_scale_high.hide();
-        me.alt_scale_low.show();
-        me.alt_higher.hide();
-        me.alt_high.show();
-        me.alt_med.show();
-        me.alt_low.show();
-        me.alt_low.setTranslation(numberOffset, 0);
-        me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
-        me.alt_high.setTranslation(numberOffset, -6*altimeterScaleHeight/4);
-        if(metric == 1) {
-          me.alt_low.setText("0");
-          me.alt_med.setText("50");
-          me.alt_high.setText("100");
-        } else {
-          me.alt_low.setText("0");
-          me.alt_med.setText("200");
-          me.alt_high.setText("400");
-        }
-        if (radAlt < alt) {
-          me.alt_scale_line.show();
-        } else {
-          me.alt_scale_line.hide();
-        }
-        # Show radar altimeter ground height
-        var rad_offset = altimeterScaleHeight/alt_scale_factor * radAlt;
-        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
-        me.rad_alt_pointer.show();
-        if (radPointerProxim < rad_offset - offset or rad_offset - offset < -radPointerProxim) {
-          me.alt_pointer.show();
-        } else {
-          me.alt_pointer.hide();
-        }
-        me.alt_scale_grp.update();
-        if(verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
-      } elsif (alt_scale_mode == 1) {
-        var alt_scale_factor = metric == 1 ? 100 : 400;
-        me.alt_scale_med.show();
-        me.alt_scale_high.hide();
-        me.alt_scale_low.hide();
-        me.alt_higher.hide();
-        me.alt_high.show();
-        me.alt_med.show();
-        me.alt_low.show();
-        var offset = 2*altimeterScaleHeight/alt_scale_factor * alt;#vertical placement of scale. Scale-height/alt-in-scale * alt
-        if(verbose > 1) print("Alt offset = "~offset);
-        me.alt_scale_grp_trans.setTranslation(scalePlace, offset);
-        me.alt_low.setTranslation(numberOffset, 0);
-        me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
-        me.alt_high.setTranslation(numberOffset, -altimeterScaleHeight*2);
-        if(metric == 1) {
-          me.alt_low.setText("0");
-          me.alt_med.setText("50");
-          me.alt_high.setText("100");
-        } else {
-          me.alt_low.setText("0");
-          me.alt_med.setText("200");
-          me.alt_high.setText("400");
-        }
-        # Show radar altimeter ground height
-        var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * radAlt;
-        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
-        me.rad_alt_pointer.show();
-        if (radAlt < alt) {
-          me.alt_scale_line.show();
-        } else {
-          me.alt_scale_line.hide();
-        }
-        if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
-          me.alt_pointer.show();
-        } else {
-          me.alt_pointer.hide();
-        }
-        me.alt_scale_grp.update();
-        #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
-      } elsif (alt_scale_mode == 2) {
-        var alt_scale_factor = metric == 1 ? 200 : 1000;
-        me.alt_scale_med.hide();
-        me.alt_scale_high.show();
-        me.alt_scale_low.hide();
-        me.alt_scale_line.hide();
-        me.alt_higher.show();
-        me.alt_high.show();
-        me.alt_med.show();
-        me.alt_low.show();
-
-        var fact = int(alt / (alt_scale_factor/2)) * (alt_scale_factor/2);
-        var factor = alt - fact + (alt_scale_factor/2);
-        var offset = 2*altimeterScaleHeight/alt_scale_factor * factor;#vertical placement of scale. Scale-height/alt-in-scale * alt
-
-        if(verbose > 1) print("Alt offset = "~offset);
-        me.alt_scale_grp_trans.setTranslation(scalePlace, offset);
-        me.alt_low.setTranslation(numberOffset , 0);
-        me.alt_med.setTranslation(numberOffset , -altimeterScaleHeight);
-        me.alt_high.setTranslation(numberOffset , -2*altimeterScaleHeight);
-        me.alt_higher.setTranslation(numberOffset , -3*altimeterScaleHeight);
-        var low = fact - alt_scale_factor/2;
-        if(low > 1000) {
-          me.alt_low.setText(sprintf("%.1f", low/1000));
-        } else {
-          me.alt_low.setText(sprintf("%d", low));
-        }
-        var med = fact;
-        if(med > 1000) {
-          me.alt_med.setText(sprintf("%.1f", med/1000));
-        } else {
-          me.alt_med.setText(sprintf("%d", med));
-        }
-        var high = fact + alt_scale_factor/2;
-        if(high > 1000) {
-          me.alt_high.setText(sprintf("%.1f", high/1000));
-        } else {
-          me.alt_high.setText(sprintf("%d", high));
-        }
-        var higher = fact + alt_scale_factor;
-        if(higher > 1000) {
-          me.alt_higher.setText(sprintf("%.1f", higher/1000));
-        } else {
-          me.alt_higher.setText(sprintf("%d", higher));
-        }
-        # Show radar altimeter ground height
-        var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * (radAlt);
-        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
-        me.rad_alt_pointer.show();
-        if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
-          me.alt_pointer.show();
-        } else {
-          me.alt_pointer.hide();
-        }
-        me.alt_scale_grp.update();
-        #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
-      }
-
+      # altitude. Digital and scale.
+      me.displayAltitude();
 
       # desired alt lines
-
-      var desired_alt_delta_ft = nil;
-      if (getprop("autopilot/locks/altitude") == "altitude-hold") {
-        desired_alt_delta_ft = getprop("autopilot/settings/target-altitude-ft")-me.input.alt_ft.getValue();
-      } elsif (getprop("autopilot/locks/altitude") == "agl-hold") {
-        desired_alt_delta_ft = getprop("autopilot/settings/target-agl-ft")-me.input.rad_alt.getValue();
-      } elsif(getprop("autopilot/route-manager/active") == 1) {
-        var i = getprop("autopilot/route-manager/current-wp");
-        var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
-        if(rt_alt != nil and rt_alt > 0) {
-          desired_alt_delta_ft = rt_alt - me.input.alt_ft.getValue();
-        }
-      }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
-      if(desired_alt_delta_ft != nil) {
-        var pos_y = clamp(-desired_alt_delta_ft*pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
-
-        me.desired_lines.setTranslation(0, pos_y);
-        me.desired_lines.show();
-      } else {
-        me.desired_lines.hide();
-      }
-
-
-      ####  digital altitude  ####
-
-      var radar_clamp = metric ==1 ? 100 : 100/feet2meter;
-      if (radAlt == nil) {
-        me.alt.setText("");
-        countQFE = 0;
-        QFEcalibrated = 0;
-      } elsif (radAlt < radar_clamp) {
-        var radar_alt_factor = metric ==1  ? radAlt : me.input.rad_alt.getValue();
-        me.alt.setText("R " ~ sprintf("%3d", clamp(radar_alt_factor, 0, radar_clamp)));
-        # check for QFE warning
-        var diff = radAlt - alt;
-        if (countQFE == 0 and (diff > 5 or diff < -5)) {
-          #print("QFE warning " ~ countQFE);
-          # is not calibrated, and is not blinking
-          QFEcalibrated = 0;
-          countQFE = 1;     
-          #print("QFE not calibrated, and is not blinking");     
-        } elsif (diff > -5 and diff < 5) {
-            #is calibrated
-          if (QFEcalibrated == 0 and countQFE < 11) {
-            # was not calibrated before, is now.
-            #print("QFE was not calibrated before, is now. "~countQFE);
-            countQFE = 11;
-          }
-        } elsif (QFEcalibrated == 1 and (diff > 5 or diff < -5)) {
-          # was calibrated before, is not anymore.
-          #print("QFE was calibrated before, is not anymore. "~countQFE);
-          countQFE = 1;
-          QFEcalibrated = 0;
-        }
-      } else {
-        # is above height for checking for calibration
-        countQFE = 0;
-        #QFE = 0;
-        QFEcalibrated = 1;
-        #print("QFE not calibrated, and is not blinking");
-        me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
-      }
-
+      me.displayDesiredAltitudeLines();
 
       ####   display QFE or weapon   ####
-
-      if (mode == COMBAT) {
-        var armSelect = me.input.station.getValue();
-        if(armSelect == 0) {
-          me.qfe.setText("KCA");
-          me.qfe.show();
-        } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") {
-          me.qfe.setText("RB-24");
-          me.qfe.show();
-        } else {
-          me.qfe.hide();
-        }        
-      } elsif (countQFE > 0) {
-        # QFE is shown
-        me.qfe.setText("QFE");
-        if(countQFE == 1) {
-          countQFE = 2;
-        }
-        if(countQFE < 10) {
-           # blink the QFE
-          if(me.input.fiveHz.getValue() == 1) {
-            me.qfe.show();
-          } else {
-            me.qfe.hide();
-          }
-        } elsif (countQFE == 10) {
-          #if(me.input.ias.getValue() < 10) {
-            # adjust the altimeter (commented out after placing altimeter in plane)
-            # var inhg = getprop("systems/static/pressure-inhg");
-            #setprop("instrumentation/altimeter/setting-inhg", inhg);
-           # countQFE = 11;
-            #print("QFE adjusted " ~ inhg);
-          #} else {
-            countQFE = -100;
-          #}
-        } elsif (countQFE < 125) {
-          # QFE is steady
-          countQFE = countQFE + 1;
-          me.qfe.show();
-          #print("steady on");
-        } else {
-          countQFE = -100;
-          QFEcalibrated = 1;
-          #print("off");
-        }
-      } else {
-        me.qfe.hide();
-        countQFE = clamp(countQFE+1, -101, 0);
-        #print("hide  off");
-      }
-      #print("QFE count " ~ countQFE);
-
+      me.displayQFE(mode);
 
       ####   reticle  ####
       me.showReticle(mode, cannon, out_of_ammo);
 
       ### artificial horizon and pitch lines ###
-      me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
-      me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
-      me.horizon_group.setTranslation(0, centerOffset);
-      var rot = -me.input.roll.getValue() * deg2rads;
-      me.h_rot.setRotation(rot);
-      if(mode == COMBAT) {
-        me.horizon_group3.show();
-        me.horizon_dots.hide();
-      } else {
-        me.horizon_group3.hide();
-        me.horizon_dots.show();
-      }
+      me.displayPitchLines(mode);
 
       ### turn coordinator ###
-      if (getprop("sim/ja37/hud/bank-indicator") == 1) {
-        #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-        me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*20, -150, 150), 0);
-        me.turn_group.show();
-      } else {
-        me.turn_group.hide();
-      }
+      me.displayTurnCoordinator();
 
       ####  Radar HUD tracks  ###
-      me.self = geo.aircraft_position();
-      me.myPitch=getprop("orientation/pitch-deg")*deg2rads;
-      me.myRoll=-getprop("orientation/roll-deg")*deg2rads;
-      me.groundAlt=getprop("position/altitude-ft")*feet2meter;
-      me.myHeading=getprop("orientation/heading-deg");
-      me.track_index = 0;
-      me.short_dist = nil;
-
-      if(getprop("sim/ja37/hud/tracks-enabled") == 1) {
-        me.radar_group.show();
-        #do the MP planes
-
-        var players = [];
-        foreach(item; multiplayer.model.list) {
-          append(players, item.node);
-        }
-        me.trackAI(players, 1);
-
-        #AI planes:
-        var node_ai = props.globals.getNode("/ai/models");
-        var planes = node_ai.getChildren("aircraft");
-        var tankers = node_ai.getChildren("tanker");
-        var ships = node_ai.getChildren("ship");
-        var carriers = node_ai.getChildren("carrier");
-        var vehicles = node_ai.getChildren("groundvehicle");
-        #print();
-        
-        me.trackAI(carriers, 0);
-        #print(size(carriers)~"carriers: "~me.track_index);
-        me.trackAI(tankers, 1);
-        #print(size(tankers)~"tankers: "~me.track_index);
-        me.trackAI(ships, 1);
-        #print(size(ships)~"ship: "~me.track_index);
-        me.trackAI(planes, 1);
-        #print(size(planes)~"planes: "~me.track_index);
-        me.trackAI(vehicles, 1);
-        #print();
-        if(me.track_index != -1) {
-          #hide the the rest unused circles
-          for(i = me.track_index; i < maxTracks ; i+=1) {
-            me.target_circle[i].hide();
-          }
-        }
-
-        #draw diamond
-        if(me.short_dist != nil) {
-          var blink = 0;
-          if(me.short_dist[0] > 512) {
-            blink = 1;
-            me.short_dist[0] = 512;
-          }
-          if(me.short_dist[0] < -512) {
-            blink = 1;
-            me.short_dist[0] = -512;
-          }
-          if(me.short_dist[1] > 512) {
-            blink = 1;
-            me.short_dist[1] = 512;
-          }
-          if(me.short_dist[1] < -450) {
-            blink = 1;
-            me.short_dist[1] = -450;
-          }
-          if(me.short_dist[6] == 1 and mode == COMBAT) {
-            #targetable
-            diamond_node = me.short_dist[5];
-            me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
-            var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
-            me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-            me.diamond_name.setText(me.short_dist[4]);
-            me.target_circle[me.short_dist[3]].hide();
-
-
-            var armSelect = me.input.station.getValue();
-            
-            if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
-              me.diamond.show();
-              me.target.hide();
-            } else {
-              me.target.show();
-              me.diamond.hide();
-            }
-
-            #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
-            #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
-            #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
-            #var down = me.myHeading+180.0;
-            #var relative_heading = heading + down - 90.0;
-            #var relative_speed = speed/10.0;
-            #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
-            #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
-
-            #if(me.track_line != nil) {
-            #  me.diamond_group_line.removeAllChildren();
-            #}
-
-            #me.track_line = me.diamond_group_line.createChild("path")
-            #               .lineTo( pos_x, pos_y)
-            #               .setStrokeLineWidth(w)
-            #               .setColor(r,g,b, a);
-            if(blink == 1 and me.input.fiveHz.getValue() == 0) {
-              me.diamond_group.hide();
-            } else {
-              me.diamond_group.show();
-            }
-          } else {
-            #untargetable, like carriers and tankers
-            diamond_node = nil;
-            me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
-            me.target_circle[me.short_dist[3]].setTranslation(me.short_dist[0], me.short_dist[1]);
-            var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
-            me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-            me.diamond_name.setText(me.short_dist[4]);
-            
-            if(blink == 1 and me.input.fiveHz.getValue() == 0) {
-              me.diamond_group.hide();
-              me.target_circle[me.short_dist[3]].hide();
-            } else {
-              me.diamond_group.show();
-              me.target_circle[me.short_dist[3]].show()
-            }
-            me.diamond.hide();
-            me.target.hide();
-          }
-          
-          me.target_circle[me.short_dist[3]].update();
-          me.diamond_group.update();
-        } else {
-          diamond_node = nil;
-          me.diamond_group.hide();
-        }
-        #print("");
-      } else {
-        me.radar_group.hide();
-      }
+      me.displayRadarTracks(mode);
 
       # tower symbol
-      var towerAlt = getprop("sim/tower/altitude-ft");
-      var towerLat = getprop("sim/tower/latitude-deg");
-      var towerLon = getprop("sim/tower/longitude-deg");
-      if(towerAlt != nil and towerLat != nil and towerLon != nil) {
-        var towerPos = geo.Coord.new();
-        towerPos.set_latlon(towerLat, towerLon, towerAlt);
-        var showme = 1;
-
-        var hud_pos = me.trackCalc(towerPos, 99000);
-        if(hud_pos != nil) {
-          var distance = hud_pos[2];
-          var pos_x = hud_pos[0];
-          var pos_y = hud_pos[1];
-
-          if(pos_x > 512) {
-            showme = 0;
-            #pos_x = 512;
-          }
-          if(pos_x < -512) {
-            showme = 0;
-            #pos_x = -512;
-          }
-          if(pos_y > 512) {
-            showme = 0;
-            #pos_y = 512;
-          }
-          if(pos_y < -512) {
-            showme = 0;
-            #pos_y = -512;
-          }
-
-          if(showme == 1) {
-            me.tower_symbol.setTranslation(pos_x, pos_y);
-            var tower_dist = metric ==1  ? distance : distance/kts2kmh;
-            me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
-            me.tower_symbol_icao.setText(getprop("sim/tower/airport-id"));
-            me.tower_symbol.show();
-            me.tower_symbol.update();
-            #print(i~" "~mp.getNode("callsign").getValue());
-          } else {
-            me.tower_symbol.hide();
-            #print(i~" hidden! "~mp.getNode("callsign").getValue());
-          }
-        } else {
-          me.tower_symbol.hide();
-        }
-      } else {
-        me.tower_symbol.hide();
-      }
+      me.displayTower();
 
 
       if(reinitHUD == 1) {
@@ -1448,6 +776,702 @@ var HUDnasal = {
       #setprop("sim/hud/visibility[1]", 0);
     }#end of HUD running check
   },#end of update
+
+  displayGroundCollisionArrow: func (mode) {
+    var rad_alt = me.input.rad_alt.getValue();
+    #var x = mp.getNode("position/global-x").getValue();# meters probably
+    #var y = mp.getNode("position/global-y").getValue();
+    #var z = mp.getNode("position/global-z").getValue();
+    #var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+    #var vel_gx = me.input.speed_n.getValue();#feet per second
+    #var vel_gy = me.input.speed_e.getValue();
+    var vel_gz = me.input.speed_d.getValue();
+
+    #extend vector of ground elevations
+    if(rad_alt != nil and vel_gz != nil) {
+      var time_till_crash = rad_alt / vel_gz;
+
+      # very simple ground detection.
+      if(mode != TAKEOFF and time_till_crash < 10 and time_till_crash > 0) {
+        setprop("sim/ja37/sound/terrain-on", 1);
+        if(me.input.tenHz.getValue() == 1) {
+          me.arrow_trans.setRotation(- getprop("orientation/roll-deg")*deg2rads);
+          me.arrow.show();
+        } else {
+          me.arrow.hide();
+        }
+      } else {
+        setprop("sim/ja37/sound/terrain-on", 0);
+        me.arrow.hide();
+      }
+    }
+  },
+
+  displayHeadingScale: func () {
+    var heading = me.input.hdg.getValue();
+    var headOffset = heading/10 - int (heading/10);
+    var headScaleOffset = headOffset;
+    var middleText = roundabout(me.input.hdg.getValue()/10);
+    me.middleOffset = nil;
+    if(middleText == 36) {
+      middleText = 0;
+    }
+    var leftText = middleText == 0?35:middleText-1;
+    var rightText = middleText == 35?0:middleText+1;
+    if (headOffset > 0.5) {
+      me.middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
+      me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
+      me.head_scale_grp.update();
+      me.hdgLineL.show();
+      #me.hdgLineR.hide();
+    } else {
+      me.middleOffset = -headScaleOffset*headScaleTickSpacing*2;
+      me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
+      me.head_scale_grp.update();
+      me.hdgLineR.show();
+      #me.hdgLineL.hide();
+    }
+    me.hdgR.setTranslation(headScaleTickSpacing*2, -65);
+    me.hdgR.setText(sprintf("%02d", rightText));
+    me.hdgM.setTranslation(0, -65);
+    me.hdgM.setText(sprintf("%02d", middleText));
+    me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
+    me.hdgL.setText(sprintf("%02d", leftText));
+  },
+
+  displayHeadingBug: func () {
+    var desired_mag_heading = nil;
+    if (getprop("autopilot/locks/heading") == "dg-heading-hold") {
+      desired_mag_heading = getprop("autopilot/settings/heading-bug-deg");
+    } elsif (getprop("autopilot/locks/heading") == "true-heading-hold") {
+      desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
+    } elsif (getprop("autopilot/locks/heading") == "nav1-hold") {
+      desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+me.input.hdg.getValue();
+    } elsif( getprop("autopilot/route-manager/active") == 1) {
+      #var i = getprop("autopilot/route-manager/current-wp");
+      desired_mag_heading = getprop("autopilot/route-manager/wp/bearing-deg");
+    }
+    if(desired_mag_heading != nil) {
+      #print("desired "~desired_mag_heading);
+      while(desired_mag_heading < 0) {
+        desired_mag_heading += 360.0;
+      }
+      while(desired_mag_heading > 360) {
+        desired_mag_heading -= 360.0;
+      }
+      var degOffset = nil;
+      var headingMiddle = roundabout(me.input.hdg.getValue()/10.0)*10.0;
+      #print("desired "~desired_mag_heading~" head-middle "~headingMiddle);
+      #find difference between desired and middleText heading
+      if (headingMiddle > 300 and desired_mag_heading < 60) {
+        headingMiddle = headingMiddle - 360;
+        degOffset = desired_mag_heading - headingMiddle; # positive value
+      } elsif (headingMiddle < 60 and desired_mag_heading > 300) {
+        desired_mag_heading = desired_mag_heading - 360;
+        degOffset = desired_mag_heading - headingMiddle; # negative value
+      } else {
+        degOffset = desired_mag_heading - headingMiddle;
+      }
+      
+      var pos_x = me.middleOffset + degOffset*(headScaleTickSpacing/5);
+      #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
+      var blink = 0;
+      #62px, 687px, 262px, 337px
+      if (pos_x < 337-512) {
+        blink = 1;
+        pos_x = 337-512;
+      } elsif (pos_x > 687-512) {
+        blink = 1;
+        pos_x = 687-512;
+      }
+      me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
+      if(blink == 0 or me.input.fiveHz.getValue() == 1) {
+        me.heading_bug.show();
+      } else {
+        me.heading_bug.hide();
+      }
+    } else {
+      me.heading_bug.hide();
+    }
+  },
+
+  displayAltitude: func () {
+    var metric = me.input.units.getValue();
+    var alt = metric ==1 ? me.input.alt_ft.getValue() * feet2meter : me.input.alt_ft.getValue();
+    var radAlt = metric ==1 ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue();
+
+    me.displayAltitudeScale(alt, radAlt);
+    me.displayDigitalAltitude(alt, radAlt);
+  },
+
+  displayAltitudeScale: func (alt, radAlt) {
+    var metric = me.input.units.getValue();
+    me.pixelPerFeet = nil;
+    # determine which alt scale to use
+    if(metric == 1) {
+      me.pixelPerFeet = altimeterScaleHeight/50;
+      if (alt_scale_mode == -1) {
+        if (alt < 45) {
+          alt_scale_mode = 0;
+        } elsif (alt < 90) {
+          alt_scale_mode = 1;
+        } else {
+          alt_scale_mode = 2;
+          me.pixelPerFeet = altimeterScaleHeight/100;
+        }
+      } elsif (alt_scale_mode == 0) {
+        if (alt < 45) {
+          alt_scale_mode = 0;
+        } else {
+          alt_scale_mode = 1;
+        }
+      } elsif (alt_scale_mode == 1) {
+        if (alt < 90 and alt >= 40) {
+          alt_scale_mode = 1;
+        } else if (alt >= 90) {
+          alt_scale_mode = 2;
+          me.pixelPerFeet = altimeterScaleHeight/100;
+        } else if (alt < 40) {
+          alt_scale_mode = 0;
+        } else {
+          alt_scale_mode = 1;
+        }
+      } elsif (alt_scale_mode == 2) {
+        if (alt >= 85) {
+          alt_scale_mode = 2;
+          me.pixelPerFeet = altimeterScaleHeight/100;
+        } else {
+          alt_scale_mode = 1;
+        }
+      }
+    } else {#imperial
+      me.pixelPerFeet = altimeterScaleHeight/200;
+      if (alt_scale_mode == -1) {
+        if (alt < 190) {
+          alt_scale_mode = 0;
+        } elsif (alt < 380) {
+          alt_scale_mode = 1;
+        } else {
+          alt_scale_mode = 2;
+          me.pixelPerFeet = altimeterScaleHeight/500;
+        }
+      } elsif (alt_scale_mode == 0) {
+        if (alt < 190) {
+          alt_scale_mode = 0;
+        } else {
+          alt_scale_mode = 1;
+        }
+      } elsif (alt_scale_mode == 1) {
+        if (alt < 380 and alt >= 180) {
+          alt_scale_mode = 1;
+        } else if (alt >= 380) {
+          alt_scale_mode = 2;
+          me.pixelPerFeet = altimeterScaleHeight/500;
+        } else if (alt < 180) {
+          alt_scale_mode = 0;
+        } else {
+          alt_scale_mode = 1;
+        }
+      } elsif (alt_scale_mode == 2) {
+        if (alt >= 380) {
+          alt_scale_mode = 2;
+          me.pixelPerFeet = altimeterScaleHeight/500;
+        } else {
+          alt_scale_mode = 1;
+        }
+      }
+    }
+    if(me.verbose > 1) print("Alt scale mode = "~alt_scale_mode);
+    if(me.verbose > 1) print("Alt = "~alt);
+    #place the scale
+    me.alt_pointer.setTranslation(scalePlace+indicatorOffset, 0);
+    if (alt_scale_mode == 0) {
+      var alt_scale_factor = metric == 1 ? 50 : 200;
+      var offset = altimeterScaleHeight/alt_scale_factor * alt;#vertical placement of scale. Half-scale-height/alt-in-half-scale * alt
+      if(me.verbose > 1) print("Alt offset = "~offset);
+      me.alt_scale_grp_trans.setTranslation(scalePlace, offset);
+      me.alt_scale_med.hide();
+      me.alt_scale_high.hide();
+      me.alt_scale_low.show();
+      me.alt_higher.hide();
+      me.alt_high.show();
+      me.alt_med.show();
+      me.alt_low.show();
+      me.alt_low.setTranslation(numberOffset, 0);
+      me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
+      me.alt_high.setTranslation(numberOffset, -6*altimeterScaleHeight/4);
+      if(metric == 1) {
+        me.alt_low.setText("0");
+        me.alt_med.setText("50");
+        me.alt_high.setText("100");
+      } else {
+        me.alt_low.setText("0");
+        me.alt_med.setText("200");
+        me.alt_high.setText("400");
+      }
+      if (radAlt < alt) {
+        me.alt_scale_line.show();
+      } else {
+        me.alt_scale_line.hide();
+      }
+      # Show radar altimeter ground height
+      var rad_offset = altimeterScaleHeight/alt_scale_factor * radAlt;
+      me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
+      me.rad_alt_pointer.show();
+      if (radPointerProxim < rad_offset - offset or rad_offset - offset < -radPointerProxim) {
+        me.alt_pointer.show();
+      } else {
+        me.alt_pointer.hide();
+      }
+      me.alt_scale_grp.update();
+      if(me.verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
+    } elsif (alt_scale_mode == 1) {
+      var alt_scale_factor = metric == 1 ? 100 : 400;
+      me.alt_scale_med.show();
+      me.alt_scale_high.hide();
+      me.alt_scale_low.hide();
+      me.alt_higher.hide();
+      me.alt_high.show();
+      me.alt_med.show();
+      me.alt_low.show();
+      var offset = 2*altimeterScaleHeight/alt_scale_factor * alt;#vertical placement of scale. Scale-height/alt-in-scale * alt
+      if(me.verbose > 1) print("Alt offset = "~offset);
+      me.alt_scale_grp_trans.setTranslation(scalePlace, offset);
+      me.alt_low.setTranslation(numberOffset, 0);
+      me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
+      me.alt_high.setTranslation(numberOffset, -altimeterScaleHeight*2);
+      if(metric == 1) {
+        me.alt_low.setText("0");
+        me.alt_med.setText("50");
+        me.alt_high.setText("100");
+      } else {
+        me.alt_low.setText("0");
+        me.alt_med.setText("200");
+        me.alt_high.setText("400");
+      }
+      # Show radar altimeter ground height
+      var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * radAlt;
+      me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
+      me.rad_alt_pointer.show();
+      if (radAlt < alt) {
+        me.alt_scale_line.show();
+      } else {
+        me.alt_scale_line.hide();
+      }
+      if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
+        me.alt_pointer.show();
+      } else {
+        me.alt_pointer.hide();
+      }
+      me.alt_scale_grp.update();
+      #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
+    } elsif (alt_scale_mode == 2) {
+      var alt_scale_factor = metric == 1 ? 200 : 1000;
+      me.alt_scale_med.hide();
+      me.alt_scale_high.show();
+      me.alt_scale_low.hide();
+      me.alt_scale_line.hide();
+      me.alt_higher.show();
+      me.alt_high.show();
+      me.alt_med.show();
+      me.alt_low.show();
+
+      var fact = int(alt / (alt_scale_factor/2)) * (alt_scale_factor/2);
+      var factor = alt - fact + (alt_scale_factor/2);
+      var offset = 2*altimeterScaleHeight/alt_scale_factor * factor;#vertical placement of scale. Scale-height/alt-in-scale * alt
+
+      if(me.verbose > 1) print("Alt offset = "~offset);
+      me.alt_scale_grp_trans.setTranslation(scalePlace, offset);
+      me.alt_low.setTranslation(numberOffset , 0);
+      me.alt_med.setTranslation(numberOffset , -altimeterScaleHeight);
+      me.alt_high.setTranslation(numberOffset , -2*altimeterScaleHeight);
+      me.alt_higher.setTranslation(numberOffset , -3*altimeterScaleHeight);
+      var low = fact - alt_scale_factor/2;
+      if(low > 1000) {
+        me.alt_low.setText(sprintf("%.1f", low/1000));
+      } else {
+        me.alt_low.setText(sprintf("%d", low));
+      }
+      var med = fact;
+      if(med > 1000) {
+        me.alt_med.setText(sprintf("%.1f", med/1000));
+      } else {
+        me.alt_med.setText(sprintf("%d", med));
+      }
+      var high = fact + alt_scale_factor/2;
+      if(high > 1000) {
+        me.alt_high.setText(sprintf("%.1f", high/1000));
+      } else {
+        me.alt_high.setText(sprintf("%d", high));
+      }
+      var higher = fact + alt_scale_factor;
+      if(higher > 1000) {
+        me.alt_higher.setText(sprintf("%.1f", higher/1000));
+      } else {
+        me.alt_higher.setText(sprintf("%d", higher));
+      }
+      # Show radar altimeter ground height
+      var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * (radAlt);
+      me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
+      me.rad_alt_pointer.show();
+      if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
+        me.alt_pointer.show();
+      } else {
+        me.alt_pointer.hide();
+      }
+      me.alt_scale_grp.update();
+      #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
+    }
+  },
+
+  displayDigitalAltitude: func (alt, radAlt) {
+    var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
+    if (radAlt == nil) {
+      me.alt.setText("");
+      countQFE = 0;
+      QFEcalibrated = 0;
+    } elsif (radAlt < radar_clamp) {
+      var radar_alt_factor = me.input.units.getValue() ==1  ? radAlt : me.input.rad_alt.getValue();
+      me.alt.setText("R " ~ sprintf("%3d", clamp(radar_alt_factor, 0, radar_clamp)));
+      # check for QFE warning
+      var diff = radAlt - alt;
+      if (countQFE == 0 and (diff > 5 or diff < -5)) {
+        #print("QFE warning " ~ countQFE);
+        # is not calibrated, and is not blinking
+        QFEcalibrated = 0;
+        countQFE = 1;     
+        #print("QFE not calibrated, and is not blinking");     
+      } elsif (diff > -5 and diff < 5) {
+          #is calibrated
+        if (QFEcalibrated == 0 and countQFE < 11) {
+          # was not calibrated before, is now.
+          #print("QFE was not calibrated before, is now. "~countQFE);
+          countQFE = 11;
+        }
+      } elsif (QFEcalibrated == 1 and (diff > 5 or diff < -5)) {
+        # was calibrated before, is not anymore.
+        #print("QFE was calibrated before, is not anymore. "~countQFE);
+        countQFE = 1;
+        QFEcalibrated = 0;
+      }
+    } else {
+      # is above height for checking for calibration
+      countQFE = 0;
+      #QFE = 0;
+      QFEcalibrated = 1;
+      #print("QFE not calibrated, and is not blinking");
+      me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
+    }
+  },
+
+  displayDesiredAltitudeLines: func () {
+    var desired_alt_delta_ft = nil;
+    if (getprop("autopilot/locks/altitude") == "altitude-hold") {
+      desired_alt_delta_ft = getprop("autopilot/settings/target-altitude-ft")-me.input.alt_ft.getValue();
+    } elsif (getprop("autopilot/locks/altitude") == "agl-hold") {
+      desired_alt_delta_ft = getprop("autopilot/settings/target-agl-ft")-me.input.rad_alt.getValue();
+    } elsif(getprop("autopilot/route-manager/active") == 1) {
+      var i = getprop("autopilot/route-manager/current-wp");
+      var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
+      if(rt_alt != nil and rt_alt > 0) {
+        desired_alt_delta_ft = rt_alt - me.input.alt_ft.getValue();
+      }
+    }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
+    if(desired_alt_delta_ft != nil) {
+      var pos_y = clamp(-desired_alt_delta_ft*me.pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
+
+      me.desired_lines.setTranslation(0, pos_y);
+      me.desired_lines.show();
+    } else {
+      me.desired_lines.hide();
+    }
+  },
+
+  displayTower: func () {
+    var towerAlt = getprop("sim/tower/altitude-ft");
+    var towerLat = getprop("sim/tower/latitude-deg");
+    var towerLon = getprop("sim/tower/longitude-deg");
+    if(towerAlt != nil and towerLat != nil and towerLon != nil) {
+      var towerPos = geo.Coord.new();
+      towerPos.set_latlon(towerLat, towerLon, towerAlt);
+      var showme = 1;
+
+      var hud_pos = me.trackCalc(towerPos, 99000);
+      if(hud_pos != nil) {
+        var distance = hud_pos[2];
+        var pos_x = hud_pos[0];
+        var pos_y = hud_pos[1];
+
+        if(pos_x > 512) {
+          showme = 0;
+          #pos_x = 512;
+        }
+        if(pos_x < -512) {
+          showme = 0;
+          #pos_x = -512;
+        }
+        if(pos_y > 512) {
+          showme = 0;
+          #pos_y = 512;
+        }
+        if(pos_y < -512) {
+          showme = 0;
+          #pos_y = -512;
+        }
+
+        if(showme == 1) {
+          me.tower_symbol.setTranslation(pos_x, pos_y);
+          var tower_dist = me.input.units.getValue() ==1  ? distance : distance/kts2kmh;
+          me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
+          me.tower_symbol_icao.setText(getprop("sim/tower/airport-id"));
+          me.tower_symbol.show();
+          me.tower_symbol.update();
+          #print(i~" "~mp.getNode("callsign").getValue());
+        } else {
+          me.tower_symbol.hide();
+          #print(i~" hidden! "~mp.getNode("callsign").getValue());
+        }
+      } else {
+        me.tower_symbol.hide();
+      }
+    } else {
+      me.tower_symbol.hide();
+    }
+  },
+
+  displayRadarTracks: func (mode) {
+    me.self      =  geo.aircraft_position();
+    me.myPitch   =  getprop("orientation/pitch-deg")*deg2rads;
+    me.myRoll    = -getprop("orientation/roll-deg")*deg2rads;
+    me.groundAlt =  getprop("position/altitude-ft")*feet2meter;
+    me.myHeading =  getprop("orientation/heading-deg");
+    me.track_index = 0;
+    me.short_dist = nil;
+
+    if(getprop("sim/ja37/hud/tracks-enabled") == 1) {
+      me.radar_group.show();
+      #do the MP planes
+
+      var players = [];
+      foreach(item; multiplayer.model.list) {
+        append(players, item.node);
+      }
+      me.trackAI(players, 1);
+
+      #AI planes:
+      var node_ai = props.globals.getNode("/ai/models");
+      var planes = node_ai.getChildren("aircraft");
+      var tankers = node_ai.getChildren("tanker");
+      var ships = node_ai.getChildren("ship");
+      var carriers = node_ai.getChildren("carrier");
+      var vehicles = node_ai.getChildren("groundvehicle");
+      #print();
+      
+      me.trackAI(carriers, 0);
+      #print(size(carriers)~"carriers: "~me.track_index);
+      me.trackAI(tankers, 1);
+      #print(size(tankers)~"tankers: "~me.track_index);
+      me.trackAI(ships, 1);
+      #print(size(ships)~"ship: "~me.track_index);
+      me.trackAI(planes, 1);
+      #print(size(planes)~"planes: "~me.track_index);
+      me.trackAI(vehicles, 1);
+      #print();
+      if(me.track_index != -1) {
+        #hide the the rest unused circles
+        for(i = me.track_index; i < maxTracks ; i+=1) {
+          me.target_circle[i].hide();
+        }
+      }
+
+      #draw diamond
+      if(me.short_dist != nil) {
+        var blink = 0;
+        if(me.short_dist[0] > 512) {
+          blink = 1;
+          me.short_dist[0] = 512;
+        }
+        if(me.short_dist[0] < -512) {
+          blink = 1;
+          me.short_dist[0] = -512;
+        }
+        if(me.short_dist[1] > 512) {
+          blink = 1;
+          me.short_dist[1] = 512;
+        }
+        if(me.short_dist[1] < -450) {
+          blink = 1;
+          me.short_dist[1] = -450;
+        }
+        if(me.short_dist[6] == 1 and mode == COMBAT) {
+          #targetable
+          diamond_node = me.short_dist[5];
+          me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
+          var diamond_dist = me.input.units.getValue() ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
+          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          me.diamond_name.setText(me.short_dist[4]);
+          me.target_circle[me.short_dist[3]].hide();
+
+
+          var armSelect = me.input.station.getValue();
+          
+          if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
+            me.diamond.show();
+            me.target.hide();
+          } else {
+            me.target.show();
+            me.diamond.hide();
+          }
+
+          #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
+          #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
+          #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
+          #var down = me.myHeading+180.0;
+          #var relative_heading = heading + down - 90.0;
+          #var relative_speed = speed/10.0;
+          #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
+          #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
+
+          #if(me.track_line != nil) {
+          #  me.diamond_group_line.removeAllChildren();
+          #}
+
+          #me.track_line = me.diamond_group_line.createChild("path")
+          #               .lineTo( pos_x, pos_y)
+          #               .setStrokeLineWidth(w)
+          #               .setColor(r,g,b, a);
+          if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+            me.diamond_group.hide();
+          } else {
+            me.diamond_group.show();
+          }
+        } else {
+          #untargetable, like carriers and tankers
+          diamond_node = nil;
+          me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
+          me.target_circle[me.short_dist[3]].setTranslation(me.short_dist[0], me.short_dist[1]);
+          var diamond_dist = me.input.units.getValue() ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
+          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          me.diamond_name.setText(me.short_dist[4]);
+          
+          if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+            me.diamond_group.hide();
+            me.target_circle[me.short_dist[3]].hide();
+          } else {
+            me.diamond_group.show();
+            me.target_circle[me.short_dist[3]].show()
+          }
+          me.diamond.hide();
+          me.target.hide();
+        }
+        
+        me.target_circle[me.short_dist[3]].update();
+        me.diamond_group.update();
+      } else {
+        diamond_node = nil;
+        me.diamond_group.hide();
+      }
+      #print("");
+    } else {
+      me.radar_group.hide();
+    }
+  },
+
+  displayDigitalSpeed: func () {
+    var mach = me.input.mach.getValue();
+
+    if(me.input.units.getValue() == 1) {
+      me.airspeedInt.hide();
+      if (mach >= 0.5) 
+      {
+        me.airspeed.setText(sprintf("%.2f", mach));
+      } else {
+        me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
+      }
+    } else {
+      me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
+      me.airspeedInt.show();
+      me.airspeed.setText(sprintf("M%.2f", mach));
+    }
+  },
+
+  displayPitchLines: func (mode) {
+    me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+    me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+    me.horizon_group.setTranslation(0, centerOffset);
+    var rot = -me.input.roll.getValue() * deg2rads;
+    me.h_rot.setRotation(rot);
+    if(mode == COMBAT) {
+      me.horizon_group3.show();
+      me.horizon_dots.hide();
+    } else {
+      me.horizon_group3.hide();
+      me.horizon_dots.show();
+    }
+  },
+
+  displayTurnCoordinator: func () {
+    if (getprop("sim/ja37/hud/bank-indicator") == 1) {
+      #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
+      me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*20, -150, 150), 0);
+      me.turn_group.show();
+    } else {
+      me.turn_group.hide();
+    }
+  },
+
+  displayQFE: func (mode) {
+    if (mode == COMBAT) {
+      var armSelect = me.input.station.getValue();
+      if(armSelect == 0) {
+        me.qfe.setText("KCA");
+        me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") {
+        me.qfe.setText("RB-24");
+        me.qfe.show();
+      } else {
+        me.qfe.hide();
+      }        
+    } elsif (countQFE > 0) {
+      # QFE is shown
+      me.qfe.setText("QFE");
+      if(countQFE == 1) {
+        countQFE = 2;
+      }
+      if(countQFE < 10) {
+         # blink the QFE
+        if(me.input.fiveHz.getValue() == 1) {
+          me.qfe.show();
+        } else {
+          me.qfe.hide();
+        }
+      } elsif (countQFE == 10) {
+        #if(me.input.ias.getValue() < 10) {
+          # adjust the altimeter (commented out after placing altimeter in plane)
+          # var inhg = getprop("systems/static/pressure-inhg");
+          #setprop("instrumentation/altimeter/setting-inhg", inhg);
+         # countQFE = 11;
+          #print("QFE adjusted " ~ inhg);
+        #} else {
+          countQFE = -100;
+        #}
+      } elsif (countQFE < 125) {
+        # QFE is steady
+        countQFE = countQFE + 1;
+        me.qfe.show();
+        #print("steady on");
+      } else {
+        countQFE = -100;
+        QFEcalibrated = 1;
+        #print("off");
+      }
+    } else {
+      me.qfe.hide();
+      countQFE = clamp(countQFE+1, -101, 0);
+      #print("hide  off");
+    }
+    #print("QFE count " ~ countQFE);
+  },
 
   trackAI: func (AI_vector, diamond) {
     foreach (var mp; AI_vector) {

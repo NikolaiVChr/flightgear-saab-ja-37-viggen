@@ -694,7 +694,7 @@ Sim: Various nasal optimizations.
 Sound: Made a click sound when toggling parking brake.
 Model: Added a flight stick.
 
-2.45
+2.45 - 2014 July 23
 ====
 Animation: Made instrument lights more red.
 Model: Added master warning button and indicators on main panel.
@@ -703,3 +703,7 @@ Sim: Adjusted G induced blackout, to make pilot able to work at 8.5G.
 Sim: Adjusted G induced redout, to make pilot able to work at -2.0G.
 HUD: Made lines 20% thinner.
 Sim: Renamed the -set file, to give prettier name in pilot list.
+
+2.46
+====
+HUD: Made it less procedual and more functional.
