@@ -23,13 +23,13 @@
     <name>gun-pod</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
     <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
-    <speed>2041.0</speed>
+    <speed>1350.0</speed>
     <repeat>true</repeat>
     <delay>0.15</delay>
     <count>-1</count>
-    <x-offset>  3.0</x-offset>
-    <y-offset> -2.5</y-offset>
-    <z-offset>  1.2</z-offset>
+    <x-offset>  0.0</x-offset>
+    <y-offset>  0.0</y-offset>
+    <z-offset> -1.2</z-offset>
     <pitch-offset>0</pitch-offset>
     <life>2.0</life>
     <wind>false</wind>
@@ -42,13 +42,13 @@
     <name>cannon</name>
     <model>Models/Geometry/null.ac</model>
     <trigger>sim/multiplay/generic/int[6]</trigger><!-- controls/armament/trigger -->
-    <speed>2041.0</speed>
+    <speed>1350.0</speed>
     <repeat>true</repeat>
     <delay>0</delay>
     <count>-1</count>
-    <x-offset>  3.0</x-offset>
-    <y-offset> -2.5</y-offset>
-    <z-offset>  1.2</z-offset>
+    <x-offset>  0.0</x-offset>
+    <y-offset>  0.0</y-offset>
+    <z-offset> -1.2</z-offset>
     <pitch-offset>0</pitch-offset>
     <life>10.0</life>
     <wind>false</wind>
@@ -71,9 +71,9 @@
     <repeat>true</repeat>
     <delay>0.01</delay>
     <count>-1</count>
-    <x-offset>  3.0</x-offset>
-    <y-offset> -2.5</y-offset>
-    <z-offset>  1.2</z-offset>
+    <x-offset>  0.0</x-offset>
+    <y-offset>  0.0</y-offset>
+    <z-offset> -1.2</z-offset>
     <yaw-offset>0.0</yaw-offset>
     <pitch-offset>0.0</pitch-offset>
     <eda>10</eda>
@@ -85,7 +85,7 @@
   <submodel>
     <name>RB-24J missile 1</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[1]/released</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[1]/releZYZased</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -110,7 +110,7 @@
 <submodel>
     <name>RB-24J missile 2</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[2]/released</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[2]/releXYZased</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -135,7 +135,7 @@
 <submodel>
     <name>RB-24J missile 3</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[3]/released</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[3]/releXYZased</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>
@@ -160,7 +160,7 @@
   <submodel>
     <name>RB-24J missile 4</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[4]/released</trigger><!-- controls/armament/trigger -->
+    <trigger>controls/armament/station[4]/releXYZased</trigger><!-- controls/armament/trigger -->
     <speed>4000.0</speed>
     <repeat>false</repeat>
     <delay>0.00</delay>

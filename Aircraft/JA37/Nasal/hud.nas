@@ -73,6 +73,7 @@ var artifacts0 = nil;
 var artifacts1 = [];
 #print("Starting JA-37 HUD");
 var maxTracks = 16;
+var diamond_node = nil;
 
 var HUDnasal = {
   canvas_settings: {
@@ -1057,7 +1058,7 @@ var HUDnasal = {
             blink = 1;
             me.short_dist[1] = -512;
           }
-
+          diamond_node = me.short_dist[5];
           me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
           var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
           me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
@@ -1073,6 +1074,7 @@ var HUDnasal = {
           me.diamond_dist.update();
           me.diamond_group.update();
         } else {
+          diamond_node = nil;
           me.diamond_group.hide();
         }
         #print("");
@@ -1158,7 +1160,7 @@ var HUDnasal = {
           if(me.short_dist == nil or distance < me.short_dist[2]) {
             # This is the nearest aircraft so far
             append(hud_pos, me.track_index);
-
+            
             if(mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
               ident = mp.getNode("callsign").getValue();
             } elsif (mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
@@ -1170,6 +1172,7 @@ var HUDnasal = {
             }
 
             append(hud_pos, ident);
+            append(hud_pos, mp);
             me.short_dist = hud_pos;
             #print(i~" Diamond: "~mp.getNode("callsign").getValue());
           }

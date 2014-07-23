@@ -565,6 +565,7 @@
 
 <model>
     <path>Aircraft/JA37/Models/Effects/vaporCone.xml</path>
+    <nopreview/>
     <name>VaporCone</name>
     <offsets>
       <x-m>0</x-m>

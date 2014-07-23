@@ -482,5 +482,18 @@ Aero: Lowered wheels rolling friction.
 HUD: Radar now track various scenario objects, such as ferries, ballons, tankers, carriers, tanks, bus, trains etc.
 HUD: Now display callsign at diamond.
 
-2.14
+2.14 - 2014 June 20
 ----
+HUD: Fixed diamond callsign, did not change brightness with rest of HUD.
+Sim: Supressed error message about removing failure trigger in crash code.
+Animation: Fixed center plaque was floating in front of pilot, which will be seen if using 3D glasses.
+HUD: Fixed HUD was in testing mode, and got shown before the generator was running.
+
+2.15 - 2014 June 23
+----
+Engine: Increased reverse thrust slightly to match a diagram of reverse thrust angle in the RM8B.
+HUD: The default FG HUD will now be automatically switched on when using FG 2.8.
+Sim: The missiles are now guided, and will only fire if they have lock. The buzz sound will tell if they have lock.
+Sim: Fixed delay after pressing 'e' or trigger, before it fires.
+Sim: Changed firing rate of the KCA cannon to 1350 rounds per minute.
+Sim: Changed where the cannon muzzle on the aircraft is located.

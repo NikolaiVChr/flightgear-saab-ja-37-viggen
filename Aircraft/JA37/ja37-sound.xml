@@ -853,6 +853,18 @@
         <max>1</max>
       </volume>
     </missile4>     
+
+   <rb24-signal> 
+      <name>rb24-signal</name>
+      <mode>looped</mode>
+      <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+      <condition>
+        <property>sim/ja37/armament/rb24/sound-on-off</property>
+      </condition>
+      <volume>
+        <property>sim/ja37/armament/rb24/sound-volume</property>
+      </volume>
+    </rb24-signal>
        
   <!--                                                                          crashing                                   -->  
 

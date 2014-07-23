@@ -9,7 +9,7 @@ togglereverser = func
   if (val == 0 or val == nil) {
     gui.popupTip("Reverse Thrust: ON");
     interpolate(rv1.getPath(), 1.0, 1.4);  
-    r1.getChild("reverser-angle-rad").setValue(2.0943);       # half half thrust when reversing
+    r1.getChild("reverser-angle-rad").setValue(2.1866);# 125 degs. The thrust is in 150 degs, but some thrust is probably lost by pushing back on the outlet.
     r3.getChild("reverser").setBoolValue(1);
     r5.getChild("engine").setBoolValue(1);
   } else {

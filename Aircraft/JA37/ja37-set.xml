@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.14</aircraft-version>
+  <aircraft-version>2.15</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -526,7 +526,11 @@
    <key>
     <name>I</name>
     <desc>Toggle HUD units. Metric/imperial.</desc>
-   </key>   
+   </key>
+   <key>
+    <name>c</name>
+    <desc>Cycle weapons</desc>
+   </key>
    <text>
     Startup
     ______
@@ -722,6 +726,27 @@
         <units-metric type="bool">1</units-metric>
         <mode type="bool">1</mode>
       </hud>
+        <armament>
+        <rb24>
+          <count type="int">0</count>
+          <nearest-target type="int">-1</nearest-target>
+          <sound-on-off type="bool">false</sound-on-off>
+          <sound-volume type="double">0.12</sound-volume>
+          <target-range-nm type="double">0</target-range-nm>
+          <!-- RB-24J specs (Swedish version of sidewinder) -->
+          <max-detection-rng-nm type="int">10</max-detection-rng-nm><!--FIXME: up to 10-16 MN with best conditions-->
+          <fov-deg type="int">25</fov-deg>                     <!-- seeker optical FOV -->
+          <detection-fov-deg type="int">60</detection-fov-deg> <!-- Search pattern diameter (rosette scan) -->
+          <track-max-deg type="int">110</track-max-deg>        <!-- Seeker max total angular rotation -->
+          <max-g type="int">42</max-g>                         <!-- In turn -->
+          <thrust-lbs type="double">230</thrust-lbs>           <!-- guess -->
+          <thrust-duration-sec type="int">30</thrust-duration-sec><!-- Mk.36 Mod.7,8 -->
+          <weight-launch-lbs>188</weight-launch-lbs>
+          <weight-warhead-lbs>20.8</weight-warhead-lbs>
+          <drag-coeff type="double">0.05</drag-coeff>          <!-- guess -->
+          <drag-area type="double">0.043</drag-area>           <!-- sq ft -->
+        </rb24>
+      </armament>      
     </ja37>
   </sim>
 
@@ -759,6 +784,34 @@
   <armament>
     <station-select type="int">0</station-select><!-- cannon selected by default -->
     <trigger type="bool">0</trigger>
+    <station n="1">
+      <offsets>
+        <x-m type="double">  3.15986</x-m>
+        <y-m type="double"> -2.70311</y-m>
+        <z-m type="double"> -0.67645</z-m>
+      </offsets>
+    </station>
+    <station n="2">
+      <offsets>
+        <x-m type="double"> -1.02697</x-m>
+        <y-m type="double"> -0.98148</y-m>
+        <z-m type="double"> -0.94307</z-m>
+      </offsets>
+    </station>
+    <station n="3">
+      <offsets>
+        <x-m type="double">  3.15986</x-m>
+        <y-m type="double">  2.70311</y-m>
+        <z-m type="double"> -0.67645</z-m>
+      </offsets>
+    </station>
+    <station n="4">
+      <offsets>
+        <x-m type="double"> -1.02697</x-m>
+        <y-m type="double">  0.98148</y-m>
+        <z-m type="double"> -0.94307</z-m>
+      </offsets>
+    </station>            
   </armament>
   <gear>
    <brake-parking type="bool">true</brake-parking>
@@ -858,12 +911,20 @@
      </key>
      <key n="73">
     <name>I</name>
-    <desc>Switch HUD units.</desc>
-    <binding>
-     <command>nasal</command>
-     <script>canvas_HUD.cycle_units()</script>
-    </binding>
-   </key> 
+      <desc>Switch HUD units.</desc>
+      <binding>
+       <command>nasal</command>
+       <script>canvas_HUD.cycle_units()</script>
+      </binding>
+    </key> 
+    <key n="99">
+      <name>c</name>
+      <desc>Cycle weapons.</desc>
+      <binding>
+       <command>nasal</command>
+       <script>ja37.cycle_weapons()</script>
+      </binding>
+    </key> 
     <key n="115">
       <name>s</name>
       <desc>Start engine</desc>
@@ -1155,5 +1216,8 @@
   <failure-mgr>
     <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
   </failure-mgr>
+  <armament>
+    <file>Aircraft/JA37/Nasal/aim-9.nas</file>
+  </armament>  
 </nasal>
 </PropertyList>
