@@ -152,12 +152,11 @@
         <table>
           <independentVar lookup="row">velocities/mach</independentVar>
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-          <tableData><!--  1.25      1.30        2+   mach    -->
-                            0.0     15000.0    36000.0
-                  0.8100    0.0      0.0        0.0
-                  1.1000    0.34     0.75       0.30
-                  1.8000    0.221    0.4875     0.195
-                <!--  2.2000    9.6   5.1        3.5 -->
+          <tableData><!--  1.25           2.2   mach, aug, main fuel only   -->
+                            0.0       36000.0
+                  0.8100    0.0           0.0
+                  1.1000    0.1955        0.111
+                  1.8000    0.127075      0.07215
           </tableData>
         </table>
         <property>aero/factor-axial-mach</property><!-- is property so it was easy to adjust when flying -->

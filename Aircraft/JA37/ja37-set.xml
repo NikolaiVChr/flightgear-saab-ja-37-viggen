@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.30</aircraft-version>
+  <aircraft-version>2.31</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -793,7 +793,7 @@
     </systems>
     <aero>
       <factor-axial-mach type="double">1</factor-axial-mach>
-      <factor-axial type="double">0.3348</factor-axial>
+      <factor-axial type="double">0.625</factor-axial>
     </aero>
     <inertia>
       <asymmetric-wing-load>0</asymmetric-wing-load>

@@ -14,7 +14,6 @@ Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Check kinematic on all flight-control surfaces.
-Engine: Convert engine tables to Aeromatic as it is more reliable than Stanford Engine Model.
 Animation: Some switches.
 Animation: Make wings break off when they break due to structural damage.
 Animation: Adjust instrument materials, and make the gauges look more similar.

@@ -611,3 +611,8 @@ Engine: Adjusted thrust tables for below 10000ft and slower than M0.75.
 HUD: Made route-manager work with heading scale and alt scale.
 HUD: Heading bug now blink when not not in view, instead of using clip.
 GUI: Added option for yaw damper.
+
+2.31
+====
+Engine: Convert engine tables to Aeromatic as it is more reliable than Stanford Engine Model. Take-off distance now 450m.
+Aero: Axial force is more sensible. Sealevel M0.93 mil-thrust, M2.25 aug-thrust. 36000ft M2.2 aug-thrust.
