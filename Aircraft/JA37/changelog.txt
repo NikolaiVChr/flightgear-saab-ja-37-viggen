@@ -578,7 +578,7 @@ Sim: Made agl hold work in autopilot.
 Sim: Improved autopilot.
 Sim: Missiles will no longer lock until the HUD is in combat mode.
 
-2.27
+2.27 - 2014 July 2
 ====
 Sim: Made autostart more fail safe and start a bit faster.
 Aero: Increased empty mass significanty. (suspect the old value was from AJ-37)
@@ -589,20 +589,20 @@ Aero: Normal force is now affected by mach effect.
 Engine: Adjusted reverse thrust to match performance specs.
 HUD: Made turn coordinator stop turning. Now its more of a sideslip indicator.
 
-2.28
+2.28 - 2014 July 3
 ====
 Engine: Fixed regression in reverse thrust making it thrust normal, it is now reversed again.
 Aero: Decreased aileron and rudder sensitivity at sealevel for low speeds.
 Sim: Changed fuel loadout.
 
-2.29
+2.29 - 2014 July 4
 ====
 Aero: Decreased aileron sensitivity at sealevel low speeds further.
 Aero: Reverted empty weight back to what it was before.
 Aero: Added sideforce due to aileron, mach and rudder.
 Aero: Updated tables for axial force due to gear and flaps.
 
-2.30
+2.30 - 2014 July 5
 ====
 Sim: Adjusted speed, weight and rate of cannon rounds.
 Sound: Made MP engine sound be heard when touched down, not only when flying.
@@ -612,13 +612,18 @@ HUD: Made route-manager work with heading scale and alt scale.
 HUD: Heading bug now blink when not not in view, instead of using clip.
 GUI: Added option for yaw damper.
 
-2.31
+2.31 - 2014 July 6
 ====
 Engine: Convert engine tables to Aeromatic as it is more reliable than Stanford Engine Model. Take-off distance now 450m.
 Aero: Axial force is more sensible. Sealevel M0.93 mil-thrust, M2.25 aug-thrust. 36000ft M2.2 aug-thrust.
 
-2.32
+2.32 - 2014 July 7
 ====
 HUD: Moved turn coordinator above airspeed indicator.
 GUI: Made message to screen when toggling yaw damper.
 GUI: Improved message to screen when toggling reverse thrust.
+
+2.33 - 2014 July 7
+====
+HUD: Fixed flight path reticle was too low. When in combat mode and cannon selected it was too high.
+GUI: Updated aircraft help.

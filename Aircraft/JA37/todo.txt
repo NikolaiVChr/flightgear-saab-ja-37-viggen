@@ -67,6 +67,8 @@ HUD: Seperate landing and takeoff mode. Reticle with fin should also be shown in
 HUD: Sideslip indicator dot at bottom of HUD?
 HUD: Track semi circles and semi box should have a line in them.
 HUD: Option to see plane type instead of callsign.
+HUD: Smaller symbols, but same font size.
+HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 
 
 Bugs:

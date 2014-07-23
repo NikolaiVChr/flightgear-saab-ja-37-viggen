@@ -28,6 +28,7 @@ Notes
 ---------
 The aircraft is sorta Rembrandt ready, no glaring issues. ALS is recommended though.
 It models the mid 80'ties upgraded version of JA-37 (not to be confused with JA-37D)
+Be mindful of failure messages, if a gear locking mechanism fails due to being deployed at too high speed, that gear will not be able to support the weight of the aircraft till you repair it from the menu.
 
 
 Homepage:  (check here to download the newest version)
@@ -51,3 +52,4 @@ Contact Necolatis on the forums to get in contact, got plenty of cockpit picture
 Liberties taken:
 ----------------
 In the orig plane the HUD decimal delimiter is ','. I choose to use the english '.' instead.
+The Radar is able to look through hills and mountains, and the missiles is also able to fly through those.

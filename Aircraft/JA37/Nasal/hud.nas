@@ -427,20 +427,20 @@ var HUDnasal = {
     #aim reticle
     HUDnasal.main.reticle_group = HUDnasal.main.root.createChild("group");  
     HUDnasal.main.aim_reticle  = HUDnasal.main.reticle_group.createChild("path")
-      .moveTo(90, centerOffset)
-      .lineTo(30, centerOffset)
+      .moveTo(90, 0)
+      .lineTo(30, 0)
       .arcSmallCCW(30, 30, 0, -60, 0)
       .arcSmallCCW(30, 30, 0,  60, 0)
       .close()
-      .moveTo(-30, centerOffset)
-      .lineTo(-90, centerOffset)
+      .moveTo(-30, 0)
+      .lineTo(-90, 0)
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
     HUDnasal.main.reticle_fin_group = HUDnasal.main.reticle_group.createChild("group");  
     HUDnasal.main.aim_reticle_fin  = HUDnasal.main.reticle_fin_group.createChild("path")
-      .moveTo(0, centerOffset-30)
-      .lineTo(0, centerOffset-60)
+      .moveTo(0, -30)
+      .lineTo(0, -60)
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
@@ -1152,7 +1152,7 @@ var HUDnasal = {
         me.takeoff_symbol.hide();
         me.aim_reticle.show();
         
-        me.reticle_group.setTranslation(0, 0);
+        me.reticle_group.setTranslation(0, centerOffset);
         # move fin to alpha
         me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
 
@@ -1172,9 +1172,9 @@ var HUDnasal = {
         var vel_gy = me.input.speed_e.getValue();
         var vel_gz = me.input.speed_d.getValue();
      
-        var yaw = me.input.hdgReal.getValue() * math.pi / 180.0;
-        var roll = me.input.roll.getValue() * math.pi / 180.0;
-        var pitch = me.input.pitch.getValue() * math.pi / 180.0;
+        var yaw = me.input.hdgReal.getValue() * deg2rads;
+        var roll = me.input.roll.getValue() * deg2rads;
+        var pitch = me.input.pitch.getValue() * deg2rads;
      
         var sy = math.sin(yaw);   var cy = math.cos(yaw);
         var sr = math.sin(roll);  var cr = math.cos(roll);
@@ -1190,8 +1190,8 @@ var HUDnasal = {
                    + vel_gy * (sy * sp * cr - cy * sr)
                    + vel_gz * cp * cr;
      
-        var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
-        var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
+        var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * rad2deg;
+        var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * rad2deg;
         
         var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
         var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);

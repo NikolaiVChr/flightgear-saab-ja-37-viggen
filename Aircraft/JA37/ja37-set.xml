@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.32</aircraft-version>
+  <aircraft-version>2.33</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -552,13 +552,13 @@
     Takeoff
     ______
     Mind the sidewind indicator in the HUD.
-    Takeoff at 315 km/h.
+    Takeoff at 315 km/h. (170 kt)
 
     Landing
     ______
-    Land with speeds within 195-249km/h.
+    Land with speeds within 195-249km/h. (105-134 kt)
       and an Angle of Attack of 16.5 degrees.
-    Deploy reverse thrust after touchdown.
+    Deploy reverse thrust and brakes after touchdown.
 
     Flaps
     ____
@@ -574,12 +574,12 @@
     The top fin on the reticle will move/blink according to AoA.
     In combat mode when the cannon is selected, the reticle will not move.
     In combat mode the reticle change if out of ammo.
-    The digital altimeter to the left will use rader below 100 meters, a 'R' is shown. when this happens, and regular altimeter above, up till 9999 meters.
-    If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters above terrain).
+    The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
+    If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
     If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
     The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number. If using imperial units, it will show mach number and knots at same time.
     The artificial horizon and pitch lines are spaced 5 degrees.
-    To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000 meters, one floating point decimal precision.
+    To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000, one floating point decimal precision.
     On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
     Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
     The heading at the top is shown as a scale showing 1/10 of heading in degrees.
@@ -605,16 +605,14 @@
     500 meter runway is required to land.
     Climb to 10.000m from brakes off in less than 100 seconds.
     Supersonic speed at low altitude in less than 60 seconds from take-off.
-    Mach 1.1 at 50m altitude.
-    Maximum speed: Mach 2.1 at 11,000m alt.
-    Service ceiling: 18,300 m
-    From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16)
+    Mach 1.25 at 100m altitude.
+    Maximum speed: Mach 2.2 at 11,000m alt (36,000 ft).
+    Service ceiling: 18,300 m (60,000 ft)
+    From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
     
     Notes:
     _____
     Hangar homepage: https://sites.google.com/site/fghangar
-    3D model and textures by Anders Lejczak
-    FDM and everything else by Nikolai V. Chr.
     </text>
   </help>
 
