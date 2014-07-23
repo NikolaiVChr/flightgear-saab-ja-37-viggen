@@ -22,7 +22,8 @@ Various minor modelling
 Thanks
 ======
 Thanks to all the patient people on the forums, especially those who helped with understanding aerodynamics.
-Thanks to forum user jam007 for inspirational pictures of the aircraft.
+Thanks to forum user jam007 for inspirational pictures of the real aircraft.
+Thanks to the test-pilots; JazzTp, Johan G, Jabberwocky, surpii, FGRS, Philosopher and HJ1AN, for feedback and suggestions.
 Thanks to the Flightgear project people for a great simulator.
 
 Note

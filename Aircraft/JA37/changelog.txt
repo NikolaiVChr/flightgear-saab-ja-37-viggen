@@ -577,3 +577,14 @@ HUD: Made desired altitude lines.
 Sim: Made agl hold work in autopilot.
 Sim: Improved autopilot.
 Sim: Missiles will no longer lock until the HUD is in combat mode.
+
+2.27
+====
+Sim: Made autostart more fail safe and start a bit faster.
+Aero: Increased empty mass significanty. (suspect the old value was from AJ-37)
+Engine: Adjusted how engine performs when idle to match specs.
+Engine: Recalculated augmented thrust in different altitudes and speeds. It now has less power in most regimes.
+Aero: Sideforce due to sideslip is now influenced by mach effect and ground effect.
+Aero: Normal force is now affected by mach effect.
+Engine: Adjusted reverse thrust to match performance specs.
+HUD: Made turn coordinator stop turning. Now its more of a sideslip indicator.

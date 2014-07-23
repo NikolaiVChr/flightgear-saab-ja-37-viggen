@@ -20,6 +20,7 @@ Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
 Sim: Radar screen did not see MP aircraft pass by. [not reproduced yet]
 HUD: When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
+HUD: I have experienced that combat mode was on by default.
 
 
 Features and improvements:

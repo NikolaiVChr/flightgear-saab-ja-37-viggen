@@ -585,36 +585,54 @@ setlistener("/sim/current-view/view-number", func(n) {
 
 ###################### autostart ########################
 
- # Opens fuel valve in autostart
- var waiting_n1 = func {
-  if (getprop("/engines/engine[0]/n1") > 5.0) {
+var autostarting = 0;
+var start_count = 0;
+
+# Opens fuel valve in autostart
+var waiting_n1 = func {
+  start_count += 1;
+  #print(start_count);
+  if (start_count > 45) {
+    gui.popupTip("Autostart failed. Report bug to aircraft developer and try again.");
+    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
+    setprop("/controls/engines/engine[0]/cutoff", 1);
+    setprop("/controls/engines/engine[0]/starter", 0);
+    setprop("/controls/electric/engine[0]/generator", 0);
+    setprop("/controls/electric/battery-switch", 0);
+    autostarting = 0;
+    auto_gen=0;
+  } elsif (getprop("/engines/engine[0]/n1") > 5.0) {
     if (getprop("/engines/engine[0]/n1") < 20) {
       if (getprop("/controls/engines/engine[0]/cutoff") == 1) {
         click();
         setprop("/controls/engines/engine[0]/cutoff", 0);
         if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
           gui.popupTip("Engine igniting.");
-          settimer(waiting_n1, 1);
+          settimer(waiting_n1, 0.5);
         } else {
           setprop("/controls/engines/engine[0]/starter", 0);
           gui.popupTip("Engine not igniting. Aborting engine start.");
           auto_gen=0;
+          autostarting = 0;
         }
       } else {
-        settimer(waiting_n1, 1);
+        settimer(waiting_n1, 0.5);
       }
     }  elsif (getprop("/engines/engine[0]/n1") > 15) {
+      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
       click();
       setprop("controls/electric/engine[0]/generator", 1);
       gui.popupTip("Generator on.");
       auto_gen=0;
+      autostarting = 0;
     } else {
-      settimer(waiting_n1, 1);
+      settimer(waiting_n1, 0.5);
     }
-   } else {
-    settimer(waiting_n1, 1);
+  } else {
+    settimer(waiting_n1, 0.5);
   }
- }
+}
+
 
 
 
@@ -628,15 +646,18 @@ var autostart = func {
     setprop("/controls/engines/engine[0]/cutoff", 1);
     setprop("/controls/engines/engine[0]/starter", 1);
     auto_gen=1;
-    settimer(waiting_n1, 1);
+    start_count = 0;
+    settimer(waiting_n1, 0.5);
   } else {
     gui.popupTip("Generator switch turned on. Engine restart aborted.");
+    autostarting = 0;
   }
 }
 
 #Default 's' button will set starter to false, so will start delayed.
 var autostarttimer = func {
-  if (auto_gen==0) {
+  if (auto_gen==0 and autostarting == 0) {
+    autostarting = 1;
     if (getprop("/engines/engine[0]/running") > 0) {
      gui.popupTip("Stopping engine. Turning off battery.");
      click();
@@ -644,15 +665,18 @@ var autostarttimer = func {
   	 setprop("/controls/engines/engine[0]/starter", 0);
      setprop("/controls/electric/engine[0]/generator", 0);
   	 setprop("/controls/electric/battery-switch", 0);
+     autostarting = 0;
     } else {
+      #print("autostarting");
       if (getprop("sim/ja37/damage/crashed") < 1) {
         setprop("/controls/electric/battery-switch", 1);
         setprop("/systems/electrical/batterysignal", 1);
         click();
         gui.popupTip("Battery switch on. Check.");
-    	  settimer(autostart, 3);
+    	  settimer(autostart, 2);
       } else {
         gui.popupTip("Engine not reacting. Consider ejecting yourself.");
+        autostarting = 0;
       }
     }
   }
@@ -670,4 +694,8 @@ var click = func {
 var clickOff = func {
     setprop("sim/ja37/sound/click-on", 0);
     clicking = 0;
+}
+
+var noop = func {
+  #does nothing, but important
 }

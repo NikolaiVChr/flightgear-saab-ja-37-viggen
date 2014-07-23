@@ -1234,9 +1234,9 @@ var HUDnasal = {
         me.horizon_dots.show();
       }
 
-      #turn indicator
+      #turn coordinator
       if (getprop("sim/ja37/hud/bank-indicator") == 1) {
-        me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
+        #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
         me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*20, -150, 150), 0);
         me.turn_group.show();
       } else {

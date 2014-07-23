@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.26</aircraft-version>
+  <aircraft-version>2.27</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -791,7 +791,8 @@
       </flapscontrol>
     </systems>
     <aero>
-      <mach-drag-factor>1</mach-drag-factor>
+      <factor-axial-mach type="double">1</factor-axial-mach>
+      <factor-axial type="double">0.3348</factor-axial>
     </aero>
     <inertia>
       <asymmetric-wing-load>0</asymmetric-wing-load>
@@ -958,6 +959,13 @@
          <command>nasal</command>
          <script>ja37.autostarttimer();</script>
       </binding>
+      <mod-up>
+        <!--just to overwrite default s key up -->
+        <binding>
+          <command>nasal</command>
+          <script>ja37.noop()</script>
+        </binding>
+      </mod-up>
     </key>
     <key n="6">
      <name>Ctrl-F</name>

@@ -6,16 +6,14 @@
   Inputs:
     name:           Volvo RM8B (JT8D-22 with afterburner)
     type:           turbine
-    thrust:         16200 lb
+    thrust:         16203.98 lb
     augmented?      yes
     injected?       no
 -->
 
 <turbine_engine name="Volvo RM8B">
-  <milthrust unit="LBS"> 16200.0 </milthrust><!-- from page 5, Australian document -->
-  <maxthrust unit="LBS"> 28110.0 </maxthrust><!-- from page 5, Australian document -->
-  <!--<milthrust unit="N"> 73500.0 </milthrust> Newton must be multiplied by factor 10 to work (bug)
-  <maxthrust unit="N"> 127500.0 </maxthrust>-->
+  <milthrust unit="LBS"> 16203.98 </milthrust><!-- book: Viggen by Sven Stridsberg -->
+  <maxthrust unit="LBS"> 28108.94 </maxthrust><!-- book: Viggen by Sven Stridsberg -->
   <bypassratio>     0.97 </bypassratio> <!-- Turbofan and turbojet engines: database handbook. - JT8D-17A: 1.02. But RM8A is 1.07 and RM8B is 0.97 -->
   <tsfc>            0.64 </tsfc><!-- from page 5, Australian document -->
   <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
@@ -29,28 +27,25 @@
   <injected>          0 </injected>
 
 
-  <!-- from table 4, Australian document. -->  
-  <function name="IdleThrust">
+  <!-- Calculated using the Stanford Engine Model for RM8B --> 
+  <function name="IdleThrust"><!-- 716.50lbs - book: Viggen by Sven Stridsberg -->
    <product>
-     <value>0.000007716</value> <!-- 1/(16200 x 8) -->
+     <value>0.0000767084841</value> <!-- (1 / 16203.98) * (716.5 / 576.436) -->
      <table>
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
     <tableData>
-                   0    10000     20000    30000    40000    50000
-       0.0      8758     5154      3420     2283     1631        0       
-       0.4      7474     5154      3420     2283     1631        0       
-       0.6      6824     5140      3484     2380     1631        0       
-       0.7      6499     5130      3600     2428     1689        0       
-       0.8      6174     5120      3715     2476     1747        0       
-       0.9      5676     4989      3773     2562     1744        0       
-       1.0      4125     4281      3479     2301     1578        0       
-       1.1      1435     2370      2603     2061     1322        0       
-       1.2         0      458      1726     1821     1066        0       
-       1.4         0      229      1151     1214      800        0       
-       1.6         0        0       575      607      533        0       
-       1.8         0        0         0        0      267        0       
-       2.0         0        0         0        0        0        0       
+            -10000.0         0.0     10000.0    30000.0    50000.0
+     0.00     701.708      576.436     451.164    218.417      0.0
+     0.25     560.170      475.375     390.579    221.306      0.0
+     0.50     463.760      406.556     349.352    224.195      0.0
+     0.75     412.479      369.980     327.481    227.084      0.0
+     1.00     406.325      365.646     324.967    229.973      0.0
+     1.25     445.299      393.555     341.811    232.863      0.0
+     1.50     529.401      453.706     378.012    235.752      0.0
+     1.75     658.631      546.100     433.569    238.641      0.0
+     2.00     832.989      670.737     508.484    241.530      0.0
+     2.25    1052.475      827.615     602.756    244.419      0.0
     </tableData>
    </table>
   </product>
@@ -59,52 +54,46 @@
   <!-- Calculated using the Stanford Engine Model for RM8B -->
   <function name="MilThrust">
    <product>
-     <value>0.000077160494</value> <!-- 1/16200 x 1.25 The 1.25 factor is to convert cruise to maximum -->
+     <value>0.0000767280631</value> <!-- 1/16203.98 x 1.2433 The factor is to convert cruise to maximum -->
      <table>
       <independentVar lookup="row">velocities/mach</independentVar>
       <independentVar lookup="column">atmosphere/density-altitude</independentVar>
       <tableData>
-            -11181  -10000      0  10000  20000  30000  40000  50000  60000  70000
-       0.0   16200   15865  13033  10201   7368   4938   2900    862      0      0
-       0.2   13469   13224  11147   9070   6992   4990   3057   1123      0      0
-       0.4   11413   11235   9727   8219   6711   5042   3213   1384      0      0
-       0.6   10032    9899   8774   7648   6523   5095   3370   1646      0      0
-       0.8    9326    9217   8287   7358   6428   5147   3527   1907    287      0
-       1.0    9295    9187   8267   7347   6427   5199   3684   2168    653      0
-       1.2    9939    9810   8713   7617   6520   5251   3840   2430   1019      0
-       1.4   11259   11087   9626   8167   6707   5304   3997   2691   1384      0
-       2.0   19267   18833  15165  11496   7828   5460   4468   3475   2482      0
+            -10000      0  10000  20000  30000  40000  50000  60000  70000
+       0.0   15865  13033  10201   7368   4938   2900    862      0      0
+       0.2   13224  11147   9070   6992   4990   3057   1123      0      0
+       0.4   11235   9727   8219   6711   5042   3213   1384      0      0
+       0.6    9899   8774   7648   6523   5095   3370   1646      0      0
+       0.8    9217   8287   7358   6428   5147   3527   1907    287      0
+       1.0    9187   8267   7347   6427   5199   3684   2168    653      0
+       1.2    9810   8713   7617   6520   5251   3840   2430   1019      0
+       1.4   11087   9626   8167   6707   5304   3997   2691   1384      0
+       2.0   18833  15165  11496   7828   5460   4468   3475   2482      0
       </tableData>
      </table>
    </product>
   </function>
   
 
-  <!-- from table 4, Australian document. -->
+  <!-- Calculated using the Stanford Engine Model for RM8B -->
   <function name="AugThrust">
   <product>
-  <value>0.00004414799</value> <!-- 1/28110 x 1.241 The 1.241 factor is to convert cruise to maximum -->
+  <value>0.00004422021</value><!-- 1/28108.94 x 1.2429831. The factor is to convert cruise to maximum -->
    <table>
     <independentVar lookup="row">velocities/mach</independentVar>
     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
     <tableData>
-                0    10000   20000   30000   40000    50000    60000  70000
-     0.0    22650    19435   14106    9040    6404     4570     3590      0
-     0.4    24414    19435   14106    9040    6404     4570     3590      0
-     0.6    26625    21123   15616   10795    6404     4570     3590      0
-     0.7    27730    22431   16833   11673    6962     4570     3590      0
-     0.8    28836    23740   18050   12550    7521     4922     3590      0
-     0.9    30827    25187   19367   13709    8133     5273     3740      0
-     1.0    32421    26582   20608   14880    8953     5865     3890      0
-     1.1    45740    27386   22270   16521   10503     6428     4193      0
-     1.2    37268    28190   23932   18162   12054     6990     4495      0
-     1.4    37268    33991   29869   22261   15280     9151     4818      0
-     1.6    37268    39792   35805   26359   18506    11313     5500      0
-     1.8    37268    39792   41742   30458   21731    13121     6484      0
-     2.0    37268    39792   41742   34431   24957    14928     7468      0
-     2.2    37268    39792   41742   38404   28158    15608     8820      0
-     2.4    37268    39792   41742   38404   31360    16288     8820      0
-     2.6    37268    39792   41742   38404   31360    16968     8820      0
+            -10000.0         0.0     10000.0    30000.0    50000.0        60000.0  70000.0
+     0.00    27528.627   22614.096   17699.564   8568.693   1496.1210      0.0000   0.000
+     0.25    21975.977   18649.375   15322.772   8682.035   2062.8335      0.0000   0.000
+     0.50    18193.738   15949.557   13705.375   8795.378   2629.5460      0.0000   0.000
+     0.75    16181.909   14514.641   12847.372   8908.721   3196.2585    340.0275   0.000
+     1.00    15940.489   14344.627   12748.765   9022.063   3762.9710   1133.4250   0.000
+     1.25    17469.480   15439.516   13409.551   9135.405   4329.6836   1926.8225   0.000
+     1.50    20768.879   17799.307   14829.732   9248.748   4896.3960   2720.2200   0.000
+     1.75    25838.690   21424.000   17009.309   9362.091   5463.1084   3513.6174   0.000
+     2.00    32678.910   26313.596   19948.280   9475.433   6029.8210   4307.0150   0.000
+     2.25    41289.540   32468.092   23646.646   9588.775   6596.5337   5100.4126   0.000
     </tableData>
    </table>
    </product>

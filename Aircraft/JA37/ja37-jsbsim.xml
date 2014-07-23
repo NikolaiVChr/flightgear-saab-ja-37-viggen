@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 2.26 </version>
+    <version> 2.27 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -31,8 +31,6 @@
          The data is provided ''as is'' and any express or implied
          warranties, including, but not limitted to the implied warranties of
          merchantability and fitness for a particular purpose are disclaimed.
-         
-         Many nice code pieces and inspiration taken from F16, Buccaneer, 747-400, TU-154B and Mig-15 plus some more.
       </note>
   </fileheader>
   
@@ -73,7 +71,7 @@ to an airplane of that size). -->
     <ixx unit="SLUG*FT2"> 10000 </ixx>
     <iyy unit="SLUG*FT2"> 60000 </iyy>
     <izz unit="SLUG*FT2"> 65000 </izz>
-    <emptywt unit="LBS" > 20950 </emptywt>
+    <emptywt unit="LBS" > 26896.4 </emptywt>
     <location name="CG" unit="M">
       <x> 0.3399 </x><!-- Page 43: STA X65B = 12350mm, 1155mm after the flaps -->
       <!--  -->
