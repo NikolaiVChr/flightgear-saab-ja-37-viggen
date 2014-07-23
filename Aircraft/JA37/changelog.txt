@@ -699,4 +699,7 @@ Model: Added a flight stick.
 Animation: Made instrument lights more red.
 Model: Added master warning button and indicators on main panel.
 Sim: Fixed failure system incompatibility with FG 3.3
-Sim: Adjusted G induced blackout, to make pilot able to work at 8G.
+Sim: Adjusted G induced blackout, to make pilot able to work at 8.5G.
+Sim: Adjusted G induced redout, to make pilot able to work at -2.0G.
+HUD: Made lines 20% thinner.
+Sim: Renamed the -set file, to give prettier name in pilot list.
