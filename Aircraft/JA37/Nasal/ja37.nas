@@ -83,11 +83,17 @@ var update_loop = func {
     {
       flapsCommand = gear;
     }
-    setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
+    if (getprop("/fdm/jsbsim/fcs/flap-pos-cmd") != flapsCommand) {
+      #trying to not write to fdm unless changed.
+      setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
+    }
     
+    var canopy_has_power = getprop("/fdm/jsbsim/fcs/canopy/has-power");
     if (getprop("systems/electrical/serviceable") < 1) {
-      setprop("/fdm/jsbsim/fcs/canopy/has-power", 0);
-    } else {
+      if(canopy_has_power == 1) {
+        setprop("/fdm/jsbsim/fcs/canopy/has-power", 0);
+      }
+    } elsif (canopy_has_power == 0) {
       setprop("/fdm/jsbsim/fcs/canopy/has-power", 1);
     }
 
@@ -110,10 +116,19 @@ var update_loop = func {
     setprop("/velocities/groundspeed-3D-kt", real_speed); 
     
     if(getprop("sim/signals/fdm-initialized") == 1) {
-      setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
-      setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
-      setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
-      setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
+      # all these ifs are to ensure jsbsim do not get too many updates.
+      if (getprop("fdm/jsbsim/fcs/flaps-serviceable") != getprop("/sim/failure-manager/controls/flight/flaps/serviceable")) {
+        setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
+      }
+      if (getprop("fdm/jsbsim/fcs/aileron-serviceable") != getprop("/sim/failure-manager/controls/flight/aileron/serviceable")) {
+        setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
+      }
+      if (getprop("fdm/jsbsim/fcs/elevator-serviceable") != getprop("/sim/failure-manager/controls/flight/elevator/serviceable")) {
+       setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
+      }
+      if (getprop("fdm/jsbsim/gear/serviceable") != getprop("/gear/serviceable")) {
+        setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
+      }
     }
 
     #setprop("systems/electrical/outputs/battery", getprop("/systems/electrical/volts"));
@@ -215,6 +230,7 @@ var update_loop = func {
             #to handle this we have to ignore that addition.
             setprop("controls/armament/station["~(i+1)~"]/released", 1);
             setprop("payload/weight["~ (i) ~"]/selected", "none");
+            #print("refusing to mount new missile yet "~i);
           }
           #print("new "~(i-1));
 
@@ -231,7 +247,7 @@ var update_loop = func {
 
     #activate searcher on selected pylon if missile mounted
     var armSelect = getprop("controls/armament/station-select");
-    for(i=0;i<=3;i+=1) {
+    for(i = 0; i <= 3; i += 1) {
       if(armament.AIM9.active[i] != nil) {
         #missile is mounted on pylon
         if(armSelect != i+1) {
@@ -253,21 +269,29 @@ var update_loop = func {
       selected = getprop("payload/weight["~i~"]/selected");
       if(selected == "none") {
         # the pylon is empty, set its pointmass to zero
-        setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 0) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
+        }
         if(i==4) {
           # no drop tank attached
-          setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", -1500);
+          if (getprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps") != -1500) {
+            setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", -1500);
+          }
           setprop("/consumables/fuel/tank[8]/selected", 0);
           setprop("/consumables/fuel/tank[8]/jettisoned", 1);
           setprop("/consumables/fuel/tank[8]/level-norm", 0);
         }
       } elsif (selected == "RB 24J") {
         # the pylon has a sidewinder, give it a pointmass
-        setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 188) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+        }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
-        setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 400);
-        setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", 0);
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 400 or getprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps") != 0) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 400);
+          setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", 0);
+        }
         setprop("/consumables/fuel/tank[8]/selected", 1);
         setprop("/consumables/fuel/tank[8]/jettisoned", 0);
       }
@@ -276,13 +300,19 @@ var update_loop = func {
     # for aerodynamic response to asymmetric wing loading
     if(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") == getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
       # wing pylons symmetric loaded
-      setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 0);
+      if (getprop("fdm/jsbsim/inertia/asymmetric-wing-load") != 0) {
+        setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 0);
+      }
     } elsif(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") < getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
       # right wing pylon has more load than left
-      setprop("fdm/jsbsim/inertia/asymmetric-wing-load", -1);
+      if (getprop("fdm/jsbsim/inertia/asymmetric-wing-load") != -1) {
+        setprop("fdm/jsbsim/inertia/asymmetric-wing-load", -1);
+      }
     } else {
       # left wing pylon has more load than right
-      setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 1);
+      if (getprop("fdm/jsbsim/inertia/asymmetric-wing-load") != 1) {
+        setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 1);
+      }
     }
 
 

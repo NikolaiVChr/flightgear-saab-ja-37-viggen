@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.18</aircraft-version>
+  <aircraft-version>2.19</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -720,21 +720,23 @@
       <radar>
         <selectedMP type="int">-1</selectedMP>
         <selected type="int">-1</selected>
-        <enabled type="bool">1</enabled>
+        <enabled archive="y" type="bool">1</enabled>
       </radar>
       <blink>
         <five-Hz type="bool">false</five-Hz>
         <ten-Hz type="bool">false</ten-Hz>
       </blink>
       <hud>
-        <units-metric type="bool">1</units-metric>
-        <mode type="bool">1</mode>
+        <tracks-enabled type="bool">1</tracks-enabled>
+        <units-metric archive="y" type="bool">1</units-metric>
+        <mode  archive="y" type="bool">1</mode>
+        <combat type="bool">0</combat>
       </hud>
-        <armament>
+      <armament>
         <msg type="bool">false</msg>
         <rb24>
           <sound-on-off type="bool">false</sound-on-off>
-          <sound-volume type="double">0.12</sound-volume>
+          <sound-volume type="double">0.0</sound-volume>
           <!-- RB-24J specs (Swedish version of sidewinder) -->
           <max-detection-rng-nm type="int">10</max-detection-rng-nm><!-- Aim-9J/rb-24j range is 7.83nm -->
           <fov-deg type="int">25</fov-deg>                     <!-- seeker optical FOV -->

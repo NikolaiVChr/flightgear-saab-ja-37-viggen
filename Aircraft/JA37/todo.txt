@@ -14,6 +14,7 @@ Sim: On Linux, after fireing first missile, the key bindings for weapons go to o
 Sim: Two times I could not autostart. Started before splash finish. Priority! [hard to reproduce, seldom]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
 Sim: Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
+Sim: Missiles do not work when using FG 3.0, in FG 3.1 they work fine.
 
 
 Features and improvements:
@@ -50,8 +51,10 @@ Sim: Make verbose property to be used in all nasal scripts. (possible include in
 Sim: Key to match speed of HUD selected track.
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
+Sim: Make replay show the new guided missiles flying.
+Sim: Update the help to reflect the changes to the HUD.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
-Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear backwards)
+Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -60,7 +63,6 @@ Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds
-Sound: Marker warning tone should be removed per default. (tied to radio ILS)
 HUD: Make TILS landing system in the HUD
 HUD: Make desired heading indicator in the HUD.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
@@ -70,6 +72,8 @@ HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. 
 HUD: make symbol for warning: pull up! (plus annunciater)
 HUD: Use instrument properties instead of simulation properties.
 HUD: Combat HUD - diamond should seek when rb24 active. No diamond in nav mode.
+HUD: Symbol for nearest airport should show ICAO also.
+HUD: Check how much AoA should be critical enough to make fin blink.
 
 
 Issues with FG: (or my limited understanding of it)
@@ -109,7 +113,7 @@ Animation: Put in alot more not-working instruments and controls for immersion.
 
 Require more data: (or aerodynamic know-how)
 ------------------
-HUD: Proper sidewind max. (using J-35 max currently)
 Aero: Detailed axial coefficient.
 Aero: Mass distribution.
 Aero: Detailed high speed aerodynamics.
+Aero: Accurate weight of empty drop tank.

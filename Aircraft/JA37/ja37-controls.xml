@@ -15,12 +15,12 @@
             <input>fcs/canopy-engageTmp</input>
             <traverse>
                 <setting>
-                    <position>0</position>
-                    <time>0</time>
+                    <position>0.0</position>
+                    <time>0.0</time>
                 </setting>
                 <setting>
-                    <position>1</position>
-                    <time>5</time>
+                    <position>1.0</position>
+                    <time>5.0</time>
                 </setting>
             </traverse>
             <output>fcs/canopy-pos-norm</output>
@@ -51,8 +51,8 @@
           <input>fcs/elevator-cmd-norm</input>
           <input>fcs/pitch-trim-cmd-norm</input>
           <clipto>
-              <min>-1</min>
-              <max>1</max>
+              <min>-1.0</min>
+              <max>1.0</max>
           </clipto>
           <output>fcs/pitch-trim-sum</output>
       </summer>
@@ -65,8 +65,8 @@
           <independentVar lookup="row">velocities/mach</independentVar>
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
-                             0       60000
-                0         1.00         1.0
+                          0.0       60000.0
+              0.0         1.00         1.0
               0.5         1.00         1.0
               0.75        0.45         1.0
               1.0         0.25         1.0
@@ -80,8 +80,8 @@
           <input>fcs/elevator-cmd-adjust</input>
           <zero_centered> true </zero_centered>
           <domain>
-            <min> -1 </min>
-            <max>  1 </max>
+            <min> -1.0 </min>
+            <max>  1.0 </max>
           </domain>
           <range>
               <min>-0.4363</min><!--  -25 deg -->
@@ -112,8 +112,8 @@
           <input>fcs/aileron-cmd-norm</input>
           <input>fcs/roll-trim-cmd-norm</input>
           <clipto>
-              <min>-1</min>
-              <max>1</max>
+              <min>-1.0</min>
+              <max>1.0</max>
           </clipto>
           <output>fcs/roll-trim-sumTmp</output>
       </summer>
@@ -134,8 +134,8 @@
           <independentVar lookup="row">velocities/mach</independentVar>
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
-                             0         60000
-                0         1.00           1.0
+                          0.0         60000.0
+              0.0         1.00           1.0
               0.5         0.30           0.75
               1.0         0.14           0.35
               2.2         0.06           0.15
@@ -147,8 +147,8 @@
       <aerosurface_scale name="Left Aileron Control">
           <input>fcs/aileron-sum-mach</input>
           <domain>
-            <min> -1 </min>
-            <max>  1 </max>
+            <min> -1.0 </min>
+            <max>  1.0 </max>
           </domain>
           <range>
               <min>-0.2618</min><!-- -15 deg -->
@@ -160,8 +160,8 @@
       <aerosurface_scale name="Right Aileron Control">
           <input>-fcs/aileron-sum-mach</input>
           <domain>
-            <min> -1 </min>
-            <max>  1 </max>
+            <min> -1.0 </min>
+            <max>  1.0 </max>
           </domain>
           <range>
                <min>-0.2618</min><!-- -15 deg -->
@@ -172,7 +172,7 @@
 
       <pure_gain>
           <input>fcs/left-aileron-pos-rad</input>
-          <gain>57.3</gain>
+          <gain>57.296</gain>
           <output>fcs/left-aileron-pos-deg</output>
       </pure_gain>
 
@@ -190,13 +190,13 @@
 
       <pure_gain name="Left Elevon Pos Deg">
           <input>fcs/left-elevon-pos-rad</input>
-          <gain>57.3</gain>
+          <gain>57.296</gain>
           <output>/surface-positions/left-elevon-pos-deg</output>
       </pure_gain>
 
       <pure_gain name="Right Elevon Pos Deg">
           <input>fcs/right-elevon-pos-rad</input>
-          <gain>57.3</gain>
+          <gain>57.296</gain>
           <output>/surface-positions/right-elevon-pos-deg</output>
       </pure_gain>
 
@@ -208,8 +208,8 @@
         <input>fcs/rudder-cmd-norm</input>
         <input>fcs/yaw-trim-cmd-norm</input>
         <clipto>
-          <min> -1 </min>
-          <max>  1 </max>
+          <min> -1.0 </min>
+          <max>  1.0 </max>
         </clipto>
       </summer>
       <scheduled_gain name="Yaw Damper Rate">
@@ -217,8 +217,8 @@
         <table>
           <independentVar lookup="row">velocities/ve-kts</independentVar>
           <tableData>
-            30     0.00
-            60     2.00
+            30.0     0.00
+            60.0     2.00
          </tableData>
         </table>
         <gain>fcs/yaw-damper-enable</gain>
@@ -259,8 +259,8 @@
           <independentVar lookup="row">velocities/mach</independentVar>
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
-                             0         70000
-                0         0.50           1.00
+                          0.0         70000.0
+              0.0         0.50           1.00
               0.5         0.15           0.40
               1.0         0.07           0.25
               2.2         0.03           0.10              
@@ -276,8 +276,8 @@
           <max>  0.4363 </max><!-- 25 deg -->
         </domain>
         <range>
-          <min> -1 </min>
-          <max>  1 </max>
+          <min> -1.0 </min>
+          <max>  1.0 </max>
         </range>
         <output>fcs/rudder-pos-norm</output>
       </aerosurface_scale>
@@ -309,11 +309,11 @@
         <input>gear/gear-cmd-normTmp</input>
         <traverse>
           <setting>
-            <position>0</position>
-            <time>0</time>
+            <position>0.0</position>
+            <time>0.0</time>
           </setting>
           <setting>
-            <position>1</position>
+            <position>1.0</position>
             <time>5</time>
           </setting>
         </traverse>
@@ -343,12 +343,12 @@
         <input>fcs/flap-pos-cmd</input><!-- flaps controlled by gear-->
         <traverse>
           <setting>
-            <position>  -4 </position>
-            <time>      0 </time>
+            <position>  -4.0 </position>
+            <time>      0.0 </time>
           </setting>
           <setting>
-            <position> 30 </position>
-            <time>      3 </time>
+            <position> 30.0 </position>
+            <time>      3.0 </time>
           </setting>
         </traverse>
         <output>fcs/flap-pos-degTmp</output>
@@ -367,22 +367,22 @@
       <aerosurface_scale name="flap normalization">
         <input>fcs/flap-pos-deg</input>
         <domain>
-          <min> -4 </min>
-          <max> 30 </max>
+          <min> -4.0 </min>
+          <max> 30.0 </max>
         </domain>
         <range>
-          <min> 0 </min>
-          <max> 1 </max>
+          <min> 0.0 </min>
+          <max> 1.0 </max>
         </range>
         <output>fcs/flap-pos-norm</output>
       </aerosurface_scale>
     </channel>
 
-    <channel name="Throttle">
+    <!--<channel name="Throttle">
       <pure_gain name="fcs/throttle1">
         <input>fcs/throttle-cmd-norm</input>
-        <gain>1</gain>
+        <gain>1.0</gain>
         <output>fcs/throttle-pos-norm</output>
       </pure_gain>
-    </channel>    
+    </channel>    -->
   </flight_control>

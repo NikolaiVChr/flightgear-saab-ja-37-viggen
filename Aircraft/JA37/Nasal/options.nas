@@ -181,13 +181,28 @@ var Dialog = {
           radarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #radarRow.set("valign", "center");
           
-          var radarText = radarRow.addChild("text").set("label", "Radar instrument and radar tracks in custom HUD:");
+          var radarText = radarRow.addChild("text").set("label", "Radar screen:");
           radarRow.addChild("empty").set("stretch", 1);
           me.dialog.radarButton = radarRow.addChild("button");
           me.dialog.radarButton.set("halign", "right");
           me.dialog.radarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.radarButton.setBinding("nasal", "ja37.Dialog.radarToggle()");
+
+          ######   HUD radar tracks button   #####
+          var tracksRow = topRow.addChild("group");
+          tracksRow.set("layout", "hbox");
+          tracksRow.set("pref-height", 25);
+          tracksRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var tracksText = tracksRow.addChild("text").set("label", "HUD radar-tracks:");
+          tracksRow.addChild("empty").set("stretch", 1);
+          me.dialog.tracksButton = tracksRow.addChild("button");
+          me.dialog.tracksButton.set("halign", "right");
+          me.dialog.tracksButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.tracksButton.setBinding("nasal", "ja37.Dialog.tracksToggle()");
 
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
@@ -297,6 +312,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    tracksToggle: func {
+      var enabled = getprop("sim/ja37/hud/tracks-enabled");
+      setprop("sim/ja37/hud/tracks-enabled", !enabled);
+      me.refreshButtons();
+    },
+
     rb24msgToggle: func {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
@@ -367,6 +388,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.radarButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/hud/tracks-enabled");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.tracksButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {

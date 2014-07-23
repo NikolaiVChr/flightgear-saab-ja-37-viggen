@@ -510,8 +510,19 @@ HUD: Radar no longer can lock onto carriers.
 Sim: Adjusted the RB-24J specs to match Aim-9J.
 Sim: Increased propability when missile explodes that Bombable will register it.
 
-2.18
+2.18 - 2014 June 25
 ----
 Sim: If rb-24 loses lock, but last was close to target, it will now explode.
 GUI: Added option to enable missile hit messages in MP. Else they will be local.
 Sim: Adding a missile to a pylon whose previous missile is still flying will now not work.
+
+2.19 - 2014 June 26
+----
+HUD: In combat mode, the dots on the horizon line is no longer shown.
+HUD: The -v- symbol is now shown in combat mode, when ammo is out, and it follows flight direction.
+HUD: The -d- symbol now follows flight direction in nav and combat mode. The fin moves low if AoA too high. Goes up means AoA too low. Fin blinks when AoA critical high.
+Sim: Fixed missiles would crash when pausing the sim under flight.
+Sound: Fixed the buzz would start before a missile was armed and selected.
+GUI: HUD radar-tracks and radar screen, can now be disabled seperately.
+Aero: Stopped sending updates to jsbsim continuelly. Is now only done when properties change.
+Sim: Options if radar is enabled and units in HUD are now saved between flying sessions.

@@ -206,6 +206,11 @@ var AIM9 = {
 	# steering missile
 	update: func {
 		var dt = getprop("sim/time/delta-sec");
+		if (dt == 0) {
+			#FG is likely paused
+			settimer(func me.update(), 0.01, 1);
+			return;
+		}
 		var init_launch = 0;
 		if ( me.life_time > 0 ) { init_launch = 1 }
 		me.life_time += dt;
