@@ -35,6 +35,8 @@ Homepage:  (check here to download the newest version)
 ------------------
 Hangar: https://sites.google.com/site/fghangar
 Wiki: http://wiki.flightgear.org/Saab_JA-37_Viggen
+Issues: https://code.google.com/p/flightgear-saab-ja37-viggen/issues/list
+Git: https://gitorious.org/saab-ja-37-viggen
 
 
 Help?
