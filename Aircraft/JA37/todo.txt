@@ -12,7 +12,7 @@ Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use F
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the targets are not drawn correct.
 Sim: On Linux, after fireing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Two times I could not autostart. Started before splash finish. Priority! [hard to reproduce, seldom]
-Sim: Sometimes the missiles do not guide. [Might be when fired at high speeds]
+Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
 
 
 Features and improvements:

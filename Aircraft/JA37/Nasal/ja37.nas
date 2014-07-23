@@ -203,12 +203,15 @@ var update_loop = func {
 
     # pylon payloads
 
-    for(var i=0; i<5; i=i+1) {
-      if(i!=0 and getprop("payload/weight["~ (i-1) ~"]/selected") != "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") == 0) {
+    for(var i=0; i<=4; i=i+1) {
+      if(getprop("payload/weight["~ (i) ~"]/selected") != "none" and getprop("payload/weight["~ (i) ~"]/weight-lb") == 0) {
         # missile was loaded manually through payload/fuel dialog, so setting the pylon to not released
-        setprop("controls/armament/station["~i~"]/released", 0);
+        setprop("controls/armament/station["~(i+1)~"]/released", 0);
         #print("adding "~i);
-        armament.AIM9.new(i-1);#print("new "~(i-1));
+        if(i != 4) {
+          #not drop tank
+          armament.AIM9.new(i);#print("new "~(i-1));
+        }
       }
       #if(i!=0 and getprop("payload/weight["~ (i-1) ~"]/selected") == "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") != 0) {
       #  if(armament.AIM9.active[i-1] != nil) {
@@ -221,32 +224,31 @@ var update_loop = func {
 
     #activate searcher on selected pylon if missile mounted
     var armSelect = getprop("controls/armament/station-select");
-    for(i=1;i<5;i+=1) {
-      if(armament.AIM9.active[i-1] != nil) {
+    for(i=0;i<=3;i+=1) {
+      if(armament.AIM9.active[i] != nil) {
         #missile is mounted on pylon
-        if(armSelect != i) {
+        if(armSelect != i+1) {
           #pylon not selected, missile off
-          #print("standby "~i);
-          armament.AIM9.active[i-1].status = -1;#print("not sel "~(i-1));
-        } elsif (armament.AIM9.active[i-1].status != -1 and getprop("payload/weight["~ (i-1) ~"]/selected") == "none") {
-          armament.AIM9.active[i-1].status = -1;#print("empty "~(i-1));
-        } elsif (armament.AIM9.active[i-1].status == -1 and getprop("payload/weight["~ (i-1) ~"]/selected") != "none") {
+          armament.AIM9.active[i].status = -1;#print("not sel "~(i));
+        } elsif (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none") {
+          #pylon is selected but missile not mounted and not flying
+          armament.AIM9.active[i].status = -1;#print("empty "~(i));
+        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none") {
           #pylon selected, activate if not already
-          #print("active "~i);
-          armament.AIM9.active[i-1].status = 0;#print("active "~(i-1));
-          armament.AIM9.active[i-1].search();
+          armament.AIM9.active[i].status = 0;#print("active "~(i));
+          armament.AIM9.active[i].search();
         }
       }
     }
 
-   
-    for(var i=0; i<5; i=i+1) { # set JSBSim mass
-      var selected = getprop("payload/weight["~i~"]/selected");
+    var selected = nil;
+    for(var i=0; i<=4; i=i+1) { # set JSBSim mass
+      selected = getprop("payload/weight["~i~"]/selected");
       if(selected == "none") {
         # the pylon is empty, set its pointmass to zero
         setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
         if(i==4) {
-          # no drop tank
+          # no drop tank attached
           setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", -1500);
           setprop("/consumables/fuel/tank[8]/selected", 0);
           setprop("/consumables/fuel/tank[8]/jettisoned", 1);
@@ -264,6 +266,7 @@ var update_loop = func {
       }
     }
 
+    # for aerodynamic response to asymmetric wing loading
     if(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") == getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
       # wing pylons symmetric loaded
       setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 0);

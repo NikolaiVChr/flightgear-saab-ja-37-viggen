@@ -497,3 +497,7 @@ Sim: The missiles are now guided, and will only fire if they have lock. The buzz
 Sim: Fixed delay after pressing 'e' or trigger, before it fires.
 Sim: Changed firing rate of the KCA cannon to 1350 rounds per minute.
 Sim: Changed where the cannon muzzle on the aircraft is located.
+
+2.16 - 2014 June 24
+----
+Sim: Fixed missile guidence would be turned off, during flight.

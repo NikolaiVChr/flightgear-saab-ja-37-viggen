@@ -23,7 +23,7 @@ var AIM9 = {
 		var m = { parents : [AIM9]};
 		# Args: p = Pylon.
 
-		m.status            =-1; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
+		m.status            = 0; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 
 		m.prop              = AcModel.getNode("armament/rb24/").getChild("msl", 0 , 1);
@@ -199,7 +199,7 @@ var AIM9 = {
 
 
 
-	#done
+	# steering missile
 	update: func {
 		var dt = getprop("sim/time/delta-sec");
 		var init_launch = 0;
@@ -278,8 +278,9 @@ var AIM9 = {
 				# Use the rail or a/c pitch for the first frame.
 				pitch_deg = getprop("orientation/pitch-deg");
 			} else {
-				pitch_deg += me.track_signal_e;
-				hdg_deg += me.track_signal_h;
+				#print("steering");
+				pitch_deg += me.track_signal_e;setprop("sim/ja37/armament/e", me.track_signal_e);
+				hdg_deg += me.track_signal_h;setprop("sim/ja37/armament/h", me.track_signal_h);
 			}
 		}
 
@@ -330,17 +331,16 @@ var AIM9 = {
 	},
 
 
-
-
-
-
 	update_track: func() {
-		if ( me.Tgt == nil ) { return(1); }
+		if ( me.Tgt == nil ) {
+		 #print("no target");
+		 return(1);
+		}
 		if (me.status == 0) {
 			# Status = searching.
 			me.reset_seeker();
 			SwSoundVol.setValue(vol_search);
-			settimer(func me.search(), 0.05);
+			settimer(func me.search(), 0.1);
 			return(1);
 		}
 		if ( me.status == -1 ) {
@@ -352,12 +352,14 @@ var AIM9 = {
 		if (!me.Tgt.getChild("valid").getValue()) {
 			# Lost of lock due to target disapearing:
 			# return to search mode.
+			#print("invalid");
 			me.status = 0;
 			me.reset_seeker();
 			SwSoundVol.setValue(vol_search);
-			settimer(func me.search(), 0.05);
+			settimer(func me.search(), 0.1);
 			return(1);
 		}
+		#print("track");
 		# Time interval since lock time or last track loop.
 		var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
 		var dt = time - me.update_track_time;
@@ -425,14 +427,14 @@ var AIM9 = {
 			me.check_t_in_fov();
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
 			SwSoundVol.setValue(vol_track);
-			settimer(func me.update_track(), 0.05);
+			settimer(func me.update_track(), 0.1);
 		}
 		return(1);
 	},
 
 
 
-	#done, look into phrase later
+	#look into phrase later.
 	poximity_detection: func {
 		var cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 		# Get current direct distance.
@@ -469,7 +471,7 @@ var AIM9 = {
 	},
 
 
-	#done
+	#
 	check_t_in_fov: func {
 		# Used only when not launched.
 		# Compute seeker total angular position clamped to seeker max total angular rotation.
@@ -493,7 +495,7 @@ var AIM9 = {
 		return(1);
 	},
 
-	#
+	# aircraft searching for lock
 	search: func {
 		if ( me.status == -1 ) {
 			# Stand by.
@@ -503,6 +505,7 @@ var AIM9 = {
 			# Locked or fired.
 			return;
 		}
+		#print("search");
 		# search.
 		if ( canvas_HUD.diamond_node != nil and canvas_HUD.diamond_node.getChild("valid").getValue() == 1) {
 			var tgt = canvas_HUD.diamond_node; # In the radar range and horizontal field.
@@ -527,7 +530,7 @@ var AIM9 = {
 			}
 		}
 		SwSoundVol.setValue(vol_search);
-		settimer(func me.search(), 0.05);
+		settimer(func me.search(), 0.1);
 	},
 
 
