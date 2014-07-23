@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.08</aircraft-version>
+  <aircraft-version>2.10</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
