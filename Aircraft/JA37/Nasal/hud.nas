@@ -61,6 +61,7 @@ var artifacts0 = nil;
 var artifacts1 = [];
 var maxTracks = 16;# how many radar tracks can be shown at once in the HUD
 var diamond_node = nil;
+var vel_vec = nil;
 
 var HUDnasal = {
   canvas_settings: {
@@ -90,8 +91,6 @@ var HUDnasal = {
     
     #HUDnasal.main.root.setScale(math.sin(slant*deg2rads), 1);
     HUDnasal.main.root.setTranslation(512, 512);
-
-
 
     # digital airspeed kts/mach 
     HUDnasal.main.airspeed = HUDnasal.main.root.createChild("text")
@@ -1364,7 +1363,35 @@ var HUDnasal = {
           me.diamond.hide();
           me.target.hide();
         }
-        
+
+        #velocity vector
+        if(vel_vec != nil) {
+          vel_vec.del();
+        }
+        if(me.short_dist[0] > -512 and me.short_dist[0] < 512 and me.short_dist[1] > -512 and me.short_dist[1] < 512) {
+          var tgtHeading = me.short_dist[5].getNode("orientation/true-heading-deg").getValue();
+          var tgtSpeed = me.short_dist[5].getNode("velocities/true-airspeed-kt").getValue();
+          var myHeading = me.input.hdgReal.getValue();
+          var myRoll = me.input.roll.getValue();
+          var relHeading = tgtHeading - myHeading + 90 + myRoll;#+90 to convert to trigonometry circle
+          while(relHeading < 0) {
+            relHeading += 360;
+          }
+          while(relHeading > 360) {
+            relHeading -= 360;
+          }        
+          relHeading = relHeading * deg2rads;
+          var vx = math.cos(-relHeading) * tgtSpeed/4;
+          var vy = math.sin(-relHeading) * tgtSpeed/4;
+          
+          # note since tronometry circle is opposite direction of compas heading direction, the line will trail the target.
+          vel_vec = me.root.createChild("path")
+                                  .moveTo(me.short_dist[0], me.short_dist[1])
+                                  .lineTo(me.short_dist[0]+vx, me.short_dist[1]-vy)
+                                  .setStrokeLineWidth(w)
+                                  .setColor(r,g,b, a);
+        }
+
         me.target_circle[me.short_dist[3]].update();
         me.diamond_group.update();
       } else {
@@ -1731,6 +1758,10 @@ var reinit = func() {#mostly called to change HUD color
 
    foreach(var item; artifacts1) {
     item.setColor(r, g, b, a);
+   }
+
+   if(vel_vec != nil) {
+    vel_vec.setColor(r,g,b,a);
    }
 
    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);

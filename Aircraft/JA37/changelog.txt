@@ -707,3 +707,4 @@ Sim: Renamed the -set file, to give prettier name in pilot list.
 2.46
 ====
 HUD: Made it less procedual and more functional.
+HUD: Made target have trailing line to show velocity vector.
