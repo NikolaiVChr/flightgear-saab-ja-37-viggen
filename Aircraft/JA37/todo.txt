@@ -6,7 +6,7 @@ Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
-Report: After A/P the plane consumes too much fuel. [not reproduceable]
+Report: After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
 Sound: Occasional wierd buzz in external sounds. [reproduced]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
@@ -37,11 +37,15 @@ Animation: Make wings break off when they break due to structural damage.
 Animation: Adjust instrument materials, and make the gauges look more similar.
 Animation: Animate wheels. (tough when gears get compressed..)
 Animation: Pilot from F16CJ?
+Animation: Proper pilot seat.
+Animation: Flight-stick.
+Animation: Throttle.
 Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
 Animation: Gauges that share mount design should also share geometry and textures.
-Animation: Strobe looks bad in FG 3.0.
+Animation: Strobe looks bad in FG 3.0, but better in FG 3.1
 Sim: Improve autopilot further, it wobbles.
+Sim: Make autopilot depend on instrument properties not sim properties.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
 Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
@@ -71,9 +75,8 @@ Sound: More annunciater warnings and other sounds
 Sound: Make sounds when taking damage in bombable.
 Sound: Make annunciator warnings only work if the system has power.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
-HUD: Make desired heading indicator in the HUD.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
-HUD: Make desired height columns and boxes.
+HUD: Make desired height columns for landing and boxes for desired pitch.
 HUD: make more methods out of similar code, introduce more comments and name variables better.
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)

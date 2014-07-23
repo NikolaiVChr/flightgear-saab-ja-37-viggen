@@ -196,6 +196,19 @@ var HUDnasal = {
         .setColor(r,g,b, a)
         .show();
 
+        #heading bug
+    HUDnasal.main.heading_bug_group = HUDnasal.main.root.createChild("group");
+    HUDnasal.main.heading_bug_group.set("clip", "rect(62px, 687px, 262px, 337px)");#top,right,bottom,left
+    HUDnasal.main.heading_bug = HUDnasal.main.heading_bug_group.createChild("path")
+    .setColor(r,g,b, a)
+    .setStrokeLineWidth(w)
+    .moveTo( 0,  10)
+    .lineTo( 0,  55)
+    .moveTo( 15, 55)
+    .lineTo( 15, 25)
+    .moveTo(-15, 55)
+    .lineTo(-15, 25);
+
     # scale heading end ticks
     HUDnasal.main.hdgLineL = HUDnasal.main.head_scale_grp.createChild("path")
     .setStrokeLineWidth(w)
@@ -459,6 +472,7 @@ var HUDnasal = {
     HUDnasal.main.horizon_group = HUDnasal.main.root.createChild("group");
     HUDnasal.main.horizon_group.set("clip", "rect(0px, 712px, 1024px, 0px)");#top,right,bottom,left (absolute in canvas)
     HUDnasal.main.horizon_group2 = HUDnasal.main.horizon_group.createChild("group");
+    HUDnasal.main.desired_lines_group = HUDnasal.main.horizon_group2.createChild("group");
     HUDnasal.main.horizon_group3 = HUDnasal.main.horizon_group.createChild("group");
     HUDnasal.main.h_rot   = HUDnasal.main.horizon_group.createTransform();
 
@@ -539,6 +553,14 @@ var HUDnasal = {
                      .horiz(650)
                      .moveTo(200, 0)
                      .horiz(650)
+                     .setStrokeLineWidth(w)
+                     .setColor(r,g,b, a);
+
+    HUDnasal.main.desired_lines = HUDnasal.main.desired_lines_group.createChild("path")
+                     .moveTo(-200 + w/2, 0)
+                     .vert(5*pixelPerDegreeY)
+                     .moveTo(200 - w/2, 0)
+                     .vert(5*pixelPerDegreeY)
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
@@ -641,11 +663,11 @@ var HUDnasal = {
       append(artifacts1, target_circles);
     }
 
-    artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
+    artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator,
              HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin,
-             HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe, HUDnasal.main.target,
+             HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe, HUDnasal.main.target, HUDnasal.main.desired_lines,
              HUDnasal.main.alt, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
 
@@ -701,18 +723,21 @@ var HUDnasal = {
       var headOffset = heading/10 - int (heading/10);
       var headScaleOffset = headOffset;
       var middleText = roundabout(me.input.hdg.getValue()/10);
+      var middleOffset = nil;
       if(middleText == 36) {
         middleText = 0;
       }
       var leftText = middleText == 0?35:middleText-1;
       var rightText = middleText == 35?0:middleText+1;
       if (headOffset > 0.5) {
-        me.head_scale_grp_trans.setTranslation(-(headScaleOffset-1)*headScaleTickSpacing*2, -headScalePlace);
+        middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
+        me.head_scale_grp_trans.setTranslation(middleOffset, -headScalePlace);
         me.head_scale_grp.update();
         me.hdgLineL.show();
         #me.hdgLineR.hide();
       } else {
-        me.head_scale_grp_trans.setTranslation(-headScaleOffset*headScaleTickSpacing*2, -headScalePlace);
+        middleOffset = -headScaleOffset*headScaleTickSpacing*2;
+        me.head_scale_grp_trans.setTranslation(middleOffset, -headScalePlace);
         me.head_scale_grp.update();
         me.hdgLineR.show();
         #me.hdgLineL.hide();
@@ -723,13 +748,58 @@ var HUDnasal = {
       me.hdgM.setText(sprintf("%02d", middleText));
       me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
       me.hdgL.setText(sprintf("%02d", leftText));
-      
+
+      #heading bug
+      var desired_mag_heading = nil;
+      if (getprop("autopilot/locks/heading") == "dg-heading-hold") {
+        desired_mag_heading = getprop("autopilot/settings/heading-bug-deg");
+      } elsif (getprop("autopilot/locks/heading") == "true-heading-hold") {
+        desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+getprop("orientation/heading-magnetic-deg");#getprop("autopilot/settings/true-heading-deg")+
+      } elsif (getprop("autopilot/locks/heading") == "nav1-hold") {
+        desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+getprop("orientation/heading-magnetic-deg");
+        #if( getprop("autopilot/route-manager/current-wp") != -1) {
+        #  var i = getprop("autopilot/route-manager/current-wp");
+        #  desired_mag_heading = getprop("autopilot/route-manager/wp["~i~"]/bearing-deg");
+        #}
+      }
+      if(desired_mag_heading != nil) {
+        #print("desired "~desired_mag_heading);
+        while(desired_mag_heading < 0) {
+          desired_mag_heading += 360.0;
+        }
+        while(desired_mag_heading > 360) {
+          desired_mag_heading -= 360.0;
+        }
+        var degOffset = nil;
+        var headingMiddle = roundabout(me.input.hdg.getValue()/10.0)*10.0;
+        #print("desired "~desired_mag_heading~" head-middle "~headingMiddle);
+        #find difference between desired and middleText heading
+        if (headingMiddle > 300 and desired_mag_heading < 60) {
+          headingMiddle = headingMiddle - 360;
+          degOffset = desired_mag_heading - headingMiddle; # positive value
+        } elsif (headingMiddle < 60 and desired_mag_heading > 300) {
+          desired_mag_heading = desired_mag_heading - 360;
+          degOffset = desired_mag_heading - headingMiddle; # negative value
+        } else {
+          degOffset = desired_mag_heading - headingMiddle;
+        }
+        
+        var pos_x = middleOffset + degOffset*(headScaleTickSpacing/5);
+        #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
+        me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
+        me.heading_bug.show();
+      } else {
+        me.heading_bug.hide();
+      }
+
       # alt scale
       var metric = metric;
       var alt = metric ==1 ? me.input.alt_ft.getValue() * 0.305 : me.input.alt_ft.getValue();
       var radAlt = metric ==1 ? me.input.rad_alt.getValue() * 0.305 : me.input.rad_alt.getValue();
+      var pixelPerFeet = nil;
       # determine which alt scale to use
       if(metric == 1) {
+        pixelPerFeet = altimeterScaleHeight/50;
         if (alt_scale_mode == -1) {
           if (alt < 45) {
             alt_scale_mode = 0;
@@ -737,6 +807,7 @@ var HUDnasal = {
             alt_scale_mode = 1;
           } else {
             alt_scale_mode = 2;
+            pixelPerFeet = altimeterScaleHeight/100;
           }
         } elsif (alt_scale_mode == 0) {
           if (alt < 45) {
@@ -749,6 +820,7 @@ var HUDnasal = {
             alt_scale_mode = 1;
           } else if (alt >= 90) {
             alt_scale_mode = 2;
+            pixelPerFeet = altimeterScaleHeight/100;
           } else if (alt < 40) {
             alt_scale_mode = 0;
           } else {
@@ -757,11 +829,13 @@ var HUDnasal = {
         } elsif (alt_scale_mode == 2) {
           if (alt >= 85) {
             alt_scale_mode = 2;
+            pixelPerFeet = altimeterScaleHeight/100;
           } else {
             alt_scale_mode = 1;
           }
         }
       } else {#imperial
+        pixelPerFeet = altimeterScaleHeight/200;
         if (alt_scale_mode == -1) {
           if (alt < 190) {
             alt_scale_mode = 0;
@@ -769,6 +843,7 @@ var HUDnasal = {
             alt_scale_mode = 1;
           } else {
             alt_scale_mode = 2;
+            pixelPerFeet = altimeterScaleHeight/500;
           }
         } elsif (alt_scale_mode == 0) {
           if (alt < 190) {
@@ -781,6 +856,7 @@ var HUDnasal = {
             alt_scale_mode = 1;
           } else if (alt >= 380) {
             alt_scale_mode = 2;
+            pixelPerFeet = altimeterScaleHeight/500;
           } else if (alt < 180) {
             alt_scale_mode = 0;
           } else {
@@ -789,6 +865,7 @@ var HUDnasal = {
         } elsif (alt_scale_mode == 2) {
           if (alt >= 380) {
             alt_scale_mode = 2;
+            pixelPerFeet = altimeterScaleHeight/500;
           } else {
             alt_scale_mode = 1;
           }
@@ -934,6 +1011,24 @@ var HUDnasal = {
         }
         me.alt_scale_grp.update();
         #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
+      }
+
+
+      # desired alt lines
+
+      var desired_alt_delta_ft = nil;
+      if (getprop("autopilot/locks/altitude") == "altitude-hold") {
+        desired_alt_delta_ft = getprop("autopilot/settings/target-altitude-ft")-me.input.alt_ft.getValue();
+      } elsif (getprop("autopilot/locks/altitude") == "agl-hold") {
+        desired_alt_delta_ft = getprop("autopilot/settings/target-agl-ft")-me.input.rad_alt.getValue();
+      }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
+      if(desired_alt_delta_ft != nil) {
+        var pos_y = clamp(-desired_alt_delta_ft*pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
+
+        me.desired_lines.setTranslation(0, pos_y);
+        me.desired_lines.show();
+      } else {
+        me.desired_lines.hide();
       }
 
 
@@ -1148,7 +1243,7 @@ var HUDnasal = {
         me.turn_group.hide();
       }
 
-      ####  Radar HUD    ###
+      ####  Radar HUD tracks  ###
 
       
       me.self = geo.aircraft_position();
@@ -1214,7 +1309,7 @@ var HUDnasal = {
             blink = 1;
             me.short_dist[1] = -450;
           }
-          if(me.short_dist[6] == 1 and getprop("sim/ja37/hud/combat") == 1) {
+          if(me.short_dist[6] == 1 and mode == COMBAT) {
             #targetable
             diamond_node = me.short_dist[5];
             me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
@@ -1264,22 +1359,19 @@ var HUDnasal = {
             var diamond_dist = metric ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
             me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
             me.diamond_name.setText(me.short_dist[4]);
-            #me.target_circle[me.short_dist[3]].hide();
+            
             if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
               me.diamond_group.hide();
               me.target_circle[me.short_dist[3]].hide();
             } else {
               me.diamond_group.show();
-              me.diamond.hide();
-              me.target.hide();
-              #me.diamond_dist.show();
-              #me.diamond_name.show();
               me.target_circle[me.short_dist[3]].show()
             }
+            me.diamond.hide();
+            me.target.hide();
           }
           
           me.target_circle[me.short_dist[3]].update();
-          me.diamond_dist.update();
           me.diamond_group.update();
         } else {
           diamond_node = nil;

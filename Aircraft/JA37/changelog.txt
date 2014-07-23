@@ -569,3 +569,11 @@ HUD: Doubled size of turn coordinator and made it more sensitive.
 HUD: Decreased font size of all text elements.
 HUD: Switched mach and airspeed-kt as in the original HUD. Removed the 'M' again when in non-interoperability mode as per the original.
 Sim: Made some options saved between sessions. E.g. HUD units, turn coordinator, auto-reverse, radar on/off.
+
+2.26 - 2014 June 30
+----
+HUD: Made desired heading bug in heading scale.
+HUD: Made desired altitude lines.
+Sim: Made agl hold work in autopilot.
+Sim: Improved autopilot.
+Sim: Missiles will no longer lock until the HUD is in combat mode.

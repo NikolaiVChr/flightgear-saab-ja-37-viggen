@@ -12,7 +12,7 @@ var SwSoundVol     = AcModel.getNode("armament/rb24/sound-volume");
 var vol_search     = 0.09;
 var vol_weak_track = 0.15;
 var vol_track      = 0.25;
-var update_loop_time = 0.05;
+var update_loop_time = 0.035;
 
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;

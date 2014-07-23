@@ -80,6 +80,7 @@
     </config>
   </pid-controller>
 
+  
   <filter>
     <name>AP:Pitch sample and hold</name>
     <debug>false</debug>
@@ -95,6 +96,37 @@
     <input>/orientation/pitch-deg</input>
     <output>/autopilot/internal/target-pitch-deg</output>
   </filter>
+
+  <!-- rate of climb -->
+  <pid-controller>
+    <name>AP:Rate of climb</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>vertical-speed-hold</value>
+    </enable>
+    <input>
+      <prop>/velocities/vertical-speed-fps</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/settings/vertical-speed-fpm</prop>
+      <scale>0.01667</scale>
+    </reference>
+    <output>
+      <prop>/controls/flight/elevator</prop>
+    </output>
+    <config>
+      <Kp>-1.00</Kp>      <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>10.0</Ti>       <!-- integrator time -->
+      <Td>0.001</Td>    <!-- derivator time -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
 
    <!-- Simple angle of attack hold --> 
  <pid-controller>
@@ -148,8 +180,8 @@
     </output>
     <config>
       <Kp>0.2</Kp>          <!-- proportional gain -->
-      <Ki>0.0</Ki>          <!-- integral gain -->
-      <u_min>-16.67</u_min> <!-- minimum output clamp -->
+      <Ki>0.01</Ki>          <!-- integral gain -->
+      <u_min>-50</u_min> <!-- minimum output clamp -->
       <u_max>50</u_max>   <!-- maximum output clamp -->
     </config>
   </pi-simple-controller>
@@ -184,6 +216,66 @@
     </config>
   </pid-controller>
 
+
+  <!-- agl hold.  2 stage cascade controller. -->
+
+  <!-- Stage #1 sets target rate of climb based on diff between current alt -->
+  <!-- and target altitude. -->
+  <pi-simple-controller>
+    <name>agl Hold (Altimeter based) Stage 1</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>agl-hold</value>
+    </enable>
+    <input>
+      <prop>/position/altitude-agl-ft</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/settings/target-agl-ft</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/internal/target-climb-rate-fps</prop>
+    </output>
+    <config>
+      <Kp>0.2</Kp>          <!-- proportional gain -->
+      <Ki>0.01</Ki>          <!-- integral gain -->
+      <u_min>-75.0</u_min> <!-- minimum output clamp -->
+      <u_max>50.0</u_max>   <!-- maximum output clamp -->
+    </config>
+  </pi-simple-controller>
+
+  <!-- Stage #2 drives the elevator to achieve the desired climb rate. -->
+  <pid-controller>
+    <name>agl Hold (Altimeter based) Stage 2</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/locks/altitude</prop>
+      <value>agl-hold</value>
+    </enable>
+    <input>
+      <prop>/velocities/vertical-speed-fps</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/internal/target-climb-rate-fps</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/elevator</prop>
+    </output>
+    <config>
+      <Kp>-0.003</Kp>      <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>10.0</Ti>       <!-- integrator time -->
+      <Td>0.00001</Td>    <!-- derivator time -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+
   <!-- Heading Bug Hold.  2 stage cascade controller. -->
 
   <!-- Stage #1 sets target roll based on diff between current heading -->
@@ -205,13 +297,13 @@
       <prop>/autopilot/internal/target-roll-deg</prop>
     </output>
     <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
+      <Kp>-10.0</Kp>        <!-- proportional gain -->
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
-      <Ti>50.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
+      <Ti>25.0</Ti>        <!-- integrator time -->
+      <Td>0.01</Td>     <!-- derivator time -->
       <u_min>-70.0</u_min> <!-- minimum output clamp -->
       <u_max>70.0</u_max>  <!-- maximum output clamp -->
     </config>
@@ -268,13 +360,13 @@
       <prop>/autopilot/internal/target-roll-deg</prop>
     </output>
     <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
+      <Kp>-10.0</Kp>        <!-- proportional gain -->
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
-      <Ti>50.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
+      <Ti>25.0</Ti>        <!-- integrator time -->
+      <Td>0.01</Td>     <!-- derivator time -->
       <u_min>-70.0</u_min> <!-- minimum output clamp -->
       <u_max>70.0</u_max>  <!-- maximum output clamp -->
     </config>
@@ -331,13 +423,13 @@
       <prop>/autopilot/internal/target-roll-deg</prop>
     </output>
     <config>
-      <Kp>-1.0</Kp>        <!-- proportional gain -->
+      <Kp>-10.0</Kp>        <!-- proportional gain -->
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>        <!-- integrator time -->
-      <Td>0.00001</Td>     <!-- derivator time -->
+      <Td>0.01</Td>     <!-- derivator time -->
       <u_min>-70.0</u_min> <!-- minimum output clamp -->
       <u_max>70.0</u_max>  <!-- maximum output clamp -->
     </config>
