@@ -43,7 +43,6 @@ Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Make splash screen different color.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear backwards)
 Effect: Check contrail effect is properly installed.

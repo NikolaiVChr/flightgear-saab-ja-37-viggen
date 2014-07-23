@@ -34,16 +34,34 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.07</aircraft-version>
+  <aircraft-version>2.08</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
 
   <startup>
-   <splash-texture>Aircraft/JA37/ja37-splash.png</splash-texture>
+    <splash-title>Swedish coldwar fighter</splash-title>
+    <splash-texture>Aircraft/JA37/ja37-splash.png</splash-texture>
   </startup>
 
-<submodels>
+  <gui>
+    <style>
+      <colors>
+        <splash-font>
+          <red>1.0</red>
+          <green>1.00</green>
+          <blue>1.00</blue>
+        </splash-font>
+        <splash-screen>
+          <red>0.9</red>
+          <green>0.2</green>
+          <blue>0.15</blue>
+        </splash-screen>
+      </colors>
+    </style>
+  </gui>
+
+  <submodels>
    <serviceable type="bool">1</serviceable>
    <path>Aircraft/JA37/ja37-submodels.xml</path>
   </submodels>

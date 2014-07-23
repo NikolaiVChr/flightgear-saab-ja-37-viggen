@@ -17,6 +17,7 @@ var roundabout = func(x) {
 };
 var deg2rads = math.pi/180.0;
 var rad2deg = 180.0/math.pi;
+var kts2kmh = 1.852;
 #var blinking = 0; # how many updates the speed vector symbol has been turned off for blinking (convert to time when less lazy)
 var alt_scale_mode = -1; # the alt scale is not liniar, this indicates which part is showed
 #var QFE = 0;
@@ -586,7 +587,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
         {
           me.airspeed.setText(sprintf("M%.2f", mach));
         } else {
-          me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * 1.852));
+          me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
         }
       } else {
         me.mach.setText(sprintf("M%.2f", mach));
@@ -980,7 +981,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
 
     ####  Combat HUD    ###
 
-    #do the AI
+    
     var self = geo.aircraft_position();
     var myPitch=getprop("orientation/pitch-deg")*deg2rads;
     var myRoll=-getprop("orientation/roll-deg")*deg2rads;
@@ -989,7 +990,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
     var showDiamond = 0;
     var short_dist = 0;
 
-
+    #do the AI planes
     for (var i = 0; i < maxTargetsMP ; i += 1) {
             if(i < size(multiplayer.model.list) and multiplayer.model.list[i].node.getNode("valid").getValue() != 0) {
               mp = multiplayer.model.list[i];
@@ -1240,7 +1241,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
     }
     if(showDiamond == 1) {
       me.diamond_group.show();
-      var diamond_dist = metric ==1  ? short_dist : short_dist/1852;
+      var diamond_dist = metric ==1  ? short_dist : short_dist/kts2kmh;
       me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
       me.diamond_group.update();
       me.diamond_dist.update();
@@ -1337,7 +1338,7 @@ artifacts0 = [HUDnasal.main.mach, HUDnasal.main.airspeed, HUDnasal.main.head_sca
 
         if(showme == 1) {
           me.tower_symbol.setTranslation(pos_x, pos_y);
-          var tower_dist = metric ==1  ? distance : distance/1852;
+          var tower_dist = metric ==1  ? distance : distance/kts2kmh;
           me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
           me.tower_symbol.show();
           me.tower_symbol.update();
