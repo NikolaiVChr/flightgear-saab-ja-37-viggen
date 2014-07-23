@@ -252,7 +252,7 @@
         <output>fcs/rudder-pos-rad-tmp</output>
       </aerosurface_scale>
 
-      <!-- At high speeds aileron deflection is reduced -->
+      <!-- At high speeds rudder deflection is reduced -->
       <scheduled_gain name="fcs/rudder-mach">
         <input>fcs/rudder-pos-rad-tmp</input>
         <table>
@@ -260,8 +260,8 @@
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
                           0.0         70000.0
-              0.0         0.25           1.00
-              0.5         0.10           0.40
+              0.0         0.40           1.00
+              0.5         0.15           0.40
               1.0         0.07           0.25
               2.2         0.03           0.10              
           </tableData>

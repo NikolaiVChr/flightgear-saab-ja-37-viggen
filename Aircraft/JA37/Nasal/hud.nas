@@ -150,8 +150,8 @@ var HUDnasal = {
   },
 
   redraw: func() {
-    HUDnasal.main.canvas.del();
-    HUDnasal.main.canvas = canvas.new(HUDnasal.canvas_settings);
+    #HUDnasal.main.canvas.del();
+    #HUDnasal.main.canvas = canvas.new(HUDnasal.canvas_settings);
     HUDnasal.main.canvas.addPlacement(HUDnasal.main.place);
     HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
     HUDnasal.main.root = HUDnasal.main.canvas.createGroup()

@@ -627,3 +627,7 @@ GUI: Improved message to screen when toggling reverse thrust.
 ====
 HUD: Fixed flight path reticle was too low. When in combat mode and cannon selected it was too high.
 GUI: Updated aircraft help.
+
+2.34 - 2014 July 7
+====
+Aero: Make rudder deflect more at low speeds.
