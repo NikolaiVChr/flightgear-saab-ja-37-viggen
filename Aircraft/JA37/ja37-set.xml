@@ -17,7 +17,7 @@
     <cockpit type="int">2</cockpit>
     <model type="int">3</model>
   </rating>
-  <aircraft-version>2.05</aircraft-version>
+  <aircraft-version>2.06</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -589,7 +589,27 @@
      <command>nasal</command>
      <script>crash.repair();</script>
     </binding>
-   </item>   
+   </item>
+   
+    <item>
+      <label>Monitor Start</label>
+      <binding>
+       <command>nasal</command>
+       <script>
+          monitor.PerformanceMonitor.instance().start();
+       </script>
+      </binding>
+    </item>
+    <item>
+      <label>Monitor Re-initialize</label>
+      <binding>
+       <command>nasal</command>
+       <script>
+          monitor.PerformanceMonitor.instance().reinit();
+       </script>
+      </binding>
+    </item>    
+   
    <item>
     <label>Options</label>
     <binding>
@@ -1055,6 +1075,10 @@
   <canvas_HUD>
     <file>Aircraft/JA37/Nasal/hud.nas</file>
   </canvas_HUD>
+  <monitor>
+    <file>Aircraft/JA37/Nasal/dialog.nas</file>
+    <file>Aircraft/JA37/Nasal/performance.nas</file>
+  </monitor>
   <limits>
     <file>Aircraft/Generic/limits.nas</file>
   </limits>

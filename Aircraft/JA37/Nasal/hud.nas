@@ -43,7 +43,8 @@ var altimeterScaleHeight = 300; # the height of the low alt scale. Also used in 
   var w = 10;  #line stroke width
   var ar = 0.9;#font aspect ratio
   var fs = 1.0;#font size factor
-
+  var artifacts0 = nil;
+  var artifacts1 = [];
 #print("Starting JA-37 HUD");
 
 var HUDnasal = {
@@ -121,6 +122,8 @@ var HUDnasal = {
     
     HUDnasal.main.root.setScale(math.sin(slant*deg2rads), 1);
     HUDnasal.main.root.setTranslation(512, 512);
+
+
 
   # digital airspeed kts/mach	
     HUDnasal.main.airspeed = HUDnasal.main.root.createChild("text")
@@ -215,6 +218,8 @@ var HUDnasal = {
       .setColor(r,g,b, a)
       .show();
 
+
+
   # alt scale medium
     HUDnasal.main.alt_scale_med=HUDnasal.main.alt_scale_grp.createChild("path")
       .moveTo(0, -5*altimeterScaleHeight/2)
@@ -262,6 +267,8 @@ var HUDnasal = {
   		.setStrokeLineWidth(w)
   		.setColor(r,g,b, a)
       .show();
+
+
       
   # vert line at zero alt if it is lower than radar zero
       HUDnasal.main.alt_scale_line = HUDnasal.main.alt_scale_grp.createChild("path")
@@ -366,10 +373,11 @@ var HUDnasal = {
     HUDnasal.main.horizon_group2 = HUDnasal.main.horizon_group.createChild("group");
     HUDnasal.main.h_rot   = HUDnasal.main.horizon_group.createTransform();
 
+  
   # pitch lines
     var distance = pixelPerDegree * 5;
-    for(var i = -18; i <= -1; i += 1)
-      HUDnasal.main.horizon_group2.createChild("path")
+    for(var i = -18; i <= -1; i += 1) {
+      append(artifacts1, HUDnasal.main.horizon_group2.createChild("path")
                      .moveTo(200, -i * distance)
                      .horiz(50)
                      .moveTo(300, -i * distance)
@@ -393,34 +401,35 @@ var HUDnasal = {
                      .horiz(-50)
                      
                      .setStrokeLineWidth(w)
-                     .setColor(r,g,b, a);
+                     .setColor(r,g,b, a));
+    }
 
     for(var i = 1; i <= 18; i += 1)
-          HUDnasal.main.horizon_group2.createChild("path")
-                         .moveTo(650, -i * distance)
-                         .horiz(-450)
+      append(artifacts1, HUDnasal.main.horizon_group2.createChild("path")
+         .moveTo(650, -i * distance)
+         .horiz(-450)
 
-                         .moveTo(-650, -i * distance)
-                         .horiz(450)
-                         
-                         .setStrokeLineWidth(w)
-                         .setColor(r,g,b, a);
+         .moveTo(-650, -i * distance)
+         .horiz(450)
+         
+         .setStrokeLineWidth(w)
+         .setColor(r,g,b, a));
 
-                    #pitch line numbers
-                    for(var i = -18; i <= 0; i += 1)
-                    HUDnasal.main.horizon_group2.createChild("text")
-                         .setText(i*5)
-                         .setFontSize(75*fs, ar)
-                         .setAlignment("right-bottom")
-                         .setTranslation(-200, -i * distance - 5)
-                         .setColor(r,g,b, a);
-                    for(var i = 1; i <= 18; i += 1)
-                    HUDnasal.main.horizon_group2.createChild("text")
-                         .setText("+" ~ i*5)
-                         .setFontSize(75*fs, ar)
-                         .setAlignment("right-bottom")
-                         .setTranslation(-200, -i * distance - 5)
-                         .setColor(r,g,b, a);
+    #pitch line numbers
+    for(var i = -18; i <= 0; i += 1)
+      append(artifacts1, HUDnasal.main.horizon_group2.createChild("text")
+         .setText(i*5)
+         .setFontSize(75*fs, ar)
+         .setAlignment("right-bottom")
+         .setTranslation(-200, -i * distance - 5)
+         .setColor(r,g,b, a));
+    for(var i = 1; i <= 18; i += 1)
+      append(artifacts1, HUDnasal.main.horizon_group2.createChild("text")
+         .setText("+" ~ i*5)
+         .setFontSize(75*fs, ar)
+         .setAlignment("right-bottom")
+         .setTranslation(-200, -i * distance - 5)
+         .setColor(r,g,b, a));
                  
 
   #Horizon line
@@ -449,6 +458,15 @@ var HUDnasal = {
                      .horiz(650)
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
+
+artifacts0 = [HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL,
+             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL,
+             HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low,
+             HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high,
+             HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe,
+             HUDnasal.main.alt, HUDnasal.main.vec_vel, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon];
+
+
     },
     setColorBackground: func () { 
   		#me.texture.getNode('background', 1).setValue(_getColor(arg)); 
@@ -881,6 +899,17 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 id = setlistener("sim/ja37/supported/initialized", init);
 
 var reinit = func() {#mostly called to change HUD color
-  reinitHUD = 1;
-  print("HUD being reinitialized.");
+  #reinitHUD = 1;
+
+ foreach(var item; artifacts0) {
+  item.setColor(r, g, b, a);
+ }
+
+ foreach(var item; artifacts1) {
+  item.setColor(r, g, b, a);
+ }
+
+ HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
+
+  #print("HUD being reinitialized.");
 };

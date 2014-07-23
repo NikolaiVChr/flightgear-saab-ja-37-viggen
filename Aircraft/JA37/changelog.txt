@@ -418,7 +418,7 @@ Aero: Solved an aerodynamical conflict, that would make rolling unstable.
 GUI: Fixed disabling crash due to structural damage, and then close options, prevents reenabling of same.
 Aero: Asymmetric wing mounted missiles now affects aerodynamics.
 
-2.04 2014 May 31
+2.04 - 2014 May 31
 ----
 GUI: Aircraft can now be repaired from the the menu.
 Sim: Crash code properties are no longer spread out all over the property tree.
@@ -430,7 +430,7 @@ Aero: Added fuselage contact point, and updated crashcode for contact point dete
 Animation: Adjusted some instrument materials.
 Animation: Increased size of large attitude indicator.
 
-2.05 2014 May 5
+2.05 - 2014 June 5
 ----
 Sim: Fixed reinit bug in radar.
 Animation: Added engine pressure ratio gauge.
@@ -439,3 +439,15 @@ Animation: Made only the dial on instruments have light.
 Aero: Increased roll damping at very high speeds.
 Animation: Added rudder pedals to cockpit.
 Animation: Added 2 informational plaques to the cockpit.
+
+2.06 - 2014 June 11
+----
+Animation: Replaced the 2D radio stack with a 3D one.
+Effect: Transonic vaporcone now only activates in 0.97-1.05 mach regime.
+GUI: Added performance monitor that show flight stats.
+Animation: Added crude sidepanels for future gauges and controls.
+Animation: Turned front gear 180 degrees, it was modeled wrong.
+Animation: Front gear now turns when steering.
+Aero: Made the mil thrust flight envelope match new data I got.
+GUI: Improvements to performance monitor; distances now shown also in meter, brakes will no longer auto-apply, re-init now works properly.
+HUD: When changing brightness, it no longer reload canvas, but simply assign colors.

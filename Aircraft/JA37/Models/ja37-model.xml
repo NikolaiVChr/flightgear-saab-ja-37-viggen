@@ -247,8 +247,30 @@
    </greater-than>
   </condition>
   <object-name>gearFront</object-name>
-  <object-name>gearFrontHinge</object-name>
   <object-name>wheelFront</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+    <equals>
+    <value>1</value>
+    <value>0</value>
+    </equals><!--
+   <equals>
+    <property>gear/gear[0]/position-norm</property>
+    <value>1.0</value>
+   </equals>
+   <greater-than>
+    <property>gear/gear[0]/steering-norm</property>
+    <value>-0.05</value>
+   </greater-than>
+   <less-than>
+    <property>gear/gear[0]/steering-norm</property>
+    <value>0.05</value>
+   </less-than>-->
+  </condition>
+  <object-name>gearFrontHinge</object-name>
  </animation>
 
 <animation>
@@ -287,7 +309,7 @@
   <interpolation>
    <entry>
     <ind> 0.0</ind>
-    <dep> 90.0</dep>
+    <dep> 110.0</dep>
    </entry>
    <entry>
     <ind> 1.0</ind>
@@ -295,16 +317,38 @@
    </entry>
   </interpolation>
   <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
+  <max-deg>110</max-deg>
   <center>
-   <x-m>-3.32410</x-m>
-   <y-m>0.000003</y-m>
+   <x-m>-3.70585</x-m>
+   <y-m>0.000000</y-m>
    <z-m>-0.78153</z-m>
   </center>
   <axis>
    <x>0.0</x>
    <y>1.0</y>
    <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <condition>
+    <property>gear/gear[0]/wow</property>
+  </condition>
+  <object-name>gearFront</object-name>
+  <object-name>wheelFront</object-name>
+  <!--<object-name>gearFrontHinge</object-name>-->
+  <property>gear/gear[0]/steering-norm</property>
+  <factor>80</factor>
+  <center>
+   <x-m> -3.65342 </x-m>
+   <y-m>0.000000</y-m>
+   <z-m>-0.78153</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>-1.0</z>
   </axis>
  </animation>
 
@@ -732,13 +776,15 @@
  </animation>
 
 
-
-<!-- Visible up to 10km (6 miles), does more harm than good, MP models aren't loaded past 10km anyway-->
-<!-- <animation>
+<animation>
   <type>range</type>
+  <object-name>plaqueLeft</object-name>
+  <object-name>plaqueRight</object-name>
+  <object-name>sidepanelLeft</object-name>
+  <object-name>sidepanelRight</object-name>
   <min-m>0</min-m>
-  <max-m>10000</max-m>
- </animation>-->
+  <max-m>15</max-m>
+ </animation>
 
 <!-- livery selection -->
 

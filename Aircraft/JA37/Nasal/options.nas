@@ -131,8 +131,11 @@ var Dialog = {
           breakRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           breakRow.set("valign", "center");
           
-          breakRow.addChild("text").set("label", "Structural break due to G-forces:");
+          breakRow.addChild("text")
+          .set("label", "Structural break due to G-forces:");
+          breakRow.addChild("empty").set("stretch", 1);
           me.dialog.breakButton = breakRow.addChild("button");
+          me.dialog.breakButton.set("halign", "right");
           me.dialog.breakButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
@@ -144,8 +147,10 @@ var Dialog = {
           reverseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           reverseRow.set("valign", "center");
           
-          reverseRow.addChild("text").set("label", "Automatic reverse thrust at touchdown:");
+          var reverseText = reverseRow.addChild("text").set("label", "Automatic reverse thrust at touchdown:");
+          reverseRow.addChild("empty").set("stretch", 1);
           me.dialog.reverseButton = reverseRow.addChild("button");
+          me.dialog.reverseButton.set("halign", "right");
           me.dialog.reverseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
@@ -156,6 +161,7 @@ var Dialog = {
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           hudRow.set("valign", "center");
           
+          #HUD brightness
           hudRow.addChild("text").set("label", "HUD color:");
           me.dialog.hudLight = hudRow.addChild("button");
           me.dialog.hudMedium = hudRow.addChild("button");

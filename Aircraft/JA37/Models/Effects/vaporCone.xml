@@ -24,11 +24,11 @@
       <and>
         <greater-than>
           <property>sim/multiplay/generic/float[7]</property><!-- /velocities/mach -->
-          <value>0.8</value>
+          <value>0.97</value>
         </greater-than>
         <less-than>
           <property>sim/multiplay/generic/float[7]</property><!-- /velocities/mach -->
-          <value>1.2</value>
+          <value>1.05</value>
         </less-than>
         <less-than>
           <property>sim/multiplay/generic/float[6]</property><!-- /position/altitude-ft -->

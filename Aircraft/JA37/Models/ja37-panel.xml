@@ -155,19 +155,25 @@
 <!-- Temporary radio stack till I get a real one in -->
 
 <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/radio-stack.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-1.xml</path>
     <name>Radiostack</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.99</x-m>
-      <y-m> -0.36</y-m>
-      <z-m>  0.10</z-m>
+      <x-m> -3.825</x-m>
+      <y-m> -0.27</y-m>
+      <z-m>  0.30</z-m>
     </offsets>
-    <animation>
-      <type>range</type>
-      <min-m>0</min-m>
-      <max-m>1.5</max-m>
-    </animation>
+  </model>
+
+<model>
+    <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-2.xml</path>
+    <name>Radiostack2</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.815</x-m>
+      <y-m> -0.27</y-m>
+      <z-m>  0.25</z-m>
+    </offsets>
   </model>
 
 <model>

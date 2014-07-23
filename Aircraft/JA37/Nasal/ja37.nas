@@ -60,7 +60,7 @@ var update_loop = func {
      var n2 = getprop("/engines/engine/n2");
      var reversed = getprop("/engines/engine/reversed");
      
-     if ( (n1 > 99) and (n2 > 97) and (reversed == 0) )
+     if ( (n1 > 102) and (n2 > 99) and (reversed == 0) ) #was 99 and 97
      {
       setprop("/controls/engines/engine[0]/augmentation", 1);
      }

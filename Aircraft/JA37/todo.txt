@@ -16,12 +16,10 @@ Features and improvements:
 GUI: Option to turn off verbose popups.
 GUI: More and better popup feedback. (gear/flaps/stalling/yawstabilizer)
 GUI: Make something procedual, just to test it out.
-GUI: Option to turn off certain effects.
-GUI: Stats for each flight. topspeed, topalpha, topbeta, topclimb, top altitude.
 GUI: Test new FGPlot.
-GUI: Find way to measure take-off length, climb-rate, axial force and display in options..
 GUI: Make HUD switchable to imperial units.
 GUI: Checklist.
+GUI: Option to switch off hitting stuff above ground.
 Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
 Animation: Some switches.
@@ -30,8 +28,7 @@ Animation: Adjust instrument materials, and make the gauges look more similar.
 Animation: Animate wheels. (tough when gears get compressed..)
 Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
-Animation: Turn front gear 180 degrees, it is modeled opposite.
-Animation: Front gear turning
+Animation: Min and max on several gauges.
 Sim: Improve autopilot further, it wobbles.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?)
@@ -66,7 +63,6 @@ HUD: make more methods out of similar code, introduce more comments and name var
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
 HUD: Use instrument properties instead of simulation properties.
-HUD: WHen chaning brightness, do not reload canvas, but simply assign color.
 
 
 Issues with FG: (or my limited understanding of it)
@@ -76,7 +72,7 @@ Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and 
 Sim: Get flightrecorder to record position with higher frequency.
 
 
-Compatible version with FG 2.6 (on hold, as it crashed when loading ja37)
+Compatible version with FG 2.6 (on hold, as it crashes when loading ja37)
 ------------------------------
 Smaller textures
 Less polygons
