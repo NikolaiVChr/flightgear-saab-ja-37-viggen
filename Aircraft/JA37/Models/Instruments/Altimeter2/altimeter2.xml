@@ -263,7 +263,7 @@
 
 <!-- lighting -->
 <animation>
-  <object-name>mount</object-name>
+  <!--<object-name>mount</object-name>-->
   <object-name>knobs</object-name>
   <object-name>face</object-name>
   <object-name>drums</object-name>
@@ -277,11 +277,5 @@
   </emission>
 </animation>
 
-   <!-- *** LoD *** -->
-  <animation>
-    <type>range</type>
-    <min-m>0</min-m>
-    <max-m>15</max-m>
-  </animation>
 
 </PropertyList>

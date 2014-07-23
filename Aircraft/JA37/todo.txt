@@ -6,7 +6,7 @@ Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
-Report: After A/P the plane consumes too much fuel. [not reproducable]
+Report: After A/P the plane consumes too much fuel. [not reproduceable]
 Sound: Occasional wierd buzz in external sounds.
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 
@@ -22,7 +22,6 @@ GUI: Test new FGPlot.
 GUI: Find way to measure take-off length, climb-rate, axial force and display in options..
 GUI: Make HUD switchable to imperial units.
 GUI: Checklist.
-GUI: Mention website where newest version can be downloaded.
 Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
 Animation: Some switches.
@@ -31,7 +30,6 @@ Animation: Adjust instrument materials, and make the gauges look more similar.
 Animation: Animate wheels. (tough when gears get compressed..)
 Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
-Animation: Make LOD in cockpit panel instead of in each instrument.
 Animation: Turn front gear 180 degrees, it is modeled opposite.
 Animation: Front gear turning
 Sim: Improve autopilot further, it wobbles.
@@ -68,6 +66,7 @@ HUD: make more methods out of similar code, introduce more comments and name var
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: make symbol for warning: pull up! (plus annunciater)
 HUD: Use instrument properties instead of simulation properties.
+HUD: WHen chaning brightness, do not reload canvas, but simply assign color.
 
 
 Issues with FG: (or my limited understanding of it)
@@ -110,3 +109,4 @@ Require more data: (or aerodynamic know-how)
 HUD: Proper sidewind max. (using J-35 max currently)
 Aero: Detailed axial coefficient.
 Aero: Mass distribution.
+Aero: Detailed high speed aerodynamics.

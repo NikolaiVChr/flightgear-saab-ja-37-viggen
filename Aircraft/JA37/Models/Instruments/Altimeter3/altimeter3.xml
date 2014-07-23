@@ -47,7 +47,7 @@
 	<!-- lighting -->
 	<animation>
 	  <object-name>CLOCK_face</object-name>
-	  <object-name>CLOCK_mount</object-name>
+	  <!--<object-name>CLOCK_mount</object-name>-->
       <object-name>Mesh.002</object-name>
       <object-name>Mesh.003</object-name>
       <object-name>Mesh.004</object-name>
@@ -66,11 +66,5 @@
 	  </emission>
 	</animation>
 
-  <!-- *** LoD *** -->
-  <animation>
-    <type>range</type>
-    <min-m>0</min-m>
-    <max-m>15</max-m>
-  </animation>
 
 </PropertyList>

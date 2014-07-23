@@ -429,4 +429,13 @@ Animation: Added electric condition on all indicators.
 Aero: Added fuselage contact point, and updated crashcode for contact point detection.
 Animation: Adjusted some instrument materials.
 Animation: Increased size of large attitude indicator.
+
+2.05 2014 May 5
+----
 Sim: Fixed reinit bug in radar.
+Animation: Added engine pressure ratio gauge.
+Animation: Optimized LOD for all instruments.
+Animation: Made only the dial on instruments have light.
+Aero: Increased roll damping at very high speeds.
+Animation: Added rudder pedals to cockpit.
+Animation: Added 2 informational plaques to the cockpit.

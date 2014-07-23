@@ -2,10 +2,15 @@
 <PropertyList>
   <path>radar.ac</path>
 
- <animation>
-  <type>range</type>
-  <min-m>0</min-m>
-  <max-m>20</max-m>
+<animation>
+  <type>scale</type>
+  <object-name>RadarPlane</object-name>
+  <object-name>Screen</object-name>
+  <object-name>Cylinder1.001</object-name>
+  <object-name>Cylinder1</object-name>
+  <x-offset>0.75</x-offset>
+  <y-offset>0.75</y-offset>
+  <z-offset>0.75</z-offset>
  </animation>
 
  <animation>

@@ -424,7 +424,7 @@
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
              <tableData>
-                -40  -0.15
+                -40  -0.15    
                  -5  -0.275
                   0  -0.25
                   5  -0.275
@@ -432,6 +432,13 @@
                  60  -0.2
                  70  -0.23
             </tableData>
+           </table>
+           <table>
+             <independentVar lookup="row">velocities/mach</independentVar>
+             <tableData>
+                 0.8 1
+                 2   1.65
+            </tableData>            
           </table>
        </product>
     </function>

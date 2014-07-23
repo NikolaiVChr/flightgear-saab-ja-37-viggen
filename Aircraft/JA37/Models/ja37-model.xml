@@ -18,6 +18,16 @@
       <z-m>0</z-m>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/rudder_pedals.xml</path>
+    <name>Pedals</name>
+      <offsets>
+        <x-m>-3.90</x-m>
+        <y-m> 0.00</y-m>
+        <z-m>-0.09</z-m>
+      </offsets>
+  </model>
  
 <model>
     <path>Aircraft/JA37/Models/HUD.xml</path>

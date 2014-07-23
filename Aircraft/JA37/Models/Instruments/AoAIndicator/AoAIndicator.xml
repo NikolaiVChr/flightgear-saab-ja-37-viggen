@@ -16,12 +16,6 @@
    </hovered>
  </animation>
 
-   <!-- *** LoD *** -->
-  <animation>
-    <type>range</type>
-    <min-m>0</min-m>
-    <max-m>15</max-m>
-  </animation>
  
 <animation>
  <type>material</type> 
