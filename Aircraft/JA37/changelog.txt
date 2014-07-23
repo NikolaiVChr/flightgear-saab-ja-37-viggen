@@ -203,7 +203,7 @@ Sim: Added structural G limits.
 Aero: Increased realistic fidelity of elevator effect on pitch.
 Cockpit: Added subtle noise to dashboard to make it appear less dull.
 
-1.20 - 2013 Dec 16 (stock FG 3.0.0 version)
+1.20 - 2013 Dec 16
 ----
 Sim: Made the crash code work properly.
 Engine: Fixed a minor bug in reverse-thrust code.
@@ -216,7 +216,7 @@ Sound: Removed nasal sound system reinit code.
 Sim: Fixed wrapping sentences in the aircraft help.
 Engine: Fixed alignments in RM8B IdleThrust and AugThrust tables.
 
-1.21 - 2014 Jan 16
+1.21 - 2014 Jan 16 (Flightgear 3.0.0 version)
 ----
 Sim: Made crash code depend on real speed instead of airspeed.
 HUD: Fixed that rain and snow is not shown though canvas HUD.
@@ -648,3 +648,10 @@ HUD: Moved turn coordinator back into the corner.
 ====
 Aero: Reverted damping values back.
 Sim: Adjusted autostart fail message.
+Aero: Adjusted gear damping.
+Aero: Made nose-wheel brake, and reduced rear static friction which will help landing in heavy crosswind.
+
+2.38
+====
+Sim: Moved pilots eye position forward and and up to help see runway on approach.
+HUD: Made a further setting for higher brightness.

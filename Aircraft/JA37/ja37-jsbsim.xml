@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 2.37 </version>
+    <version> 2.38 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -136,14 +136,14 @@ to an airplane of that size). -->
         <y> 0 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.45 </static_friction><!-- sources say brakes could hold afterburner -->
+      <static_friction> 0.722 </static_friction><!-- sources say brakes could hold afterburner -->
       <dynamic_friction> 0.25 </dynamic_friction>
       <rolling_friction> 0.01 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 30000 </spring_coeff><!-- hardness of spring. Low value means gear collapses more per energy applied. High value might give jsbsim trouble. -->
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff><!-- higher value slows down how fast the gear absorbs energy -->
       <damping_coeff_rebound unit="LBS/FT/SEC"> 20000 </damping_coeff_rebound><!-- high value means the gear is slower to release the energy it stored when collapsed -->
       <max_steer unit="DEG"> 80 </max_steer>
-      <brake_group> NOSE </brake_group>
+      <brake_group> LEFT </brake_group><!-- FG do not use CENTER, TAIL or NOSE braking group, so must use LEFT or RIGHT -->
       <retractable>1</retractable>
     </contact>
     <contact type="BOGEY" name="LEFT_MLG">
@@ -152,7 +152,7 @@ to an airplane of that size). -->
         <y> -2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 2.9 </static_friction><!-- double bogey means double value -->
+      <static_friction> 1.444 </static_friction><!-- double bogey means double value -->
       <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
       <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -168,7 +168,7 @@ to an airplane of that size). -->
         <y> 2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 2.9 </static_friction><!-- double bogey means double value -->
+      <static_friction> 1.444 </static_friction><!-- double bogey means double value -->
       <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
       <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>

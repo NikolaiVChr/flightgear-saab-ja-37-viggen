@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.37</aircraft-version>
+  <aircraft-version>2.38</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -384,20 +384,20 @@
 
 *************************************************************************-->
   <current-view>
-   <field-of-view>90</field-of-view>
+   <field-of-view>100</field-of-view>
    <config>
-    <default-field-of-view-deg archive="y">90</default-field-of-view-deg>
+    <default-field-of-view-deg archive="y">100</default-field-of-view-deg>
    </config>
   </current-view>
 
   <view>
    <internal archive="y">true</internal>
    <config>
-     <pitch-offset-deg>-10</pitch-offset-deg>
+     <pitch-offset-deg>-15</pitch-offset-deg>
      <x-offset-m archive="y">0</x-offset-m>
-     <y-offset-m archive="y">0.65</y-offset-m>
-     <z-offset-m archive="y">-3.30</z-offset-m>
-     <default-field-of-view-deg>90</default-field-of-view-deg>
+     <y-offset-m archive="y">0.70</y-offset-m>
+     <z-offset-m archive="y">-3.40</z-offset-m>
+     <default-field-of-view-deg>100</default-field-of-view-deg>
    </config>
   </view>
   
@@ -730,7 +730,7 @@
       <radar>
         <selectedMP type="int">-1</selectedMP>
         <selected type="int">-1</selected>
-        <enabled userarchive="y" type="bool">1</enabled>
+        <enabled userarchive="y" type="bool">true</enabled>
       </radar>
       <blink>
         <five-Hz type="bool">false</five-Hz>
@@ -786,7 +786,7 @@
       <aileron-serviceable/>
     </fcs>
     <gear>
-      <serviceable type="bool">1</serviceable>
+      <serviceable type="bool">true</serviceable>
     </gear>
     <systems>
       <nose-wheel-steer>
@@ -797,24 +797,25 @@
       </flapscontrol>
     </systems>
     <aero>
-      <factor-axial-mach type="double">1</factor-axial-mach>
+      <factor-axial-mach type="double">1.0</factor-axial-mach>
       <factor-axial type="double">0.625</factor-axial>
     </aero>
     <inertia>
-      <asymmetric-wing-load>0</asymmetric-wing-load>
+      <asymmetric-wing-load type="int">0</asymmetric-wing-load>
     </inertia>
   </jsbsim>
  </fdm>
  <controls>
   <armament>
     <station-select type="int">0</station-select><!-- cannon selected by default -->
-    <trigger type="bool">0</trigger>
+    <trigger type="bool">false</trigger>
     <station n="1">
       <offsets>
         <x-m type="double">  3.15986</x-m>
         <y-m type="double"> -2.70311</y-m>
         <z-m type="double"> -0.67645</z-m>
       </offsets>
+      <trigger type="bool">false</trigger>
     </station>
     <station n="2">
       <offsets>
@@ -822,6 +823,7 @@
         <y-m type="double"> -0.98148</y-m>
         <z-m type="double"> -0.94307</z-m>
       </offsets>
+      <trigger type="bool">false</trigger>
     </station>
     <station n="3">
       <offsets>
@@ -829,6 +831,7 @@
         <y-m type="double">  2.70311</y-m>
         <z-m type="double"> -0.67645</z-m>
       </offsets>
+      <trigger type="bool">false</trigger>
     </station>
     <station n="4">
       <offsets>
@@ -836,6 +839,7 @@
         <y-m type="double">  0.98148</y-m>
         <z-m type="double"> -0.94307</z-m>
       </offsets>
+      <trigger type="bool">false</trigger>
     </station>            
   </armament>
   <gear>

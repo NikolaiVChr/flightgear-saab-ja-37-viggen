@@ -41,11 +41,11 @@ var COMBAT =2;
 #0 0.1 -0.05
 
 var QFEcalibrated = 0;
-var centerOffset = 61;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # HUD z is 0 to 0.25 and raised 0.54 up. Finally is 0.54m to 0.79m, height of HUD is 0.25m
 # Therefore each pixel is 0.25 / 1024 = 0.000244140625m or each meter is 4096 pixels.
-# View is 0.65m so 0.79-0.65 = 0.14m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
-# 512 - (0.14 / 0.000244140625) = -61.44 pixels up from center. Since -y is upward, result is 61.
+# View is 0.70m so 0.79-0.70 = 0.09m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
+# 512 - (0.09 / 0.000244140625) = 143.36 pixels up from center. Since -y is upward, result is -143.
 
 
 
@@ -54,8 +54,8 @@ var centerOffset = 61;#pilot eye position up from vertical center of HUD. (in li
 # Therefore each pixel is 0.102404 / 1024 = 0.00010000390625m or each meter is 9999.609390258193 pixels.
 # View is 0.65m so 0.692245-0.65 = 0.042245m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.042245 / 0.00010000390625) = 89.56650130854264 pixels up from center. Since -y is upward, result is -90.
-var pixelPerDegreeY = 45; #vertical axis, view is tilted 10 degrees, zoom in on runway to check it hit the 10deg line
-var pixelPerDegreeX = 45; #horizontal axis
+var pixelPerDegreeY = 37; #vertical axis, view is tilted 10 degrees, zoom in on runway to check it hit the 10deg line
+var pixelPerDegreeX = 37; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var sidewindPosition = centerOffset+(2*pixelPerDegreeY); #should be 2 degrees under horizon.
 var sidewindPerKnot = 450/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
@@ -388,14 +388,14 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-375, 175);
+    HUDnasal.main.qfe.setTranslation(-375, 125);
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     HUDnasal.main.alt = HUDnasal.main.root.createChild("text");
     HUDnasal.main.alt.setColor(r,g,b, a);
     HUDnasal.main.alt.setAlignment("center-center");
-    HUDnasal.main.alt.setTranslation(-375, 350);
+    HUDnasal.main.alt.setTranslation(-375, 300);
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
     # Flightpath/Velocity vector
@@ -1651,8 +1651,15 @@ var reinit = func() {#mostly called to change HUD color
 var cycle_brightness = func () {
   if(getprop("sim/ja37/hud/mode") > 0) {
     g += 0.2;
-    if(g > 1) {
+    if(g > 1.0 and r == 0.6) {
+      #reset
       g = 0.2;
+      r = 0.0;
+      b = 0.0;
+    } elsif (g > 1.0) {
+      r += 0.6;
+      g =  1.0;
+      b += 0.6;
     }
     reinit();
   } else {

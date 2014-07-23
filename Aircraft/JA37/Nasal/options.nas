@@ -371,31 +371,31 @@ var Dialog = {
     },    
 
     light: func {
-      canvas_HUD.r = 0.0;
+      canvas_HUD.r = 0.6;
       canvas_HUD.g = 1.0;
-      canvas_HUD.b = 0.0;
-      canvas_HUD.a = 1.0;
-      canvas_HUD.w = 10;
+      canvas_HUD.b = 0.6;
+      #canvas_HUD.a = 1.0;
+      #canvas_HUD.w = 10;
       #canvas_HUD.fs = 1;
       canvas_HUD.reinit();
     },
 
     medium: func {
       canvas_HUD.r = 0.0;
-      canvas_HUD.g = 0.6;
+      canvas_HUD.g = 0.8;
       canvas_HUD.b = 0.0;
-      canvas_HUD.a = 1.0;      
-      canvas_HUD.w = 11;
+      #canvas_HUD.a = 1.0;      
+      #canvas_HUD.w = 11;
       #canvas_HUD.fs = 1.1;
       canvas_HUD.reinit();
     },
 
     dark: func {
       canvas_HUD.r = 0.0;
-      canvas_HUD.g = 0.3;
+      canvas_HUD.g = 0.4;
       canvas_HUD.b = 0.0;
-      canvas_HUD.a = 1.0;
-      canvas_HUD.w = 12;
+      #canvas_HUD.a = 1.0;
+      #canvas_HUD.w = 12;
       #canvas_HUD.fs = 1.2;
       canvas_HUD.reinit();
     },
