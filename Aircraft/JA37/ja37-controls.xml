@@ -320,7 +320,7 @@
         <output>gear/gear-pos-norm</output>
       </kinematic>
 
-      <scheduled_gain name="fcs/scheduled-steer-pos-deg">
+      <scheduled_gain name="fcs/scheduled-steer-cmd-delayed">
         <input>fcs/steer-cmd-norm</input>
         <table>
           <independentVar>velocities/vg-fps</independentVar>
@@ -332,8 +332,20 @@
               200.0       0.5
           </tableData>
         </table>
-        <output>fcs/steer-pos-deg</output>
+        <output>fcs/steer-cmd-delayed</output>
       </scheduled_gain>
+
+     <scheduled_gain name="Steering control">
+      <input>fcs/steer-cmd-delayed</input>
+      <table>
+        <independentVar lookup="row">systems/nose-wheel-steer/enable</independentVar>
+         <tableData>
+            0     0
+            1     1
+         </tableData>
+      </table>
+      <output>fcs/steer-pos-deg</output>
+     </scheduled_gain>        
     </channel>
 
     <channel name="Flaps">

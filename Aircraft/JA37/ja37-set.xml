@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.34</aircraft-version>
+  <aircraft-version>2.35</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -540,6 +540,10 @@
     <name>P</name>
     <desc>Toggle custom/FG HUD</desc>
    </key>
+   <key>
+    <name>m</name>
+    <desc>Toggle nose wheel steering</desc>
+   </key>   
    <text>
     Startup
     ______
@@ -785,6 +789,9 @@
       <serviceable type="bool">1</serviceable>
     </gear>
     <systems>
+      <nose-wheel-steer>
+        <enable type="bool">true</enable>
+      </nose-wheel-steer>
       <flapscontrol>
         <serviceable/>
       </flapscontrol>
@@ -1139,6 +1146,14 @@
         <script>ja37.drop();</script>
       </binding>
      </key>
+    <key n="109">
+     <name>m</name>
+     <desc>Toggle nose wheel steering</desc>
+     <binding>
+        <command>nasal</command>
+        <script>ja37.toggleNosewheelSteer();</script>
+     </binding>
+    </key>
    </keyboard>
   </input>
  

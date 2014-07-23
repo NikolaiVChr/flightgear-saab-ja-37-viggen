@@ -631,3 +631,8 @@ GUI: Updated aircraft help.
 2.34 - 2014 July 7
 ====
 Aero: Make rudder deflect more at low speeds.
+
+2.35 - 2014 July 7
+====
+Aero: Made gear springs inclease damping about 50%.
+Sim: The key 'm' now toggles nose gear steering.

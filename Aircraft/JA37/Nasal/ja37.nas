@@ -710,3 +710,14 @@ var toggleYawDamper = func {
     gui.popupTip("Yaw damper: OFF");
   }
 }
+
+var toggleNosewheelSteer = func {
+  ja37.click();
+  var enabled = getprop("fdm/jsbsim/systems/nose-wheel-steer/enable");
+  setprop("fdm/jsbsim/systems/nose-wheel-steer/enable", !enabled);
+  if(enabled == 0) {
+    gui.popupTip("Nose Wheel Steering: ON", 1.5);
+  } else {
+    gui.popupTip("Nose Wheel Steering: OFF", 1.5);
+  }
+}
