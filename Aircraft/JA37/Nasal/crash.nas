@@ -1,4 +1,4 @@
-
+var didMsg = 0;
 
 #-----------------------------------------------------------------------
 #Aircraft break
@@ -70,6 +70,10 @@ aircraft_lock = func
 aircraft_crash=func(crashtype, crashg, solid)
 	{
 	  print("Aircraft crashed: "~ crashtype);
+	  if (didMsg == 0) {
+	  	setprop("/sim/messages/atc", "Aircraft crashed: "~ crashtype);
+	  	didMsg = 1;
+	  }
 		crashed=getprop("sim/ja37/damage/crashed");
 		if (crashed==nil)
 		{
@@ -547,6 +551,8 @@ init_aircraftbreakprocess=func
 	#Switch on engine
 	setprop("controls/engines/engine/cutoff", 0);
 	setprop("sim/ja37/damage/cutoff-reason", "aircraft break");
+
+	didMsg = 0;
 }
 
 init_aircraftbreakprocess();

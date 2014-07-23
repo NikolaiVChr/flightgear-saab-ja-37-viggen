@@ -88,13 +88,14 @@ var update_loop = func {
       setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
     }
     
-    var canopy_has_power = getprop("/fdm/jsbsim/fcs/canopy/has-power");
     if (getprop("systems/electrical/serviceable") < 1) {
-      if(canopy_has_power == 1) {
+      if (getprop("/fdm/jsbsim/fcs/canopy/has-power") != 0) {
         setprop("/fdm/jsbsim/fcs/canopy/has-power", 0);
       }
-    } elsif (canopy_has_power == 0) {
-      setprop("/fdm/jsbsim/fcs/canopy/has-power", 1);
+    } else {
+      if (getprop("/fdm/jsbsim/fcs/canopy/has-power") != 1) {
+        setprop("/fdm/jsbsim/fcs/canopy/has-power", 1);
+      }
     }
 
     #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {

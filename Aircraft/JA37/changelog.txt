@@ -526,3 +526,10 @@ Sound: Fixed the buzz would start before a missile was armed and selected.
 GUI: HUD radar-tracks and radar screen, can now be disabled seperately.
 Aero: Stopped sending updates to jsbsim continuelly. Is now only done when properties change.
 Sim: Options if radar is enabled and units in HUD are now saved between flying sessions.
+
+2.20
+----
+HUD: Made lines thinner.
+Sim: Fixed canopy would not get power to open.
+HUD: Symbol for nearest airport now show ICAO also.
+Sim: When crashing the reason is now displayed on screen.

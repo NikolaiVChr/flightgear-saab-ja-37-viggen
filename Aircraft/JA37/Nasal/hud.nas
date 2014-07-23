@@ -70,7 +70,7 @@ var r = 0.0;
 var g = 1.0;
 var b = 0.0;#HUD colors
 var a = 1.0;
-var w = 8;  #line stroke width
+var w = 5;  #line stroke width
 var ar = 0.9;#font aspect ratio
 var fs = 1.0;#font size factor
 var artifacts0 = nil;
@@ -466,7 +466,7 @@ var HUDnasal = {
                      .moveTo(-600, -i * distance)
                      .horiz(-50)
                      
-                     .setStrokeLineWidth(w/2)
+                     .setStrokeLineWidth(w)
                      .setColor(r,g,b, a));
     }
 
@@ -478,7 +478,7 @@ var HUDnasal = {
          .moveTo(-650, -i * distance)
          .horiz(450)
          
-         .setStrokeLineWidth(w/2)
+         .setStrokeLineWidth(w)
          .setColor(r,g,b, a));
 
     for(var i = -18; i <= 18; i += 1) {
@@ -489,7 +489,7 @@ var HUDnasal = {
          .moveTo(200, -i * distance)
          .vert(25)
          
-         .setStrokeLineWidth(w/2)
+         .setStrokeLineWidth(w)
          .setColor(r,g,b, a));
     }
 
@@ -516,7 +516,7 @@ var HUDnasal = {
                      .horiz(650)
                      .moveTo(200, 0)
                      .horiz(650)
-                     .setStrokeLineWidth(w/2)
+                     .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
     HUDnasal.main.horizon_dots = HUDnasal.main.horizon_group2.createChild("path")
@@ -538,7 +538,7 @@ var HUDnasal = {
                      .moveTo(37, 0)#35
                      .arcSmallCW(2, 2, 0, -4, 0)
                      .arcSmallCW(2, 2, 0, 4, 0)
-                     .setStrokeLineWidth(w/2)
+                     .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
       ####  targets
@@ -587,6 +587,12 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_dist.setTranslation(12, 12);
     HUDnasal.main.tower_symbol_dist.setFontSize(50*fs, ar);
 
+    HUDnasal.main.tower_symbol_icao = HUDnasal.main.tower_symbol.createChild("text");
+    HUDnasal.main.tower_symbol_icao.setText("..");
+    HUDnasal.main.tower_symbol_icao.setColor(r,g,b, a);
+    HUDnasal.main.tower_symbol_icao.setAlignment("left-bottom");
+    HUDnasal.main.tower_symbol_icao.setTranslation(12, -12);
+    HUDnasal.main.tower_symbol_icao.setFontSize(50*fs, ar);
 
       #other targets
     HUDnasal.main.target_circle = [];
@@ -609,7 +615,7 @@ var HUDnasal = {
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin,
              HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe,
              HUDnasal.main.alt, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
-             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist,HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
+             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
 
 
   },
@@ -1000,10 +1006,21 @@ var HUDnasal = {
         me.reticle_no_ammo.hide();
         me.takeoff_symbol.hide();
         me.aim_reticle.show();
-        me.aim_reticle_fin.show();
+        
         me.reticle_group.setTranslation(0, 0);
         # move fin to alpha
         me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
+
+        if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
+          # blink the fin if alpha is high
+          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+            me.aim_reticle_fin.show();
+          } else {
+            me.aim_reticle_fin.hide();
+          }
+        } else {
+          me.aim_reticle_fin.show();
+        }
       } elsif (mode != TAKEOFF) {
         # flight path vector (FPV)
         var vel_gx = me.input.speed_n.getValue();
@@ -1032,7 +1049,7 @@ var HUDnasal = {
         var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * 180.0 / math.pi;
         
         var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
-        var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 450);
+        var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);
 
         me.takeoff_symbol.hide();
 
@@ -1048,7 +1065,7 @@ var HUDnasal = {
           me.reticle_group.setTranslation(pos_x, pos_y);
           # move fin to alpha
           me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
-          if (dir_y > 8) {
+          if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
             # blink the fin if alpha is high
             if(getprop("sim/ja37/blink/ten-Hz") == 1) {
               me.aim_reticle_fin.show();
@@ -1241,6 +1258,7 @@ var HUDnasal = {
             me.tower_symbol.setTranslation(pos_x, pos_y);
             var tower_dist = metric ==1  ? distance : distance/kts2kmh;
             me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
+            me.tower_symbol_icao.setText(getprop("sim/tower/airport-id"));
             me.tower_symbol.show();
             me.tower_symbol.update();
             #print(i~" "~mp.getNode("callsign").getValue());
