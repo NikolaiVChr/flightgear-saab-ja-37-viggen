@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.36</aircraft-version>
+  <aircraft-version>2.37</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -447,7 +447,7 @@
     <int n="15" alias="/sim/model/lighting/beacon/state"/>
     <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
     <!-- Armament -->
-    <int n="6" alias="/controls/armament/station[0]/trigger"/>
+    <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
     <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
     <float n="11" alias="/payload/weight[0]/weight-lb"/>
     <float n="12" alias="/payload/weight[1]/weight-lb"/>

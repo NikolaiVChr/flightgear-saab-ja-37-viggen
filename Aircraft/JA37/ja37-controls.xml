@@ -39,7 +39,7 @@
 
                    Flaps           +30  (page  87)
                    Flaps     -4 to +30  (page  78,  figure 60 )
-                   Flaps     -7 to +30  (page  76) -7 can be selected by pilot, -4 default
+                   Flaps     -7 to +30  (page  76) -7 can be selected by pilot in AJ-37 not JA-37, -4 default
                    Flaps     -7 to +30  (page  46) 
 
 -->
@@ -135,7 +135,7 @@
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
                           0.0         60000.0
-              0.0         0.40           1.0
+              0.0         0.47           1.0
               0.5         0.20           0.75
               1.0         0.14           0.35
               2.2         0.06           0.15

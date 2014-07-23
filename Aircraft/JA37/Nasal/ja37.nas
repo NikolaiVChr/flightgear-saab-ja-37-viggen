@@ -593,7 +593,7 @@ var waiting_n1 = func {
   start_count += 1;
   #print(start_count);
   if (start_count > 45) {
-    gui.popupTip("Autostart failed. Report bug to aircraft developer and try again.");
+    gui.popupTip("Autostart failed. If you are not out of fuel, report bug to aircraft developer.");
     print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
     setprop("/controls/engines/engine[0]/cutoff", 1);
     setprop("/controls/engines/engine[0]/starter", 0);

@@ -643,3 +643,8 @@ Aero: Gear brakes can now again hold full aug thrust, as documented they should.
 HUD: Flight path indicator now is shown alongside sidewind indicator, when front gear is uncompressed.
 Aero: Made gear springs increase damping further.
 HUD: Moved turn coordinator back into the corner.
+
+2.37 - 2014 July 8 (FlightGear 3.2 version)
+====
+Aero: Reverted damping values back.
+Sim: Adjusted autostart fail message.
