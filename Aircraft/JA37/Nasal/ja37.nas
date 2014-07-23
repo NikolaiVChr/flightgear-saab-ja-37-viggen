@@ -369,7 +369,11 @@ var update_loop = func {
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
-    settimer(update_loop, UPDATE_PERIOD);
+    settimer(
+      #func debug.benchmark("j37 loop", 
+        update_loop
+        #)
+    , UPDATE_PERIOD);
   }
 }
 
@@ -580,17 +584,15 @@ var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/
 setprop("controls/lighting/ext-lighting-panel/anti-collision", 1);
 aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.9+rand()/5], strobe_switch);
 
-
 var beacon_switch = props.globals.getNode("controls/switches/beacon", 2);
 setprop("controls/switches/beacon", 1);
-setprop("fdm/jsbsim/fcs/yaw-damper-enable", 1);
 var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
 
 ############# workaround for removing default HUD   ##############
 
 setlistener("/sim/current-view/view-number", func(n) {
         setprop("/sim/hud/visibility[1]", !n.getValue());
-}, 1);
+}, 1, 0);
 
 ###################### autostart ########################
 
@@ -643,7 +645,7 @@ var waiting_n1 = func {
 
 var final_engine = func () {
   start_count += 1;
-  if (start_count > 60) {
+  if (start_count > 70) {
     gui.popupTip("Autostart failed. If you are not out of fuel and engine has not failed, report bug to aircraft developer.");
     print("Autostart failed in final phase. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
     setprop("/controls/engines/engine[0]/cutoff", 1);
@@ -793,6 +795,7 @@ var lostfollow = func () {
 var applyParkingBrake = func(v) {
     controls.applyParkingBrake(v);
     if(!v) return;
+    ja37.click();
     if (getprop("/controls/gear/brake-parking") == 1) {
       gui.popupTip("Parking brakes: ON");
     } else {

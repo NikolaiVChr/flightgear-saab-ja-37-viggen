@@ -450,7 +450,11 @@ aircraftbreakprocess=func
 				wildfire.ignite(pos, 1);
 			}
 		}
-		settimer(aircraftbreakprocess, 0.1);
+		settimer(
+			#func debug.benchmark("crs loop", 
+				aircraftbreakprocess
+				#)
+		, 0.1);
 	}
 
 repair = func {
@@ -763,12 +767,12 @@ end_aircraft_water_crash = func
 		setprop("sim/ja37/damage/sounds/water-crash-on", 0);
 	}
 
-setlistener("gear/gear[3]/wow", aircraftbreaklistener);
-setlistener("gear/gear[4]/wow", aircraftbreaklistener);
-setlistener("gear/gear[5]/wow", aircraftbreaklistener);
-setlistener("gear/gear[6]/wow", aircraftbreaklistener);
-setlistener("gear/gear[7]/wow", aircraftbreaklistener);
-setlistener("gear/gear[8]/wow", aircraftbreaklistener);
-setlistener("gear/gear[9]/wow", aircraftbreaklistener);
-setlistener("gear/gear[10]/wow", aircraftbreaklistener);
-setlistener("gear/gear[11]/wow", aircraftbreaklistener);
+setlistener("gear/gear[3]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[4]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[5]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[6]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[7]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[8]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[9]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[10]/wow", aircraftbreaklistener, 0, 0);
+setlistener("gear/gear[11]/wow", aircraftbreaklistener, 0, 0);

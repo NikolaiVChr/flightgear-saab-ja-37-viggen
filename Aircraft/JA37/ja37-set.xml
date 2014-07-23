@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.43</aircraft-version>
+  <aircraft-version>2.44</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -797,7 +797,7 @@
         <has-power/>
         <serviceable/>
       </canopy>
-      <yaw-damper-enable/>
+      <yaw-damper-enable type="bool">true</yaw-damper-enable>
       <flap-pos-cmd/>
       <flaps-serviceable/>
       <elevator-serviceable/>

@@ -28,7 +28,17 @@
         <z-m>-0.09</z-m>
       </offsets>
   </model>
- 
+  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/stick.xml</path>
+    <name>Stick</name>
+      <offsets>
+        <x-m>-3.65</x-m>
+        <y-m> 0.00</y-m>
+        <z-m> 0.00</z-m>
+      </offsets>
+  </model>
+
 <model>
     <path>Aircraft/JA37/Models/HUD.xml</path>
     <name>TheHUD</name>

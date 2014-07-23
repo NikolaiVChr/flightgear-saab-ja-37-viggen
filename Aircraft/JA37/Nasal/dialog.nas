@@ -29,8 +29,8 @@ MonitorDialog.init = func (x = nil, y = nil) {
   me.node = props.globals.getNode("/sim/gui/dialogs/performance-monitor");
   
   me.listeners=[];
-  append(me.listeners, setlistener("/sim/startup/xsize", func { me._redraw() }));
-  append(me.listeners, setlistener("/sim/startup/ysize", func { me._redraw() }));
+  append(me.listeners, setlistener("/sim/startup/xsize", func { me._redraw() }, 0, 0));
+  append(me.listeners, setlistener("/sim/startup/ysize", func { me._redraw() }, 0, 0));
 }
 
 MonitorDialog.addProperty = func(propHash) {

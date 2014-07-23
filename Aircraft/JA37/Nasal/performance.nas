@@ -512,6 +512,6 @@ var initialize = func() {
   #screen.log.write("Press Ctrl-Shift-M to activate.");
 }
 
-setlistener("/sim/signals/fdm-initialized", func { settimer(initialize, 1); });
-setlistener("/sim/signals/reinit", func { PerformanceMonitor.instance().reinit(); });
+setlistener("/sim/signals/fdm-initialized", func { settimer(initialize, 1); }, 0, 0);
+setlistener("/sim/signals/reinit", func { PerformanceMonitor.instance().reinit(); }, 0, 0);
 

@@ -113,7 +113,7 @@ var TrackInit = func {
         setprop("/autopilot/target-tracking-ja37/target-root", target_root);
     }
    
-    setlistener("/autopilot/target-tracking-ja37/enable", func { startTimer();} );
+    setlistener("/autopilot/target-tracking-ja37/enable", func { startTimer();} , 0, 0);
 }
 
 # If enabled, update our AP target values based on the target range,

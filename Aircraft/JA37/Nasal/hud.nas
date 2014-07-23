@@ -99,58 +99,6 @@ var HUDnasal = {
   short_dist: nil,
   track_index: nil,
 
-  new: func(placement) {
-    if(HUDnasal.main == nil) {
-      HUDnasal.main = {
-        parents: [HUDnasal],
-        canvas: canvas.new(HUDnasal.canvas_settings),
-        text_style: {
-          'font': "LiberationFonts/LiberationMono-Regular.ttf", 
-          'character-size': 100,
-        },
-        place: placement
-      };
-
-      HUDnasal.main.input = {
-        pitch:    "/orientation/pitch-deg",
-        roll:     "/orientation/roll-deg",
-        #     hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
-        #      hdg:      "/instrumentation/gps/indicated-track-magnetic-deg",
-        hdg:      "/orientation/heading-magnetic-deg",
-        hdgReal:  "/orientation/heading-deg",
-        speed_n:  "velocities/speed-north-fps",
-        speed_e:  "velocities/speed-east-fps",
-        speed_d:  "velocities/speed-down-fps",
-        alpha:    "/orientation/alpha-deg",
-        beta:     "/orientation/side-slip-deg",
-        ias:      "/velocities/airspeed-kt",
-        mach:      "/velocities/mach",
-        gs:       "/velocities/groundspeed-kt",
-        vs:       "/velocities/vertical-speed-fps",
-        rad_alt:  "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
-        alt_ft:   "/instrumentation/altimeter/indicated-altitude-ft",
-        wow_nlg:  "/gear/gear[0]/wow",
-        Vr:       "/controls/switches/HUDnasal_rotation_speed",
-        Bright:   "/controls/switches/HUDnasal_brightness",
-        Dir_sw:   "/controls/switches/HUDnasal_director", 
-        H_sw:     "/controls/switches/HUDnasal_height", 
-        Speed_sw: "/controls/switches/HUDnasal_speed", 
-        Test_sw:  "/controls/switches/HUDnasal_test",
-        fdpitch:  "/autopilot/settings/fd-pitch-deg",
-        fdroll:   "/autopilot/settings/fd-roll-deg",
-        fdspeed:  "/autopilot/settings/target-speed-kt"
-      };
-   
-      foreach(var name; keys(HUDnasal.main.input)) {
-        HUDnasal.main.input[name] = props.globals.getNode(HUDnasal.main.input[name], 1);
-      }
-    }
-
-    HUDnasal.main.redraw();
-    return HUDnasal.main;
-    
-  },
-
   redraw: func() {
     #HUDnasal.main.canvas.del();
     #HUDnasal.main.canvas = canvas.new(HUDnasal.canvas_settings);
@@ -711,26 +659,88 @@ var HUDnasal = {
     me; 
   },
 
+  new: func(placement) {
+    if(HUDnasal.main == nil) {
+      HUDnasal.main = {
+        parents: [HUDnasal],
+        canvas: canvas.new(HUDnasal.canvas_settings),
+        text_style: {
+          'font': "LiberationFonts/LiberationMono-Regular.ttf", 
+          'character-size': 100,
+        },
+        place: placement
+      };
+
+      HUDnasal.main.input = {
+        pitch:    "/orientation/pitch-deg",
+        roll:     "/orientation/roll-deg",
+        #     hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
+        #      hdg:      "/instrumentation/gps/indicated-track-magnetic-deg",
+        hdg:      "/orientation/heading-magnetic-deg",
+        hdgReal:  "/orientation/heading-deg",
+        speed_n:  "velocities/speed-north-fps",
+        speed_e:  "velocities/speed-east-fps",
+        speed_d:  "velocities/speed-down-fps",
+        alpha:    "/orientation/alpha-deg",
+        beta:     "/orientation/side-slip-deg",
+        ias:      "/velocities/airspeed-kt",
+        mach:     "/velocities/mach",
+        gs:       "/velocities/groundspeed-kt",
+        vs:       "/velocities/vertical-speed-fps",
+        rad_alt:  "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
+        alt_ft:   "/instrumentation/altimeter/indicated-altitude-ft",
+        wow_nlg:  "/gear/gear[0]/wow",
+        #Vr:       "/controls/switches/HUDnasal_rotation_speed",
+        #Bright:   "/controls/switches/HUDnasal_brightness",
+        #Dir_sw:   "/controls/switches/HUDnasal_director", 
+        #H_sw:     "/controls/switches/HUDnasal_height", 
+        #Speed_sw: "/controls/switches/HUDnasal_speed", 
+        #Test_sw:  "/controls/switches/HUDnasal_test",
+        fdpitch:  "/autopilot/settings/fd-pitch-deg",
+        fdroll:   "/autopilot/settings/fd-roll-deg",
+        fdspeed:  "/autopilot/settings/target-speed-kt",
+        mode:     "sim/ja37/hud/mode",
+        service:  "/instrumentation/head-up-display/serviceable",
+        units:    "sim/ja37/hud/units-metric",
+        gears:    "gear/gear/position-norm",
+        combat:   "/sim/ja37/hud/combat",
+        station:  "controls/armament/station-select",
+        tenHz:    "sim/ja37/blink/ten-Hz",
+        fiveHz:   "sim/ja37/blink/five-Hz",
+
+        elec:     "/systems/electrical/outputs/hud"
+      };
+   
+      foreach(var name; keys(HUDnasal.main.input)) {
+        HUDnasal.main.input[name] = props.globals.getNode(HUDnasal.main.input[name], 1);
+      }
+    }
+
+    HUDnasal.main.redraw();
+    return HUDnasal.main;
+    
+  },
+
       ############################################################################
       #############             main loop                         ################
       ############################################################################
   update: func() {
     verbose = 0;
-    if(getprop("/systems/electrical/outputs/hud") < 24 or getprop("sim/ja37/hud/mode") == 0) {
+    if(me.input.elec.getValue() < 24 or me.input.mode.getValue() == 0) {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.5);
-     } elsif (getprop("/instrumentation/head-up-display/serviceable") == 0) {
+     } elsif (me.input.service.getValue() == 0) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);
      } else {
-      var metric = getprop("sim/ja37/hud/units-metric");
-      var mode = getprop("gear/gear/position-norm") != 0 ? TAKEOFF : (getprop("/sim/ja37/hud/combat") == 1 ? COMBAT : NAV);
-      var cannon = getprop("controls/armament/station-select") == 0 and getprop("/sim/ja37/hud/combat") == 1;
+      var metric = me.input.units.getValue();
+      var mode = me.input.gears.getValue() != 0 ? TAKEOFF : (me.input.combat.getValue() == 1 ? COMBAT : NAV);
+      var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == 1;
       var out_of_ammo = 0;
-      if (getprop("/sim/ja37/hud/combat") == 1 and getprop("controls/armament/station-select") != 0 and 
-          getprop("payload/weight["~ (getprop("controls/armament/station-select")-1) ~"]/selected") == "none") {
+      if (me.input.combat.getValue() == 1 and me.input.station.getValue() != 0 and 
+          getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
             out_of_ammo = 1;
       }
 
@@ -751,7 +761,7 @@ var HUDnasal = {
         # very simple ground detection.
         if(mode != TAKEOFF and time_till_crash < 10 and time_till_crash > 0) {
           setprop("sim/ja37/sound/terrain-on", 1);
-          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+          if(me.input.tenHz.getValue() == 1) {
             me.arrow_trans.setRotation(- getprop("orientation/roll-deg")*deg2rads);
             me.arrow.show();
           } else {
@@ -816,9 +826,9 @@ var HUDnasal = {
       if (getprop("autopilot/locks/heading") == "dg-heading-hold") {
         desired_mag_heading = getprop("autopilot/settings/heading-bug-deg");
       } elsif (getprop("autopilot/locks/heading") == "true-heading-hold") {
-        desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+getprop("orientation/heading-magnetic-deg");#getprop("autopilot/settings/true-heading-deg")+
+        desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
       } elsif (getprop("autopilot/locks/heading") == "nav1-hold") {
-        desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+getprop("orientation/heading-magnetic-deg");
+        desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+me.input.hdg.getValue();
       } elsif( getprop("autopilot/route-manager/active") == 1) {
         #var i = getprop("autopilot/route-manager/current-wp");
         desired_mag_heading = getprop("autopilot/route-manager/wp/bearing-deg");
@@ -857,7 +867,7 @@ var HUDnasal = {
           pos_x = 687-512;
         }
         me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
-        if(blink == 0 or getprop("sim/ja37/blink/five-Hz") == 1) {
+        if(blink == 0 or me.input.fiveHz.getValue() == 1) {
           me.heading_bug.show();
         } else {
           me.heading_bug.hide();
@@ -1156,7 +1166,7 @@ var HUDnasal = {
       ####   display QFE or weapon   ####
 
       if (mode == COMBAT) {
-        var armSelect = getprop("controls/armament/station-select");
+        var armSelect = me.input.station.getValue();
         if(armSelect == 0) {
           me.qfe.setText("KCA");
           me.qfe.show();
@@ -1174,7 +1184,7 @@ var HUDnasal = {
         }
         if(countQFE < 10) {
            # blink the QFE
-          if(getprop("sim/ja37/blink/five-Hz") == 1) {
+          if(me.input.fiveHz.getValue() == 1) {
             me.qfe.show();
           } else {
             me.qfe.hide();
@@ -1307,7 +1317,7 @@ var HUDnasal = {
             me.target_circle[me.short_dist[3]].hide();
 
 
-            var armSelect = getprop("controls/armament/station-select");
+            var armSelect = me.input.station.getValue();
             
             if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
               me.diamond.show();
@@ -1334,7 +1344,7 @@ var HUDnasal = {
             #               .lineTo( pos_x, pos_y)
             #               .setStrokeLineWidth(w)
             #               .setColor(r,g,b, a);
-            if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
+            if(blink == 1 and me.input.fiveHz.getValue() == 0) {
               me.diamond_group.hide();
             } else {
               me.diamond_group.show();
@@ -1348,7 +1358,7 @@ var HUDnasal = {
             me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
             me.diamond_name.setText(me.short_dist[4]);
             
-            if(blink == 1 and getprop("sim/ja37/blink/five-Hz") == 0) {
+            if(blink == 1 and me.input.fiveHz.getValue() == 0) {
               me.diamond_group.hide();
               me.target_circle[me.short_dist[3]].hide();
             } else {
@@ -1430,7 +1440,11 @@ var HUDnasal = {
         me.root.show();
         me.root.update();          
       }
-      settimer(func me.update(), 0.05, 1);#TODO: this is experiment, real-time
+      settimer(
+      #func debug.benchmark("hud loop", 
+      func me.update()
+      #)
+      , 0.05, 0);
       #setprop("sim/hud/visibility[1]", 0);
     }#end of HUD running check
   },#end of update
@@ -1645,7 +1659,7 @@ var HUDnasal = {
         me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
         if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
           # blink the fin if alpha is high
-          if(getprop("sim/ja37/blink/ten-Hz") == 1) {
+          if(me.input.tenHz.getValue() == 1) {
             me.aim_reticle_fin.show();
           } else {
             me.aim_reticle_fin.hide();
@@ -1679,10 +1693,10 @@ var init = func() {
 
 var init2 = setlistener("/sim/signals/reinit", func() {
   setprop("sim/hud/visibility[1]", 0);
-});
+}, 0, 0);
 
 #setprop("/systems/electrical/battery", 0);
-id = setlistener("sim/ja37/supported/initialized", init);
+id = setlistener("sim/ja37/supported/initialized", init, 0, 0);
 
 var reinit = func() {#mostly called to change HUD color
    #reinitHUD = 1;

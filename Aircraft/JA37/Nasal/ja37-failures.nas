@@ -67,7 +67,7 @@ var install_failures = func {
         install_new_failures();
     }
 
-    var lsnr = setlistener("sim/signals/fdm-initialized", _init);
+    var lsnr = setlistener("sim/signals/fdm-initialized", _init, 0, 0);
     }
 }
 
@@ -219,5 +219,5 @@ var _init = func {
         install_failures();
     }
 
-var lsnr_s = setlistener("sim/ja37/supported/initialized", _init);
+var lsnr_s = setlistener("sim/ja37/supported/initialized", _init, 0, 0);
 

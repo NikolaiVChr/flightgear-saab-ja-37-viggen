@@ -159,7 +159,11 @@ var radar = {
       
 
 
-      settimer(func me.update(), 0.02);
+      settimer(
+        #func debug.benchmark("rad loop", 
+          func me.update()
+       #   )
+        , 0.05);
     } else {
       g.hide();
       settimer(func me.update(), 1);
@@ -326,4 +330,4 @@ var theinit = setlistener("sim/ja37/supported/initialized", func {
     var scope = radar.new();
     scope.update();
   }
-}, 1);
+}, 1, 0);

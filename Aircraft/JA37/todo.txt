@@ -14,18 +14,16 @@ Aero: When wings break, remove most of normal force.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Check kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
-Animation: Switches.
 Animation: Make wings break off when they break due to structural damage.
-Animation: Adjust instrument materials, and make the gauges look more similar.
-Animation: Animate wheels. (tough when gears get compressed..)
-Animation: Pilot from F16CJ?
-Animation: Proper pilot seat.
-Animation: Flight-stick.
-Animation: Throttle.
-Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
-Animation: Gauges that share mount design should also share geometry and textures.
-Animation: Strobe looks bad in FG 3.0, but better in FG 3.1
+Animation: Animate wheels. (tough when gears get compressed..)
+Model: Adjust instrument materials, and make the gauges look more similar.
+Model: Pilot from F16CJ?
+Model: Switches.
+Model: Proper pilot seat.
+Model: Throttle.
+Model: Make minimal polygon model for multiplayer LOD.
+Model: Gauges that share mount design should also share geometry and textures.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend on instrument properties not sim properties.
 Sim: Make canopy able to break off.
@@ -51,7 +49,8 @@ Effect: Make tires burst if too high speed with parking brakes.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Effect: Smoke for aerobatic demos. (look at F-7MG?)
+Effect: Smoke for aerobatic demos. (look at Alphajet?)
+Effect: Strobe looks bad in FG 3.0, but better in FG 3.1
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
@@ -108,11 +107,11 @@ Default FG HUD (done)
 
 Require modeling/texture skills (above my level):
 -------------------------------------------------
-Animation: Model proper panels and cockpit layout.
-Animation: Put in more working instruments and controls. (semi doable if can find similar instrument in other plane, but too many to look through)
+Model: Model proper panels and cockpit layout.
+Model: Put in more working instruments and controls. (semi doable if can find similar instrument in other plane, but too many to look through)
 Animation: Animate scissor gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors.
-Animation: Model the reverser for reverse thrust.
+Model: Model the reverser for reverse thrust.
 Effect: Make gun fire bullets from correct position. (should be a pod under belly)
 
 
@@ -121,7 +120,7 @@ Depends on better 3D cockpit:
 Sim: Make control surfaces depend on hydralic system.
 Sim: Make proper power flow to external lights. (use potemkin)
 Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upside down. All fuel to engine has to go through tank 1)
-Animation: Put in alot more not-working instruments and controls for immersion.
+Model: Put in alot more not-working instruments and controls for immersion.
 
 
 Require more data: (or aerodynamic know-how)
