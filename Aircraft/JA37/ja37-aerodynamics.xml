@@ -198,13 +198,13 @@
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-             -180   0.025
+             -180   0.020
              -135   0
               -45   0
-                0   0.025
+                0   0.020
                45   0
               135   0
-              180   0.025
+              180   0.020
               </tableData>
           </table>
       </product>
@@ -219,11 +219,11 @@
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-             -180   0.020
+             -180   0.025
               -90   0
-                0   0.020
+                0   0.025
                90   0
-              180   0.020
+              180   0.025
               </tableData>
           </table>
       </product>

@@ -699,3 +699,14 @@ var clickOff = func {
 var noop = func {
   #does nothing, but important
 }
+
+var toggleYawDamper = func {
+  ja37.click();
+  var enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
+  setprop("fdm/jsbsim/fcs/yaw-damper-enable", !enabled);
+  if(enabled == 0) {
+    gui.popupTip("Yaw damper: ON");
+  } else {
+    gui.popupTip("Yaw damper: OFF");
+  }
+}

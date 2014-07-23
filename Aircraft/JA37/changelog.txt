@@ -616,3 +616,9 @@ GUI: Added option for yaw damper.
 ====
 Engine: Convert engine tables to Aeromatic as it is more reliable than Stanford Engine Model. Take-off distance now 450m.
 Aero: Axial force is more sensible. Sealevel M0.93 mil-thrust, M2.25 aug-thrust. 36000ft M2.2 aug-thrust.
+
+2.32
+====
+HUD: Moved turn coordinator above airspeed indicator.
+GUI: Made message to screen when toggling yaw damper.
+GUI: Improved message to screen when toggling reverse thrust.

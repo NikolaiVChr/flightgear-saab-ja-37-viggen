@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.31</aircraft-version>
+  <aircraft-version>2.32</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -1116,14 +1116,10 @@
     <key n="127">
      <name>Delete</name>
      <desc>Yaw damper on/off</desc>
-     <binding>
-      <command>property-toggle</command>
-      <property>/fdm/jsbsim/fcs/yaw-damper-enable</property>
-     </binding>
-     <binding>
-        <command>nasal</command>
-        <script>ja37.click();</script>
-      </binding>
+    <binding>
+     <command>nasal</command>
+     <script>ja37.toggleYawDamper();</script>
+    </binding>
     </key>
     <key n="67">
      <name>C</name>

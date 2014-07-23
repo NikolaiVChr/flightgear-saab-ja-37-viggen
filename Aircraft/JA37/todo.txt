@@ -5,7 +5,6 @@ TODO for Flightgear JA-37
 Features and improvements:
 --------------------------
 GUI: Option to turn off verbose popups.
-GUI: More and better popup feedback. (gear/flaps/stalling/yawstabilizer)
 GUI: Make something procedual, just to test it out.
 GUI: Test new FGPlot.
 GUI: Checklist.
@@ -14,7 +13,8 @@ Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Check kinematic on all flight-control surfaces.
-Animation: Some switches.
+Aero: Air-brakes, even though they got welded shut in mid 80ties.
+Animation: Switches.
 Animation: Make wings break off when they break due to structural damage.
 Animation: Adjust instrument materials, and make the gauges look more similar.
 Animation: Animate wheels. (tough when gears get compressed..)
@@ -43,15 +43,15 @@ Sim: Key to match speed of HUD selected radar track.
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
 Sim: Make replay show the new guided missiles flying.
-Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
+Sim: Carrier tailhook although the original did not have one.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
-Effect: Make gears break if too high speed with gears down.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
+Effect: Smoke for aerobatic demos. (look at F-7MG)
 Sound: More annunciater warnings and other sounds. (fuel low..)
 Sound: Make sounds when taking damage in bombable.
 Sound: Make annunciator warnings only work if the system has power.
@@ -64,28 +64,30 @@ HUD: make symbol for warning: pull up! (plus annunciater sound)
 HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle fin down.
 HUD: Seperate landing and takeoff mode. Reticle with fin should also be shown in landing mode.
-HUD: Sideslip indicator dot at top of HUD?
+HUD: Sideslip indicator dot at bottom of HUD?
 HUD: Track semi circles and semi box should have a line in them.
+HUD: Option to see plane type instead of callsign.
 
 
 Bugs:
 --------------
-Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
+Aero: {Johan G} Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
-Report: After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
+Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
 Sound: Occasional wierd buzz in external sounds. [reproduced]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
-Sim: On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
+Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
-Sim: Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
+Sim: {JazzTp} Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
 Sim: Missiles do not show when using FG 3.0, in FG 3.1 they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
-Sim: A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
-Sim: Radar screen did not see MP aircraft pass by. [not reproduced yet]
-HUD: When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-HUD: I have experienced that combat mode was on by default.
+Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
+Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
+HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
+HUD: I have experienced that combat mode was on by default. [not reproduced]
+GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 
 
 Issues with FG: (or my limited understanding of it)

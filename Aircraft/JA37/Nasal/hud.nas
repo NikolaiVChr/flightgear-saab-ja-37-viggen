@@ -446,7 +446,7 @@ var HUDnasal = {
       .setColor(r,g,b, a);
 
     #turn coordinator
-    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(325, 425);
+    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(0, 265);
     HUDnasal.main.turn_group2 = HUDnasal.main.turn_group.createChild("group");
     HUDnasal.main.t_rot   = HUDnasal.main.turn_group2.createTransform();
     HUDnasal.main.turn_indicator = HUDnasal.main.turn_group2.createChild("path")
