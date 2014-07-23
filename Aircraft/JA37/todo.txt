@@ -23,6 +23,12 @@ HUD: When FG HUD is in 2nd or 3rd mode, it does not go away when switching to cu
 HUD: I have experienced that combat mode was on by default.
 
 
+Before 3.2
+----------
+Mach effects on moments (test in 3.0)
+Be able to reduce speed with sideslip.
+
+
 Features and improvements:
 --------------------------
 GUI: Option to turn off verbose popups.

@@ -191,22 +191,42 @@
   </function>-->
 
   <function name="aero/function/CAgear">
-      <description>Drag_due_to_gear</description>
+      <description>Axial_due_to_gear</description>
       <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>gear/gear-pos-norm</property>
-          <value>0.010</value>
+          <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <tableData>
+             -180   0.025
+             -135   0
+              -45   0
+                0   0.025
+               45   0
+              135   0
+              180   0.025
+              </tableData>
+          </table>
       </product>
   </function>
 
   <function name="aero/function/CAflaps">
-      <description>Drag due to flaps</description>
+      <description>Axial due to flaps</description>
       <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>fcs/flap-pos-norm</property>
-          <value>0.005</value>  
+          <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <tableData>
+             -180   0.020
+              -90   0
+                0   0.020
+               90   0
+              180   0.020
+              </tableData>
+          </table>
       </product>
   </function>
 
@@ -284,7 +304,7 @@
           Contributes to damping of Dutch Roll mode
       </description>
       <product>
-         <property>aero/function/Afactors</property>
+         <property>aero/function/ground-effect-factor-drag</property>
          <property>aero/qbar-psf</property>
          <property>metrics/Sw-sqft</property>
          <property>aero/beta-rad</property>
@@ -318,6 +338,23 @@
       </product>
     </function>
 
+    <function name="aero/coefficient/CYb_M">
+        <description>Change_in_Side_force_due_to_beta_due_to_mach</description>
+        <product>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <property>aero/beta-rad</property>
+              <table>
+                  <independentVar>velocities/mach</independentVar>
+                  <tableData>
+                      0.4000  0.0000
+                      1.2000  0.0400
+                      1.6000 -0.1400
+                  </tableData>
+              </table>
+        </product>
+    </function>
+
     <!-- from Component force graph 86a page 105 -->
     <function name="aero/coefficient/Cyzero">
       <description>
@@ -341,6 +378,27 @@
          </table>
       </product>
     </function>
+
+    <function name="aero/coefficient/CYdr">
+        <description>Side_force_due_to_rudder</description>
+        <product>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <property>fcs/rudder-pos-rad</property>
+            <value>0.0860</value>
+        </product>
+    </function>
+
+    <function name="aero/coefficient/CYDa">
+        <description>Side_force_due_to_aileron</description>
+        <product>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <property>fcs/left-aileron-pos-rad</property>
+            <value>-0.0226</value>
+        </product>
+    </function>
+
   </axis>
 
 

@@ -594,3 +594,10 @@ HUD: Made turn coordinator stop turning. Now its more of a sideslip indicator.
 Engine: Fixed regression in reverse thrust making it thrust normal, it is now reversed again.
 Aero: Decreased aileron and rudder sensitivity at sealevel for low speeds.
 Sim: Changed fuel loadout.
+
+2.29
+====
+Aero: Decreased aileron sensitivity at sealevel low speeds further.
+Aero: Reverted empty weight back to what it was before.
+Aero: Added sideforce due to aileron, mach and rudder.
+Aero: Updated tables for axial force due to gear and flaps.
