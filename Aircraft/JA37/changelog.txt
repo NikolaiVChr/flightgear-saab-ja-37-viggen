@@ -588,3 +588,9 @@ Aero: Sideforce due to sideslip is now influenced by mach effect and ground effe
 Aero: Normal force is now affected by mach effect.
 Engine: Adjusted reverse thrust to match performance specs.
 HUD: Made turn coordinator stop turning. Now its more of a sideslip indicator.
+
+2.28
+====
+Engine: Fixed regression in reverse thrust making it thrust normal, it is now reversed again.
+Aero: Decreased aileron and rudder sensitivity at sealevel for low speeds.
+Sim: Changed fuel loadout.

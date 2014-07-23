@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 2.27 </version>
+    <version> 2.28 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -344,7 +344,7 @@ to an airplane of that size). -->
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 1366 </capacity>
-      <contents unit="KG"> 200 </contents>
+      <contents unit="KG"> 0 </contents>
       <temperature>70</temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -419,7 +419,7 @@ to an airplane of that size). -->
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
-      <contents unit="KG"> 512 </contents>
+      <contents unit="KG"> 0 </contents>
       <temperature>70</temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -434,7 +434,7 @@ to an airplane of that size). -->
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
-      <contents unit="KG"> 512 </contents>
+      <contents unit="KG"> 0 </contents>
       <temperature>70</temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
