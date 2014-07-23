@@ -533,3 +533,7 @@ HUD: Made lines thinner.
 Sim: Fixed canopy would not get power to open.
 HUD: Symbol for nearest airport now show ICAO also.
 Sim: When crashing the reason is now displayed on screen.
+
+2.21
+----
+HUD: Added key to toggle custom/FG HUD.
