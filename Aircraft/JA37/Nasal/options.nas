@@ -101,7 +101,7 @@ var Dialog = {
           var sideLogo = mainArea.addChild("group");
             sideLogo.set("layout", "vbox");
             sideLogo.set("pref-width", SIDELOGO_WIDTH);
-            sideLogo.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT - 50);
+            sideLogo.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT + 0);
             sideLogo.set("valign", "top");
             mainArea.addChild("vrule");
             sideLogo.setColor(0, 0, 1, 0);
@@ -110,7 +110,7 @@ var Dialog = {
           var workArea = mainArea.addChild("group");
             workArea.set("layout", "vbox");
             workArea.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-            workArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT - 50);
+            workArea.set("pref-height", DIALOG_HEIGHT - 62 - TOPLOGO_HEIGHT + 0);
             workArea.set("valign", "top");##adjusted fill
             workAreaNode = workArea.node;
             workArea.setColor(0, 1, 0, 0);
@@ -122,17 +122,18 @@ var Dialog = {
           
           var topRow = workArea.addChild("group");
           topRow.set("layout", "vbox");
-          topRow.set("pref-height", 50);
+          topRow.set("pref-height", 150);
           topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           topRow.set("valign", "top");
+          topRow.set("stretch", "false");
           #topRow.addChild("empty").set("stretch", 1);
           
-          ######   Top Row break button   #####
+          ######   break button   #####
           var breakRow = topRow.addChild("group");
           breakRow.set("layout", "hbox");
           breakRow.set("pref-height", 25);
           breakRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          breakRow.set("valign", "center");
+          #breakRow.set("valign", "center");
           
           breakRow.addChild("text")
           .set("label", "Structural break due to G-forces:");
@@ -143,12 +144,12 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
 
-          ######   Top Row reverse button   #####
+          ######   reverse button   #####
           var reverseRow = topRow.addChild("group");
           reverseRow.set("layout", "hbox");
           reverseRow.set("pref-height", 25);
           reverseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          reverseRow.set("valign", "center");
+          #reverseRow.set("valign", "center");
           
           var reverseText = reverseRow.addChild("text").set("label", "Automatic reverse thrust at touchdown:");
           reverseRow.addChild("empty").set("stretch", 1);
@@ -158,12 +159,12 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
 
-          ######   Top Row hud button   #####
+          ######   hud button   #####
           var hudRow = topRow.addChild("group");
           hudRow.set("layout", "hbox");
           hudRow.set("pref-height", 25);
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          hudRow.set("valign", "center");
+          #hudRow.set("valign", "center");
           
           var reverseText = hudRow.addChild("text").set("label", "Custom JA-37 specific HUD:");
           hudRow.addChild("empty").set("stretch", 1);
@@ -173,14 +174,14 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.hudButton.setBinding("nasal", "ja37.Dialog.hudToggle()");
 
-          ######   Top Row radar button   #####
+          ######   radar button   #####
           var radarRow = topRow.addChild("group");
           radarRow.set("layout", "hbox");
           radarRow.set("pref-height", 25);
           radarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          radarRow.set("valign", "center");
+          #radarRow.set("valign", "center");
           
-          var reverseText = radarRow.addChild("text").set("label", "Radar instrument and radar tracks in custom HUD:");
+          var radarText = radarRow.addChild("text").set("label", "Radar instrument and radar tracks in custom HUD:");
           radarRow.addChild("empty").set("stretch", 1);
           me.dialog.radarButton = radarRow.addChild("button");
           me.dialog.radarButton.set("halign", "right");
@@ -188,13 +189,27 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.radarButton.setBinding("nasal", "ja37.Dialog.radarToggle()");
 
+          ######   missile msg button   #####
+          var rb24msgRow = topRow.addChild("group");
+          rb24msgRow.set("layout", "hbox");
+          rb24msgRow.set("pref-height", 25);
+          rb24msgRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #rb24msgRow.set("valign", "center");
+          
+          var rb24msgText = rb24msgRow.addChild("text").set("label", "Display MP message when hitting opponent with missile:");
+          rb24msgRow.addChild("empty").set("stretch", 1);
+          me.dialog.rb24msgButton = rb24msgRow.addChild("button");
+          me.dialog.rb24msgButton.set("halign", "right");
+          me.dialog.rb24msgButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.rb24msgButton.setBinding("nasal", "ja37.Dialog.rb24msgToggle()");
+
+          #HUD brightness
           var hudRow = workArea.addChild("group");
           hudRow.set("layout", "hbox");
           hudRow.set("pref-height", 25);
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           hudRow.set("valign", "center");
-          
-          #HUD brightness
+                    
           hudRow.addChild("text").set("label", "HUD color:");
           me.dialog.hudLight = hudRow.addChild("button");
           me.dialog.hudMedium = hudRow.addChild("button");
@@ -282,6 +297,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    rb24msgToggle: func {
+      var enabled = getprop("sim/ja37/armament/msg");
+      setprop("sim/ja37/armament/msg", !enabled);
+      me.refreshButtons();
+    },    
+
     light: func {
       canvas_HUD.r = 0.0;
       canvas_HUD.g = 1.0;
@@ -347,6 +368,14 @@ var Dialog = {
       }
       me.dialog.radarButton.node.setValues({"legend": legend});
 
+      enabled = getprop("sim/ja37/armament/msg");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.rb24msgButton.node.setValues({"legend": legend});
+      
       #props.dump(me.dialog.prop()); # handy command, don't forget it.
 
       # this is commented out cause it needs a trigger (e.g. button to activate):

@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.17</aircraft-version>
+  <aircraft-version>2.18</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -731,6 +731,7 @@
         <mode type="bool">1</mode>
       </hud>
         <armament>
+        <msg type="bool">false</msg>
         <rb24>
           <sound-on-off type="bool">false</sound-on-off>
           <sound-volume type="double">0.12</sound-volume>

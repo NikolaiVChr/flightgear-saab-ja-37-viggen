@@ -210,7 +210,14 @@ var update_loop = func {
         #print("adding "~i);
         if(i != 4) {
           #not drop tank
-          armament.AIM9.new(i);#print("new "~(i-1));
+          if(armament.AIM9.new(i) == -1) {
+            #missile added through menu while another from that pylon is still flying.
+            #to handle this we have to ignore that addition.
+            setprop("controls/armament/station["~(i+1)~"]/released", 1);
+            setprop("payload/weight["~ (i) ~"]/selected", "none");
+          }
+          #print("new "~(i-1));
+
         }
       }
       #if(i!=0 and getprop("payload/weight["~ (i-1) ~"]/selected") == "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") != 0) {
@@ -345,14 +352,13 @@ var trigger_listener = func {
     #if masterarm is on, propagate trigger to station
     if(getprop("/sim/ja37/hud/combat") == 1) {
       setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
-    } else {
-      setprop("/controls/armament/station["~armSelect~"]/trigger", 0);
     }
 
     if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == 1) {
       if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
-        # trigger is pulled, a pylon is selected, the pylon has a missile: fire missile
+        # trigger is pulled, a pylon is selected, the pylon has a missile.
         if (armament.AIM9.active[armSelect-1] != nil and  armament.AIM9.active[armSelect-1].status == 1 ) {
+          #missile locked, fire it.
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", 1);# setting the pylon as fired
           #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));

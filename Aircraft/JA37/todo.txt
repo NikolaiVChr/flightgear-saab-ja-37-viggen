@@ -4,12 +4,12 @@ TODO for Flightgear JA-37
 
 Bugs:
 --------------
-Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause)
+Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
 Report: After A/P the plane consumes too much fuel. [not reproduceable]
 Sound: Occasional wierd buzz in external sounds.
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
-HUD: When the altitude difference to a target is much larger than the horizontal distance, the targets are not drawn correct.
+HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
 Sim: On Linux, after fireing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Two times I could not autostart. Started before splash finish. Priority! [hard to reproduce, seldom]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
@@ -33,6 +33,7 @@ Animation: Animate wheels. (tough when gears get compressed..)
 Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
+Animation: Gauges that share mount design should also share geometry and textures.
 Sim: Improve autopilot further, it wobbles.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
@@ -49,7 +50,6 @@ Sim: Make verbose property to be used in all nasal scripts. (possible include in
 Sim: Key to match speed of HUD selected track.
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
-Sim: If rb-24 loses lock, but last was close to target; explode.
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone. (the model has turned the lamp on front gear backwards)
 Effect: Check contrail effect is properly installed.

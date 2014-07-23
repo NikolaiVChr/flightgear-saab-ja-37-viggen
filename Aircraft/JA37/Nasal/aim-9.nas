@@ -20,6 +20,10 @@ var slugs_to_lbs = 32.1740485564;
 var AIM9 = {
 	#done
 	new : func (p) {
+		if(AIM9.active[p] != nil) {
+			#do not make new missile logic if one exist for this pylon.
+			return -1;
+		}
 		var m = { parents : [AIM9]};
 		# Args: p = Pylon.
 
@@ -217,7 +221,7 @@ var AIM9 = {
 		if (me.life_time > me.thrust_duration) { f_lbs = 0; me.smoke_prop.setBoolValue(0); }
 
 		# Kill the AI after a while.
-		if (me.life_time > 50) { return me.del(); }
+		if (me.life_time > 60) { return me.del(); }
 
 		# Get total speed.
 		var d_east_ft  = me.s_east * dt;
@@ -300,15 +304,7 @@ var AIM9 = {
 		#### Proximity detection.
 
 		if ( me.status == 2 ) {
-			var v = me.poximity_detection();
-			if ( ! v ) {
-				#print("exploded");
-				# We exploded, but need a few more secs to spawn the explosion animation.
-				settimer(func { me.del(); }, 4 );
-				return;
-			}			
-
-			#### If not exploded, check if the missile can keep the lock.
+			#### check if the missile can keep the lock.
  			if ( me.free == 0 ) {
 				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
 				if ( g > me.max_g ) {
@@ -317,6 +313,13 @@ var AIM9 = {
 					me.free = 1;
 				}
 			}
+			var v = me.poximity_detection();
+			if ( ! v ) {
+				#print("exploded");
+				# We exploded, but need a few more secs to spawn the explosion animation.
+				settimer(func { me.del(); }, 4 );
+				return;
+			}	
 		}
 		# record the velocities for the next loop.
 		me.s_north = speed_north_fps;
@@ -326,7 +329,7 @@ var AIM9 = {
 		me.pitch = pitch_deg;
 		me.hdg = hdg_deg;
 
-		settimer(func me.update(), 0);
+		settimer(func me.update(), 0.01, 1);#with low framerate the missiles will have hard to detect a hit, so using realtime
 		
 	},
 
@@ -391,7 +394,7 @@ var AIM9 = {
 			# Then, keep track of deviations at the end of these two initial 2 seconds.
 			var e_gain = 1;
 			var h_gain = 1;
-			if ( me.life_time < 2 ) {
+			if ( me.life_time < 0.75 ) {
 				if (me.curr_tgt_e > 3 or me.curr_tgt_e < - 3) {
 					e_gain = 1 + (0.1 * dt);
 				}
@@ -434,34 +437,25 @@ var AIM9 = {
 
 
 
-	#look into phrase later.
+	#done
 	poximity_detection: func {
 		var cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 		# Get current direct distance.
 		#print("cur_dir_dist_m = ",cur_dir_dist_m," me.direct_dist_m = ",me.direct_dist_m);
 		if ( me.direct_dist_m != nil ) {
 			if ( cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < 65 ) {
-				#print("missed target");
+				#print("passed target");
 				# Distance to target increase, trigger explosion.
-				# Get missile relative position to the target at last frame.
-				var t_bearing_deg = me.last_t_coord.course_to(me.last_coord);
-				var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
-				var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
-				var t_dist_m  = math.sqrt(math.abs((me.direct_dist_m * me.direct_dist_m)-(t_delta_alt_m * t_delta_alt_m)));
-				# Create impact coords from this previous relative position applied to target current coord.
-				me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
-				me.t_coord.set_alt(new_t_alt_m);		
-				var wh_mass = me.weight_whead_lbs / slugs_to_lbs;
-				#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
-				impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
-				#var phrase = sprintf( "%01.0f", me.direct_dist_m) ~ "meters";
-				#if (getprop("sim/model/f-14b/systems/armament/mp-messaging")) {
-				#	setprop("/sim/multiplay/chat", phrase);
-				#} else {
-				#	setprop("/sim/messages/atc", phrase);
-				#}
-				me.animate_explosion();
-				me.Tgt = nil;
+				me.explode();
+				return(0);
+			} elsif (cur_dir_dist_m < 10) {
+				#within killing distance, explode 
+				#(this might not be how the real thing does, but due to this only being called every frame, might miss otherwise)
+				me.explode();
+				return(0);
+			} elsif (me.free ==1 and cur_dir_dist_m < 20) {
+				# lost lock, magnetic detector checks if close enough to explode
+				me.explode();
 				return(0);
 			}
 		}
@@ -470,6 +464,39 @@ var AIM9 = {
 		return(1);
 	},
 
+	explode: func {
+		# Get missile relative position to the target at last frame.
+		var t_bearing_deg = me.last_t_coord.course_to(me.last_coord);
+		var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
+		var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
+		var t_dist_m  = math.sqrt(math.abs((me.direct_dist_m * me.direct_dist_m)-(t_delta_alt_m * t_delta_alt_m)));
+		# Create impact coords from this previous relative position applied to target current coord.
+		me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
+		me.t_coord.set_alt(new_t_alt_m);		
+		var wh_mass = me.weight_whead_lbs / slugs_to_lbs;
+		#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
+		impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
+
+		var ident = nil;
+		if(me.Tgt.getChild("callsign").getValue() != "" and me.Tgt.getChild("callsign").getValue() != nil) {
+          ident = me.Tgt.getChild("callsign").getValue();
+        } elsif (me.Tgt.getChild("name").getValue() != "" and me.Tgt.getChild("name").getValue() != nil) {
+          ident = me.Tgt.getChild("name").getValue();
+        } elsif (me.Tgt.getChild("sign").getValue() != "" and me.Tgt.getChild("sign").getValue() != nil) {
+          ident = me.Tgt.getChild("sign").getValue();
+        } else {
+          ident = "unknown";
+        }
+
+		var phrase = sprintf( "RB-24J exploded %01.0f", me.direct_dist_m) ~ " meters from " ~ ident;
+		if (getprop("sim/ja37/armament/msg")) {
+			setprop("/sim/multiplay/chat", phrase);
+		} else {
+			setprop("/sim/messages/atc", phrase);
+		}
+		me.animate_explosion();
+		me.Tgt = nil;
+	},
 
 	#
 	check_t_in_fov: func {

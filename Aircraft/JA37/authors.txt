@@ -35,7 +35,7 @@ Mig-15 - Crash code
 Buccaneer - Flight direction indicator in HUD
 TU-154B - Remove delay when switching to external view
 Mig29 - Light glow
-F-14b - Trans-mach vapor cone
+F-14b - Trans-mach vapor cone, guided missiles
 747-400 - Reverse thrust
 BAC-TSR2-GR3 - G-force breathing sounds
 Cessna-208-Caravan - Radiostack

@@ -103,7 +103,7 @@
     <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
     <wind>false</wind>
     <buoyancy>0</buoyancy>
-    <life>1</life>
+    <life>0.5</life>
   </submodel>
 
 <particlesystem>

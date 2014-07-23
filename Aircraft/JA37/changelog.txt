@@ -505,6 +505,13 @@ Sim: Fixed missile guidence would be turned off, during flight.
 2.17 - 2014 June 25
 ----
 HUD: Made a combat mode for the HUD. Different pitch lines, reticle and weapon name displayed.
+HUD: Combat mode HUD reticle vertical tail position shows angle of attack.
 HUD: Radar no longer can lock onto carriers.
 Sim: Adjusted the RB-24J specs to match Aim-9J.
 Sim: Increased propability when missile explodes that Bombable will register it.
+
+2.18
+----
+Sim: If rb-24 loses lock, but last was close to target, it will now explode.
+GUI: Added option to enable missile hit messages in MP. Else they will be local.
+Sim: Adding a missile to a pylon whose previous missile is still flying will now not work.
