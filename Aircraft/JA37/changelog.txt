@@ -651,7 +651,11 @@ Sim: Adjusted autostart fail message.
 Aero: Adjusted gear damping.
 Aero: Made nose-wheel brake, and reduced rear static friction which will help landing in heavy crosswind.
 
-2.38
+2.38 - 2014 July 12
 ====
 Sim: Moved pilots eye position forward and and up to help see runway on approach.
 HUD: Made a further setting for higher brightness.
+
+2.39
+====
+HUD: Made sidewind and flight path indicator symbols smaller.

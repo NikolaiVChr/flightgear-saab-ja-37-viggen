@@ -66,6 +66,8 @@ var indicatorOffset = -10; #alt scale indicators horizontal offset from scale (m
 var headScalePlace = 300; # vert placement of alt scale
 var headScaleTickSpacing = 65;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 var altimeterScaleHeight = 225; # the height of the low alt scale. Also used in the other scales as a reference height.
+var reticle_factor = 1.5;
+var sidewind_factor = 1.0;
 var r = 0.0;
 var g = 1.0;
 var b = 0.0;#HUD colors
@@ -201,6 +203,7 @@ var HUDnasal = {
     #HUDnasal.main.heading_bug_group.set("clip", "rect(62px, 687px, 262px, 337px)");#top,right,bottom,left
     HUDnasal.main.heading_bug = HUDnasal.main.heading_bug_group.createChild("path")
     .setColor(r,g,b, a)
+    .setStrokeLineCap("round")
     .setStrokeLineWidth(w)
     .moveTo( 0,  10)
     .lineTo( 0,  55)
@@ -227,6 +230,7 @@ var HUDnasal = {
     # headingindicator
     HUDnasal.main.head_scale_indicator = HUDnasal.main.root.createChild("path")
     .setColor(r,g,b, a)
+    .setStrokeLineCap("round")
     .setStrokeLineWidth(w)
     .moveTo(-30, -headScalePlace+30)
     .lineTo(0, -headScalePlace)
@@ -365,6 +369,7 @@ var HUDnasal = {
     # alt scale indicator
     HUDnasal.main.alt_pointer = HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
+      .setStrokeLineCap("round")
       .setStrokeLineWidth(w)
       .moveTo(0,0)
       .lineTo(-45,-45)
@@ -374,6 +379,7 @@ var HUDnasal = {
     # alt scale radar ground indicator
     HUDnasal.main.rad_alt_pointer = HUDnasal.main.alt_scale_grp.createChild("path")
       .setColor(r,g,b, a)
+      .setStrokeLineCap("round")
       .setStrokeLineWidth(w)
       .moveTo(0,0)
       .lineTo(-60,0)
@@ -398,49 +404,50 @@ var HUDnasal = {
     HUDnasal.main.alt.setTranslation(-375, 300);
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
-    # Flightpath/Velocity vector
+    # Out of ammo flight path indicator
     HUDnasal.main.reticle_no_ammo =
       HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
-      .moveTo(-90, 0) # draw this symbol in flight when no weapons selected (always as for now)
-      .lineTo(-30, 0)
-      .lineTo(0, 30)
-      .lineTo(30, 0)
-      .lineTo(90, 0)
+      .moveTo(-45*reticle_factor, 0) # draw this symbol in flight when no weapons selected (always as for now)
+      .lineTo(-15*reticle_factor, 0)
+      .lineTo(0, 15*reticle_factor)
+      .lineTo(15*reticle_factor, 0)
+      .lineTo(45*reticle_factor, 0)
+      .setStrokeLineCap("round")
       .setStrokeLineWidth(w);
-    # takeoff/landing symbol
+    # sidewind symbol
     HUDnasal.main.takeoff_symbol = HUDnasal.main.root.createChild("path")
-      .moveTo(210, 0)
-      .lineTo(150, 0)
-      .moveTo(90, 0)
-      .lineTo(30, 0)
-      .arcSmallCCW(30, 30, 0, -60, 0)
-      .arcSmallCCW(30, 30, 0,  60, 0)
+      .moveTo(105*sidewind_factor, 0)
+      .lineTo(75*sidewind_factor, 0)
+      .moveTo(45*sidewind_factor, 0)
+      .lineTo(15*sidewind_factor, 0)
+      .arcSmallCCW(15*sidewind_factor, 15*sidewind_factor, 0, -30*sidewind_factor, 0)
+      .arcSmallCCW(15*sidewind_factor, 15*sidewind_factor, 0,  30*sidewind_factor, 0)
       .close()
-      .moveTo(-30, 0)
-      .lineTo(-90, 0)
-      .moveTo(-150, 0)
-      .lineTo(-210, 0)
+      .moveTo(-15*sidewind_factor, 0)
+      .lineTo(-45*sidewind_factor, 0)
+      .moveTo(-75*sidewind_factor, 0)
+      .lineTo(-105*sidewind_factor, 0)
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
-    #aim reticle
+    #flight path indicator
     HUDnasal.main.reticle_group = HUDnasal.main.root.createChild("group");  
     HUDnasal.main.aim_reticle  = HUDnasal.main.reticle_group.createChild("path")
-      .moveTo(90, 0)
-      .lineTo(30, 0)
-      .arcSmallCCW(30, 30, 0, -60, 0)
-      .arcSmallCCW(30, 30, 0,  60, 0)
+      .moveTo(45*reticle_factor, 0)
+      .lineTo(15*reticle_factor, 0)
+      .arcSmallCCW(15*reticle_factor, 15*reticle_factor, 0, -30*reticle_factor, 0)
+      .arcSmallCCW(15*reticle_factor, 15*reticle_factor, 0,  30*reticle_factor, 0)
       .close()
-      .moveTo(-30, 0)
-      .lineTo(-90, 0)
+      .moveTo(-15*reticle_factor, 0)
+      .lineTo(-45*reticle_factor, 0)
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
     HUDnasal.main.reticle_fin_group = HUDnasal.main.reticle_group.createChild("group");  
     HUDnasal.main.aim_reticle_fin  = HUDnasal.main.reticle_fin_group.createChild("path")
-      .moveTo(0, -30)
-      .lineTo(0, -60)
+      .moveTo(0, -15*reticle_factor)
+      .lineTo(0, -30*reticle_factor)
       .setStrokeLineWidth(w)
       .setStrokeLineCap("round")
       .setColor(r,g,b, a);
