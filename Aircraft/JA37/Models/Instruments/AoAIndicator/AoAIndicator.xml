@@ -33,10 +33,10 @@
   <type>rotate</type>
   <object-name>Needle</object-name>
   <condition>
-   <greater-than>
-    <property>systems/electrical/outputs/battery</property>
-    <value>20</value>
-   </greater-than>
+    <greater-than>
+      <property>systems/electrical/outputs/alpha-meter</property>
+      <value>23</value>
+    </greater-than>
   </condition>
   <property>orientation/alpha-deg</property>
   <interpolation>

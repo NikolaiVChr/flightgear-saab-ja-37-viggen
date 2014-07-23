@@ -5,6 +5,12 @@
 	 <animation>
 	  <type>rotate</type>
 	  <object-name>TheHand</object-name>
+	  <condition>
+	    <greater-than>
+	      <property>systems/electrical/outputs/altimeter</property>
+	      <value>23</value>
+	    </greater-than>
+	  </condition>
 	  <property>instrumentation/altimeter/indicated-altitude-meter</property>
 	  <factor>.006</factor>
 	  <offset-deg>240</offset-deg>

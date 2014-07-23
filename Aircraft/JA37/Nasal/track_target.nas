@@ -192,9 +192,7 @@ var TrackUpdate = func(loop_id) {
         var diff = myspeed_true-myspeed;
 
         var target_speed = speed-diff + range_error * 100.0;
-        if ( target_speed < min_speed_kt ) {
-            target_speed = min_speed_kt;
-        }
+        
 
         var speed_indicated = speed - diff;
 
@@ -216,7 +214,9 @@ var TrackUpdate = func(loop_id) {
         } else {
           #target_speed = math.max(target_speed, speed_indicated+25);
         }
-
+        if ( target_speed < min_speed_kt ) {
+            target_speed = min_speed_kt;
+        }
 
         setprop( "/autopilot/settings/target-altitude-ft", alt );
         setprop( "/autopilot/settings/heading-bug-deg", my_hdg + h_offset );
@@ -226,6 +226,10 @@ var TrackUpdate = func(loop_id) {
 
         # only keep the timer running when the feature is really enabled
         settimer(func() { TrackUpdate(loop_id); }, update_period );
+    } else {
+        if (getprop(target_root~"/valid") != 1) {
+            ja37.lostfollow();
+        }
     }
 }
 

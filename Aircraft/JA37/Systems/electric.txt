@@ -6,7 +6,7 @@ systems/electrical/generator_on,0,29,systems/electrical/battery_voltage,24,0
 systems/electrical/battery_voltage,0,.,systems/electrical/outputs/comm[0],0,0
 systems/electrical/battery_voltage,0,.,systems/electrical/outputs/comm[1],0,0
 controls/electric/battery-switch,0,systems/electrical/battery_voltage,systems/electrical/outputs/battery,0,0
-systems/electrical/outputs/battery,25,instrumentation/switches/inst-light-knob/pos,controls/lighting/instruments-norm,0,0
+systems/electrical/outputs/battery,23,instrumentation/switches/inst-light-knob/pos,controls/lighting/instruments-norm,0,0
 systems/electrical/outputs/battery,0,systems/electrical/outputs/main_ac,systems/electrical/outputs/fuel,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/turn-coordinator,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/nav[0],0,0
@@ -16,5 +16,12 @@ systems/electrical/outputs/battery,0,.,systems/electrical/outputs/dme,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/adi,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/tacan,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/radar,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/annunciator,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/transponder,0,0
 systems/electrical/outputs/inst_ac,0,.,systems/electrical/outputs/adf,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/hud,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/g-meter,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/airspeed-indicator,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/altimeter,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/alpha-meter,0,0
+systems/electrical/outputs/battery,0,.,systems/electrical/outputs/attitude-indicator,0,0

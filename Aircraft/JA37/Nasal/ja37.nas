@@ -10,7 +10,7 @@ var prevGear1 = 1;
 var prevGear2 = 1;
 var touchdown1 = 0;
 var touchdown2 = 0;
-
+var total_fuel = 0;
 ############### Main loop ###############
 var cnt = 0;
 
@@ -33,14 +33,7 @@ var update_loop = func {
      if(getprop("/consumables/fuel/tank[8]/level-norm") != nil) {
        setprop("/instrumentation/fuel/needleB_rot", getprop("/consumables/fuel/tank[8]/level-norm")*230);
      }
-     var total = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[1]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[2]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[3]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[4]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[5]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[6]/capacity-gal_us")
-                + getprop("/consumables/fuel/tank[7]/capacity-gal_us");
+     
 
     var current = getprop("/consumables/fuel/tank[0]/level-gal_us")
                 + getprop("/consumables/fuel/tank[1]/level-gal_us")
@@ -52,8 +45,15 @@ var update_loop = func {
                 + getprop("/consumables/fuel/tank[7]/level-gal_us");
 
 
-     setprop("/instrumentation/fuel/needleF_rot", (current / total) *230);
+     setprop("/instrumentation/fuel/needleF_rot", (current / total_fuel) *230);
      
+     # fuel warning annuciator
+     if((current / total_fuel) < 0.2) {
+      setprop("sim/ja37/sound/fuel-low-on", 1);
+     } else {
+      setprop("sim/ja37/sound/fuel-low-on", 0);
+     }
+
      ## control augmented thrust ##
        
      var n1 = getprop("/engines/engine/n1");
@@ -157,7 +157,7 @@ var update_loop = func {
     # joystick indicator
     if(getprop("/systems/electrical/generator_on") == 1) {
       if (((getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil) and (getprop("/autopilot/locks/altitude") != ''
-       and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1 and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+       and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1 and getprop("/systems/electrical/outputs/battery") > 23) {
         joystick = 0;
       } else {
         joystick = 1;
@@ -168,7 +168,7 @@ var update_loop = func {
 
     # attitude indicator
     if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)
-     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+     and getprop("/systems/electrical/outputs/battery") > 23) {
       if (getprop("/instrumentation/attitude-indicator/indicated-roll-deg") > 70 or getprop("/instrumentation/attitude-indicator/indicated-roll-deg") < -70) {
         attitude = getprop("sim/ja37/blink/five-Hz");
       } else {
@@ -180,7 +180,7 @@ var update_loop = func {
 
     # altitude indicator
     if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)
-     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+     and getprop("/systems/electrical/outputs/battery") > 23) {
       if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05) {
         altitude = getprop("sim/ja37/blink/five-Hz");
       } else {
@@ -192,10 +192,10 @@ var update_loop = func {
 
     #transonic indicator
     if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05
-     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+     and getprop("/systems/electrical/outputs/battery") > 23) {
       transonic = 1;
     } else {
-      if(getprop("/engines/engine/reversed") and getprop("/instrumentation/airspeed-indicator/indicated-speed-kt") < 64.8 and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+      if(getprop("/engines/engine/reversed") and getprop("/instrumentation/airspeed-indicator/indicated-speed-kt") < 64.8 and getprop("/systems/electrical/outputs/battery") > 23) {
         # warning that speed is so low that its risky to continue reverse thrust
           transonic = 1;
         } else {
@@ -205,7 +205,7 @@ var update_loop = func {
 
     # reverse indicator
     if(getprop("engines/engine/reversed") == 1
-     and getprop("/systems/electrical/outputs/inst_ac") > 40) {
+     and getprop("/systems/electrical/outputs/battery") > 23) {
       rev = 1;
     } else {
       rev = 0;
@@ -503,8 +503,17 @@ var main_init = func {
   aircraft.data.save();
 
   setprop("/consumables/fuel/tank[8]/jettisoned", 0);
+
+  total_fuel = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[1]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[2]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[3]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[4]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[5]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[6]/capacity-gal_us")
+                + getprop("/consumables/fuel/tank[7]/capacity-gal_us");
+
   # Load exterior at startup to avoid stale sim at first external view selection. ( taken from TU-154B )
-  
   print("Loading exterior, wait...");
   # return to cabin to next cycle
   settimer( load_interior, 0 );
@@ -623,8 +632,7 @@ var waiting_n1 = func {
       click();
       setprop("controls/electric/engine[0]/generator", 1);
       gui.popupTip("Generator on.");
-      auto_gen=0;
-      autostarting = 0;
+      settimer(final_engine, 0.5);
     } else {
       settimer(waiting_n1, 0.5);
     }
@@ -633,8 +641,25 @@ var waiting_n1 = func {
   }
 }
 
-
-
+var final_engine = func () {
+  start_count += 1;
+  if (start_count > 60) {
+    gui.popupTip("Autostart failed. If you are not out of fuel and engine has not failed, report bug to aircraft developer.");
+    print("Autostart failed in final phase. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
+    setprop("/controls/engines/engine[0]/cutoff", 1);
+    setprop("/controls/engines/engine[0]/starter", 0);
+    setprop("/controls/electric/engine[0]/generator", 0);
+    setprop("/controls/electric/battery-switch", 0);
+    autostarting = 0;
+    auto_gen=0;
+  } elsif (getprop("/engines/engine[0]/running") > 0) {
+    gui.popupTip("Engine ready.");
+    auto_gen=0;
+    autostarting = 0;    
+  } else {
+    settimer(final_engine, 0.5);
+  }
+}
 
 #Simulating autostart function
 var autostart = func {
@@ -687,7 +712,7 @@ var click = func {
     if(clicking == 0) {
       clicking = 1;
       setprop("sim/ja37/sound/click-on", 1);
-      settimer(clickOff, 0.10, 1);
+      settimer(clickOff, 0.15, 1);
     }
 }
 
@@ -747,6 +772,14 @@ var follow = func () {
 var unfollow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", 0);
   gui.popupTip("A/P follow: OFF");
+  setprop("/autopilot/locks/speed", "");
+  setprop("/autopilot/locks/altitude", "");
+  setprop("/autopilot/locks/heading", "");
+}
+
+var lostfollow = func () {
+  setprop("/autopilot/target-tracking-ja37/enable", 0);
+  gui.popupTip("A/P follow: lost target.");
   setprop("/autopilot/locks/speed", "");
   setprop("/autopilot/locks/altitude", "");
   setprop("/autopilot/locks/heading", "");

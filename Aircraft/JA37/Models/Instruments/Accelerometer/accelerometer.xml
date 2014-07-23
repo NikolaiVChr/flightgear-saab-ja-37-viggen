@@ -24,6 +24,12 @@
   <animation>
     <type>rotate</type>
     <object-name>needle</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/g-meter</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
     <property>accelerations/pilot-gdamped</property>
     <interpolation>
       <entry><ind>-2</ind><dep>45</dep></entry>

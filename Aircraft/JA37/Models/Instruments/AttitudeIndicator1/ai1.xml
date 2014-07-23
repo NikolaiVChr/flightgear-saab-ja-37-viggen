@@ -45,6 +45,12 @@
   <animation>
     <type>rotate</type>
     <object-name>sphere</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/attitude-indicator</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
     <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
     <center>
       <x-m>-0.01442</x-m>
@@ -57,6 +63,12 @@
   <animation>
     <type>rotate</type>
     <object-name>sphere</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/attitude-indicator</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
     <property>instrumentation/attitude-indicator/indicated-pitch-deg</property>
     <center>
       <x-m>-0.01442</x-m>
@@ -65,9 +77,16 @@
     </center>
     <axis><y>1</y></axis>
   </animation>
+
   <animation>
     <type>rotate</type>
     <object-name>bank-index</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/attitude-indicator</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
     <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
     <axis><x>1</x></axis>
   </animation>

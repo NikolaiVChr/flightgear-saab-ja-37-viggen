@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.41</aircraft-version>
+  <aircraft-version>2.42</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -865,6 +865,9 @@
   <gear>
    <brake-parking type="bool">true</brake-parking>
   </gear>
+  <electric>
+    <battery-switch type="bool">false</battery-switch>
+  </electric>
 </controls>
 <environment>
   <pressure-inhg>30</pressure-inhg>

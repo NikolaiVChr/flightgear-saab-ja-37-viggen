@@ -73,7 +73,7 @@ var update_state = func {
     }
   }
   oldtime=time;
-  settimer(update_state, 0.05);    
+  settimer(update_state, 0.2);    
 }
 
 var init_electric = func {

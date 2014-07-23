@@ -10,6 +10,12 @@ Syd Adams
     <animation>
         <type>rotate</type>
         <object-name>ASIneedle</object-name>
+        <condition>
+          <greater-than>
+            <property>systems/electrical/outputs/airspeed-indicator</property>
+            <value>23</value>
+          </greater-than>
+        </condition>
         <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
         <factor>0.22224</factor>
         <offset-deg>24</offset-deg>
@@ -18,7 +24,7 @@ Syd Adams
         </axis>
     </animation>
 
-<animation>
+    <animation>
       <type>pick</type> 
       <object-name>ASIneedle</object-name>
       <object-name>ASIface</object-name>

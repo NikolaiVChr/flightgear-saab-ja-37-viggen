@@ -2,6 +2,7 @@
 
 <flight_control name="JA37 FC">
     <channel name="Canopy">
+      
         <!-- canopy get stuck if it fail -->
         <switch name="fails/canopy">
           <default value="fcs/canopy/engage"/>
@@ -11,6 +12,7 @@
           </test>
           <output>fcs/canopy-engageTmp</output>
         </switch>
+
         <kinematic name="fcs/canopy-control">
             <input>fcs/canopy-engageTmp</input>
             <traverse>
@@ -25,6 +27,7 @@
             </traverse>
             <output>fcs/canopy-pos-norm</output>
         </kinematic>
+
     </channel>
 
 <!--
@@ -136,9 +139,9 @@
           <tableData>
                           0.0         60000.0
               0.0         0.47           1.0
-              0.5         0.20           0.75
-              1.0         0.14           0.35
-              2.2         0.06           0.15
+              0.5         0.35           0.75
+              1.0         0.20           0.45
+              2.2         0.06           0.225
           </tableData>
         </table>
         <output>fcs/aileron-sum-mach</output>

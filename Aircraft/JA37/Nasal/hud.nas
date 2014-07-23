@@ -716,7 +716,7 @@ var HUDnasal = {
       ############################################################################
   update: func() {
     verbose = 0;
-    if(getprop("/systems/electrical/outputs/inst_ac") < 40 or getprop("sim/ja37/hud/mode") == 0) {
+    if(getprop("/systems/electrical/outputs/hud") < 24 or getprop("sim/ja37/hud/mode") == 0) {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.5);

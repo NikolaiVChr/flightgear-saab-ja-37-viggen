@@ -13,7 +13,7 @@
     <name>G Meter</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.835</x-m>
+      <x-m> -3.84</x-m>
       <y-m>  0.19</y-m>
       <z-m>  0.465</z-m>
     </offsets>
@@ -24,7 +24,7 @@
     <name>Chronometer</name>
     <offsets>
     <pitch-deg>79.329</pitch-deg>
-      <x-m> -3.83</x-m>
+      <x-m> -3.85</x-m>
       <y-m>  0.110</y-m>
       <z-m>  0.50</z-m>
     </offsets>
@@ -68,7 +68,7 @@
     <name>Nozzle Indicator</name>
     <offsets>
     <pitch-deg>79.329</pitch-deg>
-      <x-m> -3.83</x-m>
+      <x-m> -3.835</x-m>
       <y-m>  0.19</y-m>
       <z-m>  0.40</z-m>
     </offsets>
@@ -134,7 +134,7 @@
     <name>Attitude Indicator</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.84</x-m>
+      <x-m> -3.845</x-m>
       <y-m> -0.13</y-m>
       <z-m>  0.395</z-m>
     </offsets>
@@ -142,10 +142,10 @@
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator2/ai2.xml</path>
-    <name>Attitude Indicator</name>
+    <name>Attitude Indicator 2</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.81194</x-m>
+      <x-m> -3.83</x-m>
       <y-m>  0.11</y-m>
       <z-m>  0.43</z-m>
     </offsets>
@@ -203,7 +203,7 @@
     <name>Radar</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.80</x-m>
+      <x-m> -3.82</x-m>
       <y-m>  0</y-m>
       <z-m>  0.35</z-m>
     </offsets>
@@ -213,7 +213,7 @@
 
 <model>
     <path>Aircraft/JA37/Models/Instruments/Radar/range-selector.xml</path>
-    <name>Radar</name>
+    <name>Radar range</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.80</x-m>
@@ -260,7 +260,7 @@
     <name>Transonic</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.855</x-m>
+      <x-m> -3.8555</x-m>
       <y-m>  0.09</y-m>
       <z-m>  0.535</z-m>
     </offsets>

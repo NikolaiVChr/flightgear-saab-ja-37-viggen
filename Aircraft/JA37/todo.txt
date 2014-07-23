@@ -53,16 +53,15 @@ Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Effect: Smoke for aerobatic demos. (look at F-7MG?)
-Sound: More annunciater warnings and other sounds. (fuel low..)
+Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
-Sound: Make annunciator warnings only work if the system has power.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make desired height columns for landing and boxes for desired pitch.
 HUD: make more methods out of similar code, introduce more comments and name variables better.
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Use instrument properties instead of simulation properties.
-HUD: Make too low reference speed change reticle fin down.
+HUD: Make too low reference speed change reticle vertical tail down.
 HUD: Seperate landing and takeoff mode.
 HUD: Sideslip indicator dot at bottom of HUD?
 HUD: Track semi circles and semi box should have a line in them.
@@ -121,7 +120,7 @@ Effect: Make gun fire bullets from correct position. (should be a pod under bell
 Depends on better 3D cockpit:
 -----------------------------
 Sim: Make control surfaces depend on hydralic system.
-Sim: Make proper power flow to external lights and HUD. (use potemkin)
+Sim: Make proper power flow to external lights. (use potemkin)
 Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upside down. All fuel to engine has to go through tank 1)
 Animation: Put in alot more not-working instruments and controls for immersion.
 

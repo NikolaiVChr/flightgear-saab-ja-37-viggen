@@ -7,11 +7,11 @@
   <object-name>Needle_B</object-name>
   <object-name>Needle_F</object-name>
   <object-name>Plane</object-name>
-  <condition>   
+  <condition>
     <greater-than>
-    <property>systems/electrical/outputs/fuel</property>
-    <value>150</value>
-   </greater-than>
+      <property>systems/electrical/outputs/battery</property>
+      <value>23</value>
+    </greater-than>
   </condition>
   <hovered>
        <binding>
@@ -42,10 +42,10 @@
         <object-name>Needle_F</object-name>
         <condition>
           <greater-than>
-            <property>systems/electrical/outputs/fuel</property>
-            <value>150</value>
+            <property>systems/electrical/outputs/battery</property>
+            <value>23</value>
           </greater-than>
-       </condition>
+        </condition>
        <expression>
         <product>
         <sum>

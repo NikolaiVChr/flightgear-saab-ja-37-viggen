@@ -9,6 +9,12 @@
  <animation>
   <type>rotate</type>
   <object-name>needle</object-name>
+  <condition>
+    <greater-than>
+      <property>systems/electrical/outputs/altimeter</property>
+      <value>23</value>
+    </greater-than>
+  </condition>
   <property>instrumentation/altimeter/indicated-altitude-meter</property>
   <factor>0.36</factor>  
   <axis>
@@ -22,6 +28,12 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>drum-1</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/altimeter</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
 		<property>instrumentation/altimeter/indicated-altitude-meter</property>
 		<factor>0.001</factor>
 		<offset>-100</offset>
@@ -38,6 +50,12 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>drum-2</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/altimeter</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
 		<property>instrumentation/altimeter/indicated-altitude-meter</property>
 		<factor>0.0001</factor>
 		<offset>-1000</offset>
@@ -54,6 +72,12 @@
 	<animation>
 		<type>textranslate</type>
 		<object-name>drum-3</object-name>
+    <condition>
+      <greater-than>
+        <property>systems/electrical/outputs/altimeter</property>
+        <value>23</value>
+      </greater-than>
+    </condition>
 		<property>instrumentation/altimeter/indicated-altitude-meter</property>
 		<factor>0.00001</factor>
 		<offset>-10000</offset>

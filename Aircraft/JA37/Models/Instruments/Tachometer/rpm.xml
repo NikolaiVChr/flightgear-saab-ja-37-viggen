@@ -42,6 +42,12 @@
 <animation>
         <type>rotate</type>
         <object-name>Needle</object-name>
+        <condition>   
+          <greater-than>
+          <property>systems/electrical/outputs/battery</property>
+          <value>23</value>
+         </greater-than>
+        </condition>
         <property>engines/engine/n1</property>
         <interpolation>
             <entry><ind>20</ind><dep>2.5</dep></entry>
