@@ -9,9 +9,10 @@ var HudReticleDeg  = props.globals.getNode("sim/ja37/hud/reticle-total-angle", 1
 var aim_9_model    = "Aircraft/JA37/Models/Armament/Weapons/RB-24J/rb-24j-";
 var SwSoundOnOff   = AcModel.getNode("armament/rb24/sound-on-off");
 var SwSoundVol     = AcModel.getNode("armament/rb24/sound-volume");
-var vol_search     = 0.12;
-var vol_weak_track = 0.20;
-var vol_track      = 0.45;
+var vol_search     = 0.09;
+var vol_weak_track = 0.10;
+var vol_track      = 0.25;
+var update_loop_time = 0.05;
 
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
@@ -68,19 +69,25 @@ var AIM9 = {
 		m.cd                = getprop("sim/ja37/armament/rb24/drag-coeff");
 		m.eda               = getprop("sim/ja37/armament/rb24/drag-area");
 		m.max_g             = getprop("sim/ja37/armament/rb24/max-g");
-
+		#m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
 		# (M. Franz, see Nasal/tanker.nas)
 		var n = props.globals.getNode("models", 1);
-		for (var i = 0; 1; i += 1)
-			if (n.getChild("model", i, 0) == nil)
+		var i = 0;
+		for (i = 0; 1==1; i += 1) {
+			if (n.getChild("model", i, 0) == nil) {
 				break;
+			}
+		}
 		m.model = n.getChild("model", i, 1);
-		var n = props.globals.getNode("ai/models", 1);
-		for (var i = 0; 1; i += 1)
-			if (n.getChild("rb-24j", i, 0) == nil)
+		
+		n = props.globals.getNode("ai/models", 1);
+		for (i = 0; 1==1; i += 1) {
+			if (n.getChild("rb-24j", i, 0) == nil) {
 				break;
+			}
+		}
 		m.ai = n.getChild("rb-24j", i, 1);
 
 		m.ai.getNode("valid", 1).setBoolValue(1);
@@ -113,6 +120,7 @@ var AIM9 = {
 	},
 	#done
 	del: func {
+		#print("deleted");
 		me.model.remove();
 		me.ai.remove();
 		delete(AIM9.active, me.ID);
@@ -172,7 +180,7 @@ var AIM9 = {
 		me.hdgN.setDoubleValue(ac_hdg);
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
-
+		#print("roll "~ac_roll~" on "~me.rollN.getPath());
 		me.coord.set_latlon(alat, alon, me.ac.alt());
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
@@ -205,14 +213,23 @@ var AIM9 = {
 
 	# steering missile
 	update: func {
-		var dt = getprop("sim/time/delta-sec");
+		var dt = getprop("sim/time/delta-sec");#TODO: find out more about how this property works
 		if (dt == 0) {
 			#FG is likely paused
-			settimer(func me.update(), 0.01, 1);
+			settimer(func me.update(), 0.01);
 			return;
 		}
+		dt = update_loop_time;
+		#var elapsed = getprop("sim/time/elapsed-sec");
+		#if (me.dt_last != 0) {
+		#	dt = elapsed - me.dt_last;  this property is updated too slow, so commented out
+		#}
+		#me.dt_last = elapsed;
+
 		var init_launch = 0;
-		if ( me.life_time > 0 ) { init_launch = 1 }
+		if ( me.life_time > 0 ) {
+			init_launch = 1;
+		}
 		me.life_time += dt;
 		# record coords so we can give the latest nearest position for impact.
 		me.last_coord = me.coord;
@@ -222,8 +239,13 @@ var AIM9 = {
 
 		# Cut rocket thrust after boost duration.
 		var f_lbs = me.force_lbs;
-		if (me.life_time > 2) { f_lbs = me.force_lbs * 0.3; }
-		if (me.life_time > me.thrust_duration) { f_lbs = 0; me.smoke_prop.setBoolValue(0); }
+		if (me.life_time > 2) {
+			f_lbs = me.force_lbs * 0.3;
+		}
+		if (me.life_time > me.thrust_duration) {
+			#print("lifetime "~me.life_time);
+			f_lbs = 0; me.smoke_prop.setBoolValue(0);
+		}
 
 		# Kill the AI after a while.
 		if (me.life_time > 60) { return me.del(); }
@@ -247,7 +269,7 @@ var AIM9 = {
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
 		var speed_m = (total_s_ft / dt) / sound_fps;
-		#print(speed_m);
+		#print("mach "~speed_m);
 		if (speed_m < 0.7) cdm = 0.0125 * speed_m + me.cd;
 		elsif (speed_m < 1.2 ) cdm = 0.3742 * math.pow(speed_m, 2) - 0.252 * speed_m + 0.0021 + me.cd;
 		else cdm = 0.2965 * math.pow(speed_m, -1.1506) + me.cd;
@@ -278,6 +300,7 @@ var AIM9 = {
 		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
 
+		#print("alt "~alt_ft);
 
 		#### Guidance.
 
@@ -324,7 +347,12 @@ var AIM9 = {
 				# We exploded, but need a few more secs to spawn the explosion animation.
 				settimer(func { me.del(); }, 4 );
 				return;
-			}	
+			}
+			if (alt_ft < -75) {
+				#it must have hit ground (tmp fix)
+				me.del();
+				return;
+			}
 		}
 		# record the velocities for the next loop.
 		me.s_north = speed_north_fps;
@@ -334,7 +362,7 @@ var AIM9 = {
 		me.pitch = pitch_deg;
 		me.hdg = hdg_deg;
 
-		settimer(func me.update(), 0.01, 1);#with low framerate the missiles will have hard to detect a hit, so using realtime
+		settimer(func me.update(), update_loop_time, 1);#TODO: with low framerate the missiles will have hard to detect a hit, so consider using realtime, but dt must match
 		
 	},
 
@@ -393,6 +421,8 @@ var AIM9 = {
 			var t_course = me.coord.course_to(me.t_coord);
 			me.curr_tgt_h = t_course - me.hdg;
 
+			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
+
 			# Compute gain to reduce target deviation to match an optimum 3 deg
 			# This augments steering by an additional 10 deg per second during
 			# the trajectory first 2 seconds.
@@ -446,19 +476,21 @@ var AIM9 = {
 	poximity_detection: func {
 		var cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 		# Get current direct distance.
-		#print("cur_dir_dist_m = ",cur_dir_dist_m," me.direct_dist_m = ",me.direct_dist_m);
+		#print("distance to target_m = ",cur_dir_dist_m," prev_distance to target_m = ",me.direct_dist_m);
 		if ( me.direct_dist_m != nil ) {
 			if ( cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < 65 ) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
 				me.explode();
 				return(0);
-			} elsif (cur_dir_dist_m < 10) {
+			#} #elsif (cur_dir_dist_m < 20) {
+			#	print("proximity fuse activated.");
 				#within killing distance, explode 
 				#(this might not be how the real thing does, but due to this only being called every frame, might miss otherwise)
-				me.explode();
-				return(0);
-			} elsif (me.free ==1 and cur_dir_dist_m < 20) {
+			#	me.explode();
+			#	return(0);
+			} elsif (me.free == 1 and cur_dir_dist_m < 20) {
+				#print("Magnetic fuse active.");
 				# lost lock, magnetic detector checks if close enough to explode
 				me.explode();
 				return(0);

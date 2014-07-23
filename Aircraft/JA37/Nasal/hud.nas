@@ -1132,7 +1132,7 @@ var HUDnasal = {
       #turn indicator
       if (getprop("sim/ja37/hud/bank-indicator") == 1) {
         me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-        me.slip_indicator.setTranslation(getprop("/orientation/side-slip-deg"), 0);
+        me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*4, -75, 75), 0);
         me.turn_group.show();
       } else {
         me.turn_group.hide();
@@ -1204,7 +1204,7 @@ var HUDnasal = {
             blink = 1;
             me.short_dist[1] = -512;
           }
-          if(me.short_dist[6] == 1) {
+          if(me.short_dist[6] == 1 and getprop("sim/ja37/hud/combat") == 1) {
             #targetable
             diamond_node = me.short_dist[5];
             me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);

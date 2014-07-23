@@ -211,7 +211,7 @@ var Dialog = {
           bankRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var bankText = bankRow.addChild("text").set("label", "HUD bank indicator: (not authentic)");
+          var bankText = bankRow.addChild("text").set("label", "HUD turn coordinator: (not authentic)");
           bankRow.addChild("empty").set("stretch", 1);
           me.dialog.bankButton = bankRow.addChild("button");
           me.dialog.bankButton.set("halign", "right");

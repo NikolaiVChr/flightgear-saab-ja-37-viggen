@@ -5,18 +5,21 @@ TODO for Flightgear JA-37
 Bugs:
 --------------
 Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
-Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping.
+Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Report: After A/P the plane consumes too much fuel. [not reproduceable]
-Sound: Occasional wierd buzz in external sounds.
+Sound: Occasional wierd buzz in external sounds. [reproduced]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
 Sim: On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Two times I could not autostart. Started before splash finish. Priority! [hard to reproduce, seldom]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
 Sim: Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
-Sim: Missiles do not work when using FG 3.0, in FG 3.1 they work fine.
+Sim: Missiles do not work when using FG 3.0, in FG 3.1 they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
+Sim: A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
+Sim: Radar screen did not see MP aircraft pass by. [not reproduced yet]
+HUD: When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
 
 
 Features and improvements:
@@ -37,6 +40,7 @@ Animation: Pilot from F16CJ?
 Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
 Animation: Gauges that share mount design should also share geometry and textures.
+Animation: Strobe looks bad in FG 3.0.
 Sim: Improve autopilot further, it wobbles.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
@@ -53,6 +57,7 @@ Sim: Key to match speed of HUD selected track.
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
 Sim: Make replay show the new guided missiles flying.
+Sim: Missiles should crash into ground. [maybe lower limit on alt]
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.

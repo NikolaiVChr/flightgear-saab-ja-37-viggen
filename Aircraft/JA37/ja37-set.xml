@@ -34,7 +34,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.22</aircraft-version>
+  <aircraft-version>2.23</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -753,8 +753,8 @@
           <fov-deg type="int">25</fov-deg>                     <!-- seeker optical FOV -->
           <detection-fov-deg type="int">60</detection-fov-deg> <!-- Search pattern diameter (rosette scan) -->
           <track-max-deg type="int">110</track-max-deg>        <!-- Seeker max total angular rotation -->
-          <max-g type="int">42</max-g>                         <!-- In turn -->
-          <thrust-lbs type="double">200</thrust-lbs>           <!-- should achieve speed of 2.5+ mach -->
+          <max-g type="int">32</max-g>                         <!-- In turn -->
+          <thrust-lbs type="double">230</thrust-lbs>           <!-- should achieve speed of 2.5+ mach orig:230 -->
           <thrust-duration-sec type="int">40</thrust-duration-sec><!-- Aim-9J/rb-24j -->
           <weight-launch-lbs>188</weight-launch-lbs>           <!-- Aim-9J/rb-24j -->
           <weight-warhead-lbs>9.92</weight-warhead-lbs>        <!-- Aim-9J/rb-24j -->

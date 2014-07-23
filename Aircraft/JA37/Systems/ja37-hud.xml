@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-	<name>Default Aircraft Hud</name>
+	<name>JA37 Hud</name>
 	
 	<import>
 		<path>Aircraft/JA37/Systems/hud/turn-bank-indicator.xml</path>
@@ -45,4 +45,11 @@
 	<import>
 		<path>Aircraft/JA37/Systems/hud/runway.xml</path>
 	</import>
+
+	<condition>
+        <equals>
+        	<property>/sim/ja37/hud/mode</property>
+        	<value>0</value>
+        </equals>
+    </condition>
 </PropertyList>

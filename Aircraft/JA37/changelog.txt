@@ -539,6 +539,14 @@ Sim: Updated the help to reflect the changes to the HUD.
 ----
 HUD: Added key to toggle custom/FG HUD.
 
-2.22
+2.22 - 2014 June 27
 ----
 HUD: Added option to turn on a HUD bank and slip indicator.
+
+2.23 - 2014 June 27
+----
+Sim: Fixed a regression bug in missiles.
+HUD: Made slip indicator be more sensitive.
+HUD: Diamond is now only shown in combat mode.
+Sound: Lowered volume of tracking buzz.
+Sim: Changed the way missiles keep track of time. They are now more precise, especially at long distance.
