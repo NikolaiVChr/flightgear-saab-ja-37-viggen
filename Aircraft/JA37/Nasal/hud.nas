@@ -198,7 +198,7 @@ var HUDnasal = {
 
         #heading bug
     HUDnasal.main.heading_bug_group = HUDnasal.main.root.createChild("group");
-    HUDnasal.main.heading_bug_group.set("clip", "rect(62px, 687px, 262px, 337px)");#top,right,bottom,left
+    #HUDnasal.main.heading_bug_group.set("clip", "rect(62px, 687px, 262px, 337px)");#top,right,bottom,left
     HUDnasal.main.heading_bug = HUDnasal.main.heading_bug_group.createChild("path")
     .setColor(r,g,b, a)
     .setStrokeLineWidth(w)
@@ -757,10 +757,9 @@ var HUDnasal = {
         desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+getprop("orientation/heading-magnetic-deg");#getprop("autopilot/settings/true-heading-deg")+
       } elsif (getprop("autopilot/locks/heading") == "nav1-hold") {
         desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+getprop("orientation/heading-magnetic-deg");
-        #if( getprop("autopilot/route-manager/current-wp") != -1) {
-        #  var i = getprop("autopilot/route-manager/current-wp");
-        #  desired_mag_heading = getprop("autopilot/route-manager/wp["~i~"]/bearing-deg");
-        #}
+      } elsif( getprop("autopilot/route-manager/active") == 1) {
+        #var i = getprop("autopilot/route-manager/current-wp");
+        desired_mag_heading = getprop("autopilot/route-manager/wp/bearing-deg");
       }
       if(desired_mag_heading != nil) {
         #print("desired "~desired_mag_heading);
@@ -786,8 +785,21 @@ var HUDnasal = {
         
         var pos_x = middleOffset + degOffset*(headScaleTickSpacing/5);
         #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
+        var blink = 0;
+        #62px, 687px, 262px, 337px
+        if (pos_x < 337-512) {
+          blink = 1;
+          pos_x = 337-512;
+        } elsif (pos_x > 687-512) {
+          blink = 1;
+          pos_x = 687-512;
+        }
         me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
-        me.heading_bug.show();
+        if(blink == 0 or getprop("sim/ja37/blink/five-Hz") == 1) {
+          me.heading_bug.show();
+        } else {
+          me.heading_bug.hide();
+        }
       } else {
         me.heading_bug.hide();
       }
@@ -1021,6 +1033,12 @@ var HUDnasal = {
         desired_alt_delta_ft = getprop("autopilot/settings/target-altitude-ft")-me.input.alt_ft.getValue();
       } elsif (getprop("autopilot/locks/altitude") == "agl-hold") {
         desired_alt_delta_ft = getprop("autopilot/settings/target-agl-ft")-me.input.rad_alt.getValue();
+      } elsif(getprop("autopilot/route-manager/active") == 1) {
+        var i = getprop("autopilot/route-manager/current-wp");
+        var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
+        if(rt_alt != nil and rt_alt > 0) {
+          desired_alt_delta_ft = rt_alt - me.input.alt_ft.getValue();
+        }
       }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
       if(desired_alt_delta_ft != nil) {
         var pos_y = clamp(-desired_alt_delta_ft*pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);

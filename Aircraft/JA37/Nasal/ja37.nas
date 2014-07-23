@@ -289,8 +289,8 @@ var update_loop = func {
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
-        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 400 or getprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps") != 0) {
-          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 400);
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") == 0 or getprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps") != 0) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 224.87);#if change this also change it in jsbsim
           setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", 0);
         }
         setprop("/consumables/fuel/tank[8]/selected", 1);

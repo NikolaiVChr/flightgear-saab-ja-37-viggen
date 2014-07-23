@@ -122,7 +122,7 @@ var Dialog = {
           
           var topRow = workArea.addChild("group");
           topRow.set("layout", "vbox");
-          topRow.set("pref-height", 150);
+          topRow.set("pref-height", 200);
           topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           topRow.set("valign", "top");
           topRow.set("stretch", "false");
@@ -219,6 +219,21 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.bankButton.setBinding("nasal", "ja37.Dialog.bankToggle()");
 
+          ######   Yaw damper button   #####
+          var yawRow = topRow.addChild("group");
+          yawRow.set("layout", "hbox");
+          yawRow.set("pref-height", 25);
+          yawRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var yawText = yawRow.addChild("text").set("label", "Yaw damper:");
+          yawRow.addChild("empty").set("stretch", 1);
+          me.dialog.yawButton = yawRow.addChild("button");
+          me.dialog.yawButton.set("halign", "right");
+          me.dialog.yawButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.yawButton.setBinding("nasal", "ja37.Dialog.yawToggle()");
+
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
           rb24msgRow.set("layout", "hbox");
@@ -238,7 +253,7 @@ var Dialog = {
           hudRow.set("layout", "hbox");
           hudRow.set("pref-height", 25);
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          hudRow.set("valign", "center");
+          #hudRow.set("valign", "center");
                     
           hudRow.addChild("text").set("label", "HUD color:");
           me.dialog.hudLight = hudRow.addChild("button");
@@ -254,9 +269,9 @@ var Dialog = {
           #  mention hangar
           var hangar = workArea.addChild("group");
           hangar.set("layout", "vbox");
-          hangar.set("pref-height", 50);
+          hangar.set("pref-height", 60);
           hangar.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
-          hangar.set("valign", "center");
+          #hangar.set("valign", "center");
 
           hangar.addChild("hrule");#.set("valign", "bottom");
           var ad1 = hangar.addChild("text");
@@ -339,6 +354,13 @@ var Dialog = {
     bankToggle: func {
       var enabled = getprop("sim/ja37/hud/bank-indicator");
       setprop("sim/ja37/hud/bank-indicator", !enabled);
+      me.refreshButtons();
+    },
+
+    yawToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
+      setprop("fdm/jsbsim/fcs/yaw-damper-enable", !enabled);
       me.refreshButtons();
     },    
 
@@ -428,6 +450,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.bankButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.yawButton.node.setValues({"legend": legend});      
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {

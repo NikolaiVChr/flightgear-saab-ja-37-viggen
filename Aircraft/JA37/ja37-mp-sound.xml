@@ -159,10 +159,15 @@
       <property>sim/multiplay/generic/float[15]</property><!-- n1 -->
       <value>1</value>
     </greater-than>
-    <equals>
-     <property>/sim/current-view/name</property>
-     <value>Model View</value>
-    </equals>
+    <or>
+      <equals>
+        <property>/sim/current-view/name</property>
+        <value>Model View</value>
+      </equals>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </or>
     <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
    </condition>
    <reference-dist>5</reference-dist>
@@ -199,10 +204,15 @@
    <path>Aircraft/JA37/Sounds/thrust-exterior.wav</path>
    <mode>looped</mode>
    <condition>
-    <equals>
-     <property>/sim/current-view/name</property>
-     <value>Model View</value>
-    </equals>
+    <or>
+      <equals>
+        <property>/sim/current-view/name</property>
+        <value>Model View</value>
+      </equals>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </or>
     <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
     <greater-than-equals>
       <property>sim/multiplay/generic/float[15]</property><!-- n1 -->
@@ -248,10 +258,15 @@
    <type>fx</type>
    <condition>
     <property>sim/multiplay/generic/int[4]</property><!-- engines/engine/augmentation -->
-    <equals>
-     <property>/sim/current-view/name</property>
-     <value>Model View</value>
-    </equals>
+    <or>
+      <equals>
+        <property>/sim/current-view/name</property>
+        <value>Model View</value>
+      </equals>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </or>
     <!--<greater-than-equals>
       <property>engines/engine/n1</property>
       <value>98</value>

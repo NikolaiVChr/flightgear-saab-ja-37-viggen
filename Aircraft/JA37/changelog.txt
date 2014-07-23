@@ -601,3 +601,13 @@ Aero: Decreased aileron sensitivity at sealevel low speeds further.
 Aero: Reverted empty weight back to what it was before.
 Aero: Added sideforce due to aileron, mach and rudder.
 Aero: Updated tables for axial force due to gear and flaps.
+
+2.30
+====
+Sim: Adjusted speed, weight and rate of cannon rounds.
+Sound: Made MP engine sound be heard when touched down, not only when flying.
+Aero: Decreased empty weight of drop tank.
+Engine: Adjusted thrust tables for below 10000ft and slower than M0.75.
+HUD: Made route-manager work with heading scale and alt scale.
+HUD: Heading bug now blink when not not in view, instead of using clip.
+GUI: Added option for yaw damper.

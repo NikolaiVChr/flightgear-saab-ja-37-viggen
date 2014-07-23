@@ -2,33 +2,6 @@ TODO for Flightgear JA-37
 =========================
 
 
-Bugs:
---------------
-Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
-Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
-Report: After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
-Sound: Occasional wierd buzz in external sounds. [reproduced]
-Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
-HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
-Sim: On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
-Sim: Two times I could not autostart. Started before splash finish. Priority! [hard to reproduce, seldom]
-Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
-Sim: Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
-Sim: Missiles do not show when using FG 3.0, in FG 3.1 they work fine. [reproduced]
-Sim: Missiles will not lock on to ferries that is missing the radar properties.
-Sim: Find out why cannon and sidewinder fire randomly after instant replay.
-Sim: A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
-Sim: Radar screen did not see MP aircraft pass by. [not reproduced yet]
-HUD: When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-HUD: I have experienced that combat mode was on by default.
-
-
-Before 3.2
-----------
-Mach effects on moments (test in 3.0)
-Be able to reduce speed with sideslip.
-
-
 Features and improvements:
 --------------------------
 GUI: Option to turn off verbose popups.
@@ -39,6 +12,9 @@ GUI: Checklist.
 GUI: Option to switch off hitting stuff above ground.
 Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
+Aero: Make cannon pod detachable and have pointweight.
+Aero: Check kinematic on all flight-control surfaces.
+Engine: Convert engine tables to Aeromatic as it is more reliable than Stanford Engine Model.
 Animation: Some switches.
 Animation: Make wings break off when they break due to structural damage.
 Animation: Adjust instrument materials, and make the gauges look more similar.
@@ -51,7 +27,7 @@ Animation: Make minimal polygon model for multiplayer LOD.
 Animation: Min and max on several gauges.
 Animation: Gauges that share mount design should also share geometry and textures.
 Animation: Strobe looks bad in FG 3.0, but better in FG 3.1
-Sim: Improve autopilot further, it wobbles.
+Sim: Improve autopilot further.
 Sim: Make autopilot depend on instrument properties not sim properties.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
@@ -64,11 +40,10 @@ Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Key to match speed of HUD selected track.
+Sim: Key to match speed of HUD selected radar track.
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
 Sim: Make replay show the new guided missiles flying.
-Sim: Missiles should not fire when on ground. (possible not even when landing gear down.)
 Effect: Make vortex vapor flat. (flatten texture and stop spinning it) [wont fix, the particle is always attached to world not plane]
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
@@ -78,7 +53,7 @@ Effect: Make gears break if too high speed with gears down.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Sound: More annunciater warnings and other sounds
+Sound: More annunciater warnings and other sounds. (fuel low..)
 Sound: Make sounds when taking damage in bombable.
 Sound: Make annunciator warnings only work if the system has power.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
@@ -86,12 +61,32 @@ HUD: Make individual parts in HUD fail if the corresponding instrument fails. (l
 HUD: Make desired height columns for landing and boxes for desired pitch.
 HUD: make more methods out of similar code, introduce more comments and name variables better.
 HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
-HUD: make symbol for warning: pull up! (plus annunciater)
+HUD: make symbol for warning: pull up! (plus annunciater sound)
 HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle fin down.
 HUD: Seperate landing and takeoff mode. Reticle with fin should also be shown in landing mode.
 HUD: Sideslip indicator dot at top of HUD?
 HUD: Track semi circles and semi box should have a line in them.
+
+
+Bugs:
+--------------
+Aero: Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
+Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
+Report: After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
+Sound: Occasional wierd buzz in external sounds. [reproduced]
+Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
+HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
+Sim: On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
+Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
+Sim: Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
+Sim: Missiles do not show when using FG 3.0, in FG 3.1 they work fine. [reproduced]
+Sim: Missiles will not lock on to ferries that is missing the radar properties.
+Sim: Find out why cannon and sidewinder fire randomly after instant replay.
+Sim: A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
+Sim: Radar screen did not see MP aircraft pass by. [not reproduced yet]
+HUD: When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
+HUD: I have experienced that combat mode was on by default.
 
 
 Issues with FG: (or my limited understanding of it)
@@ -131,7 +126,8 @@ Animation: Put in alot more not-working instruments and controls for immersion.
 
 Require more data: (or aerodynamic know-how)
 ------------------
-Aero: Detailed axial coefficient.
+Aero: Detailed axial coefficients.
 Aero: Mass distribution.
 Aero: Detailed high speed aerodynamics.
 Aero: Accurate weight of empty drop tank.
+Aero: Weight of 30mm cannon pod.
