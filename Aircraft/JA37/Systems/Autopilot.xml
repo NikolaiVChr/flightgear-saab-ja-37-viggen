@@ -181,8 +181,12 @@
     <config>
       <Kp>0.2</Kp>          <!-- proportional gain -->
       <Ki>0.01</Ki>          <!-- integral gain -->
-      <u_min>-50</u_min> <!-- minimum output clamp -->
-      <u_max>50</u_max>   <!-- maximum output clamp -->
+      <u_min>
+        <prop>fdm/jsbsim/autopilot/descent</prop>
+      </u_min> <!-- minimum output clamp -->
+      <u_max>
+        <prop>fdm/jsbsim/autopilot/climb</prop>
+      </u_max>   <!-- maximum output clamp -->
     </config>
   </pi-simple-controller>
 

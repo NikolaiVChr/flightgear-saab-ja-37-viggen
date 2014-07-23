@@ -397,4 +397,25 @@
         <output>fcs/throttle-pos-norm</output>
       </pure_gain>
     </channel>    -->
+
+    <channel name="Autopilot">
+      <scheduled_gain name="Autopilot max climb">
+        <input>autopilot/one</input>
+        <table>
+          <independentVar lookup="row">velocities/mach</independentVar>
+          <tableData>
+              0.25            5        
+              0.5          5000        
+              1.0         30000       
+          </tableData>
+        </table>
+        <output>autopilot/climb</output>
+      </scheduled_gain>
+
+      <pure_gain name="Autopilot min climb">
+          <input>autopilot/climb</input>
+          <gain>-0.2</gain>
+          <output>autopilot/descent</output>
+      </pure_gain>
+    </channel>
   </flight_control>

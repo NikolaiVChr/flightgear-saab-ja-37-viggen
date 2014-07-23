@@ -663,6 +663,12 @@ HUD: Made sidewind and flight path indicator symbols smaller.
 2.40 - 2014 July 18
 ====
 Sim: Key 'f' and 'F' now will make A/P settings for intercepting and flying in formation with the target at the time of the keypress.
-HUD: Cannon should have its own aiming reticle, besides having a flight path indicator.
+HUD: Cannon now have its own aiming reticle, besides having a flight path indicator.
 Sound: Made simple terrain warning system.
 HUD: Made arrow for terrain warning system.
+
+2.41 - 2014 July 19
+====
+Sim: Improved auto-pilot altitude hold
+Sim: Popup feedback for A/P auto follow system.
+GUI: Made popup feedback for parking brakes.

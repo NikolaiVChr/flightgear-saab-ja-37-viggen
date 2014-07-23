@@ -731,9 +731,33 @@ var follow = func () {
     setprop("/autopilot/target-tracking-ja37/enable", 1);
     var range = 0.025;
     setprop("/autopilot/target-tracking-ja37/goal-range-nm", range);
+    gui.popupTip("A/P follow: ON");
+    setprop("/autopilot/locks/speed", "speed-with-throttle");
+    setprop("/autopilot/locks/altitude", "altitude-hold");
+    setprop("/autopilot/locks/heading", "dg-heading-hold");
+  } else {
+    setprop("/autopilot/target-tracking-ja37/enable", 0);
+    gui.popupTip("A/P follow: no valid target.");
+    setprop("/autopilot/locks/speed", "");
+    setprop("/autopilot/locks/altitude", "");
+    setprop("/autopilot/locks/heading", "");
   }
 }
 
 var unfollow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", 0);
+  gui.popupTip("A/P follow: OFF");
+  setprop("/autopilot/locks/speed", "");
+  setprop("/autopilot/locks/altitude", "");
+  setprop("/autopilot/locks/heading", "");
+}
+
+var applyParkingBrake = func(v) {
+    controls.applyParkingBrake(v);
+    if(!v) return;
+    if (getprop("/controls/gear/brake-parking") == 1) {
+      gui.popupTip("Parking brakes: ON");
+    } else {
+      gui.popupTip("Parking brakes: OFF");
+    }
 }

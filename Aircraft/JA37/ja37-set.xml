@@ -35,7 +35,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.40</aircraft-version>
+  <aircraft-version>2.41</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -820,6 +820,9 @@
     <inertia>
       <asymmetric-wing-load type="int">0</asymmetric-wing-load>
     </inertia>
+    <autopilot>
+      <one type="double">0.01667</one>
+    </autopilot>
   </jsbsim>
  </fdm>
  <controls>
@@ -947,6 +950,20 @@
 *************************************************************************--> 
  <input>
    <keyboard>
+    <key n="66">
+    <name>B</name>
+    <desc>Toggle parking brake on or off</desc>
+    <binding>
+     <command>nasal</command>
+     <script>ja37.applyParkingBrake(1)</script>
+    </binding>
+    <mod-up>
+     <binding>
+      <command>nasal</command>
+      <script>ja37.applyParkingBrake(0)</script>
+     </binding>
+    </mod-up>
+   </key>
     <key n="104">
       <name>h</name>
       <desc>Toggle masterarm</desc>
