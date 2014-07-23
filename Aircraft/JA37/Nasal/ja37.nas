@@ -757,6 +757,11 @@ var follow = func () {
     var range = 0.025;
     setprop("/autopilot/target-tracking-ja37/goal-range-nm", range);
     gui.popupTip("A/P follow: ON");
+
+    setprop("autopilot/settings/target-altitude-ft", 10000);# set some default values until the follow script sets them.
+    setprop("autopilot/settings/heading-bug-deg", 0);
+    setprop("autopilot/settings/target-speed-kt", 200);
+
     setprop("/autopilot/locks/speed", "speed-with-throttle");
     setprop("/autopilot/locks/altitude", "altitude-hold");
     setprop("/autopilot/locks/heading", "dg-heading-hold");

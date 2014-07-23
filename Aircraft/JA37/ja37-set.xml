@@ -21,7 +21,8 @@
   <tags>
       <!--<tag>saab</tag>
       <tag>1-engine</tag>
-      <tag>1990s</tag>-->
+      <tag>1990s</tag>
+      <tag>combat</tag>-->
       <tag>jet</tag>
       <tag>retractable-gear</tag>
       <tag>supersonic</tag>
@@ -35,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.42</aircraft-version>
+  <aircraft-version>2.43</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -875,6 +876,7 @@
 <autopilot>
   <target-tracking-ja37>
     <min-speed-kt type="double">200</min-speed-kt>
+    <enable type="bool">false</enable>
   </target-tracking-ja37>
   <target-tracking>
     <min-speed-kt type="double">200</min-speed-kt>

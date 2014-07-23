@@ -43,7 +43,6 @@ Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
 Sim: Make replay show the new guided missiles flying.
 Sim: Carrier tailhook although the original did not have one.
-Sim: Consider if auto-follow should evoke A/P.
 Sim: Improve terrain warning system.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
@@ -71,7 +70,7 @@ HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance
 
 Bugs:
 --------------
-Aero: {Johan G} Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore]
+Aero: {Johan G} Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore, if at all]
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
 Sound: Occasional wierd buzz in external sounds. [reproduced]

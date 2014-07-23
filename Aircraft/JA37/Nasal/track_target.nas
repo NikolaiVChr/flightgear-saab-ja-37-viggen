@@ -128,7 +128,7 @@ var TrackUpdate = func(loop_id) {
 
     target_tracking_enable = getprop("/autopilot/target-tracking-ja37/enable");
 
-    if ( target_tracking_enable == 1 and getprop(target_root~"/valid") == 1) {
+    if ( target_tracking_enable == 1 and getprop(getprop("/autopilot/target-tracking-ja37/target-root")~"/valid") == 1) {
         update_period = getprop("/autopilot/target-tracking-ja37/update-period");
 
         # refresh user configurable values
@@ -155,7 +155,7 @@ var TrackUpdate = func(loop_id) {
         var myalt_true = getprop("position/altitude-ft");
         var myalt = getprop("instrumentation/altimeter/indicated-altitude-ft");
         var alt_diff = myalt_true - myalt;
-
+        #print(alt~" "~alt_diff~" "~myalt~" "~myalt_true);
         alt = alt - alt_diff;
 
         var speed_prop = sprintf("%s/velocities/true-airspeed-kt", target_root );
@@ -227,8 +227,10 @@ var TrackUpdate = func(loop_id) {
         # only keep the timer running when the feature is really enabled
         settimer(func() { TrackUpdate(loop_id); }, update_period );
     } else {
-        if (getprop(target_root~"/valid") != 1) {
+        if (getprop(getprop("/autopilot/target-tracking-ja37/target-root")~"/valid") != 1) {
             ja37.lostfollow();
+            #print(getprop("/autopilot/target-tracking-ja37/target-root"));
+            #print(getprop(getprop("/autopilot/target-tracking-ja37/target-root")~"/valid"));
         }
     }
 }

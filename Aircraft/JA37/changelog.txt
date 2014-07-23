@@ -673,7 +673,7 @@ Sim: Improved auto-pilot altitude hold
 Sim: Popup feedback for A/P auto follow system.
 GUI: Made popup feedback for parking brakes.
 
-2.42
+2.42 - 2014 July 19
 ====
 Animation: Adjusted some instrument positions.
 Sound: Made annunciator warning for fuel low.
@@ -683,3 +683,7 @@ Sim: Follow A/P now detects if a target is lost.
 GUI: Changes "reversed" to "reverse" popup message.
 Engine: Improved auto-startup final phase.
 Aero: Fixed bug in aileron limiter control system. The plane is now less roll-lazy at medium/high speeds.
+
+2.43
+==== - 2014 July 19
+Sim: Fixed a bug when following MP aircraft.
