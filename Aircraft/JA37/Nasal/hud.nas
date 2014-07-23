@@ -61,7 +61,6 @@ var artifacts0 = nil;
 var artifacts1 = [];
 var maxTracks = 16;# how many radar tracks can be shown at once in the HUD
 var diamond_node = nil;
-var vel_vec = nil;
 
 var HUDnasal = {
   canvas_settings: {
@@ -584,7 +583,17 @@ var HUDnasal = {
     HUDnasal.main.diamond_name.setTranslation(40, -55);
     HUDnasal.main.diamond_name.setFontSize(60*fs, ar);
 
-        #tower symbol
+
+    HUDnasal.main.vel_vec_trans_group = HUDnasal.main.radar_group.createChild("group");
+    HUDnasal.main.vel_vec_rot_group = HUDnasal.main.vel_vec_trans_group.createChild("group");
+    #HUDnasal.main.vel_vec_rot = HUDnasal.main.vel_vec_rot_group.createTransform();
+    HUDnasal.main.vel_vec = me.vel_vec_rot_group.createChild("path")
+                                  .moveTo(0, 0)
+                                  .lineTo(0,-1)
+                                  .setStrokeLineWidth(w)
+                                  .setColor(r,g,b, a);
+
+    #tower symbol
     HUDnasal.main.tower_symbol = HUDnasal.main.root.createChild("group");
     HUDnasal.main.tower_symbol.createTransform();
     var tower = HUDnasal.main.tower_symbol.createChild("path")
@@ -624,7 +633,7 @@ var HUDnasal = {
       append(artifacts1, target_circles);
     }
 
-    artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug,
+    artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator, HUDnasal.main.arrow,
              HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon,
@@ -1365,31 +1374,24 @@ var HUDnasal = {
         }
 
         #velocity vector
-        if(vel_vec != nil) {
-          vel_vec.del();
-        }
         if(me.short_dist[0] > -512 and me.short_dist[0] < 512 and me.short_dist[1] > -512 and me.short_dist[1] < 512) {
           var tgtHeading = me.short_dist[5].getNode("orientation/true-heading-deg").getValue();
           var tgtSpeed = me.short_dist[5].getNode("velocities/true-airspeed-kt").getValue();
           var myHeading = me.input.hdgReal.getValue();
           var myRoll = me.input.roll.getValue();
-          var relHeading = tgtHeading - myHeading + 90 + myRoll;#+90 to convert to trigonometry circle
-          while(relHeading < 0) {
-            relHeading += 360;
-          }
-          while(relHeading > 360) {
-            relHeading -= 360;
-          }        
-          relHeading = relHeading * deg2rads;
-          var vx = math.cos(-relHeading) * tgtSpeed/4;
-          var vy = math.sin(-relHeading) * tgtSpeed/4;
+          var relHeading = tgtHeading - myHeading - myRoll;
           
-          # note since tronometry circle is opposite direction of compas heading direction, the line will trail the target.
-          vel_vec = me.root.createChild("path")
-                                  .moveTo(me.short_dist[0], me.short_dist[1])
-                                  .lineTo(me.short_dist[0]+vx, me.short_dist[1]-vy)
-                                  .setStrokeLineWidth(w)
-                                  .setColor(r,g,b, a);
+          relHeading -= 180;# this makes the line trail instead of lead
+          relHeading = relHeading * deg2rads;
+
+          me.vel_vec_trans_group.setTranslation(me.short_dist[0], me.short_dist[1]);
+          me.vel_vec_rot_group.setRotation(relHeading);
+          me.vel_vec.setScale(1, tgtSpeed/4);
+          
+          # note since trinometry circle is opposite direction of compas heading direction, the line will trail the target.
+          me.vel_vec.show();
+        } else {
+          me.vel_vec.hide();
         }
 
         me.target_circle[me.short_dist[3]].update();
@@ -1758,10 +1760,6 @@ var reinit = func() {#mostly called to change HUD color
 
    foreach(var item; artifacts1) {
     item.setColor(r, g, b, a);
-   }
-
-   if(vel_vec != nil) {
-    vel_vec.setColor(r,g,b,a);
    }
 
    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
