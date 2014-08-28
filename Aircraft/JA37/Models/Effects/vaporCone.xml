@@ -3,7 +3,8 @@
 <PropertyList>
 
   <path>vaporCone.ac</path>
-
+  <nopreview/>
+  
   <effect>
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>vaporCone</object-name>

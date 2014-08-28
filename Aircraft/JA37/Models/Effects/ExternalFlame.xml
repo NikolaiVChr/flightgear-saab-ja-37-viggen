@@ -1,52 +1,56 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+  <nopreview/>
 
-<model>
- <name>ExternalFlame</name>
- <path>Aircraft/JA37/Models/Effects/externalflame.ac</path>
- <offsets> 
-  <x-m>0</x-m>
-  <y-m>0</y-m>
-  <z-m>0</z-m>
-  <heading-deg>0</heading-deg>
- </offsets>
-</model>
- 
-<effect>
- <inherits-from>Effects/model-transparent</inherits-from>
- <object-name>ExternalFlamePoly</object-name>
-</effect>
+  <model>
+   <name>ExternalFlame</name>
+   <path>Aircraft/JA37/Models/Effects/externalflame.ac</path>
+   <nopreview/>
+   <offsets> 
+    <x-m>0</x-m>
+    <y-m>0</y-m>
+    <z-m>0</z-m>
+    <heading-deg>0</heading-deg>
+   </offsets>
+  </model>
+   
+  <effect>
+   <inherits-from>Effects/model-transparent</inherits-from>
+   <object-name>ExternalFlamePoly</object-name>
+  </effect>
 
-<animation>
-  <type>noshadow</type>
-  <condition>
-    <property>sim/rendering/rembrandt/enabled</property>
-  </condition>
-  <object-name>ExternalFlamePoly</object-name>
-</animation>
+  <animation>
+    <type>noshadow</type>
+    <condition>
+      <property>sim/rendering/rembrandt/enabled</property>
+    </condition>
+    <object-name>ExternalFlamePoly</object-name>
+  </animation>
 
-<animation>
-  <type>select</type>
-  <object-name>ExternalFlame</object-name>
-  <condition>
-   <property>sim/multiplay/generic/int[4]</property><!-- engines/engine[0]/augmentation -->
-   <not>
-    <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/reversed -->
-   </not>
-  </condition>
-</animation>
+  <animation>
+    <type>select</type>
+    <object-name>ExternalFlame</object-name>
+    <nopreview/>
+    <condition>
+     <property>sim/multiplay/generic/int[4]</property><!-- engines/engine[0]/augmentation -->
+     <not>
+      <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/reversed -->
+     </not>
+    </condition>
+  </animation>
 
- <animation>
-  <type>scale</type>
-  <object-name>ExternalFlamePoly</object-name>
-  <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
-  <x-min>0.2</x-min>
-  <y-min>1.0</y-min>
-  <z-min>1.0</z-min>
-  <x-factor>1.0</x-factor>
-  <y-factor>1.0</y-factor>
-  <z-factor>1.0</z-factor>
- </animation>
+  <animation>
+    <type>scale</type>
+    <object-name>ExternalFlamePoly</object-name>
+    <nopreview/>
+    <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
+    <x-min>0.2</x-min>
+    <y-min>1.0</y-min>
+    <z-min>1.0</z-min>
+    <x-factor>1.0</x-factor>
+    <y-factor>1.0</y-factor>
+    <z-factor>1.0</z-factor>
+  </animation>
 
 </PropertyList>

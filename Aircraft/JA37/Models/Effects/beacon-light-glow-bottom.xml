@@ -4,7 +4,8 @@
 <PropertyList>
 
   <path>beacon-glow-red.ac</path>
-
+  <nopreview/>
+  
   <offsets>
     <x-m> -1.5524</x-m>
     <y-m> 0</y-m>

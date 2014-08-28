@@ -198,13 +198,13 @@
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-             -180   0.020
+             -180  -0.020
              -135   0
               -45   0
                 0   0.020
                45   0
               135   0
-              180   0.020
+              180  -0.020
               </tableData>
           </table>
       </product>
@@ -219,11 +219,11 @@
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-             -180   0.025
+             -180  -0.025
               -90   0
                 0   0.025
                90   0
-              180   0.025
+              180  -0.025
               </tableData>
           </table>
       </product>
@@ -238,18 +238,42 @@
   </function>
 
   <axis name="AXIAL">
-        <function name="aero/coefficient/CAtakeoff">
-          <description>Axial force due to flaps and gear</description>
-          <product>
-            <property>aero/function/Afactors</property>
-            <sum>
-              <property>aero/function/CAgear</property>
-              <property>aero/function/CAflaps</property>
-            </sum>
-          </product>
-      </function>
+    <function name="aero/coefficient/CAtakeoff">
+        <description>
+          Axial force due to flaps and gear
+        </description>
+        <product>
+          <property>aero/function/Afactors</property>
+          <sum>
+            <property>aero/function/CAgear</property>
+            <property>aero/function/CAflaps</property>
+          </sum>
+        </product>
+    </function>
 
-     <!-- from graph 29e page 43 [measured using graph analyser] (untrustworthy due to being be example from any plane, hence the 0.40 factor) -->
+    <function name="aero/coefficient/CACanopy">
+        <description>
+           Canopy axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <property>fcs/canopy-pos-norm</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <tableData>
+                -180 -0.015
+                 -90  0.000
+                   0  0.025
+                  90  0.000
+                 180 -0.015
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+     <!-- from graph 29e page 43 [measured using graph analyser] (untrustworthy due to being be example from any plane, hence the factor) -->
      <function name="aero/coefficient/CA">
         <description>
            Basic Tangential/axial Coefficient

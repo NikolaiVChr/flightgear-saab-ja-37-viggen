@@ -5,11 +5,8 @@ TODO for Flightgear JA-37
 Features and improvements:
 --------------------------
 GUI: Option to turn off verbose popups.
-GUI: Make something procedual, just to test it out.
-GUI: Test new FGPlot.
 GUI: Checklist.
 GUI: Option to switch off hitting stuff above ground.
-Aero: Make canopy increase drag.
 Aero: When wings break, remove most of normal force.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Check kinematic on all flight-control surfaces.
@@ -30,7 +27,6 @@ Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
 Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
 Sim: Instruments should turn on when battery gets turned on, instead of generator, but still be able to fail when electrical system fails.
-Sim: Add Bombable support, if aircraft can still work without having Bombable installed.
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Sim: Reset controls after A/P let go of them.
@@ -39,7 +35,7 @@ Sim: Check that all instruments and instr. lights rely on battery/generator powe
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground missiles.
 Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
-Sim: Make replay show the new guided missiles flying.
+Sim: Make replay show the guided missiles flying.
 Sim: Carrier tailhook although the original did not have one.
 Sim: Improve terrain warning system.
 Effect: Rembrandt landing lightcone.
@@ -62,14 +58,13 @@ HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle vertical tail down.
 HUD: Seperate landing and takeoff mode.
 HUD: Sideslip indicator dot at bottom of HUD?
-HUD: Track semi circles and semi box should have a line in them.
+HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Option to see plane type instead of callsign.
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 
 
 Bugs:
 --------------
-Aero: {Johan G} Find cause of buffeting. (autopilot also does it, seems like fast elevator changes is cause) [does not happen much anymore, if at all]
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
 Sound: Occasional wierd buzz in external sounds. [reproduced]
@@ -84,7 +79,7 @@ Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
 Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
 HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-HUD: I have experienced that combat mode was on by default. [not reproduced]
+HUD: I have experienced that combat mode was on by default. [not reliable reproduced]
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 
 
