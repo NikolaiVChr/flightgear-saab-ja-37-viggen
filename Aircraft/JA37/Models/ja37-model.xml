@@ -1,0 +1,877 @@
+<?xml version="1.0"?>
+
+<PropertyList include="ja37-bombable.xml">
+
+ <path>ja37.ac</path>
+
+ <!-- Multiplay sound -->
+ <sound>
+  <path>Aircraft/JA37/ja37-mp-sound.xml</path>
+ </sound>
+
+ <model>
+    <path>Aircraft/JA37/Models/ja37-panel.xml</path>
+    <name>Panel</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/rudder_pedals.xml</path>
+    <name>Pedals</name>
+      <offsets>
+        <x-m>-3.90</x-m>
+        <y-m> 0.00</y-m>
+        <z-m>-0.09</z-m>
+      </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/stick.xml</path>
+    <name>Stick</name>
+      <offsets>
+        <x-m>-3.65</x-m>
+        <y-m> 0.00</y-m>
+        <z-m> 0.00</z-m>
+      </offsets>
+  </model>
+
+<model>
+    <path>Aircraft/JA37/Models/HUD.xml</path>
+    <name>TheHUD</name>
+    <offsets>
+      <x-m>0.00</x-m>
+      <y-m>0.00</y-m>
+      <z-m>0.00</z-m>
+    </offsets>
+  </model> 
+
+<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/ja37/supported/hud</property>
+  </condition>
+  <object-name>HUDobject</object-name>
+</animation>
+
+
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
+    <name>lightglowR</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model> 
+
+ <model>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
+    <name>lightglowL</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model> 
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
+    <name>lightglowT</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
+    <name>lightglowB</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+<!-- Material shaders   -->
+  <effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+	  <object-name>canopy</object-name>
+	  <object-name>elevonLeftInner</object-name>
+	  <object-name>elevonLeftOuter</object-name>
+	  <object-name>elevonRightInner</object-name>
+	  <object-name>elevonRightOuter</object-name>
+	  <object-name>flaps</object-name>
+	  <object-name>fuselage</object-name>
+	  <object-name>rudder</object-name>
+	  <object-name>gearFront</object-name>
+	  <object-name>gearFrontHinge</object-name>
+	  <object-name>gearFrontDoorsOpen</object-name>
+	  <object-name>gearFrontDoorsClosed</object-name>
+	  <object-name>gearLeft</object-name>
+	  <object-name>gearLeftHinge</object-name>
+	  <object-name>gearLeftDoorsOpen</object-name>
+	  <object-name>gearLeftDoorsClosed</object-name>
+	  <object-name>gearRight</object-name>
+	  <object-name>gearRightHinge</object-name>
+	  <object-name>gearRightDoorsOpen</object-name>
+	  <object-name>gearRightDoorsClosed</object-name>
+  </effect>
+
+  <effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
+	  <object-name>nozzle</object-name>
+  </effect>
+
+  <effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
+	  <object-name>glass</object-name>
+	  <object-name>frontglas</object-name>
+  </effect>
+
+<!-- Fuselage animations -->
+
+<animation>
+  <type>rotate</type>
+  <object-name>glass</object-name>
+  <object-name>canopy</object-name>
+ <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
+  <factor>30.0</factor>
+  <center>
+   <x-m>-2.67098</x-m>
+   <y-m>0.000003</y-m>
+   <z-m>1.01043</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>  
+
+<!-- Control surfaces -->
+
+<animation>
+  <type>rotate</type>
+  <object-name>rudder</object-name>
+  <property>surface-positions/rudder-pos-norm</property>
+  <factor>60</factor>
+  <axis>   
+   <x2-m> 5.70491</x2-m>
+   <y1-m> 0</y1-m>
+   <z2-m> 3.04123</z2-m>
+   <x1-m> 5.70220</x1-m>
+   <y2-m> 0 </y2-m>
+   <z1-m> 1.09636</z1-m>
+  </axis>
+ </animation>
+ 
+<animation>
+  <type>rotate</type>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <property>sim/multiplay/generic/float[0]</property><!-- surface-positions/right-elevon-pos-deg -->
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> 5.84096 </x1-m>
+   <y1-m> 0.99576 </y1-m>
+   <z1-m> -0.31533 </z1-m>
+   <x2-m> 5.84928 </x2-m>
+   <y2-m> 5.10587 </y2-m>
+   <z2-m> -0.39563 </z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <property>sim/multiplay/generic/float[1]</property><!-- surface-positions/left-elevon-pos-deg -->
+  <factor>1.0</factor>
+  <axis>
+   <x2-m> 5.84096 </x2-m>
+   <y2-m> -0.99576 </y2-m>
+   <z2-m> -0.31533 </z2-m>
+   <x1-m> 5.84928 </x1-m>
+   <y1-m> -5.10587 </y1-m>
+   <z1-m> -0.39563 </z1-m>
+  </axis>
+ </animation>
+
+
+<animation>
+  <type>rotate</type>
+  <object-name>flaps</object-name>
+  <property>sim/multiplay/generic/float[2]</property><!-- fdm/jsbsim/fcs/flap-pos-deg -->
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> -0.25811 </x1-m>
+   <y1-m> -2.59427 </y1-m>
+   <z1-m> 0.12740 </z1-m>
+   <x2-m> -0.25811 </x2-m>
+   <y2-m> 2.59427 </y2-m>
+   <z2-m> 0.12740 </z2-m>
+  </axis>
+ </animation>
+
+<!-- Gears -->
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearFrontDoorsOpen</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <object-name>gearRightDoorsClosed</object-name>
+  <object-name>gearFrontDoorsClosed</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearFront</object-name>
+  <object-name>wheelFront</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+    <equals>
+    <value>1</value>
+    <value>0</value>
+    </equals><!--
+   <equals>
+    <property>gear/gear[0]/position-norm</property>
+    <value>1.0</value>
+   </equals>
+   <greater-than>
+    <property>gear/gear[0]/steering-norm</property>
+    <value>-0.05</value>
+   </greater-than>
+   <less-than>
+    <property>gear/gear[0]/steering-norm</property>
+    <value>0.05</value>
+   </less-than>-->
+  </condition>
+  <object-name>gearFrontHinge</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftTop</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+ </animation>
+
+
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFront</object-name>
+  <object-name>wheelFront</object-name>
+  <property>gear/gear[0]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 110.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>110</max-deg>
+  <center>
+   <x-m>-3.70585</x-m>
+   <y-m>0.000000</y-m>
+   <z-m>-0.78153</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <condition>
+    <property>gear/gear[0]/wow</property>
+  </condition>
+  <object-name>gearFront</object-name>
+  <object-name>wheelFront</object-name>
+  <!--<object-name>gearFrontHinge</object-name>-->
+  <property>gear/gear[0]/steering-norm</property>
+  <factor>80</factor>
+  <center>
+   <x-m> -3.65342 </x-m>
+   <y-m>0.000000</y-m>
+   <z-m>-0.78153</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>-1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftTop</object-name>
+  <property>gear/gear[1]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>2.31352</x-m>
+   <y-m>-2.25034</y-m>
+   <z-m>-0.37244</z-m>
+  </center>
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightTop</object-name>
+  <property>gear/gear[2]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>2.31352</x-m>
+   <y-m>2.25035</y-m>
+   <z-m>-0.37244</z-m>
+  </center>
+  <axis>
+   <x>-1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<!-- radius = -1.59622 + 1.84812 = 0.2519
+     circum = 2*pi*radius = 1.5827
+     factor = 1/circum * 60 = 0.6318 * 60 = 
+
+-3.38246
+-0.11702
+-1.84812
+
+-3.38246
+ 0.17426
+-1.84812
+
+                 Spinning wheel works fine, but not with gear compression, its either-or sadly.
+     -->
+<!--<animation>
+    <type>spin</type>
+    <object-name>wheelFront</object-name>
+    <property>gear/gear/rollspeed-ms</property>
+    <factor>37.9091</factor>
+    <center>
+        <x-m>-3.38246</x-m>
+        <y-m>0.0</y-m>
+        <z-m>-1.84812</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>-->
+
+<animation><!--            compress front gear-->
+   <type>translate</type>
+   <object-name>gearFront</object-name>
+   <object-name>gearFrontHinge</object-name>
+   <object-name>wheelFront</object-name>
+   <property>sim/multiplay/generic/float[8]</property><!-- gear/gear/compression-ft -->
+   <factor>0.3048</factor>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m>-3.38246</x-m>
+        <y-m>0.0</y-m>
+        <z-m>-1.84812</z-m>
+    </center>
+</animation>
+
+<animation><!--            compress left gear-->
+   <type>translate</type>
+   <object-name>gearLeft</object-name>
+   <object-name>gearLeftTop</object-name>
+   <property>sim/multiplay/generic/float[9]</property><!-- gear/gear[1]/compression-ft -->
+   <factor>0.3048</factor>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m> 2.64670 </x-m>
+        <y-m> -2.33204 </y-m>
+        <z-m> -2.1 </z-m>
+    </center>
+</animation>
+
+<animation><!--            compress left gear-->
+   <type>translate</type>
+   <object-name>gearRight</object-name>
+   <object-name>gearRightTop</object-name>
+   <property>sim/multiplay/generic/float[10]</property><!-- gear/gear[2]/compression-ft -->
+   <factor>0.3048</factor>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m> 2.64670 </x-m>
+        <y-m> 2.33204 </y-m>
+        <z-m> -2.1 </z-m>
+    </center>
+</animation>
+
+ <!-- start effects -->
+ <model>
+  <name>exhaust_smoke</name>
+  <path>Aircraft/JA37/Models/Effects/exhaust.xml</path>
+  <offsets>
+   <x-m>1.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>engine_smoke</name>
+  <path>Aircraft/JA37/Models/Effects/smoke.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+ 
+ <!--<model>  never worked as intended, so commented out.
+  <name>strake-vortex</name>
+  <path>Aircraft/JA37/Models/Effects/strake-vortex.xml</path>
+  <offsets>
+   <x-m>0.58</x-m>
+   <y-m>0</y-m>
+   <z-m>0.25</z-m>
+  </offsets>
+ </model>-->
+
+<model>
+  <name>aerobatic_smoke_blue</name>
+  <path>Aircraft/JA37/Models/Effects/smoke/smokeB.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>aerobatic_smoke_yellow</name>
+  <path>Aircraft/JA37/Models/Effects/smoke/smokeY.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>wingtip-condensation-trail-left</name>
+  <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
+  <offsets>
+   <x-m>5.82588</x-m>
+   <y-m>-5.11376</y-m>
+   <z-m>-0.39589</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>wingtip-condensation-trail-right</name>
+  <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
+  <offsets>
+   <x-m>5.82588</x-m>
+   <y-m>5.11376</y-m>
+   <z-m>-0.39589</z-m>
+  </offsets>
+ </model>
+
+<!--         transsonic-vapor-cones               -->
+
+<!-- <model>
+  <name>transsonic-canard-vapor-cone</name>
+  <path>Aircraft/JA37/Models/Effects/transsonic-canard-vapor-cone.xml</path>
+  <offsets>
+   <x-m>0</x-m>
+   <y-m>0</y-m>
+   <z-m>0.50</z-m>
+  </offsets>
+ </model>-->
+ 
+  <!--<model>
+  <name>transsonic-deltawing-vapor-cone</name>
+  <path>Aircraft/JA37/Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
+  <offsets>
+   <x-m>-2</x-m>
+   <y-m>0</y-m>
+   <z-m>0.25</z-m>
+  </offsets>
+ </model> -->
+
+<model>
+    <path>Aircraft/JA37/Models/Effects/vaporCone.xml</path>
+    <name>VaporCone</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+<!--         tiresmoke               -->
+
+<model>
+  <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
+  <name>tyre-smoke-n</name>
+  <offsets>
+    <x-m> -3.37652 </x-m>
+    <y-m> 0 </y-m>
+    <z-m> -2.1 </z-m>
+  </offsets>
+</model>
+
+<model>
+ <path>Aircraft/Generic/Effects/tyre-smoke-port.xml</path>
+ <name>tyre-smoke-left</name>
+ <offsets>
+  <x-m> 2.64670 </x-m>
+  <y-m> -2.33204 </y-m>
+  <z-m> -2.1 </z-m>
+ </offsets>
+</model>
+
+<model>
+ <path>Aircraft/Generic/Effects/tyre-smoke-stbd.xml</path>
+ <name>tyre-smoke-right</name>
+ <offsets>
+   <x-m> 2.64670 </x-m>
+   <y-m> 2.33204 </y-m>
+   <z-m> -2.1 </z-m>
+ </offsets>
+</model>
+
+<model>
+  <name>InternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/InternalFlame.xml</path>
+  <offsets>
+   <x-m>0.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+ 
+ 
+<model>
+  <name>ExternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/ExternalFlame.xml</path>
+  <offsets>
+   <x-m>5.75</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+ <!-- end effects -->
+
+
+<!-- ===================== START LIGHTING =========================== -->
+
+<!-- beacon lights -->
+
+ <animation>
+  <type>material</type>
+  <object-name>lightTop</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
+  </emission>
+ </animation>
+
+<animation>
+  <type>material</type>
+  <object-name>lightBottom</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
+  </emission>
+ </animation>
+
+<!-- strobe light -->
+
+ <model>
+  <name>strobe</name>
+  <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
+  <offsets>
+   <x-m>5.95508</x-m>
+   <y-m>0.0</y-m>
+   <z-m>3.42411</z-m>
+  </offsets>
+ </model>
+
+<animation>
+  <type>material</type>
+  <object-name>strobe</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/int[5]</factor-prop><!-- sim/model/lighting/strobe/state -->
+  </emission>
+ </animation>
+
+<!-- Navigation lights -->
+
+ <animation>
+  <type>material</type>
+  <object-name>lightLeft</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>lightRight</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+  </condition>
+  <emission>
+   <red>0.0</red>
+   <green>1.0</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+<!-- ===================== start payload =========================== -->
+
+<animation>
+  <object-name>dropTank</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/int[16]</property><!-- consumables/fuel/tank[8]/jettisoned -->
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+
+<animation>
+  <object-name>missile</object-name><!-- Left wing pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>188</value>
+   </equals>
+  </condition>
+ </animation>
+
+<animation>
+  <object-name>missile2</object-name><!-- Left fuselage pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+    <value>188</value>
+   </equals>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missile1</object-name><!-- Right wing pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>188</value>
+   </equals>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missile3</object-name><!-- Right fuselage pylon -->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>188</value>
+   </equals>
+  </condition>
+ </animation>
+
+
+<animation>
+  <type>range</type>
+  <object-name>plaqueLeft</object-name>
+  <object-name>plaqueRight</object-name>
+  <object-name>sidepanelLeft</object-name>
+  <object-name>sidepanelRight</object-name>
+  <min-m>0</min-m>
+  <max-m>15</max-m>
+ </animation>
+
+<!-- livery selection -->
+
+<nasal>
+  <load>
+   var livery_update = aircraft.livery_update.new(
+        "Aircraft/JA37/Models/Liveries", 10);
+  </load>
+  <unload>
+   livery_update.stop();
+  </unload>
+ </nasal>
+
+ <animation>
+  <type>material</type>
+  <object-name>canopy</object-name>
+  <object-name>dropTank</object-name>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <object-name>flaps</object-name>
+  <object-name>fuselage</object-name>
+  <object-name>missile</object-name>
+  <object-name>missile1</object-name>
+  <object-name>missile2</object-name>
+  <object-name>missile3</object-name>
+  <object-name>rudder</object-name>
+  <object-name>gearFront</object-name>
+  <object-name>gearFrontHinge</object-name>
+  <object-name>gearFrontDoorsOpen</object-name>
+  <object-name>gearFrontDoorsClosed</object-name>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearRightDoorsClosed</object-name>
+  <property-base>sim/model/livery</property-base>
+  <texture-prop>texture</texture-prop>
+  <texture>Aircraft/JA37/Models/j37_texture.png</texture>
+ </animation>
+
+
+ <!--<animation>
+  <type>material</type>
+  <object-name>glass</object-name>
+  <object-name>frontglas</object-name>
+  <condition>
+    <greater-than>
+      <property>/sim/rendering/shaders/model</property>
+      <value>0</value>
+    </greater-than>
+  </condition>
+  <shininess>96</shininess>
+</animation>-->
+
+</PropertyList>

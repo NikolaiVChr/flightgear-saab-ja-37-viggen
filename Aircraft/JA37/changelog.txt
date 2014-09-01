@@ -717,3 +717,7 @@ Effect: Smoke for aerobatic demos. Key S cycles off, yellow or blue.
 HUD: Toggle option to see plane type instead of callsign. (key 'i')
 Sim: Renamed the type name in MP pilot list from ja37 to JA37-Viggen.
 Aero: Increased how much the front wheel can turn around 175 feet per second.
+
+2.48
+====
+Sim: Reverted commit - Renamed the type name in MP pilot list from ja37 to JA37-Viggen.

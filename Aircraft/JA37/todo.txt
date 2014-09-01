@@ -38,6 +38,7 @@ Sim: Make replay show the guided missiles flying.
 Sim: Carrier tailhook although the original did not have one.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
+Sim: Rename the type name in MP pilot list from ja37 to JA37-Viggen. JA37-Viggen-model.xml (for FG 3.4)
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -78,8 +79,9 @@ Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
 HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
 HUD: I have experienced that combat mode was on by default. [not reliable reproduced]
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
-Effect: Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
+Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
 Model: sim load-lag when coming near other ja37. [reproduced locally]
+
 
 Issues with FG: (or my limited understanding of it)
 ---------------
