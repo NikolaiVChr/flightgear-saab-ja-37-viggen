@@ -709,9 +709,11 @@ Sim: Renamed the -set file, to give prettier name in pilot list.
 HUD: Made it less procedual and more functional.
 HUD: Made target have trailing line to show velocity vector.
 
-2.47
+2.47 - 2014 August 31
 ====
 Aero: Made open canopy increase drag.
 Model: Made some effects not show in FGRun preview.
 Effect: Smoke for aerobatic demos. Key S cycles off, yellow or blue.
 HUD: Toggle option to see plane type instead of callsign. (key 'i')
+Sim: Renamed the type name in MP pilot list from ja37 to JA37-Viggen.
+Aero: Increased how much the front wheel can turn around 175 feet per second.

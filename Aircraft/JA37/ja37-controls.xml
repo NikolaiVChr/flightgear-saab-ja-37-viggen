@@ -331,8 +331,8 @@
               10.0        80.0
               20.0        50.0
               50.0        10.0
-              150.0       1.0
-              200.0       0.5
+              150.0       2.5
+              200.0       2.0 <!-- by this speed the front wheel hardly touches the runway -->
           </tableData>
         </table>
         <output>fcs/steer-cmd-delayed</output>
