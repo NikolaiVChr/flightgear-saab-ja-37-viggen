@@ -1511,8 +1511,9 @@ var HUDnasal = {
 
   trackAI: func (AI_vector, diamond) {
     foreach (var mp; AI_vector) {
-      if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {
+      if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {#only the MP that are valid are sent here
         hud_pos = me.trackItemCalc(mp, 48000);
+
 
         if(hud_pos != nil) {
           var pos_x = hud_pos[0];
@@ -1524,16 +1525,18 @@ var HUDnasal = {
             # This is the nearest aircraft so far
             append(hud_pos, me.track_index);
             
-            var typeNode = mp.getNode("model-shorter");
+            #var typeNode = mp.getNode("model-shorter");
             var model = nil;
-            if (typeNode != nil) {
-              model = typeNode.getValue();
-            } elsif (mp.getNode("sim/model/path") != nil) {
-              var path = mp.getNode("sim/model/path").getValue();
+            #if (typeNode != nil) {
+            #  model = typeNode.getValue();
+            #} els
+            var pathNode = mp.getNode("sim/model/path");
+            if (pathNode != nil) {
+              var path = pathNode.getValue();
               model = split(".", split("/", path)[-1])[0];
               model = me.remove_suffix(model, "-model");
               model = me.remove_suffix(model, "-anim");
-              mp.addChild("model-shorter").setValue(model);
+              #mp.addChild("model-shorter").setValue(model);
             }
             
             if(me.input.callsign.getValue() == 1) {

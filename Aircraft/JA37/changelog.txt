@@ -721,3 +721,7 @@ Aero: Increased how much the front wheel can turn around 175 feet per second.
 2.48
 ====
 Sim: Reverted commit - Renamed the type name in MP pilot list from ja37 to JA37-Viggen.
+
+2.49
+====
+HUD: Removed optimization of showing type of target, due to it will fail at times.
