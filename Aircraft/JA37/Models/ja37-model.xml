@@ -532,6 +532,26 @@
  </model>-->
 
 <model>
+  <name>aerobatic_smoke_blue</name>
+  <path>Aircraft/JA37/Models/Effects/smoke/smokeB.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>aerobatic_smoke_yellow</name>
+  <path>Aircraft/JA37/Models/Effects/smoke/smokeY.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
   <name>wingtip-condensation-trail-left</name>
   <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
   <offsets>

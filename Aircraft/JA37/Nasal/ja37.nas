@@ -830,3 +830,17 @@ var applyParkingBrake = func(v) {
       gui.popupTip("Parking brakes: OFF");
     }
 }
+
+var cycleSmoke = func() {
+    ja37.click();
+    if (getprop("/sim/ja37/effect/smoke") == 0) {
+      setprop("/sim/ja37/effect/smoke", 1);
+      gui.popupTip("Smoke: Yellow");
+    } elsif (getprop("/sim/ja37/effect/smoke") == 1) {
+      setprop("/sim/ja37/effect/smoke", 2);
+      gui.popupTip("Smoke: Blue");
+    } else {
+      setprop("/sim/ja37/effect/smoke", 0);
+      gui.popupTip("Smoke: OFF");
+    }
+}

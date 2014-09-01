@@ -259,7 +259,7 @@
         <property type="string">controls/armament/station[4]/released</property>
       </signal>
       <signal>
-        <type>int16</type>
+        <type>int16</type><!-- careful, did these not change to use floating points?: -->
         <property type="string">payload/weight[0]/weight-lb</property>
       </signal>
       <signal>
@@ -286,7 +286,18 @@
         <type>float</type>
         <property type="string">gear/gear[2]/compression-ft</property>
       </signal>            
-    </config>
+      <signal>
+        <type>int8</type>
+        <property type="string">sim/ja37/effect/smoke</property>
+      </signal>
+    </config><!-- 
+  - double: 8 byte/sample
+  - float:  4 byte/sample (default)
+  - int:    4 byte/sample, integer
+  - int16:  2 byte/sample, integer
+  - int8:   1 byte/sample, integer
+  - bool:   1 bit/sample (yes, 1 bit. 8 bools per byte).
+  -->
   </flight-recorder>  <!-- remember string types are unsupported -->
   
   <sound>
@@ -430,6 +441,8 @@
 *************************************************************************-->
   <multiplay>
    <generic>
+    <!-- effects -->
+    <int n="0" alias="/sim/ja37/effect/smoke"/>
     <!-- Animation control surfaces -->
     <float n="0" alias="/surface-positions/right-elevon-pos-deg"/>
     <float n="1" alias="/surface-positions/left-elevon-pos-deg"/>
@@ -553,6 +566,10 @@
    <key>
     <name>F</name>
     <desc>Set autopilot to stop follow current target</desc>
+   </key>
+   <key>
+    <name>S</name>
+    <desc>Cycle smoke. Off, Yellow or Blue</desc>
    </key>
    <text>
     Startup
@@ -750,6 +767,9 @@
         <selected type="int">-1</selected>
         <enabled userarchive="y" type="bool">true</enabled>
       </radar>
+      <effect>
+        <smoke type="int">0</smoke><!-- 0: off  1: yellow  2: blue -->
+      </effect>
       <blink>
         <five-Hz type="bool">false</five-Hz>
         <ten-Hz type="bool">false</ten-Hz>
@@ -956,20 +976,28 @@
 *************************************************************************--> 
  <input>
    <keyboard>
+    <key n="83">
+      <name>S</name>
+      <desc>Cycle smoke</desc>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.cycleSmoke()</script>
+      </binding>
+    </key>
     <key n="66">
-    <name>B</name>
-    <desc>Toggle parking brake on or off</desc>
-    <binding>
-     <command>nasal</command>
-     <script>ja37.applyParkingBrake(1)</script>
-    </binding>
-    <mod-up>
-     <binding>
-      <command>nasal</command>
-      <script>ja37.applyParkingBrake(0)</script>
-     </binding>
-    </mod-up>
-   </key>
+      <name>B</name>
+      <desc>Toggle parking brake on or off</desc>
+      <binding>
+       <command>nasal</command>
+       <script>ja37.applyParkingBrake(1)</script>
+      </binding>
+      <mod-up>
+       <binding>
+        <command>nasal</command>
+        <script>ja37.applyParkingBrake(0)</script>
+       </binding>
+      </mod-up>
+    </key>
     <key n="104">
       <name>h</name>
       <desc>Toggle masterarm</desc>
