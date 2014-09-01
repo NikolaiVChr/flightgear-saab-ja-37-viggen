@@ -14,7 +14,7 @@
       <and>
         <equals>
           <property>sim/multiplay/generic/int[0]</property>
-          <value>2</value>
+          <value>3</value>
         </equals>
       </and>
     </condition>

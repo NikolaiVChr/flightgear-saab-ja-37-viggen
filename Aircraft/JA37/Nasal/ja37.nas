@@ -833,14 +833,14 @@ var applyParkingBrake = func(v) {
 
 var cycleSmoke = func() {
     ja37.click();
-    if (getprop("/sim/ja37/effect/smoke") == 0) {
-      setprop("/sim/ja37/effect/smoke", 1);
-      gui.popupTip("Smoke: Yellow");
-    } elsif (getprop("/sim/ja37/effect/smoke") == 1) {
+    if (getprop("/sim/ja37/effect/smoke") == 1) {
       setprop("/sim/ja37/effect/smoke", 2);
+      gui.popupTip("Smoke: Yellow");
+    } elsif (getprop("/sim/ja37/effect/smoke") == 2) {
+      setprop("/sim/ja37/effect/smoke", 3);
       gui.popupTip("Smoke: Blue");
     } else {
-      setprop("/sim/ja37/effect/smoke", 0);
+      setprop("/sim/ja37/effect/smoke", 1);#1 for backward compatibility to be off per default
       gui.popupTip("Smoke: OFF");
     }
 }

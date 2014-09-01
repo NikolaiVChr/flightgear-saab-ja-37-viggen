@@ -42,5 +42,6 @@ BAC-TSR2-GR3 - G-force breathing sounds
 Cessna-208-Caravan - Radiostack
 Zero - Performance monitor
 F15C - Stick
+Alphajet - Adapted aerobatic smoke
 
 Might have forgotten some.

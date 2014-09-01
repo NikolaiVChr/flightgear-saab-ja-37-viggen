@@ -325,7 +325,7 @@
 *************************************************************************-->   
 
   <model>
-   <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
+   <path archive="y">Aircraft/JA37/Models/JA37-Viggen-model.xml</path>
    <ja37>
     
     <controls>
@@ -571,6 +571,10 @@
     <name>S</name>
     <desc>Cycle smoke. Off, Yellow or Blue</desc>
    </key>
+   <key>
+    <name>i</name>
+    <desc>Toggle HUD to show type or callsign on radar tracks</desc>
+   </key>
    <text>
     Startup
     ______
@@ -768,7 +772,7 @@
         <enabled userarchive="y" type="bool">true</enabled>
       </radar>
       <effect>
-        <smoke type="int">0</smoke><!-- 0: off  1: yellow  2: blue -->
+        <smoke type="int">1</smoke><!-- 1: off  2: yellow  3: blue -->
       </effect>
       <blink>
         <five-Hz type="bool">false</five-Hz>
@@ -780,6 +784,7 @@
         <mode userarchive="y" type="bool">true</mode>
         <combat type="bool">false</combat>
         <bank-indicator userarchive="y" type="bool">false</bank-indicator>
+        <callsign type="bool">true</callsign>
       </hud>
       <sound>
         <click-on type="bool">false</click-on>
@@ -976,6 +981,14 @@
 *************************************************************************--> 
  <input>
    <keyboard>
+    <key n="105">
+      <name>i</name>
+      <desc>Toggle type/callsign</desc>
+      <binding>
+        <command>nasal</command>
+        <script>canvas_HUD.toggleCallsign()</script>
+      </binding>
+    </key>
     <key n="83">
       <name>S</name>
       <desc>Cycle smoke</desc>

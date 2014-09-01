@@ -696,7 +696,7 @@ var HUDnasal = {
         station:  "controls/armament/station-select",
         tenHz:    "sim/ja37/blink/ten-Hz",
         fiveHz:   "sim/ja37/blink/five-Hz",
-
+        callsign: "/sim/ja37/hud/callsign",
         elec:     "/systems/electrical/outputs/hud"
       };
    
@@ -1502,6 +1502,13 @@ var HUDnasal = {
     #print("QFE count " ~ countQFE);
   },
 
+  remove_suffix: func(s, x) {
+      var len = size(x);
+      if (substr(s, -len) == x)
+          return substr(s, 0, size(s) - len);
+      return s;
+  },
+
   trackAI: func (AI_vector, diamond) {
     foreach (var mp; AI_vector) {
       if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {
@@ -1517,14 +1524,44 @@ var HUDnasal = {
             # This is the nearest aircraft so far
             append(hud_pos, me.track_index);
             
-            if(mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
-              ident = mp.getNode("callsign").getValue();
-            } elsif (mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
-              ident = mp.getNode("name").getValue();
-            } elsif (mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
-              ident = mp.getNode("sign").getValue();
+            var typeNode = mp.getNode("model-shorter");
+            var model = nil;
+            if (typeNode != nil) {
+              model = typeNode.getValue();
+            } elsif (mp.getNode("sim/model/path") != nil) {
+              var path = mp.getNode("sim/model/path").getValue();
+              model = split(".", split("/", path)[-1])[0];
+              model = me.remove_suffix(model, "-model");
+              model = me.remove_suffix(model, "-anim");
+              mp.addChild("model-shorter").setValue(model);
+            }
+            
+            if(me.input.callsign.getValue() == 1) {
+              if(mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
+                ident = mp.getNode("callsign").getValue();
+              } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
+                #only used by AI
+                ident = mp.getNode("name").getValue();
+              } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
+                #only used by AI
+                ident = mp.getNode("sign").getValue();
+              } else {
+                ident = "";
+              }
             } else {
-              ident = "";
+              if(model != nil) {
+                ident = model;
+              } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
+                #only used by AI
+                ident = mp.getNode("sign").getValue();  
+              } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
+                #only used by AI
+                ident = mp.getNode("name").getValue();
+              } elsif (mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
+                ident = mp.getNode("callsign").getValue();
+              } else {
+                ident = "";
+              } 
             }
 
             append(hud_pos, ident);
@@ -1814,6 +1851,19 @@ var toggle_combat = func () {
   }
 };
 
+var toggleCallsign = func () {
+  if(getprop("sim/ja37/hud/mode") > 0) {
+    ja37.click();
+    var current = getprop("/sim/ja37/hud/callsign");
+    if(current == 1) {
+      setprop("/sim/ja37/hud/callsign", 0);
+    } else {
+      setprop("/sim/ja37/hud/callsign", 1);
+    }
+  } else {
+    aircraft.HUD.normal_type();
+  }
+};
 
 var blinker_five_hz = func() {
   if(getprop("sim/ja37/blink/five-Hz") == 0) {

@@ -37,6 +37,7 @@ Sim: Move all radar logic into radar so that users of FG HUD can use combat feat
 Sim: Make replay show the guided missiles flying.
 Sim: Carrier tailhook although the original did not have one.
 Sim: Improve terrain warning system.
+Sim: Use statics for true and false in all nasal code.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -56,7 +57,6 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: Seperate landing and takeoff mode.
 HUD: Sideslip indicator dot at bottom of HUD?
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
-HUD: Option to see plane type instead of callsign.
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 
 
@@ -79,6 +79,7 @@ HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switch
 HUD: I have experienced that combat mode was on by default. [not reliable reproduced]
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Effect: Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
+Model: sim load-lag when coming near other ja37. [reproduced locally]
 
 Issues with FG: (or my limited understanding of it)
 ---------------

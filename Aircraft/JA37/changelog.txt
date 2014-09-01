@@ -714,3 +714,4 @@ HUD: Made target have trailing line to show velocity vector.
 Aero: Made open canopy increase drag.
 Model: Made some effects not show in FGRun preview.
 Effect: Smoke for aerobatic demos. Key S cycles off, yellow or blue.
+HUD: Toggle option to see plane type instead of callsign. (key 'i')
