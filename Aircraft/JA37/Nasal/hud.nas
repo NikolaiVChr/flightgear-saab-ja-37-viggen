@@ -1525,18 +1525,25 @@ var HUDnasal = {
             # This is the nearest aircraft so far
             append(hud_pos, me.track_index);
             
-            #var typeNode = mp.getNode("model-shorter");
+            var typeNode = mp.getNode("model-shorter");
             var model = nil;
-            #if (typeNode != nil) {
-            #  model = typeNode.getValue();
-            #} els
-            var pathNode = mp.getNode("sim/model/path");
-            if (pathNode != nil) {
-              var path = pathNode.getValue();
-              model = split(".", split("/", path)[-1])[0];
-              model = me.remove_suffix(model, "-model");
-              model = me.remove_suffix(model, "-anim");
-              #mp.addChild("model-shorter").setValue(model);
+            if (typeNode != nil) {
+              model = typeNode.getValue();
+            } else {
+              var pathNode = mp.getNode("sim/model/path");
+              if (pathNode != nil) {
+                var path = pathNode.getValue();
+                model = split(".", split("/", path)[-1])[0];
+                model = me.remove_suffix(model, "-model");
+                model = me.remove_suffix(model, "-anim");
+                mp.addChild("model-shorter").setValue(model);
+                var validListener = setlistener(mp.getNode("valid"), func() {
+                  if(mp.getNode("valid").getValue() == 0) {
+                    mp.removeChild("model-shorter");
+                    removelistener(validListener);
+                  }
+                }, 0, 0);
+              }
             }
             
             if(me.input.callsign.getValue() == 1) {

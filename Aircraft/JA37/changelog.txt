@@ -725,3 +725,7 @@ Sim: Reverted commit - Renamed the type name in MP pilot list from ja37 to JA37-
 2.49
 ====
 HUD: Removed optimization of showing type of target, due to it will fail at times.
+
+2.50
+====
+HUD: Added a better optimization of showing type of target.
