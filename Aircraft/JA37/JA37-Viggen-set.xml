@@ -325,7 +325,7 @@
 *************************************************************************-->   
 
   <model>
-   <path archive="y">Aircraft/JA37/Models/JA37-Viggen-model.xml</path>
+   <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
    <ja37>
     
     <controls>
