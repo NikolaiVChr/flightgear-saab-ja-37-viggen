@@ -22,7 +22,7 @@ Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
-Sim: Make autopilot depend on instrument properties not sim properties.
+Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
 Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
@@ -33,7 +33,7 @@ Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground missiles.
-Sim: Move all radar logic into radar so that users of FG HUD can use combat features.
+Sim: Move all radar logic back into radar so that users of FG HUD can use combat features. (and save performance)
 Sim: Make replay show the guided missiles flying.
 Sim: Carrier tailhook although the original did not have one.
 Sim: Improve terrain warning system.
@@ -51,8 +51,8 @@ Sound: Make sounds when taking damage in bombable.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make desired height columns for landing and boxes for desired pitch.
-HUD: make more methods out of similar code, introduce more comments and name variables better.
-HUD: alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
+HUD: Make more methods out of similar code, introduce more comments and name variables better.
+HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle vertical tail down.
 HUD: Seperate landing and takeoff mode.
@@ -67,6 +67,7 @@ Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will 
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
 Sound: Occasional wierd buzz in external sounds. [reproduced]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
+Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
 Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]

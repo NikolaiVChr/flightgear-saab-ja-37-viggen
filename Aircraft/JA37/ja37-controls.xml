@@ -68,7 +68,7 @@
           <independentVar lookup="row">velocities/mach</independentVar>
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
-                          0.0       60000.0
+                          0.0       45000.0
               0.0         1.00         1.0
               0.5         1.00         1.0
               0.75        0.45         1.0
@@ -327,7 +327,7 @@
         <input>fcs/steer-cmd-norm</input>
         <table>
           <independentVar>velocities/vg-fps</independentVar>
-          <tableData>
+          <tableData><!-- note that this is positive also when moving in reverse -->
               10.0        80.0
               20.0        50.0
               50.0        10.0

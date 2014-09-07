@@ -561,11 +561,11 @@
    </key>
    <key>
     <name>f</name>
-    <desc>Set autopilot to follow current target</desc>
+    <desc>Set autopilot to follow current selection</desc>
    </key>
    <key>
     <name>F</name>
-    <desc>Set autopilot to stop follow current target</desc>
+    <desc>Set autopilot to stop follow current selection</desc>
    </key>
    <key>
     <name>S</name>
@@ -574,6 +574,10 @@
    <key>
     <name>i</name>
     <desc>Toggle HUD to show type or callsign on radar tracks</desc>
+   </key>
+   <key>
+    <name>n</name>
+    <desc>Cycle next radar track selection</desc>
    </key>
    <text>
     Startup
@@ -636,10 +640,10 @@
 
     Using autopilot to follow target
     ________________________________
-    The HUD must be in combat mode and a target must be present. Target is shown as a half-box.
-    Press 'f'. Then open the auto-pilot dialog and enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
+    The HUD must turned on and a something selected.
+    Press 'f'. Then the auto-pilot will enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
     If the target changes during the intercept, it will not switch to the new target.
-    To stop, press 'F' and disable autopilot control.
+    To stop, press 'F' and disable autopilot control. Or select another and press 'f' again to follow that instead.
 
     Trivia
     _____
@@ -981,6 +985,14 @@
 *************************************************************************--> 
  <input>
    <keyboard>
+    <key n="110">
+      <name>n</name>
+      <desc>Next target</desc>
+      <binding>
+        <command>nasal</command>
+        <script>canvas_HUD.nextTarget()</script>
+      </binding>
+    </key>
     <key n="105">
       <name>i</name>
       <desc>Toggle type/callsign</desc>

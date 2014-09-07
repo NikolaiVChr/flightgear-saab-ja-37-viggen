@@ -61,6 +61,9 @@ var artifacts0 = nil;
 var artifacts1 = [];
 var maxTracks = 16;# how many radar tracks can be shown at once in the HUD
 var diamond_node = nil;
+var selection = nil;
+var tracks = [];
+var tracks_index = -1;
 
 var HUDnasal = {
   canvas_settings: {
@@ -780,7 +783,7 @@ var HUDnasal = {
       #func debug.benchmark("hud loop", 
       func me.update()
       #)
-      , 0.05, 0);
+      , 0.03, 0);
       #setprop("sim/hud/visibility[1]", 0);
     }#end of HUD running check
   },#end of update
@@ -1254,10 +1257,14 @@ var HUDnasal = {
     me.groundAlt =  getprop("position/altitude-ft")*feet2meter;
     me.myHeading =  getprop("orientation/heading-deg");
     me.track_index = 0;
-    me.short_dist = nil;
+    me.selection_updated = 0;
+    #me.short_dist = nil;
 
     if(getprop("sim/ja37/hud/tracks-enabled") == 1) {
       me.radar_group.show();
+
+      tracks = [];
+
       #do the MP planes
 
       var players = [];
@@ -1292,110 +1299,129 @@ var HUDnasal = {
         }
       }
 
-      #draw diamond
-      if(me.short_dist != nil) {
-        var blink = 0;
-        if(me.short_dist[0] > 512) {
-          blink = 1;
-          me.short_dist[0] = 512;
-        }
-        if(me.short_dist[0] < -512) {
-          blink = 1;
-          me.short_dist[0] = -512;
-        }
-        if(me.short_dist[1] > 512) {
-          blink = 1;
-          me.short_dist[1] = 512;
-        }
-        if(me.short_dist[1] < -450) {
-          blink = 1;
-          me.short_dist[1] = -450;
-        }
-        if(me.short_dist[6] == 1 and mode == COMBAT) {
-          #targetable
-          diamond_node = me.short_dist[5];
-          me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
-          var diamond_dist = me.input.units.getValue() ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
-          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-          me.diamond_name.setText(me.short_dist[4]);
-          me.target_circle[me.short_dist[3]].hide();
+      # draw selection
+      if(selection != nil) {
+        # something is selected
+        if (selection[5].getChild("valid").getValue() == 1) {
+          if (me.selection_updated == 1) {
+            # selection is currently in forward looking radar view
+            var blink = 0;
+            if(selection[0] > 512) {
+              blink = 1;
+              selection[0] = 512;
+            }
+            if(selection[0] < -512) {
+              blink = 1;
+              selection[0] = -512;
+            }
+            if(selection[1] > 512) {
+              blink = 1;
+              selection[1] = 512;
+            }
+            if(selection[1] < -450) {
+              blink = 1;
+              selection[1] = -450;
+            }
+            if(selection[6] == 1 and mode == COMBAT) {
+              #targetable
+              diamond_node = selection[5];
+              me.diamond_group.setTranslation(selection[0], selection[1]);
+              var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
+              me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+              me.diamond_name.setText(selection[4]);
+              me.target_circle[selection[3]].hide();
 
 
-          var armSelect = me.input.station.getValue();
-          
-          if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
-            me.diamond.show();
-            me.target.hide();
+              var armSelect = me.input.station.getValue();
+              
+              if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
+                me.diamond.show();
+                me.target.hide();
+              } else {
+                me.target.show();
+                me.diamond.hide();
+              }
+
+              #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
+              #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
+              #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
+              #var down = me.myHeading+180.0;
+              #var relative_heading = heading + down - 90.0;
+              #var relative_speed = speed/10.0;
+              #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
+              #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
+
+              #if(me.track_line != nil) {
+              #  me.diamond_group_line.removeAllChildren();
+              #}
+
+              #me.track_line = me.diamond_group_line.createChild("path")
+              #               .lineTo( pos_x, pos_y)
+              #               .setStrokeLineWidth(w)
+              #               .setColor(r,g,b, a);
+              if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+                me.diamond_group.hide();
+              } else {
+                me.diamond_group.show();
+              }
+            } else {
+              #untargetable, like carriers and tankers
+              diamond_node = nil;
+              me.diamond_group.setTranslation(selection[0], selection[1]);
+              me.target_circle[selection[3]].setTranslation(selection[0], selection[1]);
+              var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
+              me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+              me.diamond_name.setText(selection[4]);
+              
+              if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+                me.diamond_group.hide();
+                me.target_circle[selection[3]].hide();
+              } else {
+                me.diamond_group.show();
+                me.target_circle[selection[3]].show()
+              }
+              me.diamond.hide();
+              me.target.hide();
+            }
+
+            #velocity vector
+            if(selection[0] > -512 and selection[0] < 512 and selection[1] > -512 and selection[1] < 512) {
+              var tgtHeading = selection[5].getNode("orientation/true-heading-deg").getValue();
+              var tgtSpeed = selection[5].getNode("velocities/true-airspeed-kt").getValue();
+              var myHeading = me.input.hdgReal.getValue();
+              var myRoll = me.input.roll.getValue();
+              if (tgtHeading == nil or tgtSpeed == nil) {
+                me.vel_vec.hide();
+              } else {
+                var relHeading = tgtHeading - myHeading - myRoll;
+                
+                relHeading -= 180;# this makes the line trail instead of lead
+                relHeading = relHeading * deg2rads;
+
+                me.vel_vec_trans_group.setTranslation(selection[0], selection[1]);
+                me.vel_vec_rot_group.setRotation(relHeading);
+                me.vel_vec.setScale(1, tgtSpeed/4);
+                
+                # note since trinometry circle is opposite direction of compas heading direction, the line will trail the target.
+                me.vel_vec.show();
+              }
+            } else {
+              me.vel_vec.hide();
+            }
+
+            me.target_circle[selection[3]].update();
+            me.diamond_group.update();
           } else {
-            me.target.show();
-            me.diamond.hide();
-          }
-
-          #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
-          #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
-          #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
-          #var down = me.myHeading+180.0;
-          #var relative_heading = heading + down - 90.0;
-          #var relative_speed = speed/10.0;
-          #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
-          #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
-
-          #if(me.track_line != nil) {
-          #  me.diamond_group_line.removeAllChildren();
-          #}
-
-          #me.track_line = me.diamond_group_line.createChild("path")
-          #               .lineTo( pos_x, pos_y)
-          #               .setStrokeLineWidth(w)
-          #               .setColor(r,g,b, a);
-          if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+            # selection is outside radar view
+            diamond_node = nil;
             me.diamond_group.hide();
-          } else {
-            me.diamond_group.show();
           }
         } else {
-          #untargetable, like carriers and tankers
+          # selection is no longer valid
+          selection = nil;
           diamond_node = nil;
-          me.diamond_group.setTranslation(me.short_dist[0], me.short_dist[1]);
-          me.target_circle[me.short_dist[3]].setTranslation(me.short_dist[0], me.short_dist[1]);
-          var diamond_dist = me.input.units.getValue() ==1  ? me.short_dist[2] : me.short_dist[2]/kts2kmh;
-          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-          me.diamond_name.setText(me.short_dist[4]);
-          
-          if(blink == 1 and me.input.fiveHz.getValue() == 0) {
-            me.diamond_group.hide();
-            me.target_circle[me.short_dist[3]].hide();
-          } else {
-            me.diamond_group.show();
-            me.target_circle[me.short_dist[3]].show()
-          }
-          me.diamond.hide();
-          me.target.hide();
+          me.diamond_group.hide();
         }
-
-        #velocity vector
-        if(me.short_dist[0] > -512 and me.short_dist[0] < 512 and me.short_dist[1] > -512 and me.short_dist[1] < 512) {
-          var tgtHeading = me.short_dist[5].getNode("orientation/true-heading-deg").getValue();
-          var tgtSpeed = me.short_dist[5].getNode("velocities/true-airspeed-kt").getValue();
-          var myHeading = me.input.hdgReal.getValue();
-          var myRoll = me.input.roll.getValue();
-          var relHeading = tgtHeading - myHeading - myRoll;
-          
-          relHeading -= 180;# this makes the line trail instead of lead
-          relHeading = relHeading * deg2rads;
-
-          me.vel_vec_trans_group.setTranslation(me.short_dist[0], me.short_dist[1]);
-          me.vel_vec_rot_group.setRotation(relHeading);
-          me.vel_vec.setScale(1, tgtSpeed/4);
-          
-          # note since trinometry circle is opposite direction of compas heading direction, the line will trail the target.
-          me.vel_vec.show();
-        } else {
-          me.vel_vec.hide();
-        }
-
-        me.target_circle[me.short_dist[3]].update();
-        me.diamond_group.update();
       } else {
         diamond_node = nil;
         me.diamond_group.hide();
@@ -1514,72 +1540,99 @@ var HUDnasal = {
       if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {#only the MP that are valid are sent here
         hud_pos = me.trackItemCalc(mp, 48000);
 
-
         if(hud_pos != nil) {
+          append(tracks, hud_pos);
           var pos_x = hud_pos[0];
           var pos_y = hud_pos[1];
           var distance = hud_pos[2];
           var showme = 1;
 
-          if(me.short_dist == nil or distance < me.short_dist[2]) {
-            # This is the nearest aircraft so far
-            append(hud_pos, me.track_index);
-            
-            var typeNode = mp.getNode("model-shorter");
-            var model = nil;
-            if (typeNode != nil) {
-              model = typeNode.getValue();
-            } else {
-              var pathNode = mp.getNode("sim/model/path");
-              if (pathNode != nil) {
-                var path = pathNode.getValue();
-                model = split(".", split("/", path)[-1])[0];
-                model = me.remove_suffix(model, "-model");
-                model = me.remove_suffix(model, "-anim");
-                mp.addChild("model-shorter").setValue(model);
-                var validListener = setlistener(mp.getNode("valid"), func() {
-                  if(mp.getNode("valid").getValue() == 0) {
-                    mp.removeChild("model-shorter");
-                    removelistener(validListener);
-                  }
-                }, 0, 0);
-              }
-            }
-            
-            if(me.input.callsign.getValue() == 1) {
-              if(mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
-                ident = mp.getNode("callsign").getValue();
-              } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
-                #only used by AI
-                ident = mp.getNode("name").getValue();
-              } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
-                #only used by AI
-                ident = mp.getNode("sign").getValue();
-              } else {
-                ident = "";
-              }
-            } else {
-              if(model != nil) {
-                ident = model;
-              } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
-                #only used by AI
-                ident = mp.getNode("sign").getValue();  
-              } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
-                #only used by AI
-                ident = mp.getNode("name").getValue();
-              } elsif (mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
-                ident = mp.getNode("callsign").getValue();
-              } else {
-                ident = "";
-              } 
-            }
+          # find and remember the type of the track
+          var typeNode = mp.getNode("model-shorter");
+          var model = nil;
+          if (typeNode != nil) {
+            model = typeNode.getValue();
+          } else {
+            var pathNode = mp.getNode("sim/model/path");
+            if (pathNode != nil) {
+              var path = pathNode.getValue();
+              model = split(".", split("/", path)[-1])[0];
+              model = me.remove_suffix(model, "-model");
+              model = me.remove_suffix(model, "-anim");
+              mp.addChild("model-shorter").setValue(model);
 
-            append(hud_pos, ident);
-            append(hud_pos, mp);
-            append(hud_pos, diamond);
-            me.short_dist = hud_pos;
-            #print(i~" Diamond: "~mp.getNode("callsign").getValue());
+              var funcHash = {
+                init: func (listener) {
+                  funcHash.listenerID = listener;
+                },
+                call: func {
+                  if(mp.getNode("valid").getValue() == 0) {
+                    var child = mp.removeChild("model-shorter");                    
+                    if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
+                      removelistener(me.listenerID);
+                    }
+                  }
+                }
+              };
+              funcHash.init(setlistener(mp.getNode("valid"), func () {funcHash.call()}, 0, 0));
+            }
           }
+
+
+          append(hud_pos, me.track_index);
+          
+          # figure out what indentification to show in hud
+          if(me.input.callsign.getValue() == 1) {
+            if(mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
+              ident = mp.getNode("callsign").getValue();
+            } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
+              #only used by AI
+              ident = mp.getNode("name").getValue();
+            } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
+              #only used by AI
+              ident = mp.getNode("sign").getValue();
+            } else {
+              ident = "";
+            }
+          } else {
+            if(model != nil) {
+              ident = model;
+            } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
+              #only used by AI
+              ident = mp.getNode("sign").getValue();  
+            } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
+              #only used by AI
+              ident = mp.getNode("name").getValue();
+            } elsif (mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
+              ident = mp.getNode("callsign").getValue();
+            } else {
+              ident = "";
+            } 
+          }
+
+          append(hud_pos, ident);
+          append(hud_pos, mp);
+          append(hud_pos, diamond);
+
+          var unique = mp.getChild("unique");
+          if (unique == nil) {
+            unique = mp.addChild("unique");
+            unique.setValue(rand());
+          }
+
+          if(selection == nil) {
+            #this is first tracks in radar field, so will be default target
+            selection = hud_pos;
+            me.selection_updated = 1;
+          } elsif (selection[5].getChild("unique").getValue() == unique.getValue()) {
+            # this track is already selected, updating it
+            selection = hud_pos;
+            me.selection_updated = 1;
+          }
+
+          #me.short_dist = hud_pos;
+          #print(i~" Diamond: "~mp.getNode("callsign").getValue());
+          #}
 
           if(pos_x > 512) {
             showme = 0;
@@ -1611,6 +1664,15 @@ var HUDnasal = {
     }#end of foreach
   },#end of trackAI
 
+  # hud_pos
+  #
+  # 0 - x position
+  # 1 - y position
+  # 2 - distance in nm
+  # 3 - track index
+  # 4 - identifier
+  # 5 - node
+  # 6 - targetable
 
   trackItemCalc: func (mp, range) {
     var x = mp.getNode("position/global-x").getValue();
@@ -1894,3 +1956,17 @@ var blinker_ten_hz = func() {
   settimer(func blinker_ten_hz(), 0.1);
 };
 settimer(func blinker_ten_hz(), 0.1);
+
+var nextTarget = func () {
+  var max_index = size(tracks)-1;
+  if(max_index > -1) {
+    if(tracks_index < max_index) {
+      tracks_index += 1;
+    } else {
+      tracks_index = 0;
+    }
+    selection = tracks[tracks_index];
+  } else {
+    tracks_index = -1;
+  }
+}
