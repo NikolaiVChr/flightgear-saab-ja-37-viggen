@@ -5,7 +5,7 @@
   <animation>
     <type>range</type>
     <min-m>0</min-m>
-    <max-m>15</max-m>
+    <max-m>10</max-m>
   </animation>
 
   <model>
@@ -181,9 +181,9 @@
     <name>Airspeed</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.80</x-m>
-      <y-m> -0.23</y-m>
-      <z-m>  0.40</z-m>
+      <x-m> -3.83</x-m>
+      <y-m> -0.24</y-m>
+      <z-m>  0.39</z-m>
     </offsets>
   </model>
 

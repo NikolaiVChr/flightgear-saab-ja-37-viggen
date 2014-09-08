@@ -383,6 +383,7 @@ aircraftbreakprocess=func
 		)
 		{
 			print("Aircraft crashed: Wing broke off, due to G forces.");
+			setprop("/sim/messages/atc", "Aircraft crashed: Wing broke off, due to G forces.");
 			exploded=1;
 			setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", -75);
 			setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", -75);

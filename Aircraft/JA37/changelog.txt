@@ -733,3 +733,8 @@ HUD: Key 'n' now cycles selection/target.
 HUD: Fixed on fast PC the HUD does not update smoothly.
 Sim: Auto-follow no longer requires HUD to be in combat mode.
 Aero: At high altitude the elevator now deflects a bit more.
+
+2.51
+====
+Model: Fixed airspeed indicator floats above the cockpit panel when using 3D glasses.
+Sim: A message will now also display on screen when wings break off.
