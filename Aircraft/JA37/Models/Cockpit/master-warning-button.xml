@@ -2,7 +2,7 @@
 
 <PropertyList>
 
- 	<path>Models/Cockpit/master-warning-button.ac</path>
+ 	<path>master-warning-button.ac</path>
  
 	<animation>
 	    <type>pick</type>

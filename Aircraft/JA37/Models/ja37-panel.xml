@@ -257,7 +257,7 @@
 
 <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning.xml</path>
-    <name>Höjd</name>
+    <name>WarnLeft</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.843</x-m>
@@ -268,7 +268,7 @@
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning.xml</path>
-    <name>Höjd</name>
+    <name>WarnRight</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.843</x-m>
@@ -279,7 +279,7 @@
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/master-warning-button.xml</path>
-    <name>Höjd</name>
+    <name>WarnButton</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.843</x-m>

@@ -5,7 +5,7 @@
     <normalmap-enabled type="int">1</normalmap-enabled>
   	<texture n="2">
       <image>Aircraft/JA37/Models/Effects/j37_bump.png</image>
-      <filter>linear</filter><!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
+      <filter>linear-mipmap-linear</filter><!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
       <wrap-s>repeat</wrap-s>
       <wrap-t>repeat</wrap-t>
       <internal-format>normalized</internal-format>
