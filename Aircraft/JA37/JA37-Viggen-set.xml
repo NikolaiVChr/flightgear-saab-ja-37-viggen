@@ -532,7 +532,7 @@
     <desc>Yaw damper on/off</desc>
    </key>
    <key>
-    <name>C</name>
+    <name>o</name>
     <desc>Toggle canopy</desc>
    </key>
    <key>
@@ -579,6 +579,18 @@
     <name>n</name>
     <desc>Cycle next radar track selection</desc>
    </key>
+   <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
+    <name>L</name>
+    <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
+   </key>
+   <key>
+    <name>C</name>
+    <desc>Carrier catapult launch</desc>
+   </key>
+   <key>
+    <name>l</name>
+    <desc>Toggle arrester hook</desc>
+   </key> -->
    <text>
     Startup
     ______
@@ -817,6 +829,11 @@
         </rb24>
       </armament>      
     </ja37>
+    <carrier>
+      <enabled type="bool">false</enabled>
+      <heading-deg>0</heading-deg>
+      <no-catapult-definition type="bool">true</no-catapult-definition>
+    </carrier>
   </sim>
 
  <fdm>
@@ -832,6 +849,7 @@
       <flaps-serviceable/>
       <elevator-serviceable/>
       <aileron-serviceable/>
+      <hook-engage/>
     </fcs>
     <gear>
       <serviceable type="bool">true</serviceable>
@@ -843,6 +861,9 @@
       <flapscontrol>
         <serviceable/>
       </flapscontrol>
+      <hook>
+        <tailhook-cmd-norm type="bool">false</tailhook-cmd-norm>
+      </hook>
     </systems>
     <aero>
       <factor-axial-mach type="double">1.0</factor-axial-mach>
@@ -854,6 +875,9 @@
     <autopilot>
       <one type="double">0.01667</one>
     </autopilot>
+    <launchbar>
+      <launch-bar-pos-norm type="double">0</launch-bar-pos-norm>
+    </launchbar>
   </jsbsim>
  </fdm>
  <controls>
@@ -894,7 +918,10 @@
     </station>            
   </armament>
   <gear>
-   <brake-parking type="bool">true</brake-parking>
+    <brake-parking type="bool">true</brake-parking>
+    <launchbar>
+        <state type="string">Disengaged</state>
+    </launchbar>
   </gear>
   <electric>
     <battery-switch type="bool">false</battery-switch>
@@ -985,6 +1012,59 @@
 *************************************************************************--> 
  <input>
    <keyboard>
+    <key n="108">
+      <name>l</name>
+      <desc>Toggle arrester hook</desc>
+      <binding>
+       <command>property-toggle</command>
+       <property>fdm/jsbsim/systems/hook/tailhook-cmd-norm</property>
+      </binding>
+     </key>
+
+    <!-- map keys for catapult launch -->
+     <key n="67">
+        <name>C</name>
+        <desc>Catapult Launch Command.</desc>
+        <binding>
+            <command>property-assign</command>
+            <property>/fdm/jsbsim/systems/catapult_free/cat-launch-cmd</property>
+            <value>1.0</value>
+        </binding>
+     </key>
+
+     <!-- map keys for launch-bar -->
+     <key n="76">
+        <name>L</name>
+        <desc>Launch-bar engage.</desc>
+        <binding>
+            <command>property-assign</command>
+            <property>/fdm/jsbsim/systems/launchbar_free/lock-cmd</property>
+            <value type="double">1</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>fdm/jsbsim/systems/catapult_free/cat-launch-cmd</property>
+            <value>0</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>/fdm/jsbsim/systems/launchbar/store-timer</property>
+            <value>1</value>
+        </binding>
+        <binding>
+            <command>property-assign</command>
+            <property>/fdm/jsbsim/systems/launchbar-locked-time-mem</property>
+            <value>0</value>
+        </binding>
+        <mod-up>
+            <binding>
+                <command>property-assign</command>
+                <property>/fdm/jsbsim/systems/launchbar/store-timer</property>
+                <value>0</value>
+            </binding>
+         </mod-up>
+     </key>
+
     <key n="110">
       <name>n</name>
       <desc>Next target</desc>
@@ -1247,8 +1327,8 @@
      <script>ja37.toggleYawDamper();</script>
     </binding>
     </key>
-    <key n="67">
-     <name>C</name>
+    <key n="111">
+     <name>o</name>
      <desc>Toggle canopy</desc>
      <binding>
       <command>property-toggle</command>

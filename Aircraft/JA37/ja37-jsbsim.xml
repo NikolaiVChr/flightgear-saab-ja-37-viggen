@@ -463,6 +463,95 @@ to an airplane of that size). -->
   <flight_control file="ja37-controls"/>
   
   <aerodynamics file="ja37-aerodynamics.xml"/>
+
+  <!-- _____Carrier____________ (note, these functions are not offical. As the real Viggen did not have carrier capacity) -->
+
+  <system file="Systems/catapult_free"/>
+  <system file="Systems/holdback_free"/>
+  <system file="Systems/cat-hold"/>
+  <system file="Systems/hook"/>
+
+  <external_reactions>
+    <force name="hook" frame="BODY">
+      <location unit="IN">
+        <x>  100.669 </x>
+        <y>    0.0 </y>
+        <z>  -28.818 </z>
+      </location>
+      <direction>
+        <x>  -0.9995 </x>
+        <y>   0.0    </y>
+        <z>   0.01 </z>
+      </direction>
+    </force>
+
+    <force name="catapult" frame="LOCAL">
+        <location unit="IN">
+            <x>  -30 </x>
+            <y>    0.0 </y>
+            <z>  -39.0 </z>
+        </location>
+        <direction>
+            <x>1</x>
+            <y>0</y>
+            <z>0.08</z>
+        </direction>
+    </force>       
+    
+    <!--Catapult   vertical force when necessary to keep the right position on the catapult rail-->
+    <force name="cat-hold" frame="BODY">
+    <location unit="IN">
+        <x>  -30 </x>
+        <y>    0.0 </y>
+        <z>  -39.0 </z>
+    </location>
+    <direction>
+        <x>0</x>
+        <y>0</y>
+        <z>1 </z>
+    </direction>
+    </force>
+
+    <force name="holdback" frame="BODY">
+    <location unit="IN">
+        <x> 211</x>
+        <y>    0.0 </y>
+        <z>  -39.0 </z>
+    </location>
+    <direction>
+        <x>   -1.0 </x>
+        <y>    0.0 </y>
+        <z>    -0.15 </z>
+    </direction>
+    </force>
+
+    <force name="catapult_free" frame="BODY">
+        <location unit="IN">
+            <x> -30.0 </x>
+            <y>  0.0 </y>
+            <z>  0 </z>
+        </location>
+        <direction>
+            <x> 1</x>
+            <y>  0 </y>
+            <z> 0.35 </z>
+        </direction>
+    </force>
+
+    <force name="holdback_free" frame="BODY">
+        <location unit="IN">
+            <x> 40 </x>
+            <y>  0.0 </y>
+            <z>  -20.0 </z>
+        </location>
+        <direction>
+            <x>   -1.0 </x>
+            <y>    0.0 </y>
+            <z>    0.0 </z>
+        </direction>
+    </force>
+  </external_reactions>
+
   
 <!--<output name="ja37_datalog_08.csv" type="CSV" rate="240">-->
 <!--    <property> aero/qbar-psf </property>

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<system name="holdback">
+    <property value="0">systems/holdback_free/holdback-cmd</property>
+    <property value="0"> systems/launchbar_free/lock-cmd</property>
+
+  <channel name="Holdback_Launchbar">
+      
+      <switch name="launchbar_free/lock-cmd_sw">
+         <default value="systems/launchbar_free/lock-cmd"/>
+         <test logic="AND" value="0">
+             systems/catapult_free/cat-launch-cmd-pos  == 1
+         </test>
+	 <output>systems/launchbar_free/lock-cmd</output>
+     </switch>
+      
+      
+
+     <switch name="systems/holdback_free/switch">
+          <default value="0"/>
+          <test logic="AND" value="forces/fbx-prop-lbs">
+              systems/launchbar_free/lock-cmd == 1
+          </test>
+          <test value="0">
+                gear/unit[1]/WOW == 0
+          </test>
+          <output>external_reactions/holdback_free/magnitude</output>
+     </switch>
+
+     <switch name="launchbar_free/switch">
+         <default value="0"/>
+         <test logic="OR" value="1">
+             systems/launchbar_free/lock-cmd == 1
+             systems/catapult_free/cat-launch-cmd  == 1
+         </test>
+         <output>launchbar_free/launch-bar-engage</output>
+     </switch>
+     
+     
+	    <kinematic name="/surfaces/launch-bar-pos-norm">
+                <input>launchbar_free/launch-bar-engage</input>
+                <traverse>
+                    <setting>
+                        <position>0.0000</position>
+                        <time>0.0000</time>
+                    </setting>
+                    <setting>
+                        <position>1.0000</position>
+                        <time>8.0000</time>
+                    </setting>
+                </traverse>
+                <output>launchbar/launch-bar-pos-norm</output>
+            </kinematic>
+	    
+	    
+	   <switch name="/surface-positions/holdback">       <!--==Anim HB ===-->
+                <default value="0"/>
+                <test logic="AND" value="1">
+		    systems/launchbar_free/lock-cmd == 1
+		    launchbar/launch-bar-pos-norm  == 1
+                </test>
+            </switch> 
+
+
+
+  </channel>
+
+</system>

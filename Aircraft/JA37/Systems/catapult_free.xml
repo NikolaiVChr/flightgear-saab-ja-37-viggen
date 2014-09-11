@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+<system name="catapult">
+    <property value="0">systems/catapult_free/cat-launch-cmd</property>
+  <channel name="Catapult">
+      
+      <switch name="catapult_free/cat-launch-cmd_sw">
+         <default value="systems/catapult_free/cat-launch-cmd"/>
+         <test logic="OR" value="0">
+              gear/unit[1]/WOW != 1
+         </test>
+	 <output>systems/catapult_free/cat-launch-cmd</output>
+     </switch>
+      
+      
+       <kinematic name="systems/catapult_free/cat-timer">
+          <input>systems/catapult_free/cat-cmd-norm</input>
+          <traverse>
+              <setting>
+                 <position>0.0</position>
+                 <time>0.0</time>
+              </setting>
+              <setting>
+                 <position>1.0</position>
+                 <time>2.8</time>
+              </setting>
+          </traverse>
+          <output>systems/catapult_free/cat-pos-norm</output>
+       </kinematic>
+
+
+      <switch name="systems/catapult_free/cat-launch-cmd-pos">
+          <default value="systems/catapult_free/cat-launch-cmd-pos"/>
+          <test  logic="OR" value="0">
+              systems/catapult_free/cat-pos-norm gt 0.999
+              gear/unit[1]/WOW != 1
+          </test>
+          <test  logic="AND" value="1">
+              systems/catapult_free/cat-launch-cmd == 1
+	      launchbar/launch-bar-pos-norm == 1
+          </test>
+      </switch>
+
+       <switch name="systems/catapult_free/cat-cmd-norm">
+          <default value="0"/>
+          <test  logic="AND" value="0">
+               systems/catapult_free/cat-pos-norm gt 0.999
+          </test>
+          <test  logic="AND" value="1">
+               systems/catapult_free/cat-launch-cmd-pos == 1
+               gear/unit[1]/WOW == 1
+               /sim/carrier/no-catapult-definition == 1
+               propulsion/engine[0]/n1  gt 80
+          </test>
+       </switch>
+
+       <pure_gain name="systems/catapult_free/cat-force">
+          <input>inertia/weight-lbs</input>
+          <gain>2.8</gain>
+       </pure_gain>
+
+       <switch name="systems/catapult_free/cat-final">
+           <default value="0"/>
+           <test  logic="AND" value="systems/catapult_free/cat-force">
+                systems/catapult_free/cat-cmd-norm == 1
+                systems/catapult_free/cat-pos-norm lt 0.999
+                systems/catapult_free/cat-pos-norm gt 0.0
+           </test>
+           <output>external_reactions/catapult_free/magnitude</output>
+       </switch>
+
+  </channel>
+
+</system>

@@ -30,7 +30,7 @@ Note
 ====
 Various stuff adapted from other aircrafts:
 
-F16 - Canopy. Inertia. Afterburner flame and engine glow. Texture for Strake-vortex. Cannon. Chronometer. ADI. Pedals.
+F16 - Canopy. Inertia. Afterburner flame and engine glow. Texture for Strake-vortex. Cannon. Chronometer. ADI. Pedals, arrester hook.
 J35F - 8 instruments and electrical system
 Mig-15 - Crash code
 Buccaneer - Flight direction indicator in HUD
@@ -43,5 +43,6 @@ Cessna-208-Caravan - Radiostack
 Zero - Performance monitor
 F15C - Stick
 Alphajet - Adapted aerobatic smoke
+Crusader - Carrier catapult mechanism
 
 Might have forgotten some.
