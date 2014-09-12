@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <system name="catapult">
-    <property value="0">systems/catapult_free/cat-launch-cmd</property>
   <channel name="Catapult">
       
       <switch name="catapult_free/cat-launch-cmd_sw">

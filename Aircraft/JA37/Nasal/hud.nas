@@ -1211,7 +1211,7 @@ var HUDnasal = {
       towerPos.set_latlon(towerLat, towerLon, towerAlt);
       var showme = 1;
 
-      var hud_pos = me.trackCalc(towerPos, 99000);
+      var hud_pos = me.trackCalc(towerPos, 99000, 1);
       if(hud_pos != nil) {
         var distance = hud_pos[2];
         var pos_x = hud_pos[0];
@@ -1539,10 +1539,11 @@ var HUDnasal = {
       return s;
   },
 
-  trackAI: func (AI_vector, diamond) {
+  trackAI: func (AI_vector, carrier) {
+    var carrier = 0;
     foreach (var mp; AI_vector) {
       if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {#only the MP that are valid are sent here
-        hud_pos = me.trackItemCalc(mp, 48000);
+        hud_pos = me.trackItemCalc(mp, 48000, carrier);
 
         if(hud_pos != nil) {
           append(tracks, hud_pos);
@@ -1550,6 +1551,12 @@ var HUDnasal = {
           var pos_y = hud_pos[1];
           var distance = hud_pos[2];
           var showme = 1;
+
+          # tell the jsbsim hook system that if we are near a carrier
+          if(carrier == 0 and distance < 1000) {
+            # is carrier and is within 1 Km range
+            carrier = 1;
+          }
 
           # find and remember the type of the track
           var typeNode = mp.getNode("model-shorter");
@@ -1616,7 +1623,7 @@ var HUDnasal = {
 
           append(hud_pos, ident);
           append(hud_pos, mp);
-          append(hud_pos, diamond);
+          append(hud_pos, carrier);
 
           var unique = mp.getChild("unique");
           if (unique == nil) {
@@ -1624,11 +1631,11 @@ var HUDnasal = {
             unique.setValue(rand());
           }
 
-          if(selection == nil) {
+          if(selection == nil and pos_x != 90000) {
             #this is first tracks in radar field, so will be default target
             selection = hud_pos;
             me.selection_updated = 1;
-          } elsif (selection[5].getChild("unique").getValue() == unique.getValue()) {
+          } elsif (selection != nil and selection[5].getChild("unique").getValue() == unique.getValue() and pos_x != 90000) {
             # this track is already selected, updating it
             selection = hud_pos;
             me.selection_updated = 1;
@@ -1666,6 +1673,9 @@ var HUDnasal = {
         }#end of error check
       }#end of valid check
     }#end of foreach
+    if(carrier == 0) {
+      setprop("fdm/jsbsim/ground/carrier-near", carrier);
+    }
   },#end of trackAI
 
   # hud_pos
@@ -1678,18 +1688,19 @@ var HUDnasal = {
   # 5 - node
   # 6 - targetable
 
-  trackItemCalc: func (mp, range) {
+  trackItemCalc: func (mp, range, carrier) {
     var x = mp.getNode("position/global-x").getValue();
     var y = mp.getNode("position/global-y").getValue();
     var z = mp.getNode("position/global-z").getValue();
     var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-    return me.trackCalc(aircraftPos, range);
+    return me.trackCalc(aircraftPos, range, carrier);
   },
 
-  trackCalc: func (aircraftPos, range) {
+  trackCalc: func (aircraftPos, range, carrier) {
     var distance = nil;
     
     call(func distance = me.self.distance_to(aircraftPos), nil, var err = []);
+
     if ((size(err))or(distance==nil)) {
       # Oops, have errors. Bogus position data (and distance==nil).
       #print("Received invalid position data: " ~ debug._error(mp.callsign));
@@ -1739,6 +1750,8 @@ var HUDnasal = {
         var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
 
         return [pos_x, pos_y, distance];
+      } elsif (carrier == 0) {
+        return [90000, 90000, distance];
       }
     }
     return nil;

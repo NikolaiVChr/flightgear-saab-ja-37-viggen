@@ -4,6 +4,7 @@ TODO for Flightgear JA-37
 
 Features and improvements:
 --------------------------
+GUI: Make popups appear higher on screen.
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground.
@@ -81,6 +82,7 @@ HUD: I have experienced that combat mode was on by default. [not reliable reprod
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
 Model: sim load-lag when coming near other ja37. [reproduced locally]
+Sim: When running at reduced sim time, autostart might fail.
 
 
 Issues with FG: (or my limited understanding of it)

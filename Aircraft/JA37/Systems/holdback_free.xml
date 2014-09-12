@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 
 <system name="holdback">
-    <property value="0">systems/holdback_free/holdback-cmd</property>
-    <property value="0"> systems/launchbar_free/lock-cmd</property>
-
   <channel name="Holdback_Launchbar">
       
       <switch name="launchbar_free/lock-cmd_sw">

@@ -125,21 +125,21 @@
       </condition>
     </item>
     <item>
-      <name>Engine</name>
-      <value>Ready</value>
-      <condition>
-          <equals>
-            <property>/engines/engine[0]/running</property>
-            <value>1</value>
-          </equals>
-      </condition>
-    </item>
-    <item>
       <name>Canopy Flaps</name>
       <value>DOWN (auto)</value>
       <condition>
           <equals>
             <property>fdm/jsbsim/fcs/flap-pos-norm</property>
+            <value>1</value>
+          </equals>
+      </condition>
+    </item>
+    <item>
+      <name>Engine</name>
+      <value>Ready</value>
+      <condition>
+          <equals>
+            <property>/engines/engine[0]/running</property>
             <value>1</value>
           </equals>
       </condition>
@@ -157,6 +157,10 @@
         <command>nasal</command>
         <script>ja37.toggleNosewheelSteer();</script>
      </binding>
+    </item>
+    <item>
+      <name>Set HUD Units</name>
+      <value>Metric or Imperial (Shift-I)</value>
     </item>
     <item>
       <name>Calibrate altimeters</name>

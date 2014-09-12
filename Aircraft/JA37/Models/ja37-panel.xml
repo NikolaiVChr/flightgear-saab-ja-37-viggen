@@ -304,9 +304,9 @@
     <name>Reverse</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.79</x-m>
-      <y-m> -0.28</y-m>
-      <z-m>  0.37</z-m>
+      <x-m> -3.8225</x-m>
+      <y-m> -0.29</y-m>
+      <z-m>  0.36</z-m>
     </offsets>
   </model>
 

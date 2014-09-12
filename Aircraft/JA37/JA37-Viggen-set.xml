@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.53</aircraft-version>
+  <aircraft-version>2.54</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -860,7 +860,19 @@
     <gear>
       <serviceable type="bool">true</serviceable>
     </gear>
+    <ground>
+      <carrier-near type="bool">false</carrier-near>
+    </ground>
     <systems>
+      <catapult_free>
+        <cat-launch-cmd type="bool">false</cat-launch-cmd>
+      </catapult_free>
+      <holdback_free>
+        <holdback-cmd type="bool">false</holdback-cmd>
+      </holdback_free>
+      <launchbar_free>
+        <lock-cmd type="bool">false</lock-cmd>
+      </launchbar_free>
       <nose-wheel-steer>
         <enable type="bool">true</enable>
       </nose-wheel-steer>
