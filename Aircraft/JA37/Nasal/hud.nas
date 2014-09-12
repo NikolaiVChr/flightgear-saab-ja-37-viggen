@@ -1136,40 +1136,44 @@ var HUDnasal = {
   },
 
   displayDigitalAltitude: func (alt, radAlt) {
+    # alt and radAlt is in current unit
+    # determine max radar alt in current unit
     var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
     if (radAlt == nil) {
+      # Radar alt instrument not initialized yet.
       me.alt.setText("");
       countQFE = 0;
-      QFEcalibrated = 0;
+      QFEcalibrated = 0;setprop("sim/ja37/avionics/altimeters-calibrated", 0);
     } elsif (radAlt < radar_clamp) {
-      var radar_alt_factor = me.input.units.getValue() ==1  ? radAlt : me.input.rad_alt.getValue();
-      me.alt.setText("R " ~ sprintf("%3d", clamp(radar_alt_factor, 0, radar_clamp)));
+      # in radar alt range
+      me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
       # check for QFE warning
       var diff = radAlt - alt;
-      if (countQFE == 0 and (diff > 5 or diff < -5)) {
+      if (countQFE == 0 and (diff > 7 or diff < -7)) {
         #print("QFE warning " ~ countQFE);
         # is not calibrated, and is not blinking
-        QFEcalibrated = 0;
+        QFEcalibrated = 0;setprop("sim/ja37/avionics/altimeters-calibrated", 0);
         countQFE = 1;     
         #print("QFE not calibrated, and is not blinking");     
-      } elsif (diff > -5 and diff < 5) {
+      } elsif (diff > -7 and diff < 7) {
           #is calibrated
         if (QFEcalibrated == 0 and countQFE < 11) {
           # was not calibrated before, is now.
           #print("QFE was not calibrated before, is now. "~countQFE);
           countQFE = 11;
         }
-      } elsif (QFEcalibrated == 1 and (diff > 5 or diff < -5)) {
+        QFEcalibrated = 1;setprop("sim/ja37/avionics/altimeters-calibrated", 1);
+      } elsif (QFEcalibrated == 1 and (diff > 7 or diff < -7)) {
         # was calibrated before, is not anymore.
         #print("QFE was calibrated before, is not anymore. "~countQFE);
         countQFE = 1;
-        QFEcalibrated = 0;
+        QFEcalibrated = 0;setprop("sim/ja37/avionics/altimeters-calibrated", 0);
       }
     } else {
       # is above height for checking for calibration
       countQFE = 0;
       #QFE = 0;
-      QFEcalibrated = 1;
+      QFEcalibrated = 1;setprop("sim/ja37/avionics/altimeters-calibrated", 1);
       #print("QFE not calibrated, and is not blinking");
       me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
     }
@@ -1517,7 +1521,7 @@ var HUDnasal = {
         #print("steady on");
       } else {
         countQFE = -100;
-        QFEcalibrated = 1;
+        QFEcalibrated = 1;setprop("sim/ja37/avionics/altimeters-calibrated", 1);
         #print("off");
       }
     } else {

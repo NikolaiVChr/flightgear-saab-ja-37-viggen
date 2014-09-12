@@ -743,3 +743,9 @@ Aero: Keys 'L', 'C' and 'l' now operate launch-bar, catapult and arrester hook. 
 2.52 - 2014 September 12
 ====
 GUI: Made Checklists (before takeoff, takeoff and landing).
+
+2.53
+====
+HUD: Fixed QFE was blinking even after altimeters was calibrated.
+GUI: Made check for altimeters being calibrated.
+HUD: Fixed a unit bug in the digital radar altitude display.

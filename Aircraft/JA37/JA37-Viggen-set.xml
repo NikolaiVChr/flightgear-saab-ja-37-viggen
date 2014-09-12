@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.51</aircraft-version>
+  <aircraft-version>2.53</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -769,7 +769,7 @@
     </systems>
 
     <checklists include="Systems/ja37-checklists.xml"/>
-    
+
 <!--**********************************************************************
 
                                           Properties
@@ -830,7 +830,10 @@
           <drag-coeff type="double">0.05</drag-coeff>          <!-- guess -->
           <drag-area type="double">0.043</drag-area>           <!-- sq ft -->
         </rb24>
-      </armament>      
+      </armament>  
+      <avionics>
+        <altimeters-calibrated type="bool">0</altimeters-calibrated>
+      </avionics>
     </ja37>
     <carrier>
       <enabled type="bool">false</enabled>

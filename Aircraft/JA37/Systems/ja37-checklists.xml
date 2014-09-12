@@ -161,6 +161,18 @@
     <item>
       <name>Calibrate altimeters</name>
       <value>SET</value>
+      <marker>
+        <x-m>-3.79</x-m>
+        <y-m> 0.10</y-m>
+        <z-m> 0.33</z-m>
+        <scale>2.00</scale>
+      </marker> 
+      <condition>
+          <equals>
+            <property>sim/ja37/avionics/altimeters-calibrated</property>
+            <value>1</value>
+          </equals>
+      </condition>
     </item>
     </checklist>
   <checklist>
