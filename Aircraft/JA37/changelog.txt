@@ -739,3 +739,7 @@ Aero: At high altitude the elevator now deflects a bit more.
 Model: Fixed airspeed indicator floats above the cockpit panel when using 3D glasses.
 Sim: A message will now also display on screen when wings break off.
 Aero: Keys 'L', 'C' and 'l' now operate launch-bar, catapult and arrester hook. (unauthentic features)
+
+2.52 - 2014 September 12
+====
+GUI: Made Checklists (before takeoff, takeoff and landing).

@@ -767,6 +767,9 @@
         <path>Aircraft/JA37/Systems/Autopilot.xml</path>
       </autopilot>
     </systems>
+
+    <checklists include="Systems/ja37-checklists.xml"/>
+    
 <!--**********************************************************************
 
                                           Properties

@@ -5,7 +5,7 @@ TODO for Flightgear JA-37
 Features and improvements:
 --------------------------
 GUI: Option to turn off verbose popups.
-GUI: Checklist.
+GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground.
 Aero: When wings break, remove most of normal force.
 Aero: Make cannon pod detachable and have pointweight.
