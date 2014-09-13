@@ -756,3 +756,7 @@ Sim: Fixed some jsbsim properties would be double declared when switching locati
 Sim: Made hook only work on deck of carriers.
 GUI: Improved checklist.
 Model: Placed reverse indicator closer to cockpit panel.
+
+2.55
+====
+Aero: Fixed a bug in the arester hook system.

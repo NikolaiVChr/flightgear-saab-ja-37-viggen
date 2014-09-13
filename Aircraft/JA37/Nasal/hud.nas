@@ -1540,7 +1540,7 @@ var HUDnasal = {
   },
 
   trackAI: func (AI_vector, carrier) {
-    var carrier = 0;
+    var carrierNear = 0;
     foreach (var mp; AI_vector) {
       if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {#only the MP that are valid are sent here
         hud_pos = me.trackItemCalc(mp, 48000, carrier);
@@ -1555,7 +1555,7 @@ var HUDnasal = {
           # tell the jsbsim hook system that if we are near a carrier
           if(carrier == 0 and distance < 1000) {
             # is carrier and is within 1 Km range
-            carrier = 1;
+            carrierNear = 1;
           }
 
           # find and remember the type of the track
@@ -1673,7 +1673,7 @@ var HUDnasal = {
         }#end of error check
       }#end of valid check
     }#end of foreach
-    if(carrier == 0) {
+    if(carrierNear == 0) {
       setprop("fdm/jsbsim/ground/carrier-near", carrier);
     }
   },#end of trackAI
