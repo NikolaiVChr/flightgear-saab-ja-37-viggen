@@ -766,6 +766,17 @@ var toggleYawDamper = func {
   }
 }
 
+var toggleHook = func {
+  ja37.click();
+  var enabled = getprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm");
+  setprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm", !enabled);
+  if(enabled == 0) {
+    gui.popupTip("Arrester hook: Extended");
+  } else {
+    gui.popupTip("Arrester hook: Retracted");
+  }
+}
+
 var toggleNosewheelSteer = func {
   ja37.click();
   var enabled = getprop("fdm/jsbsim/systems/nose-wheel-steer/enable");

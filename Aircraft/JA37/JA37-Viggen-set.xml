@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.55</aircraft-version>
+  <aircraft-version>2.56</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -1034,8 +1034,8 @@
       <name>l</name>
       <desc>Toggle arrester hook</desc>
       <binding>
-       <command>property-toggle</command>
-       <property>fdm/jsbsim/systems/hook/tailhook-cmd-norm</property>
+        <command>nasal</command>
+        <script>ja37.toggleHook()</script>
       </binding>
      </key>
 
@@ -1047,6 +1047,10 @@
             <command>property-assign</command>
             <property>/fdm/jsbsim/systems/catapult_free/cat-launch-cmd</property>
             <value>1.0</value>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>ja37.click()</script>
         </binding>
      </key>
 
@@ -1074,11 +1078,19 @@
             <property>/fdm/jsbsim/systems/launchbar-locked-time-mem</property>
             <value>0</value>
         </binding>
+        <binding>
+          <command>nasal</command>
+          <script>ja37.click()</script>
+        </binding>
         <mod-up>
             <binding>
                 <command>property-assign</command>
                 <property>/fdm/jsbsim/systems/launchbar/store-timer</property>
                 <value>0</value>
+            </binding>
+            <binding>
+              <command>nasal</command>
+              <script>ja37.click()</script>
             </binding>
          </mod-up>
      </key>
