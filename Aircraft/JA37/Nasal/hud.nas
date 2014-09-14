@@ -1419,19 +1419,24 @@ var HUDnasal = {
             # selection is outside radar view
             diamond_node = nil;
             me.diamond_group.hide();
+            me.vel_vec.hide();
           }
         } else {
           # selection is no longer valid
           selection = nil;
           diamond_node = nil;
+          me.vel_vec.hide();
           me.diamond_group.hide();
         }
       } else {
+        # Nothing selected
         diamond_node = nil;
+        me.vel_vec.hide();
         me.diamond_group.hide();
       }
       #print("");
     } else {
+      # radar tracks not shown at all
       me.radar_group.hide();
     }
   },

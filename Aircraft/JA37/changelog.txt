@@ -759,8 +759,13 @@ Model: Placed reverse indicator closer to cockpit panel.
 
 2.55 - 2014 September 13
 ====
-Aero: Fixed a bug in the arester hook system.
+Aero: Fixed a bug in the arrester hook system.
 
 2.56 - 2014 September 13
 ====
 GUI: Made popup and sound feedback of deploying hook, launchbar and catapult.
+
+2.57
+====
+HUD: Fix for some cases where selection's velocity vector would be drawn, after selection was gone.
+Aero: Improved how elevator deflects at low altitude, at mach 0.6 and 1.0+

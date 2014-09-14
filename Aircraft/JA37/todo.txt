@@ -59,6 +59,7 @@ HUD: Seperate landing and takeoff mode.
 HUD: Sideslip indicator dot at bottom of HUD?
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
+HUD: Check that the heading bug is correct direction, when turned away from it.
 
 
 Bugs:
@@ -82,6 +83,7 @@ HUD: I have experienced that combat mode was on by default. [not reliable reprod
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
 Model: sim load-lag when coming near other ja37. [reproduced locally]
+Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, autostart might fail.
 
 
