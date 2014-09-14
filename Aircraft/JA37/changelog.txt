@@ -765,7 +765,12 @@ Aero: Fixed a bug in the arrester hook system.
 ====
 GUI: Made popup and sound feedback of deploying hook, launchbar and catapult.
 
-2.57
+2.57 - 2014 September 13
 ====
 HUD: Fix for some cases where selection's velocity vector would be drawn, after selection was gone.
 Aero: Improved how elevator deflects at low altitude, at mach 0.6 and 1.0+
+
+2.58
+====
+Sim: Fixed some cases where it would not properly detect if was on a carrier deck or not.
+HUD: Optimised Nasal reading and writing to properties and made parts of the code more readable.

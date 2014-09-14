@@ -19,17 +19,24 @@ var deg2rads = math.pi/180.0;
 var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
 var feet2meter = 0.3048;
-#var blinking = 0; # how many updates the speed vector symbol has been turned off for blinking (convert to time when less lazy)
+
 var alt_scale_mode = -1; # the alt scale is not liniar, this indicates which part is showed
-#var QFE = 0;
-var countQFE = 0;
+
+
 
 var TAKEOFF = 0;
 var NAV = 1;
 var COMBAT =2;
 
+var FALSE = 0;
+var TRUE = 1;
 
-var QFEcalibrated = 0;
+# -100 - 0 : not blinking
+# 1 - 10   : blinking
+# 11 - 125 : steady on
+var countQFE = 0;
+var QFEcalibrated = FALSE;# if the altimeters are calibrated
+
 var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # HUD z is 0 to 0.25 and raised 0.54 up. Finally is 0.54m to 0.79m, height of HUD is 0.25m
 # Therefore each pixel is 0.25 / 1024 = 0.000244140625m or each meter is 4096 pixels.
@@ -674,6 +681,7 @@ var HUDnasal = {
         speed_e:  "velocities/speed-east-fps",
         speed_d:  "velocities/speed-down-fps",
         alpha:    "/orientation/alpha-deg",
+        alphaJSB: "fdm/jsbsim/aero/alpha-deg",
         beta:     "/orientation/side-slip-deg",
         ias:      "/velocities/airspeed-kt",
         mach:     "/velocities/mach",
@@ -681,6 +689,7 @@ var HUDnasal = {
         vs:       "/velocities/vertical-speed-fps",
         rad_alt:  "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
         alt_ft:   "/instrumentation/altimeter/indicated-altitude-ft",
+        alt_ft_real: "position/altitude-ft",
         wow_nlg:  "/gear/gear[0]/wow",
         #Vr:       "/controls/switches/HUDnasal_rotation_speed",
         #Bright:   "/controls/switches/HUDnasal_brightness",
@@ -700,7 +709,10 @@ var HUDnasal = {
         tenHz:    "sim/ja37/blink/ten-Hz",
         fiveHz:   "sim/ja37/blink/five-Hz",
         callsign: "/sim/ja37/hud/callsign",
-        elec:     "/systems/electrical/outputs/hud"
+        elec:     "/systems/electrical/outputs/hud",
+        altCalibrated: "sim/ja37/avionics/altimeters-calibrated",
+        carrierNear: "fdm/jsbsim/ground/carrier-near",
+        terrainOn: "sim/ja37/sound/terrain-on"
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -721,14 +733,14 @@ var HUDnasal = {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.5);
-     } elsif (me.input.service.getValue() == 0) {
+     } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);
      } else {
       var mode = me.input.gears.getValue() != 0 ? TAKEOFF : (me.input.combat.getValue() == 1 ? COMBAT : NAV);
       var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == 1;
-      var out_of_ammo = 0;
+      var out_of_ammo = FALSE;
       if (me.input.combat.getValue() == 1 and me.input.station.getValue() != 0 and 
           getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
             out_of_ammo = 1;
@@ -771,9 +783,9 @@ var HUDnasal = {
       me.displayTower();
 
 
-      if(reinitHUD == 1) {
+      if(reinitHUD == TRUE) {
         me.redraw();
-        reinitHUD = 0;
+        reinitHUD = FALSE;
         me.update();
       } else {
         me.root.show();
@@ -804,15 +816,15 @@ var HUDnasal = {
 
       # very simple ground detection.
       if(mode != TAKEOFF and time_till_crash < 10 and time_till_crash > 0) {
-        setprop("sim/ja37/sound/terrain-on", 1);
-        if(me.input.tenHz.getValue() == 1) {
-          me.arrow_trans.setRotation(- getprop("orientation/roll-deg")*deg2rads);
+        me.input.terrainOn.setValue(TRUE);
+        if(me.input.tenHz.getValue() == TRUE) {
+          me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
           me.arrow.show();
         } else {
           me.arrow.hide();
         }
       } else {
-        setprop("sim/ja37/sound/terrain-on", 0);
+        me.input.terrainOn.setValue(FALSE);
         me.arrow.hide();
       }
     }
@@ -886,17 +898,17 @@ var HUDnasal = {
       
       var pos_x = me.middleOffset + degOffset*(headScaleTickSpacing/5);
       #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
-      var blink = 0;
+      var blink = FALSE;
       #62px, 687px, 262px, 337px
       if (pos_x < 337-512) {
-        blink = 1;
+        blink = TRUE;
         pos_x = 337-512;
       } elsif (pos_x > 687-512) {
-        blink = 1;
+        blink = TRUE;
         pos_x = 687-512;
       }
       me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
-      if(blink == 0 or me.input.fiveHz.getValue() == 1) {
+      if(blink == FALSE or me.input.fiveHz.getValue() == TRUE) {
         me.heading_bug.show();
       } else {
         me.heading_bug.hide();
@@ -908,8 +920,8 @@ var HUDnasal = {
 
   displayAltitude: func () {
     var metric = me.input.units.getValue();
-    var alt = metric ==1 ? me.input.alt_ft.getValue() * feet2meter : me.input.alt_ft.getValue();
-    var radAlt = metric ==1 ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue();
+    var alt = metric == TRUE ? me.input.alt_ft.getValue() * feet2meter : me.input.alt_ft.getValue();
+    var radAlt = metric == TRUE ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue();
 
     me.displayAltitudeScale(alt, radAlt);
     me.displayDigitalAltitude(alt, radAlt);
@@ -1011,7 +1023,7 @@ var HUDnasal = {
       me.alt_low.setTranslation(numberOffset, 0);
       me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
       me.alt_high.setTranslation(numberOffset, -6*altimeterScaleHeight/4);
-      if(metric == 1) {
+      if(metric == TRUE) {
         me.alt_low.setText("0");
         me.alt_med.setText("50");
         me.alt_high.setText("100");
@@ -1037,7 +1049,7 @@ var HUDnasal = {
       me.alt_scale_grp.update();
       if(me.verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
     } elsif (alt_scale_mode == 1) {
-      var alt_scale_factor = metric == 1 ? 100 : 400;
+      var alt_scale_factor = metric == TRUE ? 100 : 400;
       me.alt_scale_med.show();
       me.alt_scale_high.hide();
       me.alt_scale_low.hide();
@@ -1051,7 +1063,7 @@ var HUDnasal = {
       me.alt_low.setTranslation(numberOffset, 0);
       me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
       me.alt_high.setTranslation(numberOffset, -altimeterScaleHeight*2);
-      if(metric == 1) {
+      if(metric == TRUE) {
         me.alt_low.setText("0");
         me.alt_med.setText("50");
         me.alt_high.setText("100");
@@ -1077,7 +1089,7 @@ var HUDnasal = {
       me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
     } elsif (alt_scale_mode == 2) {
-      var alt_scale_factor = metric == 1 ? 200 : 1000;
+      var alt_scale_factor = metric == TRUE ? 200 : 1000;
       me.alt_scale_med.hide();
       me.alt_scale_high.show();
       me.alt_scale_low.hide();
@@ -1143,7 +1155,8 @@ var HUDnasal = {
       # Radar alt instrument not initialized yet.
       me.alt.setText("");
       countQFE = 0;
-      QFEcalibrated = 0;setprop("sim/ja37/avionics/altimeters-calibrated", 0);
+      QFEcalibrated = FALSE;
+      me.input.altCalibrated.setValue(FALSE);
     } elsif (radAlt < radar_clamp) {
       # in radar alt range
       me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
@@ -1152,28 +1165,32 @@ var HUDnasal = {
       if (countQFE == 0 and (diff > 7 or diff < -7)) {
         #print("QFE warning " ~ countQFE);
         # is not calibrated, and is not blinking
-        QFEcalibrated = 0;setprop("sim/ja37/avionics/altimeters-calibrated", 0);
+        QFEcalibrated = FALSE;
+        me.input.altCalibrated.setValue(FALSE);
         countQFE = 1;     
         #print("QFE not calibrated, and is not blinking");     
       } elsif (diff > -7 and diff < 7) {
           #is calibrated
-        if (QFEcalibrated == 0 and countQFE < 11) {
+        if (QFEcalibrated == FALSE and countQFE < 11) {
           # was not calibrated before, is now.
           #print("QFE was not calibrated before, is now. "~countQFE);
           countQFE = 11;
         }
-        QFEcalibrated = 1;setprop("sim/ja37/avionics/altimeters-calibrated", 1);
+        QFEcalibrated = TRUE;
+        me.input.altCalibrated.setValue(TRUE);
       } elsif (QFEcalibrated == 1 and (diff > 7 or diff < -7)) {
         # was calibrated before, is not anymore.
         #print("QFE was calibrated before, is not anymore. "~countQFE);
         countQFE = 1;
-        QFEcalibrated = 0;setprop("sim/ja37/avionics/altimeters-calibrated", 0);
+        QFEcalibrated = FALSE;
+        me.input.altCalibrated.setValue(FALSE);
       }
     } else {
       # is above height for checking for calibration
       countQFE = 0;
       #QFE = 0;
-      QFEcalibrated = 1;setprop("sim/ja37/avionics/altimeters-calibrated", 1);
+      QFEcalibrated = TRUE;
+      me.input.altCalibrated.setValue(TRUE);
       #print("QFE not calibrated, and is not blinking");
       me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
     }
@@ -1209,7 +1226,7 @@ var HUDnasal = {
     if(towerAlt != nil and towerLat != nil and towerLon != nil) {
       var towerPos = geo.Coord.new();
       towerPos.set_latlon(towerLat, towerLon, towerAlt);
-      var showme = 1;
+      var showme = TRUE;
 
       var hud_pos = me.trackCalc(towerPos, 99000, 1);
       if(hud_pos != nil) {
@@ -1218,23 +1235,23 @@ var HUDnasal = {
         var pos_y = hud_pos[1];
 
         if(pos_x > 512) {
-          showme = 0;
+          showme = FALSE;
           #pos_x = 512;
         }
         if(pos_x < -512) {
-          showme = 0;
+          showme = FALSE;
           #pos_x = -512;
         }
         if(pos_y > 512) {
-          showme = 0;
+          showme = FALSE;
           #pos_y = 512;
         }
         if(pos_y < -512) {
-          showme = 0;
+          showme = FALSE;
           #pos_y = -512;
         }
 
-        if(showme == 1) {
+        if(showme == TRUE) {
           me.tower_symbol.setTranslation(pos_x, pos_y);
           var tower_dist = me.input.units.getValue() ==1  ? distance : distance/kts2kmh;
           me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
@@ -1256,12 +1273,12 @@ var HUDnasal = {
 
   displayRadarTracks: func (mode) {
     me.self      =  geo.aircraft_position();
-    me.myPitch   =  getprop("orientation/pitch-deg")*deg2rads;
-    me.myRoll    = -getprop("orientation/roll-deg")*deg2rads;
-    me.groundAlt =  getprop("position/altitude-ft")*feet2meter;
-    me.myHeading =  getprop("orientation/heading-deg");
+    me.myPitch   =  me.input.pitch.getValue()*deg2rads;
+    me.myRoll    = -me.input.roll.getValue()*deg2rads;
+    me.groundAlt =  me.input.alt_ft_real.getValue()*feet2meter;
+    me.myHeading =  me.input.hdgReal.getValue();
     me.track_index = 0;
-    me.selection_updated = 0;
+    me.selection_updated = FALSE;
     #me.short_dist = nil;
 
     if(getprop("sim/ja37/hud/tracks-enabled") == 1) {
@@ -1306,27 +1323,27 @@ var HUDnasal = {
       # draw selection
       if(selection != nil) {
         # something is selected
-        if (selection[5].getChild("valid").getValue() == 1) {
-          if (me.selection_updated == 1) {
+        if (selection[5].getChild("valid").getValue() == TRUE) {
+          if (me.selection_updated == TRUE) {
             # selection is currently in forward looking radar view
-            var blink = 0;
+            var blink = FALSE;
             if(selection[0] > 512) {
-              blink = 1;
+              blink = TRUE;
               selection[0] = 512;
             }
             if(selection[0] < -512) {
-              blink = 1;
+              blink = TRUE;
               selection[0] = -512;
             }
             if(selection[1] > 512) {
-              blink = 1;
+              blink = TRUE;
               selection[1] = 512;
             }
             if(selection[1] < -450) {
-              blink = 1;
+              blink = TRUE;
               selection[1] = -450;
             }
-            if(selection[6] == 1 and mode == COMBAT) {
+            if(selection[6] == TRUE and mode == COMBAT) {
               #targetable
               diamond_node = selection[5];
               me.diamond_group.setTranslation(selection[0], selection[1]);
@@ -1363,7 +1380,7 @@ var HUDnasal = {
               #               .lineTo( pos_x, pos_y)
               #               .setStrokeLineWidth(w)
               #               .setColor(r,g,b, a);
-              if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+              if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
                 me.diamond_group.hide();
               } else {
                 me.diamond_group.show();
@@ -1373,11 +1390,11 @@ var HUDnasal = {
               diamond_node = nil;
               me.diamond_group.setTranslation(selection[0], selection[1]);
               me.target_circle[selection[3]].setTranslation(selection[0], selection[1]);
-              var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
+              var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
               me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
               me.diamond_name.setText(selection[4]);
               
-              if(blink == 1 and me.input.fiveHz.getValue() == 0) {
+              if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
                 me.diamond_group.hide();
                 me.target_circle[selection[3]].hide();
               } else {
@@ -1444,7 +1461,7 @@ var HUDnasal = {
   displayDigitalSpeed: func () {
     var mach = me.input.mach.getValue();
 
-    if(me.input.units.getValue() == 1) {
+    if(me.input.units.getValue() == TRUE) {
       me.airspeedInt.hide();
       if (mach >= 0.5) 
       {
@@ -1504,7 +1521,7 @@ var HUDnasal = {
       }
       if(countQFE < 10) {
          # blink the QFE
-        if(me.input.fiveHz.getValue() == 1) {
+        if(me.input.fiveHz.getValue() == TRUE) {
           me.qfe.show();
         } else {
           me.qfe.hide();
@@ -1526,7 +1543,8 @@ var HUDnasal = {
         #print("steady on");
       } else {
         countQFE = -100;
-        QFEcalibrated = 1;setprop("sim/ja37/avionics/altimeters-calibrated", 1);
+        QFEcalibrated = TRUE;
+        me.input.altCalibrated.setValue(TRUE);
         #print("off");
       }
     } else {
@@ -1544,10 +1562,11 @@ var HUDnasal = {
       return s;
   },
 
+  # param carrier must be 0 for carriers
   trackAI: func (AI_vector, carrier) {
-    var carrierNear = 0;
+    var carrierNear = FALSE;
     foreach (var mp; AI_vector) {
-      if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != 0) {#only the MP that are valid are sent here
+      if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != FALSE) {#only the MP that are valid are sent here
         hud_pos = me.trackItemCalc(mp, 48000, carrier);
 
         if(hud_pos != nil) {
@@ -1560,7 +1579,7 @@ var HUDnasal = {
           # tell the jsbsim hook system that if we are near a carrier
           if(carrier == 0 and distance < 1000) {
             # is carrier and is within 1 Km range
-            carrierNear = 1;
+            carrierNear = TRUE;
           }
 
           # find and remember the type of the track
@@ -1582,7 +1601,7 @@ var HUDnasal = {
                   funcHash.listenerID = listener;
                 },
                 call: func {
-                  if(mp.getNode("valid").getValue() == 0) {
+                  if(mp.getNode("valid").getValue() == FALSE) {
                     var child = mp.removeChild("model-shorter");                    
                     if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
                       removelistener(me.listenerID);
@@ -1639,11 +1658,11 @@ var HUDnasal = {
           if(selection == nil and pos_x != 90000) {
             #this is first tracks in radar field, so will be default target
             selection = hud_pos;
-            me.selection_updated = 1;
+            me.selection_updated = TRUE;
           } elsif (selection != nil and selection[5].getChild("unique").getValue() == unique.getValue() and pos_x != 90000) {
             # this track is already selected, updating it
             selection = hud_pos;
-            me.selection_updated = 1;
+            me.selection_updated = TRUE;
           }
 
           #me.short_dist = hud_pos;
@@ -1651,19 +1670,19 @@ var HUDnasal = {
           #}
 
           if(pos_x > 512) {
-            showme = 0;
+            showme = FALSE;
           }
           if(pos_x < -512) {
-            showme = 0;
+            showme = FALSE;
           }
           if(pos_y > 512) {
-            showme = 0;
+            showme = FALSE;
           }
           if(pos_y < -512) {
-            showme = 0;
+            showme = FALSE;
           }
           
-          if(showme == 1) {
+          if(showme == TRUE) {
             me.target_circle[me.track_index].setTranslation(pos_x, pos_y);
             me.target_circle[me.track_index].show();
             me.target_circle[me.track_index].update();
@@ -1678,8 +1697,10 @@ var HUDnasal = {
         }#end of error check
       }#end of valid check
     }#end of foreach
-    if(carrierNear == 0) {
-      setprop("fdm/jsbsim/ground/carrier-near", carrier);
+    if(carrier == 0) {
+      if(carrierNear != me.input.carrierNear.getValue()) {
+        me.input.carrierNear.setValue(carrierNear);
+      }      
     }
   },#end of trackAI
 
@@ -1763,8 +1784,8 @@ var HUDnasal = {
   },
 
   showReticle: func (mode, cannon, out_of_ammo) {
-    if (mode == COMBAT and cannon == 1) {
-      me.showSidewind(0);
+    if (mode == COMBAT and cannon == TRUE) {
+      me.showSidewind(FALSE);
       
       me.reticle_cannon.setTranslation(0, centerOffset);
       me.reticle_cannon.show();
@@ -1773,17 +1794,17 @@ var HUDnasal = {
     } elsif (mode != TAKEOFF) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       me.showFlightPathVector(1, out_of_ammo);
-      me.showSidewind(0);
+      me.showSidewind(FALSE);
       me.reticle_cannon.hide();
     } elsif(mode == TAKEOFF) {
       me.showFlightPathVector(!me.input.wow_nlg.getValue(), out_of_ammo);
-      me.showSidewind(1);
+      me.showSidewind(TRUE);
       me.reticle_cannon.hide();
     }    
   },
 
   showSidewind: func(show) {
-    if(show == 1) {
+    if(show == TRUE) {
       #move sidewind symbol according to side wind:
       var wind_heading = getprop("environment/wind-from-heading-deg");
       var wind_speed = getprop("environment/wind-speed-kt");
@@ -1800,7 +1821,7 @@ var HUDnasal = {
   },
 
   showFlightPathVector: func (show, out_of_ammo) {
-    if(show == 1) {
+    if(show == TRUE) {
       var vel_gx = me.input.speed_n.getValue();
       var vel_gy = me.input.speed_e.getValue();
       var vel_gz = me.input.speed_d.getValue();
@@ -1829,7 +1850,7 @@ var HUDnasal = {
       var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
       var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);
 
-      if ( out_of_ammo == 1) {
+      if ( out_of_ammo == TRUE) {
         me.aim_reticle.hide();
         me.aim_reticle_fin.hide();
         me.reticle_no_ammo.show();
@@ -1840,10 +1861,10 @@ var HUDnasal = {
         
         me.reticle_group.setTranslation(pos_x, pos_y);
         # move fin to alpha
-        me.reticle_fin_group.setTranslation(0, getprop("fdm/jsbsim/aero/alpha-deg"));
-        if (getprop("fdm/jsbsim/aero/alpha-deg") > 20) {
+        me.reticle_fin_group.setTranslation(0, me.input.alphaJSB.getValue());
+        if (me.input.alphaJSB.getValue() > 20) {
           # blink the fin if alpha is high
-          if(me.input.tenHz.getValue() == 1) {
+          if(me.input.tenHz.getValue() == TRUE) {
             me.aim_reticle_fin.show();
           } else {
             me.aim_reticle_fin.hide();
@@ -1863,10 +1884,10 @@ var HUDnasal = {
 
 var id = 0;
 
-var reinitHUD = 0;
+var reinitHUD = FALSE;
 var init = func() {
   removelistener(id); # only call once
-  if(getprop("sim/ja37/supported/hud") == 1) {
+  if(getprop("sim/ja37/supported/hud") == TRUE) {
     var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
     #setprop("sim/hud/visibility[1]", 0);
     
@@ -1922,9 +1943,9 @@ var cycle_units = func () {
     ja37.click();
     var current = getprop("sim/ja37/hud/units-metric");
     if(current == 1) {
-      setprop("sim/ja37/hud/units-metric", 0);
+      setprop("sim/ja37/hud/units-metric", FALSE);
     } else {
-      setprop("sim/ja37/hud/units-metric", 1);
+      setprop("sim/ja37/hud/units-metric", TRUE);
     }
   } else {
     aircraft.HUD.cycle_type();
@@ -1936,9 +1957,9 @@ var toggle_combat = func () {
     ja37.click();
     var current = getprop("/sim/ja37/hud/combat");
     if(current == 1) {
-      setprop("/sim/ja37/hud/combat", 0);
+      setprop("/sim/ja37/hud/combat", FALSE);
     } else {
-      setprop("/sim/ja37/hud/combat", 1);
+      setprop("/sim/ja37/hud/combat", TRUE);
     }
   } else {
     aircraft.HUD.cycle_color();
@@ -1950,9 +1971,9 @@ var toggleCallsign = func () {
     ja37.click();
     var current = getprop("/sim/ja37/hud/callsign");
     if(current == 1) {
-      setprop("/sim/ja37/hud/callsign", 0);
+      setprop("/sim/ja37/hud/callsign", FALSE);
     } else {
-      setprop("/sim/ja37/hud/callsign", 1);
+      setprop("/sim/ja37/hud/callsign", TRUE);
     }
   } else {
     aircraft.HUD.normal_type();
@@ -1960,20 +1981,20 @@ var toggleCallsign = func () {
 };
 
 var blinker_five_hz = func() {
-  if(getprop("sim/ja37/blink/five-Hz") == 0) {
-    setprop("sim/ja37/blink/five-Hz", 1);
+  if(getprop("sim/ja37/blink/five-Hz") == FALSE) {
+    setprop("sim/ja37/blink/five-Hz", TRUE);
   } else {
-    setprop("sim/ja37/blink/five-Hz", 0);
+    setprop("sim/ja37/blink/five-Hz", FALSE);
   }
   settimer(func blinker_five_hz(), 0.2);
 };
 settimer(func blinker_five_hz(), 0.2);
 
 var blinker_ten_hz = func() {
-  if(getprop("sim/ja37/blink/ten-Hz") == 0) {
-    setprop("sim/ja37/blink/ten-Hz", 1);
+  if(getprop("sim/ja37/blink/ten-Hz") == FALSE) {
+    setprop("sim/ja37/blink/ten-Hz", TRUE);
   } else {
-    setprop("sim/ja37/blink/ten-Hz", 0);
+    setprop("sim/ja37/blink/ten-Hz", FALSE);
   }
   settimer(func blinker_ten_hz(), 0.1);
 };
