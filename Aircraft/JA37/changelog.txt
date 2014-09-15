@@ -774,3 +774,4 @@ Aero: Improved how elevator deflects at low altitude, at mach 0.6 and 1.0+
 ====
 Sim: Fixed some cases where it would not properly detect if was on a carrier deck or not.
 HUD: Optimised Nasal reading and writing to properties and made parts of the code more readable.
+Sim: Optimized the crash code a little.

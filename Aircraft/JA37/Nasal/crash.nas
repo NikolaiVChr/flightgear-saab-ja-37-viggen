@@ -134,64 +134,83 @@ stop_aircraftbreakprocess = func
 	{
 	}
 
-aircraftbreakprocess=func
-	{
+
+input = {
+	replay: "sim/replay/replay-state",
+	service: "sim/ja37/damage/enabled",
+	Nz: "fdm/jsbsim/accelerations/Nz",
+	lat: "position/latitude-deg",
+	lon: "position/longitude-deg",
+	alt: "position/altitude-ft",
+	elev: "position/ground-elev-ft",
+	g3d:     "/velocities/groundspeed-3D-kt",
+	exploded: "sim/ja37/damage/exploded",
+    crashed: "sim/ja37/damage/crashed",
+    wow0:    "/gear/gear[0]/wow",
+    wow1:  "/gear/gear[1]/wow",
+    wow2:  "/gear/gear[2]/wow",
+    wow3:  "/gear/gear[3]/wow",
+    wow4:  "/gear/gear[4]/wow",
+    wow5:  "/gear/gear[5]/wow",
+    wow6:  "/gear/gear[6]/wow",
+    wow7:  "/gear/gear[7]/wow",
+    wow8:  "/gear/gear[8]/wow",
+    wow9:  "/gear/gear[9]/wow",
+    wow10:  "/gear/gear[10]/wow",
+    wow11:  "/gear/gear[11]/wow",
+};
+   
+foreach(var name; keys(input)) {
+    input[name] = props.globals.getNode(input[name], 1);
+}
+
+var timerDelay = 0.2;
+
+aircraftbreakprocess=func {
 	#print("aircraftbreakprocess");
 		# check state
-		if ((getprop("sim/replay/replay-state") != nil) and (getprop("sim/replay/replay-state") == 1))
+		if ((input.replay.getValue() != nil) and (input.replay.getValue() == 1))
 		{
 			stop_aircraftbreakprocess();
-			return ( settimer(aircraftbreakprocess, 0.1) ); 
+			return ( settimer(aircraftbreakprocess, timerDelay) ); 
 		}
-		in_service = getprop("sim/ja37/damage/enabled" );
+		in_service = input.service.getValue();
 		if (in_service == nil)
 		{
 		print("not in service: nil");
 			stop_aircraftbreakprocess();
-			return ( settimer(aircraftbreakprocess, 0.1) ); 
+			return ( settimer(aircraftbreakprocess, timerDelay) ); 
 		}
 		if ( in_service != 1 )
 		{
 		#print("In service: false");
 			stop_aircraftbreakprocess();
-			return ( settimer(aircraftbreakprocess, 0.1) ); 
+			return ( settimer(aircraftbreakprocess, timerDelay) ); 
 		}
 		#print("In service: true");
-		pilot_g=getprop("fdm/jsbsim/accelerations/Nz");
-		maximum_g=14;
-		lat = getprop("position/latitude-deg");
-		lon = getprop("position/longitude-deg");
+		pilot_g=input.Nz.getValue();
+		maximum_g=14;#the real ja37 can handle 12G
+		lat = input.lat.getValue();
+		lon = input.lon.getValue();
 		#check altitude positions
-		altitude=getprop("position/altitude-ft");
-		elevation=getprop("position/ground-elev-ft");
-		speed=getprop("/velocities/groundspeed-3D-kt");
-		exploded=getprop("sim/ja37/damage/exploded");
-		crashed=getprop("sim/ja37/damage/crashed");
+		altitude=input.alt.getValue();
+		elevation=input.elev.getValue();
+		speed=input.g3d.getValue();
+		exploded=input.exploded.getValue();
+		crashed=input.crashed.getValue();
 		var wow=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		#Gear middle
-		wow[0]=getprop("gear/gear[0]/wow");
-		#Gear left
-		wow[1]=getprop("gear/gear[1]/wow");
-		#Gear right
-		wow[2]=getprop("gear/gear[2]/wow");
-		#Wing Left
-		wow[3]=getprop("gear/gear[3]/wow");
-		#Wing right
-		wow[4]=getprop("gear/gear[4]/wow");
-		#Fus nose down
-		wow[5]=getprop("gear/gear[5]/wow");
-		#Fus nose up
-		wow[6]=getprop("gear/gear[6]/wow");
-		#Fus nose up
-		wow[7]=getprop("gear/gear[7]/wow");
-		#Fus nose up
-		wow[8]=getprop("gear/gear[8]/wow");
-		#Fus nose up
-		wow[9]=getprop("gear/gear[9]/wow");
-		#Fus nose up
-		wow[10]=getprop("gear/gear[10]/wow");
-		#Fus nose up
-		wow[11]=getprop("gear/gear[11]/wow");
+		wow[0]=input.wow0.getValue();
+		wow[1]=input.wow1.getValue();
+		wow[2]=input.wow2.getValue();
+		wow[3]=input.wow3.getValue();
+		wow[4]=input.wow4.getValue();
+		wow[5]=input.wow5.getValue();
+		wow[6]=input.wow6.getValue();
+		wow[7]=input.wow7.getValue();
+		wow[8]=input.wow8.getValue();
+		wow[9]=input.wow9.getValue();
+		wow[10]=input.wow10.getValue();
+		wow[11]=input.wow11.getValue();
 		if (
 			(pilot_g==nil)
 			or (maximum_g==nil)
@@ -218,30 +237,21 @@ aircraftbreakprocess=func
 		{
 		#print("Something nil");
 			stop_aircraftbreakprocess();
-			return ( settimer(aircraftbreakprocess, 0.1) ); 
+			return ( settimer(aircraftbreakprocess, timerDelay) ); 
 		}
 		speed_km=speed*1.852;
 		info = geodinfo(lat, lon);
-		if (info == nil)
-		{
+		if (info == nil) {
 			stop_aircraftbreakprocess();
-			return ( settimer(aircraftbreakprocess, 0.1) ); 
+			return ( settimer(aircraftbreakprocess, timerDelay) ); 
 		}
-		if (
-			(info[0] == nil)
-			or (info[1] == nil)
-		)
-		{
+		if ((info[0] == nil) or (info[1] == nil)) {
 			stop_aircraftbreakprocess();
-			return ( settimer(aircraftbreakprocess, 0.1) ); 
+			return ( settimer(aircraftbreakprocess, timerDelay) ); 
 		}
 		real_altitude_m = (0.3048*(altitude-elevation));
 		
-		if (
-			(real_altitude_m<=25)
-			and (speed_km>10)
-		)
-		{
+		if ((real_altitude_m<=25) and (speed_km>10)	) {
 			terrain_lege_height=0;
 			i=0;
 			var hit_what = "hit something";
@@ -455,7 +465,7 @@ aircraftbreakprocess=func
 			#func debug.benchmark("crs loop", 
 				aircraftbreakprocess
 				#)
-		, 0.1);
+		, timerDelay);
 	}
 
 repair = func {
@@ -608,38 +618,27 @@ aircraftbreaklistener = func
 		{
 			return ( stop_aircraftbreaklistener );
 		}
-		pilot_g=getprop("fdm/jsbsim/accelerations/Nz");
-		lat = getprop("position/latitude-deg");
-		lon = getprop("position/longitude-deg");
-		exploded=getprop("sim/ja37/damage/exploded");
-		crashed=getprop("sim/ja37/damage/crashed");
+
+		pilot_g=input.Nz.getValue();
+		lat = input.lat.getValue();
+		lon = input.lon.getValue();
+		exploded=input.exploded.getValue();
+		crashed=input.crashed.getValue();
 		var wow=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		#Gear middle
-		wow[0]=getprop("gear/gear[0]/wow");
-		#Gear left
-		wow[1]=getprop("gear/gear[1]/wow");
-		#Gear right
-		wow[2]=getprop("gear/gear[2]/wow");
-		#Wing Left
-		wow[3]=getprop("gear/gear[3]/wow");
-		#Wing right
-		wow[4]=getprop("gear/gear[4]/wow");
-		#Fus nose down
-		wow[5]=getprop("gear/gear[5]/wow");
-		#Fus nose up
-		wow[6]=getprop("gear/gear[6]/wow");
-		#Fus nose up
-		wow[7]=getprop("gear/gear[7]/wow");
-		#Fus nose up
-		wow[8]=getprop("gear/gear[8]/wow");
-		#Fus nose up
-		wow[9]=getprop("gear/gear[9]/wow");
-		#Fus nose up
-		wow[10]=getprop("gear/gear[10]/wow");
-		#Fus nose up
-		wow[11]=getprop("gear/gear[11]/wow");
-		
-		gear_started=getprop("fdm/jsbsim/init/finally-initialized");
+		wow[0]=input.wow0.getValue();
+		wow[1]=input.wow1.getValue();
+		wow[2]=input.wow2.getValue();
+		wow[3]=input.wow3.getValue();
+		wow[4]=input.wow4.getValue();
+		wow[5]=input.wow5.getValue();
+		wow[6]=input.wow6.getValue();
+		wow[7]=input.wow7.getValue();
+		wow[8]=input.wow8.getValue();
+		wow[9]=input.wow9.getValue();
+		wow[10]=input.wow10.getValue();
+		wow[11]=input.wow11.getValue();
+
+		gear_started=getprop("fdm/jsbsim/simulation/sim-time-sec") != nil and getprop("fdm/jsbsim/simulation/sim-time-sec") > 1;
 		if (
 			(pilot_g==nil)
 			or (lat==nil)
@@ -709,7 +708,7 @@ aircraftbreaklistener = func
 			{
 				return ( stop_aircraftbreaklistener ); 
 			}
-			crashed=aircraft_crash("ground hit", pilot_g, info[1].solid);
+			crashed=aircraft_crash("Ground hit", pilot_g, info[1].solid);
 			if (exploded==0)
 			{
 				exploded=1;

@@ -1708,7 +1708,7 @@ var HUDnasal = {
   #
   # 0 - x position
   # 1 - y position
-  # 2 - distance in nm
+  # 2 - distance in meter
   # 3 - track index
   # 4 - identifier
   # 5 - node

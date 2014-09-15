@@ -129,7 +129,6 @@ var radar = {
       forindex (i; me.stroke) me.stroke[i].show();
       var te = getprop("sim/time/elapsed-sec");
       
-      
       #Stroke animation
       if (te == nil) {
         te = 5;
@@ -150,15 +149,9 @@ var radar = {
       var prev_angle = me.stroke_dir[me.no_stroke-1];
       me.stroke_dir[me.no_stroke-1] = curr_angle;
 
-
-           
       #Update blips
       me.update_blip(curr_angle, prev_angle);
     
-
-      
-
-
       settimer(
         #func debug.benchmark("rad loop", 
           func me.update()
