@@ -50,13 +50,14 @@ var radar = {
     m.stroke = [];
     m.tfstroke=[];
     for(var i=0; i < m.no_stroke; i = i+1) {
+        var grn = 0.2 + (0.8 / m.no_stroke)*i;
         append(m.stroke,
          g.createChild("path")
          .moveTo(0, 0)
          .lineTo(0, -904)
          .close()
          .setStrokeLineWidth(28)
-         .setColor(0.0,1.0,0.0, 1.0/(m.no_stroke-i)));
+         .setColor(0.1, grn, 0.1));
        append(m.tfstroke, m.stroke[i].createTransform());
        m.tfstroke[i].setTranslation(512, 904);
        m.stroke[i].hide();
