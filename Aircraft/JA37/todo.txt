@@ -57,7 +57,6 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: Seperate landing and takeoff mode.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
-HUD: Check that the heading bug is correct direction, when turned away from it.
 
 
 Bugs:

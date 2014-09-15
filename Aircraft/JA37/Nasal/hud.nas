@@ -885,16 +885,38 @@ var HUDnasal = {
       var degOffset = nil;
       var headingMiddle = roundabout(me.input.hdg.getValue()/10.0)*10.0;
       #print("desired "~desired_mag_heading~" head-middle "~headingMiddle);
+
       #find difference between desired and middleText heading
-      if (headingMiddle > 300 and desired_mag_heading < 60) {
-        headingMiddle = headingMiddle - 360;
-        degOffset = desired_mag_heading - headingMiddle; # positive value
-      } elsif (headingMiddle < 60 and desired_mag_heading > 300) {
-        desired_mag_heading = desired_mag_heading - 360;
-        degOffset = desired_mag_heading - headingMiddle; # negative value
+      if (headingMiddle > desired_mag_heading) {
+        if (headingMiddle - desired_mag_heading < 180) {
+          # negative value
+          degOffset = desired_mag_heading - headingMiddle;
+        } else {
+          # positive value
+          headingMiddle = headingMiddle - 360;
+          degOffset = desired_mag_heading - headingMiddle;
+        }
       } else {
-        degOffset = desired_mag_heading - headingMiddle;
+        if (desired_mag_heading - headingMiddle < 180) {
+          # positive value
+          degOffset = desired_mag_heading - headingMiddle;
+        } else {
+          # negative value
+          desired_mag_heading = desired_mag_heading - 360;
+          degOffset = desired_mag_heading - headingMiddle;
+        }
       }
+
+
+#      if (headingMiddle > 300 and desired_mag_heading < 60) {
+ #       headingMiddle = headingMiddle - 360;
+  #      degOffset = desired_mag_heading - headingMiddle; # positive value
+   #   } elsif (headingMiddle < 60 and desired_mag_heading > 300) {
+    #    desired_mag_heading = desired_mag_heading - 360;
+     #   degOffset = desired_mag_heading - headingMiddle; # negative value
+      #} else {
+       # degOffset = desired_mag_heading - headingMiddle;
+      #}
       
       var pos_x = me.middleOffset + degOffset*(headScaleTickSpacing/5);
       #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
