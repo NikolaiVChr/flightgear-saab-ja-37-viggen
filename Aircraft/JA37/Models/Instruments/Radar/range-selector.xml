@@ -123,7 +123,7 @@
     <binding>
       <command>property-adjust</command>
         <property>/instrumentation/radar/range</property>
-      <step>-10</step>
+      <step>-100</step>
       <min>1000</min>
       <max>48000.0</max>
       <wrap>false</wrap>
@@ -157,7 +157,7 @@
     <binding>
       <command>property-adjust</command>
         <property>/instrumentation/radar/range</property>
-      <step>-10</step>
+      <step>-100</step>
       <min>1000</min>
       <max>48000</max>
       <wrap>false</wrap>
@@ -174,7 +174,7 @@
     <binding>
       <command>property-adjust</command>
         <property>/instrumentation/radar/range</property>
-      <step>10</step>
+      <step>100</step>
       <min>1000</min>
       <max>48000</max>
       <wrap>false</wrap>
@@ -197,7 +197,7 @@
     <binding>
       <command>property-adjust</command>
         <property>/instrumentation/radar/range</property>
-      <step>10</step>
+      <step>100</step>
       <min>1000</min>
       <max>48000</max>>
       <wrap>false</wrap>
@@ -231,7 +231,7 @@
     <binding>
       <command>property-adjust</command>
         <property>/instrumentation/radar/range</property>
-      <step>-10</step>
+      <step>-100</step>
       <min>1000</min>
       <max>48000</max>
       <wrap>false</wrap>
@@ -248,7 +248,7 @@
     <binding>
       <command>property-adjust</command>
         <property>/instrumentation/radar/range</property>
-      <step>10</step>
+      <step>100</step>
       <min>1000</min>
       <max>48000</max>
       <wrap>false</wrap>

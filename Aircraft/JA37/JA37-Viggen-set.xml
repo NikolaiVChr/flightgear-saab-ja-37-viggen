@@ -13,8 +13,8 @@
   <status>Beta</status>
   <rating>
     <FDM type="int">3</FDM>
-    <systems type="int">1</systems>
-    <cockpit type="int">2</cockpit>
+    <systems type="int">2</systems>
+    <cockpit type="int">3</cockpit>
     <model type="int">3</model>
   </rating>
 
@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.59</aircraft-version>
+  <aircraft-version>2.60</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -565,7 +565,7 @@
    </key>
    <key>
     <name>F</name>
-    <desc>Set autopilot to stop follow current selection</desc>
+    <desc>Set autopilot to stop follow</desc>
    </key>
    <key>
     <name>S</name>
@@ -1477,7 +1477,7 @@
     </inputs>
   </transponder>
   <radar>
-    <range>2000</range>
+    <range>4000</range>
   </radar>
 </instrumentation>
 

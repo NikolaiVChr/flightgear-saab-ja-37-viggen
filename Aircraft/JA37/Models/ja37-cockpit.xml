@@ -1,0 +1,136 @@
+﻿<?xml version="1.0"?>
+<PropertyList>
+
+  <!-- *** LoD *** -->
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>5</max-m>
+  </animation>
+
+<model>
+    <path>Aircraft/JA37/Models/Cockpit/rudder_pedals.xml</path>
+    <name>Pedals</name>
+      <offsets>
+        <x-m>-3.90</x-m>
+        <y-m> 0.00</y-m>
+        <z-m>-0.09</z-m>
+      </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/stick.xml</path>
+    <name>Stick</name>
+      <offsets>
+        <x-m>-3.65</x-m>
+        <y-m> 0.00</y-m>
+        <z-m> 0.00</z-m>
+      </offsets>
+  </model>
+
+<model>
+    <path>Aircraft/JA37/Models/HUD.xml</path>
+    <name>TheHUD</name>
+    <offsets>
+      <x-m>0.00</x-m>
+      <y-m>0.00</y-m>
+      <z-m>0.00</z-m>
+    </offsets>
+  </model> 
+
+<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/ja37/supported/hud</property>
+  </condition>
+  <object-name>HUDobject</object-name>
+</animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-battery.xml</path>
+    <name>SwitchBattery</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.47</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-cutoff.xml</path>
+    <name>SwitchCutoff</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.49</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-starter.xml</path>
+    <name>SwitchStarter</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.51</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-generator.xml</path>
+    <name>SwitchGenerator</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.53</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-yaw-damper.xml</path>
+    <name>SwitchYawDamper</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.47</x-m>
+      <y-m>  0.30</y-m>
+      <z-m>  0.1700</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-canopy.xml</path>
+    <name>SwitchCanopy</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.49</x-m>
+      <y-m>  0.30</y-m>
+      <z-m>  0.1700</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-parking-brakes.xml</path>
+    <name>SwitchParkingBrakes</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.51</x-m>
+      <y-m>  0.30</y-m>
+      <z-m>  0.1700</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-nosewheel-steering.xml</path>
+    <name>SwitchNosewheelSteering</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.53</x-m>
+      <y-m>  0.30</y-m>
+      <z-m>  0.1700</z-m>
+    </offsets>
+  </model>
+</PropertyList>

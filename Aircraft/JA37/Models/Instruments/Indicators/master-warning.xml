@@ -39,8 +39,8 @@
   <hovered>
        <binding>
          <command>set-tooltip</command>
-         <tooltip-id>Reverse Indicator</tooltip-id>
-         <label>Reverse thrust</label>
+         <tooltip-id>Master warn</tooltip-id>
+         <label>Master warning</label>
          <property>/instrumentation/master-warning</property>
       </binding>
    </hovered>

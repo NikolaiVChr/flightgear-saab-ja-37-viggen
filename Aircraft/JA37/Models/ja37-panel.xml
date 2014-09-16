@@ -147,7 +147,7 @@
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.83</x-m>
       <y-m>  0.11</y-m>
-      <z-m>  0.43</z-m>
+      <z-m>  0.435</z-m>
     </offsets>
   </model>
 
@@ -310,4 +310,69 @@
     </offsets>
   </model>
 
+ <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-reverser-auto.xml</path>
+    <name>SwitchReverserAuto</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.8275</x-m>
+      <y-m> -0.305</y-m>
+      <z-m>  0.385</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-reverser.xml</path>
+    <name>SwitchReverser</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.8225</x-m>
+      <y-m> -0.305</y-m>
+      <z-m>  0.365</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-units.xml</path>
+    <name>SwitchHudUnits</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.835</x-m>
+      <y-m>  0.092</y-m>
+      <z-m>  0.3925</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-masterarm.xml</path>
+    <name>SwitchMasterarm</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.835</x-m>
+      <y-m>  0.132</y-m>
+      <z-m>  0.3925</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-callsign.xml</path>
+    <name>SwitchHudCallsign</name>
+    <offsets>
+      <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.86</x-m>
+      <y-m>  0.16</y-m>
+      <z-m>  0.51</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-droptank.xml</path>
+    <name>SwitchDroptank</name>
+    <offsets>
+      <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.845</x-m>
+      <y-m>  0.25</y-m>
+      <z-m>  0.43</z-m>
+    </offsets>
+  </model>
 </PropertyList>

@@ -36,7 +36,7 @@ var radar = {
     m.antenna_pitch=0;
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
-    m.no_stroke = 12;
+    m.no_stroke = 9;
     m.no_blip=30;
     m.radarRange=20000;#feet?
     m.stroke_pos= [];
@@ -50,7 +50,8 @@ var radar = {
     m.stroke = [];
     m.tfstroke=[];
     for(var i=0; i < m.no_stroke; i = i+1) {
-        var grn = 0.2 + (0.8 / m.no_stroke)*i;
+        # var grn = 0.2 + (0.8 / m.no_stroke)*(i+1);
+        var grn = 0.15+((m.no_stroke / ((m.no_stroke+0.0001)-(i)))/m.no_stroke)*0.85;
         append(m.stroke,
          g.createChild("path")
          .moveTo(0, 0)
@@ -228,7 +229,7 @@ var radar = {
                         me.tfblip[b_i].setTranslation(pixelX, pixelY); 
                       } else {
                         #aircraft is not near the stroke, fade it
-                        me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.90;
+                        me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.96;
                       }
                       me.blip[b_i].show();
                       me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);
@@ -291,7 +292,7 @@ var radar = {
                         me.tfblip[b_i].setTranslation(pixelX, pixelY); 
                       } else {
                         #aircraft is not near the stroke, fade it
-                        me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.90;
+                        me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.96;
                       }
                       me.blip[b_i].show();
                       me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);

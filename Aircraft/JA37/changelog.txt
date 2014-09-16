@@ -776,6 +776,16 @@ Sim: Fixed some cases where it would not properly detect if was on a carrier dec
 HUD: Optimised Nasal reading and writing to properties and made parts of the code more readable.
 Sim: Optimized the crash code a little.
 
-2.59
+2.59 - 2014 September 15
 ====
-HUD: Fixed that the heading bug is always to the correct side, when turned away from waypoint.
+HUD: Fixed so that the heading bug is always to the correct side, when turned away from waypoint.
+
+2.60 - 2014 September 16
+====
+Animation: Refined how the radar stroke fades off.
+Sim: Fine adjustment of radar range is now 10 times more coarse.
+Animation: Refined how the radar tracks fades off, they now stay visible longer.
+Animation: Fixed master warning tooltips.
+Model: Made the HUD slightly brighter.
+Model: Added 14 switches. Aircraft can now also be started manually.
+Sim: Increased the aircraft ratings.

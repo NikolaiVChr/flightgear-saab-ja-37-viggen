@@ -20,44 +20,14 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/rudder_pedals.xml</path>
-    <name>Pedals</name>
-      <offsets>
-        <x-m>-3.90</x-m>
-        <y-m> 0.00</y-m>
-        <z-m>-0.09</z-m>
-      </offsets>
-  </model>
-  
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/stick.xml</path>
-    <name>Stick</name>
-      <offsets>
-        <x-m>-3.65</x-m>
-        <y-m> 0.00</y-m>
-        <z-m> 0.00</z-m>
-      </offsets>
-  </model>
-
-<model>
-    <path>Aircraft/JA37/Models/HUD.xml</path>
-    <name>TheHUD</name>
+    <path>Aircraft/JA37/Models/ja37-cockpit.xml</path>
+    <name>Cockpit</name>
     <offsets>
-      <x-m>0.00</x-m>
-      <y-m>0.00</y-m>
-      <z-m>0.00</z-m>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
     </offsets>
-  </model> 
-
-<animation>
-  <type>select</type>
-  <condition>
-    <property>sim/ja37/supported/hud</property>
-  </condition>
-  <object-name>HUDobject</object-name>
-</animation>
-
-
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>

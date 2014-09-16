@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ 	<path>switch.ac</path>
+
+	<animation>
+	    <type>pick</type>
+	    <object-name>Switch</object-name>
+	    <action>
+	        <button>0</button>
+	        <binding>
+		       <command>nasal</command>
+		       <script>canvas_HUD.cycle_units()</script>
+		    </binding>
+	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>switch-hud-units</tooltip-id>
+	         	<label>HUD Interoperabilty</label>
+	         	<property>sim/ja37/hud/units-metric</property>
+	        </binding>
+	    </hovered>
+	</animation>
+ 
+	<animation>
+		<type>rotate</type>
+		<object-name>Switch</object-name>
+		<property>sim/ja37/hud/units-metric</property>
+		<factor>70</factor>
+		<offset-deg>-35</offset-deg>
+		<center>
+			<x-m> 0.0121 </x-m>
+			<y-m> 0.0 </y-m>
+			<z-m> 0.0 </z-m>
+		</center>
+		<axis>
+			<x> 0.0 </x>
+			<y> 0.0 </y>
+			<z>-1.0 </z>
+		</axis>
+	 </animation>
+
+	<animation>
+	  	<type>material</type> 
+		<object-name>Base</object-name>
+  		<emission>  
+			<red-prop>instrumentation/instrumentation-light/r</red-prop> 
+			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
+			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   			<factor-prop>controls/lighting/instruments-norm</factor-prop>
+  		</emission>
+ 	</animation>	 
+</PropertyList>

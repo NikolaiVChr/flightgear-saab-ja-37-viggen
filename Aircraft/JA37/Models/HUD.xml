@@ -20,7 +20,7 @@
 		<object-name>HUDobject</object-name>
 		<emission>
 			<!--<factor-prop>/controls/lighting/panel-norm</factor-prop>-->
-			<factor>0.75</factor>
+			<factor>0.85</factor>
 			<red>1</red>
 			<green>1</green>
 			<blue>1</blue>

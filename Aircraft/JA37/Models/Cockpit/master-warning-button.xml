@@ -18,10 +18,29 @@
 	            <binding>
 	                <command>property-assign</command>
 	                <property>sim/ja37/avionics/master-warning-button</property>
-	                <value>0</value>
+	                <value>0</value> 
 	            </binding>
 	        </mod-up>
 	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>Master test</tooltip-id>
+	         	<label>Master warning test</label>
+	         	<property>/instrumentation/master-warning</property>
+	        </binding>
+	    </hovered>
 	</animation>
+
+<animation>
+  <type>material</type> 
+  <object-name>Poussoir</object-name>
+  <emission>  
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
 
 </PropertyList>
