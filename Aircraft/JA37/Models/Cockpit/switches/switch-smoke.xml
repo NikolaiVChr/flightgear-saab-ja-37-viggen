@@ -10,20 +10,16 @@
 	    <action>
 	        <button>0</button>
 	        <binding>
-		      <command>property-toggle</command>
-		      <property>/fdm/jsbsim/fcs/canopy/engage</property>
-		    </binding>
-		    <binding>
-		        <command>nasal</command>
-		        <script>ja37.click();</script>
+        		<command>nasal</command>
+        		<script>ja37.cycleSmoke()</script>
       		</binding>
 	    </action>
 	    <hovered>
 	        <binding>
 	         	<command>set-tooltip</command>
-	         	<tooltip-id>switch-canopy</tooltip-id>
-	         	<label>Canopy</label>
-	         	<property>fdm/jsbsim/fcs/canopy/engage</property>
+	         	<tooltip-id>switch-smoke</tooltip-id>
+	         	<label>Smoke</label>
+	         	<property>sim/ja37/effect/smoke</property>
 	        </binding>
 	    </hovered>
 	</animation>
@@ -31,9 +27,9 @@
 	<animation>
 		<type>rotate</type>
 		<object-name>Switch</object-name>
-		<property>fdm/jsbsim/fcs/canopy/engage</property>
-		<factor>-70</factor>
-		<offset-deg>35</offset-deg>
+		<property>sim/ja37/effect/smoke</property>
+		<factor>35</factor>
+		<offset-deg>-70</offset-deg>
 		<center>
 			<x-m> 0.0121 </x-m>
 			<y-m> 0.0 </y-m>
@@ -42,7 +38,7 @@
 		<axis>
 			<x> 0.0 </x>
 			<y> 0.0 </y>
-			<z>-1.0 </z>
+			<z> 1.0 </z>
 		</axis>
 	 </animation>
 

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ 	<path>button-green.ac</path>
+ 
+	<animation>
+	    <type>pick</type>
+	    <object-name>Poussoir</object-name>
+	    <action>
+	        <button>0</button>
+	        <binding>
+        		<command>nasal</command>
+        		<script>canvas_HUD.nextTarget()</script>
+      		</binding>
+	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>Next selection</tooltip-id>
+	         	<label>Next radar track selection</label>
+	        </binding>
+	    </hovered>
+	</animation>
+</PropertyList>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ 	<path>button-yellow.ac</path>
+ 
+	<animation>
+	    <type>pick</type>
+	    <object-name>Poussoir</object-name>
+	    <action>
+	        <button>0</button>
+	        <binding>
+		      <command>property-toggle</command>
+		      <property>/ai/submodels/submodel[0]/flare-release</property>
+		      <value type="bool">true</value>
+		     </binding>
+		     <mod-up>
+		      <binding>
+		       <command>property-assign</command>
+		       <property>/ai/submodels/submodel[0]/flare-release</property>
+		       <value type="bool">false</value>
+		      </binding>
+		     </mod-up>
+	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>Release flares</tooltip-id>
+	         	<label>Release flares</label>
+	        </binding>
+	    </hovered>
+	</animation>
+</PropertyList>

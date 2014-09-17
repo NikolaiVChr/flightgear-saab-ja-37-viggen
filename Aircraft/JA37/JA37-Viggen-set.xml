@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.60</aircraft-version>
+  <aircraft-version>2.61</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -223,8 +223,8 @@
         <property type="string">fdm/jsbsim/fcs/canopy-pos-norm</property>
       </signal>
       <signal>
-        <type>float</type>
-        <property type="string">systems/electrical/battery-full</property>
+        <type>bool</type>
+        <property type="string">systems/electrical/lights-ext</property>
       </signal>
       <signal>
         <type>float</type>
@@ -458,7 +458,7 @@
     <int n="8" alias="/engines/engine[0]/reversed"/>
     <!-- Animating light -->
     <int n="5" alias="/sim/model/lighting/strobe/state"/>
-    <int n="9" alias="/systems/electrical/battery-full"/>
+    <int n="9" alias="/systems/electrical/lights-ext"/>
     <int n="15" alias="/sim/model/lighting/beacon/state"/>
     <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
     <!-- Armament -->
@@ -943,6 +943,7 @@
   </gear>
   <electric>
     <battery-switch type="bool">false</battery-switch>
+    <lights-ext-switch type="bool">true</lights-ext-switch>
   </electric>
 </controls>
 <environment>
@@ -959,7 +960,7 @@
 </autopilot>
 <systems>
   <electrical>
-    <battery-full type="int">0</battery-full>
+    <lights-ext type="int">0</lights-ext>
   </electrical>
 </systems>
 

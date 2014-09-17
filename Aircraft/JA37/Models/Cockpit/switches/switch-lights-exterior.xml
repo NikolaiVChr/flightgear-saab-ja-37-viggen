@@ -10,10 +10,10 @@
 	    <action>
 	        <button>0</button>
 	        <binding>
-		      <command>property-toggle</command>
-		      <property>/fdm/jsbsim/fcs/canopy/engage</property>
-		    </binding>
-		    <binding>
+	            <command>property-toggle</command>
+	            <property>controls/electric/lights-ext-switch</property>
+	        </binding>
+	        <binding>
 		        <command>nasal</command>
 		        <script>ja37.click();</script>
       		</binding>
@@ -21,9 +21,9 @@
 	    <hovered>
 	        <binding>
 	         	<command>set-tooltip</command>
-	         	<tooltip-id>switch-canopy</tooltip-id>
-	         	<label>Canopy</label>
-	         	<property>fdm/jsbsim/fcs/canopy/engage</property>
+	         	<tooltip-id>switch-lights-ext</tooltip-id>
+	         	<label>Exterior lights</label>
+	         	<property>controls/electric/lights-ext-switch</property>
 	        </binding>
 	    </hovered>
 	</animation>
@@ -31,9 +31,9 @@
 	<animation>
 		<type>rotate</type>
 		<object-name>Switch</object-name>
-		<property>fdm/jsbsim/fcs/canopy/engage</property>
-		<factor>-70</factor>
-		<offset-deg>35</offset-deg>
+		<property>controls/electric/lights-ext-switch</property>
+		<factor>70</factor>
+		<offset-deg>-35</offset-deg>
 		<center>
 			<x-m> 0.0121 </x-m>
 			<y-m> 0.0 </y-m>

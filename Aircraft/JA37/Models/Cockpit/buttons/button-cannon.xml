@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ 	<path>button-red.ac</path>
+ 
+	<animation>
+	    <type>pick</type>
+	    <object-name>Poussoir</object-name>
+	    <action>
+	        <button>0</button>
+	        <binding>
+      			<command>property-assign</command>
+      			<property>controls/armament/station-select</property>
+      			<value>0</value>
+     		</binding>
+     		<binding>
+        		<command>nasal</command>
+        		<script>ja37.click();</script>
+      		</binding>
+	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>Cannon</tooltip-id>
+	         	<label>Select cannon</label>
+	        </binding>
+	    </hovered>
+	</animation>
+
+<animation>
+  <type>material</type> 
+  <object-name>Poussoir</object-name>
+	<condition>
+	  	<equals>
+			<property>controls/armament/station-select</property>
+      		<value>0</value>
+	    </equals>
+	</condition>
+  <emission>  
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+</PropertyList>

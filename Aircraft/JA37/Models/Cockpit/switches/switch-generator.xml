@@ -13,6 +13,10 @@
 	            <command>property-toggle</command>
 	            <property>controls/electric/engine[0]/generator</property>
 	        </binding>
+	        <binding>
+		        <command>nasal</command>
+		        <script>ja37.click();</script>
+      		</binding>
 	    </action>
 	    <hovered>
 	        <binding>

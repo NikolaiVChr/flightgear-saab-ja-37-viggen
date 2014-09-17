@@ -278,7 +278,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/master-warning-button.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/buttons/button-master-warning.xml</path>
     <name>WarnButton</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
@@ -375,4 +375,48 @@
       <z-m>  0.43</z-m>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud.xml</path>
+    <name>SwitchHud</name>
+    <offsets>
+      <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.805</x-m>
+      <y-m> -0.10</y-m>
+      <z-m>  0.18</z-m>
+    </offsets>
+  </model>  
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-tracks.xml</path>
+    <name>SwitchHudTracks</name>
+    <offsets>
+      <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.805</x-m>
+      <y-m> -0.08</y-m>
+      <z-m>  0.18</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-sideslip.xml</path>
+    <name>SwitchSideslip</name>
+    <offsets>
+      <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.805</x-m>
+      <y-m>  0.08</y-m>
+      <z-m>  0.18</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-radar.xml</path>
+    <name>SwitchRadar</name>
+    <offsets>
+      <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.805</x-m>
+      <y-m>  0.10</y-m>
+      <z-m>  0.18</z-m>
+    </offsets>
+  </model>      
 </PropertyList>

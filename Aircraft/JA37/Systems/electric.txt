@@ -6,6 +6,7 @@ systems/electrical/generator_on,0,29,systems/electrical/battery_voltage,24,0
 systems/electrical/battery_voltage,0,.,systems/electrical/outputs/comm[0],0,0
 systems/electrical/battery_voltage,0,.,systems/electrical/outputs/comm[1],0,0
 controls/electric/battery-switch,0,systems/electrical/battery_voltage,systems/electrical/outputs/battery,0,0
+controls/electric/lights-ext-switch,0,systems/electrical/generator_on,systems/electrical/lights-ext,0,0
 systems/electrical/outputs/battery,23,instrumentation/switches/inst-light-knob/pos,controls/lighting/instruments-norm,0,0
 systems/electrical/outputs/battery,0,systems/electrical/outputs/main_ac,systems/electrical/outputs/fuel,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/turn-coordinator,0,0

@@ -2,7 +2,7 @@
 
 <PropertyList>
 
- 	<path>master-warning-button.ac</path>
+ 	<path>button-red.ac</path>
  
 	<animation>
 	    <type>pick</type>
@@ -10,24 +10,20 @@
 	    <action>
 	        <button>0</button>
 	        <binding>
-	            <command>property-assign</command>
-	            <property>sim/ja37/avionics/master-warning-button</property>
-	            <value>1</value>
-	        </binding>
-	        <mod-up>
-	            <binding>
-	                <command>property-assign</command>
-	                <property>sim/ja37/avionics/master-warning-button</property>
-	                <value>0</value> 
-	            </binding>
-	        </mod-up>
+      			<command>property-assign</command>
+      			<property>controls/armament/station-select</property>
+      			<value>1</value>
+     		</binding>
+     		<binding>
+        		<command>nasal</command>
+        		<script>ja37.click();</script>
+      		</binding>
 	    </action>
 	    <hovered>
 	        <binding>
 	         	<command>set-tooltip</command>
-	         	<tooltip-id>Master test</tooltip-id>
-	         	<label>Master warning test</label>
-	         	<property>/instrumentation/master-warning</property>
+	         	<tooltip-id>Missile 1</tooltip-id>
+	         	<label>Select missile 1</label>
 	        </binding>
 	    </hovered>
 	</animation>
@@ -35,6 +31,12 @@
 <animation>
   <type>material</type> 
   <object-name>Poussoir</object-name>
+	<condition>
+	  	<equals>
+			<property>controls/armament/station-select</property>
+      		<value>1</value>
+	    </equals>
+	</condition>
   <emission>  
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    <green-prop>instrumentation/instrumentation-light/g</green-prop> 

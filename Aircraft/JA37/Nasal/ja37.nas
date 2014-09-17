@@ -374,7 +374,7 @@ var update_loop = func {
       if (getprop("sim/ja37/avionics/master-warning-button") == 1) {
         # test, should really be turn off sound
         setprop("/instrumentation/master-warning", 1);
-      } elsif (getprop("engines/engine/running") == 0 and autostarting == 0) {
+      } elsif (getprop("engines/engine/running") == 0 and autostarting == 0 and getprop("gear/gear/wow") == 0) {
         # Major warning
         if(getprop("sim/ja37/blink/ten-Hz") == 1) {
           setprop("/instrumentation/master-warning", 1);
@@ -445,35 +445,18 @@ var cycle_weapons = func {
 }
 
 ###########  loop for handling the battery signal for cockpit sound #########
-var lastsignal = 0;
-var signal_loop = func {
-    if (getprop("/systems/electrical/batterysignal") == 1) 
-    {
-      if (lastsignal == 0)
-      {
-        lastsignal = 1;
-        settimer(signal_loop, 6);
-      }
-      else
-      {
+
+var battery_listener = func {
+    if (getprop("controls/electric/battery-switch") == 1) {
+      setprop("/systems/electrical/batterysignal", 1);
+
+      settimer(func {
         setprop("/systems/electrical/batterysignal", 0);
-        lastsignal = 0;
-        settimer(signal_loop, 1);
-      }
-    }
-    else
-    {
-      lastsignal = 0;
-      settimer(signal_loop, 1);
-    }
-    if (getprop("systems/electrical/battery_voltage") > 24) {
-      setprop("/systems/electrical/battery-full", 1);
-    } else {
-      setprop("/systems/electrical/battery-full", 0);
+        }, 6);
     }
 }
-settimer(func { signal_loop() }, 0.1);
-
+setlistener("controls/electric/battery-switch", battery_listener, 0, 0);
+                
 ###############  Test which system the flightgear version support.  ###########
 
 var test_support = func {
@@ -725,7 +708,6 @@ var autostarttimer = func {
       #print("autostarting");
       if (getprop("sim/ja37/damage/crashed") < 1) {
         setprop("/controls/electric/battery-switch", 1);
-        setprop("/systems/electrical/batterysignal", 1);
         click();
         gui.popupTip("Battery switch on. Check.");
     	  settimer(autostart, 2);

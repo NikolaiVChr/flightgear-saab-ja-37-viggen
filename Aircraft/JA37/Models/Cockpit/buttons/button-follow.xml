@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ 	<path>button-green.ac</path>
+ 
+	<animation>
+	    <type>pick</type>
+	    <object-name>Poussoir</object-name>
+	    <action>
+	        <button>0</button>
+	        <binding>
+       			<command>nasal</command>
+       			<script>ja37.follow();</script>
+     		</binding>
+	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>button-follow</tooltip-id>
+	         	<label>Follow selection</label>
+	         	<property>autopilot/target-tracking-ja37/enable</property>
+	        </binding>
+	    </hovered>
+	</animation>
+
+<animation>
+  <type>material</type> 
+  <object-name>Poussoir</object-name>
+	<condition>
+	  	<equals>
+			<property>autopilot/target-tracking-ja37/enable</property>
+		    <value>1</value>
+	    </equals>
+	</condition>
+  <emission>  
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+</PropertyList>

@@ -789,3 +789,9 @@ Animation: Fixed master warning tooltips.
 Model: Made the HUD slightly brighter.
 Model: Added 14 switches. Aircraft can now also be started manually.
 Sim: Increased the aircraft ratings.
+
+2.61
+====
+Model: Added 6 switches and 10 buttons.
+Animation: Master warning will now not engage on the ground.
+Sim: Exterior lights now properly uses the electrical system, and relies on generator power.
