@@ -90,12 +90,23 @@
     </offsets>
   </model>
 
-<model>
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-lights-exterior.xml</path>
     <name>SwitchLightsExt</name>
     <offsets>
     <pitch-deg>-90.0</pitch-deg>
       <x-m> -3.57</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-gears.xml</path>
+    <name>SwitchGears</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.61</x-m>
       <y-m> -0.30</y-m>
       <z-m>  0.1400</z-m>
     </offsets>

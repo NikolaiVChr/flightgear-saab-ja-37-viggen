@@ -799,4 +799,7 @@ Sim: Exterior lights now properly uses the electrical system, and relies on gene
 2.62
 ====
 Sim: Decreased chance of hitting own aircraft when firing a missile.
-GUI: Improved checklist 'Before takeoff'.
+GUI: Enabled checklists markers.
+Sim: Cleaned up in the -set file.
+Sim: Increased negative G that the pilot can handle.
+Model: Added 1 switch.

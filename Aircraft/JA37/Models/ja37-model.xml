@@ -30,6 +30,10 @@
   </model>
 
   <model>
+      <path>Models/Aircraft/marker.xml</path>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
     <name>lightglowR</name>
     <offsets>

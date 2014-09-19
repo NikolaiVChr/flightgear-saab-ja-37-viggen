@@ -7,66 +7,66 @@
 *************************************************************************-->   
 
 <PropertyList>
- <sim>
-  <description>Saab JA-37 Viggen</description>
-  <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
-  <status>Beta</status>
-  <rating>
-    <FDM type="int">3</FDM>
-    <systems type="int">2</systems>
-    <cockpit type="int">3</cockpit>
-    <model type="int">3</model>
-  </rating>
+  <sim>
+    <description>Saab JA-37 Viggen</description>
+    <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
+    <status>Beta</status>
+    <rating>
+      <FDM type="int">3</FDM>
+      <systems type="int">2</systems>
+      <cockpit type="int">3</cockpit>
+      <model type="int">3</model>
+    </rating>
 
-  <tags>
-      <!--<tag>saab</tag>
-      <tag>1-engine</tag>
-      <tag>1990s</tag>
-      <tag>combat</tag>-->
-      <tag>jet</tag>
-      <tag>retractable-gear</tag>
-      <tag>supersonic</tag>
-      <tag>coldwar</tag>
-      <tag>fighter</tag>
-      <tag>1980s</tag>
-      <tag>stol</tag>
-      <tag>cannard</tag>
-      <tag>delta</tag>
-      <tag>hud</tag>
-      <tag>afterburner</tag>
-  </tags>
+    <tags>
+        <!--<tag>saab</tag>
+        <tag>1-engine</tag>
+        <tag>1990s</tag>
+        <tag>combat</tag>-->
+        <tag>jet</tag>
+        <tag>retractable-gear</tag>
+        <tag>supersonic</tag>
+        <tag>coldwar</tag>
+        <tag>fighter</tag>
+        <tag>1980s</tag>
+        <tag>stol</tag>
+        <tag>cannard</tag>
+        <tag>delta</tag>
+        <tag>hud</tag>
+        <tag>afterburner</tag>
+    </tags>
 
-  <aircraft-version>2.62</aircraft-version>
- 
-  <flight-model>jsb</flight-model>
-  <aero>ja37-jsbsim</aero>
+    <aircraft-version>2.62</aircraft-version>
+   
+    <flight-model>jsb</flight-model>
+    <aero>ja37-jsbsim</aero>
 
-  <startup>
-    <splash-title>Swedish coldwar fighter</splash-title>
-    <splash-texture>Aircraft/JA37/ja37-splash.png</splash-texture>
-  </startup>
+    <startup>
+      <splash-title>Swedish coldwar fighter</splash-title>
+      <splash-texture>Aircraft/JA37/ja37-splash.png</splash-texture>
+    </startup>
 
-  <gui>
-    <style>
-      <colors>
-        <splash-font>
-          <red>1.0</red>
-          <green>1.00</green>
-          <blue>1.00</blue>
-        </splash-font>
-        <splash-screen>
-          <red>0.9</red>
-          <green>0.2</green>
-          <blue>0.15</blue>
-        </splash-screen>
-      </colors>
-    </style>
-  </gui>
+    <gui>
+      <style>
+        <colors>
+          <splash-font>
+            <red>1.0</red>
+            <green>1.00</green>
+            <blue>1.00</blue>
+          </splash-font>
+          <splash-screen>
+            <red>0.9</red>
+            <green>0.2</green>
+            <blue>0.15</blue>
+          </splash-screen>
+        </colors>
+      </style>
+    </gui>
 
-  <submodels>
-   <serviceable type="bool">1</serviceable>
-   <path>Aircraft/JA37/ja37-submodels.xml</path>
-  </submodels>
+    <submodels>
+     <serviceable type="bool">1</serviceable>
+     <path>Aircraft/JA37/ja37-submodels.xml</path>
+    </submodels>
 
 
 <!--**********************************************************************
@@ -75,27 +75,27 @@
 
 
 *************************************************************************-->   
-  <!-- enable "parkpos=AVAILABLE" option for the JA-37 -->
-  <dimensions>
-    <radius-m type="double">10.0</radius-m>
-    <parkpos-offset-m type="double">0.0</parkpos-offset-m>
-  </dimensions>
-  <aircraft-class type="string">mil-fighter</aircraft-class>
-  <aircraft-operator>Swedish Air Force</aircraft-operator>
-  <aircraft-data>
-    <path>/sim/dimensions/radius-m</path>
-    <path>/sim/dimensions/parkpos-offset-m</path>
-    <path>/sim/aircraft-class</path>
-    <path>/sim/aircraft-operator</path>
-  </aircraft-data>
+    <!-- enable "parkpos=AVAILABLE" option for the JA-37 -->
+    <dimensions>
+      <radius-m type="double">10.0</radius-m>
+      <parkpos-offset-m type="double">0.0</parkpos-offset-m>
+    </dimensions>
+    <aircraft-class type="string">mil-fighter</aircraft-class>
+    <aircraft-operator>Swedish Air Force</aircraft-operator>
+    <aircraft-data>
+      <path>/sim/dimensions/radius-m</path>
+      <path>/sim/dimensions/parkpos-offset-m</path>
+      <path>/sim/aircraft-class</path>
+      <path>/sim/aircraft-operator</path>
+    </aircraft-data>
 
-  <airport>
-    <runways>
-      <!-- place the aircraft a little forward on the runways,
-             to avoid it standing on the edge.  -->
-      <start-offset-m type="float"> 20 </start-offset-m>
-    </runways>
-  </airport>  
+    <airport>
+      <runways>
+        <!-- place the aircraft a little forward on the runways,
+               to avoid it standing on the edge.  -->
+        <start-offset-m type="float"> 20 </start-offset-m>
+      </runways>
+    </airport>  
   
 <!--**********************************************************************
 
@@ -104,217 +104,217 @@
 
 *************************************************************************-->   
 
-<flight-recorder>
-    <replay-config type="int">0</replay-config>
-    <config n="0" >
-      <name type="string">JA-37 Flight Recorder</name>
-      <!-- Custom properties -->
-      <signals include="/Aircraft/Generic/flightrecorder/components/environment.xml"/>
-      <signals include="/Aircraft/Generic/flightrecorder/components/position.xml"/>
-      <signals include="/Aircraft/Generic/flightrecorder/components/controls.xml"/>
-      <signals include="/Aircraft/Generic/flightrecorder/components/engine-jet.xml">
-        <count type="int">1</count>
-      </signals>
-      <signals include="/Aircraft/Generic/flightrecorder/components/faults-engines.xml">
-        <count type="int">1</count>
-      </signals>
-      <signals include="/Aircraft/Generic/flightrecorder/components/tanks.xml">
-        <count type="int">8</count>
-      </signals>
-      <signals include="/Aircraft/Generic/flightrecorder/components/gear-retractable.xml">
-        <count type="int">3</count>
-      </signals>
-      <!-- <signal>
-        <type>float</type>
-        <property type="string">/controls/gear/nosegear-steering-cmd-norm</property>
-        <interpolation>linear</interpolation>
-      </signal> -->
-      <!-- More custom signals here -->
-      <signal>
+    <flight-recorder>
+      <replay-config type="int">0</replay-config>
+      <config n="0" >
+        <name type="string">JA-37 Flight Recorder</name>
+        <!-- Custom properties -->
+        <signals include="/Aircraft/Generic/flightrecorder/components/environment.xml"/>
+        <signals include="/Aircraft/Generic/flightrecorder/components/position.xml"/>
+        <signals include="/Aircraft/Generic/flightrecorder/components/controls.xml"/>
+        <signals include="/Aircraft/Generic/flightrecorder/components/engine-jet.xml">
+          <count type="int">1</count>
+        </signals>
+        <signals include="/Aircraft/Generic/flightrecorder/components/faults-engines.xml">
+          <count type="int">1</count>
+        </signals>
+        <signals include="/Aircraft/Generic/flightrecorder/components/tanks.xml">
+          <count type="int">8</count>
+        </signals>
+        <signals include="/Aircraft/Generic/flightrecorder/components/gear-retractable.xml">
+          <count type="int">3</count>
+        </signals>
+        <!-- <signal>
           <type>float</type>
-          <property type="string">fdm/jsbsim/fcs/flap-pos-deg</property>
-      </signal>
-      <signal>
+          <property type="string">/controls/gear/nosegear-steering-cmd-norm</property>
+          <interpolation>linear</interpolation>
+        </signal> -->
+        <!-- More custom signals here -->
+        <signal>
+            <type>float</type>
+            <property type="string">fdm/jsbsim/fcs/flap-pos-deg</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">surface-positions/left-elevon-pos-deg</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">surface-positions/right-elevon-pos-deg</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">surface-positions/rudder-pos-norm</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">surface-positions/nose-wheel-pos-norm</property>
+        </signal>
+        <signal>
           <type>float</type>
-          <property type="string">surface-positions/left-elevon-pos-deg</property>
-      </signal>
-      <signal>
+          <property type="string">engines/engine[0]/nozzle-pos-norm</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">engines/engine[0]/augmentation</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">systems/electrical/batterysignal</property>
+        </signal>
+        <signal>
           <type>float</type>
-          <property type="string">surface-positions/right-elevon-pos-deg</property>
-      </signal>
-      <signal>
+          <property type="string">engines/engine/thrust_lb</property>
+        </signal>
+        <signal>
           <type>float</type>
-          <property type="string">surface-positions/rudder-pos-norm</property>
-      </signal>
-      <signal>
+          <property type="string">engines/engine/thrust_lb-absolute</property>
+        </signal>      
+        <signal>
           <type>float</type>
-          <property type="string">surface-positions/nose-wheel-pos-norm</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">engines/engine[0]/nozzle-pos-norm</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">engines/engine[0]/augmentation</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">systems/electrical/batterysignal</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">engines/engine/thrust_lb</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">engines/engine/thrust_lb-absolute</property>
-      </signal>      
-      <signal>
-        <type>float</type>
-        <property type="string">velocities/groundspeed-kt</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">fdm/jsbsim/aero/alpha-deg</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">controls/armament/station[0]/trigger</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">ai/submodels/submodel[0]/flare-release</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">sim/ja37/damage/sounds/explode-on</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">sim/ja37/damage/sounds/crash-on</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">sim/ja37/damage/sounds/water-crash-on</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">sim/ja37/damage/sounds/crack-on</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">sim/ja37/damage/sounds/creaking-on</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">engines/engine[0]/reversed</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">fdm/jsbsim/fcs/canopy-pos-norm</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">systems/electrical/lights-ext</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">systems/electrical/outputs/inst_ac</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">controls/lighting/instruments-norm</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">consumables/fuel/tank[8]/jettisoned</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">engines/engine/flame</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">controls/armament/station[1]/released</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">controls/armament/station[2]/released</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">controls/armament/station[3]/released</property>
-      </signal>
-      <signal>
-        <type>bool</type>
-        <property type="string">controls/armament/station[4]/released</property>
-      </signal>
-      <signal>
-        <type>int16</type><!-- careful, did these not change to use floating points?: -->
-        <property type="string">payload/weight[0]/weight-lb</property>
-      </signal>
-      <signal>
-        <type>int16</type>
-        <property type="string">payload/weight[1]/weight-lb</property>
-      </signal>
-      <signal>
-        <type>int16</type>
-        <property type="string">payload/weight[2]/weight-lb</property>
-      </signal>
-      <signal>
-        <type>int16</type>
-        <property type="string">payload/weight[3]/weight-lb</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">gear/gear/compression-ft</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">gear/gear[1]/compression-ft</property>
-      </signal>
-      <signal>
-        <type>float</type>
-        <property type="string">gear/gear[2]/compression-ft</property>
-      </signal>            
-      <signal>
-        <type>int8</type>
-        <property type="string">sim/ja37/effect/smoke</property>
-      </signal>
-    </config><!-- 
-  - double: 8 byte/sample
-  - float:  4 byte/sample (default)
-  - int:    4 byte/sample, integer
-  - int16:  2 byte/sample, integer
-  - int8:   1 byte/sample, integer
-  - bool:   1 bit/sample (yes, 1 bit. 8 bools per byte).
-  -->
-  </flight-recorder>  <!-- remember string types are unsupported -->
-  
-  <sound>
-   <path>Aircraft/JA37/ja37-sound.xml</path>
-  </sound>
+          <property type="string">velocities/groundspeed-kt</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">fdm/jsbsim/aero/alpha-deg</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/armament/station[0]/trigger</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">ai/submodels/submodel[0]/flare-release</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/damage/sounds/explode-on</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/damage/sounds/crash-on</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/damage/sounds/water-crash-on</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/damage/sounds/crack-on</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/damage/sounds/creaking-on</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">engines/engine[0]/reversed</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">fdm/jsbsim/fcs/canopy-pos-norm</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">systems/electrical/lights-ext</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">systems/electrical/outputs/inst_ac</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">controls/lighting/instruments-norm</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">consumables/fuel/tank[8]/jettisoned</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">engines/engine/flame</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/armament/station[1]/released</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/armament/station[2]/released</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/armament/station[3]/released</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/armament/station[4]/released</property>
+        </signal>
+        <signal>
+          <type>int16</type><!-- careful, did these not change to use floating points?: -->
+          <property type="string">payload/weight[0]/weight-lb</property>
+        </signal>
+        <signal>
+          <type>int16</type>
+          <property type="string">payload/weight[1]/weight-lb</property>
+        </signal>
+        <signal>
+          <type>int16</type>
+          <property type="string">payload/weight[2]/weight-lb</property>
+        </signal>
+        <signal>
+          <type>int16</type>
+          <property type="string">payload/weight[3]/weight-lb</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">gear/gear/compression-ft</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">gear/gear[1]/compression-ft</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">gear/gear[2]/compression-ft</property>
+        </signal>            
+        <signal>
+          <type>int8</type>
+          <property type="string">sim/ja37/effect/smoke</property>
+        </signal>
+      </config><!-- 
+    - double: 8 byte/sample
+    - float:  4 byte/sample (default)
+    - int:    4 byte/sample, integer
+    - int16:  2 byte/sample, integer
+    - int8:   1 byte/sample, integer
+    - bool:   1 bit/sample (yes, 1 bit. 8 bools per byte).
+    -->
+    </flight-recorder>  <!-- remember string types are unsupported -->
+    
+    <sound>
+     <path>Aircraft/JA37/ja37-sound.xml</path>
+    </sound>
 
-  <!--<virtual-cockpit archive="y">true</virtual-cockpit> no clue what this does -->
-  <panel>
-   <visibility archive="y">false</visibility>
-  </panel>
-  <!--<panel_2>
-   <visibility>false</visibility> also no clue what this does
-  </panel_2>-->
+    <virtual-cockpit archive="y">true</virtual-cockpit> <!-- no clue what this does -->
+    <panel>
+     <visibility archive="y">false</visibility>
+    </panel>
+    <panel_2>
+     <visibility>false</visibility>
+    </panel_2>
 
-  <hud> <!-- Backup HUD, when custom HUD is disabled -->
-   <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
-  </hud>
+    <hud> <!-- Backup HUD, when custom HUD is disabled -->
+     <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
+    </hud>
 
 
 <!--**********************************************************************
@@ -324,16 +324,16 @@
 
 *************************************************************************-->   
 
-  <model>
-    <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
-   
-    <livery>                      <!-- Default Livery -->
-      <file type="string"/>
-      <name type="string">Swedish Air Force 59</name>
-      <owner type="string">SAF</owner>
-     </livery>
+    <model>
+      <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
+      
+      <livery>                      <!-- Default Livery -->
+        <file type="string"/>
+        <name type="string">Swedish Air Force 59</name>
+        <owner type="string">SAF</owner>
+       </livery>
 
-  </model>
+    </model>
 
 
 <!--**********************************************************************
@@ -344,23 +344,23 @@
 *************************************************************************-->
 <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
-  <!--<current-view>
-   <field-of-view>100</field-of-view>
-   <config>
-    <default-field-of-view-deg archive="y">100</default-field-of-view-deg>
-   </config>
-  </current-view>-->
+    <!--<current-view>
+     <field-of-view>100</field-of-view>
+     <config>
+      <default-field-of-view-deg archive="y">100</default-field-of-view-deg>
+     </config>
+    </current-view>-->
 
-  <view>
-   <internal archive="y">true</internal>
-   <config>
-     <pitch-offset-deg>-15</pitch-offset-deg>
-     <x-offset-m archive="y">0</x-offset-m>
-     <y-offset-m archive="y">0.70</y-offset-m>
-     <z-offset-m archive="y">-3.40</z-offset-m>
-     <default-field-of-view-deg>100</default-field-of-view-deg>
-   </config>
-  </view>
+    <view>
+     <internal archive="y">true</internal>
+     <config>
+       <pitch-offset-deg>-15</pitch-offset-deg>
+       <x-offset-m archive="y">0</x-offset-m>
+       <y-offset-m archive="y">0.70</y-offset-m>
+       <z-offset-m archive="y">-3.40</z-offset-m>
+       <default-field-of-view-deg>100</default-field-of-view-deg>
+     </config>
+    </view>
   
   
   <!--**********************************************************************
@@ -369,17 +369,18 @@
 
 
 *************************************************************************-->
-  <rendering>
-   <redout>
-    <parameters>
-      <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G-9G but have no official numbers.-->
-     <blackout-complete-g>11.0</blackout-complete-g>
-     <blackout-onset-g>8.0</blackout-onset-g>
-     <redout-complete-g>-4.0</redout-complete-g>
-     <redout-onset-g>-2.0</redout-onset-g>
-    </parameters>
-   </redout>
-  </rendering>
+    <rendering>
+     <redout>
+      <enabled>true</enabled>
+      <parameters>
+        <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G-9G but have no official numbers.-->
+       <blackout-complete-g>11.0</blackout-complete-g>
+       <blackout-onset-g>8.0</blackout-onset-g>
+       <redout-complete-g>-5.0</redout-complete-g>
+       <redout-onset-g>-3.5</redout-onset-g>
+      </parameters>
+     </redout>
+    </rendering>
 
 
 <!--**********************************************************************
@@ -388,56 +389,56 @@
 
 
 *************************************************************************-->
-  <multiplay>
-   <generic>
-    <!-- effects -->
-    <int n="0" alias="/sim/ja37/effect/smoke"/>
-    <!-- Animation control surfaces -->
-    <float n="0" alias="/surface-positions/right-elevon-pos-deg"/>
-    <float n="1" alias="/surface-positions/left-elevon-pos-deg"/>
-    <float n="2" alias="/fdm/jsbsim/fcs/flap-pos-deg"/>
-    <float n="4" alias="/fdm/jsbsim/fcs/canopy-pos-norm"/>
-    <!-- Animating engine -->
-    <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
-    <float n="5" alias="/engines/engine/flame"/>
-    <float n="15" alias="/engines/engine/n1"/>
-    <float n="16" alias="/engines/engine/thrust_lb-absolute"/>
-    <int n="3" alias="/engines/engine/running"/>
-    <int n="4" alias="/engines/engine[0]/augmentation"/>
-    <int n="8" alias="/engines/engine[0]/reversed"/>
-    <!-- Animating light -->
-    <int n="5" alias="/sim/model/lighting/strobe/state"/>
-    <int n="9" alias="/systems/electrical/lights-ext"/>
-    <int n="15" alias="/sim/model/lighting/beacon/state"/>
-    <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
-    <!-- Armament -->
-    <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
-    <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
-    <float n="11" alias="/payload/weight[0]/weight-lb"/>
-    <float n="12" alias="/payload/weight[1]/weight-lb"/>
-    <float n="13" alias="/payload/weight[2]/weight-lb"/>
-    <float n="14" alias="/payload/weight[3]/weight-lb"/>
-    <!-- gears -->
-    <float n="8" alias="/gear/gear/compression-ft"/>
-    <float n="9" alias="/gear/gear[1]/compression-ft"/>
-    <float n="10" alias="/gear/gear[2]/compression-ft"/>
-    <int n="17" alias="/gear/gear[0]/wow"/>
-    <int n="18" alias="/gear/gear[1]/wow"/>
-    <int n="19" alias="/gear/gear[2]/wow"/>
-    <!-- Position and speed -->
-    <float n="6" alias="/position/altitude-ft"/>
-    <float n="7" alias="/velocities/mach"/>
-    <float n="17" alias="/velocities/airspeed-kt"/>
-    <float n="18" alias="/velocities/speed-down-fps"/>
-    <!-- for Bombable: -->
-    <string n="9" type="string"/>
-    <int n="10" alias="/controls/armament/station[0]/trigger"/>
-    <int n="11" alias="/controls/armament/station[1]/trigger"/>
-    <int n="12" alias="/controls/armament/station[2]/trigger"/>
-    <int n="13" alias="/controls/armament/station[3]/trigger"/>
-    <int n="14" alias="/controls/armament/station[4]/trigger"/>
-   </generic>
-  </multiplay>
+    <multiplay>
+     <generic>
+      <!-- effects -->
+      <int n="0" alias="/sim/ja37/effect/smoke"/>
+      <!-- Animation control surfaces -->
+      <float n="0" alias="/surface-positions/right-elevon-pos-deg"/>
+      <float n="1" alias="/surface-positions/left-elevon-pos-deg"/>
+      <float n="2" alias="/fdm/jsbsim/fcs/flap-pos-deg"/>
+      <float n="4" alias="/fdm/jsbsim/fcs/canopy-pos-norm"/>
+      <!-- Animating engine -->
+      <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
+      <float n="5" alias="/engines/engine/flame"/>
+      <float n="15" alias="/engines/engine/n1"/>
+      <float n="16" alias="/engines/engine/thrust_lb-absolute"/>
+      <int n="3" alias="/engines/engine/running"/>
+      <int n="4" alias="/engines/engine[0]/augmentation"/>
+      <int n="8" alias="/engines/engine[0]/reversed"/>
+      <!-- Animating light -->
+      <int n="5" alias="/sim/model/lighting/strobe/state"/>
+      <int n="9" alias="/systems/electrical/lights-ext"/>
+      <int n="15" alias="/sim/model/lighting/beacon/state"/>
+      <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
+      <!-- Armament -->
+      <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
+      <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
+      <float n="11" alias="/payload/weight[0]/weight-lb"/>
+      <float n="12" alias="/payload/weight[1]/weight-lb"/>
+      <float n="13" alias="/payload/weight[2]/weight-lb"/>
+      <float n="14" alias="/payload/weight[3]/weight-lb"/>
+      <!-- gears -->
+      <float n="8" alias="/gear/gear/compression-ft"/>
+      <float n="9" alias="/gear/gear[1]/compression-ft"/>
+      <float n="10" alias="/gear/gear[2]/compression-ft"/>
+      <int n="17" alias="/gear/gear[0]/wow"/>
+      <int n="18" alias="/gear/gear[1]/wow"/>
+      <int n="19" alias="/gear/gear[2]/wow"/>
+      <!-- Position and speed -->
+      <float n="6" alias="/position/altitude-ft"/>
+      <float n="7" alias="/velocities/mach"/>
+      <float n="17" alias="/velocities/airspeed-kt"/>
+      <float n="18" alias="/velocities/speed-down-fps"/>
+      <!-- for Bombable: -->
+      <string n="9" type="string"/>
+      <int n="10" alias="/controls/armament/station[0]/trigger"/>
+      <int n="11" alias="/controls/armament/station[1]/trigger"/>
+      <int n="12" alias="/controls/armament/station[2]/trigger"/>
+      <int n="13" alias="/controls/armament/station[3]/trigger"/>
+      <int n="14" alias="/controls/armament/station[4]/trigger"/>
+     </generic>
+    </multiplay>
 
 
 <!--**********************************************************************
@@ -446,183 +447,183 @@
 
 
 *************************************************************************-->
-  <help>
-   <title>Saab JA-37 Viggen</title>
-   <key>
-    <name>s</name>
-    <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
-   </key>
-   <key>
-    <name>Backspace</name>
-		<desc>Toggle thrust reverser</desc>
-	 </key>
-   <key>
-    <name>Ctrl-f</name>
-    <desc>Trigger flare release</desc>
-   </key>
-   <key>
-    <name>e (lower case 'e')</name>
-    <desc>Fire selected weapon</desc>
-   </key>
-   <key>
-    <name>CTRL-5</name>
-    <desc>Select cannon</desc>
-   </key>
-   <key>
-    <name>CTRL-1..4</name>
-    <desc>Select missiles</desc>
-   </key>
-   <key>
-    <name>J</name>
-    <desc>Jettison Drop tank in flight</desc>
-   </key>
-   <key>
-    <name>Del</name>
-    <desc>Yaw damper on/off</desc>
-   </key>
-   <key>
-    <name>o</name>
-    <desc>Toggle canopy</desc>
-   </key>
-   <key>
-    <name>H</name>
-    <desc>HUD Brightness</desc>
-   </key>
-   <key>
-    <name>h</name>
-    <desc>Toggle masterarm</desc>
-   </key>
-   <key>
-    <name>I</name>
-    <desc>Toggle HUD units. Metric/imperial.</desc>
-   </key>
-   <key>
-    <name>c</name>
-    <desc>Cycle weapons</desc>
-   </key>
-   <key>
-    <name>P</name>
-    <desc>Toggle custom/FG HUD</desc>
-   </key>
-   <key>
-    <name>m</name>
-    <desc>Toggle nose wheel steering</desc>
-   </key>
-   <key>
-    <name>f</name>
-    <desc>Set autopilot to follow current selection</desc>
-   </key>
-   <key>
-    <name>F</name>
-    <desc>Set autopilot to stop follow</desc>
-   </key>
-   <key>
-    <name>S</name>
-    <desc>Cycle smoke. Off, Yellow or Blue</desc>
-   </key>
-   <key>
-    <name>i</name>
-    <desc>Toggle HUD to show type or callsign on radar tracks</desc>
-   </key>
-   <key>
-    <name>n</name>
-    <desc>Cycle next radar track selection</desc>
-   </key>
-   <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
-    <name>L</name>
-    <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
-   </key>
-   <key>
-    <name>C</name>
-    <desc>Carrier catapult launch</desc>
-   </key>
-   <key>
-    <name>l</name>
-    <desc>Toggle arrester hook</desc>
-   </key> -->
-   <text>
-    Startup
-    ______
-    Start up engine and systems
-    Wait for the engine to spool up and generator to turn on.
-    Calibrate the altimeter.
-    Apply full throttle with afterburner.
-    Release parking brakes.
-    
-    Takeoff
-    ______
-    Mind the sidewind indicator in the HUD.
-    Takeoff at 315 km/h. (170 kt)
+    <help>
+     <title>Saab JA-37 Viggen</title>
+     <key>
+      <name>s</name>
+      <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
+     </key>
+     <key>
+      <name>Backspace</name>
+  		<desc>Toggle thrust reverser</desc>
+  	 </key>
+     <key>
+      <name>Ctrl-f</name>
+      <desc>Trigger flare release</desc>
+     </key>
+     <key>
+      <name>e (lower case 'e')</name>
+      <desc>Fire selected weapon</desc>
+     </key>
+     <key>
+      <name>CTRL-5</name>
+      <desc>Select cannon</desc>
+     </key>
+     <key>
+      <name>CTRL-1..4</name>
+      <desc>Select missiles</desc>
+     </key>
+     <key>
+      <name>J</name>
+      <desc>Jettison Drop tank in flight</desc>
+     </key>
+     <key>
+      <name>Del</name>
+      <desc>Yaw damper on/off</desc>
+     </key>
+     <key>
+      <name>o</name>
+      <desc>Toggle canopy</desc>
+     </key>
+     <key>
+      <name>H</name>
+      <desc>HUD Brightness</desc>
+     </key>
+     <key>
+      <name>h</name>
+      <desc>Toggle masterarm</desc>
+     </key>
+     <key>
+      <name>I</name>
+      <desc>Toggle HUD units. Metric/imperial.</desc>
+     </key>
+     <key>
+      <name>c</name>
+      <desc>Cycle weapons</desc>
+     </key>
+     <key>
+      <name>P</name>
+      <desc>Toggle custom/FG HUD</desc>
+     </key>
+     <key>
+      <name>m</name>
+      <desc>Toggle nose wheel steering</desc>
+     </key>
+     <key>
+      <name>f</name>
+      <desc>Set autopilot to follow current selection</desc>
+     </key>
+     <key>
+      <name>F</name>
+      <desc>Set autopilot to stop follow</desc>
+     </key>
+     <key>
+      <name>S</name>
+      <desc>Cycle smoke. Off, Yellow or Blue</desc>
+     </key>
+     <key>
+      <name>i</name>
+      <desc>Toggle HUD to show type or callsign on radar tracks</desc>
+     </key>
+     <key>
+      <name>n</name>
+      <desc>Cycle next radar track selection</desc>
+     </key>
+     <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
+      <name>L</name>
+      <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
+     </key>
+     <key>
+      <name>C</name>
+      <desc>Carrier catapult launch</desc>
+     </key>
+     <key>
+      <name>l</name>
+      <desc>Toggle arrester hook</desc>
+     </key> -->
+     <text>
+      Startup
+      ______
+      Start up engine and systems
+      Wait for the engine to spool up and generator to turn on.
+      Calibrate the altimeter.
+      Apply full throttle with afterburner.
+      Release parking brakes.
+      
+      Takeoff
+      ______
+      Mind the sidewind indicator in the HUD.
+      Takeoff at 315 km/h. (170 kt)
 
-    Landing
-    ______
-    Land with speeds within 195-249km/h. (105-134 kt)
-      and an Angle of Attack of 16.5 degrees.
-    Deploy reverse thrust and brakes after touchdown.
+      Landing
+      ______
+      Land with speeds within 195-249km/h. (105-134 kt)
+        and an Angle of Attack of 16.5 degrees.
+      Deploy reverse thrust and brakes after touchdown.
 
-    Flaps
-    ____
-    The JA-37 control the flaps automatically.
-    At takeoff and landing it will set flaps to 30 degrees down.
-    In flight it will be set at 4 degrees up.    
+      Flaps
+      ____
+      The JA-37 control the flaps automatically.
+      At takeoff and landing it will set flaps to 30 degrees down.
+      In flight it will be set at 4 degrees up.    
 
-    HUD info
-    ________
-    The HUD uses Km/h and meters, but this can be switched with 'I'.
-    When in landing/takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
-    The vertical tail on the flight path indicator will move/blink according to AoA.
-    In combat mode when the cannon is selected, a fixed crosshair will appear.
-    In combat mode the reticle change if out of ammo if missiles selected.
-    The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
-    If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
-    If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
-    The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number. If using imperial units, it will show mach number and knots at same time.
-    The artificial horizon and pitch lines are spaced 5 degrees.
-    To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000, one floating point decimal precision.
-    On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
-    Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
-    The heading at the top is shown as a scale showing 1/10 of heading in degrees.
-    Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In combat mode the nearest radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
-    Nearest tower is shown as a small diamond, with ICAO and distance.
-    
-    Warnings
-    ________
-    Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
-    The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not see you perform the Cobra. :)
+      HUD info
+      ________
+      The HUD uses Km/h and meters, but this can be switched with 'I'.
+      When in landing/takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
+      The vertical tail on the flight path indicator will move/blink according to AoA.
+      In combat mode when the cannon is selected, a fixed crosshair will appear.
+      In combat mode the reticle change if out of ammo if missiles selected.
+      The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
+      If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
+      If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
+      The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number. If using imperial units, it will show mach number and knots at same time.
+      The artificial horizon and pitch lines are spaced 5 degrees.
+      To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000, one floating point decimal precision.
+      On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
+      Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
+      The heading at the top is shown as a scale showing 1/10 of heading in degrees.
+      Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In combat mode the nearest radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
+      Nearest tower is shown as a small diamond, with ICAO and distance.
+      
+      Warnings
+      ________
+      Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
+      The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not see you perform the Cobra. :)
 
-    Failures
-    _____
-    Random failures are supported and recommended for more interesting flight.
+      Failures
+      _____
+      Random failures are supported and recommended for more interesting flight.
 
-    Automatic Thrust reversing
-    __________________________
-    This can be enabled in the JA37-Options menu. It will enable the reverse thrust when you touch down with all 3 gears.
-    If you take off from a rough strip or without runway, the ground bumpiness will enable this and prevent you from taking off. So in that case I recommend switching it off.
+      Automatic Thrust reversing
+      __________________________
+      This can be enabled in the JA37-Options menu. It will enable the reverse thrust when you touch down with all 3 gears.
+      If you take off from a rough strip or without runway, the ground bumpiness will enable this and prevent you from taking off. So in that case I recommend switching it off.
 
-    Using autopilot to follow target
-    ________________________________
-    The HUD must turned on and a something selected.
-    Press 'f'. Then the auto-pilot will enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
-    If the target changes during the intercept, it will not switch to the new target.
-    To stop, press 'F' and disable autopilot control. Or select another and press 'f' again to follow that instead.
+      Using autopilot to follow target
+      ________________________________
+      The HUD must turned on and a something selected.
+      Press 'f'. Then the auto-pilot will enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
+      If the target changes during the intercept, it will not switch to the new target.
+      To stop, press 'F' and disable autopilot control. Or select another and press 'f' again to follow that instead.
 
-    Trivia
-    _____
-    This is the mid 80'ties version. So it has no airbrake
-    400 meter runway is required to takeoff.
-    500 meter runway is required to land.
-    Climb to 10.000m from brakes off in less than 100 seconds.
-    Supersonic speed at low altitude in less than 60 seconds from take-off.
-    Mach 1.25 at 100m altitude.
-    Maximum speed: Mach 2.2 at 11,000m alt (36,000 ft).
-    Service ceiling: 18,300 m (60,000 ft)
-    From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
-    
-    Notes:
-    _____
-    Hangar homepage: https://sites.google.com/site/fghangar
-    </text>
-  </help>
+      Trivia
+      _____
+      This is the mid 80'ties version. So it has no airbrake
+      400 meter runway is required to takeoff.
+      500 meter runway is required to land.
+      Climb to 10.000m from brakes off in less than 100 seconds.
+      Supersonic speed at low altitude in less than 60 seconds from take-off.
+      Mach 1.25 at 100m altitude.
+      Maximum speed: Mach 2.2 at 11,000m alt (36,000 ft).
+      Service ceiling: 18,300 m (60,000 ft)
+      From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
+      
+      Notes:
+      _____
+      Hangar homepage: https://sites.google.com/site/fghangar
+      </text>
+    </help>
 
 
 <!--**********************************************************************
@@ -631,66 +632,66 @@
 
 
 *************************************************************************-->
-<menubar>
- <default>
-  <menu n="100">
-   <label>JA-37</label>
-   <enabled type="bool">true</enabled>
-   <item>
-    <label>Select Livery</label>
-    <binding>
-     <command>nasal</command>
-     <script>
-      aircraft.livery.dialog.toggle();
-     </script>
-    </binding>
-   </item>
-   <item>
-    <label>Auto start/stop</label>
-    <binding>
-     <command>nasal</command>
-     <script>ja37.autostarttimer();</script>
-    </binding>
-   </item>
-   <item>
-    <label>Repair</label>
-    <binding>
-     <command>nasal</command>
-     <script>crash.repair();</script>
-    </binding>
-   </item>
-   
-    <item>
-      <label>Monitor Start</label>
-      <binding>
-       <command>nasal</command>
-       <script>
-          monitor.PerformanceMonitor.instance().start();
-       </script>
-      </binding>
-    </item>
-    <item>
-      <label>Monitor Re-initialize</label>
-      <binding>
-       <command>nasal</command>
-       <script>
-          monitor.PerformanceMonitor.instance().reinit();
-       </script>
-      </binding>
-    </item>    
-   
-   <item>
-    <label>Options</label>
-    <binding>
-     <command>nasal</command>
-     <script>
-      ja37.Dialog.show();
-     </script>
-    </binding>
-   </item>
-  </menu>
- </default>
-</menubar>
+    <menubar>
+     <default>
+      <menu n="100">
+       <label>JA-37</label>
+       <enabled type="bool">true</enabled>
+       <item>
+        <label>Select Livery</label>
+        <binding>
+         <command>nasal</command>
+         <script>
+          aircraft.livery.dialog.toggle();
+         </script>
+        </binding>
+       </item>
+       <item>
+        <label>Auto start/stop</label>
+        <binding>
+         <command>nasal</command>
+         <script>ja37.autostarttimer();</script>
+        </binding>
+       </item>
+       <item>
+        <label>Repair</label>
+        <binding>
+         <command>nasal</command>
+         <script>crash.repair();</script>
+        </binding>
+       </item>
+       
+        <item>
+          <label>Monitor Start</label>
+          <binding>
+           <command>nasal</command>
+           <script>
+              monitor.PerformanceMonitor.instance().start();
+           </script>
+          </binding>
+        </item>
+        <item>
+          <label>Monitor Re-initialize</label>
+          <binding>
+           <command>nasal</command>
+           <script>
+              monitor.PerformanceMonitor.instance().reinit();
+           </script>
+          </binding>
+        </item>    
+       
+       <item>
+        <label>Options</label>
+        <binding>
+         <command>nasal</command>
+         <script>
+          ja37.Dialog.show();
+         </script>
+        </binding>
+       </item>
+      </menu>
+     </default>
+    </menubar>
 
 
 
