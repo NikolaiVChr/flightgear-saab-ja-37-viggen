@@ -69,7 +69,6 @@ Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail 
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
 Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
-Sim: {JazzTp} Flying real slow can make a missile when firing shut down the engines. [not reproduced yet]
 Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
@@ -82,6 +81,7 @@ Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
 Model: sim load-lag when coming near other ja37. [reproduced locally]
 Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, autostart might fail.
+Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft if unlucky. [reproduced, might be fixed now]
 
 
 Issues with FG: (or my limited understanding of it)

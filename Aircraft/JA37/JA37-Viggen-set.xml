@@ -36,7 +36,7 @@
       <tag>afterburner</tag>
   </tags>
 
-  <aircraft-version>2.61</aircraft-version>
+  <aircraft-version>2.62</aircraft-version>
  
   <flight-model>jsb</flight-model>
   <aero>ja37-jsbsim</aero>
@@ -304,15 +304,15 @@
    <path>Aircraft/JA37/ja37-sound.xml</path>
   </sound>
 
-  <virtual-cockpit archive="y">true</virtual-cockpit>
+  <!--<virtual-cockpit archive="y">true</virtual-cockpit> no clue what this does -->
   <panel>
    <visibility archive="y">false</visibility>
   </panel>
-  <panel_2>
-   <visibility>false</visibility>
-  </panel_2>
+  <!--<panel_2>
+   <visibility>false</visibility> also no clue what this does
+  </panel_2>-->
 
-  <hud> <!-- wrong path for default HUD here, to prevent it from showing up -->
+  <hud> <!-- Backup HUD, when custom HUD is disabled -->
    <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
   </hud>
 
@@ -325,68 +325,15 @@
 *************************************************************************-->   
 
   <model>
-   <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
-   <ja37>
-    
-    <controls>
-
-
-<!--**********************************************************************
-
-                                          Navigation
-
-
-*************************************************************************-->   
-    
-     <navigation>
-     
-      <!-- INSTRUMENT MODE PANEL -->
-      <instrument-mode-panel>
-       <mode>
-        <rotary-switch-knob type="int">0</rotary-switch-knob>
-       </mode>
-       <hdg>
-        <!-- if true than knob is pushed and compass can be calibrated -->
-        <rotary-push-knob type="bool">false</rotary-push-knob>
-       </hdg>    
-      </instrument-mode-panel>
-
-     </navigation>
-    </controls>
-
-
-<!--**********************************************************************
-
-                                          Instrumentation (sim)
-
-
-*************************************************************************-->   
-</ja37>
-   <instrumentation>
-      <!--<radar-altimeter>
-        <name>radar-altimeter</name>
-        <number>0</number>
-        <load-state type="int">1</load-state>
-      </radar-altimeter>-->
-   </instrumentation>
-
-
-
-<!--**********************************************************************
-
-                                          Default Livery
-
-
-*************************************************************************-->
-<livery>
-  <file type="string"/>
-  <name type="string">Swedish Air Force 59</name>
-  <owner type="string">SAF</owner>
- </livery>
+    <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
+   
+    <livery>                      <!-- Default Livery -->
+      <file type="string"/>
+      <name type="string">Swedish Air Force 59</name>
+      <owner type="string">SAF</owner>
+     </livery>
 
   </model>
-
-  <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
 
 <!--**********************************************************************
@@ -395,12 +342,14 @@
 
 
 *************************************************************************-->
-  <current-view>
+<!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
+
+  <!--<current-view>
    <field-of-view>100</field-of-view>
    <config>
     <default-field-of-view-deg archive="y">100</default-field-of-view-deg>
    </config>
-  </current-view>
+  </current-view>-->
 
   <view>
    <internal archive="y">true</internal>

@@ -227,7 +227,7 @@ var AIM9 = {
 		me.dt_last = elapsed;
 
 		var init_launch = 0;
-		if ( me.life_time > 0 ) {
+		if ( me.life_time > 0.35 ) { #due to chance for hitting the aircraft, the missile will not guide until after its clear of the aircraft.
 			init_launch = 1;
 		}
 		me.life_time += dt;
