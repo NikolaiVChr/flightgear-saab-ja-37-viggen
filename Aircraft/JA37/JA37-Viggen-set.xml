@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.63</aircraft-version>
+    <aircraft-version>2.64</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -344,12 +344,12 @@
 *************************************************************************-->
 <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
-    <!--<current-view>
+    <current-view>
      <field-of-view>100</field-of-view>
      <config>
       <default-field-of-view-deg archive="y">100</default-field-of-view-deg>
      </config>
-    </current-view>-->
+    </current-view>
 
     <view>
      <internal archive="y">true</internal>

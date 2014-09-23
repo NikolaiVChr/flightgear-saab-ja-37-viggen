@@ -804,7 +804,7 @@ Sim: Cleaned up in the -set file.
 Sim: Increased negative G that the pilot can handle.
 Model: Added 1 switch.
 
-2.63
+2.63 - 2014 September 23
 ====
 Effect: Made engine smoke and wingtip vapour be influenced by sun/moonlight. Will now be dark when scene is dark.
 Aero: Made seperate adjustments for elevator when it is deflected downwards.
