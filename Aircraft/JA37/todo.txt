@@ -17,11 +17,11 @@ Animation: Min and max on several gauges.
 Animation: Animate wheels. (tough when gears get compressed..)
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Pilot from F16CJ?
-Model: Switches.
 Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
+Model: Make use of the new LOD interior system. FG 3.4.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Make canopy able to break off.

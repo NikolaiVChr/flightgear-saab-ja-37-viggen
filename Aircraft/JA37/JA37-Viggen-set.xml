@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.62</aircraft-version>
+    <aircraft-version>2.63</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -1392,8 +1392,8 @@
  <limits>
   <max-gear-extension-speed>300</max-gear-extension-speed>
   <!-- structural G limits: -->
-  <max-positive-g>13.0</max-positive-g>
-  <max-negative-g>-2.5</max-negative-g>
+  <max-positive-g>12.0</max-positive-g>
+  <max-negative-g>-4.0</max-negative-g>
  </limits>
 
 <!--**********************************************************************

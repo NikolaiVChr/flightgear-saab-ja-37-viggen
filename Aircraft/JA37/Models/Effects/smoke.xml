@@ -30,7 +30,7 @@
 			</or>
 		</condition>
 		<emissive>false</emissive>
-		<lighting>false</lighting>
+		<lighting>true</lighting>
 		<align>billboard</align>
 		<attach>world</attach>
 		<placer>

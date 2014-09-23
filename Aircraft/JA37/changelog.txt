@@ -796,10 +796,15 @@ Model: Added 6 switches and 10 buttons.
 Animation: Master warning will now not engage on the ground.
 Sim: Exterior lights now properly uses the electrical system, and relies on generator power.
 
-2.62
+2.62 - 2014 September 20
 ====
 Sim: Decreased chance of hitting own aircraft when firing a missile.
 GUI: Enabled checklists markers.
 Sim: Cleaned up in the -set file.
 Sim: Increased negative G that the pilot can handle.
 Model: Added 1 switch.
+
+2.63
+====
+Effect: Made engine smoke and wingtip vapour be influenced by sun/moonlight. Will now be dark when scene is dark.
+Aero: Made seperate adjustments for elevator when it is deflected downwards.
