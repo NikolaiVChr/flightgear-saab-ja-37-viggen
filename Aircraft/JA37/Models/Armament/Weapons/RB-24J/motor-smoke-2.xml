@@ -5,7 +5,7 @@
    <texture>smoke.png</texture>
 
    <emissive type="bool">false</emissive>
-   <lighting type="bool">false</lighting>
+   <lighting type="bool">true</lighting>
 
    <condition>
          <property>sim/ja37/armament/rb24/flags/smoke-id-2</property>

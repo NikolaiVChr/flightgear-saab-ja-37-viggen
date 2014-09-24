@@ -814,3 +814,4 @@ Aero: Made seperate adjustments for elevator when it is deflected downwards.
 HUD: Pitch lines, tower indicators and radar tracks now auto adjust to user changing the pilot view Down/Up position.
 Model: Pilot view position is now reset to default every reset/startup.
 Sim: Changed some properties from generic to double.
+Effect: Made missile smoke be influenced by sun/moonlight. Will now be dark when scene is dark.
