@@ -37,11 +37,13 @@ var TRUE = 1;
 var countQFE = 0;
 var QFEcalibrated = FALSE;# if the altimeters are calibrated
 
-var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+var HUDTop = 0.79; # position of top of HUD in meters
 # HUD z is 0 to 0.25 and raised 0.54 up. Finally is 0.54m to 0.79m, height of HUD is 0.25m
+var pixelPerMeter = 4096;
 # Therefore each pixel is 0.25 / 1024 = 0.000244140625m or each meter is 4096 pixels.
+var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # View is 0.70m so 0.79-0.70 = 0.09m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
-# 512 - (0.09 / 0.000244140625) = 143.36 pixels up from center. Since -y is upward, result is -143.
+# 512 - (0.09 / 0.000244140625) = 143.36 pixels up from center. Since -y is upward, result is -143. (Per default)
 
 var pixelPerDegreeY = 37; #vertical axis, view is tilted 10 degrees, zoom in on runway to check it hit the 10deg line
 var pixelPerDegreeX = 37; #horizontal axis
@@ -712,7 +714,9 @@ var HUDnasal = {
         elec:     "/systems/electrical/outputs/hud",
         altCalibrated: "sim/ja37/avionics/altimeters-calibrated",
         carrierNear: "fdm/jsbsim/ground/carrier-near",
-        terrainOn: "sim/ja37/sound/terrain-on"
+        terrainOn:   "sim/ja37/sound/terrain-on",
+        viewNumber:  "sim/current-view/view-number",
+        viewZ:       "sim/current-view/y-offset-m"
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -738,6 +742,11 @@ var HUDnasal = {
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);
      } else {
+      if(me.input.viewNumber.getValue() == 0) {
+        # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
+        var fromTop = HUDTop - me.input.viewZ.getValue();
+        centerOffset = -1 * (512 - (fromTop * pixelPerMeter));
+      }
       var mode = me.input.gears.getValue() != 0 ? TAKEOFF : (me.input.combat.getValue() == 1 ? COMBAT : NAV);
       var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == 1;
       var out_of_ammo = FALSE;

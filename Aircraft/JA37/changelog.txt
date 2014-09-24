@@ -808,3 +808,9 @@ Model: Added 1 switch.
 ====
 Effect: Made engine smoke and wingtip vapour be influenced by sun/moonlight. Will now be dark when scene is dark.
 Aero: Made seperate adjustments for elevator when it is deflected downwards.
+
+2.64
+====
+HUD: Pitch lines, tower indicators and radar tracks now auto adjust to user changing the pilot view Down/Up position.
+Model: Pilot view position is now reset to default every reset/startup.
+Sim: Changed some properties from generic to double.

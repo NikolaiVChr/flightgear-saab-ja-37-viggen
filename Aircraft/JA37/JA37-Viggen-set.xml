@@ -345,20 +345,24 @@
 <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
     <current-view>
-     <field-of-view>100</field-of-view>
-     <config>
-      <default-field-of-view-deg archive="y">100</default-field-of-view-deg>
-     </config>
+      <field-of-view type="double">100</field-of-view>
+      <config>
+        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
+      </config>
+      <!-- Sometimes these get changed and saved and will override the defaults. This will set the defaults everytime its started up. -->
+      <x-offset-m type="double">0</x-offset-m>
+      <y-offset-m type="double">0.70</y-offset-m>
+      <z-offset-m type="double">-3.40</z-offset-m>
     </current-view>
 
     <view>
-     <internal archive="y">true</internal>
+     <internal>true</internal>
      <config>
-       <pitch-offset-deg>-15</pitch-offset-deg>
-       <x-offset-m archive="y">0</x-offset-m>
-       <y-offset-m archive="y">0.70</y-offset-m>
-       <z-offset-m archive="y">-3.40</z-offset-m>
-       <default-field-of-view-deg>100</default-field-of-view-deg>
+       <pitch-offset-deg type="double">-15</pitch-offset-deg>
+       <x-offset-m type="double">0</x-offset-m>
+       <y-offset-m type="double">0.70</y-offset-m>
+       <z-offset-m type="double">-3.40</z-offset-m>
+       <default-field-of-view-deg type="double">100</default-field-of-view-deg>
      </config>
     </view>
   
@@ -374,10 +378,10 @@
       <enabled>true</enabled>
       <parameters>
         <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G-9G but have no official numbers.-->
-       <blackout-complete-g>11.0</blackout-complete-g>
-       <blackout-onset-g>8.0</blackout-onset-g>
-       <redout-complete-g>-5.0</redout-complete-g>
-       <redout-onset-g>-3.5</redout-onset-g>
+       <blackout-complete-g type="double">11.0</blackout-complete-g>
+       <blackout-onset-g type="double">8.0</blackout-onset-g>
+       <redout-complete-g type="double">-5.0</redout-complete-g>
+       <redout-onset-g type="double">-3.5</redout-onset-g>
       </parameters>
      </redout>
     </rendering>
@@ -897,7 +901,7 @@
   </electric>
 </controls>
 <environment>
-  <pressure-inhg>30</pressure-inhg>
+  <pressure-inhg type="double">30</pressure-inhg>
 </environment>
 <autopilot>
   <target-tracking-ja37>
