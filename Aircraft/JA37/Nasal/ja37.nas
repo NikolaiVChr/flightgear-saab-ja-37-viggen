@@ -12,89 +12,145 @@ var touchdown1 = 0;
 var touchdown2 = 0;
 var total_fuel = 0;
 ############### Main loop ###############
-var cnt = 0;
 
+input = {
+  replay:       "sim/replay/replay-state",
+  g3d:          "/velocities/groundspeed-3D-kt",
+  wow0:         "/gear/gear[0]/wow",
+  wow1:         "/gear/gear[1]/wow",
+  wow2:         "/gear/gear[2]/wow",
+  elapsed:      "sim/time/elapsed-sec",
+  elapsedInit:  "sim/time/elapsed-at-init-sec",
+  fullInit:     "sim/time/full-init",
+  tank8LvlNorm: "/consumables/fuel/tank[8]/level-norm",
+  tank0LvlGal:  "/consumables/fuel/tank[0]/level-gal_us",
+  tank1LvlGal:  "/consumables/fuel/tank[1]/level-gal_us",
+  tank2LvlGal:  "/consumables/fuel/tank[2]/level-gal_us",
+  tank3LvlGal:  "/consumables/fuel/tank[3]/level-gal_us",
+  tank4LvlGal:  "/consumables/fuel/tank[4]/level-gal_us",
+  tank5LvlGal:  "/consumables/fuel/tank[5]/level-gal_us",
+  tank6LvlGal:  "/consumables/fuel/tank[6]/level-gal_us",
+  tank7LvlGal:  "/consumables/fuel/tank[7]/level-gal_us",
+  tank8LvlGal:  "/consumables/fuel/tank[8]/level-gal_us",
+  fuelNeedleB:  "/instrumentation/fuel/needleB_rot",
+  fuelNeedleF:  "/instrumentation/fuel/needleF_rot",
+  fuelWarning:  "sim/ja37/sound/fuel-low-on",
+  n1:           "/engines/engine/n1",
+  n2:           "/engines/engine/n2",
+  reversed:     "/engines/engine/reversed",
+  augmentation: "/controls/engines/engine[0]/augmentation",
+  gearCmdNorm:  "/fdm/jsbsim/gear/gear-cmd-norm",
+  batteryOutput:"systems/electrical/outputs/battery",
+  flapPosCmd:   "/fdm/jsbsim/fcs/flap-pos-cmd",
+  serviceElec:  "systems/electrical/serviceable",
+  canopyPower:  "/fdm/jsbsim/fcs/canopy/has-power",
+  vgFps:        "/fdm/jsbsim/velocities/vg-fps",
+  downFps:      "/velocities/down-relground-fps",
+  thrustLb:     "engines/engine/thrust_lb",
+  thrustLbAbs:  "engines/engine/thrust_lb-absolute",
+  indAltMeter:  "instrumentation/altimeter/indicated-altitude-meter",
+  indAltFt:     "instrumentation/altimeter/indicated-altitude-ft",
+  autoReverse:  "sim/ja37/autoReverseThrust",
+  stationSelect:"controls/armament/station-select",
+  combat:       "/sim/ja37/hud/combat",
+  warnButton:   "sim/ja37/avionics/master-warning-button",
+  warn:         "/instrumentation/master-warning",
+  engineRunning:"engines/engine/running",
+  hz10:         "sim/ja37/blink/ten-Hz/state",
+  hz05:         "sim/ja37/blink/five-Hz/state",
+  flame:        "engines/engine/flame",
+  generatorOn:  "/systems/electrical/generator_on",
+  mass1:        "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
+  mass3:        "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
+  asymLoad:     "fdm/jsbsim/inertia/asymmetric-wing-load",
+  indJoy:       "/instrumentation/joystick-indicator",
+  indAtt:       "/instrumentation/attitude-indicator",
+  indAlt:       "/instrumentation/altitude-indicator",
+  indTrn:       "/instrumentation/transonic-indicator",
+  indRev:       "/instrumentation/reverse-indicator",
+  tank8Flow:    "fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps",
+  tank8Selected:"/consumables/fuel/tank[8]/selected",
+  tank8Jettison:"/consumables/fuel/tank[8]/jettisoned",
+  lockHeading:  "/autopilot/locks/heading",
+  lockAltitude: "/autopilot/locks/altitude",
+  lockPassive:  "/autopilot/locks/passive-mode",
+  roll:         "/instrumentation/attitude-indicator/indicated-roll-deg",
+  speedMach:    "/instrumentation/airspeed-indicator/indicated-mach",
+  speedKt:      "/instrumentation/airspeed-indicator/indicated-speed-kt",
+};
+   
 var update_loop = func {
-  if(getprop("sim/replay/replay-state") == 1) {
+  if(input.replay.getValue() == 1) {
     # replay is active, skip rest of loop.
     settimer(update_loop, UPDATE_PERIOD);
   } else {
-
-
     # set the full-init property
-    if(getprop("sim/time/elapsed-sec") > getprop("sim/time/elapsed-at-init-sec") + 5) {
-      setprop("sim/time/full-init", 1);
+    if(input.elapsed.getValue() > input.elapsedInit.getValue() + 5) {
+      input.fullInit.setValue(1);
     } else {
-      setprop("sim/time/full-init", 0);
+      input.fullInit.setValue(0);
     }
 
   	 ## Sets fuel gauge needles rotation ##
   	 
-     if(getprop("/consumables/fuel/tank[8]/level-norm") != nil) {
-       setprop("/instrumentation/fuel/needleB_rot", getprop("/consumables/fuel/tank[8]/level-norm")*230);
-     }
-     
+     if(input.tank8LvlNorm.getValue() != nil) {
+       input.fuelNeedleB.setValue(input.tank8LvlNorm.getValue()*230);
+     }     
 
-    var current = getprop("/consumables/fuel/tank[0]/level-gal_us")
-                + getprop("/consumables/fuel/tank[1]/level-gal_us")
-                + getprop("/consumables/fuel/tank[2]/level-gal_us")
-                + getprop("/consumables/fuel/tank[3]/level-gal_us")
-                + getprop("/consumables/fuel/tank[4]/level-gal_us")
-                + getprop("/consumables/fuel/tank[5]/level-gal_us")
-                + getprop("/consumables/fuel/tank[6]/level-gal_us")
-                + getprop("/consumables/fuel/tank[7]/level-gal_us");
+    var current = input.tank0LvlGal.getValue()
+                + input.tank1LvlGal.getValue()
+                + input.tank2LvlGal.getValue()
+                + input.tank3LvlGal.getValue()
+                + input.tank4LvlGal.getValue()
+                + input.tank5LvlGal.getValue()
+                + input.tank6LvlGal.getValue()
+                + input.tank7LvlGal.getValue();
 
 
-     setprop("/instrumentation/fuel/needleF_rot", (current / total_fuel) *230);
-     
-     # fuel warning annuciator
-     if((current / total_fuel) < 0.2) {
-      setprop("sim/ja37/sound/fuel-low-on", 1);
-     } else {
-      setprop("sim/ja37/sound/fuel-low-on", 0);
-     }
+    input.fuelNeedleF.setValue((current / total_fuel) *230);
 
-     ## control augmented thrust ##
-       
-     var n1 = getprop("/engines/engine/n1");
-     var n2 = getprop("/engines/engine/n2");
-     var reversed = getprop("/engines/engine/reversed");
-     
-     if ( (n1 > 102) and (n2 > 99) and (reversed == 0) ) #was 99 and 97
-     {
-      setprop("/controls/engines/engine[0]/augmentation", 1);
-     }
-     else
-     {
-      setprop("/controls/engines/engine[0]/augmentation", 0);
-     }
-     
-     ## control flaps ##
+    # fuel warning annuciator
+    if((current / total_fuel) < 0.24) {# warning at 24% as per sources
+      input.fuelWarning.setValue(1);
+    } else {
+      input.fuelWarning.setValue(0);
+    }
 
-     var flapsCommand = 0;
-     var gear = getprop("/fdm/jsbsim/gear/gear-cmd-norm");
-     var battery = getprop("systems/electrical/outputs/battery");
+    ## control augmented thrust ##
      
-     if ((battery < 25) or (gear == nil))
-     {
-       flapsCommand = 0.11765;
-     }
-     else
-    {
+    var n1 = input.n1.getValue();
+    var n2 = input.n2.getValue();
+    var reversed = input.reversed.getValue();
+
+    if ( (n1 > 102) and (n2 > 99) and (reversed == 0) ) { #was 99 and 97
+      input.augmentation.setValue(1);
+    } else {
+      input.augmentation.setValue(0);
+    }
+
+    ## control flaps ##
+
+    var flapsCommand = 0;
+    var gear = input.gearCmdNorm.getValue();
+    var battery = input.batteryOutput.getValue();
+
+    if ((battery < 25) or (gear == nil)) {
+      flapsCommand = 0.11765;
+    } else {
       flapsCommand = gear;
     }
-    if (getprop("/fdm/jsbsim/fcs/flap-pos-cmd") != flapsCommand) {
+    if (input.flapPosCmd.getValue() != flapsCommand) {
       #trying to not write to fdm unless changed.
-      setprop("/fdm/jsbsim/fcs/flap-pos-cmd", flapsCommand);
+      input.flapPosCmd.setValue(flapsCommand);
     }
     
-    if (getprop("systems/electrical/serviceable") < 1) {
-      if (getprop("/fdm/jsbsim/fcs/canopy/has-power") != 0) {
-        setprop("/fdm/jsbsim/fcs/canopy/has-power", 0);
+    if (input.serviceElec.getValue() < 1) {
+      if (input.canopyPower.getValue() != 0) {
+        input.canopyPower.setValue(0);
       }
     } else {
-      if (getprop("/fdm/jsbsim/fcs/canopy/has-power") != 1) {
-        setprop("/fdm/jsbsim/fcs/canopy/has-power", 1);
+      if (input.canopyPower.getValue() != 1) {
+        input.canopyPower.setValue(1);
       }
     }
 
@@ -106,45 +162,17 @@ var update_loop = func {
     #}
 
     ## set groundspeed property used for crashcode ##
-    
-    var horz_speed = getprop("/fdm/jsbsim/velocities/vg-fps");
-    var vert_speed = getprop("/velocities/down-relground-fps");
-       
+    var horz_speed = input.vgFps.getValue();
+    var vert_speed = input.downFps.getValue();
     var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
-    
     real_speed = real_speed * 0.5924838;
+    input.g3d.setValue(real_speed);
     
-    setprop("/velocities/groundspeed-3D-kt", real_speed); 
-    
-    if(getprop("sim/signals/fdm-initialized") == 1) {
-      # all these ifs are to ensure jsbsim do not get too many updates.
-      if (getprop("fdm/jsbsim/fcs/flaps-serviceable") != getprop("/sim/failure-manager/controls/flight/flaps/serviceable")) {
-        setprop("fdm/jsbsim/fcs/flaps-serviceable", getprop("/sim/failure-manager/controls/flight/flaps/serviceable"));
-      }
-      if (getprop("fdm/jsbsim/fcs/aileron-serviceable") != getprop("/sim/failure-manager/controls/flight/aileron/serviceable")) {
-        setprop("fdm/jsbsim/fcs/aileron-serviceable", getprop("/sim/failure-manager/controls/flight/aileron/serviceable"));
-      }
-      if (getprop("fdm/jsbsim/fcs/elevator-serviceable") != getprop("/sim/failure-manager/controls/flight/elevator/serviceable")) {
-       setprop("fdm/jsbsim/fcs/elevator-serviceable", getprop("/sim/failure-manager/controls/flight/elevator/serviceable"));
-      }
-      if (getprop("fdm/jsbsim/gear/serviceable") != getprop("/gear/serviceable")) {
-        setprop("fdm/jsbsim/gear/serviceable", getprop("/gear/serviceable"));
-      }
-    }
-
-    #setprop("systems/electrical/outputs/battery", getprop("/systems/electrical/volts"));
-    setprop("/instrumentation/switches/inst-light-knob/pos", getprop("/instrumentation/instrumentation-light/serviceable"));
-    #setprop("controls/lighting/instruments-norm", getprop("/systems/electrical/battery"));
     
     # Animating engine fire
-
-    var n1 = getprop("engines/engine/n1");
-
     if (n1 > 100) n1 = 100;
-
     var flame = 100 / (100-n1);
-
-    setprop("engines/engine/flame", flame);
+    input.flame.setValue(flame);
 
 
     # indicators
@@ -155,9 +183,9 @@ var update_loop = func {
     var rev = 0;
 
     # joystick indicator
-    if(getprop("/systems/electrical/generator_on") == 1) {
-      if (((getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil) and (getprop("/autopilot/locks/altitude") != ''
-       and getprop("/autopilot/locks/altitude") != nil)) or getprop("/autopilot/locks/passive-mode") == 1 and getprop("/systems/electrical/outputs/battery") > 23) {
+    if(input.generatorOn.getValue() == 1) {
+      if (((input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil) and (input.lockAltitude.getValue() != ''
+       and input.lockAltitude.getValue() != nil)) or input.lockPassive.getValue() == 1 and input.batteryOutput.getValue() > 23) {
         joystick = 0;
       } else {
         joystick = 1;
@@ -167,10 +195,10 @@ var update_loop = func {
     }
 
     # attitude indicator
-    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/heading") != '' and getprop("/autopilot/locks/heading") != nil)
-     and getprop("/systems/electrical/outputs/battery") > 23) {
-      if (getprop("/instrumentation/attitude-indicator/indicated-roll-deg") > 70 or getprop("/instrumentation/attitude-indicator/indicated-roll-deg") < -70) {
-        attitude = getprop("sim/ja37/blink/five-Hz");
+    if(input.lockPassive.getValue() == 1 or (input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil)
+     and input.batteryOutput.getValue() > 23) {
+      if (input.roll.getValue() > 70 or input.roll.getValue() < -70) {
+        attitude = input.hz05.getValue();
       } else {
         attitude = 1;
       }
@@ -179,10 +207,10 @@ var update_loop = func {
     }
 
     # altitude indicator
-    if(getprop("/autopilot/locks/passive-mode") == 1 or (getprop("/autopilot/locks/altitude") != '' and getprop("/autopilot/locks/altitude") != nil)
-     and getprop("/systems/electrical/outputs/battery") > 23) {
-      if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05) {
-        altitude = getprop("sim/ja37/blink/five-Hz");
+    if(input.lockPassive.getValue() == 1 or (input.lockAltitude.getValue() != '' and input.lockAltitude.getValue() != nil)
+     and input.batteryOutput.getValue() > 23) {
+      if (input.speedMach.getValue() > 0.97 and input.speedMach.getValue() < 1.05) {
+        altitude = input.hz05.getValue();
       } else {
         altitude = 1;
       }
@@ -191,11 +219,11 @@ var update_loop = func {
     }
 
     #transonic indicator
-    if (getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05
-     and getprop("/systems/electrical/outputs/battery") > 23) {
+    if (input.speedMach.getValue() > 0.97 and input.speedMach.getValue() < 1.05
+     and input.batteryOutput.getValue() > 23) {
       transonic = 1;
     } else {
-      if(getprop("/engines/engine/reversed") and getprop("/instrumentation/airspeed-indicator/indicated-speed-kt") < 64.8 and getprop("/systems/electrical/outputs/battery") > 23) {
+      if(input.reversed.getValue() == 1 and input.speedKt.getValue() < 64.8 and input.batteryOutput.getValue() > 23) {
         # warning that speed is so low that its risky to continue reverse thrust
           transonic = 1;
         } else {
@@ -204,18 +232,17 @@ var update_loop = func {
     }
 
     # reverse indicator
-    if(getprop("engines/engine/reversed") == 1
-     and getprop("/systems/electrical/outputs/battery") > 23) {
+    if(input.reversed.getValue() == 1 and input.batteryOutput.getValue() > 23) {
       rev = 1;
     } else {
       rev = 0;
     }
 
-    setprop("/instrumentation/joystick-indicator", joystick);
-    setprop("/instrumentation/attitude-indicator", attitude);
-    setprop("/instrumentation/altitude-indicator", altitude);
-    setprop("/instrumentation/transonic-indicator", transonic);
-    setprop("/instrumentation/reverse-indicator", rev);
+    input.indJoy.setValue(joystick);
+    input.indAtt.setValue(attitude);
+    input.indAlt.setValue(altitude);
+    input.indTrn.setValue(transonic);
+    input.indRev.setValue(rev);
 
     # pylon payloads
 
@@ -247,17 +274,17 @@ var update_loop = func {
     }
 
     #activate searcher on selected pylon if missile mounted
-    var armSelect = getprop("controls/armament/station-select");
+    var armSelect = input.stationSelect.getValue();
     for(i = 0; i <= 3; i += 1) {
       if(armament.AIM9.active[i] != nil) {
         #missile is mounted on pylon
         if(armSelect != i+1) {
           #pylon not selected, missile off
           armament.AIM9.active[i].status = -1;#print("not sel "~(i));
-        } elsif (getprop("/sim/ja37/hud/combat") == 0 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
+        } elsif (input.combat.getValue() == 0 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
           #pylon is selected but missile not mounted and not flying
           armament.AIM9.active[i].status = -1;#print("empty "~(i));
-        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none" and getprop("/sim/ja37/hud/combat") == 1) {
+        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none" and input.combat.getValue() == 1) {
           #pylon selected, activate if not already
           armament.AIM9.active[i].status = 0;#print("active "~(i));
           armament.AIM9.active[i].search();
@@ -275,12 +302,12 @@ var update_loop = func {
         }
         if(i==4) {
           # no drop tank attached
-          if (getprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps") != -1500) {
-            setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", -1500);
+          if (input.tank8Flow.getValue() != -1500) {
+            input.tank8Flow.setValue(-1500);
           }
-          setprop("/consumables/fuel/tank[8]/selected", 0);
-          setprop("/consumables/fuel/tank[8]/jettisoned", 1);
-          setprop("/consumables/fuel/tank[8]/level-norm", 0);
+          input.tank8Selected.setValue(0);
+          input.tank8Jettison.setValue(1);
+          input.tank8LvlNorm.setValue(0);
         }
       } elsif (selected == "RB 24J") {
         # the pylon has a sidewinder, give it a pointmass
@@ -289,41 +316,41 @@ var update_loop = func {
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
-        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") == 0 or getprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps") != 0) {
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") == 0 or input.tank8Flow.getValue() != 0) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 224.87);#if change this also change it in jsbsim
-          setprop("fdm/jsbsim/propulsion/tank[8]/external-flow-rate-pps", 0);
+          input.tank8Flow.setValue(0);
         }
-        setprop("/consumables/fuel/tank[8]/selected", 1);
-        setprop("/consumables/fuel/tank[8]/jettisoned", 0);
+        input.tank8Selected.setValue(1);
+        input.tank8Jettison.setValue(0);
       }
     }
 
     # for aerodynamic response to asymmetric wing loading
-    if(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") == getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
+    if(input.mass1.getValue() == input.mass3.getValue()) {
       # wing pylons symmetric loaded
-      if (getprop("fdm/jsbsim/inertia/asymmetric-wing-load") != 0) {
-        setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 0);
+      if (input.asymLoad.getValue() != 0) {
+        input.asymLoad.setValue(0);
       }
-    } elsif(getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[1]") < getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[3]")) {
+    } elsif(input.mass1.getValue() < input.mass3.getValue()) {
       # right wing pylon has more load than left
-      if (getprop("fdm/jsbsim/inertia/asymmetric-wing-load") != -1) {
-        setprop("fdm/jsbsim/inertia/asymmetric-wing-load", -1);
+      if (input.asymLoad.getValue() != -1) {
+        input.asymLoad.setValue(-1);
       }
     } else {
       # left wing pylon has more load than right
-      if (getprop("fdm/jsbsim/inertia/asymmetric-wing-load") != 1) {
-        setprop("fdm/jsbsim/inertia/asymmetric-wing-load", 1);
+      if (input.asymLoad.getValue() != 1) {
+        input.asymLoad.setValue(1);
       }
     }
 
 
     # automatic reverse thrust enabler
 
-    var gear0 = getprop("/gear/gear[0]/wow");
-    var gear1 = getprop("/gear/gear[1]/wow");
-    var gear2 = getprop("/gear/gear[2]/wow");
+    var gear0 = input.wow0.getValue();
+    var gear1 = input.wow1.getValue();
+    var gear2 = input.wow2.getValue();
 
-    if(getprop("sim/ja37/autoReverseThrust") == 1 and reversed == 0) {
+    if(input.autoReverse.getValue() == 1 and reversed == 0) {
       if(gear1 == 1) {
         #left boogie touching
         if(prevGear1 == 0) {
@@ -354,45 +381,45 @@ var update_loop = func {
 
     # Make sure have engine sound at reverse thrust
 
-    var thrust = getprop("engines/engine/thrust_lb");
+    var thrust = input.thrustLb.getValue();
      
     if(thrust != nil) {
-      setprop("engines/engine/thrust_lb-absolute", abs(thrust));
+      input.thrustLbAbs.setValue(abs(thrust));
     } else {
-      setprop("engines/engine/thrust_lb-absolute", 0);
+      input.thrustLbAbs.setValue(0);
     }
 
     # meter altitude property
 
-    setprop("instrumentation/altimeter/indicated-altitude-meter", getprop("instrumentation/altimeter/indicated-altitude-ft")*0.3048);
+    input.indAltMeter.setValue(input.indAltFt.getValue()*0.3048);
 
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
     # Master warning
-    if(getprop("systems/electrical/outputs/battery") > 23 ) {
-      if (getprop("sim/ja37/avionics/master-warning-button") == 1) {
+    if(input.batteryOutput.getValue() > 23 ) {
+      if (input.warnButton.getValue() == 1) {
         # test, should really be turn off sound
-        setprop("/instrumentation/master-warning", 1);
-      } elsif (getprop("engines/engine/running") == 0 and autostarting == 0 and getprop("gear/gear/wow") == 0) {
+        input.warn.setValue(1);
+      } elsif (input.engineRunning.getValue() == 0 and autostarting == 0 and input.wow0.getValue() == 0) {
         # Major warning
-        if(getprop("sim/ja37/blink/ten-Hz") == 1) {
-          setprop("/instrumentation/master-warning", 1);
+        if(input.hz10.getValue() == 1) {
+          input.warn.setValue(1);
         } else {
-          setprop("/instrumentation/master-warning", 0);
+          input.warn.setValue(0);
         }
       } elsif (1 == 0) {
         # minor warning
-        if(getprop("sim/ja37/blink/five-Hz") == 1) {
-          setprop("/instrumentation/master-warning", 1);
+        if(input.hz05.getValue() == 1) {
+          input.warn.setValue(1);
         } else {
-          setprop("/instrumentation/master-warning", 0);
+          input.warn.setValue(0);
         }
       } else {
-        setprop("/instrumentation/master-warning", 0);
+        input.warn.setValue(0);
       }
     } else {
-     setprop("/instrumentation/master-warning", 0); 
+      input.warn.setValue(0);
     }
 
     
@@ -541,6 +568,11 @@ var main_init = func {
   setprop("/instrumentation/instrumentation-light/g", 0.3);
   setprop("/instrumentation/instrumentation-light/b", 0.0);
 
+  # setup property nodes for the loop
+  foreach(var name; keys(input)) {
+      input[name] = props.globals.getNode(input[name], 1);
+  }
+
   screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.0, 0.0);
 
   # start chronometer loop
@@ -599,11 +631,16 @@ var beacon_switch = props.globals.getNode("controls/switches/beacon", 2);
 setprop("controls/switches/beacon", 1);
 var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
 
+############ blinkers ####################
+
+aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2], "controls/electric/battery-switch");
+aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1], "controls/electric/battery-switch");
+
 ############# workaround for removing default HUD   ##############
 
-setlistener("/sim/current-view/view-number", func(n) {
-        setprop("/sim/hud/visibility[1]", !n.getValue());
-}, 1, 0);
+#setlistener("/sim/current-view/view-number", func(n) {
+#        setprop("/sim/hud/visibility[1]", !n.getValue());
+#}, 1, 0);
 
 ###################### autostart ########################
 

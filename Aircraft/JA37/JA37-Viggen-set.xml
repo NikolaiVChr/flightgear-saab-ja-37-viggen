@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.64</aircraft-version>
+    <aircraft-version>2.65</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -805,14 +805,14 @@
         <serviceable/>
       </canopy>
       <yaw-damper-enable type="bool">true</yaw-damper-enable>
-      <flap-pos-cmd/>
-      <flaps-serviceable/>
-      <elevator-serviceable/>
-      <aileron-serviceable/>
+      <flap-pos-cmd type="double"/>
+      <flaps-serviceable type="bool" alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
+      <elevator-serviceable type="bool" alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
+      <aileron-serviceable type="bool" alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
       <hook-engage/>
     </fcs>
     <gear>
-      <serviceable type="bool">true</serviceable>
+      <serviceable type="bool" alias="/gear/serviceable"/>
     </gear>
     <ground>
       <carrier-near type="bool">false</carrier-near>
@@ -900,6 +900,9 @@
     <lights-ext-switch type="bool">true</lights-ext-switch>
   </electric>
 </controls>
+<gear>
+  <serviceable type="bool">true</serviceable>
+</gear>
 <environment>
   <pressure-inhg type="double">30</pressure-inhg>
 </environment>
@@ -1413,7 +1416,7 @@
    <pos type="int">0</pos>
   </generator>
   <inst-light-knob>
-   <pos type="double" archive="y">0</pos>
+   <pos type="double" alias="/instrumentation/instrumentation-light/serviceable"/>
   </inst-light-knob>
  </switches>
  <transponder>

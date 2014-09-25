@@ -708,8 +708,8 @@ var HUDnasal = {
         gears:    "gear/gear/position-norm",
         combat:   "/sim/ja37/hud/combat",
         station:  "controls/armament/station-select",
-        tenHz:    "sim/ja37/blink/ten-Hz",
-        fiveHz:   "sim/ja37/blink/five-Hz",
+        tenHz:    "sim/ja37/blink/ten-Hz/state",
+        fiveHz:   "sim/ja37/blink/five-Hz/state",
         callsign: "/sim/ja37/hud/callsign",
         elec:     "/systems/electrical/outputs/hud",
         altCalibrated: "sim/ja37/avionics/altimeters-calibrated",
@@ -2010,26 +2010,6 @@ var toggleCallsign = func () {
     aircraft.HUD.normal_type();
   }
 };
-
-var blinker_five_hz = func() {
-  if(getprop("sim/ja37/blink/five-Hz") == FALSE) {
-    setprop("sim/ja37/blink/five-Hz", TRUE);
-  } else {
-    setprop("sim/ja37/blink/five-Hz", FALSE);
-  }
-  settimer(func blinker_five_hz(), 0.2);
-};
-settimer(func blinker_five_hz(), 0.2);
-
-var blinker_ten_hz = func() {
-  if(getprop("sim/ja37/blink/ten-Hz") == FALSE) {
-    setprop("sim/ja37/blink/ten-Hz", TRUE);
-  } else {
-    setprop("sim/ja37/blink/ten-Hz", FALSE);
-  }
-  settimer(func blinker_ten_hz(), 0.1);
-};
-settimer(func blinker_ten_hz(), 0.1);
 
 var nextTarget = func () {
   var max_index = size(tracks)-1;
