@@ -815,10 +815,12 @@ HUD: Pitch lines, tower indicators and radar tracks now auto adjust to user chan
 Model: Pilot view position is now reset to default every reset/startup.
 Sim: Changed some properties from generic to double.
 Effect: Made missile smoke be influenced by sun/moonlight. Will now be dark when scene is dark.
-Aero: Made upward elevator deflection table less liniar around 20000ft.
+Aero: Made upward elevator deflection table less linear around 20000ft.
 
 2.65
 ====
 Sim: Optimized how blinking indicators and HUD items is done.
 Sim: Performance optimized main loop.
 HUD: Made sidewind indicator blink when gear is retracting or deploying.
+HUD: Made flight path symbols slightly smaller.
+HUD: Extended the pitch lines a bit longer.

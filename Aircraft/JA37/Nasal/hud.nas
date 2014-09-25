@@ -57,7 +57,7 @@ var indicatorOffset = -10; #alt scale indicators horizontal offset from scale (m
 var headScalePlace = 300; # vert placement of alt scale
 var headScaleTickSpacing = 65;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 var altimeterScaleHeight = 225; # the height of the low alt scale. Also used in the other scales as a reference height.
-var reticle_factor = 1.5;# size of flight path indicator, aiming reticle, and out of fuel reticle
+var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and out of ammo reticle
 var sidewind_factor = 1.0;# size of sidewind indicator
 var r = 0.0;
 var g = 1.0;
@@ -451,7 +451,7 @@ var HUDnasal = {
   
     # pitch lines
     var distance = pixelPerDegreeY * 5;
-    for(var i = -18; i <= -1; i += 1) {
+    for(var i = -18; i <= -1; i += 1) { # stipled lines
       append(artifacts1, HUDnasal.main.horizon_group2.createChild("path")
                      .moveTo(200, -i * distance)
                      .horiz(50)
@@ -462,6 +462,8 @@ var HUDnasal = {
                      .moveTo(500, -i * distance)
                      .horiz(50)
                      .moveTo(600, -i * distance)
+                     .horiz(50)
+                     .moveTo(700, -i * distance)
                      .horiz(50)
 
                      .moveTo(-200, -i * distance)
@@ -474,23 +476,25 @@ var HUDnasal = {
                      .horiz(-50)
                      .moveTo(-600, -i * distance)
                      .horiz(-50)
+                     .moveTo(-700, -i * distance)
+                     .horiz(-50)
                      
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a));
     }
 
-    for(var i = 1; i <= 18; i += 1)
+    for(var i = 1; i <= 18; i += 1) # full drawn lines
       append(artifacts1, HUDnasal.main.horizon_group2.createChild("path")
-         .moveTo(650, -i * distance)
-         .horiz(-450)
+         .moveTo(750, -i * distance)
+         .horiz(-550)
 
-         .moveTo(-650, -i * distance)
-         .horiz(450)
+         .moveTo(-750, -i * distance)
+         .horiz(550)
          
          .setStrokeLineWidth(w)
          .setColor(r,g,b, a));
 
-    for(var i = -18; i <= 18; i += 1) {
+    for(var i = -18; i <= 18; i += 1) { # small vertical lines in combat mode
       append(artifacts1, HUDnasal.main.horizon_group3.createChild("path")
          .moveTo(-200, -i * distance)
          .vert(25)
