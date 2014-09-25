@@ -817,7 +817,7 @@ Sim: Changed some properties from generic to double.
 Effect: Made missile smoke be influenced by sun/moonlight. Will now be dark when scene is dark.
 Aero: Made upward elevator deflection table less linear around 20000ft.
 
-2.65
+2.65 - 2014 September 25
 ====
 Sim: Optimized how blinking indicators and HUD items is done.
 Sim: Performance optimized main loop.
