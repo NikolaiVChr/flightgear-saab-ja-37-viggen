@@ -1844,8 +1844,16 @@ var HUDnasal = {
       var angle = (wind_heading -heading) * (math.pi / 180.0); 
       var wind_side = math.sin(angle) * wind_speed;
       #print((wind_heading -heading) ~ " " ~ wind_side);
-      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);    
-      me.takeoff_symbol.show();
+      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
+      if(me.input.gears.getValue() < 1) {# gears are being deployed or retracted
+        if(me.input.tenHz.getValue() == 1) {
+          me.takeoff_symbol.show();
+        } else {
+          me.takeoff_symbol.hide();
+        }
+      } else {
+        me.takeoff_symbol.show();
+      }
     } else {
       me.takeoff_symbol.hide();
     }

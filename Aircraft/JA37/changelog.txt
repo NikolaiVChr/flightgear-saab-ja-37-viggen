@@ -821,3 +821,4 @@ Aero: Made upward elevator deflection table less liniar around 20000ft.
 ====
 Sim: Optimized how blinking indicators and HUD items is done.
 Sim: Performance optimized main loop.
+HUD: Made sidewind indicator blink when gear is retracting or deploying.
