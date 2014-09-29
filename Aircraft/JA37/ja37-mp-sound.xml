@@ -54,8 +54,8 @@
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>
@@ -91,8 +91,8 @@
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>
@@ -128,8 +128,8 @@
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>
@@ -174,7 +174,7 @@
    <max-dist>10000</max-dist>
    <position>
     <x>0.6</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>-0.37</z>
    </position>
    <orientation>
@@ -226,8 +226,8 @@
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>
@@ -276,8 +276,8 @@
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>

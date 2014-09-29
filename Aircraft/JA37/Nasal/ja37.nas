@@ -3,7 +3,6 @@
 var UPDATE_PERIOD = 0.1;
 
 var g_curr 	= props.globals.getNode("accelerations/pilot-gdamped", 1);
-var auto_gen=0;
 
 var prevGear0 = 1;
 var prevGear1 = 1;
@@ -11,6 +10,7 @@ var prevGear2 = 1;
 var touchdown1 = 0;
 var touchdown2 = 0;
 var total_fuel = 0;
+var bingoFuel = 0;
 ############### Main loop ###############
 
 input = {
@@ -114,6 +114,12 @@ var update_loop = func {
       input.fuelWarning.setValue(1);
     } else {
       input.fuelWarning.setValue(0);
+    }
+
+    if (current > 0 and input.tank8LvlNorm.getValue() > 0) {
+      bingoFuel = 0;
+    } else {
+      bingoFuel = 1;
     }
 
     ## control augmented thrust ##
@@ -370,6 +376,8 @@ var update_loop = func {
       if(touchdown1 == 1 and touchdown2 == 1) {
         if(gear0 == 1) {
           #print("Auto-reversing the thrust");
+          touchdown1 = 0;
+          touchdown2 = 0;
           reversethrust.togglereverser();
         }
       }
@@ -541,7 +549,11 @@ var main_init = func {
 
   test_support();
 
-  aircraft.data.add("sim/ja37/radar/enabled", "sim/ja37/hud/units-metric", "sim/ja37/hud/mode", "sim/ja37/hud/bank-indicator", "sim/ja37/autoReverseThrust");
+  aircraft.data.add("sim/ja37/radar/enabled",
+                    "sim/ja37/hud/units-metric",
+                    "sim/ja37/hud/mode",
+                    "sim/ja37/hud/bank-indicator",
+                    "sim/ja37/autoReverseThrust");
   aircraft.data.save();
 
   setprop("/consumables/fuel/tank[8]/jettisoned", 0);
@@ -647,91 +659,9 @@ aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1], "controls/electric/batte
 var autostarting = 0;
 var start_count = 0;
 
-# Opens fuel valve in autostart
-var waiting_n1 = func {
-  start_count += 1;
-  #print(start_count);
-  if (start_count > 45) {
-    gui.popupTip("Autostart failed. If you are not out of fuel, report bug to aircraft developer.");
-    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
-    setprop("/controls/engines/engine[0]/cutoff", 1);
-    setprop("/controls/engines/engine[0]/starter", 0);
-    setprop("/controls/electric/engine[0]/generator", 0);
-    setprop("/controls/electric/battery-switch", 0);
-    autostarting = 0;
-    auto_gen=0;
-  } elsif (getprop("/engines/engine[0]/n1") > 5.0) {
-    if (getprop("/engines/engine[0]/n1") < 20) {
-      if (getprop("/controls/engines/engine[0]/cutoff") == 1) {
-        click();
-        setprop("/controls/engines/engine[0]/cutoff", 0);
-        if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
-          gui.popupTip("Engine igniting.");
-          settimer(waiting_n1, 0.5);
-        } else {
-          setprop("/controls/engines/engine[0]/starter", 0);
-          gui.popupTip("Engine not igniting. Aborting engine start.");
-          auto_gen=0;
-          autostarting = 0;
-        }
-      } else {
-        settimer(waiting_n1, 0.5);
-      }
-    }  elsif (getprop("/engines/engine[0]/n1") > 15) {
-      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
-      click();
-      setprop("controls/electric/engine[0]/generator", 1);
-      gui.popupTip("Generator on.");
-      settimer(final_engine, 0.5);
-    } else {
-      settimer(waiting_n1, 0.5);
-    }
-  } else {
-    settimer(waiting_n1, 0.5);
-  }
-}
-
-var final_engine = func () {
-  start_count += 1;
-  if (start_count > 70) {
-    gui.popupTip("Autostart failed. If you are not out of fuel and engine has not failed, report bug to aircraft developer.");
-    print("Autostart failed in final phase. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" auto-gen="~auto_gen);
-    setprop("/controls/engines/engine[0]/cutoff", 1);
-    setprop("/controls/engines/engine[0]/starter", 0);
-    setprop("/controls/electric/engine[0]/generator", 0);
-    setprop("/controls/electric/battery-switch", 0);
-    autostarting = 0;
-    auto_gen=0;
-  } elsif (getprop("/engines/engine[0]/running") > 0) {
-    gui.popupTip("Engine ready.");
-    auto_gen=0;
-    autostarting = 0;    
-  } else {
-    settimer(final_engine, 0.5);
-  }
-}
-
-#Simulating autostart function
-var autostart = func {
-  setprop("/controls/electric/engine[0]/generator", 0);
-  if (getprop("controls/electric/engine[0]/generator") == 0) #getprop("/velocities/groundspeed-kt") < 1e-3 and
-  {
-    gui.popupTip("Starting engine.");
-    click();
-    setprop("/controls/engines/engine[0]/cutoff", 1);
-    setprop("/controls/engines/engine[0]/starter", 1);
-    auto_gen=1;
-    start_count = 0;
-    settimer(waiting_n1, 0.5);
-  } else {
-    gui.popupTip("Generator switch turned on. Engine restart aborted.");
-    autostarting = 0;
-  }
-}
-
 #Default 's' button will set starter to false, so will start delayed.
 var autostarttimer = func {
-  if (auto_gen==0 and autostarting == 0) {
+  if (autostarting == 0) {
     autostarting = 1;
     if (getprop("/engines/engine[0]/running") > 0) {
      gui.popupTip("Stopping engine. Turning off battery.");
@@ -747,12 +677,97 @@ var autostarttimer = func {
         setprop("/controls/electric/battery-switch", 1);
         click();
         gui.popupTip("Battery switch on. Check.");
-    	  settimer(autostart, 2);
+    	  settimer(autostart, 2, 1);
       } else {
         gui.popupTip("Engine not reacting. Consider ejecting yourself.");
         autostarting = 0;
       }
     }
+  }
+}
+
+#Simulating autostart function
+var autostart = func {
+  setprop("/controls/electric/engine[0]/generator", 0);
+  if (getprop("controls/electric/engine[0]/generator") == 0) {
+    gui.popupTip("Starting engine.");
+    click();
+    setprop("/controls/engines/engine[0]/cutoff", 1);
+    setprop("/controls/engines/engine[0]/starter", 1);
+    start_count = 0;
+    settimer(waiting_n1, 0.5, 1);
+  } else {
+    gui.popupTip("Generator switch turned on. Engine restart aborted.");
+    autostarting = 0;
+  }
+}
+
+# Opens fuel valve in autostart
+var waiting_n1 = func {
+  start_count += 1;
+  #print(start_count);
+  if (start_count > 45) {
+    if(bingoFuel == 0) {
+      gui.popupTip("Autostart failed. Report bug to aircraft developer.");
+    } else {
+      gui.popupTip("Engine start failed. Check fuel.");
+    }
+    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
+    setprop("/controls/engines/engine[0]/cutoff", 1);
+    setprop("/controls/engines/engine[0]/starter", 0);
+    setprop("/controls/electric/engine[0]/generator", 0);
+    setprop("/controls/electric/battery-switch", 0);
+    autostarting = 0;
+  } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
+    if (getprop("/engines/engine[0]/n1") < 20) {
+      if (getprop("/controls/engines/engine[0]/cutoff") == 1) {
+        click();
+        setprop("/controls/engines/engine[0]/cutoff", 0);
+        if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
+          gui.popupTip("Engine igniting.");
+          settimer(waiting_n1, 0.5, 1);
+        } else {
+          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
+          setprop("/controls/engines/engine[0]/starter", 0);
+          gui.popupTip("Engine not igniting. Aborting engine start.");
+          autostarting = 0;
+        }
+      } else {
+        settimer(waiting_n1, 0.5, 1);
+      }
+    }  elsif (getprop("/engines/engine[0]/n1") > 15) {
+      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch"));
+      click();
+      setprop("controls/electric/engine[0]/generator", 1);
+      gui.popupTip("Generator on.");
+      settimer(final_engine, 0.5, 1);
+    } else {
+      settimer(waiting_n1, 0.5, 1);
+    }
+  } else {
+    settimer(waiting_n1, 0.5, 1);
+  }
+}
+
+var final_engine = func () {
+  start_count += 1;
+  if (start_count > 70) {
+    if(bingoFuel == 0) {
+      gui.popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
+    } else {
+      gui.popupTip("Engine start failed. Check fuel.");
+    }    
+    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
+    setprop("/controls/engines/engine[0]/cutoff", 1);
+    setprop("/controls/engines/engine[0]/starter", 0);
+    setprop("/controls/electric/engine[0]/generator", 0);
+    setprop("/controls/electric/battery-switch", 0);
+    autostarting = 0;    
+  } elsif (getprop("/engines/engine[0]/running") > 0) {
+    gui.popupTip("Engine ready.");
+    autostarting = 0;    
+  } else {
+    settimer(final_engine, 0.5, 1);
   }
 }
 

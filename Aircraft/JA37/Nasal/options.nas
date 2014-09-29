@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 400;
+var DIALOG_HEIGHT = 425;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -234,6 +234,21 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.yawButton.setBinding("nasal", "ja37.Dialog.yawToggle()");
 
+          ######   Mouse optimized button   #####
+          var mouseRow = topRow.addChild("group");
+          mouseRow.set("layout", "hbox");
+          mouseRow.set("pref-height", 25);
+          mouseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var mouseText = mouseRow.addChild("text").set("label", "Optimize for mouse flying:");
+          mouseRow.addChild("empty").set("stretch", 1);
+          me.dialog.mouseButton = mouseRow.addChild("button");
+          me.dialog.mouseButton.set("halign", "right");
+          me.dialog.mouseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.mouseButton.setBinding("nasal", "ja37.Dialog.mouseToggle()");
+
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
           rb24msgRow.set("layout", "hbox");
@@ -364,6 +379,12 @@ var Dialog = {
       me.refreshButtons();
     },    
 
+    mouseToggle: func {
+      var enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
+      setprop("fdm/jsbsim/fcs/mouse-optimized", !enabled);
+      me.refreshButtons();
+    },    
+
     rb24msgToggle: func {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
@@ -457,7 +478,15 @@ var Dialog = {
       } else {
         legend = "Disabled";
       }
-      me.dialog.yawButton.node.setValues({"legend": legend});      
+      me.dialog.yawButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.mouseButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {

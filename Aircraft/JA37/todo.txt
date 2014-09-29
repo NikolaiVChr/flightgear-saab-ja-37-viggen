@@ -62,8 +62,8 @@ HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance
 Bugs:
 --------------
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
-Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable, was likely sim time speed-up]
-Sound: Occasional wierd buzz in external sounds. [reproduced]
+Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
+Sound: Occasional wierd buzz in external sounds. [reproduced, might be fixed]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.

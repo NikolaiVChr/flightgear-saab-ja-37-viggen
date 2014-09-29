@@ -112,6 +112,7 @@
         <default value="fcs/elevator-cmd-adjust-positive"/>
         <test logic="OR" value="fcs/elevator-cmd-adjust-negative">
           fcs/pitch-trim-sum lt 0
+          fcs/mouse-optimized == 1
         </test>
       </switch>
 

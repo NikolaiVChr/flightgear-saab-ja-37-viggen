@@ -824,3 +824,11 @@ Sim: Performance optimized main loop.
 HUD: Made sidewind indicator blink when gear is retracting or deploying.
 HUD: Made flight path symbols slightly smaller.
 HUD: Extended the pitch lines a bit longer.
+
+2.66 - 2014 September 29
+====
+Sound: Possible fix for strange noise artifacts in external engine sound.
+GUI: Made option for mouse optimized elevator control. It will act with more symmetrical deflection.
+Sim: Fixed auto-reversing would reverse after it was manually swithed off on the runway.
+Model: Lowered LOD for cockpit front panel to 5 meters.
+Sim: Modified autostart.

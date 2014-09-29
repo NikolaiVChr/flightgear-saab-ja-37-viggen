@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.65</aircraft-version>
+    <aircraft-version>2.66</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -809,6 +809,7 @@
       <flaps-serviceable type="bool" alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
       <elevator-serviceable type="bool" alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
       <aileron-serviceable type="bool" alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
+      <mouse-optimized type="bool">false</mouse-optimized>
       <hook-engage/>
     </fcs>
     <gear>
