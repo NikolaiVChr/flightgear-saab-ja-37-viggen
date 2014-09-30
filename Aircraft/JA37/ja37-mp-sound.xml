@@ -19,7 +19,7 @@
    <max-dist>30</max-dist>
    <position>
     <x>-1.0</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>0.195</z>
    </position>
    <pitch>
@@ -315,7 +315,7 @@
    <max-dist>500</max-dist>
    <position>
     <x>1.2</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>-0.6</z>
    </position>
    <volume>

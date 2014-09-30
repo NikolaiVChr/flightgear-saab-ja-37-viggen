@@ -832,3 +832,7 @@ GUI: Made option for mouse optimized elevator control. It will act with more sym
 Sim: Fixed auto-reversing would reverse after it was manually swithed off on the runway.
 Model: Lowered LOD for cockpit front panel to 5 meters.
 Sim: Modified autostart.
+
+2.67 - 2014 September 29
+====
+Sound: A couple of further fixes to sound.

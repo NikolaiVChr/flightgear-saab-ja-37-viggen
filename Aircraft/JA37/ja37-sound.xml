@@ -517,7 +517,7 @@
    <max-dist>10</max-dist>
    <position>
     <x>1.2</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>-0.6</z>
    </position>
    <volume>
@@ -552,9 +552,15 @@
    <name>touchdown squeal</name>
    <path>Sounds/squeal.wav</path>
    <condition>
-    <not>
-     <property>sim/current-view/internal</property>
-    </not>
+    <or>
+      <not>
+        <property>sim/current-view/internal</property>
+      </not>
+      <greater-than>
+        <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+        <value>0.0</value>
+      </greater-than>
+    </or>
     <or>
      <property>gear/gear[1]/wow</property>
      <property>gear/gear[2]/wow</property>
@@ -564,7 +570,7 @@
    <max-dist>500</max-dist>
    <position>
     <x>1.2</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>-0.6</z>
    </position>
    <volume>
@@ -845,7 +851,7 @@
      <position>
       <x>-1.0</x>
       <y>0.8</y>
-      <z>0.0</z>
+      <z>0.01</z>
      </position>
      <volume>
         <factor>.4</factor>
