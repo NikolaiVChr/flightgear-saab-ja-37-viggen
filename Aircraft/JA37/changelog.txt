@@ -836,3 +836,13 @@ Sim: Modified autostart.
 2.67 - 2014 September 29
 ====
 Sound: A couple of further fixes to sound.
+
+2.68 - 2014 November 11
+====
+Effect: Switched lightning off for wingtip vapour, since particles 'blink' in daylight.
+Aero: Much increased accuracy of side force coefficient due to sideslip, with and without gears and flaps deployed.
+Aero: Improved correctness and accuracy of side force coefficient due to assymetric detachment of fuselage vortices at extreme AoA.
+Aero: Increased precision of yaw coefficient due to roll speed.
+Aero: Yaw due to beta now has much better fidelity.
+Aero: Added coefficient: Yaw due asymmetric detachment of vortexes
+Aero: Increased rudder deflection by 50% at low altitudes.

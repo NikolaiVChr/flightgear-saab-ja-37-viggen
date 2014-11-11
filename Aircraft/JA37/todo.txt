@@ -39,6 +39,7 @@ Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
 Sim: Rename the type name in MP pilot list from ja37 to JA37-Viggen. JA37-Viggen-model.xml (for FG 3.4)
+Sim: Get flightrecorder to record position with higher frequency.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -46,6 +47,8 @@ Effect: Make tires burst if too high speed with parking brakes.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
+Effect: Make use of /environment/precipitation-control/clip-distance to get rain closer to windows.
+Effect: Make use of the new <rain-enabled>1</rain-enabled> to get rain splashing on wings.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
@@ -89,7 +92,6 @@ Issues with FG: (or my limited understanding of it)
 ---------------
 Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also.
-Sim: Get flightrecorder to record position with higher frequency.
 
 
 Compatible version with FG 2.6 (on hold, as it crashes when loading ja37)

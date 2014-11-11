@@ -4,7 +4,7 @@
    <texture>puff.png</texture>
  
    <emissive type="bool">false</emissive>
-   <lighting type="bool">true</lighting>
+   <lighting type="bool">false</lighting><!-- sadly have to be false, since the polygons are not double sided -->
  
    <condition>
      <and>
