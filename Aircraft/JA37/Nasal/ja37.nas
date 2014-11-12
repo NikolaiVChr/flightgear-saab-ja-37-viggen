@@ -524,7 +524,7 @@ var test_support = func {
       setprop("sim/ja37/supported/options", 0);
       setprop("sim/ja37/supported/old-custom-fails", 1);
     }
-  } elsif (version[0] == "3") {
+  } elsif (version[0] == "3" or version[0] == "4" or version[0] == "5" or version[0] == "6" or version[0] == "7") {
     setprop("sim/ja37/supported/options", 1);
     setprop("sim/ja37/supported/radar", 1);
     setprop("sim/ja37/supported/hud", 1);

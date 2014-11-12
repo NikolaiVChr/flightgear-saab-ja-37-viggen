@@ -39,7 +39,6 @@ Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
 Sim: Rename the type name in MP pilot list from ja37 to JA37-Viggen. JA37-Viggen-model.xml (for FG 3.4)
-Sim: Get flightrecorder to record position with higher frequency.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -47,8 +46,8 @@ Effect: Make tires burst if too high speed with parking brakes.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Effect: Make use of /environment/precipitation-control/clip-distance to get rain closer to windows.
-Effect: Make use of the new <rain-enabled>1</rain-enabled> to get rain splashing on wings.
+Effect: Make use of /environment/precipitation-control/clip-distance to get rain closer to windows. (for FG 3.4)
+Effect: Make use of the new <rain-enabled>1</rain-enabled> to get rain splashing on wings. (for FG 3.4)
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
 HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)

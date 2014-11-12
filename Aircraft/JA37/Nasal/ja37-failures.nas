@@ -54,20 +54,23 @@ var install_failures = func {
     #failures.setAllMTBF(86400);
 
   } else {
-    #print("installing new failures");
+    #print("installing new failures A");
     # put in 3.2+ failure handling code here
-    var _init = func {
-        removelistener(lsnr);
-        #_failmgr.init();
+    var lsnr = setlistener("sim/signals/fdm-initialized",
+        func {
+            if(getprop("sim/signals/fdm-initialized") == 1) {
+                #print("installing new failures B "~lsnr);
+                removelistener(lsnr);
+                #_failmgr.init();
 
-        # Load legacy failure modes for backwards compatibility
-        #io.load_nasal(getprop("/sim/fg-root") ~
-        #              "/Aircraft/Generic/Systems/compat_failure_modes.nas");
+                # Load legacy failure modes for backwards compatibility
+                #io.load_nasal(getprop("/sim/fg-root") ~
+                #              "/Aircraft/Generic/Systems/compat_failure_modes.nas");
 
-        install_new_failures();
-    }
-
-    var lsnr = setlistener("sim/signals/fdm-initialized", _init, 0, 0);
+                install_new_failures();
+                #print("installing new failures C");
+            }
+        }, 0, 1);
     }
 }
 

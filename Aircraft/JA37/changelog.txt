@@ -843,6 +843,13 @@ Effect: Switched lightning off for wingtip vapour, since particles 'blink' in da
 Aero: Much increased accuracy of side force coefficient due to sideslip, with and without gears and flaps deployed.
 Aero: Improved correctness and accuracy of side force coefficient due to assymetric detachment of fuselage vortices at extreme AoA.
 Aero: Increased precision of yaw coefficient due to roll speed.
-Aero: Yaw due to beta now has much better fidelity.
+Aero: Yaw due to beta with and without gears and flaps now has much better fidelity.
 Aero: Added coefficient: Yaw due asymmetric detachment of vortexes
 Aero: Increased rudder deflection by 50% at low altitudes.
+
+2.69
+====
+Sim: Flight recorder will now record the last 5 mins at high resolution, instead of the default 1 minute.
+Aero: Added Side Force coefficient due to Sideslip due to drop tank.
+Aero: Fixed that droptank mass change had not been propegated to the aerodynamic section, so the droptank effects was half.
+Sim: Fixed a bug that would make the failure system for gear locking mechanisms fail to install.

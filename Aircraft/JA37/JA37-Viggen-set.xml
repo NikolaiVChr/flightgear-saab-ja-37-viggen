@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.68</aircraft-version>
+    <aircraft-version>2.69</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -739,6 +739,9 @@
         <options type="bool">false</options>
         <initialized type="bool">false</initialized>
       </supported>
+      <failures>
+        <installed type="bool">false</installed>
+      </failures>
       <radar>
         <selectedMP type="int">-1</selectedMP>
         <selected type="int">-1</selected>
@@ -789,6 +792,15 @@
         <altimeters-calibrated type="bool">0</altimeters-calibrated>
       </avionics>
     </ja37>
+    <replay>
+      <buffer>
+        <high-res-time type="double">300</high-res-time>              <!-- default:   60 -->
+        <medium-res-time type="double">1200</medium-res-time>         <!-- default:  600 -->
+        <low-res-time type="double">3600</low-res-time>               <!-- default: 3600 -->
+        <medium-res-sample-dt type="double">0.5</medium-res-sample-dt><!-- default:  0.5 -->
+        <low-res-sample-dt type="double">5</low-res-sample-dt>        <!-- default:    5 -->
+      </buffer>
+    </replay>
     <carrier>
       <enabled type="bool">false</enabled>
       <heading-deg>0</heading-deg>
