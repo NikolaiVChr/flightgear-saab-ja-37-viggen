@@ -430,7 +430,14 @@ var update_loop = func {
       input.warn.setValue(0);
     }
 
-    
+    # calc pilot g-force
+    #TODO: move this into its own loop that update faster
+    var GCurrent = getprop("/accelerations/pilot/z-accel-fps_sec");
+    var gravity = getprop("/fdm/jsbsim/accelerations/gravity-ft_sec2");
+    if (GCurrent != nil and gravity != nil) {
+      GCurrent = - GCurrent / gravity;
+      setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
+    }
 
 
     settimer(
@@ -813,8 +820,8 @@ var toggleHook = func {
 
 var toggleNosewheelSteer = func {
   ja37.click();
-  var enabled = getprop("fdm/jsbsim/systems/nose-wheel-steer/enable");
-  setprop("fdm/jsbsim/systems/nose-wheel-steer/enable", !enabled);
+  var enabled = getprop("fdm/jsbsim/systems/nose-wheel-steering/enable");
+  setprop("fdm/jsbsim/systems/nose-wheel-steering/enable", !enabled);
   if(enabled == 0) {
     gui.popupTip("Nose Wheel Steering: ON", 1.5);
   } else {

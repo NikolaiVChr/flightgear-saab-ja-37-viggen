@@ -19,7 +19,7 @@
 	         	<command>set-tooltip</command>
 	         	<tooltip-id>switch-nosewheelsteer</tooltip-id>
 	         	<label>Nose-wheel steering</label>
-	         	<property>fdm/jsbsim/systems/nose-wheel-steer/enable</property>
+	         	<property>fdm/jsbsim/systems/nose-wheel-steering/enable</property>
 	        </binding>
 	    </hovered>
 	</animation>
@@ -27,7 +27,7 @@
 	<animation>
 		<type>rotate</type>
 		<object-name>Switch</object-name>
-		<property>fdm/jsbsim/systems/nose-wheel-steer/enable</property>
+		<property>fdm/jsbsim/systems/nose-wheel-steering/enable</property>
 		<factor>-70</factor>
 		<offset-deg>35</offset-deg>
 		<center>

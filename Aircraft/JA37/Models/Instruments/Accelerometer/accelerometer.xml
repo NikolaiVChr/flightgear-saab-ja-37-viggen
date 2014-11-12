@@ -15,8 +15,8 @@
        <binding>
          <command>set-tooltip</command>
          <tooltip-id>accelerometer</tooltip-id>
-         <label>Pulling %3dG</label>
-         <property>accelerations/pilot-gdamped</property>
+         <label>Pulling %2.1fG</label>
+         <property>sim/ja37/accelerations/pilot-G</property>
       </binding>
    </hovered>
  </animation>
@@ -30,7 +30,7 @@
         <value>23</value>
       </greater-than>
     </condition>
-    <property>accelerations/pilot-gdamped</property>
+    <property>sim/ja37/accelerations/pilot-G</property>
     <interpolation>
       <entry><ind>-2</ind><dep>45</dep></entry>
       <entry><ind>-1</ind><dep>67.5</dep></entry>

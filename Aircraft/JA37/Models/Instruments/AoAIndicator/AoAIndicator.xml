@@ -40,8 +40,8 @@
   </condition>
   <property>orientation/alpha-deg</property>
   <interpolation>
-    <entry><ind>-7</ind><dep>-49</dep></entry>
-    <entry><ind>30</ind><dep>236</dep></entry>
+    <entry><ind>-7</ind><dep>-55</dep></entry>
+    <entry><ind>30</ind><dep>250</dep></entry>
   </interpolation>
     <center>
       <x-m>0</x-m>

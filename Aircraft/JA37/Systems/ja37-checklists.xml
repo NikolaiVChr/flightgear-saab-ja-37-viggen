@@ -246,7 +246,7 @@
       </marker>
       <condition>
           <equals>
-            <property>fdm/jsbsim/systems/nose-wheel-steer/enable</property>
+            <property>fdm/jsbsim/systems/nose-wheel-steering/enable</property>
             <value>1</value>
           </equals>
       </condition>

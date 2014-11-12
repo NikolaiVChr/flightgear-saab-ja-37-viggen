@@ -378,7 +378,7 @@
      <scheduled_gain name="Steering control">
       <input>fcs/steer-cmd-delayed</input>
       <table>
-        <independentVar lookup="row">systems/nose-wheel-steer/enable</independentVar>
+        <independentVar lookup="row">systems/nose-wheel-steering/enable</independentVar>
          <tableData>
             0     0
             1     1

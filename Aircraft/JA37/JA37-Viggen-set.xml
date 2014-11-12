@@ -731,6 +731,9 @@
 
 *************************************************************************--> 
     <ja37>
+      <accelerations>
+        <pilot-G type="double">1.0</pilot-G>
+      </accelerations>
       <autoReverseThrust userarchive="y" type="bool">false</autoReverseThrust>
       <supported>
         <old-custom-fails type="bool">false</old-custom-fails>
@@ -840,9 +843,9 @@
       <launchbar_free>
         <lock-cmd type="bool">false</lock-cmd>
       </launchbar_free>
-      <nose-wheel-steer>
+      <nose-wheel-steering>
         <enable type="bool">true</enable>
-      </nose-wheel-steer>
+      </nose-wheel-steering>
       <flapscontrol>
         <serviceable/>
       </flapscontrol>
