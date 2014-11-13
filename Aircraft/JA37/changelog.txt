@@ -847,13 +847,19 @@ Aero: Yaw due to beta with and without gears and flaps now has much better fidel
 Aero: Added coefficient: Yaw due asymmetric detachment of vortexes
 Aero: Increased rudder deflection by 50% at low altitudes.
 
-2.69
+2.69 - 2014 November 13
 ====
 Sim: Flight recorder will now record the last 5 mins at high resolution, instead of the default 1 minute.
 Aero: Added Side Force coefficient due to Sideslip due to drop tank.
 Aero: Fixed that droptank mass change had not been propagated to the aerodynamic section, so the droptank effects was half.
 Sim: Fixed a bug that would make the failure system for gear locking mechanisms fail to install.
-Model: Fixed that the angle of attack indicator was sligtly off. Notice it wont go past -7/30 degrees.
+Model: Fixed that the angle of attack indicator was slightly off. Notice it wont go past -7/30 degrees.
 Model: The accelerometer will now still work even if red/blackout is disabled.
 GUI: Angle of attack and G-Force has been added to the performance monitor.
 Model: The accelerometer tooltip will now display with 1 floating point precision.
+
+2.70
+====
+Aero: Axial coefficients of RB-24J and drop tank estimated at 0.00075 and 0.00125.
+Aero: Roll damp due to roll rate now depends also on sideslip angle.
+Aero: Added how sideslip angle influence yaw due to roll speed.

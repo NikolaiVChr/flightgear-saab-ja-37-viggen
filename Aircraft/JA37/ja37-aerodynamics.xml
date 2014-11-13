@@ -274,6 +274,121 @@
         </product>
      </function>
 
+     <function name="aero/coefficient/CAMissile1">
+        <description>
+           Missile 1 axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">inertia/pointmass-weight-lbs[1]</independentVar>
+              <tableData>
+                        0       188
+                -180  0.000   -0.00075
+                 -90  0.000    0.00000
+                   0  0.000    0.00075
+                  90  0.000    0.00000
+                 180  0.000   -0.00075
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+     <function name="aero/coefficient/CAMissile2">
+        <description>
+           Missile 2 axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">inertia/pointmass-weight-lbs[2]</independentVar>
+              <tableData>
+                        0       188
+                -180  0.000   -0.00075
+                 -90  0.000    0.00000
+                   0  0.000    0.00075
+                  90  0.000    0.00000
+                 180  0.000   -0.00075
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+     <function name="aero/coefficient/CAMissile3">
+        <description>
+           Missile 3 axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">inertia/pointmass-weight-lbs[3]</independentVar>
+              <tableData>
+                        0       188
+                -180  0.000   -0.00075
+                 -90  0.000    0.00000
+                   0  0.000    0.00075
+                  90  0.000    0.00000
+                 180  0.000   -0.00075
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+     <function name="aero/coefficient/CAMissile4">
+        <description>
+           Missile 4 axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">inertia/pointmass-weight-lbs[4]</independentVar>
+              <tableData>
+                        0       188
+                -180  0.000   -0.00075
+                 -90  0.000    0.00000
+                   0  0.000    0.00075
+                  90  0.000    0.00000
+                 180  0.000   -0.00075
+              </tableData>
+           </table>
+        </product>
+     </function>          
+
+     <function name="aero/coefficient/CATank">
+        <description>
+           Drop tank axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
+              <tableData>
+                        0       224.87
+                -180  0.000   -0.00125
+                 -90  0.000    0.00000
+                   0  0.000    0.00125
+                  90  0.000    0.00000
+                 180  0.000   -0.00125
+              </tableData>
+           </table>
+        </product>
+     </function>
+
      <!-- from graph 29e page 43 [measured using graph analyser] (untrustworthy due to being be example from any plane, hence the factor) -->
      <function name="aero/coefficient/CA">
         <description>
@@ -481,7 +596,7 @@
     <!-- from Component force graph 86a page 105 -->
     <function name="aero/coefficient/Cyzero">
       <description>
-         Side Force coefficient due to assymetric detachment of fuselage vortices
+         Side Force coefficient due to asymmetric detachment of fuselage vortices
       </description>
       <product>
          <property>aero/qbar-psf</property>
@@ -594,7 +709,7 @@
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
                     <tableData>
-                               0.0      224.87
+                                 0.0    224.87
                           0.0    0.0     -0.01
                           3.0    0.0     -0.01
                           9.0    0.0      0.0
@@ -620,14 +735,43 @@
            <property>velocities/p-rad_sec</property>
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
-             <tableData>
-                -40.0  -0.15    
-                 -5.0  -0.275
-                  0.0  -0.25
-                  5.0  -0.275
-                 50.0  -0.1
-                 60.0  -0.2
-                 70.0  -0.23
+             <independentVar lookup="column">aero/beta-deg</independentVar>
+             <tableData><!-- [measured using graph analyser] -->
+                                  -10        0         10
+                -46.3572       -0.154623  -0.154975  -0.154623
+                -44.4592       -0.159781  -0.159673  -0.159781
+                -37.6517       -0.164750  -0.177522  -0.164750
+                -30.0431       -0.177574  -0.200929  -0.177574
+                -23.5490       -0.201362  -0.224275  -0.201362
+                -18.9627       -0.224585  -0.242004  -0.224585
+                -14.5642       -0.250555  -0.261552  -0.250555
+                -12.7661       -0.259842  -0.265330  -0.259842
+                -11.1329       -0.261310  -0.266340  -0.261310
+                 -9.76944      -0.261386  -0.264581  -0.261386
+                 -8.95334      -0.262349  -0.262783  -0.262349
+                 -4.46660      -0.247436  -0.247404  -0.247436
+                 -0.909666     -0.242119  -0.242078  -0.242119
+                  1.98619      -0.248251  -0.248674  -0.248251
+                  4.32971      -0.257569  -0.257998  -0.257569
+                  6.67323      -0.266886  -0.267323  -0.266886
+                  9.21045      -0.270701  -0.271141  -0.270701
+                 11.7616       -0.268086  -0.268523  -0.268086
+                 13.4057       -0.264501  -0.264936  -0.264501
+                 18.4371       -0.207811  -0.228430  -0.207811
+                 23.2561       -0.165352  -0.197442  -0.165352
+                 29.5115       -0.131241  -0.164674  -0.131241
+                 36.8310       -0.109592  -0.133816  -0.109592
+                 42.6673       -0.101185  -0.114829  -0.101185
+                 46.6688       -0.100487  -0.104936  -0.100487
+                 49.0272       -0.102914  -0.103228  -0.102914
+                 51.3806       -0.107638  -0.107955  -0.107638
+                 52.9960       -0.117375  -0.117240  -0.117375
+                 53.5986       -0.133028  -0.133829  -0.133028
+                 54.4728       -0.149156  -0.150428  -0.149156
+                 57.2312       -0.176872  -0.177241  -0.176872
+                 59.1952       -0.193519  -0.193901  -0.193519
+                 61.5348       -0.204674  -0.205064  -0.204674
+                 64.9651       -0.215889  -0.216288  -0.215889
             </tableData>
            </table>
            <table>
@@ -1089,7 +1233,7 @@
     <!-- from graph 88b page 109-->
     <function name="aero/coefficient/Cnzero">
        <description>
-                       Yaw due asymmetric detachment of vortexes
+                       Yaw due to asymmetric detachment of vortexes
        </description>
        <product>
            <property>aero/qbar-psf</property>
@@ -1134,52 +1278,42 @@
            <property>velocities/p-rad_sec</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">aero/beta-deg</independentVar>
               <tableData><!-- [measured using graph analyser] -->
-                 -49.986       0.000
-                 -46.540       0.022
-                 -45.535       0.034
-                 -44.636       0.063
-                 -41.209       0.177
-                 -40.360       0.191
-                 -39.208       0.199
-                 -37.414       0.206
-                 -35.146       0.210
-                 -32.578       0.207
-                 -29.866       0.199
-                 -27.004       0.188
-                 -24.303       0.177
-                 -22.879       0.169
-                 -18.457       0.142
-                 -14.198       0.114
-                 -9.313        0.081
-                 -6.012        0.056
-                 -2.706        0.033
-                  0.000        0.000
-                  6.574       -0.036
-                  10.352      -0.063
-                  13.822      -0.085
-                  18.403      -0.113
-                  23.302      -0.142
-                  27.105      -0.161
-                  30.911      -0.179
-                  33.618      -0.189
-                  36.027      -0.191
-                  38.457      -0.186
-                  39.609      -0.179
-                  40.455      -0.166
-                  40.997      -0.148
-                  42.055      -0.119
-                  42.766      -0.099
-                  43.485      -0.075
-                  44.543      -0.047
-                  45.248      -0.028
-                  46.744      -0.013
-                  48.710      -0.003
-                  50.497      -0.002
-                  52.271      -0.003
-                  53.868      -0.001
-                  55.294      -0.008
-                  59.864      -0.040
+                                  -10          0              10
+                  -50.459         0.003      0.003          0.003            
+                  -49.162         0.006      0.006          0.006            
+                  -46.376         0.024      0.023          0.024            
+                  -45.705         0.032      0.033          0.032            
+                  -40.926         0.152      0.183          0.152            
+                  -39.923         0.175      0.196          0.175            
+                  -37.801         0.182      0.206          0.182            
+                  -35.054         0.185      0.210          0.185            
+                  -33.608         0.183      0.210          0.183            
+                  -29.299         0.168      0.197          0.168            
+                  -24.528         0.149      0.178          0.149            
+                  -19.940         0.125      0.151          0.125            
+                   -4.796         0.038      0.047          0.038            
+                    0.000         0.000      0.000          0.000            
+                    5.293        -0.015     -0.026         -0.015            
+                   10.016        -0.037     -0.061         -0.037            
+                   18.232        -0.068     -0.113         -0.068            
+                   24.409        -0.087     -0.147         -0.087            
+                   30.118        -0.103     -0.176         -0.103            
+                   32.823        -0.110     -0.187         -0.110            
+                   34.741        -0.115     -0.191         -0.115            
+                   37.157        -0.115     -0.190         -0.115            
+                   38.946        -0.111     -0.183         -0.111            
+                   39.934        -0.107     -0.176         -0.107            
+                   42.199        -0.092     -0.116         -0.092            
+                   44.850        -0.034     -0.034         -0.034
+                   46.184        -0.018     -0.018         -0.018                  
+                   47.826        -0.006     -0.006         -0.006                  
+                   49.616        -0.001     -0.001         -0.001            
+                   51.554        -0.001     -0.001         -0.001            
+                   53.308        -0.002     -0.002         -0.002            
+                   54.897        -0.009     -0.009         -0.009            
+                   59.794        -0.041     -0.041         -0.041            
               </tableData>
            </table>
         </product>
