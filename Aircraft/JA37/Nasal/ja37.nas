@@ -2,7 +2,6 @@
 
 var UPDATE_PERIOD = 0.1;
 
-var g_curr 	= props.globals.getNode("accelerations/pilot-gdamped", 1);
 
 var prevGear0 = 1;
 var prevGear1 = 1;
@@ -430,22 +429,23 @@ var update_loop = func {
       input.warn.setValue(0);
     }
 
-    # calc pilot g-force
-    #TODO: move this into its own loop that update faster
-    var GCurrent = getprop("/accelerations/pilot/z-accel-fps_sec");
-    var gravity = getprop("/fdm/jsbsim/accelerations/gravity-ft_sec2");
-    if (GCurrent != nil and gravity != nil) {
-      GCurrent = - GCurrent / gravity;
-      setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
-    }
-
-
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
         #)
     , UPDATE_PERIOD);
   }
+}
+
+var gForce_loop = func () {
+  # calc pilot g-force
+  var GCurrent = getprop("/accelerations/pilot/z-accel-fps_sec");
+  var gravity = getprop("/fdm/jsbsim/accelerations/gravity-ft_sec2");
+  if (GCurrent != nil and gravity != nil) {
+    GCurrent = - GCurrent / gravity;
+    setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
+  }
+  settimer(gForce_loop, 0.05);
 }
 
 
@@ -596,6 +596,9 @@ var main_init = func {
 
   # start chronometer loop
   chrono_loop();
+
+  # start G-force loop
+  gForce_loop();
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);

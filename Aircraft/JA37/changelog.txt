@@ -856,3 +856,4 @@ Sim: Fixed a bug that would make the failure system for gear locking mechanisms 
 Model: Fixed that the angle of attack indicator was sligtly off. Notice it wont go past -7/30 degrees.
 Model: The accelerometer will now still work even if red/blackout is disabled.
 GUI: Angle of attack and G-Force has been added to the performance monitor.
+Model: The accelerometer tooltip will now display with 1 floating point precision.
