@@ -858,8 +858,9 @@ Model: The accelerometer will now still work even if red/blackout is disabled.
 GUI: Angle of attack and G-Force has been added to the performance monitor.
 Model: The accelerometer tooltip will now display with 1 floating point precision.
 
-2.70
+2.70 - 2014 November 13
 ====
 Aero: Axial coefficients of RB-24J and drop tank estimated at 0.00075 and 0.00125.
 Aero: Roll damp due to roll rate now depends also on sideslip angle.
 Aero: Added how sideslip angle influence yaw due to roll speed.
+Aero: Yaw due to asymmetric wing pylon stores is now calculated.

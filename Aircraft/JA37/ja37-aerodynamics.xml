@@ -1165,6 +1165,28 @@
 
 <!-- ADD: 133,110b  115, 92a   109, 88c-->
 
+     <function name="aero/function/CAMissile">
+        <description>
+           Axial force of asymmetric pylon stores.
+           Function is used to calculate yaw due to asymmetric stores under wings.
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <tableData>
+                -180  -0.00075
+                 -90   0.00000
+                   0   0.00075
+                  90   0.00000
+                 180  -0.00075
+              </tableData>
+           </table>
+        </product>
+     </function>
+
     <axis name="YAW">
       <!-- from graph 88b page 109-->
       <function name="aero/coefficient/Cnb">
@@ -1389,6 +1411,19 @@
                 15.0     0.0        -0.01
             </tableData>
           </table>
+       </product>
+    </function>
+
+    <function name="aero/coefficient/CnMissile">
+       <description>
+                      Yaw due asymmetric stores on wing pylons
+       </description>
+       <product>
+           <!-- Axial force of single missile times length from center, gives yaw moment -->
+           <property>aero/function/CAMissile</property>
+           <property>inertia/asymmetric-wing-load</property>
+           <value>-2.70311</value><!-- negative length due to the way the above property works -->
+           <value>3.28084</value><!-- convert meter to feet -->
        </product>
     </function>
 
