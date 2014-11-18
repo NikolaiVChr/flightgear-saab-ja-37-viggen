@@ -355,7 +355,7 @@
       <z-offset-m type="double">-3.40</z-offset-m>
     </current-view>
 
-    <view>
+    <view n="0">
      <internal>true</internal>
      <config>
        <pitch-offset-deg type="double">-15</pitch-offset-deg>
@@ -365,7 +365,53 @@
        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
      </config>
     </view>
-  
+    <!--<view n="100">
+      <name>Dashboard test View</name>
+      <type>lookfrom</type>
+      <internal>true</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <x-offset-m>0.0</x-offset-m>
+        <y-offset-m>0.50</y-offset-m>
+        <z-offset-m>-3.75</z-offset-m>
+        <default-field-of-view-deg>90</default-field-of-view-deg>
+        <limits>
+          <enabled type="bool">false</enabled>
+        </limits>
+      </config>
+    </view>-->
+    <view n="101">
+      <name>Left wing view</name>
+      <type>lookfrom</type>
+      <internal>false</internal>
+      <config>
+        <from-model type="bool">true</from-model>
+        <x-offset-m>-4.0</x-offset-m>
+        <y-offset-m>1.55</y-offset-m>
+        <z-offset-m>11.3</z-offset-m>
+        <default-field-of-view-deg>70</default-field-of-view-deg>
+        <limits>
+          <enabled type="bool">false</enabled>
+        </limits>
+      </config>
+    </view>
+    <!--<view n="102">           this plane too ugly to be seen from front :(
+      <name>Front view</name>
+      <type>lookfrom</type>
+      <internal>false</internal>
+      <config>
+        <pitch-offset-deg type="double">-25</pitch-offset-deg>
+        <heading-offset-deg type="double">180</heading-offset-deg>
+        <from-model type="bool">true</from-model>
+        <x-offset-m>0.0</x-offset-m>
+        <y-offset-m>5.35</y-offset-m>
+        <z-offset-m>-15.0</z-offset-m>
+        <default-field-of-view-deg>70</default-field-of-view-deg>
+        <limits>
+          <enabled type="bool">false</enabled>
+        </limits>
+      </config>
+    </view>  -->
   
   <!--**********************************************************************
 
@@ -856,6 +902,16 @@
     <aero>
       <factor-axial-mach type="double">1.0</factor-axial-mach>
       <factor-axial type="double">0.625</factor-axial>
+      <drag>
+        <!-- drags at alpha=0 - Notice fuselage is about 0.024 -->
+        <gear type="double">        0.020</gear>
+        <flaps type="double">       0.005</flaps><!-- full 30 degrees downward deflection -->
+        <missile type="double">     0.00075</missile>
+        <drop-tank type="double">   0.0015</drop-tank>
+        <canopy type="double">      0.020</canopy>
+        <elevon-left type="double"> 0.010</elevon-left><!-- full 40 degrees upward deflection -->
+        <elevon-right type="double">0.010</elevon-right><!-- full 40 degrees upward deflection -->
+      </drag>
     </aero>
     <inertia>
       <asymmetric-wing-load type="int">0</asymmetric-wing-load>

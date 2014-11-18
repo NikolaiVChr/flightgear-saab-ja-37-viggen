@@ -862,5 +862,13 @@ Model: The accelerometer tooltip will now display with 1 floating point precisio
 ====
 Aero: Axial coefficients of RB-24J and drop tank estimated at 0.00075 and 0.00125.
 Aero: Roll damp due to roll rate now depends also on sideslip angle.
-Aero: Added how sideslip angle influence yaw due to roll speed.
+Aero: Added how sideslip angle influences yaw due to roll speed.
 Aero: Yaw due to asymmetric wing pylon stores is now calculated.
+
+2.71
+====
+Aero: Pitch damping due to pitch rate and also pitch damping due to alpha dot is now more detailed.
+Aero: Roll due to beta dot table redone with higher fidelity.
+Model: Adjusted 4 switches and 1 button positions, to align better with the panel.
+Animation: Added a new view - Left wing.
+Aero: Added seperate elevon axial Coefficients.

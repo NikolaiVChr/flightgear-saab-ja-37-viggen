@@ -282,7 +282,7 @@
     <name>WarnButton</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.843</x-m>
+      <x-m> -3.845</x-m>
       <y-m> -0.1575</y-m>
       <z-m>  0.465</z-m>
     </offsets>
@@ -315,7 +315,7 @@
     <name>SwitchReverserAuto</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.8275</x-m>
+      <x-m> -3.84</x-m>
       <y-m> -0.305</y-m>
       <z-m>  0.385</z-m>
     </offsets>
@@ -326,7 +326,7 @@
     <name>SwitchReverser</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.8225</x-m>
+      <x-m> -3.8375</x-m>
       <y-m> -0.305</y-m>
       <z-m>  0.365</z-m>
     </offsets>
@@ -337,9 +337,9 @@
     <name>SwitchHudUnits</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.835</x-m>
+      <x-m> -3.8425</x-m>
       <y-m>  0.092</y-m>
-      <z-m>  0.3925</z-m>
+      <z-m>  0.3905</z-m>
     </offsets>
   </model>
 
@@ -348,9 +348,9 @@
     <name>SwitchMasterarm</name>
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.835</x-m>
+      <x-m> -3.8425</x-m>
       <y-m>  0.132</y-m>
-      <z-m>  0.3925</z-m>
+      <z-m>  0.3905</z-m>
     </offsets>
   </model>
 
@@ -370,7 +370,7 @@
     <name>SwitchDroptank</name>
     <offsets>
       <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.845</x-m>
+      <x-m> -3.849</x-m>
       <y-m>  0.25</y-m>
       <z-m>  0.43</z-m>
     </offsets>

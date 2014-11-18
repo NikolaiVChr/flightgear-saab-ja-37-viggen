@@ -121,7 +121,7 @@
      *********************************************************************************** -->
 
 
-<!-- from DATCOM -->
+  <!-- from DATCOM -->
   <function name="aero/function/ground-effect-factor-drag">
      <description>Change in drag due to ground effect</description>
      <product>
@@ -146,6 +146,7 @@
      </product>
   </function>
 
+  <!-- reverse engineered from performance values -->
   <function name="aero/function/mach-effect-prefactor">
      <description>Change in force due to mach effect</description>
      <sum>
@@ -190,41 +191,67 @@
     </sum>
   </function>-->
 
+  <!-- estimate -->
   <function name="aero/function/CAgear">
       <description>Axial_due_to_gear</description>
       <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>gear/gear-pos-norm</property>
+          <property>aero/drag/gear</property>
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-             -180  -0.020
-             -135   0
-              -45   0
-                0   0.020
-               45   0
-              135   0
-              180  -0.020
+                 -180  -1.00
+                 -165  -0.97
+                 -150  -0.87
+                 -120  -0.50
+                  -90   0.00
+                  -60   0.50
+                  -30   0.87
+                  -15   0.97
+                    0   1.00
+                   15   0.97
+                   30   0.87
+                   60   0.50
+                   90   0.00
+                  120  -0.50
+                  150  -0.87
+                  165  -0.97
+                  180  -1.00
               </tableData>
           </table>
       </product>
   </function>
 
+  <!-- estimate -->
   <function name="aero/function/CAflaps">
       <description>Axial due to flaps</description>
       <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>fcs/flap-pos-norm</property>
+          <property>aero/drag/flaps</property>
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-             -180  -0.025
-              -90   0
-                0   0.025
-               90   0
-              180  -0.025
+                 -180  -1.00
+                 -165  -0.97
+                 -150  -0.87
+                 -120  -0.50
+                  -90   0.00
+                  -60   0.50
+                  -30   0.87
+                  -15   0.97
+                    0   1.00
+                   15   0.97
+                   30   0.87
+                   60   0.50
+                   90   0.00
+                  120  -0.50
+                  150  -0.87
+                  165  -0.97
+                  180  -1.00
               </tableData>
           </table>
       </product>
@@ -252,6 +279,7 @@
         </product>
     </function>
 
+    <!-- estimate -->
     <function name="aero/coefficient/CACanopy">
         <description>
            Canopy axial Coefficient
@@ -261,19 +289,107 @@
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>fcs/canopy-pos-norm</property>
+           <property>aero/drag/canopy</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData>
-                -180 -0.015
-                 -90  0.000
-                   0  0.025
-                  90  0.000
-                 180 -0.015
+                 -180  -1.00
+                 -165  -0.97
+                 -150  -0.87
+                 -120  -0.50
+                  -90   0.00
+                  -60   0.50
+                  -30   0.87
+                  -15   0.97
+                    0   1.00
+                   15   0.97
+                   30   0.87
+                   60   0.50
+                   90   0.00
+                  120  -0.50
+                  150  -0.87
+                  165  -0.97
+                  180  -1.00
               </tableData>
            </table>
         </product>
      </function>
 
+    <!-- estimate -->
+    <function name="aero/coefficient/CAElevonLeft">
+        <description>
+           Left elevon axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/elevon-left</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">fcs/left-elevon-pos-rad</independentVar>
+              <tableData>
+                        -0.6981    0    0.6981  <!-- -40 to 35, set to -40 to 40 to set only 1 number -->
+                   -180  -1.00   0.0   -1.00
+                   -165  -0.97   0.0   -0.97
+                   -150  -0.87   0.0   -0.87
+                   -120  -0.50   0.0   -0.50
+                    -90   0.00   0.0    0.00
+                    -60   0.50   0.0    0.50
+                    -30   0.87   0.0    0.87
+                    -15   0.97   0.0    0.97
+                      0   1.00   0.0    1.00
+                     15   0.97   0.0    0.97 
+                     30   0.87   0.0    0.87
+                     60   0.50   0.0    0.50
+                     90   0.00   0.0    0.00
+                    120  -0.50   0.0   -0.50
+                    150  -0.87   0.0   -0.87
+                    165  -0.97   0.0   -0.97
+                    180  -1.00   0.0   -1.00
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+    <!-- estimate -->
+    <function name="aero/coefficient/CAElevonRight">
+        <description>
+           Right elevon axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/elevon-right</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">fcs/right-elevon-pos-rad</independentVar>
+              <tableData>
+                        -0.6981    0    0.6981  <!-- -40 to 35, set to -40 to 40 to set only 1 number -->
+                   -180  -1.00   0.0   -1.00
+                   -165  -0.97   0.0   -0.97
+                   -150  -0.87   0.0   -0.87
+                   -120  -0.50   0.0   -0.50
+                    -90   0.00   0.0    0.00
+                    -60   0.50   0.0    0.50
+                    -30   0.87   0.0    0.87
+                    -15   0.97   0.0    0.97
+                      0   1.00   0.0    1.00
+                     15   0.97   0.0    0.97 
+                     30   0.87   0.0    0.87
+                     60   0.50   0.0    0.50
+                     90   0.00   0.0    0.00
+                    120  -0.50   0.0   -0.50
+                    150  -0.87   0.0   -0.87
+                    165  -0.97   0.0   -0.97
+                    180  -1.00   0.0   -1.00
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+     <!-- estimate -->
      <function name="aero/coefficient/CAMissile1">
         <description>
            Missile 1 axial Coefficient
@@ -282,21 +398,35 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/missile</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <independentVar lookup="column">inertia/pointmass-weight-lbs[1]</independentVar>
               <tableData>
-                        0       188
-                -180  0.000   -0.00075
-                 -90  0.000    0.00000
-                   0  0.000    0.00075
-                  90  0.000    0.00000
-                 180  0.000   -0.00075
+                            0     188
+                   -180    0.0   -1.00
+                   -165    0.0   -0.97
+                   -150    0.0   -0.87
+                   -120    0.0   -0.50
+                    -90    0.0    0.00
+                    -60    0.0    0.50
+                    -30    0.0    0.87
+                    -15    0.0    0.97
+                      0    0.0    1.00
+                     15    0.0    0.97 
+                     30    0.0    0.87
+                     60    0.0    0.50
+                     90    0.0    0.00
+                    120    0.0   -0.50
+                    150    0.0   -0.87
+                    165    0.0   -0.97
+                    180    0.0   -1.00
               </tableData>
            </table>
         </product>
      </function>
 
+     <!-- estimate -->
      <function name="aero/coefficient/CAMissile2">
         <description>
            Missile 2 axial Coefficient
@@ -305,21 +435,35 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/missile</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <independentVar lookup="column">inertia/pointmass-weight-lbs[2]</independentVar>
               <tableData>
-                        0       188
-                -180  0.000   -0.00075
-                 -90  0.000    0.00000
-                   0  0.000    0.00075
-                  90  0.000    0.00000
-                 180  0.000   -0.00075
+                            0     188
+                   -180    0.0   -1.00
+                   -165    0.0   -0.97
+                   -150    0.0   -0.87
+                   -120    0.0   -0.50
+                    -90    0.0    0.00
+                    -60    0.0    0.50
+                    -30    0.0    0.87
+                    -15    0.0    0.97
+                      0    0.0    1.00
+                     15    0.0    0.97 
+                     30    0.0    0.87
+                     60    0.0    0.50
+                     90    0.0    0.00
+                    120    0.0   -0.50
+                    150    0.0   -0.87
+                    165    0.0   -0.97
+                    180    0.0   -1.00
               </tableData>
            </table>
         </product>
      </function>
 
+     <!-- estimate -->
      <function name="aero/coefficient/CAMissile3">
         <description>
            Missile 3 axial Coefficient
@@ -328,21 +472,35 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/missile</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <independentVar lookup="column">inertia/pointmass-weight-lbs[3]</independentVar>
               <tableData>
-                        0       188
-                -180  0.000   -0.00075
-                 -90  0.000    0.00000
-                   0  0.000    0.00075
-                  90  0.000    0.00000
-                 180  0.000   -0.00075
+                            0     188
+                   -180    0.0   -1.00
+                   -165    0.0   -0.97
+                   -150    0.0   -0.87
+                   -120    0.0   -0.50
+                    -90    0.0    0.00
+                    -60    0.0    0.50
+                    -30    0.0    0.87
+                    -15    0.0    0.97
+                      0    0.0    1.00
+                     15    0.0    0.97 
+                     30    0.0    0.87
+                     60    0.0    0.50
+                     90    0.0    0.00
+                    120    0.0   -0.50
+                    150    0.0   -0.87
+                    165    0.0   -0.97
+                    180    0.0   -1.00
               </tableData>
            </table>
         </product>
      </function>
 
+     <!-- estimate -->
      <function name="aero/coefficient/CAMissile4">
         <description>
            Missile 4 axial Coefficient
@@ -351,21 +509,35 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/missile</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <independentVar lookup="column">inertia/pointmass-weight-lbs[4]</independentVar>
               <tableData>
-                        0       188
-                -180  0.000   -0.00075
-                 -90  0.000    0.00000
-                   0  0.000    0.00075
-                  90  0.000    0.00000
-                 180  0.000   -0.00075
+                            0     188
+                   -180    0.0   -1.00
+                   -165    0.0   -0.97
+                   -150    0.0   -0.87
+                   -120    0.0   -0.50
+                    -90    0.0    0.00
+                    -60    0.0    0.50
+                    -30    0.0    0.87
+                    -15    0.0    0.97
+                      0    0.0    1.00
+                     15    0.0    0.97 
+                     30    0.0    0.87
+                     60    0.0    0.50
+                     90    0.0    0.00
+                    120    0.0   -0.50
+                    150    0.0   -0.87
+                    165    0.0   -0.97
+                    180    0.0   -1.00
               </tableData>
            </table>
         </product>
      </function>          
 
+     <!-- estimate -->
      <function name="aero/coefficient/CATank">
         <description>
            Drop tank axial Coefficient
@@ -374,16 +546,29 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/drop-tank</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
               <tableData>
-                        0       224.87
-                -180  0.000   -0.00125
-                 -90  0.000    0.00000
-                   0  0.000    0.00125
-                  90  0.000    0.00000
-                 180  0.000   -0.00125
+                            0    224.87
+                   -180    0.0   -1.00
+                   -165    0.0   -0.97
+                   -150    0.0   -0.87
+                   -120    0.0   -0.50
+                    -90    0.0    0.00
+                    -60    0.0    0.50
+                    -30    0.0    0.87
+                    -15    0.0    0.97
+                      0    0.0    1.00
+                     15    0.0    0.97 
+                     30    0.0    0.87
+                     60    0.0    0.50
+                     90    0.0    0.00
+                    120    0.0   -0.50
+                    150    0.0   -0.87
+                    165    0.0   -0.97
+                    180    0.0   -1.00
               </tableData>
            </table>
         </product>
@@ -657,14 +842,14 @@
      *********************************************************************************** -->
 
 
-<!-- ADD:   missiles symmetric: 129, 105a -->
+<!-- ADD:   bulky rb05 symmetric: 129, 105a -->
 
      <axis name="ROLL">
 
          <!-- from graph 103 on page 127 -->
          <function name="aero/coefficient/Clb">
             <description>
-               Roll damp due to beta
+                            Roll damp due to beta
             </description>
                 <product>
                  <property>aero/qbar-psf</property>
@@ -698,7 +883,7 @@
          <!-- from graph 104 page 128 -->
          <function name="aero/coefficient/Cltank">
             <description>
-               Roll damp due to drop tank
+                          Roll damp due to drop tank
             </description>
                 <product>
                  <property>aero/qbar-psf</property>
@@ -725,7 +910,7 @@
       <!-- from graph 111a page 134 -->
       <function name="aero/coefficient/Clp">
         <description>
-          Roll damp due to roll rate
+                        Roll damp due to roll rate
         </description>
         <product>
            <property>aero/qbar-psf</property>
@@ -785,7 +970,7 @@
     </function>
 
     <!-- from graph 115a page 137 -->
-<!--    <function name="aero/coefficient/Clr"> this conflict with Clb, so commented out
+<!--    <function name="aero/coefficient/Clr"> this conflict with Clb, so commented out. Together they produce NaN.
        <description>
          Roll due to yaw rate
        </description>
@@ -813,7 +998,7 @@
     <!-- from graph 115b page 137 -->
     <function name="aero/coefficient/Clbdot">
        <description>
-        Roll due to beta dot rate
+                      Roll due to beta dot rate
       </description>
        <product>
            <property>aero/qbar-psf</property>
@@ -821,24 +1006,45 @@
            <property>metrics/bw-ft</property>
            <property>aero/bi2vel</property>
            <property>aero/betadot-rad_sec</property>
-           <table>
+           <sum>
+            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
-             <tableData>
-                3.0    0.0
-               15.0   -0.05
-               20.0   -0.1
-               27.5   -0.2
-               40.0   -0.3
-               55.0    0.0
+             <tableData><!-- [measured using graph analyser] -->
+                  0.00000       0.00880462
+                  6.14085       -0.00414468
+                  9.45788       -0.00535599
+                  12.4749       -0.0196658
+                  15.3425       -0.0387801
+                  17.9105       -0.0643036
+                  19.8780       -0.0978452
+                  21.9957       -0.129782
+                  24.4151       -0.163310
+                  27.5896       -0.203216
+                  29.7039       -0.222353
+                  32.4217       -0.244672
+                  35.2893       -0.263786
+                  38.6098       -0.286087
+                  40.1180       -0.292442
+                  41.1727       -0.292410
+                  42.9801       -0.290756
+                  44.3335       -0.281115
+                  45.2340       -0.268288
+                  45.8328       -0.253870
+                  50.6071       -0.0777229
+                  52.5512       -0.0232635
+                  53.4504       -0.00563622
+                  56.4593       0.00880462               
             </tableData>
-          </table>
+            </table>
+            <value>-0.00880462</value><!-- small correction from when digitizing -->
+        </sum>
        </product>
     </function>
 
     <!-- from graph 106 page 130 -->
     <function name="aero/coefficient/Clpylon">
        <description>
-        Roll due to missile asymmetric loaded under wings
+                      Roll due to missile asymmetric loaded under wings
       </description>
        <product>
            <property>aero/qbar-psf</property>
@@ -857,7 +1063,7 @@
     </function>
 
     <!-- from graph 108a page 131 -->
-<!--    <function name="aero/coefficient/Claileronbeta"> this is already included in other coefficients
+<!--    <function name="aero/coefficient/Claileronbeta"> this should form a 3D table with Claileron
        <description>
         Roll due to beta and aileron
       </description>
@@ -883,7 +1089,7 @@
     <!-- from graph 108b page 131 -->
     <function name="aero/coefficient/Claileron">
        <description>
-        Roll due to aileron and elevator
+                      Roll due to aileron and elevator
       </description>
        <product>
           <property>aero/qbar-psf</property>
@@ -1090,7 +1296,9 @@
 
     <!-- from graph 62a page 79 -->
     <function name="aero/coefficient/Cmelevator">
-       <description>Pitch moment due to elevator</description>
+       <description>
+                      Pitch moment due to elevator
+       </description>
        <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
@@ -1112,7 +1320,9 @@
 
     <!-- from graph 66 page 83 -->
     <function name="aero/coefficient/Cmq">
-       <description>Pitch damping due to pitch rate</description>
+       <description>
+                    Pitch damping due to pitch rate
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
@@ -1121,16 +1331,67 @@
            <property>velocities/q-rad_sec</property>
            <table>
               <independentVar>aero/alpha-deg</independentVar>
-              <tableData>
-                  -60.0   -1.0
-                  -45.0   -0.5
-                  -20.0   -1.25 
-                    7.5   -1.25
-                   15.0   -1.0
-                   27.5   -1.4
-                   47.5   -0.3
-                   60.0   -0.8
-                   90.0   -0.9
+              <tableData><!-- [measured using graph analyser] -->
+                    -61.9610       -0.936245
+                    -57.7010       -0.838961
+                    -55.7957       -0.787515
+                    -54.1160       -0.719059
+                    -51.7634       -0.639130
+                    -49.7472       -0.564938
+                    -47.8408       -0.530537
+                    -46.0452       -0.518882
+                    -44.1367       -0.518572
+                    -42.1148       -0.535289
+                    -40.4286       -0.569107
+                    -37.7295       -0.642534
+                    -35.9299       -0.693379
+                    -32.8926       -0.789478
+                    -29.4050       -0.902550
+                    -26.4792       -1.01003
+                    -24.3414       -1.08355
+                    -21.6430       -1.14561
+                    -19.2825       -1.19068
+                    -16.3610       -1.22998
+                    -12.9919       -1.24648
+                    -10.9711       -1.24615
+                     -8.83762      -1.25149
+                     -6.47927      -1.26247
+                     -4.23390      -1.26211
+                     -1.87843      -1.22763
+                      0.366579     -1.22159
+                      5.53092      -1.22075
+                      7.88675      -1.19196
+                      9.34372      -1.15195
+                     10.6877       -1.10059
+                     12.2577       -1.07193
+                     13.9406       -1.05461
+                     15.6257       -1.07138
+                     17.0874       -1.10523
+                     18.3255       -1.15617
+                     19.4515       -1.20712
+                     20.6907       -1.27511
+                     22.1528       -1.31464
+                     23.8386       -1.34278
+                     25.5230       -1.34819
+                     27.4308       -1.33651
+                     29.4487       -1.29073
+                     30.9050       -1.23936
+                     34.3752       -1.07970
+                     35.9416       -0.994216
+                     37.6195       -0.897352
+                     45.2181       -0.333609
+                     46.5631       -0.299299
+                     47.9104       -0.299080
+                     49.3724       -0.338616
+                     50.9481       -0.400861
+                     55.6785       -0.638734
+                     59.5053       -0.791524
+                     62.0925       -0.870651
+                     64.5639       -0.892977
+                     67.9334       -0.915158
+                     71.5267       -0.925938
+                     75.6806       -0.925264
+                     79.3855       -0.924663
               </tableData>
           </table>
        </product>
@@ -1138,7 +1399,9 @@
 
     <!-- from graph 66 page 83 -->
     <function name="aero/coefficient/Cmadot">
-       <description>Pitch damping due to alpha dot rate</description>
+       <description>
+                    Pitch damping due to alpha dot rate
+       </description>
        <product>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
@@ -1148,11 +1411,21 @@
        <property>aero/alphadot-deg_sec</property>
            <table>
               <independentVar>aero/alpha-deg</independentVar>
-              <tableData>
-                  -40.0  -0.001 
-                  -20.0  -0.45     
-                   20.0  -0.45
-                   40.0  -0.001
+              <tableData><!-- [measured using graph analyser] -->
+                  -40.3523       -0.001000
+                  -34.8411       -0.159103
+                  -30.2302       -0.283356
+                  -25.8452       -0.384919
+                  -22.4729       -0.452554
+                  -20.5632       -0.469290
+                   18.7314       -0.474274
+                   20.8634       -0.456883
+                   23.6669       -0.405290
+                   25.7967       -0.353807
+                   29.9449       -0.262223
+                   33.1956       -0.182149
+                   37.4550       -0.073501
+                   40.4812       -0.001000
               </tableData>
           </table>
        </product>
