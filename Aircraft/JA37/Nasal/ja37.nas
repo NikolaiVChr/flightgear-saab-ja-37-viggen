@@ -445,6 +445,13 @@ var gForce_loop = func () {
     GCurrent = - GCurrent / gravity;
     setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
   }
+
+  if(getprop("sim/ja37/supported/landing-light") == 1 and getprop("systems/electrical/outputs/battery") > 24 and getprop("controls/electric/lights-land-switch") == 1 and getprop("sim/current-view/internal") == 1) {
+    setprop("sim/rendering/als-secondary-lights/use-landing-light", 1);
+  } else {
+    setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
+  }
+
   settimer(gForce_loop, 0.05);
 }
 
@@ -536,8 +543,14 @@ var test_support = func {
     setprop("sim/ja37/supported/radar", 1);
     setprop("sim/ja37/supported/hud", 1);
     setprop("sim/ja37/supported/old-custom-fails", 0);
+    setprop("sim/ja37/supported/landing-light", 1);
     if (version[1] == "0") {
       setprop("sim/ja37/supported/old-custom-fails", 1);
+      setprop("sim/ja37/supported/landing-light", 0);
+    }
+    if (version[1] == "2") {
+      setprop("sim/ja37/supported/old-custom-fails", 1);
+      setprop("sim/ja37/supported/landing-light", 0);
     }
   }
   setprop("sim/ja37/supported/initialized", 1);

@@ -3,6 +3,7 @@
     <name>ja37-glass-combined</name>
     <inherits-from>Effects/model-combined-transparent</inherits-from>
     <parameters>
+      <rain-enabled>1</rain-enabled>
       <normalmap-enabled type="int">0</normalmap-enabled>
       <lightmap-enabled type="int">0</lightmap-enabled>
 

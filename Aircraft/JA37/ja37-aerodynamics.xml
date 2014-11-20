@@ -265,6 +265,22 @@
     </product>
   </function>
 
+  <function name="aero/function/left-elevon-pos-rad-squared">
+    <description>Elevon left squared</description>
+    <product>
+      <property>fcs/left-elevon-pos-rad</property>
+      <property>fcs/left-elevon-pos-rad</property>
+    </product>
+  </function>
+
+  <function name="aero/function/right-elevon-pos-rad-squared">
+    <description>Elevon right squared</description>
+    <product>
+      <property>fcs/right-elevon-pos-rad</property>
+      <property>fcs/right-elevon-pos-rad</property>
+    </product>
+  </function>  
+
   <axis name="AXIAL">
     <function name="aero/coefficient/CAtakeoff">
         <description>
@@ -327,9 +343,9 @@
            <property>aero/drag/elevon-left</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">fcs/left-elevon-pos-rad</independentVar>
-              <tableData>
-                        -0.6981    0    0.6981  <!-- -40 to 35, set to -40 to 40 to set only 1 number -->
+              <independentVar lookup="column">aero/function/left-elevon-pos-rad-squared</independentVar>
+              <tableData><!-- using squared angle as described in document page 87 -->
+                        -0.4873    0    0.4873  <!-- -40 to 35, set to -40 to 40 to set only 1 number -->
                    -180  -1.00   0.0   -1.00
                    -165  -0.97   0.0   -0.97
                    -150  -0.87   0.0   -0.87
@@ -364,9 +380,9 @@
            <property>aero/drag/elevon-right</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">fcs/right-elevon-pos-rad</independentVar>
-              <tableData>
-                        -0.6981    0    0.6981  <!-- -40 to 35, set to -40 to 40 to set only 1 number -->
+              <independentVar lookup="column">aero/function/right-elevon-pos-rad-squared</independentVar>
+              <tableData><!-- using squared angle as described in document page 87 -->
+                        -0.4873    0    0.4873  <!-- -40 to 35, set to -40 to 40 to set only 1 number -->
                    -180  -1.00   0.0   -1.00
                    -165  -0.97   0.0   -0.97
                    -150  -0.87   0.0   -0.87

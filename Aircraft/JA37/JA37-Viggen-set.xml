@@ -786,6 +786,7 @@
         <hud type="bool">false</hud>
         <radar type="bool">false</radar>
         <options type="bool">false</options>
+        <landing-light type="bool">false</landing-light>
         <initialized type="bool">false</initialized>
       </supported>
       <failures>
@@ -970,12 +971,16 @@
   <electric>
     <battery-switch type="bool">false</battery-switch>
     <lights-ext-switch type="bool">true</lights-ext-switch>
+    <lights-land-switch type="bool">true</lights-land-switch>
   </electric>
 </controls>
 <gear>
   <serviceable type="bool">true</serviceable>
 </gear>
 <environment>
+  <precipitation-control>
+    <clip-distance type="double">1.75</clip-distance>
+  </precipitation-control>
   <pressure-inhg type="double">30</pressure-inhg>
 </environment>
 <autopilot>
