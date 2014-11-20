@@ -405,6 +405,43 @@
         </product>
      </function>
 
+    <!-- estimate -->
+    <function name="aero/coefficient/CARudder">
+        <description>
+           Rudder axial Coefficient
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/rudder</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">fcs/rudder-pos-norm</independentVar>
+              <tableData>
+                           -1     0      1  <!-- -25 to 25 degrees -->
+                   -180  -1.00   0.0   -1.00
+                   -165  -0.97   0.0   -0.97
+                   -150  -0.87   0.0   -0.87
+                   -120  -0.50   0.0   -0.50
+                    -90   0.00   0.0    0.00
+                    -60   0.50   0.0    0.50
+                    -30   0.87   0.0    0.87
+                    -15   0.97   0.0    0.97
+                      0   1.00   0.0    1.00
+                     15   0.97   0.0    0.97 
+                     30   0.87   0.0    0.87
+                     60   0.50   0.0    0.50
+                     90   0.00   0.0    0.00
+                    120  -0.50   0.0   -0.50
+                    150  -0.87   0.0   -0.87
+                    165  -0.97   0.0   -0.97
+                    180  -1.00   0.0   -1.00
+              </tableData>
+           </table>
+        </product>
+     </function>
+
      <!-- estimate -->
      <function name="aero/coefficient/CAMissile1">
         <description>

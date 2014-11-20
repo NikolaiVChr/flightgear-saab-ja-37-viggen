@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.71</aircraft-version>
+    <aircraft-version>2.72</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -904,14 +904,15 @@
       <factor-axial-mach type="double">1.0</factor-axial-mach>
       <factor-axial type="double">0.625</factor-axial>
       <drag>
-        <!-- drags at alpha=0 - Notice fuselage is about 0.024 -->
-        <gear type="double">        0.020</gear>
-        <flaps type="double">       0.005</flaps><!-- full 30 degrees downward deflection -->
+        <!-- drag - Notice fuselage is about 0.024 at alpha=0 -->
+        <gear type="double">        0.020</gear><!-- fully extended -->
+        <flaps type="double">       0.010</flaps><!-- full 30 degrees downward deflection of canard flaps -->
         <missile type="double">     0.00075</missile>
         <drop-tank type="double">   0.0015</drop-tank>
-        <canopy type="double">      0.020</canopy>
-        <elevon-left type="double"> 0.010</elevon-left><!-- full 40 degrees upward deflection -->
-        <elevon-right type="double">0.010</elevon-right><!-- full 40 degrees upward deflection -->
+        <canopy type="double">      0.020</canopy><!-- fully open -->
+        <rudder type="double">      0.010</rudder><!-- at full 25 degrees deflection -->
+        <elevon-left type="double"> 0.015</elevon-left><!-- full 40 degrees upward deflection -->
+        <elevon-right type="double">0.015</elevon-right><!-- full 40 degrees upward deflection -->
       </drag>
     </aero>
     <inertia>
