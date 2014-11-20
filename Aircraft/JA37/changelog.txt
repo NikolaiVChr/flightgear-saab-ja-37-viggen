@@ -865,7 +865,7 @@ Aero: Roll damp due to roll rate now depends also on sideslip angle.
 Aero: Added how sideslip angle influences yaw due to roll speed.
 Aero: Yaw due to asymmetric wing pylon stores is now calculated.
 
-2.71
+2.71 - 2014 November 20
 ====
 Aero: Pitch damping due to pitch rate and also pitch damping due to alpha dot is now more detailed.
 Aero: Roll due to beta dot table redone with higher fidelity.
