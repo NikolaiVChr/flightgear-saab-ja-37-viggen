@@ -876,7 +876,14 @@ Effect: Precipitation will now fall just outside the cockpit instead of 5 meters
 Effect: Enabled that rain will now form rain drops when hitting the fuselage. (only work in FG 3.3 or higher)
 Effect: Added landing light cone, seen from cockpit only. ALS must be on and landmass shader must be at minimum setting 5. (only work in FG 3.3 or higher)
 
-2.72
+2.72 - 2014 November 20
 ====
 Aero: Added axial coefficient for rudder deflection.
 Aero: Adjusted axial coefficient for flaps and elevons.
+
+2.73 - 2014 November 22
+====
+Animation: Added a new view - Right wing.
+Animation: Added a new view - Top.
+Animation: Added a new view - Front.
+Animation: Added a new view - Selection, it will look from above the airplane toward the selection.

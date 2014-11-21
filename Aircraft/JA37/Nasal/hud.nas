@@ -1693,6 +1693,7 @@ var HUDnasal = {
           if(selection == nil and pos_x != 90000) {
             #this is first tracks in radar field, so will be default target
             selection = hud_pos;
+            lookatSelection();
             me.selection_updated = TRUE;
           } elsif (selection != nil and selection[5].getChild("unique").getValue() == unique.getValue() and pos_x != 90000) {
             # this track is already selected, updating it
@@ -2032,7 +2033,15 @@ var nextTarget = func () {
       tracks_index = 0;
     }
     selection = tracks[tracks_index];
+    lookatSelection();
   } else {
     tracks_index = -1;
   }
+}
+
+var lookatSelection = func () {
+  props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).unalias();
+  props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).unalias();
+  props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).alias(selection[5].getNode("radar/bearing-deg"));
+  props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).alias(selection[5].getNode("radar/elevation-deg"));
 }

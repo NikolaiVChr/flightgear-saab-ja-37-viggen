@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.72</aircraft-version>
+    <aircraft-version>2.73</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -395,24 +395,97 @@
         </limits>
       </config>
     </view>
-    <!--<view n="102">           this plane too ugly to be seen from front :(
-      <name>Front view</name>
+    <view n="102">
+      <name>Right wing view</name>
       <type>lookfrom</type>
       <internal>false</internal>
       <config>
-        <pitch-offset-deg type="double">-25</pitch-offset-deg>
-        <heading-offset-deg type="double">180</heading-offset-deg>
         <from-model type="bool">true</from-model>
-        <x-offset-m>0.0</x-offset-m>
-        <y-offset-m>5.35</y-offset-m>
-        <z-offset-m>-15.0</z-offset-m>
+        <x-offset-m> 4.0</x-offset-m>
+        <y-offset-m>1.55</y-offset-m>
+        <z-offset-m>11.3</z-offset-m>
         <default-field-of-view-deg>70</default-field-of-view-deg>
         <limits>
           <enabled type="bool">false</enabled>
         </limits>
       </config>
-    </view>  -->
-  
+    </view>
+    <view n="103">
+      <name>Top view</name>
+      <type>lookfrom</type>
+      <internal>false</internal>
+      <config>
+        <pitch-offset-deg type="double">-90</pitch-offset-deg>
+        <from-model type="bool">true</from-model>
+        <x-offset-m>   0</x-offset-m>
+        <y-offset-m> 100</y-offset-m>
+        <z-offset-m>   1</z-offset-m>
+        <default-field-of-view-deg>25</default-field-of-view-deg>
+        <limits>
+          <enabled type="bool">false</enabled>
+        </limits>
+      </config>
+    </view>    
+    <view n="105">
+      <name>Front view</name>
+      <type>lookat</type>
+      <internal>false</internal>
+      <config>
+        <pitch-offset-deg type="double">-25</pitch-offset-deg>
+        <heading-offset-deg type="double">180</heading-offset-deg>
+        <!--<from-model type="bool">true</from-model>-->
+
+        <default-field-of-view-deg>70</default-field-of-view-deg>
+
+        <from-model type="bool">false</from-model>
+        <from-model-idx type="int">0</from-model-idx>
+        <eye-lat-deg-path>/position/latitude-deg</eye-lat-deg-path>
+        <eye-lon-deg-path>/position/longitude-deg</eye-lon-deg-path>
+        <eye-alt-ft-path>/position/altitude-ft</eye-alt-ft-path>
+        <eye-heading-deg-path>/orientation/heading-deg</eye-heading-deg-path>
+
+        <at-model type="bool">true</at-model>
+        <at-model-idx type="int">0</at-model-idx>
+
+        <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>
+
+        <x-offset-m>0.0</x-offset-m>
+        <y-offset-m>5.35</y-offset-m>
+        <z-offset-m>-15.0</z-offset-m>
+        <!--<limits>
+          <enabled type="bool">true</enabled>
+          <left>
+            <heading-max-deg type="double">170</heading-max-deg>
+            <x-offset-max-m type="double">-2</x-offset-max-m>
+            <x-offset-threshold-deg type="double">170</x-offset-threshold-deg>
+          </left>
+          <right>
+            <heading-max-deg type="double">190</heading-max-deg>
+            <x-offset-max-m type="double">2</x-offset-max-m>
+            <x-offset-threshold-deg type="double">190</x-offset-threshold-deg>
+          </right>
+        </limits>-->
+      </config>
+    </view>
+    <view n="110">
+       <name>Selection view (experimental)</name>
+       <type>lookfrom</type>
+       <config>
+         <eye-lat-deg-path>/position/latitude-deg</eye-lat-deg-path>
+         <eye-lon-deg-path>/position/longitude-deg</eye-lon-deg-path>
+         <eye-alt-ft-path>/fdm/jsbsim/position/h-sl-pilot-ft</eye-alt-ft-path>
+
+         <eye-pitch-deg-path>/sim/ja37/radar/selection-pitch-deg</eye-pitch-deg-path>
+         <eye-heading-deg-path>/sim/ja37/radar/selection-heading-deg</eye-heading-deg-path>
+
+         <at-model type="bool">true</at-model>
+         <at-model-idx type="int">0</at-model-idx>
+
+         <ground-level-nearplane-m type="double">10.0f</ground-level-nearplane-m>
+         <default-field-of-view-deg>70</default-field-of-view-deg>
+       </config>
+     </view>
+
   <!--**********************************************************************
 
                                           Rendering
@@ -924,6 +997,9 @@
     <launchbar>
       <launch-bar-pos-norm type="double">0</launch-bar-pos-norm>
     </launchbar>
+    <position>
+      <selection-view-offset type="double">5</selection-view-offset>
+    </position>
   </jsbsim>
  </fdm>
  <controls>
