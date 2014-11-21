@@ -431,11 +431,11 @@
       <type>lookat</type>
       <internal>false</internal>
       <config>
-        <pitch-offset-deg type="double">-25</pitch-offset-deg>
+        <pitch-offset-deg type="double">5</pitch-offset-deg>
         <heading-offset-deg type="double">180</heading-offset-deg>
         <!--<from-model type="bool">true</from-model>-->
 
-        <default-field-of-view-deg>70</default-field-of-view-deg>
+        <default-field-of-view-deg>40</default-field-of-view-deg>
 
         <from-model type="bool">false</from-model>
         <from-model-idx type="int">0</from-model-idx>
@@ -451,7 +451,7 @@
 
         <x-offset-m>0.0</x-offset-m>
         <y-offset-m>5.35</y-offset-m>
-        <z-offset-m>-15.0</z-offset-m>
+        <z-offset-m>-40.0</z-offset-m>
         <!--<limits>
           <enabled type="bool">true</enabled>
           <left>
