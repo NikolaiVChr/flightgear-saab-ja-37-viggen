@@ -476,10 +476,10 @@
         </kinematic>
     </channel>
 
-    <channel name="View">
+    <!--<channel name="View">
       <summer name="position/h-sl-pilot-ft">
         <input>position/h-sl-ft</input>
         <input>position/selection-view-offset</input>
       </summer>
-    </channel>
+    </channel>-->
   </flight_control>

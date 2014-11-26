@@ -512,20 +512,23 @@ var test_support = func {
  
   var versionString = getprop("sim/version/flightgear");
   var version = split(".", versionString);
-  if (version[0] == "0" or version[0] == "1") {
+  var major = num(version[0]);
+  var minor = num(version[1]);
+  var detail = num(version[2]);
+  if (major < 2) {
     gui.popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", 0);
       setprop("sim/ja37/supported/hud", 0);
       setprop("sim/ja37/supported/options", 0);
       setprop("sim/ja37/supported/old-custom-fails", 0);
-  } elsif (version[0] == "2") {
-    if(version[1] == "0" or version[1] == "2" or version[1] == "4" or version[1] == "6") {
+  } elsif (major == 2) {
+    if(minor < 7) {
       gui.popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", 0);
       setprop("sim/ja37/supported/hud", 0);
       setprop("sim/ja37/supported/options", 0);
       setprop("sim/ja37/supported/old-custom-fails", 1);
-    } elsif(version[1] == "8") {
+    } elsif(minor < 9) {
       gui.popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("sim/ja37/supported/radar", 0);
       setprop("sim/ja37/supported/hud", 0);
@@ -538,20 +541,26 @@ var test_support = func {
       setprop("sim/ja37/supported/options", 0);
       setprop("sim/ja37/supported/old-custom-fails", 1);
     }
-  } elsif (version[0] == "3" or version[0] == "4" or version[0] == "5" or version[0] == "6" or version[0] == "7") {
+  } elsif (major == 3) {
     setprop("sim/ja37/supported/options", 1);
     setprop("sim/ja37/supported/radar", 1);
     setprop("sim/ja37/supported/hud", 1);
     setprop("sim/ja37/supported/old-custom-fails", 0);
     setprop("sim/ja37/supported/landing-light", 1);
-    if (version[1] == "0") {
+    if (minor == 0) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/landing-light", 0);
     }
-    if (version[1] == "2") {
-      setprop("sim/ja37/supported/old-custom-fails", 1);
+    if (minor == 2) {
       setprop("sim/ja37/supported/landing-light", 0);
     }
+  } else {
+    # future proof
+    setprop("sim/ja37/supported/options", 1);
+    setprop("sim/ja37/supported/radar", 1);
+    setprop("sim/ja37/supported/hud", 1);
+    setprop("sim/ja37/supported/old-custom-fails", 0);
+    setprop("sim/ja37/supported/landing-light", 1);
   }
   setprop("sim/ja37/supported/initialized", 1);
 

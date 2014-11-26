@@ -46,8 +46,8 @@
     <nopreview/>
     <property>sim/multiplay/generic/float[3]</property><!-- engines/engine[0]/nozzle-pos-norm -->
     <x-min>0.2</x-min>
-    <y-min>1.0</y-min>
-    <z-min>1.0</z-min>
+    <y-min>1.5</y-min>
+    <z-min>1.5</z-min>
     <x-factor>1.0</x-factor>
     <y-factor>1.0</y-factor>
     <z-factor>1.0</z-factor>
