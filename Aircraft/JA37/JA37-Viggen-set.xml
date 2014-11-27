@@ -36,7 +36,7 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.73</aircraft-version>
+    <aircraft-version>2.74</aircraft-version>
    
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
@@ -471,9 +471,12 @@
        <name>Selection view (experimental)</name>
        <type>lookfrom</type>
        <config>
+         <x-offset-m type="double">0.00</x-offset-m>
+         <y-offset-m type="double">3.00</y-offset-m>
+         <z-offset-m type="double">20.00</z-offset-m>
          <eye-lat-deg-path>/position/latitude-deg</eye-lat-deg-path>
          <eye-lon-deg-path>/position/longitude-deg</eye-lon-deg-path>
-         <eye-alt-ft-path>/fdm/jsbsim/position/h-sl-pilot-ft</eye-alt-ft-path>
+         <eye-alt-ft-path>/fdm/jsbsim/position/h-sl-ft</eye-alt-ft-path>
 
          <eye-pitch-deg-path>/sim/ja37/radar/selection-pitch-deg</eye-pitch-deg-path>
          <eye-heading-deg-path>/sim/ja37/radar/selection-heading-deg</eye-heading-deg-path>
@@ -483,6 +486,9 @@
 
          <ground-level-nearplane-m type="double">10.0f</ground-level-nearplane-m>
          <default-field-of-view-deg>70</default-field-of-view-deg>
+         <limits>
+          <enabled type="bool">false</enabled>
+         </limits>
        </config>
      </view>
 

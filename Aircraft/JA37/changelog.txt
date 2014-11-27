@@ -888,7 +888,7 @@ Animation: Added a new view - Top.
 Animation: Added a new view - Front.
 Animation: Added a new view - Selection, it will look from above the airplane toward the selection.
 
-2.74
+2.74 - 2014 November 26
 ====
 Animation: Adjusted selection view so that it keeps the ja37 in the center of view.
 Effect: Afterburner flame now fits the engine exhaust better.
