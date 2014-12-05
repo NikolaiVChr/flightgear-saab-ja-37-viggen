@@ -174,12 +174,6 @@ var update_loop = func {
     input.g3d.setValue(real_speed);
     
     
-    # Animating engine fire
-    if (n1 > 100) n1 = 100;
-    var flame = 100 / (100-n1);
-    input.flame.setValue(flame);
-
-
     # indicators
     var joystick = 0;
     var attitude = 0;
@@ -437,7 +431,7 @@ var update_loop = func {
   }
 }
 
-var gForce_loop = func () {
+var speed_loop = func () {
   # calc pilot g-force
   var GCurrent = getprop("/accelerations/pilot/z-accel-fps_sec");
   var gravity = getprop("/fdm/jsbsim/accelerations/gravity-ft_sec2");
@@ -446,13 +440,20 @@ var gForce_loop = func () {
     setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
   }
 
+  # switch on and off landing lights
   if(getprop("sim/ja37/supported/landing-light") == 1 and getprop("systems/electrical/outputs/battery") > 24 and getprop("controls/electric/lights-land-switch") == 1 and getprop("sim/current-view/internal") == 1) {
     setprop("sim/rendering/als-secondary-lights/use-landing-light", 1);
   } else {
     setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
   }
 
-  settimer(gForce_loop, 0.05);
+  # Animating engine fire
+  var n1 = input.n1.getValue();
+  if (n1 > 100) n1 = 100;
+  var flame = 100 / (100-n1);
+  input.flame.setValue(flame);
+
+  settimer(speed_loop, 0.05);
 }
 
 
@@ -619,8 +620,8 @@ var main_init = func {
   # start chronometer loop
   chrono_loop();
 
-  # start G-force loop
-  gForce_loop();
+  # start fast loop
+  speed_loop();
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);

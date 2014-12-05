@@ -892,4 +892,8 @@ Animation: Added a new view - Selection, it will look from above the airplane to
 ====
 Animation: Adjusted selection view so that it keeps the ja37 in the center of view.
 Effect: Afterburner flame now fits the engine exhaust better.
-Sim: Optmized code for backward compatibility control.
+Sim: Improved code for backward compatibility control.
+
+2.75 - 2014 December 5
+====
+Effect: Made engine fire animation more smooth.
