@@ -115,7 +115,7 @@
   <type>rotate</type>
   <object-name>glass</object-name>
   <object-name>canopy</object-name>
- <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
+  <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
   <factor>30.0</factor>
   <center>
    <x-m>-2.67098</x-m>
@@ -127,7 +127,16 @@
    <y>1.0</y>
    <z>0.0</z>
   </axis>
- </animation>  
+ </animation>
+
+<animation>
+  <type>select</type>
+  <object-name>glass</object-name>
+  <object-name>canopy</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy-hinges/serviceable -->
+  </condition>
+ </animation>
 
 <!-- Control surfaces -->
 

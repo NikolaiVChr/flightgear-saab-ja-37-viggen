@@ -83,26 +83,26 @@ var install_new_failures = func {
     # min, specified in knots. Probability of failing will
     # be 0% at min speed and 100% at max speed and beyond.
     # When the specified property is 0 there is zero chance of failing.
-    var SpeedTrigger = {
+    var RandSpeedTrigger = {
 
         parents: [FailureMgr.Trigger],
         requires_polling: 1,
 
         new: func(min, max, prop) {
             if(min == nil or max == nil)
-                die("SpeedTrigger.new: min and max must be specified");
+                die("RandSpeedTrigger.new: min and max must be specified");
 
             if(min >= max)
-                die("SpeedTrigger.new: min must be less than max");
+                die("RandSpeedTrigger.new: min must be less than max");
 
             if(min < 0 or max <= 0)
-                die("SpeedTrigger.new: min must be positive or zero and max larger than zero");
+                die("RandSpeedTrigger.new: min must be positive or zero and max larger than zero");
 
             if(prop == nil or prop == "")
-                die("SpeedTrigger.new: prop must be specified");
+                die("RandSpeedTrigger.new: prop must be specified");
 
             var m = FailureMgr.Trigger.new();
-            m.parents = [SpeedTrigger];
+            m.parents = [RandSpeedTrigger];
             m.params["min-speed-kt"] = min;
             m.params["max-speed-kt"] = max;
             m.params["property"] = prop;
@@ -111,7 +111,7 @@ var install_new_failures = func {
         },
 
         to_str: func {
-            sprintf("Increasing probability of fails between %d and %d kt air-speed",
+            sprintf("Increasing probability of fails between %d and %d kt air-speed when deployed",
                 int(me.params["min-speed-kt"]), int(me.params["max-speed-kt"]))
         },
 
@@ -154,31 +154,56 @@ var install_new_failures = func {
 
 
 
-    #gear
+    #gears
 
     var prop = "gear/gear[0]/position-norm";
-    var trigger_gear0 = SpeedTrigger.new(350, 500, prop);
+    var trigger_gear0 = RandSpeedTrigger.new(350, 500, prop);
     var actuator_gear0 = set_value("fdm/jsbsim/gear/unit[0]/z-position", 0.001);
     FailureMgr.add_failure_mode("controls/gear0", "Front gear locking mechanism", actuator_gear0);
     FailureMgr.set_trigger("controls/gear0", trigger_gear0);
 
     prop = "gear/gear[1]/position-norm";
-    var trigger_gear1 = SpeedTrigger.new(350, 500, prop);
+    var trigger_gear1 = RandSpeedTrigger.new(350, 500, prop);
     var actuator_gear1 = set_value("fdm/jsbsim/gear/unit[1]/z-position", 0.001);
     FailureMgr.add_failure_mode("controls/gear1", "Left gear locking mechanism", actuator_gear1);
     FailureMgr.set_trigger("controls/gear1", trigger_gear1);
 
     prop = "gear/gear[2]/position-norm";
-    var trigger_gear2 = SpeedTrigger.new(350, 500, prop);
+    var trigger_gear2 = RandSpeedTrigger.new(350, 500, prop);
     var actuator_gear2 = set_value("fdm/jsbsim/gear/unit[2]/z-position", 0.001);
     FailureMgr.add_failure_mode("controls/gear2", "Right gear locking mechanism", actuator_gear2);
     FailureMgr.set_trigger("controls/gear2", trigger_gear2);
 
-#    var prop = "fdm/jsbsim/gear/gear-pos-norm";
-#    var trigger_gear = SpeedTrigger.new(350, 550, prop);
-    #var actuator_gear1 = set_readonly(prop);
-    #FailureMgr.add_failure_mode("controls/gear1", "Left gear", actuator_gear1);
-#    FailureMgr.set_trigger("controls/gear", trigger_gear);
+    #canopy
+
+    prop = "/fdm/jsbsim/fcs/canopy";
+    var trigger_canopy = RandSpeedTrigger.new(250, 400, prop~"-pos-norm");
+    var actuator_canopy = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Canopy motor", actuator_canopy);
+    FailureMgr.set_trigger(prop, trigger_canopy);
+
+    var prop_hinges = "/fdm/jsbsim/fcs/canopy-hinges";
+    var trigger_canopy_hinges = RandSpeedTrigger.new(400, 600, prop~"-pos-norm");
+    var actuator_canopy_hinges = set_unserviceable(prop_hinges);
+    FailureMgr.add_failure_mode(prop_hinges, "Canopy hinges", actuator_canopy_hinges);
+    FailureMgr.set_trigger(prop_hinges, trigger_canopy_hinges);
+
+    #some actuators initialized with empty triggers
+
+    prop = "/instrumentation/head-up-display";
+    var actuator_hud = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Head Up Display", actuator_hud);
+
+    prop = "/instrumentation/instrumentation-light";
+    var actuator_instr_light = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Instrument lights", actuator_instr_light);
+
+    prop = "/instrumentation/radar";
+    var actuator_radar = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Radar", actuator_radar);
+
+
+
 
     ## test stuff: ##
 

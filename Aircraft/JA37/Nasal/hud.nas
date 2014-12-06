@@ -708,6 +708,7 @@ var HUDnasal = {
         fdspeed:  "/autopilot/settings/target-speed-kt",
         mode:     "sim/ja37/hud/mode",
         service:  "/instrumentation/head-up-display/serviceable",
+        radar_serv: "instrumentation/radar/serviceable",
         units:    "sim/ja37/hud/units-metric",
         gears:    "gear/gear/position-norm",
         combat:   "/sim/ja37/hud/combat",
@@ -720,7 +721,8 @@ var HUDnasal = {
         carrierNear: "fdm/jsbsim/ground/carrier-near",
         terrainOn:   "sim/ja37/sound/terrain-on",
         viewNumber:  "sim/current-view/view-number",
-        viewZ:       "sim/current-view/y-offset-m"
+        viewZ:       "sim/current-view/y-offset-m",
+        tracks_enabled: "sim/ja37/hud/tracks-enabled"
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -1316,7 +1318,7 @@ var HUDnasal = {
     me.selection_updated = FALSE;
     #me.short_dist = nil;
 
-    if(getprop("sim/ja37/hud/tracks-enabled") == 1) {
+    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
       me.radar_group.show();
 
       tracks = [];

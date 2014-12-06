@@ -224,6 +224,10 @@
         </signal>
         <signal>
           <type>bool</type>
+          <property type="string">fdm/jsbsim/fcs/canopy-hinges/serviceable</property>
+        </signal>        
+        <signal>
+          <type>bool</type>
           <property type="string">systems/electrical/lights-ext</property>
         </signal>
         <signal>
@@ -527,6 +531,7 @@
       <float n="1" alias="/surface-positions/left-elevon-pos-deg"/>
       <float n="2" alias="/fdm/jsbsim/fcs/flap-pos-deg"/>
       <float n="4" alias="/fdm/jsbsim/fcs/canopy-pos-norm"/>
+      <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/>
       <!-- Animating engine -->
       <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
       <float n="5" alias="/engines/engine/flame"/>
@@ -943,8 +948,11 @@
       <canopy>
         <engage/>
         <has-power/>
-        <serviceable/>
+        <serviceable type="bool">true</serviceable>
       </canopy>
+      <canopy-hinges>
+        <serviceable type="bool">true</serviceable>
+      </canopy-hinges>
       <yaw-damper-enable type="bool">true</yaw-damper-enable>
       <flap-pos-cmd type="double"/>
       <flaps-serviceable type="bool" alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
@@ -989,6 +997,7 @@
         <missile type="double">     0.00075</missile>
         <drop-tank type="double">   0.0015</drop-tank>
         <canopy type="double">      0.020</canopy><!-- fully open -->
+        <canopy-off type="double">  0.010</canopy-off><!-- broken off -->
         <rudder type="double">      0.010</rudder><!-- at full 25 degrees deflection -->
         <elevon-left type="double"> 0.015</elevon-left><!-- full 40 degrees upward deflection -->
         <elevon-right type="double">0.015</elevon-right><!-- full 40 degrees upward deflection -->

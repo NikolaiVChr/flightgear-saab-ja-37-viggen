@@ -305,6 +305,7 @@
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>fcs/canopy-pos-norm</property>
+           <property>fcs/canopy-hinges/serviceable</property>           
            <property>aero/drag/canopy</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -326,6 +327,43 @@
                   150  -0.87
                   165  -0.97
                   180  -1.00
+              </tableData>
+           </table>
+        </product>
+     </function>
+
+    <!-- estimate -->
+    <function name="aero/coefficient/CACanopyOff">
+        <description>
+           Canopy axial Coefficient for broken off
+        </description>
+        <product>
+           <property>aero/qbar-psf</property>
+           <property>metrics/Sw-sqft</property>
+           <property>aero/function/mach-effect-prefactor</property>
+           <property>aero/drag/canopy-off</property>
+           <table>
+              <independentVar lookup="row">aero/alpha-deg</independentVar>
+              <independentVar lookup="column">fcs/canopy-hinges/serviceable</independentVar>
+              <tableData>
+                         0      1
+                 -180  -1.00   0.0
+                 -165  -0.97   0.0
+                 -150  -0.87   0.0
+                 -120  -0.50   0.0
+                  -90   0.00   0.0
+                  -60   0.50   0.0
+                  -30   0.87   0.0
+                  -15   0.97   0.0
+                    0   1.00   0.0
+                   15   0.97   0.0
+                   30   0.87   0.0
+                   60   0.50   0.0
+                   90   0.00   0.0
+                  120  -0.50   0.0
+                  150  -0.87   0.0
+                  165  -0.97   0.0
+                  180  -1.00   0.0
               </tableData>
            </table>
         </product>
