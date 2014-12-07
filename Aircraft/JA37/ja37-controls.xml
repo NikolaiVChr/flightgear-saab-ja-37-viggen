@@ -418,6 +418,7 @@
 
       <aerosurface_scale name="flap normalization">
         <input>fcs/flap-pos-deg</input>
+        <zero_centered> false </zero_centered>
         <domain>
           <min> -4.0 </min>
           <max> 30.0 </max>

@@ -911,3 +911,4 @@ Sim: Another overhaul of the crash code. When flying in post FG 3.2, it now reli
 Sim: When wings break off, pilot now loses elevons control.
 Aero: At wing break there will now be significantly less lift.
 Animation: Wing gears and elevons will now fly off when the wings break. Nav lights and wingtip vapour will not be seen.
+Aero: Fixed that flaps would be at zero degree during flight, they are now correctly at 4 degrees up.
