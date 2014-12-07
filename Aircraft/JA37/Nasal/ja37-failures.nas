@@ -202,8 +202,9 @@ var install_new_failures = func {
     var actuator_radar = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Radar", actuator_radar);
 
-
-
+    prop = "systems/generator";
+    var actuator_generator = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
 
     ## test stuff: ##
 

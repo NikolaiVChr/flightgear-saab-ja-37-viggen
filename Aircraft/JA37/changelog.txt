@@ -898,9 +898,9 @@ Sim: Improved code for backward compatibility control.
 ====
 Effect: Made engine fire animation more smooth.
 
-2.76
+2.76 - 2014 December 7
 ====
-Sim: Added radar, HUD and instrument light to the new FG 3.2 failure system. (you need the new failure dialog to activate them them)
+Sim: Added radar, HUD, generator and instrument light to the new FG 3.2 failure system. (you need the new failure dialog to activate them them)
 Sim: Added canopy motor to the new FG 3.2 failure system. (big chance to jam when open at too high speeds)
 Sim: Added canopy hinges to the new FG 3.2 failure system. (big chance to break off when open at too high speeds)
 Aero: Added drag when canopy breaks off.
