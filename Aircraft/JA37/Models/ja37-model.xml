@@ -185,8 +185,28 @@
    <y1-m> -5.10587 </y1-m>
    <z1-m> -0.39563 </z1-m>
   </axis>
- </animation>
+ </animation>fdm/jsbsim/fcs/wings/serviceable
 
+<animation>
+  <type>select</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <object-name>gearRightDoorsClosed</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  </condition>
+ </animation>
 
 <animation>
   <type>rotate</type>

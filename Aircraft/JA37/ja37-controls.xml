@@ -482,4 +482,20 @@
         <input>position/selection-view-offset</input>
       </summer>
     </channel>-->
+
+    <channel name="Wings">
+      <aerosurface_scale name="Wings normal factor">
+        <input>fcs/wings/serviceable</input>
+        <zero_centered> false </zero_centered>
+        <domain>
+          <min>  0.0 </min>
+          <max>  1.0 </max>
+        </domain>
+        <range>
+          <min> 0.3 </min>
+          <max> 1.0 </max>
+        </range>
+        <output>fcs/wings/normal-factor</output>
+      </aerosurface_scale>
+    </channel>
   </flight_control>

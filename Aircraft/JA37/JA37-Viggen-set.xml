@@ -294,6 +294,10 @@
           <type>int8</type>
           <property type="string">sim/ja37/effect/smoke</property>
         </signal>
+        <signal>
+          <type>int8</type>
+          <property type="string">fdm/jsbsim/fcs/wings/serviceable</property>
+        </signal>
       </config><!-- 
     - double: 8 byte/sample
     - float:  4 byte/sample (default)
@@ -532,6 +536,7 @@
       <float n="2" alias="/fdm/jsbsim/fcs/flap-pos-deg"/>
       <float n="4" alias="/fdm/jsbsim/fcs/canopy-pos-norm"/>
       <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/>
+      <int n="2" alias="/fdm/jsbsim/fcs/wings/serviceable"/>
       <!-- Animating engine -->
       <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
       <float n="5" alias="/engines/engine/flame"/>
@@ -945,6 +950,9 @@
  <fdm>
   <jsbsim>
     <fcs>
+      <wings>
+        <serviceable type="bool">true</serviceable>
+      </wings>
       <canopy>
         <engage/>
         <has-power/>
@@ -996,8 +1004,8 @@
         <flaps type="double">       0.010</flaps><!-- full 30 degrees downward deflection of canard flaps -->
         <missile type="double">     0.00075</missile>
         <drop-tank type="double">   0.0015</drop-tank>
-        <canopy type="double">      0.020</canopy><!-- fully open -->
-        <canopy-off type="double">  0.010</canopy-off><!-- broken off -->
+        <canopy type="double">      0.025</canopy><!-- fully open -->
+        <canopy-off type="double">  0.015</canopy-off><!-- broken off -->
         <rudder type="double">      0.010</rudder><!-- at full 25 degrees deflection -->
         <elevon-left type="double"> 0.015</elevon-left><!-- full 40 degrees upward deflection -->
         <elevon-right type="double">0.015</elevon-right><!-- full 40 degrees upward deflection -->
