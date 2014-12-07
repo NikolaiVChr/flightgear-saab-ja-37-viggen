@@ -8,7 +8,6 @@ GUI: Make popups appear higher on screen.
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground.
-Aero: When wings break, remove most of normal force.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Check kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
@@ -24,7 +23,6 @@ Model: Gauges that share mount design should also share geometry and textures.
 Model: Make use of the new LOD interior system. FG 3.4.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
-Sim: Make canopy able to break off.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
 Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
 Sim: Implement ejection seat. (with parachute?)
@@ -63,7 +61,6 @@ Bugs:
 --------------
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
-Sound: Occasional wierd buzz in external sounds. [reproduced, might be fixed]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.

@@ -34,6 +34,7 @@
     <object-name>LightNavGlowR</object-name>
     <condition>
       <property>sim/multiplay/generic/int[9]</property>
+      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
     </condition>
   </animation>
 
