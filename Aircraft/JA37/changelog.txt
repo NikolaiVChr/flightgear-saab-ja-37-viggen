@@ -913,10 +913,12 @@ Aero: At wing break there will now be significantly less lift.
 Animation: Wing gears and elevons will now fly off when the wings break. Nav lights and wingtip vapour will not be seen.
 Aero: Fixed that flaps would be at zero degree during flight, they are now correctly at 4 degrees up.
 
-2.77
+2.77 - 2014 December 8
 ====
 Animation: The wings will now actually detach when breaking off.
-Effect: Added 3 working landing lights to the gears on the model.
+Effect: Added 3 working landing lights to the gears on the model. They have angle/distance/time-of-day dependant glare.
 Model: Minor adjustments of fuselage material.
 Animation: Fixed another minor bug in displaying flaps at 4 degrees up in flight.
 Sim: There is now a failure actuator for the wings, it will cascade damage to other failure modes.
+Effect: Made beacon, navigation and strobe lights easier to see from far away.
+Effect: Passed to shaders that strobe light should be transparent.

@@ -9,6 +9,11 @@
   <object-name>strobe</object-name>
  </animation>
 
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>strobe</object-name>
+  </effect>
+
  <animation>
   <type>select</type>
   <object-name>strobe</object-name>
@@ -39,6 +44,15 @@
   <x-factor>12</x-factor>
   <y-factor>12</y-factor>
   <z-factor>12</z-factor>
+ </animation>
+
+ <animation>
+  <type>dist-scale</type>
+  <object-name>strobe</object-name>
+  <interpolation>
+   <entry><ind>0</ind><dep>1.0</dep></entry>
+   <entry><ind>5000</ind><dep>75.0</dep></entry>
+  </interpolation>
  </animation>
 
 </PropertyList>

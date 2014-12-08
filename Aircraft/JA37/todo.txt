@@ -11,7 +11,6 @@ GUI: Option to switch off hitting stuff above ground.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Check kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
-Animation: Make wings break off when they break due to structural damage.
 Animation: Min and max on several gauges.
 Animation: Animate wheels. (tough when gears get compressed..)
 Model: Adjust instrument materials, and make the gauges look more similar.
@@ -20,7 +19,7 @@ Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
-Model: Make use of the new LOD interior system. FG 3.4.
+Model: Make use of the new LOD interior system. FG 3.4. (will break backwards compatibility)
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
@@ -36,7 +35,8 @@ Sim: Move all radar logic back into radar so that users of FG HUD can use combat
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
-Sim: Rename the type name in MP pilot list from ja37 to JA37-Viggen. JA37-Viggen-model.xml (for FG 3.4)
+Sim: Rename the type name in MP pilot list from ja37 to JA37-Viggen. JA37-Viggen.xml (for FG 3.4, will break backwards compatibility)
+Sim: Make use of default multiplay properties to free more of the custom up. (will break backwards compatibility)
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.

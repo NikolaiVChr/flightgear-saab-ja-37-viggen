@@ -270,6 +270,7 @@
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
  </animation>
 
 <!--<animation>
@@ -307,6 +308,7 @@
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
   <object-name>landingLightLeft</object-name>
+  <object-name>leftLandingLightGlare</object-name>
  </animation>
 
 <animation>
@@ -321,6 +323,7 @@
   <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>landingLightRight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
  </animation>
 
 
@@ -330,6 +333,7 @@
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
   <property>gear/gear[0]/position-norm</property>
   <interpolation>
    <entry>
@@ -364,6 +368,7 @@
   <object-name>wheelFront</object-name>
   <!--<object-name>gearFrontHinge</object-name>-->
   <object-name>landingLight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
   <property>gear/gear[0]/steering-norm</property>
   <factor>80</factor>
   <center>
@@ -383,6 +388,7 @@
   <object-name>gearLeft</object-name>
   <object-name>gearLeftTop</object-name>
   <object-name>landingLightLeft</object-name>
+  <object-name>leftLandingLightGlare</object-name>
   <property>gear/gear[1]/position-norm</property>
   <interpolation>
    <entry>
@@ -413,6 +419,7 @@
   <object-name>gearRight</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>landingLightRight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[2]/position-norm</property>
   <interpolation>
    <entry>
@@ -475,6 +482,7 @@
    <!--<object-name>gearFrontHinge</object-name>-->
    <object-name>wheelFront</object-name>
    <object-name>landingLight</object-name>
+   <object-name>frontLandingLightGlare</object-name>
    <property>sim/multiplay/generic/float[8]</property><!-- gear/gear/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -492,6 +500,7 @@
    <object-name>gearLeft</object-name>
    <object-name>gearLeftTop</object-name>
    <object-name>landingLightLeft</object-name>
+   <object-name>leftLandingLightGlare</object-name>
    <property>sim/multiplay/generic/float[9]</property><!-- gear/gear[1]/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -509,6 +518,7 @@
    <object-name>gearRight</object-name>
    <object-name>gearRightTop</object-name>
    <object-name>landingLightRight</object-name>
+   <object-name>rightLandingLightGlare</object-name>
    <property>sim/multiplay/generic/float[10]</property><!-- gear/gear[2]/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -749,7 +759,7 @@
   <object-name>landingLightLeft</object-name>
   <object-name>landingLightRight</object-name>
   <condition>
-    <property>sim/ja37/effect/landing-light</property>
+    <property>sim/multiplay/generic/int[6]</property><!--  sim/ja37/effect/landing-light  -->
   </condition>
   <emission>
    <red>1.0</red>
@@ -767,6 +777,36 @@
    <blue>1.0</blue>
   </ambient>
  </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <name>frontLandingLightGlare</name>
+    <offsets>
+      <x-m>-3.64036</x-m>
+      <y-m>-0.000005</y-m>
+      <z-m>-1.37051</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <name>leftLandingLightGlare</name>
+    <offsets>
+      <x-m>2.19039</x-m>
+      <y-m>-2.23114</y-m>
+      <z-m>-1.08005</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <name>rightLandingLightGlare</name>
+    <offsets>
+      <x-m>2.20055</x-m>
+      <y-m>2.24387</y-m>
+      <z-m>-1.08005</z-m>
+    </offsets>
+  </model>
 
 <!-- Navigation lights -->
 

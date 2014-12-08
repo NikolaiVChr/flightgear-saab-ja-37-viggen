@@ -11,6 +11,9 @@
     <description>Saab JA-37 Viggen</description>
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
+
+    <aircraft-version>2.77</aircraft-version>
+
     <rating>
       <FDM type="int">3</FDM>
       <systems type="int">2</systems>
@@ -36,8 +39,6 @@
         <tag>afterburner</tag>
     </tags>
 
-    <aircraft-version>2.76</aircraft-version>
-   
     <flight-model>jsb</flight-model>
     <aero>ja37-jsbsim</aero>
 
@@ -551,6 +552,7 @@
       <int n="8" alias="/engines/engine[0]/reversed"/>
       <!-- Animating light -->
       <int n="5" alias="/sim/model/lighting/strobe/state"/>
+      <int n="6" alias="/sim/ja37/effect/landing-light"/>
       <int n="9" alias="/systems/electrical/lights-ext"/>
       <int n="15" alias="/sim/model/lighting/beacon/state"/>
       <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>

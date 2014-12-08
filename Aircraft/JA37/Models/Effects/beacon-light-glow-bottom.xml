@@ -26,7 +26,14 @@
 
   <!-- Animations -->
 
-
+ <animation>
+  <type>dist-scale</type>
+  <object-name>LightBeaconGlow</object-name>
+  <interpolation>
+   <entry><ind>0</ind><dep>1.0</dep></entry>
+   <entry><ind>5000</ind><dep>25.0</dep></entry>
+  </interpolation>
+ </animation>
 
   <!-- Top (red) beacon light -->
 
@@ -48,9 +55,9 @@
     <x-min>0.01</x-min>
     <y-min>0.01</y-min>
     <z-min>0.01</z-min>
-    <x-factor>1.0</x-factor>
-    <y-factor>1.0</y-factor>
-    <z-factor>1.0</z-factor>
+    <x-factor>2.0</x-factor>
+    <y-factor>2.0</y-factor>
+    <z-factor>2.0</z-factor>
    </animation>
 
   <animation>

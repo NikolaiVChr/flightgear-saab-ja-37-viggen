@@ -416,11 +416,6 @@ unfailAll = func {
 	} else {
 		FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy-hinges").reset();
 	}
-	if(FailureMgr.get_trigger("fdm/jsbsim/fcs/wings") == nil) {
-		print("JA-37: Failed to reset trigger for wings, it seems to be removed don't know why!");
-	} else {
-		FailureMgr.get_trigger("fdm/jsbsim/fcs/wings").reset();
-	}
 }
 
 initCrash=func {

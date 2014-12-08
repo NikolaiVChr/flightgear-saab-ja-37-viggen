@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>landingLightGlare.ac</path>
+
+ <animation>
+  <type>dist-scale</type>
+  <object-name>glare</object-name>
+  <interpolation>
+   <entry><ind>0</ind><dep>1.0</dep></entry>
+   <entry><ind>5000</ind><dep>25.0</dep></entry>
+  </interpolation>
+ </animation>
+
+ <animation>
+    <type>noshadow</type>
+    <object-name>glare</object-name>
+  </animation>
+
+   <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>glare</object-name>
+  </effect>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>glare</object-name>
+  <offset-deg>-90</offset-deg>
+  <center>
+   <x-m>0</x-m>
+   <y-m>0</y-m>
+   <z-m>0</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[6]</property><!--  sim/ja37/effect/landing-light  -->
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  </condition>
+  <object-name>glare</object-name>
+ </animation>
+
+ <animation>
+  <type>scale</type>
+  <object-name>glare</object-name>
+  <property>sim/time/sun-angle-rad</property>
+  <x-min>1.0</x-min>
+  <y-min>1.0</y-min>
+  <z-min>1.0</z-min>
+  <x-factor>0.4</x-factor>
+  <y-factor>0.4</y-factor>
+  <z-factor>0.4</z-factor>
+ </animation>
+
+ <animation>
+  <type>flash</type>
+  <object-name>glare</object-name>
+  <offset>0.0</offset>
+  <factor>1.0</factor>
+  <power>2</power>
+  <two-sides type="bool">false</two-sides>
+  <min>0.0</min>
+  <max>1.0</max>
+  <center>
+   <x-m>0.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>-1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+</PropertyList>
