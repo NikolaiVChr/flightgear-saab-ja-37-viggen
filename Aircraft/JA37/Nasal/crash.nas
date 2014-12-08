@@ -416,6 +416,11 @@ unfailAll = func {
 	} else {
 		FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy-hinges").reset();
 	}
+	if(FailureMgr.get_trigger("fdm/jsbsim/fcs/wings") == nil) {
+		print("JA-37: Failed to reset trigger for wings, it seems to be removed don't know why!");
+	} else {
+		FailureMgr.get_trigger("fdm/jsbsim/fcs/wings").reset();
+	}
 }
 
 initCrash=func {
@@ -518,17 +523,17 @@ damageOnWingsBreak = func {
 	setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", -75);
 	setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", -75);
 	setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", -75);
-	setprop("fdm/jsbsim/fcs/wings/serviceable", 0);
 }
 
 failWings = func {
-	FailureMgr.set_failure_level("controls/flight/aileron", 1);
-	FailureMgr.set_failure_level("controls/flight/elevator", 1);
-	# TODO: less lift
+	FailureMgr.set_failure_level("fdm/jsbsim/fcs/wings", 1);
+#	FailureMgr.set_failure_level("controls/flight/aileron", 1);
+#	FailureMgr.set_failure_level("controls/flight/elevator", 1);
+#	FailureMgr.set_failure_level("controls/gear1", 1);
+#	FailureMgr.set_failure_level("controls/gear2", 1);
 }
 
-failAll = func {
-	failWings();
+failAll = func {# fail randomly 70% of all systems
 	var failure_modes = FailureMgr._failmgr.failure_modes; # hash with the failure modes
     var mode_list = keys(failure_modes);#values()?
 
@@ -542,7 +547,7 @@ failAll = func {
 aircraft_lock_wings = func {
 	setprop("controls/flight/aileron/serviceable", 0);
 	setprop("controls/flight/elevator/serviceable", 0);
-	# TODO: less lift
+	setprop("fdm/jsbsim/fcs/wings/serviceable", 0);
 }
 
 aircraft_lock_all = func {

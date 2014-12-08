@@ -391,8 +391,22 @@
     <channel name="Flaps">
       <!-- Can move 30 degrees down, and 4 degrees up -->
 
+      <aerosurface_scale name="flaps anti-normalization">
+        <input>fcs/flap-pos-cmd</input>
+        <zero_centered> false </zero_centered>
+        <domain>
+          <min>  0.0 </min>
+          <max>  1.0 </max>
+        </domain>
+        <range>
+          <min> -4.0 </min>
+          <max> 30.0 </max>
+        </range>
+        <output>fcs/flap-pos-cmd-deg</output>
+      </aerosurface_scale>
+
       <kinematic name="Flaps Control">
-        <input>fcs/flap-pos-cmd</input><!-- flaps controlled by gear-->
+        <input>fcs/flap-pos-cmd-deg</input><!-- flaps controlled by gear-->
         <traverse>
           <setting>
             <position>  -4.0 </position>

@@ -298,6 +298,10 @@
           <type>int8</type>
           <property type="string">fdm/jsbsim/fcs/wings/serviceable</property>
         </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/effect/landing-light</property>
+        </signal>
       </config><!-- 
     - double: 8 byte/sample
     - float:  4 byte/sample (default)
@@ -887,6 +891,7 @@
         <enabled userarchive="y" type="bool">true</enabled>
       </radar>
       <effect>
+        <landing-light type="bool">false</landing-light>
         <smoke type="int">1</smoke><!-- 1: off  2: yellow  3: blue -->
       </effect>
       <blink>

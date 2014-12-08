@@ -441,9 +441,15 @@ var speed_loop = func () {
   }
 
   # switch on and off landing lights
-  if(getprop("sim/ja37/supported/landing-light") == 1 and getprop("systems/electrical/outputs/battery") > 24 and getprop("controls/electric/lights-land-switch") == 1 and getprop("sim/current-view/internal") == 1) {
-    setprop("sim/rendering/als-secondary-lights/use-landing-light", 1);
+  if(getprop("sim/ja37/supported/landing-light") == 1 and getprop("systems/electrical/outputs/battery") > 24 and getprop("controls/electric/lights-land-switch") == 1) {
+    setprop("sim/ja37/effect/landing-light", 1);
+    if(getprop("sim/current-view/internal") == 1) {
+        setprop("sim/rendering/als-secondary-lights/use-landing-light", 1);
+      } else {
+        setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
+      }
   } else {
+    setprop("sim/ja37/effect/landing-light", 0);
     setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
   }
 

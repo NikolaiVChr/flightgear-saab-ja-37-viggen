@@ -83,9 +83,11 @@
 	  <object-name>elevonRightOuter</object-name>
 	  <object-name>flaps</object-name>
 	  <object-name>fuselage</object-name>
+    <object-name>wingLeft</object-name>
+    <object-name>wingRight</object-name>
 	  <object-name>rudder</object-name>
 	  <object-name>gearFront</object-name>
-	  <object-name>gearFrontHinge</object-name>
+	  <!--<object-name>gearFrontHinge</object-name>-->
 	  <object-name>gearFrontDoorsOpen</object-name>
 	  <object-name>gearFrontDoorsClosed</object-name>
 	  <object-name>gearLeft</object-name>
@@ -185,7 +187,7 @@
    <y1-m> -5.10587 </y1-m>
    <z1-m> -0.39563 </z1-m>
   </axis>
- </animation>fdm/jsbsim/fcs/wings/serviceable
+ </animation>
 
 <animation>
   <type>select</type>
@@ -203,8 +205,12 @@
   <object-name>gearRightDoorsOpen</object-name>
   <object-name>gearLeftDoorsClosed</object-name>
   <object-name>gearRightDoorsClosed</object-name>
-  <!--<object-name>lightRight</object-name>
-  <object-name>lightLeft</object-name>-->
+  <object-name>lightRight</object-name>
+  <object-name>lightLeft</object-name>
+  <object-name>wingRight</object-name>
+  <object-name>wingLeft</object-name>
+  <object-name>landingLightLeft</object-name>
+  <object-name>landingLightRight</object-name>
   <condition>
     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>
@@ -263,15 +269,16 @@
   </condition>
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
+  <object-name>landingLight</object-name>
  </animation>
 
-<animation>
+<!--<animation>
   <type>select</type>
   <condition>
     <equals>
     <value>1</value>
     <value>0</value>
-    </equals><!--
+    </equals>--><!--
    <equals>
     <property>gear/gear[0]/position-norm</property>
     <value>1.0</value>
@@ -283,10 +290,10 @@
    <less-than>
     <property>gear/gear[0]/steering-norm</property>
     <value>0.05</value>
-   </less-than>-->
+   </less-than>--><!--
   </condition>
   <object-name>gearFrontHinge</object-name>
- </animation>
+ </animation>-->
 
 <animation>
   <type>select</type>
@@ -299,6 +306,7 @@
   <object-name>gearLeft</object-name>
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
+  <object-name>landingLightLeft</object-name>
  </animation>
 
 <animation>
@@ -312,6 +320,7 @@
   <object-name>gearRight</object-name>
   <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
+  <object-name>landingLightRight</object-name>
  </animation>
 
 
@@ -320,6 +329,7 @@
   <type>rotate</type>
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
+  <object-name>landingLight</object-name>
   <property>gear/gear[0]/position-norm</property>
   <interpolation>
    <entry>
@@ -353,6 +363,7 @@
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
   <!--<object-name>gearFrontHinge</object-name>-->
+  <object-name>landingLight</object-name>
   <property>gear/gear[0]/steering-norm</property>
   <factor>80</factor>
   <center>
@@ -371,6 +382,7 @@
   <type>rotate</type>
   <object-name>gearLeft</object-name>
   <object-name>gearLeftTop</object-name>
+  <object-name>landingLightLeft</object-name>
   <property>gear/gear[1]/position-norm</property>
   <interpolation>
    <entry>
@@ -400,6 +412,7 @@
   <type>rotate</type>
   <object-name>gearRight</object-name>
   <object-name>gearRightTop</object-name>
+  <object-name>landingLightRight</object-name>
   <property>gear/gear[2]/position-norm</property>
   <interpolation>
    <entry>
@@ -459,8 +472,9 @@
 <animation><!--            compress front gear-->
    <type>translate</type>
    <object-name>gearFront</object-name>
-   <object-name>gearFrontHinge</object-name>
+   <!--<object-name>gearFrontHinge</object-name>-->
    <object-name>wheelFront</object-name>
+   <object-name>landingLight</object-name>
    <property>sim/multiplay/generic/float[8]</property><!-- gear/gear/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -477,6 +491,7 @@
    <type>translate</type>
    <object-name>gearLeft</object-name>
    <object-name>gearLeftTop</object-name>
+   <object-name>landingLightLeft</object-name>
    <property>sim/multiplay/generic/float[9]</property><!-- gear/gear[1]/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -489,10 +504,11 @@
     </center>
 </animation>
 
-<animation><!--            compress left gear-->
+<animation><!--            compress right gear-->
    <type>translate</type>
    <object-name>gearRight</object-name>
    <object-name>gearRightTop</object-name>
+   <object-name>landingLightRight</object-name>
    <property>sim/multiplay/generic/float[10]</property><!-- gear/gear[2]/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -725,6 +741,33 @@
   </emission>
  </animation>
 
+<!-- landing light -->
+
+<animation>
+  <type>material</type>
+  <object-name>landingLight</object-name>
+  <object-name>landingLightLeft</object-name>
+  <object-name>landingLightRight</object-name>
+  <condition>
+    <property>sim/ja37/effect/landing-light</property>
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+  </emission>
+  <diffuse>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+  </diffuse>
+  <ambient>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+  </ambient>
+ </animation>
+
 <!-- Navigation lights -->
 
  <animation>
@@ -843,13 +886,15 @@
   <object-name>elevonRightOuter</object-name>
   <object-name>flaps</object-name>
   <object-name>fuselage</object-name>
+  <object-name>wingLeft</object-name>
+  <object-name>wingRight</object-name>
   <object-name>missile</object-name>
   <object-name>missile1</object-name>
   <object-name>missile2</object-name>
   <object-name>missile3</object-name>
   <object-name>rudder</object-name>
   <object-name>gearFront</object-name>
-  <object-name>gearFrontHinge</object-name>
+  <!--<object-name>gearFrontHinge</object-name>-->
   <object-name>gearFrontDoorsOpen</object-name>
   <object-name>gearFrontDoorsClosed</object-name>
   <object-name>gearLeft</object-name>

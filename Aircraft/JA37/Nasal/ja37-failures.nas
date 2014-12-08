@@ -206,6 +206,36 @@ var install_new_failures = func {
     var actuator_generator = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
 
+    ##
+    # Returns an actuator object that will set the serviceable property at
+    # the given node to zero when the level of failure is > 0.
+    # it will also fail additionally failure modes.
+
+    var set_unserviceable_cascading = func(path, casc_paths) {
+
+        var prop = path ~ "/serviceable";
+
+        if (props.globals.getNode(prop) == nil)
+            props.globals.initNode(prop, 1, "BOOL");
+
+        return {
+            parents: [FailureMgr.FailureActuator],
+            mode_paths: casc_paths,
+            set_failure_level: func(level) {
+                setprop(prop, level > 0 ? 0 : 1);
+                foreach(var mode_path ; me.mode_paths) {
+                    FailureMgr.set_failure_level(mode_path, level);
+                }
+            },
+            get_failure_level: func { getprop(prop) ? 0 : 1 }
+        }
+    }
+
+    prop = "fdm/jsbsim/fcs/wings";
+    var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
+    FailureMgr.add_failure_mode(prop, "Delta wings", actuator_wings);
+    
+
     ## test stuff: ##
 
     #Canopy
