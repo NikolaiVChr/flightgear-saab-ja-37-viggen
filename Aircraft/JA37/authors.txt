@@ -45,5 +45,6 @@ Zero - Performance monitor
 F15C - Stick
 Alphajet - Adapted aerobatic smoke
 Crusader - Carrier catapult mechanism
+pa24-250 - Glare texture for landing lights
 
 Might have forgotten some.

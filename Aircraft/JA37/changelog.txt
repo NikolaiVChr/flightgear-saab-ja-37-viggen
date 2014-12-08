@@ -922,3 +922,7 @@ Animation: Fixed another minor bug in displaying flaps at 4 degrees up in flight
 Sim: There is now a failure actuator for the wings, it will cascade damage to other failure modes.
 Effect: Made beacon, navigation and strobe lights easier to see from far away.
 Effect: Passed to shaders that strobe light should be transparent.
+
+2.78 - 2014 December 8
+====
+Effect: Fixed a bug that would make landing lights not show externally in FG 3.2 and lower.
