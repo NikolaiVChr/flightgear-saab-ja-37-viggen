@@ -98,6 +98,7 @@
 	  <object-name>gearRightHinge</object-name>
 	  <object-name>gearRightDoorsOpen</object-name>
 	  <object-name>gearRightDoorsClosed</object-name>
+    <object-name>dropTank</object-name>
   </effect>
 
   <effect>
@@ -840,6 +841,7 @@
 
 <animation>
   <object-name>dropTank</object-name>
+  <object-name>dropTankNoshader</object-name>
   <type>select</type>
   <condition>
    <equals>
@@ -920,6 +922,7 @@
   <type>material</type>
   <object-name>canopy</object-name>
   <object-name>dropTank</object-name>
+  <object-name>dropTankNoshader</object-name>
   <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
   <object-name>elevonRightInner</object-name>

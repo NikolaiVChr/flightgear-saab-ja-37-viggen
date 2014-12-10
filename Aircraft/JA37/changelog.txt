@@ -926,3 +926,10 @@ Effect: Passed to shaders that strobe light should be transparent.
 2.78 - 2014 December 8
 ====
 Effect: Fixed a bug that would make landing lights not show externally in FG 3.2 and lower.
+
+2.79
+====
+GUI: Updated the aircraft help dialog.
+GUI: Made a new splash screen.
+Model: Split droptank into two, to apply ubershader on most of it.
+Model: Increased ambient light on the fuselage when running in ubershader.

@@ -3,6 +3,7 @@
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
     <rain-enabled>1</rain-enabled>
+    <ambient-correction type="float">0.25</ambient-correction>
     <normalmap-enabled type="int">1</normalmap-enabled>
   	<texture n="2">
       <image>Aircraft/JA37/Models/Effects/j37_bump.png</image>

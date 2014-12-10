@@ -734,7 +734,7 @@
       Warnings
       ________
       Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
-      The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not see you perform the Cobra. :)
+      The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not catch you doing that. :)
 
       Failures
       _____
@@ -752,8 +752,21 @@
       If the target changes during the intercept, it will not switch to the new target.
       To stop, press 'F' and disable autopilot control. Or select another and press 'f' again to follow that instead.
 
+      Using the Selection View
+      ________________________
+      This view will keep the Viggen in view while at the same time pointing the camera at the selected entity.
+      Do not rotate the camera in this view, that will ruin its ability to track the selection. You can however zoom without a problem.
+
+      The unmarked switches in the cockpit
+      ____________________________________
+      The are a bunch of switches in the cockpit, that does not have any text markings. Hold your mouse pointer above one to read its function. Also remember that the position away from the pilot is always ON, towards the pilot is OFF.
+
+      Repairing
+      _________
+      In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are some systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
+
       Trivia
-      _____
+      ______
       This is the mid 80'ties version. So it has no airbrake
       400 meter runway is required to takeoff.
       500 meter runway is required to land.
