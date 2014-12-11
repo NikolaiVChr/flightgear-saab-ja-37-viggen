@@ -5,6 +5,8 @@
 
   <path>nav-light-glow-red.ac</path>
 
+  <!-- Left (red) nav light -->
+
   <offsets>
     <x-m> 5.65783</x-m>
     <y-m> -5.09762</y-m>
@@ -23,7 +25,6 @@
     <object-name>LightNavGlowL</object-name>
   </effect>
 
-
   <!-- Animations -->
 
  <animation>
@@ -31,17 +32,27 @@
   <object-name>LightNavGlowL</object-name>
   <interpolation>
    <entry><ind>0</ind><dep>1.0</dep></entry>
-   <entry><ind>5000</ind><dep>25.0</dep></entry>
+   <entry><ind>5000</ind><dep>50.0</dep></entry>
   </interpolation>
  </animation>
 
-  <!-- Left (red) nav light -->
+  <animation>
+    <type>scale</type>
+    <object-name>LightNavGlowL</object-name>
+    <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
+    <x-min>0.300</x-min>
+    <y-min>0.300</y-min>
+    <z-min>0.300</z-min>
+    <x-factor>1.00</x-factor>
+    <y-factor>1.00</y-factor>
+    <z-factor>1.00</z-factor>
+  </animation>
 
   <animation>
     <type>select</type>
     <object-name>LightNavGlowL</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[9]</property>
+      <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
       <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
     </condition>
   </animation>

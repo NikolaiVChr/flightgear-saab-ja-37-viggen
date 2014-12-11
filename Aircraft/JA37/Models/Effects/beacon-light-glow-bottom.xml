@@ -5,6 +5,8 @@
 
   <path>beacon-glow-red.ac</path>
   <nopreview/>
+
+  <!-- Bottom (red) beacon light -->
   
   <offsets>
     <x-m> -1.5524</x-m>
@@ -31,11 +33,9 @@
   <object-name>LightBeaconGlow</object-name>
   <interpolation>
    <entry><ind>0</ind><dep>1.0</dep></entry>
-   <entry><ind>5000</ind><dep>25.0</dep></entry>
+   <entry><ind>5000</ind><dep>50.0</dep></entry>
   </interpolation>
  </animation>
-
-  <!-- Top (red) beacon light -->
 
 <animation>
   <type>material</type>
@@ -48,24 +48,35 @@
   </emission>
  </animation>
 
-   <animation>
+  <animation>
     <type>scale</type>
     <object-name>LightBeaconGlow</object-name>
-    <property>sim/multiplay/generic/int[15]</property>
+    <property>sim/multiplay/generic/int[15]</property><!-- sim/model/lighting/beacon/state -->
     <x-min>0.01</x-min>
     <y-min>0.01</y-min>
     <z-min>0.01</z-min>
-    <x-factor>2.0</x-factor>
-    <y-factor>2.0</y-factor>
-    <z-factor>2.0</z-factor>
-   </animation>
+    <x-factor>1.0</x-factor>
+    <y-factor>1.0</y-factor>
+    <z-factor>1.0</z-factor>
+  </animation>
+
+  <animation>
+    <type>scale</type>
+    <object-name>LightBeaconGlow</object-name>
+    <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
+    <x-min>0.000</x-min>
+    <y-min>0.000</y-min>
+    <z-min>0.000</z-min>
+    <x-factor>1.00</x-factor>
+    <y-factor>1.00</y-factor>
+    <z-factor>1.00</z-factor>
+  </animation>
 
   <animation>
     <type>select</type>
     <object-name>LightBeaconGlow</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[9]</property>
+      <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
     </condition>
   </animation>
-
 </PropertyList>

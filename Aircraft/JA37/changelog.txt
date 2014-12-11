@@ -933,3 +933,8 @@ GUI: Updated the aircraft help dialog.
 GUI: Made a new splash screen.
 Model: Split droptank into two, to apply ubershader on most of it.
 Model: Increased ambient light on the fuselage when running in ubershader.
+Effect: Increased flare ammo from 40 to 200.
+Effect: Fixed blinking lights not seen in replay.
+Effect: Adjusted light of flares, beacons, nav-lights, strobe and landing lights.
+Sim: Sorted the replay signals into categories.
+Sim: Renamed the type name in MP pilot list from ja37 to JA37-Viggen. (people flying older ja37 will not see 2.79+ versions)

@@ -423,6 +423,9 @@ var update_loop = func {
       input.warn.setValue(0);
     }
 
+    # sun position for ext lights
+    setprop("sim/ja37/effect/sun-pos", getprop("sim/time/sun-angle-rad") - 1);
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop

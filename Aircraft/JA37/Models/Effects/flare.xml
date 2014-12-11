@@ -14,7 +14,7 @@
   <object-name>flare</object-name>
   <interpolation>
    <entry><ind>0</ind><dep>0.5</dep></entry>
-   <entry><ind>500</ind><dep>2.0</dep></entry>
+   <entry><ind>5000</ind><dep>25.0</dep></entry>
   </interpolation>
  </animation>
 
@@ -24,11 +24,23 @@
   <emission>
    <factor-prop>sim/time/elapsed-sec</factor-prop>
    <offset>1.0</offset>
-   <red>-0.2</red>
+   <red>  -0.2</red>
    <green>-0.2</green>
-   <blue>-0.2</blue>
+   <blue> -0.2</blue>
   </emission>
  </animation>
+
+  <animation>
+    <type>scale</type>
+    <object-name>flare</object-name>
+    <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
+    <x-min>1.000</x-min>
+    <y-min>1.000</y-min>
+    <z-min>1.000</z-min>
+    <x-factor>5.00</x-factor>
+    <y-factor>5.00</y-factor>
+    <z-factor>5.00</z-factor>
+  </animation>
 
  <model>
   <name>flare_trail</name>

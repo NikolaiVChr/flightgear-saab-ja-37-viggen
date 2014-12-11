@@ -131,38 +131,56 @@
           <interpolation>linear</interpolation>
         </signal> -->
         <!-- More custom signals here -->
+
+        <!-- control surfaces -->
         <signal>
             <type>float</type>
             <property type="string">fdm/jsbsim/fcs/flap-pos-deg</property>
+            <interpolation>angular-deg</interpolation>
         </signal>
         <signal>
             <type>float</type>
             <property type="string">surface-positions/left-elevon-pos-deg</property>
+            <interpolation>angular-deg</interpolation>
         </signal>
         <signal>
             <type>float</type>
             <property type="string">surface-positions/right-elevon-pos-deg</property>
+            <interpolation>angular-deg</interpolation>
         </signal>
         <signal>
             <type>float</type>
             <property type="string">surface-positions/rudder-pos-norm</property>
+            <interpolation>linear</interpolation>
         </signal>
-        <signal>
-            <type>float</type>
-            <property type="string">surface-positions/nose-wheel-pos-norm</property>
-        </signal>
-        <signal>
-          <type>float</type>
-          <property type="string">engines/engine[0]/nozzle-pos-norm</property>
-        </signal>
-        <signal>
-          <type>bool</type>
-          <property type="string">engines/engine[0]/augmentation</property>
-        </signal>
+        <!-- Misc -->
         <signal>
           <type>bool</type>
           <property type="string">systems/electrical/batterysignal</property>
         </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">velocities/groundspeed-kt</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
+        </signal>
+        <signal>
+          <type>int8</type>
+          <property type="string">fdm/jsbsim/fcs/wings/serviceable</property>
+        </signal>
+        <!-- Instruments -->
+        <signal>
+          <type>float</type>
+          <property type="string">fdm/jsbsim/aero/alpha-deg</property>
+          <interpolation>angular-deg</interpolation>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
+        </signal>
+        <!-- Sound -->
         <signal>
           <type>float</type>
           <property type="string">engines/engine/thrust_lb</property>
@@ -170,30 +188,6 @@
         <signal>
           <type>float</type>
           <property type="string">engines/engine/thrust_lb-absolute</property>
-        </signal>      
-        <signal>
-          <type>float</type>
-          <property type="string">velocities/groundspeed-kt</property>
-        </signal>
-        <signal>
-          <type>float</type>
-          <property type="string">fdm/jsbsim/aero/alpha-deg</property>
-        </signal>
-        <signal>
-          <type>float</type>
-          <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
-        </signal>
-        <signal>
-          <type>bool</type>
-          <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
-        </signal>
-        <signal>
-          <type>bool</type>
-          <property type="string">controls/armament/station[0]/trigger</property>
-        </signal>
-        <signal>
-          <type>bool</type>
-          <property type="string">ai/submodels/submodel[0]/flare-release</property>
         </signal>
         <signal>
           <type>bool</type>
@@ -226,10 +220,23 @@
         <signal>
           <type>bool</type>
           <property type="string">fdm/jsbsim/fcs/canopy-hinges/serviceable</property>
-        </signal>        
+        </signal>
+        <!-- exterior lights -->
         <signal>
           <type>bool</type>
           <property type="string">systems/electrical/lights-ext</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/model/lighting/strobe/state</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/model/lighting/beacon/state</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">sim/ja37/effect/landing-light</property>
         </signal>
         <signal>
           <type>float</type>
@@ -239,13 +246,40 @@
           <type>float</type>
           <property type="string">controls/lighting/instruments-norm</property>
         </signal>
-        <signal>
-          <type>bool</type>
-          <property type="string">consumables/fuel/tank[8]/jettisoned</property>
-        </signal>
+        <!--<signal>
+          <type>float</type>
+          <property type="string">sim/ja37/effect/sun-pos</property>
+          <interpolation>angular-rad</interpolation>
+        </signal>-->
+        <!-- Effects -->
         <signal>
           <type>float</type>
           <property type="string">engines/engine/flame</property>
+        </signal>
+        <signal>
+          <type>int8</type>
+          <property type="string">sim/ja37/effect/smoke</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">engines/engine[0]/nozzle-pos-norm</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">engines/engine[0]/augmentation</property>
+        </signal>
+        <!-- Stores -->
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/armament/station[0]/trigger</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">ai/submodels/submodel[0]/flare-release</property>
+        </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">consumables/fuel/tank[8]/jettisoned</property>
         </signal>
         <signal>
           <type>bool</type>
@@ -279,6 +313,7 @@
           <type>int16</type>
           <property type="string">payload/weight[3]/weight-lb</property>
         </signal>
+        <!-- Gears -->
         <signal>
           <type>float</type>
           <property type="string">gear/gear/compression-ft</property>
@@ -292,16 +327,8 @@
           <property type="string">gear/gear[2]/compression-ft</property>
         </signal>            
         <signal>
-          <type>int8</type>
-          <property type="string">sim/ja37/effect/smoke</property>
-        </signal>
-        <signal>
-          <type>int8</type>
-          <property type="string">fdm/jsbsim/fcs/wings/serviceable</property>
-        </signal>
-        <signal>
-          <type>bool</type>
-          <property type="string">sim/ja37/effect/landing-light</property>
+            <type>float</type>
+            <property type="string">surface-positions/nose-wheel-pos-norm</property>
         </signal>
       </config><!-- 
     - double: 8 byte/sample
@@ -555,14 +582,15 @@
       <int n="6" alias="/sim/ja37/effect/landing-light"/>
       <int n="9" alias="/systems/electrical/lights-ext"/>
       <int n="15" alias="/sim/model/lighting/beacon/state"/>
-      <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
-      <!-- Armament -->
+      <float n="19" alias="/sim/ja37/effect/sun-pos"/>
+      <!-- Stores -->
       <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
       <int n="7" alias="/ai/submodels/submodel[0]/flare-release"/>
       <float n="11" alias="/payload/weight[0]/weight-lb"/>
       <float n="12" alias="/payload/weight[1]/weight-lb"/>
       <float n="13" alias="/payload/weight[2]/weight-lb"/>
       <float n="14" alias="/payload/weight[3]/weight-lb"/>
+      <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
       <!-- gears -->
       <float n="8" alias="/gear/gear/compression-ft"/>
       <float n="9" alias="/gear/gear[1]/compression-ft"/>

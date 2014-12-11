@@ -23,27 +23,8 @@
  </animation>
 
  <animation>
-  <type>material</type>
-  <object-name>strobe</object-name>
-  <threshold>0.001</threshold>
- </animation>
-
- <animation>
   <type>billboard</type>
   <object-name>strobe</object-name>
- </animation>
-
- <animation>
-  <type>scale</type>
-  <object-name>strobe</object-name>
-  <property>/sim/time/sun-angle-rad</property>
-  <offset>-1.4</offset>
-  <x-min>1</x-min>
-  <y-min>1</y-min>
-  <z-min>1</z-min>
-  <x-factor>12</x-factor>
-  <y-factor>12</y-factor>
-  <z-factor>12</z-factor>
  </animation>
 
  <animation>
@@ -51,8 +32,25 @@
   <object-name>strobe</object-name>
   <interpolation>
    <entry><ind>0</ind><dep>1.0</dep></entry>
-   <entry><ind>5000</ind><dep>75.0</dep></entry>
+   <entry><ind>5000</ind><dep>50.0</dep></entry>
   </interpolation>
  </animation>
 
+ <!--<animation>
+  <type>material</type>
+  <object-name>strobe</object-name>
+  <threshold>0.001</threshold>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>strobe</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
+  <x-min>1.0</x-min>
+  <y-min>1.0</y-min>
+  <z-min>1.0</z-min>
+  <x-factor>10</x-factor>
+  <y-factor>10</y-factor>
+  <z-factor>10</z-factor>
+ </animation>
 </PropertyList>
