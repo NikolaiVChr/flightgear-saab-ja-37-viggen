@@ -726,7 +726,7 @@
 <!-- strobe light -->
 
  <model>
-  <name>strobe</name>
+  <name>strobeFlash</name>
   <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
   <condition>
     <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->

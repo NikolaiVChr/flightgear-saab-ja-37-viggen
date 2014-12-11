@@ -39,13 +39,12 @@
   <animation>
     <type>scale</type>
     <object-name>LightNavGlowL</object-name>
-    <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
+    <property>/sim/time/sun-angle-rad</property>
     <x-min>0.300</x-min>
     <y-min>0.300</y-min>
     <z-min>0.300</z-min>
-    <x-factor>1.00</x-factor>
-    <y-factor>1.00</y-factor>
-    <z-factor>1.00</z-factor>
+    <offset>-1</offset>
+    <factor>1.00</factor>
   </animation>
 
   <animation>

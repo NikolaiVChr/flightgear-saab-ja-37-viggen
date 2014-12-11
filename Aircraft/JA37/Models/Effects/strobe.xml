@@ -6,17 +6,17 @@
 
  <animation>
   <type>noshadow</type>
-  <object-name>strobe</object-name>
+  <object-name>strobeGlare</object-name>
  </animation>
 
   <effect>
     <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>strobe</object-name>
+    <object-name>strobeGlare</object-name>
   </effect>
 
  <animation>
   <type>select</type>
-  <object-name>strobe</object-name>
+  <object-name>strobeGlare</object-name>
   <condition>
    <property>sim/multiplay/generic/int[5]</property><!-- sim/model/lighting/strobe/state -->
   </condition>
@@ -24,12 +24,12 @@
 
  <animation>
   <type>billboard</type>
-  <object-name>strobe</object-name>
+  <object-name>strobeGlare</object-name>
  </animation>
 
  <animation>
   <type>dist-scale</type>
-  <object-name>strobe</object-name>
+  <object-name>strobeGlare</object-name>
   <interpolation>
    <entry><ind>0</ind><dep>1.0</dep></entry>
    <entry><ind>5000</ind><dep>50.0</dep></entry>
@@ -38,17 +38,18 @@
 
  <!--<animation>
   <type>material</type>
-  <object-name>strobe</object-name>
+  <object-name>strobeGlare</object-name>
   <threshold>0.001</threshold>
  </animation>-->
 
  <animation>
   <type>scale</type>
-  <object-name>strobe</object-name>
-  <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
-  <x-min>1.0</x-min>
-  <y-min>1.0</y-min>
-  <z-min>1.0</z-min>
+  <object-name>strobeGlare</object-name>
+  <property>/sim/time/sun-angle-rad</property>
+  <x-min>5.0</x-min>
+  <y-min>5.0</y-min>
+  <z-min>5.0</z-min>
+  <offset>-1</offset>
   <x-factor>10</x-factor>
   <y-factor>10</y-factor>
   <z-factor>10</z-factor>

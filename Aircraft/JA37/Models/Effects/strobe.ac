@@ -3,7 +3,7 @@ MATERIAL "ac3dmat1" rgb 1 1 1  amb 1 1 1  emis 1 1 1  spec 0 0 0  shi 0  trans 0
 OBJECT world
 kids 1
 OBJECT poly
-name "strobe"
+name "strobeGlare"
 loc 1.35498 1.68296 0
 texture "strobe.rgb"
 numvert 4

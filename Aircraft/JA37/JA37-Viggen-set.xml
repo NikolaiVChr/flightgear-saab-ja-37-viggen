@@ -246,11 +246,6 @@
           <type>float</type>
           <property type="string">controls/lighting/instruments-norm</property>
         </signal>
-        <!--<signal>
-          <type>float</type>
-          <property type="string">sim/ja37/effect/sun-pos</property>
-          <interpolation>angular-rad</interpolation>
-        </signal>-->
         <!-- Effects -->
         <signal>
           <type>float</type>
@@ -578,7 +573,6 @@
       <int n="6" alias="/sim/ja37/effect/landing-light"/>
       <int n="9" alias="/systems/electrical/lights-ext"/>
       <int n="15" alias="/sim/model/lighting/beacon/state"/>
-      <float n="19" alias="/sim/ja37/effect/sun-pos"/>
       <!-- Stores -->
       <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
       <!--<int n="7" alias="/ai/submodels/submodel[0]/flare-release"/> submodels not used in MP -->

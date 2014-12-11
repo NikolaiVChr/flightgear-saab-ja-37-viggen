@@ -33,13 +33,12 @@
   <animation>
     <type>scale</type>
     <object-name>flare</object-name>
-    <property>sim/multiplay/generic/float[19]</property><!-- sim/ja37/effect/sun-pos -->
+    <property>/sim/time/sun-angle-rad</property>
     <x-min>1.000</x-min>
     <y-min>1.000</y-min>
     <z-min>1.000</z-min>
-    <x-factor>5.00</x-factor>
-    <y-factor>5.00</y-factor>
-    <z-factor>5.00</z-factor>
+    <offset>-1</offset>
+    <factor>5.00</factor>
   </animation>
 
  <model>

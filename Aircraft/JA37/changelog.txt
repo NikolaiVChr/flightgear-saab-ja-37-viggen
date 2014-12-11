@@ -939,3 +939,7 @@ Effect: Adjusted light of flares, beacons, nav-lights, strobe and landing lights
 Sim: Sorted the replay signals into categories.
 Sim: Renamed the type name in MP pilot list from ja37 to JA37-Viggen. (people flying older ja37 will not see 2.79+ versions)
 Sim: Canopy, flaps, nose wheel steering and elevons now gets transmitted over MP differently.
+
+2.80
+====
+Effect: Ext. lights dependance on daylight in MP is now dependant on the viewers daylight, not the planes daylight.
