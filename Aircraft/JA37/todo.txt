@@ -35,7 +35,7 @@ Sim: Move all radar logic back into radar so that users of FG HUD can use combat
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
-Sim: Make use of default multiplay properties to free more of the custom up. (will break backwards compatibility)
+Sim: Make more use of default multiplay properties to free more of the custom up. (will break backwards compatibility)
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.

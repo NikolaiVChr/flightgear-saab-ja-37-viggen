@@ -28,6 +28,11 @@
             <output>fcs/canopy-pos-norm</output>
         </kinematic>
 
+        <pure_gain name="Canopy MP">
+          <input>fcs/canopy-pos-norm</input>
+          <gain>1</gain>
+          <output>/canopy/position-norm</output><!-- used for auto MP transmit -->
+      </pure_gain>
     </channel>
 
 <!--
@@ -231,15 +236,14 @@
       <pure_gain name="Left Elevon Pos Deg">
           <input>fcs/left-elevon-pos-rad</input>
           <gain>57.296</gain>
-          <output>/surface-positions/left-elevon-pos-deg</output>
+          <output>fcs/left-aileron-pos-norm</output><!-- is really deg, but use this for MP transmit -->
       </pure_gain>
 
       <pure_gain name="Right Elevon Pos Deg">
           <input>fcs/right-elevon-pos-rad</input>
           <gain>57.296</gain>
-          <output>/surface-positions/right-elevon-pos-deg</output>
+          <output>fcs/right-aileron-pos-norm</output><!-- is really deg, but use this for MP transmit -->
       </pure_gain>
-
     </channel>
 
     <channel name="Yaw">
@@ -430,6 +434,12 @@
         <output>fcs/flap-pos-deg</output>
       </switch>
 
+      <pure_gain name="Flap pos deg MP">
+          <input>fcs/flap-pos-deg</input>
+          <gain>1</gain>
+          <output>fcs/flap-pos-norm</output><!-- is really deg, used for auto MP transmit -->
+      </pure_gain>
+
       <aerosurface_scale name="flap normalization">
         <input>fcs/flap-pos-deg</input>
         <zero_centered> false </zero_centered>
@@ -441,7 +451,7 @@
           <min> 0.0 </min>
           <max> 1.0 </max>
         </range>
-        <output>fcs/flap-pos-norm</output>
+        <output>fcs/flap-pos-normalized</output>
       </aerosurface_scale>
     </channel>
 

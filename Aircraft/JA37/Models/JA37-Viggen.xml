@@ -118,7 +118,7 @@
   <type>rotate</type>
   <object-name>glass</object-name>
   <object-name>canopy</object-name>
-  <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
+  <property>canopy/position-norm</property><!-- auto MP transmit -->
   <factor>30.0</factor>
   <center>
    <x-m>-2.67098</x-m>
@@ -146,7 +146,7 @@
 <animation>
   <type>rotate</type>
   <object-name>rudder</object-name>
-  <property>surface-positions/rudder-pos-norm</property>
+  <property>surface-positions/rudder-pos-norm</property><!-- auto MP transmit -->
   <factor>60</factor>
   <axis>   
    <x2-m> 5.70491</x2-m>
@@ -162,7 +162,7 @@
   <type>rotate</type>
   <object-name>elevonRightInner</object-name>
   <object-name>elevonRightOuter</object-name>
-  <property>sim/multiplay/generic/float[0]</property><!-- surface-positions/right-elevon-pos-deg -->
+  <property>surface-positions/right-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>   
    <x1-m> 5.84096 </x1-m>
@@ -178,7 +178,7 @@
   <type>rotate</type>
   <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
-  <property>sim/multiplay/generic/float[1]</property><!-- surface-positions/left-elevon-pos-deg -->
+  <property>surface-positions/left-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>
    <x2-m> 5.84096 </x2-m>
@@ -220,7 +220,7 @@
 <animation>
   <type>rotate</type>
   <object-name>flaps</object-name>
-  <property>sim/multiplay/generic/float[2]</property><!-- fdm/jsbsim/fcs/flap-pos-deg -->
+  <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>   
    <x1-m> -0.25811 </x1-m>
@@ -335,7 +335,7 @@
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>
   <object-name>frontLandingLightGlare</object-name>
-  <property>gear/gear[0]/position-norm</property>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
@@ -363,14 +363,14 @@
 <animation>
   <type>rotate</type>
   <condition>
-    <property>gear/gear[0]/wow</property>
+    <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
   </condition>
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
   <!--<object-name>gearFrontHinge</object-name>-->
   <object-name>landingLight</object-name>
   <object-name>frontLandingLightGlare</object-name>
-  <property>gear/gear[0]/steering-norm</property>
+  <property>sim/multiplay/generic/float[0]</property><!-- gear/gear[0]/steering-norm -->
   <factor>80</factor>
   <center>
    <x-m> -3.65342 </x-m>
@@ -390,7 +390,7 @@
   <object-name>gearLeftTop</object-name>
   <object-name>landingLightLeft</object-name>
   <object-name>leftLandingLightGlare</object-name>
-  <property>gear/gear[1]/position-norm</property>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
@@ -421,7 +421,7 @@
   <object-name>gearRightTop</object-name>
   <object-name>landingLightRight</object-name>
   <object-name>rightLandingLightGlare</object-name>
-  <property>gear/gear[2]/position-norm</property>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
@@ -699,7 +699,7 @@
   <type>material</type>
   <object-name>lightTop</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
   </condition>
   <emission>
    <red>1.0</red>
@@ -713,7 +713,7 @@
   <type>material</type>
   <object-name>lightBottom</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
   </condition>
   <emission>
    <red>1.0</red>
@@ -729,7 +729,7 @@
   <name>strobe</name>
   <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
   </condition>
   <offsets>
    <x-m>5.95508</x-m>
@@ -742,7 +742,7 @@
   <type>material</type>
   <object-name>strobe</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
   </condition>
   <emission>
    <red>1.0</red>
@@ -815,7 +815,7 @@
   <type>material</type>
   <object-name>lightLeft</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
   </condition>
   <emission>
    <red>1.0</red>
@@ -828,7 +828,7 @@
   <type>material</type>
   <object-name>lightRight</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/battery -->
+    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
   </condition>
   <emission>
    <red>0.0</red>

@@ -76,7 +76,7 @@
              </table>
              <table><!-- gear and flaps change CN -->
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">fcs/flap-pos-norm</independentVar>
+                <independentVar lookup="column">fcs/flap-pos-normalized</independentVar>
                 <tableData><!-- from graph 31c page 46 -->
                              0.0    1.0          
                        0.0   0.0    0.05   
@@ -231,7 +231,7 @@
       <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
-          <property>fcs/flap-pos-norm</property>
+          <property>fcs/flap-pos-normalized</property>
           <property>aero/drag/flaps</property>
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -1565,7 +1565,7 @@
            <property>aero/beta-rad</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">fcs/flap-pos-norm</independentVar>
+              <independentVar lookup="column">fcs/flap-pos-normalized</independentVar>
               <tableData><!-- [measured using graph analyser] -->
                                 0.0        1.0
                 -98.1030     0.137652    0.137652  

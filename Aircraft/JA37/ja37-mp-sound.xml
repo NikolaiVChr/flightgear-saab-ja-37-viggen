@@ -14,7 +14,7 @@
    <name>canopy</name>
    <path>Aircraft/JA37/Sounds/canopy.wav</path>
    <mode>in-transit</mode>
-   <property>sim/multiplay/generic/float[4]</property><!-- fdm/jsbsim/fcs/canopy-pos-norm -->
+   <property>canopy/position-norm</property><!-- auto transmit -->
    <reference-dist>2</reference-dist>
    <max-dist>30</max-dist>
    <position>

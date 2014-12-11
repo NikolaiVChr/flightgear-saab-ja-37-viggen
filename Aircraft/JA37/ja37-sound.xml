@@ -9,7 +9,7 @@
    <path>Aircraft/JA37/Sounds/canopy.wav</path>
    <mode>in-transit</mode>
    <type>avionics</type>
-   <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+   <property>canopy/position-norm</property><!-- auto transmit -->
    <reference-dist>2</reference-dist>
    <max-dist>4</max-dist>
    <position>
@@ -35,7 +35,7 @@
    <type>avionics</type>
    <condition>
     <equals>
-     <property>fdm/jsbsim/fcs/canopy-pos-norm</property>
+     <property>canopy/position-norm</property><!-- auto transmit -->
      <value>0.0</value>
     </equals>
    </condition>

@@ -927,7 +927,7 @@ Effect: Passed to shaders that strobe light should be transparent.
 ====
 Effect: Fixed a bug that would make landing lights not show externally in FG 3.2 and lower.
 
-2.79
+2.79 - 2014 December 10
 ====
 GUI: Updated the aircraft help dialog.
 GUI: Made a new splash screen.
@@ -938,3 +938,4 @@ Effect: Fixed blinking lights not seen in replay.
 Effect: Adjusted light of flares, beacons, nav-lights, strobe and landing lights.
 Sim: Sorted the replay signals into categories.
 Sim: Renamed the type name in MP pilot list from ja37 to JA37-Viggen. (people flying older ja37 will not see 2.79+ versions)
+Sim: Canopy, flaps, nose wheel steering and elevons now gets transmitted over MP differently.
