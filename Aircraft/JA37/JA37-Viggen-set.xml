@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>2.78</aircraft-version>
+    <aircraft-version>2.79</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -365,7 +365,7 @@
 *************************************************************************-->   
 
     <model>
-      <path archive="y">Aircraft/JA37/Models/ja37-model.xml</path>
+      <path archive="y">Aircraft/JA37/Models/JA37-Viggen.xml</path>
       
       <livery>                      <!-- Default Livery -->
         <file type="string"/>
