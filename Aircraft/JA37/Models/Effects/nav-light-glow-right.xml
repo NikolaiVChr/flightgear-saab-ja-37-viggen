@@ -40,11 +40,15 @@
     <type>scale</type>
     <object-name>LightNavGlowR</object-name>
     <property>/sim/time/sun-angle-rad</property>
-    <x-min>0.300</x-min>
-    <y-min>0.300</y-min>
-    <z-min>0.300</z-min>
-    <offset>-1</offset>
-    <factor>1.00</factor>
+    <x-min>0.050</x-min>
+    <y-min>0.050</y-min>
+    <z-min>0.050</z-min>
+    <x-offset>-1</x-offset>
+    <y-offset>-1</y-offset>
+    <z-offset>-1</z-offset>
+    <x-factor>1</x-factor>
+    <y-factor>1</y-factor>
+    <z-factor>1</z-factor>
   </animation>
 
   <animation>

@@ -212,6 +212,8 @@
   <object-name>wingLeft</object-name>
   <object-name>landingLightLeft</object-name>
   <object-name>landingLightRight</object-name>
+  <object-name>missile</object-name>
+  <object-name>missile1</object-name>
   <condition>
     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>

@@ -943,3 +943,8 @@ Sim: Canopy, flaps, nose wheel steering and elevons now gets transmitted over MP
 2.80
 ====
 Effect: Ext. lights dependance on daylight in MP is now dependant on the viewers daylight, not the planes daylight.
+Effect: Readjusted ext. lights in daylight to be more subtle.
+Effect: Readjusted light of flares.
+Sim: Made cannon rounds limit to 146, flares to 40.
+GUI: Made menu option for reloading flares, cannon rounds and missiles.
+Animation: When wings break off, wing mounted missiles is now also detached.

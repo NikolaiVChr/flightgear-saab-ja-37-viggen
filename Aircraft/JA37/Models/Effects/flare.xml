@@ -12,9 +12,10 @@
  <animation>
   <type>dist-scale</type>
   <object-name>flare</object-name>
+  <object-name>flare_trail</object-name>
   <interpolation>
-   <entry><ind>0</ind><dep>0.5</dep></entry>
-   <entry><ind>5000</ind><dep>25.0</dep></entry>
+   <entry><ind>0</ind><dep>1.0</dep></entry>
+   <entry><ind>5000</ind><dep>50.0</dep></entry>
   </interpolation>
  </animation>
 
@@ -33,12 +34,17 @@
   <animation>
     <type>scale</type>
     <object-name>flare</object-name>
+    <object-name>flare_trail</object-name>
     <property>/sim/time/sun-angle-rad</property>
-    <x-min>1.000</x-min>
-    <y-min>1.000</y-min>
-    <z-min>1.000</z-min>
-    <offset>-1</offset>
-    <factor>5.00</factor>
+    <x-min>0.700</x-min>
+    <y-min>0.700</y-min>
+    <z-min>0.700</z-min>
+    <x-offset>-1</x-offset>
+    <y-offset>-1</y-offset>
+    <z-offset>-1</z-offset>
+    <x-factor>0.5</x-factor>
+    <y-factor>0.5</y-factor>
+    <z-factor>0.5</z-factor>
   </animation>
 
  <model>

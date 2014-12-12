@@ -5,11 +5,11 @@
   <submodel>
     <name>flares</name>
     <model>Aircraft/JA37/Models/Effects/flare.xml</model>
-    <trigger>sim/multiplay/generic/int[7]</trigger><!-- ai/submodels/submodel[0]/flare-release -->
-    <speed>100.0</speed>   <!-- ft/sec -->
+    <trigger>ai/submodels/submodel[0]/flare-release</trigger><!-- ai/submodels/submodel[0]/flare-release -->
+    <speed>300.0</speed>   <!-- ft/sec -->
     <repeat>true</repeat>
     <delay>0.75</delay>
-    <count>200</count><!-- was 40 -->
+    <count>40</count><!-- was 40 -->
     <x-offset>5.0</x-offset>
     <y-offset>2.0</y-offset>
     <z-offset>0.1</z-offset>
@@ -26,7 +26,7 @@
     <speed>3383.33</speed><!-- ft/sec-->
     <repeat>true</repeat>
     <delay>0.44</delay><!-- secs between repeats, every 10th is tracer -->
-    <count>-1</count>
+    <count>146</count>
     <x-offset>  0.0</x-offset>
     <y-offset>  0.0</y-offset>
     <z-offset> -1.2</z-offset>
@@ -45,7 +45,7 @@
     <speed>3383.33</speed>
     <repeat>true</repeat>
     <delay>0.044</delay>
-    <count>-1</count>
+    <count>146</count>
     <x-offset>  0.0</x-offset>
     <y-offset>  0.0</y-offset>
     <z-offset> -1.2</z-offset>
@@ -70,7 +70,7 @@
     <speed>10.0</speed>
     <repeat>true</repeat>
     <delay>0.01</delay>
-    <count>-1</count>
+    <count>146</count>
     <x-offset>  0.0</x-offset>
     <y-offset>  0.0</y-offset>
     <z-offset> -1.2</z-offset>

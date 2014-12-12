@@ -556,30 +556,30 @@
     <multiplay>
      <generic>
       <!-- effects -->
-      <int n="0" alias="/sim/ja37/effect/smoke"/>
+      <int n="0" alias="/sim/ja37/effect/smoke"/><!-- to show smoke -->
       <!-- Animation control surfaces -->
-      <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/>
-      <int n="2" alias="/fdm/jsbsim/fcs/wings/serviceable"/>
+      <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/><!-- to show detachment of canopy -->
+      <int n="2" alias="/fdm/jsbsim/fcs/wings/serviceable"/><!-- to show detachment of wings -->
       <!-- Animating engine -->
-      <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/>
-      <float n="5" alias="/engines/engine/flame"/>
-      <float n="15" alias="/engines/engine/n1"/>
-      <float n="16" alias="/engines/engine/thrust_lb-absolute"/>
-      <int n="3" alias="/engines/engine/running"/>
-      <int n="4" alias="/engines/engine[0]/augmentation"/>
-      <int n="8" alias="/engines/engine[0]/reversed"/>
+      <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/><!-- to animate afterburnerflame -->
+      <float n="5" alias="/engines/engine/flame"/><!-- to animate engine flame -->
+      <float n="15" alias="/engines/engine/n1"/><!-- used in MP sound -->
+      <float n="16" alias="/engines/engine/thrust_lb-absolute"/><!-- used in MP sound -->
+      <int n="3" alias="/engines/engine/running"/><!-- used in MP sound -->
+      <int n="4" alias="/engines/engine[0]/augmentation"/><!-- used in MP sound -->
+      <int n="8" alias="/engines/engine[0]/reversed"/><!-- to animate afterburnerflame -->
       <!-- Animating light -->
-      <int n="5" alias="/sim/model/lighting/strobe/state"/>
-      <int n="6" alias="/sim/ja37/effect/landing-light"/>
-      <int n="9" alias="/systems/electrical/lights-ext"/>
-      <int n="15" alias="/sim/model/lighting/beacon/state"/>
+      <int n="5" alias="/sim/model/lighting/strobe/state"/><!-- to animate strobe -->
+      <int n="6" alias="/sim/ja37/effect/landing-light"/><!-- to animate landing lights -->
+      <int n="9" alias="/systems/electrical/lights-ext"/><!-- to animate ext. lights -->
+      <int n="15" alias="/sim/model/lighting/beacon/state"/><!-- to animate beacons -->
       <!-- Stores -->
       <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
       <!--<int n="7" alias="/ai/submodels/submodel[0]/flare-release"/> submodels not used in MP -->
-      <float n="11" alias="/payload/weight[0]/weight-lb"/>
-      <float n="12" alias="/payload/weight[1]/weight-lb"/>
-      <float n="13" alias="/payload/weight[2]/weight-lb"/>
-      <float n="14" alias="/payload/weight[3]/weight-lb"/>
+      <float n="11" alias="/payload/weight[0]/weight-lb"/><!-- used to show missiles -->
+      <float n="12" alias="/payload/weight[1]/weight-lb"/><!-- used to show missiles -->
+      <float n="13" alias="/payload/weight[2]/weight-lb"/><!-- used to show missiles -->
+      <float n="14" alias="/payload/weight[3]/weight-lb"/><!-- used to show missiles -->
       <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/><!-- used for drop tank -->
       <!-- gears -->
       <float n="8" alias="/gear/gear/compression-ft"/><!-- used for gear anim -->
@@ -595,12 +595,12 @@
       <float n="17" alias="/velocities/airspeed-kt"/><!-- used in MP sound -->
       <float n="18" alias="/velocities/speed-down-fps"/><!-- used in MP sound -->
       <!-- for Bombable: -->
-      <string n="9" type="string"/>
-      <int n="10" alias="/controls/armament/station[0]/trigger"/>
-      <int n="11" alias="/controls/armament/station[1]/trigger"/>
-      <int n="12" alias="/controls/armament/station[2]/trigger"/>
-      <int n="13" alias="/controls/armament/station[3]/trigger"/>
-      <int n="14" alias="/controls/armament/station[4]/trigger"/>
+      <string n="9" type="string"/><!-- used in bombable -->
+      <int n="10" alias="/controls/armament/station[0]/trigger"/><!-- used to fire cannon in bombable -->
+      <int n="11" alias="/controls/armament/station[1]/trigger"/><!-- used to fire missile in bombable -->
+      <int n="12" alias="/controls/armament/station[2]/trigger"/><!-- used to fire missile in bombable -->
+      <int n="13" alias="/controls/armament/station[3]/trigger"/><!-- used to fire missile in bombable -->
+      <int n="14" alias="/controls/armament/station[4]/trigger"/><!-- used to fire missile in bombable -->
      </generic>
     </multiplay>
 
@@ -623,7 +623,7 @@
   	 </key>
      <key>
       <name>Ctrl-f</name>
-      <desc>Trigger flare release</desc>
+      <desc>Hold down to trigger flare release</desc>
      </key>
      <key>
       <name>e (lower case 'e')</name>
@@ -837,7 +837,13 @@
          <script>crash.repair();</script>
         </binding>
        </item>
-       
+       <item>
+        <label>Reload all</label>
+        <binding>
+         <command>nasal</command>
+         <script>ja37.reload();</script>
+        </binding>
+       </item>
         <item>
           <label>Monitor Start</label>
           <binding>

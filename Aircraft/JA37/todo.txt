@@ -9,7 +9,7 @@ GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground.
 Aero: Make cannon pod detachable and have pointweight.
-Aero: Check kinematic on all flight-control surfaces.
+Aero: Add kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Animation: Min and max on several gauges.
 Animation: Animate wheels. (tough when gears get compressed..)
@@ -23,7 +23,7 @@ Model: Make use of the new LOD interior system. FG 3.4. (will break backwards co
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
-Sim: Overhaul crash code. (sliding, loss of inertia when crashing, short random failure time at structural break instead of instant failure)
+Sim: Overhaul crash code. (sliding, loss of inertia when crashing)
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Sim: Reset controls after A/P let go of them.
@@ -35,7 +35,7 @@ Sim: Move all radar logic back into radar so that users of FG HUD can use combat
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
-Sim: Make more use of default multiplay properties to free more of the custom up. (will break backwards compatibility)
+Sim: Make more use of default multiplay properties to free more of the custom up.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -74,6 +74,7 @@ HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switch
 HUD: I have experienced that combat mode was on by default. [not reliable reproduced]
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
+Effect: Flare trail is not visible anymore. [reproduced]
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, autostart might fail.
