@@ -74,7 +74,6 @@ HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switch
 HUD: I have experienced that combat mode was on by default. [not reliable reproduced]
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
-Effect: Flare trail is not visible anymore. [reproduced]
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, autostart might fail.

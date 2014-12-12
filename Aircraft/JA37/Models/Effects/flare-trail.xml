@@ -65,7 +65,7 @@
      </alpha>
     </color>
     <size>
-     <value>5.00</value>
+     <value>0.25</value>
     </size>
    </start>
    <end>
@@ -84,7 +84,7 @@
      </alpha>
     </color>
     <size>
-     <value>1.25</value>
+     <value>0.1</value>
     </size>
    </end>
    <life-sec>

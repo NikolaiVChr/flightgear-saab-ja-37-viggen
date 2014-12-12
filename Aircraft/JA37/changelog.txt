@@ -948,3 +948,6 @@ Effect: Readjusted light of flares.
 Sim: Made cannon rounds limit to 146, flares to 40.
 GUI: Made menu option for reloading flares, cannon rounds and missiles.
 Animation: When wings break off, wing mounted missiles is now also detached.
+Sim: Flares will now deploy to both sides from positions beneath the wings.
+Sim: Increased flare speed.
+Effect: Flare trail light now depends also on daylight and distance.
