@@ -486,6 +486,7 @@
    <object-name>wheelFront</object-name>
    <object-name>landingLight</object-name>
    <object-name>frontLandingLightGlare</object-name>
+   <object-name>tyre-smoke-nose</object-name>
    <property>sim/multiplay/generic/float[8]</property><!-- gear/gear/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -504,6 +505,7 @@
    <object-name>gearLeftTop</object-name>
    <object-name>landingLightLeft</object-name>
    <object-name>leftLandingLightGlare</object-name>
+   <object-name>tyre-smoke-left</object-name>
    <property>sim/multiplay/generic/float[9]</property><!-- gear/gear[1]/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -522,6 +524,7 @@
    <object-name>gearRightTop</object-name>
    <object-name>landingLightRight</object-name>
    <object-name>rightLandingLightGlare</object-name>
+   <object-name>tyre-smoke-right</object-name>
    <property>sim/multiplay/generic/float[10]</property><!-- gear/gear[2]/compression-ft -->
    <factor>0.3048</factor>
    <axis>
@@ -641,9 +644,9 @@
 
 <model>
   <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
-  <name>tyre-smoke-n</name>
+  <name>tyre-smoke-nose</name>
   <offsets>
-    <x-m> -3.37652 </x-m>
+    <x-m> -3.65342 </x-m>
     <y-m> 0 </y-m>
     <z-m> -2.1 </z-m>
   </offsets>

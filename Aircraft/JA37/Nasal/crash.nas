@@ -367,7 +367,6 @@ repair = func {
 	setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", 0);
 	setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", 0);
 	setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", 0);
-	setprop("fdm/jsbsim/fcs/wings/serviceable", 1);
 
 	if(getprop("sim/ja37/failures/installed") == 1) {
 		unfailAll();
@@ -477,9 +476,9 @@ setServiceable = func {
 
 	#Unlock controls
 	setprop("instrumentation/gear-control/serviceable", 1);
-	#setprop("fdm/jsbsim/gear/unit[0]/z-position", -82.67716548);
-	#setprop("fdm/jsbsim/gear/unit[1]/z-position", -82.67716548);
-	#setprop("fdm/jsbsim/gear/unit[2]/z-position", -82.67716548);
+	setprop("fdm/jsbsim/gear/unit[0]/z-position", -82.67716548);
+	setprop("fdm/jsbsim/gear/unit[1]/z-position", -82.67716548);
+	setprop("fdm/jsbsim/gear/unit[2]/z-position", -82.67716548);
 
 	setprop("instrumentation/flaps-control/serviceable", 1);
 	setprop("instrumentation/speed-brake-control/serviceable", 1);
@@ -490,7 +489,7 @@ setServiceable = func {
 	setprop("instrumentation/photo/serviceable", 1);
 	setprop("instrumentation/drop-tank/serviceable", 1);
 	setprop("instrumentation/pedals/serviceable", 1);
-
+	setprop("fdm/jsbsim/fcs/wings/serviceable", 1);
 	setprop("controls/flight/aileron/serviceable", 1);
 	setprop("controls/flight/elevator/serviceable", 1);
 
@@ -505,7 +504,6 @@ damageOnHit = func {
 	} else {
 		aircraft_lock_all();
 	}
-	setprop("fdm/jsbsim/fcs/wings/serviceable", 0);
 }
 
 damageOnWingsBreak = func {
@@ -543,6 +541,9 @@ aircraft_lock_wings = func {
 	setprop("controls/flight/aileron/serviceable", 0);
 	setprop("controls/flight/elevator/serviceable", 0);
 	setprop("fdm/jsbsim/fcs/wings/serviceable", 0);
+	setprop("fdm/jsbsim/gear/unit[0]/z-position", 0.001);
+	setprop("fdm/jsbsim/gear/unit[1]/z-position", 0.001);
+	setprop("fdm/jsbsim/gear/unit[2]/z-position", 0.001);
 }
 
 aircraft_lock_all = func {

@@ -121,18 +121,6 @@ var update_loop = func {
       bingoFuel = 1;
     }
 
-    ## control augmented thrust ##
-     
-    var n1 = input.n1.getValue();
-    var n2 = input.n2.getValue();
-    var reversed = input.reversed.getValue();
-
-    if ( (n1 > 102) and (n2 > 99) and (reversed == 0) ) { #was 99 and 97
-      input.augmentation.setValue(1);
-    } else {
-      input.augmentation.setValue(0);
-    }
-
     ## control flaps ##
 
     var flapsCommand = 0;
@@ -344,7 +332,8 @@ var update_loop = func {
 
 
     # automatic reverse thrust enabler
-
+    var reversed = input.reversed.getValue();
+    
     var gear0 = input.wow0.getValue();
     var gear1 = input.wow1.getValue();
     var gear2 = input.wow2.getValue();
@@ -423,6 +412,19 @@ var update_loop = func {
       input.warn.setValue(0);
     }
 
+    # switch on and off landing lights
+    if(getprop("systems/electrical/outputs/battery") > 24 and getprop("controls/electric/lights-land-switch") == 1) {
+      setprop("sim/ja37/effect/landing-light", 1);
+      if(getprop("sim/current-view/internal") == 1 and getprop("sim/ja37/supported/landing-light") == 1) {
+          setprop("sim/rendering/als-secondary-lights/use-landing-light", 1);
+        } else {
+          setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
+        }
+    } else {
+      setprop("sim/ja37/effect/landing-light", 0);
+      setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
+    }
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
@@ -431,6 +433,7 @@ var update_loop = func {
   }
 }
 
+# fast updating loop
 var speed_loop = func () {
   # calc pilot g-force
   var GCurrent = getprop("/accelerations/pilot/z-accel-fps_sec");
@@ -440,21 +443,19 @@ var speed_loop = func () {
     setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
   }
 
-  # switch on and off landing lights
-  if(getprop("systems/electrical/outputs/battery") > 24 and getprop("controls/electric/lights-land-switch") == 1) {
-    setprop("sim/ja37/effect/landing-light", 1);
-    if(getprop("sim/current-view/internal") == 1 and getprop("sim/ja37/supported/landing-light") == 1) {
-        setprop("sim/rendering/als-secondary-lights/use-landing-light", 1);
-      } else {
-        setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
-      }
+  ## control augmented thrust ##
+   
+  var n1 = input.n1.getValue();
+  var n2 = input.n2.getValue();
+  var reversed = input.reversed.getValue();
+
+  if ( (n1 > 102) and (n2 > 99) and (reversed == 0) ) { #was 99 and 97
+    input.augmentation.setValue(1);
   } else {
-    setprop("sim/ja37/effect/landing-light", 0);
-    setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
+    input.augmentation.setValue(0);
   }
 
   # Animating engine fire
-  var n1 = input.n1.getValue();
   if (n1 > 100) n1 = 100;
   var flame = 100 / (100-n1);
   input.flame.setValue(flame);
@@ -639,7 +640,7 @@ var re_init = func {
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
-  test_support();
+  #test_support();
 }
 
 var load_interior = func{

@@ -66,25 +66,30 @@ var System_P = {
 
   update : func {
     if (!me.running) return;
-    var service = getprop("/systems/electrical/serviceable");
-    var time=getprop("/sim/time/elapsed-sec");
-    me.dt= time-me.oldtime;
-    foreach (con; me.connections) {
-      if(service == 0 and rand() > 0.30) dp=num(con.off); else dp=getprop(con.dep); #electrical system has failed?
-      if (dp != nil) {
-        if (num(con.limit) != nil) limit=num(con.limit); else limit=getprop(con.limit);
-        if (con.in == ".") me.change_value(con.out, dp, con.ramp); #copy dep value to out
-        else if (dp <= limit) {
-            if (num(con.off) != nil) me.change_value(con.out, num(con.off), con.ramp);
-            else me.change_value(con.out, getprop(con.off), con.ramp);
-        } else {
-          if (num(con.in) != nil) me.change_value(con.out, num(con.in), con.ramp);
-          else me.change_value(con.out, getprop(con.in), con.ramp);
+    if(getprop("sim/replay/replay-state") == 1) {
+      # replay is active, skip rest of loop.
+      settimer( func me.update(), 0.05);
+    } else {
+      var service = getprop("/systems/electrical/serviceable");
+      var time=getprop("/sim/time/elapsed-sec");
+      me.dt= time-me.oldtime;
+      foreach (con; me.connections) {
+        if(service == 0 and rand() > 0.30) dp=num(con.off); else dp=getprop(con.dep); #electrical system has failed?
+        if (dp != nil) {
+          if (num(con.limit) != nil) limit=num(con.limit); else limit=getprop(con.limit);
+          if (con.in == ".") me.change_value(con.out, dp, con.ramp); #copy dep value to out
+          else if (dp <= limit) {
+              if (num(con.off) != nil) me.change_value(con.out, num(con.off), con.ramp);
+              else me.change_value(con.out, getprop(con.off), con.ramp);
+          } else {
+            if (num(con.in) != nil) me.change_value(con.out, num(con.in), con.ramp);
+            else me.change_value(con.out, getprop(con.in), con.ramp);
+          }
         }
       }
+      me.oldtime=time;
+      settimer( func me.update(), 0.05);
     }
-    me.oldtime=time;
-    settimer( func me.update(), 0.05);    
   },
 
   init : func {

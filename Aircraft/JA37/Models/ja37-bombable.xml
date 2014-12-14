@@ -319,7 +319,6 @@
          # Smoke types available: flare, jetcontrail, pistonexhaust, smoketrail,
          # damagedengine                        
          bombable.startSmoke("jetcontrail", thisNodeName );
-         #F-15E already has contrails, we're leaving this out
          #
          # END INITIALIZE BOMBABLE
          ########################################################################
