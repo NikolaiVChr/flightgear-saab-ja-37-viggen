@@ -29,48 +29,9 @@
     </offsets>
   </model>
 
+  <!-- tutorial marker -->
   <model>
       <path>Models/Aircraft/marker.xml</path>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
-    <name>lightglowR</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model> 
-
- <model>
-    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
-    <name>lightglowL</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model> 
-
-  <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
-    <name>lightglowT</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
-    <name>lightglowB</name>
-    <offsets>
-      <x-m>0.0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0.0</z-m>
-    </offsets>
   </model>
 
 <!-- Material shaders   -->
@@ -557,6 +518,27 @@
    <z-m>0.0</z-m>
   </offsets>
  </model>
+
+<model>
+  <name>InternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
+  <offsets>
+   <x-m>0.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+ 
+ 
+<model>
+  <name>ExternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
+  <offsets>
+   <x-m>5.75</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
  
  <!--<model>  never worked as intended, so commented out.
   <name>strake-vortex</name>
@@ -640,7 +622,7 @@
     </offsets>
   </model>
 
-<!--         tiresmoke               -->
+<!--         tyresmoke               -->
 
 <model>
   <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
@@ -672,33 +654,32 @@
  </offsets>
 </model>
 
-<model>
-  <name>InternalFlame</name>
-  <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
-  <offsets>
-   <x-m>0.0</x-m>
-   <y-m>0.0</y-m>
-   <z-m>0.0</z-m>
-  </offsets>
- </model>
- 
- 
-<model>
-  <name>ExternalFlame</name>
-  <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
-  <offsets>
-   <x-m>5.75</x-m>
-   <y-m>0.0</y-m>
-   <z-m>0.0</z-m>
-  </offsets>
- </model>
-
  <!-- end effects -->
 
 
 <!-- ===================== START LIGHTING =========================== -->
 
 <!-- beacon lights -->
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
+    <name>lightglowT</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
+    <name>lightglowB</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
 
  <animation>
   <type>material</type>
@@ -815,6 +796,26 @@
   </model>
 
 <!-- Navigation lights -->
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
+    <name>lightglowR</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model> 
+
+ <model>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
+    <name>lightglowL</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
 
  <animation>
   <type>material</type>

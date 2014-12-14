@@ -964,3 +964,4 @@ Engine: At reinit the thrust will now be set to forward.
 Engine: Made afterburner onset more responsive.
 Sim: Fixed crash code would manually set wings unserviceable even though they had installed a failure mode.
 Sim: Fixed wings would always break off at crashing, now they have proper 70% chance to fail at crash.
+Sim: Moved engine effects into own folder.

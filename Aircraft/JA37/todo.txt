@@ -22,7 +22,6 @@ Model: Gauges that share mount design should also share geometry and textures.
 Model: Make use of the new LOD interior system. FG 3.4. (will break backwards compatibility)
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
-Sim: Limit cannon rounds to 150. (146?) And make menu item to reload it.
 Sim: Overhaul crash code. (sliding, loss of inertia when crashing)
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
@@ -76,11 +75,10 @@ GUI: The performance monitor can duplicate itself when selecting airport. [repro
 Effect: {JazzTp} Strobe looks bad in FG 3.0, but better in FG 3.1 [wont fix]
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
-Sim: When running at reduced sim time, autostart might fail.
+Sim: When running at reduced sim time, autostart might fail. [reproduced]
 Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft if unlucky. [reproduced, might be fixed now]
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Animation: Selection view does not follow carriers. (they lack radar properties)
-Engine: If the aircrafts crashes, auto-reversing active, and then relocated to an airport, and started, the engine will be reversed but doing positive thrust.
 
 
 Issues with FG: (or my limited understanding of it)

@@ -15,7 +15,7 @@ Wildfire: On (for crashing)
 Particles: On (Used for various stuff)
 Advanced weather: Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
 Model-shader: top setting
-Cockpit view options: Enable dynamic cockpit view.
+Cockpit view options: Enable dynamic cockpit view. Enable redout/blackout.
 
 
 Compatibility with Flightgear 2.8
