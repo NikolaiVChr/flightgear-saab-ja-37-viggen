@@ -8,12 +8,12 @@
   <particlesystem>
     <name>smokeB</name>
 
-    <texture>smoke.png</texture>
+    <texture>../smoke.png</texture>
 
     <condition>
       <and>
         <equals>
-          <property>sim/multiplay/generic/int[0]</property>
+          <property>sim/multiplay/generic/int[0]</property><!-- sim/ja37/effect/smoke -->
           <value>3</value>
         </equals>
       </and>

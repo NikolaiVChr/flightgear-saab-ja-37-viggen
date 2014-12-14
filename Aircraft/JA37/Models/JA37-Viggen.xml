@@ -540,7 +540,7 @@
  <!-- start effects -->
  <model>
   <name>exhaust_smoke</name>
-  <path>Aircraft/JA37/Models/Effects/exhaust.xml</path>
+  <path>Aircraft/JA37/Models/Effects/engine/exhaust.xml</path>
   <offsets>
    <x-m>1.0</x-m>
    <y-m>0.0</y-m>
@@ -550,7 +550,7 @@
 
 <model>
   <name>engine_smoke</name>
-  <path>Aircraft/JA37/Models/Effects/smoke.xml</path>
+  <path>Aircraft/JA37/Models/Effects/engine/smoke.xml</path>
   <offsets>
    <x-m>8.0</x-m>
    <y-m>0.0</y-m>
@@ -674,7 +674,7 @@
 
 <model>
   <name>InternalFlame</name>
-  <path>Aircraft/JA37/Models/Effects/InternalFlame.xml</path>
+  <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
   <offsets>
    <x-m>0.0</x-m>
    <y-m>0.0</y-m>
@@ -685,7 +685,7 @@
  
 <model>
   <name>ExternalFlame</name>
-  <path>Aircraft/JA37/Models/Effects/ExternalFlame.xml</path>
+  <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
   <offsets>
    <x-m>5.75</x-m>
    <y-m>0.0</y-m>

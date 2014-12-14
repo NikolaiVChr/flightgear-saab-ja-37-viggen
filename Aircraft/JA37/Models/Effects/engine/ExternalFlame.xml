@@ -5,7 +5,7 @@
 
   <model>
    <name>ExternalFlame</name>
-   <path>Aircraft/JA37/Models/Effects/externalflame.ac</path>
+   <path>Aircraft/JA37/Models/Effects/engine/externalflame.ac</path>
    <nopreview/>
    <offsets> 
     <x-m>0</x-m>

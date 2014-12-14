@@ -12,7 +12,7 @@
  
 <model>
  <name>InternalFlame</name>
- <path>Aircraft/JA37/Models/Effects/internalflame.ac</path>
+ <path>Aircraft/JA37/Models/Effects/engine/internalflame.ac</path>
  <!--<offsets>
   <pitch-deg>-10.671</pitch-deg> 
   <x-m>1.80063</x-m>
