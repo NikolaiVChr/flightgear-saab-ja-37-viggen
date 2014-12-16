@@ -9,7 +9,7 @@ togglereverser = func
   if (reverserPosValue == 0 or reverserPosValue == nil) {
     #reverse thrust
     ja37.click();
-    gui.popupTip("Thrust: Reverse");
+    ja37.popupTip("Thrust: Reverse");
     interpolate(reverserPos.getPath(), 1.0, 1.0);  
     jsbEngine.getChild("reverser-angle-rad").setValue(2.0671);# Max 7716.18lbs thrust. So acos(-7716.18/16203.98).
     controlsEngine.getChild("reverser").setBoolValue(1);
@@ -18,7 +18,7 @@ togglereverser = func
     if (reverserPosValue == 1.0) {
       #forward thrust
       ja37.click();
-      gui.popupTip("Thrust: Forward");
+      ja37.popupTip("Thrust: Forward");
       interpolate(reverserPos.getPath(), 0.0, 1.0); 
       jsbEngine.getChild("reverser-angle-rad").setValue(0);
       controlsEngine.getChild("reverser").setBoolValue(0);

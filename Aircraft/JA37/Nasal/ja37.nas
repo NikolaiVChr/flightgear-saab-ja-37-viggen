@@ -333,7 +333,7 @@ var update_loop = func {
 
     # automatic reverse thrust enabler
     var reversed = input.reversed.getValue();
-    
+
     var gear0 = input.wow0.getValue();
     var gear1 = input.wow1.getValue();
     var gear2 = input.wow2.getValue();
@@ -524,20 +524,20 @@ var test_support = func {
   var minor = num(version[1]);
   var detail = num(version[2]);
   if (major < 2) {
-    gui.popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+    popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", 0);
       setprop("sim/ja37/supported/hud", 0);
       setprop("sim/ja37/supported/options", 0);
       setprop("sim/ja37/supported/old-custom-fails", 0);
   } elsif (major == 2) {
     if(minor < 7) {
-      gui.popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+      popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", 0);
       setprop("sim/ja37/supported/hud", 0);
       setprop("sim/ja37/supported/options", 0);
       setprop("sim/ja37/supported/old-custom-fails", 1);
     } elsif(minor < 9) {
-      gui.popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
+      popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("sim/ja37/supported/radar", 0);
       setprop("sim/ja37/supported/hud", 0);
       setprop("sim/ja37/supported/options", 0);
@@ -661,16 +661,16 @@ var re_init_listener = setlistener("/sim/signals/reinit", func {
 
 var drop = func {
     if (getprop("/consumables/fuel/tank[8]/jettisoned") == 1) {
-       gui.popupTip("Drop tank already jettisoned.");
+       popupTip("Drop tank already jettisoned.");
        return;
     }  
     if (getprop("/gear/gear[0]/wow") > 0.05) {
-       gui.popupTip("Can not eject drop tank while on ground!"); 
+       popupTip("Can not eject drop tank while on ground!"); 
        return;
     }  
     click();
     setprop("payload/weight[4]/selected", "none");# empty the pylon
-    gui.popupTip("Drop tank shut off and ejected. Using internal fuel.");
+    popupTip("Drop tank shut off and ejected. Using internal fuel.");
  }
 
 ############ strobes #####################
@@ -704,7 +704,7 @@ var autostarttimer = func {
   if (autostarting == 0) {
     autostarting = 1;
     if (getprop("/engines/engine[0]/running") > 0) {
-     gui.popupTip("Stopping engine. Turning off battery.");
+     popupTip("Stopping engine. Turning off battery.");
      click();
      setprop("/controls/engines/engine[0]/cutoff", 1);
   	 setprop("/controls/engines/engine[0]/starter", 0);
@@ -716,10 +716,10 @@ var autostarttimer = func {
       if (getprop("sim/ja37/damage/crashed") < 1) {
         setprop("/controls/electric/battery-switch", 1);
         click();
-        gui.popupTip("Battery switch on. Check.");
+        popupTip("Battery switch on. Check.");
     	  settimer(autostart, 2, 1);
       } else {
-        gui.popupTip("Engine not reacting. Consider ejecting yourself.");
+        popupTip("Engine not reacting. Consider ejecting yourself.");
         autostarting = 0;
       }
     }
@@ -730,14 +730,14 @@ var autostarttimer = func {
 var autostart = func {
   setprop("/controls/electric/engine[0]/generator", 0);
   if (getprop("controls/electric/engine[0]/generator") == 0) {
-    gui.popupTip("Starting engine.");
+    popupTip("Starting engine.");
     click();
     setprop("/controls/engines/engine[0]/cutoff", 1);
     setprop("/controls/engines/engine[0]/starter", 1);
     start_count = 0;
     settimer(waiting_n1, 0.5, 1);
   } else {
-    gui.popupTip("Generator switch turned on. Engine restart aborted.");
+    popupTip("Generator switch turned on. Engine restart aborted.");
     autostarting = 0;
   }
 }
@@ -748,9 +748,9 @@ var waiting_n1 = func {
   #print(start_count);
   if (start_count > 45) {
     if(bingoFuel == 0) {
-      gui.popupTip("Autostart failed. Report bug to aircraft developer.");
+      popupTip("Autostart failed. Report bug to aircraft developer.");
     } else {
-      gui.popupTip("Engine start failed. Check fuel.");
+      popupTip("Engine start failed. Check fuel.");
     }
     print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
     setprop("/controls/engines/engine[0]/cutoff", 1);
@@ -764,12 +764,12 @@ var waiting_n1 = func {
         click();
         setprop("/controls/engines/engine[0]/cutoff", 0);
         if (getprop("/controls/engines/engine[0]/cutoff") == 0) {
-          gui.popupTip("Engine igniting.");
+          popupTip("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
         } else {
           print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
           setprop("/controls/engines/engine[0]/starter", 0);
-          gui.popupTip("Engine not igniting. Aborting engine start.");
+          popupTip("Engine not igniting. Aborting engine start.");
           autostarting = 0;
         }
       } else {
@@ -779,7 +779,7 @@ var waiting_n1 = func {
       #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch"));
       click();
       setprop("controls/electric/engine[0]/generator", 1);
-      gui.popupTip("Generator on.");
+      popupTip("Generator on.");
       settimer(final_engine, 0.5, 1);
     } else {
       settimer(waiting_n1, 0.5, 1);
@@ -793,9 +793,9 @@ var final_engine = func () {
   start_count += 1;
   if (start_count > 70) {
     if(bingoFuel == 0) {
-      gui.popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
+      popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     } else {
-      gui.popupTip("Engine start failed. Check fuel.");
+      popupTip("Engine start failed. Check fuel.");
     }    
     print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
     setprop("/controls/engines/engine[0]/cutoff", 1);
@@ -804,7 +804,7 @@ var final_engine = func () {
     setprop("/controls/electric/battery-switch", 0);
     autostarting = 0;    
   } elsif (getprop("/engines/engine[0]/running") > 0) {
-    gui.popupTip("Engine ready.");
+    popupTip("Engine ready.");
     autostarting = 0;    
   } else {
     settimer(final_engine, 0.5, 1);
@@ -834,9 +834,9 @@ var toggleYawDamper = func {
   var enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
   setprop("fdm/jsbsim/fcs/yaw-damper-enable", !enabled);
   if(enabled == 0) {
-    gui.popupTip("Yaw damper: ON");
+    popupTip("Yaw damper: ON");
   } else {
-    gui.popupTip("Yaw damper: OFF");
+    popupTip("Yaw damper: OFF");
   }
 }
 
@@ -845,9 +845,9 @@ var toggleHook = func {
   var enabled = getprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm");
   setprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm", !enabled);
   if(enabled == 0) {
-    gui.popupTip("Arrester hook: Extended");
+    popupTip("Arrester hook: Extended");
   } else {
-    gui.popupTip("Arrester hook: Retracted");
+    popupTip("Arrester hook: Retracted");
   }
 }
 
@@ -856,9 +856,9 @@ var toggleNosewheelSteer = func {
   var enabled = getprop("fdm/jsbsim/systems/nose-wheel-steering/enable");
   setprop("fdm/jsbsim/systems/nose-wheel-steering/enable", !enabled);
   if(enabled == 0) {
-    gui.popupTip("Nose Wheel Steering: ON", 1.5);
+    popupTip("Nose Wheel Steering: ON", 1.5);
   } else {
-    gui.popupTip("Nose Wheel Steering: OFF", 1.5);
+    popupTip("Nose Wheel Steering: OFF", 1.5);
   }
 }
 
@@ -871,7 +871,7 @@ var follow = func () {
     setprop("/autopilot/target-tracking-ja37/enable", 1);
     var range = 0.025;
     setprop("/autopilot/target-tracking-ja37/goal-range-nm", range);
-    gui.popupTip("A/P follow: ON");
+    popupTip("A/P follow: ON");
 
     setprop("autopilot/settings/target-altitude-ft", 10000);# set some default values until the follow script sets them.
     setprop("autopilot/settings/heading-bug-deg", 0);
@@ -882,7 +882,7 @@ var follow = func () {
     setprop("/autopilot/locks/heading", "dg-heading-hold");
   } else {
     setprop("/autopilot/target-tracking-ja37/enable", 0);
-    gui.popupTip("A/P follow: no valid target.");
+    popupTip("A/P follow: no valid target.");
     setprop("/autopilot/locks/speed", "");
     setprop("/autopilot/locks/altitude", "");
     setprop("/autopilot/locks/heading", "");
@@ -891,7 +891,7 @@ var follow = func () {
 
 var unfollow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", 0);
-  gui.popupTip("A/P follow: OFF");
+  popupTip("A/P follow: OFF");
   setprop("/autopilot/locks/speed", "");
   setprop("/autopilot/locks/altitude", "");
   setprop("/autopilot/locks/heading", "");
@@ -899,7 +899,7 @@ var unfollow = func () {
 
 var lostfollow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", 0);
-  gui.popupTip("A/P follow: lost target.");
+  popupTip("A/P follow: lost target.");
   setprop("/autopilot/locks/speed", "");
   setprop("/autopilot/locks/altitude", "");
   setprop("/autopilot/locks/heading", "");
@@ -910,9 +910,9 @@ var applyParkingBrake = func(v) {
     if(!v) return;
     ja37.click();
     if (getprop("/controls/gear/brake-parking") == 1) {
-      gui.popupTip("Parking brakes: ON");
+      popupTip("Parking brakes: ON");
     } else {
-      gui.popupTip("Parking brakes: OFF");
+      popupTip("Parking brakes: OFF");
     }
 }
 
@@ -920,13 +920,13 @@ var cycleSmoke = func() {
     ja37.click();
     if (getprop("/sim/ja37/effect/smoke") == 1) {
       setprop("/sim/ja37/effect/smoke", 2);
-      gui.popupTip("Smoke: Yellow");
+      popupTip("Smoke: Yellow");
     } elsif (getprop("/sim/ja37/effect/smoke") == 2) {
       setprop("/sim/ja37/effect/smoke", 3);
-      gui.popupTip("Smoke: Blue");
+      popupTip("Smoke: Blue");
     } else {
       setprop("/sim/ja37/effect/smoke", 1);#1 for backward compatibility to be off per default
-      gui.popupTip("Smoke: OFF");
+      popupTip("Smoke: OFF");
     }
 }
 
@@ -948,4 +948,32 @@ reload = func {
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+}
+
+var popupTip = func(label, y = 75, delay = nil) {
+    #var node = props.Node.new({ "label": label, "x": getprop('/sim/startup/xsize')/2, "y": -y+getprop('/sim/startup/ysize'), "tooltip-id": "msg", "reason": "click"});
+    #fgcommand("set-tooltip", node);
+    #fgcommand("tooltip-timeout", props.Node.new({}));
+    #var tooltip = canvas.Tooltip.new([300, 100]);
+    #tooltip.createCanvas();
+    call(func _popupTip(label, y, delay), nil, var err = []);
+    if(size(err) != 0) {
+      # if the tooltip system has changed and my use produce error, revert to basic popup tip.
+      print(err[0]);
+      gui.popupTip(label, delay);
+    }
+}
+
+var _popupTip = func(label, y, delay) {
+    canvas.tooltip.setTooltipId("msg");
+    canvas.tooltip.setWidthText(label);
+    var x = getprop('/sim/startup/xsize')/2 - canvas.tooltip._measureBB[2]/2; # hack 1
+    canvas.tooltip.setLabel(label);
+    canvas.tooltip.setPosition(x, y);
+    canvas.tooltip.setProperty(nil);
+    canvas.tooltip.setMapping(nil);
+    canvas.tooltip.show();
+    canvas.tooltip._hiding = 1;                                               # hack 2
+    canvas.tooltip._hideTimer.restart(delay==nil?4:delay);
+    #canvas.tooltip.showMessage(delay);
 }

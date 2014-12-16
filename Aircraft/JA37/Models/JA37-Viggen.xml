@@ -498,8 +498,11 @@
     </center>
 </animation>
 
- <!-- start effects -->
- <model>
+<!-- ==================================== Start effects ======================= -->
+
+ <!-- engine -->
+
+ <model><!-- smoke trail after the plane -->
   <name>exhaust_smoke</name>
   <path>Aircraft/JA37/Models/Effects/engine/exhaust.xml</path>
   <offsets>
@@ -509,11 +512,11 @@
   </offsets>
  </model>
 
-<model>
+<model><!-- dark smoke at low rpm and afterburner -->
   <name>engine_smoke</name>
   <path>Aircraft/JA37/Models/Effects/engine/smoke.xml</path>
   <offsets>
-   <x-m>8.0</x-m>
+   <x-m>7.0</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
@@ -540,6 +543,11 @@
   </offsets>
  </model>
  
+
+<!--  other particle effects -->
+
+
+
  <!--<model>  never worked as intended, so commented out.
   <name>strake-vortex</name>
   <path>Aircraft/JA37/Models/Effects/strake-vortex.xml</path>

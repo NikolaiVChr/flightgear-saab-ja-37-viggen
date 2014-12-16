@@ -952,7 +952,7 @@ Sim: Flares will now deploy to both sides from positions beneath the wings.
 Sim: Increased flare speed.
 Effect: Flare trail light now depends also on daylight and distance.
 
-2.81
+2.81 - 2014 December 14
 ====
 Effect: Fixed that landing lights could blink in replay after a crash.
 Sim: Disabled the electrical system during replay.
@@ -965,3 +965,8 @@ Engine: Made afterburner onset more responsive.
 Sim: Fixed crash code would manually set wings unserviceable even though they had installed a failure mode.
 Sim: Fixed wings would always break off at crashing, now they have proper 70% chance to fail at crash.
 Sim: Moved engine effects into own folder.
+
+2.82
+====
+Effect: Repositioned engine smoke origin.
+GUI: Made the message tips show higher on the screen to avoid covering part of the HUD/landscape in cockpit view.

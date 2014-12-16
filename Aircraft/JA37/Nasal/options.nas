@@ -518,7 +518,7 @@ var Dialog = {
       var versionString = getprop("sim/version/flightgear");
       var version = split(".", versionString);
       if (version[0] == "0" or version[0] == "1" or version[0] == "2") {
-        gui.popupTip("Options is only supported in Flightgear version 3.0 and upwards.");
+        ja37.popupTip("Options is only supported in Flightgear version 3.0 and upwards.");
       } elsif (!optionDLG_RUNNING) {
         optionDLG_RUNNING = 1;
         me.init();

@@ -1509,7 +1509,7 @@
       <script>
        fgcommand('reinit', props.Node.new({ subsystem: "sound" }));
        print("sound reinitialized!");
-       gui.popupTip("Sound reinit.");
+       ja37.popupTip("Sound reinit.");
       </script>
      </binding>
     </mod-shift>
@@ -1524,7 +1524,7 @@
       <script>
        fgcommand('reinit', props.Node.new({ subsystem: "xml-autopilot" }));
        print("xml-autopilot reinitialized!");
-       gui.popupTip("Autopilot reinit.");
+       ja37.popupTip("Autopilot reinit.");
       </script>
      </binding>
     </mod-shift>
