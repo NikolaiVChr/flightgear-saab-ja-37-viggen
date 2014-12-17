@@ -206,6 +206,14 @@ var install_new_failures = func {
     var actuator_generator = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
 
+    prop = "controls/engines/engine/reverse-system";
+    var actuator_reverser = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Thrust reverser", actuator_reverser);
+
+    prop = "fdm/jsbsim/fcs/yaw-damper";
+    var actuator_damper = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Yaw damper", actuator_damper);
+
     ##
     # Returns an actuator object that will set the serviceable property at
     # the given node to zero when the level of failure is > 0.

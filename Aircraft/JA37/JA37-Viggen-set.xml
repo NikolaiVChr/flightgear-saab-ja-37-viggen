@@ -1006,7 +1006,10 @@
       <canopy-hinges>
         <serviceable type="bool">true</serviceable>
       </canopy-hinges>
-      <yaw-damper-enable type="bool">true</yaw-damper-enable>
+      <yaw-damper>
+        <serviceable type="bool">true</serviceable>
+        <enable type="bool">true</enable>
+      </yaw-damper>
       <flap-pos-cmd type="double"/>
       <flaps-serviceable type="bool" alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
       <elevator-serviceable type="bool" alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
@@ -1107,6 +1110,13 @@
       <trigger type="bool">false</trigger>
     </station>            
   </armament>
+  <engines>
+    <engine n="0">
+      <reverse-system>
+        <serviceable type="bool">true</serviceable>
+      </reverse-system>
+    </engine>
+  </engines>
   <gear>
     <brake-parking type="bool">true</brake-parking>
     <launchbar>

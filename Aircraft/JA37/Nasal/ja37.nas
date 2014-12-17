@@ -154,13 +154,6 @@ var update_loop = func {
     #  setprop("fdm/jsbsim/fcs/rudder-serviceable", 0);
     #}
 
-    ## set groundspeed property used for crashcode ##
-    var horz_speed = input.vgFps.getValue();
-    var vert_speed = input.downFps.getValue();
-    var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
-    real_speed = real_speed * 0.5924838;
-    input.g3d.setValue(real_speed);
-    
     
     # indicators
     var joystick = 0;
@@ -459,6 +452,13 @@ var speed_loop = func () {
   if (n1 > 100) n1 = 100;
   var flame = 100 / (100-n1);
   input.flame.setValue(flame);
+
+  ## set groundspeed property used for crashcode ##
+  var horz_speed = input.vgFps.getValue();
+  var vert_speed = input.downFps.getValue();
+  var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
+  real_speed = real_speed * 0.5924838;#ft/s to kt
+  input.g3d.setValue(real_speed);
 
   settimer(speed_loop, 0.05);
 }
@@ -831,8 +831,8 @@ var noop = func {
 
 var toggleYawDamper = func {
   ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
-  setprop("fdm/jsbsim/fcs/yaw-damper-enable", !enabled);
+  var enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
+  setprop("fdm/jsbsim/fcs/yaw-damper/enable", !enabled);
   if(enabled == 0) {
     popupTip("Yaw damper: ON");
   } else {

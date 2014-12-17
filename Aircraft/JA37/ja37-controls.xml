@@ -260,12 +260,14 @@
         <input>velocities/r-aero-rad_sec</input>
         <table>
           <independentVar lookup="row">velocities/ve-kts</independentVar>
+          <independentVar lookup="column">fcs/yaw-damper/serviceable</independentVar>
           <tableData>
-            30.0     0.00
-            60.0     2.00
+                    0      1
+            30.0   0.00  0.00
+            60.0   0.00  2.00
          </tableData>
         </table>
-        <gain>fcs/yaw-damper-enable</gain>
+        <gain>fcs/yaw-damper/enable</gain>
         <output>fcs/yaw-damper-rate</output>
       </scheduled_gain>
       <summer name="Rudder Sum">

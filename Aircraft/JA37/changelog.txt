@@ -970,3 +970,5 @@ Sim: Moved engine effects into own folder.
 ====
 Effect: Repositioned engine smoke origin.
 GUI: Made the message tips show higher on the screen to avoid covering part of the HUD/landscape in cockpit view.
+Sim: Added yaw damper and thrust reverser to the systems that can be failed.
+Sim: Crashing into something will now in a randomized way fail systems depending on the impact speed.
