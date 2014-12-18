@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<system name="JA37 hydraulic">
+
+	<channel name="flight">
+    	<scheduled_gain name="systems/hydraulics/flight-system/pump/psi">
+      		<input>propulsion/engine[0]/n2</input>
+	      	<table>
+	        	<independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+	        	<independentVar lookup="column">systems/hydraulics/flight-system/pump/serviceable</independentVar>
+	         	<tableData>
+		                    0      1
+		            0       0      0
+		            18      0    130
+	         	</tableData>
+	      	</table>
+	    	<clipto>
+	    		<min> 0 </min>
+	    		<max><property>systems/hydraulics/normal-pressure</property></max>
+	    	</clipto>
+		</scheduled_gain>
+
+		<pure_gain name="systems/hydraulics/flight-system/psi">
+			<input>systems/hydraulics/flight-system/pump/psi</input>
+			<gain>1</gain>
+		</pure_gain>
+
+		<switch name="systems/hydraulics/flight-system/pressure">
+	    	<default value="0"/>
+	      	<test  logic="AND" value="1">
+	            systems/hydraulics/flight-system/psi ge 1800
+	      	</test>
+		</switch>
+	</channel>
+</system>

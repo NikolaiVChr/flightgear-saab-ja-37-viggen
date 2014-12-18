@@ -11,6 +11,9 @@ GUI: Option to switch off hitting stuff above ground.
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Add kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
+Aero: Disable failure system from freezing surfaces (bug prevents)
+Aero: Randomize vortex detachment
+Control: Names for name in jsbsim control code to avoid cluttering the property tree
 Animation: Min and max on several gauges.
 Animation: Animate wheels. (tough when gears get compressed..)
 Model: Adjust instrument materials, and make the gauges look more similar.
@@ -35,6 +38,7 @@ Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Use statics for true and false in all nasal code.
 Sim: Make more use of default multiplay properties to free more of the custom up.
+Sim: Hydralic pump depend on electric instead of rpm
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.

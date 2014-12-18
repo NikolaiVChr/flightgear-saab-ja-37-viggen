@@ -124,13 +124,12 @@ var update_loop = func {
     ## control flaps ##
 
     var flapsCommand = 0;
-    var gear = input.gearCmdNorm.getValue();
     var battery = input.batteryOutput.getValue();
 
-    if ((battery < 25) or (gear == nil)) {
-      flapsCommand = 0.11765;
+    if (battery > 25) {
+      flapsCommand = 1;
     } else {
-      flapsCommand = gear;
+      flapsCommand = 0;
     }
     if (input.flapPosCmd.getValue() != flapsCommand) {
       #trying to not write to fdm unless changed.
@@ -840,6 +839,17 @@ var toggleYawDamper = func {
   }
 }
 
+var togglePitchDamper = func {
+  ja37.click();
+  var enabled = getprop("fdm/jsbsim/fcs/pitch-damper/enable");
+  setprop("fdm/jsbsim/fcs/pitch-damper/enable", !enabled);
+  if(enabled == 0) {
+    popupTip("Pitch damper: ON");
+  } else {
+    popupTip("Pitch damper: OFF");
+  }
+}
+
 var toggleHook = func {
   ja37.click();
   var enabled = getprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm");
@@ -853,8 +863,8 @@ var toggleHook = func {
 
 var toggleNosewheelSteer = func {
   ja37.click();
-  var enabled = getprop("fdm/jsbsim/systems/nose-wheel-steering/enable");
-  setprop("fdm/jsbsim/systems/nose-wheel-steering/enable", !enabled);
+  var enabled = getprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable");
+  setprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable", !enabled);
   if(enabled == 0) {
     popupTip("Nose Wheel Steering: ON", 1.5);
   } else {

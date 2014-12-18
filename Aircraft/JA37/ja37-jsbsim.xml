@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 2.81 </version>
+    <version> 2.82 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -459,9 +459,9 @@ to an airplane of that size). -->
       <priority> 1 </priority>
     </tank>
   </propulsion>
-    
-  <flight_control file="ja37-controls"/>
   
+  <system file="Systems/ja37-hydraulic"/>  
+  <flight_control file="ja37-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
 
   <!-- _____Carrier____________ (note, these functions are not offical. As the real Viggen did not have carrier capacity) -->

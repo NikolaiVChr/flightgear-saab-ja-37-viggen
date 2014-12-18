@@ -108,7 +108,7 @@
   <type>rotate</type>
   <object-name>rudder</object-name>
   <property>surface-positions/rudder-pos-norm</property><!-- auto MP transmit -->
-  <factor>60</factor>
+  <factor>25</factor>
   <axis>   
    <x2-m> 5.70491</x2-m>
    <y1-m> 0</y1-m>

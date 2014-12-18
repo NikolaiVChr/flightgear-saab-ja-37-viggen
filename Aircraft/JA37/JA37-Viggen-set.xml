@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>2.81</aircraft-version>
+    <aircraft-version>2.82</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -646,6 +646,10 @@
       <desc>Yaw damper on/off</desc>
      </key>
      <key>
+      <name>Shift Del</name>
+      <desc>Pitch damper on/off</desc>
+     </key>
+     <key>
       <name>o</name>
       <desc>Toggle canopy</desc>
      </key>
@@ -1010,15 +1014,35 @@
         <serviceable type="bool">true</serviceable>
         <enable type="bool">true</enable>
       </yaw-damper>
+      <pitch-damper>
+        <serviceable type="bool">true</serviceable>
+        <enable type="bool">true</enable>
+      </pitch-damper>
+      <rudder>
+        <limiter-enable type="bool">true</limiter-enable>
+      </rudder>
+      <aileron>
+        <limiter-enable type="bool">true</limiter-enable>
+      </aileron>
+      <elevator>
+        <limiter-enable type="bool">true</limiter-enable>
+      </elevator>
       <flap-pos-cmd type="double"/>
       <flaps-serviceable type="bool" alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
       <elevator-serviceable type="bool" alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
       <aileron-serviceable type="bool" alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
+      <rudder-serviceable type="bool" alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>
       <mouse-optimized type="bool">false</mouse-optimized>
       <hook-engage/>
     </fcs>
     <gear>
       <serviceable type="bool" alias="/gear/serviceable"/>
+      <unit n="0">
+        <nose-wheel-steering>
+          <serviceable type="bool">true</serviceable>
+          <enable type="bool">true</enable>
+        </nose-wheel-steering>
+      </unit>
     </gear>
     <ground>
       <carrier-near type="bool">false</carrier-near>
@@ -1033,15 +1057,21 @@
       <launchbar_free>
         <lock-cmd type="bool">false</lock-cmd>
       </launchbar_free>
-      <nose-wheel-steering>
-        <enable type="bool">true</enable>
-      </nose-wheel-steering>
       <flapscontrol>
         <serviceable/>
       </flapscontrol>
       <hook>
         <tailhook-cmd-norm type="bool">false</tailhook-cmd-norm>
       </hook>
+      <hydraulics>
+        <normal-pressure type="double">3022</normal-pressure>
+        <flight-system>
+          <pump>
+            <serviceable type="bool">true</serviceable>
+          </pump>
+          <pressure type="double">0</pressure>
+        </flight-system>
+      </hydraulics>
     </systems>
     <aero>
       <factor-axial-mach type="double">1.0</factor-axial-mach>
@@ -1546,6 +1576,16 @@
      <command>nasal</command>
      <script>ja37.toggleYawDamper();</script>
     </binding>
+    </key>
+    <key n="127">
+     <name>Shift delete</name>
+     <desc>Pitch damper on/off</desc>
+     <mod-shift>
+        <binding>
+        <command>nasal</command>
+        <script>ja37.togglePitchDamper();</script>
+        </binding>
+      </mod-shift>
     </key>
     <key n="111">
      <name>o</name>

@@ -530,7 +530,6 @@ failAll = func {# fail randomly systems depending on speed
 	var failure_modes = FailureMgr._failmgr.failure_modes; # hash with the failure modes
     var mode_list = keys(failure_modes);#values()?
     var probability = input.g3d.getValue()/200;#200kt will fail everything, 0kt will fail nothing.
-    print(probability);
     foreach(var failure_mode_id; mode_list) {
     	if(rand() < probability) {
       		FailureMgr.set_failure_level(failure_mode_id, 1);

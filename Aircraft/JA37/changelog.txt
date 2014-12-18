@@ -966,9 +966,17 @@ Sim: Fixed crash code would manually set wings unserviceable even though they ha
 Sim: Fixed wings would always break off at crashing, now they have proper 70% chance to fail at crash.
 Sim: Moved engine effects into own folder.
 
-2.82
+2.82 - 2014 December 17
 ====
 Effect: Repositioned engine smoke origin.
 GUI: Made the message tips show higher on the screen to avoid covering part of the HUD/landscape in cockpit view.
-Sim: Added yaw damper and thrust reverser to the systems that can be failed.
-Sim: Crashing into something will now in a randomized way fail systems depending on the impact speed.
+Sim: Crashing into something now in a randomized way fail systems depending on the impact speed.
+System: Added a simple hydraulics system.
+Control: Gear, nose wheel steering, flaps, rudder, elevons now depend on hydraulic and is time-actuated.
+Aero: Yaw damper now is only active when AoA is less than +/-10 degrees.
+Control: Cleaned up the control code.
+GUI: The rudder, aileron and elevator limiter now can be disabled.
+Aero: Added a pitch damper.
+Sim: Added yaw damper, pitch damper, hydraulic pump, nose wheel steering and thrust reverser to the systems that can be failed.
+Control: Names for name in jsbsim control code to avoid cluttering the property tree
+Animation: Fixed rudder would move more than jsb told it it to.

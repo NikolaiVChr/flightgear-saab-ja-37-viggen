@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 425;
+var DIALOG_HEIGHT = 525;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -122,7 +122,7 @@ var Dialog = {
           
           var topRow = workArea.addChild("group");
           topRow.set("layout", "vbox");
-          topRow.set("pref-height", 200);
+          topRow.set("pref-height", 300);
           topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           topRow.set("valign", "top");
           topRow.set("stretch", "false");
@@ -233,6 +233,66 @@ var Dialog = {
           me.dialog.yawButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.yawButton.setBinding("nasal", "ja37.Dialog.yawToggle()");
+
+          ######   Pitch damper button   #####
+          var pitchRow = topRow.addChild("group");
+          pitchRow.set("layout", "hbox");
+          pitchRow.set("pref-height", 25);
+          pitchRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var pitchText = pitchRow.addChild("text").set("label", "Pitch damper:");
+          pitchRow.addChild("empty").set("stretch", 1);
+          me.dialog.pitchButton = pitchRow.addChild("button");
+          me.dialog.pitchButton.set("halign", "right");
+          me.dialog.pitchButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.pitchButton.setBinding("nasal", "ja37.Dialog.pitchToggle()");
+
+          ######   Elevator limiter button   #####
+          var elevatorRow = topRow.addChild("group");
+          elevatorRow.set("layout", "hbox");
+          elevatorRow.set("pref-height", 25);
+          elevatorRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var elevatorText = elevatorRow.addChild("text").set("label", "Elevator limiter:");
+          elevatorRow.addChild("empty").set("stretch", 1);
+          me.dialog.elevatorButton = elevatorRow.addChild("button");
+          me.dialog.elevatorButton.set("halign", "right");
+          me.dialog.elevatorButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.elevatorButton.setBinding("nasal", "ja37.Dialog.elevatorToggle()");
+
+          ######   Aileron limiter button   #####
+          var aileronRow = topRow.addChild("group");
+          aileronRow.set("layout", "hbox");
+          aileronRow.set("pref-height", 25);
+          aileronRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var yawText = aileronRow.addChild("text").set("label", "Aileron limiter:");
+          aileronRow.addChild("empty").set("stretch", 1);
+          me.dialog.aileronButton = aileronRow.addChild("button");
+          me.dialog.aileronButton.set("halign", "right");
+          me.dialog.aileronButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.aileronButton.setBinding("nasal", "ja37.Dialog.aileronToggle()");
+
+          ######   Rudder limiter button   #####
+          var rudderRow = topRow.addChild("group");
+          rudderRow.set("layout", "hbox");
+          rudderRow.set("pref-height", 25);
+          rudderRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var yawText = rudderRow.addChild("text").set("label", "Rudder limiter:");
+          rudderRow.addChild("empty").set("stretch", 1);
+          me.dialog.rudderButton = rudderRow.addChild("button");
+          me.dialog.rudderButton.set("halign", "right");
+          me.dialog.rudderButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.rudderButton.setBinding("nasal", "ja37.Dialog.rudderToggle()");                    
 
           ######   Mouse optimized button   #####
           var mouseRow = topRow.addChild("group");
@@ -372,12 +432,40 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    rudderToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/rudder/limiter-enable");
+      setprop("fdm/jsbsim/fcs/rudder/limiter-enable", !enabled);
+      me.refreshButtons();
+    },
+
+    aileronToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/aileron/limiter-enable");
+      setprop("fdm/jsbsim/fcs/aileron/limiter-enable", !enabled);
+      me.refreshButtons();
+    },
+
+    elevatorToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/elevator/limiter-enable");
+      setprop("fdm/jsbsim/fcs/elevator/limiter-enable", !enabled);
+      me.refreshButtons();
+    },
+
     yawToggle: func {
       ja37.click();
-      var enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
-      setprop("fdm/jsbsim/fcs/yaw-damper-enable", !enabled);
+      var enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
+      setprop("fdm/jsbsim/fcs/yaw-damper/enable", !enabled);
       me.refreshButtons();
     },    
+
+    pitchToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/pitch-damper/enable");
+      setprop("fdm/jsbsim/fcs/pitch-damper/enable", !enabled);
+      me.refreshButtons();
+    },
 
     mouseToggle: func {
       var enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
@@ -472,13 +560,45 @@ var Dialog = {
       }
       me.dialog.bankButton.node.setValues({"legend": legend});
 
-      enabled = getprop("fdm/jsbsim/fcs/yaw-damper-enable");
+      enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
       if(enabled == 1) {
         legend = "Enabled";
       } else {
         legend = "Disabled";
       }
       me.dialog.yawButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/pitch-damper/enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.pitchButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/rudder/limiter-enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.rudderButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/aileron/limiter-enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.aileronButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/elevator/limiter-enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.elevatorButton.node.setValues({"legend": legend});
 
       enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
       if(enabled == 1) {
