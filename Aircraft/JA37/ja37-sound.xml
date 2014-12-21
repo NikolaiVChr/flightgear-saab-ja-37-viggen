@@ -935,10 +935,16 @@
   		<path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
   		<mode>once</mode>
   		<condition>
-  			<equals>
-  				<property>sim/ja37/damage/sounds/explode-on</property>
-  				<value>1</value>
-  			</equals>
+        <or>
+      		<equals>
+      			<property>damage/sounds/explode-on</property>
+      		  <value>1</value>
+    			</equals>
+          <equals>
+            <property>damage/sounds/detach-on</property>
+            <value>1</value>
+          </equals>
+        </or>
   		</condition>
   		<volume>
   			<factor>1</factor>
@@ -947,13 +953,13 @@
 
   	<aircraft-crash>
   		<name>aircraft-crash</name>
-  		<path>Sounds/crash.wav</path>
+  		<path>Sounds/aircraft-crash.wav</path>
   		<mode>once</mode>
   		<condition>
-  			<equals>
-  				<property>sim/ja37/damage/sounds/crash-on</property>
-  				<value>1</value>
-  			</equals>
+    			<equals>
+    				<property>damage/sounds/crash-on</property>
+    				<value>1</value>
+    			</equals>
   		</condition>
   		<volume>
   			<factor>1</factor>
@@ -966,7 +972,7 @@
   		<mode>once</mode>
   		<condition>
   			<equals>
-  				<property>sim/ja37/damage/sounds/water-crash-on</property>
+  				<property>damage/sounds/water-crash-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
@@ -982,12 +988,12 @@
   		<condition>
   		<property>sim/current-view/internal</property>
   			<equals>
-  				<property>sim/ja37/damage/sounds/crack-on</property>
+  				<property>damage/sounds/crack-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
   		<volume>
-  			<property>sim/ja37/damage/sounds/crack-volume</property>
+  			<property>damage/sounds/crack-volume</property>
   			<factor>1</factor>
   		</volume>
   	</aircraft-crack>
@@ -999,12 +1005,12 @@
   		<condition>
   		  <property>sim/current-view/internal</property>
   			<equals>
-  				<property>sim/ja37/damage/sounds/creaking-on</property>
+  				<property>damage/sounds/creaking-on</property>
   				<value>1</value>
   			</equals>
   		</condition>
   		<volume>
-  			<property>sim/ja37/damage/sounds/creaking-volume</property>
+  			<property>damage/sounds/creaking-volume</property>
   			<factor>1</factor>
   		</volume>
   	</aircraft-creaking>

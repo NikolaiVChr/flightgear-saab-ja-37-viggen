@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>2.82</aircraft-version>
+    <aircraft-version>2.83</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -199,23 +199,31 @@
         </signal>
         <signal>
           <type>bool</type>
-          <property type="string">sim/ja37/damage/sounds/explode-on</property>
+          <property type="string">damage/sounds/explode-on</property>
         </signal>
         <signal>
           <type>bool</type>
-          <property type="string">sim/ja37/damage/sounds/crash-on</property>
+          <property type="string">damage/sounds/crash-on</property>
         </signal>
         <signal>
           <type>bool</type>
-          <property type="string">sim/ja37/damage/sounds/water-crash-on</property>
+          <property type="string">damage/sounds/water-crash-on</property>
         </signal>
         <signal>
           <type>bool</type>
-          <property type="string">sim/ja37/damage/sounds/crack-on</property>
+          <property type="string">damage/sounds/crack-on</property>
         </signal>
         <signal>
           <type>bool</type>
-          <property type="string">sim/ja37/damage/sounds/creaking-on</property>
+          <property type="string">damage/sounds/creaking-on</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">damage/sounds/crack-volume</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">damage/sounds/creaking-volume</property>
         </signal>
         <signal>
           <type>bool</type>
@@ -1691,6 +1699,9 @@
    <pos type="double" alias="/instrumentation/instrumentation-light/serviceable"/>
   </inst-light-knob>
  </switches>
+ <instrumentation-light>
+  <serviceable type="bool">true</serviceable>
+ </instrumentation-light>
  <transponder>
     <name type="string">transponder</name>
     <number type="int">5</number>
@@ -1708,6 +1719,7 @@
   </transponder>
   <radar>
     <range>4000</range>
+    <serviceable type="bool">true</serviceable>
   </radar>
 </instrumentation>
 
@@ -1745,7 +1757,8 @@
       <file>Aircraft/Generic/limits.nas</file>
     </limits>
     <crash>
-      <file>Aircraft/JA37/Nasal/crash.nas</file>
+      <!--<file>Aircraft/JA37/Nasal/crash.nas</file>-->
+      <file>Aircraft/JA37/Nasal/jsbsim-crash.nas</file>
     </crash>
     <failure-mgr>
       <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>

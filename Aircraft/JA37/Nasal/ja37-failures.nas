@@ -253,6 +253,29 @@ var install_new_failures = func {
     # the given node to zero when the level of failure is > 0.
     # it will also fail additionally failure modes.
 
+    var set_empty = func(path, flow_paths) {
+
+        return {
+            parents: [FailureMgr.FailureActuator],
+            paths: flow_paths,
+            set_failure_level: func(level) {
+                level = level == 0?0:1;
+
+                foreach(var flow_path ; me.paths) {
+                    setprop(flow_path, level==0?0:-75);
+                }
+            },
+            get_failure_level: func {
+                getprop(me.paths[0]) == -75? 1 : 0;
+            }
+        }
+    }
+
+    ##
+    # Returns an actuator object that will set the serviceable property at
+    # the given node to zero when the level of failure is > 0.
+    # it will also fail additionally failure modes.
+
     var set_unserviceable_cascading = func(path, casc_paths) {
 
         var prop = path ~ "/serviceable";
@@ -273,9 +296,16 @@ var install_new_failures = func {
         }
     }
 
+    prop = "consumables/fuel/wing-tanks";
+    var actuator_wing_tanks = set_empty(prop, ["fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps"]);
+    FailureMgr.add_failure_mode(prop, "Wing tanks", actuator_wing_tanks);
+
     prop = "fdm/jsbsim/fcs/wings";
-    var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
+    var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
     FailureMgr.add_failure_mode(prop, "Delta wings", actuator_wings);
+    
+    
+
     
 
     ## test stuff: ##

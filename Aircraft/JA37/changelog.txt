@@ -980,3 +980,10 @@ Aero: Added a pitch damper.
 Sim: Added yaw damper, pitch damper, hydraulic pump, nose wheel steering and thrust reverser to the systems that can be failed.
 Control: Names for name in jsbsim control code to avoid cluttering the property tree
 Animation: Fixed rudder would move more than jsb told it it to.
+
+2.83 - 2014 December 20
+====
+Sim: Rewrote the crash/stress system into a generic framwork.
+Sim: Added wing fuel tanks to failure manager.
+Sound: Started recording volume of wing stress sounds for replay.
+GUI: Made popupTip appear even higher on screen.

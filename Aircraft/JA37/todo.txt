@@ -13,7 +13,7 @@ Aero: Add kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (bug prevents)
 Aero: Randomize vortex detachment
-Control: Names for name in jsbsim control code to avoid cluttering the property tree
+Aero: Names for name in jsbsim aero code to avoid cluttering the property tree
 Animation: Min and max on several gauges.
 Animation: Animate wheels. (tough when gears get compressed..)
 Model: Adjust instrument materials, and make the gauges look more similar.

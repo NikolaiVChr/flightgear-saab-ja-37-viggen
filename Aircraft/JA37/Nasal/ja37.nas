@@ -712,15 +712,15 @@ var autostarttimer = func {
      autostarting = 0;
     } else {
       #print("autostarting");
-      if (getprop("sim/ja37/damage/crashed") < 1) {
+      #if (getprop("sim/ja37/damage/crashed") < 1) {
         setprop("/controls/electric/battery-switch", 1);
         click();
         popupTip("Battery switch on. Check.");
     	  settimer(autostart, 2, 1);
-      } else {
-        popupTip("Engine not reacting. Consider ejecting yourself.");
-        autostarting = 0;
-      }
+      #} else {
+      #  popupTip("Engine not reacting. Consider ejecting yourself.");
+      #  autostarting = 0;
+      #}
     }
   }
 }
@@ -960,7 +960,7 @@ reload = func {
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
 }
 
-var popupTip = func(label, y = 75, delay = nil) {
+var popupTip = func(label, y = 25, delay = nil) {
     #var node = props.Node.new({ "label": label, "x": getprop('/sim/startup/xsize')/2, "y": -y+getprop('/sim/startup/ysize'), "tooltip-id": "msg", "reason": "click"});
     #fgcommand("set-tooltip", node);
     #fgcommand("tooltip-timeout", props.Node.new({}));
