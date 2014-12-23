@@ -136,7 +136,7 @@ var Dialog = {
           #breakRow.set("valign", "center");
           
           breakRow.addChild("text")
-          .set("label", "Structural break due to G-forces:");
+          .set("label", "Crash and stress damage system:");
           breakRow.addChild("empty").set("stretch", 1);
           me.dialog.breakButton = breakRow.addChild("button");
           me.dialog.breakButton.set("halign", "right");
@@ -394,8 +394,12 @@ var Dialog = {
     },
 
     breakToggle: func {
-      var enabled = getprop("sim/ja37/damage/enabled");
-      setprop("sim/ja37/damage/enabled", !enabled);
+      var enabled = crash.crashCode.isStarted();
+      if(enabled == 1) {
+        crash.crashCode.stop();
+      } else {
+        crash.crashCode.start();
+      }
       me.refreshButtons();
     },
 
@@ -511,7 +515,7 @@ var Dialog = {
 
     refreshButtons: func {
       # update break button
-      var enabled = getprop("sim/ja37/damage/enabled");
+      var enabled = crash.crashCode.isStarted();
       var legend = "";
       if(enabled == 1) {
         legend = "Enabled";

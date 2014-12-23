@@ -6,7 +6,7 @@
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.1
+# Version 0.11
 #
 # License:
 #   GPL 2.0
@@ -34,40 +34,46 @@ var JsbsimCrash = {
 			m.exploded = FALSE;
 
 			m.wingsAttached = TRUE;
-			m.loopRunning = FALSE;
 			m.wingLoadLimitUpper = nil;
 			m.wingLoadLimitLower = nil;
 			m.wingFailureModes = nil;
+			m._looptimer = maketimer(0, m, m._loop);
 
 			m.input = {
+			#	trembleOn:  "damage/g-tremble-on",
+			#	trembleMax: "damage/g-tremble-max",				
 				replay:     "sim/replay/replay-state",
-				Nz:         "fdm/jsbsim/accelerations/Nz",
 				lat:        "position/latitude-deg",
 				lon:        "position/longitude-deg",
 				alt:        "position/altitude-ft",
 				altAgl:     "position/altitude-agl-ft",
 				elev:       "position/ground-elev-ft",
 				g3d:        "velocities/groundspeed-3D-kt",
-				simTime:    "fdm/jsbsim/simulation/sim-time-sec",
-				vgFps:      "fdm/jsbsim/velocities/vg-fps",
 	  			downFps:    "velocities/down-relground-fps",
 	  			crackOn:    "damage/sounds/crack-on",
 				creakOn:    "damage/sounds/creaking-on",
-			#	trembleOn:  "damage/g-tremble-on",
 				crackVol:   "damage/sounds/crack-volume",
 				creakVol:   "damage/sounds/creaking-volume",
-			#	trembleMax: "damage/g-tremble-max",
 				wCrashOn:   "damage/sounds/water-crash-on",
 				crashOn:    "damage/sounds/crash-on",
 				detachOn:   "damage/sounds/detach-on",
 				explodeOn:  "damage/sounds/explode-on",
-				weight:     "fdm/jsbsim/inertia/weight-lbs",
-				fuel:       "fdm/jsbsim/propulsion/total-fuel-lbs",
 			};
 			foreach(var ident; keys(m.input)) {
 			    m.input[ident] = props.globals.getNode(m.input[ident], 1);
 			}
 
+			m.fdm = nil;
+
+			if(getprop("sim/flight-model") == "jsb") {
+				m.fdm = jsbSimProp;
+			} elsif(getprop("sim/flight-model") == "yasim") {
+				m.fdm = yaSimProp;
+			} else {
+				return nil;
+			}
+			m.fdm.convert();
+			
 			m.wowStructure = [];
 			m.wowGear = [];
 
@@ -109,7 +115,8 @@ var JsbsimCrash = {
 		me.exploded = FALSE;
 		me.lastMessageTime = 0;
 		me.repairing = TRUE;
-		settimer(func {call(me._finishRepair, nil, me)}, 10);
+		var timer = maketimer(10, me, me._finishRepair);
+		timer.start();
 	},
 	# accepts a vector with failure mode IDs, they will fail when wings break off.
 	setWingsFailureModes: func (modes) {
@@ -118,11 +125,11 @@ var JsbsimCrash = {
 	# set the stresslimit for the main wings
 	setStressLimit: func (stressLimit = nil) {
 		if (stressLimit != nil) {
-			var wingloadMax = stressLimit['wingloadMax'];
-			var wingloadMin = stressLimit['wingloadMin'];
+			var wingloadMax = stressLimit['wingloadMaxLbs'];
+			var wingloadMin = stressLimit['wingloadMinLbs'];
 			var maxG = stressLimit['maxG'];
 			var minG = stressLimit['minG'];
-			var weight = stressLimit['weight'];
+			var weight = stressLimit['weightLbs'];
 			if(wingloadMax != nil) {
 				me.wingLoadLimitUpper = wingloadMax;
 			} elsif (maxG != nil and weight != nil) {
@@ -136,10 +143,9 @@ var JsbsimCrash = {
 			} elsif (me.wingLoadLimitUpper != nil) {
 				me.wingLoadLimitLower = -me.wingLoadLimitUpper * 0.4;#estimate for when lower is not specified
 			}
-			me.loopRunning = TRUE;
-			me._loop();			
+			me._looptimer.start();
 		} else {
-			me.loopRunning = FALSE;
+			me._looptimer.stop();
 		}
 	},
 	_identifyGears: func (gears) {
@@ -184,32 +190,23 @@ var JsbsimCrash = {
 		return FALSE;
 	},
 	_startImpactListeners: func () {
+		ImpactStructureListener.crash = me;
 		foreach(var structure; me.wowStructure) {
-			setlistener(structure, func {call(me._impactStructureListener, nil, me)},0,0);
-		}
-	},
-	_impactGearListener: func () {
-		# TODO: damage gear failure mode at high speed impact
-	},
-	_impactStructureListener: func () {
-		#print("tst: "~me.inService~" "~me.input.replay.getBoolValue()~" "~me._isRunning()~" "~me.repairing);
-		if (me.inService == TRUE and me.input.replay.getBoolValue() == FALSE and me._isRunning() == TRUE and me.repairing == FALSE) {
-			#print("testing");
-			var wow = me._isStructureInContact();
-			if (wow == TRUE) {
-				me._impactDamage();
-			}
+			setlistener(structure, func {call(ImpactStructureListener.run, nil, ImpactStructureListener, ImpactStructureListener)},0,0);
 		}
 	},
 	_isRunning: func () {
-		var time = me.input.simTime.getValue();
+		if (me.inService == FALSE or me.input.replay.getBoolValue() == TRUE or me.repairing == TRUE) {
+			return FALSE;
+		}
+		var time = me.fdm.input.simTime.getValue();
 		if (time != nil and time > 1) {
 			return TRUE;
 		}
 		return FALSE;
 	},
 	_calcGroundSpeed: func () {
-		var horzSpeed = me.input.vgFps.getValue();
+		var horzSpeed = me.fdm.input.vgFps.getValue();
   		var vertSpeed = me.input.downFps.getValue();
   		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
   		realSpeed = realSpeed * 0.5924838;#ft/s to kt
@@ -225,11 +222,11 @@ var JsbsimCrash = {
 		if (me.exploded == FALSE) {
 			var failure_modes = FailureMgr._failmgr.failure_modes;
 		    var mode_list = keys(failure_modes);
-		    var probability = speed / 200.0;#200kt will fail everything, 0kt will fail nothing.
+		    var probability = speed / 200.0;# 200kt will fail everything, 0kt will fail nothing.
 
-		    #test for explosion
-		    if(probability > 1.0 and me.input.fuel.getValue() > 2500) {
-		    	#200kt+ and fuel intanks will explode the aircraft on impact.
+		    # test for explosion
+		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
+		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
 		    	me._explodeBegin();
 		    	return;
 		    }
@@ -256,7 +253,8 @@ var JsbsimCrash = {
 	_impactSoundWaterBegin: func (speed) {
 		if (speed > 5) {#check if sound already running?
 			me.input.wCrashOn.setValue(1);
-			settimer(func {call(me._impactSoundWaterEnd, nil, me)}, 3);
+			var timer = maketimer(3, me, me._impactSoundWaterEnd);
+			timer.start();
 		}
 	},
 	_impactSoundWaterEnd: func	() {
@@ -265,7 +263,8 @@ var JsbsimCrash = {
 	_impactSoundBegin: func (speed) {
 		if (speed > 5) {
 			me.input.crashOn.setValue(1);
-			settimer(func {call(me._impactSoundEnd, nil, me)}, 3);
+			var timer = maketimer(3, me, me._impactSoundEnd);
+			timer.start();
 		}
 	},
 	_impactSoundEnd: func () {
@@ -283,7 +282,8 @@ var JsbsimCrash = {
 
 	    me._output("Aircraft exploded.", TRUE);
 
-		settimer(func {call(me._explodeEnd, nil, me)}, 3);
+		var timer = maketimer(3, me, me._explodeEnd);
+		timer.start();
 	},
 	_explodeEnd: func () {
 		me.input.explodeOn.setValue(0);
@@ -298,13 +298,14 @@ var JsbsimCrash = {
 		}
 
 		me.wingsAttached = FALSE;
-		settimer(func {call(me._stressDamageEnd, nil, me)}, 3);
+		var timer = maketimer(3, me, me._stressDamageEnd);
+		timer.start();
 	},
 	_stressDamageEnd: func () {
 		me.input.detachOn.setValue(0);
 	},
 	_output: func (str, override = FALSE) {
-		var time = me.input.simTime.getValue();
+		var time = me.fdm.input.simTime.getValue();
 		if (override == TRUE or (time - me.lastMessageTime) > 3) {
 			me.lastMessageTime = time;
 			print(str);
@@ -314,9 +315,6 @@ var JsbsimCrash = {
 	_loop: func () {
 		me._testStress();
 		me._testWaterImpact();
-		if(me.loopRunning == TRUE) {
-			settimer(func {call(me._loop, nil, me)}, 0);
-		}
 	},
 	_testWaterImpact: func () {
 		if(me.input.altAgl.getValue() < 0) {
@@ -330,9 +328,9 @@ var JsbsimCrash = {
 		}
 	},
 	_testStress: func () {
-		if (me.inService == TRUE and me.input.replay.getBoolValue() == FALSE and me._isRunning() == TRUE and me.repairing == FALSE and me.wingsAttached == TRUE) {
-			var gForce = me.input.Nz.getValue() == nil?1:me.input.Nz.getValue();
-			var weight = me.input.weight.getValue();
+		if (me._isRunning() == TRUE and me.wingsAttached == TRUE) {
+			var gForce = me.fdm.input.Nz.getValue() == nil?1:me.fdm.input.Nz.getValue();
+			var weight = me.fdm.input.weight.getValue();
 			var wingload = gForce * weight;
 
 			#print("wingload: "~wingload~" max: "~me.wingLoadLimitUpper);
@@ -391,6 +389,53 @@ var JsbsimCrash = {
 	},
 };
 
+
+var ImpactStructureListener = {
+	crash: nil,
+	run: func () {
+		if (crash._isRunning() == TRUE) {
+			var wow = crash._isStructureInContact();
+			if (wow == TRUE) {
+				crash._impactDamage();
+			}
+		}
+	},
+};
+
+
+# static class
+var fdmProperties = {
+	input: {},
+	convert: func () {
+		foreach(var ident; keys(me.input)) {
+		    me.input[ident] = props.globals.getNode(me.input[ident], 1);
+		}
+	},
+};
+
+var jsbSimProp = {
+	parents: [fdmProperties],
+	input: {
+				weight:     "fdm/jsbsim/inertia/weight-lbs",
+				fuel:       "fdm/jsbsim/propulsion/total-fuel-lbs",
+				simTime:    "fdm/jsbsim/simulation/sim-time-sec",
+				vgFps:      "fdm/jsbsim/velocities/vg-fps",
+				Nz:         "fdm/jsbsim/accelerations/Nz",
+	},
+};
+
+var yaSimProp = {
+	parents: [fdmProperties], # TODO: find the proper properties
+	input: {
+				weight:     "fdm/yasim/inertia/weight-lbs",
+				fuel:       "fdm/yasim/propulsion/total-fuel-lbs",
+				simTime:    "fdm/yasim/sim-time-sec",
+				vgFps:      "fdm/jsbsim/velocities/vg-fps",
+				Nz:         "fdm/jsbsim/accelerations/Nz",
+	},
+};
+
+
 # TODO:
 #
 # Loss of inertia if impacting/sliding? Or should the jsb groundcontacts take care of that alone?
@@ -404,13 +449,13 @@ var JsbsimCrash = {
 #
 # var crashCode = JsbsimCrash.new([0,1,2]; 
 #
-# var crashCode = JsbsimCrash.new([0,1,2], {"weight":30000, "maxG": 12}, ["fdm/jsbsim/fcs/wings"]);
+# var crashCode = JsbsimCrash.new([0,1,2], {"weightLbs":30000, "maxG": 12}, ["fdm/jsbsim/fcs/wings"]);
 #
-# var crashCode = JsbsimCrash.new([0,1,2,3], {"weight":20000, "maxG": 11, "minG": -5});
+# var crashCode = JsbsimCrash.new([0,1,2,3], {"weightLbs":20000, "maxG": 11, "minG": -5});
 #
-# var crashCode = JsbsimCrash.new([0,1,2], {"wingloadMax": 90000, "wingloadMin": -45000}, ["fdm/jsbsim/fcs/wings"]);
+# var crashCode = JsbsimCrash.new([0,1,2], {"wingloadMaxLbs": 90000, "wingloadMinLbs": -45000}, ["fdm/jsbsim/fcs/wings"]);
 #
-# var crashCode = JsbsimCrash.new([0,1,2], {"wingloadMax":90000}, ["controls/flight/aileron", "controls/flight/elevator", "controls/flight/flaps"]);
+# var crashCode = JsbsimCrash.new([0,1,2], {"wingloadMaxLbs":90000}, ["controls/flight/aileron", "controls/flight/elevator", "controls/flight/flaps"]);
 #
 # Gears parameter must be defined.
 # Stress parameter is optional. If minimum wing stress is not defined it will be set to -40% of max wingload stress if that is defined.
@@ -421,7 +466,7 @@ var JsbsimCrash = {
 
 
 # use:
-var crashCode = JsbsimCrash.new([0,1,2], {"weight":30000, "maxG": 12}, ["fdm/jsbsim/fcs/wings"]);
+var crashCode = JsbsimCrash.new([0,1,2], {"weightLbs":30000, "maxG": 12}, ["fdm/jsbsim/fcs/wings"]);
 crashCode.start();
 
 # test:

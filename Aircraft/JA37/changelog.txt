@@ -987,3 +987,8 @@ Sim: Rewrote the crash/stress system into a generic framwork.
 Sim: Added wing fuel tanks to failure manager.
 Sound: Started recording volume of wing stress sounds for replay.
 GUI: Made popupTip appear even higher on screen.
+
+2.84
+====
+Sim: Improved crash handling code.
+Aero: Structure points now have greater friction to counter sliding.
