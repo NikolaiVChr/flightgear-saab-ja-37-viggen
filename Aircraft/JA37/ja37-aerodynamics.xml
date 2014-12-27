@@ -63,7 +63,7 @@
            <property>aero/function/mach-effect-prefactor</property>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <property>fcs/wings/normal-factor</property>
+           <property>structural/wings/normal-factor</property>
            <sum>
               <table><!-- ground effect on elevator change CN, page 80 fig 63 -->
                 <independentVar lookup="row">aero/h_b-mac-ft</independentVar>

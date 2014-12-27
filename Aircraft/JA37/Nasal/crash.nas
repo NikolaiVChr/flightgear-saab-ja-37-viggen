@@ -489,7 +489,7 @@ setServiceable = func {
 	setprop("instrumentation/photo/serviceable", 1);
 	setprop("instrumentation/drop-tank/serviceable", 1);
 	setprop("instrumentation/pedals/serviceable", 1);
-	setprop("fdm/jsbsim/fcs/wings/serviceable", 1);
+	setprop("fdm/jsbsim/structural/wings/serviceable", 1);
 	setprop("controls/flight/aileron/serviceable", 1);
 	setprop("controls/flight/elevator/serviceable", 1);
 
@@ -519,7 +519,7 @@ damageOnWingsBreak = func {
 }
 
 failWings = func {
-	FailureMgr.set_failure_level("fdm/jsbsim/fcs/wings", 1);
+	FailureMgr.set_failure_level("fdm/jsbsim/structural/wings", 1);
 #	FailureMgr.set_failure_level("controls/flight/aileron", 1);
 #	FailureMgr.set_failure_level("controls/flight/elevator", 1);
 #	FailureMgr.set_failure_level("controls/gear1", 1);
@@ -540,7 +540,7 @@ failAll = func {# fail randomly systems depending on speed
 aircraft_lock_wings = func {
 	setprop("controls/flight/aileron/serviceable", 0);
 	setprop("controls/flight/elevator/serviceable", 0);
-	setprop("fdm/jsbsim/fcs/wings/serviceable", 0);
+	setprop("fdm/jsbsim/structural/wings/serviceable", 0);
 	setprop("fdm/jsbsim/gear/unit[0]/z-position", 0.001);
 	setprop("fdm/jsbsim/gear/unit[1]/z-position", 0.001);
 	setprop("fdm/jsbsim/gear/unit[2]/z-position", 0.001);

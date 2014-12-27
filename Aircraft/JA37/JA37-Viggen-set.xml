@@ -167,8 +167,8 @@
           <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
         </signal>
         <signal>
-          <type>int8</type>
-          <property type="string">fdm/jsbsim/fcs/wings/serviceable</property>
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/structural/wings/serviceable</property>
         </signal>
         <signal>
           <type>float</type>
@@ -239,8 +239,8 @@
           <property type="string">sim/model/lighting/strobe/state</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">sim/model/lighting/beacon/state</property>
+          <type>float</type>
+          <property type="string">sim/model/lighting/beacon/state-rotary</property>
         </signal>
         <signal>
           <type>bool</type>
@@ -567,7 +567,7 @@
       <int n="0" alias="/sim/ja37/effect/smoke"/><!-- to show smoke -->
       <!-- Animation control surfaces -->
       <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/><!-- to show detachment of canopy -->
-      <int n="2" alias="/fdm/jsbsim/fcs/wings/serviceable"/><!-- to show detachment of wings -->
+      <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/><!-- to show detachment of wings -->
       <!-- Animating engine -->
       <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/><!-- to animate afterburnerflame -->
       <float n="5" alias="/engines/engine/flame"/><!-- to animate engine flame -->
@@ -580,7 +580,8 @@
       <int n="5" alias="/sim/model/lighting/strobe/state"/><!-- to animate strobe -->
       <int n="6" alias="/sim/ja37/effect/landing-light"/><!-- to animate landing lights -->
       <int n="9" alias="/systems/electrical/lights-ext"/><!-- to animate ext. lights -->
-      <int n="15" alias="/sim/model/lighting/beacon/state"/><!-- to animate beacons -->
+      <int n="15" alias="/sim/model/lighting/beacon/state"/><!-- to animate beacons, backward compat -->
+      <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/><!-- to animate beacons -->
       <!-- Stores -->
       <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
       <!--<int n="7" alias="/ai/submodels/submodel[0]/flare-release"/> submodels not used in MP -->
@@ -1006,10 +1007,12 @@
 
  <fdm>
   <jsbsim>
-    <fcs>
+    <structural>
       <wings>
         <serviceable type="bool">true</serviceable>
       </wings>
+    </structural>
+    <fcs>
       <canopy>
         <engage/>
         <has-power/>
@@ -1721,6 +1724,9 @@
     <range>4000</range>
     <serviceable type="bool">true</serviceable>
   </radar>
+  <head-up-display>
+    <serviceable type="bool">true</serviceable>
+  </head-up-display>
 </instrumentation>
 
 <!--**********************************************************************
@@ -1758,7 +1764,7 @@
     </limits>
     <crash>
       <!--<file>Aircraft/JA37/Nasal/crash.nas</file>-->
-      <file>Aircraft/JA37/Nasal/jsbsim-crash.nas</file>
+      <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
     </crash>
     <failure-mgr>
       <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>

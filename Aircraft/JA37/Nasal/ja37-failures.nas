@@ -300,9 +300,9 @@ var install_new_failures = func {
     var actuator_wing_tanks = set_empty(prop, ["fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps"]);
     FailureMgr.add_failure_mode(prop, "Wing tanks", actuator_wing_tanks);
 
-    prop = "fdm/jsbsim/fcs/wings";
-    var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
-    FailureMgr.add_failure_mode(prop, "Delta wings", actuator_wings);
+    #prop = "fdm/jsbsim/fcs/wings";
+    #var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
+    #FailureMgr.add_failure_mode(prop, "Delta wings", actuator_wings);
     
     
 

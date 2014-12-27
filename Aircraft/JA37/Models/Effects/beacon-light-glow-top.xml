@@ -44,14 +44,14 @@
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
+   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 
   <animation>
     <type>scale</type>
     <object-name>LightBeaconGlow</object-name>
-    <property>sim/multiplay/generic/int[15]</property><!-- sim/model/lighting/beacon/state -->
+    <property>sim/multiplay/generic/float[1]</property><!-- sim/model/lighting/beacon/state -->
     <x-min>0.01</x-min>
     <y-min>0.01</y-min>
     <z-min>0.01</z-min>

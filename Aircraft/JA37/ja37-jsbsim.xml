@@ -188,7 +188,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="RIGHT_WT">
       <location unit="M">
@@ -200,7 +200,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="TOP_VT">
       <location unit="M">
@@ -212,7 +212,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="RADARDOME">
       <location unit="M">
@@ -224,7 +224,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="CANOPY">
       <location unit="M">
@@ -236,7 +236,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="LEFT_CANARD_TIP">
       <location unit="M">
@@ -248,7 +248,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact> 
     <contact type="STRUCTURE" name="RIGHT_CANARD_TIP">
       <location unit="M">
@@ -260,7 +260,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="EXHAUST">
       <location unit="M">
@@ -272,7 +272,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact>
     <contact type="STRUCTURE" name="CENTER_PYLON">
       <location unit="M">
@@ -284,7 +284,7 @@ to an airplane of that size). -->
       <dynamic_friction> 4.0 </dynamic_friction>
       <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 10000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
     </contact> 
   </ground_reactions>
   

@@ -992,3 +992,5 @@ GUI: Made popupTip appear even higher on screen.
 ====
 Sim: Improved crash handling code.
 Aero: Structure points now have greater friction to counter sliding.
+Animation: Beacons lights now properly fade in and out as if rotating.
+Aero: Structure points now have greater rebound damping to counter springyness.

@@ -629,6 +629,9 @@ var main_init = func {
   # start fast loop
   speed_loop();
 
+  # start beacon loop
+  beaconTimer.start();
+
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
 }
@@ -672,15 +675,35 @@ var drop = func {
     popupTip("Drop tank shut off and ejected. Using internal fuel.");
  }
 
-############ strobes #####################
+############ strobe #####################
 
 var strobe_switch = props.globals.getNode("controls/lighting/ext-lighting-panel/anti-collision", 1);
 setprop("controls/lighting/ext-lighting-panel/anti-collision", 1);
 aircraft.light.new("sim/model/lighting/strobe", [0.03, 1.9+rand()/5], strobe_switch);
 
-var beacon_switch = props.globals.getNode("controls/switches/beacon", 2);
+############ beacons #####################
+
 setprop("controls/switches/beacon", 1);
-var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
+
+var beacon_switch = props.globals.getNode("sim/model/lighting/beacon/state-rotary", 2);
+
+var beaconLoop = func () {
+  if(input.replay.getValue() != 1) {
+    var time = input.elapsed.getValue();
+    var timeInt = int(time);
+    var value = nil;
+    if(2 * int(timeInt / 2) == timeInt) {
+      value = time - timeInt;
+    } else {
+      value = 1 - (time - timeInt);
+    }
+    beacon_switch.setValue(value);
+  }
+};
+var beaconTimer = maketimer(0, beaconLoop);
+
+
+#var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
 
 ############ blinkers ####################
 

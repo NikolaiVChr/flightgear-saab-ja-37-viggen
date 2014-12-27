@@ -699,7 +699,7 @@
    <red>1.0</red>
    <green>0.0</green>
    <blue>0.0</blue>
-   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
+   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 
@@ -713,7 +713,7 @@
    <red>1.0</red>
    <green>0.0</green>
    <blue>0.0</blue>
-   <factor-prop>sim/multiplay/generic/int[15]</factor-prop><!-- sim/model/lighting/beacon/state -->
+   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
   </emission>
  </animation>
 

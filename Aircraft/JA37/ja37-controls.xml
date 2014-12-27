@@ -596,7 +596,7 @@
 
     <channel name="Wings">
       <aerosurface_scale name="Wings normal factor">
-        <input>fcs/wings/serviceable</input>
+        <input>structural/wings/serviceable</input>
         <zero_centered> false </zero_centered>
         <domain>
           <min>  0.0 </min>
@@ -606,7 +606,7 @@
           <min> 0.3 </min>
           <max> 1.0 </max>
         </range>
-        <output>fcs/wings/normal-factor</output>
+        <output>structural/wings/normal-factor</output>
       </aerosurface_scale>
     </channel>
   </flight_control>
