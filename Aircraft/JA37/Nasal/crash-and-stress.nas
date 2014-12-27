@@ -15,7 +15,7 @@
 var TRUE = 1;
 var FALSE = 0;
 
-var JsbsimCrash = {
+var CrashAndStress = {
 	# pattern singleton
 	_instance: nil,
 	# Get the instance
@@ -24,7 +24,7 @@ var JsbsimCrash = {
 		var m = nil;
 		if(me._instance == nil) {
 			me._instance = {};
-			me._instance["parents"] = [JsbsimCrash];
+			me._instance["parents"] = [CrashAndStress];
 
 			m = me._instance;
 
@@ -36,7 +36,6 @@ var JsbsimCrash = {
 			m.wingsAttached = TRUE;
 			m.wingLoadLimitUpper = nil;
 			m.wingLoadLimitLower = nil;
-			m.wingFailureModes = nil;
 			m._looptimer = maketimer(0, m, m._loop);
 
 			m.input = {
@@ -48,8 +47,6 @@ var JsbsimCrash = {
 				alt:        "position/altitude-ft",
 				altAgl:     "position/altitude-agl-ft",
 				elev:       "position/ground-elev-ft",
-				g3d:        "velocities/groundspeed-3D-kt",
-	  			downFps:    "velocities/down-relground-fps",
 	  			crackOn:    "damage/sounds/crack-on",
 				creakOn:    "damage/sounds/creaking-on",
 				crackVol:   "damage/sounds/crack-volume",
@@ -120,7 +117,41 @@ var JsbsimCrash = {
 	},
 	# accepts a vector with failure mode IDs, they will fail when wings break off.
 	setWingsFailureModes: func (modes) {
-		me.wingFailureModes = modes;
+		if(modes == nil) {
+			modes = [];
+		}
+
+		##
+	    # Returns an actuator object that will set the serviceable property at
+	    # the given node to zero when the level of failure is > 0.
+	    # it will also fail additionally failure modes.
+
+	    var set_unserviceable_cascading = func(path, casc_paths) {
+
+	        var prop = path ~ "/serviceable";
+
+	        if (props.globals.getNode(prop) == nil) {
+	            props.globals.initNode(prop, TRUE, "BOOL");
+	        } else {
+	        	props.globals.getNode(prop).setValue(TRUE);#in case this gets initialized empty from a recorder signal or MP alias.
+	        }
+
+	        return {
+	            parents: [FailureMgr.FailureActuator],
+	            mode_paths: casc_paths,
+	            set_failure_level: func(level) {
+	                setprop(prop, level > 0 ? 0 : 1);
+	                foreach(var mode_path ; me.mode_paths) {
+	                    FailureMgr.set_failure_level(mode_path, level);
+	                }
+	            },
+	            get_failure_level: func { getprop(prop) ? 0 : 1 }
+	        }
+	    }
+
+	    var prop = me.fdm.wingsFailureID;
+	    var actuator_wings = set_unserviceable_cascading(prop, modes);
+	    FailureMgr.add_failure_mode(prop, "Main wings", actuator_wings);
 	},
 	# set the stresslimit for the main wings
 	setStressLimit: func (stressLimit = nil) {
@@ -207,9 +238,9 @@ var JsbsimCrash = {
 	},
 	_calcGroundSpeed: func () {
 		var horzSpeed = me.fdm.input.vgFps.getValue();
-  		var vertSpeed = me.input.downFps.getValue();
+  		var vertSpeed = me.fdm.input.downFps.getValue();
   		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
-  		realSpeed = realSpeed * 0.5924838;#ft/s to kt
+  		realSpeed = me.fdm.fps2kt(realSpeed);
   		return realSpeed;
 	},
 	_impactDamage: func () {
@@ -291,11 +322,8 @@ var JsbsimCrash = {
 	_stressDamage: func (str) {
 		me._output("Aircraft damaged: Wings broke off, due to "~str~" G forces.");
 		me.input.detachOn.setValue(1);
-		if (me.wingFailureModes != nil) {
-			foreach(var failureModeId; me.wingFailureModes) {
-	      		FailureMgr.set_failure_level(failureModeId, 1);
-		    }
-		}
+		
+  		FailureMgr.set_failure_level(me.fdm.wingsFailureID, 1);
 
 		me.wingsAttached = FALSE;
 		var timer = maketimer(3, me, me._stressDamageEnd);
@@ -411,6 +439,10 @@ var fdmProperties = {
 		    me.input[ident] = props.globals.getNode(me.input[ident], 1);
 		}
 	},
+	fps2kt: func (fps) {
+		return fps * 0.5924838;
+	},
+	wingsFailureID: nil,
 };
 
 var jsbSimProp = {
@@ -420,19 +452,29 @@ var jsbSimProp = {
 				fuel:       "fdm/jsbsim/propulsion/total-fuel-lbs",
 				simTime:    "fdm/jsbsim/simulation/sim-time-sec",
 				vgFps:      "fdm/jsbsim/velocities/vg-fps",
+				downFps:    "velocities/down-relground-fps",
 				Nz:         "fdm/jsbsim/accelerations/Nz",
 	},
+	wingsFailureID: "fdm/jsbsim/structural/wings",
 };
 
 var yaSimProp = {
-	parents: [fdmProperties], # TODO: find the proper properties
+	parents: [fdmProperties],
 	input: {
-				weight:     "fdm/yasim/inertia/weight-lbs",
-				fuel:       "fdm/yasim/propulsion/total-fuel-lbs",
-				simTime:    "fdm/yasim/sim-time-sec",
-				vgFps:      "fdm/jsbsim/velocities/vg-fps",
-				Nz:         "fdm/jsbsim/accelerations/Nz",
+				weight:     "yasim/gross-weight-lbs",
+				fuel:       "consumables/fuel/total-fuel-lbs",
+				simTime:    "sim/time/elapsed-sec",
+				vgFps:      "velocities/groundspeed-kt",
+				Nz:         "accelerations/n-z-cg-fps_sec",
 	},
+	convert: func () {
+		call(fdmProperties.convert, [], me);
+		me.input.downFps = props.Node.new().setValue(0);
+	},
+	fps2kt: func (fps) {
+		return fps;
+	},
+	wingsFailureID: "structural/wings",
 };
 
 
@@ -443,19 +485,20 @@ var yaSimProp = {
 # Make property to control if system active, or method enough?
 # Explosion depending on bumpiness and speed when sliding?
 # Tie in with damage from Bombable?
+# Use galvedro's UpdateLoop framework when it gets merged
 
 
 # example uses:
 #
-# var crashCode = JsbsimCrash.new([0,1,2]; 
+# var crashCode = CrashAndStress.new([0,1,2]; 
 #
-# var crashCode = JsbsimCrash.new([0,1,2], {"weightLbs":30000, "maxG": 12}, ["fdm/jsbsim/fcs/wings"]);
+# var crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12});
 #
-# var crashCode = JsbsimCrash.new([0,1,2,3], {"weightLbs":20000, "maxG": 11, "minG": -5});
+# var crashCode = CrashAndStress.new([0,1,2,3], {"weightLbs":20000, "maxG": 11, "minG": -5});
 #
-# var crashCode = JsbsimCrash.new([0,1,2], {"wingloadMaxLbs": 90000, "wingloadMinLbs": -45000}, ["fdm/jsbsim/fcs/wings"]);
+# var crashCode = CrashAndStress.new([0,1,2], {"wingloadMaxLbs": 90000, "wingloadMinLbs": -45000}, ["controls/flight/aileron", "controls/flight/elevator", "controls/flight/flaps"]);
 #
-# var crashCode = JsbsimCrash.new([0,1,2], {"wingloadMaxLbs":90000}, ["controls/flight/aileron", "controls/flight/elevator", "controls/flight/flaps"]);
+# var crashCode = CrashAndStress.new([0,1,2], {"wingloadMaxLbs":90000}, ["controls/flight/aileron", "controls/flight/elevator", "controls/flight/flaps"]);
 #
 # Gears parameter must be defined.
 # Stress parameter is optional. If minimum wing stress is not defined it will be set to -40% of max wingload stress if that is defined.
@@ -466,7 +509,7 @@ var yaSimProp = {
 
 
 # use:
-var crashCode = JsbsimCrash.new([0,1,2], {"weightLbs":30000, "maxG": 12}, ["fdm/jsbsim/fcs/wings"]);
+var crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
 crashCode.start();
 
 # test:
