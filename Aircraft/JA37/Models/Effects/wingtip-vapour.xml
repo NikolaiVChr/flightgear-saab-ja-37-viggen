@@ -9,25 +9,25 @@
    <condition>
      <and>
        <greater-than>
-         <property>velocities/airspeed-kt</property>
+         <property>sim/multiplay/generic/float[17]</property><!-- velocities/airspeed-kt -->
          <value>120</value>
        </greater-than>
        <greater-than>
-         <property>environment/relative-humidity</property>
+         <property>/environment/relative-humidity</property>
          <value>50</value>
        </greater-than>
        <or>
          <less-than>
-           <property>/position/altitude-ft</property>
+           <property>sim/multiplay/generic/float[6]</property><!-- /position/altitude-ft -->
            <value>800</value>
          </less-than>
           <greater-than>
-            <property>orientation/alpha-deg</property>
+            <property>orientation/alpha-deg</property><!-- not transmitted over MP, so wont activate it in MP -->
             <value>15.0</value>
           </greater-than>
        </or>
        <less-than>
-         <property>environment/temperature-degc</property>
+         <property>/environment/temperature-degc</property>
          <value>20</value>
        </less-than>
        <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->

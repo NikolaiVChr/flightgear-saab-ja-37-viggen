@@ -409,37 +409,6 @@
   </axis>
  </animation>
 
-<!-- radius = -1.59622 + 1.84812 = 0.2519
-     circum = 2*pi*radius = 1.5827
-     factor = 1/circum * 60 = 0.6318 * 60 = 
-
--3.38246
--0.11702
--1.84812
-
--3.38246
- 0.17426
--1.84812
-
-                 Spinning wheel works fine, but not with gear compression, its either-or sadly.
-     -->
-<!--<animation>
-    <type>spin</type>
-    <object-name>wheelFront</object-name>
-    <property>gear/gear/rollspeed-ms</property>
-    <factor>37.9091</factor>
-    <center>
-        <x-m>-3.38246</x-m>
-        <y-m>0.0</y-m>
-        <z-m>-1.84812</z-m>
-    </center>
-    <axis>
-        <x>0</x>
-        <y>-1</y>
-        <z>0</z>
-    </axis>
-</animation>-->
-
 <animation><!--            compress front gear-->
    <type>translate</type>
    <object-name>gearFront</object-name>
@@ -458,6 +427,37 @@
         <y-m>0.0</y-m>
         <z-m>-1.84812</z-m>
     </center>
+</animation>
+
+<!-- spinning wheel calc
+
+     radius = -1.59622 + 1.84812 = 0.2519
+     circum = 2*pi*radius = 1.5827
+     factor = 1/circum * 60 = 0.6318 * 60 = 37.9091
+
+-3.38246
+-0.11702
+-1.84812
+
+-3.38246
+ 0.17426
+-1.84812
+     -->
+<animation>
+    <type>spin</type>
+    <object-name>wheelFront</object-name>
+    <property>gear/gear/rollspeed-ms</property>
+    <factor>37.9091</factor>
+    <center>
+        <x-m>-3.64749</x-m>
+        <y-m>0.0</y-m>
+        <z-m>-1.84812</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
 </animation>
 
 <animation><!--            compress left gear-->

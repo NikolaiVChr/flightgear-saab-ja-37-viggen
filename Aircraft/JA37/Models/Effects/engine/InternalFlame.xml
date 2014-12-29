@@ -10,7 +10,6 @@
   <!--</condition>
  </animation> -->
  
-<model>
  <name>InternalFlame</name>
  <path>Aircraft/JA37/Models/Effects/engine/internalflame.ac</path>
  <!--<offsets>
@@ -20,14 +19,14 @@
   <z-m>-0.02586</z-m>
   <heading-deg>0</heading-deg>
  </offsets>-->
-</model>
 
 <animation>
   <type>material</type>
   <condition>
-    <not>
-    <property>/sim/rendering/rembrandt/enabled</property>
-  </not>
+    <equals>
+      <property>/sim/rendering/rembrandt/enabled</property>
+      <value>0</value>
+    </equals>
   </condition>
   <object-name>InternalFlamePoly</object-name>
   <emission>
@@ -53,7 +52,10 @@
  <animation><!-- I do not like this workaround -->
   <type>material</type>
   <condition>
-    <property>/sim/rendering/rembrandt/enabled</property>
+    <equals>
+      <property>/sim/rendering/rembrandt/enabled</property>
+      <value>1</value>
+    </equals>
   </condition>
   <object-name>InternalFlamePoly</object-name>
   <emission>
@@ -78,27 +80,40 @@
 
  
 <!--<model>
- <name>InternalFlameVolume</name>
- <path>Models/Effects/internalflame-lightvolume.ac</path>-->
- <!--<offsets>
-  <pitch-deg>-10.671</pitch-deg> 
-  <x-m>1.80063</x-m>
-  <y-m>0.01</y-m>
-  <z-m>-0.02586</z-m>
-  <heading-deg>0</heading-deg>
- </offsets>-->
-<!--</model>-->
+  <name>InternalFlameVolume</name>
+  <path>Models/Effects/engine/internalflame-lightvolume.ac</path>
+  <nopreview/>
+  <animation>
+     <type>select</type>
+     <object-name>InternalFlameLightVolume</object-name>
+     <condition>
+        <and>
+           <equals>
+             <property>/sim/rendering/rembrandt/enabled</property>
+             <value>1</value>
+           </equals>
+           <greater-than>
+              <property>/sim/rendering/shaders/lights</property>
+              <value>3.0</value>
+           </greater-than>
+           <greater-than>
+              <property>/sim/time/sun-angle-rad</property>
+              <value>1.57</value>
+           </greater-than>
+        </and>
+     </condition>
+  </animation>
 
-<!--<animation>
+  <animation>
    <type>light</type>
    <light-type>point</light-type>
    <name>LightSrcInternal</name>
    <object-name>InternalFlameLightVolume</object-name>
    <nopreview/>
    <position>
-     <x>6.00832</x>
-     <y>0.00111</y>
-     <z>-0.0151</z>
+     <x>-0.5</x>
+     <y>0</y>
+     <z>0</z>
    </position>
    <ambient>
      <r>0.03</r>
@@ -119,23 +134,21 @@
      <a>1.0</a>
    </specular>
    <dim-factor>
-      <property>dimming/property</property>-->
-      <!-- optional begin -->
-      <!--<expression />
+      <property>sim/multiplay/generic/float[5]</property>
+      <expression />
       <interpolation />
-      <factor>1</factor>
+      <factor>0.01</factor>
       <offset>0</offset>
       <min>0</min>
-      <max>1</max>-->
-      <!-- optional end -->
-   <!--</dim-factor>
-   <attenuation>
-     <c>1.0</c>
-     <l>0.002</l>
-     <q>0.00005</q>
-   </attenuation>
-   <near-m>0.01</near-m>
-   <far-m>39</far-m>
- </animation>-->
-
+      <max>1</max>
+     </dim-factor>
+     <attenuation>
+       <c>1.0</c>
+       <l>0.002</l>
+       <q>0.00005</q>
+     </attenuation>
+     <near-m>0.01</near-m>
+     <far-m>39</far-m>
+   </animation>
+  </model>-->
  </PropertyList>

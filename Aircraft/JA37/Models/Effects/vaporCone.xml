@@ -13,7 +13,10 @@
   <animation>
     <type>noshadow</type>
     <condition>
-      <property>sim/rendering/rembrandt/enabled</property>
+      <equals>
+        <property>/sim/rendering/rembrandt/enabled</property>
+        <value>1</value>
+      </equals>
     </condition>
     <object-name>vaporCone</object-name>
   </animation>

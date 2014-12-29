@@ -87,7 +87,6 @@ Animation: Selection view does not follow carriers. (they lack radar properties)
 
 Issues with FG: (or my limited understanding of it)
 ---------------
-Effect: Rembrandt makes the afterburner flame not transparent. (test using animator, some of the other planes achieved it)
 Effect: Rembrandt does not make the engine flame lit enough, unless diffuse and ambient is increased also.
 
 

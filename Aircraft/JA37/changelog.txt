@@ -988,9 +988,13 @@ Sim: Added wing fuel tanks to failure manager.
 Sound: Started recording volume of wing stress sounds for replay.
 GUI: Made popupTip appear even higher on screen.
 
-2.84
+2.84 - 2014 December 29
 ====
 Sim: Improved crash handling code.
 Aero: Structure points now have greater friction to counter sliding.
 Animation: Beacons lights now properly fade in and out as if rotating.
 Aero: Structure points now have greater rebound damping to counter springyness.
+Effect: Made wingtip-vapour work over MP, but only dependant on humidity, temperature and altitude, not alpha.
+Effect: Made afterburner flame transparent in Rembrandt.
+Effect: Made mach vapourcone cast no shadow in MP when Rembrandt enabled.
+Animation: Front gear wheel now spins when moving on runway.
