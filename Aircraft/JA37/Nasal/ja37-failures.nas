@@ -226,6 +226,14 @@ var install_new_failures = func {
     var actuator_pump = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Hydraulic pump", actuator_pump);        
 
+    prop = "instrumentation/comm[0]";
+    var actuator_comm1 = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Comm 1", actuator_comm1);
+
+    prop = "instrumentation/comm[1]";
+    var actuator_comm2 = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Comm 2", actuator_comm2);
+
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
     prop = "controls/flight/aileron";

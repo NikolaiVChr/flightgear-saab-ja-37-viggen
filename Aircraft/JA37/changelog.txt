@@ -998,3 +998,8 @@ Effect: Made wingtip-vapour work over MP, but only dependant on humidity, temper
 Effect: Made afterburner flame transparent in Rembrandt.
 Effect: Made mach vapourcone cast no shadow in MP when Rembrandt enabled.
 Animation: Front gear wheel now spins when moving on runway.
+
+2.85
+====
+Sim: Added comm 1 & 2 to failure system.
+Sim: Spoken ATIS now works out of the box, just remember to turn on battery power.

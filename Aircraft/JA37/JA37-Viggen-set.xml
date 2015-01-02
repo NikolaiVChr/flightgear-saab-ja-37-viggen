@@ -1694,6 +1694,14 @@
 *************************************************************************-->
 
 <instrumentation>
+  <comm n="0">
+    <power-btn type="bool">1</power-btn>
+    <power-good type="bool">0</power-good>
+  </comm>
+  <comm n="1">
+    <power-btn type="bool">1</power-btn>
+    <power-good type="bool">0</power-good>
+  </comm>
  <switches>
   <generator>
    <pos type="int">0</pos>
