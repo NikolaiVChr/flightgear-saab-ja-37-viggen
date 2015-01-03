@@ -5,7 +5,7 @@
   <model>
    <livery>
     <name type="string">Swedish Air Force 61 Strike</name>
-    <texture>Liveries/SAFG/safg.jpg</texture>
+    <texture>Liveries/SAF61/saf61.png</texture>
     <owner type="string">SAF</owner>
    </livery>
   </model>
