@@ -14,7 +14,7 @@ kids 9
 OBJECT poly
 name "WPNS-button"
 loc 0.209216 -0.0302427 0.0869249
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 22
 -0.123261 0.351907 -0.109154
@@ -234,7 +234,7 @@ kids 0
 OBJECT poly
 name "trim-hat"
 loc 0.0706522 0.253773 0.00434977
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 25
 0.0324483 0.074037 0.000308297
@@ -423,7 +423,7 @@ kids 0
 OBJECT poly
 name "handle"
 loc 0.0733305 0.253377 -0.00308934
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 158
 0.0185894 0.0142161 0.0344349
@@ -2280,7 +2280,7 @@ kids 0
 OBJECT poly
 name "upper-mast"
 loc 0.0363697 0.107834 0.0149396
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 132
 0.0503054 0.0289376 0.0022404
@@ -3092,7 +3092,7 @@ kids 0
 OBJECT poly
 name "DLC-button"
 loc -0.0212169 -0.131655 -0.00599543
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 22
 0.113146 0.374593 0.0305291
@@ -3312,7 +3312,7 @@ kids 0
 OBJECT poly
 name "arm-selector"
 loc 0.066683 0.311892 0.0464212
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 49
 0 0 -0.00158991
@@ -3693,7 +3693,7 @@ kids 0
 OBJECT poly
 name "arm-index"
 loc -0.017383 -0.128564 -0.00500101
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 4
 0.0879517 0.463789 0.0277468
@@ -3712,7 +3712,7 @@ kids 0
 OBJECT poly
 name "trim-hat"
 loc 0.0706522 0.253773 0.00434977
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 49
 0.0250435 0.070138 0.000139496
@@ -3949,7 +3949,7 @@ kids 0
 OBJECT poly
 name "DLC-wheel"
 loc -0.180266 -0.626886 -0.0562272
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 22
 0.263433 0.883687 0.075772
@@ -4169,7 +4169,7 @@ kids 0
 OBJECT poly
 name "stick-roll"
 loc -2.08146 -0.458047 0.418633
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 48
 2.76655 0.721292 -0.514629
@@ -4505,7 +4505,7 @@ kids 0
 OBJECT poly
 name "stick-mast"
 loc 0.693505 0.17355 -0.134159
-texture "stick.jpg"
+texture "stick.png"
 crease 45.000000
 numvert 135
 -0.0103531 0.0109141 -0.0120001
@@ -5891,7 +5891,7 @@ kids 0
 OBJECT poly
 name "stick-skirt"
 loc 0.687985 0.077285 -0.142948
-texture "stick.jpg"
+texture "stick.png"
 crease 104.000000
 numvert 123
 0.0826945 0.038727 -0.00685126
