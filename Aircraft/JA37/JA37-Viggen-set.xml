@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>2.84</aircraft-version>
+    <aircraft-version>2.85</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>

@@ -9,13 +9,12 @@ GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground.
 Aero: Make cannon pod detachable and have pointweight.
-Aero: Add kinematic on all flight-control surfaces.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (bug prevents)
 Aero: Randomize vortex detachment
 Aero: Names for name in jsbsim aero code to avoid cluttering the property tree
 Animation: Min and max on several gauges.
-Animation: Animate wheels. (tough when gears get compressed..)
+Animation: Animate aft wheels.
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Pilot from F16CJ?
 Model: Proper pilot seat.
@@ -25,7 +24,6 @@ Model: Gauges that share mount design should also share geometry and textures.
 Model: Make use of the new LOD interior system. FG 3.4. (will break backwards compatibility)
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
-Sim: Overhaul crash code. (sliding, loss of inertia when crashing)
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Sim: Reset controls after A/P let go of them.
