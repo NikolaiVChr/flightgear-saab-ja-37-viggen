@@ -1,14 +1,7 @@
 ﻿<?xml version="1.0"?>
 <PropertyList>
 
-  <!-- *** LoD *** -->
-  <animation>
-    <type>range</type>
-    <min-m>0</min-m>
-    <max-m>5</max-m>
-  </animation>
-
-<model>
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/rudder_pedals.xml</path>
     <name>Pedals</name>
       <offsets>
@@ -28,7 +21,7 @@
       </offsets>
   </model>
 
-<model>
+  <model>
     <path>Aircraft/JA37/Models/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>

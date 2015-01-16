@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<PropertyList>
+
+  <!-- *** LoD *** -->
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>5</max-m>
+  </animation>
+
+ <model>
+    <path>Aircraft/JA37/Models/ja37-panel.xml</path>
+    <name>Panel</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/ja37-cockpit.xml</path>
+    <name>Cockpit</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+</PropertyList>

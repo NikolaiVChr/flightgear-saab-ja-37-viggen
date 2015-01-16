@@ -449,7 +449,7 @@ var speed_loop = func () {
 
   # Animating engine fire
   if (n1 > 100) n1 = 100;
-  var flame = 100 / (100-n1);
+  var flame = 100 / (101-n1);
   input.flame.setValue(flame);
 
   ## set groundspeed property used for crashcode ##

@@ -21,7 +21,7 @@ Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
-Model: Make use of the new LOD interior system. FG 3.4. (will break backwards compatibility)
+Model: Make liveries that is not 59, able to not have to use base texture.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)

@@ -9,24 +9,9 @@
   <path>Aircraft/JA37/ja37-mp-sound.xml</path>
  </sound>
 
- <model>
-    <path>Aircraft/JA37/Models/ja37-panel.xml</path>
-    <name>Panel</name>
-    <offsets>
-      <x-m>0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/ja37-cockpit.xml</path>
-    <name>Cockpit</name>
-    <offsets>
-      <x-m>0</x-m>
-      <y-m>0.0</y-m>
-      <z-m>0</z-m>
-    </offsets>
+  <model>  
+    <usage>interior</usage>
+    <path>Aircraft/JA37/Models/ja37-interior.xml</path>
   </model>
 
   <!-- tutorial marker -->
@@ -537,7 +522,7 @@
   <name>ExternalFlame</name>
   <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
   <offsets>
-   <x-m>5.75</x-m>
+   <x-m>5.90</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>

@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0"?>
 <PropertyList>
 
-  <!-- *** LoD *** -->
-  <animation>
-    <type>range</type>
-    <min-m>0</min-m>
-    <max-m>5</max-m>
-  </animation>
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
     <name>G Meter</name>

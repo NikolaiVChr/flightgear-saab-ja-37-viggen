@@ -6,7 +6,7 @@
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.11
+# Version 0.12
 #
 # License:
 #   GPL 2.0
@@ -37,6 +37,21 @@ var CrashAndStress = {
 			m.wingLoadLimitUpper = nil;
 			m.wingLoadLimitLower = nil;
 			m._looptimer = maketimer(0, m, m._loop);
+
+			m.repairTimer = maketimer(10.0, m, CrashAndStress._finishRepair);
+			m.repairTimer.singleShot = 1;
+
+			m.soundWaterTimer = maketimer(3, m, CrashAndStress._impactSoundWaterEnd);
+			m.soundWaterTimer.singleShot = 1;
+
+			m.soundTimer = maketimer(3, m, CrashAndStress._impactSoundEnd);
+			m.soundTimer.singleShot = 1;
+
+			m.explodeTimer = maketimer(3, m, CrashAndStress._explodeEnd);
+			m.explodeTimer.singleShot = 1;
+
+			m.stressTimer = maketimer(3, m, CrashAndStress._stressDamageEnd);
+			m.stressTimer.singleShot = 1;
 
 			m.input = {
 			#	trembleOn:  "damage/g-tremble-on",
@@ -99,21 +114,6 @@ var CrashAndStress = {
 	# return TRUE if in progress
 	isStarted: func () {
 		return me.inService;
-	},
-	# repair the aircaft
-	repair: func () {
-		var failure_modes = FailureMgr._failmgr.failure_modes;
-		var mode_list = keys(failure_modes);
-
-		foreach(var failure_mode_id; mode_list) {
-			FailureMgr.set_failure_level(failure_mode_id, 0);
-		}
-		me.wingsAttached = TRUE;
-		me.exploded = FALSE;
-		me.lastMessageTime = 0;
-		me.repairing = TRUE;
-		var timer = maketimer(10, me, me._finishRepair);
-		timer.start();
 	},
 	# accepts a vector with failure mode IDs, they will fail when wings break off.
 	setWingsFailureModes: func (modes) {
@@ -179,6 +179,24 @@ var CrashAndStress = {
 			me._looptimer.stop();
 		}
 	},
+	# repair the aircaft
+	repair: func () {
+		var failure_modes = FailureMgr._failmgr.failure_modes;
+		var mode_list = keys(failure_modes);
+
+		foreach(var failure_mode_id; mode_list) {
+			FailureMgr.set_failure_level(failure_mode_id, 0);
+		}
+		me.wingsAttached = TRUE;
+		me.exploded = FALSE;
+		me.lastMessageTime = 0;
+		me.repairing = TRUE;
+		
+		me.repairTimer.restart(10.0);
+	},
+	_finishRepair: func () {
+		me.repairing = FALSE;
+	},
 	_identifyGears: func (gears) {
 		var contacts = props.globals.getNode("/gear").getChildren("gear");
 
@@ -193,9 +211,6 @@ var CrashAndStress = {
 			}
 		}
 	},	
-	_finishRepair: func () {
-		me.repairing = FALSE;
-	},
 	_isStructureInContact: func () {
 		foreach(var structure; me.wowStructure) {
 			if (structure.getBoolValue() == TRUE) {
@@ -247,7 +262,7 @@ var CrashAndStress = {
 	    var lat = me.input.lat.getValue();
 		var lon = me.input.lon.getValue();
 		var info = geodinfo(lat, lon);
-		var solid = info[1] == nil?TRUE:info[1].solid;
+		var solid = info == nil?TRUE:(info[1] == nil?TRUE:info[1].solid);
 		var speed = me._calcGroundSpeed();
 
 		if (me.exploded == FALSE) {
@@ -274,18 +289,15 @@ var CrashAndStress = {
 			wildfire.ignite(pos, 1);
 		}
 		if(solid == TRUE) {
-			#print("solid");
 			me._impactSoundBegin(speed);
 		} else {
-			#print("water");
 			me._impactSoundWaterBegin(speed);
 		}
 	},
 	_impactSoundWaterBegin: func (speed) {
 		if (speed > 5) {#check if sound already running?
 			me.input.wCrashOn.setValue(1);
-			var timer = maketimer(3, me, me._impactSoundWaterEnd);
-			timer.start();
+			me.soundWaterTimer.restart(3);
 		}
 	},
 	_impactSoundWaterEnd: func	() {
@@ -294,8 +306,7 @@ var CrashAndStress = {
 	_impactSoundBegin: func (speed) {
 		if (speed > 5) {
 			me.input.crashOn.setValue(1);
-			var timer = maketimer(3, me, me._impactSoundEnd);
-			timer.start();
+			me.soundTimer.restart(3);
 		}
 	},
 	_impactSoundEnd: func () {
@@ -312,9 +323,8 @@ var CrashAndStress = {
 	    }
 
 	    me._output("Aircraft exploded.", TRUE);
-
-		var timer = maketimer(3, me, me._explodeEnd);
-		timer.start();
+		
+		me.explodeTimer.restart(3);
 	},
 	_explodeEnd: func () {
 		me.input.explodeOn.setValue(0);
@@ -326,8 +336,8 @@ var CrashAndStress = {
   		FailureMgr.set_failure_level(me.fdm.wingsFailureID, 1);
 
 		me.wingsAttached = FALSE;
-		var timer = maketimer(3, me, me._stressDamageEnd);
-		timer.start();
+
+		me.stressTimer.restart(3);
 	},
 	_stressDamageEnd: func () {
 		me.input.detachOn.setValue(0);
@@ -361,7 +371,6 @@ var CrashAndStress = {
 			var weight = me.fdm.input.weight.getValue();
 			var wingload = gForce * weight;
 
-			#print("wingload: "~wingload~" max: "~me.wingLoadLimitUpper);
 			var broken = FALSE;
 
 			if(wingload < 0) {
@@ -509,7 +518,7 @@ var yaSimProp = {
 
 
 # use:
-var crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
+var crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12, "minG": -6}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
 crashCode.start();
 
 # test:

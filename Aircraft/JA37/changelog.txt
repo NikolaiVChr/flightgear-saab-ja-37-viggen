@@ -999,9 +999,17 @@ Effect: Made afterburner flame transparent in Rembrandt.
 Effect: Made mach vapourcone cast no shadow in MP when Rembrandt enabled.
 Animation: Front gear wheel now spins when moving on runway.
 
-2.85
+2.85 - 2014 January 11
 ====
 Sim: Added comm 1 & 2 to failure system.
 Sim: Spoken ATIS now works out of the box, just remember to turn on battery power.
 Model: Converted livery 59 and 61 to png from jpg.
-Model: When using Livery 59, it now shared base texture, for better optimization. Other liveries still require more double texture amount loaded.
+Model: When using Livery 59, it now shares base texture, for better memory optimization. Other liveries still require double fuselage texture loaded.
+
+2.86 - 2014 January 16
+====
+Effect: Fixed engine fire would sometimes become black at full throttle.
+Sim: Fixed some sound and repair timers in the crash code.
+Sim: Increased the negative G the airframe can withstand.
+Model: The cockpit interior is now not loaded in MP, when viewing the plane from a distance. (FG 3.4)
+Effect: Fitted the afterburner flame better to exhaust nozzle to avoid graphics anomalies.
