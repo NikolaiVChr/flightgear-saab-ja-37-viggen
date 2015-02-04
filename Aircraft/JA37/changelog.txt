@@ -1013,3 +1013,10 @@ Sim: Fixed some sound and repair timers in the crash code.
 Sim: Increased the negative G the airframe can withstand.
 Model: The cockpit interior is now not loaded in MP, when viewing the plane from a distance. (FG 3.4)
 Effect: Fitted the afterburner flame better to exhaust nozzle to avoid graphics anomalies.
+
+2.87
+====
+Effect: Made the beacon light better simulate a rotating light and increased the frequency to better match the real thing.
+Effect: Made the afterburning flame vibrate.
+Effect: Made the afterburner flame transparency depend on time of day.
+Effect: made the afterburner and engine flame be light purple to better match the real thing.

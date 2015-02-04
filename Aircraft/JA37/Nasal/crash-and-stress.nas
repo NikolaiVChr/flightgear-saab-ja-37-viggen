@@ -1,5 +1,5 @@
 #
-# A Flightgear JSBSim crash and stress damage system.
+# A Flightgear crash and stress damage system.
 #
 # Inspired by the crash system in Mig15 by Slavutinsky Victor. And by Hvengel's formula for wingload stress.
 #

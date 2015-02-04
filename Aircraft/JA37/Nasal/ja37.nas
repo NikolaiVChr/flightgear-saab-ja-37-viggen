@@ -417,6 +417,12 @@ var update_loop = func {
       setprop("sim/rendering/als-secondary-lights/use-landing-light", 0);
     }
 
+
+    #augmented flame translucency
+    var angle = getprop("sim/time/sun-angle-rad");# 1.25 - 2.45
+    var newAngle = (1.2 -(angle-1.25))*0.8333;
+    setprop("sim/multiplay/generic/float[2]", newAngle);
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
@@ -689,14 +695,17 @@ var beacon_switch = props.globals.getNode("sim/model/lighting/beacon/state-rotar
 
 var beaconLoop = func () {
   if(input.replay.getValue() != 1) {
-    var time = input.elapsed.getValue();
+    var time = input.elapsed.getValue()*1.5;
     var timeInt = int(time);
     var value = nil;
     if(2 * int(timeInt / 2) == timeInt) {
-      value = time - timeInt;
+      #ascend
+      value = (2 * (time - timeInt))-1;
     } else {
-      value = 1 - (time - timeInt);
+      #descent
+      value = (2*(1 - (time - timeInt)))-1;
     }
+    if (value < 0) value = 0;
     beacon_switch.setValue(value);
   }
 };

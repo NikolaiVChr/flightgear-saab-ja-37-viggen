@@ -54,4 +54,30 @@
     <z-factor>1.0</z-factor>
   </animation>
 
+  <animation>
+  <type>rotate</type>
+  <object-name>ExternalFlamePoly</object-name>
+  <property>/sim/time/elapsed-sec</property>
+  <factor>2000</factor>
+  <center>
+   <x-m>0.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </center>
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>blend</type>
+  <object-name>ExternalFlamePoly</object-name>
+  <property>/sim/multiplay/generic/float[2]</property><!-- sun angle from nasal -->
+  <factor>1.0</factor>
+  <min>0.60</min>
+  <max>0.95</max>
+ </animation>
+
 </PropertyList>

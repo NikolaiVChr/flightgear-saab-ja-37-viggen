@@ -7,7 +7,7 @@ Features and improvements:
 GUI: Make popups appear higher on screen.
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
-GUI: Option to switch off hitting stuff above ground.
+GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (bug prevents)
@@ -22,6 +22,7 @@ Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
+Model: Make the red 'ghost' livery and the black/grey camo livery.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -110,8 +111,7 @@ Effect: Make gun fire bullets from correct position. (should be a pod under bell
 
 Depends on better 3D cockpit:
 -----------------------------
-Sim: Make control surfaces depend on hydralic system.
-Sim: Make proper power flow to external lights. (use potemkin)
+Sim: Make proper power flow to all and seperate external light controls. (use potemkin)
 Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upside down. All fuel to engine has to go through tank 1)
 Model: Put in alot more not-working instruments and controls for immersion.
 
