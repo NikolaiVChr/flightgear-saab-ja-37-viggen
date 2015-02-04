@@ -22,7 +22,14 @@ Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
-Model: Make the red 'ghost' livery and the black/grey camo livery.
+
+Model: Make the 57-21 red 'ghost' livery
+Model: Make the 11-16 black/grey camo livery.
+Model: Make the 12-4  black livery
+Model: Make the 46-4  unknown export livery
+Model: Make the 02-21 swedish sun livery
+Model: Make the 48-21 finnish export livery.
+
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)

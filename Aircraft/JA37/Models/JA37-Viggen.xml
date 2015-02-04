@@ -930,21 +930,21 @@
   <object-name>fuselage</object-name>
   <object-name>wingLeft</object-name>
   <object-name>wingRight</object-name>
-  <object-name>missile</object-name>
+<!--  <object-name>missile</object-name>
   <object-name>missile1</object-name>
   <object-name>missile2</object-name>
-  <object-name>missile3</object-name>
+  <object-name>missile3</object-name>-->
   <object-name>rudder</object-name>
-  <object-name>gearFront</object-name>
-  <!--<object-name>gearFrontHinge</object-name>-->
+  <!--<object-name>gearFront</object-name>
+  <object-name>gearFrontHinge</object-name>-->
   <object-name>gearFrontDoorsOpen</object-name>
   <object-name>gearFrontDoorsClosed</object-name>
-  <object-name>gearLeft</object-name>
-  <object-name>gearLeftHinge</object-name>
+  <!--<object-name>gearLeft</object-name>
+  <object-name>gearLeftHinge</object-name>-->
   <object-name>gearLeftDoorsOpen</object-name>
   <object-name>gearLeftDoorsClosed</object-name>
-  <object-name>gearRight</object-name>
-  <object-name>gearRightHinge</object-name>
+  <!--<object-name>gearRight</object-name>
+  <object-name>gearRightHinge</object-name>-->
   <object-name>gearRightDoorsOpen</object-name>
   <object-name>gearRightDoorsClosed</object-name>
   <property-base>sim/model/livery</property-base>

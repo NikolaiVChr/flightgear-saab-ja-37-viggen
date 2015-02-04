@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">Swedish Air Force 46</name>
+    <texture>Liveries/SAF46/saf46.png</texture>
+    <owner type="string">SAF</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>
