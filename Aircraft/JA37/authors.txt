@@ -48,5 +48,6 @@ Alphajet - Adapted aerobatic smoke
 Crusader - Carrier catapult mechanism
 pa24-250 - Glare texture for landing lights
 F-14b (jsb) - Pitch and yaw dampers. Hydraulics.
+l39 - Strobe light texture.
 
 Might have forgotten some.

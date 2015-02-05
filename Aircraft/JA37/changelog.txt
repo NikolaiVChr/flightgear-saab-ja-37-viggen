@@ -1026,3 +1026,7 @@ Effect: made the afterburner and engine flame be light purple to better match th
 Model: Added livery 57 red demo.
 Model: Added livery 46 with unknown flag on vertical tail. Suspect it is a livery for potential export.
 Model: Made landing gear and missiles not be affected by livery textures.
+
+2.89
+====
+Effect: Strobe light replaced to improve resolution.
