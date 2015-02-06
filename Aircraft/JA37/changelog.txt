@@ -1030,3 +1030,4 @@ Model: Made landing gear and missiles not be affected by livery textures.
 2.89
 ====
 Effect: Strobe light replaced to improve resolution.
+Model: Added the 02-21 'sun on vertical tail' livery.

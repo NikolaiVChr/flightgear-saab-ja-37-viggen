@@ -10,7 +10,7 @@ GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
-Aero: Disable failure system from freezing surfaces (bug prevents)
+Aero: Disable failure system from freezing surfaces (remove failure mode bug prevents)
 Aero: Randomize vortex detachment
 Aero: Names for name in jsbsim aero code to avoid cluttering the property tree
 Animation: Min and max on several gauges.
@@ -22,12 +22,6 @@ Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
-Model: Improve the 57-21 red 'ghost' livery
-Model: Make the 11-16 black/grey camo livery.
-Model: Make the 12-4  black livery
-Model: Improve the 46-4  unknown export livery
-Model: Make the 02-21 swedish sun livery
-Model: Make the 48-21 finnish export livery.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -101,6 +95,20 @@ Less particle effects
 No radar (done)
 No custom HUD (done)
 Default FG HUD (done)
+
+
+Livery work
+-----------
+Model: Improve the 31-17 grey livery.
+Model: Improve the 32-17 Blå Petter livery. (Blue Peter)
+Model: Improve the 59-16 grey livery.
+Model: Improve the 61-16 strike camo livery.
+Model: Improve the 57-21 red 'ghost' livery.
+Model: Improve the 46-4  unknown export livery.
+Model: Improve the 02-21 swedish sun livery.
+Model: Make the 11-16 black/grey camo livery.
+Model: Make the 12-4  black and gold livery.
+Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)
 
 
 Require modeling/texture skills (above my level):
