@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 525;
+var DIALOG_HEIGHT = 575;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -323,6 +323,22 @@ var Dialog = {
           me.dialog.rb24msgButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           me.dialog.rb24msgButton.setBinding("nasal", "ja37.Dialog.rb24msgToggle()");
 
+          #line thickness brightness
+          var lineRow = workArea.addChild("group");
+          lineRow.set("layout", "hbox");
+          lineRow.set("pref-height", 25);
+          lineRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #lineRow.set("valign", "center");
+                    
+          lineRow.addChild("text").set("label", "HUD line width:");
+          lineRow.addChild("empty").set("stretch", 1);
+          me.dialog.hudPlus = lineRow.addChild("button");
+          me.dialog.hudMinus = lineRow.addChild("button");
+          me.dialog.hudPlus.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Thicker", default: 0 });
+          me.dialog.hudMinus.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Thinner", default: 0 });
+          me.dialog.hudPlus.setBinding("nasal", "ja37.Dialog.thicker()");
+          me.dialog.hudMinus.setBinding("nasal", "ja37.Dialog.thinner()");
+
           #HUD brightness
           var hudRow = workArea.addChild("group");
           hudRow.set("layout", "hbox");
@@ -331,6 +347,7 @@ var Dialog = {
           #hudRow.set("valign", "center");
                     
           hudRow.addChild("text").set("label", "HUD color:");
+          hudRow.addChild("empty").set("stretch", 1);
           me.dialog.hudLight = hudRow.addChild("button");
           me.dialog.hudMedium = hudRow.addChild("button");
           me.dialog.hudDark = hudRow.addChild("button");
@@ -510,6 +527,19 @@ var Dialog = {
       #canvas_HUD.a = 1.0;
       #canvas_HUD.w = 12;
       #canvas_HUD.fs = 1.2;
+      canvas_HUD.reinit();
+    },
+
+    thicker: func {
+      setprop("sim/ja37/hud/stroke-linewidth", getprop("sim/ja37/hud/stroke-linewidth") + 0.5);
+      canvas_HUD.reinit();
+    },
+
+    thinner: func {
+      var w = getprop("sim/ja37/hud/stroke-linewidth");
+      w = w - 0.5;
+      if(w < 0.5) w = 0.5;
+      setprop("sim/ja37/hud/stroke-linewidth", w);
       canvas_HUD.reinit();
     },
 

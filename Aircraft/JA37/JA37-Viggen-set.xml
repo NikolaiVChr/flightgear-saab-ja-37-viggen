@@ -965,6 +965,7 @@
         <combat type="bool">false</combat>
         <bank-indicator userarchive="y" type="bool">false</bank-indicator>
         <callsign type="bool">true</callsign>
+        <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
       </hud>
       <sound>
         <click-on type="bool">false</click-on>

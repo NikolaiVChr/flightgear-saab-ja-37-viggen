@@ -63,11 +63,13 @@ var r = 0.0;
 var g = 1.0;
 var b = 0.0;#HUD colors
 var a = 1.0;
-var w = 4;  #line stroke width
+var w = getprop("sim/ja37/hud/stroke-linewidth");  #line stroke width
 var ar = 0.9;#font aspect ratio
 var fs = 0.8;#font size factor
 var artifacts0 = nil;
 var artifacts1 = [];
+var artifactsText1 = [];
+var artifactsText0 = nil;
 var maxTracks = 32;# how many radar tracks can be shown at once in the HUD (was 16)
 var diamond_node = nil;
 var selection = nil;
@@ -508,14 +510,14 @@ var HUDnasal = {
 
     #pitch line numbers
     for(var i = -18; i <= 0; i += 1)
-      append(artifacts1, HUDnasal.main.horizon_group2.createChild("text")
+      append(artifactsText1, HUDnasal.main.horizon_group2.createChild("text")
          .setText(i*5)
          .setFontSize(75*fs, ar)
          .setAlignment("right-bottom")
          .setTranslation(-200, -i * distance - 5)
          .setColor(r,g,b, a));
     for(var i = 1; i <= 18; i += 1)
-      append(artifacts1, HUDnasal.main.horizon_group2.createChild("text")
+      append(artifactsText1, HUDnasal.main.horizon_group2.createChild("text")
          .setText("+" ~ i*5)
          .setFontSize(75*fs, ar)
          .setAlignment("right-bottom")
@@ -649,13 +651,17 @@ var HUDnasal = {
       append(artifacts1, target_circles);
     }
 
-    artifacts0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec,
-             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.turn_indicator, HUDnasal.main.arrow,
-             HUDnasal.main.hdgR, HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
-             HUDnasal.main.alt_scale_line, HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon,
-             HUDnasal.main.alt_higher, HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.qfe, HUDnasal.main.target, HUDnasal.main.desired_lines,
-             HUDnasal.main.alt, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
-             tower, HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name, HUDnasal.main.aim_reticle];
+    artifacts0 = [HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec,
+             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow,
+             HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
+             HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon,
+             HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target, HUDnasal.main.desired_lines,
+             HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
+             tower, HUDnasal.main.aim_reticle];
+
+    artifactsText0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.hdgR, HUDnasal.main.qfe,
+                      HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name,
+                      HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.alt_higher, HUDnasal.main.alt];
 
 
   },
@@ -1954,9 +1960,19 @@ var reinit = func() {#mostly called to change HUD color
 
    foreach(var item; artifacts0) {
     item.setColor(r, g, b, a);
+    item.setStrokeLineWidth(getprop("sim/ja37/hud/stroke-linewidth"));
    }
 
    foreach(var item; artifacts1) {
+    item.setColor(r, g, b, a);
+    item.setStrokeLineWidth(getprop("sim/ja37/hud/stroke-linewidth"));
+   }
+
+   foreach(var item; artifactsText0) {
+    item.setColor(r, g, b, a);
+   }
+
+   foreach(var item; artifactsText1) {
     item.setColor(r, g, b, a);
    }
 

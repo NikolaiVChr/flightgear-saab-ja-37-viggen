@@ -595,7 +595,8 @@ var main_init = func {
                     "sim/ja37/hud/units-metric",
                     "sim/ja37/hud/mode",
                     "sim/ja37/hud/bank-indicator",
-                    "sim/ja37/autoReverseThrust");
+                    "sim/ja37/autoReverseThrust",
+                    "sim/ja37/hud/stroke-linewidth");
   aircraft.data.save();
 
   setprop("/consumables/fuel/tank[8]/jettisoned", 0);

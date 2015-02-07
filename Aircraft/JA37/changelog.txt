@@ -1031,3 +1031,7 @@ Model: Made landing gear and missiles not be affected by livery textures.
 ====
 Effect: Strobe light replaced to improve resolution.
 Model: Added the 02-21 'sun on vertical tail' livery.
+
+2.90
+====
+HUD: In the options dialog the HUD line width can now be changed.
