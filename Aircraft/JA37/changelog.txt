@@ -1035,3 +1035,6 @@ Model: Added the 02-21 'sun on vertical tail' livery.
 2.90
 ====
 HUD: In the options dialog the HUD line width can now be changed.
+Model: Added pilot in exterior view.
+Model: Moved the seat a little forward.
+Model: The seat will no longer change texture from livery change.

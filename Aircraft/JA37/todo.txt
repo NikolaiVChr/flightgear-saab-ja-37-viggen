@@ -16,7 +16,6 @@ Aero: Names for name in jsbsim aero code to avoid cluttering the property tree
 Animation: Min and max on several gauges.
 Animation: Animate aft wheels.
 Model: Adjust instrument materials, and make the gauges look more similar.
-Model: Pilot from F16CJ?
 Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.

@@ -9,10 +9,46 @@
   <path>Aircraft/JA37/ja37-mp-sound.xml</path>
  </sound>
 
+
+ <!--        Interior    -->
   <model>  
     <usage>interior</usage>
     <path>Aircraft/JA37/Models/ja37-interior.xml</path>
   </model>
+
+  <model>  
+    <usage>pilot</usage>
+    <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>
+    <offsets>
+      <x-m>-3.650</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.300</z-m>
+    </offsets>
+  </model>
+
+  <animation><!-- move seat forward -->
+   <type>translate</type>
+   <object-name>seat</object-name>
+   <factor>0.0</factor>
+   <offset-m>-0.125</offset-m>
+   <axis>
+     <x>1</x>
+   </axis>
+   <center>
+        <x-m>0</x-m>
+        <y-m>0</y-m>
+        <z-m>0</z-m>
+    </center>
+</animation>
+
+  <!--<model>  a little too wide atm.
+    <path>Aircraft/JA37/Models/Cockpit/seat/seat.xml</path>
+    <offsets>
+      <x-m>-3.2541</x-m>
+      <y-m> 0.0000</y-m>
+      <z-m> 0.2739</z-m>
+    </offsets>
+  </model>-->
 
   <!-- tutorial marker -->
   <model>
