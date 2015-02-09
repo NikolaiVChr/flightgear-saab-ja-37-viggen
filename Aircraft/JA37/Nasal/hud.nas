@@ -1354,7 +1354,7 @@ var HUDnasal = {
         deflect = getprop("instrumentation/nav[0]/heading-needle-deflection");
 
         if (getprop("instrumentation/nav[0]/has-gs") == TRUE and getprop("instrumentation/nav[0]/gs-in-range") == TRUE) {
-          var normDeviation = - getprop("instrumentation/nav/gs-needle-deflection-norm");
+          var normDeviation = (clamp(getprop("instrumentation/nav/gs-direct-deg") - 3, -4, 4)/4);
           var dev3 = normDeviation * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var dev2 = normDeviation * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var deg = clamp(deflect, -8, 8);
