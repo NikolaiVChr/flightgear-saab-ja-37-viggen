@@ -1032,9 +1032,20 @@ Model: Made landing gear and missiles not be affected by livery textures.
 Effect: Strobe light replaced to improve resolution.
 Model: Added the 02-21 'sun on vertical tail' livery.
 
-2.90
+2.90 - 2005 February 08
 ====
-HUD: In the options dialog the HUD line width can now be changed.
+HUD: In the options dialog the HUD line width can now be increased or decreased.
 Model: Added pilot in exterior view.
 Model: Moved the seat a little forward.
 Model: The seat will no longer change texture from livery change.
+
+2.91
+====
+HUD: Added a landing mode, negative pitch lines are not shown in this mode.
+HUD: Added a scale in takeoff mode that shows when to pull back the stick to take off.
+Sim: Added TILS landing system, it auto tunes in to the nearest ILS runway on nav 1.
+HUD: Landing mode shows TILS/ILS using 4 vertical bars, align their top to horizontal line and horizontal to the middle. Keep flight path vector on the dot.
+HUD: Landing mode horizontal line and dot, will follow the fligth path vector, when ILS not active.
+HUD: Landing mode ILS/TILS is tied into nav 1 only.
+HUD: Landing mode will show a heading bug to the runway, if ILS/TILS is tuned into one.
+HUD: In takeoff mode target altitude is now forced to 500 meters.

@@ -2,6 +2,8 @@
 
 var UPDATE_PERIOD = 0.1;
 
+var FALSE = 0;
+var TRUE = 1;
 
 var prevGear0 = 1;
 var prevGear1 = 1;
@@ -76,6 +78,7 @@ input = {
   roll:         "/instrumentation/attitude-indicator/indicated-roll-deg",
   speedMach:    "/instrumentation/airspeed-indicator/indicated-mach",
   speedKt:      "/instrumentation/airspeed-indicator/indicated-speed-kt",
+  TILS:         "sim/ja37/hud/TILS",
 };
    
 var update_loop = func {
@@ -423,12 +426,47 @@ var update_loop = func {
     var newAngle = (1.2 -(angle-1.25))*0.8333;
     setprop("sim/multiplay/generic/float[2]", newAngle);
 
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
         #)
     , UPDATE_PERIOD);
   }
+}
+
+
+# slow updating loop
+
+var slow_loop = func () {
+  #TILS
+  if(input.TILS.getValue() == TRUE and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING) {
+    var icao = getprop("sim/tower/airport-id");
+    var runways = airportinfo(icao).runways;
+    var closestRunway = -1;
+    var closestDistance = 10000000;
+    #print();
+    foreach(i ; keys(runways)) {
+      var r = runways[i];
+      if (r.ils != nil) {
+        var coord = geo.Coord.new();
+        coord.set_latlon(r.lat, r.lon);
+        var distance = geo.aircraft_position().distance_to(coord);
+        #print(icao~" runway "~i~" has ILS. Distance "~distance~" meter.");
+        if(distance < closestDistance) {
+          closestDistance = distance;
+          closestRunway = i;
+        }
+      } else {
+        #print(icao~" runway "~i~" has not.");
+      }
+    }
+    if(closestRunway != -1) {
+      setprop("instrumentation/nav[0]/frequencies/selected-mhz", (runways[closestRunway].ils.frequency / 100));
+    }
+  }
+
+  settimer(slow_loop, 1.5);
 }
 
 # fast updating loop
@@ -633,8 +671,9 @@ var main_init = func {
   # start chronometer loop
   chrono_loop();
 
-  # start fast loop
+  # start minor loops
   speed_loop();
+  slow_loop();
 
   # start beacon loop
   beaconTimer.start();

@@ -45,13 +45,11 @@ Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
-HUD: Make TILS landing system in the HUD (maybe just make it follow ILS)
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
-HUD: Make desired height columns for landing and boxes for desired pitch.
+HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle vertical tail down.
-HUD: Seperate landing and takeoff mode.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 
