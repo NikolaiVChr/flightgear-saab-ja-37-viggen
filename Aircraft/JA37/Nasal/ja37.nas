@@ -437,13 +437,13 @@ var update_loop = func {
 
 
 # slow updating loop
-
 var slow_loop = func () {
   #TILS
   if(input.TILS.getValue() == TRUE and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING) {
     var icao = getprop("sim/tower/airport-id");
     var runways = airportinfo(icao).runways;
     var closestRunway = -1;
+    var secondClosestRunway = -1;
     var closestDistance = 10000000;
     #print();
     foreach(i ; keys(runways)) {
@@ -454,15 +454,35 @@ var slow_loop = func () {
         var distance = geo.aircraft_position().distance_to(coord);
         #print(icao~" runway "~i~" has ILS. Distance "~distance~" meter.");
         if(distance < closestDistance) {
+          if (closestDistance - distance < 200) {
+            secondClosestRunway = closestRunway;
+          } else {
+            secondClosestRunway = -1;
+          }
           closestDistance = distance;
           closestRunway = i;
+        } else {
+          if (distance - closestDistance < 200) {
+            secondClosestRunway = i;
+          }
         }
       } else {
         #print(icao~" runway "~i~" has not.");
       }
     }
     if(closestRunway != -1) {
-      setprop("instrumentation/nav[0]/frequencies/selected-mhz", (runways[closestRunway].ils.frequency / 100));
+      var oldFreq = getprop("instrumentation/nav[0]/frequencies/selected-mhz");
+      var newFreq = runways[closestRunway].ils.frequency / 100;
+
+      if (oldFreq != newFreq) {
+        setprop("instrumentation/nav[0]/frequencies/selected-mhz", newFreq);
+        var standbyStr = "";
+        if (secondClosestRunway != -1) {
+          standbyStr = " (Standby: "~secondClosestRunway~")";
+          setprop("instrumentation/nav[0]/frequencies/standby-mhz", runways[secondClosestRunway].ils.frequency / 100);
+        }
+        popupTip("TILS tuned to "~icao~" "~closestRunway~standbyStr, 25, 6);
+      }
     }
   }
 

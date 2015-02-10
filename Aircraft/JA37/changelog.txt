@@ -1053,3 +1053,11 @@ HUD: In takeoff mode target altitude is now forced to 500 meters.
 2.92 - 2015 February 09
 ====
 HUD: The 4 vertical bars should no longer fluctuate when far away from the glideslope.
+
+2.93 - 2015 February 09
+====
+Sim: Added a popup message when TILS switch is used.
+Sim: Added a popup message every time TILS change runway.
+Sim: Improved the conditions of getting ground collision warning.
+Sim: Made TILS able to put nearby parallel runway as standby frequency.
+HUD: Takeoff mode now waits 3 seconds before switching to another mode.

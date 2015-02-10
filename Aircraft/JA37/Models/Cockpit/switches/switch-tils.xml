@@ -15,11 +15,16 @@
         			ja37.click();
       				var enabled = getprop("sim/ja37/hud/TILS");
       				setprop("sim/ja37/hud/TILS", !enabled);
+      				if(enabled == 1) {
+      					ja37.popupTip("TILS: OFF");
+      				} else {
+      					ja37.popupTip("TILS: ON");
+      				}
       			</script>
 	        </binding>
 	    </action>
 	    <hovered>
-	        <binding>
+	        <binding> 
 	         	<command>set-tooltip</command>
 	         	<tooltip-id>switch-tils</tooltip-id>
 	         	<label>TILS landing guidance system</label>

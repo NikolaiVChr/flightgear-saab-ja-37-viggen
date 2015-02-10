@@ -31,7 +31,7 @@ var COMBAT =2;
 var LANDING = 3;
 
 var mode = TAKEOFF;
-
+var modeTimeTakeoff = -1;
 
 # -100 - 0 : not blinking
 # 1 - 10   : blinking
@@ -815,17 +815,25 @@ var HUDnasal = {
         centerOffset = -1 * (512 - (fromTop * pixelPerMeter));
       }
 
+      var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gears.getValue() != 1;
 
-      if(mode != TAKEOFF and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE) {
+      if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE) {
         mode = TAKEOFF;
-      } elsif (mode == TAKEOFF and (me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gears.getValue() != 1)) {
+        modeTimeTakeoff = -1;
+      } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
+        modeTimeTakeoff = getprop("sim/time/elapsed-sec");
+      } elsif (modeTimeTakeoff != -1 and getprop("sim/time/elapsed-sec") - modeTimeTakeoff > 3) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        modeTimeTakeoff = -1;
       } elsif ((mode == COMBAT or mode == NAV) and me.input.gears.getValue() == 1) {
         mode = LANDING;
+        modeTimeTakeoff = -1;
       } elsif (mode == COMBAT or mode == NAV) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        modeTimeTakeoff = -1;
       } elsif (mode == LANDING and me.input.gears.getValue() == 0) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        modeTimeTakeoff = -1;
       }
        
 
@@ -898,31 +906,36 @@ var HUDnasal = {
 
   displayGroundCollisionArrow: func (mode) {
     var rad_alt = me.input.rad_alt.getValue();
-    #var x = mp.getNode("position/global-x").getValue();# meters probably
-    #var y = mp.getNode("position/global-y").getValue();
-    #var z = mp.getNode("position/global-z").getValue();
-    #var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-    #var vel_gx = me.input.speed_n.getValue();#feet per second
-    #var vel_gy = me.input.speed_e.getValue();
-    var vel_gz = me.input.speed_d.getValue();
+    if (mode != TAKEOFF and ((mode == LANDING and rad_alt > (50/feet2meter)) or mode != LANDING)) {
+      #var x = mp.getNode("position/global-x").getValue();# meters probably
+      #var y = mp.getNode("position/global-y").getValue();
+      #var z = mp.getNode("position/global-z").getValue();
+      #var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+      #var vel_gx = me.input.speed_n.getValue();#feet per second
+      #var vel_gy = me.input.speed_e.getValue();
+      var vel_gz = me.input.speed_d.getValue();
 
-    #extend vector of ground elevations
-    if(rad_alt != nil and vel_gz != nil) {
-      var time_till_crash = rad_alt / vel_gz;
+      #extend vector of ground elevations
+      if(rad_alt != nil and vel_gz != nil) {
+        var time_till_crash = rad_alt / vel_gz;
 
-      # very simple ground detection.
-      if(mode != LANDING and time_till_crash < 10 and time_till_crash > 0) {
-        me.input.terrainOn.setValue(TRUE);
-        if(me.input.tenHz.getValue() == TRUE) {
-          me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
-          me.arrow.show();
+        # very simple ground detection.
+        if(time_till_crash < 10 and time_till_crash > 0) {
+          me.input.terrainOn.setValue(TRUE);
+          if(me.input.tenHz.getValue() == TRUE) {
+            me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
+            me.arrow.show();
+          } else {
+            me.arrow.hide();
+          }
         } else {
+          me.input.terrainOn.setValue(FALSE);
           me.arrow.hide();
         }
-      } else {
-        me.input.terrainOn.setValue(FALSE);
-        me.arrow.hide();
       }
+    } else {
+      me.input.terrainOn.setValue(FALSE);
+      me.arrow.hide();
     }
   },
 
