@@ -1054,10 +1054,16 @@ HUD: In takeoff mode target altitude is now forced to 500 meters.
 ====
 HUD: The 4 vertical bars should no longer fluctuate when far away from the glideslope.
 
-2.93 - 2015 February 09
+2.93 - 2015 February 10
 ====
 Sim: Added a popup message when TILS switch is used.
 Sim: Added a popup message every time TILS change runway.
 Sim: Improved the conditions of getting ground collision warning.
 Sim: Made TILS able to put nearby parallel runway as standby frequency.
 HUD: Takeoff mode now waits 3 seconds before switching to another mode.
+
+2.94
+====
+HUD: Fixed sideslip indicator dot would sometimes turn into a line.
+GUI: Made a default line thickness button.
+Sim: Set ILS glideslope to 1/20 steepness instead of 3 degrees.

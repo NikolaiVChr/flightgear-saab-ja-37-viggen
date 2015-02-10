@@ -438,9 +438,12 @@ var HUDnasal = {
          .setColor(r,g,b, a);
     HUDnasal.main.turn_group3 = HUDnasal.main.turn_group2.createChild("group");
     HUDnasal.main.slip_indicator = HUDnasal.main.turn_group3.createChild("path")
-         .moveTo(-8, -20)
+         .moveTo(-8, -26)
          .horiz(16)
-         .setStrokeLineWidth(16)
+         .vert(16)
+         .horiz(-16)
+         .vert(-16)
+         .setStrokeLineWidth(w)
          .setColor(r,g,b, a);
 
 
@@ -1367,7 +1370,7 @@ var HUDnasal = {
         deflect = getprop("instrumentation/nav[0]/heading-needle-deflection");
 
         if (getprop("instrumentation/nav[0]/has-gs") == TRUE and getprop("instrumentation/nav[0]/gs-in-range") == TRUE) {
-          var normDeviation = (clamp(getprop("instrumentation/nav/gs-direct-deg") - 3, -4, 4)/4);
+          var normDeviation = (clamp(getprop("instrumentation/nav/gs-direct-deg") - 2.86, -4, 4)/4);
           var dev3 = normDeviation * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var dev2 = normDeviation * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var deg = clamp(deflect, -8, 8);

@@ -323,7 +323,7 @@ var Dialog = {
           me.dialog.rb24msgButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           me.dialog.rb24msgButton.setBinding("nasal", "ja37.Dialog.rb24msgToggle()");
 
-          #line thickness brightness
+          #HUD line thickness
           var lineRow = workArea.addChild("group");
           lineRow.set("layout", "hbox");
           lineRow.set("pref-height", 25);
@@ -332,11 +332,14 @@ var Dialog = {
                     
           lineRow.addChild("text").set("label", "HUD line width:");
           lineRow.addChild("empty").set("stretch", 1);
-          me.dialog.hudPlus = lineRow.addChild("button");
           me.dialog.hudMinus = lineRow.addChild("button");
+          me.dialog.hudDefault = lineRow.addChild("button");
+          me.dialog.hudPlus = lineRow.addChild("button");
           me.dialog.hudPlus.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Thicker", default: 0 });
+          me.dialog.hudDefault.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Default", default: 0 });
           me.dialog.hudMinus.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Thinner", default: 0 });
           me.dialog.hudPlus.setBinding("nasal", "ja37.Dialog.thicker()");
+          me.dialog.hudDefault.setBinding("nasal", "ja37.Dialog.defaultThickness()");
           me.dialog.hudMinus.setBinding("nasal", "ja37.Dialog.thinner()");
 
           #HUD brightness
@@ -534,6 +537,11 @@ var Dialog = {
       setprop("sim/ja37/hud/stroke-linewidth", getprop("sim/ja37/hud/stroke-linewidth") + 0.5);
       canvas_HUD.reinit();
     },
+
+    defaultThickness: func {
+      setprop("sim/ja37/hud/stroke-linewidth", 4);
+      canvas_HUD.reinit();
+    },    
 
     thinner: func {
       var w = getprop("sim/ja37/hud/stroke-linewidth");
