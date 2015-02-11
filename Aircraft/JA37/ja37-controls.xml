@@ -536,14 +536,27 @@
     </channel>
 
     <!--<channel name="Throttle">
-      <pure_gain name="fcs/throttle1">
+      <kinematic name="fcs/throttle-pos-norm-kinematic">
         <input>fcs/throttle-cmd-norm</input>
+        <traverse>
+          <setting>
+            <position>  0.0 </position>
+            <time>      0.0 </time>
+          </setting>
+          <setting>
+            <position>  1.0 </position>
+            <time>      4.0 </time>
+          </setting>
+        </traverse>
+      </kinematic>
+
+        pure_gain is the only component that can overwrite fcs/throttle-pos-norm
+      <pure_gain name="names/throttle-pos-norm">
+        <input>fcs/throttle-pos-norm-kinematic</input>
         <gain>1.0</gain>
         <output>fcs/throttle-pos-norm</output>
       </pure_gain>
-    </channel>    -->
-
-
+    </channel>-->
 
     <channel name="Autopilot">
       <scheduled_gain name="Autopilot max climb">

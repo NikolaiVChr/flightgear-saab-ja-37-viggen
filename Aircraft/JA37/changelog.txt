@@ -1062,8 +1062,12 @@ Sim: Improved the conditions of getting ground collision warning.
 Sim: Made TILS able to put nearby parallel runway as standby frequency.
 HUD: Takeoff mode now waits 3 seconds before switching to another mode.
 
-2.94
+2.94 - 2015 February 10
 ====
 HUD: Fixed sideslip indicator dot would sometimes turn into a line.
 GUI: Made a default line thickness button.
 Sim: Set ILS glideslope to 1/20 steepness instead of 3 degrees.
+
+2.95
+====
+HUD: The distance scale now also works in tactical mode. It shows if the target is within weapon range.

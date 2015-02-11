@@ -685,6 +685,21 @@ var HUDnasal = {
                             .lineTo(  10,  20)
                             .setStrokeLineWidth(w)
                             .setColor(r,g,b, a);
+    HUDnasal.main.targetDistance1 = HUDnasal.main.dist_scale_group.createChild("path")
+                            .moveTo(   0,   0)
+                            .lineTo(   0,  20)
+                            .lineTo(  20,  20)
+                            .moveTo( -30,  20)
+                            .lineTo( -30,  50)
+                            .lineTo(   0,  50)
+                            .setStrokeLineWidth(w)
+                            .setColor(r,g,b, a);
+    HUDnasal.main.targetDistance2 = HUDnasal.main.dist_scale_group.createChild("path")
+                            .moveTo(   0,   0)
+                            .lineTo(   0,  20)
+                            .lineTo( -20,  20)
+                            .setStrokeLineWidth(w)
+                            .setColor(r,g,b, a);                            
     var distanceScale = HUDnasal.main.dist_scale_group.createChild("path")
                             .moveTo(   0, 0)
                             .lineTo( 200, 0)
@@ -712,7 +727,8 @@ var HUDnasal = {
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
              HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
              HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
-             tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, distanceScale, HUDnasal.main.landing_line];
+             tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, distanceScale, HUDnasal.main.targetDistance1,
+             HUDnasal.main.targetDistance2, HUDnasal.main.landing_line];
 
     artifactsText0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.hdgR, HUDnasal.main.qfe,
                       HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name,
@@ -1604,6 +1620,9 @@ var HUDnasal = {
           } else {
             # selection is outside radar view
             diamond_node = nil;
+            if(selection != nil) {
+              selection[2] = nil;
+            }
             me.diamond_group.hide();
             me.vel_vec.hide();
           }
@@ -2095,6 +2114,42 @@ var HUDnasal = {
         me.mySpeed.setTranslation(pos, 0);
       }      
       me.targetSpeed.setTranslation(2/3*line, 0);
+      me.targetSpeed.show();
+      me.mySpeed.show();
+      me.targetDistance1.hide();
+      me.targetDistance2.hide();
+      me.dist_scale_group.show();
+    } elsif (mode == COMBAT and selection != nil) {
+      var line = 200;
+      var armSelect = me.input.station.getValue();
+      var minDist = nil;
+      var maxDist = nil;
+      var currDist = selection[2];
+      if(armSelect == 0) {
+        minDist =  100;
+        maxDist = 1000;
+      } else {
+        minDist =   300;
+        maxDist = 18520;
+      }
+      if(currDist != nil) {
+        var pixelPerMeter = (3/5*line)/(maxDist - minDist);
+        var startDist = (minDist - ((maxDist - minDist)/3));
+        var pos = pixelPerMeter*(currDist-startDist);
+        pos = clamp(pos, 0, line);
+        me.mySpeed.setTranslation(pos, 0);
+        me.mySpeed.show();
+      } else {
+        me.mySpeed.hide();
+      }
+      me.targetDistance1.setTranslation(1/5*line, 0);
+      me.targetDistance2.setTranslation(4/5*line, 0);
+
+      #tttt
+
+      me.targetSpeed.hide();
+      me.targetDistance1.show();
+      me.targetDistance2.show();
       me.dist_scale_group.show();
     } else {
       me.dist_scale_group.hide();
