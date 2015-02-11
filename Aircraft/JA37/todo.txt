@@ -43,6 +43,7 @@ Effect: Make tires burst if too high speed with parking brakes.
 Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
+Effect: Show aircraft explosion in MP also.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)

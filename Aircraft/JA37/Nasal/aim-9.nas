@@ -9,9 +9,9 @@ var HudReticleDeg  = props.globals.getNode("sim/ja37/hud/reticle-total-angle", 1
 var aim_9_model    = "Aircraft/JA37/Models/Armament/Weapons/RB-24J/rb-24j-";
 var SwSoundOnOff   = AcModel.getNode("armament/rb24/sound-on-off");
 var SwSoundVol     = AcModel.getNode("armament/rb24/sound-volume");
-var vol_search     = 0.09;
-var vol_weak_track = 0.15;
-var vol_track      = 0.25;
+var vol_search     = 0.03;
+var vol_weak_track = 0.10;
+var vol_track      = 0.15;
 var update_loop_time = 0.035;
 
 var g_fps        = 9.80665 * M2FT;

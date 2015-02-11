@@ -927,29 +927,81 @@
       </volume>
     </rb24-signal>
        
-  <!--                                                                          crashing                                   -->  
+  <!--                                                                          Damage                                   -->  
 
+   <canopy-detach>
+      <name>canopy-detach</name>
+      <path>Aircraft/JA37/Sounds/canopy-detach.wav</path>
+      <mode>once</mode>
+      <condition>
+          <equals>
+            <property>fdm/jsbsim/fcs/canopy-hinges/serviceable</property>
+            <value>0</value>
+          </equals>
+      </condition>
+      <volume>
+        <factor>1</factor>
+      </volume>
+    </canopy-detach>
    
    <aircraft-explode>
   		<name>aircraft-explode</name>
   		<path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
   		<mode>once</mode>
   		<condition>
-        <or>
       		<equals>
       			<property>damage/sounds/explode-on</property>
       		  <value>1</value>
     			</equals>
-          <equals>
-            <property>damage/sounds/detach-on</property>
-            <value>1</value>
-          </equals>
-        </or>
   		</condition>
   		<volume>
   			<factor>1</factor>
   		</volume>
   	</aircraft-explode>
+
+    <aircraft-detach>
+      <name>aircraft-detach</name>
+      <path>Aircraft/JA37/Sounds/aircraft-wings-detach.wav</path>
+      <mode>once</mode>
+      <condition>
+          <equals>
+            <property>damage/sounds/detach-on</property>
+            <value>1</value>
+          </equals>
+      </condition>
+      <volume>
+        <factor>1</factor>
+      </volume>
+    </aircraft-detach>
+
+    <missile-hit>
+      <name>missile-hit</name>
+      <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+      <mode>once</mode>
+      <condition>
+        <or>
+          <equals>
+            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-0</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-1</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-2</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-3</property>
+            <value>1</value>
+          </equals>                    
+        </or>
+      </condition>
+      <volume>
+        <factor>1</factor>
+      </volume>
+    </missile-hit>
 
   	<aircraft-crash>
   		<name>aircraft-crash</name>
