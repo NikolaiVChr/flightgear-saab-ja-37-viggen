@@ -1068,6 +1068,10 @@ HUD: Fixed sideslip indicator dot would sometimes turn into a line.
 GUI: Made a default line thickness button.
 Sim: Set ILS glideslope to 1/20 steepness instead of 3 degrees.
 
-2.95
+2.95 - 2015 February 11
 ====
 HUD: The distance scale now also works in tactical mode. It shows if the target is within weapon range.
+Model: Rear gear and wheels are now shaded better.
+Model: Gear is now painted white.
+Animation: All 5 wheels will now spin when plane is moving on ground.
+Effect: The strobe now flashes every 1.5 second.

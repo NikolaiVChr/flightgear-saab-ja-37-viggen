@@ -73,10 +73,12 @@
 	  <object-name>gearFrontDoorsOpen</object-name>
 	  <object-name>gearFrontDoorsClosed</object-name>
 	  <object-name>gearLeft</object-name>
+    <object-name>gearLeftTop</object-name>
 	  <object-name>gearLeftHinge</object-name>
 	  <object-name>gearLeftDoorsOpen</object-name>
 	  <object-name>gearLeftDoorsClosed</object-name>
 	  <object-name>gearRight</object-name>
+    <object-name>gearRightTop</object-name>
 	  <object-name>gearRightHinge</object-name>
 	  <object-name>gearRightDoorsOpen</object-name>
 	  <object-name>gearRightDoorsClosed</object-name>
@@ -188,6 +190,10 @@
   <object-name>gearRightDoorsOpen</object-name>
   <object-name>gearLeftDoorsClosed</object-name>
   <object-name>gearRightDoorsClosed</object-name>
+  <object-name>wheelRight1</object-name>
+  <object-name>wheelRight2</object-name>
+  <object-name>wheelLeft1</object-name>
+  <object-name>wheelLeft2</object-name>
   <object-name>lightRight</object-name>
   <object-name>lightLeft</object-name>
   <object-name>wingRight</object-name>
@@ -292,6 +298,8 @@
   <object-name>gearLeft</object-name>
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
+  <object-name>wheelLeft1</object-name>
+  <object-name>wheelLeft2</object-name>
   <object-name>landingLightLeft</object-name>
   <object-name>leftLandingLightGlare</object-name>
  </animation>
@@ -307,6 +315,8 @@
   <object-name>gearRight</object-name>
   <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
+  <object-name>wheelRight1</object-name>
+  <object-name>wheelRight2</object-name>
   <object-name>landingLightRight</object-name>
   <object-name>rightLandingLightGlare</object-name>
  </animation>
@@ -372,6 +382,8 @@
   <type>rotate</type>
   <object-name>gearLeft</object-name>
   <object-name>gearLeftTop</object-name>
+  <object-name>wheelLeft1</object-name>
+  <object-name>wheelLeft2</object-name>  
   <object-name>landingLightLeft</object-name>
   <object-name>leftLandingLightGlare</object-name>
   <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
@@ -403,6 +415,8 @@
   <type>rotate</type>
   <object-name>gearRight</object-name>
   <object-name>gearRightTop</object-name>
+  <object-name>wheelRight1</object-name>
+  <object-name>wheelRight2</object-name>
   <object-name>landingLightRight</object-name>
   <object-name>rightLandingLightGlare</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
@@ -485,6 +499,8 @@
    <type>translate</type>
    <object-name>gearLeft</object-name>
    <object-name>gearLeftTop</object-name>
+   <object-name>wheelLeft1</object-name>
+   <object-name>wheelLeft2</object-name>
    <object-name>landingLightLeft</object-name>
    <object-name>leftLandingLightGlare</object-name>
    <object-name>tyre-smoke-left</object-name>
@@ -500,10 +516,59 @@
     </center>
 </animation>
 
+<!-- spinning left wheel calc
+
+     radius = -1.76576 - -2.07213 = 0.30637
+     circum = 2*pi*radius = 1.9250
+     factor = 1/circum * 60 = 0.6318 * 60 = 31.1692
+
+1st:
+1.91138 -2.36257 -1.76576
+                 -2.07213
+2nd:
+2.7215 -2.36257 -1.7642
+
+     -->
+<animation>
+    <type>spin</type>
+    <object-name>wheelLeft1</object-name>
+    <property>gear/gear/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>1.91138</x-m>
+        <y-m>-2.36257</y-m>
+        <z-m>-1.76576</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+<animation>
+    <type>spin</type>
+    <object-name>wheelLeft2</object-name>
+    <property>gear/gear/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>2.7215</x-m>
+        <y-m>-2.36257</y-m>
+        <z-m>-1.7642</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
 <animation><!--            compress right gear-->
    <type>translate</type>
    <object-name>gearRight</object-name>
    <object-name>gearRightTop</object-name>
+   <object-name>wheelRight1</object-name>
+   <object-name>wheelRight2</object-name>
    <object-name>landingLightRight</object-name>
    <object-name>rightLandingLightGlare</object-name>
    <object-name>tyre-smoke-right</object-name>
@@ -517,6 +582,53 @@
         <y-m> 2.33204 </y-m>
         <z-m> -2.1 </z-m>
     </center>
+</animation>
+
+<!-- spinning right wheel calc
+
+     radius = -1.76576 - -2.07213 = 0.30637
+     circum = 2*pi*radius = 1.9250
+     factor = 1/circum * 60 = 0.6318 * 60 = 31.1692
+
+1st:
+1.91138 2.36257 -1.76576
+
+2nd:
+2.7215 2.36257 -1.7642
+
+     -->
+<animation>
+    <type>spin</type>
+    <object-name>wheelRight1</object-name>
+    <property>gear/gear/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>1.91138</x-m>
+        <y-m>2.36257</y-m>
+        <z-m>-1.76576</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+<animation>
+    <type>spin</type>
+    <object-name>wheelRight2</object-name>
+    <property>gear/gear/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>2.7215</x-m>
+        <y-m>2.36257</y-m>
+        <z-m>-1.7642</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
 </animation>
 
 <!-- ==================================== Start effects ======================= -->
@@ -979,7 +1091,11 @@
   <object-name>gearLeftHinge</object-name>-->
   <object-name>gearLeftDoorsOpen</object-name>
   <object-name>gearLeftDoorsClosed</object-name>
-  <!--<object-name>gearRight</object-name>
+  <!--  <object-name>wheelRight1</object-name>
+  <object-name>wheelRight2</object-name>
+  <object-name>wheelLeft1</object-name>
+  <object-name>wheelLeft2</object-name>
+  <object-name>gearRight</object-name>
   <object-name>gearRightHinge</object-name>-->
   <object-name>gearRightDoorsOpen</object-name>
   <object-name>gearRightDoorsClosed</object-name>
