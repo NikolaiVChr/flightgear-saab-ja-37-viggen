@@ -785,12 +785,6 @@ var HUDnasal = {
         wow0:             "/gear/gear[0]/wow",
         wow1:             "/gear/gear[1]/wow",
         wow2:             "/gear/gear[2]/wow",
-        #Vr:              "/controls/switches/HUDnasal_rotation_speed",
-        #Bright:          "/controls/switches/HUDnasal_brightness",
-        #Dir_sw:          "/controls/switches/HUDnasal_director", 
-        #H_sw:            "/controls/switches/HUDnasal_height", 
-        #Speed_sw:        "/controls/switches/HUDnasal_speed", 
-        #Test_sw:         "/controls/switches/HUDnasal_test",
         fdpitch:          "/autopilot/settings/fd-pitch-deg",
         fdroll:           "/autopilot/settings/fd-roll-deg",
         fdspeed:          "/autopilot/settings/target-speed-kt",
@@ -798,7 +792,7 @@ var HUDnasal = {
         service:          "/instrumentation/head-up-display/serviceable",
         radar_serv:       "instrumentation/radar/serviceable",
         units:            "sim/ja37/hud/units-metric",
-        gears:            "gear/gear/position-norm",
+        gearsPos:         "gear/gear/position-norm",
         combat:           "/sim/ja37/hud/combat",
         station:          "controls/armament/station-select",
         tenHz:            "sim/ja37/blink/ten-Hz/state",
@@ -865,7 +859,7 @@ var HUDnasal = {
       var fromTop = HUDTop - me.input.viewZ.getValue();
       centerOffset = -1 * (512 - (fromTop * pixelPerMeter));
 
-      var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gears.getValue() != 1;
+      var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
 
       if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE) {
         mode = TAKEOFF;
@@ -875,13 +869,13 @@ var HUDnasal = {
       } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
-      } elsif ((mode == COMBAT or mode == NAV) and me.input.gears.getValue() == 1) {
+      } elsif ((mode == COMBAT or mode == NAV) and me.input.gearsPos.getValue() == 1) {
         mode = LANDING;
         modeTimeTakeoff = -1;
       } elsif (mode == COMBAT or mode == NAV) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
-      } elsif (mode == LANDING and me.input.gears.getValue() == 0) {
+      } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
       }
@@ -2063,7 +2057,7 @@ var HUDnasal = {
       var wind_side = math.sin(angle) * wind_speed;
       #print((wind_heading -heading) ~ " " ~ wind_side);
       me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
-      if(me.input.gears.getValue() < 1) {# gears are being deployed or retracted
+      if(me.input.gearsPos.getValue() < 1) {# gears are being deployed or retracted
         if(me.input.tenHz.getValue() == 1) {
           me.takeoff_symbol.show();
         } else {
