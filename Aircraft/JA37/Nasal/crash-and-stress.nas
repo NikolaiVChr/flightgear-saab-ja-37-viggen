@@ -273,6 +273,8 @@ var CrashAndStress = {
 		    # test for explosion
 		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
 		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
+		    	var pos = geo.Coord.new().set_latlon(lat, lon);
+				wildfire.ignite(pos, 1);
 		    	me._explodeBegin();
 		    	return;
 		    }
@@ -285,6 +287,7 @@ var CrashAndStress = {
 			var str = "Aircraft hit "~info[1].names[size(info[1].names)-1]~".";
 			me._output(str);
 		} elsif (solid == TRUE) {
+			# The aircraft is burning and will ignite the ground
 			var pos= geo.Coord.new().set_latlon(lat, lon);
 			wildfire.ignite(pos, 1);
 		}

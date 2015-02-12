@@ -640,6 +640,8 @@ var AIM9 = {
 		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL" );
 		var explode_smoke_path = "sim/ja37/armament/rb24/flags/explode-smoke-id-" ~ me.ID;
 		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL" );
+		var explode_sound_path = "sim/ja37/armament/rb24/flags/explode-sound-on";
+		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL" );
 	},
 
 
@@ -651,6 +653,9 @@ var AIM9 = {
 		settimer( func me.explode_prop.setBoolValue(0), 0.5 );
 		settimer( func me.explode_smoke_prop.setBoolValue(1), 0.5 );
 		settimer( func me.explode_smoke_prop.setBoolValue(0), 3 );
+		var delay = me.Tgt.getNode("radar/range-nm").getValue()*4.689;
+		settimer( func me.explode_sound_prop.setBoolValue(1), delay );
+		settimer( func me.explode_sound_prop.setBoolValue(0), delay+3 );
 	},
 
 

@@ -1076,7 +1076,7 @@ Model: Gear is now painted white.
 Animation: All 5 wheels will now spin when plane is moving on ground.
 Effect: The strobe now flashes every 1.5 second.
 
-2.96
+2.96 - 2015 February 11
 ====
 Effect: Added explosion effect when aircraft explodes.
 Sound: Detaching of wings now has its own sound.
@@ -1084,3 +1084,8 @@ Sound: Canopy detachment now has a sound.
 Sound: When missiles hit something, there will now be a sound.
 Sound: Lowered volume of missile seeker and lock beep.
 Sound: Replaced sounds for crashing and exploding.
+
+2.97
+====
+Sim: Fixed crash would not ignite wildfires.
+Sound: Made the missile hit sound delay according to distance traveled by speed of sound.

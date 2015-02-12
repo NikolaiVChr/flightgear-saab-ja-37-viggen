@@ -979,24 +979,10 @@
       <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
       <mode>once</mode>
       <condition>
-        <or>
           <equals>
-            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-0</property>
+            <property>sim/ja37/armament/rb24/flags/explode-sound-on</property>
             <value>1</value>
           </equals>
-          <equals>
-            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-1</property>
-            <value>1</value>
-          </equals>
-          <equals>
-            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-2</property>
-            <value>1</value>
-          </equals>
-          <equals>
-            <property>sim/ja37/armament/rb24/flags/explode-smoke-id-3</property>
-            <value>1</value>
-          </equals>                    
-        </or>
       </condition>
       <volume>
         <factor>1</factor>
