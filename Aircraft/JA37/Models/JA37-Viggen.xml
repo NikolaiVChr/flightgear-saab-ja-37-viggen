@@ -481,7 +481,7 @@
 <animation>
     <type>spin</type>
     <object-name>wheelFront</object-name>
-    <property>gear/gear/rollspeed-ms</property>
+    <property>gear/gear[0]/rollspeed-ms</property>
     <factor>37.9091</factor>
     <center>
         <x-m>-3.64749</x-m>
@@ -532,7 +532,7 @@
 <animation>
     <type>spin</type>
     <object-name>wheelLeft1</object-name>
-    <property>gear/gear/rollspeed-ms</property>
+    <property>gear/gear[1]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
         <x-m>1.91138</x-m>
@@ -549,7 +549,7 @@
 <animation>
     <type>spin</type>
     <object-name>wheelLeft2</object-name>
-    <property>gear/gear/rollspeed-ms</property>
+    <property>gear/gear[1]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
         <x-m>2.7215</x-m>
@@ -600,7 +600,7 @@
 <animation>
     <type>spin</type>
     <object-name>wheelRight1</object-name>
-    <property>gear/gear/rollspeed-ms</property>
+    <property>gear/gear[2]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
         <x-m>1.91138</x-m>
@@ -617,7 +617,7 @@
 <animation>
     <type>spin</type>
     <object-name>wheelRight2</object-name>
-    <property>gear/gear/rollspeed-ms</property>
+    <property>gear/gear[2]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
         <x-m>2.7215</x-m>

@@ -1099,3 +1099,10 @@ Sound: Replaced the cannon sound. It now has the correct frequency for the KCA 3
 Sim: Every 5th round is now a tracer instead of every 10th round.
 Sim: Fixed that there was same amount of tracers as bullets. There are now only 1/5.
 Effect: The impact of the cannon rounds is now 10 times bigger.
+
+2.98
+====
+Animation: Left and right gear wheels now spin with their own respective speeds.
+HUD: Optimized HUD code, to run a bit faster.
+Sim: Fixed left altimeter coarse adjustment with middle button, would adjust up on both sides of the knob.
+Sim: HUD and radar does no longer update outside cockpit view.

@@ -763,55 +763,79 @@ var HUDnasal = {
       };
       HUDnasal.main.verbose = 0;
       HUDnasal.main.input = {
-        pitch:    "/orientation/pitch-deg",
-        roll:     "/orientation/roll-deg",
+        pitch:            "/orientation/pitch-deg",
+        roll:             "/orientation/roll-deg",
         #     hdg:      "/instrumentation/magnetic-compass/indicated-heading-deg",
         #      hdg:      "/instrumentation/gps/indicated-track-magnetic-deg",
-        hdg:      "/orientation/heading-magnetic-deg",
-        hdgReal:  "/orientation/heading-deg",
-        speed_n:  "velocities/speed-north-fps",
-        speed_e:  "velocities/speed-east-fps",
-        speed_d:  "velocities/speed-down-fps",
-        alpha:    "/orientation/alpha-deg",
-        alphaJSB: "fdm/jsbsim/aero/alpha-deg",
-        beta:     "/orientation/side-slip-deg",
-        ias:      "/velocities/airspeed-kt",
-        mach:     "/velocities/mach",
-        gs:       "/velocities/groundspeed-kt",
-        vs:       "/velocities/vertical-speed-fps",
-        rad_alt:  "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
-        alt_ft:   "/instrumentation/altimeter/indicated-altitude-ft",
-        alt_ft_real: "position/altitude-ft",
-        wow0:  "/gear/gear[0]/wow",
-        wow1:  "/gear/gear[1]/wow",
-        wow2:  "/gear/gear[2]/wow",
-        #Vr:       "/controls/switches/HUDnasal_rotation_speed",
-        #Bright:   "/controls/switches/HUDnasal_brightness",
-        #Dir_sw:   "/controls/switches/HUDnasal_director", 
-        #H_sw:     "/controls/switches/HUDnasal_height", 
-        #Speed_sw: "/controls/switches/HUDnasal_speed", 
-        #Test_sw:  "/controls/switches/HUDnasal_test",
-        fdpitch:  "/autopilot/settings/fd-pitch-deg",
-        fdroll:   "/autopilot/settings/fd-roll-deg",
-        fdspeed:  "/autopilot/settings/target-speed-kt",
-        mode:     "sim/ja37/hud/mode",
-        service:  "/instrumentation/head-up-display/serviceable",
-        radar_serv: "instrumentation/radar/serviceable",
-        units:    "sim/ja37/hud/units-metric",
-        gears:    "gear/gear/position-norm",
-        combat:   "/sim/ja37/hud/combat",
-        station:  "controls/armament/station-select",
-        tenHz:    "sim/ja37/blink/ten-Hz/state",
-        fiveHz:   "sim/ja37/blink/five-Hz/state",
-        callsign: "/sim/ja37/hud/callsign",
-        elec:     "/systems/electrical/outputs/hud",
-        altCalibrated: "sim/ja37/avionics/altimeters-calibrated",
-        carrierNear: "fdm/jsbsim/ground/carrier-near",
-        terrainOn:   "sim/ja37/sound/terrain-on",
-        viewNumber:  "sim/current-view/view-number",
-        viewZ:       "sim/current-view/y-offset-m",
-        TILS:        "sim/ja37/hud/TILS",
-        tracks_enabled: "sim/ja37/hud/tracks-enabled"
+        hdg:              "/orientation/heading-magnetic-deg",
+        hdgReal:          "/orientation/heading-deg",
+        speed_n:          "velocities/speed-north-fps",
+        speed_e:          "velocities/speed-east-fps",
+        speed_d:          "velocities/speed-down-fps",
+        alpha:            "/orientation/alpha-deg",
+        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
+        beta:             "/orientation/side-slip-deg",
+        ias:              "/velocities/airspeed-kt",
+        mach:             "/velocities/mach",
+        gs:               "/velocities/groundspeed-kt",
+        vs:               "/velocities/vertical-speed-fps",
+        rad_alt:          "position/altitude-agl-ft",#/instrumentation/radar-altimeter/radar-altitude-ft",
+        alt_ft:           "/instrumentation/altimeter/indicated-altitude-ft",
+        alt_ft_real:      "position/altitude-ft",
+        wow0:             "/gear/gear[0]/wow",
+        wow1:             "/gear/gear[1]/wow",
+        wow2:             "/gear/gear[2]/wow",
+        #Vr:              "/controls/switches/HUDnasal_rotation_speed",
+        #Bright:          "/controls/switches/HUDnasal_brightness",
+        #Dir_sw:          "/controls/switches/HUDnasal_director", 
+        #H_sw:            "/controls/switches/HUDnasal_height", 
+        #Speed_sw:        "/controls/switches/HUDnasal_speed", 
+        #Test_sw:         "/controls/switches/HUDnasal_test",
+        fdpitch:          "/autopilot/settings/fd-pitch-deg",
+        fdroll:           "/autopilot/settings/fd-roll-deg",
+        fdspeed:          "/autopilot/settings/target-speed-kt",
+        mode:             "sim/ja37/hud/mode",
+        service:          "/instrumentation/head-up-display/serviceable",
+        radar_serv:       "instrumentation/radar/serviceable",
+        units:            "sim/ja37/hud/units-metric",
+        gears:            "gear/gear/position-norm",
+        combat:           "/sim/ja37/hud/combat",
+        station:          "controls/armament/station-select",
+        tenHz:            "sim/ja37/blink/ten-Hz/state",
+        fiveHz:           "sim/ja37/blink/five-Hz/state",
+        callsign:         "/sim/ja37/hud/callsign",
+        elec:             "/systems/electrical/outputs/hud",
+        altCalibrated:    "sim/ja37/avionics/altimeters-calibrated",
+        carrierNear:      "fdm/jsbsim/ground/carrier-near",
+        terrainOn:        "sim/ja37/sound/terrain-on",
+        viewNumber:       "sim/current-view/view-number",
+        viewZ:            "sim/current-view/y-offset-m",
+        TILS:             "sim/ja37/hud/TILS",
+        tracks_enabled:   "sim/ja37/hud/tracks-enabled",
+        elapsedSec:       "sim/time/elapsed-sec",
+        cannonAmmo:       "ai/submodels/submodel[3]/count",
+        nav0InRange:      "instrumentation/nav[0]/in-range",
+        nav0Heading:      "instrumentation/nav[0]/heading-deg",
+        nav0HeadingDefl:  "instrumentation/nav[0]/heading-needle-deflection",
+        nav0HasGS:        "instrumentation/nav[0]/has-gs",
+        nav0GSInRange:    "instrumentation/nav[0]/gs-in-range",
+        nav0GSDirectDeg:  "instrumentation/nav[0]/gs-direct-deg",
+        APLockHeading:    "autopilot/locks/heading",
+        APHeadingBug:     "autopilot/settings/heading-bug-deg",
+        APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
+        APnav0HeadingErr: "autopilot/internal/nav1-heading-error-deg",
+        RMActive:         "autopilot/route-manager/active",
+        RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
+        APLockAlt:        "autopilot/locks/altitude",
+        APTgtAlt:         "autopilot/settings/target-altitude-ft",
+        APTgtAgl:         "autopilot/settings/target-agl-ft",
+        RMCurrWaypoint:   "autopilot/route-manager/current-wp",
+        towerAlt:         "sim/tower/altitude-ft",
+        towerLat:         "sim/tower/latitude-deg",
+        towerLon:         "sim/tower/longitude-deg",
+        sideslipOn:       "sim/ja37/hud/bank-indicator",
+        windHeading:      "environment/wind-from-heading-deg",
+        windSpeed:        "environment/wind-speed-kt",        
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -832,16 +856,14 @@ var HUDnasal = {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.5);
-     } elsif (me.input.service.getValue() == FALSE) {
+     } elsif (me.input.viewNumber.getValue() != 0 or me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);
      } else {
-      if(me.input.viewNumber.getValue() == 0) {
-        # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
-        var fromTop = HUDTop - me.input.viewZ.getValue();
-        centerOffset = -1 * (512 - (fromTop * pixelPerMeter));
-      }
+      # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
+      var fromTop = HUDTop - me.input.viewZ.getValue();
+      centerOffset = -1 * (512 - (fromTop * pixelPerMeter));
 
       var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gears.getValue() != 1;
 
@@ -849,8 +871,8 @@ var HUDnasal = {
         mode = TAKEOFF;
         modeTimeTakeoff = -1;
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
-        modeTimeTakeoff = getprop("sim/time/elapsed-sec");
-      } elsif (modeTimeTakeoff != -1 and getprop("sim/time/elapsed-sec") - modeTimeTakeoff > 3) {
+        modeTimeTakeoff = me.input.elapsedSec.getValue();
+      } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
       } elsif ((mode == COMBAT or mode == NAV) and me.input.gears.getValue() == 1) {
@@ -869,7 +891,7 @@ var HUDnasal = {
       var out_of_ammo = FALSE;
       if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
             out_of_ammo = TRUE;
-      } elsif (me.input.station.getValue() == 0 and getprop("ai/submodels/submodel[3]/count") == 0) {
+      } elsif (me.input.station.getValue() == 0 and me.input.cannonAmmo.getValue() == 0) {
             out_of_ammo = TRUE;
       }
 
@@ -1002,17 +1024,17 @@ var HUDnasal = {
 
   displayHeadingBug: func () {
     var desired_mag_heading = nil;
-    if (mode == LANDING and getprop("instrumentation/nav[0]/in-range") == TRUE) {
-      desired_mag_heading = getprop("instrumentation/nav[0]/heading-deg");
-    } elsif (getprop("autopilot/locks/heading") == "dg-heading-hold") {
-      desired_mag_heading = getprop("autopilot/settings/heading-bug-deg");
-    } elsif (getprop("autopilot/locks/heading") == "true-heading-hold") {
-      desired_mag_heading = getprop("autopilot/internal/true-heading-error-deg")+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
-    } elsif (getprop("autopilot/locks/heading") == "nav1-hold") {
-      desired_mag_heading = getprop("/autopilot/internal/nav1-heading-error-deg")+me.input.hdg.getValue();
-    } elsif( getprop("autopilot/route-manager/active") == 1) {
+    if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
+      desired_mag_heading = me.input.nav0Heading.getValue();
+    } elsif (me.input.APLockHeading.getValue() == "dg-heading-hold") {
+      desired_mag_heading = me.input.APHeadingBug.getValue();
+    } elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
+      desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
+    } elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
+      desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
+    } elsif( me.input.RMActive.getValue() == 1) {
       #var i = getprop("autopilot/route-manager/current-wp");
-      desired_mag_heading = getprop("autopilot/route-manager/wp/bearing-deg");
+      desired_mag_heading = me.input.RMWaypointBearing.getValue();
     }
     if(desired_mag_heading != nil) {
       #print("desired "~desired_mag_heading);
@@ -1363,12 +1385,12 @@ var HUDnasal = {
       var desired_alt_delta_ft = nil;
       if(mode == TAKEOFF) {
         desired_alt_delta_ft = 1640-me.input.alt_ft.getValue();#500 meter
-      } elsif (getprop("autopilot/locks/altitude") == "altitude-hold") {
-        desired_alt_delta_ft = getprop("autopilot/settings/target-altitude-ft")-me.input.alt_ft.getValue();
-      } elsif (getprop("autopilot/locks/altitude") == "agl-hold") {
-        desired_alt_delta_ft = getprop("autopilot/settings/target-agl-ft")-me.input.rad_alt.getValue();
-      } elsif(getprop("autopilot/route-manager/active") == 1) {
-        var i = getprop("autopilot/route-manager/current-wp");
+      } elsif (me.input.APLockAlt.getValue() == "altitude-hold") {
+        desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+      } elsif (me.input.APLockAlt.getValue() == "agl-hold") {
+        desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
+      } elsif(me.input.RMActive.getValue() == 1) {
+        var i = me.input.RMCurrWaypoint.getValue();
         var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
         if(rt_alt != nil and rt_alt > 0) {
           desired_alt_delta_ft = rt_alt - me.input.alt_ft.getValue();
@@ -1392,11 +1414,11 @@ var HUDnasal = {
   displayLandingGuide: func (mode, deflect) {
     var guideUseLines = FALSE;
     if(mode == LANDING) {
-      if (getprop("instrumentation/nav[0]/in-range") == TRUE or me.input.TILS.getValue() == TRUE) {
-        deflect = getprop("instrumentation/nav[0]/heading-needle-deflection");
+      if (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE) {
+        deflect = me.input.nav0HeadingDefl.getValue();
 
-        if (getprop("instrumentation/nav[0]/has-gs") == TRUE and getprop("instrumentation/nav[0]/gs-in-range") == TRUE) {
-          var normDeviation = (clamp(getprop("instrumentation/nav/gs-direct-deg") - 2.86, -4, 4)/4);
+        if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
+          var normDeviation = (clamp(me.input.nav0GSDirectDeg.getValue() - 2.86, -4, 4)/4);
           var dev3 = normDeviation * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var dev2 = normDeviation * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var deg = clamp(deflect, -8, 8);
@@ -1415,9 +1437,9 @@ var HUDnasal = {
   },
 
   displayTower: func () {
-    var towerAlt = getprop("sim/tower/altitude-ft");
-    var towerLat = getprop("sim/tower/latitude-deg");
-    var towerLon = getprop("sim/tower/longitude-deg");
+    var towerAlt = me.input.towerAlt.getValue();
+    var towerLat = me.input.towerLat.getValue();
+    var towerLon = me.input.towerLon.getValue();
     if(towerAlt != nil and towerLat != nil and towerLon != nil) {
       var towerPos = geo.Coord.new();
       towerPos.set_latlon(towerLat, towerLon, towerAlt);
@@ -1700,9 +1722,9 @@ var HUDnasal = {
   },
 
   displayTurnCoordinator: func () {
-    if (getprop("sim/ja37/hud/bank-indicator") == 1) {
+    if (me.input.sideslipOn.getValue() == TRUE) {
       #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-      me.slip_indicator.setTranslation(clamp(getprop("/orientation/side-slip-deg")*20, -150, 150), 0);
+      me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
       me.turn_group.show();
     } else {
       me.turn_group.hide();
@@ -1710,7 +1732,7 @@ var HUDnasal = {
   },
 
   displayQFE: func (mode) {
-    if (mode == LANDING and getprop("instrumentation/nav[0]/in-range") == TRUE) {
+    if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
       if (me.input.TILS.getValue() == TRUE) {
         me.qfe.setText("TILS");
         me.qfe.show();
@@ -2033,8 +2055,8 @@ var HUDnasal = {
   showSidewind: func(show) {
     if(show == TRUE) {
       #move sidewind symbol according to side wind:
-      var wind_heading = getprop("environment/wind-from-heading-deg");
-      var wind_speed = getprop("environment/wind-speed-kt");
+      var wind_heading = me.input.windHeading.getValue();
+      var wind_speed = me.input.windSpeed.getValue();
       var heading = me.input.hdgReal.getValue();
       #var speed = me.input.ias.getValue();
       var angle = (wind_heading -heading) * (math.pi / 180.0); 
