@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<!-- Flack burst (cannon impact), by Dave Culp -->
+<!-- cannon impact -->
 
 <PropertyList>
 
@@ -10,5 +10,13 @@
   <type>billboard</type>
   <spherical>true</spherical>
  </animation>
+
+  <animation>
+    <type>scale</type>
+    <object-name>rect</object-name>
+    <x-offset>10</x-offset>
+	<y-offset>10</y-offset>
+  	<z-offset>10</z-offset>
+  </animation>
 
 </PropertyList>

@@ -1046,7 +1046,7 @@ reload = func {
   screen.log.write("40 flares loaded", 0.0, 1.0, 0.0);
 
   # Reload cannon - 146 of them.
-  setprop("ai/submodels/submodel[2]/count", 146);
+  setprop("ai/submodels/submodel[2]/count", 29);
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);

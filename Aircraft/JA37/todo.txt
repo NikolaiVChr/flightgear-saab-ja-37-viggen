@@ -70,12 +70,12 @@ Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
 Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
 HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-HUD: I have experienced that combat mode was on by default. [not reliable reproduced]
+HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, autostart might fail. [reproduced]
-Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft if unlucky. [reproduced, might be fixed now]
+Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft if unlucky. [reproduced at very low framerate]
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Animation: Selection view does not follow carriers. (they lack radar properties)
 

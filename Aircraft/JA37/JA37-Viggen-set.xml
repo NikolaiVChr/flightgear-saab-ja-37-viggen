@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>2.96</aircraft-version>
+    <aircraft-version>2.97</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -737,6 +737,7 @@
       Takeoff
       ______
       Mind the sidewind indicator in the HUD.
+      Pull back on the stick when the distance scale upper marker is aligned with the lower.
       Takeoff at 315 km/h. (170 kt)
 
       Landing
@@ -753,11 +754,12 @@
 
       HUD info
       ________
-      The HUD uses Km/h and meters, but this can be switched with 'I'.
+      The HUD uses Km/h and meters, but this can be switched to imperial with 'I'.
       When in landing/takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
+      The sidewind indicator will blink when gears is retracting.
       The vertical tail on the flight path indicator will move/blink according to AoA.
-      In combat mode when the cannon is selected, a fixed crosshair will appear.
-      In combat mode the reticle change if out of ammo if missiles selected.
+      In tactical mode when the cannon is selected, a fixed crosshair will appear.
+      In tactical mode the reticle change if out of ammo.
       The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
       If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
       If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
@@ -767,7 +769,7 @@
       On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
       Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
       The heading at the top is shown as a scale showing 1/10 of heading in degrees.
-      Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In combat mode the nearest radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
+      Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In tactical mode the selected radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
       Nearest tower is shown as a small diamond, with ICAO and distance.
       
       Warnings
@@ -777,7 +779,7 @@
 
       Failures
       _____
-      Random failures are supported and recommended for more interesting flight.
+      Beware trying to land if the gears are damaged.
 
       Automatic Thrust reversing
       __________________________

@@ -845,8 +845,14 @@
 
     <cannon>
      <name>cannon</name>
-     <path>Aircraft/JA37/Sounds/M61A1.wav</path>
-     <property>controls/armament/station[0]/trigger</property>
+     <path>Aircraft/JA37/Sounds/KCA.wav</path>
+     <condition>
+      <property>controls/armament/station[0]/trigger</property>
+      <greater-than>
+        <property>ai/submodels/submodel[3]/count</property>
+        <value>0</value>
+      </greater-than>
+     </condition>
      <mode>looped</mode>
      <position>
       <x>-1.0</x>
@@ -856,7 +862,7 @@
      <volume>
         <factor>.4</factor>
       </volume>
-    </cannon>-->
+    </cannon>
    
 <missile1>
       <name>missile1</name>

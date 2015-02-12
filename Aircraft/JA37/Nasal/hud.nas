@@ -347,7 +347,7 @@ var HUDnasal = {
     HUDnasal.main.alt.setTranslation(-375, 300);
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
-    # Cannon aiming reticle
+    # Collision warning arrow
     HUDnasal.main.arrow_group = HUDnasal.main.root.createChild("group");  
     HUDnasal.main.arrow_trans   = HUDnasal.main.arrow_group.createTransform();
     HUDnasal.main.arrow =
@@ -373,6 +373,15 @@ var HUDnasal = {
       .lineTo(0,  15*reticle_factor)
       .setStrokeLineCap("round")
       .setStrokeLineWidth(w);
+    # Missile aiming circle
+    HUDnasal.main.reticle_missile =
+      HUDnasal.main.root.createChild("path")
+      .setColor(r,g,b, a)
+      .moveTo( 200, centerOffset)
+      .arcSmallCW(200,200, 0, -400, 0)
+      .arcSmallCW(200,200, 0,  400, 0)
+      .setStrokeLineCap("round")
+      .setStrokeLineWidth(w);      
     # Out of ammo flight path indicator
     HUDnasal.main.reticle_no_ammo =
       HUDnasal.main.root.createChild("path")
@@ -721,7 +730,7 @@ var HUDnasal = {
       append(artifacts1, target_circles);
     }
 
-    artifacts0 = [HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec,
+    artifacts0 = [HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec, HUDnasal.main.reticle_missile,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow,
              HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
@@ -856,11 +865,12 @@ var HUDnasal = {
       }
        
 
-      var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == 1;
+      var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == TRUE;
       var out_of_ammo = FALSE;
-      if (me.input.combat.getValue() == 1 and me.input.station.getValue() != 0 and 
-          getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
-            out_of_ammo = 1;
+      if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
+            out_of_ammo = TRUE;
+      } elsif (me.input.station.getValue() == 0 and getprop("ai/submodels/submodel[3]/count") == 0) {
+            out_of_ammo = TRUE;
       }
 
       # ground collision warning
@@ -1996,19 +2006,26 @@ var HUDnasal = {
       
       me.reticle_cannon.setTranslation(0, centerOffset);
       me.reticle_cannon.show();
-
-      return me.showFlightPathVector(1, 0);
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(1, out_of_ammo);
+    } elsif (mode == COMBAT and cannon == FALSE) {
+      me.showSidewind(FALSE);
+      me.reticle_cannon.hide();
+      me.reticle_missile.show();
+      return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
-      return me.showFlightPathVector(1, out_of_ammo);
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(1, FALSE);
     } elsif(mode == TAKEOFF or mode == LANDING) {
       
       me.showSidewind(TRUE);
       me.reticle_cannon.hide();
-      return me.showFlightPathVector(!me.input.wow0.getValue(), out_of_ammo);
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
     }
     return 0;
   },

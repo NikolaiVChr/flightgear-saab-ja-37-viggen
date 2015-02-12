@@ -6,7 +6,7 @@
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.12
+# Version 0.13
 #
 # License:
 #   GPL 2.0
@@ -70,6 +70,8 @@ var CrashAndStress = {
 				crashOn:    "damage/sounds/crash-on",
 				detachOn:   "damage/sounds/detach-on",
 				explodeOn:  "damage/sounds/explode-on",
+				simCrashed: "sim/crashed",
+				wildfire:   "environment/wildfire/fire-on-crash",
 			};
 			foreach(var ident; keys(m.input)) {
 			    m.input[ident] = props.globals.getNode(m.input[ident], 1);
@@ -191,7 +193,7 @@ var CrashAndStress = {
 		me.exploded = FALSE;
 		me.lastMessageTime = 0;
 		me.repairing = TRUE;
-		
+		me.input.simCrashed.setValue(FALSE);
 		me.repairTimer.restart(10.0);
 	},
 	_finishRepair: func () {
@@ -273,8 +275,7 @@ var CrashAndStress = {
 		    # test for explosion
 		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
 		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
-		    	var pos = geo.Coord.new().set_latlon(lat, lon);
-				wildfire.ignite(pos, 1);
+		    	me.input.simCrashed.setValue(TRUE);
 		    	me._explodeBegin();
 		    	return;
 		    }
@@ -288,8 +289,10 @@ var CrashAndStress = {
 			me._output(str);
 		} elsif (solid == TRUE) {
 			# The aircraft is burning and will ignite the ground
-			var pos= geo.Coord.new().set_latlon(lat, lon);
-			wildfire.ignite(pos, 1);
+			if(me.input.wildfire.getValue() == TRUE) {
+				var pos= geo.Coord.new().set_latlon(lat, lon);
+				wildfire.ignite(pos, 1);
+			}
 		}
 		if(solid == TRUE) {
 			me._impactSoundBegin(speed);

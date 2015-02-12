@@ -275,7 +275,7 @@ crashLoop=func {
 			)
 			and (speed_km>10)
 		) {
-			var pos= geo.Coord.new().set_latlon(lat, lon);
+			var pos = geo.Coord.new().set_latlon(lat, lon);
 			setprop("fdm/jsbsim/simulation/wildfire-ignited", 1);
 			wildfire.ignite(pos, 1);
 		}

@@ -3,7 +3,7 @@
 <PropertyList>
 
 	<submodel>
-		<name>bullet splash cannon</name>
+		<name>bullet flack cannon</name>
 		<model>Aircraft/JA37/Models/Armament/Weapons/KCA/flack.xml</model>
 		<speed>0</speed>
 		<repeat>false</repeat>

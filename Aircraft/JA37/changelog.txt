@@ -1085,7 +1085,17 @@ Sound: When missiles hit something, there will now be a sound.
 Sound: Lowered volume of missile seeker and lock beep.
 Sound: Replaced sounds for crashing and exploding.
 
-2.97
+2.97 - 2015 February 12
 ====
 Sim: Fixed crash would not ignite wildfires.
 Sound: Made the missile hit sound delay according to distance traveled by speed of sound.
+GUI: Updated the aircraft help info.
+HUD: Added a missile optimal firing resolution circle.
+HUD: Fixed cannon out of ammo would not change flight path indicator symbol.
+Sim: Wildfire will now only ignite at crashing if that option is enabled in the wildfire GUI.
+Sound: Fixed cannon sound would play, even if out of ammo.
+Effect: Made cannon tracers bigger.
+Sound: Replaced the cannon sound. It now has the correct frequency for the KCA 30mm.
+Sim: Every 5th round is now a tracer instead of every 10th round.
+Sim: Fixed that there was same amount of tracers as bullets. There are now only 1/5.
+Effect: The impact of the cannon rounds is now 10 times bigger.
