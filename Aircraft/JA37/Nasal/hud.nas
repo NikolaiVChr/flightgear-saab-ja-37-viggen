@@ -867,7 +867,11 @@ var HUDnasal = {
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
         modeTimeTakeoff = me.input.elapsedSec.getValue();
       } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
-        mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        if (me.input.gearsPos.getValue() == 1) {
+          mode = LANDING;
+        } else {
+          mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        }
         modeTimeTakeoff = -1;
       } elsif ((mode == COMBAT or mode == NAV) and me.input.gearsPos.getValue() == 1) {
         mode = LANDING;

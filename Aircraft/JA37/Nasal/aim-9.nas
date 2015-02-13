@@ -181,7 +181,7 @@ var AIM9 = {
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
 		#print("roll "~ac_roll~" on "~me.rollN.getPath());
-		me.coord.set_latlon(alat, alon, me.ac.alt());
+		me.coord.set_latlon(alat, alon, aalt); # was (alat, alon, me.ac.alt())
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
 		me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
@@ -478,7 +478,7 @@ var AIM9 = {
 		var cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 		# Get current direct distance.
 		#print("distance to target_m = ",cur_dir_dist_m," prev_distance to target_m = ",me.direct_dist_m);
-		if ( me.direct_dist_m != nil ) {
+		if ( me.direct_dist_m != nil and me.ac.direct_distance_to(me.coord) > 50) {#don't arm before 50m away from plane
 			if ( cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < 65 ) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.

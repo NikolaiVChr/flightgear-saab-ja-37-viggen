@@ -1131,7 +1131,7 @@
     <trigger type="bool">false</trigger>
     <station n="1">
       <offsets>
-        <x-m type="double">  3.15986</x-m>
+        <x-m type="double">  4.15986</x-m>
         <y-m type="double"> -2.70311</y-m>
         <z-m type="double"> -0.67645</z-m>
       </offsets>
@@ -1139,7 +1139,7 @@
     </station>
     <station n="2">
       <offsets>
-        <x-m type="double"> -1.02697</x-m>
+        <x-m type="double"> -0.02697</x-m>
         <y-m type="double"> -0.98148</y-m>
         <z-m type="double"> -0.94307</z-m>
       </offsets>
@@ -1147,7 +1147,7 @@
     </station>
     <station n="3">
       <offsets>
-        <x-m type="double">  3.15986</x-m>
+        <x-m type="double">  4.15986</x-m>
         <y-m type="double">  2.70311</y-m>
         <z-m type="double"> -0.67645</z-m>
       </offsets>
@@ -1155,7 +1155,7 @@
     </station>
     <station n="4">
       <offsets>
-        <x-m type="double"> -1.02697</x-m>
+        <x-m type="double"> -0.02697</x-m>
         <y-m type="double">  0.98148</y-m>
         <z-m type="double"> -0.94307</z-m>
       </offsets>

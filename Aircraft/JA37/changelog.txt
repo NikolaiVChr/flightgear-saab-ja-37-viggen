@@ -2,7 +2,7 @@
 Flightgear Saab JA-37 Viggen Changelog
 ======================================
 
-1.0
+1.0 - Late 2012
 ---
 Got the idea to work on this plane.
 JSBSim FDM and engine adapted from Aeromatic output
@@ -13,7 +13,7 @@ Converted 3D model from MS-FS2004 (License: Creative Commons)
 Added some annunciater sounds
 Adapted some crash code from Mig-15
 
-1.1 
+1.1 - Late 2012 
 ---
 Fixed paths to work on Linux and Mac
 Renamed folder to JA37 from ja37
@@ -1100,7 +1100,7 @@ Sim: Every 5th round is now a tracer instead of every 10th round.
 Sim: Fixed that there was same amount of tracers as bullets. There are now only 1/5.
 Effect: The impact of the cannon rounds is now 10 times bigger.
 
-2.98
+2.98 - 2015 February 12
 ====
 Animation: Left and right gear wheels now spin with their own respective speeds.
 HUD: Optimized HUD code, to run a bit faster.
@@ -1109,3 +1109,15 @@ Sim: HUD and radar does no longer update outside cockpit view.
 HUD: The HUD animated texture is now 4 times smaller to help with graphics memory use.
 System: The HUD and radar is no longer mipmapped. They now look less blurry, and use less graphics memory.
 HUD: Sideslip indicator dot is no longer hollow.
+
+2.99 - 2015 February 13
+====
+Sound: Fixed some positions for some engine, missiles, cannon, runway rumbling, touchdown squal and various damage.
+Sound: Revised sound calculations for touchdown and engine fan outside (not fly-by).
+Sound: The engine fan can now be heard right from when the engine starts in external view. (not fly-by)
+Sound: Rumbling when going along the runway, can now be heard at slow speeds also.
+Sound: These sounds are now unpositional: wind, switch clicks and pilot breaths.
+Sim: Fixed (I hope) missiles hitting aircraft at firing.
+Sim: Missiles will now arm only after they are more than 50m away from the aircraft.
+Sim: Fixed missiles would sometimes not fire from the correct positions.
+HUD: Fixed that HUD would briefly go to nav/tact mode inbetween takeoff and landing mode, when gears still down.

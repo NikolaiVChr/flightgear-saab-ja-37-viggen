@@ -14,7 +14,7 @@
    <max-dist>4</max-dist>
    <position>
     <x>-1.0</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>0.195</z>
    </position>
    <pitch>
@@ -43,7 +43,7 @@
    <max-dist>4</max-dist>
    <position>
     <x>-1.0</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>0.195</z>
    </position>
    <volume>
@@ -70,11 +70,11 @@
    <max-dist>5</max-dist>
    <position>
     <x>-1.0</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>0.195</z>
    </position>
    <volume>
-    <max>0.5</max>
+    <factor>0.5</factor>
    </volume>
   </battery>
 
@@ -100,7 +100,7 @@
    <reference-dist>25</reference-dist>
    <max-dist>10000</max-dist>
    <position>
-    <x>4.6</x>
+    <x>5.90</x>
     <y>0.01</y>
     <z>0.01</z>
    </position>
@@ -137,7 +137,7 @@
   <reference-dist>25</reference-dist>
    <max-dist>10000</max-dist>
    <position>
-    <x>4.6</x>
+    <x>5.90</x>
     <y>0.01</y>
     <z>0.01</z>
    </position>
@@ -174,7 +174,7 @@
    <reference-dist>25</reference-dist>
    <max-dist>10000</max-dist>
    <position>
-    <x>4.6</x>
+    <x>5.90</x>
     <y>0.01</y>
     <z>0.01</z>
    </position>
@@ -216,7 +216,7 @@
    <max-dist>100</max-dist>
    <position>
     <x>-0.6</x>
-    <y>0.0</y>
+    <y>0.01</y>
     <z>-0.37</z>
    </position>
    <orientation>
@@ -251,8 +251,8 @@
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>
@@ -286,8 +286,8 @@
    <max-dist>30000</max-dist>
    <position>
     <x>4.6</x>
-    <y>0.0</y>
-    <z>0.0</z>
+    <y>0.01</y>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>1.0</x>
@@ -311,7 +311,7 @@
    <path>Sounds/turbojet_fan.wav</path>
    <mode>looped</mode>
    <condition>
-    <property>engines/engine/running</property>
+    <!--<property>engines/engine/running</property>-->
     <greater-than>
       <property>engines/engine/n1</property>
       <value>1</value>
@@ -340,9 +340,9 @@
    <reference-dist>5</reference-dist>
    <max-dist>10000</max-dist>
    <position>
-    <x>0.6</x>
+    <x>5.90</x>
     <y>0.01</y>
-    <z>-0.37</z>
+    <z>0.01</z>
    </position>
    <orientation>
     <x>-0.98</x>
@@ -357,6 +357,13 @@
     <offset>1</offset>
     <factor>0.005</factor>
    </pitch>
+   <volume>
+    <property>engines/engine/n1</property>
+    <offset>0</offset>
+    <factor>0.0333</factor>
+    <min>0</min>   
+    <max>1</max>
+   </volume>
    <volume>
     <type>inv</type>
     <property>engines/engine/thrust_lb-absolute</property>      
@@ -395,19 +402,14 @@
       <property>engines/engine/n1</property>
       <value>22</value>
     </greater-than-equals>
-
-
-
     <!--<not>
       <property>gear/gear[0]/wow</property>
     </not>-->
-
-    
     </condition>
    <reference-dist>5</reference-dist>
    <max-dist>10000</max-dist>
    <position>
-    <x>4.6</x>
+    <x>5.90</x>
     <y>0.01</y>
     <z>0.01</z>
    </position>
@@ -424,16 +426,11 @@
     <offset>0.000</offset>
     <factor>0.000020</factor>
    </volume>
-
-
-
    <!--<pitch>
     <property>engines/engine/n1</property>
     <offset>0.3</offset>
     <factor>0.03</factor>
    </pitch>-->
-
-
   </engine_mil_model>
 
  
@@ -471,7 +468,7 @@
    <reference-dist>5</reference-dist>
    <max-dist>10000</max-dist>
    <position>
-    <x>4.6</x>
+    <x>5.90</x>
     <y>0.01</y>
     <z>0.01</z>
    </position>
@@ -536,11 +533,16 @@
      <property>gear/gear[1]/wow</property>
      <property>gear/gear[2]/wow</property>
     </or>
-    <greater-than>
+    <!--<greater-than>
 					<property>velocities/groundspeed-kt</property>
 					<value>25</value>
-    </greater-than>
+    </greater-than>-->
    </condition>
+   <position>
+    <x>0.01</x>
+    <y>0.01</y>
+    <z>-2.1</z>
+   </position>
    <volume>
     <property>velocities/groundspeed-kt</property>
     <type>log</type>
@@ -551,7 +553,7 @@
   <squeal>
    <name>touchdown squeal</name>
    <path>Sounds/squeal.wav</path>
-   <condition>
+   <!--<condition>
     <or>
       <not>
         <property>sim/current-view/internal</property>
@@ -565,29 +567,39 @@
      <property>gear/gear[1]/wow</property>
      <property>gear/gear[2]/wow</property>
     </or>
-   </condition>
+   </condition>-->
+   <condition>
+    <and>
+     <or>
+      <property>gear/gear[0]/wow</property>
+      <property>gear/gear[1]/wow</property>
+      <property>gear/gear[2]/wow</property>
+     </or>
+     <less-than>
+      <property>velocities/vertical-speed-fps</property>
+      <value>-0.05</value>
+     </less-than>
+    </and>
+   </condition>   
    <reference-dist>150</reference-dist>
    <max-dist>500</max-dist>
    <position>
-    <x>1.2</x>
+    <x>2.64670</x>
     <y>0.01</y>
-    <z>-0.6</z>
+    <z>-2.1</z>
    </position>
    <volume>
-    <property>velocities/speed-down-fps</property>
-    <factor>0.05</factor>
-   </volume>
-   <volume>
-    <property>velocities/airspeed-kt</property>
+    <property>velocities/groundspeed-kt</property>
     <factor>0.01</factor>
+    <max>1.0</max>
    </volume>
    <volume>
     <internal>dt_stop</internal>
-    <factor>0.05</factor>
+    <factor>0.1</factor>
     <max>1.0</max>
    </volume>
    <pitch>
-    <property>velocities/airspeed-kt</property>
+    <property>velocities/groundspeed-kt</property>
     <factor>0.0025</factor>
     <offset>1.2</offset>
    </pitch>
@@ -599,6 +611,7 @@
       <name>click</name>
       <path>Sounds/click.wav</path>
       <mode>once</mode>
+      <type>avionics</type>
       <condition>
         <property>sim/current-view/internal</property>
         <or>
@@ -609,8 +622,13 @@
           <property>sim/ja37/avionics/master-warning-button</property>
         </or>
       </condition>
+      <position>
+        <x>-3.80</x>
+        <y>0.01</y>
+        <z>0.25</z>
+      </position>
       <volume>
-        <factor>1</factor>
+        <factor>0.75</factor>
       </volume>
 </controls>
 
@@ -827,6 +845,7 @@
 			<name>wind</name>
 			<mode>looped</mode>
 			<path>Aircraft/JA37/Sounds/wind.wav</path>
+      <type>avionics</type>
 			<condition>
 				<property>sim/current-view/internal</property>
 				<greater-than>
@@ -855,12 +874,12 @@
      </condition>
      <mode>looped</mode>
      <position>
-      <x>-1.0</x>
-      <y>0.8</y>
-      <z>0.01</z>
+      <x>0.01</x>
+      <y>0.01</y>
+      <z>-1.2</z>
      </position>
      <volume>
-        <factor>.4</factor>
+        <factor>0.4</factor>
       </volume>
     </cannon>
    
@@ -873,6 +892,11 @@
       </condition>
       <reference-dist>25</reference-dist>
       <max-dist>10000</max-dist>
+      <position>
+        <x> 3.15986 </x>
+        <y> -2.70311 </y>
+        <z> -0.67645 </z>
+      </position>
       <volume>
         <factor>1</factor>
         <max>1</max>
@@ -887,6 +911,11 @@
       </condition>
       <reference-dist>25</reference-dist>
       <max-dist>10000</max-dist>
+      <position>
+        <x> -1.02697 </x>
+        <y> -0.98148 </y>
+        <z> -0.94307 </z>
+      </position>
       <volume>
         <factor>1</factor>
         <max>1</max>
@@ -901,6 +930,11 @@
       </condition>
       <reference-dist>25</reference-dist>
       <max-dist>10000</max-dist>
+      <position>
+        <x> 3.15986 </x>
+        <y> 2.70311 </y>
+        <z> -0.67645 </z>
+      </position>      
       <volume>
         <factor>1</factor>
         <max>1</max>
@@ -915,6 +949,11 @@
       </condition>
       <reference-dist>25</reference-dist>
       <max-dist>10000</max-dist>
+      <position>
+        <x> -1.02697 </x>
+        <y> 0.98148 </y>
+        <z> -0.94307 </z>
+      </position>      
       <volume>
         <factor>1</factor>
         <max>1</max>
@@ -924,6 +963,7 @@
    <rb24-signal> 
       <name>rb24-signal</name>
       <mode>looped</mode>
+      <type>avionics</type>
       <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
       <condition>
         <property>sim/ja37/armament/rb24/sound-on-off</property>
@@ -945,6 +985,11 @@
             <value>0</value>
           </equals>
       </condition>
+       <position>
+        <x>-1.0</x>
+        <y>0.01</y>
+        <z>0.195</z>
+       </position>
       <volume>
         <factor>1</factor>
       </volume>
@@ -960,8 +1005,14 @@
       		  <value>1</value>
     			</equals>
   		</condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>
   		<volume>
-  			<factor>1</factor>
+  			<factor>3</factor>
+        <max>3</max>
   		</volume>
   	</aircraft-explode>
 
@@ -975,6 +1026,11 @@
             <value>1</value>
           </equals>
       </condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
       <volume>
         <factor>1</factor>
       </volume>
@@ -990,13 +1046,18 @@
             <value>1</value>
           </equals>
       </condition>
+      <position>
+        <x>-4.0</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
       <volume>
         <factor>1</factor>
       </volume>
     </missile-hit>
 
   	<aircraft-crash>
-  		<name>aircraft-crash</name>
+  		<name>aircraft-impact</name>
   		<path>Sounds/aircraft-crash.wav</path>
   		<mode>once</mode>
   		<condition>
@@ -1005,6 +1066,11 @@
     				<value>1</value>
     			</equals>
   		</condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
   		<volume>
   			<factor>1</factor>
   		</volume>
@@ -1020,6 +1086,11 @@
   				<value>1</value>
   			</equals>
   		</condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
   		<volume>
   			<factor>1</factor>
   		</volume>
@@ -1036,6 +1107,11 @@
   				<value>1</value>
   			</equals>
   		</condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
   		<volume>
   			<property>damage/sounds/crack-volume</property>
   			<factor>1</factor>
@@ -1053,6 +1129,11 @@
   				<value>1</value>
   			</equals>
   		</condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
   		<volume>
   			<property>damage/sounds/creaking-volume</property>
   			<factor>1</factor>
@@ -1064,6 +1145,7 @@
     <voice>
       <name>Geforce-breath-vox</name>
       <path>Aircraft/JA37/Sounds/Geforce.wav</path>
+      <type>avionics</type>
       <condition> 
         <greater-than>
           <property>/accelerations/pilot/z-accel-fps_sec</property>
@@ -1081,6 +1163,7 @@
     <voice>
       <name>Geforce-vox</name>
       <path>Aircraft/JA37/Sounds/geforce1.wav</path>
+      <type>avionics</type>
       <condition>
        <less-than>
         <property>/accelerations/pilot/z-accel-fps_sec</property>
