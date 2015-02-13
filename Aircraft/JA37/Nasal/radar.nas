@@ -18,7 +18,7 @@ var radar = {
       "name": "RADAR",
       "size": [1024, 1024],
       "view": [1024, 1024],
-      "mipmapping": 1
+      "mipmapping": 0
     });
     
     # ... and place it on the object called Screen

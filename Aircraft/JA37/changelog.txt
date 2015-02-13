@@ -1106,3 +1106,6 @@ Animation: Left and right gear wheels now spin with their own respective speeds.
 HUD: Optimized HUD code, to run a bit faster.
 Sim: Fixed left altimeter coarse adjustment with middle button, would adjust up on both sides of the knob.
 Sim: HUD and radar does no longer update outside cockpit view.
+HUD: The HUD animated texture is now 4 times smaller to help with graphics memory use.
+System: The HUD and radar is no longer mipmapped. They now look less blurry, and use less graphics memory.
+HUD: Sideslip indicator dot is no longer hollow.

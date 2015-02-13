@@ -12,7 +12,6 @@ var vec_length = func(x, y) { return math.sqrt(pow2(x) + pow2(y)); };
 var round0 = func(x) { return math.abs(x) > 0.01 ? x : 0; };
 var roundabout = func(x) {
   var y = x - int(x);
-
   return y < 0.5 ? int(x) : 1 + int(x) ;
 };
 var deg2rads = math.pi/180.0;
@@ -41,13 +40,13 @@ var QFEcalibrated = FALSE;# if the altimeters are calibrated
 
 var HUDTop = 0.79; # position of top of HUD in meters
 # HUD z is 0 to 0.25 and raised 0.54 up. Finally is 0.54m to 0.79m, height of HUD is 0.25m
-var pixelPerMeter = 4096;
 # Therefore each pixel is 0.25 / 1024 = 0.000244140625m or each meter is 4096 pixels.
+var pixelPerMeter = 4096;
 var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # View is 0.70m so 0.79-0.70 = 0.09m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.09 / 0.000244140625) = 143.36 pixels up from center. Since -y is upward, result is -143. (Per default)
 
-var pixelPerDegreeY = 37; #vertical axis, view is tilted 10 degrees, zoom in on runway to check it hit the 10deg line
+var pixelPerDegreeY = 37; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
 var pixelPerDegreeX = 37; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var sidewindPosition = centerOffset+(2*pixelPerDegreeY); #should be 2 degrees under horizon.
@@ -61,11 +60,11 @@ var headScaleTickSpacing = 65;# horizontal spacing between ticks. Remember to ad
 var altimeterScaleHeight = 225; # the height of the low alt scale. Also used in the other scales as a reference height.
 var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and out of ammo reticle
 var sidewind_factor = 1.0;# size of sidewind indicator
-var r = 0.0;
+var r = 0.0;#HUD colors
 var g = 1.0;
-var b = 0.0;#HUD colors
+var b = 0.0;
 var a = 1.0;
-var w = getprop("sim/ja37/hud/stroke-linewidth");  #line stroke width
+var w = getprop("sim/ja37/hud/stroke-linewidth");  #line stroke width (saved between sessions)
 var ar = 0.9;#font aspect ratio
 var fs = 0.8;#font size factor
 var artifacts0 = nil;
@@ -81,9 +80,9 @@ var tracks_index = -1;
 var HUDnasal = {
   canvas_settings: {
     "name": "HUDnasal",
-    "size": [2048, 2048],# width of texture to be replaced
-    "view": [1024, 1024],# width of canvas
-    "mipmapping": 1
+    "size": [1024, 1024],# size of the texture
+    "view": [1024, 1024],# size of canvas coordinate system
+    "mipmapping": 0
   },
   main: nil,
 
@@ -452,6 +451,7 @@ var HUDnasal = {
          .vert(16)
          .horiz(-16)
          .vert(-16)
+         .setColorFill(r,g,b, a)
          .setStrokeLineWidth(w)
          .setColor(r,g,b, a);
 
@@ -2194,10 +2194,11 @@ var HUDnasal = {
 var id = 0;
 
 var reinitHUD = FALSE;
+var hud_pilot = nil;
 var init = func() {
   removelistener(id); # only call once
   if(getprop("sim/ja37/supported/hud") == TRUE) {
-    var hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
+    hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
     #setprop("sim/hud/visibility[1]", 0);
     
     #print("HUD initialized.");
@@ -2232,7 +2233,7 @@ var reinit = func() {#mostly called to change HUD color
    foreach(var item; artifactsText1) {
     item.setColor(r, g, b, a);
    }
-
+   hud_pilot.slip_indicator.setColorFill(r,g,b, a);
    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
    ja37.click();
   #print("HUD being reinitialized.");
