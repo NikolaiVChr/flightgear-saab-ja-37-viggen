@@ -261,7 +261,7 @@ var update_loop = func {
     for(i = 0; i <= 3; i += 1) {
       if(armament.AIM9.active[i] != nil) {
         #missile is mounted on pylon
-        if(armSelect != i+1) {
+        if(armSelect != i+1 and armament.AIM9.active[i].status != 2) {
           #pylon not selected, missile off
           armament.AIM9.active[i].status = -1;#print("not sel "~(i));
         } elsif (input.combat.getValue() != 2 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {

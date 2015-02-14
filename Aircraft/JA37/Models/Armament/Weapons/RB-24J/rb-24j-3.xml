@@ -18,19 +18,31 @@
 	<model>
 		<path>Aircraft/JA37/Models/Armament/Weapons/RB-24J/motor-smoke-3.xml</path>
 		<offsets>
-			<x-m>3</x-m>
+			<x-m>0</x-m>
 			<y-m>0</y-m>
 			<z-m>0</z-m>
 		</offsets>
 	</model>
 
 	<model>
+		<name>explosion</name>
 		<path>Aircraft/JA37/Models/Armament/Weapons/RB-24J/explosion-3.xml</path>
 		<offsets>
-			<x-m>3</x-m>
+			<x-m>0</x-m>
 			<y-m>0</y-m>
 			<z-m>0</z-m>
 		</offsets>
 	</model>
+
+	<animation>
+		<type>select</type>
+		<object-name>explosion</object-name>
+		<condition>
+			<or>
+				<property>sim/ja37/armament/rb24/flags/explode-id-3</property>
+				<property>sim/ja37/armament/rb24/flags/explode-smoke-3</property>
+			</or>
+		</condition>
+	</animation>
 
 </PropertyList>
