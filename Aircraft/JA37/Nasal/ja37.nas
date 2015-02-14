@@ -41,6 +41,7 @@ input = {
   reversed:     "/engines/engine/reversed",
   augmentation: "/controls/engines/engine[0]/augmentation",
   gearCmdNorm:  "/fdm/jsbsim/gear/gear-cmd-norm",
+  gearsPos:         "gear/gear/position-norm",
   batteryOutput:"systems/electrical/outputs/battery",
   flapPosCmd:   "/fdm/jsbsim/fcs/flap-pos-cmd",
   serviceElec:  "systems/electrical/serviceable",
@@ -53,7 +54,7 @@ input = {
   indAltFt:     "instrumentation/altimeter/indicated-altitude-ft",
   autoReverse:  "sim/ja37/autoReverseThrust",
   stationSelect:"controls/armament/station-select",
-  combat:       "/sim/ja37/hud/combat",
+  combat:       "/sim/ja37/hud/current-mode",
   warnButton:   "sim/ja37/avionics/master-warning-button",
   warn:         "/instrumentation/master-warning",
   engineRunning:"engines/engine/running",
@@ -263,10 +264,10 @@ var update_loop = func {
         if(armSelect != i+1) {
           #pylon not selected, missile off
           armament.AIM9.active[i].status = -1;#print("not sel "~(i));
-        } elsif (input.combat.getValue() == 0 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
+        } elsif (input.combat.getValue() != 2 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
           #pylon is selected but missile not mounted and not flying
           armament.AIM9.active[i].status = -1;#print("empty "~(i));
-        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none" and input.combat.getValue() == 1) {
+        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none" and input.combat.getValue() == 2) {
           #pylon selected, activate if not already
           armament.AIM9.active[i].status = 0;#print("active "~(i));
           armament.AIM9.active[i].search();
@@ -533,15 +534,17 @@ var trigger_listener = func {
     var trigger = getprop("controls/armament/trigger");
     var armSelect = getprop("controls/armament/station-select");
 
-    #if masterarm is on, propagate trigger to station
-    if(getprop("/sim/ja37/hud/combat") == 1) {
+    #if masterarm is on and HUD in tactical mode, propagate trigger to station
+    if(input.combat.getValue() == 2) {
       setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
+    } else {
+      setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
     }
 
-    if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == 1) {
+    if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
       if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
-        # trigger is pulled, a pylon is selected, the pylon has a missile.
-        if (armament.AIM9.active[armSelect-1] != nil and  armament.AIM9.active[armSelect-1].status == 1 ) {
+        # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
+        if (armament.AIM9.active[armSelect-1] != nil and  armament.AIM9.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
           #missile locked, fire it.
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", 1);# setting the pylon as fired

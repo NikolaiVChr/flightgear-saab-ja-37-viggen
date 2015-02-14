@@ -1006,7 +1006,7 @@ Sim: Spoken ATIS now works out of the box, just remember to turn on battery powe
 Model: Converted livery 59 and 61 to png from jpg.
 Model: When using Livery 59, it now shares base texture, for better memory optimization. Other liveries still require double fuselage texture loaded.
 
-2.86 - 2015 January 16
+2.86 - 2015 January 16  (Flightgear 3.4.0 version)
 ====
 Effect: Fixed engine fire would sometimes become black at full throttle.
 Sim: Fixed some sound and repair timers in the crash code.
@@ -1121,3 +1121,13 @@ Sim: Fixed (I hope) missiles hitting aircraft at firing.
 Sim: Missiles will now arm only after they are more than 50m away from the aircraft.
 Sim: Fixed missiles would sometimes not fire from the correct positions.
 HUD: Fixed that HUD would briefly go to nav/tact mode inbetween takeoff and landing mode, when gears still down.
+
+3.000
+=====
+Sound: Fixed missile lock could be heard when masterarm was on, but not in tactical mode.
+Sound: Missile hit sounds from different missiles can now be played at the same time.
+Sound: Missile hit sound delay is now influenced by the altitude speed of sound and position of the aircraft in relation to soundwave.
+Sound: Missile hit sound volume is now attenuated by distance.
+Sim: Prevented accidental missle release when changing location in GUI.
+Sim: Fixed three cases of use of wrong units in missile guidance system. And an altitude bug.
+Sim: Missiles will now be ejected 1 meter down from the pylons before taking off.

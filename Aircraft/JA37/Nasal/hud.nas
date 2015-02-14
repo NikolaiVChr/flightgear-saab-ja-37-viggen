@@ -789,6 +789,7 @@ var HUDnasal = {
         fdroll:           "/autopilot/settings/fd-roll-deg",
         fdspeed:          "/autopilot/settings/target-speed-kt",
         mode:             "sim/ja37/hud/mode",
+        currentMode:      "sim/ja37/hud/current-mode",
         service:          "/instrumentation/head-up-display/serviceable",
         radar_serv:       "instrumentation/radar/serviceable",
         units:            "sim/ja37/hud/units-metric",
@@ -883,7 +884,7 @@ var HUDnasal = {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
       }
-       
+      me.input.currentMode.setValue(mode);
 
       var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == TRUE;
       var out_of_ammo = FALSE;

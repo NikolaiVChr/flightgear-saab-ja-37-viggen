@@ -75,7 +75,9 @@ GUI: The performance monitor can duplicate itself when selecting airport. [repro
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, autostart might fail. [reproduced]
-Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft if unlucky. [reproduced at very low framerate]
+Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft canopy structure if unlucky. [reproduced]
+Sim: Missile that misses dont seem to delete by altitude.
+Sim: When firing multiple missiles, only last of them will hit.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Animation: Selection view does not follow carriers. (they lack radar properties)
 Sim: {JazzTp} Droptank does no collision detection. [confirmed]

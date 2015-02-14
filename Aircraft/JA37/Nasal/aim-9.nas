@@ -144,7 +144,7 @@ var AIM9 = {
 
 		in[0] =  me.pylon_prop.getNode("offsets/x-m").getValue() * M2FT;
 		in[1] =  me.pylon_prop.getNode("offsets/y-m").getValue() * M2FT;
-		in[2] =  me.pylon_prop.getNode("offsets/z-m").getValue() * M2FT;
+		in[2] =  (me.pylon_prop.getNode("offsets/z-m").getValue()-1) * M2FT;#-1 for it to drop beneath pylon before firing
 		# Pre-process trig functions:
 		cosRx = math.cos(-ac_roll * D2R);
 		sinRx = math.sin(-ac_roll * D2R);
@@ -181,7 +181,7 @@ var AIM9 = {
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
 		#print("roll "~ac_roll~" on "~me.rollN.getPath());
-		me.coord.set_latlon(alat, alon, aalt); # was (alat, alon, me.ac.alt())
+		me.coord.set_latlon(alat, alon, aalt / M2FT); # was (alat, alon, me.ac.alt())
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
 		me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
@@ -202,8 +202,8 @@ var AIM9 = {
 
 		me.smoke_prop.setBoolValue(1);
 		SwSoundVol.setValue(0);
-		settimer(func { HudReticleDeg.setValue(0) }, 2);
-		interpolate(HudReticleDev, 0, 2);
+		#settimer(func { HudReticleDeg.setValue(0) }, 2);
+		#interpolate(HudReticleDev, 0, 2);
 		me.update();
 
 	},
@@ -324,7 +324,7 @@ var AIM9 = {
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(alt_ft);
-		me.coord.set_alt(alt_ft);
+		me.coord.set_alt(alt_ft*0.3048);
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
 
@@ -344,8 +344,11 @@ var AIM9 = {
 			var v = me.poximity_detection();
 			if ( ! v ) {
 				#print("exploded");
-				# We exploded, but need a few more secs to spawn the explosion animation.
-				settimer(func { me.del(); }, 4 );
+				# We exploded, and start the sound propagation towards the plane
+				me.sndSpeed = sound_fps;
+				me.sndDistance = 0;
+				me.dt_last = systime();
+				me.sndPropagate();
 				return;
 			}
 			if (alt_ft < -75) {
@@ -412,7 +415,7 @@ var AIM9 = {
 
 			# Get target position.
 			var t_alt = me.TgtAlt_prop.getValue();
-			me.t_coord.set_latlon(me.TgtLat_prop.getValue(), me.TgtLon_prop.getValue(), t_alt);
+			me.t_coord.set_latlon(me.TgtLat_prop.getValue(), me.TgtLon_prop.getValue(), t_alt * 0.3048);
 
 			# Calculate current target elevation and azimut deviation.
 			var t_dist_m = me.coord.distance_to(me.t_coord);
@@ -450,7 +453,7 @@ var AIM9 = {
 
 		}
 		# Compute HUD reticle position.
-		if ( me.status == 1 ) {
+		if ( 1==0 and me.status == 1 ) {
 			var h_rad = (90 - me.curr_tgt_h) * D2R;
 			var e_rad = (90 - me.curr_tgt_e) * D2R; 
 			var devs = develev_to_devroll(h_rad, e_rad);
@@ -640,8 +643,10 @@ var AIM9 = {
 		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL" );
 		var explode_smoke_path = "sim/ja37/armament/rb24/flags/explode-smoke-id-" ~ me.ID;
 		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL" );
-		var explode_sound_path = "sim/ja37/armament/rb24/flags/explode-sound-on";
+		var explode_sound_path = "sim/ja37/armament/rb24/flags/explode-sound-on-" ~ me.ID;;
 		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL" );
+		var explode_sound_vol_path = "sim/ja37/armament/rb24/flags/explode-sound-vol-" ~ me.ID;;
+		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE" );
 	},
 
 
@@ -653,12 +658,44 @@ var AIM9 = {
 		settimer( func me.explode_prop.setBoolValue(0), 0.5 );
 		settimer( func me.explode_smoke_prop.setBoolValue(1), 0.5 );
 		settimer( func me.explode_smoke_prop.setBoolValue(0), 3 );
-		var delay = me.Tgt.getNode("radar/range-nm").getValue()*4.689;
-		settimer( func me.explode_sound_prop.setBoolValue(1), delay );
-		settimer( func me.explode_sound_prop.setBoolValue(0), delay+3 );
+		#var delay = me.Tgt.getNode("radar/range-nm").getValue()*4.689;
+		#settimer( func me.explode_sound_prop.setBoolValue(1), delay );
+		#settimer( func me.explode_sound_prop.setBoolValue(0), delay+3 );
 	},
 
+	sndPropagate: func {
+		var dt = getprop("sim/time/delta-sec");
+		if (dt == 0) {
+			#FG is likely paused
+			settimer(func me.sndPropagate(), 0.01);
+			return;
+		}
+		#dt = update_loop_time;
+		var elapsed = systime();
+		if (me.dt_last != 0) {
+			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
+		}
+		me.dt_last = elapsed;
 
+		me.ac = geo.aircraft_position();
+		var distance = me.coord.direct_distance_to(me.ac);
+
+		me.sndDistance = me.sndDistance + (me.sndSpeed * dt) * 0.3048;
+		if(me.sndDistance > distance) {
+			var volume = math.pow(2.71828,(-.00025*(distance-1000)));
+			#print("explosion heard "~distance~"m vol:"~volume);
+			me.explode_sound_vol_prop.setValue(volume);
+			me.explode_sound_prop.setBoolValue(1);
+			settimer( func me.explode_sound_prop.setBoolValue(0), 3);
+			settimer( func me.del(), 4);
+			return;
+		} elsif (me.sndDistance > 5000) {
+			me.del();
+		} else {
+			settimer(func me.sndPropagate(), 0.05);
+			return;
+		}
+	},
 
 	active: {},
 };
