@@ -1131,6 +1131,14 @@ Sound: Missile hit sound volume is now attenuated by distance.
 Sim: Prevented accidental missile release when changing location in GUI.
 Sim: Fixed three cases of use of wrong units in missile guidance system. And an altitude bug.
 Sim: Missiles will now be ejected 1 meter down from the pylons before taking off.
-Sim: Fixed that if missile is not continuosly selected during its flight, then it will miss. They are now truely fire and forget.
+Sim: Fixed that if missile is not continuously selected during its flight, then it will miss. They are now truly fire and forget.
 Sim: Fixed again (I hope) missiles hitting aircraft at firing.
 Effect: Missiles will now have rocket exhaust beside the smoke.
+
+3.001
+=====
+GUI: Updated aircraft help info.
+Animation: Fixed that chronometer was doing double updates. And lowered update rate.
+Effect: Made missile exhaust more transparent.
+GUI: Made the welcome message more light red.
+Sound: Improved the MP touchdown squeal sound.

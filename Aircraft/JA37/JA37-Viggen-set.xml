@@ -727,7 +727,7 @@
      </key> -->
      <text>
       Startup
-      ______
+      _______
       Start up engine and systems
       Wait for the engine to spool up and generator to turn on.
       Calibrate the altimeter.
@@ -735,19 +735,22 @@
       Release parking brakes.
       
       Takeoff
-      ______
+      _______
       Mind the sidewind indicator in the HUD.
       Pull back on the stick when the distance scale upper marker is aligned with the lower.
       Takeoff at 315 km/h. (170 kt)
 
       Landing
-      ______
-      Land with speeds within 195-249km/h. (105-134 kt)
-        and an Angle of Attack of 16.5 degrees.
+      _______
+      Land with speeds within 195-249km/h. (105-134 kt) and an Angle of Attack of 16.5 degrees.
       Deploy reverse thrust and brakes after touchdown.
 
+      Landing with ILS or TILS
+      ________________________
+      Below the horizon line is a line with a dot in the middle. When within ILS range, align the dot in the center and keep the flight path indicator on it. Close to that same line is also 4 vertical lines, align the top of those to the horizontal line (not the horizon line).
+
       Flaps
-      ____
+      _____
       The JA-37 control the flaps automatically.
       At takeoff and landing it will set flaps to 30 degrees down.
       In flight it will be set at 4 degrees up.    
@@ -776,9 +779,6 @@
       ________
       Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
       The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not catch you doing that. :)
-
-      Failures
-      _____
       Beware trying to land if the gears are damaged.
 
       Automatic Thrust reversing
@@ -804,14 +804,22 @@
 
       Repairing
       _________
-      In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are some systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
+      In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are many systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
+
+      Reloading missiles
+      __________________
+      A missile can not be reloaded if a missile from that pylon is still flying.
+
+      Liveries
+      ________
+      Livery 59, uses half the texture memory of the other liveries.
 
       Trivia
       ______
       This is the mid 80'ties version. So it has no airbrake
       400 meter runway is required to takeoff.
       500 meter runway is required to land.
-      Climb to 10.000m from brakes off in less than 100 seconds.
+      Climb to 10,000m from brakes off in less than 100 seconds.
       Supersonic speed at low altitude in less than 60 seconds from take-off.
       Mach 1.25 at 100m altitude.
       Maximum speed: Mach 2.2 at 11,000m alt (36,000 ft).

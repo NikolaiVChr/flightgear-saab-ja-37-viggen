@@ -4,7 +4,6 @@ TODO for Flightgear JA-37
 
 Features and improvements:
 --------------------------
-GUI: Make popups appear higher on screen.
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
@@ -74,7 +73,7 @@ HUD: I have experienced that tactical mode was on by default. [not reliable repr
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
-Sim: When running at reduced sim time, autostart might fail. [reproduced]
+Sim: When running at reduced sim time, relocating or pausing, autostart might fail. [reproduced]
 Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft canopy structure if unlucky. [reproduced]
 Sim: Missile that misses dont seem to delete by altitude.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
@@ -118,7 +117,7 @@ Model: Put in more working instruments and controls. (semi doable if can find si
 Animation: Animate scissor gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors.
 Model: Model the reverser for reverse thrust.
-Effect: Make gun fire bullets from correct position. (should be a pod under belly)
+Model: Make gunpod, between the fuselage and droptank.
 
 
 Depends on better 3D cockpit:

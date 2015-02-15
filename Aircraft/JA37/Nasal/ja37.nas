@@ -41,7 +41,7 @@ input = {
   reversed:     "/engines/engine/reversed",
   augmentation: "/controls/engines/engine[0]/augmentation",
   gearCmdNorm:  "/fdm/jsbsim/gear/gear-cmd-norm",
-  gearsPos:         "gear/gear/position-norm",
+  gearsPos:     "gear/gear/position-norm",
   batteryOutput:"systems/electrical/outputs/battery",
   flapPosCmd:   "/fdm/jsbsim/fcs/flap-pos-cmd",
   serviceElec:  "systems/electrical/serviceable",
@@ -638,9 +638,9 @@ var test_support = func {
   }
   setprop("sim/ja37/supported/initialized", 1);
 
-  print("********************************************************************************");
+  print("*********************************************************************************");
   print("**  Initializing Saab JA-37 Viggen systems. Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]~"  **");
-  print("********************************************************************************");
+  print("*********************************************************************************");
 
 }
 
@@ -689,10 +689,7 @@ var main_init = func {
       input[name] = props.globals.getNode(input[name], 1);
   }
 
-  screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.0, 0.0);
-
-  # start chronometer loop
-  chrono_loop();
+  screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.2, 0.2);
 
   # start minor loops
   speed_loop();
