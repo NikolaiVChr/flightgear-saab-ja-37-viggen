@@ -91,6 +91,8 @@ var AIM9 = {
 		m.ai = n.getChild("rb-24j", i, 1);
 
 		m.ai.getNode("valid", 1).setBoolValue(1);
+		m.model.getNode("collision", 1).setBoolValue(0);
+		m.model.getNode("impact", 1).setBoolValue(0);
 		var id_model = aim_9_model ~ m.ID ~ ".xml";
 		m.model.getNode("path", 1).setValue(id_model);
 		m.life_time = 0;

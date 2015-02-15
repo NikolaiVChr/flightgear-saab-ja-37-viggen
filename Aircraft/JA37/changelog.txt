@@ -1139,6 +1139,7 @@ Effect: Missiles will now have rocket exhaust beside the smoke.
 =====
 GUI: Updated aircraft help info.
 Animation: Fixed that chronometer was doing double updates. And lowered update rate.
-Effect: Made missile exhaust more transparent.
+Effect: Made missile exhaust more transparent and bit more orange, and smaller.
 GUI: Made the welcome message more light red.
 Sound: Improved the MP touchdown squeal sound.
+Sim: Tried to fix again again missiles hitting aircraft at release.

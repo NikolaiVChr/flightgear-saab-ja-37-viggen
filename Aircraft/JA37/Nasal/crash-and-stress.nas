@@ -276,7 +276,7 @@ var CrashAndStress = {
 		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
 		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
 		    	me.input.simCrashed.setValue(TRUE);
-		    	me._explodeBegin();
+		    	me._explodeBegin("Aircraft hit "~info[1].names[size(info[1].names)-1]);
 		    	return;
 		    }
 
@@ -318,7 +318,7 @@ var CrashAndStress = {
 	_impactSoundEnd: func () {
 		me.input.crashOn.setValue(0);
 	},
-	_explodeBegin: func() {
+	_explodeBegin: func(str) {
 		me.input.explodeOn.setValue(1);
 		me.exploded = TRUE;
 		var failure_modes = FailureMgr._failmgr.failure_modes;
@@ -328,7 +328,7 @@ var CrashAndStress = {
       		FailureMgr.set_failure_level(failure_mode_id, 1);
 	    }
 
-	    me._output("Aircraft exploded.", TRUE);
+	    me._output(str~" and exploded.", TRUE);
 		
 		me.explodeTimer.restart(3);
 	},

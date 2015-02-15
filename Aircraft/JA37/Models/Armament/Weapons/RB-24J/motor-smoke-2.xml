@@ -147,7 +147,7 @@
      <start>
        <color>
          <red><value>   1.0 </value></red>
-         <green><value> 1.0 </value></green>
+         <green><value> 0.7 </value></green>
          <blue><value>  0.0 </value></blue>
          <alpha><value> 0.7 </value></alpha>
        </color>
@@ -159,7 +159,7 @@
      <end>
        <color>
          <red><value>   0.9 </value></red>
-         <green><value> 0.9 </value></green>
+         <green><value> 0.6 </value></green>
          <blue><value>  0.0 </value></blue>
          <alpha><value> 0.1 </value></alpha>
        </color>
@@ -169,7 +169,7 @@
      </end>
 
      <life-sec>
-       <value>0.25</value>
+       <value>0.15</value>
      </life-sec>
         
      <mass-kg>  0.5 </mass-kg>
