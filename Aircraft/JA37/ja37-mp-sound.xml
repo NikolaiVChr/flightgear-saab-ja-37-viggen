@@ -338,5 +338,6 @@
     <factor>0.0025</factor>
     <offset>1.2</offset>
    </pitch>
+ </squeal>
  </fx>
 </PropertyList>

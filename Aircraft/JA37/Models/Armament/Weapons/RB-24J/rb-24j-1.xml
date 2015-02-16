@@ -35,14 +35,8 @@
 	</model>
 
 	<animation>
-		<type>select</type>
-		<object-name>explosion</object-name>
-		<condition>
-			<or>
-				<property>sim/ja37/armament/rb24/flags/explode-id-1</property>
-				<property>sim/ja37/armament/rb24/flags/explode-smoke-1</property>
-			</or>
-		</condition>
-	</animation>
+  		<object-name>aim-9</object-name>
+  		<enable-hot type="bool">false</enable-hot>
+ 	</animation>
 
 </PropertyList>

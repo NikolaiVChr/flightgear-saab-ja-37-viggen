@@ -1143,3 +1143,8 @@ Effect: Made missile exhaust more transparent and bit more orange, and smaller.
 GUI: Made the welcome message more light red.
 Sound: Improved the MP touchdown squeal sound.
 Sim: Tried to fix again again missiles hitting aircraft at release.
+
+3.002
+=====
+Sim: Tried to fix again again again missiles hitting aircraft at release.
+Sound: Fixed MP sound was broken.

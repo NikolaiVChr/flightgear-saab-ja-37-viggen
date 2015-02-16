@@ -91,8 +91,8 @@ var AIM9 = {
 		m.ai = n.getChild("rb-24j", i, 1);
 
 		m.ai.getNode("valid", 1).setBoolValue(1);
-		m.model.getNode("collision", 1).setBoolValue(0);
-		m.model.getNode("impact", 1).setBoolValue(0);
+		#m.model.getNode("collision", 1).setBoolValue(0);
+		#m.model.getNode("impact", 1).setBoolValue(0);
 		var id_model = aim_9_model ~ m.ID ~ ".xml";
 		m.model.getNode("path", 1).setValue(id_model);
 		m.life_time = 0;
@@ -146,7 +146,7 @@ var AIM9 = {
 
 		in[0] =  me.pylon_prop.getNode("offsets/x-m").getValue() * M2FT;
 		in[1] =  me.pylon_prop.getNode("offsets/y-m").getValue() * M2FT;
-		in[2] =  (me.pylon_prop.getNode("offsets/z-m").getValue()-1) * M2FT;#-1 for it to drop beneath pylon before firing
+		in[2] =  (me.pylon_prop.getNode("offsets/z-m").getValue()-0.5) * M2FT;#-0.5 for it to drop beneath pylon before firing
 		# Pre-process trig functions:
 		cosRx = math.cos(-ac_roll * D2R);
 		sinRx = math.sin(-ac_roll * D2R);
