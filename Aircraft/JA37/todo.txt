@@ -101,7 +101,7 @@ Livery work
 Model: Improve the 31-17 grey livery.
 Model: Improve the 32-17 Blå Petter livery. (Blue Peter)
 Model: Improve the 59-16 grey livery.
-Model: Improve the 61-16 strike camo livery.
+Model: Improve the 61-18 strike camo livery.
 Model: Improve the 57-21 red 'ghost' livery.
 Model: Improve the 46-4  unknown export livery.
 Model: Improve the 02-21 swedish sun livery.

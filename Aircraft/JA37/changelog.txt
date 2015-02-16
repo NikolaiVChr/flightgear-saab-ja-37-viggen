@@ -1135,7 +1135,7 @@ Sim: Fixed that if missile is not continuously selected during its flight, then 
 Sim: Fixed again (I hope) missiles hitting aircraft at firing.
 Effect: Missiles will now have rocket exhaust beside the smoke.
 
-3.001
+3.001 -  2015 February 15
 =====
 GUI: Updated aircraft help info.
 Animation: Fixed that chronometer was doing double updates. And lowered update rate.
@@ -1144,7 +1144,8 @@ GUI: Made the welcome message more light red.
 Sound: Improved the MP touchdown squeal sound.
 Sim: Tried to fix again again missiles hitting aircraft at release.
 
-3.002
+3.002 - 2015 February 16
 =====
-Sim: Tried to fix again again again missiles hitting aircraft at release.
+Sim: Fixed again again again missiles hitting aircraft at release.
 Sound: Fixed MP sound was broken.
+Model: Fixed strike livery 61-18 had the wrong numbers on one side of the plane, and on gear doors.
