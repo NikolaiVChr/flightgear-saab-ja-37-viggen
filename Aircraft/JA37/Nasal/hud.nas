@@ -1334,6 +1334,7 @@ var HUDnasal = {
     # alt and radAlt is in current unit
     # determine max radar alt in current unit
     var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
+    var alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
     if (radAlt == nil) {
       # Radar alt instrument not initialized yet.
       me.alt.setText("");
@@ -1345,14 +1346,14 @@ var HUDnasal = {
       me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
       # check for QFE warning
       var diff = radAlt - alt;
-      if (countQFE == 0 and (diff > 7 or diff < -7)) {
+      if (countQFE == 0 and (diff > alt_diff or diff < -alt_diff)) {
         #print("QFE warning " ~ countQFE);
         # is not calibrated, and is not blinking
         QFEcalibrated = FALSE;
         me.input.altCalibrated.setValue(FALSE);
         countQFE = 1;     
         #print("QFE not calibrated, and is not blinking");     
-      } elsif (diff > -7 and diff < 7) {
+      } elsif (diff > -alt_diff and diff < alt_diff) {
           #is calibrated
         if (QFEcalibrated == FALSE and countQFE < 11) {
           # was not calibrated before, is now.
@@ -1361,7 +1362,7 @@ var HUDnasal = {
         }
         QFEcalibrated = TRUE;
         me.input.altCalibrated.setValue(TRUE);
-      } elsif (QFEcalibrated == 1 and (diff > 7 or diff < -7)) {
+      } elsif (QFEcalibrated == 1 and (diff > alt_diff or diff < -alt_diff)) {
         # was calibrated before, is not anymore.
         #print("QFE was calibrated before, is not anymore. "~countQFE);
         countQFE = 1;
@@ -1433,6 +1434,121 @@ var HUDnasal = {
       HUDnasal.main.landing_line.hide();
     }
     return guideUseLines;
+  },
+
+  displayDigitalSpeed: func () {
+    var mach = me.input.mach.getValue();
+
+    if(me.input.units.getValue() == TRUE) {
+      me.airspeedInt.hide();
+      if (mach >= 0.5) 
+      {
+        me.airspeed.setText(sprintf("%.2f", mach));
+      } else {
+        me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
+      }
+    } else {
+      me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
+      me.airspeedInt.show();
+      me.airspeed.setText(sprintf("M%.2f", mach));
+    }
+  },
+
+  displayPitchLines: func (mode) {
+    me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+    me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+    me.horizon_group4.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
+    me.horizon_group.setTranslation(0, centerOffset);
+    var rot = -me.input.roll.getValue() * deg2rads;
+    me.h_rot.setRotation(rot);
+    if(mode == COMBAT) {
+      me.horizon_group3.show();
+      me.horizon_group4.show();
+      me.horizon_dots.hide();
+      me.horizon_line_gap.hide();
+    } elsif (mode == LANDING) {
+      me.horizon_group3.hide();
+      me.horizon_group4.hide();
+      me.horizon_dots.hide();
+      me.horizon_line_gap.show();
+    } else {
+      me.horizon_group3.hide();
+      me.horizon_group4.show();
+      me.horizon_dots.show();
+      me.horizon_line_gap.hide();
+    }
+  },
+
+  displayTurnCoordinator: func () {
+    if (me.input.sideslipOn.getValue() == TRUE) {
+      #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
+      me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
+      me.turn_group.show();
+    } else {
+      me.turn_group.hide();
+    }
+  },
+
+  displayQFE: func (mode) {
+    if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
+      if (me.input.TILS.getValue() == TRUE) {
+        me.qfe.setText("TILS");
+        me.qfe.show();
+      } else {
+        me.qfe.setText("ILS");
+        me.qfe.show();
+      }
+    } elsif (mode == COMBAT) {
+      var armSelect = me.input.station.getValue();
+      if(armSelect == 0) {
+        me.qfe.setText("KCA");
+        me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") {
+        me.qfe.setText("RB-24");
+        me.qfe.show();
+      } else {
+        me.qfe.hide();
+      }        
+    } elsif (countQFE > 0) {
+      # QFE is shown
+      me.qfe.setText("QFE");
+      if(countQFE == 1) {
+        countQFE = 2;
+      }
+      if(countQFE < 10) {
+         # blink the QFE
+        if(me.input.fiveHz.getValue() == TRUE) {
+          me.qfe.show();
+        } else {
+          me.qfe.hide();
+        }
+      } elsif (countQFE == 10) {
+        #if(me.input.ias.getValue() < 10) {
+          # adjust the altimeter (commented out after placing altimeter in plane)
+          # var inhg = getprop("systems/static/pressure-inhg");
+          #setprop("instrumentation/altimeter/setting-inhg", inhg);
+         # countQFE = 11;
+          #print("QFE adjusted " ~ inhg);
+        #} else {
+          countQFE = -100;
+        #}
+      } elsif (countQFE < 125) {
+        # QFE is steady
+        countQFE = countQFE + 1;
+        me.qfe.show();
+        #print("steady on");
+      } else {
+        countQFE = -100;
+        QFEcalibrated = TRUE;
+        me.input.altCalibrated.setValue(TRUE);
+        #print("off");
+      }
+    } else {
+      me.qfe.hide();
+      countQFE = clamp(countQFE+1, -101, 0);
+      #print("hide  off");
+    }
+    #print("QFE count " ~ countQFE);
   },
 
   displayTower: func () {
@@ -1675,121 +1791,6 @@ var HUDnasal = {
       # radar tracks not shown at all
       me.radar_group.hide();
     }
-  },
-
-  displayDigitalSpeed: func () {
-    var mach = me.input.mach.getValue();
-
-    if(me.input.units.getValue() == TRUE) {
-      me.airspeedInt.hide();
-      if (mach >= 0.5) 
-      {
-        me.airspeed.setText(sprintf("%.2f", mach));
-      } else {
-        me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
-      }
-    } else {
-      me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
-      me.airspeedInt.show();
-      me.airspeed.setText(sprintf("M%.2f", mach));
-    }
-  },
-
-  displayPitchLines: func (mode) {
-    me.horizon_group2.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
-    me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
-    me.horizon_group4.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
-    me.horizon_group.setTranslation(0, centerOffset);
-    var rot = -me.input.roll.getValue() * deg2rads;
-    me.h_rot.setRotation(rot);
-    if(mode == COMBAT) {
-      me.horizon_group3.show();
-      me.horizon_group4.show();
-      me.horizon_dots.hide();
-      me.horizon_line_gap.hide();
-    } elsif (mode == LANDING) {
-      me.horizon_group3.hide();
-      me.horizon_group4.hide();
-      me.horizon_dots.hide();
-      me.horizon_line_gap.show();
-    } else {
-      me.horizon_group3.hide();
-      me.horizon_group4.show();
-      me.horizon_dots.show();
-      me.horizon_line_gap.hide();
-    }
-  },
-
-  displayTurnCoordinator: func () {
-    if (me.input.sideslipOn.getValue() == TRUE) {
-      #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-      me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
-      me.turn_group.show();
-    } else {
-      me.turn_group.hide();
-    }
-  },
-
-  displayQFE: func (mode) {
-    if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
-      if (me.input.TILS.getValue() == TRUE) {
-        me.qfe.setText("TILS");
-        me.qfe.show();
-      } else {
-        me.qfe.setText("ILS");
-        me.qfe.show();
-      }
-    } elsif (mode == COMBAT) {
-      var armSelect = me.input.station.getValue();
-      if(armSelect == 0) {
-        me.qfe.setText("KCA");
-        me.qfe.show();
-      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") {
-        me.qfe.setText("RB-24");
-        me.qfe.show();
-      } else {
-        me.qfe.hide();
-      }        
-    } elsif (countQFE > 0) {
-      # QFE is shown
-      me.qfe.setText("QFE");
-      if(countQFE == 1) {
-        countQFE = 2;
-      }
-      if(countQFE < 10) {
-         # blink the QFE
-        if(me.input.fiveHz.getValue() == TRUE) {
-          me.qfe.show();
-        } else {
-          me.qfe.hide();
-        }
-      } elsif (countQFE == 10) {
-        #if(me.input.ias.getValue() < 10) {
-          # adjust the altimeter (commented out after placing altimeter in plane)
-          # var inhg = getprop("systems/static/pressure-inhg");
-          #setprop("instrumentation/altimeter/setting-inhg", inhg);
-         # countQFE = 11;
-          #print("QFE adjusted " ~ inhg);
-        #} else {
-          countQFE = -100;
-        #}
-      } elsif (countQFE < 125) {
-        # QFE is steady
-        countQFE = countQFE + 1;
-        me.qfe.show();
-        #print("steady on");
-      } else {
-        countQFE = -100;
-        QFEcalibrated = TRUE;
-        me.input.altCalibrated.setValue(TRUE);
-        #print("off");
-      }
-    } else {
-      me.qfe.hide();
-      countQFE = clamp(countQFE+1, -101, 0);
-      #print("hide  off");
-    }
-    #print("QFE count " ~ countQFE);
   },
 
   remove_suffix: func(s, x) {
