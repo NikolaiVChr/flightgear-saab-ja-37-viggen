@@ -170,6 +170,17 @@
   </model>
 
 <model>
+    <path>Aircraft/JA37/Models/Instruments/Transponder/kt76a.xml</path>
+    <name>Transponder</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.8016</x-m>
+      <y-m> -0.27</y-m>
+      <z-m>  0.205</z-m>
+    </offsets>
+  </model>
+
+<model>
     <path>Aircraft/JA37/Models/Instruments/Airspeed/airspeed.xml</path>
     <name>Airspeed</name>
     <offsets>
