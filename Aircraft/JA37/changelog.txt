@@ -1161,3 +1161,8 @@ Sound: Made firing missiles less loud.
 3.003
 =====
 HUD: Fixed QFE warning would sometimes blink when altimeter was calibrated in interoperability mode.
+GUI: Added popup messages for all undocumented features.
+Effect: Fixed that ALS landing light could be shown even if gears was retracted.
+Sim: Replaced uses for 0 and 1 with true and false in main nasal script.
+Sim: Added transponder failure mode.
+Sim: Default transponder setting is now to transmit altitude.

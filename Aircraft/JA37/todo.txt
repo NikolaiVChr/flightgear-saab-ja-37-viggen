@@ -29,7 +29,6 @@ Sim: Air to ground missiles.
 Sim: Move all radar logic back into radar so that users of FG HUD can use combat features. (and save performance)
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
-Sim: Use statics for true and false in all nasal code.
 Sim: Make more use of default multiplay properties to free more of the custom up.
 Sim: Hydralic pump depend on electric instead of rpm
 Effect: Rembrandt landing lightcone.

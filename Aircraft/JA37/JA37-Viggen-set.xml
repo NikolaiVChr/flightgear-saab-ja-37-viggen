@@ -1302,7 +1302,8 @@
         </binding>
         <binding>
           <command>nasal</command>
-          <script>ja37.click()</script>
+          <script>ja37.click();
+                  ja37.popupTip("Catapult launch");</script>
         </binding>
      </key>
 
@@ -1332,7 +1333,8 @@
         </binding>
         <binding>
           <command>nasal</command>
-          <script>ja37.click()</script>
+          <script>ja37.click();
+                  ja37.popupTip("Launchbar engaging");</script>
         </binding>
         <mod-up>
             <binding>
@@ -1685,7 +1687,7 @@
    </tank>
    <tank n="8">
     <name>Drop tank</name>
-    <jettisoned type="int">0</jettisoned>
+    <jettisoned type="bool">false</jettisoned>
    </tank>
   </fuel>
  </consumables>
@@ -1716,12 +1718,12 @@
 
 <instrumentation>
   <comm n="0">
-    <power-btn type="bool">1</power-btn>
-    <power-good type="bool">0</power-good>
+    <power-btn type="bool">true</power-btn>
+    <power-good type="bool">false</power-good>
   </comm>
   <comm n="1">
-    <power-btn type="bool">1</power-btn>
-    <power-good type="bool">0</power-good>
+    <power-btn type="bool">true</power-btn>
+    <power-good type="bool">false</power-good>
   </comm>
  <switches>
   <generator>
@@ -1736,15 +1738,15 @@
  </instrumentation-light>
  <transponder>
     <name type="string">transponder</name>
-    <number type="int">5</number>
+    <number type="int">0</number>
     <mode type="int">1</mode> <!-- 0 = Mode A, 1 = Mode C, 2 = Mode S -->
     <bus-volts type="double">8.0</bus-volts>
     <encoder-path type="string">/instrumentation/altimeter</encoder-path>
-    <kt70-compatibility type="bool">0</kt70-compatibility>
+    <kt70-compatibility type="bool">false</kt70-compatibility>
     <inputs>
-      <indent-btn>1</indent-btn>
+      <knob-mode type="int">5</knob-mode><!-- 5: transmit altitude -->
       <digit n="0">0</digit>
-      <digit n="1">0</digit>
+      <digit n="1">0</digit><!-- military code. For some reason does not work and is set to 1200 -->
       <digit n="2">0</digit>
       <digit n="3">0</digit>
     </inputs>

@@ -234,6 +234,10 @@ var install_new_failures = func {
     var actuator_comm2 = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Comm 2", actuator_comm2);
 
+    prop = "instrumentation/transponder";
+    var actuator_transponder = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Transponder", actuator_transponder);
+
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
     prop = "controls/flight/aileron";
