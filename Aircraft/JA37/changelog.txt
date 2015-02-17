@@ -1149,3 +1149,11 @@ Sim: Tried to fix again again missiles hitting aircraft at release.
 Sim: Fixed again again again missiles hitting aircraft at release.
 Sound: Fixed MP sound was broken.
 Model: Fixed strike livery 61-18 had the wrong numbers on one side of the plane, and on gear doors.
+Sim: Improved nasal property reading a tiny bit.
+Aero: Put names in jsbsim aero systems code own property branch to avoid cluttering the JSB property tree.
+Aero: When wings detach, the plane now has 33% less normal force.
+Sim: Fixed that pitot, static and vacuum system, was wrongly configured and therefore used the default settings.
+Sim: Static sensor system now does inperfect measurement from angle of attack and side-slip influence.
+Sim: Vacuum system now is electrical driven instead of rpm as in piston engine aircrafts.
+Sim: Pitot system stalls at 60 degs angle of attack.
+Sound: Made firing missiles less loud.

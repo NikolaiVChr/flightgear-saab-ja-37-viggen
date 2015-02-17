@@ -265,31 +265,31 @@
           <output>fcs/right-aileron-pos-rad</output>
       </aerosurface_scale>
 
-      <pure_gain>
+      <pure_gain name="names/aileron/pos-deg-left">
           <input>fcs/left-aileron-pos-rad</input>
           <gain>57.296</gain>
           <output>fcs/left-aileron-pos-deg</output>
       </pure_gain>
 
-      <summer name="Left Elevon Pos Rad">
+      <summer name="names/elevon/Left-Elevon-Pos-Rad">
          <input>fcs/left-aileron-pos-rad</input>
          <input>fcs/elevator-pos-rad</input>
          <output>fcs/left-elevon-pos-rad</output>
       </summer>
 
-      <summer name="Right Elevon Pos Rad">
+      <summer name="names/elevon/Right-Elevon-Pos-Rad">
          <input>fcs/right-aileron-pos-rad</input>
          <input>fcs/elevator-pos-rad</input>
          <output>fcs/right-elevon-pos-rad</output>
       </summer> 
 
-      <pure_gain name="Left Elevon Pos Deg">
+      <pure_gain name="names/elevon/Left-Elevon-Pos-Deg">
           <input>fcs/left-elevon-pos-rad</input>
           <gain>57.296</gain>
           <output>fcs/left-aileron-pos-norm</output><!-- is really deg, but use this for MP transmit -->
       </pure_gain>
 
-      <pure_gain name="Right Elevon Pos Deg">
+      <pure_gain name="names/elevon/Right-Elevon-Pos-Deg">
           <input>fcs/right-elevon-pos-rad</input>
           <gain>57.296</gain>
           <output>fcs/right-aileron-pos-norm</output><!-- is really deg, but use this for MP transmit -->
@@ -559,7 +559,7 @@
     </channel>-->
 
     <channel name="Autopilot">
-      <scheduled_gain name="Autopilot max climb">
+      <scheduled_gain name="names/autopilot/Autopilot-max-climb">
         <input>autopilot/one</input>
         <table>
           <independentVar lookup="row">velocities/mach</independentVar>
@@ -572,7 +572,7 @@
         <output>autopilot/climb</output>
       </scheduled_gain>
 
-      <pure_gain name="Autopilot min climb">
+      <pure_gain name="names/autopilot/Autopilot-min-climb">
           <input>autopilot/climb</input>
           <gain>-0.2</gain>
           <output>autopilot/descent</output>
@@ -582,7 +582,7 @@
 
 
     <channel name="Hook">
-        <kinematic name="fcs/hook-control">
+        <kinematic name="names/carrier/hook-pos-norm">
             <input>fcs/hook-engage</input>
             <traverse>
                 <setting>
@@ -608,7 +608,7 @@
 
 
     <channel name="Wings">
-      <aerosurface_scale name="Wings normal factor">
+      <aerosurface_scale name="names/structural/Wings-normal-factor">
         <input>structural/wings/serviceable</input>
         <zero_centered> false </zero_centered>
         <domain>
@@ -616,7 +616,7 @@
           <max>  1.0 </max>
         </domain>
         <range>
-          <min> 0.3 </min>
+          <min> 0.2 </min>
           <max> 1.0 </max>
         </range>
         <output>structural/wings/normal-factor</output>

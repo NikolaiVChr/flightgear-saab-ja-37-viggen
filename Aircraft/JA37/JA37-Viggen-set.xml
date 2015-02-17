@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>3.001</aircraft-version>
+    <aircraft-version>3.002</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -1209,6 +1209,7 @@
   </target-tracking>
 </autopilot>
 <systems>
+  <path>Aircraft/JA37/Systems/systems.xml</path>
   <electrical>
     <lights-ext type="int">0</lights-ext>
   </electrical>

@@ -3,16 +3,16 @@
 <system name="catapult">
   <channel name="Catapult">
       
-      <switch name="catapult_free/cat-launch-cmd_sw">
+      <switch name="names/carrier/cat-launch-cmd">
          <default value="systems/catapult_free/cat-launch-cmd"/>
          <test logic="OR" value="0">
               gear/unit[1]/WOW != 1
          </test>
-	 <output>systems/catapult_free/cat-launch-cmd</output>
+	       <output>systems/catapult_free/cat-launch-cmd</output>
      </switch>
       
       
-       <kinematic name="systems/catapult_free/cat-timer">
+       <kinematic name="names/carrier/cat-pos-norm">
           <input>systems/catapult_free/cat-cmd-norm</input>
           <traverse>
               <setting>
@@ -58,7 +58,7 @@
           <gain>2.8</gain>
        </pure_gain>
 
-       <switch name="systems/catapult_free/cat-final">
+       <switch name="names/carrier/cat-magnitude">
            <default value="0"/>
            <test  logic="AND" value="systems/catapult_free/cat-force">
                 systems/catapult_free/cat-cmd-norm == 1

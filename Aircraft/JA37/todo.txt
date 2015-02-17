@@ -11,9 +11,6 @@ Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug prevents)
 Aero: Randomize vortex detachment
-Aero: Names for name in jsbsim aero code to avoid cluttering the property tree
-Animation: Min and max on several gauges.
-Animation: Animate aft wheels.
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Proper pilot seat.
 Model: Throttle.
@@ -103,10 +100,10 @@ Model: Improve the 32-17 Blå Petter livery. (Blue Peter)
 Model: Improve the 59-16 grey livery.
 Model: Improve the 61-18 strike camo livery.
 Model: Improve the 57-21 red 'ghost' livery.
-Model: Improve the 46-4  unknown export livery.
+Model: Improve the 46-04 unknown export livery.
 Model: Improve the 02-21 swedish sun livery.
 Model: Make the 11-16 black/grey camo livery.
-Model: Make the 12-4  black and gold livery.
+Model: Make the 12-04 black and gold livery.
 Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)
 
 

@@ -80,6 +80,10 @@ input = {
   speedMach:    "/instrumentation/airspeed-indicator/indicated-mach",
   speedKt:      "/instrumentation/airspeed-indicator/indicated-speed-kt",
   TILS:         "sim/ja37/hud/TILS",
+  pilotG:       "sim/ja37/accelerations/pilot-G",
+  zAcc:         "accelerations/pilot/z-accel-fps_sec",
+  gravity:      "fdm/jsbsim/accelerations/gravity-ft_sec2",
+  trigger:      "controls/armament/trigger",
 };
    
 var update_loop = func {
@@ -493,11 +497,11 @@ var slow_loop = func () {
 # fast updating loop
 var speed_loop = func () {
   # calc pilot g-force
-  var GCurrent = getprop("/accelerations/pilot/z-accel-fps_sec");
-  var gravity = getprop("/fdm/jsbsim/accelerations/gravity-ft_sec2");
+  var GCurrent = input.zAcc.getValue();
+  var gravity = input.gravity.getValue();
   if (GCurrent != nil and gravity != nil) {
     GCurrent = - GCurrent / gravity;
-    setprop("/sim/ja37/accelerations/pilot-G", GCurrent);
+    input.pilotG.setValue(GCurrent);
   }
 
   ## control augmented thrust ##
@@ -527,12 +531,10 @@ var speed_loop = func () {
   settimer(speed_loop, 0.05);
 }
 
-
 ###########  listener for handling the trigger #########
-    
 var trigger_listener = func {
-    var trigger = getprop("controls/armament/trigger");
-    var armSelect = getprop("controls/armament/station-select");
+    var trigger = input.trigger.getValue();
+    var armSelect = input.stationSelect.getValue();
 
     #if masterarm is on and HUD in tactical mode, propagate trigger to station
     if(input.combat.getValue() == 2) {

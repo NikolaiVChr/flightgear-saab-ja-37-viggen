@@ -55,3 +55,4 @@ Liberties taken:
 ----------------
 In the orig plane the HUD decimal delimiter is ','. I choose to use the english '.' instead.
 The Radar is able to look through hills and mountains, and the missiles is also able to fly through those.
+The air-to-air RB-24J missiles is also able to hit ground targets, as no air-to-ground misslies can be mounted at the moment.

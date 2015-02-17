@@ -898,7 +898,7 @@
         <z> -0.67645 </z>
       </position>
       <volume>
-        <factor>1</factor>
+        <factor>0.75</factor>
         <max>1</max>
       </volume>
     </missile1>
@@ -917,7 +917,7 @@
         <z> -0.94307 </z>
       </position>
       <volume>
-        <factor>1</factor>
+        <factor>0.75</factor>
         <max>1</max>
       </volume>
     </missile2>
@@ -936,7 +936,7 @@
         <z> -0.67645 </z>
       </position>      
       <volume>
-        <factor>1</factor>
+        <factor>0.75</factor>
         <max>1</max>
       </volume>
     </missile3>
@@ -955,7 +955,7 @@
         <z> -0.94307 </z>
       </position>      
       <volume>
-        <factor>1</factor>
+        <factor>0.75</factor>
         <max>1</max>
       </volume>
     </missile4>     

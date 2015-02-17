@@ -56,7 +56,7 @@
          </fcs_function>
 
         
-	<switch name="systems/cat-hold/magnitude">
+	   <switch name="names/carrier/cat-hold-magnitude">
              <default value="0"/>
              <test logic="OR" value="systems/cat-hold/force-on">
 		/surface-positions/holdback  != 0                
@@ -68,11 +68,5 @@
              <output>external_reactions/cat-hold/magnitude</output>
          </switch>
          
-
-
-
-
-         
     </channel>
-
 </system>

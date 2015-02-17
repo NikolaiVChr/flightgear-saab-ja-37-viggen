@@ -3,17 +3,17 @@
 <system name="holdback">
   <channel name="Holdback_Launchbar">
       
-      <switch name="launchbar_free/lock-cmd_sw">
+      <switch name="names/carrier/lock-cmd">
          <default value="systems/launchbar_free/lock-cmd"/>
          <test logic="AND" value="0">
              systems/catapult_free/cat-launch-cmd-pos  == 1
          </test>
-	 <output>systems/launchbar_free/lock-cmd</output>
+	       <output>systems/launchbar_free/lock-cmd</output>
      </switch>
       
       
 
-     <switch name="systems/holdback_free/switch">
+     <switch name="names/carrier/holdback-magnitude">
           <default value="0"/>
           <test logic="AND" value="forces/fbx-prop-lbs">
               systems/launchbar_free/lock-cmd == 1
@@ -24,7 +24,7 @@
           <output>external_reactions/holdback_free/magnitude</output>
      </switch>
 
-     <switch name="launchbar_free/switch">
+     <switch name="names/carrier/launch-bar-engage">
          <default value="0"/>
          <test logic="OR" value="1">
              systems/launchbar_free/lock-cmd == 1
@@ -34,7 +34,7 @@
      </switch>
      
      
-	    <kinematic name="/surfaces/launch-bar-pos-norm">
+	    <kinematic name="names/carrier/launch-bar-pos-norm">
                 <input>launchbar_free/launch-bar-engage</input>
                 <traverse>
                     <setting>
