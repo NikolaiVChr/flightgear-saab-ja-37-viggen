@@ -1167,3 +1167,7 @@ Sim: Replaced uses for 0 and 1 with true and false in main nasal script.
 Sim: Added transponder failure mode.
 Sim: Default transponder setting is now to transmit altitude.
 Model: Added a transponder instrument.
+
+3.004 - 2015 February ??
+=====
+Model: Made the flight stick not light up, when battery is turned on.

@@ -56,8 +56,12 @@
 
 
 	<!-- Lighting -->
-	<animation> 
+	<!--<animation> 
 		<object-name>stick</object-name>
+		<object-name>arm-selector</object-name>
+		<object-name>stick-handle</object-name>
+		<object-name>stick-roll</object-name>
+		<object-name>stick-mast</object-name>
 		<type>material</type>
 		<emission>
 			<red-prop>instrumentation/instrumentation-light/r</red-prop>  
@@ -65,7 +69,7 @@
 		    <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
 		    <factor-prop>controls/lighting/instruments-norm</factor-prop>
 		</emission>
-	</animation>
+	</animation>-->
 
 
 	<animation>
