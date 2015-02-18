@@ -1551,6 +1551,179 @@ var HUDnasal = {
     #print("QFE count " ~ countQFE);
   },
 
+  showReticle: func (mode, cannon, out_of_ammo) {
+    if (mode == COMBAT and cannon == TRUE) {
+      me.showSidewind(FALSE);
+      
+      me.reticle_cannon.setTranslation(0, centerOffset);
+      me.reticle_cannon.show();
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(1, out_of_ammo);
+    } elsif (mode == COMBAT and cannon == FALSE) {
+      me.showSidewind(FALSE);
+      me.reticle_cannon.hide();
+      me.reticle_missile.show();
+      return me.showFlightPathVector(1, out_of_ammo);
+    } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
+      # flight path vector (FPV)
+      
+      me.showSidewind(FALSE);
+      me.reticle_cannon.hide();
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(1, FALSE);
+    } elsif(mode == TAKEOFF or mode == LANDING) {
+      
+      me.showSidewind(TRUE);
+      me.reticle_cannon.hide();
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
+    }
+    return 0;
+  },
+
+  showSidewind: func(show) {
+    if(show == TRUE) {
+      #move sidewind symbol according to side wind:
+      var wind_heading = me.input.windHeading.getValue();
+      var wind_speed = me.input.windSpeed.getValue();
+      var heading = me.input.hdgReal.getValue();
+      #var speed = me.input.ias.getValue();
+      var angle = (wind_heading -heading) * (math.pi / 180.0); 
+      var wind_side = math.sin(angle) * wind_speed;
+      #print((wind_heading -heading) ~ " " ~ wind_side);
+      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
+      if(me.input.gearsPos.getValue() < 1) {# gears are being deployed or retracted
+        if(me.input.tenHz.getValue() == 1) {
+          me.takeoff_symbol.show();
+        } else {
+          me.takeoff_symbol.hide();
+        }
+      } else {
+        me.takeoff_symbol.show();
+      }
+    } else {
+      me.takeoff_symbol.hide();
+    }
+  },
+
+  showFlightPathVector: func (show, out_of_ammo) {
+    if(show == TRUE) {
+      var vel_gx = me.input.speed_n.getValue();
+      var vel_gy = me.input.speed_e.getValue();
+      var vel_gz = me.input.speed_d.getValue();
+   
+      var yaw = me.input.hdgReal.getValue() * deg2rads;
+      var roll = me.input.roll.getValue() * deg2rads;
+      var pitch = me.input.pitch.getValue() * deg2rads;
+   
+      var sy = math.sin(yaw);   var cy = math.cos(yaw);
+      var sr = math.sin(roll);  var cr = math.cos(roll);
+      var sp = math.sin(pitch); var cp = math.cos(pitch);
+   
+      var vel_bx = vel_gx * cy * cp
+                 + vel_gy * sy * cp
+                 + vel_gz * -sp;
+      var vel_by = vel_gx * (cy * sp * sr - sy * cr)
+                 + vel_gy * (sy * sp * sr + cy * cr)
+                 + vel_gz * cp * sr;
+      var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
+                 + vel_gy * (sy * sp * cr - cy * sr)
+                 + vel_gz * cp * cr;
+   
+      var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * rad2deg;
+      var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * rad2deg;
+      
+      var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
+      var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);
+
+      if ( out_of_ammo == TRUE) {
+        me.aim_reticle.hide();
+        me.aim_reticle_fin.hide();
+        me.reticle_no_ammo.show();
+        me.reticle_no_ammo.setTranslation(pos_x, pos_y);
+      } else {
+        me.reticle_no_ammo.hide();
+        me.aim_reticle.show();
+        
+        me.reticle_group.setTranslation(pos_x, pos_y);
+        # move fin to alpha
+        me.reticle_fin_group.setTranslation(0, me.input.alphaJSB.getValue());
+        if (me.input.alphaJSB.getValue() > 20) {
+          # blink the fin if alpha is high
+          if(me.input.tenHz.getValue() == TRUE) {
+            me.aim_reticle_fin.show();
+          } else {
+            me.aim_reticle_fin.hide();
+          }
+        } else {
+          me.aim_reticle_fin.show();
+        }
+      }    
+      return dir_x;
+    } else {
+      me.aim_reticle_fin.hide();
+      me.aim_reticle.hide();
+      me.reticle_no_ammo.hide();
+      return 0;
+    }
+  },
+
+  showDistanceScale: func (mode) {
+    if(mode == TAKEOFF) {
+      var line = 200;
+      var pixelPerKmh = (2/3*line)/250;
+      if(me.input.ias.getValue() < 75/kts2kmh) {
+        me.mySpeed.setTranslation(pixelPerKmh*75, 0);
+      } else {
+        var pos = pixelPerKmh*me.input.ias.getValue()*kts2kmh;
+        if(pos > line) {
+          pos = line;
+        }
+        me.mySpeed.setTranslation(pos, 0);
+      }      
+      me.targetSpeed.setTranslation(2/3*line, 0);
+      me.targetSpeed.show();
+      me.mySpeed.show();
+      me.targetDistance1.hide();
+      me.targetDistance2.hide();
+      me.dist_scale_group.show();
+    } elsif (mode == COMBAT and selection != nil) {
+      var line = 200;
+      var armSelect = me.input.station.getValue();
+      var minDist = nil;
+      var maxDist = nil;
+      var currDist = selection[2];
+      if(armSelect == 0) {
+        minDist =  100;
+        maxDist = 1000;
+      } else {
+        minDist =   300;
+        maxDist = 18520;
+      }
+      if(currDist != nil) {
+        var pixelPerMeter = (3/5*line)/(maxDist - minDist);
+        var startDist = (minDist - ((maxDist - minDist)/3));
+        var pos = pixelPerMeter*(currDist-startDist);
+        pos = clamp(pos, 0, line);
+        me.mySpeed.setTranslation(pos, 0);
+        me.mySpeed.show();
+      } else {
+        me.mySpeed.hide();
+      }
+      me.targetDistance1.setTranslation(1/5*line, 0);
+      me.targetDistance2.setTranslation(4/5*line, 0);
+
+      #tttt
+
+      me.targetSpeed.hide();
+      me.targetDistance1.show();
+      me.targetDistance2.show();
+      me.dist_scale_group.show();
+    } else {
+      me.dist_scale_group.hide();
+    }
+  },
+
   displayTower: func () {
     var towerAlt = me.input.towerAlt.getValue();
     var towerLat = me.input.towerLat.getValue();
@@ -2021,179 +2194,6 @@ var HUDnasal = {
     }
     return nil;
   },
-
-  showReticle: func (mode, cannon, out_of_ammo) {
-    if (mode == COMBAT and cannon == TRUE) {
-      me.showSidewind(FALSE);
-      
-      me.reticle_cannon.setTranslation(0, centerOffset);
-      me.reticle_cannon.show();
-      me.reticle_missile.hide();
-      return me.showFlightPathVector(1, out_of_ammo);
-    } elsif (mode == COMBAT and cannon == FALSE) {
-      me.showSidewind(FALSE);
-      me.reticle_cannon.hide();
-      me.reticle_missile.show();
-      return me.showFlightPathVector(1, out_of_ammo);
-    } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
-      # flight path vector (FPV)
-      
-      me.showSidewind(FALSE);
-      me.reticle_cannon.hide();
-      me.reticle_missile.hide();
-      return me.showFlightPathVector(1, FALSE);
-    } elsif(mode == TAKEOFF or mode == LANDING) {
-      
-      me.showSidewind(TRUE);
-      me.reticle_cannon.hide();
-      me.reticle_missile.hide();
-      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
-    }
-    return 0;
-  },
-
-  showSidewind: func(show) {
-    if(show == TRUE) {
-      #move sidewind symbol according to side wind:
-      var wind_heading = me.input.windHeading.getValue();
-      var wind_speed = me.input.windSpeed.getValue();
-      var heading = me.input.hdgReal.getValue();
-      #var speed = me.input.ias.getValue();
-      var angle = (wind_heading -heading) * (math.pi / 180.0); 
-      var wind_side = math.sin(angle) * wind_speed;
-      #print((wind_heading -heading) ~ " " ~ wind_side);
-      me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
-      if(me.input.gearsPos.getValue() < 1) {# gears are being deployed or retracted
-        if(me.input.tenHz.getValue() == 1) {
-          me.takeoff_symbol.show();
-        } else {
-          me.takeoff_symbol.hide();
-        }
-      } else {
-        me.takeoff_symbol.show();
-      }
-    } else {
-      me.takeoff_symbol.hide();
-    }
-  },
-
-  showFlightPathVector: func (show, out_of_ammo) {
-    if(show == TRUE) {
-      var vel_gx = me.input.speed_n.getValue();
-      var vel_gy = me.input.speed_e.getValue();
-      var vel_gz = me.input.speed_d.getValue();
-   
-      var yaw = me.input.hdgReal.getValue() * deg2rads;
-      var roll = me.input.roll.getValue() * deg2rads;
-      var pitch = me.input.pitch.getValue() * deg2rads;
-   
-      var sy = math.sin(yaw);   var cy = math.cos(yaw);
-      var sr = math.sin(roll);  var cr = math.cos(roll);
-      var sp = math.sin(pitch); var cp = math.cos(pitch);
-   
-      var vel_bx = vel_gx * cy * cp
-                 + vel_gy * sy * cp
-                 + vel_gz * -sp;
-      var vel_by = vel_gx * (cy * sp * sr - sy * cr)
-                 + vel_gy * (sy * sp * sr + cy * cr)
-                 + vel_gz * cp * sr;
-      var vel_bz = vel_gx * (cy * sp * cr + sy * sr)
-                 + vel_gy * (sy * sp * cr - cy * sr)
-                 + vel_gz * cp * cr;
-   
-      var dir_y = math.atan2(round0(vel_bz), math.max(vel_bx, 0.001)) * rad2deg;
-      var dir_x  = math.atan2(round0(vel_by), math.max(vel_bx, 0.001)) * rad2deg;
-      
-      var pos_x = clamp(dir_x * pixelPerDegreeX, -450, 450);
-      var pos_y = clamp((dir_y * pixelPerDegreeY)+centerOffset, -450, 430);
-
-      if ( out_of_ammo == TRUE) {
-        me.aim_reticle.hide();
-        me.aim_reticle_fin.hide();
-        me.reticle_no_ammo.show();
-        me.reticle_no_ammo.setTranslation(pos_x, pos_y);
-      } else {
-        me.reticle_no_ammo.hide();
-        me.aim_reticle.show();
-        
-        me.reticle_group.setTranslation(pos_x, pos_y);
-        # move fin to alpha
-        me.reticle_fin_group.setTranslation(0, me.input.alphaJSB.getValue());
-        if (me.input.alphaJSB.getValue() > 20) {
-          # blink the fin if alpha is high
-          if(me.input.tenHz.getValue() == TRUE) {
-            me.aim_reticle_fin.show();
-          } else {
-            me.aim_reticle_fin.hide();
-          }
-        } else {
-          me.aim_reticle_fin.show();
-        }
-      }    
-      return dir_x;
-    } else {
-      me.aim_reticle_fin.hide();
-      me.aim_reticle.hide();
-      me.reticle_no_ammo.hide();
-      return 0;
-    }
-  },
-
-  showDistanceScale: func (mode) {
-    if(mode == TAKEOFF) {
-      var line = 200;
-      var pixelPerKmh = (2/3*line)/250;
-      if(me.input.ias.getValue() < 75/kts2kmh) {
-        me.mySpeed.setTranslation(pixelPerKmh*75, 0);
-      } else {
-        var pos = pixelPerKmh*me.input.ias.getValue()*kts2kmh;
-        if(pos > line) {
-          pos = line;
-        }
-        me.mySpeed.setTranslation(pos, 0);
-      }      
-      me.targetSpeed.setTranslation(2/3*line, 0);
-      me.targetSpeed.show();
-      me.mySpeed.show();
-      me.targetDistance1.hide();
-      me.targetDistance2.hide();
-      me.dist_scale_group.show();
-    } elsif (mode == COMBAT and selection != nil) {
-      var line = 200;
-      var armSelect = me.input.station.getValue();
-      var minDist = nil;
-      var maxDist = nil;
-      var currDist = selection[2];
-      if(armSelect == 0) {
-        minDist =  100;
-        maxDist = 1000;
-      } else {
-        minDist =   300;
-        maxDist = 18520;
-      }
-      if(currDist != nil) {
-        var pixelPerMeter = (3/5*line)/(maxDist - minDist);
-        var startDist = (minDist - ((maxDist - minDist)/3));
-        var pos = pixelPerMeter*(currDist-startDist);
-        pos = clamp(pos, 0, line);
-        me.mySpeed.setTranslation(pos, 0);
-        me.mySpeed.show();
-      } else {
-        me.mySpeed.hide();
-      }
-      me.targetDistance1.setTranslation(1/5*line, 0);
-      me.targetDistance2.setTranslation(4/5*line, 0);
-
-      #tttt
-
-      me.targetSpeed.hide();
-      me.targetDistance1.show();
-      me.targetDistance2.show();
-      me.dist_scale_group.show();
-    } else {
-      me.dist_scale_group.hide();
-    }
-  }
 };#end of HUDnasal
 
 
