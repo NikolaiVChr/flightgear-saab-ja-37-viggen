@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>3.003</aircraft-version>
+    <aircraft-version>3.004</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -1371,7 +1371,7 @@
       <desc>Next target</desc>
       <binding>
         <command>nasal</command>
-        <script>canvas_HUD.nextTarget()</script>
+        <script>radar_logic.nextTarget()</script>
       </binding>
     </key>
     <key n="105">
@@ -1790,6 +1790,9 @@
     <reversethrust>
       <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
     </reversethrust>
+    <radar_logic>
+      <file>Aircraft/JA37/Nasal/radar-logic.nas</file>
+    </radar_logic>
     <ja37>  
      <file>Aircraft/JA37/Nasal/ja37.nas</file>
      <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>

@@ -196,7 +196,7 @@ var Dialog = {
           tracksRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var tracksText = tracksRow.addChild("text").set("label", "HUD radar-tracks:");
+          var tracksText = tracksRow.addChild("text").set("label", "Radar:");
           tracksRow.addChild("empty").set("stretch", 1);
           me.dialog.tracksButton = tracksRow.addChild("button");
           me.dialog.tracksButton.set("halign", "right");

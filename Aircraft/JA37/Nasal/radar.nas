@@ -37,7 +37,7 @@ var radar = {
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
     m.no_stroke = 9;
-    m.no_blip=30;
+    m.no_blip=50;
     m.radarRange=20000;#feet?
     m.stroke_pos= [];
     for(var i=0; i < m.no_stroke; i = i+1) {
@@ -127,7 +127,7 @@ var radar = {
     var rmode=1;#getprop("instrumentation/radar/mode");
     if (getprop("sim/current-view/view-number") == 0 and getprop("systems/electrical/outputs/radar") != nil and getprop("systems/electrical/outputs/radar") > 28 and getprop("instrumentation/radar/serviceable") > 0 and getprop("sim/ja37/radar/enabled") == 1) {
       g.show();
-      me.radarRange=getprop("instrumentation/radar/range") * 3.2808; #convert to feet
+      me.radarRange=getprop("instrumentation/radar/range"); #convert to feet
       forindex (i; me.stroke) me.stroke[i].show();
       var te = getprop("sim/time/elapsed-sec");
       
@@ -166,145 +166,55 @@ var radar = {
   },
   
   update_blip: func(curr_angle, prev_angle) {
-        var self = geo.aircraft_position();
-        var myPitch=getprop("orientation/pitch-deg")*0.0174533;
-        var myRoll=-getprop("orientation/roll-deg")*0.0174533;
-        var groundAlt=getprop("position/altitude-ft")*0.305;
-        var myHeading=getprop("orientation/heading-deg");
         var b_i=0;
-        var index = 0;
-        #var shortestDistance = 1000000;
-        #var shortestAC = -1;
-        #var isShortestMP = -1;
-        #do the multiplayers
-        foreach (var mp; multiplayer.model.list) {
-            var n = mp.node;
-            var x = n.getNode("position/global-x").getValue();
-            var y = n.getNode("position/global-y").getValue();
-            var z = n.getNode("position/global-z").getValue();
-            var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-            var distance = nil;
-            call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-            if ((size(err))or(distance==nil) or n.getNode("valid").getValue() == 0) {
-                # Oops, have errors. Bogus position data (and distance==nil).
-                    print("Received invalid position data: " ~ debug._error(mp.callsign));
-            }
-            else
-             {
 
-                # Node with valid position data (and "distance!=nil").
-                var aircraftAlt=n.getNode("position/altitude-ft").getValue()*0.305; #altitude in meters
-                #ground angle
-                var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
-                var xg_rad=(self.course_to(aircraftPos)-myHeading)*0.0174533;
-                if (xg_rad > math.pi) xg_rad=xg_rad-2*math.pi;
-                #aircraft angle
-                var ya_rad=xg_rad*math.sin(myRoll)+yg_rad*math.cos(myRoll);
-                var xa_rad=xg_rad*math.cos(myRoll)-yg_rad*math.sin(myRoll);
-                #make blip
-                if (ya_rad > -0.5 and ya_rad < 0.5 and xa_rad > -1 and xa_rad < 1) {
-                  #if(distance < shortestDistance) {
-                  #      shortestDistance = distance;
-                  #      shortestAC = index;
-                  #      isShortestMP = 1;
-                  #    }
-                  if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
-                      #aircraft is within the radar ray cone
-                      
-                      if(curr_angle < prev_angle) {
-                        var crr_angle = curr_angle;
-                        curr_angle = prev_angle;
-                        prev_angle = crr_angle;
-                      }
-                      if (xa_rad > prev_angle and xa_rad < curr_angle) {
-                        #aircraft is between the current stroke and the previous stroke position
-                        me.blip_alpha[b_i]=1;
-                        # plot the blip on the radar screen
-                        var pixelDistance = -distance*(750/me.radarRange); #distance in pixels
-                        
-                        #translate from polar coords to cartesian coords
-                        var pixelX =  pixelDistance * math.cos(xa_rad + 1.5708) + 512;
-                        var pixelY =  pixelDistance * math.sin(xa_rad + 1.5708) + 904;
-                        #print("pixel blip ("~pixelX~", "~pixelY);
-                        me.tfblip[b_i].setTranslation(pixelX, pixelY); 
-                      } else {
-                        #aircraft is not near the stroke, fade it
-                        me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.96;
-                      }
-                      me.blip[b_i].show();
-                      me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);
-                      b_i=b_i+1;
-                  }
-                }
-            }
-            index += 1;
+        foreach (var mp; radar_logic.tracks) {
+          # Node with valid position data (and "distance!=nil").
+
+          # mp
+          #
+          # 0 - x position
+          # 1 - y position
+          # 2 - distance in meter
+          # 3 - horizontal angle from aircraft in rad
+          # 4 - track index
+          # 5 - identifier
+          # 6 - node
+          # 7 - carrier
+
+          var distance = mp[2];
+          var xa_rad = mp[3];
+
+          #make blip
+          if (b_i < me.no_blip and distance != nil and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
+              #aircraft is within the radar ray cone
+              
+              if(curr_angle < prev_angle) {
+                var crr_angle = curr_angle;
+                curr_angle = prev_angle;
+                prev_angle = crr_angle;
+              }
+              if (xa_rad > prev_angle and xa_rad < curr_angle) {
+                #aircraft is between the current stroke and the previous stroke position
+                me.blip_alpha[b_i]=1;
+                # plot the blip on the radar screen
+                var pixelDistance = -distance*(750/me.radarRange); #distance in pixels
+                
+                #translate from polar coords to cartesian coords
+                var pixelX =  pixelDistance * math.cos(xa_rad + 1.5708) + 512;
+                var pixelY =  pixelDistance * math.sin(xa_rad + 1.5708) + 904;
+                #print("pixel blip ("~pixelX~", "~pixelY);
+                me.tfblip[b_i].setTranslation(pixelX, pixelY); 
+              } else {
+                #aircraft is not near the stroke, fade it
+                me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.96;
+              }
+              me.blip[b_i].show();
+              me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);
+              b_i=b_i+1;
+          }
         }
-        var b_j = index;
-        #do the AI
-        foreach (var mp; props.globals.getNode("/ai/models").getChildren("aircraft")) {
-            var distance = nil;
-            var x = mp.getNode("position/global-x").getValue();
-            var y = mp.getNode("position/global-y").getValue();
-            var z = mp.getNode("position/global-z").getValue();
-            var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-            call(func distance = self.distance_to(aircraftPos), nil, var err = []);
-            if ((size(err))or(distance==nil) or mp.getNode("valid").getValue() == 0) {
-                # Oops, have errors. Bogus position data (and distance==nil).
-                    #print("Received invalid position data: " ~ debug._error(mp.callsign));
-            }
-            else
-            {
-                # Node with valid position data (and "distance!=nil").
-                var aircraftAlt=mp.getNode("position/altitude-ft").getValue()*0.305; #altitude in meters
-                #ground angle
-                var yg_rad=math.atan2((aircraftAlt-groundAlt), distance)-myPitch; 
-                var xg_rad=(self.course_to(aircraftPos)-myHeading)*0.0174533;
-                if (xg_rad > math.pi) xg_rad=xg_rad-2*math.pi;
-                #aircraft angle
-                var ya_rad=xg_rad*math.sin(myRoll)+yg_rad*math.cos(myRoll);
-                var xa_rad=xg_rad*math.cos(myRoll)-yg_rad*math.sin(myRoll);
-                #make blip
-                if (ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
-                  #if(distance < shortestDistance) {
-                  #      shortestDistance = distance;
-                  #      shortestAC = index-b_j;
-                  #      isShortestMP = 0;
-                        #print(shortestAC~" shortest "~shortestDistance~" distance "~mp.getNode("callsign").getValue());
-                  #    }     
-                  if (b_i < me.no_blip and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
-                      #aircraft is within the radar ray cone
-                                       
-                      if(curr_angle < prev_angle) {
-                        var crr_angle = curr_angle;
-                        curr_angle = prev_angle;
-                        prev_angle = crr_angle;
-                      }
-                      if (xa_rad > prev_angle and xa_rad < curr_angle) {
-                        #aircraft is between the current stroke and the previous stroke position
-                        me.blip_alpha[b_i]=1;
-                        # plot the blip on the radar screen
-                        var pixelDistance = -distance*(750/me.radarRange); #distance in pixels
-                        
-                        #translate from polar coords to cartesian coords
-                        var pixelX =  pixelDistance * math.cos(xa_rad + 1.5708) + 512;
-                        var pixelY =  pixelDistance * math.sin(xa_rad + 1.5708) + 904;
-                        #print("pixel blip ("~pixelX~", "~pixelY);
-                        me.tfblip[b_i].setTranslation(pixelX, pixelY); 
-                      } else {
-                        #aircraft is not near the stroke, fade it
-                        me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.96;
-                      }
-                      me.blip[b_i].show();
-                      me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);
-                      b_i=b_i+1;
-                  }
-                }
-            }
-            index += 1;
-        }
-        #setprop("sim/ja37/radar/selected", shortestAC);
-        #setprop("sim/ja37/radar/selectedMP", isShortestMP);
-        #print("selected "~shortestAC~" MP "~isShortestMP);
+
         for (i = b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
     },
 };

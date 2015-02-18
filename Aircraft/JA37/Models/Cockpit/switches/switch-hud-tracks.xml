@@ -22,7 +22,7 @@
 	        <binding>
 	         	<command>set-tooltip</command>
 	         	<tooltip-id>switch-tracks</tooltip-id>
-	         	<label>HUD radar tracks</label>
+	         	<label>Radar</label>
 	         	<property>sim/ja37/hud/tracks-enabled</property>
 	        </binding>
 	    </hovered>

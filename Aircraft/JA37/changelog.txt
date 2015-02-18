@@ -1177,3 +1177,9 @@ HUD: Fixed that radar altitude pointer, would be shown on top of altitude pointe
 Model: Made a HUD view, which is zoomed in on the HUD.
 Model: Made pilot select check more robust.
 Sim: When crashing should now get a nicer description of what was hit, if it is available.
+Sim: Moved all 'duplicate' radar logic into its own code. Also cleaned up the code a bit. Should give slightly better performance.
+Sim: Fixed radar distance was about 3 times off, due to unit conversion.
+Sim: Increased number of shown radar bleps to 50.
+Sim: Radar will now also show carriers, balloons, vehicles, ships and tankers. Just like the HUD did.
+GUI: Option to switch off radar tracks in HUD, is now replaced with switch off radar.
+Model: Switch to switch off radar tracks in HUD, is now replaced with switch off radar.

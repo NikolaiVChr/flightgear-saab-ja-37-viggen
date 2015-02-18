@@ -73,9 +73,6 @@ var artifactsText1 = [];
 var artifactsText0 = nil;
 var maxTracks = 32;# how many radar tracks can be shown at once in the HUD (was 16)
 var diamond_node = nil;
-var selection = nil;
-var tracks = [];
-var tracks_index = -1;
 
 var HUDnasal = {
   canvas_settings: {
@@ -717,16 +714,15 @@ var HUDnasal = {
 
       #other targets
     HUDnasal.main.target_circle = [];
+    HUDnasal.main.target_group = HUDnasal.main.radar_group.createChild("group");
     for(var i = 0; i < maxTracks; i += 1) {      
-      var target_group = HUDnasal.main.radar_group.createChild("group");
-      append(HUDnasal.main.target_circle, target_group);
-      target_group.createTransform();
-      target_circles = target_group.createChild("path")
+      target_circles = HUDnasal.main.target_group.createChild("path")
                            .moveTo(-50, 0)
                            .arcLargeCW(50, 50, 0,  100, 0)
                            #.arcLargeCW(50, 50, 0, -100, 0)
                            .setStrokeLineWidth(w)
                            .setColor(r,g,b, a);
+      append(HUDnasal.main.target_circle, target_circles);
       append(artifacts1, target_circles);
     }
 
@@ -1687,12 +1683,12 @@ var HUDnasal = {
       me.targetDistance1.hide();
       me.targetDistance2.hide();
       me.dist_scale_group.show();
-    } elsif (mode == COMBAT and selection != nil) {
+    } elsif (mode == COMBAT and radar_logic.selection != nil) {
       var line = 200;
       var armSelect = me.input.station.getValue();
       var minDist = nil;
       var maxDist = nil;
-      var currDist = selection[2];
+      var currDist = radar_logic.selection[2];
       if(armSelect == 0) {
         minDist =  100;
         maxDist = 1000;
@@ -1733,7 +1729,7 @@ var HUDnasal = {
       towerPos.set_latlon(towerLat, towerLon, towerAlt);
       var showme = TRUE;
 
-      var hud_pos = me.trackCalc(towerPos, 99000, 1);
+      var hud_pos = radar_logic.trackCalc(towerPos, 99000, FALSE);
       if(hud_pos != nil) {
         var distance = hud_pos[2];
         var pos_x = hud_pos[0];
@@ -1741,19 +1737,15 @@ var HUDnasal = {
 
         if(pos_x > 512) {
           showme = FALSE;
-          #pos_x = 512;
         }
         if(pos_x < -512) {
           showme = FALSE;
-          #pos_x = -512;
         }
         if(pos_y > 512) {
           showme = FALSE;
-          #pos_y = 512;
         }
         if(pos_y < -512) {
           showme = FALSE;
-          #pos_y = -512;
         }
 
         if(showme == TRUE) {
@@ -1777,58 +1769,81 @@ var HUDnasal = {
   },
 
   displayRadarTracks: func (mode) {
-    me.self      =  geo.aircraft_position();
-    me.myPitch   =  me.input.pitch.getValue()*deg2rads;
-    me.myRoll    = -me.input.roll.getValue()*deg2rads;
-    me.groundAlt =  me.input.alt_ft_real.getValue()*feet2meter;
-    me.myHeading =  me.input.hdgReal.getValue();
-    me.track_index = 0;
+    me.track_index = 1;
     me.selection_updated = FALSE;
-    #me.short_dist = nil;
 
     if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
       me.radar_group.show();
 
-      tracks = [];
+      var selection = radar_logic.selection;
 
-      #do the MP planes
+      # selection/hud_pos
+      #
+      # 0 - x position
+      # 1 - y position
+      # 2 - distance in meter
+      # 3 - horizontal angle from aircraft in rad
+      # 4 - nil
+      # 5 - identifier
+      # 6 - node
+      # 7 - carrier
 
-      var players = [];
-      foreach(item; multiplayer.model.list) {
-        append(players, item.node);
+      # do circles here
+      foreach(hud_pos; radar_logic.tracks) {
+        var pos_x = hud_pos[0];
+        var pos_y = hud_pos[1];
+        var distance = hud_pos[2];
+        var showme = TRUE;
+        
+        if(pos_x > 512) {
+          showme = FALSE;
+        }
+        if(pos_x < -512) {
+          showme = FALSE;
+        }
+        if(pos_y > 512) {
+          showme = FALSE;
+        }
+        if(pos_y < -512) {
+          showme = FALSE;
+        }
+
+        var currentIndex = me.track_index;
+
+        if(hud_pos == selection) {
+            me.selection_updated = TRUE;
+            me.selection_index = 0;
+            currentIndex = 0;
+        }
+        
+        if(currentIndex > -1 and (showme == TRUE or currentIndex == 0)) {
+          me.target_circle[currentIndex].setTranslation(pos_x, pos_y);
+          me.target_circle[currentIndex].show();
+          me.target_circle[currentIndex].update();  
+          if(currentIndex != 0) {
+            me.track_index += 1;
+            if (me.track_index == maxTracks) {
+              me.track_index = -1;
+            }
+          }
+        }
       }
-      me.trackAI(players, 1);
-
-      #AI planes:
-      var node_ai = props.globals.getNode("/ai/models");
-      var planes = node_ai.getChildren("aircraft");
-      var tankers = node_ai.getChildren("tanker");
-      var ships = node_ai.getChildren("ship");
-      var carriers = node_ai.getChildren("carrier");
-      var vehicles = node_ai.getChildren("groundvehicle");
-      #print();
-      
-      me.trackAI(carriers, 0);
-      #print(size(carriers)~"carriers: "~me.track_index);
-      me.trackAI(tankers, 1);
-      #print(size(tankers)~"tankers: "~me.track_index);
-      me.trackAI(ships, 1);
-      #print(size(ships)~"ship: "~me.track_index);
-      me.trackAI(planes, 1);
-      #print(size(planes)~"planes: "~me.track_index);
-      me.trackAI(vehicles, 1);
-      #print();
       if(me.track_index != -1) {
         #hide the the rest unused circles
         for(i = me.track_index; i < maxTracks ; i+=1) {
           me.target_circle[i].hide();
         }
       }
+      if(me.selection_updated == FALSE) {
+        me.target_circle[0].hide();
+      }
+      #me.target_group.update();
+      
 
       # draw selection
       if(selection != nil) {
         # something is selected
-        if (selection[5].getChild("valid").getValue() == TRUE) {
+        if (selection[6].getChild("valid").getValue() == TRUE) {
           if (me.selection_updated == TRUE) {
             # selection is currently in forward looking radar view
             var blink = FALSE;
@@ -1848,14 +1863,14 @@ var HUDnasal = {
               blink = TRUE;
               selection[1] = -450;
             }
-            if(selection[6] == TRUE and mode == COMBAT) {
+            if(selection[7] == FALSE and mode == COMBAT) {
               #targetable
-              diamond_node = selection[5];
+              diamond_node = selection[6];
               me.diamond_group.setTranslation(selection[0], selection[1]);
               var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
               me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-              me.diamond_name.setText(selection[4]);
-              me.target_circle[selection[3]].hide();
+              me.diamond_name.setText(selection[5]);
+              me.target_circle[me.selection_index].hide();
 
 
               var armSelect = me.input.station.getValue();
@@ -1894,17 +1909,17 @@ var HUDnasal = {
               #untargetable, like carriers and tankers
               diamond_node = nil;
               me.diamond_group.setTranslation(selection[0], selection[1]);
-              me.target_circle[selection[3]].setTranslation(selection[0], selection[1]);
+              me.target_circle[me.selection_index].setTranslation(selection[0], selection[1]);
               var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
               me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-              me.diamond_name.setText(selection[4]);
+              me.diamond_name.setText(selection[5]);
               
               if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
                 me.diamond_group.hide();
-                me.target_circle[selection[3]].hide();
+                me.target_circle[me.selection_index].hide();
               } else {
                 me.diamond_group.show();
-                me.target_circle[selection[3]].show()
+                me.target_circle[me.selection_index].show()
               }
               me.diamond.hide();
               me.target.hide();
@@ -1912,8 +1927,8 @@ var HUDnasal = {
 
             #velocity vector
             if(selection[0] > -512 and selection[0] < 512 and selection[1] > -512 and selection[1] < 512) {
-              var tgtHeading = selection[5].getNode("orientation/true-heading-deg").getValue();
-              var tgtSpeed = selection[5].getNode("velocities/true-airspeed-kt").getValue();
+              var tgtHeading = selection[6].getNode("orientation/true-heading-deg").getValue();
+              var tgtSpeed = selection[6].getNode("velocities/true-airspeed-kt").getValue();
               var myHeading = me.input.hdgReal.getValue();
               var myRoll = me.input.roll.getValue();
               if (tgtHeading == nil or tgtSpeed == nil) {
@@ -1935,7 +1950,7 @@ var HUDnasal = {
               me.vel_vec.hide();
             }
 
-            me.target_circle[selection[3]].update();
+            me.target_circle[me.selection_index].update();
             me.diamond_group.update();
           } else {
             # selection is outside radar view
@@ -1945,10 +1960,10 @@ var HUDnasal = {
             }
             me.diamond_group.hide();
             me.vel_vec.hide();
+            me.target_circle[me.selection_index].hide();
           }
         } else {
           # selection is no longer valid
-          selection = nil;
           diamond_node = nil;
           me.vel_vec.hide();
           me.diamond_group.hide();
@@ -1964,235 +1979,6 @@ var HUDnasal = {
       # radar tracks not shown at all
       me.radar_group.hide();
     }
-  },
-
-  remove_suffix: func(s, x) {
-      var len = size(x);
-      if (substr(s, -len) == x)
-          return substr(s, 0, size(s) - len);
-      return s;
-  },
-
-  # param carrier must be 0 for carriers
-  trackAI: func (AI_vector, carrier) {
-    var carrierNear = FALSE;
-    foreach (var mp; AI_vector) {
-      if(mp != nil and me.track_index != -1 and mp.getNode("valid").getValue() != FALSE) {#only the MP that are valid are sent here
-        hud_pos = me.trackItemCalc(mp, 48000, carrier);
-
-        if(hud_pos != nil) {
-          append(tracks, hud_pos);
-          var pos_x = hud_pos[0];
-          var pos_y = hud_pos[1];
-          var distance = hud_pos[2];
-          var showme = 1;
-
-          # tell the jsbsim hook system that if we are near a carrier
-          if(carrier == 0 and distance < 1000) {
-            # is carrier and is within 1 Km range
-            carrierNear = TRUE;
-          }
-
-          # find and remember the type of the track
-          var typeNode = mp.getNode("model-shorter");
-          var model = nil;
-          if (typeNode != nil) {
-            model = typeNode.getValue();
-          } else {
-            var pathNode = mp.getNode("sim/model/path");
-            if (pathNode != nil) {
-              var path = pathNode.getValue();
-              model = split(".", split("/", path)[-1])[0];
-              model = me.remove_suffix(model, "-model");
-              model = me.remove_suffix(model, "-anim");
-              mp.addChild("model-shorter").setValue(model);
-
-              var funcHash = {
-                init: func (listener) {
-                  funcHash.listenerID = listener;
-                },
-                call: func {
-                  if(mp.getNode("valid").getValue() == FALSE) {
-                    var child = mp.removeChild("model-shorter");                    
-                    if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
-                      removelistener(me.listenerID);
-                    }
-                  }
-                }
-              };
-              funcHash.init(setlistener(mp.getNode("valid"), func () {funcHash.call()}, 0, 0));
-            }
-          }
-
-
-          append(hud_pos, me.track_index);
-          
-          # figure out what indentification to show in hud
-          if(me.input.callsign.getValue() == 1) {
-            if(mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
-              ident = mp.getNode("callsign").getValue();
-            } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
-              #only used by AI
-              ident = mp.getNode("name").getValue();
-            } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
-              #only used by AI
-              ident = mp.getNode("sign").getValue();
-            } else {
-              ident = "";
-            }
-          } else {
-            if(model != nil) {
-              ident = model;
-            } elsif (mp.getNode("sign") != nil and mp.getNode("sign").getValue() != "" and mp.getNode("sign").getValue() != nil) {
-              #only used by AI
-              ident = mp.getNode("sign").getValue();  
-            } elsif (mp.getNode("name") != nil and mp.getNode("name").getValue() != "" and mp.getNode("name").getValue() != nil) {
-              #only used by AI
-              ident = mp.getNode("name").getValue();
-            } elsif (mp.getNode("callsign") != nil and mp.getNode("callsign").getValue() != "" and mp.getNode("callsign").getValue() != nil) {
-              ident = mp.getNode("callsign").getValue();
-            } else {
-              ident = "";
-            } 
-          }
-
-          append(hud_pos, ident);
-          append(hud_pos, mp);
-          append(hud_pos, carrier);
-
-          var unique = mp.getChild("unique");
-          if (unique == nil) {
-            unique = mp.addChild("unique");
-            unique.setValue(rand());
-          }
-
-          if(selection == nil and pos_x != 90000) {
-            #this is first tracks in radar field, so will be default target
-            selection = hud_pos;
-            lookatSelection();
-            me.selection_updated = TRUE;
-          } elsif (selection != nil and selection[5].getChild("unique").getValue() == unique.getValue() and pos_x != 90000) {
-            # this track is already selected, updating it
-            selection = hud_pos;
-            me.selection_updated = TRUE;
-          }
-
-          #me.short_dist = hud_pos;
-          #print(i~" Diamond: "~mp.getNode("callsign").getValue());
-          #}
-
-          if(pos_x > 512) {
-            showme = FALSE;
-          }
-          if(pos_x < -512) {
-            showme = FALSE;
-          }
-          if(pos_y > 512) {
-            showme = FALSE;
-          }
-          if(pos_y < -512) {
-            showme = FALSE;
-          }
-          
-          if(showme == TRUE) {
-            me.target_circle[me.track_index].setTranslation(pos_x, pos_y);
-            me.target_circle[me.track_index].show();
-            me.target_circle[me.track_index].update();
-            #print(me.track_index~" "~mp.getNode("callsign").getValue()~" dist="~distance~" shortest="~me.short_dist[2]);
-            me.track_index += 1;
-            if (me.track_index == maxTracks) {
-              me.track_index = -1;
-            }
-          } else {
-            #print(me.track_index~" not shown. Select="~selected);
-          }
-        }#end of error check
-      }#end of valid check
-    }#end of foreach
-    if(carrier == 0) {
-      if(carrierNear != me.input.carrierNear.getValue()) {
-        me.input.carrierNear.setValue(carrierNear);
-      }      
-    }
-  },#end of trackAI
-
-  # hud_pos
-  #
-  # 0 - x position
-  # 1 - y position
-  # 2 - distance in meter
-  # 3 - track index
-  # 4 - identifier
-  # 5 - node
-  # 6 - targetable
-
-  trackItemCalc: func (mp, range, carrier) {
-    var x = mp.getNode("position/global-x").getValue();
-    var y = mp.getNode("position/global-y").getValue();
-    var z = mp.getNode("position/global-z").getValue();
-    var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-    return me.trackCalc(aircraftPos, range, carrier);
-  },
-
-  trackCalc: func (aircraftPos, range, carrier) {
-    var distance = nil;
-    
-    call(func distance = me.self.distance_to(aircraftPos), nil, var err = []);
-
-    if ((size(err))or(distance==nil)) {
-      # Oops, have errors. Bogus position data (and distance==nil).
-      #print("Received invalid position data: " ~ debug._error(mp.callsign));
-      #me.target_circle[track_index+maxTargetsMP].hide();
-      #print(i~" invalid pos.");
-    } elsif (distance < range) {#is max radar range of ja37
-      # Node with valid position data (and "distance!=nil").
-      #distance = distance*kts2kmh*1000;
-      var aircraftAlt=aircraftPos.alt(); #altitude in meters
-      #ground angle
-      var yg_rad=math.atan2((aircraftAlt-me.groundAlt), distance)-me.myPitch; 
-      var xg_rad=(me.self.course_to(aircraftPos)-me.myHeading)*deg2rads;
-      if (xg_rad > math.pi) {
-        xg_rad = xg_rad - 2*math.pi;
-      }
-      if (xg_rad < -math.pi) {
-        xg_rad = xg_rad + 2*math.pi;
-      }
-
-      if (yg_rad > math.pi) {
-        yg_rad = yg_rad - 2*math.pi;
-      }
-      if (yg_rad < -math.pi) {
-        yg_rad = yg_rad + 2*math.pi;
-      }
-
-      #aircraft angle
-      var ya_rad=xg_rad*math.sin(-me.myRoll)+yg_rad*math.cos(-me.myRoll);
-      var xa_rad=xg_rad*math.cos(-me.myRoll)-yg_rad*math.sin(-me.myRoll);
-
-      if (xa_rad < -math.pi) {
-        xa_rad = xa_rad + 2*math.pi;
-      }
-      if (xa_rad > math.pi) {
-        xa_rad = xa_rad - 2*math.pi;
-      }
-      if (ya_rad > math.pi) {
-        ya_rad = ya_rad - 2*math.pi;
-      }
-      if (ya_rad < -math.pi) {
-        ya_rad = ya_rad + 2*math.pi;
-      }
-
-      if(ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
-        #is within the radar cone
-        var pos_x = pixelPerDegreeX*xa_rad*rad2deg;
-        var pos_y = centerOffset+pixelPerDegreeY*-ya_rad*rad2deg;
-
-        return [pos_x, pos_y, distance];
-      } elsif (carrier == 0) {
-        return [90000, 90000, distance];
-      }
-    }
-    return nil;
   },
 };#end of HUDnasal
 
@@ -2305,25 +2091,3 @@ var toggleCallsign = func () {
     aircraft.HUD.normal_type();
   }
 };
-
-var nextTarget = func () {
-  var max_index = size(tracks)-1;
-  if(max_index > -1) {
-    if(tracks_index < max_index) {
-      tracks_index += 1;
-    } else {
-      tracks_index = 0;
-    }
-    selection = tracks[tracks_index];
-    lookatSelection();
-  } else {
-    tracks_index = -1;
-  }
-}
-
-var lookatSelection = func () {
-  props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).unalias();
-  props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).unalias();
-  props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).alias(selection[5].getNode("radar/bearing-deg"));
-  props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).alias(selection[5].getNode("radar/elevation-deg"));
-}
