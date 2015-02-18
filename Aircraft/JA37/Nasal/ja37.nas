@@ -981,7 +981,7 @@ var toggleNosewheelSteer = func {
 var follow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if(radar_logic.selection != nil) {
-    var target = radar_logic.selection[5];
+    var target = radar_logic.selection[6];
     setprop("/autopilot/target-tracking-ja37/target-root", target.getPath());
     #this is done in -set file: /autopilot/target-tracking-ja37/min-speed-kt
     setprop("/autopilot/target-tracking-ja37/enable", TRUE);

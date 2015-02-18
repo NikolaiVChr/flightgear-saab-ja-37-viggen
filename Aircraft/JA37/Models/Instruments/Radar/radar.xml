@@ -6,14 +6,12 @@
   <type>scale</type>
   <object-name>RadarPlane</object-name>
   <object-name>Screen</object-name>
-  <object-name>Cylinder1.001</object-name>
-  <object-name>Cylinder1</object-name>
   <x-offset>0.75</x-offset>
   <y-offset>0.75</y-offset>
   <z-offset>0.75</z-offset>
  </animation>
 
- <animation>
+ <!--<animation>
   <type>material</type> 
   <object-name>Cylinder1</object-name>
   <object-name>Cylinder1.001</object-name>
@@ -30,13 +28,12 @@
    <blue>0.05</blue>
    <factor-prop>controls/lighting/instruments-norm</factor-prop>
   </emission>
- </animation>
+ </animation>-->
  
 <animation>
   <type>pick</type>
-  <object-name>Cylinder1</object-name>
-  <object-name>Cylinder1.001</object-name>
   <object-name>RadarPlane</object-name>
+  <object-name>Screen</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
@@ -51,9 +48,9 @@
   <type>material</type> 
   <object-name>Screen</object-name>
   <emission>	
-   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <red>0.7</red> 
+   <green>0.7</green> 
+   <blue>0.7</blue>
    <factor-prop>systems/electrical/generator_on</factor-prop>
   </emission>
  </animation>

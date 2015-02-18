@@ -1183,3 +1183,8 @@ Sim: Increased number of shown radar bleps to 50.
 Sim: Radar will now also show carriers, balloons, vehicles, ships and tankers. Just like the HUD did.
 GUI: Option to switch off radar tracks in HUD, is now replaced with switch off radar.
 Model: Switch to switch off radar tracks in HUD, is now replaced with switch off radar.
+
+3.005
+=====
+Sim: Fixed that following a AI plane could frezze the HUD.
+Model: Fixed radar screen would be too dark at evenings and nights.
