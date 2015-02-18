@@ -1171,3 +1171,4 @@ Model: Added a transponder instrument.
 3.004 - 2015 February ??
 =====
 Model: Made the flight stick not light up, when battery is turned on.
+Sim: Made the speed loop pause if replay is active.

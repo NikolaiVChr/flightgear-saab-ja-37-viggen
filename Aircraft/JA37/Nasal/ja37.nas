@@ -503,6 +503,11 @@ var slow_loop = func () {
 
 # fast updating loop
 var speed_loop = func () {
+  if(input.replay.getValue() == TRUE) {
+    # replay is active, skip rest of loop.
+    settimer(speed_loop, 0.5);
+    return;
+  }
   # calc pilot g-force
   var GCurrent = input.zAcc.getValue();
   var gravity = input.gravity.getValue();

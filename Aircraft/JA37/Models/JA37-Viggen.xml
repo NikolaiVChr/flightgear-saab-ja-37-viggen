@@ -16,7 +16,7 @@
     <path>Aircraft/JA37/Models/ja37-interior.xml</path>
   </model>
 
-  <model>  
+  <model>
     <usage>pilot</usage>
     <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>
     <offsets>
