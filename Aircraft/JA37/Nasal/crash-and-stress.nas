@@ -285,7 +285,16 @@ var CrashAndStress = {
 		      		FailureMgr.set_failure_level(failure_mode_id, 1);
 		      	}
 		    }
-			var str = "Aircraft hit "~info[1].names[size(info[1].names)-1]~".";
+		    
+		    var hitStr = info[1].names[0];
+		    foreach(infoStr; info[1].names) {
+		    	if(find('_', infoStr) == -1) {
+		    		hitStr = infoStr;
+		    		break;
+		    	}
+		    }
+
+			var str = "Aircraft hit "~hitStr~".";
 			me._output(str);
 		} elsif (solid == TRUE) {
 			# The aircraft is burning and will ignite the ground

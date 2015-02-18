@@ -1176,3 +1176,4 @@ Model: Made the HUD smaller.
 HUD: Fixed that radar altitude pointer, would be shown on top of altitude pointer.
 Model: Made a HUD view, which is zoomed in on the HUD.
 Model: Made pilot select check more robust.
+Sim: When crashing should now get a nicer description of what was hit, if it is available.
