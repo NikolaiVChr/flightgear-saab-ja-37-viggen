@@ -180,6 +180,13 @@ var processTracks = func (vector, carrier) {
   }
 }#end of trackAI
 
+var remove_suffix = func(s, x) {
+    var len = size(x);
+    if (substr(s, -len) == x)
+        return substr(s, 0, size(s) - len);
+    return s;
+}
+
 # trackInfo
 #
 # 0 - x position
