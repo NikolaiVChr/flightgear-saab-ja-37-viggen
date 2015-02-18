@@ -78,7 +78,6 @@ var processTracks = func (vector, carrier) {
 
       if(trackInfo != nil) {
         
-        append(tracks, trackInfo);
         var distance = trackInfo[2];
 
         # tell the jsbsim hook system that if we are near a carrier
@@ -160,6 +159,8 @@ var processTracks = func (vector, carrier) {
           unique.setValue(rand());
         }
 
+        append(tracks, trackInfo);
+        
         if(selection == nil and trackInfo[7] == FALSE) {
           #this is first tracks in radar field, so will be default target
           selection = trackInfo;
