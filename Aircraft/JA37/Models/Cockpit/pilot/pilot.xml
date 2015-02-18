@@ -11,8 +11,8 @@
 		<condition>
 			<not>
 				<equals>
-					<property>sim/current-view/name</property>
-					<value>Cockpit View</value>
+					<property>sim/current-view/internal</property>
+					<value>1</value>
 				</equals>
 			</not>
 		</condition>

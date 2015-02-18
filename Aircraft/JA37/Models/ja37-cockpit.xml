@@ -22,7 +22,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/HUD.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>
       <x-m>0.00</x-m>

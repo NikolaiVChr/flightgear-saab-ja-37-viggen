@@ -38,16 +38,16 @@ var modeTimeTakeoff = -1;
 var countQFE = 0;
 var QFEcalibrated = FALSE;# if the altimeters are calibrated
 
-var HUDTop = 0.79; # position of top of HUD in meters
-# HUD z is 0 to 0.25 and raised 0.54 up. Finally is 0.54m to 0.79m, height of HUD is 0.25m
-# Therefore each pixel is 0.25 / 1024 = 0.000244140625m or each meter is 4096 pixels.
-var pixelPerMeter = 4096;
-var centerOffset = -143;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
-# View is 0.70m so 0.79-0.70 = 0.09m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
-# 512 - (0.09 / 0.000244140625) = 143.36 pixels up from center. Since -y is upward, result is -143. (Per default)
+var HUDTop = 0.77; # position of top of HUD in meters. 0.18 + 0.59 = 0.77
+# HUD z is 0 to 0.18 and raised 0.59 up. Finally is 0.59m to 0.77m, height of HUD is 0.18m
+# Therefore each pixel is 0.18 / 1024 = 0.00017578125m or each meter is 5688.8888888888888888888888888889 pixels.
+var pixelPerMeter = 5688.9;
+var centerOffset = -113.78;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+# View is 0.70m so 0.77-0.70 = 0.07m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
+# 512 - (0.07 / 0.00017578125) = 113.77777777777777777777777777778 pixels up from center. Since -y is upward, result is -113.78. (Per default)
 
-var pixelPerDegreeY = 37; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
-var pixelPerDegreeX = 37; #horizontal axis
+var pixelPerDegreeY = 51; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
+var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var sidewindPosition = centerOffset+(2*pixelPerDegreeY); #should be 2 degrees under horizon.
 var sidewindPerKnot = 450/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
@@ -336,14 +336,14 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-375, 125);
+    HUDnasal.main.qfe.setTranslation(-375, centerOffset+(6*pixelPerDegreeY));
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     HUDnasal.main.alt = HUDnasal.main.root.createChild("text");
     HUDnasal.main.alt.setColor(r,g,b, a);
     HUDnasal.main.alt.setAlignment("center-center");
-    HUDnasal.main.alt.setTranslation(-375, 300);
+    HUDnasal.main.alt.setTranslation(-375, centerOffset+(8*pixelPerDegreeY));
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
     # Collision warning arrow
@@ -678,7 +678,7 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_icao.setFontSize(60*fs, ar);
 
     #distance scale
-    HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-100, 100);
+    HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-100, 130);
     HUDnasal.main.mySpeed = HUDnasal.main.dist_scale_group.createChild("path")
                             .moveTo(   0,   0)
                             .lineTo( -10, -10)
@@ -851,7 +851,7 @@ var HUDnasal = {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.5);
-     } elsif (me.input.viewNumber.getValue() != 0 or me.input.service.getValue() == FALSE) {
+     } elsif ((me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) or me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 1);
@@ -1224,10 +1224,10 @@ var HUDnasal = {
       var rad_offset = altimeterScaleHeight/alt_scale_factor * radAlt;
       me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
       me.rad_alt_pointer.show();
-      if (radPointerProxim < rad_offset - offset or rad_offset - offset < -radPointerProxim) {
-        me.alt_pointer.show();
-      } else {
+      if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
         me.alt_pointer.hide();
+      } else {
+        me.alt_pointer.show();
       }
       me.alt_scale_grp.update();
       if(me.verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
@@ -1264,10 +1264,10 @@ var HUDnasal = {
       } else {
         me.alt_scale_line.hide();
       }
-      if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
-        me.alt_pointer.show();
-      } else {
+      if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
         me.alt_pointer.hide();
+      } else {
+        me.alt_pointer.show();
       }
       me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
@@ -1320,10 +1320,10 @@ var HUDnasal = {
       var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * (radAlt);
       me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
       me.rad_alt_pointer.show();
-      if (radPointerProxim > rad_offset - offset > -radPointerProxim) {
-        me.alt_pointer.show();
-      } else {
+      if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
         me.alt_pointer.hide();
+      } else {
+        me.alt_pointer.show();
       }
       me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));

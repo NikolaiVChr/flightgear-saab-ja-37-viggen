@@ -1168,7 +1168,11 @@ Sim: Added transponder failure mode.
 Sim: Default transponder setting is now to transmit altitude.
 Model: Added a transponder instrument.
 
-3.004 - 2015 February ??
+3.004 - 2015 February 18
 =====
 Model: Made the flight stick not light up, when battery is turned on.
 Sim: Made the speed loop pause if replay is active.
+Model: Made the HUD smaller.
+HUD: Fixed that radar altitude pointer, would be shown on top of altitude pointer.
+Model: Made a HUD view, which is zoomed in on the HUD.
+Model: Made pilot select check more robust.

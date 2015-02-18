@@ -11,10 +11,10 @@ name "HUDobject"
 texture "hud.png"
 crease 45.000000
 numvert 4
-0 0.0  -0.125
-0 0.0   0.125
-0 0.25  0.125
-0 0.25 -0.125
+0 0.0  -0.09
+0 0.0   0.09
+0 0.18  0.09
+0 0.18 -0.09
 numsurf 2
 SURF 0x30
 mat 0

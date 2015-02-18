@@ -2,12 +2,12 @@
 
 <PropertyList>
 
-	<path>Aircraft/JA37/Models/hud.ac</path>
+	<path>hud.ac</path>
 
 	<offsets>
       <x-m> -3.9</x-m>
       <y-m>  0.0</y-m>
-      <z-m>  0.54</z-m>
+      <z-m>  0.59</z-m>
     </offsets>
 
 	<effect>
