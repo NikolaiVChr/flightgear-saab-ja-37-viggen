@@ -455,7 +455,7 @@ var update_loop = func {
 # slow updating loop
 var slow_loop = func () {
   #TILS
-  if(input.TILS.getValue() == TRUE and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING) {
+  if(input.TILS.getValue() == TRUE and input.batteryOutput.getValue() > 23) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
     var icao = getprop("sim/tower/airport-id");
     var runways = airportinfo(icao).runways;
     var closestRunway = -1;
@@ -731,7 +731,7 @@ var re_init = func {
 
   # asymmetric vortex detachment
   asymVortex();
-  
+
   #test_support();
 }
 

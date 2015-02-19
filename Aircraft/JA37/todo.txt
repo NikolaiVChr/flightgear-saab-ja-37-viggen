@@ -27,7 +27,7 @@ Sim: Check that all instruments and instr. lights rely on battery/generator powe
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground missiles.
 Sim: Longer range air2air missiles.
-Sim: Unguided missiles with terrain collision detection.
+Sim: Unguided missiles with terrain collision detection. (submodels with ext. force)
 Sim: Make users of FG HUD able to use combat features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
@@ -35,6 +35,7 @@ Sim: Make more use of default multiplay properties to free more of the custom up
 Sim: Hydralic pump depend on electric instead of rpm
 Sim: Replace generic getValue and setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
+Sim: Make drop-tank fall down. (use slaved submodel)
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
