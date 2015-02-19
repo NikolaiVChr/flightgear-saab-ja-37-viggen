@@ -823,10 +823,6 @@
       _________
       In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are many systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
 
-      Reloading missiles
-      __________________
-      A missile can not be reloaded if a missile from that pylon is still flying.
-
       Liveries
       ________
       Livery 59, uses half the texture memory of the other liveries.

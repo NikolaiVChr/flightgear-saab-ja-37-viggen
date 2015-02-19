@@ -1956,7 +1956,7 @@ var HUDnasal = {
             # selection is outside radar view
             diamond_node = nil;
             if(selection != nil) {
-              selection[2] = nil;
+              selection[2] = nil;#no longer sure why I do this..
             }
             me.diamond_group.hide();
             me.vel_vec.hide();
@@ -1967,12 +1967,14 @@ var HUDnasal = {
           diamond_node = nil;
           me.vel_vec.hide();
           me.diamond_group.hide();
+          me.target_circle[0].hide();
         }
       } else {
         # Nothing selected
         diamond_node = nil;
         me.vel_vec.hide();
         me.diamond_group.hide();
+        me.target_circle[0].hide();
       }
       #print("");
     } else {

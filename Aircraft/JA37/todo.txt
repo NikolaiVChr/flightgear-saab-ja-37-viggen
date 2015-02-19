@@ -64,7 +64,6 @@ Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use F
 Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
 HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
 Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
-Sim: If the fuel and payload dialog is open while firing a missile, the logic when loading a missle does not act predictable. [so keep it closed :)]
 Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
@@ -76,7 +75,6 @@ GUI: The performance monitor can duplicate itself when selecting airport. [repro
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, relocating or pausing, autostart might fail. [reproduced]
-Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft canopy structure if unlucky. [reproduced]
 Sim: Missile that misses dont seem to delete by altitude.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Animation: Selection view does not follow carriers. (they lack radar properties)

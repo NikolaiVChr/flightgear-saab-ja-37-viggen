@@ -1184,9 +1184,9 @@ Sim: Radar will now also show carriers, balloons, vehicles, ships and tankers. J
 GUI: Option to switch off radar tracks in HUD, is now replaced with switch off radar.
 Model: Switch to switch off radar tracks in HUD, is now replaced with switch off radar.
 
-3.005 - 2015 February 18
+3.005 - 2015 February 19
 =====
-Sim: Fixed that following a AI plane could frezze the HUD.
+Sim: Fixed that following a AI plane could freeze the HUD.
 Model: Fixed radar screen would be too dark at evenings and nights.
 Sim: Fixed a bug in radar logic that could make the logic fail, when spotting a MP.
 Sim: Made an extra check in radar logic to make sure selection view would not get corrupted data.
@@ -1196,3 +1196,4 @@ Sound: Lowered MP engine volume. And added property to control it.
 GUI: Added true airspeed to performance monitor.
 Sim: Fixed a case where missiles could not be loaded after having been unloaded manually.
 Sim: Missiles can now be mounted on a pylon, right after that pylon has fired another missile which is still flying.
+HUD: Some extra checks for selection not showing in HUD when nothing selected.
