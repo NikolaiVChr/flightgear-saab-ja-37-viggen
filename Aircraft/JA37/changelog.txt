@@ -1184,7 +1184,7 @@ Sim: Radar will now also show carriers, balloons, vehicles, ships and tankers. J
 GUI: Option to switch off radar tracks in HUD, is now replaced with switch off radar.
 Model: Switch to switch off radar tracks in HUD, is now replaced with switch off radar.
 
-3.005
+3.005 - 2015 February 18
 =====
 Sim: Fixed that following a AI plane could frezze the HUD.
 Model: Fixed radar screen would be too dark at evenings and nights.
