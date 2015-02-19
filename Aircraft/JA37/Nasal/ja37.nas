@@ -451,6 +451,7 @@ var update_loop = func {
   }
 }
 
+var TILSprev = FALSE;
 
 # slow updating loop
 var slow_loop = func () {
@@ -487,7 +488,7 @@ var slow_loop = func () {
       }
     }
     if(closestRunway != -1) {
-      var oldFreq = getprop("instrumentation/nav[0]/frequencies/selected-mhz");
+      var oldFreq = TILSprev==FALSE?0.0:getprop("instrumentation/nav[0]/frequencies/selected-mhz");
       var newFreq = runways[closestRunway].ils.frequency / 100;
 
       if (oldFreq != newFreq) {
@@ -500,6 +501,9 @@ var slow_loop = func () {
         popupTip("TILS tuned to "~icao~" "~closestRunway~standbyStr, 25, 6);
       }
     }
+    TILSprev = TRUE;
+  } else {
+    TILSprev = FALSE;
   }
 
   settimer(slow_loop, 1.5);
