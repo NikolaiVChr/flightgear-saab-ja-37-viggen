@@ -1190,3 +1190,4 @@ Sim: Fixed that following a AI plane could frezze the HUD.
 Model: Fixed radar screen would be too dark at evenings and nights.
 Sim: Fixed a bug in radar logic that could make the logic fail, when spotting a MP.
 Sim: Made an extra check in radar logic to make sure selection view would not get corrupted data.
+Sim: Improved radar screen performance a tiny bit.

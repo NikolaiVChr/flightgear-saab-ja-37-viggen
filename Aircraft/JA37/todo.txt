@@ -27,11 +27,15 @@ Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground missiles.
-Sim: Move all radar logic back into radar so that users of FG HUD can use combat features. (and save performance)
+Sim: Longer range air2air missiles.
+Sim: Unguided missiles with terrain collision detection.
+Sim: Make users of FG HUD able to use combat features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Make more use of default multiplay properties to free more of the custom up.
 Sim: Hydralic pump depend on electric instead of rpm
+Sim: Replace generic getValue and setValue in nasal with specific types.
+Sim: Make droptank do collision detection. (use retractable)
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -40,6 +44,7 @@ Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Effect: Show aircraft explosion in MP also.
+Animation: Show wheels spinning in MP also.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
@@ -75,7 +80,6 @@ Sim: {JazzTp} Firing a missile can make the missile crash into own aircraft cano
 Sim: Missile that misses dont seem to delete by altitude.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Animation: Selection view does not follow carriers. (they lack radar properties)
-Sim: {JazzTp} Droptank does no collision detection. [confirmed]
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 
 Issues with FG: (or my limited understanding of it)
