@@ -878,7 +878,7 @@
       <product>
          <property>aero/qbar-psf</property>
          <property>metrics/Sw-sqft</property>
-         <property>fdm/jsbsim/aero/function/vortex</property>
+         <property>aero/function/vortex</property>
          <value>-1.0</value><!-- Alant: -1 -->
          <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -1627,7 +1627,7 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>metrics/bw-ft</property>
-           <property>fdm/jsbsim/aero/function/vortex</property>
+           <property>aero/function/vortex</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
               <tableData><!-- [measured using graph analyser] -->

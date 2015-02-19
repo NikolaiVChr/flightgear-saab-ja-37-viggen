@@ -10,7 +10,6 @@ GUI: Option to switch off hitting stuff above ground. (switched off now, might c
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug prevents)
-Aero: Randomize vortex detachment
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Proper pilot seat.
 Model: Throttle.
