@@ -1960,7 +1960,7 @@ var HUDnasal = {
             }
             me.diamond_group.hide();
             me.vel_vec.hide();
-            me.target_circle[me.selection_index].hide();
+            me.target_circle[0].hide();
           }
         } else {
           # selection is no longer valid
