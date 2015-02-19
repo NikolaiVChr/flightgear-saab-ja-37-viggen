@@ -716,6 +716,9 @@ var main_init = func {
   # start beacon loop
   beaconTimer.start();
 
+  # asymmetric vortex detachment
+  asymVortex();
+
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
 }
@@ -726,7 +729,18 @@ var re_init = func {
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
+  # asymmetric vortex detachment
+  asymVortex();
+  
   #test_support();
+}
+
+var asymVortex = func () {
+  if(rand() > 0.5) {
+    setprop("fdm/jsbsim/aero/function/vortex", 1);
+  } else {
+    setprop("fdm/jsbsim/aero/function/vortex", -1);
+  }
 }
 
 var load_interior = func{

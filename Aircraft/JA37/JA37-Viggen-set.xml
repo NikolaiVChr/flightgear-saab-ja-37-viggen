@@ -1121,6 +1121,9 @@
     <aero>
       <factor-axial-mach type="double">1.0</factor-axial-mach>
       <factor-axial type="double">0.625</factor-axial>
+      <function>
+        <vortex type="double">1.0</vortex>
+      </function>
       <drag>
         <!-- drag - Notice fuselage is about 0.024 at alpha=0 -->
         <gear type="double">        0.020</gear><!-- fully extended -->

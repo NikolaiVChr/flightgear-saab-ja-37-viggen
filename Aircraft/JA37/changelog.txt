@@ -1197,3 +1197,4 @@ GUI: Added true airspeed to performance monitor.
 Sim: Fixed a case where missiles could not be loaded after having been unloaded manually.
 Sim: Missiles can now be mounted on a pylon, right after that pylon has fired another missile which is still flying.
 HUD: Some extra checks for selection not showing in HUD when nothing selected.
+Aero: Asymmetric detachment of vortexes left or right side is now randomly decided.
