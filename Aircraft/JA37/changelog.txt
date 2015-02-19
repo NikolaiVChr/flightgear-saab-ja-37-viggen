@@ -1192,3 +1192,7 @@ Sim: Fixed a bug in radar logic that could make the logic fail, when spotting a 
 Sim: Made an extra check in radar logic to make sure selection view would not get corrupted data.
 Sim: Improved radar screen performance a tiny bit.
 HUD: Fixed error that would freeze HUD.
+Sound: Lowered MP engine volume. And added property to control it.
+GUI: Added true airspeed to performance monitor.
+Sim: Fixed a case where missiles could not be loaded after having been unloaded manually.
+Sim: Missiles can now be mounted on a pylon, right after that pylon has fired another missile which is still flying.

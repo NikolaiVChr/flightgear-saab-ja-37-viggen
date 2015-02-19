@@ -125,11 +125,18 @@ var AIM9 = {
 		#print("deleted");
 		me.model.remove();
 		me.ai.remove();
-		delete(AIM9.active, me.ID);
+		if (me.status == 2) {
+			delete(AIM9.flying, me.flyID);
+		} else {
+			delete(AIM9.active, me.ID);
+		}
 	},
 	#done
 	release: func() {
 		me.status = 2;
+		me.flyID = rand();
+		AIM9.flying[me.flyID] = me;
+		delete(AIM9.active, me.ID);
 		me.animation_flags_props();
 
 		# Get the A/C position and orientation values.
@@ -700,6 +707,7 @@ var AIM9 = {
 	},
 
 	active: {},
+	flying: {},
 };
 
 

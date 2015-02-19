@@ -406,6 +406,7 @@ MiscMonitor.properties = func() {
     { property : "mach",       name : "Mach number",           format : "%1.3f", unit : "M",      halign : "right" },
     { property : "climb-rate", name : "Rate of climb",         format : "%4.1f", unit : "ft/min", halign : "right" },
     { property : "groundspeed",name : "Ground speed",          format : "%3.1f", unit : "kts",    halign : "right" },
+    { property : "TAS",        name : "True air speed",        format : "%3.1f", unit : "kts",    halign : "right" },
     { property : "angleofattack",name : "Angle of attack",     format : "%3.1f", unit : "deg",    halign : "right" },
     { property : "gforce",     name : "Pilot G-force",         format : "%3.1f", unit : "G",      halign : "right" },
   ]
@@ -417,6 +418,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/performance-monitor/glideslope", getprop("/velocities/glideslope")*100);
   setprop("/sim/gui/dialogs/performance-monitor/climb-rate", getprop("/velocities/vertical-speed-fps") * 60);
   setprop("/sim/gui/dialogs/performance-monitor/groundspeed", getprop("/velocities/groundspeed-kt"));
+  setprop("/sim/gui/dialogs/performance-monitor/TAS", getprop("/velocities/airspeed-kt"));
   setprop("/sim/gui/dialogs/performance-monitor/angleofattack", getprop("/orientation/alpha-deg"));
   setprop("/sim/gui/dialogs/performance-monitor/gforce", getprop("/sim/ja37/accelerations/pilot-G"));
 }

@@ -66,6 +66,9 @@
     <outer-gain>0.75</outer-gain>
    </orientation>
    <volume>
+    <property>sim/ja37/sound/mp-volume</property>
+   </volume> 
+   <volume>
     <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
     <factor>0.000050</factor>
    </volume>
@@ -103,6 +106,9 @@
     <outer-gain>0.5</outer-gain>
    </orientation>
    <volume>
+    <property>sim/ja37/sound/mp-volume</property>
+   </volume>
+   <volume>
     <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
     <factor>0.000050</factor>
    </volume>
@@ -139,6 +145,9 @@
     <outer-angle>180.0</outer-angle>
     <outer-gain>0</outer-gain>
    </orientation>
+   <volume>
+    <property>sim/ja37/sound/mp-volume</property>
+   </volume>
    <volume>
     <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
     <factor>0.000150</factor>

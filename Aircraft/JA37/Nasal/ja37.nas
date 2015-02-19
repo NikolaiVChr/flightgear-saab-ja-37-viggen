@@ -12,6 +12,11 @@ var touchdown1 = FALSE;
 var touchdown2 = FALSE;
 var total_fuel = 0;
 var bingoFuel = FALSE;
+
+var MISSILE_STANDBY = -1;
+var MISSILE_SEARCH = 0;
+var MISSILE_LOCK = 1;
+var MISSILE_FLYING = 2;
 ############### Main loop ###############
 
 input = {
@@ -239,15 +244,14 @@ var update_loop = func {
     input.indRev.setValue(rev);
 
     # pylon payloads
-
     for(var i=0; i<=4; i=i+1) {
       if(getprop("payload/weight["~ (i) ~"]/selected") != "none" and getprop("payload/weight["~ (i) ~"]/weight-lb") == 0) {
         # missile was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
         if(i != 4) {
-          #not drop tank
-          if(armament.AIM9.new(i) == -1) {
+          #is not drop tank
+          if(armament.AIM9.new(i) == -1 and armament.AIM9.active[i].status == MISSILE_FLYING) {
             #missile added through menu while another from that pylon is still flying.
             #to handle this we have to ignore that addition.
             setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -272,15 +276,15 @@ var update_loop = func {
     for(i = 0; i <= 3; i += 1) {
       if(armament.AIM9.active[i] != nil) {
         #missile is mounted on pylon
-        if(armSelect != i+1 and armament.AIM9.active[i].status != 2) {
-          #pylon not selected, missile off
-          armament.AIM9.active[i].status = -1;#print("not sel "~(i));
-        } elsif (input.combat.getValue() != 2 or (armament.AIM9.active[i].status != -1 and armament.AIM9.active[i].status != 2 and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
-          #pylon is selected but missile not mounted and not flying
-          armament.AIM9.active[i].status = -1;#print("empty "~(i));
-        } elsif (armament.AIM9.active[i].status == -1 and getprop("payload/weight["~ (i) ~"]/selected") != "none" and input.combat.getValue() == 2) {
-          #pylon selected, activate if not already
-          armament.AIM9.active[i].status = 0;#print("active "~(i));
+        if(armSelect != i+1 and armament.AIM9.active[i].status != MISSILE_FLYING) {
+          #pylon not selected, and not flying set missile on standby
+          armament.AIM9.active[i].status = MISSILE_STANDBY;#print("not sel "~(i));
+        } elsif (input.combat.getValue() != 2 or (armament.AIM9.active[i].status != MISSILE_STANDBY and armament.AIM9.active[i].status != MISSILE_FLYING and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
+          #pylon has logic but missile not mounted and not flying or not in tactical mode
+          armament.AIM9.active[i].status = MISSILE_STANDBY;#print("empty "~(i));
+        } elsif (armSelect == i+1 and armament.AIM9.active[i].status == MISSILE_STANDBY and getprop("payload/weight["~ (i) ~"]/selected") != "none" and input.combat.getValue() == 2) {
+          #pylon selected, missile mounted, in tactical mode, activate search
+          armament.AIM9.active[i].status = MISSILE_SEARCH;#print("active "~(i));
           armament.AIM9.active[i].search();
         }
       }
