@@ -1589,7 +1589,7 @@ var HUDnasal = {
       var wind_side = math.sin(angle) * wind_speed;
       #print((wind_heading -heading) ~ " " ~ wind_side);
       me.takeoff_symbol.setTranslation(clamp(-wind_side * sidewindPerKnot, -450, 450), sidewindPosition);
-      if(me.input.gearsPos.getValue() < 1) {# gears are being deployed or retracted
+      if(me.input.gearsPos.getValue() < 1 and me.input.gearsPos.getValue() > 0) {# gears are being deployed or retracted
         if(me.input.tenHz.getValue() == 1) {
           me.takeoff_symbol.show();
         } else {
