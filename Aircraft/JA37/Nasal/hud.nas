@@ -1906,7 +1906,7 @@ var HUDnasal = {
                 me.diamond_group.show();
               }
             } else {
-              #untargetable, like carriers and tankers
+              #untargetable but selectable, like carriers and tankers, or planes in navigation mode
               diamond_node = nil;
               me.diamond_group.setTranslation(selection[0], selection[1]);
               me.target_circle[me.selection_index].setTranslation(selection[0], selection[1]);

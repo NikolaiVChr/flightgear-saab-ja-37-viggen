@@ -1184,7 +1184,7 @@ Sim: Radar will now also show carriers, balloons, vehicles, ships and tankers. J
 GUI: Option to switch off radar tracks in HUD, is now replaced with switch off radar.
 Model: Switch to switch off radar tracks in HUD, is now replaced with switch off radar.
 
-3.005 - 2015 February 19
+3.005 - 2015 February 20
 =====
 Sim: Fixed that following a AI plane could freeze the HUD.
 Model: Fixed radar screen would be too dark at evenings and nights.
@@ -1202,3 +1202,4 @@ Sim: Made TILS work as long as battery is on, instead of being slaved to landing
 Sim: When turning on TILS it now always popup if it find an airport, even if nav1 was alread tuned into that one.
 Model: Added a landing mode switch. This will force landing mode, when otherwise tactical or navigation mode would be selected.
 HUD: Fixed that landing guide could hide behind altimeter scale after the HUD was made smaller.
+HUD: Fixed carrier would appear as not selected, even though it was.

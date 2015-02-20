@@ -160,13 +160,13 @@ var processTracks = func (vector, carrier) {
         }
 
         append(tracks, trackInfo);
-        
-        if(selection == nil and trackInfo[7] == FALSE) {
-          #this is first tracks in radar field, so will be default target
+
+        if(selection == nil) {
+          #this is first tracks in radar field, so will be default selection
           selection = trackInfo;
           lookatSelection();
           selection_updated = TRUE;
-        } elsif (selection != nil and selection[6].getChild("unique").getValue() == unique.getValue() and trackInfo[7] == FALSE) {
+        } elsif (selection != nil and selection[6].getChild("unique").getValue() == unique.getValue()) {
           # this track is already selected, updating it
           selection = trackInfo;
           selection_updated = TRUE;
