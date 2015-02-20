@@ -802,6 +802,7 @@ var HUDnasal = {
         viewNumber:       "sim/current-view/view-number",
         viewZ:            "sim/current-view/y-offset-m",
         TILS:             "sim/ja37/hud/TILS",
+        landingMode:      "sim/ja37/hud/landing-mode",
         tracks_enabled:   "sim/ja37/hud/tracks-enabled",
         elapsedSec:       "sim/time/elapsed-sec",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
@@ -864,19 +865,19 @@ var HUDnasal = {
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
         modeTimeTakeoff = me.input.elapsedSec.getValue();
       } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
-        if (me.input.gearsPos.getValue() == 1) {
+        if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
           mode = LANDING;
         } else {
           mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         }
         modeTimeTakeoff = -1;
-      } elsif ((mode == COMBAT or mode == NAV) and me.input.gearsPos.getValue() == 1) {
+      } elsif ((mode == COMBAT or mode == NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
         mode = LANDING;
         modeTimeTakeoff = -1;
       } elsif (mode == COMBAT or mode == NAV) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
-      } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0) {
+      } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
       }
@@ -2056,7 +2057,7 @@ var cycle_units = func () {
   if(getprop("sim/ja37/hud/mode") > 0) {
     ja37.click();
     var current = getprop("sim/ja37/hud/units-metric");
-    if(current == 1) {
+    if(current == TRUE) {
       setprop("sim/ja37/hud/units-metric", FALSE);
     } else {
       setprop("sim/ja37/hud/units-metric", TRUE);
@@ -2064,6 +2065,16 @@ var cycle_units = func () {
   } else {
     aircraft.HUD.cycle_type();
   }
+};
+
+var cycle_landingMode = func () {
+    ja37.click();
+    var current = getprop("sim/ja37/hud/landing-mode");
+    if(current == TRUE) {
+      setprop("sim/ja37/hud/landing-mode", FALSE);
+    } else {
+      setprop("sim/ja37/hud/landing-mode", TRUE);
+    }
 };
 
 var toggle_combat = func () {

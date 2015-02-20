@@ -1200,3 +1200,4 @@ HUD: Some extra checks for selection not showing in HUD when nothing selected.
 Aero: Asymmetric detachment of vortexes left or right side is now randomly decided.
 Sim: Made TILS work as long as battery is on, instead of being slaved to landing mode.
 Sim: When turning on TILS it now always popup if it find an airport, even if nav1 was alread tuned into that one.
+Model: Added a landing mode switch. This will force landing mode, when otherwise tactical or navigation mode would be selected.

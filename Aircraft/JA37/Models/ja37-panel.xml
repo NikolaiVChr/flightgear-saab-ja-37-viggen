@@ -337,6 +337,17 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-landing-mode.xml</path>
+    <name>SwitchLanding</name>
+    <offsets>
+    <pitch-deg>-10.671</pitch-deg>
+      <x-m> -3.859</x-m>
+      <y-m> -0.165</y-m>
+      <z-m>  0.485</z-m>
+    </offsets>
+  </model>  
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-tils.xml</path>
     <name>Reverse</name>
     <offsets>
