@@ -1411,20 +1411,19 @@ var HUDnasal = {
   displayLandingGuide: func (mode, deflect) {
     var guideUseLines = FALSE;
     if(mode == LANDING) {
+      var deg = deflect;
       if (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE) {
-        deflect = me.input.nav0HeadingDefl.getValue();
+        deg = me.input.nav0HeadingDefl.getValue()/2;# -10 to 10, divided by 2.
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
           var normDeviation = (clamp(me.input.nav0GSDirectDeg.getValue() - 2.86, -4, 4)/4);
           var dev3 = normDeviation * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var dev2 = normDeviation * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
-          var deg = clamp(deflect, -8, 8);
           me.desired_lines3.setTranslation(pixelPerDegreeX*deg, dev3);
           me.desired_lines2.setTranslation(pixelPerDegreeX*deg, dev2);
           guideUseLines = TRUE;
         }
       }
-      var deg = clamp(deflect, -8, 8);
       HUDnasal.main.landing_line.setTranslation(pixelPerDegreeX*deg, 0);
       HUDnasal.main.landing_line.show();
     } else {
