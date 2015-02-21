@@ -1204,3 +1204,7 @@ Model: Added a landing mode switch. This will force landing mode, when otherwise
 HUD: Fixed that landing guide could hide behind altimeter scale after the HUD was made smaller.
 HUD: Fixed carrier would appear as not selected, even though it was.
 Sim: Fixed bug in crash system when crashing into carrier.
+
+3.006
+=====
+HUD: Fixed that if carrier was selected, but outside radar cone, it would be shown in the HUD blinking in corner.

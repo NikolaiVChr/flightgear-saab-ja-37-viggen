@@ -1810,7 +1810,7 @@ var HUDnasal = {
 
         var currentIndex = me.track_index;
 
-        if(hud_pos == selection) {
+        if(hud_pos == selection and hud_pos[0] != 90000) {
             me.selection_updated = TRUE;
             me.selection_index = 0;
             currentIndex = 0;
@@ -1841,139 +1841,124 @@ var HUDnasal = {
       
 
       # draw selection
-      if(selection != nil) {
-        # something is selected
-        if (selection[6].getChild("valid").getValue() == TRUE) {
-          if (me.selection_updated == TRUE) {
-            # selection is currently in forward looking radar view
-            var blink = FALSE;
-            if(selection[0] > 512) {
-              blink = TRUE;
-              selection[0] = 512;
-            }
-            if(selection[0] < -512) {
-              blink = TRUE;
-              selection[0] = -512;
-            }
-            if(selection[1] > 512) {
-              blink = TRUE;
-              selection[1] = 512;
-            }
-            if(selection[1] < -450) {
-              blink = TRUE;
-              selection[1] = -450;
-            }
-            if(selection[7] == FALSE and mode == COMBAT) {
-              #targetable
-              diamond_node = selection[6];
-              me.diamond_group.setTranslation(selection[0], selection[1]);
-              var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
-              me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-              me.diamond_name.setText(selection[5]);
-              me.target_circle[me.selection_index].hide();
+      if(selection != nil and selection[6].getChild("valid").getValue() == TRUE and me.selection_updated == TRUE) {
+        # selection is currently in forward looking radar view
+        var blink = FALSE;
+        if(selection[0] > 512) {
+          blink = TRUE;
+          selection[0] = 512;
+        }
+        if(selection[0] < -512) {
+          blink = TRUE;
+          selection[0] = -512;
+        }
+        if(selection[1] > 512) {
+          blink = TRUE;
+          selection[1] = 512;
+        }
+        if(selection[1] < -450) {
+          blink = TRUE;
+          selection[1] = -450;
+        }
+        if(selection[7] == FALSE and mode == COMBAT) {
+          #targetable
+          diamond_node = selection[6];
+          me.diamond_group.setTranslation(selection[0], selection[1]);
+          var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
+          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          me.diamond_name.setText(selection[5]);
+          me.target_circle[me.selection_index].hide();
 
 
-              var armSelect = me.input.station.getValue();
-              
-              if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
-                me.diamond.show();
-                me.target.hide();
-              } else {
-                me.target.show();
-                me.diamond.hide();
-              }
-
-              #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
-              #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
-              #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
-              #var down = me.myHeading+180.0;
-              #var relative_heading = heading + down - 90.0;
-              #var relative_speed = speed/10.0;
-              #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
-              #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
-
-              #if(me.track_line != nil) {
-              #  me.diamond_group_line.removeAllChildren();
-              #}
-
-              #me.track_line = me.diamond_group_line.createChild("path")
-              #               .lineTo( pos_x, pos_y)
-              #               .setStrokeLineWidth(w)
-              #               .setColor(r,g,b, a);
-              if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
-                me.diamond_group.hide();
-              } else {
-                me.diamond_group.show();
-              }
-            } else {
-              #untargetable but selectable, like carriers and tankers, or planes in navigation mode
-              diamond_node = nil;
-              me.diamond_group.setTranslation(selection[0], selection[1]);
-              me.target_circle[me.selection_index].setTranslation(selection[0], selection[1]);
-              var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
-              me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
-              me.diamond_name.setText(selection[5]);
-              
-              if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
-                me.diamond_group.hide();
-                me.target_circle[me.selection_index].hide();
-              } else {
-                me.diamond_group.show();
-                me.target_circle[me.selection_index].show()
-              }
-              me.diamond.hide();
-              me.target.hide();
-            }
-
-            #velocity vector
-            if(selection[0] > -512 and selection[0] < 512 and selection[1] > -512 and selection[1] < 512) {
-              var tgtHeading = selection[6].getNode("orientation/true-heading-deg").getValue();
-              var tgtSpeed = selection[6].getNode("velocities/true-airspeed-kt").getValue();
-              var myHeading = me.input.hdgReal.getValue();
-              var myRoll = me.input.roll.getValue();
-              if (tgtHeading == nil or tgtSpeed == nil) {
-                me.vel_vec.hide();
-              } else {
-                var relHeading = tgtHeading - myHeading - myRoll;
-                
-                relHeading -= 180;# this makes the line trail instead of lead
-                relHeading = relHeading * deg2rads;
-
-                me.vel_vec_trans_group.setTranslation(selection[0], selection[1]);
-                me.vel_vec_rot_group.setRotation(relHeading);
-                me.vel_vec.setScale(1, tgtSpeed/4);
-                
-                # note since trinometry circle is opposite direction of compas heading direction, the line will trail the target.
-                me.vel_vec.show();
-              }
-            } else {
-              me.vel_vec.hide();
-            }
-
-            me.target_circle[me.selection_index].update();
-            me.diamond_group.update();
+          var armSelect = me.input.station.getValue();
+          
+          if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
+            me.diamond.show();
+            me.target.hide();
           } else {
-            # selection is outside radar view
-            diamond_node = nil;
-            if(selection != nil) {
-              selection[2] = nil;#no longer sure why I do this..
-            }
+            me.target.show();
+            me.diamond.hide();
+          }
+
+          #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
+          #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
+          #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
+          #var down = me.myHeading+180.0;
+          #var relative_heading = heading + down - 90.0;
+          #var relative_speed = speed/10.0;
+          #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
+          #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
+
+          #if(me.track_line != nil) {
+          #  me.diamond_group_line.removeAllChildren();
+          #}
+
+          #me.track_line = me.diamond_group_line.createChild("path")
+          #               .lineTo( pos_x, pos_y)
+          #               .setStrokeLineWidth(w)
+          #               .setColor(r,g,b, a);
+          if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
             me.diamond_group.hide();
-            me.vel_vec.hide();
-            me.target_circle[0].hide();
+          } else {
+            me.diamond_group.show();
           }
         } else {
-          # selection is no longer valid
+          #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           diamond_node = nil;
-          me.vel_vec.hide();
-          me.diamond_group.hide();
-          me.target_circle[0].hide();
+          me.diamond_group.setTranslation(selection[0], selection[1]);
+          me.target_circle[me.selection_index].setTranslation(selection[0], selection[1]);
+          var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
+          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          me.diamond_name.setText(selection[5]);
+          
+          if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
+            me.diamond_group.hide();
+            me.target_circle[me.selection_index].hide();
+          } else {
+            me.diamond_group.show();
+            me.target_circle[me.selection_index].show()
+          }
+          me.diamond.hide();
+          me.target.hide();
         }
+
+        #velocity vector
+        if(selection[0] > -512 and selection[0] < 512 and selection[1] > -512 and selection[1] < 512) {
+          var tgtHeading = selection[6].getNode("orientation/true-heading-deg").getValue();
+          var tgtSpeed = selection[6].getNode("velocities/true-airspeed-kt").getValue();
+          var myHeading = me.input.hdgReal.getValue();
+          var myRoll = me.input.roll.getValue();
+          if (tgtHeading == nil or tgtSpeed == nil) {
+            me.vel_vec.hide();
+          } else {
+            var relHeading = tgtHeading - myHeading - myRoll;
+            
+            relHeading -= 180;# this makes the line trail instead of lead
+            relHeading = relHeading * deg2rads;
+
+            me.vel_vec_trans_group.setTranslation(selection[0], selection[1]);
+            me.vel_vec_rot_group.setRotation(relHeading);
+            me.vel_vec.setScale(1, tgtSpeed/4);
+            
+            # note since trinometry circle is opposite direction of compas heading direction, the line will trail the target.
+            me.vel_vec.show();
+          }
+        } else {
+          me.vel_vec.hide();
+        }
+
+        me.target_circle[me.selection_index].update();
+        me.diamond_group.update();
       } else {
-        # Nothing selected
+        # selection is outside radar view
+        # or invalid
+        # or nothing selected
         diamond_node = nil;
-        me.vel_vec.hide();
+        if(selection != nil) {
+          selection[2] = nil;#no longer sure why I do this..
+        }
         me.diamond_group.hide();
+        me.vel_vec.hide();
         me.target_circle[0].hide();
       }
       #print("");
