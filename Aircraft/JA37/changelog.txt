@@ -1203,3 +1203,4 @@ Sim: When turning on TILS it now always popup if it find an airport, even if nav
 Model: Added a landing mode switch. This will force landing mode, when otherwise tactical or navigation mode would be selected.
 HUD: Fixed that landing guide could hide behind altimeter scale after the HUD was made smaller.
 HUD: Fixed carrier would appear as not selected, even though it was.
+Sim: Fixed bug in crash system when crashing into carrier.

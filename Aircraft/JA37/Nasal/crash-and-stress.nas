@@ -272,11 +272,21 @@ var CrashAndStress = {
 		    var mode_list = keys(failure_modes);
 		    var probability = speed / 200.0;# 200kt will fail everything, 0kt will fail nothing.
 
+		    var hitStr = "something";
+		    if(info != nil and info[1] != nil) {
+			    hitStr = info[1].names == nil?"something":info[1].names[0];
+			    foreach(infoStr; info[1].names) {
+			    	if(find('_', infoStr) == -1) {
+			    		hitStr = infoStr;
+			    		break;
+			    	}
+			    }
+			}
 		    # test for explosion
 		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
 		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
 		    	me.input.simCrashed.setValue(TRUE);
-		    	me._explodeBegin("Aircraft hit "~info[1].names[size(info[1].names)-1]);
+		    	me._explodeBegin("Aircraft hit "~hitStr~".");
 		    	return;
 		    }
 
@@ -284,14 +294,6 @@ var CrashAndStress = {
 		    	if(rand() < probability) {
 		      		FailureMgr.set_failure_level(failure_mode_id, 1);
 		      	}
-		    }
-		    
-		    var hitStr = info[1].names[0];
-		    foreach(infoStr; info[1].names) {
-		    	if(find('_', infoStr) == -1) {
-		    		hitStr = infoStr;
-		    		break;
-		    	}
 		    }
 
 			var str = "Aircraft hit "~hitStr~".";
