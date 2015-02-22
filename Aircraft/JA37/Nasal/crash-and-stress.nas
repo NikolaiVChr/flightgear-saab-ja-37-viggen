@@ -376,7 +376,7 @@ var CrashAndStress = {
 			var lat = me.input.lat.getValue();
 			var lon = me.input.lon.getValue();
 			var info = geodinfo(lat, lon);
-			var solid = info[1] == nil?TRUE:info[1].solid;
+			var solid = info==nil?TRUE:(info[1] == nil?TRUE:info[1].solid);
 			if(solid == FALSE) {
 				me._impactDamage();
 			}

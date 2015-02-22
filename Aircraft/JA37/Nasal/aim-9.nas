@@ -91,6 +91,8 @@ var AIM9 = {
 		m.ai = n.getChild("rb-24j", i, 1);
 
 		m.ai.getNode("valid", 1).setBoolValue(1);
+		m.ai.getNode("name", 1).setValue("RB-24J");
+		m.ai.getNode("sign", 1).setValue("Sidewinder");
 		#m.model.getNode("collision", 1).setBoolValue(0);
 		#m.model.getNode("impact", 1).setBoolValue(0);
 		var id_model = aim_9_model ~ m.ID ~ ".xml";
@@ -336,8 +338,11 @@ var AIM9 = {
 		me.coord.set_alt(alt_ft*0.3048);
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
-
-
+		var self = geo.aircraft_position();
+		me.ai.getNode("radar/bearing-deg", 1).setValue(self.course_to(me.coord));
+		var angleInv = me.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
+		me.ai.getNode("radar/elevation-deg", 1).setValue((self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D);
+		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(speed_fps*0.5924838);
 		#### Proximity detection.
 
 		if ( me.status == 2 ) {
@@ -544,6 +549,7 @@ var AIM9 = {
 		} else {
 			setprop("/sim/messages/atc", phrase);
 		}
+		me.ai.getNode("valid", 1).setBoolValue(0);
 		me.animate_explosion();
 		me.Tgt = nil;
 	},
@@ -640,7 +646,7 @@ var AIM9 = {
 	return(v);
 	},
 
-
+	clamp: func(v, min, max) { v < min ? min : v > max ? max : v },
 
 	animation_flags_props: func {
 		# Create animation flags properties.

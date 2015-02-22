@@ -53,6 +53,7 @@ var findRadarTracks = func () {
     var ships = node_ai.getChildren("ship");
     var carriers = node_ai.getChildren("carrier");
     var vehicles = node_ai.getChildren("groundvehicle");
+    var rb24 = node_ai.getChildren("rb-24j");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
       selection = nil;
@@ -64,16 +65,22 @@ var findRadarTracks = func () {
     processTracks(ships, FALSE);
     processTracks(AIplanes, FALSE);
     processTracks(vehicles, FALSE);
+    processTracks(rb24, FALSE, TRUE);
   }
 }
 
 
-var processTracks = func (vector, carrier) {
+var processTracks = func (vector, carrier, missile = FALSE) {
   var carrierNear = FALSE;
   foreach (var track; vector) {
     if(track != nil and track.getNode("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
-      
-      trackInfo = trackItemCalc(track, radarRange, carrier);
+      var trackInfo = nil;
+
+      if(missile == FALSE) {
+        trackInfo = trackItemCalc(track, radarRange, carrier);
+      } else {
+        trackInfo = trackMissileCalc(track, radarRange, carrier);
+      }
 
       if(trackInfo != nil) {
         
@@ -150,7 +157,7 @@ var processTracks = func (vector, carrier) {
 
         append(trackInfo, ident);
         append(trackInfo, track);
-        append(trackInfo, carrier);
+        append(trackInfo, (carrier == TRUE or missile == TRUE)?TRUE:FALSE);
 
         var unique = track.getChild("unique");
         if (unique == nil) {
@@ -196,13 +203,24 @@ var remove_suffix = func(s, x) {
 # 4 - horizontal angle from aircraft in rad
 # 5 - identifier
 # 6 - node
-# 7 - carrier
+# 7 - not targetable
 
 var trackItemCalc = func (track, range, carrier) {
   var x = track.getNode("position/global-x").getValue();
   var y = track.getNode("position/global-y").getValue();
   var z = track.getNode("position/global-z").getValue();
   var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
+  return trackCalc(aircraftPos, range, carrier);
+}
+
+var trackMissileCalc = func (track, range, carrier) {
+  var alt = track.getNode("position/altitude-ft").getValue();
+  var lat = track.getNode("position/latitude-deg").getValue();
+  var lon = track.getNode("position/longitude-deg").getValue();
+  if(alt == nil or lat == nil or lon == nil) {
+    return nil;
+  }
+  var aircraftPos = geo.Coord.new().set_latlon(lat, lon, alt*feet2meter);
   return trackCalc(aircraftPos, range, carrier);
 }
 

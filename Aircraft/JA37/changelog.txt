@@ -1210,3 +1210,8 @@ Sim: Fixed bug in crash system when crashing into carrier.
 HUD: Fixed that if carrier was selected, but outside radar cone, it would be shown in the HUD blinking in corner.
 Animation: Distance shown in radar screen is now the distance in the radar cone center plane.
 HUD: Distance shown in HUD now accounts for altitude, instead of horizontal distance along athmospheres curvature.
+Sim: Fixed a rare case where crashing into ocean would produce bug in crash system.
+HUD: Turning on HUD should max take 0.5 second now instead of 1.
+HUD: The HUD will now track missiles also.
+Animation: The radar will now show missiles also.
+Sim: The selection view should be able to look at missiles now. [Needs more testing]

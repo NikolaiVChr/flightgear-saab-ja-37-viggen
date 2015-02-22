@@ -847,11 +847,11 @@ var HUDnasal = {
     if(me.input.elec.getValue() < 24 or me.input.mode.getValue() == 0) {
       me.root.hide();
       me.root.update();
-      settimer(func me.update(), 0.5);
+      settimer(func me.update(), 0.3);
      } elsif ((me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) or me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
-      settimer(func me.update(), 1);
+      settimer(func me.update(), 0.25);
      } else {
       # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
       var fromTop = HUDTop - me.input.viewZ.getValue();
