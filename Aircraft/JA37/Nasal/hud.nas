@@ -1781,9 +1781,9 @@ var HUDnasal = {
       #
       # 0 - x position
       # 1 - y position
-      # 2 - distance in meter
-      # 3 - horizontal angle from aircraft in rad
-      # 4 - nil
+      # 2 - direct distance in meter
+      # 3 - distance in radar screen plane
+      # 4 - horizontal angle from aircraft in rad
       # 5 - identifier
       # 6 - node
       # 7 - carrier

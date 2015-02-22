@@ -192,15 +192,15 @@ var radar = {
           #
           # 0 - x position
           # 1 - y position
-          # 2 - distance in meter
-          # 3 - horizontal angle from aircraft in rad
-          # 4 - track index
+          # 2 - direct distance in meter
+          # 3 - distance in radar screen plane
+          # 4 - horizontal angle from aircraft in rad
           # 5 - identifier
           # 6 - node
           # 7 - carrier
 
-          var distance = mp[2];
-          var xa_rad = mp[3];
+          var distance = mp[3];
+          var xa_rad = mp[4];
 
           #make blip
           if (b_i < me.no_blip and distance != nil and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){

@@ -21,7 +21,6 @@ var tracks = [];
 
 input = {
         radar_serv:       "instrumentation/radar/serviceable",
-        alt_ft_real:      "position/altitude-ft",
         hdgReal:          "/orientation/heading-deg",
         pitch:            "/orientation/pitch-deg",
         roll:             "/orientation/roll-deg",
@@ -34,7 +33,7 @@ var findRadarTracks = func () {
   self      =  geo.aircraft_position();
   myPitch   =  input.pitch.getValue()*deg2rads;
   myRoll    = -input.roll.getValue()*deg2rads;
-  myAlt     =  input.alt_ft_real.getValue()*feet2meter;
+  myAlt     =  self.alt();
   myHeading =  input.hdgReal.getValue();
   
   tracks = [];
@@ -118,7 +117,7 @@ var processTracks = func (vector, carrier) {
         }
 
 
-        append(trackInfo, nil);
+        #append(trackInfo, nil);
         
         # figure out what indentification to show in hud
         if(input.callsign.getValue() == 1) {
@@ -179,7 +178,7 @@ var processTracks = func (vector, carrier) {
       input.carrierNear.setValue(carrierNear);
     }      
   }
-}#end of trackAI
+}#end of processTracks
 
 var remove_suffix = func(s, x) {
     var len = size(x);
@@ -192,9 +191,9 @@ var remove_suffix = func(s, x) {
 #
 # 0 - x position
 # 1 - y position
-# 2 - distance in meter
-# 3 - horizontal angle from aircraft in rad
-# 4 - nil
+# 2 - direct distance in meter
+# 3 - distance in radar screen plane
+# 4 - horizontal angle from aircraft in rad
 # 5 - identifier
 # 6 - node
 # 7 - carrier
@@ -209,22 +208,27 @@ var trackItemCalc = func (track, range, carrier) {
 
 var trackCalc = func (aircraftPos, range, carrier) {
   var distance = nil;
+  var distanceDirect = nil;
   
-  call(func distance = self.distance_to(aircraftPos), nil, var err = []);
+  call(func {distance = self.distance_to(aircraftPos); distanceDirect = self.direct_distance_to(aircraftPos);}, nil, var err = []);
 
   if ((size(err))or(distance==nil)) {
     # Oops, have errors. Bogus position data (and distance==nil).
     #print("Received invalid position data: " ~ debug._error(mp.callsign));
     #target_circle[track_index+maxTargetsMP].hide();
     #print(i~" invalid pos.");
-  } elsif (distance < range) {#is max radar range of ja37
+  } elsif (distanceDirect < range) {#is max radar range of ja37
     # Node with valid position data (and "distance!=nil").
     #distance = distance*kts2kmh*1000;
     var aircraftAlt = aircraftPos.alt(); #altitude in meters
-    
+
+    #aircraftAlt = aircraftPos.x();
+    #myAlt = self.x();
+    #distance = math.sqrt(pow2(aircraftPos.z() - self.z()) + pow2(aircraftPos.y() - self.y()));
+
     #ground angle
-    var yg_rad = math.atan2((aircraftAlt-myAlt), distance)-myPitch; 
-    var xg_rad = (self.course_to(aircraftPos)-myHeading)*deg2rads;
+    var yg_rad = math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
+    var xg_rad = (self.course_to(aircraftPos) - myHeading) * deg2rads;
     
     while (xg_rad > math.pi) {
       xg_rad = xg_rad - 2*math.pi;
@@ -258,12 +262,15 @@ var trackCalc = func (aircraftPos, range, carrier) {
 
     if(ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
       #is within the radar cone
+
+      var distanceRadar = distance/math.cos(myPitch);
+
       var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
       var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
-      return [hud_pos_x, hud_pos_y, distance, xa_rad];
+      return [hud_pos_x, hud_pos_y, distanceDirect, distanceRadar, xa_rad];
     } elsif (carrier == TRUE) {
       # need to return carrier even if out of radar cone, due to carrierNear calc
-      return [90000, 90000, distance, xa_rad];
+      return [90000, 90000, distanceDirect, distanceDirect, xa_rad];# 90000 used in hud to know if out of radar cone.
     }
   }
   return nil;

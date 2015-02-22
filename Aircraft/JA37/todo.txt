@@ -16,7 +16,7 @@ Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
-Model: Make HUD model not be square anymore.
+Model: Make HUD model not be square anymore. Also model support beams on each side.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -31,7 +31,6 @@ Sim: Unguided missiles with terrain collision detection. (submodels with ext. fo
 Sim: Make users of FG HUD able to use combat features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
-Sim: Make more use of default multiplay properties to free more of the custom up.
 Sim: Hydralic pump depend on electric instead of rpm
 Sim: Replace generic getValue and setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
@@ -40,7 +39,6 @@ Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
-Effect: Sun glare.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Effect: Show aircraft explosion in MP also.
@@ -80,6 +78,7 @@ Sim: When Bombable 4.5 is installed redout and blackout might not work properly.
 Animation: Selection view does not follow carriers. (they lack radar properties)
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 Sim: Auto-starting the plane when engine is not fully spooled down, may fail. [confirmed]
+
 
 Issues with FG: (or my limited understanding of it)
 ---------------
