@@ -481,6 +481,9 @@
 <animation>
     <type>spin</type>
     <object-name>wheelFront</object-name>
+    <condition>
+      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+    </condition>
     <property>gear/gear[0]/rollspeed-ms</property>
     <factor>37.9091</factor>
     <center>
@@ -532,6 +535,9 @@
 <animation>
     <type>spin</type>
     <object-name>wheelLeft1</object-name>
+    <condition>
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+    </condition>
     <property>gear/gear[1]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
@@ -549,6 +555,9 @@
 <animation>
     <type>spin</type>
     <object-name>wheelLeft2</object-name>
+    <condition>
+      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+    </condition>
     <property>gear/gear[1]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
@@ -600,6 +609,9 @@
 <animation>
     <type>spin</type>
     <object-name>wheelRight1</object-name>
+    <condition>
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </condition>
     <property>gear/gear[2]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>
@@ -617,6 +629,9 @@
 <animation>
     <type>spin</type>
     <object-name>wheelRight2</object-name>
+    <condition>
+      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+    </condition>
     <property>gear/gear[2]/rollspeed-ms</property>
     <factor>31.1692</factor>
     <center>

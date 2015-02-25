@@ -1218,3 +1218,6 @@ Sim: The selection view should be able to look at missiles now.
 GUI: For users of FG 3.5 and newer, the plane now uses the new popup tip positioning system.
 Sim: Fixed that scanning MP aircrafts there was a chance of a bug in the radar logic when checking for validity.
 Model: Removed interference with default view. Maybe that caused zoom reset problem.
+Model: Fixed that when looking into the engine intake, one could spot part of the canards.
+Model: Wheels texture are now more centered, will look better when spinnning.
+Animation: Wheels will now stop spinning entirely when aircraft is in the air.

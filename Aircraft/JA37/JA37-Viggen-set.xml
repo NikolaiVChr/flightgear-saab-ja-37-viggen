@@ -544,12 +544,17 @@
         <internal>true</internal>
         <config>
          <from-model type="bool">true</from-model>
+         <from-model-idx type="int">0</from-model-idx>
          <pitch-offset-deg type="double">-10</pitch-offset-deg>
          <x-offset-m type="double">0</x-offset-m>
          <y-offset-m type="double">0.70</y-offset-m>
          <z-offset-m type="double">-3.40</z-offset-m>
          <default-field-of-view-deg type="double">65</default-field-of-view-deg>
          <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>
+         <dynamic-view type="bool">false</dynamic-view>
+         <limits>
+          <enabled type="bool">false</enabled>
+         </limits>
         </config>
         <dynamic>
           <enabled type="bool">false</enabled>
