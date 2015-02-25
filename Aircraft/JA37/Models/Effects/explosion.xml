@@ -8,7 +8,10 @@
    <lighting type="bool">false</lighting>
 
    <condition>
+      <equals>
          <property>damage/sounds/explode-on</property>
+         <value>1</value>
+      </equals>
    </condition>
 
    <attach>world</attach>
@@ -94,7 +97,10 @@
    <lighting type="bool">false</lighting>
 
    <condition>
+      <equals>
          <property>damage/sounds/explode-on</property>
+         <value>1</value>
+      </equals>
    </condition>
 
    <attach>world</attach>
