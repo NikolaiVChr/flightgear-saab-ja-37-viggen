@@ -1214,4 +1214,7 @@ Sim: Fixed a rare case where crashing into ocean would produce bug in crash syst
 HUD: Turning on HUD should max take 0.5 second now instead of 1.
 HUD: The HUD will now track missiles also.
 Animation: The radar will now show missiles also.
-Sim: The selection view should be able to look at missiles now. [Needs more testing]
+Sim: The selection view should be able to look at missiles now.
+GUI: For users of FG 3.5 and newer, the plane now uses the new popup tip positioning system.
+Sim: Fixed that scanning MP aircrafts there was a chance of a bug in the radar logic when checking for validity.
+Model: Removed interference with default view. Maybe that caused zoom reset problem.

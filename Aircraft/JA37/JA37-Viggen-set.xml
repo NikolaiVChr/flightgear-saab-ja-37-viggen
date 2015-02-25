@@ -391,16 +391,16 @@
 *************************************************************************-->
 <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
-    <current-view>
+    <!--<current-view>
       <field-of-view type="double">100</field-of-view>
       <config>
         <default-field-of-view-deg type="double">100</default-field-of-view-deg>
-      </config>
+      </config>-->
       <!-- Sometimes these get changed and saved and will override the defaults. This will set the defaults everytime its started up. -->
-      <x-offset-m type="double">0</x-offset-m>
+      <!--<x-offset-m type="double">0</x-offset-m>
       <y-offset-m type="double">0.70</y-offset-m>
       <z-offset-m type="double">-3.40</z-offset-m>
-    </current-view>
+    </current-view>-->
 
     <view n="0">
      <internal>true</internal>
@@ -966,6 +966,7 @@
         <options type="bool">false</options>
         <landing-light type="bool">false</landing-light>
         <initialized type="bool">false</initialized>
+        <popuptips type="bool">false</popuptips>
       </supported>
       <failures>
         <installed type="bool">false</installed>

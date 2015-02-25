@@ -617,13 +617,17 @@ var test_support = func {
       setprop("sim/ja37/supported/hud", FALSE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", FALSE);
+      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/landing-light", FALSE);
   } elsif (major == 2) {
+    setprop("sim/ja37/supported/landing-light", FALSE);
     if(minor < 7) {
       popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", FALSE);
       setprop("sim/ja37/supported/hud", FALSE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", TRUE);
+      setprop("sim/ja37/supported/popuptips", FALSE);
     } elsif(minor < 9) {
       popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("sim/ja37/supported/radar", FALSE);
@@ -631,11 +635,13 @@ var test_support = func {
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", TRUE);
       setprop("sim/ja37/hud/mode", 0);
+      setprop("sim/ja37/supported/popuptips", FALSE);
     } else {
       setprop("sim/ja37/supported/radar", TRUE);
       setprop("sim/ja37/supported/hud", TRUE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", TRUE);
+      setprop("sim/ja37/supported/popuptips", FALSE);
     }
   } elsif (major == 3) {
     setprop("sim/ja37/supported/options", TRUE);
@@ -643,12 +649,16 @@ var test_support = func {
     setprop("sim/ja37/supported/hud", TRUE);
     setprop("sim/ja37/supported/old-custom-fails", FALSE);
     setprop("sim/ja37/supported/landing-light", TRUE);
+    setprop("sim/ja37/supported/popuptips", TRUE);
     if (minor == 0) {
       setprop("sim/ja37/supported/old-custom-fails", TRUE);
       setprop("sim/ja37/supported/landing-light", FALSE);
-    }
-    if (minor == 2) {
+      setprop("sim/ja37/supported/popuptips", FALSE);
+    } elsif (minor == 2) {
       setprop("sim/ja37/supported/landing-light", FALSE);
+      setprop("sim/ja37/supported/popuptips", FALSE);
+    } elsif (minor == 4) {
+      setprop("sim/ja37/supported/popuptips", FALSE);
     }
   } else {
     # future proof
@@ -657,6 +667,7 @@ var test_support = func {
     setprop("sim/ja37/supported/hud", TRUE);
     setprop("sim/ja37/supported/old-custom-fails", FALSE);
     setprop("sim/ja37/supported/landing-light", TRUE);
+    setprop("sim/ja37/supported/popuptips", TRUE);
   }
   setprop("sim/ja37/supported/initialized", TRUE);
 
@@ -1094,11 +1105,15 @@ var popupTip = func(label, y = 25, delay = nil) {
     #fgcommand("tooltip-timeout", props.Node.new({}));
     #var tooltip = canvas.Tooltip.new([300, 100]);
     #tooltip.createCanvas();
-    call(func _popupTip(label, y, delay), nil, var err = []);
-    if(size(err) != 0) {
-      # if the tooltip system has changed and my use produce error, revert to basic popup tip.
-      print(err[0]);
-      gui.popupTip(label, delay);
+    if(getprop("sim/ja37/supported/popuptips") == TRUE) {
+      gui.popupTip(label, delay, nil, {"y": y});
+    } else {
+      call(func _popupTip(label, y, delay), nil, var err = []);
+      if(size(err) != 0) {
+        # if the tooltip system has changed and my use produce error, revert to basic popup tip.
+        print(err[0]);
+        gui.popupTip(label, delay);
+      }
     }
 }
 

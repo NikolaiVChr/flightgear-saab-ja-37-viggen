@@ -338,13 +338,15 @@ var AIM9 = {
 		me.coord.set_alt(alt_ft*0.3048);
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
+
+		# set radar properties for use in selection view and HUD tracks.
 		var self = geo.aircraft_position();
 		me.ai.getNode("radar/bearing-deg", 1).setValue(self.course_to(me.coord));
 		var angleInv = me.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
 		me.ai.getNode("radar/elevation-deg", 1).setValue((self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D);
 		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(speed_fps*0.5924838);
-		#### Proximity detection.
 
+		#### Proximity detection.
 		if ( me.status == 2 ) {
 			#### check if the missile can keep the lock.
  			if ( me.free == 0 ) {

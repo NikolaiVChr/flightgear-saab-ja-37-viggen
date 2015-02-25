@@ -73,17 +73,15 @@ var findRadarTracks = func () {
 var processTracks = func (vector, carrier, missile = FALSE) {
   var carrierNear = FALSE;
   foreach (var track; vector) {
-    if(track != nil and track.getNode("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
+    if(track != nil and track.getChild("valid") != nil and track.getChild("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
       var trackInfo = nil;
-
+      
       if(missile == FALSE) {
         trackInfo = trackItemCalc(track, radarRange, carrier);
       } else {
         trackInfo = trackMissileCalc(track, radarRange, carrier);
       }
-
       if(trackInfo != nil) {
-        
         var distance = trackInfo[2];
 
         # tell the jsbsim hook system that if we are near a carrier
@@ -93,7 +91,7 @@ var processTracks = func (vector, carrier, missile = FALSE) {
         }
 
         # find and remember the type of the track
-        var typeNode = track.getNode("model-shorter");
+        var typeNode = track.getChild("model-shorter");
         var model = nil;
         if (typeNode != nil) {
           model = typeNode.getValue();
@@ -111,7 +109,7 @@ var processTracks = func (vector, carrier, missile = FALSE) {
                 funcHash.listenerID = listener;
               },
               call: func {
-                if(track.getNode("valid").getValue() == FALSE) {
+                if(track.getChild("valid").getValue() == FALSE) {
                   var child = track.removeChild("model-shorter");                    
                   if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
                     removelistener(listenerID);
@@ -119,7 +117,7 @@ var processTracks = func (vector, carrier, missile = FALSE) {
                 }
               }
             };
-            funcHash.init(setlistener(track.getNode("valid"), func () {funcHash.call()}, 0, 0));
+            funcHash.init(setlistener(track.getChild("valid"), func () {funcHash.call()}, 0, 0));
           }
         }
 
@@ -128,28 +126,28 @@ var processTracks = func (vector, carrier, missile = FALSE) {
         
         # figure out what indentification to show in hud
         if(input.callsign.getValue() == 1) {
-          if(track.getNode("callsign") != nil and track.getNode("callsign").getValue() != "" and track.getNode("callsign").getValue() != nil) {
-            ident = track.getNode("callsign").getValue();
-          } elsif (track.getNode("name") != nil and track.getNode("name").getValue() != "" and track.getNode("name").getValue() != nil) {
+          if(track.getChild("callsign") != nil and track.getChild("callsign").getValue() != "" and track.getChild("callsign").getValue() != nil) {
+            ident = track.getChild("callsign").getValue();
+          } elsif (track.getChild("name") != nil and track.getChild("name").getValue() != "" and track.getChild("name").getValue() != nil) {
             #only used by AI
-            ident = track.getNode("name").getValue();
-          } elsif (track.getNode("sign") != nil and track.getNode("sign").getValue() != "" and track.getNode("sign").getValue() != nil) {
+            ident = track.getChild("name").getValue();
+          } elsif (track.getChild("sign") != nil and track.getChild("sign").getValue() != "" and track.getChild("sign").getValue() != nil) {
             #only used by AI
-            ident = track.getNode("sign").getValue();
+            ident = track.getChild("sign").getValue();
           } else {
             ident = "";
           }
         } else {
           if(model != nil) {
             ident = model;
-          } elsif (track.getNode("sign") != nil and track.getNode("sign").getValue() != "" and track.getNode("sign").getValue() != nil) {
+          } elsif (track.getChild("sign") != nil and track.getChild("sign").getValue() != "" and track.getChild("sign").getValue() != nil) {
             #only used by AI
-            ident = track.getNode("sign").getValue();  
-          } elsif (track.getNode("name") != nil and track.getNode("name").getValue() != "" and track.getNode("name").getValue() != nil) {
+            ident = track.getChild("sign").getValue();  
+          } elsif (track.getChild("name") != nil and track.getChild("name").getValue() != "" and track.getChild("name").getValue() != nil) {
             #only used by AI
-            ident = track.getNode("name").getValue();
-          } elsif (track.getNode("callsign") != nil and track.getNode("callsign").getValue() != "" and track.getNode("callsign").getValue() != nil) {
-            ident = track.getNode("callsign").getValue();
+            ident = track.getChild("name").getValue();
+          } elsif (track.getChild("callsign") != nil and track.getChild("callsign").getValue() != "" and track.getChild("callsign").getValue() != nil) {
+            ident = track.getChild("callsign").getValue();
           } else {
             ident = "";
           } 
@@ -172,6 +170,11 @@ var processTracks = func (vector, carrier, missile = FALSE) {
           selection = trackInfo;
           lookatSelection();
           selection_updated = TRUE;
+        #} elsif (track.getChild("name") != nil and track.getChild("name").getValue() == "RB-24J") {
+          #for testing that selection view follows missiles
+        #  selection = trackInfo;
+        #  lookatSelection();
+        #  selection_updated = TRUE;
         } elsif (selection != nil and selection[6].getChild("unique").getValue() == unique.getValue()) {
           # this track is already selected, updating it
           selection = trackInfo;
@@ -232,7 +235,7 @@ var trackCalc = func (aircraftPos, range, carrier) {
 
   if ((size(err))or(distance==nil)) {
     # Oops, have errors. Bogus position data (and distance==nil).
-    #print("Received invalid position data: " ~ debug._error(mp.callsign));
+    #print("Received invalid position data: dist "~distance);
     #target_circle[track_index+maxTargetsMP].hide();
     #print(i~" invalid pos.");
   } elsif (distanceDirect < range) {#is max radar range of ja37
