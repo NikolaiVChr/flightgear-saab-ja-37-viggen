@@ -52,6 +52,7 @@ HUD: Use instrument properties instead of simulation properties.
 HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
+HUD: Sidewind indicator should really be 10 degs below plane axis line.
 
 
 Bugs:

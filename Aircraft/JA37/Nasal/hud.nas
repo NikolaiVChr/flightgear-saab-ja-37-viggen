@@ -553,6 +553,46 @@ var HUDnasal = {
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
+    # heading scale on horizon line
+    HUDnasal.main.head_scale_horz_grp = HUDnasal.main.horizon_group2.createChild("group");
+    HUDnasal.main.head_scale_horz_ticks = HUDnasal.main.head_scale_horz_grp.createChild("path")
+                      .moveTo(0, 0)
+                      .vert(-30)
+                      .moveTo(10*pixelPerDegreeX, 0)
+                      .vert(-30)
+                      .moveTo(-10*pixelPerDegreeX, 0)
+                      .vert(-30)
+                      .setStrokeLineWidth(w)
+                      .setColor(r,g,b, a);
+    # Heading middle number on horizon line
+    HUDnasal.main.hdgMH = HUDnasal.main.head_scale_horz_grp.createChild("text")
+                      .setColor(r,g,b, a)
+                      .setAlignment("center-bottom")
+                      .setFontSize(65*fs, ar);
+    # Heading left number on horizon line
+    HUDnasal.main.hdgLH = HUDnasal.main.head_scale_horz_grp.createChild("text")
+                      .setColor(r,g,b, a)
+                      .setAlignment("center-bottom")
+                      .setFontSize(65*fs, ar);
+    # Heading right number on horizon line
+    HUDnasal.main.hdgRH = HUDnasal.main.head_scale_horz_grp.createChild("text")
+                      .setColor(r,g,b, a)
+                      .setAlignment("center-bottom")
+                      .setFontSize(65*fs, ar);
+    #heading bug on horizon
+    HUDnasal.main.heading_bug_horz_group = HUDnasal.main.horizon_group2.createChild("group");
+    HUDnasal.main.heading_bug_horz = HUDnasal.main.heading_bug_horz_group.createChild("path")
+                      .setColor(r,g,b, a)
+                      .setStrokeLineCap("round")
+                      .setStrokeLineWidth(w)
+                      .moveTo( 0,  10)
+                      .lineTo( 0,  55)
+                      .moveTo( 15, 55)
+                      .lineTo( 15, 25)
+                      .moveTo(-15, 55)
+                      .lineTo(-15, 25);                      
+
+
     HUDnasal.main.desired_lines3 = HUDnasal.main.desired_lines_group.createChild("path")
                      .moveTo(-200 + w/2, 0)
                      .vert(5*pixelPerDegreeY)
@@ -727,17 +767,18 @@ var HUDnasal = {
     }
 
     artifacts0 = [HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec, HUDnasal.main.reticle_missile,
-             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow,
+             HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow, HUDnasal.main.head_scale_horz_ticks,
              HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
              HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
              HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, distanceScale, HUDnasal.main.targetDistance1,
-             HUDnasal.main.targetDistance2, HUDnasal.main.landing_line];
+             HUDnasal.main.targetDistance2, HUDnasal.main.landing_line, HUDnasal.main.heading_bug_horz];
 
     artifactsText0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.hdgR, HUDnasal.main.qfe,
                       HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name,
-                      HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.alt_higher, HUDnasal.main.alt];
+                      HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.alt_higher, HUDnasal.main.alt,
+                      HUDnasal.main.hdgMH, HUDnasal.main.hdgLH, HUDnasal.main.hdgRH];
 
 
   },
@@ -899,6 +940,7 @@ var HUDnasal = {
             
       # heading scale
       me.displayHeadingScale();
+      me.displayHeadingHorizonScale();
 
       #heading bug, must be after heading scale
       me.displayHeadingBug();
@@ -987,35 +1029,83 @@ var HUDnasal = {
   },
 
   displayHeadingScale: func () {
-    var heading = me.input.hdg.getValue();
-    var headOffset = heading/10 - int (heading/10);
-    var headScaleOffset = headOffset;
-    var middleText = roundabout(me.input.hdg.getValue()/10);
-    me.middleOffset = nil;
-    if(middleText == 36) {
-      middleText = 0;
-    }
-    var leftText = middleText == 0?35:middleText-1;
-    var rightText = middleText == 35?0:middleText+1;
-    if (headOffset > 0.5) {
-      me.middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
-      me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
-      me.head_scale_grp.update();
-      me.hdgLineL.show();
-      #me.hdgLineR.hide();
+    if (mode != LANDING) {
+      var heading = me.input.hdg.getValue();
+      var headOffset = heading/10 - int (heading/10);
+      var headScaleOffset = headOffset;
+      var middleText = roundabout(me.input.hdg.getValue()/10);
+      me.middleOffset = nil;
+      if(middleText == 36) {
+        middleText = 0;
+      }
+      var leftText = middleText == 0?35:middleText-1;
+      var rightText = middleText == 35?0:middleText+1;
+      if (headOffset > 0.5) {
+        me.middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
+        me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
+        me.head_scale_grp.update();
+        me.hdgLineL.show();
+        #me.hdgLineR.hide();
+      } else {
+        me.middleOffset = -headScaleOffset*headScaleTickSpacing*2;
+        me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
+        me.head_scale_grp.update();
+        me.hdgLineR.show();
+        #me.hdgLineL.hide();
+      }
+      me.hdgR.setTranslation(headScaleTickSpacing*2, -65);
+      me.hdgR.setText(sprintf("%02d", rightText));
+      me.hdgM.setTranslation(0, -65);
+      me.hdgM.setText(sprintf("%02d", middleText));
+      me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
+      me.hdgL.setText(sprintf("%02d", leftText));
+      me.head_scale_grp.show();
+      me.head_scale_indicator.show();
     } else {
-      me.middleOffset = -headScaleOffset*headScaleTickSpacing*2;
-      me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
-      me.head_scale_grp.update();
-      me.hdgLineR.show();
-      #me.hdgLineL.hide();
+      me.head_scale_grp.hide();
+      me.head_scale_indicator.hide();
     }
-    me.hdgR.setTranslation(headScaleTickSpacing*2, -65);
-    me.hdgR.setText(sprintf("%02d", rightText));
-    me.hdgM.setTranslation(0, -65);
-    me.hdgM.setText(sprintf("%02d", middleText));
-    me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
-    me.hdgL.setText(sprintf("%02d", leftText));
+  },
+
+  displayHeadingHorizonScale: func () {
+    if (mode == LANDING) {
+      var heading = me.input.hdg.getValue();
+      var headOffset = heading/10 - int (heading/10);
+      var headScaleOffset = headOffset;
+      var middleText = roundabout(me.input.hdg.getValue()/10);
+      me.middleOffsetHorz = nil;
+      if(middleText == 36) {
+        middleText = 0;
+      }
+      var leftText = middleText == 0?35:middleText-1;
+      var rightText = middleText == 35?0:middleText+1;
+      if (headOffset > 0.5) {
+        me.middleOffsetHorz = -(headScaleOffset-1)*10*pixelPerDegreeX;
+        me.head_scale_horz_grp.setTranslation(me.middleOffsetHorz, 0);
+        me.head_scale_horz_grp.update();
+        #me.hdgLineL.show();
+      } else {
+        me.middleOffsetHorz = -headScaleOffset*10*pixelPerDegreeX;
+        me.head_scale_horz_grp.setTranslation(me.middleOffsetHorz, 0);
+        me.head_scale_horz_grp.update();
+        #me.hdgLineR.show();
+      }
+      me.hdgRH.setTranslation(10*pixelPerDegreeX, -30);
+      me.hdgRH.setText(sprintf("%02d", rightText));
+      me.hdgMH.setTranslation(0, -30);
+      me.hdgMH.setText(sprintf("%02d", middleText));
+      me.hdgLH.setTranslation(-10*pixelPerDegreeX, -30);
+      me.hdgLH.setText(sprintf("%02d", leftText));
+      me.hdgRH.show();
+      me.hdgMH.show();
+      me.hdgLH.show();
+      me.head_scale_horz_ticks.show();
+    } else {
+      me.hdgRH.hide();
+      me.hdgMH.hide();
+      me.hdgLH.hide();
+      me.head_scale_horz_ticks.hide();
+    }
   },
 
   displayHeadingBug: func () {
@@ -1088,13 +1178,21 @@ var HUDnasal = {
         pos_x = 687-512;
       }
       me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
-      if(blink == FALSE or me.input.fiveHz.getValue() == TRUE) {
+      if(mode != LANDING and (blink == FALSE or me.input.fiveHz.getValue() == TRUE)) {
         me.heading_bug.show();
       } else {
         me.heading_bug.hide();
       }
+      if (mode = LANDING) {
+        pos_x = me.middleOffsetHorz + degOffset*(pixelPerDegreeX);
+        me.heading_bug_horz_group.setTranslation(pos_x, 0);
+        me.heading_bug_horz.show();
+      } else {
+        me.heading_bug_horz.hide();
+      }
     } else {
       me.heading_bug.hide();
+      me.heading_bug_horz.hide();
     }
   },
 
@@ -1567,9 +1665,13 @@ var HUDnasal = {
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       return me.showFlightPathVector(1, FALSE);
-    } elsif(mode == TAKEOFF or mode == LANDING) {
-      
+    } elsif(mode == TAKEOFF) {      
       me.showSidewind(TRUE);
+      me.reticle_cannon.hide();
+      me.reticle_missile.hide();
+      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
+    } elsif(mode == LANDING) {      
+      me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
