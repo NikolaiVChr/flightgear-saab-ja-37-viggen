@@ -1183,7 +1183,7 @@ var HUDnasal = {
       } else {
         me.heading_bug.hide();
       }
-      if (mode = LANDING) {
+      if (mode == LANDING) {
         pos_x = me.middleOffsetHorz + degOffset*(pixelPerDegreeX);
         me.heading_bug_horz_group.setTranslation(pos_x, 0);
         me.heading_bug_horz.show();
