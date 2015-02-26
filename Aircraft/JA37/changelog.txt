@@ -1227,3 +1227,6 @@ Animation: Wheels will now stop spinning entirely when aircraft is in the air.
 HUD: Made a heading scale on the horizon line, in landing mode. The regular heading scale will be hidden.
 HUD: Sidewind indicator is now only shown in takeoff mode.
 GUI: Updated aircraft help to the new HUD features.
+Model: Raised pilots view point with 2.5cm
+Sim: Prevented trigger listener to activate before node inputs were ready.
+Model: Lowered the view angle in the internal views.

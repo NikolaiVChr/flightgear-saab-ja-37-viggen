@@ -577,7 +577,6 @@ var trigger_listener = func {
       }
     }
 }
-setlistener("controls/armament/trigger", trigger_listener, 0, 0);
 
 var cycle_weapons = func {
   var sel = getprop("controls/armament/station-select");
@@ -733,6 +732,9 @@ var main_init = func {
 
   # asymmetric vortex detachment
   asymVortex();
+
+  # setup trigger listener
+  setlistener("controls/armament/trigger", trigger_listener, 0, 0);
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
