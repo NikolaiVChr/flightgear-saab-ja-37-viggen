@@ -407,7 +407,7 @@
      <config>
        <pitch-offset-deg type="double">-15</pitch-offset-deg>
        <x-offset-m type="double">0</x-offset-m>
-       <y-offset-m type="double">0.70</y-offset-m>
+       <y-offset-m type="double">0.725</y-offset-m>
        <z-offset-m type="double">-3.40</z-offset-m>
        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
      </config>
@@ -547,7 +547,7 @@
          <from-model-idx type="int">0</from-model-idx>
          <pitch-offset-deg type="double">-10</pitch-offset-deg>
          <x-offset-m type="double">0</x-offset-m>
-         <y-offset-m type="double">0.70</y-offset-m>
+         <y-offset-m type="double">0.725</y-offset-m>
          <z-offset-m type="double">-3.40</z-offset-m>
          <default-field-of-view-deg type="double">65</default-field-of-view-deg>
          <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>
