@@ -391,23 +391,23 @@
 *************************************************************************-->
 <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
-    <current-view>
+    <!--<current-view>
       <field-of-view type="double">100</field-of-view>
       <config>
         <default-field-of-view-deg type="double">100</default-field-of-view-deg>
-      </config>
+      </config>-->
       <!-- Sometimes these get changed and saved and will override the defaults. This will set the defaults everytime its started up. -->
-      <x-offset-m type="double">0</x-offset-m>
-      <y-offset-m type="double">0.725</y-offset-m>
+      <!--<x-offset-m type="double">0</x-offset-m>
+      <y-offset-m type="double">0.70</y-offset-m>
       <z-offset-m type="double">-3.40</z-offset-m>
-    </current-view>
+    </current-view>-->
 
     <view n="0">
      <internal>true</internal>
      <config>
-       <pitch-offset-deg type="double">-20</pitch-offset-deg>
+       <pitch-offset-deg type="double">-15</pitch-offset-deg>
        <x-offset-m type="double">0</x-offset-m>
-       <y-offset-m type="double">0.725</y-offset-m>
+       <y-offset-m type="double">0.70</y-offset-m>
        <z-offset-m type="double">-3.40</z-offset-m>
        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
      </config>
@@ -545,9 +545,9 @@
         <config>
          <from-model type="bool">true</from-model>
          <from-model-idx type="int">0</from-model-idx>
-         <pitch-offset-deg type="double">-12.5</pitch-offset-deg>
+         <pitch-offset-deg type="double">-10</pitch-offset-deg>
          <x-offset-m type="double">0</x-offset-m>
-         <y-offset-m type="double">0.725</y-offset-m>
+         <y-offset-m type="double">0.70</y-offset-m>
          <z-offset-m type="double">-3.40</z-offset-m>
          <default-field-of-view-deg type="double">65</default-field-of-view-deg>
          <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>

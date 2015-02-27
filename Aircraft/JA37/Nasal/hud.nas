@@ -42,9 +42,9 @@ var HUDTop = 0.77; # position of top of HUD in meters. 0.18 + 0.59 = 0.77
 # HUD z is 0 to 0.18 and raised 0.59 up. Finally is 0.59m to 0.77m, height of HUD is 0.18m
 # Therefore each pixel is 0.18 / 1024 = 0.00017578125m or each meter is 5688.8888888888888888888888888889 pixels.
 var pixelPerMeter = 5688.9;
-var centerOffset = -256.00;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
-# View is 0.725m so 0.77-0.725 = 0.045m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
-# 512 - (0.02 / 0.00017578125) = 256 pixels up from center. Since -y is upward, result is -256. (Per default)
+var centerOffset = -113.78;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+# View is 0.70m so 0.77-0.70 = 0.07m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
+# 512 - (0.07 / 0.00017578125) = 113.77777777777777777777777777778 pixels up from center. Since -y is upward, result is -113.78. (Per default)
 
 var pixelPerDegreeY = 51; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
@@ -109,13 +109,13 @@ var HUDnasal = {
       .setFontSize(100*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("center-center")
-      .setTranslation(0 , 315);
+      .setTranslation(0 , 400);
     HUDnasal.main.airspeedInt = HUDnasal.main.root.createChild("text")
       .setText("000")
       .setFontSize(100*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("center-center")
-      .setTranslation(0 , 230);
+      .setTranslation(0 , 315);
 
 
     # scale heading ticks
@@ -333,14 +333,14 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-375, centerOffset+(5.5*pixelPerDegreeY));
+    HUDnasal.main.qfe.setTranslation(-375, centerOffset+(6*pixelPerDegreeY));
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     HUDnasal.main.alt = HUDnasal.main.root.createChild("text");
     HUDnasal.main.alt.setColor(r,g,b, a);
     HUDnasal.main.alt.setAlignment("center-center");
-    HUDnasal.main.alt.setTranslation(-375, centerOffset+(7.5*pixelPerDegreeY));
+    HUDnasal.main.alt.setTranslation(-375, centerOffset+(8*pixelPerDegreeY));
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
     # Collision warning arrow
