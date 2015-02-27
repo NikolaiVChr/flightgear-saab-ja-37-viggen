@@ -95,7 +95,9 @@ input = {
   landLightALS:     "sim/rendering/als-secondary-lights/use-landing-light",
   viewInternal:     "sim/current-view/internal",
   sunAngle:         "sim/time/sun-angle-rad",
-  MPfloat2:         "sim/multiplay/generic/float[2]",  
+  MPfloat2:         "sim/multiplay/generic/float[2]", 
+  subAmmo2:         "ai/submodels/submodel[2]/count", 
+  subAmmo3:         "ai/submodels/submodel[3]/count", 
 };
    
 var update_loop = func {
@@ -441,6 +443,13 @@ var update_loop = func {
     var angle = input.sunAngle.getValue();# 1.25 - 2.45
     var newAngle = (1.2 -(angle-1.25))*0.8333;
     input.MPfloat2.setValue(newAngle);
+
+    #tracer ammo, due to it might run out faster than cannon rounds due to submodel delay not being precise
+    if(input.subAmmo3.getValue() > 0) {
+      input.subAmmo2.setValue(-1);
+    } else {
+      input.subAmmo2.setValue(0);
+    }
 
 
     settimer(
@@ -1095,7 +1104,7 @@ reload = func {
   screen.log.write("40 flares loaded", 0.0, 1.0, 0.0);
 
   # Reload cannon - 146 of them.
-  setprop("ai/submodels/submodel[2]/count", 29);
+  #setprop("ai/submodels/submodel[2]/count", 29);
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);

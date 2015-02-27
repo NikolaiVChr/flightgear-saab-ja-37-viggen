@@ -28,7 +28,7 @@ Sim: Make verbose property to be used in all nasal scripts. (possible include in
 Sim: Air to ground missiles.
 Sim: Longer range air2air missiles.
 Sim: Unguided missiles with terrain collision detection. (submodels with ext. force)
-Sim: Make users of FG HUD able to use combat features.
+Sim: Make users of FG HUD able to use tactical features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Hydralic pump depend on electric instead of rpm

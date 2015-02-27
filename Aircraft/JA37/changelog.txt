@@ -1230,4 +1230,5 @@ GUI: Updated aircraft help to the new HUD features.
 Model: Raised pilots view point with 2.5cm. [reverted]
 Sim: Prevented trigger listener to activate before node inputs were ready.
 Model: Lowered the view angle in the internal views.
-HUD: Moved QFE and digital atlitude up a small bit.
+HUD: Moved QFE and digital altitude up a small bit.
+Sim: Prevented tracer rounds from running out of ammo before cannon rounds.

@@ -43,7 +43,7 @@
     <speed>3383.33</speed><!-- ft/sec-->
     <repeat>true</repeat>
     <delay>0.22</delay><!-- secs between repeats, every 5th is tracer -->
-    <count>29</count>
+    <count>-1</count>
     <x-offset>  0.0</x-offset>
     <y-offset>  0.0</y-offset>
     <z-offset> -1.2</z-offset>
