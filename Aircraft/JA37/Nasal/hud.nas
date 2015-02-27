@@ -333,14 +333,14 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-375, centerOffset+(6*pixelPerDegreeY));
+    HUDnasal.main.qfe.setTranslation(-375, centerOffset+(5.5*pixelPerDegreeY));
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     HUDnasal.main.alt = HUDnasal.main.root.createChild("text");
     HUDnasal.main.alt.setColor(r,g,b, a);
     HUDnasal.main.alt.setAlignment("center-center");
-    HUDnasal.main.alt.setTranslation(-375, centerOffset+(8*pixelPerDegreeY));
+    HUDnasal.main.alt.setTranslation(-375, centerOffset+(7.5*pixelPerDegreeY));
     HUDnasal.main.alt.setFontSize(85*fs, ar);
 
     # Collision warning arrow

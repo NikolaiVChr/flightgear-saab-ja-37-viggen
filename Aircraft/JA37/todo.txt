@@ -80,6 +80,7 @@ Animation: Selection view does not follow carriers. (they lack radar properties)
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 Sim: Auto-starting the plane when engine is not fully spooled down, may fail. [confirmed]
 Model: CTRL-X in HUD view will not zoom to correct level.
+Effect: Landing light spot can be seen in replay in external view, if it was shown when replay was started.
 
 
 Issues with FG: (or my limited understanding of it)
