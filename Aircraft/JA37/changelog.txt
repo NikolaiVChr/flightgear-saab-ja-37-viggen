@@ -1232,3 +1232,5 @@ Sim: Prevented trigger listener to activate before node inputs were ready.
 Model: Lowered the view angle in the internal views.
 HUD: Moved QFE and digital altitude up a small bit.
 Sim: Prevented tracer rounds from running out of ammo before cannon rounds.
+Effect: Fixed landing light spot can be seen in replay in external view, if it was shown when replay was started.
+Sim: Fixed that auto-starting engine would fail if it was attempted before the engine was spooled down.

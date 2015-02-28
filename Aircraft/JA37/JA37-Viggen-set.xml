@@ -254,6 +254,10 @@
           <type>float</type>
           <property type="string">controls/lighting/instruments-norm</property>
         </signal>
+        <signal>
+          <type>bool</type>
+          <property type="string">controls/electric/lights-land-switch</property>
+        </signal>
         <!-- Effects -->
         <signal>
           <type>float</type>

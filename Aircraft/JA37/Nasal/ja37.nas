@@ -425,20 +425,6 @@ var update_loop = func {
       input.warn.setValue(FALSE);
     }
 
-    # switch on and off landing lights
-    if(input.batteryOutput.getValue() > 24 and input.landLightSwitch.getValue() == TRUE and input.gearsPos.getValue() != 0) {
-      input.landLight.setValue(TRUE);
-      if(input.viewInternal.getValue() == TRUE and input.landLightSupport.getValue() == TRUE) {
-          input.landLightALS.setValue(TRUE);
-        } else {
-          input.landLightALS.setValue(FALSE);
-        }
-    } else {
-      input.landLight.setValue(FALSE);
-      input.landLightALS.setValue(FALSE);
-    }
-
-
     #augmented flame translucency
     var angle = input.sunAngle.getValue();# 1.25 - 2.45
     var newAngle = (1.2 -(angle-1.25))*0.8333;
@@ -520,6 +506,20 @@ var slow_loop = func () {
 
 # fast updating loop
 var speed_loop = func () {
+
+  # switch on and off landing lights
+  if(input.batteryOutput.getValue() > 24 and input.landLightSwitch.getValue() == TRUE and input.gearsPos.getValue() != 0) {
+    input.landLight.setValue(TRUE);
+    if(input.viewInternal.getValue() == TRUE and input.landLightSupport.getValue() == TRUE) {
+        input.landLightALS.setValue(TRUE);
+      } else {
+        input.landLightALS.setValue(FALSE);
+      }
+  } else {
+    input.landLight.setValue(FALSE);
+    input.landLightALS.setValue(FALSE);
+  }
+
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
     settimer(speed_loop, 0.5);
@@ -924,7 +924,7 @@ var waiting_n1 = func {
       } else {
         settimer(waiting_n1, 0.5, 1);
       }
-    }  elsif (getprop("/engines/engine[0]/n1") > 15) {
+    }  elsif (getprop("/engines/engine[0]/n1") > 15 and getprop("/controls/engines/engine[0]/cutoff") == FALSE) {
       #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
