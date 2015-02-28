@@ -61,24 +61,24 @@ Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will 
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
 Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
-HUD: When the altitude difference to a target is much larger than the horizontal distance, the target positions are off.
 Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
 Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
-HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
-GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
-Model: sim load-lag when coming near other ja37. [reproduced]
-Model: Sim lag at final retraction of gear. [reproduced]
 Sim: When running at reduced sim time, relocating or pausing, autostart might fail. [reproduced]
 Sim: Missile that misses dont seem to delete by altitude.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
-Animation: Selection view does not follow carriers. (they lack radar properties)
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
+HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
+HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
+HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
+GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
+Model: sim load-lag when coming near other ja37. [reproduced]
+Model: Sim lag at final retraction of gear. [reproduced]
 Model: CTRL-X in HUD view will not zoom to correct level.
+Animation: Selection view does not follow carriers. (they lack radar properties)
 
 
 Issues with FG: (or my limited understanding of it)

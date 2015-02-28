@@ -1222,7 +1222,7 @@ Model: Fixed that when looking into the engine intake, one could spot part of th
 Model: Wheels texture are now more centered, will look better when spinning.
 Animation: Wheels will now stop spinning entirely when aircraft is in the air.
 
-3.007
+3.007 - 2015 February 27
 =====
 HUD: Made a heading scale on the horizon line, in landing mode. The regular heading scale will be hidden.
 HUD: Sidewind indicator is now only shown in takeoff mode.
