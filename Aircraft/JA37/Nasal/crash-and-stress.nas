@@ -93,7 +93,7 @@ var CrashAndStress = {
 
 			m.lastMessageTime = 0;
 
-
+			m._initProperties();
 			m._identifyGears(gears);
 			m.setStressLimit(stressLimit);
 			m.setWingsFailureModes(wingsFailureModes);
@@ -135,7 +135,7 @@ var CrashAndStress = {
 	        if (props.globals.getNode(prop) == nil) {
 	            props.globals.initNode(prop, TRUE, "BOOL");
 	        } else {
-	        	props.globals.getNode(prop).setValue(TRUE);#in case this gets initialized empty from a recorder signal or MP alias.
+	        	props.globals.getNode(prop).setBoolValue(TRUE);#in case this gets initialized empty from a recorder signal or MP alias.
 	        }
 
 	        return {
@@ -193,11 +193,21 @@ var CrashAndStress = {
 		me.exploded = FALSE;
 		me.lastMessageTime = 0;
 		me.repairing = TRUE;
-		me.input.simCrashed.setValue(FALSE);
+		me.input.simCrashed.setBoolValue(FALSE);
 		me.repairTimer.restart(10.0);
 	},
 	_finishRepair: func () {
 		me.repairing = FALSE;
+	},
+	_initProperties: func () {
+		me.input.crackOn.setBoolValue(FALSE);
+		me.input.creakOn.setBoolValue(FALSE);
+		me.input.crackVol.setDoubleValue(0.0);
+		me.input.creakVol.setDoubleValue(0.0);
+		me.input.wCrashOn.setBoolValue(FALSE);
+		me.input.crashOn.setBoolValue(FALSE);
+		me.input.detachOn.setBoolValue(FALSE);
+		me.input.explodeOn.setBoolValue(FALSE);
 	},
 	_identifyGears: func (gears) {
 		var contacts = props.globals.getNode("/gear").getChildren("gear");
@@ -285,7 +295,7 @@ var CrashAndStress = {
 		    # test for explosion
 		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
 		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
-		    	me.input.simCrashed.setValue(TRUE);
+		    	me.input.simCrashed.setBoolValue(TRUE);
 		    	me._explodeBegin("Aircraft hit "~hitStr~".");
 		    	return;
 		    }
@@ -313,24 +323,24 @@ var CrashAndStress = {
 	},
 	_impactSoundWaterBegin: func (speed) {
 		if (speed > 5) {#check if sound already running?
-			me.input.wCrashOn.setValue(1);
+			me.input.wCrashOn.setBoolValue(TRUE);
 			me.soundWaterTimer.restart(3);
 		}
 	},
 	_impactSoundWaterEnd: func	() {
-		me.input.wCrashOn.setValue(0);
+		me.input.wCrashOn.setBoolValue(FALSE);
 	},
 	_impactSoundBegin: func (speed) {
 		if (speed > 5) {
-			me.input.crashOn.setValue(1);
+			me.input.crashOn.setBoolValue(TRUE);
 			me.soundTimer.restart(3);
 		}
 	},
 	_impactSoundEnd: func () {
-		me.input.crashOn.setValue(0);
+		me.input.crashOn.setBoolValue(FALSE);
 	},
 	_explodeBegin: func(str) {
-		me.input.explodeOn.setValue(1);
+		me.input.explodeOn.setBoolValue(TRUE);
 		me.exploded = TRUE;
 		var failure_modes = FailureMgr._failmgr.failure_modes;
 	    var mode_list = keys(failure_modes);
@@ -344,11 +354,11 @@ var CrashAndStress = {
 		me.explodeTimer.restart(3);
 	},
 	_explodeEnd: func () {
-		me.input.explodeOn.setValue(0);
+		me.input.explodeOn.setBoolValue(FALSE);
 	},
 	_stressDamage: func (str) {
 		me._output("Aircraft damaged: Wings broke off, due to "~str~" G forces.");
-		me.input.detachOn.setValue(1);
+		me.input.detachOn.setBoolValue(TRUE);
 		
   		FailureMgr.set_failure_level(me.fdm.wingsFailureID, 1);
 
@@ -357,7 +367,7 @@ var CrashAndStress = {
 		me.stressTimer.restart(3);
 	},
 	_stressDamageEnd: func () {
-		me.input.detachOn.setValue(0);
+		me.input.detachOn.setBoolValue(FALSE);
 	},
 	_output: func (str, override = FALSE) {
 		var time = me.fdm.input.simTime.getValue();
@@ -402,8 +412,8 @@ var CrashAndStress = {
 				}
 			}
 		} else {
-			me.input.crackOn.setValue(0);
-			me.input.creakOn.setValue(0);
+			me.input.crackOn.setBoolValue(FALSE);
+			me.input.creakOn.setBoolValue(FALSE);
 			#me.input.trembleOn.setValue(0);
 		}
 	},
@@ -411,32 +421,32 @@ var CrashAndStress = {
 		if (wingload > (wingLoadLimit * 0.5)) {
 			#me.input.trembleOn.setValue(1);
 			var tremble_max = math.sqrt((wingload - (wingLoadLimit * 0.5)) / (wingLoadLimit * 0.5));
-			#me.input.trembleMax.setValue(1);
+			#me.input.trembleMax.setDoubleValue(1);
 
 			if (wingload > (wingLoadLimit * 0.75)) {
 
 				#tremble_max = math.sqrt((wingload - (wingLoadLimit * 0.5)) / (wingLoadLimit * 0.5));
-				me.input.creakVol.setValue(tremble_max);
-				me.input.creakOn.setValue(1);
+				me.input.creakVol.setDoubleValue(tremble_max);
+				me.input.creakOn.setBoolValue(TRUE);
 
 				if (wingload > (wingLoadLimit * 0.90)) {
-					me.input.crackOn.setValue(1);
-					me.input.crackVol.setValue(tremble_max);
+					me.input.crackOn.setBoolValue(TRUE);
+					me.input.crackVol.setDoubleValue(tremble_max);
 					if (wingload > wingLoadLimit) {
-						me.input.crackVol.setValue(1);
-						me.input.creakVol.setValue(1);
-						#me.input.trembleMax.setValue(1);
+						me.input.crackVol.setDoubleValue(1);
+						me.input.creakVol.setDoubleValue(1);
+						#me.input.trembleMax.setDoubleValue(1);
 						return TRUE;
 					}
 				} else {
-					me.input.crackOn.setValue(0);
+					me.input.crackOn.setBoolValue(FALSE);
 				}
 			} else {
-				me.input.creakOn.setValue(0);
+				me.input.creakOn.setBoolValue(FALSE);
 			}
 		} else {
-			me.input.crackOn.setValue(0);
-			me.input.creakOn.setValue(0);
+			me.input.crackOn.setBoolValue(FALSE);
+			me.input.creakOn.setBoolValue(FALSE);
 			#me.input.trembleOn.setValue(0);
 		}
 		return FALSE;
@@ -495,7 +505,7 @@ var yaSimProp = {
 	},
 	convert: func () {
 		call(fdmProperties.convert, [], me);
-		me.input.downFps = props.Node.new().setValue(0);
+		me.input.downFps = props.Node.new().setDoubleValue(0);
 	},
 	fps2kt: func (fps) {
 		return fps;
