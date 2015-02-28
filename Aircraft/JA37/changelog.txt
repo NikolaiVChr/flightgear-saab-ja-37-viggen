@@ -1238,3 +1238,5 @@ Sim: Fixed that auto-starting engine would fail if it was attempted before the e
 3.008
 =====
 Sim: Typecast all property writes in crash system. And initialized custom properties.
+Sim: Made autostart work even if sim time is accelerated or slowed down.
+HUD: Changed font aspect ratio to default 1:1.

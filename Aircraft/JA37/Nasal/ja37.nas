@@ -893,7 +893,7 @@ var autostart = func {
 
 # Opens fuel valve in autostart
 var waiting_n1 = func {
-  start_count += 1;
+  start_count += 1* getprop("sim/speed-up");
   #print(start_count);
   if (start_count > 45) {
     if(bingoFuel == FALSE) {
@@ -939,7 +939,7 @@ var waiting_n1 = func {
 }
 
 var final_engine = func () {
-  start_count += 1;
+  start_count += 1* getprop("sim/speed-up");
   if (start_count > 70) {
     if(bingoFuel == FALSE) {
       popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
