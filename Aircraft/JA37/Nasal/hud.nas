@@ -1029,7 +1029,7 @@ var HUDnasal = {
   },
 
   displayHeadingScale: func () {
-    if (mode != LANDING) {
+    if (mode != LANDING or me.input.pitch.getValue() < -5 or me.input.pitch.getValue() > 7) {
       var heading = me.input.hdg.getValue();
       var headOffset = heading/10 - int (heading/10);
       var headScaleOffset = headOffset;

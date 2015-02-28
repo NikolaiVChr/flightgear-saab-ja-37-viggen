@@ -970,7 +970,7 @@
       </accelerations>
       <autoReverseThrust userarchive="y" type="bool">false</autoReverseThrust>
       <supported>
-        <old-custom-fails type="bool">false</old-custom-fails>
+        <old-custom-fails type="int">0</old-custom-fails>
         <hud type="bool">false</hud>
         <radar type="bool">false</radar>
         <options type="bool">false</options>
@@ -1827,13 +1827,13 @@
     <limits>
       <file>Aircraft/Generic/limits.nas</file>
     </limits>
-    <crash>
-      <!--<file>Aircraft/JA37/Nasal/crash.nas</file>-->
-      <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
-    </crash>
     <failure-mgr>
       <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
     </failure-mgr>
+    <crash>
+      <!--<file>Aircraft/JA37/Nasal/crash.nas</file>-->
+      <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
+    </crash>    
     <armament>
       <file>Aircraft/JA37/Nasal/aim-9.nas</file>
     </armament>  
