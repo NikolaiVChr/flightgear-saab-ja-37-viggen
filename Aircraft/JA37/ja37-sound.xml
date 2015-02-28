@@ -976,69 +976,6 @@
         <property>sim/ja37/armament/rb24/sound-volume</property>
       </volume>
     </rb24-signal>
-       
-  <!--                                                                          Damage                                   -->  
-
-   <canopy-detach>
-      <name>canopy-detach</name>
-      <path>Aircraft/JA37/Sounds/canopy-detach.wav</path>
-      <mode>once</mode>
-      <condition>
-          <equals>
-            <property>fdm/jsbsim/fcs/canopy-hinges/serviceable</property>
-            <value>0</value>
-          </equals>
-      </condition>
-       <position>
-        <x>-1.0</x>
-        <y>0.01</y>
-        <z>0.195</z>
-       </position>
-      <volume>
-        <factor>1</factor>
-      </volume>
-    </canopy-detach>
-   
-   <aircraft-explode>
-  		<name>aircraft-explode</name>
-  		<path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
-  		<mode>once</mode>
-  		<condition>
-      		<equals>
-      			<property>damage/sounds/explode-on</property>
-      		  <value>1</value>
-    			</equals>
-  		</condition>
-      <position>
-        <x>0.01</x>
-        <y>0.01</y>
-        <z>0.01</z>
-      </position>
-  		<volume>
-  			<factor>3</factor>
-        <max>3</max>
-  		</volume>
-  	</aircraft-explode>
-
-    <aircraft-detach>
-      <name>aircraft-detach</name>
-      <path>Aircraft/JA37/Sounds/aircraft-wings-detach.wav</path>
-      <mode>once</mode>
-      <condition>
-          <equals>
-            <property>damage/sounds/detach-on</property>
-            <value>1</value>
-          </equals>
-      </condition>
-      <position>
-        <x>0.01</x>
-        <y>0.01</y>
-        <z>0.01</z>
-      </position>      
-      <volume>
-        <factor>1</factor>
-      </volume>
-    </aircraft-detach>
 
     <missile-hit><!-- multiple of these so the sound can be played over each other -->
       <name>missile-hit1</name>
@@ -1122,7 +1059,70 @@
         <property>sim/ja37/armament/rb24/flags/explode-sound-vol-3</property>
         <factor>1</factor>
       </volume>
-    </missile-hit>        
+    </missile-hit> 
+       
+  <!--                                                                          Damage                                   -->  
+
+   <canopy-detach>
+      <name>canopy-detach</name>
+      <path>Aircraft/JA37/Sounds/canopy-detach.wav</path>
+      <mode>once</mode>
+      <condition>
+          <equals>
+            <property>fdm/jsbsim/fcs/canopy-hinges/serviceable</property>
+            <value>0</value>
+          </equals>
+      </condition>
+       <position>
+        <x>-1.0</x>
+        <y>0.01</y>
+        <z>0.195</z>
+       </position>
+      <volume>
+        <factor>1</factor>
+      </volume>
+    </canopy-detach>
+   
+   <aircraft-explode>
+  		<name>aircraft-explode</name>
+  		<path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+  		<mode>once</mode>
+  		<condition>
+      		<equals>
+      			<property>damage/sounds/explode-on</property>
+      		  <value>1</value>
+    			</equals>
+  		</condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>
+  		<volume>
+  			<factor>3</factor>
+        <max>3</max>
+  		</volume>
+  	</aircraft-explode>
+
+    <aircraft-detach>
+      <name>aircraft-detach</name>
+      <path>Aircraft/JA37/Sounds/aircraft-wings-detach.wav</path>
+      <mode>once</mode>
+      <condition>
+          <equals>
+            <property>damage/sounds/detach-on</property>
+            <value>1</value>
+          </equals>
+      </condition>
+      <position>
+        <x>0.01</x>
+        <y>0.01</y>
+        <z>0.01</z>
+      </position>      
+      <volume>
+        <factor>1</factor>
+      </volume>
+    </aircraft-detach>
 
   	<aircraft-crash>
   		<name>aircraft-impact</name>
