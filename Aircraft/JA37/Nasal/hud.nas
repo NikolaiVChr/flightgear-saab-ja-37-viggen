@@ -1856,7 +1856,11 @@ var HUDnasal = {
         if(showme == TRUE) {
           me.tower_symbol.setTranslation(pos_x, pos_y);
           var tower_dist = me.input.units.getValue() ==1  ? distance : distance/kts2kmh;
-          me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
+          if(tower_dist < 10000) {
+            me.tower_symbol_dist.setText(sprintf("%.1f", tower_dist/1000));
+          } else {
+            me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
+          }          
           me.tower_symbol_icao.setText(getprop("sim/tower/airport-id"));
           me.tower_symbol.show();
           me.tower_symbol.update();
@@ -1970,7 +1974,12 @@ var HUDnasal = {
           diamond_node = selection[6];
           me.diamond_group.setTranslation(selection[0], selection[1]);
           var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
-          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          
+          if(diamond_dist < 10000) {
+            me.diamond_dist.setText(sprintf("%.1f", diamond_dist/1000));
+          } else {
+            me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          }
           me.diamond_name.setText(selection[5]);
           me.target_circle[me.selection_index].hide();
 
@@ -2013,7 +2022,11 @@ var HUDnasal = {
           me.diamond_group.setTranslation(selection[0], selection[1]);
           me.target_circle[me.selection_index].setTranslation(selection[0], selection[1]);
           var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
-          me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          if(diamond_dist < 10000) {
+            me.diamond_dist.setText(sprintf("%.1f", diamond_dist/1000));
+          } else {
+            me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          }
           me.diamond_name.setText(selection[5]);
           
           if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
