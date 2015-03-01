@@ -1541,6 +1541,9 @@ var HUDnasal = {
       } else {
         me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
       }
+    } elsif (mode == LANDING or mode == TAKEOFF) {
+      me.airspeedInt.hide();
+      me.airspeed.setText(sprintf("KT%03d", me.input.ias.getValue()));
     } else {
       me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
       me.airspeedInt.show();

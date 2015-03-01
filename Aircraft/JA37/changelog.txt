@@ -1243,3 +1243,4 @@ HUD: Changed font aspect ratio to default 1:1.
 HUD: Made the default heading scale appear in landing mode, if the horizon scale is not in center of view.
 Sim: Fixed that crash system in FG 3.5 would start before failure system was initialized.
 Sim: Updated failures to work in FG 3.5 failure system.
+HUD: Removed mach indicator in landing and takeoff mode as per the manual.
