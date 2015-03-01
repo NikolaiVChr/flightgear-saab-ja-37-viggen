@@ -666,7 +666,7 @@ var test_support = func {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/popuptips", FALSE);
-    } elsif (minor == 4) {
+    } elsif (minor == 4 or minor ==3) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/popuptips", FALSE);
     }
