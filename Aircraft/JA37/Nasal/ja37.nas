@@ -675,7 +675,7 @@ var test_support = func {
     setprop("sim/ja37/supported/options", TRUE);
     setprop("sim/ja37/supported/radar", TRUE);
     setprop("sim/ja37/supported/hud", TRUE);
-    setprop("sim/ja37/supported/old-custom-fails", FALSE);
+    setprop("sim/ja37/supported/old-custom-fails", 2);
     setprop("sim/ja37/supported/landing-light", TRUE);
     setprop("sim/ja37/supported/popuptips", TRUE);
   }

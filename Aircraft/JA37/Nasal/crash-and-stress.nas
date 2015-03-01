@@ -6,7 +6,7 @@
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.13
+# Version 0.14
 #
 # License:
 #   GPL 2.0

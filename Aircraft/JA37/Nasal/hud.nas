@@ -1939,7 +1939,7 @@ var HUDnasal = {
       }
       if(me.track_index != -1) {
         #hide the the rest unused circles
-        for(i = me.track_index; i < maxTracks ; i+=1) {
+        for(var i = me.track_index; i < maxTracks ; i+=1) {
           me.target_circle[i].hide();
         }
       }
@@ -1953,19 +1953,19 @@ var HUDnasal = {
       if(selection != nil and selection[6].getChild("valid").getValue() == TRUE and me.selection_updated == TRUE) {
         # selection is currently in forward looking radar view
         var blink = FALSE;
-        if(selection[0] > 512) {
+        if(selection[0] >= 512) {#since radar logic run slower than HUD loop, this must be >= check to prevent erratic blinking since pos is being overwritten
           blink = TRUE;
           selection[0] = 512;
         }
-        if(selection[0] < -512) {
+        if(selection[0] <= -512) {
           blink = TRUE;
           selection[0] = -512;
         }
-        if(selection[1] > 512) {
+        if(selection[1] >= 512) {
           blink = TRUE;
           selection[1] = 512;
         }
-        if(selection[1] < -450) {
+        if(selection[1] <= -450) {
           blink = TRUE;
           selection[1] = -450;
         }
@@ -2034,7 +2034,7 @@ var HUDnasal = {
             me.target_circle[me.selection_index].hide();
           } else {
             me.diamond_group.show();
-            me.target_circle[me.selection_index].show()
+            me.target_circle[me.selection_index].show();
           }
           me.diamond.hide();
           me.target.hide();
