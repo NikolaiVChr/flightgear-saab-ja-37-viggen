@@ -106,16 +106,16 @@ var HUDnasal = {
     # digital airspeed kts/mach 
     HUDnasal.main.airspeed = HUDnasal.main.root.createChild("text")
       .setText("000")
-      .setFontSize(100*fs, ar)
+      .setFontSize(85*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("center-center")
-      .setTranslation(0 , 400);
+      .setTranslation(0 , 420);
     HUDnasal.main.airspeedInt = HUDnasal.main.root.createChild("text")
       .setText("000")
-      .setFontSize(100*fs, ar)
+      .setFontSize(85*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("center-center")
-      .setTranslation(0 , 315);
+      .setTranslation(0 , 350);
 
 
     # scale heading ticks
