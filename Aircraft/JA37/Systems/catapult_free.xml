@@ -7,6 +7,7 @@
          <default value="systems/catapult_free/cat-launch-cmd"/>
          <test logic="OR" value="0">
               gear/unit[1]/WOW != 1
+              ground/carrier-near != 1
          </test>
 	       <output>systems/catapult_free/cat-launch-cmd</output>
      </switch>

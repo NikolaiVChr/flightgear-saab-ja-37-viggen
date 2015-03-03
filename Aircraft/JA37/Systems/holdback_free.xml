@@ -7,6 +7,7 @@
          <default value="systems/launchbar_free/lock-cmd"/>
          <test logic="AND" value="0">
              systems/catapult_free/cat-launch-cmd-pos  == 1
+             ground/carrier-near == 1
          </test>
 	       <output>systems/launchbar_free/lock-cmd</output>
      </switch>
@@ -17,8 +18,9 @@
           <default value="0"/>
           <test logic="AND" value="forces/fbx-prop-lbs">
               systems/launchbar_free/lock-cmd == 1
+              ground/carrier-near == 1
           </test>
-          <test value="0">
+          <test logic="AND" value="0">
                 gear/unit[1]/WOW == 0
           </test>
           <output>external_reactions/holdback_free/magnitude</output>
@@ -53,8 +55,9 @@
 	   <switch name="/surface-positions/holdback">       <!--==Anim HB ===-->
                 <default value="0"/>
                 <test logic="AND" value="1">
-		    systems/launchbar_free/lock-cmd == 1
-		    launchbar/launch-bar-pos-norm  == 1
+              		    systems/launchbar_free/lock-cmd == 1
+              		    launchbar/launch-bar-pos-norm  == 1
+                      ground/carrier-near == 1
                 </test>
             </switch> 
 

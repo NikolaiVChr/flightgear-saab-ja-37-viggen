@@ -1349,7 +1349,11 @@
         <binding>
           <command>nasal</command>
           <script>ja37.click();
-                  ja37.popupTip("Catapult launch");</script>
+                  if (getprop("/fdm/jsbsim/ground/carrier-near") == 1) {
+                    ja37.popupTip("Catapult launch");
+                  } else {
+                    ja37.popupTip("Catapult not launching. (not on carrier deck)");
+                  }</script>
         </binding>
      </key>
 
@@ -1358,29 +1362,17 @@
         <name>L</name>
         <desc>Launch-bar engage.</desc>
         <binding>
-            <command>property-assign</command>
-            <property>/fdm/jsbsim/systems/launchbar_free/lock-cmd</property>
-            <value type="double">1</value>
-        </binding>
-        <binding>
-            <command>property-assign</command>
-            <property>fdm/jsbsim/systems/catapult_free/cat-launch-cmd</property>
-            <value>0</value>
-        </binding>
-        <binding>
-            <command>property-assign</command>
-            <property>/fdm/jsbsim/systems/launchbar/store-timer</property>
-            <value>1</value>
-        </binding>
-        <binding>
-            <command>property-assign</command>
-            <property>/fdm/jsbsim/systems/launchbar-locked-time-mem</property>
-            <value>0</value>
-        </binding>
-        <binding>
           <command>nasal</command>
           <script>ja37.click();
-                  ja37.popupTip("Launchbar engaging");</script>
+                  if (getprop("/fdm/jsbsim/ground/carrier-near") == 1) {
+                    setprop("/fdm/jsbsim/systems/launchbar_free/lock-cmd", 1);
+                    setprop("fdm/jsbsim/systems/catapult_free/cat-launch-cmd", 0);
+                    setprop("/fdm/jsbsim/systems/launchbar/store-timer", 1);
+                    setprop("/fdm/jsbsim/systems/launchbar-locked-time-mem", 0);
+                    ja37.popupTip("Launchbar engaging.");
+                  } else {
+                    ja37.popupTip("Launchbar not engaging. (not on carrier deck)");
+                  }</script>
         </binding>
         <mod-up>
             <binding>
