@@ -627,6 +627,7 @@ var test_support = func {
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/popuptips", FALSE);
       setprop("sim/ja37/supported/landing-light", FALSE);
+      setprop("sim/ja37/supported/crash-system", 0);
   } elsif (major == 2) {
     setprop("sim/ja37/supported/landing-light", FALSE);
     if(minor < 7) {
@@ -636,6 +637,7 @@ var test_support = func {
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/crash-system", 0);
     } elsif(minor < 9) {
       popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("sim/ja37/supported/radar", FALSE);
@@ -644,12 +646,14 @@ var test_support = func {
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/hud/mode", 0);
       setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/crash-system", 0);
     } else {
       setprop("sim/ja37/supported/radar", TRUE);
       setprop("sim/ja37/supported/hud", TRUE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/crash-system", 0);
     }
   } elsif (major == 3) {
     setprop("sim/ja37/supported/options", TRUE);
@@ -658,15 +662,17 @@ var test_support = func {
     setprop("sim/ja37/supported/old-custom-fails", 2);
     setprop("sim/ja37/supported/landing-light", TRUE);
     setprop("sim/ja37/supported/popuptips", TRUE);
+    setprop("sim/ja37/supported/crash-system", 1);
     if (minor == 0) {
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/popuptips", FALSE);
-    } elsif (minor == 2) {
+      setprop("sim/ja37/supported/crash-system", 0);
+    } elsif (minor <= 2) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/popuptips", FALSE);
-    } elsif (minor == 4 or minor ==3) {
+    } elsif (minor <= 4) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/popuptips", FALSE);
     }
@@ -1142,4 +1148,13 @@ var _popupTip = func(label, y, delay) {
     canvas.tooltip._hiding = 1;                                               # hack 2
     canvas.tooltip._hideTimer.restart(delay==nil?4:delay);
     #canvas.tooltip.showMessage(delay);
+}
+
+var repair = func () {
+  var ver = getprop("sim/ja37/supported/crash-system");
+  if (ver == 0) {
+    crash0.repair();
+  } else {
+    crash1.repair();
+  }
 }

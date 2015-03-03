@@ -1247,3 +1247,7 @@ HUD: Removed mach indicator in landing and takeoff mode as per the manual.
 HUD: Made digital airspeed smaller fonts.
 HUD: Made distance indication be floating point below 10Nm or 10Km.
 HUD: Fixed that if selection or target was in radar cone but outside HUD view, it could blink erratically at medium/high framerates.
+Sim: Fixed electrical system would break down due to generator failure mode not installed on FG 3.0.
+Sim: Electrical Potemkin system cleaned up and increased performance.
+Sim: Fixed aliasing with type would fail in FG 3.0.
+Sim: Made FGs earlier than 3.2 use the old crash code.

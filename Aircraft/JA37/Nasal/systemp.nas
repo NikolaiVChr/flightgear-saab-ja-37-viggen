@@ -34,7 +34,22 @@ var System_P = {
     m.dt=0;
     m.oldtime=0;
     return m;
-    },
+  },
+
+  init : func {
+    me.read_connections();
+    foreach (var connection; me.connections) {
+      if (num(connection.off) != nil) {
+        setprop(connection.out, num(connection.off));
+      } else {
+        setprop(connection.out, getprop(connection.off));
+      }
+    }
+    me.running = 1;
+    me.oldtime = getprop("/sim/time/elapsed-sec");
+    if (me.verbose > 0) print("Initialized system");
+    me.update();
+  },
 
   read_connections : func {
     if (me.verbose > 0) print("Reading connections");
@@ -45,6 +60,19 @@ var System_P = {
       if (line != nil) {
         var c_arr=split(",", line);
         if (size(c_arr) == 6) {
+#print("adding "~c_arr[0]);
+          c_arr[0] = props.globals.getNode(c_arr[0]);
+          if(c_arr[0] == nil) print("Potemkin: property not initialized in line: "~line);
+          if(num(c_arr[2]) == nil and c_arr[2] != ".") {
+            c_arr[2] = props.globals.getNode(c_arr[2]);
+            if(c_arr[2] == nil) print("Potemkin: property not initialized in line: "~line);
+          }
+          c_arr[3] = props.globals.getNode(c_arr[3]);
+          if(c_arr[3] == nil) print("Potemkin: property not initialized in line: "~line);
+          if(num(c_arr[4]) == nil) {
+            c_arr[4] = props.globals.getNode(c_arr[4]);
+            if(c_arr[4] == nil) print("Potemkin: property not initialized in line: "~line);
+          }
           append(me.connections, Connection.new(c_arr));
           if (me.verbose > 1) print("Adding: "~line);
         } else if (me.verbose > 1) print("Skipping: "~line);
@@ -54,16 +82,6 @@ var System_P = {
     if (me.verbose > 0) print("Read connections");
   },
 
-  change_value : func(prop, value, ramp) {
-    if (ramp == 0) setprop(prop, value);
-    else {
-      var ov=num(getprop(prop));
-      if (ov<value and value-ov > ramp*me.dt) setprop(prop, ov+ramp*me.dt);
-      else if (ov>value and ov-value > ramp*me.dt) setprop(prop, ov-ramp*me.dt);
-      else setprop(prop, value);
-    }
-  },
-
   update : func {
     if (!me.running) return;
     if(getprop("sim/replay/replay-state") == 1) {
@@ -71,41 +89,71 @@ var System_P = {
       settimer( func me.update(), 0.05);
     } else {
       var service = getprop("/systems/electrical/serviceable");
-      var time=getprop("/sim/time/elapsed-sec");
-      me.dt= time-me.oldtime;
-      foreach (con; me.connections) {
-        if(service == 0 and rand() > 0.30) dp=num(con.off); else dp=getprop(con.dep); #electrical system has failed?
-        if (dp != nil) {
-          if (num(con.limit) != nil) limit=num(con.limit); else limit=getprop(con.limit);
-          if (con.in == ".") me.change_value(con.out, dp, con.ramp); #copy dep value to out
-          else if (dp <= limit) {
-              if (num(con.off) != nil) me.change_value(con.out, num(con.off), con.ramp);
-              else me.change_value(con.out, getprop(con.off), con.ramp);
+      var time = getprop("/sim/time/elapsed-sec");
+      me.dt = time - me.oldtime;
+
+      foreach (connection; me.connections) {
+        var dependant = nil;
+        if(service == 0 and rand() > 0.30) {#electrical system has failed?
+          dependant = num(connection.off);
+        } else {
+          dependant = connection.dep.getValue(); 
+        }
+        if (dependant != nil) {
+          if (num(connection.limit) != nil) {
+            limit = num(connection.limit);
           } else {
-            if (num(con.in) != nil) me.change_value(con.out, num(con.in), con.ramp);
-            else me.change_value(con.out, getprop(con.in), con.ramp);
+            limit = connection.limit.getValue();
+          }
+          if (connection.in == ".") {
+            me.change_value(connection.out, dependant, connection.ramp); #copy dep value to out
+          } elsif (dependant <= limit) {
+              if (num(connection.off) != nil) {
+                me.change_value(connection.out, num(connection.off), connection.ramp);
+              } elsif (connection.off.getValue() != nil) {
+                me.change_value(connection.out, connection.off.getValue(), connection.ramp);
+              }
+          } else {
+            if (num(connection.in) != nil) {
+              me.change_value(connection.out, num(connection.in), connection.ramp);
+            } elsif (connection.in.getValue() != nil) {
+              me.change_value(connection.out, connection.in.getValue(), connection.ramp);
+            } else {
+              print("Potomkin: Setting nothing on "~connection.out.getPath()~" due to nil on "~connection.in.getPath());
+            }
           }
         }
       }
-      me.oldtime=time;
+      me.oldtime = time;
       settimer( func me.update(), 0.05);
     }
   },
 
-  init : func {
-    me.read_connections();
-    foreach (con; me.connections) {
-      if (num(con.off) != nil) setprop(con.out, num(con.off));
-      else setprop(con.out, getprop(con.off));
+  change_value : func(node, value, ramp) {
+    if (ramp == 0) {
+      #print("setting "~value~" on "~node.getPath());
+      node.setValue(value);
+    } else {
+      var ov = node.getValue();
+      if (ov<value and value-ov > ramp*me.dt) {
+        node.setValue(ov+ramp*me.dt);
+      } elsif (ov>value and ov-value > ramp*me.dt) {
+        node.setValue(ov-ramp*me.dt);
+      } else {
+        node.setValue(value);
+      }
     }
-    me.running=1;
-    me.oldtime= getprop("/sim/time/elapsed-sec");
-    if (me.verbose > 0) print("Initialized system");
-    me.update();
   },
 };
 
 var el = System_P.new("Systems/electric.txt");
-el.init();
-# print("Electric ... Check");
+
+var elec_start = func {
+  removelistener(lsnr);
+  el.init();
+  # print("Electric ... Check");
+}
+
+var lsnr = setlistener("sim/ja37/supported/initialized", elec_start);
+
 

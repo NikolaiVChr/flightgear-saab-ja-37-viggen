@@ -395,16 +395,16 @@
 *************************************************************************-->
 <!--<chase-distance-m type="double" archive="y">-50.0</chase-distance-m>-->
 
-    <!--<current-view>
+    <current-view>
       <field-of-view type="double">100</field-of-view>
       <config>
         <default-field-of-view-deg type="double">100</default-field-of-view-deg>
-      </config>-->
-      <!-- Sometimes these get changed and saved and will override the defaults. This will set the defaults everytime its started up. -->
-      <!--<x-offset-m type="double">0</x-offset-m>
+      </config>
+      <!-- Sometimes these get changed (in FG 3.0-) and saved and will override the defaults. This will set the defaults everytime its started up. -->
+      <x-offset-m type="double">0</x-offset-m>
       <y-offset-m type="double">0.70</y-offset-m>
       <z-offset-m type="double">-3.40</z-offset-m>
-    </current-view>-->
+    </current-view>
 
     <view n="0">
      <internal>true</internal>
@@ -642,7 +642,7 @@
       <int n="13" alias="/controls/armament/station[3]/trigger"/><!-- used to fire missile in bombable -->
       <int n="14" alias="/controls/armament/station[4]/trigger"/><!-- used to fire missile in bombable -->
       <!-- misc -->
-      <string n="0" type="string" alias="/sim/aircraft-version"/>
+      <string n="0" alias="/sim/aircraft-version"/>
      </generic>
     </multiplay>
 
@@ -889,7 +889,7 @@
         <label>Repair</label>
         <binding>
          <command>nasal</command>
-         <script>crash.repair();</script>
+         <script>ja37.repair();</script>
         </binding>
        </item>
        <item>
@@ -977,6 +977,7 @@
         <landing-light type="bool">false</landing-light>
         <initialized type="bool">false</initialized>
         <popuptips type="bool">false</popuptips>
+        <crash-system type="int">0</crash-system>
       </supported>
       <failures>
         <installed type="bool">false</installed>
@@ -1087,15 +1088,15 @@
         <limiter-enable type="bool">true</limiter-enable>
       </elevator>
       <flap-pos-cmd type="double"/>
-      <flaps-serviceable type="bool" alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
-      <elevator-serviceable type="bool" alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
-      <aileron-serviceable type="bool" alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
-      <rudder-serviceable type="bool" alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>
+      <flaps-serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
+      <elevator-serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
+      <aileron-serviceable alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
+      <rudder-serviceable alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>
       <mouse-optimized type="bool">false</mouse-optimized>
       <hook-engage/>
     </fcs>
     <gear>
-      <serviceable type="bool" alias="/gear/serviceable"/>
+      <serviceable alias="/gear/serviceable"/>
       <unit n="0">
         <nose-wheel-steering>
           <serviceable type="bool">true</serviceable>
@@ -1243,7 +1244,17 @@
   <path>Aircraft/JA37/Systems/systems.xml</path>
   <electrical>
     <lights-ext type="int">0</lights-ext>
+    <generator_enabled type="bool">false</generator_enabled>
+    <battery_voltage type="double">0</battery_voltage>
+    <outputs>
+      <main_ac type="double">0</main_ac>
+      <hud type="double">0</hud>
+      <radar type="double">0</radar>
+    </outputs>  
   </electrical>
+  <generator>
+    <serviceable type="bool">true</serviceable>
+  </generator>
 </systems>
 
 <!--**********************************************************************
@@ -1756,18 +1767,18 @@
     <power-btn type="bool">true</power-btn>
     <power-good type="bool">false</power-good>
   </comm>
- <switches>
-  <generator>
-   <pos type="int">0</pos>
-  </generator>
-  <inst-light-knob>
-   <pos type="double" alias="/instrumentation/instrumentation-light/serviceable"/>
-  </inst-light-knob>
- </switches>
- <instrumentation-light>
-  <serviceable type="bool">true</serviceable>
- </instrumentation-light>
- <transponder>
+  <instrumentation-light>
+    <serviceable type="bool">true</serviceable>
+  </instrumentation-light>
+  <switches>
+    <generator>
+    <pos type="int">0</pos>
+    </generator>
+    <inst-light-knob>
+      <pos alias="/instrumentation/instrumentation-light/serviceable"/>
+    </inst-light-knob>
+  </switches>
+  <transponder>
     <name type="string">transponder</name>
     <number type="int">0</number>
     <mode type="int">1</mode> <!-- 0 = Mode A, 1 = Mode C, 2 = Mode S -->
@@ -1830,10 +1841,12 @@
     <failure-mgr>
       <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
     </failure-mgr>
-    <crash>
-      <!--<file>Aircraft/JA37/Nasal/crash.nas</file>-->
+    <crash0>
+      <file>Aircraft/JA37/Nasal/crash.nas</file>
+    </crash0>
+    <crash1>
       <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
-    </crash>    
+    </crash1>
     <armament>
       <file>Aircraft/JA37/Nasal/aim-9.nas</file>
     </armament>  

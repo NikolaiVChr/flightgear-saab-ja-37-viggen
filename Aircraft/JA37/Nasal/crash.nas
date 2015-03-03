@@ -626,9 +626,7 @@ end_aircraft_explode = func	{
 	setprop("sim/ja37/damage/sounds/explode-on", 0);
 }
 
-#Start
-initCrash();
-crashLoop();
+
 
 #--------------------------------------------------------------------
 # Aircraft breaks listener
@@ -752,14 +750,28 @@ init_crashListener = func {
 	setprop("sim/ja37/damage/break-listener", 1);
 }
 
-init_crashListener();
 
-setlistener("gear/gear[3]/wow", crashListener, 0, 0);
-setlistener("gear/gear[4]/wow", crashListener, 0, 0);
-setlistener("gear/gear[5]/wow", crashListener, 0, 0);
-setlistener("gear/gear[6]/wow", crashListener, 0, 0);
-setlistener("gear/gear[7]/wow", crashListener, 0, 0);
-setlistener("gear/gear[8]/wow", crashListener, 0, 0);
-setlistener("gear/gear[9]/wow", crashListener, 0, 0);
-setlistener("gear/gear[10]/wow", crashListener, 0, 0);
-setlistener("gear/gear[11]/wow", crashListener, 0, 0);
+var crash_start = func {
+	removelistener(lsnr);
+	if (getprop("sim/ja37/supported/crash-system") == 0) {
+
+		#Start
+		initCrash();
+		crashLoop();
+
+		init_crashListener();
+
+		setlistener("gear/gear[3]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[4]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[5]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[6]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[7]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[8]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[9]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[10]/wow", crashListener, 0, 0);
+		setlistener("gear/gear[11]/wow", crashListener, 0, 0);
+
+	}
+}
+var lsnr = setlistener("sim/ja37/supported/initialized", crash_start);
+

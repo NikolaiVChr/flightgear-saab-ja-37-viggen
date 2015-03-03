@@ -548,12 +548,13 @@ var yaSimProp = {
 var crashCode = nil;
 var crash_start = func {
 	removelistener(lsnr);
-	
-	crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12, "minG": -6}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
-	crashCode.start();
+	if (getprop("sim/ja37/supported/crash-system") == 1) {
+		crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12, "minG": -6}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
+		crashCode.start();
+	}
 }
 
-var lsnr = setlistener("sim/signals/fdm-initialized", crash_start);
+var lsnr = setlistener("sim/ja37/supported/initialized", crash_start);
 
 # test:
 var repair = func {
