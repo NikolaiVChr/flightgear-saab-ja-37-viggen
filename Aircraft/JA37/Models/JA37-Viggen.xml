@@ -56,7 +56,10 @@
   </model>
 
 <!-- Material shaders   -->
-  <effect>
+<!--  <effect>
+    <condition>
+      <property>sim/ja37/supported/ubershader</property>
+    </condition>
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
 	  <object-name>canopy</object-name>
 	  <object-name>elevonLeftInner</object-name>
@@ -69,7 +72,6 @@
     <object-name>wingRight</object-name>
 	  <object-name>rudder</object-name>
 	  <object-name>gearFront</object-name>
-	  <!--<object-name>gearFrontHinge</object-name>-->
 	  <object-name>gearFrontDoorsOpen</object-name>
 	  <object-name>gearFrontDoorsClosed</object-name>
 	  <object-name>gearLeft</object-name>
@@ -86,15 +88,21 @@
   </effect>
 
   <effect>
+    <condition>
+      <property>sim/ja37/supported/ubershader</property>
+    </condition>    
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
 	  <object-name>nozzle</object-name>
   </effect>
 
   <effect>
+    <condition>
+      <property>sim/ja37/supported/ubershader</property>
+    </condition>    
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
 	  <object-name>glass</object-name>
 	  <object-name>frontglas</object-name>
-  </effect>
+  </effect>-->
 
 <!-- Fuselage animations -->
 

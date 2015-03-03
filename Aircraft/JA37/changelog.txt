@@ -1235,7 +1235,7 @@ Sim: Prevented tracer rounds from running out of ammo before cannon rounds.
 Effect: Fixed landing light spot can be seen in replay in external view, if it was shown when replay was started.
 Sim: Fixed that auto-starting engine would fail if it was attempted before the engine was spooled down.
 
-3.008
+3.008 - 2015 March 03  (only for FG 2.8)
 =====
 Sim: Typecast all property writes in crash system. And initialized custom properties.
 Sim: Made autostart work even if sim time is accelerated or slowed down.
@@ -1251,3 +1251,8 @@ Sim: Fixed electrical system would break down due to generator failure mode not 
 Sim: Electrical Potemkin system cleaned up and increased performance.
 Sim: Fixed aliasing with type would fail in FG 3.0.
 Sim: Made FGs earlier than 3.2 use the old crash code.
+GUI: Fixed popuptips should use oldest code in FG 2.10 and earlier.
+Effect: made beacon work in FG 2.10 and earlier.
+Aero: Made jsbsim system files have no folder, as FG 3.12 and earlier fill that in forcefully on its own.
+Sim: Removed ubershaders. (in this version only)
+Sim: This version is now only for FG 2.8

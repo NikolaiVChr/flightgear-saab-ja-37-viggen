@@ -625,9 +625,10 @@ var test_support = func {
       setprop("sim/ja37/supported/hud", FALSE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 0);
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/crash-system", 0);
+      setprop("sim/ja37/supported/ubershader", FALSE);
   } elsif (major == 2) {
     setprop("sim/ja37/supported/landing-light", FALSE);
     if(minor < 7) {
@@ -636,8 +637,9 @@ var test_support = func {
       setprop("sim/ja37/supported/hud", FALSE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 0);
       setprop("sim/ja37/supported/crash-system", 0);
+      setprop("sim/ja37/supported/ubershader", FALSE);
     } elsif(minor < 9) {
       popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("sim/ja37/supported/radar", FALSE);
@@ -645,15 +647,25 @@ var test_support = func {
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/hud/mode", 0);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 0);
       setprop("sim/ja37/supported/crash-system", 0);
+      setprop("sim/ja37/supported/ubershader", FALSE);
+    } elsif(minor < 11) {
+      setprop("sim/ja37/supported/radar", TRUE);
+      setprop("sim/ja37/supported/hud", TRUE);
+      setprop("sim/ja37/supported/options", FALSE);
+      setprop("sim/ja37/supported/old-custom-fails", 0);
+      setprop("sim/ja37/supported/popuptips", 0);
+      setprop("sim/ja37/supported/crash-system", 0);
+      setprop("sim/ja37/supported/ubershader", TRUE);
     } else {
       setprop("sim/ja37/supported/radar", TRUE);
       setprop("sim/ja37/supported/hud", TRUE);
       setprop("sim/ja37/supported/options", FALSE);
       setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 1);
       setprop("sim/ja37/supported/crash-system", 0);
+      setprop("sim/ja37/supported/ubershader", TRUE);
     }
   } elsif (major == 3) {
     setprop("sim/ja37/supported/options", TRUE);
@@ -661,20 +673,21 @@ var test_support = func {
     setprop("sim/ja37/supported/hud", TRUE);
     setprop("sim/ja37/supported/old-custom-fails", 2);
     setprop("sim/ja37/supported/landing-light", TRUE);
-    setprop("sim/ja37/supported/popuptips", TRUE);
+    setprop("sim/ja37/supported/popuptips", 2);
     setprop("sim/ja37/supported/crash-system", 1);
+    setprop("sim/ja37/supported/ubershader", TRUE);
     if (minor == 0) {
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/landing-light", FALSE);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 1);
       setprop("sim/ja37/supported/crash-system", 0);
     } elsif (minor <= 2) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/landing-light", FALSE);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 1);
     } elsif (minor <= 4) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
-      setprop("sim/ja37/supported/popuptips", FALSE);
+      setprop("sim/ja37/supported/popuptips", 1);
     }
   } else {
     # future proof
@@ -683,7 +696,9 @@ var test_support = func {
     setprop("sim/ja37/supported/hud", TRUE);
     setprop("sim/ja37/supported/old-custom-fails", 2);
     setprop("sim/ja37/supported/landing-light", TRUE);
-    setprop("sim/ja37/supported/popuptips", TRUE);
+    setprop("sim/ja37/supported/popuptips", 2);
+    setprop("sim/ja37/supported/crash-system", 1);
+    setprop("sim/ja37/supported/ubershader", TRUE);
   }
   setprop("sim/ja37/supported/initialized", TRUE);
 
@@ -745,7 +760,8 @@ var main_init = func {
   slow_loop();
 
   # start beacon loop
-  beaconTimer.start();
+  #beaconTimer.start();
+  beaconLoop();
 
   # asymmetric vortex detachment
   asymVortex();
@@ -834,8 +850,9 @@ var beaconLoop = func () {
     if (value < 0) value = 0;
     beacon_switch.setValue(value);
   }
+  settimer(beaconLoop, 0);
 };
-var beaconTimer = maketimer(0, beaconLoop);
+#var beaconTimer = maketimer(0, beaconLoop); only usable in 2.11+
 
 
 #var beacon = aircraft.light.new( "sim/model/lighting/beacon", [0, 1], beacon_switch );
@@ -1124,8 +1141,10 @@ var popupTip = func(label, y = 25, delay = nil) {
     #fgcommand("tooltip-timeout", props.Node.new({}));
     #var tooltip = canvas.Tooltip.new([300, 100]);
     #tooltip.createCanvas();
-    if(getprop("sim/ja37/supported/popuptips") == TRUE) {
+    if(getprop("sim/ja37/supported/popuptips") == 2) {
       gui.popupTip(label, delay, nil, {"y": y});
+    } elsif(getprop("sim/ja37/supported/popuptips") == 0) {
+      gui.popupTip(label, delay);
     } else {
       call(func _popupTip(label, y, delay), nil, var err = []);
       if(size(err) != 0) {

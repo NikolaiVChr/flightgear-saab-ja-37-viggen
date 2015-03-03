@@ -30,3 +30,10 @@ systems/electrical/outputs/battery,0,.,systems/electrical/outputs/airspeed-indic
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/altimeter,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/alpha-meter,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/attitude-indicator,0,0
+
+# depends: The output depends on the value of this property. Must be of type number or boolean.
+# limit: A value or property that sets the lower limit. If depends is greater than limit then the state will be considered on.
+# in: A property or value if the state is on. If in is set to '.' the depends value is copied to out regardless of state.
+# out: The output property. Set to in if the state is on and off if not.
+# off: A value or property that out is set to if the state is off.
+# ramp: max change in out per second. Unlimited if 0.

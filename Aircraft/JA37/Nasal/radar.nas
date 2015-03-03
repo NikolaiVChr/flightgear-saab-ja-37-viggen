@@ -22,7 +22,7 @@ var radar = {
     });
     
     # ... and place it on the object called Screen
-    m.canvas.addPlacement({"node": "Screen"});
+    m.canvas.addPlacement({"node": "Screen", "texture": "screen.png"});
     m.canvas.setColorBackground(0.10,0.20,0.10);
     g = m.canvas.createGroup();
     var g_tf = g.createTransform();
@@ -141,7 +141,7 @@ var radar = {
   {
   #Modes 0=Off, 1=Autoscan, 2=Manual, 5=Course guide, 6=Course and glide
     var rmode=1;#getprop("instrumentation/radar/mode");
-    if (me.input.viewNumber.getValue() == 0 and me.input.radarVoltage.getValue() != nil and me.input.radarVoltage.getValue() > 28
+    if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and me.input.radarVoltage.getValue() != nil and me.input.radarVoltage.getValue() > 28
         and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();

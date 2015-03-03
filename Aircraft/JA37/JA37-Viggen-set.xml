@@ -12,7 +12,7 @@
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
     <status>Beta</status>
 
-    <aircraft-version>3.007</aircraft-version>
+    <aircraft-version>3.008</aircraft-version>
 
     <rating>
       <FDM type="int">3</FDM>
@@ -976,8 +976,9 @@
         <options type="bool">false</options>
         <landing-light type="bool">false</landing-light>
         <initialized type="bool">false</initialized>
-        <popuptips type="bool">false</popuptips>
+        <popuptips type="int">0</popuptips>
         <crash-system type="int">0</crash-system>
+        <ubershader type="bool">false</ubershader>
       </supported>
       <failures>
         <installed type="bool">false</installed>
@@ -1250,6 +1251,9 @@
       <main_ac type="double">0</main_ac>
       <hud type="double">0</hud>
       <radar type="double">0</radar>
+      <battery type="double">0</battery>
+      <comm n="0" type="double">0</comm>
+      <comm n="1" type="double">0</comm>
     </outputs>  
   </electrical>
   <generator>

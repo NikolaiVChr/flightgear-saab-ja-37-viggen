@@ -329,4 +329,11 @@ var loop = func () {
   findRadarTracks();
   settimer(loop, 0.05);
 }
-loop();
+
+var starter = func () {
+  removelistener(lsnr);
+  if(getprop("sim/ja37/supported/radar") == TRUE) {
+    loop();
+  }
+}
+var lsnr = setlistener("sim/ja37/supported/initialized", starter);
