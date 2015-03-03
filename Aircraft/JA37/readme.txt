@@ -20,8 +20,7 @@ Cockpit view options: Enable dynamic cockpit view. Enable redout/blackout.
 
 Compatibility with Flightgear 2.8
 ---------------------------------
-Delete the Material shaders section in JA37/Models/ja37-model.xml and it will fly fine.
-Radar and custom HUD will be disabled automatically when using FG 2.8
+There is now a separate download in the hangar for FG 2.8
 
 
 Notes

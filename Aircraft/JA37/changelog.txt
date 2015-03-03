@@ -1256,3 +1256,7 @@ Effect: made beacon work in FG 2.10 and earlier.
 Aero: Made jsbsim system files have no folder, as FG 3.12 and earlier fill that in forcefully on its own.
 Sim: Removed ubershaders. (in this version only)
 Sim: This version is now only for FG 2.8
+
+3.009 - 2015 March 03
+=====
+Sim: Tested and works in FG 2.10, 2.12, 3.0, 3.2, 3.4, 3.4 and 3.5.

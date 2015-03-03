@@ -56,10 +56,7 @@
   </model>
 
 <!-- Material shaders   -->
-<!--  <effect>
-    <condition>
-      <property>sim/ja37/supported/ubershader</property>
-    </condition>
+  <effect>
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
 	  <object-name>canopy</object-name>
 	  <object-name>elevonLeftInner</object-name>
@@ -87,22 +84,16 @@
     <object-name>dropTank</object-name>
   </effect>
 
-  <effect>
-    <condition>
-      <property>sim/ja37/supported/ubershader</property>
-    </condition>    
+  <effect>  
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
 	  <object-name>nozzle</object-name>
   </effect>
 
-  <effect>
-    <condition>
-      <property>sim/ja37/supported/ubershader</property>
-    </condition>    
+  <effect>  
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
 	  <object-name>glass</object-name>
 	  <object-name>frontglas</object-name>
-  </effect>-->
+  </effect>
 
 <!-- Fuselage animations -->
 
