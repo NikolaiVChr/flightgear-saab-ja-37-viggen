@@ -40,9 +40,9 @@ var System_P = {
     me.read_connections();
     foreach (var connection; me.connections) {
       if (num(connection.off) != nil) {
-        setprop(connection.out, num(connection.off));
+        connection.out.setValue(num(connection.off));
       } else {
-        setprop(connection.out, getprop(connection.off));
+        connection.out.setValue(connection.off.getValue());
       }
     }
     me.running = 1;

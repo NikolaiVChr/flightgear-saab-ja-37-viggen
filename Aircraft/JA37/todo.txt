@@ -79,7 +79,7 @@ Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced]
 Model: CTRL-X in HUD view will not zoom to correct level.
 Animation: Selection view does not follow carriers. (they lack radar properties)
-Model: In FG 2.12 radar does not work as it should.
+Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 
 Issues with FG: (or my limited understanding of it)
 ---------------
