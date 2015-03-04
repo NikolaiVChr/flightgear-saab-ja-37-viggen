@@ -1268,3 +1268,7 @@ Sim: Did some extra check for when to engage LB and release CTPL.
 HUD: Digital mach speed will only be shown above M0.5.
 Sim: Optimized how Potemkin electrical system access properties.
 GUI: Fixed options menu would not show.
+
+3.011
+=====
+Sound: Made pilot breath sounds only audible from inside cockpit.

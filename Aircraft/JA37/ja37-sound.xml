@@ -1169,7 +1169,7 @@
   		<path>Aircraft/JA37/Sounds/aircraft-crack.wav</path>
   		<mode>once</mode>
   		<condition>
-  		<property>sim/current-view/internal</property>
+  		  <property>sim/current-view/internal</property>
   			<equals>
   				<property>damage/sounds/crack-on</property>
   				<value>1</value>
@@ -1215,6 +1215,7 @@
       <path>Aircraft/JA37/Sounds/Geforce.wav</path>
       <type>avionics</type>
       <condition> 
+        <property>sim/current-view/internal</property>
         <greater-than>
           <property>/accelerations/pilot/z-accel-fps_sec</property>
           <value>-161</value>
@@ -1233,6 +1234,7 @@
       <path>Aircraft/JA37/Sounds/geforce1.wav</path>
       <type>avionics</type>
       <condition>
+       <property>sim/current-view/internal</property>
        <less-than>
         <property>/accelerations/pilot/z-accel-fps_sec</property>
         <value>-225</value>
