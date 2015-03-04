@@ -1267,3 +1267,4 @@ Effect: Fixed that precipitation was not visible in internal views.
 Sim: Did some extra check for when to engage LB and release CTPL.
 HUD: Digital mach speed will only be shown above M0.5.
 Sim: Optimized how Potemkin electrical system access properties.
+GUI: Fixed options menu would not show.

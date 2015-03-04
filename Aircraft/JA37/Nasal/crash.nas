@@ -637,7 +637,7 @@ stop_crashListener = func {
 
 crashListener = func {
 	# check state
-	in_service = getprop("sim/ja37/damage/break-listener" );
+	in_service = input.service.getValue();
 	if (in_service == nil or repairing == 1) {
 		return ( stop_crashListener );
 	}
@@ -747,7 +747,7 @@ init_crashListener = func {
 #print("init_crashListener");
 	setprop("sim/ja37/damage/sounds/crash-on", 0);
 	setprop("sim/ja37/damage/sounds/water-crash-on", 0);
-	setprop("sim/ja37/damage/break-listener", 1);
+	#setprop("sim/ja37/damage/break-listener", 1);
 }
 
 
