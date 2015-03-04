@@ -1541,7 +1541,7 @@ var HUDnasal = {
       } else {
         me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
       }
-    } elsif (mode == LANDING or mode == TAKEOFF) {
+    } elsif (mode == LANDING or mode == TAKEOFF or mach < 0.5) {
       me.airspeedInt.hide();
       me.airspeed.setText(sprintf("KT%03d", me.input.ias.getValue()));
     } else {
@@ -1814,8 +1814,6 @@ var HUDnasal = {
       me.targetDistance1.setTranslation(1/5*line, 0);
       me.targetDistance2.setTranslation(4/5*line, 0);
 
-      #tttt
-
       me.targetSpeed.hide();
       me.targetDistance1.show();
       me.targetDistance2.show();
@@ -1864,10 +1862,8 @@ var HUDnasal = {
           me.tower_symbol_icao.setText(getprop("sim/tower/airport-id"));
           me.tower_symbol.show();
           me.tower_symbol.update();
-          #print(i~" "~mp.getNode("callsign").getValue());
         } else {
           me.tower_symbol.hide();
-          #print(i~" hidden! "~mp.getNode("callsign").getValue());
         }
       } else {
         me.tower_symbol.hide();
@@ -2058,7 +2054,7 @@ var HUDnasal = {
             me.vel_vec_rot_group.setRotation(relHeading);
             me.vel_vec.setScale(1, tgtSpeed/4);
             
-            # note since trinometry circle is opposite direction of compas heading direction, the line will trail the target.
+            # note since trigonometry circle is opposite direction of compas heading direction, the line will trail the target.
             me.vel_vec.show();
           }
         } else {
