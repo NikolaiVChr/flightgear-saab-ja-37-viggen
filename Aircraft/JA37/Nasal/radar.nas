@@ -39,6 +39,8 @@ var radar = {
     m.no_stroke = 9;
     m.no_blip=50;
     m.radarRange=20000;#feet?
+    m.strokeOriginY = 975;
+    m.strokeTopY = 100;
     m.stroke_pos= [];
     for(var i=0; i < m.no_stroke; i = i+1) {
       append(m.stroke_pos, 0);
@@ -54,13 +56,14 @@ var radar = {
         var grn = 0.15+((m.no_stroke / ((m.no_stroke+0.0001)-(i)))/m.no_stroke)*0.85;
         append(m.stroke,
          g.createChild("path")
+         #.setStrokeLineCap("butt")
          .moveTo(0, 0)
-         .lineTo(0, -904)
+         .lineTo(0, -(m.strokeOriginY-m.strokeTopY))
          .close()
          .setStrokeLineWidth(28)
          .setColor(0.1, grn, 0.1));
        append(m.tfstroke, m.stroke[i].createTransform());
-       m.tfstroke[i].setTranslation(512, 904);
+       m.tfstroke[i].setTranslation(512, m.strokeOriginY);
        m.stroke[i].hide();
      }
 
@@ -70,13 +73,12 @@ var radar = {
     for(var i=0; i < m.no_blip; i = i+1) {
         append(m.blip,
          g.createChild("path")
-         .moveTo(-6, -6)
-         .lineTo(-6, 6)
-         .lineTo(6, 6)
-         .lineTo(6, -6)
-         .lineTo(-6, -6)
+         .moveTo(0, 0)
+         .arcSmallCW(12, 12, 0, -24, 0)
+         .arcSmallCW(12, 12, 0,  24, 0)
          .close()
-         .setStrokeLineWidth(12)
+         .setColorFill(0.0,1.0,0.0, 1.0)
+         .setStrokeLineWidth(2)
          .setColor(0.0,1.0,0.0, 1.0));
        append(m.tfblip, m.blip[i].createTransform());
        m.tfblip[i].setTranslation(0, 0);
@@ -84,34 +86,7 @@ var radar = {
        append(m.blip_alpha, 1);
      }
      
-    m.antennay=g.createChild("path")
-                .moveTo(900, 512)
-                .lineTo(920, 512)
-                .close()
-                .setStrokeLineWidth(18)
-                .setColor(0.6,0.7,1.0, 1.0);
-    m.antennay.hide();
-    m.tfantennay=m.antennay.createTransform();
 
-    m.glide=g.createChild("path")
-                .moveTo(10, 512)
-                .lineTo(1000, 512)
-                .close()
-                .setStrokeLineWidth(18)
-                .setColor(0.96,0.74,0.20, 1.0);
-    m.tfglide=m.glide.createTransform();
-    m.tfglide.setTranslation(0, 500);
-    m.glide.hide();
-
-    m.course=g.createChild("path")
-                .moveTo(512, 10)
-                .lineTo(512, 1000)
-                .close()
-                .setStrokeLineWidth(18)
-                .setColor(0.96,0.74,0.20, 1.0);
-    m.tfcourse=m.course.createTransform();
-    m.tfcourse.setTranslation(500, 0);
-    m.course.hide();
     #m.scale=g.createChild("image")
      #        .setFile("Models/Instruments/Radar/scale.png")
       #       .setSourceRect(0,0,1,1)
@@ -146,16 +121,16 @@ var radar = {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       forindex (i; me.stroke) me.stroke[i].show();
-      var te = me.input.timeElapsed.getValue();
+      var dt = me.input.timeElapsed.getValue();
       
       #Stroke animation
-      if (te == nil) {
-        te = 5;
+      if (dt == nil) {
+        dt = 5;
       }            
       # compute new stroke angle
-      me.stroke_angle=30.0*math.sin(te*2);
+      me.stroke_angle = math.sin(dt);
       #convert to radians
-      var curr_angle = me.stroke_angle * 0.0175; 
+      var curr_angle = me.stroke_angle;# * 0.0175; 
       # animate fading stroke angles
       for(var i=0; i < me.no_stroke-1; i = i+1) {
         me.tfstroke[i].setRotation(me.stroke_dir[i+1]);
@@ -215,11 +190,11 @@ var radar = {
                 #aircraft is between the current stroke and the previous stroke position
                 me.blip_alpha[b_i]=1;
                 # plot the blip on the radar screen
-                var pixelDistance = -distance*(750/me.radarRange); #distance in pixels
+                var pixelDistance = -distance*((me.strokeOriginY-me.strokeTopY)/me.radarRange); #distance in pixels
                 
                 #translate from polar coords to cartesian coords
-                var pixelX =  pixelDistance * math.cos(xa_rad + 1.5708) + 512;
-                var pixelY =  pixelDistance * math.sin(xa_rad + 1.5708) + 904;
+                var pixelX =  pixelDistance * math.cos(xa_rad + math.pi/2) + 512;
+                var pixelY =  pixelDistance * math.sin(xa_rad + math.pi/2) + me.strokeOriginY;
                 #print("pixel blip ("~pixelX~", "~pixelY);
                 me.tfblip[b_i].setTranslation(pixelX, pixelY); 
               } else {
@@ -228,6 +203,7 @@ var radar = {
               }
               me.blip[b_i].show();
               me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);
+              me.blip[b_i].setColorFill(0.0,1.0,0.0, me.blip_alpha[b_i]);
               b_i=b_i+1;
           }
         }
