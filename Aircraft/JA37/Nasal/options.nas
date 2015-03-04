@@ -414,13 +414,13 @@ var Dialog = {
     },
 
     breakToggle: func {
-      var enabled = crash.crashCode.isStarted();
-      if(enabled == 1) {
-        crash.crashCode.stop();
-      } else {
-        crash.crashCode.start();
-      }
-      me.refreshButtons();
+#      var enabled = crash.crashCode.isStarted();
+#      if(enabled == 1) {
+#        crash.crashCode.stop();
+#      } else {
+#        crash.crashCode.start();
+#      }
+#      me.refreshButtons();
     },
 
     reverseToggle: func {
@@ -553,14 +553,14 @@ var Dialog = {
 
     refreshButtons: func {
       # update break button
-      var enabled = crash.crashCode.isStarted();
-      var legend = "";
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.breakButton.node.setValues({"legend": legend});
+#      var enabled = crash.crashCode.isStarted();
+#      var legend = "";
+#      if(enabled == 1) {
+#        legend = "Enabled";
+#      } else {
+#        legend = "Disabled";
+#      }
+#      me.dialog.breakButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/autoReverseThrust");
       if(enabled == 1) {
