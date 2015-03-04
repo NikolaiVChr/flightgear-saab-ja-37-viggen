@@ -48,6 +48,17 @@ var System_P = {
     me.running = 1;
     me.oldtime = getprop("/sim/time/elapsed-sec");
     if (me.verbose > 0) print("Initialized system");
+
+    me.input = {
+      replay:             "sim/replay/replay-state",
+      service:            "/systems/electrical/serviceable",
+      time:               "/sim/time/elapsed-sec",
+    };
+
+    foreach(var name; keys(me.input)) {
+      me.input[name] = props.globals.getNode(me.input[name], 1);
+    }
+
     me.update();
   },
 
@@ -84,12 +95,12 @@ var System_P = {
 
   update : func {
     if (!me.running) return;
-    if(getprop("sim/replay/replay-state") == 1) {
+    if(me.input.replay.getValue() == 1) {
       # replay is active, skip rest of loop.
       settimer( func me.update(), 0.05);
     } else {
-      var service = getprop("/systems/electrical/serviceable");
-      var time = getprop("/sim/time/elapsed-sec");
+      var service = me.input.service.getValue();
+      var time = me.input.time.getValue();
       me.dt = time - me.oldtime;
 
       foreach (connection; me.connections) {
