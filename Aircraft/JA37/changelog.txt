@@ -1261,7 +1261,7 @@ Sim: This version is now only for FG 2.8
 =====
 Sim: Tested and works in FG 2.10, 2.12, 3.0, 3.2, 3.4, 3.4 and 3.5.
 
-3.010
+3.010 - 2015 March 04
 =====
 Effect: Fixed that precipitation was not visible in internal views.
 Sim: Did some extra check for when to engage LB and release CTPL.
