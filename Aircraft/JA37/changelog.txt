@@ -1274,3 +1274,4 @@ GUI: Fixed options menu would not show.
 Sound: Made pilot breath sounds only audible from inside cockpit.
 Model: Made radar screen sweep better match the radar cone as in the real JA-37, and make better use of radar screen height.
 Model: Made radar bleeps round and slightly smaller.
+Effect: Adjusted the colour of missile exhaust slightly more white.

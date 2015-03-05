@@ -148,7 +148,7 @@
        <color>
          <red><value>   1.0 </value></red>
          <green><value> 0.7 </value></green>
-         <blue><value>  0.0 </value></blue>
+         <blue><value>  0.2 </value></blue>
          <alpha><value> 0.7 </value></alpha>
        </color>
        <size>
@@ -160,7 +160,7 @@
        <color>
          <red><value>   0.9 </value></red>
          <green><value> 0.6 </value></green>
-         <blue><value>  0.0 </value></blue>
+         <blue><value>  0.2 </value></blue>
          <alpha><value> 0.1 </value></alpha>
        </color>
        <size>
