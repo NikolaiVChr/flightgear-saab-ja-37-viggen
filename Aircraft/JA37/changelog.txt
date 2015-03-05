@@ -1276,4 +1276,4 @@ Model: Made radar screen sweep better match the radar cone as in the real JA-37,
 Model: Made radar bleeps round and slightly smaller.
 Effect: Adjusted the colour of missile exhaust slightly more white.
 Effect: Adjusted wind, drag, boyancy, frequency, speed, pitch and count of flares.
-Sound: Pilot high-G sounds will no longer play randomly when selecting internal view.
+Sound: Fixed regresssion that pilot high-G sounds would play randomly when selecting internal view.

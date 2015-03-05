@@ -1,4 +1,5 @@
 # $Id$
+var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
 
 var UPDATE_PERIOD = 0.1;
 
@@ -98,6 +99,7 @@ input = {
   MPfloat2:         "sim/multiplay/generic/float[2]", 
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
+  breathVol:        "sim/ja37/sound/breath-volume",
 };
    
 var update_loop = func {
@@ -436,6 +438,9 @@ var update_loop = func {
     } else {
       input.subAmmo2.setValue(0);
     }
+
+    # breath sound volume
+    input.breathVol.setValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
 
     settimer(
