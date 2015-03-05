@@ -1214,12 +1214,16 @@
       <name>Geforce-breath-vox</name>
       <path>Aircraft/JA37/Sounds/Geforce.wav</path>
       <type>avionics</type>
-      <condition> 
+      <condition>
         <property>sim/current-view/internal</property>
-        <greater-than>
+        <less-than>
           <property>/accelerations/pilot/z-accel-fps_sec</property>
           <value>-161</value>
-        </greater-than>   
+        </less-than>
+        <greater-than>
+          <property>/accelerations/pilot/z-accel-fps_sec</property>
+          <value>-225</value>
+        </greater-than>
       </condition>
       <reference-dist>2</reference-dist>
       <max-dist>4</max-dist>
@@ -1238,7 +1242,7 @@
        <less-than>
         <property>/accelerations/pilot/z-accel-fps_sec</property>
         <value>-225</value>
-       </less-than>   
+       </less-than> 
       </condition>
       <reference-dist>2</reference-dist>
       <max-dist>4</max-dist>
