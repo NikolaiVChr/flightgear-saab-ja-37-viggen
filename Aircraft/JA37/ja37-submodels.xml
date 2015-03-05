@@ -6,34 +6,44 @@
     <name>flaresR</name>
     <model>Aircraft/JA37/Models/Effects/flare.xml</model>
     <trigger>ai/submodels/submodel[0]/flare-release</trigger><!-- ai/submodels/submodel[0]/flare-release -->
-    <speed>600.0</speed>   <!-- ft/sec -->
+    <speed>700.0</speed>   <!-- ft/sec -->
     <repeat>true</repeat>
-    <delay>0.75</delay>
-    <count>40</count><!-- was 40 -->
+    <delay>0.50</delay>
+    <count>60</count><!-- was 40 -->
     <x-offset>4.37626</x-offset>
     <y-offset>0.78046</y-offset>
     <z-offset>-0.49367</z-offset>
     <yaw-offset>90.0</yaw-offset>
+    <pitch-offset>-10.0</pitch-offset>
     <life>5</life>
-    <buoyancy>8</buoyancy>
+    <buoyancy>0</buoyancy>
+    <weight>2.5</weight>
     <eda>1.0</eda>
+    <cd>1.0</cd>
+    <no-roll>true</no-roll>
+    <wind>true</wind>
   </submodel>
 
   <submodel>
     <name>flaresL</name>
     <model>Aircraft/JA37/Models/Effects/flare.xml</model>
     <trigger>ai/submodels/submodel[0]/flare-release</trigger><!-- ai/submodels/submodel[0]/flare-release -->
-    <speed>600.0</speed>   <!-- ft/sec -->
+    <speed>700.0</speed>   <!-- ft/sec -->
     <repeat>true</repeat>
-    <delay>0.75</delay>
-    <count>40</count><!-- was 40 -->
+    <delay>0.50</delay>
+    <count>60</count><!-- was 40 -->
     <x-offset>4.37626</x-offset>
     <y-offset>-0.78046</y-offset>
     <z-offset>-0.49367</z-offset>
     <yaw-offset>-90.0</yaw-offset>
+    <pitch-offset>-10.0</pitch-offset>
     <life>5</life>
-    <buoyancy>8</buoyancy>
+    <buoyancy>0</buoyancy>
+    <weight>2.5</weight>
     <eda>1.0</eda>
+    <cd>1.0</cd>
+    <no-roll>true</no-roll>
+    <wind>true</wind>
   </submodel>
 
   <submodel>
