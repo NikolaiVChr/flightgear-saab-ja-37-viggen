@@ -595,6 +595,7 @@
      <generic>
       <!-- effects -->
       <int n="0" alias="/sim/ja37/effect/smoke"/><!-- to show smoke -->
+      <int n="7" alias="/damage/sounds/explode-on"/><!-- to show explosion plus its sound -->
       <!-- Animation control surfaces -->
       <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/><!-- to show detachment of canopy -->
       <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/><!-- to show detachment of wings -->

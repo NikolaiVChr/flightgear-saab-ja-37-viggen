@@ -348,5 +348,28 @@
     <offset>1.2</offset>
    </pitch>
  </squeal>
+
+ <aircraft-explode>
+    <name>aircraft-explode</name>
+    <path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+    <mode>once</mode>
+    <condition>
+        <equals>
+          <property>sim/multiplay/generic/int[7]</property><!-- damage/sounds/explode-on -->
+          <value>1</value>
+        </equals>
+    </condition>
+    <position>
+      <x>0.01</x>
+      <y>0.01</y>
+      <z>0.01</z>
+    </position>
+    <volume>
+      <factor>3</factor>
+      <max>3</max>
+    </volume>
+  </aircraft-explode>
+
+ 
  </fx>
 </PropertyList>

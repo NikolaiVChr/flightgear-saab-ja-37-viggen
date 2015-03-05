@@ -9,7 +9,7 @@
 
    <condition>
       <equals>
-         <property>damage/sounds/explode-on</property>
+         <property>sim/multiplay/generic/int[7]</property><!-- damage/sounds/explode-on -->
          <value>1</value>
       </equals>
    </condition>
@@ -98,7 +98,7 @@
 
    <condition>
       <equals>
-         <property>damage/sounds/explode-on</property>
+         <property>sim/multiplay/generic/int[7]</property><!-- damage/sounds/explode-on -->
          <value>1</value>
       </equals>
    </condition>
