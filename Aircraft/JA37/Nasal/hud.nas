@@ -930,6 +930,8 @@ var HUDnasal = {
             out_of_ammo = TRUE;
       } elsif (me.input.station.getValue() == 0 and me.input.cannonAmmo.getValue() == 0) {
             out_of_ammo = TRUE;
+      } elsif (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70" and getprop("ai/submodels/submodel["~(4+me.input.station.getValue())~"]/count") == 0) {
+            out_of_ammo = TRUE;
       }
 
       # ground collision warning
@@ -1600,8 +1602,11 @@ var HUDnasal = {
       if(armSelect == 0) {
         me.qfe.setText("KCA");
         me.qfe.show();
-      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") != "none") {
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 24J") {
         me.qfe.setText("RB-24");
+        me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M70") {
+        me.qfe.setText("M70");
         me.qfe.show();
       } else {
         me.qfe.hide();
@@ -1657,9 +1662,19 @@ var HUDnasal = {
       me.reticle_missile.hide();
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode == COMBAT and cannon == FALSE) {
-      me.showSidewind(FALSE);
-      me.reticle_cannon.hide();
-      me.reticle_missile.show();
+      if(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70") {
+        me.showSidewind(FALSE);
+        me.reticle_cannon.show();
+        me.reticle_missile.hide();
+      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 24J") {
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.show();
+      } else {
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.hide();
+      }
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
@@ -1797,9 +1812,12 @@ var HUDnasal = {
       if(armSelect == 0) {
         minDist =  100;
         maxDist = 1000;
-      } else {
+      } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
         minDist =   300;
         maxDist = 18520;
+      } else {
+        minDist =   200;
+        maxDist =  2000;
       }
       if(currDist != nil) {
         var pixelPerMeter = (3/5*line)/(maxDist - minDist);

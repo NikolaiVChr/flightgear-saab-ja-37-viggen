@@ -16,6 +16,7 @@ Particles: On (Used for various stuff)
 Advanced weather: Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
 Model-shader: top setting
 Cockpit view options: Enable dynamic cockpit view. Enable redout/blackout.
+View LOD: AI/MP LOD at 0. (otherwise certain effects wont be visible.)
 
 
 Compatibility with Flightgear 2.8

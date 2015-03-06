@@ -1068,6 +1068,89 @@
   </condition>
  </animation>
 
+  <model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod0</name>
+    <offsets>
+      <y-m> -2.75</y-m>
+      <z-m> -1.50</z-m>
+      <x-m>  2.20</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod0</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Left fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod2</name>
+    <offsets>
+      <y-m> -0.95</y-m>
+      <z-m> -1.775</z-m>
+      <x-m> -1.00</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod2</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod1</name>
+    <offsets>
+      <y-m>  2.75</y-m>
+      <z-m> -1.50</z-m>
+      <x-m>  2.20</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod1</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+   <model><!-- Right fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod3</name>
+    <offsets>
+      <y-m>  0.95</y-m>
+      <z-m> -1.775</z-m>
+      <x-m> -1.00</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod3</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
 
 <animation>
   <type>range</type>

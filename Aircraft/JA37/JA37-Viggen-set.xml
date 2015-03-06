@@ -894,10 +894,17 @@
         </binding>
        </item>
        <item>
-        <label>Reload all</label>
+        <label>Reload air to air</label>
         <binding>
          <command>nasal</command>
-         <script>ja37.reload();</script>
+         <script>ja37.reloadAir2Air();</script>
+        </binding>
+       </item>
+       <item>
+        <label>Reload air to ground</label>
+        <binding>
+         <command>nasal</command>
+         <script>ja37.reloadAir2Ground();</script>
         </binding>
        </item>
         <item>
@@ -1276,6 +1283,7 @@
         <selected>none</selected>
         <opt><name>none</name><lbs>0</lbs></opt>
         <opt><name>RB 24J</name><lbs>188</lbs></opt>
+        <opt><name>M70</name><lbs>200</lbs></opt>
   </weight>
   <weight n="1">
         <name>Left fuselage pylon</name>
@@ -1283,6 +1291,7 @@
         <selected>none</selected>
         <opt><name>none</name><lbs>0</lbs></opt>
         <opt><name>RB 24J</name><lbs>188</lbs></opt>
+        <opt><name>M70</name><lbs>200</lbs></opt>
   </weight>
   <weight n="2">
         <name>Right wing pylon</name>
@@ -1290,6 +1299,7 @@
         <selected>none</selected>
         <opt><name>none</name><lbs>0</lbs></opt>
         <opt><name>RB 24J</name><lbs>188</lbs></opt>
+        <opt><name>M70</name><lbs>200</lbs></opt>
   </weight>
   <weight n="3">
         <name>Right fuselage pylon</name>
@@ -1297,6 +1307,7 @@
         <selected>none</selected>
         <opt><name>none</name><lbs>0</lbs></opt>
         <opt><name>RB 24J</name><lbs>188</lbs></opt>
+        <opt><name>M70</name><lbs>200</lbs></opt>
   </weight>
   <weight n="4">
         <name>Center fuselage pylon</name>

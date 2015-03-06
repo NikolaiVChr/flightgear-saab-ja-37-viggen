@@ -491,28 +491,15 @@
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>aero/drag/missile</property>
+           <cos>
+            <property>aero/alpha-deg</property>
+           </cos>
            <table>
-              <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">inertia/pointmass-weight-lbs[1]</independentVar>
+              <independentVar lookup="row">inertia/pointmass-weight-lbs[1]</independentVar>
               <tableData>
-                            0     188
-                   -180    0.0   -1.00
-                   -165    0.0   -0.97
-                   -150    0.0   -0.87
-                   -120    0.0   -0.50
-                    -90    0.0    0.00
-                    -60    0.0    0.50
-                    -30    0.0    0.87
-                    -15    0.0    0.97
-                      0    0.0    1.00
-                     15    0.0    0.97 
-                     30    0.0    0.87
-                     60    0.0    0.50
-                     90    0.0    0.00
-                    120    0.0   -0.50
-                    150    0.0   -0.87
-                    165    0.0   -0.97
-                    180    0.0   -1.00
+                   0       0
+                   188     1
+                   200     2
               </tableData>
            </table>
         </product>
@@ -528,28 +515,15 @@
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>aero/drag/missile</property>
+           <cos>
+            <property>aero/alpha-deg</property>
+           </cos>
            <table>
-              <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">inertia/pointmass-weight-lbs[2]</independentVar>
+              <independentVar lookup="row">inertia/pointmass-weight-lbs[2]</independentVar>
               <tableData>
-                            0     188
-                   -180    0.0   -1.00
-                   -165    0.0   -0.97
-                   -150    0.0   -0.87
-                   -120    0.0   -0.50
-                    -90    0.0    0.00
-                    -60    0.0    0.50
-                    -30    0.0    0.87
-                    -15    0.0    0.97
-                      0    0.0    1.00
-                     15    0.0    0.97 
-                     30    0.0    0.87
-                     60    0.0    0.50
-                     90    0.0    0.00
-                    120    0.0   -0.50
-                    150    0.0   -0.87
-                    165    0.0   -0.97
-                    180    0.0   -1.00
+                   0       0
+                   188     1
+                   200     2
               </tableData>
            </table>
         </product>
@@ -565,28 +539,15 @@
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>aero/drag/missile</property>
+           <cos>
+            <property>aero/alpha-deg</property>
+           </cos>
            <table>
-              <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">inertia/pointmass-weight-lbs[3]</independentVar>
+              <independentVar lookup="row">inertia/pointmass-weight-lbs[3]</independentVar>
               <tableData>
-                            0     188
-                   -180    0.0   -1.00
-                   -165    0.0   -0.97
-                   -150    0.0   -0.87
-                   -120    0.0   -0.50
-                    -90    0.0    0.00
-                    -60    0.0    0.50
-                    -30    0.0    0.87
-                    -15    0.0    0.97
-                      0    0.0    1.00
-                     15    0.0    0.97 
-                     30    0.0    0.87
-                     60    0.0    0.50
-                     90    0.0    0.00
-                    120    0.0   -0.50
-                    150    0.0   -0.87
-                    165    0.0   -0.97
-                    180    0.0   -1.00
+                   0       0
+                   188     1
+                   200     2
               </tableData>
            </table>
         </product>
@@ -602,28 +563,15 @@
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>aero/drag/missile</property>
+           <cos>
+            <property>aero/alpha-deg</property>
+           </cos>
            <table>
-              <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">inertia/pointmass-weight-lbs[4]</independentVar>
+              <independentVar lookup="row">inertia/pointmass-weight-lbs[4]</independentVar>
               <tableData>
-                            0     188
-                   -180    0.0   -1.00
-                   -165    0.0   -0.97
-                   -150    0.0   -0.87
-                   -120    0.0   -0.50
-                    -90    0.0    0.00
-                    -60    0.0    0.50
-                    -30    0.0    0.87
-                    -15    0.0    0.97
-                      0    0.0    1.00
-                     15    0.0    0.97 
-                     30    0.0    0.87
-                     60    0.0    0.50
-                     90    0.0    0.00
-                    120    0.0   -0.50
-                    150    0.0   -0.87
-                    165    0.0   -0.97
-                    180    0.0   -1.00
+                   0       0
+                   188     1
+                   200     2
               </tableData>
            </table>
         </product>

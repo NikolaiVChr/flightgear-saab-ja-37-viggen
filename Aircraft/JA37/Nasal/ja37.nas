@@ -254,16 +254,18 @@ var update_loop = func {
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
         if(i != 4) {
-          #is not drop tank
-          if(armament.AIM9.new(i) == -1 and armament.AIM9.active[i].status == MISSILE_FLYING) {
-            #missile added through menu while another from that pylon is still flying.
-            #to handle this we have to ignore that addition.
-            setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
-            setprop("payload/weight["~ (i) ~"]/selected", "none");
-            #print("refusing to mount new missile yet "~i);
+          if (getprop("payload/weight["~ (i) ~"]/selected") == "RB 24J") {
+            #is not center pylon and is RB24
+            if(armament.AIM9.new(i) == -1 and armament.AIM9.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              setprop("payload/weight["~ (i) ~"]/selected", "none");
+              #print("refusing to mount new missile yet "~i);
+            }
+          } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70") {
+              setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
           }
-          #print("new "~(i-1));
-
         }
       }
       #if(i!=0 and getprop("payload/weight["~ (i-1) ~"]/selected") == "none" and getprop("payload/weight["~ (i-1) ~"]/weight-lb") != 0) {
@@ -315,6 +317,11 @@ var update_loop = func {
         # the pylon has a sidewinder, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 188) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+        }
+      } elsif (selected == "M70") {
+        # the pylon has a sidewinder, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 200) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 200);
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
@@ -573,6 +580,10 @@ var trigger_listener = func {
     #if masterarm is on and HUD in tactical mode, propagate trigger to station
     if(input.combat.getValue() == 2) {
       setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
+      var str = "payload/weight["~(armSelect-1)~"]/selected";
+      if (armSelect != 0 and getprop(str) == "M70") {
+        setprop("/controls/armament/station["~armSelect~"]/trigger-m70", trigger);
+      }
     } else {
       setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
     }
@@ -1120,13 +1131,37 @@ var cycleSmoke = func() {
     }
 }
 
-reload = func {
+reloadAir2Air = func {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 24J");
   setprop("payload/weight[1]/selected", "RB 24J");
   setprop("payload/weight[2]/selected", "RB 24J");
   setprop("payload/weight[3]/selected", "RB 24J");
   screen.log.write("RB 24J missiles attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  #setprop("ai/submodels/submodel[2]/count", 29);
+  setprop("ai/submodels/submodel[3]/count", 146);
+  setprop("ai/submodels/submodel[4]/count", 146);
+  screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+}
+
+reloadAir2Ground = func {
+  # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "M70");
+  setprop("payload/weight[1]/selected", "M70");
+  setprop("payload/weight[2]/selected", "M70");
+  setprop("payload/weight[3]/selected", "M70");
+  setprop("ai/submodels/submodel[5]/count", 6);
+  setprop("ai/submodels/submodel[6]/count", 6);
+  setprop("ai/submodels/submodel[7]/count", 6);
+  setprop("ai/submodels/submodel[8]/count", 6);
+  screen.log.write("Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);

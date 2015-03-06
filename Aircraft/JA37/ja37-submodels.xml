@@ -108,32 +108,123 @@
     <life>1</life>
   </submodel>
 
-<!--  <submodel>
-    <name>RB-24J missile 1</name>
-    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[1]/released</trigger>
-    <speed>4000.0</speed>
-    <repeat>false</repeat>
-    <delay>0.00</delay>
-    <count>-1</count>
-    <x-offset>  3.15986</x-offset>
-    <y-offset> -2.70311</y-offset>
-    <z-offset> -0.67645</z-offset>
+  <submodel>
+    <name>M70 rocket pod 1</name><!-- left wing -->
+    <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
+    <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
+    <trigger>controls/armament/station[1]/trigger-m70</trigger>
+    <speed>1000.0</speed>
+    <repeat>true</repeat>
+    <delay>0.25</delay>
+    <count>6</count>
+    <x-offset>  2.20</x-offset><!-- 2.2 -->
+    <y-offset>  2.75</y-offset>
+    <z-offset> -1.50</z-offset>
     <yaw-offset>0.0</yaw-offset>
     <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd>
+    <external-force>false</external-force>
+    <force-stabilised>false</force-stabilised>
+    <cd>0.0005</cd><!-- drag -->
     <eda>0.00136354</eda>
-    <weight>188</weight>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
-    <wind>false</wind>
-    <buoyancy>32</buoyancy>
-    <life>10</life>
+    <weight>50</weight>
+    <collision>true</collision><!-- AI/MP -->
+    <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
+    <impact>true</impact><!-- terrain -->
+    <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+    <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+    <wind>true</wind>
+    <buoyancy>25</buoyancy>
+    <life>20</life>
   </submodel>
 
-<submodel>
+  <submodel>
+    <name>M70 rocket pod 2</name><!-- right wing -->
+    <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
+    <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
+    <trigger>controls/armament/station[2]/trigger-m70</trigger>
+    <speed>1000.0</speed>
+    <repeat>true</repeat>
+    <delay>0.25</delay>
+    <count>6</count>
+    <x-offset> -1.00</x-offset>
+    <y-offset> -0.95</y-offset>
+    <z-offset> -1.775</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <external-force>false</external-force>
+    <force-stabilised>false</force-stabilised>
+    <cd>0.0005</cd><!-- drag -->
+    <eda>0.00136354</eda>
+    <weight>50</weight>
+    <collision>true</collision><!-- AI/MP -->
+    <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
+    <impact>true</impact><!-- terrain -->
+    <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+    <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+    <wind>true</wind>
+    <buoyancy>25</buoyancy>
+    <life>20</life>
+  </submodel>
+
+    <submodel>
+    <name>M70 rocket pod 3</name><!-- left fuselage -->
+    <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
+    <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
+    <trigger>controls/armament/station[3]/trigger-m70</trigger>
+    <speed>1000.0</speed>
+    <repeat>true</repeat>
+    <delay>0.25</delay>
+    <count>6</count>
+    <x-offset> -1.00</x-offset>
+    <y-offset>  0.95</y-offset>
+    <z-offset> -1.775</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <external-force>false</external-force>
+    <force-stabilised>false</force-stabilised>
+    <cd>0.0005</cd><!-- drag -->
+    <eda>0.00136354</eda>
+    <weight>50</weight>
+    <collision>true</collision><!-- AI/MP -->
+    <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
+    <impact>true</impact><!-- terrain -->
+    <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+    <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+    <wind>true</wind>
+    <buoyancy>25</buoyancy>
+    <life>20</life>
+  </submodel>
+
+    <submodel>
+    <name>M70 rocket pod 4</name><!-- right fuselage -->
+    <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
+    <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
+    <trigger>controls/armament/station[4]/trigger-m70</trigger>
+    <speed>1000.0</speed>
+    <repeat>true</repeat>
+    <delay>0.25</delay>
+    <count>6</count>
+    <x-offset>  0.20</x-offset>
+    <y-offset> -2.75</y-offset>
+    <z-offset> -1.50</z-offset>
+    <yaw-offset>0.0</yaw-offset>
+    <pitch-offset>0.0</pitch-offset>
+    <external-force>false</external-force>
+    <force-stabilised>false</force-stabilised>
+    <cd>0.0005</cd><!-- drag -->
+    <eda>0.00136354</eda>
+    <weight>50</weight>
+    <collision>true</collision><!-- AI/MP -->
+    <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
+    <impact>true</impact><!-- terrain -->
+    <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+    <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+    <wind>true</wind>
+    <buoyancy>25</buoyancy>
+    <life>20</life>
+  </submodel>
+
+<!--<submodel>
     <name>RB-24J missile 2</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
     <trigger>controls/armament/station[2]/released</trigger>
