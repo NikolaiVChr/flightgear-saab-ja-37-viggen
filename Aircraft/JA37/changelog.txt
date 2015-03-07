@@ -1278,4 +1278,4 @@ Effect: Adjusted the colour of missile exhaust slightly more white.
 Effect: Adjusted wind, drag, boyancy, frequency, speed, pitch and count of flares.
 Sound: Fixed regresssion that pilot high-G sounds would play randomly when selecting internal view.
 Effect: Made explosion visible and audible in MP.
-Model: Added option to mount Bofors M70 rocket pods.
+Sim: Added Bofors M70 rocket pods.
