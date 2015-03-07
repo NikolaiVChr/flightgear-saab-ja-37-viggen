@@ -1,8 +1,8 @@
 <PropertyList>
-  <name>Models/Effects/combined-shader</name>
+  <name>Aircraft/JA37/Models/Effects/ja37-combined-shader</name>
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
-    <rain-enabled>1</rain-enabled>
+    <rain-enabled type="int">2</rain-enabled>
     <ambient-correction type="float">0.25</ambient-correction>
     <normalmap-enabled type="int">1</normalmap-enabled>
   	<texture n="2">

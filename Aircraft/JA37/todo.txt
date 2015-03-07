@@ -25,14 +25,13 @@ Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected.
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Air to ground missiles.
+Sim: Air to ground guided missiles.
 Sim: Longer range air2air missiles.
-Sim: Unguided missiles with terrain collision detection. (submodels with ext. force)
 Sim: Make users of FG HUD able to use tactical features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Hydralic pump depend on electric instead of rpm
-Sim: Replace generic getValue and setValue in nasal with specific types.
+Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Effect: Rembrandt landing lightcone.
@@ -41,7 +40,6 @@ Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Effect: Show aircraft explosion in MP also.
 Animation: Show wheels spinning in MP also.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
