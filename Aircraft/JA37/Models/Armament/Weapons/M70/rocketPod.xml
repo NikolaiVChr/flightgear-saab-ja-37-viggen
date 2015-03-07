@@ -4,9 +4,9 @@
 
 	<path>rocketPod.ac</path>
 
-	<!--<effect>  crashes the sim
+	<effect>
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
 	  <object-name>Pod</object-name>
-	</effect>-->
+	</effect>
 
 </PropertyList>
