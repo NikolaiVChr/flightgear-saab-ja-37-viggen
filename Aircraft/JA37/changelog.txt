@@ -1278,4 +1278,6 @@ Effect: Adjusted the colour of missile exhaust slightly more white.
 Effect: Adjusted wind, drag, boyancy, frequency, speed, pitch and count of flares.
 Sound: Fixed regresssion that pilot high-G sounds would play randomly when selecting internal view.
 Effect: Made explosion visible and audible in MP.
-Sim: Added Bofors M70 rocket pods.
+Sim: Added Bofors M70 rocket pods with 6 135mm rockets in each. They explode on impact and make sound when fired.
+GUI: Added 'Reload air to ground' menu point.
+Model: Added texture and ubershader to M70 pods.
