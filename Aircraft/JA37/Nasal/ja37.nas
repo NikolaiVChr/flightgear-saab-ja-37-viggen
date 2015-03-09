@@ -513,6 +513,20 @@ var slow_loop = func () {
     TILSprev = FALSE;
   }
 
+  #frost
+#  var airspeed = getprop("/velocities/airspeed-kt");
+  # ja37
+  #var airspeed_max = 250; 
+#  var airspeed_max = 120;
+#  if (airspeed > airspeed_max) {airspeed = airspeed_max;}
+#  airspeed = math.sqrt(airspeed/airspeed_max);
+  # f-16
+#  var splash_x = -0.1 - 2.0 * airspeed;
+#  var splash_y = 0.0;
+#  var splash_z = 1.0 - 1.35 * airspeed;  setprop("/environment/aircraft-effects/splash-vector-x", splash_x);
+#  setprop("/environment/aircraft-effects/splash-vector-y", splash_y);
+#  setprop("/environment/aircraft-effects/splash-vector-z", splash_z);
+
   settimer(slow_loop, 1.5);
 }
 
