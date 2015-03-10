@@ -1288,3 +1288,5 @@ Model: Replaced droptank switch with a button.
 Model: Fixed buttons was missing a ring, also split them into 3 meshes.
 Sim: Fixed that next selection button, would cause an error.
 Model: Fixed that rocket pods and landing light glare was showing up in FGRun.
+Effect: Rain will now splash on cockpit glass in ALS, and depend on airspeed.
+Effect: Cockpit glass will now be frosted in ALS depending on glass temperature. Generator must be on to increase cockpit temperature.

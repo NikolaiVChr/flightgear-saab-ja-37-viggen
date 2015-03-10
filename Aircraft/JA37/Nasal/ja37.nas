@@ -513,19 +513,43 @@ var slow_loop = func () {
     TILSprev = FALSE;
   }
 
-  #frost
-#  var airspeed = getprop("/velocities/airspeed-kt");
+  #frost and rain
+  var airspeed = getprop("/velocities/airspeed-kt");
   # ja37
   #var airspeed_max = 250; 
-#  var airspeed_max = 120;
-#  if (airspeed > airspeed_max) {airspeed = airspeed_max;}
-#  airspeed = math.sqrt(airspeed/airspeed_max);
+  var airspeed_max = 120;
+  if (airspeed > airspeed_max) {airspeed = airspeed_max;}
+  airspeed = math.sqrt(airspeed/airspeed_max);
   # f-16
-#  var splash_x = -0.1 - 2.0 * airspeed;
-#  var splash_y = 0.0;
-#  var splash_z = 1.0 - 1.35 * airspeed;  setprop("/environment/aircraft-effects/splash-vector-x", splash_x);
-#  setprop("/environment/aircraft-effects/splash-vector-y", splash_y);
-#  setprop("/environment/aircraft-effects/splash-vector-z", splash_z);
+  var splash_x = -0.1 - 2.0 * airspeed;
+  var splash_y = 0.0;
+  var splash_z = 1.0 - 1.35 * airspeed;
+  setprop("/environment/aircraft-effects/splash-vector-x", splash_x);
+  setprop("/environment/aircraft-effects/splash-vector-y", splash_y);
+  setprop("/environment/aircraft-effects/splash-vector-z", splash_z);
+
+  var tempOutside = getprop("environment/temperature-degc");
+  var tempInside = getprop("environment/temperature-inside-degc");
+
+  if(getprop("systems/electrical/generator_on") == 1) {
+    if (tempInside < 20) {
+      tempInside += 1;
+    } elsif (tempInside > 20) {
+      tempInside -= 1;
+    }
+  } else {
+    if (tempInside < tempOutside) {
+      tempInside += 1;
+    } elsif (tempInside > tempOutside) {
+      tempInside -= 1;
+    }
+  }
+  setprop("environment/temperature-inside-degc", tempInside);
+  var tempGlass = (tempInside - tempOutside)*0.6666+tempOutside;
+  #tempGlass = (tempInside - tempGlass)/2+tempGlass;#inside has double weight
+  var frostNorm = clamp(tempGlass*-0.05, 0, 1);
+
+  setprop("/environment/aircraft-effects/frost-level", frostNorm);
 
   settimer(slow_loop, 1.5);
 }
@@ -784,6 +808,9 @@ var main_init = func {
   }
 
   screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.2, 0.2);
+
+  # init cockpit temperature
+  setprop("environment/temperature-inside-degc", getprop("environment/temperature-degc"));
 
   # start minor loops
   speed_loop();

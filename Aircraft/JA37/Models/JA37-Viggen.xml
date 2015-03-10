@@ -91,16 +91,42 @@
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
-	  <!--<inherits-from>Effects/glass</inherits-from>-->
 	  <object-name>glass</object-name>
 	  <object-name>frontglas</object-name>
   </effect>
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
+    <object-name>glassInternal</object-name>
+    <object-name>frontglasInternal</object-name>
+  </effect>
+
+  <!--<animation>
+  <type>select</type>
+  <object-name>glass</object-name>
+  <object-name>frontglas</object-name>
+  <condition>
+    <not>
+      <property>sim/current-view/internal</property>
+    </not>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>glassInternal</object-name>
+  <object-name>frontglasInternal</object-name>
+  <condition>
+    <property>sim/current-view/internal</property>
+  </condition>
+ </animation>-->
 
 <!-- Fuselage animations -->
 
 <animation>
   <type>rotate</type>
   <object-name>glass</object-name>
+  <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
   <property>canopy/position-norm</property><!-- auto MP transmit -->
   <factor>30.0</factor>
