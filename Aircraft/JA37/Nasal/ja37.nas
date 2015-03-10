@@ -531,7 +531,9 @@ var slow_loop = func () {
   var tempOutside = getprop("environment/temperature-degc");
   var tempInside = getprop("environment/temperature-inside-degc");
 
-  if(getprop("systems/electrical/generator_on") == 1) {
+  if (getprop("canopy/position-norm") > 0) {
+    tempInside = tempOutside;
+  } elsif(getprop("systems/electrical/generator_on") == 1) {
     if (tempInside < 20) {
       tempInside += 1;
     } elsif (tempInside > 20) {
