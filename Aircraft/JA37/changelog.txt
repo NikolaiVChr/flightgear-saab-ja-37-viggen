@@ -1291,3 +1291,4 @@ Model: Fixed that rocket pods and landing light glare was showing up in FGRun.
 Effect: Rain will now splash on cockpit glass in ALS, and depend on airspeed.
 Effect: Cockpit glass will now be frosted in ALS depending on glass temperature. Generator must be on to increase cockpit temperature.
 Sim: Cockpit temperature will now align to outside when canopy is open.
+Model: Made double layered glass to get frost/rain effect together with ubershader when seen from outside.

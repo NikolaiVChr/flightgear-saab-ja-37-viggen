@@ -29,7 +29,7 @@
 		</images>
 		</texture>
 	<!--<glass-tint type="vec4d" n="0"> 0.5 0.5 1.0 2.0</glass-tint>-->
-	<glass-tint type="vec4d" n="0"> 1.0 1.0 1.0 0.4</glass-tint>
+	<glass-tint type="vec4d" n="0"> 1.0 1.0 1.0 0.2</glass-tint>
 	<splash-x><use>/environment/aircraft-effects/splash-vector-x</use></splash-x>
 	<splash-y><use>/environment/aircraft-effects/splash-vector-y</use></splash-y>
 	<splash-z><use>/environment/aircraft-effects/splash-vector-z</use></splash-z>

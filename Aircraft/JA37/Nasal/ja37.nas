@@ -547,8 +547,7 @@ var slow_loop = func () {
     }
   }
   setprop("environment/temperature-inside-degc", tempInside);
-  var tempGlass = (tempInside - tempOutside)*0.6666+tempOutside;
-  #tempGlass = (tempInside - tempGlass)/2+tempGlass;#inside has double weight
+  var tempGlass = (tempInside - tempOutside)*0.6666+tempOutside;#inside has more weight
   var frostNorm = clamp(tempGlass*-0.05, 0, 1);
 
   setprop("/environment/aircraft-effects/frost-level", frostNorm);

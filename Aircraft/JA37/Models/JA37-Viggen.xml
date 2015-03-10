@@ -91,14 +91,14 @@
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
-	  <object-name>glass</object-name>
-	  <object-name>frontglas</object-name>
+    <object-name>glassInternal</object-name>
+    <object-name>frontglasInternal</object-name>
   </effect>
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
-    <object-name>glassInternal</object-name>
-    <object-name>frontglasInternal</object-name>
+    <object-name>glass</object-name>
+    <object-name>frontglas</object-name>
   </effect>
 
   <!--<animation>
