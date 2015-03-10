@@ -17,6 +17,7 @@ Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Make HUD model not be square anymore. Also model support beams on each side.
+Model: Make drop-tank switch into button.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -34,6 +35,8 @@ Sim: Hydralic pump depend on electric instead of rpm
 Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
+Sim: Battery drain.
+Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.

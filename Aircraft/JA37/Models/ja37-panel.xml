@@ -392,12 +392,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-droptank.xml</path>
-    <name>SwitchDroptank</name>
+    <path>Aircraft/JA37/Models/Cockpit/buttons/button-droptank.xml</path>
+    <name>ButtonDroptank</name>
     <offsets>
       <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.849</x-m>
-      <y-m>  0.25</y-m>
+      <x-m> -3.841</x-m>
+      <y-m>  0.23</y-m>
       <z-m>  0.43</z-m>
     </offsets>
   </model>

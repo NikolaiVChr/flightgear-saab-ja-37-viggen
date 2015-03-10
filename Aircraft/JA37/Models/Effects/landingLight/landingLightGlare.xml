@@ -4,6 +4,8 @@
 
  <path>landingLightGlare.ac</path>
 
+ <nopreview/>
+
  <animation>
   <type>dist-scale</type>
   <object-name>glare</object-name>

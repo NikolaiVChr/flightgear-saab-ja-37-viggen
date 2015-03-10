@@ -1281,3 +1281,10 @@ Effect: Made explosion visible and audible in MP.
 Sim: Added Bofors M70 rocket pods with 6 135mm rockets in each. They explode on impact and make sound when fired.
 GUI: Added 'Reload air to ground' menu point.
 Model: Added texture and ubershader to M70 pods.
+
+3.012
+=====
+Model: Replaced droptank switch with a button.
+Model: Fixed buttons was missing a ring, also split them into 3 meshes.
+Sim: Fixed that next selection button, would cause an error.
+Model: Fixed that rocket pods and landing light glare was showing up in FGRun.

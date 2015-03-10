@@ -6,7 +6,8 @@
  
 	<animation>
 	    <type>pick</type>
-	    <object-name>Poussoir</object-name>
+	    <object-name>Surface</object-name>
+	    <object-name>Ring</object-name>
 	    <action>
 	        <button>0</button>
 	        <binding>
@@ -26,7 +27,7 @@
 
 <animation>
   <type>material</type> 
-  <object-name>Poussoir</object-name>
+	<object-name>Ring</object-name>
 	<condition>
 	  	<equals>
 			<property>autopilot/target-tracking-ja37/enable</property>
