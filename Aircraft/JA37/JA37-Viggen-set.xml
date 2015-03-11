@@ -1241,6 +1241,7 @@
       <splash-vector-y type="float" userarchive="n">0.1</splash-vector-y>
       <splash-vector-z type="float" userarchive="n">1.0</splash-vector-z>
       <frost-level type="float" userarchive="n">0.0</frost-level>
+      <fog-level type="float" userarchive="n">0.0</fog-level>
       <ground-splash-norm type="float" userarchive="n">0.0</ground-splash-norm>
   </aircraft-effects>
   <precipitation-control>

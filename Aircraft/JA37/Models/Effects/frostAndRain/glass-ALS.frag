@@ -19,12 +19,14 @@ uniform vec4 tint;
 uniform float rain_norm;
 uniform float ground_splash_norm;
 uniform float frost_level;
+uniform float fog_level;
 uniform float splash_x;
 uniform float splash_y;
 uniform float splash_z;
 uniform float osg_SimulationTime;
 
 uniform int use_reflection;
+uniform int use_mask;
 
 float DotNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
 float DropletNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
@@ -35,16 +37,20 @@ void main()
 
 vec4 texel;
 vec4 frost_texel;
-//vec4 func_texel;
+vec4 func_texel;
 
 texel = texture2D(texture, gl_TexCoord[0].st);
 texel *=gl_Color;
 
 frost_texel = texture2D(frost_texture, vertPos.xy * 7.0);
-
+func_texel = texture2D(func_texture, gl_TexCoord[0].st
+);
 
 float noise_003m = Noise2D(vertPos.xy, 0.03);
 float noise_0003m = Noise2D(vertPos.xy, 0.003);
+
+
+// frost
 
 float fth = (1.0-frost_level) * 0.4 + 0.3;
 float fbl = 0.2 * frost_level;
@@ -59,13 +65,15 @@ float background_frost =  0.5 * smoothstep(0.7,1.0,frost_level);
 frost_texel.rgb = mix(frost_texel.rgb, vec3 (0.5,0.5,0.5), (1.0- smoothstep(0.0,0.02,frost_texel.a)));
 frost_texel.a =max(frost_texel.a, background_frost * (1.0- smoothstep(0.0,0.02,frost_texel.a)));
 
-frost_texel *=  vec4(light_diffuse.rgb,1.0);
+frost_texel *=  vec4(light_diffuse.rgb,0.5) * (1.0 + 3.0 * Mie);
 
 frost_factor = max(frost_factor, 0.8*background_frost);
+
+
 texel.rgb =  mix(texel.rgb, frost_texel.rgb, frost_texel.a * frost_factor * smoothstep(0.0,0.1,frost_level));
 texel.a = max(texel.a, frost_texel.a * frost_level);
 
-//texel.rgb = mix(texel.rgb, vec3 (1.0,1.0,1.0),  0.4 * smoothstep(0.7,1.0,frost_level) + 0.4*Mie); 
+// rain splashes
 
 vec3 splash_vec = vec3 (splash_x, splash_y, splash_z);
 float splash_speed = length(splash_vec);
@@ -83,10 +91,11 @@ if (rnorm > 0.0)
 	if (splash_angle> 0.0)
 	{	
 	// the dynamically impacting raindrops
-	//float time_shape = (1.0 - fract(8.0*osg_SimulationTime / 3.14)) * 1.7;
+
 	float time_shape = 1.0;
 	float base_rate = 6.0 + 3.0 * rnorm + 4.0 * (splash_speed - 1.0);
 	float base_density = 0.6 * rnorm + 0.4  * (splash_speed -1.0);
+	if (use_mask ==1) {base_density *= (1.0 - 0.5 * func_texel.g);}
 
 	float time_fact1 = (sin(base_rate*osg_SimulationTime));
 	float time_fact2 = (sin(base_rate*osg_SimulationTime + 1.570));
@@ -106,8 +115,9 @@ if (rnorm > 0.0)
 
 
 	// the static pattern of small droplets created by the splashes
-
+	
 	float sweep = min(1./splash_speed,1.0);
+	if (use_mask ==1) {sweep *= (1.0 - func_texel.g);}
 	rain_factor += DropletNoise2D(rainPos.xy, 0.02 * droplet_size ,0.5, 0.6* rnorm * sweep);
 	rain_factor += DotNoise2D(rainPos.xy, 0.012 * droplet_size ,0.7, 0.6* rnorm * sweep);
 	}
@@ -127,17 +137,31 @@ if (use_reflection ==1)
 
 // glass tint
 
-vec4 fragColor = texel * tint;
 
-fragColor = mix(fragColor, rainColor, rain_factor);
-
-// fogging
-
-//vec3 fogColor = vec3 (1.0,1.0,1.0);
-//fragColor.rgb = mix(fragColor.rgb, fogColor.rgb, func_texel.r);
+vec4 outerColor = mix(texel, rainColor, rain_factor);
+outerColor  *= tint;
 
 
-gl_FragColor = fragColor;
+// fogging - this is inside the glass
 
-//gl_FragColor = reflection;
+vec4 fog_texel = vec4 (0.6,0.6,0.6, fog_level);
+
+if (use_mask == 1) {fog_texel.a = fog_texel.a * func_texel.r;}
+
+fog_texel *= vec4(light_diffuse.rgb,1.0); 
+fog_texel.rgb *= (1.0 + 3.0 * Mie);
+fog_texel.a *= min((1.0 + 0.5 * Mie), 0.85);
+
+
+vec4 fragColor;
+
+fragColor.rgb = mix(outerColor.rgb, fog_texel.rgb, fog_texel.a);
+fragColor.a = max(outerColor.a, fog_texel.a);
+
+
+gl_FragColor = clamp(fragColor,0.0,1.0);
+
+//gl_FragColor = func_texel;
+
+
 }
