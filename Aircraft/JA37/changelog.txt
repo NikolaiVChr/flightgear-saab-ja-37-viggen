@@ -1292,3 +1292,7 @@ Effect: Rain will now splash on cockpit glass in ALS, and depend on airspeed.
 Effect: Cockpit glass will now be frosted in ALS depending on glass temperature. Generator must be on to increase cockpit temperature.
 Sim: Cockpit temperature will now align to outside when canopy is open.
 Model: Made double layered glass to get frost/rain effect together with ubershader when seen from outside.
+Sim: Adjusted how the airconditioner work.
+Sim: Adjusted how glass temperature is calculated.
+Sim: Made precipitation visible through the glass again.
+Sim: Fixed that dew point was wrongly used in determining amount of frost.

@@ -531,15 +531,17 @@ var slow_loop = func () {
   var tempOutside = getprop("environment/temperature-degc");
   var tempInside = getprop("environment/temperature-inside-degc");
   var tempOutsideDew = getprop("environment/dewpoint-degc");
+  var tempAC = 20;#aircondition temp
+  var tempACDew = 5;#aircondition dew point. 5 = dry
 
   # calc inside temp
   if (getprop("canopy/position-norm") > 0) {
     tempInside = tempOutside;
   } elsif(getprop("systems/electrical/generator_on") == 1) {
-    if (tempInside < 20) {
-      tempInside += 1;
-    } elsif (tempInside > 20) {
-      tempInside -= 1;
+    if (tempInside < tempAC) {
+      tempInside += 0.5;
+    } elsif (tempInside > tempAC) {
+      tempInside -= 0.5;
     }
   } else {
     if (tempInside < tempOutside) {
@@ -550,18 +552,26 @@ var slow_loop = func () {
   }
   
   # calc temp of glass itself
-  var tempGlass = (tempInside - tempOutside)*0.6666+tempOutside;#inside has more weight
+  var tempIndex = 0.70; # 0.80 = good window   0.45 = bad window
+  var tempGlass = tempIndex*(tempInside - tempOutside)+tempOutside;
   
-  # calculate dew point for inside air. When full airconditioning is achieved at 20degc dewpoint will be 0.
-  var slope = (tempOutsideDew - 0)/(tempOutside-20);
-  var tempInsideDew = slope*tempInside-20*slope+0;
+  # calculate dew point for inside air. When full airconditioning is achieved at tempAC dewpoint will be tempACdew.
+  # slope = (outsideDew - desiredInsideDew)/(outside-desiredInside)
+  # insideDew = slope*(inside-desiredInside)+desiredInsideDew
+
+  var slope = (tempOutsideDew - tempACDew)/(tempOutside-tempAC);
+  var tempInsideDew = slope*(tempInside-tempAC)+tempACDew;
 
   # calc fogging outside and inside on glass
-  var fogNormOutside = clamp((tempOutsideDew-tempGlass)*0.1, 0, 1);
-  var fogNormInside = clamp((tempInsideDew-tempGlass)*0.1, 0, 1);
+  var fogNormOutside = clamp((tempOutsideDew-tempGlass)*0.05, 0, 1);
+  var fogNormInside = clamp((tempInsideDew-tempGlass)*0.05, 0, 1);
 
   var fogNorm = fogNormOutside>fogNormInside?fogNormOutside:fogNormInside;
-  var frostNorm = clamp((tempGlass-tempOutsideDew)*-0.05, 0, 1);
+  var frostNorm = clamp((tempGlass-0)*-0.05, 0, 1);# will freeze below 0
+
+  setprop("/environment/aircraft-effects/fog-inside", fogNormInside);
+  setprop("/environment/aircraft-effects/fog-outside", fogNormOutside);
+  setprop("/environment/aircraft-effects/temperature-glass-degc", tempGlass);
 
   setprop("environment/temperature-inside-degc", tempInside);
   setprop("/environment/aircraft-effects/frost-level", frostNorm);
