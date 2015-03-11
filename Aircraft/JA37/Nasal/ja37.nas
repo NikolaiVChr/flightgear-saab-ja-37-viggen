@@ -530,7 +530,9 @@ var slow_loop = func () {
 
   var tempOutside = getprop("environment/temperature-degc");
   var tempInside = getprop("environment/temperature-inside-degc");
+  var tempOutsideDew = getprop("environment/dewpoint-degc");
 
+  # calc inside temp
   if (getprop("canopy/position-norm") > 0) {
     tempInside = tempOutside;
   } elsif(getprop("systems/electrical/generator_on") == 1) {
@@ -546,11 +548,24 @@ var slow_loop = func () {
       tempInside -= 1;
     }
   }
-  setprop("environment/temperature-inside-degc", tempInside);
+  
+  # calc temp of glass itself
   var tempGlass = (tempInside - tempOutside)*0.6666+tempOutside;#inside has more weight
-  var frostNorm = clamp(tempGlass*-0.05, 0, 1);
+  
+  # calculate dew point for inside air. When full airconditioning is achieved at 20degc dewpoint will be 0.
+  var slope = (tempOutsideDew - 0)/(tempOutside-20);
+  var tempInsideDew = slope*tempInside-20*slope+0;
 
+  # calc fogging outside and inside on glass
+  var fogNormOutside = clamp((tempOutsideDew-tempGlass)*0.1, 0, 1);
+  var fogNormInside = clamp((tempInsideDew-tempGlass)*0.1, 0, 1);
+
+  var fogNorm = fogNormOutside>fogNormInside?fogNormOutside:fogNormInside;
+  var frostNorm = clamp((tempGlass-tempOutsideDew)*-0.05, 0, 1);
+
+  setprop("environment/temperature-inside-degc", tempInside);
   setprop("/environment/aircraft-effects/frost-level", frostNorm);
+  setprop("/environment/aircraft-effects/fog-level", fogNorm);
 
   settimer(slow_loop, 1.5);
 }
