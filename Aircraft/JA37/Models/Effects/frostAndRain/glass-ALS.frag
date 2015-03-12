@@ -27,6 +27,7 @@ uniform float osg_SimulationTime;
 
 uniform int use_reflection;
 uniform int use_mask;
+uniform int use_wipers;
 
 float DotNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
 float DropletNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
@@ -43,11 +44,19 @@ texel = texture2D(texture, gl_TexCoord[0].st);
 texel *=gl_Color;
 
 frost_texel = texture2D(frost_texture, vertPos.xy * 7.0);
-func_texel = texture2D(func_texture, gl_TexCoord[0].st
-);
+func_texel = texture2D(func_texture, gl_TexCoord[0].st);
+
 
 float noise_003m = Noise2D(vertPos.xy, 0.03);
 float noise_0003m = Noise2D(vertPos.xy, 0.003);
+
+
+// damage_pattern
+
+if (use_mask == 1)
+	{
+	texel = mix(texel, vec4(light_diffuse.rgb,1.0), func_texel.b);
+	}
 
 
 // frost
@@ -95,7 +104,7 @@ if (rnorm > 0.0)
 	float time_shape = 1.0;
 	float base_rate = 6.0 + 3.0 * rnorm + 4.0 * (splash_speed - 1.0);
 	float base_density = 0.6 * rnorm + 0.4  * (splash_speed -1.0);
-	if (use_mask ==1) {base_density *= (1.0 - 0.5 * func_texel.g);}
+	if ((use_mask ==1)&&(use_wipers==1)) {base_density *= (1.0 - 0.5 * func_texel.g);}
 
 	float time_fact1 = (sin(base_rate*osg_SimulationTime));
 	float time_fact2 = (sin(base_rate*osg_SimulationTime + 1.570));
@@ -117,7 +126,7 @@ if (rnorm > 0.0)
 	// the static pattern of small droplets created by the splashes
 	
 	float sweep = min(1./splash_speed,1.0);
-	if (use_mask ==1) {sweep *= (1.0 - func_texel.g);}
+	if ((use_mask ==1)&&(use_wipers==1)) {sweep *= (1.0 - func_texel.g);}
 	rain_factor += DropletNoise2D(rainPos.xy, 0.02 * droplet_size ,0.5, 0.6* rnorm * sweep);
 	rain_factor += DotNoise2D(rainPos.xy, 0.012 * droplet_size ,0.7, 0.6* rnorm * sweep);
 	}

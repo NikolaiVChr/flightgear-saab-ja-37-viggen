@@ -77,7 +77,7 @@ if (earthShade < 0.5)
 
 
 float MieFactor =   dot(normalize(lightFull), normalize(relPos));
-Mie =  smoothstep(0.9,1.0, MieFactor);
+Mie =  smoothstep(0.9,1.0, MieFactor) * earthShade * earthShade;
 
 
 // get a reflection vector for cube map

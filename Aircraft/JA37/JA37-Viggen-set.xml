@@ -1243,6 +1243,7 @@
       <frost-level type="float" userarchive="n">0.0</frost-level>
       <fog-level type="float" userarchive="n">0.0</fog-level>
       <ground-splash-norm type="float" userarchive="n">0.0</ground-splash-norm>
+      <use-wipers type="int" userarchive="n">0</use-wipers>
   </aircraft-effects>
   <precipitation-control>
     <clip-distance type="double">1.75</clip-distance>

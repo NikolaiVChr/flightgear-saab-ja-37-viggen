@@ -5,8 +5,6 @@
 	<inherits-from>Effects/model-default</inherits-from>
 
 <parameters>
-<!--<rendering-hint>transparent</rendering-hint>
-<transparent>true</transparent>-->
 	<texture n="1">
 		<image>Aircraft/JA37/Models/Effects/frostAndRain/window_frost.png</image>
 		<type>2d</type>
@@ -38,8 +36,10 @@
 	<gsnorm><use>/environment/aircraft-effects/ground-splash-norm</use></gsnorm>
 	<frost-level><use>/environment/aircraft-effects/frost-level</use></frost-level>
 	<fog-level><use>/environment/aircraft-effects/fog-level</use></fog-level>
+	<use-wipers><use>/environment/aircraft-effects/use-wipers</use></use-wipers>
 	<use-reflection type="int">0</use-reflection>
 	<use-mask type="int">0</use-mask>
+
 </parameters>
 
 <technique n="4">
@@ -78,10 +78,6 @@
       </blend>
       <shade-model><use>shade-model</use></shade-model>
       <cull-face><use>cull-face</use></cull-face>
-	<!--<render-bin>
-		<bin-number>1</bin-number>
-		<bin-name>RenderBin</bin-name>
-	</render-bin>-->
       <rendering-hint><use>rendering-hint</use></rendering-hint>
       <texture-unit>
         <!-- The texture unit is always active because the shaders expect
@@ -240,6 +236,11 @@
 	<name>use_mask</name>
 	<type>int</type>
 	<value><use>use-mask</use></value>
+      </uniform>
+      <uniform>
+	<name>use_wipers</name>
+	<type>int</type>
+	<value><use>use-wipers</use></value>
       </uniform>
       <uniform>
         <name>colorMode</name>
