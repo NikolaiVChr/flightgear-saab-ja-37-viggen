@@ -1282,7 +1282,7 @@ Sim: Added Bofors M70 rocket pods with 6 135mm rockets in each. They explode on 
 GUI: Added 'Reload air to ground' menu point.
 Model: Added texture and ubershader to M70 pods.
 
-3.012
+3.012 - 2015 March 13
 =====
 Model: Replaced droptank switch with a button.
 Model: Fixed buttons was missing a ring, also split them into 3 meshes.
@@ -1296,4 +1296,4 @@ Sim: Adjusted how the airconditioner work.
 Sim: Adjusted how glass temperature is calculated.
 Sim: Made precipitation visible through the glass again.
 Sim: Fixed that dew point was wrongly used in determining amount of frost.
-Animation: Gear doors are now also animated.
+Animation: Gear doors are now animated.
