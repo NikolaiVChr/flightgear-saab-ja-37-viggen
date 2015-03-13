@@ -69,7 +69,8 @@
     <object-name>wingRight</object-name>
 	  <object-name>rudder</object-name>
 	  <object-name>gearFront</object-name>
-	  <object-name>gearFrontDoorsOpen</object-name>
+	  <object-name>gearFrontDoorsOpenLeft</object-name>
+    <object-name>gearFrontDoorsOpenRight</object-name>
 	  <object-name>gearFrontDoorsClosed</object-name>
 	  <object-name>gearLeft</object-name>
     <object-name>gearLeftTop</object-name>
@@ -260,7 +261,8 @@
   </condition>
   <object-name>gearLeftDoorsOpen</object-name>
   <object-name>gearRightDoorsOpen</object-name>
-  <object-name>gearFrontDoorsOpen</object-name>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <object-name>gearFrontDoorsOpenRight</object-name>
  </animation>
 
 <animation>
@@ -382,6 +384,66 @@
 
 <animation>
   <type>rotate</type>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.20</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> -4.98851</x1-m>
+   <y1-m> -0.20881</y1-m>
+   <z1-m>-0.78645</z1-m>
+   <x2-m> -3.05037</x2-m>
+   <y2-m>-0.22542</y2-m>
+   <z2-m>-0.8066</z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFrontDoorsOpenRight</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.20</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> -3.05041</x1-m>
+   <y1-m> 0.22836</y1-m>
+   <z1-m>-0.80326</z1-m>
+   <x2-m> -4.98856</x2-m>
+   <y2-m>0.21209</y2-m>
+   <z2-m>-0.78329</z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
   <condition>
     <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
   </condition>
@@ -439,6 +501,36 @@
 
 <animation>
   <type>rotate</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 80.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.75</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x2-m> 3.105</x2-m>
+   <y2-m> -2.45236</y2-m>
+   <z2-m>-0.40247</z2-m>
+   <x1-m> 2.41235</x1-m>
+   <y1-m>-2.45238</y1-m>
+   <z1-m>-0.40247</z1-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
   <object-name>gearRight</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>wheelRight1</object-name>
@@ -467,6 +559,36 @@
    <x>-1.0</x>
    <y>0.0</y>
    <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 80.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.75</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> 3.105</x1-m>
+   <y1-m> 2.45236</y1-m>
+   <z1-m>-0.40247</z1-m>
+   <x2-m> 2.41235</x2-m>
+   <y2-m>2.45238</y2-m>
+   <z2-m>-0.40247</z2-m>
   </axis>
  </animation>
 
@@ -1221,7 +1343,8 @@
   <object-name>rudder</object-name>
   <!--<object-name>gearFront</object-name>
   <object-name>gearFrontHinge</object-name>-->
-  <object-name>gearFrontDoorsOpen</object-name>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <object-name>gearFrontDoorsOpenRight</object-name>
   <object-name>gearFrontDoorsClosed</object-name>
   <!--<object-name>gearLeft</object-name>
   <object-name>gearLeftHinge</object-name>-->
