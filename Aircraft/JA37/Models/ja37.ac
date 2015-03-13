@@ -4,9 +4,9 @@ MATERIAL "bodyMat" rgb 1.0000 1.0000 1.0000  amb 1.0000 1.0000 1.0000  emis 0.00
 MATERIAL "dashpanelMat" rgb 0.8000 0.8000 0.8000  amb 0.8000 0.8000 0.8000  emis 0.0000 0.0000 0.0000  spec 0.8000 0.8000 0.8000  shi 50 trans 0.0000
 MATERIAL "glassMat" rgb 0.325 0.251 0.075  amb 0.217 0.217 0.217  emis 0 0 0  spec 1 1 1  shi 75  trans 1.0
 MATERIAL "glassMatInternal" rgb 0.6000 0.6000 0.6000  amb 0.0 0.0 0.0  emis 0.0000 0.0000 0.0000  spec 1.0000 1.0000 1.0000  shi 128 trans 0.5500
-MATERIAL "stobeMat" rgb 0.0960 0.0960 0.0960  amb 0.3000 0.3000 0.3000  emis 0.0 0.0 0.0  spec 0.5000 0.5000 0.5000  shi 49 trans 0.0000
-MATERIAL "redLightMat" rgb 1.0000 0.0000 0.0000  amb 0.3103 0.3103 0.3103  emis 0.0000 0.0000 0.0000  spec 0.5000 0.0000 0.0000  shi 50 trans 0.0000
-MATERIAL "greenLightMat" rgb 0.0000 1.0000 0.0000  amb 0.3103 0.3103 0.3103  emis 0.0000 0.0000 0.0000  spec 0.0000 0.5000 0.0000  shi 50 trans 0.0000
+MATERIAL "stobeMat" rgb 0.5000 0.5000 0.5000  amb 0.3000 0.3000 0.3000  emis 0.0 0.0 0.0  spec 0.5000 0.5000 0.5000  shi 80 trans 0.0000
+MATERIAL "redLightMat" rgb 0.5000 0.0000 0.0000  amb 0.3103 0.3103 0.3103  emis 0.0000 0.0000 0.0000  spec 0.5000 0.0000 0.0000  shi 80 trans 0.0000
+MATERIAL "greenLightMat" rgb 0.0000 0.5000 0.0000  amb 0.3103 0.3103 0.3103  emis 0.0000 0.0000 0.0000  spec 0.0000 0.5000 0.0000  shi 80 trans 0.0000
 MATERIAL "nozzleMat" rgb 0.5000 0.5000 0.5000  amb 0.300 0.300 0.300  emis 0.0000 0.0000 0.0000  spec 1.0000 1.0000 1.0000  shi 45 trans 0.0000
 OBJECT world
 name "Blender_export__ja37-v3.012.frost.8.ac"
