@@ -1302,3 +1302,5 @@ Animation: Gear doors are now animated.
 =====
 Model: Made adjustments on beacon, flash and navigation lights glass materials.
 Effect: Made a tint adjustment on frost, rain and fog effect.
+Model: Made sure the wing mounted rocket pods would not be visible if wings break off.
+Animations: Cleaned up a bit in the gears select animations.

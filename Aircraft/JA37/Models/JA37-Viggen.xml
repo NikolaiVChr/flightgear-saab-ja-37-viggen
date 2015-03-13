@@ -229,6 +229,8 @@
   <object-name>landingLightRight</object-name>
   <object-name>missile</object-name>
   <object-name>missile1</object-name>
+  <object-name>pod0</object-name>
+  <object-name>pod1</object-name>
   <condition>
     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>
@@ -254,28 +256,34 @@
 <animation>
   <type>select</type>
   <condition>
-   <greater-than>
-    <property>gear/gear[0]/position-norm</property>
-    <value>0.0</value>
-   </greater-than>
-  </condition>
-  <object-name>gearLeftDoorsOpen</object-name>
-  <object-name>gearRightDoorsOpen</object-name>
-  <object-name>gearFrontDoorsOpenLeft</object-name>
-  <object-name>gearFrontDoorsOpenRight</object-name>
- </animation>
-
-<animation>
-  <type>select</type>
-  <condition>
    <equals>
     <property>gear/gear[0]/position-norm</property>
     <value>0.0</value>
    </equals>
   </condition>
-  <object-name>gearLeftDoorsClosed</object-name>
-  <object-name>gearRightDoorsClosed</object-name>
   <object-name>gearFrontDoorsClosed</object-name>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearLeftDoorsClosed</object-name>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearRightDoorsClosed</object-name>
  </animation>
 
 <animation>
@@ -286,34 +294,13 @@
     <value>0.0</value>
    </greater-than>
   </condition>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <object-name>gearFrontDoorsOpenRight</object-name>
   <object-name>gearFront</object-name>
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>
   <object-name>frontLandingLightGlare</object-name>
  </animation>
-
-<!--<animation>
-  <type>select</type>
-  <condition>
-    <equals>
-    <value>1</value>
-    <value>0</value>
-    </equals>--><!--
-   <equals>
-    <property>gear/gear[0]/position-norm</property>
-    <value>1.0</value>
-   </equals>
-   <greater-than>
-    <property>gear/gear[0]/steering-norm</property>
-    <value>-0.05</value>
-   </greater-than>
-   <less-than>
-    <property>gear/gear[0]/steering-norm</property>
-    <value>0.05</value>
-   </less-than>--><!--
-  </condition>
-  <object-name>gearFrontHinge</object-name>
- </animation>-->
 
 <animation>
   <type>select</type>
@@ -330,6 +317,7 @@
   <object-name>wheelLeft2</object-name>
   <object-name>landingLightLeft</object-name>
   <object-name>leftLandingLightGlare</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
  </animation>
 
 <animation>
@@ -347,9 +335,8 @@
   <object-name>wheelRight2</object-name>
   <object-name>landingLightRight</object-name>
   <object-name>rightLandingLightGlare</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
  </animation>
-
-
 
 <animation>
   <type>rotate</type>
@@ -385,7 +372,7 @@
 <animation>
   <type>rotate</type>
   <object-name>gearFrontDoorsOpenLeft</object-name>
-  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
@@ -415,7 +402,7 @@
 <animation>
   <type>rotate</type>
   <object-name>gearFrontDoorsOpenRight</object-name>
-  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
