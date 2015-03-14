@@ -1304,5 +1304,9 @@ Animation: Gear doors are now animated.
 Model: Made adjustments on beacon, flash and navigation lights glass materials.
 Effect: Made a tint adjustment on frost, rain and fog effect.
 Model: Made sure the wing mounted rocket pods would not be visible if wings break off.
-Animations: Cleaned up a bit in the gears select animations.
-Animation: Fixed that gear compression on rear gears would translate also the top part.
+Animation: Cleaned up a bit in the gears select animations.
+Animation: Fixed that gear compression on rear gears would translate also the top part, now only the oleo is.
+Sim: Moved front gear back about 30cm.
+Model: Straightened out the front gear strut, it is now vertical.
+Model: Frontgear scissor is now aligned to the new strut position.
+Animation: Front gear compression now uses a proper oleo.

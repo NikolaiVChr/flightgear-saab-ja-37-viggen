@@ -132,7 +132,7 @@ to an airplane of that size). -->
   <ground_reactions>
     <contact type="BOGEY" name="NOSE_LG">
       <location unit="M">
-        <x> -3.65342 </x>
+        <x> -3.37534 </x>
         <y> 0 </y>
         <z> -2.1 </z>
       </location>
