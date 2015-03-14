@@ -636,7 +636,6 @@
 <animation><!--            compress left gear-->
    <type>translate</type>
    <object-name>gearLeft</object-name>
-   <object-name>gearLeftTop</object-name>
    <object-name>wheelLeft1</object-name>
    <object-name>wheelLeft2</object-name>
    <object-name>landingLightLeft</object-name>
@@ -710,7 +709,6 @@
 <animation><!--            compress right gear-->
    <type>translate</type>
    <object-name>gearRight</object-name>
-   <object-name>gearRightTop</object-name>
    <object-name>wheelRight1</object-name>
    <object-name>wheelRight2</object-name>
    <object-name>landingLightRight</object-name>

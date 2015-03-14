@@ -1289,8 +1289,9 @@ Model: Fixed buttons was missing a ring, also split them into 3 meshes.
 Sim: Fixed that next selection button, would cause an error.
 Model: Fixed that rocket pods and landing light glare was showing up in FGRun.
 Effect: Rain will now splash on cockpit glass in ALS, and depend on airspeed.
-Effect: Cockpit glass will now be frosted and fogged in ALS depending on glass temperature. Generator must be on to increase cockpit temperature.
-Sim: Cockpit temperature will now align to outside when canopy is open.
+Effect: Cockpit glass will now be frosted and fogged in ALS depending on glass, outside and cockpit temperature and dew point.
+Sim: Generator now drives the cockpit aircondition.
+Sim: Cockpit temperature and dew point will now align to outside when canopy is open.
 Model: Made double layered glass to get frost/rain/fog effect together with ubershader when seen from outside.
 Sim: Adjusted how the airconditioner work.
 Sim: Adjusted how glass temperature is calculated.
@@ -1304,3 +1305,4 @@ Model: Made adjustments on beacon, flash and navigation lights glass materials.
 Effect: Made a tint adjustment on frost, rain and fog effect.
 Model: Made sure the wing mounted rocket pods would not be visible if wings break off.
 Animations: Cleaned up a bit in the gears select animations.
+Animation: Fixed that gear compression on rear gears would translate also the top part.
