@@ -76,7 +76,7 @@
           <independentVar lookup="row">velocities/ve-kts</independentVar>
           <tableData>
             30.0   0.00
-            60.0   1.00
+            60.0   0.50
          </tableData>
         </table>
         <gain>fcs/pitch-damper/active</gain>

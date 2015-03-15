@@ -80,6 +80,10 @@ Model: Sim lag at final retraction of gear. [reproduced]
 Model: CTRL-X in HUD view will not zoom to correct level.
 Animation: Selection view does not follow carriers. (they lack radar properties)
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
+Sim: Sometimes when exploding, the sim freezes, typically at redout.
+Sim: {JazzTP} Replay did not replay explosion.
+Sim: Cannot use weapons in external view without first activating them in internal view.
+Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
 
 Issues with FG: (or my limited understanding of it)
 ---------------
