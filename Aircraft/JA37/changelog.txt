@@ -1311,3 +1311,4 @@ Model: Straightened out the front gear strut, it is now vertical.
 Model: Frontgear scissor is now aligned to the new strut position.
 Animation: Front gear compression now uses a proper oleo.
 Aero: Reduced the gain of the pitch damper to avoid small violent oscillations.
+Sim: Added a long description for the catalog.
