@@ -539,15 +539,15 @@ var slow_loop = func () {
     tempInside = tempOutside;
   } elsif(getprop("systems/electrical/generator_on") == 1) {
     if (tempInside < tempAC) {
-      tempInside += 0.5;
+      tempInside = clamp(tempInside+0.5, -1000, tempAC);
     } elsif (tempInside > tempAC) {
-      tempInside -= 0.5;
+      tempInside = clamp(tempInside-0.5, tempAC, 1000);
     }
   } else {
     if (tempInside < tempOutside) {
-      tempInside += 1;
+      tempInside = clamp(tempInside+1, -1000, tempOutside);
     } elsif (tempInside > tempOutside) {
-      tempInside -= 1;
+      tempInside = clamp(tempInside-1, tempOutside, 1000);
     }
   }
   
