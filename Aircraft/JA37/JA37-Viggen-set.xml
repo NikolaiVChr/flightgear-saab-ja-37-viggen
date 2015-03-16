@@ -21,6 +21,7 @@
       <model type="int">3</model>
     </rating>
 
+    <exclude-from-gui type="bool">false</exclude-from-gui>
     <tags>
         <!--<tag>saab</tag>
         <tag>1-engine</tag>
