@@ -1299,7 +1299,7 @@ Sim: Made precipitation visible through the glass again.
 Sim: Fixed that dew point was wrongly used in determining amount of frost.
 Animation: Gear doors are now animated.
 
-3.013
+3.013 - 2015 March 16
 =====
 Model: Made adjustments on beacon, flash and navigation lights glass materials.
 Effect: Made a tint adjustment on frost, rain and fog effect.
