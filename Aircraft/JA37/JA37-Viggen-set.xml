@@ -1244,6 +1244,8 @@
       <fog-level type="float" userarchive="n">0.0</fog-level>
       <ground-splash-norm type="float" userarchive="n">0.0</ground-splash-norm>
       <use-wipers type="int" userarchive="n">0</use-wipers>
+      <use-overlay type="int" userarchive="n">0</use-overlay>
+      <overlay-alpha type="float" userarchive="n">1.0</overlay-alpha>
   </aircraft-effects>
   <precipitation-control>
     <clip-distance type="double">1.75</clip-distance>

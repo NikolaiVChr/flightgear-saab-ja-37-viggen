@@ -7,6 +7,7 @@ varying vec3 refl_vec;
 varying vec3 light_diffuse;
 varying float splash_angle;
 varying float Mie;
+varying float ambient_fraction;
 
 uniform sampler2D texture;
 uniform sampler2D frost_texture;
@@ -14,12 +15,15 @@ uniform sampler2D func_texture;
 uniform samplerCube cube_texture;
 
 uniform vec4 tint;
+uniform vec3 overlay_color;
 
 
 uniform float rain_norm;
 uniform float ground_splash_norm;
 uniform float frost_level;
 uniform float fog_level;
+uniform float reflection_strength;
+uniform float overlay_alpha;
 uniform float splash_x;
 uniform float splash_y;
 uniform float splash_z;
@@ -28,6 +32,7 @@ uniform float osg_SimulationTime;
 uniform int use_reflection;
 uniform int use_mask;
 uniform int use_wipers;
+uniform int use_overlay;
 
 float DotNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
 float DropletNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
@@ -45,17 +50,35 @@ texel *=gl_Color;
 
 frost_texel = texture2D(frost_texture, vertPos.xy * 7.0);
 func_texel = texture2D(func_texture, gl_TexCoord[0].st);
+//func_texel = texture2D(func_texture, vertPos.xy * 3.0);
 
 
 float noise_003m = Noise2D(vertPos.xy, 0.03);
 float noise_0003m = Noise2D(vertPos.xy, 0.003);
 
 
-// damage_pattern
+// environment reflection
 
-if (use_mask == 1)
+vec4 reflection = textureCube(cube_texture, refl_vec);
+
+if (use_reflection ==1)
 	{
-	texel = mix(texel, vec4(light_diffuse.rgb,1.0), func_texel.b);
+	// to determine whether what we see reflected is currently in light, we make the somewhat drastic
+	// assumption that its normal will be opposite to the glass normal
+	// (which is mostly truish in a normal cockpit)
+	float reflection_shade = ambient_fraction + (1.0-ambient_fraction) * max(0.0, dot (normalize(normal),  normalize(gl_LightSource[0].position.xyz)));
+	texel.rgb = mix(texel.rgb, reflection.rgb, reflection_strength *  reflection_shade * (1.0-Mie));
+
+	}
+
+// overlay pattern
+
+if ((use_mask == 1) && (use_overlay==1))
+	{
+	vec4 overlay_texel = vec4(overlay_color, overlay_alpha);
+	overlay_texel.rgb *=  light_diffuse.rgb* (1.0 + 1.5*Mie);
+	overlay_texel.a *=(1.0 + 0.5* Mie);
+	texel = mix(texel, overlay_texel, func_texel.b * overlay_texel.a);
 	}
 
 
@@ -64,8 +87,6 @@ if (use_mask == 1)
 float fth = (1.0-frost_level) * 0.4 + 0.3;
 float fbl = 0.2 * frost_level;
  
-
-
 
 float frost_factor =  (fbl + (1.0-fbl)* smoothstep(fth,fth+0.2,noise_003m)) * (4.0 + 4.0* Mie);
 
@@ -137,12 +158,7 @@ rain_factor = smoothstep(0.1,0.2, rain_factor) * (1.0 - smoothstep(0.4,1.0, rain
 vec4 rainColor = vec4 (0.2,0.2, 0.2, 0.6 - 0.3 * smoothstep(1.0,2.0, splash_speed));
 rainColor.rgb *= length(light_diffuse)/1.73;
 
-// environment reflection
 
-vec4 reflection = textureCube(cube_texture, refl_vec);
-
-if (use_reflection ==1)
-	{texel.rgb = mix(texel.rgb, reflection.rgb, 0.5);}
 
 // glass tint
 

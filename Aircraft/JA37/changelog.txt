@@ -1313,3 +1313,4 @@ Animation: Front gear compression now uses a proper oleo.
 Aero: Reduced the gain of the pitch damper to avoid small violent oscillations.
 Sim: Added a long description for the catalog.
 Sim: Improved airconditioning and alignment of cockpit temperature to outside.
+Effect: Updated to newest fog/rain/frost effect.

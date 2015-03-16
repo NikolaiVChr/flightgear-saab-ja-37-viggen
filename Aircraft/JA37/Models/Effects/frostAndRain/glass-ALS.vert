@@ -7,6 +7,7 @@ varying vec3 light_diffuse;
 varying vec3 refl_vec;
 varying float splash_angle;
 varying float Mie;
+varying float ambient_fraction;
 
 uniform float ground_scattering;
 uniform float hazeLayerAltitude;
@@ -77,7 +78,7 @@ if (earthShade < 0.5)
 
 
 float MieFactor =   dot(normalize(lightFull), normalize(relPos));
-Mie =  smoothstep(0.9,1.0, MieFactor) * earthShade * earthShade;
+Mie =  smoothstep(0.9,1.0, MieFactor) * earthShade * earthShade * scattering;
 
 
 // get a reflection vector for cube map
@@ -107,7 +108,7 @@ splash_angle = dot(gl_Normal, corrected_splash);
 
 
 
-
+ambient_fraction = length(light_ambient.rgb)/length(light_diffuse.rgb +light_ambient.rgb );
 
 
 gl_Position = ftransform();

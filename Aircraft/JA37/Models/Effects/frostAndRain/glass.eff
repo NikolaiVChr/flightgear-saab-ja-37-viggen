@@ -29,6 +29,7 @@
 		</images>
 		</texture>
 	<glass-tint type="vec4d" n="0"> 1.0 1.0 1.0 1.0</glass-tint>
+	<overlay-color type="vec3d" n="0"> 0.0 0.0 0.0</overlay-color>
 	<splash-x><use>/environment/aircraft-effects/splash-vector-x</use></splash-x>
 	<splash-y><use>/environment/aircraft-effects/splash-vector-y</use></splash-y>
 	<splash-z><use>/environment/aircraft-effects/splash-vector-z</use></splash-z>
@@ -37,7 +38,10 @@
 	<frost-level><use>/environment/aircraft-effects/frost-level</use></frost-level>
 	<fog-level><use>/environment/aircraft-effects/fog-level</use></fog-level>
 	<use-wipers><use>/environment/aircraft-effects/use-wipers</use></use-wipers>
+	<use-overlay><use>/environment/aircraft-effects/use-overlay</use></use-overlay>
+	<overlay-alpha><use>/environment/aircraft-effects/overlay-alpha</use></overlay-alpha>
 	<use-reflection type="int">0</use-reflection>
+	<reflection-strength type="float">1.0</reflection-strength>
 	<use-mask type="int">0</use-mask>
 
 </parameters>
@@ -128,6 +132,11 @@
         <value><use>glass-tint</use></value>
      </uniform>
      <uniform>
+        <name>overlay_color</name>
+        <type>float-vec3</type>
+        <value><use>overlay-color</use></value>
+     </uniform>
+     <uniform>
         <name>splash_x</name>
         <type>float</type>
         <value><use>splash-x</use></value>
@@ -187,6 +196,11 @@
         <type>float</type>
         <value><use>overcast</use></value>
       </uniform>
+       <uniform>
+        <name>hazeLayerAltitude</name>
+        <type>float</type>
+        <value><use>lthickness</use></value>
+      </uniform>
      <uniform>
         <name>eye_alt</name>
         <type>float</type>
@@ -206,6 +220,16 @@
         <name>air_pollution</name>
         <type>float</type>
         <value><use>air_pollution</use></value>
+      </uniform>
+      <uniform>
+        <name>reflection_strength</name>
+        <type>float</type>
+        <value><use>reflection-strength</use></value>
+      </uniform>
+      <uniform>
+        <name>overlay_alpha</name>
+        <type>float</type>
+        <value><use>overlay-alpha</use></value>
       </uniform>
       <uniform>
         <name>texture</name>
@@ -241,6 +265,11 @@
 	<name>use_wipers</name>
 	<type>int</type>
 	<value><use>use-wipers</use></value>
+      </uniform>
+      <uniform>
+	<name>use_overlay</name>
+	<type>int</type>
+	<value><use>use-overlay</use></value>
       </uniform>
       <uniform>
         <name>colorMode</name>
