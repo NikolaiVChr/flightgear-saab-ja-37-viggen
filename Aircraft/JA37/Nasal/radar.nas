@@ -101,6 +101,7 @@ var radar = {
       radarEnabled:   "sim/ja37/hud/tracks-enabled",
       radarRange:     "instrumentation/radar/range",
       timeElapsed:    "sim/time/elapsed-sec",
+      hydrPressure:   "fdm/jsbsim/systems/hydraulics/flight-system/pressure",
     };
 
     # setup property nodes for the loop
@@ -127,8 +128,10 @@ var radar = {
       if (dt == nil) {
         dt = 5;
       }            
-      # compute new stroke angle
-      me.stroke_angle = math.sin(dt);
+      # compute new stroke angle if has hydr pressure
+      if(me.input.hydrPressure.getValue() == 1) {
+        me.stroke_angle = math.sin(dt);
+      }
       #convert to radians
       var curr_angle = me.stroke_angle;# * 0.0175; 
       # animate fading stroke angles

@@ -27,6 +27,8 @@ input = {
         tracks_enabled:   "sim/ja37/hud/tracks-enabled",
         callsign:         "/sim/ja37/hud/callsign",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
+        voltage:          "systems/electrical/outputs/radar",
+        hydrPressure:     "fdm/jsbsim/systems/hydraulics/flight-system/pressure",
 };
 
 var findRadarTracks = func () {
@@ -38,7 +40,7 @@ var findRadarTracks = func () {
   
   tracks = [];
 
-  if(input.tracks_enabled.getValue() == 1 and input.radar_serv.getValue() > 0) {
+  if(input.tracks_enabled.getValue() == 1 and input.radar_serv.getValue() > 0 and input.voltage.getValue() == 200 and input.hydrPressure.getValue() == 1) {
 
     #do the MP planes
     var players = [];

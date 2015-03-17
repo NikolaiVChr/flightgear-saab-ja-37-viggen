@@ -413,7 +413,12 @@ var update_loop = func {
       if (input.warnButton.getValue() == TRUE) {
         # test, should really be turn off sound
         input.warn.setValue(TRUE);
-      } elsif (input.engineRunning.getValue() == FALSE and autostarting == FALSE and input.wow0.getValue() == FALSE) {
+      } elsif (input.wow0.getValue() == FALSE and (
+        (input.engineRunning.getValue() == FALSE and autostarting == FALSE)
+        or (getprop("canopy/position-norm") > 0)
+        or (input.generatorOn.getValue() == FALSE)
+        or (getprop("fdm/jsbsim/systems/hydraulics/flight-system/pressure") != 1)
+        )) {
         # Major warning
         if(input.hz10.getValue() == TRUE) {
           input.warn.setValue(TRUE);

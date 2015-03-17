@@ -37,7 +37,11 @@ Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Battery drain.
 Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
-Sim: Generator does 200/115V instead of 200/45V.
+Sim: Find in manual what uses battery and instr AC and main AC:
+Sim: Uses 28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy[or batt]
+Sim: Uses 115V: GPS, TILS
+Sim: 200V transformed to 28V.
+Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -77,7 +81,7 @@ HUD: I have experienced that tactical mode was on by default. [not reliable repr
 HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
 Model: sim load-lag when coming near other ja37. [reproduced]
-Model: Sim lag at final retraction of gear. [reproduced]
+Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
 Model: CTRL-X in HUD view will not zoom to correct level.
 Animation: Selection view does not follow carriers. (they lack radar properties)
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
