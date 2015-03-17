@@ -1325,3 +1325,4 @@ Sim: Gear extension now takes 7 seconds instead of 5s as per the manual.
 Sim: Thrust reversing now takes 1.5s instead of 1s as per manual.
 Sim: Prevent gear deployment at above 620Km/h or 0.65M as per manual.
 Sim: Removed unused old electrical system.
+Sim: Fixed that reverser was really taking 0s to reverse no matter how fast the reverser was deploying.
