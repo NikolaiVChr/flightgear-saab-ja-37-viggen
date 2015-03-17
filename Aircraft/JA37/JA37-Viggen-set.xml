@@ -1784,7 +1784,7 @@
 
 *************************************************************************-->
  <limits>
-  <max-gear-extension-speed>300</max-gear-extension-speed>
+  <max-gear-extension-speed>334.77</max-gear-extension-speed><!-- as per manual -->
   <!-- structural G limits: -->
   <max-positive-g>12.0</max-positive-g>
   <max-negative-g>-4.0</max-negative-g>

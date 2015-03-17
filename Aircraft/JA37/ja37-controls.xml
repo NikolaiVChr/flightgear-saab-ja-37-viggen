@@ -597,8 +597,26 @@
 
 
     <channel name="Landing Gear">
-      <switch name="names/gear-tmp-norm">
+
+      <switch name="names/gear-target-norm">
           <default value="gear/gear-cmd-norm"/>
+          <test logic="AND" value="0">
+              gear/gear-pos-norm == 0
+              velocities/vc-kts gt 334.77
+          </test>
+          <test logic="AND" value="0">
+              gear/gear-pos-norm == 0
+              velocities/mach gt 0.65
+          </test>
+          <clipto>
+              <min>  0 </min>
+              <max>  1 </max>
+          </clipto>
+          <output>gear/gear-target-norm</output>
+      </switch>
+
+      <switch name="names/gear-filtered-norm">
+          <default value="gear/gear-target-norm"/>
           <test logic="OR" value="gear/gear-pos-norm">
               systems/hydraulics/flight-system/pressure ne 1
               gear/serviceable == 0
@@ -607,11 +625,11 @@
               <min>  0 </min>
               <max>  1 </max>
           </clipto>
-          <output>gear/gear-tmp-norm</output>
+          <output>gear/gear-filtered-norm</output>
       </switch>
 
       <kinematic name="names/gear-pos-norm">
-        <input>gear/gear-tmp-norm</input>
+        <input>gear/gear-filtered-norm</input>
         <traverse>
           <setting>
             <position>0.0</position>
@@ -689,7 +707,7 @@
       </kinematic>
 
       <switch name="names/flaps/tmp-norm">
-        <default value="gear/gear-cmd-norm"/><!-- flaps controlled by gear-->
+        <default value="gear/gear-target-norm"/><!-- flaps controlled by gear-->
         <test logic="OR" value="fcs/flap-pos-normalized">
           systems/hydraulics/flight-system/pressure ne 1
           fcs/flaps-serviceable == 0
