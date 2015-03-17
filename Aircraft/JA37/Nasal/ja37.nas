@@ -615,7 +615,6 @@ var speed_loop = func () {
   }
 
   ## control augmented thrust ##
-   
   var n1 = input.n1.getValue();
   var n2 = input.n2.getValue();
   var reversed = input.reversed.getValue();

@@ -58,6 +58,7 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
+HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 
 
 Bugs:
@@ -87,7 +88,6 @@ Animation: Selection view does not follow carriers. (they lack radar properties)
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 Sim: Sometimes when exploding, the sim freezes, typically at redout.
 Sim: {JazzTP} Replay did not replay explosion.
-Sim: Cannot use weapons in external view without first activating them in internal view.
 Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
 
 Issues with FG: (or my limited understanding of it)

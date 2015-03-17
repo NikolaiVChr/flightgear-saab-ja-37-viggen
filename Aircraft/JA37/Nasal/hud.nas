@@ -889,7 +889,7 @@ var HUDnasal = {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.3);
-     } elsif ((me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) or me.input.service.getValue() == FALSE) {
+     } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       settimer(func me.update(), 0.25);
@@ -923,6 +923,13 @@ var HUDnasal = {
         modeTimeTakeoff = -1;
       }
       me.input.currentMode.setValue(mode);
+
+      # commented as long as diamond node is choosen in HUD
+      #if (me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) {
+        # in external view
+      #  settimer(func me.update(), 0.03);
+      #  return;
+      #}
 
       var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == TRUE;
       var out_of_ammo = FALSE;

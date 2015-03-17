@@ -1331,3 +1331,5 @@ Sim: Adjusted the electrical flow to certain systems, as per manual.
 Sim: Master alert will now also enable at hydr. pressure fail, generator not running/fail or canopy open in flight. As per manual.
 Sim: Electrical DC is now 28V when generator running.
 Sim: Radar now needs hydr. pressure to sweep.
+HUD: The mode will now still be decided if in external view.
+HUD: Reverted that the HUD script would not run in external view, due to RB24 lock needs it.
