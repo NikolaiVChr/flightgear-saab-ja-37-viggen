@@ -1314,3 +1314,9 @@ Aero: Reduced the gain of the pitch damper to avoid small violent oscillations.
 Sim: Added a long description for the catalog.
 Sim: Improved airconditioning and alignment of cockpit temperature to outside.
 Effect: Updated to newest fog/rain/frost effect.
+Aero: Disabled yaw and pitch damper if weight on wheels or a spin is detected.
+Aero: Put a washout filter on the yaw and pitch damper.
+Aero: Made a roll damper, is disabled per default till all kinks are sorted out.
+Sim: Added roll damper as a failure mode.
+Sim: Gear extension now takes 7 seconds instead of 5s as per the manual.
+Sim: Thrust reversing now takes 1.5s instead of 1s as per manual.

@@ -694,6 +694,10 @@
       <desc>Pitch damper on/off</desc>
      </key>
      <key>
+      <name>Ctrl Del</name>
+      <desc>Roll damper on/off</desc>
+     </key>
+     <key>
       <name>o</name>
       <desc>Toggle canopy</desc>
      </key>
@@ -1089,6 +1093,11 @@
         <serviceable type="bool">true</serviceable>
         <enable type="bool">true</enable>
       </pitch-damper>
+      <roll-limiter>
+        <serviceable type="bool">true</serviceable>
+        <enable type="bool">false</enable>
+        <gain type="double">0.1</gain>
+      </roll-limiter>
       <rudder>
         <limiter-enable type="bool">true</limiter-enable>
       </rudder>
@@ -1520,20 +1529,20 @@
        <value type="bool">false</value>
       </binding>
      </mod-up>
-    </key>"controls/armament/station-select"
+    </key>
     <key n="53">
      <name>CTRL-5</name>
      <mod-ctrl>
-     <desc>Select cannon</desc> 
-     <binding>
-      <command>property-assign</command>
-      <property>controls/armament/station-select</property>
-      <value>0</value>
-     </binding>
-     <binding>
-        <command>nasal</command>
-        <script>ja37.click();</script>
-      </binding>
+       <desc>Select cannon</desc> 
+       <binding>
+        <command>property-assign</command>
+        <property>controls/armament/station-select</property>
+        <value>0</value>
+       </binding>
+       <binding>
+          <command>nasal</command>
+          <script>ja37.click();</script>
+       </binding>
     </mod-ctrl>
     </key>
     <key n="49">
@@ -1651,9 +1660,8 @@
      </binding>
     </mod-shift>
    </key>-->
-   <key n="127">
-    <name>Shift-Delete</name>-->
-    <!--<repeatable type="bool">true</repeatable>-->
+   <!--<key n="127">
+    <name>Shift-Delete</name>
     <mod-shift>
      <desc>Reload autopilot configuration (for debugging AP)</desc>
      <binding>
@@ -1665,7 +1673,7 @@
       </script>
      </binding>
     </mod-shift>
-   </key>
+   </key>-->
     <key n="127">
      <name>Delete</name>
      <desc>Yaw damper on/off</desc>
@@ -1683,6 +1691,16 @@
         <script>ja37.togglePitchDamper();</script>
         </binding>
       </mod-shift>
+    </key>
+    <key n="127">
+     <name>Ctrl delete</name>
+     <desc>Roll damper on/off</desc>
+     <mod-ctrl>
+        <binding>
+        <command>nasal</command>
+        <script>ja37.toggleRollDamper();</script>
+        </binding>
+      </mod-ctrl>
     </key>
     <key n="111">
      <name>o</name>

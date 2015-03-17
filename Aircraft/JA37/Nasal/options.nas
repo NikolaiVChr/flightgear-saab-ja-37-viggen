@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 575;
+var DIALOG_HEIGHT = 600;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -122,7 +122,7 @@ var Dialog = {
           
           var topRow = workArea.addChild("group");
           topRow.set("layout", "vbox");
-          topRow.set("pref-height", 300);
+          topRow.set("pref-height", 325);
           topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           topRow.set("valign", "top");
           topRow.set("stretch", "false");
@@ -248,6 +248,21 @@ var Dialog = {
           me.dialog.pitchButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.pitchButton.setBinding("nasal", "ja37.Dialog.pitchToggle()");
+
+          ######   Roll limiter button   #####
+          var rollRow = topRow.addChild("group");
+          rollRow.set("layout", "hbox");
+          rollRow.set("pref-height", 25);
+          rollRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var rollText = rollRow.addChild("text").set("label", "Roll damper:");
+          rollRow.addChild("empty").set("stretch", 1);
+          me.dialog.rollButton = rollRow.addChild("button");
+          me.dialog.rollButton.set("halign", "right");
+          me.dialog.rollButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.rollButton.setBinding("nasal", "ja37.Dialog.rollToggle()");
 
           ######   Elevator limiter button   #####
           var elevatorRow = topRow.addChild("group");
@@ -492,6 +507,13 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    rollToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
+      setprop("fdm/jsbsim/fcs/roll-limiter/enable", !enabled);
+      me.refreshButtons();
+    },
+
     mouseToggle: func {
       var enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
       setprop("fdm/jsbsim/fcs/mouse-optimized", !enabled);
@@ -619,6 +641,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.pitchButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.rollButton.node.setValues({"legend": legend});
 
       enabled = getprop("fdm/jsbsim/fcs/rudder/limiter-enable");
       if(enabled == 1) {

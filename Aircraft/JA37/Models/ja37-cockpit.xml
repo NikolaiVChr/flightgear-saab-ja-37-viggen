@@ -121,7 +121,7 @@
     <name>SwitchSmoke</name>
     <offsets>
     <pitch-deg>-90.0</pitch-deg>
-      <x-m> -3.45</x-m>
+      <x-m> -3.47</x-m>
       <y-m>  0.30</y-m>
       <z-m>  0.1700</z-m>
     </offsets>
@@ -132,11 +132,33 @@
     <name>SwitchYawDamper</name>
     <offsets>
     <pitch-deg>-90.0</pitch-deg>
-      <x-m> -3.47</x-m>
+      <x-m> -3.45</x-m>
       <y-m>  0.30</y-m>
-      <z-m>  0.1700</z-m>
+      <z-m>  0.1700</z-m>      
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-pitch-damper.xml</path>
+    <name>SwitchPitchDamper</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.43</x-m>
+      <y-m>  0.30</y-m>
+      <z-m>  0.1700</z-m>      
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-roll-damper.xml</path>
+    <name>SwitchRollDamper</name>
+    <offsets>
+    <pitch-deg>-90.0</pitch-deg>
+      <x-m> -3.41</x-m>
+      <y-m>  0.30</y-m>
+      <z-m>  0.1700</z-m>      
+    </offsets>
+  </model>  
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-canopy.xml</path>

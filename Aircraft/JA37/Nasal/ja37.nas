@@ -1108,6 +1108,17 @@ var togglePitchDamper = func {
   }
 }
 
+var toggleRollDamper = func {
+  ja37.click();
+  var enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
+  setprop("fdm/jsbsim/fcs/roll-limiter/enable", !enabled);
+  if(enabled == FALSE) {
+    popupTip("Roll damper: ON");
+  } else {
+    popupTip("Roll damper: OFF");
+  }
+}
+
 var toggleHook = func {
   ja37.click();
   var enabled = getprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm");

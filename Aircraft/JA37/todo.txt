@@ -37,6 +37,8 @@ Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Battery drain.
 Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
+Sim: Generator does 200/115 V
+Sim: Prevent gear deployment at above 620Km/h or 0.65M.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.

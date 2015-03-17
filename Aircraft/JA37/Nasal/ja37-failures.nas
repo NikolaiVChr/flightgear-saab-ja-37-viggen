@@ -235,6 +235,10 @@ var install_new_failures = func {
     var actuator_damperp = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Pitch damper", actuator_damperp);
 
+    prop = "fdm/jsbsim/fcs/roll-limiter";
+    var actuator_damperr = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Roll damper", actuator_damperr);
+
     prop = "fdm/jsbsim/gear/unit[0]/nose-wheel-steering";
     var actuator_steering = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Nose wheel steering", actuator_steering);
@@ -523,6 +527,10 @@ var install_newer_failures = func {
     prop = "fdm/jsbsim/fcs/pitch-damper";
     var actuator_damperp = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Pitch damper", actuator_damperp);
+
+    prop = "fdm/jsbsim/fcs/roll-limiter";
+    var actuator_damperr = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Roll damper", actuator_damperr);
 
     prop = "fdm/jsbsim/gear/unit[0]/nose-wheel-steering";
     var actuator_steering = compat_failure_modes.set_unserviceable(prop);
