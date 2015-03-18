@@ -1091,7 +1091,7 @@
       </yaw-damper>
       <pitch-damper>
         <serviceable type="bool">true</serviceable>
-        <enable type="bool">true</enable>
+        <enable type="bool">false</enable>
       </pitch-damper>
       <roll-limiter>
         <serviceable type="bool">true</serviceable>

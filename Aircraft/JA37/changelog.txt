@@ -1333,3 +1333,4 @@ Sim: Electrical DC is now 28V when generator running.
 Sim: Radar now needs hydr. pressure to sweep.
 HUD: The mode will now still be decided if in external view.
 HUD: Reverted that the HUD script would not run in external view, due to RB24 lock needs it.
+Aero: Pitch damper is now off by default, as the plane is very pitch stable in itself.
