@@ -53,12 +53,12 @@ will be on the order of O.3 - 0.5 m, which is a rather representative measure
 of the distance between the neutral point and the point of gravity in respect
 to an airplane of that size). -->
       <y> 0 </y>
-      <z> -0.25 </z><!-- setting the aerorp at main wing height would be -0.25, this makes the roll damping work much more effective. -->
+      <z> -0.25 </z><!-- setting the aerorp at main wing height would be -0.25, this also makes the roll damping work much more effective. -->
     </location>
     <location name="EYEPOINT" unit="M">
-      <x> -3.0 </x>
-      <y>  0.0 </y>
-      <z>  0.65 </z>
+      <x> -3.40 </x>
+      <y>  0.00 </y>
+      <z>  0.70 </z>
     </location>
     <location name="VRP" unit="M"><!-- Vehicle Reference Point -->
       <x> 0 </x>
@@ -69,7 +69,7 @@ to an airplane of that size). -->
   </metrics>
   
   <mass_balance>
-    <ixx unit="SLUG*FT2"> 10000 </ixx>
+    <ixx unit="SLUG*FT2"> 10000 </ixx><!-- estimations -->
     <iyy unit="SLUG*FT2"> 60000 </iyy>
     <izz unit="SLUG*FT2"> 65000 </izz>
     <emptywt unit="LBS" > 20943.91 </emptywt><!-- Air Power Journal, Summer 1993, various issues of FlygvapenNytt and other Swedish air force informational material -->

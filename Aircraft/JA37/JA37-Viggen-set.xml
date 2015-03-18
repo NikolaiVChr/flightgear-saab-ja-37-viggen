@@ -412,7 +412,7 @@
      <config>
        <pitch-offset-deg type="double">-20</pitch-offset-deg>
        <x-offset-m type="double">0</x-offset-m>
-       <y-offset-m type="double">0.70</y-offset-m>
+       <y-offset-m type="double">0.70</y-offset-m><!-- remember to change eyepoint in JSB when changing this -->
        <z-offset-m type="double">-3.40</z-offset-m>
        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
      </config>
@@ -1088,10 +1088,13 @@
       <yaw-damper>
         <serviceable type="bool">true</serviceable>
         <enable type="bool">true</enable>
+        <yaw-rate-gain type="double">4</yaw-rate-gain>
+        <lateral-acc-gain type="double">-0.05</lateral-acc-gain>
       </yaw-damper>
       <pitch-damper>
         <serviceable type="bool">true</serviceable>
         <enable type="bool">false</enable>
+        <pitch-rate-gain type="double">1</pitch-rate-gain>
       </pitch-damper>
       <roll-limiter>
         <serviceable type="bool">true</serviceable>

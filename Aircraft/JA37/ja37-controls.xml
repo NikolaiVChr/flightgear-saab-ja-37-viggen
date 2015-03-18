@@ -81,15 +81,16 @@
           <independentVar lookup="row">velocities/ve-kts</independentVar>
           <tableData>
             30.0   0.00
-            60.0   0.25
+            60.0   1.00
          </tableData>
         </table>
+        <gain>fcs/pitch-damper/pitch-rate-gain</gain><!-- default 1 -->
         <output>fcs/pitch-damper/rate-unfiltered</output>
       </scheduled_gain>
 
       <washout_filter name="names/pitch-damper/rate-washout">
         <input>fcs/pitch-damper/rate-unfiltered</input>
-        <c1>1</c1>
+        <c1>1.33</c1>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
@@ -484,20 +485,57 @@
         <output>fcs/yaw-damper/active</output>
       </switch>
 
-      <scheduled_gain name="names/yaw-damper/rate-unfiltered">
+      <scheduled_gain name="names/yaw-damper/lateral-acc-unfiltered">
+        <input>accelerations/vdot-ft_sec2</input>
+        <table>
+          <independentVar lookup="row">velocities/ve-kts</independentVar>
+          <tableData>
+            30.0   0.00
+            60.0   1.00
+         </tableData>
+        </table>
+        <gain>fcs/yaw-damper/lateral-acc-gain</gain><!-- default -0.05 -->
+        <output>fcs/yaw-damper/lateral-acc-unfiltered</output>
+      </scheduled_gain>
+
+      <scheduled_gain name="names/yaw-damper/yaw-rate-unfiltered">
         <input>velocities/r-aero-rad_sec</input>
         <table>
           <independentVar lookup="row">velocities/ve-kts</independentVar>
           <tableData>
             30.0   0.00
-            60.0   4.00
+            60.0   1.00
          </tableData>
         </table>
-         <output>fcs/yaw-damper/rate-unfiltered</output>
+        <gain>fcs/yaw-damper/yaw-rate-gain</gain><!-- default 4 -->
+        <output>fcs/yaw-damper/yaw-rate-unfiltered</output>
       </scheduled_gain>
 
+      <switch name="names/yaw-damper/damper-input">
+        <default value="fcs/yaw-damper/yaw-rate-unfiltered"/>
+        <test logic="AND" value="fcs/yaw-damper/lateral-acc-unfiltered">
+            fcs/yaw-damper/yaw-rate-unfiltered ge 0
+            fcs/yaw-damper/lateral-acc-unfiltered ge 0
+            fcs/yaw-damper/lateral-acc-unfiltered ge fcs/yaw-damper/yaw-rate-unfiltered
+        </test>
+        <test logic="AND" value="fcs/yaw-damper/lateral-acc-unfiltered">
+            fcs/yaw-damper/yaw-rate-unfiltered le 0
+            fcs/yaw-damper/lateral-acc-unfiltered le 0
+            fcs/yaw-damper/lateral-acc-unfiltered le fcs/yaw-damper/yaw-rate-unfiltered
+        </test>
+        <test logic="AND" value="0">
+            fcs/yaw-damper/yaw-rate-unfiltered ge 0
+            fcs/yaw-damper/lateral-acc-unfiltered le 0
+        </test>
+        <test logic="AND" value="0">
+            fcs/yaw-damper/yaw-rate-unfiltered le 0
+            fcs/yaw-damper/lateral-acc-unfiltered ge 0
+        </test>
+        <output>fcs/yaw-damper/damper-input</output>
+      </switch>
+
       <washout_filter name="names/yaw-damper/rate-washout">
-        <input>fcs/yaw-damper/rate-unfiltered</input>
+        <input>fcs/yaw-damper/damper-input</input>
         <c1>1</c1>
         <clipto>
           <min>-1.0</min>

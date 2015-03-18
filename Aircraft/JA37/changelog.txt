@@ -1334,3 +1334,8 @@ Sim: Radar now needs hydr. pressure to sweep.
 HUD: The mode will now still be decided if in external view.
 HUD: Reverted that the HUD script would not run in external view, due to RB24 lock needs it.
 Aero: Pitch damper is now off by default, as the plane is very pitch stable in itself.
+
+3.015
+=====
+Sim: Fixed JSBsim was computing G forces on pilot from old viewpoint.
+Aero: Yaw damper is now augmented by yaw stiffener from lateral side movement.
