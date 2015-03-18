@@ -1315,7 +1315,7 @@ Sim: Added a long description for the catalog.
 Sim: Improved airconditioning and alignment of cockpit temperature to outside.
 Effect: Updated to newest fog/rain/frost effect.
 
-3.014
+3.014 - 2015 March 18
 =====
 Aero: Disabled yaw and pitch damper if weight on wheels or a spin is detected.
 Aero: Put a washout filter on the yaw and pitch damper.
