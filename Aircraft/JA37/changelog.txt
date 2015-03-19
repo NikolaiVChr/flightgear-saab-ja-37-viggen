@@ -1338,4 +1338,5 @@ Aero: Pitch damper is now off by default, as the plane is very pitch stable in i
 3.015
 =====
 Sim: Fixed JSBsim was computing G forces on pilot from old viewpoint.
-Aero: Yaw damper is now augmented by yaw stiffener from lateral side movement.
+Aero: Yaw damper is now augmented by yaw stiffener from lateral side acceleration.
+Aero: Improved accuracy of droptank contribution to yawing moment due to beta.

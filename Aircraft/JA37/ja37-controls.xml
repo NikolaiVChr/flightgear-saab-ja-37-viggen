@@ -90,7 +90,7 @@
 
       <washout_filter name="names/pitch-damper/rate-washout">
         <input>fcs/pitch-damper/rate-unfiltered</input>
-        <c1>1.33</c1>
+        <c1>1.0</c1>
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
