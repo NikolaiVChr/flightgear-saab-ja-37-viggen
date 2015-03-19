@@ -1062,10 +1062,9 @@
     </function>
 
     <!-- from graph 115a page 137 -->
-    <!--<function name="aero/coefficient/Clr">
+    <function name="aero/coefficient/Clr">
        <description>
                         Roll due to yaw rate
-                        this conflict with Clb, so commented out. Together they produce NaN.
 
                         Considerable effect on Spiral mode. Large 
                         positive values leads to strong spiral instability.
@@ -1118,8 +1117,18 @@
                 78.2744      0.0115
             </tableData>
           </table>
+          <table>
+             <independentVar lookup="row">velocities/p-rad_sec</independentVar>
+             <tableData><!-- disable Clr at roll rates faster than 225 degrees per second. To prevent JSB from crashing due to NaNs -->
+                -4.5      0.0
+                -3.92699  1.0
+                 0.0      1.0
+                 3.92699  1.0
+                 4.5      0.0
+            </tableData>            
+          </table>
        </product>
-    </function>-->
+    </function>
 
     <!-- from graph 115b page 137 -->
     <function name="aero/coefficient/Clbdot">

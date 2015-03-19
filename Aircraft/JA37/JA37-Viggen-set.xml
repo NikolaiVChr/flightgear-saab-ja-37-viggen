@@ -1098,7 +1098,7 @@
       </pitch-damper>
       <roll-limiter>
         <serviceable type="bool">true</serviceable>
-        <enable type="bool">false</enable>
+        <enable type="bool">true</enable>
         <gain type="double">0.1</gain>
       </roll-limiter>
       <rudder>
