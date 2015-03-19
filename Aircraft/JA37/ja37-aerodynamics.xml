@@ -1077,7 +1077,7 @@
            <property>velocities/r-rad_sec</property>
            <table>
              <independentVar lookup="row">aero/alpha-deg</independentVar>
-             <tableData>
+             <tableData><!-- [measured using graph analyser] -->
                -52.8308     -0.4005
                -51.5790     -0.4348
                -50.4357     -0.4569
