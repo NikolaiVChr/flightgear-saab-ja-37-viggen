@@ -1340,3 +1340,9 @@ Aero: Pitch damper is now off by default, as the plane is very pitch stable in i
 Sim: Fixed JSBsim was computing G forces on pilot from old viewpoint.
 Aero: Yaw damper is now augmented by yaw stiffener from lateral side acceleration.
 Aero: Improved accuracy of droptank contribution to yawing moment due to beta.
+Effect: Updated glass effect to newest.
+Aero: Used a graph analyser to improve accuracy of yaw due to yaw rate.
+Aero: Used a graph analyser to improve accuracy of yaw due to sideslip rate.
+Aero: Used a graph analyser to improve accuracy of yaw due to sideslip due to droptank.
+Aero: Used a graph analyser to improve accuracy of roll due to sideslip.
+Aero: Used a graph analyser to improve accuracy of roll due to yaw rate. This coefficient is normally disabled though, as it can spin JSB into NaN.
