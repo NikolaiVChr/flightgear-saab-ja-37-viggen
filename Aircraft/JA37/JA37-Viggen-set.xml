@@ -1095,7 +1095,7 @@
         <serviceable type="bool">true</serviceable>
         <enable type="bool">true</enable>
         <pitch-rate-gain type="double">2</pitch-rate-gain>
-        <washout-factor type="double">1.33</washout-factor>
+        <washout-factor type="double">2.50</washout-factor>
       </pitch-damper>
       <roll-limiter>
         <serviceable type="bool">true</serviceable>
