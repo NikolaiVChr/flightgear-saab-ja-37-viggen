@@ -815,6 +815,7 @@
       Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
       The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not catch you doing that. :)
       Beware trying to land if the gears are damaged.
+      If you try to extend the gears at high speed they won't extend till you get into lower speeds. The limit is 0.65M or 620Km/h (335KTS).
 
       Automatic Thrust reversing
       __________________________
@@ -1665,8 +1666,8 @@
      </binding>
     </mod-shift>
    </key>-->
-   <!--<key n="127">
-    <name>Shift-Delete</name>
+   <key n="8">
+    <name>Shift-Backspace</name>
     <mod-shift>
      <desc>Reload autopilot configuration (for debugging AP)</desc>
      <binding>
@@ -1678,7 +1679,7 @@
       </script>
      </binding>
     </mod-shift>
-   </key>-->
+   </key>
     <key n="127">
      <name>Delete</name>
      <desc>Yaw damper on/off</desc>

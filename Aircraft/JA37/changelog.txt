@@ -1355,3 +1355,5 @@ Aero: Major fix in roll due to sideslip rate coefficient.
 Aero: Pitch damper now enabled per default and tuned to the fixed Clbdot.
 Aero: Roll damper is again disabled by default.
 Aero: Roll due to yaw rate is now enabled in all regimes.
+GUI: Added info on gear extension speed limit to aircraft help.
+Sim: Little work on A/P system.
