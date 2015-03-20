@@ -1357,3 +1357,4 @@ Aero: Roll damper is again disabled by default.
 Aero: Roll due to yaw rate is now enabled in all regimes.
 GUI: Added info on gear extension speed limit to aircraft help.
 Sim: Little work on A/P system.
+Aero: Added paper references.
