@@ -60,15 +60,11 @@
       <switch name="names/pitch-damper/active">
         <default value="0.0"/>
         <test logic="AND" value="1">
-            aero/alpha-deg ge -10
-            aero/alpha-deg le  15
             gear/unit[0]/WOW ne 1
             gear/unit[1]/WOW ne 1
             gear/unit[2]/WOW ne 1
             velocities/r-aero-rad_sec le  0.724
             velocities/r-aero-rad_sec ge -0.724
-            fcs/elevator-cmd-norm ge -0.15
-            fcs/elevator-cmd-norm le 0.15
             fcs/pitch-damper/enable ne 0.0
             fcs/pitch-damper/serviceable == 1
         </test>
@@ -84,13 +80,13 @@
             60.0   1.00
          </tableData>
         </table>
-        <gain>fcs/pitch-damper/pitch-rate-gain</gain><!-- default 1 -->
+        <gain>fcs/pitch-damper/pitch-rate-gain</gain><!-- default 2 -->
         <output>fcs/pitch-damper/rate-unfiltered</output>
       </scheduled_gain>
 
       <washout_filter name="names/pitch-damper/rate-washout">
         <input>fcs/pitch-damper/rate-unfiltered</input>
-        <c1>1.0</c1>
+        <c1>fcs/pitch-damper/washout-factor</c1><!-- default 1.33 -->
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>

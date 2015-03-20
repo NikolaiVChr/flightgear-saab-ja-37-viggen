@@ -1117,23 +1117,13 @@
                 78.2744      0.0115
             </tableData>
           </table>
-          <table>
-             <independentVar lookup="row">velocities/p-rad_sec</independentVar>
-             <tableData><!-- disable Clr at roll rates faster than 225 degrees per second. To prevent JSB from crashing due to NaNs -->
-                -4.5      0.0
-                -3.92699  1.0
-                 0.0      1.0
-                 3.92699  1.0
-                 4.5      0.0
-            </tableData>            
-          </table>
        </product>
     </function>
 
     <!-- from graph 115b page 137 -->
     <function name="aero/coefficient/Clbdot">
        <description>
-                      Roll due to beta dot rate
+                      Roll due to sideslip rate
       </description>
        <product>
            <property>aero/qbar-psf</property>
@@ -1548,7 +1538,7 @@
            <property>metrics/cbarw-ft</property>
            <property>aero/ci2vel</property>
 <!-- document does not specify unit for alpha-dot. Degree/sec are used for alpha rest of doc, but rad/sec for beta-dot. -->
-       <property>aero/alphadot-deg_sec</property>
+       <property>aero/alphadot-rad_sec</property>
            <table>
               <independentVar>aero/alpha-deg</independentVar>
               <tableData><!-- [measured using graph analyser] -->
