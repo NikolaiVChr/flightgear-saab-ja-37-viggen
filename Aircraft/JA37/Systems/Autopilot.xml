@@ -343,7 +343,7 @@
     <config>
       <Kp><property>/autopilot/pid/heading-targetroll-Kp</property><value>-10</value></Kp>        <!-- proportional gain -->
       <Ti><property>/autopilot/pid/heading-targetroll-Ti</property><value>25</value></Ti>        <!-- integrator time -->
-      <Td><property>/autopilot/pid/heading-targetroll-Td</property><value>1</value></Td>     <!-- derivator time -->
+      <Td><property>/autopilot/pid/heading-targetroll-Td</property><value>0.1</value></Td>     <!-- derivator time -->
 
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->

@@ -816,6 +816,7 @@
       The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not catch you doing that. :)
       Beware trying to land if the gears are damaged.
       If you try to extend the gears at high speed they won't extend till you get into lower speeds. The limit is 0.65M or 620Km/h (335KTS).
+      The gears will not retract on the runway.
 
       Automatic Thrust reversing
       __________________________

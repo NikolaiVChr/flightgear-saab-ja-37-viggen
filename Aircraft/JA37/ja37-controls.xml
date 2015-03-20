@@ -61,8 +61,6 @@
         <default value="0.0"/>
         <test logic="AND" value="1">
             gear/unit[0]/WOW ne 1
-            gear/unit[1]/WOW ne 1
-            gear/unit[2]/WOW ne 1
             velocities/r-aero-rad_sec le  0.724
             velocities/r-aero-rad_sec ge -0.724
             fcs/pitch-damper/enable ne 0.0
@@ -468,11 +466,7 @@
       <switch name="names/yaw-damper/active">
         <default value="0.0"/>
         <test logic="AND" value="1">
-            aero/alpha-deg ge -10
-            aero/alpha-deg le  10
             gear/unit[0]/WOW ne 1
-            gear/unit[1]/WOW ne 1
-            gear/unit[2]/WOW ne 1
             velocities/r-aero-rad_sec le  0.724
             velocities/r-aero-rad_sec ge -0.724
             fcs/yaw-damper/enable ne 0.0
@@ -634,6 +628,11 @@
 
       <switch name="names/gear-target-norm">
           <default value="gear/gear-cmd-norm"/>
+          <test logic="OR" value="1">
+              gear/unit[0]/WOW == 1
+              gear/unit[1]/WOW == 1
+              gear/unit[2]/WOW == 1
+          </test>
           <test logic="AND" value="0">
               gear/gear-pos-norm == 0
               velocities/vc-kts gt 334.77
