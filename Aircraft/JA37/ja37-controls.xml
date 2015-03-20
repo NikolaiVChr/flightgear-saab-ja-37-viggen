@@ -532,7 +532,7 @@
 
       <washout_filter name="names/yaw-damper/rate-washout">
         <input>fcs/yaw-damper/damper-input</input>
-        <c1>1</c1>
+        <c1>fcs/yaw-damper/washout-factor</c1><!-- default 1 -->
         <clipto>
           <min>-1.0</min>
           <max>1.0</max>
