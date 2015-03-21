@@ -162,7 +162,7 @@
                   1.8000    0.127075      0.07215
           </tableData>
         </table>
-        <property>aero/factor-axial-mach</property><!-- is property so it was easy to adjust when flying -->
+        <property>aero/factor-axial-mach</property><!--  -->
       </product>
       <value>1.0</value>
     </sum>
@@ -890,7 +890,7 @@
          <!-- from graph 103 on page 127 -->
          <function name="aero/coefficient/Clb">
             <description>
-                            Roll damp due to beta
+                            Roll damp due to sideslip
 
                             Decrease of Clb to small negative value improves Dutch Roll Damping
                             High Positive value leads to excessive spiral instability
@@ -1528,7 +1528,7 @@
     <!-- from graph 66 page 83 -->
     <function name="aero/coefficient/Cmadot">
        <description>
-                    Pitch damping due to alpha dot rate
+                    Pitch damping due to alpha rate
 
                     Negitive Cmad increase Short Period damping
        </description>
@@ -1594,7 +1594,7 @@
       <!-- from graph 88b page 109-->
       <function name="aero/coefficient/Cnb">
        <description>
-                       Yaw due to beta
+                       Yaw due to sideslip
 
                        Determines Dutch Roll and Spiral characteristics
                        Prevents side-slip and yawing moments
@@ -1654,6 +1654,49 @@
                  79.4833    -0.0913435  -0.0913435  
                 112.917     -0.0520548  -0.0520548  
              </tableData>
+          </table>
+          <table>
+              <!-- from graph 88c page 109 -->
+              <!-- this table applies non linerity to Cnb -->
+              <independentVar lookup="row">aero/beta-deg</independentVar>
+              <independentVar lookup="column">aero/alpha-deg</independentVar>
+              <tableData>
+                            0     15     20     25     30
+                  -60.0    0.02  0.00   0.00   0.00   0.00
+                  -55.0    0.05  0.00   0.04   0.00   0.00
+                  -52.5    0.09  0.10   0.04   0.00   0.00
+                  -40.0    0.66  0.44   0.38   0.19  -1.04
+                  -37.5    0.78  0.50   0.40   0.15  -1.27
+                  -35.0    0.91  0.55   0.29   0.16  -1.80
+                  -33.0    0.98  0.52   0.22  -0.05  -2.12
+                  -30.0    1.00  0.48   0.16  -0.30  -2.51
+                  -26.0    1.00  0.52   0.26  -0.46  -3.03
+                  -24.0    1.00  0.57   0.38  -0.41  -3.28
+                  -21.0    1.00  0.68   0.50  -0.14  -3.92
+                  -19.0    1.00  0.76   0.59   0.22  -4.51
+                  -16.0    1.00  0.85   0.71   0.50  -4.63
+                  -14.0    1.00  0.80   0.75   0.64  -2.08
+                  -12.5    1.00  0.82   0.83   0.75  -0.69
+                  -11.0    1.00  0.87   0.88   0.88   0.33
+                   -8.0    1.00  1.00   1.00   1.00   1.00
+                    8.0    1.00  1.00   1.00   1.00   1.00
+                   11.0    1.00  0.87   0.88   0.88   0.33
+                   12.5    1.00  0.82   0.83   0.75  -0.69
+                   14.0    1.00  0.80   0.75   0.64  -2.08
+                   16.0    1.00  0.85   0.71   0.50  -4.63
+                   19.0    1.00  0.76   0.59   0.22  -4.51
+                   21.0    1.00  0.68   0.50  -0.14  -3.92
+                   24.0    1.00  0.57   0.38  -0.41  -3.28
+                   26.0    1.00  0.52   0.26  -0.46  -3.03
+                   30.0    1.00  0.48   0.16  -0.30  -2.51
+                   33.0    0.98  0.52   0.22  -0.05  -2.12
+                   35.0    0.91  0.55   0.29   0.16  -1.80
+                   37.5    0.78  0.50   0.40   0.15  -1.27
+                   40.0    0.66  0.44   0.38   0.19  -1.04
+                   52.5    0.09  0.10   0.04   0.00   0.00
+                   55.0    0.05  0.00   0.04   0.00   0.00
+                   60.0    0.02  0.00   0.00   0.00   0.00
+              </tableData>
           </table>
        </product>
     </function>
@@ -1823,7 +1866,7 @@
     <!-- from graph 93 page 116-->
       <function name="aero/coefficient/Cnbdot">
        <description>
-                      Yaw due to beta dot rate
+                      Yaw due to sideslip rate
        </description>
        <product>
            <property>aero/qbar-psf</property>

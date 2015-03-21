@@ -1361,3 +1361,4 @@ Aero: Added paper references.
 Sim: Prevented gear retraction when they are compressed.
 Aero: Pitch and yaw dampers now will enable also when rear gears are compressed, if nosewheel is compressed they still shut off.
 Aero: Yaw damper will now enable in all AoA.
+Aero: Yaw due to sideslip is now non-linear in regards to wide sideslip angles.
