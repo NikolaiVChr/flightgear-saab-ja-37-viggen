@@ -1364,4 +1364,4 @@ Aero: Yaw damper will now enable in all AoA.
 Aero: Yaw due to sideslip is now non-linear in regards to wide sideslip angles.
 Sound: Fixed pilot breath sounds could be heard in external view in replay mode.
 Effect: Fixed that strobe would double flash in replay.
-Aero: Yaw and pitch damper now will deflect less.
+Aero: Yaw and pitch damper maximum deflection is now smaller.

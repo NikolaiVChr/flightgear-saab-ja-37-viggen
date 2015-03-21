@@ -1164,9 +1164,17 @@
     </function>
 
     <!-- from graph 108a page 131 -->
-<!--    <function name="aero/coefficient/Claileronbeta"> this should form a 3D table with Claileron
+    <!--<function name="aero/coefficient/Claileronbeta">
        <description>
-        Roll due to beta and aileron
+                          Roll due to beta and aileron
+
+                          Situation: Gears and flaps extended at 16 deg alpha.
+                          
+                          This should form a 3D table with Claileron. It is incomplete
+                          as it only describes a narrow situation, and therefore
+                          commented out.
+
+                          Used, this will make the plane roll unstable at all beta beside zero.
       </description>
        <product>
           <property>aero/qbar-psf</property>
@@ -1179,7 +1187,7 @@
                         -10      -5     0.0     5       10
                 -10    0.008   0.023   0.04   0.06    0.075
                  -5   -0.01    0.005   0.022  0.04    0.06
-                  0   -0.033  -0.0175  0.0    0.0175  0.033
+                  0   -0.033  -0.0175  0.00   0.0175  0.033
                   5   -0.06   -0.04   -0.022 -0.005   0.01
                  10   -0.075  -0.06   -0.04  -0.023  -0.008
             </tableData>
@@ -1567,6 +1575,7 @@
      </function>
 
     <axis name="YAW">
+
       <!-- from graph 88b page 109-->
       <function name="aero/coefficient/Cnb">
        <description>

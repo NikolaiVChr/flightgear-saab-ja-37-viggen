@@ -9,7 +9,7 @@ GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
-Aero: Disable failure system from freezing surfaces (remove failure mode bug prevents)
+Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
 Aero: Yaw damper should also take roll rate as input.
 Aero: Tune the roll damper, and enable it per default.
