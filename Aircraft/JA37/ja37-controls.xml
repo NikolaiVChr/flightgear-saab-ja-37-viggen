@@ -86,8 +86,8 @@
         <input>fcs/pitch-damper/rate-unfiltered</input>
         <c1>fcs/pitch-damper/washout-factor</c1><!-- default 1.33 -->
         <clipto>
-          <min>-1.0</min>
-          <max>1.0</max>
+          <min>-0.5</min>
+          <max> 0.5</max>
         </clipto>
         <output>fcs/pitch-damper/rate-washout</output>
       </washout_filter>
@@ -528,8 +528,8 @@
         <input>fcs/yaw-damper/damper-input</input>
         <c1>fcs/yaw-damper/washout-factor</c1><!-- default 1 -->
         <clipto>
-          <min>-1.0</min>
-          <max>1.0</max>
+          <min>-0.5</min>
+          <max>0.5</max>
         </clipto>
         <output>fcs/yaw-damper/rate-washout</output>
       </washout_filter>

@@ -9,7 +9,7 @@
         Plan: Low speed Aerodynamics from NASA document above
               High speed aerodynamics from DATCOM and Australian document
 
-        Missing: Proper high-speed aerodynamics
+        Missing: More high-speed aerodynamics
                  More axial data
                  
      **********************************************************************
@@ -167,30 +167,6 @@
       <value>1.0</value>
     </sum>
   </function>
-
-  <!-- from graph page 18, Australian document (heavily modified) not using this anymore, the above is better-->
-  <!--<function name="aero/function/mach-effect-factor-drag">
-     <description>Change in drag due to mach effect</description>
-     <sum>
-      <product>
-        <table>
-          <independentVar>velocities/mach</independentVar>
-          <tableData>
-                  0.0000  0
-                  0.8200  0
-                  0.8800  0.011
-                  0.9500  0.066
-                  1.0000  0.128
-                  1.1100  0.684
-                  2.1000  0.025
-                  2.2000  8
-          </tableData>
-        </table>
-        <property>aero/mach-drag-factor</property>--><!-- is property so it was easy to adjust when flying -->
-      <!--</product>
-      <value>1</value>
-    </sum>
-  </function>-->
 
   <!-- estimate -->
   <function name="aero/function/CAgear">
