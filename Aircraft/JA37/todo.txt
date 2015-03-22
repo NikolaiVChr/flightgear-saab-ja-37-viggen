@@ -66,7 +66,6 @@ Bugs:
 --------------
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
-Aero: The plane can spin into NaN. Check that. (maybe cap on some dampers, use FG-Plot to check which ones) [might be fixed]
 Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
 Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
@@ -74,7 +73,7 @@ Sim: Missiles will not lock on to ferries that is missing the radar properties.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
 Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
-Sim: When running at reduced sim time, relocating or pausing, autostart might fail. [reproduced]
+Sim: When relocating or pausing, autostart might fail. [reproduced]
 Sim: Missile that misses dont seem to delete by altitude.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
@@ -85,7 +84,7 @@ GUI: The performance monitor can duplicate itself when selecting airport. [repro
 Model: sim load-lag when coming near other ja37. [reproduced]
 Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
 Model: CTRL-X in HUD view will not zoom to correct level.
-Animation: Selection view does not follow carriers. (they lack radar properties)
+Animation: Selection view does not follow carriers till they move. (they lack radar properties)
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 Sim: Sometimes when exploding, the sim freezes, typically at redout.
 Sim: {JazzTP} Replay did not replay explosion.

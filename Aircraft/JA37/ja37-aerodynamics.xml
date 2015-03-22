@@ -633,7 +633,7 @@
                                                                   SIDE
      *********************************************************************************** -->
 
-<!-- [page 98, figure 80a not included]   -->
+
 
   <axis name="SIDE">
 
@@ -745,8 +745,7 @@
     <!-- from description page 105 -->
     <function name="aero/coefficient/Cybtank">
       <description>
-         Side Force coefficient due to Sideslip due to drop tank
-          Contributes to damping of Dutch Roll mode
+                      Side Force coefficient due to Sideslip due to drop tank
       </description>
       <product>
          <property>aero/function/ground-effect-factor-drag</property>
@@ -1552,7 +1551,7 @@
 
     <axis name="YAW">
 
-      <!-- from graph 88b page 109-->
+      <!-- From graph 88b page 109 -->
       <function name="aero/coefficient/Cnb">
        <description>
                        Yaw due to sideslip
@@ -1616,9 +1615,8 @@
                 112.917     -0.052054   -0.0520548  
              </tableData>
           </table>
+          <!-- from graph 88c page 109. This table applies non linerity to Cnb -->
           <table>
-              <!-- from graph 88c page 109 -->
-              <!-- this table applies non linerity to Cnb -->
               <independentVar lookup="row">aero/beta-deg</independentVar>
               <independentVar lookup="column">aero/alpha-deg</independentVar>
               <tableData>
@@ -1865,7 +1863,7 @@
     </function>
 
     <!-- from graph 90 page 113-->
-      <function name="aero/coefficient/Cntank">
+    <function name="aero/coefficient/Cntank">
        <description>
                       Yaw due drop tank
 
