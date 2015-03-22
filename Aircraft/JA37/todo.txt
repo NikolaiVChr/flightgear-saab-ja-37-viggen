@@ -11,8 +11,6 @@ Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
-Aero: Yaw damper should also take roll rate as input.
-Aero: Tune the roll damper, and enable it per default.
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Proper pilot seat.
 Model: Throttle.
@@ -92,6 +90,7 @@ Model: In FG 2.12 radar screen does not work as it should. (no canvas replacemen
 Sim: Sometimes when exploding, the sim freezes, typically at redout.
 Sim: {JazzTP} Replay did not replay explosion.
 Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
+Aero: The aircraft produces more aileron gas when rolling to one side than the other.
 
 Issues with FG: (or my limited understanding of it)
 ---------------

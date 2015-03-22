@@ -1370,3 +1370,5 @@ Aero: Adjusted aileron limiter to roll damper being active.
 GUI: Added roll rate to performance monitor.
 Model: Fixed that when canopy breaks off half of the glass would stay on.
 Aero: Cleaned up a bit in the control code.
+Aero: Cleaned up a bit in some aerodynamic tables.
+Aero: Yaw damper now also take roll rate as input to prevent aileron gas, as per manual.
