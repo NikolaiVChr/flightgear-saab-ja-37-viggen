@@ -1335,7 +1335,7 @@ HUD: The mode will now still be decided if in external view.
 HUD: Reverted that the HUD script would not run in external view, due to RB24 lock needs it.
 Aero: Pitch damper is now off by default, as the plane is very pitch stable in itself.
 
-3.015
+3.015 - 2015 March 19
 =====
 Sim: Fixed JSBsim was computing G forces on pilot from old viewpoint.
 Aero: Yaw damper is now augmented by yaw stiffener from lateral side acceleration.
@@ -1356,7 +1356,7 @@ Aero: Pitch damper now enabled per default and tuned to the fixed Clbdot.
 Aero: Roll damper is again disabled by default.
 Aero: Roll due to yaw rate is now enabled in all regimes.
 GUI: Added info on gear extension speed limit to aircraft help.
-Sim: Little work on A/P system.
+Sim: Some work on A/P roll and heading system.
 Aero: Added paper references.
 Sim: Prevented gear retraction when they are compressed.
 Aero: Pitch and yaw dampers now will enable also when rear gears are compressed, if nosewheel is compressed they still shut off.
