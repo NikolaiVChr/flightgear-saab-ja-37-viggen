@@ -149,9 +149,10 @@
 <animation>
   <type>select</type>
   <object-name>glass</object-name>
+  <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy-hinges/serviceable -->
+    <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
   </condition>
  </animation>
 

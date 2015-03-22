@@ -177,7 +177,7 @@
         </signal>
         <signal>
           <type>bool</type>
-          <property type="string">fdm/jsbsim/fcs/canopy-hinges/serviceable</property>
+          <property type="string">fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
         </signal>
         <!-- Instruments -->
         <signal>
@@ -598,7 +598,7 @@
       <int n="0" alias="/sim/ja37/effect/smoke"/><!-- to show smoke -->
       <int n="7" alias="/damage/sounds/explode-on"/><!-- to show explosion plus its sound -->
       <!-- Animation control surfaces -->
-      <int n="1" alias="/fdm/jsbsim/fcs/canopy-hinges/serviceable"/><!-- to show detachment of canopy -->
+      <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/><!-- to show detachment of canopy -->
       <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/><!-- to show detachment of wings -->
       <!-- Animating engine -->
       <!-- float n="2" is controlled from nasal -->
@@ -1083,13 +1083,13 @@
     </structural>
     <fcs>
       <canopy>
-        <engage/>
+        <engage type="bool"/>
         <has-power/>
         <serviceable type="bool">true</serviceable>
+        <hinges>
+          <serviceable type="bool">true</serviceable>
+        </hinges>
       </canopy>
-      <canopy-hinges>
-        <serviceable type="bool">true</serviceable>
-      </canopy-hinges>
       <yaw-damper>
         <serviceable type="bool">true</serviceable>
         <enable type="bool">true</enable>
@@ -1111,21 +1111,22 @@
       </roll-limiter>
       <rudder>
         <limiter-enable type="bool">true</limiter-enable>
+        <serviceable alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>
       </rudder>
       <aileron>
         <limiter-enable type="bool">true</limiter-enable>
         <limit-factor type="double">1.0</limit-factor>
+        <serviceable alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
       </aileron>
       <elevator>
         <limiter-enable type="bool">true</limiter-enable>
+        <serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
       </elevator>
-      <flap-pos-cmd type="double"/>
-      <flaps-serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
-      <elevator-serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
-      <aileron-serviceable alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
-      <rudder-serviceable alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>
+      <flaps>
+        <pos-cmd type="double"/>
+        <serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
+      </flaps>
       <mouse-optimized type="bool">false</mouse-optimized>
-      <hook-engage/>
     </fcs>
     <gear>
       <serviceable alias="/gear/serviceable"/>

@@ -11,11 +11,11 @@
             fcs/canopy/serviceable == 0
             fcs/canopy/has-power == 0
           </test>
-          <output>fcs/canopy-engageTmp</output>
+          <output>fcs/canopy/engageTmp</output>
         </switch>
 
         <kinematic name="names/canopy/pos-norm">
-            <input>fcs/canopy-engageTmp</input>
+            <input>fcs/canopy/engageTmp</input>
             <traverse>
                 <setting>
                     <position>0.0</position>
@@ -26,11 +26,11 @@
                     <time>5.0</time>
                 </setting>
             </traverse>
-            <output>fcs/canopy-pos-norm</output>
+            <output>fcs/canopy/pos-norm</output>
         </kinematic>
 
         <pure_gain name="names/canopy/mp">
-          <input>fcs/canopy-pos-norm</input>
+          <input>fcs/canopy/pos-norm</input>
           <gain>1</gain>
           <output>/canopy/position-norm</output><!-- used for auto MP transmit and animation -->
       </pure_gain>
@@ -178,7 +178,7 @@
         <default value="fcs/elevator/cmd-sum"/>
         <test logic="OR" value="fcs/elevator/pos-norm">
           systems/hydraulics/flight-system/pressure ne 1
-          fcs/elevator-serviceable == 0
+          fcs/elevator/serviceable == 0
         </test>
         <test logic="OR" value="fcs/elevator/cmd-limited">
           fcs/elevator/limiter-enable == 1
@@ -293,7 +293,7 @@
         <default value="fcs/aileron/cmd-sum"/>
         <test logic="OR" value="fcs/aileron/pos-norm">
           systems/hydraulics/flight-system/pressure ne 1
-          fcs/aileron-serviceable == 0
+          fcs/aileron/serviceable == 0
         </test>
         <test logic="OR" value="fcs/aileron/cmd-sum-limited">
           fcs/aileron/limiter-enable == 1
@@ -362,106 +362,6 @@
 
     <channel name="Yaw">
       <!-- Rudder can move 25 degrees to each side -->
-      <!--
-       <fcs_function name="names/yaw-damper/yaw-target">
-           <function>
-               <table>
-                   <independentVar>fcs/rudder-cmd-norm</independentVar>
-                        <tableData>                        
-                            -1.00  0.25  
-                            -0.01  0
-                             0.01  0
-                             1.00 -0.25                                
-                        </tableData>
-                    </table>
-           </function>
-           <output>fcs/yaw-damper/yaw-target</output>
-       </fcs_function>
-       
-       <fcs_function name="names/yaw-damper/yaw-error">
-          <function>          
-              <difference>
-                  <property>fcs/yaw-damper/yaw-target</property>
-                  <property>velocities/r-aero-rad_sec</property>
-              </difference>
-           </function>
-           <output>fcs/yaw-damper/yaw-error</output>
-       </fcs_function>
-       
-       <fcs_function name="names/yaw-damper/yaw-Kp">
-          <function>
-              <table>
-                <independentVar>aero/qbar-psf</independentVar>
-                 <tableData> 
-                      0    -0.1
-                      330  -0.01   
-                      400  -0.005
-                      1000 -0.00125
-                      1650 -0.00015                      
-                </tableData>
-               </table>
-           </function>
-           <output>fcs/yaw-damper/yaw-Kp</output>
-       </fcs_function> 
-       
-       <fcs_function name="names/yaw-damper/yaw-Ki">
-          <function>
-              <table>
-                <independentVar>aero/qbar-psf</independentVar>
-                 <tableData> 
-                      330  -4.0
-                      400  -2.0                                                     
-                      1000 -0.25                      
-                      1650 -0.01
-                </tableData>
-               </table>
-           </function>
-           <output>fcs/yaw-damper/yaw-Ki</output>
-       </fcs_function> 
-       
-       <fcs_function name="names/yaw-damper/yaw-Kd">
-          <function>
-              <table>
-                <independentVar>aero/qbar-psf</independentVar>
-                 <tableData> 
-                      330  -2   
-                      400  -1                  
-                      1000 -0.25                     
-                      1650 -0.01
-                </tableData>
-               </table>
-           </function>
-           <output>fcs/yaw-damper/yaw-Kd</output>
-       </fcs_function> 
-       
-       <pid name="names/yaw-damper/yaw-damp-norm">
-           <input>fcs/yaw-damper/yaw-error</input>       
-           <kp>fcs/yaw-damper/yaw-Kp</kp>
-           <ki>fcs/yaw-damper/yaw-Ki</ki>
-           <kd>fcs/yaw-damper/yaw-Kd</kd>
-           <clipto>
-               <min>-1.0</min>
-               <max>1.0</max>
-           </clipto>
-           <output>fcs/yaw-damper/yaw-damp-norm</output>
-       </pid>
-
-      <switch name="names/yaw-damper/active">
-        <default value="0.0"/>
-        <test logic="AND" value="1">
-            aero/alpha-deg ge -10
-            aero/alpha-deg le  10
-            fcs/yaw-damper/enable ne 0.0
-            fcs/yaw-damper/serviceable == 1
-        </test>
-        <output>fcs/yaw-damper/active</output>
-      </switch>
-
-      <pure_gain name="names/yaw-damper/rate">
-        <input>fcs/yaw-damper/yaw-damp-norm</input>
-        <gain>fcs/yaw-damper/active</gain>
-        <output>fcs/yaw-damper/rate</output>
-      </pure_gain>  this yaw damper commented, due to being too difficult to tune  -->
 
       <switch name="names/yaw-damper/active">
         <default value="0.0"/>
@@ -587,7 +487,7 @@
         <default value="fcs/rudder/cmd-sum"/>
         <test logic="OR" value="fcs/rudder-pos-norm">
           systems/hydraulics/flight-system/pressure ne 1
-          fcs/rudder-serviceable == 0
+          fcs/rudder/serviceable == 0
         </test>
         <test logic="OR" value="fcs/rudder/cmd-sum-limited">
           fcs/rudder/limiter-enable == 1
@@ -725,7 +625,7 @@
       <!-- Can move 30 degrees down, and 4 degrees up -->
 
       <kinematic name="names/flaps/pos-norm">
-        <input>fcs/flaps-tmp-norm</input>
+        <input>fcs/flaps/tmp-norm</input>
         <traverse>
           <setting>
             <position>  0.0 </position>
@@ -736,23 +636,23 @@
             <time>      3.0 </time>
           </setting>
         </traverse>
-        <output>fcs/flap-pos-normalized</output>
+        <output>fcs/flaps/pos-normalized</output>
       </kinematic>
 
       <switch name="names/flaps/tmp-norm">
         <default value="gear/gear-target-norm"/><!-- flaps controlled by gear-->
-        <test logic="OR" value="fcs/flap-pos-normalized">
+        <test logic="OR" value="fcs/flaps/pos-normalized">
           systems/hydraulics/flight-system/pressure ne 1
-          fcs/flaps-serviceable == 0
+          fcs/flaps/serviceable == 0
         </test>
         <test logic="OR" value="0.11765"><!-- default flaps position -->
-          fcs/flap-pos-cmd == 0
+          fcs/flaps/pos-cmd == 0
         </test>
-        <output>fcs/flaps-tmp-norm</output>
+        <output>fcs/flaps/tmp-norm</output>
       </switch>
 
       <aerosurface_scale name="names/flaps/pos-deg">
-        <input>fcs/flap-pos-normalized</input>
+        <input>fcs/flaps/pos-normalized</input>
         <zero_centered> false </zero_centered>
         <domain>
           <min>  0.0 </min>
@@ -819,9 +719,9 @@
 
 
 
-    <channel name="Hook">
+    <!--<channel name="Hook">
         <kinematic name="names/carrier/hook-pos-norm">
-            <input>fcs/hook-engage</input>
+            <input>fcs/carrier/hook-engage</input>
             <traverse>
                 <setting>
                     <position>0</position>
@@ -832,9 +732,9 @@
                     <time>2.5</time>
                 </setting>
             </traverse>
-            <output>fcs/hook-pos-norm</output>
+            <output>fcs/carrier/hook-pos-norm</output>
         </kinematic>
-    </channel>
+    </channel>-->
 
     <!--<channel name="View">
       <summer name="position/h-sl-pilot-ft">

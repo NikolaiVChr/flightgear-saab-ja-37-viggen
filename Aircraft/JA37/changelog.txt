@@ -1368,3 +1368,5 @@ Aero: Yaw, roll and pitch damper maximum deflection is now smaller.
 Aero: Roll damper is now enabled per default.
 Aero: Adjusted aileron limiter to roll damper being active.
 GUI: Added roll rate to performance monitor.
+Model: Fixed that when canopy breaks off half of the glass would stay on.
+Aero: Cleaned up a bit in the control code.

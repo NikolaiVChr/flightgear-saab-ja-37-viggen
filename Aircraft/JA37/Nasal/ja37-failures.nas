@@ -194,13 +194,13 @@ var install_new_failures = func {
     #canopy
 
     prop = "/fdm/jsbsim/fcs/canopy";
-    var trigger_canopy = RandSpeedTrigger.new(250, 400, prop~"-pos-norm");
+    var trigger_canopy = RandSpeedTrigger.new(250, 400, prop~"/pos-norm");
     var actuator_canopy = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Canopy motor", actuator_canopy);
     FailureMgr.set_trigger(prop, trigger_canopy);
 
-    var prop_hinges = "/fdm/jsbsim/fcs/canopy-hinges";
-    var trigger_canopy_hinges = RandSpeedTrigger.new(400, 600, prop~"-pos-norm");
+    var prop_hinges = "/fdm/jsbsim/fcs/canopy/hinges";
+    var trigger_canopy_hinges = RandSpeedTrigger.new(400, 600, prop~"/pos-norm");
     var actuator_canopy_hinges = set_unserviceable(prop_hinges);
     FailureMgr.add_failure_mode(prop_hinges, "Canopy hinges", actuator_canopy_hinges);
     FailureMgr.set_trigger(prop_hinges, trigger_canopy_hinges);
@@ -262,22 +262,22 @@ var install_new_failures = func {
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
     prop = "controls/flight/aileron";
-    var actuator_aileron = set_unserviceable("fdm/jsbsim/fcs/aileron-serviceable");
+#    var actuator_aileron = set_unserviceable("fdm/jsbsim/fcs/aileron/serviceable");
 #    FailureMgr.remove_failure_mode(prop);
  #   FailureMgr.add_failure_mode(prop, "Aileron", actuator_aileron);
 
     prop = "controls/flight/elevator";
-    var actuator_elevator = set_unserviceable("fdm/jsbsim/fcs/elevator-serviceable");
+ #   var actuator_elevator = set_unserviceable("fdm/jsbsim/fcs/elevator/serviceable");
  #   FailureMgr.remove_failure_mode(prop);
   #  FailureMgr.add_failure_mode(prop, "Elevator", actuator_elevator);
 
     prop = "controls/flight/rudder";
-    var actuator_rudder = set_unserviceable("fdm/jsbsim/fcs/rudder-serviceable");
+#    var actuator_rudder = set_unserviceable("fdm/jsbsim/fcs/rudder/serviceable");
 #    FailureMgr.remove_failure_mode(prop);
  #   FailureMgr.add_failure_mode(prop, "Rudder", actuator_rudder);
 
     prop = "controls/flight/flaps";
-    var actuator_flaps = set_unserviceable("fdm/jsbsim/fcs/flaps-serviceable");
+#    var actuator_flaps = set_unserviceable("fdm/jsbsim/fcs/flaps/serviceable");
 #    FailureMgr.remove_failure_mode(prop);
  #   FailureMgr.add_failure_mode(prop, "Flaps", actuator_flaps);
 
@@ -485,14 +485,14 @@ var install_newer_failures = func {
     #canopy
 
     prop = "/fdm/jsbsim/fcs/canopy";
-    var trigger_canopy = RandSpeedTrigger.new(250, 400, prop~"-pos-norm");
+    var trigger_canopy = RandSpeedTrigger.new(250, 400, prop~"/pos-norm");
     var actuator_canopy = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Canopy motor", actuator_canopy);
     FailureMgr.set_trigger(prop, trigger_canopy);
     trigger_canopy.arm();
 
-    var prop_hinges = "/fdm/jsbsim/fcs/canopy-hinges";
-    var trigger_canopy_hinges = RandSpeedTrigger.new(400, 600, prop~"-pos-norm");
+    var prop_hinges = "/fdm/jsbsim/fcs/canopy/hinges";
+    var trigger_canopy_hinges = RandSpeedTrigger.new(400, 600, prop~"/pos-norm");
     var actuator_canopy_hinges = compat_failure_modes.set_unserviceable(prop_hinges);
     FailureMgr.add_failure_mode(prop_hinges, "Canopy hinges", actuator_canopy_hinges);
     FailureMgr.set_trigger(prop_hinges, trigger_canopy_hinges);

@@ -410,10 +410,10 @@ unfailAll = func {
 	} else {
 		FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy").reset();
 	}
-	if(FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy-hinges") == nil) {
+	if(FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy/hinges") == nil) {
 		print("JA-37: Failed to reset trigger for canopy hinges, it seems to be removed don't know why!");
 	} else {
-		FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy-hinges").reset();
+		FailureMgr.get_trigger("/fdm/jsbsim/fcs/canopy/hinges").reset();
 	}
 }
 

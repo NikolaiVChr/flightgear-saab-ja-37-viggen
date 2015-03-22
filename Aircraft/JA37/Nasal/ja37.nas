@@ -49,7 +49,7 @@ input = {
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
   batteryOutput:    "systems/electrical/outputs/battery",
-  flapPosCmd:       "/fdm/jsbsim/fcs/flap-pos-cmd",
+  flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   serviceElec:      "systems/electrical/serviceable",
   canopyPower:      "/fdm/jsbsim/fcs/canopy/has-power",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",

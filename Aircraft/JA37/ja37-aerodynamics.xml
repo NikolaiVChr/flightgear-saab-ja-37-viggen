@@ -76,7 +76,7 @@
              </table>
              <table><!-- gear and flaps change CN -->
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">fcs/flap-pos-normalized</independentVar>
+                <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
                 <tableData><!-- from graph 31c page 46 -->
                              0.0    1.0          
                        0.0   0.0    0.05   
@@ -207,7 +207,7 @@
       <product>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
-          <property>fcs/flap-pos-normalized</property>
+          <property>fcs/flaps/pos-normalized</property>
           <property>aero/drag/flaps</property>
           <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -281,8 +281,8 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>aero/function/mach-effect-prefactor</property>
-           <property>fcs/canopy-pos-norm</property>
-           <property>fcs/canopy-hinges/serviceable</property>           
+           <property>fcs/canopy/pos-norm</property>
+           <property>fcs/canopy/hinges/serviceable</property>           
            <property>aero/drag/canopy</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -321,7 +321,7 @@
            <property>aero/drag/canopy-off</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">fcs/canopy-hinges/serviceable</independentVar>
+              <independentVar lookup="column">fcs/canopy/hinges/serviceable</independentVar>
               <tableData>
                          0      1
                  -180  -1.00   0.0
@@ -1567,7 +1567,7 @@
            <property>aero/beta-rad</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>
-              <independentVar lookup="column">fcs/flap-pos-normalized</independentVar>
+              <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
               <tableData><!-- [measured using graph analyser] -->
                                 0.0        1.0
                 -98.1030     0.137652    0.137652  
