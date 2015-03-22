@@ -409,6 +409,7 @@ MiscMonitor.properties = func() {
     { property : "TAS",        name : "True air speed",        format : "%3.1f", unit : "kts",    halign : "right" },
     { property : "angleofattack",name : "Angle of attack",     format : "%3.1f", unit : "deg",    halign : "right" },
     { property : "gforce",     name : "Pilot G-force",         format : "%3.1f", unit : "G",      halign : "right" },
+    { property : "roll-rate",  name : "Roll rate",             format : "%3.1f", unit : "deg/s",    halign : "right" },
   ]
 }
 
@@ -421,6 +422,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/performance-monitor/TAS", getprop("/velocities/airspeed-kt"));
   setprop("/sim/gui/dialogs/performance-monitor/angleofattack", getprop("/orientation/alpha-deg"));
   setprop("/sim/gui/dialogs/performance-monitor/gforce", getprop("/sim/ja37/accelerations/pilot-G"));
+  setprop("/sim/gui/dialogs/performance-monitor/roll-rate", getprop("/fdm/jsbsim/velocities/p-aero-rad_sec")*57.296);
 }
 
 MiscMonitor.reinit = func() {

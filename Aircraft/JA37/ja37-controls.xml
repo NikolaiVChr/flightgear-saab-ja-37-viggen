@@ -220,22 +220,21 @@
         <input>velocities/p-aero-rad_sec</input>
         <table>
           <independentVar lookup="row">velocities/ve-kts</independentVar>
-          <independentVar lookup="column">fcs/roll-limiter/gain</independentVar>
           <tableData>
-                    -10  10
-            30.0   0.00  0.0
-            60.0   -10.00  10
+                      30.0   0.00
+                      60.0  -1.00
          </tableData>
         </table>
-         <output>fcs/roll-limiter/rate-unfiltered</output>
+        <gain>fcs/roll-limiter/roll-rate-gain</gain>
+        <output>fcs/roll-limiter/rate-unfiltered</output>
       </scheduled_gain>
 
       <washout_filter name="names/roll-limiter/rate-washout">
         <input>fcs/roll-limiter/rate-unfiltered</input>
-        <c1>1</c1>
+        <c1>fcs/roll-limiter/washout-factor</c1>
         <clipto>
-          <min>-1.0</min>
-          <max>1.0</max>
+          <min>-0.25</min>
+          <max>0.25</max>
         </clipto>
         <output>fcs/roll-limiter/rate-washout</output>
       </washout_filter>
@@ -265,12 +264,13 @@
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData>
                           0.0         60000.0
-              0.0         0.47           1.0
-              0.5         0.40           0.75
-              1.0         0.20           0.45
-              2.2         0.06           0.225
+              0.0         0.50           1.0   
+              0.5         0.45           0.75  <!-- roll rate between 125 - 150 degrees/sec with roll damper on -->
+              1.0         0.30           0.45  <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
+              2.2         0.06           0.225 <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
           </tableData>
         </table>
+        <gain>fcs/aileron/limit-factor</gain>
         <output>fcs/aileron/cmd-sum-limited</output>
       </scheduled_gain>
 

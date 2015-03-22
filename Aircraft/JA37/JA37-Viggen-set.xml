@@ -1105,14 +1105,16 @@
       </pitch-damper>
       <roll-limiter>
         <serviceable type="bool">true</serviceable>
-        <enable type="bool">false</enable>
-        <gain type="double">0.1</gain>
+        <enable type="bool">true</enable>
+        <washout-factor type="double">1.0</washout-factor>
+        <roll-rate-gain type="double">0.10</roll-rate-gain>
       </roll-limiter>
       <rudder>
         <limiter-enable type="bool">true</limiter-enable>
       </rudder>
       <aileron>
         <limiter-enable type="bool">true</limiter-enable>
+        <limit-factor type="double">1.0</limit-factor>
       </aileron>
       <elevator>
         <limiter-enable type="bool">true</limiter-enable>
