@@ -1349,7 +1349,7 @@ Aero: Used a graph analyser to improve accuracy of roll due to yaw rate.
 Aero: Roll due to yaw rate is now enabled. This coefficient effect will however fade out quickly at roll rates greater than 225deg/sec.
 Aero: Roll damper is now enabled by default.
 
-3.016
+3.016 - 2015 March 23
 =====
 Aero: Major fix in roll due to sideslip rate coefficient.
 Aero: Pitch damper now enabled per default and tuned to the fixed Clbdot.
