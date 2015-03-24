@@ -1351,7 +1351,7 @@ Aero: Roll damper is now enabled by default.
 
 3.016 - 2015 March 23
 =====
-Aero: Major fix in roll due to sideslip rate coefficient.
+Aero: Major fix in pitch due to alpha rate coefficient.
 Aero: Pitch damper now enabled per default and tuned to the fixed Clbdot.
 Aero: Roll damper is again disabled by default.
 Aero: Roll due to yaw rate is now enabled in all regimes.
@@ -1373,3 +1373,8 @@ Aero: Cleaned up a bit in the control code.
 Aero: Cleaned up a bit in some aerodynamic tables.
 Aero: Yaw damper now also take roll rate as input to prevent aileron gas, as per manual.
 Aero: Adjusted rudder limiter to deflect more rudder at mach 1+.
+
+3.017
+=====
+Aero: Removed washout filter on roll damper and installed a switch on roll rate gain instead.
+Aero: Tuned the aileron limiter to the new roll damper setup.
