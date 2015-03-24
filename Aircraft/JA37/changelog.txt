@@ -1378,3 +1378,4 @@ Aero: Adjusted rudder limiter to deflect more rudder at mach 1+.
 =====
 Aero: Removed washout filter on roll damper and installed a switch on roll rate gain instead.
 Aero: Tuned the aileron limiter to the new roll damper setup.
+Sim: Semi tuned autopilot to new roll damper. Needs more work though, it has tendency to do barrel rolls.
