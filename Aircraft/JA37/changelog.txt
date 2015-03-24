@@ -1374,7 +1374,7 @@ Aero: Cleaned up a bit in some aerodynamic tables.
 Aero: Yaw damper now also take roll rate as input to prevent aileron gas, as per manual.
 Aero: Adjusted rudder limiter to deflect more rudder at mach 1+.
 
-3.017
+3.017 - 2015 March 24
 =====
 Aero: Removed washout filter on roll damper and installed a switch on roll rate gain instead.
 Aero: Tuned the aileron limiter to the new roll damper setup.
