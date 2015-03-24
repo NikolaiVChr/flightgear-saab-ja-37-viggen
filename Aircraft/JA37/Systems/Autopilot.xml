@@ -47,11 +47,11 @@
         <Ti>6.0</Ti>
         <Td>0.0</Td>-->
       <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>0.033</value></Kp>        <!-- proportional gain -->
-      <Ti><property>/autopilot/pid/wingleveler-Ti</property><value>1</value></Ti>        <!-- integrator time -->
-      <Td><property>/autopilot/pid/wingleveler-Td</property><value>0.5</value></Td>     <!-- derivator time  -->
+      <Ti><property>/autopilot/pid/wingleveler-Ti</property><value>0.1</value></Ti>        <!-- integrator time -->
+      <Td><property>/autopilot/pid/wingleveler-Td</property><value>1</value></Td>     <!-- derivator time  -->
 
-        <u_min>-2.0</u_min>
-        <u_max>2.0</u_max>
+        <u_min>-0.5</u_min>
+        <u_max> 0.5</u_max>
     </config>
   </pid-controller>
 
@@ -349,8 +349,8 @@
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
-      <u_min>-70.0</u_min> <!-- minimum output clamp -->
-      <u_max>70.0</u_max>  <!-- maximum output clamp -->
+      <u_min>-55.0</u_min> <!-- minimum output clamp -->
+      <u_max> 55.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
@@ -383,8 +383,8 @@
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
-      <u_min>-70.0</u_min> <!-- minimum output clamp -->
-      <u_max>70.0</u_max>  <!-- maximum output clamp -->
+      <u_min>-55.0</u_min> <!-- minimum output clamp -->
+      <u_max> 55.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
@@ -418,8 +418,8 @@
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
-      <u_min>-70.0</u_min> <!-- minimum output clamp -->
-      <u_max>70.0</u_max>  <!-- maximum output clamp -->
+      <u_min>-55.0</u_min> <!-- minimum output clamp -->
+      <u_max> 55.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
