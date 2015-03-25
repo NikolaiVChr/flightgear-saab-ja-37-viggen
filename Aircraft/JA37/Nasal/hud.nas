@@ -1981,6 +1981,8 @@ var HUDnasal = {
         if (pos_y != 0 and pos_x != 0 and (pos_x > 512 or pos_y > 512 or pos_x < -512 or pos_y < -462)) {
           # outside HUD view, we then use polar coordinates to find where on the border it should be displayed
           # notice we dont use the top 50 texels of the HUD, due to semi circles would become invisible.
+
+          # TODO: the airplane axis should be uses as origin.
           var angle = math.atan2(-pos_y, pos_x) * rad2deg;
           
           if (angle > -45 and angle < 42.06) {

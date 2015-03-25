@@ -7,7 +7,7 @@
         <!-- canopy get stuck if it fail -->
         <switch name="names/canopy/tmp-engage">
           <default value="fcs/canopy/engage"/>
-          <test logic="OR" value="fcs/canopy-pos-norm">
+          <test logic="OR" value="fcs/canopy/pos-norm">
             fcs/canopy/serviceable == 0
             fcs/canopy/has-power == 0
           </test>

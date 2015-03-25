@@ -686,3 +686,20 @@ var _init = func {
 
 var lsnr_s = setlistener("sim/ja37/supported/initialized", _init, 0, 0);
 
+var armAllTriggers = func () {
+    if (getprop("sim/ja37/supported/old-custom-fails") == 1) {
+        # TODO: loop over all failure modes and set triggers to reset?
+    } elsif (getprop("sim/ja37/supported/old-custom-fails") == 2) {
+        # TODO: loop over all failure modes and set triggers to armed.
+        var failure_modes = FailureMgr._failmgr.failure_modes; # hash with the failure modes
+        var mode_list = keys(failure_modes);#values()?
+
+        foreach(var failure_mode_id; mode_list) {
+            var trigger = failure_modes[failure_mode_id].trigger;
+            if (trigger != nil and trigger.type == "RandSpeed") {
+                trigger.arm();
+                #print("arming "~failure_mode_id~" : "~trigger.to_str());
+            }
+        }
+    }
+}

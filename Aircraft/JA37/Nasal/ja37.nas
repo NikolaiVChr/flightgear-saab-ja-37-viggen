@@ -1301,5 +1301,6 @@ var repair = func () {
     crash0.repair();
   } else {
     crash1.repair();
+    failureSys.armAllTriggers();
   }
 }

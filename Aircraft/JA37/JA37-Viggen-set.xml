@@ -1891,9 +1891,9 @@
     <limits>
       <file>Aircraft/Generic/limits.nas</file>
     </limits>
-    <failure-mgr>
+    <failureSys>
       <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
-    </failure-mgr>
+    </failureSys>
     <crash0>
       <file>Aircraft/JA37/Nasal/crash.nas</file>
     </crash0>

@@ -1388,3 +1388,5 @@ Model: Made coarse and fine adjustment of radar range 10 times larger.
 Model: Made radar range selector larger, and made the tooltip show nautical miles.
 Model: Made tooltip on all altimeters show feet instead of meters.
 HUD: When the selection is outside HUD view but in radar cone, polar coordinates are now used to determine blinking border position.
+Sim: Fixed that in FG 3.5 if conpy motor failed the canopy would close instead of being stuck.
+Sim: Fixed if canopy or gears fail due to high speed and is repaired, they won't fail again. (in 3.5 crash system)
