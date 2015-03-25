@@ -1974,26 +1974,52 @@ var HUDnasal = {
       if(selection != nil and selection[6].getChild("valid").getValue() == TRUE and me.selection_updated == TRUE) {
         # selection is currently in forward looking radar view
         var blink = FALSE;
-        if(selection[0] >= 512) {#since radar logic run slower than HUD loop, this must be >= check to prevent erratic blinking since pos is being overwritten
-          blink = TRUE;
-          selection[0] = 512;
+
+        var pos_x = selection[0];
+        var pos_y = selection[1];
+
+        if (pos_y != 0 and pos_x != 0 and (pos_x > 512 or pos_y > 512 or pos_x < -512 or pos_y < -462)) {
+          # outside HUD view, we then use polar coordinates to find where on the border it should be displayed
+          # notice we dont use the top 50 texels of the HUD, due to semi circles would become invisible.
+          var angle = math.atan2(-pos_y, pos_x) * rad2deg;
+          
+          if (angle > -45 and angle < 42.06) {
+            # right side
+            pos_x = 512;
+            pos_y = -math.tan(angle*deg2rads) * 512;
+          } elsif (angle > 137.94 or angle < -135) {
+            # left side
+            pos_x = -512;
+            pos_y = math.tan(angle*deg2rads) * 512;
+          } elsif (angle > 42.06 and angle < 137.94) {
+            # top side
+            pos_x = 1/math.tan(angle*deg2rads) * 462;
+            pos_y = -462;
+          } elsif (angle < -45 and angle > -135) {
+            # bottom side
+            pos_x = -1/math.tan(angle*deg2rads) * 512;
+            pos_y = 512;
+          }
         }
-        if(selection[0] <= -512) {
+
+        if(pos_x >= 512) {#since radar logic run slower than HUD loop, this must be >= check to prevent erratic blinking since pos is being overwritten
           blink = TRUE;
-          selection[0] = -512;
+          pos_x = 512;
+        } elsif (pos_x <= -512) {
+          blink = TRUE;
+          pos_x = -512;
         }
-        if(selection[1] >= 512) {
+        if(pos_y >= 512) {
           blink = TRUE;
-          selection[1] = 512;
-        }
-        if(selection[1] <= -450) {
+          pos_y = 512;
+        } elsif(pos_y <= -462) {
           blink = TRUE;
-          selection[1] = -450;
+          pos_y = -462;
         }
         if(selection[7] == FALSE and mode == COMBAT) {
           #targetable
           diamond_node = selection[6];
-          me.diamond_group.setTranslation(selection[0], selection[1]);
+          me.diamond_group.setTranslation(pos_x, pos_y);
           var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
           
           if(diamond_dist < 10000) {
@@ -2040,8 +2066,8 @@ var HUDnasal = {
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           diamond_node = nil;
-          me.diamond_group.setTranslation(selection[0], selection[1]);
-          me.target_circle[me.selection_index].setTranslation(selection[0], selection[1]);
+          me.diamond_group.setTranslation(pos_x, pos_y);
+          me.target_circle[me.selection_index].setTranslation(pos_x, pos_y);
           var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
           if(diamond_dist < 10000) {
             me.diamond_dist.setText(sprintf("%.1f", diamond_dist/1000));
@@ -2062,7 +2088,7 @@ var HUDnasal = {
         }
 
         #velocity vector
-        if(selection[0] > -512 and selection[0] < 512 and selection[1] > -512 and selection[1] < 512) {
+        if(pos_x > -512 and pos_x < 512 and pos_y > -512 and pos_y < 512) {
           var tgtHeading = selection[6].getNode("orientation/true-heading-deg").getValue();
           var tgtSpeed = selection[6].getNode("velocities/true-airspeed-kt").getValue();
           var myHeading = me.input.hdgReal.getValue();
@@ -2075,7 +2101,7 @@ var HUDnasal = {
             relHeading -= 180;# this makes the line trail instead of lead
             relHeading = relHeading * deg2rads;
 
-            me.vel_vec_trans_group.setTranslation(selection[0], selection[1]);
+            me.vel_vec_trans_group.setTranslation(pos_x, pos_y);
             me.vel_vec_rot_group.setRotation(relHeading);
             me.vel_vec.setScale(1, tgtSpeed/4);
             

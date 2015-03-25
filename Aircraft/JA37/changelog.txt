@@ -1387,3 +1387,4 @@ Model: Increased size of center plaque with Swedish writing.
 Model: Made coarse and fine adjustment of radar range 10 times larger.
 Model: Made radar range selector larger, and made the tooltip show nautical miles.
 Model: Made tooltip on all altimeters show feet instead of meters.
+HUD: When the selection is outside HUD view but in radar cone, polar coordinates are now used to determine blinking border position.
