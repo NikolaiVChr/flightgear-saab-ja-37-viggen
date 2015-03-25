@@ -294,8 +294,8 @@
        <binding>
          <command>set-tooltip</command>
          <tooltip-id>altitude2</tooltip-id>
-         <label>Altitude: %5d meter</label>
-         <property>/instrumentation/altimeter/indicated-altitude-meter</property>
+         <label>Altitude: %3d feet</label>
+         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
       </binding>
    </hovered>
  </animation>

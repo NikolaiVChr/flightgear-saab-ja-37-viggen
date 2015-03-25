@@ -106,7 +106,7 @@
     <offsets>
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.805</x-m>
-      <y-m> -0.13</y-m>
+      <y-m> -0.125</y-m>
       <z-m>  0.27312</z-m>
     </offsets>
   </model>
@@ -116,8 +116,8 @@
     <name>Angle of Attack Indicator</name>
     <offsets>
     <pitch-deg>-14.0</pitch-deg>
-      <x-m> -3.88</x-m>
-      <y-m> -0.095</y-m>
+      <x-m> -3.875</x-m>
+      <y-m> -0.105</y-m>
       <z-m>  0.50</z-m>
     </offsets>
   </model>
@@ -195,7 +195,7 @@
     <path>Aircraft/JA37/Models/Instruments/CenterPlaque/center-plaque.xml</path>
     <name>Center plaque</name>
     <offsets>
-    <pitch-deg>79.329</pitch-deg>
+      <pitch-deg>79.329</pitch-deg>
       <x-m> -3.855</x-m>
       <y-m>  0</y-m>
       <z-m>  0.48</z-m>
@@ -209,13 +209,11 @@
     <pitch-deg>-10.671</pitch-deg>
       <x-m> -3.82</x-m>
       <y-m>  0</y-m>
-      <z-m>  0.35</z-m>
+      <z-m>  0.343</z-m>
     </offsets>
   </model>
 
-  
-
-<model>
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Radar/range-selector.xml</path>
     <name>Radar range</name>
     <offsets>

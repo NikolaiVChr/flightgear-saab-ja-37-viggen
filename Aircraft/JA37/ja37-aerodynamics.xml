@@ -33,8 +33,8 @@
              <independentVar lookup="column">aero/alpha-deg</independentVar>
              <tableData>
                      0.0   15.0
-                0.0  1.0   1.65
-                2.2  1.0   1.0
+                0.0  1.00  1.65
+                2.2  1.00  1.00
              </tableData>
           </table>
        </product>
@@ -71,7 +71,7 @@
                 <tableData>
                               -15.0  -10.0    -5.0     0.0
                       0.0    -0.175  -0.2     -0.1     0.0
-                      0.209   0.0     0.0      0.0     0.0  
+                      0.209   0.000   0.0      0.0     0.0  
                 </tableData>
              </table>
              <table><!-- gear and flaps change CN -->
@@ -82,7 +82,7 @@
                        0.0   0.0    0.05   
                       25.0   0.0    0.05       
                       40.0   0.0   -0.15      
-                      50.0   0.0    0.0         
+                      50.0   0.0    0.00        
                 </tableData>
              </table>
              <table>
@@ -138,10 +138,10 @@
               0.5  0.928
               0.6  0.962
               0.7  0.988
-              0.8  1.0
-              0.9  1.0
-              1.0  1.0
-              1.1  1.0
+              0.8  1.000
+              0.9  1.000
+              1.0  1.000
+              1.1  1.000
            </tableData>
         </table>
      </product>
@@ -157,7 +157,7 @@
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
           <tableData><!--  1.25           2.2   mach, aug, main fuel only   -->
                             0.0       36000.0
-                  0.8100    0.0           0.0
+                  0.8100    0.0000        0.000
                   1.1000    0.1955        0.111
                   1.8000    0.127075      0.07215
           </tableData>
@@ -758,7 +758,7 @@
             <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
             <tableData><!-- [same order of difference as gears, as per the document page 106] -->
                              0.0     224.87
-                -30.8520     0.0      0.0        
+                -30.8520     0.0      0.000      
                 -23.8069     0.0      0.153         
                 -23.1817     0.0      0.161         
                 -21.9361     0.0      0.166         
@@ -773,7 +773,7 @@
                 19.5659      0.0      0.032
                 24.8955      0.0      0.023
                 25.9887      0.0      0.011        
-                27.0785      0.0      0.0                          
+                27.0785      0.0      0.000                        
             </tableData>
          </table>
       </product>
@@ -1224,12 +1224,12 @@
              <independentVar lookup="column">propulsion/engine/n1</independentVar>
              <tableData>
                      80.0    100.0
-               0.17   3.0     3.0
-               0.20   2.0     2.5
-               0.25   1.5     2.0
-               0.30   1.25    1.7
-               0.35   1.1     1.45
-               0.40   1.0     1.3
+               0.17   3.00    3.00
+               0.20   2.00    2.50
+               0.25   1.50    2.00
+               0.30   1.25    1.70
+               0.35   1.10    1.45
+               0.40   1.00    1.30
              </tableData>
           </table>
        </product>
@@ -1252,8 +1252,8 @@
             <independentVar lookup="column">aero/function/air-intake-factor-CA</independentVar>
             <tableData>
                        1.0      3.0
-                 0.0   0.0      0.0
-                30.0   0.0      0.02
+                 0.0   0.00     0.00
+                30.0   0.00     0.02
             </tableData>
           </table>
         </product>
@@ -1292,12 +1292,12 @@
              <independentVar lookup="column">aero/h_b-mac-ft</independentVar>
              <tableData><!-- At h_b-mac-ft 1.8 the effect can be felt according to Saab. Thats 105 feet. Therefore choose 2.2 for no effect. -->
                        0.0   2.2
-              -10.0    0.03   0.0
-               -2.0    0.005  0.0
-                0.0    0.0    0.0
-                5.0   -0.04   0.0
-               10.0   -0.07   0.0
-               15.0   -0.1    0.0
+              -10.0    0.030  0.000
+               -2.0    0.005  0.000
+                0.0    0.000  0.000
+                5.0   -0.040  0.000
+               10.0   -0.070  0.000
+               15.0   -0.100  0.000
              </tableData>
           </table>
         </product>
@@ -1322,15 +1322,15 @@
             <tableData>
                             0.0        1.0
                   <!--   page 61 - extrapolated -->
-                -10.0      0.03     0.07
+                -10.0      0.030    0.070
                   <!--   page 67 - page 64 minus zero moment 0.036 -->
-                  0.0      0.01     0.0015
+                  0.0      0.010    0.0015
                   <!--   page 62 - page 64 minus zero moment 0.036 -->
-                  3.0     -0.02    -0.0085
-                  8.0     -0.03    -0.016
-                 11.5     -0.035   -0.021
-                 17.0     -0.055   -0.036           
-                 22.5     -0.07    -0.061            
+                  3.0     -0.020   -0.0085
+                  8.0     -0.030   -0.0160
+                 11.5     -0.035   -0.0210
+                 17.0     -0.055   -0.0360          
+                 22.5     -0.070   -0.0610           
                  <!--     page 62 - no gear data --> 
                 22.686835  -0.070990   -0.070990
                 23.508849  -0.073496   -0.073496
@@ -1392,11 +1392,11 @@
             <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
             <tableData>
                          -25.0    -20.0     -10.0      0.0        10.0       20.0
-                -10.0     0.21    0.19       0.14      0.0425    -0.045     -0.115
-                  0.0     0.2     0.175      0.1       0.0       -0.0875    -0.17
-                 10.0     0.165   0.145      0.065    -0.025     -0.12      -0.195
-                 20.0     0.145   0.125      0.0425   -0.055     -0.14      -0.2
-                 30.0     0.13    0.1        0.02     -0.065     -0.115     -0.16
+                -10.0     0.210   0.190      0.140     0.0425    -0.045     -0.115
+                  0.0     0.200   0.175      0.100     0.000     -0.0875    -0.170
+                 10.0     0.165   0.145      0.065    -0.025     -0.120     -0.195
+                 20.0     0.145   0.125      0.0425   -0.055     -0.140     -0.200
+                 30.0     0.130   0.100      0.020    -0.065     -0.115     -0.160
             </tableData>
          </table>
        </product>
@@ -1489,7 +1489,7 @@
        <description>
                     Pitch damping due to alpha rate
 
-                    Negitive Cmad increase Short Period damping
+                    Negative Cmad increase Short Period damping
        </description>
        <product>
            <property>aero/qbar-psf</property>
