@@ -17,8 +17,11 @@ Syd Adams
           </greater-than>
         </condition>
         <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
-        <factor>0.22224</factor>
-        <offset-deg>24</offset-deg>
+        <interpolation>
+          <entry><ind>0</ind><dep>24</dep></entry>
+          <entry><ind>539.9568034557235</ind><dep>145</dep></entry><!--   1000 km/h -->
+          <entry><ind>1403.887688984881</ind><dep>337.5</dep></entry><!-- 2600 km/h -->
+        </interpolation>
         <axis>
             <x>-1.0</x>
         </axis>

@@ -46,7 +46,7 @@
         <!--<Kp>0.0040</Kp>
         <Ti>6.0</Ti>
         <Td>0.0</Td>-->
-      <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>0.033</value></Kp>        <!-- proportional gain -->
+      <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>0.015</value></Kp>        <!-- proportional gain -->
       <Ti><property>/autopilot/pid/wingleveler-Ti</property><value>0.1</value></Ti>        <!-- integrator time -->
       <Td><property>/autopilot/pid/wingleveler-Td</property><value>1</value></Td>     <!-- derivator time  -->
 

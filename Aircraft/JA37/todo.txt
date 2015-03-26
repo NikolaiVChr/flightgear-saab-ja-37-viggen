@@ -11,6 +11,7 @@ Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
+Aero: Model cannon recoil.
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Proper pilot seat.
 Model: Throttle.
@@ -18,13 +19,12 @@ Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Make HUD model not be square anymore. Also model support beams on each side.
-Model: Make drop-tank switch into button.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Sim: Reset controls after A/P let go of them.
-Sim: Stop using integers in xml where floating point is expected.
+Sim: Stop using integers in xml where floating point is expected?
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground guided missiles.

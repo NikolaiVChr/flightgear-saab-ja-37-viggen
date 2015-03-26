@@ -1089,6 +1089,7 @@
         <hinges>
           <serviceable type="bool">true</serviceable>
         </hinges>
+        <pos-norm type="double">1.0</pos-norm>
       </canopy>
       <yaw-damper>
         <serviceable type="bool">true</serviceable>
