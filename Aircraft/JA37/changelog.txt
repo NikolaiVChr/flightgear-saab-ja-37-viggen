@@ -1393,3 +1393,4 @@ Sim: Fixed if canopy or gears fail due to high speed and is repaired, they won't
 Animation: Fixed that airspeed indicator was a little bit off at times.
 Effect: Added uber shader to cockpit panel.
 Sim: Minor autopilot tuning.
+Aero: Enabled yaw-damper also when weight on wheels.

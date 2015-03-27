@@ -376,7 +376,6 @@
       <switch name="names/yaw-damper/active">
         <default value="0.0"/>
         <test logic="AND" value="1">
-            gear/unit[0]/WOW ne 1
             velocities/r-aero-rad_sec le  0.724
             velocities/r-aero-rad_sec ge -0.724
             fcs/yaw-damper/enable ne 0.0
