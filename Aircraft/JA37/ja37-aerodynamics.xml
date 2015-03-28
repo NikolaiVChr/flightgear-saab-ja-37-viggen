@@ -26,7 +26,9 @@
 
     <!-- from graph 48a page 64 -->
     <function name="aero/function/ground-effect-factor-normal">
-       <description>Change in lift due to ground effect factor</description>
+       <description>
+                        Change in normal force due to ground effect factor
+      </description>
        <product>
           <table>
              <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
@@ -1239,7 +1241,7 @@
     <axis name="PITCH">
 
       <!-- page 67 fig51b - CmCA -->
-      <function name="aero/coefficient/Cm-due-to-CA">
+      <function name="aero/coefficient/CmCA">
         <description>
                               Pitch due to Air intake factor
         </description>
@@ -1247,20 +1249,65 @@
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>metrics/cbarw-ft</property>
-          <table><!-- CmCA: Cm due to Air intake factor. -->
+          <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
-            <independentVar lookup="column">aero/function/air-intake-factor-CA</independentVar>
-            <tableData>
-                       1.0      3.0
-                 0.0   0.00     0.00
-                30.0   0.00     0.02
+            <independentVar lookup="column">aero/alpha-deg</independentVar>
+            <independentVar lookup="table">aero/function/air-intake-factor-CA</independentVar>
+            <tableData breakPoint="1.0"><!-- [measured using graph analyser] -->
+                              0         1
+                 0.00000   0.00000   0.00000
+                 1.00000   0.00000   0.00000
+            </tableData>
+            <!-- Using 3D table due to alpha data points not being the same,
+                 the extra column is required, and is therefore a copy -->
+            <tableData breakPoint="2.0">
+                              0         1
+                 0.00000   0.00000   0.00000
+                 1.30314   0.00177   0.00177
+                 2.28679   0.00246   0.00246
+                 3.41509   0.00325   0.00325
+                 4.86088   0.00373   0.00373
+                 6.59561   0.00416   0.00416
+                 8.41704   0.00459   0.00459
+                 9.83371   0.00493   0.00493
+                11.74178   0.00531   0.00531
+                13.53446   0.00584   0.00584
+                15.15336   0.00613   0.00613
+                16.85941   0.00671   0.00671
+                18.99897   0.00729   0.00729
+                22.06424   0.00845   0.00845
+                24.84013   0.00937   0.00937
+                27.96321   0.01054   0.01054
+                29.64056   0.01127   0.01127 
+            </tableData>
+            <tableData breakPoint="3.0">
+                              0          1
+                 0.00000   0.00000   0.00000
+                 1.41975   0.00247   0.00247
+                 3.33033   0.00459   0.00459
+                 5.06656   0.00606   0.00606
+                 6.54211   0.00714   0.00714
+                 8.19092   0.00812   0.00812
+                 9.57955   0.00905   0.00905
+                11.22800   0.00978   0.00978
+                12.73174   0.01036   0.01036
+                14.09103   0.01100   0.01100
+                15.91247   0.01143   0.01143
+                17.56064   0.01196   0.01196
+                19.38271   0.01284   0.01284
+                21.14699   0.01372   0.01372
+                22.59306   0.01440   0.01440
+                24.18393   0.01528   0.01528
+                26.23743   0.01630   0.01630
+                28.32020   0.01758   0.01758
+                29.62205   0.01846   0.01846
             </tableData>
           </table>
         </product>
       </function>
       
       <!-- page 74 - zero moment numbers -->
-      <function name="aero/coefficient/Cm-due-to-Zero-moment">
+      <function name="aero/coefficient/CmZero">
         <description>
                                 Pitch due to Zero moment
         </description>
@@ -1279,7 +1326,7 @@
       </function>
 
       <!-- graph 48b page 64 - gear and flaps, with and without groundeffect -->
-      <function name="aero/coefficient/Cm-due-to-ground-effect">
+      <function name="aero/coefficient/CmGnd">
         <description>
                                 Pitch due to ground effect
         </description>
