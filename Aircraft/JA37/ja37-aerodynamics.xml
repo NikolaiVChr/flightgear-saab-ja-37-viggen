@@ -1305,9 +1305,11 @@
             
       <!-- from graph:
        graph 29b page 43 - low alpha range. Due to translation error, is general aircrafts. Not JA-37. Don't use.
-       graph 46 page 61 - gear up, unloaded, detailed, not final
-       page 62 - gear up, unloaded, full range, final
-       graph 51a page 67 - detailed Cm around zero alpha-->
+       graph 46 page 61 - gear up, unloaded, detailed, final
+       graph 47 page 62 - gear up, unloaded, full range, final
+       graph 51a page 67 - detailed Cm around zero alpha
+       Notice graph 47 is slightly steeper above alpha 17 degs than graph 46.
+        -->
       <function name="aero/coefficient/Cm">
         <description>
                                   Pitch moment due to alpha
@@ -1319,22 +1321,22 @@
           <table><!-- Cma: Cm due to alpha. -->
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">gear/gear-pos-norm</independentVar>
-            <tableData>
+            <tableData><!-- [measured using graph analyser] -->
                             0.0        1.0
                   <!--   page 61 - extrapolated -->
-                -10.0      0.030    0.070
-                  <!--   page 67 - page 64 minus zero moment 0.036 -->
-                  0.0      0.010    0.0015
-                  <!--   page 62 - page 64 minus zero moment 0.036 -->
-                  3.0     -0.020   -0.0085
-                  8.0     -0.030   -0.0160
-                 11.5     -0.035   -0.0210
-                 17.0     -0.055   -0.0360          
-                 22.5     -0.070   -0.0610           
-                 <!--     page 62 - no gear data --> 
-                22.686835  -0.070990   -0.070990
-                23.508849  -0.073496   -0.073496
-                24.331206  -0.075168   -0.075168
+                -10.0       0.034000    0.070000
+                  <!--   page 61 - page 64 minus zero moment 0.036 as it is applied in another table -->
+                 0.0        0.000000    0.000000
+                 1.6       -0.007400   -0.002700 
+                 3.0       -0.011200   -0.003500
+                 3.3       -0.011800   -0.004400
+                 8.0       -0.022300   -0.015800
+                 9.5       -0.026300   -0.020400
+                11.5       -0.030900   -0.023300
+                12.7       -0.033100   -0.024800
+                15.3       -0.039000   -0.030600
+                17.0       -0.042100   -0.035700          
+                 <!--     page 62  --> 
                 25.236381  -0.075591   -0.075591
                 26.224033  -0.075598   -0.075598
                 27.129723  -0.074771   -0.074771
