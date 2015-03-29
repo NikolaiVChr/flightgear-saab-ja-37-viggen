@@ -321,8 +321,8 @@ LandingDistance.update = func() {
     me.isAvailable = 1;
     screen.log.write("Landing Distance Monitor is available");
   }
-  if (pos.alt < 50 and me.isAvailable == 1) {
-    screen.log.write("measuring landing distance.");
+  if ((getprop("/gear/gear/wow") == 1 or getprop("/gear/gear[1]/wow") == 1 or getprop("/gear/gear[2]/wow") == 1) and me.isAvailable == 1) {
+    screen.log.write("Measuring landing distance..");
     me.activate();
     return;
   }

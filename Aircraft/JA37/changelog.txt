@@ -1400,3 +1400,5 @@ Aero: Resampled and restructured all normal forces.
 Aero: Normal force due to groundeffect from elevator is now seperate coefficient.
 Aero: Normal force due to groundeffect is now seperate coefficient.
 Aero: Normal force due to flaps and gear is now seperate coefficient.
+GUI: Made landing monitor not start measure landing distance before touchdown.
+GUI: Removed reinit from menu and put it into the landing monitor.

@@ -56,6 +56,10 @@ MonitorDialog.create = func {
   var titlebar=me.dialog.addChild("group");
   titlebar.set("layout", "hbox");
   
+  var reset = titlebar.addChild("button");
+  reset.node.setValues({"pref-width": 40, "pref-height": 16, legend: "Reset"});
+  reset.setBinding("nasal", "monitor.PerformanceMonitor.instance().reinit()");
+
   titlebar.addChild("empty").set("stretch", 1);
   titlebar.addChild("text").set("label", "Performance Monitor");
   

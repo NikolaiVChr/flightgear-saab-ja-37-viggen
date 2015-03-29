@@ -915,7 +915,7 @@
         </binding>
        </item>
         <item>
-          <label>Monitor Start</label>
+          <label>Monitor</label>
           <binding>
            <command>nasal</command>
            <script>
@@ -924,23 +924,13 @@
           </binding>
         </item>
         <item>
-          <label>Monitor Re-initialize</label>
+          <label>Options</label>
           <binding>
            <command>nasal</command>
            <script>
-              monitor.PerformanceMonitor.instance().reinit();
+            ja37.Dialog.show();
            </script>
           </binding>
-        </item>    
-       
-       <item>
-        <label>Options</label>
-        <binding>
-         <command>nasal</command>
-         <script>
-          ja37.Dialog.show();
-         </script>
-        </binding>
        </item>
       </menu>
      </default>
