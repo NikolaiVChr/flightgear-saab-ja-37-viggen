@@ -34,9 +34,9 @@
              <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
              <independentVar lookup="column">aero/alpha-deg</independentVar>
              <tableData>
-                     0.0   15.0
-                0.0  1.00  1.65
-                2.2  1.00  1.00
+                     0.0   5.0   15.0
+                0.0  1.00  1.65  1.75
+                2.2  1.00  1.00  1.00
              </tableData>
           </table>
        </product>
@@ -66,54 +66,77 @@
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>structural/wings/normal-factor</property>
-           <sum>
-              <table><!-- ground effect on elevator change CN, page 80 fig 63 -->
-                <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
-                <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
-                <tableData>
-                              -15.0  -10.0    -5.0     0.0
-                      0.0    -0.175  -0.2     -0.1     0.0
-                      0.209   0.000   0.0      0.0     0.0  
-                </tableData>
-             </table>
-             <table><!-- gear and flaps change CN -->
-                <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
-                <tableData><!-- from graph 31c page 46 -->
-                             0.0    1.0          
-                       0.0   0.0    0.05   
-                      25.0   0.0    0.05       
-                      40.0   0.0   -0.15      
-                      50.0   0.0    0.00        
-                </tableData>
-             </table>
              <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
                 <independentVar lookup="column">aero/function/elevator-pos-deg-inv</independentVar><!-- opposite as flightgears definition, even though rest of document uses same definition. -->
                 <tableData><!-- [measured using graph analyser] --><!-- from graph 31a page 46 -->
                               -20.0   0.0    20.0
                        -20.0 -1.232 -1.178 -1.036
-                         0.0 -0.300  0.035  0.184 <!-- CN at zero alpha taken from page 79 fig 61a, this also shows +-5 deg elevator influence -->
-                        10.0  0.166  0.589  0.794
-                        20.0  1.255  1.433  0.773
-                        26.0  1.192  1.682  1.817
-                        30.3  1.466  1.893  2.008
-                        35.6  1.733  2.025  2.206
-                        38.6  1.795  2.063  2.222
-                        40.5  1.827  2.063  2.205
-                        45.3  1.864  1.951  2.066
-                        49.8  1.798  1.604  1.715
+                         0.0 -0.200  0.000  0.208 <!-- CN at zero alpha taken from page 79 fig 61a, this also shows +-5 deg elevator influence -->
+                        10.0  0.157  0.589  0.766
+                        20.0  0.776  1.250  1.411
+                        26.0  1.149  1.682  1.774
+                        30.3  1.441  1.893  1.976
+                        35.6  1.720  2.025  2.187
+                        38.6  1.787  2.063  2.221
+                        40.5  1.827  2.059  2.205
+                        45.3  1.864  1.969  2.066
+                        49.8  1.798  1.733  1.715
                         51.1  1.590  1.694  1.781
-                        55.2  1.589  1.700  1.784
+                        55.2  1.589  1.702  1.784
                         60.2  1.620  1.731  1.787
                         66.9  1.658  1.769  1.793
                         72.6  1.692  1.797  1.797
-                        76.9  1.702  1.796  1.796
+                        76.9  1.702  1.799  1.796
                 </tableData>
              </table>
-            </sum>           
         </product>
      </function>
+
+<!-- page 80 fig 63 -->
+     <function name="aero/coefficient/CNElevator">
+      <description>
+                        Normal force due to elevator and its groundeffect
+      </description>
+      <product>
+          <property>aero/function/mach-effect-prefactor</property>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <table>
+                <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
+                <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
+                <tableData>
+                              -15.0  -10.0    -5.0     0.0
+                      0.0    -0.380  -0.250   -0.150   0.000
+                      0.209  -0.250  -0.180   -0.110   0.000  
+                </tableData>
+          </table>
+      </product>
+     </function>
+
+     <!-- from graph 31c page 46 -->
+     <function name="aero/coefficient/CNflaps">
+      <description>
+                        Normal force due to gear and flaps
+      </description>
+      <product>
+          <property>aero/function/mach-effect-prefactor</property>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
+          <table>
+                <independentVar lookup="row">aero/alpha-deg</independentVar>
+                <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
+                <tableData>
+                             0.0    1.0          
+                       0.0   0.0    0.05   
+                      25.0   0.0    0.05       
+                      40.0   0.0   -0.15      
+                      50.0   0.0    0.00        
+                </tableData>
+          </table>
+      </product>
+     </function>
+
   </axis>
 
 
