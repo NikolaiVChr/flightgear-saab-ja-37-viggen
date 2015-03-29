@@ -24,24 +24,6 @@
      *********************************************************************************** -->
 
 
-    <!-- from graph 48a page 64 -->
-    <function name="aero/function/ground-effect-factor-normal">
-       <description>
-                        Change in normal force due to ground effect factor
-      </description>
-       <product>
-          <table>
-             <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
-             <independentVar lookup="column">aero/alpha-deg</independentVar>
-             <tableData>
-                     0.0   5.0   15.0
-                0.0  1.00  1.65  1.75
-                2.2  1.00  1.00  1.00
-             </tableData>
-          </table>
-       </product>
-    </function>
-
     <function name="aero/function/elevator-pos-deg-inv">
        <description>Opposite of flightgears definition</description>
        <product>
@@ -56,47 +38,132 @@
      
      <function name="aero/coefficient/CN">
         <description>
-           Normal force due to alpha, elevator and gear/flaps
+           Normal force due to alpha, ground-effect and elevator
+
            Increase in CN decreases Period and damping, Dutch Roll damping
            CN is low for landing
         </description>
         <product>
-           <property>aero/function/ground-effect-factor-normal</property>
            <property>aero/function/mach-effect-prefactor</property>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
            <property>structural/wings/normal-factor</property>
              <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">aero/function/elevator-pos-deg-inv</independentVar><!-- opposite as flightgears definition, even though rest of document uses same definition. -->
-                <tableData><!-- [measured using graph analyser] --><!-- from graph 31a page 46 -->
-                              -20.0   0.0    20.0
-                       -20.0 -1.232 -1.178 -1.036
-                         0.0 -0.200  0.000  0.208 <!-- CN at zero alpha taken from page 79 fig 61a, this also shows +-5 deg elevator influence -->
-                        10.0  0.157  0.589  0.766
-                        20.0  0.776  1.250  1.411
-                        26.0  1.149  1.682  1.774
-                        30.3  1.441  1.893  1.976
-                        35.6  1.720  2.025  2.187
-                        38.6  1.787  2.063  2.221
-                        40.5  1.827  2.059  2.205
-                        45.3  1.864  1.969  2.066
-                        49.8  1.798  1.733  1.715
-                        51.1  1.590  1.694  1.781
-                        55.2  1.589  1.702  1.784
-                        60.2  1.620  1.731  1.787
-                        66.9  1.658  1.769  1.793
-                        72.6  1.692  1.797  1.797
-                        76.9  1.702  1.799  1.796
+                <independentVar lookup="column">aero/alpha-deg</independentVar>
+                <independentVar lookup="table">aero/function/elevator-pos-deg-inv</independentVar>
+                                              <!-- [measured using graph analyser] -->
+                <tableData breakPoint="-20.0"><!-- from graph 31a page 46 -->
+                                      0         1
+                       -10.07383  -0.78915  -0.78915
+                         1.60059  -0.24972  -0.24972
+                         8.40885   0.09493   0.09493
+                        14.97192   0.46057   0.46057
+                        22.02022   0.86834   0.86834
+                        25.42043   1.10492   1.10492
+                        30.52352   1.41423   1.41423
+                        33.31697   1.60163   1.60163
+                        35.38471   1.69078   1.69078
+                        39.03779   1.78021   1.78021
+                        43.18024   1.84402   1.84402
+                        46.83660   1.87970   1.87970
+                        49.03170   1.88009   1.88009
+                        49.76483   1.85685   1.85685
+                        51.11568   1.70288   1.70288
+                        52.70502   1.63774   1.63774
+                        55.63438   1.59620   1.59620
+                        58.56146   1.59204   1.59204
+                        62.21882   1.61137   1.61137
+                        66.60731   1.64018   1.64018
+                        69.77701   1.65709   1.65709
+                        72.94642   1.67867   1.67867
+                </tableData>                
+                <tableData breakPoint="0.0"><!-- from graph 30 page 45 -->
+                                      0         1
+                       -11.21614  -0.40038  -0.40038
+                         0.00000   0.00000   0.00000
+                         4.76007   0.24179   0.24179
+                         7.09306   0.38400   0.38400
+                        10.44027   0.58716   0.58716
+                        12.87714   0.75170   0.75170
+                        15.92315   0.95688   0.95688
+                        18.36093   1.12752   1.12752
+                        21.00156   1.31036   1.31036
+                        23.03305   1.45256   1.45256
+                        25.67306   1.63133   1.63133
+                        27.90617   1.77759   1.77759
+                        31.14247   1.91171   1.91171
+                        34.37112   1.99507   1.99507
+                        37.39478   2.05203   2.05203
+                        38.60265   2.06425   2.06425
+                        40.21101   2.06634   2.06634
+                        41.61652   2.05623   2.05623
+                        43.01989   2.03191   2.03191
+                        44.42142   1.99541   1.99541
+                        45.62041   1.94875   1.94875
+                        47.61486   1.84527   1.84527
+                        49.50881   1.74178   1.74178
+                        50.91004   1.70325   1.70325
+                        52.41636   1.69517   1.69517
+                        54.62865   1.70337   1.70337
+                        58.85345   1.72788   1.72788
+                        63.88319   1.75851   1.75851
+                        69.71665   1.78713   1.78713
+                        72.93489   1.80145   1.80145
+                        75.34819   1.80966   1.80966
+                        76.95532   1.80362   1.80362
+                </tableData>
+                <tableData breakPoint="20.0"><!-- from graph 31a page 46 -->
+                                      0         1
+                       -11.32382  -0.28937  -0.28937
+                        -0.01809   0.29673   0.29673
+                         4.96647   0.54994   0.54994
+                        10.07013   0.84990   0.84990
+                        14.44408   1.11702   1.11702
+                        19.06080   1.40287   1.40287
+                        22.82757   1.62783   1.62783
+                        26.83938   1.83414   1.83414
+                        30.00153   1.97488   1.97488
+                        33.65063   2.12973   2.12973
+                        36.57201   2.21903   2.21903
+                        39.74043   2.25696   2.25696
+                        42.42418   2.24342   2.24342
+                        45.35483   2.18084   2.18084
+                        49.02002   2.07167   2.07167
+                        51.95608   1.92032   1.92032
+                        53.18099   1.83175   1.83175
+                        54.64624   1.80163   1.80163
+                        56.35383   1.79726   1.79726
+                        60.74374   1.80270   1.80270
+                        66.10925   1.80831   1.80831
+                        72.93844   1.80951   1.80951
                 </tableData>
              </table>
         </product>
      </function>
 
-<!-- page 80 fig 63 -->
-     <function name="aero/coefficient/CNElevator">
+    <!-- from graph 48a page 64 -->
+    <function name="aero/coefficient/CNGnd">
+       <description>
+                        Change in normal force due to ground effect factor
+      </description>
+       <product>
+          <table>
+             <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
+             <independentVar lookup="column">aero/alpha-deg</independentVar>
+             <tableData>
+                     0.0   5.0   15.0
+                0.0  0.00  0.20  0.65
+                2.2  0.00  0.00  0.00
+             </tableData>
+          </table>
+       </product>
+    </function>
+
+     <!-- page 80 fig 63 -->
+     <function name="aero/coefficient/CNGndElevator">
       <description>
-                        Normal force due to elevator and its groundeffect
+                        Normal force due to elevator groundeffect
       </description>
       <product>
           <property>aero/function/mach-effect-prefactor</property>
@@ -106,9 +173,9 @@
                 <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                 <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>
                 <tableData>
-                              -15.0  -10.0    -5.0     0.0
-                      0.0    -0.380  -0.250   -0.150   0.000
-                      0.209  -0.250  -0.180   -0.110   0.000  
+                              -25.0   -20.0   -15.0   -10.0     -5.0     0.0
+                      0.0    -0.310  -0.210  -0.130  -0.070   -0.030   0.000
+                      0.209   0.000   0.000   0.000   0.000    0.000   0.000
                 </tableData>
           </table>
       </product>
@@ -128,10 +195,10 @@
                 <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
                 <tableData>
                              0.0    1.0          
-                       0.0   0.0    0.05   
-                      25.0   0.0    0.05       
-                      40.0   0.0   -0.15      
-                      50.0   0.0    0.00        
+                       0.0   0.0    0.035
+                      25.0   0.0    0.075
+                      40.0   0.0   -0.150
+                      50.0   0.0    0.000
                 </tableData>
           </table>
       </product>

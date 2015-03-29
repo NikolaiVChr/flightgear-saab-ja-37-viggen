@@ -1396,3 +1396,7 @@ Sim: Minor autopilot tuning.
 Aero: Enabled yaw-damper also when weight on wheels, as per the manual.
 Aero: Accuracy improvements to pitch moment due to alpha at small and medium alpha values.
 Aero: Used a graph analyser to improve accuracy of pitch due to Air intake factor.
+Aero: Resampled and restructured all normal forces.
+Aero: Normal force due to groundeffect from elevator is now seperate coefficient.
+Aero: Normal force due to groundeffect is now seperate coefficient.
+Aero: Normal force due to flaps and gear is now seperate coefficient.
