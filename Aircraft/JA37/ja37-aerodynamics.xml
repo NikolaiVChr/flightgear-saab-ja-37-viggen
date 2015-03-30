@@ -148,13 +148,16 @@
                         Change in normal force due to ground effect factor
       </description>
        <product>
+          <property>aero/function/mach-effect-prefactor</property>
+          <property>aero/qbar-psf</property>
+          <property>metrics/Sw-sqft</property>
           <table>
              <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
              <independentVar lookup="column">aero/alpha-deg</independentVar>
              <tableData>
-                     0.0   5.0   15.0
-                0.0  0.00  0.20  0.65
-                2.2  0.00  0.00  0.00
+                       0.0     5.0    15.0
+                0.0  0.0000  0.2000  0.6500
+                2.2  0.0000  0.0000  0.0000
              </tableData>
           </table>
        </product>
@@ -190,15 +193,23 @@
           <property>aero/function/mach-effect-prefactor</property>
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
+          <property>fcs/flaps/pos-normalized</property>
           <table>
                 <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <independentVar lookup="column">fcs/flaps/pos-normalized</independentVar>
-                <tableData>
-                             0.0    1.0          
-                       0.0   0.0    0.035
-                      25.0   0.0    0.075
-                      40.0   0.0   -0.150
-                      50.0   0.0    0.000
+                <tableData><!-- [measured using graph analyser] -->
+                      -0.00083    0.07540
+                       5.62181    0.07738
+                      25.84119    0.15476
+                      28.49379    0.08531
+                      31.15469    0.00000
+                      35.07043   -0.08134
+                      37.97731   -0.11110
+                      40.69473   -0.10912
+                      42.79054   -0.11309
+                      45.42153   -0.11904
+                      48.28687   -0.09722
+                      50.21232   -0.07341
+                      53.62779    0.00000
                 </tableData>
           </table>
       </product>
@@ -215,8 +226,8 @@
 
 
   <!-- from DATCOM -->
-  <function name="aero/function/ground-effect-factor-drag">
-     <description>Change in drag due to ground effect</description>
+  <function name="aero/function/ground-effect-factor-axial">
+     <description>Change in axial due to ground effect</description>
      <product>
         <table>
            <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
@@ -329,7 +340,7 @@
   <function name="aero/function/Afactors">
     <description>Change in axial due to mach and ground effect</description>
     <product>
-      <property>aero/function/ground-effect-factor-drag</property>
+      <property>aero/function/ground-effect-factor-axial</property>
       <property>aero/function/mach-effect-prefactor</property>
     </product>
   </function>
@@ -739,7 +750,7 @@
          Contributes to damping of Dutch Roll mode
       </description>
       <product>
-         <property>aero/function/ground-effect-factor-drag</property>
+         <property>aero/function/ground-effect-factor-axial</property>
          <property>aero/qbar-psf</property>
          <property>metrics/Sw-sqft</property>
          <property>aero/beta-rad</property>
@@ -840,7 +851,7 @@
                       Side Force coefficient due to Sideslip due to drop tank
       </description>
       <product>
-         <property>aero/function/ground-effect-factor-drag</property>
+         <property>aero/function/ground-effect-factor-axial</property>
          <property>aero/qbar-psf</property>
          <property>metrics/Sw-sqft</property>
          <property>aero/beta-rad</property>
