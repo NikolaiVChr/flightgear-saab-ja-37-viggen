@@ -1817,16 +1817,19 @@ var HUDnasal = {
       var maxDist = nil;
       var currDist = radar_logic.selection[2];
       if(armSelect == 0) {
+        # cannon
         minDist =  100;
         maxDist = 1000;
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
+        # sidewinders
         minDist =   300;
         maxDist = 18520;
-      } else {
+      } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
+        # Rocket pod
         minDist =   200;
         maxDist =  2000;
       }
-      if(currDist != nil) {
+      if(currDist != nil and minDist != nil) {
         var pixelPerMeter = (3/5*line)/(maxDist - minDist);
         var startDist = (minDist - ((maxDist - minDist)/3));
         var pos = pixelPerMeter*(currDist-startDist);
