@@ -1466,13 +1466,13 @@
           <property>aero/qbar-psf</property>
           <property>metrics/Sw-sqft</property>
           <property>metrics/cbarw-ft</property>
-          <table><!-- Cma: Cm due to alpha. -->
+          <table>
             <independentVar lookup="row">aero/alpha-deg</independentVar>
             <independentVar lookup="column">gear/gear-pos-norm</independentVar>
             <tableData><!-- [measured using graph analyser] -->
                             0.0        1.0
                   <!--   page 61 - extrapolated -->
-                -10.0       0.034000    0.070000
+                -10.0       0.034000    0.029000
                   <!--   page 61 - page 64 minus zero moment 0.036 as it is applied in another table -->
                  0.0        0.000000    0.000000
                  1.6       -0.007400   -0.002700 
@@ -1646,8 +1646,7 @@
            <property>metrics/Sw-sqft</property>
            <property>metrics/cbarw-ft</property>
            <property>aero/ci2vel</property>
-<!-- document does not specify unit for alpha-dot. Degree/sec are used for alpha rest of doc, but rad/sec for beta-dot. -->
-       <property>aero/alphadot-rad_sec</property>
+           <property>aero/alphadot-rad_sec</property>
            <table>
               <independentVar>aero/alpha-deg</independentVar>
               <tableData><!-- [measured using graph analyser] -->

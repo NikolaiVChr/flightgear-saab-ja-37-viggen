@@ -1380,7 +1380,7 @@ Aero: Removed washout filter on roll damper and installed a switch on roll rate 
 Aero: Tuned the aileron limiter to the new roll damper setup.
 Sim: Semi tuned autopilot to new roll damper. Needs more work though, it has tendency to do barrel rolls.
 
-3.018
+3.018 - 2015 March 30
 =====
 Model: Made radar slightly bigger and significantly more flat.
 Model: Increased size of center plaque with Swedish writing.
