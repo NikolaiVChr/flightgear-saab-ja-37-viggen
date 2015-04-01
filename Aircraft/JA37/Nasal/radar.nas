@@ -21,10 +21,21 @@ var radar = {
       "mipmapping": 0
     });
     
+    g2 = m.canvas.createGroup();
+    g2.createChild("path")
+                .moveTo(0,0)
+                .lineTo(1024,0)
+                .lineTo(1024,1024)
+                .lineTo(0,1024)
+                .setStrokeLineWidth(2)
+                .setColor(0, 0, 0);
+    g2.show();
+
     # ... and place it on the object called Screen
-    m.canvas.addPlacement({"node": "Screen", "texture": "screen.png"});
+    m.canvas.addPlacement({"node": "radarScreen", "texture": "radar-canvas.png"});
     m.canvas.setColorBackground(0.10,0.20,0.10);
     g = m.canvas.createGroup();
+    
     var g_tf = g.createTransform();
 
     m.oldmode=0;
@@ -42,6 +53,9 @@ var radar = {
     m.strokeOriginY = 975;
     m.strokeTopY = 100;
     m.stroke_pos= [];
+
+    
+
     for(var i=0; i < m.no_stroke; i = i+1) {
       append(m.stroke_pos, 0);
     }

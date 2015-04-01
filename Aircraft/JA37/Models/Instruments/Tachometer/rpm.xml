@@ -7,9 +7,9 @@
   <object-name>Plane.001</object-name>
   <object-name>Plane</object-name>
   <object-name>Needle</object-name>
-  <x-offset>0.80</x-offset>
-  <y-offset>0.80</y-offset>
-  <z-offset>0.80</z-offset>
+  <x-offset>0.70</x-offset>
+  <y-offset>0.70</y-offset>
+  <z-offset>0.70</z-offset>
  </animation>
 
  

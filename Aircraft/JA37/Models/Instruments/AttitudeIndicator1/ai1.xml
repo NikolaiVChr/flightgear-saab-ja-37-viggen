@@ -4,7 +4,7 @@
   <path>ai1.ac</path>
 
 
-<animation>
+<!--<animation>
   <type>scale</type>
   <object-name>ai-ring</object-name>
   <object-name>bank-index</object-name>
@@ -13,7 +13,7 @@
   <x-offset>1.25</x-offset>
   <y-offset>1.25</y-offset>
   <z-offset>1.25</z-offset>
- </animation>
+ </animation>-->
 
 <animation>
   <type>pick</type> 

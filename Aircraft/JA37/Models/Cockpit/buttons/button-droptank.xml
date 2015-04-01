@@ -20,7 +20,7 @@
 	         	<command>set-tooltip</command>
 	         	<tooltip-id>button-droptank</tooltip-id>
 	         	<label>Jettison drop-tank</label>
-	         	<property>/consumables/fuel/tank[8]/jettisoned</property>
+	         	<!--<property>/consumables/fuel/tank[8]/jettisoned</property>-->
 	        </binding>
 	    </hovered>
 	</animation>

@@ -86,8 +86,8 @@
 	  <object-name>gearRightDoorsOpen</object-name>
 	  <object-name>gearRightDoorsClosed</object-name>
     <object-name>dropTank</object-name>
-    <object-name>dashPanel</object-name>
-    <object-name>dashPanelTap</object-name>
+    <!--<object-name>dashPanel</object-name>
+    <object-name>dashPanelTap</object-name>-->
   </effect>
 
   <effect>  
@@ -156,6 +156,35 @@
   <condition>
     <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
   </condition>
+ </animation>
+
+
+ <animation>
+  <type>rotate</type>
+  <object-name>radarHeading</object-name>
+  <property>orientation/heading-magnetic-deg</property>
+  <factor>-1.0</factor>
+  <center>
+   <x-m>-3.98169</x-m>
+   <y-m>0.00000</y-m>
+   <z-m>0.34642</z-m>
+  </center>
+  <axis>
+   <x>-1.0</x>
+   <y>0.0</y>
+   <z>-0.342020143325669</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>radarScreen</object-name>
+  <emission>  
+   <red>0.7</red> 
+   <green>0.7</green> 
+   <blue>0.7</blue>
+   <factor-prop>systems/electrical/generator_on</factor-prop>
+  </emission>
  </animation>
 
 <!-- Control surfaces -->

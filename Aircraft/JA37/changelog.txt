@@ -1407,3 +1407,9 @@ Aero: Used a graph analyser to improve accuracy of normal force due to flaps and
 3.019
 =====
 HUD: Distance scale will no longer show a distance if empty pylon selected.
+Model: Made a proper base for the HUD.
+Model: Made a proper radar screen.
+Model: Fixed some inverted normals on right canard.
+Model: Model cockpit panel forward, higher and tilted it more.
+Model: Rearranged all instruments, switches, lights and buttons in the cockpit.
+Model: Moved cockpit view 16cm forward.

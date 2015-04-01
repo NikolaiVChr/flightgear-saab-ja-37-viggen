@@ -404,7 +404,7 @@
       <!-- Sometimes these get changed (in FG 3.0-) and saved and will override the defaults. This will set the defaults everytime its started up. -->
       <x-offset-m type="double">0</x-offset-m>
       <y-offset-m type="double">0.70</y-offset-m>
-      <z-offset-m type="double">-3.40</z-offset-m>
+      <z-offset-m type="double">-3.56</z-offset-m>
     </current-view>
 
     <view n="0">
@@ -413,7 +413,7 @@
        <pitch-offset-deg type="double">-20</pitch-offset-deg>
        <x-offset-m type="double">0</x-offset-m>
        <y-offset-m type="double">0.70</y-offset-m><!-- remember to change eyepoint in JSB when changing this -->
-       <z-offset-m type="double">-3.40</z-offset-m>
+       <z-offset-m type="double">-3.56</z-offset-m>
        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
      </config>
     </view>
@@ -553,7 +553,7 @@
          <pitch-offset-deg type="double">-12.5</pitch-offset-deg>
          <x-offset-m type="double">0</x-offset-m>
          <y-offset-m type="double">0.70</y-offset-m>
-         <z-offset-m type="double">-3.40</z-offset-m>
+         <z-offset-m type="double">-3.56</z-offset-m>
          <default-field-of-view-deg type="double">65</default-field-of-view-deg>
          <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>
          <dynamic-view type="bool">false</dynamic-view>
@@ -1281,6 +1281,7 @@
   <electrical>
     <lights-ext type="int">0</lights-ext>
     <generator_enabled type="bool">false</generator_enabled>
+    <generator_on type="bool">false</generator_on>
     <battery_voltage type="double">0</battery_voltage>
     <outputs>
       <main_ac type="double">0</main_ac>
