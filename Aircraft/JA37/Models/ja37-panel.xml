@@ -287,17 +287,17 @@
     <name>Airspeed</name>
     <offsets>
       <x-m>  0.005</x-m>
-      <y-m> -0.28</y-m>
-      <z-m>  0.21</z-m>
+      <y-m> -0.24</y-m>
+      <z-m>  0.19</z-m>
     </offsets>
   </model>
 
   <animation>
     <type>scale</type>
     <object-name>Airspeed</object-name>
-    <x-offset>0.85</x-offset>
-    <y-offset>0.85</y-offset>
-    <z-offset>0.85</z-offset>
+    <x-offset>1.0</x-offset>
+    <y-offset>1.0</y-offset>
+    <z-offset>1.0</z-offset>
   </animation>
 
 <!-- Temporary radio stack till I get a real one in -->
