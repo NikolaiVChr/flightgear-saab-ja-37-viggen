@@ -1404,15 +1404,15 @@ GUI: Made landing monitor not start measure landing distance before touchdown.
 GUI: Removed reinit from menu and put it into the landing monitor.
 Aero: Used a graph analyser to improve accuracy of normal force due to flaps and gear.
 
-3.019
+3.019 - 2015 April 02
 =====
 HUD: Distance scale will no longer show a distance if empty pylon selected.
-Model: Made a proper base for the HUD.
-Model: Made a proper radar screen.
+Model: Made a proper mount for the HUD.
+Model: Made a proper radar screen with heading indicator.
 Model: Fixed some inverted normals on right canard.
 Model: Model cockpit panel forward, higher and tilted it more.
 Model: Rearranged all instruments, switches, lights and buttons in the cockpit.
 Model: Moved cockpit view 16cm forward.
-Model: Made a proper HUD.
+Model: Made a proper HUD with support beams.
 Model: Changed view position for cockpit view.
 Model: Made radar distance selector and left altimeter darker.
