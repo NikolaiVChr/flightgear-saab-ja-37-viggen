@@ -178,6 +178,17 @@
 
  <animation>
   <type>material</type> 
+  <object-name>radarHeading</object-name>
+  <emission>  
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type> 
   <object-name>radarScreen</object-name>
   <emission>  
    <red>0.7</red> 

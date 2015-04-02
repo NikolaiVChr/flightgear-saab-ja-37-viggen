@@ -1415,3 +1415,4 @@ Model: Rearranged all instruments, switches, lights and buttons in the cockpit.
 Model: Moved cockpit view 16cm forward.
 Model: Made a proper HUD.
 Model: Changed view position for cockpit view.
+Model: Made radar distance selector and left altimeter darker.

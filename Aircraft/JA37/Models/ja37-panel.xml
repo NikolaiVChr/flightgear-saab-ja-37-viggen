@@ -286,9 +286,9 @@
     <path>Aircraft/JA37/Models/Instruments/Airspeed/airspeed.xml</path>
     <name>Airspeed</name>
     <offsets>
-      <x-m>  0.05</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.23</z-m>
+      <x-m>  0.005</x-m>
+      <y-m> -0.28</y-m>
+      <z-m>  0.21</z-m>
     </offsets>
   </model>
 
@@ -306,9 +306,9 @@
     <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-1.xml</path>
     <name>Radiostack</name>
     <offsets>
-      <x-m>  0.05</x-m>
-      <y-m> -0.25</y-m>
-      <z-m>  0.075</z-m>
+      <x-m>  0.00</x-m>
+      <y-m> -0.26</y-m>
+      <z-m>  0.065</z-m>
     </offsets>
   </model>
 
@@ -316,9 +316,9 @@
     <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-2.xml</path>
     <name>Radiostack2</name>
     <offsets>
-      <x-m>  0.05</x-m>
-      <y-m> -0.25</y-m>
-      <z-m>  0.025</z-m>
+      <x-m>  0.00</x-m>
+      <y-m> -0.26</y-m>
+      <z-m>  0.015</z-m>
     </offsets>
   </model>
 
@@ -326,9 +326,9 @@
     <path>Aircraft/JA37/Models/Instruments/Transponder/kt76a.xml</path>
     <name>Transponder</name>
     <offsets>
-      <x-m>  0.05</x-m>
-      <y-m> -0.25</y-m>
-      <z-m> -0.020</z-m>
+      <x-m>  0.005</x-m>
+      <y-m> -0.26</y-m>
+      <z-m> -0.030</z-m>
     </offsets>
   </model>
 
