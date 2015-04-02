@@ -1413,3 +1413,5 @@ Model: Fixed some inverted normals on right canard.
 Model: Model cockpit panel forward, higher and tilted it more.
 Model: Rearranged all instruments, switches, lights and buttons in the cockpit.
 Model: Moved cockpit view 16cm forward.
+Model: Made a proper HUD.
+Model: Changed view position for cockpit view.

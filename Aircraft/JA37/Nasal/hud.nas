@@ -38,18 +38,18 @@ var modeTimeTakeoff = -1;
 var countQFE = 0;
 var QFEcalibrated = FALSE;# if the altimeters are calibrated
 
-var HUDTop = 0.77; # position of top of HUD in meters. 0.18 + 0.59 = 0.77
-# HUD z is 0 to 0.18 and raised 0.59 up. Finally is 0.59m to 0.77m, height of HUD is 0.18m
-# Therefore each pixel is 0.18 / 1024 = 0.00017578125m or each meter is 5688.8888888888888888888888888889 pixels.
-var pixelPerMeter = 5688.9;
-var centerOffset = -113.78;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
-# View is 0.70m so 0.77-0.70 = 0.07m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
-# 512 - (0.07 / 0.00017578125) = 113.77777777777777777777777777778 pixels up from center. Since -y is upward, result is -113.78. (Per default)
+var HUDTop = 0.77; # position of top of HUD in meters. 0.77
+# HUD z is 0.63 - 0.77. Height of HUD is 0.14m
+# Therefore each pixel is 0.14 / 1024 = 0.00013671875m or each meter is 7314.2857142857142857142857142857 pixels.
+var pixelPerMeter = 7314.29;
+var centerOffset = -73.1;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+# View is 0.71m so 0.77-0.71 = 0.06m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
+# 512 - (0.06 / 0.00013671875) = 73.142857142857142857142857142857 pixels up from center. Since -y is upward, result is -73.1. (Per default)
 
-var pixelPerDegreeY = 51; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
+var pixelPerDegreeY = 55.0; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
-var sidewindPosition = centerOffset+(2*pixelPerDegreeY); #should be 2 degrees under horizon.
+var sidewindPosition = centerOffset+(3*pixelPerDegreeY); #should be 2 degrees under horizon.
 var sidewindPerKnot = 450/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
 var radPointerProxim = 60; #when alt indicater is too close to radar ground indicator, hide indicator
 var scalePlace = 200; #horizontal placement of alt scales
@@ -96,7 +96,7 @@ var HUDnasal = {
     #HUDnasal.main.canvas.del();
     #HUDnasal.main.canvas = canvas.new(HUDnasal.canvas_settings);
     HUDnasal.main.canvas.addPlacement(HUDnasal.main.place);
-    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
+    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.05);
     HUDnasal.main.root = HUDnasal.main.canvas.createGroup()
                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
     
@@ -715,7 +715,7 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_icao.setFontSize(60*fs, ar);
 
     #distance scale
-    HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-100, 130);
+    HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-100, 200);
     HUDnasal.main.mySpeed = HUDnasal.main.dist_scale_group.createChild("path")
                             .moveTo(   0,   0)
                             .lineTo( -10, -10)
@@ -2147,7 +2147,7 @@ var hud_pilot = nil;
 var init = func() {
   removelistener(id); # only call once
   if(getprop("sim/ja37/supported/hud") == TRUE) {
-    hud_pilot = HUDnasal.new({"node": "HUDobject", "texture": "hud.png"});
+    hud_pilot = HUDnasal.new({"node": "hud", "texture": "hud.png"});
     #setprop("sim/hud/visibility[1]", 0);
     
     #print("HUD initialized.");

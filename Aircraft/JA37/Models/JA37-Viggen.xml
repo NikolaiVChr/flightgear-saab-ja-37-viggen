@@ -187,6 +187,15 @@
   </emission>
  </animation>
 
+ <animation>
+  <type>select</type>
+  <condition>
+    <property>sim/ja37/supported/hud</property>
+  </condition>
+  <object-name>hud</object-name>
+  <object-name>hudStruts</object-name>
+</animation>
+
 <!-- Control surfaces -->
 
 <animation>

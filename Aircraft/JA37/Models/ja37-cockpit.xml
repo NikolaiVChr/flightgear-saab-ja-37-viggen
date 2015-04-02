@@ -21,7 +21,7 @@
       </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/HUD.xml</path>
     <name>TheHUD</name>
     <offsets>
@@ -29,15 +29,7 @@
       <y-m>0.00</y-m>
       <z-m>0.00</z-m>
     </offsets>
-  </model> 
-
-<animation>
-  <type>select</type>
-  <condition>
-    <property>sim/ja37/supported/hud</property>
-  </condition>
-  <object-name>HUDobject</object-name>
-</animation>
+  </model> -->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-battery.xml</path>

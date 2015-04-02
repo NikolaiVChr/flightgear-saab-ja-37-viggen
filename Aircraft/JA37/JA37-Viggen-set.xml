@@ -399,22 +399,22 @@
     <current-view>
       <field-of-view type="double">100</field-of-view>
       <config>
-        <default-field-of-view-deg type="double">100</default-field-of-view-deg>
+        <default-field-of-view-deg type="double">95</default-field-of-view-deg>
       </config>
       <!-- Sometimes these get changed (in FG 3.0-) and saved and will override the defaults. This will set the defaults everytime its started up. -->
       <x-offset-m type="double">0</x-offset-m>
-      <y-offset-m type="double">0.70</y-offset-m>
-      <z-offset-m type="double">-3.56</z-offset-m>
+      <y-offset-m type="double">0.71</y-offset-m>
+      <z-offset-m type="double">-3.6</z-offset-m>
     </current-view>
 
     <view n="0">
      <internal>true</internal>
      <config>
-       <pitch-offset-deg type="double">-20</pitch-offset-deg>
+       <pitch-offset-deg type="double">-23</pitch-offset-deg>
        <x-offset-m type="double">0</x-offset-m>
-       <y-offset-m type="double">0.70</y-offset-m><!-- remember to change eyepoint in JSB when changing this -->
-       <z-offset-m type="double">-3.56</z-offset-m>
-       <default-field-of-view-deg type="double">100</default-field-of-view-deg>
+       <y-offset-m type="double">0.71</y-offset-m><!-- remember to change eyepoint in JSB when changing this -->
+       <z-offset-m type="double">-3.6</z-offset-m>
+       <default-field-of-view-deg type="double">95</default-field-of-view-deg>
      </config>
     </view>
     <!--<view n="100">
@@ -550,10 +550,10 @@
         <config>
          <from-model type="bool">true</from-model>
          <from-model-idx type="int">0</from-model-idx>
-         <pitch-offset-deg type="double">-12.5</pitch-offset-deg>
+         <pitch-offset-deg type="double">-10.0</pitch-offset-deg>
          <x-offset-m type="double">0</x-offset-m>
-         <y-offset-m type="double">0.70</y-offset-m>
-         <z-offset-m type="double">-3.56</z-offset-m>
+         <y-offset-m type="double">0.71</y-offset-m>
+         <z-offset-m type="double">-3.6</z-offset-m>
          <default-field-of-view-deg type="double">65</default-field-of-view-deg>
          <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>
          <dynamic-view type="bool">false</dynamic-view>
