@@ -254,6 +254,14 @@
     </offsets>
   </model>
 
+  <animation>
+    <type>scale</type>
+    <object-name>Angle of Attack Indicator</object-name>
+    <x-offset>0.75</x-offset>
+    <y-offset>1.00</y-offset>
+    <z-offset>1.00</z-offset>
+  </animation>
+
   <model>
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>
     <name>Attitude Indicator</name>

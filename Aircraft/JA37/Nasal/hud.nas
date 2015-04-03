@@ -39,10 +39,12 @@ var countQFE = 0;
 var QFEcalibrated = FALSE;# if the altimeters are calibrated
 
 var HUDTop = 0.77; # position of top of HUD in meters. 0.77
+var HUDBottom = 0.63; # position of bottom of HUD in meters. 0.63
+var HUDHeight = HUDTop - HUDBottom; # height of HUD
 # HUD z is 0.63 - 0.77. Height of HUD is 0.14m
 # Therefore each pixel is 0.14 / 1024 = 0.00013671875m or each meter is 7314.2857142857142857142857142857 pixels.
-var pixelPerMeter = 7314.29;
-var centerOffset = -73.1;#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+var pixelPerMeter = 1024 / HUDHeight;
+var centerOffset = -1 * (512 - ((HUDTop - 0.71)*pixelPerMeter));#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # View is 0.71m so 0.77-0.71 = 0.06m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.06 / 0.00013671875) = 73.142857142857142857142857142857 pixels up from center. Since -y is upward, result is -73.1. (Per default)
 
