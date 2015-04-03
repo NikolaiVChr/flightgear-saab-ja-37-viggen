@@ -179,8 +179,8 @@
  <animation>
   <type>material</type> 
   <object-name>radarHeading</object-name>
-  <!--<object-name>plaqueLeft</object-name>
-  <object-name>plaqueRight</object-name>-->
+  <object-name>plaqueLeft</object-name>
+  <object-name>plaqueRight</object-name>
   <object-name>hudRestPlaque</object-name>
   <emission>  
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 

@@ -649,7 +649,7 @@
       <or>
         <and>
           <greater-than>
-            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <property>orientation/alpha-deg</property>
             <value>23</value>
           </greater-than>
           <less-than>
@@ -659,7 +659,7 @@
         </and>
         <and>
           <greater-than>
-            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <property>orientation/alpha-deg</property>
             <value>20</value>
           </greater-than>
           <greater-than>
@@ -689,11 +689,11 @@
       <or>
         <and>
           <greater-than>
-            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <property>orientation/alpha-deg</property>
             <value>17</value>
           </greater-than>
           <less-than>
-            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <property>orientation/alpha-deg</property>
             <value>23</value>
           </less-than>
           <less-than>
@@ -703,11 +703,11 @@
         </and>
         <and>
           <greater-than>
-            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <property>orientation/alpha-deg</property>
             <value>14</value>
           </greater-than>
           <less-than>
-            <property>fdm/jsbsim/aero/alpha-deg</property>
+            <property>orientation/alpha-deg</property>
             <value>20</value>
           </less-than>
           <greater-than>
@@ -732,7 +732,7 @@
     <condition>
       <property>gear/gear/position-norm</property>
       <greater-than>
-        <property>fdm/jsbsim/aero/alpha-deg</property>
+        <property>orientation/alpha-deg</property>
         <value>18</value>
       </greater-than>
       <property>sim/current-view/internal</property>

@@ -1425,3 +1425,9 @@ Model: Small adjustment to position of some gauges.
 Model: Made AoA indicator more shallow.
 HUD: Made the pixelPerMeter and pilot eye center be calculated automatically.
 HUD: Made the pixelPerDegree be calculated automatically.
+Sim: Possible fix for high AoA warnings would not play at correct time in replay.
+Model: Made elevons double sided, and put faces on end of wings.
+Model: Made canopy struts thinner.
+Model: Removed black UV line on rudder.
+Model: Cockpit panel no longer sticks out of fuselage.
+Model: Left and right info plaques now has cockpit light.
