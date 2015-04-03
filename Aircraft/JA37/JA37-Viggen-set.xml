@@ -1012,6 +1012,7 @@
         <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
         <TILS type="bool">false</TILS>
         <landing-mode type="bool">false</landing-mode>
+        <final type="bool">false</final>
       </hud>
       <sound>
         <click-on type="bool">false</click-on>
@@ -1735,6 +1736,14 @@
         <command>nasal</command>
         <script>ja37.toggleNosewheelSteer();</script>
      </binding>
+    </key>
+    <key n="77">
+      <name>M</name>
+      <desc>Final approach</desc>
+      <binding>
+       <command>property-toggle</command>
+       <property>sim/ja37/hud/final</property>
+      </binding>
     </key>
    </keyboard>
   </input>

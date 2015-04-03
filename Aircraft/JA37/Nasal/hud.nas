@@ -66,6 +66,8 @@ var headScaleTickSpacing = 65;# horizontal spacing between ticks. Remember to ad
 var altimeterScaleHeight = 225; # the height of the low alt scale. Also used in the other scales as a reference height.
 var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and out of ammo reticle
 var sidewind_factor = 1.0;# size of sidewind indicator
+var airspeedPlace = 420;
+var airspeedPlaceFinal = -100;
 var r = 0.0;#HUD colors
 var g = 1.0;
 var b = 0.0;
@@ -115,13 +117,13 @@ var HUDnasal = {
       .setFontSize(85*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("center-center")
-      .setTranslation(0 , 420);
+      .setTranslation(0 , airspeedPlace);
     HUDnasal.main.airspeedInt = HUDnasal.main.root.createChild("text")
       .setText("000")
       .setFontSize(85*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("center-center")
-      .setTranslation(0 , 350);
+      .setTranslation(0 , airspeedPlace-70);
 
 
     # scale heading ticks
@@ -851,6 +853,7 @@ var HUDnasal = {
         TILS:             "sim/ja37/hud/TILS",
         landingMode:      "sim/ja37/hud/landing-mode",
         tracks_enabled:   "sim/ja37/hud/tracks-enabled",
+        final:            "sim/ja37/hud/final",
         elapsedSec:       "sim/time/elapsed-sec",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
         nav0InRange:      "instrumentation/nav[0]/in-range",
@@ -908,6 +911,7 @@ var HUDnasal = {
 
       if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE) {
         mode = TAKEOFF;
+        input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
         modeTimeTakeoff = me.input.elapsedSec.getValue();
@@ -1441,52 +1445,57 @@ var HUDnasal = {
   },
 
   displayDigitalAltitude: func (alt, radAlt) {
-    # alt and radAlt is in current unit
-    # determine max radar alt in current unit
-    var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
-    var alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
-    if (radAlt == nil) {
-      # Radar alt instrument not initialized yet.
-      me.alt.setText("");
-      countQFE = 0;
-      QFEcalibrated = FALSE;
-      me.input.altCalibrated.setValue(FALSE);
-    } elsif (radAlt < radar_clamp) {
-      # in radar alt range
-      me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
-      # check for QFE warning
-      var diff = radAlt - alt;
-      if (countQFE == 0 and (diff > alt_diff or diff < -alt_diff)) {
-        #print("QFE warning " ~ countQFE);
-        # is not calibrated, and is not blinking
+    if (me.input.final.getValue() == TRUE) {
+      me.alt.hide();
+    } else {
+      me.alt.show();
+      # alt and radAlt is in current unit
+      # determine max radar alt in current unit
+      var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
+      var alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
+      if (radAlt == nil) {
+        # Radar alt instrument not initialized yet.
+        me.alt.setText("");
+        countQFE = 0;
         QFEcalibrated = FALSE;
         me.input.altCalibrated.setValue(FALSE);
-        countQFE = 1;     
-        #print("QFE not calibrated, and is not blinking");     
-      } elsif (diff > -alt_diff and diff < alt_diff) {
-          #is calibrated
-        if (QFEcalibrated == FALSE and countQFE < 11) {
-          # was not calibrated before, is now.
-          #print("QFE was not calibrated before, is now. "~countQFE);
-          countQFE = 11;
+      } elsif (radAlt < radar_clamp) {
+        # in radar alt range
+        me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
+        # check for QFE warning
+        var diff = radAlt - alt;
+        if (countQFE == 0 and (diff > alt_diff or diff < -alt_diff)) {
+          #print("QFE warning " ~ countQFE);
+          # is not calibrated, and is not blinking
+          QFEcalibrated = FALSE;
+          me.input.altCalibrated.setValue(FALSE);
+          countQFE = 1;     
+          #print("QFE not calibrated, and is not blinking");     
+        } elsif (diff > -alt_diff and diff < alt_diff) {
+            #is calibrated
+          if (QFEcalibrated == FALSE and countQFE < 11) {
+            # was not calibrated before, is now.
+            #print("QFE was not calibrated before, is now. "~countQFE);
+            countQFE = 11;
+          }
+          QFEcalibrated = TRUE;
+          me.input.altCalibrated.setValue(TRUE);
+        } elsif (QFEcalibrated == 1 and (diff > alt_diff or diff < -alt_diff)) {
+          # was calibrated before, is not anymore.
+          #print("QFE was calibrated before, is not anymore. "~countQFE);
+          countQFE = 1;
+          QFEcalibrated = FALSE;
+          me.input.altCalibrated.setValue(FALSE);
         }
+      } else {
+        # is above height for checking for calibration
+        countQFE = 0;
+        #QFE = 0;
         QFEcalibrated = TRUE;
         me.input.altCalibrated.setValue(TRUE);
-      } elsif (QFEcalibrated == 1 and (diff > alt_diff or diff < -alt_diff)) {
-        # was calibrated before, is not anymore.
-        #print("QFE was calibrated before, is not anymore. "~countQFE);
-        countQFE = 1;
-        QFEcalibrated = FALSE;
-        me.input.altCalibrated.setValue(FALSE);
+        #print("QFE not calibrated, and is not blinking");
+        me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
       }
-    } else {
-      # is above height for checking for calibration
-      countQFE = 0;
-      #QFE = 0;
-      QFEcalibrated = TRUE;
-      me.input.altCalibrated.setValue(TRUE);
-      #print("QFE not calibrated, and is not blinking");
-      me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
     }
   },
 
@@ -1564,6 +1573,14 @@ var HUDnasal = {
       me.airspeedInt.show();
       me.airspeed.setText(sprintf("M%.2f", mach));
     }
+
+    if (me.input.final.getValue() == 1) {
+      me.airspeed.setTranslation(0, airspeedPlaceFinal);
+      me.airspeedInt.setTranslation(0, airspeedPlaceFinal - 70);
+    } else {
+      me.airspeed.setTranslation(0, airspeedPlace);
+      me.airspeedInt.setTranslation(0, airspeedPlace - 70);
+    }
   },
 
   displayPitchLines: func (mode) {
@@ -1592,7 +1609,7 @@ var HUDnasal = {
   },
 
   displayTurnCoordinator: func () {
-    if (me.input.sideslipOn.getValue() == TRUE) {
+    if (me.input.sideslipOn.getValue() == TRUE and me.input.final.getValue() == FALSE) {
       #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
       me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
       me.turn_group.show();
@@ -1861,7 +1878,7 @@ var HUDnasal = {
     var towerAlt = me.input.towerAlt.getValue();
     var towerLat = me.input.towerLat.getValue();
     var towerLon = me.input.towerLon.getValue();
-    if(towerAlt != nil and towerLat != nil and towerLon != nil) {
+    if(me.input.final.getValue() == FALSE and towerAlt != nil and towerLat != nil and towerLon != nil) {
       var towerPos = geo.Coord.new();
       towerPos.set_latlon(towerLat, towerLon, towerAlt);
       var showme = TRUE;
