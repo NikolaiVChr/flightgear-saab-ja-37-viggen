@@ -1416,3 +1416,7 @@ Model: Moved cockpit view 16cm forward.
 Model: Made a proper HUD with support beams.
 Model: Changed view position for cockpit view.
 Model: Made radar distance selector and left altimeter darker.
+
+3.020
+=====
+Model: Added paintkit.

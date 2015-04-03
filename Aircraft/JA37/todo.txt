@@ -18,6 +18,8 @@ Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
+Model: Elevons should be double sided or have geometry on all edges.
+Model: Make paintkit.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -82,7 +84,7 @@ HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switch
 HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
 HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
-Model: sim load-lag when coming near other ja37. [reproduced]
+Model: sim load-lag when coming near other ja37. [reproduced, select anims are probably to blame]
 Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
 Model: CTRL-X in HUD view will not zoom to correct level.
 Animation: Selection view does not follow carriers till they move. (they lack radar properties)
@@ -129,6 +131,7 @@ Animation: Animate scissor gear compression. The gears are currently modelled wr
 Animation: Proper animation of gear doors.
 Model: Model the reverser for reverse thrust.
 Model: Make gunpod, between the fuselage and droptank.
+Model: The canopy metal should be thinner.
 
 
 Depends on better 3D cockpit:
