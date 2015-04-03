@@ -40,15 +40,19 @@ var QFEcalibrated = FALSE;# if the altimeters are calibrated
 
 var HUDTop = 0.77; # position of top of HUD in meters. 0.77
 var HUDBottom = 0.63; # position of bottom of HUD in meters. 0.63
+var HUDHoriz = -4.0; # position of HUD on x axis in meters. -4.0
 var HUDHeight = HUDTop - HUDBottom; # height of HUD
+var canvasWidth = 1024;
 # HUD z is 0.63 - 0.77. Height of HUD is 0.14m
 # Therefore each pixel is 0.14 / 1024 = 0.00013671875m or each meter is 7314.2857142857142857142857142857 pixels.
-var pixelPerMeter = 1024 / HUDHeight;
-var centerOffset = -1 * (512 - ((HUDTop - 0.71)*pixelPerMeter));#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
+var pixelPerMeter = canvasWidth / HUDHeight;
+var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/y-offset-m"))*pixelPerMeter));#pilot eye position up from vertical center of HUD. (in line from pilots eyes)
 # View is 0.71m so 0.77-0.71 = 0.06m down from top of HUD, since Y in HUD increases downwards we get pixels from top:
 # 512 - (0.06 / 0.00013671875) = 73.142857142857142857142857142857 pixels up from center. Since -y is upward, result is -73.1. (Per default)
 
-var pixelPerDegreeY = 55.0; #vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line
+
+#vertical axis, view is tilted 10 degrees, zoom in when on runway to check it hit the 10deg line. Remember gear compressing will alter it.
+var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*deg2rads))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var sidewindPosition = centerOffset+(3*pixelPerDegreeY); #should be 2 degrees under horizon.
@@ -79,8 +83,8 @@ var diamond_node = nil;
 var HUDnasal = {
   canvas_settings: {
     "name": "HUDnasal",
-    "size": [1024, 1024],# size of the texture
-    "view": [1024, 1024],# size of canvas coordinate system
+    "size": [canvasWidth, canvasWidth],# size of the texture
+    "view": [canvasWidth, canvasWidth],# size of canvas coordinate system
     "mipmapping": 0
   },
   main: nil,
@@ -103,7 +107,7 @@ var HUDnasal = {
                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
     
     #HUDnasal.main.root.setScale(math.sin(slant*deg2rads), 1);
-    HUDnasal.main.root.setTranslation(512, 512);
+    HUDnasal.main.root.setTranslation(canvasWidth/2, canvasWidth/2);
 
     # digital airspeed kts/mach 
     HUDnasal.main.airspeed = HUDnasal.main.root.createChild("text")

@@ -1424,3 +1424,4 @@ Model: Put the AoA indicator deeper into the panel.
 Model: Small adjustment to position of some gauges.
 Model: Made AoA indicator more shallow.
 HUD: Made the pixelPerMeter and pilot eye center be calculated automatically.
+HUD: Made the pixelPerDegree be calculated automatically.
