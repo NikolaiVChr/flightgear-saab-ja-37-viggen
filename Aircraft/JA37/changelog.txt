@@ -1420,3 +1420,5 @@ Model: Made radar distance selector and left altimeter darker.
 3.020
 =====
 Model: Added paintkit.
+Model: Put the AoA indicator deeper into the panel.
+Model: Small adjustment to position of some gauges.

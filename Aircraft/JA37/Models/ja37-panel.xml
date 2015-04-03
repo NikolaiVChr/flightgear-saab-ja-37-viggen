@@ -136,9 +136,9 @@
     <name>Coarse altitude</name>
     <offsets>
       <pitch-deg>90</pitch-deg>
-      <x-m>  0.00</x-m>
+      <x-m> -0.0025</x-m>
       <y-m>  0.2575</y-m>
-      <z-m>  0.11</z-m>
+      <z-m>  0.11125</z-m>
     </offsets>
   </model>
 
@@ -156,7 +156,7 @@
     <offsets>
       <x-m>  0.00</x-m>
       <y-m>  0.16</y-m>
-      <z-m>  0.05</z-m>
+      <z-m>  0.055</z-m>
     </offsets>
   </model>
 
@@ -248,7 +248,7 @@
     <path>Aircraft/JA37/Models/Instruments/AoAIndicator/AoAIndicator.xml</path>
     <name>Angle of Attack Indicator</name>
     <offsets>
-      <x-m> -0.01</x-m>
+      <x-m> -0.025</x-m>
       <y-m> -0.14</y-m>
       <z-m>  0.32</z-m>
     </offsets>
