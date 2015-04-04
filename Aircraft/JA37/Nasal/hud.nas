@@ -911,7 +911,7 @@ var HUDnasal = {
 
       if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE) {
         mode = TAKEOFF;
-        input.final.setValue(FALSE);
+        me.input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
         modeTimeTakeoff = me.input.elapsedSec.getValue();
