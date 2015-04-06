@@ -1149,6 +1149,17 @@ var toggleNosewheelSteer = func {
   }
 }
 
+var toggleTracks = func {
+  ja37.click();
+  var enabled = getprop("sim/ja37/hud/tracks-enabled");
+  setprop("sim/ja37/hud/tracks-enabled", !enabled);
+  if(enabled == FALSE) {
+    popupTip("HUD: Radar tracks ON");
+  } else {
+    popupTip("HUD: Radar tracks OFF");
+  }
+}
+
 var follow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if(radar_logic.selection != nil) {

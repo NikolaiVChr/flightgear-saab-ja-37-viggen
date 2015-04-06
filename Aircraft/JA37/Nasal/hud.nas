@@ -68,6 +68,10 @@ var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and ou
 var sidewind_factor = 1.0;# size of sidewind indicator
 var airspeedPlace = 420;
 var airspeedPlaceFinal = -100;
+var sideslipPlaceX = 325;
+var sideslipPlaceY = 425;
+var sideslipPlaceXFinal = 0;
+var sideslipPlaceYFinal = 0;
 var r = 0.0;#HUD colors
 var g = 1.0;
 var b = 0.0;
@@ -435,7 +439,7 @@ var HUDnasal = {
       .setColor(r,g,b, a);
 
     #turn coordinator
-    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(325, 425);
+    HUDnasal.main.turn_group = HUDnasal.main.root.createChild("group").setTranslation(sideslipPlaceX, sideslipPlaceY);
     HUDnasal.main.turn_group2 = HUDnasal.main.turn_group.createChild("group");
     HUDnasal.main.t_rot   = HUDnasal.main.turn_group2.createTransform();
     HUDnasal.main.turn_indicator = HUDnasal.main.turn_group2.createChild("path")
@@ -1609,9 +1613,14 @@ var HUDnasal = {
   },
 
   displayTurnCoordinator: func () {
-    if (me.input.sideslipOn.getValue() == TRUE and me.input.final.getValue() == FALSE) {
+    if (me.input.sideslipOn.getValue() == TRUE) {
       #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
       me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
+      if(me.input.final.getValue() == TRUE) {
+        me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
+      } else {
+        me.turn_group.setTranslation(sideslipPlaceX, sideslipPlaceY);
+      }
       me.turn_group.show();
     } else {
       me.turn_group.hide();

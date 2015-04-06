@@ -726,6 +726,10 @@
       <desc>Toggle nose wheel steering</desc>
      </key>
      <key>
+      <name>N</name>
+      <desc>Toggle radar</desc>
+     </key>
+     <key>
       <name>f</name>
       <desc>Set autopilot to follow current selection</desc>
      </key>
@@ -1496,6 +1500,14 @@
       <binding>
        <command>nasal</command>
        <script>ja37.cycle_weapons()</script>
+      </binding>
+    </key>
+    <key n="78">
+      <name>N</name>
+      <desc>Toggle radar</desc>
+      <binding>
+       <command>nasal</command>
+       <script>ja37.toggleTracks()</script>
       </binding>
     </key> 
     <key n="80">
