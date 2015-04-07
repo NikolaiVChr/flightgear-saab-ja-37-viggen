@@ -160,6 +160,14 @@
           <property type="string">systems/electrical/batterysignal</property>
         </signal>
         <signal>
+          <type>bool</type>
+          <property type="string">instrumentation/head-up-display/serviceable</property>
+        </signal>
+        <signal>
+          <type>int8</type>
+          <property type="string">systems/electrical/outputs/hud</property>
+        </signal>
+        <signal>
           <type>float</type>
           <property type="string">velocities/groundspeed-kt</property>
         </signal>
