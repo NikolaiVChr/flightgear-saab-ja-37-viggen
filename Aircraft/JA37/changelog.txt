@@ -1433,3 +1433,6 @@ Model: Cockpit panel no longer sticks out of fuselage.
 Model: Left and right info plaques now has cockpit light.
 Sim: Made key shift-N for toggling radar.
 Sim: Fixed HUD electricity and serviceable would not be recorded for replay.
+Effect: Fixed frost/fog/rain on glass regression.
+Model: Fixed that between canopy and frontglass struts there would be visible a thin rendered line from struts when canopy closed.
+Model: Fixed that radar mount would have texture assigned.
