@@ -256,8 +256,12 @@
           <property type="string">sim/ja37/effect/landing-light</property>
         </signal>
         <signal>
-          <type>float</type>
+          <type>int16</type>
           <property type="string">systems/electrical/outputs/inst_ac</property>
+        </signal>
+        <signal>
+          <type>int16</type>
+          <property type="string">systems/electrical/outputs/battery</property>
         </signal>
         <signal>
           <type>float</type>

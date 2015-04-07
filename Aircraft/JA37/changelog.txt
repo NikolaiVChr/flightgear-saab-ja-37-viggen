@@ -1436,3 +1436,4 @@ Sim: Fixed HUD electricity and serviceable would not be recorded for replay.
 Effect: Fixed frost/fog/rain on glass regression.
 Model: Fixed that between canopy and frontglass struts there would be visible a thin rendered line from struts when canopy closed.
 Model: Fixed that radar mount would have texture assigned.
+Sim: Fixed that landing light would blink in replay when should be off, if they were on when replay were started.
