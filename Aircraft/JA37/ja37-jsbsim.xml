@@ -109,9 +109,9 @@ to an airplane of that size). -->
     <pointmass name="Pilot">
       <weight unit="LBS"> 175 </weight>
       <location name="POINTMASS" unit="M">
-        <x> -3.2 </x>
-        <y> 0 </y>
-        <z> 0 </z>
+        <x> -3.3 </x>
+        <y>  0.0 </y>
+        <z>  0.2 </z>
       </location>
     </pointmass>
     <pointmass name="Left wing pylon">
@@ -149,9 +149,9 @@ to an airplane of that size). -->
     <pointmass name="Center fuselage pylon">
       <weight unit="LBS"> 224.87 </weight> <!-- Estimate by David Culp, notice when this change also change it in nasal scripts and aero section -->
       <location name="POINTMASS" unit="M">
-        <x> 0.29801 </x>
-        <y> 0.01299 </y>
-        <z> -1.50 </z>
+        <x> -0.15 </x>
+        <y>  0.00 </y>
+        <z> -1.25 </z>
       </location>
     </pointmass>
   </mass_balance>
@@ -354,8 +354,8 @@ to an airplane of that size). -->
       <!-- Fuselage Main Tank 1 -->
       <location unit="M">
         <x> 0.3399 </x><!--was 1, moved to CoG -->
-        <y> 0.0 </y>
-        <z> 0.0 </z><!-- was 0.4, moved to CoG -->
+        <y> 0.00 </y>
+        <z> 0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 2735 </capacity>
@@ -368,9 +368,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Fuselage Forward Tank 2 -->
       <location unit="M">
-        <x> -1.75 </x>
-        <y> 0 </y>
-        <z> 0.4 </z>
+        <x> -2.24 </x>
+        <y>  0.00 </y>
+        <z>  0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 1366 </capacity>
@@ -383,9 +383,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Left Fuselage Minor Tank 3V -->
       <location unit="M">
-        <x> -0.4 </x>
+        <x> -0.95 </x>
         <y> -0.65 </y>
-        <z> 0.4 </z>
+        <z>  0.15 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 172 </capacity>
@@ -398,9 +398,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Right Fuselage Minor Tank 3H -->
       <location unit="M">
-        <x> -0.4 </x>
-        <y> 0.65 </y>
-        <z> 0.4 </z>
+        <x> -0.95 </x>
+        <y>  0.65 </y>
+        <z>  0.15 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 172 </capacity>
@@ -413,9 +413,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Left Minor Wing Tank 5V -->
       <location unit="M">
-        <x> 1.25 </x>
-        <y> -1.45 </y>
-        <z> -0.55 </z>
+        <x>  1.20 </x>
+        <y> -1.66 </y>
+        <z> -0.28 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 116 </capacity>
@@ -428,9 +428,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Right Minor Wing Tank 5H -->
       <location unit="M">
-        <x> 1.25 </x>
-        <y> 1.45</y>
-        <z> -0.55 </z>
+        <x>  1.20 </x>
+        <y>  1.66</y>
+        <z> -0.28 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 116 </capacity>
@@ -443,9 +443,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Left wing tank 4V -->
       <location unit="M">
-        <x> 3.3 </x>
-        <y> -2 </y>
-        <z> -0.55 </z>
+        <x>  4.00 </x>
+        <y> -2.38 </y>
+        <z> -0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
@@ -458,9 +458,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Right wing tank 4H -->
       <location unit="M">
-        <x> 3.3 </x>
-        <y> 2 </y>
-        <z> -0.55 </z>
+        <x>  4.00 </x>
+        <y>  2.38 </y>
+        <z> -0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 512 </capacity>
@@ -473,9 +473,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Drop tank -->
       <location unit="M">
-        <x> 0.29801 </x>
-        <y> 0.01299 </y>
-        <z> -1.50 </z>
+        <x> -0.15 </x>
+        <y>  0.00 </y>
+        <z> -1.25 </z>
       </location>
       <radius unit="M"> 0.25 </radius>
       <capacity unit="KG"> 1190 </capacity><!-- Swedish airforce website -->
