@@ -40,6 +40,8 @@ var findRadarTracks = func () {
   
   tracks = [];
 
+  var node_ai = props.globals.getNode("/ai/models");
+
   if(input.tracks_enabled.getValue() == 1 and input.radar_serv.getValue() > 0 and input.voltage.getValue() == 200 and input.hydrPressure.getValue() == 1) {
 
     #do the MP planes
@@ -48,8 +50,6 @@ var findRadarTracks = func () {
       append(players, item.node);
     }
 
-    #do the AI:
-    var node_ai = props.globals.getNode("/ai/models");
     var AIplanes = node_ai.getChildren("aircraft");
     var tankers = node_ai.getChildren("tanker");
     var ships = node_ai.getChildren("ship");
