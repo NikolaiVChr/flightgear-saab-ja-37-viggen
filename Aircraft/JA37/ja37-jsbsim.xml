@@ -500,15 +500,15 @@ to an airplane of that size). -->
 
   <external_reactions>
     <force name="hook" frame="BODY">
-      <location unit="IN">
-        <x>  100.669 </x>
-        <y>    0.0 </y>
-        <z>  -28.818 </z>
+      <location unit="M">
+        <x>    5.16180 </x>
+        <y>    0.00000 </y>
+        <z>   -0.75707 </z>
       </location>
       <direction>
-        <x>  -0.9995 </x>
-        <y>   0.0    </y>
-        <z>   0.01 </z>
+        <x>  -1.0 </x>
+        <y>   0.0 </y>
+        <z>   0.0 </z>
       </direction>
     </force>
 

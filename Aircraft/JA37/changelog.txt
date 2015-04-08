@@ -1438,3 +1438,4 @@ Model: Fixed that between canopy and frontglass struts there would be visible a 
 Model: Fixed that radar mount would have texture assigned.
 Sim: Fixed that landing light would blink in replay when should be off, if they were on when replay were started.
 Aero: Improved the point mass location of all fuel tanks, drop tank and pilot.
+Aero: Adjusted the point of external arrester reaction.
