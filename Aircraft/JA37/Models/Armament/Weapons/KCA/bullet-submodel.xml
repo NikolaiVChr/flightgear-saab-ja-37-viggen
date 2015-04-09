@@ -17,10 +17,8 @@
 		<eda>100</eda>
 		<wind>false</wind>
 		<buoyancy>32.1</buoyancy>
-                <aero-stabilised>false</aero-stabilised>
-                <fuse-range>0</fuse-range>
+        <aero-stabilised>false</aero-stabilised>
+        <fuse-range>0</fuse-range>
 		<life>6</life>
-	</submodel> 
-
-
+	</submodel>
 </PropertyList>

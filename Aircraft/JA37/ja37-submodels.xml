@@ -63,10 +63,15 @@
     <weight>2.69</weight><!-- pound -->
     <cd>0.193</cd>
     <eda>0.00136354</eda>
+    <random>true</random>
+    <randomness>1.0</randomness>
+    <collision>false</collision>
+    <impact>false</impact>
+    <expiry>false</expiry>
   </submodel>
 
   <submodel>
-    <name>cannon</name>
+    <name>KCA cannon shell</name>
     <model>Models/Geometry/null.ac</model>
     <trigger>sim/multiplay/generic/int[10]</trigger><!-- controls/armament/station[0]/trigger -->
     <speed>3383.33</speed>
@@ -82,15 +87,19 @@
     <weight>2.69</weight>
     <cd>0.193</cd>
     <eda>0.00136354</eda>
+    <random>true</random>
+    <randomness>1.0</randomness>
     <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
     <impact>true</impact>
+    <expiry>false</expiry>
+    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
     <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+    <impact-reports>/ai/models/model-impact</impact-reports>
     <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
   </submodel>
 
   <submodel>
-    <name>gunsmoke</name>
+    <name>cannonsmoke</name>
     <model>Aircraft/JA37/Models/Armament/Weapons/KCA/smoke.xml</model>
     <trigger>sim/multiplay/generic/int[10]</trigger><!-- controls/armament/station[0]/trigger -->
     <speed>10.0</speed>
@@ -106,10 +115,13 @@
     <wind>true</wind>
     <buoyancy>33</buoyancy>
     <life>1</life>
+    <collision>false</collision>
+    <impact>false</impact>
+    <expiry>false</expiry>
   </submodel>
 
   <submodel>
-    <name>M70 rocket pod 1</name><!-- left wing -->
+    <name>M70 rocket</name><!-- left wing -->
     <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
     <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
     <trigger>controls/armament/station[1]/trigger-m70</trigger>
@@ -138,7 +150,7 @@
   </submodel>
 
   <submodel>
-    <name>M70 rocket pod 2</name><!-- right wing -->
+    <name>M70 rocket</name><!-- right wing -->
     <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
     <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
     <trigger>controls/armament/station[2]/trigger-m70</trigger>
@@ -167,7 +179,7 @@
   </submodel>
 
     <submodel>
-    <name>M70 rocket pod 3</name><!-- left fuselage -->
+    <name>M70 rocket</name><!-- left fuselage -->
     <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
     <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
     <trigger>controls/armament/station[3]/trigger-m70</trigger>
@@ -196,7 +208,7 @@
   </submodel>
 
     <submodel>
-    <name>M70 rocket pod 4</name><!-- right fuselage -->
+    <name>M70 rocket</name><!-- right fuselage -->
     <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
     <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
     <trigger>controls/armament/station[4]/trigger-m70</trigger>

@@ -331,7 +331,7 @@ var Dialog = {
           rb24msgRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #rb24msgRow.set("valign", "center");
           
-          var rb24msgText = rb24msgRow.addChild("text").set("label", "Display MP message when hitting opponent with missile:");
+          var rb24msgText = rb24msgRow.addChild("text").set("label", "Display MP message when hitting opponent:");
           rb24msgRow.addChild("empty").set("stretch", 1);
           me.dialog.rb24msgButton = rb24msgRow.addChild("button");
           me.dialog.rb24msgButton.set("halign", "right");

@@ -1440,3 +1440,4 @@ Sim: Fixed that landing light would blink in replay when should be off, if they 
 Aero: Improved the point mass location of all fuel tanks, drop tank and pilot.
 Aero: Adjusted the point of external arrester reaction.
 Sim: Radar will now process carriers no matter if radar is running or not.
+Sim: When hitting the selection with cannon or rockets a message is now displayed similar to when doing that with missiles.

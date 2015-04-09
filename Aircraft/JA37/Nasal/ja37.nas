@@ -100,6 +100,7 @@ input = {
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   breathVol:        "sim/ja37/sound/breath-volume",
+  impact:           "/ai/models/model-impact",
 };
    
 var update_loop = func {
@@ -675,6 +676,41 @@ var trigger_listener = func {
     }
 }
 
+var last_impact = 0;
+
+var impact_listener = func {
+  if (radar_logic.selection != nil and (input.elapsed.getValue()-last_impact) > 1) {
+    var ballistic_name = input.impact.getValue();
+    var ballistic = props.globals.getNode(ballistic_name, 0);
+    if (ballistic != nil) {
+      var typeNode = ballistic.getNode("impact/type");
+      if (typeNode != nil and typeNode.getValue() != "terrain") {
+        var lat = ballistic.getNode("impact/latitude-deg").getValue();
+        var lon = ballistic.getNode("impact/longitude-deg").getValue();
+        var impactPos = geo.Coord.new().set_latlon(lat, lon);
+
+        var track = radar_logic.selection[6];
+
+        var x = track.getNode("position/global-x").getValue();
+        var y = track.getNode("position/global-y").getValue();
+        var z = track.getNode("position/global-z").getValue();
+        var selectionPos = geo.Coord.new().set_xyz(x, y, z);
+
+        var distance = impactPos.distance_to(selectionPos);
+        if (distance < 50) {
+          last_impact = input.elapsed.getValue();
+          var phrase =  ballistic.getNode("name").getValue() ~ " hit " ~ radar_logic.selection[5];
+          if (getprop("sim/ja37/armament/msg")) {
+            setprop("/sim/multiplay/chat", phrase);
+          } else {
+            setprop("/sim/messages/atc", phrase);
+          }
+        }
+      }
+    }
+  }
+}
+
 var cycle_weapons = func {
   var sel = getprop("controls/armament/station-select");
   sel += 1;
@@ -859,6 +895,9 @@ var main_init = func {
 
   # setup trigger listener
   setlistener("controls/armament/trigger", trigger_listener, 0, 0);
+
+  # setup impact listener
+  setlistener("/ai/models/model-impact", impact_listener, 0, 0);
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
