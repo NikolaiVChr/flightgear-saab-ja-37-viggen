@@ -1445,3 +1445,4 @@ Sim: When hitting the selection with cannon or rockets a message is now displaye
 3.021
 =====
 Model: Made the base of all switches be clickable and have tooltips when hovered.
+Model: Made the new black parts of the cockpit less black.
