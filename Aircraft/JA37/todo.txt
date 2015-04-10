@@ -45,6 +45,9 @@ Sim: 200V transformed to 28V.
 Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.
 Sim: Autopilot heading bug is unstable again fix it!
 Sim: Missiles should lock onto flares.
+Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
+Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
+Sim: Damage from missile explosion.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
