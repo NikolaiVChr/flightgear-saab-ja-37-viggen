@@ -1905,6 +1905,7 @@
      <file>Aircraft/JA37/Nasal/options.nas</file>
      <file>Aircraft/JA37/Nasal/chronograph.nas</file>
      <file>Aircraft/JA37/Nasal/track_target.nas</file>
+     <file>Aircraft/JA37/Nasal/callsign.nas</file>
     </ja37>
     <canvas_HUD>
       <file>Aircraft/JA37/Nasal/hud.nas</file>
