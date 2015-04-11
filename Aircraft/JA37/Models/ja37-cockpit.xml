@@ -105,10 +105,11 @@
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-gears.xml</path>
     <name>SwitchGears</name>
     <offsets>
-    <pitch-deg>-90.0</pitch-deg>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.35</roll-deg>
       <x-m> -3.61</x-m>
       <y-m> -0.30</y-m>
-      <z-m>  0.1400</z-m>
+      <z-m>  0.1410</z-m>
     </offsets>
   </model>
 

@@ -266,7 +266,7 @@ refs 3
 kids 0
 OBJECT poly
 name "Text"
-loc 0.0118000 0.0000000 0.0000000
+loc 0.0119000 0.0000000 0.0000000
 texture "switch-empty.png"
 texrep 1 1
 numvert 4
