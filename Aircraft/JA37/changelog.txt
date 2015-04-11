@@ -1448,3 +1448,4 @@ Model: Made the base of all switches be clickable and have tooltips when hovered
 Model: Made the new black parts of the cockpit less black.
 Model: Put text next to all switches and all buttons. For now in english, option for swedish some other day.
 Model: Fixed that nosewheel switch was not updated to property name change.
+HUD: Fixed that HUD tansparency would not be kept if HUD color was switched.

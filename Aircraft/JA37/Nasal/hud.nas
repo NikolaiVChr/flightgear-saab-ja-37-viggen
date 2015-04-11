@@ -2215,7 +2215,7 @@ var reinit = func() {#mostly called to change HUD color
     item.setColor(r, g, b, a);
    }
    hud_pilot.slip_indicator.setColorFill(r,g,b, a);
-   HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.02);
+   HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.05);
    ja37.click();
   #print("HUD being reinitialized.");
 };
