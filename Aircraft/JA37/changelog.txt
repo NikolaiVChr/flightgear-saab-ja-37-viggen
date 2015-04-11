@@ -1446,5 +1446,5 @@ Sim: When hitting the selection with cannon or rockets a message is now displaye
 =====
 Model: Made the base of all switches be clickable and have tooltips when hovered.
 Model: Made the new black parts of the cockpit less black.
-Model: Put text next to all switches and 4 buttons. For now in english, option for swedish some other day.
+Model: Put text next to all switches and all buttons. For now in english, option for swedish some other day.
 Model: Fixed that nosewheel switch was not updated to property name change.

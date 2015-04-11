@@ -23,4 +23,23 @@
 	        </binding>
 	    </hovered>
 	</animation>
+
+	<animation>
+		<type>material</type>
+		<object-name>Text</object-name>
+		<property-base>sim/ja37/texture</property-base>
+		<texture-prop>button-selection-next</texture-prop>
+		<texture>button-selection-next.png</texture>
+	</animation>
+
+	<animation>
+		<type>material</type> 
+		<object-name>Text</object-name>
+		<emission>  
+			<red-prop>instrumentation/instrumentation-light/r</red-prop> 
+			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
+			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+			<factor-prop>controls/lighting/instruments-norm</factor-prop>
+		</emission>
+	</animation>
 </PropertyList>
