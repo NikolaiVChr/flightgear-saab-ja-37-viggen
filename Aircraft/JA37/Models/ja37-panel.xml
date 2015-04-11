@@ -213,8 +213,8 @@
     <name>Button-Droptank</name>
     <offsets>
       <x-m>  0.01</x-m>
-      <y-m>  0.23</y-m>
-      <z-m>  0.23</z-m>
+      <y-m>  0.22</y-m>
+      <z-m>  0.21</z-m>
       <!--<x-m>  0.0075</x-m>
       <y-m>  0.095</y-m>
       <z-m>  0.11</z-m>-->

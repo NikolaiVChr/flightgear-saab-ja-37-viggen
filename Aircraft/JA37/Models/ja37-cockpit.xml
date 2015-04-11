@@ -273,10 +273,11 @@
     <path>Aircraft/JA37/Models/Cockpit/buttons/button-follow.xml</path>
     <name>ButtonFollow</name>
     <offsets>
-    <pitch-deg>-90</pitch-deg>
+      <pitch-deg>-90</pitch-deg>
+      <roll-deg>-1.70</roll-deg>
       <x-m> -3.61</x-m>
       <y-m>  0.24</y-m>
-      <z-m>  0.177</z-m>
+      <z-m>  0.180</z-m>
     </offsets>
   </model>  
 
@@ -284,10 +285,11 @@
     <path>Aircraft/JA37/Models/Cockpit/buttons/button-unfollow.xml</path>
     <name>ButtonUnfollow</name>
     <offsets>
-    <pitch-deg>-90</pitch-deg>
+      <pitch-deg>-90</pitch-deg>
+      <roll-deg>-2.00</roll-deg>
       <x-m> -3.61</x-m>
       <y-m>  0.22</y-m>
-      <z-m>  0.179</z-m>
+      <z-m>  0.182</z-m>
     </offsets>
   </model>
 </PropertyList>
