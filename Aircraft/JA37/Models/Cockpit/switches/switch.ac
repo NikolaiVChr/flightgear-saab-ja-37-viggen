@@ -2,9 +2,10 @@ AC3Db
 MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 10 trans 0.0000
 MATERIAL "Flat.000" rgb 0.6970 0.7300 0.6560  amb 0.6943 0.6943 0.6943  emis 0.0000 0.0000 0.0000  spec 0.0000 0.0000 0.0000  shi 50 trans 0.0000
 MATERIAL "Gloss.emit.006" rgb 0.8000 0.8000 0.8000  amb 0.8000 0.8000 0.8000  emis 0.1000 0.1000 0.1000  spec 0.8100 0.8100 0.8100  shi 50 trans 0.0000
+MATERIAL "textMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 50 trans 0.0000
 OBJECT world
-name "Blender_export__switch.ac"
-kids 2
+name "Blender_export__switch.2.ac"
+kids 3
 OBJECT poly
 name "Base"
 loc 0.0000000 0.5175050 0.1324850
@@ -262,4 +263,23 @@ refs 3
 16 0.355156 0.190076
 24 0.296336 0.149381
 17 0.355156 0.125863
+kids 0
+OBJECT poly
+name "Text"
+loc 0.0118000 0.0000000 0.0000000
+texture "switch-empty.png"
+texrep 1 1
+numvert 4
+0.0000000 -0.0150000 -0.0150000
+0.0000000 -0.0150000 0.0150000
+-0.0000000 0.0150000 -0.0150000
+-0.0000000 0.0150000 0.0150000
+numsurf 1
+SURF 0X10
+mat 3
+refs 4
+1 0.000100 0.000100
+0 0.999900 0.000100
+2 0.999900 0.999900
+3 0.000100 0.999900
 kids 0
