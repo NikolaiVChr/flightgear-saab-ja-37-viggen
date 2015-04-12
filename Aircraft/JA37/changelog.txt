@@ -1450,3 +1450,4 @@ Model: Put text next to all switches and all buttons. For now in english, option
 Model: Fixed that nosewheel switch was not updated to property name change.
 HUD: Fixed that HUD transparency would not be kept if HUD color was switched.
 Model: Added callsign on the cockpit panel.
+Sim: Increased time for high res replay recording to 20 mins.
