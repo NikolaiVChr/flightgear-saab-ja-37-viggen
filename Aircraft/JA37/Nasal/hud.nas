@@ -1855,7 +1855,7 @@ var HUDnasal = {
       if(armSelect == 0) {
         # cannon
         minDist =  100;
-        maxDist = 1000;
+        maxDist = 2500;# as per sources
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
         # sidewinders
         minDist =   300;
