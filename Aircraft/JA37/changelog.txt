@@ -1453,3 +1453,5 @@ Model: Added callsign on the cockpit panel.
 Sim: Increased time for high res replay recording to 20 mins.
 HUD: Made ICAO display turn off in tactical mode.
 HUD: Final mode will now be switched off when switching to a mode that is not landing.
+GUI: The monitor now has various aerodynamic ratios and excess thrust.
+GUI: Removed glideslope from monitor.

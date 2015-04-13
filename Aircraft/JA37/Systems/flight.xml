@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+
+<system name="flight">
+
+  <channel name="Aerodynamic info">
+
+    <fcs_function name="systems/flight/axial-force-lb">
+        <function>
+          <sum>
+            <property>aero/coefficient/CAtakeoff</property>
+            <property>aero/coefficient/CACanopy</property>
+            <property>aero/coefficient/CACanopyOff</property>
+            <property>aero/coefficient/CAElevonLeft</property>
+            <property>aero/coefficient/CAElevonRight</property>
+            <property>aero/coefficient/CARudder</property>
+            <property>aero/coefficient/CAMissile1</property>
+            <property>aero/coefficient/CAMissile2</property>
+            <property>aero/coefficient/CAMissile3</property>
+            <property>aero/coefficient/CAMissile4</property>
+            <property>aero/coefficient/CATank</property>
+            <property>aero/coefficient/CA</property>
+          </sum>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/normal-force-lb">
+        <function>
+          <sum>
+            <property>aero/coefficient/CN</property>
+            <property>aero/coefficient/CNGnd</property>
+            <property>aero/coefficient/CNGndElevator</property>
+            <property>aero/coefficient/CNflaps</property>
+          </sum>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/lift-force-lb">
+        <function>
+          <difference>
+            <product>
+              <property>systems/flight/normal-force-lb</property>
+              <cos>
+                <property>aero/alpha-rad</property>
+              </cos>
+            </product>
+            <product>
+              <property>systems/flight/axial-force-lb</property>
+              <sin>
+                <property>aero/alpha-rad</property>
+              </sin>
+            </product>
+          </difference>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/drag-force-lb">
+        <function>
+          <sum>
+            <product>
+              <property>systems/flight/normal-force-lb</property>
+              <sin>
+                <property>aero/alpha-rad</property>
+              </sin>
+            </product>
+            <product>
+              <property>systems/flight/axial-force-lb</property>
+              <cos>
+                <property>aero/alpha-rad</property>
+              </cos>
+            </product>
+          </sum>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/excess-thrust-lb">
+        <function>
+          <difference>
+              <property>propulsion/engine/thrust-lbs</property>
+              <property>systems/flight/drag-force-lb</property>
+          </difference>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/lift-drag-ratio">
+        <function>
+          <quotient>
+              <property>systems/flight/lift-force-lb</property>
+              <property>systems/flight/drag-force-lb</property>
+          </quotient>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/thrust-weight-ratio">
+        <function>
+          <quotient>
+              <property>propulsion/engine/thrust-lbs</property>
+              <property>inertia/weight-lbs</property>
+          </quotient>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/lift-weight-ratio">
+        <function>
+          <quotient>
+              <property>systems/flight/lift-force-lb</property>
+              <property>inertia/weight-lbs</property>
+          </quotient>
+        </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/thrust-drag-ratio">
+        <function>
+          <quotient>
+              <property>propulsion/engine/thrust-lbs</property>
+              <property>systems/flight/drag-force-lb</property>
+          </quotient>
+        </function>
+     </fcs_function>     
+
+  </channel>
+
+</system>

@@ -402,7 +402,7 @@ MiscMonitor.new = func()
 
 MiscMonitor.properties = func() {
   return [
-    { property : "glideslope", name : "Glide slope",           format : "%3.1f", unit : "%",      halign : "right" },
+ #   { property : "glideslope", name : "Glide slope",           format : "%3.1f", unit : "%",      halign : "right" },
     { property : "mach",       name : "Mach number",           format : "%1.3f", unit : "M",      halign : "right" },
     { property : "climb-rate", name : "Rate of climb",         format : "%4.1f", unit : "ft/min", halign : "right" },
     { property : "groundspeed",name : "Ground speed",          format : "%3.1f", unit : "kts",    halign : "right" },
@@ -416,7 +416,7 @@ MiscMonitor.properties = func() {
 MiscMonitor.update = func()
 {
   setprop("/sim/gui/dialogs/performance-monitor/mach", getprop("/velocities/mach"));
-  setprop("/sim/gui/dialogs/performance-monitor/glideslope", getprop("/velocities/glideslope")*100);
+#  setprop("/sim/gui/dialogs/performance-monitor/glideslope", getprop("/velocities/glideslope")*100);
   setprop("/sim/gui/dialogs/performance-monitor/climb-rate", getprop("/velocities/vertical-speed-fps") * 60);
   setprop("/sim/gui/dialogs/performance-monitor/groundspeed", getprop("/velocities/groundspeed-kt"));
   setprop("/sim/gui/dialogs/performance-monitor/TAS", getprop("/velocities/airspeed-kt"));
@@ -428,7 +428,40 @@ MiscMonitor.update = func()
 MiscMonitor.reinit = func() {
 
 }
-  
+
+#
+# MiscMonitor
+# This shows some useful info during test
+#
+var AeroMonitor= {};
+AeroMonitor.new = func()
+{
+  var obj = { parents : [ AeroMonitor, MonitorBase ]};
+  return obj;
+}
+
+AeroMonitor.properties = func() {
+  return [
+    { property : "ratio-lift-drag",     name : "Lift/Drag Ratio",     format : "%3.2f", unit : "",    halign : "right" },
+    { property : "ratio-lift-weight",   name : "Lift/Weight Ratio",   format : "%3.2f", unit : "",    halign : "right" },
+    { property : "ratio-thrust-weight", name : "Thrust/weight Ratio", format : "%3.2f", unit : "",    halign : "right" },
+    { property : "ratio-thrust-drag",   name : "Thrust/Drag Ratio",   format : "%3.2f", unit : "",    halign : "right" },
+    { property : "excess-thrust",       name : "Excess Thrust",       format : "%5d",   unit : "lb",  halign : "right" },
+  ]
+}
+
+AeroMonitor.update = func()
+{
+  setprop("/sim/gui/dialogs/performance-monitor/excess-thrust", getprop("fdm/jsbsim/systems/flight/excess-thrust-lb"));
+  setprop("/sim/gui/dialogs/performance-monitor/ratio-lift-drag", getprop("fdm/jsbsim/systems/flight/lift-drag-ratio"));
+  setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-weight", getprop("fdm/jsbsim/systems/flight/thrust-weight-ratio"));
+  setprop("/sim/gui/dialogs/performance-monitor/ratio-lift-weight", getprop("fdm/jsbsim/systems/flight/lift-weight-ratio"));
+  setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-drag", getprop("fdm/jsbsim/systems/flight/thrust-drag-ratio"));
+}
+
+AeroMonitor.reinit = func() {
+
+}
 
 var efficiency = nil;
 var takeoffDist = nil;
@@ -511,6 +544,7 @@ var initialize = func() {
   monitor.register(LandingDistance.new());
   monitor.register(MiscMonitor.new());
   monitor.register(FuelEfficiency.new(1));
+  monitor.register(AeroMonitor.new());
 #  monitor.register(ThrustDragMonitor.new());
   # Ctrl-Shift-M to activate Performance Monitor
   #keyHandler.add(13, KeyHandler.CTRL + KeyHandler.SHIFT, func { PerformanceMonitor.instance().start(); });
@@ -522,4 +556,3 @@ var initialize = func() {
 
 setlistener("/sim/signals/fdm-initialized", func { settimer(initialize, 1); }, 0, 0);
 setlistener("/sim/signals/reinit", func { PerformanceMonitor.instance().reinit(); }, 0, 0);
-
