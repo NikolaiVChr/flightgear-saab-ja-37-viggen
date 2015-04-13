@@ -810,7 +810,6 @@
       The HUD switches automatically between takeoff, landing, navigation and tactical mode.
       An exception is when landing mode switch is activated, that will force landing mode, when not in takeoff mode.
       When in takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
-      The sidewind indicator will blink when gears is retracting.
       The vertical tail on the flight path indicator will move/blink according to AoA.
       In tactical mode when the cannon is selected, a fixed crosshair will appear.
       In tactical mode the reticle change if out of ammo.
@@ -824,7 +823,7 @@
       Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
       The heading at the top is shown as a scale showing 1/10 of heading in degrees. The scale will move to the hozizon line in landing mode.
       Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In tactical mode the selected radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
-      Nearest tower is shown as a small diamond, with ICAO and distance.
+      Nearest tower is shown as a small diamond, with ICAO and distance. It will not be shown in tactical mode though.
       
       Warnings
       ________
@@ -850,10 +849,6 @@
       ________________________
       This view will keep the Viggen in view while at the same time pointing the camera at the selected entity.
       Do not rotate the camera in this view, that will ruin its ability to track the selection. You can however zoom without a problem.
-
-      The unmarked switches in the cockpit
-      ____________________________________
-      The are a bunch of switches in the cockpit, that does not have any text markings. Hold your mouse pointer above one to read its function. Also remember that the position away from the pilot is always ON, towards the pilot is OFF.
 
       Repairing
       _________

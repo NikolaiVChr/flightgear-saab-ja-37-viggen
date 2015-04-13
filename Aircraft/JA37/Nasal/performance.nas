@@ -361,35 +361,6 @@ LandingDistance.autoland = func() {
 }
 
 #
-# Thrust-Drag monitor
-# This shows force balance by 'thrust - drag', and 'lift - weight'
-#
-var ThrustDragMonitor = {};
-ThrustDragMonitor.new = func () {
-  return { parents : [ ThrustDragMonitor, MonitorBase ] };
-}
-
-ThrustDragMonitor.properties = func() {
-  return [
-    { property : "thrust-drag",name : "Thrust - Drag",         format : "%07.1f",unit : "lbs",    halign : "right" },
-    { property : "lift-weight",name : "Lift - Weight",         format : "%07.1f",unit : "lbs",    halign : "right" }
-  ];
-}
- 
-ThrustDragMonitor.update = func() {
-  var thrust = 0;
-  foreach (var engine; props.globals.getNode("/fdm/jsbsim/propulsion").getChildren('engine')) {
-    thrust += engine.getNode('thrust-lbs').getValue();
-  }
-  var coeffs = props.globals.getNode("/fdm/jsbsim/aero/coefficient").getValues();
-  var drags = coeffs.CD0 + coeffs.CDbeta + coeffs.CDde + coeffs.CDflap + coeffs.CDi + coeffs.CDmach + coeffs.CDsb;
-  var lifts = coeffs.CLalpha + coeffs.CLde + coeffs.dCLflap + coeffs.dCLsb;
-  var weight = getprop("/fdm/jsbsim/inertia/weight-lbs");
-  setprop("/sim/gui/dialogs/performance-monitor/thrust-drag", thrust - drags);
-  setprop("/sim/gui/dialogs/performance-monitor/lift-weight", lifts - weight);
-}
-
-#
 # MiscMonitor
 # This shows some useful info during test
 #
@@ -403,13 +374,13 @@ MiscMonitor.new = func()
 MiscMonitor.properties = func() {
   return [
  #   { property : "glideslope", name : "Glide slope",           format : "%3.1f", unit : "%",      halign : "right" },
-    { property : "mach",       name : "Mach number",           format : "%1.3f", unit : "M",      halign : "right" },
-    { property : "climb-rate", name : "Rate of climb",         format : "%4.1f", unit : "ft/min", halign : "right" },
-    { property : "groundspeed",name : "Ground speed",          format : "%3.1f", unit : "kts",    halign : "right" },
-    { property : "TAS",        name : "True air speed",        format : "%3.1f", unit : "kts",    halign : "right" },
-    { property : "angleofattack",name : "Angle of attack",     format : "%3.1f", unit : "deg",    halign : "right" },
-    { property : "gforce",     name : "Pilot G-force",         format : "%3.1f", unit : "G",      halign : "right" },
-    { property : "roll-rate",  name : "Roll rate",             format : "%3.1f", unit : "deg/s",    halign : "right" },
+    { property : "mach",         name : "Mach number",           format : "%1.3f", unit : "M",      halign : "right" },
+    { property : "climb-rate",   name : "Rate of climb",         format : "%4.1f", unit : "ft/min", halign : "right" },
+    { property : "groundspeed",  name : "Ground speed",          format : "%3.1f", unit : "kt",     halign : "right" },
+    { property : "TAS",          name : "True air speed",        format : "%3.1f", unit : "kt",     halign : "right" },
+    { property : "angleofattack",name : "Angle of attack",       format : "%3.1f", unit : "deg",    halign : "right" },
+    { property : "gforce",       name : "Pilot G-force",         format : "%3.1f", unit : "G",      halign : "right" },
+    { property : "roll-rate",    name : "Roll rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
   ]
 }
 
@@ -545,7 +516,6 @@ var initialize = func() {
   monitor.register(MiscMonitor.new());
   monitor.register(FuelEfficiency.new(1));
   monitor.register(AeroMonitor.new());
-#  monitor.register(ThrustDragMonitor.new());
   # Ctrl-Shift-M to activate Performance Monitor
   #keyHandler.add(13, KeyHandler.CTRL + KeyHandler.SHIFT, func { PerformanceMonitor.instance().start(); });
   # Ctrl-Shift-C to reinit Performance Monitor

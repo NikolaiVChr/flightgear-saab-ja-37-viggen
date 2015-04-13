@@ -1455,3 +1455,7 @@ HUD: Made ICAO display turn off in tactical mode.
 HUD: Final mode will now be switched off when switching to a mode that is not landing.
 GUI: The monitor now has various aerodynamic ratios and excess thrust.
 GUI: Removed glideslope from monitor.
+Sim: The plane will now start with almost full internal fuel. Empty droptank though.
+Aero: Fixed a fuel tank capacity unit conversion error. As result the aircraft can now carry less fuel.
+Aero: Increased empty weight to that of JA37Di, as its likely closer to JA37A than my old source.
+GUI: Updated aircraft help.
