@@ -15,7 +15,7 @@
     <aircraft-version>3.020</aircraft-version>
 
     <rating>
-      <FDM type="int">3</FDM>
+      <FDM type="int">4</FDM>
       <systems type="int">2</systems>
       <cockpit type="int">3</cockpit>
       <model type="int">3</model>

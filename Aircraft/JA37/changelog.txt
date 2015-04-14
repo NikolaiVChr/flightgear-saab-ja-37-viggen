@@ -1462,3 +1462,4 @@ GUI: Updated aircraft help.
 HUD: Increased max range of cannon shown on distance scale to 2500m as per source.
 Sim: Decreased max range of cannon shells, to double of its effective max range.
 GUI: Updated checklists to the new cockpit layout.
+Sim: Retested performance, they are with 95% of sources. Increased FDM rating.
