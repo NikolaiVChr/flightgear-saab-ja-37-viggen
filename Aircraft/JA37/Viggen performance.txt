@@ -1,0 +1,230 @@
+Performance comparison: (against v.2.13)
+-----------------------
+Climb to 10.000 m from brakes off: less than 100 seconds       [v2.13 - 90 secs at 35deg]
+Mach 1 in less than 60 seconds from take-off.                  [v2.13 - M1=46 secs, M1.1=67 secs]
+Mach 1.1 at 50 m.                                              [v2.13 - M1.1]
+Maximum speed: Mach 2+ at 11,000 m alt                         [v2.13 - M2.1]
+Mach 0.94 with mil thrust at sealevel.                         [v2.13 - M0.9 at 50m] (some sources say M0.90 though)
+Service ceiling: 18,300 m                                      [v2.13 - lacks thrust and lift above this alt, so passed.]
+From brakes off to take off speed is 6 seconds.                [v2.13 - 9 seconds]
+Rate of climb (initial): 203 m/s (12,200 m/min) (40,026 ft/min)[v2.13 - 10,000ft/min, not sure I have measured this correctly]
+Aircraft structure can handle 12 G.                            [v2.13 - 14G, I increased this to make the flying experience a bit more forgiving]
+400 meter runway is required to takeoff.                       [v2.13 - 409m]
+500 meter runway is required to land.
+
+Performance comparison: (against v.3.021) [half full tanks, empty drop tank]
+-----------------------
+Climb to 10.000 m from brakes off: less than 100 seconds       [v3.021 - 124 secs]
+Mach 1 in less than 60 seconds from take-off.                  [v3.021 - 54 secs]
+Mach 1.25 at 50 m.                                             [v3.021 - 1.17 with droptank, 1.22 without]
+Maximum speed: Mach 2+ at 11,000 m alt                         [v3.021 - M2.05 at 11000m without droptank]
+Mach 0.94 with mil thrust at sealevel.                         [v3.021 - M0.9 at 50m]
+Service ceiling: 18,300 m                                      [v3.021 - lacks thrust and lift above this alt, so passed.]
+From brakes off to take off speed is 6 seconds.                [v3.021 - 7 secs]
+Rate of climb (initial): 203 m/s (12,200 m/min) (40,026 ft/min)[v3.021 - 48,000 ft/min, not sure I have measured this correctly]
+Aircraft structure can handle 12 G.                            [v3.021 - 12G]
+400 meter runway is required to takeoff.                       [v3.021 - 356m]
+500 meter runway is required to land.                          [v3.021 - around 425m]
+
+Note:
+-----
+Some of these values, especially those which come from early sources is likely to be understatements, due to their classified nature at the time they were released.
+
+Book - System 37: Viggen by Svensk Flyghistorisk Förening 
+========================
+
+Mach 1.2 at sealevel with ease
+
+Data from 1976: (prototype)
+---------------
+thrust, kilopascal - mil 7350, aug 12750
+mass empty, kg - 16200  (is with droptank, canon plus fuel)
+topspeed mach 2.0 at 11 km alt, no armament
+Performance with 4 air2air missiles:
+  start to mach 1.6, 11 Km alt - 5.5 min
+  acc. at M1.6, 11 Km alt - 1.0 m/sec^2
+  max speed at 11 Km alt - 1.82 M
+  turnspeed at M0.8 sealevel - 12.7 deg/sec  (I guess M0.8 is the corner speed then)
+
+Book - Viggen by Sven Stridsberg
+================================
+wingspan 10.60 m
+length (including pitot tube) 16.43 m
+length (fuselage) 15.58 m
+height 5.90 m
+height (with vert.tail folded) 4.0 0m
+wingarea 52.20 m^2
+wingarea (delta) 46.00 m^2
+empty weight 12200 kg / 26896.4 lbs
+normal start weight 16800 kg
+max start weight 22500 kg
+idle-thrust 325 kp / 716.50 lbs
+mil-thrust 7350 kp / 16203.98 lbs
+aug-thrust 12750 kp / 28108.94 lbs
+reverse thrust 3500 kp / 7716.18 lbs
+from still to 11 km 100 sec
+mach 2.1 at 12 km
+mach 1.25 at 100 m
+landing distance 500 m
+takeoff distance 400 m
+range 500 km at low alt, 1000 km when back and forth is high, but low at mission
+inlet diam 1.03 m
+compressor pressure 16.5:1
+rb24J 3.07 m long, 0.127 m diam, wingspan 0.56 m, 78 kg, 40 sec thrust, 15 km range, M2 speed
+
+JA37Di manual
+=============
+Mil-thrust at sealvl:  66600 N /  6795 kp
+Aug-thrust at sealvl: 110300 N / 11250 kp
+wingspan 10.60 m
+length (including pitot tube) 16.40 m
+wingarea (main) 46.00 m^2
+wingarea (canards) 6.20 m^2
+normal start weight 16630 Kg / 36662.87 lbs (exclusiv drop tank and armament, but including cannon and its ammo)
+
+Interview with pilot
+====================
+Minimum mach 0.9 at sealevel mil-thrust
+Faster acceleration than Danish F-16A between M0.6 and M0.8.
+Speed unstable below some 370 km/h. That meant that you lost speed at a very rapid rate when the alpha was increased.
+The Viggen was a very manoeuvrable aircraft when reaching speeds above about 600 km/h. Less speed meant a rather lazy aircraft, especially in roll.
+While flying at extreme high altitudes for the A/C envelope. You could end up in a high temperature stall, which you normally cured by shutting down the engine and restart it a few thousand meters below!
+
+Swedish airforce website (likely is JA-37Di)
+========================
+Engine RM-8B
+Thrust 6795 kp
+Aug thrust 11250 kp
+Wing span:
+  Wing 10,60 m
+  Cannard 5,45 m
+Lenght 16,40 m
+Height 3,869 m
+  Raised tail 5,93 m
+  Tail folded 4,00 m
+Emptyweight 10731 kg / 23657.81 lbs
+Fuel int 5860 l (4454 kg / 9819.39 lbs)
+Fuel in droptank 1326 l (1190 kg)
+Start weight*) 15185 kg / 33477.19 lbs
+With droptank 16378 kg
+Max startweight:
+ Air2air 17600 kg
+ Air2ground 17800 kg
+Max speed 
+  High alt M2,2
+  Low alt >1450 km/h
+Takeoff lenght 1000 m
+ With aug thrust 400 m 
+Takeoff lenght  *)
+  Max startweight 1300 m
+  With aug thrust < 600 m 
+Landing lenght**) < 500 m
+*) incl canon
+**) With reversering
+
+
+Saab booklet  (JA37C)
+============
+Empty weight: 17000 Kg
+Max speed at high alt.: M2
+Approach speed: 220 Km/h
+Time to 10000 m: 100 secs
+Takeoff: 400 m
+Landing: 500 m
+Max thrust 12750 kp / 28100 lbs
+Climb to 10.000 m from brakes off: less 100 seconds.
+Mach 1 in less than 60 seconds from take-off.
+Range 700 NM when going to target at high altitude.
+Range 450 NM when going to target at low altitude.
+
+Australian performance assesment
+================================
+Empty Weight 12,200 kg 26,895 lbs (approx)
+Normal Loaded 16,800 kg 37,040 lbs (carrying four AAM)
+Max Takeoff 22,500 kg 49,600 lbs
+Up to 6,000 kg (13,227 lbs) of ordnance can be carried externally.
+Takeoff weight 15,000 kg 33,070 lbs (clean)
+Takeoff weight 17,000 kg 37,478 lbs (normal armament)
+The cannon has 150 rounds, at 0.36 kg (0.79 lbs) per round for a total weight of 54 kg.
+Internal fuel 5700 litres / 1506 US gal / 4440 kg / 9789 lbs
+External tank 1275 litres / 337 US gal / 993 kg / 2190 lbs (estimated)
+(tank weight without fuel = 100 kg - estimated)
+thrust 28,110 lbst 12750 kg max reheat
+thrust 16,200 lbst 7350 kg max dry
+fuel consumption
+ 2.52 lb/hr/lbst 71.4 mg/Ns max reheat
+ 0.64 lb/hr/lbst 18.1 mg/Ns max dry
+ 0.61 lb/hr/lbst 17.3 mg/Ns max continuous
+Inlet Diameter 1.030 metres 40.55 inches
+Max Mass Flowrate 145 kg/sec
+Bypass Ratio 1.10
+Max Pressure Ratio 16.5
+Landing:
+  Landing Run approx 500 m
+  Landing Speed 220 kmh
+  The undercarriage is lowered.
+  The thrust reverser is pre-selected to activate immediately after landing.
+  The approach is steep.
+  The aircraft attitude is 15 degrees nose up.
+  The speed is controlled by the autopilot.
+  The aircraft crosses the runway threshold at 130 knots (240 kmh).
+  Touchdown with a no-flare landing at 97 knots (180 kmh).
+  Touchdown is about 45 metres (150 feet) beyond the runway threshold.
+  The undercarriage is designed for a landing sink rate of 16 feet/sec (5 m/s).
+Takeoff:
+  The aircraft was initially designed to operate from narrow 500 m long runways (1640 feet). Tha actual take-off run is
+  approximately 400 metres (1310 feet). The key points in the aircraft take-off are as follows;
+  Afterburner is selected then the wheel brakes are released.
+  The aircraft accelerates to a rotation speed of 135 knots (250 kmh).
+  About 600 metres of runway is used to get airborne.
+  After lift-off the undercarriage is retracted and the aircraft accelerates at a 2 to 3 degree climb angle
+  to 367 knots (680 kmh).
+  Below 190 knots (350 kmh) the aircraft is very sensitive in roll.
+  Afterburner is cut out at 270 knots (500 kmh) due primarily to noise abatement requirements.
+  Exceeding 30 degrees angle of attack results in some loss of yaw stability.
+  Over 30 degrees AOA the aircraft will enter into a "super stall", but is easily recoverable.
+  There is little natural pre-stall warning, with low buffet levels.
+
+Air Power Journal, Summer 1993, various issues of FlygvapenNytt and other Swedish air force informational material ()
+=======================================================================
+                  AJ/SH     SF        SK        JA
+Take off run:     400 m     400 m     400 m     400 m
+Landing run:      450 m     450 m     450 m     450 m 
+Landing speed:    220 km/h  220 km/h  220 km/h  220 km/h
+Length:           16.30 m   16.50 m   16.30 m   16.43 m
+Span:             10.6 m    10.6 m    10.6 m    10.6 m
+Height:            5.6 m     5.6 m     5.6 m     5.9 m
+ w folded fin:     4.0 m     4.0 m     4.0 m     4.0 m
+Engine thrust:    6690 kp   6690 kp   6690 kp   7415 kp
+ w afterburner:  11790 kp  11790 kp  11790 kp  13125 kp
+Range:            2000 km   2000 km             2000 km
+   Ferry range would be 2250 km, about 15-16% more with Jet A1 fuel.
+Empty weight:     9500 kg   9500 kg             9500 kg
+Max payload:      3600 kg   2500 kg             1700 kg
+ (excluding external tank)
+Max take off                             
+ weight:         18000 kg  17000 kg            18600 kg
+Max speed                                (at 3600 kg load?)
+ low altitude:  Mach 1.1   Mach 1.1           Mach 1.2
+ high altitude: Mach 2+    Mach 2+            Mach 2+
+Guaranteed speed
+ high altitude: Mach 1.7   Mach 1.7           Mach 1.8
+Time from brake release to 10 km or Mach 1 at low altitude: 100 s
+Max altitude:    18000 km   18000 m            18000 m
+
+
+Wikipedia
+=========
+KCA Oerlikon 30 mm × 173 mm (1.181 in × 6.811 in) shell 1350 rounds per minute at a muzzle velocity of 1,030 m/s (203,000 ft/min), with an effective range of 2,500 m (8,200 ft)
+
+
+http://www.pmulcahy.com/ammunition/autocannon_ammunition.html
+=============================================================
+KCA Oerlikon 30mm shell: 1.22kg
+
+
+http://www.fighter-planes.com/info/ja37.htm
+===========================================
+Although designed to withstand 12 G, the operational limit is 7 G.
+The seat is angled back 19 degrees.
+The landing gear thinks a landing sink rate of 5 m/s is normal, so landings are done without any flare; 
