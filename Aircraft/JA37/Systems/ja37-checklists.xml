@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+
   <checklist>
     <title>Before takeoff</title>  
     <item>
       <name>Canopy</name>
       <value>CLOSE (O)</value>
       <marker>
-        <x-m> -3.49</x-m>
+        <x-m> -3.65</x-m>
         <y-m>  0.30</y-m>
-        <z-m>  0.1800</z-m>
+        <z-m>  0.1700</z-m>
         <scale>1.00</scale>
       </marker>
       <condition>
@@ -28,9 +29,9 @@
       <name>Parking Brakes</name>
       <value>SET (shift-B)</value>
       <marker>
-        <x-m> -3.51</x-m>
+        <x-m> -3.67</x-m>
         <y-m>  0.30</y-m>
-        <z-m>  0.1800</z-m>
+        <z-m>  0.1700</z-m>
         <scale>1.00</scale>
       </marker>
       <condition>
@@ -66,9 +67,9 @@
       <name>Generator</name>
       <value>OFF</value>
       <marker>
-        <x-m> -3.53</x-m>
+        <x-m> -3.69</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1400</z-m>
         <scale>1.00</scale>
       </marker>
       <binding>
@@ -91,9 +92,9 @@
       <name>Battery</name>
       <value>ON</value>
       <marker>
-        <x-m> -3.47</x-m>
+        <x-m> -3.63</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1400</z-m>
         <scale>1.00</scale>
       </marker>
       <binding>
@@ -113,9 +114,9 @@
       <name>Cutoff</name>
       <value>ON</value>
       <marker>
-        <x-m> -3.49</x-m>
+        <x-m> -3.65</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1400</z-m>
         <scale>1.00</scale>
       </marker>
       <binding>
@@ -136,9 +137,9 @@
       <name>Start engine</name>
       <value>ON</value>
       <marker>
-        <x-m> -3.51</x-m>
+        <x-m> -3.67</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1400</z-m>
         <scale>1.00</scale>
       </marker>
       <binding>
@@ -175,9 +176,9 @@
       <name>Cutoff</name>
       <value>OFF</value>
       <marker>
-        <x-m> -3.49</x-m>
+        <x-m> -3.65</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1400</z-m>
         <scale>1.00</scale>
       </marker>
       <binding>
@@ -198,9 +199,9 @@
       <name>Generator</name>
       <value>ON</value>
       <marker>
-        <x-m> -3.53</x-m>
+        <x-m> -3.69</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1400</z-m>
         <scale>1.00</scale>
       </marker>
       <binding>
@@ -220,7 +221,7 @@
       <value>DOWN (auto)</value>
       <condition>
           <equals>
-            <property>fdm/jsbsim/fcs/flap-pos-norm</property>
+            <property>fdm/jsbsim/fcs/flaps/pos-normalized</property>
             <value>1</value>
           </equals>
       </condition>
@@ -239,14 +240,14 @@
       <name>Nose wheel steering</name>
       <value>ON (M)</value>
       <marker>
-        <x-m> -3.53</x-m>
+        <x-m> -3.69</x-m>
         <y-m>  0.30</y-m>
-        <z-m>  0.1800</z-m>
+        <z-m>  0.1700</z-m>
         <scale>1.00</scale>
       </marker>
       <condition>
           <equals>
-            <property>fdm/jsbsim/systems/nose-wheel-steering/enable</property>
+            <property>fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable</property>
             <value>1</value>
           </equals>
       </condition>
@@ -259,7 +260,7 @@
       <name>Set HUD Units</name>
       <value>Metric or Imperial (Shift-I)</value>
       <marker>
-        <x-m> -3.835</x-m>
+        <x-m> -3.995</x-m>
         <y-m>  0.092</y-m>
         <z-m>  0.3925</z-m>
         <scale>1.00</scale>
@@ -269,7 +270,7 @@
       <name>Calibrate altimeters</name>
       <value>SET</value>
       <marker>
-        <x-m>-3.78</x-m>
+        <x-m>-3.94</x-m>
         <y-m> 0.08</y-m>
         <z-m> 0.35</z-m>
         <scale>2.00</scale>
@@ -282,6 +283,7 @@
       </condition>
     </item>
   </checklist>
+
   <checklist>
     <title>Takeoff</title>  
     <item>
@@ -305,9 +307,9 @@
       <name>Parking Brakes</name>
       <value>OFF (shift-B)</value>
       <marker>
-        <x-m> -3.51</x-m>
+        <x-m> -3.67</x-m>
         <y-m>  0.30</y-m>
-        <z-m>  0.1800</z-m>
+        <z-m>  0.1700</z-m>
         <scale>1.00</scale>
       </marker>
       <condition>
@@ -322,6 +324,16 @@
         <value>0</value>
       </binding>
     </item>
+    <item>
+      <name>Rotation speed</name>
+      <value>250 Km/h</value>
+      <condition>
+        <greater-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>135</value>
+        </greater-than>
+      </condition>
+    </item>    
     <item>
       <name>Takeoff speed</name>
       <value>315 Km/h</value>
@@ -343,7 +355,8 @@
       </condition>
     </item>    
   </checklist>
-    <checklist>
+
+  <checklist>
     <title>Land</title>
     <item>
       <name>Landing speed</name>
@@ -363,9 +376,9 @@
       <name>Gear</name>
       <value>DOWN (G)</value>
       <marker>
-        <x-m> -3.61</x-m>
+        <x-m> -3.77</x-m>
         <y-m> -0.30</y-m>
-        <z-m>  0.1500</z-m>
+        <z-m>  0.1410</z-m>
         <scale>1.00</scale>
       </marker>
       <condition>
@@ -393,7 +406,7 @@
       <name>Thrust</name>
       <value>Reverse</value>
       <marker>
-        <x-m> -3.82</x-m>
+        <x-m> -3.98</x-m>
         <y-m> -0.305</y-m>
         <z-m>  0.365</z-m>
         <scale>1.00</scale>

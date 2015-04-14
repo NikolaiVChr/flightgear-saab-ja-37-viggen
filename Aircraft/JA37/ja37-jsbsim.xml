@@ -99,7 +99,7 @@ to an airplane of that size). -->
     <ixx unit="SLUG*FT2"> 10000 </ixx><!-- estimations -->
     <iyy unit="SLUG*FT2"> 60000 </iyy>
     <izz unit="SLUG*FT2"> 65000 </izz>
-    <emptywt unit="LBS" > 23657.81 </emptywt><!-- Air Power Journal, Summer 1993, various issues of FlygvapenNytt and other Swedish air force informational material -->
+    <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
       <x> 0.3399 </x><!-- Page 43: STA X65B = 12350mm, 1155mm after the flaps -->
       <!--  -->
