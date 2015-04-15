@@ -2073,13 +2073,15 @@ var HUDnasal = {
 
 
           var armSelect = me.input.station.getValue();
-          
+          var diamond = 0;
           if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
-            me.diamond.show();
-            me.target.hide();
-          } else {
-            me.target.show();
-            me.diamond.hide();
+            # lock
+            var weak = armament.AIM9.active[armSelect-1].trackWeak;
+            if (weak == TRUE) {
+              diamond = 1;
+            } else {
+              diamond = 2;
+            }
           }
 
           #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
@@ -2099,11 +2101,33 @@ var HUDnasal = {
           #               .lineTo( pos_x, pos_y)
           #               .setStrokeLineWidth(w)
           #               .setColor(r,g,b, a);
-          if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
-            me.diamond_group.hide();
+
+          if (diamond > 0) {
+            me.target.hide();
+
+            if (blink == TRUE) {
+              if((diamond == 1 and me.input.fiveHz.getValue() == TRUE) or (diamond == 2 and me.input.tenHz.getValue() == TRUE)) {
+                me.diamond.show();
+              } else {
+                me.diamond.hide();
+              }
+            } else {
+              if (diamond == 1 or me.input.tenHz.getValue() == TRUE) {
+                me.diamond.show();
+              } else {
+                me.diamond.hide();
+              }
+            }
+
+          } elsif (blink == FALSE or me.input.fiveHz.getValue() == TRUE) {
+            me.target.show();
+            me.diamond.hide();
           } else {
-            me.diamond_group.show();
+            me.target.hide();
+            me.diamond.hide();
           }
+          me.diamond_group.show();
+
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           diamond_node = nil;

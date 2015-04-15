@@ -1466,3 +1466,5 @@ Sim: Retested performance, they are with 95% of sources. Increased FDM rating.
 Sim: Added my performance research to the JA37 folder.
 Sim: Improved time accounting in missile tracker.
 Sim: Made missile time to lock on in searching random 0-3.5 seconds, instead of fixed 2 seconds.
+HUD: Made diamond blink fast when the track is good.
+HUD: Selection distance and callsign will no longer blink.

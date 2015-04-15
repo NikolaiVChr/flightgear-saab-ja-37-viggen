@@ -30,6 +30,7 @@ var AIM9 = {
 
 		m.status            = 0; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
+		m.trackWeak         = 1;
 
 		m.prop              = AcModel.getNode("armament/rb24/").getChild("msl", 0 , 1);
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
@@ -118,7 +119,7 @@ var AIM9 = {
 
 		SwSoundOnOff.setValue(1);
 
-		settimer(func { SwSoundVol.setValue(vol_search); m.search() }, 1);
+		settimer(func { SwSoundVol.setValue(vol_search); me.trackWeak = 1; m.search() }, 1);
 		return AIM9.active[m.ID] = m;
 
 	},
@@ -213,6 +214,7 @@ var AIM9 = {
 
 		me.smoke_prop.setBoolValue(1);
 		SwSoundVol.setValue(0);
+		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
 		me.update();
@@ -399,6 +401,7 @@ var AIM9 = {
 			# Status = searching.
 			me.reset_seeker();
 			SwSoundVol.setValue(vol_search);
+			me.trackWeak = 1;
 			settimer(func me.search(), 0.1);
 			return(1);
 		}
@@ -406,6 +409,7 @@ var AIM9 = {
 			# Status = stand-by.
 			me.reset_seeker();
 			SwSoundVol.setValue(0);
+			me.trackWeak = 1;
 			return(1);
 		}
 		if (!me.Tgt.getChild("valid").getValue()) {
@@ -415,6 +419,7 @@ var AIM9 = {
 			me.status = 0;
 			me.reset_seeker();
 			SwSoundVol.setValue(vol_search);
+			me.trackWeak = 1;
 			settimer(func me.search(), 0.1);
 			return(1);
 		}
@@ -490,6 +495,7 @@ var AIM9 = {
 			me.check_t_in_fov();
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
 			SwSoundVol.setValue(vol_track);
+			me.trackWeak = 0;
 			settimer(func me.update_track(nil), 0.1);
 		}
 		return(1);
@@ -580,6 +586,7 @@ var AIM9 = {
 			settimer(func me.search(), rand()*3.5);
 			me.Tgt = nil;
 			SwSoundVol.setValue(vol_search);
+			me.trackWeak = 1;
 			me.reset_seeker();
 		}
 		return(1);
@@ -590,6 +597,7 @@ var AIM9 = {
 		if ( me.status == -1 ) {
 			# Stand by.
 			SwSoundVol.setValue(0);
+			me.trackWeak = 1;
 			return;
 		} elsif ( me.status > 0 ) {
 			# Locked or fired.
@@ -608,6 +616,7 @@ var AIM9 = {
 			if (rng < me.max_detect_rng and abs_total_elev < me.aim9_fov_diam and abs_dev_deg < me.aim9_fov_diam ) {
 				me.status = 1;
 				SwSoundVol.setValue(vol_weak_track);
+				me.trackWeak = 1;
 				me.Tgt = tgt;
 				var t_pos_str = me.Tgt.getChild("position");
 				var t_ori_str = me.Tgt.getChild("orientation");
@@ -620,6 +629,7 @@ var AIM9 = {
 			}
 		}
 		SwSoundVol.setValue(vol_search);
+		me.trackWeak = 1;
 		settimer(func me.search(), 0.1);
 	},
 
