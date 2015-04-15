@@ -1,3 +1,15 @@
+
+
+
+================================================
+         Saab JA-37 Performance numbers
+
+         For research into Flightgear JA-37
+================================================
+
+
+
+
 Performance comparison: (against v.2.13)
 -----------------------
 Climb to 10.000 m from brakes off: less than 100 seconds       [v2.13 - 90 secs at 35deg]
@@ -12,9 +24,10 @@ Aircraft structure can handle 12 G.                            [v2.13 - 14G, I i
 400 meter runway is required to takeoff.                       [v2.13 - 409m]
 500 meter runway is required to land.
 
+
 Performance comparison: (against v.3.021) [half full tanks, empty drop tank]
 -----------------------
-Climb to 10.000 m from brakes off: less than 100 seconds       [v3.021 - 124 secs]
+Climb to 10.000 m from brakes off: less than 100 seconds       [v3.021 - 124 secs, not sure which ascent angle to use]
 Mach 1 in less than 60 seconds from take-off.                  [v3.021 - 54 secs]
 Mach 1.25 at 50 m.                                             [v3.021 - 1.17 with droptank, 1.22 without]
 Maximum speed: Mach 2+ at 11,000 m alt                         [v3.021 - M2.05 at 11000m without droptank]
@@ -26,9 +39,11 @@ Aircraft structure can handle 12 G.                            [v3.021 - 12G]
 400 meter runway is required to takeoff.                       [v3.021 - 356m]
 500 meter runway is required to land.                          [v3.021 - around 425m]
 
+
 Note:
 -----
 Some of these values, especially those which come from early sources is likely to be understatements, due to their classified nature at the time they were released.
+
 
 Book - System 37: Viggen by Svensk Flyghistorisk Förening 
 ========================
@@ -45,6 +60,7 @@ Performance with 4 air2air missiles:
   acc. at M1.6, 11 Km alt - 1.0 m/sec^2
   max speed at 11 Km alt - 1.82 M
   turnspeed at M0.8 sealevel - 12.7 deg/sec  (I guess M0.8 is the corner speed then)
+
 
 Book - Viggen by Sven Stridsberg
 ================================
@@ -72,6 +88,7 @@ inlet diam 1.03 m
 compressor pressure 16.5:1
 rb24J 3.07 m long, 0.127 m diam, wingspan 0.56 m, 78 kg, 40 sec thrust, 15 km range, M2 speed
 
+
 JA37Di manual
 =============
 Mil-thrust at sealvl:  66600 N /  6795 kp
@@ -82,6 +99,7 @@ wingarea (main) 46.00 m^2
 wingarea (canards) 6.20 m^2
 normal start weight 16630 Kg / 36662.87 lbs (exclusiv drop tank and armament, but including cannon and its ammo)
 
+
 Interview with pilot
 ====================
 Minimum mach 0.9 at sealevel mil-thrust
@@ -89,6 +107,7 @@ Faster acceleration than Danish F-16A between M0.6 and M0.8.
 Speed unstable below some 370 km/h. That meant that you lost speed at a very rapid rate when the alpha was increased.
 The Viggen was a very manoeuvrable aircraft when reaching speeds above about 600 km/h. Less speed meant a rather lazy aircraft, especially in roll.
 While flying at extreme high altitudes for the A/C envelope. You could end up in a high temperature stall, which you normally cured by shutting down the engine and restart it a few thousand meters below!
+
 
 Swedish airforce website (likely is JA-37Di)
 ========================
@@ -137,6 +156,7 @@ Mach 1 in less than 60 seconds from take-off.
 Range 700 NM when going to target at high altitude.
 Range 450 NM when going to target at low altitude.
 
+
 Australian performance assesment
 ================================
 Empty Weight 12,200 kg 26,895 lbs (approx)
@@ -184,6 +204,7 @@ Takeoff:
   Exceeding 30 degrees angle of attack results in some loss of yaw stability.
   Over 30 degrees AOA the aircraft will enter into a "super stall", but is easily recoverable.
   There is little natural pre-stall warning, with low buffet levels.
+
 
 Air Power Journal, Summer 1993, various issues of FlygvapenNytt and other Swedish air force informational material ()
 =======================================================================

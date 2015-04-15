@@ -1464,3 +1464,5 @@ Sim: Decreased max range of cannon shells, to double of its effective max range.
 GUI: Updated checklists to the new cockpit layout.
 Sim: Retested performance, they are with 95% of sources. Increased FDM rating.
 Sim: Added my performance research to the JA37 folder.
+Sim: Improved time accounting in missile tracker.
+Sim: Made missile time to lock on in searching random 0-3.5 seconds, instead of fixed 2 seconds.
