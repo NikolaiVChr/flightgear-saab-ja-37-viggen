@@ -1442,7 +1442,7 @@ Aero: Adjusted the point of external arrester reaction.
 Sim: Radar will now process carriers no matter if radar is running or not.
 Sim: When hitting the selection with cannon or rockets a message is now displayed similar to when doing that with missiles.
 
-3.021
+3.021 - 2015 April 15
 =====
 Model: Made the base of all switches be clickable and have tooltips when hovered.
 Model: Made the new black parts of the cockpit less black.
