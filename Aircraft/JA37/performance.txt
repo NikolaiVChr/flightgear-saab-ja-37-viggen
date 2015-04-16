@@ -34,10 +34,11 @@ Maximum speed: Mach 2+ at 11,000 m alt                         [v3.021 - M2.05 a
 Mach 0.94 with mil thrust at sealevel.                         [v3.021 - M0.9 at 50m]
 Service ceiling: 18,300 m                                      [v3.021 - lacks thrust and lift above this alt, so passed.]
 From brakes off to take off speed is 6 seconds.                [v3.021 - 7 secs]
-Rate of climb (initial): 203 m/s (12,200 m/min) (40,026 ft/min)[v3.021 - 48,000 ft/min, not sure I have measured this correctly]
+Rate of climb (initial): 203 m/s (12,200 m/min) (40,026 ft/min)[v3.021 - 48,000 ft/min, not sure I have measured this correctly, did zoom-climb]
 Aircraft structure can handle 12 G.                            [v3.021 - 12G]
 400 meter runway is required to takeoff.                       [v3.021 - 356m]
 500 meter runway is required to land.                          [v3.021 - around 425m]
+Turnspeed at M0.8 sealevel - 12.7 deg/sec                      [v3.021 - 13 deg/s pulling 7 G]
 
 
 Note:

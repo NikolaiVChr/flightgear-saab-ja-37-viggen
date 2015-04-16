@@ -1468,3 +1468,8 @@ Sim: Improved time accounting in missile tracker.
 Sim: Made missile time to lock on in searching random 0-3.5 seconds, instead of fixed 2 seconds.
 HUD: Made diamond blink fast when the track is good.
 HUD: Selection distance and callsign will no longer blink.
+
+3.022
+=====
+GUI: Added turn rate to performance monitor.
+GUI: Added turn radius to performance monitor.

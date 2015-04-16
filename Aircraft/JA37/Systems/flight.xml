@@ -115,6 +115,24 @@
               <property>systems/flight/drag-force-lb</property>
           </quotient>
         </function>
+     </fcs_function>
+
+    <fcs_function name="systems/flight/turning-radius-nm">
+        <function>
+          <abs>
+            <quotient>
+              <product>
+                <property>velocities/vtrue-kts</property>
+                <value>0.0002777777777777778</value><!-- convert knots to nm/sec -->
+                <quotient>
+                    <value>6.2831853072</value><!-- 2*pi -->
+                    <property>velocities/psidot-rad_sec</property>
+                </quotient>
+              </product>
+              <value>1.57079632679</value><!-- pi/2 -->
+            </quotient>
+          </abs>
+        </function>
      </fcs_function>     
 
   </channel>

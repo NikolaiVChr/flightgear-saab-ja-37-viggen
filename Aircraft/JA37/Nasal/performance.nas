@@ -381,6 +381,8 @@ MiscMonitor.properties = func() {
     { property : "angleofattack",name : "Angle of attack",       format : "%3.1f", unit : "deg",    halign : "right" },
     { property : "gforce",       name : "Pilot G-force",         format : "%3.1f", unit : "G",      halign : "right" },
     { property : "roll-rate",    name : "Roll rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
+    { property : "turn-rate",    name : "Turn rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
+    { property : "turn-radius",  name : "Turn radius",           format : "%3.1f", unit : "nm",     halign : "right" },
   ]
 }
 
@@ -394,6 +396,8 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/performance-monitor/angleofattack", getprop("/orientation/alpha-deg"));
   setprop("/sim/gui/dialogs/performance-monitor/gforce", getprop("/sim/ja37/accelerations/pilot-G"));
   setprop("/sim/gui/dialogs/performance-monitor/roll-rate", getprop("/fdm/jsbsim/velocities/p-aero-rad_sec")*57.296);
+  setprop("/sim/gui/dialogs/performance-monitor/turn-rate", getprop("/fdm/jsbsim/velocities/psidot-rad_sec")*57.296);
+  setprop("/sim/gui/dialogs/performance-monitor/turn-radius", getprop("/fdm/jsbsim/systems/flight/turning-radius-nm"));
 }
 
 MiscMonitor.reinit = func() {
