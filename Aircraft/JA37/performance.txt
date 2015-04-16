@@ -40,6 +40,12 @@ Aircraft structure can handle 12 G.                            [v3.021 - 12G]
 500 meter runway is required to land.                          [v3.021 - around 425m]
 Turnspeed at M0.8 sealevel - 12.7 deg/sec                      [v3.021 - 13 deg/s pulling 7 G]
 
+Key performance numbers: (v.3.021) [half full tanks, empty drop tank]
+--------------------------------
+Turn radius at M0.80/500KT, 7 G                                [v3.021 - about 2.1 nm]
+Turn radius at M0.65/400KT, 7 G                                [v3.021 - about 1.5 nm]
+Corner speed assuming 7 G is operational limit                 [v3.021 - 275 KT]
+
 
 Note:
 -----
@@ -60,7 +66,7 @@ Performance with 4 air2air missiles:
   start to mach 1.6, 11 Km alt - 5.5 min
   acc. at M1.6, 11 Km alt - 1.0 m/sec^2
   max speed at 11 Km alt - 1.82 M
-  turnspeed at M0.8 sealevel - 12.7 deg/sec  (I guess M0.8 is the corner speed then)
+  turnspeed at M0.8 sealevel - 12.7 deg/sec
 
 
 Book - Viggen by Sven Stridsberg
