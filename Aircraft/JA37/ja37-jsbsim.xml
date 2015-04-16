@@ -500,7 +500,7 @@ to an airplane of that size). -->
   <system file="flight"/>
 
   <external_reactions>
-    <force name="hook" frame="BODY">
+    <force name="hook" frame="LOCAL">
       <location unit="M">
         <x>    5.16180 </x>
         <y>    0.00000 </y>
