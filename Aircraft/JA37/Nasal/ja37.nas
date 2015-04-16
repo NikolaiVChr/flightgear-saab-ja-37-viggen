@@ -87,7 +87,7 @@ input = {
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   TILS:             "sim/ja37/hud/TILS",
   pilotG:           "sim/ja37/accelerations/pilot-G",
-  zAcc:             "accelerations/pilot/z-accel-fps_sec",
+  zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
   trigger:          "controls/armament/trigger",
   landLightSwitch:  "controls/electric/lights-land-switch",
@@ -611,9 +611,9 @@ var speed_loop = func () {
     settimer(speed_loop, 0.5);
     return;
   }
-  # calc pilot g-force
-  var GCurrent = input.zAcc.getValue();
+  # calc g-force
   var gravity = input.gravity.getValue();
+  var GCurrent = input.zAccPilot.getValue();  
   if (GCurrent != nil and gravity != nil) {
     GCurrent = - GCurrent / gravity;
     input.pilotG.setValue(GCurrent);
