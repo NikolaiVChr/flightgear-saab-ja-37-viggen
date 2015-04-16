@@ -1473,3 +1473,4 @@ HUD: Selection distance and callsign will no longer blink.
 =====
 GUI: Added turn rate to performance monitor.
 GUI: Added turn radius to performance monitor.
+Sim: Changed structural limit warning to 7 G and -2.66 G. Pilots would normally be operating within this limit.
