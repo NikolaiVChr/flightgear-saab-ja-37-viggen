@@ -549,7 +549,7 @@ var crashCode = nil;
 var crash_start = func {
 	removelistener(lsnr);
 	if (getprop("sim/ja37/supported/crash-system") == 1) {
-		crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12, "minG": -6}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
+		crashCode = CrashAndStress.new([0,1,2], {"weightLbs":33477.19, "maxG": 12, "minG": -6}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
 		crashCode.start();
 	}
 }
