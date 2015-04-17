@@ -10,8 +10,8 @@
 
 
 
-Performance comparison: (against v.2.13)
------------------------
+Performance comparison 1:
+-------------------------
 Climb to 10.000 m from brakes off: less than 100 seconds       [v2.13 - 90 secs at 35deg]
 Mach 1 in less than 60 seconds from take-off.                  [v2.13 - M1=46 secs, M1.1=67 secs]
 Mach 1.1 at 50 m.                                              [v2.13 - M1.1]
@@ -25,13 +25,13 @@ Aircraft structure can handle 12 G.                            [v2.13 - 14G, I i
 500 meter runway is required to land.
 
 
-Performance comparison: (against v.3.021) [half full tanks, empty drop tank]
------------------------
-Climb to 10.000 m from brakes off: less than 100 seconds       [v3.021 - 124 secs, not sure which ascent angle to use]
+Performance comparison 2:  [half full tanks, empty but attached drop tank]
+-------------------------
+Climb to 10.000 m from brakes off: less than 100 seconds       [v3.022 - 120 secs, not sure which ascent angle to use]
 Mach 1 in less than 60 seconds from take-off.                  [v3.021 - 54 secs]
-Mach 1.25 at 50 m.                                             [v3.021 - 1.17 with droptank, 1.22 without]
-Maximum speed: Mach 2+ at 11,000 m alt                         [v3.021 - M2.05 at 11000m without droptank]
-Mach 0.94 with mil thrust at sealevel.                         [v3.021 - M0.9 at 50m]
+Mach 1.25 at 100 m.                                            [v3.022 - 1.25]
+Maximum speed: Mach 2+ at 11,000 m alt                         [v3.022 - M2.09]
+Mach 0.90 with mil thrust at sealevel.                         [v3.021 - M0.9 at 100m]
 Service ceiling: 18,300 m                                      [v3.021 - lacks thrust and lift above this alt, so passed.]
 From brakes off to take off speed is 6 seconds.                [v3.021 - 7 secs]
 Rate of climb (initial): 203 m/s (12,200 m/min) (40,026 ft/min)[v3.021 - 48,000 ft/min, not sure I have measured this correctly, did zoom-climb]
@@ -93,7 +93,15 @@ takeoff distance 400 m
 range 500 km at low alt, 1000 km when back and forth is high, but low at mission
 inlet diam 1.03 m
 compressor pressure 16.5:1
-rb24J 3.07 m long, 0.127 m diam, wingspan 0.56 m, 78 kg, 40 sec thrust, 15 km range, M2 speed
+rb24J:
+------
+ 3.07 m long,
+ 0.127 m diam,
+ wingspan 0.56 m,
+ 78 kg,
+ 40 sec thrust,
+ 15 km range,
+ M2 speed
 
 
 JA37Di manual

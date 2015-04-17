@@ -268,14 +268,14 @@
         <table>
           <independentVar lookup="row">velocities/mach</independentVar>
           <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-          <tableData><!--  1.25           2.2   mach, aug, main fuel only   -->
-                            0.0       36000.0
-                  0.8100    0.0000        0.000
-                  1.1000    0.1955        0.111
-                  1.8000    0.127075      0.07215
+          <tableData><!--  1.25           2.2   mach, aug   -->
+                            0.0          36089.2
+                  0.8100    0.000000000   0.000
+                  1.1000    0.068425000   0.000
+                  1.8000    0.044476255   0.000
           </tableData>
         </table>
-        <property>aero/factor-axial-mach</property><!--  -->
+        <property>aero/factor-axial-mach</property><!-- -->
       </product>
       <value>1.0</value>
     </sum>
@@ -712,7 +712,7 @@
            <property>aero/function/Afactors</property>
            <property>aero/qbar-psf</property>
            <property>metrics/Sw-sqft</property>
-           <!-- designed to achieve 0.94 mach at sea-level mil thrust, as per the Swedish sources and pilot testimony. -->
+           <!-- designed to achieve 0.90 mach at sea-level mil thrust, as per the Swedish sources and pilot testimony. -->
            <property>aero/factor-axial</property>
            <table>
               <independentVar lookup="row">aero/alpha-deg</independentVar>

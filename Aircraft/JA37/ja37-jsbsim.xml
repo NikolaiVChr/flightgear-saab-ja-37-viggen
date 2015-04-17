@@ -33,32 +33,36 @@
          merchantability and fitness for a particular purpose are disclaimed.
       </note>
 
-      <reference refID="NASA TM-88403" author="Krister Karling" title="Aerodynamics of the Viggen 37 Aircraft" date="June 1986"
+      <reference refID="NASA TM-88403" author="Krister Karling"
+       title="Aerodynamics of the Viggen 37 Aircraft" date="June 1986"
        link="http://hdl.handle.net/2060/19860019453"/>
 
-      <reference refID="Temporal final" author="John McIver" title="Saab JA-37 Viggen Performance Assessment" date="5th August 2003"
+      <reference refID="Temporal final" author="John McIver"
+       title="Saab JA-37 Viggen Performance Assessment" date="5th August 2003"
        link="www.temporal.com.au/viggen_final.pdf"/>
 
-      <reference refID="NASA CR-2501" author="Johnston, D. E." title="Flight control systems properties and problems. Volume 2: Block diagram compendium"
+      <reference refID="NASA CR-2501" author="Johnston, D. E."
+       title="Flight control systems properties and problems. Volume 2: Block diagram compendium"
        date="Feb 01, 1975" link="http://hdl.handle.net/2060/19750009300"/>
 
-       <reference refID="TCDS E2EA" author="U.S. DEPARTMENT OF TRANSPORTATION"
-        title="TYPE CERTIFICATE SHEET NO. E2EA: PRATT AND WHITNEY MODELS" date="AUGUST 28, 2007"/>
+      <reference refID="TCDS E2EA" author="U.S. DEPARTMENT OF TRANSPORTATION"
+       title="TYPE CERTIFICATE SHEET NO. E2EA: PRATT AND WHITNEY MODELS" date="AUGUST 28, 2007"/>
 
-       <reference refID="NASA TN D-6460" author="Langley Research Center"
-        title="PERFORMANCE CHARACTERISTICS OF A SINGLE-ENGINE FIGHTER MODEL FITTED WITH AN IN-FLIGHT THRUST REVERSER" date="SEPTEMBER 1971"
+      <reference refID="NASA TN D-6460" author="Langley Research Center"
+       title="PERFORMANCE CHARACTERISTICS OF A SINGLE-ENGINE FIGHTER MODEL FITTED WITH AN IN-FLIGHT THRUST REVERSER" date="SEPTEMBER 1971"
        link="http://hdl.handle.net/2060/19710027908"/>
 
-       <reference refID="NASA-TM-88354" author="Seth B. Anderson"
-        title="A Look at Handling Qualities of Canard Configurations" date="September 1986"
+      <reference refID="NASA-TM-88354" author="Seth B. Anderson"
+       title="A Look at Handling Qualities of Canard Configurations" date="September 1986"
        link="http://hdl.handle.net/2060/19870013196"/>
 
-       <reference refID="NASA TM 110394" author="Eugene L. Tu"
-        title="Numerical Study of Steady and Unsteady Canard-Wing-Body Aerodynamics" date="August 1996"
+      <reference refID="NASA TM 110394" author="Eugene L. Tu"
+       title="Numerical Study of Steady and Unsteady Canard-Wing-Body Aerodynamics" date="August 1996"
        link="http://hdl.handle.net/2060/19960047050"/>
 
-       <reference refID="Bethesda, Md. 20084" author="David W. Lacey" title="AERODYNAMIC CHARACTERISTICS OF THE CLOSE-COUPLED CANARD" date="Jan 1979"
-       link=""/>
+      <reference refID="Bethesda, Md. 20084" author="David W. Lacey"
+       title="AERODYNAMIC CHARACTERISTICS OF THE CLOSE-COUPLED CANARD" date="Jan 1979"
+       link="http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19750004860.pdf"/>
   </fileheader>
   
 
