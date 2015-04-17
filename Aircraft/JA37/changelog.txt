@@ -1479,3 +1479,5 @@ GUI: Added sink rate to monitor.
 Sim: Increased rear gears rebound value, to let it better cope with touchdown at 5 m/s sink rate.
 Aero: Added stall hysteresis.
 Aero: Decreased initial fuel temperature from 70 to 59 fahrenheit.
+Aero: Adjusted wave drag to counter the increased drag from drop tank to achieve max performance values.
+Aero: Lowered static friction on rear gears to help with crosswind landings. Increased front gear friction in turn.

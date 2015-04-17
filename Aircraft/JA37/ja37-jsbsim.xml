@@ -169,7 +169,7 @@ to an airplane of that size). -->
         <y> 0 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 0.722 </static_friction><!-- sources say brakes could hold afterburner -->
+      <static_friction> 1.010 </static_friction><!-- sources say brakes could hold afterburner -->
       <dynamic_friction> 0.25 </dynamic_friction>
       <rolling_friction> 0.01 </rolling_friction>
       <spring_coeff unit="LBS/FT"> 30000 </spring_coeff><!-- hardness of spring. Low value means gear collapses more per energy applied. High value might give jsbsim trouble. -->
@@ -185,7 +185,7 @@ to an airplane of that size). -->
         <y> -2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.444 </static_friction><!-- double bogey means double value -->
+      <static_friction> 1.300 </static_friction><!-- double bogey means double value -->
       <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
       <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
@@ -201,7 +201,7 @@ to an airplane of that size). -->
         <y> 2.33204 </y>
         <z> -2.1 </z>
       </location>
-      <static_friction> 1.444 </static_friction><!-- double bogey means double value -->
+      <static_friction> 1.300 </static_friction><!-- double bogey means double value -->
       <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
       <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
