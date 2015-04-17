@@ -383,6 +383,7 @@ MiscMonitor.properties = func() {
     { property : "roll-rate",    name : "Roll rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
     { property : "turn-rate",    name : "Turn rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
     { property : "turn-radius",  name : "Turn radius",           format : "%3.1f", unit : "nm",     halign : "right" },
+    { property : "sink-rate",    name : "Sink rate",             format : "%3.1f", unit : "m/s",    halign : "right" },
   ]
 }
 
@@ -398,6 +399,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/performance-monitor/roll-rate", getprop("/fdm/jsbsim/velocities/p-aero-rad_sec")*57.296);
   setprop("/sim/gui/dialogs/performance-monitor/turn-rate", getprop("/fdm/jsbsim/velocities/psidot-rad_sec")*57.296);
   setprop("/sim/gui/dialogs/performance-monitor/turn-radius", getprop("/fdm/jsbsim/systems/flight/turning-radius-nm"));
+  setprop("/sim/gui/dialogs/performance-monitor/sink-rate", getprop("/fdm/jsbsim/velocities/v-down-fps") * 0.3048);
 }
 
 MiscMonitor.reinit = func() {

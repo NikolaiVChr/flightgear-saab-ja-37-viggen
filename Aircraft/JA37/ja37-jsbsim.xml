@@ -184,7 +184,7 @@ to an airplane of that size). -->
       <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 20000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 30000 </damping_coeff_rebound>
       <max_steer unit="DEG"> 0.0 </max_steer>
       <brake_group> LEFT </brake_group>
       <retractable>1</retractable>
@@ -200,7 +200,7 @@ to an airplane of that size). -->
       <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
       <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
       <damping_coeff unit="LBS/FT/SEC"> 7000 </damping_coeff>
-      <damping_coeff_rebound unit="LBS/FT/SEC"> 20000 </damping_coeff_rebound>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 30000 </damping_coeff_rebound>
       <max_steer unit="DEG"> 0.0 </max_steer>
       <brake_group> RIGHT </brake_group>
       <retractable>1</retractable>

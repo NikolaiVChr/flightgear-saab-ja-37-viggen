@@ -1475,3 +1475,5 @@ GUI: Added turn rate to performance monitor.
 GUI: Added turn radius to performance monitor.
 Sim: Changed structural limit warning to 7 G and -2.66 G. Pilots would normally be operating within this limit.
 Sim: Changed structural break limit for wings to 12 G at 33477.19 pounds (normal start weight).
+GUI: Added sink rate to monitor.
+Sim: Increased rear gears rebound value, to let it better cope with touchdown at 5 m/s sink rate.
