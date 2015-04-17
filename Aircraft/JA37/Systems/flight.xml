@@ -123,8 +123,8 @@
             <quotient>
               <product>
                 <quotient>
-                  <property>velocities/vtrue-kts</property>
-                  <value>3600</value><!-- convert knots to nm/sec -->
+                  <property>velocities/vg-fps</property>
+                  <value>0.000164578834</value><!-- convert fps to nm/sec -->
                 </quotient>
                 <quotient>
                     <product>
