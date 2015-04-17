@@ -360,7 +360,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 2141 </capacity>
       <contents unit="KG"> 2141 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 6 </priority>
@@ -375,7 +375,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 1065 </capacity>
       <contents unit="KG"> 1065 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 3 </priority>
@@ -390,7 +390,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 134 </capacity>
       <contents unit="KG"> 0 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 4 </priority>
@@ -405,7 +405,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 134 </capacity>
       <contents unit="KG"> 0 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 4 </priority>
@@ -420,7 +420,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 90 </capacity>
       <contents unit="KG"> 0 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 5 </priority>
@@ -435,7 +435,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 90 </capacity>
       <contents unit="KG"> 0 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 5 </priority>
@@ -450,7 +450,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 400 </capacity>
       <contents unit="KG"> 400 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 2 </priority>
@@ -465,7 +465,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 400 </capacity>
       <contents unit="KG"> 400 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 2 </priority>
@@ -480,7 +480,7 @@ to an airplane of that size). -->
       <radius unit="M"> 0.25 </radius>
       <capacity unit="KG"> 1190 </capacity><!-- Swedish airforce website -->
       <contents unit="KG"> 0 </contents>
-      <temperature>70</temperature>
+      <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
       <priority> 1 </priority>

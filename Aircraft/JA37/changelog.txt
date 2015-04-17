@@ -1477,3 +1477,5 @@ Sim: Changed structural limit warning to 7 G and -2.66 G. Pilots would normally 
 Sim: Changed structural break limit for wings to 12 G at 33477.19 pounds (normal start weight).
 GUI: Added sink rate to monitor.
 Sim: Increased rear gears rebound value, to let it better cope with touchdown at 5 m/s sink rate.
+Aero: Added stall hysteresis.
+Aero: Decreased initial fuel temperature from 70 to 59 fahrenheit.

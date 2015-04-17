@@ -7,7 +7,7 @@
         Page references are given to pdf: http://hdl.handle.net/2060/19860019453
 
         Plan: Low speed Aerodynamics from NASA document above
-              High speed aerodynamics from DATCOM and Australian document
+              High speed aerodynamics from DATCOM+ and Australian document
 
         Missing: More high-speed aerodynamics
                  More axial data
@@ -18,6 +18,16 @@
 
 <aerodynamics>      
   
+    <alphalimits unit="DEG">
+      <min>  -5 </min>
+      <max>  43 </max>
+    </alphalimits>
+
+    <hysteresis_limits unit="DEG">
+      <min> -4 </min>
+      <max> 41 </max>
+    </hysteresis_limits>
+
   
 <!-- ***********************************************************************************
                                                                  NORMAL
