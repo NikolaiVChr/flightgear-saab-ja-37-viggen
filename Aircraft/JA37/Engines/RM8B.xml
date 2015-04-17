@@ -20,6 +20,8 @@
   <bleed>           0.03</bleed><!-- -->
   <idlen1>         30.0 </idlen1><!-- http://www.airliners.net/  Also has a source saying 22%, but had to choose -->
   <idlen2>         58.5 </idlen2><!-- http://www.boeing-727.com/ - JT8D-17A -->
+  <n1spinup>        1.0 </n1spinup><!-- Fan rotor rpm starter acceleration (default 1.0) -->
+  <n2spinup>        3.0 </n2spinup><!-- Core rotor rpm starter acceleration (default 3.0) -->
   <maxn1>         102.4 </maxn1><!-- http://www.boeing-727.com/ -->
   <maxn2>         100.0 </maxn2><!-- http://www.boeing-727.com/ -->
   <augmented>         1 </augmented>

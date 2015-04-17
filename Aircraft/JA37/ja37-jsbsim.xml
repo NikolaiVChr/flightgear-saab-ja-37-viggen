@@ -65,15 +65,17 @@
 
  <metrics>
       <!-- from NASA document -->
-      <wingarea unit="M2">    46   </wingarea><!-- main wings --><!-- from Saab windtunnel data document -->
-      <wingspan unit="M">     10   </wingspan><!-- main wings --><!-- from Saab windtunnel data document -->
-      <chord unit="M">         7.4 </chord><!-- from Saab windtunnel data document -->
-      <htailarea unit="M2">   46   </htailarea><!-- using main wings for this since they act as htail also -->
+      <wingarea unit="M2">       46.0     </wingarea><!-- main wings --><!-- from Saab windtunnel data document -->
+      <wingspan unit="M">        10.0     </wingspan><!-- main wings --><!-- from Saab windtunnel data document -->
+      <chord unit="M">            7.4     </chord><!-- from Saab windtunnel data document -->
+      <htailarea unit="M2">      46.0     </htailarea><!-- using main wings for this since they act as htail also -->
       <!-- from Australian document -->
-      <vtailarea unit="FT2">      68.7  </vtailarea>
+      <vtailarea unit="FT2">     68.7     </vtailarea>
       <!-- data calculated using DATCOM+ -->      
-      <htailarm unit="FT">        17.4042  </htailarm>
-      <vtailarm unit="FT">        21.7358  </vtailarm>
+      <htailarm unit="FT">       17.4042  </htailarm>
+      <vtailarm unit="FT">       21.7358  </vtailarm>
+      <!-- Measured using Saab diagram in Gimp -->
+      <wing_incidence unit="DEG"> 0.20    </wing_incidence>
     <location name="AERORP" unit="M">
       <x> 0.6399 </x><!-- Page 47: stability margin at low speed
 will be on the order of O.3 - 0.5 m, which is a rather representative measure
