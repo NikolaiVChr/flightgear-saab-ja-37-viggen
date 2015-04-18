@@ -1479,6 +1479,7 @@ GUI: Added sink rate to monitor.
 Aero: Increased rear gears rebound value, to let it better cope with touchdown at 5 m/s sink rate.
 Aero: Added stall hysteresis for good measure.
 Aero: Decreased initial fuel temperature from 70 to 59 fahrenheit.
-Aero: Adjusted wave drag to counter the increased drag from drop tank to achieve max performance values.
+Aero: Adjusted wave drag to counter the increased drag from drop tank to reachieve max performance values.
 Aero: Lowered static friction on rear gears to help with crosswind landings. Increased front gear friction in turn.
 GUI: Added colors to different sections of performance monitor.
+Aero: Adjusted the steering limit in regard to ground speed for the new friction values. It now steer significant less.

@@ -645,11 +645,12 @@
         <table>
           <independentVar>velocities/vg-fps</independentVar>
           <tableData><!-- note that this is positive also when moving in reverse -->
-              10.0        80.0
-              20.0        50.0
-              50.0        10.0
-              150.0       2.5
-              200.0       2.0 <!-- by this speed the front wheel hardly touches the runway -->
+               10.0       80.00
+               20.0       35.00
+               50.0        5.00
+              100.0        1.50
+              150.0        0.75
+              200.0        0.50 <!-- by this speed the front wheel hardly touches the runway -->
           </tableData>
         </table>
         <output>fcs/steer-pos-deg</output>
