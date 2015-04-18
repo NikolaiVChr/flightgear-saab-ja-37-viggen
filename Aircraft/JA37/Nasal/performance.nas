@@ -238,8 +238,8 @@ TakeoffDistance.new = func() {
 }
 
 TakeoffDistance.properties = func() {
-  return [{ property : "to-dist-ft",    name : "Takeoff distance",      format : "%4.1f", unit : "ft",     halign : "right" },
-          { property : "to-dist-m",    name : "Takeoff distance",      format : "%4.1f", unit : "m",     halign : "right" }]
+  return [{ property : "to-dist-ft",    name : "Takeoff distance",      format : "%4.1f", unit : "ft",     halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
+          { property : "to-dist-m",    name : "Takeoff distance",      format : "%4.1f", unit : "m",     halign : "right", red: 0.0, green: 1.0, blue: 0.0 }]
 }
 
 TakeoffDistance.reinit = func()
@@ -292,8 +292,8 @@ LandingDistance.new = func() {
 }
 
 LandingDistance.properties = func() {
-  return [{property : "land-dist-ft", name : "Landing distance", format : "%4.1f", unit : "ft", halign : "right"},
-          {property : "land-dist-m", name : "Landing distance", format : "%4.1f", unit : "m", halign : "right"}];
+  return [{property : "land-dist-ft", name : "Landing distance", format : "%4.1f", unit : "ft", halign : "right", red: 0.0, green: 1.0, blue: 0.0},
+          {property : "land-dist-m", name : "Landing distance", format : "%4.1f", unit : "m", halign : "right", red: 0.0, green: 1.0, blue: 0.0}];
 }
 
 LandingDistance.reinit = func() {
@@ -375,15 +375,15 @@ MiscMonitor.properties = func() {
   return [
  #   { property : "glideslope", name : "Glide slope",           format : "%3.1f", unit : "%",      halign : "right" },
     { property : "mach",         name : "Mach number",           format : "%1.3f", unit : "M",      halign : "right" },
-    { property : "climb-rate",   name : "Rate of climb",         format : "%4.1f", unit : "ft/min", halign : "right" },
     { property : "groundspeed",  name : "Ground speed",          format : "%3.1f", unit : "kt",     halign : "right" },
     { property : "TAS",          name : "True air speed",        format : "%3.1f", unit : "kt",     halign : "right" },
     { property : "angleofattack",name : "Angle of attack",       format : "%3.1f", unit : "deg",    halign : "right" },
     { property : "gforce",       name : "Pilot G-force",         format : "%3.1f", unit : "G",      halign : "right" },
-    { property : "roll-rate",    name : "Roll rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
-    { property : "turn-rate",    name : "Turn rate",             format : "%3.1f", unit : "deg/s",  halign : "right" },
-    { property : "turn-radius",  name : "Turn radius",           format : "%3.1f", unit : "nm",     halign : "right" },
-    { property : "sink-rate",    name : "Sink rate",             format : "%3.1f", unit : "m/s",    halign : "right" },
+    { property : "climb-rate",   name : "Rate of climb",         format : "%4.1f", unit : "ft/min", halign : "right", red: 0.75, green: 0.75, blue: 1.0 },
+    { property : "roll-rate",    name : "Roll rate",             format : "%3.1f", unit : "deg/s",  halign : "right", red: 0.75, green: 0.75, blue: 1.0 },
+    { property : "turn-rate",    name : "Turn rate",             format : "%3.1f", unit : "deg/s",  halign : "right", red: 0.75, green: 0.75, blue: 1.0 },
+    { property : "turn-radius",  name : "Turn radius",           format : "%3.1f", unit : "nm",     halign : "right", red: 0.75, green: 0.75, blue: 1.0 },
+    { property : "sink-rate",    name : "Sink rate",             format : "%3.1f", unit : "m/s",    halign : "right", red: 0.75, green: 0.75, blue: 1.0 },
   ]
 }
 
@@ -419,11 +419,11 @@ AeroMonitor.new = func()
 
 AeroMonitor.properties = func() {
   return [
-    { property : "ratio-lift-drag",     name : "Lift/Drag Ratio",     format : "%3.2f", unit : "",    halign : "right" },
-    { property : "ratio-lift-weight",   name : "Lift/Weight Ratio",   format : "%3.2f", unit : "",    halign : "right" },
-    { property : "ratio-thrust-weight", name : "Thrust/weight Ratio", format : "%3.2f", unit : "",    halign : "right" },
-    { property : "ratio-thrust-drag",   name : "Thrust/Drag Ratio",   format : "%3.2f", unit : "",    halign : "right" },
-    { property : "excess-thrust",       name : "Excess Thrust",       format : "%5d",   unit : "lb",  halign : "right" },
+    { property : "ratio-lift-drag",     name : "Lift/Drag Ratio",     format : "%3.2f", unit : "",    halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "ratio-lift-weight",   name : "Lift/Weight Ratio",   format : "%3.2f", unit : "",    halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "ratio-thrust-weight", name : "Thrust/weight Ratio", format : "%3.2f", unit : "",    halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "ratio-thrust-drag",   name : "Thrust/Drag Ratio",   format : "%3.2f", unit : "",    halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "excess-thrust",       name : "Excess Thrust",       format : "%5d",   unit : "lb",  halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
   ]
 }
 

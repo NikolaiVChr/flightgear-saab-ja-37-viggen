@@ -86,6 +86,10 @@ MonitorDialog.create = func {
         var label = property[column]; 
         w.node.setValues({row: row, col: col, label : label, format : "%s", halign : "left"});
       }
+      if (property["red"] != nil and property["green"] != nil and property["blue"] != nil) {
+        var color = w.node.getNode("color", 1);
+        color.setValues({"red": property.red, "green": property.green, "blue": property.blue});
+      }
       col += 1;
     }
     row += 1;
