@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">Flightgear</name>
+    <texture>Liveries/FG/fg.png</texture>
+    <owner type="string">Flightgear</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>

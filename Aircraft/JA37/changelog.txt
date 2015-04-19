@@ -1483,3 +1483,4 @@ Aero: Adjusted wave drag to counter the increased drag from drop tank to reachie
 Aero: Lowered static friction on rear gears to help with crosswind landings. Increased front gear friction in turn.
 GUI: Added colors to different sections of performance monitor.
 Aero: Adjusted the steering limit in regard to ground speed for the new friction values. It now steer significant less.
+Model: Added Flightgear livery.

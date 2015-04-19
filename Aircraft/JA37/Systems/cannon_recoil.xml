@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<system name="flight">
+
+  <channel name="Cannon recoil">
+  <!-- formula 0.5 x 0.5 x mass x velocity^2
+       mass = 1.22Kg
+       vel = 1,030 m/s
+       energy = 323574.5 Joules -->
+
+    
+  </channel>
+
+</system>
