@@ -1469,7 +1469,7 @@ Sim: Made missile time to lock on in searching random 0-3.5 seconds, instead of 
 HUD: Made diamond blink fast when the track is good.
 HUD: Selection distance and callsign will no longer blink.
 
-3.022
+3.022 - 2015 April 15 
 =====
 GUI: Added turn rate to performance monitor.
 GUI: Added turn radius to performance monitor.
@@ -1484,3 +1484,4 @@ Aero: Lowered static friction on rear gears to help with crosswind landings. Inc
 GUI: Added colors to different sections of performance monitor.
 Aero: Adjusted the steering limit in regard to ground speed for the new friction values. It now steer significant less.
 Model: Added Flightgear livery.
+HUD: Set default brightness to brightest.
