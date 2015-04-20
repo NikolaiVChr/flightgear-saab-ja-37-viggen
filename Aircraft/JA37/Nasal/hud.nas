@@ -2142,12 +2142,11 @@ var HUDnasal = {
           me.diamond_name.setText(selection[5]);
           
           if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
-            me.diamond_group.hide();
             me.target_circle[me.selection_index].hide();
           } else {
-            me.diamond_group.show();
             me.target_circle[me.selection_index].show();
           }
+          me.diamond_group.show();
           me.diamond.hide();
           me.target.hide();
         }

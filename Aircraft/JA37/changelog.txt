@@ -1490,3 +1490,5 @@ HUD: Set default brightness to brightest.
 =====
 HUD: Possible fix for track type not mathing. (model-shorter)
 Sim: Fixed roll and heading A/P.
+Aero: Added recoil from cannon to the plane.
+HUD: Fixed that selection distance and callsign would blink if it was not target or diamond.

@@ -11,7 +11,6 @@ Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
-Aero: Model cannon recoil.
 Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Proper pilot seat.
 Model: Throttle.
@@ -43,7 +42,6 @@ Sim: Uses 28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P
 Sim: Uses 115V: GPS, TILS
 Sim: 200V transformed to 28V.
 Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.
-Sim: Autopilot heading bug is unstable again fix it!
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
@@ -120,6 +118,7 @@ Model: Improve the 61-18 strike camo livery.
 Model: Improve the 57-21 red 'ghost' livery.
 Model: Improve the 46-04 unknown export livery.
 Model: Improve the 02-21 swedish sun livery.
+Model: Improve the Flightgear livery.
 Model: Make the 11-16 black/grey camo livery.
 Model: Make the 12-04 black and gold livery.
 Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)

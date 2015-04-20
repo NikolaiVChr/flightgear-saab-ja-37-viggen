@@ -1,14 +1,60 @@
 <?xml version="1.0"?>
 
-<system name="flight">
+<system name="cannon">
 
   <channel name="Cannon recoil">
-  <!-- formula 0.5 x 0.5 x mass x velocity^2
-       mass = 1.22Kg
-       vel = 1,030 m/s
-       energy = 323574.5 Joules -->
+  <!-- 
+       round_mass = 1.22Kg
+       velolcity = 1030 m/s
 
-    
+       recoil_energy = 0.5 x 0.5 x round_mass x velocity^2 = 323574.5 Joules
+
+       dt = 0.008333333 seconds
+
+       force = energy/dt = 38828940 N = 85603159.5 Pound of force
+
+       22.5 rounds/sec = 0.044444 sec/round
+
+       5.33333 jsb_frames/round (0.04444/dt) ~ will just make impulse every 5 frames
+
+        alternative formula
+        ===================
+        acc = velocity/dt = 123600 m/s^2
+
+        F = mass x acc = 150792 N = 332439.45 Pound
+
+        F_recoil = F / 2 = 166219.7272633982
+
+        -->
+
+    <fcs_function name="names/recoil/impulse">
+      <function>
+        <ifthen>
+          <eq>
+            <fraction>
+              <quotient>
+                <property>simulation/frame</property>
+                <value>5</value>
+              </quotient>
+            </fraction>
+            <value>0</value>
+          </eq>
+          <value>1</value>
+          <value>0</value>
+        </ifthen>
+      </function>
+      <output>systems/recoil/impulse</output>
+    </fcs_function>
+
+    <switch name="names/recoil/magnitude">
+      <default value="0"/>
+      <test logic="AND" value="166219.73">
+          /controls/armament/station[0]/trigger == 1
+          /ai/submodels/submodel[3]/count gt 0
+          systems/recoil/impulse == 1
+      </test>
+      <output>external_reactions/recoil/magnitude</output>
+    </switch>
+
   </channel>
-
 </system>
