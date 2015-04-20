@@ -1485,3 +1485,8 @@ GUI: Added colors to different sections of performance monitor.
 Aero: Adjusted the steering limit in regard to ground speed for the new friction values. It now steer significant less.
 Model: Added Flightgear livery.
 HUD: Set default brightness to brightest.
+
+3.023
+=====
+HUD: Possible fix for track type not mathing. (model-shorter)
+Sim: Fixed roll and heading A/P.

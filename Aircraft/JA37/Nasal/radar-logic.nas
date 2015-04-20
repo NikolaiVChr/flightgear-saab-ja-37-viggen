@@ -112,14 +112,14 @@ var processTracks = func (vector, carrier, missile = FALSE) {
               },
               call: func {
                 if(track.getChild("valid").getValue() == FALSE) {
-                  var child = track.removeChild("model-shorter");                    
+                  var child = track.removeChild("model-shorter");
                   if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
                     removelistener(listenerID);
                   }
                 }
               }
             };
-            funcHash.init(setlistener(track.getChild("valid"), func () {funcHash.call()}, 0, 0));
+            funcHash.init(setlistener(track.getChild("valid"), func () {funcHash.call()}, 1, 1));
           }
         }
 

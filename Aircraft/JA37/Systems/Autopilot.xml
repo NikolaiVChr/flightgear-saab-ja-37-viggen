@@ -46,12 +46,13 @@
         <!--<Kp>0.0040</Kp>
         <Ti>6.0</Ti>
         <Td>0.0</Td>-->
-      <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>0.015</value></Kp>        <!-- proportional gain -->
-      <Ti><property>/autopilot/pid/wingleveler-Ti</property><value>0.1</value></Ti>        <!-- integrator time -->
+      <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>1</value></Kp>        <!-- proportional gain -->
+      <Ti><property>/autopilot/pid/wingleveler-Ti</property><value>1</value></Ti>        <!-- integrator time -->
       <Td><property>/autopilot/pid/wingleveler-Td</property><value>1</value></Td>     <!-- derivator time  -->
-
-        <u_min>-0.5</u_min>
-        <u_max> 0.5</u_max>
+      <beta>1.0</beta>     <!-- input value weighing factor -->
+      <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
+      <u_min>-0.25</u_min>
+      <u_max> 0.25</u_max>
     </config>
   </pid-controller>
 
@@ -324,7 +325,7 @@
 
   <!-- Stage #1 sets target roll based on diff between current heading -->
   <!-- and heading bug. -->
-  <pid-controller>
+  <filter>
     <name>Heading Bug Hold (DG based) Stage 1</name>
     <debug>false</debug>
     <enable>
@@ -340,25 +341,30 @@
     <output>
       <property>/autopilot/internal/target-roll-deg</property>
     </output>
+    <type>gain</type>
+    <gain>4</gain>
     <config>
-      <Kp><property>/autopilot/pid/heading-targetroll-Kp</property><value>-10</value></Kp>        <!-- proportional gain -->
-      <Ti><property>/autopilot/pid/heading-targetroll-Ti</property><value>25</value></Ti>        <!-- integrator time -->
+      <!-- this stuff is not used anymore, keep it for sentimental value :) -->
+      <Kp><property>/autopilot/pid/heading-targetroll-Kp</property><value>-0.001</value></Kp>        <!-- proportional gain -->
+      <Ti><property>/autopilot/pid/heading-targetroll-Ti</property><value>0.025</value></Ti>        <!-- integrator time -->
       <Td><property>/autopilot/pid/heading-targetroll-Td</property><value>0.1</value></Td>     <!-- derivator time -->
 
-      <beta>1.0</beta>     <!-- input value weighing factor -->
+      <beta>1</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
                            <!-- unfiltered derivative error -->
       <u_min>-55.0</u_min> <!-- minimum output clamp -->
       <u_max> 55.0</u_max>  <!-- maximum output clamp -->
     </config>
-  </pid-controller>
+    <min>-55.0</min> <!-- minimum output clamp -->
+    <max> 55.0</max>
+  </filter>
 
   <!-- True Heading hold.  2 stage cascade controller. -->
 
   <!-- Stage #1 sets target roll based on diff between current heading -->
   <!-- and target heading. -->
-  <pid-controller>
+  <filter>
     <name>True Heading Hold (DG based) Stage 1</name>
     <debug>false</debug>
     <enable>
@@ -374,7 +380,10 @@
     <output>
       <property>/autopilot/internal/target-roll-deg</property>
     </output>
+    <type>gain</type>
+    <gain>4</gain>
     <config>
+      <!-- this stuff is not used anymore, keep it for sentimental value :) -->
       <Kp><property>/autopilot/pid/heading-targetroll-Kp</property></Kp>        <!-- proportional gain -->
       <Ti><property>/autopilot/pid/heading-targetroll-Ti</property></Ti>        <!-- integrator time -->
       <Td><property>/autopilot/pid/heading-targetroll-Td</property></Td>     <!-- derivator time -->
@@ -386,14 +395,16 @@
       <u_min>-55.0</u_min> <!-- minimum output clamp -->
       <u_max> 55.0</u_max>  <!-- maximum output clamp -->
     </config>
-  </pid-controller>
+    <min>-55.0</min> <!-- minimum output clamp -->
+    <max> 55.0</max>
+  </filter>
 
 
   <!-- Nav1 hold.  2 stage cascade controller. -->
 
   <!-- Stage #1 sets target roll based on diff between current heading -->
   <!-- and target heading. -->
-  <pid-controller>
+  <filter>
     <name>Nav1 Hold Stage 1</name>
     <debug>false</debug>
     <enable>
@@ -409,7 +420,10 @@
     <output>
       <property>/autopilot/internal/target-roll-deg</property>
     </output>
+    <type>gain</type>
+    <gain>4</gain>
     <config>
+      <!-- this stuff is not used anymore, keep it for sentimental value :) -->
       <Kp><property>/autopilot/pid/heading-targetroll-Kp</property></Kp>        <!-- proportional gain -->
       <Ti><property>/autopilot/pid/heading-targetroll-Ti</property></Ti>        <!-- integrator time -->
       <Td><property>/autopilot/pid/heading-targetroll-Td</property></Td>     <!-- derivator time -->
@@ -421,7 +435,9 @@
       <u_min>-55.0</u_min> <!-- minimum output clamp -->
       <u_max> 55.0</u_max>  <!-- maximum output clamp -->
     </config>
-  </pid-controller>
+    <min>-55.0</min> <!-- minimum output clamp -->
+    <max> 55.0</max>
+  </filter>
 
 </PropertyList>
 
