@@ -1496,3 +1496,4 @@ Engine: Full thrust will now kick in at 93.5% throttle.
 Engine: Afterburner will now kick in at 98.5% throttle.
 Sim: Doubled max climb rate for A/P around Mach 1.
 Engine: Set the thrust levels in newton as per JA-37Di manual as that is primary source.
+GUI: Fixed a calc error regression in turn radius calculation for monitor.

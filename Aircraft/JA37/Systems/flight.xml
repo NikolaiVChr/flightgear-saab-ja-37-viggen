@@ -122,10 +122,10 @@
           <abs>
             <quotient>
               <product>
-                <quotient>
+                <product>
                   <property>velocities/vg-fps</property>
                   <value>0.000164578834</value><!-- convert fps to nm/sec -->
-                </quotient>
+                </product>
                 <quotient>
                     <product>
                       <pi/>
