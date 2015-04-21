@@ -775,8 +775,8 @@
           <tableData>
               0.25            5        
               0.5          5000        
-              1.0         30000       
-          </tableData>
+              1.0         60000       
+          </tableData><!-- feet/sec -->
         </table>
         <output>autopilot/climb</output>
       </scheduled_gain>

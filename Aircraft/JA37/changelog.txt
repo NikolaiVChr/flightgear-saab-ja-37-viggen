@@ -1494,3 +1494,4 @@ Aero: Added recoil from cannon to the plane.
 HUD: Fixed that selection distance and callsign would blink if it was not target or diamond.
 Engine: Full thrust will now kick in at 92.5% throttle.
 Engine: Afterburner will now kick in at 97.5% throttle.
+Sim: Doubled max climb rate for A/P around Mach 1.
