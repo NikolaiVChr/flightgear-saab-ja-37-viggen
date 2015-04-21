@@ -718,7 +718,7 @@
         <zero_centered> false </zero_centered>
         <domain>
           <min>  0.0 </min>
-          <max>  0.925 </max>
+          <max>  0.935 </max>
         </domain>
         <range>
           <min>  0.0 </min>
@@ -736,7 +736,7 @@
       <switch name="names/throttle/augmentation">
           <default value="0"/>
           <test logic="AND" value="1">
-              fcs/throttle-cmd-norm ge 0.975
+              fcs/throttle-cmd-norm ge 0.985
               propulsion/engine/n1 ge 102
               /engines/engine/reversed == 0
               /engines/engine/running == 1

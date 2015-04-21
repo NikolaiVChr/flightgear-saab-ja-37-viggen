@@ -1488,11 +1488,11 @@ HUD: Set default brightness to brightest.
 
 3.023
 =====
-HUD: Possible fix for track type not mathing. (model-shorter)
+HUD: Possible fix for track type not matching. (model-shorter)
 Sim: Fixed roll and heading A/P.
 Aero: Added recoil from cannon to the plane.
 HUD: Fixed that selection distance and callsign would blink if it was not target or diamond.
-Engine: Full thrust will now kick in at 92.5% throttle.
-Engine: Afterburner will now kick in at 97.5% throttle.
+Engine: Full thrust will now kick in at 93.5% throttle.
+Engine: Afterburner will now kick in at 98.5% throttle.
 Sim: Doubled max climb rate for A/P around Mach 1.
 Engine: Set the thrust levels in newton as per JA-37Di manual as that is primary source.
