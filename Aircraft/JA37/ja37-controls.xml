@@ -773,7 +773,8 @@
         <table>
           <independentVar lookup="row">velocities/mach</independentVar>
           <tableData>
-              0.25            5        
+              0.0             0
+              0.3             5        
               0.5          5000        
               1.0         60000       
           </tableData><!-- feet/sec -->

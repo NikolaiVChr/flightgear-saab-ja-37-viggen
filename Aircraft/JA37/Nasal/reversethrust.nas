@@ -11,7 +11,7 @@ togglereverser = func () {
       ja37.click();
       ja37.popupTip("Thrust: Reverse");
       interpolate(reverserPos.getPath(), 1.0, 1.5);  #reversing takes 1.5s per manual
-      interpolate(jsbEngine.getChild("reverser-angle-rad"), 2.0671, 1.5);# Max 7716.18lbs thrust. So acos(-7716.18/16203.98).
+      interpolate(jsbEngine.getChild("reverser-angle-rad"), 2.11223, 1.5);# Max 7716.18lbs thrust. So acos(-34323.27876347009N / 66600N).
       controlsEngine.getChild("reverser").setBoolValue(1);
     } else {
       if (reverserPosValue == 1.0) {

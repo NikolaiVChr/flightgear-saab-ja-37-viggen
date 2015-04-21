@@ -6,14 +6,14 @@
   Inputs:
     name:           Volvo RM8B (JT8D-22 with afterburner)
     type:           turbine
-    thrust:         16203.98 lb
+    thrust:         66600 N
     augmented?      yes
     injected?       no
 -->
 
 <turbine_engine name="Volvo RM8B">
-  <milthrust unit="LBS"> 16203.98 </milthrust><!-- book: Viggen by Sven Stridsberg -->
-  <maxthrust unit="LBS"> 28108.94 </maxthrust><!-- book: Viggen by Sven Stridsberg -->
+  <milthrust unit="N"> 66600 </milthrust><!-- JA-37Di manual -->
+  <maxthrust unit="N"> 110300 </maxthrust><!-- JA-37Di manual -->
   <bypassratio>     0.97 </bypassratio> <!-- Turbofan and turbojet engines: database handbook. - JT8D-17A: 1.02. But RM8A is 1.07 and RM8B is 0.97 -->
   <tsfc>            0.64 </tsfc><!-- from page 5, Australian document -->
   <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
@@ -25,13 +25,13 @@
   <maxn1>         102.4 </maxn1><!-- http://www.boeing-727.com/ -->
   <maxn2>         100.0 </maxn2><!-- http://www.boeing-727.com/ -->
   <augmented>         1 </augmented>
-  <augmethod>         0 </augmethod> <!-- controlled from Nasal code -->
+  <augmethod>         0 </augmethod> <!-- controlled from FCS -->
   <injected>          0 </injected>
 
 
   <function name="IdleThrust"><!-- 716.50lbs - book: Viggen by Sven Stridsberg -->
    <product>
-     <value>0.9061</value><!-- 716.5 / (0.0488 x 16203.98) -->
+     <value>0.98064</value><!-- 3187.150796641125 N / (0.0488 x 66600) -->
      <table>
       <independentVar lookup="row">velocities/mach</independentVar>
       <independentVar lookup="column">atmosphere/density-altitude</independentVar>
