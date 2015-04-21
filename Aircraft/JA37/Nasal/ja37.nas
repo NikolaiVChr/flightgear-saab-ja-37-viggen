@@ -624,8 +624,8 @@ var speed_loop = func () {
   var n2 = input.n2.getValue();
   var reversed = input.reversed.getValue();
 
-  if ( (n1 > 102) and (n2 > 99) and (reversed == FALSE) ) { #was 99 and 97
-    input.augmentation.setValue(1);
+  if ( getprop("fdm/jsbsim/propulsion/engine/augmentation") == TRUE) { #was 99 and 97
+    input.augmentation.setValue(TRUE);
   } else {
     input.augmentation.setValue(FALSE);
   }

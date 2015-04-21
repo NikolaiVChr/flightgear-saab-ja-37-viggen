@@ -711,7 +711,40 @@
 
     </channel>
 
-    <!--<channel name="Throttle">
+    <channel name="Throttle">
+
+      <aerosurface_scale name="names/throttle/pos-norm-scale">
+        <input>fcs/throttle-cmd-norm</input>
+        <zero_centered> false </zero_centered>
+        <domain>
+          <min>  0.0 </min>
+          <max>  0.925 </max>
+        </domain>
+        <range>
+          <min>  0.0 </min>
+          <max>  1.0 </max>
+        </range>
+        <output>fcs/throttle-pos-norm-scale</output>
+      </aerosurface_scale>
+
+      <pure_gain name="names/throttle/pos-norm">
+        <input>fcs/throttle-pos-norm-scale</input>
+        <gain>1.0</gain>
+        <output>fcs/throttle-pos-norm</output>
+      </pure_gain>
+
+      <switch name="names/throttle/augmentation">
+          <default value="0"/>
+          <test logic="AND" value="1">
+              fcs/throttle-cmd-norm ge 0.975
+              propulsion/engine/n1 ge 102
+              /engines/engine/reversed == 0
+              /engines/engine/running == 1
+          </test>
+          <output>propulsion/engine/augmentation</output>
+      </switch>
+ 
+      <!--
       <kinematic name="fcs/throttle-pos-norm-kinematic">
         <input>fcs/throttle-cmd-norm</input>
         <traverse>
@@ -731,8 +764,8 @@
         <input>fcs/throttle-pos-norm-kinematic</input>
         <gain>1.0</gain>
         <output>fcs/throttle-pos-norm</output>
-      </pure_gain>
-    </channel>-->
+      </pure_gain>-->
+    </channel>
 
     <channel name="Autopilot">
       <scheduled_gain name="names/autopilot/Autopilot-max-climb">

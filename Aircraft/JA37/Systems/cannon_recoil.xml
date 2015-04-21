@@ -11,19 +11,32 @@
 
        dt = 0.008333333 seconds
 
-       force = energy/dt = 38828940 N = 85603159.5 Pound of force
+       force = energy/dt = 38828940 N = 8729092.94 lb
 
        22.5 rounds/sec = 0.044444 sec/round
 
        5.33333 jsb_frames/round (0.04444/dt) ~ will just make impulse every 5 frames
 
-        alternative formula
+
+        alternative formula (is the one I use)
         ===================
         acc = velocity/dt = 123600 m/s^2
 
-        F = mass x acc = 150792 N = 332439.45 Pound
+        F = mass x acc = 150792 N = 33899.39 lb
 
-        F_recoil = F / 2 = 166219.7272633982
+
+        Culps formula
+        =============
+        Assuming a 2m barrel length, mass = 1.22kg, muzzle V = 1030 m/s, and:
+
+        F=ma,  d= 1/2at^2, v=at, deltaP = Ft:
+
+        I get:
+
+        t = 0.0039s, impulse = 1256.6, F = 322205N = 72435 lb (approx)
+
+        Coincidentally, t is roughly equal to the simulation dt.
+
 
         -->
 
@@ -48,7 +61,7 @@
 
     <switch name="names/recoil/magnitude">
       <default value="0"/>
-      <test logic="AND" value="166219.73">
+      <test logic="AND" value="33899.39">
           /controls/armament/station[0]/trigger == 1
           /ai/submodels/submodel[3]/count gt 0
           systems/recoil/impulse == 1

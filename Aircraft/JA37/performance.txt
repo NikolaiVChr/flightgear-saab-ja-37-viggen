@@ -81,10 +81,10 @@ wingarea (delta) 46.00 m^2
 empty weight 12200 kg / 26896.4 lbs
 normal start weight 16800 kg
 max start weight 22500 kg
-idle-thrust 325 kp / 716.50 lbs
-mil-thrust 7350 kp / 16203.98 lbs
-aug-thrust 12750 kp / 28108.94 lbs
-reverse thrust 3500 kp / 7716.18 lbs
+idle-thrust 325 kp / 716.50 lbf
+mil-thrust 7350 kp / 16203.98 lbf
+aug-thrust 12750 kp / 28108.94 lbf
+reverse thrust 3500 kp / 7716.18 lbf
 from still to 11 km 100 sec
 mach 2.1 at 12 km
 mach 1.25 at 100 m
@@ -106,13 +106,13 @@ rb24J:
 
 JA37Di manual
 =============
-Mil-thrust at sealvl:  66600 N /  6795 kp
-Aug-thrust at sealvl: 110300 N / 11250 kp
+Mil-thrust at sealvl:  66600 N /  6795 kp / 14972.28 lbs
+Aug-thrust at sealvl: 110300 N / 11250 kp / 24796.43 lbs
 wingspan 10.60 m
 length (including pitot tube) 16.40 m
 wingarea (main) 46.00 m^2
 wingarea (canards) 6.20 m^2
-normal start weight 16630 Kg / 36662.87 lbs (exclusiv drop tank and armament, but including cannon and its ammo)
+normal start weight 16630 Kg / 36662.87 lb (exclusiv drop tank and armament, but including cannon and its ammo)
 
 
 Interview with pilot
@@ -136,10 +136,10 @@ Lenght 16,40 m
 Height 3,869 m
   Raised tail 5,93 m
   Tail folded 4,00 m
-Emptyweight 10731 kg / 23657.81 lbs
-Fuel int 5860 l (4454 kg / 9819.39 lbs)
+Emptyweight 10731 kg / 23657.81 lb
+Fuel int 5860 l (4454 kg / 9819.39 lb)
 Fuel in droptank 1326 l (1190 kg)
-Start weight*) 15185 kg / 33477.19 lbs
+Start weight*) 15185 kg / 33477.19 lb
 With droptank 16378 kg
 Max startweight:
  Air2air 17600 kg
