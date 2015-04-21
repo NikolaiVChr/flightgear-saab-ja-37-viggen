@@ -1161,7 +1161,7 @@
         <tailhook-cmd-norm type="bool">false</tailhook-cmd-norm>
       </hook>
       <hydraulics>
-        <normal-pressure type="double">3022</normal-pressure>
+        <normal-pressure type="double">2987.7775</normal-pressure>
         <flight-system>
           <pump>
             <serviceable type="bool">true</serviceable>

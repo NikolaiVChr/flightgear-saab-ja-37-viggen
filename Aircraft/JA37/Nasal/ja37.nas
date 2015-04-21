@@ -136,7 +136,8 @@ var update_loop = func {
                 + input.tank4LvlGal.getValue()
                 + input.tank5LvlGal.getValue()
                 + input.tank6LvlGal.getValue()
-                + input.tank7LvlGal.getValue();
+                + input.tank7LvlGal.getValue()
+                + input.tank8LvlGal.getValue();
 
 
     input.fuelNeedleF.setValue((current / total_fuel) *230);

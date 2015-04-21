@@ -1497,3 +1497,6 @@ Engine: Afterburner will now kick in at 98.5% throttle.
 Sim: Doubled max climb rate for A/P around Mach 1.
 Engine: Set the thrust levels in newton as per JA-37Di manual as that is primary source.
 GUI: Fixed a calc error regression in turn radius calculation for monitor.
+Sim: Made a n2 below 15 give less pressure per rpm as opposed to 18. Will help to give control of plane if engine cuts out.
+Sim: Set normal hydraulic pressure to 2987.7775 PSI, and minimum to 1131.2944 PSI as per manual.
+Sim: The fuel gauge will now go over 100% if droptank is full in addition to internal tanks.
