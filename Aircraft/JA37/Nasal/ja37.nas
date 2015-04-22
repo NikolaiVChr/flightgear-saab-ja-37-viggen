@@ -58,6 +58,7 @@ input = {
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
+  rad_alt:          "position/altitude-agl-ft",
   autoReverse:      "sim/ja37/autoReverseThrust",
   stationSelect:    "controls/armament/station-select",
   combat:           "/sim/ja37/hud/current-mode",
@@ -465,7 +466,7 @@ var update_loop = func {
     var lowSpeed = FALSE;
     if ((input.speedKt.getValue() * 1.852) < 375) {
       if (input.indAltMeter.getValue() < 1200) {
-        if ((input.gearsPos.getValue() == 1 and input.indAltMeter.getValue() > 30) or input.gearsPos.getValue() != 1) {
+        if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * 0.3048) > 30) or input.gearsPos.getValue() != 1) {
           if (getprop("fdm/jsbsim/fcs/throttle-cmd-norm") < 0.5 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             lowSpeed = TRUE;
           }
