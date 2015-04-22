@@ -782,6 +782,22 @@
     <volume><factor>4</factor></volume>
   </pullup>
 
+  <lowspeed>
+    <name>low-speed</name>
+    <mode>looped</mode>
+    <path>Aircraft/JA37/Sounds/warning-low-speed.wav</path>
+    <type>avionics</type>
+    <condition>
+      <property>sim/ja37/sound/speed-on</property>
+      <property>sim/current-view/internal</property>
+      <greater-than>
+          <property>systems/electrical/outputs/annunciator</property>
+          <value>23</value>
+      </greater-than>
+    </condition>
+    <volume><factor>4</factor></volume>
+  </lowspeed>
+
   <!-- old stall warnings:-->
   
    <!--<stall>

@@ -866,7 +866,7 @@
       Climb to 10,000m from brakes off in less than 100 seconds.
       Supersonic speed at low altitude in less than 60 seconds from take-off.
       Mach 1.25 at 100m altitude.
-      Maximum speed: Mach 2.2 at 11,000m alt (36,000 ft).
+      Maximum speed: Mach 2+ at 11,000m alt (36,000 ft).
       Service ceiling: 18,300 m (60,000 ft)
       From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
       
@@ -1028,6 +1028,7 @@
       <sound>
         <click-on type="bool">false</click-on>
         <terrain-on type="bool">false</terrain-on>
+        <speed-on type="bool">false</speed-on>
         <mp-volume type="double">0.4</mp-volume>
         <breath-volume type="double">0</breath-volume>
       </sound>

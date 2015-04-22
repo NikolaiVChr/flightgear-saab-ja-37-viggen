@@ -461,6 +461,19 @@ var update_loop = func {
       input.subAmmo2.setValue(0);
     }
 
+    # low speed warning
+    var lowSpeed = FALSE;
+    if ((input.speedKt.getValue() * 1.852) < 375) {
+      if (input.indAltMeter.getValue() < 1200) {
+        if ((input.gearsPos.getValue() == 1 and input.indAltMeter.getValue() > 30) or input.gearsPos.getValue() != 1) {
+          if (getprop("fdm/jsbsim/fcs/throttle-cmd-norm") < 0.5 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
+            lowSpeed = TRUE;
+          }
+        }
+      }
+    }
+    setprop("sim/ja37/sound/speed-on", lowSpeed);
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
