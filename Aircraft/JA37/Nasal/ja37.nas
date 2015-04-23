@@ -14,6 +14,11 @@ var touchdown2 = FALSE;
 var total_fuel = 0;
 var bingoFuel = FALSE;
 
+var warnEngineOff = TRUE;
+var warnCanopy = TRUE;
+var warnGenerator = TRUE;
+var warnHydr = TRUE;
+
 var MISSILE_STANDBY = -1;
 var MISSILE_SEARCH = 0;
 var MISSILE_LOCK = 1;
@@ -64,9 +69,11 @@ input = {
   combat:           "/sim/ja37/hud/current-mode",
   warnButton:       "sim/ja37/avionics/master-warning-button",
   warn:             "/instrumentation/master-warning",
+  master:           "sim/ja37/sound/master-on",
   engineRunning:    "engines/engine/running",
   hz10:             "sim/ja37/blink/ten-Hz/state",
   hz05:             "sim/ja37/blink/five-Hz/state",
+  hzThird:          "sim/ja37/blink/third-Hz/state",
   flame:            "engines/engine/flame",
   generatorOn:      "/systems/electrical/generator_on",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
@@ -421,33 +428,69 @@ var update_loop = func {
 
     # Master warning
     if(input.batteryOutput.getValue() > 23 ) {
-      if (input.warnButton.getValue() == TRUE) {
-        # test, should really be turn off sound
+      var warning_sound = FALSE;
+      var warning = FALSE;
+      if (input.wow0.getValue() == FALSE) {
+        if (input.engineRunning.getValue() == FALSE and autostarting == FALSE) {
+          warning = TRUE;
+          if (input.warnButton.getValue() == TRUE) {
+            warnEngineOff = FALSE;
+          }
+          if (warnEngineOff == TRUE) {
+            warning_sound = TRUE;
+          }
+        } else {
+          warnEngineOff = TRUE;
+        }
+        if (getprop("canopy/position-norm") > 0) {
+          warning = TRUE;
+          if (input.warnButton.getValue() == TRUE) {
+            warnCanopy = FALSE;
+          }
+          if (warnCanopy == TRUE) {
+            warning_sound = TRUE;
+          }
+        } else {
+          warnCanopy = TRUE;
+        }
+        if (input.generatorOn.getValue() == FALSE) {
+          warning = TRUE;
+          if (input.warnButton.getValue() == TRUE) {
+            warnGenerator = FALSE;
+          }
+          if (warnGenerator == TRUE) {
+            warning_sound = TRUE;
+          }
+        } else {
+          warnGenerator = TRUE;
+        }
+        if (getprop("fdm/jsbsim/systems/hydraulics/flight-system/pressure") != 1) {
+          warning = TRUE;
+          if (input.warnButton.getValue() == TRUE) {
+            warnHydr = FALSE;
+          }
+          if (warnHydr == TRUE) {
+            warning_sound = TRUE;
+          }
+        } else {
+          warnHydr = TRUE;
+        }
+      }
+        
+      # Master warning
+      if(warning == TRUE and input.hz10.getValue() == TRUE) {
         input.warn.setValue(TRUE);
-      } elsif (input.wow0.getValue() == FALSE and (
-        (input.engineRunning.getValue() == FALSE and autostarting == FALSE)
-        or (getprop("canopy/position-norm") > 0)
-        or (input.generatorOn.getValue() == FALSE)
-        or (getprop("fdm/jsbsim/systems/hydraulics/flight-system/pressure") != 1)
-        )) {
-        # Major warning
-        if(input.hz10.getValue() == TRUE) {
-          input.warn.setValue(TRUE);
-        } else {
-          input.warn.setValue(FALSE);
-        }
-      } elsif (TRUE == FALSE) {
-        # minor warning
-        if(input.hz05.getValue() == TRUE) {
-          input.warn.setValue(TRUE);
-        } else {
-          input.warn.setValue(FALSE);
-        }
       } else {
         input.warn.setValue(FALSE);
       }
+      if(warning_sound == TRUE and input.hzThird.getValue() == TRUE) {
+        input.master.setValue(TRUE);
+      } else {
+        input.master.setValue(FALSE);
+      }
     } else {
       input.warn.setValue(FALSE);
+      input.master.setValue(FALSE);
     }
 
     #augmented flame translucency
@@ -1008,6 +1051,7 @@ var beaconLoop = func () {
 
 aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2], "controls/electric/battery-switch");
 aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1], "controls/electric/battery-switch");
+aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1], "controls/electric/battery-switch");
 
 ############# workaround for removing default HUD   ##############
 

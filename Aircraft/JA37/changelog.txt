@@ -1503,3 +1503,5 @@ Sim: The fuel gauge will now go over 100% if droptank is full in addition to int
 Sound: Made low speed warning.
 GUI: Added option for cannon spread or not.
 GUI: Added option for annunciation.
+Sound: Added master warning.
+Sim: Made master warning work properly with button that silence.

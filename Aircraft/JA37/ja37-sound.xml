@@ -798,6 +798,22 @@
     <volume><factor>4</factor></volume>
   </lowspeed>
 
+  <master>
+    <name>master warning</name>
+    <mode>single</mode>
+    <path>Aircraft/JA37/Sounds/warning-master.wav</path>
+    <type>avionics</type>
+    <condition>
+      <property>sim/ja37/sound/master-on</property>
+      <property>sim/current-view/internal</property>
+      <greater-than>
+          <property>systems/electrical/outputs/annunciator</property>
+          <value>23</value>
+      </greater-than>
+    </condition>
+    <volume><factor>4</factor></volume>
+  </master>
+
   <!-- old stall warnings:-->
   
    <!--<stall>

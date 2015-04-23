@@ -26,8 +26,8 @@
 	    <hovered>
 	        <binding>
 	         	<command>set-tooltip</command>
-	         	<tooltip-id>Master test</tooltip-id>
-	         	<label>Master warning test</label>
+	         	<tooltip-id>Master warning silence</tooltip-id>
+	         	<label>Master warning silence</label>
 	         	<property>/instrumentation/master-warning</property>
 	        </binding>
 	    </hovered>
