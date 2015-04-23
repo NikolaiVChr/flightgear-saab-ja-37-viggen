@@ -466,7 +466,7 @@ var update_loop = func {
     var lowSpeed = FALSE;
     if ((input.speedKt.getValue() * 1.852) < 375) {
       if (input.indAltMeter.getValue() < 1200) {
-        if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * 0.3048) > 30) or input.gearsPos.getValue() != 1) {
+        if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * 0.3048) > 500) or input.gearsPos.getValue() != 1) {#manual: should be 30, not 500
           if (getprop("fdm/jsbsim/fcs/throttle-cmd-norm") < 0.5 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             lowSpeed = TRUE;
           }
@@ -860,7 +860,9 @@ var main_init = func {
                     "sim/ja37/hud/mode",
                     "sim/ja37/hud/bank-indicator",
                     "sim/ja37/autoReverseThrust",
-                    "sim/ja37/hud/stroke-linewidth");
+                    "sim/ja37/hud/stroke-linewidth",
+                    "ai/submodels/submodel[2]/random",
+                    "ai/submodels/submodel[3]/random");
   aircraft.data.save();
 
   setprop("/consumables/fuel/tank[8]/jettisoned", FALSE);

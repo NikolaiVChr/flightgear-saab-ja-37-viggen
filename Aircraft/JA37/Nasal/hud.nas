@@ -1022,7 +1022,7 @@ var HUDnasal = {
 
   displayGroundCollisionArrow: func (mode) {
     var rad_alt = me.input.rad_alt.getValue();
-    if (mode != TAKEOFF and ((mode == LANDING and rad_alt > (50/feet2meter)) or mode != LANDING)) {
+    if (mode != TAKEOFF and ( (mode == LANDING and rad_alt > (50/feet2meter)) or mode != LANDING )) {
       #var x = mp.getNode("position/global-x").getValue();# meters probably
       #var y = mp.getNode("position/global-y").getValue();
       #var z = mp.getNode("position/global-z").getValue();

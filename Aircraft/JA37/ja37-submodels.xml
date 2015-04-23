@@ -63,7 +63,7 @@
     <weight>2.69</weight><!-- pound -->
     <cd>0.193</cd>
     <eda>0.00136354</eda>
-    <random>true</random>
+    <random>false</random>
     <randomness>1.0</randomness>
     <collision>false</collision>
     <impact>false</impact>
@@ -87,7 +87,7 @@
     <weight>2.69</weight>
     <cd>0.193</cd>
     <eda>0.00136354</eda>
-    <random>true</random>
+    <random>false</random>
     <randomness>1.0</randomness>
     <collision>true</collision>
     <impact>true</impact>

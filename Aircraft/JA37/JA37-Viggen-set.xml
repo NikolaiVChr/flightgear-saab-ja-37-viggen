@@ -1076,7 +1076,16 @@
       <full-init type="bool">false</full-init>
     </time>
   </sim>
-
+ <ai>
+  <submodels>
+    <submodel n="2">
+      <random userarchive="y" type="bool">false</random>
+    </submodel>
+    <submodel n="3">
+      <random userarchive="y" type="bool">false</random>
+    </submodel>
+  </submodels>
+ </ai>
  <fdm>
   <jsbsim>
     <structural>
