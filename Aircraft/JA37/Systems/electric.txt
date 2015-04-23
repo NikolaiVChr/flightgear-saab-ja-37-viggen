@@ -30,7 +30,7 @@ systems/electrical/outputs/battery,0,.,systems/electrical/outputs/dme,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/adi,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/tacan,0,0
 systems/electrical/outputs/main_ac,0,.,systems/electrical/outputs/radar,0,0
-systems/electrical/outputs/battery,0,.,systems/electrical/outputs/annunciator,0,0
+sim/ja37/sound/annunciation-enabled,0,systems/electrical/outputs/battery,systems/electrical/outputs/annunciator,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/transponder,0,0
 systems/electrical/outputs/inst_ac,0,.,systems/electrical/outputs/adf,0,0
 systems/electrical/outputs/battery,0,.,systems/electrical/outputs/hud,0,0

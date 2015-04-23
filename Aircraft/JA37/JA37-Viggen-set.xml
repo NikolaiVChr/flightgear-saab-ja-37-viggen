@@ -1031,6 +1031,7 @@
         <speed-on type="bool">false</speed-on>
         <mp-volume type="double">0.4</mp-volume>
         <breath-volume type="double">0</breath-volume>
+        <annunciation-enabled type="bool">true</annunciation-enabled>
       </sound>
       <damage>
         <enabled type="bool">true</enabled>

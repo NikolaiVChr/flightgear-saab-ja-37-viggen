@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 625;
+var DIALOG_HEIGHT = 650;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -122,7 +122,7 @@ var Dialog = {
           
           var topRow = workArea.addChild("group");
           topRow.set("layout", "vbox");
-          topRow.set("pref-height", 350);
+          topRow.set("pref-height", 375);
           topRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           topRow.set("valign", "top");
           topRow.set("stretch", "false");
@@ -339,6 +339,21 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.cannonButton.setBinding("nasal", "ja37.Dialog.cannonToggle()");
 
+          ######   annunciation button   #####
+          var annunRow = topRow.addChild("group");
+          annunRow.set("layout", "hbox");
+          annunRow.set("pref-height", 25);
+          annunRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var mouseText = annunRow.addChild("text").set("label", "Annunciation (in english):");
+          annunRow.addChild("empty").set("stretch", 1);
+          me.dialog.annunButton = annunRow.addChild("button");
+          me.dialog.annunButton.set("halign", "right");
+          me.dialog.annunButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.annunButton.setBinding("nasal", "ja37.Dialog.annunToggle()");
+
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
           rb24msgRow.set("layout", "hbox");
@@ -542,6 +557,12 @@ var Dialog = {
       me.refreshButtons();
     },    
 
+    annunToggle: func {
+      var enabled = getprop("sim/ja37/sound/annunciation-enabled");
+      setprop("sim/ja37/sound/annunciation-enabled", !enabled);
+      me.refreshButtons();
+    },
+
     rb24msgToggle: func {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
@@ -711,6 +732,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.cannonButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/sound/annunciation-enabled");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.annunButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {
