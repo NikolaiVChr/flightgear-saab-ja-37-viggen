@@ -1505,3 +1505,4 @@ GUI: Added option for cannon spread or not.
 GUI: Added option for annunciation.
 Sound: Added master warning.
 Sim: Made master warning work properly with button that silence.
+Aero: Lowered static friction on rear gears again to help with crosswind landings.
