@@ -646,7 +646,7 @@
           <independentVar>velocities/vg-fps</independentVar>
           <tableData><!-- note that this is positive also when moving in reverse -->
                10.0       80.00
-               20.0       35.00
+               20.0       25.00
                50.0        5.00
               100.0        1.50
               150.0        0.75
