@@ -718,7 +718,7 @@
         <zero_centered> false </zero_centered>
         <domain>
           <min>  0.0 </min>
-          <max>  0.935 </max>
+          <max>  0.90 </max>
         </domain>
         <range>
           <min>  0.0 </min>
@@ -726,6 +726,54 @@
         </range>
         <output>fcs/throttle-pos-norm-scale</output>
       </aerosurface_scale>
+
+      <switch name="names/throttle/zone-factor">
+          <default value="0"/>
+          <test logic="AND" value="0.70">
+              fcs/throttle-cmd-norm lt 0.960
+          </test>
+          <test logic="AND" value="0.85">
+              fcs/throttle-cmd-norm lt 0.980
+          </test>
+          <test logic="AND" value="1.00">
+              fcs/throttle-cmd-norm ge 0.980
+          </test>
+          <output>propulsion/engine/zone-factor</output>
+      </switch>
+
+      <switch name="names/throttle/zone">
+          <default value="0"/>
+          <test logic="AND" value="0">
+              fcs/throttle-cmd-norm lt 0.940
+          </test>
+          <test logic="AND" value="1">
+              propulsion/engine/zone-factor == 0.70
+          </test>
+          <test logic="AND" value="2">
+              propulsion/engine/zone-factor == 0.85
+          </test>
+          <test logic="AND" value="3">
+              propulsion/engine/zone-factor == 1.00
+          </test>
+          <output>propulsion/engine/zone</output>
+      </switch>
+
+      <switch name="names/throttle/nozzle">
+          <default value="0"/>
+          <test logic="AND" value="/engines/engine/nozzle-pos-norm">
+              propulsion/engine/zone == 0
+          </test>
+          <test logic="AND" value="0.2">
+              propulsion/engine/zone == 1
+          </test>
+          <test logic="AND" value="0.5">
+              propulsion/engine/zone == 2
+          </test>
+          <test logic="AND" value="0.8">
+              propulsion/engine/zone == 3
+          </test>
+          <output>propulsion/engine/nozzle</output>
+      </switch>      
 
       <pure_gain name="names/throttle/pos-norm">
         <input>fcs/throttle-pos-norm-scale</input>
@@ -736,7 +784,7 @@
       <switch name="names/throttle/augmentation">
           <default value="0"/>
           <test logic="AND" value="1">
-              fcs/throttle-cmd-norm ge 0.985
+              fcs/throttle-cmd-norm ge 0.940
               propulsion/engine/n1 ge 102
               /engines/engine/reversed == 0
               /engines/engine/running == 1

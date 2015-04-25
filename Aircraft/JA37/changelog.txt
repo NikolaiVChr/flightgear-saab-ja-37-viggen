@@ -1507,3 +1507,5 @@ Sound: Added master warning.
 Sim: Made master warning work properly with button that silence.
 Aero: Lowered static friction on all gears to help with crosswind landings.
 Aero: Lowered maximum nosewheel steering at 20 fps to help with turning stability.
+Engine: The afterburner now has 3 stages as per manual.
+Model: The nozzle indicator now switch to show stage of afterburner when that is enabled.

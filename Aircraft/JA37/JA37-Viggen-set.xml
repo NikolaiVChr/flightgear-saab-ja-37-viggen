@@ -804,6 +804,11 @@
       At takeoff and landing it will set flaps to 30 degrees down.
       In flight it will be set at 4 degrees up.    
 
+      Afterburner stages
+      __________________
+      The afterburner has 3 stages, the throttle controls this.
+      The nozzle indicator alternate as a afterburner stage indicator.
+
       HUD info
       ________
       The HUD uses Km/h and meters, but this can be switched to imperial with 'I'.
@@ -1206,6 +1211,12 @@
     <autopilot>
       <one type="double">0.01667</one>
     </autopilot>
+    <propulsion>
+      <engine>
+        <zone type="double">0</zone>
+        <zone-factor type="double">1</zone-factor>
+      </engine>
+    </propulsion>
     <launchbar>
       <launch-bar-pos-norm type="double">0</launch-bar-pos-norm>
     </launchbar>

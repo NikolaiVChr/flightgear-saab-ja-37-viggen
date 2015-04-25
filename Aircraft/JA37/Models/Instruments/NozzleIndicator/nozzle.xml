@@ -7,11 +7,11 @@
 	  <object-name>TheHand</object-name>
 	  <condition>   
 	    <greater-than>
-	    <property>systems/electrical/outputs/battery</property>
-	    <value>23</value>
-	   </greater-than>
+	    	<property>systems/electrical/outputs/battery</property>
+	    	<value>23</value>
+	   	</greater-than>
 	  </condition>
-	  <property>engines/engine/nozzle-pos-norm</property>
+	  <property>fdm/jsbsim/propulsion/engine/nozzle</property>
 	  <factor>240</factor>
 	  <offset-deg>240</offset-deg>
 	  <axis>
@@ -43,7 +43,7 @@
 	       <binding>
 	         <command>set-tooltip</command>
 	         <tooltip-id>nozzle</tooltip-id>
-	         <label>Nozzle position</label>
+	         <label>Nozzle position / Afterburner stage</label>
 	      </binding>
 	   </hovered>
 	 </animation>
