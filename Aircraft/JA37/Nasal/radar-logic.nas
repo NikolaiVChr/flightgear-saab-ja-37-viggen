@@ -107,19 +107,22 @@ var processTracks = func (vector, carrier, missile = FALSE) {
             track.addChild("model-shorter").setValue(model);
 
             var funcHash = {
-              init: func (listener) {
-                funcHash.listenerID = listener;
+              init: func (listener, trck) {
+                me.listenerID = listener;
+                me.trackme = trck;
               },
-              call: func {
-                if(track.getChild("valid").getValue() == FALSE) {
-                  var child = track.removeChild("model-shorter");
+              callme: func {
+                if(funcHash.trackme != nil and funcHash.trackme.getChild("valid") != nil and funcHash.trackme.getChild("valid").getValue() == FALSE) {
+                  var child = funcHash.trackme.removeChild("model-shorter");
                   if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
-                    removelistener(listenerID);
+                    removelistener(funcHash.listenerID);
                   }
                 }
               }
             };
-            funcHash.init(setlistener(track.getChild("valid"), func () {funcHash.call()}, 1, 1));
+            
+            funcHash.trackme = track;
+            funcHash.listenerID = setlistener(track.getChild("valid"), func call(func funcHash.callme(), nil, funcHash, funcHash), 1, 1);
           }
         }
 
