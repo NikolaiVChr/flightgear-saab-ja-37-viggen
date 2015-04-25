@@ -1488,12 +1488,12 @@ HUD: Set default brightness to brightest.
 
 3.023
 =====
-HUD: Possible fix for track type not matching. (model-shorter)
+HUD: Possible fix for track type not matching.
 Sim: Fixed roll and heading A/P.
 Aero: Added recoil from cannon to the plane.
 HUD: Fixed that selection distance and callsign would blink if it was not target or diamond.
-Engine: Full thrust will now kick in at 93.5% throttle.
-Engine: Afterburner will now kick in at 98.5% throttle.
+Engine: Full thrust will now kick in at 90.0% throttle.
+Engine: Afterburner will now kick in at 94.0% throttle.
 Sim: Doubled max climb rate for A/P around Mach 1.
 Engine: Set the thrust levels in newton as per JA-37Di manual as that is primary source.
 GUI: Fixed a calc error regression in turn radius calculation for monitor.
@@ -1507,5 +1507,6 @@ Sound: Added master warning.
 Sim: Made master warning work properly with button that silence.
 Aero: Lowered static friction on all gears to help with crosswind landings.
 Aero: Lowered maximum nosewheel steering at 20 fps to help with turning stability.
-Engine: The afterburner now has 3 stages as per manual.
+Engine: The afterburner now has 3 stages as per manual. Throttle position 94% = stage 1, 96% = stage 2, 98% = stage 3
 Model: The nozzle indicator now switch to show stage of afterburner when that is enabled.
+Model: Added augmentation zone indicator.

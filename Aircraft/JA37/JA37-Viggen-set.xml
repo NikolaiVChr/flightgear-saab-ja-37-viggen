@@ -806,7 +806,7 @@
 
       Afterburner stages
       __________________
-      The afterburner has 3 stages, the throttle controls this.
+      The afterburner has 3 stages, the throttle controls this. Throttle position 94% = stage 1, 96% = stage 2, 98% = stage 3
       The nozzle indicator alternate as a afterburner stage indicator.
 
       HUD info

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<PropertyList>
+	 <path>augStage.ac</path>
+
+	<animation>
+	  <type>pick</type> 
+	  <object-name>Mount</object-name>
+	  <object-name>Number1</object-name>
+	  <object-name>Number2</object-name>
+	  <object-name>Number3</object-name>
+	  <condition>   
+	    <greater-than>
+	    <property>systems/electrical/outputs/battery</property>
+	    <value>23</value>
+	   </greater-than>
+	  </condition>
+	  <hovered>
+	       <binding>
+	         <command>set-tooltip</command>
+	         <tooltip-id>augStage</tooltip-id>
+	         <label>Afterburner stage</label>
+	      </binding>
+	   </hovered>
+	 </animation>
+	  
+
+	<!-- lighting -->
+	<animation>
+	  <object-name>Number1</object-name>
+	  <type>material</type>
+	  <condition>   
+			<equals>
+			    <property>fdm/jsbsim/propulsion/engine/zone</property>
+			    <value>1</value>
+			</equals>
+	  </condition>
+	  <emission>
+	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+	     <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+	     <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+	     <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <object-name>Number2</object-name>
+	  <type>material</type>
+	  <condition>   
+			<equals>
+			    <property>fdm/jsbsim/propulsion/engine/zone</property>
+			    <value>2</value>
+			</equals>
+	  </condition>
+	  <emission>
+	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+	     <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+	     <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+	     <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <object-name>Number3</object-name>
+	  <type>material</type>
+	  <condition>   
+			<equals>
+			    <property>fdm/jsbsim/propulsion/engine/zone</property>
+			    <value>3</value>
+			</equals>
+	  </condition>
+	  <emission>
+	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+	     <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+	     <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+	     <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
+
+</PropertyList>
