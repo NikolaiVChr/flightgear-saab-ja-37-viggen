@@ -614,7 +614,7 @@
       <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/><!-- to show detachment of wings -->
       <!-- Animating engine -->
       <!-- float n="2" is controlled from nasal -->
-      <float n="3" alias="/engines/engine[0]/nozzle-pos-norm"/><!-- to animate afterburnerflame -->
+      <float n="3" alias="/fdm/jsbsim/propulsion/engine/zone-scaled"/><!-- to animate afterburnerflame -->
       <float n="5" alias="/engines/engine/flame"/><!-- to animate engine flame -->
       <float n="15" alias="/engines/engine/n1"/><!-- used in MP sound -->
       <float n="16" alias="/engines/engine/thrust_lb-absolute"/><!-- used in MP sound -->

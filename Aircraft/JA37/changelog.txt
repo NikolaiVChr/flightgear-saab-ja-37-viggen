@@ -1510,3 +1510,4 @@ Aero: Lowered maximum nosewheel steering at 20 fps to help with turning stabilit
 Engine: The afterburner now has 3 zones as per manual. Throttle position 94% = stage 1, 96% = stage 2, 98% = stage 3
 Model: The nozzle indicator now switch to show zone of afterburner when that is enabled.
 Model: Added augmentation zone indicator.
+Effect: Made afterburner flame size reflect afterburner zone.
