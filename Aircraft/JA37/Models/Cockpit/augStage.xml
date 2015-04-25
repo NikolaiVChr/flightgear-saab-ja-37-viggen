@@ -29,10 +29,20 @@
 	  <object-name>Number1</object-name>
 	  <type>material</type>
 	  <condition>   
+	  	<or>
 			<equals>
 			    <property>fdm/jsbsim/propulsion/engine/zone</property>
 			    <value>1</value>
 			</equals>
+			<equals>
+			    <property>fdm/jsbsim/propulsion/engine/zone</property>
+			    <value>2</value>
+			</equals>
+			<equals>
+			    <property>fdm/jsbsim/propulsion/engine/zone</property>
+			    <value>3</value>
+			</equals>	
+		</or>
 	  </condition>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
@@ -46,10 +56,16 @@
 	  <object-name>Number2</object-name>
 	  <type>material</type>
 	  <condition>   
+	  	<or>
 			<equals>
 			    <property>fdm/jsbsim/propulsion/engine/zone</property>
 			    <value>2</value>
 			</equals>
+			<equals>
+			    <property>fdm/jsbsim/propulsion/engine/zone</property>
+			    <value>3</value>
+			</equals>	
+		</or>
 	  </condition>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
