@@ -64,6 +64,7 @@ MiscMonitor.properties = func() {
     { property : "outlet",       name : "Outlet temperature",    format : "%3.1f", unit : "deg C",  halign : "right" },
     { property : "psi",          name : "Hydraulics",            format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },
+    { property : "oil",          name : "Oil pressure",          format : "%5.1f", unit : "psi",    halign : "right" },
   ]
 }
 
@@ -71,9 +72,10 @@ MiscMonitor.update = func()
 {
   setprop("/sim/gui/dialogs/systems-monitor/rpm", getprop("fdm/jsbsim/propulsion/engine/rpm_r-min"));
   setprop("/sim/gui/dialogs/systems-monitor/temp", getprop("environment/temperature-inside-degc"));
-  setprop("/sim/gui/dialogs/systems-monitor/outlet", getprop("fdm/jsbsim/propulsion/engine/outlet-temperature-degc"));
+  setprop("/sim/gui/dialogs/systems-monitor/outlet", (getprop("engines/engine/egt-degf") -32 )/1.8 );#getprop("fdm/jsbsim/propulsion/engine/outlet-temperature-degc"));
   setprop("/sim/gui/dialogs/systems-monitor/psi", getprop("fdm/jsbsim/systems/hydraulics/flight-system/psi"));
   setprop("/sim/gui/dialogs/systems-monitor/flaps", getprop("fdm/jsbsim/fcs/flap-pos-deg"));
+  setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("engines/engine/oil-pressure-psi"));
 }
 
 MiscMonitor.reinit = func() {
