@@ -62,6 +62,7 @@ MiscMonitor.properties = func() {
     { property : "rpm",          name : "RPM",                   format : "%5.1f", unit : "r/min",  halign : "right" },
     { property : "temp",         name : "Cockpit temperature",   format : "%2.1f", unit : "dec C",  halign : "right" },
     { property : "outlet",       name : "Outlet temperature",    format : "%3.1f", unit : "deg C",  halign : "right" },
+    { property : "psi",          name : "Hydraulics",            format : "%4.1f", unit : "psi",    halign : "right" },
   ]
 }
 
@@ -70,6 +71,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/rpm", getprop("fdm/jsbsim/propulsion/engine/rpm_r-min"));
   setprop("/sim/gui/dialogs/systems-monitor/temp", getprop("environment/temperature-inside-degc"));
   setprop("/sim/gui/dialogs/systems-monitor/outlet", getprop("fdm/jsbsim/propulsion/engine/outlet-temperature-degc"));
+  setprop("/sim/gui/dialogs/systems-monitor/psi", getprop("fdm/jsbsim/systems/hydraulics/flight-system/psi"));
 }
 
 MiscMonitor.reinit = func() {
