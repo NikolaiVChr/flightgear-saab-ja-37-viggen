@@ -510,7 +510,7 @@ var update_loop = func {
     if ((input.speedKt.getValue() * 1.852) < 375) {
       if (input.indAltMeter.getValue() < 1200) {
         if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * 0.3048) > 500) or input.gearsPos.getValue() != 1) {#manual: should be 30, not 500
-          if (getprop("fdm/jsbsim/fcs/throttle-cmd-norm") < 0.5 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
+          if (input.n2.getValue() < 70.5 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             lowSpeed = TRUE;
           }
         }

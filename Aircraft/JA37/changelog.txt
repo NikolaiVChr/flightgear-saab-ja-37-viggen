@@ -1511,3 +1511,6 @@ Engine: The afterburner now has 3 zones as per manual. Throttle position 94% = s
 Model: The nozzle indicator now switch to show zone of afterburner when that is enabled.
 Model: Added augmentation zone indicator.
 Effect: Made afterburner flame size reflect afterburner zone.
+Engine: Changed idle rpm to 57% as per manual.
+Engine: Changed idle thrust to 3kN as per manual.
+GUI: Made a systems monitor.

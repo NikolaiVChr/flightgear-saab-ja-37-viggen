@@ -727,6 +727,7 @@
         <output>fcs/throttle-pos-norm-scale</output>
       </aerosurface_scale>
 
+      <!-- factor for augmentation power -->
       <aerosurface_scale name="names/throttle/zone-factor">
         <input>fcs/throttle-cmd-norm</input>
         <zero_centered> false </zero_centered>
@@ -741,20 +742,7 @@
         <output>propulsion/engine/zone-factor</output>
       </aerosurface_scale>
 
-      <!--<switch name="names/throttle/zone-factor">
-          <default value="0"/>
-          <test logic="AND" value="0.70">
-              fcs/throttle-cmd-norm lt 0.960
-          </test>
-          <test logic="AND" value="0.85">
-              fcs/throttle-cmd-norm lt 0.980
-          </test>
-          <test logic="AND" value="1.00">
-              fcs/throttle-cmd-norm ge 0.980
-          </test>
-          <output>propulsion/engine/zone-factor</output>
-      </switch>-->
-
+      <!-- augmentation zone -->
       <switch name="names/throttle/zone">
           <default value="0"/>
           <test logic="AND" value="0">
@@ -772,6 +760,7 @@
           <output>propulsion/engine/zone</output>
       </switch>
 
+      <!-- used for animating nozzle indicator and afterburner flame -->
       <aerosurface_scale name="names/throttle/zone-scaled">
         <input>fcs/throttle-cmd-norm</input>
         <zero_centered> false </zero_centered>
@@ -786,6 +775,7 @@
         <output>propulsion/engine/zone-scaled</output>
       </aerosurface_scale>
 
+      <!-- used for animating nozzle indicator -->
       <switch name="names/throttle/nozzle">
           <default value="propulsion/engine/zone-scaled"/>
           <test logic="OR" value="/engines/engine/nozzle-pos-norm">
@@ -795,6 +785,7 @@
           <output>propulsion/engine/nozzle</output>
       </switch>      
 
+      <!-- pure_gain is the only component that can overwrite fcs/throttle-pos-norm -->
       <pure_gain name="names/throttle/pos-norm">
         <input>fcs/throttle-pos-norm-scale</input>
         <gain>1.0</gain>
@@ -827,12 +818,7 @@
         </traverse>
       </kinematic>
 
-        pure_gain is the only component that can overwrite fcs/throttle-pos-norm
-      <pure_gain name="names/throttle-pos-norm">
-        <input>fcs/throttle-pos-norm-kinematic</input>
-        <gain>1.0</gain>
-        <output>fcs/throttle-pos-norm</output>
-      </pure_gain>-->
+        -->
     </channel>
 
     <channel name="Autopilot">

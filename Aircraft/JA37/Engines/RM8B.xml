@@ -19,7 +19,7 @@
   <atsfc>           2.52 </atsfc><!-- from page 5, Australian document -->
   <bleed>           0.03</bleed><!-- -->
   <idlen1>         30.0 </idlen1><!-- http://www.airliners.net/  Also has a source saying 22%, but had to choose -->
-  <idlen2>         58.5 </idlen2><!-- http://www.boeing-727.com/ - JT8D-17A -->
+  <idlen2>         57.0 </idlen2><!-- JA-37Di manual --><!-- http://www.boeing-727.com/ - JT8D-17A : 58.5 -->
   <n1spinup>        1.0 </n1spinup><!-- Fan rotor rpm starter acceleration (default 1.0) -->
   <n2spinup>        3.0 </n2spinup><!-- Core rotor rpm starter acceleration (default 3.0) -->
   <maxn1>         102.4 </maxn1><!-- http://www.boeing-727.com/ -->
@@ -29,9 +29,9 @@
   <injected>          0 </injected>
 
 
-  <function name="IdleThrust"><!-- 716.50lbs - book: Viggen by Sven Stridsberg -->
+  <function name="IdleThrust"><!-- 3.0 kN - JA-37Di manual -->
    <product>
-     <value>0.98064</value><!-- 3187.150796641125 N / (0.0488 x 66600) -->
+     <value>0.92305</value><!-- 3000 N / (0.0488 x 66600) -->
      <table>
       <independentVar lookup="row">velocities/mach</independentVar>
       <independentVar lookup="column">atmosphere/density-altitude</independentVar>

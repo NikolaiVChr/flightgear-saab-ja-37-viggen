@@ -931,11 +931,20 @@
         </binding>
        </item>
         <item>
-          <label>Monitor</label>
+          <label>Performance Monitor</label>
           <binding>
            <command>nasal</command>
            <script>
               monitor.PerformanceMonitor.instance().start();
+           </script>
+          </binding>
+        </item>
+        <item>
+          <label>Systems Monitor</label>
+          <binding>
+           <command>nasal</command>
+           <script>
+              monitor2.SystemsMonitor.instance().start();
            </script>
           </binding>
         </item>
@@ -1929,9 +1938,13 @@
       <file>Aircraft/JA37/Nasal/hud.nas</file>
     </canvas_HUD>
     <monitor>
-      <file>Aircraft/JA37/Nasal/dialog.nas</file>
+      <file>Aircraft/JA37/Nasal/dialog-perf.nas</file>
       <file>Aircraft/JA37/Nasal/performance.nas</file>
     </monitor>
+    <monitor2>
+      <file>Aircraft/JA37/Nasal/dialog-sys.nas</file>
+      <file>Aircraft/JA37/Nasal/systems.nas</file>
+    </monitor2>    
     <limits>
       <file>Aircraft/Generic/limits.nas</file>
     </limits>
