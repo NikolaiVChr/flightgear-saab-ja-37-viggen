@@ -65,6 +65,7 @@ MiscMonitor.properties = func() {
     { property : "psi",          name : "Hydraulics",            format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },
     { property : "oil",          name : "Oil pressure",          format : "%5.1f", unit : "psi",    halign : "right" },
+    { property : "fuelT",        name : "Fuel temperature",      format : "%3.1f", unit : "deg C",  halign : "right" },
   ]
 }
 
@@ -76,6 +77,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/psi", getprop("fdm/jsbsim/systems/hydraulics/flight-system/psi"));
   setprop("/sim/gui/dialogs/systems-monitor/flaps", getprop("fdm/jsbsim/fcs/flap-pos-deg"));
   setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("engines/engine/oil-pressure-psi"));
+  setprop("/sim/gui/dialogs/systems-monitor/fuelT", getprop("consumables/fuel/tank[0]/temperature_degC"));
 }
 
 MiscMonitor.reinit = func() {
