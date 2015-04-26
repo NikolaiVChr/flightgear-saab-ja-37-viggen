@@ -1152,7 +1152,8 @@
         <serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
       </elevator>
       <flaps>
-        <pos-cmd type="double"/>
+        <pos-cmd type="double">0</pos-cmd>
+        <tmp-norm type="double">0.11765</tmp-norm>
         <serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
       </flaps>
       <mouse-optimized type="bool">false</mouse-optimized>
