@@ -1514,3 +1514,4 @@ Effect: Made afterburner flame size reflect afterburner zone.
 Engine: Changed idle rpm to 57% as per manual.
 Engine: Changed idle thrust to 3kN as per manual.
 GUI: Made a systems monitor.
+GUI: Added density, wind, alt, temp, pressure to performance monitor.
