@@ -46,7 +46,7 @@
         <!--<Kp>0.0040</Kp>
         <Ti>6.0</Ti>
         <Td>0.0</Td>-->
-      <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>1</value></Kp>        <!-- proportional gain -->
+      <Kp><property>/autopilot/pid/wingleveler-Kp</property><value>0.025</value></Kp>        <!-- proportional gain -->
       <Ti><property>/autopilot/pid/wingleveler-Ti</property><value>1</value></Ti>        <!-- integrator time -->
       <Td><property>/autopilot/pid/wingleveler-Td</property><value>1</value></Td>     <!-- derivator time  -->
       <beta>1.0</beta>     <!-- input value weighing factor -->
@@ -102,7 +102,7 @@
       <value>speed-with-throttle</value>
     </enable>
     <input>
-      <property>/velocities/airspeed-kt</property>
+      <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
     </input>
     <reference>
       <property>/autopilot/settings/target-speed-kt</property>
@@ -111,10 +111,10 @@
       <property>/controls/engines/engine/throttle</property>
     </output>
     <config>
-      <Kp>0.005</Kp>
+      <Kp>0.01</Kp> <!-- was 0.005 -->
       <beta>1.0</beta>
       <alpha>0.1</alpha>
-      <Ti>10.0</Ti>
+      <Ti>25.0</Ti><!-- was 10 -->
       <Td>0.5</Td>
       <u_min>0.0</u_min>
       <u_max>1.0</u_max>

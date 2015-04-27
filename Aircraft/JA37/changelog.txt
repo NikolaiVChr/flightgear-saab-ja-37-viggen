@@ -1515,3 +1515,5 @@ Engine: Changed idle rpm to 57% as per manual.
 Engine: Changed idle thrust to 3kN as per manual.
 GUI: Made a systems monitor.
 GUI: Added density, wind, alt, temp, pressure to performance monitor.
+Sim: Fixed the shaking when using heading or wing leveler A/P.
+Sim: A/P speed now used indicated airspeed instead of real airspeed. And minor chnages to how it works.
