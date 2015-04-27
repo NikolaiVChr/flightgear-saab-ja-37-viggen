@@ -298,7 +298,7 @@
     <outer-gain>0.2</outer-gain>
    </orientation>
    <volume>
-    <property>engines/engine/nozzle-pos-norm</property>
+    <property>fdm/jsbsim/propulsion/engine/zone-scaled</property>
     <offset>0.05</offset>
     <factor>0.2</factor>
    </volume>
@@ -481,7 +481,7 @@
     <outer-gain>0.2</outer-gain>
    </orientation>
    <volume>
-    <property>engines/engine/nozzle-pos-norm</property>
+    <property>fdm/jsbsim/propulsion/engine/zone-scaled</property>
     <factor>1.0</factor>
     <min>0.1</min>
     <max>1.0</max>
