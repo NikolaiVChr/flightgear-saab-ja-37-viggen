@@ -1486,7 +1486,7 @@ Aero: Adjusted the steering limit in regard to ground speed for the new friction
 Model: Added Flightgear livery.
 HUD: Set default brightness to brightest.
 
-3.023
+3.023 - 2015 April 27
 =====
 HUD: Possible fix for track type not matching.
 Sim: Fixed roll and heading A/P.
