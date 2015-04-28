@@ -1961,5 +1961,8 @@
     <armament>
       <file>Aircraft/JA37/Nasal/aim-9.nas</file>
     </armament>  
+    <formation>
+      <file>Aircraft/JA37/Nasal/formation.nas</file>
+    </formation>  
   </nasal>
 </PropertyList>
