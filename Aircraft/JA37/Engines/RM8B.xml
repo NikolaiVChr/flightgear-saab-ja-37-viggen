@@ -3,12 +3,8 @@
   File:     Volvo RM8B.xml
   Author:   Nikolai V. Chr.
 
-  Inputs:
     name:           Volvo RM8B (JT8D-22 with afterburner)
     type:           turbine
-    thrust:         66600 N
-    augmented?      yes
-    injected?       no
 -->
 
 <turbine_engine name="Volvo RM8B">

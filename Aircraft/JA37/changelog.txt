@@ -1516,6 +1516,11 @@ Engine: Changed idle thrust to 3kN as per manual.
 GUI: Made a systems monitor.
 GUI: Added density, wind, alt, temp, pressure to performance monitor.
 Sim: Fixed the shaking when using heading or wing leveler A/P.
-Sim: A/P speed now used indicated airspeed instead of real airspeed. And minor chnages to how it works.
+Sim: A/P speed now use indicated airspeed instead of real airspeed. And minor changes to how it works.
 Sim: Allowed A/P to climb faster at 0.30 mach.
 Sound: Made sound reflect the new afterburner zones.
+
+3.024
+=====
+Model: Made inlet fans dark on Flightgear livery.
+GUI: If fuel temperature is a NaN then it will now default to 15 deg in systems monitor.
