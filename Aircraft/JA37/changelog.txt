@@ -1524,3 +1524,5 @@ Sound: Made sound reflect the new afterburner zones.
 =====
 Model: Made inlet fans dark on Flightgear livery.
 GUI: If fuel temperature is a NaN then it will now default to 15 deg in systems monitor.
+Sim: Key shift-N now selects HUD center most radar track.
+Sim: Key R now toggle radar ON/OFF.

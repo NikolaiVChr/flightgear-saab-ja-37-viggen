@@ -682,7 +682,7 @@
       <desc>Hold down to trigger flare release</desc>
      </key>
      <key>
-      <name>e (lower case 'e')</name>
+      <name>e</name>
       <desc>Fire selected weapon</desc>
      </key>
      <key>
@@ -738,7 +738,7 @@
       <desc>Toggle nose wheel steering</desc>
      </key>
      <key>
-      <name>N</name>
+      <name>r</name>
       <desc>Toggle radar</desc>
      </key>
      <key>
@@ -761,6 +761,10 @@
       <name>n</name>
       <desc>Cycle next radar track selection</desc>
      </key>
+     <key>
+      <name>N</name>
+      <desc>Select radar track center most in HUD</desc>
+     </key>
      <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
       <name>L</name>
       <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
@@ -772,6 +776,10 @@
      <key>
       <name>l</name>
       <desc>Toggle arrester hook</desc>
+     </key>
+     <key>
+      <name>Shift-backspace</name>
+      <desc>Reload A/P</desc>
      </key> -->
      <text>
       Startup
@@ -1474,10 +1482,18 @@
 
     <key n="110">
       <name>n</name>
-      <desc>Next target</desc>
+      <desc>Next selection</desc>
       <binding>
         <command>nasal</command>
         <script>radar_logic.nextTarget()</script>
+      </binding>
+    </key>
+    <key n="78">
+      <name>N</name>
+      <desc>Select centermost</desc>
+      <binding>
+        <command>nasal</command>
+        <script>radar_logic.centerTarget()</script>
       </binding>
     </key>
     <key n="105">
@@ -1542,9 +1558,9 @@
        <script>ja37.cycle_weapons()</script>
       </binding>
     </key>
-    <key n="78">
-      <name>N</name>
-      <desc>Toggle radar</desc>
+    <key n="114">
+      <name>r</name>
+      <desc>Toggle radar</desc>  
       <binding>
        <command>nasal</command>
        <script>ja37.toggleTracks()</script>

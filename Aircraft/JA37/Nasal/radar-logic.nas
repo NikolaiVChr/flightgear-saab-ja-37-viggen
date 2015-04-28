@@ -317,6 +317,29 @@ var nextTarget = func () {
   }
 }
 
+var centerTarget = func () {
+  var centerMost = nil;
+  var centerDist = 99999;
+  var centerIndex = -1;
+  var i = -1;
+  foreach(var track; tracks) {
+    i += 1;
+    if(track[0] != 90000) {
+      var dist = math.abs(track[0]) + math.abs(track[1]);
+      if(dist < centerDist) {
+        centerDist = dist;
+        centerMost = track;
+        centerIndex = i;
+      }
+    }
+  }
+  if (centerMost != nil) {
+    selection = centerMost;
+    lookatSelection();
+    tracks_index = centerIndex;
+  }
+}
+
 var lookatSelection = func () {
   props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).unalias();
   props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).unalias();

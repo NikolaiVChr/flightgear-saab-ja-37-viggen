@@ -1254,9 +1254,9 @@ var toggleTracks = func {
   var enabled = getprop("sim/ja37/hud/tracks-enabled");
   setprop("sim/ja37/hud/tracks-enabled", !enabled);
   if(enabled == FALSE) {
-    popupTip("HUD: Radar tracks ON");
+    popupTip("Radar ON");
   } else {
-    popupTip("HUD: Radar tracks OFF");
+    popupTip("Radar OFF");
   }
 }
 
