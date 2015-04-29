@@ -18,6 +18,7 @@ Model: Make minimal polygon model for multiplayer LOD.
 Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Elevons should be double sided or have geometry on all edges.
+Model: texture the black components in the cockpit.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -38,6 +39,7 @@ Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
 Sim: Uses 28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy[or batt]
 Sim: Uses 115V: GPS, TILS
+Sim: Uses 200V: fuel pump system.
 Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)

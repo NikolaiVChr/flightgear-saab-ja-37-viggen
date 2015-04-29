@@ -162,6 +162,12 @@
  <animation>
   <type>rotate</type>
   <object-name>radarHeading</object-name>
+  <condition>   
+    <greater-than>
+    <property>systems/electrical/outputs/dc-voltage</property>
+    <value>23</value>
+   </greater-than>
+  </condition>
   <property>orientation/heading-magnetic-deg</property>
   <factor>-1.0</factor>
   <center>

@@ -1534,3 +1534,4 @@ Sim: Reworked how instruments and other components draw power. They are now feed
 GUI: Added some electrical key numbers to the system monitor.
 Model: Added indicator for battery recharging.
 Effect: Instrument, radar screen and landing lights now dim if they do not get their respective full voltage.
+Model: Made the radar heading require proper voltage to turn.
