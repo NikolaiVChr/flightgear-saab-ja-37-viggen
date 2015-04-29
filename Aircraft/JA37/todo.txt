@@ -35,14 +35,9 @@ Sim: Hydralic pump depend on electric instead of rpm
 Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
-Sim: Battery drain.
 Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
-
-Sim: Find in manual what uses battery and instr AC and main AC:
 Sim: Uses 28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy[or batt]
 Sim: Uses 115V: GPS, TILS
-Sim: 200V transformed to 28V.
-
 Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)

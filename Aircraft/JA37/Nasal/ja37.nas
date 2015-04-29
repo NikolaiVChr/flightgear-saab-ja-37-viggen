@@ -56,7 +56,6 @@ input = {
   batteryOutput:    "systems/electrical/outputs/dc-voltage",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   serviceElec:      "systems/electrical/serviceable",
-  canopyPower:      "/fdm/jsbsim/fcs/canopy/has-power",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   downFps:          "/velocities/down-relground-fps",
   thrustLb:         "engines/engine/thrust_lb",
@@ -178,16 +177,6 @@ var update_loop = func {
       input.flapPosCmd.setValue(flapsCommand);
     }
     
-    if (input.serviceElec.getValue() < 1) {
-      if (input.canopyPower.getValue() != FALSE) {
-        input.canopyPower.setValue(FALSE);
-      }
-    } else {
-      if (input.canopyPower.getValue() != TRUE) {
-        input.canopyPower.setValue(TRUE);
-      }
-    }
-
     #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
     #  setprop("fdm/jsbsim/fcs/rudder/serviceable", 1);
     #} elsif (getprop("fdm/jsbsim/fcs/rudder/serviceable") == 1) {

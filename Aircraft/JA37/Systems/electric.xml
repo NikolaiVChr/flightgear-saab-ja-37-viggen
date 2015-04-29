@@ -121,7 +121,8 @@
       </description>
       <default value="systems/electrical/battery-charge-norm"/>
         <test  logic="AND" value="0">
-          /controls/electric/main == 1         
+          /controls/electric/main == 1
+          /systems/electrical/serviceable gt 0
           systems/electrical/battery-charge-dc lt 25
         </test>
         <test  logic="AND" value="systems/electrical/battery-charging-norm">
@@ -215,6 +216,7 @@
         <default value="0"/>
         <test  logic="AND" value="systems/electrical/dc-voltage">
             /controls/electric/main gt 0
+            /systems/electrical/serviceable gt 0
         </test>
         <output>/systems/electrical/outputs/dc-voltage</output>
     </switch>
@@ -247,6 +249,7 @@
         <default value="0"/>
         <test  logic="AND" value="systems/electrical/AC-main-voltage">
             /controls/electric/main gt 0
+            /systems/electrical/serviceable gt 0
         </test>
         <output>/systems/electrical/outputs/ac-main-voltage</output>
     </switch>
@@ -258,6 +261,7 @@
       <default value="0"/>
       <test  logic="AND" value="systems/electrical/AC-instr-voltage">
           /controls/electric/main gt 0
+          /systems/electrical/serviceable gt 0
       </test>
       <output>/systems/electrical/outputs/ac-instr-voltage</output>
     </switch>
@@ -352,6 +356,20 @@
             /instrumentation/switches/inst-light-knob/pos == 1
       </test>
       <output>/controls/lighting/instruments-norm</output>
+      <clipto>
+        <min> 0 </min>
+        <max> 1 </max>
+      </clipto>
+    </switch>
+
+    <switch name="fcs/canopy/has-power">
+      <description>
+                      Canopy power
+      </description>
+      <default value="0"/>
+      <test  logic="AND" value="1">
+            systems/electrical/dc-voltage ge 22
+      </test>
       <clipto>
         <min> 0 </min>
         <max> 1 </max>
