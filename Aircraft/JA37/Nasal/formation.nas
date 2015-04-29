@@ -21,7 +21,7 @@ var formation_dialog = nil;
 
 initialize = func {
 
-	print("Initializing formation ...");
+	#print("Initializing formation ...");
 
 	formation_variant_Node = props.globals.getNode("sim/formation/variant", 1);
 	formation_variant_Node.setIntValue(0); 

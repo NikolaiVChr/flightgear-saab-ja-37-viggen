@@ -53,7 +53,7 @@ input = {
   augmentation:     "/controls/engines/engine[0]/augmentation",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
-  batteryOutput:    "systems/electrical/outputs/battery",
+  batteryOutput:    "systems/electrical/outputs/dc-voltage",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   serviceElec:      "systems/electrical/serviceable",
   canopyPower:      "/fdm/jsbsim/fcs/canopy/has-power",
@@ -75,7 +75,7 @@ input = {
   hz05:             "sim/ja37/blink/five-Hz/state",
   hzThird:          "sim/ja37/blink/third-Hz/state",
   flame:            "engines/engine/flame",
-  generatorOn:      "/systems/electrical/generator_on",
+  acInstrVolt:      "/systems/electrical/outputs/ac-instr-voltage",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
   mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
@@ -204,7 +204,7 @@ var update_loop = func {
     var rev = FALSE;
 
     # joystick indicator
-    if(input.generatorOn.getValue() == TRUE) {
+    if(input.acInstrVolt.getValue() > 50) {
       if (((input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil) and (input.lockAltitude.getValue() != ''
        and input.lockAltitude.getValue() != nil)) or input.lockPassive.getValue() == TRUE and input.batteryOutput.getValue() > 23) {
         joystick = FALSE;
@@ -453,7 +453,7 @@ var update_loop = func {
         } else {
           warnCanopy = TRUE;
         }
-        if (input.generatorOn.getValue() == FALSE) {
+        if (input.acInstrVolt.getValue() < 50) {
           warning = TRUE;
           if (input.warnButton.getValue() == TRUE) {
             warnGenerator = FALSE;
@@ -605,7 +605,7 @@ var slow_loop = func () {
   # calc inside temp
   if (getprop("canopy/position-norm") > 0) {
     tempInside = tempOutside;
-  } elsif(getprop("systems/electrical/generator_on") == 1) {
+  } elsif(getprop("systems/electrical/outputs/dc-voltage") > 23) {
     if (tempInside < tempAC) {
       tempInside = clamp(tempInside+0.5, -1000, tempAC);
     } elsif (tempInside > tempAC) {
@@ -651,16 +651,14 @@ var slow_loop = func () {
 # fast updating loop
 var speed_loop = func () {
 
-  # switch on and off landing lights
-  if(input.batteryOutput.getValue() > 24 and input.landLightSwitch.getValue() == TRUE and input.gearsPos.getValue() != 0) {
-    input.landLight.setValue(TRUE);
+  # switch on and off ALS landing lights
+  if(input.landLight.getValue() > 0) {    
     if(input.viewInternal.getValue() == TRUE and input.landLightSupport.getValue() == TRUE) {
         input.landLightALS.setValue(TRUE);
       } else {
         input.landLightALS.setValue(FALSE);
       }
   } else {
-    input.landLight.setValue(FALSE);
     input.landLightALS.setValue(FALSE);
   }
 
@@ -782,7 +780,7 @@ var cycle_weapons = func {
 ###########  loop for handling the battery signal for cockpit sound #########
 
 var battery_listener = func {
-    if (getprop("controls/electric/battery-switch") == TRUE) {
+    if (getprop("controls/electric/main") == TRUE) {
       setprop("/systems/electrical/batterysignal", TRUE);
 
       settimer(func {
@@ -790,7 +788,7 @@ var battery_listener = func {
         }, 6);
     }
 }
-setlistener("controls/electric/battery-switch", battery_listener, 0, 0);
+setlistener("controls/electric/main", battery_listener, 0, 0);
                 
 ###############  Test which system the flightgear version support.  ###########
 
@@ -1049,9 +1047,9 @@ var beaconLoop = func () {
 
 ############ blinkers ####################
 
-aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2], "controls/electric/battery-switch");
-aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1], "controls/electric/battery-switch");
-aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1], "controls/electric/battery-switch");
+aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2], "controls/electric/main");
+aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1], "controls/electric/main");
+aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1], "controls/electric/main");
 
 ############# workaround for removing default HUD   ##############
 
@@ -1064,7 +1062,6 @@ aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1], "controls/electric/battery
 var autostarting = FALSE;
 var start_count = 0;
 
-#Default 's' button will set starter to false, so will start delayed.
 var autostarttimer = func {
   if (autostarting == FALSE) {
     autostarting = TRUE;
@@ -1074,12 +1071,12 @@ var autostarttimer = func {
      setprop("/controls/engines/engine[0]/cutoff", TRUE);
   	 setprop("/controls/engines/engine[0]/starter", FALSE);
      setprop("/controls/electric/engine[0]/generator", FALSE);
-  	 setprop("/controls/electric/battery-switch", FALSE);
+  	 setprop("/controls/electric/main", FALSE);
      autostarting = FALSE;
     } else {
       #print("autostarting");
       #if (getprop("sim/ja37/damage/crashed") < 1) {
-        setprop("/controls/electric/battery-switch", TRUE);
+        setprop("/controls/electric/main", TRUE);
         click();
         popupTip("Battery switch on. Check.");
     	  settimer(autostart, 2, 1);
@@ -1095,7 +1092,7 @@ var autostarttimer = func {
 var autostart = func {
   setprop("/controls/electric/engine[0]/generator", FALSE);
   if (getprop("controls/electric/engine[0]/generator") == FALSE) {
-    popupTip("Starting engine.");
+    popupTip("Starting engine. Check.");
     click();
     setprop("/controls/engines/engine[0]/cutoff", TRUE);
     setprop("/controls/engines/engine[0]/starter", TRUE);
@@ -1117,11 +1114,11 @@ var waiting_n1 = func {
     } else {
       popupTip("Engine start failed. Check fuel.");
     }
-    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
+    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     setprop("/controls/engines/engine[0]/cutoff", TRUE);
     setprop("/controls/engines/engine[0]/starter", FALSE);
     setprop("/controls/electric/engine[0]/generator", FALSE);
-    setprop("/controls/electric/battery-switch", FALSE);
+    setprop("/controls/electric/main", FALSE);
     autostarting = FALSE;
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
@@ -1132,7 +1129,7 @@ var waiting_n1 = func {
           popupTip("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
         } else {
-          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
+          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
           setprop("/controls/engines/engine[0]/starter", FALSE);
           popupTip("Engine not igniting. Aborting engine start.");
           autostarting = FALSE;
@@ -1140,11 +1137,11 @@ var waiting_n1 = func {
       } else {
         settimer(waiting_n1, 0.5, 1);
       }
-    }  elsif (getprop("/engines/engine[0]/n1") > 15 and getprop("/controls/engines/engine[0]/cutoff") == FALSE) {
-      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch"));
+    }  elsif (getprop("/engines/engine[0]/n1") > 10 and getprop("/controls/engines/engine[0]/cutoff") == FALSE) {
+      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
-      popupTip("Generator on.");
+      popupTip("Generator on. Check.");
       settimer(final_engine, 0.5, 1);
     } else {
       settimer(waiting_n1, 0.5, 1);
@@ -1162,11 +1159,11 @@ var final_engine = func () {
     } else {
       popupTip("Engine start failed. Check fuel.");
     }    
-    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/battery-switch")~" fuel="~bingoFuel);
+    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     setprop("/controls/engines/engine[0]/cutoff", TRUE);
     setprop("/controls/engines/engine[0]/starter", FALSE);
     setprop("/controls/electric/engine[0]/generator", FALSE);
-    setprop("/controls/electric/battery-switch", FALSE);
+    setprop("/controls/electric/main", FALSE);
     autostarting = FALSE;    
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     popupTip("Engine ready.");

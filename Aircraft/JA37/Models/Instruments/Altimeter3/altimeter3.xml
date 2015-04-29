@@ -7,8 +7,8 @@
 	  <object-name>TheHand</object-name>
 	  <condition>
 	    <greater-than>
-	      <property>systems/electrical/outputs/altimeter</property>
-	      <value>23</value>
+	      <property>systems/electrical/outputs/ac-instr-voltage</property>
+	      <value>100</value>
 	    </greater-than>
 	  </condition>
 	  <property>instrumentation/altimeter/indicated-altitude-meter</property>
@@ -35,7 +35,7 @@
       <object-name>TheHand</object-name>
 	  <condition>   
 	    <greater-than>
-	    <property>systems/electrical/outputs/battery</property>
+	    <property>systems/electrical/outputs/dc-voltage</property>
 	    <value>20</value>
 	   </greater-than>
 	  </condition>

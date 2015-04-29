@@ -19,8 +19,8 @@
   <vacuum>
     <name>vacuum</name>
     <number>0</number>
-    <rpm>systems/electrical/outputs/inst_ac</rpm>
-    <scale>50.0</scale>
+    <rpm>systems/electrical/outputs/ac-main-voltage</rpm>
+    <scale>25.0</scale>
   </vacuum>
 
 </PropertyList>

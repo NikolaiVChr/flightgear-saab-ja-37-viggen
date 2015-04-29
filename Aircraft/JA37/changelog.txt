@@ -1526,3 +1526,11 @@ Model: Made inlet fans dark on Flightgear livery.
 GUI: If fuel temperature is a NaN then it will now default to 15 deg in systems monitor.
 Sim: Key shift-N now selects HUD center most radar track.
 Sim: Key R now toggle radar ON/OFF.
+Sim: Ported the electrical system to JSBSim from Potemkin nasal and gave it a big overhaul.
+Sim: Implemented drain and recharge for battery. It takes 10 minutes to empty and 10 also to recharge.
+Sim: Generator now spools up, and same does the AC voltages it produces.
+Sim: 28V DC is now proper converted from 200V AC. As per the manual.
+Sim: Reworked how instruments and other components draw power. They are now feed from a bus, and no longer have individual voltages.
+GUI: Added some electrical key numbers to the system monitor.
+Model: Added indicator for battery recharging.
+Effect: Instrument, radar screen and landing lights now dim if they do not get their respective full voltage.

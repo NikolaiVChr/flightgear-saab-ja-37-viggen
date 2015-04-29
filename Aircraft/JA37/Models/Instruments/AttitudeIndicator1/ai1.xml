@@ -47,8 +47,8 @@
     <object-name>sphere</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/attitude-indicator</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
@@ -65,8 +65,8 @@
     <object-name>sphere</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/attitude-indicator</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>instrumentation/attitude-indicator/indicated-pitch-deg</property>
@@ -83,8 +83,8 @@
     <object-name>bank-index</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/attitude-indicator</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>instrumentation/attitude-indicator/indicated-roll-deg</property>

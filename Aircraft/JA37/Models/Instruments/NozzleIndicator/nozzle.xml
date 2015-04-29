@@ -7,7 +7,7 @@
 	  <object-name>TheHand</object-name>
 	  <condition>   
 	    <greater-than>
-	    	<property>systems/electrical/outputs/battery</property>
+	    	<property>systems/electrical/outputs/dc-voltage</property>
 	    	<value>23</value>
 	   	</greater-than>
 	  </condition>
@@ -35,7 +35,7 @@
       <object-name>TheHand</object-name>
 	  <condition>   
 	    <greater-than>
-	    <property>systems/electrical/outputs/battery</property>
+	    <property>systems/electrical/outputs/dc-voltage</property>
 	    <value>23</value>
 	   </greater-than>
 	  </condition>

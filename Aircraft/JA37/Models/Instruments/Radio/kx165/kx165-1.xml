@@ -28,7 +28,7 @@
   <params>
     <comm-serviceable>instrumentation/comm[0]/serviceable</comm-serviceable>
     <nav-serviceable>instrumentation/nav[0]/serviceable</nav-serviceable>
-    <power>systems/electrical/outputs/nav[0]</power>
+    <power>instrumentation/comm[0]/power-good</power>
 
     <comm-frq-swp>instrumentation/comm[0]/frq-swap-btn</comm-frq-swp>
     <comm-frq-selected>instrumentation/comm[0]/frequencies/selected-mhz</comm-frq-selected>

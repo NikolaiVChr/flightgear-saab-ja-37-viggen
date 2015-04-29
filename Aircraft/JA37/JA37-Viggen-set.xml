@@ -164,10 +164,6 @@
           <property type="string">instrumentation/head-up-display/serviceable</property>
         </signal>
         <signal>
-          <type>int8</type>
-          <property type="string">systems/electrical/outputs/hud</property>
-        </signal>
-        <signal>
           <type>float</type>
           <property type="string">velocities/groundspeed-kt</property>
         </signal>
@@ -240,7 +236,7 @@
         </signal>
         <!-- exterior lights -->
         <signal>
-          <type>bool</type>
+          <type>float</type>
           <property type="string">systems/electrical/lights-ext</property>
         </signal>
         <!--<signal> this is continuosly running so recording it will make double blinks
@@ -252,16 +248,28 @@
           <property type="string">sim/model/lighting/beacon/state-rotary</property>
         </signal>
         <signal>
-          <type>bool</type>
+          <type>float</type>
           <property type="string">sim/ja37/effect/landing-light</property>
         </signal>
         <signal>
-          <type>int16</type>
-          <property type="string">systems/electrical/outputs/inst_ac</property>
+          <type>float</type>
+          <property type="string">systems/electrical/outputs/ac-instr-voltage</property>
         </signal>
         <signal>
-          <type>int16</type>
-          <property type="string">systems/electrical/outputs/battery</property>
+          <type>float</type>
+          <property type="string">systems/electrical/outputs/ac-main-voltage</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">systems/electrical/outputs/dc-voltage</property>
+        </signal> 
+        <signal>
+          <type>float</type>
+          <property type="string">/systems/electrical/outputs/dc-norm</property>
+        </signal>
+        <signal>
+          <type>float</type>
+          <property type="string">/systems/electrical/dc-light</property>
         </signal>
         <signal>
           <type>float</type>
@@ -623,7 +631,8 @@
       <int n="8" alias="/engines/engine[0]/reversed"/><!-- to animate afterburnerflame -->
       <!-- Animating light -->
       <int n="5" alias="/sim/model/lighting/strobe/state"/><!-- to animate strobe -->
-      <int n="6" alias="/sim/ja37/effect/landing-light"/><!-- to animate landing lights -->
+      <float n="4" alias="/sim/ja37/effect/landing-light"/><!-- to animate landing lights -->
+      <int n="6" alias="/sim/ja37/effect/landing-light"/><!-- for backwards compatibility -->
       <int n="9" alias="/systems/electrical/lights-ext"/><!-- to animate ext. lights -->
       <int n="15" alias="/sim/model/lighting/beacon/state"/><!-- to animate beacons, backward compat -->
       <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/><!-- to animate beacons -->
@@ -1203,6 +1212,9 @@
           <pressure type="double">0</pressure>
         </flight-system>
       </hydraulics>
+      <electrical>
+        <battery-charge-norm type="double">1.0</battery-charge-norm>
+      </electrical>      
     </systems>
     <aero>
       <factor-axial-mach type="double">1.0</factor-axial-mach>
@@ -1295,10 +1307,13 @@
     </launchbar>
   </gear>
   <electric>
-    <battery-switch type="bool">false</battery-switch>
+    <main type="bool">false</main>
     <lights-ext-switch type="bool">true</lights-ext-switch>
     <lights-land-switch type="bool">true</lights-land-switch>
   </electric>
+  <lighting>
+    <instruments-norm type="double">0.0</instruments-norm>
+  </lighting>
 </controls>
 <gear>
   <serviceable type="bool">true</serviceable>
@@ -1333,9 +1348,10 @@
   <path>Aircraft/JA37/Systems/systems.xml</path>
   <electrical>
     <lights-ext type="int">0</lights-ext>
-    <generator_enabled type="bool">false</generator_enabled>
+    <!--<generator_enabled type="bool">false</generator_enabled>
     <generator_on type="bool">false</generator_on>
     <battery_voltage type="double">0</battery_voltage>
+    <battery-charge-norm type="double">1.0</battery-charge-norm>
     <outputs>
       <main_ac type="double">0</main_ac>
       <hud type="double">0</hud>
@@ -1343,7 +1359,7 @@
       <battery type="double">0</battery>
       <comm n="0" type="double">0</comm>
       <comm n="1" type="double">0</comm>
-    </outputs>  
+    </outputs> --> 
   </electrical>
   <generator>
     <serviceable type="bool">true</serviceable>
@@ -1944,7 +1960,7 @@
      <file>Aircraft/JA37/Nasal/ja37.nas</file>
      <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
      <file>Aircraft/JA37/Nasal/liveries.nas</file>
-     <file>Aircraft/JA37/Nasal/systemp.nas</file>
+     <!--<file>Aircraft/JA37/Nasal/systemp.nas</file>-->
      <file>Aircraft/JA37/Nasal/radar.nas</file>
      <file>Aircraft/JA37/Nasal/options.nas</file>
      <file>Aircraft/JA37/Nasal/chronograph.nas</file>

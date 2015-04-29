@@ -45,8 +45,8 @@
     <object-name>AI2Cylinder</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/attitude-indicator</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>orientation/roll-deg</property>
@@ -63,8 +63,8 @@
     <object-name>AI2Pointer</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/attitude-indicator</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>orientation/roll-deg</property>
@@ -81,8 +81,8 @@
     <object-name>AI2Cylinder</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/attitude-indicator</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>orientation/pitch-deg</property>

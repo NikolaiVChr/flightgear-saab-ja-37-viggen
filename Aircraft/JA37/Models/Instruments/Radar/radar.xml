@@ -51,7 +51,7 @@
    <red>0.7</red> 
    <green>0.7</green> 
    <blue>0.7</blue>
-   <factor-prop>systems/electrical/generator_on</factor-prop>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
   </emission>
  </animation>
  

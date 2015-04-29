@@ -21,7 +21,7 @@
   <object-name>Plane</object-name>
   <condition>   
     <greater-than>
-    <property>systems/electrical/outputs/fuel</property>
+    <property>systems/electrical/outputs/ac-main-voltage</property>
     <value>150</value>
    </greater-than>
   </condition>
@@ -54,7 +54,7 @@
         <object-name>Needle_B</object-name>
         <condition>
           <greater-than>
-            <property>systems/electrical/outputs/fuel</property>
+            <property>systems/electrical/outputs/ac-main-voltage</property>
             <value>150</value>
           </greater-than>
        </condition>
@@ -77,7 +77,7 @@
         <object-name>Needle_F</object-name>
         <condition>
           <greater-than>
-            <property>systems/electrical/outputs/fuel</property>
+            <property>systems/electrical/outputs/ac-main-voltage</property>
             <value>150</value>
           </greater-than>
        </condition>

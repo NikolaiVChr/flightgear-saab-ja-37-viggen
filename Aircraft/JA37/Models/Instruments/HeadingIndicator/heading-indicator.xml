@@ -11,8 +11,8 @@
   <object-name>HSI_off-flag</object-name>
   <condition>
    <less-than>
-    <property>systems/electrical/outputs/adi</property>
-    <value>24</value>
+    <property>systems/electrical/outputs/ac-instr-voltage</property>
+    <value>100</value>
    </less-than> 
   </condition>
  </animation>

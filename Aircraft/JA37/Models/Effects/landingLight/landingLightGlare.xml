@@ -44,10 +44,19 @@
  <animation>
   <type>select</type>
   <condition>
-   <property>sim/multiplay/generic/int[6]</property><!--  sim/ja37/effect/landing-light  -->
    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>
   <object-name>glare</object-name>
+ </animation>
+
+<animation>
+  <type>material</type>
+  <object-name>glare</object-name>
+  <transparency>
+   <alpha-prop>sim/multiplay/generic/float[4]</alpha-prop>
+   <factor>1</factor>
+   <offset>0</offset>
+  </transparency>
  </animation>
 
  <animation>

@@ -61,11 +61,17 @@ MiscMonitor.properties = func() {
   return [
     { property : "rpm",          name : "RPM",                   format : "%5.1f", unit : "r/min",  halign : "right" },
     { property : "temp",         name : "Cockpit temperature",   format : "%2.1f", unit : "dec C",  halign : "right" },
-    { property : "outlet",       name : "Outlet temperature",    format : "%3.1f", unit : "deg C",  halign : "right" },
-    { property : "psi",          name : "Hydraulics",            format : "%4.1f", unit : "psi",    halign : "right" },
-    { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },
-    { property : "oil",          name : "Oil pressure",          format : "%5.1f", unit : "psi",    halign : "right" },
+    { property : "outlet",       name : "Exhaust gas temp.",     format : "%3.1f", unit : "deg C",  halign : "right" },
     { property : "fuelT",        name : "Fuel temperature",      format : "%3.1f", unit : "deg C",  halign : "right" },
+    { property : "psi",          name : "Hydraulics",            format : "%4.1f", unit : "psi",    halign : "right" },
+    { property : "oil",          name : "Oil pressure",          format : "%5.1f", unit : "psi",    halign : "right" },
+    { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },    
+
+    { property : "AC-major",     name : "Main AC",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "AC-minor",     name : "Instrument AC",         format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "Battery",      name : "Battery",               format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "Battery-charge",name : "Battery charge",       format : "%3d",   unit : "%",      halign : "right" },
+    { property : "DC",           name : "Main DC",               format : "%2.1f", unit : "volt",   halign : "right" },
   ]
 }
 
@@ -82,6 +88,12 @@ MiscMonitor.update = func()
     temp = 15;
   }
   setprop("/sim/gui/dialogs/systems-monitor/fuelT", temp);
+
+  setprop("/sim/gui/dialogs/systems-monitor/Battery", getprop("fdm/jsbsim/systems/electrical/battery-producing-dc"));
+  setprop("/sim/gui/dialogs/systems-monitor/AC-minor", getprop("systems/electrical/outputs/ac-instr-voltage"));
+  setprop("/sim/gui/dialogs/systems-monitor/DC", getprop("systems/electrical/outputs/dc-voltage"));
+  setprop("/sim/gui/dialogs/systems-monitor/AC-major", getprop("systems/electrical/outputs/ac-main-voltage"));
+  setprop("/sim/gui/dialogs/systems-monitor/Battery-charge", getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")*100);
 }
 
 MiscMonitor.reinit = func() {

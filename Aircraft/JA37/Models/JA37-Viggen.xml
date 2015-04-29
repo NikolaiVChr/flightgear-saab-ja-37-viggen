@@ -197,7 +197,7 @@
    <red>0.7</red> 
    <green>0.7</green> 
    <blue>0.7</blue>
-   <factor-prop>systems/electrical/generator_on</factor-prop>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
   </emission>
  </animation>
 
@@ -1108,23 +1108,23 @@
   <object-name>landingLight</object-name>
   <object-name>landingLightLeft</object-name>
   <object-name>landingLightRight</object-name>
-  <condition>
-    <property>sim/multiplay/generic/int[6]</property><!--  sim/ja37/effect/landing-light  -->
-  </condition>
   <emission>
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
   </emission>
   <diffuse>
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
   </diffuse>
   <ambient>
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
   </ambient>
  </animation>
 

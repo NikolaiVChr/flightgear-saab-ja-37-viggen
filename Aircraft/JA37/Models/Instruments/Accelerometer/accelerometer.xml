@@ -26,8 +26,8 @@
     <object-name>needle</object-name>
     <condition>
       <greater-than>
-        <property>systems/electrical/outputs/g-meter</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <property>sim/ja37/accelerations/pilot-G</property>

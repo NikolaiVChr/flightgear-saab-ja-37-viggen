@@ -94,8 +94,8 @@
     <condition>
       <property>instrumentation/transponder/ident</property>
       <greater-than>
-        <property>systems/electrical/outputs/transponder</property>
-        <value>23</value>
+        <property>systems/electrical/outputs/ac-instr-voltage</property>
+        <value>100</value>
       </greater-than>
     </condition>
     <emission>

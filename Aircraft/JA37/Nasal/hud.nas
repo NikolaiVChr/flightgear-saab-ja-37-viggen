@@ -848,7 +848,7 @@ var HUDnasal = {
         tenHz:            "sim/ja37/blink/ten-Hz/state",
         fiveHz:           "sim/ja37/blink/five-Hz/state",
         callsign:         "/sim/ja37/hud/callsign",
-        elec:             "/systems/electrical/outputs/hud",
+        elec:             "/systems/electrical/outputs/dc-voltage",
         altCalibrated:    "sim/ja37/avionics/altimeters-calibrated",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
         terrainOn:        "sim/ja37/sound/terrain-on",
