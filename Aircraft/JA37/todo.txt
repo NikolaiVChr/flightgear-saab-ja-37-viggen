@@ -37,7 +37,7 @@ Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
-Sim: Uses 28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy[or batt]
+Sim: Uses 24/28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy
 Sim: Uses 115V: GPS, TILS
 Sim: Uses 200V: fuel pump system.
 Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.

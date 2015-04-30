@@ -7,7 +7,7 @@ var theInit = setlistener("sim/ja37/supported/initialized", func {
 
 var callInit = func {
   canvasCallsign = canvas.new({
-        "name": "RADAR",
+        "name": "Callsign",
         "size": [128, 16],
         "view": [128, 16],
         "mipmapping": 0

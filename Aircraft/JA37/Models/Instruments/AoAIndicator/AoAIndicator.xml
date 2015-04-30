@@ -34,8 +34,8 @@
   <object-name>Needle</object-name>
   <condition>
     <greater-than>
-      <property>systems/electrical/outputs/ac-instr-voltage</property>
-      <value>100</value>
+      <property>systems/electrical/outputs/dc-voltage</property>
+      <value>23</value>
     </greater-than>
   </condition>
   <property>orientation/alpha-deg</property>

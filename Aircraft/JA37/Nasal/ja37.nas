@@ -174,7 +174,7 @@ var update_loop = func {
     var flapsCommand = 0;
     var battery = input.batteryOutput.getValue();
 
-    if (battery > 25) {
+    if (battery > 23) {
       flapsCommand = 1;
     } else {
       flapsCommand = 0;
