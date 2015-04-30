@@ -34,6 +34,7 @@ input = {
   elapsed:          "sim/time/elapsed-sec",
   elapsedInit:      "sim/time/elapsed-at-init-sec",
   fullInit:         "sim/time/full-init",
+  tank0LvlNorm:     "/consumables/fuel/tank[0]/level-norm",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   tank0LvlGal:      "/consumables/fuel/tank[0]/level-gal_us",
   tank1LvlGal:      "/consumables/fuel/tank[1]/level-gal_us",
@@ -161,6 +162,12 @@ var update_loop = func {
     } else {
       bingoFuel = TRUE;
     }
+
+    if (input.tank0LvlNorm.getValue() == 0) {
+      # a bug in JSB makes NaN on fuel temp if tank has been empty.
+      setprop("sim/ja37/supported/fuel-temp", FALSE);
+    }
+
 
     ## control flaps ##
 

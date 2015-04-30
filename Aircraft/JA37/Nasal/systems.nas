@@ -69,9 +69,10 @@ MiscMonitor.properties = func() {
 
     { property : "AC-major",     name : "Main AC",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "AC-minor",     name : "Instrument AC",         format : "%2.1f", unit : "volt",   halign : "right" },
+    { property : "DC",           name : "Main DC",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "Battery",      name : "Battery",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "Battery-charge",name : "Battery charge",       format : "%3d",   unit : "%",      halign : "right" },
-    { property : "DC",           name : "Main DC",               format : "%2.1f", unit : "volt",   halign : "right" },
+    
   ]
 }
 
@@ -83,7 +84,12 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/psi", getprop("fdm/jsbsim/systems/hydraulics/flight-system/psi"));
   setprop("/sim/gui/dialogs/systems-monitor/flaps", getprop("fdm/jsbsim/fcs/flap-pos-deg"));
   setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("engines/engine/oil-pressure-psi"));
-  var temp = getprop("consumables/fuel/tank[0]/temperature_degC");
+  var temp = nil;
+  if (getprop("sim/ja37/supported/fuel-temp") == 1) {
+    temp = getprop("consumables/fuel/tank[0]/temperature_degC");
+  } else {
+    temp = 15;
+  }
   if (temp == nil) {
     temp = 15;
   }

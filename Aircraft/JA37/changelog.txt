@@ -1535,3 +1535,4 @@ GUI: Added some electrical key numbers to the system monitor.
 Model: Added indicator for battery recharging.
 Effect: Instrument, radar screen and landing lights now dim if they do not get their respective full voltage.
 Model: Made the radar heading require proper voltage to turn.
+Sim: Prevented fuel temperature errors to swamp the output. If the temperature errors, 15 deg will be used shown in systems monitor.

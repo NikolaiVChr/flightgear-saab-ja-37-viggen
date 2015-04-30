@@ -1026,6 +1026,7 @@
         <popuptips type="int">0</popuptips>
         <crash-system type="int">0</crash-system>
         <ubershader type="bool">false</ubershader>
+        <fuel-temp type="bool">true</fuel-temp>
       </supported>
       <failures>
         <installed type="bool">false</installed>
