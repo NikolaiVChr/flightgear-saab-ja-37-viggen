@@ -63,7 +63,9 @@ MiscMonitor.properties = func() {
     { property : "temp",         name : "Cockpit temperature",   format : "%2.1f", unit : "dec C",  halign : "right" },
     { property : "outlet",       name : "Exhaust gas temp.",     format : "%3.1f", unit : "deg C",  halign : "right" },
     { property : "fuelT",        name : "Fuel temperature",      format : "%3.1f", unit : "deg C",  halign : "right" },
-    { property : "psi",          name : "Hydraulics",            format : "%4.1f", unit : "psi",    halign : "right" },
+    { property : "psi1",         name : "Hydraulics 1",          format : "%4.1f", unit : "psi",    halign : "right" },
+    { property : "psi2",         name : "Hydraulics 2",          format : "%4.1f", unit : "psi",    halign : "right" },
+    { property : "psiR",         name : "Hydraulics Reserve",    format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "oil",          name : "Oil pressure",          format : "%5.1f", unit : "psi",    halign : "right" },
     { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },    
 
@@ -81,7 +83,9 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/rpm", getprop("fdm/jsbsim/propulsion/engine/rpm_r-min"));
   setprop("/sim/gui/dialogs/systems-monitor/temp", getprop("environment/temperature-inside-degc"));
   setprop("/sim/gui/dialogs/systems-monitor/outlet", (getprop("engines/engine/egt-degf") -32 )/1.8 );#getprop("fdm/jsbsim/propulsion/engine/outlet-temperature-degc"));
-  setprop("/sim/gui/dialogs/systems-monitor/psi", getprop("fdm/jsbsim/systems/hydraulics/flight-system/psi"));
+  setprop("/sim/gui/dialogs/systems-monitor/psi1", getprop("fdm/jsbsim/systems/hydraulics/system1/main/psi"));
+  setprop("/sim/gui/dialogs/systems-monitor/psi2", getprop("fdm/jsbsim/systems/hydraulics/system2/main/psi"));
+  setprop("/sim/gui/dialogs/systems-monitor/psiR", getprop("fdm/jsbsim/systems/hydraulics/system2/reserve/psi"));
   setprop("/sim/gui/dialogs/systems-monitor/flaps", getprop("fdm/jsbsim/fcs/flap-pos-deg"));
   setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("engines/engine/oil-pressure-psi"));
   var temp = nil;

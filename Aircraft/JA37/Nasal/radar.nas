@@ -115,7 +115,7 @@ var radar = {
       radarEnabled:   "sim/ja37/hud/tracks-enabled",
       radarRange:     "instrumentation/radar/range",
       timeElapsed:    "sim/time/elapsed-sec",
-      hydrPressure:   "fdm/jsbsim/systems/hydraulics/flight-system/pressure",
+      hydrPressure:   "fdm/jsbsim/systems/hydraulics/system1/pressure",
     };
 
     # setup property nodes for the loop

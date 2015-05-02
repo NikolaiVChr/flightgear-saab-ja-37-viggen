@@ -17,7 +17,8 @@ var bingoFuel = FALSE;
 var warnEngineOff = TRUE;
 var warnCanopy = TRUE;
 var warnGenerator = TRUE;
-var warnHydr = TRUE;
+var warnHydr1 = TRUE;
+var warnHydr2 = TRUE;
 
 var MISSILE_STANDBY = -1;
 var MISSILE_SEARCH = 0;
@@ -460,16 +461,27 @@ var update_loop = func {
         } else {
           warnGenerator = TRUE;
         }
-        if (getprop("fdm/jsbsim/systems/hydraulics/flight-system/pressure") != 1) {
+        if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") != 1) {
           warning = TRUE;
           if (input.warnButton.getValue() == TRUE) {
-            warnHydr = FALSE;
+            warnHydr1 = FALSE;
           }
-          if (warnHydr == TRUE) {
+          if (warnHydr1 == TRUE) {
             warning_sound = TRUE;
           }
         } else {
-          warnHydr = TRUE;
+          warnHydr1 = TRUE;
+        }
+        if (getprop("fdm/jsbsim/systems/hydraulics/system2/pressure-main") != 1) {
+          warning = TRUE;
+          if (input.warnButton.getValue() == TRUE) {
+            warnHydr2 = FALSE;
+          }
+          if (warnHydr2 == TRUE) {
+            warning_sound = TRUE;
+          }
+        } else {
+          warnHydr2 = TRUE;
         }
       }
         

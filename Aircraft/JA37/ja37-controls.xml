@@ -171,13 +171,17 @@
             <time>      0.25 </time>
           </setting>
         </traverse>
+        <clipto>
+          <min><property>-systems/hydraulics/flight-surface-actuation</property></min>
+          <max><property>systems/hydraulics/flight-surface-actuation</property></max>
+        </clipto>
         <output>fcs/elevator/pos-norm</output>
       </kinematic>
 
       <switch name="names/elevator/tmp-norm">
         <default value="fcs/elevator/cmd-sum"/>
         <test logic="OR" value="fcs/elevator/pos-norm">
-          systems/hydraulics/flight-system/pressure ne 1
+          systems/hydraulics/flight-surface-actuation == 0
           fcs/elevator/serviceable == 0
         </test>
         <test logic="OR" value="fcs/elevator/cmd-limited">
@@ -296,13 +300,17 @@
             <time>      0.25 </time>
           </setting>
         </traverse>
+        <clipto>
+          <min><property>-systems/hydraulics/flight-surface-actuation</property></min>
+          <max><property>systems/hydraulics/flight-surface-actuation</property></max>
+        </clipto>
         <output>fcs/aileron/pos-norm</output>
       </kinematic>
 
       <switch name="names/aileron/tmp-norm">
         <default value="fcs/aileron/cmd-sum"/>
         <test logic="OR" value="fcs/aileron/pos-norm">
-          systems/hydraulics/flight-system/pressure ne 1
+          systems/hydraulics/flight-surface-actuation == 0
           fcs/aileron/serviceable == 0
         </test>
         <test logic="OR" value="fcs/aileron/cmd-sum-limited">
@@ -517,13 +525,17 @@
             <time>      0.5 </time>
           </setting>
         </traverse>
+        <clipto>
+          <min><property>-systems/hydraulics/flight-surface-actuation</property></min>
+          <max><property>systems/hydraulics/flight-surface-actuation</property></max>
+        </clipto>
         <output>fcs/rudder-pos-norm</output>
       </kinematic>
 
       <switch name="names/rudder/tmp-norm">
         <default value="fcs/rudder/cmd-sum"/>
         <test logic="OR" value="fcs/rudder-pos-norm">
-          systems/hydraulics/flight-system/pressure ne 1
+          systems/hydraulics/flight-surface-actuation == 0
           fcs/rudder/serviceable == 0
         </test>
         <test logic="OR" value="fcs/rudder/cmd-sum-limited">
@@ -531,7 +543,7 @@
         </test>
         <output>fcs/rudder/tmp-norm</output>
       </switch>
-
+        
       <aerosurface_scale name="names/rudder/pos-rad">
         <input>fcs/rudder-pos-norm</input>
         <domain>
@@ -588,7 +600,7 @@
       <switch name="names/gear-filtered-norm">
           <default value="gear/gear-target-norm"/>
           <test logic="OR" value="gear/gear-pos-norm">
-              systems/hydraulics/flight-system/pressure ne 1
+              systems/hydraulics/flight-surface-actuation == 0
               gear/serviceable == 0
           </test>
           <clipto>
@@ -631,7 +643,7 @@
       <switch name="names/nose-wheel-steering/tmp-norm">
           <default value="fcs/steer-cmd-norm"/>
           <test logic="OR" value="gear/unit[0]/nose-wheel-steering/kinematic-norm">
-              systems/hydraulics/flight-system/pressure ne 1
+              systems/hydraulics/flight-surface-actuation == 0
               gear/unit[0]/nose-wheel-steering/serviceable == 0
           </test>
           <test logic="OR" value="0">
@@ -680,7 +692,7 @@
       <switch name="names/flaps/tmp-norm">
         <default value="gear/gear-target-norm"/><!-- flaps controlled by gear-->
         <test logic="OR" value="fcs/flaps/pos-normalized">
-          systems/hydraulics/flight-system/pressure ne 1
+          systems/hydraulics/flight-surface-actuation == 0
           fcs/flaps/serviceable == 0
         </test>
         <test logic="OR" value="0.11765"><!-- default flaps position -->

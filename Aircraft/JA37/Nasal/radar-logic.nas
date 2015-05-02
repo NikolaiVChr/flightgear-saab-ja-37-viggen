@@ -28,7 +28,7 @@ input = {
         callsign:         "/sim/ja37/hud/callsign",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
         voltage:          "systems/electrical/outputs/ac-main-voltage",
-        hydrPressure:     "fdm/jsbsim/systems/hydraulics/flight-system/pressure",
+        hydrPressure:     "fdm/jsbsim/systems/hydraulics/system1/pressure",
 };
 
 var findRadarTracks = func () {

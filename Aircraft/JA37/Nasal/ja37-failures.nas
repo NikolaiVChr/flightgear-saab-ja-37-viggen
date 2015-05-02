@@ -243,9 +243,17 @@ var install_new_failures = func {
     var actuator_steering = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Nose wheel steering", actuator_steering);
 
-    prop = "fdm/jsbsim/systems/hydraulics/flight-system/pump";
-    var actuator_pump = set_unserviceable(prop);
-    FailureMgr.add_failure_mode(prop, "Hydraulic pump", actuator_pump);        
+    prop = "fdm/jsbsim/systems/hydraulics/system1/main";
+    var actuator_pump1 = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Hydraulic 1", actuator_pump1);
+
+    prop = "fdm/jsbsim/systems/hydraulics/system2/main";
+    var actuator_pump2 = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Hydraulic 2", actuator_pump2);
+
+    prop = "fdm/jsbsim/systems/hydraulics/system2/reserve";
+    var actuator_pumpR = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Hydraulic reserve", actuator_pumpR);
 
     prop = "instrumentation/comm[0]";
     var actuator_comm1 = set_unserviceable(prop);
@@ -536,9 +544,17 @@ var install_newer_failures = func {
     var actuator_steering = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Nose wheel steering", actuator_steering);
 
-    prop = "fdm/jsbsim/systems/hydraulics/flight-system/pump";
-    var actuator_pump = compat_failure_modes.set_unserviceable(prop);
-    FailureMgr.add_failure_mode(prop, "Hydraulic pump", actuator_pump);        
+    prop = "fdm/jsbsim/systems/hydraulics/system1/main";
+    var actuator_pump1 = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Hydraulic 1", actuator_pump1);
+
+    prop = "fdm/jsbsim/systems/hydraulics/system2/main";
+    var actuator_pump2 = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Hydraulic 2", actuator_pump2);
+
+    prop = "fdm/jsbsim/systems/hydraulics/system2/reserve";
+    var actuator_pumpR = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Hydraulic reserve", actuator_pumpR);    
 
     prop = "instrumentation/comm[0]";
     var actuator_comm1 = compat_failure_modes.set_unserviceable(prop);

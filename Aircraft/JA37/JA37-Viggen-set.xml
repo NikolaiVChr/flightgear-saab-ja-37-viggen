@@ -1205,13 +1205,21 @@
         <tailhook-cmd-norm type="bool">false</tailhook-cmd-norm>
       </hook>
       <hydraulics>
-        <normal-pressure type="double">2987.7775</normal-pressure>
-        <flight-system>
-          <pump>
+        <system1>
+          <main>
             <serviceable type="bool">true</serviceable>
-          </pump>
-          <pressure type="double">0</pressure>
-        </flight-system>
+          </main>
+          <pressure type="bool">false</pressure>
+        </system1>
+        <system2>
+          <main>
+            <serviceable type="bool">true</serviceable>
+          </main>
+          <reserve>
+            <serviceable type="bool">true</serviceable>
+          </reserve>
+          <pressure type="bool">false</pressure>
+        </system2>
       </hydraulics>
       <electrical>
         <battery-charge-norm type="double">1.0</battery-charge-norm>

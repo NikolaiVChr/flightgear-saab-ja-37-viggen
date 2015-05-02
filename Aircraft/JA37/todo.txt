@@ -32,7 +32,6 @@ Sim: Longer range air2air missiles.
 Sim: Make users of FG HUD able to use tactical features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
-Sim: Hydralic pump depend on electric instead of rpm
 Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
@@ -40,11 +39,11 @@ Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
 Sim: Uses 24/28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy
 Sim: Uses 115V: GPS, TILS
 Sim: Uses 200V: fuel pump system.
-Sim: Reverser uses hydr., brakes use hydr. A/P needs hydr.
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
 Sim: Damage from missile explosion.
+Sim: Complete hydraulic dependencies. Brakes and reverser.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
