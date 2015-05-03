@@ -17,7 +17,7 @@
   </model>
 
   <model>
-    <usage>pilot</usage>
+    <name>pilot</name>
     <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>
     <offsets>
       <x-m>-3.650</x-m>
@@ -128,6 +128,39 @@
  </animation>-->
 
 <!-- Fuselage animations -->
+
+  <model>
+    <name>ext-power</name>
+    <path>Aircraft/JA37/Models/ext-power.xml</path>
+    <offsets>
+      <x-m> 0.0</x-m>
+      <y-m> 9.0</y-m>
+      <z-m> 0.0</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+     <type>translate</type>
+     <object-name>ext-power</object-name>
+     <property>fdm/jsbsim/systems/electrical/ext-power-z-m</property>
+     <factor>1</factor>
+     <axis>
+       <z>1</z>
+     </axis>
+     <center>
+          <x-m>0</x-m>
+          <y-m>0.0</y-m>
+          <z-m>0</z-m>
+      </center>
+  </animation>
+
+  <animation>
+  <type>select</type>
+  <object-name>ext-power</object-name>
+  <condition>
+    <property>fdm/jsbsim/systems/electrical/external/available</property>
+  </condition>
+ </animation>
 
 <animation>
   <type>rotate</type>

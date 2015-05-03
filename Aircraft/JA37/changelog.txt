@@ -1548,3 +1548,4 @@ GUI: Added menu item for external power supply.
 Model: Battery now has its own switch.
 Model: Added power supply selector switch (generator or external).
 Model: Added ext. power available indicator.
+Model: Added external power supply truck.

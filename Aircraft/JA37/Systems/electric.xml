@@ -11,7 +11,7 @@
       <default value="0"/>
         <test  logic="AND" value="1">
           systems/electrical/external/enable-cmd == 1
-          velocities/vg-fps lt 0.01
+          velocities/vg-fps lt 0.015
           gear/unit[0]/WOW == 1
           gear/unit[1]/WOW == 1
           gear/unit[2]/WOW == 1
@@ -426,6 +426,16 @@
       </test>
       <output>propulsion/starter_cmd</output>
     </switch>
+
+    <fcs_function name="systems/electrical/ext-power-z-m">
+        <function>
+          <product>
+            <property>position/h-agl-ft</property>
+            <value>-0.3048</value>
+          </product>
+        </function>
+     </fcs_function>
+
 
   </channel>
 

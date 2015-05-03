@@ -50,5 +50,6 @@ pa24-250 - Glare texture for landing lights
 F-14b (jsb) - Pitch and yaw damper inspiration. Hydraulics. Pilot.
 l39 - Strobe light texture.
 C172p - Some sound settings.
+707 - External power supply truck.
 
 Might have forgotten some.
