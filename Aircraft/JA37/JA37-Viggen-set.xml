@@ -330,6 +330,10 @@
           <property type="string">controls/armament/station[4]/released</property>
         </signal>
         <signal>
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/systems/electrical/external/available</property>
+        </signal>
+        <signal>
           <type>int16</type><!-- careful, did these not change to use floating points?: -->
           <property type="string">payload/weight[0]/weight-lb</property>
         </signal>

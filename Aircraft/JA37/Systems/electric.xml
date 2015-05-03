@@ -4,7 +4,7 @@
 
   <channel name="Power supply">
 
-    <switch name="systems/electrical/external/available">
+    <switch name="names/electrical/external/available">
       <description>
                       External AC available
       </description>
@@ -16,6 +16,7 @@
           gear/unit[1]/WOW == 1
           gear/unit[2]/WOW == 1
         </test>
+        <output>systems/electrical/external/available</output>
     </switch>
 
     <switch name="systems/electrical/external/supplying">
