@@ -778,6 +778,10 @@
       <name>N</name>
       <desc>Select radar track center most in HUD</desc>
      </key>
+     <key>
+      <name>Ctrl Shift a</name>
+      <desc>Continue on current heading, speed and altitude with A/P</desc>
+     </key>
      <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
       <name>L</name>
       <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
@@ -1464,6 +1468,18 @@
 *************************************************************************--> 
  <input>
    <keyboard>
+    <key n="1">
+      <name>Shift-Ctrl-A</name>
+      <mod-shift>
+        <desc>Autopilot continue on heading/alt</desc>
+        <binding>
+         <command>nasal</command>
+         <script>
+           ja37.apCont();
+         </script>
+        </binding>
+      </mod-shift>
+     </key>
     <key n="108">
       <name>l</name>
       <desc>Toggle arrester hook</desc>

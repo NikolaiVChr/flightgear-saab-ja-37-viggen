@@ -1549,3 +1549,4 @@ Model: Battery now has its own switch.
 Model: Added power supply selector switch (generator or external).
 Model: Added ext. power available indicator.
 Model: Added external power supply truck.
+Sim: Key shift-ctrl-a now will continue on current heading, speed and altitude with A/P.

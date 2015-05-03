@@ -1453,3 +1453,16 @@ var repair = func () {
     failureSys.armAllTriggers();
   }
 }
+
+var apCont = func {
+  unfollow();
+  setprop("autopilot/settings/target-altitude-ft", getprop("instrumentation/altimeter/indicated-altitude-ft"));
+  setprop("autopilot/settings/heading-bug-deg", getprop("orientation/heading-magnetic-deg"));
+  setprop("autopilot/settings/target-speed-kt", getprop("instrumentation/airspeed-indicator/indicated-speed-kt"));
+
+  setprop("/autopilot/locks/speed", "speed-with-throttle");
+  setprop("/autopilot/locks/altitude", "altitude-hold");
+  setprop("/autopilot/locks/heading", "dg-heading-hold");
+
+  screen.log.write("A/P continuing on current heading, speed and altitude.", 0.0, 1.0, 0.0);
+}
