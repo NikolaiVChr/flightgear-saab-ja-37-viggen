@@ -1085,14 +1085,7 @@ var autostarttimer = func {
     if (getprop("/engines/engine[0]/running") > 0) {
      popupTip("Stopping engine. Turning off electrical system.");
      click();
-     setprop("/controls/engines/engine[0]/cutoff", TRUE);
-  	 setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
-     setprop("/controls/electric/engine[0]/generator", FALSE);
-  	 setprop("/controls/electric/main", FALSE);
-     setprop("/controls/electric/battery", FALSE);
-     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
-     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
-     autostarting = FALSE;
+     stopAutostart();
     } else {
       #print("autostarting");
       setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", TRUE);
@@ -1100,6 +1093,17 @@ var autostarttimer = func {
   	  settimer(startSupply, 1.5, 1);
     }
   }
+}
+
+var stopAutostart = func {
+  setprop("/controls/engines/engine[0]/cutoff", TRUE);
+  setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+  setprop("/controls/electric/engine[0]/generator", FALSE);
+  setprop("/controls/electric/main", FALSE);
+  setprop("/controls/electric/battery", FALSE);
+  setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+  setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+  autostarting = FALSE;
 }
 
 var startSupply = func {
@@ -1126,14 +1130,7 @@ var endSupply = func {
   } else {
     # not enough power to start
     click();
-    setprop("/controls/engines/engine[0]/cutoff", TRUE);
-    setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
-    setprop("/controls/electric/engine[0]/generator", FALSE);
-    setprop("/controls/electric/main", FALSE);
-    setprop("/controls/electric/battery", FALSE);
-    setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
-    setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
-    autostarting = FALSE;
+    stopAutostart();
     popupTip("Not enough power to autostart, aborting.");
   }
 }
@@ -1165,14 +1162,7 @@ var waiting_n1 = func {
       popupTip("Engine start failed. Check fuel.");
     }
     print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-   setprop("/controls/engines/engine[0]/cutoff", TRUE);
-   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
-   setprop("/controls/electric/engine[0]/generator", FALSE);
-   setprop("/controls/electric/main", FALSE);
-   setprop("/controls/electric/battery", FALSE);
-   setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
-   setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
-    autostarting = FALSE;
+    stopAutostart();
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
       if (getprop("/controls/engines/engine[0]/cutoff") == TRUE) {
@@ -1183,15 +1173,8 @@ var waiting_n1 = func {
           settimer(waiting_n1, 0.5, 1);
         } else {
           print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-         setprop("/controls/engines/engine[0]/cutoff", TRUE);
-         setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
-         setprop("/controls/electric/engine[0]/generator", FALSE);
-         setprop("/controls/electric/main", FALSE);
-         setprop("/controls/electric/battery", FALSE);
-         setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
-         setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+          stopAutostart();
           popupTip("Engine not igniting. Aborting engine start.");
-          autostarting = FALSE;
         }
       } else {
         settimer(waiting_n1, 0.5, 1);
@@ -1200,7 +1183,7 @@ var waiting_n1 = func {
       #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
-      popupTip("Generator on. Check.");
+      popupTip("Generator on.");
       settimer(final_engine, 0.5, 1);
     } else {
       settimer(waiting_n1, 0.5, 1);
@@ -1219,14 +1202,7 @@ var final_engine = func () {
       popupTip("Engine start failed. Check fuel.");
     }    
     print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-     setprop("/controls/engines/engine[0]/cutoff", TRUE);
-     setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
-     setprop("/controls/electric/engine[0]/generator", FALSE);
-     setprop("/controls/electric/main", FALSE);
-     setprop("/controls/electric/battery", FALSE);
-     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
-     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
-    autostarting = FALSE;    
+    stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     popupTip("Engine ready.");
     setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
