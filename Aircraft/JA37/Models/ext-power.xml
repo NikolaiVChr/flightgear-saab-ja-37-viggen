@@ -1,30 +1,8 @@
 <?xml version="1.0"?>
-<!--###################################################################################
-		Lake of Constance Hangar :: M.Kraus
-		Boeing 707 for Flightgear Septemper 2013
-		This file is licenced under the terms of the GNU General Public Licence V2 or later
-		###################################################################################
--->
+
 <PropertyList>
  <path>ext-power.ac</path>
- 
-   <!--<animation>
-    <type>material</type>
-		<object-name>blah.002</object-name> 
-		<object-name>blah.003</object-name>
-		<object-name>blah.004</object-name>
-		<object-name>blah.005</object-name>
-		<object-name>blah.006</object-name>
-		<object-name>blah.007</object-name>
-		<object-name>blah.008</object-name>
-		<object-name>blah.009</object-name>
-		<object-name>blah.010</object-name>
-		<object-name>blah.012</object-name>
-    <property-base>sim/model/livery</property-base>
-    <texture-prop>texture</texture-prop>
-    <texture>707.png</texture>
-  </animation>-->
-  
+   
 	<animation>
 		<type>noshadow</type>
 		<object-name>blah.012</object-name>
