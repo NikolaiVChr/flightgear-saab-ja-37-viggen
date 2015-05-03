@@ -4,6 +4,31 @@
 
   <channel name="Power supply">
 
+    <switch name="systems/electrical/external/available">
+      <description>
+                      External AC available
+      </description>
+      <default value="0"/>
+        <test  logic="AND" value="1">
+          systems/electrical/external/enable-cmd == 1
+          velocities/vg-fps lt 0.01
+          gear/unit[0]/WOW == 1
+          gear/unit[1]/WOW == 1
+          gear/unit[2]/WOW == 1
+        </test>
+    </switch>
+
+    <switch name="systems/electrical/external/supplying">
+      <description>
+                      External AC supplying
+      </description>
+      <default value="0"/>
+        <test  logic="AND" value="1">
+          systems/electrical/external/switch == 1
+          systems/electrical/external/available == 1
+        </test>
+    </switch>
+
     <scheduled_gain name="systems/electrical/generator-cmd">
       <description>
                       Generator running command
@@ -41,11 +66,25 @@
       </traverse>
     </kinematic>
 
+
+    <switch name="systems/electrical/AC-supply-norm">
+      <description>
+                      Have AC supply, normalized
+      </description>
+      <default value="0"/>
+      <test  logic="AND" value="1">
+        systems/electrical/external/supplying == 1
+      </test>
+      <test  logic="AND" value="systems/electrical/generator-running-norm">
+        systems/electrical/external/switch == 0
+      </test>
+    </switch>
+
     <aerosurface_scale name="systems/electrical/AC-main-voltage">
       <description>
                       Main AC voltage
       </description>
-          <input>systems/electrical/generator-running-norm</input>
+          <input>systems/electrical/AC-supply-norm</input>
           <zero_centered> true </zero_centered>
           <domain>
             <min>    0 </min>
@@ -61,7 +100,7 @@
       <description>
                       Instrument AC voltage
       </description>
-          <input>systems/electrical/generator-running-norm</input>
+          <input>systems/electrical/AC-supply-norm</input>
           <zero_centered> true </zero_centered>
           <domain>
             <min>    0 </min>
@@ -75,9 +114,9 @@
 
     <aerosurface_scale name="systems/electrical/battery-charge-dc">
       <description>
-                      Battery recharge voltage
+                      Converted DC voltage
       </description>
-          <input>systems/electrical/AC-main-voltage</input>
+          <input>/systems/electrical/outputs/ac-main-voltage</input>
           <zero_centered> true </zero_centered>
           <domain>
             <min>    0 </min>
@@ -91,7 +130,7 @@
 
     <aerosurface_scale name="systems/electrical/battery-charging-norm">
       <description>
-                      Battery recharge normalized
+                      Converted DC normalized
       </description>
       <input>systems/electrical/battery-charge-dc</input>
       <zero_centered> true </zero_centered>
@@ -107,7 +146,7 @@
 
     <switch name="systems/electrical/battery-charging-test">
       <description>
-                      Battery recharge digital
+                      Converted DC digital
       </description>
       <default value="0"/>
         <test  logic="AND" value="1">
@@ -121,12 +160,10 @@
       </description>
       <default value="systems/electrical/battery-charge-norm"/>
         <test  logic="AND" value="0">
-          /controls/electric/main == 1
-          /systems/electrical/serviceable gt 0
-          systems/electrical/battery-charge-dc lt 25
+          systems/electrical/battery-active == 1
         </test>
         <test  logic="AND" value="systems/electrical/battery-charging-norm">
-          systems/electrical/battery-charge-dc ge 25
+          systems/electrical/battery-charge-dc gt 24
         </test>
     </switch>
 
@@ -199,13 +236,15 @@
       </function>
     </fcs_function>
 
-    <switch name="systems/electrical/dc-voltage">
+    <switch name="systems/electrical/battery-active">
       <description>
-                      DC voltage
+                      Battery being in use and draining
       </description>
-        <default value="systems/electrical/battery-producing-dc"/>
-          <test  logic="AND" value="systems/electrical/battery-charge-dc">
-              systems/electrical/battery-charge-dc gt systems/electrical/battery-producing-dc
+        <default value="0"/>
+          <test  logic="AND" value="1">
+              /controls/electric/battery gt 0
+              /systems/electrical/serviceable gt 0
+              systems/electrical/battery-charge-dc lt systems/electrical/battery-producing-dc
           </test>
     </switch>
 
@@ -213,12 +252,11 @@
       <description>
                       DC voltage output
       </description>
-        <default value="0"/>
-        <test  logic="AND" value="systems/electrical/dc-voltage">
-            /controls/electric/main gt 0
-            /systems/electrical/serviceable gt 0
-        </test>
-        <output>/systems/electrical/outputs/dc-voltage</output>
+        <default value="systems/electrical/battery-charge-dc"/>
+          <test  logic="AND" value="systems/electrical/battery-producing-dc">
+              systems/electrical/battery-active == 1
+          </test>
+          <output>/systems/electrical/outputs/dc-voltage</output>
     </switch>
 
     <aerosurface_scale name="names/electrical/outputs/dc-norm">
@@ -367,13 +405,26 @@
                       Canopy power
       </description>
       <default value="0"/>
-      <test  logic="AND" value="1">
-            systems/electrical/dc-voltage ge 22
+      <test  logic="OR" value="1">
+            systems/electrical/battery-producing-dc ge 22
+            /systems/electrical/outputs/dc-voltage gt 22
       </test>
       <clipto>
         <min> 0 </min>
         <max> 1 </max>
       </clipto>
+    </switch>
+
+    <switch name="names/electrical/engine/starter">
+      <description>
+                      Engine starter
+      </description>
+      <default value="0"/>
+      <test  logic="AND" value="1">
+            /systems/electrical/outputs/dc-voltage gt 23
+            /controls/engines/engine[0]/starter-cmd == 1
+      </test>
+      <output>propulsion/starter_cmd</output>
     </switch>
 
   </channel>

@@ -12,7 +12,7 @@
 	        <button>0</button>
 	        <binding>
 	            <command>property-toggle</command>
-	            <property>controls/engines/engine[0]/starter</property>
+	            <property>controls/engines/engine[0]/starter-cmd</property>
 	        </binding>
 	        <binding>
 		        <command>nasal</command>
@@ -24,7 +24,7 @@
 	         	<command>set-tooltip</command>
 	         	<tooltip-id>switch-starter</tooltip-id>
 	         	<label>Engine start</label>
-	         	<property>controls/engines/engine[0]/starter</property>
+	         	<property>controls/engines/engine[0]/starter-cmd</property>
 	        </binding>
 	    </hovered>
 	</animation>
@@ -32,7 +32,7 @@
 	<animation>
 		<type>rotate</type>
 		<object-name>Switch</object-name>
-		<property>controls/engines/engine[0]/starter</property>
+		<property>controls/engines/engine[0]/starter-cmd</property>
 		<factor>70</factor>
 		<offset-deg>-35</offset-deg>
 		<center>

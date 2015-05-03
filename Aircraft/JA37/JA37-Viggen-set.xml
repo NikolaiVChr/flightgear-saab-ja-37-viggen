@@ -966,6 +966,13 @@
           </binding>
         </item>
         <item>
+          <label>Toggle external power</label>
+          <binding>
+            <command>property-toggle</command>
+            <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+          </binding>
+        </item>
+        <item>
           <label>Options</label>
           <binding>
            <command>nasal</command>
@@ -1223,6 +1230,11 @@
       </hydraulics>
       <electrical>
         <battery-charge-norm type="double">1.0</battery-charge-norm>
+        <battery-active type="bool">false</battery-active>
+        <external>
+          <enable-cmd type="bool">false</enable-cmd>
+          <switch type="bool">false</switch>
+        </external>
       </electrical>      
     </systems>
     <aero>
@@ -1304,6 +1316,7 @@
   </armament>
   <engines>
     <engine n="0">
+      <starter-cmd type="bool">false</starter-cmd>
       <reverse-system>
         <serviceable type="bool">true</serviceable>
       </reverse-system>
@@ -1317,6 +1330,7 @@
   </gear>
   <electric>
     <main type="bool">false</main>
+    <battery type="bool">false</battery>
     <lights-ext-switch type="bool">true</lights-ext-switch>
     <lights-land-switch type="bool">true</lights-land-switch>
   </electric>
@@ -1360,15 +1374,15 @@
     <!--<generator_enabled type="bool">false</generator_enabled>
     <generator_on type="bool">false</generator_on>
     <battery_voltage type="double">0</battery_voltage>
-    <battery-charge-norm type="double">1.0</battery-charge-norm>
+    <battery-charge-norm type="double">1.0</battery-charge-norm>-->
     <outputs>
-      <main_ac type="double">0</main_ac>
+      <dc-voltage type="double">0</dc-voltage><!--
       <hud type="double">0</hud>
       <radar type="double">0</radar>
       <battery type="double">0</battery>
       <comm n="0" type="double">0</comm>
-      <comm n="1" type="double">0</comm>
-    </outputs> --> 
+      <comm n="1" type="double">0</comm>-->
+    </outputs>
   </electrical>
   <generator>
     <serviceable type="bool">true</serviceable>

@@ -44,6 +44,42 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/external.xml</path>
+    <name>externalAvailable</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.5</roll-deg>
+      <x-m> -3.43</x-m>
+      <y-m> -0.27</y-m>
+      <z-m>  0.1550</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-elec-ext.xml</path>
+    <name>SwitchExt</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.5</roll-deg>
+      <x-m> -3.43</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-elec-main.xml</path>
+    <name>SwitchMain</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.5</roll-deg>
+      <x-m> -3.45</x-m>
+      <y-m> -0.30</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-battery.xml</path>
     <name>SwitchBattery</name>
     <offsets>

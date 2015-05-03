@@ -786,17 +786,26 @@ var cycle_weapons = func {
 }
 
 ###########  loop for handling the battery signal for cockpit sound #########
-
+var voltage = 0;
+var signalInProgress = FALSE;
 var battery_listener = func {
-    if (getprop("controls/electric/main") == TRUE) {
-      setprop("/systems/electrical/batterysignal", TRUE);
 
+    if (signalInProgress == FALSE and voltage <= 23 and getprop("systems/electrical/outputs/dc-voltage") > 23) {
+      setprop("/systems/electrical/batterysignal", TRUE);
+      signalInProgress = TRUE;
       settimer(func {
         setprop("/systems/electrical/batterysignal", FALSE);
+        signalInProgress = FALSE;
         }, 6);
     }
+    voltage = getprop("systems/electrical/outputs/dc-voltage");
+    settimer(battery_listener, 0.5);
 }
-setlistener("controls/electric/main", battery_listener, 0, 0);
+battery_listener();
+#setlistener("controls/electric/main", battery_listener, 0, 0);
+#setlistener("controls/electric/battery", battery_listener, 0, 0);
+#setlistener("fdm/jsbsim/systems/electrical/external/switch", battery_listener, 0, 0);
+#setlistener("fdm/jsbsim/systems/electrical/external/enable-cmd", battery_listener, 0, 0);
                 
 ###############  Test which system the flightgear version support.  ###########
 
@@ -1074,25 +1083,58 @@ var autostarttimer = func {
   if (autostarting == FALSE) {
     autostarting = TRUE;
     if (getprop("/engines/engine[0]/running") > 0) {
-     popupTip("Stopping engine. Turning off battery.");
+     popupTip("Stopping engine. Turning off electrical system.");
      click();
      setprop("/controls/engines/engine[0]/cutoff", TRUE);
-  	 setprop("/controls/engines/engine[0]/starter", FALSE);
+  	 setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
      setprop("/controls/electric/engine[0]/generator", FALSE);
   	 setprop("/controls/electric/main", FALSE);
+     setprop("/controls/electric/battery", FALSE);
+     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
      autostarting = FALSE;
     } else {
       #print("autostarting");
-      #if (getprop("sim/ja37/damage/crashed") < 1) {
-        setprop("/controls/electric/main", TRUE);
-        click();
-        popupTip("Battery switch on. Check.");
-    	  settimer(autostart, 2, 1);
-      #} else {
-      #  popupTip("Engine not reacting. Consider ejecting yourself.");
-      #  autostarting = FALSE;
-      #}
+      setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", TRUE);
+      popupTip("Autostarting..");
+  	  settimer(startSupply, 1.5, 1);
     }
+  }
+}
+
+var startSupply = func {
+  if (getprop("fdm/jsbsim/systems/electrical/external/available") == TRUE) {
+    # using ext. power
+    click();
+    setprop("fdm/jsbsim/systems/electrical/external/switch", TRUE);
+    setprop("/controls/electric/main", TRUE);
+    popupTip("Enabling power using external supply.");
+  } else {
+    # using battery
+    click();
+    setprop("/controls/electric/battery", TRUE);
+    setprop("/controls/electric/main", TRUE);
+    popupTip("Enabling power using battery.");
+  }
+  settimer(endSupply, 1.5, 1);
+}
+
+var endSupply = func {
+  if (getprop("systems/electrical/outputs/dc-voltage") > 23) {
+    # have power to start
+    settimer(autostart, 1.5, 1);
+  } else {
+    # not enough power to start
+    click();
+    setprop("/controls/engines/engine[0]/cutoff", TRUE);
+    setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+    setprop("/controls/electric/engine[0]/generator", FALSE);
+    setprop("/controls/electric/main", FALSE);
+    setprop("/controls/electric/battery", FALSE);
+    setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+    setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+    autostarting = FALSE;
+    popupTip("Not enough power to autostart, aborting.");
   }
 }
 
@@ -1100,10 +1142,10 @@ var autostarttimer = func {
 var autostart = func {
   setprop("/controls/electric/engine[0]/generator", FALSE);
   if (getprop("controls/electric/engine[0]/generator") == FALSE) {
-    popupTip("Starting engine. Check.");
+    popupTip("Starting engine..");
     click();
     setprop("/controls/engines/engine[0]/cutoff", TRUE);
-    setprop("/controls/engines/engine[0]/starter", TRUE);
+    setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
     start_count = 0;
     settimer(waiting_n1, 0.5, 1);
   } else {
@@ -1123,10 +1165,13 @@ var waiting_n1 = func {
       popupTip("Engine start failed. Check fuel.");
     }
     print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-    setprop("/controls/engines/engine[0]/cutoff", TRUE);
-    setprop("/controls/engines/engine[0]/starter", FALSE);
-    setprop("/controls/electric/engine[0]/generator", FALSE);
-    setprop("/controls/electric/main", FALSE);
+   setprop("/controls/engines/engine[0]/cutoff", TRUE);
+   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+   setprop("/controls/electric/engine[0]/generator", FALSE);
+   setprop("/controls/electric/main", FALSE);
+   setprop("/controls/electric/battery", FALSE);
+   setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+   setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     autostarting = FALSE;
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
@@ -1138,7 +1183,13 @@ var waiting_n1 = func {
           settimer(waiting_n1, 0.5, 1);
         } else {
           print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-          setprop("/controls/engines/engine[0]/starter", FALSE);
+         setprop("/controls/engines/engine[0]/cutoff", TRUE);
+         setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+         setprop("/controls/electric/engine[0]/generator", FALSE);
+         setprop("/controls/electric/main", FALSE);
+         setprop("/controls/electric/battery", FALSE);
+         setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+         setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
           popupTip("Engine not igniting. Aborting engine start.");
           autostarting = FALSE;
         }
@@ -1168,13 +1219,19 @@ var final_engine = func () {
       popupTip("Engine start failed. Check fuel.");
     }    
     print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
-    setprop("/controls/engines/engine[0]/cutoff", TRUE);
-    setprop("/controls/engines/engine[0]/starter", FALSE);
-    setprop("/controls/electric/engine[0]/generator", FALSE);
-    setprop("/controls/electric/main", FALSE);
+     setprop("/controls/engines/engine[0]/cutoff", TRUE);
+     setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+     setprop("/controls/electric/engine[0]/generator", FALSE);
+     setprop("/controls/electric/main", FALSE);
+     setprop("/controls/electric/battery", FALSE);
+     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     autostarting = FALSE;    
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     popupTip("Engine ready.");
+    setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+    setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
+    setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     autostarting = FALSE;    
   } else {
     settimer(final_engine, 0.5, 1);

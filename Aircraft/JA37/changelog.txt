@@ -1538,3 +1538,13 @@ Model: Made the radar heading require proper voltage to turn.
 Sim: Prevented fuel temperature errors to swamp the output. If the temperature errors, 15 deg will be used shown in systems monitor.
 Sim: Added hydraulics system 2 including reserve pump. Also added them to failure manager.
 Sim: Flight surfaces (except flaps) will now only deflect to half if one of the hydraulic systems has too low pressure.
+Sim: Main electrical switch now only turns on the AC (which is also converted to 28V DC if its available).
+Sim: Engine starter now requires 24V as per manual.
+Sim: Added support for external power supply.
+Sim: Rewrote autostart to account for electrical starter changes.
+Sound: Rewrote how the 'battery starting' sound gets enabled.
+GUI: Rewrote checklists to account for new startup procedures.
+GUI: Added menu item for external power supply.
+Model: Battery now has its own switch.
+Model: Added power supply selector switch (generator or external).
+Model: Added ext. power available indicator.
