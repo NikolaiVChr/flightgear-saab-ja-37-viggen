@@ -107,11 +107,11 @@
 	            systems/hydraulics/system1/pressure == 1
 	            systems/hydraulics/system2/pressure == 1
 	      	</test>
-	      	<test  logic="OR" value="0.5">
+	      	<test  logic="AND" value="0.5">
 	            systems/hydraulics/system1/pressure == 1
 	            systems/hydraulics/system2/pressure == 0
 	      	</test>
-	      	<test  logic="OR" value="0.5">
+	      	<test  logic="AND" value="0.5">
 	            systems/hydraulics/system1/pressure == 0
 	            systems/hydraulics/system2/pressure == 1
 	      	</test>
