@@ -1550,3 +1550,7 @@ Model: Added power supply selector switch (generator or external).
 Model: Added ext. power available indicator.
 Model: Added external power supply truck.
 Sim: Key shift-ctrl-a now will continue on current heading, speed and altitude with A/P.
+Sim: If hydraulic system 1 loses pressure, A/P will now disengage.
+Engine: reverse thrust and A/P now depends on 24V and hydraulic pressure.
+Model: Heading indicator and afterburner zone indicator now depends on 24V.
+Sim: TILS now depends on AC not DC.

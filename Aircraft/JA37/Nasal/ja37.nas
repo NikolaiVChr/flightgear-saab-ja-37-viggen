@@ -55,9 +55,10 @@ input = {
   augmentation:     "/controls/engines/engine[0]/augmentation",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
-  batteryOutput:    "systems/electrical/outputs/dc-voltage",
-  flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
+  dcVolt:           "systems/electrical/outputs/dc-voltage",
+  acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
   serviceElec:      "systems/electrical/serviceable",
+  flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   downFps:          "/velocities/down-relground-fps",
   thrustLb:         "engines/engine/thrust_lb",
@@ -76,7 +77,6 @@ input = {
   hz05:             "sim/ja37/blink/five-Hz/state",
   hzThird:          "sim/ja37/blink/third-Hz/state",
   flame:            "engines/engine/flame",
-  acInstrVolt:      "/systems/electrical/outputs/ac-instr-voltage",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
   mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
@@ -173,7 +173,7 @@ var update_loop = func {
     ## control flaps ##
 
     var flapsCommand = 0;
-    var battery = input.batteryOutput.getValue();
+    var battery = input.dcVolt.getValue();
 
     if (battery > 23) {
       flapsCommand = 1;
@@ -203,7 +203,7 @@ var update_loop = func {
     # joystick indicator
     if(input.acInstrVolt.getValue() > 50) {
       if (((input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil) and (input.lockAltitude.getValue() != ''
-       and input.lockAltitude.getValue() != nil)) or input.lockPassive.getValue() == TRUE and input.batteryOutput.getValue() > 23) {
+       and input.lockAltitude.getValue() != nil)) or input.lockPassive.getValue() == TRUE and input.dcVolt.getValue() > 23) {
         joystick = FALSE;
       } else {
         joystick = TRUE;
@@ -214,7 +214,7 @@ var update_loop = func {
 
     # attitude indicator
     if(input.lockPassive.getValue() == TRUE or (input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil)
-     and input.batteryOutput.getValue() > 23) {
+     and input.dcVolt.getValue() > 23) {
       if (input.roll.getValue() > 70 or input.roll.getValue() < -70) {
         attitude = input.hz05.getValue();
       } else {
@@ -226,7 +226,7 @@ var update_loop = func {
 
     # altitude indicator
     if(input.lockPassive.getValue() == TRUE or (input.lockAltitude.getValue() != '' and input.lockAltitude.getValue() != nil)
-     and input.batteryOutput.getValue() > 23) {
+     and input.dcVolt.getValue() > 23) {
       if (input.speedMach.getValue() > 0.97 and input.speedMach.getValue() < 1.05) {
         altitude = input.hz05.getValue();
       } else {
@@ -238,10 +238,10 @@ var update_loop = func {
 
     #transonic indicator
     if (input.speedMach.getValue() > 0.97 and input.speedMach.getValue() < 1.05
-     and input.batteryOutput.getValue() > 23) {
+     and input.dcVolt.getValue() > 23) {
       transonic = TRUE;
     } else {
-      if(input.reversed.getValue() == TRUE and input.speedKt.getValue() < 64.8 and input.batteryOutput.getValue() > 23) {
+      if(input.reversed.getValue() == TRUE and input.speedKt.getValue() < 64.8 and input.dcVolt.getValue() > 23) {
         # warning that speed is so low that its risky to continue reverse thrust
           transonic = TRUE;
         } else {
@@ -250,7 +250,7 @@ var update_loop = func {
     }
 
     # reverse indicator
-    if(input.reversed.getValue() == TRUE and input.batteryOutput.getValue() > 23) {
+    if(input.reversed.getValue() == TRUE and input.dcVolt.getValue() > 23) {
       rev = TRUE;
     } else {
       rev = FALSE;
@@ -424,7 +424,7 @@ var update_loop = func {
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
     # Master warning
-    if(input.batteryOutput.getValue() > 23 ) {
+    if(input.dcVolt.getValue() > 23 ) {
       var warning_sound = FALSE;
       var warning = FALSE;
       if (input.wow0.getValue() == FALSE) {
@@ -539,7 +539,7 @@ var TILSprev = FALSE;
 # slow updating loop
 var slow_loop = func () {
   #TILS
-  if(input.TILS.getValue() == TRUE and input.batteryOutput.getValue() > 23) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
+  if(input.TILS.getValue() == TRUE and input.acInstrVolt.getValue() > 100) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
     var icao = getprop("sim/tower/airport-id");
     var runways = airportinfo(icao).runways;
     var closestRunway = -1;
@@ -613,7 +613,7 @@ var slow_loop = func () {
   # calc inside temp
   if (getprop("canopy/position-norm") > 0) {
     tempInside = tempOutside;
-  } elsif(getprop("systems/electrical/outputs/dc-voltage") > 23) {
+  } elsif(input.dcVolt.getValue() > 23) {
     if (tempInside < tempAC) {
       tempInside = clamp(tempInside+0.5, -1000, tempAC);
     } elsif (tempInside > tempAC) {
@@ -715,7 +715,7 @@ var trigger_listener = func {
     var armSelect = input.stationSelect.getValue();
 
     #if masterarm is on and HUD in tactical mode, propagate trigger to station
-    if(input.combat.getValue() == 2) {
+    if(input.combat.getValue() == 2 and input.dcVolt.getValue() > 23 and !(armSelect == 0 and input.acInstrVolt.getValue() < 100)) {
       setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
       var str = "payload/weight["~(armSelect-1)~"]/selected";
       if (armSelect != 0 and getprop(str) == "M70") {
@@ -790,7 +790,7 @@ var voltage = 0;
 var signalInProgress = FALSE;
 var battery_listener = func {
 
-    if (signalInProgress == FALSE and voltage <= 23 and getprop("systems/electrical/outputs/dc-voltage") > 23) {
+    if (signalInProgress == FALSE and voltage <= 23 and input.dcVolt.getValue() > 23) {
       setprop("/systems/electrical/batterysignal", TRUE);
       signalInProgress = TRUE;
       settimer(func {
@@ -798,10 +798,10 @@ var battery_listener = func {
         signalInProgress = FALSE;
         }, 6);
     }
-    voltage = getprop("systems/electrical/outputs/dc-voltage");
+    voltage = input.dcVolt.getValue();
     settimer(battery_listener, 0.5);
 }
-battery_listener();
+
 #setlistener("controls/electric/main", battery_listener, 0, 0);
 #setlistener("controls/electric/battery", battery_listener, 0, 0);
 #setlistener("fdm/jsbsim/systems/electrical/external/switch", battery_listener, 0, 0);
@@ -960,6 +960,8 @@ var main_init = func {
   # start minor loops
   speed_loop();
   slow_loop();
+  battery_listener();
+  hydr1Lost();
 
   # start beacon loop
   #beaconTimer.start();
@@ -1325,20 +1327,42 @@ var follow = func () {
   }
 }
 
+var hydr1Lost = func {
+  #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
+  if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or input.dcVolt.getValue() < 23) {
+    stopAP();
+  }
+  settimer(hydr1Lost, 1);
+}
+
 var unfollow = func () {
-  setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   popupTip("A/P follow: OFF");
+  stopAP();
+}
+
+var stopAP = func {
+  setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   setprop("/autopilot/locks/speed", "");
   setprop("/autopilot/locks/altitude", "");
   setprop("/autopilot/locks/heading", "");
 }
 
 var lostfollow = func () {
-  setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   popupTip("A/P follow: lost target.");
-  setprop("/autopilot/locks/speed", "");
-  setprop("/autopilot/locks/altitude", "");
-  setprop("/autopilot/locks/heading", "");
+  stopAP();
+}
+
+var apCont = func {
+  unfollow();
+  setprop("autopilot/settings/target-altitude-ft", getprop("instrumentation/altimeter/indicated-altitude-ft"));
+  setprop("autopilot/settings/heading-bug-deg", getprop("orientation/heading-magnetic-deg"));
+  setprop("autopilot/settings/target-speed-kt", getprop("instrumentation/airspeed-indicator/indicated-speed-kt"));
+
+  setprop("/autopilot/locks/speed", "speed-with-throttle");
+  setprop("/autopilot/locks/altitude", "altitude-hold");
+  setprop("/autopilot/locks/heading", "dg-heading-hold");
+
+  screen.log.write("A/P continuing on current heading, speed and altitude.", 0.0, 1.0, 0.0);
 }
 
 var applyParkingBrake = func(v) {
@@ -1452,17 +1476,4 @@ var repair = func () {
     crash1.repair();
     failureSys.armAllTriggers();
   }
-}
-
-var apCont = func {
-  unfollow();
-  setprop("autopilot/settings/target-altitude-ft", getprop("instrumentation/altimeter/indicated-altitude-ft"));
-  setprop("autopilot/settings/heading-bug-deg", getprop("orientation/heading-magnetic-deg"));
-  setprop("autopilot/settings/target-speed-kt", getprop("instrumentation/airspeed-indicator/indicated-speed-kt"));
-
-  setprop("/autopilot/locks/speed", "speed-with-throttle");
-  setprop("/autopilot/locks/altitude", "altitude-hold");
-  setprop("/autopilot/locks/heading", "dg-heading-hold");
-
-  screen.log.write("A/P continuing on current heading, speed and altitude.", 0.0, 1.0, 0.0);
 }

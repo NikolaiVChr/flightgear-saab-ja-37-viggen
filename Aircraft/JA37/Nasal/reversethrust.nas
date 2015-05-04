@@ -4,7 +4,9 @@ var reverserPos = props.globals.getNode("/engines/engine[0]/reverser-pos-norm");
 var reverserServ = props.globals.getNode("/controls/engines/engine[0]/reverse-system/serviceable");
 
 togglereverser = func () {
-  if(reverserServ.getValue() == 1) {
+  if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or getprop("systems/electricity/outputs/dc-voltage") < 23) {
+    ja37.popupTip("Thrust reverser lacks electricity or hydraulic pressure.");
+  } elsif (reverserServ.getValue() == 1) {
     var reverserPosValue = reverserPos.getValue();
     if (reverserPosValue == 0 or reverserPosValue == nil) {
       #reverse thrust

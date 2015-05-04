@@ -14,7 +14,7 @@
     <property>systems/electrical/outputs/dc-voltage</property>
     <value>23</value>
    </less-than> 
-  </condition>
+  </condition> 
  </animation>
 
 <!-- Compass Card -->
@@ -22,6 +22,12 @@
   <type>rotate</type>
   <object-name>HSI_compass-card</object-name>
   <property>orientation/heading-magnetic-deg</property>
+  <condition>
+    <greater-than>
+      <property>systems/electrical/outputs/dc-voltage</property>
+      <value>23</value>
+    </greater-than>
+  </condition>
   <center>
    <x-m>0</x-m>
    <y-m>0</y-m>
@@ -94,6 +100,12 @@
  <animation>
   <type>rotate</type>
   <object-name>HSI_cdi</object-name>
+    <condition>
+    <greater-than>
+      <property>systems/electrical/outputs/dc-voltage</property>
+      <value>23</value>
+    </greater-than>
+  </condition>
   <property>orientation/heading-magnetic-deg</property>
   <center>
    <x-m>0</x-m>
@@ -102,9 +114,16 @@
   </center>
   <axis><x>1</x></axis>
  </animation>
+
  <animation>
   <type>rotate</type>
   <object-name>HSI_cdi</object-name>
+    <condition>
+    <greater-than>
+      <property>systems/electrical/outputs/dc-voltage</property>
+      <value>23</value>
+    </greater-than>
+  </condition>
   <property>instrumentation/nav[1]/radials/selected-deg</property>
   <center>
    <x-m>0</x-m>

@@ -10,15 +10,15 @@
 	  <object-name>Number3</object-name>
 	  <condition>   
 	    <greater-than>
-	    <property>systems/electrical/outputs/dc-voltage</property>
-	    <value>23</value>
-	   </greater-than>
+	    	<property>systems/electrical/outputs/dc-voltage</property>
+	    	<value>23</value>
+	   	</greater-than>
 	  </condition>
 	  <hovered>
 	       <binding>
 	         <command>set-tooltip</command>
 	         <tooltip-id>augStage</tooltip-id>
-	         <label>Afterburner stage</label>
+	         <label>Afterburner zone</label>
 	      </binding>
 	   </hovered>
 	 </animation>
@@ -43,6 +43,10 @@
 			    <value>3</value>
 			</equals>	
 		</or>
+		<greater-than>
+	    	<property>systems/electrical/outputs/dc-voltage</property>
+	    	<value>23</value>
+	   	</greater-than>
 	  </condition>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
@@ -66,6 +70,10 @@
 			    <value>3</value>
 			</equals>	
 		</or>
+		<greater-than>
+	    	<property>systems/electrical/outputs/dc-voltage</property>
+	    	<value>23</value>
+	   	</greater-than>
 	  </condition>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
@@ -83,6 +91,10 @@
 			    <property>fdm/jsbsim/propulsion/engine/zone</property>
 			    <value>3</value>
 			</equals>
+			<greater-than>
+	    		<property>systems/electrical/outputs/dc-voltage</property>
+	    		<value>23</value>
+	   		</greater-than>
 	  </condition>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 

@@ -35,10 +35,7 @@ Sim: Improve terrain warning system.
 Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
-Sim: Make lights control separated. Instr., beacon, flash, landing, navigation.
-Sim: Uses 24/28V: ext. lights., engine ignition, landing lights, AC, reversing, A/P, instr. light, AoA-meter, heading indicator, canopy
-Sim: Uses 115V: GPS, TILS
-Sim: Uses 200V: fuel pump system.
+Sim: Make lights control separated. Instr., beacon, flash, navigation.
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
