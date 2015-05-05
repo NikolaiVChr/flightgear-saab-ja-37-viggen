@@ -174364,7 +174364,7 @@ kids 0
 OBJECT poly
 name "sidepanelLeft"
 loc -3.8804011 0.1462886 0.3206719
-texture "Cockpit/alu.png"
+texture "Cockpit/alu_side.png"
 texrep 1 1
 numvert 39
 -0.0900366 -0.2186630 0.0463916
@@ -174675,7 +174675,7 @@ kids 0
 OBJECT poly
 name "sidepanelRight"
 loc -3.8567066 0.1734775 -0.2916788
-texture "Cockpit/alu.png"
+texture "Cockpit/alu_side.png"
 texrep 1 1
 numvert 39
 -0.0926011 -0.2192643 -0.0376897
