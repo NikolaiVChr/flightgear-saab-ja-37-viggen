@@ -1537,7 +1537,7 @@ Effect: Instrument, radar screen and landing lights now dim if they do not get t
 Model: Made the radar heading require proper voltage to turn.
 Sim: Prevented fuel temperature errors to swamp the output. If the temperature errors, 15 deg will be used shown in systems monitor.
 Sim: Added hydraulics system 2 including reserve pump. Also added them to failure manager.
-Sim: Flight surfaces (except flaps) will now only deflect to half if one of the hydraulic systems has too low pressure.
+Aero: Flight surfaces (except flaps) will now only deflect to half if one of the hydraulic systems has too low pressure.
 Sim: Main electrical switch now only turns on the AC (which is also converted to 28V DC if its available).
 Sim: Engine starter now requires 24V as per manual.
 Sim: Added support for external power supply.
@@ -1551,6 +1551,9 @@ Model: Added ext. power available indicator.
 Model: Added external power supply truck.
 Sim: Key shift-ctrl-a now will continue on current heading, speed and altitude with A/P.
 Sim: If hydraulic system 1 loses pressure, A/P will now disengage.
-Engine: reverse thrust and A/P now depends on 24V and hydraulic pressure.
+Engine: reverse thrust now depends on 24V and hydraulic pressure.
+Sim: A/P now depends on 24V and hydraulic pressure and will disengage elsewise.
 Model: Heading indicator and afterburner zone indicator now depends on 24V.
 Sim: TILS now depends on AC not DC.
+
+reverse not working

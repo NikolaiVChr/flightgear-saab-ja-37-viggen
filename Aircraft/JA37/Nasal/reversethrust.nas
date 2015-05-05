@@ -4,7 +4,8 @@ var reverserPos = props.globals.getNode("/engines/engine[0]/reverser-pos-norm");
 var reverserServ = props.globals.getNode("/controls/engines/engine[0]/reverse-system/serviceable");
 
 togglereverser = func () {
-  if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or getprop("systems/electricity/outputs/dc-voltage") < 23) {
+  if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == nil or getprop("systems/electrical/outputs/dc-voltage") == nil
+      or getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or getprop("systems/electrical/outputs/dc-voltage") < 23) {
     ja37.popupTip("Thrust reverser lacks electricity or hydraulic pressure.");
   } elsif (reverserServ.getValue() == 1) {
     var reverserPosValue = reverserPos.getValue();
@@ -23,7 +24,9 @@ togglereverser = func () {
         interpolate(reverserPos.getPath(), 0.0, 1.5); #reversing takes 1.5s per manual
         interpolate(jsbEngine.getChild("reverser-angle-rad"), 0, 1.5);
         controlsEngine.getChild("reverser").setBoolValue(0);
-      }  
+      }  else {
+        print(reverserPosValue);
+      }
     }
   }
 }
