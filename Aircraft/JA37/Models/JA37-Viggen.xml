@@ -11,7 +11,8 @@
 
 
   <!--        Interior    -->
-  <model>  
+  <model>
+    <name>interior</name>
     <usage>interior</usage>
     <path>Aircraft/JA37/Models/ja37-interior.xml</path>
   </model>
@@ -94,6 +95,18 @@
     <object-name>dashPanelTap</object-name>
     <object-name>sidepanelLeft</object-name>
     <object-name>sidepanelRight</object-name>
+    <object-name>interior</object-name>
+    <object-name>hudRestBack</object-name>
+    <object-name>hudStruts</object-name>
+    <object-name>plaqueLeftMount</object-name>
+    <object-name>plaqueRightMount</object-name>
+    <object-name>radarMount</object-name>
+    <object-name>hudRestBack</object-name>
+    <object-name>hudRestPlaque</object-name>
+    <object-name>plaqueLeft</object-name>
+    <object-name>plaqueRight</object-name>
+    <object-name>radarHeading</object-name>
+    <object-name>radarScreen</object-name>
   </effect>
 
   <effect>  

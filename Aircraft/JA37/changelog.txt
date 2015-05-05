@@ -1558,3 +1558,5 @@ Sim: TILS now depends on AC not DC.
 Model: Retextured the 3 panels to look more like alu.
 Model: UV mapped and textured radar mount, plaque mount and HUD rest. Texture is noisy black.
 Model: Made the black in center plaque be more grey.
+Effect: Put ubershader on cockpit interiors.
+Model: Removed emision on switches.
