@@ -1520,7 +1520,7 @@ Sim: A/P speed now use indicated airspeed instead of real airspeed. And minor ch
 Sim: Allowed A/P to climb faster at 0.30 mach.
 Sound: Made sound reflect the new afterburner zones.
 
-3.024
+3.024 - 2015 May 05
 =====
 Model: Made inlet fans dark on Flightgear livery.
 GUI: If fuel temperature is a NaN then it will now default to 15 deg in systems monitor.
@@ -1555,9 +1555,11 @@ Engine: reverse thrust now depends on 24V and hydraulic pressure.
 Sim: A/P now depends on 24V and hydraulic pressure and will disengage elsewise.
 Model: Heading indicator and afterburner zone indicator now depends on 24V.
 Sim: TILS now depends on AC not DC.
-Model: Retextured the 3 panels to look more like alu.
-Model: UV mapped and textured radar mount, plaque mount and HUD rest. Texture is noisy black.
+Model: Retextured the 3 panels to look more like brushed/noisy alu.
+Model: UV mapped and textured radar mount, plaque mount and HUD rest. Texture is brushed black.
 Model: Made the black in center plaque be more grey.
 Effect: Put ubershader on cockpit interiors.
 Model: Removed emision on switches.
 Effect: The black engine smoke, will now only emit at engine shutdown/startup.
+Model: Removed files no longer used by radar and center plaque.
+Sim: Removed Potemkin electrical system files.
