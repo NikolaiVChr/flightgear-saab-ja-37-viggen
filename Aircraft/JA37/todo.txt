@@ -19,6 +19,7 @@ Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Elevons should be double sided or have geometry on all edges.
 Model: texture the black components in the cockpit.
+Model: Remove numbers and insignia from specular übershader texture.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not sim properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -47,6 +48,7 @@ Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
+Effect: When afterburner on, there should be no black smoke.
 Animation: Show wheels spinning in MP also.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.

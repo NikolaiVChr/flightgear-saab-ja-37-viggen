@@ -1555,5 +1555,6 @@ Engine: reverse thrust now depends on 24V and hydraulic pressure.
 Sim: A/P now depends on 24V and hydraulic pressure and will disengage elsewise.
 Model: Heading indicator and afterburner zone indicator now depends on 24V.
 Sim: TILS now depends on AC not DC.
-
-reverse not working
+Model: Retextured the 3 panels to look more like alu.
+Model: UV mapped and textured radar mount, plaque mount and HUD rest. Texture is noisy black.
+Model: Made the black in center plaque be more grey.
