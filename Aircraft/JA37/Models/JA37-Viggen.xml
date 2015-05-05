@@ -86,8 +86,14 @@
 	  <object-name>gearRightDoorsOpen</object-name>
 	  <object-name>gearRightDoorsClosed</object-name>
     <object-name>dropTank</object-name>
-    <!--<object-name>dashPanel</object-name>
-    <object-name>dashPanelTap</object-name>-->
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <object-name>dashPanel</object-name>
+    <object-name>dashPanelTap</object-name>
+    <object-name>sidepanelLeft</object-name>
+    <object-name>sidepanelRight</object-name>
   </effect>
 
   <effect>  
