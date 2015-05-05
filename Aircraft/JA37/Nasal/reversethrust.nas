@@ -25,7 +25,7 @@ togglereverser = func () {
         interpolate(jsbEngine.getChild("reverser-angle-rad"), 0, 1.5);
         controlsEngine.getChild("reverser").setBoolValue(0);
       }  else {
-        print(reverserPosValue);
+        #print(reverserPosValue);
       }
     }
   }
