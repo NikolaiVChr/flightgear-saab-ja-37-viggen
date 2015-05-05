@@ -1560,3 +1560,4 @@ Model: UV mapped and textured radar mount, plaque mount and HUD rest. Texture is
 Model: Made the black in center plaque be more grey.
 Effect: Put ubershader on cockpit interiors.
 Model: Removed emision on switches.
+Effect: The black engine smoke, will now only emit at engine shutdown/startup.

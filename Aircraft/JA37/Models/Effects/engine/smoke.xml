@@ -13,10 +13,10 @@
 		<texture>../smoke.png</texture>
 		<condition>
 			<or>
-				<greater-than>
+				<!--<greater-than>
 					<property>engines/engine[0]/n1</property>
 					<value>98</value>
-				</greater-than>
+				</greater-than>-->
 				<and>
 					<greater-than>
 						<property>engines/engine[0]/n1</property>
