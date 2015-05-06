@@ -1523,9 +1523,9 @@ Sound: Made sound reflect the new afterburner zones.
 3.024 - 2015 May 05
 =====
 Model: Made inlet fans dark on Flightgear livery.
-GUI: If fuel temperature is a NaN then it will now default to 15 deg in systems monitor.
+GUI: If fuel temperature is a NaN (not a number) then it will now default to 15 deg in systems monitor.
 Sim: Key shift-N now selects HUD center most radar track.
-Sim: Key R now toggle radar ON/OFF.
+Sim: Key r (lowercase R) now toggles radar ON/OFF.
 Sim: Ported the electrical system to JSBSim from Potemkin nasal and gave it a big overhaul.
 Sim: Implemented drain and recharge for battery. It takes 10 minutes to empty and 10 also to recharge.
 Sim: Generator now spools up, and same does the AC voltages it produces.
@@ -1537,7 +1537,7 @@ Effect: Instrument, radar screen and landing lights now dim if they do not get t
 Model: Made the radar heading require proper voltage to turn.
 Sim: Prevented fuel temperature errors to swamp the output. If the temperature errors, 15 deg will be used shown in systems monitor.
 Sim: Added hydraulics system 2 including reserve pump. Also added them to failure manager.
-Aero: Flight surfaces (except flaps) will now only deflect to half if one of the hydraulic systems has too low pressure. As per manual.
+Aero: deflection of flight control surfaces (except flaps) will now be limited to half if one of the hydraulic systems has too low pressure. As per manual.
 Sim: Main electrical switch now only turns on the AC (which is also converted to 28V DC if its available).
 Engine: Engine starter now requires 24V as per manual.
 Sim: Added support for external power supply.
@@ -1549,7 +1549,7 @@ Model: Battery now has its own switch.
 Model: Added power supply selector switch (generator or external).
 Model: Added ext. power available indicator.
 Model: Added external power supply truck.
-Sim: Key shift-ctrl-a now will continue on current heading, speed and altitude with A/P.
+Sim: Key shift-ctrl-a now activates A/P to continue on current heading, speed and altitude.
 Sim: If hydraulic system 1 loses pressure, A/P will now disengage.
 Engine: reverse thrust now depends on 24V and hydraulic pressure.
 Sim: A/P now depends on 24V and hydraulic pressure and will disengage elsewise.
@@ -1559,10 +1559,11 @@ Model: Retextured the 3 panels to look more like brushed/noisy alu.
 Model: UV mapped and textured radar mount, plaque mount and HUD rest. Texture is brushed black.
 Model: Made the black in center plaque be more grey.
 Effect: Put ubershader on cockpit interiors.
-Model: Removed emision on switches.
+Model: Switches are no longer emissive.
 Effect: The black engine smoke, will now only emit at engine shutdown/startup.
 Model: Removed files no longer used by radar and center plaque.
 Sim: Removed Potemkin electrical system files.
 
 3.025
 =====
+Sim: Flightgear insist on specific voltage to ADF, DME, Tacan, nav 1 and transponder. They now have it.
