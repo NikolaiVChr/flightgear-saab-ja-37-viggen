@@ -33,17 +33,11 @@
       <object-name>Mesh.011</object-name>
       <object-name>Mesh.012</object-name>
       <object-name>TheHand</object-name>
-	  <condition>   
-	    <greater-than>
-	    <property>systems/electrical/outputs/dc-voltage</property>
-	    <value>23</value>
-	   </greater-than>
-	  </condition>
 	  <hovered>
 	       <binding>
 	         <command>set-tooltip</command>
 	         <tooltip-id>nozzle</tooltip-id>
-	         <label>Nozzle position / Afterburner stage</label>
+	         <label>Nozzle position / Afterburner zone</label>
 	      </binding>
 	   </hovered>
 	 </animation>

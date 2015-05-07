@@ -40,7 +40,7 @@ Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
 Sim: Damage from missile explosion.
-Sim: Complete hydraulic dependencies. Brakes and reverser.
+Sim: Complete hydraulic dependencies. Brakes.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -82,7 +82,7 @@ GUI: The performance monitor can duplicate itself when selecting airport. [repro
 Model: sim load-lag when coming near other ja37. [reproduced, select anims are probably to blame]
 Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
 Model: CTRL-X in HUD view will not zoom to correct level.
-Animation: Selection view does not follow carriers till they move. (they lack radar properties)
+Animation: Selection view does not follow carriers or other ships till they move. (they lack radar properties)
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 Sim: Sometimes when exploding, the sim freezes, typically at redout.
 Sim: {JazzTP} Replay did not replay explosion.

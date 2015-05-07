@@ -1568,3 +1568,6 @@ Sim: Removed Potemkin electrical system files.
 =====
 Sim: Flightgear insist on specific voltage to ADF, DME, Tacan, nav 1 and transponder. They now have it.
 Model: Put an mil green on external power truck.
+Model: Made tooltip on augmentation zone indicator not depend on voltage.
+Model: Softened some of the edges on sidepanels.
+Model: Sidepanels now use same alu texture as front panel.
