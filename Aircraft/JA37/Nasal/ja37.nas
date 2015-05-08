@@ -1307,7 +1307,7 @@ var follow = func () {
     setprop("/autopilot/target-tracking-ja37/target-root", target.getPath());
     #this is done in -set file: /autopilot/target-tracking-ja37/min-speed-kt
     setprop("/autopilot/target-tracking-ja37/enable", TRUE);
-    var range = 0.025;
+    var range = 0.075;
     setprop("/autopilot/target-tracking-ja37/goal-range-nm", range);
     popupTip("A/P follow: ON");
 

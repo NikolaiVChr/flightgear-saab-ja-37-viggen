@@ -192,7 +192,9 @@ var TrackUpdate = func(loop_id) {
         var diff = myspeed_true-myspeed;
 
         var target_speed = speed-diff + range_error * 100.0;
-        
+        #var ds = speed-diff;
+        #print("speed: "~ds);
+        #print(" err: "~range_error~" targ: "~target_speed);
 
         var speed_indicated = speed - diff;
 
@@ -202,7 +204,7 @@ var TrackUpdate = func(loop_id) {
         #setprop("/autopilot/target-tracking-ja37/myspeed_true", myspeed_true);
         
 
-        # if close, obay speed limits:
+        # if close, obey speed limits:
         if(range_error < 0.25) {
           target_speed = math.min(target_speed, speed_indicated+50);
         } elsif(range_error < 2) {
@@ -217,6 +219,7 @@ var TrackUpdate = func(loop_id) {
         if ( target_speed < min_speed_kt ) {
             target_speed = min_speed_kt;
         }
+        #print(" targ: "~target_speed);
 
         setprop( "/autopilot/settings/target-altitude-ft", alt );
         setprop( "/autopilot/settings/heading-bug-deg", my_hdg + h_offset );

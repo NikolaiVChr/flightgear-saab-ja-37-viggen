@@ -323,7 +323,11 @@
   <object-name>elevonLeftOuter</object-name>
   <object-name>elevonRightInner</object-name>
   <object-name>elevonRightOuter</object-name>
-  <object-name>gearRight</object-name>
+  <object-name>lightRight</object-name>
+  <object-name>lightLeft</object-name>
+  <object-name>wingRight</object-name>
+  <object-name>wingLeft</object-name>
+  <!--<object-name>gearRight</object-name>
   <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>gearLeft</object-name>
@@ -337,16 +341,12 @@
   <object-name>wheelRight2</object-name>
   <object-name>wheelLeft1</object-name>
   <object-name>wheelLeft2</object-name>
-  <object-name>lightRight</object-name>
-  <object-name>lightLeft</object-name>
-  <object-name>wingRight</object-name>
-  <object-name>wingLeft</object-name>
   <object-name>landingLightLeft</object-name>
   <object-name>landingLightRight</object-name>
   <object-name>missile</object-name>
   <object-name>missile1</object-name>
   <object-name>pod0</object-name>
-  <object-name>pod1</object-name>
+  <object-name>pod1</object-name>-->
   <condition>
     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>
@@ -383,6 +383,7 @@
  <animation>
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>gear/gear[1]/position-norm</property>
     <value>0.0</value>
@@ -394,6 +395,7 @@
  <animation>
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>gear/gear[2]/position-norm</property>
     <value>0.0</value>
@@ -421,6 +423,7 @@
 <animation>
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <greater-than>
     <property>gear/gear[1]/position-norm</property>
     <value>0.0</value>
@@ -439,6 +442,7 @@
 <animation>
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <greater-than>
     <property>gear/gear[2]/position-norm</property>
     <value>0.0</value>
@@ -1282,6 +1286,7 @@
   <object-name>missile</object-name><!-- Left wing pylon -->
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
     <value>188</value>
@@ -1304,6 +1309,7 @@
   <object-name>missile1</object-name><!-- Right wing pylon -->
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
     <value>188</value>
@@ -1336,6 +1342,7 @@
   <object-name>pod0</object-name>
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
     <value>200</value>
@@ -1378,6 +1385,7 @@
   <object-name>pod1</object-name>
   <type>select</type>
   <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
     <value>200</value>
