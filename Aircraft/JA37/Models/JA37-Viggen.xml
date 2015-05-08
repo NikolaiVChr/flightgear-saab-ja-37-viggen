@@ -711,7 +711,7 @@
    <object-name>gearFrontScissor</object-name>
    <object-name>wheelFront</object-name>
    <object-name>tyre-smoke-nose</object-name>
-   <property>sim/multiplay/generic/float[8]</property><!-- gear/gear/compression-ft -->
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
      <z>1</z>
@@ -765,7 +765,7 @@
    <object-name>landingLightLeft</object-name>
    <object-name>leftLandingLightGlare</object-name>
    <object-name>tyre-smoke-left</object-name>
-   <property>sim/multiplay/generic/float[9]</property><!-- gear/gear[1]/compression-ft -->
+   <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
      <z>1</z>
@@ -838,7 +838,7 @@
    <object-name>landingLightRight</object-name>
    <object-name>rightLandingLightGlare</object-name>
    <object-name>tyre-smoke-right</object-name>
-   <property>sim/multiplay/generic/float[10]</property><!-- gear/gear[2]/compression-ft -->
+   <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
    <axis>
      <z>1</z>

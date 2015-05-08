@@ -1577,3 +1577,4 @@ Model: Sidepanels now use same alu texture as front panel.
 Model: External power truck moved slightly so the power cable goes free of aircraft wheels.
 Model: stopped use of stacked select animation to minimize lag when gear retracts.
 Sim: Improved auto follow, to avoid overshoot.
+Sim: Gear compression no longer use generic MP properties.

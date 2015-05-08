@@ -649,9 +649,9 @@
       <float n="14" alias="/payload/weight[3]/weight-lb"/><!-- used to show missiles -->
       <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/><!-- used for drop tank -->
       <!-- gears -->
-      <float n="8" alias="/gear/gear/compression-ft"/><!-- used for gear anim -->
-      <float n="9" alias="/gear/gear[1]/compression-ft"/><!-- used for gear anim -->
-      <float n="10" alias="/gear/gear[2]/compression-ft"/><!-- used for gear anim -->
+      <float n="8" alias="/gear/gear/compression-ft"/><!-- used for gear anim, deprecated -->
+      <float n="9" alias="/gear/gear[1]/compression-ft"/><!-- used for gear anim, deprecated -->
+      <float n="10" alias="/gear/gear[2]/compression-ft"/><!-- used for gear anim, deprecated -->
       <int n="17" alias="/gear/gear[0]/wow"/><!-- used in MP sound -->
       <int n="18" alias="/gear/gear[1]/wow"/><!-- used in MP sound -->
       <int n="19" alias="/gear/gear[2]/wow"/><!-- used in MP sound -->
