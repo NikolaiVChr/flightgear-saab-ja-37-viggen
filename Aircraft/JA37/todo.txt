@@ -88,6 +88,8 @@ Model: In FG 2.12 radar screen does not work as it should. (no canvas replacemen
 Sim: Sometimes when exploding, the sim freezes, typically at redout.
 Sim: {JazzTP} Replay did not replay explosion.
 Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
+HUD: In landing mode when horizont is out of view, heading scale does not show commanded heading.
+HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 
 
 Issues with FG: (or my limited understanding of it)

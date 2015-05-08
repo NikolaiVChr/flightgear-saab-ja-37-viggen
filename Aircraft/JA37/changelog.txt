@@ -1578,3 +1578,5 @@ Model: External power truck moved slightly so the power cable goes free of aircr
 Model: stopped use of stacked select animation to minimize lag when gear retracts.
 Sim: Improved auto follow, to avoid overshoot.
 Sim: Gear compression no longer use generic MP properties.
+Aero: Elevons can no longer control plane if wings are detached.
+Aero: Wings will no longer contribute to roll damping due to roll when wings are detached.

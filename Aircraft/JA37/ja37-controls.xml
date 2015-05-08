@@ -180,6 +180,9 @@
 
       <switch name="names/elevator/tmp-norm">
         <default value="fcs/elevator/cmd-sum"/>
+        <test logic="OR" value="0">
+          structural/wings/serviceable == 0
+        </test>
         <test logic="OR" value="fcs/elevator/pos-norm">
           systems/hydraulics/flight-surface-actuation == 0
           fcs/elevator/serviceable == 0
@@ -309,6 +312,9 @@
 
       <switch name="names/aileron/tmp-norm">
         <default value="fcs/aileron/cmd-sum"/>
+        <test logic="OR" value="0">
+          structural/wings/serviceable == 0
+        </test>  
         <test logic="OR" value="fcs/aileron/pos-norm">
           systems/hydraulics/flight-surface-actuation == 0
           fcs/aileron/serviceable == 0
