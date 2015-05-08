@@ -152,8 +152,8 @@
     <name>ext-power</name>
     <path>Aircraft/JA37/Models/ext-power.xml</path>
     <offsets>
-      <x-m> 0.0</x-m>
-      <y-m> 9.0</y-m>
+      <x-m> 0.25</x-m>
+      <y-m> 9.15</y-m>
       <z-m> 0.0</z-m>
     </offsets>
   </model>
