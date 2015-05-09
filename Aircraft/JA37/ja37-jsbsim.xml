@@ -495,7 +495,7 @@ to an airplane of that size). -->
   </propulsion>
   
   <system file="ja37-hydraulic"/>
-  <flight_control file="ja37-controls"/>
+  <flight_control file="Systems/ja37-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
 
   <!-- _____Carrier____________ (note, these functions are not offical. As the real Viggen did not have carrier capacity) -->

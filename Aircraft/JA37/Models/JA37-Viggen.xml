@@ -6,7 +6,7 @@
 
   <!-- Multiplay sound -->
   <sound>
-    <path>Aircraft/JA37/ja37-mp-sound.xml</path>
+    <path>Aircraft/JA37/Systems/ja37-mp-sound.xml</path>
   </sound>
 
 

@@ -67,7 +67,7 @@
 
     <submodels>
      <serviceable type="bool">1</serviceable>
-     <path>Aircraft/JA37/ja37-submodels.xml</path>
+     <path>Aircraft/JA37/Systems/ja37-submodels.xml</path>
     </submodels>
 
 
@@ -377,7 +377,7 @@
     </flight-recorder>  <!-- remember string types are unsupported -->
     
     <sound>
-     <path>Aircraft/JA37/ja37-sound.xml</path>
+     <path>Aircraft/JA37/Systems/ja37-sound.xml</path>
     </sound>
 
     <virtual-cockpit archive="y">true</virtual-cockpit> <!-- no clue what this does -->
