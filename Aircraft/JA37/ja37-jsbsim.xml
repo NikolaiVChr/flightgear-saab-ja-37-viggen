@@ -494,19 +494,20 @@ to an airplane of that size). -->
     </tank>
   </propulsion>
   
-  <system file="ja37-hydraulic"/>
   <flight_control file="Systems/ja37-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
+  <system file="ja37-hydraulic"/>
+  <system file="flight"/>
+  <system file="cannon_recoil"/>
+  <system file="electric"/>
 
-  <!-- _____Carrier____________ (note, these functions are not offical. As the real Viggen did not have carrier capacity) -->
+
+  <!--  Carrier (note, these functions are not offical. As the real Viggen did not have carrier capacity, and so is not documented) -->
 
   <system file="catapult_free"/>
   <system file="holdback_free"/>
   <system file="cat-hold"/>
   <system file="hook"/>
-  <system file="flight"/>
-  <system file="cannon_recoil"/>
-  <system file="electric"/>
 
   <external_reactions>
     <force name="recoil" frame="BODY">

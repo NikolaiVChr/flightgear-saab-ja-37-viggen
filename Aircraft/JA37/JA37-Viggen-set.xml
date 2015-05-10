@@ -1953,7 +1953,7 @@
   </instrumentation-light>
   <switches>
     <generator>
-    <pos type="int">0</pos>
+      <pos type="int">0</pos>
     </generator>
     <inst-light-knob>
       <pos alias="/instrumentation/instrumentation-light/serviceable"/>
@@ -1975,7 +1975,8 @@
     </inputs>
   </transponder>
   <radar>
-    <range>4000</range>
+    <debug-mode type="bool">true<debug-mode><!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
+    <range>4000</range><!-- meter -->
     <serviceable type="bool">true</serviceable>
   </radar>
   <head-up-display>

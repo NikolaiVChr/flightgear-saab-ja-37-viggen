@@ -1581,3 +1581,4 @@ Sim: Gear compression no longer use generic MP properties.
 Aero: Elevons can no longer control plane if wings are detached.
 Aero: Wings will no longer contribute to roll damping due to roll when wings are detached.
 Sim: Moved 4 files from main folder to Systems folder.
+Sim: Force radar calculations on all AI objects.
