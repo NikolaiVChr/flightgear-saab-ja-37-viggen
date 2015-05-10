@@ -1,0 +1,127 @@
+
+*****************************************
+**  Flightgear JA-37 feature overview  **
+*****************************************
+
+I estimate I have used more than 1500 hours of work on the Viggen. (including learning the various skills needed)
+When the Viggen is first loaded I think its not apparent how much work is invested in it, I have therefore compiled a short overview of its main features:
+
+
+Flightgear compatibility
+------
+The Viggen is compatible with Flightgear version 2.10 to 3.5.
+A separate download is available for Flightgear 2.8. It will not be updated so often as the regular download.
+
+Aerodynamics
+-----
+JSBSim FDM based on original Saab windtunnel data.
+45 individual aerodynamic coefficients.
+Aerodynamic effect of air intake factor, ground effects and control surface shading.
+At high alpha asymmetric vortex detachment of left or right side, resulting in adverse effects.
+Very high alpha handling including realistic departures such as stall, spiral dive, flat spin and inverted spin.
+Aerodynamic response to payload. (droptank & missiles)
+Aerodynamic drag from canopy open and canopy detachment.
+Significantly reduced lift and roll damping when wings detach.
+High compliance with various performance numbers. (true not indicated instrument values)
+Able to reliable land at heavy crosswind.
+
+Flight control system
+-----
+Tuned autopilot based on indicated instrument values, not true values. All settings supported except speed controlled from pitch.
+A/P can be set to follow other aircraft.
+Automatically controlled flaps.
+Elevon and rudder deflection is limited depending on hydraulic pressure, air density and speed.
+Filter based pitch, yaw and roll dampers lets the pilot control the plane where would elsewise be adverse effects such as turbulence, dutch roll, accelerated rolls and pitch oscillations.
+Nose wheel steering lock and limiting depending on ground speed.
+Gear will not retract on runway, and not extend above certain speeds.
+
+System
+------
+External power supply truck or generator produces AC voltages.
+DC voltage converted from AC or from battery.
+Battery drain and recharge.
+Intrument and landing light dims when not getting enough power and various systems shut down.
+Two hydraulic system modeled. The second having a reserve pump.
+Terrain warning system, with HUD indication and annuciator.
+Canopy can be torn off from high wind speeds.
+When canopy is open, wind can be heard and exterior engine sounds.
+Simulated airconditioner unit.
+TILS (tactical instrument landing system) that auto tunes to nearby ILS frequencies.
+Custom flight recorder records 52 extra properties for accurate replay functionality. Also record fidelity has been increased for smoother replay.
+7 internal fuel tanks plus a drop tank that can be jettisoned.
+
+Failure system
+-----
+21 extra failures beside the standard ones.
+Canopy motor, canopy hinges, wings attachment and individual gear locking mechanisms are preset to fail under specific conditions.
+Crash-detection and high-G structural break tied into the failure system, it can randomly fail components proportional to the damage the plane takes.
+
+Avionics
+-----
+Gauges are in metric and Swedish description. But they have Tooltips, showing Imperial and English units.
+Switches and buttons have english text for convience.
+Custom Canvas HUD built from Saab flight manual with 4 modes of operation: navigation, landing, takeoff and tactical.
+HUD values depend on indicated values, not real values.
+HUD can switch to Imperial units.
+The callsign (or type), velocity vector and distance of the selected track is also displayed in the HUD. It also display nearest tower.
+HUD shows radar tracks of aircraft plus scenario objects like ferries, ballons, tankers, carriers, tanks, bus, trains etc.
+At ILS landings the HUD will show a glideslope guide, if the runway supports it.
+Other HUD features such as distance scale, variant altitude scale, heading scale on horizont in landing mode, diamond at missile lock, altimeter calibration warning etc.
+Radar with 48 Km range that show MP and AI objects alike depend on hydraulic and electricity.
+Auto-start and auto shut down scripts.
+
+Engine
+-----
+Volvo RM-8B turbine with accurate fuel consumption and performance in different air density and speed regimes.
+A thrust reverser is equiped which require proper hydraulics and electricity to work.
+Afterburner that has 3 continuous zones of operation.
+
+Sound
+-----
+36 distinct sounds, including 6 annunciation warnings.
+9 Multiplayer sounds enabled.
+No out of place sounds being played at start of sim.
+When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realisticly delayed.
+
+Armament
+-----
+30mm Cannon with authentic shell properties and accurate recoil.
+Unguided rocket pods.
+Guided fire and forget air2air missiles, that can be fired at AI and MP alike.
+Dual releasing flares.
+Compatible with the Bombable addon.
+
+Model
+-----
+Eight authentic Swedish Airforce and a fictive Flightgear liveries included.
+Selection view, with camera pointing to the aircraft from outside and towards the current selected MP/AI aircraft.
+Ubershaded exterior model and cockpit panels.
+Nomal mapped exterior model.
+Fully ALS ready and also Rembrandt compatible, but with no light influences.
+Pilot eye view is tuned for getting good view of runways at landings, while at the same time give good view of HUD and instrument panel.
+Preloaded exterior view, for fast switching to exterior view.
+
+Effects
+-----
+Aerobatic smoke in yellow or blue.
+Wing vapour under the right athmospheric conditions.
+Lights that depends on distance viewed and sun position.
+Beacon light that simulate ratating beacons.
+Frost, fog and rain splashes on canopy in ALS. They depend on canopy position, aircondition, outside/inside temperate and dewpoint and rain.
+Vapour cone in transonic regime.
+Landing light cone on runway in ALS.
+Explosion at crash if plane takes enough damage and has enough fuel.
+In ALS rain drops will form on the fuselage.
+
+Multiplay
+-----
+The following is transmitted and shown over MP:
+Gear compression, flight surfaces animation, afterburner flame, engine flame light, landing light, flash light, beacon lights, navigation lights, canopy animation, canopy detachment, wings detachment, explosion, wing vapour, engine smoke and engine heath.
+Different Viggen version are to high degree compatible with each other in MP.
+
+GUI
+-----
+4 Checklists
+Performance monitor with environment stats, aerodynamic ratios, landing/takeoff distance measurement and other interesting values.
+Systems monitor, that reveals internal systems state.
+Options panel, with many configurable options.
