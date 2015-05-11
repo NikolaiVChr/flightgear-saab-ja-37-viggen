@@ -1975,7 +1975,7 @@
     </inputs>
   </transponder>
   <radar>
-    <debug-mode type="bool">true<debug-mode><!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
+    <debug-mode type="bool">true</debug-mode><!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
     <range>4000</range><!-- meter -->
     <serviceable type="bool">true</serviceable>
   </radar>
