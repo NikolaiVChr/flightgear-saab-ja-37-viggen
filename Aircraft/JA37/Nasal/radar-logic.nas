@@ -107,22 +107,34 @@ var processTracks = func (vector, carrier, missile = FALSE) {
             track.addChild("model-shorter").setValue(model);
 
             var funcHash = {
-              init: func (listener, trck) {
-                me.listenerID = listener;
-                me.trackme = trck;
-              },
-              callme: func {
-                if(funcHash.trackme != nil and funcHash.trackme.getChild("valid") != nil and funcHash.trackme.getChild("valid").getValue() == FALSE) {
-                  var child = funcHash.trackme.removeChild("model-shorter");
+              #init: func (listener, trck) {
+              #  me.listenerID = listener;
+              #  me.trackme = trck;
+              #},
+              callme1: func {
+                if(funcHash.trackme.getChild("valid").getValue() == FALSE) {
+                  var child = funcHash.trackme.removeChild("model-shorter",0);#index 0 must be specified!
                   if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
-                    removelistener(funcHash.listenerID);
+                    removelistener(funcHash.listenerID1);
+                    removelistener(funcHash.listenerID2);
+                  }
+                }
+              },
+              callme2: func {
+                if(funcHash.trackme.getNode("sim/model/path") == nil or funcHash.trackme.getNode("sim/model/path").getValue() != me.oldpath) {
+                  var child = funcHash.trackme.removeChild("model-shorter",0);
+                  if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
+                    removelistener(funcHash.listenerID1);
+                    removelistener(funcHash.listenerID2);
                   }
                 }
               }
             };
             
             funcHash.trackme = track;
-            funcHash.listenerID = setlistener(track.getChild("valid"), func call(func funcHash.callme(), nil, funcHash, funcHash), 1, 1);
+            funcHash.oldpath = path;
+            funcHash.listenerID1 = setlistener(track.getChild("valid"), func {call(func funcHash.callme1(), nil, funcHash, funcHash, var err =[]); if (size(err)) print(err[0]);}, 0, 1);
+            funcHash.listenerID2 = setlistener(pathNode,                func {call(func funcHash.callme2(), nil, funcHash, funcHash, var err =[]); if (size(err)) print(err[0]);}, 0, 1);
           }
         }
 

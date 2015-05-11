@@ -42,6 +42,7 @@ Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
 Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
+Sim: Shift-m should be a key without shift instead for convinience.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
@@ -90,6 +91,7 @@ Sim: {JazzTP} Replay did not replay explosion.
 Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
 HUD: In landing mode when horizont is out of view, heading scale does not show commanded heading.
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
+Sim: If track type is selected in HUD, when missile hit the message will display the type, not callsign.
 
 
 Issues with FG: (or my limited understanding of it)
