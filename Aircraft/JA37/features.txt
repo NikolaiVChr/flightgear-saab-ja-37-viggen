@@ -79,7 +79,7 @@ Afterburner that has 3 continuous zones of operation.
 Sound
 -----
 36 distinct sounds, including 6 annunciation warnings.
-9 Multiplayer sounds enabled.
+9 multiplayer sounds enabled.
 No out of place sounds being played at start of sim.
 When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realisticly delayed.
 
@@ -121,7 +121,7 @@ Different Viggen version are to high degree compatible with each other in MP.
 
 GUI
 -----
-4 Checklists
+4 Checklists; startup with ext. power, startup with battery, takeoff and landing.
 Performance monitor with environment stats, aerodynamic ratios, landing/takeoff distance measurement and other interesting values.
 Systems monitor, that reveals internal systems state.
 Options panel, with many configurable options.

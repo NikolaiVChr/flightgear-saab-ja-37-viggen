@@ -1584,3 +1584,4 @@ Sim: Moved 4 files from main folder to Systems folder.
 Sim: Force radar calculations on all AI objects.
 Sim: Added a main features list.
 HUD: Fixed that wrong plane type could be displayed by selection.
+Sim: Decreased the structural break point for negative G.

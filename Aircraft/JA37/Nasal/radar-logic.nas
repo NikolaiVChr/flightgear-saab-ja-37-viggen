@@ -133,8 +133,8 @@ var processTracks = func (vector, carrier, missile = FALSE) {
             
             funcHash.trackme = track;
             funcHash.oldpath = path;
-            funcHash.listenerID1 = setlistener(track.getChild("valid"), func {call(func funcHash.callme1(), nil, funcHash, funcHash, var err =[]); if (size(err)) print(err[0]);}, 0, 1);
-            funcHash.listenerID2 = setlistener(pathNode,                func {call(func funcHash.callme2(), nil, funcHash, funcHash, var err =[]); if (size(err)) print(err[0]);}, 0, 1);
+            funcHash.listenerID1 = setlistener(track.getChild("valid"), func {call(func funcHash.callme1(), nil, funcHash, funcHash, var err =[]);}, 0, 1);
+            funcHash.listenerID2 = setlistener(pathNode,                func {call(func funcHash.callme2(), nil, funcHash, funcHash, var err =[]);}, 0, 1);
           }
         }
 
