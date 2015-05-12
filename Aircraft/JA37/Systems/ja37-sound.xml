@@ -400,7 +400,7 @@
     <property>engines/engine/running</property>
     <greater-than-equals>
       <property>engines/engine/n1</property>
-      <value>22</value>
+      <value>30</value>
     </greater-than-equals>
     <!--<not>
       <property>gear/gear[0]/wow</property>

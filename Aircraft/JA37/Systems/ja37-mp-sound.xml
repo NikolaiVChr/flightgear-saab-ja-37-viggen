@@ -225,7 +225,7 @@
     <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
     <greater-than-equals>
       <property>sim/multiplay/generic/float[15]</property><!-- n1 -->
-      <value>22</value>
+      <value>30</value>
     </greater-than-equals>
     <!--<not>
       <property>gear/gear[0]/wow</property>
