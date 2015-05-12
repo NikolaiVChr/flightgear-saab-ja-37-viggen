@@ -130,7 +130,7 @@
       <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
     </not>
   </condition>
-   <reference-dist>25</reference-dist>
+   <reference-dist>100</reference-dist>
    <max-dist>10000</max-dist>
    <position>
     <x>4.6</x>
@@ -142,7 +142,7 @@
     <y>0.0</y>
     <z>0.0</z>
     <inner-angle>45</inner-angle>
-    <outer-angle>180.0</outer-angle>
+    <outer-angle>90.0</outer-angle>
     <outer-gain>0</outer-gain>
    </orientation>
    <volume>
@@ -150,7 +150,7 @@
    </volume>
    <volume>
     <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
-    <factor>0.000150</factor>
+    <factor>0.000100</factor>
    </volume>
   </flybylow>  
   
@@ -249,7 +249,7 @@
    <volume>
     <property>sim/multiplay/generic/float[16]</property><!-- engines/engine/thrust_lb-absolute -->
     <offset>0.000</offset>
-    <factor>0.000020</factor>
+    <factor>0.000050</factor>
    </volume>
    <!--<pitch>
     <property>engines/engine/n1</property>
@@ -262,7 +262,7 @@
 
   <engine_augmented_model>
    <name>external afterburner</name>
-   <path>Sounds/exhaust_loop.wav</path>
+   <path>Aircraft/JA37/Sounds/thrust-exterior.wav</path>
    <mode>looped</mode>
    <type>fx</type>
    <condition>

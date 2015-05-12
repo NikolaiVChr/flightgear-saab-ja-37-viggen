@@ -47,7 +47,7 @@ F15C - Stick
 Alphajet - Adapted aerobatic smoke
 Crusader - Carrier catapult mechanism
 pa24-250 - Glare texture for landing lights
-F-14b (jsb) - Dampers inspiration. Hydraulics. Pilot.
+F-14b (jsb) - Dampers inspiration. Hydraulics. Pilot. 3 sounds.
 l39 - Strobe light texture.
 C172p - Some sound settings.
 707 - External power supply truck.
