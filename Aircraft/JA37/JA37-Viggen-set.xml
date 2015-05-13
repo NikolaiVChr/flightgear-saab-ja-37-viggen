@@ -747,7 +747,7 @@
       <desc>Toggle custom/FG HUD</desc>
      </key>
      <key>
-      <name>m</name>
+      <name>M</name>
       <desc>Toggle nose wheel steering</desc>
      </key>
      <key>
@@ -797,6 +797,10 @@
      <key>
       <name>Shift-backspace</name>
       <desc>Reload A/P</desc>
+     </key>
+     <key>
+      <name>m</name>
+      <desc>Toggle configure HUD for final approach</desc>
      </key> -->
      <text>
       Startup
@@ -1856,16 +1860,16 @@
         <script>ja37.drop();</script>
       </binding>
      </key>
-    <key n="109">
-     <name>m</name>
+    <key n="77">
+     <name>M</name>
      <desc>Toggle nose wheel steering</desc>
      <binding>
         <command>nasal</command>
         <script>ja37.toggleNosewheelSteer();</script>
      </binding>
     </key>
-    <key n="77">
-      <name>M</name>
+    <key n="109">
+      <name>m</name>
       <desc>Final approach</desc>
       <binding>
        <command>property-toggle</command>

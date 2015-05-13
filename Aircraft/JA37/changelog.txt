@@ -1588,3 +1588,4 @@ Sim: Decreased the structural break point for negative G.
 Sound: Replaced 3 engine sound; fly-by deep roar, model-view afterburner and model-view turbine.
 Sound: Various adjustments to engine sounds. Model view should now be easier on the ears.
 Model: Removed numbers and insignia from specular channel in exterior übershader texture.
+Sim: Switched keys 'm' and 'M'. M is now nosewheel lock and m is configure HUD for final approach.
