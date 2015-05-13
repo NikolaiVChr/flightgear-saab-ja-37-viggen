@@ -1587,3 +1587,4 @@ HUD: Fixed that wrong plane type could be displayed by selection.
 Sim: Decreased the structural break point for negative G.
 Sound: Replaced 3 engine sound; fly-by deep roar, model-view afterburner and model-view turbine.
 Sound: Various adjustments to engine sounds. Model view should now be easier on the ears.
+Model: Removed numbers and insignia from specular channel in exterior übershader texture.

@@ -15,17 +15,15 @@ Model: Adjust instrument materials, and make the gauges look more similar.
 Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
-Model: Gauges that share mount design should also share geometry and textures.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Elevons should be double sided or have geometry on all edges.
-Model: Remove numbers and insignia from specular übershader texture.
 Model: Ext. power truck more mil style textures.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
-Sim: Make autopilot depend fully on instrument properties not sim properties.
+Sim: Make autopilot depend fully on instrument properties not true properties.
 Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Sim: Reset controls after A/P let go of them.
-Sim: Stop using integers in xml where floating point is expected?
+Sim: Stop using integers in xml where floating point is expected? (really not needed)
 Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground guided missiles.
@@ -42,6 +40,7 @@ Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Warning at incoming missile. (ja37, m2000-5, f-14b)
 Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
+Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convinience.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
@@ -57,7 +56,6 @@ HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
-HUD: Adjust pilots eyes so that HUD is viewed as in the real (angle and distance). Also key to zoom in on HUD.
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 
