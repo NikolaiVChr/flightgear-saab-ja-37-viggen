@@ -59,6 +59,7 @@
 <!-- Material shaders   -->
   <effect>
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
 	  <object-name>canopy</object-name>
 	  <object-name>elevonLeftInner</object-name>
 	  <object-name>elevonLeftOuter</object-name>
@@ -90,7 +91,7 @@
   </effect>
 
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
     <object-name>dashPanel</object-name>
     <object-name>dashPanelTap</object-name>
     <object-name>sidepanelLeft</object-name>
@@ -107,6 +108,7 @@
     <object-name>plaqueRight</object-name>
     <object-name>radarHeading</object-name>
     <object-name>radarScreen</object-name>
+    <object-name>seat</object-name>
   </effect>
 
   <effect>  

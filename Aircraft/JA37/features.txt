@@ -40,7 +40,7 @@ System
 External power supply truck or generator produces AC voltages.
 DC voltage converted from AC or from battery.
 Battery drain and recharge.
-Intrument and landing light dims when not getting enough power and various systems shut down.
+Instrument and landing light dims when not getting enough power and various systems shut down.
 Two hydraulic system modeled. The second having a reserve pump.
 Terrain warning system, with HUD indication and annuciator.
 Canopy can be torn off from high wind speeds.
