@@ -1875,6 +1875,10 @@
        <command>property-toggle</command>
        <property>sim/ja37/hud/final</property>
       </binding>
+      <binding>
+        <command>nasal</command>
+        <script>ja37.click();ja37.popupTip("Toggled configure HUD for final approach.");</script>
+      </binding>
     </key>
    </keyboard>
   </input>
