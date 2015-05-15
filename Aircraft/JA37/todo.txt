@@ -126,7 +126,7 @@ Require modeling/texture skills (above my level):
 -------------------------------------------------
 Model: Model proper panels and cockpit layout.
 Model: Put in more working instruments and controls. (semi doable if can find similar instrument in other plane, but too many to look through)
-Animation: Animate scissor gear compression. The gears are currently modelled wrong for this.
+Animation: Animate rear scissor gear compression. The gears are currently modelled wrong for this.
 Animation: Proper animation of gear doors.
 Model: Model the reverser for reverse thrust.
 Model: Make gunpod, between the fuselage and droptank.

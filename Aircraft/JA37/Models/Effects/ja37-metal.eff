@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--ja37-metal.eff-->
+<PropertyList>
+  <name>Effects/ja37-metal</name>
+  <inherits-from>Effects/model-combined-deferred</inherits-from>
+  <parameters>
+     <reflection-enabled type="int">1</reflection-enabled>
+     <reflection-correction type="float">0.5</reflection-correction>
+     <reflection-fresnel type="float">0.0</reflection-fresnel>
+
+     <reflection-rainbow type="float">0.1</reflection-rainbow>
+     <reflection-noise type="float">0.5</reflection-noise>
+
+     <ambient-correction type="float">0.0</ambient-correction>
+
+     <dirt-enabled type="int">0</dirt-enabled>
+     <dirt-factor type="float">0.0</dirt-factor>
+     <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
+
+   <texture n="5"> <!-- reflection env. map -->
+     <type>cubemap</type>
+     <images>
+       <positive-x>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-x>
+       <negative-x>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-x>
+       <positive-y>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-y>
+       <negative-y>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-y>
+       <positive-z>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-z>
+       <negative-z>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-z>
+     </images>
+   </texture>
+ </parameters>
+</PropertyList>

@@ -350,7 +350,7 @@
           <property type="string">payload/weight[3]/weight-lb</property>
         </signal>
         <!-- Gears -->
-        <signal>
+        <!--<signal>
           <type>float</type>
           <property type="string">gear/gear/compression-norm</property>
         </signal>
@@ -361,7 +361,7 @@
         <signal>
           <type>float</type>
           <property type="string">gear/gear[2]/compression-norm</property>
-        </signal>            
+        </signal>-->
         <signal>
             <type>float</type>
             <property type="string">surface-positions/nose-wheel-pos-norm</property>

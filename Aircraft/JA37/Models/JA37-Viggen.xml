@@ -72,7 +72,8 @@
 	  <object-name>rudder</object-name>
 	  <object-name>gearFrontBottom</object-name>
     <object-name>gearFrontHub</object-name>
-    <object-name>gearFrontScissor</object-name>
+    <object-name>gearFrontScissorTop</object-name>
+    <object-name>gearFrontScissorBottom</object-name>
     <object-name>gearFrontTop</object-name>
 	  <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
@@ -109,6 +110,11 @@
     <object-name>radarHeading</object-name>
     <object-name>radarScreen</object-name>
     <object-name>seat</object-name>
+  </effect>
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+    <object-name>gearFrontOleoStrut</object-name>
   </effect>
 
   <effect>  
@@ -464,7 +470,9 @@
   <type>rotate</type>
   <object-name>gearFrontBottom</object-name>
   <object-name>gearFrontHub</object-name>
-  <object-name>gearFrontScissor</object-name>
+  <object-name>gearFrontScissorTop</object-name>
+  <object-name>gearFrontScissorBottom</object-name>
+  <object-name>gearFrontOleoStrut</object-name>
   <object-name>gearFrontTop</object-name>
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>
@@ -485,7 +493,7 @@
   <center>
    <x-m>-3.35848</x-m>
    <y-m>-0.000003</y-m>
-   <z-m>-0.78153</z-m>
+   <z-m>-0.68153</z-m>
   </center>
   <axis>
    <x>0.0</x>
@@ -561,7 +569,8 @@
   </condition>
   <object-name>gearFrontBottom</object-name>
   <object-name>gearFrontHub</object-name>
-  <object-name>gearFrontScissor</object-name>
+  <object-name>gearFrontScissorTop</object-name>
+  <object-name>gearFrontScissorBottom</object-name>
   <object-name>gearFrontTop</object-name>
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>
@@ -710,7 +719,8 @@
    <type>translate</type>
    <object-name>gearFrontBottom</object-name>
    <object-name>gearFrontHub</object-name>
-   <object-name>gearFrontScissor</object-name>
+   <object-name>gearFrontOleoStrut</object-name>
+   <object-name>gearFrontScissorBottom</object-name>
    <object-name>wheelFront</object-name>
    <object-name>tyre-smoke-nose</object-name>
    <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
@@ -723,6 +733,36 @@
         <y-m>0.0</y-m>
         <z-m>-1.84812</z-m>
     </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearFrontScissorTop</object-name>
+   <property>gear/gear[0]/compression-norm</property>
+   <axis>
+     <x>1</x>
+   </axis>
+   <center>  
+     <x-m> -3.35424 </x-m>
+     <y-m>  0.03597 </y-m>
+     <z-m> -1.3040  </z-m>
+   </center>
+   <interpolation include="scissor-front.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearFrontScissorBottom</object-name>
+   <property>gear/gear[0]/compression-norm</property>
+   <axis>
+     <x>-1</x>
+   </axis>
+   <center>
+     <x-m> -3.35424 </x-m>
+     <y-m>  0.03597 </y-m>
+     <z-m> -1.5988  </z-m>
+   </center>
+   <interpolation include="scissor-front.xml"/>
 </animation>
 
 <!-- spinning wheel calc
@@ -1198,7 +1238,7 @@
     <offsets>
       <x-m>-3.47732</x-m>
       <y-m>-0.000005</y-m>
-      <z-m>-1.3621</z-m>
+      <z-m>-1.2121</z-m>
     </offsets>
   </model>
 
