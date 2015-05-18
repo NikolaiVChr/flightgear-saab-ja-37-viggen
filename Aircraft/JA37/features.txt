@@ -98,6 +98,7 @@ Selection view, with camera pointing to the aircraft from outside and towards th
 Ubershaded exterior model and cockpit panels.
 Nomal mapped exterior model.
 Fully ALS ready and also Rembrandt compatible, but with no light influences.
+Animated gear scissors, compressions and spinning wheels.
 Pilot eye view is tuned for getting good view of runways at landings, while at the same time give good view of HUD and instrument panel.
 Preloaded exterior view, for fast switching to exterior view.
 
