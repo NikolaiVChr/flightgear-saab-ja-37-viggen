@@ -72,18 +72,18 @@
 	  <object-name>rudder</object-name>
 	  <object-name>gearFrontBottom</object-name>
     <object-name>gearFrontHub</object-name>
-    <object-name>gearFrontScissorTop</object-name>
-    <object-name>gearFrontScissorBottom</object-name>
     <object-name>gearFrontTop</object-name>
 	  <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
 	  <object-name>gearFrontDoorsClosed</object-name>
 	  <object-name>gearLeft</object-name>
+    <object-name>gearLeftBottom</object-name>
     <object-name>gearLeftTop</object-name>
 	  <object-name>gearLeftHinge</object-name>
 	  <object-name>gearLeftDoorsOpen</object-name>
 	  <object-name>gearLeftDoorsClosed</object-name>
 	  <object-name>gearRight</object-name>
+    <object-name>gearRightBottom</object-name>
     <object-name>gearRightTop</object-name>
 	  <object-name>gearRightHinge</object-name>
 	  <object-name>gearRightDoorsOpen</object-name>
@@ -115,6 +115,14 @@
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
     <object-name>gearFrontOleoStrut</object-name>
+    <object-name>gearLeftOleoStrut</object-name>
+    <object-name>gearRightOleoStrut</object-name>
+    <object-name>gearRightScissorTop</object-name>
+    <object-name>gearRightScissorBottom</object-name>
+    <object-name>gearLeftScissorTop</object-name>
+    <object-name>gearLeftScissorBottom</object-name>
+    <object-name>gearFrontScissorTop</object-name>
+    <object-name>gearFrontScissorBottom</object-name>
   </effect>
 
   <effect>  
@@ -438,6 +446,10 @@
    </greater-than>
   </condition>
   <object-name>gearLeft</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
   <object-name>wheelLeft1</object-name>
@@ -457,6 +469,11 @@
    </greater-than>
   </condition>
   <object-name>gearRight</object-name>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
   <object-name>gearRightHinge</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>wheelRight1</object-name>
@@ -592,6 +609,10 @@
 <animation>
   <type>rotate</type>
   <object-name>gearLeft</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftTop</object-name>
   <object-name>wheelLeft1</object-name>
   <object-name>wheelLeft2</object-name>  
@@ -612,7 +633,7 @@
   <max-deg>90</max-deg>
   <center>
    <x-m>2.31352</x-m>
-   <y-m>-2.25034</y-m>
+   <y-m>-2.23784</y-m>
    <z-m>-0.37244</z-m>
   </center>
   <axis>
@@ -655,6 +676,10 @@
 <animation>
   <type>rotate</type>
   <object-name>gearRight</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
   <object-name>gearRightTop</object-name>
   <object-name>wheelRight1</object-name>
   <object-name>wheelRight2</object-name>
@@ -675,7 +700,7 @@
   <max-deg>90</max-deg>
   <center>
    <x-m>2.31352</x-m>
-   <y-m>2.25035</y-m>
+   <y-m>2.23785</y-m>
    <z-m>-0.37244</z-m>
   </center>
   <axis>
@@ -738,7 +763,7 @@
 <animation>
    <type>rotate</type>
    <object-name>gearFrontScissorTop</object-name>
-   <property>gear/gear[0]/compression-norm</property>
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
    <axis>
      <x>1</x>
    </axis>
@@ -747,13 +772,13 @@
      <y-m>  0.03597 </y-m>
      <z-m> -1.3040  </z-m>
    </center>
-   <interpolation include="scissor-front.xml"/>
+   <interpolation include="scissor-interpolation.xml"/>
 </animation>
 
 <animation>
    <type>rotate</type>
    <object-name>gearFrontScissorBottom</object-name>
-   <property>gear/gear[0]/compression-norm</property>
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
    <axis>
      <x>-1</x>
    </axis>
@@ -762,7 +787,7 @@
      <y-m>  0.03597 </y-m>
      <z-m> -1.5988  </z-m>
    </center>
-   <interpolation include="scissor-front.xml"/>
+   <interpolation include="scissor-interpolation.xml"/>
 </animation>
 
 <!-- spinning wheel calc
@@ -801,11 +826,11 @@
 
 <animation><!--            compress left gear-->
    <type>translate</type>
-   <object-name>gearLeft</object-name>
+   <object-name>gearLeftOleoStrut</object-name>
+   <object-name>gearLeftScissorBottom</object-name>
+   <object-name>gearLeftBottom</object-name>
    <object-name>wheelLeft1</object-name>
    <object-name>wheelLeft2</object-name>
-   <object-name>landingLightLeft</object-name>
-   <object-name>leftLandingLightGlare</object-name>
    <object-name>tyre-smoke-left</object-name>
    <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
@@ -817,6 +842,36 @@
         <y-m> -2.33204 </y-m>
         <z-m> -2.1 </z-m>
     </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearLeftScissorTop</object-name>
+   <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>1</y>
+   </axis>
+   <center>    
+     <x-m>  2.27377 </x-m>
+     <y-m> -2.21946 </y-m>
+     <z-m> -1.3040  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearLeftScissorBottom</object-name>
+   <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>-1</y>
+   </axis>
+   <center>  
+     <x-m>  2.27377 </x-m>
+     <y-m> -2.21946 </y-m>
+     <z-m> -1.5988  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
 </animation>
 
 <!-- spinning left wheel calc
@@ -874,11 +929,11 @@
 
 <animation><!--            compress right gear-->
    <type>translate</type>
-   <object-name>gearRight</object-name>
+   <object-name>gearRightScissorBottom</object-name>
+   <object-name>gearRightOleoStrut</object-name>
+   <object-name>gearRightBottom</object-name>
    <object-name>wheelRight1</object-name>
    <object-name>wheelRight2</object-name>
-   <object-name>landingLightRight</object-name>
-   <object-name>rightLandingLightGlare</object-name>
    <object-name>tyre-smoke-right</object-name>
    <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
    <factor>0.3048</factor>
@@ -891,6 +946,37 @@
         <z-m> -2.1 </z-m>
     </center>
 </animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearRightScissorTop</object-name>
+   <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>1</y>
+   </axis>
+   <center>    
+     <x-m>  2.27377 </x-m>
+     <y-m>  2.21946 </y-m>
+     <z-m> -1.3040  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearRightScissorBottom</object-name>
+   <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>-1</y>
+   </axis>
+   <center>  
+     <x-m>  2.27377 </x-m>
+     <y-m>  2.21946 </y-m>
+     <z-m> -1.5988  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
 
 <!-- spinning right wheel calc
 
@@ -1247,7 +1333,7 @@
     <name>leftLandingLightGlare</name>
     <offsets>
       <x-m>2.19039</x-m>
-      <y-m>-2.23114</y-m>
+      <y-m>-2.21864</y-m>
       <z-m>-1.08005</z-m>
     </offsets>
   </model>
@@ -1257,7 +1343,7 @@
     <name>rightLandingLightGlare</name>
     <offsets>
       <x-m>2.20055</x-m>
-      <y-m>2.24387</y-m>
+      <y-m>2.23137</y-m>
       <z-m>-1.08005</z-m>
     </offsets>
   </model>
