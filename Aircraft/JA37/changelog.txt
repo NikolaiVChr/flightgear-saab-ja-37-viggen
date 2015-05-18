@@ -1589,7 +1589,7 @@ Sound: Replaced 3 engine sound; fly-by deep roar, model-view afterburner and mod
 Sound: Various adjustments to engine sounds. Model view should now be easier on the ears.
 Model: Removed numbers and insignia from specular channel in exterior übershader texture.
 Sim: Switched keys 'm' and 'M'. M is now nosewheel lock and m is configure HUD for final approach.
-Sim: Added click sound and popuptip when toggling final.
+Sim: Added click sound and popup tip when toggling final.
 Sim: Removed signals for gear compression as gear now uses properties that are auto recorded.
 Model: Modeled proper gear scissors and oleo struts.
 Animation: The gear scissors is now animated.
@@ -1597,3 +1597,6 @@ Model: Gear oleos now has their own metal ubershader applied.
 Animation: Front gear retraction rotation point is now 10cm higher.
 Sim: Increased front gear compression damping and hardened spring.
 Model: All scissors now is shaded as shiny metal.
+
+3.027
+=====
