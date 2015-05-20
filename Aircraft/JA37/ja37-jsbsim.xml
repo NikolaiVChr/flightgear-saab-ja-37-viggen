@@ -182,8 +182,8 @@ to an airplane of that size). -->
     </contact>
     <contact type="BOGEY" name="LEFT_MLG">
       <location unit="M">
-        <x> 2.64670 </x>
-        <y> -2.33204 </y>
+        <x>  2.64670 </x>
+        <y> -2.15204 </y>
         <z> -2.1 </z>
       </location>
       <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
@@ -199,7 +199,7 @@ to an airplane of that size). -->
     <contact type="BOGEY" name="RIGHT_MLG">
       <location unit="M">
         <x> 2.64670 </x>
-        <y> 2.33204 </y>
+        <y> 2.15204 </y>
         <z> -2.1 </z>
       </location>
       <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
