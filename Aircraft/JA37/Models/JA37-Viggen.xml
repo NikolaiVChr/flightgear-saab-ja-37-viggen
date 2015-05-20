@@ -383,7 +383,15 @@
   </axis>
  </animation>
 
-<!-- Gears -->
+
+<!-- *****************************************
+                      Gears
+
+     ***************************************** -->
+
+
+<!-- front  -->
+
 
 <animation>
   <type>select</type>
@@ -394,30 +402,6 @@
    </equals>
   </condition>
   <object-name>gearFrontDoorsClosed</object-name>
- </animation>
-
- <animation>
-  <type>select</type>
-  <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>gear/gear[1]/position-norm</property>
-    <value>0.0</value>
-   </equals>
-  </condition>
-  <object-name>gearLeftDoorsClosed</object-name>
- </animation>
-
- <animation>
-  <type>select</type>
-  <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>gear/gear[2]/position-norm</property>
-    <value>0.0</value>
-   </equals>
-  </condition>
-  <object-name>gearRightDoorsClosed</object-name>
  </animation>
 
 <animation>
@@ -434,53 +418,6 @@
   <object-name>wheelFront</object-name>
   <object-name>landingLight</object-name>-->
   <object-name>frontLandingLightGlare</object-name>
- </animation>
-
-<animation>
-  <type>select</type>
-  <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <greater-than>
-    <property>gear/gear[1]/position-norm</property>
-    <value>0.0</value>
-   </greater-than>
-  </condition>
-  <object-name>gearLeft</object-name>
-  <object-name>gearLeftOleoStrut</object-name>
-  <object-name>gearLeftScissorTop</object-name>
-  <object-name>gearLeftScissorBottom</object-name>
-  <object-name>gearLeftBottom</object-name>
-  <object-name>gearLeftHinge</object-name>
-  <object-name>gearLeftTop</object-name>
-  <object-name>wheelLeft1</object-name>
-  <object-name>wheelLeft2</object-name>
-  <object-name>landingLightLeft</object-name>
-  <object-name>leftLandingLightGlare</object-name>
-  <object-name>gearLeftDoorsOpen</object-name>
- </animation>
-
-<animation>
-  <type>select</type>
-  <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <greater-than>
-    <property>gear/gear[2]/position-norm</property>
-    <value>0.0</value>
-   </greater-than>
-  </condition>
-  <object-name>gearRight</object-name>
-  <object-name>gearRight</object-name>
-  <object-name>gearRightScissorTop</object-name>
-  <object-name>gearRightScissorBottom</object-name>
-  <object-name>gearRightOleoStrut</object-name>
-  <object-name>gearRightBottom</object-name>
-  <object-name>gearRightHinge</object-name>
-  <object-name>gearRightTop</object-name>
-  <object-name>wheelRight1</object-name>
-  <object-name>wheelRight2</object-name>
-  <object-name>landingLightRight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
-  <object-name>gearRightDoorsOpen</object-name>
  </animation>
 
 <animation>
@@ -521,66 +458,6 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>gearFrontDoorsOpenLeft</object-name>
-  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 90.0</dep>
-   </entry>
-   <entry>
-    <ind> 0.20</ind>
-    <dep> 0.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
-  <axis>   
-   <x1-m> -4.98851</x1-m>
-   <y1-m> -0.20881</y1-m>
-   <z1-m>-0.78645</z1-m>
-   <x2-m> -3.05037</x2-m>
-   <y2-m>-0.22542</y2-m>
-   <z2-m>-0.8066</z2-m>
-  </axis>
- </animation>
-
-<animation>
-  <type>rotate</type>
-  <object-name>gearFrontDoorsOpenRight</object-name>
-  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 90.0</dep>
-   </entry>
-   <entry>
-    <ind> 0.20</ind>
-    <dep> 0.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
-  <axis>   
-   <x1-m> -3.05041</x1-m>
-   <y1-m> 0.22836</y1-m>
-   <z1-m>-0.80326</z1-m>
-   <x2-m> -4.98856</x2-m>
-   <y2-m>0.21209</y2-m>
-   <z2-m>-0.78329</z2-m>
-  </axis>
- </animation>
-
-<animation>
-  <type>rotate</type>
   <condition>
     <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
   </condition>
@@ -603,140 +480,6 @@
    <x>0.0</x>
    <y>0.0</y>
    <z>-1.0</z>
-  </axis>
- </animation>
-
-<animation>
-  <type>rotate</type>
-  <object-name>gearLeft</object-name>
-  <object-name>gearLeftOleoStrut</object-name>
-  <object-name>gearLeftScissorTop</object-name>
-  <object-name>gearLeftScissorBottom</object-name>
-  <object-name>gearLeftBottom</object-name>
-  <object-name>gearLeftTop</object-name>
-  <object-name>wheelLeft1</object-name>
-  <object-name>wheelLeft2</object-name>  
-  <object-name>landingLightLeft</object-name>
-  <object-name>leftLandingLightGlare</object-name>
-  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 90.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
-  <center>
-   <x-m>2.31352</x-m>
-   <y-m>-2.23784</y-m>
-   <z-m>-0.37244</z-m>
-  </center>
-  <axis>
-   <x>1.0</x>
-   <y>0.0</y>
-   <z>0.0</z>
-  </axis>
- </animation>
-
-<animation>
-  <type>rotate</type>
-  <object-name>gearLeftDoorsOpen</object-name>
-  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 80.0</dep>
-   </entry>
-   <entry>
-    <ind> 0.75</ind>
-    <dep> 0.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
-  <axis>   
-   <x2-m> 3.105</x2-m>
-   <y2-m> -2.45236</y2-m>
-   <z2-m>-0.40247</z2-m>
-   <x1-m> 2.41235</x1-m>
-   <y1-m>-2.45238</y1-m>
-   <z1-m>-0.40247</z1-m>
-  </axis>
- </animation>
-
-<animation>
-  <type>rotate</type>
-  <object-name>gearRight</object-name>
-  <object-name>gearRightScissorTop</object-name>
-  <object-name>gearRightScissorBottom</object-name>
-  <object-name>gearRightOleoStrut</object-name>
-  <object-name>gearRightBottom</object-name>
-  <object-name>gearRightTop</object-name>
-  <object-name>wheelRight1</object-name>
-  <object-name>wheelRight2</object-name>
-  <object-name>landingLightRight</object-name>
-  <object-name>rightLandingLightGlare</object-name>
-  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 90.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
-  <center>
-   <x-m>2.31352</x-m>
-   <y-m>2.23785</y-m>
-   <z-m>-0.37244</z-m>
-  </center>
-  <axis>
-   <x>-1.0</x>
-   <y>0.0</y>
-   <z>0.0</z>
-  </axis>
- </animation>
-
-<animation>
-  <type>rotate</type>
-  <object-name>gearRightDoorsOpen</object-name>
-  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
-  <interpolation>
-   <entry>
-    <ind> 0.0</ind>
-    <dep> 80.0</dep>
-   </entry>
-   <entry>
-    <ind> 0.75</ind>
-    <dep> 0.0</dep>
-   </entry>
-   <entry>
-    <ind> 1.0</ind>
-    <dep> 0.0</dep>
-   </entry>
-  </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
-  <axis>   
-   <x1-m> 3.105</x1-m>
-   <y1-m> 2.45236</y1-m>
-   <z1-m>-0.40247</z1-m>
-   <x2-m> 2.41235</x2-m>
-   <y2-m>2.45238</y2-m>
-   <z2-m>-0.40247</z2-m>
   </axis>
  </animation>
 
@@ -823,6 +566,143 @@
         <z>0</z>
     </axis>
 </animation>
+
+
+<!-- left  -->
+
+
+ <animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearLeftDoorsClosed</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <greater-than>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>wheelLeft1</object-name>
+  <object-name>wheelLeft2</object-name>
+  <object-name>landingLightLeft</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+ </animation>
+
+ 
+<animation>
+  <type>rotate</type>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.20</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> -4.98851</x1-m>
+   <y1-m> -0.20881</y1-m>
+   <z1-m>-0.78645</z1-m>
+   <x2-m> -3.05037</x2-m>
+   <y2-m>-0.22542</y2-m>
+   <z2-m>-0.8066</z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearLeft</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>wheelLeft1</object-name>
+  <object-name>wheelLeft2</object-name>  
+  <object-name>landingLightLeft</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>2.31352</x-m>
+   <y-m>-2.23784</y-m>
+   <z-m>-0.37244</z-m>
+  </center>
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 80.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.75</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x2-m> 3.105</x2-m>
+   <y2-m> -2.45236</y2-m>
+   <z2-m>-0.40247</z2-m>
+   <x1-m> 2.41235</x1-m>
+   <y1-m>-2.45238</y1-m>
+   <z1-m>-0.40247</z1-m>
+  </axis>
+ </animation>
 
 <animation><!--            compress left gear-->
    <type>translate</type>
@@ -926,6 +806,143 @@
         <z>0</z>
     </axis>
 </animation>
+
+
+<!--      right       -->
+
+
+<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearRightDoorsClosed</object-name>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <greater-than>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearRight</object-name>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>wheelRight1</object-name>
+  <object-name>wheelRight2</object-name>
+  <object-name>landingLightRight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
+  <object-name>gearRightDoorsOpen</object-name>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFrontDoorsOpenRight</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.20</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> -3.05041</x1-m>
+   <y1-m> 0.22836</y1-m>
+   <z1-m>-0.80326</z1-m>
+   <x2-m> -4.98856</x2-m>
+   <y2-m>0.21209</y2-m>
+   <z2-m>-0.78329</z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRight</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>wheelRight1</object-name>
+  <object-name>wheelRight2</object-name>
+  <object-name>landingLightRight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>2.31352</x-m>
+   <y-m>2.23785</y-m>
+   <z-m>-0.37244</z-m>
+  </center>
+  <axis>
+   <x>-1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 80.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.75</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> 3.105</x1-m>
+   <y1-m> 2.45236</y1-m>
+   <z1-m>-0.40247</z1-m>
+   <x2-m> 2.41235</x2-m>
+   <y2-m>2.45238</y2-m>
+   <z2-m>-0.40247</z2-m>
+  </axis>
+ </animation>
 
 <animation><!--            compress right gear-->
    <type>translate</type>
