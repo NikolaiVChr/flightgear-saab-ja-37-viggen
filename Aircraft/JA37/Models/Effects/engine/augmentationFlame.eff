@@ -1,0 +1,20 @@
+ <PropertyList>
+  <name>augmentationFlame</name>
+  <inherits-from>Effects/thrust-flame</inherits-from>
+  <parameters>
+    <thrust_collimation>0.0</thrust_collimation>
+    <thrust_density><use>sim/multiplay/generic/float[3]</use></thrust_density><!--  -->
+    <shock_frequency>0.5</shock_frequency>
+    <noise_strength>0.125</noise_strength>
+    <noise_scale>0.05</noise_scale>
+    <flame_color_low_r type="float">1</flame_color_low_r>
+    <flame_color_low_g type="float">1</flame_color_low_g>
+    <flame_color_low_b type="float">0.95</flame_color_low_b>
+    <flame_color_high_r type="float">0.9140625</flame_color_high_r>
+    <flame_color_high_g type="float">0.44921875</flame_color_high_g>
+    <flame_color_high_b type="float">0.5390625</flame_color_high_b>
+    <use_shocks type="int">0</use_shocks>
+    <use_noise type="int">1</use_noise>
+  </parameters>
+  
+</PropertyList>
