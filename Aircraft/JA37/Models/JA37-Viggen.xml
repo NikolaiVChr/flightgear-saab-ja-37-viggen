@@ -652,9 +652,9 @@
   <object-name>gearLeftBottom</object-name>
   <object-name>gearLeftHinge</object-name>
   <object-name>gearLeftTop</object-name>
-  <object-name>wheelLeft1</object-name>
-  <object-name>wheelLeft2</object-name>
-  <object-name>landingLightLeft</object-name>
+  <object-name>gearLeftWheel1</object-name>
+  <object-name>gearLeftWheel2</object-name>
+  <object-name>gearLeftLight</object-name>
   <object-name>leftLandingLightGlare</object-name>
   <object-name>gearLeftDoorsOpen</object-name>
  </animation>
@@ -1182,7 +1182,7 @@
  </model>
  
  
-<model>
+ <model>
   <name>ExternalFlame</name>
   <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
   <offsets>
@@ -1192,6 +1192,18 @@
   </offsets>
  </model>
  
+<!--<model>
+  <name>ExternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/engine/augmentationFlame.xml</path>
+  <offsets>
+   <x-m>5.90</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>-->
+
+
+
 
 <!--  other particle effects -->
 
