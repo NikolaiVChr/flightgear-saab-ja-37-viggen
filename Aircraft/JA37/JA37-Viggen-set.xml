@@ -1329,6 +1329,7 @@
   <engines>
     <engine n="0">
       <starter-cmd type="bool">false</starter-cmd>
+      <cutoff type="bool">true</cutoff>
       <reverse-system>
         <serviceable type="bool">true</serviceable>
       </reverse-system>
@@ -1457,7 +1458,7 @@
 *************************************************************************-->
  <engines>
   <engine n="0">
-   <running>false</running>
+   <running type="bool">false</running>
    <reverser-pos-norm type="double">0</reverser-pos-norm>
    <reverser-position type="double">0.000000</reverser-position>
   </engine>
