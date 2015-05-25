@@ -8,7 +8,7 @@
     <flame_radius_fraction type="float">0.95</flame_radius_fraction>
     <thrust_collimation type="float">0.0</thrust_collimation>
     <thrust_density type="float">0.5</thrust_density>
-    <base_flame_density type="float">0.75</base_flame_density>
+    <base_flame_density type="float">0.15</base_flame_density>
     <shock_frequency type="float">0.5</shock_frequency>
     <noise_strength type="float">0.3</noise_strength>
     <noise_scale type="float">0.2</noise_scale>

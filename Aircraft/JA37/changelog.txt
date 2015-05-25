@@ -1608,3 +1608,4 @@ Animation: Rear gears is no longer removed at end of retraction, instead its sca
 Model: Rear gear doors scaled down to not cover wheels without compression.
 Model: Rear gear upper hinges rotated to align into nose direction.
 Effect: The afterburner flame is now shaded when using ALS.
+Effect: The engine now produces heat distortion when using ALS.

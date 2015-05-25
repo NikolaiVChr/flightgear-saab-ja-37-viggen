@@ -1,0 +1,26 @@
+ <PropertyList>
+  <name>heatDistortion</name>
+  <inherits-from>augmentationFlame</inherits-from>
+  <parameters>
+    <flame_radius_fraction type="float">0.2</flame_radius_fraction>
+    <thrust_collimation type="float">0.9</thrust_collimation>
+    <thrust_density type="float">0.1</thrust_density>
+    <base_flame_density type="float">0.0</base_flame_density>
+    <shock_frequency type="float">0.5</shock_frequency>
+    <noise_strength type="float">0.75</noise_strength>
+    <noise_scale type="float">0.05</noise_scale>
+    <flame_color_low_r type="float">0</flame_color_low_r>
+    <flame_color_low_g type="float">0</flame_color_low_g>
+    <flame_color_low_b type="float">0</flame_color_low_b>
+    <flame_color_high_r type="float">0</flame_color_high_r>
+    <flame_color_high_g type="float">0</flame_color_high_g>
+    <flame_color_high_b type="float">0</flame_color_high_b>
+    <base_flame_r type="float">0</base_flame_r>
+    <base_flame_g type="float">0</base_flame_g>
+    <base_flame_b type="float">0</base_flame_b>
+    <deflection_coeff type="float">0.0</deflection_coeff>
+    <use_shocks type="int">0</use_shocks>
+    <use_noise type="int">1</use_noise>
+  </parameters>
+  
+</PropertyList>

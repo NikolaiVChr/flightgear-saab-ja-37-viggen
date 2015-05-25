@@ -1196,13 +1196,21 @@
   <name>ExternalFlameALS</name>
   <path>Aircraft/JA37/Models/Effects/engine/augmentationFlame.xml</path>
   <offsets>
-   <x-m>5.90</x-m>
+   <x-m>6.0555</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
  </model>
 
-
+ <model>
+  <name>HeatBlurALS</name>
+  <path>Aircraft/JA37/Models/Effects/engine/heatDistortion.xml</path>
+  <offsets>
+   <x-m>6.825</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
 
 
 <!--  other particle effects -->
