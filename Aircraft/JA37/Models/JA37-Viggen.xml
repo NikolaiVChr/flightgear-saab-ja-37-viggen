@@ -1151,21 +1151,21 @@
 
  <!-- engine -->
 
- <model><!-- smoke trail after the plane -->
-  <name>exhaust_smoke</name>
+ <model><!-- particle heat distortion -->
+  <name>exhaust_heat</name>
   <path>Aircraft/JA37/Models/Effects/engine/exhaust.xml</path>
   <offsets>
-   <x-m>1.0</x-m>
+   <x-m>6.0555</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
  </model>
 
-<model><!-- dark smoke at low rpm and afterburner -->
+<model><!-- dark smoke at low rpm -->
   <name>engine_smoke</name>
   <path>Aircraft/JA37/Models/Effects/engine/smoke.xml</path>
   <offsets>
-   <x-m>7.0</x-m>
+   <x-m>6.825</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
@@ -1202,7 +1202,7 @@
   </offsets>
  </model>
 
- <model>
+ <!--<model>
   <name>HeatBlurALS</name>
   <path>Aircraft/JA37/Models/Effects/engine/heatDistortion.xml</path>
   <offsets>
@@ -1210,7 +1210,7 @@
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
- </model>
+ </model>-->
 
 
 <!--  other particle effects -->

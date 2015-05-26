@@ -42,6 +42,7 @@ Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convinience.
+Sim: When battery autostart fail due to drained battery, then say that instead of bug.
 Effect: Rembrandt landing lightcone.
 Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
