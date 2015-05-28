@@ -1610,3 +1610,4 @@ Model: Rear gear upper hinges rotated to align into nose direction.
 Effect: The afterburner flame is now shaded when using ALS.
 Effect: The engine now produces heat distortion when using ALS. (disabled for now, as particles does a better job)
 Effect: Particle heat distortion now is MP enabled and placed more accurate at exhaust.
+Model: Changed the textures of the artificial horizon instrument to match the real JA-37 more closely.
