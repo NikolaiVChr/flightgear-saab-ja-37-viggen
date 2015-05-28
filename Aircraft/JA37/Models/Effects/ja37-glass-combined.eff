@@ -18,7 +18,7 @@
       <reflection-dynamic type="int">1</reflection-dynamic>
 
       <ambient-correction type="float">0.05</ambient-correction>
-<texture n= "5" >
+      <texture n= "5" >
         <type>cubemap</type>
         <images>
             <positive-x>Aircraft/Generic/Effects/fgfs-sky2/1.png</positive-x>
@@ -28,7 +28,7 @@
             <positive-z>Aircraft/Generic/Effects/fgfs-sky2/6.png</positive-z>
             <negative-z>Aircraft/Generic/Effects/fgfs-sky2/5.png</negative-z>
         </images>
-    </texture>
+      </texture>
 <!--      <texture n="5">
         <type>cubemap</type>
         <images>

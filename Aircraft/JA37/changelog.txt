@@ -1613,3 +1613,4 @@ Effect: Particle heat distortion now is MP enabled and placed more accurate at e
 Model: Changed the textures of the artificial horizon instrument to match the real JA-37 more closely.
 Model: Put a glass on the angle of attack indicator.
 Model: Changed the texture of the left attitude indicator instrument to match the real JA-37 more closely.
+Effect: Made a ubershader dedicated to gauge glass.

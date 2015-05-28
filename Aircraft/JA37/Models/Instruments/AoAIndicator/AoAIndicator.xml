@@ -17,7 +17,7 @@
  </animation>
 
 <effect>  
-  <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
+  <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
   <object-name>glassAoA</object-name>
 </effect>
  
