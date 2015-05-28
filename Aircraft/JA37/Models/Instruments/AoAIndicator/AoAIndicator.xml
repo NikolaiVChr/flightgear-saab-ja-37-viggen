@@ -4,8 +4,8 @@
 
 <animation>
   <type>pick</type> 
- <object-name>Face</object-name>
- <object-name>Needle</object-name>
+ <object-name>glassAoA</object-name>
+ <object-name>Cylinder</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
