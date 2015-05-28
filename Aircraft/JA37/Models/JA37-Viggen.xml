@@ -113,6 +113,13 @@
   </effect>
 
   <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
+    <object-name>glassInternal</object-name>
+    <object-name>frontglasInternal</object-name>
+  </effect>
+
+
+  <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
     <object-name>gearFrontOleoStrut</object-name>
     <object-name>gearLeftOleoStrut</object-name>
@@ -128,12 +135,6 @@
   <effect>  
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
 	  <object-name>nozzle</object-name>
-  </effect>
-
-  <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
-    <object-name>glassInternal</object-name>
-    <object-name>frontglasInternal</object-name>
   </effect>
 
   <effect>  

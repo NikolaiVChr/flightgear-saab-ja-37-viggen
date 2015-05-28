@@ -16,6 +16,10 @@
    </hovered>
  </animation>
 
+<effect>  
+  <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
+  <object-name>glassAoA</object-name>
+</effect>
  
 <animation>
  <type>material</type> 
