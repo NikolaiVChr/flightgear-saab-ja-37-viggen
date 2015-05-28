@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
-<!-- 
-Airspeed Indicator
-Syd Adams
--->
+
 <PropertyList>
 
     <path>airspeed.ac</path>
     
+    <effect>  
+      <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+      <object-name>glassASI</object-name>
+    </effect>
+
     <animation>
         <type>rotate</type>
         <object-name>ASIneedle</object-name>
@@ -29,8 +31,7 @@ Syd Adams
 
     <animation>
       <type>pick</type> 
-      <object-name>ASIneedle</object-name>
-      <object-name>ASIface</object-name>
+      <object-name>glassASI</object-name>
       <condition>   
         <greater-than>
         <property>systems/electrical/outputs/dc-voltage</property>
