@@ -112,6 +112,11 @@
     <object-name>seat</object-name>
   </effect>
 
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>glassRadar</object-name>
+  </effect>
+
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
     <object-name>glassInternal</object-name>
