@@ -260,7 +260,7 @@
   </model>
 
 
-<!--     right side    -->
+<!--     left side    -->
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/AoAIndicator/AoAIndicator.xml</path>
