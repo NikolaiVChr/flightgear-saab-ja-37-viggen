@@ -83,36 +83,12 @@ var TrackInit = func {
     if (props.globals.getNode("autopilot") == nil)
         return;
 
-    target_tracking_enable = getprop("/autopilot/target-tracking-ja37/enable");
-    if ( target_tracking_enable == nil ) {
-        target_tracking_enable = 0;
-        setprop("/autopilot/target-tracking-ja37/enable", target_tracking_enable);
-    }
+    props.globals.initNode("/autopilot/target-tracking-ja37/enable", 0, "BOOL");
+    props.globals.initNode("/autopilot/target-tracking-ja37/update-period", default_update_period, "DOUBLE");
+    props.globals.initNode("/autopilot/target-tracking-ja37/goal-range-nm", default_goal_range_nm, "DOUBLE");
+    props.globals.initNode("/autopilot/target-tracking-ja37/min-speed-kt", default_min_speed_kt, "DOUBLE");
+    props.globals.initNode("/autopilot/target-tracking-ja37/target-root", default_target_root, "STRING");
 
-    update_period = getprop("/autopilot/target-tracking-ja37/update-period");
-    if ( update_period == nil ) {
-        update_period = default_update_period;
-        setprop("/autopilot/target-tracking-ja37/update-period", update_period);
-    }
-
-    goal_range_nm = getprop("/autopilot/target-tracking-ja37/goal-range-nm");
-    if ( goal_range_nm == nil ) {
-        goal_range_nm = default_goal_range_nm;
-        setprop("/autopilot/target-tracking-ja37/goal-range-nm", goal_range_nm);
-    }
-
-    min_speed_kt = getprop("/autopilot/target-tracking-ja37/min-speed-kt");
-    if ( min_speed_kt == nil ) {
-        min_speed_kt = default_min_speed_kt;
-        setprop("/autopilot/target-tracking-ja37/min-speed-kt", min_speed_kt);
-    }
-
-    target_root = getprop("/autopilot/target-tracking-ja37/target-root");
-    if ( target_root == nil ) {
-        target_root = default_target_root;
-        setprop("/autopilot/target-tracking-ja37/target-root", target_root);
-    }
-   
     setlistener("/autopilot/target-tracking-ja37/enable", func { startTimer();} , 0, 0);
 }
 
@@ -134,6 +110,7 @@ var TrackUpdate = func(loop_id) {
         # refresh user configurable values
         goal_range_nm = getprop("/autopilot/target-tracking-ja37/goal-range-nm");
         target_root = getprop("/autopilot/target-tracking-ja37/target-root");
+        min_speed_kt = getprop("/autopilot/target-tracking-ja37/min-speed-kt");
 
         # force radar debug-mode on (forced radar calculations even if
         # no radar instrument and ai aircraft are out of range
@@ -159,11 +136,19 @@ var TrackUpdate = func(loop_id) {
         alt = alt - alt_diff;
 
         var speed_prop = sprintf("%s/velocities/true-airspeed-kt", target_root );
-        var speed = getprop(speed_prop);
-        if ( speed == nil ) {
+        #correct by local IAS/TAS ratio, because autopilot uses IAS
+        #I need to calculate my TAS, not taking wind into account (MP velocities/true-airspeed-kt does not as well)
+        var northSpeed = getprop("/velocities/speed-north-fps");
+        var eastSpeed = getprop("/velocities/speed-east-fps");
+        var downSpeed = getprop("/velocities/speed-down-fps");
+        var true_airspeed = FPS2KT * math.sqrt(northSpeed*northSpeed + eastSpeed*eastSpeed + downSpeed*downSpeed);
+        #take target TAS and multiply it by my own IAS/TAS ratio to get target IAS
+        var speedTAS = getprop(speed_prop);
+        if ( speedTAS == nil ) {
             print("bad property path: ", speed_prop);
             return;
         }
+        var speed = speedTAS * (getprop("/velocities/airspeed-kt") / true_airspeed);
 
         var range_prop = sprintf("%s/radar/range-nm", target_root );
         var range = getprop(range_prop);
@@ -187,16 +172,16 @@ var TrackUpdate = func(loop_id) {
             var range_error = goal_range_nm - range;
         }
 
-        var myspeed = getprop("velocities/airspeed-kt");
-        var myspeed_true = getprop("fdm/jsbsim/velocities/vtrue-kts");
-        var diff = myspeed_true-myspeed;
+        #var myspeed = getprop("velocities/airspeed-kt");
+        #var myspeed_true = getprop("fdm/jsbsim/velocities/vtrue-kts");
+        #var diff = myspeed_true-myspeed;
 
-        var target_speed = speed-diff + range_error * 100.0;
+        var target_speed = speed + range_error * 100.0;
         #var ds = speed-diff;
         #print("speed: "~ds);
         #print(" err: "~range_error~" targ: "~target_speed);
 
-        var speed_indicated = speed - diff;
+        var speed_indicated = speed;# - diff;
 
         #setprop("/autopilot/target-tracking-ja37/speed_indicated_target", speed_indicated);
         #setprop("/autopilot/target-tracking-ja37/speed_indicated_myself", myspeed);
@@ -216,7 +201,7 @@ var TrackUpdate = func(loop_id) {
         } else {
           #target_speed = math.max(target_speed, speed_indicated+25);
         }
-        if ( target_speed < min_speed_kt ) {
+        if ( !debug.isnan(target_speed) and target_speed < min_speed_kt ) {
             target_speed = min_speed_kt;
         }
         #print(" targ: "~target_speed);
@@ -225,7 +210,8 @@ var TrackUpdate = func(loop_id) {
         setprop( "/autopilot/settings/heading-bug-deg", my_hdg + h_offset );
         setprop( "/autopilot/settings/true-heading-deg",
                  my_hdg_true + h_offset );
-        setprop( "/autopilot/settings/target-speed-kt", target_speed );
+
+        if( !debug.isnan(target_speed) ) setprop( "/autopilot/settings/target-speed-kt", target_speed ); #isnan check because I divide by TAS before
 
         # only keep the timer running when the feature is really enabled
         settimer(func() { TrackUpdate(loop_id); }, update_period );
