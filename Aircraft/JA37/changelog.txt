@@ -1617,3 +1617,4 @@ Model: Put a glass on the angle of attack indicator, airspeed indicator and left
 Model: Changed the texture of the left attitude indicator instrument to match the real JA-37 more closely.
 Sim: Changed the follow algorithm to reflect changes in the original fgdata algorithm, since those were better than my own attempt at the same.
 Model: Put a glass over the radar and radar range selector.
+Model: Fixed that reserve attitude indicator had two scaling operations applied.

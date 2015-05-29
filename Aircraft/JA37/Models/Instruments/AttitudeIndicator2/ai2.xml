@@ -3,17 +3,6 @@
 
   <path>secai.ac</path>
 
-  <animation>
-  <type>scale</type>
-  <object-name>AI2Cube</object-name>
-  <object-name>AI2Face</object-name>
-  <object-name>AI2Pointer</object-name>
-  <object-name>AI2Cylinder</object-name>
-  <x-offset>0.75</x-offset>
-  <y-offset>0.75</y-offset>
-  <z-offset>0.75</z-offset>
- </animation>
-
 <animation>
   <type>pick</type> 
   <object-name>AI2Cylinder</object-name>

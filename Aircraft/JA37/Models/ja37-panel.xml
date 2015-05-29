@@ -136,17 +136,17 @@
     <name>Attitude Indicator 2</name>
     <offsets>
       <x-m>  0.01</x-m>
-      <y-m>  0.1225</y-m>
-      <z-m>  0.185</z-m>
+      <y-m>  0.1625</y-m>
+      <z-m>  0.245</z-m>
     </offsets>
   </model>
 
   <animation>
     <type>scale</type>
     <object-name>Attitude Indicator 2</object-name>
-    <x-offset>1.05</x-offset>
-    <y-offset>1.05</y-offset>
-    <z-offset>1.05</z-offset>
+    <x-offset>0.7875</x-offset>
+    <y-offset>0.7875</y-offset>
+    <z-offset>0.7875</z-offset>
   </animation>
 
   <model>
