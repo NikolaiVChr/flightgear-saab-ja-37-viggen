@@ -1618,3 +1618,6 @@ Model: Changed the texture of the left attitude indicator instrument to match th
 Sim: Changed the follow algorithm to reflect changes in the original fgdata algorithm, since those were better than my own attempt at the same.
 Model: Put a glass over the radar and radar range selector.
 Model: Fixed that reserve attitude indicator had two scaling operations applied.
+Model: Made the mount textures of EPR, fuel, attitude 2 gauges have nicer texture.
+Model: Removed some switches and knobs on accelerometer and altimeter 2.
+Model: EPR and fuel gauge now has less thick mount.
