@@ -4,6 +4,10 @@
 
  <path>range-selector.ac</path>
 
+    <effect>  
+      <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+      <object-name>glassRadarRange</object-name>
+    </effect>
 
  <animation>
   <type>scale</type>
@@ -39,11 +43,7 @@
 
 <animation>
   <type>pick</type>
-  <object-name>D10000</object-name>
-  <object-name>D1000</object-name>
-  <object-name>D100</object-name>
-  <object-name>D10</object-name>
-  <object-name>D1</object-name>
+  <object-name>glassRadarRange</object-name>
   <object-name>CW</object-name>
   <object-name>CCW</object-name>
   <object-name>RCube</object-name>
