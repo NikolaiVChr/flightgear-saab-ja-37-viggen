@@ -5,12 +5,16 @@
 
   <path>accelerometer.ac</path>
 
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>AccelGlass</object-name>
+  </effect>
+
+  
 <animation>
-  <type>pick</type> 
-  <object-name>needle</object-name>
+  <type>pick</type>
+  <object-name>AccelGlass</object-name>
   <object-name>face</object-name>
-  <object-name>Gauge</object-name>
-  <object-name>Cylinder</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>

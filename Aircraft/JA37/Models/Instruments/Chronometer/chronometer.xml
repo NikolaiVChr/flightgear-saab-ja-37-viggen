@@ -4,6 +4,11 @@
 
  <path>chronometer.ac</path>
 
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>ChronoGlass</object-name>
+  </effect>
+
  <!-- START CLOCK -->
     <animation>
             <type>rotate</type>
@@ -181,16 +186,7 @@
 <animation>
   <type>pick</type> 
   <object-name>CLOCK_face</object-name>
-  <object-name>Mesh.002</object-name>
-  <object-name>Mesh.003</object-name>
-  <object-name>Mesh.004</object-name>
-  <object-name>Mesh.005</object-name>
-  <object-name>Mesh.006</object-name>
-  <object-name>Mesh.007</object-name>
-  <object-name>Mesh.011</object-name>
-  <object-name>Mesh.012</object-name>
-  <object-name>ElapsedMinutesHand_0</object-name>
-  <object-name>ElapsedMinutesHand_1</object-name>
+  <object-name>ChronoGlass</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
