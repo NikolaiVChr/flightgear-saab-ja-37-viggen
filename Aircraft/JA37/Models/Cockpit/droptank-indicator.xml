@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<PropertyList>
+	 <path>droptank-indicator.ac</path>
+
+	<animation>
+	  <type>pick</type>
+      <object-name>indicatorRight</object-name>
+	  <object-name>indicatorLeft</object-name>
+	  <object-name>droptankIndicator</object-name>
+	  <hovered>
+	       <binding>
+	         <command>set-tooltip</command>
+	         <tooltip-id>dropind</tooltip-id>
+	         <label>Droptank indicator</label>
+	      </binding>
+	   </hovered>
+	 </animation>
+
+	<animation>
+		<object-name>indicatorLeft</object-name>
+		<type>material</type>
+		<condition>
+	  		<equals>
+				<property>consumables/fuel/tank[8]/jettisoned</property>
+		    	<value>1</value>
+	    	</equals>
+		</condition>
+		<emission>
+		    <red>1</red> 
+		    <green>0</green> 
+		    <blue>0</blue>
+		    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+		</emission>
+	</animation>
+
+	<animation>
+		<object-name>indicatorRight</object-name>
+		<type>material</type>
+		<condition>
+	  		<equals>
+				<property>consumables/fuel/tank[8]/jettisoned</property>
+		    	<value>0</value>
+	    	</equals>
+		</condition>
+		<emission>
+		    <red>0</red> 
+		    <green>1</green> 
+		    <blue>0</blue>
+		    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+		</emission>
+	</animation>
+
+</PropertyList>

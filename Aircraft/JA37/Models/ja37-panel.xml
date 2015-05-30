@@ -122,6 +122,16 @@
   </animation>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/droptank-indicator.xml</path>
+    <name>Droptank Indicator</name>
+    <offsets>
+      <x-m>  0.0025 </x-m>
+      <y-m>  0.26 </y-m>
+      <z-m>  0.18 </z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
     <name>RPM Indicator</name>
     <offsets>

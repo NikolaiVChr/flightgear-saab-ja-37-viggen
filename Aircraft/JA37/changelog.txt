@@ -1625,3 +1625,4 @@ Model: {JazzTp} Reserve attitude indicator now has a glass front.
 Model: Tachometer now have a proper mount and front glass.
 Model: Heading indicator now remodeled to more closely resemble the real one, plus has now glass front.
 Model: Airspeed indicator and artificial horizon now has proper mounts and front glass.
+Model: Added a droptank indicator to the front panel.
