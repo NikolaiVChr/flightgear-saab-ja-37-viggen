@@ -6,12 +6,12 @@
     
     <effect>  
       <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-      <object-name>glassASI</object-name>
+      <object-name>glassAirspeed</object-name>
     </effect>
 
     <animation>
         <type>rotate</type>
-        <object-name>ASIneedle</object-name>
+        <object-name>TheHand</object-name>
         <condition>
           <greater-than>
             <property>systems/electrical/outputs/ac-instr-voltage</property>
@@ -31,7 +31,8 @@
 
     <animation>
       <type>pick</type> 
-      <object-name>glassASI</object-name>
+      <object-name>glassAirspeed</object-name>
+      <object-name>CLOCK_mount</object-name>
       <condition>   
         <greater-than>
         <property>systems/electrical/outputs/dc-voltage</property>
@@ -50,8 +51,8 @@
 
 <!-- lighting -->
  <animation>
-  <object-name>ASIneedle</object-name>
-  <object-name>ASIface</object-name>
+  <object-name>TheHand</object-name>
+  <object-name>CLOCK_face</object-name>
   <type>material</type>
   <emission>
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
