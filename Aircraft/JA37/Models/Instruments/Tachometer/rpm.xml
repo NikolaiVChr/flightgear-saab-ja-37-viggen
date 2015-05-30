@@ -2,21 +2,27 @@
 <PropertyList>
   <path>rpm.ac</path>
 
-  <animation>
-  <type>scale</type>
-  <object-name>Plane.001</object-name>
-  <object-name>Plane</object-name>
-  <object-name>Needle</object-name>
-  <x-offset>0.70</x-offset>
-  <y-offset>0.70</y-offset>
-  <z-offset>0.70</z-offset>
- </animation>
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>glassRPM</object-name>
+  </effect>
 
+  <!--<animation>
+    <type>scale</type>
+    <object-name>CLOCK_mount</object-name>
+    <object-name>CLOCK_face</object-name>
+    <object-name>CLOCK_bkg</object-name>
+    <object-name>TheHand</object-name>
+    <object-name>glassRPM</object-name>
+    <x-offset>0.70</x-offset>
+    <y-offset>0.70</y-offset>
+    <z-offset>0.70</z-offset>
+  </animation>-->
  
 <animation>
   <type>pick</type> 
-  <object-name>Needle</object-name>
-  <object-name>Plane</object-name>
+  <object-name>glassRPM</object-name>
+  <object-name>CLOCK_mount</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
@@ -29,8 +35,8 @@
 
  <animation>
   <type>material</type> 
-  <object-name>Needle</object-name>
-  <object-name>Plane</object-name>
+  <object-name>TheHand</object-name>
+  <object-name>CLOCK_face</object-name>
   <emission>	
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    <green-prop>instrumentation/instrumentation-light/g</green-prop> 
@@ -41,7 +47,7 @@
  
 <animation>
         <type>rotate</type>
-        <object-name>Needle</object-name>
+        <object-name>TheHand</object-name>
         <condition>   
           <greater-than>
           <property>systems/electrical/outputs/dc-voltage</property>
@@ -50,8 +56,8 @@
         </condition>
         <property>engines/engine/n1</property>
         <interpolation>
-            <entry><ind>20</ind><dep>2.5</dep></entry>
-            <entry><ind>110</ind><dep>324</dep></entry>
+            <entry><ind>20</ind><dep>-160</dep></entry>
+            <entry><ind>110</ind><dep>160</dep></entry>
         </interpolation>
         <center>
             <x-m>0</x-m>

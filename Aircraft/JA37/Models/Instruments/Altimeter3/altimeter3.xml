@@ -53,15 +53,6 @@
 	<!-- lighting -->
 	<animation>
 	  <object-name>CLOCK_face</object-name>
-	  <!--<object-name>CLOCK_mount</object-name>-->
-      <object-name>Mesh.002</object-name>
-      <object-name>Mesh.003</object-name>
-      <object-name>Mesh.004</object-name>
-      <object-name>Mesh.005</object-name>
-      <object-name>Mesh.006</object-name>
-      <object-name>Mesh.007</object-name>
-      <object-name>Mesh.011</object-name>
-      <object-name>Mesh.012</object-name>
       <object-name>TheHand</object-name>
 	  <type>material</type>
 	  <emission>

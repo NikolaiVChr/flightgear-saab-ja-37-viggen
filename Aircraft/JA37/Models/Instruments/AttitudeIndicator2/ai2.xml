@@ -3,19 +3,24 @@
 
   <path>secai.ac</path>
 
-<animation>
-  <type>pick</type> 
-  <object-name>AI2Cylinder</object-name>
-  <object-name>AI2Pointer</object-name>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>Secondary Attitude Indicator</tooltip-id>
-         <label>Roll: %3d°</label>
-         <property>orientation/roll-deg</property>
-      </binding>
-   </hovered>
- </animation>
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>AI2Glass</object-name>
+  </effect>
+
+  <animation>
+    <type>pick</type> 
+    <object-name>AI2Cube</object-name>
+    <object-name>AI2Glass</object-name>
+    <hovered>
+         <binding>
+           <command>set-tooltip</command>
+           <tooltip-id>Secondary Attitude Indicator</tooltip-id>
+           <label>Roll: %3d°</label>
+           <property>orientation/roll-deg</property>
+        </binding>
+    </hovered>
+  </animation>
 
  <animation>
   <type>material</type> 

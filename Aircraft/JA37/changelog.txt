@@ -1621,3 +1621,5 @@ Model: Fixed that reserve attitude indicator had two scaling operations applied.
 Model: Made the mount textures of EPR, fuel, attitude 2 gauges have nicer texture.
 Model: Removed some switches and knobs on accelerometer and altimeter 2.
 Model: EPR and fuel gauge now has less thick mount.
+Model: {JazzTp} Reserve attitude indicator now has a glass front.
+Model: Tachometer now have a proper mount and front glass.

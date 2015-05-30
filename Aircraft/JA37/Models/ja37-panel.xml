@@ -125,17 +125,25 @@
     <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
     <name>RPM Indicator</name>
     <offsets>
-      <x-m>  0.01</x-m>
-      <y-m>  0.20</y-m>
-      <z-m>  0.1175</z-m>
+      <x-m>  0.00</x-m>
+      <y-m>  0.1887</y-m>
+      <z-m>  0.1112</z-m>
     </offsets>
   </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>RPM Indicator</object-name>
+    <x-offset>1.05</x-offset>
+    <y-offset>1.05</y-offset>
+    <z-offset>1.05</z-offset>
+  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator2/ai2.xml</path>
     <name>Attitude Indicator 2</name>
     <offsets>
-      <x-m>  0.01</x-m>
+      <x-m>  0.015</x-m>
       <y-m>  0.1625</y-m>
       <z-m>  0.245</z-m>
     </offsets>
