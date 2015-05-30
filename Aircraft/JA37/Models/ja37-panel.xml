@@ -181,17 +181,17 @@
     <name>ADI</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m>  0.16</y-m>
-      <z-m>  0.055</z-m>
+      <y-m>  0.1225</y-m>
+      <z-m>  0.0425</z-m>
     </offsets>
   </model>
 
   <animation>
     <type>scale</type>
     <object-name>ADI</object-name>
-    <x-offset>0.8</x-offset>
-    <y-offset>0.8</y-offset>
-    <z-offset>0.8</z-offset>
+    <x-offset>1.05</x-offset>
+    <y-offset>1.05</y-offset>
+    <z-offset>1.05</z-offset>
   </animation>
 
   <model>
