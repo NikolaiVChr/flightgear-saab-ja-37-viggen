@@ -2,11 +2,15 @@
 <PropertyList>
   <path>ja37_epr.ac</path>
 
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>EprGlass</object-name>
+  </effect>
+
 <animation>
   <type>pick</type> 
-  <object-name>Needle_B</object-name>
-  <object-name>Needle_F</object-name>
-  <object-name>Plane</object-name>
+  <object-name>EprGlass</object-name>
+  <object-name>Gauge</object-name>
   <condition>
     <greater-than>
       <property>systems/electrical/outputs/dc-voltage</property>
