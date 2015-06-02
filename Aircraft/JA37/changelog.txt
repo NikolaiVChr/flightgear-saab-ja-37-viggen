@@ -1626,4 +1626,4 @@ Model: Tachometer now have a proper mount and front glass.
 Model: Heading indicator now remodeled to more closely resemble the real one, plus has now glass front.
 Model: Airspeed indicator and artificial horizon now has proper mounts and front glass.
 Model: Added a droptank indicator to the front panel.
-Model: {JazzTp} Accelerometer, nozzle indicator, EPR gauge and chronometer now has a glass front.
+Model: {JazzTp} Accelerometer, nozzle indicator, EPR gauge, rightmost altimeter and chronometer now has a glass front.
