@@ -11,7 +11,7 @@ Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
-Model: Adjust instrument materials, and make the gauges look more similar.
+Model: Adjust instrument materials, and make the gauges look even more similar.
 Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.

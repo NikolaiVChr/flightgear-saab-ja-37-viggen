@@ -1629,3 +1629,4 @@ Model: Added a droptank indicator to the front panel.
 Model: {JazzTp} Accelerometer, nozzle indicator, EPR gauge, rightmost altimeter and chronometer now has a glass front.
 Model: The aircraft is now creased at 30 degrees, instead of 61 degrees.
 Model: Fixed some misaligned polygons in the canopy struts.
+GUI: Added a second splash image.
