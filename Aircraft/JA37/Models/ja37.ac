@@ -5889,7 +5889,7 @@ refs 4
 kids 0
 OBJECT poly
 name "dropTank"
-crease 30.000000834826057
+crease 35
 texture "j37_texture.png"
 texrep 1 1
 numvert 313
