@@ -193,6 +193,20 @@
         <output>fcs/elevator/tmp-norm</output>
       </switch>
 
+      <aerosurface_scale name="names/elevator/trim-deg">
+          <input>fcs/pitch-trim-cmd-norm</input>
+          <zero_centered> true </zero_centered>
+          <domain>
+            <min> -1.0 </min>
+            <max>  1.0 </max>
+          </domain>
+          <range>
+              <min>-25</min>
+              <max>20</max>
+          </range>
+          <output>fcs/elevator/trim-deg</output>
+      </aerosurface_scale>
+
       <aerosurface_scale name="names/elevator/pos-rad">
           <input>fcs/elevator/pos-norm</input>
           <zero_centered> true </zero_centered>
