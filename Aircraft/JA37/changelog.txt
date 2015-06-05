@@ -1630,3 +1630,4 @@ Model: {JazzTp} Accelerometer, nozzle indicator, EPR gauge, rightmost altimeter 
 Model: The aircraft is now creased at 30 degrees, instead of 61 degrees.
 Model: Fixed some misaligned polygons in the canopy struts.
 GUI: Added a second splash image.
+Model: Added 6 gauges on the side panels.

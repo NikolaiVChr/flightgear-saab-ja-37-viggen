@@ -1,15 +1,23 @@
 <?xml version="1.0"?>
 <PropertyList>
-    <path>gauge.ac</path>
+    <path>../gauge.ac</path>
 
 	 <effect>  
       <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
       <object-name>glass</object-name>
     </effect>
 
+	<animation>
+	  <type>material</type>
+	   <object-name>face</object-name>
+	   <property-base>sim/ja37/texture</property-base>
+	   <texture-prop>gauge-trim-pitch</texture-prop>
+	   <texture>pitch-trim-indicator-face.png</texture>
+	 </animation>
+
 	 <animation>
 	  <type>rotate</type>
-	  <object-name>TheHand</object-name>
+	  <object-name>needle</object-name>
 	  <condition>
 	    <greater-than>
 	      <property>systems/electrical/outputs/ac-instr-voltage</property>
@@ -17,8 +25,11 @@
 	    </greater-than>
 	  </condition>
 	  <property>fdm/jsbsim/fcs/elevator/trim-deg</property>
-	  <factor>.006</factor>
-	  <offset-deg>240</offset-deg>
+	  <interpolation>
+	  	  <entry><ind>-10</ind><dep>-120</dep></entry>
+          <entry><ind>0</ind><dep>-85</dep></entry>
+          <entry><ind>10</ind><dep>-45</dep></entry>
+      </interpolation>
 	  <axis>
 	   <x>0</x>
 	   <y>0</y>
@@ -28,8 +39,8 @@
 
 	<animation>
 	  <type>pick</type> 
-	  <object-name>CLOCK_face</object-name>
-      <object-name>kmAltGlass</object-name>
+	  <object-name>face</object-name>
+      <object-name>glass</object-name>
 	  <condition>   
 	    <greater-than>
 	    <property>systems/electrical/outputs/dc-voltage</property>
@@ -48,8 +59,8 @@
 
 	<!-- lighting -->
 	<animation>
-	  <object-name>CLOCK_face</object-name>
-      <object-name>TheHand</object-name>
+	  <object-name>face</object-name>
+      <object-name>needle</object-name>
 	  <type>material</type>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 

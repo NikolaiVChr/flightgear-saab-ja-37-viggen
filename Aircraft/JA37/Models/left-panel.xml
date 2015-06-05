@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<PropertyList>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/ManometerCabin/cabin-manometer.xml</path>
+    <name>cabin-mano</name>
+    <offsets>
+      <x-m>  0.07</x-m>
+      <y-m>  0.035</y-m>
+      <z-m> -0.00197</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>cabin-mano</object-name>
+    <x-offset>0.7</x-offset>
+    <y-offset>0.7</y-offset>
+    <z-offset>0.7</z-offset>
+  </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/ManometerBrake/brake-manometer.xml</path>
+    <name>brake-mano</name>
+    <offsets>
+      <x-m>  0.14</x-m>
+      <y-m>  0.035</y-m>
+      <z-m> -0.00197</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>brake-mano</object-name>
+    <x-offset>0.7</x-offset>
+    <y-offset>0.7</y-offset>
+    <z-offset>0.7</z-offset>
+  </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/TrimPitch/pitch-trim-indicator.xml</path>
+    <name>trim-pitch</name>
+    <offsets>
+      <x-m>  0.21</x-m>
+      <y-m>  0.035</y-m>
+      <z-m> -0.00197</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>trim-pitch</object-name>
+    <x-offset>0.7</x-offset>
+    <y-offset>0.7</y-offset>
+    <z-offset>0.7</z-offset>
+  </animation>
+
+</PropertyList>

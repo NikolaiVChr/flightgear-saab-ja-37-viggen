@@ -247,10 +247,20 @@
           </test>
       </switch>
 
+     <fcs_function name="systems/flight/environment-pressure-kpm2"><!-- kilopond per square cm2-->
+        <function>
+            <product>
+              <property>systems/flight/cabin-pressure-kPa</property>
+              <value>0.010197162129779</value>
+            </product>
+        </function>
+     </fcs_function>
+
     <fcs_function name="systems/flight/brake-pressure-kPa">
         <function>
           <product>
             <property>/controls/gear/brake-left</property>
+            <property>gear/unit[1]/WOW</property>
             <table>
               <independentVar lookup="row">velocities/vg-fps</independentVar>
               <tableData>

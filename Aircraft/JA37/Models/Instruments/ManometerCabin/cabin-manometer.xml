@@ -1,24 +1,34 @@
 <?xml version="1.0"?>
 <PropertyList>
-    <path>gauge.ac</path>
+    <path>../gauge.ac</path>
 
 	 <effect>  
       <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
       <object-name>glass</object-name>
     </effect>
 
+	<animation>
+	  <type>material</type>
+	   <object-name>face</object-name>
+	   <property-base>sim/ja37/texture</property-base>
+	   <texture-prop>gauge-mano-cabin</texture-prop>
+	   <texture>cabin-manometer-face.png</texture>
+	 </animation>
+
 	 <animation>
 	  <type>rotate</type>
-	  <object-name>TheHand</object-name>
+	  <object-name>needle</object-name>
 	  <condition>
 	    <greater-than>
 	      <property>systems/electrical/outputs/ac-instr-voltage</property>
 	      <value>100</value>
 	    </greater-than>
 	  </condition>
-	  <property>fdm/jsbsim/systems/flight/cabin-pressure-kPa</property>
-	  <factor>.006</factor>
-	  <offset-deg>240</offset-deg>
+	  <property>fdm/jsbsim/systems/flight/environment-pressure-kpm2</property>
+	  <interpolation>
+          <entry><ind>0</ind><dep>-125</dep></entry>
+          <entry><ind>3</ind><dep>125</dep></entry>
+      </interpolation>
 	  <axis>
 	   <x>0</x>
 	   <y>0</y>
@@ -28,8 +38,8 @@
 
 	<animation>
 	  <type>pick</type> 
-	  <object-name>CLOCK_face</object-name>
-      <object-name>kmAltGlass</object-name>
+	  <object-name>face</object-name>
+      <object-name>glass</object-name>
 	  <condition>   
 	    <greater-than>
 	    <property>systems/electrical/outputs/dc-voltage</property>
@@ -40,7 +50,7 @@
 	       <binding>
 	         <command>set-tooltip</command>
 	         <tooltip-id>cabinmano</tooltip-id>
-	         <label>Cabin manometer</label>
+	         <label>Cabin manometer (kp/cm2)</label>
 	      </binding>
 	   </hovered>
 	 </animation>
@@ -48,8 +58,8 @@
 
 	<!-- lighting -->
 	<animation>
-	  <object-name>CLOCK_face</object-name>
-      <object-name>TheHand</object-name>
+	  <object-name>face</object-name>
+      <object-name>needle</object-name>
 	  <type>material</type>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
