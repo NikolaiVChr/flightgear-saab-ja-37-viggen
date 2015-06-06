@@ -2,6 +2,24 @@
 <PropertyList>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/IndicatorPanelRight/indicator-panel-right.xml</path>
+    <name>ind-panel-right</name>
+    <offsets>
+      <x-m>  0.075</x-m>
+      <y-m> -0.0875</y-m>
+      <z-m> -0.02329</z-m>
+    </offsets>
+  </model>
+
+  <!--<animation>
+    <type>scale</type>
+    <object-name>ind-panel-right</object-name>
+    <x-offset>0.05</x-offset>
+    <y-offset>0.05</y-offset>
+    <z-offset>0.05</z-offset>
+  </animation>-->
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/NozzleIndicator/nozzle.xml</path>
     <name>reserve-nozzle</name>
     <offsets>

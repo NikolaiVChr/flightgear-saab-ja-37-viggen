@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <path>indicator-panel-right.ac</path>
+
+	<animation>
+	  <name>Flghtstick</name>
+	  <object-name>indicatorLeft1</object-name>
+	  <type>material</type>
+	  <condition>
+	  	<equals>
+	  		<value>0</value>
+			<value>1</value>
+	  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Canopy and seat</name>
+	  <object-name>indicatorLeft7</object-name>
+	  <type>material</type>
+	  <condition>
+	  	<or>
+		  	<and>
+			  	<not-equals>
+			  		<property>canopy/position-norm</property>
+					<value>0</value>
+			  	</not-equals>
+			  	<not-equals>
+			  		<property>gear/gear[0]/wow</property>
+					<value>1</value>
+			  	</not-equals>
+		  	</and>
+		  	<not-equals>
+		  		<property>fdm/jsbsim/fcs/canopy/serviceable</property>
+				<value>1</value>
+		  	</not-equals>
+		  	<not-equals>
+		  		<property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
+				<value>1</value>
+		  	</not-equals>
+	  	</or>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Canopy and seat</name>
+	  <object-name>indicatorLeft10</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>fdm/jsbsim/systems/electrical/external/supplying</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+</PropertyList>
