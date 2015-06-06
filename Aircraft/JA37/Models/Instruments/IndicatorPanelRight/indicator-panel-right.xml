@@ -21,6 +21,24 @@
 	</animation>
 
 	<animation>
+	  <name>Cabin pressure</name>
+	  <object-name>indicatorLeft6</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<less-than>
+		  		<property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
+				<value>0.15</value>
+		  	</less-than>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green>
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
 	  <name>Canopy and seat</name>
 	  <object-name>indicatorLeft7</object-name>
 	  <type>material</type>
@@ -55,12 +73,120 @@
 	</animation>
 
 	<animation>
-	  <name>Canopy and seat</name>
+	  <name>Ext power</name>
 	  <object-name>indicatorLeft10</object-name>
 	  <type>material</type>
 	  <condition>
 		  	<equals>
 		  		<property>fdm/jsbsim/systems/electrical/external/supplying</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Radar</name>
+	  <object-name>indicatorLeft14</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<not-equals>
+		  		<property>instrumentation/radar/serviceable</property>
+				<value>1</value>
+		  	</not-equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Alpha</name>
+	  <object-name>indicatorLeft16</object-name>
+	  <type>material</type>
+	  <condition>
+		<or>
+	      <not>
+	        <property>gear/gear/position-norm</property>
+	      </not>
+	      <or>
+	        <and>
+	          <greater-than>
+	            <property>orientation/alpha-deg</property>
+	            <value>23</value>
+	          </greater-than>
+	          <less-than>
+	            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+	            <value>32808</value>
+	          </less-than>
+	        </and>
+	        <and>
+	          <greater-than>
+	            <property>orientation/alpha-deg</property>
+	            <value>20</value>
+	          </greater-than>
+	          <greater-than>
+	            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+	            <value>32808</value>
+	          </greater-than>
+	        </and>
+	      </or>
+	      <and>
+		      <property>gear/gear/position-norm</property>
+		      <greater-than>
+		        <property>orientation/alpha-deg</property>
+		        <value>18</value>
+		      </greater-than>
+		      <not>
+		          <property>gear/gear[1]/wow</property>
+		      </not>
+		      <not>
+		          <property>gear/gear[2]/wow</property>
+		      </not>
+	      	</and>
+      	</or>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Outlet temperature</name>
+	  <object-name>indicatorLeft18</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<greater-than>
+		  		<property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
+				<value>750</value>
+		  	</greater-than>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Bingo fuel</name>
+	  <object-name>indicatorLeft19</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/sound/fuel-low-on</property>
 				<value>1</value>
 		  	</equals>
 	  </condition>

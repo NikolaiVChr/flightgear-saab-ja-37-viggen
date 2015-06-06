@@ -247,7 +247,7 @@
           </test>
       </switch>
 
-     <fcs_function name="systems/flight/environment-pressure-kpm2"><!-- kilopond per square cm2-->
+     <fcs_function name="systems/flight/cabin-pressure-kpm2"><!-- kilopond per square cm2-->
         <function>
             <product>
               <property>systems/flight/cabin-pressure-kPa</property>

@@ -1631,4 +1631,4 @@ Model: The aircraft is now creased at 30 degrees, instead of 61 degrees.
 Model: Fixed some misaligned polygons in the canopy struts.
 GUI: Added a second splash image.
 Model: Added 6 gauges on the side panels.
-Model: Added a indicator panel on right cockpit panel. 2 lamps are enabled.
+Model: Added a indicator panel on right cockpit panel. 7 lamps are enabled.
