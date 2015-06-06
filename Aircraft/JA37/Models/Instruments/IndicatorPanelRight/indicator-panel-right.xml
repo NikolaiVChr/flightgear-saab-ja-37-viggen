@@ -21,6 +21,24 @@
 	</animation>
 
 	<animation>
+	  <name>Pitch limiter</name>
+	  <object-name>indicatorLeft5</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<less-than>
+		  		<property>fdm/jsbsim/systems/flight/pitch-limiter</property>
+				<value>1.0</value>
+		  	</less-than>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
 	  <name>Cabin pressure</name>
 	  <object-name>indicatorLeft6</object-name>
 	  <type>material</type>
@@ -92,7 +110,7 @@
 
 	<animation>
 	  <name>Radar</name>
-	  <object-name>indicatorLeft14</object-name>
+	  <object-name>indicatorRight4</object-name>
 	  <type>material</type>
 	  <condition>
 		  	<not-equals>
@@ -110,7 +128,7 @@
 
 	<animation>
 	  <name>Alpha</name>
-	  <object-name>indicatorLeft16</object-name>
+	  <object-name>indicatorRight6</object-name>
 	  <type>material</type>
 	  <condition>
 		<or>
@@ -164,12 +182,12 @@
 
 	<animation>
 	  <name>Outlet temperature</name>
-	  <object-name>indicatorLeft18</object-name>
+	  <object-name>indicatorRight8</object-name>
 	  <type>material</type>
 	  <condition>
 		  	<greater-than>
 		  		<property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
-				<value>750</value>
+				<value>800</value>
 		  	</greater-than>
 	  </condition>
 	  <emission>
@@ -182,7 +200,7 @@
 
 	<animation>
 	  <name>Bingo fuel</name>
-	  <object-name>indicatorLeft19</object-name>
+	  <object-name>indicatorRight9</object-name>
 	  <type>material</type>
 	  <condition>
 		  	<equals>

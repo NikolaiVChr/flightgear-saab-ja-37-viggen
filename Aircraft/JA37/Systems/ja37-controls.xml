@@ -130,6 +130,26 @@
         <output>fcs/elevator/cmd-adjust-negative</output>
       </scheduled_gain>
 
+      <!-- should be copy of above table -->
+      <fcs_function name="systems/flight/pitch-limiter">
+        <function>
+          <table>
+            <independentVar lookup="row">velocities/mach</independentVar>
+            <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+            <tableData>
+                            0.0      20000     45000
+                0.0         1.00      1.00      1.00
+                0.5         1.00      1.00      1.00
+                0.625       0.85      1.00      1.00
+                0.75        0.45      1.00      1.00
+                1.0         0.18      0.60      1.00
+                1.5         0.10      0.20      1.00
+                2.2         0.05      0.10      0.30
+            </tableData>
+          </table>
+        </function>
+      </fcs_function>
+
       <!-- At high speeds elevator down deflection is reduced,
            At high altitude elevator down deflection is increased -->
       <scheduled_gain name="names/elevator/adjust-pos">
