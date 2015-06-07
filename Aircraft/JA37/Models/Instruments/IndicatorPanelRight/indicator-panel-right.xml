@@ -8,7 +8,7 @@
 	  <type>material</type>
 	  <condition>
 	  	<equals>
-	  		<value>0</value>
+	  		<property>sim/ja37/avionics/joystick</property>
 			<value>1</value>
 	  	</equals>
 	  </condition>
@@ -62,6 +62,10 @@
 	  <type>material</type>
 	  <condition>
 	  	<or>
+	  		<equals>
+		  		<property>sim/ja37/avionics/canopyAndSeat</property>
+				<value>1</value>
+		  	</equals>
 		  	<and>
 			  	<not-equals>
 			  		<property>canopy/position-norm</property>
@@ -91,6 +95,42 @@
 	</animation>
 
 	<animation>
+	  <name>Ignition sys</name>
+	  <object-name>indicatorLeft8</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/ignitionSys</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Start sys</name>
+	  <object-name>indicatorLeft9</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/startSys</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
+
+	<animation>
 	  <name>Ext power</name>
 	  <object-name>indicatorLeft10</object-name>
 	  <type>material</type>
@@ -107,6 +147,42 @@
 	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
 	  </emission>
 	</animation>
+
+	<animation>
+	  <name>Primary data</name>
+	  <object-name>indicatorRight2</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/primaryData</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>TN</name>
+	  <object-name>indicatorRight3</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/TN</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
 
 	<animation>
 	  <name>Radar</name>
@@ -132,31 +208,33 @@
 	  <type>material</type>
 	  <condition>
 		<or>
-	      <not>
-	        <property>gear/gear/position-norm</property>
-	      </not>
-	      <or>
-	        <and>
-	          <greater-than>
-	            <property>orientation/alpha-deg</property>
-	            <value>23</value>
-	          </greater-than>
-	          <less-than>
-	            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-	            <value>32808</value>
-	          </less-than>
-	        </and>
-	        <and>
-	          <greater-than>
-	            <property>orientation/alpha-deg</property>
-	            <value>20</value>
-	          </greater-than>
-	          <greater-than>
-	            <property>instrumentation/altimeter/indicated-altitude-ft</property>
-	            <value>32808</value>
-	          </greater-than>
-	        </and>
-	      </or>
+		  <and>
+		      <not>
+		        <property>gear/gear/position-norm</property>
+		      </not>
+		      <or>
+		        <and>
+		          <greater-than>
+		            <property>orientation/alpha-deg</property>
+		            <value>23</value>
+		          </greater-than>
+		          <less-than>
+		            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+		            <value>32808</value>
+		          </less-than>
+		        </and>
+		        <and>
+		          <greater-than>
+		            <property>orientation/alpha-deg</property>
+		            <value>20</value>
+		          </greater-than>
+		          <greater-than>
+		            <property>instrumentation/altimeter/indicated-altitude-ft</property>
+		            <value>32808</value>
+		          </greater-than>
+		        </and>
+		      </or>
+	  	  </and>
 	      <and>
 		      <property>gear/gear/position-norm</property>
 		      <greater-than>
@@ -171,6 +249,24 @@
 		      </not>
 	      	</and>
       	</or>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Oxygen</name>
+	  <object-name>indicatorRight7</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/oxygen</property>
+				<value>1</value>
+		  	</equals>
 	  </condition>
 	  <emission>
 	    <red>1</red>

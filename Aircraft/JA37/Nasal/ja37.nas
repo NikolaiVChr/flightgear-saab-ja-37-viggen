@@ -20,6 +20,9 @@ var warnGenerator = TRUE;
 var warnHydr1 = TRUE;
 var warnHydr2 = TRUE;
 
+var mainOn = FALSE;
+var mainTimer = -1;
+
 var MISSILE_STANDBY = -1;
 var MISSILE_SEARCH = 0;
 var MISSILE_LOCK = 1;
@@ -525,6 +528,58 @@ var update_loop = func {
       }
     }
     setprop("sim/ja37/sound/speed-on", lowSpeed);
+
+    # main electrical turned on
+    var timer = input.elapsed.getValue();
+    var main = getprop("/controls/electric/main");
+    if(main == TRUE and mainOn == FALSE) {
+      #main has been switched on
+      mainTimer = timer;
+      mainOn = TRUE;
+      setprop("sim/ja37/avionics/primaryData", TRUE);
+      setprop("sim/ja37/avionics/TN", TRUE);
+    } elsif (main == TRUE) {
+      if (timer > (mainTimer + 20)) {
+        setprop("sim/ja37/avionics/primaryData", FALSE);
+      }
+      if (timer > (mainTimer + 140)) {
+        setprop("sim/ja37/avionics/TN", FALSE);
+      }
+    } elsif (main == FALSE) {
+      mainOn = FALSE;
+    }
+    # engine start
+    var n2 = input.n2.getValue();
+    if (getprop("controls/engines/engine[0]/starter-cmd") == TRUE and n2 < 57 and getprop("engines/engine[0]/thrust_lb") == 0) {
+      setprop("sim/ja37/avionics/startSys", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/startSys", FALSE);
+    }
+    if (getprop("controls/engines/engine[0]/starter-cmd") == TRUE and n2 < 57 and n2 > 13 and getprop("engines/engine[0]/thrust_lb") == 0) {
+      # manual says between 11-16% is goes on, so chose 13
+      setprop("sim/ja37/avionics/ignitionSys", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/ignitionSys", FALSE);
+    }
+
+    # joystick on indicator panel
+    if (main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
+      setprop("sim/ja37/avionics/joystick", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/joystick", FALSE);
+    }
+
+    if (main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
+      setprop("sim/ja37/avionics/oxygen", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/oxygen", FALSE);
+    }
+
+    if (main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
+      setprop("sim/ja37/avionics/canopyAndSeat", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/canopyAndSeat", FALSE);
+    }
 
     settimer(
       #func debug.benchmark("j37 loop", 
