@@ -1,15 +1,23 @@
 <?xml version="1.0"?>
 <PropertyList>
-	 <path>nozzle.ac</path>
+	 <path>../gauge.ac</path>
 
 	 <effect>  
       <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-      <object-name>NozzleGlass</object-name>
+      <object-name>glass</object-name>
     </effect>
+
+	<animation>
+    <type>material</type>
+     <object-name>dial</object-name>
+     <property-base>sim/ja37/texture</property-base>
+     <texture-prop>gauge-nozzle</texture-prop>
+     <texture>nozzle.png</texture>
+   </animation>
 
 	 <animation>
 	  <type>rotate</type>
-	  <object-name>TheHand</object-name>
+	  <object-name>needle</object-name>
 	  <condition>   
 	    <greater-than>
 	    	<property>systems/electrical/outputs/dc-voltage</property>
@@ -18,18 +26,18 @@
 	  </condition>
 	  <property>fdm/jsbsim/propulsion/engine/nozzle</property>
 	  <factor>240</factor>
-	  <offset-deg>240</offset-deg>
+	  <offset-deg>-120</offset-deg>
 	  <axis>
-	   <x>0</x>
+	   <x>-1</x>
 	   <y>0</y>
-	   <z>-1</z>
+	   <z>0</z>
 	  </axis>
 	 </animation>
 
 	<animation>
 	  <type>pick</type>
-      <object-name>NozzleGlass</object-name>	  
-	  <object-name>CLOCK_face</object-name>
+      <object-name>glass</object-name>	  
+	  <object-name>mount</object-name>
 	  <hovered>
 	       <binding>
 	         <command>set-tooltip</command>
@@ -42,8 +50,8 @@
 
 	<!-- lighting -->
 	<animation>
-	  <object-name>CLOCK_face</object-name>
-      <object-name>TheHand</object-name>
+	  <object-name>dial</object-name>
+      <object-name>needle</object-name>
 	  <type>material</type>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 

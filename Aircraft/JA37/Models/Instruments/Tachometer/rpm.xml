@@ -1,28 +1,24 @@
 <?xml version="1.0"?>
 <PropertyList>
-  <path>rpm.ac</path>
+  <path>../gauge.ac</path>
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>glassRPM</object-name>
+    <object-name>glass</object-name>
   </effect>
 
-  <!--<animation>
-    <type>scale</type>
-    <object-name>CLOCK_mount</object-name>
-    <object-name>CLOCK_face</object-name>
-    <object-name>CLOCK_bkg</object-name>
-    <object-name>TheHand</object-name>
-    <object-name>glassRPM</object-name>
-    <x-offset>0.70</x-offset>
-    <y-offset>0.70</y-offset>
-    <z-offset>0.70</z-offset>
-  </animation>-->
+  <animation>
+    <type>material</type>
+     <object-name>dial</object-name>
+     <property-base>sim/ja37/texture</property-base>
+     <texture-prop>gauge-rpm</texture-prop>
+     <texture>rpmface.png</texture>
+   </animation>
  
 <animation>
   <type>pick</type> 
-  <object-name>glassRPM</object-name>
-  <object-name>CLOCK_mount</object-name>
+  <object-name>glass</object-name>
+  <object-name>mount</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
@@ -35,8 +31,8 @@
 
  <animation>
   <type>material</type> 
-  <object-name>TheHand</object-name>
-  <object-name>CLOCK_face</object-name>
+  <object-name>needle</object-name>
+  <object-name>dial</object-name>
   <emission>	
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    <green-prop>instrumentation/instrumentation-light/g</green-prop> 
@@ -47,7 +43,7 @@
  
 <animation>
         <type>rotate</type>
-        <object-name>TheHand</object-name>
+        <object-name>needle</object-name>
         <condition>   
           <greater-than>
           <property>systems/electrical/outputs/dc-voltage</property>

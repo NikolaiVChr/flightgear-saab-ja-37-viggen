@@ -1,15 +1,23 @@
 <?xml version="1.0"?>
 <PropertyList>
-    <path>altimeter3.ac</path>
+	 <path>../gauge.ac</path>
 
-	 <effect>  
+    <effect>  
       <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-      <object-name>kmAltGlass</object-name>
+      <object-name>glass</object-name>
     </effect>
 
+	<animation>
+	  <type>material</type>
+	   <object-name>dial</object-name>
+	   <property-base>sim/ja37/texture</property-base>
+	   <texture-prop>gauge-alt3</texture-prop>
+	   <texture>altimeter3.png</texture>
+	 </animation>
+	 
 	 <animation>
 	  <type>rotate</type>
-	  <object-name>TheHand</object-name>
+	  <object-name>needle</object-name>
 	  <condition>
 	    <greater-than>
 	      <property>systems/electrical/outputs/ac-instr-voltage</property>
@@ -20,16 +28,16 @@
 	  <factor>.006</factor>
 	  <offset-deg>240</offset-deg>
 	  <axis>
-	   <x>0</x>
+	   <x>-1</x>
 	   <y>0</y>
-	   <z>-1</z>
+	   <z>0</z>
 	  </axis>
 	 </animation>
 
 	<animation>
 	  <type>pick</type> 
-	  <object-name>CLOCK_face</object-name>
-      <object-name>kmAltGlass</object-name>
+	  <object-name>glass</object-name>
+      <object-name>mount</object-name>
 	  <condition>   
 	    <greater-than>
 	    <property>systems/electrical/outputs/dc-voltage</property>
@@ -49,8 +57,8 @@
 
 	<!-- lighting -->
 	<animation>
-	  <object-name>CLOCK_face</object-name>
-      <object-name>TheHand</object-name>
+	  <object-name>dial</object-name>
+      <object-name>needle</object-name>
 	  <type>material</type>
 	  <emission>
 	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 

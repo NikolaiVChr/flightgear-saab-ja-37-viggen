@@ -3,18 +3,25 @@
 
 <PropertyList>
 
-  <path>accelerometer.ac</path>
+  <path>../gauge.ac</path>
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>AccelGlass</object-name>
+    <object-name>glass</object-name>
   </effect>
 
+  <animation>
+    <type>material</type>
+     <object-name>dial</object-name>
+     <property-base>sim/ja37/texture</property-base>
+     <texture-prop>gauge-acc</texture-prop>
+     <texture>accelerometer.png</texture>
+   </animation>
   
 <animation>
   <type>pick</type>
-  <object-name>AccelGlass</object-name>
-  <object-name>face</object-name>
+  <object-name>glass</object-name>
+  <object-name>mount</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
@@ -36,14 +43,9 @@
     </condition>
     <property>sim/ja37/accelerations/pilot-G</property>
     <interpolation>
-      <entry><ind>-2</ind><dep>45</dep></entry>
-      <entry><ind>-1</ind><dep>67.5</dep></entry>
-      <entry><ind>0</ind><dep>90</dep></entry>
-      <entry><ind>1</ind><dep>112.5</dep></entry>
-      <entry><ind>3</ind><dep>157.5</dep></entry>
-      <entry><ind>5</ind><dep>202.5</dep></entry>
-      <entry><ind>7</ind><dep>247.5</dep></entry>
-      <entry><ind>9</ind><dep>292.5</dep></entry>
+      <entry><ind>-2</ind><dep>-45</dep></entry>
+      <entry><ind>0</ind><dep>0</dep></entry>
+      <entry><ind>9</ind><dep>202.5</dep></entry>
     </interpolation>
     <center>
       <x-m>0</x-m>
@@ -116,8 +118,7 @@
 <animation>
   <type>material</type> 
   <object-name>needle</object-name>
-  <object-name>face</object-name>
-  <object-name>Gauge</object-name>
+  <object-name>dial</object-name>
   <emission>  
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
    <green-prop>instrumentation/instrumentation-light/g</green-prop> 

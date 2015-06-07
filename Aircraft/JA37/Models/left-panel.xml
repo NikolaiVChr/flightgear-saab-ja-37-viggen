@@ -5,8 +5,9 @@
     <path>Aircraft/JA37/Models/Instruments/ManometerCabin/cabin-manometer.xml</path>
     <name>cabin-mano</name>
     <offsets>
+      <pitch-deg>-90</pitch-deg>
       <x-m>  0.07</x-m>
-      <y-m>  0.035</y-m>
+      <y-m>  0.04</y-m>
       <z-m> -0.00197</z-m>
     </offsets>
   </model>
@@ -23,8 +24,9 @@
     <path>Aircraft/JA37/Models/Instruments/ManometerBrake/brake-manometer.xml</path>
     <name>brake-mano</name>
     <offsets>
+      <pitch-deg>-90</pitch-deg>
       <x-m>  0.14</x-m>
-      <y-m>  0.035</y-m>
+      <y-m>  0.04</y-m>
       <z-m> -0.00197</z-m>
     </offsets>
   </model>
@@ -41,8 +43,9 @@
     <path>Aircraft/JA37/Models/Instruments/TrimPitch/pitch-trim-indicator.xml</path>
     <name>trim-pitch</name>
     <offsets>
+      <pitch-deg>-90</pitch-deg>
       <x-m>  0.21</x-m>
-      <y-m>  0.035</y-m>
+      <y-m>  0.04</y-m>
       <z-m> -0.00197</z-m>
     </offsets>
   </model>

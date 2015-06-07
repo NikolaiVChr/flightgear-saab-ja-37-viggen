@@ -2,16 +2,24 @@
 
  <!-- Horizontal Situation Indicator -->
  <name>HSI</name>
- <path>heading-indicator.ac</path>
+ <path>../gauge.ac</path>
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>glassHeading</object-name>
+    <object-name>glass</object-name>
   </effect>
+
+  <animation>
+    <type>material</type>
+     <object-name>dial</object-name>
+     <property-base>sim/ja37/texture</property-base>
+     <texture-prop>gauge-head</texture-prop>
+     <texture>heading-face.png</texture>
+   </animation>
 
  <animation>
   <type>rotate</type>
-  <object-name>TheHand</object-name>
+  <object-name>needle</object-name>
   <property>orientation/heading-magnetic-deg</property>
   <condition>
     <greater-than>
@@ -37,8 +45,8 @@
 
 <animation>
   <type>pick</type> 
-  <object-name>glassHeading</object-name>
-  <object-name>CLOCK_mount</object-name>
+  <object-name>glass</object-name>
+  <object-name>mount</object-name>
   <hovered>
        <binding>
          <command>set-tooltip</command>
@@ -51,8 +59,8 @@
 
  <!-- lighting -->
  <animation>
-  <object-name>TheHand</object-name>
-  <object-name>CLOCK_face</object-name>
+  <object-name>needle</object-name>
+  <object-name>dial</object-name>
   <type>material</type>
   <emission>
    <red-prop>instrumentation/instrumentation-light/r</red-prop> 

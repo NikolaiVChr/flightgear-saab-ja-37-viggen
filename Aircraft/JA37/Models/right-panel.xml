@@ -23,9 +23,10 @@
     <path>Aircraft/JA37/Models/Instruments/NozzleIndicator/nozzle.xml</path>
     <name>reserve-nozzle</name>
     <offsets>
+      <pitch-deg>-90</pitch-deg>
       <x-m>  0.03</x-m>
       <y-m> -0.035</y-m>
-      <z-m> -0.00197</z-m>
+      <z-m>  0</z-m>
     </offsets>
   </model>
 
@@ -41,9 +42,10 @@
     <path>Aircraft/JA37/Models/Instruments/OutletTemperature/outlet-temperature.xml</path>
     <name>outlet-temp</name>
     <offsets>
+      <pitch-deg>-90</pitch-deg>
       <x-m>  0.10</x-m>
       <y-m> -0.035</y-m>
-      <z-m> -0.00197</z-m>
+      <z-m> 0</z-m>
     </offsets>
   </model>
 
@@ -59,9 +61,10 @@
     <path>Aircraft/JA37/Models/Instruments/ManometerOxygen/oxygen-manometer.xml</path>
     <name>oxy-mano</name>
     <offsets>
+      <pitch-deg>-90</pitch-deg>
       <x-m>  0.17</x-m>
       <y-m> -0.035</y-m>
-      <z-m> -0.00197</z-m>
+      <z-m> 0</z-m>
     </offsets>
   </model>
 

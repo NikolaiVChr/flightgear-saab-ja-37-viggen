@@ -9,7 +9,7 @@
 
     <animation>
 	  <type>material</type>
-	   <object-name>face</object-name>
+	   <object-name>dial</object-name>
 	   <property-base>sim/ja37/texture</property-base>
 	   <texture-prop>switch-battery</texture-prop>
 	   <texture>outlet-temperature-face.png</texture>
@@ -32,15 +32,15 @@
           <entry><ind>800</ind><dep>110</dep></entry>
       </interpolation>
 	  <axis>
-	   <x>0</x>
+	   <x>-1</x>
 	   <y>0</y>
-	   <z>-1</z>
+	   <z>0</z>
 	  </axis>
 	 </animation>
 
 	<animation>
 	  <type>pick</type> 
-	  <object-name>face</object-name>
+	  <object-name>dial</object-name>
       <object-name>glass</object-name>
 	  <condition>   
 	    <greater-than>
@@ -60,7 +60,7 @@
 
 	<!-- lighting -->
 	<animation>
-	  <object-name>face</object-name>
+	  <object-name>dial</object-name>
       <object-name>needle</object-name>
 	  <type>material</type>
 	  <emission>
