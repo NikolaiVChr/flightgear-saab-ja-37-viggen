@@ -1109,6 +1109,13 @@
       </armament>  
       <avionics>
         <altimeters-calibrated type="bool">0</altimeters-calibrated>
+        <primaryData type="bool">false</primaryData>
+        <TN type="bool">false</TN>
+        <ignitionSys type="bool">false</ignitionSys>
+        <startSys type="bool">false</startSys>
+        <joystick type="bool">false</joystick>
+        <canopyAndSeat type="bool">false</canopyAndSeat>
+        <oxygen type="bool">false</oxygen>
       </avionics>
     </ja37>
     <replay>
