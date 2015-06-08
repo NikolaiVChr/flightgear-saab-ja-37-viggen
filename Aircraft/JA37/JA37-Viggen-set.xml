@@ -1116,6 +1116,10 @@
         <joystick type="bool">false</joystick>
         <canopyAndSeat type="bool">false</canopyAndSeat>
         <oxygen type="bool">false</oxygen>
+        <autopilot type="bool">false</autopilot>
+        <uppf type="bool">false</uppf>
+        <tankpump type="bool">false</tankpump>
+        <xtank type="bool">false</xtank>
       </avionics>
     </ja37>
     <replay>
