@@ -1631,7 +1631,7 @@ Model: The aircraft is now creased at 30 degrees, instead of 61 degrees.
 Model: Fixed some misaligned polygons in the canopy struts.
 GUI: Added a second splash image.
 Model: Added 6 gauges on the side panels.
-Model: Added indicator panels on cockpit side panels. 28 lamps are working.
+Model: Added indicator panels on cockpit side panels. 30 lamps are working.
 Model: {JazzTp} Made a generic gauge.
 Model: Generic gauge is now used for all gauges that just have a dial and 1 needle.
 Model: Fixed that the switch for gears up/down was reversed.

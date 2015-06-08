@@ -1415,7 +1415,10 @@ var follow = func () {
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
   if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or input.dcVolt.getValue() < 23) {
+    setprop("sim/ja37/avionics/autopilot", TRUE);
     stopAP();
+  } else {
+    setprop("sim/ja37/avionics/autopilot", FALSE);
   }
   settimer(hydr1Lost, 1);
 }

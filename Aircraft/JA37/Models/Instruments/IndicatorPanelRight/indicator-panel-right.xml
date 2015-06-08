@@ -21,6 +21,42 @@
 	</animation>
 
 	<animation>
+	  <name>a/p att</name>
+	  <object-name>indicatorLeft2</object-name>
+	  <type>material</type>
+	  <condition>
+	  	<equals>
+	  		<property>sim/ja37/avionics/autopilot</property>
+			<value>1</value>
+	  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>a/p alt</name>
+	  <object-name>indicatorLeft3</object-name>
+	  <type>material</type>
+	  <condition>
+	  	<equals>
+	  		<property>sim/ja37/avionics/autopilot</property>
+			<value>1</value>
+	  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
+
+	<animation>
 	  <name>Pitch limiter</name>
 	  <object-name>indicatorLeft5</object-name>
 	  <type>material</type>
