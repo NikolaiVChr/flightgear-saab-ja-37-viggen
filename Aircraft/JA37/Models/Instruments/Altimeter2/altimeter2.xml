@@ -5,6 +5,11 @@
 <PropertyList>
  <path>altimeter-metric.ac</path>
 
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>glass</object-name>
+  </effect> 
+
  
  <animation>
   <type>rotate</type>
