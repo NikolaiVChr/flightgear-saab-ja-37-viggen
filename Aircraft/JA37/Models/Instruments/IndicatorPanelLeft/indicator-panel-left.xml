@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<PropertyList>
+    <path>indicator-panel-left.ac</path>
+
+	<animation>
+	  <name>Brä uppf</name>
+	  <object-name>indicatorLeft3</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/uppf</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>X-tank good</name>
+	  <object-name>indicatorLeft4</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/xtank</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>Tank pump</name>
+	  <object-name>indicatorLeft5</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>sim/ja37/avionics/tankpump</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>gears</name>
+	  <object-name>indicatorLeft6</object-name>
+	  <type>material</type>
+	  <condition>
+	  		<or>
+			  	<equals>
+			  		<property>gear/serviceable</property>
+					<value>0</value>
+			  	</equals>
+			  	<equals>
+			  		<property>fdm/jsbsim/gear/unit[0]/z-position</property>
+					<value>0.001</value>
+			  	</equals>
+			  	<equals>
+			  		<property>fdm/jsbsim/gear/unit[1]/z-position</property>
+					<value>0.001</value>
+			  	</equals>
+			  	<equals>
+			  		<property>fdm/jsbsim/gear/unit[2]/z-position</property>
+					<value>0.001</value>
+			  	</equals>			  				  	
+		  	</or>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>front gear</name>
+	  <object-name>indicatorLeft8</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>gear/gear[0]/position-norm</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>left gear</name>
+	  <object-name>indicatorLeft9</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>gear/gear[1]/position-norm</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>right gear</name>
+	  <object-name>indicatorLeft10</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>gear/gear[2]/position-norm</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
+
+	<animation>
+	  <name>electrical</name>
+	  <object-name>indicatorRight2</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<or>
+			  	<equals>
+			  		<property>systems/electrical/serviceable</property>
+					<value>0</value>
+			  	</equals>
+			  	<less-than>
+			  		<property>systems/electrical/outputs/ac-main-voltage</property>
+					<value>200</value>
+			  	</less-than>
+			  	<less-than>
+			  		<property>systems/electrical/outputs/ac-instr-voltage</property>
+					<value>115</value>
+			  	</less-than>
+			  	<less-than>
+			  		<property>systems/electrical/outputs/dc-voltage</property>
+					<value>28</value>
+			  	</less-than>			  				  	
+			  	<less-than>
+			  		<property>fdm/jsbsim/systems/electrical/battery-producing-dc</property>
+					<value>24</value>
+			  	</less-than>
+		  	</or>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>electrical reserve</name>
+	  <object-name>indicatorRight3</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<or>
+			  	<equals>
+			  		<property>systems/electrical/serviceable</property>
+					<value>0</value>
+			  	</equals>
+		  	</or>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
+
+	<animation>
+	  <name>hydr 2</name>
+	  <object-name>indicatorRight4</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>fdm/jsbsim/systems/hydraulics/system2/pressure-main</property>
+				<value>0</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>hydr 1</name>
+	  <object-name>indicatorRight5</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
+				<value>0</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>hydr reserve</name>
+	  <object-name>indicatorRight8</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<equals>
+		  		<property>fdm/jsbsim/systems/hydraulics/system2/pressure-reserve</property>
+				<value>0</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>	
+
+	<animation>
+	  <name>oil pressure</name>
+	  <object-name>indicatorRight9</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<less-than>
+		  		<property>engines/engine[0]/oil-pressure-psi</property>
+				<value>30</value>
+		  	</less-than>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+</PropertyList>

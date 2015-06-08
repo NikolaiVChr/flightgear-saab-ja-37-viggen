@@ -2,6 +2,16 @@
 <PropertyList>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/IndicatorPanelLeft/indicator-panel-left.xml</path>
+    <name>ind-panel-left</name>
+    <offsets>
+      <x-m>  0.075</x-m>
+      <y-m>  0.0875</y-m>
+      <z-m> -0.02329</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/ManometerCabin/cabin-manometer.xml</path>
     <name>cabin-mano</name>
     <offsets>

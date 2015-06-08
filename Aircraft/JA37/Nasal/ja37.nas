@@ -161,6 +161,14 @@ var update_loop = func {
       input.fuelWarning.setValue(FALSE);
     }
 
+    if((current / total_fuel) > 0.40 and getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0) {
+      setprop("sim/ja37/avionics/uppf", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/uppf", FALSE);
+    }
+
+    sim/ja37/avionics/uppf
+
     if (current > 0 and input.tank8LvlNorm.getValue() > 0) {
       bingoFuel = FALSE;
     } else {
@@ -560,6 +568,16 @@ var update_loop = func {
       setprop("sim/ja37/avionics/ignitionSys", TRUE);
     } else {
       setprop("sim/ja37/avionics/ignitionSys", FALSE);
+    }
+    if (getprop("controls/engines/engine[0]/starter-cmd") == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
+      setprop("sim/ja37/avionics/xtank", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/xtank", FALSE);
+    }
+    if (getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
+      setprop("sim/ja37/avionics/tankpump", TRUE);
+    } else {
+      setprop("sim/ja37/avionics/tankpump", FALSE);
     }
 
     # joystick on indicator panel
