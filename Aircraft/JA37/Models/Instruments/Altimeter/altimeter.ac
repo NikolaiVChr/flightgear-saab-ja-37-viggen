@@ -4,7 +4,7 @@ MATERIAL "pickMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 64 trans 
 MATERIAL "mountMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 25 trans 0
 MATERIAL "digitMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 64 trans 0
 MATERIAL "faceMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 64 trans 0
-MATERIAL "glassMat" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.5500
+MATERIAL "glassMat" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.7000
 OBJECT world
 name "Blender_export__instrument-alt1.5.ac"
 kids 13

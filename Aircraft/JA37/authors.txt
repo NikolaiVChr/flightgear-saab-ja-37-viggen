@@ -17,7 +17,13 @@ Effects
 Instruments
 Systems
 XML
-Various minor modelling and texturing
+Various modelling and texturing
+
+Nicola B. Bernardelli - nbb.musica at gmail.com - Forum name: JazzTp
+====================================
+Remodelling of cockpit parts
+Continuous testing of all aspects of the aircraft
+Tons of feedback and suggestions
 
 
 Thanks

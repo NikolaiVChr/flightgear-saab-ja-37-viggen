@@ -2,6 +2,11 @@
 <PropertyList>
   <path>ja37_fuel.ac</path>
 
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>FuelGlass</object-name>
+  </effect>
+
 <!--effect>
 	<inherits-from>Effect/model-combined-deferred</inherits-from>
 	<parameters>
@@ -16,9 +21,8 @@
 
 <animation>
   <type>pick</type> 
-  <object-name>Needle_B</object-name>
-  <object-name>Needle_F</object-name>
-  <object-name>Plane</object-name>
+  <object-name>FuelGlass</object-name>
+  <object-name>Gauge</object-name>
   <condition>   
     <greater-than>
     <property>systems/electrical/outputs/ac-main-voltage</property>

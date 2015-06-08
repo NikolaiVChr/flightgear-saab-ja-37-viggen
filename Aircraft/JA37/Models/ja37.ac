@@ -16,6 +16,7 @@ MATERIAL "plaqueLeftMat"    rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.
 MATERIAL "plaqueRightMat"   rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
 MATERIAL "radarHeadingMat"  rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
 MATERIAL "radarScreenMat"   rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
+MATERIAL "glassRadarMat"    rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.70
 OBJECT world
 name "Blender_export__ja37-v3.027.8.ac"
 kids 18
@@ -1442,7 +1443,7 @@ numvert 48
 0.1211634 -0.0685892 -0.0065655
 numsurf 1
 SURF 0X10
-mat 3
+mat 17
 refs 48
 0 0.494141 0.876953
 1 0.443359 0.873047
