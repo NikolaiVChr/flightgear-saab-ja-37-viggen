@@ -1617,7 +1617,7 @@ Model: Put a glass on the angle of attack indicator, airspeed indicator and left
 Model: Changed the texture of the left attitude indicator instrument to match the real JA-37 more closely.
 Sim: Changed the follow algorithm to reflect changes in the original fgdata algorithm, since those were better than my own attempt at the same.
 Model: Put a glass over the radar and radar range selector.
-Model: Fixed that reserve attitude indicator had two scaling operations applied.
+Model: Fixed that several gauges had two scaling operations applied.
 Model: Made the mount textures of EPR, fuel, attitude 2 gauges have nicer texture.
 Model: Removed some switches and knobs on accelerometer and altimeter 2.
 Model: EPR and fuel gauge now has less thick mount.
@@ -1626,12 +1626,13 @@ Model: Tachometer now have a proper mount and front glass.
 Model: Heading indicator now remodeled to more closely resemble the real one, plus has now glass front.
 Model: Airspeed indicator and artificial horizon now has proper mounts and front glass.
 Model: Added a droptank indicator to the front panel.
-Model: {JazzTp} Accelerometer, nozzle indicator, EPR gauge, rightmost altimeter and chronometer now has a glass front.
+Model: {JazzTp} Accelerometer, fuel indicator, nozzle indicator, EPR gauge, rightmost altimeter and chronometer now has a glass front.
 Model: The aircraft is now creased at 30 degrees, instead of 61 degrees.
 Model: Fixed some misaligned polygons in the canopy struts.
-GUI: Added 3 more splash images to be randomly shown at startup (FG 3.6+).
+GUI: Added 6 more splash images to be randomly shown at startup (FG 3.6+).
 Model: Added 6 gauges on the side panels.
 Model: Added indicator panels on cockpit side panels. 30 lamps are working.
 Model: {JazzTp} Made a generic gauge with glass front and needle mount.
 Model: Generic gauge is now used for all gauges that just have a dial and 1 needle.
 Model: Fixed that the switch for gears up/down was reversed.
+Sim: When battery autostart fail due to drained battery, that is now hinted at in popuptip.

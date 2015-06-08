@@ -1225,17 +1225,12 @@ var endSupply = func {
 #Simulating autostart function
 var autostart = func {
   setprop("/controls/electric/engine[0]/generator", FALSE);
-  if (getprop("controls/electric/engine[0]/generator") == FALSE) {
-    popupTip("Starting engine..");
-    click();
-    setprop("/controls/engines/engine[0]/cutoff", TRUE);
-    setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
-    start_count = 0;
-    settimer(waiting_n1, 0.5, 1);
-  } else {
-    popupTip("Generator switch turned on. Engine restart aborted.");
-    autostarting = FALSE;
-  }
+  popupTip("Starting engine..");
+  click();
+  setprop("/controls/engines/engine[0]/cutoff", TRUE);
+  setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
+  start_count = 0;
+  settimer(waiting_n1, 0.5, 1);
 }
 
 # Opens fuel valve in autostart
@@ -1243,10 +1238,12 @@ var waiting_n1 = func {
   start_count += 1* getprop("sim/speed-up");
   #print(start_count);
   if (start_count > 45) {
-    if(bingoFuel == FALSE) {
-      popupTip("Autostart failed. Report bug to aircraft developer.");
-    } else {
+    if(bingoFuel == TRUE) {
       popupTip("Engine start failed. Check fuel.");
+    } elsif (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+      popupTip("Engine start failed. Check battery.");
+    } else {
+      popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }
     print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();
@@ -1283,10 +1280,12 @@ var waiting_n1 = func {
 var final_engine = func () {
   start_count += 1* getprop("sim/speed-up");
   if (start_count > 70) {
-    if(bingoFuel == FALSE) {
-      popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
-    } else {
+    if(bingoFuel == TRUE) {
       popupTip("Engine start failed. Check fuel.");
+    } elsif (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+      popupTip("Engine start failed. Check battery.");
+    } else {
+      popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }    
     print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();  
