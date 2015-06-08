@@ -71,10 +71,16 @@
 			  		<property>canopy/position-norm</property>
 					<value>0</value>
 			  	</not-equals>
-			  	<not-equals>
-			  		<property>gear/gear[0]/wow</property>
-					<value>1</value>
-			  	</not-equals>
+			  	<or>
+				  	<not-equals>
+				  		<property>gear/gear[0]/wow</property>
+						<value>1</value>
+				  	</not-equals>
+				  	<greater-than>
+				  		<property>engines/engine[0]/n2</property>
+						<value>88.5</value>
+				  	</greater-than>				  	
+			  	</or>
 		  	</and>
 		  	<not-equals>
 		  		<property>fdm/jsbsim/fcs/canopy/serviceable</property>

@@ -62,23 +62,55 @@
 	  <type>material</type>
 	  <condition>
 	  		<or>
-			  	<equals>
-			  		<property>gear/serviceable</property>
-					<value>0</value>
-			  	</equals>
-			  	<equals>
-			  		<property>fdm/jsbsim/gear/unit[0]/z-position</property>
-					<value>0.001</value>
-			  	</equals>
-			  	<equals>
-			  		<property>fdm/jsbsim/gear/unit[1]/z-position</property>
-					<value>0.001</value>
-			  	</equals>
-			  	<equals>
-			  		<property>fdm/jsbsim/gear/unit[2]/z-position</property>
-					<value>0.001</value>
-			  	</equals>			  				  	
-		  	</or>
+			  	<and>
+			  		<or>
+					  	<equals>
+					  		<property>gear/serviceable</property>
+							<value>0</value>
+					  	</equals>
+					  	<equals>
+					  		<property>fdm/jsbsim/gear/unit[0]/z-position</property>
+							<value>0.001</value>
+					  	</equals>
+					  	<equals>
+					  		<property>fdm/jsbsim/gear/unit[1]/z-position</property>
+							<value>0.001</value>
+					  	</equals>
+					  	<equals>
+					  		<property>fdm/jsbsim/gear/unit[2]/z-position</property>
+							<value>0.001</value>
+					  	</equals>  	
+				  	</or>
+					<equals>			  	
+				  		<property>sim/ja37/blink/ten-Hz/state</property>
+						<value>1</value>
+					</equals>
+				 </and>
+				 <and>
+					<not-equals>			  	
+				  		<property>gear/gear[0]/position-norm</property>
+						<value>1</value>
+					</not-equals>
+					<not-equals>			  	
+				  		<property>gear/gear[0]/position-norm</property>
+						<value>0</value>
+					</not-equals>
+				 </and>
+			  	<and>
+				  	<equals>
+				  		<property>fdm/jsbsim/gear/gear-cmd-norm</property>
+						<value>0</value>
+				  	</equals>
+				  	<equals>
+				  		<property>gear/gear[1]/wow</property>
+						<value>1</value>
+				  	</equals>
+					<equals>			  	
+				  		<property>sim/ja37/blink/ten-Hz/state</property>
+						<value>1</value>
+					</equals>
+				 </and>				 
+			</or>
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -225,6 +257,30 @@
 		  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
 				<value>0</value>
 		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
+	  <name>no reversing</name>
+	  <object-name>indicatorRight7</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<or>
+			  	<equals>
+			  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
+					<value>0</value>
+			  	</equals>
+			  	<less-than>
+			  		<property>systems/electrical/outputs/dc-voltage</property>
+					<value>23</value>
+			  	</less-than>		  	
+		  	</or>
 	  </condition>
 	  <emission>
 	    <red>1</red>

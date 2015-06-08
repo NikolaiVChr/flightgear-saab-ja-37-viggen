@@ -19,6 +19,7 @@ var warnCanopy = TRUE;
 var warnGenerator = TRUE;
 var warnHydr1 = TRUE;
 var warnHydr2 = TRUE;
+var warnCabin = TRUE;
 
 var mainOn = FALSE;
 var mainTimer = -1;
@@ -492,6 +493,17 @@ var update_loop = func {
         } else {
           warnHydr2 = TRUE;
         }
+        if (getprop("fdm/jsbsim/systems/flight/cabin-pressure-kpm2") < .15) {
+          warning = TRUE;
+          if (input.warnButton.getValue() == TRUE) {
+            warnCabin = FALSE;
+          }
+          if (warnCabin == TRUE) {
+            warning_sound = TRUE;
+          }
+        } else {
+          warnCabin = TRUE;
+        }
       }
         
       # Master warning
@@ -567,7 +579,7 @@ var update_loop = func {
     } else {
       setprop("sim/ja37/avionics/ignitionSys", FALSE);
     }
-    if (input.tank8Jettison.getValue() == FALSE and (getprop("controls/engines/engine[0]/starter-cmd") == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
+    if (input.tank8Jettison.getValue() == FALSE and input.tank8LvlGal.getValue() > 45 and (getprop("controls/engines/engine[0]/starter-cmd") == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
       setprop("sim/ja37/avionics/xtank", TRUE);
     } else {
       setprop("sim/ja37/avionics/xtank", FALSE);
@@ -579,7 +591,7 @@ var update_loop = func {
     }
 
     # joystick on indicator panel
-    if (main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
+    if ((main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) or getprop("fdm/jsbsim/systems/hydraulics/flight-surface-actuation") != 1) {
       setprop("sim/ja37/avionics/joystick", TRUE);
     } else {
       setprop("sim/ja37/avionics/joystick", FALSE);
