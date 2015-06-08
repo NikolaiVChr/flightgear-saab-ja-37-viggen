@@ -23,7 +23,6 @@
     <path>Aircraft/JA37/Models/Instruments/Chronometer/chronometer.xml</path>
     <name>Chronometer</name>
     <offsets>
-      <pitch-deg>90</pitch-deg>
       <x-m>  0.00</x-m>
       <y-m>  0.115</y-m>
       <z-m>  0.28</z-m>
@@ -178,8 +177,7 @@
     <path>Aircraft/JA37/Models/Instruments/Altimeter3/altimeter3.xml</path>
     <name>Coarse altitude</name>
     <offsets>
-      <!--<pitch-deg>90</pitch-deg>
-      <x-m> -0.0025</x-m>-->
+      <x-m>  0 </x-m>
       <y-m>  0.2575</y-m>
       <z-m>  0.11125</z-m>
     </offsets>

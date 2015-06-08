@@ -21,9 +21,9 @@
              <z-m>0</z-m>
             </center>
             <axis>
-                    <x>0</x>
+                    <x>-1</x>
                     <y>0</y>
-                    <z>-1</z>
+                    <z>0</z>
             </axis>
     </animation>
 
@@ -38,9 +38,9 @@
              <z-m>0</z-m>
             </center>
             <axis>
-                    <x>0</x>
+                    <x>-1</x>
                     <y>0</y>
-                    <z>-1</z>
+                    <z>0</z>
             </axis>
     </animation>
 
@@ -55,9 +55,9 @@
              <z-m>0</z-m>
             </center>
             <axis>
-                    <x>0</x>
+                    <x>-1</x>
                     <y>0</y>
-                    <z>-1</z>
+                    <z>0</z>
             </axis>
     </animation>
     <animation>
@@ -72,9 +72,9 @@
              <z-m>0</z-m>
             </center>
             <axis>
-                    <x>0</x>
+                    <x>-1</x>
                     <y>0</y>
-                    <z>-1</z>
+                    <z>0</z>
             </axis>
     </animation>
 
@@ -185,7 +185,7 @@
 
 <animation>
   <type>pick</type> 
-  <object-name>CLOCK_face</object-name>
+  <object-name>CLOCK_mount</object-name>
   <object-name>ChronoGlass</object-name>
   <hovered>
        <binding>
