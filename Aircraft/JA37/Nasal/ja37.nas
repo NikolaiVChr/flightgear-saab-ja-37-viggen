@@ -167,8 +167,6 @@ var update_loop = func {
       setprop("sim/ja37/avionics/uppf", FALSE);
     }
 
-    sim/ja37/avionics/uppf
-
     if (current > 0 and input.tank8LvlNorm.getValue() > 0) {
       bingoFuel = FALSE;
     } else {
@@ -569,7 +567,7 @@ var update_loop = func {
     } else {
       setprop("sim/ja37/avionics/ignitionSys", FALSE);
     }
-    if (getprop("controls/engines/engine[0]/starter-cmd") == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
+    if (input.tank8Jettison.getValue() == FALSE and (getprop("controls/engines/engine[0]/starter-cmd") == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
       setprop("sim/ja37/avionics/xtank", TRUE);
     } else {
       setprop("sim/ja37/avionics/xtank", FALSE);
