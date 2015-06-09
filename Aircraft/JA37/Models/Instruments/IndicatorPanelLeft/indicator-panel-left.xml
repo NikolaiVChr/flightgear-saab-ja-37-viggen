@@ -149,6 +149,10 @@
 		  		<property>engines/engine/reversed</property>
 				<value>1</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -251,6 +255,10 @@
 					<value>24</value>
 			  	</less-than>
 		  	</or>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -265,12 +273,14 @@
 	  <object-name>indicatorRight3</object-name>
 	  <type>material</type>
 	  <condition>
-		  	<or>
-			  	<equals>
-			  		<property>systems/electrical/serviceable</property>
-					<value>0</value>
-			  	</equals>
-		  	</or>
+		  	<equals>
+		  		<property>systems/electrical/serviceable</property>
+				<value>0</value>
+		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>			  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -289,6 +299,10 @@
 		  		<property>fdm/jsbsim/systems/hydraulics/system2/pressure-main</property>
 				<value>0</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -307,6 +321,10 @@
 		  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
 				<value>0</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -353,7 +371,11 @@
 		  	<equals>
 		  		<property>engines/engine/reversed</property>
 				<value>0</value>
-		  	</equals>		  	
+		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -372,6 +394,10 @@
 		  		<property>fdm/jsbsim/systems/hydraulics/system2/pressure-reserve</property>
 				<value>0</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -390,6 +416,10 @@
 		  		<property>engines/engine[0]/oil-pressure-psi</property>
 				<value>30</value>
 		  	</less-than>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>

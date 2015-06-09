@@ -13,6 +13,10 @@
 	  		<property>sim/ja37/avionics/joystick</property>
 			<value>1</value>
 	  	</equals>
+		<equals>			  	
+	  		<property>sim/ja37/blink/ten-Hz/state</property>
+			<value>1</value>
+		</equals>	  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -31,6 +35,10 @@
 	  		<property>sim/ja37/avionics/autopilot</property>
 			<value>1</value>
 	  	</equals>
+		<equals>			  	
+	  		<property>sim/ja37/blink/ten-Hz/state</property>
+			<value>1</value>
+		</equals>	  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -49,6 +57,10 @@
 	  		<property>sim/ja37/avionics/autopilot</property>
 			<value>1</value>
 	  	</equals>
+		<equals>			  	
+	  		<property>sim/ja37/blink/ten-Hz/state</property>
+			<value>1</value>
+		</equals>	  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -85,6 +97,10 @@
 		  		<property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
 				<value>0.15</value>
 		  	</less-than>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -129,6 +145,10 @@
 				<value>1</value>
 		  	</not-equals>
 	  	</or>
+		<equals>			  	
+	  		<property>sim/ja37/blink/ten-Hz/state</property>
+			<value>1</value>
+		</equals>	  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -147,6 +167,10 @@
 		  		<property>sim/ja37/avionics/ignitionSys</property>
 				<value>1</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -207,6 +231,10 @@
 					<value>0</value>
 			  	</equals>		  	
 		  	</or>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -240,10 +268,16 @@
 	  <type>material</type>
 	  <condition>
 	  	<or>
-		  	<not-equals>
-		  		<property>instrumentation/radar/serviceable</property>
-				<value>1</value>
-		  	</not-equals>
+	  		<and>
+			  	<not-equals>
+			  		<property>instrumentation/radar/serviceable</property>
+					<value>1</value>
+			  	</not-equals>
+				<equals>			  	
+			  		<property>sim/ja37/blink/ten-Hz/state</property>
+					<value>1</value>
+				</equals>
+			</and>		  	
 		  	<less-than>
 		  		<property>systems/electrical/outputs/dc-voltage</property>
 				<value>23</value>
@@ -309,6 +343,10 @@
 		      </not>
 	      	</and>
       	</or>
+		<equals>			  	
+	  		<property>sim/ja37/blink/ten-Hz/state</property>
+			<value>1</value>
+		</equals>      	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -327,6 +365,10 @@
 		  		<property>sim/ja37/avionics/oxygen</property>
 				<value>1</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -345,6 +387,10 @@
 		  		<property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
 				<value>800</value>
 		  	</greater-than>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -363,6 +409,10 @@
 		  		<property>sim/ja37/sound/fuel-low-on</property>
 				<value>1</value>
 		  	</equals>
+			<equals>			  	
+		  		<property>sim/ja37/blink/ten-Hz/state</property>
+				<value>1</value>
+			</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>

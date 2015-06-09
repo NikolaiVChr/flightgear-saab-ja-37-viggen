@@ -573,8 +573,8 @@ var update_loop = func {
     } else {
       setprop("sim/ja37/avionics/startSys", FALSE);
     }
-    if (getprop("controls/engines/engine[0]/starter-cmd") == TRUE and n2 < 57 and n2 > 13 and getprop("engines/engine[0]/thrust_lb") == 0) {
-      # manual says between 11-16% is goes on, so chose 13
+    if (getprop("controls/engines/engine[0]/cutoff") == FALSE and n2 < 57 and n2 > 16 and getprop("engines/engine[0]/thrust_lb") == 0) {
+      # manual says between 11-16% it goes on
       setprop("sim/ja37/avionics/ignitionSys", TRUE);
     } else {
       setprop("sim/ja37/avionics/ignitionSys", FALSE);
