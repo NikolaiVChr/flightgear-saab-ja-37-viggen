@@ -2,6 +2,8 @@
 <PropertyList>
     <path>indicator-panel-right.ac</path>
 
+    <!-- JA-37Di pilots Manual page 589 and forward Also bits of info scattered all over the document. -->
+
 	<animation>
 	  <name>Flghtstick</name>
 	  <object-name>indicatorLeft1</object-name>
@@ -195,10 +197,16 @@
 	  <object-name>indicatorRight2</object-name>
 	  <type>material</type>
 	  <condition>
-		  	<equals>
-		  		<property>sim/ja37/avionics/primaryData</property>
-				<value>1</value>
-		  	</equals>
+	  		<or>
+			  	<equals>
+			  		<property>sim/ja37/avionics/primaryData</property>
+					<value>1</value>
+			  	</equals>
+			  	<equals>
+			  		<property>instrumentation/head-up-display/serviceable</property>
+					<value>0</value>
+			  	</equals>		  	
+		  	</or>
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -209,7 +217,7 @@
 	</animation>
 
 	<animation>
-	  <name>TN</name>
+	  <name>Inertia navigation</name>
 	  <object-name>indicatorRight3</object-name>
 	  <type>material</type>
 	  <condition>
@@ -347,7 +355,7 @@
 	</animation>
 
 	<animation>
-	  <name>Bingo fuel</name>
+	  <name>low on fuel</name>
 	  <object-name>indicatorRight9</object-name>
 	  <type>material</type>
 	  <condition>

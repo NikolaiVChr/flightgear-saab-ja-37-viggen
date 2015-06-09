@@ -2,6 +2,8 @@
 <PropertyList>
     <path>indicator-panel-left.ac</path>
 
+    <!-- JA-37Di pilots Manual page 589 and forward. Also bits of info scattered all over the document. -->
+
 	<animation>
 	  <name>Fuel flow distributor</name>
 	  <object-name>indicatorLeft3</object-name>
