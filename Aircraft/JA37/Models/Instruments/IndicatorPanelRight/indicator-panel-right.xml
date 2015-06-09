@@ -231,10 +231,20 @@
 	  <object-name>indicatorRight4</object-name>
 	  <type>material</type>
 	  <condition>
+	  	<or>
 		  	<not-equals>
 		  		<property>instrumentation/radar/serviceable</property>
 				<value>1</value>
 		  	</not-equals>
+		  	<less-than>
+		  		<property>systems/electrical/outputs/dc-voltage</property>
+				<value>23</value>
+		  	</less-than>
+		  	<not-equals>
+		  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
+				<value>1</value>
+		  	</not-equals>
+		 </or>
 	  </condition>
 	  <emission>
 	    <red>1</red>

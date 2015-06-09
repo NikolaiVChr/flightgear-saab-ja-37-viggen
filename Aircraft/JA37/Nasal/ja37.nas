@@ -584,11 +584,6 @@ var update_loop = func {
     } else {
       setprop("sim/ja37/avionics/xtank", FALSE);
     }
-    if (getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
-      setprop("sim/ja37/avionics/tankpump", TRUE);
-    } else {
-      setprop("sim/ja37/avionics/tankpump", FALSE);
-    }
 
     # joystick on indicator panel
     if ((main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) or getprop("fdm/jsbsim/systems/hydraulics/flight-surface-actuation") != 1) {

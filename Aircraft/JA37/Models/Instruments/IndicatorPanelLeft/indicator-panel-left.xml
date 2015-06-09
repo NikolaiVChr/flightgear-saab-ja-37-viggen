@@ -3,14 +3,20 @@
     <path>indicator-panel-left.ac</path>
 
 	<animation>
-	  <name>Brä uppf</name>
+	  <name>Fuel flow distributor</name>
 	  <object-name>indicatorLeft3</object-name>
 	  <type>material</type>
 	  <condition>
-		  	<equals>
-		  		<property>sim/ja37/avionics/uppf</property>
-				<value>1</value>
-		  	</equals>
+	  		<or>
+			  	<equals>
+			  		<property>sim/ja37/avionics/uppf</property>
+					<value>1</value>
+			  	</equals>
+			  	<equals>
+			  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
+					<value>0</value>
+			  	</equals>
+		  	</or>
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -39,14 +45,16 @@
 	</animation>
 
 	<animation>
-	  <name>Tank pump</name>
+	  <name>Fuel pump</name>
 	  <object-name>indicatorLeft5</object-name>
 	  <type>material</type>
 	  <condition>
-		  	<equals>
-		  		<property>sim/ja37/avionics/tankpump</property>
-				<value>1</value>
-		  	</equals>
+		  	<or>
+			  	<less-than>
+			  		<property>systems/electrical/outputs/ac-main-voltage</property>
+					<value>150</value>
+			  	</less-than>
+		  	</or>
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -121,6 +129,34 @@
 	</animation>
 
 	<animation>
+	  <name>no forward thrust</name>
+	  <object-name>indicatorLeft7</object-name>
+	  <type>material</type>
+	  <condition>
+		  	<or>
+			  	<equals>
+			  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
+					<value>0</value>
+			  	</equals>
+			  	<less-than>
+			  		<property>systems/electrical/outputs/dc-voltage</property>
+					<value>23</value>
+			  	</less-than>		  	
+		  	</or>
+		  	<equals>
+		  		<property>engines/engine/reversed</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+	<animation>
 	  <name>front gear</name>
 	  <object-name>indicatorLeft8</object-name>
 	  <type>material</type>
@@ -129,6 +165,10 @@
 		  		<property>gear/gear[0]/position-norm</property>
 				<value>1</value>
 		  	</equals>
+		  	<not-equals>
+		  		<property>fdm/jsbsim/gear/unit[0]/z-position</property>
+				<value>0.001</value>
+		  	</not-equals>
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -147,6 +187,10 @@
 		  		<property>gear/gear[1]/position-norm</property>
 				<value>1</value>
 		  	</equals>
+		  	<not-equals>
+		  		<property>fdm/jsbsim/gear/unit[1]/z-position</property>
+				<value>0.001</value>
+		  	</not-equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -165,6 +209,10 @@
 		  		<property>gear/gear[2]/position-norm</property>
 				<value>1</value>
 		  	</equals>
+		  	<not-equals>
+		  		<property>fdm/jsbsim/gear/unit[2]/z-position</property>
+				<value>0.001</value>
+		  	</not-equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
@@ -267,6 +315,25 @@
 	</animation>
 
 	<animation>
+	  <name>A/P</name>
+	  <object-name>indicatorRight6</object-name>
+	  <type>material</type>
+	  <condition>
+			<equals>
+		  		<property>sim/ja37/avionics/autopilot</property>
+				<value>1</value>
+		  	</equals>
+	  </condition>
+	  <emission>
+	    <red>1</red>
+	    <green>1</green> 
+	    <blue>1</blue>
+	    <factor-prop>controls/lighting/instruments-norm</factor-prop>
+	  </emission>
+	</animation>
+
+
+	<animation>
 	  <name>no reversing</name>
 	  <object-name>indicatorRight7</object-name>
 	  <type>material</type>
@@ -281,6 +348,10 @@
 					<value>23</value>
 			  	</less-than>		  	
 		  	</or>
+		  	<equals>
+		  		<property>engines/engine/reversed</property>
+				<value>0</value>
+		  	</equals>		  	
 	  </condition>
 	  <emission>
 	    <red>1</red>
