@@ -6,7 +6,7 @@
 
 *************************************************************************-->   
 
-<PropertyList>
+<PropertyList include="Aircraft/JA37/Systems/ja37-engines-off.xml"><!-- change this to 'on' for fast debugging -->
   <sim>
     <description>Saab JA-37 Viggen</description>
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
@@ -694,8 +694,8 @@
      </key>
      <key>
       <name>Backspace</name>
-  		<desc>Toggle thrust reverser</desc>
-  	 </key>
+      <desc>Toggle thrust reverser</desc>
+     </key>
      <key>
       <name>Ctrl-f</name>
       <desc>Hold down to trigger flare release</desc>
@@ -1345,8 +1345,6 @@
   </armament>
   <engines>
     <engine n="0">
-      <starter-cmd type="bool">false</starter-cmd>
-      <cutoff type="bool">true</cutoff>
       <reverse-system>
         <serviceable type="bool">true</serviceable>
       </reverse-system>
@@ -1359,8 +1357,6 @@
     </launchbar>
   </gear>
   <electric>
-    <main type="bool">false</main>
-    <battery type="bool">false</battery>
     <lights-ext-switch type="bool">true</lights-ext-switch>
     <lights-land-switch type="bool">true</lights-land-switch>
   </electric>
@@ -1475,7 +1471,6 @@
 *************************************************************************-->
  <engines>
   <engine n="0">
-   <running type="bool">false</running>
    <reverser-pos-norm type="double">0</reverser-pos-norm>
    <reverser-position type="double">0.000000</reverser-position>
   </engine>
@@ -1978,9 +1973,6 @@
     <serviceable type="bool">true</serviceable>
   </instrumentation-light>
   <switches>
-    <generator>
-      <pos type="int">0</pos>
-    </generator>
     <inst-light-knob>
       <pos alias="/instrumentation/instrumentation-light/serviceable"/>
     </inst-light-knob>
