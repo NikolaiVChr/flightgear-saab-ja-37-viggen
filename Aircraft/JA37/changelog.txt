@@ -1636,3 +1636,4 @@ Model: {JazzTp} Made a generic gauge with glass front and needle mount.
 Model: Generic gauge is now used for all gauges that just have a dial and 1 needle.
 Model: Fixed that the switch for gears up/down was reversed.
 Sim: When battery autostart fail due to drained battery, that is now hinted at in popuptip.
+Model: Made rudder pedals look more like the real ones and textured them.
