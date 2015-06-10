@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<PropertyList>
+
+	
+	<!--**********************************************************************
+
+                                          Help
+
+
+*************************************************************************-->
+    <help>
+     <title>Saab JA-37 Viggen</title>
+     <key>
+      <name>s</name>
+      <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
+     </key>
+     <key>
+      <name>Backspace</name>
+      <desc>Toggle thrust reverser</desc>
+     </key>
+     <key>
+      <name>Ctrl-f</name>
+      <desc>Hold down to trigger flare release</desc>
+     </key>
+     <key>
+      <name>e</name>
+      <desc>Fire selected weapon</desc>
+     </key>
+     <key>
+      <name>CTRL-5</name>
+      <desc>Select cannon</desc>
+     </key>
+     <key>
+      <name>CTRL-1..4</name>
+      <desc>Select missiles</desc>
+     </key>
+     <key>
+      <name>J</name>
+      <desc>Jettison Drop tank in flight</desc>
+     </key>
+     <key>
+      <name>Del</name>
+      <desc>Yaw damper on/off</desc>
+     </key>
+     <key>
+      <name>Shift Del</name>
+      <desc>Pitch damper on/off</desc>
+     </key>
+     <key>
+      <name>Ctrl Del</name>
+      <desc>Roll damper on/off</desc>
+     </key>
+     <key>
+      <name>o</name>
+      <desc>Toggle canopy</desc>
+     </key>
+     <key>
+      <name>H</name>
+      <desc>HUD Brightness</desc>
+     </key>
+     <key>
+      <name>h</name>
+      <desc>Toggle masterarm</desc>
+     </key>
+     <key>
+      <name>I</name>
+      <desc>Toggle HUD units. Metric/imperial.</desc>
+     </key>
+     <key>
+      <name>c</name>
+      <desc>Cycle weapons</desc>
+     </key>
+     <key>
+      <name>P</name>
+      <desc>Toggle custom/FG HUD</desc>
+     </key>
+     <key>
+      <name>M</name>
+      <desc>Toggle nose wheel steering</desc>
+     </key>
+     <key>
+      <name>r</name>
+      <desc>Toggle radar</desc>
+     </key>
+     <key>
+      <name>f</name>
+      <desc>Set autopilot to follow current selection</desc>
+     </key>
+     <key>
+      <name>F</name>
+      <desc>Set autopilot to stop follow</desc>
+     </key>
+     <key>
+      <name>S</name>
+      <desc>Cycle smoke. Off, Yellow or Blue</desc>
+     </key>
+     <key>
+      <name>i</name>
+      <desc>Toggle HUD to show type or callsign on radar tracks</desc>
+     </key>
+     <key>
+      <name>n</name>
+      <desc>Cycle next radar track selection</desc>
+     </key>
+     <key>
+      <name>N</name>
+      <desc>Select radar track center most in HUD</desc>
+     </key>
+     <key>
+      <name>Ctrl Shift a</name>
+      <desc>Continue on current heading, speed and altitude with A/P</desc>
+     </key>
+     <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
+      <name>L</name>
+      <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
+     </key>
+     <key>
+      <name>C</name>
+      <desc>Carrier catapult launch</desc>
+     </key>
+     <key>
+      <name>l</name>
+      <desc>Toggle arrester hook</desc>
+     </key>
+     <key>
+      <name>Shift-backspace</name>
+      <desc>Reload A/P</desc>
+     </key>
+     <key>
+      <name>m</name>
+      <desc>Toggle configure HUD for final approach</desc>
+     </key> -->
+     <text>
+      Startup
+      _______
+      Start up engine and systems
+      Wait for the engine to spool up and generator to turn on.
+      Calibrate the altimeter.
+      Apply full throttle with afterburner.
+      Release parking brakes.
+      
+      Takeoff
+      _______
+      Mind the sidewind indicator in the HUD.
+      Pull back on the stick when the distance scale upper marker is aligned with the lower.
+      Takeoff at 315 km/h. (170 kt)
+
+      Landing
+      _______
+      Land with speeds within 195-249km/h. (105-134 kt) and an Angle of Attack of 16.5 degrees.
+      Deploy reverse thrust and brakes after touchdown.
+
+      Landing with ILS or TILS
+      ________________________
+      Below the HUD horizon line is a line with a dot in the middle. When within ILS range, align the dot in the center and keep the flight path indicator on it. Close to that same line is also 4 vertical lines, align the top of those to the horizontal line (not the horizon line).
+      The heading bug will indicate the touchdown spot.
+
+      Flaps
+      _____
+      The JA-37 control the flaps automatically.
+      At takeoff and landing it will set flaps to 30 degrees down.
+      In flight it will be set at 4 degrees up.    
+
+      Afterburner stages
+      __________________
+      The afterburner has 3 stages, the throttle controls this. Throttle position 94% = stage 1, 96% = stage 2, 98% = stage 3
+      The nozzle indicator alternate as a afterburner stage indicator.
+
+      HUD info
+      ________
+      The HUD uses Km/h and meters, but this can be switched to imperial with 'I'.
+      The HUD switches automatically between takeoff, landing, navigation and tactical mode.
+      An exception is when landing mode switch is activated, that will force landing mode, when not in takeoff mode.
+      When in takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
+      The vertical tail on the flight path indicator will move/blink according to AoA.
+      In tactical mode when the cannon is selected, a fixed crosshair will appear.
+      In tactical mode the reticle change if out of ammo.
+      The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
+      If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
+      If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
+      The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number. If using imperial units, it will show mach number and knots at same time.
+      The artificial horizon and pitch lines are spaced 5 degrees.
+      To the right is a altimeter scale, below 100 meter the scale will become more detailed and below 50 even more. Above 1000, one floating point decimal precision.
+      On the altimeter the symbol '77' indicates where radar altimeter detects the ground to be below plane centerline.
+      Next to '0' on the alt scale a '|' symbol will appear if the radar altimeter ground is higher than the altimeter 0.
+      The heading at the top is shown as a scale showing 1/10 of heading in degrees. The scale will move to the hozizon line in landing mode.
+      Radar tracks are shown as semi-circles, the nearest will also show callsign and distance. In tactical mode the selected radar track is the target, and will be shown as a semi-box, it will change to a diamond with missile lock.
+      Nearest tower is shown as a small diamond, with ICAO and distance. It will not be shown in tactical mode though.
+      
+      Warnings
+      ________
+      Deploying gear above 30 meters at high and medium speeds will produce a powerful pitch up moment.
+      The Swedish Airforce forbids flying in superstall regime, so make sure the control tower do not catch you doing that. :)
+      Beware trying to land if the gears are damaged.
+      If you try to extend the gears at high speed they won't extend till you get into lower speeds. The limit is 0.65M or 620Km/h (335KTS).
+      The gears will not retract on the runway.
+
+      Automatic Thrust reversing
+      __________________________
+      This can be enabled in the JA37-Options menu. It will enable the reverse thrust when you touch down with all 3 gears.
+      If you take off from a rough strip or without runway, the ground bumpiness will enable this and prevent you from taking off. So in that case I recommend switching it off.
+
+      Using autopilot to follow target
+      ________________________________
+      The HUD must turned on and a something selected.
+      Press 'f'. Then the auto-pilot will enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
+      If the target changes during the intercept, it will not switch to the new target.
+      To stop, press 'F' and disable autopilot control. Or select another and press 'f' again to follow that instead.
+
+      Using the Selection View
+      ________________________
+      This view will keep the Viggen in view while at the same time pointing the camera at the selected entity.
+      Do not rotate the camera in this view, that will ruin its ability to track the selection. You can however zoom without a problem.
+
+      Repairing
+      _________
+      In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are many systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
+
+      Liveries
+      ________
+      Livery 59, uses half the texture memory of the other liveries.
+
+      Trivia
+      ______
+      This is the mid 80'ties version. So it has no airbrake
+      400 meter runway is required to takeoff.
+      500 meter runway is required to land.
+      Climb to 10,000m from brakes off in less than 100 seconds.
+      Supersonic speed at low altitude in less than 60 seconds from take-off.
+      Mach 1.25 at 100m altitude.
+      Maximum speed: Mach 2+ at 11,000m alt (36,000 ft).
+      Service ceiling: 18,300 m (60,000 ft)
+      From mach 0.6 till 0.8 it accelerates faster than F-16A. (tested against a Danish F-16A)
+      
+      Notes:
+      _____
+      Hangar homepage: https://sites.google.com/site/fghangar
+      </text>
+    </help>
+</PropertyList>
