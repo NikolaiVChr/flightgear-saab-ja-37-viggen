@@ -1289,6 +1289,7 @@ var final_engine = func () {
     setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+    setprop("/controls/electric/battery", TRUE);
     autostarting = FALSE;    
   } else {
     settimer(final_engine, 0.5, 1);

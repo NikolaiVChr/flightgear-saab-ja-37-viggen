@@ -8,7 +8,6 @@
 
 
 *************************************************************************-->
-    <help>
      <title>Saab JA-37 Viggen</title>
      <key>
       <name>s</name>
@@ -236,5 +235,4 @@
       _____
       Hangar homepage: https://sites.google.com/site/fghangar
       </text>
-    </help>
 </PropertyList>

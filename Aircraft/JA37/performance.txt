@@ -49,7 +49,7 @@ Corner speed assuming 7 G is operational limit                 [v3.021 - 275 KT]
 
 Note:
 -----
-Some of these values, especially those which come from early sources is likely to be understatements, due to their classified nature at the time they were released.
+Some of these values, especially those which come from early sources is likely to be over/understatements, due to their classified nature at the time they were released.
 
 
 Book - System 37: Viggen by Svensk Flyghistorisk Förening 
