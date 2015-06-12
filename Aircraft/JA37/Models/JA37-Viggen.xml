@@ -297,14 +297,14 @@
   <type>rotate</type>
   <object-name>reverser1</object-name>
   <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
-  <factor>55.0</factor>
+  <factor>50.0</factor>
   <axis>   
    <x1-m> 6.15 </x1-m>
-   <y1-m> -0.4278 </y1-m>
-   <z1-m> -0.4278 </z1-m>
+   <y1-m> -0.41069 </y1-m>
+   <z1-m> -0.41069 </z1-m>
    <x2-m> 6.15 </x2-m>
-   <y2-m> -0.15659 </y2-m>
-   <z2-m> -0.58439 </z2-m>
+   <y2-m> -0.15032 </y2-m>
+   <z2-m> -0.56101 </z2-m>
   </axis>
  </animation>
 
@@ -312,14 +312,14 @@
   <type>rotate</type>
   <object-name>reverser2</object-name>
   <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
-  <factor>-55.0</factor>
+  <factor>50.0</factor>
   <axis>   
    <x1-m> 6.15 </x1-m>
-   <y1-m> 0.58439 </y1-m>
-   <z1-m> 0.15659 </z1-m>
+   <y1-m> 0.56101 </y1-m>
+   <z1-m> -0.15033 </z1-m>
    <x2-m> 6.15 </x2-m>
-   <y2-m> 0.58439 </y2-m>
-   <z2-m> -0.15659 </z2-m>
+   <y2-m> 0.56101 </y2-m>
+   <z2-m> 0.15033 </z2-m>
   </axis>
  </animation>
 
@@ -327,26 +327,37 @@
   <type>rotate</type>
   <object-name>reverser3</object-name>
   <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
-  <factor>-55.0</factor>
+  <factor>50.0</factor>
   <axis>   
    <x1-m> 6.15 </x1-m>
-   <y1-m> -0.4278 </y1-m>
-   <z1-m> 0.4278 </z1-m>
+   <y1-m> -0.15033 </y1-m>
+   <z1-m> 0.56101 </z1-m>
    <x2-m> 6.15 </x2-m>
-   <y2-m> -0.15659 </y2-m>
-   <z2-m> 0.58439 </z2-m>
+   <y2-m> -0.41069 </y2-m>
+   <z2-m> 0.41069 </z2-m>
   </axis>
  </animation>
+
+<!--<animation> 
+  <type>material</type>
+  <object-name>reverser1</object-name>
+  <object-name>reverser2</object-name>
+  <object-name>reverser3</object-name>
+  <transparency>
+    <factor-prop>sim/multiplay/generic/float[19]</factor-prop>
+    <alpha>1</alpha>
+  </transparency>
+</animation> -->
 
 <animation>
   <type>scale</type>
   <object-name>reverser1</object-name>
   <object-name>reverser2</object-name>
   <object-name>reverser3</object-name>
-  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <property>sim/multiplay/generic/float[19]</property>
   <interpolation>
    <entry>
-    <ind> 0.95 </ind>
+    <ind> 0.99 </ind>
     <dep> 1.00 </dep>
    </entry>
    <entry>
