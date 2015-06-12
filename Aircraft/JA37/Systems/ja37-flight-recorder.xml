@@ -73,6 +73,10 @@
           <property type="string">canopy/position-norm</property>
         </signal>
         <signal>
+          <type>float</type>
+          <property type="string">engines/engine/reverser-position</property>
+        </signal>
+        <signal>
           <type>bool</type>
           <property type="string">fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
         </signal>

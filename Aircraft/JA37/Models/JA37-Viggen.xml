@@ -135,6 +135,9 @@
     <object-name>gearLeftScissorBottom</object-name>
     <object-name>gearFrontScissorTop</object-name>
     <object-name>gearFrontScissorBottom</object-name>
+    <object-name>reverser1</object-name>
+    <object-name>reverser2</object-name>
+    <object-name>reverser3</object-name>
   </effect>
 
   <effect>  
@@ -289,6 +292,85 @@
   <object-name>hud</object-name>
   <object-name>hudStruts</object-name>
 </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>reverser1</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <factor>55.0</factor>
+  <axis>   
+   <x1-m> 6.15 </x1-m>
+   <y1-m> -0.4278 </y1-m>
+   <z1-m> -0.4278 </z1-m>
+   <x2-m> 6.15 </x2-m>
+   <y2-m> -0.15659 </y2-m>
+   <z2-m> -0.58439 </z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>reverser2</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <factor>-55.0</factor>
+  <axis>   
+   <x1-m> 6.15 </x1-m>
+   <y1-m> 0.58439 </y1-m>
+   <z1-m> 0.15659 </z1-m>
+   <x2-m> 6.15 </x2-m>
+   <y2-m> 0.58439 </y2-m>
+   <z2-m> -0.15659 </z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>reverser3</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <factor>-55.0</factor>
+  <axis>   
+   <x1-m> 6.15 </x1-m>
+   <y1-m> -0.4278 </y1-m>
+   <z1-m> 0.4278 </z1-m>
+   <x2-m> 6.15 </x2-m>
+   <y2-m> -0.15659 </y2-m>
+   <z2-m> 0.58439 </z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>scale</type>
+  <object-name>reverser1</object-name>
+  <object-name>reverser2</object-name>
+  <object-name>reverser3</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <interpolation>
+   <entry>
+    <ind> 0.95 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 1.00 </ind>
+    <dep> 0.01 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  6.5 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
 
 <!-- Control surfaces -->
 

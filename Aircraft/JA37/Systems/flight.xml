@@ -272,6 +272,16 @@
         </function>
      </fcs_function>
 
+    <fcs_function name="names/flight/reverser-position">
+        <function>
+              <difference>
+                <value>1</value>
+                <property>/engines/engine/reverser-pos-norm</property>
+              </difference>
+        </function>
+        <output>/engines/engine/reverser-position</output>
+     </fcs_function>
+
   </channel>
 
 </system>
