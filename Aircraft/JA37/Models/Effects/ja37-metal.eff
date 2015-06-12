@@ -5,11 +5,12 @@
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
      <reflection-enabled type="int">1</reflection-enabled>
-     <reflection-correction type="float">0.5</reflection-correction>
+     <reflection-correction type="float">0.0</reflection-correction>
      <reflection-fresnel type="float">0.0</reflection-fresnel>
 
      <reflection-rainbow type="float">0.1</reflection-rainbow>
      <reflection-noise type="float">0.5</reflection-noise>
+     <reflection-dynamic type="int">1</reflection-dynamic>
 
      <ambient-correction type="float">0.0</ambient-correction>
 
@@ -17,16 +18,17 @@
      <dirt-factor type="float">0.0</dirt-factor>
      <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
 
-   <texture n="5"> <!-- reflection env. map -->
-     <type>cubemap</type>
-     <images>
-       <positive-x>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-x>
-       <negative-x>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-x>
-       <positive-y>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-y>
-       <negative-y>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-y>
-       <positive-z>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-z>
-       <negative-z>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-z>
-     </images>
-   </texture>
+    <!-- env. reflect skymap -->
+    <texture n="5">
+      <type>cubemap</type>
+      <images>
+          <positive-x>Aircraft/Generic/Effects/fgfs-sky2/1.png</positive-x>
+          <negative-x>Aircraft/Generic/Effects/fgfs-sky2/4.png</negative-x>
+          <positive-y>Aircraft/Generic/Effects/fgfs-sky2/2.png</positive-y>
+          <negative-y>Aircraft/Generic/Effects/fgfs-sky2/3.png</negative-y>
+          <positive-z>Aircraft/Generic/Effects/fgfs-sky2/6.png</positive-z>
+          <negative-z>Aircraft/Generic/Effects/fgfs-sky2/5.png</negative-z>
+      </images>
+    </texture>
  </parameters>
 </PropertyList>

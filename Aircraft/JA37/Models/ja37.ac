@@ -93391,7 +93391,7 @@ kids 0
 OBJECT poly
 name "gearFrontBottom"
 loc -6.4390821 1.0093951 -0.0000935
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 24
@@ -95873,7 +95873,7 @@ kids 0
 OBJECT poly
 name "gearFrontOleoStrut"
 loc -6.4390821 1.1593951 -0.0000935
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 24
@@ -97329,7 +97329,7 @@ kids 0
 OBJECT poly
 name "gearFrontWheel"
 loc -6.2518601 0.0000000 -0.0000935
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 1010
@@ -109183,7 +109183,7 @@ kids 0
 OBJECT poly
 name "gearLeftWheel1"
 loc 0.0000000 0.0000000 -0.1800000
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 505
@@ -112865,7 +112865,7 @@ kids 0
 OBJECT poly
 name "gearLeftWheel2"
 loc 0.0000000 0.0000000 -0.1800000
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 505
@@ -121106,7 +121106,7 @@ kids 0
 OBJECT poly
 name "gearRightWheel1"
 loc 0.0000000 0.0000000 0.1800000
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 505
@@ -124788,7 +124788,7 @@ kids 0
 OBJECT poly
 name "gearRightWheel2"
 loc 0.0000000 0.0000000 0.1800000
-crease 30.000000834826057
+crease 40.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 505
