@@ -1640,3 +1640,4 @@ Model: Made rudder pedals look more like the real ones and textured them.
 Sim: Made a switch, by using it, Flightgear will load ja37 up with engine running, ready for takeoff. Use for fast debugging/testing.
 Sim: Moved help, input and flight-recorder settings into own files.
 Sim: Autostart with ext. power now will also switch on the battery.
+Model: Added a proper reverse thrust handle.

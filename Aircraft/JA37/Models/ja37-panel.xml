@@ -473,11 +473,11 @@
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
-    <name>Reverse</name>
+    <name>Reverse indicator</name>
     <offsets>
       <x-m>  0.01</x-m>
-      <y-m> -0.25</y-m>
-      <z-m>  0.11</z-m>
+      <y-m> -0.26</y-m>
+      <z-m>  0.13</z-m>
     </offsets>
   </model>
 
@@ -486,18 +486,18 @@
     <name>SwitchReverserAuto</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.27</y-m>
-      <z-m>  0.13</z-m>
+      <y-m> -0.26</y-m>
+      <z-m>  0.11</z-m>
     </offsets>
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-reverser.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/reverseHandle.xml</path>
     <name>SwitchReverser</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.27</y-m>
-      <z-m>  0.11</z-m>
+      <y-m> -0.26</y-m>
+      <z-m>  0.145</z-m>
     </offsets>
   </model>
 
