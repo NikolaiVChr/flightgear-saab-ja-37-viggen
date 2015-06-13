@@ -3726,7 +3726,7 @@ loc -0.2500000 -2.0999999 0.0000000
 kids 62
 OBJECT poly
 name "canopy"
-crease 30.000000834826057
+crease 95.000000834826057
 texture "j37_texture.png"
 texrep 1 1
 numvert 230

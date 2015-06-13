@@ -125,9 +125,8 @@ Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)
 Require modeling/texture skills (above my level):
 -------------------------------------------------
 Model: Model proper panels and cockpit layout.
-Model: Put in more working instruments and controls. (semi doable if can find similar instrument in other plane, but too many to look through)
+Model: Put in more working instruments and controls.
 Animation: Proper animation of gear doors.
-Model: Model the reverser for reverse thrust.
 Model: Make gunpod, between the fuselage and droptank.
 Model: The canopy metal should be thinner.
 
