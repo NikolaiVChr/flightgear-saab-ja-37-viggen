@@ -6,7 +6,7 @@
 
 *************************************************************************-->   
 
-<PropertyList include="Aircraft/JA37/Systems/ja37-engines-off.xml"><!-- change this to 'on' for fast testing/debugging -->
+<PropertyList include="Systems/ja37-engines-off.xml"><!-- change this to 'on' for fast testing/debugging -->
   <sim>
     <description>Saab JA-37 Viggen</description>
     <author>Anders Lejczak (3D Model and Textures), Nikolai V. Chr. (rest)</author>
@@ -112,7 +112,7 @@
 
 *************************************************************************-->   
 
-    <flight-recorder include="Aircraft/JA37/Systems/ja37-flight-recorder.xml"/>
+    <flight-recorder include="Systems/ja37-flight-recorder.xml"/>
     
     <sound>
      <path>Aircraft/JA37/Systems/ja37-sound.xml</path>
@@ -414,7 +414,7 @@
 
 
 
-    <help include="Aircraft/JA37/Systems/ja37-help.xml"/>
+    <help include="Systems/ja37-help.xml"/>
     <checklists include="Systems/ja37-checklists.xml"/>
 
 
@@ -983,7 +983,7 @@
 
 
 *************************************************************************--> 
- <input include="Aircraft/JA37/Systems/ja37-input.xml"/>
+ <input include="Systems/ja37-input.xml"/>
  
 
 <!--**********************************************************************
@@ -1142,6 +1142,6 @@
     </armament>  
     <formation>
       <file>Aircraft/JA37/Nasal/formation.nas</file>
-    </formation>  
+    </formation>
   </nasal>
 </PropertyList>

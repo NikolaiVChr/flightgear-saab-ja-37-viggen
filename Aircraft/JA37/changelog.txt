@@ -1642,3 +1642,4 @@ Sim: Moved help, input and flight-recorder settings into own files.
 Sim: Autostart with ext. power now will also switch on the battery.
 Model: Added a proper reverse thrust handle.
 Model: Added 3 reverser doors to the engine.
+Sim: Increased lower G limit for detaching wings.
