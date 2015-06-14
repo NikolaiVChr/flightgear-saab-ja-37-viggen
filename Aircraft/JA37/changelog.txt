@@ -1643,4 +1643,6 @@ Sim: Autostart with ext. power now will also switch on the battery.
 Model: Added a proper reverse thrust handle.
 Model: Added 3 reverser doors to the engine.
 Sim: Increased lower G limit for detaching wings.
-Model: Increased crease angle on canopy. (as a test for now)
+Model: All flight control surfaces are now single sided and gaps have been closed.
+Model: Various parts of the model that were flat shaded is now smooth shaded.
+Model: Parts of the model is now creased at more than 30 degrees depending on need.

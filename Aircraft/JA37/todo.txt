@@ -16,8 +16,14 @@ Model: Proper pilot seat.
 Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
-Model: Elevons should be double sided or have geometry on all edges.
 Model: Ext. power truck more mil style textures.
+Model: Fix that left flap on the outside has UV texturing that overlap, thus being shaded dark.
+Model: Model proper panels and cockpit layout.
+Model: Put in more working instruments and controls.
+Model: Make gunpod, between the fuselage and droptank.
+Model: The canopy metal should be thinner.
+Animation: Show wheels spinning in MP also.
+Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties.
 Sim: Implement ejection seat. (with parachute?)
@@ -48,7 +54,6 @@ Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Animation: Show wheels spinning in MP also.
 Sound: More annunciater warnings and other sounds.
 Sound: Make sounds when taking damage in bombable.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
@@ -120,15 +125,6 @@ Model: Improve the Flightgear livery.
 Model: Make the 11-16 black/grey camo livery.
 Model: Make the 12-04 black and gold livery.
 Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)
-
-
-Require modeling/texture skills (above my level):
--------------------------------------------------
-Model: Model proper panels and cockpit layout.
-Model: Put in more working instruments and controls.
-Animation: Proper animation of gear doors.
-Model: Make gunpod, between the fuselage and droptank.
-Model: The canopy metal should be thinner.
 
 
 Depends on better 3D cockpit:
