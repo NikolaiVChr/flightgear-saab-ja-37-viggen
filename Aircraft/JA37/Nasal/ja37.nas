@@ -114,6 +114,26 @@ input = {
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   breathVol:        "sim/ja37/sound/breath-volume",
   impact:           "/ai/models/model-impact",
+  fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
+  hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
+  hydr2On:          "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
+  hydrCombined:     "fdm/jsbsim/systems/hydraulics/flight-surface-actuation",
+  lampFuelDistr:    "sim/ja37/avionics/uppf",
+  canopyPos:        "canopy/position-norm",
+  speedWarn:        "sim/ja37/sound/speed-on",
+  cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
+  elecMain:         "controls/electric/main",
+  lampData:         "sim/ja37/avionics/primaryData",
+  lampInertiaNav:   "sim/ja37/avionics/TN",
+  lampStart:        "sim/ja37/avionics/startSys",
+  cutoff:           "controls/engines/engine[0]/cutoff",
+  lampIgnition:     "sim/ja37/avionics/ignitionSys",
+  starter:          "controls/engines/engine[0]/starter-cmd",
+  lampXTank:        "sim/ja37/avionics/xtank",
+  lampStick:        "sim/ja37/avionics/joystick",
+  lampOxygen:       "sim/ja37/avionics/oxygen",
+  generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
+  lampCanopy:       "sim/ja37/avionics/canopyAndSeat",
 };
    
 var update_loop = func {
@@ -162,10 +182,11 @@ var update_loop = func {
       input.fuelWarning.setValue(FALSE);
     }
 
-    if((current / total_fuel) > 0.40 and getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0) {
-      setprop("sim/ja37/avionics/uppf", TRUE);
+    if((current / total_fuel) > 0.40 and input.hydr1On.getValue() == 0) {
+      # fuel flow distributor lamp
+      input.lampFuelDistr.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/uppf", FALSE);
+      input.lampFuelDistr.setValue(FALSE);
     }
 
     if (current > 0 and input.tank8LvlNorm.getValue() > 0) {
@@ -449,7 +470,7 @@ var update_loop = func {
         } else {
           warnEngineOff = TRUE;
         }
-        if (getprop("canopy/position-norm") > 0) {
+        if (input.canopyPos.getValue() > 0) {
           warning = TRUE;
           if (input.warnButton.getValue() == TRUE) {
             warnCanopy = FALSE;
@@ -471,7 +492,7 @@ var update_loop = func {
         } else {
           warnGenerator = TRUE;
         }
-        if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") != 1) {
+        if (input.hydr1On.getValue() != 1) {
           warning = TRUE;
           if (input.warnButton.getValue() == TRUE) {
             warnHydr1 = FALSE;
@@ -482,7 +503,7 @@ var update_loop = func {
         } else {
           warnHydr1 = TRUE;
         }
-        if (getprop("fdm/jsbsim/systems/hydraulics/system2/pressure-main") != 1) {
+        if (input.hydr2On.getValue() != 1) {
           warning = TRUE;
           if (input.warnButton.getValue() == TRUE) {
             warnHydr2 = FALSE;
@@ -493,7 +514,7 @@ var update_loop = func {
         } else {
           warnHydr2 = TRUE;
         }
-        if (getprop("fdm/jsbsim/systems/flight/cabin-pressure-kpm2") < .15) {
+        if (input.cabinPressure.getValue() < .15) {
           warning = TRUE;
           if (input.warnButton.getValue() == TRUE) {
             warnCabin = FALSE;
@@ -545,63 +566,63 @@ var update_loop = func {
         }
       }
     }
-    setprop("sim/ja37/sound/speed-on", lowSpeed);
+    input.speedWarn.setValue(lowSpeed);
 
     # main electrical turned on
     var timer = input.elapsed.getValue();
-    var main = getprop("/controls/electric/main");
+    var main = input.elecMain.getValue();
     if(main == TRUE and mainOn == FALSE) {
       #main has been switched on
       mainTimer = timer;
       mainOn = TRUE;
-      setprop("sim/ja37/avionics/primaryData", TRUE);
-      setprop("sim/ja37/avionics/TN", TRUE);
+      input.lampData.setValue(TRUE);
+      input.lampInertiaNav.setValue(TRUE);
     } elsif (main == TRUE) {
       if (timer > (mainTimer + 20)) {
-        setprop("sim/ja37/avionics/primaryData", FALSE);
+        input.lampData.setValue(FALSE);
       }
       if (timer > (mainTimer + 140)) {
-        setprop("sim/ja37/avionics/TN", FALSE);
+        input.lampInertiaNav.setValue(FALSE);
       }
     } elsif (main == FALSE) {
       mainOn = FALSE;
     }
     # engine start
     var n2 = input.n2.getValue();
-    if (getprop("controls/engines/engine[0]/starter-cmd") == TRUE and n2 < 57 and getprop("engines/engine[0]/thrust_lb") == 0) {
-      setprop("sim/ja37/avionics/startSys", TRUE);
+    if (input.starter.getValue() == TRUE and n2 < 57 and input.thrustLb.getValue() == 0) {
+      input.lampStart.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/startSys", FALSE);
+      input.lampStart.setValue(FALSE);
     }
-    if (getprop("controls/engines/engine[0]/cutoff") == FALSE and n2 < 57 and n2 > 16 and getprop("engines/engine[0]/thrust_lb") == 0) {
+    if (input.cutoff.getValue() == FALSE and n2 < 57 and n2 > 16 and input.thrustLb.getValue() == 0) {
       # manual says between 11-16% it goes on
-      setprop("sim/ja37/avionics/ignitionSys", TRUE);
+      input.lampIgnition.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/ignitionSys", FALSE);
+      input.lampIgnition.setValue(FALSE);
     }
-    if (input.tank8Jettison.getValue() == FALSE and input.tank8LvlGal.getValue() > 45 and (getprop("controls/engines/engine[0]/starter-cmd") == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
-      setprop("sim/ja37/avionics/xtank", TRUE);
+    if (input.tank8Jettison.getValue() == FALSE and input.tank8LvlGal.getValue() > 45 and (input.starter.getValue() == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
+      input.lampXTank.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/xtank", FALSE);
+      input.lampXTank.setValue(FALSE);
     }
 
     # joystick on indicator panel
-    if ((main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) or getprop("fdm/jsbsim/systems/hydraulics/flight-surface-actuation") != 1) {
-      setprop("sim/ja37/avionics/joystick", TRUE);
+    if ((main == TRUE and input.generatorOn.getValue() < 1) or input.hydrCombined.getValue() != 1) {
+      input.lampStick.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/joystick", FALSE);
+      input.lampStick.setValue(FALSE);
     }
 
-    if (main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
-      setprop("sim/ja37/avionics/oxygen", TRUE);
+    if (main == TRUE and input.generatorOn.getValue() < 1) {
+      input.lampOxygen.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/oxygen", FALSE);
+      input.lampOxygen.setValue(FALSE);
     }
 
-    if (main == TRUE and getprop("fdm/jsbsim/systems/electrical/generator-running-norm") < 1) {
-      setprop("sim/ja37/avionics/canopyAndSeat", TRUE);
+    if (main == TRUE and input.generatorOn.getValue() < 1) {
+      input.lampCanopy.setValue(TRUE);
     } else {
-      setprop("sim/ja37/avionics/canopyAndSeat", FALSE);
+      input.lampCanopy.setValue(FALSE);
     }
 
     settimer(
@@ -689,7 +710,7 @@ var slow_loop = func () {
   var tempACDew = 5;#aircondition dew point. 5 = dry
 
   # calc inside temp
-  if (getprop("canopy/position-norm") > 0) {
+  if (input.canopyPos.getValue() > 0) {
     tempInside = tempOutside;
   } elsif(input.dcVolt.getValue() > 23) {
     if (tempInside < tempAC) {
@@ -766,7 +787,7 @@ var speed_loop = func () {
   var n2 = input.n2.getValue();
   var reversed = input.reversed.getValue();
 
-  if ( getprop("fdm/jsbsim/propulsion/engine/augmentation") == TRUE) { #was 99 and 97
+  if ( input.fdmAug.getValue() == TRUE) { #was 99 and 97
     input.augmentation.setValue(TRUE);
   } else {
     input.augmentation.setValue(FALSE);
@@ -1409,7 +1430,7 @@ var follow = func () {
 
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
-  if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or input.dcVolt.getValue() < 23) {
+  if (input.hydr1On.getValue() == 0 or input.dcVolt.getValue() < 23) {
     setprop("sim/ja37/avionics/autopilot", TRUE);
     stopAP();
   } else {
