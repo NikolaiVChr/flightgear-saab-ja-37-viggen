@@ -1598,7 +1598,7 @@ Animation: Front gear retraction rotation point is now 10cm higher.
 Sim: Increased front gear compression damping and hardened spring.
 Model: All scissors now is shaded as shiny metal.
 
-3.027
+3.027 - 2015 June 14
 =====
 Model: Rear gears extended upwards more into the wing.
 Model: Rear gear struts moved to the outside of wheel boogie.
