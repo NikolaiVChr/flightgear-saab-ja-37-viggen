@@ -1651,3 +1651,4 @@ Model: Parts of the model is now creased at more than 30 degrees depending on ne
 =====
 Model: Right attitude indicator has been made more flat.
 Model: Added 2 handles to cockpit front panel.
+Model: Made the 3 indicators on the left on frontpanel look more like the real Viggens.

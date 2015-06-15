@@ -478,6 +478,16 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/autopilot.xml</path>
+    <name>A/P</name>
+    <offsets>
+      <x-m>  0.005</x-m>
+      <y-m> -0.22</y-m>
+      <z-m>  0.28</z-m>
+    </offsets>
+  </model>
+
+  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/joystick.xml</path>
     <name>Spak</name>
     <offsets>
@@ -505,7 +515,7 @@
       <y-m> -0.21</y-m>
       <z-m>  0.29</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
