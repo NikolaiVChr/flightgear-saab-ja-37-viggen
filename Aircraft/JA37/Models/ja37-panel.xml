@@ -138,6 +138,32 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
+    <name>handleRight</name>
+    <offsets>
+      <x-m>  0.00 </x-m>
+      <y-m>  0.235 </y-m>
+      <z-m>  0.17 </z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>handleRight</object-name>
+    <offset-deg>90</offset-deg>
+    <center>
+     <x-m>  0.00 </x-m>
+     <y-m>  0.235 </y-m>
+     <z-m>  0.17 </z-m>
+    </center>
+    <axis>
+     <x>1</x>
+     <y>0</y>
+     <z>0</z>
+    </axis>
+  </animation>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Tachometer/rpm.xml</path>
     <name>RPM Indicator</name>
     <offsets>
@@ -168,7 +194,7 @@
   <animation>
     <type>scale</type>
     <object-name>Attitude Indicator 2</object-name>
-    <x-offset>0.7875</x-offset>
+    <x-offset>0.5</x-offset>
     <y-offset>0.7875</y-offset>
     <z-offset>0.7875</z-offset>
   </animation>
@@ -320,6 +346,16 @@
     <y-offset>0.90</y-offset>
     <z-offset>0.90</z-offset>
   </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
+    <name>handleLeft</name>
+    <offsets>
+      <x-m>  0.000 </x-m>
+      <y-m> -0.145 </y-m>
+      <z-m>  0.115 </z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Altimeter/altimeter.xml</path>
