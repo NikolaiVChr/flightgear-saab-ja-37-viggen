@@ -109,7 +109,8 @@ input = {
   landLightALS:     "sim/rendering/als-secondary-lights/use-landing-light",
   viewInternal:     "sim/current-view/internal",
   sunAngle:         "sim/time/sun-angle-rad",
-  MPfloat2:         "sim/multiplay/generic/float[2]", 
+  MPfloat2:         "sim/multiplay/generic/float[2]",
+  MPfloat9:         "sim/multiplay/generic/float[9]",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   breathVol:        "sim/ja37/sound/breath-volume",
@@ -143,6 +144,19 @@ var update_loop = func {
 
   # breath sound volume
   input.breathVol.setValue(input.viewInternal.getValue() and input.fullInit.getValue());
+
+  #augmented flame translucency
+  var red = getprop("/rendering/scene/diffuse/red");
+  # normal effect
+  #var angle = input.sunAngle.getValue();# 1.25 - 2.45
+  #var newAngle = (1.2 -(angle-1.25))*0.8333;
+  #input.MPfloat2.setValue(newAngle);
+  var translucency = clamp(red, 0.35, 1);
+  input.MPfloat2.setValue(translucency);
+
+  # ALS effect
+  red = clamp(1 - red, 0.25, 1);
+  input.MPfloat9.setValue(red);
 
   # End stuff
 
@@ -539,11 +553,6 @@ var update_loop = func {
       input.warn.setValue(FALSE);
       input.master.setValue(FALSE);
     }
-
-    #augmented flame translucency
-    var angle = input.sunAngle.getValue();# 1.25 - 2.45
-    var newAngle = (1.2 -(angle-1.25))*0.8333;
-    input.MPfloat2.setValue(newAngle);
 
     #tracer ammo, due to it might run out faster than cannon rounds due to submodel delay not being precise
     if(input.subAmmo3.getValue() > 0) {

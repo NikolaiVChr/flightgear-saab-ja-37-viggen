@@ -193,10 +193,6 @@
           <type>bool</type>
           <property type="string">engines/engine[0]/augmentation</property>
         </signal>
-        <signal>
-          <type>float</type>
-          <property type="string">sim/multiplay/generic/float[2]</property>
-        </signal>
         <!-- Stores -->
         <signal>
           <type>bool</type>

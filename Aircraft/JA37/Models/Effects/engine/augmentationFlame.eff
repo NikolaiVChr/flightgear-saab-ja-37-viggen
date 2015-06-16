@@ -7,7 +7,7 @@
 
     <flame_radius_fraction type="float">0.95</flame_radius_fraction>
     <thrust_collimation type="float">0.0</thrust_collimation>
-    <thrust_density type="float">0.5</thrust_density>
+    <thrust_density type="float"><use>sim/multiplay/generic/float[9]</use></thrust_density>
     <base_flame_density type="float">0.15</base_flame_density>
     <shock_frequency type="float">0.5</shock_frequency>
     <noise_strength type="float">0.3</noise_strength>

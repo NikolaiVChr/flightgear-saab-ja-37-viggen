@@ -45,13 +45,14 @@ Two hydraulic system modeled. The second having a reserve pump.
 Terrain warning system, with HUD indication and annunciator.
 Canopy can be torn off from high wind speeds.
 Simulated airconditioner unit.
+Automated fuel system that works like in the real Viggen. It uses pneumatics, hydralics and electricity.
 TILS (tactical instrument landing system) that auto tunes to nearby ILS frequencies.
 Custom flight recorder records 52 extra properties for accurate replay functionality. Also record fidelity has been increased for smoother replay.
 7 internal fuel tanks plus a drop tank that can be jettisoned.
 
 Failure system
 -----
-21 extra failures beside the standard ones.
+24 extra failures beside the standard ones.
 Canopy motor, canopy hinges, wings attachment and individual gear locking mechanisms are preset to fail under specific conditions.
 Crash-detection and high-G structural break tied into the failure system, it can randomly fail components proportional to the damage the plane takes.
 
