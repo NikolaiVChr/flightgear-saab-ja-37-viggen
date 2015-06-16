@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<!--
+
+Fuel system
+===========
+At less than 24% fuel with gears retracted, master warning is given.
+Tank 1:
+- max capacity to engine 68000 L/h (60000 of which is for afterburner)
+Tanks 2, 3 and 4
+- use flow distributor (use hydr 1) [is really 4 pumps]
+- the tanks are emptied evenly.
+- loss of hydr capacity is 4000 L/h
+- stops when pitch higher than 60 deg, lower than 30 deg
+- stops when roll right higher than 50 deg, left higher than 40 deg
+- 3V fuel is flowing to 2, 2 flows to 3H and distributor
+- when 130 L remains in tank 3H, switch is made to low speed
+- low speed capacity 8000 L/h
+- high speed capacity 58000 L/h
+Tanks 5:
+- use 2 200V AC driven fuel pumps
+X-tank:
+- uses airpressure
+- is emptied first
+- when indicator blinks the tank is not ready for use
+- if engine uses more than 25000 L/h fuel is taken from internal tanks at same time
+- at weapons ejection the x-tank is ejected also
+- cannot be ejected when wow[0] is on
+- can only be ejected when master arm is off
+- uses DC to be ejected
+
+
+0 - Tank 1  - Collector (connected to engine)
+1 - Tank 2  - 
+2 - Tank 3V - Minor fuselage left
+3 - Tank 3H - Minor fuselage right
+4 - Tank 5V - Minor wing left
+5 - Tank 5H - Minor wing right
+6 - Tank 4V - Wing left
+7 - Tank 4H - Wing right
+8 - Drop Tank
+
+6.48 LBS/Gal
+0.2641720523581484 Gal/L
+1 L/h = 0.000073381125655041222222222222222222 Gal/s = 0.00047550969424466712 LBS/s
+130L = 222.5385369065041992 LBS
+
+TODO: manual fuel controls
+
+-->
+ 
+<system name="Fuel">
+ 
+
+
+  <channel name="Pneumatic driven fuel flow">    
+ 
+    <switch name="systems/fuel/pneumatic-low-pressure">
+      <default value="1"/>
+      <test logic="OR" value="0">
+        propulsion/engine[0]/n2 lt 40
+        systems/fuel/pneumatics/serviceable == 0
+      </test>
+    </switch>
+
+    <switch name="names/fuel/tank2-external-flow-rate-pps">
+      <default value="-2.13979362410100204"/><!-- 4500 L/h from 3V to 2 -->
+      <test logic="OR" value="0">
+        propulsion/tank[2]/contents-lbs LE 0
+        propulsion/tank[1]/pct-full GE 99.9
+        systems/fuel/pneumatic-low-pressure == 0
+      </test>
+      <output>propulsion/tank[2]/external-flow-rate-pps</output>
+    </switch>
+ 
+    <switch name="systems/fuel/tank1-output-b">
+      <default value="-2.13979362410100204"/><!-- 4500 L/h from 2 to 3H -->
+      <test logic="OR" value="0">
+        propulsion/tank[1]/contents-lbs LE 0
+        propulsion/tank[3]/pct-full GE 99.9
+        systems/fuel/pneumatic-low-pressure == 0
+      </test>
+    </switch>
+
+    <summer name="names/fuel/tank1-external-flow-rate-pps">
+      <input>-propulsion/tank[2]/external-flow-rate-pps</input>
+      <input>systems/fuel/tank1-output-a</input>
+      <input>systems/fuel/tank1-output-b</input>
+      <output>propulsion/tank[1]/external-flow-rate-pps</output>
+    </summer>
+  
+    <summer name="names/fuel/tank3-external-flow-rate-pps">
+      <input>-systems/fuel/tank1-output-b</input>
+      <input>systems/fuel/tank3-output</input>
+      <output>propulsion/tank[3]/external-flow-rate-pps</output>
+    </summer>
+
+    <switch name="systems/fuel/xtank-output">
+      <default value="-11.887742356116678"/><!-- 25000 L/h from xtank to 1 -->
+      <test logic="OR" value="0">
+        propulsion/tank[8]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        /consumables/fuel/tank[8]/jettisoned == 1
+        propulsion/engine[0]/n2 lt 70
+        systems/fuel/pneumatics/serviceable == 0
+      </test>
+    </switch>
+
+    <switch name="names/fuel/tank8-external-flow-rate-pps">
+      <default value="systems/fuel/xtank-output"/>
+      <test logic="OR" value="-2000">
+        /consumables/fuel/tank[8]/jettisoned == 1
+      </test>
+      <output>propulsion/tank[8]/external-flow-rate-pps</output>
+    </switch>
+
+  </channel>
+
+
+
+  <channel name="Hydraulic fuel pumps">
+
+    <switch name="systems/fuel/tank6-output">
+      <default value="-9.5101938848933424"/><!-- 20000 L/h from 4V to distributor -->
+      <test logic="OR" value="0">
+        propulsion/tank[6]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        structural/wings/serviceable == 0
+        /orientation/pitch-deg gt 60
+        /orientation/pitch-deg lt -30
+        /orientation/roll-deg lt -40
+        /orientation/roll-deg gt 50
+        systems/fuel/fuel-flow/serviceable == 0
+      </test>
+      <test logic="AND" value="0">
+        propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
+        systems/fuel/xtank-output lt 0
+      </test>
+      <test logic="AND" value="-0.47550969424466712"><!-- 1000 L/h -->
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 1
+      </test>
+      <test logic="AND" value="0">
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 0
+      </test>
+      <test logic="OR" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
+        propulsion/tank[3]/contents-lbs LE 222.5385369065041992
+      </test>
+    </switch>
+
+    <switch name="names/fuel/tank6-external-flow-rate-pps">
+      <default value="systems/fuel/tank6-output"/>
+      <test logic="OR" value="-2000">
+        structural/wings/serviceable == 0
+      </test>
+      <output>propulsion/tank[6]/external-flow-rate-pps</output>
+    </switch>
+ 
+    <switch name="systems/fuel/tank7-output">
+      <default value="-9.5101938848933424"/><!-- 20000 L/h from 4H to distributor -->
+      <test logic="OR" value="0">
+        propulsion/tank[7]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        structural/wings/serviceable == 0
+        /orientation/pitch-deg gt 60
+        /orientation/pitch-deg lt -30
+        /orientation/roll-deg lt -40
+        /orientation/roll-deg gt 50        
+        systems/fuel/fuel-flow/serviceable == 0
+      </test>
+      <test logic="AND" value="0">
+        propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
+        systems/fuel/xtank-output lt 0
+      </test>
+      <test logic="AND" value="-0.47550969424466712"><!-- 1000 L/h -->
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 1
+      </test>
+      <test logic="AND" value="0">
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 0
+      </test>
+      <test logic="OR" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
+        propulsion/tank[3]/contents-lbs LE 222.5385369065041992
+      </test>
+    </switch>
+
+    <switch name="names/fuel/tank7-external-flow-rate-pps">
+      <default value="systems/fuel/tank7-output"/>
+      <test logic="OR" value="-2000">
+        structural/wings/serviceable == 0
+      </test>
+      <output>propulsion/tank[7]/external-flow-rate-pps</output>
+    </switch>
+
+    <switch name="systems/fuel/tank3-output">
+      <default value="-2.13979362410100204"/><!-- 4500 L/h from 3H to distributor -->
+      <test logic="OR" value="0">
+        propulsion/tank[3]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        /orientation/pitch-deg gt 60
+        /orientation/pitch-deg lt -30
+        /orientation/roll-deg lt -40
+        /orientation/roll-deg gt 50
+        systems/fuel/fuel-flow/serviceable == 0
+      </test>
+      <test logic="AND" value="0">
+        propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
+        systems/fuel/xtank-output lt 0
+      </test>
+      <test logic="AND" value="-0.23775484712233356"><!-- 500 L/h -->
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 1
+      </test>
+      <test logic="AND" value="0">
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 0
+      </test>
+      <test logic="OR" value="-0.47550969424466712"><!-- 1000 L/h - low speed -->
+        propulsion/tank[3]/contents-lbs LE 222.5385369065041992
+      </test>
+    </switch>
+
+    <switch name="systems/fuel/tank1-output-a">
+      <default value="-6.41938087230300612"/><!-- 13500 L/h from 2 to distributor -->
+      <test logic="OR" value="0">
+        propulsion/tank[3]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        /orientation/pitch-deg gt 60
+        /orientation/pitch-deg lt -30
+        /orientation/roll-deg lt -40
+        /orientation/roll-deg gt 50
+        systems/fuel/fuel-flow/serviceable == 0
+      </test>
+      <test logic="AND" value="0">
+        propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
+        systems/fuel/xtank-output lt 0
+      </test>
+      <test logic="AND" value="-0.71326454136700068"><!-- 1500 L/h -->
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 1
+      </test>
+      <test logic="AND" value="0">
+        systems/hydraulics/system1/pressure == 0
+        systems/fuel/pneumatic-low-pressure == 0
+      </test>
+      <test logic="OR" value="-1.42652908273400136"><!-- 3000 L/h - low speed -->
+        propulsion/tank[3]/contents-lbs LE 222.5385369065041992
+      </test>
+    </switch>
+
+    <summer name="systems/fuel/distributor-output">
+      <input>systems/fuel/tank6-output</input>
+      <input>systems/fuel/tank7-output</input>
+      <input>systems/fuel/tank3-output</input>
+      <input>systems/fuel/tank1-output-a</input>
+    </summer>
+
+  </channel>
+
+
+ 
+  <channel name="Electric fuel pumps">    
+ 
+    <switch name="systems/fuel/tank4-output">
+      <default value="-2.3775484712233356"/><!-- 5000 L/h from 5V -->
+      <test logic="OR" value="0">
+        propulsion/tank[4]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        /systems/electrical/outputs/ac-main-voltage lt 150
+        systems/fuel/fuel-pumps/serviceable == 0
+      </test>
+      <test logic="AND" value="0">
+        propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
+        systems/fuel/xtank-output lt 0
+      </test>
+    </switch>
+
+    <switch name="names/fuel/tank4-external-flow-rate-pps">
+      <default value="systems/fuel/tank4-output"/>
+      <test logic="OR" value="-2000">
+        structural/wings/serviceable == 0
+      </test>
+      <output>propulsion/tank[4]/external-flow-rate-pps</output>
+    </switch>
+ 
+    <switch name="systems/fuel/tank5-output">
+      <default value="-2.3775484712233356"/><!-- 5000 L/h from 5H -->
+      <test logic="OR" value="0">
+        propulsion/tank[5]/contents-lbs LE 0
+        propulsion/tank[0]/pct-full GE 99.9
+        /systems/electrical/outputs/ac-main-voltage lt 150        
+        systems/fuel/fuel-pumps/serviceable == 0
+      </test>
+      <test logic="AND" value="0">
+        propulsion/engine/fuel-flow-rate-pps lt 11.887742356116678
+        systems/fuel/xtank-output lt 0
+      </test>
+    </switch>
+
+    <switch name="names/fuel/tank5-external-flow-rate-pps">
+      <default value="systems/fuel/tank5-output"/>
+      <test logic="OR" value="-2000">
+        structural/wings/serviceable == 0
+      </test>
+      <output>propulsion/tank[5]/external-flow-rate-pps</output>
+    </switch>
+
+  </channel>
+
+
+
+  <channel name="Collector tank">    
+ 
+    <summer name="names/fuel/tank0-external-flow-rate-pps">
+      <input>-systems/fuel/tank4-output</input>
+      <input>-systems/fuel/tank5-output</input>
+      <input>-systems/fuel/distributor-output</input>
+      <input>-systems/fuel/xtank-output</input>
+      <output>propulsion/tank[0]/external-flow-rate-pps</output>
+    </summer>
+ 
+  </channel> 
+
+
+</system>

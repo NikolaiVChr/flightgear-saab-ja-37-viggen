@@ -255,6 +255,18 @@ var install_new_failures = func {
     var actuator_pumpR = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Hydraulic reserve", actuator_pumpR);
 
+    prop = "fdm/jsbsim/systems/fuel/pneumatics";
+    var actuator_air = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Pneumatic", actuator_air);
+
+    prop = "fdm/jsbsim/systems/fuel/fuel-pumps";
+    var actuator_fuel_pumps = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Electric fuel pumps", actuator_fuel_pumps);
+
+    prop = "fdm/jsbsim/systems/fuel/fuel-flow";
+    var actuator_fuel_distr = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Fuel flow distributor", actuator_fuel_distr);
+
     prop = "instrumentation/comm[0]";
     var actuator_comm1 = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Comm 1", actuator_comm1);
@@ -337,9 +349,9 @@ var install_new_failures = func {
         }
     }
 
-    prop = "consumables/fuel/wing-tanks";
-    var actuator_wing_tanks = set_empty(prop, ["fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps"]);
-    FailureMgr.add_failure_mode(prop, "Wing tanks", actuator_wing_tanks);
+    #prop = "consumables/fuel/wing-tanks";
+    #var actuator_wing_tanks = set_empty(prop, ["fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps"]);
+    #FailureMgr.add_failure_mode(prop, "Wing tanks", actuator_wing_tanks);
 
     #prop = "fdm/jsbsim/fcs/wings";
     #var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);
@@ -556,6 +568,18 @@ var install_newer_failures = func {
     var actuator_pumpR = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Hydraulic reserve", actuator_pumpR);    
 
+    prop = "fdm/jsbsim/systems/fuel/pneumatics";
+    var actuator_air = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Pneumatic", actuator_air);
+
+    prop = "fdm/jsbsim/systems/fuel/fuel-pumps";
+    var actuator_fuel_pumps = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Electric fuel pumps", actuator_fuel_pumps);
+
+    prop = "fdm/jsbsim/systems/fuel/fuel-flow";
+    var actuator_fuel_distr = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Fuel flow distributor", actuator_fuel_distr);
+
     prop = "instrumentation/comm[0]";
     var actuator_comm1 = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Comm 1", actuator_comm1);
@@ -646,9 +670,9 @@ var install_newer_failures = func {
         }
     }
 
-    prop = "consumables/fuel/wing-tanks";
-    var actuator_wing_tanks = set_empty(prop, ["fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps"]);
-    FailureMgr.add_failure_mode(prop, "Wing tanks", actuator_wing_tanks);
+    #prop = "consumables/fuel/wing-tanks";
+    #var actuator_wing_tanks = set_empty(prop, ["fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", "fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps"]);
+    #FailureMgr.add_failure_mode(prop, "Wing tanks", actuator_wing_tanks);
 
     #prop = "fdm/jsbsim/fcs/wings";
     #var actuator_wings = set_unserviceable_cascading(prop, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator", "consumables/fuel/wing-tanks"]);

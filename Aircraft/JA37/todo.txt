@@ -130,7 +130,6 @@ Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)
 Depends on better 3D cockpit:
 -----------------------------
 Sim: Make proper power flow to all and seperate external light controls. (use potemkin)
-Sim: Make proper fuel pump system. (Fuel tanks 3V and 3H is used for flying upside down. All fuel to engine has to go through tank 1)
 Model: Put in alot more not-working instruments and controls for immersion.
 
 

@@ -763,7 +763,18 @@
           <enable-cmd type="bool">false</enable-cmd>
           <switch type="bool">false</switch>
         </external>
-      </electrical>      
+      </electrical> 
+      <fuel>
+        <fuel-flow>
+            <serviceable type="bool">true</serviceable>
+        </fuel-flow>
+        <fuel-pumps>
+            <serviceable type="bool">true</serviceable>
+        </fuel-pumps>
+        <pneumatics>
+            <serviceable type="bool">true</serviceable>
+        </pneumatics>
+      </fuel>
     </systems>
     <aero>
       <factor-axial-mach type="double">1.0</factor-axial-mach>

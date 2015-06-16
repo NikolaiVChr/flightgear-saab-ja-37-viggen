@@ -1652,3 +1652,6 @@ Model: Parts of the model is now creased at more than 30 degrees depending on ne
 Model: Right attitude indicator has been made more flat.
 Model: Added 2 handles to cockpit front panel.
 Model: Made the 3 indicators on the left on frontpanel look more like the real Viggens.
+Sim: Created a fuel system. It runs on pneumatics, hydraulics and electricity.
+Sim: Made failure modes for fuel flow distributor, electric fuel pumps and pneumatics.
+Model: Updated left indicator panel to respond to failures in fuel system.

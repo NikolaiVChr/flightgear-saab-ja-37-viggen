@@ -363,10 +363,10 @@ repair = func {
 	setprop("sim/ja37/damage/crash-g", 0);
 	setprop("fdm/jsbsim/velocities/v-down-previous", 0);
 	setprop("sim/ja37/damage/enabled", 1);
-	setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", 0);
-	setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", 0);
-	setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", 0);
-	setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", 0);
+	#setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", 0);
+	#setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", 0);
+	#setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", 0);
+	#setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", 0);
 
 	if(getprop("sim/ja37/failures/installed") == 1) {
 		unfailAll();
@@ -512,10 +512,10 @@ damageOnWingsBreak = func {
 	} else {
 		aircraft_lock_wings();
 	}
-	setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", -75);
-	setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", -75);
-	setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", -75);
-	setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", -75);
+	#setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", -75);
+	#setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", -75);
+	#setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", -75);
+	#setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", -75);
 }
 
 failWings = func {

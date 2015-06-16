@@ -134,6 +134,7 @@ input = {
   lampOxygen:       "sim/ja37/avionics/oxygen",
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   lampCanopy:       "sim/ja37/avionics/canopyAndSeat",
+  pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
 };
    
 var update_loop = func {
@@ -182,7 +183,7 @@ var update_loop = func {
       input.fuelWarning.setValue(FALSE);
     }
 
-    if((current / total_fuel) > 0.40 and input.hydr1On.getValue() == 0) {
+    if((current / total_fuel) > 0.40) {
       # fuel flow distributor lamp
       input.lampFuelDistr.setValue(TRUE);
     } else {
@@ -352,9 +353,6 @@ var update_loop = func {
         }
         if(i==4) {
           # no drop tank attached
-          if (input.tank8Flow.getValue() != -1500) {
-            input.tank8Flow.setValue(-1500);
-          }
           input.tank8Selected.setValue(FALSE);
           input.tank8Jettison.setValue(TRUE);
           input.tank8LvlNorm.setValue(0);
@@ -371,9 +369,8 @@ var update_loop = func {
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
-        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") == 0 or input.tank8Flow.getValue() != 0) {
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") == 0) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 224.87);#if change this also change it in jsbsim
-          input.tank8Flow.setValue(0);
         }
         input.tank8Selected.setValue(TRUE);
         input.tank8Jettison.setValue(FALSE);
@@ -600,7 +597,7 @@ var update_loop = func {
     } else {
       input.lampIgnition.setValue(FALSE);
     }
-    if (input.tank8Jettison.getValue() == FALSE and input.tank8LvlGal.getValue() > 45 and (input.starter.getValue() == TRUE or input.engineRunning.getValue() == 1) and n2 < 70) {
+    if (input.tank8Jettison.getValue() == FALSE and input.tank8LvlGal.getValue() > 45 and (input.starter.getValue() == TRUE or input.engineRunning.getValue() == 1) and (n2 < 70 or input.pneumatic.getValue() == 0)) {
       input.lampXTank.setValue(TRUE);
     } else {
       input.lampXTank.setValue(FALSE);

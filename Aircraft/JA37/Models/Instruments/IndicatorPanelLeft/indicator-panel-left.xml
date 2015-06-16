@@ -10,14 +10,36 @@
 	  <type>material</type>
 	  <condition>
 	  		<or>
-			  	<equals>
-			  		<property>sim/ja37/avionics/uppf</property>
-					<value>1</value>
-			  	</equals>
-			  	<equals>
-			  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
-					<value>0</value>
-			  	</equals>
+		  		<and>
+				  	<equals>
+				  		<property>sim/ja37/avionics/uppf</property>
+						<value>1</value>
+				  	</equals>
+				  	<equals>
+				  		<property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
+						<value>0</value>
+				  	</equals>
+			  	</and>
+			  	<and>
+			  		<equals>			  	
+				  		<property>fdm/jsbsim/systems/fuel/pneumatics/serviceable</property>
+						<value>0</value>
+					</equals>
+			  		<equals>
+				  		<property>sim/ja37/blink/ten-Hz/state</property>
+						<value>1</value>
+					</equals>
+				</and>
+				<and>
+			  		<equals>			  	
+				  		<property>fdm/jsbsim/systems/fuel/fuel-flow/serviceable</property>
+						<value>0</value>
+					</equals>
+			  		<equals>
+				  		<property>sim/ja37/blink/ten-Hz/state</property>
+						<value>1</value>
+					</equals>
+				</and>
 		  	</or>
 	  </condition>
 	  <emission>
@@ -56,6 +78,16 @@
 			  		<property>systems/electrical/outputs/ac-main-voltage</property>
 					<value>150</value>
 			  	</less-than>
+			  	<and>
+			  		<equals>			  	
+				  		<property>fdm/jsbsim/systems/fuel/fuel-pumps/serviceable</property>
+						<value>0</value>
+					</equals>
+			  		<equals>
+				  		<property>sim/ja37/blink/ten-Hz/state</property>
+						<value>1</value>
+					</equals>
+				</and>
 		  	</or>
 	  </condition>
 	  <emission>
