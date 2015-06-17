@@ -1660,4 +1660,4 @@ Effect: The non-ALS afterburner effect now uses scene diffuse color to determine
 Sim: Replay recorder no longer records afterburner flame intensity, that depends now of scene brightness at the time of replay.
 Sim: Droptank now requires DC voltage and masterarm off to be ejected.
 Sim: When firing air2air missile, a message will now pop up. Also in MP if enabled.
-Sound: experimental MP feature!!
+Sound: Annunciator will now warn of incoming guided air2air missile from ja37, m2000-5 or f-14b. It will also say from which direction.

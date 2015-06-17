@@ -894,7 +894,7 @@ var incoming_listener = func {
     var last_vector = split(":", last);
     var author = last_vector[0];
     var callsign = getprop("sim/multiplay/callsign");
-    if (author != callsign) {
+    if (size(last_vector) > 1 and author != callsign) {
       # not myself
       var m2000 = FALSE;
       if (find(" at " ~ callsign ~ ". Release ", last_vector[1]) != -1) {
@@ -904,16 +904,16 @@ var incoming_listener = func {
       if (last_vector[1] == " FOX2 at" or last_vector[1] == " RB-24J fired at" or m2000 == TRUE) {
         # air2air being fired
         if (size(last_vector) > 2 or m2000 == TRUE) {
-          print("Missile launch detected at"~last_vector[2]~" from "~author);
+          #print("Missile launch detected at"~last_vector[2]~" from "~author);
           if (m2000 == TRUE or last_vector[2] == " "~callsign) {
             # its being fired at me
-            print("Incoming!");
+            #print("Incoming!");
             var enemy = radar_logic.getCallsign(author);
             if (enemy != nil) {
-              print("enemy identified");
+              #print("enemy identified");
               var bearingNode = enemy.getNode("radar/bearing-deg");
               if (bearingNode != nil) {
-                print("bearing to enemy found");
+                #print("bearing to enemy found");
                 var bearing = bearingNode.getValue();
                 var heading = getprop("orientation/heading-deg");
                 var clock = bearing - heading;
@@ -923,7 +923,7 @@ var incoming_listener = func {
                 while(clock > 360) {
                   clock = clock - 360;
                 }
-                print("incoming from "~clock);
+                #print("incoming from "~clock);
                 if (clock >= 345 or clock < 15) {
                   setprop("sim/ja37/sound/incoming12", 1);
                 } elsif (clock >= 15 and clock < 45) {
