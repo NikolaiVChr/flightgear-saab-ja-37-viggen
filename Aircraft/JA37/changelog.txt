@@ -1659,3 +1659,4 @@ Effect: The ALS afterburner effect will now be less evident in bright light.
 Effect: The non-ALS afterburner effect now uses scene diffuse color to determine translucency instead of sun position.
 Sim: Replay recorder no longer records afterburner flame intensity, that depends now of scene brightness at the time of replay.
 Sim: Droptank now requires DC voltage and masterarm off to be ejected.
+Sim: When firing air2air missile, a message will now pop up. Also in MP if enabled.

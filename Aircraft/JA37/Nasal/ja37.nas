@@ -840,6 +840,12 @@ var trigger_listener = func {
           #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
         
           armament.AIM9.active[armSelect-1].release();#print("release "~(armSelect-1));
+          var phrase = "RB-24J fired at: " ~ radar_logic.selection[5];
+          if (getprop("sim/ja37/armament/msg")) {
+            setprop("/sim/multiplay/chat", phrase);
+          } else {
+            setprop("/sim/messages/atc", phrase);
+          }
         }
       }
     }
