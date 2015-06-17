@@ -1131,7 +1131,15 @@ var drop = func {
     if (getprop("/gear/gear[0]/wow") > 0.05) {
        popupTip("Can not eject drop tank while on ground!"); 
        return;
-    }  
+    }
+    if (input.combat.getValue() == 2) {
+       popupTip("Can not eject drop tank when masterarm on!");
+       return;
+    }
+    if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+       popupTip("Too little DC power to eject drop tank!");
+       return;
+    }
     click();
     setprop("payload/weight[4]/selected", "none");# empty the pylon
     popupTip("Drop tank shut off and ejected. Using internal fuel.");
