@@ -1,5 +1,11 @@
 # $Id$
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
+var encode3bits = func(first, second, third) {
+  var integer = first;
+  integer = integer + 2 * second;
+  integer = integer + 4 * third;
+  return integer;
+}
 
 var UPDATE_PERIOD = 0.1;
 
@@ -111,6 +117,7 @@ input = {
   sunAngle:         "sim/time/sun-angle-rad",
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
+  MPint9:           "sim/multiplay/generic/int[9]",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   breathVol:        "sim/ja37/sound/breath-volume",
@@ -136,6 +143,9 @@ input = {
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   lampCanopy:       "sim/ja37/avionics/canopyAndSeat",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
+  switchFlash:      "controls/electric/lights-ext-flash",
+  switchBeacon:     "controls/electric/lights-ext-beacon",
+  switchNav:        "controls/electric/lights-ext-nav",
 };
    
 var update_loop = func {
@@ -630,6 +640,12 @@ var update_loop = func {
     } else {
       input.lampCanopy.setValue(FALSE);
     }
+
+    # exterior lights
+    var flash = input.dcVolt.getValue() > 20 and input.switchFlash.getValue() == 1;
+    var beacon = input.dcVolt.getValue() > 20 and input.switchBeacon.getValue() == 1;
+    var nav = input.dcVolt.getValue() > 20 and input.switchNav.getValue() == 1;
+    input.MPint9.setValue(encode3bits(flash, beacon, nav));
 
     settimer(
       #func debug.benchmark("j37 loop", 

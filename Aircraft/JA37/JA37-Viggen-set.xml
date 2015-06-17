@@ -354,7 +354,7 @@
 
 
 *************************************************************************-->
-    <multiplay>
+    <multiplay><!-- int 9, float 2 and float 9 is controlled from nasal -->
      <generic>
       <!-- effects -->
       <int n="0" alias="/sim/ja37/effect/smoke"/><!-- to show smoke -->
@@ -363,7 +363,6 @@
       <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/><!-- to show detachment of canopy -->
       <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/><!-- to show detachment of wings -->
       <!-- Animating engine -->
-      <!-- float 2 and 9 is controlled from nasal -->
       <float n="19" alias="/engines/engine/reverser-position"/><!-- used for animation -->
       <float n="3" alias="/fdm/jsbsim/propulsion/engine/zone-scaled"/><!-- to animate afterburnerflame -->
       <float n="5" alias="/engines/engine/flame"/><!-- to animate engine flame -->
@@ -376,12 +375,9 @@
       <int n="5" alias="/sim/model/lighting/strobe/state"/><!-- to animate strobe -->
       <float n="4" alias="/sim/ja37/effect/landing-light"/><!-- to animate landing lights -->
       <int n="6" alias="/sim/ja37/effect/landing-light"/><!-- for backwards compatibility -->
-      <int n="9" alias="/systems/electrical/lights-ext"/><!-- to animate ext. lights -->
       <int n="15" alias="/sim/model/lighting/beacon/state"/><!-- to animate beacons, backward compat -->
       <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/><!-- to animate beacons -->
       <!-- Stores -->
-      <!-- <int n="6" alias="/controls/armament/station[0]/trigger"/> deprecated -->
-      <!--<int n="7" alias="/ai/submodels/submodel[0]/flare-release"/> submodels not used in MP -->
       <float n="11" alias="/payload/weight[0]/weight-lb"/><!-- used to show missiles -->
       <float n="12" alias="/payload/weight[1]/weight-lb"/><!-- used to show missiles -->
       <float n="13" alias="/payload/weight[2]/weight-lb"/><!-- used to show missiles -->
@@ -867,7 +863,9 @@
     </launchbar>
   </gear>
   <electric>
-    <lights-ext-switch type="bool">true</lights-ext-switch>
+    <lights-ext-flash type="bool">true</lights-ext-flash>
+    <lights-ext-beacon type="bool">true</lights-ext-beacon>
+    <lights-ext-nav type="bool">true</lights-ext-nav>
     <lights-land-switch type="bool">true</lights-land-switch>
   </electric>
   <lighting>
@@ -906,11 +904,6 @@
 <systems>
   <path>Aircraft/JA37/Systems/systems.xml</path>
   <electrical>
-    <lights-ext type="int">0</lights-ext>
-    <!--<generator_enabled type="bool">false</generator_enabled>
-    <generator_on type="bool">false</generator_on>
-    <battery_voltage type="double">0</battery_voltage>
-    <battery-charge-norm type="double">1.0</battery-charge-norm>-->
     <outputs>
       <dc-voltage type="double">0</dc-voltage><!--
       <hud type="double">0</hud>

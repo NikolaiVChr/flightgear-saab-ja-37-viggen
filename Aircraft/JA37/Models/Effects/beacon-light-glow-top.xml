@@ -79,7 +79,24 @@
     <type>select</type>
     <object-name>LightBeaconGlow</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+      <or><!-- beacon: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>       
+      </or>
     </condition>
   </animation>
 </PropertyList>

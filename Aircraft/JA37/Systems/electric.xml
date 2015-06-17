@@ -395,21 +395,6 @@
       <output>/systems/electrical/dc-light</output>
     </aerosurface_scale>
 
-    <switch name="names/electrical/lights-ext">
-      <description>
-                      Exterior light power
-      </description>
-        <default value="0"/>
-        <test  logic="AND" value="/systems/electrical/dc-light">
-            /controls/electric/lights-ext-switch == 1
-        </test>
-        <clipto>
-          <min> 0 </min>
-          <max> 1 </max>
-        </clipto>
-        <output>/systems/electrical/lights-ext</output>
-    </switch>
-
     <switch name="names/electrical/landing-light">
       <description>
                       Landing light power

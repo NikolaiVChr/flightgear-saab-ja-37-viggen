@@ -128,8 +128,8 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-lights-exterior.xml</path>
-    <name>SwitchLightsExt</name>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-lights-nav.xml</path>
+    <name>SwitchLightsExtNav</name>
     <offsets>
       <pitch-deg>-90.0</pitch-deg>
       <roll-deg>3.35</roll-deg>
@@ -138,6 +138,30 @@
       <z-m>  0.1400</z-m>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-lights-beacon.xml</path>
+    <name>SwitchLightsExtBeacon</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.35</roll-deg>
+      <x-m> -3.56</x-m>
+      <y-m> -0.33</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switches/switch-lights-flash.xml</path>
+    <name>SwitchLightsExtFlash</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.35</roll-deg>
+      <x-m> -3.58</x-m>
+      <y-m> -0.33</y-m>
+      <z-m>  0.1400</z-m>
+    </offsets>
+  </model>  
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-lights-landing.xml</path>

@@ -83,6 +83,7 @@ Sound
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.
 When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realistically delayed.
+Annunciator will warn of incoming guided air to air missile from ja37, m2000-5 or f-14b. It will also say from which direction.
 
 Armament
 -----

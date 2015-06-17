@@ -1461,7 +1461,24 @@
   <type>material</type>
   <object-name>lightTop</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+    <or><!-- beacon: bit 2 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>2</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <emission>
    <red>1.0</red>
@@ -1475,7 +1492,24 @@
   <type>material</type>
   <object-name>lightBottom</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+    <or><!-- beacon: bit 2 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>2</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <emission>
    <red>1.0</red>
@@ -1491,7 +1525,24 @@
   <name>strobeFlash</name>
   <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+    <or><!-- flash: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <offsets>
    <x-m>5.95508</x-m>
@@ -1504,7 +1555,24 @@
   <type>material</type>
   <object-name>strobe</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+    <or><!-- flash: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <emission>
    <red>1.0</red>
@@ -1597,7 +1665,24 @@
   <type>material</type>
   <object-name>lightLeft</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+    <or><!-- nav: bit 3 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>4</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>5</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <emission>
    <red>1.0</red>
@@ -1610,7 +1695,24 @@
   <type>material</type>
   <object-name>lightRight</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+    <or><!-- nav: bit 3 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>4</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>5</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <emission>
    <red>0.0</red>

@@ -134,7 +134,7 @@
         <!-- exterior lights -->
         <signal>
           <type>float</type>
-          <property type="string">systems/electrical/lights-ext</property>
+          <property type="string">sim/multiplay/generic/int[9]</property><!-- bit encoded ext. lights -->
         </signal>
         <!--<signal> this is continuosly running so recording it will make double blinks
           <type>bool</type>

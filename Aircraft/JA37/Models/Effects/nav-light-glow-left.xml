@@ -55,7 +55,24 @@
     <type>select</type>
     <object-name>LightNavGlowL</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[9]</property><!-- systems/electrical/lights-ext -->
+      <or><!-- nav: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>       
+      </or>
       <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
     </condition>
   </animation>

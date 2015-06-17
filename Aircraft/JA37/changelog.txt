@@ -1661,3 +1661,4 @@ Sim: Replay recorder no longer records afterburner flame intensity, that depends
 Sim: Droptank now requires DC voltage and masterarm off to be ejected.
 Sim: When firing air2air missile, a message will now pop up. Also in MP if enabled.
 Sound: Annunciator will now warn of incoming guided air2air missile from ja37, m2000-5 or f-14b. It will also say from which direction.
+Sim: Exterior light control is now split into 4 switches instead of just 2; landing, beacon, navigation and anti collision.

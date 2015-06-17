@@ -13,17 +13,17 @@ Tanks 2, 3 and 4
 - stops when pitch higher than 60 deg, lower than 30 deg
 - stops when roll right higher than 50 deg, left higher than 40 deg
 - 3V fuel is flowing to 2, 2 flows to 3H and distributor
-- when 130 L remains in tank 3H, switch is made to low speed
-- low speed capacity 8000 L/h
-- high speed capacity 58000 L/h
+- when 130 L remains in tank 3H, switch is made to low flow speed
+- low flow speed capacity 8000 L/h
+- high flow speed capacity 58000 L/h
 Tanks 5:
 - use 2 200V AC driven fuel pumps
 X-tank:
-- uses airpressure
+- uses airpressure that needs 70% n2.
 - is emptied first
 - when indicator blinks the tank is not ready for use
 - if engine uses more than 25000 L/h fuel is taken from internal tanks at same time
-- at weapons ejection the x-tank is ejected also
+- at weapons ejection the x-tank is ejected also (TODO)
 - cannot be ejected when wow[0] is on
 - can only be ejected when master arm is off
 - uses DC to be ejected
