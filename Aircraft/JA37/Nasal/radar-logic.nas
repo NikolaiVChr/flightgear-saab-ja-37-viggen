@@ -18,6 +18,7 @@ var selection = nil;
 var selection_updated = FALSE;
 var tracks_index = 0;
 var tracks = [];
+var callsign_struct = {};
 
 input = {
         radar_serv:       "instrumentation/radar/serviceable",
@@ -66,9 +67,20 @@ var findRadarTracks = func () {
     processTracks(AIplanes, FALSE);
     processTracks(vehicles, FALSE);
     processTracks(rb24, FALSE, TRUE);
+    processCallsigns(players);
   }
   var carriers = node_ai.getChildren("carrier");
   processTracks(carriers, TRUE);
+}
+
+var processCallsigns = func (players) {
+  callsign_struct = {};
+  foreach (var player; players) {
+    if(player.getChild("valid") != nil and player.getChild("valid").getValue() == TRUE and player.getChild("callsign") != nil and player.getChild("callsign").getValue() != "" and player.getChild("callsign").getValue() != nil) {
+      var callsign = player.getChild("callsign").getValue();
+      callsign_struct[callsign] = player;
+    }
+  }
 }
 
 
@@ -376,4 +388,10 @@ var starter = func () {
     loop();
   }
 }
+
+var getCallsign = func (callsign) {
+  var node = callsign_struct[callsign];
+  return node;
+}
+
 var lsnr = setlistener("sim/ja37/supported/initialized", starter);

@@ -886,6 +886,94 @@ var impact_listener = func {
   }
 }
 
+var incoming_listener = func {
+  var history = getprop("/sim/multiplay/chat-history");
+  var hist_vector = split("\n", history);
+  if (size(hist_vector) > 0) {
+    var last = hist_vector[size(hist_vector)-1];
+    var last_vector = split(":", last);
+    var author = last_vector[0];
+    var callsign = getprop("sim/multiplay/callsign");
+    if (author != callsign) {
+      # not myself
+      var m2000 = FALSE;
+      if (find(" at " ~ callsign ~ ". Release ", last_vector[1]) != -1) {
+        # a m2000 is firing at us
+        m2000 = TRUE;
+      }
+      if (last_vector[1] == " FOX2 at" or last_vector[1] == " RB-24J fired at" or m2000 == TRUE) {
+        # air2air being fired
+        if (size(last_vector) > 2 or m2000 == TRUE) {
+          print("Missile launch detected at"~last_vector[2]~" from "~author);
+          if (m2000 == TRUE or last_vector[2] == " "~callsign) {
+            # its being fired at me
+            print("Incoming!");
+            var enemy = radar_logic.getCallsign(author);
+            if (enemy != nil) {
+              print("enemy identified");
+              var bearingNode = enemy.getNode("radar/bearing-deg");
+              if (bearingNode != nil) {
+                print("bearing to enemy found");
+                var bearing = bearingNode.getValue();
+                var heading = getprop("orientation/heading-deg");
+                var clock = bearing - heading;
+                while(clock < 0) {
+                  clock = clock + 360;
+                }
+                while(clock > 360) {
+                  clock = clock - 360;
+                }
+                print("incoming from "~clock);
+                if (clock >= 345 or clock < 15) {
+                  setprop("sim/ja37/sound/incoming12", 1);
+                } elsif (clock >= 15 and clock < 45) {
+                  setprop("sim/ja37/sound/incoming1", 1);
+                } elsif (clock >= 45 and clock < 75) {
+                  setprop("sim/ja37/sound/incoming2", 1);
+                } elsif (clock >= 75 and clock < 105) {
+                  setprop("sim/ja37/sound/incoming3", 1);
+                } elsif (clock >= 105 and clock < 135) {
+                  setprop("sim/ja37/sound/incoming4", 1);
+                } elsif (clock >= 135 and clock < 165) {
+                  setprop("sim/ja37/sound/incoming5", 1);
+                } elsif (clock >= 165 and clock < 195) {
+                  setprop("sim/ja37/sound/incoming6", 1);
+                } elsif (clock >= 195 and clock < 225) {
+                  setprop("sim/ja37/sound/incoming7", 1);
+                } elsif (clock >= 225 and clock < 255) {
+                  setprop("sim/ja37/sound/incoming8", 1);
+                } elsif (clock >= 255 and clock < 285) {
+                  setprop("sim/ja37/sound/incoming9", 1);
+                } elsif (clock >= 285 and clock < 315) {
+                  setprop("sim/ja37/sound/incoming10", 1);
+                } elsif (clock >= 315 and clock < 345) {
+                  setprop("sim/ja37/sound/incoming11", 1);
+                } else {
+                  setprop("sim/ja37/sound/incoming", 1);
+                }
+                return;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  setprop("sim/ja37/sound/incoming", 0);
+  setprop("sim/ja37/sound/incoming1", 0);
+  setprop("sim/ja37/sound/incoming2", 0);
+  setprop("sim/ja37/sound/incoming3", 0);
+  setprop("sim/ja37/sound/incoming4", 0);
+  setprop("sim/ja37/sound/incoming5", 0);
+  setprop("sim/ja37/sound/incoming6", 0);
+  setprop("sim/ja37/sound/incoming7", 0);
+  setprop("sim/ja37/sound/incoming8", 0);
+  setprop("sim/ja37/sound/incoming9", 0);
+  setprop("sim/ja37/sound/incoming10", 0);
+  setprop("sim/ja37/sound/incoming11", 0);
+  setprop("sim/ja37/sound/incoming12", 0);
+}
+
 var cycle_weapons = func {
   var sel = getprop("controls/armament/station-select");
   sel += 1;
@@ -1088,6 +1176,9 @@ var main_init = func {
 
   # setup impact listener
   setlistener("/ai/models/model-impact", impact_listener, 0, 0);
+
+  # setup incoming listener
+  setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
