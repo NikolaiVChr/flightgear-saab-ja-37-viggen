@@ -1,0 +1,308 @@
+AC3Db
+MATERIAL "ac3dmat1" rgb 1 1 1  amb 1 1 1  emis 0 0 0  spec 1 1 1  shi 100  trans 0.502
+OBJECT world
+kids 16
+OBJECT poly
+name "rect1"
+loc 0.653041 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.217976 0.5 -0.5
+-0.217976 0.5 0.5
+-0.217976 -0.5 0.5
+-0.217976 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect2"
+loc 0.75051 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.25051 -0.5 -0.5
+-0.25051 -0.5 0.5
+-0.25051 0.5 0.5
+-0.25051 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect3"
+loc 0.549074 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.183273 0.5 -0.5
+-0.183273 0.5 0.5
+-0.183273 -0.5 0.5
+-0.183273 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect4"
+loc 0.451605 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.15074 -0.5 -0.5
+-0.15074 -0.5 0.5
+-0.15074 0.5 0.5
+-0.15074 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect5"
+loc -0.75051 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.25051 0.5 -0.5
+0.25051 0.5 0.5
+0.25051 -0.5 0.5
+0.25051 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect6"
+loc -0.653041 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.217976 -0.5 -0.5
+0.217976 -0.5 0.5
+0.217976 0.5 0.5
+0.217976 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 0 1
+2 1 1
+1 1 0
+0 0 0
+kids 0
+OBJECT poly
+name "rect7"
+loc -0.451605 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.15074 0.5 -0.5
+0.15074 0.5 0.5
+0.15074 -0.5 0.5
+0.15074 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect8"
+loc -0.549074 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.183273 -0.5 -0.5
+0.183273 -0.5 0.5
+0.183273 0.5 0.5
+0.183273 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect9"
+loc 0.256668 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.0856723 0.5 -0.5
+-0.0856723 0.5 0.5
+-0.0856723 -0.5 0.5
+-0.0856723 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect10"
+loc 0.354137 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.118206 -0.5 -0.5
+-0.118206 -0.5 0.5
+-0.118206 0.5 0.5
+-0.118206 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect11"
+loc 0.152701 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.0509695 0.5 -0.5
+-0.0509695 0.5 0.5
+-0.0509695 -0.5 0.5
+-0.0509695 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect12"
+loc 0.0552323 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+-0.0184358 -0.5 -0.5
+-0.0184358 -0.5 0.5
+-0.0184358 0.5 0.5
+-0.0184358 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect13"
+loc -0.347639 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.116037 0.5 -0.5
+0.116037 0.5 0.5
+0.116037 -0.5 0.5
+0.116037 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect14"
+loc -0.25017 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.0835033 -0.5 -0.5
+0.0835033 -0.5 0.5
+0.0835033 0.5 0.5
+0.0835033 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect15"
+loc -0.0487344 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.0162669 0.5 -0.5
+0.0162669 0.5 0.5
+0.0162669 -0.5 0.5
+0.0162669 -0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 5.96046e-008 1
+1 1 1
+2 1 0
+3 5.96046e-008 0
+kids 0
+OBJECT poly
+name "rect16"
+loc -0.146203 0 0
+texture "../../smoke.png"
+crease 45.000000
+numvert 4
+0.0488006 -0.5 -0.5
+0.0488006 -0.5 0.5
+0.0488006 0.5 0.5
+0.0488006 0.5 -0.5
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+3 5.96046e-008 1
+2 1 1
+1 1 0
+0 5.96046e-008 0
+kids 0

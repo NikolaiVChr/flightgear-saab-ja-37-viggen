@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <submodel>
+    <name>contrail-static</name>
+    <model>Aircraft/JA37/Models/Effects/engine/contrails/contrail_shader.xml</model>
+    <speed>0</speed>
+    <repeat>false</repeat>
+    <delay>0</delay>
+    <count>-1</count>
+    <x-offset>0</x-offset>
+    <y-offset>0</y-offset>
+    <z-offset>0</z-offset>
+    <yaw-offset>0</yaw-offset>
+    <pitch-offset>0</pitch-offset>
+    <eda>10</eda>
+    <wind>true</wind>
+    <aero-stabilised>false</aero-stabilised>
+    <buoyancy>32.0</buoyancy>
+    <random>false</random>
+    <life>36</life>
+    <submodel-path>Aircraft/JA37/Systems/ja37-subsubsubmodels.xml</submodel-path>
+    <expiry>true</expiry>
+  </submodel>
+</PropertyList>

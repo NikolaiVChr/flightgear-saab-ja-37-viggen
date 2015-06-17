@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+	<path>contrail-static.ac</path>
+
+	<animation>
+		<enable-hot type="bool">false</enable-hot>
+	</animation>
+
+	<!--<animation>
+		<type>billboard</type>
+		<spherical>true</spherical>
+		<object-name>rect1</object-name>
+	</animation>-->
+
+	<effect>
+		<inherits-from>Effects/contrail</inherits-from>
+		<!--<object-name>contrail</object-name>-->
+		<!--<object-name>rect1</object-name>
+		<object-name>rect2</object-name>
+		<object-name>rect3</object-name>
+		<object-name>rect4</object-name>
+		<object-name>rect5</object-name>
+		<object-name>rect6</object-name>
+		<object-name>rect7</object-name>
+		<object-name>rect8</object-name>
+		<object-name>rect9</object-name>
+		<object-name>rect10</object-name>
+		<object-name>rect11</object-name>
+		<object-name>rect12</object-name>
+		<object-name>rect13</object-name>
+		<object-name>rect14</object-name>
+		<object-name>rect15</object-name>
+		<object-name>rect16</object-name>-->
+	</effect>
+	
+	<!--<effect>
+		<inherits-from>Effects/contrail</inherits-from>
+		--><!--<object-name>contrail</object-name>--><!--
+		<object-name>rect1</object-name>
+		<object-name>rect2</object-name>
+		<object-name>rect3</object-name>
+		<object-name>rect4</object-name>
+		<object-name>rect5</object-name>
+		<object-name>rect6</object-name>
+		<object-name>rect7</object-name>
+		<object-name>rect8</object-name>
+		--><!--<object-name>rect9</object-name>
+		<object-name>rect10</object-name>
+		<object-name>rect11</object-name>
+		<object-name>rect12</object-name>
+		<object-name>rect13</object-name>
+		<object-name>rect14</object-name>
+		<object-name>rect15</object-name>
+		<object-name>rect16</object-name>--><!--
+	</effect>-->
+
+
+	<!--<animation>
+		<type>billboard</type>
+		<spherical>true</spherical>
+	</animation>-->
+
+	<!--<animation>
+		<type>dist-scale</type>
+		<object-name>rect</object-name>
+		<use-personality>true</use-personality>
+		<factor>0.001</factor>
+		<center>
+			<x-m>0.0</x-m>
+			<y-m>0.0</y-m>
+			<z-m>0.0</z-m>
+		</center>
+	</animation>-->
+
+	<!--<animation>
+		<type>scale</type>
+		<object-name>puff</object-name>
+		<use-personality>true</use-personality>
+		<property>sim/time/elapsed-sec</property>
+		<x-min>0.3</x-min>
+		<y-min>0.3</y-min>
+		<z-min>0.3</z-min>
+		<x-factor>0.3</x-factor>
+		<y-factor>0.3</y-factor>
+		<z-factor>0.3</z-factor>
+	</animation>-->
+
+	<!--<animation>
+		<type>blend</type>
+		<object-name>sphere</object-name>
+		<use-personality>true</use-personality>
+		<property>sim/time/elapsed-sec</property>
+		<factor>0.99</factor>
+		<offset>1.0</offset>
+		<min>0.95</min>
+		<max>1.0</max>
+	</animation>-->
+
+	<!--<animation>
+		<type>blend</type>
+		<object-name>rect</object-name>
+		<use-personality>true</use-personality>
+		<property>sim/time/elapsed-sec</property>
+		<factor>0.8</factor>
+		<offset>0.8</offset>
+		<min>0.2</min>
+		<max>1.0</max>
+	</animation>-->
+</PropertyList>

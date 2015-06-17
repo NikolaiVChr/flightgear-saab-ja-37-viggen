@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+	<path>Aircraft/Generic/Effects/PersistentContrails/contrail20.ac</path>
+
+	<effect>
+		<inherits-from>Aircraft/JA37/Models/Effects/engine/contrails/contrail</inherits-from>
+		<!--<object-name>contrail</object-name>-->
+		<object-name>rect1</object-name>
+		<object-name>rect2</object-name>
+		<object-name>rect3</object-name>
+		<object-name>rect4</object-name>
+		<object-name>rect5</object-name>
+		<object-name>rect6</object-name>
+		<object-name>rect7</object-name>
+		<object-name>rect8</object-name>
+		<object-name>rect9</object-name>
+		<object-name>rect10</object-name>
+		<object-name>rect11</object-name>
+		<object-name>rect12</object-name>
+		<object-name>rect13</object-name>
+		<object-name>rect14</object-name>
+		<object-name>rect15</object-name>
+		<object-name>rect16</object-name>
+		<object-name>rect17</object-name>
+		<object-name>rect18</object-name>
+		<object-name>rect19</object-name>
+		<object-name>rect20</object-name>
+	</effect>
+
+	<animation>
+		<enable-hot type="bool">false</enable-hot>
+	</animation>
+
+</PropertyList>

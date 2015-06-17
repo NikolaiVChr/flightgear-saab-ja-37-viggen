@@ -354,7 +354,7 @@
 
 
 *************************************************************************-->
-    <multiplay><!-- int 9, float 2 and float 9 is controlled from nasal -->
+    <multiplay><!-- int 9, int 17, int 18, float 2 and float 9 is controlled from nasal -->
      <generic>
       <!-- effects -->
       <int n="0" alias="/sim/ja37/effect/smoke"/><!-- to show smoke -->
@@ -387,9 +387,6 @@
       <float n="8" alias="/gear/gear/compression-ft"/><!-- used for gear anim, deprecated -->
       <!--<float n="9" alias="/gear/gear[1]/compression-ft"/>--><!-- used for gear anim, deprecated -->
       <!--<float n="10" alias="/gear/gear[2]/compression-ft"/>--><!-- used for gear anim, deprecated -->
-      <int n="17" alias="/gear/gear[0]/wow"/><!-- used in MP sound -->
-      <int n="18" alias="/gear/gear[1]/wow"/><!-- used in MP sound -->
-      <int n="19" alias="/gear/gear[2]/wow"/><!-- used in MP sound -->
       <float n="0" alias="/gear/gear[0]/steering-norm"/>
       <!-- Position and speed -->
       <float n="6" alias="/position/altitude-ft"/><!-- used for vapor-cone -->

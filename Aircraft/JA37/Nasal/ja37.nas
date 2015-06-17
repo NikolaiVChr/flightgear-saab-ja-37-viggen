@@ -118,6 +118,8 @@ input = {
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
   MPint9:           "sim/multiplay/generic/int[9]",
+  MPint17:          "sim/multiplay/generic/int[17]",
+  MPint18:          "sim/multiplay/generic/int[18]",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   breathVol:        "sim/ja37/sound/breath-volume",
@@ -647,6 +649,10 @@ var update_loop = func {
     var nav = input.dcVolt.getValue() > 20 and input.switchNav.getValue() == 1;
     input.MPint9.setValue(encode3bits(flash, beacon, nav));
 
+    # contrails
+    var contrails = getprop("environment/temperature-degc") < -40 and getprop("position/altitude-ft") > 19000 and input.n2.getValue() > 50;
+    input.MPint18.setValue(encode3bits(contrails, 0, 0));
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
@@ -826,6 +832,12 @@ var speed_loop = func () {
   var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
   real_speed = real_speed * 0.5924838;#ft/s to kt
   input.g3d.setValue(real_speed);
+
+  # MP gear wow
+  var wow0 = input.wow0.getValue();
+  var wow1 = input.wow1.getValue();
+  var wow2 = input.wow2.getValue();
+  input.MPint17.setValue(encode3bits(wow0, wow1, wow2));
 
   settimer(speed_loop, 0.05);
 }

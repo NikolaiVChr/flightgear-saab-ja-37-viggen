@@ -615,7 +615,24 @@
 <animation>
   <type>rotate</type>
   <condition>
-    <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+    <or><!-- wow0: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>7</value>
+      </equals>       
+    </or>
   </condition>
   <object-name>gearFrontBottom</object-name>
   <object-name>gearFrontHub</object-name>
@@ -707,7 +724,24 @@
     <type>spin</type>
     <object-name>gearFrontWheel</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+      <or><!-- wow0: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>7</value>
+      </equals>       
+    </or>
     </condition>
     <property>gear/gear[0]/rollspeed-ms</property>
     <factor>37.9091</factor>
@@ -1314,7 +1348,17 @@
 
 <!--  other particle effects -->
 
-
+  <model>
+    <path>Aircraft/JA37/Models/Effects/engine/contrails/contrail.xml</path>
+    <offsets>
+      <x-m> 7.0</x-m>
+      <y-m> 0.0</y-m>
+      <z-m> 0.0</z-m> 
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg>   0 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
 
  <!--<model>  never worked as intended, so commented out.
   <name>strake-vortex</name>

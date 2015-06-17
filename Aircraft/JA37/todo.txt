@@ -48,7 +48,6 @@ Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convinience.
 Effect: Rembrandt landing lightcone.
-Effect: Check contrail effect is properly installed.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Smoke after structural break.

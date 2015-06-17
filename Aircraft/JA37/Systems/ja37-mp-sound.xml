@@ -44,9 +44,7 @@
      <value>Model View</value>
     </not-equals>
     <not>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </not>
     <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
   </condition>
@@ -84,9 +82,7 @@
      <value>Model View</value>
     </not-equals>
     <not>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </not>
     <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
   </condition>
@@ -125,9 +121,7 @@
     </not-equals>
     <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
     <not>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </not>
   </condition>
    <reference-dist>100</reference-dist>
@@ -173,11 +167,26 @@
         <property>/sim/current-view/name</property>
         <value>Model View</value>
       </equals>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </or>
-    <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
+    <or><!-- wow0: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>7</value>
+      </equals>       
+    </or>
    </condition>
    <reference-dist>5</reference-dist>
    <max-dist>10000</max-dist>
@@ -218,9 +227,7 @@
         <property>/sim/current-view/name</property>
         <value>Model View</value>
       </equals>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </or>
     <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
     <greater-than-equals>
@@ -272,9 +279,7 @@
         <property>/sim/current-view/name</property>
         <value>Model View</value>
       </equals>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </or>
     <!--<greater-than-equals>
       <property>engines/engine/n1</property>
@@ -316,9 +321,7 @@
    <path>Sounds/squeal.wav</path>
    <condition>
     <or>
-      <property>sim/multiplay/generic/int[17]</property><!-- gear/gear[0]/wow -->
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <property>sim/multiplay/generic/int[17]</property>
     </or>
    </condition>
    <reference-dist>150</reference-dist>
