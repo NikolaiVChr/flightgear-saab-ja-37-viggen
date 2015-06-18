@@ -507,7 +507,7 @@
   <type>select</type>
   <condition>
    <greater-than>
-    <property>gear/gear[0]/position-norm</property>
+    <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
     <value>0.0</value>
    </greater-than>
   </condition>

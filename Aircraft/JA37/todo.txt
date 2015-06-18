@@ -23,6 +23,7 @@ Model: Put in more working instruments and controls.
 Model: Make gunpod, between the fuselage and droptank.
 Model: The canopy metal should be thinner and unpainted alu.
 Model: There should be mirrors on the canopy.
+Model: Put in not-working instruments and controls for immersion.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
@@ -123,12 +124,6 @@ Model: Improve the Flightgear livery.
 Model: Make the 11-16 black/grey camo livery.
 Model: Make the 12-04 black and gold livery.
 Model: Make the 48-21 finnish export livery. (Akktu Stakki - Lonely Wolf)
-
-
-Depends on better 3D cockpit:
------------------------------
-Sim: Make proper power flow to all and seperate external light controls. (use potemkin)
-Model: Put in alot more not-working instruments and controls for immersion.
 
 
 Require more data: (or aerodynamic know-how)

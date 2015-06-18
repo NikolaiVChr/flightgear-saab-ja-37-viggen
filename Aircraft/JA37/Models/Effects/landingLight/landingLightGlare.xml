@@ -53,7 +53,7 @@
   <type>material</type>
   <object-name>glare</object-name>
   <transparency>
-   <alpha-prop>sim/multiplay/generic/float[4]</alpha-prop>
+   <alpha-prop>sim/multiplay/generic/float[4]</alpha-prop><!-- /sim/ja37/effect/landing-light -->
    <factor>1</factor>
    <offset>0</offset>
   </transparency>
