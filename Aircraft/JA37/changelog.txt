@@ -1647,23 +1647,23 @@ Model: All flight control surfaces are now single sided and gaps have been close
 Model: Various parts of the model that were flat shaded is now smooth shaded.
 Model: Parts of the model is now creased at more than 30 degrees depending on need.
 
-3.028
+3.028 - 2015 June 19
 =====
 Model: Right attitude indicator has been made more flat.
 Model: Added 2 handles to cockpit front panel.
 Model: Made the 3 indicators on the left on frontpanel look more like the real Viggens.
-Sim: Created a fuel system. It runs on pneumatics, hydraulics and electricity.
+Sim: Created a JSB fuel system. It runs on pneumatics, hydraulics and electricity.
 Sim: Made failure modes for fuel flow distributor, electric fuel pumps and pneumatics.
 Model: Updated left indicator panel to respond to failures in fuel system.
 Effect: The ALS afterburner effect will now be less evident in bright light.
 Effect: The non-ALS afterburner effect now uses scene diffuse color to determine translucency instead of sun position.
 Sim: Replay recorder no longer records afterburner flame intensity, that depends now of scene brightness at the time of replay.
-Sim: Droptank now requires DC voltage and masterarm off to be ejected.
+Sim: Droptank now requires DC voltage and masterarm off to be jettisoned.
 Sim: When firing air2air missile, a message will now be shown. Also in MP if enabled.
 Sound: Annunciator will now warn of incoming guided air2air missile from ja37, m2000-5 or f-14b. It will also say from which direction.
 Sim: Exterior light control is now split into 4 switches instead of just 2; landing, beacon, navigation and anti collision.
 Effect: Installed contrail and persistent contrail effect.
 Model: Added a knob for HUD brightness.
 Model: Made the oxygen manometer show the bottle pressure, not the mask pressure.
-Model: Fixed that gauge glasses would be rotated when canopy was opened.
+Animation: Fixed that gauge glasses would be rotated when canopy was opened.
 GUI: Added mask oxygen pressure to systems monitor.
