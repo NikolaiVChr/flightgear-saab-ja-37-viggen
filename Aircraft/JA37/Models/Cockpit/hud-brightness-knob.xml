@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ 	<path>hud-brightness-knob.ac</path>
+
+	<animation>
+	    <type>pick</type>
+	    <object-name>rod</object-name>
+	    <object-name>knob</object-name>
+	    <action>
+	        <button>0</button>
+	        <binding>
+		       <command>nasal</command>
+		       <script>canvas_HUD.cycle_brightness()</script>
+			</binding>
+	    </action>
+	    <hovered>
+	        <binding>
+	         	<command>set-tooltip</command>
+	         	<tooltip-id>knob-hud-brightness</tooltip-id>
+	         	<label>HUD brightness</label>
+	        </binding>
+	    </hovered>
+	</animation>
+ 
+	<animation>
+		<type>rotate</type>
+	    <object-name>rod</object-name>
+	    <object-name>knob</object-name>
+		<property>controls/lighting/hud</property>
+		<factor>360</factor>
+		<center>
+			<x-m> 0.0 </x-m>
+			<y-m> 0.0 </y-m>
+			<z-m> 0.0 </z-m>
+		</center>
+		<axis>
+			<x> 1.0 </x>
+			<y> 0.0 </y>
+			<z> 0.0 </z>
+		</axis>
+	 </animation>
+
+</PropertyList>

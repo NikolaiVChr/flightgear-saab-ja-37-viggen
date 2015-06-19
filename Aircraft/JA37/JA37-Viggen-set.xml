@@ -867,7 +867,14 @@
   </electric>
   <lighting>
     <instruments-norm type="double">0.0</instruments-norm>
+    <hud type="double">1.6</hud>
   </lighting>
+  <fuel>
+    <pneumatic-flow type="bool">true</pneumatic-flow><!-- on/off -->
+    <hydraulic-pump type="int">0</hydraulic-pump>    <!-- auto/off/low/high -->
+    <electric-pump type="bool">true</electric-pump>  <!-- on/off -->
+    <xtank type="bool">true</xtank>                  <!-- on/off -->
+  </fuel>
 </controls>
 <gear>
   <serviceable type="bool">true</serviceable>

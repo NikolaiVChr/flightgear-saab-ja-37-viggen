@@ -2260,6 +2260,7 @@ var cycle_brightness = func () {
       g =  1.0;
       b += 0.6;
     }
+    setprop("controls/lighting/hud", r+g);
     reinit();
   } else {
     aircraft.HUD.cycle_brightness();

@@ -1663,3 +1663,4 @@ Sim: When firing air2air missile, a message will now be shown. Also in MP if ena
 Sound: Annunciator will now warn of incoming guided air2air missile from ja37, m2000-5 or f-14b. It will also say from which direction.
 Sim: Exterior light control is now split into 4 switches instead of just 2; landing, beacon, navigation and anti collision.
 Effect: Installed contrail and persistent contrail effect.
+Model: Added a knob for HUD brightness.

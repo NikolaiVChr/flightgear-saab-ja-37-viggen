@@ -330,6 +330,16 @@
   </animation>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/hud-brightness-knob.xml</path>
+    <name>hud-brightness-knob</name>
+    <offsets>
+      <x-m>  0.0</x-m>
+      <y-m> -0.11</y-m>
+      <z-m>  0.29</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/AttitudeIndicator1/ai1.xml</path>
     <name>Attitude Indicator</name>
     <offsets>
