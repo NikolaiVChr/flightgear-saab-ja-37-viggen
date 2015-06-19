@@ -128457,7 +128457,7 @@ refs 4
 504 0.431720 0.560833
 kids 0
 OBJECT poly
-name "glass"
+name "glassOuter"
 crease 30.0
 numvert 123
 -3.0475638 2.6955504 0.3482327

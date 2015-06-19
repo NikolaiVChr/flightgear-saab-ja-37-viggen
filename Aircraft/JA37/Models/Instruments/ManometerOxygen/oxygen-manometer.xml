@@ -24,10 +24,10 @@
 	      <value>100</value>
 	    </greater-than>
 	  </condition>
-	  <property>fdm/jsbsim/systems/flight/oxygen-pressure-kPa</property>
+	  <property>sim/ja37/systems/oxygen-bottle-pressure</property>
 	  <interpolation>
           <entry><ind>0</ind><dep>-125</dep></entry>
-          <entry><ind>2</ind><dep>135</dep></entry>
+          <entry><ind>200</ind><dep>135</dep></entry>
       </interpolation>
 	  <axis>
 	   <x>-1</x>

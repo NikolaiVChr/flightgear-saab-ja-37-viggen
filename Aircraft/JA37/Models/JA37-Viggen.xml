@@ -147,7 +147,7 @@
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
-    <object-name>glass</object-name>
+    <object-name>glassOuter</object-name>
     <object-name>frontglas</object-name>
   </effect>
 
@@ -208,7 +208,7 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>glass</object-name>
+  <object-name>glassOuter</object-name>
   <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
   <property>canopy/position-norm</property><!-- auto MP transmit -->
@@ -227,7 +227,7 @@
 
 <animation>
   <type>select</type>
-  <object-name>glass</object-name>
+  <object-name>glassOuter</object-name>
   <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
   <condition>

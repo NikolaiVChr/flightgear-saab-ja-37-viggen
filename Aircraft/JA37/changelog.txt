@@ -1664,3 +1664,6 @@ Sound: Annunciator will now warn of incoming guided air2air missile from ja37, m
 Sim: Exterior light control is now split into 4 switches instead of just 2; landing, beacon, navigation and anti collision.
 Effect: Installed contrail and persistent contrail effect.
 Model: Added a knob for HUD brightness.
+Model: Made the oxygen manometer show the bottle pressure, not the mask pressure.
+Model: Fixed that gauge glasses would be rotated when canopy was opened.
+GUI: Added mask oxygen pressure to systems monitor.

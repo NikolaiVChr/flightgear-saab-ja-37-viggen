@@ -1186,6 +1186,9 @@ var main_init = func {
   # init cockpit temperature
   setprop("environment/temperature-inside-degc", getprop("environment/temperature-degc"));
 
+  # init oxygen bottle pressure
+  setprop("sim/ja37/systems/oxygen-bottle-pressure", rand()*75+50);#todo: start high, and lower slowly during flight
+
   # start minor loops
   speed_loop();
   slow_loop();

@@ -334,7 +334,7 @@
     <name>hud-brightness-knob</name>
     <offsets>
       <x-m>  0.0</x-m>
-      <y-m> -0.11</y-m>
+      <y-m> -0.105</y-m>
       <z-m>  0.29</z-m>
     </offsets>
   </model>
