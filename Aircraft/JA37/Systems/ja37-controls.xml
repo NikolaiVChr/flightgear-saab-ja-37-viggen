@@ -901,8 +901,8 @@
           <table>
             <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
             <tableData>
-                2.5            -2
-                5.0             0       
+                2.0            -2
+                4.0             0       
             </tableData>
           </table>
         </function>
