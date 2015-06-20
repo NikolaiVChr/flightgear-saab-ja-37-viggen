@@ -44,6 +44,18 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/cutoff-indicator.xml</path>
+    <name>cutoffReady</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <roll-deg>3.5</roll-deg>
+      <x-m> -3.49</x-m>
+      <y-m> -0.27</y-m>
+      <z-m>  0.1550</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/external.xml</path>
     <name>externalAvailable</name>
     <offsets>

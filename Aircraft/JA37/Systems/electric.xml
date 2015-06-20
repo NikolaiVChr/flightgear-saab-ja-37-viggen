@@ -451,6 +451,7 @@
             /controls/engines/engine[0]/starter-cmd == 1
       </test>
       <output>propulsion/starter_cmd</output>
+      <output>propulsion/starter_cmd_copy</output>
     </switch>
 
     <fcs_function name="systems/electrical/ext-power-z-m">
