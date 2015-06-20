@@ -1,123 +1,124 @@
 <?xml version="1.0"?>
 <system name="JA37 hydraulic">
 
-	<channel name="System 1">
-		<!-- System 1: normal hydraulic pressure to 2987.7775 PSI, and minimum to 1131.2944 PSI as per JA-37Di manual. -->
+    <channel name="System 1">
+        <!-- System 1: normal hydraulic pressure to 2987.7775 PSI, and minimum to 1131.2944 PSI as per JA-37Di manual. -->
 
-    	<scheduled_gain name="systems/hydraulics/system1/main/psi">
-      		<input>propulsion/engine[0]/n2</input>
-	      	<table>
-	        	<independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
-	        	<independentVar lookup="column">systems/hydraulics/system1/main/serviceable</independentVar>
-	         	<tableData>
+        <scheduled_gain name="systems/hydraulics/system1/main/psi">
+            <input>propulsion/engine[0]/n2</input>
+            <table>
+                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="column">systems/hydraulics/system1/main/serviceable</independentVar>
+                <tableData>
 		                    0      1
 		            0       0      0
 		            15      0    130
 	         	</tableData>
-	      	</table>
-	    	<clipto>
-	    		<min> 0 </min>
-	    		<max>2987.7775</max>
-	    	</clipto>
-		</scheduled_gain>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max>2987.7775</max>
+            </clipto>
+        </scheduled_gain>
 
-		<switch name="systems/hydraulics/system1/pressure">
-	    	<default value="0"/>
-	      	<test  logic="AND" value="1">
+        <switch name="systems/hydraulics/system1/pressure">
+            <default value="0"/>
+            <test logic="AND" value="1">
 	            systems/hydraulics/system1/main/psi ge 1131.2944
 	      	</test>
-		</switch>
+        </switch>
 
-		<switch name="systems/hydraulics/system1/pressure-brakes">
-	    	<default value="0"/>
-	      	<test  logic="AND" value="1">
+        <switch name="systems/hydraulics/system1/pressure-brakes">
+            <default value="0"/>
+            <test logic="AND" value="1">
 	            systems/hydraulics/system1/main/psi ge 783.2038
 	      	</test>
-		</switch>
+        </switch>
 
-	</channel>
+    </channel>
 
-	<channel name="System 2">
-		<!-- System 2 main: normal hydraulic pressure to 2987.7775 PSI, and minimum to 1841.9793 PSI as per JA-37Di manual. -->
-		<!-- System 2 reserve: normal hydraulic pressure to 2842.7398 PSI, and minimum to 1131.2944 PSI as per JA-37Di manual. -->
+    <channel name="System 2">
+        <!-- System 2 main: normal hydraulic pressure to 2987.7775 PSI, and minimum to 1841.9793 PSI as per JA-37Di manual. -->
+        <!-- System 2 reserve: normal hydraulic pressure to 2842.7398 PSI, and minimum to 1131.2944 PSI as per JA-37Di manual. -->
 
-    	<scheduled_gain name="systems/hydraulics/system2/main/psi">
-      		<input>propulsion/engine[0]/n2</input>
-	      	<table>
-	        	<independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
-	        	<independentVar lookup="column">systems/hydraulics/system2/main/serviceable</independentVar>
-	         	<tableData>
+        <scheduled_gain name="systems/hydraulics/system2/main/psi">
+            <input>propulsion/engine[0]/n2</input>
+            <table>
+                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="column">systems/hydraulics/system2/main/serviceable</independentVar>
+                <tableData>
 		                    0      1
 		            0       0      0
 		            15      0    130
 	         	</tableData>
-	      	</table>
-	    	<clipto>
-	    		<min> 0 </min>
-	    		<max>2987.7775</max>
-	    	</clipto>
-		</scheduled_gain>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max>2987.7775</max>
+            </clipto>
+        </scheduled_gain>
 
-		<scheduled_gain name="systems/hydraulics/system2/reserve/psi">
-      		<input>propulsion/engine[0]/n2</input>
-	      	<table>
-	        	<independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
-	        	<independentVar lookup="column">systems/hydraulics/system2/reserve/serviceable</independentVar>
-	         	<tableData>
+        <scheduled_gain name="systems/hydraulics/system2/reserve/psi">
+            <input>propulsion/engine[0]/n2</input>
+            <table>
+                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="column">systems/hydraulics/system2/reserve/serviceable</independentVar>
+                <tableData>
 		                    0      1
 		            0       0      0
 		            15      0    130
 	         	</tableData>
-	      	</table>
-	    	<clipto>
-	    		<min> 0 </min>
-	    		<max>2842.7398</max>
-	    	</clipto>
-		</scheduled_gain>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max>2842.7398</max>
+            </clipto>
+        </scheduled_gain>
 
-		<switch name="systems/hydraulics/system2/pressure-main">
-	    	<default value="0"/>
-	      	<test  logic="OR" value="1">
+        <switch name="systems/hydraulics/system2/pressure-main">
+            <default value="0"/>
+            <test logic="OR" value="1">
 	            systems/hydraulics/system2/main/psi ge 1841.9793
 	      	</test>
-		</switch>
+        </switch>
 
-		<switch name="systems/hydraulics/system2/pressure-reserve">
-	    	<default value="0"/>
-	      	<test  logic="OR" value="1">
+        <switch name="systems/hydraulics/system2/pressure-reserve">
+            <default value="0"/>
+            <test logic="OR" value="1">
 	            systems/hydraulics/system2/reserve/psi ge 1131.2944
 	      	</test>
-		</switch>
+        </switch>
 
-		<switch name="systems/hydraulics/system2/pressure">
-	    	<default value="0"/>
-	      	<test  logic="OR" value="1">
+        <switch name="systems/hydraulics/system2/pressure">
+            <default value="0"/>
+            <test logic="OR" value="1"
+                >
 	            systems/hydraulics/system2/main/psi ge 1841.9793
 	            systems/hydraulics/system2/reserve/psi ge 1131.2944
 	      	</test>
-		</switch>
+        </switch>
 
-	</channel>
+    </channel>
 
-	<channel name="Overall">
+    <channel name="Overall">
 
-		<switch name="systems/hydraulics/flight-surface-actuation">
-	    	<default value="0"/>
-	      	<test  logic="AND" value="1">
+        <switch name="systems/hydraulics/flight-surface-actuation">
+            <default value="0"/>
+            <test logic="AND" value="1">
 	            systems/hydraulics/system1/pressure == 1
 	            systems/hydraulics/system2/pressure == 1
 	      	</test>
-	      	<test  logic="AND" value="0.5">
+            <test logic="AND" value="0.5">
 	            systems/hydraulics/system1/pressure == 1
 	            systems/hydraulics/system2/pressure == 0
 	      	</test>
-	      	<test  logic="AND" value="0.5">
+            <test logic="AND" value="0.5">
 	            systems/hydraulics/system1/pressure == 0
 	            systems/hydraulics/system2/pressure == 1
 	      	</test>
-		</switch>
+        </switch>
 
-		<!--<aerosurface_scale name="systems/hydraulics/combined-pressure-norm">
+        <!--<aerosurface_scale name="systems/hydraulics/combined-pressure-norm">
 	      	<description>
 	                      normalized
 	      	</description>
@@ -137,6 +138,6 @@
 	    	</clipto>
 	    </aerosurface_scale>-->
 
-	</channel>
+    </channel>
 
 </system>

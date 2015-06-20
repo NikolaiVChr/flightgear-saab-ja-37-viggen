@@ -1,72 +1,72 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PropertyList>
-	 <path>../gauge.ac</path>
+    <path>../gauge.ac</path>
 
-    <effect>  
-      <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-      <object-name>glass</object-name>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
     </effect>
 
-	<animation>
-	  <type>material</type>
-	   <object-name>dial</object-name>
-	   <property-base>sim/ja37/texture</property-base>
-	   <texture-prop>gauge-alt3</texture-prop>
-	   <texture>altimeter3.png</texture>
-	 </animation>
-	 
-	 <animation>
-	  <type>rotate</type>
-	  <object-name>needle</object-name>
-	  <condition>
-	    <greater-than>
-	      <property>systems/electrical/outputs/ac-instr-voltage</property>
-	      <value>100</value>
-	    </greater-than>
-	  </condition>
-	  <property>instrumentation/altimeter/indicated-altitude-meter</property>
-	  <factor>.006</factor>
-	  <offset-deg>240</offset-deg>
-	  <axis>
-	   <x>-1</x>
-	   <y>0</y>
-	   <z>0</z>
-	  </axis>
-	 </animation>
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>gauge-alt3</texture-prop>
+        <texture>altimeter3.png</texture>
+    </animation>
 
-	<animation>
-	  <type>pick</type> 
-	  <object-name>glass</object-name>
-      <object-name>mount</object-name>
-	  <condition>   
-	    <greater-than>
-	    <property>systems/electrical/outputs/dc-voltage</property>
-	    <value>20</value>
-	   </greater-than>
-	  </condition>
-	  <hovered>
-	       <binding>
-	         <command>set-tooltip</command>
-	         <tooltip-id>altitude3</tooltip-id>
-	         <label>Altitude: %3d feet</label>
-	         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-	      </binding>
-	   </hovered>
-	 </animation>
-	  
+    <animation>
+        <type>rotate</type>
+        <object-name>needle</object-name>
+        <condition>
+            <greater-than>
+                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <value>100</value>
+            </greater-than>
+        </condition>
+        <property>instrumentation/altimeter/indicated-altitude-meter</property>
+        <factor>.006</factor>
+        <offset-deg>240</offset-deg>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
-	<!-- lighting -->
-	<animation>
-	  <object-name>dial</object-name>
-      <object-name>needle</object-name>
-	  <type>material</type>
-	  <emission>
-	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-	     <green-prop>instrumentation/instrumentation-light/g</green-prop> 
-	     <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-	     <factor-prop>controls/lighting/instruments-norm</factor-prop>
-	  </emission>
-	</animation>
+    <animation>
+        <type>pick</type>
+        <object-name>glass</object-name>
+        <object-name>mount</object-name>
+        <condition>
+            <greater-than>
+                <property>systems/electrical/outputs/dc-voltage</property>
+                <value>20</value>
+            </greater-than>
+        </condition>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altitude3</tooltip-id>
+                <label>Altitude: %3d feet</label>
+                <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            </binding>
+        </hovered>
+    </animation>
+
+
+    <!-- lighting -->
+    <animation>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+        <type>material</type>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
 
 
 </PropertyList>

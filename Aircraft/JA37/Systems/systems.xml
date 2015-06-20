@@ -2,25 +2,26 @@
 
 <PropertyList>
 
-  <pitot>
-    <name>pitot</name>
-    <number>0</number>
-    <stall-deg>60</stall-deg>
-  </pitot>
+    <pitot>
+        <name>pitot</name>
+        <number>0</number>
+        <stall-deg>60</stall-deg>
+    </pitot>
 
-  <static>
-    <name>static</name>
-    <number>0</number>
-    <tau>0.1</tau>
-    <type>2</type><!-- single static sensor at center of aircraft with measurement failures -->
-    <error-factor>0.5</error-factor>
-  </static>
+    <static>
+        <name>static</name>
+        <number>0</number>
+        <tau>0.1</tau>
+        <type>2</type>
+        <!-- single static sensor at center of aircraft with measurement failures -->
+        <error-factor>0.5</error-factor>
+    </static>
 
-  <vacuum>
-    <name>vacuum</name>
-    <number>0</number>
-    <rpm>systems/electrical/outputs/ac-main-voltage</rpm>
-    <scale>25.0</scale>
-  </vacuum>
+    <vacuum>
+        <name>vacuum</name>
+        <number>0</number>
+        <rpm>systems/electrical/outputs/ac-main-voltage</rpm>
+        <scale>25.0</scale>
+    </vacuum>
 
 </PropertyList>

@@ -9,7 +9,7 @@
 
     <channel name="cat-hold">
 
-<!-- vertical hold -->
+        <!-- vertical hold -->
         <!--only a guess , to animate the body when tied, and to avoid a huge pitch during catapulting-->
         <scheduled_gain name="systems/cat-hold/gear-compression">
             <input>launchbar/launch-bar-pos-norm</input>
@@ -27,46 +27,46 @@
         <!--on calcul une force de maintient pendant le catapultage-->
 
         <fcs_function name="systems/cat-hold/force-on">
-                <function>
-                    <product>
-                        <property>inertia/weight-lbs</property>
-                        <property>systems/cat-hold/gear-compression</property>
-                        <value>0.4</value>
-                    </product>
-                </function>
-         </fcs_function>
+            <function>
+                <product>
+                    <property>inertia/weight-lbs</property>
+                    <property>systems/cat-hold/gear-compression</property>
+                    <value>0.4</value>
+                </product>
+            </function>
+        </fcs_function>
 
-         <!--on calcul une force de maintient pendant l'attente-->
+        <!--on calcul une force de maintient pendant l'attente-->
         <!-- on  anime  l' effet de tension -->
 
-         <switch name="systems/cat-hold/force-engage">
-             <default value="0"/>
-             <test  logic="AND" value="0.1">
+        <switch name="systems/cat-hold/force-engage">
+            <default value="0"/>
+            <test logic="AND" value="0.1">
                  launchbar/launch-bar-pos-norm gt 0.9
              </test>
         </switch>
 
-         <fcs_function name="systems/cat-hold/force-off">
-             <function>
-                 <product>
-                     <property>inertia/weight-lbs</property>
-                     <property>systems/cat-hold/force-engage</property>
-                 </product>
-             </function>
-         </fcs_function>
+        <fcs_function name="systems/cat-hold/force-off">
+            <function>
+                <product>
+                    <property>inertia/weight-lbs</property>
+                    <property>systems/cat-hold/force-engage</property>
+                </product>
+            </function>
+        </fcs_function>
 
-        
-	   <switch name="names/carrier/cat-hold-magnitude">
-             <default value="0"/>
-             <test logic="OR" value="systems/cat-hold/force-on">
+
+        <switch name="names/carrier/cat-hold-magnitude">
+            <default value="0"/>
+            <test logic="OR" value="systems/cat-hold/force-on">
 		/surface-positions/holdback  != 0                
              </test>
-             <!--<test logic="AND" value="systems/cat-hold/force-off">
+            <!--<test logic="AND" value="systems/cat-hold/force-off">
                  systems/launchbar/switch == 1
                  systems/cat-hold/force-on == 0
              </test>-->
-             <output>external_reactions/cat-hold/magnitude</output>
-         </switch>
-         
+            <output>external_reactions/cat-hold/magnitude</output>
+        </switch>
+
     </channel>
 </system>

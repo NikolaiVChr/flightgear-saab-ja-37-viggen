@@ -1,20 +1,20 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 
 <PropertyList>
 
-	<path>pilot.ac</path>
+    <path>pilot.ac</path>
 
-	<animation>
-		<type>select</type>
-		<object-name>Pilot</object-name>
-		<condition>
-			<not>
-				<equals>
-					<property>sim/current-view/internal</property>
-					<value>1</value>
-				</equals>
-			</not>
-		</condition>
-	</animation>
+    <animation>
+        <type>select</type>
+        <object-name>Pilot</object-name>
+        <condition>
+            <not>
+                <equals>
+                    <property>sim/current-view/internal</property>
+                    <value>1</value>
+                </equals>
+            </not>
+        </condition>
+    </animation>
 </PropertyList>

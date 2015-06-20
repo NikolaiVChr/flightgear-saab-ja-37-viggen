@@ -1,50 +1,50 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <PropertyList>
-  <path>green-indicator.ac</path>
+    <path>green-indicator.ac</path>
 
- <animation>
-  <type>material</type> 
-  <object-name>Circle</object-name>				
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-   <factor-prop>/instrumentation/reverse-indicator</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>Circle</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>1.0</green>
+            <blue>0.0</blue>
+            <factor-prop>/instrumentation/reverse-indicator</factor-prop>
+        </emission>
+    </animation>
 
-<animation>
-  <type>scale</type>
-  <object-name>Circle</object-name>
-  <x-offset>0.50</x-offset>
-  <y-offset>0.50</y-offset>
-  <z-offset>0.50</z-offset>
- </animation>
+    <animation>
+        <type>scale</type>
+        <object-name>Circle</object-name>
+        <x-offset>0.50</x-offset>
+        <y-offset>0.50</y-offset>
+        <z-offset>0.50</z-offset>
+    </animation>
 
- <animation>
-  <type>textranslate</type>
-  <object-name>Circle</object-name>
-  <property>/instrumentation/reverse-indicator</property>
-  <factor>0.5</factor>
-  <axis>
-   <x>1</x>
-   <y>0</y>
-  </axis>
- </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>Circle</object-name>
+        <property>/instrumentation/reverse-indicator</property>
+        <factor>0.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
 
- <animation>
-  <type>pick</type> 
-  <object-name>Circle</object-name>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>Reverse Indicator</tooltip-id>
-         <label>Reverse thrust</label>
-         <property>/instrumentation/reverse-indicator</property>
-      </binding>
-   </hovered>
- </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>Circle</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Reverse Indicator</tooltip-id>
+                <label>Reverse thrust</label>
+                <property>/instrumentation/reverse-indicator</property>
+            </binding>
+        </hovered>
+    </animation>
 
 
 </PropertyList>

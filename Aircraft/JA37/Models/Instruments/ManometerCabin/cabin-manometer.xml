@@ -1,73 +1,79 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PropertyList>
     <path>../gauge.ac</path>
 
-	 <effect>  
-      <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-      <object-name>glass</object-name>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
     </effect>
 
-	<animation>
-	  <type>material</type>
-	   <object-name>dial</object-name>
-	   <property-base>sim/ja37/texture</property-base>
-	   <texture-prop>gauge-mano-cabin</texture-prop>
-	   <texture>cabin-manometer-face.png</texture>
-	 </animation>
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>gauge-mano-cabin</texture-prop>
+        <texture>cabin-manometer-face.png</texture>
+    </animation>
 
-	 <animation>
-	  <type>rotate</type>
-	  <object-name>needle</object-name>
-	  <condition>
-	    <greater-than>
-	      <property>systems/electrical/outputs/ac-instr-voltage</property>
-	      <value>100</value>
-	    </greater-than>
-	  </condition>
-	  <property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
-	  <interpolation>
-          <entry><ind>0</ind><dep>-125</dep></entry>
-          <entry><ind>0.3</ind><dep>125</dep></entry>
-      </interpolation>
-	  <axis>
-	   <x>-1</x>
-	   <y>0</y>
-	   <z>0</z>
-	  </axis>
-	 </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>needle</object-name>
+        <condition>
+            <greater-than>
+                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <value>100</value>
+            </greater-than>
+        </condition>
+        <property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>-125</dep>
+            </entry>
+            <entry>
+                <ind>0.3</ind>
+                <dep>125</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
-	<animation>
-	  <type>pick</type> 
-	  <object-name>dial</object-name>
-      <object-name>glass</object-name>
-	  <condition>   
-	    <greater-than>
-	    <property>systems/electrical/outputs/dc-voltage</property>
-	    <value>20</value>
-	   </greater-than>
-	  </condition>
-	  <hovered>
-	       <binding>
-	         <command>set-tooltip</command>
-	         <tooltip-id>cabinmano</tooltip-id>
-	         <label>Cabin manometer (kp/cm2)</label>
-	      </binding>
-	   </hovered>
-	 </animation>
-	  
+    <animation>
+        <type>pick</type>
+        <object-name>dial</object-name>
+        <object-name>glass</object-name>
+        <condition>
+            <greater-than>
+                <property>systems/electrical/outputs/dc-voltage</property>
+                <value>20</value>
+            </greater-than>
+        </condition>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>cabinmano</tooltip-id>
+                <label>Cabin manometer (kp/cm2)</label>
+            </binding>
+        </hovered>
+    </animation>
 
-	<!-- lighting -->
-	<animation>
-	  <object-name>dial</object-name>
-      <object-name>needle</object-name>
-	  <type>material</type>
-	  <emission>
-	    <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-	     <green-prop>instrumentation/instrumentation-light/g</green-prop> 
-	     <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-	     <factor-prop>controls/lighting/instruments-norm</factor-prop>
-	  </emission>
-	</animation>
+
+    <!-- lighting -->
+    <animation>
+        <object-name>dial</object-name>
+        <object-name>needle</object-name>
+        <type>material</type>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
 
 
 </PropertyList>

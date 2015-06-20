@@ -2,152 +2,153 @@
 
 <system name="flight">
 
-  <channel name="Aerodynamic info">
+    <channel name="Aerodynamic info">
 
-    <fcs_function name="systems/flight/axial-force-lb">
-        <function>
-          <sum>
-            <property>aero/coefficient/CAtakeoff</property>
-            <property>aero/coefficient/CACanopy</property>
-            <property>aero/coefficient/CACanopyOff</property>
-            <property>aero/coefficient/CAElevonLeft</property>
-            <property>aero/coefficient/CAElevonRight</property>
-            <property>aero/coefficient/CARudder</property>
-            <property>aero/coefficient/CAMissile1</property>
-            <property>aero/coefficient/CAMissile2</property>
-            <property>aero/coefficient/CAMissile3</property>
-            <property>aero/coefficient/CAMissile4</property>
-            <property>aero/coefficient/CATank</property>
-            <property>aero/coefficient/CA</property>
-          </sum>
-        </function>
-     </fcs_function>
+        <fcs_function name="systems/flight/axial-force-lb">
+            <function>
+                <sum>
+                    <property>aero/coefficient/CAtakeoff</property>
+                    <property>aero/coefficient/CACanopy</property>
+                    <property>aero/coefficient/CACanopyOff</property>
+                    <property>aero/coefficient/CAElevonLeft</property>
+                    <property>aero/coefficient/CAElevonRight</property>
+                    <property>aero/coefficient/CARudder</property>
+                    <property>aero/coefficient/CAMissile1</property>
+                    <property>aero/coefficient/CAMissile2</property>
+                    <property>aero/coefficient/CAMissile3</property>
+                    <property>aero/coefficient/CAMissile4</property>
+                    <property>aero/coefficient/CATank</property>
+                    <property>aero/coefficient/CA</property>
+                </sum>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="systems/flight/normal-force-lb">
-        <function>
-          <sum>
-            <property>aero/coefficient/CN</property>
-            <property>aero/coefficient/CNGnd</property>
-            <property>aero/coefficient/CNGndElevator</property>
-            <property>aero/coefficient/CNflaps</property>
-          </sum>
-        </function>
-     </fcs_function>
+        <fcs_function name="systems/flight/normal-force-lb">
+            <function>
+                <sum>
+                    <property>aero/coefficient/CN</property>
+                    <property>aero/coefficient/CNGnd</property>
+                    <property>aero/coefficient/CNGndElevator</property>
+                    <property>aero/coefficient/CNflaps</property>
+                </sum>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="systems/flight/lift-force-lb">
-        <function>
-          <difference>
-            <product>
-              <property>systems/flight/normal-force-lb</property>
-              <cos>
-                <property>aero/alpha-rad</property>
-              </cos>
-            </product>
-            <product>
-              <property>systems/flight/axial-force-lb</property>
-              <sin>
-                <property>aero/alpha-rad</property>
-              </sin>
-            </product>
-          </difference>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/drag-force-lb">
-        <function>
-          <sum>
-            <product>
-              <property>systems/flight/normal-force-lb</property>
-              <sin>
-                <property>aero/alpha-rad</property>
-              </sin>
-            </product>
-            <product>
-              <property>systems/flight/axial-force-lb</property>
-              <cos>
-                <property>aero/alpha-rad</property>
-              </cos>
-            </product>
-          </sum>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/excess-thrust-lb">
-        <function>
-          <difference>
-              <property>propulsion/engine/thrust-lbs</property>
-              <property>systems/flight/drag-force-lb</property>
-          </difference>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/lift-drag-ratio">
-        <function>
-          <quotient>
-              <property>systems/flight/lift-force-lb</property>
-              <property>systems/flight/drag-force-lb</property>
-          </quotient>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/thrust-weight-ratio">
-        <function>
-          <quotient>
-              <property>propulsion/engine/thrust-lbs</property>
-              <property>inertia/weight-lbs</property>
-          </quotient>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/lift-weight-ratio">
-        <function>
-          <quotient>
-              <property>systems/flight/lift-force-lb</property>
-              <property>inertia/weight-lbs</property>
-          </quotient>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/thrust-drag-ratio">
-        <function>
-          <quotient>
-              <property>propulsion/engine/thrust-lbs</property>
-              <property>systems/flight/drag-force-lb</property>
-          </quotient>
-        </function>
-     </fcs_function>
-
-    <fcs_function name="systems/flight/turning-radius-nm">
-        <function>
-          <abs>
-            <quotient>
-              <product>
-                <product>
-                  <property>velocities/vg-fps</property>
-                  <value>0.000164578834</value><!-- convert fps to nm/sec -->
-                </product>
-                <quotient>
+        <fcs_function name="systems/flight/lift-force-lb">
+            <function>
+                <difference>
                     <product>
-                      <pi/>
-                      <value>2.0</value>
+                        <property>systems/flight/normal-force-lb</property>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
                     </product>
-                    <property>velocities/psidot-rad_sec</property>
-                </quotient>
-              </product>
-              <product>
-                <pi/>
-                <value>0.5</value>
-              </product>
-            </quotient>
-          </abs>
-        </function>
-     </fcs_function>
+                    <product>
+                        <property>systems/flight/axial-force-lb</property>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                </difference>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="propulsion/engine/rpm_r-s">
-        <function>
-          <table>
-            <independentVar lookup="row">propulsion/engine/n2</independentVar>
-            <tableData>
+        <fcs_function name="systems/flight/drag-force-lb">
+            <function>
+                <sum>
+                    <product>
+                        <property>systems/flight/normal-force-lb</property>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                    <product>
+                        <property>systems/flight/axial-force-lb</property>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/excess-thrust-lb">
+            <function>
+                <difference>
+                    <property>propulsion/engine/thrust-lbs</property>
+                    <property>systems/flight/drag-force-lb</property>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/lift-drag-ratio">
+            <function>
+                <quotient>
+                    <property>systems/flight/lift-force-lb</property>
+                    <property>systems/flight/drag-force-lb</property>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/thrust-weight-ratio">
+            <function>
+                <quotient>
+                    <property>propulsion/engine/thrust-lbs</property>
+                    <property>inertia/weight-lbs</property>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/lift-weight-ratio">
+            <function>
+                <quotient>
+                    <property>systems/flight/lift-force-lb</property>
+                    <property>inertia/weight-lbs</property>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/thrust-drag-ratio">
+            <function>
+                <quotient>
+                    <property>propulsion/engine/thrust-lbs</property>
+                    <property>systems/flight/drag-force-lb</property>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/turning-radius-nm">
+            <function>
+                <abs>
+                    <quotient>
+                        <product>
+                            <product>
+                                <property>velocities/vg-fps</property>
+                                <value>0.000164578834</value>
+                                <!-- convert fps to nm/sec -->
+                            </product>
+                            <quotient>
+                                <product>
+                                    <pi/>
+                                    <value>2.0</value>
+                                </product>
+                                <property>velocities/psidot-rad_sec</property>
+                            </quotient>
+                        </product>
+                        <product>
+                            <pi/>
+                            <value>0.5</value>
+                        </product>
+                    </quotient>
+                </abs>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/rpm_r-s">
+            <function>
+                <table>
+                    <independentVar lookup="row">propulsion/engine/n2</independentVar>
+                    <tableData>
                 0.0         0
                57.0       118
                70.5       149
@@ -156,29 +157,29 @@
                94.8       194
               100.0       204.6
             </tableData>
-          </table>
-        </function>
-     </fcs_function>
+                </table>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="propulsion/engine/rpm_r-min">
-        <function>
-            <product>
-              <property>propulsion/engine/rpm_r-s</property>
-              <value>60</value>
-            </product>
-        </function>
-     </fcs_function>
+        <fcs_function name="propulsion/engine/rpm_r-min">
+            <function>
+                <product>
+                    <property>propulsion/engine/rpm_r-s</property>
+                    <value>60</value>
+                </product>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="propulsion/engine/outlet-temperature-degc">
-        <function>
-            <quotient>
-              <difference>
-                <property>/engines/engine/egt-degf</property>
-                <value>32</value>
-              </difference>
-              <value>1.8</value>
-            </quotient>
-<!--          <sum>
+        <fcs_function name="propulsion/engine/outlet-temperature-degc">
+            <function>
+                <quotient>
+                    <difference>
+                        <property>/engines/engine/egt-degf</property>
+                        <value>32</value>
+                    </difference>
+                    <value>1.8</value>
+                </quotient>
+                <!--          <sum>
             <table>
               <independentVar lookup="row">propulsion/engine/thrust-lbs</independentVar>
               <tableData>
@@ -188,102 +189,103 @@
             </table>
             <property>/environment/temperature-degc</property>
           </sum>-->
-        </function>
-     </fcs_function>
+            </function>
+        </fcs_function>
 
-     <!-- page 137 of manual -->
-    <fcs_function name="systems/flight/oxygen-pressure-kPa">
-        <function>
-          <product>
-            <property>/controls/oxygen</property>
-            <table>
-              <independentVar lookup="row">atmosphere/density-altitude</independentVar>
-              <tableData>
+        <!-- page 137 of manual -->
+        <fcs_function name="systems/flight/oxygen-pressure-kPa">
+            <function>
+                <product>
+                    <property>/controls/oxygen</property>
+                    <table>
+                        <independentVar lookup="row">atmosphere/density-altitude</independentVar>
+                        <tableData>
                   0.0         0.1
               59055.1         0.4 <!--  9000m cabin density alt / 18000m density alt -->
               85301.8         6.7 <!-- 15000m cabin density alt / 26000m density alt -->
-              </tableData>
-            </table>
-          </product>
-        </function>
-     </fcs_function>
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="systems/flight/environment-pressure-kPa">
-        <function>
-            <product>
-              <property>atmosphere/P-psf</property>
-              <value>0.047880258888979</value>
-            </product>
-        </function>
-     </fcs_function>
+        <fcs_function name="systems/flight/environment-pressure-kPa">
+            <function>
+                <product>
+                    <property>atmosphere/P-psf</property>
+                    <value>0.047880258888979</value>
+                </product>
+            </function>
+        </fcs_function>
 
-     <!-- page 135 of manual -->
-    <fcs_function name="systems/flight/closed-canopy-cabin-pressure-kPa">
-        <function>
-          <sum>
-            <property>systems/flight/environment-pressure-kPa</property>
-            <table>
-              <independentVar lookup="row">atmosphere/density-altitude</independentVar>
-              <tableData>
+        <!-- page 135 of manual -->
+        <fcs_function name="systems/flight/closed-canopy-cabin-pressure-kPa">
+            <function>
+                <sum>
+                    <property>systems/flight/environment-pressure-kPa</property>
+                    <table>
+                        <independentVar lookup="row">atmosphere/density-altitude</independentVar>
+                        <tableData>
                   0.0         0.0   
               16404.2        19.6 <!--  5000m density alt -->
               65616.8        23.5 <!-- 20000m density alt -->
-              </tableData>
-            </table>
-          </sum>
-        </function>
-     </fcs_function>
+                        </tableData>
+                    </table>
+                </sum>
+            </function>
+        </fcs_function>
 
-     <switch name="systems/flight/cabin-pressure-kPa">
-          <default value="systems/flight/closed-canopy-cabin-pressure-kPa"/>
-          <test logic="OR" value="systems/flight/environment-pressure-kPa">
+        <switch name="systems/flight/cabin-pressure-kPa">
+            <default value="systems/flight/closed-canopy-cabin-pressure-kPa"/>
+            <test logic="OR" value="systems/flight/environment-pressure-kPa">
               fcs/canopy/pos-norm ne 0
           </test>
-      </switch>
+        </switch>
 
-     <fcs_function name="systems/flight/cabin-pressure-kpm2"><!-- kilopond per square cm2-->
-        <function>
-            <product>
-              <property>systems/flight/cabin-pressure-kPa</property>
-              <value>0.010197162129779</value>
-            </product>
-        </function>
-     </fcs_function>
+        <fcs_function name="systems/flight/cabin-pressure-kpm2">
+            <!-- kilopond per square cm2-->
+            <function>
+                <product>
+                    <property>systems/flight/cabin-pressure-kPa</property>
+                    <value>0.010197162129779</value>
+                </product>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="systems/flight/brake-pressure-kPa">
-        <function>
-          <product>
-            <property>/controls/gear/brake-left</property>
-            <property>gear/unit[1]/WOW</property>
-            <table>
-              <independentVar lookup="row">velocities/vg-fps</independentVar>
-              <tableData>
+        <fcs_function name="systems/flight/brake-pressure-kPa">
+            <function>
+                <product>
+                    <property>/controls/gear/brake-left</property>
+                    <property>gear/unit[1]/WOW</property>
+                    <table>
+                        <independentVar lookup="row">velocities/vg-fps</independentVar>
+                        <tableData>
                   0         0.0
                 320         3.5
               </tableData>
-            </table>
-          </product>
-        </function>
-     </fcs_function>
+                    </table>
+                </product>
+            </function>
+        </fcs_function>
 
-    <fcs_function name="names/flight/reverser-position">
-        <function>
-              <difference>
-                <value>1</value>
-                <property>/engines/engine/reverser-pos-norm</property>
-              </difference>
-        </function>
-        <output>/engines/engine/reverser-position</output>
-     </fcs_function>
+        <fcs_function name="names/flight/reverser-position">
+            <function>
+                <difference>
+                    <value>1</value>
+                    <property>/engines/engine/reverser-pos-norm</property>
+                </difference>
+            </function>
+            <output>/engines/engine/reverser-position</output>
+        </fcs_function>
 
-     <switch name="propulsion/engine/cutoff-ready">
-          <default value="0"/>
-          <test logic="AND" value="1">
+        <switch name="propulsion/engine/cutoff-ready">
+            <default value="0"/>
+            <test logic="AND" value="1">
               propulsion/starter_cmd_copy == 1
               /controls/engines/engine[0]/cutoff == 1
               propulsion/engine/n1   gt 5.2
           </test>
-      </switch>
-  </channel>
+        </switch>
+    </channel>
 
 </system>

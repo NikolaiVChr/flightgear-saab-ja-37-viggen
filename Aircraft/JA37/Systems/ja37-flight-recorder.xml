@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <PropertyList>
-      <replay-config type="int">0</replay-config>
-      <config n="0" >
+    <replay-config type="int">0</replay-config>
+    <config n="0">
         <name type="string">JA-37 Flight Recorder</name>
         <!-- Custom properties -->
         <signals include="/Aircraft/Generic/flightrecorder/components/environment.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/position.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/controls.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/engine-jet.xml">
-          <count type="int">1</count>
+            <count type="int">1</count>
         </signals>
         <signals include="/Aircraft/Generic/flightrecorder/components/faults-engines.xml">
-          <count type="int">1</count>
+            <count type="int">1</count>
         </signals>
         <signals include="/Aircraft/Generic/flightrecorder/components/tanks.xml">
-          <count type="int">8</count>
+            <count type="int">8</count>
         </signals>
         <signals include="/Aircraft/Generic/flightrecorder/components/gear-retractable.xml">
-          <count type="int">3</count>
+            <count type="int">3</count>
         </signals>
         <!-- <signal>
           <type>float</type>
@@ -49,36 +49,36 @@
         </signal>
         <!-- Misc -->
         <signal>
-          <type>bool</type>
-          <property type="string">systems/electrical/batterysignal</property>
+            <type>bool</type>
+            <property type="string">systems/electrical/batterysignal</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">instrumentation/head-up-display/serviceable</property>
+            <type>bool</type>
+            <property type="string">instrumentation/head-up-display/serviceable</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">velocities/groundspeed-kt</property>
+            <type>float</type>
+            <property type="string">velocities/groundspeed-kt</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
+            <type>bool</type>
+            <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">fdm/jsbsim/structural/wings/serviceable</property>
+            <type>bool</type>
+            <property type="string">fdm/jsbsim/structural/wings/serviceable</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">canopy/position-norm</property>
+            <type>float</type>
+            <property type="string">canopy/position-norm</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">engines/engine/reverser-position</property>
+            <type>float</type>
+            <property type="string">engines/engine/reverser-position</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
+            <type>bool</type>
+            <property type="string">fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
         </signal>
         <!-- Instruments -->
         <!--<signal>
@@ -87,160 +87,162 @@
           <interpolation>angular-deg</interpolation>
         </signal>-->
         <signal>
-          <type>float</type>
-          <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
+            <type>float</type>
+            <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
         </signal>
         <!-- Sound -->
         <signal>
-          <type>float</type>
-          <property type="string">engines/engine/thrust_lb</property>
+            <type>float</type>
+            <property type="string">engines/engine/thrust_lb</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">engines/engine/thrust_lb-absolute</property>
+            <type>float</type>
+            <property type="string">engines/engine/thrust_lb-absolute</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">damage/sounds/explode-on</property>
+            <type>bool</type>
+            <property type="string">damage/sounds/explode-on</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">damage/sounds/crash-on</property>
+            <type>bool</type>
+            <property type="string">damage/sounds/crash-on</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">damage/sounds/water-crash-on</property>
+            <type>bool</type>
+            <property type="string">damage/sounds/water-crash-on</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">damage/sounds/crack-on</property>
+            <type>bool</type>
+            <property type="string">damage/sounds/crack-on</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">damage/sounds/creaking-on</property>
+            <type>bool</type>
+            <property type="string">damage/sounds/creaking-on</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">damage/sounds/crack-volume</property>
+            <type>float</type>
+            <property type="string">damage/sounds/crack-volume</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">damage/sounds/creaking-volume</property>
+            <type>float</type>
+            <property type="string">damage/sounds/creaking-volume</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">engines/engine[0]/reversed</property>
+            <type>bool</type>
+            <property type="string">engines/engine[0]/reversed</property>
         </signal>
         <!-- exterior lights -->
         <signal>
-          <type>float</type>
-          <property type="string">sim/multiplay/generic/int[9]</property><!-- bit encoded ext. lights -->
+            <type>float</type>
+            <property type="string">sim/multiplay/generic/int[9]</property>
+            <!-- bit encoded ext. lights -->
         </signal>
         <!--<signal> this is continuosly running so recording it will make double blinks
           <type>bool</type>
           <property type="string">sim/model/lighting/strobe/state</property>
         </signal>-->
         <signal>
-          <type>float</type>
-          <property type="string">sim/model/lighting/beacon/state-rotary</property>
+            <type>float</type>
+            <property type="string">sim/model/lighting/beacon/state-rotary</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">sim/ja37/effect/landing-light</property>
+            <type>float</type>
+            <property type="string">sim/ja37/effect/landing-light</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">systems/electrical/outputs/ac-instr-voltage</property>
+            <type>float</type>
+            <property type="string">systems/electrical/outputs/ac-instr-voltage</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">systems/electrical/outputs/ac-main-voltage</property>
+            <type>float</type>
+            <property type="string">systems/electrical/outputs/ac-main-voltage</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">systems/electrical/outputs/dc-voltage</property>
-        </signal> 
-        <signal>
-          <type>float</type>
-          <property type="string">/systems/electrical/outputs/dc-norm</property>
+            <type>float</type>
+            <property type="string">systems/electrical/outputs/dc-voltage</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">/systems/electrical/dc-light</property>
+            <type>float</type>
+            <property type="string">/systems/electrical/outputs/dc-norm</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">controls/lighting/instruments-norm</property>
+            <type>float</type>
+            <property type="string">/systems/electrical/dc-light</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">controls/electric/lights-land-switch</property>
+            <type>float</type>
+            <property type="string">controls/lighting/instruments-norm</property>
+        </signal>
+        <signal>
+            <type>bool</type>
+            <property type="string">controls/electric/lights-land-switch</property>
         </signal>
         <!-- Effects -->
         <signal>
-          <type>float</type>
-          <property type="string">engines/engine/flame</property>
+            <type>float</type>
+            <property type="string">engines/engine/flame</property>
         </signal>
         <signal>
-          <type>int8</type>
-          <property type="string">sim/ja37/effect/smoke</property>
+            <type>int8</type>
+            <property type="string">sim/ja37/effect/smoke</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">engines/engine[0]/nozzle-pos-norm</property>
+            <type>float</type>
+            <property type="string">engines/engine[0]/nozzle-pos-norm</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">engines/engine[0]/augmentation</property>
+            <type>bool</type>
+            <property type="string">engines/engine[0]/augmentation</property>
         </signal>
         <!-- Stores -->
         <signal>
-          <type>bool</type>
-          <property type="string">controls/armament/station[0]/trigger</property>
+            <type>bool</type>
+            <property type="string">controls/armament/station[0]/trigger</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">ai/submodels/submodel[0]/flare-release</property>
+            <type>bool</type>
+            <property type="string">ai/submodels/submodel[0]/flare-release</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">consumables/fuel/tank[8]/jettisoned</property>
+            <type>bool</type>
+            <property type="string">consumables/fuel/tank[8]/jettisoned</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">controls/armament/station[1]/released</property>
+            <type>bool</type>
+            <property type="string">controls/armament/station[1]/released</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">controls/armament/station[2]/released</property>
+            <type>bool</type>
+            <property type="string">controls/armament/station[2]/released</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">controls/armament/station[3]/released</property>
+            <type>bool</type>
+            <property type="string">controls/armament/station[3]/released</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">controls/armament/station[4]/released</property>
+            <type>bool</type>
+            <property type="string">controls/armament/station[4]/released</property>
         </signal>
         <signal>
-          <type>bool</type>
-          <property type="string">fdm/jsbsim/systems/electrical/external/available</property>
+            <type>bool</type>
+            <property type="string">fdm/jsbsim/systems/electrical/external/available</property>
         </signal>
         <signal>
-          <type>int16</type><!-- careful, did these not change to use floating points?: -->
-          <property type="string">payload/weight[0]/weight-lb</property>
+            <type>int16</type>
+            <!-- careful, did these not change to use floating points?: -->
+            <property type="string">payload/weight[0]/weight-lb</property>
         </signal>
         <signal>
-          <type>int16</type>
-          <property type="string">payload/weight[1]/weight-lb</property>
+            <type>int16</type>
+            <property type="string">payload/weight[1]/weight-lb</property>
         </signal>
         <signal>
-          <type>int16</type>
-          <property type="string">payload/weight[2]/weight-lb</property>
+            <type>int16</type>
+            <property type="string">payload/weight[2]/weight-lb</property>
         </signal>
         <signal>
-          <type>int16</type>
-          <property type="string">payload/weight[3]/weight-lb</property>
+            <type>int16</type>
+            <property type="string">payload/weight[3]/weight-lb</property>
         </signal>
         <!-- Gears -->
         <!--<signal>
@@ -259,12 +261,14 @@
             <type>float</type>
             <property type="string">surface-positions/nose-wheel-pos-norm</property>
         </signal>
-      </config><!-- 
+    </config>
+    <!-- 
     - double: 8 byte/sample
     - float:  4 byte/sample (default)
     - int:    4 byte/sample, integer
     - int16:  2 byte/sample, integer
     - int8:   1 byte/sample, integer
     - bool:   1 bit/sample (yes, 1 bit. 8 bools per byte).
-    --><!-- remember string types are unsupported -->
+    -->
+    <!-- remember string types are unsupported -->
 </PropertyList>

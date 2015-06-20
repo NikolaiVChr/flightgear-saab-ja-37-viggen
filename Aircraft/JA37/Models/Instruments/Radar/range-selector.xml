@@ -1,70 +1,70 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <PropertyList>
 
- <path>range-selector.ac</path>
+    <path>range-selector.ac</path>
 
-    <effect>  
-      <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-      <object-name>glassRadarRange</object-name>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glassRadarRange</object-name>
     </effect>
 
- <animation>
-  <type>scale</type>
-  <object-name>D10000</object-name>
-  <object-name>D1000</object-name>
-  <object-name>D100</object-name>
-  <object-name>D10</object-name>
-  <object-name>D1</object-name>
-  <object-name>CW</object-name>
-  <object-name>CCW</object-name>
-  <object-name>RCube</object-name>
-  <object-name>RCylinder</object-name>
-  <object-name>RPlane</object-name>
-  <x-offset>1.00</x-offset>
-  <y-offset>1.25</y-offset>
-  <z-offset>1.25</z-offset>
- </animation>
- 
- <animation>
-  <type>material</type> 
-  <object-name>D10000</object-name>
-  <object-name>D1000</object-name>
-  <object-name>D100</object-name>
-  <object-name>D10</object-name>
-  <object-name>D1</object-name>
-  <emission>	
-   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-   <factor-prop>controls/lighting/instruments-norm</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>scale</type>
+        <object-name>D10000</object-name>
+        <object-name>D1000</object-name>
+        <object-name>D100</object-name>
+        <object-name>D10</object-name>
+        <object-name>D1</object-name>
+        <object-name>CW</object-name>
+        <object-name>CCW</object-name>
+        <object-name>RCube</object-name>
+        <object-name>RCylinder</object-name>
+        <object-name>RPlane</object-name>
+        <x-offset>1.00</x-offset>
+        <y-offset>1.25</y-offset>
+        <z-offset>1.25</z-offset>
+    </animation>
 
-<animation>
-  <type>pick</type>
-  <object-name>glassRadarRange</object-name>
-  <object-name>CW</object-name>
-  <object-name>CCW</object-name>
-  <object-name>RCube</object-name>
-  <object-name>RCylinder</object-name>
-  <object-name>RPlane</object-name>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>Radar Range Setting</tooltip-id>
-         <label>Radar Range %5d Nm</label>
-         <property>/instrumentation/radar/range</property>
-         <mapping>nasal</mapping>
-          <script>
+    <animation>
+        <type>material</type>
+        <object-name>D10000</object-name>
+        <object-name>D1000</object-name>
+        <object-name>D100</object-name>
+        <object-name>D10</object-name>
+        <object-name>D1</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glassRadarRange</object-name>
+        <object-name>CW</object-name>
+        <object-name>CCW</object-name>
+        <object-name>RCube</object-name>
+        <object-name>RCylinder</object-name>
+        <object-name>RPlane</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Radar Range Setting</tooltip-id>
+                <label>Radar Range %5d Nm</label>
+                <property>/instrumentation/radar/range</property>
+                <mapping>nasal</mapping>
+                <script>
             return arg[0]*0.54;
           </script>
-      </binding>
-   </hovered>
- </animation>
+            </binding>
+        </hovered>
+    </animation>
 
     <!-- Range Display -->
-    
+
     <animation>
         <type>textranslate</type>
         <object-name>D10000</object-name>
@@ -77,7 +77,7 @@
             <z>0</z>
         </axis>
     </animation>
-    
+
     <animation>
         <type>textranslate</type>
         <object-name>D1000</object-name>
@@ -131,155 +131,154 @@
     </animation>
 
 
-  <!--             Range setting       -->  
+    <!--             Range setting       -->
 
- <animation>
-  <type>pick</type>
-  <object-name>CW</object-name>
-  <visible>false</visible>
-  <action>
-    <name>decrease calibrate fine</name>
-    <button>0</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>-1000</step>
-      <min>1000</min>
-      <max>48000.0</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>
-  </action>
-  <action>
-    <name>decrease calibrate coarse</name>
-    <button>1</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>-10000</step>
-      <min>1000</min>
-      <max>48000</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
-  <action>
-    <name>decrease calibrate fine (scrollwheel)</name>
-    <button>3</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>-1000</step>
-      <min>1000</min>
-      <max>48000</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
-  <action>
-    <name>increase calibrate fine (scrollwheel)</name>
-    <button>4</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>1000</step>
-      <min>1000</min>
-      <max>48000</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
- </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>CW</object-name>
+        <visible>false</visible>
+        <action>
+            <name>decrease calibrate fine</name>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>-1000</step>
+                <min>1000</min>
+                <max>48000.0</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+        <action>
+            <name>decrease calibrate coarse</name>
+            <button>1</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>-10000</step>
+                <min>1000</min>
+                <max>48000</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+        <action>
+            <name>decrease calibrate fine (scrollwheel)</name>
+            <button>3</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>-1000</step>
+                <min>1000</min>
+                <max>48000</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+        <action>
+            <name>increase calibrate fine (scrollwheel)</name>
+            <button>4</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>1000</step>
+                <min>1000</min>
+                <max>48000</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+    </animation>
 
- <animation>
-  <type>pick</type>
-  <object-name>CCW</object-name>
-  <visible>false</visible>
-  <action>
-    <name>increase calibrate fine</name>
-    <button>0</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>1000</step>
-      <min>1000</min>
-      <max>48000</max>>
+    <animation>
+        <type>pick</type>
+        <object-name>CCW</object-name>
+        <visible>false</visible>
+        <action>
+            <name>increase calibrate fine</name>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>1000</step>
+                <min>1000</min>
+                <max>48000</max>>
       <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
-  <action>
-    <name>increase calibrate coarse</name>
-    <button>1</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>10000</step>
-      <min>1000</min>
-      <max>48000</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
-  <action>
-    <name>decrease calibrate fine (scrollwheel)</name>
-    <button>3</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>-1000</step>
-      <min>1000</min>
-      <max>48000</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
-  <action>
-    <name>increase calibrate fine (scrollwheel)</name>
-    <button>4</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-        <property>/instrumentation/radar/range</property>
-      <step>1000</step>
-      <min>1000</min>
-      <max>48000</max>
-      <wrap>false</wrap>
-    </binding>
-    <binding>
-       <command>nasal</command>
-       <script>ja37.click()</script>
-    </binding>    
-  </action>
- </animation>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+        <action>
+            <name>increase calibrate coarse</name>
+            <button>1</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>10000</step>
+                <min>1000</min>
+                <max>48000</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+        <action>
+            <name>decrease calibrate fine (scrollwheel)</name>
+            <button>3</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>-1000</step>
+                <min>1000</min>
+                <max>48000</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+        <action>
+            <name>increase calibrate fine (scrollwheel)</name>
+            <button>4</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/instrumentation/radar/range</property>
+                <step>1000</step>
+                <min>1000</min>
+                <max>48000</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+    </animation>
 
 </PropertyList>
-

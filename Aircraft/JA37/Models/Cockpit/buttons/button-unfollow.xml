@@ -1,62 +1,62 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <PropertyList>
 
- 	<path>button-red.ac</path>
- 
-	<animation>
-	    <type>pick</type>
-	    <object-name>Surface</object-name>
-	    <object-name>Ring</object-name>
-	    <action>
-	        <button>0</button>
-	        <binding>
-       			<command>nasal</command>
-       			<script>ja37.unfollow();</script>
-     		</binding>
-	    </action>
-	    <hovered>
-	        <binding>
-	         	<command>set-tooltip</command>
-	         	<tooltip-id>button-unfollow</tooltip-id>
-	         	<label>Stop following</label>
-	         	<property>autopilot/target-tracking-ja37/enable</property>
-	        </binding>
-	    </hovered>
-	</animation>
+    <path>button-red.ac</path>
 
-	<animation>
-		<type>material</type>
-		<object-name>Text</object-name>
-		<property-base>sim/ja37/texture</property-base>
-		<texture-prop>button-follow-stop</texture-prop>
-		<texture>button-follow-stop.png</texture>
-	</animation>
+    <animation>
+        <type>pick</type>
+        <object-name>Surface</object-name>
+        <object-name>Ring</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.unfollow();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>button-unfollow</tooltip-id>
+                <label>Stop following</label>
+                <property>autopilot/target-tracking-ja37/enable</property>
+            </binding>
+        </hovered>
+    </animation>
 
-	<animation>
-		<type>material</type> 
-		<object-name>Text</object-name>
-		<emission>  
-			<red-prop>instrumentation/instrumentation-light/r</red-prop> 
-			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-			<factor-prop>controls/lighting/instruments-norm</factor-prop>
-		</emission>
-	</animation>
+    <animation>
+        <type>material</type>
+        <object-name>Text</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>button-follow-stop</texture-prop>
+        <texture>button-follow-stop.png</texture>
+    </animation>
 
-<animation>
-  <type>material</type> 
-  <object-name>Ring</object-name>
-	<condition>
-	  	<equals>
-			<property>autopilot/target-tracking-ja37/enable</property>
-		    <value>0</value>
-	    </equals>
-	</condition>
-  <emission>  
-   <red-prop>instrumentation/instrumentation-light/r</red-prop>
-   <factor-prop>controls/lighting/instruments-norm</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>Text</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Ring</object-name>
+        <condition>
+            <equals>
+                <property>autopilot/target-tracking-ja37/enable</property>
+                <value>0</value>
+            </equals>
+        </condition>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
 
 </PropertyList>

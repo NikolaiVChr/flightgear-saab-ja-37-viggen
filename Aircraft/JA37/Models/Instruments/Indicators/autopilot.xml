@@ -1,111 +1,111 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <PropertyList>
-  <path>autopilot.ac</path>
+    <path>autopilot.ac</path>
 
- <animation>
-  <type>material</type> 
-  <object-name>lampAtt</object-name>				
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-   <factor-prop>/instrumentation/attitude-indicator</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>lampAtt</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>1.0</green>
+            <blue>0.0</blue>
+            <factor-prop>/instrumentation/attitude-indicator</factor-prop>
+        </emission>
+    </animation>
 
- <animation>
-  <type>textranslate</type>
-  <object-name>lampAtt</object-name>
-  <property>/instrumentation/attitude-indicator</property>
-  <factor>0.5</factor>
-  <axis>
-   <x>1</x>
-   <y>0</y>
-  </axis>
- </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>lampAtt</object-name>
+        <property>/instrumentation/attitude-indicator</property>
+        <factor>0.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
 
- <animation>
-  <type>pick</type> 
-  <object-name>lampAtt</object-name>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>Attitude Indicator</tooltip-id>
-         <label>Automatic Attitude</label>
-         <property>/instrumentation/attitude-indicator</property>
-      </binding>
-   </hovered>
- </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>lampAtt</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Attitude Indicator</tooltip-id>
+                <label>Automatic Attitude</label>
+                <property>/instrumentation/attitude-indicator</property>
+            </binding>
+        </hovered>
+    </animation>
 
- <animation>
-  <type>material</type> 
-  <object-name>lampAlt</object-name>       
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-   <factor-prop>/instrumentation/altitude-indicator</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>lampAlt</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>1.0</green>
+            <blue>0.0</blue>
+            <factor-prop>/instrumentation/altitude-indicator</factor-prop>
+        </emission>
+    </animation>
 
- <animation>
-  <type>textranslate</type>
-  <object-name>lampAlt</object-name>
-  <property>/instrumentation/altitude-indicator</property>
-  <factor>0.5</factor>
-  <axis>
-   <x>1</x>
-   <y>0</y>
-  </axis>
- </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>lampAlt</object-name>
+        <property>/instrumentation/altitude-indicator</property>
+        <factor>0.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
 
- <animation>
-  <type>pick</type> 
-  <object-name>lampAlt</object-name>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>Altitude Warning Indicator</tooltip-id>
-         <label>Automatic Altitude</label>
-         <property>/instrumentation/altitude-indicator</property>
-      </binding>
-   </hovered>
- </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>lampAlt</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Altitude Warning Indicator</tooltip-id>
+                <label>Automatic Altitude</label>
+                <property>/instrumentation/altitude-indicator</property>
+            </binding>
+        </hovered>
+    </animation>
 
- <animation>
-  <type>material</type> 
-  <object-name>lampStick</object-name>       
-  <emission>
-   <red>0.0</red>
-   <green>1.0</green>
-   <blue>0.0</blue>
-   <factor-prop>/instrumentation/joystick-indicator</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>lampStick</object-name>
+        <emission>
+            <red>0.0</red>
+            <green>1.0</green>
+            <blue>0.0</blue>
+            <factor-prop>/instrumentation/joystick-indicator</factor-prop>
+        </emission>
+    </animation>
 
- <animation>
-  <type>textranslate</type>
-  <object-name>lampStick</object-name>
-  <property>/instrumentation/joystick-indicator</property>
-  <factor>0.5</factor>
-  <axis>
-   <x>1</x>
-   <y>0</y>
-  </axis>
- </animation>
+    <animation>
+        <type>textranslate</type>
+        <object-name>lampStick</object-name>
+        <property>/instrumentation/joystick-indicator</property>
+        <factor>0.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
 
- <animation>
-  <type>pick</type> 
-  <object-name>lampStick</object-name>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>Spak Indicator</tooltip-id>
-         <label>Joystick</label>
-         <property>/instrumentation/joystick-indicator</property>
-      </binding>
-   </hovered>
- </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>lampStick</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Spak Indicator</tooltip-id>
+                <label>Joystick</label>
+                <property>/instrumentation/joystick-indicator</property>
+            </binding>
+        </hovered>
+    </animation>
 
 </PropertyList>

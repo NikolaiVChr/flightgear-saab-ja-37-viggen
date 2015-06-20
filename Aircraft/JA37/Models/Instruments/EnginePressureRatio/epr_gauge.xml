@@ -1,63 +1,63 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PropertyList>
-  <path>../gauge.ac</path>
+    <path>../gauge.ac</path>
 
-  <effect>  
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>glass</object-name>
-  </effect>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
 
-  <animation>
-    <type>material</type>
-     <object-name>dial</object-name>
-     <property-base>sim/ja37/texture</property-base>
-     <texture-prop>gauge-epr</texture-prop>
-     <texture>epr_gauge_face.png</texture>
-   </animation>
+    <animation>
+        <type>material</type>
+        <object-name>dial</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>gauge-epr</texture-prop>
+        <texture>epr_gauge_face.png</texture>
+    </animation>
 
-<animation>
-  <type>pick</type> 
-  <object-name>glass</object-name>
-  <object-name>mount</object-name>
-  <condition>
-    <greater-than>
-      <property>systems/electrical/outputs/dc-voltage</property>
-      <value>23</value>
-    </greater-than>
-  </condition>
-  <hovered>
-       <binding>
-         <command>set-tooltip</command>
-         <tooltip-id>epr</tooltip-id>
-         <label>Engine pressure ratio: %1.2f</label>
-         <property>/engines/engine/epr</property>
-      </binding>
-   </hovered>
- </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>glass</object-name>
+        <object-name>mount</object-name>
+        <condition>
+            <greater-than>
+                <property>systems/electrical/outputs/dc-voltage</property>
+                <value>23</value>
+            </greater-than>
+        </condition>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>epr</tooltip-id>
+                <label>Engine pressure ratio: %1.2f</label>
+                <property>/engines/engine/epr</property>
+            </binding>
+        </hovered>
+    </animation>
 
 
- <animation>
-  <type>material</type> 
-  <object-name>needle</object-name>
-  <object-name>dial</object-name>
-  <emission>    
-   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-   <factor-prop>controls/lighting/instruments-norm</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>needle</object-name>
+        <object-name>dial</object-name>
+        <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop>
+            <green-prop>instrumentation/instrumentation-light/g</green-prop>
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
 
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
         <condition>
-          <greater-than>
-            <property>systems/electrical/outputs/dc-voltage</property>
-            <value>23</value>
-          </greater-than>
+            <greater-than>
+                <property>systems/electrical/outputs/dc-voltage</property>
+                <value>23</value>
+            </greater-than>
         </condition>
-<!--        <expression>
+        <!--        <expression>
           <product>
             <sum>
               <property>/engines/engine/epr</property>
@@ -69,8 +69,14 @@
         <max>330</max>-->
         <property>engines/engine/epr</property>
         <interpolation>
-          <entry><ind>1</ind><dep>-160</dep></entry>
-          <entry><ind>2.7</ind><dep>160</dep></entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-160</dep>
+            </entry>
+            <entry>
+                <ind>2.7</ind>
+                <dep>160</dep>
+            </entry>
         </interpolation>
         <center>
             <x-m>0</x-m>

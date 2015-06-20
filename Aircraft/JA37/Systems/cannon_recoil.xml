@@ -2,8 +2,8 @@
 
 <system name="cannon">
 
-  <channel name="Cannon recoil">
-  <!-- 
+    <channel name="Cannon recoil">
+        <!-- 
        round_mass = 1.22Kg
        velolcity = 1030 m/s
 
@@ -40,34 +40,34 @@
 
         -->
 
-    <fcs_function name="names/recoil/impulse">
-      <function>
-        <ifthen>
-          <eq>
-            <fraction>
-              <quotient>
-                <property>simulation/frame</property>
-                <value>5</value>
-              </quotient>
-            </fraction>
-            <value>0</value>
-          </eq>
-          <value>1</value>
-          <value>0</value>
-        </ifthen>
-      </function>
-      <output>systems/recoil/impulse</output>
-    </fcs_function>
+        <fcs_function name="names/recoil/impulse">
+            <function>
+                <ifthen>
+                    <eq>
+                        <fraction>
+                            <quotient>
+                                <property>simulation/frame</property>
+                                <value>5</value>
+                            </quotient>
+                        </fraction>
+                        <value>0</value>
+                    </eq>
+                    <value>1</value>
+                    <value>0</value>
+                </ifthen>
+            </function>
+            <output>systems/recoil/impulse</output>
+        </fcs_function>
 
-    <switch name="names/recoil/magnitude">
-      <default value="0"/>
-      <test logic="AND" value="33899.39">
+        <switch name="names/recoil/magnitude">
+            <default value="0"/>
+            <test logic="AND" value="33899.39">
           /controls/armament/station[0]/trigger == 1
           /ai/submodels/submodel[3]/count gt 0
           systems/recoil/impulse == 1
       </test>
-      <output>external_reactions/recoil/magnitude</output>
-    </switch>
+            <output>external_reactions/recoil/magnitude</output>
+        </switch>
 
-  </channel>
+    </channel>
 </system>

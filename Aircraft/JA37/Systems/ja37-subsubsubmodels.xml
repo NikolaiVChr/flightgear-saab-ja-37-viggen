@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 
 <PropertyList>
-	<path>contrail-static.ac</path>
+    <path>contrail-static.ac</path>
 
-	<animation>
-		<enable-hot type="bool">false</enable-hot>
-	</animation>
+    <animation>
+        <enable-hot type="bool">false</enable-hot>
+    </animation>
 
-	<!--<animation>
+    <!--<animation>
 		<type>billboard</type>
 		<spherical>true</spherical>
 		<object-name>rect1</object-name>
 	</animation>-->
 
-	<effect>
-		<inherits-from>Effects/contrail</inherits-from>
-		<!--<object-name>contrail</object-name>-->
-		<!--<object-name>rect1</object-name>
+    <effect>
+        <inherits-from>Effects/contrail</inherits-from>
+        <!--<object-name>contrail</object-name>-->
+        <!--<object-name>rect1</object-name>
 		<object-name>rect2</object-name>
 		<object-name>rect3</object-name>
 		<object-name>rect4</object-name>
@@ -32,11 +32,13 @@
 		<object-name>rect14</object-name>
 		<object-name>rect15</object-name>
 		<object-name>rect16</object-name>-->
-	</effect>
-	
-	<!--<effect>
+    </effect>
+
+    <!--<effect>
 		<inherits-from>Effects/contrail</inherits-from>
-		--><!--<object-name>contrail</object-name>--><!--
+		-->
+    <!--<object-name>contrail</object-name>-->
+    <!--
 		<object-name>rect1</object-name>
 		<object-name>rect2</object-name>
 		<object-name>rect3</object-name>
@@ -45,23 +47,25 @@
 		<object-name>rect6</object-name>
 		<object-name>rect7</object-name>
 		<object-name>rect8</object-name>
-		--><!--<object-name>rect9</object-name>
+		-->
+    <!--<object-name>rect9</object-name>
 		<object-name>rect10</object-name>
 		<object-name>rect11</object-name>
 		<object-name>rect12</object-name>
 		<object-name>rect13</object-name>
 		<object-name>rect14</object-name>
 		<object-name>rect15</object-name>
-		<object-name>rect16</object-name>--><!--
+		<object-name>rect16</object-name>-->
+    <!--
 	</effect>-->
 
 
-	<!--<animation>
+    <!--<animation>
 		<type>billboard</type>
 		<spherical>true</spherical>
 	</animation>-->
 
-	<!--<animation>
+    <!--<animation>
 		<type>dist-scale</type>
 		<object-name>rect</object-name>
 		<use-personality>true</use-personality>
@@ -73,7 +77,7 @@
 		</center>
 	</animation>-->
 
-	<!--<animation>
+    <!--<animation>
 		<type>scale</type>
 		<object-name>puff</object-name>
 		<use-personality>true</use-personality>
@@ -86,7 +90,7 @@
 		<z-factor>0.3</z-factor>
 	</animation>-->
 
-	<!--<animation>
+    <!--<animation>
 		<type>blend</type>
 		<object-name>sphere</object-name>
 		<use-personality>true</use-personality>
@@ -97,7 +101,7 @@
 		<max>1.0</max>
 	</animation>-->
 
-	<!--<animation>
+    <!--<animation>
 		<type>blend</type>
 		<object-name>rect</object-name>
 		<use-personality>true</use-personality>

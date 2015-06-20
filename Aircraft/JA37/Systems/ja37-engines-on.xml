@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <PropertyList>
-  <controls>
+    <controls>
+        <engines>
+            <engine n="0">
+                <starter-cmd type="bool">true</starter-cmd>
+                <cutoff type="bool">false</cutoff>
+            </engine>
+        </engines>
+        <electric>
+            <engine n="0">
+                <generator type="bool">true</generator>
+            </engine>
+            <main type="bool">true</main>
+            <battery type="bool">true</battery>
+        </electric>
+    </controls>
     <engines>
-      <engine n="0">
-        <starter-cmd type="bool">true</starter-cmd>
-        <cutoff type="bool">false</cutoff>
-      </engine>
+        <engine n="0">
+            <running type="bool">true</running>
+        </engine>
     </engines>
-    <electric>
-      <engine n="0">
-        <generator type="bool">true</generator>
-      </engine>
-      <main type="bool">true</main>
-      <battery type="bool">true</battery>
-    </electric>
-  </controls>
-  <engines>
-    <engine n="0">
-     <running type="bool">true</running>
-    </engine>
-  </engines>
-  <test type="double">1.0</test>
+    <test type="double">1.0</test>
 </PropertyList>
