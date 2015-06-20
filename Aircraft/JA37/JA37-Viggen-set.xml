@@ -873,9 +873,10 @@
   </lighting>
   <fuel>
     <pneumatic-flow type="bool">true</pneumatic-flow><!-- on/off -->
-    <hydraulic-pump type="int">0</hydraulic-pump>    <!-- auto/off/low/high -->
+    <hydraulic-pump type="int">2</hydraulic-pump>    <!-- off/low/high -->
     <electric-pump type="bool">true</electric-pump>  <!-- on/off -->
     <xtank type="bool">true</xtank>                  <!-- on/off -->
+    <auto type="bool">true</auto>                    <!-- on/off -->
   </fuel>
   <oxygen type="bool">true</oxygen>
 </controls>
