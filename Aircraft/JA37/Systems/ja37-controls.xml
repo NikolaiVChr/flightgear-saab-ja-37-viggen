@@ -883,7 +883,8 @@
               0.25            0
               0.3            50        
               0.5          5000        
-              1.0         60000       
+              1.0         60000
+              2.0        100000       
           </tableData><!-- feet/sec -->
         </table>
         <output>autopilot/climb</output>
@@ -894,6 +895,33 @@
           <gain>-0.2</gain>
           <output>autopilot/descent</output>
       </pure_gain>
+
+      <fcs_function name="names/autopilot/Autopilot-min-elevator">
+        <function>
+          <table>
+            <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
+            <tableData>
+                2.5            -2
+                5.0             0       
+            </tableData>
+          </table>
+        </function>
+        <output>/autopilot/internal/min-elevator</output>
+      </fcs_function>
+
+      <fcs_function name="names/autopilot/Autopilot-max-elevator">
+        <function>
+          <table>
+            <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
+            <tableData>
+               -1.0             0
+                0.0             2       
+            </tableData>
+          </table>
+        </function>
+        <output>/autopilot/internal/max-elevator</output>
+      </fcs_function>
+
     </channel>
 
 

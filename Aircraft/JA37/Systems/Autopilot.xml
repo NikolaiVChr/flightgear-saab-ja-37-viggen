@@ -6,7 +6,7 @@
       <rudder>controls/flight/rudder</rudder>
       <elevator>controls/flight/elevator</elevator>
     </controls>
-  </params>
+  </params> 
 
   <pid-controller>
     <name>Roll target leveler</name>
@@ -89,8 +89,8 @@
       <Kp>-0.05</Kp>
       <Ti>30.0</Ti>
       <Td>0.0</Td>
-      <u_min>-2.0</u_min><!-- 2 just in case trim is full opposite -->
-      <u_max>2.0</u_max>
+      <u_min><property>/autopilot/internal/min-elevator</property></u_min>
+      <u_max><property>/autopilot/internal/max-elevator</property></u_max>
     </config>
   </pid-controller>
 
@@ -164,8 +164,8 @@
                           <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>       <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+      <u_min><property>/autopilot/internal/min-elevator</property></u_min>
+      <u_max><property>/autopilot/internal/max-elevator</property></u_max>
     </config>
   </pid-controller>
 
@@ -194,8 +194,8 @@
                           <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+      <u_min><property>/autopilot/internal/min-elevator</property></u_min>
+      <u_max><property>/autopilot/internal/max-elevator</property></u_max>
     </config>
   </pid-controller>
 
@@ -256,8 +256,8 @@
                           <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>       <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+      <u_min><property>/autopilot/internal/min-elevator</property></u_min>
+      <u_max><property>/autopilot/internal/max-elevator</property></u_max>
     </config>
   </pid-controller>
 
@@ -315,8 +315,8 @@
                           <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>       <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
-      <u_min>-1.0</u_min> <!-- minimum output clamp -->
-      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+      <u_min><property>/autopilot/internal/min-elevator</property></u_min>
+      <u_max><property>/autopilot/internal/max-elevator</property></u_max>
     </config>
   </pid-controller>
 
