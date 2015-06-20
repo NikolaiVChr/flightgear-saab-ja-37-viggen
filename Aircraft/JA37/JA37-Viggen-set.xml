@@ -849,6 +849,7 @@
   </armament>
   <engines>
     <engine n="0">
+      <cutoff-augmentation type="bool">false</cutoff-augmentation>
       <reverse-system>
         <serviceable type="bool">true</serviceable>
       </reverse-system>

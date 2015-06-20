@@ -849,6 +849,7 @@
           <test logic="AND" value="1">
               fcs/throttle-cmd-norm ge 0.940
               propulsion/engine/n1 ge 84
+              /controls/engines/engine/cutoff-augmentation == 0
               /engines/engine/reversed == 0
               /engines/engine/running == 1
           </test>
