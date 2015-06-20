@@ -795,6 +795,7 @@
       <one type="double">0.01667</one>
     </autopilot>
     <propulsion>
+      <starter_cmd_copy type="bool">false</starter_cmd_copy>
       <engine>
         <augmentation type="double">0</augmentation>
         <zone type="double">0</zone>

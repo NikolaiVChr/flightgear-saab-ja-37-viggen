@@ -588,21 +588,21 @@ var update_loop = func {
 
     # main electrical turned on
     var timer = input.elapsed.getValue();
-    var main = input.elecMain.getValue();
-    if(main == TRUE and mainOn == FALSE) {
+    var main = input.dcVolt.getValue();
+    if(main > 20 and mainOn == FALSE) {
       #main has been switched on
       mainTimer = timer;
       mainOn = TRUE;
       input.lampData.setValue(TRUE);
       input.lampInertiaNav.setValue(TRUE);
-    } elsif (main == TRUE) {
+    } elsif (main > 20) {
       if (timer > (mainTimer + 20)) {
         input.lampData.setValue(FALSE);
       }
       if (timer > (mainTimer + 140)) {
         input.lampInertiaNav.setValue(FALSE);
       }
-    } elsif (main == FALSE) {
+    } elsif (main <= 20) {
       mainOn = FALSE;
     }
     # engine start
@@ -625,19 +625,19 @@ var update_loop = func {
     }
 
     # joystick on indicator panel
-    if ((main == TRUE and input.generatorOn.getValue() < 1) or input.hydrCombined.getValue() != 1) {
+    if ((main > 20 and input.generatorOn.getValue() < 1) or input.hydrCombined.getValue() != 1) {
       input.lampStick.setValue(TRUE);
     } else {
       input.lampStick.setValue(FALSE);
     }
 
-    if (main == TRUE and input.generatorOn.getValue() < 1) {
+    if (main > 20 and input.generatorOn.getValue() < 1) {
       input.lampOxygen.setValue(TRUE);
     } else {
       input.lampOxygen.setValue(FALSE);
     }
 
-    if (main == TRUE and input.generatorOn.getValue() < 1) {
+    if (main > 20 and input.generatorOn.getValue() < 1) {
       input.lampCanopy.setValue(TRUE);
     } else {
       input.lampCanopy.setValue(FALSE);
@@ -1309,9 +1309,9 @@ var beaconLoop = func () {
 
 ############ blinkers ####################
 
-aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2], "controls/electric/main");
-aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1], "controls/electric/main");
-aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1], "controls/electric/main");
+aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2]);
+aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1]);
+aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1]);
 
 ############# workaround for removing default HUD   ##############
 
