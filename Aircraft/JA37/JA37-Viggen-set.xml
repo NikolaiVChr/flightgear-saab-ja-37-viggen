@@ -876,6 +876,7 @@
     <electric-pump type="bool">true</electric-pump>  <!-- on/off -->
     <xtank type="bool">true</xtank>                  <!-- on/off -->
   </fuel>
+  <oxygen type="bool">true</oxygen>
 </controls>
 <gear>
   <serviceable type="bool">true</serviceable>

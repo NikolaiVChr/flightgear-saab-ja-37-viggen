@@ -195,13 +195,7 @@
     <fcs_function name="systems/flight/oxygen-pressure-kPa">
         <function>
           <product>
-            <table>
-              <independentVar lookup="row">fcs/canopy/pos-norm</independentVar>
-              <tableData>
-                  0.0         1.0
-                  0.01        0.0
-              </tableData>
-            </table>
+            <property>/controls/oxygen</property>
             <table>
               <independentVar lookup="row">atmosphere/density-altitude</independentVar>
               <tableData>

@@ -1672,4 +1672,5 @@ GUI: Added mask oxygen pressure to systems monitor.
 =====
 Sim: Fixed that autopilot could break off wings by pitching too hard.
 Model: Added a cutoff indicator.
-Model: Made improvement to logic of indicator panels.
+Sim: Made improvement to logic of indicator panels.
+Model: Fixed edges along radar heading texture.

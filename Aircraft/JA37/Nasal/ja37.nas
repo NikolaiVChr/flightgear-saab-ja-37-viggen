@@ -631,7 +631,7 @@ var update_loop = func {
       input.lampStick.setValue(FALSE);
     }
 
-    if (main > 20 and input.generatorOn.getValue() < 1) {
+    if (main > 20 and getprop("controls/oxygen") == FALSE) {
       input.lampOxygen.setValue(TRUE);
     } else {
       input.lampOxygen.setValue(FALSE);
