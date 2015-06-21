@@ -1674,3 +1674,4 @@ Sim: Fixed that autopilot could break off wings by pitching too hard.
 Model: Added a cutoff indicator.
 Sim: Made improvement to logic of indicator panels.
 Model: Fixed edges along radar heading texture.
+Model: Made all gauges mounts have similar material settings.

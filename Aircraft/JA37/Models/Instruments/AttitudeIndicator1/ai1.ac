@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 10 trans 0.0000
 MATERIAL "levelMat" rgb 1.0000 1.0000 1.0000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.0000 0.0000 0.0000  shi 50 trans 0.0000
-MATERIAL "mountMat" rgb 0.8000 0.8000 0.8000  amb 0.8000 0.8000 0.8000  emis 0.0000 0.0000 0.0000  spec 0.3200 0.3200 0.3200  shi 50 trans 0.0000
+MATERIAL "mountMat" rgb 0.8000 0.8000 0.8000  amb 0.8000 0.8000 0.8000  emis 0.0000 0.0000 0.0000  spec 0.8000 0.8000 0.8000  shi 64 trans 0.0000
 MATERIAL "glassMat" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.7000
 OBJECT world
 name "Blender_export__instrument-ai1.2.ac"

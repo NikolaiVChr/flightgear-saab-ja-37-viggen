@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 10 trans 0.0000
 MATERIAL "pickMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 64 trans 1
-MATERIAL "mountMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 25 trans 0
+MATERIAL "mountMat" rgb 0.8000 0.8000 0.8000  amb 0.8000 0.8000 0.8000  emis 0.0000 0.0000 0.0000  spec 0.8000 0.8000 0.8000  shi 64 trans 0.0000
 MATERIAL "digitMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 64 trans 0
 MATERIAL "faceMat" rgb 0.8 0.8 0.8 amb 1 1 1 emis 0 0 0 spec 1 1 1 shi 64 trans 0
 MATERIAL "glassMat" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.7000

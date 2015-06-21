@@ -1,6 +1,6 @@
 AC3Db
 MATERIAL "DefaultWhite" rgb 1 1 1  amb 1 1 1  emis 0 0 0  spec 0.5 0.5 0.5  shi 64  trans 0
-MATERIAL "DefaultWhite" rgb 1 1 1 amb 1 1 1 emis 0 0 0 spec 0.5 0.5 0.5 shi 64 trans 0
+MATERIAL "DefaultWhite" rgb 0.8000 0.8000 0.8000  amb 0.8000 0.8000 0.8000  emis 0.0000 0.0000 0.0000  spec 0.8000 0.8000 0.8000  shi 64 trans 0.0000
 OBJECT world
 kids 41
 OBJECT poly
