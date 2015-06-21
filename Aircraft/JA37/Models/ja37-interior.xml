@@ -23,12 +23,12 @@
     <path>Aircraft/JA37/Models/right-panel.xml</path>
     <name>rightPanel</name>
     <offsets>
-      <heading-deg>3.042</heading-deg>
-      <pitch-deg>0.113</pitch-deg>
-      <roll-deg>-3.545</roll-deg>
-      <x-m>-3.94946</x-m>
-      <y-m>0.3404</y-m>
-      <z-m>0.17375</z-m>
+      <heading-deg>1.5</heading-deg>
+      <pitch-deg>18</pitch-deg>
+      <roll-deg>8.108</roll-deg>
+      <x-m>-4.05742</x-m>
+      <y-m>0.36064</y-m>
+      <z-m>0.20439</z-m>
     </offsets>
   </model>
 
@@ -36,12 +36,22 @@
     <path>Aircraft/JA37/Models/left-panel.xml</path>
     <name>leftPanel</name>
     <offsets>
-      <heading-deg>0</heading-deg>
-      <pitch-deg>0</pitch-deg>
-      <roll-deg>3.811</roll-deg>
-      <x-m>-3.97044</x-m>
-      <y-m>-0.37424</y-m>
-      <z-m>0.14732</z-m>
+      <heading-deg>-1.5</heading-deg>
+      <pitch-deg>18</pitch-deg>
+      <roll-deg>-8.108</roll-deg>
+      <x-m>-4.05741</x-m>
+      <y-m>-0.36065</y-m>
+      <z-m>0.20439</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/sidepanels.xml</path>
+    <name>sidepanels</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0</y-m>
+      <z-m>0</z-m>
     </offsets>
   </model>
 

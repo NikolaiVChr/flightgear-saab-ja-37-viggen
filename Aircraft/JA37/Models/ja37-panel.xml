@@ -411,7 +411,7 @@
     <offsets>
       <x-m>  0.00</x-m>
       <y-m> -0.26</y-m>
-      <z-m>  0.065</z-m>
+      <z-m>  0.085</z-m>
     </offsets>
   </model>
 
@@ -421,19 +421,11 @@
     <offsets>
       <x-m>  0.00</x-m>
       <y-m> -0.26</y-m>
-      <z-m>  0.015</z-m>
+      <z-m>  0.035</z-m>
     </offsets>
   </model>
 
-<model>
-    <path>Aircraft/JA37/Models/Instruments/Transponder/kt76a.xml</path>
-    <name>Transponder</name>
-    <offsets>
-      <x-m>  0.005</x-m>
-      <y-m> -0.26</y-m>
-      <z-m> -0.030</z-m>
-    </offsets>
-  </model>
+
 
  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/CenterPlaque/center-plaque.xml</path>
@@ -542,8 +534,8 @@
     <name>SwitchReverserAuto</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.11</z-m>
+      <y-m> -0.23</y-m>
+      <z-m>  0.145</z-m>
     </offsets>
   </model>
 

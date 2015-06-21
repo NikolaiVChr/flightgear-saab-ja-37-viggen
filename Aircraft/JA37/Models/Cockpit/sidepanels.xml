@@ -1,0 +1,25 @@
+﻿<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>sidepanels.ac</path>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
+    <object-name>dashPanel</object-name>
+    <object-name>dashPanelMount</object-name>
+    <object-name>InnerWall_sides</object-name>
+    <object-name>InnerWall_back</object-name>
+    <object-name>sidePanel_L</object-name>
+    <object-name>sidePanel_R</object-name>
+    <object-name>sidePanel_L_minor</object-name>
+    <object-name>sidePanel_R_minor_top</object-name>
+    <object-name>sidePanel_R_minor_bottom</object-name>
+    <object-name>sidePanel_R_mount_A</object-name>
+    <object-name>sidePanel_R_mount_B</object-name>
+    <object-name>sidePanel_R_mount_C</object-name>
+    <object-name>sidePanel_L_mount_A</object-name>
+    <object-name>sidePanel_L_mount_B</object-name>
+  </effect>
+
+</PropertyList>
