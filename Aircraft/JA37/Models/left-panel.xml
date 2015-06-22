@@ -16,7 +16,7 @@
     <name>cabin-mano</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.04</x-m>
+      <x-m>  0.055</x-m>
       <y-m> -0.04</y-m>
       <z-m>  0</z-m>
     </offsets>
@@ -35,7 +35,7 @@
     <name>brake-mano</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.11</x-m>
+      <x-m>  0.125</x-m>
       <y-m> -0.04</y-m>
       <z-m>  0</z-m>
     </offsets>
@@ -54,7 +54,7 @@
     <name>trim-pitch</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.18</x-m>
+      <x-m>  0.195</x-m>
       <y-m> -0.04</y-m>
       <z-m>  0</z-m>
     </offsets>
