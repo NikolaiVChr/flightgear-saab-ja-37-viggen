@@ -27,7 +27,8 @@
     </offsets>
   </model>
 
-  <animation><!-- move seat forward -->
+  <!-- move seat forward -->
+  <!--<animation>
    <type>translate</type>
    <object-name>seat</object-name>
    <factor>0.0</factor>
@@ -40,16 +41,27 @@
         <y-m>0</y-m>
         <z-m>0</z-m>
     </center>
-</animation>
+</animation>-->
 
-  <!--<model>  a little too wide atm.
+  <animation>
+    <type>select</type>
+    <object-name>seat</object-name>
+    <condition>
+      <equals>
+        <value>0</value>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>
+
+  <model> 
     <path>Aircraft/JA37/Models/Cockpit/seat/seat.xml</path>
     <offsets>
       <x-m>-3.2541</x-m>
       <y-m> 0.0000</y-m>
       <z-m> 0.2739</z-m>
     </offsets>
-  </model>-->
+  </model>
 
   <!-- tutorial marker -->
   <model>
