@@ -45,6 +45,17 @@
     </offsets>
   </model>
 
+   <model>
+    <path>Aircraft/JA37/Models/right-panel-top-tmp.xml</path>
+    <name>rightPanelTop</name>
+    <offsets>
+      <roll-deg>68</roll-deg>
+      <x-m>-2.55995</x-m>
+      <y-m>0.53412</y-m>
+      <z-m>0.05521</z-m>
+    </offsets>
+  </model>
+
   <model>
     <path>Aircraft/JA37/Models/Cockpit/sidepanels.xml</path>
     <name>sidepanels</name>

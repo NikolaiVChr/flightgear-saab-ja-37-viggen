@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<PropertyList>
+
+    <offsets>
+        <heading-deg>-5</heading-deg>
+    </offsets>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m> -0.85</x-m>
+            <y-m>  0.035</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>  
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m> -0.815</x-m>
+            <y-m>  0.035</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model> 
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m> -0.780</x-m>
+            <y-m>  0.035</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>  
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m> -0.745</x-m>
+            <y-m>  0.035</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+</PropertyList>

@@ -1675,3 +1675,6 @@ Model: Added a cutoff indicator.
 Sim: Made improvement to logic of indicator panels.
 Model: Fixed edges along radar heading texture.
 Model: Made all gauges mounts have similar material settings.
+Model: Replaced the seat.
+Model: {JazzTp} Remodeled sidepanels. And added minor sidepanels.
+Model: Adapted controls to new sidepanels. (work in progress)
