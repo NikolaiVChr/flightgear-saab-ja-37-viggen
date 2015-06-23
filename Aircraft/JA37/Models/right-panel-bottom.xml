@@ -5,17 +5,16 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -1.015</x-m>
+            <x-m>  0.85</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
-
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.955</x-m>
+            <x-m>  0.815</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -24,7 +23,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.920</x-m>
+            <x-m>  0.780</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -33,7 +32,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.885</x-m>
+            <x-m>  0.745</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -43,7 +42,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.850</x-m>
+            <x-m>  0.1</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -52,7 +51,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.815</x-m>
+            <x-m>  0.135</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -61,7 +60,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.780</x-m>
+            <x-m>  0.170</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -70,46 +69,10 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
         <name>switch-strobe</name>
         <offsets>
-            <x-m> -0.745</x-m>
+            <x-m>  0.205</x-m>
             <y-m>  0.025</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.710</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.675</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model> 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.640</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.570</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>    
 
 </PropertyList>

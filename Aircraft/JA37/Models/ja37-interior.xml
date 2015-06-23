@@ -22,10 +22,10 @@
  <model>
     <path>Aircraft/JA37/Models/right-panel.xml</path>
     <name>rightPanel</name>
-    <offsets>
-      <heading-deg>1.5</heading-deg>
-      <pitch-deg>18</pitch-deg>
-      <roll-deg>8.108</roll-deg>
+    <offsets><!-- order: yxz pitch 17.996 roll 8.117 heading 4.027 -->
+      <roll-deg>7.717420497913652</roll-deg>
+      <pitch-deg>18.166206324158722</pitch-deg>
+      <heading-deg>1.5039681682056687</heading-deg>      
       <x-m>-4.05742</x-m>
       <y-m>0.36064</y-m>
       <z-m>0.20439</z-m>
@@ -36,9 +36,9 @@
     <path>Aircraft/JA37/Models/left-panel.xml</path>
     <name>leftPanel</name>
     <offsets>
-      <heading-deg>-1.5</heading-deg>
-      <pitch-deg>18</pitch-deg>
-      <roll-deg>-8.108</roll-deg>
+      <roll-deg>-7.717420497913652</roll-deg>
+      <pitch-deg>18.166206324158722</pitch-deg>
+      <heading-deg>-1.5039681682056687</heading-deg> 
       <x-m>-4.05741</x-m>
       <y-m>-0.36065</y-m>
       <z-m>0.20439</z-m>
@@ -48,13 +48,37 @@
    <model>
     <path>Aircraft/JA37/Models/right-panel-top.xml</path>
     <name>rightPanelTop</name>
-    <offsets><!-- order: yxz pitch roll heading -->
+    <offsets><!-- order: yxz pitch 8 roll 68 heading 5 -->
       <heading-deg>-14.00706252059607</heading-deg>
       <pitch-deg>20.56454358139137</pitch-deg>
       <roll-deg>66.65863014809248</roll-deg>
       <x-m>-2.55995</x-m>
       <y-m>0.53412</y-m>
       <z-m>0.05521</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/right-panel-bottom.xml</path>
+    <name>rightPanelBottom</name>
+    <offsets><!-- order: yxz pitch 8 roll 14 heading 5 -->
+      <heading-deg>-5.703216067810287</heading-deg>
+      <pitch-deg>17.55746229928675</pitch-deg>
+      <roll-deg>36.682032956457476</roll-deg>
+      <x-m>-3.85567</x-m>
+      <y-m>0.42242</y-m>
+      <z-m>0.20891</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/left-panel-minor.xml</path>
+    <name>leftPanelMid</name>
+    <offsets>
+      <roll-deg>-90</roll-deg>
+      <x-m>-3.13193</x-m>
+      <y-m>-0.465</y-m>
+      <z-m>0.0175</z-m>
     </offsets>
   </model>
 
