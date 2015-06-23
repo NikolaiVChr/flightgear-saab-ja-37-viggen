@@ -67,6 +67,7 @@ input = {
   gearsPos:         "gear/gear/position-norm",
   dcVolt:           "systems/electrical/outputs/dc-voltage",
   acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
+  acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
   serviceElec:      "systems/electrical/serviceable",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
@@ -625,7 +626,7 @@ var update_loop = func {
     }
 
     # joystick on indicator panel
-    if ((main > 20 and input.generatorOn.getValue() < 1) or input.hydrCombined.getValue() != 1) {
+    if ((main > 20 and input.acMainVolt.getValue() < 150) or input.hydrCombined.getValue() != 1) {
       input.lampStick.setValue(TRUE);
     } else {
       input.lampStick.setValue(FALSE);
@@ -637,7 +638,7 @@ var update_loop = func {
       input.lampOxygen.setValue(FALSE);
     }
 
-    if (main > 20 and input.generatorOn.getValue() < 1) {
+    if (main > 20 and input.acMainVolt.getValue() < 150) {
       input.lampCanopy.setValue(TRUE);
     } else {
       input.lampCanopy.setValue(FALSE);

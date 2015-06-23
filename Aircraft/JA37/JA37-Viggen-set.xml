@@ -873,6 +873,7 @@
             <lights-ext-beacon type="bool">true</lights-ext-beacon>
             <lights-ext-nav type="bool">true</lights-ext-nav>
             <lights-land-switch type="bool">true</lights-land-switch>
+            <reserve type="bool">false</reserve>
         </electric>
         <lighting>
             <instruments-norm type="double">0.0</instruments-norm>
@@ -932,6 +933,9 @@
         <generator>
             <serviceable type="bool">true</serviceable>
         </generator>
+        <generator-reserve>
+            <serviceable type="bool">true</serviceable>
+        </generator-reserve>
     </systems>
 
     <!--**********************************************************************

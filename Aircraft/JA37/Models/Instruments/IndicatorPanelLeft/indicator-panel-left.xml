@@ -305,10 +305,16 @@
         <object-name>indicatorRight3</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>systems/electrical/serviceable</property>
-                <value>0</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>systems/generator-reserve/serviceable</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>systems/electrical/serviceable</property>
+                    <value>0</value>
+                </equals>
+            </or>
             <equals>
                 <property>sim/ja37/blink/ten-Hz/state</property>
                 <value>1</value>

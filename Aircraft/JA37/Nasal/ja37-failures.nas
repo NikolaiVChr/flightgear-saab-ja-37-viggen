@@ -223,6 +223,10 @@ var install_new_failures = func {
     var actuator_generator = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
 
+    prop = "systems/generator-reserve";
+    var actuator_generator_reserve = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Reserve Generator", actuator_generator_reserve);
+
     prop = "controls/engines/engine/reverse-system";
     var actuator_reverser = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Thrust reverser", actuator_reverser);
@@ -535,6 +539,10 @@ var install_newer_failures = func {
     prop = "systems/generator";
     var actuator_generator = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
+
+    prop = "systems/generator-reserve";
+    var actuator_generator_reserve = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Reserve Generator", actuator_generator_reserve);
 
     prop = "controls/engines/engine/reverse-system";
     var actuator_reverser = compat_failure_modes.set_unserviceable(prop);

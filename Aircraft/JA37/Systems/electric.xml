@@ -7,33 +7,33 @@
         <switch name="names/electrical/external/available">
             <description>
                       External AC available
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
-          systems/electrical/external/enable-cmd == 1
-          velocities/vg-fps lt 0.015
-          gear/unit[0]/WOW == 1
-          gear/unit[1]/WOW == 1
-          gear/unit[2]/WOW == 1
-        </test>
-            <output>systems/electrical/external/available</output>
-        </switch>
+                systems/electrical/external/enable-cmd == 1
+                velocities/vg-fps lt 0.015
+                gear/unit[0]/WOW == 1
+                gear/unit[1]/WOW == 1
+                gear/unit[2]/WOW == 1
+            </test>
+                <output>systems/electrical/external/available</output>
+            </switch>
 
         <switch name="systems/electrical/external/supplying">
             <description>
                       External AC supplying
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
-          systems/electrical/external/switch == 1
-          systems/electrical/external/available == 1
-        </test>
+                systems/electrical/external/switch == 1
+                systems/electrical/external/available == 1
+            </test>
         </switch>
 
         <scheduled_gain name="systems/electrical/generator-cmd">
             <description>
                       Generator running command
-      </description>
+            </description>
             <input>/systems/generator/serviceable</input>
             <table>
                 <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
@@ -53,7 +53,7 @@
         <kinematic name="systems/electrical/generator-running-norm">
             <description>
                       Generator running normalized
-      </description>
+            </description>
             <input>systems/electrical/generator-cmd</input>
             <traverse>
                 <setting>
@@ -67,24 +67,64 @@
             </traverse>
         </kinematic>
 
+        <scheduled_gain name="systems/electrical/generator-reserve-cmd">
+            <description>
+                      Generator reserve running command
+            </description>
+            <input>/systems/generator-reserve/serviceable</input>
+            <table>
+                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="column">/controls/electric/reserve</independentVar>
+                <tableData>
+                     0   1
+                10   0   0
+                30   0   1
+            </tableData>
+            </table>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+        </scheduled_gain>
+
+        <kinematic name="systems/electrical/generator-reserve-running-norm">
+            <description>
+                      Generator reserve running normalized
+            </description>
+            <input>systems/electrical/generator-reserve-cmd</input>
+            <traverse>
+                <setting>
+                    <position>  0.0 </position>
+                    <time>      0.0 </time>
+                </setting>
+                <setting>
+                    <position>  1.0 </position>
+                    <time>      3.0 </time>
+                </setting>
+            </traverse>
+        </kinematic>
 
         <switch name="systems/electrical/AC-supply-norm">
             <description>
                       Have AC supply, normalized
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
-        systems/electrical/external/supplying == 1
-      </test>
+                systems/electrical/external/supplying == 1
+            </test>
+            <test logic="AND" value="systems/electrical/generator-reserve-running-norm">
+                systems/electrical/external/switch == 0
+                /controls/electric/reserve == 1
+            </test>
             <test logic="AND" value="systems/electrical/generator-running-norm">
-        systems/electrical/external/switch == 0
-      </test>
+                systems/electrical/external/switch == 0
+            </test>
         </switch>
 
         <aerosurface_scale name="systems/electrical/AC-main-voltage">
             <description>
                       Main AC voltage
-      </description>
+            </description>
             <input>systems/electrical/AC-supply-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -100,7 +140,7 @@
         <aerosurface_scale name="systems/electrical/AC-instr-voltage">
             <description>
                       Instrument AC voltage
-      </description>
+            </description>
             <input>systems/electrical/AC-supply-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -116,7 +156,7 @@
         <aerosurface_scale name="systems/electrical/battery-charge-dc">
             <description>
                       Converted DC voltage
-      </description>
+            </description>
             <input>/systems/electrical/outputs/ac-main-voltage</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -132,7 +172,7 @@
         <aerosurface_scale name="systems/electrical/battery-charging-norm">
             <description>
                       Converted DC normalized
-      </description>
+            </description>
             <input>systems/electrical/battery-charge-dc</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -148,24 +188,24 @@
         <switch name="systems/electrical/battery-charging-test">
             <description>
                       Converted DC digital
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
-          systems/electrical/battery-charging-norm == 1
+                systems/electrical/battery-charging-norm == 1
         </test>
         </switch>
 
         <switch name="systems/electrical/battery-drain-inv-cmd">
             <description>
                       Battery drain commanded, normalized inverted
-      </description>
+            </description>
             <default value="systems/electrical/battery-charge-norm"/>
             <test logic="AND" value="0">
-          systems/electrical/battery-active == 1
-        </test>
+                systems/electrical/battery-active == 1
+            </test>
             <test logic="AND" value="systems/electrical/battery-charging-norm">
-          systems/electrical/battery-charge-dc gt 24
-        </test>
+                systems/electrical/battery-charge-dc gt 24
+            </test>
         </switch>
 
         <fcs_function name="systems/electrical/battery-drain-cmd">
@@ -175,14 +215,14 @@
                       I need to do this trick with inversion
                       due to kinematic default value is always the lowest,
                       and I want the aircraft to start with charged battery.
-      </description>
+            </description>
             <function>
                 <table>
                     <independentVar lookup="row">systems/electrical/battery-drain-inv-cmd</independentVar>
                     <tableData>
-               0.0   1
-               1.0   0 
-          </tableData>
+                       0.0   1
+                       1.0   0 
+                    </tableData>
                 </table>
             </function>
         </fcs_function>
@@ -192,7 +232,7 @@
                       Battery drain, normalized
 
                       10 mins to recharge/drain
-      </description>
+            </description>
             <input>systems/electrical/battery-drain-cmd</input>
             <traverse>
                 <setting>
@@ -209,14 +249,14 @@
         <fcs_function name="systems/electrical/battery-charge-norm">
             <description>
                       Battery charge, normalized
-      </description>
+            </description>
             <function>
                 <table>
                     <independentVar lookup="row">systems/electrical/battery-drain-norm</independentVar>
                     <tableData>
-               0.0   1.0
-               1.0   0.0 
-          </tableData>
+                         0.0   1.0
+                         1.0   0.0 
+                    </tableData>
                 </table>
             </function>
         </fcs_function>
@@ -224,15 +264,15 @@
         <fcs_function name="systems/electrical/battery-producing-dc">
             <description>
                       Battery voltage that it produces on its own.
-      </description>
+            </description>
             <function>
                 <table>
                     <independentVar lookup="row">systems/electrical/battery-charge-norm</independentVar>
                     <tableData>
-               0.0   0
-               0.1  24
-               1.0  24
-          </tableData>
+                     0.0   0
+                     0.1  24
+                     1.0  24
+                </tableData>
                 </table>
             </function>
         </fcs_function>
@@ -246,24 +286,24 @@
               /controls/electric/battery gt 0
               /systems/electrical/serviceable gt 0
               systems/electrical/battery-charge-dc lt systems/electrical/battery-producing-dc
-          </test>
+            </test>
         </switch>
 
         <switch name="names/electrical/outputs/dc-voltage">
             <description>
                       DC voltage output
-      </description>
+            </description>
             <default value="systems/electrical/battery-charge-dc"/>
             <test logic="AND" value="systems/electrical/battery-producing-dc">
-              systems/electrical/battery-active == 1
-          </test>
+                systems/electrical/battery-active == 1
+            </test>
             <output>/systems/electrical/outputs/dc-voltage</output>
         </switch>
 
         <aerosurface_scale name="names/electrical/outputs/dc-norm">
             <description>
                       DC output, normalized
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -284,24 +324,24 @@
         <switch name="names/electrical/outputs/ac-main-voltage">
             <description>
                       Main AC voltage output
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="systems/electrical/AC-main-voltage">
-            /controls/electric/main gt 0
-            /systems/electrical/serviceable gt 0
-        </test>
+                /controls/electric/main gt 0
+                /systems/electrical/serviceable gt 0
+            </test>
             <output>/systems/electrical/outputs/ac-main-voltage</output>
         </switch>
 
         <switch name="names/electrical/outputs/ac-instr-voltage">
             <description>
                       Instrument AC voltage output
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="systems/electrical/AC-instr-voltage">
-          /controls/electric/main gt 0
-          /systems/electrical/serviceable gt 0
-      </test>
+                /controls/electric/main gt 0
+                /systems/electrical/serviceable gt 0
+            </test>
             <output>/systems/electrical/outputs/ac-instr-voltage</output>
         </switch>
 
