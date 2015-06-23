@@ -1678,3 +1678,4 @@ Model: Made all gauges mounts have similar material settings.
 Model: Replaced the seat.
 Model: {JazzTp} Remodeled sidepanels. And added minor sidepanels.
 Model: Adapted controls to new sidepanels. (work in progress)
+Model: Fixed radar heading was not rotated along a precise enough axis.
