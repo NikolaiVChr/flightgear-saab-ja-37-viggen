@@ -72,7 +72,6 @@
     <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
     <name>switch-strobe</name>
     <offsets>
-      <!--<pitch-deg>0</pitch-deg>-->
       <x-m>  0.50</x-m>
       <y-m>  0.03</y-m>
       <z-m>  0</z-m>

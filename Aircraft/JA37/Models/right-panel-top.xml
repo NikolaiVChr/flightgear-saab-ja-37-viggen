@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <PropertyList>
 
-    <offsets>
+   <!-- <offsets>
         <heading-deg>-5</heading-deg>
-    </offsets>
+    </offsets>-->
 
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
