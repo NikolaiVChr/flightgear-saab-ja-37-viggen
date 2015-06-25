@@ -889,6 +889,12 @@
             <xtank type="bool">true</xtank>            <!-- on/off -->
             <auto type="bool">true</auto>            <!-- on/off -->
         </fuel>
+        <ventilation>
+            <airconditioning-type type="int">0</airconditioning-type><!-- cold for 12s: -1 auto: 0 warm for 12s: 1 -->
+            <airconditioning-enabled type="bool">true</airconditioning-enabled>
+            <airconditioning-temperature type="double">0.0</airconditioning-temperature><!-- used for auto -->
+            <windshield-hot-air-knob type="double">0.0</windshield-hot-air-knob>
+        </ventilation>
         <oxygen type="bool">true</oxygen>
     </controls>
     <gear>
@@ -905,6 +911,7 @@
             <use-wipers type="int" userarchive="n">0</use-wipers>
             <use-overlay type="int" userarchive="n">0</use-overlay>
             <overlay-alpha type="float" userarchive="n">1.0</overlay-alpha>
+            <use-mask type="int" userarchive="n">0</use-mask>
         </aircraft-effects>
         <precipitation-control>
             <clip-distance type="double">1.75</clip-distance>

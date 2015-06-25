@@ -89,6 +89,16 @@
   </model>  
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/knob-g/windshield-hot-air.xml</path>
+    <name>windshield hot air</name>
+    <offsets>
+      <x-m>  0.40</x-m>
+      <y-m>  0.05</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Transponder/kt76a.xml</path>
     <name>Transponder</name>
     <offsets>

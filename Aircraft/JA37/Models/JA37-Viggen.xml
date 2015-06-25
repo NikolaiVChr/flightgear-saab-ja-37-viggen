@@ -127,6 +127,7 @@
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
     <object-name>glassRadar</object-name>
+    <!--<object-name>hud</object-name>-->
   </effect>
 
   <effect>  

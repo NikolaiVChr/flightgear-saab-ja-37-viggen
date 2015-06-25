@@ -1,6 +1,7 @@
 // -*-C++-*-
 
 varying vec2 rawPos;
+varying vec2 nPos;
 varying vec3 vertPos;
 varying vec3 normal;
 varying vec3 light_diffuse;
@@ -94,6 +95,12 @@ refl_vec = reflVec_stat;
 vec3 splash_vec = vec3 (splash_x, splash_y, splash_z);
 vec3 corrected_splash = normalize(splash_vec);
 
+float angle = abs(dot(corrected_splash, gl_Normal));
+
+
+//corrected_splash = normalize(corrected_splash + 0.4* gl_Normal );
+	
+
 vec3 base_1 = vec3 (-corrected_splash.y, corrected_splash.x, 0.0);
 vec3 base_2 = cross (corrected_splash, base_1);
 
@@ -101,12 +108,18 @@ base_1 = normalize(base_1);
 base_2 = normalize(base_2);
 
 rawPos = vec2 (dot(gl_Vertex.xyz, base_1), dot(gl_Vertex.xyz, base_2));
+
+base_1 = vec3 (-gl_Normal.y, gl_Normal.x, 0.0);
+base_2 = cross(gl_Normal, base_1);
+
+base_1 = normalize(base_1);
+base_2 = normalize(base_2);
+
+nPos = vec2 (dot(gl_Vertex.xyz, base_1), dot(gl_Vertex.xyz, base_2));
+
 vertPos = gl_Vertex.xyz;
 
 splash_angle = dot(gl_Normal, corrected_splash);
-
-
-
 
 ambient_fraction = length(light_ambient.rgb)/length(light_diffuse.rgb +light_ambient.rgb );
 
@@ -118,6 +131,7 @@ vec4 diffuse_color = gl_FrontMaterial.diffuse;
 vec4 ambient_color = gl_FrontMaterial.ambient;
 
 vec4 constant_term = gl_FrontMaterial.emission + ambient_color * vec4 (light_diffuse.rgb + light_ambient.rgb,1.0);
+constant_term.a = min(diffuse_color.a, ambient_color.a);
 
 gl_FrontColor = constant_term;
 gl_BackColor = gl_FrontColor;

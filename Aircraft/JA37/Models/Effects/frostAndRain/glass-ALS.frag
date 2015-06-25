@@ -1,6 +1,7 @@
 // -*-C++-*-
 
 varying vec2 rawPos;
+varying vec2 nPos;
 varying vec3 vertPos;
 varying vec3 normal;
 varying vec3 refl_vec;
@@ -24,6 +25,7 @@ uniform float frost_level;
 uniform float fog_level;
 uniform float reflection_strength;
 uniform float overlay_alpha;
+uniform float overlay_glare;
 uniform float splash_x;
 uniform float splash_y;
 uniform float splash_z;
@@ -33,6 +35,7 @@ uniform int use_reflection;
 uniform int use_mask;
 uniform int use_wipers;
 uniform int use_overlay;
+uniform int adaptive_mapping;
 
 float DotNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
 float DropletNoise2D(in vec2 coord, in float wavelength, in float fractionalMaxDotSize, in float dot_density);
@@ -48,9 +51,15 @@ vec4 func_texel;
 texel = texture2D(texture, gl_TexCoord[0].st);
 texel *=gl_Color;
 
-frost_texel = texture2D(frost_texture, vertPos.xy * 7.0);
+vec2 frost_coords;
+
+if (adaptive_mapping == 1) {frost_coords = gl_TexCoord[0].st * 7.0;}
+else if (adaptive_mapping ==2) {frost_coords = nPos * 7.0;}
+else {frost_coords = vertPos.xy * 7.0;}
+
+frost_texel = texture2D(frost_texture, frost_coords);
 func_texel = texture2D(func_texture, gl_TexCoord[0].st);
-//func_texel = texture2D(func_texture, vertPos.xy * 3.0);
+
 
 
 float noise_003m = Noise2D(vertPos.xy, 0.03);
@@ -76,8 +85,8 @@ if (use_reflection ==1)
 if ((use_mask == 1) && (use_overlay==1))
 	{
 	vec4 overlay_texel = vec4(overlay_color, overlay_alpha);
-	overlay_texel.rgb *=  light_diffuse.rgb* (1.0 + 1.5*Mie);
-	overlay_texel.a *=(1.0 + 0.5* Mie);
+	overlay_texel.rgb *=  light_diffuse.rgb* (1.0 + (1.0 + overlay_glare)*Mie);
+	overlay_texel.a *=(1.0 + overlay_glare* Mie);
 	texel = mix(texel, overlay_texel, func_texel.b * overlay_texel.a);
 	}
 
@@ -148,6 +157,7 @@ if (rnorm > 0.0)
 	
 	float sweep = min(1./splash_speed,1.0);
 	if ((use_mask ==1)&&(use_wipers==1)) {sweep *= (1.0 - func_texel.g);}
+	if (adaptive_mapping ==2) {rainPos = nPos;}
 	rain_factor += DropletNoise2D(rainPos.xy, 0.02 * droplet_size ,0.5, 0.6* rnorm * sweep);
 	rain_factor += DotNoise2D(rainPos.xy, 0.012 * droplet_size ,0.7, 0.6* rnorm * sweep);
 	}
@@ -186,7 +196,7 @@ fragColor.a = max(outerColor.a, fog_texel.a);
 
 gl_FragColor = clamp(fragColor,0.0,1.0);
 
-//gl_FragColor = func_texel;
+//gl_FragColor = vec4(normal,1.0);
 
 
 }

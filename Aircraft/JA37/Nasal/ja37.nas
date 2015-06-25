@@ -663,6 +663,8 @@ var update_loop = func {
 }
 
 var TILSprev = FALSE;
+var acPrev = 0;
+var acTimer = 0;
 
 # slow updating loop
 var slow_loop = func () {
@@ -718,6 +720,23 @@ var slow_loop = func () {
   }
 
   #frost and rain
+  var acSetting = getprop("controls/ventilation/airconditioning-type");
+  if (acSetting != 0) {
+    if (acPrev != acSetting) {
+      acTimer = input.elapsed.getValue();
+    } elsif (acTimer+12 < input.elapsed.getValue()) {
+      setprop("controls/ventilation/airconditioning-type", 0);
+      acSetting = 0;
+    }
+  }
+  acPrev = acSetting;
+  var tempAC = getprop("controls/ventilation/airconditioning-temperature");
+  if (acSetting == -1) {
+    tempAC = -200;
+  } elsif (acSetting == 1) {
+    tempAC = 200;
+  }
+
   var airspeed = getprop("/velocities/airspeed-kt");
   # ja37
   #var airspeed_max = 250; 
@@ -735,13 +754,12 @@ var slow_loop = func () {
   var tempOutside = getprop("environment/temperature-degc");
   var tempInside = getprop("environment/temperature-inside-degc");
   var tempOutsideDew = getprop("environment/dewpoint-degc");
-  var tempAC = 20;#aircondition temp
   var tempACDew = 5;#aircondition dew point. 5 = dry
 
   # calc inside temp
   if (input.canopyPos.getValue() > 0) {
     tempInside = tempOutside;
-  } elsif(input.dcVolt.getValue() > 23) {
+  } elsif(input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE) {
     if (tempInside < tempAC) {
       tempInside = clamp(tempInside+0.5, -1000, tempAC);
     } elsif (tempInside > tempAC) {
@@ -773,6 +791,12 @@ var slow_loop = func () {
   var fogNorm = fogNormOutside>fogNormInside?fogNormOutside:fogNormInside;
   var frostNorm = clamp((tempGlass-0)*-0.05, 0, 1);# will freeze below 0
 
+  var mask = FALSE;
+  if (frostNorm <= getprop("controls/ventilation/windshield-hot-air-knob")) {
+    mask = TRUE;
+  }
+
+  setprop("/environment/aircraft-effects/use-mask", mask);
   setprop("/environment/aircraft-effects/fog-inside", fogNormInside);
   setprop("/environment/aircraft-effects/fog-outside", fogNormOutside);
   setprop("/environment/aircraft-effects/temperature-glass-degc", tempGlass);
