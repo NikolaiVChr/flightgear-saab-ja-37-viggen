@@ -16,7 +16,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -63,7 +63,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -84,7 +84,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -115,7 +115,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -180,7 +180,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -217,7 +217,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -244,7 +244,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -271,7 +271,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -298,7 +298,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -345,7 +345,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -378,7 +378,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -405,7 +405,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -432,7 +432,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -453,7 +453,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -491,7 +491,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -518,7 +518,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -545,7 +545,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
@@ -560,7 +560,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
 
