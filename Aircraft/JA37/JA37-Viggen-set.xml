@@ -897,7 +897,7 @@
             <windshield-hot-air-knob type="double">0.0</windshield-hot-air-knob>
         </ventilation>
         <flight>
-            <trim-reset type="bool">true</trim-reset>
+            <trim-reset type="bool">false</trim-reset>
         </flight>
         <oxygen type="bool">true</oxygen>
     </controls>

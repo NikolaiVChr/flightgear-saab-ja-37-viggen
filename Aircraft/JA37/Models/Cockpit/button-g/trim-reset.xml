@@ -62,7 +62,7 @@
         <type>translate</type>
         <object-name>button</object-name>
         <property>controls/flight/trim-reset</property>
-        <factor>-0.0075</factor>
+        <factor>-0.0030</factor>
         <axis>
             <x> 0.0 </x>
             <y> 0.0 </y>
