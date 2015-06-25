@@ -69,6 +69,26 @@
   </animation>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/button-g/test-indicators.xml</path>
+    <name>test ind</name>
+    <offsets>
+      <x-m>  0.30</x-m>
+      <y-m> -0.05</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/button-g/trim-reset.xml</path>
+    <name>reset trim</name>
+    <offsets>
+      <x-m>  0.55</x-m>
+      <y-m>  0.025</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
     <name>flood light</name>
     <offsets>

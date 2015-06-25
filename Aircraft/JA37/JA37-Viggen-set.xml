@@ -881,6 +881,7 @@
             <flood-knob type="double">0.5</flood-knob>
             <flood-norm type="double">0.0</flood-norm>
             <hud type="double">1.6</hud>
+            <test-indicator-panels type="bool">false</test-indicator-panels>
         </lighting>
         <fuel>
             <pneumatic-flow type="bool">true</pneumatic-flow>            <!-- on/off -->
@@ -895,6 +896,9 @@
             <airconditioning-temperature type="double">0.0</airconditioning-temperature><!-- used for auto -->
             <windshield-hot-air-knob type="double">0.0</windshield-hot-air-knob>
         </ventilation>
+        <flight>
+            <trim-reset type="bool">true</trim-reset>
+        </flight>
         <oxygen type="bool">true</oxygen>
     </controls>
     <gear>

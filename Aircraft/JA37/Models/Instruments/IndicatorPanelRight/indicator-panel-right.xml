@@ -5,18 +5,23 @@
     <!-- JA-37Di pilots Manual page 589 and forward Also bits of info scattered all over the document. -->
 
     <animation>
-        <name>Flghtstick</name>
+        <name>Flightstick</name>
         <object-name>indicatorLeft1</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/joystick</property>
-                <value>1</value>
-            </equals>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/avionics/joystick</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -31,14 +36,19 @@
         <object-name>indicatorLeft2</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/autopilot</property>
-                <value>1</value>
-            </equals>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -53,14 +63,34 @@
         <object-name>indicatorLeft3</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/autopilot</property>
-                <value>1</value>
-            </equals>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Fire in engine starter</name>
+        <object-name>indicatorLeft4</object-name>
+        <type>material</type>
+        <condition>
+            <property>controls/lighting/test-indicator-panels</property>
         </condition>
         <emission>
             <red>1</red>
@@ -75,10 +105,13 @@
         <object-name>indicatorLeft5</object-name>
         <type>material</type>
         <condition>
-            <less-than>
-                <property>fdm/jsbsim/systems/flight/pitch-limiter</property>
-                <value>1.0</value>
-            </less-than>
+            <or>
+                <less-than>
+                    <property>fdm/jsbsim/systems/flight/pitch-limiter</property>
+                    <value>1.0</value>
+                </less-than>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -93,14 +126,19 @@
         <object-name>indicatorLeft6</object-name>
         <type>material</type>
         <condition>
-            <less-than>
-                <property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
-                <value>0.15</value>
-            </less-than>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <less-than>
+                        <property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
+                        <value>0.15</value>
+                    </less-than>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -116,39 +154,44 @@
         <type>material</type>
         <condition>
             <or>
-                <equals>
-                    <property>sim/ja37/avionics/canopyAndSeat</property>
-                    <value>1</value>
-                </equals>
                 <and>
-                    <not-equals>
-                        <property>canopy/position-norm</property>
-                        <value>0</value>
-                    </not-equals>
                     <or>
+                        <equals>
+                            <property>sim/ja37/avionics/canopyAndSeat</property>
+                            <value>1</value>
+                        </equals>
+                        <and>
+                            <not-equals>
+                                <property>canopy/position-norm</property>
+                                <value>0</value>
+                            </not-equals>
+                            <or>
+                                <not-equals>
+                                    <property>gear/gear[0]/wow</property>
+                                    <value>1</value>
+                                </not-equals>
+                                <greater-than>
+                                    <property>engines/engine[0]/n2</property>
+                                    <value>88.5</value>
+                                </greater-than>
+                            </or>
+                        </and>
                         <not-equals>
-                            <property>gear/gear[0]/wow</property>
+                            <property>fdm/jsbsim/fcs/canopy/serviceable</property>
                             <value>1</value>
                         </not-equals>
-                        <greater-than>
-                            <property>engines/engine[0]/n2</property>
-                            <value>88.5</value>
-                        </greater-than>
+                        <not-equals>
+                            <property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
+                            <value>1</value>
+                        </not-equals>
                     </or>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
                 </and>
-                <not-equals>
-                    <property>fdm/jsbsim/fcs/canopy/serviceable</property>
-                    <value>1</value>
-                </not-equals>
-                <not-equals>
-                    <property>fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
-                    <value>1</value>
-                </not-equals>
+                <property>controls/lighting/test-indicator-panels</property>
             </or>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
         </condition>
         <emission>
             <red>1</red>
@@ -163,14 +206,19 @@
         <object-name>indicatorLeft8</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/ignitionSys</property>
-                <value>1</value>
-            </equals>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/avionics/ignitionSys</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -185,10 +233,13 @@
         <object-name>indicatorLeft9</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/startSys</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>sim/ja37/avionics/startSys</property>
+                    <value>1</value>
+                </equals>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -203,10 +254,28 @@
         <object-name>indicatorLeft10</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/systems/electrical/external/supplying</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>fdm/jsbsim/systems/electrical/external/supplying</property>
+                    <value>1</value>
+                </equals>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Central CPU</name>
+        <object-name>indicatorRight1</object-name>
+        <type>material</type>
+        <condition>
+            <property>controls/lighting/test-indicator-panels</property>
         </condition>
         <emission>
             <red>1</red>
@@ -222,19 +291,24 @@
         <type>material</type>
         <condition>
             <or>
-                <equals>
-                    <property>sim/ja37/avionics/primaryData</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>instrumentation/head-up-display/serviceable</property>
-                    <value>0</value>
-                </equals>
+                <and>
+                    <or>
+                        <equals>
+                            <property>sim/ja37/avionics/primaryData</property>
+                            <value>1</value>
+                        </equals>
+                        <equals>
+                            <property>instrumentation/head-up-display/serviceable</property>
+                            <value>0</value>
+                        </equals>
+                    </or>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
             </or>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
         </condition>
         <emission>
             <red>1</red>
@@ -249,10 +323,15 @@
         <object-name>indicatorRight3</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/TN</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/avionics/TN</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -286,7 +365,23 @@
                     <property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
                     <value>1</value>
                 </not-equals>
+                <property>controls/lighting/test-indicator-panels</property>
             </or>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>IKS</name>
+        <object-name>indicatorRight5</object-name>
+        <type>material</type>
+        <condition>
+            <property>controls/lighting/test-indicator-panels</property>
         </condition>
         <emission>
             <red>1</red>
@@ -303,50 +398,55 @@
         <condition>
             <or>
                 <and>
-                    <not>
-                        <property>gear/gear/position-norm</property>
-                    </not>
                     <or>
                         <and>
-                            <greater-than>
-                                <property>orientation/alpha-deg</property>
-                                <value>23</value>
-                            </greater-than>
-                            <less-than>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                                <value>32808</value>
-                            </less-than>
+                            <not>
+                                <property>gear/gear/position-norm</property>
+                            </not>
+                            <or>
+                                <and>
+                                    <greater-than>
+                                        <property>orientation/alpha-deg</property>
+                                        <value>23</value>
+                                    </greater-than>
+                                    <less-than>
+                                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                        <value>32808</value>
+                                    </less-than>
+                                </and>
+                                <and>
+                                    <greater-than>
+                                        <property>orientation/alpha-deg</property>
+                                        <value>20</value>
+                                    </greater-than>
+                                    <greater-than>
+                                        <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                        <value>32808</value>
+                                    </greater-than>
+                                </and>
+                            </or>
                         </and>
                         <and>
+                            <property>gear/gear/position-norm</property>
                             <greater-than>
                                 <property>orientation/alpha-deg</property>
-                                <value>20</value>
+                                <value>18</value>
                             </greater-than>
-                            <greater-than>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
-                                <value>32808</value>
-                            </greater-than>
+                            <not>
+                                <property>gear/gear[1]/wow</property>
+                            </not>
+                            <not>
+                                <property>gear/gear[2]/wow</property>
+                            </not>
                         </and>
                     </or>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
                 </and>
-                <and>
-                    <property>gear/gear/position-norm</property>
-                    <greater-than>
-                        <property>orientation/alpha-deg</property>
-                        <value>18</value>
-                    </greater-than>
-                    <not>
-                        <property>gear/gear[1]/wow</property>
-                    </not>
-                    <not>
-                        <property>gear/gear[2]/wow</property>
-                    </not>
-                </and>
+                <property>controls/lighting/test-indicator-panels</property>
             </or>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
         </condition>
         <emission>
             <red>1</red>
@@ -361,14 +461,19 @@
         <object-name>indicatorRight7</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/avionics/oxygen</property>
-                <value>1</value>
-            </equals>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/avionics/oxygen</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -383,14 +488,19 @@
         <object-name>indicatorRight8</object-name>
         <type>material</type>
         <condition>
-            <greater-than>
-                <property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
-                <value>800</value>
-            </greater-than>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <greater-than>
+                        <property>fdm/jsbsim/propulsion/engine/outlet-temperature-degc</property>
+                        <value>800</value>
+                    </greater-than>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -405,14 +515,34 @@
         <object-name>indicatorRight9</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>sim/ja37/sound/fuel-low-on</property>
-                <value>1</value>
-            </equals>
-            <equals>
-                <property>sim/ja37/blink/ten-Hz/state</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>sim/ja37/sound/fuel-low-on</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <name>Weapons</name>
+        <object-name>indicatorRight10</object-name>
+        <type>material</type>
+        <condition>
+            <property>controls/lighting/test-indicator-panels</property>
         </condition>
         <emission>
             <red>1</red>

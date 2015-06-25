@@ -792,7 +792,8 @@ var slow_loop = func () {
   var frostNorm = clamp((tempGlass-0)*-0.05, 0, 1);# will freeze below 0
 
   var mask = FALSE;
-  if (frostNorm <= getprop("controls/ventilation/windshield-hot-air-knob")) {
+  var knob = getprop("controls/ventilation/windshield-hot-air-knob");
+  if (frostNorm <= knob and knob != 0 and input.dcVolt.getValue() > 23) {
     mask = TRUE;
   }
 
