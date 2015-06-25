@@ -68,4 +68,24 @@
     <z-offset>0.7</z-offset>
   </animation>
 
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
+    <name>flood light</name>
+    <offsets>
+      <x-m>  0.80</x-m>
+      <y-m>  0.00</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/knob-g/light-instrument.xml</path>
+    <name>instrument light</name>
+    <offsets>
+      <x-m>  0.70</x-m>
+      <y-m>  0.00</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
 </PropertyList>

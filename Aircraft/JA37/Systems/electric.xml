@@ -409,7 +409,7 @@
         <pure_gain name="/systems/electrical/outputs/dme">
             <description>
                       DME power
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <gain>1</gain>
         </pure_gain>
@@ -417,7 +417,7 @@
         <aerosurface_scale name="names/electrical/dc-light">
             <description>
                       DC light brightness, normalized
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <zero_centered> false </zero_centered>
             <domain>
@@ -438,12 +438,12 @@
         <switch name="names/electrical/landing-light">
             <description>
                       Landing light power
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="/systems/electrical/dc-light">
-          /controls/electric/lights-land-switch == 1
-          gear/gear-pos-norm gt 0
-        </test>
+                /controls/electric/lights-land-switch == 1
+                gear/gear-pos-norm gt 0
+            </test>
             <clipto>
                 <min> 0 </min>
                 <max> 1 </max>
@@ -451,30 +451,51 @@
             <output>/sim/ja37/effect/landing-light</output>
         </switch>
 
-        <switch name="names/electrical/instr-light-norm">
+        <fcs_function name="names/electrical/instr-light-norm">
             <description>
                       Instrument light power
-      </description>
-            <default value="0.0"/>
-            <test logic="AND" value="/systems/electrical/dc-light">
-            /instrumentation/switches/inst-light-knob/pos == 1
-      </test>
-            <output>/controls/lighting/instruments-norm</output>
+            </description>
+            <function>
+                <product>
+                    <property>/instrumentation/instrumentation-light/serviceable</property>
+                    <property>/controls/lighting/instruments-knob</property>
+                    <property>/systems/electrical/dc-light</property>
+                </product>
+            </function>
             <clipto>
                 <min> 0 </min>
                 <max> 1 </max>
             </clipto>
-        </switch>
+            <output>/controls/lighting/instruments-norm</output>
+        </fcs_function>
+
+        <fcs_function name="names/electrical/flood-light-norm">
+            <description>
+                      Flood light power
+            </description>
+            <function>
+                <product>
+                    <property>/controls/lighting/flood-knob</property>
+                    <property>/systems/electrical/dc-light</property>
+                    <value>0.5</value>
+                </product>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+            <output>/controls/lighting/flood-norm</output>
+        </fcs_function>
 
         <switch name="fcs/canopy/has-power">
             <description>
                       Canopy power
-      </description>
+            </description>
             <default value="0"/>
             <test logic="OR" value="1">
-            systems/electrical/battery-producing-dc ge 22
-            /systems/electrical/outputs/dc-voltage gt 22
-      </test>
+                systems/electrical/battery-producing-dc ge 22
+                /systems/electrical/outputs/dc-voltage gt 22
+            </test>
             <clipto>
                 <min> 0 </min>
                 <max> 1 </max>
@@ -484,12 +505,12 @@
         <switch name="names/electrical/engine/starter">
             <description>
                       Engine starter
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
-            /systems/electrical/outputs/dc-voltage gt 23
-            /controls/engines/engine[0]/starter-cmd == 1
-      </test>
+                /systems/electrical/outputs/dc-voltage gt 23
+                /controls/engines/engine[0]/starter-cmd == 1
+            </test>
             <output>propulsion/starter_cmd</output>
             <output>propulsion/starter_cmd_copy</output>
         </switch>

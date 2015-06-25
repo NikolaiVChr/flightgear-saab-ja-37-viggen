@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>knob-g.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>knob</object-name>
+        <object-name>plane</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>plane</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-light-flood</tooltip-id>
+                <label>Flood light</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>pickRight</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/flood-knob</property>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>pickLeft</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/flood-knob</property>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>knob</object-name>
+        <property>controls/lighting/flood-knob</property>
+        <factor>270</factor>
+        <offset-deg>-135</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+            <z-m>  0.00 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 0.0 </y>
+            <z> 1.0 </z>
+        </axis>
+    </animation>
+
+    <!--<animation>
+        <type>material</type>
+        <object-name>switchMount</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>switch-light-flash</texture-prop>
+        <texture>switchFace.png</texture>
+    </animation>-->
+
+</PropertyList>

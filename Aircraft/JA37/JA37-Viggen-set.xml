@@ -877,6 +877,9 @@
         </electric>
         <lighting>
             <instruments-norm type="double">0.0</instruments-norm>
+            <instruments-knob type="double">0.5</instruments-knob>
+            <flood-knob type="double">0.5</flood-knob>
+            <flood-norm type="double">0.0</flood-norm>
             <hud type="double">1.6</hud>
         </lighting>
         <fuel>
@@ -1127,11 +1130,6 @@
         <instrumentation-light>
             <serviceable type="bool">true</serviceable>
         </instrumentation-light>
-        <switches>
-            <inst-light-knob>
-                <pos alias="/instrumentation/instrumentation-light/serviceable"/>
-            </inst-light-knob>
-        </switches>
         <transponder>
             <name type="string">transponder</name>
             <number type="int">0</number>

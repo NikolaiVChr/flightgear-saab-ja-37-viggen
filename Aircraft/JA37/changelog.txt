@@ -1680,3 +1680,4 @@ Model: {JazzTp} Remodeled sidepanels. And added minor sidepanels.
 Model: Adapted controls to new sidepanels. (work in progress)
 Model: Fixed radar heading was not rotated along a precise enough axis.
 Sim: Made a reserve generator.
+Effect: Added floodlight to cockpit panels, and also a knob to control it.
