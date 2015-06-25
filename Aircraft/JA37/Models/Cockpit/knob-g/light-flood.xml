@@ -74,12 +74,12 @@
         </axis>
     </animation>
 
-    <!--<animation>
+    <animation>
         <type>material</type>
-        <object-name>switchMount</object-name>
+        <object-name>plane</object-name>
         <property-base>sim/ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
-        <texture>switchFace.png</texture>
-    </animation>-->
+        <texture>light-flood.png</texture>
+    </animation>
 
 </PropertyList>
