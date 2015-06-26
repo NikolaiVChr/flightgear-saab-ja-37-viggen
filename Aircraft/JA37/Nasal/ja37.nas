@@ -761,9 +761,9 @@ var slow_loop = func () {
     tempInside = tempOutside;
   } elsif(input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE) {
     if (tempInside < tempAC) {
-      tempInside = clamp(tempInside+0.5, -1000, tempAC);
+      tempInside = clamp(tempInside+0.15, -1000, tempAC);
     } elsif (tempInside > tempAC) {
-      tempInside = clamp(tempInside-0.5, tempAC, 1000);
+      tempInside = clamp(tempInside-0.15, tempAC, 1000);
     }
   } else {
     if (tempInside < tempOutside) {

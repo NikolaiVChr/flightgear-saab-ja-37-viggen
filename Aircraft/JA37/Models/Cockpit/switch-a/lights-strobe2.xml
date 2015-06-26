@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>switch-a.ac</path>
+    <path>switch-a2.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
@@ -46,7 +46,7 @@
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>
-            <z-m> -0.01047 </z-m>
+            <z-m> -0.00494 </z-m>
         </center>
         <axis>
             <x>-1.0 </x>

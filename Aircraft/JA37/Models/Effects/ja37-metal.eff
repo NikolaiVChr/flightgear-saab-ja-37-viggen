@@ -5,12 +5,16 @@
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
      <reflection-enabled type="int">1</reflection-enabled>
-     <reflection-correction type="float">0.0</reflection-correction>
+     <reflect-map-enabled type="int">1</reflect-map-enabled>
+     <reflection-correction type="float">-0.5</reflection-correction>
      <reflection-fresnel type="float">0.0</reflection-fresnel>
-
      <reflection-rainbow type="float">0.1</reflection-rainbow>
      <reflection-noise type="float">0.5</reflection-noise>
      <reflection-dynamic type="int">1</reflection-dynamic>
+
+     <normalmap-enabled type="int">0</normalmap-enabled>
+     <rain-enabled type="int">0</rain-enabled>
+     <lightmap-enabled type="int">0</lightmap-enabled>
 
      <ambient-correction type="float">0.0</ambient-correction>
 

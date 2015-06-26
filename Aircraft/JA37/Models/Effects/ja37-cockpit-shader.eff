@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <PropertyList>
   <name>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</name>
   <inherits-from>Effects/model-combined-deferred</inherits-from>
