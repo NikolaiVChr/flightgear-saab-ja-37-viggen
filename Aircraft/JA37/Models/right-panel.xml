@@ -69,8 +69,8 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-    <name>switch-strobe</name>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/oxygen.xml</path>
+    <name>switch-oxygen</name>
     <offsets>
       <x-m>  0.185</x-m>
       <y-m>  0.03</y-m>

@@ -18,7 +18,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-lights-flash</tooltip-id>
-                <label>Exterior anti collision light</label>
+                <label>Reserve power</label>
             </binding>
         </hovered>
     </animation>
@@ -30,7 +30,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>controls/electric/lights-ext-flash</property>
+                <property>controls/electric/reserve</property>
                 <value>1</value>
             </binding>
             <binding>
@@ -47,7 +47,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>controls/electric/lights-ext-flash</property>
+                <property>controls/electric/reserve</property>
                 <value>0</value>
             </binding>
             <binding>
@@ -60,7 +60,7 @@
     <animation>
         <type>rotate</type>
         <object-name>switchLever</object-name>
-        <property>controls/electric/lights-ext-flash</property>
+        <property>controls/electric/reserve</property>
         <factor>40</factor>
         <offset-deg>-20</offset-deg>
         <center>
@@ -80,7 +80,7 @@
         <object-name>switchMount</object-name>
         <property-base>sim/ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
-        <texture>switchFace.png</texture>
+        <texture>ELECTRIC-RESERVE.png</texture>
     </animation>
 
 </PropertyList>

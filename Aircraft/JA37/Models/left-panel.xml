@@ -72,8 +72,8 @@
     <path>Aircraft/JA37/Models/Cockpit/button-g/test-indicators.xml</path>
     <name>test ind</name>
     <offsets>
-      <x-m>  0.30</x-m>
-      <y-m> -0.05</y-m>
+      <x-m>  0.25</x-m>
+      <y-m> -0.045</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -82,18 +82,41 @@
     <path>Aircraft/JA37/Models/Cockpit/button-g/trim-reset.xml</path>
     <name>reset trim</name>
     <offsets>
-      <x-m>  0.55</x-m>
-      <y-m>  0.025</y-m>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.70</x-m>
+      <y-m> -0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/trim-roll.xml</path>
+    <name>roll trim</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.80</x-m>
+      <y-m> -0.025</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/trim-yaw.xml</path>
+    <name>yaw trim</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.75</x-m>
+      <y-m> -0.025</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>  
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
     <name>flood light</name>
     <offsets>
       <x-m>  0.80</x-m>
-      <y-m>  0.00</y-m>
+      <y-m>  0.085</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -103,7 +126,7 @@
     <name>instrument light</name>
     <offsets>
       <x-m>  0.70</x-m>
-      <y-m>  0.00</y-m>
+      <y-m>  0.085</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>

@@ -11,9 +11,10 @@
         </offsets>
     </model> 
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-        <name>switch-strobe</name>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/air-conditioner.xml</path>
+        <name>switch-air-cond</name>
         <offsets>
+            <heading-deg>180</heading-deg>
             <x-m> -0.285</x-m>
             <y-m> -0.100</y-m>
             <z-m>  0</z-m>

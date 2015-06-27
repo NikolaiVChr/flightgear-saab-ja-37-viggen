@@ -18,7 +18,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-lights-flash</tooltip-id>
-                <label>Exterior anti collision light</label>
+                <label>Yaw trim</label>
             </binding>
         </hovered>
     </animation>
@@ -28,10 +28,26 @@
         <object-name>pickTop</object-name>
         <action>
             <button>0</button>
+            <repeatable>true</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>controls/electric/lights-ext-flash</property>
+                <property>controls/flight/trim-yaw</property>
                 <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/flight/rudder-trim</property>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -45,10 +61,26 @@
         <object-name>pickBottom</object-name>
         <action>
             <button>0</button>
+            <repeatable>true</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>controls/electric/lights-ext-flash</property>
-                <value>0</value>
+                <property>controls/flight/trim-yaw</property>
+                <value>-1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/flight/rudder-trim</property>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -60,9 +92,9 @@
     <animation>
         <type>rotate</type>
         <object-name>switchLever</object-name>
-        <property>controls/electric/lights-ext-flash</property>
-        <factor>40</factor>
-        <offset-deg>-20</offset-deg>
+        <property>controls/flight/trim-yaw</property>
+        <factor>20</factor>
+        <offset-deg>0</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>
@@ -80,7 +112,7 @@
         <object-name>switchMount</object-name>
         <property-base>sim/ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
-        <texture>switchFace.png</texture>
+        <texture>YAW-TRIM.png</texture>
     </animation>
 
 </PropertyList>
