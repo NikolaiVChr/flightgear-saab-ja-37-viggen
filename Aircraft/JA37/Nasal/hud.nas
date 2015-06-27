@@ -345,7 +345,7 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-375, centerOffset+(5.5*pixelPerDegreeY));
+    HUDnasal.main.qfe.setTranslation(-365, centerOffset+(5.5*pixelPerDegreeY));
     HUDnasal.main.qfe.setFontSize(80*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
@@ -757,7 +757,13 @@ var HUDnasal = {
                             .lineTo(   0,  20)
                             .lineTo( -20,  20)
                             .setStrokeLineWidth(w)
-                            .setColor(r,g,b, a);                            
+                            .setColor(r,g,b, a);
+    HUDnasal.main.distanceText = HUDnasal.main.dist_scale_group.createChild("text")
+                            .setText("")
+                            .setColor(r,g,b, a)
+                            .setAlignment("left-top")
+                            .setTranslation(200, 10)
+                            .setFontSize(60*fs, ar);
     var distanceScale = HUDnasal.main.dist_scale_group.createChild("path")
                             .moveTo(   0, 0)
                             .lineTo( 200, 0)
@@ -790,7 +796,7 @@ var HUDnasal = {
     artifactsText0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.hdgR, HUDnasal.main.qfe,
                       HUDnasal.main.diamond_dist, HUDnasal.main.tower_symbol_dist, HUDnasal.main.tower_symbol_icao, HUDnasal.main.diamond_name,
                       HUDnasal.main.alt_low, HUDnasal.main.alt_med, HUDnasal.main.alt_high, HUDnasal.main.alt_higher, HUDnasal.main.alt,
-                      HUDnasal.main.hdgMH, HUDnasal.main.hdgLH, HUDnasal.main.hdgRH];
+                      HUDnasal.main.hdgMH, HUDnasal.main.hdgLH, HUDnasal.main.hdgRH, HUDnasal.main.distanceText];
 
 
   },
@@ -1652,12 +1658,23 @@ var HUDnasal = {
   displayQFE: func (mode) {
     if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
       if (me.input.TILS.getValue() == TRUE) {
-        me.qfe.setText("TILS");
+        if (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+          me.qfe.setText("TILS/DME");
+        } else {
+          me.qfe.setText("TILS");
+        }
         me.qfe.show();
       } else {
-        me.qfe.setText("ILS");
+        if (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+          me.qfe.setText("ILS/DME");
+        } else {
+          me.qfe.setText("ILS");
+        }
         me.qfe.show();
       }
+    } elsif ((mode == LANDING or mode == NAV) and getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+      me.qfe.setText("DME");
+      me.qfe.show();
     } elsif (mode == COMBAT) {
       var armSelect = me.input.station.getValue();
       if(armSelect == 0) {
@@ -1863,6 +1880,7 @@ var HUDnasal = {
       me.mySpeed.show();
       me.targetDistance1.hide();
       me.targetDistance2.hide();
+      me.distanceText.hide();
       me.dist_scale_group.show();
     } elsif (mode == COMBAT and radar_logic.selection != nil) {
       var line = 200;
@@ -1899,6 +1917,25 @@ var HUDnasal = {
       me.targetSpeed.hide();
       me.targetDistance1.show();
       me.targetDistance2.show();
+      me.distanceText.hide();
+      me.dist_scale_group.show();
+    } elsif (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+      var distance = getprop("instrumentation/dme/indicated-distance-nm");
+      var line = 200;
+      var maxDist = 20;
+      var pixelPerMeter = (line)/(maxDist);
+      var pos = pixelPerMeter*distance;
+      pos = clamp(pos, 0, line);
+      me.mySpeed.setTranslation(pos, 0);
+      me.mySpeed.show();
+
+      me.targetDistance1.setTranslation(0, 0);
+      me.distanceText.setText(sprintf("%.1f", me.input.units.getValue() == 1  ? distance*kts2kmh : distance));
+
+      me.targetSpeed.hide();
+      me.targetDistance1.show();
+      me.targetDistance2.hide();
+      me.distanceText.show();
       me.dist_scale_group.show();
     } else {
       me.dist_scale_group.hide();

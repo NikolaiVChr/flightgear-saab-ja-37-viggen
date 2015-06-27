@@ -1165,6 +1165,9 @@
         <head-up-display>
             <serviceable type="bool">true</serviceable>
         </head-up-display>
+        <dme>
+            <switch-position type="int">0</switch-position>
+        </dme>
     </instrumentation>
 
     <!--**********************************************************************

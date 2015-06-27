@@ -411,7 +411,7 @@
                       DME power
             </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
-            <gain>1</gain>
+            <gain>/instrumentation/dme/switch-position</gain>
         </pure_gain>
 
         <aerosurface_scale name="names/electrical/dc-light">
