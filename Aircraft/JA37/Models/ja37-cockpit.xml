@@ -360,7 +360,7 @@
     </offsets>
   </model>          
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/buttons/button-follow.xml</path>
     <name>ButtonFollow</name>
     <offsets>
@@ -382,5 +382,5 @@
       <y-m>  0.22</y-m>
       <z-m>  0.182</z-m>
     </offsets>
-  </model>
+  </model>-->
 </PropertyList>
