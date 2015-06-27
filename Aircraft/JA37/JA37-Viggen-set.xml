@@ -900,6 +900,7 @@
             <trim-reset type="bool">false</trim-reset>
         </flight>
         <oxygen type="bool">true</oxygen>
+        <altimeter-radar type="bool">true</altimeter-radar>
     </controls>
     <gear>
         <serviceable type="bool">true</serviceable>

@@ -1021,8 +1021,8 @@ var HUDnasal = {
   },#end of update
 
   displayGroundCollisionArrow: func (mode) {
-    var rad_alt = me.input.rad_alt.getValue();
-    if (mode != TAKEOFF and ( (mode == LANDING and rad_alt > (50/feet2meter)) or mode != LANDING )) {
+    var rad_alt = getprop("controls/altimeter-radar") == 1?me.input.rad_alt.getValue():nil;
+    if (mode != TAKEOFF and ( (mode == LANDING and rad_alt != nil and rad_alt > (50/feet2meter)) or mode != LANDING )) {
       #var x = mp.getNode("position/global-x").getValue();# meters probably
       #var y = mp.getNode("position/global-y").getValue();
       #var z = mp.getNode("position/global-z").getValue();
@@ -1048,6 +1048,9 @@ var HUDnasal = {
           me.input.terrainOn.setValue(FALSE);
           me.arrow.hide();
         }
+      } else {
+        me.input.terrainOn.setValue(FALSE);
+        me.arrow.hide();
       }
     } else {
       me.input.terrainOn.setValue(FALSE);
@@ -1226,7 +1229,7 @@ var HUDnasal = {
   displayAltitude: func () {
     var metric = me.input.units.getValue();
     var alt = metric == TRUE ? me.input.alt_ft.getValue() * feet2meter : me.input.alt_ft.getValue();
-    var radAlt = metric == TRUE ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue();
+    var radAlt = getprop("controls/altimeter-radar") == 1?(metric == TRUE ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue()):nil;
 
     me.displayAltitudeScale(alt, radAlt);
     me.displayDigitalAltitude(alt, radAlt);
@@ -1343,13 +1346,18 @@ var HUDnasal = {
         me.alt_scale_line.hide();
       }
       # Show radar altimeter ground height
-      var rad_offset = altimeterScaleHeight/alt_scale_factor * radAlt;
-      me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
-      me.rad_alt_pointer.show();
-      if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
-        me.alt_pointer.hide();
+      if (radAlt != nil) {
+        var rad_offset = altimeterScaleHeight/alt_scale_factor * radAlt;
+        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
+        me.rad_alt_pointer.show();
+        if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
+          me.alt_pointer.hide();
+        } else {
+          me.alt_pointer.show();
+        }
       } else {
         me.alt_pointer.show();
+        me.rad_alt_pointer.hide();
       }
       me.alt_scale_grp.update();
       if(me.verbose > 2) print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
@@ -1378,18 +1386,23 @@ var HUDnasal = {
         me.alt_high.setText("400");
       }
       # Show radar altimeter ground height
-      var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * radAlt;
-      me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
-      me.rad_alt_pointer.show();
-      if (radAlt < alt) {
-        me.alt_scale_line.show();
-      } else {
-        me.alt_scale_line.hide();
-      }
-      if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
-        me.alt_pointer.hide();
+      if (radAlt != nil) {
+        var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * radAlt;
+        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
+        me.rad_alt_pointer.show();
+        if (radAlt < alt) {
+          me.alt_scale_line.show();
+        } else {
+          me.alt_scale_line.hide();
+        }
+        if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
+          me.alt_pointer.hide();
+        } else {
+          me.alt_pointer.show();
+        }
       } else {
         me.alt_pointer.show();
+        me.rad_alt_pointer.hide();
       }
       me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " placing med " ~ sprintf("%3d", offset));
@@ -1438,14 +1451,19 @@ var HUDnasal = {
       } else {
         me.alt_higher.setText(sprintf("%d", higher));
       }
-      # Show radar altimeter ground height
-      var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * (radAlt);
-      me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
-      me.rad_alt_pointer.show();
-      if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
-        me.alt_pointer.hide();
+      if (radAlt != nil) {
+        # Show radar altimeter ground height
+        var rad_offset = 2*altimeterScaleHeight/alt_scale_factor * (radAlt);
+        me.rad_alt_pointer.setTranslation(indicatorOffset, rad_offset - offset);
+        me.rad_alt_pointer.show();
+        if ((-radPointerProxim) < rad_offset and rad_offset < radPointerProxim) {
+          me.alt_pointer.hide();
+        } else {
+          me.alt_pointer.show();
+        }
       } else {
         me.alt_pointer.show();
+        me.rad_alt_pointer.hide();
       }
       me.alt_scale_grp.update();
       #print("alt " ~ sprintf("%3d", alt) ~ " radAlt:" ~ sprintf("%3d", radAlt) ~ " rad_offset:" ~ sprintf("%3d", rad_offset));
