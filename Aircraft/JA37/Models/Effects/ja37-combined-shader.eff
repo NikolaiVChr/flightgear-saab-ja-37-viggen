@@ -5,6 +5,22 @@
     <rain-enabled type="int">2</rain-enabled>
     <ambient-correction type="float">0.25</ambient-correction>
     <normalmap-enabled type="int">1</normalmap-enabled>
+
+    <lightmap-enabled type="int">0</lightmap-enabled>
+    <lightmap-factor type="float" n="0">0.0</lightmap-factor>
+
+    <reflection-enabled type="int">1</reflection-enabled>
+    <reflect-map-enabled type="int">0</reflect-map-enabled>
+    <reflection-correction type="float">0.0</reflection-correction>
+    <reflection-fresnel type="float">0.0</reflection-fresnel>
+    <reflection-rainbow type="float">0.0</reflection-rainbow>
+    <reflection-noise type="float">0.0</reflection-noise>
+    <reflection-dynamic type="int">1</reflection-dynamic>
+
+    <dirt-enabled type="int">0</dirt-enabled>
+    <dirt-factor type="float">0.0</dirt-factor>
+    <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
+
   	<texture n="2">
       <image>Aircraft/JA37/Models/Effects/j37_bump.png</image>
       <filter>linear-mipmap-linear</filter><!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
