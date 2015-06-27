@@ -43,7 +43,7 @@
         <name>switch-fuel-pneu</name>
         <offsets>
             <x-m>  0.570</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
@@ -52,7 +52,7 @@
         <name>switch-fuel-elec</name>
         <offsets>
             <x-m>  0.535</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
@@ -61,7 +61,7 @@
         <name>switch-fuel-xtank</name>
         <offsets>
             <x-m>  0.500</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
@@ -71,7 +71,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.465</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
@@ -80,7 +80,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.430</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model> 
@@ -89,7 +89,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.395</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
@@ -98,7 +98,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.360</x-m>
-            <y-m>  0.015</y-m>
+            <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
