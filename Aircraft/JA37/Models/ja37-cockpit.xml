@@ -79,7 +79,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-elec-main.xml</path>
     <name>SwitchMain</name>
     <offsets>
@@ -89,7 +89,7 @@
       <y-m> -0.30</y-m>
       <z-m>  0.1400</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-battery.xml</path>
@@ -103,7 +103,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-cutoff.xml</path>
     <name>SwitchCutoff</name>
     <offsets>
@@ -113,7 +113,7 @@
       <y-m> -0.30</y-m>
       <z-m>  0.1400</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-starter.xml</path>
@@ -127,7 +127,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-generator.xml</path>
     <name>SwitchGenerator</name>
     <offsets>
@@ -185,7 +185,7 @@
       <y-m> -0.30</y-m>
       <z-m>  0.1400</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-gears.xml</path>

@@ -1685,3 +1685,4 @@ Sim: The aircondition simulation now works like in the real Viggen. Still missin
 Effect: Added knob that will put hot air on windshield to remove fog, it has 5 settings.
 Model: Added button that tests the indicator panels.
 Model: Added button that resets trim.
+Sim: Added logic for disabling radar altimeter.

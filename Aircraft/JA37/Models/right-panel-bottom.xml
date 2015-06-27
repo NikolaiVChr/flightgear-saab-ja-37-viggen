@@ -6,7 +6,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.85</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
@@ -15,7 +15,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.815</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model> 
@@ -24,7 +24,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.780</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
@@ -33,7 +33,72 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.745</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-pneu-pump.xml</path>
+        <name>switch-fuel-pneu</name>
+        <offsets>
+            <x-m>  0.570</x-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-elec-pump.xml</path>
+        <name>switch-fuel-elec</name>
+        <offsets>
+            <x-m>  0.535</x-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-drop-tank.xml</path>
+        <name>switch-fuel-xtank</name>
+        <offsets>
+            <x-m>  0.500</x-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-landing.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m>  0.465</x-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>  
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-anti-collision.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m>  0.430</x-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model> 
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-navigation.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m>  0.395</x-m>
+            <y-m>  0.015</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>  
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-beacon.xml</path>
+        <name>switch-strobe</name>
+        <offsets>
+            <x-m>  0.360</x-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
@@ -43,7 +108,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.1</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
@@ -52,7 +117,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.135</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model> 
@@ -61,7 +126,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.170</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
@@ -70,7 +135,7 @@
         <name>switch-strobe</name>
         <offsets>
             <x-m>  0.205</x-m>
-            <y-m>  0.025</y-m>
+            <y-m>  0.015</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>

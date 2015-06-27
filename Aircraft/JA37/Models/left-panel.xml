@@ -79,6 +79,39 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/generator.xml</path>
+    <name>generator</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.35</x-m>
+      <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/electric-main.xml</path>
+    <name>elec main</name>
+    <offsets>
+      <heading-deg>-90</heading-deg>
+      <x-m>  0.300</x-m>
+      <y-m> -0.070</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/cutoff.xml</path>
+    <name>cutoff</name>
+    <offsets>
+      <heading-deg>-90</heading-deg>
+      <x-m>  0.300</x-m>
+      <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/button-g/trim-reset.xml</path>
     <name>reset trim</name>
     <offsets>

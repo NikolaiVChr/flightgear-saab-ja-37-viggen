@@ -79,14 +79,26 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-    <name>switch-strobe</name>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/dme.xml</path>
+    <name>switch-dme</name>
     <offsets>
-      <x-m>  0.50</x-m>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.235</x-m>
       <y-m>  0.03</y-m>
       <z-m>  0</z-m>
     </offsets>
-  </model>  
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/radar-altimeter.xml</path>
+    <name>switch-radar-alt</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.235</x-m>
+      <y-m>  0.065</y-m>
+      <z-m>  0</z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/knob-g/windshield-hot-air.xml</path>
