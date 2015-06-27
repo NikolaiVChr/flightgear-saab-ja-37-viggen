@@ -10,9 +10,9 @@
     <lightmap-enabled type="int">1</lightmap-enabled>
     <lightmap-factor type="float" n="0"><use>/controls/lighting/flood-norm</use></lightmap-factor>
 
-    <reflection-enabled type="int">0</reflection-enabled>
+    <reflection-enabled type="int">1</reflection-enabled>
     <reflect-map-enabled type="int">0</reflect-map-enabled>
-    <reflection-correction type="float">0.0</reflection-correction>
+    <reflection-correction type="float">-0.25</reflection-correction>
     <reflection-fresnel type="float">0.0</reflection-fresnel>
     <reflection-rainbow type="float">0.0</reflection-rainbow>
     <reflection-noise type="float">0.0</reflection-noise>
