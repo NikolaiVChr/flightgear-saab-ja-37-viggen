@@ -72,7 +72,7 @@
     <path>Aircraft/JA37/Models/Cockpit/button-g/test-indicators.xml</path>
     <name>test ind</name>
     <offsets>
-      <x-m>  0.25</x-m>
+      <x-m>  0.225</x-m>
       <y-m> -0.045</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -85,6 +85,16 @@
       <heading-deg>180</heading-deg>
       <x-m>  0.35</x-m>
       <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/engine-start.xml</path>
+    <name>starter</name>
+    <offsets>
+      <x-m>  0.35</x-m>
+      <y-m> -0.090</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -107,6 +117,39 @@
       <heading-deg>-90</heading-deg>
       <x-m>  0.300</x-m>
       <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/cutoff-indicator.xml</path>
+    <name>cutoffReady</name>
+    <offsets>
+      <pitch-deg>90</pitch-deg>
+      <x-m>  0.330</x-m>
+      <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/radar.xml</path>
+    <name>radar</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.450</x-m>
+      <y-m>  0.080</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/radar-screen.xml</path>
+    <name>radar screen</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.450</x-m>
+      <y-m>  0.050</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>

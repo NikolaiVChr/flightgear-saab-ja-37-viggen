@@ -580,7 +580,7 @@
     </offsets>
   </model>  
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-tracks.xml</path>
     <name>SwitchHudTracks</name>
     <offsets>
@@ -588,7 +588,7 @@
       <y-m>  0.33</y-m>
       <z-m>  0.07</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-sideslip.xml</path>
@@ -600,7 +600,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-radar.xml</path>
     <name>SwitchRadar</name>
     <offsets>
@@ -608,7 +608,7 @@
       <y-m>  0.31</y-m>
       <z-m>  0.03</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/callsign.xml</path>

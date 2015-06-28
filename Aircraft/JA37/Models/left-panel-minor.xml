@@ -1,15 +1,7 @@
 <?xml version="1.0"?>
 <PropertyList>
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/lights-strobe.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.250</x-m>
-            <y-m> -0.100</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model> 
+
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/air-conditioner.xml</path>
         <name>switch-air-cond</name>
