@@ -33,33 +33,6 @@
         </offsets>
     </model>  
 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-drop-tank.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.955</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model> 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-pneu-pump.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.920</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-elec-pump.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m> -0.885</x-m>
-            <y-m>  0.025</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
 
       
 

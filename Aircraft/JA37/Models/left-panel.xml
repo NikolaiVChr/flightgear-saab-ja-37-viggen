@@ -170,7 +170,18 @@
     <name>roll trim</name>
     <offsets>
       <heading-deg>180</heading-deg>
-      <x-m>  0.80</x-m>
+      <x-m>  0.84</x-m>
+      <y-m> -0.025</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-d/trim-pitch.xml</path>
+    <name>pitch trim</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.795</x-m>
       <y-m> -0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>

@@ -1681,8 +1681,11 @@ Model: Adapted controls to new sidepanels. (work in progress)
 Model: Fixed radar heading was not rotated along a precise enough axis.
 Sim: Made a reserve generator.
 Effect: Added floodlight to cockpit panels, and also a knob to control it.
-Sim: The aircondition simulation now works like in the real Viggen. Still missing 3 controls though.
+Sim: The aircondition simulation now works like in the real Viggen. Still missing 2 controls though.
 Effect: Added knob that will put hot air on windshield to remove fog, it has 5 settings.
 Model: Added button that tests the indicator panels.
 Model: Added button that resets trim.
+Model: Replaced the buttons for controlling auto-follow.
 Sim: Added logic for disabling radar altimeter.
+HUD: Added DME support.
+Sim: Added control logic for fuel system controls.

@@ -157,7 +157,7 @@ TODO: manual fuel controls
             </test>
             <test logic="AND" value="-0.95101938848933424">
                 /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 1
+                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -202,7 +202,7 @@ TODO: manual fuel controls
             </test>
             <test logic="AND" value="-0.95101938848933424">
                 /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 1
+                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -246,7 +246,7 @@ TODO: manual fuel controls
             </test>
             <test logic="AND" value="-0.47550969424466712">
                 /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 1
+                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-0.47550969424466712"><!-- 1000 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
@@ -282,7 +282,7 @@ TODO: manual fuel controls
             </test>
             <test logic="AND" value="-1.42652908273400136">
                 /controls/fuel/auto == 0
-                /controls/fuel/hydraulic-pump == 1
+                /controls/fuel/hydraulic-pump == 2
             </test>
             <test logic="OR" value="-1.42652908273400136"><!-- 3000 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992

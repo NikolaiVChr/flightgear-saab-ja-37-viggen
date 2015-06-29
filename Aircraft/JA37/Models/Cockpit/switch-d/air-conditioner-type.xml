@@ -1,0 +1,92 @@
+﻿<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>switch-d2.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>D2_mount</object-name>
+        <object-name>D2_red</object-name>
+        <object-name>D2_lever</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>D2_mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switch-ac-type</tooltip-id>
+                <label>Air condition setting</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>D2_pickRight</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/airconditioning-type</property>
+                <step>-1</step>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>D2_pickLeft</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/airconditioning-type</property>
+                <step>1</step>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>D2_lever</object-name>
+        <property>controls/ventilation/airconditioning-type</property>
+        <factor>20</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00616 </y-m>
+            <z-m> -0.00658 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> -1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>D2_mount</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>switch-light-flash</texture-prop>
+        <texture>WARMCOLD.png</texture>
+    </animation>
+
+</PropertyList>

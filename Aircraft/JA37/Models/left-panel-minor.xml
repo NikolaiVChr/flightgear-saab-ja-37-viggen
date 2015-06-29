@@ -13,4 +13,16 @@
         </offsets>
     </model>  
 
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-d/air-conditioner-type.xml</path>
+        <name>switch-air-cond-type</name>
+        <offsets>
+            <heading-deg>180</heading-deg>
+            <x-m> -0.240</x-m>
+            <y-m> -0.100</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
 </PropertyList>
