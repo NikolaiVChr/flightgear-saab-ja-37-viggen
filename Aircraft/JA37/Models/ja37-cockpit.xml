@@ -199,7 +199,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-smoke.xml</path>
     <name>SwitchSmoke</name>
     <offsets>
@@ -208,7 +208,7 @@
       <y-m>  0.30</y-m>
       <z-m>  0.1700</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-yaw-damper.xml</path>
