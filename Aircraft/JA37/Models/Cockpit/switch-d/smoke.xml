@@ -31,7 +31,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>sim/ja37/effect/smoke</property>
-                <step>-1</step>
+                <step>1</step>
                 <min>1</min>
                 <max>3</max>
                 <wrap>false</wrap>
@@ -51,7 +51,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>sim/ja37/effect/smoke</property>
-                <step>1</step>
+                <step>-1</step>
                 <min>1</min>
                 <max>3</max>
                 <wrap>false</wrap>
@@ -76,7 +76,7 @@
         </center>
         <axis>
             <x> 0.0 </x>
-            <y> -1.0 </y>
+            <y> 1.0 </y>
             <z> 0.0 </z>
         </axis>
     </animation>
