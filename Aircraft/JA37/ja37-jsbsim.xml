@@ -81,12 +81,9 @@
       <!-- Measured using Saab diagram in Gimp -->
       <wing_incidence unit="DEG"> 0.20    </wing_incidence>
     <location name="AERORP" unit="M">
-      <x> 0.6399 </x><!-- Page 47: stability margin at low speed
-will be on the order of O.3 - 0.5 m, which is a rather representative measure
-of the distance between the neutral point and the point of gravity in respect
-to an airplane of that size). -->
+      <x> 2.20878 </x>
       <y> 0 </y>
-      <z> -0.25 </z><!-- setting the aerorp at main wing height would be -0.25, this also makes the roll damping work much more effective. -->
+      <z> -0.20081 </z>
     </location>
     <location name="EYEPOINT" unit="M">
       <x> -3.40 </x>
@@ -101,19 +98,45 @@ to an airplane of that size). -->
     <pitot_angle unit="DEG"> 0.0 </pitot_angle>
   </metrics>
   
+<!-- CoG and AeroRP:
+
+Page 47: stability margin at low speed
+will be on the order of O.3 - 0.5 m, which is a rather representative measure
+of the distance between the neutral point and the point of gravity in respect
+to an airplane of that size). [about prototype for AJ37, the attack variant]
+
+AeroRP:
+
+Bombers airfoil analysis says 0.257 chord (1.9018 m) from leading edge (x=0.30698 m), so that gives Aerorp x=2.20878 m.
+Setting the aerorp at main wing height z=-0.20081, this also makes the roll damping work much more effective.
+
+CoG:
+
+Page 43: STA X65B = 12350mm [about prototype for AJ37, the attack variant], 1155mm after the flaps trailing edge (x=0.22 m) which gives x=1.375 m
+
+Now the JA37 had longer fuselage due to longer engine, also the more powerful engine was most certainly heavier.
+That means the CoG would have been further aft on the JA37 compared to the prototype for AJ37. It also makes sense for a fighter to have less longitudal stability compared to the attack variant.
+
+So the static margin of 0.3 meter sounds resonable even though that from the prototype.
+
+Old values:
+<x> 0.6399 </x>
+<x> 0.3399 </x>
+ -->
+
   <mass_balance>
     <ixx unit="SLUG*FT2"> 10000 </ixx><!-- estimations -->
     <iyy unit="SLUG*FT2"> 60000 </iyy>
     <izz unit="SLUG*FT2"> 65000 </izz>
     <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
-      <x> 0.3399 </x><!-- Page 43: STA X65B = 12350mm, 1155mm after the flaps -->
+      <x> 1.94878 </x>
       <!--  -->
       <y> 0 </y>
       <z> 0 </z>
     </location>
     <pointmass name="Pilot">
-      <weight unit="LBS"> 175 </weight>
+      <weight unit="LBS"> 165 </weight>
       <location name="POINTMASS" unit="M">
         <x> -3.3 </x>
         <y>  0.0 </y>
@@ -155,9 +178,9 @@ to an airplane of that size). -->
     <pointmass name="Center fuselage pylon">
       <weight unit="LBS"> 224.87 </weight> <!-- Estimate by David Culp, notice when this change also change it in nasal scripts and aero section -->
       <location name="POINTMASS" unit="M">
-        <x> -0.15 </x>
+        <x>  0.52406 </x>
         <y>  0.00 </y>
-        <z> -1.25 </z>
+        <z> -1.25748 </z>
       </location>
     </pointmass>
   </mass_balance>
@@ -352,13 +375,13 @@ to an airplane of that size). -->
     <tank type="FUEL"><!-- fuel type used: JP-4 with density of 6.48 -->
       <!-- Fuselage Main Tank 1 -->
       <location unit="M">
-        <x> 0.3399 </x><!--was 1, moved to CoG -->
+        <x> 1.85 </x>
         <y> 0.00 </y>
-        <z> 0.30 </z>
+        <z> 0.51982 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
-      <capacity unit="KG"> 2141 </capacity>
-      <contents unit="KG"> 2141 </contents>
+      <capacity unit="KG"> 1500 </capacity>
+      <contents unit="KG"> 750 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -372,8 +395,8 @@ to an airplane of that size). -->
         <z>  0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
-      <capacity unit="KG"> 1065 </capacity>
-      <contents unit="KG"> 1065 </contents>
+      <capacity unit="KG"> 750 </capacity>
+      <contents unit="KG"> 375 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -382,13 +405,13 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Left Fuselage Minor Tank 3V -->
       <location unit="M">
-        <x> -0.95 </x>
-        <y> -0.65 </y>
-        <z>  0.15 </z>
+        <x> -0.50305 </x>
+        <y> -0.7 </y>
+        <z>  0.52599 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
-      <capacity unit="KG"> 134 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <capacity unit="KG"> 250 </capacity>
+      <contents unit="KG"> 125 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -397,13 +420,13 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Right Fuselage Minor Tank 3H -->
       <location unit="M">
-        <x> -0.95 </x>
-        <y>  0.65 </y>
-        <z>  0.15 </z>
+        <x> -0.50305 </x>
+        <y>  0.7 </y>
+        <z>  0.52599 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
-      <capacity unit="KG"> 134 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <capacity unit="KG"> 250 </capacity>
+      <contents unit="KG"> 125 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -417,8 +440,8 @@ to an airplane of that size). -->
         <z> -0.28 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
-      <capacity unit="KG"> 90 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <capacity unit="KG"> 227 </capacity>
+      <contents unit="KG"> 113.5 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -432,8 +455,8 @@ to an airplane of that size). -->
         <z> -0.28 </z>
       </location>
       <radius unit="M"> 0.15 </radius>
-      <capacity unit="KG"> 90 </capacity>
-      <contents unit="KG"> 0 </contents>
+      <capacity unit="KG"> 227 </capacity>
+      <contents unit="KG"> 113.5 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -442,13 +465,13 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Left wing tank 4V -->
       <location unit="M">
-        <x>  4.00 </x>
-        <y> -2.38 </y>
+        <x>  4.50696 </x>
+        <y> -2.39707 </y>
         <z> -0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
-      <capacity unit="KG"> 400 </capacity>
-      <contents unit="KG"> 400 </contents>
+      <capacity unit="KG"> 625 </capacity>
+      <contents unit="KG"> 312.5 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -457,13 +480,13 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Right wing tank 4H -->
       <location unit="M">
-        <x>  4.00 </x>
-        <y>  2.38 </y>
+        <x>  4.50696 </x>
+        <y>  2.39707 </y>
         <z> -0.30 </z>
       </location>
       <radius unit="M"> 0.50 </radius>
-      <capacity unit="KG"> 400 </capacity>
-      <contents unit="KG"> 400 </contents>
+      <capacity unit="KG"> 625 </capacity>
+      <contents unit="KG"> 312.5 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -472,9 +495,9 @@ to an airplane of that size). -->
     <tank type="FUEL">
       <!-- Drop tank -->
       <location unit="M">
-        <x> -0.15 </x>
+        <x>  0.52406 </x>
         <y>  0.00 </y>
-        <z> -1.25 </z>
+        <z> -1.25748 </z>
       </location>
       <radius unit="M"> 0.25 </radius>
       <capacity unit="KG"> 1190 </capacity><!-- Swedish airforce website -->

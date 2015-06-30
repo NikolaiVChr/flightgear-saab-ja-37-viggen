@@ -1689,3 +1689,8 @@ Model: Replaced the buttons for controlling auto-follow.
 Sim: Added logic for disabling radar altimeter.
 HUD: Added DME support.
 Sim: Added control logic for fuel system controls.
+Aero: Moved aerodynamic center to 25.7% chord of leading edge.
+Aero: Keeping static margin at empty fuel tanks, but with pilot, at 0.3 meter.
+GUI: Added static margin to performance monitor.
+Sim: Improved fuel tank relative contents and their position.
+Sim: Adjusted pneumatic and hydraulic fuel flow to get some tanks emptied more evenly when collecter tank isn't full.

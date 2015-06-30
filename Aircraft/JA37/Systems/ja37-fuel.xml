@@ -29,6 +29,41 @@ X-tank:
 - uses DC to be ejected
 
 
+Calculations to get tanks emptied evenly:
+=========================================
+3V/H = 250 x 2
+2T   = 750
+4V/H = 625 x 2
+5V/H = 227 x 2
+
+100% = 250 + 250 + 750 + 625 + 625 = 2500
+
+two   = % of flow
+three = % of flow
+four  = % of flow
+
+                             no hydr     low       high
+two = 750/2500   = 0.3   >   1200        2400      17400
+four = 625/2500  = 0.25  >   1000        2000      14500
+three = 250/2500 = 0.1   >    400         800       5800
+
+L/h  ->  LBS/s:
+  400 0.190203877697866848
+  800 0.380407755395733696
+ 1000 0.47550969424466712
+ 1200 0.570611633093600544
+ 1600 0.760815510791467392
+ 2000 0.95101938848933424
+ 2400 1.141223266187201088
+ 5800 2.757956226619069296
+11600 5.515912453238138592
+14500 6.89489056654767324
+17400 8.273868679857207888
+
+
+
+Tanks:
+======
 0 - Tank 1  - Collector (connected to engine)
 1 - Tank 2  - 
 2 - Tank 3V - Minor fuselage left
@@ -41,7 +76,7 @@ X-tank:
 
 6.48 LBS/Gal
 0.2641720523581484 Gal/L
-1 L/h = 0.000073381125655041222222222222222222 Gal/s = 0.00047550969424466712 LBS/s
+1 L/h = 0.000073381125655041222222222222222222 Gal/s = 0,00047550969424466712 LBS/s
 130L = 222.5385369065041992 LBS
 
 TODO: manual fuel controls
@@ -67,7 +102,7 @@ TODO: manual fuel controls
         </switch>
 
         <switch name="names/fuel/tank2-external-flow-rate-pps">
-            <default value="-2.13979362410100204"/>            <!-- 4500 L/h from 3V to 2 -->
+            <default value="-2.757956226619069296"/>            <!-- 5800 L/h from 3V to 2 -->
             <test logic="OR" value="0">
                 propulsion/tank[2]/contents-lbs LE 0
                 propulsion/tank[1]/pct-full GE 99.9
@@ -77,7 +112,7 @@ TODO: manual fuel controls
         </switch>
 
         <switch name="systems/fuel/tank1-output-b">
-            <default value="-2.13979362410100204"/>            <!-- 4500 L/h from 2 to 3H -->
+            <default value="-2.757956226619069296"/>            <!-- 5800 L/h from 2 to 3H -->
             <test logic="OR" value="0">
                 propulsion/tank[1]/contents-lbs LE 0
                 propulsion/tank[3]/pct-full GE 99.9
@@ -128,7 +163,7 @@ TODO: manual fuel controls
     <channel name="Hydraulic fuel pumps">
 
         <switch name="systems/fuel/tank6-output">
-            <default value="-9.5101938848933424"/>            <!-- 20000 L/h from 4V to distributor -->
+            <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4V to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[6]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
@@ -173,7 +208,7 @@ TODO: manual fuel controls
         </switch>
 
         <switch name="systems/fuel/tank7-output">
-            <default value="-9.5101938848933424"/>            <!-- 20000 L/h from 4H to distributor -->
+            <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4H to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[7]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
@@ -218,7 +253,7 @@ TODO: manual fuel controls
         </switch>
 
         <switch name="systems/fuel/tank3-output">
-            <default value="-2.13979362410100204"/>            <!-- 4500 L/h from 3H to distributor -->
+            <default value="-5.515912453238138592"/>            <!-- 11600 L/h from 3H to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
@@ -236,7 +271,7 @@ TODO: manual fuel controls
                 /controls/fuel/auto == 0
                 /controls/fuel/hydraulic-pump == 0
             </test>
-            <test logic="AND" value="-0.23775484712233356"><!-- 500 L/h -->
+            <test logic="AND" value="-0.380407755395733696"><!-- 800 L/h -->
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 1
             </test>
@@ -244,17 +279,17 @@ TODO: manual fuel controls
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
             </test>
-            <test logic="AND" value="-0.47550969424466712">
+            <test logic="AND" value="-0.760815510791467392">
                 /controls/fuel/auto == 0
                 /controls/fuel/hydraulic-pump == 2
             </test>
-            <test logic="OR" value="-0.47550969424466712"><!-- 1000 L/h - low speed -->
+            <test logic="OR" value="-0.760815510791467392"><!-- 1600 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
             </test>
         </switch>
 
         <switch name="systems/fuel/tank1-output-a">
-            <default value="-6.41938087230300612"/>            <!-- 13500 L/h from 2 to distributor -->
+            <default value="-8.273868679857207888"/>            <!-- 17400 L/h from 2 to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
@@ -272,7 +307,7 @@ TODO: manual fuel controls
                 /controls/fuel/auto == 0
                 /controls/fuel/hydraulic-pump == 0
             </test>
-            <test logic="AND" value="-0.71326454136700068"><!-- 1500 L/h -->
+            <test logic="AND" value="-0.570611633093600544"><!-- 1200 L/h -->
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 1
             </test>
@@ -280,11 +315,11 @@ TODO: manual fuel controls
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
             </test>
-            <test logic="AND" value="-1.42652908273400136">
+            <test logic="AND" value="-1.141223266187201088">
                 /controls/fuel/auto == 0
                 /controls/fuel/hydraulic-pump == 2
             </test>
-            <test logic="OR" value="-1.42652908273400136"><!-- 3000 L/h - low speed -->
+            <test logic="OR" value="-1.141223266187201088"><!-- 2400 L/h - low speed -->
                 propulsion/tank[3]/contents-lbs LE 222.5385369065041992
             </test>
         </switch>

@@ -110,46 +110,32 @@
             <output>fcs/elevator/cmd-sum</output>
         </summer>
 
-        <!-- At high speeds elevator up deflection is reduced,
-           At high altitude elevator up deflection is increased -->
-        <scheduled_gain name="names/elevator/adjust-neg">
-            <input>fcs/elevator/cmd-sum</input>
-            <table>
-                <independentVar lookup="row">velocities/mach</independentVar>
-                <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-                <tableData>
-                          0.0      20000     45000
-              0.0         1.00      1.00      1.00
-              0.5         1.00      1.00      1.00
-              0.625       0.85      1.00      1.00
-              0.75        0.45      1.00      1.00
-              1.0         0.18      0.60      1.00
-              1.5         0.10      0.20      1.00
-              2.2         0.05      0.10      0.30
-          </tableData>
-            </table>
-            <output>fcs/elevator/cmd-adjust-negative</output>
-        </scheduled_gain>
-
-        <!-- should be copy of above table -->
         <fcs_function name="systems/flight/pitch-limiter">
             <function>
                 <table>
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                     <tableData>
-                            0.0      20000     45000
-                0.0         1.00      1.00      1.00
-                0.5         1.00      1.00      1.00
-                0.625       0.85      1.00      1.00
-                0.75        0.45      1.00      1.00
-                1.0         0.18      0.60      1.00
-                1.5         0.10      0.20      1.00
-                2.2         0.05      0.10      0.30
-            </tableData>
+                                    0.0      20000     45000
+                        0.0         1.00      1.00      1.00
+                        0.5         1.00      1.00      1.00
+                        0.625       0.80      1.00      1.00
+                        0.75        0.45      1.00      1.00
+                        1.0         0.18      0.60      1.00
+                        1.5         0.10      0.20      1.00
+                        2.2         0.05      0.10      0.30
+                    </tableData>
                 </table>
             </function>
         </fcs_function>
+
+        <!-- At high speeds elevator up deflection is reduced,
+           At high altitude elevator up deflection is increased -->
+        <pure_gain name="names/elevator/adjust-neg">
+            <input>fcs/elevator/cmd-sum</input>
+            <gain>systems/flight/pitch-limiter</gain>
+            <output>fcs/elevator/cmd-adjust-negative</output>
+        </pure_gain>
 
         <!-- At high speeds elevator down deflection is reduced,
            At high altitude elevator down deflection is increased -->
@@ -159,25 +145,25 @@
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
-                          0.0       45000.0
-              0.0         1.00         1.0
-              0.5         1.00         1.0
-              0.625       0.85         1.0
-              0.75        0.25         1.0
-              1.0         0.08         1.0
-              2.2         0.03         0.2
-          </tableData>
+                                  0.0       45000.0
+                      0.0         1.00         1.0
+                      0.5         1.00         1.0
+                      0.625       0.85         1.0
+                      0.75        0.25         1.0
+                      1.0         0.08         1.0
+                      2.2         0.03         0.2
+                </tableData>
             </table>
             <output>fcs/elevator/cmd-adjust-positive</output>
         </scheduled_gain>
 
         <!-- select which of the above tables is active -->
         <switch name="fcs/elevator/cmd-limited">
-            <default value="fcs/elevator/cmd-adjust-positive"/>
+            <default value="fcs/elevator/cmd-adjust-negative"/>
             <test logic="OR" value="fcs/elevator/cmd-adjust-negative">
-          fcs/elevator/cmd-sum lt 0
-          fcs/mouse-optimized == 1
-        </test>
+                fcs/elevator/cmd-sum lt 0
+                fcs/mouse-optimized == 1
+            </test>
         </switch>
 
         <kinematic name="names/elevator/pos-norm">
