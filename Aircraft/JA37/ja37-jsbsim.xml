@@ -63,6 +63,10 @@
       <reference refID="Bethesda, Md. 20084" author="David W. Lacey"
        title="AERODYNAMIC CHARACTERISTICS OF THE CLOSE-COUPLED CANARD" date="Jan 1979"
        link="http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19750004860.pdf"/>
+
+       <reference refID="NASA-TN-D-7505" author="Gloss, B. B."
+       title="Effect of canard location and size on canard-wing interference and aerodynamic center shift related to maneuvering aircraft at transonic speeds" date="Jun 01, 1974"
+       link="http://hdl.handle.net/2060/19740020361"/>
   </fileheader>
   
 

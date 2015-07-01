@@ -447,7 +447,7 @@ AeroMonitor.update = func()
   setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-weight", getprop("fdm/jsbsim/systems/flight/thrust-weight-ratio"));
   setprop("/sim/gui/dialogs/performance-monitor/ratio-lift-weight", getprop("fdm/jsbsim/systems/flight/lift-weight-ratio"));
   setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-drag", getprop("fdm/jsbsim/systems/flight/thrust-drag-ratio"));
-  setprop("/sim/gui/dialogs/performance-monitor/static-margin", (getprop("fdm/jsbsim/metrics/aero-rp-x-in")-getprop("fdm/jsbsim/inertia/cg-x-in"))*0.0254);
+  setprop("/sim/gui/dialogs/performance-monitor/static-margin", ((getprop("fdm/jsbsim/metrics/aero-rp-x-in")+getprop("fdm/jsbsim/metrics/aero-rp-shift-mac")*291.338)-getprop("fdm/jsbsim/inertia/cg-x-in"))*0.0254);
 }
 
 AeroMonitor.reinit = func() {
