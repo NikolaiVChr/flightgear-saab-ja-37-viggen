@@ -1694,3 +1694,4 @@ Aero: Keeping static margin at empty fuel tanks, but with pilot, at 0.3 meter.
 GUI: Added static margin to performance monitor.
 Sim: Improved fuel tank relative contents and their position.
 Sim: Adjusted pneumatic and hydraulic fuel flow to get some tanks emptied more evenly when collecter tank isn't full.
+Model: {JazzTp} Added a air condition temperature knob.

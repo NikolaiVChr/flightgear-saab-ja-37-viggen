@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>knob-a.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>___knob_A_disc</object-name>
+        <object-name>___knob_A_handle</object-name>  
+        <object-name>___knob_A_screw</object-name>
+        <object-name>Circle</object-name>
+        <object-name>Circle.001</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>___knob_A_disc</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-air-cond-temp</tooltip-id>
+                <label>Air condition temperature</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>___knob_A_pickDecrement</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/airconditioning-temperature</property>
+                <step>-2.00</step>
+                <min>-4</min>
+                <max>80</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>___knob_A_pickIncrement</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/airconditioning-temperature</property>
+                <step>2.00</step>
+                <min>-4</min>
+                <max>80</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>___knob_A_disc</object-name>
+        <object-name>___knob_A_handle</object-name>  
+        <object-name>___knob_A_screw</object-name>
+        <property>controls/ventilation/airconditioning-temperature</property>
+        <interpolation>
+            <entry><ind>-4</ind><dep>-30</dep></entry>
+            <entry><ind>0</ind><dep>0</dep></entry>
+            <entry><ind>10</ind><dep>50</dep></entry>
+            <entry><ind>20</ind><dep>95</dep></entry>
+            <entry><ind>30</ind><dep>140</dep></entry>
+            <entry><ind>40</ind><dep>170</dep></entry>
+            <entry><ind>60</ind><dep>225</dep></entry>
+            <entry><ind>80</ind><dep>260</dep></entry>
+        </interpolation>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+            <z-m>  0.00 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 0.0 </y>
+            <z> -1.0 </z>
+        </axis>
+    </animation>
+
+    <!--<animation>
+        <type>material</type>
+        <object-name>plane</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>switch-light-flash</texture-prop>
+        <texture>light-flood.png</texture>
+    </animation>-->
+
+</PropertyList>

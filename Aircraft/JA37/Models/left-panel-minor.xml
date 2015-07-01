@@ -25,4 +25,15 @@
         </offsets>
     </model>
 
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/knob-a/air-cond-temp.xml</path>
+        <name>switch-air-cond-temp</name>
+        <offsets>
+            <heading-deg>180</heading-deg>
+            <x-m> -0.285</x-m>
+            <y-m> -0.180</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
 </PropertyList>
