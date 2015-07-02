@@ -1,19 +1,11 @@
 <?xml version="1.0"?>
 <PropertyList>
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-d/fuel-hydr-pump.xml</path>
-        <name>switch-fuel-pneu</name>
-        <offsets>
-            <x-m>  0.615</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>
+    
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-pneu-pump.xml</path>
         <name>switch-fuel-pneu</name>
         <offsets>
-            <x-m>  0.570</x-m>
+            <x-m>  0.625</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -22,7 +14,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-elec-pump.xml</path>
         <name>switch-fuel-elec</name>
         <offsets>
-            <x-m>  0.535</x-m>
+            <x-m>  0.590</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -31,7 +23,16 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/fuel-drop-tank.xml</path>
         <name>switch-fuel-xtank</name>
         <offsets>
-            <x-m>  0.500</x-m>
+            <x-m>  0.555</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-d/fuel-hydr-pump.xml</path>
+        <name>switch-fuel-pneu</name>
+        <offsets>
+            <x-m>  0.510</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
