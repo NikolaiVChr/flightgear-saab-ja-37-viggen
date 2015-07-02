@@ -121,6 +121,16 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/button-g/flares.xml</path>
+    <name>flares</name>
+    <offsets>
+      <x-m>  0.30</x-m>
+      <y-m> -0.025</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-d/smoke.xml</path>
     <name>follow</name>
     <offsets>
