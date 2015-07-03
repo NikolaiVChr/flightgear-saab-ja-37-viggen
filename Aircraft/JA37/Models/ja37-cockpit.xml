@@ -276,7 +276,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/buttons/button-next-selection.xml</path>
     <name>ButtonNext</name>
     <offsets>
@@ -346,7 +346,7 @@
       <y-m>  0.24</y-m>
       <z-m>  0.178</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/buttons/button-flare.xml</path>
