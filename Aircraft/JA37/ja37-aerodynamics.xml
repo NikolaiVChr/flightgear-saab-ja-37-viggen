@@ -79,10 +79,9 @@
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
-                    <independentVar lookup="table">aero/function/elevator-pos-deg-inv</independentVar>
+                    <independentVar lookup="table">fcs/elevator-pos-deg</independentVar>
                     <!-- [measured using graph analyser] -->
-                    <tableData breakPoint="-20.0"
-                        ><!-- from graph 31a page 46 -->
+                    <tableData breakPoint="-20.0"><!-- from graph 31a page 46 -->
                                       0         1
                        -10.07383  -0.78915  -0.78915
                          1.60059  -0.24972  -0.24972
@@ -106,9 +105,8 @@
                         66.60731   1.64018   1.64018
                         69.77701   1.65709   1.65709
                         72.94642   1.67867   1.67867
-                </tableData>
-                    <tableData breakPoint="0.0"
-                        ><!-- from graph 30 page 45 -->
+                    </tableData>
+                    <tableData breakPoint="0.0"><!-- from graph 30 page 45 -->
                                       0         1
                        -11.21614  -0.40038  -0.40038
                          0.00000   0.00000   0.00000
@@ -142,9 +140,8 @@
                         72.93489   1.80145   1.80145
                         75.34819   1.80966   1.80966
                         76.95532   1.80362   1.80362
-                </tableData>
-                    <tableData breakPoint="20.0"
-                        ><!-- from graph 31a page 46 -->
+                    </tableData>
+                    <tableData breakPoint="20.0"><!-- from graph 31a page 46 -->
                                       0         1
                        -11.32382  -0.28937  -0.28937
                         -0.01809   0.29673   0.29673
@@ -168,7 +165,7 @@
                         60.74374   1.80270   1.80270
                         66.10925   1.80831   1.80831
                         72.93844   1.80951   1.80951
-                </tableData>
+                    </tableData>
                 </table>
             </product>
         </function>
@@ -177,7 +174,7 @@
         <function name="aero/coefficient/CNGnd">
             <description>
                         Change in normal force due to ground effect factor
-      </description>
+            </description>
             <product>
                 <property>aero/function/mach-effect-prefactor</property>
                 <property>aero/qbar-psf</property>
@@ -186,10 +183,10 @@
                     <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
                     <tableData>
-                       0.0     5.0    15.0
-                0.0  0.0000  0.2000  0.6500
-                2.2  0.0000  0.0000  0.0000
-             </tableData>
+                               0.0     5.0    15.0
+                        0.0  0.0000  0.2000  0.6500
+                        2.2  0.0000  0.0000  0.0000
+                    </tableData>
                 </table>
             </product>
         </function>
