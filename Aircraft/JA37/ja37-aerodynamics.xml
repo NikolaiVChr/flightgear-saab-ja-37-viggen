@@ -36,9 +36,9 @@
             <independentVar>velocities/mach</independentVar>
             <tableData>
               0.80    0.000
-              0.97    0.100
-              1.00    0.243
-              1.05    0.100
+              0.97    0.070
+              1.00    0.100
+              1.05    0.070
               1.20    0.000
             </tableData>
           </table>
