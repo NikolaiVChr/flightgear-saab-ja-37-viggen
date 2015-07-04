@@ -129,9 +129,15 @@ Old values:
  -->
 
   <mass_balance>
-    <ixx unit="SLUG*FT2"> 10000 </ixx><!-- estimations -->
+    <!-- estimations -->
+    <!--<ixx unit="SLUG*FT2"> 10000 </ixx>
     <iyy unit="SLUG*FT2"> 60000 </iyy>
-    <izz unit="SLUG*FT2"> 65000 </izz>
+    <izz unit="SLUG*FT2"> 65000 </izz>-->
+    <!-- Datcom+ Pro -->
+    <ixx unit="KG*M2">   5216.4766  </ixx>
+    <iyy unit="KG*M2">  70916.0938  </iyy>
+    <izz unit="KG*M2">  42300.9727  </izz>
+    <ixz unit="KG*M2">   2586.8835  </ixz>
     <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
       <x> 1.94878 </x>
