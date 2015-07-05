@@ -75,7 +75,8 @@
       <!-- from NASA document -->
       <wingarea unit="M2">       46.0     </wingarea><!-- main wings --><!-- from Saab windtunnel data document -->
       <wingspan unit="M">        10.0     </wingspan><!-- main wings --><!-- from Saab windtunnel data document -->
-      <chord unit="M">            7.4     </chord><!-- from Saab windtunnel data document -->
+      <chord unit="M">            7.4     </chord><!-- ref. chord from Saab windtunnel data document (its the root chord),
+                                                       the real MAC is 4.73 meter (Datcom+ Pro) -->
       <htailarea unit="M2">      46.0     </htailarea><!-- using main wings for this since they act as htail also -->
       <!-- from Australian document -->
       <vtailarea unit="FT2">     68.7     </vtailarea>
