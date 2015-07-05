@@ -79,9 +79,9 @@
       <htailarea unit="M2">      46.0     </htailarea><!-- using main wings for this since they act as htail also -->
       <!-- from Australian document -->
       <vtailarea unit="FT2">     68.7     </vtailarea>
-      <!-- data calculated using DATCOM+ -->      
-      <htailarm unit="FT">       17.4042  </htailarm>
-      <vtailarm unit="FT">       21.7358  </vtailarm>
+      <!-- data calculated using DATCOM+ Pro --> 
+      <htailarm  unit="M" >      4.5785  </htailarm>
+      <vtailarm  unit="M" >      5.8515  </vtailarm>    
       <!-- Measured using Saab diagram in Gimp -->
       <wing_incidence unit="DEG"> 0.20    </wing_incidence>
     <location name="AERORP" unit="M">
@@ -134,10 +134,10 @@ Old values:
     <iyy unit="SLUG*FT2"> 60000 </iyy>
     <izz unit="SLUG*FT2"> 65000 </izz>-->
     <!-- Datcom+ Pro -->
-    <ixx unit="KG*M2">   5216.4766  </ixx>
-    <iyy unit="KG*M2">  70916.0938  </iyy>
-    <izz unit="KG*M2">  42300.9727  </izz>
-    <ixz unit="KG*M2">   2586.8835  </ixz>
+    <ixx unit="KG*M2">  19541.0273  </ixx>
+    <iyy unit="KG*M2">  71224.5781  </iyy>
+    <izz unit="KG*M2">  65561.6250  </izz>
+    <ixz unit="KG*M2">   3210.2346  </ixz>
     <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
       <x> 1.94878 </x>
