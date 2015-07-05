@@ -85,7 +85,7 @@
       <!-- Measured using Saab diagram in Gimp -->
       <wing_incidence unit="DEG"> 0.20    </wing_incidence>
     <location name="AERORP" unit="M">
-      <x> 2.20878 </x>
+      <x> 1.90878 </x>
       <y> 0 </y>
       <z> -0.20081 </z>
     </location>
@@ -114,6 +114,9 @@ AeroRP:
 Bombers airfoil analysis says 0.257 chord (1.9018 m) from leading edge (x=0.30698 m), so that gives Aerorp x=2.20878 m.
 Setting the aerorp at main wing height z=-0.20081, this also makes the roll damping work much more effective.
 
+However on the model the landing gear is 0.3 meters too much forward, so when landing it will be difficult to touch down the nose wheel.
+For that reason it will be moved 0.3 meters forward from 2.20878 meters.
+
 CoG:
 
 Page 43: STA X65B = 12350mm [about prototype for AJ37, the attack variant], 1155mm after the flaps trailing edge (x=0.22 m) which gives x=1.375 m
@@ -140,7 +143,7 @@ Old values:
     <ixz unit="KG*M2">   3210.2346  </ixz>
     <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
-      <x> 1.94878 </x>
+      <x> 1.64878 </x>
       <!--  -->
       <y> 0 </y>
       <z> 0 </z>
