@@ -85,7 +85,7 @@
       <!-- Measured using Saab diagram in Gimp -->
       <wing_incidence unit="DEG"> 0.20    </wing_incidence>
     <location name="AERORP" unit="M">
-      <x> 1.90878 </x>
+      <x> 0.6399 </x>
       <y> 0 </y>
       <z> -0.20081 </z>
     </location>
@@ -143,7 +143,7 @@ Old values:
     <ixz unit="KG*M2">   3210.2346  </ixz>
     <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
-      <x> 1.64878 </x>
+      <x> 0.3399 </x>
       <!--  -->
       <y> 0 </y>
       <z> 0 </z>
