@@ -62,8 +62,7 @@
             <default value="0.0"/>
             <test logic="AND" value="1">
                 gear/unit[0]/WOW ne 1
-                velocities/r-aero-rad_sec le  0.724
-                velocities/r-aero-rad_sec ge -0.724
+                aero/spin-norm == 0
                 fcs/pitch-damper/enable ne 0.0
                 fcs/pitch-damper/serviceable == 1
             </test>
@@ -306,8 +305,7 @@
             gear/unit[0]/WOW ne 1
             gear/unit[1]/WOW ne 1
             gear/unit[2]/WOW ne 1
-            velocities/r-aero-rad_sec le  0.724
-            velocities/r-aero-rad_sec ge -0.724
+            aero/spin-norm == 0
             fcs/roll-limiter/enable ne 0.0
             fcs/roll-limiter/serviceable == 1
         </test>
@@ -488,8 +486,7 @@
             <default value="0.0"/>
             <test logic="AND" value="1"
                 >
-            velocities/r-aero-rad_sec le  0.724
-            velocities/r-aero-rad_sec ge -0.724
+            aero/spin-norm == 0
             fcs/yaw-damper/enable ne 0.0
             fcs/yaw-damper/serviceable == 1
         </test>

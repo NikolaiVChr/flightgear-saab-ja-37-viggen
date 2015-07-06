@@ -437,6 +437,8 @@ AeroMonitor.properties = func() {
     { property : "ratio-thrust-drag",   name : "Thrust/Drag Ratio",   format : "%3.2f", unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
     { property : "excess-thrust",       name : "Excess Thrust",       format : "%5d",   unit : "lbf",   halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
     { property : "static-margin",       name : "Static Margin",       format : "%1.2f", unit : "meter", halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "stall",               name : "Stall",               format : "%s",    unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "spin",                name : "Spin",                format : "%s",    unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
   ]
 }
 
@@ -448,6 +450,12 @@ AeroMonitor.update = func()
   setprop("/sim/gui/dialogs/performance-monitor/ratio-lift-weight", getprop("fdm/jsbsim/systems/flight/lift-weight-ratio"));
   setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-drag", getprop("fdm/jsbsim/systems/flight/thrust-drag-ratio"));
   setprop("/sim/gui/dialogs/performance-monitor/static-margin", ((getprop("fdm/jsbsim/metrics/aero-rp-x-in")+getprop("fdm/jsbsim/metrics/aero-rp-shift-mac")*291.338)-getprop("fdm/jsbsim/inertia/cg-x-in"))*0.0254);
+  var stall = getprop("fdm/jsbsim/aero/stall-hyst-norm");
+  var stallText = stall == 1?"True":"False";
+  setprop("/sim/gui/dialogs/performance-monitor/stall", stallText);
+  var spin = getprop("fdm/jsbsim/aero/spin-norm");
+  var spinText = spin == 1?"True":"False";
+  setprop("/sim/gui/dialogs/performance-monitor/spin", spinText);
 }
 
 AeroMonitor.reinit = func() {

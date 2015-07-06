@@ -286,6 +286,14 @@
               propulsion/engine/n1   gt 5.2
           </test>
         </switch>
+
+        <switch name="aero/spin-norm">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                velocities/r-aero-rad_sec gt  0.724
+                velocities/r-aero-rad_sec lt -0.724
+            </test>
+        </switch>
     </channel>
 
 </system>
