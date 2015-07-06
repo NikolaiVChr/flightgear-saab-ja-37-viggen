@@ -310,19 +310,19 @@ var Dialog = {
           me.dialog.rudderButton.setBinding("nasal", "ja37.Dialog.rudderToggle()");                    
 
           ######   Mouse optimized button   #####
-          var mouseRow = topRow.addChild("group");
-          mouseRow.set("layout", "hbox");
-          mouseRow.set("pref-height", 25);
-          mouseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var mouseRow = topRow.addChild("group");
+          #mouseRow.set("layout", "hbox");
+          #mouseRow.set("pref-height", 25);
+          #mouseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var mouseText = mouseRow.addChild("text").set("label", "Optimize for mouse flying:");
-          mouseRow.addChild("empty").set("stretch", 1);
-          me.dialog.mouseButton = mouseRow.addChild("button");
-          me.dialog.mouseButton.set("halign", "right");
-          me.dialog.mouseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #var mouseText = mouseRow.addChild("text").set("label", "Optimize for mouse flying:");
+          #mouseRow.addChild("empty").set("stretch", 1);
+          #me.dialog.mouseButton = mouseRow.addChild("button");
+          #me.dialog.mouseButton.set("halign", "right");
+          #me.dialog.mouseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.mouseButton.setBinding("nasal", "ja37.Dialog.mouseToggle()");
+          #me.dialog.mouseButton.setBinding("nasal", "ja37.Dialog.mouseToggle()");
 
           ######   Cannon spread button   #####
           var cannonRow = topRow.addChild("group");
@@ -717,13 +717,13 @@ var Dialog = {
       }
       me.dialog.elevatorButton.node.setValues({"legend": legend});
 
-      enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.mouseButton.node.setValues({"legend": legend});
+      #enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
+      #if(enabled == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.mouseButton.node.setValues({"legend": legend});
 
       enabled = getprop("ai/submodels/submodel[3]/random");
       if(enabled == 1) {

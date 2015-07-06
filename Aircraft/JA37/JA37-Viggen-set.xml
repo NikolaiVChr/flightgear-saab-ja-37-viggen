@@ -683,6 +683,7 @@
                     <serviceable type="bool">true</serviceable>
                     <enable type="bool">true</enable>
                     <pitch-rate-gain type="double">2</pitch-rate-gain>
+                    <nz-rate-gain type="double">1</nz-rate-gain>
                     <washout-factor type="double">1.33</washout-factor>
                 </pitch-damper>
                 <roll-limiter>
@@ -1168,6 +1169,9 @@
         <dme>
             <switch-position type="int">0</switch-position>
         </dme>
+        <airspeed-indicator>
+            <indicated-speed-kt type="double">0.0</indicated-speed-kt>
+        </airspeed-indicator>
     </instrumentation>
 
     <!--**********************************************************************
