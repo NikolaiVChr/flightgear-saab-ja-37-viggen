@@ -24,8 +24,8 @@
     </alphalimits>
 
     <hysteresis_limits unit="DEG">
-        <min> 41 </min>
-        <max> 43 </max>
+        <min> 35 </min>
+        <max> 41 </max>
     </hysteresis_limits>
 
     <aero_ref_pt_shift_x>
@@ -37,7 +37,10 @@
 
             MAC for the JA-37 is 4.73 meter, and since this function is
             multiplied to ref. chord (7.4 meter) and that is actually this planes root chord,
-            have to multiply the table with the ratio of root chord to mean aerodynamic chord.
+            have to multiply the table with the ratio of root chord to mean aerodynamic chord: 0.6392.
+
+            The multiplying with 0.5, is because the users of the plane complains that they cannot pull enough
+            G-forces at supersonic speeds. To get realistic flight characteristics, remove that factor.
         </description>
         <product>
           <value>0.6392</value>
@@ -56,6 +59,7 @@
               1.200   0.190
               1.250   0.200
               1.700   0.300
+              2.200   0.300
             </tableData>
           </table>
         </product>
