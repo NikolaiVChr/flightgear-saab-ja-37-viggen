@@ -41,6 +41,8 @@
         </description>
         <product>
           <value>0.6392</value>
+          <value>0.5</value>
+          <!--<property>/test2</property>-->
           <table>
             <independentVar>velocities/mach</independentVar>
             <tableData>

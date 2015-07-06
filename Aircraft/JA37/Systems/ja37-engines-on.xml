@@ -21,4 +21,5 @@
         </engine>
     </engines>
     <test type="double">1.0</test>
+    <test2 type="double">0.5</test2>
 </PropertyList>
