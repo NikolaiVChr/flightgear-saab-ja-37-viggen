@@ -320,28 +320,9 @@
             <property>metrics/Sw-sqft</property>
             <property>gear/gear-pos-norm</property>
             <property>aero/drag/gear</property>
-            <table>
-                <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <tableData>
-                     -180  -1.00
-                     -165  -0.97
-                     -150  -0.87
-                     -120  -0.50
-                      -90   0.00
-                      -60   0.50
-                      -30   0.87
-                      -15   0.97
-                        0   1.00
-                       15   0.97
-                       30   0.87
-                       60   0.50
-                       90   0.00
-                      120  -0.50
-                      150  -0.87
-                      165  -0.97
-                      180  -1.00
-                </tableData>
-            </table>
+            <cos>
+                <property>aero/alpha-rad</property>
+            </cos>
         </product>
     </function>
 
@@ -351,51 +332,54 @@
         <product>
             <property>aero/qbar-psf</property>
             <property>metrics/Sw-sqft</property>
-            <table>
-                <independentVar lookup="row"> aero/alpha-deg </independentVar>
-                <independentVar lookup="column"> fcs/flap-pos-deg </independentVar>
-                <tableData>
-                                -4.0000     .0000   15.0000   30.0000
-                     -2.0000     .0000     .0000     .0013     .0019
-                       .0000    -.0002     .0000     .0021     .0029
-                      2.0000    -.0004     .0000     .0029     .0038
-                      4.0000    -.0006     .0000     .0036     .0048
-                      8.0000    -.0011     .0000     .0052     .0066
-                     10.0000    -.0013     .0000     .0060     .0076
-                     12.0000    -.0015     .0000     .0067     .0085
-                     14.0000    -.0017     .0000     .0075     .0095
-                     16.0000    -.0019     .0000     .0083     .0104
-                     17.0000    -.0021     .0000     .0087     .0109
-                     23.0000    -.0027     .0000     .0110     .0138
-                     30.0000    -.0035     .0000     .0137     .0171
-                     60.0000    -.0068     .0000     .0254     .0313
-                     90.0000    -.0100     .0000     .0370     .0456
-                    120.0000    -.0133     .0000     .0486     .0598
-                    175.0000    -.0193     .0000     .0700     .0859
-                </tableData>
-            </table>
-            <table>
-                <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <tableData>
-                     -180  -1.00
-                     -165  -0.97
-                     -150  -0.87
-                     -120  -0.50
-                      -90   0.00
-                      -60   0.50
-                      -30   0.87
-                      -15   0.97
-                        0   1.00
-                       15   0.97
-                       30   0.87
-                       60   0.50
-                       90   0.00
-                      120  -0.50
-                      150  -0.87
-                      165  -0.97
-                      180  -1.00
-                </tableData>
-            </table>
+            <difference>
+                <product>
+                    <table>
+                        <independentVar lookup="row"> aero/alpha-deg </independentVar>
+                        <independentVar lookup="column"> fcs/flap-pos-deg </independentVar>
+                        <tableData>
+                                        -4.0000     .0000   15.0000   30.0000
+                             -2.0000     .0001     .0000     .0012     .0017
+                               .0000    -.0002     .0000     .0019     .0027
+                              2.0000    -.0004     .0000     .0027     .0036
+                              4.0000    -.0006     .0000     .0035     .0046
+                              8.0000    -.0010     .0000     .0050     .0065
+                             12.0000    -.0015     .0000     .0066     .0084
+                             16.0000    -.0019     .0000     .0081     .0103
+                             20.0000    -.0023     .0000     .0097     .0122
+                             24.0000    -.0028     .0000     .0112     .0141
+                             28.0000    -.0032     .0000     .0128     .0159
+                             32.0000    -.0037     .0000     .0143     .0178
+                             36.0000    -.0041     .0000     .0159     .0197
+                             40.0000    -.0045     .0000     .0174     .0216
+                             45.0000    -.0051     .0000     .0194     .0240
+                             50.0000    -.0056     .0000     .0213     .0264
+                             60.0000    -.0067     .0000     .0252     .0311
+                             70.0000    -.0078     .0000     .0291     .0359
+                             89.0000    -.0099     .0000     .0365     .0449
+                            120.0000    -.0133     .0000     .0485     .0596
+                            175.0000    -.0193     .0000     .0698     .0857
+                        </tableData>
+                    </table>
+                    <cos>
+                        <property>aero/alpha-rad</property>
+                    </cos>
+                </product>
+                <product>
+                    <table>
+                        <independentVar lookup="row"> fcs/flap-pos-deg </independentVar>
+                        <tableData>
+                             -4.0000    -.0058
+                               .0000     .0000
+                             15.0000     .0207
+                             30.0000     .0254
+                        </tableData>
+                    </table>
+                    <sin>
+                        <property>aero/alpha-rad</property>
+                    </sin>
+                </product>
+            </difference>
         </product>
     </function>
 
@@ -449,28 +433,9 @@
                 <property>fcs/canopy/pos-norm</property>
                 <property>fcs/canopy/hinges/serviceable</property>
                 <property>aero/drag/canopy</property>
-                <table>
-                    <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <tableData>
-                       -180  -1.00
-                       -165  -0.97
-                       -150  -0.87
-                       -120  -0.50
-                        -90   0.00
-                        -60   0.50
-                        -30   0.87
-                        -15   0.97
-                          0   1.00
-                         15   0.97
-                         30   0.87
-                         60   0.50
-                         90   0.00
-                        120  -0.50
-                        150  -0.87
-                        165  -0.97
-                        180  -1.00
-                    </tableData>
-                </table>
+                <cos>
+                    <property>aero/alpha-rad</property>
+                </cos>
             </product>
         </function>
 
@@ -521,51 +486,59 @@
                 <property>metrics/Sw-sqft</property>
                 <property>aero/function/mach-effect-prefactor</property>
                 <value>0.5</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
-                <table>
-                    <independentVar lookup="row"> aero/alpha-deg </independentVar>
-                    <independentVar lookup="column"> fcs/left-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
-                    <tableData>
-                                   -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
-                         -2.0000     .0140     .0097     .0068     .0017     .0000     .0037     .0104     .0139     .0163
-                           .0000     .0059     .0029     .0010    -.0016     .0000     .0070     .0161     .0207     .0237
-                          2.0000    -.0021    -.0039    -.0048    -.0048     .0000     .0103     .0219     .0275     .0311
-                          4.0000    -.0101    -.0107    -.0106    -.0081     .0000     .0136     .0277     .0343     .0385
-                          8.0000    -.0262    -.0243    -.0222    -.0146     .0000     .0201     .0393     .0479     .0533
-                         10.0000    -.0342    -.0311    -.0280    -.0179     .0000     .0234     .0451     .0547     .0607
-                         12.0000    -.0422    -.0379    -.0338    -.0212     .0000     .0266     .0509     .0615     .0681
-                         14.0000    -.0503    -.0447    -.0396    -.0244     .0000     .0299     .0567     .0683     .0755
-                         16.0000    -.0583    -.0515    -.0454    -.0277     .0000     .0332     .0625     .0752     .0829
-                         17.0000    -.0623    -.0549    -.0482    -.0294     .0000     .0348     .0654     .0786     .0866
-                         23.0000    -.0864    -.0753    -.0656    -.0392     .0000     .0446     .0827     .0990     .1088
-                         30.0000    -.1145    -.0991    -.0859    -.0506     .0001     .0561     .1030     .1228     .1346
-                         60.0000    -.2350    -.2012    -.1727    -.0997     .0001     .1051     .1899     .2248     .2456
-                         90.0000    -.3555    -.3032    -.2596    -.1487     .0002     .1542     .2767     .3269     .3566
-                        120.0000    -.4759    -.4053    -.3465    -.1978     .0002     .2032     .3636     .4289     .4676
-                        175.0000    -.6968    -.5924    -.5057    -.2877     .0003     .2932     .5228     .6160     .6711
-                    </tableData>
-                </table>
-                <table>
-                    <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <tableData>
-                         -180  -1.00
-                         -165  -0.97
-                         -150  -0.87
-                         -120  -0.50
-                          -90   0.00
-                          -60   0.50
-                          -30   0.87
-                          -15   0.97
-                            0   1.00
-                           15   0.97
-                           30   0.87
-                           60   0.50
-                           90   0.00
-                          120  -0.50
-                          150  -0.87
-                          165  -0.97
-                          180  -1.00
-                    </tableData>
-                </table>
+                <difference>
+                    <product>
+                        <table>
+                            <independentVar lookup="row"> aero/alpha-deg </independentVar>
+                            <independentVar lookup="column"> fcs/left-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
+                            <tableData>
+                                          -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
+                                 -2.0000     .0156     .0110     .0079     .0024     .0000     .0031     .0092     .0126     .0148
+                                   .0000     .0075     .0042     .0021    -.0009     .0000     .0064     .0150     .0194     .0222
+                                  2.0000    -.0005    -.0026    -.0037    -.0042     .0000     .0096     .0208     .0262     .0296
+                                  4.0000    -.0085    -.0094    -.0095    -.0075     .0000     .0129     .0266     .0330     .0370
+                                  8.0000    -.0246    -.0230    -.0211    -.0140     .0000     .0195     .0382     .0466     .0518
+                                 12.0000    -.0407    -.0366    -.0326    -.0205     .0000     .0260     .0497     .0602     .0666
+                                 16.0000    -.0567    -.0502    -.0442    -.0271     .0000     .0325     .0613     .0738     .0814
+                                 20.0000    -.0728    -.0638    -.0558    -.0336     .0000     .0391     .0729     .0874     .0962
+                                 24.0000    -.0889    -.0774    -.0674    -.0402     .0000     .0456     .0845     .1010     .1110
+                                 28.0000    -.1049    -.0910    -.0790    -.0467     .0000     .0522     .0961     .1146     .1258
+                                 32.0000    -.1210    -.1046    -.0905    -.0532     .0001     .0587     .1077     .1282     .1406
+                                 36.0000    -.1370    -.1182    -.1021    -.0598     .0001     .0652     .1192     .1418     .1554
+                                 40.0000    -.1531    -.1318    -.1137    -.0663     .0001     .0718     .1308     .1554     .1702
+                                 45.0000    -.1732    -.1488    -.1282    -.0745     .0001     .0800     .1453     .1725     .1887
+                                 50.0000    -.1933    -.1658    -.1427    -.0827     .0001     .0881     .1598     .1895     .2072
+                                 60.0000    -.2334    -.1999    -.1716    -.0990     .0001     .1045     .1887     .2235     .2442
+                                 70.0000    -.2736    -.2339    -.2006    -.1154     .0001     .1208     .2177     .2575     .2812
+                                 89.0000    -.3499    -.2985    -.2556    -.1464     .0001     .1519     .2727     .3221     .3515
+                                120.0000    -.4743    -.4039    -.3453    -.1971     .0002     .2026     .3624     .4276     .4661
+                                175.0000    -.6952    -.5910    -.5046    -.2871     .0003     .2925     .5217     .6147     .6696
+                            </tableData>
+                        </table>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
+                    <product>
+                        <table>
+                            <independentVar lookup="row"> fcs/left-aileron-pos-norm </independentVar>
+                            <tableData>
+                                -40.0000    -.3086
+                                -30.0000    -.2613
+                                -20.0000    -.2219
+                                -10.0000    -.1249
+                                   .0000     .0001
+                                 10.0000     .1249
+                                 20.0000     .2219
+                                 30.0000     .2613
+                                 35.0000     .2841
+                            </tableData>
+                        </table>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                </difference>
             </product>
         </function>
 
@@ -579,51 +552,59 @@
                 <property>metrics/Sw-sqft</property>
                 <property>aero/function/mach-effect-prefactor</property>
                 <value>0.5</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
-                <table>
-                    <independentVar lookup="row"> aero/alpha-deg </independentVar>
-                    <independentVar lookup="column"> fcs/right-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
-                    <tableData>
-                                   -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
-                         -2.0000     .0140     .0097     .0068     .0017     .0000     .0037     .0104     .0139     .0163
-                           .0000     .0059     .0029     .0010    -.0016     .0000     .0070     .0161     .0207     .0237
-                          2.0000    -.0021    -.0039    -.0048    -.0048     .0000     .0103     .0219     .0275     .0311
-                          4.0000    -.0101    -.0107    -.0106    -.0081     .0000     .0136     .0277     .0343     .0385
-                          8.0000    -.0262    -.0243    -.0222    -.0146     .0000     .0201     .0393     .0479     .0533
-                         10.0000    -.0342    -.0311    -.0280    -.0179     .0000     .0234     .0451     .0547     .0607
-                         12.0000    -.0422    -.0379    -.0338    -.0212     .0000     .0266     .0509     .0615     .0681
-                         14.0000    -.0503    -.0447    -.0396    -.0244     .0000     .0299     .0567     .0683     .0755
-                         16.0000    -.0583    -.0515    -.0454    -.0277     .0000     .0332     .0625     .0752     .0829
-                         17.0000    -.0623    -.0549    -.0482    -.0294     .0000     .0348     .0654     .0786     .0866
-                         23.0000    -.0864    -.0753    -.0656    -.0392     .0000     .0446     .0827     .0990     .1088
-                         30.0000    -.1145    -.0991    -.0859    -.0506     .0001     .0561     .1030     .1228     .1346
-                         60.0000    -.2350    -.2012    -.1727    -.0997     .0001     .1051     .1899     .2248     .2456
-                         90.0000    -.3555    -.3032    -.2596    -.1487     .0002     .1542     .2767     .3269     .3566
-                        120.0000    -.4759    -.4053    -.3465    -.1978     .0002     .2032     .3636     .4289     .4676
-                        175.0000    -.6968    -.5924    -.5057    -.2877     .0003     .2932     .5228     .6160     .6711
-                    </tableData>
-                </table>
-                <table>
-                    <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <tableData>
-                         -180  -1.00
-                         -165  -0.97
-                         -150  -0.87
-                         -120  -0.50
-                          -90   0.00
-                          -60   0.50
-                          -30   0.87
-                          -15   0.97
-                            0   1.00
-                           15   0.97
-                           30   0.87
-                           60   0.50
-                           90   0.00
-                          120  -0.50
-                          150  -0.87
-                          165  -0.97
-                          180  -1.00
-                    </tableData>
-                </table>
+                <difference>
+                    <product>
+                        <table>
+                            <independentVar lookup="row"> aero/alpha-deg </independentVar>
+                            <independentVar lookup="column"> fcs/right-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
+                            <tableData>
+                                          -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
+                                 -2.0000     .0156     .0110     .0079     .0024     .0000     .0031     .0092     .0126     .0148
+                                   .0000     .0075     .0042     .0021    -.0009     .0000     .0064     .0150     .0194     .0222
+                                  2.0000    -.0005    -.0026    -.0037    -.0042     .0000     .0096     .0208     .0262     .0296
+                                  4.0000    -.0085    -.0094    -.0095    -.0075     .0000     .0129     .0266     .0330     .0370
+                                  8.0000    -.0246    -.0230    -.0211    -.0140     .0000     .0195     .0382     .0466     .0518
+                                 12.0000    -.0407    -.0366    -.0326    -.0205     .0000     .0260     .0497     .0602     .0666
+                                 16.0000    -.0567    -.0502    -.0442    -.0271     .0000     .0325     .0613     .0738     .0814
+                                 20.0000    -.0728    -.0638    -.0558    -.0336     .0000     .0391     .0729     .0874     .0962
+                                 24.0000    -.0889    -.0774    -.0674    -.0402     .0000     .0456     .0845     .1010     .1110
+                                 28.0000    -.1049    -.0910    -.0790    -.0467     .0000     .0522     .0961     .1146     .1258
+                                 32.0000    -.1210    -.1046    -.0905    -.0532     .0001     .0587     .1077     .1282     .1406
+                                 36.0000    -.1370    -.1182    -.1021    -.0598     .0001     .0652     .1192     .1418     .1554
+                                 40.0000    -.1531    -.1318    -.1137    -.0663     .0001     .0718     .1308     .1554     .1702
+                                 45.0000    -.1732    -.1488    -.1282    -.0745     .0001     .0800     .1453     .1725     .1887
+                                 50.0000    -.1933    -.1658    -.1427    -.0827     .0001     .0881     .1598     .1895     .2072
+                                 60.0000    -.2334    -.1999    -.1716    -.0990     .0001     .1045     .1887     .2235     .2442
+                                 70.0000    -.2736    -.2339    -.2006    -.1154     .0001     .1208     .2177     .2575     .2812
+                                 89.0000    -.3499    -.2985    -.2556    -.1464     .0001     .1519     .2727     .3221     .3515
+                                120.0000    -.4743    -.4039    -.3453    -.1971     .0002     .2026     .3624     .4276     .4661
+                                175.0000    -.6952    -.5910    -.5046    -.2871     .0003     .2925     .5217     .6147     .6696
+                            </tableData>
+                        </table>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
+                    <product>
+                        <table>
+                            <independentVar lookup="row"> fcs/right-aileron-pos-norm </independentVar>
+                            <tableData>
+                                -40.0000    -.3086
+                                -30.0000    -.2613
+                                -20.0000    -.2219
+                                -10.0000    -.1249
+                                   .0000     .0001
+                                 10.0000     .1249
+                                 20.0000     .2219
+                                 30.0000     .2613
+                                 35.0000     .2841
+                            </tableData>
+                        </table>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                </difference>
             </product>
         </function>
 
@@ -675,7 +656,7 @@
                 <property>aero/function/mach-effect-prefactor</property>
                 <property>aero/drag/missile</property>
                 <cos>
-                    <property>aero/alpha-deg</property>
+                    <property>aero/alpha-rad</property>
                 </cos>
                 <table>
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[1]</independentVar>
@@ -699,7 +680,7 @@
                 <property>aero/function/mach-effect-prefactor</property>
                 <property>aero/drag/missile</property>
                 <cos>
-                    <property>aero/alpha-deg</property>
+                    <property>aero/alpha-rad</property>
                 </cos>
                 <table>
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[2]</independentVar>
@@ -723,7 +704,7 @@
                 <property>aero/function/mach-effect-prefactor</property>
                 <property>aero/drag/missile</property>
                 <cos>
-                    <property>aero/alpha-deg</property>
+                    <property>aero/alpha-rad</property>
                 </cos>
                 <table>
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[3]</independentVar>
@@ -747,7 +728,7 @@
                 <property>aero/function/mach-effect-prefactor</property>
                 <property>aero/drag/missile</property>
                 <cos>
-                    <property>aero/alpha-deg</property>
+                    <property>aero/alpha-rad</property>
                 </cos>
                 <table>
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[4]</independentVar>
@@ -760,7 +741,7 @@
             </product>
         </function>
 
-        <!-- estimate -->
+        <!-- Datcom+ Pro -->
         <function name="aero/coefficient/CATank">
             <description>
                Drop tank axial Coefficient
@@ -769,35 +750,81 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>aero/function/mach-effect-prefactor</property>
-                <property>aero/drag/drop-tank</property>
+                <difference>
+                    <product>
+                        <table>
+                            <independentVar lookup="row"> aero/alpha-deg </independentVar>
+                            <tableData>
+                                 -2.0000         .0011
+                                   .0000         .0011
+                                  2.0000         .0011
+                                  4.0000         .0011
+                                  8.0000         .0013
+                                 12.0000         .0018
+                                 16.0000         .0025
+                                 20.0000         .0036
+                                 24.0000         .0051
+                                 28.0000         .0070
+                                 32.0000         .0093
+                                 36.0000         .0120
+                                 40.0000         .0153
+                                 45.0000         .0199
+                                 50.0000         .0249
+                                 60.0000         .0355
+                                 70.0000         .0455
+                                 89.0000         .0539
+                                120.0000         .0304
+                                175.0000        -.0010 
+                            </tableData>
+                        </table>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
+                    <product>
+                        <table>
+                            <independentVar lookup="row"> aero/alpha-deg </independentVar>
+                            <tableData>
+                                 -2.0000        -.0003
+                                   .0000         .0000
+                                  2.0000         .0003
+                                  4.0000         .0008
+                                  8.0000         .0020
+                                 12.0000         .0035
+                                 16.0000         .0053
+                                 20.0000         .0072
+                                 24.0000         .0093
+                                 28.0000         .0114
+                                 32.0000         .0135
+                                 36.0000         .0154
+                                 40.0000         .0172
+                                 45.0000         .0191
+                                 50.0000         .0203
+                                 60.0000         .0202
+                                 70.0000         .0164
+                                 89.0000         .0009
+                                120.0000        -.0179
+                                175.0000        -.0004
+                            </tableData>
+                        </table>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                </difference>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">inertia/pointmass-weight-lbs[5]</independentVar>
                     <tableData>
                                 0    224.87
-                       -180    0.0   -1.00
-                       -165    0.0   -0.97
-                       -150    0.0   -0.87
-                       -120    0.0   -0.50
-                        -90    0.0    0.00
-                        -60    0.0    0.50
-                        -30    0.0    0.87
-                        -15    0.0    0.97
-                          0    0.0    1.00
-                         15    0.0    0.97 
-                         30    0.0    0.87
-                         60    0.0    0.50
-                         90    0.0    0.00
-                        120    0.0   -0.50
-                        150    0.0   -0.87
-                        165    0.0   -0.97
-                        180    0.0   -1.00
+                          0    0.0    1.0
+                          1    0.0    1.0
                     </tableData>
                 </table>
             </product>
         </function>
 
-        <!-- from graph 29e page 43 [measured using graph analyser] (untrustworthy due to being be example from any plane, hence the factor) -->
+        <!-- Datcom+ Pro -->
         <function name="aero/coefficient/CA">
             <description>
                Basic Tangential/axial Coefficient
@@ -806,27 +833,31 @@
                 <property>aero/function/Afactors</property>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <!-- designed to achieve 0.90 mach at sea-level mil thrust, as per the Swedish sources and pilot testimony. -->
+                <!-- tuned to achieve 0.90 mach at sea-level mil thrust, as per the Swedish sources and pilot testimony. -->
                 <property>aero/factor-axial</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData>
-                        -3.233  0.029
-                        -1.541  0.035
-                         0.151  0.039
-                         1.842  0.042
-                         3.531  0.042
-                         5.217  0.037
-                         6.900  0.027
-                         8.581  0.013
-                        10.000  0.000
-                        11.943 -0.013
-                        13.626 -0.022
-                        15.312 -0.028
-                        16.999 -0.032
-                        18.687 -0.033
-                        20.375 -0.035
-                        22.064 -0.035
+                         -2.0      .013  
+                           .0      .014  
+                          2.0      .013  
+                          4.0      .010  
+                          8.0     -.001  
+                         12.0     -.019  
+                         16.0     -.046  
+                         20.0     -.078  
+                         24.0     -.117  
+                         28.0     -.160  
+                         32.0     -.208  
+                         36.0     -.258  
+                         40.0     -.309  
+                         45.0     -.371  
+                         50.0     -.429  
+                         60.0     -.516  
+                         70.0     -.549  
+                         89.0     -.447  
+                        120.0     -.152  
+                        175.0      .014  
                     </tableData>
                 </table>
             </product>
