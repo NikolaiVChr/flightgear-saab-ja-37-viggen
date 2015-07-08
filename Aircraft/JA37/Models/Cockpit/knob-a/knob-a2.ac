@@ -345,7 +345,7 @@ OBJECT poly
 name "A2_handle"
 loc 0.0000000 0.0112330 0.0000000
 crease 39.99999883637168
-texture "black.png"
+texture "../black.png"
 texrep 1 1
 numvert 480
 -0.0069013 -0.0100000 -0.0080692
@@ -4047,7 +4047,7 @@ OBJECT poly
 name "A2_mount"
 loc 0.0000000 0.0007000 0.0000000
 crease 30.000000834826057
-texture "alu.png"
+texture "../alu.png"
 texrep 1 1
 numvert 8
 -0.0264087 0.0000000 0.0264087
@@ -4135,7 +4135,7 @@ OBJECT poly
 name "A2_screw"
 loc 0.0000000 0.0112330 0.0000000
 crease 39.99999883637168
-texture "alu.png"
+texture "../alu.png"
 texrep 1 1
 numvert 100
 -0.0036623 0.0077756 -0.0042821

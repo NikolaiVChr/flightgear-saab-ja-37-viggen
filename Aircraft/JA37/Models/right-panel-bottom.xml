@@ -86,4 +86,15 @@
         </offsets>
     </model>
 
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/knob-a/weapons-mode.xml</path>
+        <name>weapon-mode</name>
+        <offsets>
+            <heading-deg>-90</heading-deg>
+            <x-m>  0.230</x-m>
+            <y-m>  0.02625</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
 </PropertyList>

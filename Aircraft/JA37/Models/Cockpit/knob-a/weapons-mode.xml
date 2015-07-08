@@ -19,8 +19,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>knob-sel-weap</tooltip-id>
-                <label>Weapon select</label>
+                <tooltip-id>knob-mod-weap</tooltip-id>
+                <label>Weapons mode</label>
             </binding>
         </hovered>
     </animation>
@@ -33,10 +33,10 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/armament/station-select</property>
+                <property>controls/armament/w-mode</property>
                 <step>-1.00</step>
                 <min>0</min>
-                <max>5</max>
+                <max>2</max>
                 <wrap>true</wrap>
             </binding>
         </action>
@@ -50,10 +50,10 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/armament/station-select</property>
+                <property>controls/armament/w-mode</property>
                 <step>1.00</step>
                 <min>0</min>
-                <max>5</max>
+                <max>2</max>
                 <wrap>true</wrap>
             </binding>
         </action>
@@ -64,13 +64,11 @@
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
         <object-name>A2_handle</object-name>  
         <object-name>A2_screw</object-name>
-        <property>controls/armament/station-select</property>
+        <property>controls/armament/w-mode</property>
         <interpolation>
-            <entry><ind>0</ind><dep>-85.7</dep></entry>
+            <entry><ind>0</ind><dep>-70</dep></entry>
             <entry><ind>1</ind><dep>0</dep></entry>
-            <entry><ind>2</ind><dep>40</dep></entry>
-            <entry><ind>3</ind><dep>80</dep></entry>
-            <entry><ind>4</ind><dep>120</dep></entry>
+            <entry><ind>2</ind><dep>70</dep></entry>
         </interpolation>
         <center>
             <x-m>  0.00 </x-m>
@@ -89,7 +87,7 @@
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
         <property-base>sim/ja37/texture</property-base>
         <texture-prop>switch-weapon-select</texture-prop>
-        <texture>WEAPONS.png</texture>
+        <texture>WEAPON_MODE.png</texture>
     </animation>
 
 </PropertyList>
