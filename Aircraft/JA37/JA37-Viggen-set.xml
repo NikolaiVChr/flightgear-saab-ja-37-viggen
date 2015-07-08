@@ -778,8 +778,8 @@
                 </fuel>
             </systems>
             <aero>
-                <factor-axial-mach type="double">0.5</factor-axial-mach>
-                <factor-axial type="double">1.65</factor-axial>
+                <factor-axial-mach type="double">1.0</factor-axial-mach>
+                <factor-axial type="double">1.625</factor-axial>
                 <function>
                     <vortex type="double">1.0</vortex>
                 </function>
