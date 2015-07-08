@@ -7,13 +7,13 @@ MATERIAL "knob_A_mount_mat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  
 MATERIAL "knob_A_pressurePlates_mat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.0000 0.0000 0.0000  shi 12 trans 1.0000
 MATERIAL "knob_A_screw_mat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.7514 0.7514 0.7514  shi 3 trans 0.0000
 OBJECT world
-name "Blender_export__Knob_A2_WEAPON_v01.013.ac"
+name "Blender_export__Knob_A2mount___refersTo_KNOBDISC.png___v01.015.ac"
 kids 7
 OBJECT poly
 name "A2_disc_UV_mapped_WEAPONS"
 loc 0.0000000 0.0012000 0.0000000
 crease 30.000000834826057
-texture "WEAPONS.png"
+texture "KNOBDISC.png"
 texrep 1 1
 numvert 64
 0.0000000 0.0000000 -0.0250000
@@ -345,7 +345,7 @@ OBJECT poly
 name "A2_handle"
 loc 0.0000000 0.0112330 0.0000000
 crease 39.99999883637168
-texture "../black.png"
+texture "black.png"
 texrep 1 1
 numvert 480
 -0.0069013 -0.0100000 -0.0080692
@@ -4005,7 +4005,7 @@ OBJECT poly
 name "A2_marker"
 loc 0.0204000 0.0010500 0.0204000
 crease 30.000000834826057
-texture "WEAPONS.png"
+texture "KNOBDISC.png"
 texrep 1 1
 numvert 6
 -0.0008839 -0.0003500 0.0008839
@@ -4018,36 +4018,36 @@ numsurf 4
 SURF 0X10
 mat 3
 refs 4
-1 0.345851 0.468743
-3 0.569318 0.468743
-2 0.569318 0.530490
-0 0.345851 0.530490
+1 0.564418 0.525362
+3 0.371985 0.525362
+2 0.371985 0.472190
+0 0.564418 0.472190
 SURF 0X10
 mat 3
 refs 4
-3 0.344115 0.469103
-5 0.571054 0.469103
-4 0.571054 0.530130
-2 0.344115 0.530130
+3 0.369230 0.473595
+5 0.562758 0.473595
+4 0.562758 0.525638
+2 0.369230 0.525638
 SURF 0X10
 mat 3
 refs 4
-5 0.570896 0.531828
-1 0.344272 0.531828
-0 0.344272 0.468373
-4 0.570896 0.468373
+5 0.563365 0.526018
+1 0.370726 0.526018
+0 0.370726 0.472080
+4 0.563365 0.472080
 SURF 0X10
 mat 3
 refs 3
-3 0.706618 0.498295
-1 0.326949 0.632529
-5 0.326949 0.364062
+3 0.681800 0.499136
+1 0.357233 0.613888
+5 0.357233 0.384384
 kids 0
 OBJECT poly
 name "A2_mount"
 loc 0.0000000 0.0007000 0.0000000
 crease 30.000000834826057
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 8
 -0.0264087 0.0000000 0.0264087
@@ -4135,7 +4135,7 @@ OBJECT poly
 name "A2_screw"
 loc 0.0000000 0.0112330 0.0000000
 crease 39.99999883637168
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 100
 -0.0036623 0.0077756 -0.0042821
