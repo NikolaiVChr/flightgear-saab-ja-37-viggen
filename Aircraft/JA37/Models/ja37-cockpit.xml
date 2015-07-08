@@ -31,7 +31,7 @@
     </offsets>
   </model> -->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/recharging.xml</path>
     <name>ChargeBattery</name>
     <offsets>
@@ -41,7 +41,7 @@
       <y-m> -0.27</y-m>
       <z-m>  0.1550</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/cutoff-indicator.xml</path>
@@ -55,7 +55,7 @@
     </offsets>
   </model>-->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/external.xml</path>
     <name>externalAvailable</name>
     <offsets>
@@ -65,9 +65,9 @@
       <y-m> -0.27</y-m>
       <z-m>  0.1550</z-m>
     </offsets>
-  </model>
+  </model>-->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-elec-ext.xml</path>
     <name>SwitchExt</name>
     <offsets>
@@ -77,7 +77,7 @@
       <y-m> -0.30</y-m>
       <z-m>  0.1400</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-elec-main.xml</path>
@@ -91,7 +91,7 @@
     </offsets>
   </model>-->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-battery.xml</path>
     <name>SwitchBattery</name>
     <offsets>
@@ -101,7 +101,7 @@
       <y-m> -0.30</y-m>
       <z-m>  0.1400</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-cutoff.xml</path>
@@ -187,7 +187,7 @@
     </offsets>
   </model>-->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-gears.xml</path>
     <name>SwitchGears</name>
     <offsets>
@@ -197,7 +197,7 @@
       <y-m> -0.30</y-m>
       <z-m>  0.1410</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-smoke.xml</path>
@@ -210,7 +210,7 @@
     </offsets>
   </model>-->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-yaw-damper.xml</path>
     <name>SwitchYawDamper</name>
     <offsets>
@@ -241,9 +241,9 @@
       <y-m>  0.30</y-m>
       <z-m>  0.1700</z-m>      
     </offsets>
-  </model>  
+  </model>  -->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-canopy.xml</path>
     <name>SwitchCanopy</name>
     <offsets>
@@ -252,9 +252,9 @@
       <y-m>  0.30</y-m>
       <z-m>  0.1700</z-m>
     </offsets>
-  </model>
+  </model>-->
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-parking-brakes.xml</path>
     <name>SwitchParkingBrakes</name>
     <offsets>
@@ -274,7 +274,7 @@
       <y-m>  0.30</y-m>
       <z-m>  0.1700</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/buttons/button-next-selection.xml</path>

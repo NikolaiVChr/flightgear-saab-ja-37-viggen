@@ -6,7 +6,7 @@
         <name>switch-fuel-reg</name>
         <offsets>
             <heading-deg>180</heading-deg>
-            <x-m> -1.085</x-m>
+            <x-m> -1.105</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -17,7 +17,7 @@
         <name>switch-cutoff-afterburner</name>
         <offsets>
             <heading-deg>180</heading-deg>
-            <x-m> -1.050</x-m>
+            <x-m> -1.075</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -27,13 +27,91 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/electric-reserve.xml</path>
         <name>switch-reserve</name>
         <offsets>
-            <x-m> -1.015</x-m>
+            <x-m> -1.045</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>  
 
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/limiter-pitch.xml</path>
+        <name>switch-pitch-limiter</name>
+        <offsets>
+            <x-m> -1.015</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
 
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-yaw.xml</path>
+        <name>switch-damp-yaw</name>
+        <offsets>
+            <x-m> -0.960</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-pitch.xml</path>
+        <name>switch-damp-pitch</name>
+        <offsets>
+            <x-m> -0.925</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-roll.xml</path>
+        <name>switch-damp-roll</name>
+        <offsets>
+            <x-m> -0.890</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/hud.xml</path>
+        <name>switch-hud</name>
+        <offsets>
+            <x-m> -0.855</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/hud-sideslip.xml</path>
+        <name>switch-sideslip</name>
+        <offsets>
+            <x-m> -0.820</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/tils.xml</path>
+        <name>switch-tils</name>
+        <offsets>
+            <x-m> -0.785</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-a/landing-mode.xml</path>
+        <name>switch-landing-mode</name>
+        <offsets>
+            <x-m> -0.750</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
       
 
 </PropertyList>

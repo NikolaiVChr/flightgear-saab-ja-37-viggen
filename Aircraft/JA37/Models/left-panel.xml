@@ -89,6 +89,29 @@
     </offsets>
   </model>
 
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/elec-supply.xml</path>
+    <name>elec supply</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.38</x-m>
+      <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/external.xml</path>
+    <name>externalAvailable</name>
+    <offsets>
+      <pitch-deg>-90.0</pitch-deg>
+      <x-m>  0.38</x-m>
+      <y-m> -0.010</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/engine-start.xml</path>
     <name>starter</name>
@@ -128,6 +151,61 @@
       <pitch-deg>90</pitch-deg>
       <x-m>  0.330</x-m>
       <y-m> -0.040</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/battery.xml</path>
+    <name>battery</name>
+    <offsets>
+      <heading-deg>-90</heading-deg>
+      <x-m>  0.300</x-m>
+      <y-m> -0.010</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/recharging.xml</path>
+    <name>ChargeBattery</name>
+    <offsets>
+      <pitch-deg>90</pitch-deg>
+      <x-m>  0.330</x-m>
+      <y-m> -0.010</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/canopy.xml</path>
+    <name>canopyswitch</name>
+    <offsets>
+      <heading-deg>-90</heading-deg>
+      <x-m>  0.300</x-m>
+      <y-m>  0.050</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/reverse-auto.xml</path>
+    <name>auto reverse</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.500</x-m>
+      <y-m>  0.000</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/nosewheel-steer.xml</path>
+    <name>nose steer</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.535</x-m>
+      <y-m>  0.000</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -196,7 +274,29 @@
       <y-m> -0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>  
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/gears.xml</path>
+    <name>gears</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.85</x-m>
+      <y-m>  0.110</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/brake-parking.xml</path>
+    <name>parkBrake</name>
+    <offsets>
+      <heading-deg>180</heading-deg>
+      <x-m>  0.85</x-m>
+      <y-m>  0.060</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
