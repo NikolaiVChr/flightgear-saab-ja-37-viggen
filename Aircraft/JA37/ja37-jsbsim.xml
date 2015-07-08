@@ -388,7 +388,7 @@ Old values:
     <tank type="FUEL"><!-- fuel type used: JP-4 with density of 6.48 -->
       <!-- Fuselage Main Tank 1 -->
       <location unit="M">
-        <x> 1.85 </x>
+        <x> 0.3399 </x>
         <y> 0.00 </y>
         <z> 0.51982 </z>
       </location>
