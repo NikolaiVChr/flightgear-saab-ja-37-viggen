@@ -78,13 +78,12 @@
       <chord unit="M">            7.4     </chord><!-- ref. chord from Saab windtunnel data document (its the root chord),
                                                        the real MAC is 4.73 meter (Datcom+ Pro) -->
       <htailarea unit="M2">      46.0     </htailarea><!-- using main wings for this since they act as htail also -->
-      <!-- from Australian document -->
-      <vtailarea unit="FT2">     68.7     </vtailarea>
-      <!-- data calculated using DATCOM+ Pro --> 
+      <!-- data calculated using DATCOM+ Pro -->
+      <vtailarea unit="M2">      5.115   </vtailarea>
       <htailarm  unit="M" >      4.5785  </htailarm>
-      <vtailarm  unit="M" >      5.8515  </vtailarm>    
+      <vtailarm  unit="M" >      5.8515  </vtailarm>
       <!-- Measured using Saab diagram in Gimp -->
-      <wing_incidence unit="DEG"> 0.20    </wing_incidence>
+      <wing_incidence unit="DEG"> 0.00    </wing_incidence>
     <location name="AERORP" unit="M">
       <x> 1.90878 </x>
       <y> 0 </y>
