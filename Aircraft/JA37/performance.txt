@@ -264,3 +264,60 @@ http://www.fighter-planes.com/info/ja37.htm
 Although designed to withstand 12 G, the operational limit is 7 G.
 The seat is angled back 19 degrees.
 The landing gear thinks a landing sink rate of 5 m/s is normal, so landings are done without any flare; 
+
+Eurocontrol - Aircraft Performance database
+===========================================
+Takeoff
+-------
+MTOW: 20000 kg
+WTC: M
+Distance: 400 m
+V2 (IAS): 145 kts
+
+Initial climb to 5000 ft
+------------------------
+IAS: 300 kts
+ROC: 40000 ft/min
+
+Climb to FL250
+--------------
+IAS: 250 kts
+ROC: 25000 ft/min
+
+Climb to FL240
+--------------
+IAS: 250 kts
+ROC: 20000 ft/min
+
+Mach climb
+----------
+Mach: 0.8
+ROC: 20000 ft/min
+
+Cruise
+------
+TAS: 480 kt
+Mach: 0.86
+Ceiling: FL590
+Range: 1000 NM
+
+Initial descent
+---------------
+Mach: 0.85
+ROD: 10000 ft/min
+
+Descent to FL100
+----------------
+IAS: 350 kt
+ROD: 10000 ft/min
+
+Approach
+--------
+IAS: 250 kt
+ROD: 1500 ft/min
+
+Landing
+-------
+Vat (IAS): 120 kt
+APC: B
+Distance: 300 m
