@@ -636,6 +636,32 @@
 
         <!--                                          avionics warnings                           -->
 
+        <stall>
+            <name>stall</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/stall.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>sim/current-view/internal</property>
+                <greater-than>
+                    <property>fdm/jsbsim/aero/stall-hyst-norm</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>sim/ja37/sound/stall-enabled</property>
+                    <value>0</value>
+                </greater-than>
+                <property>sim/ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <factor>4</factor>
+            </volume>
+        </stall>
+
 
         <!-- Alpha warnings taken from Viggen pilot manual page 242 -->
         <alpha>
@@ -646,7 +672,19 @@
             <condition>
                 <not>
                     <property>gear/gear/position-norm</property>
-                </not>
+                </not>                                        
+                <not>
+                     <and>
+                        <equals>
+                            <property>fdm/jsbsim/aero/stall-hyst-norm</property>
+                            <value>1</value>
+                        </equals>
+                        <greater-than>
+                            <property>sim/ja37/sound/stall-enabled</property>
+                            <value>1</value>
+                        </greater-than>
+                    </and>
+                </not>                    
                 <property>sim/current-view/internal</property>
                 <or>
                     <and>
