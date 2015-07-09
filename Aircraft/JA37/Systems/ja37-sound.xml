@@ -643,6 +643,9 @@
             <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
+                <not>
+                    <property>gear/gear[0]/wow</property>
+                </not>
                 <greater-than>
                     <property>fdm/jsbsim/aero/stall-hyst-norm</property>
                     <value>0</value>
