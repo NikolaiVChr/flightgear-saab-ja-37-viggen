@@ -134,7 +134,17 @@
     <path>Aircraft/JA37/Models/Cockpit/switch-d/smoke.xml</path>
     <name>follow</name>
     <offsets>
-      <x-m>  0.50</x-m>
+      <x-m>  0.475</x-m>
+      <y-m>  0.05</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/warning-stall.xml</path>
+    <name>stall</name>
+    <offsets>
+      <x-m>  0.525</x-m>
       <y-m>  0.05</y-m>
       <z-m>  0.00</z-m>
     </offsets>

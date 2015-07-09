@@ -30,8 +30,8 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>controls/electric/battery</property>
-                <value>0</value>
+                <property>sim/ja37/sound/stall-enabled</property>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -47,8 +47,8 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>controls/electric/battery</property>
-                <value>1</value>
+                <property>sim/ja37/sound/stall-enabled</property>
+                <value>0</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -60,7 +60,7 @@
     <animation>
         <type>rotate</type>
         <object-name>switchLever</object-name>
-        <property>controls/electric/battery</property>
+        <property>sim/ja37/sound/stall-enabled</property>
         <factor>40</factor>
         <offset-deg>-20</offset-deg>
         <center>
@@ -69,7 +69,7 @@
             <z-m> -0.00608 </z-m>
         </center>
         <axis>
-            <x> 1.0 </x>
+            <x>-1.0 </x>
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
