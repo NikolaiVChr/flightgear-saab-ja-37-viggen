@@ -654,6 +654,13 @@ var update_loop = func {
     var contrails = getprop("environment/temperature-degc") < -40 and getprop("position/altitude-ft") > 19000 and input.n2.getValue() > 50;
     input.MPint18.setValue(encode3bits(contrails, 0, 0));
 
+    # smoke
+    if (input.dcVolt.getValue() > 20) {
+      setprop("/sim/ja37/effect/smoke", getprop("/sim/ja37/effect/smoke-cmd"));
+    } else {
+      setprop("/sim/ja37/effect/smoke", 1);
+    }
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
@@ -1653,14 +1660,14 @@ var applyParkingBrake = func(v) {
 
 var cycleSmoke = func() {
     ja37.click();
-    if (getprop("/sim/ja37/effect/smoke") == 1) {
-      setprop("/sim/ja37/effect/smoke", 2);
+    if (getprop("/sim/ja37/effect/smoke-cmd") == 1) {
+      setprop("/sim/ja37/effect/smoke-cmd", 2);
       popupTip("Smoke: Yellow");
-    } elsif (getprop("/sim/ja37/effect/smoke") == 2) {
-      setprop("/sim/ja37/effect/smoke", 3);
+    } elsif (getprop("/sim/ja37/effect/smoke-cmd") == 2) {
+      setprop("/sim/ja37/effect/smoke-cmd", 3);
       popupTip("Smoke: Blue");
     } else {
-      setprop("/sim/ja37/effect/smoke", 1);#1 for backward compatibility to be off per default
+      setprop("/sim/ja37/effect/smoke-cmd", 1);#1 for backward compatibility to be off per default
       popupTip("Smoke: OFF");
     }
 }
