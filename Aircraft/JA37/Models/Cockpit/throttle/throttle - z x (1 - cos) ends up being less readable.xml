@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>throttle.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+		<object-name>CylinderBASEofROTATION</object-name>
+		<object-name>CylindricGuide</object-name>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapL</object-name>
+		<object-name>HandleCapR</object-name>
+		<object-name>Mount</object-name>
+		<object-name>Rot0arm</object-name>
+		<object-name>Rot1-0_bolt</object-name>
+		<object-name>Rot1-0_cyl</object-name>
+		<object-name>Rot1-0_screw</object-name>
+		<object-name>Rot1-0_screwHead</object-name>
+		<object-name>Rot1-2_bolt</object-name>
+		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
+		<object-name>Rot1-2cyl</object-name>
+		<object-name>Rot1_arm</object-name>
+		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3_screw</object-name>
+		<object-name>Rot2-3cyl</object-name>
+		<object-name>Rot2arm</object-name>
+		<object-name>Rot3-2_bolt</object-name>
+		<object-name>Rot3-2_cyl</object-name>
+		<object-name>Rot3-2_screwHead</object-name>
+		<object-name>Rot3arm</object-name>
+		</effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Handle</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>handle-throttle</tooltip-id>
+                <label>Throttle control</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- animation>
+        <type>pick</type>
+        <object-name>A2_pickDecrement</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/armament/station-select</property>
+                <step>-1.00</step>
+                <min>0</min>
+                <max>5</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>A2_pickIncrement</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/armament/station-select</property>
+                <step>1.00</step>
+                <min>0</min>
+                <max>5</max>
+                <wrap>true</wrap>
+            </binding>
+        </action>
+    </animation -->
+
+	<!-- animation>
+      <type>scale</type>
+      <x-offset>1.75</x-offset>
+      <y-offset>1.75</y-offset>
+      <z-offset>1.75</z-offset>
+    </animation -->
+
+    <!-- animation>
+        <type>rotate</type>
+        <object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+		<object-name>CylinderBASEofROTATION</object-name>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapL</object-name>
+		<object-name>HandleCapR</object-name>
+		<object-name>Rot0arm</object-name>
+		<object-name>Rot1-0_bolt</object-name>
+		<object-name>Rot1-0_cyl</object-name>
+		<object-name>Rot1-0_screw</object-name>
+		<object-name>Rot1-0_screwHead</object-name>
+		<object-name>Rot1-2_bolt</object-name>
+		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
+		<object-name>Rot1-2cyl</object-name>
+		<object-name>Rot1_arm</object-name>
+		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3_screw</object-name>
+		<object-name>Rot2-3cyl</object-name>
+		<object-name>Rot2arm</object-name>
+		<object-name>Rot3-2_bolt</object-name>
+		<object-name>Rot3-2_cyl</object-name>
+		<object-name>Rot3-2_screwHead</object-name>
+		<object-name>Rot3arm</object-name>
+        <property>controls/engines/engine[1]/throttle</property>
+        <factor>110.0</factor>
+		<offset-deg>-55</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+			<z-m>  .0035903 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> -1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation -->
+
+    <animation>
+        <type>rotate</type>
+		<object-name>CylinderBASEofROTATION</object-name>
+		<object-name>Rot0arm</object-name>
+		<object-name>Rot1-0_bolt</object-name>
+		<object-name>Rot1-0_cyl</object-name>
+		<object-name>Rot1-0_screw</object-name>
+		<object-name>Rot1-0_screwHead</object-name>
+		<object-name>Rot1-2_bolt</object-name>
+		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
+		<object-name>Rot1-2cyl</object-name>
+		<object-name>Rot1_arm</object-name>
+		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3_screw</object-name>
+		<object-name>Rot2-3cyl</object-name>
+		<object-name>Rot2arm</object-name>
+		<object-name>Rot3-2_bolt</object-name>
+		<object-name>Rot3-2_cyl</object-name>
+		<object-name>Rot3-2_screwHead</object-name>
+		<object-name>Rot3arm</object-name>
+		<object-name>HandleCapL</object-name>
+        <property>controls/engines/engine[1]/throttle</property>
+        <factor>110.0</factor>
+		<offset-deg>-55</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+			<z-m>  .0035903 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> -1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+
+    <animation>
+        <type>translate</type>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapR</object-name>
+        <object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+
+		<!-- axis>
+            <x>
+				<expression>
+					<cos>
+						<deg2rad>
+							<sum>
+								<product>
+									<property>controls/engines/engine[1]/throttle</property>
+									<value>110.0</value>
+								</product>
+								<value> -55.0 </value>
+							</sum>
+						</deg2rad>
+					</cos>
+				</expression>
+			</x>
+            <y> 0.0 </y>
+            <z>
+				<expression>
+					<sum>
+						<sin>
+							<deg2rad>
+								<sum>
+									<product>
+										<property>controls/engines/engine[1]/throttle</property>
+										<value>110.0</value>
+									</product>
+									<value> -55.0 </value>
+								<sum>
+							</deg2rad>
+						</sin>
+						<value>.0035903</value>
+					</sum>
+				</expression>
+			</z>
+        </axis -->
+
+		
+		<expression>
+			<product>
+				<sin>
+					<deg2rad>
+					<sum>
+							<product>
+								<property>controls/engines/engine[1]/throttle</property>
+								<value>110.0</value>
+							</product>
+							<value> -55.0 </value>
+						</sum>
+					</deg2rad>
+				</sin>
+				<value>0.13904</value>
+			</product>
+		</expression>
+		<axis>
+			<x>-1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+    </animation>
+	
+    <animation>
+        <type>translate</type>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapR</object-name>
+        <object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+		<expression>
+			<product>
+				<value>-0.13904</value>
+				<sum>
+					<value>-1.0</value>
+					<cos>
+						<deg2rad>
+						<sum>
+								<product>
+									<property>controls/engines/engine[1]/throttle</property>
+									<value>110.0</value>
+								</product>
+								<value> -55.0 </value>
+							</sum>
+						</deg2rad>
+					</cos>
+				</sum>
+			</product>
+		</expression>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+    </animation>
+
+	
+    <!-- animation>
+        <type>material</type>
+        <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
+        <property-base>sim/ja37/texture</property-base>
+        <texture-prop>switch-weapon-select</texture-prop>
+        <texture>WEAPONS.png</texture>
+    </animation -->
+
+</PropertyList>
