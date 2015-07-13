@@ -102,7 +102,7 @@
 						</sum>
 					</deg2rad>
 				</sin>
-				<value>0.13904</value>
+				<value>0.1330279</value><!-- 0.1366182 - .0035903 -->
 			</product>
 		</expression>
 		<axis>
@@ -120,7 +120,7 @@
 		<object-name>ButtonTop</object-name>
 		<expression>
 			<sum>
-				<value>0.13904</value>
+				<value>0.1330279</value><!-- 0.1366182 - .0035903 -->
 				<product>
 					<cos>
 						<deg2rad>
@@ -133,7 +133,7 @@
 							</sum>
 						</deg2rad>
 					</cos>
-					<value>-0.13904</value>
+					<value>-0.1330279</value>
 				</product>
 			</sum>
 		</expression>
