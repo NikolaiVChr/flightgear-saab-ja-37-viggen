@@ -19,6 +19,7 @@
                     <property>aero/coefficient/CAMissile4</property>
                     <property>aero/coefficient/CATank</property>
                     <property>aero/coefficient/CA</property>
+                    <property>aero/coefficient/CAwave</property>
                 </sum>
             </function>
         </fcs_function>
@@ -30,6 +31,7 @@
                     <property>aero/coefficient/CNGnd</property>
                     <property>aero/coefficient/CNGndElevator</property>
                     <property>aero/coefficient/CNflaps</property>
+                    <property>aero/coefficient/CNwave</property>
                 </sum>
             </function>
         </fcs_function>
