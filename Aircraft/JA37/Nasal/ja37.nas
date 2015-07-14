@@ -1759,3 +1759,42 @@ var repair = func () {
     failureSys.armAllTriggers();
   }
 }
+
+var refuelTest = func () {
+  setprop("consumables/fuel/tank[0]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[1]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[2]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[3]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[4]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[5]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[6]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[7]/level-norm", 0.5);
+  setprop("consumables/fuel/tank[8]/level-norm", 0.0);
+  screen.log.write("Fuel configured for flight testing.", 1.0, 0.0, 0.0);
+}
+
+var refuelNorm = func () {
+  setprop("consumables/fuel/tank[0]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[1]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[2]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[3]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[4]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[5]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[6]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[7]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[8]/level-norm", 0.0);
+  screen.log.write("Fuel configured for flight testing.", 0.0, 1.0, 0.0);
+}
+
+var refuelRange = func () {
+  setprop("consumables/fuel/tank[0]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[1]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[2]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[3]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[4]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[5]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[6]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[7]/level-norm", 1.0);
+  setprop("consumables/fuel/tank[8]/level-norm", 1.0);
+  screen.log.write("Fuel configured for flight testing.", 0.0, 1.0, 0.0);
+}
