@@ -1,0 +1,14 @@
+<object-name>Blender_export__radarControl_v01.005.ac</object-name>
+<object-name>BoltL_cap</object-name>
+<object-name>BoltL_hexagon</object-name>
+<object-name>BoltR_cap</object-name>
+<object-name>BoltR_hexagon</object-name>
+<object-name>BoltSmall_cap</object-name>
+<object-name>BoltSmall_hexagon</object-name>
+<object-name>Bone</object-name>
+<object-name>Cylinder</object-name>
+<object-name>Handle</object-name>
+<object-name>KnobL</object-name>
+<object-name>KnobR</object-name>
+<object-name>KnobSmall</object-name>
+<object-name>Mount</object-name>

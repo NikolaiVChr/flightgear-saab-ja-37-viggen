@@ -330,4 +330,15 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/radarControl/radarControl.xml</path>
+    <name>radar control</name>
+    <offsets>
+	  <pitch-deg>-10</pitch-deg>
+      <x-m>  0.520</x-m>
+	  <y-m>  0.085</y-m>
+      <z-m>  0.0 </z-m>
+    </offsets>
+  </model>
+
 </PropertyList>
