@@ -32,7 +32,7 @@
 		<object-name>Rot3-2_cyl</object-name>
 		<object-name>Rot3-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
-		</effect>
+	</effect>
 
     <animation>
         <type>pick</type>
@@ -102,7 +102,7 @@
 						</sum>
 					</deg2rad>
 				</sin>
-				<value>0.1330279</value><!-- 0.1366182 - .0035903 -->
+				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
 			</product>
 		</expression>
 		<axis>
@@ -120,7 +120,7 @@
 		<object-name>ButtonTop</object-name>
 		<expression>
 			<sum>
-				<value>0.1330279</value><!-- 0.1366182 - .0035903 -->
+				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
 				<product>
 					<cos>
 						<deg2rad>
