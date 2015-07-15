@@ -17,6 +17,79 @@
 
 var printf = func { print(call(sprintf, arg)) }
 
+# setup property nodes
+input = {
+  speedG:           "velocities/groundspeed-kt",
+  running:          "engines/engine/running",
+  perfEff:          "/sim/gui/dialogs/performance-monitor/efficiency",
+  fuel:             "/consumables/fuel",
+  perfRangeTotal:   "/sim/gui/dialogs/performance-monitor/total-range",
+  perfRange:        "/sim/gui/dialogs/performance-monitor/range",
+  perfTime:         "/sim/gui/dialogs/performance-monitor/time",
+  perfDistFt:       "/sim/gui/dialogs/performance-monitor/to-dist-ft",
+  perfDistM:        "/sim/gui/dialogs/performance-monitor/to-dist-m",
+  perfDistLandFt:   "/sim/gui/dialogs/performance-monitor/land-dist-ft",
+  perfDistLandM:    "/sim/gui/dialogs/performance-monitor/land-dist-m",
+  perfMach:         "/sim/gui/dialogs/performance-monitor/mach",         
+  perfClimb:        "/sim/gui/dialogs/performance-monitor/climb-rate",   
+  perfSpeedG:       "/sim/gui/dialogs/performance-monitor/groundspeed",  
+  perfTAS:          "/sim/gui/dialogs/performance-monitor/TAS",          
+  perfAlpha:        "/sim/gui/dialogs/performance-monitor/angleofattack",
+  perfG:            "/sim/gui/dialogs/performance-monitor/gforce",       
+  perfRoll:         "/sim/gui/dialogs/performance-monitor/roll-rate",    
+  perfTurnRate:     "/sim/gui/dialogs/performance-monitor/turn-rate",    
+  perfTurnRad:      "/sim/gui/dialogs/performance-monitor/turn-radius",  
+  perfSink:         "/sim/gui/dialogs/performance-monitor/sink-rate",    
+  perfWindDir:      "/sim/gui/dialogs/performance-monitor/wind-dir",     
+  perfWindKt:       "/sim/gui/dialogs/performance-monitor/wind-kt",      
+  perfTemp:         "/sim/gui/dialogs/performance-monitor/temp",         
+  perfAlt:          "/sim/gui/dialogs/performance-monitor/alt",          
+  perfInhg:         "/sim/gui/dialogs/performance-monitor/inhg",         
+  perfRho:          "/sim/gui/dialogs/performance-monitor/density",      
+  perfExcess:       "/sim/gui/dialogs/performance-monitor/excess-thrust",
+  perfLd:           "/sim/gui/dialogs/performance-monitor/ratio-lift-drag",
+  perfTw:           "/sim/gui/dialogs/performance-monitor/ratio-thrust-weight",
+  perfLw:           "/sim/gui/dialogs/performance-monitor/ratio-lift-weight",
+  perfTd:           "/sim/gui/dialogs/performance-monitor/ratio-thrust-drag",
+  perfMargin:       "/sim/gui/dialogs/performance-monitor/static-margin",
+  perfStall:        "/sim/gui/dialogs/performance-monitor/stall",
+  perfSpin:         "/sim/gui/dialogs/performance-monitor/spin",
+  mach:             "/velocities/mach",
+  speedV:           "/velocities/vertical-speed-fps",
+  speedAir:         "/velocities/airspeed-kt",
+  alpha:            "/orientation/alpha-deg",
+  G:                "/sim/ja37/accelerations/pilot-G",
+  p:                "/fdm/jsbsim/velocities/p-aero-rad_sec",
+  psiDot:           "/fdm/jsbsim/velocities/psidot-rad_sec",
+  turnRad:          "/fdm/jsbsim/systems/flight/turning-radius-nm",
+  speedD:           "/fdm/jsbsim/velocities/v-down-fps",
+  windDir:          "/environment/wind-from-heading-deg",
+  windKt:           "/environment/wind-speed-kt",
+  temp:             "/environment/temperature-degc",
+  alt:              "/position/altitude-ft",
+  inhg:             "/environment/pressure-inhg",
+  slug:             "/environment/density-slugft3",
+  lat:              "/position/latitude-deg",
+  lon:              "/position/longitude-deg",
+  altAgl:           "/position/altitude-agl-ft",
+  wow0:             "/gear/gear[0]/wow",
+  wow1:             "/gear/gear[1]/wow",
+  wow2:             "/gear/gear[2]/wow",
+  excess:           "fdm/jsbsim/systems/flight/excess-thrust-lb",
+  ld:               "fdm/jsbsim/systems/flight/lift-drag-ratio",
+  tw:               "fdm/jsbsim/systems/flight/thrust-weight-ratio",
+  lw:               "fdm/jsbsim/systems/flight/lift-weight-ratio",
+  td:               "fdm/jsbsim/systems/flight/thrust-drag-ratio",
+  rp:               "fdm/jsbsim/metrics/aero-rp-x-in",
+  rpShift:          "fdm/jsbsim/metrics/aero-rp-shift-mac",
+  cg:               "fdm/jsbsim/inertia/cg-x-in",
+  stall:            "fdm/jsbsim/aero/stall-hyst-norm",
+  spin:             "fdm/jsbsim/aero/spin-norm",
+};
+foreach(var name; keys(input)) {
+    input[name] = props.globals.getNode(input[name], 1);
+}
+
 #
 # calculate distance between two position in meter.
 # pos is a hash with lat and lon (e.g. { lat : lattitude, lon : longitude })
@@ -52,8 +125,8 @@ MonitorBase.properties = func() { return []; }
 var FuelEfficiency = {};
 FuelEfficiency.new = func(interval) {
   obj = { parents : [FuelEfficiency, MonitorBase ] };
-  obj.speedNode = props.globals.getNode("velocities/groundspeed-kt");
-  obj.engineRunningNode = props.globals.getNode("engines/engine/running");
+  obj.speedNode = input.speedG;
+  obj.engineRunningNode = input.running;
   obj.interval = interval;
   obj.fuelFlow = 0;
   obj.fuelEfficiency = 0;
@@ -101,8 +174,8 @@ FuelEfficiency.update = func {
 #
 FuelEfficiency.updateFuelEfficiency = func {
   var fuelFlow = 0;
-  var groundSpeed = getprop("/velocities/groundspeed-kt");
-  var engineRunning = getprop("/engines/engine/running");
+  var groundSpeed = input.speedG.getValue();
+  var engineRunning = input.running.getValue();
   if (engineRunning == nil) {
     engineRunning = 0;
   } else {
@@ -114,7 +187,7 @@ FuelEfficiency.updateFuelEfficiency = func {
   }
   me.fuelFlow = fuelFlow;
   me.fuelEfficiency = (engineRunning * fuelFlow == 0) ? 0 : (groundSpeed / fuelFlow);
-  setprop("/sim/gui/dialogs/performance-monitor/efficiency", me.fuelEfficiency);
+  input.perfEff.setValue(me.fuelEfficiency);
 }
 
 #
@@ -141,7 +214,7 @@ FuelEfficiency.getFuelFlow = func(engine) {
 #
 FuelEfficiency.calcTotalFuel = func {
   var totalFuel = 0;
-  foreach (var tank; props.globals.getNode("/consumables/fuel").getChildren("tank")) {
+  foreach (var tank; input.fuel.getChildren("tank")) {
     var fuelLevelNode = tank.getNode("level-lb");
     if (fuelLevelNode == nil) {
       fuelLevelNode = tank.getNode("level-lbs");
@@ -164,7 +237,7 @@ FuelEfficiency.estimateTotalRange = func {
   var curPos = me.pos.get();
   var distance_so_far = calcDistance(me.posOrigin, me.pos) / 1000 * 0.5399568 ;
   var total_range = me.range + distance_so_far;
-  setprop("/sim/gui/dialogs/performance-monitor/total-range", total_range);
+  input.perfRangeTotal.setValue(total_range);
 }
 
 #
@@ -172,7 +245,7 @@ FuelEfficiency.estimateTotalRange = func {
 #
 FuelEfficiency.estimateCruiseRange = func {
   me.range = me.fuelEfficiency * me.totalFuel;
-  setprop("/sim/gui/dialogs/performance-monitor/range", me.range);
+  input.perfRange.setValue(me.range);
   return me.range;
 }
 
@@ -187,7 +260,7 @@ FuelEfficiency.estimateCruiseTime = func {
   var hour = int(time / 60);
   var min = int(math.mod(time, 60));
   var sec = int(math.mod(time * 60, 60));
-  setprop("/sim/gui/dialogs/performance-monitor/time", sprintf("%02d:%02d:%02d", hour, min, sec));
+  input.perfTime.setValue(sprintf("%02d:%02d:%02d", hour, min, sec));
   return 
 }
 
@@ -198,9 +271,9 @@ FuelEfficiency.estimateCruiseTime = func {
 var AircraftPosition = {};
 AircraftPosition.new = func() {
   var obj = { parents : [AircraftPosition] };
-  obj.lonNode = props.globals.getNode("/position/longitude-deg", 1);
-  obj.latNode = props.globals.getNode("/position/latitude-deg", 1);
-  obj.altNode = props.globals.getNode( "/position/altitude-agl-ft", 1 );
+  obj.lonNode = input.lon;
+  obj.latNode = input.lat;
+  obj.altNode = input.altAgl;
   return obj;
 }
 
@@ -255,8 +328,8 @@ TakeoffDistance.reinit = func()
 TakeoffDistance.calcDistance = func() {
   var dist_m = calcDistance(me.startPosition, me.endPosition);
   var dist_ft = dist_m * 3.2808399;
-  setprop("/sim/gui/dialogs/performance-monitor/to-dist-ft", dist_ft);
-  setprop("/sim/gui/dialogs/performance-monitor/to-dist-m", dist_m);
+  input.perfDistFt.setValue(dist_ft);
+  input.perfDistM.setValue(dist_m);
 }
 
 TakeoffDistance.update = func() {
@@ -266,7 +339,7 @@ TakeoffDistance.update = func() {
   me.curPos = me.position.get();
   me.endPosition = me.position.get();
   me.calcDistance();
-  if (getprop("/gear/gear/wow") == 0 and getprop("/gear/gear[1]/wow") == 0 and getprop("/gear/gear[2]/wow") == 0) {
+  if (input.wow0.getValue() == 0 and input.wow1.getValue() == 0 and input.wow2.getValue() == 0) {
     me.isRunning = 0;
   }
 }
@@ -299,8 +372,8 @@ LandingDistance.properties = func() {
 LandingDistance.reinit = func() {
   me.isAvailable = 0;
   me.isRunning = 0;
-  setprop("/sim/gui/dialogs/performance-monitor/land-dist-ft", 0);
-  setprop("/sim/gui/dialogs/performance-monitor/land-dist-m", 0);
+  input.perfDistLandFt.setValue(0);
+  input.perfDistLandM.setValue(0);
 }
 
 LandingDistance.activate = func() {
@@ -321,7 +394,7 @@ LandingDistance.update = func() {
     me.isAvailable = 1;
     screen.log.write("Landing Distance Monitor is available");
   }
-  if ((getprop("/gear/gear/wow") == 1 or getprop("/gear/gear[1]/wow") == 1 or getprop("/gear/gear[2]/wow") == 1) and me.isAvailable == 1) {
+  if ((input.wow0.getValue() == 1 or input.wow1.getValue() == 1 or input.wow2.getValue() == 1) and me.isAvailable == 1) {
     screen.log.write("Measuring landing distance..");
     me.activate();
     return;
@@ -329,7 +402,7 @@ LandingDistance.update = func() {
 }
 
 LandingDistance.autoland = func() {
-  var speed = getprop("/velocities/groundspeed-kt");
+  var speed = input.speedG.getValue();
   if (speed < 0.1) {
     screen.log.write("Landed.");
     #setprop("/controls/gear/brake-left", 0.0);
@@ -341,9 +414,9 @@ LandingDistance.autoland = func() {
   me.endPos = me.position.get();
   var dist_m = calcDistance(me.startPos, me.endPos);
   var dist_ft = dist_m * 3.2808399;
-  setprop("/sim/gui/dialogs/performance-monitor/land-dist-ft", dist_ft);
-  setprop("/sim/gui/dialogs/performance-monitor/land-dist-m", dist_m);
-  if (getprop("/gear/gear[1]/compression-norm") > 0.05) {
+  input.perfDistLandFt.setValue(dist_ft);
+  input.perfDistLandM.setValue(dist_m);
+  #if (getprop("/gear/gear[1]/compression-norm") > 0.05) {
     # disengage autopilot locks
     #setprop("/autopilot/locks/altitude", '');
     #setprop("/autopilot/locks/heading", '');
@@ -352,12 +425,12 @@ LandingDistance.autoland = func() {
     # auto throttle off
     #setprop("/controls/engines/engine[0]/throttle", 0);
     #setprop("/controls/engines/engine[1]/throttle", 0);
-  }
-  if (getprop("/gear/gear/compression-norm") > 0.05) {
+  #}
+  #if (getprop("/gear/gear/compression-norm") > 0.05) {
     # auto brake when front nose is on the ground
     #setprop("/controls/gear/brake-left", 0.4);
     #setprop("/controls/gear/brake-right", 0.4);
-  }
+  #}
 }
 
 #
@@ -395,23 +468,23 @@ MiscMonitor.properties = func() {
 
 MiscMonitor.update = func()
 {
-  setprop("/sim/gui/dialogs/performance-monitor/mach", getprop("/velocities/mach"));
-#  setprop("/sim/gui/dialogs/performance-monitor/glideslope", getprop("/velocities/glideslope")*100);
-  setprop("/sim/gui/dialogs/performance-monitor/climb-rate", getprop("/velocities/vertical-speed-fps") * 60);
-  setprop("/sim/gui/dialogs/performance-monitor/groundspeed", getprop("/velocities/groundspeed-kt"));
-  setprop("/sim/gui/dialogs/performance-monitor/TAS", getprop("/velocities/airspeed-kt"));
-  setprop("/sim/gui/dialogs/performance-monitor/angleofattack", getprop("/orientation/alpha-deg"));
-  setprop("/sim/gui/dialogs/performance-monitor/gforce", getprop("/sim/ja37/accelerations/pilot-G"));
-  setprop("/sim/gui/dialogs/performance-monitor/roll-rate", getprop("/fdm/jsbsim/velocities/p-aero-rad_sec")*57.296);
-  setprop("/sim/gui/dialogs/performance-monitor/turn-rate", getprop("/fdm/jsbsim/velocities/psidot-rad_sec")*57.296);
-  setprop("/sim/gui/dialogs/performance-monitor/turn-radius", getprop("/fdm/jsbsim/systems/flight/turning-radius-nm"));
-  setprop("/sim/gui/dialogs/performance-monitor/sink-rate", getprop("/fdm/jsbsim/velocities/v-down-fps") * 0.3048);
-  setprop("/sim/gui/dialogs/performance-monitor/wind-dir", getprop("/environment/wind-from-heading-deg"));
-  setprop("/sim/gui/dialogs/performance-monitor/wind-kt", getprop("/environment/wind-speed-kt"));
-  setprop("/sim/gui/dialogs/performance-monitor/temp", getprop("/environment/temperature-degc"));
-  setprop("/sim/gui/dialogs/performance-monitor/alt", getprop("/position/altitude-ft"));
-  setprop("/sim/gui/dialogs/performance-monitor/inhg", getprop("/environment/pressure-inhg"));
-  setprop("/sim/gui/dialogs/performance-monitor/density", getprop("/environment/density-slugft3"));
+  #  setprop("/sim/gui/dialogs/performance-monitor/glideslope", getprop("/velocities/glideslope")*100);
+  input.perfMach.setValue(input.mach.getValue());
+  input.perfClimb.setValue(input.speedV.getValue()*60);
+  input.perfSpeedG.setValue(input.speedG.getValue());
+  input.perfTAS.setValue(input.speedAir.getValue());
+  input.perfAlpha.setValue(input.alpha.getValue());
+  input.perfG.setValue(input.G.getValue());
+  input.perfRoll.setValue(input.p.getValue()*57.296);
+  input.perfTurnRate.setValue(input.psiDot.getValue()*57.296);
+  input.perfTurnRad.setValue(input.turnRad.getValue());
+  input.perfSink.setValue(input.speedD.getValue()* 0.3048);
+  input.perfWindDir.setValue(input.windDir.getValue());
+  input.perfWindKt.setValue(input.windKt.getValue());
+  input.perfTemp.setValue(input.temp.getValue());
+  input.perfAlt.setValue(input.alt.getValue());
+  input.perfInhg.setValue(input.inhg.getValue());
+  input.perfRho.setValue(input.slug.getValue());
 }
 
 MiscMonitor.reinit = func() {
@@ -436,18 +509,28 @@ AeroMonitor.properties = func() {
     { property : "ratio-thrust-weight", name : "Thrust/weight Ratio", format : "%3.2f", unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
     { property : "ratio-thrust-drag",   name : "Thrust/Drag Ratio",   format : "%3.2f", unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
     { property : "excess-thrust",       name : "Excess Thrust",       format : "%5d",   unit : "lbf",   halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
-    #{ property : "static-margin",       name : "Static Margin",       format : "%1.2f", unit : "meter", halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "static-margin",       name : "Static Margin",       format : "%1.2f", unit : "meter", halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "stall",               name : "Stall",               format : "%s",    unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
+    { property : "spin",                name : "Spin",                format : "%s",    unit : "",      halign : "right", red: 1.0, green: 0.65, blue: 0.65 },
   ]
 }
 
 AeroMonitor.update = func()
 {
-  setprop("/sim/gui/dialogs/performance-monitor/excess-thrust", getprop("fdm/jsbsim/systems/flight/excess-thrust-lb"));
-  setprop("/sim/gui/dialogs/performance-monitor/ratio-lift-drag", getprop("fdm/jsbsim/systems/flight/lift-drag-ratio"));
-  setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-weight", getprop("fdm/jsbsim/systems/flight/thrust-weight-ratio"));
-  setprop("/sim/gui/dialogs/performance-monitor/ratio-lift-weight", getprop("fdm/jsbsim/systems/flight/lift-weight-ratio"));
-  setprop("/sim/gui/dialogs/performance-monitor/ratio-thrust-drag", getprop("fdm/jsbsim/systems/flight/thrust-drag-ratio"));
-  #setprop("/sim/gui/dialogs/performance-monitor/static-margin", ((getprop("fdm/jsbsim/metrics/aero-rp-x-in")+getprop("fdm/jsbsim/metrics/aero-rp-shift-mac")*291.338)-getprop("fdm/jsbsim/inertia/cg-x-in"))*0.0254);
+  input.perfExcess.setValue(input.excess.getValue());
+  input.perfLd.setValue(input.ld.getValue());
+  input.perfTw.setValue(input.tw.getValue());
+  input.perfLw.setValue(input.lw.getValue());
+  input.perfTd.setValue(input.td.getValue());
+  input.perfMargin.setValue((input.rp.getValue()+input.rpShift.getValue()*291.338-input.cg.getValue())*0.0254);
+
+  var stall = input.stall.getValue();
+  var stallText = stall == 1?"True":"False";
+  input.perfStall.setValue(stallText);
+
+  var spin = input.spin.getValue();
+  var spinText = spin == 1?"True":"False";
+  input.perfSpin.setValue(spinText);
 }
 
 AeroMonitor.reinit = func() {
