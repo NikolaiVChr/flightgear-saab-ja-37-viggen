@@ -1687,7 +1687,7 @@ Model: Added button that tests the indicator panels.
 Model: Added button that resets trim.
 Model: Replaced the buttons for controlling auto-follow.
 Sim: Added logic for disabling radar altimeter.
-HUD: Added DME support.
+HUD: Added DME support to HUD.
 Sim: Added control logic for fuel system controls.
 Aero: Moved aerodynamic center to 25.7% chord of leading edge.
 Aero: Keeping static margin at empty fuel tanks, but with pilot, at 0.3 meter.
@@ -1695,4 +1695,20 @@ GUI: Added static margin to performance monitor.
 Sim: Improved fuel tank relative contents and their position.
 Sim: Adjusted pneumatic and hydraulic fuel flow to get some tanks emptied more evenly when collecter tank isn't full.
 Model: {JazzTp} Added a air condition temperature knob.
-JA37: Implemented mach tuck in transonic regime.
+Aero: Implemented mach tuck in transonic/supersonic regime.
+Sim: Fuel system is now controlable.
+Effect: Added shading to panel handles.
+Effect: {JazzTp} Fixed shader problem by removing alpha channel in textures.
+Model: Added weapon selector.
+Aero: Updated inertia with values computed by Datcom+ Pro.
+Aero: Much more complete axial force due to flaps and elevons.
+Aero: Improvement to length of tail force arms.
+Aero: Moved the aerodynamical center forward from the quarter chord due to landing gear being placed too much forward on the model.
+Model: {JazzTp} Added a (still non-working) weapon mode switch.
+Sound: Added stall warning and activated its switch A for it.
+Effect: Made aerobatic smoke require DC voltage.
+GUI: Added refuling options to menu.
+Animation: Removed gears dependcy on select animations. This should reduce the lag when gears retract.
+Model: Fixed UV and geometry problems in inlets.
+Model: Fixed most UV mappings that made black stripes in fixed pipeline with ubershader.
+Effect: Put cockpit shading on alot of controls, to enable floodlight on them.
