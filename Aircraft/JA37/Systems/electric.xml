@@ -477,7 +477,7 @@
                 <product>
                     <property>/controls/lighting/flood-knob</property>
                     <property>/systems/electrical/dc-light</property>
-                    <value>0.5</value>
+                    <value>0.35</value>
                 </product>
             </function>
             <clipto>

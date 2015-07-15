@@ -1712,3 +1712,5 @@ Animation: Removed gears dependcy on select animations. This should reduce the l
 Model: Fixed UV and geometry problems in inlets.
 Model: Fixed most UV mappings that made black stripes in fixed pipeline with ubershader.
 Effect: Put cockpit shading on alot of controls, to enable floodlight on them.
+GUI: Added JazzTp to authors of aircraft.
+GUI: Refuel manu for long distance will now attach the drop tank, if it was jettisoned.
