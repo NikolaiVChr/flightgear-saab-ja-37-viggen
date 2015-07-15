@@ -210,12 +210,44 @@
       </center>
   </animation>
 
-  <animation>
+  <!--<animation>
   <type>select</type>
   <object-name>ext-power</object-name>
   <condition>
     <property>fdm/jsbsim/systems/electrical/external/available</property>
   </condition>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>ext-power</object-name>
+  <property>fdm/jsbsim/systems/electrical/external/available</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
 <animation>
@@ -237,16 +269,49 @@
   </axis>
  </animation>
 
-<animation>
+<!--<animation>
   <type>select</type>
   <object-name>glassOuter</object-name>
   <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
+    <property>sim/multiplay/generic/int[1]</property>
   </condition>
- </animation>
+ </animation>-->
 
+ <animation>
+  <type>scale</type>
+  <object-name>glassOuter</object-name>
+  <object-name>glassInternal</object-name>
+  <object-name>canopy</object-name>
+  <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
 
  <animation>
   <type>rotate</type>
@@ -304,14 +369,47 @@
   </emission>
  </animation>
 
- <animation>
+ <!--<animation>
   <type>select</type>
   <condition>
     <property>sim/ja37/supported/hud</property>
   </condition>
   <object-name>hud</object-name>
   <object-name>hudStruts</object-name>
-</animation>
+</animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>hud</object-name>
+  <object-name>hudStruts</object-name>
+  <property>sim/ja37/supported/hud</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
 
 <animation>
   <type>rotate</type>
@@ -452,7 +550,7 @@
   </axis>
  </animation>
 
-<animation>
+<!--<animation>
   <type>select</type>
   <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
@@ -462,29 +560,48 @@
   <object-name>lightLeft</object-name>
   <object-name>wingRight</object-name>
   <object-name>wingLeft</object-name>
-  <!--<object-name>gearRight</object-name>
-  <object-name>gearRightHinge</object-name>
-  <object-name>gearRightTop</object-name>
-  <object-name>gearLeft</object-name>
-  <object-name>gearLeftHinge</object-name>
-  <object-name>gearLeftTop</object-name>
-  <object-name>gearLeftDoorsOpen</object-name>
-  <object-name>gearRightDoorsOpen</object-name>
-  <object-name>gearLeftDoorsClosed</object-name>
-  <object-name>gearRightDoorsClosed</object-name>
-  <object-name>wheelRight1</object-name>
-  <object-name>wheelRight2</object-name>
-  <object-name>wheelLeft1</object-name>
-  <object-name>wheelLeft2</object-name>
-  <object-name>landingLightLeft</object-name>
-  <object-name>landingLightRight</object-name>
-  <object-name>missile</object-name>
-  <object-name>missile1</object-name>
-  <object-name>pod0</object-name>
-  <object-name>pod1</object-name>-->
   <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <property>sim/multiplay/generic/int[2]</property>
   </condition>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <object-name>lightRight</object-name>
+  <object-name>lightLeft</object-name>
+  <object-name>wingRight</object-name>
+  <object-name>wingLeft</object-name>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
 <animation>
@@ -512,7 +629,7 @@
 <!-- front  -->
 
 
-<animation>
+<!--<animation>
   <type>select</type>
   <condition>
    <equals>
@@ -521,19 +638,85 @@
    </equals>
   </condition>
   <object-name>gearFrontDoorsClosed</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearFrontDoorsClosed</object-name>
+  <property>gear/gear[0]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
-<animation>
+<!--<animation>
   <type>select</type>
   <condition>
    <greater-than>
-    <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+    <property>gear/gear[0]/position-norm</property>
     <value>0.0</value>
    </greater-than>
   </condition>
   <object-name>gearFrontDoorsOpenLeft</object-name>
   <object-name>gearFrontDoorsOpenRight</object-name>
   <object-name>frontLandingLightGlare</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <object-name>gearFrontDoorsOpenRight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
 <animation>
@@ -781,22 +964,94 @@
 <!-- left  -->
 
 
- <animation>
+ <!--<animation>
   <type>select</type>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <property>sim/multiplay/generic/int[2]</property>
    <equals>
     <property>gear/gear[1]/position-norm</property>
     <value>0.0</value>
    </equals>
   </condition>
   <object-name>gearLeftDoorsClosed</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  </condition>
+  <property>gear/gear[1]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
 <animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <condition>
+   <not>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<!--<animation>
   <type>select</type>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <property>sim/multiplay/generic/int[2]</property>
   </condition>
   <object-name>gearLeftMid</object-name>
   <object-name>gearLeftOleoStrut</object-name>
@@ -810,18 +1065,133 @@
   <object-name>gearLeftLight</object-name>
   <object-name>leftLandingLightGlare</object-name>
   <object-name>gearLeftDoorsOpen</object-name>
- </animation>
+ </animation>-->
 
 <animation>
+  <type>scale</type>
+  <object-name>gearLeftMid</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>gearLeftWheel1</object-name>
+  <object-name>gearLeftWheel2</object-name>
+  <object-name>gearLeftLight</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<!--<animation>
   <type>select</type>
   <condition>
-   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <property>sim/multiplay/generic/int[2]</property>
    <greater-than>
     <property>gear/gear[1]/position-norm</property>
     <value>0.0</value>
    </greater-than>
   </condition>
   <object-name>gearLeftDoorsOpen</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  </condition>
+  <property>gear/gear[1]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <condition>
+    <not>
+      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
 <animation>
@@ -843,7 +1213,7 @@
     <dep> 0.10 </dep>
    </entry>
    <entry>
-    <ind> 0.01 </ind>
+    <ind> 0.001 </ind>
     <dep> 1.00 </dep>
    </entry>
   </interpolation>
@@ -1037,22 +1407,94 @@
 <!--      right       -->
 
 
-<animation>
+<!--<animation>
   <type>select</type>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <property>sim/multiplay/generic/int[2]</property>
    <equals>
     <property>gear/gear[2]/position-norm</property>
     <value>0.0</value>
    </equals>
   </condition>
   <object-name>gearRightDoorsClosed</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsClosed</object-name>
+  <condition>
+      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  </condition>
+  <property>gear/gear[2]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
-<animation>
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsClosed</object-name>
+  <condition>
+    <not>
+      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<!--<animation>
   <type>select</type>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <property>sim/multiplay/generic/int[2]</property>
   </condition>
   <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
@@ -1065,18 +1507,132 @@
   <object-name>gearRightWheel2</object-name>
   <object-name>gearRightLight</object-name>
   <object-name>rightLandingLightGlare</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightMid</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearRightWheel1</object-name>
+  <object-name>gearRightWheel2</object-name>
+  <object-name>gearRightLight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
-<animation>
+<!--<animation>
   <type>select</type>
   <condition>
-   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <property>sim/multiplay/generic/int[2]</property>
    <greater-than>
     <property>gear/gear[2]/position-norm</property>
     <value>0.0</value>
    </greater-than>
   </condition>
   <object-name>gearRightDoorsOpen</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <condition>
+      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  </condition>
+  <property>gear/gear[2]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <condition>
+    <not>
+      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
  </animation>
 
 <animation>
@@ -1098,7 +1654,7 @@
     <dep> 0.10 </dep>
    </entry>
    <entry>
-    <ind> 0.01 </ind>
+    <ind> 0.001 </ind>
     <dep> 1.00 </dep>
    </entry>
   </interpolation>
