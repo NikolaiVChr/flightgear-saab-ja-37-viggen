@@ -215,8 +215,15 @@
     <name>radar</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.450</x-m>
-      <y-m>  0.080</y-m>
+	  
+      <!-- ORIG x-m>  0.450</x-m>
+      <y-m>  0.080</y-m -->
+	  
+      <!-- POST RADAR CONTROL x-m>  0.430</x-m>
+      <y-m>  0.100</y-m -->
+	  
+      <x-m>  0.600</x-m>
+      <y-m>  0.100</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -226,8 +233,14 @@
     <name>radar screen</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.450</x-m>
-      <y-m>  0.050</y-m>
+      <!-- ORIG x-m>  0.450</x-m>
+      <y-m>  0.050</y-m -->
+	  
+      <!-- POST RADAR CONTROL 0.430</x-m>
+      <y-m>  0.070</y-m -->
+	  
+      <x-m>  0.600</x-m>
+      <y-m>  0.070</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -335,7 +348,7 @@
     <name>radar control</name>
     <offsets>
 	  <pitch-deg>-10</pitch-deg>
-      <x-m>  0.520</x-m>
+      <x-m>  0.510</x-m>
 	  <y-m>  0.085</y-m>
       <z-m>  0.0 </z-m>
     </offsets>

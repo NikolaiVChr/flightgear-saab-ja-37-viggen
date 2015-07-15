@@ -16,7 +16,7 @@ OBJECT poly
 name "BoltL_cap"
 loc 0.0313834 0.0104372 0.0186505
 crease 34.99999983559887
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 72
 0.0000000 0.0023654 0.0026250
@@ -532,7 +532,7 @@ OBJECT poly
 name "BoltL_hexagon"
 loc 0.0313834 0.0104372 0.0186505
 crease 34.99999983559887
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 12
 -0.0028041 0.0020945 -0.0000000
@@ -613,7 +613,7 @@ OBJECT poly
 name "BoltR_cap"
 loc 0.0313835 0.0104372 -0.0186505
 crease 34.99999983559887
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 72
 0.0000000 0.0023654 -0.0026250
@@ -1129,7 +1129,7 @@ OBJECT poly
 name "BoltR_hexagon"
 loc 0.0313835 0.0104372 -0.0186505
 crease 34.99999983559887
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 12
 -0.0002757 -0.0034891 0.0000000
@@ -1210,7 +1210,7 @@ OBJECT poly
 name "BoltSmall_cap"
 loc -0.0255214 0.0188175 0.0167965
 crease 36.00000100179127
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 60
 0.0000040 0.0015914 -0.0014378
@@ -1645,7 +1645,7 @@ OBJECT poly
 name "BoltSmall_hexagon"
 loc -0.0255214 0.0188175 0.0167965
 crease 34.99999983559887
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 12
 0.0004481 0.0000000 -0.0020740
@@ -1726,7 +1726,7 @@ OBJECT poly
 name "Bone"
 loc -0.0000000 0.0192566 0.0000000
 crease 42.00000116875648
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 20
 0.0040143 -0.0037571 -0.0035000
@@ -1825,7 +1825,7 @@ OBJECT poly
 name "Handle"
 loc -0.0000000 0.0192566 0.0000000
 crease 70.0000065013869
-texture "../black_1a1817_rubberGrip.png"
+texture "black_1a1817_rubberGrip.png"
 texrep 1 1
 numvert 2114
 -0.0251532 -0.0043157 0.0003419
@@ -18732,7 +18732,7 @@ OBJECT poly
 name "KnobL_knurledFaces"
 loc 0.0313834 0.0104372 0.0160254
 crease 30.000000834826057
-texture "../black_hex191919_knurled_evenStronger.png"
+texture "black_hex191919_knurled_evenStronger.png"
 texrep 1 1
 numvert 50
 0.0114306 -0.0027881 -0.0026250
@@ -18966,7 +18966,7 @@ OBJECT poly
 name "KnobL_smoothFaces"
 loc 0.0313834 0.0104372 0.0160254
 crease 30.000000834826057
-texture "../black_hex191919_uniform.png"
+texture "black_hex191919_uniform.png"
 texrep 1 1
 numvert 50
 0.0114306 -0.0027881 -0.0026250
@@ -19081,7 +19081,7 @@ OBJECT poly
 name "KnobR_knurledFaces"
 loc 0.0313834 0.0104372 -0.0160254
 crease 30.000000834826057
-texture "../black_hex191919_knurled_evenStronger.png"
+texture "black_hex191919_knurled_evenStronger.png"
 texrep 1 1
 numvert 50
 -0.0114306 -0.0027881 0.0026250
@@ -19315,7 +19315,7 @@ OBJECT poly
 name "KnobR_smoothFaces"
 loc 0.0313834 0.0104372 -0.0160254
 crease 30.000000834826057
-texture "../black_hex191919_uniform.png"
+texture "black_hex191919_uniform.png"
 texrep 1 1
 numvert 50
 -0.0114306 -0.0027881 0.0026250
@@ -19430,7 +19430,7 @@ OBJECT poly
 name "KnobSmall_knurledFaces"
 loc -0.0255184 0.0140853 0.0167828
 crease 30.000000834826057
-texture "../black_hex191919_knurled_evenStronger.png"
+texture "black_hex191919_knurled_evenStronger.png"
 texrep 1 1
 numvert 100
 -0.0000000 -0.0000000 -0.0035488
@@ -19889,7 +19889,7 @@ OBJECT poly
 name "KnobSmall_smoothFaces"
 loc -0.0255184 0.0140853 0.0167828
 crease 30.000000834826057
-texture "../black_hex191919_uniform.png"
+texture "black_hex191919_uniform.png"
 texrep 1 1
 numvert 174
 -0.0000000 -0.0000000 -0.0035488
@@ -20571,7 +20571,7 @@ OBJECT poly
 name "Mount"
 loc 0.0048231 0.0000000 0.0000000
 crease 47.000000169529294
-texture "../black_hex191919_uniform.png"
+texture "black_hex191919_uniform.png"
 texrep 1 1
 numvert 130
 0.0147608 0.0049203 0.0221404
@@ -21511,7 +21511,7 @@ OBJECT poly
 name "Ring"
 loc 0.0000000 0.0189203 0.0000000
 crease 30.000000834826057
-texture "../alu.png"
+texture "alu.png"
 texrep 1 1
 numvert 192
 0.0000000 0.0000000 -0.0160804
