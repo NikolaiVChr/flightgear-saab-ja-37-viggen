@@ -43,7 +43,7 @@
     </center>
 </animation>-->
 
-  <animation>
+  <!--<animation>
     <type>select</type>
     <object-name>seat</object-name>
     <condition>
@@ -52,7 +52,7 @@
         <value>1</value>
       </equals>
     </condition>
-  </animation>
+  </animation>-->
 
   <model> 
     <path>Aircraft/JA37/Models/Cockpit/seat/seat.xml</path>
