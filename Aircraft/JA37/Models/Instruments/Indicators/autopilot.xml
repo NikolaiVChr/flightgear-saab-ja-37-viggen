@@ -3,6 +3,11 @@
 <PropertyList>
     <path>autopilot.ac</path>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Plane.001</object-name>
+    </effect>
+
     <animation>
         <type>material</type>
         <object-name>lampAtt</object-name>

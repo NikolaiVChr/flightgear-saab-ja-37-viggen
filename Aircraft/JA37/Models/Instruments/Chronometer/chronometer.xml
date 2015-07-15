@@ -9,6 +9,11 @@
         <object-name>ChronoGlass</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>CLOCK_mount</object-name>
+    </effect>
+
     <!-- START CLOCK -->
     <animation>
         <type>rotate</type>

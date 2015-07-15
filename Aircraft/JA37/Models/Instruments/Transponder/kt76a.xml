@@ -12,6 +12,14 @@
 
     <path>kt76a.ac</path>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Front</object-name>
+        <object-name>Ident</object-name>
+        <object-name>Border</object-name>
+        <!--<object-name>vitre</object-name>-->
+    </effect>
+
     <params>
         <serviceable>instrumentation/transponder/serviceable</serviceable>
 

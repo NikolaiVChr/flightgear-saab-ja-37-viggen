@@ -8,6 +8,11 @@
         <object-name>AI2Glass</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>AI2Cube</object-name>
+    </effect>
+
     <animation>
         <type>pick</type>
         <object-name>AI2Cube</object-name>

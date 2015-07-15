@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <PropertyList>
-
+    
     <!--
   Bendix/King KX155/165 COMM/NAV radio
   Use this instrument as COMM1/NAV1 radio
@@ -46,6 +46,11 @@
     </params>
 
     <path>kx165.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Chassis</object-name>
+    </effect>
 
     <animation>
         <object-name>Chassis</object-name>

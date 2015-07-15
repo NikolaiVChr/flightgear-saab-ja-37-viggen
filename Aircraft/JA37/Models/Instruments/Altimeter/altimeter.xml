@@ -9,6 +9,11 @@
         <object-name>glassAlt1</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Cube</object-name>
+    </effect>
+
     <animation>
         <type>pick</type>
         <object-name>knob</object-name>

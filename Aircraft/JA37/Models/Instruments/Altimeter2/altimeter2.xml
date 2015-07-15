@@ -10,6 +10,12 @@
         <object-name>glass</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>bkg</object-name>
+        <object-name>knob</object-name>
+        <object-name>mount</object-name>
+    </effect>
 
     <animation>
         <type>rotate</type>

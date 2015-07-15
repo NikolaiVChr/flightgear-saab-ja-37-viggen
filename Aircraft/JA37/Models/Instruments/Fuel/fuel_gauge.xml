@@ -7,6 +7,11 @@
         <object-name>FuelGlass</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Gauge</object-name>
+    </effect>
+
     <!--effect>
 	<inherits-from>Effect/model-combined-deferred</inherits-from>
 	<parameters>

@@ -110,7 +110,7 @@
     <object-name>sidepanelLeft</object-name>
     <object-name>sidepanelRight</object-name>
     <object-name>hudRestBack</object-name>
-    <object-name>hudStruts</object-name>
+    <!--<object-name>hudStruts</object-name>-->
     <object-name>plaqueLeftMount</object-name>
     <object-name>plaqueRightMount</object-name>
     <object-name>radarMount</object-name>
@@ -119,7 +119,7 @@
     <object-name>plaqueLeft</object-name>
     <object-name>plaqueRight</object-name>
     <object-name>radarHeading</object-name>
-    <object-name>radarScreen</object-name>
+    <!--<object-name>radarScreen</object-name>-->
     <object-name>seat</object-name>
   </effect>
 
@@ -344,7 +344,7 @@
   </axis>
  </animation> 
 
- <animation>
+ <!--<animation>
   <type>material</type> 
   <object-name>radarHeading</object-name>
   <object-name>plaqueLeft</object-name>
@@ -356,7 +356,7 @@
    <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
    <factor-prop>controls/lighting/instruments-norm</factor-prop>
   </emission>
- </animation>
+ </animation>-->
 
  <animation>
   <type>material</type> 
