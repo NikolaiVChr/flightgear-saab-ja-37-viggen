@@ -964,23 +964,26 @@
 <!-- left  -->
 
 
- <!--<animation>
+ <animation>
   <type>select</type>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>gear/gear[1]/position-norm</property>
     <value>0.0</value>
    </equals>
   </condition>
   <object-name>gearLeftDoorsClosed</object-name>
- </animation>-->
+ </animation>
 
- <animation>
+ <!--<animation>
   <type>scale</type>
   <object-name>gearLeftDoorsClosed</object-name>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <equals>
+      <property>sim/multiplay/generic/int[2]</property>
+      <value>1</value>
+    </equals>
   </condition>
   <property>gear/gear[1]/position-norm</property>
   <interpolation>
@@ -1015,11 +1018,12 @@
   <type>scale</type>
   <object-name>gearLeftDoorsClosed</object-name>
   <condition>
-   <not>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   </not>
+   <equals>
+      <property>sim/multiplay/generic/int[2]</property>
+      <value>0</value>
+    </equals>
   </condition>
-  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <property>sim/multiplay/generic/int[2]</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>
@@ -1046,7 +1050,7 @@
    <y>1.0</y>
    <z>1.0</z>
   </axis>
- </animation>
+ </animation>-->
 
 <!--<animation>
   <type>select</type>
@@ -1110,23 +1114,23 @@
   </axis>
  </animation>
 
-<!--<animation>
+<animation>
   <type>select</type>
   <condition>
-   <property>sim/multiplay/generic/int[2]</property>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <greater-than>
     <property>gear/gear[1]/position-norm</property>
     <value>0.0</value>
    </greater-than>
   </condition>
   <object-name>gearLeftDoorsOpen</object-name>
- </animation>-->
+ </animation>
 
- <animation>
+ <!--<animation>
   <type>scale</type>
   <object-name>gearLeftDoorsOpen</object-name>
   <condition>
-   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <property>sim/multiplay/generic/int[2]</property>
   </condition>
   <property>gear/gear[1]/position-norm</property>
   <interpolation>
@@ -1162,10 +1166,10 @@
   <object-name>gearLeftDoorsOpen</object-name>
   <condition>
     <not>
-      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/int[2]</property>
     </not>
   </condition>
-  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <property>sim/multiplay/generic/int[2]</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>
@@ -1192,7 +1196,7 @@
    <y>1.0</y>
    <z>1.0</z>
   </axis>
- </animation>
+ </animation>-->
 
 <animation>
   <type>scale</type>
@@ -1406,24 +1410,23 @@
 
 <!--      right       -->
 
-
-<!--<animation>
+  <animation>
   <type>select</type>
   <condition>
-    <property>sim/multiplay/generic/int[2]</property>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>gear/gear[2]/position-norm</property>
     <value>0.0</value>
    </equals>
   </condition>
   <object-name>gearRightDoorsClosed</object-name>
- </animation>-->
+ </animation>
 
- <animation>
+ <!--<animation>
   <type>scale</type>
   <object-name>gearRightDoorsClosed</object-name>
   <condition>
-      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/int[2]</property>
   </condition>
   <property>gear/gear[2]/position-norm</property>
   <interpolation>
@@ -1459,10 +1462,10 @@
   <object-name>gearRightDoorsClosed</object-name>
   <condition>
     <not>
-      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/int[2]</property>
     </not>
   </condition>
-  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <property>sim/multiplay/generic/int[2]</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>
@@ -1489,7 +1492,7 @@
    <y>1.0</y>
    <z>1.0</z>
   </axis>
- </animation>
+ </animation>-->
 
 <!--<animation>
   <type>select</type>
@@ -1551,23 +1554,23 @@
   </axis>
  </animation>
 
-<!--<animation>
+<animation>
   <type>select</type>
   <condition>
-   <property>sim/multiplay/generic/int[2]</property>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <greater-than>
     <property>gear/gear[2]/position-norm</property>
     <value>0.0</value>
    </greater-than>
   </condition>
   <object-name>gearRightDoorsOpen</object-name>
- </animation>-->
+ </animation>
 
- <animation>
+ <!--<animation>
   <type>scale</type>
   <object-name>gearRightDoorsOpen</object-name>
   <condition>
-      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/int[2]</property>
   </condition>
   <property>gear/gear[2]/position-norm</property>
   <interpolation>
@@ -1603,10 +1606,10 @@
   <object-name>gearRightDoorsOpen</object-name>
   <condition>
     <not>
-      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/multiplay/generic/int[2]</property>
     </not>
   </condition>
-  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <property>sim/multiplay/generic/int[2]</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>
@@ -1633,7 +1636,7 @@
    <y>1.0</y>
    <z>1.0</z>
   </axis>
- </animation>
+ </animation>-->
 
 <animation>
   <type>scale</type>
