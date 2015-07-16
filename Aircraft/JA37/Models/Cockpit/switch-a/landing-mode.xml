@@ -31,7 +31,7 @@
             <binding>
                 <command>property-assign</command>
                 <property>sim/ja37/hud/landing-mode</property>
-                <value>1</value>
+                <value>0</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -48,7 +48,7 @@
             <binding>
                 <command>property-assign</command>
                 <property>sim/ja37/hud/landing-mode</property>
-                <value>0</value>
+                <value>1</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -69,7 +69,7 @@
             <z-m> -0.00608 </z-m>
         </center>
         <axis>
-            <x>-1.0 </x>
+            <x> 1.0 </x>
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>

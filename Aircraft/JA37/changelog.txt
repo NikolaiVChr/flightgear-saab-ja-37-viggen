@@ -1739,3 +1739,5 @@ Engine: Improved the extrapolation of thrust tables.
 GUI: Faster access to property tree for perf. monitor.
 Aero: Added wave drag to be summed up as lift and drag in performance monitor.
 Aero: Further tuning of wave drag.
+Effect: Floodlight is now dimmed in daylight, only become fully activated in the dark.
+Model: Unified material properties across different cockpit models.
