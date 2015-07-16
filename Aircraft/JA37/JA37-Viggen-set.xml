@@ -287,7 +287,7 @@
             </config>
         </view>
         <view n="110">
-            <name>Selection view (experimental)</name>
+            <name>Selection view</name>
             <type>lookfrom</type>
             <config>
                 <x-offset-m type="double">0.00</x-offset-m>

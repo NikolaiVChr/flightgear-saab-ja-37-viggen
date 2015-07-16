@@ -1746,3 +1746,5 @@ Model: Added black texture to augementation zone indicator.
 Model: Fixed that part of fuel gauge was flat shaded.
 HUD: Fixed switching off radar alt could freeze HUD.
 Effect: Fixed that afterburner flame size in replay would not reflect zones.
+GUI: Updated aircraft help.
+Sim: Selection view is no longer experimental.
