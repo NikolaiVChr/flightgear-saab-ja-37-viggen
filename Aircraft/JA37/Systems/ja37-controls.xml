@@ -377,14 +377,18 @@
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
-                          0.0         60000.0
-              0.0         0.45           1.0   
-              0.5         0.35           0.75  <!-- roll rate between 125 - 150 degrees/sec with roll damper on -->
-              1.0         0.30           0.45  <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
-              2.2         0.06           0.225 <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
+                                  0.0         60000.0
+                      0.0         0.45           1.0   
+                      0.5         0.35           0.75  <!-- roll rate between 125 - 150 degrees/sec with roll damper on -->
+                      1.0         0.30           0.45  <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
+                      2.2         0.06           0.225 <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
                 </tableData>
             </table>
             <gain>fcs/aileron/limit-factor</gain>
+            <clipto>
+                <min>-1.0</min>
+                <max>1.0</max>
+            </clipto>
             <output>fcs/aileron/cmd-sum-limited</output>
         </scheduled_gain>
 
