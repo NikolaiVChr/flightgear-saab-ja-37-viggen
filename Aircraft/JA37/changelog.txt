@@ -1714,3 +1714,28 @@ Model: Fixed most UV mappings that made black stripes in fixed pipeline with ube
 Effect: Put cockpit shading on alot of controls, to enable floodlight on them.
 GUI: Added JazzTp to authors of aircraft.
 GUI: Refuel manu for long distance will now attach the drop tank, if it was jettisoned.
+Aero: Better data for transonic shift of aerodynamic center. Will result in less mach-tuck.
+Aero: Extrapolated the mach tuck, based on graph for other configuration.
+Aero: Reduced mach tuck to avoid pitch oscillations at full elevator deflection from pitch damper.
+Aero: Adjusted pitch limiter, its now based on IAS instead of Mach.
+Aero: Fixed positive elevator deflection was not anymore double limited.
+Aero: Fixed IAS was not available.
+GUI: Removed mouse control from options.
+GUI: Added stall and spin detection to performance monitor.
+Aero: Adjusted stall detection parameters.
+Aero: Adjusted alpha regime, and did some indenting.
+Aero: Changed drag of elevons to reflect that they have rounded nose.
+Aero: Used Datcom+ pro to get better droptank axial force.
+Aero: Changed twist and incidence of main wing and canards.
+Aero: Semi-tuned FCS to new aerodynamic.
+Sim: Adjusted how autopilot know max ascent rate.
+Aero: When gear is down and speed low, more positive elevator deflection is allowed.
+Aero: Further tuning of fuel mass balance.
+Sim: Can now also detect incoming missiles from the new F-15.
+Aero: Updated exposed area of vertical tail.
+Aero: Further FDM/FCS tuning.
+Sim: Added more data to performance document.
+Engine: Improved the extrapolation of thrust tables.
+GUI: Faster access to property tree for perf. monitor.
+Aero: Added wave drag to be summed up as lift and drag in performance monitor.
+Aero: Further tuning of wave drag.
