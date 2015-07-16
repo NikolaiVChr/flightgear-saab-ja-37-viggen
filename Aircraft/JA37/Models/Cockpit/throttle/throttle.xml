@@ -70,8 +70,8 @@
 		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
         <property>controls/engines/engine[1]/throttle</property>
-        <factor>110.0</factor>
-		<offset-deg>-55</offset-deg>
+        <factor>104.0</factor>
+		<offset-deg>-52</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00 </y-m>
@@ -98,9 +98,9 @@
 					<sum>
 							<product>
 								<property>controls/engines/engine[1]/throttle</property>
-								<value>1.919862 </value> <!-- 110.0 -->
+								<value>1.815142 </value> <!-- 104.0 -->
 							</product>
-							<value> -0.959931 </value> <!-- -55.0 -->
+							<value> -0.907571 </value> <!-- -52.0 -->
 						</sum>
 					<!-- /deg2rad -->
 				</sin>
@@ -130,9 +130,9 @@
 						<sum>
 								<product>
 									<property>controls/engines/engine[1]/throttle</property>
-									<value>1.919862 </value> <!-- 110.0 -->
+									<value>1.815142 </value> <!-- 104.0 -->
 								</product>
-								<value> -0.959931 </value> <!-- -55.0 -->
+								<value> -0.907571 </value> <!-- -52.0 -->
 							</sum>
 						<!-- /deg2rad -->
 					</cos>
