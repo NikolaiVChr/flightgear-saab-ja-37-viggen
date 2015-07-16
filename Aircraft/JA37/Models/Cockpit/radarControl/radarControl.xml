@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>radarControl.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+		<object-name>BoltL_cap</object-name>
+		<object-name>BoltL_hexagon</object-name>
+		<object-name>BoltR_cap</object-name>
+		<object-name>BoltR_hexagon</object-name>
+		<object-name>BoltSmall_cap</object-name>
+		<object-name>BoltSmall_hexagon</object-name>
+		<object-name>Bone</object-name>
+		<object-name>Handle</object-name>
+		<object-name>KnobL_knurledFaces</object-name>
+		<object-name>KnobL_smoothFaces</object-name>
+		<object-name>KnobR_knurledFaces</object-name>
+		<object-name>KnobR_smoothFaces</object-name>
+		<object-name>KnobSmall_knurledFaces</object-name>
+		<object-name>KnobSmall_smoothFaces</object-name>
+		<object-name>Mount</object-name>
+		<object-name>Ring</object-name>
+		<object-name>Wheel_KnurledFaces</object-name>
+		<object-name>Wheel_SmoothFaces</object-name>
+	</effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Handle</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>handle-radar</tooltip-id>
+                <label>Radar control</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

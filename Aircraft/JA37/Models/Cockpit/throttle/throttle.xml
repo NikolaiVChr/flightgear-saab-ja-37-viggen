@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>throttle.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+		<object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+		<object-name>CylinderBASEofROTATION</object-name>
+		<object-name>CylindricGuide</object-name>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapL</object-name>
+		<object-name>HandleCapR</object-name>
+		<object-name>Kernel</object-name>
+		<object-name>Mount</object-name>
+		<object-name>Rot0arm</object-name>
+		<object-name>Rot1-0_bolt</object-name>
+		<object-name>Rot1-0_cyl</object-name>
+		<object-name>Rot1-0_screw</object-name>
+		<object-name>Rot1-0_screwHead</object-name>
+		<object-name>Rot1-2_bolt</object-name>
+		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2cyl</object-name>
+		<object-name>Rot1_arm</object-name>
+		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3cyl</object-name>
+		<object-name>Rot2arm</object-name>
+		<object-name>Rot3-2_bolt</object-name>
+		<object-name>Rot3-2_cyl</object-name>
+		<object-name>Rot3-2_screw</object-name>
+		<object-name>Rot3-2_screwHead</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
+		<object-name>Rot3arm</object-name>
+	</effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Handle</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>handle-throttle</tooltip-id>
+                <label>Throttle control</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+		<object-name>CylinderBASEofROTATION</object-name>
+		<object-name>Kernel</object-name>
+		<object-name>Rot0arm</object-name>
+		<object-name>Rot1-0_bolt</object-name>
+		<object-name>Rot1-0_cyl</object-name>
+		<object-name>Rot1-0_screw</object-name>
+		<object-name>Rot1-0_screwHead</object-name>
+		<object-name>Rot1-2_bolt</object-name>
+		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2cyl</object-name>
+		<object-name>Rot1_arm</object-name>
+		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3cyl</object-name>
+		<object-name>Rot2arm</object-name>
+		<object-name>Rot3-2_bolt</object-name>
+		<object-name>Rot3-2_cyl</object-name>
+		<object-name>Rot3-2_screw</object-name>
+		<object-name>Rot3-2_screwHead</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
+		<object-name>Rot3arm</object-name>
+        <property>controls/engines/engine[1]/throttle</property>
+        <factor>104.0</factor>
+		<offset-deg>-52</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+			<z-m>  .0035903 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> -1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapL</object-name>
+		<object-name>HandleCapR</object-name>
+		<object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+		<expression>
+			<product>
+				<sin>
+					<!-- deg2rad -->
+					<sum>
+							<product>
+								<property>controls/engines/engine[1]/throttle</property>
+								<value>1.815142 </value> <!-- 104.0 -->
+							</product>
+							<value> -0.907571 </value> <!-- -52.0 -->
+						</sum>
+					<!-- /deg2rad -->
+				</sin>
+				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
+			</product>
+		</expression>
+		<axis>
+			<x>-1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+    </animation>
+	
+    <animation>
+        <type>translate</type>
+		<object-name>Handle</object-name>
+		<object-name>HandleCapL</object-name>
+		<object-name>HandleCapR</object-name>
+		<object-name>ButtonBottom</object-name>
+		<object-name>ButtonTop</object-name>
+		<expression>
+			<sum>
+				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
+				<product>
+					<cos>
+						<!-- deg2rad -->
+						<sum>
+								<product>
+									<property>controls/engines/engine[1]/throttle</property>
+									<value>1.815142 </value> <!-- 104.0 -->
+								</product>
+								<value> -0.907571 </value> <!-- -52.0 -->
+							</sum>
+						<!-- /deg2rad -->
+					</cos>
+					<value>-0.1330279</value>
+				</product>
+			</sum>
+		</expression>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+    </animation>
+
+</PropertyList>

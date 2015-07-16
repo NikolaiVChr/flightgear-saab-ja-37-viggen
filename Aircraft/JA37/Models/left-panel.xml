@@ -215,8 +215,8 @@
     <name>radar</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.450</x-m>
-      <y-m>  0.080</y-m>
+      <x-m>  0.600</x-m>
+      <y-m>  0.100</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -226,8 +226,8 @@
     <name>radar screen</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.450</x-m>
-      <y-m>  0.050</y-m>
+      <x-m>  0.600</x-m>
+      <y-m>  0.070</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -315,6 +315,27 @@
       <x-m>  0.70</x-m>
       <y-m>  0.085</y-m>
       <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+  
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/throttle/throttle.xml</path>
+    <name>throttle</name>
+    <offsets>
+      <x-m>  0.460</x-m>
+	  <y-m>  -0.085</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/radarControl/radarControl.xml</path>
+    <name>radar control</name>
+    <offsets>
+	  <pitch-deg>-10</pitch-deg>
+      <x-m>  0.510</x-m>
+	  <y-m>  0.085</y-m>
+      <z-m>  0.0 </z-m>
     </offsets>
   </model>
 
