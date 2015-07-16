@@ -478,6 +478,10 @@
                     <property>/controls/lighting/flood-knob</property>
                     <property>/systems/electrical/dc-light</property>
                     <value>0.35</value>
+                    <difference>
+                        <value>1</value>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </difference>
                 </product>
             </function>
             <clipto>
