@@ -94,15 +94,15 @@
 		<expression>
 			<product>
 				<sin>
-					<!-- deg2rad -->
+					<deg2rad>
 					<sum>
 							<product>
 								<property>controls/engines/engine[1]/throttle</property>
-								<value>1.919862 </value> <!-- 110.0 -->
+								<value>110.0</value>
 							</product>
-							<value> -0.959931 </value> <!-- -55.0 -->
+							<value> -55.0 </value>
 						</sum>
-					<!-- /deg2rad -->
+					</deg2rad>
 				</sin>
 				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
 			</product>
@@ -126,15 +126,15 @@
 				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
 				<product>
 					<cos>
-						<!-- deg2rad -->
+						<deg2rad>
 						<sum>
 								<product>
 									<property>controls/engines/engine[1]/throttle</property>
-									<value>1.919862 </value> <!-- 110.0 -->
+									<value>110.0</value>
 								</product>
-								<value> -0.959931 </value> <!-- -55.0 -->
+								<value> -55.0 </value>
 							</sum>
-						<!-- /deg2rad -->
+						</deg2rad>
 					</cos>
 					<value>-0.1330279</value>
 				</product>

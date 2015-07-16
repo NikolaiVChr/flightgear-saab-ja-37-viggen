@@ -6,14 +6,13 @@
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-		<object-name>ButtonBottom</object-name>
+        <object-name>ButtonBottom</object-name>
 		<object-name>ButtonTop</object-name>
 		<object-name>CylinderBASEofROTATION</object-name>
 		<object-name>CylindricGuide</object-name>
 		<object-name>Handle</object-name>
 		<object-name>HandleCapL</object-name>
 		<object-name>HandleCapR</object-name>
-		<object-name>Kernel</object-name>
 		<object-name>Mount</object-name>
 		<object-name>Rot0arm</object-name>
 		<object-name>Rot1-0_bolt</object-name>
@@ -22,16 +21,16 @@
 		<object-name>Rot1-0_screwHead</object-name>
 		<object-name>Rot1-2_bolt</object-name>
 		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot1-2cyl</object-name>
 		<object-name>Rot1_arm</object-name>
 		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3_screw</object-name>
 		<object-name>Rot2-3cyl</object-name>
 		<object-name>Rot2arm</object-name>
 		<object-name>Rot3-2_bolt</object-name>
 		<object-name>Rot3-2_cyl</object-name>
-		<object-name>Rot3-2_screw</object-name>
 		<object-name>Rot3-2_screwHead</object-name>
-		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
 	</effect>
 
@@ -50,7 +49,6 @@
     <animation>
         <type>rotate</type>
 		<object-name>CylinderBASEofROTATION</object-name>
-		<object-name>Kernel</object-name>
 		<object-name>Rot0arm</object-name>
 		<object-name>Rot1-0_bolt</object-name>
 		<object-name>Rot1-0_cyl</object-name>
@@ -58,17 +56,18 @@
 		<object-name>Rot1-0_screwHead</object-name>
 		<object-name>Rot1-2_bolt</object-name>
 		<object-name>Rot1-2_screw</object-name>
+		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot1-2cyl</object-name>
 		<object-name>Rot1_arm</object-name>
 		<object-name>Rot2-1cyl</object-name>
+		<object-name>Rot2-3_screw</object-name>
 		<object-name>Rot2-3cyl</object-name>
 		<object-name>Rot2arm</object-name>
 		<object-name>Rot3-2_bolt</object-name>
 		<object-name>Rot3-2_cyl</object-name>
-		<object-name>Rot3-2_screw</object-name>
 		<object-name>Rot3-2_screwHead</object-name>
-		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
+		<object-name>HandleCapL</object-name>
         <property>controls/engines/engine[1]/throttle</property>
         <factor>110.0</factor>
 		<offset-deg>-55</offset-deg>
@@ -87,22 +86,21 @@
     <animation>
         <type>translate</type>
 		<object-name>Handle</object-name>
-		<object-name>HandleCapL</object-name>
 		<object-name>HandleCapR</object-name>
-		<object-name>ButtonBottom</object-name>
+        <object-name>ButtonBottom</object-name>
 		<object-name>ButtonTop</object-name>
 		<expression>
 			<product>
 				<sin>
-					<!-- deg2rad -->
+					<deg2rad>
 					<sum>
 							<product>
 								<property>controls/engines/engine[1]/throttle</property>
-								<value>1.919862 </value> <!-- 110.0 -->
+								<value>110.0</value>
 							</product>
-							<value> -0.959931 </value> <!-- -55.0 -->
+							<value> -55.0 </value>
 						</sum>
-					<!-- /deg2rad -->
+					</deg2rad>
 				</sin>
 				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
 			</product>
@@ -117,24 +115,23 @@
     <animation>
         <type>translate</type>
 		<object-name>Handle</object-name>
-		<object-name>HandleCapL</object-name>
 		<object-name>HandleCapR</object-name>
-		<object-name>ButtonBottom</object-name>
+        <object-name>ButtonBottom</object-name>
 		<object-name>ButtonTop</object-name>
 		<expression>
 			<sum>
 				<value>0.1330279</value><!-- 0.1366182 - 0.0035903 -->
 				<product>
 					<cos>
-						<!-- deg2rad -->
+						<deg2rad>
 						<sum>
 								<product>
 									<property>controls/engines/engine[1]/throttle</property>
-									<value>1.919862 </value> <!-- 110.0 -->
+									<value>110.0</value>
 								</product>
-								<value> -0.959931 </value> <!-- -55.0 -->
+								<value> -55.0 </value>
 							</sum>
-						<!-- /deg2rad -->
+						</deg2rad>
 					</cos>
 					<value>-0.1330279</value>
 				</product>
