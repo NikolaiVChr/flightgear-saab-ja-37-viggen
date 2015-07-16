@@ -2,11 +2,11 @@
 <PropertyList>
 
   <!-- *** LoD *** -->
-  <animation>
+  <!--restore<animation>
     <type>range</type>
     <min-m>0</min-m>
     <max-m>5</max-m>
-  </animation>
+  </animation>-->
 
  <model>
     <path>Aircraft/JA37/Models/ja37-panel.xml</path>

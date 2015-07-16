@@ -1668,7 +1668,7 @@ Model: Made the oxygen manometer show the bottle pressure, not the mask pressure
 Animation: Fixed that gauge glasses would be rotated when canopy was opened.
 GUI: Added mask oxygen pressure to systems monitor.
 
-3.029
+3.029 - 2015 July 16
 =====
 Sim: Fixed that autopilot could break off wings by pitching too hard.
 Model: Added a cutoff indicator.
@@ -1741,3 +1741,5 @@ Aero: Added wave drag to be summed up as lift and drag in performance monitor.
 Aero: Further tuning of wave drag.
 Effect: Floodlight is now dimmed in daylight, only become fully activated in the dark.
 Model: Unified material properties across different cockpit models.
+Model: Removed all LOD for FG 3.6.
+Model: Added black texture to augementation zone indicator.
