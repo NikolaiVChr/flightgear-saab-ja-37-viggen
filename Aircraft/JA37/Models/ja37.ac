@@ -4,7 +4,7 @@ MATERIAL "dashpanelMat"     rgb 0.80 0.80 0.80  amb 0.80 0.80 0.80  emis 0.00 0.
 MATERIAL "glassRadarMat"    rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.70
 MATERIAL "hudMat"           rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 1.00 1.00 1.00  spec 1.00 1.00 1.00  shi  50 trans 0.20
 MATERIAL "blackMat"         rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
-MATERIAL "hudRestMat"       rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
+MATERIAL "hudRestMat"       rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
 MATERIAL "bodyMat"          rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
 MATERIAL "glassMat"         rgb 0.33 0.25 0.08  amb 0.22 0.22 0.22  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  75 trans 1.00
 MATERIAL "glassMatInternal" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.55
@@ -13,9 +13,9 @@ MATERIAL "metalMat"         rgb 0.70 0.70 0.70  amb 0.70 0.70 0.70  emis 0.00 0.
 MATERIAL "redLightMat"      rgb 0.50 0.00 0.00  amb 0.31 0.31 0.31  emis 0.00 0.00 0.00  spec 0.50 0.00 0.00  shi  80 trans 0.00
 MATERIAL "greenLightMat"    rgb 0.00 0.50 0.00  amb 0.31 0.31 0.31  emis 0.00 0.00 0.00  spec 0.00 0.50 0.00  shi  80 trans 0.00
 MATERIAL "nozzleMat"        rgb 0.50 0.50 0.50  amb 0.30 0.30 0.30  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  45 trans 0.00
-MATERIAL "plaqueLeftMat"    rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
-MATERIAL "plaqueRightMat"   rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
-MATERIAL "radarHeadingMat"  rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
+MATERIAL "plaqueLeftMat"    rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "plaqueRightMat"   rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "radarHeadingMat"  rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
 MATERIAL "radarScreenMat"   rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
 MATERIAL "reverserMat"      rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  45 trans 0.00
 OBJECT world
