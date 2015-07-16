@@ -1346,7 +1346,7 @@ var HUDnasal = {
         me.alt_med.setText("200");
         me.alt_high.setText("400");
       }
-      if (radAlt < alt) {
+      if (radAlt != nil and radAlt < alt) {
         me.alt_scale_line.show();
       } else {
         me.alt_scale_line.hide();
@@ -1485,13 +1485,13 @@ var HUDnasal = {
       # determine max radar alt in current unit
       var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
       var alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
-      if (radAlt == nil) {
-        # Radar alt instrument not initialized yet.
+      if (radAlt == nil and getprop("controls/altimeter-radar") == 1) {
+        # Radar alt instrument not initialized yet
         me.alt.setText("");
         countQFE = 0;
         QFEcalibrated = FALSE;
         me.input.altCalibrated.setValue(FALSE);
-      } elsif (radAlt < radar_clamp) {
+      } elsif (radAlt != nil and radAlt < radar_clamp) {
         # in radar alt range
         me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
         # check for QFE warning

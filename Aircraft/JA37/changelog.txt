@@ -1743,3 +1743,5 @@ Effect: Floodlight is now dimmed in daylight, only become fully activated in the
 Model: Unified material properties across different cockpit models.
 Model: Removed all LOD for FG 3.6.
 Model: Added black texture to augementation zone indicator.
+Model: Fixed that part of fuel gauge was flat shaded.
+HUD: Fixed switching off radar alt could freeze HUD.
