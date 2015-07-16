@@ -191,6 +191,10 @@
             <property type="string">engines/engine[0]/nozzle-pos-norm</property>
         </signal>
         <signal>
+            <type>float</type>
+            <property type="string">fdm/jsbsim/propulsion/engine/zone-scaled</property>
+        </signal>
+        <signal>
             <type>bool</type>
             <property type="string">engines/engine[0]/augmentation</property>
         </signal>
