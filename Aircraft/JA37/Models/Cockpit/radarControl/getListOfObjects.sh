@@ -2,5 +2,5 @@
 # grep 'name \"' radarControl.ac | sed "s/name\ \"/\<object\-name\>/" | sed "s/\"/\<\/object\-name\>/"
 
 # standard input
-grep 'name \"' - | sed "s/name\ \"/\<object\-name\>/" | sed "s/\"/\<\/object\-name\>/"
+grep 'name \"' - | sed "s/name\ \"/\t\t\<object\-name\>/" | sed "s/\"/\<\/object\-name\>/"
 
