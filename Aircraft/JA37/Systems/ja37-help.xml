@@ -174,7 +174,7 @@
       The vertical tail on the flight path indicator will move/blink according to AoA.
       In tactical mode when the cannon is selected, a fixed crosshair will appear.
       In tactical mode the reticle change if out of ammo.
-      The digital altimeter to the left will use rader below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
+      The digital altimeter to the left will use rader (if radar altimeter enabled) below 100 meters (328 ft), a 'R' is shown. when this happens, and regular altimeter above, up till 9999.
       If the radar-altimeter detects that the altimeter is not calibrated correct, it will blink QFE (happens only below 100 meters (328 ft) above terrain).
       If QFE is displayed, but not blinking, the altimeter have been calibrated correctly.
       The digital airspeed indicator at the bottom, will use Km/h until mach 0.5, after that it will show mach number. If using imperial units, it will show mach number and knots at same time.
@@ -196,15 +196,15 @@
 
       Automatic Thrust reversing
       __________________________
-      This can be enabled in the JA37-Options menu. It will enable the reverse thrust when you touch down with all 3 gears.
-      If you take off from a rough strip or without runway, the ground bumpiness will enable this and prevent you from taking off. So in that case I recommend switching it off.
+      This will enable the reverse thrust when you touch down with all 3 gears.
+      If you take off from a rough strip or without runway, the ground bumpiness will trigger this and prevent you from taking off. So in that case I recommend switching it off.
 
       Using autopilot to follow target
       ________________________________
       The HUD must turned on and a something selected.
       Press 'f'. Then the auto-pilot will enable automatic thrust, pitch and heading control. The plane will now intercept and closely follow the target.
       If the target changes during the intercept, it will not switch to the new target.
-      To stop, press 'F' and disable autopilot control. Or select another and press 'f' again to follow that instead.
+      To stop, press 'F'. Or select another and press 'f' again to follow that instead.
 
       Using the Selection View
       ________________________
