@@ -1683,6 +1683,8 @@ Sim: Adjusted how autopilot know max ascent rate.
 Sim: Can now also detect incoming missiles from the new F-15.
 Sim: Selection view is no longer experimental.
 Sim: Added more data to performance document.
+Sim: All internal fuel tanks are now filled up at start of sim.
+Sim: Throttle position is now also recorded for replay.
 Model: Added a cutoff indicator.
 Model: Fixed edges along radar heading texture.
 Model: Made all gauges mounts have similar material settings.
@@ -1702,8 +1704,12 @@ Model: Unified material properties across different cockpit models.
 Model: Removed all LOD for FG 3.6.
 Model: Added black texture to augementation zone indicator.
 Model: Fixed that part of fuel gauge was flat shaded.
+Model: {JazzTp} Added throttle handle with animation.
+Model: {JazzTp} Added radar handle, no animation.
+Model: {JazzTp} Moved radar switches on left panel more aft and aligned with radar handle.
 Animation: Removed gears depency on select animations as much as possible. This should reduce the lag when gears retract.
 Animation: Fixed regression that rear wheels would not spin.
+Animation: Fixed that nosewheel steering was broken in MP.
 Effect: Added floodlight to cockpit panels, and also a knob to control it. Only works with model shader on.
 Effect: Added knob that will put hot air on windshield to remove fog, it has 5 settings. Only works in ALS.
 Effect: {JazzTp} Fixed shader problem by removing alpha channel in textures.
@@ -1711,9 +1717,11 @@ Effect: Made aerobatic smoke require DC voltage.
 Effect: Put cockpit shading on all controls and instruments, to enable floodlight on them.
 Effect: Floodlight is now dimmed in daylight, only become fully activated in the dark.
 Effect: Fixed that afterburner flame size in replay would not reflect zones.
+Effect: Fixed that lights were broken in MP.
 HUD: Added DME support to HUD.
 HUD: Fixed switching off radar altimeter could freeze HUD.
 Sound: Added stall warning and activated its switch for it.
+Sound: Very high alpha warning should now no longer play when stall warning is playing.
 Aero: Moved aerodynamic center to 25.7% chord of leading edge.
 Aero: Keeping static margin at empty fuel tanks, but with pilot, at 0.3 meter.
 Aero: Implemented mach tuck in transonic/supersonic regime.
@@ -1747,10 +1755,3 @@ GUI: Removed mouse control from options.
 GUI: Added stall and spin detection to performance monitor.
 GUI: Faster access to property tree for perf. monitor.
 GUI: Updated aircraft help.
-Sim: All internal fuel tanks are now filled up at start of sim.
-Sound: Very high alpha warning should now no longer play when stall warning is playing.
-Effect: Fixed that lights were broken in MP.
-Animation: Fixed that nosewheel steering was broken in MP.
-Model: {JazzTp} Added throttle handle with animation.
-Model: {JazzTp} Added radar handle, no animation.
-Model: {JazzTp} Moved radar switches on left panel more aft and aligned with radar handle.
