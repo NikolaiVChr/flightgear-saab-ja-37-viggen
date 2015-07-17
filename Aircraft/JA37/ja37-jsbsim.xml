@@ -394,7 +394,7 @@ Old values:
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 1500 </capacity>
-      <contents unit="KG"> 750 </contents>
+      <contents unit="KG"> 1500 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -409,7 +409,7 @@ Old values:
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 750 </capacity>
-      <contents unit="KG"> 375 </contents>
+      <contents unit="KG"> 750 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -424,7 +424,7 @@ Old values:
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 250 </capacity>
-      <contents unit="KG"> 125 </contents>
+      <contents unit="KG"> 250 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -439,7 +439,7 @@ Old values:
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 250 </capacity>
-      <contents unit="KG"> 125 </contents>
+      <contents unit="KG"> 250 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -454,7 +454,7 @@ Old values:
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 227 </capacity>
-      <contents unit="KG"> 113.5 </contents>
+      <contents unit="KG"> 227 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -469,7 +469,7 @@ Old values:
       </location>
       <radius unit="M"> 0.15 </radius>
       <capacity unit="KG"> 227 </capacity>
-      <contents unit="KG"> 113.5 </contents>
+      <contents unit="KG"> 227 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -484,7 +484,7 @@ Old values:
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 625 </capacity>
-      <contents unit="KG"> 312.5 </contents>
+      <contents unit="KG"> 625 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
@@ -499,7 +499,7 @@ Old values:
       </location>
       <radius unit="M"> 0.50 </radius>
       <capacity unit="KG"> 625 </capacity>
-      <contents unit="KG"> 312.5 </contents>
+      <contents unit="KG"> 625 </contents>
       <temperature> 59 </temperature>
       <density unit="LBS/GAL"> 6.48 </density>
       <type>JP-4</type>
