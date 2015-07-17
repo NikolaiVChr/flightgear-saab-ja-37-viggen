@@ -1751,3 +1751,6 @@ Sim: All internal fuel tanks are now filled up at start of sim.
 Sound: Very high alpha warning should now no longer play when stall warning is playing.
 Effect: Fixed that lights were broken in MP.
 Animation: Fixed that nosewheel steering was broken in MP.
+Model: {JazzTp} Added throttle handle with animation.
+Model: {JazzTp} Added radar handle, no animation.
+Model: {JazzTp} Moved radar switches on left panel more aft and aligned with radar handle.
