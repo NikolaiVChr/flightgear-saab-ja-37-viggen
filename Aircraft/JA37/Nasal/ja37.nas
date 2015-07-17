@@ -648,11 +648,11 @@ var update_loop = func {
     var flash = input.dcVolt.getValue() > 20 and input.switchFlash.getValue() == 1;
     var beacon = input.dcVolt.getValue() > 20 and input.switchBeacon.getValue() == 1;
     var nav = input.dcVolt.getValue() > 20 and input.switchNav.getValue() == 1;
-    input.MPint9.setValue(encode3bits(flash, beacon, nav));
+    input.MPint9.setIntValue(encode3bits(flash, beacon, nav));
 
     # contrails
     var contrails = getprop("environment/temperature-degc") < -40 and getprop("position/altitude-ft") > 19000 and input.n2.getValue() > 50;
-    input.MPint18.setValue(encode3bits(contrails, 0, 0));
+    input.MPint18.setIntValue(encode3bits(contrails, 0, 0));
 
     # smoke
     if (input.dcVolt.getValue() > 20) {
@@ -870,7 +870,7 @@ var speed_loop = func () {
   var wow0 = input.wow0.getValue();
   var wow1 = input.wow1.getValue();
   var wow2 = input.wow2.getValue();
-  input.MPint17.setValue(encode3bits(wow0, wow1, wow2));
+  input.MPint17.setIntValue(encode3bits(wow0, wow1, wow2));
 
   settimer(speed_loop, 0.05);
 }
