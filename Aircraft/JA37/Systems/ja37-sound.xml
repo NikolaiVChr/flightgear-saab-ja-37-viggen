@@ -677,16 +677,14 @@
                     <property>gear/gear/position-norm</property>
                 </not>                                        
                 <not>
-                     <and>
-                        <equals>
-                            <property>fdm/jsbsim/aero/stall-hyst-norm</property>
-                            <value>1</value>
-                        </equals>
-                        <greater-than>
-                            <property>sim/ja37/sound/stall-enabled</property>
-                            <value>1</value>
-                        </greater-than>
-                    </and>
+                    <greater-than>
+                        <property>fdm/jsbsim/aero/stall-hyst-norm</property>
+                        <value>0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>sim/ja37/sound/stall-enabled</property>
+                        <value>0</value>
+                    </greater-than>
                 </not>                    
                 <property>sim/current-view/internal</property>
                 <or>
