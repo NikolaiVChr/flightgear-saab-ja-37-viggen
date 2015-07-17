@@ -215,6 +215,15 @@
       _________
       In FG 3.2+ you can repair failed systems in the old failure dialogs, but there are many systems that the dialogs does not show. To be sure the aircraft is fully repaired you should select the menu option Repair under the JA37 menu.
 
+      Air-conditioning
+      ________________
+      When using ALS, the windshield can fog up under certain conditions. Be sure to remember to enable hot air on windshield to be able to see.
+      The cockpit windshield and canopy might ice up when using ALS. Be sure to set the aircondition right for removing ice and for pilot comfort.
+
+      Unstable fuel configurations
+      ____________________________
+      It is entirely possible to fill the fuel tanks in such a way that the plane become too longitudal unstable. I recommend filling up the internal tanks (except the first) evenly to avoid this. Bringing up the performance monitor you can check the static-margin, if below 0.30 meter the plane is dangerous unstable. Most of the time the automatic fuel system will keep the plane stable but under some conditions it can fail to do that, for example with prolonged aerobatic manouvres. Flying level for some time would remedy this in many cases.
+
       Liveries
       ________
       Livery 59, uses half the texture memory of the other liveries.
