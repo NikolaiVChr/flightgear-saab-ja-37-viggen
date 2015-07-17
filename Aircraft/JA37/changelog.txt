@@ -1708,7 +1708,7 @@ Model: {JazzTp} Added a (still non-working) weapon mode switch.
 Sound: Added stall warning and activated its switch A for it.
 Effect: Made aerobatic smoke require DC voltage.
 GUI: Added refuling options to menu.
-Animation: Removed gears dependcy on select animations. This should reduce the lag when gears retract.
+Animation: Removed gears depency on select animations. This should reduce the lag when gears retract.
 Model: Fixed UV and geometry problems in inlets.
 Model: Fixed most UV mappings that made black stripes in fixed pipeline with ubershader.
 Effect: Put cockpit shading on alot of controls, to enable floodlight on them.
