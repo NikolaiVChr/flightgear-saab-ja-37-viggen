@@ -1747,3 +1747,7 @@ GUI: Removed mouse control from options.
 GUI: Added stall and spin detection to performance monitor.
 GUI: Faster access to property tree for perf. monitor.
 GUI: Updated aircraft help.
+Sim: All internal fuel tanks are now filled up at start of sim.
+Sound: Very high alpha warning should now no longer play when stall warning is playing.
+Effect: Fixed that lights were broken in MP.
+Animation: Fixed that nosewheel steering was broken in MP.
