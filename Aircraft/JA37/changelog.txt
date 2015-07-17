@@ -1707,6 +1707,7 @@ Model: Fixed that part of fuel gauge was flat shaded.
 Model: {JazzTp} Added throttle handle with animation.
 Model: {JazzTp} Added radar handle, no animation.
 Model: {JazzTp} Moved radar switches on left panel more aft and aligned with radar handle.
+Model: Removed redness from what is now textured red area of switch A/D.
 Animation: Removed gears depency on select animations as much as possible. This should reduce the lag when gears retract.
 Animation: Fixed regression that rear wheels would not spin.
 Animation: Fixed that nosewheel steering was broken in MP.
