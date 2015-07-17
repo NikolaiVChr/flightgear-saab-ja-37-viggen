@@ -1718,6 +1718,7 @@ Effect: Put cockpit shading on all controls and instruments, to enable floodligh
 Effect: Floodlight is now dimmed in daylight, only become fully activated in the dark.
 Effect: Fixed that afterburner flame size in replay would not reflect zones.
 Effect: Fixed that lights were broken in MP.
+Effect: Removed normal mapping on rocket pods.
 HUD: Added DME support to HUD.
 HUD: Fixed switching off radar altimeter could freeze HUD.
 Sound: Added stall warning and activated its switch for it.

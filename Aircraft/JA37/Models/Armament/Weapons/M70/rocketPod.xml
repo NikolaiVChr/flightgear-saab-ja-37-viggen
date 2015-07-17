@@ -7,7 +7,7 @@
 	<nopreview/>
 
 	<effect>
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
 	  <object-name>Pod</object-name>
 	</effect>
 
