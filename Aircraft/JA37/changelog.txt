@@ -1748,3 +1748,4 @@ HUD: Fixed switching off radar alt could freeze HUD.
 Effect: Fixed that afterburner flame size in replay would not reflect zones.
 GUI: Updated aircraft help.
 Sim: Selection view is no longer experimental.
+Animation: Fixed regression that rear wheels would not spin.

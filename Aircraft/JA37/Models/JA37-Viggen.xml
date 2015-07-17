@@ -1371,7 +1371,24 @@
     <type>spin</type>
     <object-name>gearLeftWheel1</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <or><!-- wow1: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
     </condition>
     <property>gear/gear[1]/rollspeed-ms</property>
     <factor>31.1692</factor>
@@ -1391,7 +1408,24 @@
     <type>spin</type>
     <object-name>gearLeftWheel2</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[18]</property><!-- gear/gear[1]/wow -->
+      <or><!-- wow1: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
     </condition>
     <property>gear/gear[1]/rollspeed-ms</property>
     <factor>31.1692</factor>
@@ -1811,7 +1845,24 @@
     <type>spin</type>
     <object-name>gearRightWheel1</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <or><!-- wow2: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
     </condition>
     <property>gear/gear[2]/rollspeed-ms</property>
     <factor>31.1692</factor>
@@ -1831,7 +1882,24 @@
     <type>spin</type>
     <object-name>gearRightWheel2</object-name>
     <condition>
-      <property>sim/multiplay/generic/int[19]</property><!-- gear/gear[2]/wow -->
+      <or><!-- wow2: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
     </condition>
     <property>gear/gear[2]/rollspeed-ms</property>
     <factor>31.1692</factor>
