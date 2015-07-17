@@ -11,14 +11,9 @@ Aero: Make cannon pod detachable and have pointweight.
 Aero: Air-brakes, even though they got welded shut in mid 80ties.
 Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
-Model: Adjust instrument materials, and make the gauges look even more similar.
-Model: Proper pilot seat.
-Model: Throttle.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.
-Model: Fix that left flap on the outside has UV texturing that overlap, thus being shaded dark.
-Model: Model proper panels and cockpit layout.
 Model: Put in more working instruments and controls.
 Model: Make gunpod, between the fuselage and droptank.
 Model: The canopy metal should be thinner and unpainted alu.
@@ -32,11 +27,9 @@ Sim: Implement ejection seat. (with parachute?)
 Sim: Make braking parachute.
 Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected? (really not needed)
-Sim: Check that all instruments and instr. lights rely on battery/generator power. Plus on instrument properties, not sim properties.
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground guided missiles.
 Sim: Longer range air2air missiles.
-Sim: Make users of FG HUD able to use tactical features.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Replace generic setValue in nasal with specific types.
@@ -53,7 +46,7 @@ Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Sound: More annunciater warnings and other sounds.
+Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make boxes for desired pitch.
@@ -68,7 +61,6 @@ Bugs:
 --------------
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
-Aero: {JazzTp} Landing in 40KT crosswind usually fails, 25KT crosswind can fail also if upwind rear gear touchdown first.
 Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
 Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
