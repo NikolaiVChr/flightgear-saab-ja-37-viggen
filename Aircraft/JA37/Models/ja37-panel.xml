@@ -363,7 +363,17 @@
     <offsets>
       <x-m>  0.000 </x-m>
       <y-m> -0.145 </y-m>
-      <z-m>  0.115 </z-m>
+      <z-m>  0.125 </z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/callsign.xml</path>
+    <name>callsign</name>
+    <offsets>
+      <x-m> 0.002</x-m>
+      <y-m>-0.20</y-m>
+      <z-m> 0.135</z-m>
     </offsets>
   </model>
 
@@ -610,13 +620,4 @@
     </offsets>
   </model>-->
 
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/callsign.xml</path>
-    <name>callsign</name>
-    <offsets>
-      <x-m> 0.002</x-m>
-      <y-m>-0.21</y-m>
-      <z-m> 0.12</z-m>
-    </offsets>
-  </model>
 </PropertyList>
