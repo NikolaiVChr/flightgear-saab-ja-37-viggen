@@ -1668,7 +1668,7 @@ Model: Made the oxygen manometer show the bottle pressure, not the mask pressure
 Animation: Fixed that gauge glasses would be rotated when canopy was opened.
 GUI: Added mask oxygen pressure to systems monitor.
 
-3.029 - 2015 July 16
+3.029 - 2015 July 17
 =====
 Sim: Fixed that autopilot could break off wings by pitching too hard.
 Sim: Made improvement to logic of indicator panels.

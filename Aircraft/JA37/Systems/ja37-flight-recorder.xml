@@ -60,10 +60,10 @@
             <type>float</type>
             <property type="string">velocities/groundspeed-kt</property>
         </signal>
-        <signal>
+        <!--<signal>
             <type>float</type>
             <property type="string">controls/engines/engine[0]/throttle</property>
-        </signal>
+        </signal>-->
         <signal>
             <type>bool</type>
             <property type="string">fdm/jsbsim/systems/crash-detect/crashed</property>
