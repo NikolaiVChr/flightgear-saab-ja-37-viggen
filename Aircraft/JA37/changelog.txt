@@ -1757,3 +1757,4 @@ GUI: Removed mouse control from options.
 GUI: Added stall and spin detection to performance monitor.
 GUI: Faster access to property tree for perf. monitor.
 GUI: Updated aircraft help.
+GUI: Updated checklists to the new cockpit.

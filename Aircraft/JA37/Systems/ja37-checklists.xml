@@ -8,10 +8,10 @@
             <name>Canopy</name>
             <value>CLOSE (O)</value>
             <marker>
-                <x-m> -3.65</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7628</x-m>
+                <y-m>-0.3240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -29,10 +29,10 @@
             <name>Parking Brakes</name>
             <value>SET (shift-B)</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.2628</x-m>
+                <y-m>-0.3512</y-m>
+                <z-m>-0.0727</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -67,10 +67,10 @@
             <name>Generator</name>
             <value>OFF</value>
             <marker>
-                <x-m> -3.69</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7223</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -92,10 +92,10 @@
             <name>Power supply selector</name>
             <value>Generator</value>
             <marker>
-                <x-m> -3.59</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.6975</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.0959</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-toggle</command>
@@ -114,10 +114,10 @@
             <name>Battery</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.63</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.3917</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-toggle</command>
@@ -134,12 +134,12 @@
         </item>
         <item>
             <name>Cutoff</name>
-            <value>ON</value>
+            <value>CLOSED</value>
             <marker>
-                <x-m> -3.65</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.4223</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -159,10 +159,10 @@
             <name>Start engine</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7322</x-m>
+                <y-m>-0.4727</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -196,12 +196,12 @@
         </item>
         <item>
             <name>Cutoff</name>
-            <value>OFF</value>
+            <value>OPEN</value>
             <marker>
-                <x-m> -3.65</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.4223</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -221,10 +221,10 @@
             <name>Generator</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.69</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7223</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -262,10 +262,10 @@
             <name>Main electricity</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.61</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.4463</y-m>
+                <z-m>0.1215</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-toggle</command>
@@ -284,10 +284,10 @@
             <name>Engine starter</name>
             <value>OFF</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7322</x-m>
+                <y-m>-0.4727</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -307,10 +307,10 @@
             <name>Nose wheel steering</name>
             <value>ON (M)</value>
             <marker>
-                <x-m> -3.69</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.5628</x-m>
+                <y-m>-0.3868</y-m>
+                <z-m>0.0273</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -327,20 +327,20 @@
             <name>Set HUD Units</name>
             <value>Metric or Imperial (Shift-I)</value>
             <marker>
-                <x-m> -3.995</x-m>
-                <y-m>  0.092</y-m>
-                <z-m>  0.3925</z-m>
-                <scale>1.00</scale>
+                <x-m>-4.0347</x-m>
+                <y-m>0.1174</y-m>
+                <z-m>0.4405</z-m>
+                <scale>3.0000</scale>
             </marker>
         </item>
         <item>
             <name>Calibrate altimeters</name>
             <value>SET</value>
             <marker>
-                <x-m>-3.94</x-m>
-                <y-m> 0.08</y-m>
-                <z-m> 0.35</z-m>
-                <scale>2.00</scale>
+                <x-m>-3.9901</x-m>
+                <y-m>0.1050</y-m>
+                <z-m>0.2901</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -358,10 +358,10 @@
             <name>Canopy</name>
             <value>CLOSE (O)</value>
             <marker>
-                <x-m> -3.65</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7628</x-m>
+                <y-m>-0.3240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -379,10 +379,10 @@
             <name>Parking Brakes</name>
             <value>SET (shift-B)</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.2628</x-m>
+                <y-m>-0.3512</y-m>
+                <z-m>-0.0727</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -417,10 +417,10 @@
             <name>Generator</name>
             <value>OFF</value>
             <marker>
-                <x-m> -3.69</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7223</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -455,13 +455,13 @@
             </condition>
         </item>
         <item>
-            <name>External power available</name>
+            <name>External power available indicator</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.43</x-m>
-                <y-m> -0.27</y-m>
-                <z-m>  0.1550</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7002</x-m>
+                <y-m>-0.3923</y-m>
+                <z-m>0.0947</z-m>
+                <scale>2.0000</scale>
             </marker>
             <condition>
                 <and>
@@ -476,10 +476,10 @@
             <name>Power supply selector</name>
             <value>External</value>
             <marker>
-                <x-m> -3.59</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.6975</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.0959</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-toggle</command>
@@ -498,10 +498,10 @@
             <name>Main electricity</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.61</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.4463</y-m>
+                <z-m>0.1215</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-toggle</command>
@@ -518,12 +518,12 @@
         </item>
         <item>
             <name>Cutoff</name>
-            <value>ON</value>
+            <value>CLOSED</value>
             <marker>
-                <x-m> -3.65</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.4223</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -543,10 +543,10 @@
             <name>Start engine</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7322</x-m>
+                <y-m>-0.4727</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -580,12 +580,12 @@
         </item>
         <item>
             <name>Cutoff</name>
-            <value>OFF</value>
+            <value>OPEN</value>
             <marker>
-                <x-m> -3.65</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.4223</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -605,10 +605,10 @@
             <name>Generator</name>
             <value>ON</value>
             <marker>
-                <x-m> -3.69</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7223</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -623,7 +623,7 @@
             </condition>
         </item>
         <item>
-            <name>Canopy Flaps</name>
+            <name>Canard Flaps</name>
             <value>DOWN (auto)</value>
             <condition>
                 <equals>
@@ -646,10 +646,10 @@
             <name>Engine starter</name>
             <value>OFF</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1400</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.7322</x-m>
+                <y-m>-0.4727</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
             </marker>
             <binding>
                 <command>property-assign</command>
@@ -669,10 +669,10 @@
             <name>Nose wheel steering</name>
             <value>ON (M)</value>
             <marker>
-                <x-m> -3.69</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.5628</x-m>
+                <y-m>-0.3868</y-m>
+                <z-m>0.0273</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -689,20 +689,20 @@
             <name>Set HUD Units</name>
             <value>Metric or Imperial (Shift-I)</value>
             <marker>
-                <x-m> -3.995</x-m>
-                <y-m>  0.092</y-m>
-                <z-m>  0.3925</z-m>
-                <scale>1.00</scale>
+                <x-m>-4.0347</x-m>
+                <y-m>0.1174</y-m>
+                <z-m>0.4405</z-m>
+                <scale>3.0000</scale>
             </marker>
         </item>
         <item>
             <name>Calibrate altimeters</name>
             <value>SET</value>
             <marker>
-                <x-m>-3.94</x-m>
-                <y-m> 0.08</y-m>
-                <z-m> 0.35</z-m>
-                <scale>2.00</scale>
+                <x-m>-3.9901</x-m>
+                <y-m>0.1050</y-m>
+                <z-m>0.2901</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -737,10 +737,10 @@
             <name>Parking Brakes</name>
             <value>OFF (shift-B)</value>
             <marker>
-                <x-m> -3.67</x-m>
-                <y-m>  0.30</y-m>
-                <z-m>  0.1700</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.2628</x-m>
+                <y-m>-0.3512</y-m>
+                <z-m>-0.0727</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -806,10 +806,10 @@
             <name>Gear</name>
             <value>DOWN (G)</value>
             <marker>
-                <x-m> -3.77</x-m>
-                <y-m> -0.30</y-m>
-                <z-m>  0.1410</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.2498</x-m>
+                <y-m>-0.3097</y-m>
+                <z-m>-0.0714</z-m>
+                <scale>3.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -836,10 +836,10 @@
             <name>Thrust</name>
             <value>Reverse</value>
             <marker>
-                <x-m> -3.98</x-m>
-                <y-m> -0.305</y-m>
-                <z-m>  0.365</z-m>
-                <scale>1.00</scale>
+                <x-m>-3.9936</x-m>
+                <y-m>-0.2593</y-m>
+                <z-m>0.3467</z-m>
+                <scale>5.0000</scale>
             </marker>
             <condition>
                 <equals>
