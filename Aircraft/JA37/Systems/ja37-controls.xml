@@ -58,9 +58,29 @@
     <channel name="Elevons">
         <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
+        <fcs_function name="fcs/elevator/cmd-abs-inv">
+            <function>
+                <difference>
+                    <value>1</value>
+                    <product>
+                        <table>
+                            <independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+                            <tableData>
+                                300    0.00
+                                400    0.50  
+                            </tableData>
+                        </table>
+                        <abs>
+                            <property>fcs/elevator-cmd-norm</property>
+                        </abs>
+                    </product>
+                </difference>
+            </function>
+        </fcs_function>
+
         <switch name="names/pitch-damper/active">
             <default value="0.0"/>
-            <test logic="AND" value="1">
+            <test logic="AND" value="fcs/elevator/cmd-abs-inv">
                 gear/unit[0]/WOW ne 1
                 aero/spin-norm == 0
                 fcs/pitch-damper/enable ne 0.0
