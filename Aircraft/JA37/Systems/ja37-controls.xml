@@ -191,7 +191,7 @@
                         100    0.75    1.00  
                         200    1.00    1.00     
                         300    1.00    1.00     
-                        400    0.75    1.00     
+                        400    0.65    1.00     
                         500    0.45    0.50  
                         600    0.35    0.50  
                         700    0.27    0.35  
@@ -400,6 +400,7 @@
                                   0.0         60000.0
                       0.0         0.45           1.0   
                       0.5         0.35           0.75  <!-- roll rate between 125 - 150 degrees/sec with roll damper on -->
+                      0.75        0.40           0.60
                       1.0         0.30           0.45  <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
                       2.2         0.06           0.225 <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
                 </tableData>
