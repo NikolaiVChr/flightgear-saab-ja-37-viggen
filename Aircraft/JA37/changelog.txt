@@ -1751,6 +1751,7 @@ Aero: Added wave drag to be summed up as lift and drag in performance monitor.
 Aero: Further tuning of wave drag.
 Aero: Tuned FCS to new aerodynamic.
 Aero: Above 300 kt, the pitch damper will now have less influence if the pilot yank hard on the stick.
+Aero: The flight control input is now geared. The transfer functions means small input deflect less than before.
 Engine: Improved the extrapolation of thrust tables. This has resulted in more thrust at very high altitudes.
 GUI: Added static margin to performance monitor.
 GUI: Added 3 refueling options to menu.

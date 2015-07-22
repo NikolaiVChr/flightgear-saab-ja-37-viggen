@@ -58,6 +58,60 @@
     <channel name="Elevons">
         <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
+        <fcs_function name="fcs/elevator/cmd-geared">
+            <function>
+                <table>
+                    <independentVar lookup="row">fcs/elevator-cmd-norm</independentVar>
+                    <tableData>
+                        -1.00  -1.00
+                        -0.86  -0.74
+                        -0.75  -0.56
+                        -0.62  -0.40
+                        -0.50  -0.28
+                        -0.38  -0.19
+                        -0.23  -0.11
+                        -0.10  -0.05
+                         0.00   0.00
+                         0.10   0.05
+                         0.23   0.11
+                         0.38   0.19
+                         0.50   0.28
+                         0.62   0.40
+                         0.75   0.56
+                         0.86   0.74
+                         1.00   1.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="fcs/aileron/cmd-geared">
+            <function>
+                <table>
+                    <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
+                    <tableData>
+                        -1.00  -1.00
+                        -0.86  -0.74
+                        -0.75  -0.56
+                        -0.62  -0.40
+                        -0.50  -0.28
+                        -0.38  -0.19
+                        -0.23  -0.11
+                        -0.10  -0.05
+                         0.00   0.00
+                         0.10   0.05
+                         0.23   0.11
+                         0.38   0.19
+                         0.50   0.28
+                         0.62   0.40
+                         0.75   0.56
+                         0.86   0.74
+                         1.00   1.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
         <fcs_function name="fcs/elevator/cmd-abs-inv">
             <function>
                 <difference>
@@ -71,7 +125,7 @@
                             </tableData>
                         </table>
                         <abs>
-                            <property>fcs/elevator-cmd-norm</property>
+                            <property>fcs/elevator/cmd-geared</property>
                         </abs>
                     </product>
                 </difference>
@@ -150,7 +204,7 @@
         </pure_gain>
 
         <summer name="names/elevator/cmd-sum">
-            <input>fcs/elevator-cmd-norm</input>
+            <input>fcs/elevator/cmd-geared</input>
             <input>fcs/pitch-trim-cmd-norm</input>
             <input>fcs/pitch-damper/rate</input>
             <clipto>
@@ -380,7 +434,7 @@
         </pure_gain>
 
         <summer name="names/aileron/cmd-sum">
-            <input>fcs/aileron-cmd-norm</input>
+            <input>fcs/aileron/cmd-geared</input>
             <input>fcs/roll-trim-cmd-norm</input>
             <input>fcs/roll-limiter/rate</input>
             <clipto>
@@ -515,6 +569,33 @@
     <channel name="Yaw">
         <!-- Rudder can move 25 degrees to each side -->
 
+        <fcs_function name="fcs/rudder/cmd-geared">
+            <function>
+                <table>
+                    <independentVar lookup="row">fcs/rudder-cmd-norm</independentVar>
+                    <tableData>
+                        -1.00  -1.00
+                        -0.86  -0.74
+                        -0.75  -0.56
+                        -0.62  -0.40
+                        -0.50  -0.28
+                        -0.38  -0.19
+                        -0.23  -0.11
+                        -0.10  -0.05
+                         0.00   0.00
+                         0.10   0.05
+                         0.23   0.11
+                         0.38   0.19
+                         0.50   0.28
+                         0.62   0.40
+                         0.75   0.56
+                         0.86   0.74
+                         1.00   1.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
         <switch name="names/yaw-damper/active">
             <default value="0.0"/>
             <test logic="AND" value="1"
@@ -620,7 +701,7 @@
         </pure_gain>
 
         <summer name="names/rudder/cmd-sum">
-            <input>fcs/rudder-cmd-norm</input>
+            <input>fcs/rudder/cmd-geared</input>
             <input>fcs/yaw-trim-cmd-norm</input>
             <input>fcs/yaw-damper/rate</input>
             <clipto>
