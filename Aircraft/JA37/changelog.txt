@@ -1685,6 +1685,7 @@ Sim: Selection view is no longer experimental.
 Sim: Added more data to performance document.
 Sim: All internal fuel tanks are now filled up at start of sim.
 Sim: Throttle position is now also recorded for replay.
+Sim: Autopilot now also uses rudder for heading locks.
 Model: Added a cutoff indicator.
 Model: Fixed edges along radar heading texture.
 Model: Made all gauges mounts have similar material settings.

@@ -74,6 +74,33 @@
         <type>gain</type>
         <enable>
             <condition>
+                <or>
+                    <equals>
+                        <property>/autopilot/locks/heading</property>
+                        <value>dg-heading-hold</value>
+                    </equals>
+                    <equals>
+                        <property>/autopilot/locks/heading</property>
+                        <value>true-heading-hold</value>
+                    </equals>
+                    <equals>
+                        <property>/autopilot/locks/heading</property>
+                        <value>nav1-hold</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <gain>0.005</gain>
+        <input><property>/autopilot/internal/target-roll-deg</property></input>
+        <output>
+            <property>/controls/flight/rudder</property>
+        </output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <enable>
+            <condition>
                 <equals>
                     <property>/autopilot/locks/heading</property>
                     <value>wing-leveler</value>
