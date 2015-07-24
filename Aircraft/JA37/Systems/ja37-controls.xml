@@ -449,14 +449,14 @@
         <switch name="names/roll-damper/active">
             <default value="0.0"/>
             <test logic="AND" value="fcs/aileron/cmd-inv">
-                    aero/alpha-deg ge -10
-                    aero/alpha-deg le  10
+                    aero/alpha-deg ge -30
+                    aero/alpha-deg le  30
                     gear/unit[0]/WOW ne 1
                     gear/unit[1]/WOW ne 1
                     gear/unit[2]/WOW ne 1
                     aero/spin-norm == 0
                     fcs/roll-damper/enable ne 0.0
-                    <!--fcs/roll-damper/serviceable == 1-->
+                    fcs/roll-limiter/serviceable == 1
             </test>
             <output>fcs/roll-damper/active</output>
         </switch>
