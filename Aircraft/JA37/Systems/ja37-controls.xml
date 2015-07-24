@@ -433,10 +433,68 @@
             <output>fcs/roll-limiter/rate</output>
         </pure_gain>
 
+        <fcs_function name="fcs/aileron/cmd-inv">
+            <function>
+                <difference>
+                    <value>1</value>
+                    <product>
+                        <abs>
+                            <property>fcs/aileron/cmd-geared</property>
+                        </abs>
+                    </product>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <switch name="names/roll-damper/active">
+            <default value="0.0"/>
+            <test logic="AND" value="fcs/aileron/cmd-inv">
+                    aero/alpha-deg ge -10
+                    aero/alpha-deg le  10
+                    gear/unit[0]/WOW ne 1
+                    gear/unit[1]/WOW ne 1
+                    gear/unit[2]/WOW ne 1
+                    aero/spin-norm == 0
+                    fcs/roll-damper/enable ne 0.0
+                    <!--fcs/roll-damper/serviceable == 1-->
+            </test>
+            <output>fcs/roll-damper/active</output>
+        </switch>
+
+        <scheduled_gain name="names/roll-damper/rate-unfiltered">
+            <input>velocities/p-aero-rad_sec</input>
+            <table>
+                <independentVar lookup="row">velocities/ve-kts</independentVar>
+                <tableData>
+                      30.0   0.00
+                      60.0  -1.00
+                </tableData>
+            </table>
+            <gain>fcs/roll-damper/roll-rate-gain</gain>            <!-- 0.10 default -->
+            <output>fcs/roll-damper/rate-unfiltered</output>
+        </scheduled_gain>
+
+        <!--<washout_filter name="names/roll-damper/rate-washout">
+            <input>fcs/roll-damper/rate-unfiltered</input>
+            <c1>fcs/roll-damper/washout-factor</c1>
+            <clipto>
+                <min>-0.50</min>
+                <max>0.50</max>
+            </clipto>
+            <output>fcs/roll-damper/rate-washout</output>
+        </washout_filter>-->
+
+        <pure_gain name="names/roll-damper/rate">
+            <input>fcs/roll-damper/rate-unfiltered</input>
+            <gain>fcs/roll-damper/active</gain>
+            <output>fcs/roll-damper/rate</output>
+        </pure_gain>
+
         <summer name="names/aileron/cmd-sum">
             <input>fcs/aileron/cmd-geared</input>
             <input>fcs/roll-trim-cmd-norm</input>
             <input>fcs/roll-limiter/rate</input>
+            <input>fcs/roll-damper/rate</input>
             <clipto>
                 <min>-1.0</min>
                 <max>1.0</max>

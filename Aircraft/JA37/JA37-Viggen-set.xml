@@ -715,6 +715,12 @@
                     <!--<washout-factor type="double">1.0</washout-factor>-->
                     <roll-rate-gain type="double">0.10</roll-rate-gain>
                 </roll-limiter>
+                <roll-damper>
+                    <serviceable type="bool">true</serviceable>
+                    <enable type="bool">true</enable>
+                    <!--<washout-factor type="double">1.0</washout-factor>-->
+                    <roll-rate-gain type="double">0.25</roll-rate-gain>
+                </roll-damper>
                 <rudder>
                     <limiter-enable type="bool">true</limiter-enable>
                     <serviceable alias="/sim/failure-manager/controls/flight/rudder/serviceable"/>

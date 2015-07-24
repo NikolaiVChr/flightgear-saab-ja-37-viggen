@@ -1537,8 +1537,8 @@ var togglePitchDamper = func {
 
 var toggleRollDamper = func {
   ja37.click();
-  var enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
-  setprop("fdm/jsbsim/fcs/roll-limiter/enable", !enabled);
+  var enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
+  setprop("fdm/jsbsim/fcs/roll-damper/enable", !enabled);
   if(enabled == FALSE) {
     popupTip("Roll damper: ON");
   } else {
