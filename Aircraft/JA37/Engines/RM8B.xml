@@ -6,8 +6,8 @@
     <milthrust unit="N"> 66600 </milthrust>    <!-- JA-37Di manual -->
     <maxthrust unit="N"> 110300 </maxthrust>    <!-- JA-37Di manual -->
     <bypassratio>     0.97 </bypassratio>    <!-- Turbofan and turbojet engines: database handbook. - JT8D-17A: 1.02. But RM8A is 1.07 and RM8B is 0.97 -->
-    <tsfc>            0.64 </tsfc>    <!-- from page 5, Australian document -->
-    <atsfc>           2.52 </atsfc>    <!-- from page 5, Australian document -->
+    <tsfc>            0.63547 </tsfc>    <!-- lbm/hr/lbf from page 5, Australian document and www.globalaircraft.org -->
+    <atsfc>           2.5065799568 </atsfc>    <!-- from page 5, Australian document and www.globalaircraft.org -->
     <bleed>           0.03</bleed>    <!-- -->
     <idlen1>         30.0 </idlen1>    <!-- http://www.airliners.net/  Also has a source saying 22%, but had to choose -->
     <idlen2>         57.0 </idlen2>    <!-- JA-37Di manual -->    <!-- http://www.boeing-727.com/ - JT8D-17A : 58.5 -->
@@ -18,6 +18,47 @@
     <augmented>         1 </augmented>
     <augmethod>         0 </augmethod>    <!-- controlled from FCS -->
     <injected>          0 </injected>
+
+<!--
+    ========================
+    Fuel consumption conversions and validation
+    ========================
+
+    1 kg = 2.2046226 lbm
+    1 pound-force (lbf) = 4.448222 N
+    6.48 LBM/Gal
+    0.2641720523581484 Gal/L
+    
+    1 liter = 6.48 x 0.2641720523581484 lbm = 1.711835208 lbm
+    
+    MIL
+    ===
+    AU number (0.64 lbm/hr/lbf)
+    ---------
+    max fuel the mil thrust can be supplied : (14972.274315445587023309538058127 lbf)
+    8000 liter/h = 13694.681664 lbm/hr
+    13694.681664 lbm/hr => 0.91466943334536648648648648648649 lbm/hr/lbf
+    That is somewhat larger than 0.64, so 0.64 seems reasonable mil fuel consumption at sealevel M0.0.
+    
+    Global Aircraft number (18 mg/N/s)
+    ----------------------
+    18 mg/N/s = 0.000018 Kg/N/s = 0.0648 Kg/N/h = 0.1428595458958007 lbm/hr/N = 0.6354709749637103813554 lbm/hr/lbf
+    
+    AUG
+    ===
+    AU Number (2.52 lbm/hr/lbf)
+    ---------
+    max fuel the aug thrust can be supplied : (24796.424279183907637703334051223 lbf)
+    68000 liter/h = 116404.794144 lbm/hr
+    116404.794144 lbm/hr => 4.6944185513763551042611060743427 lbm/hr/lbf
+    That is much larger than 2.52, so 2.52 seems reasonable aug fuel consumption at sealevel M0.0.
+
+    Global Aircraft number (71 mg/N/s)
+    ----------------------
+    71 mg/N/s = 0.000071 Kg/N/s = 0.2556 Kg/N/h = 0.5635015421445471 lbm/hr/N = 2.5065799568013015902562 lbm/hr/lbf
+
+-->
+
 
 
     <function name="IdleThrust">        <!-- 3.0 kN - JA-37Di manual -->

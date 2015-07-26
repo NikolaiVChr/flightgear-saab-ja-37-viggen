@@ -253,6 +253,17 @@ Wikipedia
 =========
 KCA Oerlikon 30 mm × 173 mm (1.181 in × 6.811 in) shell 1350 rounds per minute at a muzzle velocity of 1,030 m/s (203,000 ft/min), with an effective range of 2,500 m (8,200 ft)
 
+Wikipedia (Swedish)
+=========
+1000 liter/min fuel consumption at full afterburner
+
+www.globalaircraft.org
+======================
+0.63 lbm/hr/lbf consumption for cruise speeds.
+Fuel consumption was rated 18 mg/N/s dry and 71 mg/N/s with afterburner.
+The Viggen's consumption was around 15 kg/sec at maximum afterburner
+Internal fuel was exhausted in just 7 minutes at full afterburner.
+
 
 http://www.pmulcahy.com/ammunition/autocannon_ammunition.html
 =============================================================
