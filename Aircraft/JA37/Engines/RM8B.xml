@@ -35,8 +35,8 @@
     ===
     AU number (0.64 lbm/hr/lbf)
     ---------
-    max fuel the mil thrust can be supplied : (14972.274315445587023309538058127 lbf)
-    8000 liter/h = 13694.681664 lbm/hr
+    (14972.274315445587023309538058127 lbf)
+    max fuel the mil thrust can be supplied from fuel pumps: 8000 liter/h = 13694.681664 lbm/hr
     13694.681664 lbm/hr => 0.91466943334536648648648648648649 lbm/hr/lbf
     That is somewhat larger than 0.64, so 0.64 seems reasonable mil fuel consumption at sealevel M0.0.
     
@@ -48,8 +48,8 @@
     ===
     AU Number (2.52 lbm/hr/lbf)
     ---------
-    max fuel the aug thrust can be supplied : (24796.424279183907637703334051223 lbf)
-    68000 liter/h = 116404.794144 lbm/hr
+    (24796.424279183907637703334051223 lbf)
+    max fuel the aug thrust can be supplied from fuel pumps: 68000 liter/h = 116404.794144 lbm/hr
     116404.794144 lbm/hr => 4.6944185513763551042611060743427 lbm/hr/lbf
     That is much larger than 2.52, so 2.52 seems reasonable aug fuel consumption at sealevel M0.0.
 

@@ -1668,7 +1668,7 @@ Model: Made the oxygen manometer show the bottle pressure, not the mask pressure
 Animation: Fixed that gauge glasses would be rotated when canopy was opened.
 GUI: Added mask oxygen pressure to systems monitor.
 
-3.029 - 2015 July 17
+3.029 - 2015 July 25
 =====
 Sim: Fixed that autopilot could break off wings by pitching too hard.
 Sim: Made improvement to logic of indicator panels.
@@ -1762,3 +1762,10 @@ GUI: Added stall and spin detection to performance monitor.
 GUI: Faster access to property tree for perf. monitor.
 GUI: Updated aircraft help.
 GUI: Updated checklists to the new cockpit.
+
+3.100 - 2015 July 26
+=====
+GUI: Replaced the thumbnail picture used in the new Qt launcher.
+Engine: Increased fuel consumption numbers precision and validated their correctness.
+Sim: Increased version number to 3.100 due to new cockpit and many recent changes to FDM and systems.
+Sim: Bumped systems rating to 3 and status from Beta to Early production.
