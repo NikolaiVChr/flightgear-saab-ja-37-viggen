@@ -960,7 +960,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      3.0 </time>
+                    <time>     10.0 </time> <!-- from videos it looks to take 10-15 secs to retract flaps. -->
                 </setting>
             </traverse>
             <output>fcs/flaps/pos-normalized</output>
@@ -970,12 +970,12 @@
             <default value="gear/gear-target-norm"/>
             <!-- flaps controlled by gear-->
             <test logic="OR" value="fcs/flaps/pos-normalized">
-          systems/hydraulics/flight-surface-actuation == 0
-          fcs/flaps/serviceable == 0
-        </test>
+                  systems/hydraulics/flight-surface-actuation == 0
+                  fcs/flaps/serviceable == 0
+            </test>
             <test logic="OR" value="0.11765"><!-- default flaps position -->
-          fcs/flaps/pos-cmd == 0
-        </test>
+                fcs/flaps/pos-cmd == 0
+            </test>
             <output>fcs/flaps/tmp-norm</output>
         </switch>
 
