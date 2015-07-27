@@ -34,27 +34,27 @@
     MIL
     ===
     AU number (0.64 lbm/hr/lbf)
-    ---------
+    __________
     (14972.274315445587023309538058127 lbf)
     max fuel the mil thrust can be supplied from fuel pumps: 8000 liter/h = 13694.681664 lbm/hr
     13694.681664 lbm/hr => 0.91466943334536648648648648648649 lbm/hr/lbf
     That is somewhat larger than 0.64, so 0.64 seems reasonable mil fuel consumption at sealevel M0.0.
     
     Global Aircraft number (18 mg/N/s)
-    ----------------------
+    ________________________
     18 mg/N/s = 0.000018 Kg/N/s = 0.0648 Kg/N/h = 0.1428595458958007 lbm/hr/N = 0.6354709749637103813554 lbm/hr/lbf
     
     AUG
     ===
     AU Number (2.52 lbm/hr/lbf)
-    ---------
+    ___________
     (24796.424279183907637703334051223 lbf)
     max fuel the aug thrust can be supplied from fuel pumps: 68000 liter/h = 116404.794144 lbm/hr
     116404.794144 lbm/hr => 4.6944185513763551042611060743427 lbm/hr/lbf
     That is much larger than 2.52, so 2.52 seems reasonable aug fuel consumption at sealevel M0.0.
 
     Global Aircraft number (71 mg/N/s)
-    ----------------------
+    ________________________
     71 mg/N/s = 0.000071 Kg/N/s = 0.2556 Kg/N/h = 0.5635015421445471 lbm/hr/N = 2.5065799568013015902562 lbm/hr/lbf
 
 -->

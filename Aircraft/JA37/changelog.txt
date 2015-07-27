@@ -1690,26 +1690,25 @@ Model: Added a cutoff indicator.
 Model: Fixed edges along radar heading texture would be messed up during rotation.
 Model: Made all gauges mounts have similar material settings.
 Model: Replaced the seat.
-Model: {JazzTp} Remodeled sidepanels and added minor sidepanels. They are now as in the real Viggen.
+Model: {JazzTp} Remodeled sidepanels and added minor sidepanels as similar as possible to the real Viggen ones.
+Model: {JazzTp} Changed cockpit side walls to shape available room for panels
 Model: Adapted controls to new sidepanels.
 Model: Fixed radar heading was not rotated along a precise enough axis.
 Model: Added button that tests the indicator panels.
 Model: Added button that resets trim.
 Model: Replaced the buttons for controlling auto-follow.
-Model: {JazzTp} Added a air condition temperature knob. Custom modeled and textured after the real counterpart. 
-Model: {JazzTp} Added weapon selector.
-Model: {JazzTp} Added a (still non-working) weapon mode switch. Custom modeled and textured after the real counterpart.
+Model: {JazzTp} Modeled knob after the real counterpart used as weapon selector, weapon mode selector, and air conditioner temperature control, with labels textured after the real counterpart (or in according style with some degree of simplification in the weapon selector and weapon mode selector knobs). Weapon mode selection is still not implemented.
 Model: Fixed UV and geometry problems in inlets.
 Model: Fixed most UV mappings that made black stripes in fixed pipeline with ubershader.
 Model: Unified material properties across different cockpit models.
 Model: Removed all LOD for FG 3.6.
-Model: Added black texture to augementation zone indicator.
+Model: Added black texture to augmentation zone indicator.
 Model: Fixed that part of fuel gauge was flat shaded.
-Model: {JazzTp} Added throttle handle with animation. Custom modeled and textured after the real counterpart.
-Model: {JazzTp} Added radar handle, no animation. Custom modeled and textured after the real counterpart.
+Model: {JazzTp} Added throttle handle with animation. Modeled after the real counterpart with some degree of simplification to stay low on polygons and to avoid "inventing" parts not enough precisely documented in available pictures of the real counterpart.
+Model: {JazzTp} Added radar handle, no animation (usage is still classified apparently). Custom modeled and textured after the real counterpart.
 Model: {JazzTp} Moved radar switches on left panel more aft and aligned with radar handle.
-Model: {JazzTp} Added 39 dual function switches. Custom modeled and textured after the real counterpart.
-Model: {JazzTp} Added 4 triple function switches. Custom modeled and textured after the real counterpart.
+Model: {JazzTp} Modeled after the real counterpart switch and textures used for 39 dual function switches.
+Model: {JazzTp} Modeled after the real counterpart switch and textures used for 4 triple function switches.
 Model: Removed redness from what is now textured red area of switch A/D.
 Model: Moved callsign and left handle on front cockpit panel.
 Animation: Removed gears depency on select animations as much as possible. This should reduce the lag when gears retract.
@@ -1775,3 +1774,4 @@ Sim: Bumped systems rating to 3 and status from Beta to Early production.
 3.101 - 2015 July 27
 =====
 Aero: The flaps will now deflect about 3 times slower, as per videos of Viggen demonstrations.
+Engine: Fixed a comment that the parse did not like.
