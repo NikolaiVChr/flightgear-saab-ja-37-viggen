@@ -200,7 +200,7 @@
         </input>
         <reference>
             <property>/autopilot/settings/vertical-speed-fpm</property>
-            <scale>0.01667</scale>
+            <scale>0.0166667</scale>
         </reference>
         <output>
             <property>/controls/flight/elevator</property>
@@ -289,10 +289,8 @@
             <property>/autopilot/internal/target-climb-rate-fps</property>
         </output>
         <config>
-            <Kp>0.2</Kp>
-            <!-- proportional gain -->
-            <Ki>0.01</Ki>
-            <!-- integral gain -->
+            <Kp>0.2</Kp>         <!-- proportional gain -->
+            <Ki>0.01</Ki>        <!-- integral gain -->
             <u_min>
                 <property>fdm/jsbsim/autopilot/descent</property>
             </u_min>

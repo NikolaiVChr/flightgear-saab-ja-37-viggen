@@ -1119,16 +1119,16 @@
             <table>
                 <independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
                 <tableData>
-              000             0
-              175             0
-              225            50        
-              350          5000        
-              700         60000
-             1400        100000       
-          </tableData>
-                <!-- feet/sec -->
+                              <!-- feet/min -->
+                      000             0
+                      175             0
+                      225            50
+                      350         15000
+                      700         20000
+                     1400         75000
+                </tableData>
             </table>
-            <output>autopilot/climb</output>
+            <output>autopilot/climb</output><!-- feet/sec -->
         </scheduled_gain>
 
         <pure_gain name="names/autopilot/Autopilot-min-climb">
@@ -1142,9 +1142,9 @@
                 <table>
                     <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
                     <tableData>
-                2.0            -2
-                4.0             0       
-            </tableData>
+                        2.0           -0.75
+                        4.0             0
+                    </tableData>
                 </table>
             </function>
             <output>/autopilot/internal/min-elevator</output>
@@ -1155,9 +1155,9 @@
                 <table>
                     <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
                     <tableData>
-               -1.0             0
-                0.0             2       
-            </tableData>
+                       -1.0             0
+                        0.0            0.75
+                    </tableData>
                 </table>
             </function>
             <output>/autopilot/internal/max-elevator</output>

@@ -1774,4 +1774,12 @@ Sim: Bumped systems rating to 3 and status from Beta to Early production.
 3.101 - 2015 July 27
 =====
 Aero: The flaps will now deflect about 3 times slower, as per videos of Viggen demonstrations.
-Engine: Fixed a comment that the parse did not like.
+Engine: Fixed a comment that the parser did not like.
+
+3.102
+=====
+Aero: Reduced wave drag at high altitudes, to have a more realistic fuel consumption for reaching mach 2.
+Sim: Added an updated test in the performance document.
+Sim: Reduced the elevator output from A/P 25%.
+Sim: Adjusted how fast the autopilot is allowed to climb and descent depending on airspeed.
+GUI: Added fuel quantity to systems monitor.
