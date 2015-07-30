@@ -40,6 +40,21 @@ Aircraft structure can handle 12 G.                            [v3.021 - 12G]
 500 meter runway is required to land.                          [v3.021 - around 425m]
 Turnspeed at M0.8 sealevel - 12.7 deg/sec                      [v3.021 - 13 deg/s pulling 7 G]
 
+Performance comparison 3:  [half full tanks, empty but attached drop tank]
+-------------------------
+Minimum Mach 0.90 with mil thrust at sealevel.                 [v3.102 - M0.93 at 100m]
+Mach 1.25 at 100 m.                                            [v3.102 - M1.25]
+Maximum speed: Mach 2+ at 11,000 m alt                         [v3.102 - M2.1]
+From brakes off to take off speed is 6 seconds.                [v3.102 - 8 secs]
+Mach 1 in less than 60 seconds from take-off.                  [v3.102 - 59 secs]
+Climb to 10.000 m from brakes off: less than 100 seconds       [v3.101 - 127 secs @ 40deg]
+Service ceiling: 18,300 m                                      [v3.102 - passed, lacks thrust and lift above this alt]
+Rate of climb (initial): 203 m/s (12,200 m/min) (40,026 ft/min)[v3.102 - 19,000 ft/min, not sure I have measured this correctly, climbed from 300 kt]
+400 meter runway is required to takeoff.                       [v3.102 - 375m approx]
+500 meter runway is required to land.                          [v3.102 - 425m approx]
+Turnspeed at M0.8 sealevel - 12.7 deg/sec                      [v3.102 - 15.7 deg/s]
+Speed unstable below some 370 km/h.                            [v3.102 - passed]
+
 Key performance numbers: (v.3.021) [half full tanks, empty drop tank]
 --------------------------------
 Turn radius at M0.80/500KT, 7 G                                [v3.021 - about 2.1 nm]
