@@ -58,6 +58,7 @@ input = {
   tank8LvlGal:      "/consumables/fuel/tank[8]/level-gal_us",
   fuelNeedleB:      "/instrumentation/fuel/needleB_rot",
   fuelNeedleF:      "/instrumentation/fuel/needleF_rot",
+  fuelRatio:        "/instrumentation/fuel/ratio",
   fuelWarning:      "sim/ja37/sound/fuel-low-on",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
@@ -202,6 +203,7 @@ var update_loop = func {
 
 
     input.fuelNeedleF.setValue((current / total_fuel) *230);
+    input.fuelRatio.setValue(current / total_fuel);
 
     # fuel warning annuciator
     if((current / total_fuel) < 0.24) {# warning at 24% as per sources

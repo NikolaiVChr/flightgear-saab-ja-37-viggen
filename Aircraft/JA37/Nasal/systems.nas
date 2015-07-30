@@ -75,7 +75,7 @@ MiscMonitor.properties = func() {
     { property : "DC",           name : "Main DC",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "Battery",      name : "Battery",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "Battery-charge",name : "Battery charge",       format : "%3d",   unit : "%",      halign : "right" },
-    
+    { property : "fuel-ratio",   name : "Fuel quantity",         format : "%3d",   unit : "%",      halign : "right" },
   ]
 }
 
@@ -106,6 +106,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/AC-major", getprop("systems/electrical/outputs/ac-main-voltage"));
   setprop("/sim/gui/dialogs/systems-monitor/Battery-charge", getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")*100);
   setprop("/sim/gui/dialogs/systems-monitor/oxygen", getprop("fdm/jsbsim/systems/flight/oxygen-pressure-kPa")*0.0098692);
+  setprop("/sim/gui/dialogs/systems-monitor/fuel-ratio", getprop("/instrumentation/fuel/ratio")*100);
 }
 
 MiscMonitor.reinit = func() {
