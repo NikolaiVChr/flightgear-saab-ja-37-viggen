@@ -45,7 +45,7 @@
 <a id="flightgear-compatibility" class="anchor" href="#flightgear-compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Flightgear compatibility</h5>
 
 <ul>
-<li>The Viggen is compatible with Flightgear version 2.10 to 3.5.</li>
+<li>The Viggen is compatible with Flightgear version 2.10 to 3.6.</li>
 <li>A separate download is available for Flightgear 2.8. It will not be updated so often as the regular download.</li>
 </ul>
 
@@ -54,7 +54,7 @@
 
 <ul>
 <li>JSBSim FDM based on original Saab windtunnel data.</li>
-<li>45 individual aerodynamic coefficients.</li>
+<li>47 individual aerodynamic coefficients.</li>
 <li>Aerodynamic effect of air intake factor, ground effects and control surface shading.</li>
 <li>At high alpha asymmetric vortex detachment of left or right side, resulting in adverse effects.</li>
 <li>Very high alpha handling including realistic departures such as stall, spiral dive, flat spin and inverted spin.</li>
@@ -63,6 +63,7 @@
 <li>Significantly reduced lift and roll damping when wings detach.</li>
 <li>High compliance with various performance numbers. (true not indicated instrument values)</li>
 <li>Able to reliable land at heavy crosswind.</li>
+<li>Mach tuck in transonic/supersonic regime.</li>
 </ul>
 
 <h5>
@@ -82,17 +83,17 @@
 <a id="system" class="anchor" href="#system" aria-hidden="true"><span class="octicon octicon-link"></span></a>System</h5>
 
 <ul>
-<li>External power supply truck or generator produces AC voltages.</li>
+<li>External power supply truck, generator or reserve generator produces AC voltages.</li>
 <li>DC voltage converted from AC or from battery.</li>
 <li>Battery drain and recharge.</li>
 <li>Instrument and landing light dims when not getting enough power and various systems shut down.</li>
 <li>Two hydraulic system modeled. The second having a reserve pump.</li>
 <li>Terrain warning system, with HUD indication and annunciator.</li>
 <li>Canopy can be torn off from high wind speeds.</li>
-<li>Simulated airconditioner unit.</li>
-<li>Automated fuel system that works like in the real Viggen. It uses pneumatics, hydralics and electricity.</li>
+<li>Simulated airconditioner unit, which become handy when ice or fog forms on windshield in ALS.</li>
+<li>Automated fuel system that works like in the real Viggen. It uses pneumatics, hydralics and electricity. It can be controlled manually also.</li>
 <li>TILS (tactical instrument landing system) that auto tunes to nearby ILS frequencies.</li>
-<li>Custom flight recorder records 52 extra properties for accurate replay functionality. Also record fidelity has been increased for smoother replay.</li>
+<li>Custom flight recorder records 53 extra properties for accurate replay functionality. Also record fidelity has been increased for smoother replay.</li>
 <li>7 internal fuel tanks plus a drop tank that can be jettisoned.</li>
 </ul>
 
@@ -116,10 +117,11 @@
 <li>HUD can switch to Imperial units.</li>
 <li>The callsign (or type), velocity vector and distance of the selected track is also displayed in the HUD. It also display nearest tower.</li>
 <li>HUD shows radar tracks of aircraft plus scenario objects like ferries, balloons, tankers, carriers, tanks, bus, trains etc.</li>
-<li>At ILS landings the HUD will show a glideslope guide, if the runway supports it.</li>
+<li>At ILS landings the HUD will show a glideslope guide, if the runway supports it. Also DME if supported and enabled.</li>
 <li>Other HUD features such as distance scale, variant altitude scale, heading scale on horizon in landing mode, diamond at missile lock, altimeter calibration warning etc.</li>
 <li>Radar with 48 Km range that show MP and AI objects alike depend on hydraulic and electricity.</li>
 <li>Auto-start and auto shut down scripts.</li>
+<li>Realistic modeled indicator panels for various warnings, alarts and notices.</li>
 </ul>
 
 <h5>
@@ -135,12 +137,12 @@
 <a id="sound" class="anchor" href="#sound" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sound</h5>
 
 <ul>
-<li>36 distinct sounds, including 6 annunciation warnings.</li>
+<li>49 distinct sounds, including 19 annunciation warnings.</li>
 <li>9 multiplayer sounds enabled.</li>
 <li>When canopy is open wind and exterior engine sounds can be heard.</li>
 <li>No out of place sounds being played at start of sim.</li>
 <li>When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realistically delayed.</li>
-<li>Annunciator will warn of incoming guided air to air missile from ja37, m2000-5 or f-14b. It will also say from which direction.</li>
+<li>Annunciator will warn of incoming guided air to air missile from ja37, m2000-5, f-15 or f-14b. It will also say from which direction.</li>
 </ul>
 
 <h5>
@@ -160,7 +162,7 @@
 <ul>
 <li>Eight authentic Swedish Airforce and a fictive Flightgear liveries included.</li>
 <li>Selection view, with camera pointing to the aircraft from outside and towards the current selected MP/AI aircraft.</li>
-<li>Ubershaded exterior model and cockpit panels.</li>
+<li>Ubershaded exterior model and cockpit panels. Also flood light is supported if model shader is enabled.</li>
 <li>Normal mapped exterior model.</li>
 <li>Fully ALS ready and also Rembrandt compatible, but with no light influences.</li>
 <li>Animated gear scissors, compressions and spinning wheels.</li>
@@ -187,7 +189,7 @@
 <a id="multiplay" class="anchor" href="#multiplay" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiplay</h5>
 
 <ul>
-<li>The following is transmitted and shown over MP: Gear compression, flight surfaces animation, afterburner flame, engine flame light, landing light, flash light, beacon lights, navigation lights, canopy animation, canopy detachment, wings detachment, explosion, wing vapour, engine smoke and engine heath.</li>
+<li>The following is transmitted and shown over MP: Gear compression, flight surfaces animation, afterburner flame, engine flame light, landing light, flash light, beacon lights, navigation lights, canopy animation, canopy detachment, wings detachment, explosion, wing vapour, engine smoke, reversers, frontgear steering, missiles, rocket pods, drop tank, transonic vapour, contrails, aerobatic smoke, external power truck, control surfaces, livery and engine heat blur.</li>
 <li>Different Viggen version are to high degree compatible with each other in MP.</li>
 </ul>
 
