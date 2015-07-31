@@ -44,7 +44,7 @@ Battery drain and recharge.
 Instrument and landing light dims when not getting enough power and various systems shut down.
 Two hydraulic system modeled. The second having a reserve pump.
 Terrain warning system, with HUD indication and annunciator.
-Canopy can be torn off from high wind speeds.
+Open canopy can be torn off by high wind speeds.
 Simulated airconditioner unit, which become handy when ice or fog forms on windshield in ALS.
 Automated fuel system that works like in the real Viggen. It uses pneumatics, hydralics and electricity. It can be controlled manually also.
 TILS (tactical instrument landing system) that auto tunes to nearby ILS frequencies.
@@ -85,7 +85,7 @@ Sound
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.
 When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realistically delayed.
-Annunciator will warn of incoming guided air to air missile from ja37, m2000-5 or f-14b. It will also say from which direction.
+Annunciator will warn of incoming guided air to air missile from ja37, m2000-5, f-15 or f-14b. It will also say from which direction.
 
 Armament
 -----
@@ -99,7 +99,7 @@ Model
 -----
 Eight authentic Swedish Airforce and a fictive Flightgear liveries included.
 Selection view, with camera pointing to the aircraft from outside and towards the current selected MP/AI aircraft.
-Ubershaded exterior and interior model. Also in ALS flood light is supported.
+Ubershaded exterior model and cockpit panels. Also flood light is supported if model shader is enabled.
 Normal mapped exterior model.
 Fully ALS ready and also Rembrandt compatible, but with no light influences.
 Animated gear scissors, compressions and spinning wheels.
