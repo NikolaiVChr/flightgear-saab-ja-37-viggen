@@ -241,20 +241,20 @@
                     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                     <tableData>
                                0.0    35000.0   
-                        000    0.75    1.00  
-                        100    0.75    1.00  
-                        200    1.00    1.00     
-                        300    1.00    1.00     
-                        400    0.65    1.00     
-                        500    0.45    0.50  
-                        600    0.35    0.50  
-                        700    0.27    0.35  
-                        800    0.25    0.30  
-                        900    0.15    0.30 
-                       1000    0.100   0.200 
-                       1200    0.075   0.150 
-                       1400    0.050   0.100 
-                       1600    0.025   0.050 
+                        000    1.00    0.70
+                        100    1.00    0.60
+                        200    0.75    0.50
+                        300    0.625   0.40
+                        400    0.325   0.50     
+                        500    0.28    0.25  
+                        600    0.22    0.25  
+                        700    0.17    0.17  
+                        800    0.16    0.15  
+                        900    0.09    0.15 
+                       1000    0.063   0.100 
+                       1200    0.047   0.075 
+                       1400    0.031   0.075 
+                       1600    0.016   0.025 
                     </tableData>
                 </table>
                 <!--<property>/test</property>-->
@@ -278,9 +278,9 @@
                 <independentVar lookup="row">gear/gear-pos-norm</independentVar>
                 <independentVar lookup="column">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
                 <tableData>
-                            0    100   150
-                     0     0.5   0.5   0.5
-                     1     1.0   1.0   0.5
+                            0    100     150
+                     0     0.35  0.35    0.35
+                     1     1.0   1.0     0.35
                 </tableData>
             </table>
             <output>fcs/elevator/cmd-adjust-positive</output>
@@ -339,15 +339,15 @@
         <switch name="names/elevator/tmp-norm">
             <default value="fcs/elevator/cmd-sum"/>
             <test logic="OR" value="0">
-          structural/wings/serviceable == 0
-        </test>
+                structural/wings/serviceable == 0
+            </test>
             <test logic="OR" value="fcs/elevator/pos-norm">
-          systems/hydraulics/flight-surface-actuation == 0
-          fcs/elevator/serviceable == 0
-        </test>
+                systems/hydraulics/flight-surface-actuation == 0
+                fcs/elevator/serviceable == 0
+            </test>
             <test logic="OR" value="fcs/elevator/cmd-limited">
-          fcs/elevator/limiter-enable == 1
-        </test>
+                fcs/elevator/limiter-enable == 1
+            </test>
             <output>fcs/elevator/tmp-norm</output>
         </switch>
 
@@ -382,15 +382,15 @@
         <switch name="names/roll-limiter/active">
             <default value="0.0"/>
             <test logic="AND" value="1">
-            aero/alpha-deg ge -10
-            aero/alpha-deg le  10
-            gear/unit[0]/WOW ne 1
-            gear/unit[1]/WOW ne 1
-            gear/unit[2]/WOW ne 1
-            aero/spin-norm == 0
-            fcs/roll-limiter/enable ne 0.0
-            fcs/roll-limiter/serviceable == 1
-        </test>
+                aero/alpha-deg ge -10
+                aero/alpha-deg le  10
+                gear/unit[0]/WOW ne 1
+                gear/unit[1]/WOW ne 1
+                gear/unit[2]/WOW ne 1
+                aero/spin-norm == 0
+                fcs/roll-limiter/enable ne 0.0
+                fcs/roll-limiter/serviceable == 1
+            </test>
             <output>fcs/roll-limiter/active</output>
         </switch>
 
@@ -401,7 +401,7 @@
                 <tableData>
                       30.0   0.00
                       60.0  -1.00
-         </tableData>
+                </tableData>
             </table>
             <gain>fcs/roll-limiter/roll-rate-gain</gain>            <!-- 0.10 default -->
             <output>fcs/roll-limiter/rate-unfiltered</output>
@@ -421,9 +421,9 @@
         <switch name="names/roll-limiter/rate-switched">
             <default value="fcs/roll-limiter/rate-unfiltered"/>
             <test logic="AND" value="0">
-            fcs/roll-limiter/rate-unfiltered le 0.393
-            fcs/roll-limiter/rate-unfiltered ge -0.393
-        </test>
+                fcs/roll-limiter/rate-unfiltered le 0.393
+                fcs/roll-limiter/rate-unfiltered ge -0.393
+            </test>
             <output>fcs/roll-limiter/rate-switched</output>
         </switch>
 
@@ -551,15 +551,15 @@
         <switch name="names/aileron/tmp-norm">
             <default value="fcs/aileron/cmd-sum"/>
             <test logic="OR" value="0">
-          structural/wings/serviceable == 0
-        </test>
+                structural/wings/serviceable == 0
+            </test>
             <test logic="OR" value="fcs/aileron/pos-norm">
-          systems/hydraulics/flight-surface-actuation == 0
-          fcs/aileron/serviceable == 0
-        </test>
+                systems/hydraulics/flight-surface-actuation == 0
+                fcs/aileron/serviceable == 0
+            </test>
             <test logic="OR" value="fcs/aileron/cmd-sum-limited">
-          fcs/aileron/limiter-enable == 1
-        </test>
+                fcs/aileron/limiter-enable == 1
+            </test>
             <output>fcs/aileron/tmp-norm</output>
         </switch>
 

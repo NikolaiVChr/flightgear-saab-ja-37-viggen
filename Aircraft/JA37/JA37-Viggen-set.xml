@@ -829,7 +829,7 @@
                 <asymmetric-wing-load type="int">0</asymmetric-wing-load>
             </inertia>
             <autopilot>
-                <one type="double">0.01667</one>
+                <one type="double">0.0166667</one>
             </autopilot>
             <propulsion>
                 <starter_cmd_copy type="bool">false</starter_cmd_copy>

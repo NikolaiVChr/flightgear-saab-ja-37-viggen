@@ -1783,3 +1783,6 @@ Sim: Added an updated test in the performance document.
 Sim: Reduced the elevator output from A/P 25%.
 Sim: Adjusted how fast the autopilot is allowed to climb and descent depending on airspeed.
 GUI: Added fuel quantity to systems monitor.
+Aero: Fixed that Cma was included in Cmelevator and therefore was doubled.
+Aero: Adjusted pitch limiter to reflect changes to Cmelevator.
+Aero: Degraded elevator positive authority to prevent unrealistic down pitching.

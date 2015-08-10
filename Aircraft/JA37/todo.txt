@@ -19,7 +19,7 @@ Model: Make gunpod, between the fuselage and droptank.
 Model: The canopy metal should be thinner and unpainted alu.
 Model: There should be mirrors on the canopy.
 Model: Put in not-working instruments and controls for immersion.
-Model: Some textures should be aligned so they can be better viewd from current pilot point of view.
+Model: Some textures should be aligned so they can be better viewed from current pilot point of view.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
