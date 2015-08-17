@@ -14,7 +14,7 @@
         <long-description>
           The Saab JA-37 Viggen is a Swedish all-weather single-engine fighter jet from 1979. It has reverse thrust and very large canards.
         </long-description>
-        <aircraft-version>3.101</aircraft-version>
+        <aircraft-version>3.102</aircraft-version>
 
         <rating>
             <FDM type="int">4</FDM>
