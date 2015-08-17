@@ -240,21 +240,22 @@
                     <independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
                     <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                     <tableData>
-                               0.0    35000.0   
-                        000    1.00    0.70
-                        100    1.00    0.60
-                        200    0.75    0.50
+                               0.0    35000.0
+                        000    0.40    0.70
+                        100    0.65    0.60
+                        <!--150    0.75    0.55-->
+                        200    0.65    0.50
                         300    0.625   0.40
-                        400    0.325   0.50     
-                        500    0.28    0.25  
-                        600    0.22    0.25  
-                        700    0.17    0.17  
-                        800    0.16    0.15  
-                        900    0.09    0.15 
-                       1000    0.063   0.100 
-                       1200    0.047   0.075 
-                       1400    0.031   0.075 
-                       1600    0.016   0.025 
+                        400    0.325   0.50
+                        500    0.28    0.25
+                        600    0.22    0.25
+                        700    0.17    0.17
+                        800    0.16    0.15
+                        900    0.09    0.15
+                       1000    0.063   0.100
+                       1200    0.047   0.075
+                       1400    0.031   0.075
+                       1600    0.016   0.025
                     </tableData>
                 </table>
                 <!--<property>/test</property>-->
@@ -278,9 +279,9 @@
                 <independentVar lookup="row">gear/gear-pos-norm</independentVar>
                 <independentVar lookup="column">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
                 <tableData>
-                            0    100     150
-                     0     0.35  0.35    0.35
-                     1     1.0   1.0     0.35
+                            0    100     150    400
+                     0     0.35  0.35    0.35   0.35
+                     1     1.0   1.0     0.50   1.00
                 </tableData>
             </table>
             <output>fcs/elevator/cmd-adjust-positive</output>
