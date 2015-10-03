@@ -80,7 +80,7 @@ Afterburner that has 3 continuous zones of operation.
 
 Sound
 -----
-49 distinct sounds, including 19 annunciation warnings.
+51 distinct sounds, including 19 annunciation warnings.
 9 multiplayer sounds enabled.
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.

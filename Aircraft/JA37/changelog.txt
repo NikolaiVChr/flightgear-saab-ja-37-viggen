@@ -1776,7 +1776,7 @@ Sim: Bumped systems rating to 3 and status from Beta to Early production.
 Aero: The flaps will now deflect about 3 times slower, as per videos of Viggen demonstrations.
 Engine: Fixed a comment that the parser did not like.
 
-3.102
+3.102 - 2015 August 16
 =====
 Aero: Reduced wave drag at high altitudes, to have a more realistic fuel consumption for reaching mach 2.
 Sim: Added an updated test in the performance document.
@@ -1786,3 +1786,8 @@ GUI: Added fuel quantity to systems monitor.
 Aero: Fixed that Cma was included in Cmelevator and therefore was doubled.
 Aero: Adjusted pitch limiter to reflect changes to Cmelevator.
 Aero: Degraded elevator positive authority to prevent unrealistic down pitching.
+
+3.103
+=====
+Sim: Flare release is now single-click, not hold the key.
+Sound: Added avionics sound when releasing flare and for when flares is used up.

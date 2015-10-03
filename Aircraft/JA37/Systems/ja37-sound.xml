@@ -1361,6 +1361,46 @@
             </volume>
         </rb24-signal>
 
+        <flare>
+            <name>flare</name>
+            <mode>single</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/flare.wav</path>
+            <condition>
+                <property>ai/submodels/submodel[0]/flare-release-snd</property>
+                <property>sim/current-view/internal</property>
+                <property>sim/ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+        </flare>
+
+        <flare>
+            <name>flareOut</name>
+            <mode>single</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/flareOut.wav</path>
+            <condition>
+                <property>ai/submodels/submodel[0]/flare-release-out-snd</property>
+                <property>sim/current-view/internal</property>
+                <property>sim/ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+        </flare>
+
         <missile-hit>
             <!-- multiple of these so the sound can be played over each other -->
             <name>missile-hit1</name>

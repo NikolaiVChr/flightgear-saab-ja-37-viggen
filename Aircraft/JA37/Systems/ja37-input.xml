@@ -186,16 +186,16 @@
             <desc>Trigger flare release</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>/ai/submodels/submodel[0]/flare-release</property>
+                <property>/ai/submodels/submodel[0]/flare-release-cmd</property>
                 <value type="bool">true</value>
             </binding>
-            <mod-up>
+            <!--<mod-up>
                 <binding>
                     <command>property-assign</command>
                     <property>/ai/submodels/submodel[0]/flare-release</property>
                     <value type="bool">false</value>
                 </binding>
-            </mod-up>
+            </mod-up>-->
         </key>
         <key n="53">
             <name>CTRL-5</name>

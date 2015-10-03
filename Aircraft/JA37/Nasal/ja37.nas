@@ -818,6 +818,9 @@ var slow_loop = func () {
   settimer(slow_loop, 1.5);
 }
 
+var flareCount = -1;
+var flareStart = -1;
+
 # fast updating loop
 var speed_loop = func () {
 
@@ -873,6 +876,36 @@ var speed_loop = func () {
   var wow1 = input.wow1.getValue();
   var wow2 = input.wow2.getValue();
   input.MPint17.setIntValue(encode3bits(wow0, wow1, wow2));
+
+  # Flare release
+  if (getprop("ai/submodels/submodel[0]/flare-release-snd") == nil) {
+    setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
+    setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
+  }
+  var flareOn = getprop("ai/submodels/submodel[0]/flare-release-cmd");
+  if (flareOn == TRUE and getprop("ai/submodels/submodel[0]/flare-release") == FALSE
+      and getprop("ai/submodels/submodel[0]/flare-release-out-snd") == FALSE
+      and getprop("ai/submodels/submodel[0]/flare-release-snd") == FALSE) {
+    flareCount = getprop("ai/submodels/submodel[0]/count");
+    flareStart = input.elapsed.getValue();
+    setprop("ai/submodels/submodel[0]/flare-release-cmd", FALSE);
+    if (flareCount > 0) {
+      setprop("ai/submodels/submodel[0]/flare-release-snd", TRUE);
+      setprop("ai/submodels/submodel[0]/flare-release", TRUE);
+    } else {
+      setprop("ai/submodels/submodel[0]/flare-release-out-snd", TRUE);
+    }
+  }
+  if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
+    setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
+  }
+  if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
+    setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
+  }
+  if (flareCount > getprop("ai/submodels/submodel[0]/count")) {
+    setprop("ai/submodels/submodel[0]/flare-release", FALSE);
+    flareCount = -1;
+  }
 
   settimer(speed_loop, 0.05);
 }
