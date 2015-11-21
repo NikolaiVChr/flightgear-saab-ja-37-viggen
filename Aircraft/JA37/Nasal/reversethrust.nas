@@ -6,6 +6,7 @@ var reverserServ = props.globals.getNode("/controls/engines/engine[0]/reverse-sy
 togglereverser = func () {
   if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == nil or getprop("systems/electrical/outputs/dc-voltage") == nil
       or getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or getprop("systems/electrical/outputs/dc-voltage") < 23) {
+    #Its important to tell people why the reversing fails, or they will think its a bug.
     ja37.popupTip("Thrust reverser lacks electricity or hydraulic pressure.");
   } elsif (reverserServ.getValue() == 1) {
     var reverserPosValue = reverserPos.getValue();
