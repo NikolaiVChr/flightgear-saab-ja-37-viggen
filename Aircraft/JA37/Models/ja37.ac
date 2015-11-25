@@ -6,7 +6,7 @@ MATERIAL "hudMat"           rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 1.00 1.
 MATERIAL "blackMat"         rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
 MATERIAL "hudRestMat"       rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
 MATERIAL "bodyMat"          rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
-MATERIAL "glassMat"         rgb 0.33 0.25 0.08  amb 0.22 0.22 0.22  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  75 trans 1.00
+MATERIAL "glassMat"         rgb 1.00 1.00 1.00  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 100 trans 1.00
 MATERIAL "glassMatInternal" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.55
 MATERIAL "stobeMat"         rgb 0.50 0.50 0.50  amb 0.30 0.30 0.30  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  80 trans 0.00
 MATERIAL "metalMat"         rgb 0.70 0.70 0.70  amb 0.70 0.70 0.70  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  45 trans 0.00
@@ -18781,6 +18781,8 @@ kids 0
 OBJECT poly
 name "frontglas"
 crease 30.0
+texture "glass-alpha.png"
+texrep 1 1
 numvert 139
 -4.2172232 2.6975639 0.0600862
 -4.3521729 2.6321037 0.0584350
@@ -127581,6 +127583,8 @@ kids 0
 OBJECT poly
 name "glassOuter"
 crease 30.0
+texture "glass-alpha.png"
+texrep 1 1
 numvert 123
 -3.0475638 2.6955504 0.3482327
 -3.0453079 2.6410773 0.3561839
