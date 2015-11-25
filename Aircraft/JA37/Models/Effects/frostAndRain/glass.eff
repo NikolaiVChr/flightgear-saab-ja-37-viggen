@@ -54,7 +54,7 @@
 	<rnorm><use>/environment/rain-norm</use></rnorm>
 	<gsnorm><use>/environment/aircraft-effects/ground-splash-norm</use></gsnorm>
 	<frost-level><use>/environment/aircraft-effects/frost-level</use></frost-level>
-	<surface-mapping-scheme type="int">0</surface-mapping-scheme>
+	<surface-mapping-scheme type="int">1</surface-mapping-scheme>
 	<fog-level><use>/environment/aircraft-effects/fog-level</use></fog-level>
 	<use-wipers><use>/environment/aircraft-effects/use-wipers</use></use-wipers>
 	<use-overlay><use>/environment/aircraft-effects/use-overlay</use></use-overlay>
