@@ -121,7 +121,7 @@ vertPos = gl_Vertex.xyz;
 
 splash_angle = dot(gl_Normal, corrected_splash);
 
-ambient_fraction = length(light_ambient.rgb)/length(light_diffuse.rgb +light_ambient.rgb );
+ambient_fraction = length(light_ambient.rgb)/(length(light_diffuse.rgb +light_ambient.rgb ) + 0.01);
 
 
 gl_Position = ftransform();
