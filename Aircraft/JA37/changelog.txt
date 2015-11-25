@@ -1793,3 +1793,4 @@ Sim: Flare release is now single-click, not hold the key.
 Sound: Added avionics sound when releasing flare and for when flares is used up.
 Effect: Glass rain, fog and frost effects are updated to the latest version.
 Effect: Fixed that rain on glass is displayed statically instead of new raindrops forming dynamically.
+Effect: Inverted the whole rain vector, not just the z part.

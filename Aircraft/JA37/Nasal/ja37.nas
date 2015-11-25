@@ -755,7 +755,7 @@ var slow_loop = func () {
   }
   airspeed = math.sqrt(airspeed/airspeed_max);
   # f-16
-  var splash_x = -0.1 - 2.0 * airspeed;
+  var splash_x = -(-0.1 - 2.0 * airspeed);
   var splash_y = 0.0;
   var splash_z = -(1.0 - 1.35 * airspeed);
   setprop("/environment/aircraft-effects/splash-vector-x", splash_x);
