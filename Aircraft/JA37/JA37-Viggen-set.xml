@@ -947,6 +947,14 @@
             <use-overlay type="int" userarchive="n">0</use-overlay>
             <overlay-alpha type="float" userarchive="n">1.0</overlay-alpha>
             <use-mask type="int" userarchive="n">0</use-mask>
+            <dewpoint-inside-degC type="float" userarchive="n">0.0</dewpoint-inside-degC>
+            <temperature-inside-degC type="float" userarchive="n">15.0</temperature-inside-degC>
+            <temperature-glass-degC type="float" userarchive="n">15.0</temperature-glass-degC>
+            <glass-temperature-index type="float" userarchive="n">0.65</glass-temperature-index>
+            <fog-inside type="float" userarchive="n">0.0</fog-inside>
+            <fog-outside type="float" userarchive="n">0.0</fog-outside>
+            <frost-inside type="float" userarchive="n">0.0</frost-inside>
+            <frost-outside type="float" userarchive="n">0.0</frost-outside>
         </aircraft-effects>
         <precipitation-control>
             <clip-distance type="double">1.75</clip-distance>

@@ -46,7 +46,7 @@
 			<negative-z>Aircraft/Generic/Effects/CubeMaps/fair-sky/fair-sky_nz.png</negative-z>
 		</images>
 		</texture>
-	<glass-tint type="vec4d" n="0"> 0.0 0.0 0.0 1.0</glass-tint>
+	<glass-tint type="vec4d" n="0"> 1.0 1.0 1.0 1.0</glass-tint>
 	<overlay-color type="vec3d" n="0"> 1.0 1.0 1.0</overlay-color>
 	<splash-x><use>/environment/aircraft-effects/splash-vector-x</use></splash-x>
 	<splash-y><use>/environment/aircraft-effects/splash-vector-y</use></splash-y>

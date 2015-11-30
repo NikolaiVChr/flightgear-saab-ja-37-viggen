@@ -728,7 +728,12 @@ var slow_loop = func () {
     TILSprev = FALSE;
   }
 
-  #frost and rain
+  ###########################################################
+  #               Aircondition, frost, fog and rain         #
+  ###########################################################
+
+  # If AC is set to warm or cold, then it will put warm/cold air into the cockpit for 12 seconds, and then revert to auto setting.
+
   var acSetting = getprop("controls/ventilation/airconditioning-type");
   if (acSetting != 0) {
     if (acPrev != acSetting) {
@@ -746,6 +751,8 @@ var slow_loop = func () {
     tempAC = 200;
   }
 
+  # Here is calculated how raindrop move over the surface of the glass
+
   var airspeed = getprop("/velocities/airspeed-kt");
   # ja37
   #var airspeed_max = 250; 
@@ -754,7 +761,7 @@ var slow_loop = func () {
     airspeed = airspeed_max;
   }
   airspeed = math.sqrt(airspeed/airspeed_max);
-  # f-16
+  # Reverted the vector from what is used on the f-16
   var splash_x = -(-0.1 - 2.0 * airspeed);
   var splash_y = 0.0;
   var splash_z = -(1.0 - 1.35 * airspeed);
@@ -762,60 +769,106 @@ var slow_loop = func () {
   setprop("/environment/aircraft-effects/splash-vector-y", splash_y);
   setprop("/environment/aircraft-effects/splash-vector-z", splash_z);
 
+  # If the AC is turned on and on auto setting, it will slowly move the cockpit temperature toward its temperature setting.
+  # The dewpoint inside the cockpit depends on the outside dewpoint and how the AC is working.
   var tempOutside = getprop("environment/temperature-degc");
-  var tempInside = getprop("environment/temperature-inside-degc");
+  var tempInside = getprop("environment/aircraft-effects/temperature-inside-degC");
   var tempOutsideDew = getprop("environment/dewpoint-degc");
-  var tempACDew = 5;#aircondition dew point. 5 = dry
+  var tempInsideDew = getprop("/environment/aircraft-effects/dewpoint-inside-degC");
+  var tempACDew = 5;# aircondition dew point target. 5 = dry
+  var ACRunning = input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE;
 
   # calc inside temp
+  var knob = getprop("controls/ventilation/windshield-hot-air-knob");
+  var hotAirOnWindshield = input.dcVolt.getValue() > 23?knob:0;
   if (input.canopyPos.getValue() > 0) {
     tempInside = tempOutside;
-  } elsif(input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE) {
-    if (tempInside < tempAC) {
-      tempInside = clamp(tempInside+0.15, -1000, tempAC);
-    } elsif (tempInside > tempAC) {
-      tempInside = clamp(tempInside-0.15, tempAC, 1000);
-    }
   } else {
+    tempInside = tempInside + hotAirOnWindshield * 0.05; # having hot air on windshield will also heat cockpit
+    if (tempInside < 37) {
+      tempInside = tempInside + 0.025; # pilot will also heat cockpit
+    }
+    # outside temp will influence inside temp:
     if (tempInside < tempOutside) {
-      tempInside = clamp(tempInside+1, -1000, tempOutside);
+      tempInside = clamp(tempInside+0.05, -1000, tempOutside);
     } elsif (tempInside > tempOutside) {
-      tempInside = clamp(tempInside-1, tempOutside, 1000);
+      tempInside = clamp(tempInside-0.05, tempOutside, 1000);
+    }
+    if (ACRunning == TRUE) {
+      # AC is running and will work to adjust to influence the inside temperature
+      if (tempInside < tempAC) {
+        tempInside = clamp(tempInside+0.15, -1000, tempAC);
+      } elsif (tempInside > tempAC) {
+        tempInside = clamp(tempInside-0.15, tempAC, 1000);
+      }
+    }
+  }
+
+  # calc temp of glass itself
+  var tempIndex = getprop("/environment/aircraft-effects/glass-temperature-index"); # 0.80 = good window   0.45 = bad window
+  var tempGlass = tempIndex*(tempInside - tempOutside)+tempOutside;
+  
+  # calc dewpoint inside
+  if (input.canopyPos.getValue() > 0) {
+    # canopy is open, inside dewpoint aligns to outside dewpoint instead
+    tempInsideDew = tempOutsideDew;
+  } else {
+    var tempInsideDewTarget = 0;
+    if (ACRunning == TRUE) {
+      # calculate dew point for inside air. When full airconditioning is achieved at tempAC dewpoint will be tempACdew.
+      # slope = (outsideDew - desiredInsideDew)/(outside-desiredInside)
+      # insideDew = slope*(inside-desiredInside)+desiredInsideDew
+      var slope = (tempOutsideDew - tempACDew)/(tempOutside-tempAC);
+      tempInsideDewTarget = slope*(tempInside-tempAC)+tempACDew;
+    } else {
+      tempInsideDewTarget = tempOutsideDew;
+    }
+    if (tempInsideDewTarget > tempInsideDew) {
+      tempInsideDew = clamp(tempInsideDew + 0.15, -1000, tempInsideDewTarget);
+    } else {
+      tempInsideDew = clamp(tempInsideDew - 0.15, tempInsideDewTarget, 1000);
     }
   }
   
-  # calc temp of glass itself
-  var tempIndex = 0.70; # 0.80 = good window   0.45 = bad window
-  var tempGlass = tempIndex*(tempInside - tempOutside)+tempOutside;
-  
-  # calculate dew point for inside air. When full airconditioning is achieved at tempAC dewpoint will be tempACdew.
-  # slope = (outsideDew - desiredInsideDew)/(outside-desiredInside)
-  # insideDew = slope*(inside-desiredInside)+desiredInsideDew
-
-  var slope = (tempOutsideDew - tempACDew)/(tempOutside-tempAC);
-  var tempInsideDew = slope*(tempInside-tempAC)+tempACDew;
 
   # calc fogging outside and inside on glass
   var fogNormOutside = clamp((tempOutsideDew-tempGlass)*0.05, 0, 1);
   var fogNormInside = clamp((tempInsideDew-tempGlass)*0.05, 0, 1);
+  
+  # calc frost
+  var frostNormOutside = getprop("/environment/aircraft-effects/frost-outside");
+  var frostNormInside = getprop("/environment/aircraft-effects/frost-inside");
+  var rain = getprop("/environment/rain-norm");
+  var frostSpeedInside = clamp(-tempGlass, -60, 60)/300 + (tempGlass<0?fogNormInside/100:0);
+  var frostSpeedOutside = clamp(-tempGlass, -60, 60)/300 + (tempGlass<0?(fogNormOutside/100 + rain/50):0);
+  frostNormOutside = clamp(frostNormOutside + frostSpeedOutside, 0, 1);
+  frostNormInside = clamp(frostNormInside + frostSpeedInside, 0, 1);
+  var frostNorm = frostNormOutside>frostNormInside?frostNormOutside:frostNormInside;
+  #var frostNorm = clamp((tempGlass-0)*-0.05, 0, 1);# will freeze below 0
 
+  # recalc fogging from frost levels, frost will lower the fogging
+  fogNormOutside = clamp(fogNormOutside - frostNormOutside / 4, 0, 1);
+  fogNormInside = clamp(fogNormInside - frostNormInside / 4, 0, 1);
   var fogNorm = fogNormOutside>fogNormInside?fogNormOutside:fogNormInside;
-  var frostNorm = clamp((tempGlass-0)*-0.05, 0, 1);# will freeze below 0
 
+  # If the hot air on windshield is enabled and its setting is high enough, then apply the mask which will defog the windshield around the HUD.
   var mask = FALSE;
-  var knob = getprop("controls/ventilation/windshield-hot-air-knob");
-  if (frostNorm <= knob and knob != 0 and input.dcVolt.getValue() > 23) {
+  if (frostNorm <= hotAirOnWindshield and hotAirOnWindshield != 0) {
     mask = TRUE;
   }
 
-  setprop("/environment/aircraft-effects/use-mask", mask);
+  # internal environment
   setprop("/environment/aircraft-effects/fog-inside", fogNormInside);
   setprop("/environment/aircraft-effects/fog-outside", fogNormOutside);
-  setprop("/environment/aircraft-effects/temperature-glass-degc", tempGlass);
-
-  setprop("environment/temperature-inside-degc", tempInside);
+  setprop("/environment/aircraft-effects/frost-inside", frostNormInside);
+  setprop("/environment/aircraft-effects/frost-outside", frostNormOutside);
+  setprop("/environment/aircraft-effects/temperature-glass-degC", tempGlass);
+  setprop("/environment/aircraft-effects/dewpoint-inside-degC", tempInsideDew);
+  setprop("/environment/aircraft-effects/temperature-inside-degC", tempInside);
+  # effects
   setprop("/environment/aircraft-effects/frost-level", frostNorm);
   setprop("/environment/aircraft-effects/fog-level", fogNorm);
+  setprop("/environment/aircraft-effects/use-mask", mask);
 
   settimer(slow_loop, 1.5);
 }
@@ -1254,7 +1307,8 @@ var main_init = func {
   screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.2, 0.2);
 
   # init cockpit temperature
-  setprop("environment/temperature-inside-degc", getprop("environment/temperature-degc"));
+  setprop("environment/aircraft-effects/temperature-inside-degC", getprop("environment/temperature-degc"));
+  setprop("/environment/aircraft-effects/dewpoint-inside-degC", getprop("environment/dewpoint-degc"));
 
   # init oxygen bottle pressure
   setprop("sim/ja37/systems/oxygen-bottle-pressure", rand()*75+50);#todo: start high, and lower slowly during flight

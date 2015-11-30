@@ -1796,3 +1796,7 @@ Effect: Fixed that rain on glass is displayed statically instead of new raindrop
 Effect: Inverted the whole rain vector, not just the z part.
 Effect: Fixed regression that hot air on canopy would clear the whole canopy instead of just in front.
 Effect: Set glass rain surface mapping scheme to UV mapping.
+Sim: Pilot and hot air air on windshield will now contribute to warming of cockpit.
+Sim: Reworked airconditioning and how frost and fog is formed on the cockpit glass.
+Effect: Set the glass effect tint to white.
+Sim: More internal environment properties are now exposed in the property tree.
