@@ -20,6 +20,9 @@
     <injected>          0 </injected>
 
 <!--
+
+    Compressor pressure ratio: 16.5:1
+
     ========================
     Fuel consumption conversions and validation
     ========================
@@ -88,6 +91,7 @@
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
+                    <!-- Aeromatic++ 3.10 - Not calculated using the Stanford Engine Model for RM8B since that will use some undefined cruise thrust, instead of max -->
                           -10000       0   10000   20000   30000   40000   50000   70000
                      0.0   1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490  0
                      0.2   1.1710  0.9340  0.6970  0.5060  0.3550  0.2310  0.1430  0
@@ -101,9 +105,7 @@
             </table>
         </product>
     </function>
-
-
-    <!-- Calculated using the Stanford Engine Model for RM8B -->
+    
     <function name="AugThrust">
         <product>
             <property>propulsion/engine/zone-factor</property>
@@ -111,6 +113,7 @@
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
+                    <!-- Aeromatic++ 3.10 - Not calculated using the Stanford Engine Model for RM8B since that will use some undefined cruise thrust, instead of max -->
                            -10000       0   10000   20000   30000   40000   50000   70000
                      0.0    1.1816  1.0000  0.8184  0.6627  0.5280  0.3756  0.2327  0
                      0.2    1.1308  0.9599  0.7890  0.6406  0.5116  0.3645  0.2258  0

@@ -1794,3 +1794,5 @@ Sound: Added avionics sound when releasing flare and for when flares is used up.
 Effect: Glass rain, fog and frost effects are updated to the latest version.
 Effect: Fixed that rain on glass is displayed statically instead of new raindrops forming dynamically.
 Effect: Inverted the whole rain vector, not just the z part.
+Effect: Fixed regression that hot air on canopy would clear the whole canopy instead of just in front.
+Effect: Set glass rain surface mapping scheme to UV mapping.
