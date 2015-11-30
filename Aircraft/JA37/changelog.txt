@@ -1800,3 +1800,5 @@ Sim: Pilot and hot air air on windshield will now contribute to warming of cockp
 Sim: Reworked airconditioning and how frost and fog is formed on the cockpit glass.
 Effect: Set the glass effect tint to white.
 Sim: More internal environment properties are now exposed in the property tree.
+Effect: Hot air on windshield will now clear a bigger area.
+Sim: Increased the cockpit glass quality.

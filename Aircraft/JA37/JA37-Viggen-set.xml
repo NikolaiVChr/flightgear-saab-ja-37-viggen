@@ -923,7 +923,7 @@
         <ventilation>
             <airconditioning-type type="int">0</airconditioning-type><!-- cold for 12s: -1 auto: 0 warm for 12s: 1 -->
             <airconditioning-enabled type="bool">true</airconditioning-enabled>
-            <airconditioning-temperature type="double">18.0</airconditioning-temperature><!-- used for auto -->
+            <airconditioning-temperature type="double">16.0</airconditioning-temperature><!-- used for auto -->
             <windshield-hot-air-knob type="double">0.0</windshield-hot-air-knob>
         </ventilation>
         <flight>
@@ -950,7 +950,7 @@
             <dewpoint-inside-degC type="float" userarchive="n">0.0</dewpoint-inside-degC>
             <temperature-inside-degC type="float" userarchive="n">15.0</temperature-inside-degC>
             <temperature-glass-degC type="float" userarchive="n">15.0</temperature-glass-degC>
-            <glass-temperature-index type="float" userarchive="n">0.65</glass-temperature-index>
+            <glass-temperature-index type="float" userarchive="n">0.75</glass-temperature-index>
             <fog-inside type="float" userarchive="n">0.0</fog-inside>
             <fog-outside type="float" userarchive="n">0.0</fog-outside>
             <frost-inside type="float" userarchive="n">0.0</frost-inside>

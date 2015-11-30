@@ -789,10 +789,11 @@ var slow_loop = func () {
       tempInside = tempInside + 0.025; # pilot will also heat cockpit
     }
     # outside temp will influence inside temp:
+    var coolingFactor = clamp(abs(tempInside < tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
     if (tempInside < tempOutside) {
-      tempInside = clamp(tempInside+0.05, -1000, tempOutside);
+      tempInside = clamp(tempInside+coolingFactor, -1000, tempOutside);
     } elsif (tempInside > tempOutside) {
-      tempInside = clamp(tempInside-0.05, tempOutside, 1000);
+      tempInside = clamp(tempInside-coolingFactor, tempOutside, 1000);
     }
     if (ACRunning == TRUE) {
       # AC is running and will work to adjust to influence the inside temperature
