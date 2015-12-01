@@ -852,7 +852,7 @@ var slow_loop = func () {
   fogNormInside = clamp(fogNormInside - frostNormInside / 4, 0, 1);
   var fogNorm = fogNormOutside>fogNormInside?fogNormOutside:fogNormInside;
 
-  # If the hot air on windshield is enabled and its setting is high enough, then apply the mask which will defog the windshield around the HUD.
+  # If the hot air on windshield is enabled and its setting is high enough, then apply the mask which will defog the windshield.
   var mask = FALSE;
   if (frostNorm <= hotAirOnWindshield and hotAirOnWindshield != 0) {
     mask = TRUE;
