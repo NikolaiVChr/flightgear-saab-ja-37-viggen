@@ -1804,3 +1804,6 @@ Effect: Hot air on windshield will now clear a bigger area.
 Sim: Increased the cockpit glass quality.
 Sound: Fixed regression that some outside sounds would not heard inside when canopy was open.
 Sound: Added environmental sound support from rain and thunder.
+Sound: The idle fan noise in model view is now also heard when the plane is off the ground.
+Sound: Variable pitch adjustments to external fan noise, external turbine noise and thunder.
+Sound: Lowered max volume for external model view afterburner noise.

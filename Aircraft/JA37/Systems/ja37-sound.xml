@@ -337,7 +337,7 @@
                         </not-equals>
                     </and>
                 </or>
-                <property>gear/gear[0]/wow</property>
+                <!--<property>gear/gear[0]/wow</property>-->
             </condition>
             <reference-dist>5</reference-dist>
             <max-dist>10000</max-dist>
@@ -356,7 +356,7 @@
             </orientation>
             <pitch>
                 <property>engines/engine/n1</property>
-                <offset>1</offset>
+                <offset>0.65</offset><!-- changed from 1 -->
                 <factor>0.005</factor>
             </pitch>
             <volume>
@@ -428,11 +428,11 @@
                 <offset>0.000</offset>
                 <factor>0.000050</factor>
             </volume>
-            <!--<pitch>
-    <property>engines/engine/n1</property>
-    <offset>0.3</offset>
-    <factor>0.03</factor>
-   </pitch>-->
+            <pitch>
+                <property>engines/engine/n1</property>
+                <offset>0.9</offset>
+                <factor>0.001</factor>
+            </pitch>
         </engine_mil_model>
 
 
@@ -484,13 +484,13 @@
             </orientation>
             <volume>
                 <property>fdm/jsbsim/propulsion/engine/zone-scaled</property>
-                <factor>1.0</factor>
+                <factor>0.8</factor>
                 <min>0.1</min>
-                <max>1.0</max>
+                <max>0.8</max>
                 <offset>0.0</offset>
             </volume>
             <pitch>
-                <min>1.0</min>
+                <min>0.0</min><!-- changed from 1 -->
                 <max>1.0</max>
             </pitch>
         </engine_augmented_model>
@@ -603,7 +603,7 @@
             <pitch>
                 <property>velocities/groundspeed-kt</property>
                 <factor>0.0025</factor>
-                <offset>1.2</offset>
+                <offset>1.2</offset><!-- changed from 1.2 -->
             </pitch>
         </squeal>
 
@@ -1208,9 +1208,10 @@
             <property>sim/ja37/sound/thunder1</property>
             <pitch>
                 <property>sim/ja37/sound/dist-thunder1</property>
-                <factor>500</factor>
+                <factor>2</factor>
+                <offset>0.50</offset>
                 <min>1.00</min>
-                <max>500.00</max>
+                <max>2.00</max>
             </pitch>
             <volume>
                 <property>sim/ja37/sound/dist-thunder1</property>
@@ -1224,9 +1225,10 @@
             <property>sim/ja37/sound/thunder2</property>
             <pitch>
                 <property>sim/ja37/sound/dist-thunder2</property>
-                <factor>500</factor>
+                <factor>2</factor>
+                <offset>0.50</offset>
                 <min>1.00</min>
-                <max>500.00</max>
+                <max>2.00</max>
             </pitch>
             <volume>
                 <property>sim/ja37/sound/dist-thunder2</property>
@@ -1240,9 +1242,10 @@
             <property>sim/ja37/sound/thunder3</property>
             <pitch>
                 <property>sim/ja37/sound/dist-thunder3</property>
-                <factor>500</factor>
+                <factor>1</factor>
+                <offset>0.50</offset>
                 <min>1.00</min>
-                <max>500.00</max>
+                <max>2.00</max>
             </pitch>
             <volume>
                 <property>sim/ja37/sound/dist-thunder3</property>
