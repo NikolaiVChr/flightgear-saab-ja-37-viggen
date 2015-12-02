@@ -1286,9 +1286,9 @@
             </position>-->
             <volume>
                 <property>velocities/airspeed-kt</property>
-                <factor>0.0010</factor>
+                <factor>0.00075</factor>
                 <min>0.03</min>
-                <max>0.50</max>
+                <max>0.40</max>
             </volume>
         </rain-windshield>
 
