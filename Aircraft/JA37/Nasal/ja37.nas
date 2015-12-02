@@ -963,6 +963,22 @@ var speed_loop = func () {
     flareCount = -1;
   }
 
+  # environment volume
+  var canopy = getprop("fdm/jsbsim/fcs/canopy/pos-norm");
+  var internal = getprop("sim/current-view/internal");
+  var vol = 0;
+  if(internal != nil and canopy != nil) {
+    vol = clamp(1-(internal*0.5)+(canopy*0.5), 0, 1);
+  } else {
+    vol = 0;
+  }
+  setprop("sim/ja37/sound/environment-volume", vol);
+  var rain = getprop("/environment/rain-norm");
+  if (rain == nil) {
+    rain = 0;
+  }
+  setprop("sim/ja37/sound/rain-volume", rain*0.35*vol);
+
   settimer(speed_loop, 0.05);
 }
 
@@ -1157,6 +1173,85 @@ var battery_listener = func {
 #setlistener("controls/electric/battery", battery_listener, 0, 0);
 #setlistener("fdm/jsbsim/systems/electrical/external/switch", battery_listener, 0, 0);
 #setlistener("fdm/jsbsim/systems/electrical/external/enable-cmd", battery_listener, 0, 0);
+
+
+
+########### Thunder sounds (from c172p) ###################
+
+var speed_of_sound = func (t, re) {
+    # Compute speed of sound in m/s
+    #
+    # t = temperature in Celsius
+    # re = amount of water vapor in the air
+
+    # Compute virtual temperature using mixing ratio (amount of water vapor)
+    # Ratio of gas constants of dry air and water vapor: 287.058 / 461.5 = 0.622
+    var T = 273.15 + t;
+    var v_T = T * (1 + re/0.622)/(1 + re);
+
+    # Compute speed of sound using adiabatic index, gas constant of air,
+    # and virtual temperature in Kelvin.
+    return math.sqrt(1.4 * 287.058 * v_T);
+};
+
+var thunder_listener = func {
+    var thunderCalls = 0;
+
+    var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
+    var lightning_pos_y = getprop("/environment/lightning/lightning-pos-y");
+    var lightning_distance = math.sqrt(math.pow(lightning_pos_x, 2) + math.pow(lightning_pos_y, 2));
+
+    # On the ground, thunder can be heard up to 16 km. Increase this value
+    # a bit because the aircraft is usually in the air.
+    if (lightning_distance > 20000)
+        return;
+
+    var t = getprop("/environment/temperature-degc");
+    var re = getprop("/environment/relative-humidity") / 100;
+    var delay_seconds = lightning_distance / speed_of_sound(t, re);
+
+    # Maximum volume at 5000 meter
+    var lightning_distance_norm = std.min(1.0, 1 / math.pow(lightning_distance / 5000.0, 2));
+
+    settimer(func {
+        var thunder1 = getprop("sim/ja37/sound/thunder1");
+        var thunder2 = getprop("sim/ja37/sound/thunder2");
+        var thunder3 = getprop("sim/ja37/sound/thunder3");
+
+        if (!thunder1) {
+            thunderCalls = 1;
+            setprop("sim/ja37/sound/dist-thunder1", lightning_distance_norm * getprop("sim/ja37/sound/environment-volume") * 1.5);
+        }
+        else if (!thunder2) {
+            thunderCalls = 2;
+            setprop("sim/ja37/sound/dist-thunder2", lightning_distance_norm * getprop("sim/ja37/sound/environment-volume") * 1.5);
+        }
+        else if (!thunder3) {
+            thunderCalls = 3;
+            setprop("sim/ja37/sound/dist-thunder3", lightning_distance_norm * getprop("sim/ja37/sound/environment-volume") * 1.5);
+        }
+        else
+            return;
+
+        # Play the sound (sound files are about 9 seconds)
+        play_thunder("thunder" ~ thunderCalls, 9.0, 0);
+    }, delay_seconds);
+};
+
+var play_thunder = func (name, timeout=0.1, delay=0) {
+    var sound_prop = "/sim/ja37/sound/" ~ name;
+
+    settimer(func {
+        # Play the sound
+        setprop(sound_prop, TRUE);
+
+        # Reset the property after timeout so that the sound can be
+        # played again.
+        settimer(func {
+            setprop(sound_prop, FALSE);
+        }, timeout);
+    }, delay);
+};
                 
 ###############  Test which system the flightgear version support.  ###########
 
@@ -1177,8 +1272,10 @@ var test_support = func {
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/crash-system", 0);
       setprop("sim/ja37/supported/ubershader", FALSE);
+      setprop("sim/ja37/supported/lightning", FALSE);
   } elsif (major == 2) {
     setprop("sim/ja37/supported/landing-light", FALSE);
+    setprop("sim/ja37/supported/lightning", FALSE);
     if(minor < 7) {
       popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", FALSE);
@@ -1224,18 +1321,24 @@ var test_support = func {
     setprop("sim/ja37/supported/popuptips", 2);
     setprop("sim/ja37/supported/crash-system", 1);
     setprop("sim/ja37/supported/ubershader", TRUE);
+    setprop("sim/ja37/supported/lightning", TRUE);
     if (minor == 0) {
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/popuptips", 1);
       setprop("sim/ja37/supported/crash-system", 0);
+      setprop("sim/ja37/supported/lightning", FALSE);
     } elsif (minor <= 2) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/landing-light", FALSE);
       setprop("sim/ja37/supported/popuptips", 1);
+      setprop("sim/ja37/supported/lightning", FALSE);
     } elsif (minor <= 4) {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/popuptips", 1);
+      setprop("sim/ja37/supported/lightning", FALSE);
+    } elsif (minor <= 6) {
+      setprop("sim/ja37/supported/lightning", FALSE);
     }
   } else {
     # future proof
@@ -1247,6 +1350,7 @@ var test_support = func {
     setprop("sim/ja37/supported/popuptips", 2);
     setprop("sim/ja37/supported/crash-system", 1);
     setprop("sim/ja37/supported/ubershader", TRUE);
+    setprop("sim/ja37/supported/lightning", TRUE);
   }
   setprop("sim/ja37/supported/initialized", TRUE);
 
@@ -1335,6 +1439,11 @@ var main_init = func {
 
   # setup incoming listener
   setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);
+
+  # Setup lightning listener
+  if (getprop("/sim/ja37/supported/lightning") == TRUE) {
+    setlistener("/environment/lightning/lightning-pos-y", thunder_listener);
+  }
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);

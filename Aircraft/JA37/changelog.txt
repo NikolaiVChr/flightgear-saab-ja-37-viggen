@@ -1802,3 +1802,5 @@ Effect: Set the glass effect tint to white.
 Sim: More internal environment properties are now exposed in the property tree.
 Effect: Hot air on windshield will now clear a bigger area.
 Sim: Increased the cockpit glass quality.
+Sound: Fixed regression that some outside sounds would not heard inside when canopy was open.
+Sound: Added environmental sound support from rain and thunder.
