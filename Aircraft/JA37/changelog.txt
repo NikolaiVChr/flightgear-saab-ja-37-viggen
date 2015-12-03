@@ -1807,3 +1807,4 @@ Sound: Added environmental sound support from rain and thunder.
 Sound: The idle fan noise in model view is now also heard when the plane is off the ground.
 Sound: Variable pitch adjustments to external fan noise, external turbine noise and thunder.
 Sound: Lowered max volume for external model view afterburner noise.
+Model: Tooltip for oxygen system switch now indicates that it is for the mask.

@@ -18,7 +18,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-lights-flash</tooltip-id>
-                <label>Oxygen system</label>
+                <label>Mask oxygen system</label>
             </binding>
         </hovered>
     </animation>

@@ -194,7 +194,7 @@
             </function>
         </fcs_function>
 
-        <!-- page 137 of manual -->
+        <!-- page 137 of manual: mask oxygen supply -->
         <fcs_function name="systems/flight/oxygen-pressure-kPa">
             <function>
                 <product>
@@ -202,9 +202,9 @@
                     <table>
                         <independentVar lookup="row">atmosphere/density-altitude</independentVar>
                         <tableData>
-                  0.0         0.1
-              59055.1         0.4 <!--  9000m cabin density alt / 18000m density alt -->
-              85301.8         6.7 <!-- 15000m cabin density alt / 26000m density alt -->
+                                  0.0         0.1
+                              59055.1         0.4 <!--  9000m cabin density alt / 18000m density alt -->
+                              85301.8         6.7 <!-- 15000m cabin density alt / 26000m density alt -->
                         </tableData>
                     </table>
                 </product>
