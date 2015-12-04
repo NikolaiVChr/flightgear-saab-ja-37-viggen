@@ -364,7 +364,7 @@ TODO: manual fuel controls
         </switch>
 
         <switch name="systems/fuel/tank5-output">
-            <default value="-2.3775484712233356"/>            <!-- 5000 L/h from 5H -->
+            <default value="-2.3775484712233356"/><!-- 5000 L/h from 5H -->
             <test logic="OR" value="0">
                 propulsion/tank[5]/contents-lbs LE 0
                 propulsion/tank[0]/pct-full GE 99.9
