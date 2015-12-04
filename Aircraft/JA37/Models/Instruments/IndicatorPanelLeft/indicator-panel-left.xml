@@ -2,15 +2,23 @@
 <PropertyList>
     <path>indicator-panel-left.ac</path>
 
-    <!-- JA-37Di pilots Manual page 589 and forward. Also bits of info scattered all over the document. -->
+    <!-- JA-37Di pilots Manual page 589 and forward. Also bits of info scattered all over the document.
+         JA-37C pilots Manual page 572 and forward. Also bits of info scattered all over the document.
 
+         [not implemented] When a blinking light warning also induces a master warning, and that warning is acknowledged, then the blinking turns to steady.
+
+         When lamptest button is pressed all light go on and blinking lights will blink. Master-warning also goes on.
+     -->
+
+    <!-- Swedish: BRAND (sound, blinking)
+    -->
     <animation>
         <name>Fire</name>
         <object-name>indicatorLeft1</object-name>
         <object-name>indicatorLeft2</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/fire</property>
         </condition>
         <emission>
             <red>1</red>
@@ -20,44 +28,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: BRÄ UPPF (blinking, suppression of blinking if secondary from Hydr-1)
+    -->
     <animation>
         <name>Fuel flow distributor</name>
         <object-name>indicatorLeft3</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>sim/ja37/avionics/uppf</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
-                        <value>0</value>
-                    </equals>
-                </and>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/fuel/pneumatics/serviceable</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/fuel/fuel-flow/serviceable</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/fuel-flow</property>
         </condition>
         <emission>
             <red>1</red>
@@ -67,18 +45,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: X-TANK BRÄ (steady)
+    -->
     <animation>
         <name>X-tank good</name>
         <object-name>indicatorLeft4</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <equals>
-                    <property>sim/ja37/avionics/xtank</property>
-                    <value>1</value>
-                </equals>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/xtank</property>
         </condition>
         <emission>
             <red>1</red>
@@ -88,28 +62,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: TANKPUMP (blinking, suppression of blinking if secondary from Electrical)
+    -->
     <animation>
         <name>Fuel pump</name>
         <object-name>indicatorLeft5</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <less-than>
-                    <property>systems/electrical/outputs/ac-main-voltage</property>
-                    <value>150</value>
-                </less-than>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/fuel/fuel-pumps/serviceable</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/fuel-pump</property>
         </condition>
         <emission>
             <red>1</red>
@@ -119,62 +79,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: LANDSTÄLL (blinking/steady, sound)
+    -->
     <animation>
         <name>gears</name>
         <object-name>indicatorLeft6</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <or>
-                        <equals>
-                            <property>gear/serviceable</property>
-                            <value>0</value>
-                        </equals>
-                        <equals>
-                            <property>fdm/jsbsim/gear/unit[0]/z-position</property>
-                            <value>0.001</value>
-                        </equals>
-                        <equals>
-                            <property>fdm/jsbsim/gear/unit[1]/z-position</property>
-                            <value>0.001</value>
-                        </equals>
-                        <equals>
-                            <property>fdm/jsbsim/gear/unit[2]/z-position</property>
-                            <value>0.001</value>
-                        </equals>
-                    </or>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <and>
-                    <not-equals>
-                        <property>gear/gear[0]/position-norm</property>
-                        <value>1</value>
-                    </not-equals>
-                    <not-equals>
-                        <property>gear/gear[0]/position-norm</property>
-                        <value>0</value>
-                    </not-equals>
-                </and>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/gear/gear-cmd-norm</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>gear/gear[1]/wow</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/gears</property>
         </condition>
         <emission>
             <red>1</red>
@@ -184,34 +96,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: FÖRV FÖRBJ (blinking)
+    -->
     <animation>
         <name>no forward thrust</name>
         <object-name>indicatorLeft7</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <or>
-                        <equals>
-                            <property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
-                            <value>0</value>
-                        </equals>
-                        <less-than>
-                            <property>systems/electrical/outputs/dc-voltage</property>
-                            <value>23</value>
-                        </less-than>
-                    </or>
-                    <equals>
-                        <property>engines/engine/reversed</property>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/forward-thrust</property>
         </condition>
         <emission>
             <red>1</red>
@@ -221,24 +113,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: NOSSTÄLL (steady)
+    -->
     <animation>
         <name>front gear</name>
         <object-name>indicatorLeft8</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>gear/gear[0]/position-norm</property>
-                        <value>1</value>
-                    </equals>
-                    <not-equals>
-                        <property>fdm/jsbsim/gear/unit[0]/z-position</property>
-                        <value>0.001</value>
-                    </not-equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/gear-nose</property>
         </condition>
         <emission>
             <red>1</red>
@@ -248,24 +130,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: V STÄLL (steady)
+    -->
     <animation>
         <name>left gear</name>
         <object-name>indicatorLeft9</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>gear/gear[1]/position-norm</property>
-                        <value>1</value>
-                    </equals>
-                    <not-equals>
-                        <property>fdm/jsbsim/gear/unit[1]/z-position</property>
-                        <value>0.001</value>
-                    </not-equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/gear-left</property>
         </condition>
         <emission>
             <red>1</red>
@@ -275,24 +147,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: H STÄLL (steady)
+    -->
     <animation>
         <name>right gear</name>
         <object-name>indicatorLeft10</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>gear/gear[2]/position-norm</property>
-                        <value>1</value>
-                    </equals>
-                    <not-equals>
-                        <property>fdm/jsbsim/gear/unit[2]/z-position</property>
-                        <value>0.001</value>
-                    </not-equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/gear-right</property>
         </condition>
         <emission>
             <red>1</red>
@@ -304,42 +166,14 @@
 
     <!-- right 1 is not used -->
 
+    <!-- Swedish: ELFÖRS (blinking)
+    -->
     <animation>
         <name>electrical</name>
         <object-name>indicatorRight2</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <or>
-                        <equals>
-                            <property>systems/electrical/serviceable</property>
-                            <value>0</value>
-                        </equals>
-                        <less-than>
-                            <property>systems/electrical/outputs/ac-main-voltage</property>
-                            <value>200</value>
-                        </less-than>
-                        <less-than>
-                            <property>systems/electrical/outputs/ac-instr-voltage</property>
-                            <value>115</value>
-                        </less-than>
-                        <less-than>
-                            <property>systems/electrical/outputs/dc-voltage</property>
-                            <value>28</value>
-                        </less-than>
-                        <less-than>
-                            <property>fdm/jsbsim/systems/electrical/battery-producing-dc</property>
-                            <value>24</value>
-                        </less-than>
-                    </or>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/electrical</property>
         </condition>
         <emission>
             <red>1</red>
@@ -349,30 +183,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: ELRESERV (blinking)
+    -->
     <animation>
-        <name>electrical reserve</name>
+        <name>electrical reserve (Ram Air Turbine)</name>
         <object-name>indicatorRight3</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <or>
-                        <equals>
-                            <property>systems/generator-reserve/serviceable</property>
-                            <value>0</value>
-                        </equals>
-                        <equals>
-                            <property>systems/electrical/serviceable</property>
-                            <value>0</value>
-                        </equals>
-                    </or>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/electrical-reserve</property>
         </condition>
         <emission>
             <red>1</red>
@@ -382,24 +200,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: HYDR-TR2 (blinking)
+    -->
     <animation>
         <name>hydr 2</name>
         <object-name>indicatorRight4</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/hydraulics/system2/pressure-main</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/hydr-2</property>            
         </condition>
         <emission>
             <red>1</red>
@@ -409,24 +217,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: HYDR-TR1 (blinking, sound)
+    -->
     <animation>
         <name>hydr 1</name>
         <object-name>indicatorRight5</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/hydr-1</property>  
         </condition>
         <emission>
             <red>1</red>
@@ -436,18 +234,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: AFK (blinking/steady, sound)
+    -->
     <animation>
-        <name>A/P</name>
+        <name>Auto throttle</name>
         <object-name>indicatorRight6</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <equals>
-                    <property>sim/ja37/avionics/autopilot</property>
-                    <value>1</value>
-                </equals>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/auto-throttle</property>  
         </condition>
         <emission>
             <red>1</red>
@@ -457,35 +251,14 @@
         </emission>
     </animation>
 
-
+    <!-- Swedish: EJ REV (blinking)
+    -->
     <animation>
         <name>no reversing</name>
         <object-name>indicatorRight7</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <or>
-                        <equals>
-                            <property>fdm/jsbsim/systems/hydraulics/system1/pressure</property>
-                            <value>0</value>
-                        </equals>
-                        <less-than>
-                            <property>systems/electrical/outputs/dc-voltage</property>
-                            <value>23</value>
-                        </less-than>
-                    </or>
-                    <equals>
-                        <property>engines/engine/reversed</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/no-reverse</property>  
         </condition>
         <emission>
             <red>1</red>
@@ -495,24 +268,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: HYDRRESERV (blinking)
+    -->
     <animation>
         <name>hydr reserve</name>
         <object-name>indicatorRight8</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/hydraulics/system2/pressure-reserve</property>
-                        <value>0</value>
-                    </equals>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/hydr-reserve</property>  
         </condition>
         <emission>
             <red>1</red>
@@ -522,24 +285,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: OLJETRYCK (blinking, sound)
+    -->
     <animation>
         <name>oil pressure</name>
         <object-name>indicatorRight9</object-name>
         <type>material</type>
         <condition>
-            <or>
-                <and>
-                    <less-than>
-                        <property>engines/engine[0]/oil-pressure-psi</property>
-                        <value>30</value>
-                    </less-than>
-                    <equals>
-                        <property>sim/ja37/blink/ten-Hz/state</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-                <property>controls/lighting/test-indicator-panels</property>
-            </or>
+            <property>fdm/jsbsim/systems/indicators/oil-pressure</property>  
         </condition>
         <emission>
             <red>1</red>
@@ -549,12 +302,14 @@
         </emission>
     </animation>
 
+    <!-- Swedish: OLJETEMP (blinking)
+    -->
     <animation>
         <name>Oil temp</name>
         <object-name>indicatorRight10</object-name>
         <type>material</type>
         <condition>
-            <property>controls/lighting/test-indicator-panels</property>
+            <property>fdm/jsbsim/systems/indicators/oil-temperature</property>  
         </condition>
         <emission>
             <red>1</red>

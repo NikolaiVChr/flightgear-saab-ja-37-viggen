@@ -58,6 +58,15 @@ HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 
 
+Working on right now:
+---------------------
+Model: Test button should light master warning and sound
+Sim: When master warning button is clicked, the lights should become steady from blinking
+Sim: Many more master warnings
+Sim: Do the TODO in indicator logics
+Sim: Overhaul right indicator panel logic some more
+
+
 Bugs:
 --------------
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]

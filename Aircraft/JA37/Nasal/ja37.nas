@@ -130,7 +130,7 @@ input = {
   hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
   hydr2On:          "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
   hydrCombined:     "fdm/jsbsim/systems/hydraulics/flight-surface-actuation",
-  lampFuelDistr:    "sim/ja37/avionics/uppf",
+  fuelInternalRatio:"sim/ja37/avionics/fuel-internal-ratio",
   canopyPos:        "canopy/position-norm",
   speedWarn:        "sim/ja37/sound/speed-on",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
@@ -212,13 +212,8 @@ var update_loop = func {
       input.fuelWarning.setValue(FALSE);
     }
 
-    if((current / total_fuel) > 0.40) {
-      # fuel flow distributor lamp
-      input.lampFuelDistr.setValue(TRUE);
-    } else {
-      input.lampFuelDistr.setValue(FALSE);
-    }
-
+    input.fuelInternalRatio.setValue(current / total_fuel);
+    
     if (current > 0 and input.tank8LvlNorm.getValue() > 0) {
       bingoFuel = FALSE;
     } else {
@@ -554,12 +549,12 @@ var update_loop = func {
       }
         
       # Master warning
-      if(warning == TRUE and input.hz10.getValue() == TRUE) {
+      if((warning == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) and input.hz10.getValue() == TRUE) {
         input.warn.setValue(TRUE);
       } else {
         input.warn.setValue(FALSE);
       }
-      if(warning_sound == TRUE and input.hzThird.getValue() == TRUE) {
+      if((warning_sound == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) and input.hzThird.getValue() == TRUE) {
         input.master.setValue(TRUE);
       } else {
         input.master.setValue(FALSE);
@@ -608,24 +603,6 @@ var update_loop = func {
     } elsif (main <= 20) {
       mainOn = FALSE;
     }
-    # engine start
-    var n2 = input.n2.getValue();
-    if (input.starter.getValue() == TRUE and n2 < 57 and input.thrustLb.getValue() == 0) {
-      input.lampStart.setValue(TRUE);
-    } else {
-      input.lampStart.setValue(FALSE);
-    }
-    if (input.cutoff.getValue() == FALSE and n2 < 57 and n2 > 16 and input.thrustLb.getValue() == 0) {
-      # manual says between 11-16% it goes on
-      input.lampIgnition.setValue(TRUE);
-    } else {
-      input.lampIgnition.setValue(FALSE);
-    }
-    if (input.tank8Jettison.getValue() == FALSE and input.tank8LvlGal.getValue() > 45 and (input.starter.getValue() == TRUE or input.engineRunning.getValue() == 1) and (n2 < 70 or input.pneumatic.getValue() == 0)) {
-      input.lampXTank.setValue(TRUE);
-    } else {
-      input.lampXTank.setValue(FALSE);
-    }
 
     # joystick on indicator panel
     if ((main > 20 and input.acMainVolt.getValue() < 150) or input.hydrCombined.getValue() != 1) {
@@ -638,12 +615,6 @@ var update_loop = func {
       input.lampOxygen.setValue(TRUE);
     } else {
       input.lampOxygen.setValue(FALSE);
-    }
-
-    if (main > 20 and input.acMainVolt.getValue() < 150) {
-      input.lampCanopy.setValue(TRUE);
-    } else {
-      input.lampCanopy.setValue(FALSE);
     }
 
     # exterior lights
@@ -661,6 +632,14 @@ var update_loop = func {
       setprop("/sim/ja37/effect/smoke", getprop("/sim/ja37/effect/smoke-cmd"));
     } else {
       setprop("/sim/ja37/effect/smoke", 1);
+    }
+
+    # auto-throttle
+
+    if (getprop("/autopilot/locks/speed") == "") {
+      setprop("sim/ja37/avionics/auto-throttle-on", FALSE);
+    } else {
+      setprop("sim/ja37/avionics/auto-throttle-on", TRUE);
     }
 
     settimer(

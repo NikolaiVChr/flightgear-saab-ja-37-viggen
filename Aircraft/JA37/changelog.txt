@@ -1808,3 +1808,8 @@ Sound: The idle fan noise in model view is now also heard when the plane is off 
 Sound: Variable pitch adjustments to external fan noise, external turbine noise and thunder.
 Sound: Lowered max volume for external model view afterburner noise.
 Model: Tooltip for oxygen system switch now indicates that it is for the mask.
+Sim: Backup generator is now a ram air turbine, as per the manual.
+Model: Did a overhaul of the left and right indicator panels logic, they now work even more like decribed in the manual.
+Sim: Moved the indicator panel logic to JSBSim.
+Model: Pressing the test light button, will now also test the master warning.
+Model: Some indicator panel lights are now better translated from swedish.

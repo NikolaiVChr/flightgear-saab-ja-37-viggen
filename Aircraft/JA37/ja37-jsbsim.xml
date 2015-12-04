@@ -526,6 +526,7 @@ Old values:
   <aerodynamics file="ja37-aerodynamics.xml"/>
   <system file="ja37-hydraulic"/>
   <system file="flight"/>
+  <system file="indicators"/>
   <system file="cannon_recoil"/>
   <system file="electric"/>
   <system file="ja37-fuel"/>

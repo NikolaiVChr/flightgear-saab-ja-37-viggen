@@ -1,0 +1,1202 @@
+<?xml version="1.0"?>
+
+<system name="indicators">
+
+    <channel name="Left indicator panel logic">
+
+
+        <!-- Swedish: BRAND (sound, blinking)
+        -->
+
+        <switch name="systems/indicators/fire">
+            <default value="0"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+              /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+
+
+        <!-- Swedish: BRÄ UPPF (blinking, suppression of blinking if secondary from Hydr-1)
+        -->
+
+        <fcs_function name="systems/indicators/fuel-flow-secondary">
+            <function>
+                <and>
+                    <p>systems/indicators/hydr-1-primary</p>
+                    <gt>
+                        <property>/sim/ja37/avionics/fuel-internal-ratio</property>
+                        <value>0.40</value>
+                    </gt>
+                </and>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/fuel-flow-primary">
+            <function>
+                <or>
+                    <and>
+                        <gt>
+                            <property>/sim/ja37/avionics/fuel-internal-ratio</property>
+                            <value>0.43</value>
+                        </gt>
+                        <eq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>systems/fuel/pneumatic-low-pressure</property>
+                            <value>0</value>
+                        </eq>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/fuel-flow-primary-2">
+            <function>
+                <and>
+                    <eq>
+                        <property>systems/fuel/fuel-flow/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <gt>
+                        <property>/sim/ja37/avionics/fuel-internal-ratio</property>
+                        <value>0.43</value>
+                    </gt>
+                    <gt>
+                        <product>
+                            <property>/consumables/fuel/tank3/level-gal_us</property>
+                            <v>3.785</v>
+                        </product>
+                        <value>130</value><!-- liters -->
+                    </gt>
+                    <or>
+                        <nq>
+                            <property>/gear/gear[0]/wow</property>
+                            <value>1</value>
+                        </nq>
+                        <p>systems/indicators/hydr-1-primary</p>
+                    </or>                
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/fuel-flow-primary-2-time">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="systems/indicators/fuel-flow-primary-2-time">
+                systems/indicators/fuel-flow-primary-2 == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/indicators/fuel-flow-primary-2-time-blinking">
+            <function>
+                <sum>
+                    <p>systems/indicators/fuel-flow-primary-2-time</p>
+                    <v>10</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/fuel-flow">
+            <default value="systems/indicators/fuel-flow-secondary"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+              systems/indicators/fuel-flow-primary == 1
+              sim-time-sec gt systems/indicators/fuel-flow-primary-2-time-blinking
+            </test>
+        </switch>
+
+
+        <!-- Swedish: X-TANK BRÄ (steady)
+
+        TODO?
+
+        (input.starter.getValue() == TRUE or input.engineRunning.getValue() == 1) 
+
+        -->
+
+        <fcs_function name="systems/indicators/xtank">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>/consumables/fuel/tank[8]/jettisoned</property>
+                            <value>0</value>
+                        </eq>
+                        <gt>
+                            <property>/consumables/fuel/tank[8]/level-gal_us</property>
+                            <value>45</value>
+                        </gt>
+                        <or>
+                            <lt>
+                                <p>propulsion/engine[0]/n2</p>
+                                <v>70</v>
+                            </lt>
+                            <eq>
+                                <p>systems/fuel/pneumatics/serviceable</p>
+                                <v>0</v>
+                            </eq>
+                        </or>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+    
+
+        <!-- Swedish: TANKPUMP (blinking, suppression of blinking if secondary from Electrical)
+        -->
+
+        <fcs_function name="systems/indicators/fuel-pump-secondary">
+            <function>
+                <or>
+                    <eq>
+                        <property>systems/indicators/electrical-primary</property>
+                        <value>1</value>
+                    </eq>
+                </or>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/fuel-pump-primary">
+            <function>
+                <or>
+                    <eq>
+                        <property>systems/fuel/fuel-pumps/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/fuel-pump">
+            <default value="systems/indicators/fuel-pump-secondary"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+              systems/indicators/fuel-pump-primary == 1
+            </test>
+        </switch>
+
+
+        <!-- Swedish: LANDSTÄLL (blinking/steady, sound)
+        -->
+
+        <fcs_function name="systems/indicators/gears-primary">
+            <function>
+                <and>
+                    <or>
+                        <!--<equals>
+                            <property>gear/serviceable</property>
+                            <value>0</value>
+                        </equals>-->
+                        <eq>
+                            <property>gear/unit[0]/z-position</property>
+                            <value>0.001</value>
+                        </eq>
+                        <eq>
+                            <property>gear/unit[1]/z-position</property>
+                            <value>0.001</value>
+                        </eq>
+                        <eq>
+                            <property>gear/unit[2]/z-position</property>
+                            <value>0.001</value>
+                        </eq>
+                        <nq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </nq>
+                    </or>
+                    <lt>
+                        <property>propulsion/engine[0]/n2</property>
+                        <value>87</value>
+                    </lt>
+                    <lt>
+                        <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                        <value>202.5</value>
+                    </lt>
+                    <lt>
+                        <property>/instrumentation/altimeter/indicated-altitude-meter</property>
+                        <value>500</value>
+                    </lt>
+                </and>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/gears-secondary">
+            <function>
+                <or>
+                    <and>
+                        <nq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </nq>
+                        <nq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>0</value>
+                        </nq>
+                    </and>
+                    <and>
+                        <eq>
+                            <property>gear/gear-cmd-norm</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[1]/wow</property>
+                            <value>1</value>
+                        </eq>
+                    </and>                
+                </or>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/gears-time-steady">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="systems/indicators/gears-time-steady">
+                systems/indicators/gears-secondary == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/indicators/gears-time-blinking">
+            <function>
+                <sum>
+                    <p>systems/indicators/gears-time-steady</p>
+                    <v>10</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/gears">
+            <default value="systems/indicators/gears-secondary"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/gears-primary == 1
+                sim-time-sec gt systems/indicators/gears-time-blinking
+            </test>
+        </switch>
+
+       <!-- Swedish: FÖRV FÖRBJ (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/forward-thrust">
+            <function>
+                <and>
+                    <or>
+                        <and>
+                            <or>
+                                <eq>
+                                    <property>systems/hydraulics/system1/pressure</property>
+                                    <value>0</value>
+                                </eq>
+                                <lt>
+                                    <property>/systems/electrical/outputs/dc-voltage</property>
+                                    <value>23</value>
+                                </lt>
+                            </or>
+                            <eq>
+                                <property>/engines/engine/reversed</property>
+                                <value>1</value>
+                            </eq>
+                        </and>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <p>/sim/ja37/blink/ten-Hz/state</p>             
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: NOSSTÄLL (steady)
+        -->
+
+        <fcs_function name="systems/indicators/gear-nose">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </eq>
+                        <nq>
+                            <property>gear/unit[0]/z-position</property>
+                            <value>0.001</value>
+                        </nq>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: V STÄLL (steady)
+        -->
+
+        <fcs_function name="systems/indicators/gear-left">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>/gear/gear[1]/position-norm</property>
+                            <value>1</value>
+                        </eq>
+                        <nq>
+                            <property>gear/unit[1]/z-position</property>
+                            <value>0.001</value>
+                        </nq>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: H STÄLL (steady)
+        -->
+
+        <fcs_function name="systems/indicators/gear-right">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>/gear/gear[2]/position-norm</property>
+                            <value>1</value>
+                        </eq>
+                        <nq>
+                            <property>gear/unit[2]/z-position</property>
+                            <value>0.001</value>
+                        </nq>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+                
+        <!-- Swedish: ELFÖRS (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/electrical-primary">
+            <function>
+                <or>
+                    <eq>
+                        <property>/systems/electrical/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>/systems/generator/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <lt>
+                        <property>/systems/electrical/outputs/ac-main-voltage</property>
+                        <value>200</value>
+                    </lt>
+                    <lt>
+                        <property>/systems/electrical/outputs/ac-instr-voltage</property>
+                        <value>115</value>
+                    </lt>
+                    <lt>
+                        <property>/systems/electrical/outputs/dc-voltage</property>
+                        <value>28</value>
+                    </lt>
+                    <lt>
+                        <property>systems/electrical/battery-producing-dc</property>
+                        <value>24</value>
+                    </lt>
+                </or>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/electrical">
+            <default value="0"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/electrical-primary == 1
+            </test>
+        </switch>
+
+
+        <!-- Swedish: ELRESERV (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/electrical-reserve">
+            <function>
+                <and>
+                    <or>
+                        <and>
+                            <eq>
+                                <property>systems/electrical/generator-reserve-supplying</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>/systems/generator/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                        </and>
+                        <and>
+                            <eq>
+                                <property>/controls/electric/reserve</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>/systems/generator/serviceable</property>
+                                <value>1</value>
+                            </eq>
+                        </and>
+                        <eq>
+                            <property>/systems/electrical/serviceable</property>
+                            <value>0</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+
+        <!-- Swedish: HYDR-TR2 (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/hydr-2">
+            <function>
+                <and>
+                    <or>                    
+                        <eq>
+                            <property>systems/hydraulics/system2/pressure-main</property>
+                            <value>0</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and> 
+            </function>
+        </fcs_function>
+
+
+
+        <!-- Swedish: HYDR-TR1 (blinking, sound)
+        -->
+        <fcs_function name="systems/indicators/hydr-1-primary">
+            <function>
+                <eq>
+                    <property>systems/hydraulics/system1/pressure</property>
+                    <value>0</value>
+                </eq>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/hydr-1">
+            <function>
+                <and>
+                    <or>
+                        <property>systems/indicators/hydr-1-primary</property>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: AFK (blinking/steady, sound)
+
+        TODO: if A/P dont work, just leave the locks, but let it not work
+
+        -->
+
+        <fcs_function name="systems/indicators/auto-throttle-secondary">
+            <function>
+                <or>
+                    <eq>
+                        <property>/systems/generator/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <and>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-throttle-on</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[0]/wow</property>
+                            <value>1</value>
+                        </eq>
+                    </and>             
+                </or>
+            </function>
+        </fcs_function>
+        
+        <fcs_function name="systems/indicators/auto-throttle-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>/sim/ja37/avionics/auto-throttle-on</property>
+                        <value>1</value>
+                    </eq>
+                    <!--<eq> made no sense to me even though manual says so
+                        <property>/gear/gear[0]/wow</property>
+                        <value>1</value>
+                    </eq>-->
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/auto-throttle">
+            <default value="systems/indicators/auto-throttle-secondary"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/auto-throttle-primary == 1
+            </test>
+        </switch>
+
+
+        <!-- Swedish: EJ REV (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/no-reverse">
+            <function>
+                <and>
+                    <or>
+                        <and>
+                            <or>
+                                <eq>
+                                    <property>systems/hydraulics/system1/pressure</property>
+                                    <value>0</value>
+                                </eq>
+                                <lt>
+                                    <property>/systems/electrical/outputs/dc-voltage</property>
+                                    <value>23</value>
+                                </lt>
+                            </or>
+                            <eq>
+                                <property>/engines/engine/reversed</property>
+                                <value>0</value>
+                            </eq>
+                        </and>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: HYDRRESERV (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/hydr-reserve">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>systems/hydraulics/system2/pressure-reserve</property>
+                            <value>0</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: OLJETRYCK (blinking, sound)
+        -->
+
+        <fcs_function name="systems/indicators/oil-pressure">
+            <function>
+                <and>
+                    <or>
+                        <lt>
+                            <property>/engines/engine[0]/oil-pressure-psi</property>
+                            <value>30</value>
+                        </lt>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: OLJETEMP (blinking)
+        -->
+
+        <fcs_function name="systems/indicators/oil-temperature">
+            <function>
+                <and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+    </channel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <channel name="Right indicator panel logic">
+
+        <!-- Swedish: SPAK (blinking, sound)
+        TODO
+        -->
+
+        <fcs_function name="systems/indicators/flightstick">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/joystick</property>
+                            <value>1</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: ATT  (blinking, sound)
+        TODO
+        -->
+        
+        <fcs_function name="systems/indicators/auto-attitude">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/autopilot</property>
+                            <value>1</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: HÖJD  (blinking, sound)
+        TODO
+        -->
+        
+        <fcs_function name="systems/indicators/auto-altitude">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/autopilot</property>
+                            <value>1</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: BRAND GTS  (blinking, sound)
+        -->
+        
+        <fcs_function name="systems/indicators/fire-in-starter">
+            <function>
+                <and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: TIPPVÄXEL (blinking, sound)
+
+            not authentic implemented
+        -->
+        
+        <fcs_function name="systems/indicators/pitch-gearing">
+            <function>
+                <or>
+                    <lt>
+                        <property>systems/flight/pitch-limiter</property>
+                        <value>1.0</value>
+                    </lt>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: KABINHÖJD (blinking)
+        -->
+        
+        <fcs_function name="systems/indicators/cabin-pressure">
+            <function>
+                <and>
+                    <or>
+                        <lt>
+                            <property>systems/flight/cabin-pressure-kpm2</property>
+                            <value>0.15</value>
+                        </lt>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: HUV o STOL (blinking)
+        -->
+        
+        <fcs_function name="systems/indicators/canopy-and-seat">
+            <function>
+                <and>
+                    <or>
+                        <and>
+                            <lt>
+                                <property>/systems/electrical/outputs/ac-main-voltage</property>
+                                <value>150</value>
+                            </lt>
+                            <gt>
+                                <property>/systems/electrical/outputs/dc-voltage</property>
+                                <value>20</value>
+                            </gt>
+                        </and>
+                        <and>
+                            <nq>
+                                <property>/canopy/position-norm</property>
+                                <value>0</value>
+                            </nq>
+                            <or>
+                                <nq>
+                                    <property>/gear/gear[0]/wow</property>
+                                    <value>1</value>
+                                </nq>
+                                <gt>
+                                    <property>/engines/engine[0]/n2</property>
+                                    <value>88.5</value>
+                                </gt>
+                            </or>
+                        </and>
+                        <nq>
+                            <property>fcs/canopy/serviceable</property>
+                            <value>1</value>
+                        </nq>
+                        <nq>
+                            <property>fcs/canopy/hinges/serviceable</property>
+                            <value>1</value>
+                        </nq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: TÄNDSYST (blinking)
+
+          # manual says between 11-16% it goes on, so 16 is fine
+
+        -->
+        
+        <fcs_function name="systems/indicators/ignition-system">
+            <function>
+                <and>
+                    <or>
+                        <and>
+                            <eq>
+                                <property>/controls/engines/engine[0]/cutoff</property>
+                                <value>0</value>
+                            </eq>
+                            <lt>
+                                <property>propulsion/engine[0]/n2</property>
+                                <value>57</value>
+                            </lt>
+                            <gt>
+                                <property>propulsion/engine[0]/n2</property>
+                                <value>16</value>
+                            </gt>
+                            <eq>
+                                <property>/engines/engine/thrust_lb</property>
+                                <value>0</value>
+                            </eq>
+                        </and>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: STARTSYST (steady)
+        -->
+        
+        <fcs_function name="systems/indicators/start-system">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>/controls/engines/engine[0]/starter-cmd</property>
+                            <value>1</value>
+                        </eq>
+                        <lt>
+                            <property>propulsion/engine[0]/n2</property>
+                            <value>57</value>
+                        </lt>
+                        <eq>
+                            <property>/engines/engine/thrust_lb</property>
+                            <value>0</value>
+                        </eq>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: MAN BR REG (steady)
+        -->
+        
+        <fcs_function name="systems/indicators/manual-fuel-regulation">
+            <function>
+                <or>
+                    <eq>
+                        <property>/controls/fuel/auto</property>
+                        <value>0</value>
+                    </eq>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: CD (blinking)
+        -->
+        
+        <fcs_function name="systems/indicators/central-cpu">
+            <function>
+                <and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: PRIMÄRDATA (blinking, supp )
+        -->
+        
+        <fcs_function name="systems/indicators/primary-data">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/primaryData</property><!-- involves timer when starting engine -->
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>/instrumentation/head-up-display/serviceable</property>
+                            <value>0</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: TN (steady)
+        -->
+        
+        <fcs_function name="systems/indicators/inertia-navigation">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>/sim/ja37/avionics/TN</property><!-- involves timer when starting engine -->
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </or>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: RADAR (blinking, supp: el, cd, primär, hydr-1)
+        -->
+        
+        <fcs_function name="systems/indicators/radar-secondary">
+            <function>
+                <or>
+                    <lt>
+                        <property>/systems/electrical/outputs/dc-voltage</property>
+                        <value>23</value>
+                    </lt>
+                    <nq>
+                        <property>systems/hydraulics/system1/pressure</property>
+                        <value>1</value>
+                    </nq>
+                </or>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/radar-primary">
+            <function>
+                <nq>
+                    <property>/instrumentation/radar/serviceable</property>
+                    <value>1</value>
+                </nq>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/radar">
+            <default value="systems/indicators/radar-secondary"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/radar-primary == 1
+            </test>
+        </switch>
+
+
+        <!-- Swedish: IKS (steady)
+        -->
+        
+        <fcs_function name="systems/indicators/transponder">
+            <function>
+                <property>/controls/lighting/test-indicator-panels</property>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: ALFA (blinking)
+        -->
+        
+        <fcs_function name="systems/indicators/alpha">
+            <function>
+                <!--<or>
+                <and>
+                    <or>
+                        <and>
+                            <not>
+                                <property>/gear/gear/position-norm</property>
+                            </not>
+                            <or>
+                                <and>
+                                    <greater-than>
+                                        <property>/orientation/alpha-deg</property>
+                                        <value>23</value>
+                                    </greater-than>
+                                    <less-than>
+                                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                        <value>32808</value>
+                                    </less-than>
+                                </and>
+                                <and>
+                                    <greater-than>
+                                        <property>/orientation/alpha-deg</property>
+                                        <value>20</value>
+                                    </greater-than>
+                                    <greater-than>
+                                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                                        <value>32808</value>
+                                    </greater-than>
+                                </and>
+                            </or>
+                        </and>
+                        <and>
+                            <property>/gear/gear/position-norm</property>
+                            <greater-than>
+                                <property>/orientation/alpha-deg</property>
+                                <value>18</value>
+                            </greater-than>
+                            <not>
+                                <property>/gear/gear[1]/wow</property>
+                            </not>
+                            <not>
+                                <property>/gear/gear[2]/wow</property>
+                            </not>
+                        </and>
+                    </or>-->
+                <and>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: SYRGAS (blinking, sound)
+        -->
+        
+        <fcs_function name="systems/indicators/oxygen">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/oxygen</property>
+                            <value>1</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: UTL TEMP (blinking, sound)
+        -->
+        
+        <fcs_function name="systems/indicators/outlet-temperature">
+            <function>
+                <and>
+                    <or>
+                        <gt>
+                            <property>propulsion/engine/outlet-temperature-degc</property>
+                            <value>850</value>
+                        </gt>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: BRÄ MÄNGD (blinking, sound)
+        -->
+        
+        <fcs_function name="systems/indicators/low-fuel">
+            <function>
+                <and>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/sound/fuel-low-on</property>
+                            <value>1</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+        <!-- Swedish: ANP 37 (blinking)
+        -->
+        
+        <fcs_function name="systems/indicators/weapons">
+            <function>
+                <and>
+                    <property>/controls/lighting/test-indicator-panels</property>
+                    <eq>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+
+    </channel>
+
+</system>
