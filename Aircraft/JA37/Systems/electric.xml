@@ -69,16 +69,16 @@
 
         <scheduled_gain name="systems/electrical/generator-reserve-cmd">
             <description>
-                      Generator reserve running command
+                      Generator reserve (Ram Air turbine) running command
             </description>
             <input>/systems/generator-reserve/serviceable</input>
             <table>
-                <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
+                <independentVar lookup="row">/velocities/airspeed-kt</independentVar>
                 <independentVar lookup="column">/controls/electric/reserve</independentVar>
                 <tableData>
-                     0   1
-                10   0   0
-                30   0   1
+                      0   1
+                  0   0   0
+                100   0   1
             </tableData>
             </table>
             <clipto>
@@ -103,6 +103,18 @@
                 </setting>
             </traverse>
         </kinematic>
+
+        <switch name="systems/electrical/generator-reserve-supplying">
+            <description>
+                      Reserve is supplying, bool
+            </description>
+            <default value="0"/>
+            <test logic="AND" value="1">
+                systems/electrical/generator-reserve-running-norm == 1
+                systems/electrical/external/switch == 0
+                /controls/electric/reserve == 1
+            </test>
+        </switch>
 
         <switch name="systems/electrical/AC-supply-norm">
             <description>
