@@ -975,6 +975,9 @@
     <channel name="Right indicator panel logic">
 
         <!-- Swedish: SPAK (blinking, sound)
+
+            This is for the flightstick assist systems, like roll and pitch dampers etc.
+
         -->
 
         <fcs_function name="systems/indicators/flightstick-secondary">

@@ -1787,7 +1787,7 @@ Aero: Fixed that Cma was included in Cmelevator and therefore was doubled.
 Aero: Adjusted pitch limiter to reflect changes to Cmelevator.
 Aero: Degraded elevator positive authority to prevent unrealistic down pitching.
 
-3.103
+3.103 - 2015 December 7
 =====
 Sim: Flare release is now single-click, not hold the key.
 Sound: Added avionics sound when releasing flare and for when flares is used up.
@@ -1809,7 +1809,7 @@ Sound: Variable pitch adjustments to external fan noise, external turbine noise 
 Sound: Lowered max volume for external model view afterburner noise.
 Model: Tooltip for oxygen system switch now indicates that it is for the mask.
 Sim: Backup generator is now a ram air turbine, as per the manual.
-Model: Did a overhaul of the left and right indicator panels logic, they now work even more like decribed in the manual.
+Model: Did a overhaul of the left and right indicator panels logic, they now work even more like described in the manual.
 Sim: Moved all indicator logics to JSBSim. Except master warning.
 Model: Pressing the test light button, will now also test the master warning including the sound.
 Model: Some indicator panel lights are now better translated from swedish.

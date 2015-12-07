@@ -55,7 +55,7 @@ Crusader - Carrier catapult mechanism
 pa24-250 - Glare texture for landing lights
 F-14b (jsb) - Dampers inspiration. Hydraulics. Pilot. 3 sounds.
 l39 - Strobe light texture.
-C172p - Some sound settings. Thunder and rain sounds and most of their code.
+C172p - Some sound settings. Thunder and rain sounds and most of their code from that.
 707 - External power supply truck.
 
 Might have forgotten some.
