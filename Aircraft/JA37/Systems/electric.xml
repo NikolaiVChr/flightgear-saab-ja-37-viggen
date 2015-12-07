@@ -67,25 +67,29 @@
             </traverse>
         </kinematic>
 
-        <scheduled_gain name="systems/electrical/generator-reserve-cmd">
+        <fcs_function name="systems/electrical/generator-reserve-cmd">
             <description>
                       Generator reserve (Ram Air turbine) running command
+
+                      Page 82 of JA-37C manual.
             </description>
-            <input>/systems/generator-reserve/serviceable</input>
-            <table>
-                <independentVar lookup="row">/velocities/airspeed-kt</independentVar>
-                <independentVar lookup="column">/controls/electric/reserve</independentVar>
-                <tableData>
-                      0   1
-                  0   0   0
-                100   0   1
-            </tableData>
-            </table>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
-        </scheduled_gain>
+            <function>
+                <product>
+                    <p>/systems/generator-reserve/serviceable</p>
+                    <p>/controls/electric/reserve</p>
+                    <table>
+                        <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
+                        <independentVar lookup="row">gear/gear-pos-norm</independentVar>
+                        <tableData>
+                                    0    1
+                              0.0   0.0  0.0
+                            145.8   0.9  1.0
+                            162.0   1.0  1.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+        </fcs_function>
 
         <kinematic name="systems/electrical/generator-reserve-running-norm">
             <description>

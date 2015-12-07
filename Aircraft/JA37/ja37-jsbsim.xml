@@ -212,7 +212,7 @@ Old values:
       <spring_coeff unit="LBS/FT"> 40000 </spring_coeff><!-- hardness of spring. Low value means gear collapses more per energy applied. High value might give jsbsim trouble. -->
       <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff><!-- higher value slows down how fast the gear absorbs energy -->
       <damping_coeff_rebound unit="LBS/FT/SEC"> 20000 </damping_coeff_rebound><!-- high value means the gear is slower to release the energy it stored when collapsed -->
-      <max_steer unit="DEG"> 80 </max_steer>
+      <max_steer unit="DEG"> 30 </max_steer>
       <brake_group> LEFT </brake_group><!-- FG do not use CENTER, TAIL or NOSE braking group, so must use LEFT or RIGHT -->
       <retractable>1</retractable>
     </contact>

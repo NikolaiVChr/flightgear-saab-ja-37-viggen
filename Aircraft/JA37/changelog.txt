@@ -1818,3 +1818,6 @@ Sim: If autopilot malfunction for lack of power or hydraulic, the locks now will
 Sound: Fixed that if the gears got stuck between up and down position that the gear retraction sound would continue to play.
 Sound: Made the gear retraction sound higher pitched.
 Sim: Fixed that electrical warning would not go off if backup system was running.
+Sim: The backup ram air generator now works at the airspeeds indicated by the JA-37C manual.
+Aero: The nosegear steering is now limited to 30 degrees to each side, as per the manual.
+Aero: The gears can now not retract at loss of hydraulic 1, but can still extend and lock by gravity if hydraulic 2 has enough pressure.

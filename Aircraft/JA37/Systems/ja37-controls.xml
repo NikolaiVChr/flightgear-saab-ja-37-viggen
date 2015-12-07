@@ -856,18 +856,27 @@
         <switch name="names/gear-target-norm">
             <default value="gear/gear-cmd-norm"/>
             <test logic="OR" value="1">
-              gear/unit[0]/WOW == 1
-              gear/unit[1]/WOW == 1
-              gear/unit[2]/WOW == 1
-          </test>
+                  gear/unit[0]/WOW == 1
+                  gear/unit[1]/WOW == 1
+                  gear/unit[2]/WOW == 1
+            </test>
             <test logic="AND" value="0">
-              gear/gear-pos-norm == 0
-              velocities/vc-kts gt 334.77
-          </test>
+                  gear/gear-pos-norm == 0
+                  velocities/vc-kts gt 334.77
+            </test>
             <test logic="AND" value="0">
-              gear/gear-pos-norm == 0
-              velocities/mach gt 0.65
-          </test>
+                  gear/gear-pos-norm == 0
+                  velocities/mach gt 0.65
+            </test>
+            <!-- at loss of hydr-1 the gears can go down, but not up: -->
+            <test logic="AND" value="gear/gear-pos-norm">
+                  gear/gear-cmd-norm == 0
+                  systems/hydraulics/system1/pressure == 0
+            </test>
+            <test logic="AND" value="gear/gear-cmd-norm">
+                  gear/gear-cmd-norm == 1
+                  systems/hydraulics/system1/pressure == 0
+            </test>
             <clipto>
                 <min>  0 </min>
                 <max>  1 </max>
@@ -878,9 +887,9 @@
         <switch name="names/gear-filtered-norm">
             <default value="gear/gear-target-norm"/>
             <test logic="OR" value="gear/gear-pos-norm">
-              systems/hydraulics/flight-surface-actuation == 0
-              gear/serviceable == 0
-          </test>
+                  systems/hydraulics/flight-surface-actuation == 0
+                  gear/serviceable == 0
+            </test>
             <clipto>
                 <min>  0 </min>
                 <max>  1 </max>
@@ -921,26 +930,27 @@
         <switch name="names/nose-wheel-steering/tmp-norm">
             <default value="fcs/steer-cmd-norm"/>
             <test logic="OR" value="gear/unit[0]/nose-wheel-steering/kinematic-norm">
-              systems/hydraulics/flight-surface-actuation == 0
-              gear/unit[0]/nose-wheel-steering/serviceable == 0
-          </test>
+                systems/hydraulics/flight-surface-actuation == 0
+                gear/unit[0]/nose-wheel-steering/serviceable == 0
+            </test>
             <test logic="OR" value="0">
-              gear/unit[0]/nose-wheel-steering/enable == 0
-          </test>
+                gear/unit[0]/nose-wheel-steering/enable == 0
+            </test>
             <output>gear/unit[0]/nose-wheel-steering/tmp-norm</output>
         </switch>
 
+        <!-- Page 180 of JA-37C manual: maximum 30 degs deflection -->
         <scheduled_gain name="names/nose-wheel-steering/steer-pos-deg">
             <input>gear/unit[0]/nose-wheel-steering/kinematic-norm</input>
             <table>
                 <independentVar>velocities/vg-fps</independentVar>
                 <tableData><!-- note that this is positive also when moving in reverse -->
-               10.0       80.00
-               20.0       25.00
-               50.0        5.00
-              100.0        1.50
-              150.0        0.75
-              200.0        0.50 <!-- by this speed the front wheel hardly touches the runway -->
+                       10.0       30.00
+                       20.0       25.00
+                       50.0        5.00
+                      100.0        1.50
+                      150.0        0.75
+                      200.0        0.50 <!-- by this speed the front wheel hardly touches the runway -->
                 </tableData>
             </table>
             <output>fcs/steer-pos-deg</output>

@@ -2,6 +2,14 @@
 
 <system name="indicators">
 
+    <!-- JA-37Di pilots Manual page 589 and forward. Also bits of info scattered all over the document.
+         JA-37C pilots Manual page 572 and forward. Also bits of info scattered all over the document.
+
+         [not implemented] When a blinking light warning also induces a master warning, and that warning is acknowledged, then the blinking turns to steady.
+
+         When lamptest button is pressed all light go on and blinking lights will blink. Master-warning also goes on.
+     -->
+
     <channel name="Left indicator panel logic">
 
 
