@@ -846,7 +846,7 @@
   <object-name>gearFrontLight</object-name>
   <object-name>frontLandingLightGlare</object-name>
   <property>sim/multiplay/generic/float[0]</property><!-- gear/gear[0]/steering-norm -->
-  <factor>80</factor>
+  <factor>30</factor>
   <center>
    <x-m>-3.35848</x-m>
    <y-m>-0.000003</y-m>
