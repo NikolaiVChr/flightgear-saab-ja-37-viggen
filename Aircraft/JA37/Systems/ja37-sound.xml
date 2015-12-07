@@ -499,7 +499,7 @@
 
         <rumble>
             <name>gear rumble</name>
-            <mode>looped</mode>
+            <!--<mode>looped</mode>-->
             <path>Sounds/rumble.wav</path>
             <mode>in-transit</mode>
             <property>gear/gear[0]/position-norm</property>
@@ -522,8 +522,8 @@
                 <z>-0.6</z>
             </position>
             <pitch>
-                <min>1.20</min>
-                <max>1.21</max>
+                <min>1.05</min>
+                <max>1.051</max>
             </pitch>
             <volume>
                 <max>0.40</max>

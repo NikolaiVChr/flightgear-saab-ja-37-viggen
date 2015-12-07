@@ -1123,7 +1123,7 @@
                     <or>
                         <eq>
                             <property>fcs/canopy/has-power</property>
-                            <value>1</value>
+                            <value>0</value>
                         </eq>
                         <and>
                             <nq>
