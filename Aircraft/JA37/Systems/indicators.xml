@@ -1114,10 +1114,10 @@
         <fcs_function name="systems/indicators/pitch-gearing">
             <function>
                 <or>
-                    <lt>
-                        <property>systems/flight/pitch-limiter</property>
-                        <value>0.8</value>
-                    </lt>
+                    <eq>
+                        <property>fcs/elevator/limiter-enable</property>
+                        <value>0</value>
+                    </eq>
                     <property>/controls/lighting/test-indicator-panels</property>
                 </or>
             </function>

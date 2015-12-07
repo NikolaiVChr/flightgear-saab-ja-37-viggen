@@ -412,7 +412,7 @@ var update_loop = func {
     if(input.dcVolt.getValue() > 23 ) {
       var warning_sound = FALSE;
       var warning = FALSE;
-      warnNew = FALSE;
+      var warnNew = FALSE;
       if (input.wow0.getValue() == FALSE) {
         if (input.engineRunning.getValue() == FALSE and autostarting == FALSE) {
           warning = TRUE;
