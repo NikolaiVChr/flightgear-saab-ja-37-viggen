@@ -31,6 +31,10 @@
                         <value>nav1-hold</value>
                     </equals>
                 </or>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
             </condition>
         </enable>
         <input>
@@ -88,6 +92,10 @@
                         <value>nav1-hold</value>
                     </equals>
                 </or>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
             </condition>
         </enable>
         <gain>0.005</gain>
@@ -118,8 +126,16 @@
         <name>Pitch hold</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>pitch-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>pitch-hold</value>
+                </equals>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
+            </condition>
         </enable>
         <input>
             <property>/orientation/pitch-deg</property>
@@ -145,8 +161,16 @@
         <name>Auto throttle</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/speed</property>
-            <value>speed-with-throttle</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/speed</property>
+                    <value>speed-with-throttle</value>
+                </equals>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
+            </condition>
         </enable>
         <input>
             <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
@@ -192,8 +216,16 @@
         <name>AP:Rate of climb</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>vertical-speed-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>vertical-speed-hold</value>
+                </equals>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
+            </condition>
         </enable>
         <input>
             <property>/velocities/vertical-speed-fps</property>
@@ -233,8 +265,16 @@
         <name>AOA hold</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>aoa-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>aoa-hold</value>
+                </equals>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
+            </condition>
         </enable>
         <input>
             <property>/orientation/alpha-deg</property>
@@ -380,8 +420,16 @@
         <name>agl Hold (Altimeter based) Stage 2</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>agl-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>agl-hold</value>
+                </equals>
+                <equals>
+                    <property>/sim/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
+            </condition>
         </enable>
         <input>
             <property>/velocities/vertical-speed-fps</property>

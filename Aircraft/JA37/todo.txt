@@ -41,7 +41,8 @@ Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
 Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
-Sim: Shift-m should be a key without shift instead for convinience.
+Sim: Shift-m should be a key without shift instead for convienience.
+Sim: Many more master warnings. With and without sound.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -56,15 +57,6 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
-
-
-Working on right now:
----------------------
-Model: Test button should light master warning and sound
-Sim: When master warning button is clicked, the lights should become steady from blinking
-Sim: Many more master warnings
-Sim: Do the TODO in indicator logics
-Sim: Overhaul right indicator panel logic some more
 
 
 Bugs:

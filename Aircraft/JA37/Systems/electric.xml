@@ -397,7 +397,7 @@
         <pure_gain name="/systems/electrical/outputs/transponder">
             <description>
                       Transponder power
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <gain>1</gain>
         </pure_gain>

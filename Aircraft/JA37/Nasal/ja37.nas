@@ -249,74 +249,7 @@ var update_loop = func {
     #}
 
     
-    # indicators
-    var joystick = FALSE;
-    var attitude = FALSE;
-    var altitude = FALSE;
-    var transonic = FALSE;
-    var rev = FALSE;
 
-    # joystick indicator
-    if(input.acInstrVolt.getValue() > 50) {
-      if (((input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil) and (input.lockAltitude.getValue() != ''
-       and input.lockAltitude.getValue() != nil)) or input.lockPassive.getValue() == TRUE and input.dcVolt.getValue() > 23) {
-        joystick = FALSE;
-      } else {
-        joystick = TRUE;
-      }
-    } else {
-      joystick = FALSE;
-    }
-
-    # attitude indicator
-    if(input.lockPassive.getValue() == TRUE or (input.lockHeading.getValue() != '' and input.lockHeading.getValue() != nil)
-     and input.dcVolt.getValue() > 23) {
-      if (input.roll.getValue() > 70 or input.roll.getValue() < -70) {
-        attitude = input.hz05.getValue();
-      } else {
-        attitude = TRUE;
-      }
-    } else {
-      attitude = FALSE;
-    }
-
-    # altitude indicator
-    if(input.lockPassive.getValue() == TRUE or (input.lockAltitude.getValue() != '' and input.lockAltitude.getValue() != nil)
-     and input.dcVolt.getValue() > 23) {
-      if (input.speedMach.getValue() > 0.97 and input.speedMach.getValue() < 1.05) {
-        altitude = input.hz05.getValue();
-      } else {
-        altitude = TRUE;
-      }
-    } else {
-      altitude = FALSE;
-    }
-
-    #transonic indicator
-    if (input.speedMach.getValue() > 0.97 and input.speedMach.getValue() < 1.05
-     and input.dcVolt.getValue() > 23) {
-      transonic = TRUE;
-    } else {
-      if(input.reversed.getValue() == TRUE and input.speedKt.getValue() < 64.8 and input.dcVolt.getValue() > 23) {
-        # warning that speed is so low that its risky to continue reverse thrust
-          transonic = TRUE;
-        } else {
-          transonic = FALSE;
-        }
-    }
-
-    # reverse indicator
-    if(input.reversed.getValue() == TRUE and input.dcVolt.getValue() > 23) {
-      rev = TRUE;
-    } else {
-      rev = FALSE;
-    }
-
-    input.indJoy.setValue(joystick);
-    input.indAtt.setValue(attitude);
-    input.indAlt.setValue(altitude);
-    input.indTrn.setValue(transonic);
-    input.indRev.setValue(rev);
 
     # pylon payloads
     for(var i=0; i<=4; i=i+1) {
@@ -479,6 +412,7 @@ var update_loop = func {
     if(input.dcVolt.getValue() > 23 ) {
       var warning_sound = FALSE;
       var warning = FALSE;
+      warnNew = FALSE;
       if (input.wow0.getValue() == FALSE) {
         if (input.engineRunning.getValue() == FALSE and autostarting == FALSE) {
           warning = TRUE;
@@ -487,6 +421,7 @@ var update_loop = func {
           }
           if (warnEngineOff == TRUE) {
             warning_sound = TRUE;
+            warnNew = TRUE;
           }
         } else {
           warnEngineOff = TRUE;
@@ -498,6 +433,7 @@ var update_loop = func {
           }
           if (warnCanopy == TRUE) {
             warning_sound = TRUE;
+            warnNew = TRUE;
           }
         } else {
           warnCanopy = TRUE;
@@ -509,6 +445,7 @@ var update_loop = func {
           }
           if (warnGenerator == TRUE) {
             warning_sound = TRUE;
+            warnNew = TRUE;
           }
         } else {
           warnGenerator = TRUE;
@@ -520,6 +457,7 @@ var update_loop = func {
           }
           if (warnHydr1 == TRUE) {
             warning_sound = TRUE;
+            warnNew = TRUE;
           }
         } else {
           warnHydr1 = TRUE;
@@ -531,6 +469,7 @@ var update_loop = func {
           }
           if (warnHydr2 == TRUE) {
             warning_sound = TRUE;
+            warnNew = TRUE;
           }
         } else {
           warnHydr2 = TRUE;
@@ -542,6 +481,7 @@ var update_loop = func {
           }
           if (warnCabin == TRUE) {
             warning_sound = TRUE;
+            warnNew = TRUE;
           }
         } else {
           warnCabin = TRUE;
@@ -549,10 +489,10 @@ var update_loop = func {
       }
         
       # Master warning
-      if((warning == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) and input.hz10.getValue() == TRUE) {
-        input.warn.setValue(TRUE);
+      if (warnNew == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) {
+        input.warn.setValue(input.hz10.getValue());
       } else {
-        input.warn.setValue(FALSE);
+        input.warn.setValue(warning);
       }
       if((warning_sound == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) and input.hzThird.getValue() == TRUE) {
         input.master.setValue(TRUE);
@@ -604,19 +544,6 @@ var update_loop = func {
       mainOn = FALSE;
     }
 
-    # joystick on indicator panel
-    if ((main > 20 and input.acMainVolt.getValue() < 150) or input.hydrCombined.getValue() != 1) {
-      input.lampStick.setValue(TRUE);
-    } else {
-      input.lampStick.setValue(FALSE);
-    }
-
-    if (main > 20 and getprop("controls/oxygen") == FALSE) {
-      input.lampOxygen.setValue(TRUE);
-    } else {
-      input.lampOxygen.setValue(FALSE);
-    }
-
     # exterior lights
     var flash = input.dcVolt.getValue() > 20 and input.switchFlash.getValue() == 1;
     var beacon = input.dcVolt.getValue() > 20 and input.switchBeacon.getValue() == 1;
@@ -634,12 +561,24 @@ var update_loop = func {
       setprop("/sim/ja37/effect/smoke", 1);
     }
 
-    # auto-throttle
+    # auto-pilot engaged
 
-    if (getprop("/autopilot/locks/speed") == "") {
+    if (size(getprop("/autopilot/locks/speed")) == 0) {
       setprop("sim/ja37/avionics/auto-throttle-on", FALSE);
     } else {
       setprop("sim/ja37/avionics/auto-throttle-on", TRUE);
+    }
+
+    if (getprop("/autopilot/locks/heading") == "") {
+      setprop("sim/ja37/avionics/auto-attitude-on", FALSE);
+    } else {
+      setprop("sim/ja37/avionics/auto-attitude-on", TRUE);
+    }
+
+    if (getprop("/autopilot/locks/altitude") == "") {
+      setprop("sim/ja37/avionics/auto-altitude-on", FALSE);
+    } else {
+      setprop("sim/ja37/avionics/auto-altitude-on", TRUE);
     }
 
     settimer(
@@ -1359,6 +1298,11 @@ var main_init = func {
                     "ai/submodels/submodel[3]/random");
   aircraft.data.save();
 
+  # define the locks since they otherwise start with some undefined value I cannot test on.
+  setprop("/autopilot/locks/speed", "");
+  setprop("/autopilot/locks/heading", "");
+  setprop("/autopilot/locks/altitude", "");
+
   setprop("/consumables/fuel/tank[8]/jettisoned", FALSE);
 
   total_fuel = getprop("/consumables/fuel/tank[0]/capacity-gal_us")
@@ -1789,10 +1733,10 @@ var follow = func () {
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
   if (input.hydr1On.getValue() == 0 or input.dcVolt.getValue() < 23) {
-    setprop("sim/ja37/avionics/autopilot", TRUE);
-    stopAP();
-  } else {
     setprop("sim/ja37/avionics/autopilot", FALSE);
+    #stopAP();
+  } else {
+    setprop("sim/ja37/avionics/autopilot", TRUE);
   }
   settimer(hydr1Lost, 1);
 }

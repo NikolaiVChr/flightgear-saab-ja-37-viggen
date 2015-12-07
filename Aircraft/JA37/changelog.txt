@@ -1810,6 +1810,8 @@ Sound: Lowered max volume for external model view afterburner noise.
 Model: Tooltip for oxygen system switch now indicates that it is for the mask.
 Sim: Backup generator is now a ram air turbine, as per the manual.
 Model: Did a overhaul of the left and right indicator panels logic, they now work even more like decribed in the manual.
-Sim: Moved the indicator panel logic to JSBSim.
-Model: Pressing the test light button, will now also test the master warning.
+Sim: Moved all indicator logics to JSBSim. Except master warning.
+Model: Pressing the test light button, will now also test the master warning including the sound.
 Model: Some indicator panel lights are now better translated from swedish.
+Sim: When master warning button is clicked, the master warning lights now become steady on.
+Sim: If autopilot malfunction for lack of power or hydraulic, the locks now will stay checked, it will just stop working.
