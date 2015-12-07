@@ -501,7 +501,9 @@
             <name>gear rumble</name>
             <mode>looped</mode>
             <path>Sounds/rumble.wav</path>
-            <condition>
+            <mode>in-transit</mode>
+            <property>gear/gear[0]/position-norm</property>
+            <!--<condition>
                 <property>sim/current-view/internal</property>
                 <greater-than>
                     <property>gear/gear[0]/position-norm</property>
@@ -511,7 +513,7 @@
                     <property>gear/gear[0]/position-norm</property>
                     <value>1</value>
                 </less-than>
-            </condition>
+            </condition>-->
             <reference-dist>3</reference-dist>
             <max-dist>10</max-dist>
             <position>
@@ -519,6 +521,10 @@
                 <y>0.01</y>
                 <z>-0.6</z>
             </position>
+            <pitch>
+                <min>1.20</min>
+                <max>1.21</max>
+            </pitch>
             <volume>
                 <max>0.40</max>
             </volume>

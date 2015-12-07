@@ -376,22 +376,10 @@
                         <property>/systems/electrical/serviceable</property>
                         <value>0</value>
                     </eq>
-                    <eq>
-                        <property>/systems/generator/serviceable</property>
-                        <value>0</value>
-                    </eq>
-                    <lt>
-                        <property>/systems/electrical/outputs/ac-main-voltage</property>
-                        <value>200</value>
-                    </lt>
-                    <lt>
-                        <property>/systems/electrical/outputs/ac-instr-voltage</property>
-                        <value>115</value>
-                    </lt>
-                    <lt>
-                        <property>/systems/electrical/outputs/dc-voltage</property>
-                        <value>28</value>
-                    </lt>
+                    <nq>
+                        <property>systems/electrical/generator-running-norm</property>
+                        <value>1</value>
+                    </nq>
                     <lt>
                         <property>systems/electrical/battery-producing-dc</property>
                         <value>24</value>
@@ -422,7 +410,7 @@
                                 <value>0</value>
                             </eq>
                             <eq>
-                                <property>/systems/generator/serviceable</property>
+                                <property>systems/electrical/generator-running-norm</property>
                                 <value>0</value>
                             </eq>
                         </and>
@@ -432,7 +420,7 @@
                                 <value>1</value>
                             </eq>
                             <eq>
-                                <property>/systems/generator/serviceable</property>
+                                <property>systems/electrical/generator-running-norm</property>
                                 <value>1</value>
                             </eq>
                         </and>
@@ -1133,16 +1121,10 @@
             <function>
                 <and>
                     <or>
-                        <and>
-                            <lt>
-                                <property>/systems/electrical/outputs/ac-main-voltage</property>
-                                <value>150</value>
-                            </lt>
-                            <gt>
-                                <property>/systems/electrical/outputs/dc-voltage</property>
-                                <value>20</value>
-                            </gt>
-                        </and>
+                        <eq>
+                            <property>fcs/canopy/has-power</property>
+                            <value>1</value>
+                        </eq>
                         <and>
                             <nq>
                                 <property>/canopy/position-norm</property>

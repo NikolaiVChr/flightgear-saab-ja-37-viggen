@@ -1815,3 +1815,6 @@ Model: Pressing the test light button, will now also test the master warning inc
 Model: Some indicator panel lights are now better translated from swedish.
 Sim: When master warning button is clicked, the master warning lights now become steady on.
 Sim: If autopilot malfunction for lack of power or hydraulic, the locks now will stay checked, it will just stop working.
+Sound: Fixed that if the gears got stuck between up and down position that the gear retraction sound would continue to play.
+Sound: Made the gear retraction sound higher pitched.
+Sim: Fixed that electrical warning would not go off if backup system was running.
