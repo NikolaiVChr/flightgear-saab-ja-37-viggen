@@ -78,8 +78,8 @@
                     <p>/systems/generator-reserve/serviceable</p>
                     <p>/controls/electric/reserve</p>
                     <table>
-                        <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
-                        <independentVar lookup="row">gear/gear-pos-norm</independentVar>
+                        <independentVar lookup="row">/velocities/airspeed-kt</independentVar>
+                        <independentVar lookup="column">gear/gear-pos-norm</independentVar>
                         <tableData>
                                     0    1
                               0.0   0.0  0.0
