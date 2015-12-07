@@ -2,8 +2,6 @@
 <PropertyList>
     <path>indicator-panel-right.ac</path>
 
-    <!-- JA-37Di pilots Manual page 589 and forward Also bits of info scattered all over the document. -->
-
     <animation>
         <name>Flightstick</name>
         <object-name>indicatorLeft1</object-name>
