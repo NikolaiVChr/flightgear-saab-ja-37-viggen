@@ -116,35 +116,59 @@
 
 
         <!-- Swedish: X-TANK BRÄ (steady)
+
+        At the end of manual it says steady, in middle of manual it says it can also blink.
+        Blinking makes most sense, as it will show difference between not enough pressure
+        from pneumatic pump or if malfunction prevent fuel from being used.
+
+
         -->
 
-        <fcs_function name="systems/indicators/xtank">
+        <fcs_function name="systems/indicators/xtank-secondary">
             <function>
-                <or>
-                    <and>
-                        <eq>
-                            <property>/consumables/fuel/tank[8]/jettisoned</property>
-                            <value>0</value>
-                        </eq>
-                        <gt>
-                            <property>/consumables/fuel/tank[8]/level-gal_us</property>
-                            <value>45</value>
-                        </gt>
-                        <or>
-                            <lt>
-                                <p>propulsion/engine[0]/n2</p>
-                                <v>70</v>
-                            </lt>
-                            <eq>
-                                <p>systems/fuel/pneumatics/serviceable</p>
-                                <v>0</v>
-                            </eq>
-                        </or>
-                    </and>
-                    <property>/controls/lighting/test-indicator-panels</property>
-                </or>
+                <and>
+                    <eq>
+                        <property>/consumables/fuel/tank[8]/jettisoned</property>
+                        <value>0</value>
+                    </eq>
+                    <gt>
+                        <property>/consumables/fuel/tank[8]/level-gal_us</property>
+                        <value>45</value>
+                    </gt>
+                    <lt>
+                        <p>propulsion/engine[0]/n2</p>
+                        <v>70</v>
+                    </lt>
+                </and>
             </function>
         </fcs_function>
+
+        <fcs_function name="systems/indicators/xtank-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/consumables/fuel/tank[8]/jettisoned</property>
+                        <value>0</value>
+                    </eq>
+                    <gt>
+                        <property>/consumables/fuel/tank[8]/level-gal_us</property>
+                        <value>45</value>
+                    </gt>
+                    <eq>
+                        <p>systems/fuel/pneumatics/serviceable</p>
+                        <v>0</v>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/xtank">
+            <default value="systems/indicators/xtank-secondary"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+              systems/indicators/xtank-primary == 1
+              /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
     
 
         <!-- Swedish: TANKPUMP (blinking, suppression of blinking if secondary from Electrical)
@@ -1239,6 +1263,10 @@
         <fcs_function name="systems/indicators/manual-fuel-regulation">
             <function>
                 <or>
+                    <lt>
+                        <property>propulsion/engine[0]/n2</property>
+                        <value>9</value>
+                    </lt>
                     <eq>
                         <property>/controls/fuel/auto</property>
                         <value>0</value>
