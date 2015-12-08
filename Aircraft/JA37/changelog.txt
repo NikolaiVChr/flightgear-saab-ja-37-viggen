@@ -1825,3 +1825,4 @@ Aero: The gears can now not retract at loss of hydraulic 1, but can still extend
 3.104
 =====
 Model: On the ground the AoA indicator will now show pitch angle, not AoA. As per the JA-37C manual.
+HUD: Primary supply is now 115V AC, backup is DC and that will make the HUD show in amber colour. As per the manual.

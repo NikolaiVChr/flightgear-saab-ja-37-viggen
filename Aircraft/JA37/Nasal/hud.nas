@@ -24,6 +24,8 @@ var alt_scale_mode = -1; # the alt scale is not liniar, this indicates which par
 var FALSE = 0;
 var TRUE = 1;
 
+var on_backup_power = FALSE;
+
 var TAKEOFF = 0;
 var NAV = 1;
 var COMBAT =2;
@@ -854,7 +856,8 @@ var HUDnasal = {
         tenHz:            "sim/ja37/blink/ten-Hz/state",
         fiveHz:           "sim/ja37/blink/five-Hz/state",
         callsign:         "/sim/ja37/hud/callsign",
-        elec:             "/systems/electrical/outputs/dc-voltage",
+        elecDC:           "/systems/electrical/outputs/dc-voltage",
+        elecAC:           "systems/electrical/outputs/ac-instr-voltage",
         altCalibrated:    "sim/ja37/avionics/altimeters-calibrated",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
         terrainOn:        "sim/ja37/sound/terrain-on",
@@ -904,7 +907,27 @@ var HUDnasal = {
       #############             main loop                         ################
       ############################################################################
   update: func() {
-    if(me.input.elec.getValue() < 24 or me.input.mode.getValue() == 0) {
+    var has_power = TRUE;
+    if (me.input.elecAC.getValue() < 100) {
+      # primary power is off
+      if (me.input.elecDC.getValue() > 23) {
+        # on backup
+        if (on_backup_power == FALSE) {
+          # change the colour to amber
+          reinit(TRUE);
+        }
+        on_backup_power = TRUE;
+      } else {
+        # HUD has no power
+        has_power = FALSE;
+      }
+    } elsif (on_backup_power == TRUE) {
+      # was on backup, now is on primary
+      reinit(FALSE);
+      on_backup_power = FALSE;
+    }
+    
+    if(has_power == FALSE or me.input.mode.getValue() == 0) {
       me.root.hide();
       me.root.update();
       settimer(func me.update(), 0.3);
@@ -2276,29 +2299,38 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 #setprop("/systems/electrical/battery", 0);
 id = setlistener("sim/ja37/supported/initialized", init, 0, 0);
 
-var reinit = func() {#mostly called to change HUD color
+var reinit = func(backup = FALSE) {#mostly called to change HUD color
    #reinitHUD = 1;
 
+   # if on backup power then amber will be the colour
+   var red = backup == FALSE?r:1;
+   var green = backup == FALSE?g:0.5;
+   var blue = backup == FALSE?b:0;
+
    foreach(var item; artifacts0) {
-    item.setColor(r, g, b, a);
+    item.setColor(red, green, blue, a);
     item.setStrokeLineWidth(getprop("sim/ja37/hud/stroke-linewidth"));
    }
 
    foreach(var item; artifacts1) {
-    item.setColor(r, g, b, a);
+    item.setColor(red, green, blue, a);
     item.setStrokeLineWidth(getprop("sim/ja37/hud/stroke-linewidth"));
    }
 
    foreach(var item; artifactsText0) {
-    item.setColor(r, g, b, a);
+    item.setColor(red, green, blue, a);
    }
 
    foreach(var item; artifactsText1) {
-    item.setColor(r, g, b, a);
+    item.setColor(red, green, blue, a);
    }
-   hud_pilot.slip_indicator.setColorFill(r,g,b, a);
-   HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.05);
-   ja37.click();
+   hud_pilot.slip_indicator.setColorFill(red, green, blue, a);
+   
+   if (backup == FALSE) {
+     HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.05);
+   } else {
+     HUDnasal.main.canvas.setColorBackground(red, green, 0.3, 0.05);
+   }
   #print("HUD being reinitialized.");
 };
 
@@ -2316,7 +2348,8 @@ var cycle_brightness = func () {
       b += 0.6;
     }
     setprop("controls/lighting/hud", r+g);
-    reinit();
+    reinit(on_backup_power);
+    ja37.click();
   } else {
     aircraft.HUD.cycle_brightness();
   }
