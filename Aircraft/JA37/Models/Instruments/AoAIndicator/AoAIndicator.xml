@@ -47,7 +47,7 @@
                 <value>23</value>
             </greater-than>
         </condition>
-        <property>orientation/alpha-deg</property>
+        <property>fdm/jsbsim/systems/flight/aoa-indicator</property>
         <interpolation>
             <entry>
                 <ind>-7</ind>

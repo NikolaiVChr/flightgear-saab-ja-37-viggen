@@ -146,6 +146,37 @@
             </function>
         </fcs_function>
 
+        <fcs_function name="names/flight/reverser-position">
+            <function>
+                <difference>
+                    <value>1</value>
+                    <property>/engines/engine/reverser-pos-norm</property>
+                </difference>
+            </function>
+            <output>/engines/engine/reverser-position</output>
+        </fcs_function>
+
+        <switch name="propulsion/engine/cutoff-ready">
+            <default value="0"/>
+            <test logic="AND" value="1">
+              propulsion/starter_cmd_copy == 1
+              /controls/engines/engine[0]/cutoff == 1
+              propulsion/engine/n1   gt 5.2
+          </test>
+        </switch>
+
+        <switch name="aero/spin-norm">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                velocities/r-aero-rad_sec gt  0.724
+                velocities/r-aero-rad_sec lt -0.724
+            </test>
+        </switch>
+        
+    </channel>
+
+    <channel name="instruments">
+
         <fcs_function name="propulsion/engine/rpm_r-s">
             <function>
                 <table>
@@ -270,32 +301,13 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="names/flight/reverser-position">
-            <function>
-                <difference>
-                    <value>1</value>
-                    <property>/engines/engine/reverser-pos-norm</property>
-                </difference>
-            </function>
-            <output>/engines/engine/reverser-position</output>
-        </fcs_function>
-
-        <switch name="propulsion/engine/cutoff-ready">
-            <default value="0"/>
-            <test logic="AND" value="1">
-              propulsion/starter_cmd_copy == 1
-              /controls/engines/engine[0]/cutoff == 1
-              propulsion/engine/n1   gt 5.2
-          </test>
-        </switch>
-
-        <switch name="aero/spin-norm">
-            <default value="0"/>
-            <test logic="OR" value="1">
-                velocities/r-aero-rad_sec gt  0.724
-                velocities/r-aero-rad_sec lt -0.724
+        <switch name="systems/flight/aoa-indicator">
+            <default value="aero/alpha-deg"/>
+            <test logic="OR" value="/instrumentation/attitude-indicator/indicated-pitch-deg">
+                gear/unit[0]/WOW == 1
             </test>
-        </switch>
+        </switch>    
+    
     </channel>
 
 </system>
