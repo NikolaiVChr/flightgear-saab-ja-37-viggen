@@ -1350,6 +1350,10 @@
                         <property>/systems/electrical/outputs/dc-voltage</property>
                         <value>23</value>
                     </lt>
+                    <lt>
+                        <property>/systems/electrical/outputs/ac-main-voltage</property>
+                        <value>170</value>
+                    </lt>
                     <nq>
                         <property>systems/hydraulics/system1/pressure</property>
                         <value>1</value>

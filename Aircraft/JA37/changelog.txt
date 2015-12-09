@@ -1826,3 +1826,6 @@ Aero: The gears can now not retract at loss of hydraulic 1, but can still extend
 =====
 Model: On the ground the AoA indicator will now show pitch angle, not AoA. As per the JA-37C manual.
 HUD: Primary supply is now 115V AC, backup is DC and that will make the HUD show in amber colour. As per the manual.
+Sim: Adjusted that the pilots body would heat the cockpit too fast.
+Sim: Fixed an error in how outside temperature would influence inside temperature.
+Sim: The PS-46/A radar relies on AC the radar screen uses DC. The screen will now shut off if radar is, radar indicator light updated. As per the JA-37C manual.

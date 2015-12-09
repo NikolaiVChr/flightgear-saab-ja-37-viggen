@@ -109,7 +109,8 @@ var radar = {
 
     m.input = {
       viewNumber:     "sim/current-view/view-number",
-      radarVoltage:   "systems/electrical/outputs/dc-voltage",
+      radarVoltage:   "systems/electrical/outputs/ac-main-voltage",
+      radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
       radarServ:      "instrumentation/radar/serviceable",
       screenEnabled:  "sim/ja37/radar/enabled",
       radarEnabled:   "sim/ja37/hud/tracks-enabled",
@@ -132,7 +133,7 @@ var radar = {
   #Modes 0=Off, 1=Autoscan, 2=Manual, 5=Course guide, 6=Course and glide
     var rmode=1;#getprop("instrumentation/radar/mode");
     if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and me.input.radarVoltage.getValue() != nil
-        and me.input.radarVoltage.getValue() > 23
+        and me.input.radarScreenVoltage.getValue() > 23 and me.input.radarVoltage.getValue() > 170
         and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
