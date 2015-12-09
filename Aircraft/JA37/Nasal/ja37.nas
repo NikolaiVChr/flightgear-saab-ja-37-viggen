@@ -704,10 +704,10 @@ var slow_loop = func () {
   } else {
     tempInside = tempInside + hotAirOnWindshield * 0.05; # having hot air on windshield will also heat cockpit
     if (tempInside < 37) {
-      tempInside = tempInside + 0.025; # pilot will also heat cockpit
+      tempInside = tempInside + 0.005; # pilot will also heat cockpit with 1 deg per 5 mins
     }
     # outside temp will influence inside temp:
-    var coolingFactor = clamp(abs(tempInside < tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
+    var coolingFactor = clamp(abs(tempInside - tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
     if (tempInside < tempOutside) {
       tempInside = clamp(tempInside+coolingFactor, -1000, tempOutside);
     } elsif (tempInside > tempOutside) {
