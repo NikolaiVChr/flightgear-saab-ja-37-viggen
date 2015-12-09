@@ -1831,3 +1831,6 @@ Sim: Fixed an error in how outside temperature would influence inside temperatur
 Sim: The PS-46/A radar relies on AC the radar screen uses DC. The screen will now shut off if radar is, radar indicator light updated. As per the JA-37C manual.
 Model: Made most of the liveries lighter.
 Effect: Toned down the fuselage reflection to get a better color contrast on the liveries.
+Model: Made the shiny metal parts a little darker color, to be more in line with what they were before.
+Effect: Toned down the nozzle reflection a bit.
+Effect: Removed old unused effect files.
