@@ -1829,3 +1829,5 @@ HUD: Primary supply is now 115V AC, backup is DC and that will make the HUD show
 Sim: Adjusted that the pilots body would heat the cockpit too fast.
 Sim: Fixed an error in how outside temperature would influence inside temperature.
 Sim: The PS-46/A radar relies on AC the radar screen uses DC. The screen will now shut off if radar is, radar indicator light updated. As per the JA-37C manual.
+Model: Made most of the liveries lighter.
+Effect: Toned down the fuselage reflection to get a better color contrast on the liveries.
