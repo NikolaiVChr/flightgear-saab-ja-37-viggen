@@ -1298,6 +1298,8 @@ var main_init = func {
                     "ai/submodels/submodel[3]/random");
   aircraft.data.save();
 
+
+
   # define the locks since they otherwise start with some undefined value I cannot test on.
   setprop("/autopilot/locks/speed", "");
   setprop("/autopilot/locks/heading", "");
@@ -1392,10 +1394,15 @@ var asymVortex = func () {
   }
 }
 
-var load_interior = func{
+var load_interior = func {
     setprop("/sim/current-view/view-number", 0);
+    settimer( load_interior_final, 0.5 );
+}
+
+var load_interior_final = func {
+    setprop("sim/current-view/field-of-view", 95);
     print("..Done!");
-  }
+}
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
 	main_init();
