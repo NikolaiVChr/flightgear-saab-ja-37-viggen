@@ -31,7 +31,7 @@ Flight control system
 Tuned autopilot based on indicated instrument values, not true values. All settings supported except speed controlled from pitch.
 A/P can be set to follow other aircraft.
 Automatically controlled flaps.
-Elevon and rudder deflection is limited depending on hydraulic pressure, air density and speed.
+Elevon and rudder deflection is geared depending on hydraulic pressure, air density and speed.
 Filter based pitch, yaw and roll dampers lets the pilot control the plane where would elsewise be adverse effects such as turbulence, dutch roll, accelerated rolls and pitch oscillations.
 Nose wheel steering lock and limiting depending on ground speed.
 Gear will not retract on runway, and not extend above certain speeds.

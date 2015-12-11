@@ -63,7 +63,7 @@
     </animation>
 
     <animation>
-        <name>Pitch limiter</name>
+        <name>Pitch gearing</name>
         <object-name>indicatorLeft5</object-name>
         <type>material</type>
         <condition>

@@ -7,10 +7,13 @@ Features and improvements:
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
-Aero: Make cannon pod detachable and have pointweight.
-Aero: Air-brakes, even though they got welded shut in mid 80ties.
-Aero: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
-Aero: Pitch damper should also take lateral normal (Nz) acceleration as input.
+GUI: Remove from options: Radar, Radar screen and maybe reverse on touchdown. As alll these now has switches in cockpit.
+Aero: Make cannon pod detachable and have pointweight. (and model it above drop-tank)
+Aero: Air-brakes, even though they got welded shut in mid 80ties. (Request from JazzTp)
+Control: Pitch damper should also take lateral normal (Nz) acceleration as input as per manual.
+Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
+Control: Make the aircraft able to pull 7.5 G in supersonic despite mach tuck.
+Control: Consider basing pitch gearing on mach again instead of airspeed. Will scale better in different altitudes.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.
@@ -45,7 +48,7 @@ Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
-Sim: Many more master warnings. With and without sound.
+Sim: Many more master warnings. With and without sound as per the manual.
 Sim: Move master warning logic to JSB.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.

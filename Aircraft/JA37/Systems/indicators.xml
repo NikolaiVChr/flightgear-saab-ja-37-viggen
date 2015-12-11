@@ -1118,7 +1118,7 @@
             <function>
                 <or>
                     <eq>
-                        <property>fcs/elevator/limiter-enable</property>
+                        <property>fcs/elevator/gearing-enable</property>
                         <value>0</value>
                     </eq>
                     <property>/controls/lighting/test-indicator-panels</property>

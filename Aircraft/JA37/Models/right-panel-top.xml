@@ -35,7 +35,7 @@
 
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/limiter-pitch.xml</path>
-        <name>switch-pitch-limiter</name>
+        <name>switch-pitch-gearing</name>
         <offsets>
             <x-m> -1.015</x-m>
             <y-m>  0.02</y-m>

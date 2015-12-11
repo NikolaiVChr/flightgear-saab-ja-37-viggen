@@ -58,7 +58,7 @@
     <channel name="Elevons">
         <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
-        <fcs_function name="fcs/elevator/cmd-geared">
+        <fcs_function name="fcs/elevator/stick-geared">
             <function>
                 <table>
                     <independentVar lookup="row">fcs/elevator-cmd-norm</independentVar>
@@ -85,7 +85,7 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="fcs/aileron/cmd-geared">
+        <fcs_function name="fcs/aileron/stick-geared">
             <function>
                 <table>
                     <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
@@ -125,7 +125,7 @@
                             </tableData>
                         </table>
                         <abs>
-                            <property>fcs/elevator/cmd-geared</property>
+                            <property>fcs/elevator/stick-geared</property>
                         </abs>
                     </product>
                 </difference>
@@ -204,7 +204,7 @@
         </pure_gain>
 
         <summer name="names/elevator/cmd-sum">
-            <input>fcs/elevator/cmd-geared</input>
+            <input>fcs/elevator/stick-geared</input>
             <input>fcs/pitch-trim-cmd-norm</input>
             <input>fcs/pitch-damper/rate</input>
             <clipto>
@@ -214,7 +214,7 @@
             <output>fcs/elevator/cmd-sum</output>
         </summer>
 
-        <!--<fcs_function name="systems/flight/pitch-limiter">
+        <!--<fcs_function name="systems/flight/pitch-gearing">
             <function>
                 <table>
                     <independentVar lookup="row">velocities/mach</independentVar>
@@ -233,7 +233,7 @@
             </function>
         </fcs_function>-->
 
-        <fcs_function name="systems/flight/pitch-limiter">
+        <fcs_function name="systems/flight/pitch-gearing">
             <function>
                 <product>
                 <table>
@@ -246,9 +246,9 @@
                         <!--150    0.75    0.55-->
                         200    0.65    0.50
                         300    0.625   0.40
-                        400    0.325   0.50
-                        500    0.28    0.25
-                        600    0.22    0.25
+                        400    0.35    0.50
+                        500    0.33    0.25
+                        600    0.25    0.25
                         700    0.17    0.17
                         800    0.16    0.15
                         900    0.09    0.15
@@ -267,7 +267,7 @@
            At high altitude elevator up deflection is increased -->
         <pure_gain name="names/elevator/adjust-neg">
             <input>fcs/elevator/cmd-sum</input>
-            <gain>systems/flight/pitch-limiter</gain>
+            <gain>systems/flight/pitch-gearing</gain>
             <output>fcs/elevator/cmd-adjust-negative</output>
         </pure_gain>
 
@@ -306,7 +306,7 @@
         </scheduled_gain>-->
 
         <!-- select which of the above tables is active -->
-        <switch name="fcs/elevator/cmd-limited">
+        <switch name="fcs/elevator/cmd-final">
             <default value="fcs/elevator/cmd-adjust-positive"/>
             <test logic="OR" value="fcs/elevator/cmd-adjust-negative">
                 fcs/elevator/cmd-sum lt 0
@@ -346,8 +346,8 @@
                 systems/hydraulics/flight-surface-actuation == 0
                 fcs/elevator/serviceable == 0
             </test>
-            <test logic="OR" value="fcs/elevator/cmd-limited">
-                fcs/elevator/limiter-enable == 1
+            <test logic="OR" value="fcs/elevator/cmd-final">
+                fcs/elevator/gearing-enable == 1
             </test>
             <output>fcs/elevator/tmp-norm</output>
         </switch>
@@ -418,7 +418,7 @@
         <output>fcs/roll-limiter/rate-washout</output>
       </washout_filter>-->
 
-        <!-- at roll rate faster than 225deg/s damping kicks in -->
+        <!-- at roll rate faster than 225deg/s limiter kicks in -->
         <switch name="names/roll-limiter/rate-switched">
             <default value="fcs/roll-limiter/rate-unfiltered"/>
             <test logic="AND" value="0">
@@ -440,7 +440,7 @@
                     <value>1</value>
                     <product>
                         <abs>
-                            <property>fcs/aileron/cmd-geared</property>
+                            <property>fcs/aileron/stick-geared</property>
                         </abs>
                     </product>
                 </difference>
@@ -457,7 +457,7 @@
                     gear/unit[2]/WOW ne 1
                     aero/spin-norm == 0
                     fcs/roll-damper/enable ne 0.0
-                    fcs/roll-limiter/serviceable == 1
+                    fcs/roll-damper/serviceable == 1
             </test>
             <output>fcs/roll-damper/active</output>
         </switch>
@@ -492,7 +492,7 @@
         </pure_gain>
 
         <summer name="names/aileron/cmd-sum">
-            <input>fcs/aileron/cmd-geared</input>
+            <input>fcs/aileron/stick-geared</input>
             <input>fcs/roll-trim-cmd-norm</input>
             <input>fcs/roll-limiter/rate</input>
             <input>fcs/roll-damper/rate</input>
@@ -504,7 +504,7 @@
         </summer>
 
         <!-- At high speeds aileron deflection is reduced -->
-        <scheduled_gain name="names/aileron/cmd-sum-limited">
+        <scheduled_gain name="names/aileron/cmd-sum-geared">
             <input>fcs/aileron/cmd-sum</input>
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
@@ -513,7 +513,7 @@
                                   0.0         60000.0
                       0.0         0.45           1.0   
                       0.5         0.35           0.75  <!-- roll rate between 125 - 150 degrees/sec with roll damper on -->
-                      0.75        0.40           0.60
+                      0.75        0.50           0.60
                       1.0         0.30           0.45  <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
                       2.2         0.06           0.225 <!-- roll rate between 200 - 225 degrees/sec with roll damper on -->
                 </tableData>
@@ -523,7 +523,7 @@
                 <min>-1.0</min>
                 <max>1.0</max>
             </clipto>
-            <output>fcs/aileron/cmd-sum-limited</output>
+            <output>fcs/aileron/cmd-sum-geared</output>
         </scheduled_gain>
 
         <kinematic name="names/aileron/pos-norm">
@@ -558,8 +558,8 @@
                 systems/hydraulics/flight-surface-actuation == 0
                 fcs/aileron/serviceable == 0
             </test>
-            <test logic="OR" value="fcs/aileron/cmd-sum-limited">
-                fcs/aileron/limiter-enable == 1
+            <test logic="OR" value="fcs/aileron/cmd-sum-geared">
+                fcs/aileron/gearing-enable == 1
             </test>
             <output>fcs/aileron/tmp-norm</output>
         </switch>
@@ -628,7 +628,7 @@
     <channel name="Yaw">
         <!-- Rudder can move 25 degrees to each side -->
 
-        <fcs_function name="fcs/rudder/cmd-geared">
+        <fcs_function name="fcs/rudder/stick-geared">
             <function>
                 <table>
                     <independentVar lookup="row">fcs/rudder-cmd-norm</independentVar>
@@ -760,7 +760,7 @@
         </pure_gain>
 
         <summer name="names/rudder/cmd-sum">
-            <input>fcs/rudder/cmd-geared</input>
+            <input>fcs/rudder/stick-geared</input>
             <input>fcs/yaw-trim-cmd-norm</input>
             <input>fcs/yaw-damper/rate</input>
             <clipto>
@@ -771,7 +771,7 @@
         </summer>
 
         <!-- At high speeds rudder deflection is reduced -->
-        <scheduled_gain name="names/rudder/cmd-sum-limited">
+        <scheduled_gain name="names/rudder/cmd-sum-geared">
             <input>fcs/rudder/cmd-sum</input>
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
@@ -784,7 +784,7 @@
               2.2         0.07           0.10              
           </tableData>
             </table>
-            <output>fcs/rudder/cmd-sum-limited</output>
+            <output>fcs/rudder/cmd-sum-geared</output>
         </scheduled_gain>
 
         <kinematic name="names/rudder/pos-norm">
@@ -816,8 +816,8 @@
           systems/hydraulics/flight-surface-actuation == 0
           fcs/rudder/serviceable == 0
         </test>
-            <test logic="OR" value="fcs/rudder/cmd-sum-limited">
-          fcs/rudder/limiter-enable == 1
+            <test logic="OR" value="fcs/rudder/cmd-sum-geared">
+          fcs/rudder/gearing-enable == 1
         </test>
             <output>fcs/rudder/tmp-norm</output>
         </switch>

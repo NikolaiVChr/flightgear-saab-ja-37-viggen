@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 650;
+var DIALOG_HEIGHT = 675;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -249,7 +249,7 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.pitchButton.setBinding("nasal", "ja37.Dialog.pitchToggle()");
 
-          ######   Roll limiter button   #####
+          ######   Roll damper button   #####
           var rollRow = topRow.addChild("group");
           rollRow.set("layout", "hbox");
           rollRow.set("pref-height", 25);
@@ -264,14 +264,29 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.rollButton.setBinding("nasal", "ja37.Dialog.rollToggle()");
 
-          ######   Elevator limiter button   #####
+          ######   Roll limiter button   #####
+          var rollLimitRow = topRow.addChild("group");
+          rollLimitRow.set("layout", "hbox");
+          rollLimitRow.set("pref-height", 25);
+          rollLimitRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var rollLimitText = rollLimitRow.addChild("text").set("label", "Roll limiter:");
+          rollLimitRow.addChild("empty").set("stretch", 1);
+          me.dialog.rollLimitButton = rollLimitRow.addChild("button");
+          me.dialog.rollLimitButton.set("halign", "right");
+          me.dialog.rollLimitButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.rollLimitButton.setBinding("nasal", "ja37.Dialog.rollLimitToggle()");
+
+          ######   Elevator gearing button   #####
           var elevatorRow = topRow.addChild("group");
           elevatorRow.set("layout", "hbox");
           elevatorRow.set("pref-height", 25);
           elevatorRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var elevatorText = elevatorRow.addChild("text").set("label", "Elevator limiter:");
+          var elevatorText = elevatorRow.addChild("text").set("label", "Elevator gearing:");
           elevatorRow.addChild("empty").set("stretch", 1);
           me.dialog.elevatorButton = elevatorRow.addChild("button");
           me.dialog.elevatorButton.set("halign", "right");
@@ -279,14 +294,14 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.elevatorButton.setBinding("nasal", "ja37.Dialog.elevatorToggle()");
 
-          ######   Aileron limiter button   #####
+          ######   Aileron gearing button   #####
           var aileronRow = topRow.addChild("group");
           aileronRow.set("layout", "hbox");
           aileronRow.set("pref-height", 25);
           aileronRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var yawText = aileronRow.addChild("text").set("label", "Aileron limiter:");
+          var yawText = aileronRow.addChild("text").set("label", "Aileron gearing:");
           aileronRow.addChild("empty").set("stretch", 1);
           me.dialog.aileronButton = aileronRow.addChild("button");
           me.dialog.aileronButton.set("halign", "right");
@@ -294,14 +309,14 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.aileronButton.setBinding("nasal", "ja37.Dialog.aileronToggle()");
 
-          ######   Rudder limiter button   #####
+          ######   Rudder gearing button   #####
           var rudderRow = topRow.addChild("group");
           rudderRow.set("layout", "hbox");
           rudderRow.set("pref-height", 25);
           rudderRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var yawText = rudderRow.addChild("text").set("label", "Rudder limiter:");
+          var yawText = rudderRow.addChild("text").set("label", "Rudder gearing:");
           rudderRow.addChild("empty").set("stretch", 1);
           me.dialog.rudderButton = rudderRow.addChild("button");
           me.dialog.rudderButton.set("halign", "right");
@@ -504,22 +519,22 @@ var Dialog = {
 
     rudderToggle: func {
       ja37.click();
-      var enabled = getprop("fdm/jsbsim/fcs/rudder/limiter-enable");
-      setprop("fdm/jsbsim/fcs/rudder/limiter-enable", !enabled);
+      var enabled = getprop("fdm/jsbsim/fcs/rudder/gearing-enable");
+      setprop("fdm/jsbsim/fcs/rudder/gearing-enable", !enabled);
       me.refreshButtons();
     },
 
     aileronToggle: func {
       ja37.click();
-      var enabled = getprop("fdm/jsbsim/fcs/aileron/limiter-enable");
-      setprop("fdm/jsbsim/fcs/aileron/limiter-enable", !enabled);
+      var enabled = getprop("fdm/jsbsim/fcs/aileron/gearing-enable");
+      setprop("fdm/jsbsim/fcs/aileron/gearing-enable", !enabled);
       me.refreshButtons();
     },
 
     elevatorToggle: func {
       ja37.click();
-      var enabled = getprop("fdm/jsbsim/fcs/elevator/limiter-enable");
-      setprop("fdm/jsbsim/fcs/elevator/limiter-enable", !enabled);
+      var enabled = getprop("fdm/jsbsim/fcs/elevator/gearing-enable");
+      setprop("fdm/jsbsim/fcs/elevator/gearing-enable", !enabled);
       me.refreshButtons();
     },
 
@@ -538,6 +553,13 @@ var Dialog = {
     },
 
     rollToggle: func {
+      ja37.click();
+      var enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
+      setprop("fdm/jsbsim/fcs/roll-damper/enable", !enabled);
+      me.refreshButtons();
+    },
+
+    rollLimitToggle: func {
       ja37.click();
       var enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
       setprop("fdm/jsbsim/fcs/roll-limiter/enable", !enabled);
@@ -685,7 +707,7 @@ var Dialog = {
       }
       me.dialog.pitchButton.node.setValues({"legend": legend});
 
-      enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
+      enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
       if(enabled == 1) {
         legend = "Enabled";
       } else {
@@ -693,7 +715,15 @@ var Dialog = {
       }
       me.dialog.rollButton.node.setValues({"legend": legend});
 
-      enabled = getprop("fdm/jsbsim/fcs/rudder/limiter-enable");
+      enabled = getprop("fdm/jsbsim/fcs/roll-limiter/enable");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.rollLimitButton.node.setValues({"legend": legend});
+
+      enabled = getprop("fdm/jsbsim/fcs/rudder/gearing-enable");
       if(enabled == 1) {
         legend = "Enabled";
       } else {
@@ -701,7 +731,7 @@ var Dialog = {
       }
       me.dialog.rudderButton.node.setValues({"legend": legend});
 
-      enabled = getprop("fdm/jsbsim/fcs/aileron/limiter-enable");
+      enabled = getprop("fdm/jsbsim/fcs/aileron/gearing-enable");
       if(enabled == 1) {
         legend = "Enabled";
       } else {
@@ -709,7 +739,7 @@ var Dialog = {
       }
       me.dialog.aileronButton.node.setValues({"legend": legend});
 
-      enabled = getprop("fdm/jsbsim/fcs/elevator/limiter-enable");
+      enabled = getprop("fdm/jsbsim/fcs/elevator/gearing-enable");
       if(enabled == 1) {
         legend = "Enabled";
       } else {
