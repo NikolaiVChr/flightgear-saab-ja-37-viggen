@@ -1,12 +1,12 @@
 #
 # A Flightgear crash and stress damage system.
 #
-# Inspired by the crash system in Mig15 by Slavutinsky Victor. And by Hvengel's formula for wingload stress.
+# Inspired and developed from the crash system in Mig15 by Slavutinsky Victor. And by Hvengel's formula for wingload stress.
 #
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.14
+# Version 0.16
 #
 # License:
 #   GPL 2.0
@@ -264,10 +264,8 @@ var CrashAndStress = {
 		return FALSE;
 	},
 	_calcGroundSpeed: func () {
-		var horzSpeed = me.fdm.input.vgFps.getValue();
-  		var vertSpeed = me.fdm.input.downFps.getValue();
-  		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
-  		realSpeed = me.fdm.fps2kt(realSpeed);
+  		var realSpeed = me.fdm.getSpeedRelGround();
+
   		return realSpeed;
 	},
 	_impactDamage: func () {
@@ -280,8 +278,8 @@ var CrashAndStress = {
 		if (me.exploded == FALSE) {
 			var failure_modes = FailureMgr._failmgr.failure_modes;
 		    var mode_list = keys(failure_modes);
-		    var probability = speed / 200.0;# 200kt will fail everything, 0kt will fail nothing.
-
+		    var probability = (speed * speed) / 40000.0;# 200kt will fail everything, 0kt will fail nothing.
+		    
 		    var hitStr = "something";
 		    if(info != nil and info[1] != nil) {
 			    hitStr = info[1].names == nil?"something":info[1].names[0];
@@ -293,8 +291,8 @@ var CrashAndStress = {
 			    }
 			}
 		    # test for explosion
-		    if(probability > 1.0 and me.fdm.input.fuel.getValue() > 2500) {
-		    	# 200kt+ and fuel in tanks will explode the aircraft on impact.
+		    if(probability > 0.766 and me.fdm.input.fuel.getValue() > 2500) {
+		    	# 175kt+ and fuel in tanks will explode the aircraft on impact.
 		    	me.input.simCrashed.setBoolValue(TRUE);
 		    	me._explodeBegin("Aircraft hit "~hitStr~".");
 		    	return;
@@ -478,6 +476,9 @@ var fdmProperties = {
 	fps2kt: func (fps) {
 		return fps * 0.5924838;
 	},
+	getSpeedRelGround: func () {
+		return 0;
+	},
 	wingsFailureID: nil,
 };
 
@@ -488,8 +489,15 @@ var jsbSimProp = {
 				fuel:       "fdm/jsbsim/propulsion/total-fuel-lbs",
 				simTime:    "fdm/jsbsim/simulation/sim-time-sec",
 				vgFps:      "fdm/jsbsim/velocities/vg-fps",
-				downFps:    "velocities/down-relground-fps",
+				downFps:    "fdm/jsbsim/velocities/v-down-fps",
 				Nz:         "fdm/jsbsim/accelerations/Nz",
+	},
+	getSpeedRelGround: func () {
+		var horzSpeed = me.fps2kt(me.input.vgFps.getValue());
+  		var vertSpeed = me.fps2kt(me.input.downFps.getValue());
+  		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
+
+  		return realSpeed;
 	},
 	wingsFailureID: "fdm/jsbsim/structural/wings",
 };
@@ -501,14 +509,15 @@ var yaSimProp = {
 				fuel:       "consumables/fuel/total-fuel-lbs",
 				simTime:    "sim/time/elapsed-sec",
 				vgFps:      "velocities/groundspeed-kt",
+				downFps:    "velocities/speed-down-fps",
 				Nz:         "accelerations/n-z-cg-fps_sec",
 	},
-	convert: func () {
-		call(fdmProperties.convert, [], me);
-		me.input.downFps = props.Node.new().setDoubleValue(0);
-	},
-	fps2kt: func (fps) {
-		return fps;
+	getSpeedRelGround: func () {
+		var horzSpeed = me.input.vgFps.getValue();
+  		var vertSpeed = me.fps2kt(me.input.downFps.getValue());
+  		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
+
+  		return realSpeed;
 	},
 	wingsFailureID: "structural/wings",
 };
