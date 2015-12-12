@@ -1544,6 +1544,175 @@
             </function>
         </fcs_function>
 
+    </channel>
+
+    <channel name="Master warning logic">
+
+        <switch name="systems/indicators/master-warning/engine-off">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                /engines/engine/running == 1
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/engine-off == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/engine-off gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                /engines/engine/running == 0
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/canopy-open">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                /canopy/position-norm == 0
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/canopy-open == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/canopy-open gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                /canopy/position-norm gt 0
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/low-AC-voltage">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                /systems/electrical/outputs/ac-main-voltage gt 50
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/low-AC-voltage == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/low-AC-voltage gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                /systems/electrical/outputs/ac-main-voltage lt 50
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>        
+
+        <switch name="systems/indicators/master-warning/hydr-1-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/hydraulics/system1/pressure == 1
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/hydr-1-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/hydr-1-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/hydraulics/system1/pressure == 0
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/hydr-2-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/hydraulics/system2/pressure-main == 1
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/hydr-2-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/hydr-2-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/hydraulics/system2/pressure-main == 0
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/cabin-pressure-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/flight/cabin-pressure-kpm2 gt 0.15
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/cabin-pressure-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/cabin-pressure-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/flight/cabin-pressure-kpm2 lt 0.15
+                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
+
+
+        <switch name="systems/indicators/master-warning/warning">
+            <default value="0"/>
+            <test logic="OR" value="3">
+                systems/indicators/master-warning/engine-off gt 2
+                systems/indicators/master-warning/low-AC-voltage gt 2
+                systems/indicators/master-warning/canopy-open gt 2
+                systems/indicators/master-warning/hydr-1-low gt 2
+                systems/indicators/master-warning/hydr-2-low gt 2
+                systems/indicators/master-warning/cabin-pressure-low gt 2
+            </test>
+            <test logic="OR" value="2">
+                systems/indicators/master-warning/engine-off gt 1
+                systems/indicators/master-warning/low-AC-voltage gt 1
+                systems/indicators/master-warning/canopy-open gt 1
+                systems/indicators/master-warning/hydr-1-low gt 1
+                systems/indicators/master-warning/hydr-2-low gt 1
+                systems/indicators/master-warning/cabin-pressure-low gt 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/engine-off gt 0
+                systems/indicators/master-warning/low-AC-voltage gt 0
+                systems/indicators/master-warning/canopy-open gt 0
+                systems/indicators/master-warning/hydr-1-low gt 0
+                systems/indicators/master-warning/hydr-2-low gt 0
+                systems/indicators/master-warning/cabin-pressure-low gt 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/lamps">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                /systems/electrical/outputs/dc-voltage lt 23
+            </test>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/master-warning/warning gt 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/warning == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/audio">
+            <default value="0"/>
+            <test logic="OR" value="/sim/ja37/blink/third-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/master-warning/warning == 3
+            </test>
+        </switch>
 
     </channel>
 

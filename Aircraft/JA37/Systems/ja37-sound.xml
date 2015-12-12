@@ -869,7 +869,7 @@
             <path>Aircraft/JA37/Sounds/warning-master.wav</path>
             <type>avionics</type>
             <condition>
-                <property>sim/ja37/sound/master-on</property>
+                <property>fdm/jsbsim/systems/indicators/master-warning/audio</property>
                 <property>sim/current-view/internal</property>
                 <property>sim/ja37/sound/annunciation-enabled</property>
                 <greater-than>

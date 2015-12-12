@@ -20,13 +20,6 @@ var touchdown2 = FALSE;
 var total_fuel = 0;
 var bingoFuel = FALSE;
 
-var warnEngineOff = TRUE;
-var warnCanopy = TRUE;
-var warnGenerator = TRUE;
-var warnHydr1 = TRUE;
-var warnHydr2 = TRUE;
-var warnCabin = TRUE;
-
 var mainOn = FALSE;
 var mainTimer = -1;
 
@@ -82,8 +75,6 @@ input = {
   stationSelect:    "controls/armament/station-select",
   combat:           "/sim/ja37/hud/current-mode",
   warnButton:       "sim/ja37/avionics/master-warning-button",
-  warn:             "/instrumentation/master-warning",
-  master:           "sim/ja37/sound/master-on",
   engineRunning:    "engines/engine/running",
   hz10:             "sim/ja37/blink/ten-Hz/state",
   hz05:             "sim/ja37/blink/five-Hz/state",
@@ -408,101 +399,6 @@ var update_loop = func {
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
-    # Master warning
-    if(input.dcVolt.getValue() > 23 ) {
-      var warning_sound = FALSE;
-      var warning = FALSE;
-      var warnNew = FALSE;
-      if (input.wow0.getValue() == FALSE) {
-        if (input.engineRunning.getValue() == FALSE and autostarting == FALSE) {
-          warning = TRUE;
-          if (input.warnButton.getValue() == TRUE) {
-            warnEngineOff = FALSE;
-          }
-          if (warnEngineOff == TRUE) {
-            warning_sound = TRUE;
-            warnNew = TRUE;
-          }
-        } else {
-          warnEngineOff = TRUE;
-        }
-        if (input.canopyPos.getValue() > 0) {
-          warning = TRUE;
-          if (input.warnButton.getValue() == TRUE) {
-            warnCanopy = FALSE;
-          }
-          if (warnCanopy == TRUE) {
-            warning_sound = TRUE;
-            warnNew = TRUE;
-          }
-        } else {
-          warnCanopy = TRUE;
-        }
-        if (input.acInstrVolt.getValue() < 50) {
-          warning = TRUE;
-          if (input.warnButton.getValue() == TRUE) {
-            warnGenerator = FALSE;
-          }
-          if (warnGenerator == TRUE) {
-            warning_sound = TRUE;
-            warnNew = TRUE;
-          }
-        } else {
-          warnGenerator = TRUE;
-        }
-        if (input.hydr1On.getValue() != 1) {
-          warning = TRUE;
-          if (input.warnButton.getValue() == TRUE) {
-            warnHydr1 = FALSE;
-          }
-          if (warnHydr1 == TRUE) {
-            warning_sound = TRUE;
-            warnNew = TRUE;
-          }
-        } else {
-          warnHydr1 = TRUE;
-        }
-        if (input.hydr2On.getValue() != 1) {
-          warning = TRUE;
-          if (input.warnButton.getValue() == TRUE) {
-            warnHydr2 = FALSE;
-          }
-          if (warnHydr2 == TRUE) {
-            warning_sound = TRUE;
-            warnNew = TRUE;
-          }
-        } else {
-          warnHydr2 = TRUE;
-        }
-        if (input.cabinPressure.getValue() < .15) {
-          warning = TRUE;
-          if (input.warnButton.getValue() == TRUE) {
-            warnCabin = FALSE;
-          }
-          if (warnCabin == TRUE) {
-            warning_sound = TRUE;
-            warnNew = TRUE;
-          }
-        } else {
-          warnCabin = TRUE;
-        }
-      }
-        
-      # Master warning
-      if (warnNew == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) {
-        input.warn.setValue(input.hz10.getValue());
-      } else {
-        input.warn.setValue(warning);
-      }
-      if((warning_sound == TRUE or getprop("controls/lighting/test-indicator-panels") == TRUE) and input.hzThird.getValue() == TRUE) {
-        input.master.setValue(TRUE);
-      } else {
-        input.master.setValue(FALSE);
-      }
-    } else {
-      input.warn.setValue(FALSE);
-      input.master.setValue(FALSE);
-    }
 
     #tracer ammo, due to it might run out faster than cannon rounds due to submodel delay not being precise
     if(input.subAmmo3.getValue() > 0) {

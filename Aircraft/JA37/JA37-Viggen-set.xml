@@ -594,6 +594,9 @@
                 <ten-Hz>
                     <state type="bool">false</state>
                 </ten-Hz>
+                <third-Hz>
+                    <state type="bool">false</state>
+                </third-Hz>
             </blink>
             <hud>
                 <tracks-enabled type="bool">true</tracks-enabled>

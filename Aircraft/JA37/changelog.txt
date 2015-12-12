@@ -1844,3 +1844,4 @@ Sim: Lowered the threshold to 175 kt from 200 kt for the plane to explode at imp
 Control: Renamed the aileron, rudder and elevator limiters to gearings.
 Sim: Roll limiter now has a failure mode separate from roll damper.
 Effect: Fixed that the ALS landing light cone was too big and moved around when rotating view.
+Sim: Moved master warning logic to JSB.

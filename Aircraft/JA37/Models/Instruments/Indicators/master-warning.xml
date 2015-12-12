@@ -10,7 +10,7 @@
             <red>1.0</red>
             <green>0.0</green>
             <blue>0.0</blue>
-            <factor-prop>/instrumentation/master-warning</factor-prop>
+            <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamps</factor-prop>
         </emission>
     </animation>
 
@@ -25,7 +25,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Circle</object-name>
-        <property>/instrumentation/master-warning</property>
+        <property>fdm/jsbsim/systems/indicators/master-warning/lamps</property>
         <factor>0.5</factor>
         <axis>
             <x>1</x>
@@ -41,7 +41,6 @@
                 <command>set-tooltip</command>
                 <tooltip-id>Master warn</tooltip-id>
                 <label>Master warning</label>
-                <property>/instrumentation/master-warning</property>
             </binding>
         </hovered>
     </animation>
