@@ -423,6 +423,10 @@
                         <property>systems/electrical/generator-running-norm</property>
                         <value>1</value>
                     </nq>
+                    <eq>
+                        <property>/controls/electric/main</property>
+                        <value>0</value>
+                    </eq>
                     <lt>
                         <property>systems/electrical/battery-producing-dc</property>
                         <value>24</value>
@@ -461,10 +465,16 @@
                             <property>/controls/electric/reserve</property>
                             <value>1</value>
                         </eq>
-                        <eq>
-                            <property>systems/electrical/generator-running-norm</property>
-                            <value>1</value>
-                        </eq>
+                        <or>
+                            <eq>
+                                <property>systems/electrical/generator-running-norm</property>
+                                <value>1</value>
+                            </eq>
+                            <eq>
+                                <property>/controls/electric/main</property>
+                                <value>0</value>
+                            </eq>
+                        </or>
                     </and>
                     <eq>
                         <property>/systems/electrical/serviceable</property>
