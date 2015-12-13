@@ -460,7 +460,7 @@
   </model>-->
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-1.xml</path>
     <name>WarnLeft</name>
     <offsets>
       <x-m>  0.01</x-m>
@@ -470,7 +470,7 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-2.xml</path>
     <name>WarnRight</name>
     <offsets>
       <x-m>  0.01</x-m>

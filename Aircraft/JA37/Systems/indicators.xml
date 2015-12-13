@@ -304,26 +304,37 @@
        <!-- Swedish: FÖRV FÖRBJ (blinking)
         -->
 
+        <fcs_function name="systems/indicators/forward-thrust-primary">
+            <function>
+                <or>
+                    <and>
+                        <or>
+                            <eq>
+                                <property>systems/hydraulics/system1/pressure</property>
+                                <value>0</value>
+                            </eq>
+                            <lt>
+                                <property>/systems/electrical/outputs/dc-voltage</property>
+                                <value>23</value>
+                            </lt>
+                        </or>
+                        <eq>
+                            <property>/engines/engine/reversed</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                </or>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/forward-thrust">
             <function>
                 <and>
                     <or>
-                        <and>
-                            <or>
-                                <eq>
-                                    <property>systems/hydraulics/system1/pressure</property>
-                                    <value>0</value>
-                                </eq>
-                                <lt>
-                                    <property>/systems/electrical/outputs/dc-voltage</property>
-                                    <value>23</value>
-                                </lt>
-                            </or>
-                            <eq>
-                                <property>/engines/engine/reversed</property>
-                                <value>1</value>
-                            </eq>
-                        </and>
+                        <eq>
+                            <property>systems/indicators/forward-thrust-primary</property>
+                            <value>1</value>
+                        </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <p>/sim/ja37/blink/ten-Hz/state</p>             
@@ -432,33 +443,44 @@
         <!-- Swedish: ELRESERV (blinking)
         -->
 
+        <fcs_function name="systems/indicators/electrical-reserve-primary">
+            <function>
+                <or>
+                    <and>
+                        <eq>
+                            <property>systems/electrical/generator-reserve-supplying</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>systems/electrical/generator-running-norm</property>
+                            <value>0</value>
+                        </eq>
+                    </and>
+                    <and>
+                        <eq>
+                            <property>/controls/electric/reserve</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>systems/electrical/generator-running-norm</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <eq>
+                        <property>/systems/electrical/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                </or>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/electrical-reserve">
             <function>
                 <and>
                     <or>
-                        <and>
-                            <eq>
-                                <property>systems/electrical/generator-reserve-supplying</property>
-                                <value>0</value>
-                            </eq>
-                            <eq>
-                                <property>systems/electrical/generator-running-norm</property>
-                                <value>0</value>
-                            </eq>
-                        </and>
-                        <and>
-                            <eq>
-                                <property>/controls/electric/reserve</property>
-                                <value>1</value>
-                            </eq>
-                            <eq>
-                                <property>systems/electrical/generator-running-norm</property>
-                                <value>1</value>
-                            </eq>
-                        </and>
                         <eq>
-                            <property>/systems/electrical/serviceable</property>
-                            <value>0</value>
+                            <property>systems/indicators/electrical-reserve-primary</property>
+                            <value>1</value>
                         </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
@@ -550,17 +572,19 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
-                        <value>0</value>
-                    </eq>
-                    <eq>
                         <property>/sim/ja37/avionics/auto-throttle-on</property>
                         <value>1</value>
                     </eq>
-                    <!--<eq> made no sense to me even though manual says so
-                        <property>/gear/gear[0]/wow</property>
-                        <value>1</value>
-                    </eq>-->
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/autopilot</property>
+                            <value>0</value>
+                        </eq>
+                        <eq>
+                            <property>/gear/gear[0]/wow</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
                 </and>
             </function>
         </fcs_function>
@@ -577,26 +601,37 @@
         <!-- Swedish: EJ REV (blinking)
         -->
 
+        <fcs_function name="systems/indicators/no-reverse-primary">
+            <function>
+                <or>
+                    <and>
+                        <or>
+                            <eq>
+                                <property>systems/hydraulics/system1/pressure</property>
+                                <value>0</value>
+                            </eq>
+                            <lt>
+                                <property>/systems/electrical/outputs/dc-voltage</property>
+                                <value>23</value>
+                            </lt>
+                        </or>
+                        <eq>
+                            <property>/engines/engine/reversed</property>
+                            <value>0</value>
+                        </eq>
+                    </and>
+                </or>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/no-reverse">
             <function>
                 <and>
                     <or>
-                        <and>
-                            <or>
-                                <eq>
-                                    <property>systems/hydraulics/system1/pressure</property>
-                                    <value>0</value>
-                                </eq>
-                                <lt>
-                                    <property>/systems/electrical/outputs/dc-voltage</property>
-                                    <value>23</value>
-                                </lt>
-                            </or>
-                            <eq>
-                                <property>/engines/engine/reversed</property>
-                                <value>0</value>
-                            </eq>
-                        </and>
+                        <eq>
+                            <property>systems/indicators/no-reverse-primary</property>
+                            <value>1</value>
+                        </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
@@ -633,14 +668,23 @@
         <!-- Swedish: OLJETRYCK (blinking, sound)
         -->
 
+        <fcs_function name="systems/indicators/oil-pressure-primary">
+            <function>
+                <lt>
+                    <property>/engines/engine[0]/oil-pressure-psi</property>
+                    <value>30</value>
+                </lt>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/oil-pressure">
             <function>
                 <and>
                     <or>
-                        <lt>
-                            <property>/engines/engine[0]/oil-pressure-psi</property>
-                            <value>30</value>
-                        </lt>
+                        <eq>
+                            <property>systems/indicators/oil-pressure-primary</property>
+                            <value>1</value>
+                        </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
@@ -970,6 +1014,15 @@
             </test>
         </switch>
 
+        <switch name="propulsion/engine/cutoff-ready">
+            <default value="0"/>
+            <test logic="AND" value="1">
+              propulsion/starter_cmd_copy == 1
+              /controls/engines/engine[0]/cutoff == 1
+              propulsion/engine/n1 gt 5.2
+          </test>
+        </switch>
+
     </channel>
 
     <channel name="Right indicator panel logic">
@@ -991,12 +1044,28 @@
 
         <fcs_function name="systems/indicators/flightstick-primary">
             <function>
-                <and>
+                <or>
+                    <eq>
+                        <property>fcs/pitch-damper/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>fcs/roll-damper/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>fcs/yaw-damper/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>fcs/roll-limiter/serviceable</property>
+                        <value>0</value>
+                    </eq>
                     <lt>
                         <property>systems/hydraulics/flight-surface-actuation</property>
                         <value>0.5</value>
                     </lt>
-                </and>
+                </or>
             </function>
         </fcs_function>
 
@@ -1114,15 +1183,30 @@
             not authentic implemented
         -->
         
+        <fcs_function name="systems/indicators/pitch-gearing-primary">
+            <function>
+                <eq>
+                    <property>fcs/elevator/gearing-enable</property>
+                    <value>0</value>
+                </eq>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/pitch-gearing">
             <function>
-                <or>
+                <and>
+                    <or>
+                        <eq>
+                            <property>systems/indicators/pitch-gearing-primary</property>
+                            <value>1</value>
+                        </eq>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </or>
                     <eq>
-                        <property>fcs/elevator/gearing-enable</property>
-                        <value>0</value>
+                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <value>1</value>
                     </eq>
-                    <property>/controls/lighting/test-indicator-panels</property>
-                </or>
+                </and>
             </function>
         </fcs_function>
 
@@ -1130,14 +1214,23 @@
         <!-- Swedish: KABINHÖJD (blinking)
         -->
         
+        <fcs_function name="systems/indicators/cabin-pressure-primary">
+            <function>
+                <lt>
+                    <property>systems/flight/cabin-pressure-kpm2</property>
+                    <value>0.15</value>
+                </lt>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/cabin-pressure">
             <function>
                 <and>
                     <or>
-                        <lt>
-                            <property>systems/flight/cabin-pressure-kpm2</property>
-                            <value>0.15</value>
-                        </lt>
+                        <eq>
+                            <property>systems/indicators/cabin-pressure-primary</property>
+                            <value>1</value>
+                        </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
@@ -1151,39 +1244,50 @@
 
         <!-- Swedish: HUV o STOL (blinking)
         -->
+
+        <fcs_function name="systems/indicators/canopy-and-seat-primary">
+            <function>
+                <or>
+                    <eq>
+                        <property>fcs/canopy/has-power</property>
+                        <value>0</value>
+                    </eq>
+                    <and>
+                        <nq>
+                            <property>/canopy/position-norm</property>
+                            <value>0</value>
+                        </nq>
+                        <or>
+                            <nq>
+                                <property>/gear/gear[0]/wow</property>
+                                <value>1</value>
+                            </nq>
+                            <gt>
+                                <property>/engines/engine[0]/n2</property>
+                                <value>88.5</value>
+                            </gt>
+                        </or>
+                    </and>
+                    <nq>
+                        <property>fcs/canopy/serviceable</property>
+                        <value>1</value>
+                    </nq>
+                    <nq>
+                        <property>fcs/canopy/hinges/serviceable</property>
+                        <value>1</value>
+                    </nq>
+                </or>
+            </function>
+        </fcs_function>
         
         <fcs_function name="systems/indicators/canopy-and-seat">
             <function>
                 <and>
                     <or>
                         <eq>
-                            <property>fcs/canopy/has-power</property>
-                            <value>0</value>
+                            <property>systems/indicators/canopy-and-seat-primary</property>
+                            <value>1</value>
                         </eq>
-                        <and>
-                            <nq>
-                                <property>/canopy/position-norm</property>
-                                <value>0</value>
-                            </nq>
-                            <or>
-                                <nq>
-                                    <property>/gear/gear[0]/wow</property>
-                                    <value>1</value>
-                                </nq>
-                                <gt>
-                                    <property>/engines/engine[0]/n2</property>
-                                    <value>88.5</value>
-                                </gt>
-                            </or>
-                        </and>
-                        <nq>
-                            <property>fcs/canopy/serviceable</property>
-                            <value>1</value>
-                        </nq>
-                        <nq>
-                            <property>fcs/canopy/hinges/serviceable</property>
-                            <value>1</value>
-                        </nq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
@@ -1298,6 +1402,15 @@
 
         <!-- Swedish: PRIMÄRDATA (blinking, supp )
         -->
+
+        <fcs_function name="systems/indicators/primary-data-primary">
+            <function>
+                <eq>
+                    <property>/instrumentation/head-up-display/serviceable</property>
+                    <value>0</value>
+                </eq>
+            </function>
+        </fcs_function>
         
         <fcs_function name="systems/indicators/primary-data">
             <function>
@@ -1308,8 +1421,8 @@
                             <value>1</value>
                         </eq>
                         <eq>
-                            <property>/instrumentation/head-up-display/serviceable</property>
-                            <value>0</value>
+                            <property>systems/indicators/primary-data-primary</property>
+                            <value>1</value>
                         </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
@@ -1459,18 +1572,29 @@
         <!-- Swedish: SYRGAS (blinking, sound)
         -->
         
+        <fcs_function name="systems/indicators/oxygen-primary">
+            <function>
+                <or>
+                    <eq>
+                        <property>/controls/oxygen</property>
+                        <value>0</value>
+                    </eq>
+                    <lt>
+                        <property>/sim/ja37/systems/oxygen-bottle-pressure</property>
+                        <value>50</value><!-- should really be 4Kpa -->
+                    </lt>
+                </or>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/oxygen">
             <function>
                 <and>
                     <or>
                         <eq>
-                            <property>/controls/oxygen</property>
-                            <value>0</value>
+                            <property>systems/indicators/oxygen-primary</property>
+                            <value>1</value>
                         </eq>
-                        <lt>
-                            <property>/sim/ja37/systems/oxygen-bottle-pressure</property>
-                            <value>50</value><!-- should really be 4Kpa -->
-                        </lt>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
@@ -1485,14 +1609,23 @@
         <!-- Swedish: UTL TEMP (blinking, sound)
         -->
         
+        <fcs_function name="systems/indicators/outlet-temperature-primary">
+            <function>
+                <gt>
+                    <property>propulsion/engine/outlet-temperature-degc</property>
+                    <value>850</value>
+                </gt>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/outlet-temperature">
             <function>
                 <and>
                     <or>
-                        <gt>
-                            <property>propulsion/engine/outlet-temperature-degc</property>
-                            <value>850</value>
-                        </gt>
+                        <eq>
+                            <property>systems/indicators/outlet-temperature-primary</property>
+                            <value>1</value>
+                        </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
@@ -1507,12 +1640,21 @@
         <!-- Swedish: BRÄ MÄNGD (blinking, sound)
         -->
         
+        <fcs_function name="systems/indicators/low-fuel-primary">
+            <function>
+                <eq>
+                    <property>/sim/ja37/sound/fuel-low-on</property>
+                    <value>1</value>
+                </eq>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/low-fuel">
             <function>
                 <and>
                     <or>
                         <eq>
-                            <property>/sim/ja37/sound/fuel-low-on</property>
+                            <property>systems/indicators/low-fuel-primary</property>
                             <value>1</value>
                         </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
@@ -1548,6 +1690,41 @@
 
     <channel name="Master warning logic">
 
+        <!--                                         
+            no sound, just blinking master lights:
+                electrical
+                el-reserve
+                canopy
+                cabin-alt
+                (ignition)
+                no reverse
+                stuck in forward
+                fuel distr
+                tank pump
+                radar
+                primary data
+                (computer)
+                hydr-2
+                hydr-reverse
+                (alpha)
+            sound and blinking master lights:
+                stick
+                att
+                alt
+                pitch gearing
+                (fire)
+                (fire in starter)
+                outlet temp
+                hydr-1
+                auto-throttle blinking
+                oxygen
+                gears blinking
+                oil pressure
+                (fuel amount) has own sound, so set to no master sound
+                exceed max airspeed (whatever that is)
+                engine not running when airborne
+        -->
+
         <switch name="systems/indicators/master-warning/engine-off">
             <default value="0"/>
             <test logic="OR" value="0">
@@ -1567,49 +1744,61 @@
             </test>
         </switch>
 
-        <switch name="systems/indicators/master-warning/canopy-open">
+        <switch name="systems/indicators/master-warning/canopy-alert">
             <default value="0"/>
             <test logic="OR" value="0">
-                /canopy/position-norm == 0
-                gear/unit[0]/WOW == 1
+                systems/indicators/canopy-and-seat-primary == 0
             </test>
             <test logic="OR" value="1">
-                systems/indicators/master-warning/canopy-open == 1
+                systems/indicators/master-warning/canopy-alert == 1
             </test>
             <test logic="AND" value="1">
-                systems/indicators/master-warning/canopy-open gt 1
+                systems/indicators/master-warning/canopy-alert gt 1
                 /sim/ja37/avionics/master-warning-button == 1
             </test>
-            <test logic="AND" value="3">
-                /canopy/position-norm gt 0
-                gear/unit[0]/WOW == 0
+            <test logic="AND" value="2">
+                systems/indicators/canopy-and-seat-primary == 1
             </test>
         </switch>
 
-        <switch name="systems/indicators/master-warning/low-AC-voltage">
+        <switch name="systems/indicators/master-warning/electrical-problem">
             <default value="0"/>
             <test logic="OR" value="0">
-                /systems/electrical/outputs/ac-main-voltage gt 50
-                gear/unit[0]/WOW == 1
+                systems/indicators/electrical-primary == 0
             </test>
             <test logic="OR" value="1">
-                systems/indicators/master-warning/low-AC-voltage == 1
+                systems/indicators/master-warning/electrical-problem == 1
             </test>
             <test logic="AND" value="1">
-                systems/indicators/master-warning/low-AC-voltage gt 1
+                systems/indicators/master-warning/electrical-problem gt 1
                 /sim/ja37/avionics/master-warning-button == 1
             </test>
-            <test logic="AND" value="3">
-                /systems/electrical/outputs/ac-main-voltage lt 50
-                gear/unit[0]/WOW == 0
+            <test logic="AND" value="2">
+                systems/indicators/electrical-primary == 1
             </test>
         </switch>        
+
+        <switch name="systems/indicators/master-warning/electrical-reserve-problem">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/electrical-reserve-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/electrical-reserve-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/electrical-reserve-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/electrical-reserve-primary == 1
+            </test>
+        </switch>
 
         <switch name="systems/indicators/master-warning/hydr-1-low">
             <default value="0"/>
             <test logic="OR" value="0">
                 systems/hydraulics/system1/pressure == 1
-                gear/unit[0]/WOW == 1
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/hydr-1-low == 1
@@ -1620,7 +1809,6 @@
             </test>
             <test logic="AND" value="3">
                 systems/hydraulics/system1/pressure == 0
-                gear/unit[0]/WOW == 0
             </test>
         </switch>
 
@@ -1628,7 +1816,6 @@
             <default value="0"/>
             <test logic="OR" value="0">
                 systems/hydraulics/system2/pressure-main == 1
-                gear/unit[0]/WOW == 1
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/hydr-2-low == 1
@@ -1637,17 +1824,32 @@
                 systems/indicators/master-warning/hydr-2-low gt 1
                 /sim/ja37/avionics/master-warning-button == 1
             </test>
-            <test logic="AND" value="3">
+            <test logic="AND" value="2">
                 systems/hydraulics/system2/pressure-main == 0
-                gear/unit[0]/WOW == 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/hydr-reserve-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/hydraulics/system2/pressure-reserve == 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/hydr-reserve-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/hydr-reserve-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/hydraulics/system2/pressure-reserve == 0
             </test>
         </switch>
 
         <switch name="systems/indicators/master-warning/cabin-pressure-low">
             <default value="0"/>
             <test logic="OR" value="0">
-                systems/flight/cabin-pressure-kpm2 gt 0.15
-                gear/unit[0]/WOW == 1
+                systems/indicators/cabin-pressure-primary == 0
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/cabin-pressure-low == 1
@@ -1656,48 +1858,411 @@
                 systems/indicators/master-warning/cabin-pressure-low gt 1
                 /sim/ja37/avionics/master-warning-button == 1
             </test>
-            <test logic="AND" value="3">
-                systems/flight/cabin-pressure-kpm2 lt 0.15
-                gear/unit[0]/WOW == 0
+            <test logic="AND" value="2">
+                systems/indicators/cabin-pressure-primary == 1
             </test>
         </switch>
 
+        <switch name="systems/indicators/master-warning/stuck-in-forward">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/forward-thrust-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/stuck-in-forward == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/stuck-in-forward gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/forward-thrust-primary == 1
+            </test>
+        </switch>
 
+        <switch name="systems/indicators/master-warning/no-reverse">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/no-reverse-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/no-reverse == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/no-reverse gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/no-reverse-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/fuel-distr-problem">
+            <default value="0"/>
+            <test logic="AND" value="0">
+                systems/indicators/fuel-flow-primary == 0
+                sim-time-sec le systems/indicators/fuel-flow-primary-2-time-blinking
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/fuel-distr-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/fuel-distr-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="OR" value="2">
+                systems/indicators/fuel-flow-primary == 1
+                sim-time-sec gt systems/indicators/fuel-flow-primary-2-time-blinking
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/fuel-pump-problem">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/fuel-pump-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/fuel-pump-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/fuel-pump-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/fuel-pump-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/radar-problem">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/radar-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/radar-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/radar-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/radar-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/data-problem">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/primary-data-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/data-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/data-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/primary-data-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/gears-problem">
+            <default value="0"/>
+            <test logic="AND" value="0">
+                systems/indicators/gears-primary == 0
+                sim-time-sec le systems/indicators/gears-time-blinking
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/gears-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/gears-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="OR" value="3">
+                systems/indicators/gears-primary == 1
+                sim-time-sec gt systems/indicators/gears-time-blinking
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/oil-pressure-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/oil-pressure-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/oil-pressure-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/oil-pressure-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/oil-pressure-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/oxygen-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/oxygen-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/oxygen-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/oxygen-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/oxygen-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/outlet-temp-high">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/outlet-temperature-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/outlet-temp-high == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/outlet-temp-high gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/outlet-temperature-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/elevator-gearing">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/pitch-gearing-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/elevator-gearing == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/elevator-gearing gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/pitch-gearing-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/auto-throttle-issue">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/auto-throttle-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/auto-throttle-issue == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/auto-throttle-issue gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/auto-throttle-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/auto-att-issue">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/auto-attitude-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/auto-att-issue == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/auto-att-issue gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/auto-attitude-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/auto-alt-issue">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/auto-altitude-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/auto-alt-issue == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/auto-alt-issue gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/auto-altitude-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/stick-problem">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/flightstick-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/stick-problem == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/stick-problem gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/flightstick-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/fuel-low">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/low-fuel-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/fuel-low == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/fuel-low gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="2">
+                systems/indicators/low-fuel-primary == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/engine-startup">
+            <description>
+                            Engine is starting up
+
+                            Maybe make more detailed check in future.
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                propulsion/starter_cmd_copy == 1
+            </test>
+        </switch>
 
         <switch name="systems/indicators/master-warning/warning">
             <default value="0"/>
+            <test logic="AND" value="0">
+                systems/indicators/master-warning/engine-startup == 1
+            </test>
             <test logic="OR" value="3">
                 systems/indicators/master-warning/engine-off gt 2
-                systems/indicators/master-warning/low-AC-voltage gt 2
-                systems/indicators/master-warning/canopy-open gt 2
+                systems/indicators/master-warning/electrical-problem gt 2
+                systems/indicators/master-warning/electrical-reserve-problem gt 2
+                systems/indicators/master-warning/canopy-alert gt 2
                 systems/indicators/master-warning/hydr-1-low gt 2
                 systems/indicators/master-warning/hydr-2-low gt 2
+                systems/indicators/master-warning/hydr-reserve-low gt 2
                 systems/indicators/master-warning/cabin-pressure-low gt 2
+                systems/indicators/master-warning/stuck-in-forward gt 2
+                systems/indicators/master-warning/no-reverse gt 2
+                systems/indicators/master-warning/fuel-distr-problem gt 2
+                systems/indicators/master-warning/fuel-pump-problem gt 2
+                systems/indicators/master-warning/radar-problem gt 2
+                systems/indicators/master-warning/data-problem gt 2
+                systems/indicators/master-warning/elevator-gearing gt 2
+                systems/indicators/master-warning/outlet-temp-high gt 2
+                systems/indicators/master-warning/oxygen-low gt 2
+                systems/indicators/master-warning/oil-pressure-low gt 2
+                systems/indicators/master-warning/gears-problem gt 2
+                systems/indicators/master-warning/auto-throttle-issue gt 2
+                systems/indicators/master-warning/auto-att-issue gt 2
+                systems/indicators/master-warning/auto-alt-issue gt 2
+                systems/indicators/master-warning/stick-problem gt 2
+                systems/indicators/master-warning/fuel-low gt 2
             </test>
             <test logic="OR" value="2">
                 systems/indicators/master-warning/engine-off gt 1
-                systems/indicators/master-warning/low-AC-voltage gt 1
-                systems/indicators/master-warning/canopy-open gt 1
+                systems/indicators/master-warning/electrical-problem gt 1
+                systems/indicators/master-warning/electrical-reserve-problem gt 1
+                systems/indicators/master-warning/canopy-alert gt 1
                 systems/indicators/master-warning/hydr-1-low gt 1
                 systems/indicators/master-warning/hydr-2-low gt 1
+                systems/indicators/master-warning/hydr-reserve-low gt 1
                 systems/indicators/master-warning/cabin-pressure-low gt 1
+                systems/indicators/master-warning/stuck-in-forward gt 1
+                systems/indicators/master-warning/no-reverse gt 1
+                systems/indicators/master-warning/fuel-distr-problem gt 1
+                systems/indicators/master-warning/fuel-pump-problem gt 1
+                systems/indicators/master-warning/radar-problem gt 1
+                systems/indicators/master-warning/data-problem gt 1
+                systems/indicators/master-warning/elevator-gearing gt 1
+                systems/indicators/master-warning/outlet-temp-high gt 1
+                systems/indicators/master-warning/oxygen-low gt 1
+                systems/indicators/master-warning/oil-pressure-low gt 1
+                systems/indicators/master-warning/gears-problem gt 1
+                systems/indicators/master-warning/auto-throttle-issue gt 1
+                systems/indicators/master-warning/auto-att-issue gt 1
+                systems/indicators/master-warning/auto-alt-issue gt 1
+                systems/indicators/master-warning/stick-problem gt 1
+                systems/indicators/master-warning/fuel-low gt 1
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/engine-off gt 0
-                systems/indicators/master-warning/low-AC-voltage gt 0
-                systems/indicators/master-warning/canopy-open gt 0
+                systems/indicators/master-warning/electrical-problem gt 0
+                systems/indicators/master-warning/electrical-reserve-problem gt 0
+                systems/indicators/master-warning/canopy-alert gt 0
                 systems/indicators/master-warning/hydr-1-low gt 0
                 systems/indicators/master-warning/hydr-2-low gt 0
+                systems/indicators/master-warning/hydr-reserve-low gt 0
                 systems/indicators/master-warning/cabin-pressure-low gt 0
+                systems/indicators/master-warning/stuck-in-forward gt 0
+                systems/indicators/master-warning/no-reverse gt 0
+                systems/indicators/master-warning/fuel-distr-problem gt 0
+                systems/indicators/master-warning/fuel-pump-problem gt 0
+                systems/indicators/master-warning/radar-problem gt 0
+                systems/indicators/master-warning/data-problem gt 0
+                systems/indicators/master-warning/elevator-gearing gt 0
+                systems/indicators/master-warning/outlet-temp-high gt 0
+                systems/indicators/master-warning/oxygen-low gt 0
+                systems/indicators/master-warning/oil-pressure-low gt 0
+                systems/indicators/master-warning/gears-problem gt 0
+                systems/indicators/master-warning/auto-throttle-issue gt 0
+                systems/indicators/master-warning/auto-att-issue gt 0
+                systems/indicators/master-warning/auto-alt-issue gt 0
+                systems/indicators/master-warning/stick-problem gt 0
+                systems/indicators/master-warning/fuel-low gt 0
             </test>
         </switch>
 
-        <switch name="systems/indicators/master-warning/lamps">
+        <switch name="systems/indicators/master-warning/lamp1">
             <default value="0"/>
             <test logic="OR" value="0">
                 /systems/electrical/outputs/dc-voltage lt 23
             </test>
             <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/master-warning/warning gt 1
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/warning == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/tenHz-opposite">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /sim/ja37/blink/ten-Hz/state == 0
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/master-warning/lamp2">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                /systems/electrical/outputs/dc-voltage lt 23
+            </test>
+            <test logic="OR" value="systems/indicators/master-warning/tenHz-opposite">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/master-warning/warning gt 1
             </test>

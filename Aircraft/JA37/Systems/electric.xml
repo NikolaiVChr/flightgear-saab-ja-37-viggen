@@ -535,6 +535,18 @@
             <output>propulsion/starter_cmd_copy</output>
         </switch>
 
+        <switch name="names/electrical/engine/starter-switch">
+            <description>
+                      Engine starter switch
+            </description>
+            <default value="/controls/engines/engine[0]/starter-cmd"/>
+            <test logic="AND" value="0">
+                /systems/electrical/outputs/dc-voltage gt 23
+                propulsion/engine[0]/n2 gt 57
+            </test>
+            <output>/controls/engines/engine[0]/starter-cmd</output>
+        </switch>        
+
         <fcs_function name="systems/electrical/ext-power-z-m">
             <function>
                 <product>

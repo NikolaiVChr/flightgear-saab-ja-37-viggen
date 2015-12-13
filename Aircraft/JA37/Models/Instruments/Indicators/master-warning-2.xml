@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 
 <PropertyList>
     <path>red-indicator.ac</path>
@@ -10,7 +10,7 @@
             <red>1.0</red>
             <green>0.0</green>
             <blue>0.0</blue>
-            <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamp1</factor-prop>
+            <factor-prop>fdm/jsbsim/systems/indicators/master-warning/lamp2</factor-prop>
         </emission>
     </animation>
 
@@ -25,7 +25,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Circle</object-name>
-        <property>fdm/jsbsim/systems/indicators/master-warning/lamp1</property>
+        <property>fdm/jsbsim/systems/indicators/master-warning/lamp2</property>
         <factor>0.5</factor>
         <axis>
             <x>1</x>

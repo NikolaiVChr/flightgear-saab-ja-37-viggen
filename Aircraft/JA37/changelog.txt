@@ -1845,3 +1845,7 @@ Control: Renamed the aileron, rudder and elevator limiters to gearings.
 Sim: Roll limiter now has a failure mode separate from roll damper.
 Effect: Fixed that the ALS landing light cone was too big and moved around when rotating view.
 Sim: Moved master warning logic to JSB.
+Model: Master warning lamps now blink alternating as per manual.
+Sim: Master warnings is now enabled on ground, but not when engine is starting up, as per manual.
+Sim: Added many more master warnings, some with and some without sound as per the manual.
+Sim: Engine starter switch now switches itself off at rpm 57% as per manual.
