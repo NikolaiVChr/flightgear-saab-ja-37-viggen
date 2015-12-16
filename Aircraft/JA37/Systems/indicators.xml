@@ -1623,7 +1623,7 @@
             <function>
                 <gt>
                     <property>propulsion/engine/outlet-temperature-degc</property>
-                    <value>850</value>
+                    <value>875</value><!-- about 861 at mach 2 at 35000ft -->
                 </gt>
             </function>
         </fcs_function>
