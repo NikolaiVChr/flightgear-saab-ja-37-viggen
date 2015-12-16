@@ -70,36 +70,36 @@
 
 <!-- Material shaders   -->
   <effect>
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+          <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
-	  <object-name>canopy</object-name>
-	  <object-name>elevonLeftInner</object-name>
-	  <object-name>elevonLeftOuter</object-name>
-	  <object-name>elevonRightInner</object-name>
-	  <object-name>elevonRightOuter</object-name>
-	  <object-name>flaps</object-name>
-	  <object-name>fuselage</object-name>
+          <object-name>canopy</object-name>
+          <object-name>elevonLeftInner</object-name>
+          <object-name>elevonLeftOuter</object-name>
+          <object-name>elevonRightInner</object-name>
+          <object-name>elevonRightOuter</object-name>
+          <object-name>flaps</object-name>
+          <object-name>fuselage</object-name>
     <object-name>wingLeft</object-name>
     <object-name>wingRight</object-name>
-	  <object-name>rudder</object-name>
-	  <object-name>gearFrontBottom</object-name>
+          <object-name>rudder</object-name>
+          <object-name>gearFrontBottom</object-name>
     <object-name>gearFrontHub</object-name>
     <object-name>gearFrontTop</object-name>
-	  <object-name>gearFrontDoorsOpenLeft</object-name>
+          <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
-	  <object-name>gearFrontDoorsClosed</object-name>
-	  <object-name>gearLeftMid</object-name>
+          <object-name>gearFrontDoorsClosed</object-name>
+          <object-name>gearLeftMid</object-name>
     <object-name>gearLeftBottom</object-name>
     <object-name>gearLeftTop</object-name>
-	  <object-name>gearLeftHinge</object-name>
-	  <object-name>gearLeftDoorsOpen</object-name>
-	  <object-name>gearLeftDoorsClosed</object-name>
-	  <object-name>gearRightMid</object-name>
+          <object-name>gearLeftHinge</object-name>
+          <object-name>gearLeftDoorsOpen</object-name>
+          <object-name>gearLeftDoorsClosed</object-name>
+          <object-name>gearRightMid</object-name>
     <object-name>gearRightBottom</object-name>
     <object-name>gearRightTop</object-name>
-	  <object-name>gearRightHinge</object-name>
-	  <object-name>gearRightDoorsOpen</object-name>
-	  <object-name>gearRightDoorsClosed</object-name>
+          <object-name>gearRightHinge</object-name>
+          <object-name>gearRightDoorsOpen</object-name>
+          <object-name>gearRightDoorsClosed</object-name>
     <object-name>dropTank</object-name>
   </effect>
 
@@ -153,8 +153,8 @@
   </effect>
 
   <effect>  
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
-	  <object-name>nozzle</object-name>
+          <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
+          <object-name>nozzle</object-name>
   </effect>
 
   <effect>  
@@ -255,6 +255,7 @@
   <object-name>glassOuter</object-name>
   <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
+  <object-name>canopyinside</object-name>
   <property>canopy/position-norm</property><!-- auto MP transmit -->
   <factor>30.0</factor>
   <center>
