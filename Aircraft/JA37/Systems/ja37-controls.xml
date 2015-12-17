@@ -279,7 +279,7 @@
                             2.00        0.04      0.10      0.50
                         </tableData>
                     </table>
-                    <property>/test</property>
+                    <!--<property>/test</property>-->
                </product>
             </function>
         </fcs_function>
