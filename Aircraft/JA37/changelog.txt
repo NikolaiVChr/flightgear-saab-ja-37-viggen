@@ -1850,3 +1850,6 @@ Sim: Master warnings is now enabled on ground, but not when engine is starting u
 Sim: Added many more master warnings, some with and some without sound as per the manual.
 Sim: Engine starter switch now switches itself off at rpm 57% as per manual.
 HUD: Effects on the windshield can now be seen through the HUD.
+Control: Based pitch gearing on mach again instead of airspeed. Will scale better in different altitudes.
+Control: Increased pitch damper authority at extreme elevator inputs.
+Control: Make the aircraft able to pull at least 7.5 G in supersonic despite mach tuck.

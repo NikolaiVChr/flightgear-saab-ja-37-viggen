@@ -20,6 +20,6 @@
             <running type="bool">true</running>
         </engine>
     </engines>
-    <test type="double">0.05</test>
+    <test type="double">1</test>
     <test2 type="double">0.5</test2>
 </PropertyList>
