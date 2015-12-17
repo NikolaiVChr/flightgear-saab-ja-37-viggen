@@ -12,8 +12,6 @@ Aero: Make cannon pod detachable and have pointweight. (and model it above drop-
 Aero: Air-brakes, even though they got welded shut in mid 80ties. (Request from JazzTp)
 Control: Pitch damper should also take lateral normal (Nz) acceleration as input as per manual.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
-Control: Make the aircraft able to pull 7.5 G in supersonic despite mach tuck.
-Control: Consider basing pitch gearing on mach again instead of airspeed. Will scale better in different altitudes.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.
