@@ -1415,6 +1415,7 @@ var stopAutostart = func {
 }
 
 var startSupply = func {
+  setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   if (getprop("fdm/jsbsim/systems/electrical/external/available") == TRUE) {
     # using ext. power
     click();
@@ -1449,7 +1450,7 @@ var autostart = func {
   popupTip("Starting engine..");
   click();
   setprop("/controls/engines/engine[0]/cutoff", TRUE);
-  setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
+  #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
 }
