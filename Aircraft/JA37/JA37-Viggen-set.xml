@@ -371,7 +371,7 @@
                 <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/>                <!-- to show detachment of wings -->
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>                <!-- used for animation -->
-                <float n="3" alias="/fdm/jsbsim/propulsion/engine/zone-scaled"/>                <!-- to animate afterburnerflame -->
+                <!--<float n="3" alias="/fdm/jsbsim/propulsion/engine/aug-flame"/> is now done in jsbsim -->                <!-- to animate afterburnerflame -->
                 <float n="5" alias="/engines/engine/flame"/>                <!-- to animate engine flame -->
                 <float n="15" alias="/engines/engine/n1"/>                <!-- used in MP sound -->
                 <float n="16" alias="/engines/engine/thrust_lb-absolute"/>                <!-- used in MP sound -->
@@ -856,6 +856,7 @@
                     <augmentation type="double">0</augmentation>
                     <zone type="double">0</zone>
                     <zone-factor type="double">1</zone-factor>
+                    <aug-flame type="double">0</aug-flame>
                 </engine>
             </propulsion>
             <launchbar>

@@ -1099,7 +1099,7 @@
             <output>propulsion/engine/zone</output>
         </switch>
 
-        <!-- used for animating nozzle indicator and afterburner flame -->
+        <!-- used for animating nozzle indicator -->
         <aerosurface_scale name="names/throttle/zone-scaled">
             <input>fcs/throttle-cmd-norm</input>
             <zero_centered> false </zero_centered>
@@ -1122,6 +1122,16 @@
               propulsion/engine/augmentation == 0
           </test>
             <output>propulsion/engine/nozzle</output>
+        </switch>
+
+        <!-- used for animating afterburner flame -->
+        <switch name="names/throttle/aug-flame">
+            <default value="propulsion/engine/zone-scaled"/>
+            <test logic="OR" value="0">
+              propulsion/engine/augmentation == 0
+          </test>
+          <output>propulsion/engine/aug-flame</output>
+          <output>/sim/multiplay/generic/float[3]</output>
         </switch>
 
         <!-- pure_gain is the only component that can overwrite fcs/throttle-pos-norm -->

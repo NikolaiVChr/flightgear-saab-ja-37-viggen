@@ -46,7 +46,7 @@
     <type>scale</type>
     <object-name>ExternalFlamePoly</object-name>
     <nopreview/>
-    <property>sim/multiplay/generic/float[3]</property><!-- fdm/jsbsim/propulsion/engine/zone-scaled --> 
+    <property>sim/multiplay/generic/float[3]</property><!-- fdm/jsbsim/propulsion/engine/aug-flame --> 
     <x-min>0.2</x-min>
     <y-min>1.325</y-min>
     <z-min>1.325</z-min>
