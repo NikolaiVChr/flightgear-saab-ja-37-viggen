@@ -263,6 +263,8 @@
   <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
   <object-name>canopyinside</object-name>
+  <object-name>mirrorholder</object-name>
+  <object-name>mirrorreflect</object-name>
   <property>canopy/position-norm</property><!-- auto MP transmit -->
   <factor>30.0</factor>
   <center>
