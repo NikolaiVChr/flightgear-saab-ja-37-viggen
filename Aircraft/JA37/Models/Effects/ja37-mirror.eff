@@ -1,0 +1,32 @@
+<PropertyList>
+  <name>Aircraft/JA37/Models/Effects/ja37-mirror</name>
+  <inherits-from>Effects/model-combined-deferred</inherits-from>
+  <parameters>
+    <rain-enabled type="int">0</rain-enabled>
+    <ambient-correction type="float">0.05</ambient-correction>
+    <normalmap-enabled type="int">0</normalmap-enabled>
+
+	<lightmap-enabled type="int">0</lightmap-enabled>
+	<lightmap-multi type="int">0</lightmap-multi>
+	<lightmap-factor type="float" n="0">0</lightmap-factor>
+	<lightmap-color type="vec3d" n="0"> 1.0 0.0 0.0 </lightmap-color>
+	<lightmap-factor type="float" n="1">0</lightmap-factor>
+	<lightmap-color type="vec3d" n="1"> 0.0 1.0 0.0 </lightmap-color>
+	<lightmap-factor type="float" n="2">0</lightmap-factor>
+	<lightmap-color type="vec3d" n="2"> 0.0 0.0 1.0 </lightmap-color>
+	<lightmap-factor type="float" n="3">0.0</lightmap-factor>
+	<lightmap-color type="vec3d" n="3"> 1.0 1.0 1.0 </lightmap-color>
+
+    <reflection-enabled type="int">1</reflection-enabled>
+    <reflect-map-enabled type="int">0</reflect-map-enabled>
+    <reflection-correction type="float">1.0</reflection-correction>
+    <reflection-fresnel type="float">0.0</reflection-fresnel>
+    <reflection-rainbow type="float">0.0</reflection-rainbow>
+    <reflection-noise type="float">0.0</reflection-noise>
+    <reflection-dynamic type="int">1</reflection-dynamic>
+
+    <dirt-enabled type="int">0</dirt-enabled>
+    <dirt-factor type="float">0.0</dirt-factor>
+    <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
+  </parameters>
+</PropertyList>
