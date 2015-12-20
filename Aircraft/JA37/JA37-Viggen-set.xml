@@ -361,7 +361,7 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 9, int 17, int 18, float 2 and float 9 is controlled from nasal -->
+            <!-- int 9, int 17, int 18, float 2, float 3 and float 9 is controlled from nasal or JSB -->
             <generic>
                 <!-- effects -->
                 <int n="0" alias="/sim/ja37/effect/smoke"/>                <!-- to show smoke -->

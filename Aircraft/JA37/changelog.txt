@@ -1855,3 +1855,4 @@ Control: Increased pitch damper authority at extreme elevator inputs.
 Control: Make the aircraft able to pull at least 7.5 G in supersonic despite mach tuck.
 Sim: Changed the auto startup sequence to avoid getting master warnings during startup.
 Effect: Enabled support for Fireflys lightmap for afterburner.
+Sim: Increased outlet temperature that will trigger a master warning.
