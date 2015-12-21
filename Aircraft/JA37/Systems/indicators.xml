@@ -811,10 +811,18 @@
         </fcs_function>
 
         <switch name="/instrumentation/joystick-indicator">
-            <default value="systems/indicators/flightstick-active-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <default value="0"/>
+            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
                 /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
                 systems/indicators/flightstick-active-primary == 1
+            </test>
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/ac-instr-voltage gt 50
+                systems/indicators/flightstick-active-secondary == 1
             </test>
         </switch>
 
@@ -1026,7 +1034,7 @@
 
         <switch name="propulsion/engine/cutoff-ready">
             <default value="0"/>
-            <test logic="AND" value="1">
+            <test logic="AND" value="/systems/electrical/dc-light">
               propulsion/starter_cmd_copy == 1
               /controls/engines/engine[0]/cutoff == 1
               propulsion/engine/n1 gt 5.2
