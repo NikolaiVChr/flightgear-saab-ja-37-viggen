@@ -137,6 +137,11 @@
   </effect>
 
   <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-mirror</inherits-from>
+    <object-name>mirrorreflect</object-name>
+  </effect>
+
+  <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
     <object-name>glassInternal</object-name>
     <object-name>frontglasInternal</object-name>
