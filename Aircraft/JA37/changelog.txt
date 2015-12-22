@@ -1835,7 +1835,7 @@ Model: Made the shiny metal parts a little darker color, to be more in line with
 Effect: Toned down the nozzle reflection a bit.
 Effect: Removed old unused effect files.
 
-3.105
+3.105 - 2015 December 22
 =====
 Control: Changed the pitch and roll gearing to make the plane a little more lively again.
 Sim: Improved the crash test groundspeed calculation code.
