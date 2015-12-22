@@ -1,25 +1,25 @@
 AC3Db
-MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 10 trans 0.0000
-MATERIAL "bodyMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 0.2598 0.2598 0.2598  spec 0.2000 0.2000 0.2000  shi 12 trans 0.0000
-MATERIAL "canopy" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "dashpanelMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.1000 0.1000 0.1000  shi 37 trans 0.0000
-MATERIAL "glassMat" rgb 0.8000 0.8000 0.8000  amb 0.3103 0.3103 0.3103  emis 1.0000 1.0000 1.0000  spec 1.0000 1.0000 1.0000  shi 19 trans 0.9120
-MATERIAL "glassMatInternal" rgb 0.2852 0.3197 0.3101  amb 0.3103 0.3103 0.3103  emis 1.0000 1.0000 1.0000  spec 1.0000 1.0000 1.0000  shi 19 trans 0.5429
-MATERIAL "glassRadarMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.2000 0.2000 0.2000  shi 25 trans 0.6577
-MATERIAL "hudMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.5310
-MATERIAL "HudRestMat" rgb 0.2605 0.2605 0.2605  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "blackMat" rgb 0.0030 0.0030 0.0030  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "stobeMat" rgb 0.0960 0.0960 0.0960  amb 0.5000 0.5000 0.5000  emis 0.2598 0.2598 0.2598  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "metalMat" rgb 0.8000 0.8000 0.8000  amb 0.4505 0.4505 0.4505  emis 0.2598 0.2598 0.2598  spec 0.2363 0.2363 0.2363  shi 12 trans 0.0000
-MATERIAL "redLightMat" rgb 1.0000 0.0000 0.0000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.0000 0.0000  shi 12 trans 0.0000
-MATERIAL "greenLightMat" rgb 0.0000 0.0000 1.0000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.0000 0.0000 0.5000  shi 12 trans 0.0000
-MATERIAL "nozzleMat" rgb 0.8000 0.6642 0.1126  amb 1.0000 1.0000 1.0000  emis 0.2598 0.2598 0.2598  spec 0.2000 0.2000 0.2000  shi 12 trans 0.0000
-MATERIAL "mirrormat" rgb 0.1232 0.1232 0.1232  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "plaqueLeftMat" rgb 0.6038 0.6038 0.6038  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "plaqueRightMat" rgb 0.6267 0.6267 0.6267  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "radarHeadingMat" rgb 0.5973 0.6267 0.5841  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
-MATERIAL "radarScreenMat" rgb 0.0000 0.0000 0.0000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.0062 0.0062 0.0062  shi 12 trans 0.0000
-MATERIAL "reverserMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 1.0000 1.0000 1.0000  spec 0.4640 0.4640 0.4640  shi 12 trans 0.0000
+MATERIAL "DefaultWhite"     rgb 1.00 1.00 1.00  amb 0.20 0.20 0.20  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  10 trans 0.00
+MATERIAL "bodyMat"          rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
+MATERIAL "canopy"           rgb 0.80 0.80 0.80  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  12 trans 0.00
+MATERIAL "dashpanelMat"     rgb 0.80 0.80 0.80  amb 0.80 0.80 0.80  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  50 trans 0.00
+MATERIAL "glassMat"         rgb 1.00 1.00 1.00  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 100 trans 1.00
+MATERIAL "glassMatInternal" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.55
+MATERIAL "glassRadarMat"    rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.70
+MATERIAL "hudMat"           rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 1.00 1.00 1.00  spec 1.00 1.00 1.00  shi  50 trans 0.20
+MATERIAL "hudRestMat"       rgb 0.26 0.26 0.26  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "blackMat"         rgb 0.00 0.00 0.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "stobeMat"         rgb 0.50 0.50 0.50  amb 0.30 0.30 0.30  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  80 trans 0.00
+MATERIAL "metalMat"         rgb 0.70 0.70 0.70  amb 0.70 0.70 0.70  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  45 trans 0.00
+MATERIAL "redLightMat"      rgb 0.50 0.00 0.00  amb 0.31 0.31 0.31  emis 0.00 0.00 0.00  spec 0.50 0.00 0.00  shi  80 trans 0.00
+MATERIAL "greenLightMat"    rgb 0.00 0.50 0.00  amb 0.31 0.31 0.31  emis 0.00 0.00 0.00  spec 0.00 0.50 0.00  shi  80 trans 0.00
+MATERIAL "nozzleMat"        rgb 0.50 0.50 0.50  amb 0.30 0.30 0.30  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  45 trans 0.00
+MATERIAL "mirrormat"        rgb 0.12 0.12 0.12  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  12 trans 0.00
+MATERIAL "plaqueLeftMat"    rgb 0.60 0.60 0.60  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "plaqueRightMat"   rgb 0.60 0.60 0.60  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "radarHeadingMat"  rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "radarScreenMat"   rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
+MATERIAL "reverserMat"      rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  45 trans 0.00
 OBJECT world
 name "Blender_export__ja37.ac"
 kids 29
@@ -11191,7 +11191,7 @@ refs 4
 kids 0
 OBJECT poly
 name "frontglas"
-crease 30.0
+crease 50.0
 texture "glass-alpha.png"
 texrep 1 1
 numvert 139
@@ -12182,8 +12182,7 @@ refs 3
 kids 0
 OBJECT poly
 name "frontglasInternal"
-crease 35.0
-texture "glass-alpha.png"
+crease 50.0
 texrep 1 1
 numvert 139
 -4.4734020 0.6377869 0.0600862
@@ -88217,8 +88216,7 @@ refs 4
 kids 0
 OBJECT poly
 name "glassInternal"
-crease 30.0
-texture "glass-alpha.png"
+crease 50.0
 texrep 1 1
 numvert 121
 -3.2975636 0.5938318 0.3471532
@@ -89028,7 +89026,7 @@ refs 4
 kids 0
 OBJECT poly
 name "glassOuter"
-crease 30.0
+crease 50.0
 texture "glass-alpha.png"
 texrep 1 1
 numvert 119

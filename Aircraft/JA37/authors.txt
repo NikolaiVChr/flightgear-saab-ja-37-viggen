@@ -21,10 +21,17 @@ Various modelling and texturing
 
 Nicola B. Bernardelli - nbb.musica at gmail.com - Forum name: JazzTp
 ====================================
-Cockpit parts
+Cockpit sidepanels, switches, knobs and throttle.
 Continuous testing of all aspects of the aircraft
 Tons of feedback and suggestions
 
+Isaac Protiva - isaacprotiva at gmail.com - Forum name: Firefly
+====================================
+Canopy & mirrors
+Afterburner lightmap
+Drop-tank and reverser texturing
+Front-panel sunshield
+Ambient occlusion textures
 
 Thanks
 ======
