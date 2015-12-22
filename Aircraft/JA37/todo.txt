@@ -29,7 +29,7 @@ Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties.
 Sim: Implement ejection seat. (with parachute?)
-Sim: Make braking parachute.
+Sim: Make braking parachute?
 Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected? (really not needed)
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
@@ -41,11 +41,12 @@ Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Missiles should lock onto flares.
-Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b)
+Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
 Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
+Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
