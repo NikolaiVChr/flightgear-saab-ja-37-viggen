@@ -556,7 +556,7 @@ var AIM9 = {
           ident = "unknown";
         }
 
-		var phrase = sprintf( "RB-24J exploded %01.0f", me.direct_dist_m) ~ " meters from " ~ ident;
+		var phrase = sprintf( "RB-24J exploded: %01.0f", me.direct_dist_m) ~ " meters from: " ~ ident;
 		if (getprop("sim/ja37/armament/msg")) {
 			setprop("/sim/multiplay/chat", phrase);
 		} else {
