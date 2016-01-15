@@ -33,6 +33,10 @@ Drop-tank and reverser texturing
 Front-panel sunshield
 Ambient occlusion textures
 
+Justin Nicholson - Forum name: Pinto
+====================================
+Added the RB-71 missile.
+
 Thanks
 ======
 Thanks to all the patient people on the forums, especially those who helped with understanding aerodynamics.
