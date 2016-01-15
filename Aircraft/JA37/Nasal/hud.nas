@@ -1709,6 +1709,9 @@ var HUDnasal = {
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M70") {
         me.qfe.setText("M70");
         me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 71") {
+        me.qfe.setText("RB-71");
+        me.qfe.show();
       } else {
         me.qfe.hide();
       }        
@@ -1768,6 +1771,10 @@ var HUDnasal = {
         me.reticle_cannon.show();
         me.reticle_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 24J") {
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.show();
+      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 71") {
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
@@ -1919,6 +1926,10 @@ var HUDnasal = {
         # sidewinders
         minDist =   300;
         maxDist = 18520;
+      } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
+        # amraam
+        minDist =   300;
+        maxDist = 45000;
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
         # Rocket pod
         minDist =   200;
@@ -1981,16 +1992,16 @@ var HUDnasal = {
         var pos_y = hud_pos[1];
 
         if(pos_x > 512) {
-          showme = FALSE;
+          #showme = FALSE;
         }
         if(pos_x < -512) {
-          showme = FALSE;
+          #showme = FALSE;
         }
         if(pos_y > 512) {
-          showme = FALSE;
+          #showme = FALSE;
         }
         if(pos_y < -512) {
-          showme = FALSE;
+          #showme = FALSE;
         }
 
         if(showme == TRUE) {
@@ -2161,7 +2172,17 @@ var HUDnasal = {
               diamond = 2;
             }
           }
-
+		  if(armament.AIM7.active[armSelect-1] != nil and armament.AIM7.active[armSelect-1].status == 1) {
+            # lock
+            var weak = armament.AIM7.active[armSelect-1].trackWeak;
+            if (weak == TRUE) {
+              diamond = 1;
+            } else {
+              diamond = 2;
+            }
+          }
+		  
+		  
           #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
           #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
           #var speed = diamond_node.getNode("velocities/true-airspeed-kt").getValue();
