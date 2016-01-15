@@ -632,7 +632,7 @@
                 <enabled type="bool">true</enabled>
             </damage>
             <armament>
-                <msg type="bool">true</msg>
+                <msg type="bool">false</msg>
                 <rb24>
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
