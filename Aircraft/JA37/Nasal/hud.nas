@@ -1992,16 +1992,16 @@ var HUDnasal = {
         var pos_y = hud_pos[1];
 
         if(pos_x > 512) {
-          #showme = FALSE;
+          showme = FALSE;
         }
         if(pos_x < -512) {
-          #showme = FALSE;
+          showme = FALSE;
         }
         if(pos_y > 512) {
-          #showme = FALSE;
+          showme = FALSE;
         }
         if(pos_y < -512) {
-          #showme = FALSE;
+          showme = FALSE;
         }
 
         if(showme == TRUE) {
