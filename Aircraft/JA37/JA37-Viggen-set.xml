@@ -633,6 +633,7 @@
             </damage>
             <armament>
                 <msg type="bool">false</msg>
+                <damage type="bool">false</damage>
                 <rb24>
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>

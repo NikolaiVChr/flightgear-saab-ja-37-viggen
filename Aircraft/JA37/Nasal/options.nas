@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 675;
+var DIALOG_HEIGHT = 700;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -383,6 +383,20 @@ var Dialog = {
           me.dialog.rb24msgButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           me.dialog.rb24msgButton.setBinding("nasal", "ja37.Dialog.rb24msgToggle()");
 
+          ######   missile damage button   #####
+          var hitRow = topRow.addChild("group");
+          hitRow.set("layout", "hbox");
+          hitRow.set("pref-height", 25);
+          hitRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #hitRow.set("valign", "center");
+          
+          var hitText = hitRow.addChild("text").set("label", "Take damage from getting hit:");
+          hitRow.addChild("empty").set("stretch", 1);
+          me.dialog.hitButton = hitRow.addChild("button");
+          me.dialog.hitButton.set("halign", "right");
+          me.dialog.hitButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.hitButton.setBinding("nasal", "ja37.Dialog.hitToggle()");
+
           #HUD line thickness
           var lineRow = workArea.addChild("group");
           lineRow.set("layout", "hbox");
@@ -589,7 +603,13 @@ var Dialog = {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
       me.refreshButtons();
-    },    
+    },
+
+    hitToggle: func {
+      var enabled = getprop("sim/ja37/armament/damage");
+      setprop("sim/ja37/armament/damage", !enabled);
+      me.refreshButtons();
+    },
 
     light: func {
       canvas_HUD.r = 0.6;
@@ -779,6 +799,14 @@ var Dialog = {
       }
       me.dialog.rb24msgButton.node.setValues({"legend": legend});
       
+      enabled = getprop("sim/ja37/armament/damage");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.hitButton.node.setValues({"legend": legend});
+
       #props.dump(me.dialog.prop()); # handy command, don't forget it.
 
       # this is commented out cause it needs a trigger (e.g. button to activate):
