@@ -28,6 +28,7 @@
             <positive-z>Aircraft/Generic/Effects/fgfs-sky2/6.png</positive-z>
             <negative-z>Aircraft/Generic/Effects/fgfs-sky2/5.png</negative-z>
         </images>
+        <filter>linear</filter>
       </texture>
 <!--      <texture n="5">
         <type>cubemap</type>
@@ -39,6 +40,7 @@
           <positive-z>Models/Effects/ja37-glass-reflect.png</positive-z>
           <negative-z>Models/Effects/ja37-glass-reflect.png</negative-z>
         </images>
+        <filter>linear</filter>
       </texture>-->
       <rendering-hint>transparent</rendering-hint>
       <transparent>true</transparent>

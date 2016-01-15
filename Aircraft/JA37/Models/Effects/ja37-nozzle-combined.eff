@@ -26,6 +26,7 @@
        <positive-z>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</positive-z>
        <negative-z>Aircraft/JA37/Models/Effects/ja37-glass-reflect.png</negative-z>
      </images>
+     <filter>linear</filter>
    </texture>
  </parameters>
 </PropertyList>

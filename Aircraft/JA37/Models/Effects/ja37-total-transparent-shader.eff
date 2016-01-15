@@ -24,7 +24,7 @@
     <!-- dirt map -->
     <texture n="4">
       <image>Aircraft/JA37/Models/Effects/ja37-dirt.png</image>
-      <filter>linear-mipmap-linear</filter>
+      <filter>linear</filter>
       <wrap-s>clamp</wrap-s>
       <wrap-t>clamp</wrap-t>
       <internal-format>normalized</internal-format>
@@ -41,12 +41,13 @@
           <positive-z>Aircraft/Generic/Effects/fgfs-sky2/6.png</positive-z>
           <negative-z>Aircraft/Generic/Effects/fgfs-sky2/5.png</negative-z>
       </images>
+      <filter>linear</filter>
     </texture>
 
     <!-- rainbow map -->
     <texture n="7">
       <image>Aircraft/Generic/Effects/Rainbow.png</image>
-      <filter>linear-mipmap-linear</filter>
+      <filter>linear</filter>
       <wrap-s>repeat</wrap-s>
       <wrap-t>repeat</wrap-t>
       <internal-format>normalized</internal-format>

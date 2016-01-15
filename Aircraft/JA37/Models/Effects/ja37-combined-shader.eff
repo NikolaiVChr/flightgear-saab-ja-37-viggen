@@ -31,7 +31,7 @@
 
   	<texture n="2">
       <image>Aircraft/JA37/Models/Effects/j37_bump.png</image>
-      <filter>linear-mipmap-linear</filter><!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
+      <filter>linear</filter><!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
       <wrap-s>repeat</wrap-s>
       <wrap-t>repeat</wrap-t>
       <internal-format>normalized</internal-format>
@@ -39,7 +39,7 @@
 
   	<texture n="3">
 		<image>Aircraft/JA37/Models/Effects/j37_light.png</image>
-		<filter>linear-mipmap-linear</filter>
+		<filter>linear</filter>
 		<wrap-s>clamp</wrap-s>
 		<wrap-t>clamp</wrap-t>
 		<internal-format>normalized</internal-format>
