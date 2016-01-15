@@ -2431,6 +2431,8 @@
 
 <!-- ===================== start payload =========================== -->
 
+<!-- ====== drop pod ====== -->
+
 <animation>
   <object-name>dropTank</object-name>
   <object-name>dropTankNoshader</object-name>
@@ -2443,6 +2445,8 @@
   </condition>
  </animation>
 
+<!-- ====== rb 24j ====== -->
+ 
 <animation>
   <object-name>missile</object-name><!-- Left wing pylon -->
   <type>select</type>
@@ -2489,6 +2493,8 @@
   </condition>
  </animation>
 
+ <!-- ====== m70 ====== -->
+ 
   <model><!-- Left wing pylon -->
     <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
     <name>pod0</name>
@@ -2575,6 +2581,95 @@
   </condition>
  </animation>
 
+  <!-- ====== rb 71 ====== -->
+
+  <model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb710</name>
+    <offsets>
+      <y-m> -2.70</y-m>
+      <z-m> -0.70</z-m>
+      <x-m>  2.40</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb710</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Left fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb712</name>
+    <offsets>
+      <y-m> -0.975</y-m>
+      <z-m> -0.975</z-m>
+      <x-m> -0.50</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb712</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb711</name>
+    <offsets>
+      <y-m>  2.70</y-m>
+      <z-m> -0.70</z-m>
+      <x-m>  2.40</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb711</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+   <model><!-- Right fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb713</name>
+    <offsets>
+      <y-m>  0.975</y-m>
+      <z-m> -0.975</z-m>
+      <x-m> -0.50</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb713</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+  
 <!--<animation>
   <type>range</type>
   <object-name>plaqueLeft</object-name>

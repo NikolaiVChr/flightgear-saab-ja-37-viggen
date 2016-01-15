@@ -632,7 +632,7 @@
                 <enabled type="bool">true</enabled>
             </damage>
             <armament>
-                <msg type="bool">false</msg>
+                <msg type="bool">true</msg>
                 <rb24>
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
@@ -649,6 +649,23 @@
                     <drag-coeff type="double">0.05</drag-coeff>                    <!-- guess -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
                 </rb24>
+                <rb71>
+					<!-- info taken largely from AIM-7 data from Richard's excellent F-15 model -->
+                    <sound-on-off type="bool">false</sound-on-off>
+                    <sound-volume type="double">0.0</sound-volume>
+                    <!-- RB-71 specs (Swedish version of Sparrow) -->
+                    <max-detection-rng-nm type="int">25</max-detection-rng-nm>                    <!-- Skyflash range is 24.3nm -->
+                    <fov-deg type="int">25</fov-deg>                   <!-- seeker optical FOV -->
+                    <detection-fov-deg type="int">140</detection-fov-deg>                    <!-- Search pattern diameter (rosette scan) -->
+                    <track-max-deg type="int">110</track-max-deg>                    <!-- Seeker max total angular rotation -->
+                    <max-g type="int">100</max-g>                    <!-- In turn, 13 -->
+                    <thrust-lbs type="double">1700</thrust-lbs>                    <!-- classified, guessing. -->
+                    <thrust-duration-sec type="int">100</thrust-duration-sec>
+                    <weight-launch-lbs>425</weight-launch-lbs>
+                    <weight-warhead-lbs>88</weight-warhead-lbs>
+                    <drag-coeff type="double">0.080</drag-coeff>
+                    <drag-area type="double">0.249</drag-area>
+                </rb71>
             </armament>
             <avionics>
                 <altimeters-calibrated type="bool">0</altimeters-calibrated>
@@ -1034,6 +1051,10 @@
                 <name>M70</name>
                 <lbs>200</lbs>
             </opt>
+            <opt>
+                <name>RB 71</name>
+                <lbs>425</lbs>
+            </opt>
         </weight>
         <weight n="1">
             <name>Left fuselage pylon</name>
@@ -1050,6 +1071,10 @@
             <opt>
                 <name>M70</name>
                 <lbs>200</lbs>
+            </opt>
+            <opt>
+                <name>RB 71</name>
+                <lbs>425</lbs>
             </opt>
         </weight>
         <weight n="2">
@@ -1068,6 +1093,10 @@
                 <name>M70</name>
                 <lbs>200</lbs>
             </opt>
+            <opt>
+                <name>RB 71</name>
+                <lbs>425</lbs>
+            </opt>
         </weight>
         <weight n="3">
             <name>Right fuselage pylon</name>
@@ -1084,6 +1113,10 @@
             <opt>
                 <name>M70</name>
                 <lbs>200</lbs>
+            </opt>
+            <opt>
+                <name>RB 71</name>
+                <lbs>425</lbs>
             </opt>
         </weight>
         <weight n="4">
@@ -1279,6 +1312,7 @@
         </crash1>
         <armament>
             <file>Aircraft/JA37/Nasal/aim-9.nas</file>
+			<file>Aircraft/JA37/Nasal/aim-7.nas</file>
         </armament>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>

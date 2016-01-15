@@ -56,6 +56,7 @@ var findRadarTracks = func () {
     var ships = node_ai.getChildren("ship");
     var vehicles = node_ai.getChildren("groundvehicle");
     var rb24 = node_ai.getChildren("rb-24j");
+	var rb71 = node_ai.getChildren("rb-71");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
       selection = nil;
@@ -67,6 +68,7 @@ var findRadarTracks = func () {
     processTracks(AIplanes, FALSE);
     processTracks(vehicles, FALSE);
     processTracks(rb24, FALSE, TRUE);
+	processTracks(rb71, FALSE, TRUE);
     processCallsigns(players);
   }
   var carriers = node_ai.getChildren("carrier");

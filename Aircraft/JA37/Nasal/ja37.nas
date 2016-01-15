@@ -260,6 +260,15 @@ var update_loop = func {
             }
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70") {
               setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
+          } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "RB 71") {
+            #is not center pylon and is RB24
+            if(armament.AIM7.new(i) == -1 and armament.AIM7.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              setprop("payload/weight["~ (i) ~"]/selected", "none");
+              #print("refusing to mount new missile yet "~i);
+            }
           }
         }
       }
@@ -288,6 +297,19 @@ var update_loop = func {
           armament.AIM9.active[i].status = MISSILE_SEARCH;#print("active "~(i));
           armament.AIM9.active[i].search();
         }
+      } elsif(armament.AIM7.active[i] != nil) {
+        #missile is mounted on pylon
+        if(armSelect != i+1 and armament.AIM7.active[i].status != MISSILE_FLYING) {
+          #pylon not selected, and not flying set missile on standby
+          armament.AIM7.active[i].status = MISSILE_STANDBY;#print("not sel "~(i));
+        } elsif (input.combat.getValue() != 2 or (armament.AIM7.active[i].status != MISSILE_STANDBY and armament.AIM7.active[i].status != MISSILE_FLYING and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
+          #pylon has logic but missile not mounted and not flying or not in tactical mode
+          armament.AIM7.active[i].status = MISSILE_STANDBY;#print("empty "~(i));
+        } elsif (armSelect == i+1 and armament.AIM7.active[i].status == MISSILE_STANDBY and getprop("payload/weight["~ (i) ~"]/selected") != "none" and input.combat.getValue() == 2) {
+          #pylon selected, missile mounted, in tactical mode, activate search
+          armament.AIM7.active[i].status = MISSILE_SEARCH;#print("active "~(i));
+          armament.AIM7.active[i].search();
+        }
       }
     }
 
@@ -309,6 +331,11 @@ var update_loop = func {
         # the pylon has a sidewinder, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 188) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
+        }
+	  } elsif (selected == "RB 71") {
+        # the pylon has a sidewinder, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 425) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 425);
         }
       } elsif (selected == "M70") {
         # the pylon has a sidewinder, give it a pointmass
@@ -828,7 +855,20 @@ var trigger_listener = func {
           } else {
             setprop("/sim/messages/atc", phrase);
           }
-        }
+        } elsif (armament.AIM7.active[armSelect-1] != nil and  armament.AIM7.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
+          #missile locked, fire it.
+          setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+          setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+          #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
+        
+          armament.AIM7.active[armSelect-1].release();#print("release "~(armSelect-1));
+          var phrase = "RB-71 fired at: " ~ radar_logic.selection[5];
+          if (getprop("sim/ja37/armament/msg")) {
+            setprop("/sim/multiplay/chat", phrase);
+          } else {
+            setprop("/sim/messages/atc", phrase);
+          }
+		}
       }
     }
 }
