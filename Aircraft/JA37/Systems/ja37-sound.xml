@@ -1462,22 +1462,22 @@
             </volume>
         </rb24-signal>
 		
-        <rb99-signal>
-            <name>rb99-signal</name>
+        <rb71-signal>
+            <name>rb71-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <path>Aircraft/JA37/Sounds/115hz-square.wav</path><!-- change to beep -->
             <condition>
-                <property>sim/ja37/armament/rb24/sound-on-off</property>
+                <property>sim/ja37/armament/rb71/sound-on-off</property>
                 <equals>
                     <property>sim/ja37/hud/current-mode</property>
                     <value>2</value>
                 </equals>
             </condition>
             <volume>
-                <property>sim/ja37/armament/rb24/sound-volume</property>
+                <property>sim/ja37/armament/rb71/sound-volume</property>
             </volume>
-        </rb99-signal>
+        </rb71-signal>
 
         <flare>
             <name>flare</name>
