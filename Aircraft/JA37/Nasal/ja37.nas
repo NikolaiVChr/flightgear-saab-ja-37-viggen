@@ -1015,37 +1015,60 @@ var incoming_listener = func {
             var distance = num(number[1]);
             if(distance != nil) {
               var maxDist = 25;#0m fails all, 25m fails nothing
-              var probability = ((maxDist-distance) * (maxDist-distance)) / (maxDist*maxDist); 
+              var diff = maxDist-distance;
+              if (diff > 0) {
+                diff = diff * diff;
+              } else {
+                diff = diff * diff;
+                diff = diff * -1;
+              }
+              var probability = diff / (maxDist*maxDist);
 
               var failure_modes = FailureMgr._failmgr.failure_modes;
               var mode_list = keys(failure_modes);
+              var failed = 0;
               foreach(var failure_mode_id; mode_list) {
                 if(rand() < probability) {
                   FailureMgr.set_failure_level(failure_mode_id, 1);
+                  failed += 1;
                 }
               }
+              var percent = 100 * probability;
+              print("Took "~percent~"% damage from RB-71 at "~distance~" meters distance! "~failed~" systems was hit.");
             }
           } 
         } elsif (last_vector[1] == " RB-24J exploded") {
           # Sidewinder missile hitting someone
-          print("sidewinder");
+          #print("sidewinder");
           if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
             # that someone is me!
-            print("hitting me");
+            #print("hitting me");
             var number = split(" ", last_vector[2]);
             var distance = num(number[1]);
             if(distance != nil) {
-              print(distance);
+              #print(distance);
               var maxDist = 15;#0m fails all, 15m fails nothing
-              var probability = ((maxDist-distance) * (maxDist-distance)) / (maxDist*maxDist); 
-              print(probability);
+              var diff = maxDist-distance;
+              if (diff > 0) {
+                diff = diff * diff;
+              } else {
+                diff = diff * diff;
+                diff = diff * -1;
+              }
+              var probability = diff / (maxDist*maxDist);
+
+              #print(probability);
               var failure_modes = FailureMgr._failmgr.failure_modes;
               var mode_list = keys(failure_modes);
+              var failed = 0;
               foreach(var failure_mode_id; mode_list) {
                 if(rand() < probability) {
                   FailureMgr.set_failure_level(failure_mode_id, 1);
+                  failed += 1;
                 }
               }
+              var percent = 100 * probability;
+              print("Took "~percent~"% damage from RB-24J at "~distance~" meters distance! "~failed~" systems was hit.");
             }
           }
         } elsif (last_vector[1] == " KCA cannon shell hit") {
@@ -1058,11 +1081,14 @@ var incoming_listener = func {
             var probability = 0.20; # take 20% damage from each hit
             var failure_modes = FailureMgr._failmgr.failure_modes;
             var mode_list = keys(failure_modes);
+            var failed = 0;
             foreach(var failure_mode_id; mode_list) {
               if(rand() < probability) {
                 FailureMgr.set_failure_level(failure_mode_id, 1);
+                failed += 1;
               }
             }
+            print("Took 20% damage from KCA! "~failed~" systems was hit.");
           }
         }
       }
@@ -1833,11 +1859,12 @@ reloadAir2Air = func {
   # wing pylons
   setprop("payload/weight[0]/selected", "RB 24J");
   setprop("payload/weight[2]/selected", "RB 24J");
+  screen.log.write("2 RB-24J missiles attached", 0.0, 1.0, 0.0);
 
   # fuselage pylons
   setprop("payload/weight[1]/selected", "RB 71");
   setprop("payload/weight[3]/selected", "RB 71");
-  screen.log.write("RB 24J missiles attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);
