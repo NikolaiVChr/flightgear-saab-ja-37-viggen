@@ -1889,3 +1889,11 @@ GUI: Added an option for taking damage when being hit or not. Off per default.
 Sim: Slightly formatted the cannon hit message differently.
 Effect: Textures used in effects are now longer mipmapped, to help performance.
 Sim: Added Pinto to Author file.
+Aero: Significantly lowered RM71 missile drag.
+Sim: Missile bugfix of radian to degree calculation.
+Sim: Fixed that RB71 missile would attempt to pull over 90G.
+Sim: Removed print statements in RB71 missile code.
+Sim: Fixed that drop tank would have wrong weight if mounted through menu.
+Sim: Adjusted some RM71 stats.
+GUI: Selecting air2air loadout in menu will now mount 2 Sparrow and 2 sidewinders.
+Sim: Fixed that changing a pylon missile loadout would not change the logic.

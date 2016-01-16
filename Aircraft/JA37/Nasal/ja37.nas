@@ -254,10 +254,10 @@ var update_loop = func {
         if(i != 4) {
           if (getprop("payload/weight["~ (i) ~"]/selected") == "RB 24J") {
             # is not center pylon and is RB24
-            print("rb24 "~i);
+            #print("rb24 "~i);
             if(armament.AIM7.active[i] != nil and armament.AIM7.active[i].status != MISSILE_FLYING) {
               # remove aim-7 logic from that pylon
-              print("removing aim-7 logic");
+              #print("removing aim-7 logic");
               armament.AIM7.active[i].del();
             }
             if((armament.AIM9.new(i) == -1 and armament.AIM9.active[i].status == MISSILE_FLYING) or armament.AIM7.active[i] != nil) {
@@ -271,10 +271,10 @@ var update_loop = func {
               setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "RB 71") {
             # is not center pylon and is RB71
-            print("rb71 "~i);
+            #print("rb71 "~i);
             if(armament.AIM9.active[i] != nil and armament.AIM9.active[i].status != MISSILE_FLYING) {
               # remove aim-9 logic from that pylon
-              print("removing aim-9 logic");
+              #print("removing aim-9 logic");
               armament.AIM9.active[i].del();
             }
             if((armament.AIM7.new(i) == -1 and armament.AIM7.active[i].status == MISSILE_FLYING) or armament.AIM9.active[i] != nil) {
