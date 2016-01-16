@@ -655,17 +655,17 @@
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <!-- RB-71 specs (Swedish version of Sparrow) -->
-                    <max-detection-rng-nm type="int">25</max-detection-rng-nm>                    <!-- Skyflash range is 24.3nm -->
+                    <max-detection-rng-nm type="int">24.3</max-detection-rng-nm>                    <!-- Skyflash range is 24.3nm -->
                     <fov-deg type="int">25</fov-deg>                   <!-- seeker optical FOV -->
                     <detection-fov-deg type="int">140</detection-fov-deg>                    <!-- Search pattern diameter (rosette scan) -->
                     <track-max-deg type="int">110</track-max-deg>                    <!-- Seeker max total angular rotation -->
-                    <max-g type="int">100</max-g>                    <!-- In turn, 13 -->
-                    <thrust-lbs type="double">1700</thrust-lbs>                    <!-- classified, guessing. -->
+                    <max-g type="int">30</max-g>                    <!-- In turn, 13 -->
+                    <thrust-lbs type="double">745</thrust-lbs>                    <!-- classified, guessing. -->
                     <thrust-duration-sec type="int">100</thrust-duration-sec>
                     <weight-launch-lbs>425</weight-launch-lbs>
                     <weight-warhead-lbs>88</weight-warhead-lbs>
-                    <drag-coeff type="double">0.080</drag-coeff>
-                    <drag-area type="double">0.249</drag-area>
+                    <drag-coeff type="double">0.088</drag-coeff>
+                    <drag-area type="double">0.075</drag-area>
                 </rb71>
             </armament>
             <avionics>
@@ -1130,7 +1130,7 @@
             </opt>
             <opt>
                 <name>Drop tank</name>
-                <lbs>400</lbs>
+                <lbs>224.87</lbs>
             </opt>
         </weight>
     </payload>
