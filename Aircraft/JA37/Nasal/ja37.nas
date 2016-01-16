@@ -244,14 +244,23 @@ var update_loop = func {
 
     # pylon payloads
     for(var i=0; i<=4; i=i+1) {
-      if(getprop("payload/weight["~ (i) ~"]/selected") != "none" and getprop("payload/weight["~ (i) ~"]/weight-lb") == 0) {
-        # missile was loaded manually through payload/fuel dialog, so setting the pylon to not released
+      if((getprop("payload/weight["~ (i) ~"]/selected") == "M70" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 200)
+          or (getprop("payload/weight["~ (i) ~"]/selected") == "RB 24J" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 188)
+          or (getprop("payload/weight["~ (i) ~"]/selected") == "RB 71" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 425)
+          or (getprop("payload/weight["~ (i) ~"]/selected") == "Drop tank" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 224.87)) {
+        # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
         if(i != 4) {
           if (getprop("payload/weight["~ (i) ~"]/selected") == "RB 24J") {
-            #is not center pylon and is RB24
-            if(armament.AIM9.new(i) == -1 and armament.AIM9.active[i].status == MISSILE_FLYING) {
+            # is not center pylon and is RB24
+            print("rb24 "~i);
+            if(armament.AIM7.active[i] != nil and armament.AIM7.active[i].status != MISSILE_FLYING) {
+              # remove aim-7 logic from that pylon
+              print("removing aim-7 logic");
+              armament.AIM7.active[i].del();
+            }
+            if((armament.AIM9.new(i) == -1 and armament.AIM9.active[i].status == MISSILE_FLYING) or armament.AIM7.active[i] != nil) {
               #missile added through menu while another from that pylon is still flying.
               #to handle this we have to ignore that addition.
               setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -261,8 +270,14 @@ var update_loop = func {
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70") {
               setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "RB 71") {
-            #is not center pylon and is RB71
-            if(armament.AIM7.new(i) == -1 and armament.AIM7.active[i].status == MISSILE_FLYING) {
+            # is not center pylon and is RB71
+            print("rb71 "~i);
+            if(armament.AIM9.active[i] != nil and armament.AIM9.active[i].status != MISSILE_FLYING) {
+              # remove aim-9 logic from that pylon
+              print("removing aim-9 logic");
+              armament.AIM9.active[i].del();
+            }
+            if((armament.AIM7.new(i) == -1 and armament.AIM7.active[i].status == MISSILE_FLYING) or armament.AIM9.active[i] != nil) {
               #missile added through menu while another from that pylon is still flying.
               #to handle this we have to ignore that addition.
               setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -285,7 +300,7 @@ var update_loop = func {
     var armSelect = input.stationSelect.getValue();
     for(i = 0; i <= 3; i += 1) {
       if(armament.AIM9.active[i] != nil) {
-        #missile is mounted on pylon
+        # sidewinder missile is mounted on pylon
         if(armSelect != i+1 and armament.AIM9.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
           armament.AIM9.active[i].status = MISSILE_STANDBY;#print("not sel "~(i));
@@ -298,7 +313,7 @@ var update_loop = func {
           armament.AIM9.active[i].search();
         }
       } elsif(armament.AIM7.active[i] != nil) {
-        #missile is mounted on pylon
+        # sparrow missile is mounted on pylon
         if(armSelect != i+1 and armament.AIM7.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
           armament.AIM7.active[i].status = MISSILE_STANDBY;#print("not sel "~(i));
@@ -345,7 +360,7 @@ var update_loop = func {
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") == 0) {
-          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 224.87);#if change this also change it in jsbsim
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 224.87);#if change this also change it in jsbsim and -set file
         }
         input.tank8Selected.setValue(TRUE);
         input.tank8Jettison.setValue(FALSE);
@@ -842,7 +857,7 @@ var trigger_listener = func {
     if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
       if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
         # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
-        if (armament.AIM9.active[armSelect-1] != nil and  armament.AIM9.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
+        if (armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
           #missile locked, fire it.
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
@@ -855,7 +870,7 @@ var trigger_listener = func {
           } else {
             setprop("/sim/messages/atc", phrase);
           }
-        } elsif (armament.AIM7.active[armSelect-1] != nil and  armament.AIM7.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
+        } elsif (armament.AIM7.active[armSelect-1] != nil and armament.AIM7.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
           #missile locked, fire it.
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
@@ -1804,10 +1819,14 @@ var cycleSmoke = func() {
 
 reloadAir2Air = func {
   # Reload missiles - 4 of them.
+
+  # wing pylons
   setprop("payload/weight[0]/selected", "RB 24J");
-  setprop("payload/weight[1]/selected", "RB 24J");
   setprop("payload/weight[2]/selected", "RB 24J");
-  setprop("payload/weight[3]/selected", "RB 24J");
+
+  # fuselage pylons
+  setprop("payload/weight[1]/selected", "RB 71");
+  setprop("payload/weight[3]/selected", "RB 71");
   screen.log.write("RB 24J missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
