@@ -270,6 +270,14 @@ var update_loop = func {
             }
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70") {
               setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
+              if(armament.AIM7.active[i] != nil and armament.AIM7.active[i].status != MISSILE_FLYING) {
+                # remove aim-7 logic from that pylon
+                armament.AIM7.active[i].del();
+              }
+              if(armament.AIM9.active[i] != nil and armament.AIM9.active[i].status != MISSILE_FLYING) {
+                # remove aim-9 logic from that pylon
+                armament.AIM9.active[i].del();
+              }
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "RB 71") {
             # is not center pylon and is RB71
             #print("rb71 "~i);

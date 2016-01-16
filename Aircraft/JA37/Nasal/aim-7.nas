@@ -260,7 +260,7 @@ var AIM7 = {
 			#print("thrust cut")
 		}
 		if (me.life_time > me.thrust_duration) {
-			print("lifetime "~me.life_time);
+			#print("lifetime "~me.life_time);
 			f_lbs = 0; me.smoke_prop.setBoolValue(0);
 		}
 
@@ -286,7 +286,7 @@ var AIM7 = {
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
 		var speed_m = (total_s_ft / dt) / sound_fps;
-		print("mach "~speed_m); ##################################################################
+		#print("mach "~speed_m); ##################################################################
 		if (speed_m < 0.7)
 		 cdm = 0.0125 * speed_m + me.cd;
 		elsif (speed_m < 1.2 )
