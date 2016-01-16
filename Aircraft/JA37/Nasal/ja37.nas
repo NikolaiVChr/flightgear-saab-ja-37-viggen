@@ -1014,7 +1014,7 @@ var incoming_listener = func {
             var number = split(" ", last_vector[2]);
             var distance = num(number[1]);
             if(distance != nil) {
-              var maxDist = 40;#0m fails all, 40m fails nothing
+              var maxDist = 25;#0m fails all, 25m fails nothing
               var probability = ((maxDist-distance) * (maxDist-distance)) / (maxDist*maxDist); 
 
               var failure_modes = FailureMgr._failmgr.failure_modes;
@@ -1036,7 +1036,7 @@ var incoming_listener = func {
             var distance = num(number[1]);
             if(distance != nil) {
               print(distance);
-              var maxDist = 25;#0m fails all, 25m fails nothing
+              var maxDist = 15;#0m fails all, 15m fails nothing
               var probability = ((maxDist-distance) * (maxDist-distance)) / (maxDist*maxDist); 
               print(probability);
               var failure_modes = FailureMgr._failmgr.failure_modes;
