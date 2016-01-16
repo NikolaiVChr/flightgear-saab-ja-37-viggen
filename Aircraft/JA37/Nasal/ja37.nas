@@ -244,10 +244,11 @@ var update_loop = func {
 
     # pylon payloads
     for(var i=0; i<=4; i=i+1) {
-      if((getprop("payload/weight["~ (i) ~"]/selected") == "M70" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 200)
+      if(getprop("payload/weight["~ (i) ~"]/selected") != "none" and (
+          or (getprop("payload/weight["~ (i) ~"]/selected") == "M70" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 200)
           or (getprop("payload/weight["~ (i) ~"]/selected") == "RB 24J" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 188)
           or (getprop("payload/weight["~ (i) ~"]/selected") == "RB 71" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 425)
-          or (getprop("payload/weight["~ (i) ~"]/selected") == "Drop tank" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 224.87)) {
+          or (getprop("payload/weight["~ (i) ~"]/selected") == "Drop tank" and getprop("payload/weight["~ (i) ~"]/weight-lb") != 224.87))) {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
