@@ -312,7 +312,7 @@ var update_loop = func {
         # sidewinder missile is mounted on pylon
         if(armSelect != i+1 and armament.AIM9.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
-          armament.AIM9.active[i].status = MISSILE_STANDBY;#print("not sel "~(i));
+          armament.AIM9.active[i].status = MISSILE_STANDBY;#print("not sel 24 "~(i));
         } elsif (input.combat.getValue() != 2 or (armament.AIM9.active[i].status != MISSILE_STANDBY and armament.AIM9.active[i].status != MISSILE_FLYING and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
           #pylon has logic but missile not mounted and not flying or not in tactical mode
           armament.AIM9.active[i].status = MISSILE_STANDBY;#print("empty "~(i));
@@ -321,11 +321,12 @@ var update_loop = func {
           armament.AIM9.active[i].status = MISSILE_SEARCH;#print("active "~(i));
           armament.AIM9.active[i].search();
         }
-      } elsif(armament.AIM7.active[i] != nil) {
+      } 
+      if (armament.AIM7.active[i] != nil) {
         # sparrow missile is mounted on pylon
         if(armSelect != i+1 and armament.AIM7.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
-          armament.AIM7.active[i].status = MISSILE_STANDBY;#print("not sel "~(i));
+          armament.AIM7.active[i].status = MISSILE_STANDBY;#print("not sel 71 "~(i));
         } elsif (input.combat.getValue() != 2 or (armament.AIM7.active[i].status != MISSILE_STANDBY and armament.AIM7.active[i].status != MISSILE_FLYING and getprop("payload/weight["~ (i) ~"]/selected") == "none")) {
           #pylon has logic but missile not mounted and not flying or not in tactical mode
           armament.AIM7.active[i].status = MISSILE_STANDBY;#print("empty "~(i));
@@ -1003,9 +1004,9 @@ var incoming_listener = func {
             }
           }
         }
-      } elsif (getprop("sim/ja37/supported/old-custom-fails") == 2 and getprop("sim/ja37/armament/damage") == 1) {
+      } elsif (getprop("sim/ja37/supported/old-custom-fails") > 0 and getprop("sim/ja37/armament/damage") == 1) {
         # latest version of failure manager and taking damage enabled
-        print("damage enabled");
+        #print("damage enabled");
         if(last_vector[1] == " RB-71 exploded") {
           # Sparrow missile hitting someone
           if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
