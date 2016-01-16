@@ -1007,7 +1007,7 @@ var incoming_listener = func {
       } elsif (getprop("sim/ja37/supported/old-custom-fails") > 0 and getprop("sim/ja37/armament/damage") == 1) {
         # latest version of failure manager and taking damage enabled
         #print("damage enabled");
-        if(last_vector[1] == " RB-71 exploded") {
+        if(last_vector[1] == " RB-71 exploded" or last_vector[1] == " aim-120 exploded" or last_vector[1] == " aim-7 exploded") {
           # Sparrow missile hitting someone
           if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
             # that someone is me!
@@ -1034,10 +1034,10 @@ var incoming_listener = func {
                 }
               }
               var percent = 100 * probability;
-              print("Took "~percent~"% damage from RB-71 at "~distance~" meters distance! "~failed~" systems was hit.");
+              print("Took "~percent~"% damage from medium range missile at "~distance~" meters distance! "~failed~" systems was hit.");
             }
           } 
-        } elsif (last_vector[1] == " RB-24J exploded") {
+        } elsif (last_vector[1] == " RB-24J exploded" or last_vector[1] == " aim-9 exploded") {
           # Sidewinder missile hitting someone
           #print("sidewinder");
           if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
@@ -1068,7 +1068,7 @@ var incoming_listener = func {
                 }
               }
               var percent = 100 * probability;
-              print("Took "~percent~"% damage from RB-24J at "~distance~" meters distance! "~failed~" systems was hit.");
+              print("Took "~percent~"% damage from sidewinder at "~distance~" meters distance! "~failed~" systems was hit.");
             }
           }
         } elsif (last_vector[1] == " KCA cannon shell hit") {
