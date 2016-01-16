@@ -327,8 +327,20 @@ var AIM9 = {
 				pitch_deg = getprop("orientation/pitch-deg");
 			} else {
 				#print("steering");
-				pitch_deg += me.track_signal_e;
-				hdg_deg += me.track_signal_h;
+				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
+                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+                if(me.max_g < myG)
+                {
+                    #print("MyG");
+                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, total_s_ft, mass, dt,me.max_g);
+                    me.track_signal_e =  me.track_signal_e * MyCoef;
+                    me.track_signal_h =  me.track_signal_h * MyCoef;
+                    myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+                }
+                pitch_deg += me.track_signal_e;
+                hdg_deg += me.track_signal_h;
+
+                #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
 			}
 		}
 
@@ -774,9 +786,9 @@ var impact_report = func(pos, mass_slug, string) {
 var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, mass, dt) {
 	# Get G number from steering (e, h) in deg, speed in ft/s and mass in slugs.
 	var steer_deg = math.sqrt((steering_e_deg*steering_e_deg)+(steering_h_deg*steering_h_deg));
-	var radius_ft = math.abs(s_fps / math.cos(90 - steer_deg));
+	var radius_ft = math.abs(s_fps / math.cos((90 - steer_deg)*D2R));
 	var g = (mass * s_fps * s_fps / radius_ft * dt) / g_fps;
-	#print("#### R = ", radius_ft, " G = ", g);
+	#print("#### R = ", radius_ft, " G = ", g); ##########################################################
 	return(g);
 }
 
@@ -868,6 +880,33 @@ var rho_sndspeed = func(altitude) {
 	var snd_speed = math.sqrt( 1.4 * 1716 * (T + 459.7));
 	return [rho, snd_speed];
 
+}
+
+var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, mass, dt,gMax) {
+        # Get G number from steering (e, h) in deg, speed in ft/s and mass in slugs.
+        #This function is for calculate the maximum angle without overload G
+
+        var steer_deg = math.sqrt((steering_e_deg*steering_e_deg)+(steering_h_deg*steering_h_deg));
+        var radius_ft = math.abs(s_fps / math.cos(90 - steer_deg));
+        var g = (mass * s_fps * s_fps / radius_ft * dt) / g_fps;
+
+         #Isolation of Radius
+        if(s_fps<1){s_fps=1;}
+        var radius_ft2 =(mass * s_fps * s_fps * dt)/((gMax*0.9) * g_fps);
+        if(math.abs(s_fps/radius_ft2)<1){
+                var steer_rad_theoric = math.acos(math.abs(s_fps/radius_ft2));
+                var steer_deg_theoric = 90 - (steer_rad_theoric * R2D);
+        }else{
+                var steer_rad_theoric = 1;
+                var steer_deg_theoric = 1;
+        }
+
+        var radius_ft_th = math.abs(s_fps / math.cos((90 -steer_deg_theoric)*D2R));
+        var g_th = (mass * s_fps * s_fps / radius_ft_th * dt) / g_fps;
+
+        print ("Max G ",gMax , " Actual G " , g,"steer_deg_theoric ",steer_deg_theoric);
+        
+        return(steer_deg_theoric/steer_deg);
 }
 
 #var AIM9_instance = [nil, nil,nil,nil];#init aim-9

@@ -260,7 +260,7 @@ var AIM7 = {
 			#print("thrust cut")
 		}
 		if (me.life_time > me.thrust_duration) {
-			#print("lifetime "~me.life_time);
+			print("lifetime "~me.life_time);
 			f_lbs = 0; me.smoke_prop.setBoolValue(0);
 		}
 
@@ -286,7 +286,7 @@ var AIM7 = {
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
 		var speed_m = (total_s_ft / dt) / sound_fps;
-		#print("mach "~speed_m); ##################################################################
+		print("mach "~speed_m); ##################################################################
 		if (speed_m < 0.7)
 		 cdm = 0.0125 * speed_m + me.cd;
 		elsif (speed_m < 1.2 )
@@ -334,8 +334,20 @@ var AIM7 = {
 				pitch_deg = getprop("orientation/pitch-deg");
 			} else {
 				#print("steering");
-				pitch_deg += me.track_signal_e;
-				hdg_deg += me.track_signal_h;
+				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
+                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+                if(me.max_g < myG)
+                {
+                    #print("MyG");
+                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, total_s_ft, mass, dt,me.max_g);
+                    me.track_signal_e =  me.track_signal_e * MyCoef;
+                    me.track_signal_h =  me.track_signal_h * MyCoef;
+                    myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+                }
+                pitch_deg += me.track_signal_e;
+                hdg_deg += me.track_signal_h;
+
+                #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
 			}
 		}
 
@@ -470,7 +482,7 @@ var AIM7 = {
 			# Then, keep track of deviations at the end of these two initial 2 seconds.
 			var e_gain = 1;
 			var h_gain = 1;
-			if ( me.life_time < 0.75 ) {
+			if ( me.life_time < 2.0 ) {
 				if (me.curr_tgt_e > 3 or me.curr_tgt_e < - 3) {
 					e_gain = 1 + (0.1 * dt);
 				}
@@ -786,7 +798,7 @@ var impact_report = func(pos, mass_slug, string) {
 var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, mass, dt) {
 	# Get G number from steering (e, h) in deg, speed in ft/s and mass in slugs.
 	var steer_deg = math.sqrt((steering_e_deg*steering_e_deg)+(steering_h_deg*steering_h_deg));
-	var radius_ft = math.abs(s_fps / math.cos(90 - steer_deg));
+	var radius_ft = math.abs(s_fps / math.cos((90 - steer_deg)*D2R));
 	var g = (mass * s_fps * s_fps / radius_ft * dt) / g_fps;
 	#print("#### R = ", radius_ft, " G = ", g); ##########################################################
 	return(g);
@@ -880,6 +892,33 @@ var rho_sndspeed = func(altitude) {
 	var snd_speed = math.sqrt( 1.4 * 1716 * (T + 459.7));
 	return [rho, snd_speed];
 
+}
+
+var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, mass, dt,gMax) {
+        # Get G number from steering (e, h) in deg, speed in ft/s and mass in slugs.
+        #This function is for calculate the maximum angle without overload G
+
+        var steer_deg = math.sqrt((steering_e_deg*steering_e_deg)+(steering_h_deg*steering_h_deg));
+        var radius_ft = math.abs(s_fps / math.cos(90 - steer_deg));
+        var g = (mass * s_fps * s_fps / radius_ft * dt) / g_fps;
+
+         #Isolation of Radius
+        if(s_fps<1){s_fps=1;}
+        var radius_ft2 =(mass * s_fps * s_fps * dt)/((gMax*0.9) * g_fps);
+        if(math.abs(s_fps/radius_ft2)<1){
+                var steer_rad_theoric = math.acos(math.abs(s_fps/radius_ft2));
+                var steer_deg_theoric = 90 - (steer_rad_theoric * R2D);
+        }else{
+                var steer_rad_theoric = 1;
+                var steer_deg_theoric = 1;
+        }
+
+        var radius_ft_th = math.abs(s_fps / math.cos((90 -steer_deg_theoric)*D2R));
+        var g_th = (mass * s_fps * s_fps / radius_ft_th * dt) / g_fps;
+
+        #print ("Max G ",gMax , " Actual G " , g,"steer_deg_theoric ",steer_deg_theoric);
+        
+        return(steer_deg_theoric/steer_deg);
 }
 
 #var AIM7_instance = [nil, nil,nil,nil];#init aim-7
