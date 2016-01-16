@@ -1898,3 +1898,4 @@ Sim: Adjusted some RM71 stats.
 GUI: Selecting air2air loadout in menu will now mount 2 Sparrow and 2 sidewinders.
 Sim: Fixed that changing a pylon missile loadout would not change the logic.
 Sim: Only run change-pylon code if something is mounted.
+Sim: Fixed that mounting M70 would not remove guided missile logic.

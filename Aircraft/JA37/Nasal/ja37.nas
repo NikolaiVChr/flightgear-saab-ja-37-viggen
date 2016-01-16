@@ -942,7 +942,7 @@ var incoming_listener = func {
     var callsign = getprop("sim/multiplay/callsign");
     if (size(last_vector) > 1 and author != callsign) {
       # not myself
-      print("not me");
+      #print("not me");
       var m2000 = FALSE;
       if (find(" at " ~ callsign ~ ". Release ", last_vector[1]) != -1) {
         # a m2000 is firing at us
@@ -1049,10 +1049,10 @@ var incoming_listener = func {
           }
         } elsif (last_vector[1] == " KCA cannon shell hit") {
           # cannon hitting someone
-          print("cannon");
+          #print("cannon");
           if (size(last_vector) > 2 and last_vector[2] == " "~callsign) {
             # that someone is me!
-            print("hitting me");
+            #print("hitting me");
 
             var probability = 0.20; # take 20% damage from each hit
             var failure_modes = FailureMgr._failmgr.failure_modes;
