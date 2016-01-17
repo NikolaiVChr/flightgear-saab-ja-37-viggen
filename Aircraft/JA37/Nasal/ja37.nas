@@ -903,7 +903,7 @@ var trigger_listener = func {
           } else {
             setprop("/sim/messages/atc", phrase);
           }
-        } elsif (armament7.AIM7.active[armSelect-1] != nil and armament7.AIM7.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
+        } elsif (armament7.AIM7.active[armSelect-1] != nil and armament7.AIM7.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1 and radar_logic.selection != nil) {
           #missile locked, fire it.
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired

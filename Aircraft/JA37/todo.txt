@@ -46,7 +46,6 @@ Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
 Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
-Sim: RB-71 should lose lock when in flight and target is out of planes radar cone. (semi-radar guided instead of heat)
 Sim: Weapons should require electrical power to track, check the manual.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.

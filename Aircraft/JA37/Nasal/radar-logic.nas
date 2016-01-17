@@ -59,6 +59,7 @@ var findRadarTracks = func () {
 	  var rb71 = node_ai.getChildren("rb-71");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
+      paint(selection[6], FALSE);
       selection = nil;
     }
 
@@ -72,6 +73,9 @@ var findRadarTracks = func () {
     processCallsigns(players);
   } else {
     # Do not supply target info to the missiles if radar is off.
+    if(selection != nil) {
+      paint(selection[6], FALSE);
+    }
     selection = nil;
   }
   var carriers = node_ai.getChildren("carrier");
@@ -204,6 +208,7 @@ var processTracks = func (vector, carrier, missile = FALSE) {
           selection = trackInfo;
           lookatSelection();
           selection_updated = TRUE;
+          paint(selection[6], TRUE);
         #} elsif (track.getChild("name") != nil and track.getChild("name").getValue() == "RB-24J") {
           #for testing that selection view follows missiles
         #  selection = trackInfo;
@@ -212,9 +217,14 @@ var processTracks = func (vector, carrier, missile = FALSE) {
         } elsif (selection != nil and selection[6].getChild("unique").getValue() == unique.getValue()) {
           # this track is already selected, updating it
           selection = trackInfo;
+          paint(selection[6], TRUE);
           selection_updated = TRUE;
+        } else {
+          paint(trackInfo[6], FALSE);
         }
-      }#end of error check
+      } else {
+        paint(track, FALSE);
+      }
     }#end of valid check
   }#end of foreach
   if(carrier == TRUE) {
@@ -223,6 +233,15 @@ var processTracks = func (vector, carrier, missile = FALSE) {
     }      
   }
 }#end of processTracks
+
+var paint = func (node, painted) {
+  var attr = node.getChild("painted");
+  if (attr == nil) {
+    attr = node.addChild("painted");
+  }
+  attr.setValue(painted);
+  #if(painted == TRUE) { print("painted something"); }
+}
 
 var remove_suffix = func(s, x) {
     var len = size(x);
@@ -340,9 +359,13 @@ var nextTarget = func () {
       tracks_index = 0;
     }
     selection = tracks[tracks_index];
+    paint(selection[6], TRUE);
     lookatSelection();
   } else {
     tracks_index = -1;
+    if (selection != nil) {
+      paint(selection[6], FALSE);
+    }
   }
 }
 
@@ -364,6 +387,7 @@ var centerTarget = func () {
   }
   if (centerMost != nil) {
     selection = centerMost;
+    paint(selection[6], TRUE);
     lookatSelection();
     tracks_index = centerIndex;
   }

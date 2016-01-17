@@ -1,4 +1,5 @@
-
+var FALSE = 0;
+var TRUE = 1;
 
 var AcModel        = props.globals.getNode("sim/ja37");
 var OurHdg         = props.globals.getNode("orientation/heading-deg");
@@ -493,6 +494,12 @@ var AIM7 = {
 				me.init_tgt_h = last_tgt_h;			
 			}
 
+			if(me.is_painted(me.Tgt) == FALSE) {
+				e_gain = 0;
+			    h_gain = 0;
+			    #print("cannot see target, unguided flight");
+			}
+
 			# Compute target deviation variation then seeker move to keep this deviation constant.
 			me.track_signal_e = (me.curr_tgt_e - me.init_tgt_e) * e_gain;
 			me.track_signal_h = (me.curr_tgt_h - me.init_tgt_h) * h_gain;
@@ -637,7 +644,7 @@ var AIM7 = {
 			# Check if in range and in the (square shaped here) seeker FOV.
 			var abs_total_elev = math.abs(total_elev);
 			var abs_dev_deg = math.abs(total_horiz);
-			if (rng < me.max_detect_rng and abs_total_elev < me.aim7_fov_diam and abs_dev_deg < me.aim7_fov_diam ) {
+			if (me.is_painted(tgt) == TRUE and rng < me.max_detect_rng and abs_total_elev < me.aim7_fov_diam and abs_dev_deg < me.aim7_fov_diam ) {
 				me.status = 1;
 				SwSoundVol.setValue(vol_weak_track);
 				me.trackWeak = 1;
@@ -664,6 +671,12 @@ var AIM7 = {
 		me.track_signal_h = 0;
 	},
 
+	is_painted: func (target) {
+		if(target != nil and target.getChild("painted") != nil and target.getChild("painted").getValue() == TRUE) {
+			return TRUE;
+		}
+		return FALSE;
+	},
 
 
 	reset_seeker: func {

@@ -659,9 +659,9 @@
                     <fov-deg type="int">25</fov-deg>                   <!-- seeker optical FOV -->
                     <detection-fov-deg type="int">140</detection-fov-deg>                    <!-- Search pattern diameter (rosette scan) -->
                     <track-max-deg type="int">110</track-max-deg>                    <!-- Seeker max total angular rotation -->
-                    <max-g type="int">30</max-g>                    <!-- In turn, 13 -->
+                    <max-g type="int">30</max-g>                    <!-- In turn -->
                     <thrust-lbs type="double">745</thrust-lbs>                    <!-- classified, guessing. -->
-                    <thrust-duration-sec type="int">100</thrust-duration-sec>
+                    <thrust-duration-sec type="int">60</thrust-duration-sec>
                     <weight-launch-lbs>425</weight-launch-lbs>
                     <weight-warhead-lbs>88</weight-warhead-lbs>
                     <drag-coeff type="double">0.088</drag-coeff>
