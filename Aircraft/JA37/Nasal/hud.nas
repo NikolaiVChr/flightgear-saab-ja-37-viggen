@@ -1559,9 +1559,9 @@ var HUDnasal = {
       var desired_alt_delta_ft = nil;
       if(mode == TAKEOFF) {
         desired_alt_delta_ft = 1640-me.input.alt_ft.getValue();#500 meter
-      } elsif (me.input.APLockAlt.getValue() == "altitude-hold") {
+      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
         desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
-      } elsif (me.input.APLockAlt.getValue() == "agl-hold") {
+      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
         desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
       } elsif(me.input.RMActive.getValue() == 1) {
         var i = me.input.RMCurrWaypoint.getValue();
