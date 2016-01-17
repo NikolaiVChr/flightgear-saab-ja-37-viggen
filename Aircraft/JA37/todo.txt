@@ -55,7 +55,6 @@ Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.
-Sound: The RB-71 should not give a growl, but a beep when locked.
 Sound: Adjust the volume of the explsosion of nearby missile, depending on distance.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make boxes for desired pitch.

@@ -1466,7 +1466,7 @@
             <name>rb71-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/115hz-square.wav</path><!-- change to beep -->
+            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
             <condition>
                 <property>sim/ja37/armament/rb71/sound-on-off</property>
                 <equals>
@@ -1474,6 +1474,10 @@
                     <value>2</value>
                 </equals>
             </condition>
+            <pitch>
+                <factor>1.3</factor><!-- changes it to beep -->
+                <max>2</max>
+            </pitch>
             <volume>
                 <property>sim/ja37/armament/rb71/sound-volume</property>
             </volume>

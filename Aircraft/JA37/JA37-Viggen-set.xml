@@ -1318,10 +1318,12 @@
         <crash1>
             <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
         </crash1>
-        <armament>
+        <armament9>
             <file>Aircraft/JA37/Nasal/aim-9.nas</file>
-			<file>Aircraft/JA37/Nasal/aim-7.nas</file>
-        </armament>
+        </armament9>
+        <armament7>
+            <file>Aircraft/JA37/Nasal/aim-7.nas</file>
+        </armament7>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>
         </formation>

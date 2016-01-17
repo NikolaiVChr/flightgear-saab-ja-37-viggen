@@ -2163,18 +2163,18 @@ var HUDnasal = {
 
           var armSelect = me.input.station.getValue();
           var diamond = 0;
-          if(armament.AIM9.active[armSelect-1] != nil and armament.AIM9.active[armSelect-1].status == 1) {
+          if(armament9.AIM9.active[armSelect-1] != nil and armament9.AIM9.active[armSelect-1].status == 1) {
             # lock
-            var weak = armament.AIM9.active[armSelect-1].trackWeak;
+            var weak = armament9.AIM9.active[armSelect-1].trackWeak;
             if (weak == TRUE) {
               diamond = 1;
             } else {
               diamond = 2;
             }
           }
-		  if(armament.AIM7.active[armSelect-1] != nil and armament.AIM7.active[armSelect-1].status == 1) {
+		      if(armament7.AIM7.active[armSelect-1] != nil and armament7.AIM7.active[armSelect-1].status == 1) {
             # lock
-            var weak = armament.AIM7.active[armSelect-1].trackWeak;
+            var weak = armament7.AIM7.active[armSelect-1].trackWeak;
             if (weak == TRUE) {
               diamond = 1;
             } else {
