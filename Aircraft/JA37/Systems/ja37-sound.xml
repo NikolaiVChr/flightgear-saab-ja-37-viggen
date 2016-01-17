@@ -1647,6 +1647,30 @@
             </volume>
         </aircraft-explode>
 
+        <nearby-explode>
+            <name>nearby-explode</name>
+            <path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+            <mode>once</mode>
+            <condition>
+                <equals>
+                    <property>damage/sounds/nearby-explode-on</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>0.01</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <pitch>
+                <factor>1.05</factor>
+            </pitch>
+            <volume>
+                <factor>1</factor>
+                <max>1</max>
+            </volume>
+        </nearby-explode>
+
         <aircraft-detach>
             <name>aircraft-detach</name>
             <path>Aircraft/JA37/Sounds/aircraft-wings-detach.wav</path>

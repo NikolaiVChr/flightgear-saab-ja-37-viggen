@@ -1035,6 +1035,7 @@ var incoming_listener = func {
               }
               var percent = 100 * probability;
               print("Took "~percent~"% damage from medium range missile at "~distance~" meters distance! "~failed~" systems was hit.");
+              nearby_explosion();
             }
           } 
         } elsif (last_vector[1] == " RB-24J exploded" or last_vector[1] == " aim-9 exploded") {
@@ -1069,6 +1070,7 @@ var incoming_listener = func {
               }
               var percent = 100 * probability;
               print("Took "~percent~"% damage from sidewinder at "~distance~" meters distance! "~failed~" systems was hit.");
+              nearby_explosion();
             }
           }
         } elsif (last_vector[1] == " KCA cannon shell hit") {
@@ -1089,6 +1091,7 @@ var incoming_listener = func {
               }
             }
             print("Took 20% damage from KCA! "~failed~" systems was hit.");
+            nearby_explosion();
           }
         }
       }
@@ -1107,6 +1110,20 @@ var incoming_listener = func {
   setprop("sim/ja37/sound/incoming10", 0);
   setprop("sim/ja37/sound/incoming11", 0);
   setprop("sim/ja37/sound/incoming12", 0);
+}
+
+var nearby_explosion = func {
+  setprop("damage/sounds/nearby-explode-on", 0);
+  settimer(nearby_explosion_a, 0);
+}
+
+var nearby_explosion_a = func {
+  setprop("damage/sounds/nearby-explode-on", 1);
+  settimer(nearby_explosion_b, 0.5);
+}
+
+var nearby_explosion_b = func {
+  setprop("damage/sounds/nearby-explode-on", 0);
 }
 
 var cycle_weapons = func {

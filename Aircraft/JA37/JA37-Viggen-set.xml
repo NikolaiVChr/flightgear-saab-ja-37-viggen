@@ -1031,7 +1031,11 @@
             <serviceable type="bool">true</serviceable>
         </generator-reserve>
     </systems>
-
+    <damage>
+        <sounds>
+            <nearby-explode-on type="bool">false</nearby-explode-on>
+        </sounds>
+    </damage>
     <!--**********************************************************************
 
                                           Payload
