@@ -18,12 +18,13 @@ Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
 Model: Make gunpod, between the fuselage and droptank.
 Model: The canopy metal should be thinner and unpainted alu.
-Model: There should be mirrors on the canopy.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some textures should be aligned so they can be better viewed from current pilot point of view.
 Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: The altimeter should have a standard button which set the pressure to 1013 hPa.
 Model: Fix that landing gear oleo struts now are too bright.
+Model: Fix the bloody irritating lag when getting near another JA37 in MP!
+Model: Add the 2 outermost pylons on the wings, they should only be able to carry RB-24J.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
@@ -34,7 +35,6 @@ Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected? (really not needed)
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground guided missiles.
-Sim: Longer range air2air missiles.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Replace generic setValue in nasal with specific types.
@@ -42,11 +42,12 @@ Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
-Sim: Damage from missile explosion.
 Sim: Complete hydraulic dependencies. Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
 Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
+Sim: RB-71 should lose lock when in flight and target is out of planes radar cone. (semi-radar guided instead of heat)
+Sim: Weapons should require electrical power to function, check the manual.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -54,6 +55,8 @@ Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.
+Sound: The RB-71 should not give a growl, but a beep when locked.
+Sound: Adjust the volume of the explsosion of nearby missile, depending on distance.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
@@ -61,6 +64,8 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
+HUD: Show cannon rounds loaded near the distance scale.
+
 
 
 Bugs:
@@ -92,6 +97,8 @@ Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
 HUD: In landing mode when horizont is out of view, heading scale does not show commanded heading.
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 Sim: If track type is selected in HUD, when missile hit the message will display the type, not callsign.
+Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
+Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected.
 
 
 Issues with FG: (or my limited understanding of it)
