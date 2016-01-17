@@ -685,6 +685,9 @@
                 <tankpump type="bool">false</tankpump>
                 <xtank type="bool">false</xtank>
             </avionics>
+            <systems>
+                <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
+            </systems>
         </ja37>
         <replay>
             <buffer>
