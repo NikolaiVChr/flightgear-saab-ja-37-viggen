@@ -1904,3 +1904,4 @@ Sim: You can now see result of getting hit in the console with statistics.
 HUD: Fixed an uncommon null-pointer exception.
 Sound: Explosion will now be heard when a missile explode nearby.
 Sim: When radar is off or broken it now clear the target info supplied to the missiles.
+Sim: Fixed that the missile growl could sometimes be heard when it should not be.

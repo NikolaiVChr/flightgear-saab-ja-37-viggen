@@ -47,7 +47,7 @@ Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
 Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
 Sim: RB-71 should lose lock when in flight and target is out of planes radar cone. (semi-radar guided instead of heat)
-Sim: Weapons should require electrical power to function, check the manual.
+Sim: Weapons should require electrical power to track, check the manual.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -98,7 +98,7 @@ HUD: In landing mode when horizont is out of view, heading scale does not show c
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 Sim: If track type is selected in HUD, when missile hit the message will display the type, not callsign.
 Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
-Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected.
+Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected. [reproduced]
 
 
 Issues with FG: (or my limited understanding of it)
