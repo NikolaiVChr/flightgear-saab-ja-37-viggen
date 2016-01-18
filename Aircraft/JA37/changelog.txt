@@ -1911,3 +1911,4 @@ Sim: The guided missile are now much more accurate, even with low framerate.
 Sim: The callsign that is displayed when firing a guided missile will no longer be aircraft type, even if thats whats shown in the HUD.
 Sim: Both guided missiles now has a 2 second boost period and start steering immediatly after coming off the pylon.
 Sim: Guided missiles will now be deleted if they impact with the ground.
+Model: Fixed that canopy would appear to not be broken off, when it was.

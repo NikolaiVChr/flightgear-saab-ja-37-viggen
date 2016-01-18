@@ -301,6 +301,9 @@
   <object-name>glassOuter</object-name>
   <object-name>glassInternal</object-name>
   <object-name>canopy</object-name>
+  <object-name>canopyinside</object-name>
+  <object-name>mirrorholder</object-name>
+  <object-name>mirrorreflect</object-name>
   <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
   <interpolation>
    <entry>
