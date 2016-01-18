@@ -13,7 +13,10 @@ var SwSoundVol     = AcModel.getNode("armament/rb71/sound-volume");
 var vol_search     = 0.00;
 var vol_weak_track = 0.10;
 var vol_track      = 0.15;
-var update_loop_time = 0.035;
+var update_loop_time = 0.005;
+
+var FRAME_TIME = 1;
+var REAL_TIME = 0;
 
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
@@ -38,6 +41,7 @@ var AIM7 = {
 		m.ID                = p;
 		m.pylon_prop        = props.globals.getNode("controls/armament").getChild("station", p+1);
 		m.Tgt               = nil;
+		m.callsign          = "Unknown";
 		m.TgtValid          = nil;
 		m.TgtLon_prop       = nil;
 		m.TgtLat_prop       = nil;
@@ -71,6 +75,7 @@ var AIM7 = {
 		m.cd                = getprop("sim/ja37/armament/rb71/drag-coeff");
 		m.eda               = getprop("sim/ja37/armament/rb71/drag-area");
 		m.max_g             = getprop("sim/ja37/armament/rb71/max-g");
+		m.boost_time        = getprop("sim/ja37/armament/rb71/boost-time-sec");
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-7" and create property node.
@@ -243,20 +248,20 @@ var AIM7 = {
 		me.dt_last = elapsed;
 
 		var init_launch = 0;
-		if ( me.life_time > 0.35 ) { #due to chance for hitting the aircraft, the missile will not guide until after its clear of the aircraft.
+		if ( me.life_time > 0 ) {
 			init_launch = 1;
 			#print("guiding initiated")
 		}
 		me.life_time += dt;
 		# record coords so we can give the latest nearest position for impact.
 		me.last_coord = me.coord;
-
+		#print(dt);
 
 		#### Calculate speed vector before steering corrections.
 
 		# Cut rocket thrust after boost duration.
 		var f_lbs = me.force_lbs;
-		if (me.life_time > 2) {
+		if (me.life_time > me.boost_time) {
 			f_lbs = me.force_lbs * 0.3;
 			#print("thrust cut")
 		}
@@ -396,12 +401,19 @@ var AIM7 = {
 				me.sndPropagate();
 				return;
 			}
-			if (alt_ft < -75) {
-				#it must have hit ground (tmp fix to not keep it flying for a minute)
-				#print("rb71 hit ground");
-				me.del();
-				return;
-			}
+
+			####Ground interaction
+            var ground = geo.elevation(me.coord.lat(),me.coord.lon());
+            #print("Ground :",ground);
+            if(ground != nil)
+            {
+                if(ground > (alt_ft*FT2M)) {
+                    #print("Ground");
+                    me.free = 1;
+                    settimer(func { me.del(); }, 1 );
+                    return;
+                }
+            }
 		}
 		# record the velocities for the next loop.
 		me.s_north = speed_north_fps;
@@ -411,7 +423,7 @@ var AIM7 = {
 		me.pitch = pitch_deg;
 		me.hdg = hdg_deg;
 
-		settimer(func me.update(), 0.03, 1);# update_loop_time, 1);
+		settimer(func me.update(), update_loop_time, REAL_TIME);
 		
 	},
 
@@ -483,7 +495,7 @@ var AIM7 = {
 			# Then, keep track of deviations at the end of these two initial 2 seconds.
 			var e_gain = 1;
 			var h_gain = 1;
-			if ( me.life_time < 2.0 ) {
+			if ( me.life_time < me.boost_time ) {
 				if (me.curr_tgt_e > 3 or me.curr_tgt_e < - 3) {
 					e_gain = 1 + (0.1 * dt);
 				}
@@ -567,7 +579,7 @@ var AIM7 = {
 		var t_bearing_deg = me.last_t_coord.course_to(me.last_coord);
 		var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
 		var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
-		var t_dist_m  = math.sqrt(math.abs((me.direct_dist_m * me.direct_dist_m)-(t_delta_alt_m * t_delta_alt_m)));
+		var t_dist_m  = me.direct_dist_m;
 		# Create impact coords from this previous relative position applied to target current coord.
 		me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
 		me.t_coord.set_alt(new_t_alt_m);		
@@ -575,18 +587,19 @@ var AIM7 = {
 		#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
 		impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
 
-		var ident = nil;
-		if(me.Tgt.getChild("callsign").getValue() != "" and me.Tgt.getChild("callsign").getValue() != nil) {
-          ident = me.Tgt.getChild("callsign").getValue();
-        } elsif (me.Tgt.getChild("name").getValue() != "" and me.Tgt.getChild("name").getValue() != nil) {
-          ident = me.Tgt.getChild("name").getValue();
-        } elsif (me.Tgt.getChild("sign").getValue() != "" and me.Tgt.getChild("sign").getValue() != nil) {
-          ident = me.Tgt.getChild("sign").getValue();
-        } else {
-          ident = "unknown";
-        }
+		var min_distance = me.direct_dist_m;
+		var explosion_coord = me.last_coord;
+		for (var i = 0.2; i < 1; i += 0.2) {
+			var t_coord = me.interpolate(me.last_t_coord, me.t_coord, i);
+			var coord = me.interpolate(me.last_coord, me.coord, i);
+			var dist = coord.direct_distance_to(t_coord);
+			if (dist < min_distance) {
+				min_distance = dist;
+				explosion_coord = coord;
+			}
+		}
 
-		var phrase = sprintf( "RB-71 exploded: %01.0f", me.direct_dist_m) ~ " meters from: " ~ ident;
+		var phrase = sprintf( "RB-71 exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		if (getprop("sim/ja37/armament/msg")) {
 			setprop("/sim/multiplay/chat", phrase);
 			#print("max g = "~me.max_g_reached)
@@ -596,6 +609,17 @@ var AIM7 = {
 		me.ai.getNode("valid", 1).setBoolValue(0);
 		me.animate_explosion();
 		me.Tgt = nil;
+	},
+
+	interpolate: func (start, end, fraction) {
+		var x = (start.x()*(1-fraction)+end.x()*fraction);
+		var y = (start.y()*(1-fraction)+end.y()*fraction);
+		var z = (start.z()*(1-fraction)+end.z()*fraction);
+
+		var c = geo.Coord.new();
+		c.set_xyz(x,y,z);
+
+		return c;
 	},
 
 	#
@@ -649,6 +673,19 @@ var AIM7 = {
 				SwSoundVol.setValue(vol_weak_track);
 				me.trackWeak = 1;
 				me.Tgt = tgt;
+
+				var ident = nil;
+				if(me.Tgt.getChild("callsign").getValue() != "" and me.Tgt.getChild("callsign").getValue() != nil) {
+		          ident = me.Tgt.getChild("callsign").getValue();
+		        } elsif (me.Tgt.getChild("name").getValue() != "" and me.Tgt.getChild("name").getValue() != nil) {
+		          ident = me.Tgt.getChild("name").getValue();
+		        } elsif (me.Tgt.getChild("sign").getValue() != "" and me.Tgt.getChild("sign").getValue() != nil) {
+		          ident = me.Tgt.getChild("sign").getValue();
+		        } else {
+		          ident = "unknown";
+		        }
+		        me.callsign = ident;
+
 				var t_pos_str = me.Tgt.getChild("position");
 				var t_ori_str = me.Tgt.getChild("orientation");
 				me.TgtLon_prop       = t_pos_str.getChild("longitude-deg");

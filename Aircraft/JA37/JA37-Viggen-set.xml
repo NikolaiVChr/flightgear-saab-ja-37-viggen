@@ -649,6 +649,7 @@
                     <weight-warhead-lbs>9.92</weight-warhead-lbs>                    <!-- Aim-9J/rb-24j -->
                     <drag-coeff type="double">0.05</drag-coeff>                    <!-- guess -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
+                    <boost-time-sec type="double">2</boost-time-sec>
                 </rb24>
                 <rb71>
 					<!-- info taken largely from AIM-7 data from Richard's excellent F-15 model -->
@@ -666,6 +667,7 @@
                     <weight-warhead-lbs>88</weight-warhead-lbs>
                     <drag-coeff type="double">0.088</drag-coeff>
                     <drag-area type="double">0.075</drag-area>
+                    <boost-time-sec type="double">2</boost-time-sec>
                 </rb71>
             </armament>
             <avionics>
