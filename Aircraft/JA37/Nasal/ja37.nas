@@ -82,6 +82,8 @@ input = {
   flame:            "engines/engine/flame",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
   mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
+  mass5:            "fdm/jsbsim/inertia/pointmass-weight-lbs[5]",
+  mass6:            "fdm/jsbsim/inertia/pointmass-weight-lbs[6]",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   indJoy:           "/instrumentation/joystick-indicator",
   indAtt:           "/instrumentation/attitude-indicator",
@@ -113,6 +115,7 @@ input = {
   MPint9:           "sim/multiplay/generic/int[9]",
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
+  MPint19:          "sim/multiplay/generic/int[19]",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
   breathVol:        "sim/ja37/sound/breath-volume",
@@ -243,7 +246,7 @@ var update_loop = func {
 
 
     # pylon payloads
-    for(var i=0; i<=4; i=i+1) {
+    for(var i=0; i<=6; i=i+1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
       var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
       if(payloadName.getValue() != "none" and (
@@ -254,7 +257,7 @@ var update_loop = func {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
-        if(i != 4) {
+        if(i != 6) {
           if (payloadName.getValue() == "RB 24J") {
             # is not center pylon and is RB24
             #print("rb24 "~i);
@@ -300,7 +303,7 @@ var update_loop = func {
           }
         }
       }
-      if(i != 4 and payloadName.getValue() == "none") {# and payloadWeight.getValue() != 0) {
+      if(i != 6 and payloadName.getValue() == "none") {# and payloadWeight.getValue() != 0) {
         if(armament9.AIM9.active[i] != nil) {
           # pylon emptied through menu, so remove the logic
           #print("removing aim-9 logic");
@@ -316,7 +319,7 @@ var update_loop = func {
 
     #activate searcher on selected pylon if missile mounted
     var armSelect = input.stationSelect.getValue();
-    for(i = 0; i <= 3; i += 1) {
+    for(i = 0; i <= 5; i += 1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
       if(armament9.AIM9.active[i] != nil) {
         # sidewinder missile is mounted on pylon
@@ -362,14 +365,14 @@ var update_loop = func {
     }
 
     var selected = nil;
-    for(var i=0; i<=4; i=i+1) { # set JSBSim mass
+    for(var i=0; i<=6; i=i+1) { # set JSBSim mass
       selected = getprop("payload/weight["~i~"]/selected");
       if(selected == "none") {
         # the pylon is empty, set its pointmass to zero
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 0) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 0);
         }
-        if(i==4) {
+        if(i==6) {
           # no drop tank attached
           input.tank8Selected.setValue(FALSE);
           input.tank8Jettison.setValue(TRUE);
@@ -401,12 +404,12 @@ var update_loop = func {
     }
 
     # for aerodynamic response to asymmetric wing loading
-    if(input.mass1.getValue() == input.mass3.getValue()) {
+    if( (input.mass1.getValue()+input.mass5.getValue()) == (input.mass3.getValue()+input.mass6.getValue()) ) {
       # wing pylons symmetric loaded
       if (input.asymLoad.getValue() != 0) {
         input.asymLoad.setValue(0);
       }
-    } elsif(input.mass1.getValue() < input.mass3.getValue()) {
+    } elsif( (input.mass1.getValue()+input.mass5.getValue()) < (input.mass3.getValue()+input.mass6.getValue()) ) {
       # right wing pylon has more load than left
       if (input.asymLoad.getValue() != -1) {
         input.asymLoad.setValue(-1);
@@ -524,6 +527,11 @@ var update_loop = func {
     # contrails
     var contrails = getprop("environment/temperature-degc") < -40 and getprop("position/altitude-ft") > 19000 and input.n2.getValue() > 50;
     input.MPint18.setIntValue(encode3bits(contrails, 0, 0));
+
+    # outer stores
+    var leftRb24 = getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[5]") == 188;
+    var rightRb24 = getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[6]") == 188;
+    input.MPint19.setIntValue(encode3bits(leftRb24, rightRb24, 0));
 
     # smoke
     if (input.dcVolt.getValue() > 20) {
@@ -1153,7 +1161,7 @@ var nearby_explosion_b = func {
 var cycle_weapons = func {
   var sel = getprop("controls/armament/station-select");
   sel += 1;
-  if(sel > 4) {
+  if(sel > 6) {
     sel = 0;
   }
   click();
@@ -1897,15 +1905,17 @@ var cycleSmoke = func() {
 reloadAir2Air = func {
   # Reload missiles - 4 of them.
 
-  # wing pylons
-  setprop("payload/weight[0]/selected", "RB 24J");
-  setprop("payload/weight[2]/selected", "RB 24J");
+  # outer wing pylons
+  setprop("payload/weight[4]/selected", "RB 24J");
+  setprop("payload/weight[5]/selected", "RB 24J");
   screen.log.write("2 RB-24J missiles attached", 0.0, 1.0, 0.0);
 
   # fuselage pylons
+  setprop("payload/weight[0]/selected", "RB 71");
   setprop("payload/weight[1]/selected", "RB 71");
+  setprop("payload/weight[2]/selected", "RB 71");
   setprop("payload/weight[3]/selected", "RB 71");
-  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
+  screen.log.write("4 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);
@@ -1925,6 +1935,8 @@ reloadAir2Ground = func {
   setprop("payload/weight[1]/selected", "M70");
   setprop("payload/weight[2]/selected", "M70");
   setprop("payload/weight[3]/selected", "M70");
+  setprop("payload/weight[4]/selected", "RB 24J");
+  setprop("payload/weight[5]/selected", "RB 24J");
   setprop("ai/submodels/submodel[5]/count", 6);
   setprop("ai/submodels/submodel[6]/count", 6);
   setprop("ai/submodels/submodel[7]/count", 6);

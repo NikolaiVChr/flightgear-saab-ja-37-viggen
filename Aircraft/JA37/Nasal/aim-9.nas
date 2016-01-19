@@ -941,7 +941,7 @@ var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, mass, dt,gMax) 
         var radius_ft_th = math.abs(s_fps / math.cos((90 -steer_deg_theoric)*D2R));
         var g_th = (mass * s_fps * s_fps / radius_ft_th * dt) / g_fps;
 
-        print ("Max G ",gMax , " Actual G " , g,"steer_deg_theoric ",steer_deg_theoric);
+        #print ("Max G ",gMax , " Actual G " , g,"steer_deg_theoric ",steer_deg_theoric);
         
         return(steer_deg_theoric/steer_deg);
 }

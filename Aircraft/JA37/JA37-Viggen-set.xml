@@ -361,7 +361,8 @@
 
 *************************************************************************-->
         <multiplay>
-            <!-- int 9, int 17, int 18, float 2, float 3 and float 9 is controlled from nasal or JSB -->
+            <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
+                 free: float10          -->
             <generic>
                 <!-- effects -->
                 <int n="0" alias="/sim/ja37/effect/smoke"/>                <!-- to show smoke -->
@@ -926,6 +927,22 @@
                 </offsets>
                 <trigger type="bool">false</trigger>
             </station>
+            <station n="5"><!-- left outer wing -->
+                <offsets>
+                    <x-m type="double">  4.05216</x-m>
+                    <y-m type="double"> -3.94417</y-m>
+                    <z-m type="double"> -0.73722</z-m>
+                </offsets>
+                <trigger type="bool">false</trigger>
+            </station>
+            <station n="6"><!-- right outer wing -->
+                <offsets>
+                    <x-m type="double">  4.05216</x-m>
+                    <y-m type="double">  3.94417</y-m>
+                    <z-m type="double"> -0.73722</z-m>
+                </offsets>
+                <trigger type="bool">false</trigger>
+            </station>
         </armament>
         <engines>
             <engine n="0">
@@ -1130,8 +1147,34 @@
             </opt>
         </weight>
         <weight n="4">
-            <name>Center fuselage pylon</name>
+            <name>Left outer wing pylon</name>
             <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[5]"/>
+            <selected>none</selected>
+            <opt>
+                <name>none</name>
+                <lbs>0</lbs>
+            </opt>
+            <opt>
+                <name>RB 24J</name>
+                <lbs>188</lbs>
+            </opt>
+        </weight>
+        <weight n="5">
+            <name>Right outer wing pylon</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[6]"/>
+            <selected>none</selected>
+            <opt>
+                <name>none</name>
+                <lbs>0</lbs>
+            </opt>
+            <opt>
+                <name>RB 24J</name>
+                <lbs>188</lbs>
+            </opt>
+        </weight>
+        <weight n="6">
+            <name>Center fuselage pylon</name>
+            <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
             <selected>Drop tank</selected>
             <opt>
                 <name>none</name>

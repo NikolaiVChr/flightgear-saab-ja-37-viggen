@@ -272,6 +272,36 @@
                 </binding>
             </mod-ctrl>
         </key>
+        <key n="54">
+            <name>CTRL-6</name>
+            <mod-ctrl>
+                <desc>Select missile outer left</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/armament/station-select</property>
+                    <value>5</value>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
+                </binding>
+            </mod-ctrl>
+        </key>
+        <key n="55">
+            <name>CTRL-7</name>
+            <mod-ctrl>
+                <desc>Select missile outer right</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/armament/station-select</property>
+                    <value>6</value>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
+                </binding>
+            </mod-ctrl>
+        </key>
         <key n="101">
             <name>e</name>
             <desc>Trigger</desc>

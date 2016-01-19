@@ -763,6 +763,52 @@
             </product>
         </function>
 
+        <!-- estimate -->
+        <function name="aero/coefficient/CAMissile5">
+            <description>
+               Missile 5 axial Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <!--<property>aero/function/mach-effect-prefactor</property>-->
+                <property>aero/drag/missile</property>
+                <cos>
+                    <property>aero/alpha-rad</property>
+                </cos>
+                <table>
+                    <independentVar lookup="row">inertia/pointmass-weight-lbs[5]</independentVar>
+                    <tableData>
+                         0       0
+                         188     1
+                    </tableData>
+                </table>
+            </product>
+        </function>
+
+        <!-- estimate -->
+        <function name="aero/coefficient/CAMissile6">
+            <description>
+               Missile 6 axial Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <!--<property>aero/function/mach-effect-prefactor</property>-->
+                <property>aero/drag/missile</property>
+                <cos>
+                    <property>aero/alpha-rad</property>
+                </cos>
+                <table>
+                    <independentVar lookup="row">inertia/pointmass-weight-lbs[6]</independentVar>
+                    <tableData>
+                         0       0
+                         188     1
+                    </tableData>
+                </table>
+            </product>
+        </function>
+
         <!-- Datcom+ Pro -->
         <function name="aero/coefficient/CATank">
             <description>

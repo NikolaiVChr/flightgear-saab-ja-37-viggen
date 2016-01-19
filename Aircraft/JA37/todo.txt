@@ -17,14 +17,12 @@ Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
 Model: Make gunpod, between the fuselage and droptank.
-Model: The canopy metal should be thinner and unpainted alu.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some textures should be aligned so they can be better viewed from current pilot point of view.
 Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: The altimeter should have a standard button which set the pressure to 1013 hPa.
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP!
-Model: Add the 2 outermost pylons on the wings, they should only be able to carry RB-24J.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)

@@ -1401,6 +1401,44 @@
                 <max>1</max>
             </volume>
         </missile4>
+        <missile5>
+            <name>missile5</name>
+            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>controls/armament/station[5]/released</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -1.02697 </x>
+                <y> 0.98148 </y>
+                <z> -0.94307 </z>
+            </position>
+            <volume>
+                <factor>0.75</factor>
+                <max>1</max>
+            </volume>
+        </missile5>
+        <missile6>
+            <name>missile6</name>
+            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>controls/armament/station[6]/released</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -1.02697 </x>
+                <y> 0.98148 </y>
+                <z> -0.94307 </z>
+            </position>
+            <volume>
+                <factor>0.75</factor>
+                <max>1</max>
+            </volume>
+        </missile6>
 
         <m70>
             <name>m70</name>
@@ -1604,6 +1642,48 @@
             </position>
             <volume>
                 <property>sim/ja37/armament/rb24/flags/explode-sound-vol-3</property>
+                <factor>1</factor>
+            </volume>
+        </missile-hit>
+
+        <missile-hit>
+            <name>missile-hit5</name>
+            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <mode>once</mode>
+            <condition>
+                <equals>
+                    <property>sim/ja37/armament/rb24/flags/explode-sound-on-4</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-4.0</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <volume>
+                <property>sim/ja37/armament/rb24/flags/explode-sound-vol-4</property>
+                <factor>1</factor>
+            </volume>
+        </missile-hit>
+
+        <missile-hit>
+            <name>missile-hit6</name>
+            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <mode>once</mode>
+            <condition>
+                <equals>
+                    <property>sim/ja37/armament/rb24/flags/explode-sound-on-5</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-4.0</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <volume>
+                <property>sim/ja37/armament/rb24/flags/explode-sound-vol-5</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>

@@ -1912,3 +1912,5 @@ Sim: The callsign that is displayed when firing a guided missile will no longer 
 Sim: Both guided missiles now has a 2 second boost period and start steering immediatly after coming off the pylon.
 Sim: Guided missiles will now be deleted if they impact with the ground.
 Model: Fixed that canopy would appear to not be broken off, when it was.
+Sim: Added the 2 outermost pylons on the wings, they only can carry RB-24J.
+Effect: Made the mirrors more shiny.

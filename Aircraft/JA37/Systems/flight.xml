@@ -17,6 +17,8 @@
                     <property>aero/coefficient/CAMissile2</property>
                     <property>aero/coefficient/CAMissile3</property>
                     <property>aero/coefficient/CAMissile4</property>
+                    <property>aero/coefficient/CAMissile5</property>
+                    <property>aero/coefficient/CAMissile6</property>
                     <property>aero/coefficient/CATank</property>
                     <property>aero/coefficient/CA</property>
                     <property>aero/coefficient/CAwave</property>

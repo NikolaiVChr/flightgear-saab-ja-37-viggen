@@ -188,6 +188,22 @@ Old values:
         <z> -0.94307 </z>
       </location>
     </pointmass>
+    <pointmass name="Left outer wing pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> 4.05216 </x>
+        <y> -3.94417 </y>
+        <z> -0.73722 </z>
+      </location>
+    </pointmass>
+    <pointmass name="Right outer wing pylon">
+      <weight unit="LBS"> 0 </weight>
+      <location name="POINTMASS" unit="M">
+        <x> 4.05216 </x>
+        <y> 3.94417 </y>
+        <z> -0.73722 </z>
+      </location>
+    </pointmass>
     <pointmass name="Center fuselage pylon">
       <weight unit="LBS"> 224.87 </weight> <!-- Estimate by David Culp, notice when this change also change it in nasal scripts and aero section -->
       <location name="POINTMASS" unit="M">
