@@ -365,7 +365,7 @@ var AIM7 = {
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(alt_ft);
-		me.coord.set_alt(alt_ft*0.3048);
+		me.coord.set_alt(alt_ft * FT2M);
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
 
@@ -477,7 +477,7 @@ var AIM7 = {
 
 			# Get target position.
 			var t_alt = me.TgtAlt_prop.getValue();
-			me.t_coord.set_latlon(me.TgtLat_prop.getValue(), me.TgtLon_prop.getValue(), t_alt * 0.3048);
+			me.t_coord.set_latlon(me.TgtLat_prop.getValue(), me.TgtLon_prop.getValue(), t_alt * FT2M);
 
 			# Calculate current target elevation and azimut deviation.
 			var t_dist_m = me.coord.distance_to(me.t_coord);
@@ -786,7 +786,7 @@ var AIM7 = {
 		me.ac = geo.aircraft_position();
 		var distance = me.coord.direct_distance_to(me.ac);
 
-		me.sndDistance = me.sndDistance + (me.sndSpeed * dt) * 0.3048;
+		me.sndDistance = me.sndDistance + (me.sndSpeed * dt) * FT2M;
 		if(me.sndDistance > distance) {
 			var volume = math.pow(2.71828,(-.00025*(distance-1000)));
 			#print("explosion heard "~distance~"m vol:"~volume);
@@ -796,7 +796,7 @@ var AIM7 = {
 			settimer( func me.del(), 4);
 			return;
 		} elsif (me.sndDistance > 5000) {
-			me.del();
+			settimer(func { me.del(); }, 4 );
 		} else {
 			settimer(func me.sndPropagate(), 0.05);
 			return;
@@ -832,7 +832,7 @@ var impact_report = func(pos, mass_slug, string) {
 			break;
 	var impact = n.getChild(string, i, 1);
 
-	impact.getNode("impact/elevation-m", 1).setValue(pos.alt()*FT2M);
+	impact.getNode("impact/elevation-m", 1).setValue(pos.alt());
 	impact.getNode("impact/latitude-deg", 1).setValue(pos.lat());
 	impact.getNode("impact/longitude-deg", 1).setValue(pos.lon());
 	impact.getNode("mass-slug", 1).setValue(mass_slug);
