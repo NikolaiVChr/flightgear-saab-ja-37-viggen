@@ -1378,7 +1378,7 @@
             <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
         </crash1>
         <armament>
-            <file>Aircraft/JA37/Nasal/aim-9.nas</file>
+            <file>Aircraft/JA37/Nasal/guided-missiles.nas</file>
         </armament>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>
