@@ -1929,7 +1929,7 @@ var HUDnasal = {
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
         # skyflash
         minDist =   300;
-        maxDist = 42596;
+        maxDist = 45003.6;
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
         # Rocket pod
         minDist =   200;

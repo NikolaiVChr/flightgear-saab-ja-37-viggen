@@ -1918,3 +1918,5 @@ Sim: Fixed that missiles were launching from aircraft altitude, not pylon altitu
 Sim: RB-24J now works much more like the real thing, thanks to new (declassified) info from Sweden.
 Sound: Incoming sound is no longer cutoff each time a MP msg is displayed.
 Sim: Missiles should now be more able to shoot aircrafts on the ground.
+Sound: Incoming sound is no longer cutoff each time a MP msg is displayed.
+Sim: Merged the two guided missile nasal files.
