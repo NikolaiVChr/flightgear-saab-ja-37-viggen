@@ -851,41 +851,61 @@ var speed_loop = func () {
 
 ###########  listener for handling the trigger #########
 var trigger_listener = func {
-    var trigger = input.trigger.getValue();
-    var armSelect = input.stationSelect.getValue();
+  var trigger = input.trigger.getValue();
+  var armSelect = input.stationSelect.getValue();
 
-    #if masterarm is on and HUD in tactical mode, propagate trigger to station
-    if(input.combat.getValue() == 2 and input.dcVolt.getValue() > 23 and !(armSelect == 0 and input.acInstrVolt.getValue() < 100)) {
-      setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
-      var str = "payload/weight["~(armSelect-1)~"]/selected";
-      if (armSelect != 0 and getprop(str) == "M70") {
-        setprop("/controls/armament/station["~armSelect~"]/trigger-m70", trigger);
-      }
-    } else {
-      setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
+  #if masterarm is on and HUD in tactical mode, propagate trigger to station
+  if(input.combat.getValue() == 2 and input.dcVolt.getValue() > 23 and !(armSelect == 0 and input.acInstrVolt.getValue() < 100)) {
+    setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
+    var str = "payload/weight["~(armSelect-1)~"]/selected";
+    if (armSelect != 0 and getprop(str) == "M70") {
+      setprop("/controls/armament/station["~armSelect~"]/trigger-m70", trigger);
     }
+  } else {
+    setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
+  }
 
-    if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
-      if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
-        # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
-        if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1 and radar_logic.selection != nil) {
-          #missile locked, fire it.
-          setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
-          setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
-          #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
-          var callsign = armament.AIM.active[armSelect-1].callsign;
-          var type = armament.AIM.active[armSelect-1].type;
-          armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
-          
-          var phrase = type ~ " fired at: " ~ callsign;
-          if (getprop("sim/ja37/armament/msg")) {
-            setprop("/sim/multiplay/chat", phrase);
-          } else {
-            setprop("/sim/messages/atc", phrase);
-          }
+  var fired = "KCA";
+  if (armSelect > 0) {
+    fired = getprop("payload/weight["~ (armSelect-1) ~"]/selected");
+  }
+
+  if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
+    if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
+      # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
+      if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1 and radar_logic.selection != nil) {
+        #missile locked, fire it.
+
+        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+        setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+        #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
+        var callsign = armament.AIM.active[armSelect-1].callsign;
+        var type = armament.AIM.active[armSelect-1].type;
+        armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
+        
+        var phrase = type ~ " fired at: " ~ callsign;
+        if (getprop("sim/ja37/armament/msg")) {
+          setprop("/sim/multiplay/chat", phrase);
+        } else {
+          setprop("/sim/messages/atc", phrase);
+        }
+        var newStation = selectType(fired);
+        if (newStation != -1) {
+          input.stationSelect.setValue(newStation);
         }
       }
     }
+  }
+  if (fired == "M70") {
+    var submodel = armSelect + 4;
+    var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
+    if (ammo == 0) {
+      var newStation = selectType(fired);
+      if (newStation != -1 and hasRockets(newStation) > 0) {
+        input.stationSelect.setValue(newStation);
+      }
+    }
+  }
 }
 
 var last_impact = 0;
@@ -1110,16 +1130,6 @@ var nearby_explosion_a = func {
 
 var nearby_explosion_b = func {
   setprop("damage/sounds/nearby-explode-on", 0);
-}
-
-var cycle_weapons = func {
-  var sel = getprop("controls/armament/station-select");
-  sel += 1;
-  if(sel > 6) {
-    sel = 0;
-  }
-  click();
-  setprop("controls/armament/station-select", sel)
 }
 
 ###########  loop for handling the battery signal for cockpit sound #########
@@ -1854,6 +1864,112 @@ var cycleSmoke = func() {
       setprop("/sim/ja37/effect/smoke-cmd", 1);#1 for backward compatibility to be off per default
       popupTip("Smoke: OFF");
     }
+}
+
+var selectType = func (type) {
+  var priority = [1,3,2,4,5,6];
+  var sel = -1;
+  var i = 0;
+
+  while (sel == -1 and i < 6) {
+    var test = getprop("payload/weight["~(priority[i]-1)~"]/selected");
+    if (test == type and hasRockets(priority[i]) != 0) {
+      sel = priority[i];
+    }
+    i += 1;
+  }
+
+  return sel;
+}
+
+var hasRockets = func (station) {
+  var loaded = -1;
+  if (getprop("payload/weight["~(station-1)~"]/selected") == "M70") {
+    var submodel = station + 4;
+    var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
+    loaded = ammo;
+  }
+  return loaded;
+}
+
+var ammoCount = func (station) {
+  var ammo = -1;
+
+  if (station == 0) {
+    ammo = getprop("ai/submodels/submodel[3]/count");
+  } else {
+    var type = getprop("payload/weight["~(station-1)~"]/selected");
+    if (type == "M70") {
+      ammo = 0;
+      for(var i = 1; i < 7; i += 1) {
+        var rockets = hasRockets(i);
+        ammo = rockets == -1?ammo:(rockets+ammo);
+      }
+    } elsif (type == "RB 71") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 71") {
+          ammo += 1;
+        }
+      }
+    } elsif (type == "RB 24J") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 24J") {
+          ammo += 1;
+        }
+      }
+    }
+  }
+  return ammo;
+}
+
+var cycle_weapons = func {
+  # station 0 = cannon
+  # station 1 = inner left wing
+  # station 2 = left fuselage
+  # station 3 = inner right wing
+  # station 4 = right fuselage
+  # station 5 = outer left wing
+  # station 6 = outer right wing
+
+  var sel = getprop("controls/armament/station-select");
+  var type = sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected");
+  var newType = "none";
+
+  while(newType == "none") {
+    if (type == "none") {
+      sel = 0;
+      newType = "KCA";
+    } elsif (type == "KCA") {
+      sel = selectType("M70");
+      if (sel != -1) {
+        newType = "M70";
+      } else {
+        type = "M70";
+      }
+    } elsif (type == "M70") {
+      sel = selectType("RB 71");
+      if (sel != -1) {
+        newType = "RB 71";
+      } else {
+        type = "RB 71";
+      }
+    } elsif (type == "RB 71") {
+      sel = selectType("RB 24J");
+      if (sel != -1) {
+        newType = "RB 24J";
+      } else {
+        type = "RB 24J";
+      }
+    } elsif (type == "RB 24J") {
+      sel = 0;
+      newType = "KCA";
+    }
+  }
+
+  click();
+  setprop("controls/armament/station-select", sel)
 }
 
 reloadAir2Air = func {

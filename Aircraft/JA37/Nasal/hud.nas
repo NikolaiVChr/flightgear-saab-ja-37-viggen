@@ -1713,7 +1713,8 @@ var HUDnasal = {
         me.qfe.setText("RB-71");
         me.qfe.show();
       } else {
-        me.qfe.hide();
+        me.qfe.setText("None");
+        me.qfe.show();
       }        
     } elsif (countQFE > 0) {
       # QFE is shown
@@ -1961,9 +1962,12 @@ var HUDnasal = {
         me.targetDistance2.hide();
         me.distanceScale.hide();
       }
+      var ammo = ja37.ammoCount(me.input.station.getValue());
       if (me.input.station.getValue() == 0) {
-        var ammo = getprop("ai/submodels/submodel[3]/count");
         me.distanceText.setText(sprintf("%3d", ammo));
+        me.distanceText.show();
+      } elsif (ammo != -1) {
+        me.distanceText.setText(sprintf("%1d", ammo));
         me.distanceText.show();
       } else {
         me.distanceText.hide();
