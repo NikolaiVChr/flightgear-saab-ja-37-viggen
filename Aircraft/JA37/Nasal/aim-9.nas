@@ -59,22 +59,29 @@ var AIM9 = {
 		m.track_signal_h    = 0; #   this is directly used as input signal for the steering command.
 		m.t_coord           = geo.Coord.new().set_latlon(0, 0, 0);
 		m.last_t_coord      = m.t_coord;
-		#m.next_t_coord      = m.t_coord;
+		#m.next_t_coord     = m.t_coord;
 		m.direct_dist_m     = nil;
+		m.speed_m           = 0;
 
 		# AIM-9L specs:
-		m.aim9_fov_diam     = getprop("sim/ja37/armament/rb24/fov-deg");
-		m.aim9_fov          = m.aim9_fov_diam / 2;
-		m.max_detect_rng    = getprop("sim/ja37/armament/rb24/max-detection-rng-nm");
-		m.max_seeker_dev    = getprop("sim/ja37/armament/rb24/track-max-deg") / 2;
-		m.force_lbs         = getprop("sim/ja37/armament/rb24/thrust-lbs");
-		m.thrust_duration   = getprop("sim/ja37/armament/rb24/thrust-duration-sec");
-		m.weight_launch_lbs = getprop("sim/ja37/armament/rb24/weight-launch-lbs");
-		m.weight_whead_lbs  = getprop("sim/ja37/armament/rb24/weight-warhead-lbs");
-		m.cd                = getprop("sim/ja37/armament/rb24/drag-coeff");
-		m.eda               = getprop("sim/ja37/armament/rb24/drag-area");
-		m.max_g             = getprop("sim/ja37/armament/rb24/max-g");
-		m.boost_time        = getprop("sim/ja37/armament/rb24/boost-time-sec");
+		m.aim9_fov_diam         = getprop("sim/ja37/armament/rb24/fov-deg");
+		m.aim9_fov              = m.aim9_fov_diam / 2;
+		m.max_detect_rng        = getprop("sim/ja37/armament/rb24/max-detection-rng-nm");
+		m.max_seeker_dev        = getprop("sim/ja37/armament/rb24/track-max-deg") / 2;
+		m.force_lbs_1           = getprop("sim/ja37/armament/rb24/thrust-lbs-stage-1");
+		m.force_lbs_2           = getprop("sim/ja37/armament/rb24/thrust-lbs-stage-2");
+		m.weight_launch_lbs     = getprop("sim/ja37/armament/rb24/weight-launch-lbs");
+		m.weight_whead_lbs      = getprop("sim/ja37/armament/rb24/weight-warhead-lbs");
+		m.cd                    = getprop("sim/ja37/armament/rb24/drag-coeff");
+		m.eda                   = getprop("sim/ja37/armament/rb24/drag-area");
+		m.max_g                 = getprop("sim/ja37/armament/rb24/max-g");
+		m.stage_1_duration      = getprop("sim/ja37/armament/rb24/stage-1-duration-sec");
+		m.stage_2_duration      = getprop("sim/ja37/armament/rb24/stage-2-duration-sec");
+		m.searcher_beam_width   = getprop("sim/ja37/armament/rb24/searcher-beam-width");
+		m.arming_time           = getprop("sim/ja37/armament/rb24/arming-time-sec");
+		m.min_speed_for_guiding = getprop("sim/ja37/armament/rb24/min-speed-for-guiding-mach");
+		m.selfdestruct_time     = getprop("sim/ja37/armament/rb24/self-destruct-time-sec");
+
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
@@ -198,7 +205,7 @@ var AIM9 = {
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
 		#print("roll "~ac_roll~" on "~me.rollN.getPath());
-		me.coord.set_latlon(alat, alon, aalt / M2FT); # was (alat, alon, me.ac.alt())
+		me.coord.set_latlon(alat, alon, aalt * FT2M); # was (alat, alon, me.ac.alt())
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
 		me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
@@ -256,17 +263,20 @@ var AIM9 = {
 		#### Calculate speed vector before steering corrections.
 
 		# Cut rocket thrust after boost duration.
-		var f_lbs = me.force_lbs;
-		if (me.life_time > me.boost_time) {
-			f_lbs = me.force_lbs * 0.3;
+		var f_lbs = me.force_lbs_1;
+		if (me.life_time > me.stage_1_duration) {
+			f_lbs = me.force_lbs_2;
 		}
-		if (me.life_time > me.thrust_duration) {
+		if (me.life_time > (me.stage_1_duration + me.stage_2_duration)) {
 			#print("lifetime "~me.life_time);
-			f_lbs = 0; me.smoke_prop.setBoolValue(0);
+			f_lbs = 0;
+		}
+		if (f_lbs < 1) {
+			me.smoke_prop.setBoolValue(0);
 		}
 
 		# Kill the AI after a while.
-		if (me.life_time > 60) { return me.del(); }
+		#if (me.life_time > 60) { return me.del(); }
 
 		# Get total speed.
 		var d_east_ft  = me.s_east * dt;
@@ -286,14 +296,14 @@ var AIM9 = {
 		# Adjust Cd by Mach number. The equations are based on curves
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
-		var speed_m = (total_s_ft / dt) / sound_fps;
-		#print("mach "~speed_m);
-		if (speed_m < 0.7)
-		 cdm = 0.0125 * speed_m + me.cd;
-		elsif (speed_m < 1.2 )
-		 cdm = 0.3742 * math.pow(speed_m, 2) - 0.252 * speed_m + 0.0021 + me.cd;
+		me.speed_m = (total_s_ft / dt) / sound_fps;
+		#print("mach "~me.speed_m~" - lifetime "~me.life_time);
+		if (me.speed_m < 0.7)
+		 cdm = 0.0125 * me.speed_m + me.cd;
+		elsif (me.speed_m < 1.2 )
+		 cdm = 0.3742 * math.pow(me.speed_m, 2) - 0.252 * me.speed_m + 0.0021 + me.cd;
 		else
-		 cdm = 0.2965 * math.pow(speed_m, -1.1506) + me.cd;
+		 cdm = 0.2965 * math.pow(me.speed_m, -1.1506) + me.cd;
 
 		# Add drag to the total speed using Standard Atmosphere (15C sealevel temperature);
 		# rho is adjusted for altitude in environment.rho_sndspeed(altitude),
@@ -380,7 +390,19 @@ var AIM9 = {
 				}
 			}
 			var v = me.poximity_detection();
-			if ( ! v ) {
+			####Ground interaction
+            var ground = geo.elevation(me.coord.lat(),me.coord.lon());
+            #print("Ground :",ground);
+            var terrain = 0;
+            if(ground != nil)
+            {
+                if(ground > (alt_ft*FT2M)) {
+                    #print("Ground");
+                    terrain = 1;
+                    me.explode();
+                }
+            }
+			if ( ! v or terrain == 1) {
 				#print("exploded");
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = sound_fps;
@@ -389,18 +411,7 @@ var AIM9 = {
 				me.sndPropagate();
 				return;
 			}
-			####Ground interaction
-            var ground = geo.elevation(me.coord.lat(),me.coord.lon());
-            #print("Ground :",ground);
-            if(ground != nil)
-            {
-                if(ground > (alt_ft*FT2M)) {
-                    #print("Ground");
-                    me.free = 1;
-                    settimer(func { me.del(); }, 1 );
-                    return;
-                }
-            }
+			
 		}
 		# record the velocities for the next loop.
 		me.s_north = speed_north_fps;
@@ -478,19 +489,25 @@ var AIM9 = {
 
 			# Compute gain to reduce target deviation to match an optimum 3 deg
 			# This augments steering by an additional 10 deg per second during
-			# the trajectory first 2 seconds.
+			# the trajectory stage 1 seconds.
 			# Then, keep track of deviations at the end of these two initial 2 seconds.
 			var e_gain = 1;
 			var h_gain = 1;
-			if ( me.life_time < me.boost_time ) {
-				if (me.curr_tgt_e > 3 or me.curr_tgt_e < - 3) {
+			if ( me.life_time < me.stage_1_duration ) {
+				if (me.curr_tgt_e > me.searcher_beam_width or me.curr_tgt_e < (-1 * me.searcher_beam_width)) {
 					e_gain = 1 + (0.1 * dt);
 				}
-				if (me.curr_tgt_h > 3 or me.curr_tgt_h < - 3) {
+				if (me.curr_tgt_h > me.searcher_beam_width or me.curr_tgt_h < (-1 * me.searcher_beam_width)) {
 					h_gain = 1 + (0.1 * dt);
 				}
 				me.init_tgt_e = last_tgt_e;
-				me.init_tgt_h = last_tgt_h;			
+				me.init_tgt_h = last_tgt_h;
+			}
+
+			if(me.speed_m < me.min_speed_for_guiding) {
+				# it doesn't guide at lower speeds
+				e_gain = 0;
+				h_gain = 0;
 			}
 
 			# Compute target deviation variation then seeker move to keep this deviation constant.
@@ -530,8 +547,8 @@ var AIM9 = {
 	poximity_detection: func {
 		var cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 		# Get current direct distance.
-		#print("distance to target_m = ",cur_dir_dist_m," prev_distance to target_m = ",me.direct_dist_m);
-		if ( me.direct_dist_m != nil and me.ac.direct_distance_to(me.coord) > 50) {#don't arm before 50m away from plane
+		if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
+			#print("distance to target_m = "~cur_dir_dist_m~" prev_distance to target_m = "~me.direct_dist_m);
 			if ( cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < 65 ) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
@@ -549,6 +566,10 @@ var AIM9 = {
 				me.explode();
 				return(0);
 			}
+		}
+		if (me.life_time > me.selfdestruct_time) {
+			me.explode();
+		    return(0);
 		}
 		me.last_t_coord = me.t_coord;
 		me.direct_dist_m = cur_dir_dist_m;
@@ -582,11 +603,14 @@ var AIM9 = {
 		}
 
 		var phrase = sprintf( "RB-24J exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
-		if (getprop("sim/ja37/armament/msg")) {
-			setprop("/sim/multiplay/chat", phrase);
-		} else {
-			setprop("/sim/messages/atc", phrase);
+		if (min_distance < 65) {
+			if (getprop("sim/ja37/armament/msg")) {
+				setprop("/sim/multiplay/chat", phrase);
+			} else {
+				setprop("/sim/messages/atc", phrase);
+			}
 		}
+		print(phrase);
 		me.ai.getNode("valid", 1).setBoolValue(0);
 		me.animate_explosion();
 		me.Tgt = nil;

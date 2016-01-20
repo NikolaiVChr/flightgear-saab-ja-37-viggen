@@ -639,18 +639,23 @@
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <!-- RB-24J specs (Swedish version of sidewinder) -->
-                    <max-detection-rng-nm type="int">10</max-detection-rng-nm>                    <!-- Aim-9J/rb-24j range is 7.83nm -->
-                    <fov-deg type="int">25</fov-deg>                   <!-- seeker optical FOV -->
-                    <detection-fov-deg type="int">60</detection-fov-deg>                    <!-- Search pattern diameter (rosette scan) -->
-                    <track-max-deg type="int">110</track-max-deg>                    <!-- Seeker max total angular rotation -->
-                    <max-g type="int">39</max-g>                    <!-- In turn -->
-                    <thrust-lbs type="double">230</thrust-lbs>                    <!-- should achieve speed of 2.5+ mach orig:230 -->
-                    <thrust-duration-sec type="int">40</thrust-duration-sec>                    <!-- Aim-9J/rb-24j -->
-                    <weight-launch-lbs>188</weight-launch-lbs>                    <!-- Aim-9J/rb-24j -->
-                    <weight-warhead-lbs>9.92</weight-warhead-lbs>                    <!-- Aim-9J/rb-24j -->
-                    <drag-coeff type="double">0.05</drag-coeff>                    <!-- guess -->
+                    <max-detection-rng-nm type="double">10</max-detection-rng-nm> <!-- Aim-9J/rb-24j range is 7.83nm -->
+                    <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
+                    <detection-fov-deg type="int">60</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
+                    <track-max-deg type="int">110</track-max-deg>                 <!-- Seeker max total angular rotation -->
+                    <max-g type="int">39</max-g>                                  <!-- In turn -->
+                    <thrust-lbs-stage-1 type="double">382.175</thrust-lbs-stage-1><!--  orig:230 -->
+                    <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!--  orig:69 -->
+                    <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- orig: 2.0 -->
+                    <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
+                    <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- Aim-9J/rb-24j -->
+                    <weight-warhead-lbs type="double">9.92</weight-warhead-lbs>   <!-- Aim-9J/rb-24j -->
+                    <drag-coeff type="double">0.25</drag-coeff>                   <!-- guess -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
-                    <boost-time-sec type="double">2</boost-time-sec>
+                    <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- orig: 3.0 -->
+                    <arming-time-sec type="double">1.4</arming-time-sec>
+                    <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach>
+                    <self-destruct-time-sec type="double">43</self-destruct-time-sec>
                 </rb24>
                 <rb71>
 					<!-- info taken largely from AIM-7 data from Richard's excellent F-15 model -->
