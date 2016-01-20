@@ -11,7 +11,7 @@
 		<type>select</type>
 		<object-name>aim-9</object-name>
 		<condition>
-			<property>sim/ja37/armament/rb24/flags/msl-id-2</property>
+			<property>sim/ja37/armament/rb-24j/flags/msl-id-2</property>
 		</condition>
 	</animation>
 

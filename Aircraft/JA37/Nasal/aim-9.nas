@@ -6,10 +6,6 @@ var OurRoll        = props.globals.getNode("orientation/roll-deg");
 var OurPitch       = props.globals.getNode("orientation/pitch-deg");
 var HudReticleDev  = props.globals.getNode("sim/ja37/hud/reticle-total-deviation", 1);#polar coords
 var HudReticleDeg  = props.globals.getNode("sim/ja37/hud/reticle-total-angle", 1);
-var aim_9_model    = "Aircraft/JA37/Models/Armament/Weapons/RB-24J/rb-24j-";
-var SwSoundOnOff   = AcModel.getNode("armament/rb24/sound-on-off");
-var SwSoundVol     = AcModel.getNode("armament/rb24/sound-volume");
-var vol_search     = 0.03;
 var vol_weak_track = 0.10;
 var vol_track      = 0.15;
 var update_loop_time = 0.005;
@@ -17,25 +13,33 @@ var update_loop_time = 0.005;
 var FRAME_TIME = 1;
 var REAL_TIME = 0;
 
+var TRUE = 1;
+var FALSE = 0;
+
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
 
 
-var AIM9 = {
+var AIM = {
 	#done
-	new : func (p) {
-		if(AIM9.active[p] != nil) {
+	new : func (p, type = "RB-24J", sign = "sidewinder") {
+		if(AIM.active[p] != nil) {
 			#do not make new missile logic if one exist for this pylon.
 			return -1;
 		}
-		var m = { parents : [AIM9]};
+		var m = { parents : [AIM]};
 		# Args: p = Pylon.
+
+		m.type_lc = string.lc(type);
+		m.type = type;
 
 		m.status            = 0; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 		m.trackWeak         = 1;
 
-		m.prop              = AcModel.getNode("armament/rb24/").getChild("msl", 0 , 1);
+		m.prop              = AcModel.getNode("armament/"~m.type_lc~"/").getChild("msl", 0 , 1);
+		m.SwSoundOnOff      = AcModel.getNode("armament/"~m.type_lc~"/sound-on-off");
+        m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume");
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
 		m.pylon_prop        = props.globals.getNode("controls/armament").getChild("station", p+1);
@@ -63,25 +67,27 @@ var AIM9 = {
 		m.direct_dist_m     = nil;
 		m.speed_m           = 0;
 
-		# AIM-9L specs:
-		m.aim9_fov_diam         = getprop("sim/ja37/armament/rb24/fov-deg");
+		# AIM specs:
+		m.aim9_fov_diam         = getprop("sim/ja37/armament/"~m.type_lc~"/fov-deg");
 		m.aim9_fov              = m.aim9_fov_diam / 2;
-		m.max_detect_rng        = getprop("sim/ja37/armament/rb24/max-detection-rng-nm");
-		m.max_seeker_dev        = getprop("sim/ja37/armament/rb24/track-max-deg") / 2;
-		m.force_lbs_1           = getprop("sim/ja37/armament/rb24/thrust-lbs-stage-1");
-		m.force_lbs_2           = getprop("sim/ja37/armament/rb24/thrust-lbs-stage-2");
-		m.weight_launch_lbs     = getprop("sim/ja37/armament/rb24/weight-launch-lbs");
-		m.weight_whead_lbs      = getprop("sim/ja37/armament/rb24/weight-warhead-lbs");
-		m.cd                    = getprop("sim/ja37/armament/rb24/drag-coeff");
-		m.eda                   = getprop("sim/ja37/armament/rb24/drag-area");
-		m.max_g                 = getprop("sim/ja37/armament/rb24/max-g");
-		m.stage_1_duration      = getprop("sim/ja37/armament/rb24/stage-1-duration-sec");
-		m.stage_2_duration      = getprop("sim/ja37/armament/rb24/stage-2-duration-sec");
-		m.searcher_beam_width   = getprop("sim/ja37/armament/rb24/searcher-beam-width");
-		m.arming_time           = getprop("sim/ja37/armament/rb24/arming-time-sec");
-		m.min_speed_for_guiding = getprop("sim/ja37/armament/rb24/min-speed-for-guiding-mach");
-		m.selfdestruct_time     = getprop("sim/ja37/armament/rb24/self-destruct-time-sec");
-
+		m.max_detect_rng        = getprop("sim/ja37/armament/"~m.type_lc~"/max-detection-rng-nm");
+		m.max_seeker_dev        = getprop("sim/ja37/armament/"~m.type_lc~"/track-max-deg") / 2;
+		m.force_lbs_1           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbs-stage-1");
+		m.force_lbs_2           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbs-stage-2");
+		m.weight_launch_lbs     = getprop("sim/ja37/armament/"~m.type_lc~"/weight-launch-lbs");
+		m.weight_whead_lbs      = getprop("sim/ja37/armament/"~m.type_lc~"/weight-warhead-lbs");
+		m.cd                    = getprop("sim/ja37/armament/"~m.type_lc~"/drag-coeff");
+		m.eda                   = getprop("sim/ja37/armament/"~m.type_lc~"/drag-area");
+		m.max_g                 = getprop("sim/ja37/armament/"~m.type_lc~"/max-g");
+		m.stage_1_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-1-duration-sec");
+		m.stage_2_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-2-duration-sec");
+		m.searcher_beam_width   = getprop("sim/ja37/armament/"~m.type_lc~"/searcher-beam-width");
+		m.arming_time           = getprop("sim/ja37/armament/"~m.type_lc~"/arming-time-sec");
+		m.min_speed_for_guiding = getprop("sim/ja37/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
+		m.selfdestruct_time     = getprop("sim/ja37/armament/"~m.type_lc~"/self-destruct-time-sec");
+		m.guidance              = getprop("sim/ja37/armament/"~m.type_lc~"/guidance");
+		m.vol_search            = getprop("sim/ja37/armament/"~m.type_lc~"/vol-search");
+		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
@@ -97,18 +103,18 @@ var AIM9 = {
 		
 		n = props.globals.getNode("ai/models", 1);
 		for (i = 0; 1==1; i += 1) {
-			if (n.getChild("rb-24j", i, 0) == nil) {
+			if (n.getChild(m.type_lc, i, 0) == nil) {
 				break;
 			}
 		}
-		m.ai = n.getChild("rb-24j", i, 1);
+		m.ai = n.getChild(m.type_lc, i, 1);
 
 		m.ai.getNode("valid", 1).setBoolValue(1);
-		m.ai.getNode("name", 1).setValue("RB-24J");
-		m.ai.getNode("sign", 1).setValue("Sidewinder");
+		m.ai.getNode("name", 1).setValue(type);
+		m.ai.getNode("sign", 1).setValue(sign);
 		#m.model.getNode("collision", 1).setBoolValue(0);
 		#m.model.getNode("impact", 1).setBoolValue(0);
-		var id_model = aim_9_model ~ m.ID ~ ".xml";
+		var id_model = m.aim_9_model ~ m.ID ~ ".xml";
 		m.model.getNode("path", 1).setValue(id_model);
 		m.life_time = 0;
 
@@ -129,10 +135,10 @@ var AIM9 = {
 		m.pitch   = nil;
 		m.hdg     = nil;
 
-		SwSoundOnOff.setValue(1);
+		m.SwSoundOnOff.setValue(1);
 
-		settimer(func { SwSoundVol.setValue(vol_search); me.trackWeak = 1; m.search() }, 1);
-		return AIM9.active[m.ID] = m;
+		settimer(func { m.SwSoundVol.setValue(m.vol_search); me.trackWeak = 1; m.search() }, 1);
+		return AIM.active[m.ID] = m;
 
 	},
 	#done
@@ -141,17 +147,17 @@ var AIM9 = {
 		me.model.remove();
 		me.ai.remove();
 		if (me.status == 2) {
-			delete(AIM9.flying, me.flyID);
+			delete(AIM.flying, me.flyID);
 		} else {
-			delete(AIM9.active, me.ID);
+			delete(AIM.active, me.ID);
 		}
 	},
 	#done
 	release: func() {
 		me.status = 2;
 		me.flyID = rand();
-		AIM9.flying[me.flyID] = me;
-		delete(AIM9.active, me.ID);
+		AIM.flying[me.flyID] = me;
+		delete(AIM.active, me.ID);
 		me.animation_flags_props();
 
 		# Get the A/C position and orientation values.
@@ -225,7 +231,7 @@ var AIM9 = {
 		me.hdg = ac_hdg;
 
 		me.smoke_prop.setBoolValue(1);
-		SwSoundVol.setValue(0);
+		me.SwSoundVol.setValue(0);
 		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
@@ -248,6 +254,11 @@ var AIM9 = {
 		var elapsed = systime();
 		if (me.dt_last != 0) {
 			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
+			if(dt <= 0) {
+				# to prevent pow floating point error in line:cdm = 0.2965 * math.pow(me.speed_m, -1.1506) + me.cd;
+				# could happen if the OS adjusts the clock backwards
+				dt = 0.00001;
+			}
 		}
 		me.dt_last = elapsed;
 
@@ -434,7 +445,7 @@ var AIM9 = {
 		if (me.status == 0) {
 			# Status = searching.
 			me.reset_seeker();
-			SwSoundVol.setValue(vol_search);
+			me.SwSoundVol.setValue(me.vol_search);
 			me.trackWeak = 1;
 			settimer(func me.search(), 0.1);
 			return(1);
@@ -442,7 +453,7 @@ var AIM9 = {
 		if ( me.status == -1 ) {
 			# Status = stand-by.
 			me.reset_seeker();
-			SwSoundVol.setValue(0);
+			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
 			return(1);
 		}
@@ -452,7 +463,7 @@ var AIM9 = {
 			#print("invalid");
 			me.status = 0;
 			me.reset_seeker();
-			SwSoundVol.setValue(vol_search);
+			me.SwSoundVol.setValue(me.vol_search);
 			me.trackWeak = 1;
 			settimer(func me.search(), 0.1);
 			return(1);
@@ -504,8 +515,9 @@ var AIM9 = {
 				me.init_tgt_h = last_tgt_h;
 			}
 
-			if(me.speed_m < me.min_speed_for_guiding) {
+			if(me.speed_m < me.min_speed_for_guiding or (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE)) {
 				# it doesn't guide at lower speeds
+				# or if its semi-radar guided and the target is no longer painted
 				e_gain = 0;
 				h_gain = 0;
 			}
@@ -534,7 +546,7 @@ var AIM9 = {
 		if ( me.status != 2 and me.status != -1 ) {
 			me.check_t_in_fov();
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
-			SwSoundVol.setValue(vol_track);
+			me.SwSoundVol.setValue(vol_track);
 			me.trackWeak = 0;
 			settimer(func me.update_track(nil), 0.1);
 		}
@@ -602,7 +614,7 @@ var AIM9 = {
 			}
 		}
 
-		var phrase = sprintf( "RB-24J exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
+		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		if (min_distance < 65) {
 			if (getprop("sim/ja37/armament/msg")) {
 				setprop("/sim/multiplay/chat", phrase);
@@ -645,7 +657,7 @@ var AIM9 = {
 			me.status = 0;
 			settimer(func me.search(), rand()*3.5);
 			me.Tgt = nil;
-			SwSoundVol.setValue(vol_search);
+			me.SwSoundVol.setValue(me.vol_search);
 			me.trackWeak = 1;
 			me.reset_seeker();
 		}
@@ -656,7 +668,7 @@ var AIM9 = {
 	search: func {
 		if ( me.status == -1 ) {
 			# Stand by.
-			SwSoundVol.setValue(0);
+			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
 			return;
 		} elsif ( me.status > 0 ) {
@@ -673,9 +685,9 @@ var AIM9 = {
 			# Check if in range and in the (square shaped here) seeker FOV.
 			var abs_total_elev = math.abs(total_elev);
 			var abs_dev_deg = math.abs(total_horiz);
-			if (rng < me.max_detect_rng and abs_total_elev < me.aim9_fov_diam and abs_dev_deg < me.aim9_fov_diam ) {
+			if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE) and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov_diam and abs_dev_deg < me.aim9_fov_diam ) {
 				me.status = 1;
-				SwSoundVol.setValue(vol_weak_track);
+				me.SwSoundVol.setValue(vol_weak_track);
 				me.trackWeak = 1;
 				me.Tgt = tgt;
 
@@ -701,7 +713,7 @@ var AIM9 = {
 				return;
 			}
 		}
-		SwSoundVol.setValue(vol_search);
+		me.SwSoundVol.setValue(me.vol_search);
 		me.trackWeak = 1;
 		settimer(func me.search(), 0.1);
 	},
@@ -713,7 +725,12 @@ var AIM9 = {
 		me.track_signal_h = 0;
 	},
 
-
+	is_painted: func (target) {
+		if(target != nil and target.getChild("painted") != nil and target.getChild("painted").getValue() == TRUE) {
+			return TRUE;
+		}
+		return FALSE;
+	},
 
 	reset_seeker: func {
 		me.curr_tgt_e     = 0;
@@ -740,17 +757,17 @@ var AIM9 = {
 
 	animation_flags_props: func {
 		# Create animation flags properties.
-		var msl_path = "sim/ja37/armament/rb24/flags/msl-id-" ~ me.ID;
+		var msl_path = "sim/ja37/armament/"~me.type_lc~"/flags/msl-id-" ~ me.ID;
 		me.msl_prop = props.globals.initNode( msl_path, 1, "BOOL" );
-		var smoke_path = "sim/ja37/armament/rb24/flags/smoke-id-" ~ me.ID;
+		var smoke_path = "sim/ja37/armament/"~me.type_lc~"/flags/smoke-id-" ~ me.ID;
 		me.smoke_prop = props.globals.initNode( smoke_path, 0, "BOOL" );
-		var explode_path = "sim/ja37/armament/rb24/flags/explode-id-" ~ me.ID;
+		var explode_path = "sim/ja37/armament/"~me.type_lc~"/flags/explode-id-" ~ me.ID;
 		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL" );
-		var explode_smoke_path = "sim/ja37/armament/rb24/flags/explode-smoke-id-" ~ me.ID;
+		var explode_smoke_path = "sim/ja37/armament/"~me.type_lc~"/flags/explode-smoke-id-" ~ me.ID;
 		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL" );
-		var explode_sound_path = "sim/ja37/armament/rb24/flags/explode-sound-on-" ~ me.ID;;
+		var explode_sound_path = "sim/ja37/armament/flags/explode-sound-on-" ~ me.ID;;
 		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL" );
-		var explode_sound_vol_path = "sim/ja37/armament/rb24/flags/explode-sound-vol-" ~ me.ID;;
+		var explode_sound_vol_path = "sim/ja37/armament/flags/explode-sound-vol-" ~ me.ID;;
 		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE" );
 	},
 
@@ -970,4 +987,4 @@ var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, mass, dt,gMax) 
         return(steer_deg_theoric/steer_deg);
 }
 
-#var AIM9_instance = [nil, nil,nil,nil];#init aim-9
+#var AIM_instance = [nil, nil,nil,nil];#init aim-9

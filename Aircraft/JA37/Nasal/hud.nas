@@ -1927,9 +1927,9 @@ var HUDnasal = {
         minDist =   300;
         maxDist = 18520;
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
-        # amraam
+        # skyflash
         minDist =   300;
-        maxDist = 45000;
+        maxDist = 42596;
       } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
         # Rocket pod
         minDist =   200;
@@ -2163,25 +2163,15 @@ var HUDnasal = {
 
           var armSelect = me.input.station.getValue();
           var diamond = 0;
-          if(armament9.AIM9.active[armSelect-1] != nil and armament9.AIM9.active[armSelect-1].status == 1) {
+          if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1) {
             # lock
-            var weak = armament9.AIM9.active[armSelect-1].trackWeak;
+            var weak = armament.AIM.active[armSelect-1].trackWeak;
             if (weak == TRUE) {
               diamond = 1;
             } else {
               diamond = 2;
             }
-          }
-		      if(armament7.AIM7.active[armSelect-1] != nil and armament7.AIM7.active[armSelect-1].status == 1) {
-            # lock
-            var weak = armament7.AIM7.active[armSelect-1].trackWeak;
-            if (weak == TRUE) {
-              diamond = 1;
-            } else {
-              diamond = 2;
-            }
-          }
-		  
+          }		  
 		  
           #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
           #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();

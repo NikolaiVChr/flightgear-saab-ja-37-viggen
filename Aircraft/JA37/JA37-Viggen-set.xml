@@ -635,46 +635,55 @@
             <armament>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <rb24>
+                <rb-24j>
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <!-- RB-24J specs (Swedish version of sidewinder) -->
+                    <vol-search type="double">0.03</vol-search>
+                    <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
                     <max-detection-rng-nm type="double">10</max-detection-rng-nm> <!-- Aim-9J/rb-24j range is 7.83nm -->
                     <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
                     <detection-fov-deg type="int">60</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
                     <track-max-deg type="int">110</track-max-deg>                 <!-- Seeker max total angular rotation -->
-                    <max-g type="int">39</max-g>                                  <!-- In turn -->
-                    <thrust-lbs-stage-1 type="double">382.175</thrust-lbs-stage-1><!--  orig:230 -->
-                    <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!--  orig:69 -->
-                    <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- orig: 2.0 -->
+                    <max-g type="int">39</max-g>                                  <!-- guestimate -->
+                    <thrust-lbs-stage-1 type="double">382.175</thrust-lbs-stage-1><!-- authentic -->
+                    <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!-- authentic -->
+                    <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- authentic -->
                     <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- Aim-9J/rb-24j -->
                     <weight-warhead-lbs type="double">9.92</weight-warhead-lbs>   <!-- Aim-9J/rb-24j -->
-                    <drag-coeff type="double">0.25</drag-coeff>                   <!-- guess -->
+                    <drag-coeff type="double">0.25</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
-                    <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- orig: 3.0 -->
-                    <arming-time-sec type="double">1.4</arming-time-sec>
-                    <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach>
-                    <self-destruct-time-sec type="double">43</self-destruct-time-sec>
-                </rb24>
-                <rb71>
+                    <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- authentic -->
+                    <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
+                    <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
+                    <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
+                </rb-24j>
+                <rb-71>
 					<!-- info taken largely from AIM-7 data from Richard's excellent F-15 model -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <!-- RB-71 specs (Swedish version of Sparrow) -->
-                    <max-detection-rng-nm type="int">24.3</max-detection-rng-nm>                    <!-- Skyflash range is 24.3nm -->
-                    <fov-deg type="int">25</fov-deg>                   <!-- seeker optical FOV -->
-                    <detection-fov-deg type="int">140</detection-fov-deg>                    <!-- Search pattern diameter (rosette scan) -->
+                    <vol-search type="double">0.00</vol-search>
+                    <guidance type="string">semi-radar</guidance>                       <!-- heat, radar or semi-radar -->
+                    <max-detection-rng-nm type="double">24.3</max-detection-rng-nm>            <!-- Skyflash range is 24.3nm -->
+                    <fov-deg type="int">25</fov-deg>                                           <!-- seeker optical FOV -->
+                    <detection-fov-deg type="int">140</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
                     <track-max-deg type="int">110</track-max-deg>                    <!-- Seeker max total angular rotation -->
-                    <max-g type="int">30</max-g>                    <!-- In turn -->
-                    <thrust-lbs type="double">745</thrust-lbs>                    <!-- classified, guessing. -->
-                    <thrust-duration-sec type="int">60</thrust-duration-sec>
+                    <max-g type="int">30</max-g>                                               <!-- guess -->
+                    <thrust-lbs-stage-1 type="double">745</thrust-lbs-stage-1>
+                    <thrust-lbs-stage-2 type="double">223.5</thrust-lbs-stage-2>    
+                    <stage-1-duration-sec type="double">2</stage-1-duration-sec>               <!-- guess -->
+                    <stage-2-duration-sec type="double">58</stage-2-duration-sec>              <!-- guess -->
                     <weight-launch-lbs>425</weight-launch-lbs>
                     <weight-warhead-lbs>88</weight-warhead-lbs>
                     <drag-coeff type="double">0.088</drag-coeff>
                     <drag-area type="double">0.075</drag-area>
-                    <boost-time-sec type="double">2</boost-time-sec>
-                </rb71>
+                    <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
+                    <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
+                    <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
+                    <self-destruct-time-sec type="double">100</self-destruct-time-sec>         <!-- guess -->
+                </rb-71>
             </armament>
             <avionics>
                 <altimeters-calibrated type="bool">0</altimeters-calibrated>
@@ -1368,12 +1377,9 @@
         <crash1>
             <file>Aircraft/JA37/Nasal/crash-and-stress.nas</file>
         </crash1>
-        <armament9>
+        <armament>
             <file>Aircraft/JA37/Nasal/aim-9.nas</file>
-        </armament9>
-        <armament7>
-            <file>Aircraft/JA37/Nasal/aim-7.nas</file>
-        </armament7>
+        </armament>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>
         </formation>
