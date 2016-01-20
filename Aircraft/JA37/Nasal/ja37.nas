@@ -1131,12 +1131,12 @@ var incoming_listener = func {
   }
 }
 
-var playIncomingSound(clock) {
+var playIncomingSound = func (clock) {
   setprop("sim/ja37/sound/incoming"~clock, 1);
   settimer(stopIncomingSound(clock),3);
 }
 
-var stopIncomingSound(clock) {
+var stopIncomingSound = func (clock) {
   setprop("sim/ja37/sound/incoming"~clock, 0);
 }
 
