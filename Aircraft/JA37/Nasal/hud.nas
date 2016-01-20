@@ -766,7 +766,7 @@ var HUDnasal = {
                             .setAlignment("left-top")
                             .setTranslation(200, 10)
                             .setFontSize(60*fs, ar);
-    var distanceScale = HUDnasal.main.dist_scale_group.createChild("path")
+    HUDnasal.main.distanceScale = HUDnasal.main.dist_scale_group.createChild("path")
                             .moveTo(   0, 0)
                             .lineTo( 200, 0)
                             .setStrokeLineWidth(w)
@@ -792,7 +792,7 @@ var HUDnasal = {
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
              HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
              HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
-             tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, distanceScale, HUDnasal.main.targetDistance1,
+             tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, HUDnasal.main.distanceScale, HUDnasal.main.targetDistance1,
              HUDnasal.main.targetDistance2, HUDnasal.main.landing_line, HUDnasal.main.heading_bug_horz];
 
     artifactsText0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.hdgR, HUDnasal.main.qfe,
@@ -1911,47 +1911,63 @@ var HUDnasal = {
       me.targetDistance1.hide();
       me.targetDistance2.hide();
       me.distanceText.hide();
+      me.distanceScale.show();
       me.dist_scale_group.show();
-    } elsif (mode == COMBAT and radar_logic.selection != nil) {
-      var line = 200;
-      var armSelect = me.input.station.getValue();
-      var minDist = nil;
-      var maxDist = nil;
-      var currDist = radar_logic.selection[2];
-      if(armSelect == 0) {
-        # cannon
-        minDist =  100;
-        maxDist = 2500;# as per sources
-      } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
-        # sidewinders
-        minDist =   300;
-        maxDist = 18520;
-      } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
-        # skyflash
-        minDist =   300;
-        maxDist = 45003.6;
-      } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
-        # Rocket pod
-        minDist =   200;
-        maxDist =  2000;
-      }
-      if(currDist != nil and minDist != nil) {
-        var pixelPerMeter = (3/5*line)/(maxDist - minDist);
-        var startDist = (minDist - ((maxDist - minDist)/3));
-        var pos = pixelPerMeter*(currDist-startDist);
-        pos = clamp(pos, 0, line);
-        me.mySpeed.setTranslation(pos, 0);
-        me.mySpeed.show();
+    } elsif (mode == COMBAT) {
+      if (radar_logic.selection != nil) {
+        var line = 200;
+        var armSelect = me.input.station.getValue();
+        var minDist = nil;
+        var maxDist = nil;
+        var currDist = radar_logic.selection[2];
+        if(armSelect == 0) {
+          # cannon
+          minDist =  100;
+          maxDist = 2500;# as per sources
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
+          # sidewinders
+          minDist =   300;
+          maxDist = 18520;
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
+          # skyflash
+          minDist =   300;
+          maxDist = 45003.6;
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
+          # Rocket pod
+          minDist =   200;
+          maxDist =  2000;
+        }
+        if(currDist != nil and minDist != nil) {
+          var pixelPerMeter = (3/5*line)/(maxDist - minDist);
+          var startDist = (minDist - ((maxDist - minDist)/3));
+          var pos = pixelPerMeter*(currDist-startDist);
+          pos = clamp(pos, 0, line);
+          me.mySpeed.setTranslation(pos, 0);
+          me.mySpeed.show();
+        } else {
+          me.mySpeed.hide();
+        }
+        me.targetDistance1.setTranslation(1/5*line, 0);
+        me.targetDistance2.setTranslation(4/5*line, 0);
+
+        me.targetSpeed.hide();
+        me.targetDistance1.show();
+        me.targetDistance2.show();
+        me.distanceScale.show();
       } else {
         me.mySpeed.hide();
+        me.targetSpeed.hide();
+        me.targetDistance1.hide();
+        me.targetDistance2.hide();
+        me.distanceScale.hide();
       }
-      me.targetDistance1.setTranslation(1/5*line, 0);
-      me.targetDistance2.setTranslation(4/5*line, 0);
-
-      me.targetSpeed.hide();
-      me.targetDistance1.show();
-      me.targetDistance2.show();
-      me.distanceText.hide();
+      if (me.input.station.getValue() == 0) {
+        var ammo = getprop("ai/submodels/submodel[3]/count");
+        me.distanceText.setText(sprintf("%3d", ammo));
+        me.distanceText.show();
+      } else {
+        me.distanceText.hide();
+      }
       me.dist_scale_group.show();
     } elsif (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
       var distance = getprop("instrumentation/dme/indicated-distance-nm");
@@ -1970,6 +1986,7 @@ var HUDnasal = {
       me.targetDistance1.show();
       me.targetDistance2.hide();
       me.distanceText.show();
+      me.distanceScale.show();
       me.dist_scale_group.show();
     } else {
       me.dist_scale_group.hide();

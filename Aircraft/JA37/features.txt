@@ -56,6 +56,7 @@ Failure system
 24 extra failures beside the standard ones.
 Canopy motor, canopy hinges, wings attachment and individual gear locking mechanisms are preset to fail under specific conditions.
 Crash-detection and high-G structural break tied into the failure system, it can randomly fail components proportional to the damage the plane takes.
+Damage system for getting hit by guided missiles.
 
 Avionics
 -----
@@ -92,7 +93,7 @@ Armament
 -----
 30mm Cannon with authentic shell properties and accurate recoil.
 Unguided rocket pods.
-Guided fire and forget air2air missiles, that can be fired at AI and MP alike.
+Guided RB-24J and RB-71 air2air missiles, that can be fired at AI and MP alike.
 Dual releasing flares.
 Compatible with the Bombable addon.
 

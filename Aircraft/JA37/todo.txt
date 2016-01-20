@@ -52,7 +52,7 @@ Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.
-Sound: Adjust the volume of the explsosion of nearby missile, depending on distance.
+Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
@@ -60,7 +60,6 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
-HUD: Show cannon rounds loaded near the distance scale.
 
 
 

@@ -1920,3 +1920,4 @@ Sound: Incoming sound is no longer cutoff each time a MP msg is displayed.
 Sim: Missiles should now be more able to shoot aircrafts on the ground.
 Sound: Incoming sound is no longer cutoff each time a MP msg is displayed.
 Sim: Merged the two guided missile nasal files.
+HUD: Cannon rounds loaded is now displayed near the distance scale.
