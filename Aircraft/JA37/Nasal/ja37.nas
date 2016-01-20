@@ -868,7 +868,7 @@ var trigger_listener = func {
     if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
       if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
         # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
-        if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1) {
+        if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1 and radar_logic.selection != nil) {
           #missile locked, fire it.
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
