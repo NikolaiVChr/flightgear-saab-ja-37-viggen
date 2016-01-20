@@ -1005,31 +1005,31 @@ var incoming_listener = func {
                 }
                 #print("incoming from "~clock);
                 if (clock >= 345 or clock < 15) {
-                  setprop("sim/ja37/sound/incoming12", 1);
+                  playIncomingSound("12");
                 } elsif (clock >= 15 and clock < 45) {
-                  setprop("sim/ja37/sound/incoming1", 1);
+                  playIncomingSound("1");
                 } elsif (clock >= 45 and clock < 75) {
-                  setprop("sim/ja37/sound/incoming2", 1);
+                  playIncomingSound("2");
                 } elsif (clock >= 75 and clock < 105) {
-                  setprop("sim/ja37/sound/incoming3", 1);
+                  playIncomingSound("3");
                 } elsif (clock >= 105 and clock < 135) {
-                  setprop("sim/ja37/sound/incoming4", 1);
+                  playIncomingSound("4");
                 } elsif (clock >= 135 and clock < 165) {
-                  setprop("sim/ja37/sound/incoming5", 1);
+                  playIncomingSound("5");
                 } elsif (clock >= 165 and clock < 195) {
-                  setprop("sim/ja37/sound/incoming6", 1);
+                  playIncomingSound("6");
                 } elsif (clock >= 195 and clock < 225) {
-                  setprop("sim/ja37/sound/incoming7", 1);
+                  playIncomingSound("7");
                 } elsif (clock >= 225 and clock < 255) {
-                  setprop("sim/ja37/sound/incoming8", 1);
+                  playIncomingSound("8");
                 } elsif (clock >= 255 and clock < 285) {
-                  setprop("sim/ja37/sound/incoming9", 1);
+                  playIncomingSound("9");
                 } elsif (clock >= 285 and clock < 315) {
-                  setprop("sim/ja37/sound/incoming10", 1);
+                  playIncomingSound("10");
                 } elsif (clock >= 315 and clock < 345) {
-                  setprop("sim/ja37/sound/incoming11", 1);
+                  playIncomingSound("11");
                 } else {
-                  setprop("sim/ja37/sound/incoming", 1);
+                  playIncomingSound("");
                 }
                 return;
               }
@@ -1129,19 +1129,15 @@ var incoming_listener = func {
       }
     }
   }
-  setprop("sim/ja37/sound/incoming", 0);
-  setprop("sim/ja37/sound/incoming1", 0);
-  setprop("sim/ja37/sound/incoming2", 0);
-  setprop("sim/ja37/sound/incoming3", 0);
-  setprop("sim/ja37/sound/incoming4", 0);
-  setprop("sim/ja37/sound/incoming5", 0);
-  setprop("sim/ja37/sound/incoming6", 0);
-  setprop("sim/ja37/sound/incoming7", 0);
-  setprop("sim/ja37/sound/incoming8", 0);
-  setprop("sim/ja37/sound/incoming9", 0);
-  setprop("sim/ja37/sound/incoming10", 0);
-  setprop("sim/ja37/sound/incoming11", 0);
-  setprop("sim/ja37/sound/incoming12", 0);
+}
+
+var playIncomingSound(clock) {
+  setprop("sim/ja37/sound/incoming"~clock, 1);
+  settimer(stopIncomingSound(clock),3);
+}
+
+var stopIncomingSound(clock) {
+  setprop("sim/ja37/sound/incoming"~clock, 0);
 }
 
 var nearby_explosion = func {
