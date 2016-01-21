@@ -604,7 +604,7 @@ var AIM = {
 
 		var min_distance = me.direct_dist_m;
 		var explosion_coord = me.last_coord;
-		for (var i = 0.2; i < 1; i += 0.2) {
+		for (var i = 0.1; i < 1; i += 0.1) {
 			var t_coord = me.interpolate(me.last_t_coord, me.t_coord, i);
 			var coord = me.interpolate(me.last_coord, me.coord, i);
 			var dist = coord.direct_distance_to(t_coord);
