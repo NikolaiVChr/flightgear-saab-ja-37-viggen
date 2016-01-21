@@ -461,8 +461,8 @@ MiscMonitor.properties = func() {
     { property : "wind-kt",      name : "Wind speed",            format : "%3.1f", unit : "kt",     halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
     { property : "temp",         name : "Ambient temperature",   format : "%3.1f", unit : "deg C",  halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
     { property : "alt",          name : "Altitude above sealvl", format : "%3.1f", unit : "ft",     halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
-    { property : "inhg",         name : "Static pressure",       format : "%3.2f", unit : "inhg",   halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
-    { property : "density",      name : "Density",               format : "%1.4f", unit : "slugs/ft3",halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
+    #{ property : "inhg",         name : "Static pressure",       format : "%3.2f", unit : "inhg",   halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
+    #{ property : "density",      name : "Density",               format : "%1.4f", unit : "slugs/ft3",halign : "right", red: 0.0, green: 1.0, blue: 0.0 },
   ]
 }
 
@@ -483,8 +483,8 @@ MiscMonitor.update = func()
   input.perfWindKt.setValue(input.windKt.getValue());
   input.perfTemp.setValue(input.temp.getValue());
   input.perfAlt.setValue(input.alt.getValue());
-  input.perfInhg.setValue(input.inhg.getValue());
-  input.perfRho.setValue(input.slug.getValue());
+  #input.perfInhg.setValue(input.inhg.getValue());
+  #input.perfRho.setValue(input.slug.getValue());
 }
 
 MiscMonitor.reinit = func() {

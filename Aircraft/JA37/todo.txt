@@ -22,7 +22,7 @@ Model: Some textures should be aligned so they can be better viewed from current
 Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: The altimeter should have a standard button which set the pressure to 1013 hPa.
 Model: Fix that landing gear oleo struts now are too bright.
-Model: Fix the bloody irritating lag when getting near another JA37 in MP!
+Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
@@ -45,6 +45,7 @@ Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
 Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
 Sim: Weapons should require electrical power to track, check the manual.
+Sim: Running thrust reverser at very low speed should risk getting hot exhaust getting sucked into engine resulting in fire.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
