@@ -1035,10 +1035,13 @@
         <switch name="propulsion/engine/cutoff-ready">
             <default value="0"/>
             <test logic="AND" value="/systems/electrical/dc-light">
-              propulsion/starter_cmd_copy == 1
-              /controls/engines/engine[0]/cutoff == 1
-              propulsion/engine/n1 gt 5.2
-          </test>
+                /controls/lighting/test-indicator-panels == 1
+            </test>      
+            <test logic="AND" value="/systems/electrical/dc-light">
+                propulsion/starter_cmd_copy == 1
+                /controls/engines/engine[0]/cutoff == 1
+                propulsion/engine/n1 gt 5.2
+            </test>
         </switch>
 
     </channel>

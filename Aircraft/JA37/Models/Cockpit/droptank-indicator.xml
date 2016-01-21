@@ -13,7 +13,7 @@
         <object-name>indicatorLeft</object-name>
         <object-name>droptankIndicator</object-name>
         <hovered>
-            <binding>
+            <binding> 
                 <command>set-tooltip</command>
                 <tooltip-id>dropind</tooltip-id>
                 <label>Droptank indicator</label>
@@ -25,10 +25,16 @@
         <object-name>indicatorLeft</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>consumables/fuel/tank[8]/jettisoned</property>
-                <value>1</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>consumables/fuel/tank[8]/jettisoned</property>
+                    <value>1</value>
+                </equals>
+                <equals>
+                    <property>controls/lighting/test-indicator-panels</property>
+                    <value>1</value>
+                </equals>
+            </or>
         </condition>
         <emission>
             <red>1</red>
@@ -42,10 +48,16 @@
         <object-name>indicatorRight</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>consumables/fuel/tank[8]/jettisoned</property>
-                <value>0</value>
-            </equals>
+            <or>
+                <equals>
+                    <property>consumables/fuel/tank[8]/jettisoned</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>controls/lighting/test-indicator-panels</property>
+                    <value>1</value>
+                </equals>
+            </or>
         </condition>
         <emission>
             <red>0</red>

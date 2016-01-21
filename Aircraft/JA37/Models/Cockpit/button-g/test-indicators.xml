@@ -18,7 +18,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>button-test-ind</tooltip-id>
-                <label>Test indicator panels</label>
+                <label>Test indicators</label>
             </binding>
         </hovered>
     </animation>
