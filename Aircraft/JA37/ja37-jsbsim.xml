@@ -538,22 +538,22 @@ Old values:
     </tank>
   </propulsion>
   
-  <flight_control file="Systems/ja37-controls"/>
+  <flight_control file="Systems/jsb-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
-  <system file="ja37-hydraulic"/>
-  <system file="flight"/>
-  <system file="indicators"/>
-  <system file="cannon_recoil"/>
-  <system file="electric"/>
-  <system file="ja37-fuel"/>
+  <system file="jsb-hydraulic"/>
+  <system file="jsb-flight"/>
+  <system file="jsb-indicators"/>
+  <system file="jsb-cannon_recoil"/>
+  <system file="jsb-electric"/>
+  <system file="jsb-fuel"/>
 
 
   <!--  Carrier (note, these functions are not offical. As the real Viggen did not have carrier capacity, and so is not documented) -->
 
-  <system file="catapult_free"/>
-  <system file="holdback_free"/>
-  <system file="cat-hold"/>
-  <system file="hook"/>
+  <system file="jsb-catapult_free"/>
+  <system file="jsb-holdback_free"/>
+  <system file="jsb-cat-hold"/>
+  <system file="jsb-hook"/>
 
   <external_reactions>
     <force name="recoil" frame="BODY">

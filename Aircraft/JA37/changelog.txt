@@ -1929,3 +1929,4 @@ Sim: Put all stores and weapons logic into its own nasal file.
 Sim: Reverser command is now independent of reverse status.
 Model: Fixed that reverser handle would activate when testing indicators.
 Model: Droptank indicators and cutoff ready are now also lit when using indicator test button.
+Sim: All jsbsim system files now starts with jsb.
