@@ -147,7 +147,7 @@
             <desc>Cycle weapons.</desc>
             <binding>
                 <command>nasal</command>
-                <script>ja37.cycle_weapons()</script>
+                <script>armament.cycle_weapons()</script>
             </binding>
         </key>
         <key n="114">
@@ -416,7 +416,7 @@
             <desc>Eject drop tank.</desc>
             <binding>
                 <command>nasal</command>
-                <script>ja37.drop();</script>
+                <script>armament.drop();</script>
             </binding>
         </key>
         <key n="77">

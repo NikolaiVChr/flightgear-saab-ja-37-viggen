@@ -1679,23 +1679,24 @@ var HUDnasal = {
   },
 
   displayQFE: func (mode) {
+    var DME = getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "";
     if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
       if (me.input.TILS.getValue() == TRUE) {
-        if (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+        if (DME == TRUE) {
           me.qfe.setText("TILS/DME");
         } else {
           me.qfe.setText("TILS");
         }
         me.qfe.show();
       } else {
-        if (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+        if (DME == TRUE) {
           me.qfe.setText("ILS/DME");
         } else {
           me.qfe.setText("ILS");
         }
         me.qfe.show();
       }
-    } elsif ((mode == LANDING or mode == NAV) and getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
+    } elsif ((mode == LANDING or mode == NAV) and DME == TRUE) {
       me.qfe.setText("DME");
       me.qfe.show();
     } elsif (mode == COMBAT) {
@@ -1962,7 +1963,7 @@ var HUDnasal = {
         me.targetDistance2.hide();
         me.distanceScale.hide();
       }
-      var ammo = ja37.ammoCount(me.input.station.getValue());
+      var ammo = armament.ammoCount(me.input.station.getValue());
       if (me.input.station.getValue() == 0) {
         me.distanceText.setText(sprintf("%3d", ammo));
         me.distanceText.show();

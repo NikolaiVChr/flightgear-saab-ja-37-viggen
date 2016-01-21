@@ -457,14 +457,14 @@
                         <label>Reload air to air</label>
                         <binding>
                             <command>nasal</command>
-                            <script>ja37.reloadAir2Air();</script>
+                            <script>armament.reloadAir2Air();</script>
                         </binding>
                     </item>
                     <item>
                         <label>Reload air to ground</label>
                         <binding>
                             <command>nasal</command>
-                            <script>ja37.reloadAir2Ground();</script>
+                            <script>armament.reloadAir2Ground();</script>
                         </binding>
                     </item>
                     <item>
@@ -1379,6 +1379,7 @@
         </crash1>
         <armament>
             <file>Aircraft/JA37/Nasal/guided-missiles.nas</file>
+            <file>Aircraft/JA37/Nasal/stores.nas</file>
         </armament>
         <formation>
             <file>Aircraft/JA37/Nasal/formation.nas</file>

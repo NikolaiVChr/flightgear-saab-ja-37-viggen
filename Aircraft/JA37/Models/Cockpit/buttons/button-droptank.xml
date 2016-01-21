@@ -12,7 +12,7 @@
             <button>0</button>
             <binding>
                 <command>nasal</command>
-                <script>ja37.drop();</script>
+                <script>armament.drop();</script>
             </binding>
         </action>
         <hovered>

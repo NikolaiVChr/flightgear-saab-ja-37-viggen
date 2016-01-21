@@ -1925,3 +1925,7 @@ HUD: If an empty pylon is selected, the HUD will display 'None'.
 Sim: When firing missiles or rockets next pylon with same loadout will now be selected at depletion.
 HUD: There is now also an ammo count of missiles and rockets.
 Sim: Cycle weapons will now cycle the type instead of station.
+Sim: Put all stores and weapons logic into its own nasal file.
+Sim: Reverser command is now independent of reverse status.
+Model: Fixed that reverser handle would activate when testing indicators.
+Model: Droptank indicators and cutoff ready are now also lit when using indicator test button.
