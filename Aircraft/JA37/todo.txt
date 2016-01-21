@@ -50,6 +50,7 @@ Sim: Running thrust reverser at very low speed should risk getting hot exhaust g
 Sim: Button to jettison all stores including drop-tank.
 Sim: Should drop-tank require masterarm on instead of opposite, seems logical, double check manual.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate.
+Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -64,6 +65,7 @@ HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
+HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 
 
 

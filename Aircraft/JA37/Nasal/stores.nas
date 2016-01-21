@@ -12,42 +12,42 @@ var flareCount = -1;
 var flareStart = -1;
 
 input = {
-  replay:           "sim/replay/replay-state",
-  wow0:             "/gear/gear[0]/wow",
-  wow1:             "/gear/gear[1]/wow",
-  wow2:             "/gear/gear[2]/wow",
-  gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
-  gearsPos:         "gear/gear/position-norm",
-  dcVolt:           "systems/electrical/outputs/dc-voltage",
   acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
   acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
-  serviceElec:      "systems/electrical/serviceable",
-  stationSelect:    "controls/armament/station-select",
+  asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   combat:           "/sim/ja37/hud/current-mode",
+  dcVolt:           "systems/electrical/outputs/dc-voltage",
+  elapsed:          "sim/time/elapsed-sec",
+  elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
-  hz10:             "sim/ja37/blink/ten-Hz/state",
+  gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
+  gearsPos:         "gear/gear/position-norm",
   hz05:             "sim/ja37/blink/five-Hz/state",
+  hz10:             "sim/ja37/blink/ten-Hz/state",
   hzThird:          "sim/ja37/blink/third-Hz/state",
+  impact:           "/ai/models/model-impact",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
   mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
   mass5:            "fdm/jsbsim/inertia/pointmass-weight-lbs[5]",
   mass6:            "fdm/jsbsim/inertia/pointmass-weight-lbs[6]",
-  asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
-  trigger:          "controls/armament/trigger",
   MPfloat2:         "sim/multiplay/generic/float[2]",
   MPfloat9:         "sim/multiplay/generic/float[9]",
-  MPint9:           "sim/multiplay/generic/int[9]",
   MPint17:          "sim/multiplay/generic/int[17]",
   MPint18:          "sim/multiplay/generic/int[18]",
   MPint19:          "sim/multiplay/generic/int[19]",
+  MPint9:           "sim/multiplay/generic/int[9]",
+  replay:           "sim/replay/replay-state",
+  serviceElec:      "systems/electrical/serviceable",
+  stationSelect:    "controls/armament/station-select",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
-  impact:           "/ai/models/model-impact",
-  elecMain:         "controls/electric/main",
-  tank8Selected:    "/consumables/fuel/tank[8]/selected",
   tank8Jettison:    "/consumables/fuel/tank[8]/jettisoned",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
-  elapsed:          "sim/time/elapsed-sec",
+  tank8Selected:    "/consumables/fuel/tank[8]/selected",
+  trigger:          "controls/armament/trigger",
+  wow0:             "/gear/gear[0]/wow",
+  wow1:             "/gear/gear[1]/wow",
+  wow2:             "/gear/gear[2]/wow",
 };
 
 ############ main stores loop #####################
@@ -647,17 +647,17 @@ var cycle_weapons = func {
 reloadAir2Air = func {
   # Reload missiles - 4 of them.
 
-  # outer wing pylons
+  # Sidewinder
+  setprop("payload/weight[1]/selected", "RB 24J");
+  setprop("payload/weight[3]/selected", "RB 24J");
   setprop("payload/weight[4]/selected", "RB 24J");
   setprop("payload/weight[5]/selected", "RB 24J");
-  screen.log.write("2 RB-24J missiles attached", 0.0, 1.0, 0.0);
+  screen.log.write("4 RB-24J missiles attached", 0.0, 1.0, 0.0);
 
-  # fuselage pylons
+  # Skyflash
   setprop("payload/weight[0]/selected", "RB 71");
-  setprop("payload/weight[1]/selected", "RB 71");
   setprop("payload/weight[2]/selected", "RB 71");
-  setprop("payload/weight[3]/selected", "RB 71");
-  screen.log.write("4 RB-71 missiles attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);

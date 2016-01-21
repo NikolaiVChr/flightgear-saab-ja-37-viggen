@@ -1126,10 +1126,10 @@
                 <name>M70</name>
                 <lbs>200</lbs>
             </opt>
-            <opt>
+            <!--<opt>
                 <name>RB 71</name>
                 <lbs>425</lbs>
-            </opt>
+            </opt>-->
         </weight>
         <weight n="2">
             <name>Right wing pylon</name>
@@ -1168,10 +1168,10 @@
                 <name>M70</name>
                 <lbs>200</lbs>
             </opt>
-            <opt>
+            <!--<opt>
                 <name>RB 71</name>
                 <lbs>425</lbs>
-            </opt>
+            </opt>-->
         </weight>
         <weight n="4">
             <name>Left outer wing pylon</name>

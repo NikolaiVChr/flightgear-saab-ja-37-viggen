@@ -1936,3 +1936,4 @@ Model: Fixed tooltip on radar range control was a factor 1000 off.
 HUD: Fixed that when changing HUD lines width that the HUD would turn into amber color.
 GUI: Removed radar buttons from option dialog, as they are as switches in cockpit now.
 GUI: Made options dialog transparent.
+Sim: Checked manual and RB-71 can no longer be carried on fuselage pylons.
