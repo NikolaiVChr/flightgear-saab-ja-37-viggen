@@ -26,7 +26,6 @@
                 <command>set-tooltip</command>
                 <tooltip-id>switch-reverser</tooltip-id>
                 <label>Reverse thrust</label>
-                <property>instrumentation/reverse-indicator</property>
             </binding>
         </hovered>
     </animation>
@@ -34,7 +33,7 @@
     <animation>
         <type>translate</type>
         <object-name>reverseHandle</object-name>
-        <property>instrumentation/reverse-indicator</property>
+        <property>/controls/engines/engine[0]/reverser</property>
         <factor>0.03</factor>
         <axis>
             <x> 1.0 </x>
