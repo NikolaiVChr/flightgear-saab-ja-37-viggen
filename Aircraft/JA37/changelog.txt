@@ -1931,3 +1931,5 @@ Model: Fixed that reverser handle would activate when testing indicators.
 Model: Droptank indicators and cutoff ready are now also lit when using indicator test button.
 Sim: All jsbsim system files now starts with jsb.
 GUI: Removed density and static pressure from performance monitor.
+HUD: Made heading and sideslip indicator in HUD fail if the corresponding instrument fails.
+Model: Fixed tooltip on radar range control was a factor 1000 off.

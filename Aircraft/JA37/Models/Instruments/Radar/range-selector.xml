@@ -62,11 +62,11 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Radar Range Setting</tooltip-id>
-                <label>Radar Range %5d Nm</label>
+                <label>Radar Range %2.1f Nm</label>
                 <property>/instrumentation/radar/range</property>
                 <mapping>nasal</mapping>
                 <script>
-            return arg[0]*0.54;
+            return arg[0]*0.0005396;
           </script>
             </binding>
         </hovered>

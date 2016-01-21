@@ -1089,35 +1089,37 @@ var HUDnasal = {
 
   displayHeadingScale: func () {
     if (mode != LANDING or me.input.pitch.getValue() < -5 or me.input.pitch.getValue() > 7) {
-      var heading = me.input.hdg.getValue();
-      var headOffset = heading/10 - int (heading/10);
-      var headScaleOffset = headOffset;
-      var middleText = roundabout(me.input.hdg.getValue()/10);
-      me.middleOffset = nil;
-      if(middleText == 36) {
-        middleText = 0;
+      if(getprop("instrumentation/heading-indicator/serviceable") == 1) {
+        var heading = me.input.hdg.getValue();
+        var headOffset = heading/10 - int (heading/10);
+        var headScaleOffset = headOffset;
+        var middleText = roundabout(me.input.hdg.getValue()/10);
+        me.middleOffset = nil;
+        if(middleText == 36) {
+          middleText = 0;
+        }
+        var leftText = middleText == 0?35:middleText-1;
+        var rightText = middleText == 35?0:middleText+1;
+        if (headOffset > 0.5) {
+          me.middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
+          me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
+          me.head_scale_grp.update();
+          me.hdgLineL.show();
+          #me.hdgLineR.hide();
+        } else {
+          me.middleOffset = -headScaleOffset*headScaleTickSpacing*2;
+          me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
+          me.head_scale_grp.update();
+          me.hdgLineR.show();
+          #me.hdgLineL.hide();
+        }
+        me.hdgR.setTranslation(headScaleTickSpacing*2, -65);
+        me.hdgR.setText(sprintf("%02d", rightText));
+        me.hdgM.setTranslation(0, -65);
+        me.hdgM.setText(sprintf("%02d", middleText));
+        me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
+        me.hdgL.setText(sprintf("%02d", leftText));
       }
-      var leftText = middleText == 0?35:middleText-1;
-      var rightText = middleText == 35?0:middleText+1;
-      if (headOffset > 0.5) {
-        me.middleOffset = -(headScaleOffset-1)*headScaleTickSpacing*2;
-        me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
-        me.head_scale_grp.update();
-        me.hdgLineL.show();
-        #me.hdgLineR.hide();
-      } else {
-        me.middleOffset = -headScaleOffset*headScaleTickSpacing*2;
-        me.head_scale_grp_trans.setTranslation(me.middleOffset, -headScalePlace);
-        me.head_scale_grp.update();
-        me.hdgLineR.show();
-        #me.hdgLineL.hide();
-      }
-      me.hdgR.setTranslation(headScaleTickSpacing*2, -65);
-      me.hdgR.setText(sprintf("%02d", rightText));
-      me.hdgM.setTranslation(0, -65);
-      me.hdgM.setText(sprintf("%02d", middleText));
-      me.hdgL.setTranslation(-headScaleTickSpacing*2, -65);
-      me.hdgL.setText(sprintf("%02d", leftText));
       me.head_scale_grp.show();
       me.head_scale_indicator.show();
     } else {
@@ -1128,33 +1130,35 @@ var HUDnasal = {
 
   displayHeadingHorizonScale: func () {
     if (mode == LANDING) {
-      var heading = me.input.hdg.getValue();
-      var headOffset = heading/10 - int (heading/10);
-      var headScaleOffset = headOffset;
-      var middleText = roundabout(me.input.hdg.getValue()/10);
-      me.middleOffsetHorz = nil;
-      if(middleText == 36) {
-        middleText = 0;
+      if(getprop("instrumentation/heading-indicator/serviceable") == 1) {
+        var heading = me.input.hdg.getValue();
+        var headOffset = heading/10 - int (heading/10);
+        var headScaleOffset = headOffset;
+        var middleText = roundabout(me.input.hdg.getValue()/10);
+        me.middleOffsetHorz = nil;
+        if(middleText == 36) {
+          middleText = 0;
+        }
+        var leftText = middleText == 0?35:middleText-1;
+        var rightText = middleText == 35?0:middleText+1;
+        if (headOffset > 0.5) {
+          me.middleOffsetHorz = -(headScaleOffset-1)*10*pixelPerDegreeX;
+          me.head_scale_horz_grp.setTranslation(me.middleOffsetHorz, 0);
+          me.head_scale_horz_grp.update();
+          #me.hdgLineL.show();
+        } else {
+          me.middleOffsetHorz = -headScaleOffset*10*pixelPerDegreeX;
+          me.head_scale_horz_grp.setTranslation(me.middleOffsetHorz, 0);
+          me.head_scale_horz_grp.update();
+          #me.hdgLineR.show();
+        }
+        me.hdgRH.setTranslation(10*pixelPerDegreeX, -30);
+        me.hdgRH.setText(sprintf("%02d", rightText));
+        me.hdgMH.setTranslation(0, -30);
+        me.hdgMH.setText(sprintf("%02d", middleText));
+        me.hdgLH.setTranslation(-10*pixelPerDegreeX, -30);
+        me.hdgLH.setText(sprintf("%02d", leftText));
       }
-      var leftText = middleText == 0?35:middleText-1;
-      var rightText = middleText == 35?0:middleText+1;
-      if (headOffset > 0.5) {
-        me.middleOffsetHorz = -(headScaleOffset-1)*10*pixelPerDegreeX;
-        me.head_scale_horz_grp.setTranslation(me.middleOffsetHorz, 0);
-        me.head_scale_horz_grp.update();
-        #me.hdgLineL.show();
-      } else {
-        me.middleOffsetHorz = -headScaleOffset*10*pixelPerDegreeX;
-        me.head_scale_horz_grp.setTranslation(me.middleOffsetHorz, 0);
-        me.head_scale_horz_grp.update();
-        #me.hdgLineR.show();
-      }
-      me.hdgRH.setTranslation(10*pixelPerDegreeX, -30);
-      me.hdgRH.setText(sprintf("%02d", rightText));
-      me.hdgMH.setTranslation(0, -30);
-      me.hdgMH.setText(sprintf("%02d", middleText));
-      me.hdgLH.setTranslation(-10*pixelPerDegreeX, -30);
-      me.hdgLH.setText(sprintf("%02d", leftText));
       me.hdgRH.show();
       me.hdgMH.show();
       me.hdgLH.show();
@@ -1665,12 +1669,14 @@ var HUDnasal = {
 
   displayTurnCoordinator: func () {
     if (me.input.sideslipOn.getValue() == TRUE) {
-      #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
-      me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
-      if(me.input.final.getValue() == TRUE) {
-        me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
-      } else {
-        me.turn_group.setTranslation(sideslipPlaceX, sideslipPlaceY);
+      if(getprop("instrumentation/turn-indicator/serviceable") == 1) {
+        #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
+        me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
+        if(me.input.final.getValue() == TRUE) {
+          me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
+        } else {
+          me.turn_group.setTranslation(sideslipPlaceX, sideslipPlaceY);
+        }
       }
       me.turn_group.show();
     } else {

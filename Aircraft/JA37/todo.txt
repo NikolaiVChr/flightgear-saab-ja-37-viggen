@@ -18,19 +18,20 @@ Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
 Model: Make gunpod, between the fuselage and droptank.
 Model: Put in not-working instruments and controls for immersion.
-Model: Some textures should be aligned so they can be better viewed from current pilot point of view.
+Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
 Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: The altimeter should have a standard button which set the pressure to 1013 hPa.
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
+Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
-Sim: Make autopilot depend fully on instrument properties not true properties.
+Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
-Sim: Make braking parachute?
+Sim: Make braking parachute? (manual does not seem to indicate that the plane had one)
 Sim: Reset controls after A/P let go of them.
-Sim: Stop using integers in xml where floating point is expected? (really not needed)
+Sim: Stop using integers in xml where floating point is expected? (is silly, not needed, rely on typecasting instead)
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Air to ground guided missiles.
 Sim: Make replay show the guided missiles flying.
@@ -46,6 +47,9 @@ Sim: Shift-m should be a key without shift instead for convienience.
 Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
 Sim: Weapons should require electrical power to track, check the manual.
 Sim: Running thrust reverser at very low speed should risk getting hot exhaust getting sucked into engine resulting in fire.
+Sim: Button to jettison all stores including drop-tank.
+Sim: Should drop-tank require masterarm on instead of opposite, seems logical, double check manual.
+Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -54,7 +58,6 @@ Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
-HUD: Make individual parts in HUD fail if the corresponding instrument fails. (like heading indicator etc.)
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Make too low reference speed change reticle vertical tail down.
