@@ -758,17 +758,17 @@ var AIM = {
 	animation_flags_props: func {
 		# Create animation flags properties.
 		var msl_path = "sim/ja37/armament/"~me.type_lc~"/flags/msl-id-" ~ me.ID;
-		me.msl_prop = props.globals.initNode( msl_path, 1, "BOOL" );
+		me.msl_prop = props.globals.initNode( msl_path, 1, "BOOL", 1);
 		var smoke_path = "sim/ja37/armament/"~me.type_lc~"/flags/smoke-id-" ~ me.ID;
-		me.smoke_prop = props.globals.initNode( smoke_path, 0, "BOOL" );
+		me.smoke_prop = props.globals.initNode( smoke_path, 0, "BOOL", 1);
 		var explode_path = "sim/ja37/armament/"~me.type_lc~"/flags/explode-id-" ~ me.ID;
-		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL" );
+		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL", 1);
 		var explode_smoke_path = "sim/ja37/armament/"~me.type_lc~"/flags/explode-smoke-id-" ~ me.ID;
-		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL" );
+		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL", 1);
 		var explode_sound_path = "sim/ja37/armament/flags/explode-sound-on-" ~ me.ID;;
-		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL" );
+		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL", 1);
 		var explode_sound_vol_path = "sim/ja37/armament/flags/explode-sound-vol-" ~ me.ID;;
-		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE" );
+		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE", 1);
 	},
 
 
