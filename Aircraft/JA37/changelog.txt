@@ -1937,3 +1937,5 @@ HUD: Fixed that when changing HUD lines width that the HUD would turn into amber
 GUI: Removed radar buttons from option dialog, as they are as switches in cockpit now.
 GUI: Made options dialog transparent.
 Sim: Checked manual and RB-71 can no longer be carried on fuselage pylons.
+Sim: Now able to be hit by the modified m2000-5.
+Sim: Adjusted damage from various missiles.

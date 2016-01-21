@@ -664,7 +664,7 @@
                     <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- authentic -->
                     <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- Aim-9J/rb-24j -->
-                    <weight-warhead-lbs type="double">9.92</weight-warhead-lbs>   <!-- Aim-9J/rb-24j -->
+                    <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- Aim-9J/rb-24j -->
                     <drag-coeff type="double">0.25</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- authentic -->
