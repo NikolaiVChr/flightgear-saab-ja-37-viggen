@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 700;
+var DIALOG_HEIGHT = 650;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -8,7 +8,7 @@ var Dialog = {
     init: func(x = nil, y = nil) {
         me.x = x;
         me.y = y;
-        me.bg = [0.3, 0.3, 0.3, 1];    # background color
+        me.bg = [0.3, 0.3, 0.3, 0.4];    # background color
         me.fg = [[0.9, 0.9, 0.2, 1], [1, 1, 1, 1], [1, 0.5, 0, 1]]; # alternative active & disabled color
         var font = { name: "FIXED_8x13" };
 
@@ -175,34 +175,34 @@ var Dialog = {
           me.dialog.hudButton.setBinding("nasal", "ja37.Dialog.hudToggle()");
 
           ######   radar button   #####
-          var radarRow = topRow.addChild("group");
-          radarRow.set("layout", "hbox");
-          radarRow.set("pref-height", 25);
-          radarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+#          var radarRow = topRow.addChild("group");
+#          radarRow.set("layout", "hbox");
+#          radarRow.set("pref-height", 25);
+#          radarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #radarRow.set("valign", "center");
           
-          var radarText = radarRow.addChild("text").set("label", "Radar screen:");
-          radarRow.addChild("empty").set("stretch", 1);
-          me.dialog.radarButton = radarRow.addChild("button");
-          me.dialog.radarButton.set("halign", "right");
-          me.dialog.radarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
-          #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.radarButton.setBinding("nasal", "ja37.Dialog.radarToggle()");
+#          var radarText = radarRow.addChild("text").set("label", "Radar screen:");
+#          radarRow.addChild("empty").set("stretch", 1);
+#          me.dialog.radarButton = radarRow.addChild("button");
+#          me.dialog.radarButton.set("halign", "right");
+#          me.dialog.radarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+#          #topRow.addChild("empty").set("stretch", 1);
+#          me.dialog.radarButton.setBinding("nasal", "ja37.Dialog.radarToggle()");
 
           ######   HUD radar tracks button   #####
-          var tracksRow = topRow.addChild("group");
-          tracksRow.set("layout", "hbox");
-          tracksRow.set("pref-height", 25);
-          tracksRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+#          var tracksRow = topRow.addChild("group");
+#          tracksRow.set("layout", "hbox");
+#          tracksRow.set("pref-height", 25);
+#          tracksRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var tracksText = tracksRow.addChild("text").set("label", "Radar:");
-          tracksRow.addChild("empty").set("stretch", 1);
-          me.dialog.tracksButton = tracksRow.addChild("button");
-          me.dialog.tracksButton.set("halign", "right");
-          me.dialog.tracksButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+#          var tracksText = tracksRow.addChild("text").set("label", "Radar:");
+#          tracksRow.addChild("empty").set("stretch", 1);
+#          me.dialog.tracksButton = tracksRow.addChild("button");
+#          me.dialog.tracksButton.set("halign", "right");
+#          me.dialog.tracksButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.tracksButton.setBinding("nasal", "ja37.Dialog.tracksToggle()");
+#          me.dialog.tracksButton.setBinding("nasal", "ja37.Dialog.tracksToggle()");
 
           ######   HUD bank indicator button   #####
           var bankRow = topRow.addChild("group");
@@ -511,19 +511,19 @@ var Dialog = {
       me.refreshButtons();
     },  
 
-    radarToggle: func {
-      ja37.click();
-      var enabled = getprop("sim/ja37/radar/enabled");
-      setprop("sim/ja37/radar/enabled", !enabled);
-      me.refreshButtons();
-    },
+#    radarToggle: func {
+#      ja37.click();
+#      var enabled = getprop("sim/ja37/radar/enabled");
+#      setprop("sim/ja37/radar/enabled", !enabled);
+#      me.refreshButtons();
+#    },
 
-    tracksToggle: func {
-      ja37.click();
-      var enabled = getprop("sim/ja37/hud/tracks-enabled");
-      setprop("sim/ja37/hud/tracks-enabled", !enabled);
-      me.refreshButtons();
-    },
+#    tracksToggle: func {
+#      ja37.click();
+#      var enabled = getprop("sim/ja37/hud/tracks-enabled");
+#      setprop("sim/ja37/hud/tracks-enabled", !enabled);
+#      me.refreshButtons();
+#    },
 
     bankToggle: func {
       var enabled = getprop("sim/ja37/hud/bank-indicator");
@@ -580,11 +580,11 @@ var Dialog = {
       me.refreshButtons();
     },
 
-    mouseToggle: func {
-      var enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
-      setprop("fdm/jsbsim/fcs/mouse-optimized", !enabled);
-      me.refreshButtons();
-    },    
+#    mouseToggle: func {
+#      var enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
+#      setprop("fdm/jsbsim/fcs/mouse-optimized", !enabled);
+#      me.refreshButtons();
+#    },    
 
     cannonToggle: func {
       var enabled = getprop("ai/submodels/submodel[3]/random");
@@ -618,7 +618,7 @@ var Dialog = {
       #canvas_HUD.a = 1.0;
       #canvas_HUD.w = 10;
       #canvas_HUD.fs = 1;
-      canvas_HUD.reinit();
+      canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     medium: func {
@@ -628,7 +628,7 @@ var Dialog = {
       #canvas_HUD.a = 1.0;      
       #canvas_HUD.w = 11;
       #canvas_HUD.fs = 1.1;
-      canvas_HUD.reinit();
+      canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     dark: func {
@@ -638,17 +638,17 @@ var Dialog = {
       #canvas_HUD.a = 1.0;
       #canvas_HUD.w = 12;
       #canvas_HUD.fs = 1.2;
-      canvas_HUD.reinit();
+      canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     thicker: func {
       setprop("sim/ja37/hud/stroke-linewidth", getprop("sim/ja37/hud/stroke-linewidth") + 0.5);
-      canvas_HUD.reinit();
+      canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     defaultThickness: func {
       setprop("sim/ja37/hud/stroke-linewidth", 4);
-      canvas_HUD.reinit();
+      canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },    
 
     thinner: func {
@@ -656,7 +656,7 @@ var Dialog = {
       w = w - 0.5;
       if(w < 0.5) w = 0.5;
       setprop("sim/ja37/hud/stroke-linewidth", w);
-      canvas_HUD.reinit();
+      canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     refreshButtons: func {
@@ -687,21 +687,21 @@ var Dialog = {
       }
       me.dialog.hudButton.node.setValues({"legend": legend});
 
-      enabled = getprop("sim/ja37/radar/enabled");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.radarButton.node.setValues({"legend": legend});
+#      enabled = getprop("sim/ja37/radar/enabled");
+#      if(enabled == 1) {
+#        legend = "Enabled";
+#      } else {
+#        legend = "Disabled";
+#      }
+#      me.dialog.radarButton.node.setValues({"legend": legend});
 
-      enabled = getprop("sim/ja37/hud/tracks-enabled");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.tracksButton.node.setValues({"legend": legend});
+#      enabled = getprop("sim/ja37/hud/tracks-enabled");
+#      if(enabled == 1) {
+#        legend = "Enabled";
+#      } else {
+#        legend = "Disabled";
+#      }
+#      me.dialog.tracksButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/hud/bank-indicator");
       if(enabled == 1) {

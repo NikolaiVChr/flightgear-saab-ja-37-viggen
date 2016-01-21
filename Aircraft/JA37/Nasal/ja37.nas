@@ -860,7 +860,7 @@ var test_support = func {
   print();
   print("***************************************************************");
   print("**         Initializing Saab JA-37 Viggen systems.           **");
-  print("**           Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]~"               **");
+  print("**           Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]~"            **");
   print("***************************************************************");
   print();
 }

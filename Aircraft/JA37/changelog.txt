@@ -1933,3 +1933,6 @@ Sim: All jsbsim system files now starts with jsb.
 GUI: Removed density and static pressure from performance monitor.
 HUD: Made heading and sideslip indicator in HUD fail if the corresponding instrument fails.
 Model: Fixed tooltip on radar range control was a factor 1000 off.
+HUD: Fixed that when changing HUD lines width that the HUD would turn into amber color.
+GUI: Removed radar buttons from option dialog, as they are as switches in cockpit now.
+GUI: Made options dialog transparent.
