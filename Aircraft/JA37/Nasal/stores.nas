@@ -420,11 +420,16 @@ var incoming_listener = func {
         # latest or second latest version of failure manager and taking damage enabled
         #print("damage enabled");
         var last1 = split(" ", last_vector[1]);
-        if(size(last1) > 2 and last1[2] == "exploded" ) {
+        if(size(last1) > 2 and last1[size(last1)-1] == "exploded" ) {
           #print("missile hitting someone");
           if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
             #print("that someone is me!");
             var type = last1[1];
+            if (type == "Matra") {
+              for (var i = 2; i < size(last1)-1; i += 1) {
+                type = type~" "~last1[i];
+              }
+            }
             var number = split(" ", last_vector[2]);
             var distance = num(number[1]);
             #print(type~"|");
