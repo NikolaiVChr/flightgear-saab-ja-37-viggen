@@ -1939,3 +1939,4 @@ GUI: Made options dialog transparent.
 Sim: Checked manual and RB-71 can no longer be carried on fuselage pylons.
 Sim: Now able to be hit by the modified m2000-5.
 Sim: Adjusted damage from various missiles.
+Sim: Accounted for a case which will happen 50% of the time to also improve accuracy of the missiles.

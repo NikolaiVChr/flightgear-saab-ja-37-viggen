@@ -426,6 +426,7 @@ var incoming_listener = func {
             #print("that someone is me!");
             var type = last1[1];
             if (type == "Matra") {
+              # Matra missiles have spaces in their names, so we fix that here.
               for (var i = 2; i < size(last1)-1; i += 1) {
                 type = type~" "~last1[i];
               }

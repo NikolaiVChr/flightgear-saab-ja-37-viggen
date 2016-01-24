@@ -63,6 +63,7 @@ var AIM = {
 		m.track_signal_h    = 0; #   this is directly used as input signal for the steering command.
 		m.t_coord           = geo.Coord.new().set_latlon(0, 0, 0);
 		m.last_t_coord      = m.t_coord;
+		m.before_last_t_coord = nil;
 		#m.next_t_coord     = m.t_coord;
 		m.direct_dist_m     = nil;
 		m.speed_m           = 0;
@@ -128,6 +129,8 @@ var AIM = {
 
 		m.ac      = nil;
 		m.coord   = geo.Coord.new().set_latlon(0, 0, 0);
+		m.last_coord = nil;
+		m.before_last_coord = nil;
 		m.s_down  = nil;
 		m.s_east  = nil;
 		m.s_north = nil;
@@ -268,6 +271,7 @@ var AIM = {
 		}
 		me.life_time += dt;
 		# record coords so we can give the latest nearest position for impact.
+		me.before_last_coord = me.last_coord;
 		me.last_coord = me.coord;
 		#print(dt);
 
@@ -583,6 +587,7 @@ var AIM = {
 			me.explode();
 		    return(0);
 		}
+		me.before_last_t_coord = me.last_t_coord;
 		me.last_t_coord = me.t_coord;
 		me.direct_dist_m = cur_dir_dist_m;
 		return(1);
@@ -611,6 +616,17 @@ var AIM = {
 			if (dist < min_distance) {
 				min_distance = dist;
 				explosion_coord = coord;
+			}
+		}
+		if (me.before_last_coord != nil and me.before_last_t_coord != nil) {
+			for (var i = 0.1; i < 1; i += 0.1) {
+				var t_coord = me.interpolate(me.before_last_t_coord, me.last_t_coord, i);
+				var coord = me.interpolate(me.before_last_coord, me.last_coord, i);
+				var dist = coord.direct_distance_to(t_coord);
+				if (dist < min_distance) {
+					min_distance = dist;
+					explosion_coord = coord;
+				}
 			}
 		}
 
