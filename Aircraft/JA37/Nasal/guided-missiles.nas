@@ -271,8 +271,8 @@ var AIM = {
 		}
 		me.life_time += dt;
 		# record coords so we can give the latest nearest position for impact.
-		me.before_last_coord = me.last_coord;
-		me.last_coord = me.coord;
+		me.before_last_coord = geo.Coord.new(me.last_coord);
+		me.last_coord = geo.Coord.new(me.coord);
 		#print(dt);
 
 		#### Calculate speed vector before steering corrections.
@@ -405,19 +405,8 @@ var AIM = {
 				}
 			}
 			var v = me.poximity_detection();
-			####Ground interaction
-            var ground = geo.elevation(me.coord.lat(),me.coord.lon());
-            #print("Ground :",ground);
-            var terrain = 0;
-            if(ground != nil)
-            {
-                if(ground > (alt_ft*FT2M)) {
-                    #print("Ground");
-                    terrain = 1;
-                    me.explode();
-                }
-            }
-			if ( ! v or terrain == 1) {
+			
+			if ( ! v) {
 				#print("exploded");
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = sound_fps;
@@ -587,8 +576,19 @@ var AIM = {
 			me.explode();
 		    return(0);
 		}
-		me.before_last_t_coord = me.last_t_coord;
-		me.last_t_coord = me.t_coord;
+		####Ground interaction
+        var ground = geo.elevation(me.coord.lat(), me.coord.lon());
+        #print("Ground :",ground);
+        if(ground != nil)
+        {
+            if(ground > me.coord.alt()) {
+                #print("Ground");
+                me.explode();
+                return 0;
+            }
+        }
+		me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
+		me.last_t_coord = geo.Coord.new(me.t_coord);
 		me.direct_dist_m = cur_dir_dist_m;
 		return(1);
 	},
@@ -599,16 +599,12 @@ var AIM = {
 		var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
 		var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
 		var t_dist_m  = me.direct_dist_m;
-		# Create impact coords from this previous relative position applied to target current coord.
-		me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
-		me.t_coord.set_alt(new_t_alt_m);		
-		var wh_mass = me.weight_whead_lbs / slugs_to_lbs;
-		#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
-		impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
-
-
+		
 		var min_distance = me.direct_dist_m;
 		var explosion_coord = me.last_coord;
+		#print("min1 "~min_distance);
+		#print("last_t to t    : "~me.last_t_coord.direct_distance_to(me.t_coord));
+		#print("last to current: "~me.last_coord.direct_distance_to(me.coord));
 		for (var i = 0.1; i < 1; i += 0.1) {
 			var t_coord = me.interpolate(me.last_t_coord, me.t_coord, i);
 			var coord = me.interpolate(me.last_coord, me.coord, i);
@@ -618,6 +614,7 @@ var AIM = {
 				explosion_coord = coord;
 			}
 		}
+		#print("min2 "~min_distance);
 		if (me.before_last_coord != nil and me.before_last_t_coord != nil) {
 			for (var i = 0.1; i < 1; i += 0.1) {
 				var t_coord = me.interpolate(me.before_last_t_coord, me.last_t_coord, i);
@@ -629,6 +626,14 @@ var AIM = {
 				}
 			}
 		}
+		#print("min3 "~min_distance);
+
+		# Create impact coords from this previous relative position applied to target current coord.
+		me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
+		me.t_coord.set_alt(new_t_alt_m);		
+		var wh_mass = me.weight_whead_lbs / slugs_to_lbs;
+		#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
+		impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
 
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		if (min_distance < 65) {
