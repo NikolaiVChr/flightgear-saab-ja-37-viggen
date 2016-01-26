@@ -261,6 +261,7 @@ var trigger_listener = func {
     }
   } else {
     setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
+    setprop("/controls/armament/station["~armSelect~"]/trigger-m70", FALSE);
   }
 
   var fired = "KCA";
