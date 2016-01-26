@@ -99,9 +99,9 @@ HUD: In landing mode when horizont is out of view, heading scale does not show c
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
 Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected. [reproduced]
-Sim: When missile hits ground, it 'explodes' close to target anyway.
 Sim: After fire M70, and reload, they will fire again.
 Control: Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
+HUD: When loading air2air from menu while autostarting is in progress, the HUD will switch off for a fraction of a second.
 
 
 Issues with FG: (or my limited understanding of it)

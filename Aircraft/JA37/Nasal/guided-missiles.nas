@@ -1,5 +1,3 @@
-
-
 var AcModel        = props.globals.getNode("sim/ja37");
 var OurHdg         = props.globals.getNode("orientation/heading-deg");
 var OurRoll        = props.globals.getNode("orientation/roll-deg");
@@ -87,6 +85,7 @@ var AIM = {
 		m.min_speed_for_guiding = getprop("sim/ja37/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
 		m.selfdestruct_time     = getprop("sim/ja37/armament/"~m.type_lc~"/self-destruct-time-sec");
 		m.guidance              = getprop("sim/ja37/armament/"~m.type_lc~"/guidance");
+		m.all_aspect            = getprop("sim/ja37/armament/"~m.type_lc~"/all-aspect");
 		m.vol_search            = getprop("sim/ja37/armament/"~m.type_lc~"/vol-search");
 		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
@@ -367,8 +366,10 @@ var AIM = {
                     me.track_signal_h =  me.track_signal_h * MyCoef;
                     myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
                 }
-                pitch_deg += me.track_signal_e;
-                hdg_deg += me.track_signal_h;
+                if (me.all_aspect == 1 or me.rear_aspect() == 1) {
+                	pitch_deg += me.track_signal_e;
+                	hdg_deg += me.track_signal_h;
+                }
 
                 #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
 			}
@@ -427,6 +428,51 @@ var AIM = {
 
 		settimer(func me.update(), update_loop_time, REAL_TIME);
 		
+	},
+
+	# If is heat-seeking rear-aspect-only missile, check if it has good view on engine(s) and can keep lock.
+	rear_aspect: func () {
+		var rearAspect = 0;
+
+		var t_dist_m = me.coord.distance_to(me.t_coord);
+		var alt_delta_m = me.coord.alt() - me.t_coord.alt();
+		var elev_deg =  math.atan2( alt_delta_m, t_dist_m ) * R2D;
+		var elevation_offset = elev_deg - me.Tgt.getNode("orientation/pitch-deg").getValue();
+
+		var course = me.t_coord.course_to(me.coord);
+		var heading_offset = course - me.Tgt.getNode("orientation/true-heading-deg").getValue();
+
+		#
+		while (heading_offset < -180) {
+			heading_offset += 360;
+		}
+		while (heading_offset > 180) {
+			heading_offset -= 360;
+		}
+		while (elevation_offset < -180) {
+			elevation_offset += 360;
+		}
+		while (elevation_offset > 180) {
+			elevation_offset -= 360;
+		}
+		elevation_offset = math.abs(elevation_offset);
+		heading_offset = 180 - math.abs(heading_offset);
+
+		var offset = math.max(elevation_offset, heading_offset);
+
+		if (offset < 45) {
+			# clear view of engine heat, keep the lock
+			rearAspect = 1;
+		} else {
+			# the greater angle away from clear engine view the greater chance of losing lock.
+			var offset_away = offset - 45;
+			var probability = offset_away/135;
+			rearAspect = rand() > probability;
+		}
+
+		print ("RB-24J deviation from full rear-aspect: "~sprintf("%01.1f", offset)~" deg, keep IR lock on engine: "~rearAspect);
+
+		return rearAspect;# 1: keep lock, 0: lose lock
 	},
 
 

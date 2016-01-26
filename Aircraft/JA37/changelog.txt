@@ -1940,3 +1940,7 @@ Sim: Checked manual and RB-71 can no longer be carried on fuselage pylons.
 Sim: Now able to be hit by the modified m2000-5.
 Sim: Adjusted damage from various missiles.
 Sim: Accounted for a case which will happen 50% of the time to also improve accuracy of the missiles.
+Model: {Pinto} Improved the M70 rocket pod design.
+Sim: Fixed wrong assumption in missile code that geo.Coord is immutable.
+Sim: Possible fix for M70 firing by itself after reload.
+Sim: Added support for rear-aspect-only heat seeking missiles. (is off until further notice)

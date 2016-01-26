@@ -654,6 +654,7 @@
                     <!-- RB-24J specs (Swedish version of sidewinder) -->
                     <vol-search type="double">0.03</vol-search>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
+                    <all-aspect type="bool">true</all-aspect><!-- all or rear-only (will set to false when RB-74 is introduced) -->
                     <max-detection-rng-nm type="double">10</max-detection-rng-nm> <!-- Aim-9J/rb-24j range is 7.83nm -->
                     <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
                     <detection-fov-deg type="int">60</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
@@ -663,8 +664,8 @@
                     <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!-- authentic -->
                     <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- authentic -->
                     <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
-                    <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- Aim-9J/rb-24j -->
-                    <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- Aim-9J/rb-24j -->
+                    <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- authentic -->
+                    <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
                     <drag-coeff type="double">0.25</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- authentic -->
@@ -678,7 +679,8 @@
                     <sound-volume type="double">0.0</sound-volume>
                     <!-- RB-71 specs (Swedish version of Sparrow) -->
                     <vol-search type="double">0.00</vol-search>
-                    <guidance type="string">semi-radar</guidance>                       <!-- heat, radar or semi-radar -->
+                    <guidance type="string">semi-radar</guidance>                              <!-- heat, radar or semi-radar -->
+                    <all-aspect type="bool">true</all-aspect>                                   <!-- all or rear-only -->
                     <max-detection-rng-nm type="double">24.3</max-detection-rng-nm>            <!-- Skyflash range is 24.3nm -->
                     <fov-deg type="int">25</fov-deg>                                           <!-- seeker optical FOV -->
                     <detection-fov-deg type="int">140</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
