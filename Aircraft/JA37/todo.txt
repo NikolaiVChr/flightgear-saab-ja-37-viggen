@@ -40,7 +40,7 @@ Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Missiles should lock onto flares.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
-Sim: Complete hydraulic dependencies. Brakes.
+Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convienience.
 Sim: Engine fire. Should maybe be activated by default if too high outlet temperature?
@@ -48,9 +48,13 @@ Sim: Weapons should require electrical power to track, check the manual.
 Sim: Running thrust reverser at very low speed should risk getting hot exhaust getting sucked into engine resulting in fire.
 Sim: Button to jettison all stores including drop-tank.
 Sim: Should drop-tank require masterarm on instead of opposite, seems logical, double check manual.
-Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate.
+Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
-Sim: Add RB-74.
+Sim: Add RB-74 and switch the RB-24J aspect flag to rear aspect.
+Sim: Make radar not able to see through terrain.
+Sim: Make data-link between Viggens.
+Sim: Make anti-cheat system for MP fighting.
+Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
