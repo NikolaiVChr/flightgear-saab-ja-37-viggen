@@ -1944,3 +1944,5 @@ Model: {Pinto} Improved the M70 rocket pod design.
 Sim: Fixed wrong assumption in missile code that geo.Coord is immutable.
 Sim: Possible fix for M70 firing by itself after reload.
 Sim: Added support for rear-aspect-only heat seeking missiles. (is off until further notice)
+Sim: {Pinto} Cannon hits will now have a number attched to defeat the MP spam filter.
+Sim: Guided missiles will no longer overcompensate steering during stage 1 ignition.

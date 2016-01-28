@@ -545,10 +545,10 @@ var AIM = {
 			var h_gain = 1;
 			if ( me.life_time < me.stage_1_duration ) {
 				if (me.curr_tgt_e > me.searcher_beam_width or me.curr_tgt_e < (-1 * me.searcher_beam_width)) {
-					e_gain = 1 + (0.1 * dt);
+					#e_gain = 1 + (0.1 * dt);
 				}
 				if (me.curr_tgt_h > me.searcher_beam_width or me.curr_tgt_h < (-1 * me.searcher_beam_width)) {
-					h_gain = 1 + (0.1 * dt);
+					#h_gain = 1 + (0.1 * dt);
 				}
 				me.init_tgt_e = last_tgt_e;
 				me.init_tgt_h = last_tgt_h;
