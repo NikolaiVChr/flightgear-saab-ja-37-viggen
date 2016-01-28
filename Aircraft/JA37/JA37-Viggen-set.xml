@@ -461,10 +461,10 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Reload air to air (1987)</label>
+                        <label>Reload air to air (1979)</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAir2Air1987();</script>
+                            <script>armament.reloadAir2Air1979();</script>
                         </binding>
                     </item>
                     <item>

@@ -686,7 +686,7 @@ var cycle_weapons = func {
 
 ############ reload #####################
 
-reloadAir2Air1985 = func {
+reloadAir2Air1979 = func {
   # Reload missiles - 4 of them.
 
   # Sidewinder
