@@ -311,6 +311,8 @@ var trigger_listener = func {
 
 var last_impact = 0;
 
+var hit_count = 0;
+
 var impact_listener = func {
   if (radar_logic.selection != nil and (input.elapsed.getValue()-last_impact) > 1) {
     var ballistic_name = input.impact.getValue();
@@ -332,9 +334,10 @@ var impact_listener = func {
         var distance = impactPos.distance_to(selectionPos);
         if (distance < 50) {
           last_impact = input.elapsed.getValue();
-          var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5];
+          var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5] ~ ": " ~ hit_count;
           if (getprop("sim/ja37/armament/msg")) {
             setprop("/sim/multiplay/chat", phrase);
+			hit_count = hit_count + 1;
           } else {
             setprop("/sim/messages/atc", phrase);
           }
