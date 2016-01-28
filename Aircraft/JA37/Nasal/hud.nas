@@ -1713,6 +1713,9 @@ var HUDnasal = {
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 24J") {
         me.qfe.setText("RB-24");
         me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 74") {
+        me.qfe.setText("RB-74");
+        me.qfe.show();
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M70") {
         me.qfe.setText("M70");
         me.qfe.show();
@@ -1779,6 +1782,10 @@ var HUDnasal = {
         me.reticle_cannon.show();
         me.reticle_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 24J") {
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.show();
+      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 74") {
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
@@ -1933,6 +1940,10 @@ var HUDnasal = {
           minDist =  100;
           maxDist = 2500;# as per sources
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
+          # sidewinders
+          minDist =   300;
+          maxDist = 18520;
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 74") {
           # sidewinders
           minDist =   300;
           maxDist = 18520;

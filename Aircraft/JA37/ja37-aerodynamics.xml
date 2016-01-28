@@ -680,6 +680,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[1]</independentVar>
                     <tableData>
                          0       0
+                         179     1
                          188     1
                          200     2
 						 425	 1.2
@@ -705,6 +706,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[2]</independentVar>
                     <tableData>
                          0       0
+                         179     1
                          188     1
                          200     2
 						 425     1.2
@@ -730,6 +732,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[3]</independentVar>
                     <tableData>
                          0       0
+                         179     1
                          188     1
                          200     2
 						 425	 1.2
@@ -755,6 +758,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[4]</independentVar>
                     <tableData>
                          0       0
+                         179     1
                          188     1
                          200     2
 						 425	 1.2
@@ -780,6 +784,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[5]</independentVar>
                     <tableData>
                          0       0
+                         179     1
                          188     1
                     </tableData>
                 </table>
@@ -803,6 +808,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[6]</independentVar>
                     <tableData>
                          0       0
+                         179     1
                          188     1
                     </tableData>
                 </table>

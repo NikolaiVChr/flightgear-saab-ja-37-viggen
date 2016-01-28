@@ -454,10 +454,17 @@
                         </binding>
                     </item>
                     <item>
-                        <label>Reload air to air</label>
+                        <label>Reload air to air (1985)</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAir2Air();</script>
+                            <script>armament.reloadAir2Air1985();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Reload air to air (1987)</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>armament.reloadAir2Air1987();</script>
                         </binding>
                     </item>
                     <item>
@@ -654,17 +661,17 @@
                     <!-- RB-24J specs (Swedish version of sidewinder) -->
                     <vol-search type="double">0.03</vol-search>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
-                    <all-aspect type="bool">true</all-aspect><!-- all or rear-only (will set to false when RB-74 is introduced) -->
+                    <all-aspect type="bool">false</all-aspect><!-- all or rear-only (will set to false when RB-74 is introduced) -->
                     <max-detection-rng-nm type="double">10</max-detection-rng-nm> <!-- Aim-9J/rb-24j range is 7.83nm -->
                     <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
                     <detection-fov-deg type="int">60</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
                     <track-max-deg type="int">110</track-max-deg>                 <!-- Seeker max total angular rotation -->
-                    <max-g type="int">39</max-g>                                  <!-- guestimate -->
+                    <max-g type="int">22</max-g>                                  <!-- source say so -->
                     <thrust-lbs-stage-1 type="double">382.175</thrust-lbs-stage-1><!-- authentic -->
                     <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!-- authentic -->
                     <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- authentic -->
                     <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
-                    <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- authentic -->
+                    <weight-launch-lbs type="double">179</weight-launch-lbs>      <!-- authentic -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
                     <drag-coeff type="double">0.25</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
@@ -673,6 +680,31 @@
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
                 </rb-24j>
+                <rb-74>
+                    <sound-on-off type="bool">false</sound-on-off>
+                    <sound-volume type="double">0.0</sound-volume>
+                    <!-- RB-74 specs (Swedish version of aim-9L sidewinder) -->
+                    <vol-search type="double">0.03</vol-search>
+                    <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
+                    <all-aspect type="bool">true</all-aspect><!-- all or rear-only (will set to false when RB-74 is introduced) -->
+                    <max-detection-rng-nm type="double">10</max-detection-rng-nm> <!-- Aim-9J/rb-24j range is 7.83nm -->
+                    <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
+                    <detection-fov-deg type="int">60</detection-fov-deg><!--deprecated: Search pattern diameter (rosette scan)-->
+                    <track-max-deg type="int">110</track-max-deg>                 <!-- Seeker max total angular rotation -->
+                    <max-g type="int">39</max-g>                                  <!-- guestimate -->
+                    <thrust-lbs-stage-1 type="double">400</thrust-lbs-stage-1>    <!-- guess -->
+                    <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!-- authentic -->
+                    <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
+                    <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
+                    <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- authentic -->
+                    <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
+                    <drag-coeff type="double">0.25</drag-coeff>                   <!-- guesstimate -->
+                    <drag-area type="double">0.043</drag-area>                    <!-- sq ft -->
+                    <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- guess -->
+                    <arming-time-sec type="double">1.4</arming-time-sec>          <!-- guess -->
+                    <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- guess -->
+                    <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- guess -->
+                </rb-74>
                 <rb-71>
 					<!-- info taken largely from AIM-7 data from Richard's excellent F-15 model -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -1101,6 +1133,10 @@
             </opt>
             <opt>
                 <name>RB 24J</name>
+                <lbs>179</lbs>
+            </opt>
+            <opt>
+                <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
@@ -1122,6 +1158,10 @@
             </opt>
             <opt>
                 <name>RB 24J</name>
+                <lbs>179</lbs>
+            </opt>
+            <opt>
+                <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
@@ -1143,6 +1183,10 @@
             </opt>
             <opt>
                 <name>RB 24J</name>
+                <lbs>179</lbs>
+            </opt>
+            <opt>
+                <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
@@ -1164,6 +1208,10 @@
             </opt>
             <opt>
                 <name>RB 24J</name>
+                <lbs>179</lbs>
+            </opt>
+            <opt>
+                <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
@@ -1185,6 +1233,10 @@
             </opt>
             <opt>
                 <name>RB 24J</name>
+                <lbs>179</lbs>
+            </opt>
+            <opt>
+                <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
         </weight>
@@ -1198,6 +1250,10 @@
             </opt>
             <opt>
                 <name>RB 24J</name>
+                <lbs>179</lbs>
+            </opt>
+            <opt>
+                <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
         </weight>

@@ -50,7 +50,6 @@ Sim: Button to jettison all stores including drop-tank.
 Sim: Should drop-tank require masterarm on instead of opposite, seems logical, double check manual.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
-Sim: Add RB-74 and switch the RB-24J aspect flag to rear aspect.
 Sim: Make radar not able to see through terrain.
 Sim: Make data-link between Viggens.
 Sim: Make anti-cheat system for MP fighting.

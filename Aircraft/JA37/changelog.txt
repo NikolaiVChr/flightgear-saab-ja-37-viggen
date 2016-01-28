@@ -1946,3 +1946,4 @@ Sim: Possible fix for M70 firing by itself after reload.
 Sim: Added support for rear-aspect-only heat seeking missiles. (is off until further notice)
 Sim: {Pinto} Cannon hits will now have a number attched to defeat the MP spam filter.
 Sim: Guided missiles will no longer overcompensate steering during stage 1 ignition.
+Sim: Added RB-74 sidewinder missiles and switched the RB-24J aspect flag to rear aspect.
