@@ -1947,4 +1947,4 @@ Sim: Added support for rear-aspect-only heat seeking missiles. (is off until fur
 Sim: {Pinto} Cannon hits will now have a number attched to defeat the MP spam filter.
 Sim: Guided missiles will no longer overcompensate steering during stage 1 ignition.
 Sim: Added RB-74 sidewinder missiles and switched the RB-24J aspect flag to rear aspect.
-Aero: Fixed that elevators had authority at very high alphas.
+Aero: Made aileron and elevator have no authority at very high beta and alpha angles.
