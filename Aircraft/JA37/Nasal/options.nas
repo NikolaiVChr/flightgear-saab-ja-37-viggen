@@ -383,6 +383,20 @@ var Dialog = {
           me.dialog.realRadarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           me.dialog.realRadarButton.setBinding("nasal", "ja37.Dialog.realRadarToggle()");
 
+          ######   doppler radar button   #####
+          var dopplerRow = topRow.addChild("group");
+          dopplerRow.set("layout", "hbox");
+          dopplerRow.set("pref-height", 25);
+          dopplerRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #dopplerRow.set("valign", "center");
+          
+          var dopplerText = dopplerRow.addChild("text").set("label", "Use real pulse doppler radar for MP planes:");
+          dopplerRow.addChild("empty").set("stretch", 1);
+          me.dialog.dopplerButton = dopplerRow.addChild("button");
+          me.dialog.dopplerButton.set("halign", "right");
+          me.dialog.dopplerButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.dopplerButton.setBinding("nasal", "ja37.Dialog.dopplerToggle()");
+
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
           rb24msgRow.set("layout", "hbox");
@@ -619,6 +633,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    dopplerToggle: func {
+      var enabled = getprop("sim/ja37/radar/doppler-enabled");
+      setprop("sim/ja37/radar/doppler-enabled", !enabled);
+      me.refreshButtons();
+    },
+
     rb24msgToggle: func {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
@@ -818,6 +838,14 @@ var Dialog = {
         legend = "Enabled";
       }
       me.dialog.realRadarButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/radar/doppler-enabled");
+      if(enabled == 1) {
+        legend = "Enabled";
+      } else {
+        legend = "Disabled";
+      }
+      me.dialog.dopplerButton.node.setValues({"legend": legend});      
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {

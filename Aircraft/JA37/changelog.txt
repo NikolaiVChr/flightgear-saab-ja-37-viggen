@@ -1949,3 +1949,5 @@ Sim: Guided missiles will no longer overcompensate steering during stage 1 ignit
 Sim: Added RB-74 sidewinder missiles and switched the RB-24J aspect flag to rear aspect.
 Aero: Made aileron and elevator have no authority at very high beta and alpha angles.
 Sim: Radar can no longer look through terrain when looking at MP planes. (if enabled in options)
+Sim: Radar will now also track own RB-74 missiles.
+Sim: There is now an option to enable pulse doppler radar functionality for MP planes.

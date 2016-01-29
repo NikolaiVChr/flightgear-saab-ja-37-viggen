@@ -57,6 +57,7 @@ var findRadarTracks = func () {
     var vehicles = node_ai.getChildren("groundvehicle");
     var rb24 = node_ai.getChildren("rb-24j");
 	  var rb71 = node_ai.getChildren("rb-71");
+    var rb74 = node_ai.getChildren("rb-74");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
       paint(selection[6], FALSE);
@@ -70,6 +71,7 @@ var findRadarTracks = func () {
     processTracks(vehicles, FALSE);
     processTracks(rb24, FALSE, TRUE);
 	  processTracks(rb71, FALSE, TRUE);
+    processTracks(rb74, FALSE, TRUE);
     processCallsigns(players);
   } else {
     # Do not supply target info to the missiles if radar is off.
@@ -266,7 +268,10 @@ var trackItemCalc = func (track, range, carrier, mp) {
   var y = track.getNode("position/global-y").getValue();
   var z = track.getNode("position/global-z").getValue();
   var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-  return trackCalc(aircraftPos, range, carrier, mp);
+  if (mp == FALSE or doppler(aircraftPos, track) == TRUE) {
+    return trackCalc(aircraftPos, range, carrier, mp);
+  }
+  return nil;
 }
 
 var trackMissileCalc = func (track, range, carrier, mp) {
@@ -350,7 +355,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp) {
 }
 
 #
-# This method is from Mirage 2000-5
+# The following 3 methods is from Mirage 2000-5
 #
 var isNotBehindTerrain = func(SelectCoord) {
     var isVisible = 0;
@@ -443,6 +448,125 @@ var isNotBehindTerrain = func(SelectCoord) {
         isVisible = 1;
     }
     return isVisible;
+}
+
+# will return true if absolute closure speed of target is greater than 50kt
+#
+var doppler = func(t_coord, t_node) {
+    # Test to check if the target can hide below us
+    # Or Hide using anti doppler movements
+
+    if (getprop("sim/ja37/radar/doppler-enabled") == FALSE) {
+      return TRUE;
+    }
+
+    var DopplerSpeedLimit = getprop("sim/ja37/radar/min-doppler-speed-kt");
+    var InDoppler = 0;
+    var groundNotbehind = isGroundNotBehind(t_coord, t_node);
+
+    if(groundNotbehind)
+    {
+        InDoppler = 1;
+    } elsif(abs(get_closure_rate_from_Coord(t_coord, t_node)) > DopplerSpeedLimit)
+    {
+        InDoppler = 1;
+    }
+    return InDoppler;
+}
+
+var isGroundNotBehind = func(t_coord, t_node){
+    var myPitch = get_Elevation_from_Coord(t_coord);
+    var GroundNotBehind = 1; # sky is behind the target (this don't work on a valley)
+    if(myPitch < 0)
+    {
+        # the aircraft is below us, the ground could be below
+        # Based on earth curve. Do not work with mountains
+        # The script will calculate what is the ground distance for the line (us-target) to reach the ground,
+        # If the earth was flat. Then the script will compare this distance to the horizon distance
+        # If our distance is greater than horizon, then sky behind
+        # If not, we cannot see the target unless we have a doppler radar
+        var distHorizon = geo.aircraft_position().alt() / math.tan(abs(myPitch * D2R)) * M2NM;
+        var horizon = get_horizon( geo.aircraft_position().alt() *M2FT, t_node);
+        var TempBool = (distHorizon > horizon);
+        GroundNotBehind = (distHorizon > horizon);
+    }
+    return GroundNotBehind;
+}
+
+var get_Elevation_from_Coord = func(t_coord) {
+    var myPitch = math.asin((t_coord.alt() - geo.aircraft_position().alt()) / t_coord.direct_distance_to(geo.aircraft_position())) * R2D;
+    return myPitch;
+}
+
+var get_horizon = func(own_alt, t_node){
+    var tgt_alt = t_node.getNode("position/altitude-ft").getValue();
+    if(debug.isnan(tgt_alt))
+    {
+        return(0);
+    }
+    if(tgt_alt < 0 or tgt_alt == nil)
+    {
+        tgt_alt = 0;
+    }
+    if(own_alt < 0 or own_alt == nil)
+    {
+        own_alt = 0;
+    }
+    # Return the Horizon in NM
+    return (2.2 * ( math.sqrt(own_alt * FT2M) + math.sqrt(tgt_alt * FT2M)));# don't understand the 2.2 conversion to NM here..
+}
+
+var get_closure_rate_from_Coord = func(t_coord, t_node) {
+    var MyAircraftCoord = geo.aircraft_position();
+
+    # First step : find the target heading.
+    var myHeading = t_node.getNode("orientation/true-heading-deg").getValue();
+    
+    # Second What would be the aircraft heading to go to us
+    var myCoord = t_coord;
+    var projectionHeading = myCoord.course_to(MyAircraftCoord);
+    
+    # Calculate the angle difference
+    var myAngle = myHeading - projectionHeading; #Should work even with negative values
+    
+    # take the "ground speed"
+    # velocities/true-air-speed-kt
+    var mySpeed = t_node.getNode("velocities/true-airspeed-kt").getValue();
+    var myProjetedHorizontalSpeed = mySpeed*math.cos(myAngle*D2R); #in KTS
+    
+    #print("Projetted Horizontal Speed:"~ myProjetedHorizontalSpeed);
+    
+    # Now getting the pitch deviation
+    var myPitchToAircraft = - t_node.getNode("radar/elevation-deg").getValue();
+    #print("My pitch to Aircraft:"~myPitchToAircraft);
+    
+    # Get V speed
+    if(t_node.getNode("velocities/vertical-speed-fps").getValue() == nil)
+    {
+        return 0;
+    }
+    var myVspeed = t_node.getNode("velocities/vertical-speed-fps").getValue()*FPS2KT;
+    # This speed is absolutely vertical. So need to remove pi/2
+    
+    var myProjetedVerticalSpeed = myVspeed * math.cos(myPitchToAircraft-90*D2R);
+    
+    # Control Print
+    #print("myVspeed = " ~myVspeed);
+    #print("Total Closure Rate:" ~ (myProjetedHorizontalSpeed+myProjetedVerticalSpeed));
+    
+    # Total Calculation
+    var cr = myProjetedHorizontalSpeed+myProjetedVerticalSpeed;
+    
+    # Setting Essential properties
+    #var rng = me. get_range_from_Coord(MyAircraftCoord);
+    #var newTime= ElapsedSec.getValue();
+    #if(me.get_Validity())
+    #{
+    #    setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-last-range-nm", rng);
+    #    setprop(me.InstrString ~ "/" ~ me.shortstring ~ "/closure-rate-kts", cr);
+    #}
+    
+    return cr;
 }
 
 var nextTarget = func () {

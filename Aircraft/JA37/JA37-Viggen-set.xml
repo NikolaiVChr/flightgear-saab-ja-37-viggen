@@ -589,6 +589,8 @@
                 <selected type="int">-1</selected>
                 <enabled userarchive="y" type="bool">true</enabled>
                 <look-through-terrain type="bool">true</look-through-terrain>
+                <doppler-enabled type="bool">false</doppler-enabled>
+                <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
             </radar>
             <effect>
                 <landing-light type="double">0</landing-light>
