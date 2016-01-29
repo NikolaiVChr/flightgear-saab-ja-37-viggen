@@ -63,7 +63,7 @@ var findRadarTracks = func () {
       selection = nil;
     }
 
-    processTracks(players, FALSE, TRUE);    
+    processTracks(players, FALSE, FALSE, TRUE);    
     processTracks(tankers, FALSE);
     processTracks(ships, FALSE);
     processTracks(AIplanes, FALSE);

@@ -1499,6 +1499,23 @@
                 <property>sim/ja37/armament/rb-24j/sound-volume</property>
             </volume>
         </rb24-signal>
+
+        <rb74-signal>
+            <name>rb74-signal</name>
+            <mode>looped</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <condition>
+                <property>sim/ja37/armament/rb-74/sound-on-off</property>
+                <equals>
+                    <property>sim/ja37/hud/current-mode</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <volume>
+                <property>sim/ja37/armament/rb-74/sound-volume</property>
+            </volume>
+        </rb74-signal>
 		
         <rb71-signal>
             <name>rb71-signal</name>
