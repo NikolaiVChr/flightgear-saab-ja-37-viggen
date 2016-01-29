@@ -355,8 +355,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp) {
 var isNotBehindTerrain = func(SelectCoord) {
     var isVisible = 0;
     var MyCoord = geo.aircraft_position();
-    # As the script is relatively ressource consuming, then, we do a maximum of test before doing it
-
+    
     # Because there is no terrain on earth that can be between these 2
     if(MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and getprop("sim/ja37/radar/look-through-terrain") == FALSE)
     {

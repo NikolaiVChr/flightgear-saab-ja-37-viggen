@@ -213,7 +213,7 @@ var AIM = {
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
 		#print("roll "~ac_roll~" on "~me.rollN.getPath());
-		me.coord.set_latlon(alat, alon, aalt * FT2M); # was (alat, alon, me.ac.alt())
+		me.coord.set_latlon(alat, alon, aalt * FT2M);
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
 		me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
