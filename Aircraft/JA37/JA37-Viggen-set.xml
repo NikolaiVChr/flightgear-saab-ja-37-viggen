@@ -588,6 +588,7 @@
                 <selectedMP type="int">-1</selectedMP>
                 <selected type="int">-1</selected>
                 <enabled userarchive="y" type="bool">true</enabled>
+                <look-through-terrain type="bool">false</look-through-terrain>
             </radar>
             <effect>
                 <landing-light type="double">0</landing-light>

@@ -369,6 +369,20 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.annunButton.setBinding("nasal", "ja37.Dialog.annunToggle()");
 
+          ######   terrain can hide radar tracks button   #####
+          var realRadarRow = topRow.addChild("group");
+          realRadarRow.set("layout", "hbox");
+          realRadarRow.set("pref-height", 25);
+          realRadarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #rb24msgRow.set("valign", "center");
+          
+          var realRadarText = realRadarRow.addChild("text").set("label", "MP planes can hide for radar behind terrain:");
+          realRadarRow.addChild("empty").set("stretch", 1);
+          me.dialog.realRadarButton = realRadarRow.addChild("button");
+          me.dialog.realRadarButton.set("halign", "right");
+          me.dialog.realRadarButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.realRadarButton.setBinding("nasal", "ja37.Dialog.realRadarToggle()");
+
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
           rb24msgRow.set("layout", "hbox");
@@ -599,6 +613,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    realRadarToggle: func {
+      var enabled = getprop("sim/ja37/radar/look-through-terrain");
+      setprop("sim/ja37/radar/look-through-terrain", !enabled);
+      me.refreshButtons();
+    },
+
     rb24msgToggle: func {
       var enabled = getprop("sim/ja37/armament/msg");
       setprop("sim/ja37/armament/msg", !enabled);
@@ -790,6 +810,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.annunButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/radar/look-through-terrain");
+      if(enabled == 1) {
+        legend = "Disabled";
+      } else {
+        legend = "Enabled";
+      }
+      me.dialog.realRadarButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/armament/msg");
       if(enabled == 1) {

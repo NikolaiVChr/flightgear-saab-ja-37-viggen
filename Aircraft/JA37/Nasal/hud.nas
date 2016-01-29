@@ -2024,7 +2024,7 @@ var HUDnasal = {
       towerPos.set_latlon(towerLat, towerLon, towerAlt);
       var showme = TRUE;
 
-      var hud_pos = radar_logic.trackCalc(towerPos, 99000, FALSE);
+      var hud_pos = radar_logic.trackCalc(towerPos, 99000, FALSE, FALSE);
       if(hud_pos != nil) {
         var distance = hud_pos[2];
         var pos_x = hud_pos[0];

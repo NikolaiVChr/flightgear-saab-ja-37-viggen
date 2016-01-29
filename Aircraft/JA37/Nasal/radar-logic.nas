@@ -63,7 +63,7 @@ var findRadarTracks = func () {
       selection = nil;
     }
 
-    processTracks(players, FALSE);    
+    processTracks(players, FALSE, TRUE);    
     processTracks(tankers, FALSE);
     processTracks(ships, FALSE);
     processTracks(AIplanes, FALSE);
@@ -93,16 +93,16 @@ var processCallsigns = func (players) {
 }
 
 
-var processTracks = func (vector, carrier, missile = FALSE) {
+var processTracks = func (vector, carrier, missile = FALSE, mp = FALSE) {
   var carrierNear = FALSE;
   foreach (var track; vector) {
     if(track != nil and track.getChild("valid") != nil and track.getChild("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
       var trackInfo = nil;
       
       if(missile == FALSE) {
-        trackInfo = trackItemCalc(track, radarRange, carrier);
+        trackInfo = trackItemCalc(track, radarRange, carrier, mp);
       } else {
-        trackInfo = trackMissileCalc(track, radarRange, carrier);
+        trackInfo = trackMissileCalc(track, radarRange, carrier, mp);
       }
       if(trackInfo != nil) {
         var distance = trackInfo[2];
@@ -261,15 +261,15 @@ var remove_suffix = func(s, x) {
 # 6 - node
 # 7 - not targetable
 
-var trackItemCalc = func (track, range, carrier) {
+var trackItemCalc = func (track, range, carrier, mp) {
   var x = track.getNode("position/global-x").getValue();
   var y = track.getNode("position/global-y").getValue();
   var z = track.getNode("position/global-z").getValue();
   var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-  return trackCalc(aircraftPos, range, carrier);
+  return trackCalc(aircraftPos, range, carrier, mp);
 }
 
-var trackMissileCalc = func (track, range, carrier) {
+var trackMissileCalc = func (track, range, carrier, mp) {
   var alt = track.getNode("position/altitude-ft").getValue();
   var lat = track.getNode("position/latitude-deg").getValue();
   var lon = track.getNode("position/longitude-deg").getValue();
@@ -277,10 +277,10 @@ var trackMissileCalc = func (track, range, carrier) {
     return nil;
   }
   var aircraftPos = geo.Coord.new().set_latlon(lat, lon, alt*feet2meter);
-  return trackCalc(aircraftPos, range, carrier);
+  return trackCalc(aircraftPos, range, carrier, mp);
 }
 
-var trackCalc = func (aircraftPos, range, carrier) {
+var trackCalc = func (aircraftPos, range, carrier, mp) {
   var distance = nil;
   var distanceDirect = nil;
   
@@ -334,11 +334,10 @@ var trackCalc = func (aircraftPos, range, carrier) {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    if(ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1) {
+    if(ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1 and (mp == FALSE or isNotBehindTerrain(aircraftPos) == TRUE)) {
       #is within the radar cone
 
       var distanceRadar = distance/math.cos(myPitch);
-
       var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
       var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
       return [hud_pos_x, hud_pos_y, distanceDirect, distanceRadar, xa_rad];
@@ -348,6 +347,103 @@ var trackCalc = func (aircraftPos, range, carrier) {
     }
   }
   return nil;
+}
+
+#
+# This method is from Mirage 2000-5
+#
+var isNotBehindTerrain = func(SelectCoord) {
+    var isVisible = 0;
+    var MyCoord = geo.aircraft_position();
+    # As the script is relatively ressource consuming, then, we do a maximum of test before doing it
+
+    # Because there is no terrain on earth that can be between these 2
+    if(MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and getprop("sim/ja37/radar/look-through-terrain") == FALSE)
+    {
+        # Temporary variable
+        # A (our plane) coord in meters
+        var a = MyCoord.x();
+        var b = MyCoord.y();
+        var c = MyCoord.z();
+        # B (target) coord in meters
+        var d = SelectCoord.x();
+        var e = SelectCoord.y();
+        var f = SelectCoord.z();
+        var x = 0;
+        var y = 0;
+        var z = 0;
+        var RecalculatedL = 0;
+        var difa = d - a;
+        var difb = e - b;
+        var difc = f - c;
+        # direct Distance in meters
+        var myDistance = SelectCoord.direct_distance_to(MyCoord);
+        var Aprime = geo.Coord.new();
+        
+        # Here is to limit FPS drop on very long distance
+        var L = 1000;
+        if(myDistance > 50000)
+        {
+            L = myDistance / 15;
+        }
+        var step = L;
+        var maxLoops = int(myDistance / L);
+        
+        isVisible = 1;
+        # This loop will make travel a point between us and the target and check if there is terrain
+        for(var i = 0 ; i < maxLoops ; i += 1)
+        {
+            L = i * step;
+            var K = (L * L) / (1 + (-1 / difa) * (-1 / difa) * (difb * difb + difc * difc));
+            var DELTA = (-2 * a) * (-2 * a) - 4 * (a * a - K);
+            
+            if(DELTA >= 0)
+            {
+                # So 2 solutions or 0 (1 if DELTA = 0 but that 's just 2 solution in 1)
+                var x1 = (-(-2 * a) + math.sqrt(DELTA)) / 2;
+                var x2 = (-(-2 * a) - math.sqrt(DELTA)) / 2;
+                # So 2 y points here
+                var y1 = b + (x1 - a) * (difb) / (difa);
+                var y2 = b + (x2 - a) * (difb) / (difa);
+                # So 2 z points here
+                var z1 = c + (x1 - a) * (difc) / (difa);
+                var z2 = c + (x2 - a) * (difc) / (difa);
+                # Creation Of 2 points
+                var Aprime1  = geo.Coord.new();
+                Aprime1.set_xyz(x1, y1, z1);
+                
+                var Aprime2  = geo.Coord.new();
+                Aprime2.set_xyz(x2, y2, z2);
+                
+                # Here is where we choose the good
+                if(math.round((myDistance - L), 2) == math.round(Aprime1.direct_distance_to(SelectCoord), 2))
+                {
+                    Aprime.set_xyz(x1, y1, z1);
+                }
+                else
+                {
+                    Aprime.set_xyz(x2, y2, z2);
+                }
+                var AprimeLat = Aprime.lat();
+                var Aprimelon = Aprime.lon();
+                var AprimeTerrainAlt = geo.elevation(AprimeLat, Aprimelon);
+                if(AprimeTerrainAlt == nil)
+                {
+                    AprimeTerrainAlt = 0;
+                }
+                
+                if(AprimeTerrainAlt > Aprime.alt())
+                {
+                    isVisible = 0;
+                }
+            }
+        }
+    }
+    else
+    {
+        isVisible = 1;
+    }
+    return isVisible;
 }
 
 var nextTarget = func () {

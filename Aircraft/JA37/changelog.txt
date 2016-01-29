@@ -1948,3 +1948,4 @@ Sim: {Pinto} Cannon hits will now have a number attched to defeat the MP spam fi
 Sim: Guided missiles will no longer overcompensate steering during stage 1 ignition.
 Sim: Added RB-74 sidewinder missiles and switched the RB-24J aspect flag to rear aspect.
 Aero: Made aileron and elevator have no authority at very high beta and alpha angles.
+Sim: Radar can no longer look through terrain when looking at MP planes. (if enabled in options)
