@@ -50,7 +50,6 @@ Sim: Button to jettison all stores including drop-tank.
 Sim: Should drop-tank require masterarm on instead of opposite, seems logical, double check manual.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
-Sim: Make radar not able to see through terrain.
 Sim: Make data-link between Viggens.
 Sim: Make anti-cheat system for MP fighting.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
@@ -102,9 +101,10 @@ HUD: In landing mode when horizont is out of view, heading scale does not show c
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
 Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected. [reproduced]
-Sim: After fire M70, and reload, they will fire again.
+Sim: After fire M70, and reload, they will fire again. [might be fixed]
 Control: Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
 HUD: When loading air2air from menu while autostarting is in progress, the HUD will switch off for a fraction of a second.
+HUD: In tactical mode the selection diamond/half-box would sometimes not be painted.
 
 
 Issues with FG: (or my limited understanding of it)

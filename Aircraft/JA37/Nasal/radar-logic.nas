@@ -355,7 +355,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp) {
 }
 
 #
-# The following 3 methods is from Mirage 2000-5
+# The following 6 methods is from Mirage 2000-5
 #
 var isNotBehindTerrain = func(SelectCoord) {
     var isVisible = 0;

@@ -1942,11 +1942,11 @@ var HUDnasal = {
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
           # sidewinders
           minDist =   300;
-          maxDist = 18520;
+          maxDist = 14500;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 74") {
           # sidewinders
           minDist =   300;
-          maxDist = 18520;
+          maxDist = 17964.4;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
           # skyflash
           minDist =   300;
