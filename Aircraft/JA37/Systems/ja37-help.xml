@@ -18,8 +18,8 @@
         <desc>Toggle thrust reverser</desc>
     </key>
     <key>
-        <name>Ctrl-f</name>
-        <desc>Hold down to trigger flare release</desc>
+        <name>z</name>
+        <desc>Trigger flare release</desc>
     </key>
     <key>
         <name>e</name>

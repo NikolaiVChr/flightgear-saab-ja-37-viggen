@@ -137,6 +137,8 @@ var AIM = {
 		m.pitch   = nil;
 		m.hdg     = nil;
 
+		m.lastFlare = 0;
+
 		m.SwSoundOnOff.setValue(1);
 
 		settimer(func { m.SwSoundVol.setValue(m.vol_search); me.trackWeak = 1; m.search() }, 1);
@@ -392,7 +394,7 @@ var AIM = {
 		me.ai.getNode("radar/bearing-deg", 1).setValue(self.course_to(me.coord));
 		var angleInv = me.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
 		me.ai.getNode("radar/elevation-deg", 1).setValue((self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D);
-		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(speed_fps*0.5924838);
+		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(speed_fps * FPS2KT);
 
 		#### Proximity detection.
 		if ( me.status == 2 ) {
@@ -403,6 +405,30 @@ var AIM = {
 					#print("lost lock "~g~"G");
 					# Target unreachable, fly free.
 					me.free = 1;
+				}
+				if (me.guidance == "heat") {
+					var flareNode = me.Tgt.getNode("sim/multiplay/generic/string[10]");
+					if (flareNode != nil) {
+						var flareString = flareNode.getValue();
+						var flareVector = split(":", flareString);
+						if (flareVector != nil and size(flareVector) == 2 and flareVector[1] == "flare") {
+							var flareNumber = num(flareVector[0]);
+							if (flareNumber != nil and flareNumber != me.lastFlare) {
+								# target has released a new flare, lets check if it fools us
+								me.lastFlare = flareNumber;
+								var aspect = me.aspect() / 180;
+								var fooled = rand() < (0.2 + 0.1 * aspect);
+								# 20% chance to be fooled, extra up till 10% chance added if front aspect
+								if (fooled) {
+									# fooled by the flare
+									print("Fooled by flare");
+									me.free = 1;
+								} else {
+									print("Flare ignored");
+								}
+							}
+						}
+					}
 				}
 			}
 			var v = me.poximity_detection();
@@ -432,6 +458,25 @@ var AIM = {
 
 	# If is heat-seeking rear-aspect-only missile, check if it has good view on engine(s) and can keep lock.
 	rear_aspect: func () {
+
+		var offset = me.aspect();
+
+		if (offset < 45) {
+			# clear view of engine heat, keep the lock
+			rearAspect = 1;
+		} else {
+			# the greater angle away from clear engine view the greater chance of losing lock.
+			var offset_away = offset - 45;
+			var probability = offset_away/135;
+			rearAspect = rand() > probability;
+		}
+
+		print ("RB-24J deviation from full rear-aspect: "~sprintf("%01.1f", offset)~" deg, keep IR lock on engine: "~rearAspect);
+
+		return rearAspect;# 1: keep lock, 0: lose lock
+	},
+
+	aspect: func () {
 		var rearAspect = 0;
 
 		var t_dist_m = me.coord.distance_to(me.t_coord);
@@ -460,19 +505,7 @@ var AIM = {
 
 		var offset = math.max(elevation_offset, heading_offset);
 
-		if (offset < 45) {
-			# clear view of engine heat, keep the lock
-			rearAspect = 1;
-		} else {
-			# the greater angle away from clear engine view the greater chance of losing lock.
-			var offset_away = offset - 45;
-			var probability = offset_away/135;
-			rearAspect = rand() > probability;
-		}
-
-		print ("RB-24J deviation from full rear-aspect: "~sprintf("%01.1f", offset)~" deg, keep IR lock on engine: "~rearAspect);
-
-		return rearAspect;# 1: keep lock, 0: lose lock
+		return offset;		
 	},
 
 

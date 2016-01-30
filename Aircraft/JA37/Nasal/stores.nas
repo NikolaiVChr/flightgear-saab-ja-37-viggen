@@ -246,9 +246,12 @@ var loop_stores = func {
     flareStart = input.elapsed.getValue();
     setprop("ai/submodels/submodel[0]/flare-release-cmd", FALSE);
     if (flareCount > 0) {
+      # release a flare
       setprop("ai/submodels/submodel[0]/flare-release-snd", TRUE);
       setprop("ai/submodels/submodel[0]/flare-release", TRUE);
+      setprop("sim/multiplay/generic/string[10]", flareStart~":flare");
     } else {
+      # play the sound for out of flares
       setprop("ai/submodels/submodel[0]/flare-release-out-snd", TRUE);
     }
   }
@@ -259,6 +262,7 @@ var loop_stores = func {
     setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
   }
   if (flareCount > getprop("ai/submodels/submodel[0]/count")) {
+    # A flare was released in last loop, we stop releasing flares, so user have to press button again to release new.
     setprop("ai/submodels/submodel[0]/flare-release", FALSE);
     flareCount = -1;
   }

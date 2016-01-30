@@ -181,8 +181,8 @@
                 </binding>
             </mod-up>
         </key>
-        <key n="6">
-            <name>Ctrl-F</name>
+        <key n="122">
+            <name>z</name>
             <desc>Trigger flare release</desc>
             <binding>
                 <command>property-toggle</command>
