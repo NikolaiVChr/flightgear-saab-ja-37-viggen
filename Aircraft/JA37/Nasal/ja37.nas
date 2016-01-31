@@ -545,6 +545,9 @@ var slow_loop = func () {
   var frostNormOutside = getprop("/environment/aircraft-effects/frost-outside");
   var frostNormInside = getprop("/environment/aircraft-effects/frost-inside");
   var rain = getprop("/environment/rain-norm");
+  if (rain == nil) {
+    rain = 0;
+  }
   var frostSpeedInside = clamp(-tempGlass, -60, 60)/600 + (tempGlass<0?fogNormInside/50:0);
   var frostSpeedOutside = clamp(-tempGlass, -60, 60)/600 + (tempGlass<0?(fogNormOutside/50 + rain/50):0);
   frostNormOutside = clamp(frostNormOutside + frostSpeedOutside, 0, 1);
