@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 
-<PropertyList include="ja37-bombable.xml">
+<PropertyList><!-- include="ja37-bombable.xml">       -->
 
   <path>ja37.ac</path>
 
   <!-- Multiplay sound -->
-  <sound>
+  <!--<sound>
     <path>Aircraft/JA37/Systems/ja37-mp-sound.xml</path>
-  </sound>
+  </sound>-->
 
 
   <!--        Interior    -->

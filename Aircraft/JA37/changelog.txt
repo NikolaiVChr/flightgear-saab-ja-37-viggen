@@ -1951,3 +1951,7 @@ Aero: Made aileron and elevator have no authority at very high beta and alpha an
 Sim: Radar can no longer look through terrain when looking at MP planes. (if enabled in options)
 Sim: Radar will now also track own RB-74 missiles.
 Sim: There is now an option to enable pulse doppler radar functionality for MP planes.
+Made the sidewinders less effective but more in line with what sources say.
+Sim: Flares are now released with 'z' key instead of CTRL-f.
+Sim: Sidewinders can now be fooled by flares from another JA37. (experimental)
+Model: Removed MP sound and Bombable support in order to reduce load lag of the MP Viggen.
