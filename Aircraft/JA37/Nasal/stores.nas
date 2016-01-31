@@ -257,6 +257,7 @@ var loop_stores = func {
   }
   if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
     setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
+    setprop("sim/multiplay/generic/string[10]", "0:noflare");
   }
   if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
     setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
