@@ -592,6 +592,11 @@ var AIM = {
 				# or if its semi-radar guided and the target is no longer painted
 				e_gain = 0;
 				h_gain = 0;
+			} elsif (me.curr_tgt_e > me.max_seeker_dev or me.curr_tgt_e < (-1 * me.max_seeker_dev)
+				  or me.curr_tgt_h > me.max_seeker_dev or me.curr_tgt_h < (-1 * me.max_seeker_dev)) {
+				# target is not in missile seeker view anymore
+				e_gain = 0;
+				h_gain = 0;
 			}
 
 			# Compute target deviation variation then seeker move to keep this deviation constant.
