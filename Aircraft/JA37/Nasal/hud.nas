@@ -34,6 +34,8 @@ var LANDING = 3;
 var mode = TAKEOFF;
 var modeTimeTakeoff = -1;
 
+var skip = FALSE;
+
 # -100 - 0 : not blinking
 # 1 - 10   : blinking
 # 11 - 125 : steady on
@@ -839,7 +841,10 @@ var HUDnasal = {
         cannonAmmo:       "ai/submodels/submodel[3]/count",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
         combat:           "/sim/ja37/hud/combat",
+        ctrlRadar:        "controls/altimeter-radar",
         currentMode:      "sim/ja37/hud/current-mode",
+        dme:              "instrumentation/dme/KDI572-574/nm",
+        dmeDist:          "instrumentation/dme/indicated-distance-nm",
         elapsedSec:       "sim/time/elapsed-sec",
         elecAC:           "systems/electrical/outputs/ac-instr-voltage",
         elecDC:           "/systems/electrical/outputs/dc-voltage",
@@ -869,6 +874,8 @@ var HUDnasal = {
         RMCurrWaypoint:   "autopilot/route-manager/current-wp",
         RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
         roll:             "/orientation/roll-deg",
+        srvHead:          "instrumentation/heading-indicator/serviceable",
+        srvTurn:          "instrumentation/turn-indicator/serviceable",
         service:          "/instrumentation/head-up-display/serviceable",
         sideslipOn:       "sim/ja37/hud/bank-indicator",
         speed_d:          "velocities/speed-down-fps",
@@ -992,17 +999,17 @@ var HUDnasal = {
       me.displayGroundCollisionArrow(mode);
 
       # digital speed
-      me.displayDigitalSpeed();
+      if(skip==FALSE) me.displayDigitalSpeed();
             
       # heading scale
       me.displayHeadingScale();
       me.displayHeadingHorizonScale();
 
       #heading bug, must be after heading scale
-      me.displayHeadingBug();
+      if(skip==FALSE) me.displayHeadingBug();
 
       # altitude. Digital and scale.
-      me.displayAltitude();
+      if(skip==FALSE) me.displayAltitude();
 
       ####   display QFE or weapon   ####
       me.displayQFE(mode);
@@ -1014,10 +1021,10 @@ var HUDnasal = {
       var guide = me.displayLandingGuide(mode, deflect);
 
       # desired alt lines
-      me.displayDesiredAltitudeLines(guide);
+      if(skip==FALSE) me.displayDesiredAltitudeLines(guide);
 
       # distance scale
-      me.showDistanceScale(mode);
+      if(skip==FALSE) me.showDistanceScale(mode);
 
       ### artificial horizon and pitch lines ###
       me.displayPitchLines(mode);
@@ -1026,11 +1033,12 @@ var HUDnasal = {
       me.displayTurnCoordinator();
 
       ####  Radar HUD tracks  ###
-      me.displayRadarTracks(mode);
+      if(skip==FALSE) me.displayRadarTracks(mode);
 
       # tower symbol
-      me.displayTower();
+      if(skip==FALSE) me.displayTower();
 
+      skip = !skip;#we skip some function every other time, as they are time consuming
 
       if(reinitHUD == TRUE) {
         me.redraw();
@@ -1044,13 +1052,13 @@ var HUDnasal = {
       #func debug.benchmark("hud loop", 
       func me.update()
       #)
-      , 0.03, 0);
+      , 0.05);
       #setprop("sim/hud/visibility[1]", 0);
     }#end of HUD running check
   },#end of update
 
   displayGroundCollisionArrow: func (mode) {
-    var rad_alt = getprop("controls/altimeter-radar") == 1?me.input.rad_alt.getValue():nil;
+    var rad_alt = me.input.ctrlRadar.getValue() == 1?me.input.rad_alt.getValue():nil;
     if (mode != TAKEOFF and ( (mode == LANDING and rad_alt != nil and rad_alt > (50/feet2meter)) or mode != LANDING )) {
       #var x = mp.getNode("position/global-x").getValue();# meters probably
       #var y = mp.getNode("position/global-y").getValue();
@@ -1089,7 +1097,7 @@ var HUDnasal = {
 
   displayHeadingScale: func () {
     if (mode != LANDING or me.input.pitch.getValue() < -5 or me.input.pitch.getValue() > 7) {
-      if(getprop("instrumentation/heading-indicator/serviceable") == 1) {
+      if(me.input.srvHead.getValue() == 1) {
         var heading = me.input.hdg.getValue();
         var headOffset = heading/10 - int (heading/10);
         var headScaleOffset = headOffset;
@@ -1130,7 +1138,7 @@ var HUDnasal = {
 
   displayHeadingHorizonScale: func () {
     if (mode == LANDING) {
-      if(getprop("instrumentation/heading-indicator/serviceable") == 1) {
+      if(me.input.srvHead.getValue() == 1) {
         var heading = me.input.hdg.getValue();
         var headOffset = heading/10 - int (heading/10);
         var headScaleOffset = headOffset;
@@ -1262,7 +1270,7 @@ var HUDnasal = {
   displayAltitude: func () {
     var metric = me.input.units.getValue();
     var alt = metric == TRUE ? me.input.alt_ft.getValue() * feet2meter : me.input.alt_ft.getValue();
-    var radAlt = getprop("controls/altimeter-radar") == 1?(metric == TRUE ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue()):nil;
+    var radAlt = me.input.ctrlRadar.getValue() == 1?(metric == TRUE ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue()):nil;
 
     me.displayAltitudeScale(alt, radAlt);
     me.displayDigitalAltitude(alt, radAlt);
@@ -1512,7 +1520,7 @@ var HUDnasal = {
       # determine max radar alt in current unit
       var radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
       var alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
-      if (radAlt == nil and getprop("controls/altimeter-radar") == 1) {
+      if (radAlt == nil and me.input.ctrlRadar.getValue() == 1) {
         # Radar alt instrument not initialized yet
         me.alt.setText("");
         countQFE = 0;
@@ -1669,7 +1677,7 @@ var HUDnasal = {
 
   displayTurnCoordinator: func () {
     if (me.input.sideslipOn.getValue() == TRUE) {
-      if(getprop("instrumentation/turn-indicator/serviceable") == 1) {
+      if(me.input.srvTurn.getValue() == 1) {
         #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
         me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -150, 150), 0);
         if(me.input.final.getValue() == TRUE) {
@@ -1685,7 +1693,7 @@ var HUDnasal = {
   },
 
   displayQFE: func (mode) {
-    var DME = getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "";
+    var DME = me.input.dme.getValue() != "---" and me.input.dme.getValue() != "";
     if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
       if (me.input.TILS.getValue() == TRUE) {
         if (DME == TRUE) {
@@ -1991,8 +1999,8 @@ var HUDnasal = {
         me.distanceText.hide();
       }
       me.dist_scale_group.show();
-    } elsif (getprop("instrumentation/dme/KDI572-574/nm") != "---" and getprop("instrumentation/dme/KDI572-574/nm") != "") {
-      var distance = getprop("instrumentation/dme/indicated-distance-nm");
+    } elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "") {
+      var distance = me.input.dmeDist.getValue();
       var line = 200;
       var maxDist = 20;
       var pixelPerMeter = (line)/(maxDist);

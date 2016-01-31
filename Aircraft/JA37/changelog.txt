@@ -1955,3 +1955,6 @@ Made the sidewinders less effective but more in line with what sources say.
 Sim: Flares are now released with 'z' key instead of CTRL-f.
 Sim: Sidewinders can now be fooled by flares from another JA37. (experimental)
 Model: Removed MP sound and Bombable support in order to reduce load lag of the MP Viggen.
+Sim: Fixed a null pointer exception in the air-conditioner.
+Sim: Fixed that missiles could turn around after a target got out of view and still hit.
+HUD: Now less smooth and updates slower, but its good for performance.
