@@ -38,7 +38,7 @@ Sim: Improve terrain warning system.
 Sim: Replace generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
-Sim: Missiles should lock onto flares.
+Sim: Missiles should lock onto flares from other mil plane types.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
 Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
@@ -103,7 +103,7 @@ Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscill
 Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected. [reproduced]
 Sim: After fire M70, and reload, they will fire again. [might be fixed]
 Control: Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
-HUD: When loading air2air from menu while autostarting is in progress, the HUD will switch off for a fraction of a second.
+HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes.
 HUD: In tactical mode the selection diamond/half-box would sometimes not be painted.
 
 

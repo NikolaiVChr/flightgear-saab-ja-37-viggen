@@ -2177,7 +2177,7 @@ var HUDnasal = {
             pos_y = math.tan(angle*deg2rads) * (512/1024)*canvasWidth;
           } elsif (angle > 42.06 and angle < 137.94) {
             # top side
-            pos_x = 1/math.tan(angle*deg2rads) * 462;
+            pos_x = 1/math.tan(angle*deg2rads) * (462/1024)*canvasWidth;
             pos_y = -(462/1024)*canvasWidth;
           } elsif (angle < -45 and angle > -135) {
             # bottom side
@@ -2217,6 +2217,7 @@ var HUDnasal = {
 
           var armSelect = me.input.station.getValue();
           var diamond = 0;
+          #print();
           if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1) {
             # lock
             var weak = armament.AIM.active[armSelect-1].trackWeak;
@@ -2244,7 +2245,7 @@ var HUDnasal = {
           #               .lineTo( pos_x, pos_y)
           #               .setStrokeLineWidth(w)
           #               .setColor(r,g,b, a);
-
+          #print("diamond="~diamond~" blink="~blink);
           if (diamond > 0) {
             me.target.hide();
 
