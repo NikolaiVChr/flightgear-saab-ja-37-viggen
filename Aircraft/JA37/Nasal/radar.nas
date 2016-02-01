@@ -5,6 +5,7 @@
 var abs = func(n) { n < 0 ? -n : n }
 var sgn = func(n) { n < 0 ? -1 : 1 }
 var g = nil;
+var pixels_max = 256;
 
 var radar = {
   new: func()
@@ -16,18 +17,18 @@ var radar = {
     # create a new canvas...
     m.canvas = canvas.new({
       "name": "RADAR",
-      "size": [1024, 1024],
-      "view": [1024, 1024],
+      "size": [pixels_max, pixels_max],
+      "view": [pixels_max, pixels_max],
       "mipmapping": 0
     });
     
     g2 = m.canvas.createGroup();
     g2.createChild("path")
                 .moveTo(0,0)
-                .lineTo(1024,0)
-                .lineTo(1024,1024)
-                .lineTo(0,1024)
-                .setStrokeLineWidth(2)
+                .lineTo(pixels_max,0)
+                .lineTo(pixels_max,pixels_max)
+                .lineTo(0,pixels_max)
+                .setStrokeLineWidth((2/1024)*pixels_max)
                 .setColor(0, 0, 0);
     g2.show();
 
@@ -38,20 +39,20 @@ var radar = {
     
     var g_tf = g.createTransform();
 
-    m.oldmode=0;
-    m.glide_pos=1000; #Actual position
-    m.course_pos=1000; #Actual position
-    m.glide_target=1000; #Target position
-    m.course_target=1000; #Target position
-    m.stroke_mode=120;
-    m.antenna_pitch=0;
+#    m.oldmode=0;
+#    m.glide_pos=1000; #Actual position
+#    m.course_pos=1000; #Actual position
+#    m.glide_target=1000; #Target position
+#    m.course_target=1000; #Target position
+#    m.stroke_mode=120;
+#    m.antenna_pitch=0;
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
     m.no_stroke = 9;
     m.no_blip=50;
     m.radarRange=20000;#feet?
-    m.strokeOriginY = 975;
-    m.strokeTopY = 100;
+    m.strokeOriginY = (975/1024) * pixels_max;
+    m.strokeTopY = (100/1024) * pixels_max;
     m.stroke_pos= [];
 
     
@@ -74,10 +75,10 @@ var radar = {
          .moveTo(0, 0)
          .lineTo(0, -(m.strokeOriginY-m.strokeTopY))
          .close()
-         .setStrokeLineWidth(28)
+         .setStrokeLineWidth((28/1024)*pixels_max)
          .setColor(0.1, grn, 0.1));
        append(m.tfstroke, m.stroke[i].createTransform());
-       m.tfstroke[i].setTranslation(512, m.strokeOriginY);
+       m.tfstroke[i].setTranslation(pixels_max/2, m.strokeOriginY);
        m.stroke[i].hide();
      }
 
@@ -88,11 +89,11 @@ var radar = {
         append(m.blip,
          g.createChild("path")
          .moveTo(0, 0)
-         .arcSmallCW(12, 12, 0, -24, 0)
-         .arcSmallCW(12, 12, 0,  24, 0)
+         .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0, -24/1024*pixels_max, 0)
+         .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0,  24/1024*pixels_max, 0)
          .close()
          .setColorFill(0.0,1.0,0.0, 1.0)
-         .setStrokeLineWidth(2)
+         .setStrokeLineWidth((2/1024)*pixels_max)
          .setColor(0.0,1.0,0.0, 1.0));
        append(m.tfblip, m.blip[i].createTransform());
        m.tfblip[i].setTranslation(0, 0);
@@ -215,7 +216,7 @@ var radar = {
                 var pixelDistance = -distance*((me.strokeOriginY-me.strokeTopY)/me.radarRange); #distance in pixels
                 
                 #translate from polar coords to cartesian coords
-                var pixelX =  pixelDistance * math.cos(xa_rad + math.pi/2) + 512;
+                var pixelX =  pixelDistance * math.cos(xa_rad + math.pi/2) + pixels_max/2;
                 var pixelY =  pixelDistance * math.sin(xa_rad + math.pi/2) + me.strokeOriginY;
                 #print("pixel blip ("~pixelX~", "~pixelY);
                 me.tfblip[b_i].setTranslation(pixelX, pixelY); 
@@ -234,15 +235,15 @@ var radar = {
     },
 };
 
-var calc_c_target= func(crs, trg) {
-  var diff=trg-crs;
-  if (diff>180) diff=diff-360;
-  if (diff<-180) diff=360+diff;
-  diff=7.1667*diff;
-  if (diff > 430) diff=430;
-  else if (diff < -430) diff=-430;
-  return diff;
-}
+#var calc_c_target= func(crs, trg) {
+#  var diff=trg-crs;
+#  if (diff>180) diff=diff-360;
+#  if (diff<-180) diff=360+diff;
+#  diff=7.1667*diff;
+#  if (diff > 430) diff=430;
+#  else if (diff < -430) diff=-430;
+#  return diff;
+#}
 
 var theinit = setlistener("sim/ja37/supported/initialized", func {
   if(getprop("sim/ja37/supported/radar") == 1) {
