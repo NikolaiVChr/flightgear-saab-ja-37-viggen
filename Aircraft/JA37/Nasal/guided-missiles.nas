@@ -410,21 +410,23 @@ var AIM = {
 					var flareNode = me.Tgt.getNode("sim/multiplay/generic/string[10]");
 					if (flareNode != nil) {
 						var flareString = flareNode.getValue();
-						var flareVector = split(":", flareString);
-						if (flareVector != nil and size(flareVector) == 2 and flareVector[1] == "flare") {
-							var flareNumber = num(flareVector[0]);
-							if (flareNumber != nil and flareNumber != me.lastFlare) {
-								# target has released a new flare, lets check if it fools us
-								me.lastFlare = flareNumber;
-								var aspect = me.aspect() / 180;
-								var fooled = rand() < (0.2 + 0.1 * aspect);
-								# 20% chance to be fooled, extra up till 10% chance added if front aspect
-								if (fooled) {
-									# fooled by the flare
-									print("Fooled by flare");
-									me.free = 1;
-								} else {
-									print("Flare ignored");
+						if (flareString != nil) {
+							var flareVector = split(":", flareString);
+							if (flareVector != nil and size(flareVector) == 2 and flareVector[1] == "flare") {
+								var flareNumber = num(flareVector[0]);
+								if (flareNumber != nil and flareNumber != me.lastFlare) {
+									# target has released a new flare, lets check if it fools us
+									me.lastFlare = flareNumber;
+									var aspect = me.aspect() / 180;
+									var fooled = rand() < (0.2 + 0.1 * aspect);
+									# 20% chance to be fooled, extra up till 10% chance added if front aspect
+									if (fooled) {
+										# fooled by the flare
+										print("Fooled by flare");
+										me.free = 1;
+									} else {
+										print("Flare ignored");
+									}
 								}
 							}
 						}
