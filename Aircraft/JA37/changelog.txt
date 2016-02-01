@@ -1960,3 +1960,4 @@ Sim: Fixed that missiles could turn around after a target got out of view and st
 HUD: Now less smooth and updates slower, but its good for performance.
 Radar: The canvas texture is now 16x smaller for performance.
 HUD: The canvas texture is now 4x smaller for performance.
+Aero: Fixed regression that droptank aerodynamics influence would depend on missile mass not drop-tank.
