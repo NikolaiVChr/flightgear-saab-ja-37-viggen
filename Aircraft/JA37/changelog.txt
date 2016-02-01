@@ -1958,4 +1958,5 @@ Model: Removed MP sound and Bombable support in order to reduce load lag of the 
 Sim: Fixed a null pointer exception in the air-conditioner.
 Sim: Fixed that missiles could turn around after a target got out of view and still hit.
 HUD: Now less smooth and updates slower, but its good for performance.
-Radar: The canvas radar texture is now 16x smaller for performance.
+Radar: The canvas texture is now 16x smaller for performance.
+HUD: The canvas texture is now 4x smaller for performance.
