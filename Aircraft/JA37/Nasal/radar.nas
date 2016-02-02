@@ -7,6 +7,23 @@ var sgn = func(n) { n < 0 ? -1 : 1 }
 var g = nil;
 var pixels_max = 256;
 
+# radar canon color
+var black_r = 0.0;
+var black_g = 0.2;
+var black_b = 0.0;
+
+# symbol canon color
+var white_r = 0.7;
+var white_g = 1.0;
+var white_b = 0.7;
+
+# background color
+var green_r = 0.4;
+var green_g = 0.9;
+var green_b = 0.4;
+
+var opaque = 1.0;
+
 var radar = {
   new: func()
   {
@@ -22,40 +39,158 @@ var radar = {
       "mipmapping": 0
     });
     
-    g2 = m.canvas.createGroup();
-    g2.createChild("path")
-                .moveTo(0,0)
-                .lineTo(pixels_max,0)
-                .lineTo(pixels_max,pixels_max)
-                .lineTo(0,pixels_max)
-                .setStrokeLineWidth((2/1024)*pixels_max)
-                .setColor(0, 0, 0);
-    g2.show();
+    # cannot remember what I made this for:
+    #g2 = m.canvas.createGroup();
+    #g2.createChild("path")
+    #            .moveTo(0,0)
+    #            .lineTo(pixels_max,0)
+    #            .lineTo(pixels_max,pixels_max)
+    #            .lineTo(0,pixels_max)
+    #            .setStrokeLineWidth((2/1024)*pixels_max)
+    #            .setColor(0, 0, 0);
+    #g2.show();
 
     # ... and place it on the object called Screen
     m.canvas.addPlacement({"node": "radarScreen", "texture": "radar-canvas.png"});
-    m.canvas.setColorBackground(0.10,0.20,0.10);
+    m.canvas.setColorBackground(green_r, green_g, green_b);
     g = m.canvas.createGroup();
     
     var g_tf = g.createTransform();
 
-#    m.oldmode=0;
-#    m.glide_pos=1000; #Actual position
-#    m.course_pos=1000; #Actual position
-#    m.glide_target=1000; #Target position
-#    m.course_target=1000; #Target position
-#    m.stroke_mode=120;
-#    m.antenna_pitch=0;
+    m.strokeOriginY = (975/1024) * pixels_max;
+    m.strokeTopY = (200/1024) * pixels_max;
+    m.strokeHeight = (m.strokeOriginY - m.strokeTopY);
+
+    ###############
+    # white lines #
+    ###############
+
+    m.lineGroup = g.createChild("group")
+                   .setTranslation(pixels_max/2, m.strokeOriginY);
+
+    # center vertical
+    m.lineGroup.createChild("path")
+     .moveTo(0, 0)
+     .lineTo(0, -(m.strokeOriginY - m.strokeTopY))
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+
+    # right 30 deg vertical
+    m.lineGroup.createChild("path")
+     .moveTo(0, 0)
+     .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight*-0.87881711)
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+    
+     #x = cos(deg)*z
+     #
+     #y = sin(deg)*1
+     #x = cos(deg)*1
+     # upper left/right y:
+     #x = cos(28.5)*0.5 = cos(deg) --> 63.933849203847021529501214794585 deg --> y=0.89828732631776655536438791677979
+
+    # left 30 deg vertical
+    m.lineGroup.createChild("path")
+     .moveTo(0, 0)
+     .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight*-0.87881711)
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+
+    # right 61.5 deg
+    m.lineGroup.createChild("path")
+     .moveTo(0, 0)
+     .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * 0.5 * -0.47715876)
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+    
+    # left 61.5 deg
+    m.lineGroup.createChild("path")
+     .moveTo(0, 0)
+     .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * 0.5 * -0.47715876)
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+
+    # left vert
+    m.lineGroup.createChild("path")
+     .moveTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * 0.5 * -0.47715876)
+     .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.8982873)
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+
+    # right vert
+    m.lineGroup.createChild("path")
+     .moveTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * 0.5 * -0.47715876)
+     .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * -0.8982873)
+     .close()
+     .setStrokeLineWidth((8/1024)*pixels_max)
+     .setColor(white_r, white_g, white_b);
+
+    # upper arc
+    m.lineGroup.createChild("path")
+               .moveTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.8982873)
+               .arcSmallCW(m.strokeHeight, m.strokeHeight, 0,  m.strokeHeight * 0.87881711, 0)
+               #.close()
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b);
+
+
+    # 66.6% arc
+    # x = cos(deg) x 0.66 = cos(28.5)*0.5 --> acos((cos(28.5)*0.5)/0.66) = deg --> y = sin(deg)*0.66 = 0.5012741
+    m.lineGroup.createChild("path")
+               .moveTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.5012741)
+               .arcSmallCW(m.strokeHeight*0.6666, m.strokeHeight*0.6666, 0,  m.strokeHeight * 0.87881711, 0)
+               #.close()
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b);
+
+    # 33.3% arc
+    #
+    # x = cos(28.5) * 0.33 = 0.2929
+    # y = sin(28.5) * 0.33 = 0.1590
+    #
+    m.lineGroup.createChild("path")
+               .moveTo(m.strokeHeight*-0.2929, m.strokeHeight*-0.1590)
+               .arcSmallCW(m.strokeHeight*0.3333, m.strokeHeight*0.3333, 0, m.strokeHeight*0.2929*2, 0)
+               #.close()
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b);
+
+    # 16.66% arc
+    #
+    # x = cos(28.5) * 0.1666 = 0.1464
+    # y = sin(28.5) * 0.1666 = 0.0795
+    #
+    m.lineGroup.createChild("path")
+               .moveTo(m.strokeHeight*-0.1464, m.strokeHeight*-0.0795)
+               .arcSmallCW(m.strokeHeight*0.1666, m.strokeHeight*0.1666, 0, m.strokeHeight*0.1464*2, 0)
+               #.close()
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b);
+
+    # 8.33% arc
+    #
+    # x = cos(28.5) * 0.0833 = 0.0732
+    # y = sin(28.5) * 0.0833 = 0.0398
+    #
+    m.lineGroup.createChild("path")
+               .moveTo(m.strokeHeight*-0.0732, m.strokeHeight*-0.0398)
+               .arcSmallCW(m.strokeHeight*0.0833, m.strokeHeight*0.0833, 0, m.strokeHeight*0.0732*2, 0)
+               #.close()
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b);
+
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
-    m.no_stroke = 9;
-    m.no_blip=50;
-    m.radarRange=20000;#feet?
-    m.strokeOriginY = (975/1024) * pixels_max;
-    m.strokeTopY = (100/1024) * pixels_max;
+    m.no_stroke = 1; # number of strokes, including primary
+    m.no_blip=50; # max number of blips
+    m.radarRange=20000;# meters
     m.stroke_pos= [];
-
-    
 
     for(var i=0; i < m.no_stroke; i = i+1) {
       append(m.stroke_pos, 0);
@@ -76,7 +211,7 @@ var radar = {
          .lineTo(0, -(m.strokeOriginY-m.strokeTopY))
          .close()
          .setStrokeLineWidth((28/1024)*pixels_max)
-         .setColor(0.1, grn, 0.1));
+         .setColor(white_r, grn, white_b));
        append(m.tfstroke, m.stroke[i].createTransform());
        m.tfstroke[i].setTranslation(pixels_max/2, m.strokeOriginY);
        m.stroke[i].hide();
@@ -92,9 +227,9 @@ var radar = {
          .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0, -24/1024*pixels_max, 0)
          .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0,  24/1024*pixels_max, 0)
          .close()
-         .setColorFill(0.0,1.0,0.0, 1.0)
+         .setColorFill(black_r, black_g, black_b, opaque)
          .setStrokeLineWidth((2/1024)*pixels_max)
-         .setColor(0.0,1.0,0.0, 1.0));
+         .setColor(black_r, black_g, black_b, opaque));
        append(m.tfblip, m.blip[i].createTransform());
        m.tfblip[i].setTranslation(0, 0);
        m.blip[i].hide();
@@ -147,7 +282,8 @@ var radar = {
       }            
       # compute new stroke angle if has hydr pressure
       if(me.input.hydrPressure.getValue() == 1) {
-        me.stroke_angle = math.sin(dt);
+        # AJ37 manual: 110 degrees per second: 1.0733775 x 1radian= 123 degrees. 123deg = 2.14675498 rad for full scan.
+        me.stroke_angle = math.sin(dt*2.14675498)*1.0733775;
         forindex (i; me.stroke) me.stroke[i].show();
       } else {
         forindex (i; me.stroke) me.stroke[i].hide();
@@ -222,11 +358,11 @@ var radar = {
                 me.tfblip[b_i].setTranslation(pixelX, pixelY); 
               } else {
                 #aircraft is not near the stroke, fade it
-                me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.96;
+                me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.90;
               }
               me.blip[b_i].show();
-              me.blip[b_i].setColor(0.0,1.0,0.0, me.blip_alpha[b_i]);
-              me.blip[b_i].setColorFill(0.0,1.0,0.0, me.blip_alpha[b_i]);
+              me.blip[b_i].setColor(black_r, black_g, black_b, me.blip_alpha[b_i]);
+              me.blip[b_i].setColorFill(black_r, black_g, black_b, me.blip_alpha[b_i]);
               b_i=b_i+1;
           }
         }

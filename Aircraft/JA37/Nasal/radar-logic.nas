@@ -339,8 +339,9 @@ var trackCalc = func (aircraftPos, range, carrier, mp) {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    if(ya_rad > -1 and ya_rad < 1 and xa_rad > -1 and xa_rad < 1 and (mp == FALSE or isNotBehindTerrain(aircraftPos) == TRUE)) {
+    if(ya_rad > -61.5 * D2R and ya_rad < 61.5 * D2R and xa_rad > -61.5 * D2R and xa_rad < 61.5 * D2R and (mp == FALSE or isNotBehindTerrain(aircraftPos) == TRUE)) {
       #is within the radar cone
+      # AJ37 manual: 61.5 deg sideways.
 
       var distanceRadar = distance/math.cos(myPitch);
       var hud_pos_x = canvas_HUD.pixelPerDegreeX * xa_rad * rad2deg;
