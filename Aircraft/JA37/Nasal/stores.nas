@@ -142,11 +142,11 @@ var loop_stores = func {
           #pylon not selected, and not flying set missile on standby
           armament.AIM.active[i].status = MISSILE_STANDBY;
           #print("not sel "~(i));
-        } elsif (input.combat.getValue() != 2
+        } elsif (input.acMainVolt.getValue() < 150 or input.combat.getValue() != 2
                   or (armament.AIM.active[i].status != MISSILE_STANDBY
                       and armament.AIM.active[i].status != MISSILE_FLYING
                       and payloadName.getValue() == "none")) {
-          #pylon has logic but missile not mounted and not flying or not in tactical mode
+          #pylon has logic but missile not mounted and not flying or not in tactical mode or has no power
           armament.AIM.active[i].status = MISSILE_STANDBY;
           #print("empty "~(i));
         } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY
