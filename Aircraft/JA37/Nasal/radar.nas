@@ -2,6 +2,9 @@
 # Radar
 # ==============================================================================
 
+var FALSE = 0;
+var TRUE  = 1;
+
 var abs = func(n) { n < 0 ? -n : n }
 var sgn = func(n) { n < 0 ? -1 : 1 }
 var g = nil;
@@ -23,6 +26,10 @@ var green_g = 0.9;
 var green_b = 0.4;
 
 var opaque = 1.0;
+
+
+var pixelXL = 0;
+var pixelYL = 0;
 
 var radar = {
   new: func()
@@ -63,6 +70,19 @@ var radar = {
 
     m.lineGroup = g.createChild("group")
                    .setTranslation(pixels_max/2, m.strokeOriginY);
+
+    ##############
+    # black lock #
+    ##############
+
+    m.lock = g.createChild("path")
+               .moveTo(-m.strokeHeight*0.04, 0)
+               .lineTo(m.strokeHeight*0.04, 0)
+               .moveTo(0, -m.strokeHeight*0.04)
+               .lineTo(0, m.strokeHeight*0.04)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(black_r, black_g, black_b);
+
 
     #####################
     # white destination #
@@ -236,7 +256,7 @@ var radar = {
     for(var i=0; i < m.no_blip; i = i+1) {
         append(m.blip,
          g.createChild("path")
-         .moveTo(0, 0)
+         .moveTo(12/1024*pixels_max, 0)
          .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0, -24/1024*pixels_max, 0)
          .arcSmallCW(12/1024*pixels_max, 12/1024*pixels_max, 0,  24/1024*pixels_max, 0)
          .close()
@@ -319,6 +339,21 @@ var radar = {
       me.update_blip(curr_angle, prev_angle);
 
       # draw destination
+      #var freq = getprop("instrumentation/nav/frequencies/selected-mhz");
+      #if (freq != nil) {
+      #  var navaid = findNavaidByFrequency(freq);
+      #  if(navaid != nil) print(navaid.type);
+      #  if(navaid != nil and navaid.type == "runway") {
+      #    print("id "~navaid.id);
+      #    print("name "~navaid.name);
+      #    var icao = navaid.id;
+          #var airport = airportinfo(icao);
+          #if (airport != nil) {
+
+          #}
+      #  }
+      #}
+      
       if (getprop("autopilot/route-manager/active") == TRUE) {
         var dist = getprop("autopilot/route-manager/wp/dist");
         var bearing = getprop("autopilot/route-manager/wp/bearing-deg");#magnetic
@@ -353,7 +388,7 @@ var radar = {
   
   update_blip: func(curr_angle, prev_angle) {
         var b_i=0;
-
+        var lock = FALSE;
         foreach (var mp; radar_logic.tracks) {
           # Node with valid position data (and "distance!=nil").
 
@@ -374,7 +409,11 @@ var radar = {
           #make blip
           if (b_i < me.no_blip and distance != nil and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
               #aircraft is within the radar ray cone
-              
+              var locked = FALSE;
+              if (size(mp) == 9) {
+                lock = TRUE;
+                locked = TRUE;
+              }
               if(curr_angle < prev_angle) {
                 var crr_angle = curr_angle;
                 curr_angle = prev_angle;
@@ -391,6 +430,10 @@ var radar = {
                 var pixelY =  pixelDistance * math.sin(xa_rad + math.pi/2) + me.strokeOriginY;
                 #print("pixel blip ("~pixelX~", "~pixelY);
                 me.tfblip[b_i].setTranslation(pixelX, pixelY); 
+                if (locked == TRUE) {
+                  pixelXL = pixelX;
+                  pixelYL = pixelY;
+                }
               } else {
                 #aircraft is not near the stroke, fade it
                 me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.90;
@@ -401,7 +444,12 @@ var radar = {
               b_i=b_i+1;
           }
         }
-
+        if (lock == FALSE) {
+          me.lock.hide();
+        } else {
+          me.lock.setTranslation(pixelXL, pixelYL);
+          me.lock.show();
+        }
         for (i = b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
     },
 };

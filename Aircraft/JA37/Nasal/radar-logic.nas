@@ -82,6 +82,10 @@ var findRadarTracks = func () {
   }
   var carriers = node_ai.getChildren("carrier");
   processTracks(carriers, TRUE);
+
+  if(selection != nil) {
+    append(selection, "lock");
+  }
 }
 
 var processCallsigns = func (players) {
@@ -262,6 +266,7 @@ var remove_suffix = func(s, x) {
 # 5 - identifier
 # 6 - node
 # 7 - not targetable
+# 8 - if exist then selected
 
 var trackItemCalc = func (track, range, carrier, mp) {
   var x = track.getNode("position/global-x").getValue();

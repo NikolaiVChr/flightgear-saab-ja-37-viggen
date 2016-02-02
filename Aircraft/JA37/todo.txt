@@ -22,6 +22,8 @@ Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: The altimeter should have a standard button which set the pressure to 1013 hPa.
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
+Model: Radar range control should be only 3 digits.
+Model: Inside radar heading disc should be 6 red lamps for radar lock warning.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.
@@ -65,7 +67,7 @@ Sound: Make sounds when taking damage in bombable.
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.
 Radar: Show artificial horizon lines.
-Radar: At Air2air missile selection in tactical mode, show - + - at top.
+Radar: At Air2air missile selection in tactical mode, show - -|- at top showing antenea elevation degree.
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Make too low reference speed change reticle vertical tail down.

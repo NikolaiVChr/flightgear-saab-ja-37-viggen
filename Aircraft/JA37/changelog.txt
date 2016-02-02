@@ -1967,4 +1967,5 @@ Model: {Swamp} Added KSUU Crew 1 livery.
 Radar: Scanned angles is now up to 61.5 deg as per AJ37 manual.
 Radar: Colors and lines in radar screen is now almost as per AJ37 manual.
 Radar: Route-manager next destination is now shown on radar as per AJ37 manual.
-Sim: Missiles now need AC voltage to search.
+Sim: Missiles now need AC voltage to search as per AJ37 manual.
+Radar: The radar locked track now has a cursor over it.
