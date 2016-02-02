@@ -1961,3 +1961,6 @@ HUD: Now less smooth and updates slower, but its good for performance.
 Radar: The canvas texture is now 16x smaller for performance.
 HUD: The canvas texture is now 4x smaller for performance.
 Aero: Fixed regression that droptank aerodynamics influence would depend on missile mass not drop-tank.
+Control: Made pitch gearing more restrictive around M0.65, to avoid too high alpha in hard turns.
+Control: Made pitch gearing more permissive around M0.10, to again allow for shorter takeoff.
+Model: {Swamp} Added KSUU Crew 1 livery.

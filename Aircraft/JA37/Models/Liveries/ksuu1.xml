@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">KSUU Crew 1</name>
+    <texture>Liveries/KSUU/ksuu1.png</texture>
+    <owner type="string">KSUU</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>
