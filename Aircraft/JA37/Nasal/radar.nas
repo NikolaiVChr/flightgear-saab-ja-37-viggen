@@ -61,20 +61,33 @@ var radar = {
     m.strokeTopY = (200/1024) * pixels_max;
     m.strokeHeight = (m.strokeOriginY - m.strokeTopY);
 
-    ###############
-    # white lines #
-    ###############
-
     m.lineGroup = g.createChild("group")
                    .setTranslation(pixels_max/2, m.strokeOriginY);
 
+    #####################
+    # white destination #
+    #####################
+
+    m.dest = m.lineGroup.createChild("path")
+               .moveTo(-m.strokeHeight*0.05, 0)
+               .arcSmallCW(m.strokeHeight*0.05, m.strokeHeight*0.05, 0, m.strokeHeight*0.1, 0)
+               .arcSmallCW(m.strokeHeight*0.05, m.strokeHeight*0.05, 0, -m.strokeHeight*0.1, 0)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b)
+               .hide();
+
+    ###############
+    # black lines #
+    ###############
+
+    
     # center vertical
     m.lineGroup.createChild("path")
      .moveTo(0, 0)
      .lineTo(0, -(m.strokeOriginY - m.strokeTopY))
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
 
     # right 30 deg vertical
     m.lineGroup.createChild("path")
@@ -82,7 +95,7 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight*-0.87881711)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
     
      #x = cos(deg)*z
      #
@@ -97,7 +110,7 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight*-0.87881711)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
 
     # right 61.5 deg
     m.lineGroup.createChild("path")
@@ -105,7 +118,7 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * 0.5 * -0.47715876)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
     
     # left 61.5 deg
     m.lineGroup.createChild("path")
@@ -113,7 +126,7 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * 0.5 * -0.47715876)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
 
     # left vert
     m.lineGroup.createChild("path")
@@ -121,7 +134,7 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.8982873)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
 
     # right vert
     m.lineGroup.createChild("path")
@@ -129,7 +142,7 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * -0.8982873)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(white_r, white_g, white_b);
+     .setColor(black_r, black_g, black_b);
 
     # upper arc
     m.lineGroup.createChild("path")
@@ -137,7 +150,7 @@ var radar = {
                .arcSmallCW(m.strokeHeight, m.strokeHeight, 0,  m.strokeHeight * 0.87881711, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(white_r, white_g, white_b);
+               .setColor(black_r, black_g, black_b);
 
 
     # 66.6% arc
@@ -147,7 +160,7 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.6666, m.strokeHeight*0.6666, 0,  m.strokeHeight * 0.87881711, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(white_r, white_g, white_b);
+               .setColor(black_r, black_g, black_b);
 
     # 33.3% arc
     #
@@ -159,7 +172,7 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.3333, m.strokeHeight*0.3333, 0, m.strokeHeight*0.2929*2, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(white_r, white_g, white_b);
+               .setColor(black_r, black_g, black_b);
 
     # 16.66% arc
     #
@@ -171,7 +184,7 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.1666, m.strokeHeight*0.1666, 0, m.strokeHeight*0.1464*2, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(white_r, white_g, white_b);
+               .setColor(black_r, black_g, black_b);
 
     # 8.33% arc
     #
@@ -183,7 +196,7 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.0833, m.strokeHeight*0.0833, 0, m.strokeHeight*0.0732*2, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(white_r, white_g, white_b);
+               .setColor(black_r, black_g, black_b);
 
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
@@ -304,6 +317,28 @@ var radar = {
 
       #Update blips
       me.update_blip(curr_angle, prev_angle);
+
+      # draw destination
+      if (getprop("autopilot/route-manager/active") == TRUE) {
+        var dist = getprop("autopilot/route-manager/wp/dist");
+        var bearing = getprop("autopilot/route-manager/wp/bearing-deg");#magnetic
+        var heading = getprop("instrumentation/heading-indicator/indicated-heading-deg");#magnetic
+        if (dist != nil and bearing != nil and heading != nil) {
+          var bug = bearing - heading;
+
+          var x = math.cos(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
+          var y = math.sin(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
+
+          me.dest.setTranslation(x, -y);
+
+          me.dest.show();
+        } else {
+          me.dest.hide();
+        }
+      } else {
+        me.dest.hide();
+      }
+
     
       settimer(
         #func debug.benchmark("rad loop", 
