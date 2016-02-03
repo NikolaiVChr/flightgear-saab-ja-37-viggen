@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 3.105 </version>
+    <version> 3.106 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -132,15 +132,15 @@ Old values:
  -->
 
   <mass_balance>
-    <!-- estimations -->
-    <!--<ixx unit="SLUG*FT2"> 10000 </ixx>
-    <iyy unit="SLUG*FT2"> 60000 </iyy>
-    <izz unit="SLUG*FT2"> 65000 </izz>-->
     <!-- Datcom+ Pro -->
     <ixx unit="KG*M2">  19541.0273  </ixx>
     <iyy unit="KG*M2">  71224.5781  </iyy>
     <izz unit="KG*M2">  65561.6250  </izz>
     <ixz unit="KG*M2">   3210.2346  </ixz>
+    <!-- AeromatiC++ 3.2.5 -->
+    <!--<ixx unit="KG*M2">  21960.58  </ixx>
+    <iyy unit="KG*M2">  88334.06  </iyy>
+    <izz unit="KG*M2">  78179.33  </izz>-->
     <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
       <x> 1.64878 </x>

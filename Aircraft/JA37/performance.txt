@@ -290,6 +290,9 @@ The landing gear thinks a landing sink rate of 5 m/s is normal, so landings are 
 
 Eurocontrol - Aircraft Performance database
 ===========================================
+
+Note: Climb numbers appear to be a factor 10 off.
+
 Takeoff
 -------
 MTOW: 20000 kg

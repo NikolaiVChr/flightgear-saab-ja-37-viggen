@@ -70,6 +70,7 @@ HUD shows radar tracks of aircraft plus scenario objects like ferries, balloons,
 At ILS landings the HUD will show a glideslope guide, if the runway supports it. Also DME if supported and enabled.
 Other HUD features such as distance scale, variant altitude scale, heading scale on horizon in landing mode, diamond at missile lock, altimeter calibration warning etc.
 Radar with 48 Km range that show MP and AI objects alike depend on hydraulic and electricity.
+In regards to MP planes the radar can be setup to be pulse doppler and/or not able to see through terrain.
 Auto-start and auto shut down scripts.
 Realistic modeled indicator panels for various warnings, alarts and notices.
 
@@ -81,7 +82,7 @@ Afterburner that has 3 continuous zones of operation.
 
 Sound
 -----
-56 distinct sounds, including 19 annunciation warnings.
+58 distinct sounds, including 19 annunciation warnings.
 9 multiplayer sounds enabled.
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.
@@ -93,13 +94,14 @@ Armament
 -----
 30mm Cannon with authentic shell properties and accurate recoil.
 Unguided rocket pods.
-Guided RB-24J and RB-71 air2air missiles, that can be fired at AI and MP alike.
-Dual releasing flares.
+Guided RB-24J, RB-74 and RB-71 air2air missiles, that can be fired at AI and MP alike.
+RB-24J works as rear aspect only.
+Dual releasing flares that work against RB24 and RB71.
 Compatible with the Bombable addon.
 
 Model
 -----
-Eight authentic Swedish Airforce and a fictive Flightgear liveries included.
+Eight authentic Swedish Airforce and two fictive Flightgear liveries included.
 Selection view, with camera pointing to the aircraft from outside and towards the current selected MP/AI aircraft.
 Ubershaded exterior model and cockpit panels. Also flood light is supported if model shader is enabled.
 Normal mapped exterior model.
@@ -123,7 +125,7 @@ In ALS rain drops will form on the fuselage.
 
 Multiplay
 -----
-The following is transmitted and shown over MP: Gear compression, flight surfaces animation, afterburner flame, engine flame light, landing light, flash light, beacon lights, navigation lights, canopy animation, canopy detachment, wings detachment, explosion, wing vapour, engine smoke, reversers, frontgear steering, missiles, rocket pods, drop tank, transonic vapour, contrails, aerobatic smoke, external power truck, control surfaces, livery and engine heat blur.
+The following is transmitted and shown over MP: Gear compression, flight surfaces animation, afterburner flame, engine flame light, landing light, flash light, beacon lights, navigation lights, canopy animation, canopy detachment, wings detachment, explosion, wing vapour, engine smoke, reversers, frontgear steering, armament, rocket pods, drop tank, transonic vapour, contrails, aerobatic smoke, external power truck, control surfaces, livery and engine heat blur.
 Different Viggen version are to high degree compatible with each other in MP.
 
 GUI

@@ -1877,7 +1877,7 @@ Effect: Removed floodlight from inner canopy as manual states it only lights up 
 Model: Removed alpha texture from canopy glass seen from outside to allow glass and reflections to be seen.
 Sim: Added Firefly to the author file.
 
-3.106
+3.106 - 2016 February 3
 =====
 Sim: {Pinto} Added RB-71 Skyflash missile option to stores.
 HUD: Fixed that tower should not be shown if out of view.

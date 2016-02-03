@@ -7,6 +7,7 @@ Original textures and bumpmap
 
 Nikolai V. Chr. - emptyyetfull at gmail.com - Forum name: Necolatis
 ==================================
+Maintainer
 FDM
 Controls
 Sounds
@@ -36,6 +37,14 @@ Ambient occlusion textures
 Justin Nicholson - Forum name: Pinto
 ====================================
 Added the RB-71 missile.
+Missile textures.
+Cannon spam filter defeating.
+Rocket pod modification.
+
+Forum name: swampthing
+======================
+KSUU Crew 1 livery.
+
 
 Thanks
 ======

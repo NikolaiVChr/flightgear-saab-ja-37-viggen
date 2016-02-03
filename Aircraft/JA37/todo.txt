@@ -57,6 +57,7 @@ Sim: Make anti-cheat system for MP fighting.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Sim: Replace nasal blinkers with JSB code.
 Sim: If pausing while missile is flying, releasing pause will make the missile think a large dt has passed.
+Sim: Implement maximum speed reactions - Vne.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
