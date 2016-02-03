@@ -34,6 +34,8 @@ var LANDING = 3;
 var mode = TAKEOFF;
 var modeTimeTakeoff = -1;
 
+var air2air = FALSE;
+
 var skip = FALSE;
 
 # -100 - 0 : not blinking
@@ -944,10 +946,12 @@ var HUDnasal = {
     if(has_power == FALSE or me.input.mode.getValue() == 0) {
       me.root.hide();
       me.root.update();
+      air2air = FALSE;
       settimer(func me.update(), 0.3);
      } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
+      air2air = FALSE;
       settimer(func me.update(), 0.25);
      } else {
       # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
@@ -1790,25 +1794,31 @@ var HUDnasal = {
       me.reticle_cannon.setTranslation(0, centerOffset);
       me.reticle_cannon.show();
       me.reticle_missile.hide();
+      air2air = FALSE;
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode == COMBAT and cannon == FALSE) {
       if(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70") {
+        air2air = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.show();
         me.reticle_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 24J") {
+        air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 74") {
+        air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 71") {
+        air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
       } else {
+        air2air = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.hide();
@@ -1816,17 +1826,19 @@ var HUDnasal = {
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
-      
+      air2air = FALSE;
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       return me.showFlightPathVector(1, FALSE);
     } elsif(mode == TAKEOFF) {      
+      air2air = FALSE;
       me.showSidewind(TRUE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
     } elsif(mode == LANDING) {      
+      air2air = FALSE;
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();

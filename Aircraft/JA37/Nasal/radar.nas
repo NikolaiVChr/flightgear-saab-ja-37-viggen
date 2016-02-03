@@ -2,6 +2,8 @@
 # Radar
 # ==============================================================================
 
+var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
+
 var FALSE = 0;
 var TRUE  = 1;
 
@@ -70,6 +72,26 @@ var radar = {
 
     m.lineGroup = g.createChild("group")
                    .setTranslation(pixels_max/2, m.strokeOriginY);
+
+    ##############
+    # antennae   #
+    ##############
+
+    m.ant = g.createChild("path")
+               .moveTo(pixels_max/2-m.strokeHeight*0.02, m.strokeTopY-m.strokeHeight*0.06)
+               .lineTo(pixels_max/2+m.strokeHeight*0.02, m.strokeTopY-m.strokeHeight*0.06)
+               .moveTo(pixels_max/2-m.strokeHeight*0.16, m.strokeTopY-m.strokeHeight*0.06)
+               .lineTo(pixels_max/2-m.strokeHeight*0.20, m.strokeTopY-m.strokeHeight*0.06)
+               .moveTo(pixels_max/2+m.strokeHeight*0.16, m.strokeTopY-m.strokeHeight*0.06)
+               .lineTo(pixels_max/2+m.strokeHeight*0.20, m.strokeTopY-m.strokeHeight*0.06)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(black_r, black_g, black_b);
+
+    m.ant_cursor = g.createChild("path")
+               .moveTo(pixels_max/2, m.strokeTopY-m.strokeHeight*0.03)
+               .lineTo(pixels_max/2, m.strokeTopY-m.strokeHeight*0.09)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(black_r, black_g, black_b);
 
     ##############
     # black lock #
@@ -374,6 +396,30 @@ var radar = {
         me.dest.hide();
       }
 
+
+      # show antanea height
+      var a2a = canvas_HUD.air2air;
+      if (a2a == TRUE) {
+        if (radar_logic.selection != nil) {
+          var node = radar_logic.selection[6];
+          var elevNode = node.getNode("radar/elevation-deg");
+          if (elevNode != nil) {
+            var elev = elevNode.getValue();
+            elev = clamp(elev, -10, 10)/10;
+            var x = me.strokeHeight*0.18*elev;
+            me.ant_cursor.setTranslation(x, 0);
+            me.ant_cursor.show();
+          } else {
+            me.ant_cursor.hide();
+          }
+        } else {
+          me.ant_cursor.hide();
+        }
+        me.ant.show();
+      } else {
+        me.ant_cursor.hide();
+        me.ant.hide();
+      }
     
       settimer(
         #func debug.benchmark("rad loop", 

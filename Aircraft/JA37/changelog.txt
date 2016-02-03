@@ -1969,3 +1969,4 @@ Radar: Colors and lines in radar screen is now almost as per AJ37 manual.
 Radar: Route-manager next destination is now shown on radar as per AJ37 manual.
 Sim: Missiles now need AC voltage to search as per AJ37 manual.
 Radar: The radar locked track now has a cursor over it.
+Radar: Antenae declination to selection is now shown in tactical a2a mode.
