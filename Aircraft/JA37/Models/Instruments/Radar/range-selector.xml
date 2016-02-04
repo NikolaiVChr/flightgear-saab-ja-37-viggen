@@ -78,8 +78,8 @@
         <type>textranslate</type>
         <object-name>D10000</object-name>
         <property>/instrumentation/radar/range</property>
-        <factor>0.00001</factor>
-        <step>10000</step>
+        <factor>0.00000001</factor>
+        <step>10000000</step>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -91,8 +91,8 @@
         <type>textranslate</type>
         <object-name>D1000</object-name>
         <property>/instrumentation/radar/range</property>
-        <factor>0.0001</factor>
-        <step>1000</step>
+        <factor>0.0000001</factor>
+        <step>1000000</step>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -104,8 +104,8 @@
         <type>textranslate</type>
         <object-name>D100</object-name>
         <property>/instrumentation/radar/range</property>
-        <factor>0.001</factor>
-        <step>100</step>
+        <factor>0.000001</factor>
+        <step>100000</step>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -117,8 +117,8 @@
         <type>textranslate</type>
         <object-name>D10</object-name>
         <property>/instrumentation/radar/range</property>
-        <factor>0.01</factor>
-        <step>10</step>
+        <factor>0.00001</factor>
+        <step>10000</step>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -130,8 +130,8 @@
         <type>textranslate</type>
         <object-name>D1</object-name>
         <property>/instrumentation/radar/range</property>
-        <factor>0.1</factor>
-        <step>1</step>
+        <factor>0.0001</factor>
+        <step>1000</step>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -151,11 +151,12 @@
             <button>0</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>-1000</step>
-                <min>1000</min>
-                <max>48000.0</max>
+                <value type="int">120000</value>
+                <value type="int">60000</value>
+                <value type="int">30000</value>
+                <value type="int">15000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -168,11 +169,12 @@
             <button>1</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>-10000</step>
-                <min>1000</min>
-                <max>48000</max>
+                <value type="int">120000</value>
+                <value type="int">60000</value>
+                <value type="int">30000</value>
+                <value type="int">15000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -185,11 +187,12 @@
             <button>3</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>-1000</step>
-                <min>1000</min>
-                <max>48000</max>
+                <value type="int">120000</value>
+                <value type="int">60000</value>
+                <value type="int">30000</value>
+                <value type="int">15000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -202,11 +205,12 @@
             <button>4</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>1000</step>
-                <min>1000</min>
-                <max>48000</max>
+                <value type="int">15000</value>
+                <value type="int">30000</value>
+                <value type="int">60000</value>
+                <value type="int">120000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -225,12 +229,13 @@
             <button>0</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>1000</step>
-                <min>1000</min>
-                <max>48000</max>>
-      <wrap>false</wrap>
+                <value type="int">15000</value>
+                <value type="int">30000</value>
+                <value type="int">60000</value>
+                <value type="int">120000</value>
+                <wrap>false</wrap>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -242,11 +247,12 @@
             <button>1</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>10000</step>
-                <min>1000</min>
-                <max>48000</max>
+                <value type="int">15000</value>
+                <value type="int">30000</value>
+                <value type="int">60000</value>
+                <value type="int">120000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -259,11 +265,12 @@
             <button>3</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>-1000</step>
-                <min>1000</min>
-                <max>48000</max>
+                <value type="int">120000</value>
+                <value type="int">60000</value>
+                <value type="int">30000</value>
+                <value type="int">15000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -276,11 +283,12 @@
             <button>4</button>
             <repeatable>true</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
-                <step>1000</step>
-                <min>1000</min>
-                <max>48000</max>
+                <value type="int">15000</value>
+                <value type="int">30000</value>
+                <value type="int">60000</value>
+                <value type="int">120000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>

@@ -1968,7 +1968,7 @@ var HUDnasal = {
           maxDist = 2500;# as per sources
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 24J") {
           # sidewinders
-          minDist =   300;
+          minDist =   300;# authentic: (1000ft)
           maxDist = 14500;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 74") {
           # sidewinders

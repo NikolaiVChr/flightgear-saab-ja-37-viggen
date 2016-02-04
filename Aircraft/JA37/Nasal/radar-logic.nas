@@ -6,7 +6,7 @@ var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 
-var radarRange = 48000;#meter
+var radarRange = 120000;#meter
 
 var self = nil;
 var myAlt = nil;
