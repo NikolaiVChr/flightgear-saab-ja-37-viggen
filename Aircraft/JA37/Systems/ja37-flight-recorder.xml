@@ -256,6 +256,10 @@
             <type>int16</type>
             <property type="string">payload/weight[3]/weight-lb</property>
         </signal>
+        <signal>
+            <type>int8</type>
+            <property type="string">sim/multiplay/generic/int[19]</property>
+        </signal>
         <!-- Gears -->
         <!--<signal>
           <type>float</type>
