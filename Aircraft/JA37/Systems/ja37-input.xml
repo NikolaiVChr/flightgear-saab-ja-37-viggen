@@ -181,9 +181,8 @@
                 </binding>
             </mod-up>
         </key>
-        <key n="122">
-            <name>z</name>
-			<mod-ctrl>
+        <key n="113">
+            <name>q</name>
             <desc>Trigger flare release</desc>
             <binding>
                 <command>property-toggle</command>
@@ -197,7 +196,6 @@
                     <value type="bool">false</value>
                 </binding>
             </mod-up>-->
-			</mod-ctrl>
         </key>
         <key n="53">
             <name>CTRL-5</name>

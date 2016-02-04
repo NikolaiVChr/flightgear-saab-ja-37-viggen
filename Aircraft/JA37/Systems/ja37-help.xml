@@ -17,8 +17,12 @@
         <name>Backspace</name>
         <desc>Toggle thrust reverser</desc>
     </key>
+	<key>
+        <name>u</name>
+        <desc>Afterburner on/off</desc>
+    </key>
     <key>
-        <name>z</name>
+        <name>Ctrl z</name>
         <desc>Trigger flare release</desc>
     </key>
     <key>
@@ -32,6 +36,10 @@
     <key>
         <name>CTRL-1..4 and CTRL-6..7</name>
         <desc>Select missiles</desc>
+    </key>
+	<key>
+        <name>[ / ]</name>
+        <desc>Radar range decrease / increase</desc>
     </key>
     <key>
         <name>J</name>
@@ -48,6 +56,10 @@
     <key>
         <name>Ctrl Del</name>
         <desc>Roll damper on/off</desc>
+    </key>
+	<key>
+        <name>t</name>
+        <desc>Pitch Gearing on/off</desc>
     </key>
     <key>
         <name>o</name>
@@ -76,6 +88,14 @@
     <key>
         <name>M</name>
         <desc>Toggle nose wheel steering</desc>
+    </key>
+	<key>
+        <name>Y</name>
+        <desc>Landing HUD mode on/off</desc>
+    </key>
+	<key>
+        <name>y</name>
+        <desc>TILS on/off</desc>
     </key>
     <key>
         <name>r</name>
