@@ -399,8 +399,8 @@
                 </binding>
             </mod-ctrl>
         </key>
-        <key n="116">
-            <name>t</name>
+        <key n="119">
+            <name>w</name>
             <desc>Pitch Gearing on/off</desc>
             <binding>
                 <command>property-toggle</command>
