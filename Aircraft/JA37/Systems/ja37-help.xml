@@ -22,7 +22,7 @@
         <desc>Afterburner on/off</desc>
     </key>
     <key>
-        <name>Ctrl z</name>
+        <name>q</name>
         <desc>Trigger flare release</desc>
     </key>
     <key>
@@ -58,7 +58,7 @@
         <desc>Roll damper on/off</desc>
     </key>
 	<key>
-        <name>t</name>
+        <name>w</name>
         <desc>Pitch Gearing on/off</desc>
     </key>
     <key>
