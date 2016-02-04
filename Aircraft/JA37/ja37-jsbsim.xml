@@ -85,7 +85,7 @@
       <!-- Measured using Saab diagram in Gimp -->
       <wing_incidence unit="DEG"> 0.00    </wing_incidence>
     <location name="AERORP" unit="M">
-      <x> 1.90878 </x>
+      <x> 2.50878 </x>
       <y> 0 </y>
       <z> -0.20081 </z>
     </location>
