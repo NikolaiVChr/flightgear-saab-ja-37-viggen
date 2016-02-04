@@ -181,8 +181,8 @@
                 </binding>
             </mod-up>
         </key>
-        <key n="122">
-            <name>z</name>
+        <key n="113">
+            <name>q</name>
             <desc>Trigger flare release</desc>
             <binding>
                 <command>property-toggle</command>
@@ -367,7 +367,7 @@
        fgcommand('reinit', props.Node.new({ subsystem: "xml-autopilot" }));
        print("xml-autopilot reinitialized!");
        ja37.popupTip("Autopilot reinit.");
-      </script>
+					</script>
                 </binding>
             </mod-shift>
         </key>
@@ -398,6 +398,18 @@
                     <script>ja37.toggleRollDamper();</script>
                 </binding>
             </mod-ctrl>
+        </key>
+        <key n="119">
+            <name>w</name>
+            <desc>Pitch Gearing on/off</desc>
+            <binding>
+                <command>property-toggle</command>
+                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
         </key>
         <key n="111">
             <name>o</name>
@@ -439,5 +451,83 @@
                 <script>ja37.click();ja37.popupTip("Toggled configure HUD for final approach.");</script>
             </binding>
         </key>
+		
+        <key n="89">
+            <name>Y</name>
+            <desc>Landing Mode</desc>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/ja37/hud/landing-mode</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </key>
+		
+	    <key n="121">
+            <name>y</name>
+            <desc>TILS</desc>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/ja37/hud/TILS</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </key>
+		
+		<key n="117">
+            <name>u</name>
+            <desc>Afterburner Cutoff</desc>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/engines/engine[0]/cutoff-augmentation</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </key>
+		
+		<key n="91">
+			<name>[</name>
+			<desc>Decrease radar range</desc>
+			<repeatable>true</repeatable>
+		    <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/radar/range</property>
+                <value type="int">120000</value>
+                <value type="int">60000</value>
+                <value type="int">30000</value>
+                <value type="int">15000</value>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+		</key>
+		
+		<key n="93">
+			<name>]</name>
+			<desc>Increase radar range</desc>
+			<repeatable>true</repeatable>
+			<binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/radar/range</property>
+                <value type="int">15000</value>
+                <value type="int">30000</value>
+                <value type="int">60000</value>
+                <value type="int">120000</value>
+                <wrap>false</wrap>
+            </binding>
+			<binding>
+				<command>nasal</command>
+				<script>ja37.click()</script>
+			</binding>
+		</key>	
+		
     </keyboard>
 </PropertyList>
