@@ -718,7 +718,7 @@
                     <track-max-deg type="int">110</track-max-deg>                     <!-- Seeker max total angular rotation -->
                     <max-g type="int">30</max-g>                                      <!-- guess -->
                     <thrust-lbs-stage-1 type="double">745</thrust-lbs-stage-1>
-                    <thrust-lbs-stage-2 type="double">223.5</thrust-lbs-stage-2>    
+                    <thrust-lbs-stage-2 type="double">170</thrust-lbs-stage-2>    
                     <stage-1-duration-sec type="double">2</stage-1-duration-sec>      <!-- guess -->
                     <stage-2-duration-sec type="double">58</stage-2-duration-sec>     <!-- guess -->
                     <weight-launch-lbs type="double">425</weight-launch-lbs>
@@ -728,7 +728,7 @@
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">100</self-destruct-time-sec>         <!-- guess -->
+                    <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
                 </rb-71>
             </armament>
             <avionics>
