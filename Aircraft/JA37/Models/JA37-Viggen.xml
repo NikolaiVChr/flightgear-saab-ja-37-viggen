@@ -120,6 +120,7 @@
     <object-name>plaqueLeft</object-name>
     <object-name>plaqueRight</object-name>
     <object-name>radarHeading</object-name>
+	<object-name>radarHeadingIndicator</object-name>
     <!--<object-name>radarScreen</object-name>-->
     <object-name>seat</object-name>
   </effect>
