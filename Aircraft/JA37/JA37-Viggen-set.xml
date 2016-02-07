@@ -469,6 +469,13 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Reload air to air (1997)</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>armament.reloadAir2Air1997();</script>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Reload air to ground</label>
                         <binding>
                             <command>nasal</command>
@@ -730,6 +737,29 @@
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
                 </rb-71>
+                <rb-99>
+                    <sound-on-off type="bool">false</sound-on-off>
+                    <sound-volume type="double">0.0</sound-volume>
+                    <vol-search type="double">0.00</vol-search>
+                    <guidance type="string">semi-radar</guidance><!-- change later -->
+                    <all-aspect type="bool">true</all-aspect>
+                    <max-detection-rng-nm type="int">38.8</max-detection-rng-nm>
+                    <fov-deg type="int">30</fov-deg>
+                    <track-max-deg type="int">110</track-max-deg>
+                    <max-g type="int">25</max-g>
+                    <thrust-lbs-stage-1 type="double">500</thrust-lbs-stage-1><!-- guess -->
+                    <thrust-lbs-stage-2 type="double">170</thrust-lbs-stage-2>    <!-- guess -->
+                    <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
+                    <stage-2-duration-sec type="double">50.0</stage-2-duration-sec><!-- guess -->
+                    <weight-launch-lbs>291</weight-launch-lbs>
+                    <weight-warhead-lbs>44</weight-warhead-lbs>
+                    <drag-coeff type="double">0.088</drag-coeff>
+                    <drag-area type="double">0.075</drag-area>
+                    <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
+                    <arming-time-sec type="double">3.0</arming-time-sec>                       <!-- guess -->
+                    <min-speed-for-guiding-mach type="double">1.0</min-speed-for-guiding-mach> <!-- guess -->
+                    <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
+                </rb-99>
             </armament>
             <avionics>
                 <altimeters-calibrated type="bool">0</altimeters-calibrated>
@@ -1151,6 +1181,10 @@
                 <name>RB 71</name>
                 <lbs>425</lbs>
             </opt>
+            <opt>
+                <name>RB 99</name>
+                <lbs>291</lbs>
+            </opt>
         </weight>
         <weight n="1">
             <name>Left fuselage pylon</name>
@@ -1172,10 +1206,10 @@
                 <name>M70</name>
                 <lbs>200</lbs>
             </opt>
-            <!--<opt>
-                <name>RB 71</name>
-                <lbs>425</lbs>
-            </opt>-->
+            <opt>
+                <name>RB 99</name>
+                <lbs>291</lbs>
+            </opt>
         </weight>
         <weight n="2">
             <name>Right wing pylon</name>
@@ -1201,6 +1235,10 @@
                 <name>RB 71</name>
                 <lbs>425</lbs>
             </opt>
+            <opt>
+                <name>RB 99</name>
+                <lbs>291</lbs>
+            </opt>
         </weight>
         <weight n="3">
             <name>Right fuselage pylon</name>
@@ -1222,10 +1260,10 @@
                 <name>M70</name>
                 <lbs>200</lbs>
             </opt>
-            <!--<opt>
-                <name>RB 71</name>
-                <lbs>425</lbs>
-            </opt>-->
+            <opt>
+                <name>RB 99</name>
+                <lbs>291</lbs>
+            </opt>
         </weight>
         <weight n="4">
             <name>Left outer wing pylon</name>
