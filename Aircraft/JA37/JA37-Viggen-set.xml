@@ -1089,6 +1089,11 @@
         <target-tracking>
             <min-speed-kt type="double">190</min-speed-kt>
         </target-tracking>
+		<route-manager>
+			<wp>
+				<bearing-deg-rel> type="double">0</bearing-deg-rel>
+			</wp>
+		</route-manager>
     </autopilot>
     <systems>
         <path>Aircraft/JA37/Systems/systems.xml</path>
