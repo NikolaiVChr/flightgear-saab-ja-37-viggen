@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>./radar_compass_heading.ac</path>
+
+    <animation>
+        <type>material</type>
+        <object-name>radarCompassHeadingIndicator</object-name>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>waypointHeadingIndicator</object-name>
+        <property>autopilot/route-manager/wp/bearing-deg-rel</property>
+		<condition>
+            <greater-than>
+                <property>systems/electrical/outputs/dc-voltage</property>
+                <value>23</value>
+            </greater-than>
+        </condition>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>360</ind>
+                <dep>360</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.04</x-m>
+            <y-m>0.0</y-m>
+            <z-m>-0.073</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+</PropertyList>
