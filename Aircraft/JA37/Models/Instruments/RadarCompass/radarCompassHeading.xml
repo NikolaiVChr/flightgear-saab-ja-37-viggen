@@ -20,6 +20,10 @@
             </greater-than>
         </condition>
         <interpolation>
+			<entry>
+                <ind>-360</ind>
+                <dep>-360</dep>
+            </entry>
             <entry>
                 <ind>0</ind>
                 <dep>0</dep>
