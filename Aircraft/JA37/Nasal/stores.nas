@@ -63,6 +63,7 @@ var loop_stores = func {
           or (payloadName.getValue() == "RB 24J" and payloadWeight.getValue() != 179)
           or (payloadName.getValue() == "RB 74" and payloadWeight.getValue() != 188)
           or (payloadName.getValue() == "RB 71" and payloadWeight.getValue() != 425)
+          or (payloadName.getValue() == "RB 99" and payloadWeight.getValue() != 291)
           or (payloadName.getValue() == "Drop tank" and payloadWeight.getValue() != 224.87))) {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
@@ -114,6 +115,21 @@ var loop_stores = func {
               armament.AIM.active[i].del();
             }
             if(armament.AIM.new(i, "RB-71", "Skyflash") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-71 missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "RB 99") {
+            # is not center pylon and is RB99
+            #print("rb71 "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-99") {
+              # remove aim-9 logic from that pylon
+              #print("removing aim-9 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "RB-99", "Amraam") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
               #missile added through menu while another from that pylon is still flying.
               #to handle this we have to ignore that addition.
               setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -184,12 +200,17 @@ var loop_stores = func {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
         }
       } elsif (selected == "RB 71") {
-        # the pylon has a sidewinder, give it a pointmass
+        # the pylon has a skyflash, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 425) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 425);
         }
+      } elsif (selected == "RB 99") {
+        # the pylon has a amraam, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 291) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 291);
+        }
       } elsif (selected == "M70") {
-        # the pylon has a sidewinder, give it a pointmass
+        # the pylon has a rocket pod, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 200) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 200);
         }
@@ -391,7 +412,7 @@ var incoming_listener = func {
         # a m2000 is firing at us
         m2000 = TRUE;
       }
-      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or m2000 == TRUE) {
+      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or last_vector[1] == " RB-99 fired at" or m2000 == TRUE) {
         # air2air being fired
         if (size(last_vector) > 2 or m2000 == TRUE) {
           #print("Missile launch detected at"~last_vector[2]~" from "~author);
@@ -467,7 +488,7 @@ var incoming_listener = func {
             if(distance != nil) {
               var maxDist = 0;
 
-              if (type == "aim-120" or type == "AIM120") {
+              if (type == "aim-120" or type == "AIM120" or type == "RB-99") {
                 # 44 lbs
                 maxDist = 20;
               } elsif (type == "aim-7" or type == "RB-71") {
@@ -615,6 +636,13 @@ var ammoCount = func (station) {
           ammo += 1;
         }
       }
+    } elsif (type == "RB 99") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 99") {
+          ammo += 1;
+        }
+      }
     } elsif (type == "RB 74") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
@@ -659,6 +687,13 @@ var cycle_weapons = func {
         type = "M70";
       }
     } elsif (type == "M70") {
+      sel = selectType("RB 99");
+      if (sel != -1) {
+        newType = "RB 99";
+      } else {
+        type = "RB 99";
+      }
+    } elsif (type == "RB 99") {
       sel = selectType("RB 71");
       if (sel != -1) {
         newType = "RB 71";
@@ -692,7 +727,7 @@ var cycle_weapons = func {
 ############ reload #####################
 
 reloadAir2Air1979 = func {
-  # Reload missiles - 4 of them.
+  # Reload missiles - 6 of them.
 
   # Sidewinder
   setprop("payload/weight[1]/selected", "RB 24J");
@@ -719,7 +754,7 @@ reloadAir2Air1979 = func {
 }
 
 reloadAir2Air1987 = func {
-  # Reload missiles - 4 of them.
+  # Reload missiles - 6 of them.
 
   # Sidewinder
   setprop("payload/weight[1]/selected", "RB 74");
@@ -727,6 +762,36 @@ reloadAir2Air1987 = func {
   setprop("payload/weight[4]/selected", "RB 74");
   setprop("payload/weight[5]/selected", "RB 74");
   screen.log.write("4 RB-74 missiles attached", 0.0, 1.0, 0.0);
+
+  # Skyflash
+  setprop("payload/weight[0]/selected", "RB 71");
+  setprop("payload/weight[2]/selected", "RB 71");
+  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  #setprop("ai/submodels/submodel[2]/count", 29);
+  setprop("ai/submodels/submodel[3]/count", 146);
+  setprop("ai/submodels/submodel[4]/count", 146);
+  screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+}
+
+reloadAir2Air1997 = func {
+  # Reload missiles - 6 of them.
+
+  # Amraam
+  setprop("payload/weight[1]/selected", "RB 99");
+  setprop("payload/weight[3]/selected", "RB 99");
+  screen.log.write("2 RB-99 missiles attached", 0.0, 1.0, 0.0);
+
+  # Sidewinder
+  setprop("payload/weight[4]/selected", "RB 74");
+  setprop("payload/weight[5]/selected", "RB 74");
+  screen.log.write("2 RB-74 missiles attached", 0.0, 1.0, 0.0);
 
   # Skyflash
   setprop("payload/weight[0]/selected", "RB 71");

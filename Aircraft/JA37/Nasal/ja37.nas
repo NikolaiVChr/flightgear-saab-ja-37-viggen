@@ -367,6 +367,11 @@ var update_loop = func {
     } else {
       setprop("sim/ja37/avionics/auto-altitude-on", TRUE);
     }
+	
+	# sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
+	if (getprop("/autopilot/route-manager/active")) {
+	  setprop("autopilot/route-manager/wp/bearing-deg-rel",getprop("/autopilot/route-manager/wp/bearing-deg") - getprop("/orientation/heading-magnetic-deg"));
+	}
 
     settimer(
       #func debug.benchmark("j37 loop", 
