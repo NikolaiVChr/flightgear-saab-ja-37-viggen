@@ -24,6 +24,7 @@ Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Model: Radar range control should be only 3 digits.
 Model: Inside radar heading disc should be 6 red lamps for radar lock warning.
+Model: If heading indicator fails, the radar heading bug for steerpoints should freeze. Same with voltage.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.
