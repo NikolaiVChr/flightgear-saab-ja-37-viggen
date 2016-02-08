@@ -228,7 +228,7 @@ var AIM = {
 		me.model.getNode("heading-deg-prop", 1).setValue(me.hdgN.getPath());
 		me.model.getNode("pitch-deg-prop", 1).setValue(me.pitchN.getPath());
 		me.model.getNode("roll-deg-prop", 1).setValue(me.rollN.getPath());
-		me.model.getNode("load", 1).remove();
+		var loadNode = me.model.getNode("load", 1);
 		
 		# Get initial velocity vector (aircraft):
 		me.s_down = getprop("velocities/speed-down-fps");
@@ -244,6 +244,7 @@ var AIM = {
 		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
+		#loadNode.remove();
 		me.update();
 
 	},
