@@ -1977,3 +1977,4 @@ Sim: Added outer pylon storage to flight-recorder.
 Radar: Increased range to 120Km as per the AJ37 manual. (48Km limit is for fire control)
 Sim: RB71 second stage thrust is now reduced.
 Sim: Added the RB-99 Amraam.
+Animation: Make the strobe darker in daylight.
