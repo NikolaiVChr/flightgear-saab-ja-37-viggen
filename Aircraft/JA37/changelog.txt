@@ -1978,3 +1978,4 @@ Radar: Increased range to 120Km as per the AJ37 manual. (48Km limit is for fire 
 Sim: RB71 second stage thrust is now reduced.
 Sim: Added the RB-99 Amraam.
 Animation: Make the strobe darker in daylight.
+Sim: Replaces missile status numbers with statics.
