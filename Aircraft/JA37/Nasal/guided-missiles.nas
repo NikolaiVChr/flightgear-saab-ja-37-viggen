@@ -14,6 +14,11 @@ var REAL_TIME = 0;
 var TRUE = 1;
 var FALSE = 0;
 
+var MISSILE_STANDBY = -1;
+var MISSILE_SEARCH = 0;
+var MISSILE_LOCK = 1;
+var MISSILE_FLYING = 2;
+
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
 
@@ -150,7 +155,7 @@ var AIM = {
 		#print("deleted");
 		me.model.remove();
 		me.ai.remove();
-		if (me.status == 2) {
+		if (me.status == MISSILE_FLYING) {
 			delete(AIM.flying, me.flyID);
 		} else {
 			delete(AIM.active, me.ID);
@@ -158,7 +163,7 @@ var AIM = {
 	},
 	#done
 	release: func() {
-		me.status = 2;
+		me.status = MISSILE_FLYING;
 		me.flyID = rand();
 		AIM.flying[me.flyID] = me;
 		delete(AIM.active, me.ID);
@@ -351,7 +356,7 @@ var AIM = {
 
 		#### Guidance.
 
-		if ( me.status == 2 and me.free == 0) {
+		if ( me.status == MISSILE_FLYING and me.free == 0) {
 			me.update_track(dt);
 			if (init_launch == 0 ) {
 				# Use the rail or a/c pitch for the first frame.
@@ -397,7 +402,7 @@ var AIM = {
 		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(speed_fps * FPS2KT);
 
 		#### Proximity detection.
-		if ( me.status == 2 ) {
+		if ( me.status == MISSILE_FLYING ) {
 			#### check if the missile can keep the lock.
  			if ( me.free == 0 ) {
 				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
@@ -516,7 +521,7 @@ var AIM = {
 		 #print("no target");
 		 return(1);
 		}
-		if (me.status == 0) {
+		if (me.status == MISSILE_SEARCH) {
 			# Status = searching.
 			me.reset_seeker();
 			me.SwSoundVol.setValue(me.vol_search);
@@ -524,7 +529,7 @@ var AIM = {
 			settimer(func me.search(), 0.1);
 			return(1);
 		}
-		if ( me.status == -1 ) {
+		if ( me.status == MISSILE_STANDBY ) {
 			# Status = stand-by.
 			me.reset_seeker();
 			me.SwSoundVol.setValue(0);
@@ -535,7 +540,7 @@ var AIM = {
 			# Lost of lock due to target disapearing:
 			# return to search mode.
 			#print("invalid");
-			me.status = 0;
+			me.status = MISSILE_SEARCH;
 			me.reset_seeker();
 			me.SwSoundVol.setValue(me.vol_search);
 			me.trackWeak = 1;
@@ -551,7 +556,7 @@ var AIM = {
 		}
 		var last_tgt_e = me.curr_tgt_e;
 		var last_tgt_h = me.curr_tgt_h;
-		if (me.status == 1) {		
+		if (me.status == MISSILE_LOCK) {		
 			# Status = locked. Get target position relative to our aircraft.
 			me.curr_tgt_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getChild("radar").getChild("elevation-deg").getValue());
 			me.curr_tgt_h = - deviation_normdeg(OurHdg.getValue(), me.Tgt.getChild("radar").getChild("bearing-deg").getValue());
@@ -610,7 +615,7 @@ var AIM = {
 
 		}
 		# Compute HUD reticle position.
-		if ( 1==0 and me.status == 1 ) {
+		if ( 1==0 and me.status == MISSILE_LOCK ) {
 			var h_rad = (90 - me.curr_tgt_h) * D2R;
 			var e_rad = (90 - me.curr_tgt_e) * D2R; 
 			var devs = develev_to_devroll(h_rad, e_rad);
@@ -622,7 +627,7 @@ var AIM = {
 			HudReticleDeg.setValue(combined_dev_deg);
 			HudReticleDev.setValue(combined_dev_length);
 		}
-		if ( me.status != 2 and me.status != -1 ) {
+		if ( me.status != MISSILE_FLYING and me.status != MISSILE_STANDBY ) {
 			me.check_t_in_fov();
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
 			me.SwSoundVol.setValue(vol_track);
@@ -761,7 +766,7 @@ var AIM = {
 		var h_r = me.seeker_dev_h + me.aim9_fov;
 		if ( me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r ) {		
 			# Target out of FOV while still not launched, return to search loop.
-			me.status = 0;
+			me.status = MISSILE_SEARCH;
 			settimer(func me.search(), rand()*3.5);
 			me.Tgt = nil;
 			me.SwSoundVol.setValue(me.vol_search);
@@ -773,12 +778,12 @@ var AIM = {
 
 	# aircraft searching for lock
 	search: func {
-		if ( me.status == -1 ) {
+		if ( me.status == MISSILE_STANDBY ) {
 			# Stand by.
 			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
 			return;
-		} elsif ( me.status > 0 ) {
+		} elsif ( me.status > MISSILE_SEARCH ) {
 			# Locked or fired.
 			return;
 		}
@@ -793,7 +798,7 @@ var AIM = {
 			var abs_total_elev = math.abs(total_elev);
 			var abs_dev_deg = math.abs(total_horiz);
 			if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE) and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov_diam and abs_dev_deg < me.aim9_fov_diam ) {
-				me.status = 1;
+				me.status = MISSILE_LOCK;
 				me.SwSoundVol.setValue(vol_weak_track);
 				me.trackWeak = 1;
 				me.Tgt = tgt;

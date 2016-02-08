@@ -46,6 +46,7 @@
   <type>scale</type>
   <object-name>strobeGlare</object-name>
   <property>/rendering/scene/diffuse/red</property>
+  <!-- scale = factor*property+offset -->
   <x-min>-30.0</x-min>
   <y-min>-30.0</y-min>
   <z-min>-30.0</z-min>
