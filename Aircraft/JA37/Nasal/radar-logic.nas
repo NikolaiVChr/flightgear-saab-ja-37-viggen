@@ -58,6 +58,7 @@ var findRadarTracks = func () {
     var rb24 = node_ai.getChildren("rb-24j");
 	  var rb71 = node_ai.getChildren("rb-71");
     var rb74 = node_ai.getChildren("rb-74");
+    var rb99 = node_ai.getChildren("rb-99");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
       paint(selection[6], FALSE);
@@ -72,6 +73,7 @@ var findRadarTracks = func () {
     processTracks(rb24, FALSE, TRUE);
 	  processTracks(rb71, FALSE, TRUE);
     processTracks(rb74, FALSE, TRUE);
+    processTracks(rb99, FALSE, TRUE);
     processCallsigns(players);
   } else {
     # Do not supply target info to the missiles if radar is off.
