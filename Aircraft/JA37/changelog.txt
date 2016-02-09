@@ -1987,3 +1987,4 @@ Sim: Replaces missile status numbers with statics.
 Model: Possible fix for missile model not showing when its fired from a pylon a second time.
 Sim: Adjusted RB-71 stats.
 Sim: Prevent missile from having negative speed.
+GUI: Made the option dialog higher to give room to new buttons.
