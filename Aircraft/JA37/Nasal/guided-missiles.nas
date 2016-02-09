@@ -6,7 +6,7 @@ var HudReticleDev  = props.globals.getNode("sim/ja37/hud/reticle-total-deviation
 var HudReticleDeg  = props.globals.getNode("sim/ja37/hud/reticle-total-angle", 1);
 var vol_weak_track = 0.10;
 var vol_track      = 0.15;
-var update_loop_time = 0.005;
+var update_loop_time = 0.000;
 
 var FRAME_TIME = 1;
 var REAL_TIME = 0;
@@ -319,7 +319,7 @@ var AIM = {
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
 		me.speed_m = (total_s_ft / dt) / sound_fps;
-		#print("mach "~me.speed_m~" - lifetime "~me.life_time);
+		#print(sprintf("mach %.1f", me.speed_m)~sprintf(" - time %.1f", me.life_time)~" - thrust "~f_lbs);
 		if (me.speed_m < 0.7)
 		 cdm = 0.0125 * me.speed_m + me.cd;
 		elsif (me.speed_m < 1.2 )
@@ -334,8 +334,14 @@ var AIM = {
 		var old_speed_fps = total_s_ft / dt;
 		var acc = f_lbs / mass;
 
-		var drag_acc = (cdm * 0.5 * rho * old_speed_fps * old_speed_fps * me.eda / mass);
+		var q = 0.5 * rho * old_speed_fps * old_speed_fps;# dynamic pressure
+		var drag_acc = (cdm * q * me.eda) / mass;
 		var speed_fps = old_speed_fps - drag_acc + acc;
+
+		if (speed_fps < 0) {
+			# drag can theoretically make the speed less than 0, this will prevent that from happening.
+			speed_fps = 0;
+		}
 
 		# Break down total speed to North, East and Down components.
 		var speed_down_fps = math.sin(pitch_deg * D2R) * speed_fps;
@@ -374,6 +380,7 @@ var AIM = {
                     me.track_signal_h =  me.track_signal_h * MyCoef;
                     myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
                 }
+                #print(sprintf("G %.1f", myG));
                 if (me.all_aspect == 1 or me.rear_aspect() == 1) {
                 	pitch_deg += me.track_signal_e;
                 	hdg_deg += me.track_signal_h;

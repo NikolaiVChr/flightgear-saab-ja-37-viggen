@@ -1986,3 +1986,4 @@ Animation: Make the strobe darker in daylight.
 Sim: Replaces missile status numbers with statics.
 Model: Possible fix for missile model not showing when its fired from a pylon a second time.
 Sim: Adjusted RB-71 stats.
+Sim: Prevent missile from having negative speed.
