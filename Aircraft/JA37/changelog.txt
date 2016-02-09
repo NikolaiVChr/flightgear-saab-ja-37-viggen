@@ -1984,3 +1984,5 @@ Model: {Pinto} Added a steerpoint heading bug for radar compass.
 Sim: Added the RB-99 Amraam.
 Animation: Make the strobe darker in daylight.
 Sim: Replaces missile status numbers with statics.
+Model: Possible fix for missile model not showing when its fired from a pylon a second time.
+Sim: Adjusted RB-71 stats.
