@@ -200,7 +200,7 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Altimeter3/altimeter3.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/DistanceIndicator/distindicator.xml</path>
     <name>Coarse altitude</name>
     <offsets>
       <x-m>  0 </x-m>
