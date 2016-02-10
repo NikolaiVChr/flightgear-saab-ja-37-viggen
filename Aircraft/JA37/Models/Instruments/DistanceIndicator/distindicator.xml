@@ -36,7 +36,7 @@
 			</and>
         </condition>
         <property>autopilot/route-manager/wp/dist-km</property>
-        <factor>6</factor> <!-- .006 -->
+        <factor>6</factor>
         <offset-deg>240</offset-deg>
         <axis>
             <x>-1</x>
