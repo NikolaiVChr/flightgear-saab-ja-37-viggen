@@ -319,7 +319,6 @@ var AIM = {
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
 		me.speed_m = (total_s_ft / dt) / sound_fps;
-		#print(sprintf("mach %.1f", me.speed_m)~sprintf(" - time %.1f", me.life_time)~" - thrust "~f_lbs);
 		if (me.speed_m < 0.7)
 		 cdm = 0.0125 * me.speed_m + me.cd;
 		elsif (me.speed_m < 1.2 )
@@ -371,14 +370,15 @@ var AIM = {
 			} else {
 				#print("steering");
 				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
-                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
                 if(me.max_g < myG)
                 {
-                    #print("MyG");
-                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, total_s_ft, mass, dt,me.max_g);
+                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt, me.max_g);
                     me.track_signal_e =  me.track_signal_e * MyCoef;
                     me.track_signal_h =  me.track_signal_h * MyCoef;
-                    myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+                    #print(sprintf("G1 %.2f", myG));
+                    myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
+                    #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
                 }
                 #print(sprintf("G %.1f", myG));
                 if (me.all_aspect == 1 or me.rear_aspect() == 1) {
@@ -413,7 +413,12 @@ var AIM = {
 		if ( me.status == MISSILE_FLYING ) {
 			#### check if the missile can keep the lock.
  			if ( me.free == 0 ) {
-				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), mass, dt);
+				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
+
+# Uncomment this line to check stats while flying:
+#
+#print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f", me.life_time)~sprintf(" , thrust %03.1f", f_lbs)~sprintf(" , G-force %02.2f", g));
+
 				if ( g > me.max_g ) {
 					#print("lost lock "~g~"G");
 					# Target unreachable, fly free.
@@ -486,7 +491,7 @@ var AIM = {
 			rearAspect = rand() > probability;
 		}
 
-		print ("RB-24J deviation from full rear-aspect: "~sprintf("%01.1f", offset)~" deg, keep IR lock on engine: "~rearAspect);
+		#print ("RB-24J deviation from full rear-aspect: "~sprintf("%01.1f", offset)~" deg, keep IR lock on engine: "~rearAspect);
 
 		return rearAspect;# 1: keep lock, 0: lose lock
 	},
@@ -981,13 +986,42 @@ var impact_report = func(pos, mass_slug, string) {
 
 }
 
-var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, mass, dt) {
-	# Get G number from steering (e, h) in deg, speed in ft/s and mass in slugs.
-	var steer_deg = math.sqrt((steering_e_deg*steering_e_deg)+(steering_h_deg*steering_h_deg));
+var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, dt) {
+	# Get G number from steering (e, h) in deg, speed in ft/s.
+	var steer_deg = math.sqrt((steering_e_deg*steering_e_deg) + (steering_h_deg*steering_h_deg));
 	var radius_ft = math.abs(s_fps / math.cos((90 - steer_deg)*D2R));
-	var g = (mass * s_fps * s_fps / radius_ft * dt) / g_fps;
+	var g = ( (s_fps * s_fps) / radius_ft ) / g_fps;
 	#print("#### R = ", radius_ft, " G = ", g); ##########################################################
-	return(g);
+	return g;
+}
+
+var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt,gMax) {
+        # Get G number from steering (e, h) in deg, speed in ft/s.
+        #This function is for calculate the maximum angle without overload G
+
+        var steer_deg = math.sqrt((steering_e_deg*steering_e_deg) + (steering_h_deg*steering_h_deg));
+        var radius_ft = math.abs(s_fps / math.cos((90 - steer_deg)*D2R));
+        var g = ( (s_fps * s_fps) / radius_ft ) / g_fps;
+
+         #Isolation of Radius
+        if (s_fps < 1) {
+        	s_fps = 1;
+        }
+        var radius_ft2 = ( s_fps * s_fps) / (gMax * 0.95 * g_fps);
+        if (math.abs(s_fps / radius_ft2) < 1) {
+                var steer_rad_theoric = math.acos(math.abs(s_fps/radius_ft2));
+                var steer_deg_theoric = 90 - (steer_rad_theoric * R2D);
+        } else {
+                var steer_rad_theoric = 1;
+                var steer_deg_theoric = 1;
+        }
+
+        var radius_ft_th = math.abs(s_fps / math.cos((90 -steer_deg_theoric)*D2R));
+        var g_th = ( (s_fps * s_fps) / radius_ft_th ) / g_fps;
+
+        #print ("Max G ", gMax , " Actual G " , g, " steer_deg_theoric ", steer_deg_theoric, " G theoretic=", g_th);
+        
+        return (steer_deg_theoric / steer_deg);
 }
 
 
@@ -1078,33 +1112,6 @@ var rho_sndspeed = func(altitude) {
 	var snd_speed = math.sqrt( 1.4 * 1716 * (T + 459.7));
 	return [rho, snd_speed];
 
-}
-
-var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, mass, dt,gMax) {
-        # Get G number from steering (e, h) in deg, speed in ft/s and mass in slugs.
-        #This function is for calculate the maximum angle without overload G
-
-        var steer_deg = math.sqrt((steering_e_deg*steering_e_deg)+(steering_h_deg*steering_h_deg));
-        var radius_ft = math.abs(s_fps / math.cos(90 - steer_deg));
-        var g = (mass * s_fps * s_fps / radius_ft * dt) / g_fps;
-
-         #Isolation of Radius
-        if(s_fps<1){s_fps=1;}
-        var radius_ft2 =(mass * s_fps * s_fps * dt)/((gMax*0.9) * g_fps);
-        if(math.abs(s_fps/radius_ft2)<1){
-                var steer_rad_theoric = math.acos(math.abs(s_fps/radius_ft2));
-                var steer_deg_theoric = 90 - (steer_rad_theoric * R2D);
-        }else{
-                var steer_rad_theoric = 1;
-                var steer_deg_theoric = 1;
-        }
-
-        var radius_ft_th = math.abs(s_fps / math.cos((90 -steer_deg_theoric)*D2R));
-        var g_th = (mass * s_fps * s_fps / radius_ft_th * dt) / g_fps;
-
-        #print ("Max G ",gMax , " Actual G " , g,"steer_deg_theoric ",steer_deg_theoric);
-        
-        return(steer_deg_theoric/steer_deg);
 }
 
 #var AIM_instance = [nil, nil,nil,nil];#init aim-9
