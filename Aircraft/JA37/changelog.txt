@@ -1988,3 +1988,11 @@ Model: Possible fix for missile model not showing when its fired from a pylon a 
 Sim: Adjusted RB-71 stats.
 Sim: Prevent missile from having negative speed.
 GUI: Made the option dialog higher to give room to new buttons.
+Sim: Engine fire implemented.
+Sim: Engine fire can fail engine, generator, reverser or afterburner if unlucky, so better land soon if happens.
+Sim: Engine fire can start from too high outlet temperature.
+Sim: Engine fire can start from running thrust reverser at very low speed getting hot exhaust sucked into engine inlet.
+Sim: Engine fire can start from missile hit or hitting terrain.
+Sim: Implemented small chance that engine fire can go out by itself.
+Model: Fixed that indicator would not show no forward thrust if reversed and reverser failed.
+Model: Fixed that indicator would not show no reverse thrust if in forward thrust and reverser failed.

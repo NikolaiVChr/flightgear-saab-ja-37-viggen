@@ -16,9 +16,19 @@
         <!-- Swedish: BRAND (sound, blinking)
         -->
 
+        <fcs_function name="systems/indicators/fire-primary">
+            <function>
+                <eq>
+                    <property>/engines/engine[0]/fire/serviceable</property>
+                    <value>0</value>
+                </eq>
+            </function>
+        </fcs_function>
+
         <switch name="systems/indicators/fire">
             <default value="0"/>
             <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+              systems/indicators/fire-primary == 1
               /controls/lighting/test-indicator-panels == 1
             </test>
         </switch>
@@ -317,6 +327,10 @@
                                 <property>/systems/electrical/outputs/dc-voltage</property>
                                 <value>23</value>
                             </lt>
+                            <eq>
+                                <property>/controls/engines/engine/reverse-system/serviceable</property>
+                                <value>0</value>
+                            </eq>
                         </or>
                         <eq>
                             <property>/engines/engine/reversed</property>
@@ -624,6 +638,10 @@
                                 <property>/systems/electrical/outputs/dc-voltage</property>
                                 <value>23</value>
                             </lt>
+                            <eq>
+                                <property>/controls/engines/engine/reverse-system/serviceable</property>
+                                <value>0</value>
+                            </eq>
                         </or>
                         <eq>
                             <property>/engines/engine/reversed</property>
@@ -1746,6 +1764,23 @@
                 engine not running when airborne
         -->
 
+        <switch name="systems/indicators/master-warning/fire">
+            <default value="0"/>
+            <test logic="OR" value="0">
+                systems/indicators/fire-primary == 0
+            </test>
+            <test logic="OR" value="1">
+                systems/indicators/master-warning/fire == 1
+            </test>
+            <test logic="AND" value="1">
+                systems/indicators/master-warning/fire gt 1
+                /sim/ja37/avionics/master-warning-button == 1
+            </test>
+            <test logic="AND" value="3">
+                systems/indicators/fire-primary == 1
+            </test>
+        </switch>
+
         <switch name="systems/indicators/master-warning/engine-off">
             <default value="0"/>
             <test logic="OR" value="0">
@@ -2202,6 +2237,7 @@
                 systems/indicators/master-warning/auto-alt-issue gt 2
                 systems/indicators/master-warning/stick-problem gt 2
                 systems/indicators/master-warning/fuel-low gt 2
+                systems/indicators/master-warning/fire gt 2
             </test>
             <test logic="OR" value="2">
                 systems/indicators/master-warning/engine-off gt 1
@@ -2228,6 +2264,7 @@
                 systems/indicators/master-warning/auto-alt-issue gt 1
                 systems/indicators/master-warning/stick-problem gt 1
                 systems/indicators/master-warning/fuel-low gt 1
+                systems/indicators/master-warning/fire gt 1
             </test>
             <test logic="OR" value="1">
                 systems/indicators/master-warning/engine-off gt 0
@@ -2254,6 +2291,7 @@
                 systems/indicators/master-warning/auto-alt-issue gt 0
                 systems/indicators/master-warning/stick-problem gt 0
                 systems/indicators/master-warning/fuel-low gt 0
+                systems/indicators/master-warning/fire gt 0
             </test>
         </switch>
 

@@ -1148,6 +1148,7 @@
               propulsion/engine/n1 ge 84
               /controls/engines/engine/cutoff-augmentation == 0
               /engines/engine/reversed == 0
+              /engines/engine/afterburner/serviceable == 1
               /engines/engine/running == 1
           </test>
             <output>propulsion/engine/augmentation</output>

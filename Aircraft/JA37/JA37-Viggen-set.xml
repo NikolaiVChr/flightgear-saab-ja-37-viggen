@@ -1325,6 +1325,12 @@
             <nozzle-pos-norm type="double">0</nozzle-pos-norm>
             <reverser-pos-norm type="double">0</reverser-pos-norm>
             <reverser-position type="double">0.000000</reverser-position>
+            <fire>
+                <serviceable type="bool">true</serviceable>
+            </fire>
+            <afterburner>
+                <serviceable type="bool">true</serviceable>
+            </afterburner>
         </engine>
     </engines>
 
@@ -1483,6 +1489,7 @@
         </limits>
         <failureSys>
             <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
+            <file>Aircraft/JA37/Nasal/engine-fire.nas</file>
         </failureSys>
         <crash0>
             <file>Aircraft/JA37/Nasal/crash.nas</file>

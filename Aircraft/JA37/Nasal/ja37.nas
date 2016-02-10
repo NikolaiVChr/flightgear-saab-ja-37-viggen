@@ -784,9 +784,11 @@ var test_support = func {
       setprop("sim/ja37/supported/crash-system", 0);
       setprop("sim/ja37/supported/ubershader", FALSE);
       setprop("sim/ja37/supported/lightning", FALSE);
+      setprop("sim/ja37/supported/fire", FALSE);
   } elsif (major == 2) {
     setprop("sim/ja37/supported/landing-light", FALSE);
     setprop("sim/ja37/supported/lightning", FALSE);
+    setprop("sim/ja37/supported/fire", FALSE);
     if(minor < 7) {
       popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("sim/ja37/supported/radar", FALSE);
@@ -833,6 +835,7 @@ var test_support = func {
     setprop("sim/ja37/supported/crash-system", 1);
     setprop("sim/ja37/supported/ubershader", TRUE);
     setprop("sim/ja37/supported/lightning", TRUE);
+    setprop("sim/ja37/supported/fire", FALSE);
     if (minor == 0) {
       setprop("sim/ja37/supported/old-custom-fails", 0);
       setprop("sim/ja37/supported/landing-light", FALSE);
@@ -848,8 +851,10 @@ var test_support = func {
       setprop("sim/ja37/supported/old-custom-fails", 1);
       setprop("sim/ja37/supported/popuptips", 1);
       setprop("sim/ja37/supported/lightning", FALSE);
+      setprop("sim/ja37/supported/fire", TRUE);
     } elsif (minor <= 6) {
       setprop("sim/ja37/supported/lightning", FALSE);
+      setprop("sim/ja37/supported/fire", TRUE);
     }
   } else {
     # future proof
@@ -862,6 +867,7 @@ var test_support = func {
     setprop("sim/ja37/supported/crash-system", 1);
     setprop("sim/ja37/supported/ubershader", TRUE);
     setprop("sim/ja37/supported/lightning", TRUE);
+    setprop("sim/ja37/supported/fire", TRUE);
   }
   setprop("sim/ja37/supported/initialized", TRUE);
 

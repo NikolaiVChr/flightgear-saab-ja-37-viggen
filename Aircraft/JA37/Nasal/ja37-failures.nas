@@ -287,6 +287,14 @@ var install_new_failures = func {
     var actuator_transponder = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Transponder", actuator_transponder);
 
+    prop = "engines/engine[0]/fire";
+    var actuator_engine_fire = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Engine fire", actuator_engine_fire);
+
+    prop = "engines/engine/afterburner";
+    var actuator_afterburner = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Afterburner", actuator_afterburner);
+
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
     prop = "controls/flight/aileron";
@@ -607,6 +615,14 @@ var install_newer_failures = func {
     prop = "instrumentation/transponder";
     var actuator_transponder = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Transponder", actuator_transponder);
+
+    prop = "engines/engine[0]/fire";
+    var actuator_engine_fire = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Engine fire", actuator_engine_fire);
+
+    prop = "engines/engine/afterburner";
+    var actuator_afterburner = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Afterburner", actuator_afterburner);
 
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
