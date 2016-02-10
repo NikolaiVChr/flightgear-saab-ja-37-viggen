@@ -1970,12 +1970,30 @@ Radar: Route-manager next destination is now shown on radar as per AJ37 manual.
 Sim: Missiles now need AC voltage to search as per AJ37 manual.
 Radar: The radar locked track now has a cursor over it.
 Radar: Antenae declination to selection is now shown in tactical a2a mode.
+Model: {Pinto} Missile textures updated to live version instead of dummy versions.
 
 3.107
 =====
 Sim: Added outer pylon storage to flight-recorder.
 Radar: Increased range to 120Km as per the AJ37 manual. (48Km limit is for fire control)
+Sim: {Pinto} Added and changed some key bindings.
 Sim: RB71 second stage thrust is now reduced.
+Model: {Pinto} Added an indicator arrow to radar heading compass.
+Model: {Pinto} Cleaned up the radar compass heading texture.
+Model: {Pinto} Added a steerpoint heading bug for radar compass.
 Sim: Added the RB-99 Amraam.
 Animation: Make the strobe darker in daylight.
 Sim: Replaces missile status numbers with statics.
+Model: Possible fix for missile model not showing when its fired from a pylon a second time.
+Sim: Adjusted RB-71 stats.
+Sim: Prevent missile from having negative speed.
+GUI: Made the option dialog higher to give room to new buttons.
+Sim: Engine fire implemented.
+Sim: Engine fire can fail engine, generator, reverser or afterburner if unlucky, so better land soon if happens.
+Sim: Engine fire can start from too high outlet temperature.
+Sim: Engine fire can start from running thrust reverser at very low speed getting hot exhaust sucked into engine inlet.
+Sim: Engine fire can start from missile hit or hitting terrain.
+Sim: Implemented small chance that engine fire can go out by itself.
+Model: Fixed that indicator would not show no forward thrust if reversed and reverser failed.
+Model: Fixed that indicator would not show no reverse thrust if in forward thrust and reverser failed.
+Sim: Fixed that parts of the system thought the plane was reversed before the reversers had fully deployed.

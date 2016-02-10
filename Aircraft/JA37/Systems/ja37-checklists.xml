@@ -865,7 +865,7 @@
             </marker>
             <condition>
                 <equals>
-                    <property>engines/engine/reversed</property>
+                    <property>engines/engine/is-reversed</property>
                     <value>1</value>
                 </equals>
             </condition>

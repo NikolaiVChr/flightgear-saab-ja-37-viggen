@@ -53,8 +53,9 @@ Custom flight recorder records 53 extra properties for accurate replay functiona
 
 Failure system
 -----
-24 extra failures beside the standard ones.
+26 extra failures beside the standard ones.
 Canopy motor, canopy hinges, wings attachment and individual gear locking mechanisms are preset to fail under specific conditions.
+Engine fire preset to start under certain conditions. Can fail engine if left burning too long.
 Crash-detection and high-G structural break tied into the failure system, it can randomly fail components proportional to the damage the plane takes.
 Damage system for getting hit by guided missiles.
 

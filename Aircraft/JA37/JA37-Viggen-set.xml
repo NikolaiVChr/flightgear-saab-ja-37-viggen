@@ -378,7 +378,7 @@
                 <float n="16" alias="/engines/engine/thrust_lb-absolute"/>                <!-- used in MP sound -->
                 <int n="3" alias="/engines/engine/running"/>                <!-- used in MP sound -->
                 <int n="4" alias="/engines/engine[0]/augmentation"/>                <!-- used in MP sound -->
-                <int n="8" alias="/engines/engine[0]/reversed"/>                <!-- to animate afterburnerflame -->
+                <int n="8" alias="/engines/engine[0]/is-reversed"/>                <!-- to animate afterburnerflame -->
                 <!-- Animating light -->
                 <int n="5" alias="/sim/model/lighting/strobe/state"/>                <!-- to animate strobe -->
                 <float n="4" alias="/sim/ja37/effect/landing-light"/>                <!-- to animate landing lights -->
@@ -725,9 +725,9 @@
                     <track-max-deg type="int">110</track-max-deg>                     <!-- Seeker max total angular rotation -->
                     <max-g type="int">30</max-g>                                      <!-- guess -->
                     <thrust-lbs-stage-1 type="double">745</thrust-lbs-stage-1>
-                    <thrust-lbs-stage-2 type="double">170</thrust-lbs-stage-2>    
+                    <thrust-lbs-stage-2 type="double">130</thrust-lbs-stage-2>    
                     <stage-1-duration-sec type="double">2</stage-1-duration-sec>      <!-- guess -->
-                    <stage-2-duration-sec type="double">58</stage-2-duration-sec>     <!-- guess -->
+                    <stage-2-duration-sec type="double">30</stage-2-duration-sec>     <!-- guess -->
                     <weight-launch-lbs type="double">425</weight-launch-lbs>
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>
                     <drag-coeff type="double">0.088</drag-coeff>
@@ -735,7 +735,7 @@
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
+                    <self-destruct-time-sec type="double">60</self-destruct-time-sec>         <!-- guess -->
                 </rb-71>
                 <rb-99>
                     <sound-on-off type="bool">false</sound-on-off>
@@ -757,7 +757,7 @@
                     <drag-area type="double">0.075</drag-area>
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">3.0</arming-time-sec>                       <!-- guess -->
-                    <min-speed-for-guiding-mach type="double">1.0</min-speed-for-guiding-mach> <!-- guess -->
+                    <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
                 </rb-99>
             </armament>
@@ -1040,6 +1040,7 @@
                 <reverse-system>
                     <serviceable type="bool">true</serviceable>
                 </reverse-system>
+                <reverser-cmd type="bool">false</reverser-cmd>
             </engine>
         </engines>
         <gear>
@@ -1323,8 +1324,15 @@
     <engines>
         <engine n="0">
             <nozzle-pos-norm type="double">0</nozzle-pos-norm>
+            <is-reversed type="bool">false</is-reversed>
             <reverser-pos-norm type="double">0</reverser-pos-norm>
             <reverser-position type="double">0.000000</reverser-position>
+            <fire>
+                <serviceable type="bool">true</serviceable>
+            </fire>
+            <afterburner>
+                <serviceable type="bool">true</serviceable>
+            </afterburner>
         </engine>
     </engines>
 
@@ -1483,6 +1491,7 @@
         </limits>
         <failureSys>
             <file>Aircraft/JA37/Nasal/ja37-failures.nas</file>
+            <file>Aircraft/JA37/Nasal/engine-fire.nas</file>
         </failureSys>
         <crash0>
             <file>Aircraft/JA37/Nasal/crash.nas</file>

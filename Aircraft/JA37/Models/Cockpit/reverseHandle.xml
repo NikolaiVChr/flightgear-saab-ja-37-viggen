@@ -33,7 +33,7 @@
     <animation>
         <type>translate</type>
         <object-name>reverseHandle</object-name>
-        <property>/controls/engines/engine[0]/reverser</property>
+        <property>/controls/engines/engine[0]/reverser-cmd</property>
         <factor>0.03</factor>
         <axis>
             <x> 1.0 </x>
