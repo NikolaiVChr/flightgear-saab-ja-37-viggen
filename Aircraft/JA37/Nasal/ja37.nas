@@ -105,7 +105,7 @@ input = {
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
   rad_alt:          "position/altitude-agl-ft",
   replay:           "sim/replay/replay-state",
-  reversed:         "/engines/engine/reversed",
+  reversed:         "/engines/engine/is-reversed",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
   serviceElec:      "systems/electrical/serviceable",
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",

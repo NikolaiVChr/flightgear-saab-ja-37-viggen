@@ -333,7 +333,7 @@
                             </eq>
                         </or>
                         <eq>
-                            <property>/engines/engine/reversed</property>
+                            <property>/engines/engine/is-reversed</property>
                             <value>1</value>
                         </eq>
                     </and>
@@ -644,7 +644,7 @@
                             </eq>
                         </or>
                         <eq>
-                            <property>/engines/engine/reversed</property>
+                            <property>/engines/engine/is-reversed</property>
                             <value>0</value>
                         </eq>
                     </and>
@@ -1016,7 +1016,7 @@
                     </eq>
                     <and>
                         <eq>
-                            <property>/engines/engine/reversed</property>
+                            <property>/engines/engine/is-reversed</property>
                             <value>1</value>
                         </eq>
                         <lt>
@@ -1046,7 +1046,7 @@
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
-                /engines/engine/reversed == 1
+                /engines/engine/is-reversed == 1
             </test>
         </switch>
 

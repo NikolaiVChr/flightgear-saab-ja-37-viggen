@@ -378,7 +378,7 @@
                 <float n="16" alias="/engines/engine/thrust_lb-absolute"/>                <!-- used in MP sound -->
                 <int n="3" alias="/engines/engine/running"/>                <!-- used in MP sound -->
                 <int n="4" alias="/engines/engine[0]/augmentation"/>                <!-- used in MP sound -->
-                <int n="8" alias="/engines/engine[0]/reversed"/>                <!-- to animate afterburnerflame -->
+                <int n="8" alias="/engines/engine[0]/is-reversed"/>                <!-- to animate afterburnerflame -->
                 <!-- Animating light -->
                 <int n="5" alias="/sim/model/lighting/strobe/state"/>                <!-- to animate strobe -->
                 <float n="4" alias="/sim/ja37/effect/landing-light"/>                <!-- to animate landing lights -->
@@ -1040,6 +1040,7 @@
                 <reverse-system>
                     <serviceable type="bool">true</serviceable>
                 </reverse-system>
+                <reverser-cmd type="bool">false</reverser-cmd>
             </engine>
         </engines>
         <gear>
@@ -1323,6 +1324,7 @@
     <engines>
         <engine n="0">
             <nozzle-pos-norm type="double">0</nozzle-pos-norm>
+            <is-reversed type="bool">false</is-reversed>
             <reverser-pos-norm type="double">0</reverser-pos-norm>
             <reverser-position type="double">0.000000</reverser-position>
             <fire>

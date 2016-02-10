@@ -37,7 +37,7 @@
      <property>sim/multiplay/generic/int[4]</property><!-- engines/engine[0]/augmentation -->
      <not>
       <property>/sim/rendering/shaders/skydome</property><!-- als -->
-      <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/reversed -->
+      <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/is-reversed -->
      </not>
     </condition>
   </animation>

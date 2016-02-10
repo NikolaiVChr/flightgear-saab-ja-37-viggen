@@ -133,7 +133,7 @@
         </signal>
         <signal>
             <type>bool</type>
-            <property type="string">engines/engine[0]/reversed</property>
+            <property type="string">engines/engine[0]/is-reversed</property>
         </signal>
         <!-- exterior lights -->
         <signal>

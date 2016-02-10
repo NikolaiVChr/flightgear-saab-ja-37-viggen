@@ -23,7 +23,7 @@
       </less-than-equals>
       <property>sim/multiplay/generic/int[3]</property><!-- engines/engine/running -->
       <not>
-        <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/reversed -->
+        <property>sim/multiplay/generic/int[8]</property><!-- engines/engine[0]/is-reversed -->
       </not>
      </and>
    </condition>

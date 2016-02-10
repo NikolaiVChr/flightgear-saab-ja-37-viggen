@@ -1,17 +1,18 @@
 var jsbEngine = props.globals.getNode("/fdm/jsbsim/propulsion/engine[0]");
 var controlsEngine = props.globals.getNode("/controls/engines/engine[0]");
 var reverserPos = props.globals.getNode("/engines/engine[0]/reverser-pos-norm");
+var reversed = props.globals.getNode("/engines/engine[0]/is-reversed");
 var reverserServ = props.globals.getNode("/controls/engines/engine[0]/reverse-system/serviceable");
 
 togglereverser = func () {
-  var current = controlsEngine.getChild("reverser").getValue();
+  var current = controlsEngine.getChild("reverser-cmd").getValue();
   var command = !current;
-  controlsEngine.getChild("reverser").setBoolValue(command);
+  controlsEngine.getChild("reverser-cmd").setBoolValue(command);
   ja37.click();
 }
 
 reverse_loop = func () {
-  var command = controlsEngine.getChild("reverser").getValue();
+  var command = controlsEngine.getChild("reverser-cmd").getValue();
   if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == nil or getprop("systems/electrical/outputs/dc-voltage") == nil
       or getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or getprop("systems/electrical/outputs/dc-voltage") < 23) {
     #Its important to tell people why the reversing fails, or they will think its a bug.
@@ -33,6 +34,11 @@ reverse_loop = func () {
         #print(reverserPosValue);
       }
     }
+  }
+  if (reverserPos.getValue() == 1) {
+    reversed.setBoolValue(1);
+  } else {
+    reversed.setBoolValue(0);
   }
   settimer(reverse_loop, 0.5);
 }
