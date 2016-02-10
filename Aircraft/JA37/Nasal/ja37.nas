@@ -368,11 +368,14 @@ var update_loop = func {
       setprop("sim/ja37/avionics/auto-altitude-on", TRUE);
     }
 	
-	# sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
+	
 	if (getprop("/autopilot/route-manager/active")) {
+	  # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
 	  setprop("autopilot/route-manager/wp/bearing-deg-rel",getprop("/autopilot/route-manager/wp/bearing-deg") - getprop("/orientation/heading-magnetic-deg"));
-	}
-
+      # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
+	  setprop("autopilot/route-manager/wp/dist-km",getprop("autopilot/route-manager/wp/dist") * 1.852 );
+    }
+	
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
