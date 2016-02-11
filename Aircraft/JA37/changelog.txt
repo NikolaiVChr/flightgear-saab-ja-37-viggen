@@ -1998,3 +1998,5 @@ Model: Fixed that indicator would not show no forward thrust if reversed and rev
 Model: Fixed that indicator would not show no reverse thrust if in forward thrust and reverser failed.
 Sim: Fixed that parts of the system thought the plane was reversed before the reversers had fully deployed.
 Sim: Fixed 6 broken math calculations in the guided missile G-force code together with 5H1N0B1.
+Model: {Pinto} Rightmost altitude indicator is now a distance indicator for next steerpoint instead.
+Model: Distance indicator now shows DME if available, else it shows steerpoint.
