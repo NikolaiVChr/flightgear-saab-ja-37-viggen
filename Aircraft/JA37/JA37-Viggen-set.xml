@@ -673,8 +673,8 @@
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-detection-rng-nm type="double">7.83</max-detection-rng-nm> <!-- source -->
-                    <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
-                    <track-max-deg type="int">110</track-max-deg>                 <!-- Seeker max total angular rotation -->
+                    <fov-deg type="int">25</fov-deg>                              <!-- total aircraft angle -->
+                    <track-max-deg type="int">110</track-max-deg>                 <!-- total seeker angle -->
                     <max-g type="int">22</max-g>                                  <!-- source -->
                     <max-launch-g type="int">7</max-launch-g>                     <!-- authentic -->
                     <thrust-lbs-stage-1 type="double">382.175</thrust-lbs-stage-1><!-- authentic -->

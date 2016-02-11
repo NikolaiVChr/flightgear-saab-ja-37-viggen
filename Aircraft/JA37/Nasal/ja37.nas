@@ -41,6 +41,8 @@ input = {
   combat:           "/sim/ja37/hud/current-mode",
   cutoff:           "controls/engines/engine[0]/cutoff",
   dcVolt:           "systems/electrical/outputs/dc-voltage",
+  dme:              "instrumentation/dme/KDI572-574/nm",
+  dmeDist:          "instrumentation/dme/indicated-distance-nm",
   downFps:          "/velocities/down-relground-fps",
   elapsed:          "sim/time/elapsed-sec",
   elapsedInit:      "sim/time/elapsed-at-init-sec",
@@ -368,11 +370,29 @@ var update_loop = func {
       setprop("sim/ja37/avionics/auto-altitude-on", TRUE);
     }
 	
-	# sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
-	if (getprop("/autopilot/route-manager/active")) {
-	  setprop("autopilot/route-manager/wp/bearing-deg-rel",getprop("/autopilot/route-manager/wp/bearing-deg") - getprop("/orientation/heading-magnetic-deg"));
-	}
+	  var DME = input.dme.getValue() != "---" and input.dme.getValue() != "";
+    
+    # distance indicator
+    if (DME == TRUE) {
+      var distance = input.dmeDist.getValue() * 1.852;
+      if (distance > 40) {
+        distance = 40;
+      }
+      setprop("autopilot/route-manager/wp/dist-km", distance);
+    } elsif (getprop("/autopilot/route-manager/active") == TRUE) {
+      # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
+      setprop("autopilot/route-manager/wp/dist-km", getprop("autopilot/route-manager/wp/dist") * 1.852 );
+    } else {
+      setprop("autopilot/route-manager/wp/dist-km", 0);
+    }
 
+    # radar compass
+	  if (getprop("/autopilot/route-manager/active") == TRUE) {
+	    # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
+	    setprop("autopilot/route-manager/wp/bearing-deg-rel", getprop("/autopilot/route-manager/wp/bearing-deg") - getprop("/orientation/heading-magnetic-deg"));
+      
+    }
+	
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop

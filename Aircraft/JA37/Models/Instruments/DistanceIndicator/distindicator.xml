@@ -16,21 +16,27 @@
         <type>material</type>
         <object-name>dial</object-name>
         <property-base>sim/ja37/texture</property-base>
-        <texture-prop>gauge-alt3</texture-prop>
-        <texture>altimeter3.png</texture>
+        <texture-prop>gauge-distindicator</texture-prop>
+        <texture>distindicator.png</texture>
     </animation>
 
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
-                <value>100</value>
-            </greater-than>
+			<and>
+				<greater-than>
+					<property>systems/electrical/outputs/ac-instr-voltage</property>
+					<value>100</value>
+				</greater-than>
+				<less-than>
+					<property>autopilot/route-manager/wp/dist-km</property>
+					<value>40</value>
+				</less-than>
+			</and>
         </condition>
-        <property>instrumentation/altimeter/indicated-altitude-meter</property>
-        <factor>.006</factor>
+        <property>autopilot/route-manager/wp/dist-km</property>
+        <factor>6</factor>
         <offset-deg>240</offset-deg>
         <axis>
             <x>-1</x>
@@ -44,17 +50,23 @@
         <object-name>glass</object-name>
         <object-name>mount</object-name>
         <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>20</value>
-            </greater-than>
+			<and>
+				<greater-than>
+					<property>systems/electrical/outputs/dc-voltage</property>
+					<value>20</value>
+				</greater-than>
+				<less-than>
+					<property>autopilot/route-manager/wp/dist-km</property>
+					<value>40</value>
+				</less-than>
+			</and>
         </condition>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>altitude3</tooltip-id>
-                <label>Altitude: %3d feet</label>
-                <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                <tooltip-id>distance</tooltip-id>
+                <label>Distance to waypoint/DME: %.1f km</label>
+                <property>autopilot/route-manager/wp/dist-km</property>
             </binding>
         </hovered>
     </animation>
