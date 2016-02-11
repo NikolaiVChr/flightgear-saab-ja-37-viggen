@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>./radar_compass_heading.ac</path>
+    <path>radar_compass_heading.ac</path>
 
     <animation>
         <type>material</type>

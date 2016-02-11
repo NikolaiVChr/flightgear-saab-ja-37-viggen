@@ -65,7 +65,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>distance</tooltip-id>
-                <label>Distance to waypoint: %3d km</label>
+                <label>Distance to waypoint/DME: %.1f km</label>
                 <property>autopilot/route-manager/wp/dist-km</property>
             </binding>
         </hovered>
