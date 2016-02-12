@@ -35,7 +35,7 @@ input = {
 var findRadarTracks = func () {
   self      =  geo.aircraft_position();
   myPitch   =  input.pitch.getValue()*deg2rads;
-  myRoll    = -input.roll.getValue()*deg2rads;
+  myRoll    =  input.roll.getValue()*deg2rads;
   myAlt     =  self.alt();
   myHeading =  input.hdgReal.getValue();
   
@@ -66,14 +66,14 @@ var findRadarTracks = func () {
     }
 
     processTracks(players, FALSE, FALSE, TRUE);    
-    processTracks(tankers, FALSE);
-    processTracks(ships, FALSE);
-    processTracks(AIplanes, FALSE);
-    processTracks(vehicles, FALSE);
-    processTracks(rb24, FALSE, TRUE);
-	  processTracks(rb71, FALSE, TRUE);
-    processTracks(rb74, FALSE, TRUE);
-    processTracks(rb99, FALSE, TRUE);
+    processTracks(tankers, FALSE, FALSE, FALSE);
+    processTracks(ships, FALSE, FALSE, FALSE);
+    processTracks(AIplanes, FALSE, FALSE, FALSE);
+    processTracks(vehicles, FALSE, FALSE, FALSE);
+    processTracks(rb24, FALSE, TRUE, FALSE);
+	  processTracks(rb71, FALSE, TRUE, FALSE);
+    processTracks(rb74, FALSE, TRUE, FALSE);
+    processTracks(rb99, FALSE, TRUE, FALSE);
     processCallsigns(players);
   } else {
     # Do not supply target info to the missiles if radar is off.
@@ -83,7 +83,7 @@ var findRadarTracks = func () {
     selection = nil;
   }
   var carriers = node_ai.getChildren("carrier");
-  processTracks(carriers, TRUE);
+  processTracks(carriers, TRUE, FALSE, FALSE);
 
   if(selection != nil) {
     append(selection, "lock");
@@ -101,7 +101,7 @@ var processCallsigns = func (players) {
 }
 
 
-var processTracks = func (vector, carrier, missile = FALSE, mp = FALSE) {
+var processTracks = func (vector, carrier, missile, mp) {
   var carrierNear = FALSE;
   foreach (var track; vector) {
     if(track != nil and track.getChild("valid") != nil and track.getChild("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
@@ -310,7 +310,9 @@ var trackCalc = func (aircraftPos, range, carrier, mp) {
 
     #aircraftAlt = aircraftPos.x();
     #myAlt = self.x();
-    #distance = math.sqrt(pow2(aircraftPos.z() - self.z()) + pow2(aircraftPos.y() - self.y()));
+    #distance = math.sqrt((aircraftPos.x() - self.x())*(aircraftPos.x() - self.x()) + (aircraftPos.y() - self.y())*(aircraftPos.y() - self.y()));
+    #var altDist = aircraftPos.z() - self.z();
+    #var (course, dist) = courseAndDistance(aircraftPos);
 
     #ground angle
     var yg_rad = math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
@@ -322,16 +324,17 @@ var trackCalc = func (aircraftPos, range, carrier, mp) {
     while (xg_rad < -math.pi) {
       xg_rad = xg_rad + 2*math.pi;
     }
-    while (yg_rad > math.pi) {
-      yg_rad = yg_rad - 2*math.pi;
-    }
-    while (yg_rad < -math.pi) {
-      yg_rad = yg_rad + 2*math.pi;
-    }
+    #while (yg_rad > math.pi/2) {
+    #  yg_rad = math.pi*2 - yg_rad;endless loop
+    #}
+    #while (yg_rad < -math.pi/2) {
+    #  yg_rad = -math.pi*2 - yg_rad;
+    #}
 
     #aircraft angle
-    var ya_rad = xg_rad * math.sin(-myRoll) + yg_rad * math.cos(-myRoll);
-    var xa_rad = xg_rad * math.cos(-myRoll) - yg_rad * math.sin(-myRoll);
+    # roll is positive counterclockwise
+    var ya_rad =  xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
+    var xa_rad =  xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
 
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;
