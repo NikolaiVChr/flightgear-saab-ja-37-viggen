@@ -150,6 +150,12 @@ var AIM = {
 		m.last_deviation_h = nil;
 		m.last_track_e = 0;
 		m.last_track_h = 0;
+		m.update_count = -1;
+		m.last_t_course = nil;
+		m.last_t_elev_deg = nil;
+		m.last_cruise_or_loft = 0;
+		m.e_add = 0;
+		m.h_add = 0;
 
 		m.lastFlare = 0;
 
@@ -457,7 +463,7 @@ var AIM = {
 #
 #print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f", me.life_time)~sprintf(" , thrust %03.1f", f_lbs)~sprintf(" , G-force %02.2f", g));
 
-				if ( g > me.max_g_current ) {
+				if ( g > me.max_g_current and init_launch != 0) {
 					#print("lost lock "~g~"G");
 					# Target unreachable, fly free.
 					me.free = 1;
@@ -634,15 +640,22 @@ var AIM = {
 			# Then, keep track of deviations at the end of these two initial 2 seconds.
 			var e_gain = 1;
 			var h_gain = 1;
-			if ( me.life_time < me.stage_1_duration ) {
+			if ( me.life_time < me.stage_1_duration and getprop("sim/ja37/armament/nav") == "orig") {
 				if (me.curr_tgt_e > me.searcher_beam_width or me.curr_tgt_e < (-1 * me.searcher_beam_width)) {
-					#e_gain = 1 + (0.1 * dt);
+					e_gain = 1 + (0.1 * dt);
 				}
 				if (me.curr_tgt_h > me.searcher_beam_width or me.curr_tgt_h < (-1 * me.searcher_beam_width)) {
-					#h_gain = 1 + (0.1 * dt);
+					h_gain = 1 + (0.1 * dt);
 				}
 				me.init_tgt_e = last_tgt_e;
 				me.init_tgt_h = last_tgt_h;
+			}
+
+			if(me.curr_tgt_h < -180) {
+				me.curr_tgt_h += 360;
+			}
+			if(me.curr_tgt_h > 180) {
+				me.curr_tgt_h -= 360;
 			}
 
 			if(me.speed_m < me.min_speed_for_guiding or (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE)) {
@@ -650,6 +663,7 @@ var AIM = {
 				# or if its semi-radar guided and the target is no longer painted
 				e_gain = 0;
 				h_gain = 0;
+				me.update_count = -1;
 				print("Not guiding (too low speed or lost radar reflection)");
 			} elsif (me.curr_tgt_e > me.max_seeker_dev or me.curr_tgt_e < (-1 * me.max_seeker_dev)
 				  or me.curr_tgt_h > me.max_seeker_dev or me.curr_tgt_h < (-1 * me.max_seeker_dev)) {
@@ -659,12 +673,7 @@ var AIM = {
 				e_gain = 0;
 				h_gain = 0;
 			}
-			if(me.curr_tgt_h < -180) {
-				me.curr_tgt_h += 360;
-			}
-			if(me.curr_tgt_h > 180) {
-				me.curr_tgt_h -= 360;
-			}
+			
 
 			var dev_e = me.curr_tgt_e;#
 			var dev_h = me.curr_tgt_h;#
@@ -672,6 +681,7 @@ var AIM = {
 			#print(sprintf("curr: elev=%.1f", dev_e)~sprintf(" head=%.1f", dev_h));
 			if (me.last_deviation_e != nil) {
 				# its not our first seeker head move
+				me.update_count += 1;
 				# calculate if the seeker can keep up with the angular change of the target
 
 				# missile own movement is subtracted from this change due to seeker being on gyroscope
@@ -690,6 +700,8 @@ var AIM = {
 					e_gain = 0;
 					h_gain = 0;
 				}
+			} else {
+				me.update_count = 0;
 			}
 
 			me.last_deviation_e = dev_e;
@@ -698,28 +710,87 @@ var AIM = {
 			var loft_angle = 45;
 			var loft_minimum = 10;# miles
 			var cruise_minimum = 5;# miles
-			if ( me.life_time < me.stage_1_duration and t_dist_m * M2NM > loft_minimum
-				 and me.coord.alt() * M2FT < me.loft_alt
-				 and dev_e < -me.pitch + loft_angle and dev_e > -10) {
-				# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
-				# our desired cruising alt, and the elevation to target is less than lofting angle.
-				# The -10 limit, is so the seeker don't lose track of target when lofting.
-				dev_e = -me.pitch + loft_angle;
-				#print(sprintf("Lofting %.1f degs", loft_angle));
-			} elsif (dev_e < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration and t_dist_m * M2NM > cruise_minimum) {
-				# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
-				dev_e = -me.pitch;
-				#print("Cruising");
+			var cruise_or_loft = 0;
+			if (getprop("sim/ja37/armament/nav") != "orig") {
+				if ( me.life_time < me.stage_1_duration and t_dist_m * M2NM > loft_minimum
+					 and me.coord.alt() * M2FT < me.loft_alt
+					 and t_elev_deg < loft_angle and t_elev_deg > -7.5) {
+					# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
+					# our desired cruising alt, and the elevation to target is less than lofting angle.
+					# The -10 limit, is so the seeker don't lose track of target when lofting.
+					dev_e = -me.pitch + loft_angle;
+					#print(sprintf("Lofting %.1f degs, dev is %.1f", loft_angle, dev_e));
+					cruise_or_loft = 1;
+				} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration and t_dist_m * M2NM > cruise_minimum) {
+					# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
+					dev_e = -me.pitch;
+					#print("Cruising");
+					cruise_or_loft = 1;
+				}
+			}
+			
+			if (h_gain != 0 and me.last_t_course != nil and getprop("sim/ja37/armament/nav") == "pro") {
+				if (me.update_count > 4) {
+					# lead pursuit (proportional navigation)
+					if (me.h_add == 0) {
+						var c_dv = t_course-me.last_t_course;
+						if(c_dv < -180) {
+							c_dv += 360;
+						}
+						if(c_dv > 180) {
+							c_dv -= 360;
+						}
+						me.h_add = ja37.clamp(1.2*c_dv/dt, -7.5, 7.5);# max lead by 7 degs
+					}
+					
+					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
+						if (me.e_add == 0) {
+							var e_dv = t_elev_deg-me.last_t_elev_deg;
+							me.e_add = ja37.clamp(1.2*e_dv/dt, -7.5, 7.5);# max lead by 7 degs
+						}
+					}
+				} 
 			}
 
+			if (h_gain != 0 and me.last_t_course != nil and getprop("sim/ja37/armament/nav") == "lead") {
+				if (me.update_count > 2) {
+					var c_dv = t_course-me.last_t_course;
+					if(c_dv < -180) {
+						c_dv += 360;
+					}
+					if(c_dv > 180) {
+						c_dv -= 360;
+					}
+					# lead pursuit
+					h_add = 1.5 * c_dv;
+					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
+						var e_dv = t_elev_deg-me.last_t_elev_deg;
+						e_add = 1.5 * e_dv;
+					}
+				} elsif (me.update_count > -1) {
+					# pure pursuit to start with
+					h_add = 0;
+					if (cruise_or_loft == 0) {
+						e_add = 0;
+					}
+				}
+			}
+
+			if (getprop("sim/ja37/armament/nav") == "orig") {
+				# Compute target deviation variation then seeker move to keep this deviation constant.
+				dev_e -= me.init_tgt_e;
+				dev_h -= me.init_tgt_h;
+			}			
 			
-			# Compute target deviation variation then seeker move to keep this deviation constant.
-			me.track_signal_e = dev_e * e_gain;
-			me.track_signal_h = dev_h * h_gain;
+			me.track_signal_e = (dev_e + me.e_add) * e_gain;
+			me.track_signal_h = (dev_h + me.h_add) * h_gain;
 
 			#print(sprintf("%.1f deg elevate command", me.track_signal_e));
-			#print(sprintf("%.1f deg bearing command", me.track_signal_h));			
+			#print(sprintf("%.1f deg bearing command, %.1f deg lead", me.track_signal_h, me.h_add));			
 
+			me.last_t_course = t_course;
+			me.last_t_elev_deg = t_elev_deg;
+			me.last_cruise_or_loft = cruise_or_loft;
 			
 #print ("**** curr_tgt_e = ", me.curr_tgt_e," curr_tgt_h = ", me.curr_tgt_h, " me.track_signal_e = ", me.track_signal_e," me.track_signal_h = ", me.track_signal_h);
 
