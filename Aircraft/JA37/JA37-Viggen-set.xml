@@ -666,6 +666,7 @@
             <armament>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
+                <nav type="string">pure</nav><!-- orig, pure, lead or pro -->
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
