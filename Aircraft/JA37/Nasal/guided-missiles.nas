@@ -92,6 +92,8 @@ var AIM = {
 		m.guidance              = getprop("sim/ja37/armament/"~m.type_lc~"/guidance");
 		m.all_aspect            = getprop("sim/ja37/armament/"~m.type_lc~"/all-aspect");
 		m.vol_search            = getprop("sim/ja37/armament/"~m.type_lc~"/vol-search");
+		m.angular_speed         = getprop("sim/ja37/armament/"~m.type_lc~"/seeker-angular-speed-dps");
+        m.loft_alt              = getprop("sim/ja37/armament/"~m.type_lc~"/loft-altitude");
 		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
@@ -141,6 +143,13 @@ var AIM = {
 		m.alt     = nil;
 		m.pitch   = nil;
 		m.hdg     = nil;
+
+		m.density_alt_diff = 0;
+		m.max_g_current = m.max_g;
+		m.last_deviation_e = nil;
+		m.last_deviation_h = nil;
+		m.last_track_e = 0;
+		m.last_track_h = 0;
 
 		m.lastFlare = 0;
 
@@ -239,6 +248,8 @@ var AIM = {
 		me.pitch = ac_pitch;
 		me.hdg = ac_hdg;
 
+		me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
+
 		me.smoke_prop.setBoolValue(1);
 		me.SwSoundVol.setValue(0);
 		me.trackWeak = 1;
@@ -310,10 +321,23 @@ var AIM = {
 		var total_s_ft = math.sqrt((dist_h_ft*dist_h_ft)+(d_down_ft*d_down_ft));
 
 		# Get air density and speed of sound (fps):
-		var alt_ft = me.altN.getValue();
+		var alt_ft = me.altN.getValue() + me.density_alt_diff;
 		var rs = rho_sndspeed(alt_ft);
 		var rho = rs[0];
 		var sound_fps = rs[1];
+
+		# density for 0ft and 50kft:
+		#print("0:"~rho_sndspeed(0)[0]);       = 0.0023769
+		#print("50k:"~rho_sndspeed(50000)[0]); = 0.00036159
+		#
+		# a aim-9j can do 22G at sealevel, 13G at 50Kft
+		# 13G = 22G * 0.5909
+		#
+		# extra/inter-polation:
+		# f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
+		# calculate its performance at current air density:
+		me.max_g_current = me.max_g+((rho-0.0023769)/(0.00036159-0.0023769))*(me.max_g*0.5909-me.max_g);
+		#print("max-g="~me.max_g_current);
 
 		# Adjust Cd by Mach number. The equations are based on curves
 		# for a conventional shell/bullet (no boat-tail).
@@ -354,7 +378,12 @@ var AIM = {
 		# Calculate altitude and elevation velocity vector (no incidence here).
 		var alt_ft = me.altN.getValue() + (speed_down_fps * dt);
 		pitch_deg = math.atan2( speed_down_fps, speed_horizontal_fps ) * R2D;
-		me.pitch = pitch_deg;
+
+		# this is commented, cause the missile just falls due to gravity, it doesn't pitch
+		# a real missile would pitch ofc. but then have to calc how fuel affects CoG and its inertia
+		# 
+		#me.pitch = pitch_deg;
+		pitch_deg = me.pitch;
 		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
 
@@ -371,20 +400,29 @@ var AIM = {
 				#print("steering");
 				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
                 var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
-                if(me.max_g < myG)
+                if(me.max_g_current < myG)
                 {
-                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt, me.max_g);
+                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt, me.max_g_current);
                     me.track_signal_e =  me.track_signal_e * MyCoef;
                     me.track_signal_h =  me.track_signal_h * MyCoef;
                     #print(sprintf("G1 %.2f", myG));
                     myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
                     #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
+                    print(sprintf("Missile pulling almost max G: %.1f G", myG));
                 }
                 #print(sprintf("G %.1f", myG));
                 if (me.all_aspect == 1 or me.rear_aspect() == 1) {
                 	pitch_deg += me.track_signal_e;
                 	hdg_deg += me.track_signal_h;
+                	me.last_track_e = me.track_signal_e;
+					me.last_track_h = me.track_signal_h;
+                } else {
+                	me.last_track_e = 0;
+                	me.last_track_h = 0;
+                	print("Heat seeking missile lost lock, attempting to reaquire..");
                 }
+                #print(sprintf("%.1f deg elev command done", me.last_track_e));
+                #print(sprintf("%.1f deg bear command done", me.last_track_h));
 
                 #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
 			}
@@ -419,10 +457,11 @@ var AIM = {
 #
 #print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f", me.life_time)~sprintf(" , thrust %03.1f", f_lbs)~sprintf(" , G-force %02.2f", g));
 
-				if ( g > me.max_g ) {
+				if ( g > me.max_g_current ) {
 					#print("lost lock "~g~"G");
 					# Target unreachable, fly free.
 					me.free = 1;
+					print("Missile attempted to pull too many G, it broke.");
 				}
 				if (me.guidance == "heat") {
 					var flareNode = me.Tgt.getNode("sim/multiplay/generic/string[10]");
@@ -440,10 +479,10 @@ var AIM = {
 									# 20% chance to be fooled, extra up till 10% chance added if front aspect
 									if (fooled) {
 										# fooled by the flare
-										print("Fooled by flare");
+										print("Missile fooled by flare");
 										me.free = 1;
 									} else {
-										print("Flare ignored");
+										print("Missile ignored flare");
 									}
 								}
 							}
@@ -562,31 +601,30 @@ var AIM = {
 		}
 		#print("track");
 		# Time interval since lock time or last track loop.
-		if (dt == nil) {
-			var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
-			dt = time - me.update_track_time;
-			me.update_track_time = time;
-		}
+		
 		var last_tgt_e = me.curr_tgt_e;
 		var last_tgt_h = me.curr_tgt_h;
 		if (me.status == MISSILE_LOCK) {		
 			# Status = locked. Get target position relative to our aircraft.
 			me.curr_tgt_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getChild("radar").getChild("elevation-deg").getValue());
 			me.curr_tgt_h = - deviation_normdeg(OurHdg.getValue(), me.Tgt.getChild("radar").getChild("bearing-deg").getValue());
-		} else {
+		} elsif (dt != nil) {
 			# Status = launched. Compute target position relative to seeker head.
 
 			# Get target position.
 			var t_alt = me.TgtAlt_prop.getValue();
 			me.t_coord.set_latlon(me.TgtLat_prop.getValue(), me.TgtLon_prop.getValue(), t_alt * FT2M);
-
+			
 			# Calculate current target elevation and azimut deviation.
 			var t_dist_m = me.coord.distance_to(me.t_coord);
 			var t_alt_delta_m = (t_alt - me.alt) * FT2M;
 			var t_elev_deg =  math.atan2( t_alt_delta_m, t_dist_m ) * R2D;
 			me.curr_tgt_e = t_elev_deg - me.pitch;
-			var t_course = me.coord.course_to(me.t_coord);
+			var (t_course, dst) = courseAndDistance(me.coord, me.t_coord);
+			#var t_course = me.coord.course_to(me.t_coord);
 			me.curr_tgt_h = t_course - me.hdg;
+			#print();
+			#print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
 
 			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
 
@@ -612,21 +650,88 @@ var AIM = {
 				# or if its semi-radar guided and the target is no longer painted
 				e_gain = 0;
 				h_gain = 0;
+				print("Not guiding (too low speed or lost radar reflection)");
 			} elsif (me.curr_tgt_e > me.max_seeker_dev or me.curr_tgt_e < (-1 * me.max_seeker_dev)
 				  or me.curr_tgt_h > me.max_seeker_dev or me.curr_tgt_h < (-1 * me.max_seeker_dev)) {
 				# target is not in missile seeker view anymore
+				print("Target is not in missile seeker view anymore");
+				me.free = 1;
 				e_gain = 0;
 				h_gain = 0;
 			}
+			if(me.curr_tgt_h < -180) {
+				me.curr_tgt_h += 360;
+			}
+			if(me.curr_tgt_h > 180) {
+				me.curr_tgt_h -= 360;
+			}
 
+			var dev_e = me.curr_tgt_e;#
+			var dev_h = me.curr_tgt_h;#
+
+			#print(sprintf("curr: elev=%.1f", dev_e)~sprintf(" head=%.1f", dev_h));
+			if (me.last_deviation_e != nil) {
+				# its not our first seeker head move
+				# calculate if the seeker can keep up with the angular change of the target
+
+				# missile own movement is subtracted from this change due to seeker being on gyroscope
+				
+				var dve_dist = dev_e - me.last_deviation_e + me.last_track_e;
+				var dvh_dist = dev_h - me.last_deviation_h + me.last_track_h;
+				var deviation_per_sec = math.sqrt(dve_dist*dve_dist+dvh_dist*dvh_dist)/dt;
+
+				if (deviation_per_sec > me.angular_speed) {
+					#print(sprintf("last-elev=%.1f", me.last_deviation_e)~sprintf(" last-elev-adj=%.1f", me.last_track_e));
+					#print(sprintf("last-head=%.1f", me.last_deviation_h)~sprintf(" last-head-adj=%.1f", me.last_track_h));
+					# lost lock due to angular speed limit
+					print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
+					#print(dt);
+					me.free = 1;
+					e_gain = 0;
+					h_gain = 0;
+				}
+			}
+
+			me.last_deviation_e = dev_e;
+			me.last_deviation_h = dev_h;
+
+			var loft_angle = 45;
+			var loft_minimum = 10;# miles
+			var cruise_minimum = 5;# miles
+			if ( me.life_time < me.stage_1_duration and t_dist_m * M2NM > loft_minimum
+				 and me.coord.alt() * M2FT < me.loft_alt
+				 and dev_e < -me.pitch + loft_angle and dev_e > -10) {
+				# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
+				# our desired cruising alt, and the elevation to target is less than lofting angle.
+				# The -10 limit, is so the seeker don't lose track of target when lofting.
+				dev_e = -me.pitch + loft_angle;
+				#print(sprintf("Lofting %.1f degs", loft_angle));
+			} elsif (dev_e < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration and t_dist_m * M2NM > cruise_minimum) {
+				# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
+				dev_e = -me.pitch;
+				#print("Cruising");
+			}
+
+			
 			# Compute target deviation variation then seeker move to keep this deviation constant.
-			me.track_signal_e = (me.curr_tgt_e - me.init_tgt_e) * e_gain;
-			me.track_signal_h = (me.curr_tgt_h - me.init_tgt_h) * h_gain;
+			me.track_signal_e = dev_e * e_gain;
+			me.track_signal_h = dev_h * h_gain;
+
+			#print(sprintf("%.1f deg elevate command", me.track_signal_e));
+			#print(sprintf("%.1f deg bearing command", me.track_signal_h));			
+
 			
 #print ("**** curr_tgt_e = ", me.curr_tgt_e," curr_tgt_h = ", me.curr_tgt_h, " me.track_signal_e = ", me.track_signal_e," me.track_signal_h = ", me.track_signal_h);
 
 
 		}
+
+		if (dt == nil) {
+			var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
+			dt = time - me.update_track_time;
+			me.update_track_time = time;
+		}
+
 		# Compute HUD reticle position.
 		if ( 1==0 and me.status == MISSILE_LOCK ) {
 			var h_rad = (90 - me.curr_tgt_h) * D2R;
@@ -669,12 +774,12 @@ var AIM = {
 				#(this might not be how the real thing does, but due to this only being called every frame, might miss otherwise)
 			#	me.explode();
 			#	return(0);
-			} elsif (me.free == 1 and cur_dir_dist_m < 15) {
+			}# elsif (me.free == 1 and cur_dir_dist_m < m.prox_dist) {
 				#print("Magnetic fuse active.");
 				# lost lock, magnetic detector checks if close enough to explode
-				me.explode();
-				return(0);
-			}
+				#me.explode();
+				#return(0);
+			#}
 		}
 		if (me.life_time > me.selfdestruct_time) {
 			me.explode();
@@ -686,7 +791,7 @@ var AIM = {
         if(ground != nil)
         {
             if(ground > me.coord.alt()) {
-                #print("Ground");
+                print("Missile hit terrain");
                 me.explode();
                 return 0;
             }

@@ -689,6 +689,8 @@
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
+                    <seeker-angular-speed-dps>14.9</seeker-angular-speed-dps><!-- deg/sec authentic-->
+                    <loft-altitude>0</loft-altitude>
                 </rb-24j>
                 <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -697,8 +699,8 @@
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
                     <all-aspect type="bool">true</all-aspect>                     <!-- all or rear-only -->
                     <max-detection-rng-nm type="double">9.7</max-detection-rng-nm> <!-- source -->
-                    <fov-deg type="int">25</fov-deg>                              <!-- seeker optical FOV -->
-                    <track-max-deg type="int">110</track-max-deg>                 <!-- Seeker max total angular rotation -->
+                    <fov-deg type="int">27</fov-deg>                              <!-- source -->
+                    <track-max-deg type="int">134</track-max-deg>                 <!-- source -->
                     <max-g type="int">32</max-g>                                  <!-- source -->
                     <thrust-lbs-stage-1 type="double">382.175</thrust-lbs-stage-1><!-- guess -->
                     <thrust-lbs-stage-2 type="double">0.0</thrust-lbs-stage-2>    <!-- authentic -->
@@ -712,6 +714,8 @@
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- guess -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- guess -->
+                    <seeker-angular-speed-dps>21</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <loft-altitude>0</loft-altitude>
                 </rb-74>
                 <rb-71>          <!-- RB-71 specs (Swedish version of aim-7 Sparrow) -->
 					<!-- info taken largely from AIM-7 data from Richard's excellent F-15 model -->
@@ -736,6 +740,8 @@
                     <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">60</self-destruct-time-sec>         <!-- guess -->
+                    <seeker-angular-speed-dps>21</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                 </rb-71>
                 <rb-99>
                     <sound-on-off type="bool">false</sound-on-off>
@@ -746,7 +752,7 @@
                     <max-detection-rng-nm type="int">38.8</max-detection-rng-nm>
                     <fov-deg type="int">30</fov-deg>
                     <track-max-deg type="int">110</track-max-deg>
-                    <max-g type="int">25</max-g>
+                    <max-g type="int">30</max-g>
                     <thrust-lbs-stage-1 type="double">500</thrust-lbs-stage-1><!-- guess -->
                     <thrust-lbs-stage-2 type="double">170</thrust-lbs-stage-2>    <!-- guess -->
                     <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
@@ -759,6 +765,8 @@
                     <arming-time-sec type="double">3.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
+                    <seeker-angular-speed-dps>21</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                 </rb-99>
             </armament>
             <avionics>

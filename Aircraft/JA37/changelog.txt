@@ -2000,3 +2000,12 @@ Sim: Fixed that parts of the system thought the plane was reversed before the re
 Sim: Fixed 6 broken math calculations in the guided missile G-force code together with 5H1N0B1.
 Model: {Pinto} Rightmost altitude indicator is now a distance indicator for next steerpoint instead.
 Model: Distance indicator now shows DME if available, else it shows steerpoint.
+Sim: Made the gravity drop not affect the missile pitch.
+Sim: Fixed that missile search loop could affect steering during flight if unlucky timing.
+Sim: Medium range a2a missiles are now lofted 45 degs if target is more than 10 miles out.
+Sim: After lofting, missiles will now cruise and hold altitude until they are 5 miles from target.
+Sim: G-force turns for missiles at higher altitudes is now decreased depending on air density.
+Sim: Made drag computation for missiles depend on density altitude, instead of altitude above sealevel.
+Sim: Implememented missile seeker max angular speed before it loses lock. Seeker gyroscopic effect are accounted for.
+Sim: Made the guided missiles use pure pursuit when they are not lofting or cruising.
+Sim: If the seeker loses lock, the missile will now keep its course and hope to hit something.
