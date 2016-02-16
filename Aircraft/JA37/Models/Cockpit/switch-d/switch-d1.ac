@@ -586,7 +586,7 @@ OBJECT poly
 name "D1_mount"
 loc 0.0000000 0.0005000 0.0000000
 crease 30.000007665015225
-texture "switchFace.png"
+texture "SwitchFace.png"
 texrep 1 1
 numvert 44
 -0.0034567 -0.0005000 -0.0069828
@@ -861,7 +861,7 @@ OBJECT poly
 name "D1_red"
 loc 0.0000000 0.0005000 -0.0046700
 crease 30.000000834826057
-texture "switchFace.png"
+texture "SwitchFace.png"
 texrep 1 1
 numvert 4
 -0.0055333 0.0000000 0.0030000
