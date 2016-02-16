@@ -10,7 +10,7 @@
     </effect>
 
 	<effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>Text</object-name>
     </effect>
 
