@@ -1551,7 +1551,7 @@
                 </equals>
             </condition>
             <pitch>
-                <factor>1.4</factor><!-- changes it to beep -->
+                <factor>1.6</factor><!-- changes it to beep -->
                 <max>2</max>
             </pitch>
             <volume>

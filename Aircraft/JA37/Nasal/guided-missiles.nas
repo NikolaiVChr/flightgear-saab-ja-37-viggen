@@ -156,6 +156,7 @@ var AIM = {
 		m.last_cruise_or_loft = 0;
 		m.e_add = 0;
 		m.h_add = 0;
+		m.paused = 0;
 
 		m.lastFlare = 0;
 
@@ -274,11 +275,17 @@ var AIM = {
 		var dt = getprop("sim/time/delta-sec");#TODO: find out more about how this property works
 		if (dt == 0) {
 			#FG is likely paused
+			me.paused = 1;
 			settimer(func me.update(), 0.01);
 			return;
 		}
 		#dt = update_loop_time;
 		var elapsed = systime();
+		if (me.paused == 1) {
+			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
+			me.paused = 0;
+			me.dt_last = elapsed-0.00001;
+		}
 		if (me.dt_last != 0) {
 			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
 			if(dt <= 0) {
@@ -906,6 +913,7 @@ var AIM = {
 				}
 			}
 		}
+		me.coord = explosion_coord;
 		#print("min3 "~min_distance);
 
 		# Create impact coords from this previous relative position applied to target current coord.
@@ -953,7 +961,7 @@ var AIM = {
 		var e_u = me.seeker_dev_e + me.aim9_fov;
 		var h_l = me.seeker_dev_h - me.aim9_fov;
 		var h_r = me.seeker_dev_h + me.aim9_fov;
-		if ( me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r ) {		
+		if (me.status != MISSILE_FLYING and (me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r) ) {		
 			# Target out of FOV while still not launched, return to search loop.
 			me.status = MISSILE_SEARCH;
 			settimer(func me.search(), rand()*3.5);
@@ -967,7 +975,10 @@ var AIM = {
 
 	# aircraft searching for lock
 	search: func {
-		if ( me.status == MISSILE_STANDBY ) {
+		if ( me.status == MISSILE_FLYING ) {
+			me.SwSoundVol.setValue(0);
+			return;
+		} elsif ( me.status == MISSILE_STANDBY ) {
 			# Stand by.
 			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
@@ -1075,6 +1086,11 @@ var AIM = {
 
 	#done
 	animate_explosion: func {
+		# a last position update to where the explosion happened:
+		me.latN.setDoubleValue(me.coord.lat());
+		me.lonN.setDoubleValue(me.coord.lon());
+		me.altN.setDoubleValue(me.coord.alt()*M2FT);
+
 		me.msl_prop.setBoolValue(0);
 		me.smoke_prop.setBoolValue(0);
 		me.explode_prop.setBoolValue(1);

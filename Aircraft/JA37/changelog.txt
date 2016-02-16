@@ -2016,3 +2016,7 @@ Effect: Increased the explosion size of all missiles depending on warhead size.
 Effect: {Pinto} Fixed some gauge and panel text effect issues in Rembrandt.
 Model: {Pinto} Fixed a bright spot on a gauge.
 Model: Reduced 50+ textures in size for performance.
+Sim: Fixed that sometimes the aim-9 growl could be hard no matter if its mounted on any pylon or not, even when KCA is selected.
+Sim: Fixed if pausing while missile is flying, releasing pause will make the missile think a large time has passed.
+Sound: Made the RB-99 lock beep higher pitch.
+Effect: The missile explosion will now be seen where it actually exploded.
