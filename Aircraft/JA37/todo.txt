@@ -118,6 +118,7 @@ HUD: When autostarting is in progress, the HUD will switch off for a fraction of
 HUD: In tactical mode the diamond would sometimes not be painted. Distance, callsign and tail would be shown though.
 Model: {Pinto} Right-most altimeter should really be a distance indicator.
 Model: Droptank indicator should really be a steerpoint indicator.
+Effect: Some yellow gauge glasses and text in Rembrandt. Probably is missing transparency declaration.
 
 Issues with FG:
 ---------------

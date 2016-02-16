@@ -2009,3 +2009,5 @@ Sim: Made drag computation for missiles depend on density altitude, instead of a
 Sim: Implememented missile seeker max angular speed before it loses lock. Seeker gyroscopic effect are accounted for.
 Sim: Made the guided missiles use pure pursuit when they are not lofting or cruising.
 Sim: If the seeker loses lock, the missile will now keep its course and hope to hit something.
+Sim: Fixed some null pinter exceptions in radar logic.
+Model: Fixed some switch textures would not show on Linux.
