@@ -114,11 +114,10 @@ Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscill
 Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected. [reproduced]
 Sim: {Pinto} After fire M70, and reload, they will fire again. [might be fixed]
 Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
-HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes.
+HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
 HUD: In tactical mode the diamond would sometimes not be painted. Distance, callsign and tail would be shown though.
 Model: {Pinto} Right-most altimeter should really be a distance indicator.
 Model: Droptank indicator should really be a steerpoint indicator.
-Effect: Some yellow gauge glasses and text in Rembrandt. Probably is missing transparency declaration.
 
 Issues with FG:
 ---------------

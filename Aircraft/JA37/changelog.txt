@@ -2009,6 +2009,10 @@ Sim: Made drag computation for missiles depend on density altitude, instead of a
 Sim: Implememented missile seeker max angular speed before it loses lock. Seeker gyroscopic effect are accounted for.
 Sim: Made the guided missiles use pure pursuit when they are not lofting or cruising.
 Sim: If the seeker loses lock, the missile will now keep its course and hope to hit something.
+Model: {Pinto} Fixed some alignment and a white spot on the KSUU Crew 1 livery.
 Sim: Fixed some null pinter exceptions in radar logic.
 Model: Fixed some switch textures would not show on Linux.
 Effect: Increased the explosion size of all missiles depending on warhead size.
+Effect: {Pinto} Fixed some gauge and panel text effect issues in Rembrandt.
+Model: {Pinto} Fixed a bright spot on a gauge.
+Model: Reduced 50+ textures in size for performance.
