@@ -9,6 +9,11 @@
         <object-name>Switch</object-name>
     </effect>
 
+	<effect>
+        <inherits-from>Effects/model-transparent</inherits-from>
+        <object-name>Text</object-name>
+    </effect>
+
     <animation>
         <type>pick</type>
         <object-name>Switch</object-name>
