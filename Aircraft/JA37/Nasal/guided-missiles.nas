@@ -846,7 +846,7 @@ var AIM = {
 		# Get current direct distance.
 		if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
 			#print("distance to target_m = "~cur_dir_dist_m~" prev_distance to target_m = "~me.direct_dist_m);
-			if ( cur_dir_dist_m > me.direct_dist_m) {
+			if ( cur_dir_dist_m > me.direct_dist_m and cur_dir_dist_m < 500) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
 				me.explode();

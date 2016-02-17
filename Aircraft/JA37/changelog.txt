@@ -2027,3 +2027,4 @@ Sim: Fixed acceleration formula for guided missiles.
 Sim: Adjusted drag, ref. area and thrust and thrust duration on guided missiles.
 Sim: Removed the distance limit on when the missile deems it has passed target and should explode.
 Sim: For proportional navigation and lead pursuit the factors is now exposed in property tree for guided missiles.
+Sim: Readded the distance limit on when the missile deems it has passed target and should explode, but increased it.
