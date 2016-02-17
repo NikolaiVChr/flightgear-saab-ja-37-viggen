@@ -76,8 +76,8 @@ var AIM = {
 		m.aim9_fov              = m.aim9_fov_diam / 2;
 		m.max_detect_rng        = getprop("sim/ja37/armament/"~m.type_lc~"/max-detection-rng-nm");
 		m.max_seeker_dev        = getprop("sim/ja37/armament/"~m.type_lc~"/track-max-deg") / 2;
-		m.force_lbs_1           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbs-stage-1");
-		m.force_lbs_2           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbs-stage-2");
+		m.force_lbs_1           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbf-stage-1");
+		m.force_lbs_2           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbf-stage-2");
 		m.stage_1_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-1-duration-sec");
 		m.stage_2_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-2-duration-sec");
 		m.weight_launch_lbs     = getprop("sim/ja37/armament/"~m.type_lc~"/weight-launch-lbs");
@@ -309,7 +309,7 @@ var AIM = {
 		#### Calculate speed vector before steering corrections.
 
 		# Cut rocket thrust after boost duration.
-		var f_lbs = me.force_lbs_1;
+		var f_lbs = me.force_lbs_1;# pounds force (lbf)
 		if (me.life_time > me.stage_1_duration) {
 			f_lbs = me.force_lbs_2;
 		}
@@ -372,7 +372,7 @@ var AIM = {
 
 		var q = 0.5 * rho * old_speed_fps * old_speed_fps;# dynamic pressure
 		var drag_acc = (cdm * q * me.eda) / mass;
-		var speed_fps = old_speed_fps - drag_acc + acc;
+		var speed_fps = old_speed_fps - drag_acc*dt + acc*dt;
 
 		if (speed_fps < 0) {
 			# drag can theoretically make the speed less than 0, this will prevent that from happening.
@@ -468,7 +468,7 @@ var AIM = {
 
 # Uncomment this line to check stats while flying:
 #
-#print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f", me.life_time)~sprintf(" , thrust %03.1f", f_lbs)~sprintf(" , G-force %02.2f", g));
+#print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f s", me.life_time)~sprintf(" , thrust %03.1f lbf", f_lbs)~sprintf(" , G-force %02.2f", g));
 
 				if ( g > me.max_g_current and init_launch != 0) {
 					#print("lost lock "~g~"G");
@@ -637,7 +637,7 @@ var AIM = {
 			#var t_course = me.coord.course_to(me.t_coord);
 			me.curr_tgt_h = t_course - me.hdg;
 			#print();
-			#print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
+			print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
 
 			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
 
@@ -665,13 +665,18 @@ var AIM = {
 				me.curr_tgt_h -= 360;
 			}
 
-			if(me.speed_m < me.min_speed_for_guiding or (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE)) {
+			if(me.speed_m < me.min_speed_for_guiding) {
 				# it doesn't guide at lower speeds
-				# or if its semi-radar guided and the target is no longer painted
 				e_gain = 0;
 				h_gain = 0;
 				me.update_count = -1;
-				print("Not guiding (too low speed or lost radar reflection)");
+				print("Not guiding (too low speed)");
+			} elsif (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE) {
+				# if its semi-radar guided and the target is no longer painted
+				e_gain = 0;
+				h_gain = 0;
+				me.update_count = -1;
+				print("Not guiding (lost radar reflection, trying to require)");
 			} elsif (me.curr_tgt_e > me.max_seeker_dev or me.curr_tgt_e < (-1 * me.max_seeker_dev)
 				  or me.curr_tgt_h > me.max_seeker_dev or me.curr_tgt_h < (-1 * me.max_seeker_dev)) {
 				# target is not in missile seeker view anymore
@@ -701,7 +706,7 @@ var AIM = {
 					#print(sprintf("last-elev=%.1f", me.last_deviation_e)~sprintf(" last-elev-adj=%.1f", me.last_track_e));
 					#print(sprintf("last-head=%.1f", me.last_deviation_h)~sprintf(" last-head-adj=%.1f", me.last_track_h));
 					# lost lock due to angular speed limit
-					print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
+					#print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
 					#print(dt);
 					me.free = 1;
 					e_gain = 0;
@@ -747,7 +752,7 @@ var AIM = {
 						if(c_dv > 180) {
 							c_dv -= 360;
 						}
-						me.h_add = ja37.clamp(1.2*c_dv/dt, -7.5, 7.5);# max lead by 7 degs
+						me.h_add = ja37.clamp(getprop("sim/ja37/armament/factor-pro")*c_dv/dt, -7.5, 7.5);# max lead by 7 degs
 					}
 					
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
@@ -769,10 +774,10 @@ var AIM = {
 						c_dv -= 360;
 					}
 					# lead pursuit
-					h_add = 1.5 * c_dv;
+					h_add = getprop("sim/ja37/armament/factor-lead") * c_dv;
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						var e_dv = t_elev_deg-me.last_t_elev_deg;
-						e_add = 1.5 * e_dv;
+						e_add = getprop("sim/ja37/armament/factor-lead") * e_dv;
 					}
 				} elsif (me.update_count > -1) {
 					# pure pursuit to start with
@@ -841,7 +846,7 @@ var AIM = {
 		# Get current direct distance.
 		if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
 			#print("distance to target_m = "~cur_dir_dist_m~" prev_distance to target_m = "~me.direct_dist_m);
-			if ( cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < 65 ) {
+			if ( cur_dir_dist_m > me.direct_dist_m) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
 				me.explode();
