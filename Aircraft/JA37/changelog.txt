@@ -2020,3 +2020,4 @@ Sim: Fixed that sometimes the aim-9 growl could be hard no matter if its mounted
 Sim: Fixed if pausing while missile is flying, releasing pause will make the missile think a large time has passed.
 Sound: Made the RB-99 lock beep higher pitch.
 Effect: The missile explosion will now be seen where it actually exploded.
+Sim: Changed missile lofting angle to 15 degs.

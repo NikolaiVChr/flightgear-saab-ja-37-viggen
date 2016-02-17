@@ -714,7 +714,7 @@ var AIM = {
 			me.last_deviation_e = dev_e;
 			me.last_deviation_h = dev_h;
 
-			var loft_angle = 45;
+			var loft_angle = 15;
 			var loft_minimum = 10;# miles
 			var cruise_minimum = 5;# miles
 			var cruise_or_loft = 0;
