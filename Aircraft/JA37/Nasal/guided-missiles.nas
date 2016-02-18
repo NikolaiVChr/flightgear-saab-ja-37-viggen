@@ -637,7 +637,7 @@ var AIM = {
 			#var t_course = me.coord.course_to(me.t_coord);
 			me.curr_tgt_h = t_course - me.hdg;
 			#print();
-			print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
+			#print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
 
 			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
 
