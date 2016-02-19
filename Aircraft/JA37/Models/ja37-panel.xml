@@ -415,7 +415,7 @@
 
 <!-- Temporary radio stack till I get a real one in -->
 
-  <model>
+<!--  <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/kx165/kx165-1.xml</path>
     <name>Radiostack</name>
     <offsets>
@@ -433,9 +433,17 @@
       <y-m> -0.26</y-m>
       <z-m>  0.035</z-m>
     </offsets>
+  </model> -->
+
+<model>
+    <path>Aircraft/JA37/Models/Instruments/Radio/radio.xml</path>
+    <name>Radiostack</name>
+    <offsets>
+      <x-m>  0.00</x-m>
+      <y-m> -0.26</y-m>
+      <z-m>  0.065</z-m>
+    </offsets>
   </model>
-
-
 
  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/CenterPlaque/center-plaque.xml</path>
