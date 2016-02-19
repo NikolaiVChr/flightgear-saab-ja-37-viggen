@@ -2009,3 +2009,22 @@ Sim: Made drag computation for missiles depend on density altitude, instead of a
 Sim: Implememented missile seeker max angular speed before it loses lock. Seeker gyroscopic effect are accounted for.
 Sim: Made the guided missiles use pure pursuit when they are not lofting or cruising.
 Sim: If the seeker loses lock, the missile will now keep its course and hope to hit something.
+Model: {Pinto} Fixed some alignment and a white spot on the KSUU Crew 1 livery.
+Sim: Fixed some null pinter exceptions in radar logic.
+Model: Fixed some switch textures would not show on Linux.
+Effect: Increased the explosion size of all missiles depending on warhead size.
+Effect: {Pinto} Fixed some gauge and panel text effect issues in Rembrandt.
+Model: {Pinto} Fixed a bright spot on a gauge.
+Model: Reduced 50+ textures in size for performance.
+Sim: Fixed that sometimes the aim-9 growl could be hard no matter if its mounted on any pylon or not, even when KCA is selected.
+Sim: Fixed if pausing while missile is flying, releasing pause will make the missile think a large time has passed.
+Sound: Made the RB-99 lock beep higher pitch.
+Effect: The missile explosion will now be seen where it actually exploded.
+Sim: Changed missile lofting angle to 15 degs.
+Sim: Damage from warhead size is now, calculated instead of estimated.
+Sim: Damage from M2000-5 cannons is now 50% larger.
+Sim: Fixed acceleration formula for guided missiles.
+Sim: Adjusted drag, ref. area and thrust and thrust duration on guided missiles.
+Sim: Removed the distance limit on when the missile deems it has passed target and should explode.
+Sim: For proportional navigation and lead pursuit the factors is now exposed in property tree for guided missiles.
+Sim: Readded the distance limit on when the missile deems it has passed target and should explode, but increased it.

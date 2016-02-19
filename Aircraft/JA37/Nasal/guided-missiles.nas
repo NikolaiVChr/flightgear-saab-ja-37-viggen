@@ -76,8 +76,8 @@ var AIM = {
 		m.aim9_fov              = m.aim9_fov_diam / 2;
 		m.max_detect_rng        = getprop("sim/ja37/armament/"~m.type_lc~"/max-detection-rng-nm");
 		m.max_seeker_dev        = getprop("sim/ja37/armament/"~m.type_lc~"/track-max-deg") / 2;
-		m.force_lbs_1           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbs-stage-1");
-		m.force_lbs_2           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbs-stage-2");
+		m.force_lbs_1           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbf-stage-1");
+		m.force_lbs_2           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbf-stage-2");
 		m.stage_1_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-1-duration-sec");
 		m.stage_2_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-2-duration-sec");
 		m.weight_launch_lbs     = getprop("sim/ja37/armament/"~m.type_lc~"/weight-launch-lbs");
@@ -156,6 +156,7 @@ var AIM = {
 		m.last_cruise_or_loft = 0;
 		m.e_add = 0;
 		m.h_add = 0;
+		m.paused = 0;
 
 		m.lastFlare = 0;
 
@@ -274,11 +275,17 @@ var AIM = {
 		var dt = getprop("sim/time/delta-sec");#TODO: find out more about how this property works
 		if (dt == 0) {
 			#FG is likely paused
+			me.paused = 1;
 			settimer(func me.update(), 0.01);
 			return;
 		}
 		#dt = update_loop_time;
 		var elapsed = systime();
+		if (me.paused == 1) {
+			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
+			me.paused = 0;
+			me.dt_last = elapsed-0.00001;
+		}
 		if (me.dt_last != 0) {
 			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
 			if(dt <= 0) {
@@ -302,7 +309,7 @@ var AIM = {
 		#### Calculate speed vector before steering corrections.
 
 		# Cut rocket thrust after boost duration.
-		var f_lbs = me.force_lbs_1;
+		var f_lbs = me.force_lbs_1;# pounds force (lbf)
 		if (me.life_time > me.stage_1_duration) {
 			f_lbs = me.force_lbs_2;
 		}
@@ -365,7 +372,7 @@ var AIM = {
 
 		var q = 0.5 * rho * old_speed_fps * old_speed_fps;# dynamic pressure
 		var drag_acc = (cdm * q * me.eda) / mass;
-		var speed_fps = old_speed_fps - drag_acc + acc;
+		var speed_fps = old_speed_fps - drag_acc*dt + acc*dt;
 
 		if (speed_fps < 0) {
 			# drag can theoretically make the speed less than 0, this will prevent that from happening.
@@ -461,7 +468,7 @@ var AIM = {
 
 # Uncomment this line to check stats while flying:
 #
-#print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f", me.life_time)~sprintf(" , thrust %03.1f", f_lbs)~sprintf(" , G-force %02.2f", g));
+#print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f s", me.life_time)~sprintf(" , thrust %03.1f lbf", f_lbs)~sprintf(" , G-force %02.2f", g));
 
 				if ( g > me.max_g_current and init_launch != 0) {
 					#print("lost lock "~g~"G");
@@ -658,13 +665,18 @@ var AIM = {
 				me.curr_tgt_h -= 360;
 			}
 
-			if(me.speed_m < me.min_speed_for_guiding or (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE)) {
+			if(me.speed_m < me.min_speed_for_guiding) {
 				# it doesn't guide at lower speeds
-				# or if its semi-radar guided and the target is no longer painted
 				e_gain = 0;
 				h_gain = 0;
 				me.update_count = -1;
-				print("Not guiding (too low speed or lost radar reflection)");
+				print("Not guiding (too low speed)");
+			} elsif (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE) {
+				# if its semi-radar guided and the target is no longer painted
+				e_gain = 0;
+				h_gain = 0;
+				me.update_count = -1;
+				print("Not guiding (lost radar reflection, trying to require)");
 			} elsif (me.curr_tgt_e > me.max_seeker_dev or me.curr_tgt_e < (-1 * me.max_seeker_dev)
 				  or me.curr_tgt_h > me.max_seeker_dev or me.curr_tgt_h < (-1 * me.max_seeker_dev)) {
 				# target is not in missile seeker view anymore
@@ -707,7 +719,7 @@ var AIM = {
 			me.last_deviation_e = dev_e;
 			me.last_deviation_h = dev_h;
 
-			var loft_angle = 45;
+			var loft_angle = 15;
 			var loft_minimum = 10;# miles
 			var cruise_minimum = 5;# miles
 			var cruise_or_loft = 0;
@@ -740,7 +752,7 @@ var AIM = {
 						if(c_dv > 180) {
 							c_dv -= 360;
 						}
-						me.h_add = ja37.clamp(1.2*c_dv/dt, -7.5, 7.5);# max lead by 7 degs
+						me.h_add = ja37.clamp(getprop("sim/ja37/armament/factor-pro")*c_dv/dt, -7.5, 7.5);# max lead by 7 degs
 					}
 					
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
@@ -762,10 +774,10 @@ var AIM = {
 						c_dv -= 360;
 					}
 					# lead pursuit
-					h_add = 1.5 * c_dv;
+					h_add = getprop("sim/ja37/armament/factor-lead") * c_dv;
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						var e_dv = t_elev_deg-me.last_t_elev_deg;
-						e_add = 1.5 * e_dv;
+						e_add = getprop("sim/ja37/armament/factor-lead") * e_dv;
 					}
 				} elsif (me.update_count > -1) {
 					# pure pursuit to start with
@@ -834,7 +846,7 @@ var AIM = {
 		# Get current direct distance.
 		if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
 			#print("distance to target_m = "~cur_dir_dist_m~" prev_distance to target_m = "~me.direct_dist_m);
-			if ( cur_dir_dist_m > me.direct_dist_m and me.direct_dist_m < 65 ) {
+			if ( cur_dir_dist_m > me.direct_dist_m and cur_dir_dist_m < 500) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
 				me.explode();
@@ -906,6 +918,7 @@ var AIM = {
 				}
 			}
 		}
+		me.coord = explosion_coord;
 		#print("min3 "~min_distance);
 
 		# Create impact coords from this previous relative position applied to target current coord.
@@ -953,7 +966,7 @@ var AIM = {
 		var e_u = me.seeker_dev_e + me.aim9_fov;
 		var h_l = me.seeker_dev_h - me.aim9_fov;
 		var h_r = me.seeker_dev_h + me.aim9_fov;
-		if ( me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r ) {		
+		if (me.status != MISSILE_FLYING and (me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r) ) {		
 			# Target out of FOV while still not launched, return to search loop.
 			me.status = MISSILE_SEARCH;
 			settimer(func me.search(), rand()*3.5);
@@ -967,7 +980,10 @@ var AIM = {
 
 	# aircraft searching for lock
 	search: func {
-		if ( me.status == MISSILE_STANDBY ) {
+		if ( me.status == MISSILE_FLYING ) {
+			me.SwSoundVol.setValue(0);
+			return;
+		} elsif ( me.status == MISSILE_STANDBY ) {
 			# Stand by.
 			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
@@ -1075,6 +1091,11 @@ var AIM = {
 
 	#done
 	animate_explosion: func {
+		# a last position update to where the explosion happened:
+		me.latN.setDoubleValue(me.coord.lat());
+		me.lonN.setDoubleValue(me.coord.lon());
+		me.altN.setDoubleValue(me.coord.alt()*M2FT);
+
 		me.msl_prop.setBoolValue(0);
 		me.smoke_prop.setBoolValue(0);
 		me.explode_prop.setBoolValue(1);

@@ -490,28 +490,28 @@ var incoming_listener = func {
 
               if (type == "aim-120" or type == "AIM120" or type == "RB-99") {
                 # 44 lbs
-                maxDist = 20;
+                maxDist = maxDamageDistFromWarhead(44);
               } elsif (type == "aim-7" or type == "RB-71") {
                 # 88 lbs
-                maxDist = 25;
+                maxDist = maxDamageDistFromWarhead(88);
               } elsif (type == "aim-9" or type == "RB-24J" or type == "RB-74") {
                 # 20.8 lbs
-                maxDist = 14;
+                maxDist = maxDamageDistFromWarhead(20.8);
               } elsif (type == "R74") {
                 # 16 lbs
-                maxDist = 10;
+                maxDist = maxDamageDistFromWarhead(16);
               } elsif (type == "MATRA-R530" or type == "Meteor") {
                 # 55 lbs
-                maxDist = 22;
+                maxDist = maxDamageDistFromWarhead(55);
               } elsif (type == "AIM-54") {
                 # 135 lbs
-                maxDist = 30;
+                maxDist = maxDamageDistFromWarhead(135);
               } elsif (type == "Matra R550 Magic 2") {
                 # 27 lbs
-                maxDist = 17;
+                maxDist = maxDamageDistFromWarhead(27);
               } elsif (type == "Matra MICA") {
                 # 30 lbs
-                maxDist = 17.5;
+                maxDist = maxDamageDistFromWarhead(30);
               } else {
                 return;
               }
@@ -523,7 +523,7 @@ var incoming_listener = func {
                 diff = diff * diff;
                 diff = diff * -1;
               }
-              var probability = diff / (maxDist*maxDist);
+              var probability = ja37.clamp(diff / (maxDist*maxDist), 0, 1);
 
               var failure_modes = FailureMgr._failmgr.failure_modes;
               var mode_list = keys(failure_modes);
@@ -547,6 +547,9 @@ var incoming_listener = func {
             #print("hitting me");
 
             var probability = 0.20; # take 20% damage from each hit
+            if (last_vector[1] == " Gun Splash On ") {
+              probability = 0.30;
+            }
             var failure_modes = FailureMgr._failmgr.failure_modes;
             var mode_list = keys(failure_modes);
             var failed = 0;
@@ -556,13 +559,20 @@ var incoming_listener = func {
                 failed += 1;
               }
             }
-            print("Took 20% damage from cannon! "~failed~" systems was hit.");
+            print("Took "~probability*100~"% damage from cannon! "~failed~" systems was hit.");
             nearby_explosion();
           }
         }
       }
     }
   }
+}
+
+var maxDamageDistFromWarhead = func (lbs) {
+  # very simple
+  var dist = 3*math.sqrt(lbs);
+
+  return dist;
 }
 
 var playIncomingSound = func (clock) {

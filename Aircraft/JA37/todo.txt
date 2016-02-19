@@ -55,7 +55,6 @@ Sim: Make data-link between Viggens.
 Sim: Make anti-cheat system for MP fighting.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Sim: Replace nasal blinkers with JSB code.
-Sim: If pausing while missile is flying, releasing pause will make the missile think a large dt has passed.
 Sim: Implement maximum speed reactions - Vne.
 Sim: Fix that KCA cannon will hit type if type is selected in HUD. Instead it should always be callsign.
 Sim: Implement navigation controls into the cockpit.
@@ -111,12 +110,10 @@ Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
 HUD: In landing mode when horizont is out of view, heading scale does not show commanded heading.
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
 Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
-Sim: Sometimes the aim-9 growl can be hard no matter if its mounted on any pylon or not, even when KCA is selected. [reproduced]
 Sim: {Pinto} After fire M70, and reload, they will fire again. [might be fixed]
 Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
-HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes.
+HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
 HUD: In tactical mode the diamond would sometimes not be painted. Distance, callsign and tail would be shown though.
-Model: {Pinto} Right-most altimeter should really be a distance indicator.
 Model: Droptank indicator should really be a steerpoint indicator.
 
 Issues with FG:
