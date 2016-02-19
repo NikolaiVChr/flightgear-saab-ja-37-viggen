@@ -706,7 +706,7 @@ var AIM = {
 					#print(sprintf("last-elev=%.1f", me.last_deviation_e)~sprintf(" last-elev-adj=%.1f", me.last_track_e));
 					#print(sprintf("last-head=%.1f", me.last_deviation_h)~sprintf(" last-head-adj=%.1f", me.last_track_h));
 					# lost lock due to angular speed limit
-					#print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
+					print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
 					#print(dt);
 					me.free = 1;
 					e_gain = 0;
