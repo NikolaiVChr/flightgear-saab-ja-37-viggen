@@ -787,13 +787,13 @@ var AIM = {
 						if(c_dv > 180) {
 							c_dv -= 360;
 						}
-						me.h_add = ja37.clamp(getprop("sim/ja37/armament/factor-pro")*c_dv/dt, -70.5, 70.5);# max lead by 7 degs
+						me.h_add = ja37.clamp(getprop("sim/ja37/armament/factor-pro")*c_dv/dt, -20.5, 20.5);# max lead by 7 degs
 					}
 					
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						if (me.e_add == 0) {
 							var e_dv = t_elev_deg-me.last_t_elev_deg;
-							me.e_add = ja37.clamp(1.2*e_dv/dt, -70.5, 70.5);# max lead by 7 degs
+							me.e_add = ja37.clamp(1.2*e_dv/dt, -20.5, 20.5);# max lead by 7 degs
 						}
 					}
 				} 
@@ -1253,7 +1253,6 @@ var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
 	}
 	return 0;
 }
-
 
 var old_max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt,gMax) {
         # Get G number from steering (e, h) in deg, speed in ft/s.
