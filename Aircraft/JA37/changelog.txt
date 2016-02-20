@@ -2028,3 +2028,10 @@ Sim: Adjusted drag, ref. area and thrust and thrust duration on guided missiles.
 Sim: Removed the distance limit on when the missile deems it has passed target and should explode.
 Sim: For proportional navigation and lead pursuit the factors is now exposed in property tree for guided missiles.
 Sim: Readded the distance limit on when the missile deems it has passed target and should explode, but increased it.
+Sim: Increased the seeker max angular rotation speed for the modern missiles.
+Sim: Prevented acceleration due to gravity to increase the missiles speed in other directions than down.
+Sim: Used a much smarter way to calculate the G-force of missiles. They will no longer make sharp angular turns at high speeds.
+Sim: The missiles now waits for minimum half a second before they start guiding, so they can get clear of aircraft.
+Sim: Stopped a variable from being double declared in missiles. (alt_ft)
+Sim: When a missiles is released, and does its first flight update, make sure it knows that no time has passed since firing.
+Sim: Switched missile guidance to proportional navigation. (needs testing against evading target)

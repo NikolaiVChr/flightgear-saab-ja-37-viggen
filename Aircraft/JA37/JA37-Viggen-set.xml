@@ -666,9 +666,9 @@
             <armament>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <nav type="string">pure</nav><!-- orig, pure, lead or pro -->
-                <factor-lead type="double">1.5</factor-lead>
-                <factor-pro type="double">1.2</factor-pro>
+                <nav type="string">pro</nav><!-- orig, pure, lead or pro -->
+                <factor-lead type="double">50</factor-lead>
+                <factor-pro type="double">5</factor-pro>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
@@ -717,10 +717,10 @@
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- guess -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- guess -->
-                    <seeker-angular-speed-dps>21</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>0</loft-altitude>
                 </rb-74>
-                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7 Sparrow)) -->
+                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
@@ -742,14 +742,14 @@
                     <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">60</self-destruct-time-sec>         <!-- guess -->
-                    <seeker-angular-speed-dps>21</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                 </rb-71>
-                <rb-99>
+                <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
-                    <guidance type="string">semi-radar</guidance><!-- change later -->
+                    <guidance type="string">radar</guidance><!-- change later -->
                     <all-aspect type="bool">true</all-aspect>
                     <max-detection-rng-nm type="int">38.8</max-detection-rng-nm>
                     <fov-deg type="int">30</fov-deg>
@@ -767,7 +767,7 @@
                     <arming-time-sec type="double">3.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">70</self-destruct-time-sec>         <!-- guess -->
-                    <seeker-angular-speed-dps>21</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                 </rb-99>
             </armament>

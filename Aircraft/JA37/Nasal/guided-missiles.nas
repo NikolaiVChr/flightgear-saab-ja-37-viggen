@@ -250,12 +250,16 @@ var AIM = {
 		me.s_down = getprop("velocities/speed-down-fps");
 		me.s_east = getprop("velocities/speed-east-fps");
 		me.s_north = getprop("velocities/speed-north-fps");
+		#print("release speed down: "~me.s_down);
 
 		me.alt = aalt;
 		me.pitch = ac_pitch;
 		me.hdg = ac_hdg;
 
 		me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
+
+		#print("air density diff alt = "~me.density_alt_diff);
+		#print("missile alt = "~aalt);
 
 		me.smoke_prop.setBoolValue(1);
 		me.SwSoundVol.setValue(0);
@@ -279,15 +283,21 @@ var AIM = {
 			settimer(func me.update(), 0.01);
 			return;
 		}
-		#dt = update_loop_time;
+		dt = 0.00001;#if just called from release() then dt is almost 0 (cannot be zero as we use it to divide with)
 		var elapsed = systime();
 		if (me.paused == 1) {
 			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
 			me.paused = 0;
 			me.dt_last = elapsed-0.00001;
 		}
+		var init_launch = 0;
 		if (me.dt_last != 0) {
-			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
+			#if (getprop("sim/speed-up") == 1) {
+				dt = (elapsed - me.dt_last)*getprop("sim/speed-up");
+			#} else {
+			#	dt = getprop("sim/time/delta-sec")*getprop("sim/speed-up");
+			#}
+			init_launch = 1;
 			if(dt <= 0) {
 				# to prevent pow floating point error in line:cdm = 0.2965 * math.pow(me.speed_m, -1.1506) + me.cd;
 				# could happen if the OS adjusts the clock backwards
@@ -296,10 +306,7 @@ var AIM = {
 		}
 		me.dt_last = elapsed;
 
-		var init_launch = 0;
-		if ( me.life_time > 0 ) { 
-			init_launch = 1;
-		}
+		
 		me.life_time += dt;
 		# record coords so we can give the latest nearest position for impact.
 		me.before_last_coord = geo.Coord.new(me.last_coord);
@@ -324,18 +331,21 @@ var AIM = {
 		# Kill the AI after a while.
 		#if (me.life_time > 60) { return me.del(); }
 
-		# Get total speed.
+		# Get total old speed.
 		var d_east_ft  = me.s_east * dt;
 		var d_north_ft = me.s_north * dt;
 		var d_down_ft  = me.s_down * dt;
-		var pitch_deg  = me.pitch;
-		var hdg_deg    = me.hdg;
 		var dist_h_ft  = math.sqrt((d_east_ft*d_east_ft)+(d_north_ft*d_north_ft));
 		var total_s_ft = math.sqrt((dist_h_ft*dist_h_ft)+(d_down_ft*d_down_ft));
 
+		# get old attitude
+		var pitch_deg  = me.pitch;
+		var hdg_deg    = me.hdg;
+
+
 		# Get air density and speed of sound (fps):
-		var alt_ft = me.altN.getValue() + me.density_alt_diff;
-		var rs = rho_sndspeed(alt_ft);
+		#var alt_ft = me.altN.getValue(); don't declare this twice
+		var rs = rho_sndspeed(me.altN.getValue() + me.density_alt_diff);
 		var rho = rs[0];
 		var sound_fps = rs[1];
 
@@ -350,12 +360,15 @@ var AIM = {
 		# f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
 		# calculate its performance at current air density:
 		me.max_g_current = me.max_g+((rho-0.0023769)/(0.00036159-0.0023769))*(me.max_g*0.5909-me.max_g);
-		#print("max-g="~me.max_g_current);
+		#print("Max G = "~me.max_g_current~" Rho = "~rho);
 
 		# Adjust Cd by Mach number. The equations are based on curves
 		# for a conventional shell/bullet (no boat-tail).
 		var cdm = 0;
-		me.speed_m = (total_s_ft / dt) / sound_fps;
+
+		var old_speed_fps = total_s_ft / dt;
+
+		me.speed_m = old_speed_fps / sound_fps;
 		if (me.speed_m < 0.7)
 		 cdm = 0.0125 * me.speed_m + me.cd;
 		elsif (me.speed_m < 1.2 )
@@ -367,61 +380,42 @@ var AIM = {
 		# rho is adjusted for altitude in environment.rho_sndspeed(altitude),
 		# Acceleration = thrust/mass - drag/mass;
 		var mass = me.weight_launch_lbs / slugs_to_lbs;
-		var old_speed_fps = total_s_ft / dt;
+		
 		var acc = f_lbs / mass;
 
 		var q = 0.5 * rho * old_speed_fps * old_speed_fps;# dynamic pressure
 		var drag_acc = (cdm * q * me.eda) / mass;
-		var speed_fps = old_speed_fps - drag_acc*dt + acc*dt;
 
-		if (speed_fps < 0) {
-			# drag can theoretically make the speed less than 0, this will prevent that from happening.
-			speed_fps = 0;
-		}
+		# get total new speed (minus gravity)
+		var speed_change_fps = acc*dt - drag_acc*dt;
 
-		# Break down total speed to North, East and Down components.
-		var speed_down_fps = math.sin(pitch_deg * D2R) * speed_fps;
-		var speed_horizontal_fps = math.cos(pitch_deg * D2R) * speed_fps;
-		var speed_north_fps = math.cos(hdg_deg * D2R) * speed_horizontal_fps;
-		var speed_east_fps = math.sin(hdg_deg * D2R) * speed_horizontal_fps;
-
-		# Add gravity to the vertical speed (no ground interaction yet).
-		speed_down_fps -= 32.1740485564 * dt;
 		
-		# Calculate altitude and elevation velocity vector (no incidence here).
-		var alt_ft = me.altN.getValue() + (speed_down_fps * dt);
-		pitch_deg = math.atan2( speed_down_fps, speed_horizontal_fps ) * R2D;
 
-		# this is commented, cause the missile just falls due to gravity, it doesn't pitch
-		# a real missile would pitch ofc. but then have to calc how fuel affects CoG and its inertia
-		# 
-		#me.pitch = pitch_deg;
-		pitch_deg = me.pitch;
-		
-		var dist_h_m = speed_horizontal_fps * dt * FT2M;
 
 		#print("alt "~alt_ft);
 
 		#### Guidance.
 
 		if ( me.status == MISSILE_FLYING and me.free == 0) {
-			me.update_track(dt);
+			if (me.life_time > 0.5) {
+				me.update_track(dt);
+			}
 			if (init_launch == 0 ) {
 				# Use the rail or a/c pitch for the first frame.
 				pitch_deg = getprop("orientation/pitch-deg");
 			} else {
 				#print("steering");
 				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
-                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
+                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
                 if(me.max_g_current < myG)
                 {
-                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt, me.max_g_current);
+                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, old_speed_fps, dt, me.max_g_current);
                     me.track_signal_e =  me.track_signal_e * MyCoef;
                     me.track_signal_h =  me.track_signal_h * MyCoef;
                     #print(sprintf("G1 %.2f", myG));
-                    myG = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
+                    var myG2 = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
                     #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
-                    print(sprintf("Missile pulling almost max G: %.1f G", myG));
+                    print(sprintf("Missile pulling almost max G: %.1f G", myG2));
                 }
                 #print(sprintf("G %.1f", myG));
                 if (me.all_aspect == 1 or me.rear_aspect() == 1) {
@@ -441,15 +435,59 @@ var AIM = {
 			}
 		}
 
-		
+		# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
+		# which next update will be added in the direction the missile points, which we do not want.
+		#
+		# As a workaround we only add gravity when the missile has stopped guiding. I know it sucks. :(
+		#
+		var gravity_fps                 = me.free == 1?g_fps * dt:0;
+		if (me.free == 1) {
+			# pitch according to old speed from last update
+			pitch_deg = math.atan2(-me.s_down, dist_h_ft/dt) * R2D;
+		}
 
-		# Get horizontal distance and set position and orientation.
+		# Break speed change down total speed to North, East and Down components.
+		var speed_down_fps       = gravity_fps - math.sin(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
+		var speed_horizontal_fps = math.cos(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
+		var speed_north_fps      = math.cos(hdg_deg * D2R) * speed_horizontal_fps;
+		var speed_east_fps       = math.sin(hdg_deg * D2R) * speed_horizontal_fps;
+
+		#var speed_down_fps         =  speed_down_change_fps;# + me.s_down
+		#var speed_north_fps        =  speed_north_change_fps;# + me.s_north
+		#var speed_east_fps         =  speed_east_change_fps;# + me.s_east
+
+		#var speed_horizontal_fps = math.sqrt(speed_north_fps*speed_north_fps+speed_east_fps*speed_east_fps);
+		var new_speed_fps        = math.sqrt(speed_horizontal_fps*speed_horizontal_fps+speed_down_fps*speed_down_fps);
+
+#print();
+#print("change: down="~speed_down_change_fps~" north="~speed_north_change_fps~" east="~speed_east_change_fps);
+#print("new: down="~speed_down_fps~" north="~speed_north_fps~" east="~speed_east_fps);
+#print("speed horz: "~speed_horizontal_fps~" (old: "~(dist_h_ft/dt)~")");
+#print("speed: new="~new_speed_fps~" old="~old_speed_fps);
+
+		#if (new_speed_fps < 0) {
+			# drag can theoretically make the speed less than 0, this will prevent that from happening.
+		#	new_speed_fps = 0;
+		#}
+
+		# Calculate altitude and elevation velocity vector (no incidence here).
+		
+		#pitch_deg = math.atan2( speed_down_fps, speed_horizontal_fps ) * R2D;
+
+		# this is commented, cause the missile just falls due to gravity, it doesn't pitch
+		# a real missile would pitch ofc. but then have to calc how fuel affects CoG and its inertia/momentum
+		# 
+		#me.pitch = pitch_deg;
+		#pitch_deg = me.pitch;
+		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
+		var alt_ft = me.altN.getValue() - (speed_down_fps * dt);
+
 		me.coord.apply_course_distance(hdg_deg, dist_h_m);
+		me.coord.set_alt(alt_ft * FT2M);
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(alt_ft);
-		me.coord.set_alt(alt_ft * FT2M);
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
 
@@ -458,13 +496,13 @@ var AIM = {
 		me.ai.getNode("radar/bearing-deg", 1).setValue(self.course_to(me.coord));
 		var angleInv = me.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
 		me.ai.getNode("radar/elevation-deg", 1).setValue((self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D);
-		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(speed_fps * FPS2KT);
+		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(new_speed_fps * FPS2KT);
 
 		#### Proximity detection.
 		if ( me.status == MISSILE_FLYING ) {
 			#### check if the missile can keep the lock.
  			if ( me.free == 0 ) {
-				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, (total_s_ft / dt), dt);
+				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
 
 # Uncomment this line to check stats while flying:
 #
@@ -637,7 +675,7 @@ var AIM = {
 			#var t_course = me.coord.course_to(me.t_coord);
 			me.curr_tgt_h = t_course - me.hdg;
 			#print();
-			print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
+			#print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
 
 			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
 
@@ -706,7 +744,7 @@ var AIM = {
 					#print(sprintf("last-elev=%.1f", me.last_deviation_e)~sprintf(" last-elev-adj=%.1f", me.last_track_e));
 					#print(sprintf("last-head=%.1f", me.last_deviation_h)~sprintf(" last-head-adj=%.1f", me.last_track_h));
 					# lost lock due to angular speed limit
-					#print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
+					print(sprintf("%.1f deg/s too big angular change for seeker head.", deviation_per_sec));
 					#print(dt);
 					me.free = 1;
 					e_gain = 0;
@@ -752,13 +790,13 @@ var AIM = {
 						if(c_dv > 180) {
 							c_dv -= 360;
 						}
-						me.h_add = ja37.clamp(getprop("sim/ja37/armament/factor-pro")*c_dv/dt, -7.5, 7.5);# max lead by 7 degs
+						me.h_add = ja37.clamp(getprop("sim/ja37/armament/factor-pro")*c_dv/dt, -20.5, 20.5);# max lead by 7 degs
 					}
 					
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						if (me.e_add == 0) {
 							var e_dv = t_elev_deg-me.last_t_elev_deg;
-							me.e_add = ja37.clamp(1.2*e_dv/dt, -7.5, 7.5);# max lead by 7 degs
+							me.e_add = ja37.clamp(1.2*e_dv/dt, -20.5, 20.5);# max lead by 7 degs
 						}
 					}
 				} 
@@ -774,16 +812,16 @@ var AIM = {
 						c_dv -= 360;
 					}
 					# lead pursuit
-					h_add = getprop("sim/ja37/armament/factor-lead") * c_dv;
+					me.h_add = getprop("sim/ja37/armament/factor-lead") * c_dv;
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						var e_dv = t_elev_deg-me.last_t_elev_deg;
-						e_add = getprop("sim/ja37/armament/factor-lead") * e_dv;
+						me.e_add = getprop("sim/ja37/armament/factor-lead") * e_dv;
 					}
 				} elsif (me.update_count > -1) {
 					# pure pursuit to start with
-					h_add = 0;
+					me.h_add = 0;
 					if (cruise_or_loft == 0) {
-						e_add = 0;
+						me.e_add = 0;
 					}
 				}
 			}
@@ -846,7 +884,7 @@ var AIM = {
 		# Get current direct distance.
 		if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
 			#print("distance to target_m = "~cur_dir_dist_m~" prev_distance to target_m = "~me.direct_dist_m);
-			if ( cur_dir_dist_m > me.direct_dist_m and cur_dir_dist_m < 500) {
+			if ( cur_dir_dist_m > me.direct_dist_m and cur_dir_dist_m < 250) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
 				me.explode();
@@ -1186,13 +1224,58 @@ var impact_report = func(pos, mass_slug, string) {
 var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, dt) {
 	# Get G number from steering (e, h) in deg, speed in ft/s.
 	var steer_deg = math.sqrt((steering_e_deg*steering_e_deg) + (steering_h_deg*steering_h_deg));
-	var radius_ft = math.abs(s_fps / math.cos((90 - steer_deg)*D2R));
-	var g = ( (s_fps * s_fps) / radius_ft ) / g_fps;
+
+	# next speed vector
+	var vector_next_x = math.cos(steer_deg*D2R)*s_fps;
+	var vector_next_y = math.sin(steer_deg*D2R)*s_fps;
+	
+	# present speed vector
+	var vector_now_x = s_fps;
+	var vector_now_y = 0;
+
+	# subtract the vectors from each other
+	var dv = math.sqrt((vector_now_x - vector_next_x)*(vector_now_x - vector_next_x)+(vector_now_y - vector_next_y)*(vector_now_y - vector_next_y));
+
+	# calculate g-force
+	# dv/dt=a
+	var g = (dv/dt) / g_fps;
+
+	# old calc with circle:
+	#var radius_ft = math.abs(s_fps / math.sin(steer_deg*D2R));
+	#var g = ( (s_fps * s_fps) / radius_ft ) / g_fps;
 	#print("#### R = ", radius_ft, " G = ", g); ##########################################################
 	return g;
 }
 
-var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt,gMax) {
+var semi_old_max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
+	for(var i = 1; i >= 0; i-=0.005) {
+		var new_g = steering_speed_G(steering_e_deg*i, steering_h_deg*i, s_fps, dt);
+		if (new_g < gMax) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
+	var guess = 1;
+	var coef = 1;
+	var lastgoodguess = 1;
+
+	for(var i=1;i<25;i+=1){
+		coef = coef/2;
+		var new_g = steering_speed_G(steering_e_deg*guess, steering_h_deg*guess, s_fps, dt);
+		if (new_g < gMax) {
+			lastgoodguess = guess;
+			guess = guess + coef;
+		} else {
+			guess = guess - coef;
+		}
+	}
+	return lastgoodguess;
+}
+
+var old_max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt,gMax) {
         # Get G number from steering (e, h) in deg, speed in ft/s.
         #This function is for calculate the maximum angle without overload G
 
