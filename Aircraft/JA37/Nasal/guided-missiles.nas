@@ -258,6 +258,9 @@ var AIM = {
 
 		me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
 
+		print("air density diff alt = "~me.density_alt_diff);
+		print("missile alt = "~aalt);
+
 		me.smoke_prop.setBoolValue(1);
 		me.SwSoundVol.setValue(0);
 		me.trackWeak = 1;
@@ -357,6 +360,7 @@ var AIM = {
 		# f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
 		# calculate its performance at current air density:
 		me.max_g_current = me.max_g+((rho-0.0023769)/(0.00036159-0.0023769))*(me.max_g*0.5909-me.max_g);
+		print("Max G = "~me.max_g_current~" Rho = "~rho);
 		#print("max-g="~me.max_g_current);
 
 		# Adjust Cd by Mach number. The equations are based on curves
