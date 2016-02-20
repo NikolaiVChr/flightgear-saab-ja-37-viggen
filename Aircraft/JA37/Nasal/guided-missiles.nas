@@ -361,7 +361,6 @@ var AIM = {
 		# calculate its performance at current air density:
 		me.max_g_current = me.max_g+((rho-0.0023769)/(0.00036159-0.0023769))*(me.max_g*0.5909-me.max_g);
 		print("Max G = "~me.max_g_current~" Rho = "~rho);
-		#print("max-g="~me.max_g_current);
 
 		# Adjust Cd by Mach number. The equations are based on curves
 		# for a conventional shell/bullet (no boat-tail).
@@ -414,9 +413,9 @@ var AIM = {
                     me.track_signal_e =  me.track_signal_e * MyCoef;
                     me.track_signal_h =  me.track_signal_h * MyCoef;
                     #print(sprintf("G1 %.2f", myG));
-                    myG = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
+                    var myG2 = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
                     #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
-                    print(sprintf("Missile pulling almost max G: %.1f G", myG));
+                    print(sprintf("Missile pulling almost max G: %.1f G (wanted to pull %.1f G)", myG2, myG));
                 }
                 #print(sprintf("G %.1f", myG));
                 if (me.all_aspect == 1 or me.rear_aspect() == 1) {
@@ -1249,7 +1248,7 @@ var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, dt) {
 }
 
 var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
-	for(var i = 1; i >= 0; i-=0.02) {
+	for(var i = 1; i >= 0; i-=0.005) {
 		var new_g = steering_speed_G(steering_e_deg*i, steering_h_deg*i, s_fps, dt);
 		if (new_g < gMax) {
 			return i;
