@@ -258,8 +258,8 @@ var AIM = {
 
 		me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
 
-		print("air density diff alt = "~me.density_alt_diff);
-		print("missile alt = "~aalt);
+		#print("air density diff alt = "~me.density_alt_diff);
+		#print("missile alt = "~aalt);
 
 		me.smoke_prop.setBoolValue(1);
 		me.SwSoundVol.setValue(0);
@@ -360,7 +360,7 @@ var AIM = {
 		# f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
 		# calculate its performance at current air density:
 		me.max_g_current = me.max_g+((rho-0.0023769)/(0.00036159-0.0023769))*(me.max_g*0.5909-me.max_g);
-		print("Max G = "~me.max_g_current~" Rho = "~rho);
+		#print("Max G = "~me.max_g_current~" Rho = "~rho);
 
 		# Adjust Cd by Mach number. The equations are based on curves
 		# for a conventional shell/bullet (no boat-tail).
@@ -415,7 +415,7 @@ var AIM = {
                     #print(sprintf("G1 %.2f", myG));
                     var myG2 = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
                     #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
-                    print(sprintf("Missile pulling almost max G: %.1f G (wanted to pull %.1f G)", myG2, myG));
+                    print(sprintf("Missile pulling almost max G: %.1f G", myG2));
                 }
                 #print(sprintf("G %.1f", myG));
                 if (me.all_aspect == 1 or me.rear_aspect() == 1) {
@@ -1247,7 +1247,7 @@ var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, dt) {
 	return g;
 }
 
-var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
+var semi_old_max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
 	for(var i = 1; i >= 0; i-=0.005) {
 		var new_g = steering_speed_G(steering_e_deg*i, steering_h_deg*i, s_fps, dt);
 		if (new_g < gMax) {
@@ -1255,6 +1255,24 @@ var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
 		}
 	}
 	return 0;
+}
+
+var max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt, gMax) {
+	var guess = 1;
+	var coef = 1;
+	var lastgoodguess = 1;
+
+	for(var i=1;i<25;i+=1){
+		coef = coef/2;
+		var new_g = steering_speed_G(steering_e_deg*guess, steering_h_deg*guess, s_fps, dt);
+		if (new_g < gMax) {
+			lastgoodguess = guess;
+			guess = guess + coef;
+		} else {
+			guess = guess - coef;
+		}
+	}
+	return lastgoodguess;
 }
 
 var old_max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt,gMax) {
