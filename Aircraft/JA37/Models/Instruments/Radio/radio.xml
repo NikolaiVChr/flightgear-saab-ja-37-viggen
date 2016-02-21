@@ -715,5 +715,55 @@
 			<y>0</y>
 		</axis>
 	</animation>
+	
+	<!-- tooltips -->
+	
+	<animation>
+        <type>pick</type>
+        <object-name>leftMacroKnob</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>leftMacroKnob</tooltip-id>
+                <label>Adjust frequency (gross)</label>
+            </binding>
+        </hovered>
+    </animation>
+	
+	<animation>
+        <type>pick</type>
+        <object-name>leftMicroKnob</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>leftMacroKnob</tooltip-id>
+                <label>Adjust frequency (fine)</label>
+            </binding>
+        </hovered>
+    </animation>
+	
+	<animation>
+        <type>pick</type>
+        <object-name>rightMacroKnob</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>leftMacroKnob</tooltip-id>
+                <label>Adjust radial</label>
+            </binding>
+        </hovered>
+    </animation>
 
+	<animation>
+        <type>pick</type>
+        <object-name>rightMicroKnob</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>leftMacroKnob</tooltip-id>
+                <label>Adjust volume</label>
+            </binding>
+        </hovered>
+    </animation>
+	
 </PropertyList>
