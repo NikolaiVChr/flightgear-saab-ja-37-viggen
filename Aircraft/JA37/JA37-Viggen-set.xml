@@ -666,7 +666,7 @@
             <armament>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <nav type="string">pro</nav><!-- orig, pure, lead or pro -->
+                <nav type="string">pure</nav><!-- orig, pure, lead or pro -->
                 <factor-lead type="double">50</factor-lead>
                 <factor-pro type="double">5</factor-pro>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
