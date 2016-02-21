@@ -870,7 +870,7 @@ var HUDnasal = {
         landingMode:      "sim/ja37/hud/landing-mode",
         mach:             "instrumentation/airspeed-indicator/indicated-mach",
         mode:             "sim/ja37/hud/mode",
-        nav0GSNeedleDefl:  "instrumentation/nav[0]/gs-needle-deflection",
+        nav0GSNeedleDefl:  "instrumentation/nav[0]/gs-needle-deflection-norm",
         nav0GSInRange:    "instrumentation/nav[0]/gs-in-range",
         nav0HasGS:        "instrumentation/nav[0]/has-gs",
         nav0Heading:      "instrumentation/nav[0]/heading-deg",
@@ -1616,9 +1616,8 @@ var HUDnasal = {
         deg = me.input.nav0HeadingDefl.getValue()/2;# -10 to 10, divided by 2.
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
-          var normDeviation = me.input.nav0GSNeedleDefl.getValue()/4;
-          var dev3 = normDeviation * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
-          var dev2 = normDeviation * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
+          var dev3 = me.input.nav0GSNeedleDefl.getValue() * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
+          var dev2 = me.input.nav0GSNeedleDefl.getValue() * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
           me.desired_lines3.setTranslation(pixelPerDegreeX*deg, dev3);
           me.desired_lines2.setTranslation(pixelPerDegreeX*deg, dev2);
           guideUseLines = TRUE;
