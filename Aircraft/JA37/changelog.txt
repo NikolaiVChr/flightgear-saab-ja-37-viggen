@@ -2040,3 +2040,5 @@ Sim: {Onox} Some optimizations to damage code.
 Sim: Changed missile navigation back to pure pursuit for now.
 Sim: Better console print when missile hit.
 Sim: Fixed a null pointer exception in DME.
+Sim: Implemented a better proprortional navigation for missiles.
+Sim: Increased self-destruct time for RB-71 and RB-99.

@@ -157,6 +157,12 @@ var AIM = {
 		m.e_add = 0;
 		m.h_add = 0;
 		m.paused = 0;
+		m.dist_last = nil;
+		m.last_tgt_h = nil;
+		m.last_tgt_e = nil;
+		m.old_speed_horz_fps = nil;
+		m.t_alt_delta_last_m = nil;
+		m.dist_direct_last = nil;
 
 		m.lastFlare = 0;
 
@@ -367,6 +373,7 @@ var AIM = {
 		var cdm = 0;
 
 		var old_speed_fps = total_s_ft / dt;
+		me.old_speed_horz_fps = dist_h_ft / dt;
 
 		me.speed_m = old_speed_fps / sound_fps;
 		if (me.speed_m < 0.7)
@@ -802,6 +809,54 @@ var AIM = {
 				} 
 			}
 
+
+
+			# real proportional navigation (for heading only)
+			var dist_curr = me.coord.distance_to(me.t_coord);
+			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
+			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil and getprop("sim/ja37/armament/nav") == "pro2") {
+					var horz_closing_rate_fps = (me.dist_last - dist_curr)*M2FT/dt;
+					var proportionality_constant = getprop("sim/ja37/armament/factor-pro2");
+					var c_dv = t_course-me.last_t_course;
+					if(c_dv < -180) {
+						c_dv += 360;
+					}
+					if(c_dv > 180) {
+						c_dv -= 360;
+					}
+					var line_of_sight_rate_rps = D2R*c_dv/dt;#((me.curr_tgt_h-me.last_tgt_h)*D2R)/dt;
+
+					#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,closing_rate_fps));
+
+					# acceleration perpendicular to instantaneous line of sight in feet/sec^2
+					var acc_sideways_ftps2 = proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps;
+
+					#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
+
+					# now translate that sideways acc to an angle:
+					#var velocity_vector_length_fps = me.old_speed_horz_fps;
+					#var commanded_sideways_vector_length_fps = acc_sideways_ftps2*dt;
+					#dev_h = math.atan2(commanded_sideways_vector_length_fps, velocity_vector_length_fps)*R2D;
+					dev_h = acc_to_deg(me.old_speed_horz_fps, dt, acc_sideways_ftps2);
+					#dev_h = 0;
+					#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_tgt_h, dev_h));
+
+					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
+						var vert_closing_rate_fps = (me.dist_direct_last - dist_curr_direct)*M2FT/dt;
+						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;#((me.curr_tgt_e-me.last_tgt_e)*D2R)/dt;
+						var acc_upwards_ftps2 = proportionality_constant*line_of_sight_rate_up_rps*vert_closing_rate_fps;
+						dev_e = acc_to_deg(-me.s_down, dt, acc_upwards_ftps2);
+						#print(sprintf("vert leading by %.1f deg", me.curr_tgt_e));
+					}
+			}
+			me.dist_last = dist_curr;
+			me.dist_direct_last = dist_curr_direct;
+			me.t_alt_delta_last_m = t_alt_delta_m;
+			me.last_tgt_h = me.curr_tgt_h;
+			me.last_tgt_e = me.curr_tgt_e;
+
+
+
 			if (h_gain != 0 and me.last_t_course != nil and getprop("sim/ja37/armament/nav") == "lead") {
 				if (me.update_count > 2) {
 					var c_dv = t_course-me.last_t_course;
@@ -1218,6 +1273,53 @@ var impact_report = func(pos, mass_slug, string) {
 	var impact_str = "/ai/models/" ~ string ~ "[" ~ i ~ "]";
 	setprop("ai/models/model-impact", impact_str);
 
+}
+
+var steering_speed_acc = func(steering_h_deg, s_fps, dt) {
+
+	# next speed vector
+	var vector_next_x = math.cos(steering_h_deg*D2R)*s_fps;
+	var vector_next_y = math.sin(steering_h_deg*D2R)*s_fps;
+	
+	# present speed vector
+	var vector_now_x = s_fps;
+	var vector_now_y = 0;
+
+	# subtract the vectors from each other
+	var dv = math.sqrt((vector_now_x - vector_next_x)*(vector_now_x - vector_next_x)+(vector_now_y - vector_next_y)*(vector_now_y - vector_next_y));
+
+	# calculate g-force
+	# dv/dt=a
+	var acc = (dv/dt);
+
+	# old calc with circle:
+	#var radius_ft = math.abs(s_fps / math.sin(steer_deg*D2R));
+	#var g = ( (s_fps * s_fps) / radius_ft ) / g_fps;
+	#print("#### R = ", radius_ft, " G = ", g); ##########################################################
+	return acc;
+}
+
+var acc_to_deg = func(s_fps, dt, acc) {
+	var deg = -180;
+	if (acc > 0) {
+ 		deg = 180;
+	}
+
+	var guess = 1;
+	var coef = 1;
+	var lastgoodguess = 1;
+
+	for(var i=1;i<25;i+=1){
+		coef = coef/2;
+		var new_a = steering_speed_acc(deg*guess, s_fps, dt);
+		if (math.abs(new_a) < math.abs(acc)) {
+			lastgoodguess = guess;
+			guess = guess + coef;
+		} else {
+			guess = guess - coef;
+		}
+	}
+	return lastgoodguess*deg;
 }
 
 var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, dt) {
