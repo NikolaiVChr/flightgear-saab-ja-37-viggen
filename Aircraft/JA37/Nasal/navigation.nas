@@ -42,7 +42,7 @@ var heading_indicator = func {
 			adf_bearing = 1;
 		} elsif (adf_bearing >= 180 and adf_bearing < 300 ) {
 			adf_bearing = -1;
-		} elsif (adf_bearing < 360 ) {
+		} elsif (adf_bearing < 360 and adf_bearing > 300 ) {
 			adf_bearing = ( adf_bearing - 360 ) / 60;
 		} else {
 			adf_bearing = adf_bearing / 60;
