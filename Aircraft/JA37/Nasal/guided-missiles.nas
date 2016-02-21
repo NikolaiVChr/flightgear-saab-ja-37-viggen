@@ -887,8 +887,8 @@ var AIM = {
 			if ( cur_dir_dist_m > me.direct_dist_m and cur_dir_dist_m < 250) {
 				#print("passed target");
 				# Distance to target increase, trigger explosion.
-				me.explode();
-				return(0);
+				me.explode("Passed target.");
+				return 0;
 			#} #elsif (cur_dir_dist_m < 15) {
 			#	print("proximity fuse activated.");
 				#within killing distance, explode 
@@ -903,8 +903,8 @@ var AIM = {
 			#}
 		}
 		if (me.life_time > me.selfdestruct_time) {
-			me.explode();
-		    return(0);
+			me.explode("Selfdestructed.");
+		    return 0;
 		}
 		####Ground interaction
         var ground = geo.elevation(me.coord.lat(), me.coord.lon());
@@ -912,8 +912,7 @@ var AIM = {
         if(ground != nil)
         {
             if(ground > me.coord.alt()) {
-                print("Missile hit terrain");
-                me.explode();
+                me.explode("Hit terrain.");
                 return 0;
             }
         }
@@ -923,7 +922,7 @@ var AIM = {
 		return(1);
 	},
 
-	explode: func {
+	explode: func (reason) {
 		# Get missile relative position to the target at last frame.
 		var t_bearing_deg = me.last_t_coord.course_to(me.last_coord);
 		var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
@@ -974,7 +973,7 @@ var AIM = {
 				setprop("/sim/messages/atc", phrase);
 			}
 		}
-		print(phrase);
+		print(phrase~"  Reason: "~reason);
 		me.ai.getNode("valid", 1).setBoolValue(0);
 		me.animate_explosion();
 		me.Tgt = nil;

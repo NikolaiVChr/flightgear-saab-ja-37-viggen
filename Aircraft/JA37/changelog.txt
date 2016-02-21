@@ -2035,3 +2035,7 @@ Sim: The missiles now waits for minimum half a second before they start guiding,
 Sim: Stopped a variable from being double declared in missiles. (alt_ft)
 Sim: When a missiles is released, and does its first flight update, make sure it knows that no time has passed since firing.
 Sim: Switched missile guidance to proportional navigation. (needs testing against evading target)
+Sim: {5H1N0B1} Fixed that missiles would complain that they were only allowed to pull 0 G.
+Sim: {Onox} Some optimizations to damage code.
+Sim: Changed missile navigation back to pure pursuit for now.
+Sim: Better console print when missile hit.
