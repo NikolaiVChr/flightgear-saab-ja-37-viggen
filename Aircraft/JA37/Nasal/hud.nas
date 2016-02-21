@@ -2030,7 +2030,7 @@ var HUDnasal = {
         me.distanceText.hide();
       }
       me.dist_scale_group.show();
-    } elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "") {
+    } elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil) {
       var distance = me.input.dmeDist.getValue();
       var line = (200/1024)*canvasWidth;
       var maxDist = 20;

@@ -2039,3 +2039,4 @@ Sim: {5H1N0B1} Fixed that missiles would complain that they were only allowed to
 Sim: {Onox} Some optimizations to damage code.
 Sim: Changed missile navigation back to pure pursuit for now.
 Sim: Better console print when missile hit.
+Sim: Fixed a null pointer exception in DME.
