@@ -437,11 +437,11 @@
 
 <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/radio.xml</path>
-    <name>Radiostack</name>
+    <name>Radio Panel</name>
     <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.065</z-m>
+      <x-m>  -0.005</x-m>
+      <y-m> -0.24</y-m>
+      <z-m>  0.059</z-m>
     </offsets>
   </model>
 
