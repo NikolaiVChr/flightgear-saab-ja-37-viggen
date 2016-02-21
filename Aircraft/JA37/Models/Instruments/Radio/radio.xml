@@ -425,6 +425,10 @@
 				<max>359</max>
 				<wrap>true</wrap>
 			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>ja37.click()</script>
+			</binding>
 		</action>
 		<!-- decrease radial -->
 		<action>
@@ -439,11 +443,11 @@
 				<max>359</max>
 				<wrap>true</wrap>
 			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>ja37.click()</script>
+			</binding>
 		</action>
-		<binding>
-			<command>nasal</command>
-			<script>ja37.click()</script>
-		</binding>
 	</animation>
 	
 	<!-- right little knob -->
