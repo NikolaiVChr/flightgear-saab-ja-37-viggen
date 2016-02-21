@@ -1616,7 +1616,7 @@ var HUDnasal = {
         deg = me.input.nav0HeadingDefl.getValue()/2;# -10 to 10, divided by 2.
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
-		  var normDeviation = me.input.nav0GSNeedleDefl.getValue()/4;
+          var normDeviation = me.input.nav0GSNeedleDefl.getValue()/4;
           var dev3 = normDeviation * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
           var dev2 = normDeviation * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
           me.desired_lines3.setTranslation(pixelPerDegreeX*deg, dev3);
