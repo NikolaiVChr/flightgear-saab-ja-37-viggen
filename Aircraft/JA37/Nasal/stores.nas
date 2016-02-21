@@ -512,11 +512,14 @@ var incoming_listener = func {
               }
 
               var diff = maxDist-distance;
-              diff = diff * diff;
+
               if (diff < 0) {
-                diff = diff * -1;
+                diff = 0;
               }
-              var probability = ja37.clamp(diff / (maxDist*maxDist), 0, 1);
+              
+              diff = diff * diff;
+              
+              var probability = diff / (maxDist*maxDist);
 
               var failed = fail_systems(probability);
               var percent = 100 * probability;

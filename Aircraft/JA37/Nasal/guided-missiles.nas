@@ -404,7 +404,7 @@ var AIM = {
 		#### Guidance.
 
 		if ( me.status == MISSILE_FLYING and me.free == 0) {
-			if (me.life_time > 0.5) {
+			if (me.life_time > 1.0) {
 				me.update_track(dt);
 			}
 			if (init_launch == 0 ) {
