@@ -118,9 +118,9 @@ var radar = {
                .setColor(white_r, white_g, white_b)
                .hide();
     m.dest_circle = m.dest.createChild("path")
-               .moveTo(-m.strokeHeight*0.05, 0)
-               .arcSmallCW(m.strokeHeight*0.05, m.strokeHeight*0.05, 0, m.strokeHeight*0.1, 0)
-               .arcSmallCW(m.strokeHeight*0.05, m.strokeHeight*0.05, 0, -m.strokeHeight*0.1, 0)
+               .moveTo(-m.strokeHeight*0.075, 0)
+               .arcSmallCW(m.strokeHeight*0.075, m.strokeHeight*0.075, 0, m.strokeHeight*0.15, 0)
+               .arcSmallCW(m.strokeHeight*0.075, m.strokeHeight*0.075, 0, -m.strokeHeight*0.15, 0)
                .setStrokeLineWidth((8/1024)*pixels_max)
                .setColor(white_r, white_g, white_b);
                
@@ -407,7 +407,7 @@ var radar = {
             name = num(name);
             if (name != nil and size(icao) == 4) {
               var head = 10 * name;
-              # 10 20 20 40 Km
+              # 10 20 20 40 Km long line, depending on radar setting, as per manual.
               var runway_l = 10000;
               if (me.radarRange == 120000) {
                 runway_l = 40000;
