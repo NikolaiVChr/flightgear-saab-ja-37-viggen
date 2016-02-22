@@ -2040,5 +2040,9 @@ Sim: {Onox} Some optimizations to damage code.
 Sim: Changed missile navigation back to pure pursuit for now.
 Sim: Better console print when missile hit.
 Sim: Fixed a null pointer exception in DME.
-Sim: Implemented a better proprortional navigation for missiles.
-Sim: Increased self-destruct time for RB-71 and RB-99.
+Sim: Implemented a better proportional navigation for missiles.
+Sim: Increased self-destruct time for RB-99.
+Sim: Fixed that damage could be taken when hit was out of range.
+HUD: {Pinto} The ILS glideslope will now adapt slope to whatever the ILS is broadcasting.
+Model: {Pinto} Replaced the radio with something that looks more like in the real Viggen.
+Animation: {Pinto} The artificial horizon now have a ILS crosshair.

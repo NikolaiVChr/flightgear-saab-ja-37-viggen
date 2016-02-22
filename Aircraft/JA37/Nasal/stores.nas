@@ -58,6 +58,18 @@ var loop_stores = func {
     for(var i=0; i<=6; i=i+1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
       var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
+      if(getprop("dev") == TRUE) {
+        if (i == 0 or i == 2) {
+          payloadName.setValue("RB 71");
+          payloadWeight.setValue(0);
+        } elsif (i == 1 or i == 3) {
+          payloadName.setValue("RB 99");
+          payloadWeight.setValue(0);
+        }  elsif (i == 4 or i == 5) {
+          payloadName.setValue("RB 74");
+          payloadWeight.setValue(0);
+        }
+      }
       if(payloadName.getValue() != "none" and (
           (payloadName.getValue() == "M70" and payloadWeight.getValue() != 200)
           or (payloadName.getValue() == "RB 24J" and payloadWeight.getValue() != 179)
@@ -516,7 +528,7 @@ var incoming_listener = func {
               if (diff < 0) {
                 diff = 0;
               }
-              
+
               diff = diff * diff;
               
               var probability = diff / (maxDist*maxDist);

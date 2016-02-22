@@ -151,18 +151,20 @@ var AIM = {
 		m.last_track_e = 0;
 		m.last_track_h = 0;
 		m.update_count = -1;
-		m.last_t_course = nil;
-		m.last_t_elev_deg = nil;
-		m.last_cruise_or_loft = 0;
 		m.e_add = 0;
 		m.h_add = 0;
 		m.paused = 0;
-		m.dist_last = nil;
 		m.last_tgt_h = nil;
 		m.last_tgt_e = nil;
 		m.old_speed_horz_fps = nil;
 		m.t_alt_delta_last_m = nil;
+
+		m.dist_last = nil;
 		m.dist_direct_last = nil;
+		m.last_t_course = nil;
+		m.last_t_elev_deg = nil;
+		m.last_cruise_or_loft = 0;
+		m.old_speed_fps	= 0;
 
 		m.lastFlare = 0;
 
@@ -374,6 +376,7 @@ var AIM = {
 
 		var old_speed_fps = total_s_ft / dt;
 		me.old_speed_horz_fps = dist_h_ft / dt;
+		me.old_speed_fps = old_speed_fps;
 
 		me.speed_m = old_speed_fps / sound_fps;
 		if (me.speed_m < 0.7)
@@ -811,12 +814,13 @@ var AIM = {
 
 
 
-			# real proportional navigation (for heading only)
+			# real proportional navigation
 			var dist_curr = me.coord.distance_to(me.t_coord);
 			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil and getprop("sim/ja37/armament/nav") == "pro2") {
 					var horz_closing_rate_fps = (me.dist_last - dist_curr)*M2FT/dt;
-					var proportionality_constant = getprop("sim/ja37/armament/factor-pro2");
+					var proportionality_constant = getprop("sim/ja37/armament/factor-pro2");#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
+					#setprop("sim/ja37/armament/factor-pro2", proportionality_constant);
 					var c_dv = t_course-me.last_t_course;
 					if(c_dv < -180) {
 						c_dv += 360;
@@ -845,7 +849,7 @@ var AIM = {
 						var vert_closing_rate_fps = (me.dist_direct_last - dist_curr_direct)*M2FT/dt;
 						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;#((me.curr_tgt_e-me.last_tgt_e)*D2R)/dt;
 						var acc_upwards_ftps2 = proportionality_constant*line_of_sight_rate_up_rps*vert_closing_rate_fps;
-						dev_e = acc_to_deg(-me.s_down, dt, acc_upwards_ftps2);
+						dev_e = acc_to_deg(me.old_speed_fps, dt, acc_upwards_ftps2);
 						#print(sprintf("vert leading by %.1f deg", me.curr_tgt_e));
 					}
 			}
@@ -931,6 +935,17 @@ var AIM = {
 		return(1);
 	},
 
+	map: func (value, leftMin, leftMax, rightMin, rightMax) {
+	    # Figure out how 'wide' each range is
+	    var leftSpan = leftMax - leftMin;
+	    var rightSpan = rightMax - rightMin;
+
+	    # Convert the left range into a 0-1 range (float)
+	    var valueScaled = (value - leftMin) / leftSpan;
+
+	    # Convert the 0-1 range into a value in the right range.
+	    return rightMin + (valueScaled * rightSpan);
+	},
 
 
 	#done
