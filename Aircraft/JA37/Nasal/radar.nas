@@ -400,10 +400,12 @@ var radar = {
           var name = getprop("autopilot/route-manager/wp/id");
           if (name != nil and size(split("-", name))>1) {
             #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
-            name = split("-", name)[1];
+            name = split("-", name);
+            var icao = name[0];
+            name = name[1];
             name = split("L", split("R", name)[0])[0];
             name = num(name);
-            if (name != nil) {
+            if (name != nil and size(icao) == 4) {
               var head = 10 * name;
               # 10 20 20 40 Km
               var runway_l = 10000;
@@ -416,7 +418,7 @@ var radar = {
               }
               var scale = (runway_l/me.radarRange) * me.strokeHeight/50;
               me.dest_runway.setScale(1, scale);
-              me.dest.setRotation((180+heading-head)*D2R);
+              me.dest.setRotation((180+head-heading)*D2R);
               me.dest_runway.show();
               } else {
                 me.dest_runway.hide();

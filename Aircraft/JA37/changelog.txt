@@ -2046,3 +2046,4 @@ Sim: Fixed that damage could be taken when hit was out of range.
 HUD: {Pinto} The ILS glideslope will now adapt slope to whatever the ILS is broadcasting.
 Model: {Pinto} Replaced the radio with something that looks more like in the real Viggen.
 Animation: {Pinto} The artificial horizon now have a ILS crosshair.
+Radar: Made runway heading show on waypoint as per manual.
