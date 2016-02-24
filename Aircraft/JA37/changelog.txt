@@ -2055,3 +2055,4 @@ Sim: Guided missiles now has proper gravity drop, that does not increase speed i
 Sim: Missiles will now start by pitching into the wind, not the direction the aircraft is pitching.
 Sim: Missiles first update now has a relevant time, so it no longer start by lagging behind the aircraft.
 Sim: Missiles will now start guiding after half a second, if they have enough speed.
+Effect: Fixed shifting of colors: The RB99 smoke trail is no longer lighted. It can now be clearly seen even at night though. (experimental)
