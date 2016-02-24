@@ -2051,3 +2051,7 @@ Radar: Made runway heading show on waypoint as per manual.
 Radar: Made the waypoint circle 50% bigger.
 Sim: All MP chat messages from weapons, will now defeat spam filter.
 Sim: Improved drastically the quality of acceleration to degree function in proportional navigation.
+Sim: Guided missiles now has proper gravity drop, that does not increase speed in headed direction.
+Sim: Missiles will now start by pitching into the wind, not the direction the aircraft is pitching.
+Sim: Missiles first update now has a relevant time, so it no longer start by lagging behind the aircraft.
+Sim: Missiles will now start guiding after half a second, if they have enough speed.

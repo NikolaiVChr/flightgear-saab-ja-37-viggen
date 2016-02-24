@@ -196,6 +196,8 @@ var AIM = {
 		# Get the A/C position and orientation values.
 		me.ac = geo.aircraft_position();
 		var ac_roll  = getprop("orientation/roll-deg");
+		var alpha = getprop("orientation/alpha-deg");
+		alpha = alpha > 0?alpha:0;# not using alpha if its negative to avoid missile flying through aircraft.
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
 
@@ -241,6 +243,7 @@ var AIM = {
 		me.lonN.setDoubleValue(alon);
 		me.altN.setDoubleValue(aalt);
 		me.hdgN.setDoubleValue(ac_hdg);
+		ac_pitch = ac_pitch - alpha;
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
 		#print("roll "~ac_roll~" on "~me.rollN.getPath());
@@ -264,6 +267,8 @@ var AIM = {
 		me.pitch = ac_pitch;
 		me.hdg = ac_hdg;
 
+		#print("p1 "~ac_pitch);
+
 		me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
 
 		#print("air density diff alt = "~me.density_alt_diff);
@@ -284,19 +289,21 @@ var AIM = {
 
 	# steering missile
 	update: func {
-		var dt = getprop("sim/time/delta-sec");#TODO: find out more about how this property works
+		var dt = getprop("sim/time/delta-sec");#TODO: find out more about how this property works (most likely time since last time nasal timers were called)
 		if (dt == 0) {
 			#FG is likely paused
 			me.paused = 1;
-			settimer(func me.update(), 0.01);
+			settimer(func me.update(), 0.00);
 			return;
 		}
-		dt = 0.00001;#if just called from release() then dt is almost 0 (cannot be zero as we use it to divide with)
+		#if just called from release() then dt is almost 0 (cannot be zero as we use it to divide with)
+		# It can also not be too small, then the missile will lag behind aircraft and seem to be fired from behind the aircraft.
+		#dt = dt/2;
 		var elapsed = systime();
 		if (me.paused == 1) {
 			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
 			me.paused = 0;
-			me.dt_last = elapsed-0.00001;
+			me.dt_last = elapsed-dt;
 		}
 		var init_launch = 0;
 		if (me.dt_last != 0) {
@@ -375,6 +382,8 @@ var AIM = {
 		var cdm = 0;
 
 		var old_speed_fps = total_s_ft / dt;
+		#print("aim "~old_speed_fps);
+		#print("ac  "~(getprop("velocities/groundspeed-3D-kt")*KT2FPS));
 		me.old_speed_horz_fps = dist_h_ft / dt;
 		me.old_speed_fps = old_speed_fps;
 
@@ -407,13 +416,9 @@ var AIM = {
 		#### Guidance.
 
 		if ( me.status == MISSILE_FLYING and me.free == 0) {
-			if (me.life_time > 1.0) {
+			if (me.life_time > 0.5) {
 				me.update_track(dt);
 			}
-			if (init_launch == 0 ) {
-				# Use the rail or a/c pitch for the first frame.
-				pitch_deg = getprop("orientation/pitch-deg");
-			} else {
 				#print("steering");
 				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
                 var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
@@ -442,7 +447,7 @@ var AIM = {
                 #print(sprintf("%.1f deg bear command done", me.last_track_h));
 
                 #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
-			}
+			
 		}
 
 		# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
@@ -453,11 +458,11 @@ var AIM = {
 		var gravity_fps                 = me.free == 1?g_fps * dt:0;
 		if (me.free == 1) {
 			# pitch according to old speed from last update
-			pitch_deg = math.atan2(-me.s_down, dist_h_ft/dt) * R2D;
+			#pitch_deg = math.atan2(-me.s_down, dist_h_ft/dt) * R2D;
 		}
-
+		#print("p "~pitch_deg);
 		# Break speed change down total speed to North, East and Down components.
-		var speed_down_fps       = gravity_fps - math.sin(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
+		var speed_down_fps       = - math.sin(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
 		var speed_horizontal_fps = math.cos(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
 		var speed_north_fps      = math.cos(hdg_deg * D2R) * speed_horizontal_fps;
 		var speed_east_fps       = math.sin(hdg_deg * D2R) * speed_horizontal_fps;
@@ -469,7 +474,7 @@ var AIM = {
 		#var speed_horizontal_fps = math.sqrt(speed_north_fps*speed_north_fps+speed_east_fps*speed_east_fps);
 		var new_speed_fps        = math.sqrt(speed_horizontal_fps*speed_horizontal_fps+speed_down_fps*speed_down_fps);
 
-#print();
+
 #print("change: down="~speed_down_change_fps~" north="~speed_north_change_fps~" east="~speed_east_change_fps);
 #print("new: down="~speed_down_fps~" north="~speed_north_fps~" east="~speed_east_fps);
 #print("speed horz: "~speed_horizontal_fps~" (old: "~(dist_h_ft/dt)~")");
@@ -491,7 +496,14 @@ var AIM = {
 		#pitch_deg = me.pitch;
 		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
-		var alt_ft = me.altN.getValue() - (speed_down_fps * dt);
+		var alt_ft = me.altN.getValue() - ((speed_down_fps + g_fps) * dt);
+
+#print(".");
+
+#print(me.s_down);
+#print(speed_down_fps);
+#print(me.altN.getValue());
+#print(alt_ft);
 
 		me.coord.apply_course_distance(hdg_deg, dist_h_m);
 		me.coord.set_alt(alt_ft * FT2M);
@@ -641,15 +653,13 @@ var AIM = {
 			me.trackWeak = 1;
 			settimer(func me.search(), 0.1);
 			return(1);
-		}
-		if ( me.status == MISSILE_STANDBY ) {
+		} elsif ( me.status == MISSILE_STANDBY ) {
 			# Status = stand-by.
 			me.reset_seeker();
 			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
 			return(1);
-		}
-		if (!me.Tgt.getChild("valid").getValue()) {
+		} elsif (!me.Tgt.getChild("valid").getValue()) {
 			# Lost of lock due to target disapearing:
 			# return to search mode.
 			#print("invalid");
