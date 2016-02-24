@@ -1974,6 +1974,7 @@ Model: {Pinto} Missile textures updated to live version instead of dummy version
 
 3.107
 =====
+Sim: Implemented minimum speed for missiles to guide.
 Sim: Added outer pylon storage to flight-recorder.
 Radar: Increased range to 120Km as per the AJ37 manual. (48Km limit is for fire control)
 Sim: {Pinto} Added and changed some key bindings.
@@ -2048,3 +2049,4 @@ Model: {Pinto} Replaced the radio with something that looks more like in the rea
 Animation: {Pinto} The artificial horizon now have a ILS crosshair.
 Radar: Made runway heading show on waypoint as per manual.
 Radar: Made the waypoint circle 50% bigger.
+Sim: All MP chat messages from weapons, will now defeat spam filter.

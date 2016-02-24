@@ -343,7 +343,7 @@ var trigger_listener = func {
         
         var phrase = type ~ " fired at: " ~ callsign;
         if (getprop("sim/ja37/armament/msg")) {
-          setprop("/sim/multiplay/chat", phrase);
+          setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
         } else {
           setprop("/sim/messages/atc", phrase);
         }
@@ -393,10 +393,10 @@ var impact_listener = func {
         var distance = impactPos.distance_to(selectionPos);
         if (distance < 50) {
           last_impact = input.elapsed.getValue();
-          var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5] ~ ": " ~ hit_count;
+          var phrase =  defeatSpamFilter(ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5]);
           if (getprop("sim/ja37/armament/msg")) {
             setprop("/sim/multiplay/chat", phrase);
-			hit_count = hit_count + 1;
+			      #hit_count = hit_count + 1;
           } else {
             setprop("/sim/messages/atc", phrase);
           }
@@ -558,6 +558,20 @@ var incoming_listener = func {
       }
     }
   }
+}
+
+var spams = 0;
+
+var defeatSpamFilter = func (str) {
+  spams += 1;
+  if (spams == 15) {
+    spams = 1;
+  }
+  str = str~":";
+  for (var i = 1; i <= spams; i+=1) {
+    str = str~".";
+  }
+  return str;
 }
 
 var maxDamageDistFromWarhead = func (lbs) {

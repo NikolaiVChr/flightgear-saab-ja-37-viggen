@@ -1036,14 +1036,15 @@ var AIM = {
 		impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
 
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
+		print(phrase~"  Reason: "~reason);
 		if (min_distance < 65) {
 			if (getprop("sim/ja37/armament/msg")) {
-				setprop("/sim/multiplay/chat", phrase);
+				setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
 			} else {
 				setprop("/sim/messages/atc", phrase);
 			}
 		}
-		print(phrase~"  Reason: "~reason);
+		
 		me.ai.getNode("valid", 1).setBoolValue(0);
 		me.animate_explosion();
 		me.Tgt = nil;
