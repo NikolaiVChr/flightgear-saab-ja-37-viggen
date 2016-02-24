@@ -838,18 +838,17 @@ var AIM = {
 					#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
 
 					# now translate that sideways acc to an angle:
-					#var velocity_vector_length_fps = me.old_speed_horz_fps;
-					#var commanded_sideways_vector_length_fps = acc_sideways_ftps2*dt;
-					#dev_h = math.atan2(commanded_sideways_vector_length_fps, velocity_vector_length_fps)*R2D;
-					dev_h = acc_to_deg(me.old_speed_horz_fps, dt, acc_sideways_ftps2);
-					#dev_h = 0;
+					var velocity_vector_length_fps = me.old_speed_horz_fps;
+					var commanded_sideways_vector_length_fps = acc_sideways_ftps2*dt;
+					dev_h = math.atan2(commanded_sideways_vector_length_fps, velocity_vector_length_fps)*R2D;
 					#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_tgt_h, dev_h));
 
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						var vert_closing_rate_fps = (me.dist_direct_last - dist_curr_direct)*M2FT/dt;
 						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;#((me.curr_tgt_e-me.last_tgt_e)*D2R)/dt;
 						var acc_upwards_ftps2 = proportionality_constant*line_of_sight_rate_up_rps*vert_closing_rate_fps;
-						dev_e = acc_to_deg(me.old_speed_fps, dt, acc_upwards_ftps2);
+						var commanded_upwards_vector_length_fps = acc_upwards_ftps2*dt;
+						dev_e = math.atan2(commanded_upwards_vector_length_fps, velocity_vector_length_fps)*R2D;
 						#print(sprintf("vert leading by %.1f deg", me.curr_tgt_e));
 					}
 			}
@@ -1289,53 +1288,6 @@ var impact_report = func(pos, mass_slug, string) {
 	var impact_str = "/ai/models/" ~ string ~ "[" ~ i ~ "]";
 	setprop("ai/models/model-impact", impact_str);
 
-}
-
-var steering_speed_acc = func(steering_h_deg, s_fps, dt) {
-
-	# next speed vector
-	var vector_next_x = math.cos(steering_h_deg*D2R)*s_fps;
-	var vector_next_y = math.sin(steering_h_deg*D2R)*s_fps;
-	
-	# present speed vector
-	var vector_now_x = s_fps;
-	var vector_now_y = 0;
-
-	# subtract the vectors from each other
-	var dv = math.sqrt((vector_now_x - vector_next_x)*(vector_now_x - vector_next_x)+(vector_now_y - vector_next_y)*(vector_now_y - vector_next_y));
-
-	# calculate g-force
-	# dv/dt=a
-	var acc = (dv/dt);
-
-	# old calc with circle:
-	#var radius_ft = math.abs(s_fps / math.sin(steer_deg*D2R));
-	#var g = ( (s_fps * s_fps) / radius_ft ) / g_fps;
-	#print("#### R = ", radius_ft, " G = ", g); ##########################################################
-	return acc;
-}
-
-var acc_to_deg = func(s_fps, dt, acc) {
-	var deg = -180;
-	if (acc > 0) {
- 		deg = 180;
-	}
-
-	var guess = 1;
-	var coef = 1;
-	var lastgoodguess = 1;
-
-	for(var i=1;i<25;i+=1){
-		coef = coef/2;
-		var new_a = steering_speed_acc(deg*guess, s_fps, dt);
-		if (math.abs(new_a) < math.abs(acc)) {
-			lastgoodguess = guess;
-			guess = guess + coef;
-		} else {
-			guess = guess - coef;
-		}
-	}
-	return lastgoodguess*deg;
 }
 
 var steering_speed_G = func(steering_e_deg, steering_h_deg, s_fps, dt) {

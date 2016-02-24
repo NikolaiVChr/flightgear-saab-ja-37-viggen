@@ -2050,3 +2050,4 @@ Animation: {Pinto} The artificial horizon now have a ILS crosshair.
 Radar: Made runway heading show on waypoint as per manual.
 Radar: Made the waypoint circle 50% bigger.
 Sim: All MP chat messages from weapons, will now defeat spam filter.
+Sim: Improved drastically the quality of acceleration to degree function in proportional navigation.
