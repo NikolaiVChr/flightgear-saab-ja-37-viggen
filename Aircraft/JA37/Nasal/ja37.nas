@@ -370,7 +370,7 @@ var update_loop = func {
       setprop("sim/ja37/avionics/auto-altitude-on", TRUE);
     }
 	
-	  var DME = input.dme.getValue() != "---" and input.dme.getValue() != "";
+	  var DME = input.dme.getValue() != "---" and input.dme.getValue() != "" and input.dmeDist.getValue() != nil;
     
     # distance indicator
     if (DME == TRUE) {

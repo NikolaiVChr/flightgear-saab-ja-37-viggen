@@ -96,5 +96,30 @@
         </axis>
     </animation>
 
+	<!--glideslope and heading indicator-->
 
+	<animation>
+		<type>translate</type>
+		<object-name>headingIndicator</object-name>
+		<property>instrumentation/radio/heading-indicator-norm</property>
+		<factor>.0175</factor>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>translate</type>
+		<object-name>glideslopeIndicator</object-name>
+		<property>instrumentation/nav/gs-needle-deflection-norm</property>
+		<factor>.0175</factor>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	
 </PropertyList>

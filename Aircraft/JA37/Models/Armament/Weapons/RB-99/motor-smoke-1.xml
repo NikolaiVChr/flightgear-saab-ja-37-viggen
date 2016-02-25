@@ -5,7 +5,7 @@
    <texture>smoke.png</texture>
 
    <emissive type="bool">false</emissive>
-   <lighting type="bool">true</lighting>
+   <lighting type="bool">false</lighting>
 
    <condition>
          <property>sim/ja37/armament/rb-99/flags/smoke-id-1</property>
@@ -54,9 +54,9 @@
    <particle>
      <start>
        <color>
-         <red><value>   1.0 </value></red>
-         <green><value> 1.0 </value></green>
-         <blue><value>  0.9 </value></blue>
+         <red><value>   0.4 </value></red>
+         <green><value> 0.5 </value></green>
+         <blue><value>  0.5 </value></blue>
          <alpha><value> 0.5 </value></alpha>
        </color>
        <size>
@@ -66,9 +66,9 @@
 
      <end>
        <color>
-         <red><value>   0.9 </value></red>
-         <green><value> 0.9 </value></green>
-         <blue><value>  0.9 </value></blue>
+         <red><value>   0.4 </value></red>
+         <green><value> 0.5 </value></green>
+         <blue><value>  0.5 </value></blue>
          <alpha><value> 0.1 </value></alpha>
        </color>
        <size>

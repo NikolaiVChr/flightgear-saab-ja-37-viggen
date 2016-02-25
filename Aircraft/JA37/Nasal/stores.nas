@@ -58,6 +58,18 @@ var loop_stores = func {
     for(var i=0; i<=6; i=i+1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
       var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
+      if(getprop("dev") == TRUE) {
+        if (i == 0 or i == 2) {
+          payloadName.setValue("RB 71");
+          payloadWeight.setValue(0);
+        } elsif (i == 1 or i == 3) {
+          payloadName.setValue("RB 99");
+          payloadWeight.setValue(0);
+        }  elsif (i == 4 or i == 5) {
+          payloadName.setValue("RB 74");
+          payloadWeight.setValue(0);
+        }
+      }
       if(payloadName.getValue() != "none" and (
           (payloadName.getValue() == "M70" and payloadWeight.getValue() != 200)
           or (payloadName.getValue() == "RB 24J" and payloadWeight.getValue() != 179)
@@ -331,7 +343,7 @@ var trigger_listener = func {
         
         var phrase = type ~ " fired at: " ~ callsign;
         if (getprop("sim/ja37/armament/msg")) {
-          setprop("/sim/multiplay/chat", phrase);
+          setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
         } else {
           setprop("/sim/messages/atc", phrase);
         }
@@ -381,10 +393,10 @@ var impact_listener = func {
         var distance = impactPos.distance_to(selectionPos);
         if (distance < 50) {
           last_impact = input.elapsed.getValue();
-          var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5] ~ ": " ~ hit_count;
+          var phrase =  defeatSpamFilter(ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5]);
           if (getprop("sim/ja37/armament/msg")) {
             setprop("/sim/multiplay/chat", phrase);
-			hit_count = hit_count + 1;
+			      #hit_count = hit_count + 1;
           } else {
             setprop("/sim/messages/atc", phrase);
           }
@@ -395,6 +407,23 @@ var impact_listener = func {
 }
 
 ############ response to MP messages #####################
+
+var warhead_lbs = {
+    "aim-120":              44.0,
+    "AIM120":               44.0,
+    "RB-99":                44.0,
+    "aim-7":                88.0,
+    "RB-71":                88.0,
+    "aim-9":                20.8,
+    "RB-24J":               20.8,
+    "RB-74":                20.8,
+    "R74":                  16.0,
+    "MATRA-R530":           55.0,
+    "Meteor":               55.0,
+    "AIM-54":               135.0,
+    "Matra R550 Magic 2":   27.0,
+    "Matra MICA":           30.0,
+};
 
 var incoming_listener = func {
   var history = getprop("/sim/multiplay/chat-history");
@@ -488,52 +517,23 @@ var incoming_listener = func {
             if(distance != nil) {
               var maxDist = 0;
 
-              if (type == "aim-120" or type == "AIM120" or type == "RB-99") {
-                # 44 lbs
-                maxDist = maxDamageDistFromWarhead(44);
-              } elsif (type == "aim-7" or type == "RB-71") {
-                # 88 lbs
-                maxDist = maxDamageDistFromWarhead(88);
-              } elsif (type == "aim-9" or type == "RB-24J" or type == "RB-74") {
-                # 20.8 lbs
-                maxDist = maxDamageDistFromWarhead(20.8);
-              } elsif (type == "R74") {
-                # 16 lbs
-                maxDist = maxDamageDistFromWarhead(16);
-              } elsif (type == "MATRA-R530" or type == "Meteor") {
-                # 55 lbs
-                maxDist = maxDamageDistFromWarhead(55);
-              } elsif (type == "AIM-54") {
-                # 135 lbs
-                maxDist = maxDamageDistFromWarhead(135);
-              } elsif (type == "Matra R550 Magic 2") {
-                # 27 lbs
-                maxDist = maxDamageDistFromWarhead(27);
-              } elsif (type == "Matra MICA") {
-                # 30 lbs
-                maxDist = maxDamageDistFromWarhead(30);
+              if (contains(warhead_lbs, type)) {
+                maxDist = maxDamageDistFromWarhead(warhead_lbs[type]);
               } else {
                 return;
               }
-              #print("maxDist="~maxDist);
-              var diff = maxDist-distance;
-              if (diff > 0) {
-                diff = diff * diff;
-              } else {
-                diff = diff * diff;
-                diff = diff * -1;
-              }
-              var probability = ja37.clamp(diff / (maxDist*maxDist), 0, 1);
 
-              var failure_modes = FailureMgr._failmgr.failure_modes;
-              var mode_list = keys(failure_modes);
-              var failed = 0;
-              foreach(var failure_mode_id; mode_list) {
-                if(rand() < probability) {
-                  FailureMgr.set_failure_level(failure_mode_id, 1);
-                  failed += 1;
-                }
+              var diff = maxDist-distance;
+
+              if (diff < 0) {
+                diff = 0;
               }
+
+              diff = diff * diff;
+              
+              var probability = diff / (maxDist*maxDist);
+
+              var failed = fail_systems(probability);
               var percent = 100 * probability;
               print("Took "~percent~"% damage from "~type~" missile at "~distance~" meters distance! "~failed~" systems was hit.");
               nearby_explosion();
@@ -550,15 +550,7 @@ var incoming_listener = func {
             if (last_vector[1] == " Gun Splash On ") {
               probability = 0.30;
             }
-            var failure_modes = FailureMgr._failmgr.failure_modes;
-            var mode_list = keys(failure_modes);
-            var failed = 0;
-            foreach(var failure_mode_id; mode_list) {
-              if(rand() < probability) {
-                FailureMgr.set_failure_level(failure_mode_id, 1);
-                failed += 1;
-              }
-            }
+            var failed = fail_systems(probability);
             print("Took "~probability*100~"% damage from cannon! "~failed~" systems was hit.");
             nearby_explosion();
           }
@@ -568,12 +560,39 @@ var incoming_listener = func {
   }
 }
 
+var spams = 0;
+
+var defeatSpamFilter = func (str) {
+  spams += 1;
+  if (spams == 15) {
+    spams = 1;
+  }
+  str = str~":";
+  for (var i = 1; i <= spams; i+=1) {
+    str = str~".";
+  }
+  return str;
+}
+
 var maxDamageDistFromWarhead = func (lbs) {
   # very simple
   var dist = 3*math.sqrt(lbs);
 
   return dist;
 }
+
+var fail_systems = func (probability) {
+    var failure_modes = FailureMgr._failmgr.failure_modes;
+    var mode_list = keys(failure_modes);
+    var failed = 0;
+    foreach(var failure_mode_id; mode_list) {
+        if (rand() < probability) {
+            FailureMgr.set_failure_level(failure_mode_id, 1);
+            failed += 1;
+        }
+    }
+    return failed;
+};
 
 var playIncomingSound = func (clock) {
   setprop("sim/ja37/sound/incoming"~clock, 1);

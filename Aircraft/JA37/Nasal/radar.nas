@@ -110,13 +110,20 @@ var radar = {
     # white destination #
     #####################
 
-    m.dest = m.lineGroup.createChild("path")
-               .moveTo(-m.strokeHeight*0.05, 0)
-               .arcSmallCW(m.strokeHeight*0.05, m.strokeHeight*0.05, 0, m.strokeHeight*0.1, 0)
-               .arcSmallCW(m.strokeHeight*0.05, m.strokeHeight*0.05, 0, -m.strokeHeight*0.1, 0)
+    m.dest = m.lineGroup.createChild("group").hide();
+    m.dest_runway = m.dest.createChild("path")
+               .moveTo(0, 0)
+               .lineTo(0, -50)
                .setStrokeLineWidth((8/1024)*pixels_max)
                .setColor(white_r, white_g, white_b)
                .hide();
+    m.dest_circle = m.dest.createChild("path")
+               .moveTo(-m.strokeHeight*0.075, 0)
+               .arcSmallCW(m.strokeHeight*0.075, m.strokeHeight*0.075, 0, m.strokeHeight*0.15, 0)
+               .arcSmallCW(m.strokeHeight*0.075, m.strokeHeight*0.075, 0, -m.strokeHeight*0.15, 0)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b);
+               
 
     ###############
     # black lines #
@@ -389,6 +396,36 @@ var radar = {
           me.dest.setTranslation(x, -y);
 
           me.dest.show();
+
+          var name = getprop("autopilot/route-manager/wp/id");
+          if (name != nil and size(split("-", name))>1) {
+            #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
+            name = split("-", name);
+            var icao = name[0];
+            name = name[1];
+            name = split("L", split("R", name)[0])[0];
+            name = num(name);
+            if (name != nil and size(icao) == 4) {
+              var head = 10 * name;
+              # 10 20 20 40 Km long line, depending on radar setting, as per manual.
+              var runway_l = 10000;
+              if (me.radarRange == 120000) {
+                runway_l = 40000;
+              } elsif (me.radarRange == 60000) {
+                runway_l = 20000;
+              } elsif (me.radarRange == 30000) {
+                runway_l = 20000;
+              }
+              var scale = (runway_l/me.radarRange) * me.strokeHeight/50;
+              me.dest_runway.setScale(1, scale);
+              me.dest.setRotation((180+head-heading)*D2R);
+              me.dest_runway.show();
+              } else {
+                me.dest_runway.hide();
+              }
+          } else {
+            me.dest_runway.hide();
+          }
         } else {
           me.dest.hide();
         }

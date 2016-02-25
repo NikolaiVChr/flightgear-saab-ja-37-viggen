@@ -60,6 +60,7 @@ Sim: Fix that KCA cannon will hit type if type is selected in HUD. Instead it sh
 Sim: Implement navigation controls into the cockpit.
 Sim: Implement proper radio controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
+Sim: Check uses of true/mag headings in missile code.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
