@@ -202,7 +202,7 @@ var AIM = {
 		var ac_roll  = getprop("orientation/roll-deg");
 		var alpha = getprop("orientation/alpha-deg");
 		alpha = alpha > 0?alpha:0;# not using alpha if its negative to avoid missile flying through aircraft.
-		alpha = alpha * math.cos(getprop("orientation/roll-deg")*D2R);
+		alpha = alpha * math.cos(getprop("orientation/roll-deg")*D2R) + getprop("orientation/side-slip-deg")*math.sin(getprop("orientation/roll-deg")*D2R);
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
 
@@ -308,7 +308,7 @@ var AIM = {
 		if (me.paused == 1) {
 			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
 			me.paused = 0;
-			me.dt_last = elapsed-dt;
+			me.dt_last = elapsed-0.02;
 		}
 		var init_launch = 0;
 		if (me.dt_last != 0) {
@@ -977,6 +977,15 @@ var AIM = {
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
 			me.SwSoundVol.setValue(vol_track);
 			me.trackWeak = 0;
+			if (me.Tgt != canvas_HUD.diamond_node) {
+				me.status = MISSILE_SEARCH;
+				me.Tgt = nil;
+				me.SwSoundVol.setValue(me.vol_search);
+				me.trackWeak = 1;
+				me.reset_seeker();
+				settimer(func me.search(), 0.1);
+				return 1;
+			}
 			settimer(func me.update_track(nil), 0.1);
 		}
 		return(1);
@@ -1186,6 +1195,8 @@ var AIM = {
 				me.TgtSpeed_prop     = t_vel_str.getChild("true-airspeed-kt");
 				settimer(func me.update_track(nil), rand()*3.5);
 				return;
+			} else {
+				me.Tgt = nil;
 			}
 		}
 		me.SwSoundVol.setValue(me.vol_search);
