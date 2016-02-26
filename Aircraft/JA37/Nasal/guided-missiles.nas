@@ -53,6 +53,8 @@ var AIM = {
 		m.TgtLat_prop       = nil;
 		m.TgtAlt_prop       = nil;
 		m.TgtHdg_prop       = nil;
+		m.TgtSpeed_prop     = nil;
+		m.TgtPitch_prop     = nil;
 		m.update_track_time = 0;
 		m.seeker_dev_e      = 0; # Seeker elevation, deg.
 		m.seeker_dev_h      = 0; # Seeker horizon, deg.
@@ -165,6 +167,8 @@ var AIM = {
 		m.last_t_elev_deg = nil;
 		m.last_cruise_or_loft = 0;
 		m.old_speed_fps	= 0;
+		m.last_t_norm_speed = nil;
+		m.last_t_elev_norm_speed = nil;
 
 		m.lastFlare = 0;
 
@@ -198,6 +202,7 @@ var AIM = {
 		var ac_roll  = getprop("orientation/roll-deg");
 		var alpha = getprop("orientation/alpha-deg");
 		alpha = alpha > 0?alpha:0;# not using alpha if its negative to avoid missile flying through aircraft.
+		alpha = alpha * math.cos(getprop("orientation/roll-deg")*D2R);
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
 
@@ -779,7 +784,7 @@ var AIM = {
 
 			var loft_angle = 15;
 			var loft_minimum = 10;# miles
-			var cruise_minimum = 5;# miles
+			var cruise_minimum = 7.5;# miles
 			var cruise_or_loft = 0;
 			if (getprop("sim/ja37/armament/nav") != "orig") {
 				if ( me.life_time < me.stage_1_duration and t_dist_m * M2NM > loft_minimum
@@ -824,10 +829,11 @@ var AIM = {
 
 
 
-			# real proportional navigation
+			# proportional navigation
 			var dist_curr = me.coord.distance_to(me.t_coord);
 			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil and getprop("sim/ja37/armament/nav") == "pro2") {
+					# augmented proportional navigation for heading
 					var horz_closing_rate_fps = (me.dist_last - dist_curr)*M2FT/dt;
 					var proportionality_constant = getprop("sim/ja37/armament/factor-pro2");#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
 					#setprop("sim/ja37/armament/factor-pro2", proportionality_constant);
@@ -838,25 +844,57 @@ var AIM = {
 					if(c_dv > 180) {
 						c_dv -= 360;
 					}
-					var line_of_sight_rate_rps = D2R*c_dv/dt;#((me.curr_tgt_h-me.last_tgt_h)*D2R)/dt;
+					var line_of_sight_rate_rps = D2R*c_dv/dt;
 
-					#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,closing_rate_fps));
+
+					# calculate target acc as normal to LOS line:
+					var t_heading        = me.TgtHdg_prop.getValue();
+					var t_pitch          = me.TgtPitch_prop.getValue();
+					var t_speed          = me.TgtSpeed_prop.getValue()*KT2FPS;#true airspeed
+					var t_horz_speed     = t_speed - math.abs(math.sin(t_pitch*D2R)*t_speed);
+					var t_LOS_norm_head  = t_course + 90;
+					var t_LOS_norm_speed = math.cos((t_LOS_norm_head - t_heading)*D2R)*t_horz_speed;
+
+					if (me.last_t_norm_speed == nil) {
+						me.last_t_norm_speed = t_LOS_norm_speed;
+					}
+
+					var t_LOS_norm_acc   = (t_LOS_norm_speed - me.last_t_norm_speed)/dt;
+
+					me.last_t_norm_speed = t_LOS_norm_speed;
 
 					# acceleration perpendicular to instantaneous line of sight in feet/sec^2
-					var acc_sideways_ftps2 = proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps;
-
-					#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
+					var acc_sideways_ftps2 = proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps+proportionality_constant*t_LOS_norm_acc/2;
 
 					# now translate that sideways acc to an angle:
 					var velocity_vector_length_fps = me.old_speed_horz_fps;
 					var commanded_sideways_vector_length_fps = acc_sideways_ftps2*dt;
 					dev_h = math.atan2(commanded_sideways_vector_length_fps, velocity_vector_length_fps)*R2D;
+
+					#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,closing_rate_fps));
+					#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
 					#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_tgt_h, dev_h));
 
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
+						# augmented proportional navigation for elevation
 						var vert_closing_rate_fps = (me.dist_direct_last - dist_curr_direct)*M2FT/dt;
-						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;#((me.curr_tgt_e-me.last_tgt_e)*D2R)/dt;
-						var acc_upwards_ftps2 = proportionality_constant*line_of_sight_rate_up_rps*vert_closing_rate_fps;
+						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;
+
+						# calculate target acc as normal to LOS line: (up acc is positive)
+						var t_approach_bearing             = t_course + 180;
+						var t_horz_speed_away_from_missile = -math.cos((t_approach_bearing - t_heading)*D2R)* t_horz_speed;
+						var t_horz_comp_speed              = math.cos((90+t_elev_deg)*D2R)*t_horz_speed_away_from_missile;
+						var t_vert_comp_speed              = math.sin(t_pitch*D2R)*t_speed*math.cos(t_elev_deg*D2R);
+						var t_LOS_elev_norm_speed          = t_horz_comp_speed + t_vert_comp_speed;
+
+						if (me.last_t_elev_norm_speed == nil) {
+							me.last_t_elev_norm_speed = t_LOS_elev_norm_speed;
+						}
+
+						var t_LOS_elev_norm_acc            = (t_LOS_elev_norm_speed - me.last_t_elev_norm_speed)/dt;
+						me.last_t_elev_norm_speed          = t_LOS_elev_norm_speed;
+
+						var acc_upwards_ftps2 = proportionality_constant*line_of_sight_rate_up_rps*vert_closing_rate_fps+proportionality_constant*t_LOS_elev_norm_acc/2;
 						var commanded_upwards_vector_length_fps = acc_upwards_ftps2*dt;
 						dev_e = math.atan2(commanded_upwards_vector_length_fps, velocity_vector_length_fps)*R2D;
 						#print(sprintf("vert leading by %.1f deg", me.curr_tgt_e));
@@ -1013,7 +1051,7 @@ var AIM = {
 		#print("min1 "~min_distance);
 		#print("last_t to t    : "~me.last_t_coord.direct_distance_to(me.t_coord));
 		#print("last to current: "~me.last_coord.direct_distance_to(me.coord));
-		for (var i = 0.1; i < 1; i += 0.1) {
+		for (var i = 0.05; i < 1; i += 0.05) {
 			var t_coord = me.interpolate(me.last_t_coord, me.t_coord, i);
 			var coord = me.interpolate(me.last_coord, me.coord, i);
 			var dist = coord.direct_distance_to(t_coord);
@@ -1024,7 +1062,7 @@ var AIM = {
 		}
 		#print("min2 "~min_distance);
 		if (me.before_last_coord != nil and me.before_last_t_coord != nil) {
-			for (var i = 0.1; i < 1; i += 0.1) {
+			for (var i = 0.05; i < 1; i += 0.05) {
 				var t_coord = me.interpolate(me.before_last_t_coord, me.last_t_coord, i);
 				var coord = me.interpolate(me.before_last_coord, me.last_coord, i);
 				var dist = coord.direct_distance_to(t_coord);
@@ -1139,10 +1177,13 @@ var AIM = {
 
 				var t_pos_str = me.Tgt.getChild("position");
 				var t_ori_str = me.Tgt.getChild("orientation");
+				var t_vel_str = me.Tgt.getChild("velocities");
 				me.TgtLon_prop       = t_pos_str.getChild("longitude-deg");
 				me.TgtLat_prop       = t_pos_str.getChild("latitude-deg");
 				me.TgtAlt_prop       = t_pos_str.getChild("altitude-ft");
 				me.TgtHdg_prop       = t_ori_str.getChild("true-heading-deg");
+				me.TgtPitch_prop     = t_ori_str.getChild("pitch-deg");
+				me.TgtSpeed_prop     = t_vel_str.getChild("true-airspeed-kt");
 				settimer(func me.update_track(nil), rand()*3.5);
 				return;
 			}
