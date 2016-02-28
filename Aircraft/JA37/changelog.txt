@@ -2061,3 +2061,4 @@ Sim: Doubled fidelity of missile accuracy improvement code.
 Sim: Improved case where you would switch selection and could still fire missile at previous selection. (can still happen if you do it very fast though)
 Sim: Fixed that if you paused sim while missile was in flight, when you unpaused it would think alot of time had passed.
 Sim: Enabled taking damage from F-15 cannon.
+Sim: Decreased arming time for RB99.

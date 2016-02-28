@@ -765,7 +765,7 @@
                     <drag-coeff type="double">0.5</drag-coeff>
                     <drag-area type="double">0.2739</drag-area><!-- sq ft (0.2953 ft radius) authentic -->
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
-                    <arming-time-sec type="double">3.0</arming-time-sec>                       <!-- guess -->
+                    <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">80</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
