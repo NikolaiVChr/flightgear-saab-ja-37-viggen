@@ -2062,3 +2062,5 @@ Sim: Improved case where you would switch selection and could still fire missile
 Sim: Fixed that if you paused sim while missile was in flight, when you unpaused it would think alot of time had passed.
 Sim: Enabled taking damage from F-15 cannon.
 Sim: Decreased arming time for RB99.
+Effect: Reduced threefold the amount of smoke particles from rb-99.
+Sim: Hopefully made better sure the missile model are actually loaded and that smoke are visible.

@@ -28,6 +28,7 @@ Model: If heading indicator fails, the radar heading bug for steerpoints should 
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.
+Animation: Buffeting of view, at high G, on runway, when get hit, crash and high alpha.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)

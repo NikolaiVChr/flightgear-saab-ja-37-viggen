@@ -261,7 +261,8 @@ var AIM = {
 		me.model.getNode("pitch-deg-prop", 1).setValue(me.pitchN.getPath());
 		me.model.getNode("roll-deg-prop", 1).setValue(me.rollN.getPath());
 		var loadNode = me.model.getNode("load", 1);
-		
+		loadNode.setBoolValue(1);
+
 		# Get initial velocity vector (aircraft):
 		me.s_down = getprop("velocities/speed-down-fps");
 		me.s_east = getprop("velocities/speed-east-fps");
@@ -279,14 +280,14 @@ var AIM = {
 		#print("air density diff alt = "~me.density_alt_diff);
 		#print("missile alt = "~aalt);
 
-		me.smoke_prop.setBoolValue(1);
+		#me.smoke_prop.setBoolValue(1);
 		me.SwSoundVol.setValue(0);
 		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
 		#loadNode.remove();
 		me.update();
-
+		loadNode.remove();
 	},
 
 
@@ -346,6 +347,8 @@ var AIM = {
 		}
 		if (f_lbs < 1) {
 			me.smoke_prop.setBoolValue(0);
+		} else {
+			me.smoke_prop.setBoolValue(1);
 		}
 
 		# Kill the AI after a while.
@@ -458,13 +461,7 @@ var AIM = {
 		# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
 		# which next update will be added in the direction the missile points, which we do not want.
 		#
-		# As a workaround we only add gravity when the missile has stopped guiding. I know it sucks. :(
-		#
-		var gravity_fps                 = me.free == 1?g_fps * dt:0;
-		if (me.free == 1) {
-			# pitch according to old speed from last update
-			#pitch_deg = math.atan2(-me.s_down, dist_h_ft/dt) * R2D;
-		}
+		
 		#print("p "~pitch_deg);
 		# Break speed change down total speed to North, East and Down components.
 		var speed_down_fps       = - math.sin(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
