@@ -2064,3 +2064,4 @@ Sim: Enabled taking damage from F-15 cannon.
 Sim: Decreased arming time for RB99.
 Effect: Reduced threefold the amount of smoke particles from rb-99.
 Sim: Hopefully made better sure the missile model are actually loaded and that smoke are visible.
+Model: Inside radar heading disc is now 6 red lamps for radar lock/incoming warning. (they only work for incoming for now)

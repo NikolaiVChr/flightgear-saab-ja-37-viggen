@@ -1451,6 +1451,12 @@
             <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
             <range>15000</range>            <!-- 15 Km -->
             <serviceable type="bool">true</serviceable>
+            <twr1 type="bool">false</twr1>
+            <twr3 type="bool">false</twr3>
+            <twr5 type="bool">false</twr5>
+            <twr7 type="bool">false</twr7>
+            <twr9 type="bool">false</twr9>
+            <twr11 type="bool">false</twr11>
         </radar>
         <head-up-display>
             <serviceable type="bool">true</serviceable>

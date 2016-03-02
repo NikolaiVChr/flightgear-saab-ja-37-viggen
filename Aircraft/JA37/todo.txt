@@ -23,7 +23,6 @@ Model: The altimeter should have a standard button which set the pressure to 101
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
-Model: Inside radar heading disc should be 6 red lamps for radar lock/incoming warning.
 Model: If heading indicator fails, the radar heading bug for steerpoints should freeze.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
@@ -155,3 +154,63 @@ Aero: Mass distribution.
 Aero: Detailed high speed aerodynamics.
 Aero: Accurate weight of empty drop tank.
 Aero: Weight of 30mm cannon pod.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var theShakeEffect = func{
+#ge_a_r = getprop("sim/multiplay/generic/float[1]") or 0;
+rSpeed = getprop("/velocities/airspeed-kt") or 0;
+var G = getprop("/accelerations/pilot-g");
+var alpha = getprop("/orientation/alpha-deg");
+var mach = getprop("velocities/mach");
+var wow = getprop("/gear/gear[1]/wow");
+var gun = getprop("controls/armament/Gun_trigger");
+var myTime = getprop("/sim/time/elapsed-sec");
+
+
+#sf = ((rSpeed / 500000 + G/25000 + alpha/20000 )/3) ;
+#I want to find a way to improve vibration amplitude with sf, but to tired actually to make it.
+
+
+#print("sf .... : " ~ sf);
+#print("sin(time)="~math.sin(48*myTime)/333.333);
+#print("Test result:"~wow);
+
+if(shakeEffect2000.getBoolValue() and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.98 and mach<1.02) or (wow and rSpeed>100) or gun)){
+#print("it is working.");
+setprop("controls/cabin/shaking", math.sin(48*myTime)/333.333); 
+}else{
+setprop("controls/cabin/shaking", 0); 
+} 
+}
+
+
+<animation>
+<type>translate</type>
+<object-name>Interior</object-name>
+<property>/controls/cabin/shaking</property>
+<axis>
+<x1-m> 0</x1-m>
+<y1-m> 0</y1-m>
+<z1-m> 0</z1-m>
+<x2-m> 0.5</x2-m>
+<y2-m> -0.5</y2-m>
+<z2-m> 0.8</z2-m>
+</axis>
+</animation>

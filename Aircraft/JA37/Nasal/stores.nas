@@ -491,6 +491,26 @@ var incoming_listener = func {
                 } else {
                   playIncomingSound("");
                 }
+
+                #The incoming lamps overlap each other:
+                if (clock >= 345 or clock <= 75) {
+                  incomingLamp("1");
+                } 
+                if (clock >= 45 and clock <= 135) {
+                  incomingLamp("3");
+                }
+                if (clock >= 105 and clock <= 195) {
+                  incomingLamp("5");
+                }
+                if (clock >= 165 and clock <= 255) {
+                  incomingLamp("7");
+                }
+                if (clock >= 225 and clock <= 315) {
+                  incomingLamp("9");
+                }
+                if (clock >= 285 or clock <= 15) {
+                  incomingLamp("11");
+                }
                 return;
               }
             }
@@ -601,6 +621,15 @@ var playIncomingSound = func (clock) {
 
 var stopIncomingSound = func (clock) {
   setprop("sim/ja37/sound/incoming"~clock, 0);
+}
+
+var incomingLamp = func (clock) {
+  setprop("instrumentation/radar/twr"~clock, 1);
+  settimer(func {stopIncomingLamp(clock);},4.5);
+}
+
+var stopIncomingLamp = func (clock) {
+  setprop("instrumentation/radar/twr"~clock, 0);
 }
 
 var nearby_explosion = func {
