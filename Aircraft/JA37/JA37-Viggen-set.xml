@@ -605,6 +605,8 @@
                 <smoke type="int">1</smoke>
                 <!-- 1: off  2: yellow  3: blue -->
                 <smoke-cmd type="int">1</smoke-cmd>
+                <shake-factor-time type="double">48</shake-factor-time>
+                <shake-factor-magn type="double">0.001</shake-factor-magn>
             </effect>
             <blink>
                 <five-Hz>
@@ -666,10 +668,6 @@
             <armament>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <nav type="string">pro2</nav><!-- orig, pure, lead or pro -->
-                <factor-lead type="double">50</factor-lead>
-                <factor-pro type="double">5</factor-pro>
-                <factor-pro2 type="double">3</factor-pro2>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
@@ -765,7 +763,7 @@
                     <drag-coeff type="double">0.5</drag-coeff>
                     <drag-area type="double">0.2739</drag-area><!-- sq ft (0.2953 ft radius) authentic -->
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
-                    <arming-time-sec type="double">3.0</arming-time-sec>                       <!-- guess -->
+                    <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">80</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
@@ -1451,6 +1449,12 @@
             <debug-mode type="bool">true</debug-mode>            <!--forced radar calculations even if no radar instrument and ai aircraft are out of range-->
             <range>15000</range>            <!-- 15 Km -->
             <serviceable type="bool">true</serviceable>
+            <twr1 type="bool">false</twr1>
+            <twr3 type="bool">false</twr3>
+            <twr5 type="bool">false</twr5>
+            <twr7 type="bool">false</twr7>
+            <twr9 type="bool">false</twr9>
+            <twr11 type="bool">false</twr11>
         </radar>
         <head-up-display>
             <serviceable type="bool">true</serviceable>

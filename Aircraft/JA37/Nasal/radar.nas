@@ -409,7 +409,7 @@ var radar = {
               var head = 10 * name;
               # 10 20 20 40 Km long line, depending on radar setting, as per manual.
               var runway_l = 10000;
-              if (me.radarRange == 120000) {
+              if (me.radarRange == 120000 or me.radarRange == 180000) {
                 runway_l = 40000;
               } elsif (me.radarRange == 60000) {
                 runway_l = 20000;

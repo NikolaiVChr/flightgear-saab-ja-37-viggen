@@ -23,11 +23,11 @@ Model: The altimeter should have a standard button which set the pressure to 101
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
-Model: Inside radar heading disc should be 6 red lamps for radar lock/incoming warning.
 Model: If heading indicator fails, the radar heading bug for steerpoints should freeze.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.
+Animation: Buffeting of view, when get hit, crash.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
@@ -58,9 +58,10 @@ Sim: Replace nasal blinkers with JSB code.
 Sim: Implement maximum speed reactions - Vne.
 Sim: Fix that KCA cannon will hit type if type is selected in HUD. Instead it should always be callsign.
 Sim: Implement navigation controls into the cockpit.
-Sim: Implement proper radio controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
 Sim: Check uses of true/mag headings in missile code.
+Sim: Make missile code generic aircraft independent.
+Sim: Include Shinobis missile changes into missile code. (cruise missiles, bombs, rail)
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -93,7 +94,6 @@ Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
 Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
 Sim: When relocating or pausing, autostart might fail. [reproduced]
-Sim: Missile that misses dont seem to delete by altitude.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]

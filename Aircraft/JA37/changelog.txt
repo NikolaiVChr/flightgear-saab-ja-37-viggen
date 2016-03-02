@@ -2035,7 +2035,7 @@ Sim: Used a much smarter way to calculate the G-force of missiles. They will no 
 Sim: The missiles now waits for minimum half a second before they start guiding, so they can get clear of aircraft.
 Sim: Stopped a variable from being double declared in missiles. (alt_ft)
 Sim: When a missiles is released, and does its first flight update, make sure it knows that no time has passed since firing.
-Sim: Switched missile guidance to proportional navigation. (needs testing against evading target)
+Sim: Switched missile guidance to proportional navigation.
 Sim: {5H1N0B1} Fixed that missiles would complain that they were only allowed to pull 0 G.
 Sim: {Onox} Some optimizations to damage code.
 Sim: Changed missile navigation back to pure pursuit for now.
@@ -2052,7 +2052,21 @@ Radar: Made the waypoint circle 50% bigger.
 Sim: All MP chat messages from weapons, will now defeat spam filter.
 Sim: Improved drastically the quality of acceleration to degree function in proportional navigation.
 Sim: Guided missiles now has proper gravity drop, that does not increase speed in headed direction.
-Sim: Missiles will now start by pitching into the wind, not the direction the aircraft is pitching.
+Sim: Missiles will now start by pitching into the wind (elevation wise), not the direction the aircraft is pitching.
 Sim: Missiles first update now has a relevant time, so it no longer start by lagging behind the aircraft.
 Sim: Missiles will now start guiding after half a second, if they have enough speed.
 Effect: Fixed shifting of colors: The RB99 smoke trail is no longer lighted. It can now be clearly seen even at night though. (experimental)
+Sim: Missiles now use augmented proportional navigation.
+Sim: Doubled fidelity of missile accuracy improvement code.
+Sim: Improved case where you would switch selection and could still fire missile at previous selection. (can still happen if you do it very fast though)
+Sim: Fixed that if you paused sim while missile was in flight, when you unpaused it would think alot of time had passed.
+Sim: Enabled taking damage from F-15 cannon.
+Sim: Decreased arming time for RB99.
+Effect: Reduced threefold the amount of smoke particles from rb-99.
+Sim: Hopefully made better sure the missile model are actually loaded and that smoke are visible.
+Model: Inside radar heading disc is now 6 red lamps for radar lock/incoming warning. (they only work for incoming for now)
+Animation: Buffeting of view, at high G, on runway, transonic and high alpha.
+Sim: 1997 loadout no longer includes rb71.
+Sim: First step in making missile code more generic.
+Radar: Increased range to 180Km, as 120Km is for the older variant AJ-37.
+Sim: At relocating it nows repair all damage, command gear down and stop autopilot.

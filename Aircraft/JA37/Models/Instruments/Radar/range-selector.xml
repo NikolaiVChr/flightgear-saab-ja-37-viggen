@@ -153,6 +153,7 @@
             <binding>
                 <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
+                <value type="int">180000</value>
                 <value type="int">120000</value>
                 <value type="int">60000</value>
                 <value type="int">30000</value>
@@ -171,6 +172,7 @@
             <binding>
                 <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
+                <value type="int">180000</value>
                 <value type="int">120000</value>
                 <value type="int">60000</value>
                 <value type="int">30000</value>
@@ -189,6 +191,7 @@
             <binding>
                 <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
+                <value type="int">180000</value>
                 <value type="int">120000</value>
                 <value type="int">60000</value>
                 <value type="int">30000</value>
@@ -211,6 +214,7 @@
                 <value type="int">30000</value>
                 <value type="int">60000</value>
                 <value type="int">120000</value>
+                <value type="int">180000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -235,6 +239,7 @@
                 <value type="int">30000</value>
                 <value type="int">60000</value>
                 <value type="int">120000</value>
+                <value type="int">180000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -253,6 +258,7 @@
                 <value type="int">30000</value>
                 <value type="int">60000</value>
                 <value type="int">120000</value>
+                <value type="int">180000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>
@@ -267,6 +273,7 @@
             <binding>
                 <command>property-cycle</command>
                 <property>/instrumentation/radar/range</property>
+                <value type="int">180000</value>
                 <value type="int">120000</value>
                 <value type="int">60000</value>
                 <value type="int">30000</value>
@@ -289,6 +296,7 @@
                 <value type="int">30000</value>
                 <value type="int">60000</value>
                 <value type="int">120000</value>
+                <value type="int">180000</value>
                 <wrap>false</wrap>
             </binding>
             <binding>

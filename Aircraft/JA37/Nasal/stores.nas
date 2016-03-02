@@ -491,6 +491,26 @@ var incoming_listener = func {
                 } else {
                   playIncomingSound("");
                 }
+
+                #The incoming lamps overlap each other:
+                if (clock >= 345 or clock <= 75) {
+                  incomingLamp("1");
+                } 
+                if (clock >= 45 and clock <= 135) {
+                  incomingLamp("3");
+                }
+                if (clock >= 105 and clock <= 195) {
+                  incomingLamp("5");
+                }
+                if (clock >= 165 and clock <= 255) {
+                  incomingLamp("7");
+                }
+                if (clock >= 225 and clock <= 315) {
+                  incomingLamp("9");
+                }
+                if (clock >= 285 or clock <= 15) {
+                  incomingLamp("11");
+                }
                 return;
               }
             }
@@ -539,7 +559,7 @@ var incoming_listener = func {
               nearby_explosion();
             }
           } 
-        } elsif (last_vector[1] == " KCA cannon shell hit" or last_vector[1] == " Gun Splash On ") {
+        } elsif (last_vector[1] == " KCA cannon shell hit" or last_vector[1] == " Gun Splash On " or last_vector[1] == " M61A1 shell hit") {
           # cannon hitting someone
           #print("cannon");
           if (size(last_vector) > 2 and last_vector[2] == " "~callsign) {
@@ -601,6 +621,15 @@ var playIncomingSound = func (clock) {
 
 var stopIncomingSound = func (clock) {
   setprop("sim/ja37/sound/incoming"~clock, 0);
+}
+
+var incomingLamp = func (clock) {
+  setprop("instrumentation/radar/twr"~clock, 1);
+  settimer(func {stopIncomingLamp(clock);},4.5);
+}
+
+var stopIncomingLamp = func (clock) {
+  setprop("instrumentation/radar/twr"~clock, 0);
 }
 
 var nearby_explosion = func {
@@ -815,17 +844,14 @@ reloadAir2Air1997 = func {
   # Amraam
   setprop("payload/weight[1]/selected", "RB 99");
   setprop("payload/weight[3]/selected", "RB 99");
-  screen.log.write("2 RB-99 missiles attached", 0.0, 1.0, 0.0);
+  setprop("payload/weight[0]/selected", "RB 99");
+  setprop("payload/weight[2]/selected", "RB 99");
+  screen.log.write("4 RB-99 missiles attached", 0.0, 1.0, 0.0);
 
   # Sidewinder
   setprop("payload/weight[4]/selected", "RB 74");
   setprop("payload/weight[5]/selected", "RB 74");
   screen.log.write("2 RB-74 missiles attached", 0.0, 1.0, 0.0);
-
-  # Skyflash
-  setprop("payload/weight[0]/selected", "RB 71");
-  setprop("payload/weight[2]/selected", "RB 71");
-  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);

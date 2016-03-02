@@ -40,6 +40,7 @@ Added the RB-71 missile.
 Missile textures.
 Cannon spam filter defeating.
 Rocket pod modification.
+Misc. cockpit improvements (radio etc..)
 
 Forum name: swampthing
 ======================
@@ -77,6 +78,6 @@ F-14b (jsb) - Dampers inspiration. Hydraulics. Pilot. 3 sounds.
 l39 - Strobe light texture.
 C172p - Some sound settings. Thunder and rain sounds and most of their code from that.
 707 - External power supply truck.
-M2000-5 - Code to stop radar from looking through terrain and pulse doppler functionality.
+M2000-5 - Code to stop radar from looking through terrain and pulse doppler functionality. Buffeting of view.
 
 Might have forgotten some.
