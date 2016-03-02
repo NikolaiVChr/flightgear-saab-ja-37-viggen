@@ -605,6 +605,8 @@
                 <smoke type="int">1</smoke>
                 <!-- 1: off  2: yellow  3: blue -->
                 <smoke-cmd type="int">1</smoke-cmd>
+                <shake-factor-time type="double">48</shake-factor-time>
+                <shake-factor-magn type="double">0.001</shake-factor-magn>
             </effect>
             <blink>
                 <five-Hz>

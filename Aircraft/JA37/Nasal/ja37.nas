@@ -679,9 +679,34 @@ var speed_loop = func () {
   }
   setprop("sim/ja37/sound/rain-volume", rain*0.35*vol);
 
+  theShakeEffect();
+
   settimer(speed_loop, 0.05);
 }
 
+var defaultView = getprop("sim/view/config/y-offset-m");
+
+var theShakeEffect = func{
+  var rSpeed = getprop("/velocities/airspeed-kt");
+  var G = input.pilotG.getValue();
+  var alpha = getprop("/orientation/alpha-deg");
+  var mach = getprop("velocities/mach");
+  var wow = input.wow1.getValue();
+  var myTime = input.elapsed.getValue();
+
+  if (rSpeed == nil or G == nil or alpha == nil or mach == nil or wow == nil or myTime == nil) {
+    return;
+  }
+
+  var factorTime      = getprop("sim/ja37/effect/shake-factor-time"); # how fast it shakes
+  var factorMagnitude = getprop("sim/ja37/effect/shake-factor-magn");# meters for max shake 
+
+  if(getprop("sim/current-view/name") == "Cockpit View" and (((G > 7 or alpha>25) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
+    setprop("sim/current-view/y-offset-m", defaultView+math.sin(factorTime*myTime)*factorMagnitude); 
+  }else{
+    setprop("controls/cabin/shaking", defaultView); 
+  } 
+}
 
 ###########  loop for handling the battery signal for cockpit sound #########
 var voltage = 0;
