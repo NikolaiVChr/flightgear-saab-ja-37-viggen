@@ -844,17 +844,14 @@ reloadAir2Air1997 = func {
   # Amraam
   setprop("payload/weight[1]/selected", "RB 99");
   setprop("payload/weight[3]/selected", "RB 99");
-  screen.log.write("2 RB-99 missiles attached", 0.0, 1.0, 0.0);
+  setprop("payload/weight[0]/selected", "RB 99");
+  setprop("payload/weight[2]/selected", "RB 99");
+  screen.log.write("4 RB-99 missiles attached", 0.0, 1.0, 0.0);
 
   # Sidewinder
   setprop("payload/weight[4]/selected", "RB 74");
   setprop("payload/weight[5]/selected", "RB 74");
   screen.log.write("2 RB-74 missiles attached", 0.0, 1.0, 0.0);
-
-  # Skyflash
-  setprop("payload/weight[0]/selected", "RB 71");
-  setprop("payload/weight[2]/selected", "RB 71");
-  screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);
