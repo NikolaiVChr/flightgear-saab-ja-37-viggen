@@ -2068,4 +2068,4 @@ Model: Inside radar heading disc is now 6 red lamps for radar lock/incoming warn
 Animation: Buffeting of view, at high G, on runway, transonic and high alpha.
 Sim: 1997 loadout no longer includes rb71.
 Sim: First step in making missile code more generic.
-Radar: Increased range 180Km.
+Radar: Increased range to 180Km, as 120Km is for the older variant AJ-37.
