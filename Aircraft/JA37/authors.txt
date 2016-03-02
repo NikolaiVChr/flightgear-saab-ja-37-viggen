@@ -40,6 +40,7 @@ Added the RB-71 missile.
 Missile textures.
 Cannon spam filter defeating.
 Rocket pod modification.
+Misc. cockpit improvements (radio etc..)
 
 Forum name: swampthing
 ======================

@@ -701,7 +701,7 @@ var theShakeEffect = func{
   var factorTime      = getprop("sim/ja37/effect/shake-factor-time"); # how fast it shakes
   var factorMagnitude = getprop("sim/ja37/effect/shake-factor-magn");# meters for max shake 
 
-  if(getprop("sim/current-view/name") == "Cockpit View" and (((G > 7 or alpha>25) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
+  if(getprop("sim/current-view/name") == "Cockpit View" and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
     setprop("sim/current-view/y-offset-m", defaultView+math.sin(factorTime*myTime)*factorMagnitude); 
   }else{
     setprop("controls/cabin/shaking", defaultView); 

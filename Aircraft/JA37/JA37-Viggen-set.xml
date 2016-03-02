@@ -668,10 +668,6 @@
             <armament>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <nav type="string">pro2</nav><!-- orig, pure, lead or pro -->
-                <factor-lead type="double">50</factor-lead>
-                <factor-pro type="double">5</factor-pro>
-                <factor-pro2 type="double">3</factor-pro2>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
