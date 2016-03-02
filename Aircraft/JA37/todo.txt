@@ -60,7 +60,6 @@ Sim: Fix that KCA cannon will hit type if type is selected in HUD. Instead it sh
 Sim: Implement navigation controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
 Sim: Check uses of true/mag headings in missile code.
-Sim: When relocating, repair and stop autopilot.
 Sim: Make missile code generic aircraft independent.
 Sim: Include Shinobis missile changes into missile code. (cruise missiles, bombs, rail)
 Effect: Rembrandt landing lightcone.

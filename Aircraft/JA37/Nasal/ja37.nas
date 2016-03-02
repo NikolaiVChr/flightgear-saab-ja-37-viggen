@@ -1020,6 +1020,9 @@ var re_init = func {
 
   # asymmetric vortex detachment
   asymVortex();
+  repair();
+  stopAP();
+  setprop("/controls/gear/gear-down", 1);
 
   #test_support();
 }
