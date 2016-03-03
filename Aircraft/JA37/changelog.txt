@@ -2070,3 +2070,4 @@ Sim: 1997 loadout no longer includes rb71.
 Sim: First step in making missile code more generic.
 Radar: Increased range to 180Km, as 120Km is for the older variant AJ-37.
 Sim: At relocating it nows repair all damage, command gear down and stop autopilot.
+Model: Adapted ksuu1 livery into ksuu2.
