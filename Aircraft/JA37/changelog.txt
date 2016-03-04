@@ -1972,7 +1972,7 @@ Radar: The radar locked track now has a cursor over it.
 Radar: Antenae declination to selection is now shown in tactical a2a mode.
 Model: {Pinto} Missile textures updated to live version instead of dummy versions.
 
-3.107
+3.107 - 2016 March 3
 =====
 Sim: Implemented minimum speed for missiles to guide.
 Sim: Added outer pylon storage to flight-recorder.
