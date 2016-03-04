@@ -1023,6 +1023,7 @@ var re_init = func {
   repair();
   stopAP();
   setprop("/controls/gear/gear-down", 1);
+  setprop("/controls/gear/brake-parking", 1);
 
   #test_support();
 }
