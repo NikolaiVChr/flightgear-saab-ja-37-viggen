@@ -2075,3 +2075,5 @@ Model: Adapted ksuu1 livery into ksuu2.
 3.108
 =====
 Model: Added new livery, desert camo.
+Sim: At reinit the parking brakes will now be set.
+Sim: Stopped the missile from switching between seaching and locking all the time.

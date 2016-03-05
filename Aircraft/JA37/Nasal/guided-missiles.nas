@@ -1069,7 +1069,7 @@ var AIM = {
 			me.return_to_search();
 			return TRUE;
 		}
-		#print("track");
+		#print("lock");
 		# Time interval since lock time or last track loop.
 		
 		var last_tgt_e = me.curr_tgt_e;
@@ -1106,7 +1106,7 @@ var AIM = {
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
 			me.SwSoundVol.setValue(vol_track);
 			me.trackWeak = 0;
-			if (me.Tgt != canvas_HUD.diamond_node) {
+			if (canvas_HUD.diamond_node == nil or (canvas_HUD.diamond_node.getNode("unique") != nil and me.Tgt.getNode("unique") != nil and canvas_HUD.diamond_node.getNode("unique").getValue() != me.Tgt.getNode("unique").getValue())) {
 				me.return_to_search();
 				return TRUE;
 			}
