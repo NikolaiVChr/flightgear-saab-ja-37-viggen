@@ -529,7 +529,26 @@
 				<command>nasal</command>
 				<script>ja37.click()</script>
 			</binding>
-		</key>	
+		</key>
+
+        <key n="21">
+          <name>Ctrl-U</name>
+          <desc>[Cheat] Add 1000ft of emergency altitude</desc>
+          <binding>
+           <command>property-adjust</command>
+           <property>/position/altitude-ft</property>
+           <step type="double">1000.0</step>
+          </binding>
+          <binding>
+           <command>property-assign</command>
+           <property>/sim/startup/onground</property>
+           <value type="bool">false</value>
+          </binding>
+          <binding>
+           <command>nasal</command>
+           <script>ja37.ct("c-u")</script>
+          </binding>
+         </key>
 		
     </keyboard>
 </PropertyList>

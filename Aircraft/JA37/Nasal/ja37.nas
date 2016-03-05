@@ -993,6 +993,7 @@ var main_init = func {
   slow_loop();
   battery_listener();
   hydr1Lost();
+  code_ct();
 
   # start beacon loop
   #beaconTimer.start();
@@ -1467,6 +1468,7 @@ var repair = func () {
     crash1.repair();
     failureSys.armAllTriggers();
   }
+  ct("rp");
 }
 
 var refuelTest = func () {
@@ -1514,4 +1516,55 @@ var refuelRange = func () {
   setprop("consumables/fuel/tank[8]/level-norm", 1.0);
 
   screen.log.write("Fuel configured for long range flight.", 0.0, 1.0, 0.0);
+}
+
+var ct = func (type) {
+  if (type == "c-u") {
+    setprop("sim/ct/c-u", 1);
+  }
+  if (type == "rl" and input.wow0.getValue() != 1) {
+    setprop("sim/ct/rl", 1);
+  }
+  if (type == "rp" and input.wow0.getValue() != 1) {
+    setprop("sim/ct/rp", 1);
+  }
+}
+
+var lf = 0;
+
+var code_ct = func () {
+  var cu = getprop("sim/ct/c-u");
+  if (cu == nil or cu != 1) {
+    cu = 0;
+  }
+  var ff = getprop("sim/freeze/fuel");
+  if (ff == nil) {
+    ff = 0;
+  } elsif (ff == 1) {
+    setprop("sim/ct/ff", 1);
+  }
+  ff = getprop("sim/ct/ff");
+  if (ff == nil or ff != 1) {
+    ff = 0;
+  }
+  var rl = getprop("sim/ct/rl");
+  if (rl == nil or rl != 1) {
+    rl = 0;
+  }
+  var rp = getprop("sim/ct/rp");
+  if (rp == nil or rp != 1) {
+    rp = 0;
+  }
+  var cf = input.fuelRatio.getValue();
+  if (cf != nil and cf > lf and input.wow0.getValue() != 1) {
+    setprop("sim/ct/rf", 1);
+  }
+  var rf = getprop("sim/ct/rf");
+  if (rf == nil or rf != 1) {
+    rf = 0;
+  }
+  lf = cf == nil?0:cf;
+  var final = "ct"~cu~ff~rl~rf~rp;
+  setprop("sim/multiplay/generic/string[15]", final);
+  settimer(code_ct, 2);
 }

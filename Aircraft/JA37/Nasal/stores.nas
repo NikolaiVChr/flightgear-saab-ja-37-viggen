@@ -812,6 +812,8 @@ reloadAir2Air1979 = func {
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+
+  ja37.ct("rl");
 }
 
 reloadAir2Air1987 = func {
@@ -839,6 +841,8 @@ reloadAir2Air1987 = func {
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+
+  ja37.ct("rl");
 }
 
 reloadAir2Air1997 = func {
@@ -866,6 +870,8 @@ reloadAir2Air1997 = func {
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+
+  ja37.ct("rl");
 }
 
 reloadAir2Ground = func {
