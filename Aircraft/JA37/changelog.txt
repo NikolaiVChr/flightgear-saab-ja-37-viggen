@@ -2077,3 +2077,4 @@ Model: Adapted ksuu1 livery into ksuu2.
 Model: Added new livery, desert camo.
 Sim: At reinit the parking brakes will now be set.
 Sim: Stopped the missile from switching between seaching and locking all the time.
+Effect: Engine fire or taking a certin amount of damage will now make black engine smoke.

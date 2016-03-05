@@ -59,7 +59,6 @@ Sim: Implement maximum speed reactions - Vne.
 Sim: Fix that KCA cannon will hit type if type is selected in HUD. Instead it should always be callsign.
 Sim: Implement navigation controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
-Sim: Check uses of true/mag headings in missile code.
 Sim: Make missile code generic aircraft independent.
 Sim: Include Shinobis missile changes into missile code. (cruise missiles, bombs, rail)
 Sim: Stop auto-selecting when in tactical mode.
@@ -68,7 +67,6 @@ Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
-Effect: Engine fire smoke.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.

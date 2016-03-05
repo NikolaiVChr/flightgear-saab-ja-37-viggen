@@ -339,9 +339,12 @@ var update_loop = func {
     var nav = input.dcVolt.getValue() > 20 and input.switchNav.getValue() == 1;
     input.MPint9.setIntValue(encode3bits(flash, beacon, nav));
 
-    # contrails
+    # contrails, damage smoke
     var contrails = getprop("environment/temperature-degc") < -40 and getprop("position/altitude-ft") > 19000 and input.n2.getValue() > 50;
-    input.MPint18.setIntValue(encode3bits(contrails, 0, 0));
+    var smoke = !getprop("engines/engine[0]/fire/serviceable")+getprop("environment/damage");
+    setprop("environment/damage-smoke", smoke);
+    var d_smoke = getprop("environment/damage-smoke");
+    input.MPint18.setIntValue(encode3bits(contrails, d_smoke, 0));
 
     # smoke
     if (input.dcVolt.getValue() > 20) {
@@ -1024,6 +1027,7 @@ var re_init = func {
   stopAP();
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
+  setprop("environment/damage", 0);
 
   #test_support();
 }

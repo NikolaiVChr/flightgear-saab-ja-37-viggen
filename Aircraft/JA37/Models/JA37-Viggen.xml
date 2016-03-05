@@ -2185,6 +2185,16 @@
   </offsets>
  </model>
 
+ <model><!-- dark smoke at damage or engine fire -->
+  <name>damage_smoke</name>
+  <path>Aircraft/JA37/Models/Effects/damage-smoke.xml</path>
+  <offsets>
+   <x-m>6.0555</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
 <model>
   <name>wingtip-condensation-trail-left</name>
   <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>

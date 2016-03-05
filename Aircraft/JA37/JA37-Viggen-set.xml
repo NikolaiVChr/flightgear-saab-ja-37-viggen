@@ -1096,6 +1096,8 @@
         <serviceable type="bool">true</serviceable>
     </gear>
     <environment>
+        <damage type="bool">false</damage>
+        <damage-smoke type="bool">false</damage-smoke>
         <aircraft-effects>
             <splash-vector-x type="float" userarchive="n">0.0</splash-vector-x>
             <splash-vector-y type="float" userarchive="n">0.1</splash-vector-y>
