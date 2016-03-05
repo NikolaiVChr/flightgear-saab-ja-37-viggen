@@ -611,7 +611,7 @@ var fail_systems = func (probability) {
             failed += 1;
         }
     }
-    if(probabililty > 0.19) {
+    if(probability > 0.19) {
       setprop("environment/damage", 1);
     }
     return failed;
