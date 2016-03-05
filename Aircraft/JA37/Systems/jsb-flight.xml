@@ -300,6 +300,41 @@
                 gear/unit[0]/WOW == 1
             </test>
         </switch>    
+
+        <fcs_function name="systems/flight/buffeting/output">
+            <function>
+                <product>
+                    <sum>
+                        <sin>
+                          <product>
+                            <property>sim-time-sec</property>
+                            <property>systems/flight/buffeting/var1</property>
+                          </product>
+                        </sin>
+                        <sin>
+                          <product>
+                            <property>sim-time-sec</property>
+                            <property>systems/flight/buffeting/var2</property>
+                          </product>
+                        </sin>
+                        <sin>
+                          <product>
+                            <property>sim-time-sec</property>
+                            <property>systems/flight/buffeting/var3</property>
+                          </product>
+                        </sin>
+                    </sum>
+                    <table>
+                        <independentVar lookup="row">atmosphere/density-altitude</independentVar>
+                        <tableData>
+                              0.0         1.0
+                          30000.0         0.0
+                        </tableData>
+                    </table>
+                    <property>systems/flight/buffeting/magnitude</property>
+                </product>
+            </function>
+        </fcs_function>
     
     </channel>
 

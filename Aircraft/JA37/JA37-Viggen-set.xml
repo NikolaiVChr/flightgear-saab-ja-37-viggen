@@ -605,8 +605,6 @@
                 <smoke type="int">1</smoke>
                 <!-- 1: off  2: yellow  3: blue -->
                 <smoke-cmd type="int">1</smoke-cmd>
-                <shake-factor-time type="double">48</shake-factor-time>
-                <shake-factor-magn type="double">0.001</shake-factor-magn>
             </effect>
             <blink>
                 <five-Hz>
@@ -947,6 +945,15 @@
                         <serviceable type="bool">true</serviceable>
                     </pneumatics>
                 </fuel>
+                <flight>
+                    <buffeting>
+                        <output type="double">0</output>
+                        <var1 type="double">10</var1>
+                        <var2 type="double">25</var2>
+                        <var3 type="double">50</var3>
+                        <magnitude type="double">0.001</magnitude>
+                    </buffeting>
+                </flight>
             </systems>
             <aero>
                 <factor-axial-mach type="double">0.1075</factor-axial-mach>
