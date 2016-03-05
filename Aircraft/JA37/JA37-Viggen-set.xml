@@ -691,6 +691,7 @@
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
                     <seeker-angular-speed-dps>14.9</seeker-angular-speed-dps><!-- deg/sec authentic-->
                     <loft-altitude>0</loft-altitude>
+                    <min-rng-nm type="double">0.2</min-rng-nm>
                 </rb-24j>
                 <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -716,6 +717,7 @@
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>0</loft-altitude>
+                    <min-rng-nm type="double">0.2</min-rng-nm>
                 </rb-74>
                 <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -741,6 +743,7 @@
                     <self-destruct-time-sec type="double">60</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
+                    <min-rng-nm type="double">0.35</min-rng-nm>
                 </rb-71>
                 <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -766,6 +769,7 @@
                     <self-destruct-time-sec type="double">80</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps>30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
+                    <min-rng-nm type="double">0.35</min-rng-nm>
                 </rb-99>
             </armament>
             <avionics>

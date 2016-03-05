@@ -96,6 +96,7 @@ var AIM = {
 		m.vol_search            = getprop("sim/ja37/armament/"~m.type_lc~"/vol-search");
 		m.angular_speed         = getprop("sim/ja37/armament/"~m.type_lc~"/seeker-angular-speed-dps");
         m.loft_alt              = getprop("sim/ja37/armament/"~m.type_lc~"/loft-altitude");
+        m.min_dist              = getprop("sim/ja37/armament/"~m.type_lc~"/min-rng-nm");
 		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
@@ -1001,8 +1002,8 @@ var AIM = {
 			if (canvas_HUD.diamond_node != nil and canvas_HUD.diamond_node.getChild("valid").getValue() == TRUE) {
 				var tgt = canvas_HUD.diamond_node; # In the radar range and horizontal field.
 				var rng = tgt.getChild("radar").getChild("range-nm").getValue();
-				var total_elev  = - deviation_normdeg(OurPitch.getValue(), tgt.getChild("radar").getChild("elevation-deg").getValue()); # deg.
-				var total_horiz = - deviation_normdeg(OurHdg.getValue(), tgt.getChild("radar").getChild("bearing-deg").getValue());         # deg.
+				var total_elev  = deviation_normdeg(OurPitch.getValue(), tgt.getChild("radar").getChild("elevation-deg").getValue()); # deg.
+				var total_horiz = deviation_normdeg(OurHdg.getValue(), tgt.getChild("radar").getChild("bearing-deg").getValue());         # deg.
 				# Check if in range and in the (square shaped here) seeker FOV.
 				var abs_total_elev = math.abs(total_elev);
 				var abs_dev_deg = math.abs(total_horiz);
@@ -1033,6 +1034,10 @@ var AIM = {
 					me.TgtHdg_prop       = t_ori_str.getChild("true-heading-deg");
 					me.TgtPitch_prop     = t_ori_str.getChild("pitch-deg");
 					me.TgtSpeed_prop     = t_vel_str.getChild("true-airspeed-kt");
+
+					var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
+					me.update_track_time = time;
+
 					settimer(func me.update_lock(), 0.5);
 					return;
 				} else {
@@ -1081,8 +1086,6 @@ var AIM = {
 		}
 
 		var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
-		dt = time - me.update_track_time;
-		me.update_track_time = time;
 
 		# Compute HUD reticle position.
 		if ( 1==0 and me.status == MISSILE_LOCK ) {
@@ -1104,8 +1107,18 @@ var AIM = {
 				return TRUE;
 			}
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
-			me.SwSoundVol.setValue(vol_track);
-			me.trackWeak = 0;
+			var dist = geo.aircraft_position().direct_distance_to(geo.Coord.new().set_latlon(
+				me.TgtLat_prop.getValue(),
+				me.TgtLon_prop.getValue(),
+				me.TgtAlt_prop.getValue()*FT2M));
+			if (time - me.update_track_time > 1 and dist != nil and dist > (me.min_dist * NM2M)) {
+				# after 1 second we get solid track if target is further than minimum distance.
+				me.SwSoundVol.setValue(vol_track);
+				me.trackWeak = 0;
+			} else {
+				me.SwSoundVol.setValue(vol_weak_track);
+				me.trackWeak = 1;
+			}
 			if (canvas_HUD.diamond_node == nil or (canvas_HUD.diamond_node.getNode("unique") != nil and me.Tgt.getNode("unique") != nil and canvas_HUD.diamond_node.getNode("unique").getValue() != me.Tgt.getNode("unique").getValue())) {
 				me.return_to_search();
 				return TRUE;
