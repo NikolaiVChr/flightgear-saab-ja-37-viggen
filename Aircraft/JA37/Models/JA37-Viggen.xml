@@ -40,9 +40,13 @@
                   }
                   objModel = n.getChild("model", i, 1);
 
-                  objModel.getNode("position/altitude-ft").setDoubleValue(0);
-                  objModel.getNode("position/latitude-deg").setDoubleValue(0);
-                  objModel.getNode("position/longitude-deg").setDoubleValue(0);
+                  objModel.getNode("altitude-ft").setDoubleValue(0);
+                  objModel.getNode("latitude-deg").setDoubleValue(0);
+                  objModel.getNode("longitude-deg").setDoubleValue(0);
+                  objModel.getNode("true-heading-deg").setDoubleValue(0);
+                  objModel.getNode("pitch-deg").setDoubleValue(0);
+                  objModel.getNode("roll-deg").setDoubleValue(0);
+                  objModel.getNode("path").setValue("Aircraft/JA37/Models/Armament/Weapons/MP_missile/mp_missile.xml");
 
                   var loadNode = objModel.getNode("load", 1);
                   loadNode.setBoolValue(1);
