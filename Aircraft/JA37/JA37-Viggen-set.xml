@@ -411,6 +411,7 @@
                 <!-- misc -->
                 <string n="0" alias="/sim/aircraft-version"/>
                 <string n="10" type="string">none</string>
+                <string n="13" type="string"></string><!-- used to show missiles in mp -->
             </generic>
         </multiplay>
 

@@ -9,6 +9,81 @@
     <path>Aircraft/JA37/Systems/ja37-mp-sound.xml</path>
   </sound>-->
 
+  <nasal>
+      <load><![CDATA[
+        var str = self.getNode("sim/multiplay/generic/string[13]");
+        if (str == nil or str.getValue() == nil) {
+          return;
+        }
+
+        var objs = {};
+
+        var loop = func () {
+          var mp_str = split(":", str.getValue());
+
+          foreach(var obj; keys(objs)) {
+            var exist = 0;
+            foreach(var mis; mp_str) {
+              var mis_s = split(";", mis);
+              if (size(mis_s) == 4) {
+                var id = mis_s[0];
+                var objModel = objs[id];
+                if (objModel == nil) {
+                  # create model
+
+                  var n = props.globals.getNode("models", 1);
+                  var i = 0;
+                  for (i = 0; 1==1; i += 1) {
+                    if (n.getChild("model", i, 0) == nil) {
+                      break;
+                    }
+                  }
+                  objModel = n.getChild("model", i, 1);
+
+                  objModel.getNode("position/altitude-ft").setDoubleValue(0);
+                  objModel.getNode("position/latitude-deg").setDoubleValue(0);
+                  objModel.getNode("position/longitude-deg").setDoubleValue(0);
+
+                  var loadNode = objModel.getNode("load", 1);
+                  loadNode.setBoolValue(1);
+                  continue;
+                }
+
+                if (id != obj) {
+                  continue;
+                }
+                exist = 1;
+                var lat = mis_s[1];
+                var lon = mis_s[2];
+                var alt = mis_s[3];
+
+                var objModel = objs[id];
+                if (objModel == nil) {
+                  print("error: did not find mp missile.");
+                  return;
+                }
+                objModel.getNode("position/altitude-ft").setDoubleValue(alt);
+                objModel.getNode("position/latitude-deg").setDoubleValue(lat);
+                objModel.getNode("position/longitude-deg").setDoubleValue(lon);
+              }
+            }
+            if (exist == 0) {
+              # remove model
+              var objModel = objs[id];
+              objModel.remove();
+              delete(objs, id);
+            }
+          }
+
+          settimer(loop, 0.05);
+        }
+
+        loop();
+
+      ]]>
+      </load>
+  </nasal>
+
 
   <!--        Interior    -->
   <model>
