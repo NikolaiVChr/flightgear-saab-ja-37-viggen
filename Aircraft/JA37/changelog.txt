@@ -2078,3 +2078,4 @@ Model: Added new livery, desert camo.
 Sim: At reinit the parking brakes will now be set.
 Sim: Stopped the missile from switching between seaching and locking all the time.
 Effect: Engine fire or taking a certin amount of damage will now make black engine smoke.
+Model: If heading indicator fails, the radar heading bug for steerpoints will now freeze.

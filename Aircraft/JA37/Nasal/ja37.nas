@@ -113,6 +113,7 @@ input = {
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
   speedWarn:        "sim/ja37/sound/speed-on",
+  srvHead:          "instrumentation/heading-indicator/serviceable",
   starter:          "controls/engines/engine[0]/starter-cmd",
   stationSelect:    "controls/armament/station-select",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
@@ -390,7 +391,7 @@ var update_loop = func {
     }
 
     # radar compass
-	  if (getprop("/autopilot/route-manager/active") == TRUE) {
+	  if (getprop("/autopilot/route-manager/active") == TRUE and input.srvHead.getValue() == TRUE) {
 	    # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
 	    setprop("autopilot/route-manager/wp/bearing-deg-rel", getprop("/autopilot/route-manager/wp/bearing-deg") - getprop("/orientation/heading-magnetic-deg"));
       
