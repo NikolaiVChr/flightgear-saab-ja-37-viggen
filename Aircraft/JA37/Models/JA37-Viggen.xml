@@ -39,9 +39,12 @@
                 }
                 objModel = n.getChild("model", i, 1);
 
-                objModel.getNode("elevation-ft",1).setDoubleValue(0);
-                objModel.getNode("latitude-deg",1).setDoubleValue(0);
-                objModel.getNode("longitude-deg",1).setDoubleValue(0);
+                objModel.getNode("elevation",1).setDoubleValue(0);
+                objModel.getNode("latitude",1).setDoubleValue(0);
+                objModel.getNode("longitude",1).setDoubleValue(0);
+                objModel.getNode("elevation-ft-prop",1).setValue(objModel.getPath()~"/elevation");
+                objModel.getNode("latitude-deg-prop",1).setValue(objModel.getPath()~"/latitude");
+                objModel.getNode("longitude-deg-prop",1).setValue(objModel.getPath()~"/longitude");
                 objModel.getNode("heading-deg",1).setDoubleValue(0);
                 objModel.getNode("pitch-deg",1).setDoubleValue(0);
                 objModel.getNode("roll-deg",1).setDoubleValue(0);
@@ -77,19 +80,21 @@
                   print("error: did not find mp missile.");
                   return;
                 }
-                objModel.getNode("elevation-ft").setDoubleValue(alt);
-                objModel.getNode("latitude-deg").setDoubleValue(lat);
-                objModel.getNode("longitude-deg").setDoubleValue(lon);
+                objModel.getNode("latitude").setDoubleValue(lat);
+                objModel.getNode("longitude").setDoubleValue(lon);
+                objModel.getNode("elevation").setDoubleValue(alt);
               }
             }
             if (exist == 0) {
               # remove model
               var objModel = objs[obj];
-              #objModel.remove();
-              #delete(objs, obj);
+              objModel.remove();
+              delete(objs, obj);
             }
           }
-
+          if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
+            return;
+          }
           settimer(loop, 0.05);
         }
 
@@ -97,6 +102,12 @@
 
       ]]>
       </load>
+
+      
+      <unload><![CDATA[
+        #
+      ]]>
+      </unload>
   </nasal>
 
 
