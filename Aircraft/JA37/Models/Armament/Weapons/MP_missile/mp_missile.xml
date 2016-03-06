@@ -3,7 +3,7 @@
 <PropertyList>
 
 	<name>aim</name>
-	<path>Models/Geometry/null.ac</path>
+	<path>Models/Geometry/tracer2.ac</path>
 
 	<model>
 		<path>Aircraft/JA37/Models/Armament/Weapons/MP_missile/smoke_trail.xml</path>
@@ -15,7 +15,7 @@
 	</model>
 
 	<animation>
-  		<object-name>aim</object-name>
+  		<object-name>tracer</object-name>
   		<enable-hot type="bool">false</enable-hot>
  	</animation>
 
