@@ -1022,7 +1022,7 @@ var re_init = func {
 
   # asymmetric vortex detachment
   asymVortex();
-  repair();
+  repair(FALSE);
   stopAP();
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
@@ -1460,7 +1460,7 @@ var _popupTip = func(label, y, delay) {
     #canvas.tooltip.showMessage(delay);
 }
 
-var repair = func () {
+var repair = func (c = TRUE) {
   var ver = getprop("sim/ja37/supported/crash-system");
   if (ver == 0) {
     crash0.repair();
@@ -1468,7 +1468,9 @@ var repair = func () {
     crash1.repair();
     failureSys.armAllTriggers();
   }
-  ct("rp");
+  if (c == TRUE) {
+    ct("rp");
+  }
 }
 
 var refuelTest = func () {
