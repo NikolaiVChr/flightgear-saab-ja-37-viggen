@@ -956,7 +956,7 @@
                         <var1 type="double">10</var1>
                         <var2 type="double">25</var2>
                         <var3 type="double">50</var3>
-                        <magnitude type="double">0.001</magnitude>
+                        <magnitude type="double">0.0005</magnitude>
                     </buffeting>
                 </flight>
             </systems>
