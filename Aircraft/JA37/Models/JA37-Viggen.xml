@@ -12,9 +12,10 @@
   <nasal>
       <load><![CDATA[
         var self = cmdarg();
+        var skip = 0;
         var str = self.getNode("sim/multiplay/generic/string[13]");
         if (str == nil or str.getValue() == nil) {
-          return;
+          skip = 1;
         }
 
         var objs = {};
@@ -98,7 +99,9 @@
           settimer(loop, 0.05);
         }
 
-        loop();
+        if (skip == 0) {
+            loop();
+        }
 
       ]]>
       </load>

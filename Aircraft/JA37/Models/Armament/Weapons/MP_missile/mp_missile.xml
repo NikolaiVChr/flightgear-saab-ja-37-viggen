@@ -3,7 +3,7 @@
 <PropertyList>
 
 	<name>aim</name>
-	<path>Aircraft/JA37/Models/Armament/Weapons/RB-74/explosion-bounds.ac</path>
+	<path>explosion-bounds.ac</path>
 
 	<model>
 		<path>Aircraft/JA37/Models/Armament/Weapons/MP_missile/smoke_trail.xml</path>
