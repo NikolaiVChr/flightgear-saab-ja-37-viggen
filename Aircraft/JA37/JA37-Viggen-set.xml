@@ -93,10 +93,15 @@
         <aircraft-class type="string">mil-fighter</aircraft-class>
         <aircraft-operator>Swedish Air Force</aircraft-operator>
         <aircraft-data>
-            <path>/sim/dimensions/radius-m</path>
-            <path>/sim/dimensions/parkpos-offset-m</path>
-            <path>/sim/aircraft-class</path>
-            <path>/sim/aircraft-operator</path>
+            <path>sim/ja37/radar/enabled</path>
+            <path>sim/ja37/hud/units-metric</path>
+            <path>sim/ja37/hud/mode</path>
+            <path>sim/ja37/hud/bank-indicator</path>
+            <path>sim/ja37/autoReverseThrust</path>
+            <path>sim/ja37/hud/stroke-linewidth</path>
+            <path>ai/submodels/submodel[2]/random</path>
+            <path>ai/submodels/submodel[3]/random</path>
+            <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
         <airport>
@@ -146,12 +151,14 @@
 
             <livery>
                 <!-- Default Livery -->
-                <file type="string"/>
+                <file type="string">saf59.xml</file>
+                <!--<texture type="string">j37_texture.png</texture>
                 <name type="string">Swedish Air Force 59</name>
-                <owner type="string">SAF</owner>
+                <owner type="string">SAF</owner>-->
             </livery>
 
         </model>
+                    
 
 
         <!--**********************************************************************

@@ -933,15 +933,16 @@ var main_init = func {
 
   test_support();
 
-  aircraft.data.add("sim/ja37/radar/enabled",
-                    "sim/ja37/hud/units-metric",
-                    "sim/ja37/hud/mode",
-                    "sim/ja37/hud/bank-indicator",
-                    "sim/ja37/autoReverseThrust",
-                    "sim/ja37/hud/stroke-linewidth",
-                    "ai/submodels/submodel[2]/random",
-                    "ai/submodels/submodel[3]/random");
-  aircraft.data.save();
+#  aircraft.data.add("sim/ja37/radar/enabled",
+#                    "sim/ja37/hud/units-metric",
+#                    "sim/ja37/hud/mode",
+#                    "sim/ja37/hud/bank-indicator",
+#                    "sim/ja37/autoReverseThrust",
+#                    "sim/ja37/hud/stroke-linewidth",
+#                    "ai/submodels/submodel[2]/random",
+#                    "ai/submodels/submodel[3]/random");
+  #aircraft.data.save();
+  aircraft.data.save(0.5);#every 30 seconds
 
 
 
