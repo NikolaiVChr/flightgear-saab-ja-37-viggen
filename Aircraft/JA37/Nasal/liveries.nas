@@ -1,1 +1,1 @@
-aircraft.livery.init("Models/Liveries");
+aircraft.livery.init("Aircraft/JA37/Models/Liveries");

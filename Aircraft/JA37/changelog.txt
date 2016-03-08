@@ -2081,3 +2081,4 @@ Effect: Engine fire or taking a certain amount of damage will now make black eng
 Model: If heading indicator fails, the radar heading bug for steerpoints will now freeze.
 Animation: Made the buffeting be angle modulated sin curves and depend on altitude.
 Sim: The target diamond will now only blink if target is further than minimum missile range.
+Model: Better livery over MP support.

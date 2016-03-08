@@ -12,6 +12,9 @@
   <nasal>
       <load><![CDATA[
         var self = cmdarg();
+
+        var livery_update = aircraft.livery_update.new("Aircraft/JA37/Models/Liveries");
+
         var skip = 0;
         var str = self.getNode("sim/multiplay/generic/string[13]");
         if (str == nil or str.getValue() == nil) {
@@ -109,6 +112,7 @@
       
       <unload><![CDATA[
         #
+        livery_update.stop();
       ]]>
       </unload>
   </nasal>
