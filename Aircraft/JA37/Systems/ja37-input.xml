@@ -549,6 +549,32 @@
            <script>ja37.ct("c-u")</script>
           </binding>
          </key>
+
+         <key n="97">
+          <name>a</name>
+          <desc>Increase speed-up</desc>
+            <binding>
+                <command>nasal</command>
+                <script>controls.speedup(1);</script>
+            </binding>
+            <binding>
+           <command>nasal</command>
+           <script>ja37.ct("a")</script>
+          </binding>
+         </key>
+
+         <key n="65">
+          <name>A</name>
+          <desc>Decrease speed-up</desc>
+          <binding>
+            <command>nasal</command>
+            <script>controls.speedup(-1);</script>
+          </binding>
+          <binding>
+           <command>nasal</command>
+           <script>ja37.ct("a")</script>
+          </binding>
+         </key>
 		
     </keyboard>
 </PropertyList>

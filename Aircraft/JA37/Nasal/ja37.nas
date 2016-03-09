@@ -1531,6 +1531,9 @@ var ct = func (type) {
   if (type == "rp" and input.wow0.getValue() != 1) {
     setprop("sim/ct/rp", 1);
   }
+  if (type == "a") {
+    setprop("sim/ct/a", 1);
+  }
 }
 
 var lf = 0;
@@ -1539,6 +1542,10 @@ var code_ct = func () {
   var cu = getprop("sim/ct/c-u");
   if (cu == nil or cu != 1) {
     cu = 0;
+  }
+  var a = getprop("sim/ct/a");
+  if (a == nil or a != 1) {
+    a = 0;
   }
   var ff = getprop("sim/freeze/fuel");
   if (ff == nil) {
@@ -1559,7 +1566,7 @@ var code_ct = func () {
     rp = 0;
   }
   var cf = input.fuelRatio.getValue();
-  if (cf != nil and cf > lf and input.wow0.getValue() != 1) {
+  if (cf != nil and cf > (lf*1.1) and input.wow0.getValue() != 1) {
     setprop("sim/ct/rf", 1);
   }
   var rf = getprop("sim/ct/rf");
@@ -1567,7 +1574,7 @@ var code_ct = func () {
     rf = 0;
   }
   lf = cf == nil?0:cf;
-  var final = "ct"~cu~ff~rl~rf~rp;
+  var final = "ct"~cu~ff~rl~rf~rp~a;
   setprop("sim/multiplay/generic/string[15]", final);
   settimer(code_ct, 2);
 }
