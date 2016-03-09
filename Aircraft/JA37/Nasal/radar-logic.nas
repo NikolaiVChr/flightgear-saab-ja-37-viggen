@@ -396,7 +396,7 @@ var isNotBehindTerrain = func(SelectCoord) {
         var Aprime = geo.Coord.new();
         
         # Here is to limit FPS drop on very long distance
-        var L = 1000;
+        var L = 500;
         if(myDistance > 50000)
         {
             L = myDistance / 15;
