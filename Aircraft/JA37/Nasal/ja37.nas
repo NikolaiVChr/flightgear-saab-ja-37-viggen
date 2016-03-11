@@ -1461,7 +1461,7 @@ var _popupTip = func(label, y, delay) {
     #canvas.tooltip.showMessage(delay);
 }
 
-var repair = func (c = TRUE) {
+var repair = func (c = 1) {
   var ver = getprop("sim/ja37/supported/crash-system");
   if (ver == 0) {
     crash0.repair();
