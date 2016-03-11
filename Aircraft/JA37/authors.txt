@@ -59,7 +59,7 @@ Note
 ====
 Various stuff adapted from other aircrafts:
 
-F16 - Afterburner flame (non ALS) and engine glow. Engine smoke and heat distortion. Texture for Strake-vortex. Cannon. Chronometer. ADI. Pedals, arrester hook.
+F16 - Afterburner flame (non ALS) and engine glow. Engine smoke and heat distortion. Texture for Strake-vortex. Cannon stuff. Chronometer. ADI. Pedals, arrester hook.
 J35F - 8 instruments
 Mig-15 - Crash code
 Buccaneer - Flight path indicator code in HUD
@@ -74,7 +74,7 @@ F15C - Stick
 Alphajet - Adapted aerobatic smoke
 Crusader - Carrier catapult mechanism
 pa24-250 - Glare texture for landing lights
-F-14b (jsb) - Dampers inspiration. Hydraulics. Pilot. 3 sounds.
+F-14b (jsb) - Dampers and hydraulics inspiration. Pilot. 3 sounds.
 l39 - Strobe light texture.
 C172p - Some sound settings. Thunder and rain sounds and most of their code from that.
 707 - External power supply truck.

@@ -2084,3 +2084,4 @@ Sim: The target diamond will now only blink if target is further than minimum mi
 Model: Missiles streaks can now be seen over MP.
 Model: Better livery over MP support.
 Effect: Pylons are no longer lit by afterburner flame.
+Sim: Fixed that the rb74 would not lock onto target.

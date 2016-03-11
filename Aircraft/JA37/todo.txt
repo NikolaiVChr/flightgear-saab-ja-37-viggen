@@ -61,6 +61,7 @@ Sim: Engine fire: reduced thrust, stuck throttle.
 Sim: Make missile code generic aircraft independent.
 Sim: Include Shinobis missile changes into missile code. (cruise missiles, bombs, rail)
 Sim: Stop auto-selecting when in tactical mode.
+Sim: Doppler radar should be able to see planes if they are above a certain speed, not matter if they try to notch or not.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -114,6 +115,8 @@ Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ w
 HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
 HUD: In tactical mode the diamond would sometimes not be painted. Distance, callsign and tail would be shown though.
 Model: Droptank indicator should really be a steerpoint indicator.
+Model: Desert livery over MP is broken now.
+Model: There is a gap between fuselage and engine, where one can see 'into' the model.
 
 Issues with FG:
 ---------------

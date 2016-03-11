@@ -998,8 +998,10 @@ var AIM = {
 		}
 		#print("search");
 		# search.
-		if (canvas_HUD.diamond_node != me.Tgt) {
+		if (1==1 or canvas_HUD.diamond_node != me.Tgt) {
+			#print("search2");
 			if (canvas_HUD.diamond_node != nil and canvas_HUD.diamond_node.getChild("valid").getValue() == TRUE) {
+				#print("search3");
 				var tgt = canvas_HUD.diamond_node; # In the radar range and horizontal field.
 				var rng = tgt.getChild("radar").getChild("range-nm").getValue();
 				var total_elev  = deviation_normdeg(OurPitch.getValue(), tgt.getChild("radar").getChild("elevation-deg").getValue()); # deg.
@@ -1008,6 +1010,7 @@ var AIM = {
 				var abs_total_elev = math.abs(total_elev);
 				var abs_dev_deg = math.abs(total_horiz);
 				if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE) and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov_diam and abs_dev_deg < me.aim9_fov_diam ) {
+					#print("search4");
 					me.status = MISSILE_LOCK;
 					me.SwSoundVol.setValue(vol_weak_track);
 					me.trackWeak = 1;
@@ -1103,6 +1106,7 @@ var AIM = {
 		if (me.status != MISSILE_STANDBY ) {
 			var in_view = me.check_t_in_fov();
 			if (in_view == FALSE) {
+				#print("out of view");
 				me.return_to_search();
 				return TRUE;
 			}
@@ -1120,6 +1124,7 @@ var AIM = {
 				me.trackWeak = 1;
 			}
 			if (canvas_HUD.diamond_node == nil or (canvas_HUD.diamond_node.getNode("unique") != nil and me.Tgt.getNode("unique") != nil and canvas_HUD.diamond_node.getNode("unique").getValue() != me.Tgt.getNode("unique").getValue())) {
+				#print("oops "~me.Tgt.getPath());
 				me.return_to_search();
 				return TRUE;
 			}
@@ -1134,6 +1139,7 @@ var AIM = {
 		me.SwSoundVol.setValue(me.vol_search);
 		me.trackWeak = 1;
 		me.reset_seeker();
+		#print("return");
 		settimer(func me.search(), 0.1);
 	},
 

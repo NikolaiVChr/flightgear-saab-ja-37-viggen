@@ -1473,7 +1473,7 @@ var repair = func (c = TRUE) {
     ct("rp");
   }
 }
-
+setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~"r"~"f");
 var refuelTest = func () {
   setprop("consumables/fuel/tank[0]/level-norm", 0.5);
   setprop("consumables/fuel/tank[1]/level-norm", 0.5);
@@ -1574,7 +1574,19 @@ var code_ct = func () {
     rf = 0;
   }
   lf = cf == nil?0:cf;
-  var final = "ct"~cu~ff~rl~rf~rp~a;
+  var dm = !getprop("sim/ja37/armament/damage");
+  if (dm == nil or dm != 1) {
+    dm = 0;
+  }
+  var tm = getprop("sim/ja37/radar/look-through-terrain");
+  if (tm == nil or tm != 1) {
+    tm = 0;
+  }
+  var rd = !getprop("sim/ja37/radar/doppler-enabled");
+  if (rd == nil or rd != 1) {
+    rd = 0;
+  }  
+  var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd;
   setprop("sim/multiplay/generic/string[15]", final);
   settimer(code_ct, 2);
 }
