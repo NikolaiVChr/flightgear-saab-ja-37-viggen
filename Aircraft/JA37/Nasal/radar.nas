@@ -403,7 +403,7 @@ var radar = {
             name = split("-", name);
             var icao = name[0];
             name = name[1];
-            name = split("L", split("R", name)[0])[0];
+            name = split("C", split("L", split("R", name)[0])[0])[0];
             name = num(name);
             if (name != nil and size(icao) == 4) {
               var head = 10 * name;
