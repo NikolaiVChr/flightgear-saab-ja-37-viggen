@@ -513,6 +513,14 @@ var AIM = {
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
 
+		# log missiles to csv
+		#setprop("missile/latitude-deg", me.coord.lat());
+		#setprop("missile/longitude-deg", me.coord.lon());
+		#setprop("missile/altitude-ft", alt_ft);
+		#setprop("missile/t-latitude-deg", me.t_coord.lat());
+		#setprop("missile/t-longitude-deg", me.t_coord.lon());
+		#setprop("missile/t-altitude-ft", me.t_coord.alt()*M2FT);
+
 		# set radar properties for use in selection view and HUD tracks.
 		var self = geo.aircraft_position();
 		me.ai.getNode("radar/bearing-deg", 1).setValue(self.course_to(me.coord));
@@ -1009,7 +1017,7 @@ var AIM = {
 				# Check if in range and in the (square shaped here) seeker FOV.
 				var abs_total_elev = math.abs(total_elev);
 				var abs_dev_deg = math.abs(total_horiz);
-				if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE) and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov_diam and abs_dev_deg < me.aim9_fov_diam ) {
+				if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE) and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
 					#print("search4");
 					me.status = MISSILE_LOCK;
 					me.SwSoundVol.setValue(vol_weak_track);
@@ -1145,6 +1153,18 @@ var AIM = {
 
 		#
 	check_t_in_fov: func {
+
+		var total_elev  = deviation_normdeg(OurPitch.getValue(), me.Tgt.getChild("radar").getChild("elevation-deg").getValue()); # deg.
+		var total_horiz = deviation_normdeg(OurHdg.getValue(), me.Tgt.getChild("radar").getChild("bearing-deg").getValue());         # deg.
+		# Check if in range and in the (square shaped here) seeker FOV.
+		var abs_total_elev = math.abs(total_elev);
+		var abs_dev_deg = math.abs(total_horiz);
+		if (abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
+			return TRUE;
+		}
+		return FALSE;
+
+
 		# Used only when not launched.
 		# Compute seeker total angular position clamped to seeker max total angular rotation.
 		me.seeker_dev_e += me.track_signal_e;

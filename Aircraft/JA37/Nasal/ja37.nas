@@ -685,10 +685,23 @@ var speed_loop = func () {
 
   theShakeEffect();
 
+  logTime();
+
   settimer(speed_loop, 0.05);
 }
 
 var defaultView = getprop("sim/view/config/y-offset-m");
+
+var logTime = func{
+  #log time and date for outputing ucsv files for converting into KML files for google earth.
+  if (getprop("logging/log[0]/enabled") == TRUE) {
+    var date = getprop("sim/time/utc/year")~"/"~getprop("sim/time/utc/month")~"/"~getprop("sim/time/utc/day");
+    var time = getprop("sim/time/utc/hour")~":"~getprop("sim/time/utc/minute")~":"~getprop("sim/time/utc/second");
+
+    setprop("sim/time/date-log", date);
+    setprop("sim/time/time-log", time);
+  }
+}
 
 var theShakeEffect = func{
   var rSpeed = getprop("/velocities/airspeed-kt");

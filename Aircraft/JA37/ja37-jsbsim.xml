@@ -650,8 +650,14 @@ Old values:
   </external_reactions>
 
   
-<!--<output name="ja37_datalog_08.csv" type="CSV" rate="240">-->
-<!--    <property> aero/qbar-psf </property>
+<!--<output name="C:/Users/Nikolai/Documents/ja37_datalog.csv" type="CSV" rate="10">
+    <property> /position/latitude-deg </property>
+    <property> /position/longitude-deg </property>
+    <property> /position/altitude-ft </property>-->
+    <!--<property> /sim/time/date-log </property>
+    <property> /sim/time/time-log </property>-->
+    <!--<value>0</value>-->
+    <!--    <property> aero/qbar-psf </property>
     <property> attitude/phi-rad </property>
     <property> position/h-sl-ft </property>
     <property> velocities/vc-kts </property>
@@ -662,12 +668,47 @@ Old values:
     <property> flight-path/gamma-rad </property>
     <property> accelerations/n-pilot-z-norm </property>
     <property> accelerations[0]/Nz </property>-->
-<!--    <rates> OFF </rates>
+    <!--<simulation> OFF </simulation>
+    <rates> OFF </rates>
     <velocities> OFF </velocities>
     <forces> OFF </forces>
     <moments> OFF </moments>
     <position> OFF </position>
-    <coefficients> ON </coefficients>
+    <coefficients> OFF </coefficients>
+    <fcs> OFF </fcs>
+    <propulsion> OFF </propulsion>
+    <aerosurfaces> OFF </aerosurfaces>
+    <ground_reactions> OFF </ground_reactions>
+  </output>
+
+  <output name="C:/Users/Nikolai/Documents/missile_datalog.csv" type="CSV" rate="40">
+    <property> /missile/latitude-deg </property>
+    <property> /missile/longitude-deg </property>
+    <property> /missile/altitude-ft </property>
+    <simulation> OFF </simulation>
+    <rates> OFF </rates>
+    <velocities> OFF </velocities>
+    <forces> OFF </forces>
+    <moments> OFF </moments>
+    <position> OFF </position>
+    <coefficients> OFF </coefficients>
+    <fcs> OFF </fcs>
+    <propulsion> OFF </propulsion>
+    <aerosurfaces> OFF </aerosurfaces>
+    <ground_reactions> OFF </ground_reactions>
+  </output>
+
+  <output name="C:/Users/Nikolai/Documents/target_datalog.csv" type="CSV" rate="40">
+    <property> /missile/t-latitude-deg </property>
+    <property> /missile/t-longitude-deg </property>
+    <property> /missile/t-altitude-ft </property>
+    <simulation> OFF </simulation>
+    <rates> OFF </rates>
+    <velocities> OFF </velocities>
+    <forces> OFF </forces>
+    <moments> OFF </moments>
+    <position> OFF </position>
+    <coefficients> OFF </coefficients>
     <fcs> OFF </fcs>
     <propulsion> OFF </propulsion>
     <aerosurfaces> OFF </aerosurfaces>

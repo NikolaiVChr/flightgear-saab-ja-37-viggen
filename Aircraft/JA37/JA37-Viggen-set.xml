@@ -817,6 +817,8 @@
         </carrier>
         <time>
             <full-init type="bool">false</full-init>
+            <time-log type="string">0:0:0</time-log>
+            <date-log type="string">0/0/0</date-log>
         </time>
     </sim>
     <ai>
@@ -1546,4 +1548,113 @@
 			<file>Aircraft/JA37/Nasal/navigation.nas</file>
 		</navigation>
     </nasal>
+
+    <!-- Logging to universal CSV format. change enabled to true to log -->
+    <!-- When your flight is recorded, make sure to open the output and change "Time" in top line into "Name"
+         Remember that the filename below is absolute path, so modify that also -->
+
+    <logging>
+      <log>
+       <filename>C:/Users/Nikolai/Documents/ja37_flightlog.csv</filename>
+       <enabled>false</enabled>
+       <interval-ms>500</interval-ms>
+       <delimiter>,</delimiter>
+       <entry>
+        <enabled>true</enabled>
+        <title>Latitude</title>
+        <property>/position/latitude-deg</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>Longitude</title>
+        <property>/position/longitude-deg</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>alt ft</title>
+        <property>/position/altitude-ft</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>date</title>
+        <property>sim/time/date-log</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>time</title>
+        <property>sim/time/time-log</property>
+       </entry>
+      </log>
+      <!--<log>
+       <filename>C:/Users/Nikolai/Documents/ja37_missile_flightlog.csv</filename>
+       <enabled>false</enabled>
+       <interval-ms>50</interval-ms>
+       <delimiter>,</delimiter>
+       <entry>
+        <enabled>true</enabled>
+        <title>Latitude</title>
+        <property>/missile/latitude-deg</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>Longitude</title>
+        <property>/missile/longitude-deg</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>alt ft</title>
+        <property>/missile/altitude-ft</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>date</title>
+        <property>sim/time/date-log</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>time</title>
+        <property>sim/time/time-log</property>
+       </entry>
+      </log>
+      <log>
+       <filename>C:/Users/Nikolai/Documents/ja37_target_flightlog.csv</filename>
+       <enabled>false</enabled>
+       <interval-ms>250</interval-ms>
+       <delimiter>,</delimiter>
+       <entry>
+        <enabled>true</enabled>
+        <title>Latitude</title>
+        <property>/missile/t-latitude-deg</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>Longitude</title>
+        <property>/missile/t-longitude-deg</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>alt ft</title>
+        <property>/missile/t-altitude-ft</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>date</title>
+        <property>sim/time/date-log</property>
+       </entry>
+       <entry>
+        <enabled>true</enabled>
+        <title>time</title>
+        <property>sim/time/time-log</property>
+       </entry>
+      </log>-->
+     </logging>
+
+    <missile>
+        <altitude-ft type="double">0.0</altitude-ft>
+        <longitude-deg type="double">0.0</longitude-deg>
+        <latitude-deg type="double">0.0</latitude-deg>
+        <t-altitude-ft type="double">0.0</t-altitude-ft>
+        <t-longitude-deg type="double">0.0</t-longitude-deg>
+        <t-latitude-deg type="double">0.0</t-latitude-deg>
+    </missile>
 </PropertyList>
