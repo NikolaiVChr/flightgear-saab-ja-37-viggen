@@ -139,6 +139,8 @@ Model: Improve the 31-F17 grey livery.
 Model: Improve the 32-F17 Blå Petter livery. (Blue Peter)
 Model: Improve the 59-F16 grey livery.
 Model: Improve the 61-F18 strike camo livery.
+Model: Improve the 61-F18 desert camo livery.
+Model: Improve the 61-F18 nevada camo livery.
 Model: Improve the 57-F21 red 'ghost' livery.
 Model: Improve the 46-F04 unknown export livery - Great lake monster.
 Model: Improve the 02-F21 swedish sun livery.

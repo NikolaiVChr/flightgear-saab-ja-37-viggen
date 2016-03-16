@@ -1,0 +1,38 @@
+
+This document will explain how to setup logging flights, so that it can be imported into Google Earth.
+
+Log a Flight
+============
+
+Open JA37-Viggen-set.xml into a text editor.
+Scroll to the bottom, and find the <logging> tag. A couple of lines lower you will find the path to the file that should be logged, change that to whatever you want, but keep it absolute.
+In the line below that filename, change false to true.
+Save the file.
+Do your flight, notice the file will be overwritten each time you start flightgear.
+Close down flightgear.
+Open up the logged flight file in a text editor.
+Change the "Time" into "Name" on the first line. Notice the uppercase "T" in time, do not change the lowercase "time".
+Save the file.
+Download the little tool called "GPSBabel".
+Open GPSBabel and convert the flight file from Universal CSV into Google Earth KML. In KML option, make sure to set altitudes to absolute.
+If you got Linux, its something like: GPSBabel -t -i unicsv -f my_flight.csv -o KML,floating=1,labels=0 -F my_flight.kml
+Open up the KML file into Google Earth and enjoy.
+
+
+
+How to additionally log missiles and their targets flightpaths
+==============================================================
+Open the file "Nasal/guided-missiles.nas" in a text editor.
+Search for this line "#log missiles to unicsv"
+Remove the # symbol in the 6 lines below that line.
+Save the file.
+Open the file "ja37-jsbsim.xml" in a text editor, scroll to bottom.
+Remove the last "<!--" and "-->" in the file.
+Change the filenames (must be absolute). They are called something like: "C:/Users/Nikolai/Documents/missile_datalog.csv" and "C:/Users/Nikolai/Documents/target_datalog.csv".
+Do your flight and fire some missiles (only one at a time, let it hit or be destroyed before firing next).
+Close flightgear.
+Edit those 2 files, and change "time" to "name" like you do for the ja37 flights.
+Convert them in GPSBabel.
+Load them up into Google Earth.
+Notice that you have to go in under GPSDevice and disable "Path" for them. Otherwise they will appear to end at the center of the earth.
+Give them seperate colors also from your flight, so that you can see what is going on, enjoy.
