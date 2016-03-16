@@ -2086,3 +2086,5 @@ Model: Better livery over MP support.
 Effect: Pylons are no longer lit by afterburner flame.
 Sim: Fixed that the rb74 would not lock onto target.
 Radar: For steerpoint with center runway, the radar should now also show runway heading line.
+Sim: Logging of unicvs files for missiles, targets and flight is now possible. (have to change a couple of lines only)
+Model: Made livery for Nevada.

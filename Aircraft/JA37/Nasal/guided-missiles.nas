@@ -771,7 +771,7 @@ var AIM = {
 			}
 			
 
-			# proportional navigation
+			# augmented proportional navigation
 			var dist_curr = me.coord.distance_to(me.t_coord);
 			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil) {
