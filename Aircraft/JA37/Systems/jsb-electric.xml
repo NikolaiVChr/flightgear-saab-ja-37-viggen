@@ -16,8 +16,8 @@
                 gear/unit[1]/WOW == 1
                 gear/unit[2]/WOW == 1
             </test>
-                <output>systems/electrical/external/available</output>
-            </switch>
+            <output>systems/electrical/external/available</output>
+        </switch>
 
         <switch name="systems/electrical/external/supplying">
             <description>
@@ -208,7 +208,7 @@
             <default value="0"/>
             <test logic="AND" value="1">
                 systems/electrical/battery-charging-norm == 1
-        </test>
+            </test>
         </switch>
 
         <switch name="systems/electrical/battery-drain-inv-cmd">
@@ -296,7 +296,7 @@
         <switch name="systems/electrical/battery-active">
             <description>
                       Battery being in use and draining
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
               /controls/electric/battery gt 0
@@ -371,7 +371,7 @@
         <switch name="/instrumentation/comm[0]/power-good">
             <description>
                       Comm 1 / nav 1 power
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
               /systems/electrical/outputs/dc-voltage gt 23
@@ -382,7 +382,7 @@
         <switch name="/instrumentation/comm[1]/power-good">
             <description>
                       Comm 2 / nav 2 power
-      </description>
+            </description>
             <default value="0"/>
             <test logic="AND" value="1">
               /systems/electrical/outputs/dc-voltage gt 23
@@ -393,7 +393,7 @@
         <pure_gain name="/systems/electrical/outputs/nav">
             <description>
                       Nav 1 power
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <gain>1</gain>
         </pure_gain>
@@ -409,7 +409,7 @@
         <pure_gain name="/systems/electrical/outputs/tacan">
             <description>
                       Tacan power
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <gain>1</gain>
         </pure_gain>
@@ -417,7 +417,7 @@
         <pure_gain name="/systems/electrical/outputs/adf">
             <description>
                       ADF power
-      </description>
+            </description>
             <input>/systems/electrical/outputs/dc-voltage</input>
             <gain>1</gain>
         </pure_gain>

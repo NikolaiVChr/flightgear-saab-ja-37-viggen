@@ -359,7 +359,7 @@
                 </parameters>
             </redout>
         </rendering>
-
+    
 
         <!--**********************************************************************
 
@@ -796,6 +796,7 @@
                 <fuel-internal-ratio type="double">0.0</fuel-internal-ratio>
                 <tankpump type="bool">false</tankpump>
                 <xtank type="bool">false</xtank>
+                <fun type="bool">false</fun>
             </avionics>
             <systems>
                 <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
@@ -818,6 +819,7 @@
         <time>
             <full-init type="bool">false</full-init>
         </time>
+
     </sim>
     <ai>
         <submodels>

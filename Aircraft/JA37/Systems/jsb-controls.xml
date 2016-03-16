@@ -261,7 +261,7 @@
             </function>
         </fcs_function>-->
 
-        <fcs_function name="systems/flight/pitch-gearing">
+        <fcs_function name="systems/flight/pitch-gearing-restrictive">
             <function>
                 <product>
                     <table>
@@ -283,6 +283,37 @@
                </product>
             </function>
         </fcs_function>
+
+        <fcs_function name="systems/flight/pitch-gearing-fun">
+            <function>
+                <product>
+                    <table>
+                        <independentVar lookup="row">velocities/mach</independentVar>
+                        <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+                        <tableData>
+                                        0.0      20000     45000
+                            0.00        1.00      0.85      0.65            
+                            0.10        0.85      0.85      0.65
+                            0.50        0.75      0.75      0.65
+                            0.65        0.50      0.75      0.65
+                            0.80        0.35      0.75      0.65
+                            1.00        0.30      0.65      0.65
+                            1.50        0.20      0.30      0.65
+                            2.00        0.010     0.20      0.65
+                        </tableData>
+                    </table>
+                    <!--<property>/test</property>-->
+               </product>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/flight/pitch-gearing">
+            <default value="systems/flight/pitch-gearing-restrictive"/>
+            <test logic="OR" value="systems/flight/pitch-gearing-fun">
+                /sim/ja37/avionics/fun == 1
+            </test>
+        </switch>
+
 
 <!--
 100  0.15 0.30
