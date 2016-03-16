@@ -513,13 +513,13 @@ var AIM = {
 		me.pitchN.setDoubleValue(pitch_deg);
 		me.hdgN.setDoubleValue(hdg_deg);
 
-		# log missiles to csv
-		#setprop("missile/latitude-deg", me.coord.lat());
-		#setprop("missile/longitude-deg", me.coord.lon());
-		#setprop("missile/altitude-ft", alt_ft);
-		#setprop("missile/t-latitude-deg", me.t_coord.lat());
-		#setprop("missile/t-longitude-deg", me.t_coord.lon());
-		#setprop("missile/t-altitude-ft", me.t_coord.alt()*M2FT);
+		# log missiles to unicsv
+		#setprop("/logging/missile/latitude-deg", me.coord.lat());
+		#setprop("/logging/missile/longitude-deg", me.coord.lon());
+		#setprop("/logging/missile/altitude-ft", alt_ft);
+		#setprop("/logging/missile/t-latitude-deg", me.t_coord.lat());
+		#setprop("/logging/missile/t-longitude-deg", me.t_coord.lon());
+		#setprop("/logging/missile/t-altitude-ft", me.t_coord.alt()*M2FT);
 
 		# set radar properties for use in selection view and HUD tracks.
 		var self = geo.aircraft_position();

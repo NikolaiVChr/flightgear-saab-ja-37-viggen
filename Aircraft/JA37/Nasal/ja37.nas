@@ -698,8 +698,8 @@ var logTime = func{
     var date = getprop("sim/time/utc/year")~"/"~getprop("sim/time/utc/month")~"/"~getprop("sim/time/utc/day");
     var time = getprop("sim/time/utc/hour")~":"~getprop("sim/time/utc/minute")~":"~getprop("sim/time/utc/second");
 
-    setprop("sim/time/date-log", date);
-    setprop("sim/time/time-log", time);
+    setprop("logging/date-log", date);
+    setprop("logging/time-log", time);
   }
 }
 
