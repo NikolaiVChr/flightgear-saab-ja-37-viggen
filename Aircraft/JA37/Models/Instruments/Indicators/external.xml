@@ -10,7 +10,7 @@
             <red>0.0</red>
             <green>1.0</green>
             <blue>0.0</blue>
-            <factor-prop>fdm/jsbsim/systems/electrical/external/available</factor-prop>
+            <factor-prop>/instrumentation/external-indicator</factor-prop>
         </emission>
     </animation>
 
@@ -25,7 +25,7 @@
     <animation>
         <type>textranslate</type>
         <object-name>Circle</object-name>
-        <property>fdm/jsbsim/systems/electrical/external/available</property>
+        <property>/instrumentation/external-indicator</property>
         <factor>0.5</factor>
         <axis>
             <x>1</x>

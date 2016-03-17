@@ -201,16 +201,6 @@
             </range>
         </aerosurface_scale>
 
-        <switch name="systems/electrical/battery-charging-test">
-            <description>
-                      Converted DC digital
-            </description>
-            <default value="0"/>
-            <test logic="AND" value="1">
-                systems/electrical/battery-charging-norm == 1
-            </test>
-        </switch>
-
         <switch name="systems/electrical/battery-drain-inv-cmd">
             <description>
                       Battery drain commanded, normalized inverted

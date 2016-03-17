@@ -942,10 +942,12 @@
                 </hydraulics>
                 <electrical>
                     <battery-charge-norm type="double">1.0</battery-charge-norm>
+                    <battery-charging-norm type="double">1.0</battery-charging-norm>
                     <battery-active type="bool">false</battery-active>
                     <external>
                         <enable-cmd type="bool">false</enable-cmd>
                         <switch type="bool">false</switch>
+                        <available type="bool">false</available>
                     </external>
                 </electrical>
                 <fuel>

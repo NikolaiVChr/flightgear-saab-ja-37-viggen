@@ -1062,6 +1062,33 @@
             </test>
         </switch>
 
+        <switch name="systems/electrical/battery-charging-test">
+            <description>
+                      Converted DC digital
+
+                      Used for translating texture on indicator lamp
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                systems/electrical/battery-charging-norm == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+
+        <switch name="/instrumentation/battery-indicator">
+            <default value="systems/electrical/battery-charging-norm"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+
+        <switch name="/instrumentation/external-indicator">
+            <default value="systems/electrical/external/available"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>        
+
     </channel>
 
     <channel name="Right indicator panel logic">
