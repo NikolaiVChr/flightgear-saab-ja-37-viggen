@@ -507,10 +507,13 @@
       <property>sim/ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
-    <equals>
-      <property>instrumentation/radar/twr1</property>
-      <value>1</value>
-   </equals>
+    <or>
+      <equals>
+        <property>instrumentation/radar/twr1</property>
+        <value>1</value>
+      </equals>
+      <property>/controls/lighting/test-indicator-panels</property>
+    </or>
   </condition>
   <emission>
    <red>1.0</red> 
@@ -528,10 +531,13 @@
       <property>sim/ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
+    <or>
     <equals>
       <property>instrumentation/radar/twr3</property>
       <value>1</value>
    </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
   </condition>
   <emission>
    <red>1.0</red> 
@@ -549,10 +555,13 @@
       <property>sim/ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
+    <or>
     <equals>
       <property>instrumentation/radar/twr5</property>
       <value>1</value>
    </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
   </condition>
   <emission>
    <red>1.0</red> 
@@ -570,10 +579,13 @@
       <property>sim/ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
+    <or>
     <equals>
       <property>instrumentation/radar/twr7</property>
       <value>1</value>
    </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
   </condition>
   <emission>
    <red>1.0</red> 
@@ -591,10 +603,13 @@
       <property>sim/ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
+    <or>
     <equals>
       <property>instrumentation/radar/twr9</property>
       <value>1</value>
    </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
   </condition>
   <emission>
    <red>1.0</red> 
@@ -612,10 +627,13 @@
       <property>sim/ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
+    <or>
     <equals>
       <property>instrumentation/radar/twr11</property>
       <value>1</value>
    </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
   </condition>
   <emission>
    <red>1.0</red> 
