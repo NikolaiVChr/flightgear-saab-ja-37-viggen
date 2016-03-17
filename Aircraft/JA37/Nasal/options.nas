@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 750;
+var DIALOG_HEIGHT = 775;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -294,6 +294,21 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.elevatorButton.setBinding("nasal", "ja37.Dialog.elevatorToggle()");
 
+          ######   Elevator gearing button   #####
+          var funRow = topRow.addChild("group");
+          funRow.set("layout", "hbox");
+          funRow.set("pref-height", 25);
+          funRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #tracksRow.set("valign", "center");
+          
+          var funText = funRow.addChild("text").set("label", "Elevator gearing type:");
+          funRow.addChild("empty").set("stretch", 1);
+          me.dialog.funButton = funRow.addChild("button");
+          me.dialog.funButton.set("halign", "right");
+          me.dialog.funButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #topRow.addChild("empty").set("stretch", 1);
+          me.dialog.funButton.setBinding("nasal", "ja37.Dialog.funToggle()");
+
           ######   Aileron gearing button   #####
           var aileronRow = topRow.addChild("group");
           aileronRow.set("layout", "hbox");
@@ -580,6 +595,13 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    funToggle: func {
+      ja37.click();
+      var enabled = getprop("sim/ja37/avionics/fun");
+      setprop("sim/ja37/avionics/fun", !enabled);
+      me.refreshButtons();
+    },
+
     yawToggle: func {
       ja37.click();
       var enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
@@ -806,6 +828,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.elevatorButton.node.setValues({"legend": legend});
+
+      enabled = getprop("sim/ja37/avionics/fun");
+      if(enabled == 1) {
+        legend = "Aerobatic";
+      } else {
+        legend = "Restricted";
+      }
+      me.dialog.funButton.node.setValues({"legend": legend});
 
       #enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
       #if(enabled == 1) {
