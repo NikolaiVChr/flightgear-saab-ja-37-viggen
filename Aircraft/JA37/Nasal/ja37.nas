@@ -1008,6 +1008,7 @@ var main_init = func {
   battery_listener();
   hydr1Lost();
   code_ct();
+  not();
 
   # start beacon loop
   #beaconTimer.start();
@@ -1602,4 +1603,52 @@ var code_ct = func () {
   var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd;
   setprop("sim/multiplay/generic/string[15]", final);
   settimer(code_ct, 2);
+}
+
+var not = func {
+  if (getprop("sim/ja37/armament/msg") == TRUE and input.wow0.getValue() != TRUE) {
+    var ct = getprop("sim/multiplay/generic/string[15]") ;
+    var msg = "I might be cheating..";
+    if (ct != nil) {
+      msg = "I might be cheating.."~ct;
+      var spl = split("ct", ct);
+      if (size(spl) > 1) {
+        var bits = spl[1];
+        msg = "I might cheat..";
+        if (bits == "000000000") {
+          settimer(not, 60);
+          return;
+        }
+        if (substr(bits,0,1) == 1) {
+          msg = msg~"Used CTRL-U..";
+        }
+        if (substr(bits,1,1) == 1) {
+          msg = msg~"Use fuelfreeze..";
+        }
+        if (substr(bits,2,1) == 1) {
+          msg = msg~"Reloaded in air..";
+        }
+        if (substr(bits,3,1) == 1) {
+          msg = msg~"Refueled in air..";
+        }
+        if (substr(bits,4,1) == 1) {
+          msg = msg~"Repaired not on ground..";
+        }
+        if (substr(bits,5,1) == 1) {
+          msg = msg~"Used timewarp..";
+        }
+        if (substr(bits,6,1) == 1) {
+          msg = msg~"Damage is off..";
+        }
+        if (substr(bits,7,1) == 1) {
+          msg = msg~"Terrain mask. is off..";
+        }
+        if (substr(bits,8,1) == 1) {
+          msg = msg~"Doppler is off..";
+        }
+      }
+    }
+    setprop("/sim/multiplay/chat", msg);
+  }
+  settimer(not, 60);
 }
