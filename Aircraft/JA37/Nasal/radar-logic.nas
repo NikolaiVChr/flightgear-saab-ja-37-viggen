@@ -278,8 +278,10 @@ var trackItemCalc = func (track, range, carrier, mp) {
     return nil;
   }
   var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-  if (mp == FALSE or doppler(aircraftPos, track) == TRUE) {
-    return trackCalc(aircraftPos, range, carrier, mp);
+  var item = trackCalc(aircraftPos, range, carrier, mp);
+  
+  if (item != nil and (mp == FALSE or doppler(aircraftPos, track) == TRUE)) {
+    return item;
   }
   return nil;
 }
@@ -505,6 +507,7 @@ var isGroundNotBehind = func(t_coord, t_node){
 }
 
 var get_Elevation_from_Coord = func(t_coord) {
+    # fix later: Nasal runtime error: floating point error in math.asin() when logged in as observer:
     var myPitch = math.asin((t_coord.alt() - geo.aircraft_position().alt()) / t_coord.direct_distance_to(geo.aircraft_position())) * R2D;
     return myPitch;
 }
