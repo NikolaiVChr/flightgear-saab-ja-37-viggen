@@ -360,7 +360,7 @@ var trigger_listener = func {
         armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
         
         var phrase = type ~ " fired at: " ~ callsign;
-        if (getprop("sim/ja37/armament/msg")) {
+        if (getprop("payload/armament/msg")) {
           setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
         } else {
           setprop("/sim/messages/atc", phrase);
@@ -412,7 +412,7 @@ var impact_listener = func {
         if (distance < 50) {
           last_impact = input.elapsed.getValue();
           var phrase =  defeatSpamFilter(ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5]);
-          if (getprop("sim/ja37/armament/msg")) {
+          if (getprop("payload/armament/msg")) {
             setprop("/sim/multiplay/chat", phrase);
 			      #hit_count = hit_count + 1;
           } else {
@@ -534,7 +534,7 @@ var incoming_listener = func {
             }
           }
         }
-      } elsif (getprop("sim/ja37/supported/old-custom-fails") > 0 and getprop("sim/ja37/armament/damage") == 1) {
+      } elsif (getprop("sim/ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/damage") == 1) {
         # latest or second latest version of failure manager and taking damage enabled
         #print("damage enabled");
         var last1 = split(" ", last_vector[1]);

@@ -1588,7 +1588,7 @@ var code_ct = func () {
     rf = 0;
   }
   lf = cf == nil?0:cf;
-  var dm = !getprop("sim/ja37/armament/damage");
+  var dm = !getprop("payload/armament/damage");
   if (dm == nil or dm != 1) {
     dm = 0;
   }
@@ -1606,7 +1606,7 @@ var code_ct = func () {
 }
 
 var not = func {
-  if (getprop("sim/ja37/armament/msg") == TRUE and input.wow0.getValue() != TRUE) {
+  if (getprop("payload/armament/msg") == TRUE and input.wow0.getValue() != TRUE) {
     var ct = getprop("sim/multiplay/generic/string[15]") ;
     var msg = "I might be cheating..";
     if (ct != nil) {

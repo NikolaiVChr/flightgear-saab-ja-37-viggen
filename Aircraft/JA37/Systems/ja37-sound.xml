@@ -1489,14 +1489,14 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
             <condition>
-                <property>sim/ja37/armament/rb-24j/sound-on-off</property>
+                <property>payload/armament/rb-24j/sound-on-off</property>
                 <equals>
                     <property>sim/ja37/hud/current-mode</property>
                     <value>2</value>
                 </equals>
             </condition>
             <volume>
-                <property>sim/ja37/armament/rb-24j/sound-volume</property>
+                <property>payload/armament/rb-24j/sound-volume</property>
             </volume>
         </rb24-signal>
 
@@ -1506,14 +1506,14 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
             <condition>
-                <property>sim/ja37/armament/rb-74/sound-on-off</property>
+                <property>payload/armament/rb-74/sound-on-off</property>
                 <equals>
                     <property>sim/ja37/hud/current-mode</property>
                     <value>2</value>
                 </equals>
             </condition>
             <volume>
-                <property>sim/ja37/armament/rb-74/sound-volume</property>
+                <property>payload/armament/rb-74/sound-volume</property>
             </volume>
         </rb74-signal>
 		
@@ -1523,7 +1523,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
             <condition>
-                <property>sim/ja37/armament/rb-71/sound-on-off</property>
+                <property>payload/armament/rb-71/sound-on-off</property>
                 <equals>
                     <property>sim/ja37/hud/current-mode</property>
                     <value>2</value>
@@ -1534,7 +1534,7 @@
                 <max>2</max>
             </pitch>
             <volume>
-                <property>sim/ja37/armament/rb-71/sound-volume</property>
+                <property>payload/armament/rb-71/sound-volume</property>
             </volume>
         </rb71-signal>
 
@@ -1544,7 +1544,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
             <condition>
-                <property>sim/ja37/armament/rb-99/sound-on-off</property>
+                <property>payload/armament/rb-99/sound-on-off</property>
                 <equals>
                     <property>sim/ja37/hud/current-mode</property>
                     <value>2</value>
@@ -1555,7 +1555,7 @@
                 <max>2</max>
             </pitch>
             <volume>
-                <property>sim/ja37/armament/rb-99/sound-volume</property>
+                <property>payload/armament/rb-99/sound-volume</property>
             </volume>
         </rb99-signal>
 
@@ -1606,7 +1606,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>sim/ja37/armament/flags/explode-sound-on-0</property>
+                    <property>payload/armament/flags/explode-sound-on-0</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1616,7 +1616,7 @@
                 <z>0.01</z>
             </position>
             <volume>
-                <property>sim/ja37/armament/flags/explode-sound-vol-0</property>
+                <property>payload/armament/flags/explode-sound-vol-0</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>
@@ -1627,7 +1627,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>sim/ja37/armament/flags/explode-sound-on-1</property>
+                    <property>payload/armament/flags/explode-sound-on-1</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1637,7 +1637,7 @@
                 <z>0.01</z>
             </position>
             <volume>
-                <property>sim/ja37/armament/flags/explode-sound-vol-1</property>
+                <property>payload/armament/flags/explode-sound-vol-1</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>
@@ -1648,7 +1648,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>sim/ja37/armament/flags/explode-sound-on-2</property>
+                    <property>payload/armament/flags/explode-sound-on-2</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1658,7 +1658,7 @@
                 <z>0.01</z>
             </position>
             <volume>
-                <property>sim/ja37/armament/flags/explode-sound-vol-2</property>
+                <property>payload/armament/flags/explode-sound-vol-2</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>
@@ -1669,7 +1669,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>sim/ja37/armament/flags/explode-sound-on-3</property>
+                    <property>payload/armament/flags/explode-sound-on-3</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1679,7 +1679,7 @@
                 <z>0.01</z>
             </position>
             <volume>
-                <property>sim/ja37/armament/flags/explode-sound-vol-3</property>
+                <property>payload/armament/flags/explode-sound-vol-3</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>
@@ -1690,7 +1690,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>sim/ja37/armament/flags/explode-sound-on-4</property>
+                    <property>payload/armament/flags/explode-sound-on-4</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1700,7 +1700,7 @@
                 <z>0.01</z>
             </position>
             <volume>
-                <property>sim/ja37/armament/flags/explode-sound-vol-4</property>
+                <property>payload/armament/flags/explode-sound-vol-4</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>
@@ -1711,7 +1711,7 @@
             <mode>once</mode>
             <condition>
                 <equals>
-                    <property>sim/ja37/armament/flags/explode-sound-on-5</property>
+                    <property>payload/armament/flags/explode-sound-on-5</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1721,7 +1721,7 @@
                 <z>0.01</z>
             </position>
             <volume>
-                <property>sim/ja37/armament/flags/explode-sound-vol-5</property>
+                <property>payload/armament/flags/explode-sound-vol-5</property>
                 <factor>1</factor>
             </volume>
         </missile-hit>

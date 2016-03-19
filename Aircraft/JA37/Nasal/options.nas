@@ -662,14 +662,14 @@ var Dialog = {
     },
 
     rb24msgToggle: func {
-      var enabled = getprop("sim/ja37/armament/msg");
-      setprop("sim/ja37/armament/msg", !enabled);
+      var enabled = getprop("payload/armament/msg");
+      setprop("payload/armament/msg", !enabled);
       me.refreshButtons();
     },
 
     hitToggle: func {
-      var enabled = getprop("sim/ja37/armament/damage");
-      setprop("sim/ja37/armament/damage", !enabled);
+      var enabled = getprop("payload/armament/damage");
+      setprop("payload/armament/damage", !enabled);
       me.refreshButtons();
     },
 
@@ -877,7 +877,7 @@ var Dialog = {
       }
       me.dialog.dopplerButton.node.setValues({"legend": legend});      
 
-      enabled = getprop("sim/ja37/armament/msg");
+      enabled = getprop("payload/armament/msg");
       if(enabled == 1) {
         legend = "Enabled";
       } else {
@@ -885,7 +885,7 @@ var Dialog = {
       }
       me.dialog.rb24msgButton.node.setValues({"legend": legend});
       
-      enabled = getprop("sim/ja37/armament/damage");
+      enabled = getprop("payload/armament/damage");
       if(enabled == 1) {
         legend = "Enabled";
       } else {

@@ -2094,3 +2094,5 @@ Sim: Support for dropped and rail missiles.
 Sim: Dropped missiles can no longer be fired when inverted.
 Sim: Fixed a bug in body coordinate system translation into GPS coordinate system.
 Sim: Some extraction of 2 functions in missile code.
+Radar: Fixed that doppler code could crash the radar if logged in as observer.
+Sim: Moved guided missile properties to /payload.

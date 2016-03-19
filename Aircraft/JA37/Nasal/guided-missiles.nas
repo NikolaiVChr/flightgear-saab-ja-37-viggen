@@ -1,4 +1,4 @@
-var AcModel        = props.globals.getNode("sim/ja37");
+var AcModel        = props.globals.getNode("payload");
 var OurHdg         = props.globals.getNode("orientation/heading-deg");
 var OurRoll        = props.globals.getNode("orientation/roll-deg");
 var OurPitch       = props.globals.getNode("orientation/pitch-deg");
@@ -73,30 +73,30 @@ var AIM = {
 		m.speed_m           = 0;
 
 		# AIM specs:
-		m.aim9_fov_diam         = getprop("sim/ja37/armament/"~m.type_lc~"/fov-deg");
+		m.aim9_fov_diam         = getprop("payload/armament/"~m.type_lc~"/fov-deg");
 		m.aim9_fov              = m.aim9_fov_diam / 2;
-		m.max_detect_rng        = getprop("sim/ja37/armament/"~m.type_lc~"/max-detection-rng-nm");
-		m.max_seeker_dev        = getprop("sim/ja37/armament/"~m.type_lc~"/track-max-deg") / 2;
-		m.force_lbs_1           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbf-stage-1");
-		m.force_lbs_2           = getprop("sim/ja37/armament/"~m.type_lc~"/thrust-lbf-stage-2");
-		m.stage_1_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-1-duration-sec");
-		m.stage_2_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-2-duration-sec");
-		m.weight_launch_lbs     = getprop("sim/ja37/armament/"~m.type_lc~"/weight-launch-lbs");
-		m.weight_whead_lbs      = getprop("sim/ja37/armament/"~m.type_lc~"/weight-warhead-lbs");
-		m.Cd_base               = getprop("sim/ja37/armament/"~m.type_lc~"/drag-coeff");
-		m.eda                   = getprop("sim/ja37/armament/"~m.type_lc~"/drag-area");
-		m.max_g                 = getprop("sim/ja37/armament/"~m.type_lc~"/max-g");
-		m.searcher_beam_width   = getprop("sim/ja37/armament/"~m.type_lc~"/searcher-beam-width");
-		m.arming_time           = getprop("sim/ja37/armament/"~m.type_lc~"/arming-time-sec");
-		m.min_speed_for_guiding = getprop("sim/ja37/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
-		m.selfdestruct_time     = getprop("sim/ja37/armament/"~m.type_lc~"/self-destruct-time-sec");
-		m.guidance              = getprop("sim/ja37/armament/"~m.type_lc~"/guidance");
-		m.all_aspect            = getprop("sim/ja37/armament/"~m.type_lc~"/all-aspect");
-		m.vol_search            = getprop("sim/ja37/armament/"~m.type_lc~"/vol-search");
-		m.angular_speed         = getprop("sim/ja37/armament/"~m.type_lc~"/seeker-angular-speed-dps");
-        m.loft_alt              = getprop("sim/ja37/armament/"~m.type_lc~"/loft-altitude");
-        m.min_dist              = getprop("sim/ja37/armament/"~m.type_lc~"/min-rng-nm");
-        m.rail                  = getprop("sim/ja37/armament/"~m.type_lc~"/rail");
+		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-detection-rng-nm");
+		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/track-max-deg") / 2;
+		m.force_lbs_1           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-1");
+		m.force_lbs_2           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-2");
+		m.stage_1_duration      = getprop("payload/armament/"~m.type_lc~"/stage-1-duration-sec");
+		m.stage_2_duration      = getprop("payload/armament/"~m.type_lc~"/stage-2-duration-sec");
+		m.weight_launch_lbs     = getprop("payload/armament/"~m.type_lc~"/weight-launch-lbs");
+		m.weight_whead_lbs      = getprop("payload/armament/"~m.type_lc~"/weight-warhead-lbs");
+		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");
+		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");
+		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");
+		m.searcher_beam_width   = getprop("payload/armament/"~m.type_lc~"/searcher-beam-width");
+		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");
+		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
+		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");
+		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");
+		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");
+		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");
+		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");
+        m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");
+        m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-rng-nm");
+        m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");
 		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
@@ -875,7 +875,7 @@ var AIM = {
 					# augmented proportional navigation for heading
 					var horz_closing_rate_fps = (me.dist_last - dist_curr)*M2FT/dt;
 					var proportionality_constant = 3;#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
-					#setprop("sim/ja37/armament/factor-pro2", proportionality_constant);
+					#setprop("payload/armament/factor-pro2", proportionality_constant);
 					var c_dv = t_course-me.last_t_course;
 					if(c_dv < -180) {
 						c_dv += 360;
@@ -1065,7 +1065,7 @@ var AIM = {
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		print(phrase~"  Reason: "~reason);
 		if (min_distance < 65) {
-			if (getprop("sim/ja37/armament/msg")) {
+			if (getprop("payload/armament/msg")) {
 				setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
 			} else {
 				setprop("/sim/messages/atc", phrase);
@@ -1320,17 +1320,17 @@ var AIM = {
 
 	animation_flags_props: func {
 		# Create animation flags properties.
-		var msl_path = "sim/ja37/armament/"~me.type_lc~"/flags/msl-id-" ~ me.ID;
+		var msl_path = "payload/armament/"~me.type_lc~"/flags/msl-id-" ~ me.ID;
 		me.msl_prop = props.globals.initNode( msl_path, 1, "BOOL", 1);
-		var smoke_path = "sim/ja37/armament/"~me.type_lc~"/flags/smoke-id-" ~ me.ID;
+		var smoke_path = "payload/armament/"~me.type_lc~"/flags/smoke-id-" ~ me.ID;
 		me.smoke_prop = props.globals.initNode( smoke_path, 0, "BOOL", 1);
-		var explode_path = "sim/ja37/armament/"~me.type_lc~"/flags/explode-id-" ~ me.ID;
+		var explode_path = "payload/armament/"~me.type_lc~"/flags/explode-id-" ~ me.ID;
 		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL", 1);
-		var explode_smoke_path = "sim/ja37/armament/"~me.type_lc~"/flags/explode-smoke-id-" ~ me.ID;
+		var explode_smoke_path = "payload/armament/"~me.type_lc~"/flags/explode-smoke-id-" ~ me.ID;
 		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL", 1);
-		var explode_sound_path = "sim/ja37/armament/flags/explode-sound-on-" ~ me.ID;;
+		var explode_sound_path = "payload/armament/flags/explode-sound-on-" ~ me.ID;;
 		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL", 1);
-		var explode_sound_vol_path = "sim/ja37/armament/flags/explode-sound-vol-" ~ me.ID;;
+		var explode_sound_vol_path = "payload/armament/flags/explode-sound-vol-" ~ me.ID;;
 		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE", 1);
 	},
 
