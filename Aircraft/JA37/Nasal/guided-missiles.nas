@@ -22,7 +22,6 @@ var MISSILE_FLYING = 2;
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
 
-
 var AIM = {
 	#done
 	new : func (p, type = "RB-24J", sign = "sidewinder") {
@@ -84,7 +83,7 @@ var AIM = {
 		m.stage_2_duration      = getprop("sim/ja37/armament/"~m.type_lc~"/stage-2-duration-sec");
 		m.weight_launch_lbs     = getprop("sim/ja37/armament/"~m.type_lc~"/weight-launch-lbs");
 		m.weight_whead_lbs      = getprop("sim/ja37/armament/"~m.type_lc~"/weight-warhead-lbs");
-		m.cd                    = getprop("sim/ja37/armament/"~m.type_lc~"/drag-coeff");
+		m.Cd_base               = getprop("sim/ja37/armament/"~m.type_lc~"/drag-coeff");
 		m.eda                   = getprop("sim/ja37/armament/"~m.type_lc~"/drag-area");
 		m.max_g                 = getprop("sim/ja37/armament/"~m.type_lc~"/max-g");
 		m.searcher_beam_width   = getprop("sim/ja37/armament/"~m.type_lc~"/searcher-beam-width");
@@ -97,6 +96,7 @@ var AIM = {
 		m.angular_speed         = getprop("sim/ja37/armament/"~m.type_lc~"/seeker-angular-speed-dps");
         m.loft_alt              = getprop("sim/ja37/armament/"~m.type_lc~"/loft-altitude");
         m.min_dist              = getprop("sim/ja37/armament/"~m.type_lc~"/min-rng-nm");
+        m.rail                  = getprop("sim/ja37/armament/"~m.type_lc~"/rail");
 		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
@@ -169,6 +169,16 @@ var AIM = {
 		m.last_t_norm_speed = nil;
 		m.last_t_elev_norm_speed = nil;
 
+		#rail
+		m.drop_time = 0;
+		m.rail_dist_m = 2.667;#16S210 AIM-9 Missile Launcher
+		m.rail_passed = FALSE;
+		m.x = 0;
+		m.y = 0;
+		m.z = 0;
+		m.rail_pos = 0;
+		m.rail_speed_into_wind = 0;
+
 		m.lastFlare = 0;
 
 		m.SwSoundOnOff.setValue(1);
@@ -188,39 +198,29 @@ var AIM = {
 			delete(AIM.active, me.ID);
 		}
 	},
-	#done
-	release: func() {
-		me.status = MISSILE_FLYING;
-		me.flyID = rand();
-		AIM.flying[me.flyID] = me;
-		delete(AIM.active, me.ID);
-		me.animation_flags_props();
 
-		# Get the A/C position and orientation values.
-		me.ac = geo.aircraft_position();
-		var ac_roll  = getprop("orientation/roll-deg");
-		var alpha = getprop("orientation/alpha-deg");
-		alpha = alpha > 0?alpha:0;# not using alpha if its negative to avoid missile flying through aircraft.
-		alpha = alpha * math.cos(getprop("orientation/roll-deg")*D2R) + getprop("orientation/side-slip-deg")*math.sin(getprop("orientation/roll-deg")*D2R);
+	# get Coord from body position. x,y,z must be in meters.
+	getGPS: func(x, y, z) {
+		var ac_roll = getprop("orientation/roll-deg");
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
 
-		# Compute missile initial position relative to A/C center,
-		# following Vivian's code in AIModel/submodel.cxx .
+		me.ac = geo.aircraft_position();
+
 		var in = [0,0,0];
 		var trans = [[0,0,0],[0,0,0],[0,0,0]];
 		var out = [0,0,0];
 
-		in[0] =  me.pylon_prop.getNode("offsets/x-m").getValue() * M2FT;
-		in[1] =  me.pylon_prop.getNode("offsets/y-m").getValue() * M2FT;
-		in[2] =  me.pylon_prop.getNode("offsets/z-m").getValue() * M2FT;
+		in[0] =  -x * M2FT;
+		in[1] =  y * M2FT;
+		in[2] =  z * M2FT;
 		# Pre-process trig functions:
-		cosRx = math.cos(-ac_roll * D2R);
-		sinRx = math.sin(-ac_roll * D2R);
-		cosRy = math.cos(-ac_pitch * D2R);
-		sinRy = math.sin(-ac_pitch * D2R);
-		cosRz = math.cos(ac_hdg * D2R);
-		sinRz = math.sin(ac_hdg * D2R);
+		var cosRx = math.cos(-ac_roll * D2R);
+		var sinRx = math.sin(-ac_roll * D2R);
+		var cosRy = math.cos(-ac_pitch * D2R);
+		var sinRy = math.sin(-ac_pitch * D2R);
+		var cosRz = math.cos(ac_hdg * D2R);
+		var sinRz = math.sin(ac_hdg * D2R);
 		# Set up the transform matrix:
 		trans[0][0] =  cosRy * cosRz;
 		trans[0][1] =  -1 * cosRx * sinRz + sinRx * sinRy * cosRz ;
@@ -243,11 +243,58 @@ var AIM = {
 		var alat = me.ac.lat() + out[0];
 		var alon = me.ac.lon() + out[1];
 		var aalt = (me.ac.alt() * M2FT) + out[2];
+		
+		var c = geo.Coord.new();
+		c.set_latlon(alat, alon, aalt * FT2M);
+
+		return c;
+	},
+
+	release: func() {
+		me.status = MISSILE_FLYING;
+		me.flyID = rand();
+		AIM.flying[me.flyID] = me;
+		delete(AIM.active, me.ID);
+		me.animation_flags_props();
+
+		# Get the A/C position and orientation values.
+		me.ac = geo.aircraft_position();
+		var ac_roll = getprop("orientation/roll-deg");# positive is banking right
+		var ac_pitch = getprop("orientation/pitch-deg");
+		var ac_hdg   = getprop("orientation/heading-deg");
+
+		# Compute missile initial position relative to A/C center,
+		# following Vivian's code in AIModel/submodel.cxx .
+
+		me.x = me.pylon_prop.getNode("offsets/x-m").getValue();
+		me.y = me.pylon_prop.getNode("offsets/y-m").getValue();
+		me.z = me.pylon_prop.getNode("offsets/z-m").getValue();
+
+		var init_coord = me.getGPS(me.x, me.y, me.z);
+
+		# Set submodel initial position:
+		var alat = init_coord.lat();
+		var alon = init_coord.lon();
+		var aalt = init_coord.alt() * M2FT;
 		me.latN.setDoubleValue(alat);
 		me.lonN.setDoubleValue(alon);
 		me.altN.setDoubleValue(aalt);
 		me.hdgN.setDoubleValue(ac_hdg);
-		ac_pitch = ac_pitch - alpha;
+		if (me.rail == FALSE) {
+			# align into wind
+			var alpha = getprop("orientation/alpha-deg");
+			var beta = getprop("orientation/side-slip-deg");# positive is air from right
+
+			var alpha_diff = alpha * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) + beta * math.sin(ac_roll*D2R);
+			#alpha_diff = alpha > 0?alpha_diff:0;# not using alpha if its negative to avoid missile flying through aircraft.
+			ac_pitch = ac_pitch - alpha_diff;
+			
+			var beta_diff = beta * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) - alpha * math.sin(ac_roll*D2R);
+			ac_hdg = ac_hdg + beta_diff;
+
+			# rail drop distance in time
+			me.drop_time = math.sqrt(2*7/g_fps);# time to fall 7 ft to clear aircraft
+		}
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(ac_roll);
 		#print("roll "~ac_roll~" on "~me.rollN.getPath());
@@ -263,9 +310,14 @@ var AIM = {
 		loadNode.setBoolValue(1);
 
 		# Get initial velocity vector (aircraft):
+
 		me.s_down = getprop("velocities/speed-down-fps");
 		me.s_east = getprop("velocities/speed-east-fps");
 		me.s_north = getprop("velocities/speed-north-fps");
+		if (me.rail == TRUE) {
+			var u = getprop("velocities/uBody-fps");# wind from nose
+			me.rail_speed_into_wind = u;
+		}
 		#print("release speed down: "~me.s_down);
 
 		me.alt = aalt;
@@ -285,8 +337,22 @@ var AIM = {
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
 		#loadNode.remove();
+
 		me.flight();
 		loadNode.remove();
+	},
+
+	drag: func (mach) {
+		var Cd = 0;
+		if (mach < 0.7) {
+			Cd = 0.0125 * mach + me.Cd_base;
+		} elsif (me.speed_m < 1.2 ) {
+			Cd = 0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + me.Cd_base;
+		} else {
+			Cd = 0.2965 * math.pow(mach, -1.1506) + me.Cd_base;
+		}
+
+		 return Cd;
 	},
 
 	flight: func {
@@ -332,11 +398,14 @@ var AIM = {
 		#### Calculate speed vector before steering corrections.
 
 		# Cut rocket thrust after boost duration.
-		var f_lbs = me.force_lbs_1;# pounds force (lbf)
-		if (me.life_time > me.stage_1_duration) {
+		var f_lbs = 0;# pounds force (lbf)
+		if (me.life_time > me.drop_time) {
+			f_lbs = me.force_lbs_1;
+		}
+		if (me.life_time > me.stage_1_duration + me.drop_time) {
 			f_lbs = me.force_lbs_2;
 		}
-		if (me.life_time > (me.stage_1_duration + me.stage_2_duration)) {
+		if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
 			#print("lifetime "~me.life_time);
 			f_lbs = 0;
 		}
@@ -345,9 +414,6 @@ var AIM = {
 		} else {
 			me.smoke_prop.setBoolValue(1);
 		}
-
-		# Kill the AI after a while.
-		#if (me.life_time > 60) { return me.del(); }
 
 		# Get total old speed.
 		var d_east_ft  = me.s_east * dt;
@@ -360,6 +426,21 @@ var AIM = {
 		var pitch_deg  = me.pitch;
 		var hdg_deg    = me.hdg;
 
+		if (me.rail == TRUE and me.rail_passed == FALSE) {
+			var u = getprop("velocities/uBody-fps");# wind from nose
+			var v = getprop("velocities/vBody-fps");# wind from side
+			var w = getprop("velocities/wBody-fps");# wind from below
+
+			pitch_deg = getprop("orientation/pitch-deg");
+			hdg_deg = getprop("orientation/heading-deg");
+
+			var speed_on_rail = ja37.clamp(me.rail_speed_into_wind - u, 0, 1000000);
+			var movement_on_rail = speed_on_rail * dt;
+			
+			me.rail_pos = me.rail_pos + movement_on_rail;
+			me.x = me.x - (movement_on_rail * FT2M);# negative cause positve is rear in body coordinates
+			#print("rail pos "~(me.rail_pos*FT2M));
+		}
 
 		# Get air density and speed of sound (fps):
 		#var alt_ft = me.altN.getValue(); don't declare this twice
@@ -382,7 +463,7 @@ var AIM = {
 
 		# Adjust Cd by Mach number. The equations are based on curves
 		# for a conventional shell/bullet (no boat-tail).
-		var cdm = 0;
+		
 
 		var old_speed_fps = total_s_ft / dt;
 		#print("aim "~old_speed_fps);
@@ -390,13 +471,13 @@ var AIM = {
 		me.old_speed_horz_fps = dist_h_ft / dt;
 		me.old_speed_fps = old_speed_fps;
 
+		if (me.rail == TRUE and me.rail_passed == FALSE) {
+			old_speed_fps = me.rail_speed_into_wind;
+		}
+
 		me.speed_m = old_speed_fps / sound_fps;
-		if (me.speed_m < 0.7)
-		 cdm = 0.0125 * me.speed_m + me.cd;
-		elsif (me.speed_m < 1.2 )
-		 cdm = 0.3742 * math.pow(me.speed_m, 2) - 0.252 * me.speed_m + 0.0021 + me.cd;
-		else
-		 cdm = 0.2965 * math.pow(me.speed_m, -1.1506) + me.cd;
+
+		var Cd = me.drag(me.speed_m);
 
 		# Add drag to the total speed using Standard Atmosphere (15C sealevel temperature);
 		# rho is adjusted for altitude in environment.rho_sndspeed(altitude),
@@ -406,7 +487,7 @@ var AIM = {
 		var acc = f_lbs / mass;
 
 		var q = 0.5 * rho * old_speed_fps * old_speed_fps;# dynamic pressure
-		var drag_acc = (cdm * q * me.eda) / mass;
+		var drag_acc = (Cd * q * me.eda) / mass;
 
 		# get total new speed (minus gravity)
 		var speed_change_fps = acc*dt - drag_acc*dt;
@@ -418,47 +499,46 @@ var AIM = {
 
 		#### Guidance.
 
-		if ( me.status == MISSILE_FLYING and me.free == 0) {
-			if (me.life_time > 0.5) {
+		if ( me.status == MISSILE_FLYING and me.free == 0 and me.life_time > me.drop_time) {
+			if (me.rail == FALSE or me.rail_passed == TRUE) {
 				var success = me.guide(dt);
 				if (success == FALSE) {
 					return;
 				}
 			}
-				#print("steering");
-				#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
-                var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
-                if(me.max_g_current < myG)
-                {
-                    var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, old_speed_fps, dt, me.max_g_current);
-                    me.track_signal_e =  me.track_signal_e * MyCoef;
-                    me.track_signal_h =  me.track_signal_h * MyCoef;
-                    #print(sprintf("G1 %.2f", myG));
-                    var myG2 = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
-                    #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
-                    print(sprintf("Missile pulling almost max G: %.1f G", myG2));
-                }
-                #print(sprintf("G %.1f", myG));
-                if (me.all_aspect == 1 or me.rear_aspect() == 1) {
-                	pitch_deg += me.track_signal_e;
-                	hdg_deg += me.track_signal_h;
-                	me.last_track_e = me.track_signal_e;
-					me.last_track_h = me.track_signal_h;
-                } else {
-                	me.last_track_e = 0;
-                	me.last_track_h = 0;
-                	print("Heat seeking missile lost lock, attempting to reaquire..");
-                }
-                #print(sprintf("%.1f deg elev command done", me.last_track_e));
-                #print(sprintf("%.1f deg bear command done", me.last_track_h));
+			#print("steering");
+			#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
+            var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
+            if(me.max_g_current < myG)
+            {
+                var MyCoef = max_G_Rotation(me.track_signal_e, me.track_signal_h, old_speed_fps, dt, me.max_g_current);
+                me.track_signal_e =  me.track_signal_e * MyCoef;
+                me.track_signal_h =  me.track_signal_h * MyCoef;
+                #print(sprintf("G1 %.2f", myG));
+                var myG2 = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
+                #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
+                print(sprintf("Missile pulling almost max G: %.1f G", myG2));
+            }
+            #print(sprintf("G %.1f", myG));
+            if (me.all_aspect == 1 or me.rear_aspect() == 1) {
+            	pitch_deg += me.track_signal_e;
+            	hdg_deg += me.track_signal_h;
+            	me.last_track_e = me.track_signal_e;
+				me.last_track_h = me.track_signal_h;
+            } else {
+            	me.last_track_e = 0;
+            	me.last_track_h = 0;
+            	print("Heat seeking missile lost lock, attempting to reaquire..");
+            }
+            #print(sprintf("%.1f deg elev command done", me.last_track_e));
+            #print(sprintf("%.1f deg bear command done", me.last_track_h));
 
-                #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
+            #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
 			
 		}
 
 		# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
 		# which next update will be added in the direction the missile points, which we do not want.
-		#
 		
 		#print("p "~pitch_deg);
 		# Break speed change down total speed to North, East and Down components.
@@ -466,6 +546,12 @@ var AIM = {
 		var speed_horizontal_fps = math.cos(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
 		var speed_north_fps      = math.cos(hdg_deg * D2R) * speed_horizontal_fps;
 		var speed_east_fps       = math.sin(hdg_deg * D2R) * speed_horizontal_fps;
+
+		if (me.rail == TRUE and me.rail_passed == FALSE) {
+			me.rail_speed_into_wind = me.rail_speed_into_wind + speed_change_fps;
+		}
+
+		
 
 		#var speed_down_fps         =  speed_down_change_fps;# + me.s_down
 		#var speed_north_fps        =  speed_north_change_fps;# + me.s_north
@@ -504,9 +590,15 @@ var AIM = {
 #print(speed_down_fps);
 #print(me.altN.getValue());
 #print(alt_ft);
+		if (me.rail == FALSE or me.rail_passed == TRUE) {
+			me.coord.apply_course_distance(hdg_deg, dist_h_m);
+			me.coord.set_alt(alt_ft * FT2M);
+		} else {
+			new_speed_fps = me.rail_speed_into_wind;
+			me.coord = me.getGPS(me.x, me.y, me.z);
+			alt_ft = me.coord.alt() * M2FT;
+		}
 
-		me.coord.apply_course_distance(hdg_deg, dist_h_m);
-		me.coord.set_alt(alt_ft * FT2M);
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(alt_ft);
@@ -529,7 +621,7 @@ var AIM = {
 		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(new_speed_fps * FPS2KT);
 
 		#### Proximity detection.
-		if ( me.status == MISSILE_FLYING ) {
+		if ( me.status == MISSILE_FLYING and (me.rail == FALSE or me.rail_passed == TRUE)) {
 			#### check if the missile can keep the lock.
  			if ( me.free == 0 ) {
 				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
@@ -591,6 +683,11 @@ var AIM = {
 		me.alt = alt_ft;
 		me.pitch = pitch_deg;
 		me.hdg = hdg_deg;
+
+		if (me.rail_pos > me.rail_dist_m * M2FT) {
+			me.rail_passed = TRUE;
+			#print("rail passed");
+		}
 
 		settimer(func me.flight(), update_loop_time, REAL_TIME);
 		
@@ -900,15 +997,16 @@ var AIM = {
 				#me.explode();
 				#return(0);
 			#}
+			if (me.life_time > me.selfdestruct_time) {
+				me.explode("Selfdestructed.");
+			    return FALSE;
+			}
 		}
-		if (me.life_time > me.selfdestruct_time) {
-			me.explode("Selfdestructed.");
-		    return FALSE;
-		}
+
 		####Ground interaction
         var ground = geo.elevation(me.coord.lat(), me.coord.lon());
         #print("Ground :",ground);
-        if(ground != nil)
+        if(ground != nil and me.direct_dist_m != nil)
         {
             if(ground > me.coord.alt()) {
                 me.explode("Hit terrain.");
@@ -1160,6 +1258,7 @@ var AIM = {
 		var abs_total_elev = math.abs(total_elev);
 		var abs_dev_deg = math.abs(total_horiz);
 		if (abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
+			# Target out of FOV while still not launched, return to search loop.
 			return TRUE;
 		}
 		return FALSE;
@@ -1167,20 +1266,20 @@ var AIM = {
 
 		# Used only when not launched.
 		# Compute seeker total angular position clamped to seeker max total angular rotation.
-		me.seeker_dev_e += me.track_signal_e;
-		me.seeker_dev_e = me.clamp_min_max(me.seeker_dev_e, me.max_seeker_dev);
-		me.seeker_dev_h += me.track_signal_h;
-		me.seeker_dev_h = me.clamp_min_max(me.seeker_dev_h, me.max_seeker_dev);
+		#me.seeker_dev_e += me.track_signal_e;
+		#me.seeker_dev_e = me.clamp_min_max(me.seeker_dev_e, me.max_seeker_dev);
+		#me.seeker_dev_h += me.track_signal_h;
+		#me.seeker_dev_h = me.clamp_min_max(me.seeker_dev_h, me.max_seeker_dev);
 		# Check target signal inside seeker FOV.
-		var e_d = me.seeker_dev_e - me.aim9_fov;
-		var e_u = me.seeker_dev_e + me.aim9_fov;
-		var h_l = me.seeker_dev_h - me.aim9_fov;
-		var h_r = me.seeker_dev_h + me.aim9_fov;
-		if (me.status != MISSILE_FLYING and (me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r) ) {		
+		#var e_d = me.seeker_dev_e - me.aim9_fov;
+		#var e_u = me.seeker_dev_e + me.aim9_fov;
+		#var h_l = me.seeker_dev_h - me.aim9_fov;
+		#var h_r = me.seeker_dev_h + me.aim9_fov;
+		#if (me.status != MISSILE_FLYING and (me.curr_tgt_e < e_d or me.curr_tgt_e > e_u or me.curr_tgt_h < h_l or me.curr_tgt_h > h_r) ) {		
 			# Target out of FOV while still not launched, return to search loop.
-			return FALSE;
-		}
-		return TRUE;
+		#	return FALSE;
+		#}
+		#return TRUE;
 	},
 
 	#done

@@ -2089,3 +2089,8 @@ Radar: For steerpoint with center runway, the radar should now also show runway 
 Sim: Logging of unicvs files for missiles, targets and flight is now possible. (have to change a couple of lines only)
 Model: Made livery for Nevada.
 Model: Made the TWR indicators, battery recharging and external light up when testing indicator lights.
+Effect: Exhaust from rb74/24j missile is now properly located at the outlet.
+Sim: Support for dropped and rail missiles.
+Sim: Dropped missiles can no longer be fired when inverted.
+Sim: Fixed a bug in body coordinate system translation into GPS coordinate system.
+Sim: Some extraction of 2 functions in missile code.

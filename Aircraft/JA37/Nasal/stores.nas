@@ -48,6 +48,7 @@ input = {
   wow0:             "/gear/gear[0]/wow",
   wow1:             "/gear/gear[1]/wow",
   wow2:             "/gear/gear[2]/wow",
+  dev:              "dev",
 };
 
 ############ main stores loop #####################
@@ -348,7 +349,7 @@ var trigger_listener = func {
   if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
     if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
       # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
-      if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and input.gearsPos.getValue() != 1 and radar_logic.selection != nil) {
+      if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE) and radar_logic.selection != nil) {
         #missile locked, fire it.
 
         setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon

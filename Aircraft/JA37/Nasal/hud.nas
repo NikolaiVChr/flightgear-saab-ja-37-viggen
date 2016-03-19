@@ -907,6 +907,7 @@ var HUDnasal = {
         wow0:             "/gear/gear[0]/wow",
         wow1:             "/gear/gear[1]/wow",
         wow2:             "/gear/gear[2]/wow",
+        dev:              "dev",
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -960,8 +961,12 @@ var HUDnasal = {
 
       var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
 
-      if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE) {
+      if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() == FALSE) {
         mode = TAKEOFF;
+        me.input.final.setValue(FALSE);
+        modeTimeTakeoff = -1;
+      } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
+        mode = COMBAT;
         me.input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
@@ -2241,8 +2246,9 @@ var HUDnasal = {
           var armSelect = me.input.station.getValue();
           var diamond = 0;
           #print();
-          if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1) {
-            # lock
+          var roll = getprop("orientation/roll-deg");
+          if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and (armament.AIM.active[armSelect-1].rail == TRUE or (roll > -90 and roll < 90))) {
+            # lock and not inverted if the missiles is to be dropped
             var weak = armament.AIM.active[armSelect-1].trackWeak;
             if (weak == TRUE) {
               diamond = 1;
