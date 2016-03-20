@@ -2,8 +2,8 @@ var AcModel        = props.globals.getNode("payload");
 var OurHdg         = props.globals.getNode("orientation/heading-deg");
 var OurRoll        = props.globals.getNode("orientation/roll-deg");
 var OurPitch       = props.globals.getNode("orientation/pitch-deg");
-var HudReticleDev  = props.globals.getNode("sim/ja37/hud/reticle-total-deviation", 1);#polar coords
-var HudReticleDeg  = props.globals.getNode("sim/ja37/hud/reticle-total-angle", 1);
+var HudReticleDev  = props.globals.getNode("payload/armament/hud/reticle-total-deviation", 1);#polar coords
+var HudReticleDeg  = props.globals.getNode("payload/armament/hud/reticle-total-angle", 1);
 var vol_weak_track = 0.10;
 var vol_track      = 0.15;
 var update_loop_time = 0.000;
@@ -24,7 +24,7 @@ var slugs_to_lbs = 32.1740485564;
 
 var AIM = {
 	#done
-	new : func (p, type = "RB-24J", sign = "sidewinder") {
+	new : func (p, type = "AIM-9", sign = "Sidewinder") {
 		if(AIM.active[p] != nil) {
 			#do not make new missile logic if one exist for this pylon.
 			return -1;
@@ -73,10 +73,10 @@ var AIM = {
 		m.speed_m           = 0;
 
 		# AIM specs:
-		m.aim9_fov_diam         = getprop("payload/armament/"~m.type_lc~"/fov-deg");
+		m.aim9_fov_diam         = getprop("payload/armament/"~m.type_lc~"/FCS-field-deg");
 		m.aim9_fov              = m.aim9_fov_diam / 2;
-		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-detection-rng-nm");
-		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/track-max-deg") / 2;
+		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-fire-range-nm");
+		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/seeker-field-deg") / 2;
 		m.force_lbs_1           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-1");
 		m.force_lbs_2           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-2");
 		m.stage_1_duration      = getprop("payload/armament/"~m.type_lc~"/stage-1-duration-sec");
@@ -95,9 +95,9 @@ var AIM = {
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");
 		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");
         m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");
-        m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-rng-nm");
+        m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");
         m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");
-		m.aim_9_model           = "Aircraft/JA37/Models/Armament/Weapons/"~type~"/"~m.type_lc~"-";
+		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
@@ -325,8 +325,10 @@ var AIM = {
 		me.hdg = ac_hdg;
 
 		#print("p1 "~ac_pitch);
-
-		me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
+		if (getprop("sim/flight-model") == "jsb") {
+			# currently not supported in Yasim
+			me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - aalt;
+		}
 
 		#print("air density diff alt = "~me.density_alt_diff);
 		#print("missile alt = "~aalt);
@@ -1514,8 +1516,8 @@ var old_max_G_Rotation = func(steering_e_deg, steering_h_deg, s_fps, dt,gMax) {
 
 
 # HUD clamped target blinker
-SW_reticle_Blinker = aircraft.light.new("sim/ja37/hud/hud-sw-reticle-switch", [0.1, 0.1]);
-setprop("sim/ja37/hud/hud-sw-reticle-switch/enabled", 1);
+SW_reticle_Blinker = aircraft.light.new("payload/armament/hud/hud-sw-reticle-switch", [0.1, 0.1]);
+setprop("payload/armament/hud/hud-sw-reticle-switch/enabled", 1);
 
 
 

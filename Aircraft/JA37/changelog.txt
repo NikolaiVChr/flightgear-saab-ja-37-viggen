@@ -2096,3 +2096,4 @@ Sim: Fixed a bug in body coordinate system translation into GPS coordinate syste
 Sim: Some extraction of 2 functions in missile code.
 Radar: Fixed that doppler code could crash the radar if logged in as observer.
 Sim: Moved guided missile properties to /payload.
+Sim: Work to make missiles generic and not depend on JA37.
