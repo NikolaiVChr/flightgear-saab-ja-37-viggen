@@ -1308,9 +1308,9 @@
                     <seeker-field-deg type="int">110</seeker-field-deg>                     <!-- Seeker max total angular rotation -->
                     <max-g type="int">30</max-g>                                      <!-- guess -->
                     <thrust-lbf-stage-1 type="double">20000</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>
+                    <thrust-lbf-stage-2 type="double">3000</thrust-lbf-stage-2>
                     <stage-1-duration-sec type="double">2.7</stage-1-duration-sec>    <!-- source -->
-                    <stage-2-duration-sec type="double">30</stage-2-duration-sec>     <!-- guess -->
+                    <stage-2-duration-sec type="double">10</stage-2-duration-sec>     <!-- guess -->
                     <weight-launch-lbs type="double">425</weight-launch-lbs>
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>
                     <drag-coeff type="double">0.5</drag-coeff>
@@ -1318,9 +1318,9 @@
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">60</self-destruct-time-sec>         <!-- guess -->
+                    <self-destruct-time-sec type="double">50</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-                    <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
+                    <loft-altitude>36000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                 </rb-71>
@@ -1335,9 +1335,9 @@
                     <seeker-field-deg type="int">110</seeker-field-deg>
                     <max-g type="int">30</max-g>
                     <thrust-lbf-stage-1 type="double">11000</thrust-lbf-stage-1><!-- guess -->
-                    <thrust-lbf-stage-2 type="double">1000</thrust-lbf-stage-2>    <!-- guess -->
+                    <thrust-lbf-stage-2 type="double">2000</thrust-lbf-stage-2>    <!-- guess -->
                     <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
-                    <stage-2-duration-sec type="double">36.0</stage-2-duration-sec><!-- guess -->
+                    <stage-2-duration-sec type="double">15.0</stage-2-duration-sec><!-- guess -->
                     <weight-launch-lbs>291</weight-launch-lbs>
                     <weight-warhead-lbs>44</weight-warhead-lbs>
                     <drag-coeff type="double">0.5</drag-coeff>
@@ -1347,7 +1347,7 @@
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">80</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-                    <loft-altitude>30000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
+                    <loft-altitude>36000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                 </rb-99>
@@ -1569,7 +1569,7 @@
          Remember that the filename below is absolute path, so modify that also -->
 
     <logging>
-      <log>
+      <!--<log>
        <filename>C:/Users/Nikolai/Documents/ja37_flightlog.csv</filename>
        <enabled>false</enabled>
        <interval-ms>500</interval-ms>
@@ -1599,7 +1599,7 @@
         <title>time</title>
         <property>logging/time-log</property>
        </entry>
-      </log>
+      </log>-->
       <!--<log>
        <filename>C:/Users/Nikolai/Documents/ja37_missile_flightlog.csv</filename>
        <enabled>false</enabled>
@@ -1662,15 +1662,54 @@
         <property>sim/time/time-log</property>
        </entry>
       </log>-->
+        <log>
+           <filename>C:/Users/Nikolai/Documents/ja37_missile_performancelog.csv</filename>
+           <enabled>true</enabled>
+           <interval-ms>50</interval-ms>
+           <delimiter>,</delimiter>
+           <entry>
+            <enabled>true</enabled>
+            <title>Distance</title>
+            <property>logging/missile/dist-m</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>Altitude</title>
+            <property>logging/missile/alt-m</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>Speed</title>
+            <property>logging/missile/speed-m</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>Drag</title>
+            <property>logging/missile/drag-lbf</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>Thrust</title>
+            <property>logging/missile/thrust-lbf</property>
+           </entry>
+        </log>
         <time-log type="string">0:0:0</time-log>
         <date-log type="string">0/0/0</date-log>
         <missile>
+            <!-- for google earth -->
             <altitude-ft type="double">0.0</altitude-ft>
             <longitude-deg type="double">0.0</longitude-deg>
             <latitude-deg type="double">0.0</latitude-deg>
             <t-altitude-ft type="double">0.0</t-altitude-ft>
             <t-longitude-deg type="double">0.0</t-longitude-deg>
             <t-latitude-deg type="double">0.0</t-latitude-deg>
+
+            <!-- for plotting performance -->
+            <dist-m type="double">0.0</dist-m>
+            <alt-m type="double">0.0</alt-m>
+            <speed-m type="double">0.0</speed-m>
+            <drag-lbf type="double">0.0</drag-lbf>
+            <thrust-lbf type="double">0.0</thrust-lbf>
         </missile>
     </logging>
 </PropertyList>

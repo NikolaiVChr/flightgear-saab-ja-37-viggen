@@ -169,6 +169,8 @@ var AIM = {
 		m.last_t_norm_speed = nil;
 		m.last_t_elev_norm_speed = nil;
 
+		m.dive_token = FALSE;
+
 		#rail
 		m.drop_time = 0;
 		m.rail_dist_m = 2.667;#16S210 AIM-9 Missile Launcher
@@ -259,6 +261,7 @@ var AIM = {
 
 		# Get the A/C position and orientation values.
 		me.ac = geo.aircraft_position();
+		me.ac_init = geo.Coord.new(me.ac);
 		var ac_roll = getprop("orientation/roll-deg");# positive is banking right
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
@@ -281,18 +284,18 @@ var AIM = {
 		me.altN.setDoubleValue(aalt);
 		me.hdgN.setDoubleValue(ac_hdg);
 		if (me.rail == FALSE) {
-			# align into wind
+			# align into wind (commented out since heavy wind make missiles lose sight of target.)
 			var alpha = getprop("orientation/alpha-deg");
 			var beta = getprop("orientation/side-slip-deg");# positive is air from right
 
 			var alpha_diff = alpha * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) + beta * math.sin(ac_roll*D2R);
 			#alpha_diff = alpha > 0?alpha_diff:0;# not using alpha if its negative to avoid missile flying through aircraft.
-			ac_pitch = ac_pitch - alpha_diff;
+			#ac_pitch = ac_pitch - alpha_diff;
 			
 			var beta_diff = beta * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) - alpha * math.sin(ac_roll*D2R);
-			ac_hdg = ac_hdg + beta_diff;
+			#ac_hdg = ac_hdg + beta_diff;
 
-			# rail drop distance in time
+			# drop distance in time
 			me.drop_time = math.sqrt(2*7/g_fps);# time to fall 7 ft to clear aircraft
 		}
 		me.pitchN.setDoubleValue(ac_pitch);
@@ -348,7 +351,7 @@ var AIM = {
 		var Cd = 0;
 		if (mach < 0.7) {
 			Cd = 0.0125 * mach + me.Cd_base;
-		} elsif (me.speed_m < 1.2 ) {
+		} elsif (mach < 1.2 ) {
 			Cd = 0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + me.Cd_base;
 		} else {
 			Cd = 0.2965 * math.pow(mach, -1.1506) + me.Cd_base;
@@ -399,7 +402,8 @@ var AIM = {
 
 		#### Calculate speed vector before steering corrections.
 
-		# Cut rocket thrust after boost duration.
+		# Rocket thrust. If dropped, then ignited after fall time of what is the equivalent of 7ft.
+		# If the rocket is 2 stage, then ignite the second stage when 1st has burned out.
 		var f_lbs = 0;# pounds force (lbf)
 		if (me.life_time > me.drop_time) {
 			f_lbs = me.force_lbs_1;
@@ -408,7 +412,6 @@ var AIM = {
 			f_lbs = me.force_lbs_2;
 		}
 		if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
-			#print("lifetime "~me.life_time);
 			f_lbs = 0;
 		}
 		if (f_lbs < 1) {
@@ -440,7 +443,7 @@ var AIM = {
 			var movement_on_rail = speed_on_rail * dt;
 			
 			me.rail_pos = me.rail_pos + movement_on_rail;
-			me.x = me.x - (movement_on_rail * FT2M);# negative cause positve is rear in body coordinates
+			me.x = me.x - (movement_on_rail * FT2M);# negative cause positive is rear in body coordinates
 			#print("rail pos "~(me.rail_pos*FT2M));
 		}
 
@@ -474,6 +477,7 @@ var AIM = {
 		me.old_speed_fps = old_speed_fps;
 
 		if (me.rail == TRUE and me.rail_passed == FALSE) {
+			# if missile is still on rail, we replace the speed, with the speed into the wind from nose on the rail.
 			old_speed_fps = me.rail_speed_into_wind;
 		}
 
@@ -501,7 +505,7 @@ var AIM = {
 
 		#### Guidance.
 
-		if ( me.status == MISSILE_FLYING and me.free == 0 and me.life_time > me.drop_time) {
+		if ( me.status == MISSILE_FLYING and me.free == FALSE and me.life_time > me.drop_time) {
 			if (me.rail == FALSE or me.rail_passed == TRUE) {
 				var success = me.guide(dt);
 				if (success == FALSE) {
@@ -550,6 +554,7 @@ var AIM = {
 		var speed_east_fps       = math.sin(hdg_deg * D2R) * speed_horizontal_fps;
 
 		if (me.rail == TRUE and me.rail_passed == FALSE) {
+			# missile still on rail, lets calculate its speed relative to the wind coming in from the aircraft nose.
 			me.rail_speed_into_wind = me.rail_speed_into_wind + speed_change_fps;
 		}
 
@@ -584,7 +589,7 @@ var AIM = {
 		#pitch_deg = me.pitch;
 		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
-		var alt_ft = me.altN.getValue() - ((speed_down_fps + g_fps) * dt);
+		var alt_ft = me.altN.getValue() - ((speed_down_fps + g_fps * dt) * dt);
 
 #print(".");
 
@@ -593,13 +598,28 @@ var AIM = {
 #print(me.altN.getValue());
 #print(alt_ft);
 		if (me.rail == FALSE or me.rail_passed == TRUE) {
+			# misssile not on rail, lets move it to next waypoint
 			me.coord.apply_course_distance(hdg_deg, dist_h_m);
 			me.coord.set_alt(alt_ft * FT2M);
 		} else {
+			# missile on rail, lets move it on the rail
 			new_speed_fps = me.rail_speed_into_wind;
 			me.coord = me.getGPS(me.x, me.y, me.z);
 			alt_ft = me.coord.alt() * M2FT;
 		}
+
+
+		# performance logging:
+		setprop("logging/missile/dist-m", me.ac_init.distance_to(me.coord));
+		setprop("logging/missile/alt-m", alt_ft * FT2M);
+		setprop("logging/missile/speed-m", me.speed_m*1000);
+		setprop("logging/missile/drag-lbf", Cd * q * me.eda);
+		setprop("logging/missile/thrust-lbf", f_lbs);
+
+
+
+
+
 
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
@@ -849,22 +869,29 @@ var AIM = {
 			me.last_deviation_e = dev_e;
 			me.last_deviation_h = dev_h;
 
-			var loft_angle = 15;
+			var loft_angle = 15;# notice Shinobi uses 26.5651 degs, but Raider1 found a source saying 10-20 degs.
 			var loft_minimum = 10;# miles
 			var cruise_minimum = 7.5;# miles
 			var cruise_or_loft = 0;
-			if ( me.life_time < me.stage_1_duration and t_dist_m * M2NM > loft_minimum
-				 and me.coord.alt() * M2FT < me.loft_alt
-				 and t_elev_deg < loft_angle and t_elev_deg > -7.5) {
+			if ( t_dist_m * M2NM > loft_minimum
+				 and t_elev_deg < loft_angle and t_elev_deg > -7.5
+				 and me.dive_token == FALSE) {
 				# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
 				# our desired cruising alt, and the elevation to target is less than lofting angle.
 				# The -10 limit, is so the seeker don't lose track of target when lofting.
-				dev_e = -me.pitch + loft_angle;
-				#print(sprintf("Lofting %.1f degs, dev is %.1f", loft_angle, dev_e));
+				if (me.coord.alt() * M2FT < me.loft_alt) {
+					dev_e = -me.pitch + loft_angle;
+					#print(sprintf("Lofting %.1f degs, dev is %.1f", loft_angle, dev_e));
+				} else {
+					me.dive_token = TRUE;
+				}
 				cruise_or_loft = 1;
-			} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration and t_dist_m * M2NM > cruise_minimum) {
+			} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time and t_dist_m * M2NM > cruise_minimum) {
 				# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
-				dev_e = -me.pitch;
+
+				var attitude = math.asin((g_fps * dt)/me.old_speed_fps)*R2D;
+
+				dev_e = -me.pitch + attitude;
 				#print("Cruising");
 				cruise_or_loft = 1;
 			}
@@ -1065,7 +1092,7 @@ var AIM = {
 		impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
 
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
-		print(phrase~"  Reason: "~reason);
+		print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 		if (min_distance < 65) {
 			if (getprop("payload/armament/msg")) {
 				setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
