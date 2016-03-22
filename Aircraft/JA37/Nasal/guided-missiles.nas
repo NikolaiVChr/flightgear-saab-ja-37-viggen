@@ -1176,7 +1176,7 @@ var AIM = {
 					var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
 					me.update_track_time = time;
 
-					settimer(func me.update_lock(), 0.5);
+					settimer(func me.update_lock(), 0.1);
 					return;
 				} else {
 					me.Tgt = nil;
