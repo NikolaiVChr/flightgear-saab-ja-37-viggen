@@ -748,7 +748,7 @@ var Contact = {
         if(e == nil or e == 0) {
             # AI/MP has no radar properties
             var self = geo.aircraft_position();
-            me.get_coord();
+            me.get_Coord();
             var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
             e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
         }
