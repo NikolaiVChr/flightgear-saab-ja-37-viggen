@@ -190,7 +190,8 @@ var AIM = {
 		m.dive_token = FALSE;
 
 		# cruise missiles
-		m.nextGroundElevation = 0; # next Ground Elevation in 2 dt
+		m.nextGroundElevation = 0; # next Ground Elevation
+		m.nextGroundElevationMem = [-10000, -1];
 
 		#rail
 		m.drop_time = 0;
@@ -544,22 +545,40 @@ var AIM = {
 		if(me.loft_alt != 0 and me.loft_alt < 10000)
         {
         	# detect terrain for use in terrain following
+        	me.nextGroundElevationMem[1] -= 1;
             var geoPlus2 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, old_speed_fps, dt*5);
             var geoPlus3 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, old_speed_fps, dt*10);
+            var geoPlus4 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, old_speed_fps, dt*20);
+            #var geoPlus5 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, old_speed_fps, dt*30);
             var e1 = geo.elevation(me.coord.lat(), me.coord.lon());# This is done, to make sure is does not decline before it has passed obstacle.
             var e2 = geo.elevation(geoPlus2.lat(), geoPlus2.lon());# This is the main one.
             var e3 = geo.elevation(geoPlus3.lat(), geoPlus3.lon());# This is an extra, just in case there is an high cliff it needs longer time to climb.
+            var e4 = geo.elevation(geoPlus4.lat(), geoPlus4.lon());
+            #var e5 = geo.elevation(geoPlus5.lat(), geoPlus5.lon());
 			if (e1 != nil) {
             	me.nextGroundElevation = e1;
             } else {
-            	print("nil terrain, blame terrasync! Cruise missile keeping altitude.");
+            	print("nil terrain, blame terrasync! Cruise-missile keeping altitude.");
             }
             if (e2 != nil and e2 > me.nextGroundElevation) {
             	me.nextGroundElevation = e2;
+            	if (e2 > me.nextGroundElevationMem[0] or me.nextGroundElevationMem[1] < 0) {
+            		me.nextGroundElevationMem[0] = e2;
+            		me.nextGroundElevationMem[1] = 5;
+            	}
+            }
+            if (me.nextGroundElevationMem[0] > me.nextGroundElevation) {
+            	me.nextGroundElevation = me.nextGroundElevationMem[0];
             }
             if (e3 != nil and e3 > me.nextGroundElevation) {
             	me.nextGroundElevation = e3;
             }
+            if (e4 != nil and e4 > me.nextGroundElevation) {
+            	me.nextGroundElevation = e4;
+            }
+            #if (e5 != nil and e5 > me.nextGroundElevation) {
+            #	me.nextGroundElevation = e5;
+            #}
         }
 
 		#print("alt "~alt_ft);
@@ -706,7 +725,7 @@ var AIM = {
 		#### Proximity detection.
 		if ( me.status == MISSILE_FLYING and (me.rail == FALSE or me.rail_passed == TRUE)) {
 			#### check if the missile can keep the lock.
- 			if ( me.free == 0 ) {
+ 			if ( me.free == FALSE ) {
 				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
 
 # Uncomment this line to check stats while flying:
@@ -948,15 +967,17 @@ var AIM = {
                 if(me.class == "A/G") {
                     Daground = me.nextGroundElevation * M2FT;
                 }
-                if (t_dist_m < me.old_speed_fps * dt * 6 * FT2M) {
+                var loft_alt = me.loft_alt;
+                if (t_dist_m < me.old_speed_fps * 4 * FT2M and t_dist_m > me.old_speed_fps * 2.5 * FT2M) {
                 	# the missile lofts a bit at the end to avoid APN to slam it into ground before target is reached.
-                	me.loft_alt += me.loft_alt;
+                	# end here is between 2.5-4 seconds
+                	loft_alt = me.loft_alt*2;
                 }
-                if (t_dist_m > me.old_speed_fps * dt * 4 * FT2M) {# need to give the missile time to do final navigation
+                if (t_dist_m > me.old_speed_fps * 2.5 * FT2M) {# need to give the missile time to do final navigation
                     # it's 1 or 2 seconds for this kinds of missiles...
-                    var t_alt_delta_ft = (me.loft_alt + Daground - me.alt);
+                    var t_alt_delta_ft = (loft_alt + Daground - me.alt);
                     #print("var t_alt_delta_m : "~t_alt_delta_m);
-                    if(me.loft_alt + Daground > me.alt) {
+                    if(loft_alt + Daground > me.alt) {
                         # 200 is for a very short reaction to terrain
                         #print("Moving up");
                         dev_e = -me.pitch + math.atan2(t_alt_delta_ft, me.old_speed_fps * dt * 5) * R2D;
