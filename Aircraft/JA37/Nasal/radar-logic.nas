@@ -670,6 +670,7 @@ var getCallsign = func (callsign) {
 var lsnr = setlistener("sim/ja37/supported/initialized", starter);
 
 var Contact = {
+    # For now only used in guided missiles, to make it compatible with Mirage 2000-5.
     new: func(c) {
         var obj             = { parents : [Contact]};
         obj.rdrProp         = c.getNode("radar");
@@ -689,6 +690,7 @@ var Contact = {
         obj.callsign        = c.getNode("callsign");
         obj.orig_callsign   = obj.callsign.getValue();
         obj.name            = c.getNode("name");
+        obj.sign            = c.getNode("sign");
         obj.valid           = c.getNode("valid");
         obj.painted         = c.getNode("painted");
         obj.unique          = c.getNode("unique");
@@ -718,7 +720,7 @@ var Contact = {
       if (valid == nil) {
         valid = FALSE;
       }
-      if (me.get_Callsign() != me.orig_callsign) {
+      if (me.callsign.getValue() != me.orig_callsign) {
         valid = FALSE;
       }
       return valid;
@@ -726,7 +728,7 @@ var Contact = {
 
     isPainted: func () {
       if (me.painted == nil) {
-        return false;
+        return nil;
       }
       var p = me.painted.getValue();
       return p;
@@ -734,10 +736,10 @@ var Contact = {
 
     getUnique: func () {
       if (me.unique == nil) {
-        return false;
+        return nil;
       }
       var u = me.unique.getValue();
-      return p;
+      return u;
     },
 
     getElevation: func() {
@@ -757,6 +759,10 @@ var Contact = {
       return me.node;
     },
 
+    getFlareNode: func () {
+      return me.node.getNode("sim/multiplay/generic/string[10]");
+    },
+
     remove: func(){
         if(me.validTree != 0){
           me.validTree.setValue(0);
@@ -770,14 +776,19 @@ var Contact = {
     },
 
     get_Callsign: func(){
-        var n = me.Callsign.getValue();
-        if(size(n) < 1) {
-            n = me.name.getValue();
+        var n = me.callsign.getValue();
+        if(n != "" and n != nil) {
+            return n;
         }
-        if(n == nil or size(n) < 1) {
-            n = "UFO";
+        n = me.name.getValue();
+        if(n != "" and n != nil) {
+            return n;
         }
-        return n;
+        n = me.sign.getValue();
+        if(n != "" and n != nil) {
+            return n;
+        }
+        return "UFO";
     },
 
     get_Speed: func(){
@@ -871,6 +882,7 @@ var Contact = {
             me.get_Coord();
             r = me.coord.direct_distance_to(geo.aircraft_position()) * M2NM;
         }
+        return r;
     },
 
     get_range_from_Coord: func(MyAircraftCoord) {

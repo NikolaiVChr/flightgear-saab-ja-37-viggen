@@ -44,6 +44,7 @@ var slugs_to_lbs = 32.1740485564;
 # Whatever is targeted and ready to be fired upon, should be set here.
 #
 var contact = nil;
+#
 
 var AIM = {
 	#done
@@ -70,13 +71,6 @@ var AIM = {
 		m.pylon_prop        = props.globals.getNode("controls/armament").getChild("station", p+1);
 		m.Tgt               = nil;
 		m.callsign          = "Unknown";
-		m.TgtValid          = nil;
-		m.TgtLon_prop       = nil;
-		m.TgtLat_prop       = nil;
-		m.TgtAlt_prop       = nil;
-		m.TgtHdg_prop       = nil;
-		m.TgtSpeed_prop     = nil;
-		m.TgtPitch_prop     = nil;
 		m.update_track_time = 0;
 		m.seeker_dev_e      = 0; # Seeker elevation, deg.
 		m.seeker_dev_h      = 0; # Seeker horizon, deg.
@@ -409,6 +403,10 @@ var AIM = {
 	},
 
 	flight: func {
+		if (me.Tgt.isValid() == FALSE) {
+			me.del();
+			return;
+		}
 		var dt = getprop("sim/time/delta-sec");#TODO: find out more about how this property works (most likely time since last time nasal timers were called)
 		if (dt == 0) {
 			#FG is likely paused
@@ -487,7 +485,7 @@ var AIM = {
 			pitch_deg = getprop("orientation/pitch-deg");
 			hdg_deg = getprop("orientation/heading-deg");
 
-			var speed_on_rail = ja37.clamp(me.rail_speed_into_wind - u, 0, 1000000);
+			var speed_on_rail = me.clamp(me.rail_speed_into_wind - u, 0, 1000000);
 			var movement_on_rail = speed_on_rail * dt;
 			
 			me.rail_pos = me.rail_pos + movement_on_rail;
@@ -722,7 +720,7 @@ var AIM = {
 					print("Missile attempted to pull too many G, it broke.");
 				}
 				if (me.guidance == "heat") {
-					var flareNode = me.Tgt.getNode("sim/multiplay/generic/string[10]");
+					var flareNode = me.Tgt.getFlareNode();
 					if (flareNode != nil) {
 						var flareString = flareNode.getValue();
 						if (flareString != nil) {
@@ -804,10 +802,10 @@ var AIM = {
 		var t_dist_m = me.coord.distance_to(me.t_coord);
 		var alt_delta_m = me.coord.alt() - me.t_coord.alt();
 		var elev_deg =  math.atan2( alt_delta_m, t_dist_m ) * R2D;
-		var elevation_offset = elev_deg - me.Tgt.getNode("orientation/pitch-deg").getValue();
+		var elevation_offset = elev_deg - me.Tgt.get_Pitch();
 
 		var course = me.t_coord.course_to(me.coord);
-		var heading_offset = course - me.Tgt.getNode("orientation/true-heading-deg").getValue();
+		var heading_offset = course - me.Tgt.get_heading();
 
 		#
 		while (heading_offset < -180) {
@@ -832,7 +830,7 @@ var AIM = {
 
 	# navigation and guidance
 	guide: func(dt) {
-		if (!me.Tgt.getChild("valid").getValue()) {
+		if (!me.Tgt.isValid()) {
 			# Lost of lock due to target disapearing:
 			# destroy missile
 			#print("invalid");
@@ -848,8 +846,8 @@ var AIM = {
 			# Status = launched. Compute target position relative to seeker head.
 
 			# Get target position.
-			var t_alt = me.TgtAlt_prop.getValue();
-			me.t_coord.set_latlon(me.TgtLat_prop.getValue(), me.TgtLon_prop.getValue(), t_alt * FT2M);
+			var t_alt = me.Tgt.get_altitude();
+			me.t_coord.set_latlon(me.Tgt.get_Latitude(), me.Tgt.get_Longitude(), t_alt * FT2M);
 			
 			# Calculate current target elevation and azimut deviation.
 			var t_dist_m = me.coord.distance_to(me.t_coord);
@@ -966,8 +964,8 @@ var AIM = {
                         # that means a dive angle of 22.5° (a bit less 
                         # coz me.alt is in feet) (I let this alt in feet on purpose (more this figure is low, more the future pitch is high)
                         #print("Moving down");
-                        var slope = ja37.clamp(t_alt_delta_ft / 300, -5, 0);# the lower the desired alt is, the steeper the slope.
-                        dev_e = -me.pitch + ja37.clamp(math.atan2(t_alt_delta_ft, me.old_speed_fps * dt * 5) * R2D, slope, 0);
+                        var slope = me.clamp(t_alt_delta_ft / 300, -5, 0);# the lower the desired alt is, the steeper the slope.
+                        dev_e = -me.pitch + me.clamp(math.atan2(t_alt_delta_ft, me.old_speed_fps * dt * 5) * R2D, slope, 0);
                     }
                     cruise_or_loft = 1;
                 } elsif (t_dist_m > 500) {
@@ -1012,7 +1010,7 @@ var AIM = {
 			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil) {
 					# augmented proportional navigation for heading
-					var horz_closing_rate_fps = ja37.clamp((me.dist_last - dist_curr)*M2FT/dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
+					var horz_closing_rate_fps = me.clamp((me.dist_last - dist_curr)*M2FT/dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
 					var proportionality_constant = 3;#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
 					#setprop("payload/armament/factor-pro2", proportionality_constant);
 					var c_dv = t_course-me.last_t_course;
@@ -1026,9 +1024,9 @@ var AIM = {
 
 
 					# calculate target acc as normal to LOS line:
-					var t_heading        = me.TgtHdg_prop.getValue();
-					var t_pitch          = me.TgtPitch_prop.getValue();
-					var t_speed          = me.TgtSpeed_prop.getValue()*KT2FPS;#true airspeed
+					var t_heading        = me.Tgt.get_heading();
+					var t_pitch          = me.Tgt.get_Pitch();
+					var t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
 					var t_horz_speed     = t_speed - math.abs(math.sin(t_pitch*D2R)*t_speed);
 					var t_LOS_norm_head  = t_course + 90;
 					var t_LOS_norm_speed = math.cos((t_LOS_norm_head - t_heading)*D2R)*t_horz_speed;
@@ -1243,45 +1241,26 @@ var AIM = {
 		}
 		#print("search");
 		# search.
-		if (1==1 or canvas_HUD.diamond_node != me.Tgt) {
+		if (1==1 or contact != me.Tgt) {
 			#print("search2");
-			if (canvas_HUD.diamond_node != nil and canvas_HUD.diamond_node.getChild("valid").getValue() == TRUE) {
+			if (contact != nil and contact.isValid() == TRUE) {
 				#print("search3");
-				var tgt = canvas_HUD.diamond_node; # In the radar range and horizontal field.
-				var rng = tgt.getChild("radar").getChild("range-nm").getValue();
-				var total_elev  = deviation_normdeg(OurPitch.getValue(), tgt.getChild("radar").getChild("elevation-deg").getValue()); # deg.
-				var total_horiz = deviation_normdeg(OurHdg.getValue(), tgt.getChild("radar").getChild("bearing-deg").getValue());         # deg.
+				var tgt = contact; # In the radar range and horizontal field.
+				var rng = tgt.get_range();
+				var total_elev  = deviation_normdeg(OurPitch.getValue(), tgt.getElevation()); # deg.
+				var total_horiz = deviation_normdeg(OurHdg.getValue(), tgt.get_bearing());         # deg.
 				# Check if in range and in the (square shaped here) seeker FOV.
 				var abs_total_elev = math.abs(total_elev);
 				var abs_dev_deg = math.abs(total_horiz);
-				if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE) and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
+				if ((me.guidance != "semi-radar" or me.is_painted(tgt) == TRUE)
+				    and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
 					#print("search4");
 					me.status = MISSILE_LOCK;
 					me.SwSoundVol.setValue(vol_weak_track);
 					me.trackWeak = 1;
 					me.Tgt = tgt;
 
-					var ident = nil;
-					if(me.Tgt.getChild("callsign").getValue() != "" and me.Tgt.getChild("callsign").getValue() != nil) {
-			          ident = me.Tgt.getChild("callsign").getValue();
-			        } elsif (me.Tgt.getChild("name").getValue() != "" and me.Tgt.getChild("name").getValue() != nil) {
-			          ident = me.Tgt.getChild("name").getValue();
-			        } elsif (me.Tgt.getChild("sign").getValue() != "" and me.Tgt.getChild("sign").getValue() != nil) {
-			          ident = me.Tgt.getChild("sign").getValue();
-			        } else {
-			          ident = "unknown";
-			        }
-			        me.callsign = ident;
-
-					var t_pos_str = me.Tgt.getChild("position");
-					var t_ori_str = me.Tgt.getChild("orientation");
-					var t_vel_str = me.Tgt.getChild("velocities");
-					me.TgtLon_prop       = t_pos_str.getChild("longitude-deg");
-					me.TgtLat_prop       = t_pos_str.getChild("latitude-deg");
-					me.TgtAlt_prop       = t_pos_str.getChild("altitude-ft");
-					me.TgtHdg_prop       = t_ori_str.getChild("true-heading-deg");
-					me.TgtPitch_prop     = t_ori_str.getChild("pitch-deg");
-					me.TgtSpeed_prop     = t_vel_str.getChild("true-airspeed-kt");
+			        me.callsign = me.Tgt.get_Callsign();
 
 					var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
 					me.update_track_time = time;
@@ -1315,7 +1294,7 @@ var AIM = {
 			me.SwSoundVol.setValue(0);
 			me.trackWeak = 1;
 			return TRUE;
-		} elsif (!me.Tgt.getChild("valid").getValue()) {
+		} elsif (!me.Tgt.isValid()) {
 			# Lost of lock due to target disapearing:
 			# return to search mode.
 			#print("invalid");
@@ -1329,8 +1308,8 @@ var AIM = {
 		var last_tgt_h = me.curr_tgt_h;
 		if (me.status == MISSILE_LOCK) {		
 			# Status = locked. Get target position relative to our aircraft.
-			me.curr_tgt_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getChild("radar").getChild("elevation-deg").getValue());
-			me.curr_tgt_h = - deviation_normdeg(OurHdg.getValue(), me.Tgt.getChild("radar").getChild("bearing-deg").getValue());
+			me.curr_tgt_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation());
+			me.curr_tgt_h = - deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());
 		}
 
 		var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
@@ -1356,10 +1335,7 @@ var AIM = {
 				return TRUE;
 			}
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
-			var dist = geo.aircraft_position().direct_distance_to(geo.Coord.new().set_latlon(
-				me.TgtLat_prop.getValue(),
-				me.TgtLon_prop.getValue(),
-				me.TgtAlt_prop.getValue()*FT2M));
+			var dist = geo.aircraft_position().direct_distance_to(me.Tgt.get_Coord());
 			if (time - me.update_track_time > 1 and dist != nil and dist > (me.min_dist * NM2M)) {
 				# after 1 second we get solid track if target is further than minimum distance.
 				me.SwSoundVol.setValue(vol_track);
@@ -1368,7 +1344,7 @@ var AIM = {
 				me.SwSoundVol.setValue(vol_weak_track);
 				me.trackWeak = 1;
 			}
-			if (canvas_HUD.diamond_node == nil or (canvas_HUD.diamond_node.getNode("unique") != nil and me.Tgt.getNode("unique") != nil and canvas_HUD.diamond_node.getNode("unique").getValue() != me.Tgt.getNode("unique").getValue())) {
+			if (contact == nil or (contact.getUnique() != nil and me.Tgt.getUnique() != nil and contact.getUnique() != me.Tgt.getUnique())) {
 				#print("oops "~me.Tgt.getPath());
 				me.return_to_search();
 				return TRUE;
@@ -1391,8 +1367,8 @@ var AIM = {
 		#
 	check_t_in_fov: func {
 
-		var total_elev  = deviation_normdeg(OurPitch.getValue(), me.Tgt.getChild("radar").getChild("elevation-deg").getValue()); # deg.
-		var total_horiz = deviation_normdeg(OurHdg.getValue(), me.Tgt.getChild("radar").getChild("bearing-deg").getValue());         # deg.
+		var total_elev  = deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation()); # deg.
+		var total_horiz = deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());         # deg.
 		# Check if in range and in the (square shaped here) seeker FOV.
 		var abs_total_elev = math.abs(total_elev);
 		var abs_dev_deg = math.abs(total_horiz);
@@ -1428,7 +1404,7 @@ var AIM = {
 	},
 
 	is_painted: func (target) {
-		if(target != nil and target.getChild("painted") != nil and target.getChild("painted").getValue() == TRUE) {
+		if(target != nil and target.isPainted() != nil and target.isPainted() == TRUE) {
 			return TRUE;
 		}
 		return FALSE;
