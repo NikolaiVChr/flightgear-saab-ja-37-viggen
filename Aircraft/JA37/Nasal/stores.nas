@@ -77,6 +77,7 @@ var loop_stores = func {
           or (payloadName.getValue() == "RB 74" and payloadWeight.getValue() != 188)
           or (payloadName.getValue() == "RB 71" and payloadWeight.getValue() != 425)
           or (payloadName.getValue() == "RB 99" and payloadWeight.getValue() != 291)
+          or (payloadName.getValue() == "TEST" and payloadWeight.getValue() != 50)
           or (payloadName.getValue() == "Drop tank" and payloadWeight.getValue() != 224.87))) {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
@@ -143,6 +144,21 @@ var loop_stores = func {
               armament.AIM.active[i].del();
             }
             if(armament.AIM.new(i, "RB-99", "Amraam") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-71 missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "TEST") {
+            # is not center pylon and is RB99
+            #print("rb71 "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "TEST") {
+              # remove aim-9 logic from that pylon
+              #print("removing aim-9 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "TEST", "Missile-X") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
               #missile added through menu while another from that pylon is still flying.
               #to handle this we have to ignore that addition.
               setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
@@ -226,6 +242,11 @@ var loop_stores = func {
         # the pylon has a rocket pod, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 200) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 200);
+        }
+      }  elsif (selected == "TEST") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 50) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 50);
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
@@ -736,6 +757,13 @@ var ammoCount = func (station) {
           ammo += 1;
         }
       }
+    } elsif (type == "TEST") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "TEST") {
+          ammo += 1;
+        }
+      }
     }
   }
   return ammo;
@@ -787,6 +815,13 @@ var cycle_weapons = func {
         type = "RB 24J";
       }
     } elsif (type == "RB 24J") {
+      sel = selectType("TEST");
+      if (sel != -1) {
+        newType = "TEST";
+      } else {
+        type = "TEST";
+      }
+    } elsif (type == "TEST") {
       sel = selectType("RB 74");
       if (sel != -1) {
         newType = "RB 74";

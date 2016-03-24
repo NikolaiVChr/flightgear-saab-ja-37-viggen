@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+	<path>aim-120.ac</path>
+
+	<nopreview/>
+
+	<effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+	  <object-name>aim-120</object-name>
+	</effect>
+
+</PropertyList>

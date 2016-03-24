@@ -59,6 +59,7 @@ var findRadarTracks = func () {
 	  var rb71 = node_ai.getChildren("rb-71");
     var rb74 = node_ai.getChildren("rb-74");
     var rb99 = node_ai.getChildren("rb-99");
+    var test = node_ai.getChildren("test");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
       paint(selection[6], FALSE);
@@ -74,6 +75,7 @@ var findRadarTracks = func () {
 	  processTracks(rb71, FALSE, TRUE);
     processTracks(rb74, FALSE, TRUE);
     processTracks(rb99, FALSE, TRUE);
+    processTracks(test, FALSE, TRUE);
     processCallsigns(players);
   } else {
     # Do not supply target info to the missiles if radar is off.
@@ -101,7 +103,7 @@ var processCallsigns = func (players) {
 }
 
 
-var processTracks = func (vector, carrier, missile = FALSE, mp = FALSE) {
+var processTracks = func (vector, carrier, missile = 0, mp = 0) {
   var carrierNear = FALSE;
   foreach (var track; vector) {
     if(track != nil and track.getChild("valid") != nil and track.getChild("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
@@ -201,7 +203,7 @@ var processTracks = func (vector, carrier, missile = FALSE, mp = FALSE) {
 
         append(trackInfo, ident);
         append(trackInfo, track);
-        append(trackInfo, (carrier == TRUE or missile == TRUE)?TRUE:FALSE);
+        append(trackInfo, (missile == TRUE)?TRUE:FALSE);
 
         var unique = track.getChild("unique");
         if (unique == nil) {
@@ -269,6 +271,7 @@ var remove_suffix = func(s, x) {
 # 6 - node
 # 7 - not targetable
 # 8 - if exist then selected
+# 9 - Contact
 
 var trackItemCalc = func (track, range, carrier, mp) {
   var x = track.getNode("position/global-x").getValue();
@@ -665,3 +668,237 @@ var getCallsign = func (callsign) {
 }
 
 var lsnr = setlistener("sim/ja37/supported/initialized", starter);
+
+var Contact = {
+    new: func(c) {
+        var obj             = { parents : [Contact]};
+        obj.rdrProp         = c.getNode("radar");
+        obj.heading         = c.getNode("orientation/true-heading-deg");
+        
+        obj.alt             = c.getNode("position/altitude-ft");
+        obj.lat             = c.getNode("position/latitude-deg");
+        obj.lon             = c.getNode("position/longitude-deg");
+        
+        #As it is a geo.Coord object, we have to update lat/lon/alt ->and alt is in meters
+        obj.coord = geo.Coord.new();
+        obj.coord.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.alt.getValue() * FT2M);
+                
+        obj.pitch           = c.getNode("orientation/pitch-deg");
+        obj.speed           = c.getNode("velocities/true-airspeed-kt");
+        obj.vSpeed          = c.getNode("velocities/vertical-speed-fps");
+        obj.callsign        = c.getNode("callsign");
+        obj.orig_callsign   = obj.callsign.getValue();
+        obj.name            = c.getNode("name");
+        obj.valid           = c.getNode("valid");
+        obj.painted         = c.getNode("painted");
+        obj.unique          = c.getNode("unique");
+        obj.validTree       = 0;
+
+        obj.transponderID   = c.getNode("instrumentation/transponder/transmitted-id");
+                
+        obj.acType          = c.getNode("sim/model/ac-type");
+        obj.type            = c.getName();
+        obj.index           = c.getIndex();
+        obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
+        obj.shortString     = obj.type ~ "[" ~ obj.index ~ "]";
+        
+        obj.range           = obj.rdrProp.getNode("range-nm");
+        obj.bearing         = obj.rdrProp.getNode("bearing-deg");
+        obj.elevation       = obj.rdrProp.getNode("elevation-deg");
+        
+        obj.deviation       = nil;
+
+        obj.node            = c;
+        
+        return obj;
+    },
+
+    isValid: func () {
+      var valid = me.valid.getValue();
+      if (valid == nil) {
+        valid = FALSE;
+      }
+      if (me.get_Callsign() != me.orig_callsign) {
+        valid = FALSE;
+      }
+      return valid;
+    },
+
+    isPainted: func () {
+      if (me.painted == nil) {
+        return false;
+      }
+      var p = me.painted.getValue();
+      return p;
+    },
+
+    getUnique: func () {
+      if (me.unique == nil) {
+        return false;
+      }
+      var u = me.unique.getValue();
+      return p;
+    },
+
+    getElevation: func() {
+        var e = 0;
+        e = me.elevation.getValue();
+        if(e == nil or e == 0) {
+            # AI/MP has no radar properties
+            var self = geo.aircraft_position();
+            me.get_coord();
+            var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
+            e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
+        }
+        return e;
+    },
+
+    getNode: func () {
+      return me.node;
+    },
+
+    remove: func(){
+        if(me.validTree != 0){
+          me.validTree.setValue(0);
+        }
+    },
+
+    get_Coord: func(){
+        me.coord.set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue() * FT2M);
+        var TgTCoord  = geo.Coord.new(me.coord);
+        return TgTCoord;
+    },
+
+    get_Callsign: func(){
+        var n = me.Callsign.getValue();
+        if(size(n) < 1) {
+            n = me.name.getValue();
+        }
+        if(n == nil or size(n) < 1) {
+            n = "UFO";
+        }
+        return n;
+    },
+
+    get_Speed: func(){
+        # return true airspeed
+        var n = me.speed.getValue();
+        return n;
+    },
+
+    get_Longitude: func(){
+        var n = me.lon.getValue();
+        return n;
+    },
+
+    get_Latitude: func(){
+        var n = me.lat.getValue();
+        return n;
+    },
+
+    get_Pitch: func(){
+        var n = me.pitch.getValue();
+        return n;
+    },
+
+    get_heading : func(){
+        var n = me.heading.getValue();
+        if(n == nil)
+        {
+            n = 0;
+        }
+        return n;
+    },
+
+    get_bearing: func(){
+        var n = 0;
+        n = me.bearing.getValue();
+        if(n == nil or n == 0) {
+            # AI/MP has no radar properties
+            n = me.get_bearing_from_Coord(geo.aircraft_position());
+        }
+        return n;
+    },
+
+    get_bearing_from_Coord: func(MyAircraftCoord){
+        me.get_Coord();
+        var myBearing = 0;
+        if(me.coord.is_defined()) {
+            myBearing = MyAircraftCoord.course_to(me.coord);
+        }
+        return myBearing;
+    },
+
+    get_reciprocal_bearing: func(){
+        return geo.normdeg(me.get_bearing() + 180);
+    },
+
+    get_deviation: func(true_heading_ref, coord){
+        me.deviation =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
+        return me.deviation;
+    },
+
+    get_altitude: func(){
+        #Return Alt in feet
+        return me.alt.getValue();
+    },
+
+    get_Elevation_from_Coord: func(MyAircraftCoord) {
+        me.get_Coord();
+        var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
+        if (math.abs(value) > 1) {
+          # warning this else will fail if logged in as observer and see aircraft on other side of globe
+          return 0;
+        }
+        var myPitch = math.asin(value) * R2D;
+        return myPitch;
+    },
+
+    get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
+        var myTotalElevation =  - deviation_normdeg(own_pitch, me.get_Elevation_from_Coord(MyAircraftCoord));
+        return myTotalElevation;
+    },
+    
+    get_total_elevation: func(own_pitch) {
+        me.deviation =  - deviation_normdeg(own_pitch, me.getElevation());
+        return me.deviation;
+    },
+
+    get_range: func() {
+        var r = me.range.getValue();
+        if(r == nil or r == 0) {
+            # AI/MP has no radar properties
+            me.get_Coord();
+            r = me.coord.direct_distance_to(geo.aircraft_position()) * M2NM;
+        }
+    },
+
+    get_range_from_Coord: func(MyAircraftCoord) {
+        var myCoord = me.get_Coord();
+        var myDistance = 0;
+        if(myCoord.is_defined()) {
+            myDistance = MyAircraftCoord.direct_distance_to(myCoord) * M2NM;
+        }
+        return myDistance;
+    },
+
+    get_horizon: func(own_alt) {
+      #Own alt in meters
+        var tgt_alt = me.get_altitude();#It's in feet
+        if(debug.isnan(tgt_alt)) {
+            return(0);
+        }
+        if(tgt_alt < 0 or tgt_alt == nil) {
+            tgt_alt = 0;
+        }
+        if(own_alt < 0 or own_alt == nil) {
+            own_alt = 0;
+        }
+        # Return the Horizon in NM
+        return(2.2 * ( math.sqrt(own_alt) + math.sqrt(tgt_alt * FT2M)));
+    },
+
+    get_shortstring:func(){
+        return me.shortstring;
+    },
+};

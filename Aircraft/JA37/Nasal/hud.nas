@@ -1748,6 +1748,9 @@ var HUDnasal = {
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 99") {
         me.qfe.setText("RB-99");
         me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "TEST") {
+        me.qfe.setText("TEST");
+        me.qfe.show();
       } else {
         me.qfe.setText("None");
         me.qfe.show();
@@ -1825,6 +1828,11 @@ var HUDnasal = {
         me.reticle_cannon.hide();
         me.reticle_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 99") {
+        air2air = TRUE;
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.show();
+      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "TEST") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
@@ -1998,6 +2006,10 @@ var HUDnasal = {
           # Rocket pod
           minDist =   200;
           maxDist =  2000;
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "TEST") {
+          # Rocket pod
+          minDist =     0;
+          maxDist =180000;
         }
         if(currDist != nil and minDist != nil) {
           var pixelPerMeter = (3/5*line)/(maxDist - minDist);
@@ -2126,7 +2138,7 @@ var HUDnasal = {
       # 4 - horizontal angle from aircraft in rad
       # 5 - identifier
       # 6 - node
-      # 7 - carrier
+      # 7 - is own missile
 
       # do circles here
       foreach(hud_pos; radar_logic.tracks) {
@@ -2231,6 +2243,7 @@ var HUDnasal = {
         if(selection[7] == FALSE and mode == COMBAT) {
           #targetable
           diamond_node = selection[6];
+          armament.contact = radar_logic.Contact.new(diamond_node);
           me.diamond_group.setTranslation(pos_x, pos_y);
           var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
           
@@ -2304,6 +2317,7 @@ var HUDnasal = {
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           diamond_node = nil;
+          armament.contact = nil;
           me.diamond_group.setTranslation(pos_x, pos_y);
           me.target_circle[me.selection_index].setTranslation(pos_x, pos_y);
           var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
@@ -2356,6 +2370,7 @@ var HUDnasal = {
         # or invalid
         # or nothing selected
         diamond_node = nil;
+        armament.contact = nil;
         if(selection != nil) {
           selection[2] = nil;#no longer sure why I do this..
         }

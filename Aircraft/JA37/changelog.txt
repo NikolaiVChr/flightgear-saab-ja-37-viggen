@@ -2099,3 +2099,7 @@ Sim: Moved guided missile properties to /payload.
 Sim: Work to make missiles generic and not depend on JA37.
 Sim: Lofted missiles now snap up also during sustain phase.
 Sim: Fixed missile gravity drop bug. (Still needs work..)
+Sim: Carriers can now be targeted and shot upon, if they are moving.
+Sim: Adapted 5H1N0B1's cruise missile navigation code. (no cruise missiles added yet though)
+Sim: Added a test missile for dev. testing.
+Sim: Started to convert node use in missile code, to be using a hash. (and be compatible with Shinobi's radar)

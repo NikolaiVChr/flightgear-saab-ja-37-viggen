@@ -1,3 +1,18 @@
+###########################################################################
+#######	
+####### Guided missiles code for Flightgear. 
+#######
+####### License: GPL 2
+#######
+####### Authors:
+#######  XIII, 5N1N0B1, Nikolai V. Chr.
+####### 
+####### In addition, some code is derived from work by:
+#######  David Culp, Vivian Meazza
+#######
+###########################################################################
+
+
 var AcModel        = props.globals.getNode("payload");
 var OurHdg         = props.globals.getNode("orientation/heading-deg");
 var OurRoll        = props.globals.getNode("orientation/roll-deg");
@@ -14,6 +29,8 @@ var REAL_TIME = 0;
 var TRUE = 1;
 var FALSE = 0;
 
+var use_fg_default_hud = FALSE;
+
 var MISSILE_STANDBY = -1;
 var MISSILE_SEARCH = 0;
 var MISSILE_LOCK = 1;
@@ -21,6 +38,12 @@ var MISSILE_FLYING = 2;
 
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
+
+#
+# The radar will make sure to keep this variable updated.
+# Whatever is targeted and ready to be fired upon, should be set here.
+#
+var contact = nil;
 
 var AIM = {
 	#done
@@ -97,6 +120,7 @@ var AIM = {
         m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");
         m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");
+        m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
 		# Find the next index for "models/model" and create property node.
@@ -171,6 +195,9 @@ var AIM = {
 
 		m.dive_token = FALSE;
 
+		# cruise missiles
+		m.nextGroundElevation = 0; # next Ground Elevation in 2 dt
+
 		#rail
 		m.drop_time = 0;
 		m.rail_dist_m = 2.667;#16S210 AIM-9 Missile Launcher
@@ -203,6 +230,7 @@ var AIM = {
 
 	# get Coord from body position. x,y,z must be in meters.
 	getGPS: func(x, y, z) {
+		# derived from Vivian's code in AIModel/submodel.cxx.
 		var ac_roll = getprop("orientation/roll-deg");
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
@@ -266,8 +294,7 @@ var AIM = {
 		var ac_pitch = getprop("orientation/pitch-deg");
 		var ac_hdg   = getprop("orientation/heading-deg");
 
-		# Compute missile initial position relative to A/C center,
-		# following Vivian's code in AIModel/submodel.cxx .
+		# Compute missile initial position relative to A/C center		
 
 		me.x = me.pylon_prop.getNode("offsets/x-m").getValue();
 		me.y = me.pylon_prop.getNode("offsets/y-m").getValue();
@@ -348,6 +375,10 @@ var AIM = {
 	},
 
 	drag: func (mach) {
+		# Adjust Cd by Mach number. The equations are based on curves
+		# for a conventional shell/bullet (no boat-tail).
+		#
+		# Derived from Davic Culps code in AIBallistic
 		var Cd = 0;
 		if (mach < 0.7) {
 			Cd = 0.0125 * mach + me.Cd_base;
@@ -358,6 +389,23 @@ var AIM = {
 		}
 
 		 return Cd;
+	},
+
+	drag_new: func (mach) {
+		# Nikolai V. Chr.: Made the drag calc more in line with big missiles as opposed to small bullets.
+		#
+		# When I start using this, all the drag coefficients for the missiles have to be reestimated, same for thrust.
+		#
+		var Cd = 0;
+		if (mach < 0.7) {
+			Cd = (0.0125 * mach + 0.20) * 5 * me.Cd_base;
+		} elsif (mach < 1.2 ) {
+			Cd = (0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + 0.2 ) * 5 * me.Cd_base;
+		} else {
+			Cd = (0.2965 * math.pow(mach, -1.1506) + 0.2) * 5 * me.Cd_base;
+		}
+
+		return Cd;
 	},
 
 	flight: func {
@@ -466,10 +514,6 @@ var AIM = {
 		me.max_g_current = me.max_g+((rho-0.0023769)/(0.00036159-0.0023769))*(me.max_g*0.5909-me.max_g);
 		#print("Max G = "~me.max_g_current~" Rho = "~rho);
 
-		# Adjust Cd by Mach number. The equations are based on curves
-		# for a conventional shell/bullet (no boat-tail).
-		
-
 		var old_speed_fps = total_s_ft / dt;
 		#print("aim "~old_speed_fps);
 		#print("ac  "~(getprop("velocities/groundspeed-3D-kt")*KT2FPS));
@@ -499,7 +543,26 @@ var AIM = {
 		var speed_change_fps = acc*dt - drag_acc*dt;
 
 		
-
+		if(me.loft_alt != 0 and me.loft_alt < 10000)
+        {
+        	# detect terrain for use in terrain following
+            var geoPlus2 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, old_speed_fps, dt*5);
+            var geoPlus3 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, old_speed_fps, dt*10);
+            var e1 = geo.elevation(me.coord.lat(), me.coord.lon());# This is done, to make sure is does not decline before it has passed obstacle.
+            var e2 = geo.elevation(geoPlus2.lat(), geoPlus2.lon());# This is the main one.
+            var e3 = geo.elevation(geoPlus3.lat(), geoPlus3.lon());# This is an extra, just in case there is an high cliff it needs longer time to climb.
+			if (e1 != nil) {
+            	me.nextGroundElevation = e1;
+            } else {
+            	print("nil terrain, blame terrasync! Cruise missile keeping altitude.");
+            }
+            if (e2 != nil and e2 > me.nextGroundElevation) {
+            	me.nextGroundElevation = e2;
+            }
+            if (e3 != nil and e3 > me.nextGroundElevation) {
+            	me.nextGroundElevation = e3;
+            }
+        }
 
 		#print("alt "~alt_ft);
 
@@ -869,11 +932,57 @@ var AIM = {
 			me.last_deviation_e = dev_e;
 			me.last_deviation_h = dev_h;
 
+
+
+
+			######################################
+			### cruise, loft, cruise-missile   ###
+			######################################
+
 			var loft_angle = 15;# notice Shinobi uses 26.5651 degs, but Raider1 found a source saying 10-20 degs.
 			var loft_minimum = 10;# miles
 			var cruise_minimum = 7.5;# miles
 			var cruise_or_loft = 0;
-			if ( t_dist_m * M2NM > loft_minimum
+			
+            if(me.loft_alt != 0 and me.loft_alt < 10000) {
+            	# this is for Air to ground/sea cruise missile (SCALP, Taurus, Tomahawk...)
+                var Daground = 0;# zero for sealevel in case target is ship. Don't shoot A/S missiles over terrain. :)
+                if(me.class == "A/G") {
+                    Daground = me.nextGroundElevation * M2FT;
+                }
+                if (t_dist_m < me.old_speed_fps * dt * 6 * FT2M) {
+                	# the missile lofts a bit at the end to avoid APN to slam it into ground before target is reached.
+                	me.loft_alt += me.loft_alt;
+                }
+                if (t_dist_m > me.old_speed_fps * dt * 4 * FT2M) {# need to give the missile time to do final navigation
+                    # it's 1 or 2 seconds for this kinds of missiles...
+                    var t_alt_delta_ft = (me.loft_alt + Daground - me.alt);
+                    #print("var t_alt_delta_m : "~t_alt_delta_m);
+                    if(me.loft_alt + Daground > me.alt) {
+                        # 200 is for a very short reaction to terrain
+                        #print("Moving up");
+                        dev_e = -me.pitch + math.atan2(t_alt_delta_ft, me.old_speed_fps * dt * 5) * R2D;
+                    } else {
+                        # that means a dive angle of 22.5° (a bit less 
+                        # coz me.alt is in feet) (I let this alt in feet on purpose (more this figure is low, more the future pitch is high)
+                        #print("Moving down");
+                        var slope = ja37.clamp(t_alt_delta_ft / 300, -5, 0);# the lower the desired alt is, the steeper the slope.
+                        dev_e = -me.pitch + ja37.clamp(math.atan2(t_alt_delta_ft, me.old_speed_fps * dt * 5) * R2D, slope, 0);
+                    }
+                    cruise_or_loft = 1;
+                } elsif (t_dist_m > 500) {
+                    # we put 9 feets up the target to avoid ground at the
+                    # last minute...
+                    #print("less than 1000 m to target");
+                    #dev_e = -me.pitch + math.atan2(t_alt_delta_m + 100, t_dist_m) * R2D;
+                    #cruise_or_loft = 1;
+                } else {
+                	#print("less than 500 m to target");
+                }
+                if (cruise_or_loft == 1) {
+                	#print(" pitch "~me.pitch~" + dev_e "~dev_e);
+                }
+            } elsif (me.loft_alt != 0 and t_dist_m * M2NM > loft_minimum
 				 and t_elev_deg < loft_angle and t_elev_deg > -7.5
 				 and me.dive_token == FALSE) {
 				# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
@@ -886,7 +995,8 @@ var AIM = {
 					me.dive_token = TRUE;
 				}
 				cruise_or_loft = 1;
-			} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time and t_dist_m * M2NM > cruise_minimum) {
+			} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time
+			         and t_dist_m * M2NM > cruise_minimum) {
 				# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
 
 				var attitude = math.asin((g_fps * dt)/me.old_speed_fps)*R2D;
@@ -902,7 +1012,7 @@ var AIM = {
 			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil) {
 					# augmented proportional navigation for heading
-					var horz_closing_rate_fps = (me.dist_last - dist_curr)*M2FT/dt;
+					var horz_closing_rate_fps = ja37.clamp((me.dist_last - dist_curr)*M2FT/dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
 					var proportionality_constant = 3;#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
 					#setprop("payload/armament/factor-pro2", proportionality_constant);
 					var c_dv = t_course-me.last_t_course;
@@ -939,7 +1049,7 @@ var AIM = {
 					var commanded_sideways_vector_length_fps = acc_sideways_ftps2*dt;
 					dev_h = math.atan2(commanded_sideways_vector_length_fps, velocity_vector_length_fps)*R2D;
 
-					#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,closing_rate_fps));
+					#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,horz_closing_rate_fps));
 					#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
 					#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_tgt_h, dev_h));
 
@@ -1226,7 +1336,7 @@ var AIM = {
 		var time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
 
 		# Compute HUD reticle position.
-		if ( 1==0 and me.status == MISSILE_LOCK ) {
+		if ( use_fg_default_hud == TRUE and me.status == MISSILE_LOCK ) {
 			var h_rad = (90 - me.curr_tgt_h) * D2R;
 			var e_rad = (90 - me.curr_tgt_e) * D2R; 
 			var devs = develev_to_devroll(h_rad, e_rad);
@@ -1629,6 +1739,17 @@ var rho_sndspeed = func(altitude) {
 	var snd_speed = math.sqrt( 1.4 * 1716 * (T + 459.7));
 	return [rho, snd_speed];
 
+}
+
+var nextGeoloc = func(lon, lat, heading, speed, dt, alt=100){
+    # lng & lat & heading, in degree, speed in fps
+    # this function should send back the futures lng lat
+    var distance = speed * dt * FT2M; # should be a distance in meters
+    #print("distance ", distance);
+    # much simpler than trigo
+    var NextGeo = geo.Coord.new().set_latlon(lon, lat, alt);
+    NextGeo.apply_course_distance(heading, distance);
+    return NextGeo;
 }
 
 #var AIM_instance = [nil, nil,nil,nil];#init aim-9

@@ -64,6 +64,8 @@ Sim: Make missile code generic aircraft independent.
 Sim: Include Shinobis missile changes into missile code. (cruise missiles, bombs, rail)
 Sim: Stop auto-selecting when in tactical mode.
 Sim: Doppler radar should be able to see planes if they are above a certain speed, not matter if they try to notch or not.
+Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
+Sim: Be able to fire missiles at groundvehicles that miss radar properties.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -81,6 +83,7 @@ HUD: All track semi circles and semi box should have a line in them. (might degr
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
+HUD: Last dev changes broke something with modes in the HUD, fix it!
 
 
 
