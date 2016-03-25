@@ -1224,10 +1224,10 @@
                 <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
-            <!--<opt>
+            <opt>
                 <name>TEST</name>
                 <lbs>50</lbs>
-            </opt>-->
+            </opt>
         </weight>
         <weight n="6">
             <name>Center fuselage pylon</name>
@@ -1366,7 +1366,7 @@
                     <guidance type="string">radar</guidance>                       <!-- heat, radar or semi-radar -->
                     <all-aspect type="bool">true</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">100</max-fire-range-nm> <!--  -->
-                    <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
+                    <FCS-field-deg type="int">25</FCS-field-deg>                     <!-- total aircraft angle -->
                     <seeker-field-deg type="int">180</seeker-field-deg>                 <!-- total seeker angle -->
                     <max-g type="int">20</max-g>                                  <!-- -->
                     <max-launch-g type="int">7</max-launch-g>                     <!--  -->
@@ -1380,10 +1380,10 @@
                     <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius)  -->
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  <!--  -->
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!--  -->
-                    <min-speed-for-guiding-mach type="double">0.5</min-speed-for-guiding-mach><!--  -->
-                    <self-destruct-time-sec type="double">200</self-destruct-time-sec>         <!--  -->
+                    <min-speed-for-guiding-mach type="double">0.4</min-speed-for-guiding-mach><!--  -->
+                    <self-destruct-time-sec type="double">250</self-destruct-time-sec>         <!--  -->
                     <seeker-angular-speed-dps type="double">50</seeker-angular-speed-dps><!-- deg/sec -->
-                    <loft-altitude>50</loft-altitude>
+                    <loft-altitude>100</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/G</class>
