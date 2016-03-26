@@ -1614,7 +1614,7 @@ var not = func {
       var spl = split("ct", ct);
       if (size(spl) > 1) {
         var bits = spl[1];
-        msg = "I might cheat..";
+        msg = "I ";
         if (bits == "000000000") {
           settimer(not, 60);
           return;

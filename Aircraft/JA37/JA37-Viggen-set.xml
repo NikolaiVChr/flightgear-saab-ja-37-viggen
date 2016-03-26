@@ -1282,6 +1282,7 @@
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
                     <class type="string">A/A</class>
+                    <fire-msg>Fox 2</fire-msg>
                 </rb-24j>
                 <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -1310,6 +1311,7 @@
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
                     <class type="string">A/A</class>
+                    <fire-msg>Fox 2</fire-msg>
                 </rb-74>
                 <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -1338,6 +1340,7 @@
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
+                    <fire-msg>Fox 3</fire-msg>
                 </rb-71>
                 <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
                     <sound-on-off type="bool">false</sound-on-off>
@@ -1358,7 +1361,7 @@
                     <drag-coeff type="double">0.5</drag-coeff>
                     <drag-area type="double">0.2739</drag-area><!-- sq ft (0.2953 ft radius) authentic -->
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
-                    <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
+                    <arming-time-sec type="double">1.6</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">80</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
@@ -1366,6 +1369,7 @@
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
+                    <fire-msg>Fox 3</fire-msg>
                 </rb-99>
                 <rb-15f>                    
                     <!-- Swedish cruise-missile RB-15F -->
@@ -1396,6 +1400,7 @@
                     <min-fire-range-nm type="double">0.5</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/G</class>
+                    <fire-msg>Greyhound</fire-msg>
                 </rb-15f>
                 <!-- test: currently small cruise missile -->
                 <!--<test>                    
