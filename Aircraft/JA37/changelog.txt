@@ -2103,3 +2103,5 @@ Sim: Carriers can now be targeted and shot upon, if they are moving.
 Sim: Adapted 5H1N0B1's cruise missile navigation code. (no cruise missiles added yet though)
 Sim: Added a test missile for dev. testing.
 Sim: Started to convert node use in missile code, to be using a hash. (and be compatible with Shinobi's radar)
+Sim: Added the RB-15F cruise-missile. {Pinto made the model}
+Sim: Added M70 and Scalp to damage check.

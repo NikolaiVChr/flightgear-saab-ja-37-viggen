@@ -484,6 +484,7 @@ var warhead_lbs = {
     "Matra R550 Magic 2":   27.0,
     "Matra MICA":           30.0,
     "RB-15F":             440.92,
+    "SCALP":              992.00,
 };
 
 var incoming_listener = func {
@@ -620,7 +621,7 @@ var incoming_listener = func {
               nearby_explosion();
             }
           } 
-        } elsif (last_vector[1] == " KCA cannon shell hit" or last_vector[1] == " Gun Splash On " or last_vector[1] == " M61A1 shell hit") {
+        } elsif (last_vector[1] == " M70 rocket hit" or last_vector[1] == " KCA cannon shell hit" or last_vector[1] == " Gun Splash On " or last_vector[1] == " M61A1 shell hit") {
           # cannon hitting someone
           #print("cannon");
           if (size(last_vector) > 2 and last_vector[2] == " "~callsign) {
@@ -628,7 +629,7 @@ var incoming_listener = func {
             #print("hitting me");
 
             var probability = 0.20; # take 20% damage from each hit
-            if (last_vector[1] == " Gun Splash On ") {
+            if (last_vector[1] == " Gun Splash On " or last_vector[1] == " M70 rocket hit") {
               probability = 0.30;
             }
             var failed = fail_systems(probability);
