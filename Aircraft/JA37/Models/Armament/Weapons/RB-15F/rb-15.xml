@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+	<path>rb15.ac</path>
+
+	<nopreview/>
+
+	<effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+	  <object-name>front_fin</object-name>
+	  <object-name>front_fin.001</object-name>
+	  <object-name>front_fin.002</object-name>
+	  <object-name>front_fin.003</object-name>
+	  <object-name>front_fin.004</object-name>
+	  <object-name>front_fin.005</object-name>
+	  <object-name>front_fin.006</object-name>
+	  <object-name>front_fin.007</object-name>
+	  <object-name>missile_body</object-name>
+	</effect>
+
+</PropertyList>

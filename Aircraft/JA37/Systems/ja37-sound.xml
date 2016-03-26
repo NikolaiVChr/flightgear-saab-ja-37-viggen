@@ -1551,13 +1551,34 @@
                 </equals>
             </condition>
             <pitch>
-                <factor>1.6</factor><!-- changes it to beep -->
+                <factor>1.8</factor><!-- changes it to beep -->
                 <max>2</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-99/sound-volume</property>
             </volume>
         </rb99-signal>
+
+        <rb15-signal>
+            <name>rb15-signal</name>
+            <mode>looped</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <condition>
+                <property>payload/armament/rb-15f/sound-on-off</property>
+                <equals>
+                    <property>sim/ja37/hud/current-mode</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <pitch>
+                <factor>1.6</factor><!-- changes it to beep -->
+                <max>2</max>
+            </pitch>
+            <volume>
+                <property>payload/armament/rb-15f/sound-volume</property>
+            </volume>
+        </rb15-signal>
 
         <flare>
             <name>flare</name>

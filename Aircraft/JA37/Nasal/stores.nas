@@ -77,6 +77,7 @@ var loop_stores = func {
           or (payloadName.getValue() == "RB 74" and payloadWeight.getValue() != 188)
           or (payloadName.getValue() == "RB 71" and payloadWeight.getValue() != 425)
           or (payloadName.getValue() == "RB 99" and payloadWeight.getValue() != 291)
+          or (payloadName.getValue() == "RB 15F" and payloadWeight.getValue() != 1763.7)
           or (payloadName.getValue() == "TEST" and payloadWeight.getValue() != 50)
           or (payloadName.getValue() == "Drop tank" and payloadWeight.getValue() != 224.87))) {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
@@ -165,6 +166,21 @@ var loop_stores = func {
               payloadName.setValue("none");
               #print("refusing to mount new RB-71 missile yet "~i);
             }
+          } elsif (payloadName.getValue() == "RB 15F") {
+            # is not center pylon and is RB99
+            #print("rb71 "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB 15F") {
+              # remove aim-9 logic from that pylon
+              #print("removing aim-9 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "RB-15F", "Robot 15F") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-71 missile yet "~i);
+            }
           }
         }
       }
@@ -243,10 +259,15 @@ var loop_stores = func {
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 200) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 200);
         }
-      }  elsif (selected == "TEST") {
+      } elsif (selected == "TEST") {
         # the pylon has a rocket pod, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 50) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 50);
+        }
+      } elsif (selected == "RB 15F") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1763.7) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1763.7);
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
@@ -459,9 +480,10 @@ var warhead_lbs = {
     "R74":                  16.0,
     "MATRA-R530":           55.0,
     "Meteor":               55.0,
-    "AIM-54":               135.0,
+    "AIM-54":              135.0,
     "Matra R550 Magic 2":   27.0,
     "Matra MICA":           30.0,
+    "RB-15F":             440.92,
 };
 
 var incoming_listener = func {
@@ -480,7 +502,7 @@ var incoming_listener = func {
         # a m2000 is firing at us
         m2000 = TRUE;
       }
-      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or last_vector[1] == " RB-99 fired at" or m2000 == TRUE) {
+      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or last_vector[1] == " RB-15F fired at" or last_vector[1] == " RB-99 fired at" or m2000 == TRUE) {
         # air2air being fired
         if (size(last_vector) > 2 or m2000 == TRUE) {
           #print("Missile launch detected at"~last_vector[2]~" from "~author);
@@ -764,6 +786,13 @@ var ammoCount = func (station) {
           ammo += 1;
         }
       }
+    } elsif (type == "RB 15F") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 15F") {
+          ammo += 1;
+        }
+      }
     }
   }
   return ammo;
@@ -829,6 +858,13 @@ var cycle_weapons = func {
         type = "RB 74";
       }
     } elsif (type == "RB 74") {
+      sel = selectType("RB 15F");
+      if (sel != -1) {
+        newType = "RB 15F";
+      } else {
+        type = "RB 15F";
+      }
+    } elsif (type == "RB 15F") {
       sel = 0;
       newType = "KCA";
     }
@@ -929,9 +965,9 @@ reloadAir2Air1997 = func {
 
 reloadAir2Ground = func {
   # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M70");
+  setprop("payload/weight[0]/selected", "RB 15F");
   setprop("payload/weight[1]/selected", "M70");
-  setprop("payload/weight[2]/selected", "M70");
+  setprop("payload/weight[2]/selected", "RB 15F");
   setprop("payload/weight[3]/selected", "M70");
   setprop("payload/weight[4]/selected", "RB 24J");
   setprop("payload/weight[5]/selected", "RB 24J");
@@ -939,7 +975,8 @@ reloadAir2Ground = func {
   setprop("ai/submodels/submodel[6]/count", 6);
   setprop("ai/submodels/submodel[7]/count", 6);
   setprop("ai/submodels/submodel[8]/count", 6);
-  screen.log.write("Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-15F cruise-missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
   setprop("ai/submodels/submodel[0]/count", 60);

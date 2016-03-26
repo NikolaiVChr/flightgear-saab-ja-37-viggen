@@ -59,6 +59,7 @@ var findRadarTracks = func () {
 	  var rb71 = node_ai.getChildren("rb-71");
     var rb74 = node_ai.getChildren("rb-74");
     var rb99 = node_ai.getChildren("rb-99");
+    var rb15 = node_ai.getChildren("rb-15f");
     var test = node_ai.getChildren("test");
 
     if(selection != nil and selection[6].getNode("valid").getValue() == FALSE) {
@@ -75,6 +76,7 @@ var findRadarTracks = func () {
 	  processTracks(rb71, FALSE, TRUE);
     processTracks(rb74, FALSE, TRUE);
     processTracks(rb99, FALSE, TRUE);
+    processTracks(rb15, FALSE, TRUE);
     processTracks(test, FALSE, TRUE);
     processCallsigns(players);
   } else {

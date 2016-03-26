@@ -1748,6 +1748,9 @@ var HUDnasal = {
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 99") {
         me.qfe.setText("RB-99");
         me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 15F") {
+        me.qfe.setText("RB-15F");
+        me.qfe.show();
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "TEST") {
         me.qfe.setText("TEST");
         me.qfe.show();
@@ -1828,6 +1831,11 @@ var HUDnasal = {
         me.reticle_cannon.hide();
         me.reticle_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 99") {
+        air2air = TRUE;
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.show();
+      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 15F") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
@@ -2002,6 +2010,10 @@ var HUDnasal = {
           # skyflash
           minDist =   400;
           maxDist = 71857.6;
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 15F") {
+          # robot 15F
+          minDist =   400;
+          maxDist = 150000;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M70") {
           # Rocket pod
           minDist =   200;

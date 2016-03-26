@@ -2836,6 +2836,53 @@
   </condition>
  </animation>
 
+ <!-- ====== rb 15f ====== -->
+ 
+  <model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-15F/rb-15.xml</path>
+    <name>cm0</name>
+    <offsets>
+      <y-m> -2.75</y-m>
+      <z-m> -0.825</z-m>
+      <x-m>  2.70</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>cm0</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>1763.7</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-15F/rb-15.xml</path>
+    <name>cm2</name>
+    <offsets>
+      <y-m>  2.75</y-m>
+      <z-m> -0.825</z-m>
+      <x-m>  2.70</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>cm2</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>1763.7</value>
+   </equals>
+  </condition>
+ </animation>
+
+
  <!-- ====== m70 ====== -->
  
   <model><!-- Left wing pylon -->
