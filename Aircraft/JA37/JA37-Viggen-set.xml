@@ -605,7 +605,7 @@
                 <selected type="int">-1</selected>
                 <enabled userarchive="y" type="bool">true</enabled>
                 <look-through-terrain type="bool">true</look-through-terrain>
-                <doppler-enabled type="bool">false</doppler-enabled>
+                <doppler-enabled type="bool">true</doppler-enabled>
                 <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
             </radar>
             <effect>
@@ -1403,7 +1403,7 @@
                     <fire-msg>Greyhound</fire-msg>
                 </rb-15f>
                 <!-- test: currently small cruise missile -->
-                <!--<test>                    
+                <!--<test>
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.03</vol-search>

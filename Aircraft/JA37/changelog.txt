@@ -2109,3 +2109,7 @@ Sim: Added M70 and Scalp to damage check.
 HUD: Last dev changes broke something with modes in the HUD, fixed now.
 Sim: Added custom fire messages for missile types. Not in use yet though.
 Sim: Removed the word cheat from anti-cheat MP message.
+Radar: Classify targets into type (air, marine, surface, ordnance) and let missiles fire only at right type.
+Radar: Doppler is now enabled per default.
+HUD: Fixed that towers were shown at incorrect altitude.
+Sim: A GPS target can now be entered via key crtl-n. It will take the currently active route-manager waypoint.

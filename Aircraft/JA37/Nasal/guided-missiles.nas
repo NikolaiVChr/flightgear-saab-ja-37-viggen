@@ -59,7 +59,7 @@ var AIM = {
 		m.type_lc = string.lc(type);
 		m.type = type;
 
-		m.status            = 0; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
+		m.status            = MISSILE_STANDBY; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 		m.trackWeak         = 1;
 
@@ -207,9 +207,10 @@ var AIM = {
 
 		m.SwSoundOnOff.setValue(1);
 
-		settimer(func { m.SwSoundVol.setValue(m.vol_search); me.trackWeak = 1; m.search() }, 1);
-		return AIM.active[m.ID] = m;
+		m.SwSoundVol.setValue(m.vol_search);
+		me.trackWeak = 1;
 
+		return AIM.active[m.ID] = m;
 	},
 	#done
 	del: func {
@@ -906,7 +907,7 @@ var AIM = {
 				e_gain = 0;
 				h_gain = 0;
 				me.update_count = -1;
-				print("Not guiding (lost radar reflection, trying to require)");
+				print("Not guiding (lost radar reflection, trying to reaquire)");
 			} elsif (me.curr_tgt_e > me.max_seeker_dev or me.curr_tgt_e < (-1 * me.max_seeker_dev)
 				  or me.curr_tgt_h > me.max_seeker_dev or me.curr_tgt_h < (-1 * me.max_seeker_dev)) {
 				# target is not in missile seeker view anymore
@@ -1264,7 +1265,10 @@ var AIM = {
 		# search.
 		if (1==1 or contact != me.Tgt) {
 			#print("search2");
-			if (contact != nil and contact.isValid() == TRUE) {
+			if (contact != nil and contact.isValid() == TRUE and
+				(  (contact.get_type() == radar_logic.SURFACE and me.class == "A/G")
+                or (contact.get_type() == radar_logic.AIR and me.class == "A/A")
+                or (contact.get_type() == radar_logic.MARINE and me.class == "A/G"))) {
 				#print("search3");
 				var tgt = contact; # In the radar range and horizontal field.
 				var rng = tgt.get_range();
@@ -1307,6 +1311,7 @@ var AIM = {
 		}
 		if (me.status == MISSILE_SEARCH) {
 			# Status = searching.
+			#print("search commanded");
 			me.return_to_search();
 			return TRUE;
 		} elsif ( me.status == MISSILE_STANDBY ) {
@@ -1366,7 +1371,7 @@ var AIM = {
 				me.trackWeak = 1;
 			}
 			if (contact == nil or (contact.getUnique() != nil and me.Tgt.getUnique() != nil and contact.getUnique() != me.Tgt.getUnique())) {
-				#print("oops "~me.Tgt.getPath());
+				#print("oops ");
 				me.return_to_search();
 				return TRUE;
 			}

@@ -684,13 +684,20 @@ var HUDnasal = {
                            .lineTo(-(70/1024)*canvasWidth,   0)
                            .setStrokeLineWidth(w)
                            .setColor(r,g,b, a);
-    HUDnasal.main.target = HUDnasal.main.diamond_group.createChild("path")
+    HUDnasal.main.target_air = HUDnasal.main.diamond_group.createChild("path")
                            .moveTo(-(50/1024)*canvasWidth,   0)
                            .lineTo(-(50/1024)*canvasWidth, -(50/1024)*canvasWidth)
                            .lineTo( (50/1024)*canvasWidth, -(50/1024)*canvasWidth)
                            .lineTo( (50/1024)*canvasWidth,   0)
                            .setStrokeLineWidth(w)
-                           .setColor(r,g,b, a);                           
+                           .setColor(r,g,b, a);
+    HUDnasal.main.target_ground = HUDnasal.main.diamond_group.createChild("path")
+                           .moveTo(-(50/1024)*canvasWidth,   0)
+                           .lineTo(-(50/1024)*canvasWidth, (50/1024)*canvasWidth)
+                           .lineTo( (50/1024)*canvasWidth, (50/1024)*canvasWidth)
+                           .lineTo( (50/1024)*canvasWidth,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);                                                      
     HUDnasal.main.diamond_dist = HUDnasal.main.diamond_group.createChild("text");
     HUDnasal.main.diamond_dist.setText("..");
     HUDnasal.main.diamond_dist.setColor(r,g,b, a);
@@ -801,7 +808,7 @@ var HUDnasal = {
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow, HUDnasal.main.head_scale_horz_ticks,
              HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
-             HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
+             HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target_air, HUDnasal.main.target_ground, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
              HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, HUDnasal.main.distanceScale, HUDnasal.main.targetDistance1,
              HUDnasal.main.targetDistance2, HUDnasal.main.landing_line, HUDnasal.main.heading_bug_horz];
@@ -2088,14 +2095,14 @@ var HUDnasal = {
     var towerLon = me.input.towerLon.getValue();
     if(mode != COMBAT and me.input.final.getValue() == FALSE and towerAlt != nil and towerLat != nil and towerLon != nil) {
       var towerPos = geo.Coord.new();
-      towerPos.set_latlon(towerLat, towerLon, towerAlt);
+      towerPos.set_latlon(towerLat, towerLon, towerAlt*FT2M);
       var showme = TRUE;
 
-      var hud_pos = radar_logic.trackCalc(towerPos, 99000, FALSE, FALSE);
+      var hud_pos = radar_logic.ContactGPS.new(getprop("sim/tower/airport-id"), towerPos);
       if(hud_pos != nil) {
-        var distance = hud_pos[2];
-        var pos_x = hud_pos[0];
-        var pos_y = hud_pos[1];
+        var distance = hud_pos.get_range()*NM2M;
+        var pos_x = hud_pos.get_cartesian()[0];
+        var pos_y = hud_pos.get_cartesian()[1];
 
         if(pos_x > (512/1024)*canvasWidth) {
           showme = FALSE;
@@ -2118,7 +2125,7 @@ var HUDnasal = {
           } else {
             me.tower_symbol_dist.setText(sprintf("%02d", tower_dist/1000));
           }          
-          me.tower_symbol_icao.setText(getprop("sim/tower/airport-id"));
+          me.tower_symbol_icao.setText(hud_pos.get_Callsign());
           me.tower_symbol.show();
           me.tower_symbol.update();
         } else {
@@ -2141,56 +2148,13 @@ var HUDnasal = {
 
       var selection = radar_logic.selection;
 
-      # selection/hud_pos
-      #
-      # 0 - x position
-      # 1 - y position
-      # 2 - direct distance in meter
-      # 3 - distance in radar screen plane
-      # 4 - horizontal angle from aircraft in rad
-      # 5 - identifier
-      # 6 - node
-      # 7 - is own missile
+      if (selection != nil and selection.parents[0] == radar_logic.ContactGPS) {
+        me.displayRadarTrack(selection);
+      }
 
       # do circles here
       foreach(hud_pos; radar_logic.tracks) {
-        var pos_x = hud_pos[0];
-        var pos_y = hud_pos[1];
-        var distance = hud_pos[2];
-        var showme = TRUE;
-        
-        if(pos_x > (512/1024)*canvasWidth) {
-          showme = FALSE;
-        }
-        if(pos_x < -(512/1024)*canvasWidth) {
-          showme = FALSE;
-        }
-        if(pos_y > (512/1024)*canvasWidth) {
-          showme = FALSE;
-        }
-        if(pos_y < -(512/1024)*canvasWidth) {
-          showme = FALSE;
-        }
-
-        var currentIndex = me.track_index;
-
-        if(hud_pos == selection and hud_pos[0] != 90000) {
-            me.selection_updated = TRUE;
-            me.selection_index = 0;
-            currentIndex = 0;
-        }
-        
-        if(currentIndex > -1 and (showme == TRUE or currentIndex == 0)) {
-          me.target_circle[currentIndex].setTranslation(pos_x, pos_y);
-          me.target_circle[currentIndex].show();
-          me.target_circle[currentIndex].update();  
-          if(currentIndex != 0) {
-            me.track_index += 1;
-            if (me.track_index == maxTracks) {
-              me.track_index = -1;
-            }
-          }
-        }
+        me.displayRadarTrack(hud_pos);
       }
       if(me.track_index != -1) {
         #hide the the rest unused circles
@@ -2205,12 +2169,12 @@ var HUDnasal = {
       
 
       # draw selection
-      if(selection != nil and selection[6].getChild("valid").getValue() == TRUE and me.selection_updated == TRUE) {
+      if(selection != nil and selection.isValid() == TRUE and me.selection_updated == TRUE) {
         # selection is currently in forward looking radar view
         var blink = FALSE;
 
-        var pos_x = selection[0];
-        var pos_y = selection[1];
+        var pos_x = selection.get_cartesian()[0];
+        var pos_y = selection.get_cartesian()[1];
 
         if (pos_y != 0 and pos_x != 0 and (pos_x > (512/1024)*canvasWidth or pos_y > (512/1024)*canvasWidth or pos_x < -(512/1024)*canvasWidth or pos_y < -(462/1024)*canvasWidth)) {
           # outside HUD view, we then use polar coordinates to find where on the border it should be displayed
@@ -2252,19 +2216,23 @@ var HUDnasal = {
           blink = TRUE;
           pos_y = -(462/1024)*canvasWidth;
         }
-        if(selection[7] == FALSE and mode == COMBAT) {
+        if(selection.get_type() != radar_logic.ORDNANCE and mode == COMBAT) {
           #targetable
-          diamond_node = selection[6];
-          armament.contact = radar_logic.Contact.new(diamond_node);
+          #diamond_node = selection[6];
+          armament.contact = selection;
           me.diamond_group.setTranslation(pos_x, pos_y);
-          var diamond_dist = me.input.units.getValue() ==1  ? selection[2] : selection[2]/kts2kmh;
+          var diamond_dist = me.input.units.getValue() ==1  ? selection.get_range()*NM2M : selection.get_range()*1000;
           
           if(diamond_dist < 10000) {
             me.diamond_dist.setText(sprintf("%.1f", diamond_dist/1000));
           } else {
             me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
           }
-          me.diamond_name.setText(selection[5]);
+          if (me.input.callsign.getValue() == TRUE) {
+            me.diamond_name.setText(selection.get_Callsign());
+          } else {
+            me.diamond_name.setText(selection.get_model());
+          }
           me.target_circle[me.selection_index].hide();
 
 
@@ -2272,7 +2240,8 @@ var HUDnasal = {
           var diamond = 0;
           #print();
           var roll = getprop("orientation/roll-deg");
-          if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and (armament.AIM.active[armSelect-1].rail == TRUE or (roll > -90 and roll < 90))) {
+          if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == armament.MISSILE_LOCK
+             and (armament.AIM.active[armSelect-1].rail == TRUE or (roll > -90 and roll < 90))) {
             # lock and not inverted if the missiles is to be dropped
             var weak = armament.AIM.active[armSelect-1].trackWeak;
             if (weak == TRUE) {
@@ -2301,7 +2270,8 @@ var HUDnasal = {
           #               .setColor(r,g,b, a);
           #print("diamond="~diamond~" blink="~blink);
           if (diamond > 0) {
-            me.target.hide();
+            me.target_air.hide();
+            me.target_ground.hide();
 
             if (blink == TRUE) {
               if((diamond == 1 and me.input.fiveHz.getValue() == TRUE) or (diamond == 2 and me.input.tenHz.getValue() == TRUE)) {
@@ -2318,27 +2288,38 @@ var HUDnasal = {
             }
 
           } elsif (blink == FALSE or me.input.fiveHz.getValue() == TRUE) {
-            me.target.show();
+            if (selection.get_type() == radar_logic.SURFACE or selection.get_type() == radar_logic.MARINE) {
+              me.target_ground.show();
+              me.target_air.hide();
+            } else {
+              me.target_air.show();
+              me.target_ground.hide();
+            }
             me.diamond.hide();
           } else {
-            me.target.hide();
+            me.target_air.hide();
+            me.target_ground.hide();
             me.diamond.hide();
           }
           me.diamond_group.show();
 
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
-          diamond_node = nil;
+          #diamond_node = nil;
           armament.contact = nil;
           me.diamond_group.setTranslation(pos_x, pos_y);
           me.target_circle[me.selection_index].setTranslation(pos_x, pos_y);
-          var diamond_dist = me.input.units.getValue() == TRUE  ? selection[2] : selection[2]/kts2kmh;
+          var diamond_dist = me.input.units.getValue() == TRUE  ? selection.get_range()*NM2M : selection.get_range()*1000;
           if(diamond_dist < 10000) {
             me.diamond_dist.setText(sprintf("%.1f", diamond_dist/1000));
           } else {
             me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
           }
-          me.diamond_name.setText(selection[5]);
+          if (me.input.callsign.getValue() == TRUE) {
+            me.diamond_name.setText(selection.get_Callsign());
+          } else {
+            me.diamond_name.setText(selection.get_model());
+          }
           
           if(blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
             me.target_circle[me.selection_index].hide();
@@ -2347,13 +2328,14 @@ var HUDnasal = {
           }
           me.diamond_group.show();
           me.diamond.hide();
-          me.target.hide();
+          me.target_air.hide();
+          me.target_ground.hide();
         }
 
         #velocity vector
         if(pos_x > -(512/1024)*canvasWidth and pos_x < (512/1024)*canvasWidth and pos_y > -(512/1024)*canvasWidth and pos_y < (512/1024)*canvasWidth) {
-          var tgtHeading = selection[6].getNode("orientation/true-heading-deg").getValue();
-          var tgtSpeed = selection[6].getNode("velocities/true-airspeed-kt").getValue();
+          var tgtHeading = selection.get_heading();
+          var tgtSpeed = selection.get_Speed();
           var myHeading = me.input.hdgReal.getValue();
           var myRoll = me.input.roll.getValue();
           if (tgtHeading == nil or tgtSpeed == nil) {
@@ -2381,10 +2363,10 @@ var HUDnasal = {
         # selection is outside radar view
         # or invalid
         # or nothing selected
-        diamond_node = nil;
+        #diamond_node = nil;
         armament.contact = nil;
         if(selection != nil) {
-          selection[2] = nil;#no longer sure why I do this..
+          #selection[2] = nil;#no longer sure why I do this..
         }
         me.diamond_group.hide();
         me.vel_vec.hide();
@@ -2394,6 +2376,46 @@ var HUDnasal = {
     } else {
       # radar tracks not shown at all
       me.radar_group.hide();
+    }
+  },
+
+  displayRadarTrack: func (hud_pos) {
+    var pos_x = hud_pos.get_cartesian()[0];
+    var pos_y = hud_pos.get_cartesian()[1];
+    var distance = hud_pos.get_range()*NM2M;
+    var showme = TRUE;
+    
+    if(pos_x > (512/1024)*canvasWidth) {
+      showme = FALSE;
+    }
+    if(pos_x < -(512/1024)*canvasWidth) {
+      showme = FALSE;
+    }
+    if(pos_y > (512/1024)*canvasWidth) {
+      showme = FALSE;
+    }
+    if(pos_y < -(512/1024)*canvasWidth) {
+      showme = FALSE;
+    }
+
+    var currentIndex = me.track_index;
+
+    if(hud_pos == radar_logic.selection and pos_x != 900000) {
+        me.selection_updated = TRUE;
+        me.selection_index = 0;
+        currentIndex = 0;
+    }
+    
+    if(currentIndex > -1 and (showme == TRUE or currentIndex == 0)) {
+      me.target_circle[currentIndex].setTranslation(pos_x, pos_y);
+      me.target_circle[currentIndex].show();
+      me.target_circle[currentIndex].update();  
+      if(currentIndex != 0) {
+        me.track_index += 1;
+        if (me.track_index == maxTracks) {
+          me.track_index = -1;
+        }
+      }
     }
   },
 };#end of HUDnasal

@@ -59,18 +59,7 @@ var loop_stores = func {
     for(var i=0; i<=6; i=i+1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
       var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
-      if(getprop("dev") == TRUE) {
-        if (i == 0 or i == 2) {
-          payloadName.setValue("RB 71");
-          payloadWeight.setValue(0);
-        } elsif (i == 1 or i == 3) {
-          payloadName.setValue("RB 99");
-          payloadWeight.setValue(0);
-        }  elsif (i == 4 or i == 5) {
-          payloadName.setValue("RB 74");
-          payloadWeight.setValue(0);
-        }
-      }
+      
       if(payloadName.getValue() != "none" and (
           (payloadName.getValue() == "M70" and payloadWeight.getValue() != 200)
           or (payloadName.getValue() == "RB 24J" and payloadWeight.getValue() != 179)
@@ -202,19 +191,19 @@ var loop_stores = func {
         if(armSelect != (i+1) and armament.AIM.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
           armament.AIM.active[i].status = MISSILE_STANDBY;
-          #print("not sel "~(i));
+          #print("not sel "~i);
         } elsif (input.acMainVolt.getValue() < 150 or input.combat.getValue() != 2
                   or (armament.AIM.active[i].status != MISSILE_STANDBY
                       and armament.AIM.active[i].status != MISSILE_FLYING
                       and payloadName.getValue() == "none")) {
           #pylon has logic but missile not mounted and not flying or not in tactical mode or has no power
           armament.AIM.active[i].status = MISSILE_STANDBY;
-          #print("empty "~(i));
+          #print("empty "~i);
         } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY
                   and input.combat.getValue() == 2) { # and payloadName.getValue() == "RB 24J"
           #pylon selected, missile mounted, in tactical mode, activate search
           armament.AIM.active[i].status = MISSILE_SEARCH;
-          #print("active "~(i));
+          #print("active "~i);
           armament.AIM.active[i].search();
         }
       }
@@ -294,6 +283,25 @@ var loop_stores = func {
       # left wing pylon has more load than right
       if (input.asymLoad.getValue() != 1) {
         input.asymLoad.setValue(1);
+      }
+    }
+
+    if(getprop("dev") == TRUE) {
+      for(var i=0; i<=6; i=i+1) {
+        var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
+        var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
+      
+        if (i == 0) {
+          payloadName.setValue("RB 15F");
+        } elsif (i == 2) {
+          payloadName.setValue("RB 71");
+        } elsif (i == 1 or i == 3) {
+          payloadName.setValue("RB 99");
+        } elsif (i == 4) {
+          payloadName.setValue("RB 74");
+        } elsif (i == 5) {
+          payloadName.setValue("RB 24J");
+        }
       }
     }
 
@@ -1036,4 +1044,32 @@ var main_weapons = func {
 
   # start the main loop
   settimer(func { loop_stores() }, 0.1);
+}
+
+var selectNextWaypoint = func () {
+  var active_wp = getprop("autopilot/route-manager/current-wp");
+
+  if (active_wp == nil or active_wp < 0) {
+    screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
+    return;
+  }
+
+  var active_node = globals.props.getNode("autopilot/route-manager/route/wp["~active_wp~"]");
+
+  if (active_node == nil) {
+    screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
+    return;
+  }
+
+  var lat = active_node.getNode("latitude-deg");
+  var lon = active_node.getNode("longitude-deg");
+  var alt = active_node.getNode("altitude-m");
+  var name = active_node.getNode("id");
+
+  var coord = geo.Coord.new();
+  coord.set_latlon(lat.getValue(), lon.getValue(), alt.getValue());
+
+  var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
+
+  radar_logic.selection = contact;
 }

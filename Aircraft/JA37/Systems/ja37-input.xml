@@ -531,6 +531,16 @@
 			</binding>
 		</key>
 
+        <key n="14">
+            <name>CTRL-N</name>
+            <desc>Target next route-manager waypoint</desc>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>armament.selectNextWaypoint()</script>
+            </binding>
+        </key>
+
         <key n="21">
           <name>Ctrl-U</name>
           <desc>[Cheat] Add 1000ft of emergency altitude</desc>
