@@ -339,7 +339,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
           #hidden behind terrain
           return nil;
         }
-        if (doppler(aircraftPos, track) == TRUE) {
+        if (doppler(aircraftPos, node) == TRUE) {
           # doppler picks it up, must be an aircraft
           type = AIR;
         } else {
