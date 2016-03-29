@@ -2113,3 +2113,4 @@ Radar: Classify targets into type (air, marine, surface, ordnance) and let missi
 Radar: Doppler is now enabled per default.
 HUD: Fixed that towers were shown at incorrect altitude.
 Sim: A GPS target can now be entered via key crtl-n. It will take the currently active route-manager waypoint.
+Sim: Fixed that KCA cannon will hit type if type is selected in HUD. Instead its now callsign.

@@ -57,7 +57,6 @@ Sim: Make anti-cheat system for MP fighting.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Sim: Replace nasal blinkers with JSB code.
 Sim: Implement maximum speed reactions - Vne.
-Sim: Fix that KCA cannon will hit type if type is selected in HUD. Instead it should always be callsign.
 Sim: Implement navigation controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
 Sim: Make missile code generic aircraft independent.

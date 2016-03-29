@@ -451,17 +451,12 @@ var impact_listener = func {
         var lon = ballistic.getNode("impact/longitude-deg").getValue();
         var impactPos = geo.Coord.new().set_latlon(lat, lon);
 
-        var track = radar_logic.selection[6];
-
-        var x = track.getNode("position/global-x").getValue();
-        var y = track.getNode("position/global-y").getValue();
-        var z = track.getNode("position/global-z").getValue();
-        var selectionPos = geo.Coord.new().set_xyz(x, y, z);
+        var selectionPos = radar_logic.get_Coord();
 
         var distance = impactPos.distance_to(selectionPos);
         if (distance < 50) {
           last_impact = input.elapsed.getValue();
-          var phrase =  defeatSpamFilter(ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection[5]);
+          var phrase =  defeatSpamFilter(ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection.get_Callsign());
           if (getprop("payload/armament/msg")) {
             setprop("/sim/multiplay/chat", phrase);
 			      #hit_count = hit_count + 1;
