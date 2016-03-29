@@ -798,7 +798,14 @@ var Contact = {
         if(n != "" and n != nil) {
             return n;
         }
-        n = me.name.getValue();
+        if (me.name == nil) {
+          me.name = me.getNode().getNode("name");
+        }
+        if (me.name == nil) {
+          n = "";
+        } else {
+          n = me.name.getValue();
+        }
         if(n != "" and n != nil) {
             return n;
         }
@@ -824,7 +831,14 @@ var Contact = {
         if(n != "" and n != nil) {
             return n;
         }
-        n = me.name.getValue();
+        if (me.name == nil) {
+          me.name = me.getNode().getNode("name");
+        }
+        if (me.name == nil) {
+          n = "";
+        } else {
+          n = me.name.getValue();
+        }
         if(n != "" and n != nil) {
             return n;
         }
