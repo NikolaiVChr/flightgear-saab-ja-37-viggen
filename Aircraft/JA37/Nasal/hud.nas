@@ -1996,7 +1996,7 @@ var HUDnasal = {
         var armSelect = me.input.station.getValue();
         var minDist = nil;
         var maxDist = nil;
-        var currDist = radar_logic.selection[2];
+        var currDist = radar_logic.selection.get_range()*NM2M;
         if(armSelect == 0) {
           # cannon
           minDist =  100;
