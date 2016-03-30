@@ -9,9 +9,9 @@ GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make cannon pod detachable and have pointweight. (and model it above drop-tank)
 Aero: Air-brakes, even though they got welded shut in mid 80ties. (Request from JazzTp)
+Aero: Make wave drag again influence stores.
 Control: Pitch damper should also take lateral normal (Nz) acceleration as input as per manual.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
-Control: Make option for more forgiving FCS for pitch.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.
@@ -83,6 +83,7 @@ HUD: All track semi circles and semi box should have a line in them. (might degr
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
+HUD: Show 2 vertical lines instead of a circle, when in RB15 mode.
 
 
 

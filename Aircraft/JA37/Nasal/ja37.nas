@@ -1638,13 +1638,13 @@ var not = func {
           msg = msg~"Used timewarp..";
         }
         if (substr(bits,6,1) == 1) {
-          msg = msg~"Damage is off..";
+          msg = msg~"Have damage off..";
         }
         if (substr(bits,7,1) == 1) {
-          msg = msg~"Terrain mask. is off..";
+          msg = msg~"Have Terrain mask. off..";
         }
         if (substr(bits,8,1) == 1) {
-          msg = msg~"Doppler is off..";
+          msg = msg~"Have Doppler off..";
         }
       }
     }

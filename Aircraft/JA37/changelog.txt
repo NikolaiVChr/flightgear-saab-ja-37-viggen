@@ -2116,3 +2116,5 @@ Sim: A GPS target can now be entered via key crtl-n. It will take the currently 
 Sim: Fixed that KCA cannon will hit type if type is selected in HUD. Instead its now callsign.
 Engine: Adjusted mil thrust curve.
 Aero: Adjusted wave drag.
+Sim: Reduced the static sensor error.
+Control: Made elevon have more authority at very high speeds at low altitude.
