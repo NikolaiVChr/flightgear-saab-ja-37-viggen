@@ -863,8 +863,8 @@
                 </flight>
             </systems>
             <aero>
-                <factor-axial-mach type="double">0.1075</factor-axial-mach>
-                <factor-axial type="double">1.15</factor-axial>
+                <factor-axial-mach type="double">0.275</factor-axial-mach>
+                <factor-axial type="double">0.3</factor-axial>
                 <function>
                     <vortex type="double">1.0</vortex>
                 </function>

@@ -318,9 +318,11 @@
                     <tableData><!--  1.25   2.2   mach, aug   -->
                                   0.0    36089.2
                         0.8100    0.00     0.00
-                        1.0000    0.10     0.054941860
-                        1.5000    0.04     0.054941860
-                        2.0000    0.02     0.054941860
+                        1.0000    0.10     0.0629
+                        1.1250    0.0825   0.0629
+                        1.2500    0.07     0.0629
+                        1.5000    0.05     0.0629
+                        2.0000    0.03     0.0629
                     </tableData>
                 </table>
                 <property>aero/factor-axial-mach</property>
@@ -509,7 +511,7 @@
                         <table>
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <independentVar lookup="column"> fcs/left-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
-                            <tableData>
+                            <tableData><!-- drag -->
                                           -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
                                  -2.0000     .0156     .0110     .0079     .0024     .0000     .0031     .0092     .0126     .0148
                                    .0000     .0075     .0042     .0021    -.0009     .0000     .0064     .0150     .0194     .0222
@@ -540,7 +542,7 @@
                     <product>
                         <table>
                             <independentVar lookup="row"> fcs/left-aileron-pos-norm </independentVar>
-                            <tableData>
+                            <tableData><!-- lift -->
                                 -40.0000    -.3086
                                 -30.0000    -.2613
                                 -20.0000    -.2219
@@ -575,7 +577,7 @@
                         <table>
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <independentVar lookup="column"> fcs/right-aileron-pos-norm </independentVar><!-- note misleading name, its in deg -->
-                            <tableData>
+                            <tableData><!-- drag -->
                                           -40.0000  -30.0000  -20.0000  -10.0000     .0000   10.0000   20.0000   30.0000   35.0000
                                  -2.0000     .0156     .0110     .0079     .0024     .0000     .0031     .0092     .0126     .0148
                                    .0000     .0075     .0042     .0021    -.0009     .0000     .0064     .0150     .0194     .0222
@@ -606,7 +608,7 @@
                     <product>
                         <table>
                             <independentVar lookup="row"> fcs/right-aileron-pos-norm </independentVar>
-                            <tableData>
+                            <tableData><!-- lift -->
                                 -40.0000    -.3086
                                 -30.0000    -.2613
                                 -20.0000    -.2219
