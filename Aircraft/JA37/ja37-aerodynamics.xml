@@ -681,6 +681,7 @@
                 <table>
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[1]</independentVar>
                     <tableData>
+                        <!--     10 means same as drop-tank -->
                          0       0
                          179     1
                          188     1
@@ -696,7 +697,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CAMissile2">
             <description>
-               Missile 2 axial Coefficient
+               Left fuselage pylon axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -724,7 +725,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CAMissile3">
             <description>
-               Missile 3 axial Coefficient
+               Right wing pylon axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -752,7 +753,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CAMissile4">
             <description>
-               Missile 4 axial Coefficient
+               Right fuselage pylon axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -780,7 +781,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CAMissile5">
             <description>
-               Missile 5 axial Coefficient
+               Left outer wing pylon axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -804,7 +805,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CAMissile6">
             <description>
-               Missile 6 axial Coefficient
+               Right outer wing pylon axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -2285,38 +2286,35 @@
             <description>
                       Yaw due asymmetric stores on wing pylons
             </description>
-            <sum>
-                <product>
-                    <property>aero/coefficient/CAMissile1</property><!-- Left wing pylon-->
-                    <value>-2.70311</value>
-                    <value>3.28084</value><!-- convert meter to feet -->
-                </product>
-                <product>
-                    <property>aero/coefficient/CAMissile2</property><!-- Left fuselage pylon-->
-                    <value>-0.98148</value>
-                    <value>3.28084</value><!-- convert meter to feet -->
-                </product>
-                <product>
-                    <property>aero/coefficient/CAMissile3</property><!-- Right wing pylon-->
-                    <value>2.70311</value>
-                    <value>3.28084</value><!-- convert meter to feet -->
-                </product>
-                <product>
-                    <property>aero/coefficient/CAMissile4</property><!-- Right fuselage pylon-->
-                    <value>0.98148</value>
-                    <value>3.28084</value><!-- convert meter to feet -->
-                </product>
-                <product>
-                    <property>aero/coefficient/CAMissile5</property><!-- Left outer wing pylon-->
-                    <value>-3.94417</value>
-                    <value>3.28084</value><!-- convert meter to feet -->
-                </product>
-                <product>
-                    <property>aero/coefficient/CAMissile6</property><!-- Right outer wing pylon-->
-                    <value>3.94417</value>
-                    <value>3.28084</value><!-- convert meter to feet -->
-                </product>
-            </sum>
+            <product>
+                <sum>
+                    <product>
+                        <property>aero/coefficient/CAMissile1</property><!-- Left wing pylon-->
+                        <value>-2.70311</value>
+                    </product>
+                    <product>
+                        <property>aero/coefficient/CAMissile2</property><!-- Left fuselage pylon-->
+                        <value>-0.98148</value>
+                    </product>
+                    <product>
+                        <property>aero/coefficient/CAMissile3</property><!-- Right wing pylon-->
+                        <value>2.70311</value>
+                    </product>
+                    <product>
+                        <property>aero/coefficient/CAMissile4</property><!-- Right fuselage pylon-->
+                        <value>0.98148</value>
+                    </product>
+                    <product>
+                        <property>aero/coefficient/CAMissile5</property><!-- Left outer wing pylon-->
+                        <value>-3.94417</value>
+                    </product>
+                    <product>
+                        <property>aero/coefficient/CAMissile6</property><!-- Right outer wing pylon-->
+                        <value>3.94417</value>
+                    </product>
+                </sum>
+                <value>3.28084</value><!-- convert meter to feet -->
+            </product>
         </function>
 
         <!-- Axial force of single missile times length from center, gives yaw moment -->
