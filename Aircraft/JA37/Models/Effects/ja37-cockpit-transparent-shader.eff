@@ -19,7 +19,7 @@
 
     <dirt-enabled type="int"> 1 </dirt-enabled>
     <dirt-color type="vec3d"> 0.0 0.0 0.0 </dirt-color>
-    <dirt-factor type="float"> 0.75 </dirt-factor>
+    <dirt-factor type="float"> 0.25 </dirt-factor>
 
     <!-- dirt map -->
     <texture n="4">
