@@ -2121,3 +2121,4 @@ Control: Made elevon have more authority at very high speeds at low altitude.
 HUD: Air to ground missiles/rockets now have two lines instead of a circle.
 Aero: Adjusted drag for all stores, except drop-tank.
 Effect: Removed some of the dirt on cockpit gauge glass.
+Aero: Better calculation of yaw due to asymmetric drag from stores.

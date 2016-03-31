@@ -668,7 +668,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CAMissile1">
             <description>
-                Missile 1 axial Coefficient
+                Left wing pylon axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -1943,28 +1943,6 @@
 
     <!-- ADD: 133,110b  115, 92a   109, 88c-->
 
-    <function name="aero/function/CAMissile">
-        <description>
-             Axial force of asymmetric pylon stores.
-             Function is used to calculate yaw due to asymmetric stores under wings.
-        </description>
-        <product>
-            <property>aero/qbar-psf</property>
-            <property>metrics/Sw-sqft</property>
-            <!--<property>aero/function/mach-effect-prefactor</property>-->
-            <table>
-                <independentVar lookup="row">aero/alpha-deg</independentVar>
-                <tableData>
-                    -180  -0.00075
-                     -90   0.00000
-                       0   0.00075
-                      90   0.00000
-                     180  -0.00075
-                </tableData>
-            </table>
-        </product>
-    </function>
-
     <axis name="YAW">
 
         <!-- From graph 88b page 109 -->
@@ -2302,20 +2280,62 @@
             </product>
         </function>
 
-        <function name="aero/coefficient/CnMissile">
+        <!-- Axial force of single missile times length from center, gives yaw moment -->
+        <function name="aero/coefficient/CnStores">
+            <description>
+                      Yaw due asymmetric stores on wing pylons
+            </description>
+            <sum>
+                <product>
+                    <property>aero/coefficient/CAMissile1</property><!-- Left wing pylon-->
+                    <value>-2.70311</value>
+                    <value>3.28084</value><!-- convert meter to feet -->
+                </product>
+                <product>
+                    <property>aero/coefficient/CAMissile2</property><!-- Left fuselage pylon-->
+                    <value>-0.98148</value>
+                    <value>3.28084</value><!-- convert meter to feet -->
+                </product>
+                <product>
+                    <property>aero/coefficient/CAMissile3</property><!-- Right wing pylon-->
+                    <value>2.70311</value>
+                    <value>3.28084</value><!-- convert meter to feet -->
+                </product>
+                <product>
+                    <property>aero/coefficient/CAMissile4</property><!-- Right fuselage pylon-->
+                    <value>0.98148</value>
+                    <value>3.28084</value><!-- convert meter to feet -->
+                </product>
+                <product>
+                    <property>aero/coefficient/CAMissile5</property><!-- Left outer wing pylon-->
+                    <value>-3.94417</value>
+                    <value>3.28084</value><!-- convert meter to feet -->
+                </product>
+                <product>
+                    <property>aero/coefficient/CAMissile6</property><!-- Right outer wing pylon-->
+                    <value>3.94417</value>
+                    <value>3.28084</value><!-- convert meter to feet -->
+                </product>
+            </sum>
+        </function>
+
+        <!-- Axial force of single missile times length from center, gives yaw moment -->
+                <!-- negative length due to the way the above property works -->
+                <!-- convert meter to feet -->
+        <!--<function name="aero/coefficient/CnMissile">
             <description>
                       Yaw due asymmetric stores on wing pylons
             </description>
             <product>
-                <!-- Axial force of single missile times length from center, gives yaw moment -->
+
                 <property>aero/function/CAMissile</property>
                 <property>inertia/asymmetric-wing-load</property>
                 <value>-2.70311</value>
-                <!-- negative length due to the way the above property works -->
+
                 <value>3.28084</value>
-                <!-- convert meter to feet -->
+                
             </product>
-        </function>
+        </function>-->
 
         <!-- from graph 110a page 133 -->
         <function name="aero/coefficient/Cnaileron">
