@@ -390,7 +390,7 @@ var HUDnasal = {
       .lineTo(0,  (15/1024)*canvasWidth*reticle_factor)
       .setStrokeLineCap("round")
       .setStrokeLineWidth(w);
-    # Missile aiming circle
+    # a2a Missile aiming circle
     HUDnasal.main.reticle_missile =
       HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
@@ -398,6 +398,15 @@ var HUDnasal = {
       .arcSmallCW((200/1024)*canvasWidth,(200/1024)*canvasWidth, 0, -(400/1024)*canvasWidth, 0)
       .arcSmallCW((200/1024)*canvasWidth,(200/1024)*canvasWidth, 0,  (400/1024)*canvasWidth, 0)
       .setStrokeLineCap("round")
+      .setStrokeLineWidth(w);
+    # a2g Missile aiming circle
+    HUDnasal.main.reticle_c_missile =
+      HUDnasal.main.root.createChild("path")
+      .setColor(r,g,b, a)
+      .moveTo( (150/1024)*canvasWidth, centerOffset-(75/1024)*canvasWidth)
+      .lineTo( (150/1024)*canvasWidth, centerOffset+(75/1024)*canvasWidth)
+      .moveTo( (-150/1024)*canvasWidth, centerOffset-(75/1024)*canvasWidth)
+      .lineTo( (-150/1024)*canvasWidth, centerOffset+(75/1024)*canvasWidth)
       .setStrokeLineWidth(w);      
     # Out of ammo flight path indicator
     HUDnasal.main.reticle_no_ammo =
@@ -804,7 +813,7 @@ var HUDnasal = {
       append(artifacts1, target_circles);
     }
 
-    artifacts0 = [HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec, HUDnasal.main.reticle_missile,
+    artifacts0 = [HUDnasal.main.head_scale, HUDnasal.main.hdgLineL, HUDnasal.main.heading_bug, HUDnasal.main.vel_vec, HUDnasal.main.reticle_missile, HUDnasal.main.reticle_c_missile,
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow, HUDnasal.main.head_scale_horz_ticks,
              HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
@@ -1814,6 +1823,7 @@ var HUDnasal = {
       me.reticle_cannon.setTranslation(0, centerOffset);
       me.reticle_cannon.show();
       me.reticle_missile.hide();
+      me.reticle_c_missile.hide();
       air2air = FALSE;
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode == COMBAT and cannon == FALSE) {
@@ -1822,41 +1832,49 @@ var HUDnasal = {
         me.showSidewind(FALSE);
         me.reticle_cannon.show();
         me.reticle_missile.hide();
+        me.reticle_c_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 24J") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
+        me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 74") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
+        me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 71") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
+        me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 99") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
+        me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 15F") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
-        me.reticle_missile.show();
+        me.reticle_missile.hide();
+        me.reticle_c_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "TEST") {
         air2air = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
+        me.reticle_c_missile.hide();
       } else {
         air2air = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.hide();
+        me.reticle_c_missile.hide();
       }
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
@@ -1865,18 +1883,21 @@ var HUDnasal = {
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
+      me.reticle_c_missile.hide();
       return me.showFlightPathVector(1, FALSE);
     } elsif(mode == TAKEOFF) {      
       air2air = FALSE;
       me.showSidewind(TRUE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
+      me.reticle_c_missile.hide();
       return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
     } elsif(mode == LANDING) {      
       air2air = FALSE;
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
+      me.reticle_c_missile.hide();
       return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
     }
     return 0;
