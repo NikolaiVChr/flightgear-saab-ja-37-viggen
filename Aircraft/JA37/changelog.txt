@@ -2118,3 +2118,5 @@ Engine: Adjusted mil thrust curve.
 Aero: Adjusted wave drag.
 Sim: Reduced the static sensor error.
 Control: Made elevon have more authority at very high speeds at low altitude.
+HUD: Air to ground missiles/rockets now have two lines instead of a circle.
+Aero: Adjusted drag for all stores, except drop-tank.

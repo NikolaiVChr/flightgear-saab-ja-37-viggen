@@ -872,7 +872,7 @@
                     <!-- drag - Notice fuselage is about 0.024 at alpha=0 -->
                     <gear type="double">        0.020</gear>                    <!-- fully extended -->
                     <flaps type="double">       0.010</flaps>                    <!-- full 30 degrees downward deflection of canard flaps -->
-                    <missile type="double">     0.00075</missile>
+                    <missile type="double">     0.00011</missile> <!-- currently 10% of droptank for a aim-9 -->
                     <drop-tank type="double">   0.0015</drop-tank>
                     <canopy type="double">      0.025</canopy>                    <!-- fully open -->
                     <canopy-off type="double">  0.015</canopy-off>                    <!-- broken off -->
