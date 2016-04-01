@@ -1551,6 +1551,7 @@ var ct = func (type) {
 }
 
 var lf = 0;
+var ll = 0;
 
 var code_ct = func () {
   var cu = getprop("sim/ct/c-u");
@@ -1571,6 +1572,11 @@ var code_ct = func () {
   if (ff == nil or ff != 1) {
     ff = 0;
   }
+  var cl = getprop("payload/weight[0]/weight-lb")+getprop("payload/weight[1]/weight-lb")+getprop("payload/weight[2]/weight-lb")+getprop("payload/weight[3]/weight-lb")+getprop("payload/weight[4]/weight-lb")+getprop("payload/weight[5]/weight-lb");
+  if (cl > (ll*1.05) and input.wow0.getValue() != 1) {
+    setprop("sim/ct/rl", 1);
+  }
+  ll = cl;
   var rl = getprop("sim/ct/rl");
   if (rl == nil or rl != 1) {
     rl = 0;
