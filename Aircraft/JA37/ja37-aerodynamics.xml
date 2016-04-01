@@ -505,7 +505,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <value>0.5</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
+                <value>0.125</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
                 <difference>
                     <product>
                         <table>
@@ -571,7 +571,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
-                <value>0.5</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
+                <value>0.125</value><!-- Datcom calculated for both elevons so multiplying with 0.5 -->
                 <difference>
                     <product>
                         <table>
