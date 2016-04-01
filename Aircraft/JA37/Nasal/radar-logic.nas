@@ -469,7 +469,9 @@ var doppler = func(t_coord, t_node) {
     # Test to check if the target can hide below us
     # Or Hide using anti doppler movements
 
-    if (getprop("sim/ja37/radar/doppler-enabled") == FALSE) {
+    if (getprop("sim/ja37/radar/doppler-enabled") == FALSE or 
+        (t_node.getNode("velocities/true-airspeed-kt") != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() > 250)
+        ) {
       return TRUE;
     }
 

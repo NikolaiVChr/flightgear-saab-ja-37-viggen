@@ -54,7 +54,6 @@ Sim: Should drop-tank require masterarm on instead of opposite, seems logical, d
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Sim: Make data-link between Viggens.
-Sim: Make anti-cheat system for MP fighting.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Sim: Replace nasal blinkers with JSB code.
 Sim: Implement maximum speed reactions - Vne.
@@ -63,7 +62,6 @@ Sim: Engine fire: reduced thrust, stuck throttle.
 Sim: Make missile code generic aircraft independent.
 Sim: Include Shinobis missile changes into missile code. (heat)
 Sim: Stop auto-selecting when in tactical mode.
-Sim: Doppler radar should be able to see planes if they are above a certain speed, not matter if they try to notch or not.
 Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Add RB-04.
 Sim: Be able to notch the rb71 again.
