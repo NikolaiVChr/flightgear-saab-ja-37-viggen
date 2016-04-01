@@ -1619,31 +1619,31 @@ var not = func {
           settimer(not, 60);
           return;
         }
-        if (substr(bits,0,1) == 1) {
+        if (substr(bits,0,1) == "1") {
           msg = msg~"Used CTRL-U..";
         }
-        if (substr(bits,1,1) == 1) {
+        if (substr(bits,1,1) == "1") {
           msg = msg~"Use fuelfreeze..";
         }
-        if (substr(bits,2,1) == 1) {
+        if (substr(bits,2,1) == "1") {
           msg = msg~"Reloaded in air..";
         }
-        if (substr(bits,3,1) == 1) {
+        if (substr(bits,3,1) == "1") {
           msg = msg~"Refueled in air..";
         }
-        if (substr(bits,4,1) == 1) {
+        if (substr(bits,4,1) == "1") {
           msg = msg~"Repaired not on ground..";
         }
-        if (substr(bits,5,1) == 1) {
+        if (substr(bits,5,1) == "1") {
           msg = msg~"Used timewarp..";
         }
-        if (substr(bits,6,1) == 1) {
+        if (substr(bits,6,1) == "1") {
           msg = msg~"Have damage off..";
         }
-        if (substr(bits,7,1) == 1) {
+        if (substr(bits,7,1) == "1") {
           msg = msg~"Have Terrain mask. off..";
         }
-        if (substr(bits,8,1) == 1) {
+        if (substr(bits,8,1) == "1") {
           msg = msg~"Have Doppler off..";
         }
       }

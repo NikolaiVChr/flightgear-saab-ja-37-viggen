@@ -992,6 +992,8 @@ reloadAir2Ground = func {
   setprop("ai/submodels/submodel[3]/count", 146);
   setprop("ai/submodels/submodel[4]/count", 146);
   screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+
+  ja37.ct("rl");
 }
 
 ############ droptank #####################
