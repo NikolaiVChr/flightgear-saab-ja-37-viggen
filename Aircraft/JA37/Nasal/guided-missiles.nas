@@ -527,7 +527,7 @@ var AIM = {
 
 		me.speed_m = old_speed_fps / sound_fps;
 
-		var Cd = me.drag(me.speed_m);
+		var Cd = me.drag_new(me.speed_m);
 
 		# Add drag to the total speed using Standard Atmosphere (15C sealevel temperature);
 		# rho is adjusted for altitude in environment.rho_sndspeed(altitude),
@@ -732,7 +732,7 @@ var AIM = {
 # Uncomment this line to check stats while flying:
 #
 #print(sprintf("Mach %02.1f", me.speed_m)~sprintf(" , time %03.1f s", me.life_time)~sprintf(" , thrust %03.1f lbf", f_lbs)~sprintf(" , G-force %02.2f", g));
-
+#print(sprintf("Alt %05.1f", alt_ft));
 				if ( g > me.max_g_current and init_launch != 0) {
 					#print("lost lock "~g~"G");
 					# Target unreachable, fly free.
@@ -1003,16 +1003,17 @@ var AIM = {
                 	#print(" pitch "~me.pitch~" + dev_e "~dev_e);
                 }
             } elsif (me.loft_alt != 0 and t_dist_m * M2NM > loft_minimum
-				 and t_elev_deg < loft_angle and t_elev_deg > -7.5
+				 and t_elev_deg < loft_angle #and t_elev_deg > -7.5
 				 and me.dive_token == FALSE) {
 				# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
 				# our desired cruising alt, and the elevation to target is less than lofting angle.
-				# The -10 limit, is so the seeker don't lose track of target when lofting.
+				# The -7.5 limit, is so the seeker don't lose track of target when lofting.
 				if (me.coord.alt() * M2FT < me.loft_alt) {
 					dev_e = -me.pitch + loft_angle;
 					#print(sprintf("Lofting %.1f degs, dev is %.1f", loft_angle, dev_e));
 				} else {
 					me.dive_token = TRUE;
+					#print("Cruise token");
 				}
 				cruise_or_loft = 1;
 			} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time

@@ -1254,7 +1254,7 @@
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) -->
+                <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.03</vol-search>
@@ -1284,7 +1284,7 @@
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-24j>
-                <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) -->
+                <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 2.5 -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.03</vol-search>
@@ -1313,7 +1313,7 @@
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
-                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) -->
+                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) mach 4 -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
@@ -1324,9 +1324,9 @@
                     <seeker-field-deg type="int">110</seeker-field-deg>                     <!-- Seeker max total angular rotation -->
                     <max-g type="int">30</max-g>                                      <!-- guess -->
                     <thrust-lbf-stage-1 type="double">20000</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">3000</thrust-lbf-stage-2>
+                    <thrust-lbf-stage-2 type="double">2500</thrust-lbf-stage-2>
                     <stage-1-duration-sec type="double">2.7</stage-1-duration-sec>    <!-- source -->
-                    <stage-2-duration-sec type="double">10</stage-2-duration-sec>     <!-- guess -->
+                    <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>     <!-- guess -->
                     <weight-launch-lbs type="double">425</weight-launch-lbs>
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>
                     <drag-coeff type="double">0.5</drag-coeff>
@@ -1334,7 +1334,7 @@
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">60</self-destruct-time-sec>         <!-- guess -->
+                    <self-destruct-time-sec type="double">35</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>36000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
@@ -1342,7 +1342,7 @@
                     <class type="string">A/A</class>
                     <fire-msg>Fox 3</fire-msg>
                 </rb-71>
-                <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) -->
+                <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) mach 4-->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
@@ -1352,8 +1352,8 @@
                     <FCS-field-deg type="int">30</FCS-field-deg>
                     <seeker-field-deg type="int">110</seeker-field-deg>
                     <max-g type="int">30</max-g>
-                    <thrust-lbf-stage-1 type="double">11000</thrust-lbf-stage-1><!-- guess -->
-                    <thrust-lbf-stage-2 type="double">2000</thrust-lbf-stage-2>    <!-- guess -->
+                    <thrust-lbf-stage-1 type="double">9000</thrust-lbf-stage-1><!-- guess -->
+                    <thrust-lbf-stage-2 type="double">1500</thrust-lbf-stage-2>    <!-- guess -->
                     <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
                     <stage-2-duration-sec type="double">15.0</stage-2-duration-sec><!-- guess -->
                     <weight-launch-lbs>291</weight-launch-lbs>
@@ -1363,7 +1363,7 @@
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">1.6</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">80</self-destruct-time-sec>         <!-- guess -->
+                    <self-destruct-time-sec type="double">90</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>36000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
@@ -1372,7 +1372,7 @@
                     <fire-msg>Fox 3</fire-msg>
                 </rb-99>
                 <rb-15f>                    
-                    <!-- Swedish cruise-missile RB-15F -->
+                    <!-- Swedish cruise-missile RB-15F mach 0.8-->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
@@ -1383,13 +1383,13 @@
                     <seeker-field-deg type="int">180</seeker-field-deg>     
                     <max-g type="int">20</max-g>                            
                     <max-launch-g type="int">7</max-launch-g>               
-                    <thrust-lbf-stage-1 type="double">850</thrust-lbf-stage-1>
+                    <thrust-lbf-stage-1 type="double">950</thrust-lbf-stage-1>
                     <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>
                     <stage-1-duration-sec type="double">1500</stage-1-duration-sec>
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>
                     <weight-launch-lbs type="double">1763.7</weight-launch-lbs>      
                     <weight-warhead-lbs type="double">440.92</weight-warhead-lbs>   
-                    <drag-coeff type="double">0.5</drag-coeff>                   
+                    <drag-coeff type="double">0.65</drag-coeff>                   
                     <drag-area type="double">2.1135</drag-area>
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  
                     <arming-time-sec type="double">1.4</arming-time-sec>          
