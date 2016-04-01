@@ -476,7 +476,7 @@ var radar = {
           if (b_i < me.no_blip and distance != nil and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
               #aircraft is within the radar ray cone
               var locked = FALSE;
-              if (size(mp) == 9) {
+              if (mp.isPainted() == TRUE) {
                 lock = TRUE;
                 locked = TRUE;
               }
