@@ -703,11 +703,11 @@ var AIM = {
 
 
 		# performance logging:
-		setprop("logging/missile/dist-m", me.ac_init.distance_to(me.coord));
-		setprop("logging/missile/alt-m", alt_ft * FT2M);
-		setprop("logging/missile/speed-m", me.speed_m*1000);
-		setprop("logging/missile/drag-lbf", Cd * q * me.eda);
-		setprop("logging/missile/thrust-lbf", f_lbs);
+		#setprop("logging/missile/dist-m", me.ac_init.distance_to(me.coord));
+		#setprop("logging/missile/alt-m", alt_ft * FT2M);
+		#setprop("logging/missile/speed-m", me.speed_m*1000);
+		#setprop("logging/missile/drag-lbf", Cd * q * me.eda);
+		#setprop("logging/missile/thrust-lbf", f_lbs);
 
 
 

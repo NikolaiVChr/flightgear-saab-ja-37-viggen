@@ -1745,7 +1745,7 @@
       </log>-->
         <log>
            <filename>C:/Users/Nikolai/Documents/ja37_missile_performancelog.csv</filename>
-           <enabled>true</enabled>
+           <enabled>false</enabled>
            <interval-ms>50</interval-ms>
            <delimiter>,</delimiter>
            <entry>
