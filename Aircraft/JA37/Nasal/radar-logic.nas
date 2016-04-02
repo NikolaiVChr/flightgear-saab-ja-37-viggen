@@ -35,48 +35,52 @@ input = {
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
         voltage:          "systems/electrical/outputs/ac-main-voltage",
         hydrPressure:     "fdm/jsbsim/systems/hydraulics/system1/pressure",
+        ai_models:        "/ai/models",
+        lookThrough:      "sim/ja37/radar/look-through-terrain",
+        dopplerOn:        "sim/ja37/radar/doppler-enabled",
+        dopplerSpeed:     "sim/ja37/radar/min-doppler-speed-kt",
 };
 
 var findRadarTracks = func () {
   self      =  geo.aircraft_position();
   myPitch   =  input.pitch.getValue()*deg2rads;
-  myRoll    = -input.roll.getValue()*deg2rads;
+  myRoll    =  input.roll.getValue()*deg2rads;
   myAlt     =  self.alt();
   myHeading =  input.hdgReal.getValue();
   
   tracks = [];
 
-  var node_ai = props.globals.getNode("/ai/models");
-
-  if(input.tracks_enabled.getValue() == 1 and input.radar_serv.getValue() > 0 and input.voltage.getValue() > 170 and input.hydrPressure.getValue() == 1) {
+  if(input.tracks_enabled.getValue() == TRUE and input.radar_serv.getValue() > FALSE
+     and input.voltage.getValue() > 170 and input.hydrPressure.getValue() == TRUE) {
 
     #do the MP planes
     var players = [];
     foreach(item; multiplayer.model.list) {
       append(players, item.node);
     }
-
-    var AIplanes = node_ai.getChildren("aircraft");
-    var tankers = node_ai.getChildren("tanker");
-    var ships = node_ai.getChildren("ship");
-    var vehicles = node_ai.getChildren("groundvehicle");
-    var rb24 = node_ai.getChildren("rb-24j");
-	  var rb71 = node_ai.getChildren("rb-71");
-    var rb74 = node_ai.getChildren("rb-74");
-    var rb99 = node_ai.getChildren("rb-99");
-    var rb15 = node_ai.getChildren("rb-15f");
-    var test = node_ai.getChildren("test");
-
+    var AIplanes = input.ai_models.getChildren("aircraft");
+    var tankers = input.ai_models.getChildren("tanker");
+    var ships = input.ai_models.getChildren("ship");
+    var vehicles = input.ai_models.getChildren("groundvehicle");
+    var rb24 = input.ai_models.getChildren("rb-24j");
+	  var rb71 = input.ai_models.getChildren("rb-71");
+    var rb74 = input.ai_models.getChildren("rb-74");
+    var rb99 = input.ai_models.getChildren("rb-99");
+    var rb15 = input.ai_models.getChildren("rb-15f");
+    var test = input.ai_models.getChildren("test");
     if(selection != nil and selection.isValid() == FALSE) {
-      print("not valid");
+      #print("not valid");
       paint(selection.getNode(), FALSE);
       selection = nil;
     }
 
+
     processTracks(players, FALSE, FALSE, TRUE);    
     processTracks(tankers, FALSE, FALSE, FALSE, AIR);
     processTracks(ships, FALSE, FALSE, FALSE, MARINE);
+#debug.benchmark("radar process AI tracks", func {    
     processTracks(AIplanes, FALSE, FALSE, FALSE, AIR);
+#});
     processTracks(vehicles, FALSE, FALSE, FALSE, SURFACE);
     processTracks(rb24, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
 	  processTracks(rb71, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
@@ -85,6 +89,7 @@ var findRadarTracks = func () {
     processTracks(rb15, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
     processTracks(test, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
     processCallsigns(players);
+
   } else {
     # Do not supply target info to the missiles if radar is off.
     if(selection != nil) {
@@ -92,7 +97,7 @@ var findRadarTracks = func () {
     }
     selection = nil;
   }
-  var carriers = node_ai.getChildren("carrier");
+  var carriers = input.ai_models.getChildren("carrier");
   processTracks(carriers, TRUE, FALSE, FALSE, MARINE);
 
   if(selection != nil) {
@@ -116,12 +121,14 @@ var processTracks = func (vector, carrier, missile = 0, mp = 0, type = -1) {
   foreach (var track; vector) {
     if(track != nil and track.getChild("valid") != nil and track.getChild("valid").getValue() == TRUE) {#only the tracks that are valid are sent here
       var trackInfo = nil;
-      
+#debug.benchmark("radar trackitemcalc", func {
       if(missile == FALSE) {
         trackInfo = trackItemCalc(track, radarRange, carrier, mp, type);
       } else {
         trackInfo = trackMissileCalc(track, radarRange, carrier, mp, type);
       }
+#});
+#debug.benchmark("radar process", func {
       if(trackInfo != nil) {
         var distance = trackInfo.get_range()*NM2M;
 
@@ -210,6 +217,7 @@ var processTracks = func (vector, carrier, missile = 0, mp = 0, type = -1) {
         #print("end");
         paint(track, FALSE);
       }
+#});      
     }#end of valid check
   }#end of foreach
   if(carrier == TRUE) {
@@ -252,9 +260,10 @@ var remove_suffix = func(s, x) {
 # 7 - not targetable
 
 var trackItemCalc = func (track, range, carrier, mp, type) {
-  var x = track.getNode("position/global-x").getValue();
-  var y = track.getNode("position/global-y").getValue();
-  var z = track.getNode("position/global-z").getValue();
+  var pos = track.getNode("position");
+  var x = pos.getNode("global-x").getValue();
+  var y = pos.getNode("global-y").getValue();
+  var z = pos.getNode("global-z").getValue();
   if(x == nil or y == nil or z == nil) {
     return nil;
   }
@@ -265,9 +274,10 @@ var trackItemCalc = func (track, range, carrier, mp, type) {
 }
 
 var trackMissileCalc = func (track, range, carrier, mp, type) {
-  var alt = track.getNode("position/altitude-ft").getValue();
-  var lat = track.getNode("position/latitude-deg").getValue();
-  var lon = track.getNode("position/longitude-deg").getValue();
+  var pos = track.getNode("position");
+  var alt = pos.getNode("altitude-ft").getValue();
+  var lat = pos.getNode("latitude-deg").getValue();
+  var lon = pos.getNode("longitude-deg").getValue();
   if(alt == nil or lat == nil or lon == nil) {
     return nil;
   }
@@ -298,7 +308,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
     #ground angle
     var yg_rad = math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
     var xg_rad = (self.course_to(aircraftPos) - myHeading) * deg2rads;
-    
+
     while (xg_rad > math.pi) {
       xg_rad = xg_rad - 2*math.pi;
     }
@@ -313,8 +323,8 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
     }
 
     #aircraft angle
-    var ya_rad = xg_rad * math.sin(-myRoll) + yg_rad * math.cos(-myRoll);
-    var xa_rad = xg_rad * math.cos(-myRoll) - yg_rad * math.sin(-myRoll);
+    var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
+    var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
 
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;
@@ -356,6 +366,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
       contact.setPolar(distanceRadar, xa_rad);
       contact.setCartesian(hud_pos_x, hud_pos_y);
       return contact;
+
     } elsif (carrier == TRUE) {
       # need to return carrier even if out of radar cone, due to carrierNear calc
       var contact = Contact.new(node, type);
@@ -375,7 +386,7 @@ var isNotBehindTerrain = func(SelectCoord) {
     var MyCoord = geo.aircraft_position();
     
     # Because there is no terrain on earth that can be between these 2
-    if(MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and getprop("sim/ja37/radar/look-through-terrain") == FALSE)
+    if(MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and input.lookThrough.getValue() == FALSE)
     {
         # Temporary variable
         # A (our plane) coord in meters
@@ -469,13 +480,13 @@ var doppler = func(t_coord, t_node) {
     # Test to check if the target can hide below us
     # Or Hide using anti doppler movements
 
-    if (getprop("sim/ja37/radar/doppler-enabled") == FALSE or 
+    if (input.dopplerOn.getValue() == FALSE or 
         (t_node.getNode("velocities/true-airspeed-kt") != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() > 250)
         ) {
       return TRUE;
     }
 
-    var DopplerSpeedLimit = getprop("sim/ja37/radar/min-doppler-speed-kt");
+    var DopplerSpeedLimit = input.dopplerSpeed.getValue();
     var InDoppler = 0;
     var groundNotbehind = isGroundNotBehind(t_coord, t_node);
 
@@ -674,20 +685,27 @@ var Contact = {
     # For now only used in guided missiles, to make it compatible with Mirage 2000-5.
     new: func(c, class) {
         var obj             = { parents : [Contact]};
+#debug.benchmark("radar process1", func {
         obj.rdrProp         = c.getNode("radar");
-        obj.heading         = c.getNode("orientation/true-heading-deg");
-        
-        obj.alt             = c.getNode("position/altitude-ft");
-        obj.lat             = c.getNode("position/latitude-deg");
-        obj.lon             = c.getNode("position/longitude-deg");
-        
+        obj.oriProp         = c.getNode("orientation");
+        obj.velProp         = c.getNode("velocities");
+        obj.posProp         = c.getNode("position");
+        obj.heading         = obj.oriProp.getNode("true-heading-deg");
+#});
+#debug.benchmark("radar process2", func {
+        obj.alt             = obj.posProp.getNode("altitude-ft");
+        obj.lat             = obj.posProp.getNode("latitude-deg");
+        obj.lon             = obj.posProp.getNode("longitude-deg");
+#});
+#debug.benchmark("radar process3", func {
         #As it is a geo.Coord object, we have to update lat/lon/alt ->and alt is in meters
         obj.coord = geo.Coord.new();
         obj.coord.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.alt.getValue() * FT2M);
-                
-        obj.pitch           = c.getNode("orientation/pitch-deg");
-        obj.speed           = c.getNode("velocities/true-airspeed-kt");
-        obj.vSpeed          = c.getNode("velocities/vertical-speed-fps");
+#});
+#debug.benchmark("radar process4", func {
+        obj.pitch           = obj.oriProp.getNode("pitch-deg");
+        obj.speed           = obj.velProp.getNode("true-airspeed-kt");
+        obj.vSpeed          = obj.velProp.getNode("vertical-speed-fps");
         obj.callsign        = c.getNode("callsign", 1);
         obj.shorter         = c.getNode("model-shorter");
         obj.orig_callsign   = obj.callsign.getValue();
@@ -697,19 +715,22 @@ var Contact = {
         obj.painted         = c.getNode("painted");
         obj.unique          = c.getNode("unique");
         obj.validTree       = 0;
-
-        obj.transponderID   = c.getNode("instrumentation/transponder/transmitted-id");
-                
+#});
+#debug.benchmark("radar process5", func {        
+        #obj.transponderID   = c.getNode("instrumentation/transponder/transmitted-id");
+#});
+#debug.benchmark("radar process6", func {                
         obj.acType          = c.getNode("sim/model/ac-type");
         obj.type            = c.getName();
         obj.index           = c.getIndex();
         obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
         obj.shortString     = obj.type ~ "[" ~ obj.index ~ "]";
-        
+#});
+#debug.benchmark("radar process7", func {
         obj.range           = obj.rdrProp.getNode("range-nm");
         obj.bearing         = obj.rdrProp.getNode("bearing-deg");
         obj.elevation       = obj.rdrProp.getNode("elevation-deg");
-        
+#});        
         obj.deviation       = nil;
 
         obj.node            = c;
@@ -1111,7 +1132,7 @@ var ContactGPS = {
 
     var self      =  geo.aircraft_position();
     var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    = -input.roll.getValue()*deg2rads;
+    var myRoll    =  input.roll.getValue()*deg2rads;
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
@@ -1133,8 +1154,8 @@ var ContactGPS = {
     }
 
     #aircraft angle
-    var ya_rad = xg_rad * math.sin(-myRoll) + yg_rad * math.cos(-myRoll);
-    var xa_rad = xg_rad * math.cos(-myRoll) - yg_rad * math.sin(-myRoll);
+    var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
+    var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
 
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;
@@ -1161,7 +1182,7 @@ var ContactGPS = {
 
     var self      =  geo.aircraft_position();
     var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    = -input.roll.getValue()*deg2rads;
+    var myRoll    =  input.roll.getValue()*deg2rads;
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
@@ -1183,8 +1204,8 @@ var ContactGPS = {
     }
 
     #aircraft angle
-    var ya_rad = xg_rad * math.sin(-myRoll) + yg_rad * math.cos(-myRoll);
-    var xa_rad = xg_rad * math.cos(-myRoll) - yg_rad * math.sin(-myRoll);
+    var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
+    var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
 
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;

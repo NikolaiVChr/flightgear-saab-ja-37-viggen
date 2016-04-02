@@ -26,6 +26,7 @@ Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
 Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
+Model: Proper floor in the cockpit.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.

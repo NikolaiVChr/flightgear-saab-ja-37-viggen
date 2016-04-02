@@ -2127,3 +2127,4 @@ Sim: Adjusted the drag formula for guided missiles.
 Sim: Adjusted various performance stats of missiles.
 Sim: Fixed an issue that would prevent rb71 from reaching its loft altitude.
 Sim: Doppler radar should now be able to see planes if they are above 250 kt airspeed, not matter if they try to notch or not.
+Radar: Slightly optimized performance.
