@@ -626,7 +626,14 @@ var AIM = {
 
 		# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
 		# which next update will be added in the direction the missile points, which we do not want.
+		# therefore only real gravity drop is added to gravity bombs.
 		
+		var grav_bomb = FALSE;
+		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
+			grav_bomb == TRUE;
+		}
+
+
 		#print("p "~pitch_deg);
 		# Break speed change down total speed to North, East and Down components.
 		var speed_down_fps       = - math.sin(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
@@ -639,14 +646,17 @@ var AIM = {
 			me.rail_speed_into_wind = me.rail_speed_into_wind + speed_change_fps;
 		}
 
-		
+		if (grav_bomb == TRUE) {
+			# true gravity acc
+			speed_down_fps += g_fps * dt;
+		}
 
 		#var speed_down_fps         =  speed_down_change_fps;# + me.s_down
 		#var speed_north_fps        =  speed_north_change_fps;# + me.s_north
 		#var speed_east_fps         =  speed_east_change_fps;# + me.s_east
 
 		#var speed_horizontal_fps = math.sqrt(speed_north_fps*speed_north_fps+speed_east_fps*speed_east_fps);
-		var new_speed_fps        = math.sqrt(speed_horizontal_fps*speed_horizontal_fps+speed_down_fps*speed_down_fps);
+		
 
 
 #print("change: down="~speed_down_change_fps~" north="~speed_north_change_fps~" east="~speed_east_change_fps);
@@ -670,7 +680,9 @@ var AIM = {
 		#pitch_deg = me.pitch;
 		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
-		var alt_ft = me.altN.getValue() - ((speed_down_fps + g_fps * dt) * dt);
+		var alt_ft = me.altN.getValue() - ((speed_down_fps + g_fps * dt * !grav_bomb) * dt);
+
+		var new_speed_fps        = math.sqrt(speed_horizontal_fps*speed_horizontal_fps+speed_down_fps*speed_down_fps);
 
 #print(".");
 
