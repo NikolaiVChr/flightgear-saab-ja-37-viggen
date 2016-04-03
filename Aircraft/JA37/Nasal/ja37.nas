@@ -1553,10 +1553,10 @@ var ct = func (type) {
   if (type == "lst") {
     setprop("sim/ct/list", 1);
   }
-  if (type == "ifa") {
+  if (type == "ifa" and input.wow0.getValue() != 1) {
     setprop("sim/ct/ifa", 1);
   }
-  if (type == "sf") {
+  if (type == "sf" and input.wow0.getValue() != 1) {
     setprop("sim/ct/sf", 1);
   }
 }

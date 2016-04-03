@@ -597,7 +597,7 @@ var incoming_listener = func {
               }
             }
             var number = split(" ", last_vector[2]);
-            var distance = num(number[1]);
+            var distance = ja37.clamp(num(number[1])-1.5, 0, 1000000);
             #print(type~"|");
             if(distance != nil) {
               var maxDist = 0;
@@ -1070,3 +1070,5 @@ var selectNextWaypoint = func () {
 
   radar_logic.selection = contact;
 }
+
+setprop("/sim/failure-manager/display-on-screen", FALSE);
