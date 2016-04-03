@@ -1027,6 +1027,8 @@ var main_init = func {
 
   # start the main loop
 	settimer(func { update_loop() }, 0.1);
+
+  changeGuiLoad();
 }
 
 # re init
@@ -1548,6 +1550,15 @@ var ct = func (type) {
   if (type == "a") {
     setprop("sim/ct/a", 1);
   }
+  if (type == "lst") {
+    setprop("sim/ct/list", 1);
+  }
+  if (type == "ifa") {
+    setprop("sim/ct/ifa", 1);
+  }
+  if (type == "sf") {
+    setprop("sim/ct/sf", 1);
+  }
 }
 
 var lf = 0;
@@ -1606,7 +1617,19 @@ var code_ct = func () {
   if (rd == nil or rd != 1) {
     rd = 0;
   }  
-  var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd;
+  var ml = getprop("sim/ct/list");
+  if (ml == nil or ml != 1) {
+    ml = 0;
+  }
+  var sf = getprop("sim/ct/sf");
+  if (sf == nil or sf != 1) {
+    sf = 0;
+  }
+  var ifa = getprop("sim/ct/ifa");
+  if (ifa == nil or ifa != 1) {
+    ifa = 0;
+  }
+  var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd~ml~sf~ifa;
   setprop("sim/multiplay/generic/string[15]", final);
   settimer(code_ct, 2);
 }
@@ -1614,47 +1637,106 @@ var code_ct = func () {
 var not = func {
   if (getprop("payload/armament/msg") == TRUE and input.wow0.getValue() != TRUE) {
     var ct = getprop("sim/multiplay/generic/string[15]") ;
-    var msg = "I might be cheating..";
+    var msg = "I might be chea"~"ting..";
     if (ct != nil) {
-      msg = "I might be cheating.."~ct;
+      msg = "I might be chea"~"ting.."~ct;
       var spl = split("ct", ct);
       if (size(spl) > 1) {
         var bits = spl[1];
         msg = "I ";
-        if (bits == "000000000") {
+        if (bits == "000000000000") {
           settimer(not, 60);
           return;
         }
         if (substr(bits,0,1) == "1") {
-          msg = msg~"Used CTRL-U..";
+          msg = msg~"Used CT"~"RL-U..";
         }
         if (substr(bits,1,1) == "1") {
-          msg = msg~"Use fuelfreeze..";
+          msg = msg~"Use fuelf"~"reeze..";
         }
         if (substr(bits,2,1) == "1") {
-          msg = msg~"Reloaded in air..";
+          msg = msg~"Relo"~"aded in air..";
         }
         if (substr(bits,3,1) == "1") {
-          msg = msg~"Refueled in air..";
+          msg = msg~"Refue"~"led in air..";
         }
         if (substr(bits,4,1) == "1") {
-          msg = msg~"Repaired not on ground..";
+          msg = msg~"Repa"~"ired not on ground..";
         }
         if (substr(bits,5,1) == "1") {
-          msg = msg~"Used timewarp..";
+          msg = msg~"Used time"~"warp..";
         }
         if (substr(bits,6,1) == "1") {
-          msg = msg~"Have damage off..";
+          msg = msg~"Have dam"~"age off..";
         }
         if (substr(bits,7,1) == "1") {
-          msg = msg~"Have Terrain mask. off..";
+          msg = msg~"Have Ter"~"rain mask. off..";
         }
         if (substr(bits,8,1) == "1") {
-          msg = msg~"Have Doppler off..";
+          msg = msg~"Have Dop"~"pler off..";
+        }
+        if (substr(bits,9,1) == "1") {
+          msg = msg~"Had mp-l"~"ist on..";
+        }
+        if (substr(bits,10,1) == "1") {
+          msg = msg~"Had s-fai"~"lures open..";
+        }
+        if (substr(bits,11,1) == "1") {
+          msg = msg~"Had i-fa"~"ilures open..";
         }
       }
     }
     setprop("/sim/multiplay/chat", msg);
   }
   settimer(not, 60);
+}
+
+var changeGuiLoad = func()
+{#return;
+    var searchname1 = "mp-list";
+    var searchname2 = "instrument-failures";
+    var searchname3 = "system-failures";
+    var state = 0;
+    
+    foreach(var menu ; props.globals.getNode("/sim/menubar/default").getChildren("menu")) {
+        foreach(var item ; menu.getChildren("item")) {
+            foreach(var name ; item.getChildren("name")) {
+                if(name.getValue() == searchname1) {
+                    #var e = item.getNode("enabled").getValue();
+                    #var path = item.getPath();
+                    #item.remove();
+                    #item = props.globals.getNode(path,1);
+                    #item.getNode("enabled",1).setBoolValue(FALSE);
+                    #item.getNode("binding").remove();
+                    #item.getNode("name",1).setValue(searchname1);
+                    item.getNode("binding/command").setValue("nasal");
+                    item.getNode("binding/script").setValue("ja37.loadMPList()");
+                    #item.getNode("enabled",1).setBoolValue(TRUE);
+                }
+                if(name.getValue() == searchname2) {
+                    item.getNode("binding/command").setValue("nasal");
+                    item.getNode("binding/dialog-name").remove();
+                    item.getNode("binding/script",1).setValue("ja37.loadIFail()");
+                }
+                if(name.getValue() == searchname3) {
+                    item.getNode("binding/command").setValue("nasal");
+                    item.getNode("binding/dialog-name").remove();
+                    item.getNode("binding/script",1).setValue("ja37.loadSysFail()");
+                }
+            }
+        }
+    }
+    fgcommand("reinit", props.Node.new({"subsystem":"gui"}));
+}
+
+var loadMPList = func () {
+  ct("lst");multiplayer.dialog.show();
+}
+
+var loadSysFail = func () {
+  ct("sf");fgcommand("dialog-show", props.Node.new({"dialog-name":"system-failures"}));
+}
+
+var loadIFail = func () {
+  ct("ifa");fgcommand("dialog-show", props.Node.new({"dialog-name":"instrument-failures"}));
 }
