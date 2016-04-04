@@ -1614,6 +1614,9 @@
         <airspeed-indicator>
             <indicated-speed-kt type="double">0.0</indicated-speed-kt>
         </airspeed-indicator>
+        <heading-indicator>
+            <offset-deg type="double">0</offset-deg>
+        </heading-indicator>
     </instrumentation>
 
     <!--**********************************************************************

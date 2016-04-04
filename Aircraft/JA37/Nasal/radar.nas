@@ -382,11 +382,10 @@ var radar = {
           #}
       #  }
       #}
-      
       if (getprop("autopilot/route-manager/active") == TRUE) {
-        var dist = getprop("autopilot/route-manager/wp/dist");
-        var bearing = getprop("autopilot/route-manager/wp/bearing-deg");#magnetic
-        var heading = getprop("instrumentation/heading-indicator/indicated-heading-deg");#magnetic
+        var dist = getprop("autopilot/route-manager/wp/dist");        
+        var bearing = getprop("autopilot/route-manager/wp/true-bearing-deg");#true
+        var heading = getprop("instrumentation/heading-indicator/indicated-heading-deg");#true
         if (dist != nil and bearing != nil and heading != nil) {
           var bug = bearing - heading;
 
