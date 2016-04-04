@@ -143,9 +143,9 @@ input = {
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   viewInternal:     "sim/current-view/internal",
   warnButton:       "sim/ja37/avionics/master-warning-button",
-  wow0:             "/gear/gear[0]/wow",
-  wow1:             "/gear/gear[1]/wow",
-  wow2:             "/gear/gear[2]/wow",
+  wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
+  wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
+  wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
 };
    

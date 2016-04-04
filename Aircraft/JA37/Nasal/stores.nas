@@ -45,9 +45,9 @@ input = {
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   tank8Selected:    "/consumables/fuel/tank[8]/selected",
   trigger:          "controls/armament/trigger",
-  wow0:             "/gear/gear[0]/wow",
-  wow1:             "/gear/gear[1]/wow",
-  wow2:             "/gear/gear[2]/wow",
+  wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
+  wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
+  wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
   dev:              "dev",
 };
 
@@ -1003,7 +1003,7 @@ var drop = func {
        ja37.popupTip("Drop tank already jettisoned.");
        return;
     }  
-    if (getprop("/gear/gear[0]/wow") > 0.05) {
+    if (input.wow0.getValue() > 0.05) {
        ja37.popupTip("Can not eject drop tank while on ground!"); 
        return;
     }
