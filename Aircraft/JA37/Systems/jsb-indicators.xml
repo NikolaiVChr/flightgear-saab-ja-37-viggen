@@ -774,10 +774,6 @@
                                         <value>1</value>
                                     </eq>
                                 </and>
-                                <eq>
-                                    <property>/autopilot/locks/passive-mode</property>
-                                    <value>1</value>
-                                </eq>
                             </or>
                         </and>
                     </not>
@@ -813,10 +809,6 @@
                                         <value>1</value>
                                     </eq>
                                 </and>
-                                <eq>
-                                    <property>/autopilot/locks/passive-mode</property>
-                                    <value>1</value>
-                                </eq>
                             </or>
                         </and>
                     </not>
@@ -862,10 +854,6 @@
                             <property>/sim/ja37/avionics/auto-attitude-on</property>
                             <value>1</value>
                         </eq>
-                        <eq>
-                            <property>/autopilot/locks/passive-mode</property>
-                            <value>1</value>
-                        </eq>
                     </or>
                 </and>
             </function>
@@ -881,10 +869,6 @@
                     <or>
                         <eq>
                             <property>/sim/ja37/avionics/auto-attitude-on</property>
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <property>/autopilot/locks/passive-mode</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -936,10 +920,6 @@
                             <property>/sim/ja37/avionics/auto-altitude-on</property>
                             <value>1</value>
                         </eq>
-                        <eq>
-                            <property>/autopilot/locks/passive-mode</property>
-                            <value>1</value>
-                        </eq>
                     </or>
                 </and>
             </function>
@@ -955,10 +935,6 @@
                     <or>
                         <eq>
                             <property>/sim/ja37/avionics/auto-attitude-on</property>
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <property>/autopilot/locks/passive-mode</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -1099,10 +1075,6 @@
                     <or>
                         <eq>
                             <property>/sim/ja37/avionics/auto-throttle-on</property>
-                            <value>1</value>
-                        </eq>
-                        <eq>
-                            <property>/autopilot/locks/passive-mode</property>
                             <value>1</value>
                         </eq>
                     </or>

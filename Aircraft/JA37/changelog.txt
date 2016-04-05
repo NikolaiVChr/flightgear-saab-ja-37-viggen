@@ -2132,3 +2132,4 @@ Radar: Fixed bearing of steerpoint on radar screen was using magnetic.
 Sim: Increased performance of navigation code.
 Model: Added a auto throttle indicator.
 Model: Moved reverser handle and indicator plus callsign and hendle next to that.
+Animation: A/P flight-director mode will no longer enable the A/P indicator lights.
