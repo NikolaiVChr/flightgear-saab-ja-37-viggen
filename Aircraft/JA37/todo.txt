@@ -20,7 +20,6 @@ Model: Make gunpod, between the fuselage and droptank.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
 Model: The minimum AoA the indicator should show is -4 degrees, not -7.
-Model: The altimeter should have a standard button which set the pressure to 1013 hPa.
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)

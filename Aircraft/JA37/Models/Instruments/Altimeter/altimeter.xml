@@ -196,7 +196,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>-0.1</step>
+                <step>-1.0</step>
                 <min>500.0</min>
                 <max>1200.0</max>
                 <wrap>false</wrap>
@@ -207,16 +207,13 @@
             </binding>
         </action>
         <action>
-            <name>decrease calibrate coarse</name>
-            <button>1</button>
-            <repeatable>true</repeatable>
+            <name>STD pressure</name>
+            <button>1</button><!-- middle button -->
+            <repeatable>false</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-assign</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>-1</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
+                <value>1013</value>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -270,7 +267,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>0.1</step>
+                <step>1.0</step>
                 <min>500.0</min>
                 <max>1200.0</max>
                 <wrap>false</wrap>
@@ -281,16 +278,13 @@
             </binding>
         </action>
         <action>
-            <name>increase calibrate coarse</name>
-            <button>1</button>
-            <repeatable>true</repeatable>
+            <name>STD pressure</name>
+            <button>1</button><!-- middle button -->
+            <repeatable>false</repeatable>
             <binding>
-                <command>property-adjust</command>
+                <command>property-assign</command>
                 <property>/instrumentation/altimeter/setting-hpa</property>
-                <step>1</step>
-                <min>500.0</min>
-                <max>1200.0</max>
-                <wrap>false</wrap>
+                <value>1013</value>
             </binding>
             <binding>
                 <command>nasal</command>
