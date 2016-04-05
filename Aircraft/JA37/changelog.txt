@@ -2139,3 +2139,4 @@ HUD: When in ground attack mode, the speed is now shown as groundspeed.
 HUD: In landing mode, the digital speed will move up if AoA is greater than 8.5 degs, down again when lower than 5.5 degs.
 HUD: The tail of flightpathindicator now only move in landing mode. Low: high AoA or low speed and vice versa. Blinking if too high AoA.
 Model: The primary (left) altimeter now can be middle clicked which will set the pressure to 1013 hPa.
+Model: The reserve (right) altimeter now have same feature as the primary.

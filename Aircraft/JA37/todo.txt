@@ -39,7 +39,6 @@ Sim: Make braking parachute? (manual does not seem to indicate that the plane ha
 Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected? (is silly, not needed, rely on typecasting instead)
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
-Sim: Air to ground guided missiles.
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Replace generic setValue in nasal with specific types.
