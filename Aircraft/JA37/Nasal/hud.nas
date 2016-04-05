@@ -846,6 +846,7 @@ var HUDnasal = {
         },
         place: placement
       };
+      HUDnasal.main.final = FALSE;
       HUDnasal.main.verbose = 0;
       HUDnasal.main.input = {
         #      hdg:      "instrumentation/gps/indicated-track-magnetic-deg",
@@ -877,7 +878,6 @@ var HUDnasal = {
         fdpitch:          "autopilot/settings/fd-pitch-deg",
         fdroll:           "autopilot/settings/fd-roll-deg",
         fdspeed:          "autopilot/settings/target-speed-kt",
-        final:            "sim/ja37/hud/final",
         fiveHz:           "sim/ja37/blink/five-Hz/state",
         gearsPos:         "gear/gear/position-norm",
         hdg:              "orientation/heading-magnetic-deg",
@@ -984,21 +984,17 @@ var HUDnasal = {
 
       if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
         mode = TAKEOFF;
-        me.input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
         mode = COMBAT;
-        me.input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
         modeTimeTakeoff = me.input.elapsedSec.getValue();
-        me.input.final.setValue(FALSE);
       } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
         if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
           mode = LANDING;
         } else {
           mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-          me.input.final.setValue(FALSE);
         }
         modeTimeTakeoff = -1;
       } elsif ((mode == COMBAT or mode == NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
@@ -1006,11 +1002,9 @@ var HUDnasal = {
         modeTimeTakeoff = -1;
       } elsif (mode == COMBAT or mode == NAV) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-        me.input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-        me.input.final.setValue(FALSE);
         modeTimeTakeoff = -1;
       }
       me.input.currentMode.setValue(mode);
@@ -1052,7 +1046,7 @@ var HUDnasal = {
       deflect = me.showReticle(mode, cannon, out_of_ammo);
 
       # digital speed (must be after showReticle)
-      me.displayDigitalSpeed();
+      me.displayDigitalSpeed(mode);
 
       # Visual, TILS and ILS landing guide
       var guide = me.displayLandingGuide(mode, deflect);
@@ -1549,9 +1543,9 @@ var HUDnasal = {
   },
 
   displayDigitalAltitude: func (alt, radAlt) {
-    if (me.input.final.getValue() == TRUE) {
-      me.alt.hide();
-    } else {
+    #if (me.input.final.getValue() == TRUE) {
+    #  me.alt.hide();
+    #} else {
       me.alt.show();
       # alt and radAlt is in current unit
       # determine max radar alt in current unit
@@ -1611,7 +1605,7 @@ var HUDnasal = {
           me.alt.setText(sprintf("%4d", clamp(terrainAlt, 0, 9999)));
         }
       }
-    }
+    #}
   },
 
   displayDesiredAltitudeLines: func (guideUseLines) {
@@ -1668,7 +1662,7 @@ var HUDnasal = {
     return guideUseLines;
   },
 
-  displayDigitalSpeed: func () {
+  displayDigitalSpeed: func (mode) {
     var mach = me.input.mach.getValue();
     var metric = me.input.units.getValue();
     if(metric == TRUE) {
@@ -1694,12 +1688,14 @@ var HUDnasal = {
       me.airspeed.setText(sprintf("M%.2f", mach));
     }
 
-    if (me.input.final.getValue() == 1) {
+    if (mode == LANDING and me.input.alphaJSB.getValue() > 8.5) {
       me.airspeed.setTranslation(0, airspeedPlaceFinal);
       me.airspeedInt.setTranslation(0, airspeedPlaceFinal - (70/1024)*canvasWidth);
-    } else {
+      me.final = TRUE;
+    } elsif (mode != LANDING or (me.final == FALSE) or (me.final == TRUE and me.input.alphaJSB.getValue() < 5.5)) {
       me.airspeed.setTranslation(0, airspeedPlace);
       me.airspeedInt.setTranslation(0, airspeedPlace - (70/1024)*canvasWidth);
+      me.final = FALSE;
     }
   },
 
@@ -1733,11 +1729,11 @@ var HUDnasal = {
       if(me.input.srvTurn.getValue() == 1) {
         #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
         me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -(150/1024)*canvasWidth, (150/1024)*canvasWidth), 0);
-        if(me.input.final.getValue() == TRUE) {
-          me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
-        } else {
+        #if(me.final == TRUE) {
+        #  me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
+        #} else {
           me.turn_group.setTranslation(sideslipPlaceX, sideslipPlaceY);
-        }
+        #}
       }
       me.turn_group.show();
     } else {
@@ -2148,7 +2144,7 @@ var HUDnasal = {
     var towerAlt = me.input.towerAlt.getValue();
     var towerLat = me.input.towerLat.getValue();
     var towerLon = me.input.towerLon.getValue();
-    if(mode != COMBAT and me.input.final.getValue() == FALSE and towerAlt != nil and towerLat != nil and towerLon != nil) {
+    if(mode != COMBAT and towerAlt != nil and towerLat != nil and towerLon != nil) {# and me.final == FALSE
       var towerPos = geo.Coord.new();
       towerPos.set_latlon(towerLat, towerLon, towerAlt*FT2M);
       var showme = TRUE;

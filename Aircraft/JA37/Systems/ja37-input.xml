@@ -439,7 +439,7 @@
                 <script>ja37.toggleNosewheelSteer();</script>
             </binding>
         </key>
-        <key n="109">
+        <!--<key n="109">
             <name>m</name>
             <desc>Final approach</desc>
             <binding>
@@ -450,7 +450,7 @@
                 <command>nasal</command>
                 <script>ja37.click();ja37.popupTip("Toggled configure HUD for final approach.");</script>
             </binding>
-        </key>
+        </key>-->
 		
         <key n="89">
             <name>Y</name>

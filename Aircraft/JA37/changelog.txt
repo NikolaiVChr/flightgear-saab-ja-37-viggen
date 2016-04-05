@@ -2136,3 +2136,4 @@ Animation: A/P flight-director mode will no longer enable the A/P indicator ligh
 HUD: Sidewind indicator is now 8 degs below plane axis line.
 HUD: Digital altitude is now terrain elevation, not longer altimeter altitude. As per manual.
 HUD: When in ground attack mode, the speed is now shown as groundspeed.
+HUD: In landing mode, the digital speed will move up if AoA is greater than 8.5 degs, down again when lower than 5.5 degs.
