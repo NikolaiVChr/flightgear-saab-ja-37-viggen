@@ -195,7 +195,7 @@
       The HUD switches automatically between takeoff, landing, navigation and tactical mode.
       An exception is when landing mode switch is activated, that will force landing mode, when not in takeoff mode.
       When in takeoff mode the sidewind indicator - -o- - will move to a side according to sidewind.
-      The vertical tail on the flight path indicator will move/blink according to AoA in landing mode.
+      The vertical tail on the flight path indicator will move/blink according to AoA and speed in landing mode.
       In tactical mode when the cannon or rockets is selected, a fixed crosshair will appear.
       In tactical mode the reticle change if out of ammo.
       The digital altimeter to the left will use rader (if radar altimeter enabled) below 100 meters (328 ft), a 'R' is shown. when this happens, and show terrain elevation above, up till 9999.

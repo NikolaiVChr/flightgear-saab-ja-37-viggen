@@ -2131,9 +2131,10 @@ Radar: Slightly optimized performance.
 Radar: Fixed bearing of steerpoint on radar screen was using magnetic.
 Sim: Increased performance of navigation code.
 Model: Added a auto throttle indicator.
-Model: Moved reverser handle and indicator plus callsign and hendle next to that.
+Model: Moved reverser handle and indicator plus callsign and handle next to that.
 Animation: A/P flight-director mode will no longer enable the A/P indicator lights.
 HUD: Sidewind indicator is now 8 degs below plane axis line.
 HUD: Digital altitude is now terrain elevation, not longer altimeter altitude. As per manual.
 HUD: When in ground attack mode, the speed is now shown as groundspeed.
 HUD: In landing mode, the digital speed will move up if AoA is greater than 8.5 degs, down again when lower than 5.5 degs.
+HUD: The tail of flightpathindicator now only move in landing mode. Low: high AoA or low speed and vice versa. Blinking if too high AoA.

@@ -1844,7 +1844,7 @@ var HUDnasal = {
       me.reticle_c_missile.hide();
       air2air = FALSE;
       air2ground = FALSE;
-      return me.showFlightPathVector(1, out_of_ammo);
+      return me.showFlightPathVector(1, out_of_ammo, mode);
     } elsif (mode == COMBAT and cannon == FALSE) {
       if(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70") {
         air2air = FALSE;
@@ -1903,7 +1903,7 @@ var HUDnasal = {
         me.reticle_missile.hide();
         me.reticle_c_missile.hide();
       }
-      return me.showFlightPathVector(1, out_of_ammo);
+      return me.showFlightPathVector(1, out_of_ammo, mode);
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       air2air = FALSE;
@@ -1912,7 +1912,7 @@ var HUDnasal = {
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       me.reticle_c_missile.hide();
-      return me.showFlightPathVector(1, FALSE);
+      return me.showFlightPathVector(1, FALSE, mode);
     } elsif(mode == TAKEOFF) {      
       air2air = FALSE;
       air2ground = FALSE;
@@ -1920,7 +1920,7 @@ var HUDnasal = {
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       me.reticle_c_missile.hide();
-      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
+      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE, mode);
     } elsif(mode == LANDING) {      
       air2air = FALSE;
       air2ground = FALSE;
@@ -1928,7 +1928,7 @@ var HUDnasal = {
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
       me.reticle_c_missile.hide();
-      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
+      return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE, mode);
     }
     return 0;
   },
@@ -1958,7 +1958,7 @@ var HUDnasal = {
     }
   },
 
-  showFlightPathVector: func (show, out_of_ammo) {
+  showFlightPathVector: func (show, out_of_ammo, mode) {
     if(show == TRUE) {
       var vel_gx = me.input.speed_n.getValue();
       var vel_gy = me.input.speed_e.getValue();
@@ -1998,17 +1998,39 @@ var HUDnasal = {
         me.aim_reticle.show();
         
         me.reticle_group.setTranslation(pos_x, pos_y);
-        # move fin to alpha
-        me.reticle_fin_group.setTranslation(0, me.input.alphaJSB.getValue());
-        if (me.input.alphaJSB.getValue() > 20) {
-          # blink the fin if alpha is high
-          if(me.input.tenHz.getValue() == TRUE) {
-            me.aim_reticle_fin.show();
+                
+        if (mode == LANDING) {
+          # move fin to alpha
+          var alpha = me.input.alphaJSB.getValue();
+          var speed = me.input.ias.getValue();
+          var speed_min = 105;
+          var speed_max = 134;
+          var translation_speed = 0;
+          if (speed < speed_min) {
+            # too low landing speed
+            translation_speed = speed_min - speed;
+          } elsif (speed > speed_max) {
+            # too high landing speed
+            translation_speed = speed_max - speed;
+          }
+          var translation = (alpha-16.5)*2;#16.5 is ideal AoA for landing
+          if (math.abs(translation) < math.abs(translation_speed)) {
+            # using speed as guide for tail
+            translation = translation_speed;
+          }
+          me.reticle_fin_group.setTranslation(0, translation);
+          if (alpha > 20) {
+            # blink the fin if alpha is high
+            if(me.input.tenHz.getValue() == TRUE) {
+              me.aim_reticle_fin.show();
+            } else {
+              me.aim_reticle_fin.hide();
+            }
           } else {
-            me.aim_reticle_fin.hide();
+            me.aim_reticle_fin.show();
           }
         } else {
-          me.aim_reticle_fin.show();
+          me.reticle_fin_group.setTranslation(0, 0);
         }
       }    
       return dir_x;
