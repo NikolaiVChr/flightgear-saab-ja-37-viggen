@@ -193,36 +193,12 @@
 
     <!-- Altimeter Ingh Setting Knob -->
     <animation>
-        <name>ingh-knob-left-fine</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-left</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/altimeter/setting-inhg</property>
-                <step>-0.005</step>
-                <min>26.0</min>
-                <max>33.0</max>
-                <wrap>false</wrap>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click()</script>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
         <name>ingh-knob-left-coarse</name>
         <type>pick</type>
         <visible>true</visible>
         <object-name>ingh-knob-left</object-name>
         <action>
-            <button>1</button>
+            <button>0</button>
             <repeatable>true</repeatable>
             <interval-sec>0.2</interval-sec>
             <binding>
@@ -241,12 +217,58 @@
     </animation>
 
     <animation>
-        <name>ingh-knob-right-fine</name>
+        <name>ingh-knob-STD</name>
+        <type>pick</type>
+        <visible>true</visible>
+        <object-name>ingh-knob-left</object-name>
+        <object-name>ingh-knob-right</object-name>
+        <action>
+            <button>1</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/altimeter/setting-hpa</property>
+                <value>1013</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <name>ingh-knob-right-coarse</name>
         <type>pick</type>
         <visible>true</visible>
         <object-name>ingh-knob-right</object-name>
         <action>
             <button>0</button>
+            <repeatable>true</repeatable>
+            <interval-sec>0.2</interval-sec>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/altimeter/setting-inhg</property>
+                <step>0.025</step>
+                <min>26.0</min>
+                <max>33.0</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click()</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <name>ingh-knob-right-fine</name>
+        <type>pick</type>
+        <visible>true</visible>
+        <object-name>ingh-knob-left</object-name>
+        <object-name>ingh-knob-right</object-name>
+        <action>
+            <button>3</button>
             <repeatable>true</repeatable>
             <interval-sec>0.2</interval-sec>
             <binding>
@@ -262,21 +284,14 @@
                 <script>ja37.click()</script>
             </binding>
         </action>
-    </animation>
-
-    <animation>
-        <name>ingh-knob-right-coarse</name>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>ingh-knob-right</object-name>
         <action>
-            <button>1</button>
+            <button>4</button>
             <repeatable>true</repeatable>
             <interval-sec>0.2</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
-                <step>0.025</step>
+                <step>0.005</step>
                 <min>26.0</min>
                 <max>33.0</max>
                 <wrap>false</wrap>
