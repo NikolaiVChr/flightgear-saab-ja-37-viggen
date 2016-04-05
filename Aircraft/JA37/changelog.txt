@@ -2129,3 +2129,4 @@ Sim: Fixed an issue that would prevent rb71 from reaching its loft altitude.
 Sim: Doppler radar should now be able to see planes if they are above 250 kt airspeed, not matter if they try to notch or not.
 Radar: Slightly optimized performance.
 Radar: Fixed bearing of steerpoint on radar screen was using magnetic.
+Sim: Increased performance of navigation code.

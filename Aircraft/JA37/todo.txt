@@ -121,6 +121,7 @@ HUD: In tactical mode the diamond would sometimes not be painted. Distance, call
 Model: Droptank indicator should really be a steerpoint indicator.
 Model: Desert livery over MP is broken now.
 Model: There is a gap between fuselage and engine, where one can see 'into' the model.
+Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
 
 Issues with FG:
 ---------------
