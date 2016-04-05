@@ -363,7 +363,7 @@
     <offsets>
       <x-m>  0.000 </x-m>
       <y-m> -0.145 </y-m>
-      <z-m>  0.125 </z-m>
+      <z-m>  0.135 </z-m>
     </offsets>
   </model>
 
@@ -372,7 +372,7 @@
     <name>callsign</name>
     <offsets>
       <x-m> 0.002</x-m>
-      <y-m>-0.20</y-m>
+      <y-m>-0.25</y-m>
       <z-m> 0.135</z-m>
     </offsets>
   </model>
@@ -445,28 +445,6 @@
     </offsets>
   </model>
 
- <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/CenterPlaque/center-plaque.xml</path>
-    <name>Center plaque</name>
-    <offsets>
-      <pitch-deg>79.329</pitch-deg>
-      <x-m> -3.855</x-m>
-      <y-m>  0</y-m>
-      <z-m>  0.48</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Radar/radar.xml</path>
-    <name>Radar</name>
-    <offsets>
-    <pitch-deg>-10.671</pitch-deg>
-      <x-m> -3.82</x-m>
-      <y-m>  0</y-m>
-      <z-m>  0.343</z-m>
-    </offsets>
-  </model>-->
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-1.xml</path>
     <name>WarnLeft</name>
@@ -517,64 +495,23 @@
     </offsets>
   </model>
   
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/joystick.xml</path>
-    <name>Spak</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.25</y-m>
-      <z-m>  0.25</z-m>
-    </offsets>
-  </model>
-
-<model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/attitude.xml</path>
-    <name>Att</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.23</y-m>
-      <z-m>  0.27</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/altitude.xml</path>
-    <name>Höjd</name>
-    <offsets>
-      <x-m>  0.01</x-m>
-      <y-m> -0.21</y-m>
-      <z-m>  0.29</z-m>
-    </offsets>
-  </model>-->
-
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
     <name>Reverse indicator</name>
     <offsets>
       <x-m>  0.01</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.13</z-m>
+      <y-m> -0.305</y-m>
+      <z-m>  0.10</z-m>
     </offsets>
   </model>
-
- <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-reverser-auto.xml</path>
-    <name>SwitchReverserAuto</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.23</y-m>
-      <z-m>  0.145</z-m>
-    </offsets>
-  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/reverseHandle.xml</path>
     <name>SwitchReverser</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.26</y-m>
-      <z-m>  0.145</z-m>
+      <y-m> -0.31</y-m>
+      <z-m>  0.06</z-m>
     </offsets>
   </model>
 
@@ -588,65 +525,4 @@
       </offsets>
   </model>
   
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-landing-mode.xml</path>
-    <name>SwitchLanding</name>
-    <offsets>
-    <pitch-deg>-10.671</pitch-deg>
-      <x-m>  0.00</x-m>
-      <y-m> -0.135</y-m>
-      <z-m>  0.15</z-m>
-    </offsets>
-  </model>  
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-tils.xml</path>
-    <name>Reverse</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m> -0.135</y-m>
-      <z-m>  0.13</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud.xml</path>
-    <name>SwitchHud</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.31</y-m>
-      <z-m>  0.07</z-m>
-    </offsets>
-  </model>  -->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-hud-tracks.xml</path>
-    <name>SwitchHudTracks</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.33</y-m>
-      <z-m>  0.07</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-sideslip.xml</path>
-    <name>SwitchSideslip</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.33</y-m>
-      <z-m>  0.03</z-m>
-    </offsets>
-  </model>-->
-
-  <!--<model>
-    <path>Aircraft/JA37/Models/Cockpit/switches/switch-radar.xml</path>
-    <name>SwitchRadar</name>
-    <offsets>
-      <x-m>  0.00</x-m>
-      <y-m>  0.31</y-m>
-      <z-m>  0.03</z-m>
-    </offsets>
-  </model>-->
-
 </PropertyList>
