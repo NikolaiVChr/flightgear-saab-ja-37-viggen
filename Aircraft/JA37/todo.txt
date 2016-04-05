@@ -83,9 +83,11 @@ HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: Make too low reference speed change reticle vertical tail down.
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
-HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
+HUD: Sidewind indicator should really be 10 degs below plane axis line.
+HUD: The tail of flightpathindicator should only move when in landing mode. Low: high AoA or low speed. Blink if too high AoA.
+HUD: In landing mode, the speed will move up if AoA is greater than 8.5 degs, down again when lower than 5.5 degs.
 
 
 

@@ -35,6 +35,7 @@ var mode = TAKEOFF;
 var modeTimeTakeoff = -1;
 
 var air2air = FALSE;
+var air2ground = FALSE;
 
 var skip = FALSE;
 
@@ -62,7 +63,7 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*deg2rads))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
-var sidewindPosition = centerOffset+(3*pixelPerDegreeY); #should be 2 degrees under horizon.
+var sidewindPosition = centerOffset+(8*pixelPerDegreeY); #should be 10 degrees under aicraft axis.
 var sidewindPerKnot = max_width/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
 var radPointerProxim = (60/1024)*canvasWidth; #when alt indicater is too close to radar ground indicator, hide indicator
 var scalePlace = (200/1024)*canvasWidth; #horizontal placement of alt scales
@@ -879,7 +880,6 @@ var HUDnasal = {
         final:            "sim/ja37/hud/final",
         fiveHz:           "sim/ja37/blink/five-Hz/state",
         gearsPos:         "gear/gear/position-norm",
-        gs:               "velocities/groundspeed-kt",
         hdg:              "orientation/heading-magnetic-deg",
         hdgReal:          "orientation/heading-deg",
         ias:              "instrumentation/airspeed-indicator/indicated-speed-kt",#"/velocities/airspeed-kt",
@@ -924,6 +924,9 @@ var HUDnasal = {
         wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
         wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
         dev:              "dev",
+        elev_ft:          "position/ground-elev-ft",
+        elev_m:           "position/ground-elev-m",
+        gs:               "velocities/groundspeed-kt",
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -964,11 +967,13 @@ var HUDnasal = {
       me.root.hide();
       me.root.update();
       air2air = FALSE;
+      air2ground = FALSE;
       settimer(func me.update(), 0.3);
      } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       air2air = FALSE;
+      air2ground = FALSE;
       settimer(func me.update(), 0.25);
      } else {
       # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
@@ -1030,9 +1035,6 @@ var HUDnasal = {
       # ground collision warning
       me.displayGroundCollisionArrow(mode);
 
-      # digital speed
-      me.displayDigitalSpeed();
-            
       # heading scale
       me.displayHeadingScale();
       me.displayHeadingHorizonScale();
@@ -1048,6 +1050,9 @@ var HUDnasal = {
 
       ####   reticle  ####
       deflect = me.showReticle(mode, cannon, out_of_ammo);
+
+      # digital speed (must be after showReticle)
+      me.displayDigitalSpeed();
 
       # Visual, TILS and ILS landing guide
       var guide = me.displayLandingGuide(mode, deflect);
@@ -1593,7 +1598,18 @@ var HUDnasal = {
         QFEcalibrated = TRUE;
         me.input.altCalibrated.setValue(TRUE);
         #print("QFE not calibrated, and is not blinking");
-        me.alt.setText(sprintf("%4d", clamp(alt, 0, 9999)));
+
+        var gElev_ft = me.input.elev_ft.getValue();
+        var gElev_m  = me.input.elev_m.getValue();
+
+        if (gElev_ft == nil or gElev_m == nil) {
+          me.alt.setText("");
+        } else {
+          var metric = me.input.units.getValue();
+          var terrainAlt = metric == TRUE?gElev_m:gElev_ft;
+
+          me.alt.setText(sprintf("%4d", clamp(terrainAlt, 0, 9999)));
+        }
       }
     }
   },
@@ -1654,20 +1670,26 @@ var HUDnasal = {
 
   displayDigitalSpeed: func () {
     var mach = me.input.mach.getValue();
-
-    if(me.input.units.getValue() == TRUE) {
+    var metric = me.input.units.getValue();
+    if(metric == TRUE) {
+      # metric
       me.airspeedInt.hide();
       if (mach >= 0.5) 
       {
         me.airspeed.setText(sprintf("%.2f", mach));
       } else {
-        me.airspeed.setText(sprintf("%03d", me.input.ias.getValue() * kts2kmh));
+        var speed = air2ground == TRUE?me.input.gs.getValue()*kts2kmh:me.input.ias.getValue() * kts2kmh;
+        me.airspeed.setText(sprintf("%03d", ));
       }
     } elsif (mode == LANDING or mode == TAKEOFF or mach < 0.5) {
       me.airspeedInt.hide();
-      me.airspeed.setText(sprintf("KT%03d", me.input.ias.getValue()));
+      var speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+      var type  = air2ground == TRUE?"GS":"KT";
+      me.airspeed.setText(sprintf(type~"%03d", speed));
     } else {
-      me.airspeedInt.setText(sprintf("KT%03d", me.input.ias.getValue()));
+      var speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+      var type  = air2ground == TRUE?"GS":"KT";
+      me.airspeedInt.setText(sprintf(type~"%03d", speed));
       me.airspeedInt.show();
       me.airspeed.setText(sprintf("M%.2f", mach));
     }
@@ -1825,52 +1847,61 @@ var HUDnasal = {
       me.reticle_missile.hide();
       me.reticle_c_missile.hide();
       air2air = FALSE;
+      air2ground = FALSE;
       return me.showFlightPathVector(1, out_of_ammo);
     } elsif (mode == COMBAT and cannon == FALSE) {
       if(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70") {
         air2air = FALSE;
+        air2ground = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.show();
         me.reticle_missile.hide();
         me.reticle_c_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 24J") {
         air2air = TRUE;
+        air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
         me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 74") {
         air2air = TRUE;
+        air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
         me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 71") {
         air2air = TRUE;
+        air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
         me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 99") {
         air2air = TRUE;
+        air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
         me.reticle_c_missile.hide();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "RB 15F") {
-        air2air = TRUE;
+        air2air = FALSE;
+        air2ground = TRUE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.hide();
         me.reticle_c_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "TEST") {
         air2air = TRUE;
+        air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.show();
         me.reticle_c_missile.hide();
       } else {
         air2air = FALSE;
+        air2ground = FALSE;
         me.showSidewind(FALSE);
         me.reticle_cannon.hide();
         me.reticle_missile.hide();
@@ -1880,6 +1911,7 @@ var HUDnasal = {
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       air2air = FALSE;
+      air2ground = FALSE;
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
@@ -1887,6 +1919,7 @@ var HUDnasal = {
       return me.showFlightPathVector(1, FALSE);
     } elsif(mode == TAKEOFF) {      
       air2air = FALSE;
+      air2ground = FALSE;
       me.showSidewind(TRUE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
@@ -1894,6 +1927,7 @@ var HUDnasal = {
       return me.showFlightPathVector(!me.input.wow0.getValue(), FALSE);
     } elsif(mode == LANDING) {      
       air2air = FALSE;
+      air2ground = FALSE;
       me.showSidewind(FALSE);
       me.reticle_cannon.hide();
       me.reticle_missile.hide();
