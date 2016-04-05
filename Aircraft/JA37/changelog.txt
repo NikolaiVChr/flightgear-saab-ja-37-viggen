@@ -2130,3 +2130,4 @@ Sim: Doppler radar should now be able to see planes if they are above 250 kt air
 Radar: Slightly optimized performance.
 Radar: Fixed bearing of steerpoint on radar screen was using magnetic.
 Sim: Increased performance of navigation code.
+Model: Added a auto throttle indicator.

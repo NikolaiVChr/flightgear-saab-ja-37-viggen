@@ -20,7 +20,7 @@ input.radioComNav.setBoolValue(0); # 0 is for com, 1 is for nav.
 input.radioMhzKhz.setBoolValue(0); # 0 is for mhz, 1 is for khz.
 input.radioDisplFreq.setDoubleValue(input.commSelMhz.getValue());# set up the radio panel display
 input.radioHeadNorm.setDoubleValue(0); #heading indicator for the left-hand side attitude display
-input.AdfBearing.setValue(0);
+input.AdfBearing.setDoubleValue(0);
 
 
 ######## radio panel display update code

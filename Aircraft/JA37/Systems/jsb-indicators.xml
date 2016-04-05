@@ -1087,7 +1087,36 @@
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
             </test>
-        </switch>        
+        </switch>
+
+        <fcs_function name="systems/indicators/auto-throttle-light-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </eq>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-throttle-on</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>/autopilot/locks/passive-mode</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/at-indicator">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/auto-throttle-light-primary == 1
+            </test>
+        </switch>
 
     </channel>
 

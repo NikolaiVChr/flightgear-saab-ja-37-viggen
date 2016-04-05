@@ -507,6 +507,17 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/indicator-auto-throttle.xml</path>
+    <name>A/T</name>
+    <offsets>
+      <x-m>  0.000</x-m>
+      <y-m> -0.21</y-m>
+      <z-m>  0.245</z-m>
+    </offsets>
+  </model>
+  
+
   <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/joystick.xml</path>
     <name>Spak</name>
