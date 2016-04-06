@@ -123,6 +123,8 @@ Model: Droptank indicator should really be a steerpoint indicator.
 Model: Desert livery over MP is broken now.
 Model: There is a gap between fuselage and engine, where one can see 'into' the model.
 Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
+Radar: Own missiles can be fired upon.
+Sim: Check missile sound at KCA again..
 
 Issues with FG:
 ---------------

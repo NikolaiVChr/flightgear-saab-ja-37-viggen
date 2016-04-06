@@ -42,7 +42,7 @@ var install_failures = func {
     props.globals.initNode(failure_root ~ prop ~ t, 0);
     props.globals.initNode(prop ~ "/serviceable", 1, "BOOL");
 
-    setprop("/sim/failure-manager/display-on-screen", 1);
+    #setprop("/sim/failure-manager/display-on-screen", 1);
     #setprop("/sim/failure-manager/global-mcbf-0", 0);
     #setprop("/sim/failure-manager/global-mcbf-500", 1);
     #setprop("/sim/failure-manager/global-mcbf", 500);
@@ -166,7 +166,7 @@ var install_new_failures = func {
         }
     }
 
-    setprop("/sim/failure-manager/display-on-screen", 1);
+    #setprop("/sim/failure-manager/display-on-screen", 1);
     var failure_root = "/sim/failure-manager";
 
 
