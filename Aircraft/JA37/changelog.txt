@@ -2142,3 +2142,4 @@ Model: The primary (left) altimeter now can be middle clicked which will set the
 Model: The reserve (right) altimeter now have same feature as the primary.
 HUD: Heading bug on top heading scale will now be shown also in landing mode if the scale is shown.
 HUD: Top heading scale will now show at pitch up 9 degs instead of 7.
+HUD: Interoperability is now enabled per default. (means imperial units)

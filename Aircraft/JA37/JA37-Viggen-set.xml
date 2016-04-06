@@ -657,7 +657,7 @@
             </blink>
             <hud>
                 <tracks-enabled type="bool">true</tracks-enabled>
-                <units-metric userarchive="y" type="bool">true</units-metric>
+                <units-metric userarchive="y" type="bool">false</units-metric>
                 <mode userarchive="y" type="bool">true</mode>
                 <current-mode type="int">0</current-mode>
                 <combat type="bool">false</combat>
