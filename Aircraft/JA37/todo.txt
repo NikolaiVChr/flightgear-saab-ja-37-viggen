@@ -125,6 +125,8 @@ Model: There is a gap between fuselage and engine, where one can see 'into' the 
 Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
 Radar: Own missiles can be fired upon.
 Sim: Check missile sound at KCA again..
+Radar: Shooting at imdrone ship, it blinks in and out before getting lock.
+
 
 Issues with FG:
 ---------------
