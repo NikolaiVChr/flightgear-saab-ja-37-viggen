@@ -2031,6 +2031,7 @@ var HUDnasal = {
           }
         } else {
           me.reticle_fin_group.setTranslation(0, 0);
+          me.aim_reticle_fin.show();
         }
       }    
       return dir_x;
