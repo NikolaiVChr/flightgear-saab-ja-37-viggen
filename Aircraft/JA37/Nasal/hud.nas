@@ -1673,7 +1673,7 @@ var HUDnasal = {
         me.airspeed.setText(sprintf("%.2f", mach));
       } else {
         var speed = air2ground == TRUE?me.input.gs.getValue()*kts2kmh:me.input.ias.getValue() * kts2kmh;
-        me.airspeed.setText(sprintf("%03d", ));
+        me.airspeed.setText(sprintf("%03d", speed));
       }
     } elsif (mode == LANDING or mode == TAKEOFF or mach < 0.5) {
       me.airspeedInt.hide();
@@ -2008,17 +2008,18 @@ var HUDnasal = {
           var translation_speed = 0;
           if (speed < speed_min) {
             # too low landing speed
-            translation_speed = speed_min - speed;
+            translation_speed = (speed_min - speed)*2;
           } elsif (speed > speed_max) {
             # too high landing speed
-            translation_speed = speed_max - speed;
+            translation_speed = (speed_max - speed)*2;
           }
-          var translation = (alpha-16.5)*2;#16.5 is ideal AoA for landing
+          var translation = (alpha-16.5)*4;#16.5 is ideal AoA for landing
           if (math.abs(translation) < math.abs(translation_speed)) {
             # using speed as guide for tail
             translation = translation_speed;
           }
-          me.reticle_fin_group.setTranslation(0, translation);
+          translation = clamp(translation, -400, 400);
+          me.reticle_fin_group.setTranslation(0, (translation/1024)*canvasWidth);
           if (alpha > 20) {
             # blink the fin if alpha is high
             if(me.input.tenHz.getValue() == TRUE) {
