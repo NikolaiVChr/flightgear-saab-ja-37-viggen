@@ -2,7 +2,7 @@
 
 <system name="flight">
 
-    <channel name="Aerodynamic info">
+    <channel execrate="4" name="Aerodynamic info">
 
         <fcs_function name="systems/flight/axial-force-lb">
             <function>
@@ -168,7 +168,7 @@
         
     </channel>
 
-    <channel name="instruments">
+    <channel execrate="2" name="instruments">
 
         <fcs_function name="propulsion/engine/rpm_r-s">
             <function>

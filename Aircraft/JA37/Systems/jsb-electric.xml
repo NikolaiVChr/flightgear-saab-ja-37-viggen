@@ -2,7 +2,7 @@
 
 <system name="Electrical system">
 
-    <channel name="Power supply">
+    <channel execrate="4" name="Power supply">
 
         <switch name="names/electrical/external/available">
             <description>
@@ -356,7 +356,7 @@
 
 
 
-    <channel name="Instruments">
+    <channel execrate="4" name="Instruments">
 
         <switch name="/instrumentation/comm[0]/power-good">
             <description>

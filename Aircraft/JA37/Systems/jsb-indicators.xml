@@ -10,7 +10,7 @@
          When lamptest button is pressed all light go on and blinking lights will blink. Master-warning also goes on.
      -->
 
-    <channel name="Left indicator panel logic">
+    <channel execrate="4" name="Left indicator panel logic">
 
 
         <!-- Swedish: BRAND (sound, blinking)
@@ -742,7 +742,7 @@
     </channel>
 
 
-    <channel name="Misc indicator lights logic">
+    <channel execrate="4" name="Misc indicator lights logic">
 
         <!-- Swedish: SPAK (green)
 
@@ -1092,7 +1092,7 @@
 
     </channel>
 
-    <channel name="Right indicator panel logic">
+    <channel execrate="4" name="Right indicator panel logic">
 
         <!-- Swedish: SPAK (blinking, sound)
 
@@ -1755,7 +1755,7 @@
 
     </channel>
 
-    <channel name="Master warning logic">
+    <channel execrate="4" name="Master warning logic">
 
         <!--                                         
             no sound, just blinking master lights:
