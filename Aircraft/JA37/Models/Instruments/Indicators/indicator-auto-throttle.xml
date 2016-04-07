@@ -23,7 +23,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>AFK</tooltip-id>
-                <label>A/P Speed</label>
+                <label>Automatic throttle</label>
             </binding>
         </hovered>
     </animation>
