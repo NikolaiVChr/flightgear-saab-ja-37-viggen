@@ -306,15 +306,20 @@ var radar = {
         #     .setTranslation(0,0);
 
     m.input = {
-      viewNumber:     "sim/current-view/view-number",
-      radarVoltage:   "systems/electrical/outputs/ac-main-voltage",
+      heading:              "instrumentation/heading-indicator/indicated-heading-deg",
+      hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
+      radarEnabled:         "sim/ja37/hud/tracks-enabled",
+      radarRange:           "instrumentation/radar/range",
       radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
-      radarServ:      "instrumentation/radar/serviceable",
-      screenEnabled:  "sim/ja37/radar/enabled",
-      radarEnabled:   "sim/ja37/hud/tracks-enabled",
-      radarRange:     "instrumentation/radar/range",
-      timeElapsed:    "sim/time/elapsed-sec",
-      hydrPressure:   "fdm/jsbsim/systems/hydraulics/system1/pressure",
+      radarServ:            "instrumentation/radar/serviceable",
+      radarVoltage:         "systems/electrical/outputs/ac-main-voltage",
+      rmActive:             "autopilot/route-manager/active",
+      rmDist:               "autopilot/route-manager/wp/dist",
+      rmId:                 "autopilot/route-manager/wp/id",
+      rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
+      screenEnabled:        "sim/ja37/radar/enabled",
+      timeElapsed:          "sim/time/elapsed-sec",
+      viewNumber:           "sim/current-view/view-number",
     };
 
     # setup property nodes for the loop
@@ -382,10 +387,11 @@ var radar = {
           #}
       #  }
       #}
-      if (getprop("autopilot/route-manager/active") == TRUE) {
-        var dist = getprop("autopilot/route-manager/wp/dist");        
-        var bearing = getprop("autopilot/route-manager/wp/true-bearing-deg");#true
-        var heading = getprop("instrumentation/heading-indicator/indicated-heading-deg");#true
+
+      if (me.input.rmActive.getValue() == TRUE) {
+        var dist = me.input.rmDist.getValue();        
+        var bearing = me.input.rmTrueBearing.getValue();#true
+        var heading = me.input.heading.getValue();#true
         if (dist != nil and bearing != nil and heading != nil) {
           var bug = bearing - heading;
 
@@ -396,7 +402,7 @@ var radar = {
 
           me.dest.show();
 
-          var name = getprop("autopilot/route-manager/wp/id");
+          var name = me.input.rmId.getValue();
           if (name != nil and size(split("-", name))>1) {
             #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
             name = split("-", name);

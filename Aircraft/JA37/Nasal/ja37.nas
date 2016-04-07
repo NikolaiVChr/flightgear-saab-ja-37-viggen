@@ -32,14 +32,25 @@ var MISSILE_FLYING = 2;
 input = {
   acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
   acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
+  aeroSmoke:        "/sim/ja37/effect/smoke",
+  aeroSmokeCmd:     "/sim/ja37/effect/smoke-cmd",
+  airspeed:         "velocities/airspeed-kt",
+  alpha:            "orientation/alpha-deg",
+  alt:              "position/altitude-ft",
+  apLockAlt:        "autopilot/locks/altitude",
+  apLockHead:       "autopilot/locks/heading",
+  apLockSpeed:      "autopilot/locks/speed",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   augmentation:     "/controls/engines/engine[0]/augmentation",
   autoReverse:      "sim/ja37/autoReverseThrust",
   breathVol:        "sim/ja37/sound/breath-volume",
+  buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
-  canopyPos:        "canopy/position-norm",
+  canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
   combat:           "/sim/ja37/hud/current-mode",
   cutoff:           "controls/engines/engine[0]/cutoff",
+  damage:           "environment/damage",
+  damageSmoke:      "environment/damage-smoke",
   dcVolt:           "systems/electrical/outputs/dc-voltage",
   dme:              "instrumentation/dme/KDI572-574/nm",
   dmeDist:          "instrumentation/dme/indicated-distance-nm",
@@ -48,6 +59,7 @@ input = {
   elapsedInit:      "sim/time/elapsed-at-init-sec",
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
+  envVol:           "sim/ja37/sound/environment-volume",
   fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
@@ -55,6 +67,7 @@ input = {
   fuelNeedleB:      "/instrumentation/fuel/needleB_rot",
   fuelNeedleF:      "/instrumentation/fuel/needleF_rot",
   fuelRatio:        "/instrumentation/fuel/ratio",
+  fuelTemp:         "sim/ja37/supported/fuel-temp",
   fuelWarning:      "sim/ja37/sound/fuel-low-on",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
@@ -62,6 +75,7 @@ input = {
   gearsPos:         "gear/gear/position-norm",
   generatorOn:      "fdm/jsbsim/systems/electrical/generator-running-norm",
   gravity:          "fdm/jsbsim/accelerations/gravity-ft_sec2",
+  headingMagn:      "/orientation/heading-magnetic-deg",
   hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
   hydr2On:          "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
   hydrCombined:     "fdm/jsbsim/systems/hydraulics/flight-surface-actuation",
@@ -69,9 +83,12 @@ input = {
   hz10:             "sim/ja37/blink/ten-Hz/state",
   hzThird:          "sim/ja37/blink/third-Hz/state",
   impact:           "/ai/models/model-impact",
+  indAA:            "sim/ja37/avionics/auto-altitude-on",
+  indAH:            "sim/ja37/avionics/auto-attitude-on",
   indAlt:           "/instrumentation/altitude-indicator",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
+  indAT:            "sim/ja37/avionics/auto-throttle-on",
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
   indRev:           "/instrumentation/reverse-indicator",
@@ -88,9 +105,8 @@ input = {
   landLightALS:     "sim/rendering/als-secondary-lights/use-landing-light",
   landLightSupport: "sim/ja37/supported/landing-light",
   landLightSwitch:  "controls/electric/lights-land-switch",
-  lockAltitude:     "/autopilot/locks/altitude",
-  lockHeading:      "/autopilot/locks/heading",
   lockPassive:      "/autopilot/locks/passive-mode",
+  mach:             "velocities/mach",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
   mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
   mass5:            "fdm/jsbsim/inertia/pointmass-weight-lbs[5]",
@@ -106,9 +122,18 @@ input = {
   pilotG:           "sim/ja37/accelerations/pilot-G",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
   rad_alt:          "position/altitude-agl-ft",
+  rainNorm:         "environment/rain-norm",
+  rainVol:          "sim/ja37/sound/rain-volume",
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
+  rmActive:         "/autopilot/route-manager/active",
+  rmBearing:        "/autopilot/route-manager/wp/bearing-deg",
+  rmBearingRel:     "autopilot/route-manager/wp/bearing-deg-rel",
+  rmDist:           "autopilot/route-manager/wp/dist",
+  rmDistKm:         "autopilot/route-manager/wp/dist-km",
   roll:             "/instrumentation/attitude-indicator/indicated-roll-deg",
+  sceneRed:         "/rendering/scene/diffuse/red",
+  servFire:         "engines/engine[0]/fire/serviceable",
   serviceElec:      "systems/electrical/serviceable",
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
@@ -136,12 +161,15 @@ input = {
   tank8LvlGal:      "/consumables/fuel/tank[8]/level-gal_us",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   tank8Selected:    "/consumables/fuel/tank[8]/selected",
+  tempDegC:         "environment/temperature-degc",
   thrustLb:         "engines/engine/thrust_lb",
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
   TILS:             "sim/ja37/hud/TILS",
   trigger:          "controls/armament/trigger",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   viewInternal:     "sim/current-view/internal",
+  viewName:         "sim/current-view/name",
+  viewYOffset:      "sim/current-view/y-offset-m",
   warnButton:       "sim/ja37/avionics/master-warning-button",
   wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
@@ -157,7 +185,7 @@ var update_loop = func {
   input.breathVol.setValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
   #augmented flame translucency
-  var red = getprop("/rendering/scene/diffuse/red");
+  var red = input.sceneRed.getValue();
   # normal effect
   #var angle = input.sunAngle.getValue();# 1.25 - 2.45
   #var newAngle = (1.2 -(angle-1.25))*0.8333;
@@ -219,9 +247,8 @@ var update_loop = func {
 
     if (input.tank0LvlNorm.getValue() == 0) {
       # a bug in JSB makes NaN on fuel temp if tank has been empty.
-      setprop("sim/ja37/supported/fuel-temp", FALSE);
+      input.fuelTemp.setValue(FALSE);
     }
-
 
     ## control flaps ##
 
@@ -341,37 +368,37 @@ var update_loop = func {
     input.MPint9.setIntValue(encode3bits(flash, beacon, nav));
 
     # contrails, damage smoke
-    var contrails = getprop("environment/temperature-degc") < -40 and getprop("position/altitude-ft") > 19000 and input.n2.getValue() > 50;
-    var smoke = !getprop("engines/engine[0]/fire/serviceable")+getprop("environment/damage");
-    setprop("environment/damage-smoke", smoke);
-    var d_smoke = getprop("environment/damage-smoke");
+    var contrails = input.tempDegC.getValue() < -40 and input.alt.getValue() > 19000 and input.n2.getValue() > 50;
+    var smoke = !input.servFire.getValue()+input.damage.getValue();
+    input.damageSmoke.setValue(smoke);
+    var d_smoke = input.damageSmoke.getValue();
     input.MPint18.setIntValue(encode3bits(contrails, d_smoke, 0));
 
     # smoke
     if (input.dcVolt.getValue() > 20) {
-      setprop("/sim/ja37/effect/smoke", getprop("/sim/ja37/effect/smoke-cmd"));
+      input.aeroSmoke.setValue(input.aeroSmokeCmd.getValue());
     } else {
-      setprop("/sim/ja37/effect/smoke", 1);
+      input.aeroSmoke.setValue(1);
     }
 
     # auto-pilot engaged
 
-    if (size(getprop("/autopilot/locks/speed")) == 0) {
-      setprop("sim/ja37/avionics/auto-throttle-on", FALSE);
+    if (size(input.apLockSpeed.getValue()) == 0) {
+      input.indAT.setValue(FALSE);
     } else {
-      setprop("sim/ja37/avionics/auto-throttle-on", TRUE);
+      input.indAT.setValue(TRUE);
     }
 
-    if (getprop("/autopilot/locks/heading") == "") {
-      setprop("sim/ja37/avionics/auto-attitude-on", FALSE);
+    if (input.apLockHead.getValue() == "") {
+      input.indAH.setValue(FALSE);
     } else {
-      setprop("sim/ja37/avionics/auto-attitude-on", TRUE);
+      input.indAH.setValue(TRUE);
     }
 
-    if (getprop("/autopilot/locks/altitude") == "") {
-      setprop("sim/ja37/avionics/auto-altitude-on", FALSE);
+    if (input.apLockAlt.getValue() == "") {
+      input.indAA.setValue(FALSE);
     } else {
-      setprop("sim/ja37/avionics/auto-altitude-on", TRUE);
+      input.indAA.setValue(TRUE);
     }
 	
 	  var DME = input.dme.getValue() != "---" and input.dme.getValue() != "" and input.dmeDist.getValue() != nil;
@@ -382,18 +409,18 @@ var update_loop = func {
       if (distance > 40) {
         distance = 40;
       }
-      setprop("autopilot/route-manager/wp/dist-km", distance);
-    } elsif (getprop("/autopilot/route-manager/active") == TRUE) {
+      input.rmDistKm.setValue(distance);
+    } elsif (input.rmActive.getValue() == TRUE) {
       # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
-      setprop("autopilot/route-manager/wp/dist-km", getprop("autopilot/route-manager/wp/dist") * 1.852 );
+      input.rmDistKm.setValue(input.rmDist.getValue() * 1.852 );
     } else {
-      setprop("autopilot/route-manager/wp/dist-km", 0);
+      input.rmDistKm.setValue(0);
     }
 
     # radar compass
-	  if (getprop("/autopilot/route-manager/active") == TRUE and input.srvHead.getValue() == TRUE) {
+	  if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE) {
 	    # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
-	    setprop("autopilot/route-manager/wp/bearing-deg-rel", getprop("/autopilot/route-manager/wp/bearing-deg") - getprop("/orientation/heading-magnetic-deg"));
+	    input.rmBearingRel.setValue(input.rmBearing.getValue() - input.headingMagn.getValue());
       
     }
 	
@@ -668,20 +695,20 @@ var speed_loop = func () {
   input.MPint17.setIntValue(encode3bits(wow0, wow1, wow2));
 
   # environment volume
-  var canopy = getprop("fdm/jsbsim/fcs/canopy/pos-norm");
-  var internal = getprop("sim/current-view/internal");
+  var canopy = input.canopyPos.getValue();
+  var internal = input.viewInternal.getValue();
   var vol = 0;
   if(internal != nil and canopy != nil) {
     vol = clamp(1-(internal*0.5)+(canopy*0.5), 0, 1);
   } else {
     vol = 0;
   }
-  setprop("sim/ja37/sound/environment-volume", vol);
-  var rain = getprop("/environment/rain-norm");
+  input.envVol.setValue(vol);
+  var rain = input.rainNorm.getValue();
   if (rain == nil) {
     rain = 0;
   }
-  setprop("sim/ja37/sound/rain-volume", rain*0.35*vol);
+  input.rainVol.setValue(rain*0.35*vol);
 
   theShakeEffect();
 
@@ -689,6 +716,7 @@ var speed_loop = func () {
 
   settimer(speed_loop, 0.05);
 }
+
 
 var defaultView = getprop("sim/view/config/y-offset-m");
 
@@ -704,10 +732,10 @@ var logTime = func{
 }
 
 var theShakeEffect = func{
-  var rSpeed = getprop("/velocities/airspeed-kt");
+  var rSpeed = input.airspeed.getValue();
   var G = input.pilotG.getValue();
-  var alpha = getprop("/orientation/alpha-deg");
-  var mach = getprop("velocities/mach");
+  var alpha = input.alpha.getValue();
+  var mach = input.mach.getValue();
   var wow = input.wow1.getValue();
   var myTime = input.elapsed.getValue();
 
@@ -715,10 +743,10 @@ var theShakeEffect = func{
     return;
   }
 
-  if(getprop("sim/current-view/name") == "Cockpit View" and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
-    setprop("sim/current-view/y-offset-m", defaultView+getprop("fdm/jsbsim/systems/flight/buffeting/output")); 
+  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
+    input.viewYOffset.setValue(defaultView+input.buffOut.getValue()); 
   }else{
-    setprop("sim/current-view/y-offset-m", defaultView);
+    input.viewYOffset.setValue(defaultView);
   } 
 }
 

@@ -2314,7 +2314,7 @@ var HUDnasal = {
           var armSelect = me.input.station.getValue();
           var diamond = 0;
           #print();
-          var roll = getprop("orientation/roll-deg");
+          var roll = me.input.roll.getValue();
           if(armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == armament.MISSILE_LOCK
              and (armament.AIM.active[armSelect-1].rail == TRUE or (roll > -90 and roll < 90))) {
             # lock and not inverted if the missiles is to be dropped

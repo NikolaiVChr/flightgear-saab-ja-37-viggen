@@ -2146,3 +2146,4 @@ HUD: Interoperability is now enabled as default. (means imperial units)
 Radar: Fixed that own missiles can be fired upon.
 System: Reduced the simulation rate for some JSB systems. (only works in 2016.2)
 Model: Changed the tooltip on autopilot indicator for flightstick.
+Sim: Increased performance slightly for some Nasal code.

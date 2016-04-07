@@ -3,6 +3,8 @@ var controlsEngine = props.globals.getNode("/controls/engines/engine[0]");
 var reverserPos = props.globals.getNode("/engines/engine[0]/reverser-pos-norm");
 var reversed = props.globals.getNode("/engines/engine[0]/is-reversed");
 var reverserServ = props.globals.getNode("/controls/engines/engine[0]/reverse-system/serviceable");
+var dcVolt = props.globals.getNode("systems/electrical/outputs/dc-voltage");
+var hydr1  = props.globals.getNode("fdm/jsbsim/systems/hydraulics/system1/pressure");
 
 togglereverser = func () {
   var current = controlsEngine.getChild("reverser-cmd").getValue();
@@ -13,8 +15,8 @@ togglereverser = func () {
 
 reverse_loop = func () {
   var command = controlsEngine.getChild("reverser-cmd").getValue();
-  if (getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == nil or getprop("systems/electrical/outputs/dc-voltage") == nil
-      or getprop("fdm/jsbsim/systems/hydraulics/system1/pressure") == 0 or getprop("systems/electrical/outputs/dc-voltage") < 23) {
+  if (hydr1.getValue() == nil or dcVolt.getValue() == nil
+      or hydr1.getValue() == 0 or dcVolt.getValue() < 23) {
     #Its important to tell people why the reversing fails, or they will think its a bug.
     #ja37.popupTip("Thrust reverser lacks electricity or hydraulic pressure.");
   } elsif (reverserServ.getValue() == 1) {
