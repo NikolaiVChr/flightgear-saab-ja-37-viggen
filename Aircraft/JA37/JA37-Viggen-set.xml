@@ -1076,7 +1076,7 @@
         </target-tracking>
 		<route-manager>
 			<wp>
-				<bearing-deg-rel> type="double">0</bearing-deg-rel>
+				<bearing-deg-rel type="double">0</bearing-deg-rel>
 			</wp>
 		</route-manager>
     </autopilot>
@@ -1085,6 +1085,7 @@
         <electrical>
             <outputs>
                 <dc-voltage type="double">0</dc-voltage>
+                <ac-instr-voltage type="double">0</ac-instr-voltage>
                 <!--
       <hud type="double">0</hud>
       <radar type="double">0</radar>
@@ -1092,6 +1093,7 @@
       <comm n="0" type="double">0</comm>
       <comm n="1" type="double">0</comm>-->
             </outputs>
+            <dc-light type="double">0</dc-light>
         </electrical>
         <generator>
             <serviceable type="bool">true</serviceable>

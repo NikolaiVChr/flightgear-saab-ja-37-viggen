@@ -55,6 +55,12 @@ input = {
 
 var loop_stores = func {
 
+    if(input.replay.getValue() == TRUE) {
+      # replay is active, skip rest of loop.
+      settimer(loop_stores, UPDATE_PERIOD);
+      return;
+    }
+
     # pylon payloads
     for(var i=0; i<=6; i=i+1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");

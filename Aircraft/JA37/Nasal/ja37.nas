@@ -438,6 +438,12 @@ var acTimer = 0;
 
 # slow updating loop
 var slow_loop = func () {
+  if(input.replay.getValue() == TRUE) {
+    # replay is active, skip rest of loop.
+    settimer(slow_loop, 1.5);
+    return;
+  }
+
   #TILS
   if(input.TILS.getValue() == TRUE and input.acInstrVolt.getValue() > 100) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
     var icao = getprop("sim/tower/airport-id");
@@ -654,7 +660,7 @@ var speed_loop = func () {
 
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
-    settimer(speed_loop, 0.5);
+    settimer(speed_loop, 0.05);
     return;
   }
   # calc g-force
