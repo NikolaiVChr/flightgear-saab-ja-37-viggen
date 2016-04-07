@@ -82,12 +82,12 @@ var findRadarTracks = func () {
     processTracks(AIplanes, FALSE, FALSE, FALSE, AIR);
 #});
     processTracks(vehicles, FALSE, FALSE, FALSE, SURFACE);
-    processTracks(rb24, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
-	  processTracks(rb71, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
-    processTracks(rb74, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
-    processTracks(rb99, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
-    processTracks(rb15, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
-    processTracks(test, FALSE, TRUE, FALSE, FALSE, ORDNANCE);
+    processTracks(rb24, FALSE, TRUE, FALSE, ORDNANCE);
+	  processTracks(rb71, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb74, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb99, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb15, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(test, FALSE, TRUE, FALSE, ORDNANCE);
     processCallsigns(players);
 
   } else {

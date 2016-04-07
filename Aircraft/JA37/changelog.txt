@@ -2143,3 +2143,4 @@ Model: The reserve (right) altimeter now have same feature as the primary.
 HUD: Heading bug on top heading scale will now be shown also in landing mode if the scale is shown.
 HUD: Top heading scale will now show at pitch up 9 degs instead of 7.
 HUD: Interoperability is now enabled as default. (means imperial units)
+Radar: Fixed that own missiles can be fired upon.
