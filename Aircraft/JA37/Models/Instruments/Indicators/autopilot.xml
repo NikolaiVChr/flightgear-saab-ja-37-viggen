@@ -107,7 +107,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Spak Indicator</tooltip-id>
-                <label>Joystick</label>
+                <label>Flightstick active</label>
                 <property>/instrumentation/joystick-indicator</property>
             </binding>
         </hovered>
