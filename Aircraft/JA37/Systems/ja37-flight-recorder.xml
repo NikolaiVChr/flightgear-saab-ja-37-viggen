@@ -211,10 +211,10 @@
             <property type="string">sim/multiplay/generic/int[18]</property>
         </signal>
         <!-- Stores -->
-        <signal>
+        <!--<signal>
             <type>bool</type>
             <property type="string">controls/armament/station[0]/trigger</property>
-        </signal>
+        </signal>-->
         <signal>
             <type>bool</type>
             <property type="string">ai/submodels/submodel[0]/flare-release</property>
@@ -241,24 +241,40 @@
         </signal>
         <signal>
             <type>bool</type>
+            <property type="string">controls/armament/station[5]/released</property>
+        </signal>
+        <signal>
+            <type>bool</type>
+            <property type="string">controls/armament/station[6]/released</property>
+        </signal>
+        <signal>
+            <type>bool</type>
             <property type="string">fdm/jsbsim/systems/electrical/external/available</property>
         </signal>
         <signal>
-            <type>int16</type>
+            <type>float</type>
             <!-- careful, did these not change to use floating points?: -->
             <property type="string">payload/weight[0]/weight-lb</property>
         </signal>
         <signal>
-            <type>int16</type>
+            <type>float</type>
             <property type="string">payload/weight[1]/weight-lb</property>
         </signal>
         <signal>
-            <type>int16</type>
+            <type>float</type>
             <property type="string">payload/weight[2]/weight-lb</property>
         </signal>
         <signal>
-            <type>int16</type>
+            <type>float</type>
             <property type="string">payload/weight[3]/weight-lb</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">payload/weight[4]/weight-lb</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">payload/weight[5]/weight-lb</property>
         </signal>
         <signal>
             <type>int8</type>

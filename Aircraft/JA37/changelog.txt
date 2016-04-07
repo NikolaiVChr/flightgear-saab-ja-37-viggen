@@ -2148,3 +2148,4 @@ System: Reduced the simulation rate for some JSB systems. (only works in 2016.2)
 Model: Changed the tooltip on autopilot indicator for flightstick.
 Sim: Increased performance slightly for some Nasal code.
 Sim: Stopped some functions during replay.
+Sim: Added 2 outer pylons to flight-recorder.
