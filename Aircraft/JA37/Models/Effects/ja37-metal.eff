@@ -16,6 +16,8 @@
      <rain-enabled type="int">0</rain-enabled>
      <lightmap-enabled type="int">0</lightmap-enabled>
 
+     <delta_T><use>engines/engine/egt-degf</use></delta_T>
+
      <ambient-correction type="float">0.0</ambient-correction>
 
      <dirt-enabled type="int">0</dirt-enabled>

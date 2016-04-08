@@ -12,6 +12,8 @@
 
       <reflect-map-enabled type="int">0</reflect-map-enabled>
 
+      <delta_T>10.0</delta_T>
+
       <reflection-fresnel type="float">0.0</reflection-fresnel>
       <reflection-rainbow type="float">0.10</reflection-rainbow>
       <reflection-noise type="float">0.0</reflection-noise>

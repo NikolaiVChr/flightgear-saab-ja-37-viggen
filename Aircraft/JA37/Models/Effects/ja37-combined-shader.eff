@@ -25,6 +25,8 @@
     <reflection-noise type="float">0.0</reflection-noise>
     <reflection-dynamic type="int">1</reflection-dynamic>
 
+    <delta_T>10.0</delta_T>
+
     <dirt-enabled type="int">0</dirt-enabled>
     <dirt-factor type="float">0.0</dirt-factor>
     <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
