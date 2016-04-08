@@ -490,7 +490,7 @@ var install_newer_failures = func {
         }
     }
 
-    setprop("/sim/failure-manager/display-on-screen", 1);
+    #setprop("/sim/failure-manager/display-on-screen", 1);
     var failure_root = "/sim/failure-manager";
 
 
