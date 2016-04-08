@@ -48,6 +48,7 @@ var last_serv_status = TRUE;
 var loop_fire = func {
 	if (input.replay.getValue() == TRUE) {
 		settimer(loop_fire, 1);
+		return;
 	}
 
 	var new_fire = FALSE;

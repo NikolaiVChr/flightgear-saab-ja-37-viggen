@@ -2151,3 +2151,4 @@ Sim: Stopped some functions during replay.
 Sim: Added 2 outer pylons to flight-recorder.
 Sim: Replaced nasal blinkers with JSB code.
 Sound: Made the missile lock growl and buzz not be audiable from outside.
+Sim: Fixed replay was total broken.

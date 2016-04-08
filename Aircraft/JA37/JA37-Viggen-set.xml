@@ -1484,6 +1484,8 @@
             <afterburner>
                 <serviceable type="bool">true</serviceable>
             </afterburner>
+            <egt-degf type="double">0</egt-degf>
+            <oil-pressure-psi type="double">0</oil-pressure-psi>
         </engine>
     </engines>
 

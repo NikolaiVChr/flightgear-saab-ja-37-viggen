@@ -1,4 +1,4 @@
-var UPDATE_PERIOD = 0.05;
+var STORES_UPDATE_PERIOD = 0.05;
 
 var FALSE = 0;
 var TRUE = 1;
@@ -57,7 +57,7 @@ var loop_stores = func {
 
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
-      settimer(loop_stores, UPDATE_PERIOD);
+      settimer(loop_stores, STORES_UPDATE_PERIOD);
       return;
     }
 
@@ -375,7 +375,7 @@ var loop_stores = func {
   }
   setprop("sim/multiplay/generic/string[13]", str);
 
-  settimer(func { loop_stores() }, UPDATE_PERIOD);
+  settimer(func { loop_stores() }, STORES_UPDATE_PERIOD);
 }
 
 

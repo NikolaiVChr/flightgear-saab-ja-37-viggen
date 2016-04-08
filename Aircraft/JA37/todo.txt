@@ -126,7 +126,6 @@ Sim: {Pinto} Has experienced that 2 engine directories were created under engine
 Sim: Check missile sound at KCA again..
 Radar: Shooting at imdrone ship, it blinks in and out before getting lock.
 Sim: If HoT (/sim/multiplay/hot) is enabled, geo reports wrong ground elevation at a AI/MP aircraft location.
-Sim: Replay is total broken.
 
 
 Issues with FG:
