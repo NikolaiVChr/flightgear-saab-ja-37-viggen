@@ -1137,7 +1137,7 @@ var beaconLoop = func () {
     if (value < 0) value = 0;
     beacon_switch.setValue(value);
   }
-  settimer(beaconLoop, 0);
+  settimer(beaconLoop, 0.05);
 };
 #var beaconTimer = maketimer(0, beaconLoop); only usable in 2.11+
 
@@ -1146,12 +1146,13 @@ var beaconLoop = func () {
 
 ############ blinkers ####################
 
-var blinker = aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2]);
-blinker.switch(1);
-blinker = aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1]);
-blinker.switch(1);
-blinker = aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1]);
-blinker.switch(1);
+#var blinker = nil;
+#blinker = aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2]);
+#blinker.switch(1);
+#blinker = aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1]);
+#blinker.switch(1);
+#blinker = aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1]);
+#blinker.switch(1);
 
 ############# workaround for removing default HUD   ##############
 

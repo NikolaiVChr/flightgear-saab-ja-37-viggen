@@ -56,7 +56,7 @@ Sim: Specific damage to gears in crash code, speed of impact and vertical speed 
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Sim: Make data-link between Viggens.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
-Sim: Replace nasal blinkers with JSB code.
+Sim: Replace nasal strobe blinker with JSB code.
 Sim: Implement maximum speed reactions - Vne.
 Sim: Implement navigation controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.

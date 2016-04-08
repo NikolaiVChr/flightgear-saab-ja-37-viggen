@@ -338,4 +338,56 @@
     
     </channel>
 
+    <channel execrate="1" name="blinkers">
+
+        <fcs_function name="systems/flight/blink/five">
+            <function>
+                <integer>
+                  <mod>
+                    <product>
+                        <property>sim-time-sec</property>
+                        <value>5</value>
+                    </product>
+                    <value>2</value>
+                  </mod>
+                </integer>
+            </function>
+            <output>/sim/ja37/blink/five-Hz/state</output>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/blink/ten">
+            <function>
+                <integer>
+                  <mod>
+                    <product>
+                        <property>sim-time-sec</property>
+                        <value>10</value>
+                    </product>
+                    <value>2</value>
+                  </mod>
+                </integer>
+            </function>
+            <output>/sim/ja37/blink/ten-Hz/state</output>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/blink/third">
+            <function>
+                <integer>
+                    <min>
+                        <mod>
+                            <product>
+                                <property>sim-time-sec</property>
+                                <value>1</value>
+                            </product>
+                            <value>3</value>
+                        </mod>
+                        <value>1.99999999</value>
+                    </min>
+                </integer>
+            </function>
+            <output>/sim/ja37/blink/third-Hz/state</output>
+        </fcs_function>
+    
+    </channel>
+
 </system>
