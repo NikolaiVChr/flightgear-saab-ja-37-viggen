@@ -222,7 +222,7 @@ var processTracks = func (vector, carrier, missile = 0, mp = 0, type = -1) {
   }#end of foreach
   if(carrier == TRUE) {
     if(carrierNear != input.carrierNear.getValue()) {
-      input.carrierNear.setValue(carrierNear);
+      input.carrierNear.setBoolValue(carrierNear);
     }      
   }
 }#end of processTracks
@@ -806,7 +806,7 @@ var Contact = {
 
     remove: func(){
         if(me.validTree != 0){
-          me.validTree.setValue(0);
+          me.validTree.setBoolValue(0);
         }
     },
 

@@ -2154,3 +2154,5 @@ Sound: Made the missile lock growl and buzz not be audiable from outside.
 Sim: Fixed replay was total broken.
 Sim: Drop-tank no longer require masterarm off to jettison, as per manual.
 Model: Fixed that in selection and topdown views the camera position was wrong.
+Sim: Fixed missile growl/buzz could be heard when cannon was selected.
+Sim: More efficient typecasting in nasal code.

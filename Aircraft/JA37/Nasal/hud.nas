@@ -1007,7 +1007,7 @@ var HUDnasal = {
         mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
         modeTimeTakeoff = -1;
       }
-      me.input.currentMode.setValue(mode);
+      me.input.currentMode.setIntValue(mode);
 
       # commented as long as diamond node is choosen in HUD
       #if (me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) {
@@ -1105,7 +1105,7 @@ var HUDnasal = {
 
         # very simple ground detection.
         if(time_till_crash < 10 and time_till_crash > 0) {
-          me.input.terrainOn.setValue(TRUE);
+          me.input.terrainOn.setBoolValue(TRUE);
           if(me.input.tenHz.getValue() == TRUE) {
             me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
             me.arrow.show();
@@ -1113,15 +1113,15 @@ var HUDnasal = {
             me.arrow.hide();
           }
         } else {
-          me.input.terrainOn.setValue(FALSE);
+          me.input.terrainOn.setBoolValue(FALSE);
           me.arrow.hide();
         }
       } else {
-        me.input.terrainOn.setValue(FALSE);
+        me.input.terrainOn.setBoolValue(FALSE);
         me.arrow.hide();
       }
     } else {
-      me.input.terrainOn.setValue(FALSE);
+      me.input.terrainOn.setBoolValue(FALSE);
       me.arrow.hide();
     }
   },
@@ -1556,7 +1556,7 @@ var HUDnasal = {
         me.alt.setText("");
         countQFE = 0;
         QFEcalibrated = FALSE;
-        me.input.altCalibrated.setValue(FALSE);
+        me.input.altCalibrated.setBoolValue(FALSE);
       } elsif (radAlt != nil and radAlt < radar_clamp) {
         # in radar alt range
         me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, radar_clamp)));
@@ -1566,7 +1566,7 @@ var HUDnasal = {
           #print("QFE warning " ~ countQFE);
           # is not calibrated, and is not blinking
           QFEcalibrated = FALSE;
-          me.input.altCalibrated.setValue(FALSE);
+          me.input.altCalibrated.setBoolValue(FALSE);
           countQFE = 1;     
           #print("QFE not calibrated, and is not blinking");     
         } elsif (diff > -alt_diff and diff < alt_diff) {
@@ -1577,20 +1577,20 @@ var HUDnasal = {
             countQFE = 11;
           }
           QFEcalibrated = TRUE;
-          me.input.altCalibrated.setValue(TRUE);
+          me.input.altCalibrated.setBoolValue(TRUE);
         } elsif (QFEcalibrated == 1 and (diff > alt_diff or diff < -alt_diff)) {
           # was calibrated before, is not anymore.
           #print("QFE was calibrated before, is not anymore. "~countQFE);
           countQFE = 1;
           QFEcalibrated = FALSE;
-          me.input.altCalibrated.setValue(FALSE);
+          me.input.altCalibrated.setBoolValue(FALSE);
         }
       } else {
         # is above height for checking for calibration
         countQFE = 0;
         #QFE = 0;
         QFEcalibrated = TRUE;
-        me.input.altCalibrated.setValue(TRUE);
+        me.input.altCalibrated.setBoolValue(TRUE);
         #print("QFE not calibrated, and is not blinking");
 
         var gElev_ft = me.input.elev_ft.getValue();
@@ -1823,7 +1823,7 @@ var HUDnasal = {
       } else {
         countQFE = -100;
         QFEcalibrated = TRUE;
-        me.input.altCalibrated.setValue(TRUE);
+        me.input.altCalibrated.setBoolValue(TRUE);
         #print("off");
       }
     } else {

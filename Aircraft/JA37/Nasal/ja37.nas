@@ -182,7 +182,7 @@ var update_loop = func {
   # Stuff that will run even in replay:
 
   # breath sound volume
-  input.breathVol.setValue(input.viewInternal.getValue() and input.fullInit.getValue());
+  input.breathVol.setDoubleValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
   #augmented flame translucency
   var red = input.sceneRed.getValue();
@@ -191,11 +191,11 @@ var update_loop = func {
   #var newAngle = (1.2 -(angle-1.25))*0.8333;
   #input.MPfloat2.setValue(newAngle);
   var translucency = clamp(red, 0.35, 1);
-  input.MPfloat2.setValue(translucency);
+  input.MPfloat2.setDoubleValue(translucency);
 
   # ALS effect
   red = clamp(1 - red, 0.25, 1);
-  input.MPfloat9.setValue(red);
+  input.MPfloat9.setDoubleValue(red);
 
   # End stuff
 
@@ -205,15 +205,15 @@ var update_loop = func {
   } else {
     # set the full-init property
     if(input.elapsed.getValue() > input.elapsedInit.getValue() + 5) {
-      input.fullInit.setValue(TRUE);
+      input.fullInit.setBoolValue(TRUE);
     } else {
-      input.fullInit.setValue(FALSE);
+      input.fullInit.setBoolValue(FALSE);
     }
 
   	 ## Sets fuel gauge needles rotation ##
   	 
      if(input.tank8LvlNorm.getValue() != nil) {
-       input.fuelNeedleB.setValue(input.tank8LvlNorm.getValue()*230);
+       input.fuelNeedleB.setDoubleValue(input.tank8LvlNorm.getValue()*230);
      }     
 
     var current = input.tank0LvlGal.getValue()
@@ -227,17 +227,17 @@ var update_loop = func {
                 + input.tank8LvlGal.getValue();
 
 
-    input.fuelNeedleF.setValue((current / total_fuel) *230);
-    input.fuelRatio.setValue(current / total_fuel);
+    input.fuelNeedleF.setDoubleValue((current / total_fuel) *230);
+    input.fuelRatio.setDoubleValue(current / total_fuel);
 
     # fuel warning annuciator
     if((current / total_fuel) < 0.24) {# warning at 24% as per sources
-      input.fuelWarning.setValue(TRUE);
+      input.fuelWarning.setBoolValue(TRUE);
     } else {
-      input.fuelWarning.setValue(FALSE);
+      input.fuelWarning.setBoolValue(FALSE);
     }
 
-    input.fuelInternalRatio.setValue(current / total_fuel);
+    input.fuelInternalRatio.setDoubleValue(current / total_fuel);
     
     if (current > 0 and input.tank8LvlNorm.getValue() > 0) {
       bingoFuel = FALSE;
@@ -247,7 +247,7 @@ var update_loop = func {
 
     if (input.tank0LvlNorm.getValue() == 0) {
       # a bug in JSB makes NaN on fuel temp if tank has been empty.
-      input.fuelTemp.setValue(FALSE);
+      input.fuelTemp.setBoolValue(FALSE);
     }
 
     ## control flaps ##
@@ -262,7 +262,7 @@ var update_loop = func {
     }
     if (input.flapPosCmd.getValue() != flapsCommand) {
       #trying to not write to fdm unless changed.
-      input.flapPosCmd.setValue(flapsCommand);
+      input.flapPosCmd.setDoubleValue(flapsCommand);
     }
     
     #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
@@ -315,14 +315,14 @@ var update_loop = func {
     var thrust = input.thrustLb.getValue();
      
     if(thrust != nil) {
-      input.thrustLbAbs.setValue(abs(thrust));
+      input.thrustLbAbs.setDoubleValue(abs(thrust));
     } else {
-      input.thrustLbAbs.setValue(0);
+      input.thrustLbAbs.setDoubleValue(0);
     }
 
     # meter altitude property
 
-    input.indAltMeter.setValue(input.indAltFt.getValue()*0.3048);
+    input.indAltMeter.setDoubleValue(input.indAltFt.getValue()*0.3048);
 
     # front gear compression calc for spinning of wheel
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
@@ -339,7 +339,7 @@ var update_loop = func {
         }
       }
     }
-    input.speedWarn.setValue(lowSpeed);
+    input.speedWarn.setBoolValue(lowSpeed);
 
     # main electrical turned on
     var timer = input.elapsed.getValue();
@@ -348,14 +348,14 @@ var update_loop = func {
       #main has been switched on
       mainTimer = timer;
       mainOn = TRUE;
-      input.lampData.setValue(TRUE);
-      input.lampInertiaNav.setValue(TRUE);
+      input.lampData.setBoolValue(TRUE);
+      input.lampInertiaNav.setBoolValue(TRUE);
     } elsif (main > 20) {
       if (timer > (mainTimer + 20)) {
-        input.lampData.setValue(FALSE);
+        input.lampData.setBoolValue(FALSE);
       }
       if (timer > (mainTimer + 140)) {
-        input.lampInertiaNav.setValue(FALSE);
+        input.lampInertiaNav.setBoolValue(FALSE);
       }
     } elsif (main <= 20) {
       mainOn = FALSE;
@@ -384,21 +384,21 @@ var update_loop = func {
     # auto-pilot engaged
 
     if (size(input.apLockSpeed.getValue()) == 0) {
-      input.indAT.setValue(FALSE);
+      input.indAT.setBoolValue(FALSE);
     } else {
-      input.indAT.setValue(TRUE);
+      input.indAT.setBoolValue(TRUE);
     }
 
     if (input.apLockHead.getValue() == "") {
-      input.indAH.setValue(FALSE);
+      input.indAH.setBoolValue(FALSE);
     } else {
-      input.indAH.setValue(TRUE);
+      input.indAH.setBoolValue(TRUE);
     }
 
     if (input.apLockAlt.getValue() == "") {
-      input.indAA.setValue(FALSE);
+      input.indAA.setBoolValue(FALSE);
     } else {
-      input.indAA.setValue(TRUE);
+      input.indAA.setBoolValue(TRUE);
     }
 	
 	  var DME = input.dme.getValue() != "---" and input.dme.getValue() != "" and input.dmeDist.getValue() != nil;
@@ -409,18 +409,18 @@ var update_loop = func {
       if (distance > 40) {
         distance = 40;
       }
-      input.rmDistKm.setValue(distance);
+      input.rmDistKm.setDoubleValue(distance);
     } elsif (input.rmActive.getValue() == TRUE) {
       # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
-      input.rmDistKm.setValue(input.rmDist.getValue() * 1.852 );
+      input.rmDistKm.setDoubleValue(input.rmDist.getValue() * 1.852 );
     } else {
-      input.rmDistKm.setValue(0);
+      input.rmDistKm.setDoubleValue(0);
     }
 
     # radar compass
 	  if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE) {
 	    # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
-	    input.rmBearingRel.setValue(input.rmBearing.getValue() - input.headingMagn.getValue());
+	    input.rmBearingRel.setDoubleValue(input.rmBearing.getValue() - input.headingMagn.getValue());
       
     }
 	
@@ -650,12 +650,12 @@ var speed_loop = func () {
   # switch on and off ALS landing lights
   if(input.landLight.getValue() > 0) {    
     if(input.viewInternal.getValue() == TRUE and input.landLightSupport.getValue() == TRUE) {
-        input.landLightALS.setValue(TRUE);
+        input.landLightALS.setBoolValue(TRUE);
       } else {
-        input.landLightALS.setValue(FALSE);
+        input.landLightALS.setBoolValue(FALSE);
       }
   } else {
-    input.landLightALS.setValue(FALSE);
+    input.landLightALS.setBoolValue(FALSE);
   }
 
   if(input.replay.getValue() == TRUE) {
@@ -668,7 +668,7 @@ var speed_loop = func () {
   var GCurrent = input.zAccPilot.getValue();  
   if (GCurrent != nil and gravity != nil) {
     GCurrent = - GCurrent / gravity;
-    input.pilotG.setValue(GCurrent);
+    input.pilotG.setDoubleValue(GCurrent);
   }
 
   ## control augmented thrust ##
@@ -677,22 +677,22 @@ var speed_loop = func () {
   var reversed = input.reversed.getValue();
 
   if ( input.fdmAug.getValue() == TRUE) { #was 99 and 97
-    input.augmentation.setValue(TRUE);
+    input.augmentation.setBoolValue(TRUE);
   } else {
-    input.augmentation.setValue(FALSE);
+    input.augmentation.setBoolValue(FALSE);
   }
 
   # Animating engine fire
   if (n1 > 100) n1 = 100;
   var flame = 100 / (101-n1);
-  input.flame.setValue(flame);
+  input.flame.setDoubleValue(flame);
 
   ## set groundspeed property used for crashcode ##
   var horz_speed = input.vgFps.getValue();
   var vert_speed = input.downFps.getValue();
   var real_speed = math.sqrt((horz_speed * horz_speed) + (vert_speed * vert_speed));
   real_speed = real_speed * 0.5924838;#ft/s to kt
-  input.g3d.setValue(real_speed);
+  input.g3d.setDoubleValue(real_speed);
 
   # MP gear wow
   var wow0 = input.wow0.getValue();
@@ -709,12 +709,12 @@ var speed_loop = func () {
   } else {
     vol = 0;
   }
-  input.envVol.setValue(vol);
+  input.envVol.setDoubleValue(vol);
   var rain = input.rainNorm.getValue();
   if (rain == nil) {
     rain = 0;
   }
-  input.rainVol.setValue(rain*0.35*vol);
+  input.rainVol.setDoubleValue(rain*0.35*vol);
 
   theShakeEffect();
 
@@ -750,9 +750,9 @@ var theShakeEffect = func{
   }
 
   if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
-    input.viewYOffset.setValue(defaultView+input.buffOut.getValue()); 
+    input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()); 
   }elsif (input.viewName.getValue() == "Cockpit View") {
-    input.viewYOffset.setValue(defaultView);
+    input.viewYOffset.setDoubleValue(defaultView);
   } 
 }
 
@@ -1135,7 +1135,7 @@ var beaconLoop = func () {
       value = (2*(1 - (time - timeInt)))-1;
     }
     if (value < 0) value = 0;
-    beacon_switch.setValue(value);
+    beacon_switch.setDoubleValue(value);
   }
   settimer(beaconLoop, 0.05);
 };
@@ -1565,8 +1565,8 @@ var refuelRange = func () {
 
   # Mount drop tank and fill it up.
   setprop("payload/weight[6]/selected", "Drop Tank");
-  input.tank8Selected.setValue(TRUE);
-  input.tank8Jettison.setValue(FALSE);
+  input.tank8Selected.setBoolValue(TRUE);
+  input.tank8Jettison.setBoolValue(FALSE);
   setprop("consumables/fuel/tank[8]/level-norm", 1.0);
 
   screen.log.write("Fuel configured for long range flight.", 0.0, 1.0, 0.0);
