@@ -1312,6 +1312,8 @@
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
+                    <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
+                    <rail-point-forward type="bool">true</rail-point-forward>
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-24j>
@@ -1341,6 +1343,8 @@
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
+                    <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
+                    <rail-point-forward type="bool">true</rail-point-forward>
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
@@ -1433,7 +1437,38 @@
                     <class type="string">A/G</class>
                     <fire-msg>Greyhound</fire-msg>
                 </rb-15f>
-                <!-- test: currently small cruise missile -->
+                <!-- test: SAM -->
+                <!--<test>        
+                    <sound-on-off type="bool">false</sound-on-off>
+                    <sound-volume type="double">0.0</sound-volume>
+                    <vol-search type="double">0.00</vol-search>
+                    <guidance type="string">radar</guidance>
+                    <all-aspect type="bool">true</all-aspect>
+                    <max-fire-range-nm type="int">38.8</max-fire-range-nm>
+                    <FCS-field-deg type="int">200</FCS-field-deg>
+                    <seeker-field-deg type="int">360</seeker-field-deg>
+                    <max-g type="int">30</max-g>
+                    <thrust-lbf-stage-1 type="double">9000</thrust-lbf-stage-1>
+                    <thrust-lbf-stage-2 type="double">1500</thrust-lbf-stage-2>    
+                    <stage-1-duration-sec type="double">4.0</stage-1-duration-sec>
+                    <stage-2-duration-sec type="double">15.0</stage-2-duration-sec>
+                    <weight-launch-lbs>291</weight-launch-lbs>
+                    <weight-warhead-lbs>44</weight-warhead-lbs>
+                    <drag-coeff type="double">0.5</drag-coeff>
+                    <drag-area type="double">0.2739</drag-area>
+                    <searcher-beam-width type="double">3.0</searcher-beam-width>               
+                    <arming-time-sec type="double">1.6</arming-time-sec>                       
+                    <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> 
+                    <self-destruct-time-sec type="double">90</self-destruct-time-sec>         
+                    <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps>
+                    <loft-altitude>0</loft-altitude>
+                    <min-fire-range-nm type="double">0.35</min-fire-range-nm>
+                    <rail type="bool">true</rail>
+                    <rail-length-m type="double">5</rail-length-m>
+                    <rail-point-forward type="bool">false</rail-point-forward>
+                    <class type="string">A/A</class>
+                    <fire-msg>Fox 3</fire-msg>
+                </test>-->
                 <!--<test>
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>

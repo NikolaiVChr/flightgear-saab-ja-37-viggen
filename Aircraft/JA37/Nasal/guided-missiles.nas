@@ -114,6 +114,8 @@ var AIM = {
         m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");
         m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");
+        m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");
+        m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.dt_last           = 0;
@@ -195,7 +197,6 @@ var AIM = {
 
 		#rail
 		m.drop_time = 0;
-		m.rail_dist_m = 2.667;#16S210 AIM-9 Missile Launcher
 		m.rail_passed = FALSE;
 		m.x = 0;
 		m.y = 0;
@@ -341,8 +342,13 @@ var AIM = {
 		me.s_east = getprop("velocities/speed-east-fps");
 		me.s_north = getprop("velocities/speed-north-fps");
 		if (me.rail == TRUE) {
-			var u = getprop("velocities/uBody-fps");# wind from nose
-			me.rail_speed_into_wind = u;
+			if (me.rail_forward == FALSE) {
+				# rail is actually a tube pointing upward
+				me.rail_speed_into_wind = -getprop("velocities/wBody-fps");# wind from below
+			} else {
+				# rail is pointing forward
+				me.rail_speed_into_wind = getprop("velocities/uBody-fps");# wind from nose
+			}
 		}
 		#print("release speed down: "~me.s_down);
 
@@ -484,14 +490,25 @@ var AIM = {
 			var v = getprop("velocities/vBody-fps");# wind from side
 			var w = getprop("velocities/wBody-fps");# wind from below
 
-			pitch_deg = getprop("orientation/pitch-deg");
+			var opposing_wind = u;
+
+			if (me.rail_forward == TRUE) {
+				pitch_deg = getprop("orientation/pitch-deg");
+			} else {
+				pitch_deg = 90;
+				opposing_wind = -w;
+			}
 			hdg_deg = getprop("orientation/heading-deg");
 
-			var speed_on_rail = me.clamp(me.rail_speed_into_wind - u, 0, 1000000);
+			var speed_on_rail = me.clamp(me.rail_speed_into_wind - opposing_wind, 0, 1000000);
 			var movement_on_rail = speed_on_rail * dt;
 			
 			me.rail_pos = me.rail_pos + movement_on_rail;
-			me.x = me.x - (movement_on_rail * FT2M);# negative cause positive is rear in body coordinates
+			if (me.rail_forward == TRUE) {
+				me.x = me.x - (movement_on_rail * FT2M);# negative cause positive is rear in body coordinates
+			} else {
+				me.z = me.z + (movement_on_rail * FT2M);# positive cause positive is up in body coordinates
+			}
 			#print("rail pos "~(me.rail_pos*FT2M));
 		}
 
@@ -799,7 +816,7 @@ var AIM = {
 		me.pitch = pitch_deg;
 		me.hdg = hdg_deg;
 
-		if (me.rail_pos > me.rail_dist_m * M2FT) {
+		if (me.rail == FALSE or me.rail_pos > me.rail_dist_m * M2FT) {
 			me.rail_passed = TRUE;
 			#print("rail passed");
 		}
