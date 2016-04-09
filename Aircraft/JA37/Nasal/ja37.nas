@@ -751,7 +751,7 @@ var theShakeEffect = func{
 
   if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
     input.viewYOffset.setValue(defaultView+input.buffOut.getValue()); 
-  }else{
+  }elsif (input.viewName.getValue() == "Cockpit View") {
     input.viewYOffset.setValue(defaultView);
   } 
 }
