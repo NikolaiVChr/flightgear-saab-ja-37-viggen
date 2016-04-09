@@ -47,6 +47,7 @@ input = {
   buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
+  canopyHinge:      "/fdm/jsbsim/fcs/canopy/hinges/serviceable",
   combat:           "/sim/ja37/hud/current-mode",
   cutoff:           "controls/engines/engine[0]/cutoff",
   damage:           "environment/damage",
@@ -376,9 +377,9 @@ var update_loop = func {
 
     # smoke
     if (input.dcVolt.getValue() > 20) {
-      input.aeroSmoke.setValue(input.aeroSmokeCmd.getValue());
+      input.aeroSmoke.setIntValue(input.aeroSmokeCmd.getValue());
     } else {
-      input.aeroSmoke.setValue(1);
+      input.aeroSmoke.setIntValue(1);
     }
 
     # auto-pilot engaged
@@ -548,7 +549,7 @@ var slow_loop = func () {
   # calc inside temp
   var knob = getprop("controls/ventilation/windshield-hot-air-knob");
   var hotAirOnWindshield = input.dcVolt.getValue() > 23?knob:0;
-  if (input.canopyPos.getValue() > 0) {
+  if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
     tempInside = tempOutside;
   } else {
     tempInside = tempInside + hotAirOnWindshield * 0.05; # having hot air on windshield will also heat cockpit
@@ -577,7 +578,7 @@ var slow_loop = func () {
   var tempGlass = tempIndex*(tempInside - tempOutside)+tempOutside;
   
   # calc dewpoint inside
-  if (input.canopyPos.getValue() > 0) {
+  if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
     # canopy is open, inside dewpoint aligns to outside dewpoint instead
     tempInsideDew = tempOutsideDew;
   } else {
@@ -701,7 +702,7 @@ var speed_loop = func () {
   input.MPint17.setIntValue(encode3bits(wow0, wow1, wow2));
 
   # environment volume
-  var canopy = input.canopyPos.getValue();
+  var canopy = input.canopyHinge.getValue() == FALSE?1:input.canopyPos.getValue();
   var internal = input.viewInternal.getValue();
   var vol = 0;
   if(internal != nil and canopy != nil) {

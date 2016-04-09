@@ -2156,3 +2156,6 @@ Sim: Drop-tank no longer require masterarm off to jettison, as per manual.
 Model: Fixed that in selection and topdown views the camera position was wrong.
 Sim: Fixed missile growl/buzz could be heard when cannon was selected.
 Sim: More efficient typecasting in nasal code.
+Sim: Added Vne to limits.
+Sim: If canopy breaks off the AC now understand that its open.
+Sound: If canopy breaks off, the sound is as if the canopy is open.
