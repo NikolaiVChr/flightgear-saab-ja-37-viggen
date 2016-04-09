@@ -1013,10 +1013,6 @@ var drop = func {
        ja37.popupTip("Can not eject drop tank while on ground!"); 
        return;
     }
-    if (input.combat.getValue() == 2) {
-       ja37.popupTip("Can not eject drop tank when masterarm on!");
-       return;
-    }
     if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
        ja37.popupTip("Too little DC power to eject drop tank!");
        return;
