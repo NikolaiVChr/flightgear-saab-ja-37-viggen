@@ -206,9 +206,8 @@ var AIM = {
 
 		m.lastFlare = 0;
 
-		m.SwSoundOnOff.setValue(1);
-
-		m.SwSoundVol.setValue(m.vol_search);
+		m.SwSoundOnOff.setBoolValue(FALSE);
+		m.SwSoundVol.setDoubleValue(m.vol_search);
 		me.trackWeak = 1;
 
 		return AIM.active[m.ID] = m;
@@ -366,7 +365,7 @@ var AIM = {
 		#print("missile alt = "~aalt);
 
 		#me.smoke_prop.setBoolValue(1);
-		me.SwSoundVol.setValue(0);
+		me.SwSoundVol.setDoubleValue(0);
 		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
@@ -747,10 +746,10 @@ var AIM = {
 
 		# set radar properties for use in selection view and HUD tracks.
 		var self = geo.aircraft_position();
-		me.ai.getNode("radar/bearing-deg", 1).setValue(self.course_to(me.coord));
+		me.ai.getNode("radar/bearing-deg", 1).setDoubleValue(self.course_to(me.coord));
 		var angleInv = me.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
-		me.ai.getNode("radar/elevation-deg", 1).setValue((self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D);
-		me.ai.getNode("velocities/true-airspeed-kt",1).setValue(new_speed_fps * FPS2KT);
+		me.ai.getNode("radar/elevation-deg", 1).setDoubleValue((self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D);
+		me.ai.getNode("velocities/true-airspeed-kt",1).setDoubleValue(new_speed_fps * FPS2KT);
 
 		#### Proximity detection.
 		if ( me.status == MISSILE_FLYING and (me.rail == FALSE or me.rail_passed == TRUE)) {
@@ -1280,11 +1279,13 @@ var AIM = {
 	# aircraft searching for lock
 	search: func {
 		if ( me.status == MISSILE_FLYING ) {
-			me.SwSoundVol.setValue(0);
+			me.SwSoundVol.setDoubleValue(0);
+			me.SwSoundOnOff.setBoolValue(FALSE);
 			return;
 		} elsif ( me.status == MISSILE_STANDBY ) {
 			# Stand by.
-			me.SwSoundVol.setValue(0);
+			me.SwSoundVol.setDoubleValue(0);
+			me.SwSoundOnOff.setBoolValue(FALSE);
 			me.trackWeak = 1;
 			return;
 		} elsif ( me.status > MISSILE_SEARCH ) {
@@ -1311,7 +1312,8 @@ var AIM = {
 				    and rng < me.max_detect_rng and abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
 					#print("search4");
 					me.status = MISSILE_LOCK;
-					me.SwSoundVol.setValue(vol_weak_track);
+					me.SwSoundOnOff.setBoolValue(TRUE);
+					me.SwSoundVol.setDoubleValue(vol_weak_track);
 					me.trackWeak = 1;
 					me.Tgt = tgt;
 
@@ -1329,7 +1331,8 @@ var AIM = {
 				me.Tgt = nil;
 			}
 		}
-		me.SwSoundVol.setValue(me.vol_search);
+		me.SwSoundVol.setDoubleValue(me.vol_search);
+		me.SwSoundOnOff.setBoolValue(TRUE);
 		me.trackWeak = 1;
 		settimer(func me.search(), 0.1);
 	},
@@ -1347,7 +1350,8 @@ var AIM = {
 		} elsif ( me.status == MISSILE_STANDBY ) {
 			# Status = stand-by.
 			me.reset_seeker();
-			me.SwSoundVol.setValue(0);
+			me.SwSoundOnOff.setBoolValue(FALSE);
+			me.SwSoundVol.setDoubleValue(0);
 			me.trackWeak = 1;
 			return TRUE;
 		} elsif (!me.Tgt.isValid()) {
@@ -1380,8 +1384,8 @@ var AIM = {
 			var clamped = devs[2];
 			if ( clamped ) { SW_reticle_Blinker.blink();}
 			else { SW_reticle_Blinker.cont();}
-			HudReticleDeg.setValue(combined_dev_deg);
-			HudReticleDev.setValue(combined_dev_length);
+			HudReticleDeg.setDoubleValue(combined_dev_deg);
+			HudReticleDev.setDoubleValue(combined_dev_length);
 		}
 		if (me.status != MISSILE_STANDBY ) {
 			var in_view = me.check_t_in_fov();
@@ -1394,10 +1398,12 @@ var AIM = {
 			var dist = geo.aircraft_position().direct_distance_to(me.Tgt.get_Coord());
 			if (time - me.update_track_time > 1 and dist != nil and dist > (me.min_dist * NM2M)) {
 				# after 1 second we get solid track if target is further than minimum distance.
-				me.SwSoundVol.setValue(vol_track);
+				me.SwSoundOnOff.setBoolValue(TRUE);
+				me.SwSoundVol.setDoubleValue(vol_track);
 				me.trackWeak = 0;
 			} else {
-				me.SwSoundVol.setValue(vol_weak_track);
+				me.SwSoundOnOff.setBoolValue(TRUE);
+				me.SwSoundVol.setDoubleValue(vol_weak_track);
 				me.trackWeak = 1;
 			}
 			if (contact == nil or (contact.getUnique() != nil and me.Tgt.getUnique() != nil and contact.getUnique() != me.Tgt.getUnique())) {
@@ -1413,7 +1419,8 @@ var AIM = {
 	return_to_search: func {
 		me.status = MISSILE_SEARCH;
 		me.Tgt = nil;
-		me.SwSoundVol.setValue(me.vol_search);
+		me.SwSoundOnOff.setBoolValue(TRUE);
+		me.SwSoundVol.setDoubleValue(me.vol_search);
 		me.trackWeak = 1;
 		me.reset_seeker();
 		#print("return");
@@ -1471,7 +1478,7 @@ var AIM = {
 		me.curr_tgt_h     = 0;
 		me.seeker_dev_e   = 0;
 		me.seeker_dev_h   = 0;
-		settimer(func { HudReticleDeg.setValue(0) }, 2);
+		settimer(func { HudReticleDeg.setDoubleValue(0) }, 2);
 		interpolate(HudReticleDev, 0, 2);
 		me.reset_steering()
 	},
@@ -1545,7 +1552,7 @@ var AIM = {
 		if(me.sndDistance > distance) {
 			var volume = math.pow(2.71828,(-.00025*(distance-1000)));
 			#print("explosion heard "~distance~"m vol:"~volume);
-			me.explode_sound_vol_prop.setValue(volume);
+			me.explode_sound_vol_prop.setDoubleValue(volume);
 			me.explode_sound_prop.setBoolValue(1);
 			settimer( func me.explode_sound_prop.setBoolValue(0), 3);
 			settimer( func me.del(), 4);
@@ -1587,10 +1594,10 @@ var impact_report = func(pos, mass_slug, string) {
 			break;
 	var impact = n.getChild(string, i, 1);
 
-	impact.getNode("impact/elevation-m", 1).setValue(pos.alt());
-	impact.getNode("impact/latitude-deg", 1).setValue(pos.lat());
-	impact.getNode("impact/longitude-deg", 1).setValue(pos.lon());
-	impact.getNode("mass-slug", 1).setValue(mass_slug);
+	impact.getNode("impact/elevation-m", 1).setDoubleValue(pos.alt());
+	impact.getNode("impact/latitude-deg", 1).setDoubleValue(pos.lat());
+	impact.getNode("impact/longitude-deg", 1).setDoubleValue(pos.lon());
+	impact.getNode("mass-slug", 1).setDoubleValue(mass_slug);
 	#impact.getNode("speed-mps", 1).setValue(speed_mps);
 	impact.getNode("valid", 1).setBoolValue(1);
 	impact.getNode("impact/type", 1).setValue("terrain");
