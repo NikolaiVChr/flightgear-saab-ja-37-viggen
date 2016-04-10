@@ -2159,3 +2159,4 @@ Sim: More efficient typecasting in nasal code.
 Sim: Added Vne airspeed to limits.
 Sim: If canopy breaks off the AC now understand that its open.
 Sound: If canopy breaks off, the sound is as if the canopy is open.
+Model: New eastern livery.
