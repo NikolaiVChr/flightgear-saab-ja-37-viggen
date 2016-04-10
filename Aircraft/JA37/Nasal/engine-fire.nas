@@ -35,7 +35,7 @@ var last_serv_status = TRUE;
 #  + total engine failure
 #  - reduced thrust
 #  + no afterburner
-#  - black smoke
+#  + black smoke
 #  + reverser failure
 #  - throttle stuck
 #  + fire indicators blinking
