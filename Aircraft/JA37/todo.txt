@@ -35,13 +35,12 @@ Animation: Buffeting of view, when get hit, crash.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
-Sim: Make braking parachute? (manual does not seem to indicate that the plane had one)
 Sim: Reset controls after A/P let go of them.
 Sim: Stop using integers in xml where floating point is expected? (is silly, not needed, rely on typecasting instead)
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
-Sim: Replace generic setValue in nasal with specific types.
+Sim: Replace all generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
 Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Missiles should lock onto flares from other mil plane types.
@@ -69,7 +68,6 @@ Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Cha
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
-Effect: Smoke after structural break.
 Effect: Adjust normalmap to be more subtle.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.

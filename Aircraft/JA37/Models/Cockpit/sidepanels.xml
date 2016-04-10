@@ -7,8 +7,8 @@
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
     <object-name>dashPanel</object-name>
-    <object-name>dashPanelMount</object-name>
-    <object-name>InnerWall_sides</object-name>
+    <!--<object-name>dashPanelMount</object-name>-->
+    <object-name>innerWall_sides</object-name>
     <object-name>InnerWall_back</object-name>
     <object-name>sidePanel_L</object-name>
     <object-name>sidePanel_R</object-name>
