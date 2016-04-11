@@ -44,7 +44,7 @@
 
    <counter>
      <particles-per-sec>
-       <value>25</value>
+       <value>50</value>
        <spread>0</spread>
      </particles-per-sec>
    </counter>
@@ -72,7 +72,7 @@
          <alpha><value> 1 </value></alpha>
        </color>
        <size>
-         <value>6</value>
+         <value>10</value>
        </size>
      </end>
 

@@ -410,6 +410,7 @@ var AIM = {
 	},
 
 	flight: func {
+		#print();
 		if (me.Tgt.isValid() == FALSE) {
 			me.del();
 			return;
@@ -610,7 +611,7 @@ var AIM = {
 					return;
 				}
 			}
-			#print("steering");
+			#print("steering "~me.track_signal_e~" deg up");
 			#Here will be set the max angle of pitch and the max angle of heading to avoid G overload
             var myG = steering_speed_G(me.track_signal_e, me.track_signal_h, old_speed_fps, dt);
             if(me.max_g_current < myG)
@@ -634,7 +635,7 @@ var AIM = {
             	me.last_track_h = 0;
             	print("Heat seeking missile lost lock, attempting to reaquire..");
             }
-            #print(sprintf("%.1f deg elev command done", me.last_track_e));
+            #print(sprintf("%.1f deg elev command done, desired pitch: %.1f deg", me.track_signal_e, pitch_deg));
             #print(sprintf("%.1f deg bear command done", me.last_track_h));
 
             #print("Still Tracking : Elevation ",me.track_signal_e,"Heading ",me.track_signal_h," Gload : ", myG );
@@ -889,8 +890,6 @@ var AIM = {
 		#print("track");
 		# Time interval since lock time or last track loop.
 		
-		var last_tgt_e = me.curr_tgt_e;
-		var last_tgt_h = me.curr_tgt_h;
 		if (dt != nil) {
 			# Status = launched. Compute target position relative to seeker head.
 
@@ -909,8 +908,7 @@ var AIM = {
 			#print();
 			#print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
 
-			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
-
+			
 			# Compute gain to reduce target deviation to match an optimum 3 deg
 			# This augments steering by an additional 10 deg per second during
 			# the trajectory stage 1 seconds.
@@ -924,6 +922,11 @@ var AIM = {
 			if(me.curr_tgt_h > 180) {
 				me.curr_tgt_h -= 360;
 			}
+
+			#print("tgt alt: "~t_alt~" me alt: "~me.alt);
+			#print(" absolute elevation: "~t_elev_deg~" relative elevation: "~me.curr_tgt_e);
+			#print(" absolute bearing: "~t_course~" relative bearing: "~me.curr_tgt_h);
+			#print("  distance along curvature: "~t_dist_m~" meter");
 
 			if(me.speed_m < me.min_speed_for_guiding) {
 				# it doesn't guide at lower speeds
@@ -1045,6 +1048,16 @@ var AIM = {
 					#print("Cruise token");
 				}
 				cruise_or_loft = 1;
+			} elsif (me.rail == TRUE and me.rail_forward == FALSE and t_dist_m * M2NM > cruise_minimum and me.dive_token == FALSE) {
+				# tube launched missile turns towards target
+
+				dev_e = -me.pitch + t_elev_deg;
+				#print("Turning, desire "~t_elev_deg~" degs pitch.");
+				cruise_or_loft = 1;
+				if (math.abs(me.curr_tgt_e) < 5) {
+					me.dive_token = TRUE;
+					#print("Is last turn, APN takes it from here..")
+				}
 			} elsif (t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time
 			         and t_dist_m * M2NM > cruise_minimum) {
 				# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
@@ -1052,17 +1065,23 @@ var AIM = {
 				var attitude = math.asin((g_fps * dt)/me.old_speed_fps)*R2D;
 
 				dev_e = -me.pitch + attitude;
-				#print("Cruising");
+				#print("Cruising, desire "~attitude~" degs pitch.");
 				cruise_or_loft = 1;
+				me.dive_token = TRUE;
 			}
 			
 
-			# augmented proportional navigation
+			
+
+			###########################################
+			### augmented proportional navigation   ###
+			###########################################
+
 			var dist_curr = me.coord.distance_to(me.t_coord);
 			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil) {
 					# augmented proportional navigation for heading
-					var horz_closing_rate_fps = me.clamp((me.dist_last - dist_curr)*M2FT/dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
+					var horz_closing_rate_fps = me.clamp((me.dist_last - dist_curr)*M2FT/dt, 0.1, 1000000);#clamped due to cruise missiles that can fly slower than target.
 					var proportionality_constant = 3;#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
 					#setprop("payload/armament/factor-pro2", proportionality_constant);
 					var c_dv = t_course-me.last_t_course;
@@ -1105,7 +1124,7 @@ var AIM = {
 
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
 						# augmented proportional navigation for elevation
-						var vert_closing_rate_fps = (me.dist_direct_last - dist_curr_direct)*M2FT/dt;
+						var vert_closing_rate_fps = me.clamp((me.dist_direct_last - dist_curr_direct)*M2FT/dt,0.1,1000000);
 						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;
 
 						# calculate target acc as normal to LOS line: (up acc is positive)
@@ -1123,6 +1142,7 @@ var AIM = {
 						me.last_t_elev_norm_speed          = t_LOS_elev_norm_speed;
 
 						var acc_upwards_ftps2 = proportionality_constant*line_of_sight_rate_up_rps*vert_closing_rate_fps+proportionality_constant*t_LOS_elev_norm_acc/2;
+						velocity_vector_length_fps = me.old_speed_fps;
 						var commanded_upwards_vector_length_fps = acc_upwards_ftps2*dt;
 						dev_e = math.atan2(commanded_upwards_vector_length_fps, velocity_vector_length_fps)*R2D;
 						#print(sprintf("vert leading by %.1f deg", me.curr_tgt_e));
