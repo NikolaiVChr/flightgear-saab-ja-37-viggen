@@ -493,11 +493,12 @@ var AIM = {
 
 			if (me.rail_forward == TRUE) {
 				pitch_deg = getprop("orientation/pitch-deg");
+				hdg_deg = getprop("orientation/heading-deg");
 			} else {
 				pitch_deg = 90;
 				opposing_wind = -w;
-			}
-			hdg_deg = getprop("orientation/heading-deg");
+				hdg_deg = me.Tgt.get_bearing();
+			}			
 
 			var speed_on_rail = me.clamp(me.rail_speed_into_wind - opposing_wind, 0, 1000000);
 			var movement_on_rail = speed_on_rail * dt;
