@@ -1263,10 +1263,10 @@
                 <name>RB 74</name>
                 <lbs>188</lbs>
             </opt>
-            <opt>
+            <!--<opt>
                 <name>TEST</name>
                 <lbs>50</lbs>
-            </opt>
+            </opt>-->
         </weight>
         <weight n="6">
             <name>Center fuselage pylon</name>
