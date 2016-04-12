@@ -1497,7 +1497,7 @@
                 </equals>
             </condition>
             <pitch>
-                <factor>1.05</factor>
+                <factor>1.00</factor>
                 <max>2</max>
             </pitch>
             <volume>
@@ -1519,7 +1519,7 @@
                 </equals>
             </condition>
             <pitch>
-                <factor>1.05</factor>
+                <factor>1.00</factor>
                 <max>2</max>
             </pitch>
             <volume>

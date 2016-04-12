@@ -2161,3 +2161,4 @@ Sim: If canopy breaks off the AC now understand that its open.
 Sound: If canopy breaks off, the sound is as if the canopy is open.
 Model: New eastern livery.
 Sound: Fixed that touchdown squall could be heard looping in the air. (in 2016.2.0)
+Sound: {Pinto} New RB24/74 growl.
