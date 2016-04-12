@@ -1487,7 +1487,7 @@
             <name>rb24-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
             <condition>
                 <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-24j/sound-on-off</property>
@@ -1509,7 +1509,7 @@
             <name>rb74-signal</name>
             <mode>looped</mode>
             <type>avionics</type>
-            <path>Aircraft/JA37/Sounds/115hz-square.wav</path>
+            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
             <condition>
                 <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-74/sound-on-off</property>
