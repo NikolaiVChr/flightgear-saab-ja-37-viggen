@@ -93,9 +93,9 @@
                     <value>Fly-By View</value>
                 </equals>
                 <not>
-                    <property>gear/gear[0]/wow</property>
-                    <property>gear/gear[1]/wow</property>
-                    <property>gear/gear[2]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </not>
                 <property>engines/engine/running</property>
             </condition>
@@ -130,9 +130,9 @@
                     <value>Fly-By View</value>
                 </equals>
                 <not>
-                    <property>gear/gear[0]/wow</property>
-                    <property>gear/gear[1]/wow</property>
-                    <property>gear/gear[2]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </not>
                 <property>engines/engine/running</property>
             </condition>
@@ -168,9 +168,9 @@
                 </equals>
                 <property>engines/engine/running</property>
                 <not>
-                    <property>gear/gear[0]/wow</property>
-                    <property>gear/gear[1]/wow</property>
-                    <property>gear/gear[2]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </not>
             </condition>
             <reference-dist>100</reference-dist>
@@ -537,9 +537,9 @@
             <condition>
                 <property>sim/current-view/internal</property>
                 <or>
-                    <property>gear/gear[0]/wow</property>
-                    <property>gear/gear[1]/wow</property>
-                    <property>gear/gear[2]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </or>
                 <!--<greater-than>
                     <property>velocities/groundspeed-kt</property>
@@ -579,9 +579,9 @@
             <condition>
                 <and>
                     <or>
-                        <property>gear/gear[0]/wow</property>
-                        <property>gear/gear[1]/wow</property>
-                        <property>gear/gear[2]/wow</property>
+                        <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                        <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                        <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                     </or>
                     <less-than>
                         <property>velocities/vertical-speed-fps</property>
@@ -650,7 +650,7 @@
             <condition>
                 <property>sim/current-view/internal</property>
                 <not>
-                    <property>gear/gear[0]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                 </not>
                 <greater-than>
                     <property>fdm/jsbsim/aero/stall-hyst-norm</property>
@@ -795,10 +795,10 @@
                     <value>23</value>
                 </greater-than>
                 <not>
-                    <property>gear/gear[1]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                 </not>
                 <not>
-                    <property>gear/gear[2]/wow</property>
+                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </not>
             </condition>
             <volume>
