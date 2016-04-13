@@ -8,6 +8,14 @@
     <max-m>5</max-m>
   </animation>-->
 
+  <!-- tutorial marker - There is going to an error in console for one of these, just ignore it. -->
+  <model><!-- FG 3.4- -->
+      <path>Models/Aircraft/marker.xml</path>
+  </model>
+  <model><!-- FG 2016.1+ -->
+      <path>Aircraft/Generic/marker.xml</path>
+  </model>
+
  <model>
     <path>Aircraft/JA37/Models/ja37-panel.xml</path>
     <name>Panel</name>
