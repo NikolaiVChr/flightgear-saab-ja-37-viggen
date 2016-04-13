@@ -2072,7 +2072,7 @@ Radar: Increased range to 180Km, as 120Km is for the older variant AJ-37.
 Sim: At relocating it nows repair all damage, command gear down and stop autopilot.
 Model: Adapted ksuu1 livery into ksuu2.
 
-3.108
+3.108 - 2016 April 13
 =====
 Model: Added new livery, desert camo.
 Sim: At reinit the parking brakes will now be set.
@@ -2162,5 +2162,9 @@ Sound: If canopy breaks off, the sound is as if the canopy is open.
 Model: New eastern livery.
 Sound: Fixed that touchdown squall could be heard looping in the air. (in 2016.2.0)
 Sound: {Pinto} New RB24/74 growl.
+
+3.109
+=====
 HUD: The distance scale rotation speed will now vary according to aircraft weight.
 Control: The ailerons now have more autority near mach 0.7.
+Sim: Added all Mirage-2000s ground attack ordnance to damage.
