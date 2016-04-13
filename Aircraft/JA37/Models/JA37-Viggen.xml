@@ -171,11 +171,6 @@
     </offsets>
   </model>
 
-  <!-- tutorial marker -->
-  <model>
-      <path>Models/Aircraft/marker.xml</path>
-  </model>
-
 <!-- Material shaders   -->
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
