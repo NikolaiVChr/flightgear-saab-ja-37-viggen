@@ -2168,3 +2168,4 @@ Sound: {Pinto} New RB24/74 growl.
 HUD: The distance scale rotation speed will now vary according to aircraft weight.
 Control: The ailerons now have more autority near mach 0.7.
 Sim: Added all Mirage-2000s ground attack ordnance to damage.
+Sim: Better simulation of gravity bombs.

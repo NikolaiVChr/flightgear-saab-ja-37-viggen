@@ -602,9 +602,15 @@ var AIM = {
 
 		#print("alt "~alt_ft);
 
+		var grav_bomb = FALSE;
+		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
+			# for now gravity bombs cannot be guided.
+			grav_bomb == TRUE;
+		}
+
 		#### Guidance.
 
-		if ( me.status == MISSILE_FLYING and me.free == FALSE and me.life_time > me.drop_time) {
+		if ( me.status == MISSILE_FLYING and me.free == FALSE and me.life_time > me.drop_time and grav_bomb == FALSE) {
 			if (me.rail == FALSE or me.rail_passed == TRUE) {
 				var success = me.guide(dt);
 				if (success == FALSE) {
@@ -646,12 +652,6 @@ var AIM = {
 		# which next update will be added in the direction the missile points, which we do not want.
 		# therefore only real gravity drop is added to gravity bombs.
 		
-		var grav_bomb = FALSE;
-		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
-			grav_bomb == TRUE;
-		}
-
-
 		#print("p "~pitch_deg);
 		# Break speed change down total speed to North, East and Down components.
 		var speed_down_fps       = - math.sin(pitch_deg * D2R) * (speed_change_fps + old_speed_fps);
@@ -667,6 +667,7 @@ var AIM = {
 		if (grav_bomb == TRUE) {
 			# true gravity acc
 			speed_down_fps += g_fps * dt;
+			pitch_deg = math.atan2( speed_down_fps, speed_horizontal_fps ) * R2D;
 		}
 
 		#var speed_down_fps         =  speed_down_change_fps;# + me.s_down
