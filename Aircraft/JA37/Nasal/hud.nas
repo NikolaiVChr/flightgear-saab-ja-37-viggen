@@ -2047,7 +2047,17 @@ var HUDnasal = {
   showDistanceScale: func (mode) {
     if(mode == TAKEOFF) {
       var line = (200/1024)*canvasWidth;
-      var pixelPerKmh = (2/3*line)/250;
+
+      # rotation speeds:
+      #28725 lbm -> 250 km/h
+      #40350 lbm -> 280 km/h
+      # extra/inter-polation:
+      # f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
+      var weight = getprop("fdm/jsbsim/inertia/weight-lbs");
+      var rotationSpeed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
+      # as per manual, minimum rotation speed is 250:
+      rotationSpeed = ja37.clamp(rotationSpeed, 250, 1000);
+      var pixelPerKmh = (2/3*line)/rotationSpeed;
       if(me.input.ias.getValue() < 75/kts2kmh) {
         me.mySpeed.setTranslation(pixelPerKmh*75, 0);
       } else {
