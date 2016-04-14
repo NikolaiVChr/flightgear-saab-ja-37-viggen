@@ -741,357 +741,6 @@
 
     </channel>
 
-
-    <channel execrate="4" name="Misc indicator lights logic">
-
-        <!-- Swedish: SPAK (green)
-
-            Indicator: Flightstick is controlling fully/partly the airplane
-
-        -->
-
-        <fcs_function name="systems/indicators/flightstick-active-secondary">
-            <function>
-                <and>
-                    <gt>
-                        <property>/systems/electrical/outputs/ac-instr-voltage</property>
-                        <value>50</value>
-                    </gt>
-                    <not>
-                        <and>
-                            <eq>
-                                <property>/sim/ja37/avionics/autopilot</property>
-                                <value>1</value>
-                            </eq>
-                            <or>
-                                <and>
-                                    <eq>
-                                        <property>/sim/ja37/avionics/auto-altitude-on</property>
-                                        <value>1</value>
-                                    </eq>
-                                    <eq>
-                                        <property>/sim/ja37/avionics/auto-attitude-on</property>
-                                        <value>1</value>
-                                    </eq>
-                                </and>
-                            </or>
-                        </and>
-                    </not>
-                    <eq>
-                        <property>systems/hydraulics/flight-surface-actuation</property>
-                        <value>1.0</value>
-                    </eq>
-                </and>
-            </function>
-        </fcs_function>
-        
-        <fcs_function name="systems/indicators/flightstick-active-primary">
-            <function>
-                <and>
-                    <gt>
-                        <property>/systems/electrical/outputs/ac-instr-voltage</property>
-                        <value>50</value>
-                    </gt>
-                    <not>
-                        <and>
-                            <eq>
-                                <property>/sim/ja37/avionics/autopilot</property>
-                                <value>1</value>
-                            </eq>
-                            <or>
-                                <and>
-                                    <eq>
-                                        <property>/sim/ja37/avionics/auto-altitude-on</property>
-                                        <value>1</value>
-                                    </eq>
-                                    <eq>
-                                        <property>/sim/ja37/avionics/auto-attitude-on</property>
-                                        <value>1</value>
-                                    </eq>
-                                </and>
-                            </or>
-                        </and>
-                    </not>
-                    <eq>
-                        <property>systems/hydraulics/flight-surface-actuation</property>
-                        <value>0.5</value>
-                    </eq>
-                </and>
-            </function>
-        </fcs_function>
-
-        <switch name="/instrumentation/joystick-indicator">
-            <default value="0"/>
-            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
-                /systems/electrical/outputs/ac-instr-voltage gt 50                
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
-                /systems/electrical/outputs/ac-instr-voltage gt 50                
-                systems/indicators/flightstick-active-primary == 1
-            </test>
-            <test logic="AND" value="1">
-                /systems/electrical/outputs/ac-instr-voltage gt 50
-                systems/indicators/flightstick-active-secondary == 1
-            </test>
-        </switch>
-
-        <!-- Swedish: ATT (green)
-
-            Indicator: A/P is controlling heading
-
-        -->
-
-        <fcs_function name="systems/indicators/auto-attitude-light-secondary">
-            <function>
-                <and>
-                    <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
-                        <eq>
-                            <property>/sim/ja37/avionics/auto-attitude-on</property>
-                            <value>1</value>
-                        </eq>
-                    </or>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/auto-attitude-light-primary">
-            <function>
-                <and>
-                    <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
-                        <eq>
-                            <property>/sim/ja37/avionics/auto-attitude-on</property>
-                            <value>1</value>
-                        </eq>
-                    </or>
-                    <or>
-                        <gt>
-                            <property>/instrumentation/attitude-indicator/indicated-roll-deg</property>
-                            <value>70</value>
-                        </gt>
-                        <lt>
-                            <property>/instrumentation/attitude-indicator/indicated-roll-deg</property>
-                            <value>-70</value>
-                        </lt>
-                    </or>
-                </and>
-            </function>
-        </fcs_function>
-
-        <switch name="/instrumentation/attitude-indicator">
-            <default value="0"/>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
-                /systems/electrical/outputs/ac-instr-voltage gt 50
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
-                /systems/electrical/outputs/ac-instr-voltage gt 50                
-                systems/indicators/auto-attitude-light-primary == 1
-            </test>
-            <test logic="AND" value="1">
-                /systems/electrical/outputs/ac-instr-voltage gt 50                
-                systems/indicators/auto-attitude-light-secondary == 1
-            </test>
-        </switch>
-
-        <!-- Swedish: ALT (green)
-
-            Indicator: A/P is controlling altitude
-
-        -->
-
-        <fcs_function name="systems/indicators/auto-altitude-light-secondary">
-            <function>
-                <and>
-                    <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
-                        <eq>
-                            <property>/sim/ja37/avionics/auto-altitude-on</property>
-                            <value>1</value>
-                        </eq>
-                    </or>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/auto-altitude-light-primary">
-            <function>
-                <and>
-                    <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
-                        <eq>
-                            <property>/sim/ja37/avionics/auto-attitude-on</property>
-                            <value>1</value>
-                        </eq>
-                    </or>
-                    <eq>
-                        <property>systems/indicators/transonic</property>
-                        <value>1</value>
-                    </eq>
-                </and>
-            </function>
-        </fcs_function>
-
-        <switch name="/instrumentation/altitude-indicator">
-            <default value="0"/>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
-                /systems/electrical/outputs/ac-instr-voltage gt 50
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
-                /systems/electrical/outputs/ac-instr-voltage gt 50                
-                systems/indicators/auto-altitude-light-primary == 1
-            </test>
-            <test logic="AND" value="1">
-                /systems/electrical/outputs/ac-instr-voltage gt 50                
-                systems/indicators/auto-altitude-light-secondary == 1
-            </test>
-        </switch>
-
-        <!-- Swedish: REV AVDR / TRANSONIC (white)
-
-            Indicator: Dangerous low speed for reverse OR in transonic regime
-
-        -->
-
-        <fcs_function name="systems/indicators/transonic">
-            <function>
-                <and>
-                    <gt>
-                        <property>/instrumentation/airspeed-indicator/indicated-mach</property>
-                        <value>0.97</value>
-                    </gt>
-                    <lt>
-                        <property>/instrumentation/airspeed-indicator/indicated-mach</property>
-                        <value>1.05</value>
-                    </lt>
-                </and>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="systems/indicators/transonic-warning">
-            <function>
-                <or>
-                    <eq>
-                        <property>systems/indicators/transonic</property>
-                        <value>1</value>
-                    </eq>
-                    <and>
-                        <eq>
-                            <property>/engines/engine/is-reversed</property>
-                            <value>1</value>
-                        </eq>
-                        <lt>
-                            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-                            <value>64.8</value>
-                        </lt>
-                    </and>
-                </or>
-            </function>
-        </fcs_function>
-
-        <switch name="/instrumentation/transonic-indicator">
-            <default value="0"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-                systems/indicators/transonic-warning == 1
-            </test>
-        </switch>
-
-        <!-- Swedish: REV (green)
-
-            Indicator: Engine is reversed
-
-        -->
-
-        <switch name="/instrumentation/reverse-indicator">
-            <default value="0"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-                /engines/engine/is-reversed == 1
-            </test>
-        </switch>
-
-        <switch name="propulsion/engine/cutoff-ready">
-            <default value="0"/>
-            <test logic="AND" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-            </test>      
-            <test logic="AND" value="/systems/electrical/dc-light">
-                propulsion/starter_cmd_copy == 1
-                /controls/engines/engine[0]/cutoff == 1
-                propulsion/engine/n1 gt 5.2
-            </test>
-        </switch>
-
-        <switch name="systems/electrical/battery-charging-test">
-            <description>
-                      Converted DC digital
-
-                      Used for translating texture on indicator lamp
-            </description>
-            <default value="0"/>
-            <test logic="OR" value="1">
-                systems/electrical/battery-charging-norm == 1
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/battery-indicator">
-            <default value="systems/electrical/battery-charging-norm"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <switch name="/instrumentation/external-indicator">
-            <default value="systems/electrical/external/available"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-            </test>
-        </switch>
-
-        <fcs_function name="systems/indicators/auto-throttle-light-primary">
-            <function>
-                <and>
-                    <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
-                        <eq>
-                            <property>/sim/ja37/avionics/auto-throttle-on</property>
-                            <value>1</value>
-                        </eq>
-                    </or>
-                </and>
-            </function>
-        </fcs_function>
-
-        <switch name="/instrumentation/at-indicator">
-            <default value="0"/>
-            <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/lighting/test-indicator-panels == 1
-                systems/indicators/auto-throttle-light-primary == 1
-            </test>
-        </switch>
-
-    </channel>
-
     <channel execrate="4" name="Right indicator panel logic">
 
         <!-- Swedish: SPAK (blinking, sound)
@@ -1754,6 +1403,411 @@
         </fcs_function>
 
     </channel>
+
+
+
+
+
+
+
+
+    <channel execrate="4" name="Misc indicator lights logic">
+
+        <!-- Swedish: SPAK (green)
+
+            Indicator: Flightstick is controlling fully/partly the airplane
+
+        -->
+
+        <fcs_function name="systems/indicators/flightstick-active-secondary">
+            <function>
+                <and>
+                    <gt>
+                        <property>/systems/electrical/outputs/ac-instr-voltage</property>
+                        <value>50</value>
+                    </gt>
+                    <not>
+                        <and>
+                            <eq>
+                                <property>/sim/ja37/avionics/autopilot</property>
+                                <value>1</value>
+                            </eq>
+                            <or>
+                                <and>
+                                    <eq>
+                                        <property>/sim/ja37/avionics/auto-altitude-on</property>
+                                        <value>1</value>
+                                    </eq>
+                                    <eq>
+                                        <property>/sim/ja37/avionics/auto-attitude-on</property>
+                                        <value>1</value>
+                                    </eq>
+                                </and>
+                            </or>
+                        </and>
+                    </not>
+                    <eq>
+                        <property>systems/hydraulics/flight-surface-actuation</property>
+                        <value>1.0</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+        
+        <fcs_function name="systems/indicators/flightstick-active-primary">
+            <function>
+                <and>
+                    <gt>
+                        <property>/systems/electrical/outputs/ac-instr-voltage</property>
+                        <value>50</value>
+                    </gt>
+                    <not>
+                        <and>
+                            <eq>
+                                <property>/sim/ja37/avionics/autopilot</property>
+                                <value>1</value>
+                            </eq>
+                            <or>
+                                <and>
+                                    <eq>
+                                        <property>/sim/ja37/avionics/auto-altitude-on</property>
+                                        <value>1</value>
+                                    </eq>
+                                    <eq>
+                                        <property>/sim/ja37/avionics/auto-attitude-on</property>
+                                        <value>1</value>
+                                    </eq>
+                                </and>
+                            </or>
+                        </and>
+                    </not>
+                    <eq>
+                        <property>systems/hydraulics/flight-surface-actuation</property>
+                        <value>0.5</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/joystick-indicator">
+            <default value="0"/>
+            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
+                systems/indicators/flightstick-active-primary == 1
+            </test>
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/ac-instr-voltage gt 50
+                systems/indicators/flightstick-active-secondary == 1
+            </test>
+        </switch>
+
+        <!-- Swedish: ATT (green)
+
+            Indicator: A/P is controlling heading
+
+        -->
+
+        <fcs_function name="systems/indicators/auto-attitude-light-secondary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </eq>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-attitude-on</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
+                </and>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/auto-attitude-light-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </eq>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-attitude-on</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
+                    <or>
+                        <gt>
+                            <property>/instrumentation/attitude-indicator/indicated-roll-deg</property>
+                            <value>70</value>
+                        </gt>
+                        <lt>
+                            <property>/instrumentation/attitude-indicator/indicated-roll-deg</property>
+                            <value>-70</value>
+                        </lt>
+                    </or>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/attitude-indicator">
+            <default value="0"/>
+            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
+                systems/indicators/auto-attitude-light-primary == 1
+            </test>
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
+                systems/indicators/auto-attitude-light-secondary == 1
+            </test>
+        </switch>
+
+        <!-- Swedish: ALT (green)
+
+            Indicator: A/P is controlling altitude
+
+        -->
+
+        <fcs_function name="systems/indicators/auto-altitude-light-secondary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </eq>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-altitude-on</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
+                </and>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/auto-altitude-light-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </eq>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-attitude-on</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
+                    <eq>
+                        <property>systems/indicators/transonic</property>
+                        <value>1</value>
+                    </eq>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/altitude-indicator">
+            <default value="0"/>
+            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
+                systems/indicators/auto-altitude-light-primary == 1
+            </test>
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/ac-instr-voltage gt 50                
+                systems/indicators/auto-altitude-light-secondary == 1
+            </test>
+        </switch>
+
+        <!-- Swedish: REV AVDR / TRANSONIC (white)
+
+            Indicator: Dangerous low speed for reverse OR in transonic regime
+
+        -->
+
+        <fcs_function name="systems/indicators/transonic">
+            <function>
+                <and>
+                    <gt>
+                        <property>/instrumentation/airspeed-indicator/indicated-mach</property>
+                        <value>0.97</value>
+                    </gt>
+                    <lt>
+                        <property>/instrumentation/airspeed-indicator/indicated-mach</property>
+                        <value>1.05</value>
+                    </lt>
+                </and>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/transonic-warning">
+            <function>
+                <or>
+                    <eq>
+                        <property>systems/indicators/transonic</property>
+                        <value>1</value>
+                    </eq>
+                    <and>
+                        <eq>
+                            <property>/engines/engine/is-reversed</property>
+                            <value>1</value>
+                        </eq>
+                        <lt>
+                            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                            <value>64.8</value>
+                        </lt>
+                    </and>
+                </or>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/transonic-indicator">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/transonic-warning == 1
+            </test>
+        </switch>
+
+        <!-- Swedish: REV (green)
+
+            Indicator: Engine is reversed
+
+        -->
+
+        <switch name="/instrumentation/reverse-indicator">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+                /engines/engine/is-reversed == 1
+            </test>
+        </switch>
+
+        <switch name="propulsion/engine/cutoff-ready">
+            <default value="0"/>
+            <test logic="AND" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+            </test>      
+            <test logic="AND" value="/systems/electrical/dc-light">
+                propulsion/starter_cmd_copy == 1
+                /controls/engines/engine[0]/cutoff == 1
+                propulsion/engine/n1 gt 5.2
+            </test>
+        </switch>
+
+        <switch name="systems/electrical/battery-charging-test">
+            <description>
+                      Converted DC digital
+
+                      Used for translating texture on indicator lamp
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                systems/electrical/battery-charging-norm == 1
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+
+        <switch name="/instrumentation/battery-indicator">
+            <default value="systems/electrical/battery-charging-norm"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+
+        <switch name="/instrumentation/external-indicator">
+            <default value="systems/electrical/external/available"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/indicators/auto-throttle-light-primary">
+            <function>
+                <and>
+                    <eq>
+                        <property>/sim/ja37/avionics/autopilot</property>
+                        <value>1</value>
+                    </eq>
+                    <or>
+                        <eq>
+                            <property>/sim/ja37/avionics/auto-throttle-on</property>
+                            <value>1</value>
+                        </eq>
+                    </or>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/at-indicator">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/auto-throttle-light-primary == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/indicators/time-till-crash">
+            <function>
+                <quotient>
+                    <property>/position/altitude-agl-ft</property>
+                    <property>/velocities/speed-down-fps</property>
+                </quotient>
+            </function>
+        </fcs_function>        
+
+        <switch name="/sim/ja37/sound/terrain-on">
+            <default value="0"/>
+            <test logic="AND" value="0">
+                /sim/ja37/hud/current-mode == 0 <!-- equals takeoff -->
+            </test>
+            <test logic="AND" value="1">
+                /sim/ja37/hud/current-mode == 3 <!-- equals landing -->
+                /position/altitude-agl-ft lt 164
+                systems/indicators/time-till-crash lt 10
+                systems/indicators/time-till-crash gt 0
+                /controls/altimeter-radar == 1
+            </test>
+            <test logic="AND" value="1">
+                /sim/ja37/hud/current-mode ne 3 <!-- not equals landing -->
+                systems/indicators/time-till-crash lt 10
+                systems/indicators/time-till-crash gt 0
+                /controls/altimeter-radar == 1
+            </test>
+        </switch>
+
+        <switch name="/instrumentation/terrain-warning">
+            <default value="0"/>
+            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+                /sim/ja37/sound/terrain-on == 1
+            </test>
+        </switch>        
+
+        <switch name="/instrumentation/terrain-warning-light">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /instrumentation/terrain-warning == 1
+            </test>
+        </switch>        
+
+    </channel>    
+
+
+
+
+
 
     <channel execrate="4" name="Master warning logic">
 

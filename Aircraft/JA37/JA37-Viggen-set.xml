@@ -717,7 +717,6 @@
                 <tankpump type="bool">false</tankpump>
                 <xtank type="bool">false</xtank>
                 <fun type="bool">false</fun>
-                <altWarn type="bool">false</altWarn>
             </avionics>
             <systems>
                 <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>

@@ -129,7 +129,7 @@
     <type>material</type>
     <object-name>radarMountAltWarnIndicator</object-name>
     <condition>
-      <property>sim/ja37/avionics/altWarn</property>
+      <property>/instrumentation/terrain-warning</property>
     </condition>
     <emission>
         <red>1.0</red>

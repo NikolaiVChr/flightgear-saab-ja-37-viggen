@@ -927,6 +927,7 @@ var HUDnasal = {
         elev_ft:          "position/ground-elev-ft",
         elev_m:           "position/ground-elev-m",
         gs:               "velocities/groundspeed-kt",
+        terrainWarn:      "/instrumentation/terrain-warning"
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -1089,45 +1090,11 @@ var HUDnasal = {
   },#end of update
 
   displayGroundCollisionArrow: func (mode) {
-    var rad_alt = me.input.ctrlRadar.getValue() == 1?me.input.rad_alt.getValue():nil;
-    if (mode != TAKEOFF and ( (mode == LANDING and rad_alt != nil and rad_alt > (50/feet2meter)) or mode != LANDING )) {
-      #var x = mp.getNode("position/global-x").getValue();# meters probably
-      #var y = mp.getNode("position/global-y").getValue();
-      #var z = mp.getNode("position/global-z").getValue();
-      #var aircraftPos = geo.Coord.new().set_xyz(x, y, z);
-      #var vel_gx = me.input.speed_n.getValue();#feet per second
-      #var vel_gy = me.input.speed_e.getValue();
-      var vel_gz = me.input.speed_d.getValue();
-
-      #extend vector of ground elevations
-      if(rad_alt != nil and vel_gz != nil) {
-        var time_till_crash = rad_alt / vel_gz;
-
-        # very simple ground detection.
-        if(time_till_crash < 10 and time_till_crash > 0) {
-          me.input.terrainOn.setBoolValue(TRUE);
-          if(me.input.tenHz.getValue() == TRUE) {
-            me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
-            me.arrow.show();
-            setprop("sim/ja37/avionics/altWarn", TRUE);
-          } else {
-            me.arrow.hide();
-            setprop("sim/ja37/avionics/altWarn", FALSE);
-          }
-        } else {
-          me.input.terrainOn.setBoolValue(FALSE);
-          me.arrow.hide();
-          setprop("sim/ja37/avionics/altWarn", FALSE);
-        }
-      } else {
-        me.input.terrainOn.setBoolValue(FALSE);
-        me.arrow.hide();
-        setprop("sim/ja37/avionics/altWarn", FALSE);
-      }
+    if (me.input.terrainWarn.getValue() == TRUE) {
+      me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
+      me.arrow.show();
     } else {
-      me.input.terrainOn.setBoolValue(FALSE);
       me.arrow.hide();
-      setprop("sim/ja37/avionics/altWarn", FALSE);
     }
   },
 

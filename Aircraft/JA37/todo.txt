@@ -46,7 +46,7 @@ Sim: Missiles should lock onto flares from other mil plane types.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
 Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
-Sim: Shift-m should be a key without shift instead for convienience.
+Sim: Shift-m should be a key without shift instead for convenience.
 Sim: Weapons should require electrical power to track, check the manual.
 Sim: Button to jettison all stores including drop-tank.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
@@ -64,6 +64,7 @@ Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Add RB-04.
 Sim: Be able to notch the rb71 again.
 Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
+Sim: Move HUD mode logic out of HUD.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
