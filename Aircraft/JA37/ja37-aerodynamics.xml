@@ -306,14 +306,14 @@
     </function>
 
     <function name="aero/function/stores-wave-drag-factor">
-        <description>Change in drag due to mach</description>
+        <description>Change in stores drag due to mach</description>
         <product>
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <tableData>
                     0    1.000
                     0.7  1.045
-                    0.8  1.2
+                    0.8  1.200
                     0.9  1.392
                     1.0  1.622
                     1.1  1.888

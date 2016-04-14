@@ -1775,7 +1775,7 @@
             </test>
             <test logic="AND" value="1">
                 /sim/ja37/hud/current-mode == 3 <!-- equals landing -->
-                /position/altitude-agl-ft lt 164
+                /position/altitude-agl-ft gt 164
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
                 /controls/altimeter-radar == 1
