@@ -2174,3 +2174,7 @@ Model: Firefly removed the faces between control surfaces and the plane, remade 
 Model: Made control surfaces double sided.
 Model: Fix that there is a gap between fuselage and engine, where one can see 'into' the model.
 Aero: Added proper wave drag for missiles.
+Model: Fixed some bad UV mapping inside reverser outlet.
+Model: Fixed a bad vertex position inside the reverser outlet.
+Model: Fixed a flipped normal where wing meets fuselage on bottom right side.
+Model: Fixed a missing face on the bottom outside of reverser outlet.
