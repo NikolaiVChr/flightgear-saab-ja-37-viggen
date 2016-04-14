@@ -125,6 +125,20 @@
     <path>Aircraft/JA37/Models/ja37-interior.xml</path>
   </model>
 
+  <animation>
+    <type>material</type>
+    <object-name>radarMountAltWarnIndicator</object-name>
+    <condition>
+      <property>sim/ja37/avionics/altWarn</property>
+    </condition>
+    <emission>
+        <red>1.0</red>
+        <green>0.0</green>
+        <blue>0.0</blue>
+        <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
   <model>
     <name>pilot</name>
     <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>

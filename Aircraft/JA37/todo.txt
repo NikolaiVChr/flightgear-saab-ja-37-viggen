@@ -27,7 +27,6 @@ Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
 Model: Proper floor in the cockpit.
 Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
-Model: Big red indicator on radar box (top left) for ground warning.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Maybe the canopy should open more, the pilot is not supposed to crawl out.
@@ -86,44 +85,43 @@ HUD: Sidewind indicator should really be 10 degs below plane axis line.
 
 Bugs:
 --------------
-Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
-Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
-Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
-Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
-Sim: Missiles will not lock on to ferries that is missing the radar properties.
-Sim: Find out why cannon and sidewinder fire randomly after instant replay.
-Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
-Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
-Sim: When relocating or pausing, autostart might fail. [reproduced]
-Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
-Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
-HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
-HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
-HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
-GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
-Model: sim load-lag when coming near other ja37. [reproduced, select anims are probably to blame]
-Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
-Model: CTRL-X in HUD view will not zoom to correct level.
+Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
 Animation: Selection view does not follow carriers or other ships till they move. (they lack radar properties)
-Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
-Sim: Sometimes when exploding, the sim freezes, typically at redout.
-Sim: {JazzTP} Replay did not replay explosion.
-Sound: Could hear aim-9 buzz even though not in tact mode, in external view.
+Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
+GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
+HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
 HUD: In landing mode when horizont is out of view, heading scale does not show commanded heading.
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
-Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscillations. (Does not seem to be pitch damper fault)
-Sim: {Pinto} After fire M70, and reload, they will fire again. [might be fixed]
-Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
-HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
 HUD: In tactical mode the diamond would sometimes not be painted. Distance, callsign and tail would be shown though.
-Model: Droptank indicator should really be a steerpoint indicator.
+HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
+HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
+HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
+Model: CTRL-X in HUD view will not zoom to correct level.
 Model: Desert livery over MP is broken now.
-Model: There is a gap between fuselage and engine, where one can see 'into' the model.
-Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
-Sim: Check missile sound at KCA again..
+Model: Droptank indicator should really be a steerpoint indicator.
+Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
+Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
+Model: sim load-lag when coming near other ja37. [reproduced, select anims are probably to blame]
 Radar: Shooting at imdrone ship, it blinks in and out before getting lock.
+Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
+Sim: Check missile sound at KCA again..
+Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: If HoT (/sim/multiplay/hot) is enabled, geo reports wrong ground elevation at a AI/MP aircraft location.
+Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
+Sim: Missiles will not lock on to ferries that is missing the radar properties.
+Sim: Sometimes when exploding, the sim freezes, typically at redout.
+Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 Sim: When a missile hits the console will now report a wrong distance.
+Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
+Sim: When relocating or pausing, autostart might fail. [reproduced]
+Sim: {JazzTp} A repair did repair aircraft except for HUD, it was frozen. [not reproduced yet]
+Sim: {JazzTp} On Linux, after firing first missile, the key bindings for weapons go to other things, like exit FG. [Cannot reproduce on Win]
+Sim: {JazzTp} Radar screen did not see MP aircraft pass by. [not reproduced yet]
+Sim: {JazzTP} Replay did not replay explosion.
+Sim: {Pinto} After fire M70, and reload, they will fire again. [might be fixed]
+Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
+Sound: Could hear aim-9 growl even though not in tact mode, in external view.
+Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 
 
 Issues with FG:

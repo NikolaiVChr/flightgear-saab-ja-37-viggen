@@ -1109,20 +1109,25 @@ var HUDnasal = {
           if(me.input.tenHz.getValue() == TRUE) {
             me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
             me.arrow.show();
+            setprop("sim/ja37/avionics/altWarn", TRUE);
           } else {
             me.arrow.hide();
+            setprop("sim/ja37/avionics/altWarn", FALSE);
           }
         } else {
           me.input.terrainOn.setBoolValue(FALSE);
           me.arrow.hide();
+          setprop("sim/ja37/avionics/altWarn", FALSE);
         }
       } else {
         me.input.terrainOn.setBoolValue(FALSE);
         me.arrow.hide();
+        setprop("sim/ja37/avionics/altWarn", FALSE);
       }
     } else {
       me.input.terrainOn.setBoolValue(FALSE);
       me.arrow.hide();
+      setprop("sim/ja37/avionics/altWarn", FALSE);
     }
   },
 

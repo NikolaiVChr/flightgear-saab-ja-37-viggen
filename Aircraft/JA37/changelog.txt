@@ -2169,3 +2169,7 @@ HUD: The distance scale rotation speed will now vary according to aircraft weigh
 Control: The ailerons now have more autority near mach 0.7.
 Sim: Added all Mirage-2000s ground attack ordnance to damage.
 Sim: Better simulation of gravity bombs.
+Model: Added red indicator on radar box (top left) for ground warning.
+Model: Firefly removed the faces between control surfaces and the plane, remade some of them.
+Model: Made control surfaces double sided.
+Model: Fix that there is a gap between fuselage and engine, where one can see 'into' the model.
