@@ -964,6 +964,39 @@ var HUDnasal = {
       on_backup_power = FALSE;
     }
     
+    # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
+    var fromTop = HUDTop - me.input.viewZ.getValue();
+    centerOffset = -1 * ((512/1024)*canvasWidth - (fromTop * pixelPerMeter));
+
+    # since mode is used outside of the HUD also, the mode is calculated before we determine if the HUD should be updated:
+    var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
+    if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
+      mode = TAKEOFF;
+      modeTimeTakeoff = -1;
+    } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
+      mode = COMBAT;
+      modeTimeTakeoff = -1;
+    } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
+      modeTimeTakeoff = me.input.elapsedSec.getValue();
+    } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
+      if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
+        mode = LANDING;
+      } else {
+        mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+      }
+      modeTimeTakeoff = -1;
+    } elsif ((mode == COMBAT or mode == NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
+      mode = LANDING;
+      modeTimeTakeoff = -1;
+    } elsif (mode == COMBAT or mode == NAV) {
+      mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+      modeTimeTakeoff = -1;
+    } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
+      mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+      modeTimeTakeoff = -1;
+    }
+    me.input.currentMode.setIntValue(mode);
+
     if(has_power == FALSE or me.input.mode.getValue() == 0) {
       me.root.hide();
       me.root.update();
@@ -977,39 +1010,6 @@ var HUDnasal = {
       air2ground = FALSE;
       settimer(func me.update(), 0.25);
      } else {
-      # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
-      var fromTop = HUDTop - me.input.viewZ.getValue();
-      centerOffset = -1 * ((512/1024)*canvasWidth - (fromTop * pixelPerMeter));
-
-      var takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
-
-      if(mode != TAKEOFF and !takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
-        mode = TAKEOFF;
-        modeTimeTakeoff = -1;
-      } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
-        mode = COMBAT;
-        modeTimeTakeoff = -1;
-      } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and takeoffForbidden) {
-        modeTimeTakeoff = me.input.elapsedSec.getValue();
-      } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
-        if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
-          mode = LANDING;
-        } else {
-          mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-        }
-        modeTimeTakeoff = -1;
-      } elsif ((mode == COMBAT or mode == NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
-        mode = LANDING;
-        modeTimeTakeoff = -1;
-      } elsif (mode == COMBAT or mode == NAV) {
-        mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-        modeTimeTakeoff = -1;
-      } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
-        mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-        modeTimeTakeoff = -1;
-      }
-      me.input.currentMode.setIntValue(mode);
-
       # commented as long as diamond node is choosen in HUD
       #if (me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) {
         # in external view
