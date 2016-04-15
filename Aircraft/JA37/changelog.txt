@@ -2180,3 +2180,4 @@ Model: Fixed a flipped normal where wing meets fuselage on bottom right side.
 Model: Fixed a missing face on the bottom outside of reverser outlet.
 HUD: The HUD mode calculation is now run even if the HUD is not shown, as it is used in other systems.
 Model: Added livery 01-F21 Viking.
+GUI: Added 2 new splash screens.
