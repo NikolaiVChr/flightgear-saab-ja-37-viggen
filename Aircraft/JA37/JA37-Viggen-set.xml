@@ -95,6 +95,7 @@
         <aircraft-class type="string">mil-fighter</aircraft-class>
         <aircraft-operator>Swedish Air Force</aircraft-operator>
         <aircraft-data>
+            <!-- Properties that get saved to persist locally between FG sessions -->
             <path>sim/ja37/radar/enabled</path>
             <path>sim/ja37/hud/units-metric</path>
             <path>sim/ja37/hud/mode</path>

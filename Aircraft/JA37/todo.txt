@@ -9,7 +9,7 @@ GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make cannon pod detachable and have pointweight. (and model it above drop-tank)
 Aero: Air-brakes, even though they got welded shut in mid 80ties. (Request from JazzTp)
-Aero: Make wave drag again influence stores.
+Aero: Make wave drag again influence droptank.
 Control: Pitch damper should also take lateral normal (Nz) acceleration as input as per manual.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Model: Make minimal polygon model for multiplayer LOD.
