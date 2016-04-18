@@ -517,7 +517,7 @@ var incoming_listener = func {
         # a m2000 is firing at us
         m2000 = TRUE;
       }
-      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or last_vector[1] == " RB-15F fired at" or last_vector[1] == " RB-99 fired at" or m2000 == TRUE) {
+      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or last_vector[1] == " RB-15F fired at" or last_vector[1] == " KN-06 fired at" or last_vector[1] == " RB-99 fired at" or m2000 == TRUE) {
         # air2air being fired
         if (size(last_vector) > 2 or m2000 == TRUE) {
           #print("Missile launch detected at"~last_vector[2]~" from "~author);
