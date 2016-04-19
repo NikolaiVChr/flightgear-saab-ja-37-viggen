@@ -601,16 +601,18 @@ var incoming_listener = func {
           if (size(last_vector) > 3 and last_vector[3] == " "~callsign) {
             #print("that someone is me!");
             var type = last1[1];
-            if (type == "Matra") {
-              # Matra missiles have spaces in their names, so we fix that here.
+            if (type == "Matra" or type == "Sea") {
+              # Matra/seaeagle missiles have spaces in their names, so we fix that here.
               for (var i = 2; i < size(last1)-1; i += 1) {
                 type = type~" "~last1[i];
               }
             }
             var number = split(" ", last_vector[2]);
-            var distance = ja37.clamp(num(number[1])-1.5, 0, 1000000);
+            var distance = num(number[1]);
             #print(type~"|");
             if(distance != nil) {
+              var dist = distance;
+              distance = ja37.clamp(distance-1.5, 0, 1000000);
               var maxDist = 0;
 
               if (contains(warhead_lbs, type)) {
@@ -631,7 +633,7 @@ var incoming_listener = func {
 
               var failed = fail_systems(probability);
               var percent = 100 * probability;
-              print("Took "~percent~"% damage from "~type~" missile at "~distance~" meters distance! "~failed~" systems was hit.");
+              print(sprintf("Took %.1f", percent)~"% damage from "~type~" missile at "~dist~" meters distance! "~failed~" systems was hit.");
               nearby_explosion();
             }
           } 
