@@ -376,27 +376,10 @@ var AIM = {
 	},
 
 	drag: func (mach) {
-		# Adjust Cd by Mach number. The equations are based on curves
-		# for a conventional shell/bullet (no boat-tail).
-		#
-		# Derived from Davic Culps code in AIBallistic
-		var Cd = 0;
-		if (mach < 0.7) {
-			Cd = 0.0125 * mach + me.Cd_base;
-		} elsif (mach < 1.2 ) {
-			Cd = 0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + me.Cd_base;
-		} else {
-			Cd = 0.2965 * math.pow(mach, -1.1506) + me.Cd_base;
-		}
-
-		 return Cd;
-	},
-
-	drag_new: func (mach) {
 		# Nikolai V. Chr.: Made the drag calc more in line with big missiles as opposed to small bullets.
-		#
-		# When I start using this, all the drag coefficients for the missiles have to be reestimated, same for thrust.
-		#
+		# 
+		# The old equations were based on curves for a conventional shell/bullet (no boat-tail),
+		# and derived from Davic Culps code in AIBallistic.
 		var Cd = 0;
 		if (mach < 0.7) {
 			Cd = (0.0125 * mach + 0.20) * 5 * me.Cd_base;
@@ -545,7 +528,7 @@ var AIM = {
 
 		me.speed_m = old_speed_fps / sound_fps;
 
-		var Cd = me.drag_new(me.speed_m);
+		var Cd = me.drag(me.speed_m);
 
 		# Add drag to the total speed using Standard Atmosphere (15C sealevel temperature);
 		# rho is adjusted for altitude in environment.rho_sndspeed(altitude),
