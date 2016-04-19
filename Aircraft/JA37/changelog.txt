@@ -2183,3 +2183,4 @@ Model: Added livery 01-F21 Viking.
 GUI: Added 2 new splash screens.
 Aero: Pitch due to air intake factor extrapolated into more regimes.
 Sim: Warning when KN-06 shoots at the Viggen.
+Effect: Fixed that when using the repair button, the black smoke would continue still.

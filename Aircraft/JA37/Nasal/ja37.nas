@@ -1078,7 +1078,6 @@ var re_init = func {
   stopAP();
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
-  setprop("environment/damage", 0);
 
   #test_support();
 }
@@ -1521,6 +1520,7 @@ var repair = func (c = 1) {
     crash1.repair();
     failureSys.armAllTriggers();
   }
+  setprop("environment/damage", FALSE);
   if (c == TRUE) {
     ct("rp");
   }
