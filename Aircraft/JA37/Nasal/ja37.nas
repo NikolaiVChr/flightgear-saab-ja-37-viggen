@@ -1728,7 +1728,7 @@ var not = func {
 }
 
 var changeGuiLoad = func()
-{#return;
+{
     var searchname1 = "mp-list";
     var searchname2 = "instrument-failures";
     var searchname3 = "system-failures";
