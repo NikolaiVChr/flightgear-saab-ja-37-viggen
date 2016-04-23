@@ -463,6 +463,8 @@ var isNotBehindTerrain = func(SelectCoord) {
                 if(AprimeTerrainAlt > Aprime.alt())
                 {
                     isVisible = 0;
+                    # {Pinto} This will prevent the rest of the loop to run if a masking high point is found:
+                    i = maxLoops+1;
                 }
             }
         }
