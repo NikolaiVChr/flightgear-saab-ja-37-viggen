@@ -23,8 +23,8 @@ var vol_weak_track = 0.10;
 var vol_track      = 0.15;
 var update_loop_time = 0.000;
 
-var FRAME_TIME = 1;
-var REAL_TIME = 0;
+var SIM_TIME = 0;
+var REAL_TIME = 1;
 
 var TRUE = 1;
 var FALSE = 0;
@@ -188,6 +188,7 @@ var AIM = {
 		m.old_speed_fps	= 0;
 		m.last_t_norm_speed = nil;
 		m.last_t_elev_norm_speed = nil;
+		m.last_dt = 0;
 
 		m.dive_token = FALSE;
 
@@ -805,8 +806,8 @@ var AIM = {
 			me.rail_passed = TRUE;
 			#print("rail passed");
 		}
-
-		settimer(func me.flight(), update_loop_time, REAL_TIME);
+		me.last_dt = dt;
+		settimer(func me.flight(), update_loop_time, SIM_TIME);
 		
 	},
 
@@ -886,8 +887,25 @@ var AIM = {
 			var t_alt_delta_m = (t_alt - me.alt) * FT2M;
 			var t_elev_deg =  math.atan2( t_alt_delta_m, t_dist_m ) * R2D;
 			me.curr_tgt_e = t_elev_deg - me.pitch;
-			var (t_course, dst) = courseAndDistance(me.coord, me.t_coord);
-			#var t_course = me.coord.course_to(me.t_coord);
+
+			var dist_curr = t_dist_m;
+
+			#
+			# So is course_to() or courseAndDistance() most precise? People said the latter,
+			# but my experiments said it differs. The latter seems to be influenced by altitude differences,
+			# which is not good for cruise-missiles, but it seems better for long distances.
+			# While the former seems better for short distances.
+			# ..strange
+			#
+			#var (t_course, dist_curr_direct) = courseAndDistance(me.coord, me.t_coord);
+			#dist_curr_direct = dist_curr_direct * NM2M;
+			var dist_curr_direct = me.coord.distance_to(me.t_coord);
+			#if (t_dist_m < 12000 or (me.loft_alt != 0 and me.loft_alt < 10000)) {
+			#if (getprop("test3") == 0) {
+			var	t_course = me.coord.course_to(me.t_coord);
+			#}
+			#
+
 			me.curr_tgt_h = t_course - me.hdg;
 			#print();
 			#print(sprintf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt())));
@@ -900,10 +918,10 @@ var AIM = {
 			var e_gain = 1;
 			var h_gain = 1;
 
-			if(me.curr_tgt_h < -180) {
+			while(me.curr_tgt_h < -180) {
 				me.curr_tgt_h += 360;
 			}
-			if(me.curr_tgt_h > 180) {
+			while(me.curr_tgt_h > 180) {
 				me.curr_tgt_h -= 360;
 			}
 
@@ -934,8 +952,8 @@ var AIM = {
 			}
 			
 
-			var dev_e = me.curr_tgt_e;#
-			var dev_h = me.curr_tgt_h;#
+			var dev_e = 0;#me.curr_tgt_e;
+			var dev_h = 0;#me.curr_tgt_h;
 
 			#print(sprintf("curr: elev=%.1f", dev_e)~sprintf(" head=%.1f", dev_h));
 			if (me.last_deviation_e != nil) {
@@ -945,8 +963,8 @@ var AIM = {
 
 				# missile own movement is subtracted from this change due to seeker being on gyroscope
 				
-				var dve_dist = dev_e - me.last_deviation_e + me.last_track_e;
-				var dvh_dist = dev_h - me.last_deviation_h + me.last_track_h;
+				var dve_dist = me.curr_tgt_e - me.last_deviation_e + me.last_track_e;
+				var dvh_dist = me.curr_tgt_h - me.last_deviation_h + me.last_track_h;
 				var deviation_per_sec = math.sqrt(dve_dist*dve_dist+dvh_dist*dvh_dist)/dt;
 
 				if (deviation_per_sec > me.angular_speed) {
@@ -963,8 +981,8 @@ var AIM = {
 				me.update_count = 0;
 			}
 
-			me.last_deviation_e = dev_e;
-			me.last_deviation_h = dev_h;
+			me.last_deviation_e = me.curr_tgt_e;
+			me.last_deviation_h = me.curr_tgt_h;
 
 
 
@@ -975,7 +993,7 @@ var AIM = {
 
 			var loft_angle = 15;# notice Shinobi uses 26.5651 degs, but Raider1 found a source saying 10-20 degs.
 			var loft_minimum = 10;# miles
-			var cruise_minimum = 7.5;# miles
+			var cruise_minimum = 10;# miles
 			var cruise_or_loft = 0;
 			
             if(me.loft_alt != 0 and me.loft_alt < 10000) {
@@ -1061,22 +1079,24 @@ var AIM = {
 			### augmented proportional navigation   ###
 			###########################################
 
-			var dist_curr = me.coord.distance_to(me.t_coord);
-			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
-			if (h_gain != 0 and me.dist_last != nil and me.last_tgt_h != nil) {
-					# augmented proportional navigation for heading
-					var horz_closing_rate_fps = me.clamp((me.dist_last - dist_curr)*M2FT/dt, 0.1, 1000000);#clamped due to cruise missiles that can fly slower than target.
+			#printf("curr=%.1f curr_direct=%.1f comb=%.1f", dist_curr, dist_curr_direct, dst2*NM2M);
+			if (h_gain != 0 and me.dist_last != nil and me.last_dt != 0 and me.last_tgt_h != nil) {
+					# augmented proportional navigation for heading #
+					#################################################
+
+					var horz_closing_rate_fps = me.clamp(((me.dist_last - dist_curr)*M2FT)/me.last_dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
+					#printf("Horz closing rate: %5d", horz_closing_rate_fps);
 					var proportionality_constant = 3;#ja37.clamp(me.map(me.speed_m, 2, 5, 5, 3), 3, 5);#
 					#setprop("payload/armament/factor-pro2", proportionality_constant);
 					var c_dv = t_course-me.last_t_course;
-					if(c_dv < -180) {
+					while(c_dv < -180) {
 						c_dv += 360;
 					}
-					if(c_dv > 180) {
+					while(c_dv > 180) {
 						c_dv -= 360;
 					}
-					var line_of_sight_rate_rps = D2R*c_dv/dt;
-
+					var line_of_sight_rate_rps = (D2R*c_dv)/dt;
+					#printf("LOS rate: %.4f rad/s", line_of_sight_rate_rps);
 
 					# calculate target acc as normal to LOS line:
 					var t_heading        = me.Tgt.get_heading();
@@ -1096,7 +1116,7 @@ var AIM = {
 
 					# acceleration perpendicular to instantaneous line of sight in feet/sec^2
 					var acc_sideways_ftps2 = proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps+proportionality_constant*t_LOS_norm_acc/2;
-
+					#printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
 					# now translate that sideways acc to an angle:
 					var velocity_vector_length_fps = me.old_speed_horz_fps;
 					var commanded_sideways_vector_length_fps = acc_sideways_ftps2*dt;
@@ -1107,9 +1127,10 @@ var AIM = {
 					#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_tgt_h, dev_h));
 
 					if (cruise_or_loft == 0 and me.last_cruise_or_loft == 0) {
-						# augmented proportional navigation for elevation
-						var vert_closing_rate_fps = me.clamp((me.dist_direct_last - dist_curr_direct)*M2FT/dt,0.1,1000000);
-						var line_of_sight_rate_up_rps = D2R*(t_elev_deg-me.last_t_elev_deg)/dt;
+						# augmented proportional navigation for elevation #
+						###################################################
+						var vert_closing_rate_fps = me.clamp(((me.dist_direct_last - dist_curr_direct)*M2FT)/me.last_dt,1,1000000);
+						var line_of_sight_rate_up_rps = (D2R*(t_elev_deg-me.last_t_elev_deg))/dt;
 
 						# calculate target acc as normal to LOS line: (up acc is positive)
 						var t_approach_bearing             = t_course + 180;
@@ -1785,13 +1806,13 @@ var rho_sndspeed = func(altitude) {
 
 }
 
-var nextGeoloc = func(lon, lat, heading, speed, dt, alt=100){
+var nextGeoloc = func(lat, lon, heading, speed, dt, alt=100){
     # lng & lat & heading, in degree, speed in fps
     # this function should send back the futures lng lat
     var distance = speed * dt * FT2M; # should be a distance in meters
     #print("distance ", distance);
     # much simpler than trigo
-    var NextGeo = geo.Coord.new().set_latlon(lon, lat, alt);
+    var NextGeo = geo.Coord.new().set_latlon(lat, lon, alt);
     NextGeo.apply_course_distance(heading, distance);
     return NextGeo;
 }

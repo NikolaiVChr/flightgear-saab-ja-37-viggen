@@ -44,8 +44,7 @@ Help?
 Looking for a contributor for these features, or what else you would like to work on: (I have many photos of these)
 
 - More accurate gears and gear doors.
-- Black livery.
-- Grey/black livery.
+- Liveries.
 
 Contact Necolatis on the forums to get in contact, got plenty of cockpit pictures.
 
