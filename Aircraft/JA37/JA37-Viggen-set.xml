@@ -1388,7 +1388,7 @@
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="int">38.8</max-fire-range-nm>
                     <FCS-field-deg type="int">30</FCS-field-deg>
-                    <seeker-field-deg type="int">110</seeker-field-deg>
+                    <seeker-field-deg type="int">135</seeker-field-deg>
                     <max-g type="int">30</max-g>
                     <thrust-lbf-stage-1 type="double">9000</thrust-lbf-stage-1><!-- guess -->
                     <thrust-lbf-stage-2 type="double">1500</thrust-lbf-stage-2>    <!-- guess -->
@@ -1403,7 +1403,7 @@
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">90</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-                    <loft-altitude>36000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
+                    <loft-altitude>36000</loft-altitude><!-- it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
