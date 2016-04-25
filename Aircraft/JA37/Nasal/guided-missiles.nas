@@ -204,6 +204,8 @@ var AIM = {
 		m.rail_pos = 0;
 		m.rail_speed_into_wind = 0;
 
+		m.g = 0;
+
 		m.lastFlare = 0;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
@@ -439,6 +441,51 @@ var AIM = {
 		return acc*dt - drag_acc*dt;
 	},
 
+    energyBleed: func (gForce, altitude, dt) {
+        # Bleed of energy from pulling Gs.
+        # This is very inaccurate, but better than nothing.
+        #
+        # First we get the speedloss due to normal drag:
+        var b300 = me.bleed32800at0g(dt);
+        var b000 = me.bleed0at0g(dt);
+        #
+        # We then subtract the normal drag from the loss due to G and normal drag.
+        var b325 = me.bleed32800at25g(dt)-b300;
+        var b025 = me.bleed0at25g(dt)-b000;
+        b300 = 0;
+        b000 = 0;
+        #
+        # We now find what the speedloss will be at sealevel and 32800 ft.
+        var speedLoss32800 = b300 + ((gForce-0)/(25-0))*(b325 - b300);
+        var speedLoss0 = b000 + ((gForce-0)/(25-0))*(b025 - b000);
+        #
+        # We then inter/extra-polate that to the currect density-altitude.
+        var speedLoss = speedLoss0 + ((altitude-0)/(32800-0))*(speedLoss32800-speedLoss0);
+        #
+        # For good measure the result is clamped to below zero.
+        return me.clamp(speedLoss, -100000, 0);
+    },
+
+	bleed32800at0g: func (dt) {
+		var loss_fps = 0 + ((dt - 0)/(15 - 0))*(-330 - 0);
+		return loss_fps*M2FT;
+	},
+
+	bleed32800at25g: func (dt) {
+		var loss_fps = 0 + ((dt - 0)/(3.5 - 0))*(-240 - 0);
+		return loss_fps*M2FT;
+	},
+
+	bleed0at0g: func (dt) {
+		var loss_fps = 0 + ((dt - 0)/(22 - 0))*(-950 - 0);
+		return loss_fps*M2FT;
+	},
+
+	bleed0at25g: func (dt) {
+		var loss_fps = 0 + ((dt - 0)/(7 - 0))*(-750 - 0);
+		return loss_fps*M2FT;
+	},
+
 	flight: func {
 		if (me.Tgt.isValid() == FALSE) {
 			print("Target went away, deleting missile.");
@@ -547,6 +594,16 @@ var AIM = {
 
 		var speed_change_fps = me.speedChange(thrust_lbf, rho, Cd, dt);
 		
+#var ns = speed_change_fps + me.old_speed_fps;
+
+		if (me.last_dt != 0) {
+			speed_change_fps = speed_change_fps + me.energyBleed(me.g, me.altN.getValue() + me.density_alt_diff,me.last_dt);
+		}
+
+#var nsb = speed_change_fps + me.old_speed_fps;
+#printf("Percent speed due to G bleed %.1f", 100*nsb/ns);
+
+
 		var grav_bomb = FALSE;
 		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
 			# for now gravity bombs cannot be guided.
@@ -600,9 +657,15 @@ var AIM = {
 		# which next update will be added in the direction the missile points, which we do not want.
 		# therefore only real gravity drop is added to gravity bombs.
 		
+		var new_speed_fps        = speed_change_fps + me.old_speed_fps;
+		if (new_speed_fps < 0) {
+			# drag and bleed can theoretically make the speed less than 0, this will prevent that from happening.
+			new_speed_fps = 0;
+		}
+
 		# Break speed change down total speed to North, East and Down components.
-		var speed_down_fps       = - math.sin(pitch_deg * D2R) * (speed_change_fps + me.old_speed_fps);
-		var speed_horizontal_fps = math.cos(pitch_deg * D2R) * (speed_change_fps + me.old_speed_fps);
+		var speed_down_fps       = - math.sin(pitch_deg * D2R) * new_speed_fps;
+		var speed_horizontal_fps = math.cos(pitch_deg * D2R) * new_speed_fps;
 		var speed_north_fps      = math.cos(hdg_deg * D2R) * speed_horizontal_fps;
 		var speed_east_fps       = math.sin(hdg_deg * D2R) * speed_horizontal_fps;
 
@@ -617,11 +680,6 @@ var AIM = {
 			pitch_deg = math.atan2( speed_down_fps, speed_horizontal_fps ) * R2D;
 		}
 
-		#if (new_speed_fps < 0) {
-			# drag can theoretically make the speed less than 0, this will prevent that from happening.
-		#	new_speed_fps = 0;
-		#}
-
 		# Calculate altitude and elevation velocity vector (no incidence here).
 		
 		# The missile just falls due to gravity, it doesn't pitch
@@ -629,8 +687,6 @@ var AIM = {
 		
 		var dist_h_m = speed_horizontal_fps * dt * FT2M;
 		var alt_ft = me.altN.getValue() - ((speed_down_fps + g_fps * dt * !grav_bomb) * dt);
-
-		var new_speed_fps        = math.sqrt(speed_horizontal_fps*speed_horizontal_fps+speed_down_fps*speed_down_fps);
 
 		if (me.rail == FALSE or me.rail_passed == TRUE) {
 			# misssile not on rail, lets move it to next waypoint
@@ -678,14 +734,14 @@ var AIM = {
 		if ( me.status == MISSILE_FLYING and (me.rail == FALSE or me.rail_passed == TRUE)) {
 			#### check if the missile can keep the lock.
  			if ( me.free == FALSE ) {
-				var g = steering_speed_G(me.track_signal_e, me.track_signal_h, me.old_speed_fps, dt);
+				me.g = steering_speed_G(me.track_signal_e, me.track_signal_h, me.old_speed_fps, dt);
 
 # Uncomment these lines to check stats while flying:
 #
-#printf("Mach %02.1f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, thrust_lbf, g);
+#printf("Mach %02.1f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, thrust_lbf, me.g);
 #printf("Alt %05.1f ft", alt_ft);
 
-				if ( g > me.max_g_current and init_launch != 0) {
+				if ( me.g > me.max_g_current and init_launch != 0) {
 					# Target unreachable, fly free.
 					me.free = 1;
 					print("Missile attempted to pull too many G, it broke.");
@@ -716,6 +772,8 @@ var AIM = {
 						}
 					}
 				}
+			} else {
+				me.g = 0;
 			}
 			var v = me.poximity_detection();
 			
@@ -727,6 +785,8 @@ var AIM = {
 				me.sndPropagate();
 				return;
 			}
+		} else {
+			me.g = 0;
 		}
 		me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
 		me.last_t_coord = geo.Coord.new(me.t_coord);
