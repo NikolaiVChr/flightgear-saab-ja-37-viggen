@@ -2186,3 +2186,13 @@ Sim: Warning when KN-06 shoots at the Viggen.
 Effect: Fixed that when using the repair button, the black smoke would continue still.
 Effect: Made black damage smoke be less boyant and have less particles.
 Sim: {Richard} Even better printout to console of damage.
+Model: Removed duplicate livery over MP code.
+Sim: Bigger FOV for RB-99.
+Radar: {Pinto} Optimization of terrain mask code.
+Sim: Fixed lat/lon was switched in a function.
+Sim: Better missile time keeping for closing rates.
+Sim: Lofted missiles will now start to drop 10 miles from target.
+Sim: Cleaned up and refactored in missile code a bit.
+Sim: Fixed that when the missile lost guiding, the target position would also not be updated anymore.
+Sim: After lofting/cruising the missile now rotates towards target before APN sets in.
+Sim: Guarded against a trigonometry error in missile code.
