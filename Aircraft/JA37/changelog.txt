@@ -2197,3 +2197,4 @@ Sim: Fixed that when the missile lost guiding, the target position would also no
 Sim: After lofting/cruising the missile now rotates towards target before APN sets in.
 Sim: Guarded against a trigonometry error in missile code.
 Sim: Missiles now bleed energy due to G load.
+Sim: Fixed a regression in missiles, APN for elevation would use horz. closing rate, instead of direct.

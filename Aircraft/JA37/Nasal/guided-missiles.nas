@@ -881,7 +881,7 @@ var AIM = {
 			#
 			#var (t_course, dist_curr_direct) = courseAndDistance(me.coord, me.t_coord);
 			#dist_curr_direct = dist_curr_direct * NM2M;
-			var dist_curr_direct = me.coord.distance_to(me.t_coord);
+			var dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
 			#if (t_dist_m < 12000 or (me.loft_alt != 0 and me.loft_alt < 10000)) {
 			#if (getprop("test3") == 0) {
 			var	t_course = me.coord.course_to(me.t_coord);
