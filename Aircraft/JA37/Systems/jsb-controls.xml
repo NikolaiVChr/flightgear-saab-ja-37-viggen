@@ -2,7 +2,7 @@
 
 <flight_control name="JA37 FC">
 
-    <channel name="Canopy">
+    <channel execrate="4" name="Canopy">
 
         <!-- canopy get stuck if it fail -->
         <switch name="names/canopy/tmp-engage">
@@ -55,7 +55,7 @@
 -->
 
 
-    <channel name="Elevons">
+    <channel execrate="1" name="Elevons">
         <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
         <fcs_function name="fcs/elevator/stick-geared">
@@ -694,7 +694,9 @@
 
 
 
-    <channel name="Yaw">
+
+
+    <channel execrate="1" name="Yaw">
         <!-- Rudder can move 25 degrees to each side -->
 
         <fcs_function name="fcs/rudder/stick-geared">
@@ -921,7 +923,9 @@
 
 
 
-    <channel name="Landing Gear">
+
+
+    <channel execrate="4" name="Landing Gear">
 
         <switch name="names/gear-target-norm">
             <default value="gear/gear-cmd-norm"/>
@@ -1029,7 +1033,7 @@
 
 
 
-    <channel name="Flaps">
+    <channel execrate="1" name="Flaps">
         <!-- Can move 30 degrees down, and 4 degrees up -->
 
         <kinematic name="names/flaps/pos-norm">
@@ -1083,7 +1087,11 @@
 
     </channel>
 
-    <channel name="Throttle">
+
+
+
+
+    <channel execrate="2" name="Throttle">
 
         <aerosurface_scale name="names/throttle/pos-norm-scale">
             <input>fcs/throttle-cmd-norm</input>
@@ -1205,7 +1213,10 @@
         -->
     </channel>
 
-    <channel name="Autopilot">
+
+
+
+    <channel execrate="4" name="Autopilot">
         <scheduled_gain name="names/autopilot/Autopilot-max-climb">
             <input>autopilot/one</input>
             <table>
@@ -1285,7 +1296,7 @@
 
 
 
-    <channel name="Wings">
+    <channel execrate="8" name="Wings">
         <aerosurface_scale name="names/structural/Wings-normal-factor">
             <input>structural/wings/serviceable</input>
             <zero_centered> false </zero_centered>

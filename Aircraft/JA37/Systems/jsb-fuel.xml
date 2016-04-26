@@ -87,7 +87,7 @@ TODO: manual fuel controls
 
 
 
-    <channel name="Pneumatic driven fuel flow">
+    <channel execrate="1" name="Pneumatic driven fuel flow">
 
         <switch name="systems/fuel/pneumatic-low-pressure">
             <default value="1"/>
@@ -160,7 +160,7 @@ TODO: manual fuel controls
 
 
 
-    <channel name="Hydraulic fuel pumps">
+    <channel execrate="1" name="Hydraulic fuel pumps">
 
         <switch name="systems/fuel/tank6-output">
             <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4V to distributor -->
@@ -335,7 +335,7 @@ TODO: manual fuel controls
 
 
 
-    <channel name="Electric fuel pumps">
+    <channel execrate="1" name="Electric fuel pumps">
 
         <switch name="systems/fuel/tank4-output">
             <default value="-2.3775484712233356"/><!-- 5000 L/h from 5V -->
@@ -393,7 +393,7 @@ TODO: manual fuel controls
 
 
 
-    <channel name="Collector tank">
+    <channel execrate="1" name="Collector tank">
 
         <summer name="names/fuel/tank0-external-flow-rate-pps">
             <input>-systems/fuel/tank4-output</input>

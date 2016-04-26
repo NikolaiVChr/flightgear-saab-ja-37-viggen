@@ -11,7 +11,7 @@
   <property value="-3.806">systems/hook/tailhook-pos-deg</property>-->
     <!-- offset-z-in: factored in diff between f16 wheel and ja37 wheel Z pos -->
 
-    <channel name="Hook">
+    <channel execrate="1" name="Hook">
 
         <kinematic name="names/carrier/tailhook-pos-norm">
             <input>systems/hook/tailhook-cmd-norm</input>
@@ -89,7 +89,11 @@
 
     </channel>
 
-    <channel name="Catapult">
+
+
+
+
+    <channel execrate="2" name="Catapult">
 
         <switch name="names/carrier/cat-launch-cmd">
             <default value="systems/catapult_free/cat-launch-cmd"/>
@@ -159,7 +163,10 @@
 
     </channel>
 
-    <channel name="Holdback_Launchbar">
+
+
+
+    <channel execrate="2" name="Holdback_Launchbar">
 
         <switch name="names/carrier/lock-cmd">
             <default value="systems/launchbar_free/lock-cmd"/>
@@ -224,7 +231,10 @@
 
     </channel>
 
-        <channel name="cat-hold">
+
+
+
+    <channel execrate="2" name="cat-hold">
 
         <!-- vertical hold -->
         <!--only a guess , to animate the body when tied, and to avoid a huge pitch during catapulting-->

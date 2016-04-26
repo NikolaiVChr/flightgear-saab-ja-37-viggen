@@ -741,6 +741,10 @@
 
     </channel>
 
+
+
+    
+
     <channel execrate="4" name="Right indicator panel logic">
 
         <!-- Swedish: SPAK (blinking, sound)

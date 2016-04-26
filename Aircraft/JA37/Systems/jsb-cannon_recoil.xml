@@ -2,7 +2,7 @@
 
 <system name="cannon">
 
-    <channel name="Cannon recoil">
+    <channel execrate="1" name="Cannon recoil">
         <!-- 
        round_mass = 1.22Kg
        velolcity = 1030 m/s
@@ -62,10 +62,10 @@
         <switch name="names/recoil/magnitude">
             <default value="0"/>
             <test logic="AND" value="33899.39">
-          /controls/armament/station[0]/trigger == 1
-          /ai/submodels/submodel[3]/count gt 0
-          systems/recoil/impulse == 1
-      </test>
+              /controls/armament/station[0]/trigger == 1
+              /ai/submodels/submodel[3]/count gt 0
+              systems/recoil/impulse == 1
+            </test>
             <output>external_reactions/recoil/magnitude</output>
         </switch>
 

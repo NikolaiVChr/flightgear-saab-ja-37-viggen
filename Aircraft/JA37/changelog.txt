@@ -2170,7 +2170,7 @@ Control: The ailerons now have more autority near mach 0.7.
 Sim: Added all Mirage-2000s ground attack ordnance to damage.
 Sim: Better simulation of gravity bombs.
 Model: Added red indicator on radar box (top left) for ground warning.
-Model: Firefly removed the faces between control surfaces and the plane, remade some of them.
+Model: Somehow the faces between control surfaces and the plane were removed, remade some of them.
 Model: Made control surfaces double sided.
 Model: Fix that there is a gap between fuselage and engine, where one can see 'into' the model.
 Aero: Added proper wave drag for missiles.
@@ -2198,3 +2198,4 @@ Sim: After lofting/cruising the missile now rotates towards target before APN se
 Sim: Guarded against a trigonometry error in missile code.
 Sim: Missiles now bleed energy due to G load.
 Sim: Fixed a regression in missiles, APN for elevation would use horz. closing rate, instead of direct.
+Sim: Optimized slightly some JSBSIM systems.

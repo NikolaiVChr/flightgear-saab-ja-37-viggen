@@ -168,7 +168,11 @@
         
     </channel>
 
-    <channel execrate="2" name="instruments">
+
+
+
+
+    <channel execrate="4" name="instruments">
 
         <fcs_function name="propulsion/engine/rpm_r-s">
             <function>
@@ -338,7 +342,7 @@
     
     </channel>
 
-    <channel execrate="1" name="blinkers">
+    <channel execrate="2" name="blinkers">
 
         <fcs_function name="systems/flight/blink/five">
             <function>
