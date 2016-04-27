@@ -1431,7 +1431,7 @@
                     <drag-area type="double">2.1135</drag-area>
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  
                     <arming-time-sec type="double">1.4</arming-time-sec>          
-                    <min-speed-for-guiding-mach type="double">0.4</min-speed-for-guiding-mach>
+                    <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">1500</self-destruct-time-sec>         
                     <seeker-angular-speed-dps type="double">50</seeker-angular-speed-dps>
                     <loft-altitude>100</loft-altitude>

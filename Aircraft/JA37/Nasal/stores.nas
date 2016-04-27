@@ -1069,11 +1069,22 @@ var selectNextWaypoint = func () {
 
   var lat = active_node.getNode("latitude-deg");
   var lon = active_node.getNode("longitude-deg");
-  var alt = active_node.getNode("altitude-m");
+  var alt = active_node.getNode("altitude-m").getValue();
+
+  if (alt < -9000) {
+    var ground = geo.elevation(lat.getValue(), lon.getValue());
+    if(ground != nil) {
+      alt = ground;
+    } else {
+      screen.log.write("Active route-manager waypoint has no altitude, unable to create target.", 1.0, 0.0, 0.0);
+      return;
+    }
+  }
+
   var name = active_node.getNode("id");
 
   var coord = geo.Coord.new();
-  coord.set_latlon(lat.getValue(), lon.getValue(), alt.getValue());
+  coord.set_latlon(lat.getValue(), lon.getValue(), alt);
 
   var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
 

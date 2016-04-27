@@ -2199,3 +2199,8 @@ Sim: Guarded against a trigonometry error in missile code.
 Sim: Missiles now bleed energy due to G load.
 Sim: Fixed a regression in missiles, APN for elevation would use horz. closing rate, instead of direct.
 Sim: Optimized slightly some JSBSIM systems.
+Sim: Major refactoring and optimization of missile code.
+Sim: Small improvement in how final hit distance for missiles is calculated.
+Sim: When inputting GPS coordinate without altitude info, it will now attempt to find that altitude. Else an error will be shown.
+Sim: Minor refactoring and optimization of missile code.
+Sim: Lowered the min speed for guiding for RB-15F due to it losing quickly energy due to G loads.

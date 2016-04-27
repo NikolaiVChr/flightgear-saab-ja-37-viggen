@@ -1130,7 +1130,7 @@ var ContactGPS = {
 
   get_cartesian: func() {
 
-    var aircraftAlt = me.coord.alt();
+    var gpsAlt = me.coord.alt();
 
     var self      =  geo.aircraft_position();
     var myPitch   =  input.pitch.getValue()*deg2rads;
@@ -1139,7 +1139,7 @@ var ContactGPS = {
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
 
-    var yg_rad = math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
+    var yg_rad = math.atan2(gpsAlt-myAlt, distance) - myPitch; 
     var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
     
     while (xg_rad > math.pi) {
