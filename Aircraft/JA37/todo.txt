@@ -64,7 +64,6 @@ Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Add RB-04.
 Sim: Be able to notch the rb71 again.
 Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
-Sim: Fix that is a target is in range for a shot, then moves out range, the diamond still blinks.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.

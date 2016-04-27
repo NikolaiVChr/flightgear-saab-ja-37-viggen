@@ -1456,10 +1456,10 @@ var AIM = {
 		# Check if in range and in the (square shaped here) seeker FOV.
 		var abs_total_elev = math.abs(total_elev);
 		var abs_dev_deg = math.abs(total_horiz);
-		if (abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov ) {
-			# Target out of FOV while still not launched, return to search loop.
+		if (abs_total_elev < me.aim9_fov and abs_dev_deg < me.aim9_fov and me.Tgt.get_range() < me.max_detect_rng) {
 			return TRUE;
 		}
+		# Target out of FOV or range while still not launched, return to search loop.
 		return FALSE;
 	},
 
