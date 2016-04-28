@@ -855,19 +855,10 @@ var AIM = {
 		me.t_elev_deg       = math.atan2( t_alt_delta_m, me.dist_curr ) * R2D;
 		me.t_course         = me.coord.course_to(me.t_coord);
 		me.curr_deviation_e = me.t_elev_deg - me.pitch;
-		me.curr_deviation_h       = me.t_course - me.hdg;
+		me.curr_deviation_h = me.t_course - me.hdg;
 
-
-		#
-		# So is course_to() or courseAndDistance() most precise? People said the latter,
-		# but my experiments said it differs. The latter seems to be influenced by altitude differences,
-		# which is not good for cruise-missiles, but it seems better for long distances.
-		# While the former seems better for short distances.
-		# ..strange
-		#
-		#var (t_course, me.dist_curr_direct) = courseAndDistance(me.coord, me.t_coord);
-		#me.dist_curr_direct = me.dist_curr_direct * NM2M;
-	
+		#var (t_course, me.dist_curr) = courseAndDistance(me.coord, me.t_coord);
+		#me.dist_curr = me.dist_curr * NM2M;	
 
 		#printf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt()));
 
@@ -1131,7 +1122,7 @@ var AIM = {
 			var t_heading        = me.Tgt.get_heading();
 			var t_pitch          = me.Tgt.get_Pitch();
 			var t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
-			var t_horz_speed     = t_speed - math.abs(math.sin(t_pitch*D2R)*t_speed);
+			var t_horz_speed     = math.abs(math.cos(t_pitch*D2R)*t_speed);
 			var t_LOS_norm_head  = me.t_course + 90;
 			var t_LOS_norm_speed = math.cos((t_LOS_norm_head - t_heading)*D2R)*t_horz_speed;
 
