@@ -2205,3 +2205,4 @@ Sim: When inputting GPS coordinate without altitude info, it will now attempt to
 Sim: Minor refactoring and optimization of missile code.
 Sim: Lowered the min speed for guiding for RB-15F due to it losing quickly energy due to G loads.
 Sim: Fixed that is a target is in range for a shot, then moves out range, the diamond still blinks.
+Sim: Missiles now report misses.

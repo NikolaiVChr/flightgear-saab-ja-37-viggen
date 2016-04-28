@@ -1271,16 +1271,22 @@ var AIM = {
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 		if (min_distance < 65) {
-			if (getprop("payload/armament/msg")) {
-				setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
-			} else {
-				setprop("/sim/messages/atc", phrase);
-			}
+			me.sendMessage(phrase);
+		} else {
+			me.sendMessage(me.type~" missed "~me.callsign~": "~reason);
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
 		me.animate_explosion();
 		me.Tgt = nil;
+	},
+
+	sendMessage: func (str) {
+		if (getprop("payload/armament/msg")) {
+			setprop("/sim/multiplay/chat", armament.defeatSpamFilter(str));
+		} else {
+			setprop("/sim/messages/atc", str);
+		}
 	},
 
 	interpolate: func (start, end, fraction) {
