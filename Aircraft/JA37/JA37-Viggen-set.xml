@@ -1330,10 +1330,10 @@
                     <FCS-field-deg type="int">27</FCS-field-deg>                              <!-- source -->
                     <seeker-field-deg type="int">134</seeker-field-deg>                 <!-- source -->
                     <max-g type="int">32</max-g>                                  <!-- source -->
-                    <thrust-lbf-stage-1 type="double">3821.75</thrust-lbf-stage-1><!-- guess -->
+                    <thrust-lbf-stage-1 type="double">2660</thrust-lbf-stage-1><!-- authentic -->
                     <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>    <!-- authentic -->
-                    <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
-                    <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9L/rb-74 -->
+                    <stage-1-duration-sec type="double">5.23</stage-1-duration-sec><!-- authentic -->
+                    <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- authentic -->
                     <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- authentic -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
                     <drag-coeff type="double">0.5</drag-coeff>                   <!-- guesstimate -->
@@ -1341,7 +1341,7 @@
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  <!-- guess -->
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- guess -->
-                    <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- guess -->
+                    <self-destruct-time-sec type="double">50</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
@@ -1351,30 +1351,29 @@
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
-                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) mach 4 -->
+                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) mach 2.9 -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
-                    <guidance type="string">semi-radar</guidance>                     <!-- heat, radar or semi-radar -->
+                    <guidance type="string">semi-radar</guidance>           <!-- heat, radar or semi-radar -->
                     <all-aspect type="bool">true</all-aspect>                         <!-- all or rear-only -->
-                    <max-fire-range-nm type="double">24.3</max-fire-range-nm>   <!-- Skyflash range is 24.3nm -->
-                    <FCS-field-deg type="int">25</FCS-field-deg>                                  <!-- seeker optical FOV -->
-                    <seeker-field-deg type="int">110</seeker-field-deg>                     <!-- Seeker max total angular rotation -->
+                    <max-fire-range-nm type="double">22.0</max-fire-range-nm><!-- Skyflash range is 24.3nm -->
+                    <FCS-field-deg type="int">25</FCS-field-deg>               
+                    <seeker-field-deg type="int">110</seeker-field-deg>    
                     <max-g type="int">30</max-g>                                      <!-- guess -->
-                    <thrust-lbf-stage-1 type="double">20000</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">2500</thrust-lbf-stage-2>
-                    <stage-1-duration-sec type="double">2.7</stage-1-duration-sec>    <!-- source -->
-                    <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>     <!-- guess -->
-                    <weight-launch-lbs type="double">425</weight-launch-lbs>
+                    <thrust-lbf-stage-1 type="double">5750</thrust-lbf-stage-1><!-- authentic -->
+                    <thrust-lbf-stage-2 type="double">1018</thrust-lbf-stage-2><!-- authentic -->
+                    <stage-1-duration-sec type="double">4.5</stage-1-duration-sec> <!-- authentic -->
+                    <stage-2-duration-sec type="double">11</stage-2-duration-sec>  <!-- authentic -->
+                    <weight-launch-lbs type="double">510</weight-launch-lbs>       <!-- Skyflash is 425-->
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>
-                    <drag-coeff type="double">0.5</drag-coeff>
+                    <drag-coeff type="double">0.6</drag-coeff>
                     <drag-area type="double">0.3382</drag-area><!-- sq ft (0.3281 ft radius) authentic -->
                     <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
-                    <arming-time-sec type="double">2.0</arming-time-sec>                       <!-- guess -->
+                    <arming-time-sec type="double">2.5</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">35</self-destruct-time-sec>         <!-- guess -->
-                    <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-                    <loft-altitude>36000</loft-altitude><!-- in stage 1 it will attempt to climb to this altitude -->
+                    <self-destruct-time-sec type="double">75</self-destruct-time-sec>         <!-- guess -->
+                    <loft-altitude>36000</loft-altitude><!-- in stage 1 it want to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
@@ -1402,7 +1401,6 @@
                     <arming-time-sec type="double">1.6</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
                     <self-destruct-time-sec type="double">90</self-destruct-time-sec>         <!-- guess -->
-                    <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
                     <loft-altitude>36000</loft-altitude><!-- it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
@@ -1432,8 +1430,7 @@
                     <searcher-beam-width type="double">2.0</searcher-beam-width>  
                     <arming-time-sec type="double">1.4</arming-time-sec>          
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
-                    <self-destruct-time-sec type="double">1500</self-destruct-time-sec>         
-                    <seeker-angular-speed-dps type="double">50</seeker-angular-speed-dps>
+                    <self-destruct-time-sec type="double">1500</self-destruct-time-sec>  
                     <loft-altitude>100</loft-altitude>
                     <min-fire-range-nm type="double">0.5</min-fire-range-nm>
                     <rail type="bool">false</rail>

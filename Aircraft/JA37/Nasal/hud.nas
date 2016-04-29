@@ -2051,8 +2051,8 @@ var HUDnasal = {
       if (radar_logic.selection != nil) {
         var line = (200/1024)*canvasWidth;
         var armSelect = me.input.station.getValue();
-        var minDist = nil;
-        var maxDist = nil;
+        var minDist = nil;# meters
+        var maxDist = nil;# meters
         var currDist = radar_logic.selection.get_range()*NM2M;
         if(armSelect == 0) {
           # cannon
@@ -2069,9 +2069,9 @@ var HUDnasal = {
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 71") {
           # skyflash
           minDist =   350;
-          maxDist = 45003.6;
+          maxDist = 40744;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 99") {
-          # skyflash
+          # amraam
           minDist =   400;
           maxDist = 71857.6;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "RB 15F") {
@@ -2083,7 +2083,7 @@ var HUDnasal = {
           minDist =   200;
           maxDist =  2000;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "TEST") {
-          # Rocket pod
+          # test
           minDist =     0;
           maxDist =180000;
         }

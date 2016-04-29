@@ -213,6 +213,10 @@ var AIM = {
 		m.rail_pos = 0;
 		m.rail_speed_into_wind = 0;
 
+		# stats
+		m.maxMach     = 0;
+		m.energyBleedKt = 0;
+
 		m.lastFlare = 0;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
@@ -323,9 +327,9 @@ var AIM = {
 			var alpha = getprop("orientation/alpha-deg");
 			var beta = getprop("orientation/side-slip-deg");# positive is air from right
 
-			var alpha_diff = alpha * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) + beta * math.sin(ac_roll*D2R);
-			#alpha_diff = alpha > 0?alpha_diff:0;# not using alpha if its negative to avoid missile flying through aircraft.
-			#ac_pitch = ac_pitch - alpha_diff;
+			var alpha_diff = alpha * math.cos(ac_roll*D2R) + beta * math.sin(ac_roll*D2R);
+			alpha_diff = alpha > 0?alpha_diff:0;# not using alpha if its negative to avoid missile flying through aircraft.
+			ac_pitch = ac_pitch - alpha_diff;
 			
 			var beta_diff = beta * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) - alpha * math.sin(ac_roll*D2R);
 			#ac_hdg = ac_hdg + beta_diff;
@@ -375,6 +379,8 @@ var AIM = {
 		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
+
+		printf("Launch %s at %.1f Mach, %5d ft.", me.type, getprop("velocities/mach"), getprop("position/altitude-ft"));
 
 		me.flight();
 		loadNode.remove();
@@ -472,26 +478,28 @@ var AIM = {
         var speedLoss = speedLoss0 + ((altitude-0)/(32800-0))*(speedLoss32800-speedLoss0);
         #
         # For good measure the result is clamped to below zero.
-        return me.clamp(speedLoss, -100000, 0);
+        speedLoss = me.clamp(speedLoss, -100000, 0);
+        me.energyBleedKt += speedLoss * FPS2KT;
+        return speedLoss;
     },
 
 	bleed32800at0g: func () {
-		var loss_fps = 0 + ((me.dt - 0)/(15 - 0))*(-330 - 0);
+		var loss_fps = 0 + ((me.last_dt - 0)/(15 - 0))*(-330 - 0);
 		return loss_fps*M2FT;
 	},
 
 	bleed32800at25g: func () {
-		var loss_fps = 0 + ((me.dt - 0)/(3.5 - 0))*(-240 - 0);
+		var loss_fps = 0 + ((me.last_dt - 0)/(3.5 - 0))*(-240 - 0);
 		return loss_fps*M2FT;
 	},
 
 	bleed0at0g: func () {
-		var loss_fps = 0 + ((me.dt - 0)/(22 - 0))*(-950 - 0);
+		var loss_fps = 0 + ((me.last_dt - 0)/(22 - 0))*(-950 - 0);
 		return loss_fps*M2FT;
 	},
 
 	bleed0at25g: func () {
-		var loss_fps = 0 + ((me.dt - 0)/(7 - 0))*(-750 - 0);
+		var loss_fps = 0 + ((me.last_dt - 0)/(7 - 0))*(-750 - 0);
 		return loss_fps*M2FT;
 	},
 
@@ -589,6 +597,10 @@ var AIM = {
 
 		me.speed_m = me.old_speed_fps / sound_fps;
 
+		if (me.speed_m > me.maxMach) {
+			me.maxMach = me.speed_m;
+		}
+
 		var Cd = me.drag(me.speed_m);
 
 		var speed_change_fps = me.speedChange(thrust_lbf, rho, Cd);
@@ -596,7 +608,7 @@ var AIM = {
 #var ns = speed_change_fps + me.old_speed_fps;
 
 		if (me.last_dt != 0) {
-			speed_change_fps = speed_change_fps + me.energyBleed(me.g, me.altN.getValue() + me.density_alt_diff,me.last_dt);
+			speed_change_fps = speed_change_fps + me.energyBleed(me.g, me.altN.getValue() + me.density_alt_diff);
 		}
 
 #var nsb = speed_change_fps + me.old_speed_fps;
@@ -606,7 +618,7 @@ var AIM = {
 		var grav_bomb = FALSE;
 		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
 			# for now gravity bombs cannot be guided.
-			grav_bomb == TRUE;
+			grav_bomb = TRUE;
 		}
 
 		# Get target position.
@@ -671,8 +683,10 @@ var AIM = {
 		
 		# The missile just falls due to gravity, it doesn't pitch
 		# a real missile would pitch ofc. but then have to calc how fuel affects CoG and its inertia/momentum
-				
-		me.alt_ft = me.alt_ft - ((me.speed_down_fps + g_fps * me.dt * !grav_bomb) * me.dt);
+
+		me.alt_ft = me.alt_ft - ((me.speed_down_fps + g_fps * me.dt * (!grav_bomb)) * me.dt);
+
+		#printf("down_s=%.1f grav=%.1f", me.speed_down_fps*me.dt, g_fps * me.dt * !grav_bomb * me.dt);
 
 		if (me.rail == FALSE or me.rail_passed == TRUE) {
 			# misssile not on rail, lets move it to next waypoint
@@ -736,6 +750,7 @@ var AIM = {
 			var exploded = me.poximity_detection();
 			
 			if (exploded == TRUE) {
+				printf("%s max speed was %.1f Mach, bleed %4d kt.", me.type, me.maxMach, me.energyBleedKt);
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = sound_fps;
 				me.sndDistance = 0;
@@ -946,7 +961,7 @@ var AIM = {
 	},
 
 	canSeekerKeepUp: func () {
-		if (me.last_deviation_e != nil) {
+		if (me.last_deviation_e != nil and me.guidance == "heat") {
 			# calculate if the seeker can keep up with the angular change of the target
 			#
 			# missile own movement is subtracted from this change due to seeker being on gyroscope
