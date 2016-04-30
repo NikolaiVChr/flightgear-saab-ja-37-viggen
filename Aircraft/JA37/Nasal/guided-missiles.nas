@@ -379,6 +379,15 @@ var AIM = {
 			me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - me.ac.alt()*M2FT;
 		}
 
+		if (me.loft_alt > 10000) {
+			#
+			# adjust the snap-up altitude to initial distance of target.
+			#
+			var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
+			me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*1000;
+			me.loft_alt = me.clamp(me.loft_alt, 10000, 200000);
+		}
+
 		me.SwSoundVol.setDoubleValue(0);
 		me.trackWeak = 1;
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);

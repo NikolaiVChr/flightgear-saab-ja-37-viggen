@@ -1363,7 +1363,7 @@
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">semi-radar</guidance>           <!-- heat, radar or semi-radar -->
                     <all-aspect type="bool">true</all-aspect>                         <!-- all or rear-only -->
-                    <max-fire-range-nm type="double">22.0</max-fire-range-nm><!-- Skyflash range is 24.3nm -->
+                    <max-fire-range-nm type="double">24.3</max-fire-range-nm><!-- Skyflash range is 24.3nm -->
                     <FCS-field-deg type="int">25</FCS-field-deg>               
                     <seeker-field-deg type="int">110</seeker-field-deg>    
                     <max-g type="int">30</max-g>                                      <!-- guess -->
