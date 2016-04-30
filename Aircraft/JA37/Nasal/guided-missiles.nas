@@ -59,6 +59,8 @@ var AIM = {
 		m.type_lc = string.lc(type);
 		m.type = type;
 
+		m.deleted = FALSE;
+
 		m.status            = MISSILE_STANDBY; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 		m.trackWeak         = 1;
@@ -221,7 +223,7 @@ var AIM = {
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
 		m.SwSoundVol.setDoubleValue(m.vol_search);
-		me.trackWeak = 1;
+		#me.trackWeak = 1;
 
 		return AIM.active[m.ID] = m;
 	},
@@ -235,6 +237,8 @@ var AIM = {
 		} else {
 			delete(AIM.active, me.ID);
 		}
+		me.SwSoundVol.setDoubleValue(0);
+		me.deleted = TRUE;
 	},
 
 	getGPS: func(x, y, z) {
@@ -1318,8 +1322,10 @@ var AIM = {
 			me.SwSoundOnOff.setBoolValue(FALSE);
 			me.trackWeak = 1;
 			return;
-		} elsif ( me.status > MISSILE_SEARCH ) {
+		} elsif ( me.status > MISSILE_SEARCH) {
 			# Locked or fired.
+			return;
+		} elsif (me.deleted == TRUE) {
 			return;
 		}
 		#print("search");
@@ -1392,6 +1398,8 @@ var AIM = {
 			#print("invalid");
 			me.return_to_search();
 			return TRUE;
+		} elsif (me.deleted == TRUE) {
+			return;
 		}
 		#print("lock");
 		# Time interval since lock time or last track loop.
