@@ -19,8 +19,6 @@ var OurRoll        = props.globals.getNode("orientation/roll-deg");
 var OurPitch       = props.globals.getNode("orientation/pitch-deg");
 var HudReticleDev  = props.globals.getNode("payload/armament/hud/reticle-total-deviation", 1);#polar coords
 var HudReticleDeg  = props.globals.getNode("payload/armament/hud/reticle-total-angle", 1);
-var vol_weak_track = 0.10;
-var vol_track      = 0.15;
 var update_loop_time = 0.000;
 
 var SIM_TIME = 0;
@@ -98,6 +96,8 @@ var AIM = {
 		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");
 		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");
+		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");
+		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");
 		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");
         m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");
@@ -1349,7 +1349,7 @@ var AIM = {
 					#print("search4");
 					me.status = MISSILE_LOCK;
 					me.SwSoundOnOff.setBoolValue(TRUE);
-					me.SwSoundVol.setDoubleValue(vol_weak_track);
+					me.SwSoundVol.setDoubleValue(me.vol_track_weak);
 					me.trackWeak = 1;
 					me.Tgt = tgt;
 
@@ -1437,11 +1437,11 @@ var AIM = {
 			if (time - me.update_track_time > 1 and dist != nil and dist > (me.min_dist * NM2M)) {
 				# after 1 second we get solid track if target is further than minimum distance.
 				me.SwSoundOnOff.setBoolValue(TRUE);
-				me.SwSoundVol.setDoubleValue(vol_track);
+				me.SwSoundVol.setDoubleValue(me.vol_track);
 				me.trackWeak = 0;
 			} else {
 				me.SwSoundOnOff.setBoolValue(TRUE);
-				me.SwSoundVol.setDoubleValue(vol_weak_track);
+				me.SwSoundVol.setDoubleValue(me.vol_track_weak);
 				me.trackWeak = 1;
 			}
 			if (contact == nil or (contact.getUnique() != nil and me.Tgt.getUnique() != nil and contact.getUnique() != me.Tgt.getUnique())) {

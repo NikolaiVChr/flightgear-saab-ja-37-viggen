@@ -2211,3 +2211,4 @@ Sim: Now only heat seeking missiles has an angle speed limit.
 Sim: Dropped missiles now is pitched into wind.
 Sim: Fixed that energy bleed due to g load was using current delta time.
 Sim: Deleted missiles should now no longer be able to search or lock.
+Sound: Made the missile track sound configurable per type.
