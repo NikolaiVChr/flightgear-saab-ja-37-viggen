@@ -2212,3 +2212,4 @@ Sim: Dropped missiles now is pitched into wind.
 Sim: Fixed that energy bleed due to g load was using current delta time.
 Sim: Deleted missiles should now no longer be able to search or lock.
 Sound: Made the missile track sound configurable per type.
+Aero: Fixed that the airplane would wobble on the runway when steering at speed.
