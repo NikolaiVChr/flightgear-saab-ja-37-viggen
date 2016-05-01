@@ -716,6 +716,7 @@ var AIM = {
 
 		# performance logging:
 		#
+		#var q = 0.5 * rho * me.old_speed_fps * me.old_speed_fps;
 		#setprop("logging/missile/dist-m", me.ac_init.distance_to(me.coord));
 		#setprop("logging/missile/alt-m", me.alt_ft * FT2M);
 		#setprop("logging/missile/speed-m", me.speed_m*1000);
