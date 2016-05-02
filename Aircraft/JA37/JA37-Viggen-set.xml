@@ -1397,10 +1397,10 @@
                     <FCS-field-deg type="int">30</FCS-field-deg>
                     <seeker-field-deg type="int">135</seeker-field-deg>
                     <max-g type="int">30</max-g>
-                    <thrust-lbf-stage-1 type="double">9000</thrust-lbf-stage-1><!-- guess -->
+                    <thrust-lbf-stage-1 type="double">4500</thrust-lbf-stage-1><!-- guess -->
                     <thrust-lbf-stage-2 type="double">1500</thrust-lbf-stage-2>    <!-- guess -->
-                    <stage-1-duration-sec type="double">4.0</stage-1-duration-sec><!-- guess -->
-                    <stage-2-duration-sec type="double">20.0</stage-2-duration-sec><!-- guess -->
+                    <stage-1-duration-sec type="double">8.0</stage-1-duration-sec><!-- guess -->
+                    <stage-2-duration-sec type="double">16.0</stage-2-duration-sec><!-- guess -->
                     <weight-launch-lbs>291</weight-launch-lbs>
                     <weight-warhead-lbs>44</weight-warhead-lbs>
                     <drag-coeff type="double">0.5</drag-coeff>
@@ -1868,7 +1868,7 @@
            <entry>
             <enabled>true</enabled>
             <title>Distance</title>
-            <property>logging/missile/dist-m</property>
+            <property>logging/missile/dist-nm</property>
            </entry>
            <entry>
             <enabled>true</enabled>

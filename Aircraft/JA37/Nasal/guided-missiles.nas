@@ -384,7 +384,7 @@ var AIM = {
 			# adjust the snap-up altitude to initial distance of target.
 			#
 			var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
-			me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*1000;
+			me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500;
 			me.loft_alt = me.clamp(me.loft_alt, 10000, 200000);
 		}
 
@@ -393,7 +393,7 @@ var AIM = {
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
 
-		printf("Launch %s at %.1f Mach, %5d ft.", me.type, getprop("velocities/mach"), getprop("position/altitude-ft"));
+		printf("Launch %s at %s, %.1f Mach, %5d ft.", me.type, me.callsign, getprop("velocities/mach"), getprop("position/altitude-ft"));
 
 		me.flight();
 		loadNode.remove();
@@ -717,7 +717,7 @@ var AIM = {
 		# performance logging:
 		#
 		#var q = 0.5 * rho * me.old_speed_fps * me.old_speed_fps;
-		#setprop("logging/missile/dist-m", me.ac_init.distance_to(me.coord));
+		#setprop("logging/missile/dist-nm", me.ac_init.distance_to(me.coord)*M2NM);
 		#setprop("logging/missile/alt-m", me.alt_ft * FT2M);
 		#setprop("logging/missile/speed-m", me.speed_m*1000);
 		#setprop("logging/missile/drag-lbf", Cd * q * me.eda);
@@ -1103,7 +1103,7 @@ var AIM = {
 				me.dive_token = TRUE;
 				#print("Is last turn, APN takes it from here..")
 			}
-		} elsif (me.t_elev_deg < 0 and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time
+		} elsif (me.t_elev_deg < 0 #and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time
 		         and me.dist_curr * M2NM > cruise_minimum) {
 			# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
 

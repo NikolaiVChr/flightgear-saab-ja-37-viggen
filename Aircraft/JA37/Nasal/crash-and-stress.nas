@@ -6,7 +6,7 @@
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.16
+# Version 0.17
 #
 # License:
 #   GPL 2.0
@@ -474,7 +474,7 @@ var fdmProperties = {
 		}
 	},
 	fps2kt: func (fps) {
-		return fps * 0.5924838;
+		return fps * FPS2KT;
 	},
 	getSpeedRelGround: func () {
 		return 0;
