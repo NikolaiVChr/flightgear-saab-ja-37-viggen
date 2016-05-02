@@ -2214,3 +2214,5 @@ Sim: Deleted missiles should now no longer be able to search or lock.
 Sound: Made the missile track sound configurable per type.
 Aero: Fixed that the airplane would wobble on the runway when steering at speed.
 Sim: Missiles that snap-up now determine the altitude based of distance to target.
+Model: Fixed that UV mapping of inlet fans were intersecting with drop-tank.
+Model: Cleared parent of most objects, in hope to gain performance when switching livery.
