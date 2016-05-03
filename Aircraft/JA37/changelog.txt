@@ -2216,3 +2216,5 @@ Aero: Fixed that the airplane would wobble on the runway when steering at speed.
 Sim: Missiles that snap-up now determine the altitude based of distance to target.
 Model: Fixed that UV mapping of inlet fans were intersecting with drop-tank.
 Model: Cleared parent of most objects, in hope to gain performance when switching livery.
+GUI: Performance monitor now shows miles left on current fuel consumption.
+GUI: Performance monitor now shows fuel consumption in NM/LB.

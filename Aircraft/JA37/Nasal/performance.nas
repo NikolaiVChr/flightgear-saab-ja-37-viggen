@@ -120,7 +120,7 @@ MonitorBase.properties = func() { return []; }
 
 #
 # Fuel Efficiency Monitor
-# Shows nm/gal, estimate remaining range, remaining flight time, and total range
+# Shows nm/lbm, estimate remaining range, remaining flight time, and total range
 #
 var FuelEfficiency = {};
 FuelEfficiency.new = func(interval) {
@@ -146,8 +146,8 @@ FuelEfficiency.new = func(interval) {
 #
 FuelEfficiency.properties = func() {
   return [
-    { property : "efficiency", name : "Fuel Efficiency",       format : "%1.4f", unit : "nm/gal", halign : "right" },
-   # { property : "range",      name : "Estinate Remain Dist.", format : "%05d",  unit : "nm",     halign : "right" },
+    { property : "efficiency", name : "Fuel Efficiency",       format : "%1.4f", unit : "nm/lb",  halign : "right" },
+    { property : "range",      name : "Fuel range left",       format : "%4d",   unit : "nm",     halign : "right" },
    # { property : "time",       name : "Estimate Remain Time",  format : "%8s",   unit : "time",   halign : "right" },
    # { property : "total-range",name : "Estimate Cruise Range", format : "%05d",  unit : "nm",     halign : "right" },
   ];
@@ -164,7 +164,7 @@ FuelEfficiency.reinit = func()
 FuelEfficiency.update = func {
   me.updateFuelEfficiency();
   me.calcTotalFuel();
-  #me.estimateCruiseRange();
+  me.estimateCruiseRange();
   #me.estimateCruiseTime();
   #me.estimateTotalRange();
 }
@@ -191,18 +191,18 @@ FuelEfficiency.updateFuelEfficiency = func {
 }
 
 #
-# getFuelFlow : calculates fuel flow in gph
+# getFuelFlow : calculates fuel flow in pph
 # This method is usable for both JSBSim and Yasim
 #
 FuelEfficiency.getFuelFlow = func(engine) {
   var flowNode = engine.getNode("fuel-flow-gph");
   var flow = 0;
   if (flowNode != nil)
-    flow = flowNode.getValue();
+    flow = flowNode.getValue()*6.48;#JP-4
   if (flow == 0 or flowNode == nil) {
     flowNode = engine.getNode("fuel-flow_pph");
     if (flowNode != nil)
-      flow = flowNode.getValue() / 5.92;
+      flow = flowNode.getValue();
     else
       flow = 0;
   }
@@ -210,7 +210,7 @@ FuelEfficiency.getFuelFlow = func(engine) {
 }
 
 #
-# calcTotalFuel : calculate total fuel (us-gal)
+# calcTotalFuel : calculate total fuel (lbm)
 #
 FuelEfficiency.calcTotalFuel = func {
   var totalFuel = 0;
@@ -220,10 +220,10 @@ FuelEfficiency.calcTotalFuel = func {
       fuelLevelNode = tank.getNode("level-lbs");
     }
     if (fuelLevelNode != nil) {
-      totalFuel += fuelLevelNode.getValue() / 5.92;
+      totalFuel += fuelLevelNode.getValue();
     }
   }
-  setprop("/sim/gui/dialogs/performance-monitor/fuel-gal", totalFuel);
+  setprop("/sim/gui/dialogs/performance-monitor/fuel-lbm", totalFuel);
   me.totalFuel = totalFuel;
 }
 
