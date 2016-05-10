@@ -2225,3 +2225,4 @@ Model: Removed alpha channel in many textures.
 3.110
 =====
 Model: {Spectre} Added livery F21-48 Lonely Wolf, Finnish export livery.
+Model: {Spectre} Added the F4-12 Black Knight livery.
