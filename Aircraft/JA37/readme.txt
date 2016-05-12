@@ -4,7 +4,7 @@ Readme for the JA-37 Viggen aircraft for the Flightgear simulator:
 
 Install
 ----------
-1 - Have flightgear installed. Version 2.8.0.2 to 3.6.0 is tested. Earlier version will not work, later might.
+1 - Have flightgear installed. Version 2.8.0.2 to 2016.2 is tested. Earlier version will not work, later might.
 2 - Copy the entire 'JA37' folder into a folder (must be called Aircraft) where Flightgear will look for aircraft.
 3 - Happy flying. Check the aircraft help page inside the sim for instructions.
 
@@ -16,7 +16,6 @@ Particles: On (Used for various stuff)
 Advanced weather: Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
 Model-shader: top setting
 Cockpit view options: Enable dynamic cockpit view. Enable redout/blackout.
-View LOD: AI/MP LOD at 0. (otherwise certain effects wont be visible.)
 
 
 Compatibility with Flightgear 2.8
@@ -51,6 +50,4 @@ Contact Necolatis on the forums to get in contact, got plenty of cockpit picture
 Liberties taken:
 ----------------
 In the orig plane the HUD decimal delimiter is ','. I choose to use the english '.' instead.
-The Radar is able to look through hills and mountains, and the missiles is also able to fly through those.
-The air-to-air RB-24J missiles is also able to hit ground targets, as no air-to-ground misslies can be mounted at the moment.
 The plane has undocumented un-autenthic feature: Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
