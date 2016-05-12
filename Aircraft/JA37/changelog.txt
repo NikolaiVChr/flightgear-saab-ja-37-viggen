@@ -2229,3 +2229,4 @@ Model: {Spectre} Added the F4-12 Black Knight livery.
 Model: Attached drop-tank to fuselage.
 Effect: Fixed that the shinyness map was not updated to Fireflys new drop-tank UV, which gave strange effect.
 Model: Made drop-tank same color as underbelly of plane.
+GUI: Added splash screen for Black Knight livery.

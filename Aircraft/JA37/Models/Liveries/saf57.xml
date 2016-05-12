@@ -4,7 +4,7 @@
  <sim>
   <model>
    <livery>
-    <name type="string">Swedish Air Force 57 Red</name>
+    <name type="string">Swedish Air Force 57 Red Ghost</name>
     <texture>Liveries/SAF57/saf57.png</texture>
     <owner type="string">SAF</owner>
    </livery>
