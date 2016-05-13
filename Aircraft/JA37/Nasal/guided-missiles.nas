@@ -106,7 +106,7 @@ var AIM = {
         m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
-		m.dt_last           = 0;
+		m.elapsed_last           = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
 		# (M. Franz, see Nasal/tanker.nas)
@@ -172,7 +172,7 @@ var AIM = {
 		m.paused             = 0;
 		m.old_speed_fps	     = 0;
 		m.dt                 = 0;
-		m.g = 0;		
+		m.g                  = 0;
 
 		# navigation and guidance
 		m.last_deviation_e       = nil;
@@ -202,7 +202,7 @@ var AIM = {
 		m.track_signal_e         = 0;
 		m.track_signal_h         = 0;
 
-		# cruise missiles
+		# cruise-missiles
 		m.nextGroundElevation = 0; # next Ground Elevation
 		m.nextGroundElevationMem = [-10000, -1];
 
@@ -536,12 +536,12 @@ var AIM = {
 		if (me.paused == 1) {
 			# sim has been unpaused lets make sure dt becomes very small to let elapsed time catch up.
 			me.paused = 0;
-			me.dt_last = elapsed-0.02;
+			me.elapsed_last = elapsed-0.02;
 		}
 		var init_launch = 0;
-		if (me.dt_last != 0) {
+		if (me.elapsed_last != 0) {
 			#if (getprop("sim/speed-up") == 1) {
-				me.dt = (elapsed - me.dt_last)*getprop("sim/speed-up");
+				me.dt = (elapsed - me.elapsed_last)*getprop("sim/speed-up");
 			#} else {
 			#	dt = getprop("sim/time/delta-sec")*getprop("sim/speed-up");
 			#}
@@ -552,7 +552,7 @@ var AIM = {
 				me.dt = 0.00001;
 			}
 		}
-		me.dt_last = elapsed;
+		me.elapsed_last = elapsed;
 
 		
 		me.life_time += me.dt;
@@ -618,15 +618,10 @@ var AIM = {
 
 		var speed_change_fps = me.speedChange(thrust_lbf, rho, Cd);
 		
-#var ns = speed_change_fps + me.old_speed_fps;
 
 		if (me.last_dt != 0) {
 			speed_change_fps = speed_change_fps + me.energyBleed(me.g, me.altN.getValue() + me.density_alt_diff);
 		}
-
-#var nsb = speed_change_fps + me.old_speed_fps;
-#printf("Percent speed due to G bleed %.1f", 100*nsb/ns);
-
 
 		var grav_bomb = FALSE;
 		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
@@ -689,7 +684,7 @@ var AIM = {
 		if (grav_bomb == TRUE) {
 			# true gravity acc
 			me.speed_down_fps += g_fps * me.dt;
-			me.pitch = math.atan2( me.speed_down_fps, speed_horizontal_fps ) * R2D;
+			me.pitch = math.atan2(-me.speed_down_fps, speed_horizontal_fps ) * R2D;
 		}
 
 		# Calculate altitude and elevation velocity vector (no incidence here).
@@ -768,7 +763,7 @@ var AIM = {
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = sound_fps;
 				me.sndDistance = 0;
-				me.dt_last = systime();
+				me.elapsed_last = systime();
 				me.sndPropagate();
 				return;
 			}
@@ -1551,10 +1546,10 @@ var AIM = {
 		}
 		#dt = update_loop_time;
 		var elapsed = systime();
-		if (me.dt_last != 0) {
-			dt = (elapsed - me.dt_last) * getprop("sim/speed-up");
+		if (me.elapsed_last != 0) {
+			dt = (elapsed - me.elapsed_last) * getprop("sim/speed-up");
 		}
-		me.dt_last = elapsed;
+		me.elapsed_last = elapsed;
 
 		me.ac = geo.aircraft_position();
 		var distance = me.coord.direct_distance_to(me.ac);
