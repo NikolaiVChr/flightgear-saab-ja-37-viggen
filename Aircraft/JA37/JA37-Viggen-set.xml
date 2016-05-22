@@ -632,6 +632,7 @@
                 <crash-system type="int">0</crash-system>
                 <ubershader type="bool">false</ubershader>
                 <fuel-temp type="bool">true</fuel-temp>
+                <new-marker type="bool">true</new-marker>
             </supported>
             <failures>
                 <installed type="bool">false</installed>
