@@ -2235,3 +2235,4 @@ Model: Changed name of some liveries.
 3.111
 =====
 Sim: {Pinto} Added keybindings for radio navigation.
+GUI: Added the new keybindings for radio navigation to the help description.
