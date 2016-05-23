@@ -34,6 +34,11 @@ var MISSILE_SEARCH = 0;
 var MISSILE_LOCK = 1;
 var MISSILE_FLYING = 2;
 
+var AIR = 0;
+var MARINE = 1;
+var SURFACE = 2;
+var ORDNANCE = 3;
+
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
 
@@ -43,6 +48,23 @@ var slugs_to_lbs = 32.1740485564;
 #
 var contact = nil;
 #
+# Contact should implement the following interface:
+#
+# get_type()      - (AIR, MARINE, SURFACE or ORDNANCE)
+# getUnique()     - Used when comparing 2 targets to each other and determining if they are the same target.
+# isValid()       - If this target is valid
+# getElevation()
+# get_bearing()
+# get_Callsign()
+# get_range()
+# get_Coord()
+# get_Latitude()
+# get_Longitude()
+# get_altitude()
+# get_Pitch()
+# get_heading()
+# getFlareNode()  - Used for flares.
+# isPainted()     - Tells if this is the target that are being tracked, only used in semi-radar guided missiles.
 
 var AIM = {
 	#done
@@ -89,7 +111,7 @@ var AIM = {
 		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");
 		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");
 		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");
-		m.searcher_beam_width   = getprop("payload/armament/"~m.type_lc~"/searcher-beam-width");
+		#m.searcher_beam_width   = getprop("payload/armament/"~m.type_lc~"/searcher-beam-width");
 		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");
 		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
 		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");
@@ -106,7 +128,7 @@ var AIM = {
         m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
-		m.elapsed_last           = 0;
+		m.elapsed_last          = 0;
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
 		# (M. Franz, see Nasal/tanker.nas)
@@ -1338,9 +1360,9 @@ var AIM = {
 		if (1==1 or contact != me.Tgt) {
 			#print("search2");
 			if (contact != nil and contact.isValid() == TRUE and
-				(  (contact.get_type() == radar_logic.SURFACE and me.class == "A/G")
-                or (contact.get_type() == radar_logic.AIR and me.class == "A/A")
-                or (contact.get_type() == radar_logic.MARINE and me.class == "A/G"))) {
+				(  (contact.get_type() == SURFACE and me.class == "A/G")
+                or (contact.get_type() == AIR and me.class == "A/A")
+                or (contact.get_type() == MARINE and me.class == "A/G"))) {
 				#print("search3");
 				var tgt = contact; # In the radar range and horizontal field.
 				var rng = tgt.get_range();
