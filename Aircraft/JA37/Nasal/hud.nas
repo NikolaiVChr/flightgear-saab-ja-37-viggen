@@ -1589,7 +1589,7 @@ var HUDnasal = {
         desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
         desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
-      } elsif(me.input.RMActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil) {
+      } elsif(me.input.RMActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
         var i = me.input.RMCurrWaypoint.getValue();
         var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
         if(rt_alt != nil and rt_alt > 0) {
