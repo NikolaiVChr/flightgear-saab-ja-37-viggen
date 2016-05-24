@@ -2238,3 +2238,4 @@ Sim: {Pinto} Added keybindings for radio navigation.
 GUI: Added the new keybindings for radio navigation to the help description.
 HUD: Fixed that the routemanager in rare case could crash the HUD.
 Sim: Removed missile over MP capability, due to it breaking the MP packet size.
+HUD: Distancescale will now show distance to waypoint if no DME is available.
