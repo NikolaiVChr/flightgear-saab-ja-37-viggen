@@ -2242,3 +2242,6 @@ HUD: Distancescale will now show distance to waypoint if no DME is available.
 Sim: Made cannon only try to defeat spam filter when MP msg. is on.
 Model: Made Stick indicator go off if any of the control surfaces is damaged.
 GUI: Key 'Q' now resets the view.
+Model: {Pinto} Fixed small irregularity in droptankNoshader, and re-aligned droptank
+Model: {Pinto} Fixed small gap between droptankNoshader and droptank.
+Model: {Pinto} Fixing center pylon to be symmetrical.
