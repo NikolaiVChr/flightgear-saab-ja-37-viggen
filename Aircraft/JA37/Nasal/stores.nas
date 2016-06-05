@@ -462,9 +462,9 @@ var impact_listener = func {
         var distance = impactPos.distance_to(selectionPos);
         if (distance < 50) {
           last_impact = input.elapsed.getValue();
-          var phrase =  defeatSpamFilter(ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection.get_Callsign());
+          var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection.get_Callsign();
           if (getprop("payload/armament/msg")) {
-            setprop("/sim/multiplay/chat", phrase);
+            setprop("/sim/multiplay/chat", defeatSpamFilter(phrase));
 			      #hit_count = hit_count + 1;
           } else {
             setprop("/sim/messages/atc", phrase);
