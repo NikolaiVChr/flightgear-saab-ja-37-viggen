@@ -316,28 +316,26 @@
 
         <fcs_function name="systems/indicators/forward-thrust-primary">
             <function>
-                <or>
-                    <and>
-                        <or>
-                            <eq>
-                                <property>systems/hydraulics/system1/pressure</property>
-                                <value>0</value>
-                            </eq>
-                            <lt>
-                                <property>/systems/electrical/outputs/dc-voltage</property>
-                                <value>23</value>
-                            </lt>
-                            <eq>
-                                <property>/controls/engines/engine/reverse-system/serviceable</property>
-                                <value>0</value>
-                            </eq>
-                        </or>
+                <and>
+                    <or>
                         <eq>
-                            <property>/engines/engine/is-reversed</property>
-                            <value>1</value>
+                            <property>systems/hydraulics/system1/pressure</property>
+                            <value>0</value>
                         </eq>
-                    </and>
-                </or>
+                        <lt>
+                            <property>/systems/electrical/outputs/dc-voltage</property>
+                            <value>23</value>
+                        </lt>
+                        <eq>
+                            <property>/controls/engines/engine/reverse-system/serviceable</property>
+                            <value>0</value>
+                        </eq>
+                    </or>
+                    <eq>
+                        <property>/engines/engine/is-reversed</property>
+                        <value>1</value>
+                    </eq>
+                </and>
             </function>
         </fcs_function>
 
@@ -743,6 +741,8 @@
 
 
 
+
+
     
 
     <channel execrate="4" name="Right indicator panel logic">
@@ -750,6 +750,8 @@
         <!-- Swedish: SPAK (blinking, sound)
 
             This is for the flightstick assist systems, like roll and pitch dampers etc.
+
+            Note: I have added failure to the flight surfaces also to this indicator.
 
         -->
 
@@ -765,6 +767,18 @@
         <fcs_function name="systems/indicators/flightstick-primary">
             <function>
                 <or>
+                    <eq>
+                        <property>fcs/rudder/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>fcs/aileron/serviceable</property>
+                        <value>0</value>
+                    </eq>
+                    <eq>
+                        <property>fcs/elevator/serviceable</property>
+                        <value>0</value>
+                    </eq>
                     <eq>
                         <property>fcs/pitch-damper/serviceable</property>
                         <value>0</value>
