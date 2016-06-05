@@ -914,12 +914,8 @@ reloadAir2Air1979 = func {
   screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
 
   # Reload cannon - 146 of them.
-  #setprop("ai/submodels/submodel[2]/count", 29);
-  setprop("ai/submodels/submodel[3]/count", 146);
-  setprop("ai/submodels/submodel[4]/count", 146);
-  screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
-
-  ja37.ct("rl");
+  reloadGuns();
+  
 }
 
 reloadAir2Air1987 = func {
@@ -943,12 +939,8 @@ reloadAir2Air1987 = func {
   screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
 
   # Reload cannon - 146 of them.
-  #setprop("ai/submodels/submodel[2]/count", 29);
-  setprop("ai/submodels/submodel[3]/count", 146);
-  setprop("ai/submodels/submodel[4]/count", 146);
-  screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
-
-  ja37.ct("rl");
+  reloadGuns();
+  
 }
 
 reloadAir2Air1997 = func {
@@ -972,12 +964,8 @@ reloadAir2Air1997 = func {
   screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
 
   # Reload cannon - 146 of them.
-  #setprop("ai/submodels/submodel[2]/count", 29);
-  setprop("ai/submodels/submodel[3]/count", 146);
-  setprop("ai/submodels/submodel[4]/count", 146);
-  screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
-
-  ja37.ct("rl");
+  reloadGuns();
+  
 }
 
 reloadAir2Ground = func {
@@ -1000,6 +988,12 @@ reloadAir2Ground = func {
   setprop("ai/submodels/submodel[1]/count", 60);
   screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
 
+  # Reload cannon - 146 of them.
+  reloadGuns();
+  
+}
+
+reloadGuns = func {
   # Reload cannon - 146 of them.
   #setprop("ai/submodels/submodel[2]/count", 29);
   setprop("ai/submodels/submodel[3]/count", 146);
