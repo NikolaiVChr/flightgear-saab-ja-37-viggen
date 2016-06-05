@@ -1130,6 +1130,15 @@
                 <script>ja37.click();</script>
             </binding>
          </key>
+
+         <key n="81">
+            <name>Q</name>
+            <desc>Reset view</desc>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.resetView();</script>
+            </binding>
+        </key>
 		
     </keyboard>
 </PropertyList>

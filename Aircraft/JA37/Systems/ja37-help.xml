@@ -133,6 +133,10 @@
         <name>Ctrl Shift a</name>
         <desc>Continue on current heading, speed and altitude with A/P</desc>
     </key>
+    <key>
+        <name>Q</name>
+        <desc>Reset view</desc>
+    </key>
     <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
       <name>L</name>
       <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
