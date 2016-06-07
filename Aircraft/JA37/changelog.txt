@@ -2241,7 +2241,13 @@ Sim: Removed missile over MP capability, due to it breaking the MP packet size.
 HUD: Distancescale will now show distance to waypoint if no DME is available.
 Sim: Made cannon only try to defeat spam filter when MP msg. is on.
 Model: Made Stick indicator go off if any of the control surfaces is damaged.
-GUI: Key 'Q' now resets the view.
+GUI: Key 'Q' now resets the view direction and zoom.
 Model: {Pinto} Fixed small irregularity in droptankNoshader, and re-aligned droptank
 Model: {Pinto} Fixed small gap between droptankNoshader and droptank.
 Model: {Pinto} Fixing center pylon to be symmetrical.
+Model: {Pinto} Modeled the actual bottom airinlet.
+Model: {Pinto} Fixed the center pylon shape and position.
+Model: {Pinto} Modeled the gunpod. (It is detachable in case the model should be reused for a AJ-37)
+Model: {Pinto} Adjusted position of drop-tank to proper attach it to the pylon.
+Sim: The cannon now fires from the new gunpod.
+Model: The glass infront of the radar screen no longer has a texture.

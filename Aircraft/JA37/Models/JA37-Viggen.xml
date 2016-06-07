@@ -3205,6 +3205,8 @@
   <object-name>gearRightHinge</object-name>-->
   <object-name>gearRightDoorsOpen</object-name>
   <object-name>gearRightDoorsClosed</object-name>
+  <object-name>gunpod</object-name>
+  <object-name>bottomAirInlet</object-name>
   <property-base>sim/model/livery</property-base>
   <texture-prop>texture</texture-prop>
   <texture>Aircraft/JA37/Models/j37_texture.png</texture>
