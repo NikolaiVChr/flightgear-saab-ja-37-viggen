@@ -56,7 +56,7 @@
         <count>-1</count>
         <x-offset>  -1.05893</x-offset>
         <y-offset>  -0.20322</y-offset>
-        <z-offset> - 0.91246</z-offset>
+        <z-offset> -0.91246</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>2.42</life>
         <wind>true</wind>
@@ -80,7 +80,7 @@
         <count>146</count>
         <x-offset>  -1.05893</x-offset>
         <y-offset>  -0.20322</y-offset>
-        <z-offset> - 0.91246</z-offset>
+        <z-offset> -0.91246</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>5.0</life>
         <wind>true</wind>
@@ -108,7 +108,7 @@
         <count>146</count>
         <x-offset>  -1.05893</x-offset>
         <y-offset>  -0.20322</y-offset>
-        <z-offset> - 0.91246</z-offset>
+        <z-offset> -0.91246</z-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <eda>10</eda>
