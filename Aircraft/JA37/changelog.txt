@@ -2256,3 +2256,4 @@ Model: {Pinto} Moved the backup pitot tube lower on the vertical tail.
 Model: {Pinto} Updated the UV map for the above mentioned move.
 Model: {Pinto} Optimized main model by 2000 faces.
 Model: {Pinto} Fixed that the front left wheel hub was going outwards.
+Sim: Added Pinto to main authors list.

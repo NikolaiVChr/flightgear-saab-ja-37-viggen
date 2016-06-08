@@ -41,6 +41,7 @@ Missile textures.
 Cannon spam filter defeating.
 Rocket pod modification.
 Misc. cockpit improvements (radio etc..)
+Misc. model improvements.
 
 Forum name: swampthing
 ======================
