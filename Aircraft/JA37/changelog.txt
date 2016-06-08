@@ -2251,3 +2251,8 @@ Model: {Pinto} Modeled the gunpod. (It is detachable in case the model should be
 Model: {Pinto} Adjusted position of drop-tank to proper attach it to the pylon.
 Sim: The cannon now fires from the new gunpod.
 Model: The glass infront of the radar screen no longer has a texture.
+Model: {Pinto} Made the the little JA37 vertical fin on top of outlet.
+Model: {Pinto} Moved the backup pitot tube lower on the vertical tail.
+Model: {Pinto} Updated the UV map for the above mentioned move.
+Model: {Pinto} Optimized main model by 2000 faces.
+Model: {Pinto} Fixed that the front left wheel hub was going outwards.
