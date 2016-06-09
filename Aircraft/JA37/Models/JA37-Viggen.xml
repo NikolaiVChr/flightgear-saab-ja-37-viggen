@@ -218,7 +218,6 @@
     <object-name>gearRightDoorsOpen</object-name>
     <object-name>gearRightDoorsClosed</object-name>
     <object-name>dropTank</object-name>
-    <!--<object-name>dropTankNoshader</object-name> as long as the fins has no thickness ubershader cannot be applied to them --> 
   </effect>
 
   <effect>
@@ -2529,9 +2528,9 @@
     </or>
   </condition>
   <offsets>
-   <x-m>5.95508</x-m>
+   <x-m>6.06013</x-m>
    <y-m>0.0</y-m>
-   <z-m>3.42411</z-m>
+   <z-m>3.56179</z-m>
   </offsets>
  </model>
 
@@ -2711,7 +2710,6 @@
 
 <animation>
   <object-name>dropTank</object-name>
-  <object-name>dropTankNoshader</object-name>
   <type>select</type>
   <condition>
    <equals>
@@ -3174,7 +3172,6 @@
   <type>material</type>
   <object-name>canopy</object-name>
   <object-name>dropTank</object-name>
-  <object-name>dropTankNoshader</object-name>
   <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
   <object-name>elevonRightInner</object-name>

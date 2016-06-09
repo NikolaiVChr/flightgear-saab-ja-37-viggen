@@ -2257,3 +2257,9 @@ Model: {Pinto} Updated the UV map for the above mentioned move.
 Model: {Pinto} Optimized main model by 2000 faces.
 Model: {Pinto} Fixed that the front left wheel hub was going outwards.
 Sim: Added Pinto to main authors list.
+Model: {Pinto} Made many objects including fuselage single-sided geometry.
+Model: {Pinto} Moved bottom beacon and top strobe lights to better positions.
+Model: {Pinto} Fixed fins on droptank to have volume so ubershader can be applied on them.
+Model: {Pinto} Merged droptank into one object.
+Model: {Pinto} Fixed gaps between outer windshield and frame.
+Model: {Pinto} Further optimized faces that are not seen, by deletion.
