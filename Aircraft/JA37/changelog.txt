@@ -2271,3 +2271,17 @@ Engine: Started making engine for AJ37.
 Aero: Changed the fuel capacity relative contents.
 Aero: Moved CoG and Neutral point 15 cm back.
 Aero: Added wave drag to droptank.
+Sim: Renamed performance files.
+Aero: Adjusted wave drag for high altitude.
+Sim: Started refactoring set file into base and specific for variant.
+Sim: Renamed jsbsim main file.
+Model: {Pinto} Better M70 model.
+Engine: Fixed that the AJ engine would not start up.
+Sim: Made shared model file for vaiants.
+Sim: More work in making shared model file.
+Engine: Switched fuel type to F-40.
+AJ37: Engine: Moved collector tank to be on top of CoG.
+GUI: Made splash screen for AJ37.
+GUI: Moved splashcreens into own folder.
+GUI: Changed welcome message on screen and in console to the variant type.
+Aero: Refactored some more JSBSim code.
