@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<external_reactions>
+    <force name="recoil" frame="BODY">
+      <location unit="M">
+        <x>    0.0 </x>
+        <y>    0.0 </y>
+        <z>    1.2 </z>
+      </location>
+      <direction>
+        <x>  -1.0 </x>
+        <y>   0.0 </y>
+        <z>   0.0 </z>
+      </direction>
+    </force>
+
+    <force name="hook" frame="WIND">
+      <location unit="M">
+        <x>    5.16180 </x>
+        <y>    0.00000 </y>
+        <z>   -0.75707 </z>
+      </location>
+      <direction>
+        <x>  -1.0 </x>
+        <y>   0.0 </y>
+        <z>   0.0 </z>
+      </direction>
+    </force>
+
+    <force name="catapult" frame="LOCAL">
+        <location unit="IN">
+            <x>  -30 </x>
+            <y>    0.0 </y>
+            <z>  -39.0 </z>
+        </location>
+        <direction>
+            <x>1</x>
+            <y>0</y>
+            <z>0.08</z>
+        </direction>
+    </force>       
+    
+    <!--Catapult   vertical force when necessary to keep the right position on the catapult rail-->
+    <force name="cat-hold" frame="BODY">
+    <location unit="IN">
+        <x>  -30 </x>
+        <y>    0.0 </y>
+        <z>  -39.0 </z>
+    </location>
+    <direction>
+        <x>0</x>
+        <y>0</y>
+        <z>1 </z>
+    </direction>
+    </force>
+
+    <force name="holdback" frame="BODY">
+    <location unit="IN">
+        <x> 211</x>
+        <y>    0.0 </y>
+        <z>  -39.0 </z>
+    </location>
+    <direction>
+        <x>   -1.0 </x>
+        <y>    0.0 </y>
+        <z>    -0.15 </z>
+    </direction>
+    </force>
+
+    <force name="catapult_free" frame="BODY">
+        <location unit="IN">
+            <x> -30.0 </x>
+            <y>  0.0 </y>
+            <z>  0 </z>
+        </location>
+        <direction>
+            <x> 1</x>
+            <y>  0 </y>
+            <z> 0.35 </z>
+        </direction>
+    </force>
+
+    <force name="holdback_free" frame="BODY">
+        <location unit="IN">
+            <x> 40 </x>
+            <y>  0.0 </y>
+            <z>  -20.0 </z>
+        </location>
+        <direction>
+            <x>   -1.0 </x>
+            <y>    0.0 </y>
+            <z>    0.0 </z>
+        </direction>
+    </force>
+  </external_reactions>

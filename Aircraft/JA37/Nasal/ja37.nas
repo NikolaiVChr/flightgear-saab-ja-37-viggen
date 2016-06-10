@@ -986,7 +986,7 @@ var test_support = func {
 
   print();
   print("***************************************************************");
-  print("**         Initializing Saab JA-37 Viggen systems.           **");
+  print("**         Initializing "~getprop("sim/description")~" systems.           **");
   print("**           Version "~getprop("sim/aircraft-version")~" on Flightgear "~version[0]~"."~version[1]~"."~version[2]~"            **");
   print("***************************************************************");
   print();
@@ -1047,7 +1047,7 @@ var main_init = func {
       input[name] = props.globals.getNode(input[name], 1);
   }
 
-  screen.log.write("Welcome to Saab JA-37 Viggen, version "~getprop("sim/aircraft-version"), 1.0, 0.2, 0.2);
+  screen.log.write("Welcome to "~getprop("sim/description")~", version "~getprop("sim/aircraft-version"), 1.0, 0.2, 0.2);
 
   # init cockpit temperature
   setprop("environment/aircraft-effects/temperature-inside-degC", getprop("environment/temperature-degc"));
