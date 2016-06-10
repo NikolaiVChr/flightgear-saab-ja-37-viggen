@@ -8,9 +8,9 @@
   <atsfc>           2.5 </atsfc>
   <bleed>           0.03</bleed>
   <idlen1>         30.0 </idlen1>
-  <idlen2>         60.0 </idlen2>
+  <idlen2>         57.0 </idlen2>
   <maxn1>         100.0 </maxn1>
-  <maxn2>         100.0 </maxn2>
+  <maxn2>         102.4 </maxn2>
   <augmented>         1 </augmented>
   <augmethod>         0 </augmethod>
   <injected>          0 </injected>
