@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+
+<propulsion>
+  <engine file="RM8A">
+    <location unit="M"><!-- inlet -->
+      <x> -3.4 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+    <orient unit="DEG">
+      <roll> 0.0 </roll>
+      <pitch> 0 </pitch>
+      <yaw> 0 </yaw>
+    </orient>
+    <feed>0</feed>
+    <thruster file="direct">
+      <location unit="M"> <!-- exhaust, not end of reverser system -->
+        <x> 6.0 </x>
+        <y> 0 </y>
+        <z> 0 </z>
+      </location>
+      <orient unit="DEG">
+        <roll> 0.0 </roll>
+        <pitch> 0.0 </pitch>
+        <yaw> 0.0 </yaw>
+      </orient>
+    </thruster>
+  </engine>
+
+    <!--  Liter to KG conversion for JP-4:
+          
+          6.48 LBM/USGallon = 2.9392785576 Kg/1 Gallon = 2.9392785576 Kg/3.785411784 Liter
+          = 0.2641720523581484 * 2.9392785576 Kg / Liter = 0.7764752490134901 Kg/Liter
+    -->
+    <!-- Internal: 4290.02 Kg, External: 1024.95 Kg (AJ37 manual)
+    -->
+    
+  <tank type="FUEL"><!-- fuel type used: JP-4 with density of 6.48 -->
+    <!-- Fuselage Main Tank 1 -->
+    <location unit="M">
+      <x> 1.64878 </x>
+      <y> 0.00 </y>
+      <z> 0.51982 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 1320 </capacity><!-- 1700 Liter --><!-- old: 1500 Kg -->
+    <contents unit="KG"> 1320 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 1 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Fuselage Forward Tank 2 -->
+    <location unit="M">
+      <x> -2.24 </x>
+      <y>  0.00 </y>
+      <z>  0.30 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 916.24 </capacity><!-- 1180 Liter --><!-- old: 750 Kg -->
+    <contents unit="KG"> 916.24 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Left Fuselage Minor Tank 3V -->
+    <location unit="M">
+      <x> -0.50305 </x>
+      <y> -0.7 </y>
+      <z>  0.52599 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 124.24 </capacity><!-- 160 Liter --><!-- old: 250 Kg -->
+    <contents unit="KG"> 124.24 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Right Fuselage Minor Tank 3H -->
+    <location unit="M">
+      <x> -0.50305 </x>
+      <y>  0.7 </y>
+      <z>  0.52599 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 124.24 </capacity><!-- 160 Liter --><!-- old: 250 Kg -->
+    <contents unit="KG"> 124.24 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Left Minor Wing Tank 5V -->
+    <location unit="M">
+      <x>  1.20 </x>
+      <y> -1.66 </y>
+      <z> -0.28 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 87.35 </capacity><!-- 112.5 Liter --><!-- old: 227 Kg -->
+    <contents unit="KG"> 87.35 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Right Minor Wing Tank 5H -->
+    <location unit="M">
+      <x>  1.20 </x>
+      <y>  1.66</y>
+      <z> -0.28 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 87.35 </capacity><!-- 112.5 Liter --><!-- old: 227 Kg -->
+    <contents unit="KG"> 87.35 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Left wing tank 4V -->
+    <location unit="M">
+      <x>  4.50696 </x>
+      <y> -2.39707 </y>
+      <z> -0.30 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 815.3 </capacity><!-- 1050 Liter --><!-- old: 625 Kg -->
+    <contents unit="KG"> 815.3 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Right wing tank 4H -->
+    <location unit="M">
+      <x>  4.50696 </x>
+      <y>  2.39707 </y>
+      <z> -0.30 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 815.3 </capacity><!-- 1050 Liter --><!-- old: 625 Kg -->
+    <contents unit="KG"> 815.3 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Drop tank -->
+    <location unit="M">
+      <x>  0.52406 </x>
+      <y>  0.00 </y>
+      <z> -1.25748 </z>
+    </location>
+    <radius unit="M"> 0.25 </radius>
+    <capacity unit="KG"> 1024.95 </capacity><!-- 1320 Liter --><!-- old: 1190 Kg , Swedish airforce website -->
+    <contents unit="KG"> 0 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>JP-4</type>
+    <priority> 0 </priority>
+  </tank>
+</propulsion>

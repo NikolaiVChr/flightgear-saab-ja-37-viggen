@@ -1,0 +1,63 @@
+
+
+
+================================================
+         Saab AJ-37/AJS-37 Performance numbers
+
+         For research into Flightgear AJ-37
+================================================
+
+
+
+
+
+AJS37 manual
+============
+Mil-thrust at sealvl:  65600 N
+Aug-thrust at sealvl: 115600 N
+wingspan 10.60 m
+length (including pitot tube) 16.30 m
+wingarea (main) 46.00 m^2
+wingarea (canards) 6.70 m^2
+normal start weight 15225 Kg / 33563.17 lbm (exclusiv drop tank and armament)
+Wheelbase 5.7 meter (to boogies middle)
+
+AJ37 Manual
+===========
+6845 Liter fuel (5525 Internal, 1320 in droptank)
+  Tank, content
+  1 1700 - 1320.00kg
+  2 1180 -  916.24kg
+  3  320 -  124.24kg * 2
+  4 2100 -  815.30kg * 2
+  5  225 -   87.35kg * 2
+Same fuel flow capacity to engine as JA37
+Radar range setting: max 120 Km
+
+Air Power Journal, Summer 1993, various issues of FlygvapenNytt and other Swedish air force informational material ()
+=======================================================================
+                  AJ/SH     SF        SK        JA
+Take off run:     400 m     400 m     400 m     400 m
+Landing run:      450 m     450 m     450 m     450 m 
+Landing speed:    220 km/h  220 km/h  220 km/h  220 km/h
+Length:           16.30 m   16.50 m   16.30 m   16.43 m
+Span:             10.6 m    10.6 m    10.6 m    10.6 m
+Height:            5.6 m     5.6 m     5.6 m     5.9 m
+ w folded fin:     4.0 m     4.0 m     4.0 m     4.0 m
+Engine thrust:    6690 kp   6690 kp   6690 kp   7415 kp
+ w afterburner:  11790 kp  11790 kp  11790 kp  13125 kp
+Range:            2000 km   2000 km             2000 km
+   Ferry range would be 2250 km, about 15-16% more with Jet A1 fuel.
+Empty weight:     9500 kg   9500 kg             9500 kg
+Max payload:      3600 kg   2500 kg             1700 kg
+ (excluding external tank)
+Max take off                             
+ weight:         18000 kg  17000 kg            18600 kg
+Max speed                                (at 3600 kg load?)
+ low altitude:  Mach 1.1   Mach 1.1           Mach 1.2
+ high altitude: Mach 2+    Mach 2+            Mach 2+
+Guaranteed speed
+ high altitude: Mach 1.7   Mach 1.7           Mach 1.8
+Time from brake release to 10 km or Mach 1 at low altitude: 100 s
+Max altitude:    18000 km   18000 m            18000 m
+

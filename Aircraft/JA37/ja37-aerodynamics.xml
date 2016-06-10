@@ -865,9 +865,9 @@
             <product>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <!--<property>aero/function/mach-effect-prefactor</property>-->
                 <difference>
                     <product>
+                        <property>aero/function/stores-wave-drag-factor</property>
                         <table>
                             <independentVar lookup="row"> aero/alpha-deg </independentVar>
                             <tableData>

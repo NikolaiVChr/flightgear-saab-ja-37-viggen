@@ -25,7 +25,7 @@ reverse_loop = func () {
       #reverse thrust      
       ja37.popupTip("Thrust: Reverse");
       interpolate(reverserPos.getPath(), 1.0, 1.5);  #reversing takes 1.5s per manual
-      interpolate(jsbEngine.getChild("reverser-angle-rad"), 2.11223, 1.5);# Max 7716.18lbs thrust. So acos(-34323.27876347009N / 66600N).
+      interpolate(jsbEngine.getChild("reverser-angle-rad"), 2.0669551, 1.5);# Max 7716.18lbs thrust. So acos(-34323.27876347009N / 72100N).
     } elsif (command == 0) {
       if (reverserPosValue == 1.0) {
         #forward thrust

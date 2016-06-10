@@ -2263,3 +2263,11 @@ Model: {Pinto} Fixed fins on droptank to have volume so ubershader can be applie
 Model: {Pinto} Merged droptank into one object.
 Model: {Pinto} Fixed gaps between outer windshield and frame.
 Model: {Pinto} Further optimized faces that are not seen, by deletion.
+Engine: Adjusted output.
+Aero: Adjusted wave drag.
+Aero: Began splitting jsbsim files up in preparation for AJ37.
+Sim: Started making performance document for AJ37.
+Engine: Started making engine for AJ37.
+Aero: Changed the fuel capacity relative contents.
+Aero: Moved CoG and Neutral point 15 cm back.
+Aero: Added wave drag to droptank.

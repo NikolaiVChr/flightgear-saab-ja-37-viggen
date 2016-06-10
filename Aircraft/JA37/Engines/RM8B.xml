@@ -3,8 +3,8 @@
 <!-- Volvo RM8B (Modified JT8D-22 with afterburner) -->
 
 <turbine_engine name="Volvo RM8B">
-    <milthrust unit="N"> 66600 </milthrust>    <!-- JA-37Di manual -->
-    <maxthrust unit="N"> 110300 </maxthrust>    <!-- JA-37Di manual -->
+    <milthrust unit="N">  72100 </milthrust>    <!-- JA-37Di manual -->
+    <maxthrust unit="N"> 125000 </maxthrust>    <!-- JA-37Di manual -->
     <bypassratio>     0.97 </bypassratio>    <!-- Turbofan and turbojet engines: database handbook. - JT8D-17A: 1.02. But RM8A is 1.07 and RM8B is 0.97 -->
     <tsfc>            0.63547 </tsfc>    <!-- lbm/hr/lbf from page 5, Australian document and www.globalaircraft.org -->
     <atsfc>           2.5065799568 </atsfc>    <!-- from page 5, Australian document and www.globalaircraft.org -->
@@ -67,7 +67,7 @@
 
     <function name="IdleThrust">        <!-- 3.0 kN - JA-37Di manual -->
         <product>
-            <value>0.92305</value>            <!-- 3000 N / (0.0488 x 66600) -->
+            <value>0.85264</value>            <!-- 3000 N / (0.0488 x 72100) -->
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
@@ -93,7 +93,7 @@
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
                     <!-- Aeromatic++ 3.2.5 - Not calculated using the Stanford Engine Model for RM8B since that will use some undefined cruise thrust, instead of max -->
-                          -10000       0   10000   20000   30000   40000   50000   70000
+                           -10000       0   10000   20000   30000   40000   50000   70000
                       0.0  1.2600  1.0000  0.7400  0.5340  0.3720  0.2410  0.1490  0.0000
                       0.2  1.1460  0.9141  0.6821  0.4952  0.3474  0.2261  0.1399  0.0000
                       0.4  1.1009  0.8817  0.6625  0.4844  0.3418  0.2231  0.1388  0.0000
