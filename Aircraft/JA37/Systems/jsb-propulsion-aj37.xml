@@ -27,7 +27,7 @@
     </thruster>
   </engine>
 
-    <!--  Liter to KG conversion for JP-4:
+    <!--  Liter to KG conversion for F-40:
           
           6.48 LBM/USGallon = 2.9392785576 Kg/1 Gallon = 2.9392785576 Kg/3.785411784 Liter
           = 0.2641720523581484 * 2.9392785576 Kg / Liter = 0.7764752490134901 Kg/Liter
@@ -35,10 +35,10 @@
     <!-- Internal: 4290.02 Kg, External: 1024.95 Kg (AJ37 manual)
     -->
     
-  <tank type="FUEL"><!-- fuel type used: JP-4 with density of 6.48 -->
+  <tank type="FUEL"><!-- fuel type used: F-40 with density of 6.48 -->
     <!-- Fuselage Main Tank 1 -->
     <location unit="M">
-      <x> 1.64878 </x>
+      <x> 1.79878 </x>
       <y> 0.00 </y>
       <z> 0.51982 </z>
     </location>
@@ -47,7 +47,7 @@
     <contents unit="KG"> 1320 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 1 </priority>
   </tank>
   <tank type="FUEL">
@@ -62,7 +62,7 @@
     <contents unit="KG"> 916.24 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -77,7 +77,7 @@
     <contents unit="KG"> 124.24 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -92,7 +92,7 @@
     <contents unit="KG"> 124.24 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -107,7 +107,7 @@
     <contents unit="KG"> 87.35 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -122,7 +122,7 @@
     <contents unit="KG"> 87.35 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -137,7 +137,7 @@
     <contents unit="KG"> 815.3 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -152,7 +152,7 @@
     <contents unit="KG"> 815.3 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
   <tank type="FUEL">
@@ -167,7 +167,7 @@
     <contents unit="KG"> 0 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
-    <type>JP-4</type>
+    <type>F-40</type>
     <priority> 0 </priority>
   </tank>
 </propulsion>
