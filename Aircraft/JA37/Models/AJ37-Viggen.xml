@@ -13,7 +13,7 @@
 		<object-name>aj37upperVerticalStabilizer</object-name>
 	</effect>
 
-	<!-- ====== drop pod ====== -->
+	<!-- ====== drop tank ====== -->
 
 	<animation>
 	  <object-name>aj37dropTank</object-name>

@@ -61,7 +61,7 @@
         </gui>
 
         <model>
-            <path archive="y">Aircraft/JA37/Models/JA37-Viggen.xml</path>
+            <path>Aircraft/JA37/Models/JA37-Viggen.xml</path>
 
             <livery>
                 <!-- Default Livery -->
