@@ -1,4 +1,136 @@
 <?xml version="1.0"?>
 
 <PropertyList include="Viggen-base.xml">
+
+	<path>ja37.ac</path>
+
+	<effect>
+	    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
+	    <object-name>ja37fin</object-name>
+		<object-name>ja37dropTank</object-name>
+		<object-name>ja37upperPitotTube</object-name>
+		<object-name>ja37upperVerticalStabilizer</object-name>
+	</effect>
+
+	<animation>
+	  <object-name>ja37dropTank</object-name>
+	  <type>select</type>
+	  <condition>
+	   <equals>
+	    <property>sim/multiplay/generic/int[16]</property><!-- consumables/fuel/tank[8]/jettisoned -->
+	    <value>0</value>
+	   </equals>
+	  </condition>
+	 </animation>
+
+	 	 <!-- strobe light -->
+
+	 <model>
+	  <name>strobeFlash</name>
+	  <path>Aircraft/JA37/Models/Effects/strobe.xml</path>
+	  <condition>
+	    <or><!-- flash: bit 1 -->
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>1</value>
+	      </equals>
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>3</value>
+	      </equals>
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>5</value>
+	      </equals>            
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>7</value>
+	      </equals>       
+	    </or>
+	  </condition>
+	  <offsets>
+	   <x-m>6.06013</x-m>
+	   <y-m>0.0</y-m>
+	   <z-m>3.56179</z-m>
+	  </offsets>
+	 </model>
+
+	<animation>
+	  <type>material</type>
+	  <object-name>ja37strobe</object-name>
+	  <condition>
+	    <or><!-- flash: bit 1 -->
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>1</value>
+	      </equals>
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>3</value>
+	      </equals>
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>5</value>
+	      </equals>            
+	      <equals>
+	        <property>sim/multiplay/generic/int[9]</property>
+	        <value>7</value>
+	      </equals>       
+	    </or>
+	  </condition>
+	  <emission>
+	   <red>1.0</red>
+	   <green>1.0</green>
+	   <blue>1.0</blue>
+	   <factor-prop>sim/multiplay/generic/int[5]</factor-prop><!-- sim/model/lighting/strobe/state -->
+	  </emission>
+	 </animation>
+
+	<!-- livery selection -->
+
+	<animation>
+		<type>material</type>
+		<object-name>canopy</object-name>
+		<object-name>elevonLeftInner</object-name>
+		<object-name>elevonLeftOuter</object-name>
+		<object-name>elevonRightInner</object-name>
+		<object-name>elevonRightOuter</object-name>
+		<object-name>flaps</object-name>
+		<object-name>fuselage</object-name>
+		<object-name>wingLeft</object-name>
+		<object-name>wingRight</object-name>
+		<object-name>rudder</object-name>
+		<object-name>gearFrontDoorsOpenLeft</object-name>
+		<object-name>gearFrontDoorsOpenRight</object-name>
+		<object-name>gearFrontDoorsClosed</object-name>
+		<object-name>gearLeftDoorsOpen</object-name>
+		<object-name>gearLeftDoorsClosed</object-name>
+		<object-name>gearRightDoorsOpen</object-name>
+		<object-name>gearRightDoorsClosed</object-name>
+		<object-name>gunpod</object-name>
+		<object-name>bottomAirInlet</object-name>
+		<!--<object-name>gearFront</object-name>
+		<object-name>gearFrontHinge</object-name>
+		<object-name>missile</object-name>
+		<object-name>missile1</object-name>
+		<object-name>missile2</object-name>
+		<object-name>missile3</object-name>
+		<object-name>gearLeft</object-name>
+		<object-name>gearLeftHinge</object-name>
+		<object-name>wheelRight1</object-name>
+		<object-name>wheelRight2</object-name>
+		<object-name>wheelLeft1</object-name>
+		<object-name>wheelLeft2</object-name>
+		<object-name>gearRight</object-name>
+		<object-name>gearRightHinge</object-name>-->
+		<object-name>ja37fin</object-name>
+		<object-name>ja37dropTank</object-name>
+		<object-name>ja37upperPitotTube</object-name>
+		<object-name>ja37upperVerticalStabilizer</object-name>
+		<property-base>sim/model/livery</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>Aircraft/JA37/Models/j37_texture.png</texture>
+	</animation>
+
 </PropertyList>

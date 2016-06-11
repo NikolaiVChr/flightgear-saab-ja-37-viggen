@@ -2285,3 +2285,5 @@ GUI: Made splash screen for AJ37.
 GUI: Moved splashcreens into own folder.
 GUI: Changed welcome message on screen and in console to the variant type.
 Aero: Refactored some more JSBSim code.
+Model: {Pinto} Made a AJ37 model.
+Model: Some work to apply livery and animations and loading of model differ on variant.

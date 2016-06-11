@@ -109,7 +109,7 @@ Sim: Find out why cannon and sidewinder fire randomly after instant replay.
 Sim: If HoT (/sim/multiplay/hot) is enabled, geo reports wrong ground elevation at a AI/MP aircraft location.
 Sim: Missiles do not show when using FG 3.0, in FG 3.1+ they work fine. [reproduced]
 Sim: Missiles will not lock on to ferries that is missing the radar properties.
-Sim: Sometimes when exploding, the sim freezes, typically at redout.
+Sim: Sometimes when exploding, the sim freezes, typically at redout. [was bug in jsbsim, fixed in 2016.1]
 Sim: The auto-pilot can be bank unstable when auto-coordination is turned on.
 Sim: When a missile hits the console will now report a wrong distance.
 Sim: When Bombable 4.5 is installed redout and blackout might not work properly. [related to certain Bombable settings I think]
