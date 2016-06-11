@@ -424,6 +424,10 @@ var update_loop = func {
 	    input.rmBearingRel.setDoubleValue(input.rmBearing.getValue() - input.headingMagn.getValue());
       
     }
+
+    if(getprop("sim/description") != "Saab JA-37 Viggen" and getprop("/instrumentation/radar/range") == 180000) {
+      setprop("/instrumentation/radar/range", 120000);
+    }
 	
     settimer(
       #func debug.benchmark("j37 loop", 
