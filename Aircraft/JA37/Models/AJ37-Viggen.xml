@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<PropertyList include="Viggen-base.xml">
+<PropertyList include="Aircraft/JA37/Models/Viggen-base.xml">
 
 	<path>aj37.ac</path>
 
