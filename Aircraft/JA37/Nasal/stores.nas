@@ -815,6 +815,13 @@ var ammoCount = func (station) {
   return ammo;
 }
 
+var selectCannon = func {
+  if(getprop("sim/description") == "Saab JA-37 Viggen") {
+    setprop("controls/armament/station-select", 0);
+    ja37.click();
+  }
+}
+
 var cycle_weapons = func {
   # station 0 = cannon
   # station 1 = inner left wing
@@ -828,10 +835,21 @@ var cycle_weapons = func {
   var type = sel==0?"KCA":getprop("payload/weight["~(sel-1)~"]/selected");
   var newType = "none";
 
+  var loopRan = FALSE;
+
   while(newType == "none") {
     if (type == "none") {
-      sel = 0;
-      newType = "KCA";
+      if(getprop("sim/description") == "Saab JA-37 Viggen") {
+        sel = 0;
+        newType = "KCA";
+      } else {
+        sel = selectType("M70");
+        if (sel != -1) {
+          newType = "M70";
+        } else {
+          type = "M70";
+        }
+      }
     } elsif (type == "KCA") {
       sel = selectType("M70");
       if (sel != -1) {
@@ -882,8 +900,25 @@ var cycle_weapons = func {
         type = "RB 15F";
       }
     } elsif (type == "RB 15F") {
-      sel = 0;
-      newType = "KCA";
+      if(getprop("sim/description") == "Saab JA-37 Viggen") {
+        sel = 0;
+        newType = "KCA";
+      } else {
+        sel = selectType("M70");
+        if (sel != -1) {
+          newType = "M70";
+        } else {
+          if (loopRan == FALSE) {
+            loopRan = TRUE;
+            type = "M70";
+          } else {
+            # we have been here once before, so to prevent infinite loop, we just select station 1
+            sel = 1;
+            type = "none";
+            newType = "empty";
+          }
+        }
+      }
     }
   }
 
@@ -996,9 +1031,11 @@ reloadAir2Ground = func {
 reloadGuns = func {
   # Reload cannon - 146 of them.
   #setprop("ai/submodels/submodel[2]/count", 29);
-  setprop("ai/submodels/submodel[3]/count", 146);
-  setprop("ai/submodels/submodel[4]/count", 146);
-  screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+  if(getprop("sim/description") == "Saab JA-37 Viggen") {
+    setprop("ai/submodels/submodel[3]/count", 146);
+    setprop("ai/submodels/submodel[4]/count", 146);
+    screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
+  }
 
   ja37.ct("rl");
 }

@@ -240,6 +240,13 @@
 
 
 *************************************************************************-->
+
+    <controls>
+        <armament>
+            <station-select type="int">0</station-select>            <!-- cannon selected by default -->
+        </armament>
+    </controls>
+
     <payload>
         <weight n="0">
             <name>Left wing pylon</name>

@@ -730,7 +730,6 @@
     </fdm>
     <controls>
         <armament>
-            <station-select type="int">0</station-select>            <!-- cannon selected by default -->
             <trigger type="bool">false</trigger>
             <station n="1">
                 <offsets>

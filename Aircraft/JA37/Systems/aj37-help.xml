@@ -29,13 +29,13 @@
         <name>e</name>
         <desc>Fire selected weapon</desc>
     </key>
-    <key>
+    <!--<key>
         <name>CTRL-5</name>
         <desc>Select cannon</desc>
-    </key>
+    </key>-->
     <key>
         <name>CTRL-1..4 and CTRL-6..7</name>
-        <desc>Select missiles</desc>
+        <desc>Select pylon</desc>
     </key>
 	<key>
         <name>[ / ]</name>

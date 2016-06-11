@@ -153,13 +153,13 @@
                             <script>armament.reloadAir2Air1997();</script>
                         </binding>
                     </item>
-					<item>
+					<!--<item>
                         <label>Reload guns only</label>
                         <binding>
                             <command>nasal</command>
                             <script>armament.reloadGuns();</script>
                         </binding>
-                    </item>
+                    </item>-->
                     <item>
                         <label>Reload air to ground</label>
                         <binding>
@@ -232,6 +232,13 @@
 
 
 *************************************************************************-->
+
+    <controls>
+        <armament>
+            <station-select type="int">1</station-select>            <!-- cannon selected by default -->
+        </armament>
+    </controls>
+
     <payload>
         <weight n="0">
             <name>Left wing pylon</name>

@@ -202,13 +202,8 @@
             <mod-ctrl>
                 <desc>Select cannon</desc>
                 <binding>
-                    <command>property-assign</command>
-                    <property>controls/armament/station-select</property>
-                    <value>0</value>
-                </binding>
-                <binding>
                     <command>nasal</command>
-                    <script>ja37.click();</script>
+                    <script>armament.selectCannon();</script>
                 </binding>
             </mod-ctrl>
         </key>
