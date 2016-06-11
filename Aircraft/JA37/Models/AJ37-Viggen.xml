@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<PropertyList include="Aircraft/JA37/Models/Viggen-base.xml">
+<PropertyList>
 
 	<path>aj37.ac</path>
 
@@ -134,5 +134,3114 @@
 		<texture-prop>texture</texture-prop>
 		<texture>Aircraft/JA37/Models/j37_texture.png</texture>
 	</animation>
+<!--
+	***********************************************************************************
+	***********************************************************************************
+	*                         Common part between the variants below here             *
+	***********************************************************************************
+	***********************************************************************************
+-->
+
+<!-- include="ja37-bombable.xml">       -->
+
+  <!-- Multiplay sound -->
+  <!--<sound>
+    <path>Aircraft/JA37/Systems/ja37-mp-sound.xml</path>
+  </sound>-->
+
+  <nasal>
+      <load><![CDATA[
+        var self = cmdarg();
+
+        var livery_update = aircraft.livery_update.new("Aircraft/JA37/Models/Liveries");
+
+        var skip = 0;
+        var str = self.getNode("sim/multiplay/generic/string[13]");
+        if (str == nil or str.getValue() == nil) {
+          skip = 1;
+        }
+
+        var objs = {};
+
+        var loop = func () {
+          var mp_str = split(":", str.getValue());
+
+          foreach(var mis; mp_str) {
+            var mis_s = split(";", mis);
+            if (size(mis_s) == 4) {
+              var id = mis_s[0];
+              var objModel = objs[id];
+              if (objModel == nil) {
+                # create model
+                #print("creating "~mis);
+                var n = props.globals.getNode("models", 1);
+                var i = 0;
+                for (i = 0; 1==1; i += 1) {
+                  if (n.getChild("model", i, 0) == nil) {
+                    break;
+                  }
+                }
+                objModel = n.getChild("model", i, 1);
+
+                objModel.getNode("elevation",1).setDoubleValue(0);
+                objModel.getNode("latitude",1).setDoubleValue(0);
+                objModel.getNode("longitude",1).setDoubleValue(0);
+                objModel.getNode("elevation-ft-prop",1).setValue(objModel.getPath()~"/elevation");
+                objModel.getNode("latitude-deg-prop",1).setValue(objModel.getPath()~"/latitude");
+                objModel.getNode("longitude-deg-prop",1).setValue(objModel.getPath()~"/longitude");
+                objModel.getNode("heading-deg",1).setDoubleValue(0);
+                objModel.getNode("pitch-deg",1).setDoubleValue(0);
+                objModel.getNode("roll-deg",1).setDoubleValue(0);
+                objModel.getNode("path",1).setValue("Aircraft/JA37/Models/Armament/Weapons/MP_missile/mp_missile.xml");
+
+                var loadNode = objModel.getNode("load", 1);
+                loadNode.setBoolValue(1);
+
+                objs[id] = objModel;
+                loadNode.remove();
+              }
+            }            
+          }
+
+          foreach(var obj; keys(objs)) {
+            var exist = 0;
+            foreach(var mis; mp_str) {
+              var mis_s = split(";", mis);
+              if (size(mis_s) == 4) {
+                var id = mis_s[0];
+                var objModel = objs[id];
+                if (id != obj) {
+                  continue;
+                }
+                #print("found a missile!");
+                exist = 1;
+                var lat = num(mis_s[1]);
+                var lon = num(mis_s[2]);
+                var alt = num(mis_s[3]);
+
+                var objModel = objs[id];
+                if (objModel == nil) {
+                  print("error: did not find mp missile.");
+                  return;
+                }
+                objModel.getNode("latitude").setDoubleValue(lat);
+                objModel.getNode("longitude").setDoubleValue(lon);
+                objModel.getNode("elevation").setDoubleValue(alt);
+              }
+            }
+            if (exist == 0) {
+              # remove model
+              var objModel = objs[obj];
+              objModel.remove();
+              delete(objs, obj);
+            }
+          }
+          if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
+            return;
+          }
+          settimer(loop, 0.05);
+        }
+
+        if (skip == 0) {
+            loop();
+        }
+
+      ]]>
+      </load>
+
+      
+      <unload><![CDATA[
+        #
+        livery_update.stop();
+      ]]>
+      </unload>
+  </nasal>
+
+
+  <!--        Interior    -->
+  <model>
+    <name>interior</name>
+    <usage>interior</usage>
+    <path>Aircraft/JA37/Models/ja37-interior.xml</path>
+  </model>
+
+  <animation>
+    <type>material</type>
+    <object-name>radarMountAltWarnIndicator</object-name>
+    <condition>
+      <property>/instrumentation/terrain-warning</property>
+    </condition>
+    <emission>
+        <red>1.0</red>
+        <green>0.0</green>
+        <blue>0.0</blue>
+        <factor-prop>systems/electrical/dc-light</factor-prop>
+    </emission>
+  </animation>
+
+  <model>
+    <name>pilot</name>
+    <path>Aircraft/JA37/Models/Cockpit/pilot/pilot.xml</path>
+    <offsets>
+      <x-m>-3.650</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.300</z-m>
+    </offsets>
+  </model>
+
+  <!-- move seat forward -->
+  <!--<animation>
+   <type>translate</type>
+   <object-name>seat</object-name>
+   <factor>0.0</factor>
+   <offset-m>-0.125</offset-m>
+   <axis>
+     <x>1</x>
+   </axis>
+   <center>
+        <x-m>0</x-m>
+        <y-m>0</y-m>
+        <z-m>0</z-m>
+    </center>
+</animation>-->
+
+  <!--<animation>
+    <type>select</type>
+    <object-name>seat</object-name>
+    <condition>
+      <equals>
+        <value>0</value>
+        <value>1</value>
+      </equals>
+    </condition>
+  </animation>-->
+
+  <model> 
+    <path>Aircraft/JA37/Models/Cockpit/seat/seat.xml</path>
+    <offsets>
+      <x-m>-3.2541</x-m>
+      <y-m> 0.0000</y-m>
+      <z-m> 0.2739</z-m>
+    </offsets>
+  </model>
+
+<!-- Material shaders   -->
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
+    <object-name>canopy</object-name>
+    <object-name>elevonLeftInner</object-name>
+    <object-name>elevonLeftOuter</object-name>
+    <object-name>elevonRightInner</object-name>
+    <object-name>elevonRightOuter</object-name>
+    <object-name>flaps</object-name>
+    <object-name>fuselage</object-name>
+    <object-name>wingLeft</object-name>
+    <object-name>wingRight</object-name>
+    <object-name>rudder</object-name>
+    <object-name>gearFrontBottom</object-name>
+    <object-name>gearFrontHub</object-name>
+    <object-name>gearFrontTop</object-name>
+    <object-name>gearFrontDoorsOpenLeft</object-name>
+    <object-name>gearFrontDoorsOpenRight</object-name>
+    <object-name>gearFrontDoorsClosed</object-name>
+    <object-name>gearLeftMid</object-name>
+    <object-name>gearLeftBottom</object-name>
+    <object-name>gearLeftTop</object-name>
+    <object-name>gearLeftHinge</object-name>
+    <object-name>gearLeftDoorsOpen</object-name>
+    <object-name>gearLeftDoorsClosed</object-name>
+    <object-name>gearRightMid</object-name>
+    <object-name>gearRightBottom</object-name>
+    <object-name>gearRightTop</object-name>
+    <object-name>gearRightHinge</object-name>
+    <object-name>gearRightDoorsOpen</object-name>
+    <object-name>gearRightDoorsClosed</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
+    <object-name>dashPanel</object-name>
+    <object-name>dashPanelTap</object-name>
+    <object-name>sidepanelLeft</object-name>
+    <object-name>sidepanelRight</object-name>
+    <object-name>hudRestBack</object-name>
+    <!--<object-name>hudStruts</object-name>-->
+    <object-name>plaqueLeftMount</object-name>
+    <object-name>plaqueRightMount</object-name>
+    <object-name>radarMount</object-name>
+    <object-name>hudRestBack</object-name>
+    <object-name>hudRestPlaque</object-name>
+    <object-name>plaqueLeft</object-name>
+    <object-name>plaqueRight</object-name>
+    <object-name>radarHeading</object-name>
+    <!--<object-name>radarScreen</object-name>-->
+    <object-name>seat</object-name>
+  </effect>
+
+  <effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+    <object-name>glassRadar</object-name>
+  </effect>
+
+  <effect>
+    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-total-transparent-shader</inherits-from>-->
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>hud</object-name>
+  </effect>
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-mirror</inherits-from>
+    <object-name>mirrorreflect</object-name>
+  </effect>
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
+    <object-name>glassInternal</object-name>
+    <object-name>frontglasInternal</object-name>
+  </effect>
+
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+    <object-name>gearFrontOleoStrut</object-name>
+    <object-name>gearLeftOleoStrut</object-name>
+    <object-name>gearRightOleoStrut</object-name>
+    <object-name>gearRightScissorTop</object-name>
+    <object-name>gearRightScissorBottom</object-name>
+    <object-name>gearLeftScissorTop</object-name>
+    <object-name>gearLeftScissorBottom</object-name>
+    <object-name>gearFrontScissorTop</object-name>
+    <object-name>gearFrontScissorBottom</object-name>
+    <object-name>reverser1</object-name>
+    <object-name>reverser2</object-name>
+    <object-name>reverser3</object-name>
+    <object-name>canopyinside</object-name>
+    <object-name>fuselageinside</object-name>
+    <object-name>mirrorholder</object-name>
+  </effect>
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
+    <object-name>nozzle</object-name>
+  </effect>
+
+  <effect>  
+    <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
+    <object-name>glassOuter</object-name>
+    <object-name>frontglas</object-name>
+  </effect>
+
+  <!--<animation>
+  <type>select</type>
+  <object-name>glass</object-name>
+  <object-name>frontglas</object-name>
+  <condition>
+    <not>
+      <property>sim/current-view/internal</property>
+    </not>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>glassInternal</object-name>
+  <object-name>frontglasInternal</object-name>
+  <condition>
+    <property>sim/current-view/internal</property>
+  </condition>
+ </animation>-->
+
+<!-- Fuselage animations -->
+
+  <model>
+    <name>ext-power</name>
+    <path>Aircraft/JA37/Models/ext-power.xml</path>
+    <offsets>
+      <x-m> 0.25</x-m>
+      <y-m> 9.15</y-m>
+      <z-m> 0.0</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+     <type>translate</type>
+     <object-name>ext-power</object-name>
+     <property>fdm/jsbsim/systems/electrical/ext-power-z-m</property>
+     <factor>1</factor>
+     <axis>
+       <z>1</z>
+     </axis>
+     <center>
+          <x-m>0</x-m>
+          <y-m>0.0</y-m>
+          <z-m>0</z-m>
+      </center>
+  </animation>
+
+  <!--<animation>
+  <type>select</type>
+  <object-name>ext-power</object-name>
+  <condition>
+    <property>fdm/jsbsim/systems/electrical/external/available</property>
+  </condition>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>ext-power</object-name>
+  <property>fdm/jsbsim/systems/electrical/external/available</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>glassOuter</object-name>
+  <object-name>glassInternal</object-name>
+  <object-name>canopy</object-name>
+  <object-name>canopyinside</object-name>
+  <object-name>mirrorholder</object-name>
+  <object-name>mirrorreflect</object-name>
+  <property>canopy/position-norm</property><!-- auto MP transmit -->
+  <factor>30.0</factor>
+  <center>
+   <x-m>-2.67098</x-m>
+   <y-m>0.000003</y-m>
+   <z-m>1.01043</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<!--<animation>
+  <type>select</type>
+  <object-name>glassOuter</object-name>
+  <object-name>glassInternal</object-name>
+  <object-name>canopy</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[1]</property>
+  </condition>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>glassOuter</object-name>
+  <object-name>glassInternal</object-name>
+  <object-name>canopy</object-name>
+  <object-name>canopyinside</object-name>
+  <object-name>mirrorholder</object-name>
+  <object-name>mirrorreflect</object-name>
+  <property>sim/multiplay/generic/int[1]</property><!-- fdm/jsbsim/fcs/canopy/hinges/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>radarHeading</object-name>
+  <condition>   
+    <greater-than>
+    <property>systems/electrical/outputs/dc-voltage</property>
+    <value>23</value>
+   </greater-than>
+  </condition>
+  <property>orientation/heading-magnetic-deg</property>
+  <factor>-1.0</factor>
+  <!--<center>
+   <x-m>-3.98169</x-m>
+   <y-m>0.00000</y-m>
+   <z-m>0.34642</z-m>
+  </center>
+  <axis>
+   <x>-1.0</x>
+   <y>0.0</y>
+   <z>-0.342020143325669</z>
+  </axis>-->
+  <axis>   
+   <x1-m> -3.9817 </x1-m>
+   <y1-m>  0 </y1-m>
+   <z1-m>  0.3464 </z1-m>
+   <x2-m> -3.9869 </x2-m>
+   <y2-m>  0 </y2-m>
+   <z2-m>  0.3445 </z2-m>
+  </axis>
+ </animation> 
+
+ <!--<animation>
+  <type>material</type> 
+  <object-name>radarHeading</object-name>
+  <object-name>plaqueLeft</object-name>
+  <object-name>plaqueRight</object-name>
+  <object-name>hudRestPlaque</object-name>
+  <emission>  
+   <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+   <factor-prop>controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>-->
+
+ <animation>
+  <type>material</type> 
+  <object-name>radarScreen</object-name>
+  <emission>  
+   <red>0.7</red> 
+   <green>0.7</green> 
+   <blue>0.7</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+<!--   Threat warning Radar indicators -->
+
+<animation>
+  <type>material</type> 
+  <object-name>TWR1</object-name>
+  <condition>
+    <equals>
+      <property>sim/ja37/blink/ten-Hz/state</property>
+      <value>1</value>
+    </equals>
+    <or>
+      <equals>
+        <property>instrumentation/radar/twr1</property>
+        <value>1</value>
+      </equals>
+      <property>/controls/lighting/test-indicator-panels</property>
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red> 
+   <green>0.0</green> 
+   <blue>0.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+<animation>
+  <type>material</type> 
+  <object-name>TWR3</object-name>
+  <condition>
+    <equals>
+      <property>sim/ja37/blink/ten-Hz/state</property>
+      <value>1</value>
+    </equals>
+    <or>
+    <equals>
+      <property>instrumentation/radar/twr3</property>
+      <value>1</value>
+   </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red> 
+   <green>0.0</green> 
+   <blue>0.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>TWR5</object-name>
+  <condition>
+    <equals>
+      <property>sim/ja37/blink/ten-Hz/state</property>
+      <value>1</value>
+    </equals>
+    <or>
+    <equals>
+      <property>instrumentation/radar/twr5</property>
+      <value>1</value>
+   </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red> 
+   <green>0.0</green> 
+   <blue>0.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>TWR7</object-name>
+  <condition>
+    <equals>
+      <property>sim/ja37/blink/ten-Hz/state</property>
+      <value>1</value>
+    </equals>
+    <or>
+    <equals>
+      <property>instrumentation/radar/twr7</property>
+      <value>1</value>
+   </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red> 
+   <green>0.0</green> 
+   <blue>0.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>TWR9</object-name>
+  <condition>
+    <equals>
+      <property>sim/ja37/blink/ten-Hz/state</property>
+      <value>1</value>
+    </equals>
+    <or>
+    <equals>
+      <property>instrumentation/radar/twr9</property>
+      <value>1</value>
+   </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red> 
+   <green>0.0</green> 
+   <blue>0.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type> 
+  <object-name>TWR11</object-name>
+  <condition>
+    <equals>
+      <property>sim/ja37/blink/ten-Hz/state</property>
+      <value>1</value>
+    </equals>
+    <or>
+    <equals>
+      <property>instrumentation/radar/twr11</property>
+      <value>1</value>
+   </equals>
+   <property>/controls/lighting/test-indicator-panels</property>
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red> 
+   <green>0.0</green> 
+   <blue>0.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
+ <!--<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/ja37/supported/hud</property>
+  </condition>
+  <object-name>hud</object-name>
+  <object-name>hudStruts</object-name>
+</animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>hud</object-name>
+  <object-name>hudStruts</object-name>
+  <property>sim/ja37/supported/hud</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>reverser1</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <factor>50.0</factor>
+  <axis>   
+   <x1-m> 6.15 </x1-m>
+   <y1-m> -0.41069 </y1-m>
+   <z1-m> -0.41069 </z1-m>
+   <x2-m> 6.15 </x2-m>
+   <y2-m> -0.15032 </y2-m>
+   <z2-m> -0.56101 </z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>reverser2</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <factor>50.0</factor>
+  <axis>   
+   <x1-m> 6.15 </x1-m>
+   <y1-m> 0.56101 </y1-m>
+   <z1-m> -0.15033 </z1-m>
+   <x2-m> 6.15 </x2-m>
+   <y2-m> 0.56101 </y2-m>
+   <z2-m> 0.15033 </z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>reverser3</object-name>
+  <property>sim/multiplay/generic/float[19]</property><!-- engines/engine/reverser-position -->
+  <factor>50.0</factor>
+  <axis>   
+   <x1-m> 6.15 </x1-m>
+   <y1-m> -0.15033 </y1-m>
+   <z1-m> 0.56101 </z1-m>
+   <x2-m> 6.15 </x2-m>
+   <y2-m> -0.41069 </y2-m>
+   <z2-m> 0.41069 </z2-m>
+  </axis>
+ </animation>
+
+<!--<animation> 
+  <type>material</type>
+  <object-name>reverser1</object-name>
+  <object-name>reverser2</object-name>
+  <object-name>reverser3</object-name>
+  <transparency>
+    <factor-prop>sim/multiplay/generic/float[19]</factor-prop>
+    <alpha>1</alpha>
+  </transparency>
+</animation> -->
+
+<animation>
+  <type>scale</type>
+  <object-name>reverser1</object-name>
+  <object-name>reverser2</object-name>
+  <object-name>reverser3</object-name>
+  <property>sim/multiplay/generic/float[19]</property>
+  <interpolation>
+   <entry>
+    <ind> 0.99 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 1.00 </ind>
+    <dep> 0.01 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  6.5 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<!-- Control surfaces -->
+
+<animation>
+  <type>rotate</type>
+  <object-name>rudder</object-name>
+  <property>surface-positions/rudder-pos-norm</property><!-- auto MP transmit -->
+  <factor>25</factor>
+  <axis>   
+   <x2-m> 5.70491</x2-m>
+   <y1-m> 0</y1-m>
+   <z2-m> 3.04123</z2-m>
+   <x1-m> 5.70220</x1-m>
+   <y2-m> 0 </y2-m>
+   <z1-m> 1.09636</z1-m>
+  </axis>
+ </animation>
+ 
+<animation>
+  <type>rotate</type>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <property>surface-positions/right-aileron-pos-norm</property><!-- auto MP transmit -->
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> 5.84096 </x1-m>
+   <y1-m> 0.99576 </y1-m>
+   <z1-m> -0.31533 </z1-m>
+   <x2-m> 5.84928 </x2-m>
+   <y2-m> 5.10587 </y2-m>
+   <z2-m> -0.39563 </z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <property>surface-positions/left-aileron-pos-norm</property><!-- auto MP transmit -->
+  <factor>1.0</factor>
+  <axis>
+   <x2-m> 5.84096 </x2-m>
+   <y2-m> -0.99576 </y2-m>
+   <z2-m> -0.31533 </z2-m>
+   <x1-m> 5.84928 </x1-m>
+   <y1-m> -5.10587 </y1-m>
+   <z1-m> -0.39563 </z1-m>
+  </axis>
+ </animation>
+
+<!--<animation>
+  <type>select</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <object-name>lightRight</object-name>
+  <object-name>lightLeft</object-name>
+  <object-name>wingRight</object-name>
+  <object-name>wingLeft</object-name>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property>
+  </condition>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>elevonLeftInner</object-name>
+  <object-name>elevonLeftOuter</object-name>
+  <object-name>elevonRightInner</object-name>
+  <object-name>elevonRightOuter</object-name>
+  <object-name>lightRight</object-name>
+  <object-name>lightLeft</object-name>
+  <object-name>wingRight</object-name>
+  <object-name>wingLeft</object-name>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.01 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>flaps</object-name>
+  <property>surface-positions/flap-pos-norm</property><!-- auto MP transmit -->
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> -0.25811 </x1-m>
+   <y1-m> -2.59427 </y1-m>
+   <z1-m> 0.12740 </z1-m>
+   <x2-m> -0.25811 </x2-m>
+   <y2-m> 2.59427 </y2-m>
+   <z2-m> 0.12740 </z2-m>
+  </axis>
+ </animation>
+
+
+<!-- *****************************************
+                      Gears
+
+     ***************************************** -->
+
+
+<!-- front  -->
+
+
+<!--<animation>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearFrontDoorsClosed</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearFrontDoorsClosed</object-name>
+  <property>gear/gear[0]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<!--<animation>
+  <type>select</type>
+  <condition>
+   <greater-than>
+    <property>gear/gear[0]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <object-name>gearFrontDoorsOpenRight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <object-name>gearFrontDoorsOpenRight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFrontDoorsOpenLeft</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.20</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> -4.98851 </x1-m>
+   <y1-m> -0.20881 </y1-m>
+   <z1-m> -0.78645 </z1-m>
+   <x2-m> -3.05037 </x2-m>
+   <y2-m> -0.22542 </y2-m>
+   <z2-m> -0.80660 </z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFrontDoorsOpenRight</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.20</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m> -3.05041</x1-m>
+   <y1-m> 0.22836</y1-m>
+   <z1-m>-0.80326</z1-m>
+   <x2-m> -4.98856</x2-m>
+   <y2-m>0.21209</y2-m>
+   <z2-m>-0.78329</z2-m>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearFrontBottom</object-name>
+  <object-name>gearFrontHub</object-name>
+  <object-name>gearFrontScissorTop</object-name>
+  <object-name>gearFrontScissorBottom</object-name>
+  <object-name>gearFrontOleoStrut</object-name>
+  <object-name>gearFrontTop</object-name>
+  <object-name>gearFrontWheel</object-name>
+  <object-name>gearFrontLight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
+  <property>gear/gear[0]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 110.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>110</max-deg>
+  <center>
+   <x-m>-3.35848</x-m>
+   <y-m>-0.000003</y-m>
+   <z-m>-0.68153</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <condition>
+    <or><!-- wow0: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+  </condition>
+  <object-name>gearFrontBottom</object-name>
+  <object-name>gearFrontHub</object-name>
+  <object-name>gearFrontScissorTop</object-name>
+  <object-name>gearFrontScissorBottom</object-name>
+  <object-name>gearFrontTop</object-name>
+  <object-name>gearFrontWheel</object-name>
+  <object-name>gearFrontLight</object-name>
+  <object-name>frontLandingLightGlare</object-name>
+  <property>sim/multiplay/generic/float[0]</property><!-- gear/gear[0]/steering-norm -->
+  <factor>30</factor>
+  <center>
+   <x-m>-3.35848</x-m>
+   <y-m>-0.000003</y-m>
+   <z-m>-0.78153</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>-1.0</z>
+  </axis>
+ </animation>
+
+<animation><!--            compress front gear-->
+   <type>translate</type>
+   <object-name>gearFrontBottom</object-name>
+   <object-name>gearFrontHub</object-name>
+   <object-name>gearFrontOleoStrut</object-name>
+   <object-name>gearFrontScissorBottom</object-name>
+   <object-name>gearFrontWheel</object-name>
+   <object-name>tyre-smoke-nose</object-name>
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
+   <factor>0.3048</factor>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m>-3.37534</x-m>
+        <y-m>0.0</y-m>
+        <z-m>-1.84812</z-m>
+    </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearFrontScissorTop</object-name>
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <x>1</x>
+   </axis>
+   <center>  
+     <x-m> -3.35424 </x-m>
+     <y-m>  0.03597 </y-m>
+     <z-m> -1.3040  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearFrontScissorBottom</object-name>
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <x>-1</x>
+   </axis>
+   <center>
+     <x-m> -3.35424 </x-m>
+     <y-m>  0.03597 </y-m>
+     <z-m> -1.5988  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<!-- spinning wheel calc
+
+     radius = -1.59622 + 1.84812 = 0.2519
+     circum = 2*pi*radius = 1.5827
+     factor = 1/circum * 60 = 0.6318 * 60 = 37.9091
+
+-3.38246
+-0.11702
+-1.84812
+
+-3.38246
+ 0.17426
+-1.84812
+     -->
+<animation>
+    <type>spin</type>
+    <object-name>gearFrontWheel</object-name>
+    <condition>
+      <or><!-- wow0: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[17]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+    </condition>
+    <property>gear/gear[0]/rollspeed-ms</property>
+    <factor>37.9091</factor>
+    <center>
+        <x-m>-3.3694</x-m>
+        <y-m>0.0</y-m>
+        <z-m>-1.84812</z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+
+<!-- left  -->
+
+
+ <animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearLeftDoorsClosed</object-name>
+ </animation>
+
+ <!--<animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <condition>
+    <equals>
+      <property>sim/multiplay/generic/int[2]</property>
+      <value>1</value>
+    </equals>
+  </condition>
+  <property>gear/gear[1]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsClosed</object-name>
+  <condition>
+   <equals>
+      <property>sim/multiplay/generic/int[2]</property>
+      <value>0</value>
+    </equals>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>-->
+
+<!--<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property>
+  </condition>
+  <object-name>gearLeftMid</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>gearLeftWheel1</object-name>
+  <object-name>gearLeftWheel2</object-name>
+  <object-name>gearLeftLight</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+ </animation>-->
+
+<animation>
+  <type>scale</type>
+  <object-name>gearLeftMid</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>gearLeftWheel1</object-name>
+  <object-name>gearLeftWheel2</object-name>
+  <object-name>gearLeftLight</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <greater-than>
+    <property>gear/gear[1]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearLeftDoorsOpen</object-name>
+ </animation>
+
+ <!--<animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property>
+  </condition>
+  <property>gear/gear[1]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <condition>
+    <not>
+      <property>sim/multiplay/generic/int[2]</property>
+    </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>-->
+
+<animation>
+  <type>scale</type>
+  <object-name>gearLeftMid</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftWheel1</object-name>
+  <object-name>gearLeftWheel2</object-name>  
+  <object-name>gearLeftLight</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.10 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  2.31352 </x-m>
+   <y-m> -2.13284 </y-m>
+   <z-m> -0.31244 </z-m>
+  </center>
+  <x-min>1.0</x-min>
+  <y-min>0.10</y-min>
+  <z-min>1.0</z-min>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearLeftMid</object-name>
+  <object-name>gearLeftOleoStrut</object-name>
+  <object-name>gearLeftScissorTop</object-name>
+  <object-name>gearLeftScissorBottom</object-name>
+  <object-name>gearLeftBottom</object-name>
+  <object-name>gearLeftTop</object-name>
+  <object-name>gearLeftHinge</object-name>
+  <object-name>gearLeftWheel1</object-name>
+  <object-name>gearLeftWheel2</object-name>  
+  <object-name>gearLeftLight</object-name>
+  <object-name>leftLandingLightGlare</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>  2.31352 </x-m>
+   <y-m> -2.13284 </y-m>
+   <z-m> -0.31244 </z-m>
+  </center>
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearLeftDoorsOpen</object-name>
+  <property>gear/gear[1]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 85.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.75</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x2-m>  3.10500 </x2-m>
+   <y2-m> -2.27236 </y2-m>
+   <z2-m> -0.40247 </z2-m>
+   <x1-m>  2.41235 </x1-m>
+   <y1-m> -2.27238 </y1-m>
+   <z1-m> -0.40247 </z1-m>
+  </axis>
+ </animation>
+
+<animation><!--            compress left gear-->
+   <type>translate</type>
+   <object-name>gearLeftOleoStrut</object-name>
+   <object-name>gearLeftScissorBottom</object-name>
+   <object-name>gearLeftBottom</object-name>
+   <object-name>gearLeftWheel1</object-name>
+   <object-name>gearLeftWheel2</object-name>
+   <object-name>tyre-smoke-left</object-name>
+   <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
+   <factor>0.3048</factor>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m>  2.64670 </x-m>
+        <y-m> -2.33204 </y-m>
+        <z-m> -2.1 </z-m>
+    </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearLeftScissorTop</object-name>
+   <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>1</y>
+   </axis>
+   <center>    
+     <x-m>  2.27377 </x-m>
+     <y-m> -2.11446 </y-m>
+     <z-m> -1.2140  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearLeftScissorBottom</object-name>
+   <property>gear/gear[1]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>-1</y>
+   </axis>
+   <center>  
+     <x-m>  2.27377 </x-m>
+     <y-m> -2.11446 </y-m>
+     <z-m> -1.5088  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<!-- spinning left wheel calc
+
+     radius = -1.76576 - -2.07213 = 0.30637
+     circum = 2*pi*radius = 1.9250
+     factor = 1/circum * 60 = 0.6318 * 60 = 31.1692
+
+1st:
+1.91138 -2.36257 -1.76576
+                 -2.07213
+2nd:
+2.7215 -2.36257 -1.7642
+
+     -->
+<animation>
+    <type>spin</type>
+    <object-name>gearLeftWheel1</object-name>
+    <condition>
+      <or><!-- wow1: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+    <property>gear/gear[1]/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>  1.91138 </x-m>
+        <y-m> -2.18257 </y-m>
+        <z-m> -1.76576 </z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+<animation>
+    <type>spin</type>
+    <object-name>gearLeftWheel2</object-name>
+    <condition>
+      <or><!-- wow1: bit 2 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+    <property>gear/gear[1]/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>  2.72150 </x-m>
+        <y-m> -2.18257 </y-m>
+        <z-m> -1.76420 </z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+
+<!--      right       -->
+
+  <animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </equals>
+  </condition>
+  <object-name>gearRightDoorsClosed</object-name>
+ </animation>
+
+ <!--<animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsClosed</object-name>
+  <condition>
+      <property>sim/multiplay/generic/int[2]</property>
+  </condition>
+  <property>gear/gear[2]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsClosed</object-name>
+  <condition>
+    <not>
+      <property>sim/multiplay/generic/int[2]</property>
+    </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>-->
+
+<!--<animation>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property>
+  </condition>
+  <object-name>gearRightMid</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearRightWheel1</object-name>
+  <object-name>gearRightWheel2</object-name>
+  <object-name>gearRightLight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
+ </animation>-->
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightMid</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearRightWheel1</object-name>
+  <object-name>gearRightWheel2</object-name>
+  <object-name>gearRightLight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
+  <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <greater-than>
+    <property>gear/gear[2]/position-norm</property>
+    <value>0.0</value>
+   </greater-than>
+  </condition>
+  <object-name>gearRightDoorsOpen</object-name>
+ </animation>
+
+ <!--<animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <condition>
+      <property>sim/multiplay/generic/int[2]</property>
+  </condition>
+  <property>gear/gear[2]/position-norm</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>scale</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <condition>
+    <not>
+      <property>sim/multiplay/generic/int[2]</property>
+    </not>
+  </condition>
+  <property>sim/multiplay/generic/int[2]</property>
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.00 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  0 </x-m>
+   <y-m>  0 </y-m>
+   <z-m>  0 </z-m>
+  </center>
+  <x-min>0.0</x-min>
+  <y-min>0.0</y-min>
+  <z-min>0.0</z-min>
+  <x-max>1.0</x-max>
+  <y-max>1.0</y-max>
+  <z-max>1.0</z-max>  
+  <axis>
+   <x>1.0</x>
+   <y>1.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>-->
+
+<animation>
+  <type>scale</type>
+  <object-name>gearRightMid</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightHinge</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearRightWheel1</object-name>
+  <object-name>gearRightWheel2</object-name>
+  <object-name>gearRightLight</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.00 </ind>
+    <dep> 0.10 </dep>
+   </entry>
+   <entry>
+    <ind> 0.001 </ind>
+    <dep> 1.00 </dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>  2.31352 </x-m>
+   <y-m>  2.13284 </y-m>
+   <z-m> -0.31244 </z-m>
+  </center>
+  <x-min>1.0</x-min>
+  <y-min>0.10</y-min>
+  <z-min>1.0</z-min>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRightMid</object-name>
+  <object-name>gearRightScissorTop</object-name>
+  <object-name>gearRightScissorBottom</object-name>
+  <object-name>gearRightOleoStrut</object-name>
+  <object-name>gearRightBottom</object-name>
+  <object-name>gearRightTop</object-name>
+  <object-name>gearRightWheel1</object-name>
+  <object-name>gearRightWheel2</object-name>
+  <object-name>gearRightLight</object-name>
+  <object-name>rightLandingLightGlare</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 90.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <center>
+   <x-m>  2.31352 </x-m>
+   <y-m>  2.13285 </y-m>
+   <z-m> -0.31244 </z-m>
+  </center>
+  <axis>
+   <x>-1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+
+<animation>
+  <type>rotate</type>
+  <object-name>gearRightDoorsOpen</object-name>
+  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <interpolation>
+   <entry>
+    <ind> 0.0</ind>
+    <dep> 80.0</dep>
+   </entry>
+   <entry>
+    <ind> 0.75</ind>
+    <dep> 0.0</dep>
+   </entry>
+   <entry>
+    <ind> 1.0</ind>
+    <dep> 0.0</dep>
+   </entry>
+  </interpolation>
+  <min-deg>0</min-deg>
+  <max-deg>90</max-deg>
+  <axis>   
+   <x1-m>  3.10500 </x1-m>
+   <y1-m>  2.27236 </y1-m>
+   <z1-m> -0.40247 </z1-m>
+   <x2-m>  2.41235 </x2-m>
+   <y2-m>  2.27238 </y2-m>
+   <z2-m> -0.40247 </z2-m>
+  </axis>
+ </animation>
+
+<animation><!--            compress right gear-->
+   <type>translate</type>
+   <object-name>gearRightScissorBottom</object-name>
+   <object-name>gearRightOleoStrut</object-name>
+   <object-name>gearRightBottom</object-name>
+   <object-name>gearRightWheel1</object-name>
+   <object-name>gearRightWheel2</object-name>
+   <object-name>tyre-smoke-right</object-name>
+   <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
+   <factor>0.3048</factor>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m> 2.64670 </x-m>
+        <y-m> 2.15204 </y-m>
+        <z-m> -2.1 </z-m>
+    </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearRightScissorTop</object-name>
+   <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>1</y>
+   </axis>
+   <center>    
+     <x-m>  2.27377 </x-m>
+     <y-m>  2.21946 </y-m>
+     <z-m> -1.2140  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearRightScissorBottom</object-name>
+   <property>gear/gear[2]/compression-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>-1</y>
+   </axis>
+   <center>  
+     <x-m>  2.27377 </x-m>
+     <y-m>  2.21946 </y-m>
+     <z-m> -1.5088  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+
+<!-- spinning right wheel calc
+
+     radius = -1.76576 - -2.07213 = 0.30637
+     circum = 2*pi*radius = 1.9250
+     factor = 1/circum * 60 = 0.6318 * 60 = 31.1692
+
+1st:
+1.91138 2.36257 -1.76576
+
+2nd:
+2.7215 2.36257 -1.7642
+
+     -->
+<animation>
+    <type>spin</type>
+    <object-name>gearRightWheel1</object-name>
+    <condition>
+      <or><!-- wow2: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+    <property>gear/gear[2]/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>  1.91138 </x-m>
+        <y-m>  2.18257 </y-m>
+        <z-m> -1.76576 </z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+<animation>
+    <type>spin</type>
+    <object-name>gearRightWheel2</object-name>
+    <condition>
+      <or><!-- wow2: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[17]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+    <property>gear/gear[2]/rollspeed-ms</property>
+    <factor>31.1692</factor>
+    <center>
+        <x-m>  2.72150 </x-m>
+        <y-m>  2.18257 </y-m>
+        <z-m> -1.76420 </z-m>
+    </center>
+    <axis>
+        <x>0</x>
+        <y>-1</y>
+        <z>0</z>
+    </axis>
+</animation>
+
+<!-- ==================================== Start effects ======================= -->
+
+
+ <model>
+  <name>explosion</name>
+  <path>Aircraft/JA37/Models/Effects/explosion.xml</path>
+  <offsets>
+   <x-m>2.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+
+ <!-- engine -->
+
+ <model><!-- particle heat distortion -->
+  <name>exhaust_heat</name>
+  <path>Aircraft/JA37/Models/Effects/engine/exhaust.xml</path>
+  <offsets>
+   <x-m>6.0555</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model><!-- dark smoke at low rpm -->
+  <name>engine_smoke</name>
+  <path>Aircraft/JA37/Models/Effects/engine/smoke.xml</path>
+  <offsets>
+   <x-m>6.825</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>InternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
+  <offsets>
+   <x-m>0.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+ 
+ 
+ <model>
+  <name>ExternalFlame</name>
+  <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
+  <offsets>
+   <x-m>5.90</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+ 
+ <model>
+  <name>ExternalFlameALS</name>
+  <path>Aircraft/JA37/Models/Effects/engine/augmentationFlame.xml</path>
+  <offsets>
+   <x-m>6.0555</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+ <!--<model>
+  <name>HeatBlurALS</name>
+  <path>Aircraft/JA37/Models/Effects/engine/heatDistortion.xml</path>
+  <offsets>
+   <x-m>6.825</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>-->
+
+
+<!--  other particle effects -->
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/engine/contrails/contrail.xml</path>
+    <offsets>
+      <x-m> 7.0</x-m>
+      <y-m> 0.0</y-m>
+      <z-m> 0.0</z-m> 
+      <roll-deg>    0 </roll-deg>
+      <pitch-deg>   0 </pitch-deg>
+      <heading-deg> 0 </heading-deg>
+    </offsets>
+  </model>
+
+ <!--<model>  never worked as intended, so commented out.
+  <name>strake-vortex</name>
+  <path>Aircraft/JA37/Models/Effects/strake-vortex.xml</path>
+  <offsets>
+   <x-m>0.58</x-m>
+   <y-m>0</y-m>
+   <z-m>0.25</z-m>
+  </offsets>
+ </model>-->
+
+<model>
+  <name>aerobatic_smoke_blue</name>
+  <path>Aircraft/JA37/Models/Effects/smoke/smokeB.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>aerobatic_smoke_yellow</name>
+  <path>Aircraft/JA37/Models/Effects/smoke/smokeY.xml</path>
+  <offsets>
+   <x-m>8.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+ <model><!-- dark smoke at damage or engine fire -->
+  <name>damage_smoke</name>
+  <path>Aircraft/JA37/Models/Effects/damage-smoke.xml</path>
+  <offsets>
+   <x-m>6.0555</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>wingtip-condensation-trail-left</name>
+  <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
+  <offsets>
+   <x-m>5.82588</x-m>
+   <y-m>-5.11376</y-m>
+   <z-m>-0.39589</z-m>
+  </offsets>
+ </model>
+
+<model>
+  <name>wingtip-condensation-trail-right</name>
+  <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
+  <offsets>
+   <x-m>5.82588</x-m>
+   <y-m>5.11376</y-m>
+   <z-m>-0.39589</z-m>
+  </offsets>
+ </model>
+
+<!--         transsonic-vapor-cones               -->
+
+<!-- <model>
+  <name>transsonic-canard-vapor-cone</name>
+  <path>Aircraft/JA37/Models/Effects/transsonic-canard-vapor-cone.xml</path>
+  <offsets>
+   <x-m>0</x-m>
+   <y-m>0</y-m>
+   <z-m>0.50</z-m>
+  </offsets>
+ </model>-->
+ 
+  <!--<model>
+  <name>transsonic-deltawing-vapor-cone</name>
+  <path>Aircraft/JA37/Models/Effects/transsonic-deltawing-vapor-cone.xml</path>
+  <offsets>
+   <x-m>-2</x-m>
+   <y-m>0</y-m>
+   <z-m>0.25</z-m>
+  </offsets>
+ </model> -->
+
+<model>
+    <path>Aircraft/JA37/Models/Effects/vaporCone.xml</path>
+    <name>VaporCone</name>
+    <offsets>
+      <x-m>0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0</z-m>
+    </offsets>
+  </model>
+
+<!--         tyresmoke               -->
+
+<model>
+  <path>Aircraft/Generic/Effects/tyre-smoke-nose.xml</path>
+  <name>tyre-smoke-nose</name>
+  <offsets>
+    <x-m> -3.65342 </x-m>
+    <y-m> 0 </y-m>
+    <z-m> -2.1 </z-m>
+  </offsets>
+</model>
+
+<model>
+ <path>Aircraft/Generic/Effects/tyre-smoke-port.xml</path>
+ <name>tyre-smoke-left</name>
+ <offsets>
+  <x-m> 2.64670 </x-m>
+  <y-m> -2.15204 </y-m>
+  <z-m> -2.1 </z-m>
+ </offsets>
+</model>
+
+<model>
+ <path>Aircraft/Generic/Effects/tyre-smoke-stbd.xml</path>
+ <name>tyre-smoke-right</name>
+ <offsets>
+   <x-m> 2.64670 </x-m>
+   <y-m> 2.15204 </y-m>
+   <z-m> -2.1 </z-m>
+ </offsets>
+</model>
+
+ <!-- end effects -->
+
+
+<!-- ===================== START LIGHTING =========================== -->
+
+<!-- beacon lights -->
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-top.xml</path>
+    <name>lightglowT</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/beacon-light-glow-bottom.xml</path>
+    <name>lightglowB</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <type>material</type>
+  <object-name>lightTop</object-name>
+  <condition>
+    <or><!-- beacon: bit 2 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>2</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
+  </emission>
+ </animation>
+
+<animation>
+  <type>material</type>
+  <object-name>lightBottom</object-name>
+  <condition>
+    <or><!-- beacon: bit 2 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>2</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/multiplay/generic/float[1]</factor-prop><!-- sim/model/lighting/beacon/state -->
+  </emission>
+ </animation>
+
+<!-- landing light -->
+
+<animation>
+  <type>material</type>
+  <object-name>gearFrontLight</object-name>
+  <object-name>gearLeftLight</object-name>
+  <object-name>gearRightLight</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
+  </emission>
+  <diffuse>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
+  </diffuse>
+  <ambient>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
+  </ambient>
+ </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <name>frontLandingLightGlare</name>
+    <offsets>
+      <x-m>-3.47732</x-m>
+      <y-m>-0.000005</y-m>
+      <z-m>-1.2121</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <name>leftLandingLightGlare</name>
+    <offsets>
+      <x-m>2.19039</x-m>
+      <y-m>-2.21864</y-m>
+      <z-m>-1.08005</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/landingLight/landingLightGlare.xml</path>
+    <name>rightLandingLightGlare</name>
+    <offsets>
+      <x-m>2.20055</x-m>
+      <y-m>2.23137</y-m>
+      <z-m>-1.08005</z-m>
+    </offsets>
+  </model>
+
+<!-- Navigation lights -->
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
+    <name>lightglowR</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model> 
+
+ <model>
+    <path>Aircraft/JA37/Models/Effects/nav-light-glow-left.xml</path>
+    <name>lightglowL</name>
+    <offsets>
+      <x-m>0.0</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.0</z-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <type>material</type>
+  <object-name>lightLeft</object-name>
+  <condition>
+    <or><!-- nav: bit 3 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>4</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>5</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+  </condition>
+  <emission>
+   <red>1.0</red>
+   <green>0.0</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>lightRight</object-name>
+  <condition>
+    <or><!-- nav: bit 3 -->
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>4</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>5</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>6</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[9]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+  </condition>
+  <emission>
+   <red>0.0</red>
+   <green>1.0</green>
+   <blue>0.0</blue>
+  </emission>
+ </animation>
+
+<!-- ===================== start payload =========================== -->
+
+<!-- ====== rb 24j/74 ====== -->
+ 
+<animation>
+  <object-name>missile</object-name><!-- Left wing pylon -->
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+    <or>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>188</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>179</value>
+      </equals>
+    </or>
+  </condition>
+ </animation>
+
+<animation>
+  <object-name>missile2</object-name><!-- Left fuselage pylon -->
+  <type>select</type>
+  <condition>
+   <or>
+      <equals>
+        <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+        <value>188</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+        <value>179</value>
+      </equals>
+    </or>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missile1</object-name><!-- Right wing pylon -->
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <or>
+      <equals>
+        <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+        <value>188</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+        <value>179</value>
+      </equals>
+    </or>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missile3</object-name><!-- Right fuselage pylon -->
+  <type>select</type>
+  <condition>
+   <or>
+      <equals>
+        <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+        <value>188</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+        <value>179</value>
+      </equals>
+    </or>
+  </condition>
+ </animation>
+
+<animation>
+  <object-name>missileLWO</object-name><!-- Left outer wing pylon -->
+  <type>select</type>
+  <condition>
+     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+     <or><!-- missile mounted: bit 1 -->
+      <equals>
+        <property>sim/multiplay/generic/int[19]</property>
+        <value>1</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[19]</property>
+        <value>3</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/int[19]</property>
+        <value>5</value>
+      </equals>            
+      <equals>
+        <property>sim/multiplay/generic/int[19]</property>
+        <value>7</value>
+      </equals>       
+    </or>
+  </condition>
+ </animation>
+
+ <animation>
+  <object-name>missileRWO</object-name><!-- Right outer wing pylon -->
+  <type>select</type>
+  <condition>
+     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+     <or><!-- missile mounted: bit 2 -->
+      <equals>
+        <property>sim/multiplay/generic/int[19]</property>
+          <value>2</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[19]</property>
+          <value>3</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[19]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[19]</property>
+          <value>7</value>
+        </equals>       
+    </or>
+  </condition>
+ </animation>
+
+ <!-- ====== rb 15f ====== -->
+ 
+  <model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-15F/rb-15.xml</path>
+    <name>cm0</name>
+    <offsets>
+      <y-m> -2.75</y-m>
+      <z-m> -0.825</z-m>
+      <x-m>  2.70</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>cm0</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>1763.7</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-15F/rb-15.xml</path>
+    <name>cm2</name>
+    <offsets>
+      <y-m>  2.75</y-m>
+      <z-m> -0.825</z-m>
+      <x-m>  2.70</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>cm2</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>1763.7</value>
+   </equals>
+  </condition>
+ </animation>
+
+
+ <!-- ====== m70 ====== -->
+ 
+  <model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod0</name>
+    <offsets>
+      <y-m> -2.75</y-m>
+      <z-m> -1.50</z-m>
+      <x-m>  2.20</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod0</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Left fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod2</name>
+    <offsets>
+      <y-m> -0.95</y-m>
+      <z-m> -1.775</z-m>
+      <x-m> -1.00</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod2</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod1</name>
+    <offsets>
+      <y-m>  2.75</y-m>
+      <z-m> -1.50</z-m>
+      <x-m>  2.20</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod1</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+   <model><!-- Right fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</path>
+    <name>pod3</name>
+    <offsets>
+      <y-m>  0.95</y-m>
+      <z-m> -1.775</z-m>
+      <x-m> -1.00</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>pod3</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>200</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <!-- ====== rb 71 ====== -->
+
+  <model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb710</name>
+    <offsets>
+      <y-m> -2.70</y-m>
+      <z-m> -0.70</z-m>
+      <x-m>  2.40</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb710</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Left fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb712</name>
+    <offsets>
+      <y-m> -0.975</y-m>
+      <z-m> -0.975</z-m>
+      <x-m> -0.50</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb712</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb711</name>
+    <offsets>
+      <y-m>  2.70</y-m>
+      <z-m> -0.70</z-m>
+      <x-m>  2.40</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb711</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+   <model><!-- Right fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-71/aim-7.xml</path>
+    <name>rb713</name>
+    <offsets>
+      <y-m>  0.975</y-m>
+      <z-m> -0.975</z-m>
+      <x-m> -0.50</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb713</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>425</value>
+   </equals>
+  </condition>
+ </animation>
+
+  
+<!--        rb 99            -->
+
+<model><!-- Left wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-99/aim-120.xml</path>
+    <name>rb990</name>
+    <offsets>
+      <y-m> -2.70</y-m>
+      <z-m> -0.70</z-m>
+      <x-m>  2.40</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb990</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+    <value>291</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Left fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-99/aim-120.xml</path>
+    <name>rb992</name>
+    <offsets>
+      <y-m> -0.975</y-m>
+      <z-m> -0.975</z-m>
+      <x-m> -0.50</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb992</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
+    <value>291</value>
+   </equals>
+  </condition>
+ </animation>
+
+  <model><!-- Right wing pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-99/aim-120.xml</path>
+    <name>rb991</name>
+    <offsets>
+      <y-m>  2.70</y-m>
+      <z-m> -0.70</z-m>
+      <x-m>  2.40</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb991</object-name>
+  <type>select</type>
+  <condition>
+    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
+    <value>291</value>
+   </equals>
+  </condition>
+ </animation>
+
+   <model><!-- Right fuselage pylon -->
+    <path>Aircraft/JA37/Models/Armament/Weapons/RB-99/aim-120.xml</path>
+    <name>rb993</name>
+    <offsets>
+      <y-m>  0.975</y-m>
+      <z-m> -0.975</z-m>
+      <x-m> -0.50</x-m>
+    </offsets>
+  </model>
+
+ <animation>
+  <object-name>rb993</object-name>
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>291</value>
+   </equals>
+  </condition>
+ </animation>
+
+
+<!--<animation>
+  <type>range</type>
+  <object-name>plaqueLeft</object-name>
+  <object-name>plaqueRight</object-name>
+  <object-name>sidepanelLeft</object-name>
+  <object-name>sidepanelRight</object-name>
+  <min-m>0</min-m>
+  <max-m>15</max-m>
+ </animation>-->
+
+
+ <!--<animation>
+  <type>material</type>
+  <object-name>glass</object-name>
+  <object-name>frontglas</object-name>
+  <condition>
+    <greater-than>
+      <property>/sim/rendering/shaders/model</property>
+      <value>0</value>
+    </greater-than>
+  </condition>
+  <shininess>96</shininess>
+</animation>-->
+
 
 </PropertyList>
