@@ -68,6 +68,7 @@ var loop_stores = func {
       
       if(payloadName.getValue() != "none" and (
           (payloadName.getValue() == "M70" and payloadWeight.getValue() != 200)
+          or (payloadName.getValue() == "RB 24" and payloadWeight.getValue() != 160.94)
           or (payloadName.getValue() == "RB 24J" and payloadWeight.getValue() != 179)
           or (payloadName.getValue() == "RB 74" and payloadWeight.getValue() != 188)
           or (payloadName.getValue() == "RB 71" and payloadWeight.getValue() != 425)
@@ -79,9 +80,24 @@ var loop_stores = func {
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
         if(i != 6) {
-          if (payloadName.getValue() == "RB 24J") {
+          if (payloadName.getValue() == "RB 24") {
             # is not center pylon and is RB24
             #print("rb24 "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-24") {
+              # remove aim-7 logic from that pylon
+              #print("removing aim-7 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "RB-24", "Sidewinder") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-24 missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "RB 24J") {
+            # is not center pylon and is RB24j
+            #print("rb24j "~i);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-24J") {
               # remove aim-7 logic from that pylon
               #print("removing aim-7 logic");
@@ -92,7 +108,7 @@ var loop_stores = func {
               #to handle this we have to ignore that addition.
               setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
               payloadName.setValue("none");
-              #print("refusing to mount new RB-24 missile yet "~i);
+              #print("refusing to mount new RB-24j missile yet "~i);
             }
           } elsif (payloadName.getValue() == "RB 74") {
             # is not center pylon and is RB74
@@ -228,6 +244,11 @@ var loop_stores = func {
           input.tank8Selected.setValue(FALSE);
           input.tank8Jettison.setValue(TRUE);
           input.tank8LvlNorm.setValue(0);
+        }
+      } elsif (selected == "RB 24") {
+        # the pylon has a sidewinder, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 160.94) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 160.94);
         }
       } elsif (selected == "RB 24J") {
         # the pylon has a sidewinder, give it a pointmass
@@ -484,6 +505,7 @@ var warhead_lbs = {
     "aim-7":                88.00,
     "RB-71":                88.00,
     "aim-9":                20.80,
+    "RB-24":                20.80,
     "RB-24J":               20.80,
     "RB-74":                20.80,
     "R74":                  16.00,
@@ -796,6 +818,13 @@ var ammoCount = func (station) {
           ammo += 1;
         }
       }
+    } elsif (type == "RB 24") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 24") {
+          ammo += 1;
+        }
+      }
     } elsif (type == "TEST") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
@@ -879,6 +908,13 @@ var cycle_weapons = func {
         type = "RB 24J";
       }
     } elsif (type == "RB 24J") {
+      sel = selectType("RB 24");
+      if (sel != -1) {
+        newType = "RB 24";
+      } else {
+        type = "RB 24";
+      }
+    } elsif (type == "RB 24") {
       sel = selectType("TEST");
       if (sel != -1) {
         newType = "TEST";

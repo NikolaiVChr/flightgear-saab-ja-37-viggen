@@ -2799,6 +2799,10 @@
         <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
         <value>179</value>
       </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>160.94</value>
+      </equals>
     </or>
   </condition>
  </animation>
@@ -2815,6 +2819,10 @@
       <equals>
         <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
         <value>179</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>160.94</value>
       </equals>
     </or>
   </condition>
@@ -2834,6 +2842,10 @@
         <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
         <value>179</value>
       </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>160.94</value>
+      </equals>
     </or>
   </condition>
  </animation>
@@ -2850,6 +2862,10 @@
       <equals>
         <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
         <value>179</value>
+      </equals>
+      <equals>
+        <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
+        <value>160.94</value>
       </equals>
     </or>
   </condition>

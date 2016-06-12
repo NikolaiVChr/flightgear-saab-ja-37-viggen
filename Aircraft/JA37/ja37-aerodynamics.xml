@@ -2,7 +2,7 @@
 
 
 <!-- **********************************************************************
-        AERODYNAMICS OF JA-37
+        AERODYNAMICS OF Saab 37 Viggen
 
         Page references are given to pdf: http://hdl.handle.net/2060/19860019453
 
@@ -708,6 +708,7 @@
                     <tableData>
                         <!--     10 means same as drop-tank -->
                          0       0
+                         160.94  1
                          179     1
                          188     1
                          200     4
@@ -737,6 +738,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[2]</independentVar>
                     <tableData>
                          0       0
+                         160.94  1
                          179     1
                          188     1
                          200     4
@@ -766,6 +768,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[3]</independentVar>
                     <tableData>
                          0       0
+                         160.94  1
                          179     1
                          188     1
                          200     4
@@ -795,6 +798,7 @@
                     <independentVar lookup="row">inertia/pointmass-weight-lbs[4]</independentVar>
                     <tableData>
                          0       0
+                         160.94  1
                          179     1
                          188     1
                          200     4

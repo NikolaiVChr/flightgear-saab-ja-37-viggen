@@ -2290,3 +2290,4 @@ Model: Some work to apply livery and animations and loading of model differ on v
 Model: {Pinto} Fixed that the models would not load correctly.
 Sim: Disabled cannon in the AJ37.
 Sim: Decreased radar range for AJ37 to 120 Km.
+Sim: Added the RB-24 missile to the AJ37.

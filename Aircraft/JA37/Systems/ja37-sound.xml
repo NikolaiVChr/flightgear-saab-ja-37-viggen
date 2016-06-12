@@ -1490,6 +1490,28 @@
             <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
             <condition>
                 <property>sim/current-view/internal</property>
+                <property>payload/armament/rb-24/sound-on-off</property>
+                <equals>
+                    <property>sim/ja37/hud/current-mode</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <pitch>
+                <factor>1.00</factor>
+                <max>2</max>
+            </pitch>
+            <volume>
+                <property>payload/armament/rb-24/sound-volume</property>
+            </volume>
+        </rb24-signal>
+
+        <rb24j-signal>
+            <name>rb24j-signal</name>
+            <mode>looped</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
+            <condition>
+                <property>sim/current-view/internal</property>
                 <property>payload/armament/rb-24j/sound-on-off</property>
                 <equals>
                     <property>sim/ja37/hud/current-mode</property>
@@ -1503,7 +1525,7 @@
             <volume>
                 <property>payload/armament/rb-24j/sound-volume</property>
             </volume>
-        </rb24-signal>
+        </rb24j-signal>
 
         <rb74-signal>
             <name>rb74-signal</name>
