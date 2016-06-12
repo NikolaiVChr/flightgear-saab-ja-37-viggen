@@ -481,7 +481,7 @@ var impact_listener = func {
         var selectionPos = radar_logic.selection.get_Coord();
 
         var distance = impactPos.distance_to(selectionPos);
-        if (distance < 50) {
+        if (distance < 125) {
           last_impact = input.elapsed.getValue();
           var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection.get_Callsign();
           if (getprop("payload/armament/msg")) {
@@ -964,7 +964,7 @@ var cycle_weapons = func {
 
 ############ reload #####################
 
-reloadAir2Air1979 = func {
+reloadJAAir2Air1979 = func {
   # Reload missiles - 6 of them.
 
   # Sidewinder
@@ -989,7 +989,7 @@ reloadAir2Air1979 = func {
   
 }
 
-reloadAir2Air1987 = func {
+reloadJAAir2Air1987 = func {
   # Reload missiles - 6 of them.
 
   # Sidewinder
@@ -1014,7 +1014,7 @@ reloadAir2Air1987 = func {
   
 }
 
-reloadAir2Air1997 = func {
+reloadJAAir2Air1997 = func {
   # Reload missiles - 6 of them.
 
   # Amraam
@@ -1039,7 +1039,32 @@ reloadAir2Air1997 = func {
   
 }
 
-reloadAir2Ground = func {
+reloadJAAir2Ground = func {
+  # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "M70");
+  setprop("payload/weight[1]/selected", "M70");
+  setprop("payload/weight[2]/selected", "M70");
+  setprop("payload/weight[3]/selected", "M70");
+  setprop("payload/weight[4]/selected", "RB 24J");
+  setprop("payload/weight[5]/selected", "RB 24J");
+  setprop("ai/submodels/submodel[5]/count", 6);
+  setprop("ai/submodels/submodel[6]/count", 6);
+  setprop("ai/submodels/submodel[7]/count", 6);
+  setprop("ai/submodels/submodel[8]/count", 6);
+  screen.log.write("2 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-15F cruise-missiles attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+  
+}
+
+reloadAJAir2Ground = func {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 15F");
   setprop("payload/weight[1]/selected", "M70");

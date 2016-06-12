@@ -164,7 +164,7 @@
                         <label>Reload air to ground</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAir2Ground();</script>
+                            <script>armament.reloadAJAir2Ground();</script>
                         </binding>
                     </item>
                     <item>
