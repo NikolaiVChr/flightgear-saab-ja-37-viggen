@@ -343,10 +343,10 @@
                 <int n="15" alias="/sim/model/lighting/beacon/state"/>                <!-- to animate beacons, backward compat -->
                 <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/>                <!-- to animate beacons -->
                 <!-- Stores -->
-                <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- used to show missiles -->
-                <float n="12" alias="/payload/weight[1]/weight-lb"/>                <!-- used to show missiles -->
-                <float n="13" alias="/payload/weight[2]/weight-lb"/>                <!-- used to show missiles -->
-                <float n="14" alias="/payload/weight[3]/weight-lb"/>                <!-- used to show missiles -->
+                <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->
+                <float n="12" alias="/payload/weight[1]/weight-lb"/>                <!-- left fuselage -->
+                <float n="13" alias="/payload/weight[2]/weight-lb"/>                <!-- right wing -->
+                <float n="14" alias="/payload/weight[3]/weight-lb"/>                <!-- right fuselage -->
                 <int n="16" alias="/consumables/fuel/tank[8]/jettisoned"/>
                 <!-- used for drop tank -->
                 <!-- gears -->
