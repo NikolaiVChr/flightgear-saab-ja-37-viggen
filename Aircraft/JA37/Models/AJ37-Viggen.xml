@@ -528,7 +528,7 @@
   <object-name>mirrorholder</object-name>
   <object-name>mirrorreflect</object-name>
   <property>canopy/position-norm</property><!-- auto MP transmit -->
-  <factor>30.0</factor>
+  <factor>55.0</factor>
   <center>
    <x-m>-2.67098</x-m>
    <y-m>0.000003</y-m>

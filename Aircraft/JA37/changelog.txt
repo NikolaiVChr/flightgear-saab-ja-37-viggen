@@ -2302,3 +2302,11 @@ Radar: Geo targets now acts as if painted, as the computer is aware of its posit
 Sim: Changed weight of M70 to 794 lbm.
 Sim: Added actual loadout for AJ37. 4/6 is functional.
 Sim: Renamed all the armament loadout options.
+Model: {Pinto} Modelled and textured RB04E anti-ship missile.
+Model: {Pinto} Modelled and textured RB05A vision guided a2g missile.
+Model: {Pinto} Modelled and textured RB75 Maverick vision guided fire-and-forget a2g missile
+Model: {Pinto} Modelled and textured M55 AKAN gunpod.
+Model: {Pinto} Modelled and textured M71 rail and bomblets.
+Model: {Pinto} Modelled and textured M90 'Mjolner' cluster glide-bomb.
+Model: {Pinto} Attached the new armement to the AJ37.
+Model: Canopy now opens more.
