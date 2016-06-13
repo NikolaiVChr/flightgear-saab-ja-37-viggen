@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+
+
+<PropertyList>
+
+	<name>m90</name>
+	<path>m90.ac</path>
+
+	<animation>
+		<type>select</type>
+		<object-name>m90</object-name>
+		<condition>
+			<property>payload/armament/m90/flags/msl-id-0</property>
+		</condition>
+	</animation>
+
+	<model>
+		<path>Aircraft/JA37/Models/Armament/Weapons/M90/motor-smoke-0.xml</path>
+		<offsets>
+			<x-m>1.90437</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<model>
+		<name>explosion</name>
+		<path>Aircraft/JA37/Models/Armament/Weapons/M90/explosion-0.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<animation>
+  		<object-name>m90</object-name>
+  		<enable-hot type="bool">false</enable-hot>
+ 	</animation>
+
+</PropertyList>

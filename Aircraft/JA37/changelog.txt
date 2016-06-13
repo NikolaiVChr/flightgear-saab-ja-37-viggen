@@ -2310,3 +2310,4 @@ Model: {Pinto} Modelled and textured M71 rail and bomblets.
 Model: {Pinto} Modelled and textured M90 'Mjolner' cluster glide-bomb.
 Model: {Pinto} Attached the new armement to the AJ37.
 Model: Canopy now opens more.
+Effect: Added smoke and explosions to the new armament.

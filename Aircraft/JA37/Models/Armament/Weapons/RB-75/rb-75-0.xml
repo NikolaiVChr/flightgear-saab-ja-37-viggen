@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+
+
+<PropertyList>
+
+	<name>rb-75</name>
+	<path>rb75.ac</path>
+
+	<animation>
+		<type>select</type>
+		<object-name>rb75</object-name>
+		<condition>
+			<property>payload/armament/rb-75/flags/msl-id-0</property>
+		</condition>
+	</animation>
+
+	<model>
+		<path>Aircraft/JA37/Models/Armament/Weapons/RB-75/motor-smoke-0.xml</path>
+		<offsets>
+			<x-m>1.90437</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<model>
+		<name>explosion</name>
+		<path>Aircraft/JA37/Models/Armament/Weapons/RB-75/explosion-0.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<animation>
+  		<object-name>rb75</object-name>
+  		<enable-hot type="bool">false</enable-hot>
+ 	</animation>
+
+</PropertyList>
