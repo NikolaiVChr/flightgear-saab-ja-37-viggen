@@ -3,9 +3,35 @@
 <external_reactions>
     <force name="recoil" frame="BODY">
       <location unit="M">
-        <x>    0.0 </x>
-        <y>    0.0 </y>
-        <z>    1.2 </z>
+        <x>  -1.05893</x>
+        <y>  -0.20322</y>
+        <z> -0.91246</z>
+      </location>
+      <direction>
+        <x>  -1.0 </x>
+        <y>   0.0 </y>
+        <z>   0.0 </z>
+      </direction>
+    </force>
+
+    <force name="recoil2" frame="BODY">
+      <location unit="M">
+        <x>   4.15986</x>
+        <y>  -2.70311</y>
+        <z>  -0.67645</z>
+      </location>
+      <direction>
+        <x>  -1.0 </x>
+        <y>   0.0 </y>
+        <z>   0.0 </z>
+      </direction>
+    </force>
+
+    <force name="recoil3" frame="BODY">
+      <location unit="M">
+        <x>   4.15986</x>
+        <y>   2.70311</y>
+        <z>  -0.67645</z>
       </location>
       <direction>
         <x>  -1.0 </x>

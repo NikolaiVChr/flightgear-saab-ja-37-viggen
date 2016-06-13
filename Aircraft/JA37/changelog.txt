@@ -2285,7 +2285,7 @@ GUI: Made splash screen for AJ37.
 GUI: Moved splashcreens into own folder.
 GUI: Changed welcome message on screen and in console to the variant type.
 Aero: Refactored some more JSBSim code.
-Model: {Pinto} Made a AJ37 model.
+Model: {Pinto} Made a variant Saab AJ-37 Viggen model.
 Model: Some work to apply livery and animations and loading of model differ on variant.
 Model: {Pinto} Fixed that the models would not load correctly.
 Sim: Disabled cannon in the AJ37.
@@ -2311,3 +2311,5 @@ Model: {Pinto} Modelled and textured M90 'Mjolner' cluster glide-bomb.
 Model: {Pinto} Attached the new armement to the AJ37.
 Model: Canopy now opens more.
 Effect: Added smoke and explosions to the new armament.
+Sim: The AJ37 M55 cannonpods now work.
+Sim: M55 rounds added to damage file.

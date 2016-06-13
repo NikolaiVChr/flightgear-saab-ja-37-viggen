@@ -41,6 +41,10 @@ input = {
   stationSelect:    "controls/armament/station-select",
   subAmmo2:         "ai/submodels/submodel[2]/count", 
   subAmmo3:         "ai/submodels/submodel[3]/count", 
+  subAmmo9:         "ai/submodels/submodel[9]/count", 
+  subAmmo10:         "ai/submodels/submodel[10]/count", 
+  subAmmo11:         "ai/submodels/submodel[11]/count", 
+  subAmmo12:         "ai/submodels/submodel[12]/count", 
   tank8Jettison:    "/consumables/fuel/tank[8]/jettisoned",
   tank8LvlNorm:     "/consumables/fuel/tank[8]/level-norm",
   tank8Selected:    "/consumables/fuel/tank[8]/selected",
@@ -68,6 +72,7 @@ var loop_stores = func {
       
       if(payloadName.getValue() != "none" and (
           (payloadName.getValue() == "M70 ARAK" and payloadWeight.getValue() != 794)
+          or (payloadName.getValue() == "M55 AKAN" and payloadWeight.getValue() != 802.5)
           or (payloadName.getValue() == "RB 24 Sidewinder" and payloadWeight.getValue() != 160.94)
           or (payloadName.getValue() == "RB 24J Sidewinder" and payloadWeight.getValue() != 179)
           or (payloadName.getValue() == "RB 74 Sidewinder" and payloadWeight.getValue() != 188)
@@ -191,6 +196,14 @@ var loop_stores = func {
             }
           } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70 ARAK") {
               setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
+              if(armament.AIM.active[i] != nil and armament.AIM.active[i].status != MISSILE_FLYING) {
+                # remove aim logic from that pylon
+                armament.AIM.active[i].del();
+                #print("removing aim logic");
+              }
+          } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M55 AKAN") {
+              var model = i==0?10:12;
+              setprop("ai/submodels/submodel["~model~"]/count", 150);
               if(armament.AIM.active[i] != nil and armament.AIM.active[i].status != MISSILE_FLYING) {
                 # remove aim logic from that pylon
                 armament.AIM.active[i].del();
@@ -432,6 +445,16 @@ var loop_stores = func {
     } else {
       input.subAmmo2.setValue(0);
     }
+    if(input.subAmmo10.getValue() > 0) {
+      input.subAmmo9.setValue(-1);
+    } else {
+      input.subAmmo9.setValue(0);
+    }
+    if(input.subAmmo12.getValue() > 0) {
+      input.subAmmo11.setValue(-1);
+    } else {
+      input.subAmmo11.setValue(0);
+    }
 
     # outer stores
     var leftRb2474 = getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[5]") == 188 or getprop("fdm/jsbsim/inertia/pointmass-weight-lbs[5]") == 179;
@@ -507,9 +530,21 @@ var trigger_listener = func {
     if (armSelect != 0 and getprop(str) == "M70 ARAK") {
       setprop("/controls/armament/station["~armSelect~"]/trigger-m70", trigger);
     }
+    if (armSelect == 1 and getprop(str) == "M55 AKAN") {
+      setprop("/controls/armament/station[7]/trigger", trigger);
+    }
+    if (armSelect == 3 and getprop(str) == "M55 AKAN") {
+      setprop("/controls/armament/station[8]/trigger", trigger);
+    }
   } else {
     setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
     setprop("/controls/armament/station["~armSelect~"]/trigger-m70", FALSE);
+    if (armSelect == 1) {
+      setprop("/controls/armament/station[7]/trigger", FALSE);
+    }
+    if (armSelect == 3) {
+      setprop("/controls/armament/station[8]/trigger", FALSE);
+    }
   }
 
   var fired = "KCA";
@@ -549,6 +584,16 @@ var trigger_listener = func {
     if (ammo == 0) {
       var newStation = selectType(fired);
       if (newStation != -1 and hasRockets(newStation) > 0) {
+        input.stationSelect.setValue(newStation);
+      }
+    }
+  }
+  if (fired == "M55 AKAN") {
+    var submodel = armSelect==1?10:12;
+    var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
+    if (ammo == 0) {
+      var newStation = selectType(fired);
+      if (newStation != -1 and hasShells(newStation) > 0) {
         input.stationSelect.setValue(newStation);
       }
     }
@@ -757,7 +802,7 @@ var incoming_listener = func {
               nearby_explosion();
             }
           } 
-        } elsif (last_vector[1] == " M70 rocket hit" or last_vector[1] == " KCA cannon shell hit" or last_vector[1] == " Gun Splash On " or last_vector[1] == " M61A1 shell hit") {
+        } elsif (last_vector[1] == " M70 rocket hit" or last_vector[1] == " M55 cannon shell hit" or last_vector[1] == " KCA cannon shell hit" or last_vector[1] == " Gun Splash On " or last_vector[1] == " M61A1 shell hit") {
           # cannon hitting someone
           #print("cannon");
           if (size(last_vector) > 2 and last_vector[2] == " "~callsign) {
@@ -856,13 +901,23 @@ var selectType = func (type) {
 
   while (sel == -1 and i < 6) {
     var test = getprop("payload/weight["~(priority[i]-1)~"]/selected");
-    if (test == type and hasRockets(priority[i]) != 0) {
+    if (test == type and hasRockets(priority[i]) != 0 and hasShells(priority[i]) != 0) {
       sel = priority[i];
     }
     i += 1;
   }
 
   return sel;
+}
+
+var hasShells = func (station) {
+  var loaded = -1;
+  if (getprop("payload/weight["~(station-1)~"]/selected") == "M55 AKAN") {
+    var submodel = station==1?10:12;
+    var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
+    loaded = ammo;
+  }
+  return loaded;
 }
 
 var hasRockets = func (station) {
@@ -969,6 +1024,10 @@ var ammoCount = func (station) {
       ammo = 0;
     } elsif (type == "M55 AKAN") {
       ammo = 0;
+      for(var i = 1; i < 7; i += 1) {
+        var shells = hasShells(i);
+        ammo = shells == -1?ammo:(shells+ammo);
+      }
     }
   }
   return ammo;

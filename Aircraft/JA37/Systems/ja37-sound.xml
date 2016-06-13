@@ -1308,11 +1308,29 @@
             <name>cannon</name>
             <path>Aircraft/JA37/Sounds/KCA.wav</path>
             <condition>
-                <property>controls/armament/station[0]/trigger</property>
-                <greater-than>
-                    <property>ai/submodels/submodel[3]/count</property>
-                    <value>0</value>
-                </greater-than>
+                <or>
+                    <and>
+                        <property>controls/armament/station[0]/trigger</property>
+                        <greater-than>
+                            <property>ai/submodels/submodel[3]/count</property>
+                            <value>0</value>
+                        </greater-than>
+                    </and>
+                    <and>
+                        <property>controls/armament/station[7]/trigger</property>
+                        <greater-than>
+                            <property>ai/submodels/submodel[10]/count</property>
+                            <value>0</value>
+                        </greater-than>
+                    </and>
+                    <and>
+                        <property>controls/armament/station[8]/trigger</property>
+                        <greater-than>
+                            <property>ai/submodels/submodel[12]/count</property>
+                            <value>0</value>
+                        </greater-than>
+                    </and>
+                </or>
             </condition>
             <mode>looped</mode>
             <position>

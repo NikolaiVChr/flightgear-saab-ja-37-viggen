@@ -69,5 +69,25 @@
             <output>external_reactions/recoil/magnitude</output>
         </switch>
 
+        <switch name="names/recoil/magnitude2">
+            <default value="0"/>
+            <test logic="AND" value="33899.39">
+              /controls/armament/station[7]/trigger == 1
+              /ai/submodels/submodel[10]/count gt 0
+              systems/recoil/impulse == 1
+            </test>
+            <output>external_reactions/recoil2/magnitude</output>
+        </switch>
+
+        <switch name="names/recoil/magnitude3">
+            <default value="0"/>
+            <test logic="AND" value="33899.39">
+              /controls/armament/station[8]/trigger == 1
+              /ai/submodels/submodel[12]/count gt 0
+              systems/recoil/impulse == 1
+            </test>
+            <output>external_reactions/recoil3/magnitude</output>
+        </switch>
+
     </channel>
 </system>

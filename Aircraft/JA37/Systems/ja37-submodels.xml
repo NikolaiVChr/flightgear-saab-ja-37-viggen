@@ -236,80 +236,109 @@
         <life>20</life>
     </submodel>
 
-    <!--<submodel>
-    <name>RB-24J missile 2</name>
-    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[2]/released</trigger>
-    <speed>4000.0</speed>
-    <repeat>false</repeat>
-    <delay>0.00</delay>
-    <count>-1</count>
-    <x-offset> -1.02697</x-offset>
-    <y-offset> -0.98148</y-offset>
-    <z-offset> -0.94307</z-offset>
-    <yaw-offset>0.0</yaw-offset>
-    <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd>
-    <eda>0.00136354</eda>
-    <weight>188</weight>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
-    <wind>false</wind>
-    <buoyancy>32</buoyancy>
-    <life>10</life>
-  </submodel>
+    <submodel>
+        <name>left M55 cannonpod tracer</name>
+        <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
+        <trigger>controls/armament/station[7]/trigger</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <speed>2431.1023</speed>        <!-- ft/sec - 741 m/s-->
+        <repeat>true</repeat>
+        <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
+        <count>-1</count>
+        <x-offset>   4.15986</x-offset>
+        <y-offset>  -2.70311</y-offset>
+        <z-offset>  -0.67645</z-offset>
+        <pitch-offset>0</pitch-offset>
+        <life>2.42</life>
+        <wind>true</wind>
+        <weight>0.485</weight>        <!-- pound - 220 grams -->
+        <cd>0.193</cd>
+        <eda>0.00136354</eda>
+        <random>false</random>
+        <randomness>1.0</randomness>
+        <collision>false</collision>
+        <impact>false</impact>
+        <expiry>false</expiry>
+    </submodel>
 
-<submodel>
-    <name>RB-24J missile 3</name>
-    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[3]/released</trigger>
-    <speed>4000.0</speed>
-    <repeat>false</repeat>
-    <delay>0.00</delay>
-    <count>-1</count>
-    <x-offset>  3.15986</x-offset>
-    <y-offset>  2.70311</y-offset>
-    <z-offset> -0.67645</z-offset>
-    <yaw-offset>0.0</yaw-offset>
-    <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd>
-    <eda>0.00136354</eda>
-    <weight>188</weight>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
-    <wind>false</wind>
-    <buoyancy>32</buoyancy>
-    <life>10</life>
-  </submodel>
+    <submodel><!-- submodel 10 -->
+        <name>M55 cannon shell</name>
+        <model>Models/Geometry/null.ac</model>
+        <trigger>controls/armament/station[7]/trigger</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <speed>2431.1023</speed>
+        <repeat>true</repeat>
+        <delay>0.0443</delay><!-- 23 shots/s AJS37 manual -->
+        <count>0</count>
+        <x-offset>   4.15986</x-offset>
+        <y-offset>  -2.70311</y-offset>
+        <z-offset>  -0.67645</z-offset>
+        <pitch-offset>0</pitch-offset>
+        <life>5.0</life>
+        <wind>true</wind>
+        <weight>0.485</weight>        <!-- pound - 220 grams -->
+        <cd>0.193</cd>
+        <eda>0.00136354</eda>
+        <random>false</random>
+        <randomness>1.0</randomness>
+        <collision>true</collision>
+        <impact>true</impact>
+        <expiry>false</expiry>
+        <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
+        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+        <impact-reports>/ai/models/model-impact</impact-reports>
+        <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
+    </submodel>
 
-  <submodel>
-    <name>RB-24J missile 4</name>
-    <model>Aircraft/JA37/Models/Armament/Weapons/RB-24J/missile-smoke-trail.xml</model>
-    <trigger>controls/armament/station[4]/released</trigger>
-    <speed>4000.0</speed>
-    <repeat>false</repeat>
-    <delay>0.00</delay>
-    <count>-1</count>
-    <x-offset> -1.02697</x-offset>
-    <y-offset>  0.98148</y-offset>
-    <z-offset> -0.94307</z-offset>
-    <yaw-offset>0.0</yaw-offset>
-    <pitch-offset>0.0</pitch-offset>
-    <cd>0.00003</cd>
-    <eda>0.00136354</eda>
-    <weight>188</weight>
-    <collision>true</collision>
-    <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
-    <impact>true</impact>
-    <impact-report>sim/ai/aircraft/impact/bomb</impact-report>
-    <wind>false</wind>
-    <buoyancy>32</buoyancy>
-    <life>10</life>
-  </submodel>   -->
+    <submodel>
+        <name>right M55 cannonpod tracer</name>
+        <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
+        <trigger>controls/armament/station[8]/trigger</trigger>
+        <speed>2431.1023</speed>        <!-- ft/sec-->
+        <repeat>true</repeat>
+        <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
+        <count>-1</count>
+        <x-offset>   4.15986</x-offset>
+        <y-offset>   2.70311</y-offset>
+        <z-offset>  -0.67645</z-offset>
+        <pitch-offset>0</pitch-offset>
+        <life>2.42</life>
+        <wind>true</wind>
+        <weight>0.485</weight>        <!-- pound - 220 grams -->
+        <cd>0.193</cd>
+        <eda>0.00136354</eda>
+        <random>false</random>
+        <randomness>1.0</randomness>
+        <collision>false</collision>
+        <impact>false</impact>
+        <expiry>false</expiry>
+    </submodel>
+
+    <submodel><!-- submodel 12 -->
+        <name>M55 cannon shell</name>
+        <model>Models/Geometry/null.ac</model>
+        <trigger>controls/armament/station[8]/trigger</trigger>
+        <speed>2431.1023</speed>
+        <repeat>true</repeat>
+        <delay>0.0443</delay>
+        <count>0</count>
+        <x-offset>   4.15986</x-offset>
+        <y-offset>   2.70311</y-offset>
+        <z-offset>  -0.67645</z-offset>
+        <pitch-offset>0</pitch-offset>
+        <life>5.0</life>
+        <wind>true</wind>
+        <weight>0.485</weight>        <!-- pound - 220 grams -->
+        <cd>0.193</cd>
+        <eda>0.00136354</eda>
+        <random>false</random>
+        <randomness>1.0</randomness>
+        <collision>true</collision>
+        <impact>true</impact>
+        <expiry>false</expiry>
+        <collision-report>sim/ai/aircraft/collision/bullet</collision-report>
+        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+        <impact-reports>/ai/models/model-impact</impact-reports>
+        <submodel-path>Aircraft/JA37/Models/Armament/Weapons/KCA/bullet-submodel.xml</submodel-path>
+    </submodel>
 
     <submodel>
         <name>contrail-dummy</name>
