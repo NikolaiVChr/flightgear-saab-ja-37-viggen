@@ -2300,3 +2300,5 @@ Sim: Missiles will now output max speed with 1 more decimal.
 HUD: KCA weapon renamed to AKAN.
 Radar: Geo targets now acts as if painted, as the computer is aware of its position all the time.
 Sim: Changed weight of M70 to 794 lbm.
+Sim: Added actual loadout for AJ37. 4/6 is functional.
+Sim: Renamed all the armament loadout options.

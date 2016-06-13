@@ -437,10 +437,10 @@
                 <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
-            <opt>
+            <!--<opt>
                 <name>TEST</name>
                 <lbs>50</lbs>
-            </opt>
+            </opt>-->
         </weight>
         <weight n="6">
             <name>Center fuselage pylon</name>
