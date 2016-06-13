@@ -67,6 +67,10 @@ var findRadarTracks = func () {
     var rb74 = input.ai_models.getChildren("rb-74");
     var rb99 = input.ai_models.getChildren("rb-99");
     var rb15 = input.ai_models.getChildren("rb-15f");
+    var rb04 = input.ai_models.getChildren("rb-04e");
+    var rb05 = input.ai_models.getChildren("rb-05a");
+    var rb75 = input.ai_models.getChildren("rb-75");
+    var m90 = input.ai_models.getChildren("m90");
     var test = input.ai_models.getChildren("test");
     if(selection != nil and selection.isValid() == FALSE) {
       #print("not valid");
@@ -87,6 +91,10 @@ var findRadarTracks = func () {
     processTracks(rb74, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb99, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb15, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb04, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb05, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb75, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(m90, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(test, FALSE, TRUE, FALSE, ORDNANCE);
     processCallsigns(players);
 

@@ -249,24 +249,44 @@
                 <lbs>0</lbs>
             </opt>
             <opt>
-                <name>RB 24</name>
+                <name>RB 04E Attackrobot</name>
+                <lbs>1378</lbs>
+            </opt>
+            <opt>
+                <name>RB 15F Attackrobot</name>
+                <lbs>1763.7</lbs>
+            </opt>
+            <opt>
+                <name>RB 24 Sidewinder</name>
                 <lbs>160.94</lbs>
             </opt>
             <opt>
-                <name>RB 24J</name>
+                <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
             <opt>
-                <name>RB 74</name>
+                <name>RB 74 Sidewinder</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
-                <name>M70</name>
+                <name>RB 75 Maverick</name>
+                <lbs>462</lbs>
+            </opt>
+            <opt>
+                <name>M55 AKAN</name>
+                <lbs>802.5</lbs>
+            </opt>
+            <opt>
+                <name>M70 ARAK</name>
                 <lbs>200</lbs>
             </opt>
             <opt>
-                <name>RB 15F</name>
-                <lbs>1763.7</lbs>
+                <name>M71 Bomblavett</name>
+                <lbs>1060</lbs>
+            </opt>
+            <opt>
+                <name>M90 Bombkapsel</name>
+                <lbs>1322.77</lbs>
             </opt>
         </weight>
         <weight n="1">
@@ -278,20 +298,32 @@
                 <lbs>0</lbs>
             </opt>
             <opt>
-                <name>RB 24</name>
+                <name>RB 05A Attackrobot</name>
+                <lbs>672.4</lbs>
+            </opt>
+            <opt>
+                <name>RB 24 Sidewinder</name>
                 <lbs>160.94</lbs>
             </opt>
             <opt>
-                <name>RB 24J</name>
+                <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
             <opt>
-                <name>RB 74</name>
+                <name>RB 74 Sidewinder</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
-                <name>M70</name>
-                <lbs>200</lbs>
+                <name>RB 75 Maverick</name>
+                <lbs>462</lbs>
+            </opt>
+            <opt>
+                <name>M70 ARAK</name>
+                <lbs>794</lbs>
+            </opt>
+            <opt>
+                <name>M71 Bomblavett</name>
+                <lbs>1060</lbs>
             </opt>
         </weight>
         <weight n="2">
@@ -303,24 +335,44 @@
                 <lbs>0</lbs>
             </opt>
             <opt>
-                <name>RB 24</name>
+                <name>RB 04E Attackrobot</name>
+                <lbs>1378</lbs>
+            </opt>
+            <opt>
+                <name>RB 15F Attackrobot</name>
+                <lbs>1763.7</lbs>
+            </opt>
+            <opt>
+                <name>RB 24 Sidewinder</name>
                 <lbs>160.94</lbs>
             </opt>
             <opt>
-                <name>RB 24J</name>
+                <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
             <opt>
-                <name>RB 74</name>
+                <name>RB 74 Sidewinder</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
-                <name>M70</name>
+                <name>RB 75 Maverick</name>
+                <lbs>462</lbs>
+            </opt>
+            <opt>
+                <name>M55 AKAN</name>
+                <lbs>802.5</lbs>
+            </opt>
+            <opt>
+                <name>M70 ARAK</name>
                 <lbs>200</lbs>
             </opt>
             <opt>
-                <name>RB 15F</name>
-                <lbs>1763.7</lbs>
+                <name>M71 Bomblavett</name>
+                <lbs>1060</lbs>
+            </opt>
+            <opt>
+                <name>M90 Bombkapsel</name>
+                <lbs>1322.77</lbs>
             </opt>
         </weight>
         <weight n="3">
@@ -332,20 +384,32 @@
                 <lbs>0</lbs>
             </opt>
             <opt>
-                <name>RB 24</name>
+                <name>RB 05A Attackrobot</name>
+                <lbs>672.4</lbs>
+            </opt>
+            <opt>
+                <name>RB 24 Sidewinder</name>
                 <lbs>160.94</lbs>
             </opt>
             <opt>
-                <name>RB 24J</name>
+                <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
             <opt>
-                <name>RB 74</name>
+                <name>RB 74 Sidewinder</name>
                 <lbs>188</lbs>
             </opt>
             <opt>
-                <name>M70</name>
-                <lbs>200</lbs>
+                <name>RB 75 Maverick</name>
+                <lbs>462</lbs>
+            </opt>
+            <opt>
+                <name>M70 ARAK</name>
+                <lbs>794</lbs>
+            </opt>
+            <opt>
+                <name>M71 Bomblavett</name>
+                <lbs>1060</lbs>
             </opt>
         </weight>
         <weight n="4">
@@ -357,7 +421,7 @@
                 <lbs>0</lbs>
             </opt>
             <opt>
-                <name>RB 24J</name>
+                <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
         </weight>
@@ -370,7 +434,7 @@
                 <lbs>0</lbs>
             </opt>
             <opt>
-                <name>RB 24J</name>
+                <name>RB 24J Sidewinder</name>
                 <lbs>179</lbs>
             </opt>
             <opt>

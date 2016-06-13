@@ -67,20 +67,24 @@ var loop_stores = func {
       var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
       
       if(payloadName.getValue() != "none" and (
-          (payloadName.getValue() == "M70" and payloadWeight.getValue() != 200)
-          or (payloadName.getValue() == "RB 24" and payloadWeight.getValue() != 160.94)
-          or (payloadName.getValue() == "RB 24J" and payloadWeight.getValue() != 179)
-          or (payloadName.getValue() == "RB 74" and payloadWeight.getValue() != 188)
-          or (payloadName.getValue() == "RB 71" and payloadWeight.getValue() != 425)
-          or (payloadName.getValue() == "RB 99" and payloadWeight.getValue() != 291)
-          or (payloadName.getValue() == "RB 15F" and payloadWeight.getValue() != 1763.7)
+          (payloadName.getValue() == "M70 ARAK" and payloadWeight.getValue() != 794)
+          or (payloadName.getValue() == "RB 24 Sidewinder" and payloadWeight.getValue() != 160.94)
+          or (payloadName.getValue() == "RB 24J Sidewinder" and payloadWeight.getValue() != 179)
+          or (payloadName.getValue() == "RB 74 Sidewinder" and payloadWeight.getValue() != 188)
+          or (payloadName.getValue() == "RB 71 Skyflash" and payloadWeight.getValue() != 425)
+          or (payloadName.getValue() == "RB 99 Amraam" and payloadWeight.getValue() != 291)
+          or (payloadName.getValue() == "RB 15F Attackrobot" and payloadWeight.getValue() != 1763.7)
+          or (payloadName.getValue() == "RB 04E Attackrobot" and payloadWeight.getValue() != 1378)
+          or (payloadName.getValue() == "RB 05A Attackrobot" and payloadWeight.getValue() != 672.4)
+          or (payloadName.getValue() == "RB 75 Maverick" and payloadWeight.getValue() != 462)
+          or (payloadName.getValue() == "M90 Bombkapsel" and payloadWeight.getValue() != 1322.77)
           or (payloadName.getValue() == "TEST" and payloadWeight.getValue() != 50)
           or (payloadName.getValue() == "Drop tank" and payloadWeight.getValue() != 224.87))) {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
         if(i != 6) {
-          if (payloadName.getValue() == "RB 24") {
+          if (payloadName.getValue() == "RB 24 Sidewinder") {
             # is not center pylon and is RB24
             #print("rb24 "~i);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-24") {
@@ -95,7 +99,67 @@ var loop_stores = func {
               payloadName.setValue("none");
               #print("refusing to mount new RB-24 missile yet "~i);
             }
-          } elsif (payloadName.getValue() == "RB 24J") {
+          } elsif (payloadName.getValue() == "RB 04E Attackrobot") {
+            # is not center pylon and is RB24j
+            #print("rb24j "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-04E") {
+              # remove aim-7 logic from that pylon
+              #print("removing aim-7 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "RB-04E", "Attackrobot") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-24j missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "RB 05A Attackrobot") {
+            # is not center pylon and is RB24j
+            #print("rb24j "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-05A") {
+              # remove aim-7 logic from that pylon
+              #print("removing aim-7 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "RB-05A", "Attackrobot") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-24j missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "RB 75 Maverick") {
+            # is not center pylon and is RB24j
+            #print("rb24j "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-75") {
+              # remove aim-7 logic from that pylon
+              #print("removing aim-7 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "RB-75", "Maverick") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-24j missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "M90 Bombkapsel") {
+            # is not center pylon and is RB24j
+            #print("rb24j "~i);
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "M90") {
+              # remove aim-7 logic from that pylon
+              #print("removing aim-7 logic");
+              armament.AIM.active[i].del();
+            }
+            if(armament.AIM.new(i, "M90", "Bombkapsel") == -1 and armament.AIM.active[i].status == MISSILE_FLYING) {
+              #missile added through menu while another from that pylon is still flying.
+              #to handle this we have to ignore that addition.
+              setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
+              payloadName.setValue("none");
+              #print("refusing to mount new RB-24j missile yet "~i);
+            }
+          } elsif (payloadName.getValue() == "RB 24J Sidewinder") {
             # is not center pylon and is RB24j
             #print("rb24j "~i);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-24J") {
@@ -110,7 +174,7 @@ var loop_stores = func {
               payloadName.setValue("none");
               #print("refusing to mount new RB-24j missile yet "~i);
             }
-          } elsif (payloadName.getValue() == "RB 74") {
+          } elsif (payloadName.getValue() == "RB 74 Sidewinder") {
             # is not center pylon and is RB74
             #print("rb74 "~i);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-74") {
@@ -125,14 +189,14 @@ var loop_stores = func {
               payloadName.setValue("none");
               #print("refusing to mount new RB-74 missile yet "~i);
             }
-          } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70") {
+          } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70 ARAK") {
               setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
               if(armament.AIM.active[i] != nil and armament.AIM.active[i].status != MISSILE_FLYING) {
                 # remove aim logic from that pylon
                 armament.AIM.active[i].del();
                 #print("removing aim logic");
               }
-          } elsif (payloadName.getValue() == "RB 71") {
+          } elsif (payloadName.getValue() == "RB 71 Skyflash") {
             # is not center pylon and is RB71
             #print("rb71 "~i);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-71") {
@@ -147,7 +211,7 @@ var loop_stores = func {
               payloadName.setValue("none");
               #print("refusing to mount new RB-71 missile yet "~i);
             }
-          } elsif (payloadName.getValue() == "RB 99") {
+          } elsif (payloadName.getValue() == "RB 99 Amraam") {
             # is not center pylon and is RB99
             #print("rb71 "~i);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-99") {
@@ -177,10 +241,10 @@ var loop_stores = func {
               payloadName.setValue("none");
               #print("refusing to mount new RB-71 missile yet "~i);
             }
-          } elsif (payloadName.getValue() == "RB 15F") {
+          } elsif (payloadName.getValue() == "RB 15F Attackrobot") {
             # is not center pylon and is RB99
             #print("rb71 "~i);
-            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB 15F") {
+            if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "RB-15F") {
               # remove aim-9 logic from that pylon
               #print("removing aim-9 logic");
               armament.AIM.active[i].del();
@@ -245,45 +309,75 @@ var loop_stores = func {
           input.tank8Jettison.setValue(TRUE);
           input.tank8LvlNorm.setValue(0);
         }
-      } elsif (selected == "RB 24") {
+      } elsif (selected == "RB 24 Sidewinder") {
         # the pylon has a sidewinder, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 160.94) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 160.94);
         }
-      } elsif (selected == "RB 24J") {
+      } elsif (selected == "RB 24J Sidewinder") {
         # the pylon has a sidewinder, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 179) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 179);
         }
-      } elsif (selected == "RB 74") {
+      } elsif (selected == "RB 74 Sidewinder") {
         # the pylon has a sidewinder, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 188) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 188);
         }
-      } elsif (selected == "RB 71") {
+      } elsif (selected == "RB 71 Skyflash") {
         # the pylon has a skyflash, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 425) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 425);
         }
-      } elsif (selected == "RB 99") {
+      } elsif (selected == "RB 99 Amraam") {
         # the pylon has a amraam, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 291) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 291);
         }
-      } elsif (selected == "M70") {
+      } elsif (selected == "M70 ARAK") {
         # the pylon has a rocket pod, give it a pointmass
-        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 200) {
-          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 200);
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 794) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 794);
         }
       } elsif (selected == "TEST") {
         # the pylon has a rocket pod, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 50) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 50);
         }
-      } elsif (selected == "RB 15F") {
+      } elsif (selected == "RB 15F Attackrobot") {
         # the pylon has a rocket pod, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1763.7) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1763.7);
+        }
+      } elsif (selected == "RB 04E Attackrobot") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1378) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1378);
+        }
+      } elsif (selected == "RB 05A Attackrobot") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 672.4) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 672.4);
+        }
+      } elsif (selected == "RB 75 Maverick") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 462) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 462);
+        }
+      } elsif (selected == "M90 Bombkapsel") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1322.77) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1322.77);
+        }
+      } elsif (selected == "M71 Bomblavett") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1060) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1060);
+        }
+      } elsif (selected == "M55 AKAN") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 802.5) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 802.5);
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
@@ -319,15 +413,15 @@ var loop_stores = func {
         var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
       
         if (i == 0) {
-          payloadName.setValue("RB 15F");
+          payloadName.setValue("RB 15F Attackrobot");
         } elsif (i == 2) {
-          payloadName.setValue("RB 71");
+          payloadName.setValue("RB 71 Skyflash");
         } elsif (i == 1 or i == 3) {
-          payloadName.setValue("RB 99");
+          payloadName.setValue("RB 99 Amraam");
         } elsif (i == 4) {
-          payloadName.setValue("RB 74");
+          payloadName.setValue("RB 74 Sidewinder");
         } elsif (i == 5) {
-          payloadName.setValue("RB 24J");
+          payloadName.setValue("RB 24J Sidewinder");
         }
       }
     }
@@ -410,7 +504,7 @@ var trigger_listener = func {
   if(input.combat.getValue() == 2 and input.dcVolt.getValue() > 23 and !(armSelect == 0 and input.acInstrVolt.getValue() < 100)) {
     setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
     var str = "payload/weight["~(armSelect-1)~"]/selected";
-    if (armSelect != 0 and getprop(str) == "M70") {
+    if (armSelect != 0 and getprop(str) == "M70 ARAK") {
       setprop("/controls/armament/station["~armSelect~"]/trigger-m70", trigger);
     }
   } else {
@@ -449,7 +543,7 @@ var trigger_listener = func {
       }
     }
   }
-  if (fired == "M70") {
+  if (fired == "M70 ARAK") {
     var submodel = armSelect + 4;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     if (ammo == 0) {
@@ -769,7 +863,7 @@ var selectType = func (type) {
 
 var hasRockets = func (station) {
   var loaded = -1;
-  if (getprop("payload/weight["~(station-1)~"]/selected") == "M70") {
+  if (getprop("payload/weight["~(station-1)~"]/selected") == "M70 ARAK") {
     var submodel = station + 4;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     loaded = ammo;
@@ -784,44 +878,44 @@ var ammoCount = func (station) {
     ammo = getprop("ai/submodels/submodel[3]/count");
   } else {
     var type = getprop("payload/weight["~(station-1)~"]/selected");
-    if (type == "M70") {
+    if (type == "M70 ARAK") {
       ammo = 0;
       for(var i = 1; i < 7; i += 1) {
         var rockets = hasRockets(i);
         ammo = rockets == -1?ammo:(rockets+ammo);
       }
-    } elsif (type == "RB 71") {
+    } elsif (type == "RB 71 Skyflash") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
-        if(getprop("payload/weight["~i~"]/selected") == "RB 71") {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 71 Skyflash") {
           ammo += 1;
         }
       }
-    } elsif (type == "RB 99") {
+    } elsif (type == "RB 99 Amraam") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
-        if(getprop("payload/weight["~i~"]/selected") == "RB 99") {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 99 Amraam") {
           ammo += 1;
         }
       }
-    } elsif (type == "RB 74") {
+    } elsif (type == "RB 74 Sidewinder") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
-        if(getprop("payload/weight["~i~"]/selected") == "RB 74") {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 74 Sidewinder") {
           ammo += 1;
         }
       }
-    } elsif (type == "RB 24J") {
+    } elsif (type == "RB 24J Sidewinder") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
-        if(getprop("payload/weight["~i~"]/selected") == "RB 24J") {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 24J Sidewinder") {
           ammo += 1;
         }
       }
-    } elsif (type == "RB 24") {
+    } elsif (type == "RB 24 Sidewinder") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
-        if(getprop("payload/weight["~i~"]/selected") == "RB 24") {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 24 Sidewinder") {
           ammo += 1;
         }
       }
@@ -832,13 +926,45 @@ var ammoCount = func (station) {
           ammo += 1;
         }
       }
-    } elsif (type == "RB 15F") {
+    } elsif (type == "RB 15F Attackrobot") {
       ammo = 0;
       for(var i = 0; i < 6; i += 1) {
-        if(getprop("payload/weight["~i~"]/selected") == "RB 15F") {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 15F Attackrobot") {
           ammo += 1;
         }
       }
+    } elsif (type == "RB 04E Attackrobot") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 04E Attackrobot") {
+          ammo += 1;
+        }
+      }
+    } elsif (type == "RB 05A Attackrobot") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 05A Attackrobot") {
+          ammo += 1;
+        }
+      }
+    } elsif (type == "RB 75 Maverick") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "RB 75 Maverick") {
+          ammo += 1;
+        }
+      }
+    } elsif (type == "M90 Bombkapsel") {
+      ammo = 0;
+      for(var i = 0; i < 6; i += 1) {
+        if(getprop("payload/weight["~i~"]/selected") == "M90 Bombkapsel") {
+          ammo += 1;
+        }
+      }
+    } elsif (type == "M71 Bomblavett") {
+      ammo = 0;
+    } elsif (type == "M55 AKAN") {
+      ammo = 0;
     }
   }
   return ammo;
@@ -872,49 +998,49 @@ var cycle_weapons = func {
         sel = 0;
         newType = "KCA";
       } else {
-        sel = selectType("M70");
+        sel = selectType("M70 ARAK");
         if (sel != -1) {
-          newType = "M70";
+          newType = "M70 ARAK";
         } else {
-          type = "M70";
+          type = "M70 ARAK";
         }
       }
     } elsif (type == "KCA") {
-      sel = selectType("M70");
+      sel = selectType("M70 ARAK");
       if (sel != -1) {
-        newType = "M70";
+        newType = "M70 ARAK";
       } else {
-        type = "M70";
+        type = "M70 ARAK";
       }
-    } elsif (type == "M70") {
-      sel = selectType("RB 99");
+    } elsif (type == "M70 ARAK") {
+      sel = selectType("RB 99 Amraam");
       if (sel != -1) {
-        newType = "RB 99";
+        newType = "RB 99 Amraam";
       } else {
-        type = "RB 99";
+        type = "RB 99 Amraam";
       }
-    } elsif (type == "RB 99") {
-      sel = selectType("RB 71");
+    } elsif (type == "RB 99 Amraam") {
+      sel = selectType("RB 71 Skyflash");
       if (sel != -1) {
-        newType = "RB 71";
+        newType = "RB 71 Skyflash";
       } else {
-        type = "RB 71";
+        type = "RB 71 Skyflash";
       }
-    } elsif (type == "RB 71") {
-      sel = selectType("RB 24J");
+    } elsif (type == "RB 71 Skyflash") {
+      sel = selectType("RB 24J Sidewinder");
       if (sel != -1) {
-        newType = "RB 24J";
+        newType = "RB 24J Sidewinder";
       } else {
-        type = "RB 24J";
+        type = "RB 24J Sidewinder";
       }
-    } elsif (type == "RB 24J") {
-      sel = selectType("RB 24");
+    } elsif (type == "RB 24J Sidewinder") {
+      sel = selectType("RB 24 Sidewinder");
       if (sel != -1) {
-        newType = "RB 24";
+        newType = "RB 24 Sidewinder";
       } else {
-        type = "RB 24";
+        type = "RB 24 Sidewinder";
       }
-    } elsif (type == "RB 24") {
+    } elsif (type == "RB 24 Sidewinder") {
       sel = selectType("TEST");
       if (sel != -1) {
         newType = "TEST";
@@ -922,31 +1048,73 @@ var cycle_weapons = func {
         type = "TEST";
       }
     } elsif (type == "TEST") {
-      sel = selectType("RB 74");
+      sel = selectType("RB 74 Sidewinder");
       if (sel != -1) {
-        newType = "RB 74";
+        newType = "RB 74 Sidewinder";
       } else {
-        type = "RB 74";
+        type = "RB 74 Sidewinder";
       }
-    } elsif (type == "RB 74") {
-      sel = selectType("RB 15F");
+    } elsif (type == "RB 74 Sidewinder") {
+      sel = selectType("M55 AKAN");
       if (sel != -1) {
-        newType = "RB 15F";
+        newType = "M55 AKAN";
       } else {
-        type = "RB 15F";
+        type = "M55 AKAN";
       }
-    } elsif (type == "RB 15F") {
+    } elsif (type == "M55 AKAN") {
+      sel = selectType("M71 Bomblavett");
+      if (sel != -1) {
+        newType = "M71 Bomblavett";
+      } else {
+        type = "M71 Bomblavett";
+      }
+    } elsif (type == "M71 Bomblavett") {
+      sel = selectType("M90 Bombkapsel");
+      if (sel != -1) {
+        newType = "M90 Bombkapsel";
+      } else {
+        type = "M90 Bombkapsel";
+      }
+    } elsif (type == "M90 Bombkapsel") {
+      sel = selectType("RB 04E Attackrobot");
+      if (sel != -1) {
+        newType = "RB 04E Attackrobot";
+      } else {
+        type = "RB 04E Attackrobot";
+      }
+    } elsif (type == "RB 04E Attackrobot") {
+      sel = selectType("RB 05A Attackrobot");
+      if (sel != -1) {
+        newType = "RB 05A Attackrobot";
+      } else {
+        type = "RB 05A Attackrobot";
+      }
+    } elsif (type == "RB 05A Attackrobot") {
+      sel = selectType("RB 75 Maverick");
+      if (sel != -1) {
+        newType = "RB 75 Maverick";
+      } else {
+        type = "RB 75 Maverick";
+      }
+    } elsif (type == "RB 75 Maverick") {
+      sel = selectType("RB 15F Attackrobot");
+      if (sel != -1) {
+        newType = "RB 15F Attackrobot";
+      } else {
+        type = "RB 15F Attackrobot";
+      }
+    } elsif (type == "RB 15F Attackrobot") {
       if(getprop("sim/description") == "Saab JA-37 Viggen") {
         sel = 0;
         newType = "KCA";
       } else {
-        sel = selectType("M70");
+        sel = selectType("M70 ARAK");
         if (sel != -1) {
-          newType = "M70";
+          newType = "M70 ARAK";
         } else {
           if (loopRan == FALSE) {
             loopRan = TRUE;
-            type = "M70";
+            type = "M70 ARAK";
           } else {
             # we have been here once before, so to prevent infinite loop, we just select station 1
             sel = 1;
@@ -968,10 +1136,10 @@ reloadJAAir2Air1979 = func {
   # Reload missiles - 6 of them.
 
   # Sidewinder
-  setprop("payload/weight[1]/selected", "RB 24J");
-  setprop("payload/weight[3]/selected", "RB 24J");
-  setprop("payload/weight[4]/selected", "RB 24J");
-  setprop("payload/weight[5]/selected", "RB 24J");
+  setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[3]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
   screen.log.write("4 RB-24J missiles attached", 0.0, 1.0, 0.0);
 
   # Skyflash
@@ -993,10 +1161,10 @@ reloadJAAir2Air1987 = func {
   # Reload missiles - 6 of them.
 
   # Sidewinder
-  setprop("payload/weight[1]/selected", "RB 74");
-  setprop("payload/weight[3]/selected", "RB 74");
-  setprop("payload/weight[4]/selected", "RB 74");
-  setprop("payload/weight[5]/selected", "RB 74");
+  setprop("payload/weight[1]/selected", "RB 74 Sidewinder");
+  setprop("payload/weight[3]/selected", "RB 74 Sidewinder");
+  setprop("payload/weight[4]/selected", "RB 74 Sidewinder");
+  setprop("payload/weight[5]/selected", "RB 74 Sidewinder");
   screen.log.write("4 RB-74 missiles attached", 0.0, 1.0, 0.0);
 
   # Skyflash
@@ -1018,15 +1186,15 @@ reloadJAAir2Air1997 = func {
   # Reload missiles - 6 of them.
 
   # Amraam
-  setprop("payload/weight[1]/selected", "RB 99");
-  setprop("payload/weight[3]/selected", "RB 99");
-  setprop("payload/weight[0]/selected", "RB 99");
-  setprop("payload/weight[2]/selected", "RB 99");
+  setprop("payload/weight[1]/selected", "RB 99 Amraam");
+  setprop("payload/weight[3]/selected", "RB 99 Amraam");
+  setprop("payload/weight[0]/selected", "RB 99 Amraam");
+  setprop("payload/weight[2]/selected", "RB 99 Amraam");
   screen.log.write("4 RB-99 missiles attached", 0.0, 1.0, 0.0);
 
   # Sidewinder
-  setprop("payload/weight[4]/selected", "RB 74");
-  setprop("payload/weight[5]/selected", "RB 74");
+  setprop("payload/weight[4]/selected", "RB 74 Sidewinder");
+  setprop("payload/weight[5]/selected", "RB 74 Sidewinder");
   screen.log.write("2 RB-74 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
@@ -1041,12 +1209,12 @@ reloadJAAir2Air1997 = func {
 
 reloadJAAir2Ground = func {
   # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "M70");
-  setprop("payload/weight[1]/selected", "M70");
-  setprop("payload/weight[2]/selected", "M70");
-  setprop("payload/weight[3]/selected", "M70");
-  setprop("payload/weight[4]/selected", "RB 24J");
-  setprop("payload/weight[5]/selected", "RB 24J");
+  setprop("payload/weight[0]/selected", "M70 ARAK");
+  setprop("payload/weight[1]/selected", "M70 ARAK");
+  setprop("payload/weight[2]/selected", "M70 ARAK");
+  setprop("payload/weight[3]/selected", "M70 ARAK");
+  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
   setprop("ai/submodels/submodel[5]/count", 6);
   setprop("ai/submodels/submodel[6]/count", 6);
   setprop("ai/submodels/submodel[7]/count", 6);
@@ -1066,12 +1234,12 @@ reloadJAAir2Ground = func {
 
 reloadAJAir2Ground = func {
   # Reload missiles - 4 of them.
-  setprop("payload/weight[0]/selected", "RB 15F");
-  setprop("payload/weight[1]/selected", "M70");
-  setprop("payload/weight[2]/selected", "RB 15F");
-  setprop("payload/weight[3]/selected", "M70");
-  setprop("payload/weight[4]/selected", "RB 24J");
-  setprop("payload/weight[5]/selected", "RB 24J");
+  setprop("payload/weight[0]/selected", "RB 15F Attackrobot");
+  setprop("payload/weight[1]/selected", "M70 ARAK");
+  setprop("payload/weight[2]/selected", "RB 15F Attackrobot");
+  setprop("payload/weight[3]/selected", "M70 ARAK");
+  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
   setprop("ai/submodels/submodel[5]/count", 6);
   setprop("ai/submodels/submodel[6]/count", 6);
   setprop("ai/submodels/submodel[7]/count", 6);
