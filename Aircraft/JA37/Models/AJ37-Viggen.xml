@@ -2972,7 +2972,7 @@
     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[0]/weight-lb -->
-    <value>200</value>
+    <value>794</value>
    </equals>
   </condition>
  </animation>
@@ -2993,7 +2993,7 @@
   <condition>
    <equals>
     <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[1]/weight-lb -->
-    <value>200</value>
+    <value>794</value>
    </equals>
   </condition>
  </animation>
@@ -3015,7 +3015,7 @@
     <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
    <equals>
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[2]/weight-lb -->
-    <value>200</value>
+    <value>794</value>
    </equals>
   </condition>
  </animation>
@@ -3036,7 +3036,7 @@
   <condition>
    <equals>
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
-    <value>200</value>
+    <value>794</value>
    </equals>
   </condition>
  </animation>
@@ -3218,6 +3218,718 @@
   </condition>
  </animation>
 
+<!--        m55              -->
+<!-- Left wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M55/m55.xml</path>
+  <name>m550</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  3.06450 </x-m>
+   <y-m> -2.69858 </y-m>
+   <z-m> -0.83207 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m550</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>802.5</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+<!-- Right wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M55/m55.xml</path>
+  <name>m551</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  3.06450 </x-m>
+   <y-m>  2.69858 </y-m>
+   <z-m> -0.83207 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m551</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>802.5</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+
+<!--        m71              -->
+<!-- Left wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71rail.xml</path>
+  <name>m71rail0</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  3.44582 </x-m>
+   <y-m> -2.70031 </y-m>
+   <z-m> -0.68351 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m71rail0</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m710</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.34899 </x-m>
+   <y-m> -2.88161 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m710</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m711</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.34899 </x-m>
+   <y-m> -2.51767 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m711</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m712</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  4.58385 </x-m>
+   <y-m> -2.88161 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m712</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m713</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  4.58385 </x-m>
+   <y-m> -2.51767 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m713</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Left fuselage pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71rail.xml</path>
+  <name>m71rail1</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -0.58007 </x-m>
+   <y-m> -0.91337 </y-m>
+   <z-m> -0.94355 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m71rail1</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m714</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -1.67690 </x-m>
+   <y-m> -1.09467 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m714</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m715</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -1.67690 </x-m>
+   <y-m> -0.73073 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m715</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m716</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  0.55796 </x-m>
+   <y-m> -1.09467 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m716</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m717</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  0.55796 </x-m>
+   <y-m> -0.73073 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m717</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71rail.xml</path>
+  <name>m71rail2</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  3.44582 </x-m>
+   <y-m>  2.70031 </y-m>
+   <z-m> -0.68351 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m71rail2</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m718</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.34899 </x-m>
+   <y-m>  2.88161 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m718</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m719</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.34899 </x-m>
+   <y-m>  2.51767 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m719</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m7110</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  4.58385 </x-m>
+   <y-m>  2.88161 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m7110</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m7111</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  4.58385 </x-m>
+   <y-m>  2.51767 </y-m>
+   <z-m> -0.90600 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m7111</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right fuselage pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71rail.xml</path>
+  <name>m71rail3</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -0.58007 </x-m>
+   <y-m>  0.91337 </y-m>
+   <z-m> -0.94355 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m71rail3</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m7112</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -1.67690 </x-m>
+   <y-m>  1.09467 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m7112</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m7113</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -1.67690 </x-m>
+   <y-m>  0.73073 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m7113</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m7114</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  0.5796 </x-m>
+   <y-m>  1.09467 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m7114</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M71/m71.xml</path>
+  <name>m7115</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  0.5796 </x-m>
+   <y-m>  0.73073 </y-m>
+   <z-m> -1.16604 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m7115</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1060</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+
+<!--        m90              -->
+<!-- Left wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M90/m90.xml</path>
+  <name>m900</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.92455 </x-m>
+   <y-m> -2.69491 </y-m>
+   <z-m> -0.76629 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m900</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1322.77</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/M90/m90.xml</path>
+  <name>m901</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.92455 </x-m>
+   <y-m>  2.69491 </y-m>
+   <z-m> -0.76629 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>m901</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1322.77</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+
+<!--        rb 04            -->
+<!-- Left wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-04E/rb-04.xml</path>
+  <name>rb040</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.71885 </x-m>
+   <y-m> -2.69860 </y-m>
+   <z-m> -0.83006 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb040</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1378</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-04E/rb-04.xml</path>
+  <name>rb041</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.71885 </x-m>
+   <y-m>  2.69860 </y-m>
+   <z-m> -0.83006 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb041</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>1378</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+
+<!--        rb 05            -->
+<!-- Left fuselage pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-05A/rb-05.xml</path>
+  <name>rb050</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -0.52379 </x-m>
+   <y-m> -0.91344 </y-m>
+   <z-m> -1.02640 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb050</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>672.4</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right fuselage pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-05A/rb-05.xml</path>
+  <name>rb051</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -0.52379 </x-m>
+   <y-m>  0.91344 </y-m>
+   <z-m> -1.02640 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb051</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>672.4</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+
+<!--        rb 75            -->
+<!-- Left wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-75/rb-75.xml</path>
+  <name>rb750</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.94779 </x-m>
+   <y-m> -2.69829 </y-m>
+   <z-m> -0.76311 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb750</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>   
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
+    <value>462</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+<!-- Left fuselage pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-75/rb-75.xml</path>
+  <name>rb751</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -0.25475 </x-m>
+   <y-m> -0.92318 </y-m>
+   <z-m> -1.02446 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb751</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>   
+   <equals>
+    <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
+    <value>462</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right wing pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-75/rb-75.xml</path>
+  <name>rb752</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m>  2.94779 </x-m>
+   <y-m>  2.69829 </y-m>
+   <z-m> -0.76311 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb752</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>   
+   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
+   <equals>
+    <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
+    <value>462</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
+ 
+<!-- Right fuselage pylon -->
+ <model>
+  <path>Aircraft/JA37/Models/Armament/Weapons/RB-75/rb-75.xml</path>
+  <name>rb753</name><!--unique object name, matches name below-->
+  <offsets>
+   <x-m> -0.25475 </x-m>
+   <y-m>  0.92318 </y-m>
+   <z-m> -1.02446 </z-m>
+  </offsets>
+ </model>
+ 
+ <animation>
+  <object-name>rb753</object-name><!--unique object name, matches name above-->
+  <type>select</type>
+  <condition>   
+   <equals>
+    <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
+    <value>462</value> <!--weight-->
+   </equals>
+  </condition>
+ </animation>
 
 <!--<animation>
   <type>range</type>
