@@ -1001,7 +1001,7 @@ var ContactGPS = {
   },
 
   isPainted: func () {
-    return FALSE;
+    return TRUE;
   },
 
   getUnique: func () {

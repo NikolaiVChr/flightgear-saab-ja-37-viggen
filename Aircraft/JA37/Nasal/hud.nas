@@ -1738,7 +1738,7 @@ var HUDnasal = {
     } elsif (mode == COMBAT) {
       var armSelect = me.input.station.getValue();
       if(armSelect == 0) {
-        me.qfe.setText("KCA");
+        me.qfe.setText("AKAN");
         me.qfe.show();
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "RB 24") {
         me.qfe.setText("RB-24");

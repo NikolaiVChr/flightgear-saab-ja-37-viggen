@@ -64,6 +64,7 @@ Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Add RB-04.
 Sim: Be able to notch the rb71 again.
 Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
+Sim: Make missiles call out the brevity code.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -80,6 +81,7 @@ HUD: All track semi circles and semi box should have a line in them. (might degr
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Sidewind indicator should really be 10 degs below plane axis line.
+HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 
 
 

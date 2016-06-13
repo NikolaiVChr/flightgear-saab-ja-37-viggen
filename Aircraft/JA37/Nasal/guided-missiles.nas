@@ -781,7 +781,7 @@ var AIM = {
 			var exploded = me.poximity_detection();
 			
 			if (exploded == TRUE) {
-				printf("%s max speed was %.1f Mach, bleed %4d kt.", me.type, me.maxMach, me.energyBleedKt);
+				printf("%s max speed was %.2f Mach, bleed %4d kt.", me.type, me.maxMach, me.energyBleedKt);
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = sound_fps;
 				me.sndDistance = 0;

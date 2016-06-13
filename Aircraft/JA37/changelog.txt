@@ -2293,3 +2293,9 @@ Sim: Decreased radar range for AJ37 to 120 Km.
 Sim: Added the RB-24 missile to the AJ37.
 Sim: Removed RB-74, RB-71 and RB-99 from AJ37 loadout.
 Sim: Removed the RB15F from JA loadout options.
+Sim: Put rb74 back into the JA37.
+Sim: Added stats for M90, RB-75, RB-04 and RB-05.
+Sim: Changed RB-71 fire message to Fox 1.
+Sim: Missiles will now output max speed with 1 more decimal.
+HUD: KCA weapon renamed to AKAN.
+Radar: Geo targets now acts as if painted, as the computer is aware of its position all the time.

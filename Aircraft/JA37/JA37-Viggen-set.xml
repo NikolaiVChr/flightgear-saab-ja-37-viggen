@@ -506,7 +506,7 @@
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
-                    <fire-msg>Fox 3</fire-msg>
+                    <fire-msg>Fox 1</fire-msg>
                 </rb-71>
                 <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) mach 4-->
                     <sound-on-off type="bool">false</sound-on-off>
