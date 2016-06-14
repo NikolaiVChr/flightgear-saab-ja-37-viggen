@@ -1374,6 +1374,31 @@ reloadAJAir2Personel = func {
   reloadGuns();
 }
 
+reloadAJAir2Air = func {
+  # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "M55 AKAN");
+  setprop("payload/weight[1]/selected", "RB 74 Sidewinder");
+  setprop("payload/weight[2]/selected", "M55 AKAN");
+  setprop("payload/weight[3]/selected", "RB 74 Sidewinder");
+  setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
+  setprop("ai/submodels/submodel[5]/count", 6);
+  setprop("ai/submodels/submodel[6]/count", 6);
+  setprop("ai/submodels/submodel[7]/count", 6);
+  setprop("ai/submodels/submodel[8]/count", 6);
+  screen.log.write("2 M55 cannonpod attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-74 Sidewinder attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+}
+
 reloadGuns = func {
   # Reload cannon - 146 of them.
   #setprop("ai/submodels/submodel[2]/count", 29);

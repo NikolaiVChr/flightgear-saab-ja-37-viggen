@@ -182,6 +182,13 @@
                         </binding>
                     </item>
                     <item>
+                        <label>Reload air to air (1987)</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>armament.reloadAJAir2Air();</script>
+                        </binding>
+                    </item>
+                    <item>
                         <label>Refuel: Standard</label>
                         <binding>
                             <command>nasal</command>
