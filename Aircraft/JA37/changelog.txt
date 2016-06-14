@@ -2314,3 +2314,4 @@ Effect: Added smoke and explosions to the new armament.
 Sim: The AJ37 M55 cannonpods now work.
 Sim: M55 rounds added to damage file.
 Model: {Pinto} Fixed that could see through the aircraft when landing gear was deployed.
+GUI: Added 3 loadout option for the AJ37.

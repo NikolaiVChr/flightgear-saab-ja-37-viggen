@@ -161,10 +161,24 @@
                         </binding>
                     </item>-->
                     <item>
-                        <label>Reload air to ground</label>
+                        <label>Reload air to armour</label>
                         <binding>
                             <command>nasal</command>
-                            <script>armament.reloadAJAir2Ground();</script>
+                            <script>armament.reloadAJAir2Tank();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Reload air to ship</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>armament.reloadAJAir2Ship();</script>
+                        </binding>
+                    </item>
+                    <item>
+                        <label>Reload air to personel</label>
+                        <binding>
+                            <command>nasal</command>
+                            <script>armament.reloadAJAir2Personel();</script>
                         </binding>
                     </item>
                     <item>
