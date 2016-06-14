@@ -65,6 +65,8 @@ Sim: Make missiles call out the brevity code.
 Sim: Make speed and altitude limits on firing missiles.
 Sim: Damage proper from cluster bombs.
 Sim: Find the exact spot the M55 fires from. (should be changed in 4 submodels and 2 jsb-recoil positions)
+Sim: RB04 can be mounted on center pylon (Pinto found picture), so guess is that all dropable could be mounted there.
+Sim: Make the M71 work.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
