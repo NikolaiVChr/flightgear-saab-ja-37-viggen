@@ -1317,14 +1317,14 @@
                         </greater-than>
                     </and>
                     <and>
-                        <property>controls/armament/station[7]/trigger</property>
+                        <property>controls/armament/station[8]/trigger</property>
                         <greater-than>
                             <property>ai/submodels/submodel[10]/count</property>
                             <value>0</value>
                         </greater-than>
                     </and>
                     <and>
-                        <property>controls/armament/station[8]/trigger</property>
+                        <property>controls/armament/station[9]/trigger</property>
                         <greater-than>
                             <property>ai/submodels/submodel[12]/count</property>
                             <value>0</value>
@@ -1429,9 +1429,9 @@
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
             <position>
-                <x> -1.02697 </x>
-                <y> 0.98148 </y>
-                <z> -0.94307 </z>
+                <x> 4.05216 </x>
+                <y> -3.94417 </y>
+                <z> -0.73722 </z>
             </position>
             <volume>
                 <factor>0.75</factor>
@@ -1448,9 +1448,28 @@
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
             <position>
-                <x> -1.02697 </x>
-                <y> 0.98148 </y>
-                <z> -0.94307 </z>
+                <x> 4.05216 </x>
+                <y>  3.94417 </y>
+                <z> -0.73722 </z>
+            </position>
+            <volume>
+                <factor>0.75</factor>
+                <max>1</max>
+            </volume>
+        </missile6>
+        <missile6>
+            <name>missile7</name>
+            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>controls/armament/station[7]/released</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -0.09941 </x>
+                <y> 0.01 </y>
+                <z> -0.97819 </z>
             </position>
             <volume>
                 <factor>0.75</factor>

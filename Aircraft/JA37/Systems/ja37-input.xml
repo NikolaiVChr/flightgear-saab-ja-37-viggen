@@ -297,6 +297,21 @@
                 </binding>
             </mod-ctrl>
         </key>
+        <key n="56">
+            <name>CTRL-8</name>
+            <mod-ctrl>
+                <desc>Select missile center</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/armament/station-select</property>
+                    <value>7</value>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.click();</script>
+                </binding>
+            </mod-ctrl>
+        </key>
         <key n="101">
             <name>e</name>
             <desc>Trigger</desc>

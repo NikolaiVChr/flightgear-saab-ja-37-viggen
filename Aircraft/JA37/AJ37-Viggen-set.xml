@@ -475,6 +475,38 @@
                 <name>Drop tank</name>
                 <lbs>224.87</lbs>
             </opt>
+            <opt>
+                <name>RB 04E Attackrobot</name>
+                <lbs>1378</lbs>
+            </opt>            
+            <opt>
+                <name>RB 05A Attackrobot</name>
+                <lbs>672.4</lbs>
+            </opt>
+            <opt>
+                <name>RB 15F Attackrobot</name>
+                <lbs>1763.7</lbs>
+            </opt>
+            <opt>
+                <name>RB 75 Maverick</name>
+                <lbs>462</lbs>
+            </opt>
+            <opt>
+                <name>M55 AKAN</name>
+                <lbs>802.5</lbs>
+            </opt>
+            <!--<opt>
+                <name>M70 ARAK</name>
+                <lbs>794</lbs>
+            </opt>-->
+            <opt>
+                <name>M71 Bomblavett</name>
+                <lbs>1060</lbs>
+            </opt>
+            <opt>
+                <name>M90 Bombkapsel</name>
+                <lbs>1322.77</lbs>
+            </opt>
         </weight>
         <armament>
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>

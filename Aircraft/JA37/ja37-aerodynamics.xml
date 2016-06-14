@@ -901,6 +901,45 @@
             </product>
         </function>
 
+        <!-- estimate -->
+        <function name="aero/coefficient/CAMissile7">
+            <description>
+               Center pylon axial Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <!--<property>aero/function/mach-effect-prefactor</property>-->
+                <property>aero/drag/missile</property>
+                <cos>
+                    <property>aero/alpha-rad</property>
+                </cos>
+                <table>
+                    <independentVar lookup="row">inertia/pointmass-weight-lbs[7]</independentVar>
+                    <tableData>
+                         0       0
+                         160.94  1   <!-- rb24  -->
+                         179     1   <!-- rb24j -->
+                         188     1   <!-- rb74  -->
+                         291     2.0 <!-- rb99  -->
+                         425     2.2 <!-- rb71  -->
+                         672.4   2.0 <!-- rb05a -->
+                         794     4   <!-- m70   -->
+                         802.5   2.5 <!-- m55   -->
+                         1060    2   <!-- m71   -->
+                         1322.77 4   <!-- m90   -->
+                         1378    3   <!-- rb04e -->
+                         1763.7  6   <!-- rb15f -->
+                    </tableData>
+                </table>
+                <property>aero/function/stores-wave-drag-factor</property>
+                <nq>
+                    <property>inertia/pointmass-weight-lbs[7]</property>
+                    <value>224.87</value>
+                </nq>
+            </product>
+        </function>
+
         <!-- Datcom+ Pro -->
         <function name="aero/coefficient/CATank">
             <description>
@@ -972,15 +1011,10 @@
                         </sin>
                     </product>
                 </difference>
-                <table>
-                    <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">inertia/pointmass-weight-lbs[7]</independentVar>
-                    <tableData>
-                                0    224.87
-                          0    0.0    1.0
-                          1    0.0    1.0
-                    </tableData>
-                </table>
+                <eq>
+                    <property>inertia/pointmass-weight-lbs[7]</property>
+                    <value>224.87</value>
+                </eq>
             </product>
         </function>
 
@@ -1171,27 +1205,29 @@
                 <!-- Alant: -1 -->
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">inertia/pointmass-weight-lbs[7]</independentVar>
                     <tableData><!-- [same order of difference as gears, as per the document page 106] -->
-                             0.0     224.87
-               -30.8520      0.0      0.000      
-               -23.8069      0.0      0.153         
-               -23.1817      0.0      0.161         
-               -21.9361      0.0      0.166         
-               -20.5351      0.0      0.175         
-               -18.6699      0.0      0.168         
-                 1.3709      0.0      0.115
-                 9.2938      0.0      0.074       
-                12.0916      0.0      0.069       
-                14.4247      0.0      0.050        
-                16.7592      0.0      0.042
-                18.3174      0.0      0.041
-                19.5659      0.0      0.032
-                24.8955      0.0      0.023
-                25.9887      0.0      0.011        
-                27.0785      0.0      0.000                        
-            </tableData>
+                       -30.8520      0.000      
+                       -23.8069      0.153         
+                       -23.1817      0.161         
+                       -21.9361      0.166         
+                       -20.5351      0.175         
+                       -18.6699      0.168         
+                         1.3709      0.115
+                         9.2938      0.074       
+                        12.0916      0.069       
+                        14.4247      0.050        
+                        16.7592      0.042
+                        18.3174      0.041
+                        19.5659      0.032
+                        24.8955      0.023
+                        25.9887      0.011        
+                        27.0785      0.000                        
+                    </tableData>
                 </table>
+                <eq>
+                    <property>inertia/pointmass-weight-lbs[7]</property>
+                    <value>224.87</value>
+                </eq>
             </product>
         </function>
 
@@ -1365,34 +1401,36 @@
                 <property>aero/beta-rad</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">inertia/pointmass-weight-lbs[7]</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
-                                    0.0   224.87
-                           0.0030    0   -0.0103
-                           2.0373    0   -0.0103
-                           3.9281    0   -0.0091
-                           5.5895    0   -0.0072
-                           6.7351    0   -0.0054
-                           7.9947    0   -0.0014
-                           9.9417    0    0.0034
-                          11.1444    0    0.0062
-                          12.5189    0    0.0089
-                          13.7218    0    0.0111
-                          14.8674    0    0.0129
-                          16.4138    0    0.0157
-                          18.1324    0    0.0178
-                          19.5647    0    0.0193
-                          21.3981    0    0.0206
-                          22.7732    0    0.0215
-                          24.8935    0    0.0218
-                          27.4148    0    0.0225
-                          30.1651    0    0.0237
-                          31.5975    0    0.0246
-                          33.3161    0    0.0268
-                          34.5764    0    0.0283
-                          35.5501    0    0.0301
+                           0.0030       -0.0103
+                           2.0373       -0.0103
+                           3.9281       -0.0091
+                           5.5895       -0.0072
+                           6.7351       -0.0054
+                           7.9947       -0.0014
+                           9.9417        0.0034
+                          11.1444        0.0062
+                          12.5189        0.0089
+                          13.7218        0.0111
+                          14.8674        0.0129
+                          16.4138        0.0157
+                          18.1324        0.0178
+                          19.5647        0.0193
+                          21.3981        0.0206
+                          22.7732        0.0215
+                          24.8935        0.0218
+                          27.4148        0.0225
+                          30.1651        0.0237
+                          31.5975        0.0246
+                          33.3161        0.0268
+                          34.5764        0.0283
+                          35.5501        0.0301
                     </tableData>
                 </table>
+                <eq>
+                    <property>inertia/pointmass-weight-lbs[7]</property>
+                    <value>224.87</value>
+                </eq>
             </product>
         </function>
 
@@ -2350,14 +2388,16 @@
                 <property>metrics/bw-ft</property>
                 <table>
                     <independentVar lookup="row">aero/beta-deg</independentVar>
-                    <independentVar lookup="column">inertia/pointmass-weight-lbs[7]</independentVar>
                     <tableData>
-                                 0.0        224.87
-                       -20.0     0.00        0.01
-                         0.0     0.00        0.00
-                        20.0     0.00       -0.01
+                       -20.0             0.01
+                         0.0             0.00
+                        20.0            -0.01
                     </tableData>
                 </table>
+                <eq>
+                    <property>inertia/pointmass-weight-lbs[7]</property>
+                    <value>224.87</value>
+                </eq>
             </product>
         </function>
 

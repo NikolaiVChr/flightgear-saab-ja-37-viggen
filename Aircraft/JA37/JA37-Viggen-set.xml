@@ -406,6 +406,18 @@
                 <name>Drop tank</name>
                 <lbs>224.87</lbs>
             </opt>
+            <!--<opt>
+                <name>M70 ARAK</name>
+                <lbs>794</lbs>
+            </opt>-->
+            <opt>
+                <name>RB 71 Skyflash</name>
+                <lbs>425</lbs>
+            </opt>
+            <opt>
+                <name>RB 99 Amraam</name>
+                <lbs>291</lbs>
+            </opt>
         </weight>
         <armament>
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>

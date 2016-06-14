@@ -343,6 +343,7 @@
                 <int n="15" alias="/sim/model/lighting/beacon/state"/>                <!-- to animate beacons, backward compat -->
                 <float n="1" alias="/sim/model/lighting/beacon/state-rotary"/>                <!-- to animate beacons -->
                 <!-- Stores -->
+                <float n="10" alias="/payload/weight[6]/weight-lb"/>                <!-- center -->
                 <float n="11" alias="/payload/weight[0]/weight-lb"/>                <!-- left wing -->
                 <float n="12" alias="/payload/weight[1]/weight-lb"/>                <!-- left fuselage -->
                 <float n="13" alias="/payload/weight[2]/weight-lb"/>                <!-- right wing -->
@@ -777,6 +778,20 @@
                     <y-m type="double">  3.94417</y-m>
                     <z-m type="double"> -0.73722</z-m>
                 </offsets>
+                <trigger type="bool">false</trigger>
+            </station>
+            <station n="7"><!-- center -->
+                <offsets>
+                    <x-m type="double">  -0.09941</x-m>
+                    <y-m type="double">  0</y-m>
+                    <z-m type="double">  -0.97819</z-m>
+                </offsets>
+                <trigger type="bool">false</trigger>
+            </station>
+            <station n="8"><!-- M55 -->
+                <trigger type="bool">false</trigger>
+            </station>
+            <station n="9"><!-- M55 -->
                 <trigger type="bool">false</trigger>
             </station>
         </armament>

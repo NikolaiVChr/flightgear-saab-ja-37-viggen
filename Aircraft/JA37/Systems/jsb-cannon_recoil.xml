@@ -6,13 +6,13 @@
         <!-- 
 
        KCA AKAN
-       --------
+       ========
        round_mass = 1.22Kg , 2.69 lbm (is likely around 200-300 grams, dont trust the source)
        velocity = 3379.265 ft/s , 1030 m/s
        23 shots/s
 
        M55 AKAN:
-       ---------
+       =========
        round_mass = 0.220Kg , 0.485 lbm
        velocity = 2431.1023 ft/s , 740.99998104 m/s
        23 shots/s
@@ -82,7 +82,7 @@
         <switch name="names/recoil/magnitude2">
             <default value="0"/>
             <test logic="AND" value="4397.7126"><!-- used 0.22 Kg, 741 m/s -->
-              /controls/armament/station[7]/trigger == 1
+              /controls/armament/station[8]/trigger == 1
               /ai/submodels/submodel[10]/count gt 0
               systems/recoil/impulse == 1
             </test>
@@ -92,7 +92,7 @@
         <switch name="names/recoil/magnitude3">
             <default value="0"/>
             <test logic="AND" value="4397.7126">
-              /controls/armament/station[8]/trigger == 1
+              /controls/armament/station[9]/trigger == 1
               /ai/submodels/submodel[12]/count gt 0
               systems/recoil/impulse == 1
             </test>
