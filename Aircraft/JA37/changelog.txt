@@ -2315,3 +2315,4 @@ Sim: The AJ37 M55 cannonpods now work.
 Sim: M55 rounds added to damage file.
 Model: {Pinto} Fixed that could see through the aircraft when landing gear was deployed.
 GUI: Added 4 loadout options for the AJ37.
+Aero: Recoil is now assuming that shells weight only 220 (M55) and 300 (KCA) Grams. Will significant lower recoil.

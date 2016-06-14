@@ -4,12 +4,22 @@
 
     <channel execrate="1" name="Cannon recoil">
         <!-- 
-       round_mass = 1.22Kg
-       velolcity = 1030 m/s
+
+       KCA AKAN
+       --------
+       round_mass = 1.22Kg , 2.69 lbm (is likely around 200-300 grams, dont trust the source)
+       velocity = 3379.265 ft/s , 1030 m/s
+       23 shots/s
+
+       M55 AKAN:
+       ---------
+       round_mass = 0.220Kg , 0.485 lbm
+       velocity = 2431.1023 ft/s , 740.99998104 m/s
+       23 shots/s
 
        recoil_energy = 0.5 x 0.5 x round_mass x velocity^2 = 323574.5 Joules
 
-       dt = 0.008333333 seconds
+       dt = 0.008333333 seconds (120 Hz)
 
        force = energy/dt = 38828940 N = 8729092.94 lbf
 
@@ -61,7 +71,7 @@
 
         <switch name="names/recoil/magnitude">
             <default value="0"/>
-            <test logic="AND" value="33899.39">
+            <test logic="AND" value="8335.9156"><!-- used 0.3 Kg, 1030 m/s -->
               /controls/armament/station[0]/trigger == 1
               /ai/submodels/submodel[3]/count gt 0
               systems/recoil/impulse == 1
@@ -71,7 +81,7 @@
 
         <switch name="names/recoil/magnitude2">
             <default value="0"/>
-            <test logic="AND" value="33899.39">
+            <test logic="AND" value="4397.7126"><!-- used 0.22 Kg, 741 m/s -->
               /controls/armament/station[7]/trigger == 1
               /ai/submodels/submodel[10]/count gt 0
               systems/recoil/impulse == 1
@@ -81,7 +91,7 @@
 
         <switch name="names/recoil/magnitude3">
             <default value="0"/>
-            <test logic="AND" value="33899.39">
+            <test logic="AND" value="4397.7126">
               /controls/armament/station[8]/trigger == 1
               /ai/submodels/submodel[12]/count gt 0
               systems/recoil/impulse == 1
