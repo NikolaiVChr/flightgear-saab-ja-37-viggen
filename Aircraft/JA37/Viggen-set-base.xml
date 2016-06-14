@@ -319,7 +319,7 @@
 *************************************************************************-->
         <multiplay>
             <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
-                 free: float10          -->
+                          -->
             <generic>
                 <!-- effects -->
                 <int n="0" alias="/sim/ja37/effect/smoke"/>                <!-- to show smoke -->
@@ -739,6 +739,7 @@
                     <z-m type="double"> -0.67645</z-m>
                 </offsets>
                 <trigger type="bool">false</trigger>
+                <trigger-m70 type="bool">false</trigger-m70>
             </station>
             <station n="2">
                 <offsets>
@@ -747,6 +748,7 @@
                     <z-m type="double"> -0.94307</z-m>
                 </offsets>
                 <trigger type="bool">false</trigger>
+                <trigger-m70 type="bool">false</trigger-m70>
             </station>
             <station n="3">
                 <offsets>
@@ -755,6 +757,7 @@
                     <z-m type="double"> -0.67645</z-m>
                 </offsets>
                 <trigger type="bool">false</trigger>
+                <trigger-m70 type="bool">false</trigger-m70>
             </station>
             <station n="4">
                 <offsets>
@@ -763,6 +766,7 @@
                     <z-m type="double"> -0.94307</z-m>
                 </offsets>
                 <trigger type="bool">false</trigger>
+                <trigger-m70 type="bool">false</trigger-m70>
             </station>
             <station n="5"><!-- left outer wing -->
                 <offsets>
@@ -787,6 +791,7 @@
                     <z-m type="double">  -0.97819</z-m>
                 </offsets>
                 <trigger type="bool">false</trigger>
+                <trigger-m70 type="bool">false</trigger-m70>
             </station>
             <station n="8"><!-- M55 -->
                 <trigger type="bool">false</trigger>

@@ -193,14 +193,18 @@ var loop_stores = func {
             payloadName.setValue("none");
             #print("refusing to mount new RB-74 missile yet "~i);
           }
-        } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M70 ARAK") {
-            setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
+        } elsif (payloadName.getValue() == "M70 ARAK") {
+            if (i == 6) {
+              setprop("ai/submodels/submodel["~(13)~"]/count", 6);
+            } else {
+              setprop("ai/submodels/submodel["~(5+i)~"]/count", 6);
+            }
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].status != MISSILE_FLYING) {
               # remove aim logic from that pylon
               armament.AIM.active[i].del();
               #print("removing aim logic");
             }
-        } elsif (getprop("payload/weight["~ (i) ~"]/selected") == "M55 AKAN") {
+        } elsif (payloadName.getValue() == "M55 AKAN") {
             var model = i==0?10:12;
             setprop("ai/submodels/submodel["~model~"]/count", 150);
             if(armament.AIM.active[i] != nil and armament.AIM.active[i].status != MISSILE_FLYING) {
@@ -577,7 +581,7 @@ var trigger_listener = func {
     }
   }
   if (fired == "M70 ARAK") {
-    var submodel = armSelect + 4;
+    var submodel = armSelect==7?13:armSelect + 4;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     if (ammo == 0) {
       var newStation = selectType(fired);
@@ -921,7 +925,7 @@ var hasShells = func (station) {
 var hasRockets = func (station) {
   var loaded = -1;
   if (getprop("payload/weight["~(station-1)~"]/selected") == "M70 ARAK") {
-    var submodel = station + 4;
+    var submodel = station==7?13:station + 4;
     var ammo = getprop("ai/submodels/submodel["~submodel~"]/count");
     loaded = ammo;
   }
@@ -937,83 +941,83 @@ var ammoCount = func (station) {
     var type = getprop("payload/weight["~(station-1)~"]/selected");
     if (type == "M70 ARAK") {
       ammo = 0;
-      for(var i = 1; i < 7; i += 1) {
+      for(var i = 1; i < 8; i += 1) {
         var rockets = hasRockets(i);
         ammo = rockets == -1?ammo:(rockets+ammo);
       }
     } elsif (type == "RB 71 Skyflash") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 71 Skyflash") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 99 Amraam") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 99 Amraam") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 74 Sidewinder") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 74 Sidewinder") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 24J Sidewinder") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 24J Sidewinder") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 24 Sidewinder") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 24 Sidewinder") {
           ammo += 1;
         }
       }
     } elsif (type == "TEST") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "TEST") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 15F Attackrobot") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 15F Attackrobot") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 04E Attackrobot") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 04E Attackrobot") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 05A Attackrobot") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 05A Attackrobot") {
           ammo += 1;
         }
       }
     } elsif (type == "RB 75 Maverick") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "RB 75 Maverick") {
           ammo += 1;
         }
       }
     } elsif (type == "M90 Bombkapsel") {
       ammo = 0;
-      for(var i = 0; i < 7; i += 1) {
+      for(var i = 0; i < 8; i += 1) {
         if(getprop("payload/weight["~i~"]/selected") == "M90 Bombkapsel") {
           ammo += 1;
         }
@@ -1022,7 +1026,7 @@ var ammoCount = func (station) {
       ammo = 0;
     } elsif (type == "M55 AKAN") {
       ammo = 0;
-      for(var i = 1; i < 7; i += 1) {
+      for(var i = 1; i < 8; i += 1) {
         var shells = hasShells(i);
         ammo = shells == -1?ammo:(shells+ammo);
       }

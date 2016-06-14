@@ -495,10 +495,10 @@
                 <name>M55 AKAN</name>
                 <lbs>802.5</lbs>
             </opt>
-            <!--<opt>
+            <opt>
                 <name>M70 ARAK</name>
                 <lbs>794</lbs>
-            </opt>-->
+            </opt>
             <opt>
                 <name>M71 Bomblavett</name>
                 <lbs>1060</lbs>

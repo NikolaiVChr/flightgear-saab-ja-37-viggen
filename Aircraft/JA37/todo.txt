@@ -27,6 +27,8 @@ Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
 Model: Proper floor in the cockpit.
 Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
+Model: Fix that the common part of the variant model files are no longer the same.
+Model: Mount armament on center pylon.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Buffeting of view, when get hit, crash.
@@ -65,8 +67,7 @@ Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Cha
 Sim: Make missiles call out the brevity code.
 Sim: Make speed and altitude limits on firing missiles.
 Sim: Damage proper from cluster bombs.
-Sim: Find the exact spot the M55 fires from. (should be changed in 4 submodels and 2 jsb-recoil positions)
-Sim: RB04 can be mounted on center pylon (Pinto found picture), so guess is that all dropable could be mounted there.
+Sim: Find the exact spot the M55 fires from, and center M70. (should be changed in 5 submodels and 2 jsb-recoil positions)
 Sim: Make the M71 work.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.

@@ -406,10 +406,10 @@
                 <name>Drop tank</name>
                 <lbs>224.87</lbs>
             </opt>
-            <!--<opt>
+            <opt>
                 <name>M70 ARAK</name>
                 <lbs>794</lbs>
-            </opt>-->
+            </opt>
             <opt>
                 <name>RB 71 Skyflash</name>
                 <lbs>425</lbs>
