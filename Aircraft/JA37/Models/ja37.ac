@@ -22,7 +22,7 @@ MATERIAL "radarHeadingMat"  rgb 0.50 0.50 0.50  amb 0.50 0.50 0.50  emis 0.00 0.
 MATERIAL "radarScreenMat"   rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
 MATERIAL "reverserMat"      rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  45 trans 0.00
 OBJECT world
-name "Blender_exporter_v2.10__ja38.ac"
+name "Blender_exporter_v2.10__ja37.ac"
 kids 96
 OBJECT poly
 name "blackObstructors"
@@ -169078,9 +169078,9 @@ SURF 0X10
 mat 2
 refs 4
 1348 0.017518 0.884704
-1349 0.109437 0.884704
-1350 0.109437 0.976622
 1351 0.017518 0.976622
+1350 0.109437 0.976622
+1349 0.109437 0.884704
 SURF 0X10
 mat 2
 refs 61
@@ -170626,9 +170626,9 @@ SURF 0X10
 mat 2
 refs 4
 0 0.109437 0.884704
-1 0.017518 0.884704
-2 0.017518 0.976622
 3 0.109437 0.976622
+2 0.017518 0.976622
+1 0.017518 0.884704
 SURF 0X10
 mat 2
 refs 4
