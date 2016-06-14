@@ -1,10 +1,10 @@
 
-*****************************************
-**  Flightgear JA-37 feature overview  **
-*****************************************
+*************************************************
+**  Flightgear JA-37 / AJ-37 feature overview  **
+*************************************************
 
-I estimate I have used more than 1500 hours of work on the Viggen. (including learning the various skills needed)
-When the Viggen is first loaded I think its not apparent how much work is invested in it, I have therefore compiled a short overview of its main features:
+I estimate I have used more than 2000 hours of work on the Viggen. (including learning the various skills needed)
+When the Viggen is first loaded I think its not apparent how much work is invested in it by me and other authors, I have therefore compiled a short overview of its main features:
 
 
 Flightgear compatibility
@@ -19,7 +19,7 @@ JSBSim FDM based mostly on original Saab windtunnel data.
 Aerodynamic effect of air intake factor, ground effects and control surface shading.
 At high alpha asymmetric vortex detachment of left or right side, resulting in adverse effects.
 Very high alpha handling including realistic departures such as stall, spiral dive, flat spin and inverted spin.
-Aerodynamic response to payload. (droptank & missiles)
+Aerodynamic response to payload. (droptank & armament)
 Aerodynamic drag from canopy open and canopy detachment.
 Significantly reduced lift and roll damping when wings detach.
 High compliance with various performance numbers. (true not indicated instrument values)
@@ -70,14 +70,14 @@ The callsign (or type), velocity vector and distance of the selected track is al
 HUD shows radar tracks of aircraft plus scenario objects like ferries, balloons, tankers, carriers, tanks, bus, trains etc.
 At ILS landings the HUD will show a glideslope guide, if the runway supports it. Also DME if supported and enabled.
 Other HUD features such as distance scale, variant altitude scale, heading scale on horizon in landing mode, diamond at missile lock, altimeter calibration warning etc.
-Radar with 48 Km range that show MP and AI objects alike depend on hydraulic and electricity.
+Radar with 180 Km (120 Km for AJ37) range that show MP and AI objects alike depend on hydraulic and electricity.
 In regards to MP planes the radar can be setup to be pulse doppler and/or not able to see through terrain.
 Auto-start and auto shut down scripts.
 Realistic modeled indicator panels for various warnings, alarts and notices.
 
 Engine
 -----
-Volvo RM-8B turbine with accurate fuel consumption and performance in different air density and speed regimes.
+Volvo RM-8B (AJ37: RM-8A) turbine with accurate fuel consumption and performance in different air density and speed regimes.
 A thrust reverser is equipped which require proper hydraulics and electricity to work.
 Afterburner that has 3 continuous zones of operation.
 
@@ -88,18 +88,18 @@ Sound
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.
 When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realistically delayed.
-Annunciator will warn of incoming guided air to air missile from ja37, m2000-5, f-15 or f-14b. It will also say from which direction.
+Annunciator will warn of incoming guided air to air missile from aj37, ja37, m2000-5, f-15 or f-14b. It will also say from which direction.
 Thunder (when using adv. weather) and rain sounds.
 
 Armament
 -----
-30mm Cannon with authentic shell properties and accurate recoil.
-Unguided rocket pods.
-Guided RB-24J, RB-74, RB-99 and RB-71 air2air missiles, that can be fired at AI and MP alike.
-Guided RB-15F air2ground cruise-missiles.
+JA37: 30mm Cannon with authentic shell properties and accurate recoil.
+JA37: Unguided rocket pods and guided RB-24J, RB-74, RB-99 and RB-71 air2air missiles, that can be fired at AI and MP alike.
+AJ37: Unguided rocket and cannon pods and guided RB-75, RB-04, RB-05, M90 and RB-15F air2ground missiles. Plus 3 kinds of sidewinders.
 RB-24J works as rear aspect only.
-Dual releasing flares that work against RB24 and RB74.
+Dual releasing flares that work against RB24, RB-24J and RB74.
 Compatible with the Bombable addon.
+Ability to target a GPS coordinate and fire at it.
 
 Model
 -----
@@ -124,6 +124,7 @@ Vapour cone in transonic regime.
 Landing light cone on runway in ALS.
 Explosion at crash if plane takes enough damage and has enough fuel.
 In ALS rain drops will form on the fuselage.
+Buffeting of cockpit view, at high G, on runway, transonic and high alpha, depending on altitude.
 
 Multiplay
 -----
