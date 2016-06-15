@@ -244,10 +244,11 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>   1.31450</x-offset>
-        <y-offset>  -2.69858</y-offset>
-        <z-offset>  -0.86707</z-offset>
+        <z-offset>   1.31450</z-offset>
+        <x-offset>  -2.69858</x-offset>
+        <y-offset>  -0.86707</y-offset>
         <pitch-offset>0</pitch-offset>
+        <yaw-offset>0</yaw-offset>
         <life>2.42</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
@@ -296,10 +297,11 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>   1.31450</x-offset>
-        <y-offset>   2.69858</y-offset>
-        <z-offset>  -0.86707</z-offset>
+        <z-offset>   1.31450</z-offset>
+        <x-offset>   2.69858</x-offset>
+        <y-offset>  -0.86707</y-offset>
         <pitch-offset>0</pitch-offset>
+        <yaw-offset>0</yaw-offset>
         <life>2.42</life>
         <wind>true</wind>
         <weight>0.485</weight>        <!-- pound - 220 grams -->
