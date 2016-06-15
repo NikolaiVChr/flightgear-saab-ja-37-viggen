@@ -67,8 +67,9 @@ Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Cha
 Sim: Make missiles call out the brevity code.
 Sim: Make speed and altitude limits on firing missiles.
 Sim: Damage proper from cluster bombs.
-Sim: Find the exact spot the M55 fires from, and center M70. (should be changed in 5 submodels and 2 jsb-recoil positions)
+Sim: Find the exact spot the 3 M55 fires from, and center M70. (should be changed in 6 submodels and 3 jsb-recoil positions)
 Sim: Make the M71 work.
+Sim: Make the center mounted M55 work.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
