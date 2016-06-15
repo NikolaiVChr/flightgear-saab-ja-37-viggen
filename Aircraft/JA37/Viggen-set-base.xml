@@ -799,6 +799,9 @@
             <station n="9"><!-- M55 -->
                 <trigger type="bool">false</trigger>
             </station>
+            <station n="10"><!-- M55 -->
+                <trigger type="bool">false</trigger>
+            </station>
         </armament>
         <engines>
             <engine n="0">

@@ -2316,3 +2316,8 @@ Sim: M55 rounds added to damage file.
 Model: {Pinto} Fixed that could see through the aircraft when landing gear was deployed.
 GUI: Added 4 loadout options for the AJ37.
 Aero: Recoil is now assuming that shells weight only 220 (M55) and 300 (KCA) Grams. Will significant lower recoil.
+Sim: Center pylon logic now supports droppable armaments.
+Sound: Fixed that outer wing pylons release armement sounds was incorrect location.
+Sim: Made the center m55 fire.
+Sim: Stopped auto fire from m55, when new ammo is loaded, and the pylon was switched in meantime.
+Effect: Made the m55's fire from correct positions.

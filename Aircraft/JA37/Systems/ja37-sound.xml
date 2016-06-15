@@ -1330,6 +1330,13 @@
                             <value>0</value>
                         </greater-than>
                     </and>
+                    <and>
+                        <property>controls/armament/station[10]/trigger</property>
+                        <greater-than>
+                            <property>ai/submodels/submodel[14]/count</property>
+                            <value>0</value>
+                        </greater-than>
+                    </and>
                 </or>
             </condition>
             <mode>looped</mode>
