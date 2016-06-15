@@ -410,6 +410,7 @@
                 <name>M70 ARAK</name>
                 <lbs>794</lbs>
             </opt>
+            <!--  there is no room for these:
             <opt>
                 <name>RB 71 Skyflash</name>
                 <lbs>425</lbs>
@@ -417,7 +418,7 @@
             <opt>
                 <name>RB 99 Amraam</name>
                 <lbs>291</lbs>
-            </opt>
+            </opt>-->
         </weight>
         <armament>
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>

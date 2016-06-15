@@ -487,10 +487,11 @@
                 <name>RB 15F Attackrobot</name>
                 <lbs>1763.7</lbs>
             </opt>
+            <!-- not enough room for this
             <opt>
                 <name>RB 75 Maverick</name>
                 <lbs>462</lbs>
-            </opt>
+            </opt>-->
             <opt>
                 <name>M55 AKAN</name>
                 <lbs>802.5</lbs>
