@@ -244,9 +244,9 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <z-offset>   1.31450</z-offset>
-        <x-offset>  -2.69858</x-offset>
-        <y-offset>  -0.86707</y-offset>
+        <x-offset>   4.313</x-offset>
+        <y-offset>  -8.8536</y-offset>
+        <z-offset>  -2.8447</z-offset>
         <pitch-offset>0</pitch-offset>
         <yaw-offset>0</yaw-offset>
         <life>2.42</life>
@@ -269,9 +269,9 @@
         <repeat>true</repeat>
         <delay>0.0443</delay><!-- 23 shots/s AJS37 manual -->
         <count>0</count>
-        <x-offset>   1.31450</x-offset>
-        <y-offset>  -2.69858</y-offset>
-        <z-offset>  -0.86707</z-offset>
+        <x-offset>   4.313</x-offset>
+        <y-offset>  -8.8536</y-offset>
+        <z-offset>  -2.8447</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>5.0</life>
         <wind>true</wind>
@@ -297,9 +297,9 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <z-offset>   1.31450</z-offset>
-        <x-offset>   2.69858</x-offset>
-        <y-offset>  -0.86707</y-offset>
+        <x-offset>   4.313</x-offset>
+        <y-offset>   8.8536</y-offset>
+        <z-offset>  -2.8447</z-offset>
         <pitch-offset>0</pitch-offset>
         <yaw-offset>0</yaw-offset>
         <life>2.42</life>
@@ -322,9 +322,9 @@
         <repeat>true</repeat>
         <delay>0.0443</delay>
         <count>0</count>
-        <x-offset>   1.31450</x-offset>
-        <y-offset>   2.69858</y-offset>
-        <z-offset>  -0.86707</z-offset>
+        <x-offset>   4.313</x-offset>
+        <y-offset>   8.8536</y-offset>
+        <z-offset>  -2.8447</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>5.0</life>
         <wind>true</wind>
@@ -350,9 +350,9 @@
         <repeat>true</repeat>
         <delay>0.217</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>  -1.85</x-offset>
+        <x-offset>  -6.07</x-offset>
         <y-offset> 0</y-offset>
-        <z-offset> -1.235</z-offset>
+        <z-offset> -4.0518</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>2.42</life>
         <wind>true</wind>
@@ -374,9 +374,9 @@
         <repeat>true</repeat>
         <delay>0.0443</delay>
         <count>0</count>
-        <x-offset>  -1.85</x-offset>
+        <x-offset>  -6.07</x-offset>
         <y-offset> 0</y-offset>
-        <z-offset> -1.235</z-offset>
+        <z-offset> -4.0518</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>5.0</life>
         <wind>true</wind>
