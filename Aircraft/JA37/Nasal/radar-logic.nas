@@ -62,7 +62,8 @@ var findRadarTracks = func () {
     var tankers = input.ai_models.getChildren("tanker");
     var ships = input.ai_models.getChildren("ship");
     var vehicles = input.ai_models.getChildren("groundvehicle");
-    var rb24 = input.ai_models.getChildren("rb-24j");
+    var rb24 = input.ai_models.getChildren("rb-24");
+    var rb24j = input.ai_models.getChildren("rb-24j");
 	  var rb71 = input.ai_models.getChildren("rb-71");
     var rb74 = input.ai_models.getChildren("rb-74");
     var rb99 = input.ai_models.getChildren("rb-99");
@@ -87,6 +88,7 @@ var findRadarTracks = func () {
 #});
     processTracks(vehicles, FALSE, FALSE, FALSE, SURFACE);
     processTracks(rb24, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb24j, FALSE, TRUE, FALSE, ORDNANCE);
 	  processTracks(rb71, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb74, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb99, FALSE, TRUE, FALSE, ORDNANCE);
