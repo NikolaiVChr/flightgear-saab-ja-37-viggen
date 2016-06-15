@@ -54,9 +54,9 @@
         <repeat>true</repeat>
         <delay>0.22</delay>        <!-- secs between repeats, every 5th is tracer -->
         <count>-1</count>
-        <x-offset>  -1.05893</x-offset>
-        <y-offset>  -0.20322</y-offset>
-        <z-offset> -0.91246</z-offset>
+        <x-offset>  -3.474</x-offset>
+        <y-offset>  -0.6667</y-offset>
+        <z-offset> -2.9936</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>2.42</life>
         <wind>true</wind>
@@ -78,9 +78,9 @@
         <repeat>true</repeat>
         <delay>0.044</delay>
         <count>146</count>
-        <x-offset>  -1.05893</x-offset>
-        <y-offset>  -0.20322</y-offset>
-        <z-offset> -0.91246</z-offset>
+        <x-offset>  -3.474</x-offset>
+        <y-offset>  -0.6667</y-offset>
+        <z-offset> -2.9936</z-offset>
         <pitch-offset>0</pitch-offset>
         <life>5.0</life>
         <wind>true</wind>
@@ -106,9 +106,9 @@
         <repeat>true</repeat>
         <delay>0.044</delay>
         <count>146</count>
-        <x-offset>  -1.05893</x-offset>
-        <y-offset>  -0.20322</y-offset>
-        <z-offset> -0.91246</z-offset>
+        <x-offset>  -3.474</x-offset>
+        <y-offset>  -0.6667</y-offset>
+        <z-offset> -2.9936</z-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <eda>10</eda>
@@ -129,38 +129,9 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
-        <x-offset>  2.20</x-offset>        <!-- 2.2 -->
-        <y-offset>  2.75</y-offset>
-        <z-offset> -1.50</z-offset>
-        <yaw-offset>0.0</yaw-offset>
-        <pitch-offset>0.0</pitch-offset>
-        <external-force>false</external-force>
-        <force-stabilised>false</force-stabilised>
-        <cd>0.0005</cd>        <!-- drag -->
-        <eda>0.00136354</eda>
-        <weight>50</weight>
-        <collision>true</collision>        <!-- AI/MP -->
-        <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
-        <impact>true</impact>        <!-- terrain -->
-        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
-        <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
-        <wind>true</wind>
-        <buoyancy>25</buoyancy>
-        <life>20</life>
-    </submodel>
-
-    <submodel>
-        <name>M70 rocket</name>        <!-- right wing -->
-        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
-        <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
-        <trigger>controls/armament/station[2]/trigger-m70</trigger>
-        <speed>1000.0</speed>
-        <repeat>true</repeat>
-        <delay>0.25</delay>
-        <count>6</count>
-        <x-offset> -1.00</x-offset>
-        <y-offset> -0.95</y-offset>
-        <z-offset> -1.775</z-offset>
+        <x-offset>  7.2178</x-offset>
+        <y-offset>  -9.0223</y-offset>
+        <z-offset> -4.5588</z-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
@@ -182,14 +153,43 @@
         <name>M70 rocket</name>        <!-- left fuselage -->
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
+        <trigger>controls/armament/station[2]/trigger-m70</trigger>
+        <speed>1000.0</speed>
+        <repeat>true</repeat>
+        <delay>0.25</delay>
+        <count>6</count>
+        <x-offset> -2.9184</x-offset>
+        <y-offset> -3.11679</y-offset>
+        <z-offset> -5.82349</z-offset>
+        <yaw-offset>0.0</yaw-offset>
+        <pitch-offset>0.0</pitch-offset>
+        <external-force>false</external-force>
+        <force-stabilised>false</force-stabilised>
+        <cd>0.0005</cd>        <!-- drag -->
+        <eda>0.00136354</eda>
+        <weight>50</weight>
+        <collision>true</collision>        <!-- AI/MP -->
+        <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
+        <impact>true</impact>        <!-- terrain -->
+        <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
+        <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
+        <wind>true</wind>
+        <buoyancy>25</buoyancy>
+        <life>20</life>
+    </submodel>
+
+    <submodel>
+        <name>M70 rocket</name>        <!-- right wing -->
+        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
+        <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[3]/trigger-m70</trigger>
         <speed>1000.0</speed>
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
-        <x-offset> -1.00</x-offset>
-        <y-offset>  0.95</y-offset>
-        <z-offset> -1.775</z-offset>
+        <x-offset>  7.2178</x-offset>
+        <y-offset>  9.0223</y-offset>
+        <z-offset> -4.5588</z-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
@@ -216,9 +216,9 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
-        <x-offset>  0.20</x-offset>
-        <y-offset> -2.75</y-offset>
-        <z-offset> -1.50</z-offset>
+        <x-offset> -2.9184</x-offset>
+        <y-offset>  3.11679</y-offset>
+        <z-offset> -5.82349</z-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
@@ -403,9 +403,9 @@
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
-        <x-offset>  -0.09941</x-offset>
+        <x-offset>  -0.328</x-offset>
         <y-offset> 0</y-offset>
-        <z-offset> -0.97819</z-offset>
+        <z-offset> -3.2</z-offset>
         <yaw-offset>0.0</yaw-offset>
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
@@ -431,7 +431,7 @@
         <repeat>true</repeat>
         <delay>1.0</delay>
         <count>-1</count>
-        <x-offset>7.0</x-offset>
+        <x-offset>23</x-offset>
         <y-offset>0</y-offset>
         <z-offset>0</z-offset>
         <yaw-offset>0</yaw-offset>
