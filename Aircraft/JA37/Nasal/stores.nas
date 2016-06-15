@@ -67,6 +67,20 @@ var loop_stores = func {
       return;
     }
 
+    if (props.globals.getNode("payload/weight[6]/selected").getValue() == "RB 04E Attackrobot") {
+      # if the rb04 is on center pylon, only room for sidewinders on fuselage pylons.
+      var payloadName = props.globals.getNode("payload/weight[1]/selected");
+      if (payloadName.getValue() != "none" and payloadName.getValue() != "RB 24 Sidewinder" and payloadName.getValue() != "RB 24J Sidewinder" and payloadName.getValue() != "RB 74 Sidewinder") {
+        payloadName.setValue("none");
+        screen.log.write("Armament on left fuselage pylon removed, no room for it.", 1.0, 0.0, 0.0);
+      }
+      payloadName = props.globals.getNode("payload/weight[3]/selected");
+      if (payloadName.getValue() != "none" and payloadName.getValue() != "RB 24 Sidewinder" and payloadName.getValue() != "RB 24J Sidewinder" and payloadName.getValue() != "RB 74 Sidewinder") {
+        payloadName.setValue("none");
+        screen.log.write("Armament on right fuselage pylon removed, no room for it.", 1.0, 0.0, 0.0);
+      }
+    }
+
     # pylon payloads
     for(var i=0; i<=6; i=i+1) {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
