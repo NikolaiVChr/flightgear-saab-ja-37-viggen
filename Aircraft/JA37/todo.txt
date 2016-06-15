@@ -29,6 +29,7 @@ Model: Proper floor in the cockpit.
 Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
 Model: Fix that the common part of the variant model files are no longer the same.
 Model: Mount armament on center pylon.
+Model: Fix z-fighting on M71-rail and M90.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors.
 Animation: Buffeting of view, when get hit, crash.
