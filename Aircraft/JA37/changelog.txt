@@ -2334,3 +2334,4 @@ Effect: Added explosions and model to falling M71.
 GUI: Changed the AJ-37 date to 1971.
 Effect: Made the M90 cluster bomb explosion more flat.
 GUI: Fixed that selecting long range fuel load would not allow fuel in drop tank.
+Sim: Fixed that hits from F14 AIM-9 would not do damage.
