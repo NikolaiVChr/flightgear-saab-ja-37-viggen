@@ -1588,7 +1588,7 @@ var refuelRange = func () {
   setprop("consumables/fuel/tank[7]/level-norm", 1.0);
 
   # Mount drop tank and fill it up.
-  setprop("payload/weight[6]/selected", "Drop Tank");
+  setprop("payload/weight[6]/selected", "Drop tank");
   input.tank8Selected.setBoolValue(TRUE);
   input.tank8Jettison.setBoolValue(FALSE);
   setprop("consumables/fuel/tank[8]/level-norm", 1.0);
