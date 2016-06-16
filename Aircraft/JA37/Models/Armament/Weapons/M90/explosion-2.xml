@@ -20,8 +20,8 @@
    <shooter>
      <theta-min-deg>-180</theta-min-deg>
      <theta-max-deg>180</theta-max-deg>
-     <phi-min-deg>-180</phi-min-deg>
-     <phi-max-deg>180</phi-max-deg>
+     <phi-min-deg>-15</phi-min-deg>
+     <phi-max-deg>15</phi-max-deg>
      <speed-mps>
        <value>500</value>
        <spread>80</spread>

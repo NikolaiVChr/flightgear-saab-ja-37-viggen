@@ -2332,3 +2332,4 @@ Effect: Added explosions and model to falling M71.
 4.001
 =====
 GUI: Changed the AJ-37 date to 1971.
+Effect: Made the M90 cluster bomb explosion more flat.
