@@ -89,6 +89,7 @@ var loop_stores = func {
       if(payloadName.getValue() != "none" and (
           (payloadName.getValue() == "M70 ARAK" and payloadWeight.getValue() != 794)
           or (payloadName.getValue() == "M55 AKAN" and payloadWeight.getValue() != 802.5)
+          or (payloadName.getValue() == "M71 Bomblavett" and payloadWeight.getValue() != 1060)
           or (payloadName.getValue() == "RB 24 Sidewinder" and payloadWeight.getValue() != 160.94)
           or (payloadName.getValue() == "RB 24J Sidewinder" and payloadWeight.getValue() != 179)
           or (payloadName.getValue() == "RB 74 Sidewinder" and payloadWeight.getValue() != 188)
@@ -209,6 +210,15 @@ var loop_stores = func {
             payloadName.setValue("none");
             #print("refusing to mount new RB-74 missile yet "~i);
           }
+        } elsif (payloadName.getValue() == "M71 Bomblavett") {
+          # is not center pylon and is RB74
+          #print("m71 "~i);
+          setprop("payload/weight["~i~"]/ammo", 4);
+          if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "M71") {
+            # remove aim-7 logic from that pylon
+            #print("removing aim-7 logic");
+            armament.AIM.active[i].del();
+          }
         } elsif (payloadName.getValue() == "M70 ARAK") {
             if (i == 6) {
               setprop("ai/submodels/submodel["~(15)~"]/count", 6);
@@ -287,6 +297,16 @@ var loop_stores = func {
             setprop("controls/armament/station["~(i+1)~"]/released", TRUE);
             payloadName.setValue("none");
             #print("refusing to mount new RB-71 missile yet "~i);
+          }
+        }
+      }
+      if(payloadName.getValue() == "M71 Bomblavett") {
+        var ammo = getprop("payload/weight["~i~"]/ammo");
+        if(ammo > 0) {
+          if(armament.AIM.new(i, "M71", "Bomblet") != -1) {
+            # loaded a bomb            
+          } else {
+            # AIM already loaded
           }
         }
       }
@@ -593,8 +613,10 @@ var trigger_listener = func {
       if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE) and radar_logic.selection != nil) {
         #missile locked, fire it.
 
-        setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
-        setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+        if (fired != "M71 Bomblavett") {
+          setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
+          setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
+        }
         #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
         var callsign = armament.AIM.active[armSelect-1].callsign;
         var type = armament.AIM.active[armSelect-1].type;
@@ -606,9 +628,20 @@ var trigger_listener = func {
         } else {
           setprop("/sim/messages/atc", phrase);
         }
-        var newStation = selectType(fired);
-        if (newStation != -1) {
-          input.stationSelect.setValue(newStation);
+        var next = TRUE;
+        if (fired == "M71 Bomblavett") {
+          var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
+          ammo = ammo - 1;
+          setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
+          if(ammo > 0) {
+            next = FALSE;
+          }
+        }
+        if(next == TRUE) {
+          var newStation = selectType(fired);
+          if (newStation != -1) {
+            input.stationSelect.setValue(newStation);
+          }
         }
       }
     }
@@ -936,13 +969,25 @@ var selectType = func (type) {
 
   while (sel == -1 and i < 7) {
     var test = getprop("payload/weight["~(priority[i]-1)~"]/selected");
-    if (test == type and hasRockets(priority[i]) != 0 and hasShells(priority[i]) != 0) {
+    if (test == type and hasRockets(priority[i]) != 0 and hasShells(priority[i]) != 0 and hasBombs(priority[i]) != 0) {
       sel = priority[i];
     }
     i += 1;
   }
 
   return sel;
+}
+
+var hasBombs = func (station) {
+  var loaded = -1;
+  if (getprop("payload/weight["~(station-1)~"]/selected") == "M71 Bomblavett") {
+    var payload = station -1; 
+    var ammo = getprop("payload/weight["~payload~"]/ammo");
+    if (ammo != nil) {
+      loaded = ammo;
+    }
+  }
+  return loaded;
 }
 
 var hasShells = func (station) {
@@ -1057,6 +1102,10 @@ var ammoCount = func (station) {
       }
     } elsif (type == "M71 Bomblavett") {
       ammo = 0;
+      for(var i = 1; i < 8; i += 1) {
+        var bombs = hasBombs(i);
+        ammo = bombs == -1?ammo:(bombs+ammo);
+      }
     } elsif (type == "M55 AKAN") {
       ammo = 0;
       for(var i = 1; i < 8; i += 1) {

@@ -2322,3 +2322,4 @@ Sim: Made the center m55 fire.
 Sim: Stopped auto fire from m55, when new ammo is loaded, and the pylon was switched in meantime.
 Effect: Made the m55's fire from correct positions.
 Sim: Plane will now auto-remove armament that RB04 leaves no room for.
+Sim: Made the m71 work.

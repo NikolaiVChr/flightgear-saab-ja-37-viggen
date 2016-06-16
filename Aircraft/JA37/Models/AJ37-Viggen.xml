@@ -151,6 +151,10 @@
     <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[6]/ammo</property>
+    <value>0</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -172,6 +176,10 @@
     <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[6]/ammo</property>
+    <value>1</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -193,6 +201,10 @@
     <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[6]/ammo</property>
+    <value>2</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -214,6 +226,10 @@
     <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[6]/ammo</property>
+    <value>3</value>
+   </greater-than>
   </condition>
  </animation>
 
@@ -3561,6 +3577,10 @@
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[0]/ammo</property>
+    <value>0</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3583,6 +3603,10 @@
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[0]/ammo</property>
+    <value>1</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3605,6 +3629,10 @@
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[0]/ammo</property>
+    <value>2</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3627,6 +3655,10 @@
     <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[0]/ammo</property>
+    <value>3</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3670,6 +3702,10 @@
     <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[1]/ammo</property>
+    <value>0</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3691,6 +3727,10 @@
     <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[1]/ammo</property>
+    <value>1</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3712,6 +3752,10 @@
     <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[1]/ammo</property>
+    <value>2</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3733,6 +3777,10 @@
     <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[1]/ammo</property>
+    <value>3</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3778,6 +3826,10 @@
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[2]/ammo</property>
+    <value>0</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3800,6 +3852,10 @@
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[2]/ammo</property>
+    <value>1</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3822,6 +3878,10 @@
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[2]/ammo</property>
+    <value>2</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3844,6 +3904,10 @@
     <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[2]/ammo</property>
+    <value>3</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3887,6 +3951,10 @@
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[3]/ammo</property>
+    <value>0</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3908,6 +3976,10 @@
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[3]/ammo</property>
+    <value>1</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3929,6 +4001,10 @@
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[3]/ammo</property>
+    <value>2</value>
+   </greater-than>
   </condition>
  </animation>
  
@@ -3950,6 +4026,10 @@
     <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
     <value>1060</value> <!--weight-->
    </equals>
+   <greater-than>
+    <property>payload/weight[3]/ammo</property>
+    <value>3</value>
+   </greater-than>
   </condition>
  </animation>
 
