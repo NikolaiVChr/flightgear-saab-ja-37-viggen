@@ -57,7 +57,7 @@ Failure system
 Canopy motor, canopy hinges, wings attachment and individual gear locking mechanisms are preset to fail under specific conditions.
 Engine fire preset to start under certain conditions. Can fail engine if left burning too long.
 Crash-detection and high-G structural break tied into the failure system, it can randomly fail components proportional to the damage the plane takes.
-Damage system for getting hit by guided missiles.
+Damage system for getting hit by ordnance.
 
 Avionics
 -----
@@ -73,7 +73,7 @@ Other HUD features such as distance scale, variant altitude scale, heading scale
 Radar with 180 Km (120 Km for AJ37) range that show MP and AI objects alike depend on hydraulic and electricity.
 In regards to MP planes the radar can be setup to be pulse doppler and/or not able to see through terrain.
 Auto-start and auto shut down scripts.
-Realistic modeled indicator panels for various warnings, alarts and notices.
+Realistic modeled indicator panels for various warnings, alerts and notices.
 
 Engine
 -----
@@ -96,7 +96,7 @@ Armament
 JA37: 30mm Cannon with authentic shell properties and accurate recoil.
 JA37: Unguided rocket pods and guided RB-24J, RB-74, RB-99 and RB-71 air2air missiles, that can be fired at AI and MP alike.
 AJ37: Unguided rocket and cannon pods and guided RB-75, RB-04, RB-05, M90 and RB-15F air2ground missiles. Plus 3 kinds of sidewinders.
-RB-24J works as rear aspect only.
+RB-24 / RB-24J works as rear aspect only.
 Dual releasing flares that work against RB24, RB-24J and RB74.
 Compatible with the Bombable addon.
 Ability to target a GPS coordinate and fire at it.

@@ -12,7 +12,7 @@
 <fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Saab AJ-37 Viggen" version="2.0" release="BETA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
   <fileheader>
     <author> Nikolai V. Chr. </author>
-    <filecreationdate> 2013-02-15 </filecreationdate>
+    <filecreationdate> 2016-06-10 </filecreationdate>
     <version> 4.000 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>

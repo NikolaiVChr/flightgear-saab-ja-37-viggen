@@ -2328,3 +2328,7 @@ Sim: Damage from clusterbombs is now computed differently.
 Sim: Added damage from m71.
 Sim: Added A-10 ordnance to damage.
 Effect: Added explosions and model to falling M71.
+
+4.001
+=====
+GUI: Changed the AJ-37 date to 1971.
