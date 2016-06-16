@@ -1445,8 +1445,10 @@ reloadAJAir2Personel = func {
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
   setprop("payload/weight[1]/selected", "M71 Bomblavett");
+  setprop("payload/weight[1]/ammo", 4);
   setprop("payload/weight[2]/selected", "M90 Bombkapsel");
   setprop("payload/weight[3]/selected", "M71 Bomblavett");
+  setprop("payload/weight[3]/ammo", 4);
   setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
   setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
   screen.log.write("1 M55 cannonpod attached", 0.0, 1.0, 0.0);
