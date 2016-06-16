@@ -732,6 +732,7 @@ var warhead_lbs = {
     "RB-05A":              353.00,
     "RB-75":               126.00,
     "M90":                 500.00,#cluster bomb, is high so you get hit even from long distance hits. Will fix later.
+    "M71":                 200.00,
 };
 
 var incoming_listener = func {
@@ -845,6 +846,16 @@ var incoming_listener = func {
             #print(type~"|");
             if(distance != nil) {
               var dist = distance;
+
+              if (type == "M90") {
+                var prob = rand()*0.5;
+                var failed = fail_systems(prob);
+                var percent = 100 * prob;
+                printf("Took %.1f%% damage from %s clusterbombs at %0.1f meters. %s systems was hit", percent,type,dist,failed);
+                nearby_explosion();
+                return;
+              }
+
               distance = ja37.clamp(distance-1.5, 0, 1000000);
               var maxDist = 0;
 

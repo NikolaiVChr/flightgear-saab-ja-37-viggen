@@ -455,6 +455,7 @@
                     <rail type="bool">true</rail>
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
+                    <max-report-distance type="double">65</max-report-distance>
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-24j>
@@ -488,6 +489,7 @@
                     <rail type="bool">true</rail>
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
+                    <max-report-distance type="double">65</max-report-distance>
                     <class type="string">A/A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
@@ -517,6 +519,7 @@
                     <self-destruct-time-sec type="double">75</self-destruct-time-sec>         <!-- guess -->
                     <loft-altitude>36000</loft-altitude><!-- in stage 1 it want to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
+                    <max-report-distance type="double">65</max-report-distance>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
                     <fire-msg>Fox 1</fire-msg>
@@ -547,6 +550,7 @@
                     <self-destruct-time-sec type="double">90</self-destruct-time-sec>         <!-- guess -->
                     <loft-altitude>36000</loft-altitude><!-- it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
+                    <max-report-distance type="double">65</max-report-distance>
                     <rail type="bool">false</rail>
                     <class type="string">A/A</class>
                     <fire-msg>Fox 3</fire-msg>

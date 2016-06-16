@@ -127,6 +127,7 @@ var AIM = {
         m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");
         m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
+        m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.elapsed_last          = 0;
 		# Find the next index for "models/model" and create property node.
@@ -1307,7 +1308,7 @@ var AIM = {
 
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
-		if (min_distance < 65) {
+		if (min_distance < me.reportDist) {
 			me.sendMessage(phrase);
 		} else {
 			me.sendMessage(me.type~" missed "~me.callsign~": "~reason);

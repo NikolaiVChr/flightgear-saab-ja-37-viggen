@@ -2323,3 +2323,6 @@ Sim: Stopped auto fire from m55, when new ammo is loaded, and the pylon was swit
 Effect: Made the m55's fire from correct positions.
 Sim: Plane will now auto-remove armament that RB04 leaves no room for.
 Sim: Made the m71 work.
+Sim: Missiles now have custom report diatnce ala the Mirage.
+Sim: Damage from clusterbombs is now computed differently.
+Sim: Added damage from m71.

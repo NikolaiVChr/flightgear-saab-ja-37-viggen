@@ -67,7 +67,6 @@ Sim: Be able to notch the rb71 again.
 Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
 Sim: Make missiles call out the brevity code.
 Sim: Make speed and altitude limits on firing missiles.
-Sim: Damage proper from cluster bombs.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
