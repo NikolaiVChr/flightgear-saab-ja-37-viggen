@@ -1921,6 +1921,27 @@
             </volume>
         </missile-hit>
 
+        <missile-hit>
+            <name>missile-hit7</name>
+            <path>Aircraft/JA37/Sounds/RB-24J-explosion.wav</path>
+            <mode>once</mode>
+            <condition>
+                <equals>
+                    <property>payload/armament/flags/explode-sound-on-6</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <position>
+                <x>-4.0</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <volume>
+                <property>payload/armament/flags/explode-sound-vol-6</property>
+                <factor>1</factor>
+            </volume>
+        </missile-hit>
+
         <!--                                                                          Damage                                   -->
 
         <canopy-detach>
