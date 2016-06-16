@@ -2232,7 +2232,7 @@ Model: Made drop-tank same color as underbelly of plane.
 GUI: Added splash screen for Black Knight livery.
 Model: Changed name of some liveries.
 
-4.000
+4.000 - 2016 June 15
 =====
 Sim: {Pinto} Added keybindings for radio navigation.
 GUI: Added the new keybindings for radio navigation to the help description.
