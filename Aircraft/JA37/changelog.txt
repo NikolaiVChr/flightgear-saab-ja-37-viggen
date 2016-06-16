@@ -2326,3 +2326,5 @@ Sim: Made the m71 work.
 Sim: Missiles now have custom report diatnce ala the Mirage.
 Sim: Damage from clusterbombs is now computed differently.
 Sim: Added damage from m71.
+Sim: Added A-10 ordnance to damage.
+Effect: Added explosions and model to falling M71.

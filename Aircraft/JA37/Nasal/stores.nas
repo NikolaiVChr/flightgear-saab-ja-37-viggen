@@ -731,8 +731,10 @@ var warhead_lbs = {
     "RB-04E":              661.00,
     "RB-05A":              353.00,
     "RB-75":               126.00,
-    "M90":                 500.00,#cluster bomb, is high so you get hit even from long distance hits. Will fix later.
+    "M90":                 500.00,
     "M71":                 200.00,
+    "MK-82":               192.00,
+    "LAU-68":               10.00,
 };
 
 var incoming_listener = func {
