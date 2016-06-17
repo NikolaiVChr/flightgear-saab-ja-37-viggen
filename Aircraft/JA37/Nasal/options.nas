@@ -845,13 +845,13 @@ var Dialog = {
       #}
       #me.dialog.mouseButton.node.setValues({"legend": legend});
 
-      enabled = getprop("ai/submodels/submodel[3]/random");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.cannonButton.node.setValues({"legend": legend});
+      #enabled = getprop("ai/submodels/submodel[3]/random");
+      #if(enabled == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.cannonButton.node.setValues({"legend": legend});
 
       enabled = getprop("sim/ja37/sound/annunciation-enabled");
       if(enabled == 1) {
@@ -869,13 +869,13 @@ var Dialog = {
       }
       me.dialog.realRadarButton.node.setValues({"legend": legend});
 
-      enabled = getprop("sim/ja37/radar/doppler-enabled");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.dopplerButton.node.setValues({"legend": legend});      
+      #enabled = getprop("sim/ja37/radar/doppler-enabled");
+      #if(enabled == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.dopplerButton.node.setValues({"legend": legend});      
 
       enabled = getprop("payload/armament/msg");
       if(enabled == 1) {
