@@ -294,7 +294,7 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.elevatorButton.setBinding("nasal", "ja37.Dialog.elevatorToggle()");
 
-          ######   Elevator gearing button   #####
+          ######   Aerobatic button   #####
           var funRow = topRow.addChild("group");
           funRow.set("layout", "hbox");
           funRow.set("pref-height", 25);
@@ -355,19 +355,19 @@ var Dialog = {
           #me.dialog.mouseButton.setBinding("nasal", "ja37.Dialog.mouseToggle()");
 
           ######   Cannon spread button   #####
-          var cannonRow = topRow.addChild("group");
-          cannonRow.set("layout", "hbox");
-          cannonRow.set("pref-height", 25);
-          cannonRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var cannonRow = topRow.addChild("group");
+          #cannonRow.set("layout", "hbox");
+          #cannonRow.set("pref-height", 25);
+          #cannonRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var mouseText = cannonRow.addChild("text").set("label", "Cannon spread (10 degs) :");
-          cannonRow.addChild("empty").set("stretch", 1);
-          me.dialog.cannonButton = cannonRow.addChild("button");
-          me.dialog.cannonButton.set("halign", "right");
-          me.dialog.cannonButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #var mouseText = cannonRow.addChild("text").set("label", "Cannon spread (10 degs) :");
+          #cannonRow.addChild("empty").set("stretch", 1);
+          #me.dialog.cannonButton = cannonRow.addChild("button");
+          #me.dialog.cannonButton.set("halign", "right");
+          #me.dialog.cannonButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.cannonButton.setBinding("nasal", "ja37.Dialog.cannonToggle()");
+          #me.dialog.cannonButton.setBinding("nasal", "ja37.Dialog.cannonToggle()");
 
           ######   annunciation button   #####
           var annunRow = topRow.addChild("group");
@@ -399,18 +399,18 @@ var Dialog = {
           me.dialog.realRadarButton.setBinding("nasal", "ja37.Dialog.realRadarToggle()");
 
           ######   doppler radar button   #####
-          var dopplerRow = topRow.addChild("group");
-          dopplerRow.set("layout", "hbox");
-          dopplerRow.set("pref-height", 25);
-          dopplerRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var dopplerRow = topRow.addChild("group");
+          #dopplerRow.set("layout", "hbox");
+          #dopplerRow.set("pref-height", 25);
+          #dopplerRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #dopplerRow.set("valign", "center");
           
-          var dopplerText = dopplerRow.addChild("text").set("label", "Use real pulse doppler radar for MP planes:");
-          dopplerRow.addChild("empty").set("stretch", 1);
-          me.dialog.dopplerButton = dopplerRow.addChild("button");
-          me.dialog.dopplerButton.set("halign", "right");
-          me.dialog.dopplerButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
-          me.dialog.dopplerButton.setBinding("nasal", "ja37.Dialog.dopplerToggle()");
+          #var dopplerText = dopplerRow.addChild("text").set("label", "Use real pulse doppler radar for MP planes:");
+          #dopplerRow.addChild("empty").set("stretch", 1);
+          #me.dialog.dopplerButton = dopplerRow.addChild("button");
+          #me.dialog.dopplerButton.set("halign", "right");
+          #me.dialog.dopplerButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #me.dialog.dopplerButton.setBinding("nasal", "ja37.Dialog.dopplerToggle()");
 
           ######   missile msg button   #####
           var rb24msgRow = topRow.addChild("group");
