@@ -63,14 +63,14 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*deg2rads))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
-var distScalePos = 275;
+var distScalePos = 160;
 var sidewindPosition = centerOffset+(10*pixelPerDegreeY); #should be 10 degrees under aicraft axis.
 var sidewindPerKnot = max_width/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
 var radPointerProxim = (60/1024)*canvasWidth; #when alt indicater is too close to radar ground indicator, hide indicator
 var scalePlace = (200/1024)*canvasWidth; #horizontal placement of alt scales
 var numberOffset = (100/1024)*canvasWidth; #alt scale numbers horizontal offset from scale 
 var indicatorOffset = -(10/1024)*canvasWidth; #alt scale indicators horizontal offset from scale (must be high, due to bug #1054 in canvas) 
-var headScalePlace = (350/1024)*canvasWidth; # vert placement of heading scale
+var headScalePlace = (350/1024)*canvasWidth; # vert placement of heading scale, remember to change clip also.
 var headScaleTickSpacing = (65/1024)*canvasWidth;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 var altimeterScaleHeight = (225/1024)*canvasWidth; # the height of the low alt scale. Also used in the other scales as a reference height.
 var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and out of ammo reticle
@@ -81,6 +81,9 @@ var sideslipPlaceX = (325/1024)*canvasWidth;
 var sideslipPlaceY = (425/1024)*canvasWidth;
 var sideslipPlaceXFinal = 0;
 var sideslipPlaceYFinal = 0;
+var missile_aim_position = centerOffset+0.03*pixelPerMeter;
+var QFE_position = centerOffset+(5.5*pixelPerDegreeY);
+var dig_alt_position = centerOffset+(9.0*pixelPerDegreeY);
 var r = 0.6;#HUD colors
 var g = 1.0;
 var b = 0.6;
@@ -356,14 +359,14 @@ var HUDnasal = {
     HUDnasal.main.qfe.hide();
     HUDnasal.main.qfe.setColor(r,g,b, a);
     HUDnasal.main.qfe.setAlignment("center-center");
-    HUDnasal.main.qfe.setTranslation(-(365/1024)*canvasWidth, centerOffset+(5.5*pixelPerDegreeY));
+    HUDnasal.main.qfe.setTranslation(-(365/1024)*canvasWidth, QFE_position);
     HUDnasal.main.qfe.setFontSize((80/1024)*canvasWidth*fs, ar);
 
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     HUDnasal.main.alt = HUDnasal.main.root.createChild("text");
     HUDnasal.main.alt.setColor(r,g,b, a);
     HUDnasal.main.alt.setAlignment("center-center");
-    HUDnasal.main.alt.setTranslation(-(375/1024)*canvasWidth, centerOffset+(7.5*pixelPerDegreeY));
+    HUDnasal.main.alt.setTranslation(-(375/1024)*canvasWidth, dig_alt_position);
     HUDnasal.main.alt.setFontSize((85/1024)*canvasWidth*fs, ar);
 
     # Collision warning arrow
@@ -396,7 +399,7 @@ var HUDnasal = {
     HUDnasal.main.reticle_missile =
       HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
-      .moveTo( (200/1024)*canvasWidth, centerOffset)
+      .moveTo( (200/1024)*canvasWidth, missile_aim_position)
       .arcSmallCW((200/1024)*canvasWidth,(200/1024)*canvasWidth, 0, -(400/1024)*canvasWidth, 0)
       .arcSmallCW((200/1024)*canvasWidth,(200/1024)*canvasWidth, 0,  (400/1024)*canvasWidth, 0)
       .setStrokeLineCap("round")
@@ -405,10 +408,10 @@ var HUDnasal = {
     HUDnasal.main.reticle_c_missile =
       HUDnasal.main.root.createChild("path")
       .setColor(r,g,b, a)
-      .moveTo( (150/1024)*canvasWidth, centerOffset-(75/1024)*canvasWidth)
-      .lineTo( (150/1024)*canvasWidth, centerOffset+(75/1024)*canvasWidth)
-      .moveTo( (-150/1024)*canvasWidth, centerOffset-(75/1024)*canvasWidth)
-      .lineTo( (-150/1024)*canvasWidth, centerOffset+(75/1024)*canvasWidth)
+      .moveTo( (150/1024)*canvasWidth, missile_aim_position-(75/1024)*canvasWidth)
+      .lineTo( (150/1024)*canvasWidth, missile_aim_position+(75/1024)*canvasWidth)
+      .moveTo( (-150/1024)*canvasWidth, missile_aim_position-(75/1024)*canvasWidth)
+      .lineTo( (-150/1024)*canvasWidth, missile_aim_position+(75/1024)*canvasWidth)
       .setStrokeLineWidth(w);      
     # Out of ammo flight path indicator
     HUDnasal.main.reticle_no_ammo =
@@ -1101,7 +1104,7 @@ var HUDnasal = {
   },
 
   displayHeadingScale: func () {
-    if (mode != LANDING or me.input.pitch.getValue() < -5 or me.input.pitch.getValue() > 9) {
+    if (mode != LANDING or me.input.pitch.getValue() < -2 or me.input.pitch.getValue() > 13.5) {
       if(me.input.srvHead.getValue() == TRUE) {
         var heading = me.input.hdg.getValue();
         var headOffset = heading/10 - int (heading/10);

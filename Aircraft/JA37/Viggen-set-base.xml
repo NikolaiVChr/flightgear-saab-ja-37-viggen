@@ -277,7 +277,7 @@
                 <from-model-idx type="int">0</from-model-idx>
                 <pitch-offset-deg type="double">-10.0</pitch-offset-deg>
                 <x-offset-m type="double">0</x-offset-m>
-                <y-offset-m type="double">0.71</y-offset-m>
+                <y-offset-m type="double">0.74</y-offset-m>
                 <z-offset-m type="double">-3.6</z-offset-m>
                 <default-field-of-view-deg type="double">65</default-field-of-view-deg>
                 <ground-level-nearplane-m type="double">0.5f</ground-level-nearplane-m>
