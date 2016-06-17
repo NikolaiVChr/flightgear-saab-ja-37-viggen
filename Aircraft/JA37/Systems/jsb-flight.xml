@@ -175,7 +175,33 @@
 
     <channel execrate="4" name="instruments">
 
-        <fcs_function name="propulsion/engine/rpm_r-s">
+        <fcs_function name="propulsion/engine/aj37-rpm_r-s">
+            <function>
+                <table>
+                    <independentVar lookup="row">propulsion/engine/n2</independentVar>
+                    <tableData>
+                        0.0        0.0
+                       59.0        3.2
+                       74.0       14.3
+                       93.3       56.0
+                       96.5       65.6
+                       97.3      115.6
+                      100.0      204.6
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/aj37-rpm_r-min">
+            <function>
+                <product>
+                    <property>propulsion/engine/aj37-rpm_r-s</property>
+                    <value>60</value>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/ja37-rpm_r-s">
             <function>
                 <table>
                     <independentVar lookup="row">propulsion/engine/n2</independentVar>
@@ -192,10 +218,10 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="propulsion/engine/rpm_r-min">
+        <fcs_function name="propulsion/engine/ja37-rpm_r-min">
             <function>
                 <product>
-                    <property>propulsion/engine/rpm_r-s</property>
+                    <property>propulsion/engine/ja37-rpm_r-s</property>
                     <value>60</value>
                 </product>
             </function>
