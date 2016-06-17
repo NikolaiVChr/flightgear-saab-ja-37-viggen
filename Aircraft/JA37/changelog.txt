@@ -2338,3 +2338,6 @@ Sim: Fixed that hits from F14 AIM-9 would not do damage.
 Sound: Added hit sound for weapons fired from center pylon.
 GUI: Systems monitor will now show correct rpm for AJ37 engine.
 Model: Fixed that livery 01 and 48 had red text on the bottom vertical winglet.
+Sim: Made better system for ordnance to know if the target is correct class.
+Radar: Now guesses if multiplayer is ground or marine target.
+Sim: Adjusted some stats on RB-05, they can now hit air targets.

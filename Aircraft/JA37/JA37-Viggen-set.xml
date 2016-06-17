@@ -456,7 +456,7 @@
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
-                    <class type="string">A/A</class>
+                    <class type="string">A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-24j>
                 <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 2.5 -->
@@ -490,7 +490,7 @@
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
-                    <class type="string">A/A</class>
+                    <class type="string">A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
                 <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) mach 2.9 -->
@@ -521,7 +521,7 @@
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
                     <rail type="bool">false</rail>
-                    <class type="string">A/A</class>
+                    <class type="string">A</class>
                     <fire-msg>Fox 1</fire-msg>
                 </rb-71>
                 <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) mach 4-->
@@ -552,7 +552,7 @@
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
                     <rail type="bool">false</rail>
-                    <class type="string">A/A</class>
+                    <class type="string">A</class>
                     <fire-msg>Fox 3</fire-msg>
                 </rb-99>
                 <!-- test: SAM S-300-->

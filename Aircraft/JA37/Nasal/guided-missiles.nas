@@ -130,6 +130,12 @@ var AIM = {
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.elapsed_last          = 0;
+
+		m.target_air = find("A", m.class)==-1?FALSE:TRUE;
+		m.target_sea = find("M", m.class)==-1?FALSE:TRUE;#use M for marine, since S can be confused with surface.
+		m.target_gnd = find("G", m.class)==-1?FALSE:TRUE;
+
+
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
 		# (M. Franz, see Nasal/tanker.nas)
@@ -1060,7 +1066,7 @@ var AIM = {
             }
 
             var Daground = 0;# zero for sealevel in case target is ship. Don't shoot A/S missiles over terrain. :)
-            if(me.class == "A/G") {
+            if(me.Tgt.get_type() == SURFACE) {
                 Daground = me.nextGroundElevation * M2FT;
             }
             var loft_alt = me.loft_alt;
@@ -1361,9 +1367,9 @@ var AIM = {
 		if (1==1 or contact != me.Tgt) {
 			#print("search2");
 			if (contact != nil and contact.isValid() == TRUE and
-				(  (contact.get_type() == SURFACE and me.class == "A/G")
-                or (contact.get_type() == AIR and me.class == "A/A")
-                or (contact.get_type() == MARINE and me.class == "A/G"))) {
+				(  (contact.get_type() == SURFACE and me.target_gnd == TRUE)
+                or (contact.get_type() == AIR and me.target_air == TRUE)
+                or (contact.get_type() == MARINE and me.target_sea == TRUE))) {
 				#print("search3");
 				var tgt = contact; # In the radar range and horizontal field.
 				var rng = tgt.get_range();
