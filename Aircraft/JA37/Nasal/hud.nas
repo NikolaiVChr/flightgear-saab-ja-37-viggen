@@ -63,13 +63,14 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*deg2rads))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
-var sidewindPosition = centerOffset+(8*pixelPerDegreeY); #should be 10 degrees under aicraft axis.
+var distScalePos = 275;
+var sidewindPosition = centerOffset+(10*pixelPerDegreeY); #should be 10 degrees under aicraft axis.
 var sidewindPerKnot = max_width/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
 var radPointerProxim = (60/1024)*canvasWidth; #when alt indicater is too close to radar ground indicator, hide indicator
 var scalePlace = (200/1024)*canvasWidth; #horizontal placement of alt scales
 var numberOffset = (100/1024)*canvasWidth; #alt scale numbers horizontal offset from scale 
 var indicatorOffset = -(10/1024)*canvasWidth; #alt scale indicators horizontal offset from scale (must be high, due to bug #1054 in canvas) 
-var headScalePlace = (300/1024)*canvasWidth; # vert placement of alt scale
+var headScalePlace = (350/1024)*canvasWidth; # vert placement of heading scale
 var headScaleTickSpacing = (65/1024)*canvasWidth;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 var altimeterScaleHeight = (225/1024)*canvasWidth; # the height of the low alt scale. Also used in the other scales as a reference height.
 var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and out of ammo reticle
@@ -139,7 +140,7 @@ var HUDnasal = {
 
 
     # scale heading ticks
-    var clip = (62/1024)*canvasWidth~"px, "~(687/1024)*canvasWidth~"px, "~(262/1024)*canvasWidth~"px, "~(337/1024)*canvasWidth~"px";
+    var clip = (12/1024)*canvasWidth~"px, "~(687/1024)*canvasWidth~"px, "~(212/1024)*canvasWidth~"px, "~(337/1024)*canvasWidth~"px";
     HUDnasal.main.head_scale_grp = HUDnasal.main.root.createChild("group");
     HUDnasal.main.head_scale_grp.set("clip", "rect("~clip~")");#top,right,bottom,left
     HUDnasal.main.head_scale_grp_trans = HUDnasal.main.head_scale_grp.createTransform();
@@ -757,7 +758,7 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_icao.setFontSize((60/1024)*canvasWidth*fs, ar);
 
     #distance scale
-    HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-(100/1024)*canvasWidth, (200/1024)*canvasWidth);
+    HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-(100/1024)*canvasWidth, (distScalePos/1024)*canvasWidth);
     HUDnasal.main.mySpeed = HUDnasal.main.dist_scale_group.createChild("path")
                             .moveTo(   0,   0)
                             .lineTo( -(10/1024)*canvasWidth, -(10/1024)*canvasWidth)
@@ -1585,7 +1586,7 @@ var HUDnasal = {
     if (guideUseLines == FALSE) {
       var desired_alt_delta_ft = nil;
       if(mode == TAKEOFF) {
-        desired_alt_delta_ft = 1640-me.input.alt_ft.getValue();#500 meter
+        desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
         desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {

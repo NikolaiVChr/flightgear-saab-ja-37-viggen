@@ -136,7 +136,7 @@
             <config>
                 <pitch-offset-deg type="double" userarchive="n">-23</pitch-offset-deg>
                 <x-offset-m type="double" userarchive="n">0</x-offset-m>
-                <y-offset-m type="double" userarchive="n">0.71</y-offset-m>
+                <y-offset-m type="double" userarchive="n">0.74</y-offset-m>
                 <!-- remember to change eyepoint in JSB when changing this -->
                 <z-offset-m type="double" userarchive="n">-3.6</z-offset-m>
                 <default-field-of-view-deg type="double" userarchive="n">95</default-field-of-view-deg><!-- when changing this, change it in ja37.nas also -->
