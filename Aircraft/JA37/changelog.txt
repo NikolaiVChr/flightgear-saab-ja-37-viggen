@@ -2337,3 +2337,4 @@ GUI: Fixed that selecting long range fuel load would not allow fuel in drop tank
 Sim: Fixed that hits from F14 AIM-9 would not do damage.
 Sound: Added hit sound for weapons fired from center pylon.
 GUI: Systems monitor will now show correct rpm for AJ37 engine.
+Model: Fixed that livery 01 and 48 had red text on the bottom vertical winglet.
