@@ -362,7 +362,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
         if (doppler(aircraftPos, node) == TRUE) {
           # doppler picks it up, must be an aircraft
           type = AIR;
-        } elsif (aircraftAlt > 3) {
+        } elsif (aircraftAlt > 1) {
           # doppler does not see it, and is not on sea, must be ground target
           type = SURFACE;
         } else {
