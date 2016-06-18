@@ -2342,3 +2342,6 @@ Sim: Made better system for ordnance to know if the target is correct class.
 Radar: Now guesses if multiplayer is ground or marine target.
 Sim: Adjusted some stats on RB-05, they can now hit air targets.
 GUI: Removed the following buttons from options: doppler and cannon spread.
+Aero: Adjusted drag for some stores.
+Model: Moved pilot eye view up 3 cm to better be able to instrument land.
+HUD: Adjusted symbology positions to fit the new pilot view.
