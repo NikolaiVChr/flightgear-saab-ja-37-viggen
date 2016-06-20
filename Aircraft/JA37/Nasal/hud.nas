@@ -1848,6 +1848,7 @@ var HUDnasal = {
         air2air = FALSE;
         air2ground = TRUE;
         me.showSidewind(FALSE);
+        me.reticle_cannon.setTranslation(0, centerOffset);
         me.reticle_cannon.show();
         me.reticle_missile.hide();
         me.reticle_c_missile.show();
