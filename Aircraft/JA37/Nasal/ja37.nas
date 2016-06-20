@@ -411,7 +411,7 @@ var update_loop = func {
         distance = 40;
       }
       input.rmDistKm.setDoubleValue(distance);
-    } elsif (input.rmActive.getValue() == TRUE) {
+    } elsif (input.rmActive.getValue() == TRUE and input.rmDist.getValue() != nil) {
       # converts waypoint distance to km, for use in the distance indicator. 1nm = 1.852km = 1852 meters.
       input.rmDistKm.setDoubleValue(input.rmDist.getValue() * 1.852 );
     } else {

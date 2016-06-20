@@ -2246,7 +2246,7 @@ var HUDnasal = {
       me.distanceText.show();
       me.distanceScale.show();
       me.dist_scale_group.show();
-    } elsif (me.input.RMActive.getValue() == TRUE) {
+    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil) {
       var distance = me.input.rmDist.getValue();
       var line = (200/1024)*canvasWidth;
       var maxDist = 20;
