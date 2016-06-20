@@ -127,7 +127,7 @@ Sim: {Pinto} After fire M70, and reload, they will fire again. [might be fixed]
 Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
 Sound: Could hear aim-9 growl even though not in tact mode, in external view.
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
-Effect: Firing many M70 rockets in quick succession will make FG crash.
+Effect: Firing many M70 rockets in quick succession will make FG crash. [Probably fixed]
 
 
 Issues with FG:

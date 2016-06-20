@@ -2348,3 +2348,6 @@ HUD: Adjusted symbology positions to fit the new pilot view.
 HUD: Fixed a nullpointer error.
 Sim: Fixed a nullpointer error.
 Model: {Pinto} Made nosecone prettier as seen from cockpit.
+Effect: Made store effects share textures.
+Effect: Prevented firing many M70 would crash Flightgear.
+Effect: Adjusted effects for M70.

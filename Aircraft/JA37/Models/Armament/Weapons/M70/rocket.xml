@@ -4,10 +4,10 @@
 
   <particlesystem>
      <name>rocket-smoke</name>
-     <texture>../RB-24J/smoke.png</texture>
+     <texture>../smoke.png</texture>
 
      <emissive type="bool">false</emissive>
-     <lighting type="bool">true</lighting>
+     <lighting type="bool">false</lighting>
 
      <attach>world</attach>
 
@@ -42,7 +42,7 @@
 
      <counter>
        <particles-per-sec>
-         <value>300</value>
+         <value>75</value>
          <spread>0</spread>
        </particles-per-sec>
      </counter>
@@ -52,10 +52,10 @@
      <particle>
        <start>
          <color>
-           <red><value>   1.0 </value></red>
-           <green><value> 1.0 </value></green>
-           <blue><value>  0.9 </value></blue>
-           <alpha><value> 0.5 </value></alpha>
+           <red><value>   0.0 </value></red>
+           <green><value> 0.0 </value></green>
+           <blue><value>  0.0 </value></blue>
+           <alpha><value> 0.9 </value></alpha>
          </color>
          <size>
            <value>0.5</value>
@@ -92,7 +92,7 @@
 
    <particlesystem>
      <name>rocket-exhaust</name>
-     <texture>../RB-24J/smoke.png</texture>
+     <texture>../smoke.png</texture>
 
      <emissive type="bool">true</emissive>
      <lighting type="bool">false</lighting>
@@ -130,7 +130,7 @@
 
      <counter>
        <particles-per-sec>
-         <value>300</value>
+         <value>100</value>
          <spread>0</spread>
        </particles-per-sec>
      </counter>

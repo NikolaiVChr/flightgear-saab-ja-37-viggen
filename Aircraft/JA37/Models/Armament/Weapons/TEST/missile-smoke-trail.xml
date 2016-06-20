@@ -2,7 +2,7 @@
 <PropertyList>
   <particlesystem>
     <name>flare-smoke</name>
-    <texture>puff.png</texture>
+    <texture>../puff.png</texture>
     <emissive>false</emissive>
     <lighting>false</lighting>
     <offsets>

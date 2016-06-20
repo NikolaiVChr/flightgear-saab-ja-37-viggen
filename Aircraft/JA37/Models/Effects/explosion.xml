@@ -1,8 +1,10 @@
 <PropertyList>
 
+  <path>Models/Geometry/null.ac</path>
+
 <particlesystem>
    <name>ja37-explosion</name>
-   <texture>../Armament/Weapons/RB-24J/smoke.png</texture>
+   <texture>../Armament/Weapons/smoke.png</texture>
 
    <emissive type="bool">true</emissive>
    <lighting type="bool">false</lighting>
@@ -91,7 +93,7 @@
 
  <particlesystem>
    <name>ja37-explosion-smoke</name>
-   <texture>../Armament/Weapons/RB-24J/smoke.png</texture>
+   <texture>../Armament/Weapons/smoke.png</texture>
 
    <emissive type="bool">false</emissive>
    <lighting type="bool">false</lighting>

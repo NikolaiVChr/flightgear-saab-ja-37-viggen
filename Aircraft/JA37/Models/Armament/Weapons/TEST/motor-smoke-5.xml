@@ -2,7 +2,7 @@
 
 <particlesystem>
    <name>smoke</name>
-   <texture>smoke.png</texture>
+   <texture>../smoke.png</texture>
 
    <emissive type="bool">true</emissive>
    <lighting type="bool">false</lighting>
@@ -94,7 +94,7 @@
 
 <particlesystem>
    <name>exhaust</name>
-   <texture>smoke.png</texture>
+   <texture>../smoke.png</texture>
 
    <emissive type="bool">true</emissive>
    <lighting type="bool">false</lighting>
