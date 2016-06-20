@@ -83,7 +83,6 @@ HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. 
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
-HUD: Sidewind indicator should really be 10 degs below plane axis line.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 
 

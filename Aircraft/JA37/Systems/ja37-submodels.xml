@@ -125,7 +125,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[1]/trigger-m70</trigger>
-        <speed>1000.0</speed>
+        <speed>1969</speed><!-- as per source -->
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
@@ -136,17 +136,17 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.0005</cd>        <!-- drag -->
-        <eda>0.00136354</eda>
-        <weight>50</weight>
+        <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
+        <eda>0.0541</eda>
+        <weight>100</weight><!-- as per source -->
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
         <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
         <wind>true</wind>
-        <buoyancy>25</buoyancy>
-        <life>20</life>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
     </submodel>
 
     <submodel>
@@ -154,7 +154,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[2]/trigger-m70</trigger>
-        <speed>1000.0</speed>
+        <speed>1969</speed>
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
@@ -165,17 +165,17 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.0005</cd>        <!-- drag -->
-        <eda>0.00136354</eda>
-        <weight>50</weight>
+        <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
+        <eda>0.0541</eda>
+        <weight>100</weight><!-- as per source -->
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
         <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
         <wind>true</wind>
-        <buoyancy>25</buoyancy>
-        <life>20</life>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
     </submodel>
 
     <submodel>
@@ -183,7 +183,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[3]/trigger-m70</trigger>
-        <speed>1000.0</speed>
+        <speed>1969</speed>
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
@@ -194,17 +194,17 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.0005</cd>        <!-- drag -->
-        <eda>0.00136354</eda>
-        <weight>50</weight>
+        <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
+        <eda>0.0541</eda>
+        <weight>100</weight><!-- as per source -->
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
         <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
         <wind>true</wind>
-        <buoyancy>25</buoyancy>
-        <life>20</life>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
     </submodel>
 
     <submodel>
@@ -212,7 +212,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[4]/trigger-m70</trigger>
-        <speed>1000.0</speed>
+        <speed>1969</speed>
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
@@ -223,17 +223,17 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.0005</cd>        <!-- drag -->
-        <eda>0.00136354</eda>
-        <weight>50</weight>
+        <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
+        <eda>0.0541</eda>
+        <weight>100</weight><!-- as per source -->
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
         <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
         <wind>true</wind>
-        <buoyancy>25</buoyancy>
-        <life>20</life>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
     </submodel>
 
     <submodel>
@@ -399,7 +399,7 @@
         <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocket.xml</model>
         <submodel-path>Aircraft/JA37/Models/Armament/Weapons/M70/rocket-explosion-sub.xml</submodel-path>
         <trigger>controls/armament/station[7]/trigger-m70</trigger>
-        <speed>1000.0</speed>
+        <speed>1969</speed>
         <repeat>true</repeat>
         <delay>0.25</delay>
         <count>6</count>
@@ -410,17 +410,17 @@
         <pitch-offset>0.0</pitch-offset>
         <external-force>false</external-force>
         <force-stabilised>false</force-stabilised>
-        <cd>0.0005</cd>        <!-- drag -->
-        <eda>0.00136354</eda>
-        <weight>50</weight>
+        <cd>0.0001</cd>        <!-- drag is almost none, since it is rocket powered and will keep the speed -->
+        <eda>0.0541</eda>
+        <weight>100</weight><!-- as per source -->
         <collision>true</collision>        <!-- AI/MP -->
         <collision-report>sim/ai/aircraft/collision/bomb</collision-report>
         <impact>true</impact>        <!-- terrain -->
         <impact-report>sim/ai/aircraft/impact/cannon</impact-report>
         <!--<impact-reports>sim/ai/aircraft/rocket</impact-reports>-->
         <wind>true</wind>
-        <buoyancy>25</buoyancy>
-        <life>20</life>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
     </submodel>
 
     <submodel>
