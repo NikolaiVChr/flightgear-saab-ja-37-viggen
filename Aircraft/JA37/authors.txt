@@ -44,9 +44,10 @@ Misc. cockpit improvements (radio etc..)
 Misc. model improvements. (optimizations, adjustments, UV mappings plus more)
 Plus many other changes.
 
-Forum name: swampthing
+Steve Brown - Forum name: swampthing
 ======================
 KSUU Crew 1 livery.
+2 exterior engine sounds.
 
 Forum name: Spectre
 ===================
