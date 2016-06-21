@@ -107,12 +107,12 @@
                 <z>0.01</z>
             </position>
             <orientation>
-                <x>1.0</x>
+                <x>-1.0</x>
                 <y>0.0</y>
                 <z>0.0</z>
                 <inner-angle>50.0</inner-angle>
-                <outer-angle>80.0</outer-angle>
-                <outer-gain>0.75</outer-gain>
+                <outer-angle>90.0</outer-angle>
+                <outer-gain>0.25</outer-gain>
             </orientation>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
@@ -148,9 +148,12 @@
                 <y>0.0</y>
                 <z>0.0</z>
                 <inner-angle>45.0</inner-angle>
-                <outer-angle>120.0</outer-angle>
-                <outer-gain>0.5</outer-gain>
+                <outer-angle>140.0</outer-angle>
+                <outer-gain>0.0</outer-gain>
             </orientation>
+            <pitch>
+                <factor>0.75</factor>
+            </pitch>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
                 <factor>0.000050</factor>
@@ -159,7 +162,7 @@
 
         <flybylow>
             <name>low pitch fly by</name>
-            <path>Aircraft/JA37/Sounds/roar-low.wav</path>
+            <path>Aircraft/JA37/Sounds/reheat.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -167,6 +170,7 @@
                     <value>Fly-By View</value>
                 </equals>
                 <property>engines/engine/running</property>
+                <property>engines/engine/augmentation</property>
                 <not>
                     <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                     <property>fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -184,13 +188,16 @@
                 <x>1.0</x>
                 <y>0.0</y>
                 <z>0.0</z>
-                <inner-angle>45</inner-angle>
-                <outer-angle>90.0</outer-angle>
+                <inner-angle>22.5</inner-angle>
+                <outer-angle>45.0</outer-angle>
                 <outer-gain>0</outer-gain>
             </orientation>
+            <pitch>
+                <factor>0.5</factor>
+            </pitch>
             <volume>
-                <property>engines/engine/thrust_lb-absolute</property>
-                <factor>0.000100</factor>
+                <property>engines/engine/n2</property>
+                <factor>0.01</factor>
             </volume>
         </flybylow>
 
@@ -310,7 +317,7 @@
 
         <engine_idle_model>
             <name>external fan</name>
-            <path>Sounds/turbojet_fan.wav</path>
+            <path>Aircraft/JA37/Sounds/fan-exterior.wav</path><!-- Sounds/turbojet_fan.wav -->
             <mode>looped</mode>
             <condition>
                 <!--<property>engines/engine/running</property>-->

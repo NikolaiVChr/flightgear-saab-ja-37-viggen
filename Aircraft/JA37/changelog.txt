@@ -2353,3 +2353,5 @@ Effect: Prevented firing many M70 would crash Flightgear.
 Effect: Adjusted effects for M70.
 Sim: Adjusted stats for M70.
 HUD: Fixed that crosshair for M70 would sometimes be in wrong position.
+Sound: Replaced the exterior fan sound.
+Sound: Adjusted fly-by sounds and replaced the reheat part.
