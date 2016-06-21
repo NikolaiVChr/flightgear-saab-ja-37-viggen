@@ -21,7 +21,6 @@ Model: Put in not-working instruments and controls for immersion.
 Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
 Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: Fix that landing gear oleo struts now are too bright.
-Model: Fix the bloody irritating lag when getting near another JA37 in MP! (test if MP sounds are culprit)
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
 Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
@@ -93,18 +92,14 @@ Aero: Above mach 1 at higher altitudes, then plane seems to do some pitch oscill
 Animation: Selection view does not follow carriers or other ships till they move. (they lack radar properties)
 Control: {Pinto} Pitch damper does fast violent oscillations at 36000ft M2.25+ without droptank.
 GUI: The performance monitor can duplicate itself when selecting airport. [reproduced]
-HUD: I have experienced that tactical mode was on by default. [not reliable reproduced]
 HUD: In landing mode when horizont is out of view, heading scale does not show commanded heading.
 HUD: In landing mode, commanded altitude lines can be confused with ILS guidance.
-HUD: In tactical mode the diamond would sometimes not be painted. Distance, callsign and tail would be shown though.
 HUD: When autostarting is in progress, the HUD will switch off for a fraction of a second sometimes when loading stores. (due to stores mass moving the aircraft a bit and external power then gets disconnected.).
 HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
 HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
 Model: CTRL-X in HUD view will not zoom to correct level.
-Model: Desert livery over MP is broken now.
 Model: Droptank indicator should really be a steerpoint indicator.
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
-Model: Sim lag at final retraction of gear. [reproduced, select anims are to blame]
 Model: sim load-lag when coming near other ja37. [reproduced, select anims are probably to blame]
 Radar: Shooting at imdrone ship, it blinks in and out before getting lock.
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]

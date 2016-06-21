@@ -85,7 +85,7 @@
 
         <flybyslow>
             <name>high pitch fly by</name>
-            <path>Sounds/roar-high.wav</path>
+            <path>Sounds/roar-medium.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -111,9 +111,12 @@
                 <y>0.0</y>
                 <z>0.0</z>
                 <inner-angle>50.0</inner-angle>
-                <outer-angle>90.0</outer-angle>
+                <outer-angle>120.0</outer-angle>
                 <outer-gain>0.25</outer-gain>
             </orientation>
+            <pitch>
+                <factor>0.65</factor>
+            </pitch>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
                 <factor>0.000050</factor>
@@ -122,7 +125,7 @@
 
         <flybymed>
             <name>medium pitch fly by</name>
-            <path>Aircraft/JA37/Sounds/roar-medium.wav</path>
+            <path>Aircraft/JA37/Sounds/roar-high.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -152,11 +155,11 @@
                 <outer-gain>0.0</outer-gain>
             </orientation>
             <pitch>
-                <factor>0.75</factor>
+                <factor>0.85</factor>
             </pitch>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
-                <factor>0.000050</factor>
+                <factor>0.000075</factor>
             </volume>
         </flybymed>
 
@@ -177,7 +180,7 @@
                     <property>fdm/jsbsim/gear/unit[2]/WOW</property>
                 </not>
             </condition>
-            <reference-dist>100</reference-dist>
+            <reference-dist>150</reference-dist>
             <max-dist>10000</max-dist>
             <position>
                 <x>5.90</x>
@@ -188,7 +191,7 @@
                 <x>1.0</x>
                 <y>0.0</y>
                 <z>0.0</z>
-                <inner-angle>22.5</inner-angle>
+                <inner-angle>30.0</inner-angle>
                 <outer-angle>45.0</outer-angle>
                 <outer-gain>0</outer-gain>
             </orientation>
