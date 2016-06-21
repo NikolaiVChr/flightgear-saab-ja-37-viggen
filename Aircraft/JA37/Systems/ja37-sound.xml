@@ -111,19 +111,16 @@
                 <y>0.0</y>
                 <z>0.0</z>
                 <inner-angle>50.0</inner-angle>
-                <outer-angle>120.0</outer-angle>
-                <outer-gain>0.25</outer-gain>
+                <outer-angle>180.0</outer-angle>
+                <outer-gain>0.70</outer-gain>
             </orientation>
-            <pitch>
-                <factor>0.65</factor>
-            </pitch>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
                 <factor>0.000050</factor>
             </volume>
         </flybyslow>
 
-        <flybymed>
+        <!--<flybymed>
             <name>medium pitch fly by</name>
             <path>Aircraft/JA37/Sounds/roar-high.wav</path>
             <mode>looped</mode>
@@ -155,13 +152,13 @@
                 <outer-gain>0.0</outer-gain>
             </orientation>
             <pitch>
-                <factor>0.85</factor>
+                <factor>0.60</factor>
             </pitch>
             <volume>
                 <property>engines/engine/thrust_lb-absolute</property>
                 <factor>0.000075</factor>
             </volume>
-        </flybymed>
+        </flybymed>-->
 
         <flybylow>
             <name>low pitch fly by</name>
@@ -195,14 +192,58 @@
                 <outer-angle>45.0</outer-angle>
                 <outer-gain>0</outer-gain>
             </orientation>
-            <pitch>
-                <factor>0.5</factor>
-            </pitch>
+            <!--<pitch>
+                <factor>1.0</factor>
+            </pitch>-->
             <volume>
                 <property>engines/engine/n2</property>
                 <factor>0.01</factor>
             </volume>
         </flybylow>
+
+        <flybylowest>
+            <name>very low pitch fly by</name>
+            <path>Aircraft/JA37/Sounds/deep-noise.wav</path>
+            <mode>looped</mode>
+            <condition>
+                <not>
+                    <property>sim/current-view/internal</property>
+                </not>
+                <!--<equals>
+                    <property>sim/current-view/name</property>
+                    <value>Fly-By View</value>
+                </equals>-->
+                <property>engines/engine/running</property>
+                <!--<property>engines/engine/augmentation</property>-->
+                <!--<not>
+                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
+                </not>-->
+            </condition>
+            <reference-dist>150</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x>5.90</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <orientation>
+                <x>1.0</x>
+                <y>0.0</y>
+                <z>0.0</z>
+                <inner-angle>0.0</inner-angle>
+                <outer-angle>90.0</outer-angle>
+                <outer-gain>0</outer-gain>
+            </orientation>
+            <!--<pitch>
+                <factor>1.0</factor>
+            </pitch>-->
+            <volume>
+                <property>engines/engine/n2</property>
+                <factor>0.01</factor>
+            </volume>
+        </flybylowest>
 
 
         <!--                               Cockpit View                      engine                                   -->
