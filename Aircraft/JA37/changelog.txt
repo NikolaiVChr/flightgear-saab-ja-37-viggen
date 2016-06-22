@@ -2355,3 +2355,5 @@ Sim: Adjusted stats for M70.
 HUD: Fixed that crosshair for M70 would sometimes be in wrong position.
 Sound: Replaced the exterior fan sound.
 Sound: Adjusted fly-by sounds and replaced the reheat part.
+Model: Fixed that mounting RB24J on left outer pylon, would mount it on right also.
+Model: Removed unneeded armament models from variants.
