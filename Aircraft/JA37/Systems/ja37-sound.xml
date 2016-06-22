@@ -32,7 +32,7 @@
         <canopy>
             <name>canopy_lock</name>
             <path>Aircraft/JA37/Sounds/canopy_lock.wav</path>
-            <mode>single</mode>
+            <mode>once</mode>
             <type>avionics</type>
             <condition>
                 <equals>
@@ -59,7 +59,7 @@
         <battery>
             <name>battery_start</name>
             <path>Aircraft/JA37/Sounds/BatteryStart.wav</path>
-            <mode>single</mode>
+            <mode>once</mode>
             <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
@@ -189,7 +189,7 @@
                 <y>0.0</y>
                 <z>0.0</z>
                 <inner-angle>30.0</inner-angle>
-                <outer-angle>45.0</outer-angle>
+                <outer-angle>55.0</outer-angle>
                 <outer-gain>0</outer-gain>
             </orientation>
             <!--<pitch>
@@ -215,11 +215,17 @@
                 </equals>-->
                 <property>engines/engine/running</property>
                 <!--<property>engines/engine/augmentation</property>-->
-                <!--<not>
-                    <property>fdm/jsbsim/gear/unit[0]/WOW</property>
-                    <property>fdm/jsbsim/gear/unit[1]/WOW</property>
-                    <property>fdm/jsbsim/gear/unit[2]/WOW</property>
-                </not>-->
+                <not>
+                    <and>
+                        <equals>
+                            <property>sim/current-view/name</property>
+                            <value>Fly-By View</value>
+                        </equals>
+                        <property>fdm/jsbsim/gear/unit[0]/WOW</property>
+                        <property>fdm/jsbsim/gear/unit[1]/WOW</property>
+                        <property>fdm/jsbsim/gear/unit[2]/WOW</property>
+                    </and>
+                </not>
             </condition>
             <reference-dist>150</reference-dist>
             <max-dist>10000</max-dist>
@@ -406,9 +412,9 @@
                 <outer-gain>1</outer-gain>
             </orientation>
             <pitch>
-                <property>engines/engine/n1</property>
-                <offset>0.65</offset><!-- changed from 1 -->
-                <factor>0.005</factor>
+                <property>engines/engine/n2</property>
+                <offset>0.35</offset><!-- changed from 1 -->
+                <factor>0.0065</factor>
             </pitch>
             <volume>
                 <property>engines/engine/n1</property>
@@ -779,7 +785,7 @@
 
         <alphawarn>
             <name>alphawarning</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/caution-high-alpha.wav</path>
             <type>avionics</type>
             <condition>
@@ -830,7 +836,7 @@
 
         <takeoffalpha>
             <name>takeoff-and-landing-alpha</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/warning-very-high-alpha.wav</path>
             <type>avionics</type>
             <condition>
@@ -859,7 +865,7 @@
 
         <bingo>
             <name>bingo</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/fuel-low.wav</path>
             <type>avionics</type>
             <condition>
@@ -878,7 +884,7 @@
 
         <pullup>
             <name>pull-up</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/pull-up.wav</path>
             <type>avionics</type>
             <condition>
@@ -916,7 +922,7 @@
 
         <master>
             <name>master warning</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/warning-master.wav</path>
             <type>avionics</type>
             <condition>
@@ -935,7 +941,7 @@
 
         <incoming>
             <name>incoming</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming.wav</path>
             <type>avionics</type>
             <condition>
@@ -954,7 +960,7 @@
 
         <incoming>
             <name>incoming1</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-01.wav</path>
             <type>avionics</type>
             <condition>
@@ -973,7 +979,7 @@
 
         <incoming>
             <name>incoming2</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-02.wav</path>
             <type>avionics</type>
             <condition>
@@ -992,7 +998,7 @@
 
         <incoming>
             <name>incoming3</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-03.wav</path>
             <type>avionics</type>
             <condition>
@@ -1011,7 +1017,7 @@
 
         <incoming>
             <name>incoming4</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-04.wav</path>
             <type>avionics</type>
             <condition>
@@ -1030,7 +1036,7 @@
 
         <incoming>
             <name>incoming5</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-05.wav</path>
             <type>avionics</type>
             <condition>
@@ -1049,7 +1055,7 @@
 
         <incoming>
             <name>incoming6</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-06.wav</path>
             <type>avionics</type>
             <condition>
@@ -1068,7 +1074,7 @@
 
         <incoming>
             <name>incoming12</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-12.wav</path>
             <type>avionics</type>
             <condition>
@@ -1087,7 +1093,7 @@
 
         <incoming>
             <name>incoming7</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-07.wav</path>
             <type>avionics</type>
             <condition>
@@ -1106,7 +1112,7 @@
 
         <incoming>
             <name>incoming8</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-08.wav</path>
             <type>avionics</type>
             <condition>
@@ -1125,7 +1131,7 @@
 
         <incoming>
             <name>incoming9</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-09.wav</path>
             <type>avionics</type>
             <condition>
@@ -1144,7 +1150,7 @@
 
         <incoming>
             <name>incoming10</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-10.wav</path>
             <type>avionics</type>
             <condition>
@@ -1163,7 +1169,7 @@
 
         <incoming>
             <name>incoming11</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <path>Aircraft/JA37/Sounds/incoming-11.wav</path>
             <type>avionics</type>
             <condition>
@@ -1204,7 +1210,7 @@
         <!--<stallw>
    <name>stallwarning</name>
    <path>Sounds/stallwarning.wav</path>
-   <mode>single</mode>
+   <mode>once</mode>
    <type>avionics</type>
    <condition>
     <and>
@@ -1225,7 +1231,7 @@
      <name>terrain</name>
       <reference-dist>1.0</reference-dist>
       <max-dist>2.0</max-dist>
-     <mode>single</mode>
+     <mode>once</mode>
      <type>avionics</type>
      <path>Aircraft/JA37/Sounds/lowterrain.wav</path>
      <condition>
@@ -1807,7 +1813,7 @@
 
         <flare>
             <name>flare</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/flare.wav</path>
             <condition>
@@ -1827,7 +1833,7 @@
 
         <flare>
             <name>flareOut</name>
-            <mode>single</mode>
+            <mode>once</mode>
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/flareOut.wav</path>
             <condition>
