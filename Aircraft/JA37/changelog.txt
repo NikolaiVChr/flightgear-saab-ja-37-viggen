@@ -2358,3 +2358,4 @@ Sound: Adjusted fly-by sounds and replaced the reheat part.
 Model: Fixed that mounting RB24J on left outer pylon, would mount it on right also.
 Model: Removed unneeded armament models from variants.
 Sim: Refactored custom properties that were mistakenly sent over MP due to their location.
+Sim: Reduced the time the flightrecorder records at full fidelity in half to help with people crashing the Viggen after flying for 15 mins.
