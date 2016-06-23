@@ -32,7 +32,7 @@
                     </equals>
                 </or>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -93,7 +93,7 @@
                     </equals>
                 </or>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -132,7 +132,7 @@
                     <value>pitch-hold</value>
                 </equals>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -167,7 +167,7 @@
                     <value>speed-with-throttle</value>
                 </equals>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -222,7 +222,7 @@
                     <value>vertical-speed-hold</value>
                 </equals>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -271,7 +271,7 @@
                     <value>aoa-hold</value>
                 </equals>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -426,7 +426,7 @@
                     <value>agl-hold</value>
                 </equals>
                 <equals>
-                    <property>/sim/ja37/avionics/autopilot</property>
+                    <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
             </condition>

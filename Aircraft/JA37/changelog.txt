@@ -2357,3 +2357,4 @@ Sound: Replaced the exterior fan sound.
 Sound: Adjusted fly-by sounds and replaced the reheat part.
 Model: Fixed that mounting RB24J on left outer pylon, would mount it on right also.
 Model: Removed unneeded armament models from variants.
+Sim: Refactored custom properties that were mistakenly sent over MP due to their location.

@@ -557,7 +557,7 @@ var yaSimProp = {
 var crashCode = nil;
 var crash_start = func {
 	removelistener(lsnr);
-	if (getprop("sim/ja37/supported/crash-system") == 1) {
+	if (getprop("ja37/supported/crash-system") == 1) {
 		crashCode = CrashAndStress.new([0,1,2], {"weightLbs":33477.19, "maxG": 12, "minG": -4}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
 		# The JA-37C manual says wings can handle 3.5KPa at 36662.87 LBS, thats 73.1 LBS/SqFt
 		# The wingarea is 46M^2 which is 495.1 ft^2
@@ -567,7 +567,7 @@ var crash_start = func {
 	}
 }
 
-var lsnr = setlistener("sim/ja37/supported/initialized", crash_start);
+var lsnr = setlistener("ja37/supported/initialized", crash_start);
 
 # test:
 var repair = func {

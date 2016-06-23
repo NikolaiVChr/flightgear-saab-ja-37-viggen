@@ -78,7 +78,7 @@
     <animation>
         <type>material</type>
         <object-name>switchMount</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
         <texture>switchFace.png</texture>
     </animation>

@@ -1722,7 +1722,7 @@
   <object-name>TWR1</object-name>
   <condition>
     <equals>
-      <property>sim/ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -1746,7 +1746,7 @@
   <object-name>TWR3</object-name>
   <condition>
     <equals>
-      <property>sim/ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -1770,7 +1770,7 @@
   <object-name>TWR5</object-name>
   <condition>
     <equals>
-      <property>sim/ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -1794,7 +1794,7 @@
   <object-name>TWR7</object-name>
   <condition>
     <equals>
-      <property>sim/ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -1818,7 +1818,7 @@
   <object-name>TWR9</object-name>
   <condition>
     <equals>
-      <property>sim/ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -1842,7 +1842,7 @@
   <object-name>TWR11</object-name>
   <condition>
     <equals>
-      <property>sim/ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/ten-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -1864,7 +1864,7 @@
  <!--<animation>
   <type>select</type>
   <condition>
-    <property>sim/ja37/supported/hud</property>
+    <property>ja37/supported/hud</property>
   </condition>
   <object-name>hud</object-name>
   <object-name>hudStruts</object-name>
@@ -1874,7 +1874,7 @@
   <type>scale</type>
   <object-name>hud</object-name>
   <object-name>hudStruts</object-name>
-  <property>sim/ja37/supported/hud</property>
+  <property>ja37/supported/hud</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>
@@ -3723,19 +3723,19 @@
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
   </emission>
   <diffuse>
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
   </diffuse>
   <ambient>
    <red>1.0</red>
    <green>1.0</green>
    <blue>1.0</blue>
-   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  sim/ja37/effect/landing-light  -->
+   <factor-prop>sim/multiplay/generic/float[4]</factor-prop><!--  ja37/effect/landing-light  -->
   </ambient>
  </animation>
 

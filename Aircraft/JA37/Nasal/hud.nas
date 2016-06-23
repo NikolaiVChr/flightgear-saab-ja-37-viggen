@@ -88,7 +88,7 @@ var r = 0.6;#HUD colors
 var g = 1.0;
 var b = 0.6;
 var a = 1.0;
-var w = (getprop("sim/ja37/hud/stroke-linewidth")/1024)*canvasWidth;  #line stroke width (saved between sessions)
+var w = (getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth;  #line stroke width (saved between sessions)
 var ar = 1.0;#font aspect ratio, less than 1 make more wide.
 var fs = 0.8;#font size factor
 var artifacts0 = nil;
@@ -859,7 +859,7 @@ var HUDnasal = {
         alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
         alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
         alt_ft_real:      "position/altitude-ft",
-        altCalibrated:    "sim/ja37/avionics/altimeters-calibrated",
+        altCalibrated:    "ja37/avionics/altimeters-calibrated",
         APHeadingBug:     "autopilot/settings/heading-bug-deg",
         APLockAlt:        "autopilot/locks/altitude",
         APLockHeading:    "autopilot/locks/heading",
@@ -868,12 +868,12 @@ var HUDnasal = {
         APTgtAlt:         "autopilot/settings/target-altitude-ft",
         APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
         beta:             "orientation/side-slip-deg",
-        callsign:         "sim/ja37/hud/callsign",
+        callsign:         "ja37/hud/callsign",
         cannonAmmo:       "ai/submodels/submodel[3]/count",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
-        combat:           "sim/ja37/hud/combat",
+        combat:           "ja37/hud/combat",
         ctrlRadar:        "controls/altimeter-radar",
-        currentMode:      "sim/ja37/hud/current-mode",
+        currentMode:      "ja37/hud/current-mode",
         dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         elapsedSec:       "sim/time/elapsed-sec",
@@ -882,14 +882,14 @@ var HUDnasal = {
         fdpitch:          "autopilot/settings/fd-pitch-deg",
         fdroll:           "autopilot/settings/fd-roll-deg",
         fdspeed:          "autopilot/settings/target-speed-kt",
-        fiveHz:           "sim/ja37/blink/five-Hz/state",
+        fiveHz:           "ja37/blink/five-Hz/state",
         gearsPos:         "gear/gear/position-norm",
         hdg:              "orientation/heading-magnetic-deg",
         hdgReal:          "orientation/heading-deg",
         ias:              "instrumentation/airspeed-indicator/indicated-speed-kt",#"/velocities/airspeed-kt",
-        landingMode:      "sim/ja37/hud/landing-mode",
+        landingMode:      "ja37/hud/landing-mode",
         mach:             "instrumentation/airspeed-indicator/indicated-mach",
-        mode:             "sim/ja37/hud/mode",
+        mode:             "ja37/hud/mode",
         nav0GSNeedleDefl: "instrumentation/nav[0]/gs-needle-deflection-norm",
         nav0GSInRange:    "instrumentation/nav[0]/gs-in-range",
         nav0HasGS:        "instrumentation/nav[0]/has-gs",
@@ -907,19 +907,19 @@ var HUDnasal = {
         srvHead:          "instrumentation/heading-indicator/serviceable",
         srvTurn:          "instrumentation/turn-indicator/serviceable",
         service:          "instrumentation/head-up-display/serviceable",
-        sideslipOn:       "sim/ja37/hud/bank-indicator",
+        sideslipOn:       "ja37/hud/bank-indicator",
         speed_d:          "velocities/speed-down-fps",
         speed_e:          "velocities/speed-east-fps",
         speed_n:          "velocities/speed-north-fps",
         station:          "controls/armament/station-select",
-        tenHz:            "sim/ja37/blink/ten-Hz/state",
-        terrainOn:        "sim/ja37/sound/terrain-on",
-        TILS:             "sim/ja37/hud/TILS",
+        tenHz:            "ja37/blink/ten-Hz/state",
+        terrainOn:        "ja37/sound/terrain-on",
+        TILS:             "ja37/hud/TILS",
         towerAlt:         "sim/tower/altitude-ft",
         towerLat:         "sim/tower/latitude-deg",
         towerLon:         "sim/tower/longitude-deg",
-        tracks_enabled:   "sim/ja37/hud/tracks-enabled",
-        units:            "sim/ja37/hud/units-metric",
+        tracks_enabled:   "ja37/hud/tracks-enabled",
+        units:            "ja37/hud/units-metric",
         viewNumber:       "sim/current-view/view-number",
         viewZ:            "sim/current-view/y-offset-m",
         vs:               "velocities/vertical-speed-fps",
@@ -2609,7 +2609,7 @@ var reinitHUD = FALSE;
 var hud_pilot = nil;
 var init = func() {
   removelistener(id); # only call once
-  if(getprop("sim/ja37/supported/hud") == TRUE) {
+  if(getprop("ja37/supported/hud") == TRUE) {
     hud_pilot = HUDnasal.new({"node": "hud", "texture": "hud.png"});
     #setprop("sim/hud/visibility[1]", 0);
     
@@ -2623,7 +2623,7 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 }, 0, 0);
 
 #setprop("/systems/electrical/battery", 0);
-id = setlistener("sim/ja37/supported/initialized", init, 0, 0);
+id = setlistener("ja37/supported/initialized", init, 0, 0);
 
 var reinit = func(backup = FALSE) {#mostly called to change HUD color
    #reinitHUD = 1;
@@ -2635,12 +2635,12 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
 
    foreach(var item; artifacts0) {
     item.setColor(red, green, blue, a);
-    item.setStrokeLineWidth((getprop("sim/ja37/hud/stroke-linewidth")/1024)*canvasWidth);
+    item.setStrokeLineWidth((getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth);
    }
 
    foreach(var item; artifacts1) {
     item.setColor(red, green, blue, a);
-    item.setStrokeLineWidth((getprop("sim/ja37/hud/stroke-linewidth")/1024)*canvasWidth);
+    item.setStrokeLineWidth((getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth);
    }
 
    foreach(var item; artifactsText0) {
@@ -2661,7 +2661,7 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
 };
 
 var cycle_brightness = func () {
-  if(getprop("sim/ja37/hud/mode") > 0) {
+  if(getprop("ja37/hud/mode") > 0) {
     g += 0.2;
     if(g > 1.0 and r == 0.6) {
       #reset
@@ -2682,13 +2682,13 @@ var cycle_brightness = func () {
 };
 
 var cycle_units = func () {
-  if(getprop("sim/ja37/hud/mode") > 0) {
+  if(getprop("ja37/hud/mode") > 0) {
     ja37.click();
-    var current = getprop("sim/ja37/hud/units-metric");
+    var current = getprop("ja37/hud/units-metric");
     if(current == TRUE) {
-      setprop("sim/ja37/hud/units-metric", FALSE);
+      setprop("ja37/hud/units-metric", FALSE);
     } else {
-      setprop("sim/ja37/hud/units-metric", TRUE);
+      setprop("ja37/hud/units-metric", TRUE);
     }
   } else {
     aircraft.HUD.cycle_type();
@@ -2697,22 +2697,22 @@ var cycle_units = func () {
 
 var cycle_landingMode = func () {
     ja37.click();
-    var current = getprop("sim/ja37/hud/landing-mode");
+    var current = getprop("ja37/hud/landing-mode");
     if(current == TRUE) {
-      setprop("sim/ja37/hud/landing-mode", FALSE);
+      setprop("ja37/hud/landing-mode", FALSE);
     } else {
-      setprop("sim/ja37/hud/landing-mode", TRUE);
+      setprop("ja37/hud/landing-mode", TRUE);
     }
 };
 
 var toggle_combat = func () {
-  if(getprop("sim/ja37/hud/mode") > 0) {
+  if(getprop("ja37/hud/mode") > 0) {
     ja37.click();
-    var current = getprop("/sim/ja37/hud/combat");
+    var current = getprop("/ja37/hud/combat");
     if(current == 1) {
-      setprop("/sim/ja37/hud/combat", FALSE);
+      setprop("/ja37/hud/combat", FALSE);
     } else {
-      setprop("/sim/ja37/hud/combat", TRUE);
+      setprop("/ja37/hud/combat", TRUE);
     }
   } else {
     aircraft.HUD.cycle_color();
@@ -2720,13 +2720,13 @@ var toggle_combat = func () {
 };
 
 var toggleCallsign = func () {
-  if(getprop("sim/ja37/hud/mode") > 0) {
+  if(getprop("ja37/hud/mode") > 0) {
     ja37.click();
-    var current = getprop("/sim/ja37/hud/callsign");
+    var current = getprop("/ja37/hud/callsign");
     if(current == 1) {
-      setprop("/sim/ja37/hud/callsign", FALSE);
+      setprop("/ja37/hud/callsign", FALSE);
     } else {
-      setprop("/sim/ja37/hud/callsign", TRUE);
+      setprop("/ja37/hud/callsign", TRUE);
     }
   } else {
     aircraft.HUD.normal_type();

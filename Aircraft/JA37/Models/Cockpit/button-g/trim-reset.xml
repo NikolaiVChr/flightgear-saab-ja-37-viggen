@@ -75,7 +75,7 @@
         <object-name>plate</object-name>
         <object-name>ring</object-name>
         <object-name>button</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>button-trim-reset</texture-prop>
         <texture>trim-reset.png</texture>
     </animation>

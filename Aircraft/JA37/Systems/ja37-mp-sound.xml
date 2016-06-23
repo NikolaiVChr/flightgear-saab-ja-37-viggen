@@ -66,7 +66,7 @@
                 <outer-gain>0.75</outer-gain>
             </orientation>
             <volume>
-                <property>sim/ja37/sound/mp-volume</property>
+                <property>ja37/sound/mp-volume</property>
             </volume>
             <volume>
                 <property>sim/multiplay/generic/float[16]</property>
@@ -106,7 +106,7 @@
                 <outer-gain>0.5</outer-gain>
             </orientation>
             <volume>
-                <property>sim/ja37/sound/mp-volume</property>
+                <property>ja37/sound/mp-volume</property>
             </volume>
             <volume>
                 <property>sim/multiplay/generic/float[16]</property>
@@ -146,7 +146,7 @@
                 <outer-gain>0</outer-gain>
             </orientation>
             <volume>
-                <property>sim/ja37/sound/mp-volume</property>
+                <property>ja37/sound/mp-volume</property>
             </volume>
             <volume>
                 <property>sim/multiplay/generic/float[16]</property>

@@ -60,7 +60,7 @@
         <object-name>plate</object-name>
         <object-name>ring</object-name>
         <object-name>button</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>button-flares</texture-prop>
         <texture>flares.png</texture>
     </animation>

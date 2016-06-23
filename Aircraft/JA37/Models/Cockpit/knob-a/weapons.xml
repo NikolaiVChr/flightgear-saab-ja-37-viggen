@@ -87,7 +87,7 @@
     <animation>
         <type>material</type>
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>switch-weapon-select</texture-prop>
         <texture>WEAPONS.png</texture>
     </animation>

@@ -1,5 +1,5 @@
-var theInit = setlistener("sim/ja37/supported/initialized", func {
-  if(getprop("sim/ja37/supported/radar") == 1) {
+var theInit = setlistener("ja37/supported/initialized", func {
+  if(getprop("ja37/supported/radar") == 1) {
     removelistener(theInit);
     callInit();
   }

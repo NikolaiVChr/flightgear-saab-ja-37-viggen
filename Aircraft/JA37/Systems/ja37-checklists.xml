@@ -344,7 +344,7 @@
             </marker>
             <condition>
                 <equals>
-                    <property>sim/ja37/avionics/altimeters-calibrated</property>
+                    <property>ja37/avionics/altimeters-calibrated</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -728,7 +728,7 @@
             </marker>
             <condition>
                 <equals>
-                    <property>sim/ja37/avionics/altimeters-calibrated</property>
+                    <property>ja37/avionics/altimeters-calibrated</property>
                     <value>1</value>
                 </equals>
             </condition>

@@ -15,7 +15,7 @@
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>gauge-oxy-mano</texture-prop>
         <texture>oxygen-manometer-face.png</texture>
     </animation>
@@ -29,7 +29,7 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>sim/ja37/systems/oxygen-bottle-pressure</property>
+        <property>ja37/systems/oxygen-bottle-pressure</property>
         <interpolation>
             <entry>
                 <ind>0</ind>

@@ -30,7 +30,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>switch-hud-units</tooltip-id>
                 <label>HUD Interoperabilty</label>
-                <property>sim/ja37/hud/units-metric</property>
+                <property>ja37/hud/units-metric</property>
             </binding>
         </hovered>
     </animation>
@@ -38,7 +38,7 @@
     <animation>
         <type>rotate</type>
         <object-name>Switch</object-name>
-        <property>sim/ja37/hud/units-metric</property>
+        <property>ja37/hud/units-metric</property>
         <factor>70</factor>
         <offset-deg>-35</offset-deg>
         <center>
@@ -56,7 +56,7 @@
     <animation>
         <type>material</type>
         <object-name>Text</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>switch-units</texture-prop>
         <texture>switch-interoperability.png</texture>
     </animation>

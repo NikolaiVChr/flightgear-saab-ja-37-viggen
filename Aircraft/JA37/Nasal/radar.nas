@@ -308,7 +308,7 @@ var radar = {
     m.input = {
       heading:              "instrumentation/heading-indicator/indicated-heading-deg",
       hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
-      radarEnabled:         "sim/ja37/hud/tracks-enabled",
+      radarEnabled:         "ja37/hud/tracks-enabled",
       radarRange:           "instrumentation/radar/range",
       radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
       radarServ:            "instrumentation/radar/serviceable",
@@ -317,7 +317,7 @@ var radar = {
       rmDist:               "autopilot/route-manager/wp/dist",
       rmId:                 "autopilot/route-manager/wp/id",
       rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
-      screenEnabled:        "sim/ja37/radar/enabled",
+      screenEnabled:        "ja37/radar/enabled",
       timeElapsed:          "sim/time/elapsed-sec",
       viewNumber:           "sim/current-view/view-number",
     };
@@ -535,8 +535,8 @@ var radar = {
 #  return diff;
 #}
 
-var theinit = setlistener("sim/ja37/supported/initialized", func {
-  if(getprop("sim/ja37/supported/radar") == 1) {
+var theinit = setlistener("ja37/supported/initialized", func {
+  if(getprop("ja37/supported/radar") == 1) {
     removelistener(theinit);
     var scope = radar.new();
     scope.update();

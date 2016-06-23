@@ -2,7 +2,7 @@
 var install_failures = func {
   # random failure code:
   
-  if(getprop("sim/ja37/supported/old-custom-fails") == 0) {
+  if(getprop("ja37/supported/old-custom-fails") == 0) {
     #print("installing old failures");
 
     var fail = { SERVICEABLE : 1, JAM : 2, ENGINE: 3};
@@ -53,7 +53,7 @@ var install_failures = func {
     #failures.setAllMCBF(500);
     #failures.setAllMTBF(86400);
 
-  } elsif (getprop("sim/ja37/supported/old-custom-fails") == 1) {
+  } elsif (getprop("ja37/supported/old-custom-fails") == 1) {
     #print("installing new failures A");
     # put in 3.2/3.4 failure handling code here
     var lsnr = setlistener("sim/signals/fdm-initialized",
@@ -411,7 +411,7 @@ var install_new_failures = func {
 
 #    FailureMgr.add_failure_mode("gear2", "Right gear", actuator_gear2);
 #    FailureMgr.set_trigger("gear2", trigger_gear2);
-    setprop("sim/ja37/failures/installed", 1);
+    setprop("ja37/failures/installed", 1);
 }
 
 var install_newer_failures = func {
@@ -748,7 +748,7 @@ var install_newer_failures = func {
 
 #    FailureMgr.add_failure_mode("gear2", "Right gear", actuator_gear2);
 #    FailureMgr.set_trigger("gear2", trigger_gear2);
-    setprop("sim/ja37/failures/installed", 1);
+    setprop("ja37/failures/installed", 1);
 }
 
 var _init = func {
@@ -756,12 +756,12 @@ var _init = func {
         install_failures();
     }
 
-var lsnr_s = setlistener("sim/ja37/supported/initialized", _init, 0, 0);
+var lsnr_s = setlistener("ja37/supported/initialized", _init, 0, 0);
 
 var armAllTriggers = func () {
-    if (getprop("sim/ja37/supported/old-custom-fails") == 1) {
+    if (getprop("ja37/supported/old-custom-fails") == 1) {
         # TODO: loop over all failure modes and set triggers to reset?
-    } elsif (getprop("sim/ja37/supported/old-custom-fails") == 2) {
+    } elsif (getprop("ja37/supported/old-custom-fails") == 2) {
         # TODO: loop over all failure modes and set triggers to armed.
         var failure_modes = FailureMgr._failmgr.failure_modes; # hash with the failure modes
         var mode_list = keys(failure_modes);#values()?

@@ -151,7 +151,7 @@
         </signal>
         <signal>
             <type>float</type>
-            <property type="string">sim/ja37/effect/landing-light</property>
+            <property type="string">ja37/effect/landing-light</property>
         </signal>
         <signal>
             <type>float</type>
@@ -188,7 +188,7 @@
         </signal>
         <signal>
             <type>int8</type>
-            <property type="string">sim/ja37/effect/smoke</property>
+            <property type="string">ja37/effect/smoke</property>
         </signal>
         <signal>
             <type>float</type>

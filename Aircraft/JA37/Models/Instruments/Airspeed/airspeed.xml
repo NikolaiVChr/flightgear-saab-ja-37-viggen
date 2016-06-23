@@ -17,7 +17,7 @@
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>gauge-airspeed</texture-prop>
         <texture>airspeed-face.png</texture>
     </animation>

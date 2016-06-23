@@ -18,7 +18,7 @@
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>gauge-acc</texture-prop>
         <texture>accelerometer.png</texture>
     </animation>
@@ -32,7 +32,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>accelerometer</tooltip-id>
                 <label>Pulling %2.1fG</label>
-                <property>sim/ja37/accelerations/pilot-G</property>
+                <property>ja37/accelerations/pilot-G</property>
             </binding>
         </hovered>
     </animation>
@@ -46,7 +46,7 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>sim/ja37/accelerations/pilot-G</property>
+        <property>ja37/accelerations/pilot-G</property>
         <interpolation>
             <entry>
                 <ind>-2</ind>

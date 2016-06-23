@@ -33,7 +33,7 @@
     <animation>
         <type>material</type>
         <object-name>Text</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>button-droptank</texture-prop>
         <texture>button-droptank.png</texture>
     </animation>

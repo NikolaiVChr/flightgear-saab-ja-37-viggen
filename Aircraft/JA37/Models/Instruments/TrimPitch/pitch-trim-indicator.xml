@@ -15,7 +15,7 @@
     <animation>
         <type>material</type>
         <object-name>dial</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>gauge-trim-pitch</texture-prop>
         <texture>pitch-trim-indicator-face.png</texture>
     </animation>

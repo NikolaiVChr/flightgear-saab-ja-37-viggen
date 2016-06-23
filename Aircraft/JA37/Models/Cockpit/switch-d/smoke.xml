@@ -30,7 +30,7 @@
             <button>0</button>
             <binding>
                 <command>property-adjust</command>
-                <property>sim/ja37/effect/smoke-cmd</property>
+                <property>ja37/effect/smoke-cmd</property>
                 <step>1</step>
                 <min>1</min>
                 <max>3</max>
@@ -50,7 +50,7 @@
             <button>0</button>
             <binding>
                 <command>property-adjust</command>
-                <property>sim/ja37/effect/smoke-cmd</property>
+                <property>ja37/effect/smoke-cmd</property>
                 <step>-1</step>
                 <min>1</min>
                 <max>3</max>
@@ -66,7 +66,7 @@
     <animation>
         <type>rotate</type>
         <object-name>D2_lever</object-name>
-        <property>sim/ja37/effect/smoke-cmd</property>
+        <property>ja37/effect/smoke-cmd</property>
         <factor>20</factor>
         <offset-deg>-40</offset-deg>
         <center>
@@ -84,7 +84,7 @@
     <animation>
         <type>material</type>
         <object-name>D2_mount</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
         <texture>SMOKE.png</texture>
     </animation>

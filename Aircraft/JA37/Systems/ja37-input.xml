@@ -163,7 +163,7 @@
             <desc>Toggle custom/FG HUD</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
             </binding>
         </key>
         <key n="115">
@@ -454,7 +454,7 @@
             <desc>Final approach</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>sim/ja37/hud/final</property>
+                <property>ja37/hud/final</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -467,7 +467,7 @@
             <desc>Landing Mode</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>sim/ja37/hud/landing-mode</property>
+                <property>ja37/hud/landing-mode</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -480,7 +480,7 @@
             <desc>TILS</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>sim/ja37/hud/TILS</property>
+                <property>ja37/hud/TILS</property>
             </binding>
             <binding>
                 <command>nasal</command>

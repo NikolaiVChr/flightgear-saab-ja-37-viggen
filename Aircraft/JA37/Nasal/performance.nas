@@ -58,7 +58,7 @@ input = {
   speedV:           "/velocities/vertical-speed-fps",
   speedAir:         "/velocities/airspeed-kt",
   alpha:            "/orientation/alpha-deg",
-  G:                "/sim/ja37/accelerations/pilot-G",
+  G:                "/ja37/accelerations/pilot-G",
   p:                "/fdm/jsbsim/velocities/p-aero-rad_sec",
   psiDot:           "/fdm/jsbsim/velocities/psidot-rad_sec",
   turnRad:          "/fdm/jsbsim/systems/flight/turning-radius-nm",

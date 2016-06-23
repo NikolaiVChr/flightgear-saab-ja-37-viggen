@@ -30,7 +30,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>sim/ja37/radar/enabled</property>
+                <property>ja37/radar/enabled</property>
                 <value>0</value>
             </binding>
             <binding>
@@ -47,7 +47,7 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>sim/ja37/radar/enabled</property>
+                <property>ja37/radar/enabled</property>
                 <value>1</value>
             </binding>
             <binding>
@@ -60,7 +60,7 @@
     <animation>
         <type>rotate</type>
         <object-name>switchLever</object-name>
-        <property>sim/ja37/radar/enabled</property>
+        <property>ja37/radar/enabled</property>
         <factor>40</factor>
         <offset-deg>-20</offset-deg>
         <center>
@@ -78,7 +78,7 @@
     <animation>
         <type>material</type>
         <object-name>switchMount</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>switch-light-flash</texture-prop>
         <texture>RADAR-SCREEN.png</texture>
     </animation>

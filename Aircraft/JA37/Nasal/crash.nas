@@ -6,15 +6,15 @@ var repairing = 0;
 
 input = {
 	replay: "sim/replay/replay-state",
-	service: "sim/ja37/damage/enabled",
+	service: "ja37/damage/enabled",
 	Nz: "fdm/jsbsim/accelerations/Nz",
 	lat: "position/latitude-deg",
 	lon: "position/longitude-deg",
 	alt: "position/altitude-ft",
 	elev: "position/ground-elev-ft",
 	g3d:     "/velocities/groundspeed-3D-kt",
-	exploded: "sim/ja37/damage/exploded",
-    crashed: "sim/ja37/damage/crashed",
+	exploded: "ja37/damage/exploded",
+    crashed: "ja37/damage/crashed",
     wow0:    "/gear/gear[0]/wow",
     wow1:  "/gear/gear[1]/wow",
     wow2:  "/gear/gear[2]/wow",
@@ -202,31 +202,31 @@ crashLoop=func {
 	}
 	if (pilot_g>(maximum_g*0.5)) {
 		if (pilot_g>maximum_g) {
-			setprop("sim/ja37/damage/sounds/crack-volume", 1);
-			setprop("sim/ja37/damage/sounds/creaking-volume", 1);
-			setprop("sim/ja37/damage/g-tremble-max", 1);
+			setprop("ja37/damage/sounds/crack-volume", 1);
+			setprop("ja37/damage/sounds/creaking-volume", 1);
+			setprop("ja37/damage/g-tremble-max", 1);
 		} else {
 			tremble_max=math.sqrt((pilot_g-(maximum_g*0.5))/(maximum_g*0.5));
-			setprop("sim/ja37/damage/sounds/crack-volume", tremble_max);
-			setprop("sim/ja37/damage/g-tremble-max", 1);
+			setprop("ja37/damage/sounds/crack-volume", tremble_max);
+			setprop("ja37/damage/g-tremble-max", 1);
 			if (pilot_g>(maximum_g*0.75)) {
 				tremble_max=math.sqrt((pilot_g-(maximum_g*0.5))/(maximum_g*0.5));
-				setprop("sim/ja37/damage/sounds/creaking-volume", tremble_max);
-				setprop("sim/ja37/damage/sounds/creaking-on", 1);
+				setprop("ja37/damage/sounds/creaking-volume", tremble_max);
+				setprop("ja37/damage/sounds/creaking-on", 1);
 			} else {
-				setprop("sim/ja37/damage/sounds/creaking-on", 0);
+				setprop("ja37/damage/sounds/creaking-on", 0);
 			}
 		}
 		if (pilot_g>(maximum_g*0.90)) {
-			setprop("sim/ja37/damage/sounds/crack-on", 1);
+			setprop("ja37/damage/sounds/crack-on", 1);
 		} else {
-			setprop("sim/ja37/damage/sounds/crack-on", 0);
+			setprop("ja37/damage/sounds/crack-on", 0);
 		}
-		setprop("sim/ja37/damage/g-tremble-on", 1);
+		setprop("ja37/damage/g-tremble-on", 1);
 	} else {
-		setprop("sim/ja37/damage/sounds/crack-on", 0);
-		setprop("sim/ja37/damage/sounds/creaking-on", 0);
-		setprop("sim/ja37/damage/g-tremble-on", 0);
+		setprop("ja37/damage/sounds/crack-on", 0);
+		setprop("ja37/damage/sounds/creaking-on", 0);
+		setprop("ja37/damage/g-tremble-on", 0);
 	}
 	if (exploded !=1 and abs(pilot_g) > maximum_g) {
 		print("Aircraft crashed: Wing broke off, due to G forces.");
@@ -296,14 +296,14 @@ aircraft_crash = func(crashtype, crashg, solid) {
   		setprop("/sim/messages/atc", "Aircraft crashed: "~ crashtype);
   		didMsg = 1;
   	}
-	crashed=getprop("sim/ja37/damage/crashed");
+	crashed=getprop("ja37/damage/crashed");
 	if (crashed==nil) {
 		return (0);
 	}
 	if (crashed==0)	{
-		setprop("sim/ja37/damage/crash-type", crashtype);
-		setprop("sim/ja37/damage/crash-g", crashg);
-		setprop("sim/ja37/damage/crashed", 1);
+		setprop("ja37/damage/crash-type", crashtype);
+		setprop("ja37/damage/crash-g", crashg);
+		setprop("ja37/damage/crashed", 1);
 		damageOnHit();
 	}
 
@@ -320,55 +320,55 @@ aircraft_crash = func(crashtype, crashg, solid) {
 
 aircraft_crash_sound = func	{
 	speed=getprop("/velocities/groundspeed-3D-kt");
-	sounded=getprop("sim/ja37/damage/sounds/crash-on");
+	sounded=getprop("ja37/damage/sounds/crash-on");
 	if ((speed!=nil) and (sounded!=nil))
 	{
 		speed_km=speed*1.852;
 		if ((speed_km>10) and (sounded==0))
 		{
-			setprop("sim/ja37/damage/sounds/crash-on", 1);
+			setprop("ja37/damage/sounds/crash-on", 1);
 			settimer(end_aircraft_crash, 3);
 		}
 	}
 }
 
 end_aircraft_crash = func {
-	setprop("sim/ja37/damage/sounds/crash-on", 0);
+	setprop("ja37/damage/sounds/crash-on", 0);
 }
 
 aircraft_water_crash_sound = func {
 	speed=getprop("velocities/groundspeed-3D-kt");
-	sounded=getprop("sim/ja37/damage/sounds/water-crash-on");
+	sounded=getprop("ja37/damage/sounds/water-crash-on");
 	if ((speed!=nil) and (sounded!=nil))
 	{
 		speed_km=speed*1.852;
 		if ((speed_km>10) and (sounded==0))
 		{
-			setprop("sim/ja37/damage/sounds/water-crash-on", 1);
+			setprop("ja37/damage/sounds/water-crash-on", 1);
 			settimer(end_aircraft_water_crash, 3);
 		}
 	}
 }
 
 end_aircraft_water_crash = func	{
-	setprop("sim/ja37/damage/sounds/water-crash-on", 0);
+	setprop("ja37/damage/sounds/water-crash-on", 0);
 }
 
 repair = func {
-	setprop("sim/ja37/damage/exploded", 0);
-	setprop("sim/ja37/damage/crashed", 0);
-	setprop("sim/ja37/damage/explode-g", 0);
-	setprop("sim/ja37/damage/sounds/crack-on", 0);
-	setprop("sim/ja37/damage/crash-type", "");
-	setprop("sim/ja37/damage/crash-g", 0);
+	setprop("ja37/damage/exploded", 0);
+	setprop("ja37/damage/crashed", 0);
+	setprop("ja37/damage/explode-g", 0);
+	setprop("ja37/damage/sounds/crack-on", 0);
+	setprop("ja37/damage/crash-type", "");
+	setprop("ja37/damage/crash-g", 0);
 	setprop("fdm/jsbsim/velocities/v-down-previous", 0);
-	setprop("sim/ja37/damage/enabled", 1);
+	setprop("ja37/damage/enabled", 1);
 	#setprop("fdm/jsbsim/propulsion/tank[4]/external-flow-rate-pps", 0);
 	#setprop("fdm/jsbsim/propulsion/tank[5]/external-flow-rate-pps", 0);
 	#setprop("fdm/jsbsim/propulsion/tank[6]/external-flow-rate-pps", 0);
 	#setprop("fdm/jsbsim/propulsion/tank[7]/external-flow-rate-pps", 0);
 
-	if(getprop("sim/ja37/failures/installed") == 1) {
+	if(getprop("ja37/failures/installed") == 1) {
 		unfailAll();
 	} else {
 		setServiceable();
@@ -495,11 +495,11 @@ setServiceable = func {
 
 	#Switch on engine
 	setprop("controls/engines/engine/cutoff", 0);
-	setprop("sim/ja37/damage/cutoff-reason", "aircraft break");
+	setprop("ja37/damage/cutoff-reason", "aircraft break");
 }
 
 damageOnHit = func {
-	if(getprop("sim/ja37/failures/installed") == 1) {
+	if(getprop("ja37/failures/installed") == 1) {
 		failAll();
 	} else {
 		aircraft_lock_all();
@@ -507,7 +507,7 @@ damageOnHit = func {
 }
 
 damageOnWingsBreak = func {
-	if(getprop("sim/ja37/failures/installed") == 1) {
+	if(getprop("ja37/failures/installed") == 1) {
 		failWings();
 	} else {
 		aircraft_lock_wings();
@@ -608,14 +608,14 @@ aircraft_lock_all = func {
 
 	#Switch off engine
 	setprop("controls/engines/engine/cutoff", 1);
-	setprop("sim/ja37/damage/cutoff-reason", "unknown");
+	setprop("ja37/damage/cutoff-reason", "unknown");
 }
 
 aircraft_explode = func(pilot_g) {
 	#print("aircraft_explode");
-	setprop("sim/ja37/damage/explode-g", pilot_g);
-	setprop("sim/ja37/damage/exploded", 1);
-	setprop("sim/ja37/damage/sounds/explode-on", 1);
+	setprop("ja37/damage/explode-g", pilot_g);
+	setprop("ja37/damage/exploded", 1);
+	setprop("ja37/damage/sounds/explode-on", 1);
 	#setprop("sim/replay/disable", 1);
 	#setprop("sim/menubar/default/menu[1]/item[8]/enabled", 0);
 	settimer(end_aircraft_explode, 3);
@@ -623,7 +623,7 @@ aircraft_explode = func(pilot_g) {
 
 end_aircraft_explode = func	{
 	#print("end_aircraft_explode");
-	setprop("sim/ja37/damage/sounds/explode-on", 0);
+	setprop("ja37/damage/sounds/explode-on", 0);
 }
 
 
@@ -745,15 +745,15 @@ crashListener = func {
 
 init_crashListener = func {
 #print("init_crashListener");
-	setprop("sim/ja37/damage/sounds/crash-on", 0);
-	setprop("sim/ja37/damage/sounds/water-crash-on", 0);
-	#setprop("sim/ja37/damage/break-listener", 1);
+	setprop("ja37/damage/sounds/crash-on", 0);
+	setprop("ja37/damage/sounds/water-crash-on", 0);
+	#setprop("ja37/damage/break-listener", 1);
 }
 
 
 var crash_start = func {
 	removelistener(lsnr);
-	if (getprop("sim/ja37/supported/crash-system") == 0) {
+	if (getprop("ja37/supported/crash-system") == 0) {
 
 		#Start
 		initCrash();
@@ -773,5 +773,5 @@ var crash_start = func {
 
 	}
 }
-var lsnr = setlistener("sim/ja37/supported/initialized", crash_start);
+var lsnr = setlistener("ja37/supported/initialized", crash_start);
 

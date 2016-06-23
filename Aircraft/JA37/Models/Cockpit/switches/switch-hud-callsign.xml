@@ -30,7 +30,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>switch-callsign</tooltip-id>
                 <label>HUD selection indication</label>
-                <property>sim/ja37/hud/callsign</property>
+                <property>ja37/hud/callsign</property>
             </binding>
         </hovered>
     </animation>
@@ -38,7 +38,7 @@
     <animation>
         <type>rotate</type>
         <object-name>Switch</object-name>
-        <property>sim/ja37/hud/callsign</property>
+        <property>ja37/hud/callsign</property>
         <factor>70</factor>
         <offset-deg>-35</offset-deg>
         <center>
@@ -56,7 +56,7 @@
     <animation>
         <type>material</type>
         <object-name>Text</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>switch-callsign</texture-prop>
         <texture>switch-callsign.png</texture>
     </animation>

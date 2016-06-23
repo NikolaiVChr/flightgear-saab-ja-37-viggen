@@ -454,7 +454,7 @@
                 <min> 0 </min>
                 <max> 1 </max>
             </clipto>
-            <output>/sim/ja37/effect/landing-light</output>
+            <output>/ja37/effect/landing-light</output>
         </switch>
 
         <fcs_function name="names/electrical/instr-light-norm">

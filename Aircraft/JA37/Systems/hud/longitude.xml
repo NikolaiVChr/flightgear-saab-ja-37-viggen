@@ -12,7 +12,7 @@
         </input>
         <condition>
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
         </condition>

@@ -310,7 +310,7 @@
         <switch name="systems/flight/pitch-gearing">
             <default value="systems/flight/pitch-gearing-restrictive"/>
             <test logic="OR" value="systems/flight/pitch-gearing-fun">
-                /sim/ja37/avionics/fun == 1
+                /ja37/avionics/fun == 1
             </test>
         </switch>
 
@@ -1243,7 +1243,7 @@
         <fcs_function name="names/autopilot/Autopilot-min-elevator">
             <function>
                 <table>
-                    <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
+                    <independentVar lookup="row">/ja37/accelerations/pilot-G</independentVar>
                     <tableData>
                         2.0           -0.75
                         4.0             0
@@ -1256,7 +1256,7 @@
         <fcs_function name="names/autopilot/Autopilot-max-elevator">
             <function>
                 <table>
-                    <independentVar lookup="row">/sim/ja37/accelerations/pilot-G</independentVar>
+                    <independentVar lookup="row">/ja37/accelerations/pilot-G</independentVar>
                     <tableData>
                        -1.0             0
                         0.0            0.75

@@ -30,15 +30,15 @@ input = {
         hdgReal:          "/orientation/heading-deg",
         pitch:            "/orientation/pitch-deg",
         roll:             "/orientation/roll-deg",
-        tracks_enabled:   "sim/ja37/hud/tracks-enabled",
-        callsign:         "/sim/ja37/hud/callsign",
+        tracks_enabled:   "ja37/hud/tracks-enabled",
+        callsign:         "/ja37/hud/callsign",
         carrierNear:      "fdm/jsbsim/ground/carrier-near",
         voltage:          "systems/electrical/outputs/ac-main-voltage",
         hydrPressure:     "fdm/jsbsim/systems/hydraulics/system1/pressure",
         ai_models:        "/ai/models",
-        lookThrough:      "sim/ja37/radar/look-through-terrain",
-        dopplerOn:        "sim/ja37/radar/doppler-enabled",
-        dopplerSpeed:     "sim/ja37/radar/min-doppler-speed-kt",
+        lookThrough:      "ja37/radar/look-through-terrain",
+        dopplerOn:        "ja37/radar/doppler-enabled",
+        dopplerSpeed:     "ja37/radar/min-doppler-speed-kt",
 };
 
 var findRadarTracks = func () {
@@ -661,10 +661,10 @@ var centerTarget = func () {
 }
 
 var lookatSelection = func () {
-  props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).unalias();
-  props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).unalias();
-  props.globals.getNode("/sim/ja37/radar/selection-heading-deg", 1).alias(selection.getNode().getNode("radar/bearing-deg"));
-  props.globals.getNode("/sim/ja37/radar/selection-pitch-deg", 1).alias(selection.getNode().getNode("radar/elevation-deg"));
+  props.globals.getNode("/ja37/radar/selection-heading-deg", 1).unalias();
+  props.globals.getNode("/ja37/radar/selection-pitch-deg", 1).unalias();
+  props.globals.getNode("/ja37/radar/selection-heading-deg", 1).alias(selection.getNode().getNode("radar/bearing-deg"));
+  props.globals.getNode("/ja37/radar/selection-pitch-deg", 1).alias(selection.getNode().getNode("radar/elevation-deg"));
 }
 
 # setup property nodes for the loop
@@ -680,7 +680,7 @@ var loop = func () {
 
 var starter = func () {
   removelistener(lsnr);
-  if(getprop("sim/ja37/supported/radar") == TRUE) {
+  if(getprop("ja37/supported/radar") == TRUE) {
     loop();
   }
 }
@@ -690,7 +690,7 @@ var getCallsign = func (callsign) {
   return node;
 }
 
-var lsnr = setlistener("sim/ja37/supported/initialized", starter);
+var lsnr = setlistener("ja37/supported/initialized", starter);
 
 
 

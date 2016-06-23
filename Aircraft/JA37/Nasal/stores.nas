@@ -15,16 +15,16 @@ input = {
   acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
   acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
-  combat:           "/sim/ja37/hud/current-mode",
+  combat:           "/ja37/hud/current-mode",
   dcVolt:           "systems/electrical/outputs/dc-voltage",
   elapsed:          "sim/time/elapsed-sec",
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
-  hz05:             "sim/ja37/blink/five-Hz/state",
-  hz10:             "sim/ja37/blink/ten-Hz/state",
-  hzThird:          "sim/ja37/blink/third-Hz/state",
+  hz05:             "ja37/blink/five-Hz/state",
+  hz10:             "ja37/blink/ten-Hz/state",
+  hzThird:          "ja37/blink/third-Hz/state",
   impact:           "/ai/models/model-impact",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",
   mass3:            "fdm/jsbsim/inertia/pointmass-weight-lbs[3]",
@@ -829,7 +829,7 @@ var incoming_listener = func {
             }
           }
         }
-      } elsif (getprop("sim/ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/damage") == 1) {
+      } elsif (getprop("ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/damage") == 1) {
         # latest or second latest version of failure manager and taking damage enabled
         #print("damage enabled");
         var last1 = split(" ", last_vector[1]);
@@ -943,12 +943,12 @@ var fail_systems = func (probability) {
 };
 
 var playIncomingSound = func (clock) {
-  setprop("sim/ja37/sound/incoming"~clock, 1);
+  setprop("ja37/sound/incoming"~clock, 1);
   settimer(func {stopIncomingSound(clock);},3);
 }
 
 var stopIncomingSound = func (clock) {
-  setprop("sim/ja37/sound/incoming"~clock, 0);
+  setprop("ja37/sound/incoming"~clock, 0);
 }
 
 var incomingLamp = func (clock) {

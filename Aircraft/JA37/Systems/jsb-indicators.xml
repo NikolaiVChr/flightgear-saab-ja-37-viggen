@@ -27,7 +27,7 @@
 
         <switch name="systems/indicators/fire">
             <default value="0"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
               systems/indicators/fire-primary == 1
               /controls/lighting/test-indicator-panels == 1
             </test>
@@ -42,7 +42,7 @@
                 <and>
                     <p>systems/indicators/hydr-1-primary</p>
                     <gt>
-                        <property>/sim/ja37/avionics/fuel-internal-ratio</property>
+                        <property>/ja37/avionics/fuel-internal-ratio</property>
                         <value>0.40</value>
                     </gt>
                 </and>
@@ -54,7 +54,7 @@
                 <or>
                     <and>
                         <gt>
-                            <property>/sim/ja37/avionics/fuel-internal-ratio</property>
+                            <property>/ja37/avionics/fuel-internal-ratio</property>
                             <value>0.43</value>
                         </gt>
                         <eq>
@@ -78,7 +78,7 @@
                         <value>0</value>
                     </eq>
                     <gt>
-                        <property>/sim/ja37/avionics/fuel-internal-ratio</property>
+                        <property>/ja37/avionics/fuel-internal-ratio</property>
                         <value>0.43</value>
                     </gt>
                     <gt>
@@ -117,7 +117,7 @@
 
         <switch name="systems/indicators/fuel-flow">
             <default value="systems/indicators/fuel-flow-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
               systems/indicators/fuel-flow-primary == 1
               sim-time-sec gt systems/indicators/fuel-flow-primary-2-time-blinking
               /controls/lighting/test-indicator-panels == 1
@@ -174,7 +174,7 @@
 
         <switch name="systems/indicators/xtank">
             <default value="systems/indicators/xtank-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
               systems/indicators/xtank-primary == 1
               /controls/lighting/test-indicator-panels == 1
             </test>
@@ -208,7 +208,7 @@
 
         <switch name="systems/indicators/fuel-pump">
             <default value="systems/indicators/fuel-pump-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
               systems/indicators/fuel-pump-primary == 1
               /controls/lighting/test-indicator-panels == 1
             </test>
@@ -304,7 +304,7 @@
 
         <switch name="systems/indicators/gears">
             <default value="systems/indicators/gears-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/gears-primary == 1
                 sim-time-sec gt systems/indicators/gears-time-blinking
@@ -349,7 +349,7 @@
                         </eq>
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
-                    <p>/sim/ja37/blink/ten-Hz/state</p>             
+                    <p>/ja37/blink/ten-Hz/state</p>             
                 </and>
             </function>
         </fcs_function>
@@ -449,7 +449,7 @@
 
         <switch name="systems/indicators/electrical">
             <default value="0"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/electrical-primary == 1
             </test>
@@ -507,7 +507,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -530,7 +530,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and> 
@@ -558,7 +558,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -578,7 +578,7 @@
                     </eq>
                     <and>
                         <eq>
-                            <property>/sim/ja37/avionics/auto-throttle-on</property>
+                            <property>/ja37/avionics/auto-throttle-on</property>
                             <value>1</value>
                         </eq>
                         <eq>
@@ -594,12 +594,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/auto-throttle-on</property>
+                        <property>/ja37/avionics/auto-throttle-on</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/autopilot</property>
+                            <property>/ja37/avionics/autopilot</property>
                             <value>0</value>
                         </eq>
                         <eq>
@@ -613,7 +613,7 @@
 
         <switch name="systems/indicators/auto-throttle">
             <default value="systems/indicators/auto-throttle-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/auto-throttle-primary == 1
             </test>
@@ -661,7 +661,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -683,7 +683,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -714,7 +714,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -730,7 +730,7 @@
                 <and>
                     <property>/controls/lighting/test-indicator-panels</property>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -806,7 +806,7 @@
 
         <switch name="systems/indicators/flightstick">
             <default value="systems/indicators/flightstick-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/flightstick-primary == 1
             </test>
@@ -823,7 +823,7 @@
                         <value>1</value>
                     </eq>
                     <eq>
-                        <property>/sim/ja37/avionics/auto-attitude-on</property>
+                        <property>/ja37/avionics/auto-attitude-on</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -834,11 +834,11 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>0</value>
                     </eq>
                     <eq>
-                        <property>/sim/ja37/avionics/auto-attitude-on</property>
+                        <property>/ja37/avionics/auto-attitude-on</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -847,7 +847,7 @@
 
         <switch name="systems/indicators/auto-attitude">
             <default value="systems/indicators/auto-attitude-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/auto-attitude-primary == 1
             </test>
@@ -865,7 +865,7 @@
                         <value>1</value>
                     </eq>
                     <eq>
-                        <property>/sim/ja37/avionics/auto-altitude-on</property>
+                        <property>/ja37/avionics/auto-altitude-on</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -876,11 +876,11 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>0</value>
                     </eq>
                     <eq>
-                        <property>/sim/ja37/avionics/auto-altitude-on</property>
+                        <property>/ja37/avionics/auto-altitude-on</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -889,7 +889,7 @@
 
         <switch name="systems/indicators/auto-altitude">
             <default value="systems/indicators/auto-altitude-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/auto-altitude-primary == 1
             </test>
@@ -904,7 +904,7 @@
                 <and>
                     <property>/controls/lighting/test-indicator-panels</property>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -937,7 +937,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -968,7 +968,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1025,7 +1025,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1064,7 +1064,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1126,7 +1126,7 @@
                 <and>
                     <property>/controls/lighting/test-indicator-panels</property>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1151,7 +1151,7 @@
                 <and>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/primaryData</property><!-- involves timer when starting engine -->
+                            <property>/ja37/avionics/primaryData</property><!-- involves timer when starting engine -->
                             <value>1</value>
                         </eq>
                         <eq>
@@ -1161,7 +1161,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1177,7 +1177,7 @@
                 <or>
                     <and>
                         <eq>
-                            <property>/sim/ja37/avionics/TN</property><!-- involves timer when starting engine -->
+                            <property>/ja37/avionics/TN</property><!-- involves timer when starting engine -->
                             <value>1</value>
                         </eq>
                     </and>
@@ -1220,7 +1220,7 @@
 
         <switch name="systems/indicators/radar">
             <default value="systems/indicators/radar-secondary"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/radar-primary == 1
             </test>
@@ -1294,7 +1294,7 @@
                     </or>-->
                 <and>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                     <property>/controls/lighting/test-indicator-panels</property>
@@ -1314,7 +1314,7 @@
                         <value>0</value>
                     </eq>
                     <lt>
-                        <property>/sim/ja37/systems/oxygen-bottle-pressure</property>
+                        <property>/ja37/systems/oxygen-bottle-pressure</property>
                         <value>50</value><!-- should really be 4Kpa -->
                     </lt>
                 </or>
@@ -1332,7 +1332,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1363,7 +1363,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1377,7 +1377,7 @@
         <fcs_function name="systems/indicators/low-fuel-primary">
             <function>
                 <eq>
-                    <property>/sim/ja37/sound/fuel-low-on</property>
+                    <property>/ja37/sound/fuel-low-on</property>
                     <value>1</value>
                 </eq>
             </function>
@@ -1394,7 +1394,7 @@
                         <property>/controls/lighting/test-indicator-panels</property>
                     </or>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1413,7 +1413,7 @@
                 <and>
                     <property>/controls/lighting/test-indicator-panels</property>
                     <eq>
-                        <property>/sim/ja37/blink/ten-Hz/state</property>
+                        <property>/ja37/blink/ten-Hz/state</property>
                         <value>1</value>
                     </eq>
                 </and>
@@ -1447,17 +1447,17 @@
                     <not>
                         <and>
                             <eq>
-                                <property>/sim/ja37/avionics/autopilot</property>
+                                <property>/ja37/avionics/autopilot</property>
                                 <value>1</value>
                             </eq>
                             <or>
                                 <and>
                                     <eq>
-                                        <property>/sim/ja37/avionics/auto-altitude-on</property>
+                                        <property>/ja37/avionics/auto-altitude-on</property>
                                         <value>1</value>
                                     </eq>
                                     <eq>
-                                        <property>/sim/ja37/avionics/auto-attitude-on</property>
+                                        <property>/ja37/avionics/auto-attitude-on</property>
                                         <value>1</value>
                                     </eq>
                                 </and>
@@ -1482,17 +1482,17 @@
                     <not>
                         <and>
                             <eq>
-                                <property>/sim/ja37/avionics/autopilot</property>
+                                <property>/ja37/avionics/autopilot</property>
                                 <value>1</value>
                             </eq>
                             <or>
                                 <and>
                                     <eq>
-                                        <property>/sim/ja37/avionics/auto-altitude-on</property>
+                                        <property>/ja37/avionics/auto-altitude-on</property>
                                         <value>1</value>
                                     </eq>
                                     <eq>
-                                        <property>/sim/ja37/avionics/auto-attitude-on</property>
+                                        <property>/ja37/avionics/auto-attitude-on</property>
                                         <value>1</value>
                                     </eq>
                                 </and>
@@ -1509,11 +1509,11 @@
 
         <switch name="/instrumentation/joystick-indicator">
             <default value="0"/>
-            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="AND" value="/ja37/blink/ten-Hz/state">
                 /systems/electrical/outputs/ac-instr-voltage gt 50                
                 /controls/lighting/test-indicator-panels == 1
             </test>
-            <test logic="AND" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="AND" value="/ja37/blink/ten-Hz/state">
                 /systems/electrical/outputs/ac-instr-voltage gt 50                
                 systems/indicators/flightstick-active-primary == 1
             </test>
@@ -1533,12 +1533,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/auto-attitude-on</property>
+                            <property>/ja37/avionics/auto-attitude-on</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -1550,12 +1550,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/auto-attitude-on</property>
+                            <property>/ja37/avionics/auto-attitude-on</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -1575,11 +1575,11 @@
 
         <switch name="/instrumentation/attitude-indicator">
             <default value="0"/>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+            <test logic="AND" value="/ja37/blink/five-Hz/state">
                 /systems/electrical/outputs/ac-instr-voltage gt 50
                 /controls/lighting/test-indicator-panels == 1
             </test>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+            <test logic="AND" value="/ja37/blink/five-Hz/state">
                 /systems/electrical/outputs/ac-instr-voltage gt 50                
                 systems/indicators/auto-attitude-light-primary == 1
             </test>
@@ -1599,12 +1599,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/auto-altitude-on</property>
+                            <property>/ja37/avionics/auto-altitude-on</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -1616,12 +1616,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/auto-attitude-on</property>
+                            <property>/ja37/avionics/auto-attitude-on</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -1635,11 +1635,11 @@
 
         <switch name="/instrumentation/altitude-indicator">
             <default value="0"/>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+            <test logic="AND" value="/ja37/blink/five-Hz/state">
                 /systems/electrical/outputs/ac-instr-voltage gt 50
                 /controls/lighting/test-indicator-panels == 1
             </test>
-            <test logic="AND" value="/sim/ja37/blink/five-Hz/state">
+            <test logic="AND" value="/ja37/blink/five-Hz/state">
                 /systems/electrical/outputs/ac-instr-voltage gt 50                
                 systems/indicators/auto-altitude-light-primary == 1
             </test>
@@ -1756,12 +1756,12 @@
             <function>
                 <and>
                     <eq>
-                        <property>/sim/ja37/avionics/autopilot</property>
+                        <property>/ja37/avionics/autopilot</property>
                         <value>1</value>
                     </eq>
                     <or>
                         <eq>
-                            <property>/sim/ja37/avionics/auto-throttle-on</property>
+                            <property>/ja37/avionics/auto-throttle-on</property>
                             <value>1</value>
                         </eq>
                     </or>
@@ -1786,20 +1786,20 @@
             </function>
         </fcs_function>        
 
-        <switch name="/sim/ja37/sound/terrain-on">
+        <switch name="/ja37/sound/terrain-on">
             <default value="0"/>
             <test logic="AND" value="0">
-                /sim/ja37/hud/current-mode == 0 <!-- equals takeoff -->
+                /ja37/hud/current-mode == 0 <!-- equals takeoff -->
             </test>
             <test logic="AND" value="1">
-                /sim/ja37/hud/current-mode == 3 <!-- equals landing -->
+                /ja37/hud/current-mode == 3 <!-- equals landing -->
                 /position/altitude-agl-ft gt 164
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
                 /controls/altimeter-radar == 1
             </test>
             <test logic="AND" value="1">
-                /sim/ja37/hud/current-mode ne 3 <!-- not equals landing -->
+                /ja37/hud/current-mode ne 3 <!-- not equals landing -->
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
                 /controls/altimeter-radar == 1
@@ -1808,8 +1808,8 @@
 
         <switch name="/instrumentation/terrain-warning">
             <default value="0"/>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
-                /sim/ja37/sound/terrain-on == 1
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
+                /ja37/sound/terrain-on == 1
             </test>
         </switch>        
 
@@ -1874,7 +1874,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/fire gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/fire-primary == 1
@@ -1892,7 +1892,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/engine-off gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 /engines/engine/running == 0
@@ -1910,7 +1910,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/canopy-alert gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/canopy-and-seat-primary == 1
@@ -1927,7 +1927,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/electrical-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/electrical-primary == 1
@@ -1944,7 +1944,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/electrical-reserve-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/electrical-reserve-primary == 1
@@ -1961,7 +1961,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/hydr-1-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/hydraulics/system1/pressure == 0
@@ -1978,7 +1978,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/hydr-2-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/hydraulics/system2/pressure-main == 0
@@ -1995,7 +1995,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/hydr-reserve-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/hydraulics/system2/pressure-reserve == 0
@@ -2012,7 +2012,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/cabin-pressure-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/cabin-pressure-primary == 1
@@ -2029,7 +2029,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/stuck-in-forward gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/forward-thrust-primary == 1
@@ -2046,7 +2046,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/no-reverse gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/no-reverse-primary == 1
@@ -2064,7 +2064,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/fuel-distr-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="OR" value="2">
                 systems/indicators/fuel-flow-primary == 1
@@ -2082,7 +2082,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/fuel-pump-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/fuel-pump-primary == 1
@@ -2099,7 +2099,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/radar-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/radar-primary == 1
@@ -2116,7 +2116,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/data-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/primary-data-primary == 1
@@ -2134,7 +2134,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/gears-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="OR" value="3">
                 systems/indicators/gears-primary == 1
@@ -2152,7 +2152,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/oil-pressure-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/oil-pressure-primary == 1
@@ -2169,7 +2169,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/oxygen-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/oxygen-primary == 1
@@ -2186,7 +2186,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/outlet-temp-high gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/outlet-temperature-primary == 1
@@ -2203,7 +2203,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/elevator-gearing gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/pitch-gearing-primary == 1
@@ -2220,7 +2220,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/auto-throttle-issue gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/auto-throttle-primary == 1
@@ -2237,7 +2237,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/auto-att-issue gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/auto-attitude-primary == 1
@@ -2254,7 +2254,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/auto-alt-issue gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/auto-altitude-primary == 1
@@ -2271,7 +2271,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/stick-problem gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="3">
                 systems/indicators/flightstick-primary == 1
@@ -2288,7 +2288,7 @@
             </test>
             <test logic="AND" value="1">
                 systems/indicators/master-warning/fuel-low gt 1
-                /sim/ja37/avionics/master-warning-button == 1
+                /ja37/avionics/master-warning-button == 1
             </test>
             <test logic="AND" value="2">
                 systems/indicators/low-fuel-primary == 1
@@ -2400,7 +2400,7 @@
             <test logic="OR" value="0">
                 /systems/electrical/outputs/dc-voltage lt 23
             </test>
-            <test logic="OR" value="/sim/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/master-warning/warning gt 1
             </test>
@@ -2412,7 +2412,7 @@
         <switch name="systems/indicators/master-warning/tenHz-opposite">
             <default value="0"/>
             <test logic="OR" value="1">
-                /sim/ja37/blink/ten-Hz/state == 0
+                /ja37/blink/ten-Hz/state == 0
             </test>
         </switch>
 
@@ -2432,7 +2432,7 @@
 
         <switch name="systems/indicators/master-warning/audio">
             <default value="0"/>
-            <test logic="OR" value="/sim/ja37/blink/third-Hz/state">
+            <test logic="OR" value="/ja37/blink/third-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
                 systems/indicators/master-warning/warning == 3
             </test>

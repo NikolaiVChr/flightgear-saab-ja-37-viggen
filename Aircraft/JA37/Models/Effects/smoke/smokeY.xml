@@ -13,7 +13,7 @@
     <condition>
       <and>
         <equals>
-          <property>sim/multiplay/generic/int[0]</property><!-- sim/ja37/effect/smoke -->
+          <property>sim/multiplay/generic/int[0]</property><!-- ja37/effect/smoke -->
           <value>2</value>
         </equals>
       </and>

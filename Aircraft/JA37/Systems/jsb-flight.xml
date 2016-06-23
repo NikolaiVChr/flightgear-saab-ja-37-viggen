@@ -383,7 +383,7 @@
                   </mod>
                 </integer>
             </function>
-            <output>/sim/ja37/blink/five-Hz/state</output>
+            <output>/ja37/blink/five-Hz/state</output>
         </fcs_function>
 
         <fcs_function name="systems/flight/blink/ten">
@@ -398,7 +398,7 @@
                   </mod>
                 </integer>
             </function>
-            <output>/sim/ja37/blink/ten-Hz/state</output>
+            <output>/ja37/blink/ten-Hz/state</output>
         </fcs_function>
 
         <fcs_function name="systems/flight/blink/third">
@@ -416,7 +416,7 @@
                     </min>
                 </integer>
             </function>
-            <output>/sim/ja37/blink/third-Hz/state</output>
+            <output>/ja37/blink/third-Hz/state</output>
         </fcs_function>
     
     </channel>

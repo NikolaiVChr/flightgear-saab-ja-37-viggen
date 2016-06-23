@@ -13,14 +13,14 @@
   <model><!-- FG 2016.1- -->
     <!--<condition>
       <not>
-        <property>sim/ja37/supported/new-marker</property>
+        <property>ja37/supported/new-marker</property>
       </not>
     </condition>-->
     <path>Models/Aircraft/marker.xml</path>
   </model>
   <model><!-- FG 2016.2+ -->
       <!--<condition>
-          <property>sim/ja37/supported/new-marker</property>
+          <property>ja37/supported/new-marker</property>
       </condition>-->
       <path>Aircraft/Generic/marker.xml</path>
   </model>

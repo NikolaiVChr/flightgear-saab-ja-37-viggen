@@ -17,7 +17,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -41,7 +41,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -63,7 +63,7 @@
                 <value>true-heading-hold</value>
             </equals>
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
         </condition>
@@ -92,7 +92,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -113,7 +113,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -138,7 +138,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -162,7 +162,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -187,7 +187,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -211,7 +211,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 
@@ -235,7 +235,7 @@
             </equals>
 
             <equals>
-                <property>/sim/ja37/hud/mode</property>
+                <property>/ja37/hud/mode</property>
                 <value>0</value>
             </equals>
 

@@ -32,8 +32,8 @@ var MISSILE_FLYING = 2;
 input = {
   acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
   acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
-  aeroSmoke:        "/sim/ja37/effect/smoke",
-  aeroSmokeCmd:     "/sim/ja37/effect/smoke-cmd",
+  aeroSmoke:        "/ja37/effect/smoke",
+  aeroSmokeCmd:     "/ja37/effect/smoke-cmd",
   airspeed:         "velocities/airspeed-kt",
   alpha:            "orientation/alpha-deg",
   alt:              "position/altitude-ft",
@@ -42,13 +42,13 @@ input = {
   apLockSpeed:      "autopilot/locks/speed",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   augmentation:     "/controls/engines/engine[0]/augmentation",
-  autoReverse:      "sim/ja37/autoReverseThrust",
-  breathVol:        "sim/ja37/sound/breath-volume",
+  autoReverse:      "ja37/autoReverseThrust",
+  breathVol:        "ja37/sound/breath-volume",
   buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
   canopyHinge:      "/fdm/jsbsim/fcs/canopy/hinges/serviceable",
-  combat:           "/sim/ja37/hud/current-mode",
+  combat:           "/ja37/hud/current-mode",
   cutoff:           "controls/engines/engine[0]/cutoff",
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",
@@ -60,16 +60,16 @@ input = {
   elapsedInit:      "sim/time/elapsed-at-init-sec",
   elecMain:         "controls/electric/main",
   engineRunning:    "engines/engine/running",
-  envVol:           "sim/ja37/sound/environment-volume",
+  envVol:           "ja37/sound/environment-volume",
   fdmAug:           "fdm/jsbsim/propulsion/engine/augmentation",
   flame:            "engines/engine/flame",
   flapPosCmd:       "/fdm/jsbsim/fcs/flaps/pos-cmd",
-  fuelInternalRatio:"sim/ja37/avionics/fuel-internal-ratio",
+  fuelInternalRatio:"ja37/avionics/fuel-internal-ratio",
   fuelNeedleB:      "/instrumentation/fuel/needleB_rot",
   fuelNeedleF:      "/instrumentation/fuel/needleF_rot",
   fuelRatio:        "/instrumentation/fuel/ratio",
-  fuelTemp:         "sim/ja37/supported/fuel-temp",
-  fuelWarning:      "sim/ja37/sound/fuel-low-on",
+  fuelTemp:         "ja37/supported/fuel-temp",
+  fuelWarning:      "ja37/sound/fuel-low-on",
   fullInit:         "sim/time/full-init",
   g3d:              "/velocities/groundspeed-3D-kt",
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
@@ -80,31 +80,31 @@ input = {
   hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
   hydr2On:          "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
   hydrCombined:     "fdm/jsbsim/systems/hydraulics/flight-surface-actuation",
-  hz05:             "sim/ja37/blink/five-Hz/state",
-  hz10:             "sim/ja37/blink/ten-Hz/state",
-  hzThird:          "sim/ja37/blink/third-Hz/state",
+  hz05:             "ja37/blink/five-Hz/state",
+  hz10:             "ja37/blink/ten-Hz/state",
+  hzThird:          "ja37/blink/third-Hz/state",
   impact:           "/ai/models/model-impact",
-  indAA:            "sim/ja37/avionics/auto-altitude-on",
-  indAH:            "sim/ja37/avionics/auto-attitude-on",
+  indAA:            "ja37/avionics/auto-altitude-on",
+  indAH:            "ja37/avionics/auto-attitude-on",
   indAlt:           "/instrumentation/altitude-indicator",
   indAltFt:         "instrumentation/altimeter/indicated-altitude-ft",
   indAltMeter:      "instrumentation/altimeter/indicated-altitude-meter",
-  indAT:            "sim/ja37/avionics/auto-throttle-on",
+  indAT:            "ja37/avionics/auto-throttle-on",
   indAtt:           "/instrumentation/attitude-indicator",
   indJoy:           "/instrumentation/joystick-indicator",
   indRev:           "/instrumentation/reverse-indicator",
   indTrn:           "/instrumentation/transonic-indicator",
-  lampCanopy:       "sim/ja37/avionics/canopyAndSeat",
-  lampData:         "sim/ja37/avionics/primaryData",
-  lampIgnition:     "sim/ja37/avionics/ignitionSys",
-  lampInertiaNav:   "sim/ja37/avionics/TN",
-  lampOxygen:       "sim/ja37/avionics/oxygen",
-  lampStart:        "sim/ja37/avionics/startSys",
-  lampStick:        "sim/ja37/avionics/joystick",
-  lampXTank:        "sim/ja37/avionics/xtank",
-  landLight:        "sim/ja37/effect/landing-light",
+  lampCanopy:       "ja37/avionics/canopyAndSeat",
+  lampData:         "ja37/avionics/primaryData",
+  lampIgnition:     "ja37/avionics/ignitionSys",
+  lampInertiaNav:   "ja37/avionics/TN",
+  lampOxygen:       "ja37/avionics/oxygen",
+  lampStart:        "ja37/avionics/startSys",
+  lampStick:        "ja37/avionics/joystick",
+  lampXTank:        "ja37/avionics/xtank",
+  landLight:        "ja37/effect/landing-light",
   landLightALS:     "sim/rendering/als-secondary-lights/use-landing-light",
-  landLightSupport: "sim/ja37/supported/landing-light",
+  landLightSupport: "ja37/supported/landing-light",
   landLightSwitch:  "controls/electric/lights-land-switch",
   lockPassive:      "/autopilot/locks/passive-mode",
   mach:             "velocities/mach",
@@ -120,11 +120,11 @@ input = {
   MPint9:           "sim/multiplay/generic/int[9]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
-  pilotG:           "sim/ja37/accelerations/pilot-G",
+  pilotG:           "ja37/accelerations/pilot-G",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
   rad_alt:          "position/altitude-agl-ft",
   rainNorm:         "environment/rain-norm",
-  rainVol:          "sim/ja37/sound/rain-volume",
+  rainVol:          "ja37/sound/rain-volume",
   replay:           "sim/replay/replay-state",
   reversed:         "/engines/engine/is-reversed",
   rmActive:         "/autopilot/route-manager/active",
@@ -138,7 +138,7 @@ input = {
   serviceElec:      "systems/electrical/serviceable",
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
-  speedWarn:        "sim/ja37/sound/speed-on",
+  speedWarn:        "ja37/sound/speed-on",
   srvHead:          "instrumentation/heading-indicator/serviceable",
   starter:          "controls/engines/engine[0]/starter-cmd",
   stationSelect:    "controls/armament/station-select",
@@ -165,13 +165,13 @@ input = {
   tempDegC:         "environment/temperature-degc",
   thrustLb:         "engines/engine/thrust_lb",
   thrustLbAbs:      "engines/engine/thrust_lb-absolute",
-  TILS:             "sim/ja37/hud/TILS",
+  TILS:             "ja37/hud/TILS",
   trigger:          "controls/armament/trigger",
   vgFps:            "/fdm/jsbsim/velocities/vg-fps",
   viewInternal:     "sim/current-view/internal",
   viewName:         "sim/current-view/name",
   viewYOffset:      "sim/current-view/y-offset-m",
-  warnButton:       "sim/ja37/avionics/master-warning-button",
+  warnButton:       "ja37/avionics/master-warning-button",
   wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
   wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
@@ -823,21 +823,21 @@ var thunder_listener = func {
     var lightning_distance_norm = std.min(1.0, 1 / math.pow(lightning_distance / 5000.0, 2));
 
     settimer(func {
-        var thunder1 = getprop("sim/ja37/sound/thunder1");
-        var thunder2 = getprop("sim/ja37/sound/thunder2");
-        var thunder3 = getprop("sim/ja37/sound/thunder3");
+        var thunder1 = getprop("ja37/sound/thunder1");
+        var thunder2 = getprop("ja37/sound/thunder2");
+        var thunder3 = getprop("ja37/sound/thunder3");
 
         if (!thunder1) {
             thunderCalls = 1;
-            setprop("sim/ja37/sound/dist-thunder1", lightning_distance_norm * getprop("sim/ja37/sound/environment-volume") * 1.5);
+            setprop("ja37/sound/dist-thunder1", lightning_distance_norm * getprop("ja37/sound/environment-volume") * 1.5);
         }
         else if (!thunder2) {
             thunderCalls = 2;
-            setprop("sim/ja37/sound/dist-thunder2", lightning_distance_norm * getprop("sim/ja37/sound/environment-volume") * 1.5);
+            setprop("ja37/sound/dist-thunder2", lightning_distance_norm * getprop("ja37/sound/environment-volume") * 1.5);
         }
         else if (!thunder3) {
             thunderCalls = 3;
-            setprop("sim/ja37/sound/dist-thunder3", lightning_distance_norm * getprop("sim/ja37/sound/environment-volume") * 1.5);
+            setprop("ja37/sound/dist-thunder3", lightning_distance_norm * getprop("ja37/sound/environment-volume") * 1.5);
         }
         else
             return;
@@ -848,7 +848,7 @@ var thunder_listener = func {
 };
 
 var play_thunder = func (name, timeout=0.1, delay=0) {
-    var sound_prop = "/sim/ja37/sound/" ~ name;
+    var sound_prop = "/ja37/sound/" ~ name;
 
     settimer(func {
         # Play the sound
@@ -873,120 +873,120 @@ var test_support = func {
   var detail = num(version[2]);
   if (major < 2) {
     popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
-      setprop("sim/ja37/supported/radar", FALSE);
-      setprop("sim/ja37/supported/hud", FALSE);
-      setprop("sim/ja37/supported/options", FALSE);
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", 0);
-      setprop("sim/ja37/supported/landing-light", FALSE);
-      setprop("sim/ja37/supported/crash-system", 0);
-      setprop("sim/ja37/supported/ubershader", FALSE);
-      setprop("sim/ja37/supported/lightning", FALSE);
-      setprop("sim/ja37/supported/fire", FALSE);
-      setprop("sim/ja37/supported/new-marker", FALSE);
+      setprop("ja37/supported/radar", FALSE);
+      setprop("ja37/supported/hud", FALSE);
+      setprop("ja37/supported/options", FALSE);
+      setprop("ja37/supported/old-custom-fails", 0);
+      setprop("ja37/supported/popuptips", 0);
+      setprop("ja37/supported/landing-light", FALSE);
+      setprop("ja37/supported/crash-system", 0);
+      setprop("ja37/supported/ubershader", FALSE);
+      setprop("ja37/supported/lightning", FALSE);
+      setprop("ja37/supported/fire", FALSE);
+      setprop("ja37/supported/new-marker", FALSE);
   } elsif (major == 2) {
-    setprop("sim/ja37/supported/landing-light", FALSE);
-    setprop("sim/ja37/supported/lightning", FALSE);
-    setprop("sim/ja37/supported/fire", FALSE);
-    setprop("sim/ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/landing-light", FALSE);
+    setprop("ja37/supported/lightning", FALSE);
+    setprop("ja37/supported/fire", FALSE);
+    setprop("ja37/supported/new-marker", FALSE);
     if(minor < 7) {
       popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
-      setprop("sim/ja37/supported/radar", FALSE);
-      setprop("sim/ja37/supported/hud", FALSE);
-      setprop("sim/ja37/supported/options", FALSE);
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", 0);
-      setprop("sim/ja37/supported/crash-system", 0);
-      setprop("sim/ja37/supported/ubershader", FALSE);
+      setprop("ja37/supported/radar", FALSE);
+      setprop("ja37/supported/hud", FALSE);
+      setprop("ja37/supported/options", FALSE);
+      setprop("ja37/supported/old-custom-fails", 0);
+      setprop("ja37/supported/popuptips", 0);
+      setprop("ja37/supported/crash-system", 0);
+      setprop("ja37/supported/ubershader", FALSE);
     } elsif(minor < 9) {
       popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
-      setprop("sim/ja37/supported/radar", FALSE);
-      setprop("sim/ja37/supported/hud", FALSE);
-      setprop("sim/ja37/supported/options", FALSE);
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/hud/mode", 0);
-      setprop("sim/ja37/supported/popuptips", 0);
-      setprop("sim/ja37/supported/crash-system", 0);
-      setprop("sim/ja37/supported/ubershader", FALSE);
+      setprop("ja37/supported/radar", FALSE);
+      setprop("ja37/supported/hud", FALSE);
+      setprop("ja37/supported/options", FALSE);
+      setprop("ja37/supported/old-custom-fails", 0);
+      setprop("ja37/hud/mode", 0);
+      setprop("ja37/supported/popuptips", 0);
+      setprop("ja37/supported/crash-system", 0);
+      setprop("ja37/supported/ubershader", FALSE);
     } elsif(minor < 11) {
-      setprop("sim/ja37/supported/radar", TRUE);
-      setprop("sim/ja37/supported/hud", TRUE);
-      setprop("sim/ja37/supported/options", FALSE);
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", 0);
-      setprop("sim/ja37/supported/crash-system", 0);
-      setprop("sim/ja37/supported/ubershader", TRUE);
+      setprop("ja37/supported/radar", TRUE);
+      setprop("ja37/supported/hud", TRUE);
+      setprop("ja37/supported/options", FALSE);
+      setprop("ja37/supported/old-custom-fails", 0);
+      setprop("ja37/supported/popuptips", 0);
+      setprop("ja37/supported/crash-system", 0);
+      setprop("ja37/supported/ubershader", TRUE);
     } else {
-      setprop("sim/ja37/supported/radar", TRUE);
-      setprop("sim/ja37/supported/hud", TRUE);
-      setprop("sim/ja37/supported/options", FALSE);
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/popuptips", 1);
-      setprop("sim/ja37/supported/crash-system", 0);
-      setprop("sim/ja37/supported/ubershader", TRUE);
+      setprop("ja37/supported/radar", TRUE);
+      setprop("ja37/supported/hud", TRUE);
+      setprop("ja37/supported/options", FALSE);
+      setprop("ja37/supported/old-custom-fails", 0);
+      setprop("ja37/supported/popuptips", 1);
+      setprop("ja37/supported/crash-system", 0);
+      setprop("ja37/supported/ubershader", TRUE);
     }
   } elsif (major == 3) {
-    setprop("sim/ja37/supported/options", TRUE);
-    setprop("sim/ja37/supported/radar", TRUE);
-    setprop("sim/ja37/supported/hud", TRUE);
-    setprop("sim/ja37/supported/old-custom-fails", 2);
-    setprop("sim/ja37/supported/landing-light", TRUE);
-    setprop("sim/ja37/supported/popuptips", 2);
-    setprop("sim/ja37/supported/crash-system", 1);
-    setprop("sim/ja37/supported/ubershader", TRUE);
-    setprop("sim/ja37/supported/lightning", TRUE);
-    setprop("sim/ja37/supported/fire", FALSE);
-    setprop("sim/ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/options", TRUE);
+    setprop("ja37/supported/radar", TRUE);
+    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/old-custom-fails", 2);
+    setprop("ja37/supported/landing-light", TRUE);
+    setprop("ja37/supported/popuptips", 2);
+    setprop("ja37/supported/crash-system", 1);
+    setprop("ja37/supported/ubershader", TRUE);
+    setprop("ja37/supported/lightning", TRUE);
+    setprop("ja37/supported/fire", FALSE);
+    setprop("ja37/supported/new-marker", FALSE);
     if (minor == 0) {
-      setprop("sim/ja37/supported/old-custom-fails", 0);
-      setprop("sim/ja37/supported/landing-light", FALSE);
-      setprop("sim/ja37/supported/popuptips", 1);
-      setprop("sim/ja37/supported/crash-system", 0);
-      setprop("sim/ja37/supported/lightning", FALSE);
+      setprop("ja37/supported/old-custom-fails", 0);
+      setprop("ja37/supported/landing-light", FALSE);
+      setprop("ja37/supported/popuptips", 1);
+      setprop("ja37/supported/crash-system", 0);
+      setprop("ja37/supported/lightning", FALSE);
     } elsif (minor <= 2) {
-      setprop("sim/ja37/supported/old-custom-fails", 1);
-      setprop("sim/ja37/supported/landing-light", FALSE);
-      setprop("sim/ja37/supported/popuptips", 1);
-      setprop("sim/ja37/supported/lightning", FALSE);
+      setprop("ja37/supported/old-custom-fails", 1);
+      setprop("ja37/supported/landing-light", FALSE);
+      setprop("ja37/supported/popuptips", 1);
+      setprop("ja37/supported/lightning", FALSE);
     } elsif (minor <= 4) {
-      setprop("sim/ja37/supported/old-custom-fails", 1);
-      setprop("sim/ja37/supported/popuptips", 1);
-      setprop("sim/ja37/supported/lightning", FALSE);
-      setprop("sim/ja37/supported/fire", TRUE);
+      setprop("ja37/supported/old-custom-fails", 1);
+      setprop("ja37/supported/popuptips", 1);
+      setprop("ja37/supported/lightning", FALSE);
+      setprop("ja37/supported/fire", TRUE);
     } elsif (minor <= 6) {
-      setprop("sim/ja37/supported/lightning", FALSE);
-      setprop("sim/ja37/supported/fire", TRUE);
+      setprop("ja37/supported/lightning", FALSE);
+      setprop("ja37/supported/fire", TRUE);
     }
   } elsif (major == 2016) {
-    setprop("sim/ja37/supported/options", TRUE);
-    setprop("sim/ja37/supported/radar", TRUE);
-    setprop("sim/ja37/supported/hud", TRUE);
-    setprop("sim/ja37/supported/old-custom-fails", 2);
-    setprop("sim/ja37/supported/landing-light", TRUE);
-    setprop("sim/ja37/supported/popuptips", 2);
-    setprop("sim/ja37/supported/crash-system", 1);
-    setprop("sim/ja37/supported/ubershader", TRUE);
-    setprop("sim/ja37/supported/lightning", TRUE);
-    setprop("sim/ja37/supported/fire", TRUE);
-    setprop("sim/ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/options", TRUE);
+    setprop("ja37/supported/radar", TRUE);
+    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/old-custom-fails", 2);
+    setprop("ja37/supported/landing-light", TRUE);
+    setprop("ja37/supported/popuptips", 2);
+    setprop("ja37/supported/crash-system", 1);
+    setprop("ja37/supported/ubershader", TRUE);
+    setprop("ja37/supported/lightning", TRUE);
+    setprop("ja37/supported/fire", TRUE);
+    setprop("ja37/supported/new-marker", FALSE);
     if (minor >= 2) {
-      setprop("sim/ja37/supported/new-marker", TRUE);
+      setprop("ja37/supported/new-marker", TRUE);
     }
   } else {
     # future proof
-    setprop("sim/ja37/supported/options", TRUE);
-    setprop("sim/ja37/supported/radar", TRUE);
-    setprop("sim/ja37/supported/hud", TRUE);
-    setprop("sim/ja37/supported/old-custom-fails", 2);
-    setprop("sim/ja37/supported/landing-light", TRUE);
-    setprop("sim/ja37/supported/popuptips", 2);
-    setprop("sim/ja37/supported/crash-system", 1);
-    setprop("sim/ja37/supported/ubershader", TRUE);
-    setprop("sim/ja37/supported/lightning", TRUE);
-    setprop("sim/ja37/supported/fire", TRUE);
-    setprop("sim/ja37/supported/new-marker", TRUE);
+    setprop("ja37/supported/options", TRUE);
+    setprop("ja37/supported/radar", TRUE);
+    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/old-custom-fails", 2);
+    setprop("ja37/supported/landing-light", TRUE);
+    setprop("ja37/supported/popuptips", 2);
+    setprop("ja37/supported/crash-system", 1);
+    setprop("ja37/supported/ubershader", TRUE);
+    setprop("ja37/supported/lightning", TRUE);
+    setprop("ja37/supported/fire", TRUE);
+    setprop("ja37/supported/new-marker", TRUE);
   }
-  setprop("sim/ja37/supported/initialized", TRUE);
+  setprop("ja37/supported/initialized", TRUE);
 
   print();
   print("***************************************************************");
@@ -1004,12 +1004,12 @@ var main_init = func {
 
   test_support();
 
-#  aircraft.data.add("sim/ja37/radar/enabled",
-#                    "sim/ja37/hud/units-metric",
-#                    "sim/ja37/hud/mode",
-#                    "sim/ja37/hud/bank-indicator",
-#                    "sim/ja37/autoReverseThrust",
-#                    "sim/ja37/hud/stroke-linewidth",
+#  aircraft.data.add("ja37/radar/enabled",
+#                    "ja37/hud/units-metric",
+#                    "ja37/hud/mode",
+#                    "ja37/hud/bank-indicator",
+#                    "ja37/autoReverseThrust",
+#                    "ja37/hud/stroke-linewidth",
 #                    "ai/submodels/submodel[2]/random",
 #                    "ai/submodels/submodel[3]/random");
   #aircraft.data.save();
@@ -1058,7 +1058,7 @@ var main_init = func {
   setprop("/environment/aircraft-effects/dewpoint-inside-degC", getprop("environment/dewpoint-degc"));
 
   # init oxygen bottle pressure
-  setprop("sim/ja37/systems/oxygen-bottle-pressure", rand()*75+50);#todo: start high, and lower slowly during flight
+  setprop("ja37/systems/oxygen-bottle-pressure", rand()*75+50);#todo: start high, and lower slowly during flight
 
   # start minor loops
   speed_loop();
@@ -1076,7 +1076,7 @@ var main_init = func {
   asymVortex();
 
   # Setup lightning listener
-  if (getprop("/sim/ja37/supported/lightning") == TRUE) {
+  if (getprop("/ja37/supported/lightning") == TRUE) {
     setlistener("/environment/lightning/lightning-pos-y", thunder_listener);
   }
 
@@ -1170,11 +1170,11 @@ var beaconLoop = func () {
 ############ blinkers ####################
 
 #var blinker = nil;
-#blinker = aircraft.light.new("sim/ja37/blink/five-Hz", [0.2, 0.2]);
+#blinker = aircraft.light.new("ja37/blink/five-Hz", [0.2, 0.2]);
 #blinker.switch(1);
-#blinker = aircraft.light.new("sim/ja37/blink/ten-Hz", [0.1, 0.1]);
+#blinker = aircraft.light.new("ja37/blink/ten-Hz", [0.1, 0.1]);
 #blinker.switch(1);
-#blinker = aircraft.light.new("sim/ja37/blink/third-Hz", [2, 1]);
+#blinker = aircraft.light.new("ja37/blink/third-Hz", [2, 1]);
 #blinker.switch(1);
 
 ############# workaround for removing default HUD   ##############
@@ -1328,13 +1328,13 @@ var clicking = FALSE;
 var click = func {
     if(clicking == FALSE) {
       clicking = TRUE;
-      setprop("sim/ja37/sound/click-on", TRUE);
+      setprop("ja37/sound/click-on", TRUE);
       settimer(clickOff, 0.15, 1);
     }
 }
 
 var clickOff = func {
-    setprop("sim/ja37/sound/click-on", FALSE);
+    setprop("ja37/sound/click-on", FALSE);
     clicking = FALSE;
 }
 
@@ -1399,8 +1399,8 @@ var toggleNosewheelSteer = func {
 
 var toggleTracks = func {
   ja37.click();
-  var enabled = getprop("sim/ja37/hud/tracks-enabled");
-  setprop("sim/ja37/hud/tracks-enabled", !enabled);
+  var enabled = getprop("ja37/hud/tracks-enabled");
+  setprop("ja37/hud/tracks-enabled", !enabled);
   if(enabled == FALSE) {
     popupTip("Radar ON");
   } else {
@@ -1438,10 +1438,10 @@ var follow = func () {
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
   if (input.hydr1On.getValue() == 0 or input.dcVolt.getValue() < 23) {
-    setprop("sim/ja37/avionics/autopilot", FALSE);
+    setprop("ja37/avionics/autopilot", FALSE);
     #stopAP();
   } else {
-    setprop("sim/ja37/avionics/autopilot", TRUE);
+    setprop("ja37/avionics/autopilot", TRUE);
   }
   settimer(hydr1Lost, 1);
 }
@@ -1489,14 +1489,14 @@ var applyParkingBrake = func(v) {
 
 var cycleSmoke = func() {
     ja37.click();
-    if (getprop("/sim/ja37/effect/smoke-cmd") == 1) {
-      setprop("/sim/ja37/effect/smoke-cmd", 2);
+    if (getprop("/ja37/effect/smoke-cmd") == 1) {
+      setprop("/ja37/effect/smoke-cmd", 2);
       popupTip("Smoke: Yellow");
-    } elsif (getprop("/sim/ja37/effect/smoke-cmd") == 2) {
-      setprop("/sim/ja37/effect/smoke-cmd", 3);
+    } elsif (getprop("/ja37/effect/smoke-cmd") == 2) {
+      setprop("/ja37/effect/smoke-cmd", 3);
       popupTip("Smoke: Blue");
     } else {
-      setprop("/sim/ja37/effect/smoke-cmd", 1);#1 for backward compatibility to be off per default
+      setprop("/ja37/effect/smoke-cmd", 1);#1 for backward compatibility to be off per default
       popupTip("Smoke: OFF");
     }
 }
@@ -1507,9 +1507,9 @@ var popupTip = func(label, y = 25, delay = nil) {
     #fgcommand("tooltip-timeout", props.Node.new({}));
     #var tooltip = canvas.Tooltip.new([300, 100]);
     #tooltip.createCanvas();
-    if(getprop("sim/ja37/supported/popuptips") == 2) {
+    if(getprop("ja37/supported/popuptips") == 2) {
       gui.popupTip(label, delay, nil, {"y": y});
-    } elsif(getprop("sim/ja37/supported/popuptips") == 0) {
+    } elsif(getprop("ja37/supported/popuptips") == 0) {
       gui.popupTip(label, delay);
     } else {
       call(func _popupTip(label, y, delay), nil, var err = []);
@@ -1536,7 +1536,7 @@ var _popupTip = func(label, y, delay) {
 }
 
 var repair = func (c = 1) {
-  var ver = getprop("sim/ja37/supported/crash-system");
+  var ver = getprop("ja37/supported/crash-system");
   if (ver == 0) {
     crash0.repair();
   } else {
@@ -1668,11 +1668,11 @@ var code_ct = func () {
   if (dm == nil or dm != 1) {
     dm = 0;
   }
-  var tm = getprop("sim/ja37/radar/look-through-terrain");
+  var tm = getprop("ja37/radar/look-through-terrain");
   if (tm == nil or tm != 1) {
     tm = 0;
   }
-  var rd = !getprop("sim/ja37/radar/doppler-enabled");
+  var rd = !getprop("ja37/radar/doppler-enabled");
   if (rd == nil or rd != 1) {
     rd = 0;
   }  

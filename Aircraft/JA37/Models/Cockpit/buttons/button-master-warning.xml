@@ -17,13 +17,13 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
-                <property>sim/ja37/avionics/master-warning-button</property>
+                <property>ja37/avionics/master-warning-button</property>
                 <value>1</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <property>sim/ja37/avionics/master-warning-button</property>
+                    <property>ja37/avionics/master-warning-button</property>
                     <value>0</value>
                 </binding>
             </mod-up>
@@ -41,7 +41,7 @@
     <animation>
         <type>material</type>
         <object-name>Text</object-name>
-        <property-base>sim/ja37/texture</property-base>
+        <property-base>ja37/texture</property-base>
         <texture-prop>button-master-alert</texture-prop>
         <texture>button-master-alert.png</texture>
     </animation>
@@ -62,7 +62,7 @@
         <object-name>Ring</object-name>
         <condition>
             <equals>
-                <property>sim/ja37/avionics/master-warning-button</property>
+                <property>ja37/avionics/master-warning-button</property>
                 <value>1</value>
             </equals>
         </condition>
