@@ -127,6 +127,7 @@ var AIM = {
         m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");
         m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
+        m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.elapsed_last          = 0;

@@ -28,8 +28,10 @@ Model: Proper floor in the cockpit.
 Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
 Model: Fix z-fighting on M71-rail and M90.
 Model: Make the AJ37 black tube next to HUD, used for vision guided munitions. It should have transparent glass cover.
+Model: Button with fliplid to jettison all stores including drop-tank.
+Model: Button with fliplid to jettison drop-tank.
 Animation: Show wheels spinning in MP also.
-Animation: Proper animation of gear doors.
+Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
@@ -47,8 +49,6 @@ Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15
 Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
 Sim: Shift-m should be a key without shift instead for convenience.
-Sim: Weapons should require electrical power to track, check the manual.
-Sim: Button to jettison all stores including drop-tank.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Sim: Make data-link between Viggens.
@@ -63,7 +63,6 @@ Sim: Stop auto-selecting when in tactical mode.
 Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Be able to notch the rb71 again.
 Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
-Sim: Make missiles call out the brevity code.
 Sim: Make speed and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Effect: Rembrandt landing lightcone.

@@ -619,10 +619,10 @@ var trigger_listener = func {
         }
         #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
         var callsign = armament.AIM.active[armSelect-1].callsign;
-        var type = armament.AIM.active[armSelect-1].type;
+        var brevity = armament.AIM.active[armSelect-1].brevity;
         armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
         
-        var phrase = type ~ " fired at: " ~ callsign;
+        var phrase = brevity ~ " at: " ~ callsign;
         if (getprop("payload/armament/msg")) {
           setprop("/sim/multiplay/chat", armament.defeatSpamFilter(phrase));
         } else {
@@ -754,7 +754,11 @@ var incoming_listener = func {
         # a m2000 is firing at us
         m2000 = TRUE;
       }
-      if (last_vector[1] == " FOX2 at" or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at" or last_vector[1] == " aim120 at" or last_vector[1] == " RB-24J fired at" or last_vector[1] == " RB-74 fired at" or last_vector[1] == " RB-71 fired at" or last_vector[1] == " RB-15F fired at" or last_vector[1] == " KN-06 fired at" or last_vector[1] == " RB-99 fired at" or m2000 == TRUE) {
+      if (last_vector[1] == " FOX2 at" or last_vector[1] == " Fox 1 at" or last_vector[1] == " Fox 2 at" or last_vector[1] == " Fox 3 at"
+          or last_vector[1] == " Greyhound at" or last_vector[1] == " Bombs away at" or last_vector[1] == " Bruiser at" or last_vector[1] == " Rifle at" or last_vector[1] == " Bird away at"
+          or last_vector[1] == " aim7 at" or last_vector[1] == " aim9 at"
+          or last_vector[1] == " aim120 at"
+          or m2000 == TRUE) {
         # air2air being fired
         if (size(last_vector) > 2 or m2000 == TRUE) {
           #print("Missile launch detected at"~last_vector[2]~" from "~author);
@@ -1305,8 +1309,8 @@ reloadJAAir2Air1979 = func {
   screen.log.write("4 RB-24J missiles attached", 0.0, 1.0, 0.0);
 
   # Skyflash
-  setprop("payload/weight[0]/selected", "RB 71");
-  setprop("payload/weight[2]/selected", "RB 71");
+  setprop("payload/weight[0]/selected", "RB 71 Skyflash");
+  setprop("payload/weight[2]/selected", "RB 71 Skyflash");
   screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
@@ -1330,8 +1334,8 @@ reloadJAAir2Air1987 = func {
   screen.log.write("4 RB-74 missiles attached", 0.0, 1.0, 0.0);
 
   # Skyflash
-  setprop("payload/weight[0]/selected", "RB 71");
-  setprop("payload/weight[2]/selected", "RB 71");
+  setprop("payload/weight[0]/selected", "RB 71 Skyflash");
+  setprop("payload/weight[2]/selected", "RB 71 Skyflash");
   screen.log.write("2 RB-71 missiles attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
