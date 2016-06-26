@@ -299,7 +299,7 @@
 *************************************************************************-->
         <rendering>
             <redout>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
                 <parameters>
                     <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G-9G but have no official numbers.-->
                     <blackout-complete-g type="double">11.0</blackout-complete-g>
@@ -1140,6 +1140,9 @@
 		<navigation>
 			<file>Aircraft/JA37/Nasal/navigation.nas</file>
 		</navigation>
+        <blackout>
+            <file>Aircraft/JA37/Nasal/blackout.nas</file>
+        </blackout>
     </nasal>
 
     <!-- Logging to universal CSV format. change enabled to true to log -->
