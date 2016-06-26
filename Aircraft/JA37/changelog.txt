@@ -2361,3 +2361,5 @@ Sim: Refactored custom properties that were mistakenly sent over MP due to their
 Sim: Reduced the time the flightrecorder records at full fidelity in half to help with people crashing the Viggen after flying for 15 mins.
 Sim: Make missiles/bombs call out the brevity code when fired.
 GUI: Fixed that RB71 would not be properly loaded from menu loadout options.
+Effect: Replaced the default redout/blackout system, with my own improved time based system.
+Model: {Pinto} Fixed right altimeter would change the barometric setting in same direction no matter what direction mouse scrollwheel was used.
