@@ -31,18 +31,18 @@ var invert = func (acc) {
 # At 5G it will take 300 seconds.
 #
 
-var blackout_onset      =  4.5;
+var blackout_onset      =    5;
 var blackout_fast       =    8;
 var redout_onset        = -0.5;
-var redout_fast         = -3.5;
+var redout_fast         =   -3;
 
 var blackout_onset_time =  300;
-var blackout_fast_time  =   10;
+var blackout_fast_time  =   30;
 var redout_onset_time   =   45;
 var redout_fast_time    =  2.5;
 
-var fast_time_recover   =    3;
-var slow_time_recover   =   10;
+var fast_time_recover   =    7;
+var slow_time_recover   =   15;
 
 
 
@@ -163,3 +163,27 @@ var blackout_init_listener = setlistener("sim/signals/fdm-initialized", func {
 	blackout_init();
 	removelistener(blackout_init_listener);
 }, 0, 0);
+
+
+var test = func (blackout_onset, blackout_fast, blackout_onset_time, blackout_fast_time) {
+	var blackout_onset_log = math.log10(blackout_onset);
+	var blackout_fast_log = math.log10(blackout_fast);
+
+	var g = 5;
+	print();
+	while(g <= 20) {
+
+		var g_log = g <= 1?0:math.log10(g);
+
+		var curr_time = math.log10(blackout_onset_time) + ((g_log - blackout_onset_log) / (blackout_fast_log - blackout_onset_log)) * (math.log10(blackout_fast_time) - math.log10(blackout_onset_time));
+
+		curr_time = math.pow(10, curr_time);
+
+		curr_time = clamp(curr_time, 0, 1000);
+
+		printf("%0.1f, %0.2f", g, curr_time);
+
+		g += .5;
+	}
+	print();
+}
