@@ -1119,7 +1119,7 @@ var load_interior = func {
 }
 
 var load_interior_final = func {
-    setprop("sim/current-view/field-of-view", 95);
+    setprop("sim/current-view/field-of-view", 90);
     print("..Done!");
 }
 

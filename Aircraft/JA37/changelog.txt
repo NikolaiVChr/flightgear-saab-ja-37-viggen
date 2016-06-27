@@ -2364,3 +2364,4 @@ GUI: Fixed that RB71 would not be properly loaded from menu loadout options.
 Effect: Replaced the default redout/blackout system, with my own improved time based system.
 Model: {Pinto} Fixed right altimeter would change the barometric setting in same direction no matter what direction mouse scrollwheel was used.
 Effect: Adjusted blackout to be much more forgiving. Recovery and redout is less forgiving though.
+Model: Experimental 90 degrees FOV for cockpit view.
