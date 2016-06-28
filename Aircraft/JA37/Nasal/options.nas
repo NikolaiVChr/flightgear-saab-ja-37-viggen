@@ -45,7 +45,7 @@ var Dialog = {
           titlebar.set("valign", "top");
           titlebar.set("pref-width", DIALOG_WIDTH);
           titlebar.addChild("empty").set("stretch", 1);
-          titlebar.addChild("text").set("label", "Saab JA-37 Viggen Options");
+          titlebar.addChild("text").set("label", getprop("sim/description")~" Options");
           titlebar.addChild("empty").set("stretch", 1);
           var w = titlebar.addChild("button");
             w.node.setValues({ "pref-width": 16, "pref-height": 16, legend: "", default: 0 });
