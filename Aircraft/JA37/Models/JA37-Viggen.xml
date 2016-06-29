@@ -641,6 +641,8 @@
     <object-name>canopyinside</object-name>
     <object-name>fuselageinside</object-name>
     <object-name>mirrorholder</object-name>
+    <object-name>engineOutlet</object-name>
+    <object-name>engineRear</object-name>
   </effect>
 
   <effect>  
@@ -2605,20 +2607,14 @@
   </offsets>
  </model>-->
  
-<!--******************************************* my edits *******************************************-->
+<!--******************************************* Pinto's edits *******************************************-->
 
 <!-- Air Intake -->	
  <animation>
   <object-name>engineAirIntake</object-name>
   <type>spin</type>
-  <condition>
-   <equals>
- 	<property>/sim/aircraft</property>
- 	<value>JA37-Viggen</value>
-   </equals>
-  </condition>
-  <property>fdm/jsbsim/propulsion/engine/n1-rpm_r-s</property>
-  <factor>0.33</factor>
+  <property>engines/engine/rpm</property>
+  <factor>1</factor>
   <axis>
    <x>1</x>
    <y>0</y>
@@ -2630,27 +2626,66 @@
  <animation>
   <object-name>engineOutlet</object-name>
   <type>spin</type>
-  <condition>
-   <equals>
- 	<property>/sim/aircraft</property>
- 	<value>JA37-Viggen</value>
-   </equals>
-  </condition>
-  <property>fdm/jsbsim/propulsion/engine/n1-rpm_r-s</property>
-  <factor>0.33</factor>
+  <property>engines/engine/rpm</property>
+  <factor>1</factor>
   <axis>
    <x>1</x>
    <y>0</y>
    <z>0</z>
   </axis>
  </animation>
- 
+
+ <animation>
+  <type>material</type>
+  <condition>
+    <equals>
+      <property>/sim/rendering/rembrandt/enabled</property>
+      <value>0</value>
+    </equals>
+  </condition>
+  <object-name>engineOutlet</object-name>
+  <emission>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </emission>
+ </animation>
+
+  <animation><!-- I do not like this workaround -->
+  <type>material</type>
+  <condition>
+    <equals>
+      <property>/sim/rendering/rembrandt/enabled</property>
+      <value>1</value>
+    </equals>
+  </condition>
+  <object-name>engineOutlet</object-name>
+  <emission>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </emission>
+  <ambient>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </ambient>
+  <diffuse>
+   <red>0.01</red>
+   <green>0.01</green>
+   <blue>0.01</blue>
+   <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
+  </diffuse>
+ </animation> 
  
  <!-- Outlet Nozzles -->	 
  <animation>
   <object-name>engineNozzle1</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2668,7 +2703,7 @@
  <animation>
   <object-name>engineNozzle2</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2686,7 +2721,7 @@
  <animation>
   <object-name>engineNozzle3</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2704,7 +2739,7 @@
  <animation>
   <object-name>engineNozzle4</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2722,7 +2757,7 @@
  <animation>
   <object-name>engineNozzle5</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2740,7 +2775,7 @@
  <animation>
   <object-name>engineNozzle6</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2758,7 +2793,7 @@
  <animation>
   <object-name>engineNozzle7</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2776,7 +2811,7 @@
  <animation>
   <object-name>engineNozzle8</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2794,7 +2829,7 @@
  <animation>
   <object-name>engineNozzle9</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2812,7 +2847,7 @@
  <animation>
   <object-name>engineNozzle10</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2830,7 +2865,7 @@
  <animation>
   <object-name>engineNozzle11</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2848,7 +2883,7 @@
  <animation>
   <object-name>engineNozzle12</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2866,7 +2901,7 @@
  <animation>
   <object-name>engineNozzle13</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2884,7 +2919,7 @@
  <animation>
   <object-name>engineNozzle14</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2902,7 +2937,7 @@
  <animation>
   <object-name>engineNozzle15</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2920,7 +2955,7 @@
  <animation>
   <object-name>engineNozzle16</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>
@@ -2939,7 +2974,7 @@
  <animation>
   <object-name>engineNozzle</object-name>
   <type>rotate</type>
-  <property>/engines/engine/nozzle-pos-norm</property>
+  <property>rotors/main/rpm</property>
   <factor>35.0</factor>
   <offset-deg>-35.0</offset-deg>
   <center>

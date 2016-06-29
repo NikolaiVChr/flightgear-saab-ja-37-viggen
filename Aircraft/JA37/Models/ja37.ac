@@ -4,7 +4,7 @@ MATERIAL "blackMat"         rgb 0.00 0.00 0.00  amb 1.00 1.00 1.00  emis 0.00 0.
 MATERIAL "bodyMat"          rgb 1.00 1.00 1.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  64 trans 0.00
 MATERIAL "canopy"           rgb 0.80 0.80 0.80  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  12 trans 0.00
 MATERIAL "dashpanelMat"     rgb 0.80 0.80 0.80  amb 0.80 0.80 0.80  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  50 trans 0.00
-MATERIAL "engineMat"        rgb 0.70 0.70 0.70  amb 0.70 0.70 0.70  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  45 trans 0.00
+MATERIAL "engineMat"        rgb 0.60 0.60 0.60  amb 0.60 0.60 0.60  emis 0.00 0.00 0.00  spec 0.80 0.80 0.80  shi  45 trans 0.00
 MATERIAL "glassMat"         rgb 1.00 1.00 1.00  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 100 trans 1.00
 MATERIAL "glassMatInternal" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.55
 MATERIAL "stobeMat"         rgb 0.50 0.50 0.50  amb 0.30 0.30 0.30  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  80 trans 0.00

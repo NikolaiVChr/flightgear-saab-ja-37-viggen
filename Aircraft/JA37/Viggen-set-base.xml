@@ -946,8 +946,14 @@
             </afterburner>
             <egt-degf type="double">0</egt-degf>
             <oil-pressure-psi type="double">0</oil-pressure-psi>
+            <rpm alias="/fdm/jsbsim/propulsion/engine/n1-rpm_r-min"/>
         </engine>
     </engines>
+    <rotors>
+        <main>
+            <rpm alias="/engines/engine/nozzle-pos-norm"/>
+        </main>
+    </rotors>
 
 
     <!--**********************************************************************
