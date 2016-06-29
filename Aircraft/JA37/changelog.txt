@@ -2370,3 +2370,6 @@ GUI: Renamed JA37 to AJ37 in AJ options title.
 4.002
 =====
 Sim: Updated how RPM for core and fan are calculated.
+Model: {Pinto} Modeled the inlet fan and duct.
+Model: {Pinto} Reworked the engine outlet.
+Model: {Pinto} Made the nozzle.
