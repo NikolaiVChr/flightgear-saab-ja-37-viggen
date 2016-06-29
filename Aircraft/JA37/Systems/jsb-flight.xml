@@ -175,33 +175,26 @@
 
     <channel execrate="4" name="instruments">
 
-        <fcs_function name="propulsion/engine/aj37-rpm_r-s">
+        <!-- The ratio between N2 and N1 is approx 1:0.7184 -->
+
+        <fcs_function name="propulsion/engine/aj37-n2-rpm_r-s">
             <function>
                 <table>
                     <independentVar lookup="row">propulsion/engine/n2</independentVar>
                     <tableData>
-                        0.0        0.0
-                       59.0        3.2
-                       74.0       14.3
-                       93.3       56.0
-                       96.5       65.6
-                       97.3      115.6
-                      100.0      204.6
+                        0.0        0.00
+                       59.0      120.83
+                       74.0      151.33
+                       93.3      190.83
+                       96.5      197.50
+                       97.3      199.17
+                      100.0      204.63
                     </tableData>
                 </table>
             </function>
         </fcs_function>
 
-        <fcs_function name="propulsion/engine/aj37-rpm_r-min">
-            <function>
-                <product>
-                    <property>propulsion/engine/aj37-rpm_r-s</property>
-                    <value>60</value>
-                </product>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="propulsion/engine/ja37-rpm_r-s">
+        <fcs_function name="propulsion/engine/ja37-n2-rpm_r-s">
             <function>
                 <table>
                     <independentVar lookup="row">propulsion/engine/n2</independentVar>
@@ -218,12 +211,40 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="propulsion/engine/ja37-rpm_r-min">
+        <switch name="propulsion/engine/n2-rpm_r-s">
+            <default value="0"/>
+            <test logic="OR" value="propulsion/engine/ja37-n2-rpm_r-s">
+                /ja37/systems/variant == 0
+            </test>
+            <test logic="OR" value="propulsion/engine/aj37-n2-rpm_r-s">
+                /ja37/systems/variant == 1
+            </test>
+        </switch>
+
+        <fcs_function name="propulsion/engine/n2-rpm_r-min">
             <function>
                 <product>
-                    <property>propulsion/engine/ja37-rpm_r-s</property>
+                    <property>propulsion/engine/n2-rpm_r-s</property>
                     <value>60</value>
                 </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/n1-rpm_r-min">
+            <function>
+                <product>
+                    <property>propulsion/engine/n1</property>
+                    <value>88</value>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/n1-rpm_r-s">
+            <function>
+                <quotient>
+                    <property>propulsion/engine/n1-rpm_r-min</property>
+                    <value>60</value>
+                </quotient>
             </function>
         </fcs_function>
 

@@ -2367,3 +2367,6 @@ Effect: Adjusted blackout to be much more forgiving. Recovery and redout is less
 Model: Experimental 90 degrees FOV for cockpit view.
 GUI: Renamed JA37 to AJ37 in AJ options title.
 
+4.002
+=====
+Sim: Updated how RPM for core and fan are calculated.

@@ -693,7 +693,7 @@
                 <z>0.25</z>
             </position>
             <volume>
-                <factor>0.75</factor>
+                <factor>0.50</factor>
             </volume>
         </controls>
 

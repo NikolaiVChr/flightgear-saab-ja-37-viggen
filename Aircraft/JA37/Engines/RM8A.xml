@@ -9,8 +9,10 @@
   <bleed>           0.03</bleed>
   <idlen1>         30.0 </idlen1>
   <idlen2>         57.0 </idlen2>
-  <maxn1>         100.0 </maxn1>
-  <maxn2>         102.4 </maxn2>
+  <n1spinup>        1.0 </n1spinup>    <!-- Fan rotor rpm starter acceleration (default 1.0) -->
+  <n2spinup>        3.0 </n2spinup>    <!-- Core rotor rpm starter acceleration (default 3.0) -->
+  <maxn1>         102.4 </maxn1>
+  <maxn2>         100.0 </maxn2>
   <augmented>         1 </augmented>
   <augmethod>         0 </augmethod>
   <injected>          0 </injected>

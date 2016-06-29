@@ -59,7 +59,8 @@ MiscMonitor.new = func()
 
 MiscMonitor.properties = func() {
   return [
-    { property : "rpm",          name : "RPM",                   format : "%5.1f", unit : "r/min",  halign : "right" },
+    { property : "rpm1",         name : "Fan  RPM",              format : "%5.1f", unit : "r/min",  halign : "right" },
+    { property : "rpm2",         name : "Core RPM",              format : "%5.1f", unit : "r/min",  halign : "right" },
     { property : "temp",         name : "Cockpit temperature",   format : "%2.1f", unit : "dec C",  halign : "right" },
     { property : "outlet",       name : "Exhaust gas temp.",     format : "%3.1f", unit : "deg C",  halign : "right" },
     { property : "fuelT",        name : "Fuel temperature",      format : "%3.1f", unit : "deg C",  halign : "right" },
@@ -81,11 +82,8 @@ MiscMonitor.properties = func() {
 
 MiscMonitor.update = func()
 {
-  if(getprop("sim/description") == "Saab JA-37 Viggen") {
-    setprop("/sim/gui/dialogs/systems-monitor/rpm", getprop("fdm/jsbsim/propulsion/engine/ja37-rpm_r-min"));
-  } else {
-    setprop("/sim/gui/dialogs/systems-monitor/rpm", getprop("fdm/jsbsim/propulsion/engine/aj37-rpm_r-min"));
-  }
+  setprop("/sim/gui/dialogs/systems-monitor/rpm1", getprop("fdm/jsbsim/propulsion/engine/n1-rpm_r-min"));
+  setprop("/sim/gui/dialogs/systems-monitor/rpm2", getprop("fdm/jsbsim/propulsion/engine/n2-rpm_r-min"));
   setprop("/sim/gui/dialogs/systems-monitor/temp", getprop("environment/aircraft-effects/temperature-inside-degC"));
   setprop("/sim/gui/dialogs/systems-monitor/outlet", (getprop("engines/engine/egt-degf") -32 )/1.8 );#getprop("fdm/jsbsim/propulsion/engine/outlet-temperature-degc"));
   setprop("/sim/gui/dialogs/systems-monitor/psi1", getprop("fdm/jsbsim/systems/hydraulics/system1/main/psi"));

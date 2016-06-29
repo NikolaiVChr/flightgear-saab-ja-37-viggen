@@ -912,4 +912,10 @@
             </armament>
     </payload>
 
+    <ja37>
+        <systems>
+            <variant type="int">1</variant>
+        </systems>        
+    </ja37>
+
 </PropertyList>
