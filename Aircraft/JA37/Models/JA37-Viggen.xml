@@ -2620,6 +2620,15 @@
    <y>0</y>
    <z>0</z>
   </axis>
+  <!-- this fan wobbles while spinning, consider to use this kind axis, if can find the coords:
+  <axis>   
+   <x1-m>  ? </x1-m>
+   <y1-m>  ? </y1-m>
+   <z1-m>  ? </z1-m>
+   <x2-m>  ? </x2-m>
+   <y2-m>  ? </y2-m>
+   <z2-m>  ? </z2-m>
+  </axis>-->
  </animation>
  
  <!-- Air Outlet -->	
