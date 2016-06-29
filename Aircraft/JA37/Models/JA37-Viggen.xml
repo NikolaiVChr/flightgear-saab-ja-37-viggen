@@ -2995,7 +2995,7 @@
   <name>ExternalFlame</name>
   <path>Aircraft/JA37/Models/Effects/engine/ExternalFlame.xml</path>
   <offsets>
-   <x-m>5.90</x-m>
+   <x-m>5.50</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>

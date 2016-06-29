@@ -50,7 +50,7 @@
     <x-min>0.2</x-min>
     <y-min>1.325</y-min>
     <z-min>1.325</z-min>
-    <x-factor>1.0</x-factor>
+    <x-factor>1.2</x-factor>
     <y-factor>1.0</y-factor>
     <z-factor>1.0</z-factor>
   </animation>
