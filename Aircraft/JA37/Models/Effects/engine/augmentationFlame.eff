@@ -10,7 +10,7 @@
     <thrust_density type="float"><use>sim/multiplay/generic/float[9]</use></thrust_density>
     <base_flame_density type="float">0.15</base_flame_density>
     <shock_frequency type="float">0.5</shock_frequency>
-    <noise_strength type="float">0.3</noise_strength>
+    <noise_strength type="float">0.5</noise_strength>
     <noise_scale type="float">0.2</noise_scale>
     <flame_color_low_r type="float">0.863</flame_color_low_r>
     <flame_color_low_g type="float">0.347</flame_color_low_g>

@@ -2645,8 +2645,8 @@
   </condition>
   <object-name>engineOutlet</object-name>
   <emission>
-   <red>0.01</red>
-   <green>0.01</green>
+   <red>0.0080</red>
+   <green>0.0075</green>
    <blue>0.01</blue>
    <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </emission>
@@ -2662,8 +2662,8 @@
   </condition>
   <object-name>engineOutlet</object-name>
   <emission>
-   <red>0.01</red>
-   <green>0.01</green>
+   <red>0.0080</red>
+   <green>0.0075</green>
    <blue>0.01</blue>
    <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </emission>
@@ -2674,8 +2674,8 @@
    <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </ambient>
   <diffuse>
-   <red>0.01</red>
-   <green>0.01</green>
+   <red>0.0080</red>
+   <green>0.0075</green>
    <blue>0.01</blue>
    <factor-prop>sim/multiplay/generic/float[5]</factor-prop><!-- engines/engine/flame -->
   </diffuse>
@@ -3005,7 +3005,7 @@
   <name>ExternalFlameALS</name>
   <path>Aircraft/JA37/Models/Effects/engine/augmentationFlame.xml</path>
   <offsets>
-   <x-m>6.0555</x-m>
+   <x-m>5.75</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
