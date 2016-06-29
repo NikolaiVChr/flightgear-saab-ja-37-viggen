@@ -2594,7 +2594,8 @@
   </offsets>
  </model>
 
-<model>
+<!-- old internal flame -->
+<!--<model>
   <name>InternalFlame</name>
   <path>Aircraft/JA37/Models/Effects/engine/InternalFlame.xml</path>
   <offsets>
@@ -2602,8 +2603,358 @@
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
- </model>
+ </model>-->
  
+<!--******************************************* my edits *******************************************-->
+
+<!-- Air Intake -->	
+ <animation>
+  <object-name>engineAirIntake</object-name>
+  <type>spin</type>
+  <condition>
+   <equals>
+ 	<property>/sim/aircraft</property>
+ 	<value>JA37-Viggen</value>
+   </equals>
+  </condition>
+  <property>fdm/jsbsim/propulsion/engine/n1-rpm_r-s</property>
+  <factor>0.33</factor>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+ 
+ <!-- Air Outlet -->	
+ <animation>
+  <object-name>engineOutlet</object-name>
+  <type>spin</type>
+  <condition>
+   <equals>
+ 	<property>/sim/aircraft</property>
+ 	<value>JA37-Viggen</value>
+   </equals>
+  </condition>
+  <property>fdm/jsbsim/propulsion/engine/n1-rpm_r-s</property>
+  <factor>0.33</factor>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+ 
+ 
+ <!-- Outlet Nozzles -->	 
+ <animation>
+  <object-name>engineNozzle1</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71386</x-m>
+   <y-m>0.10359</y-m>
+   <z-m>-0.52878</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.875</y>
+   <z>0.125</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle2</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71392</x-m>
+   <y-m>0.29147</y-m>
+   <z-m>-0.44422</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.625</y>
+   <z>0.375</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle3</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71386</x-m>
+   <y-m>0.43622</y-m>
+   <z-m>-0.29947</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.375</y>
+   <z>0.625</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle4</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71386</x-m>
+   <y-m>0.51457</y-m>
+   <z-m>-0.11035</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.125</y>
+   <z>0.875</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle5</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71386</x-m>
+   <y-m>0.51457</y-m>
+   <z-m>0.09436</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.125</y>
+   <z>0.875</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle6</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71392</x-m>
+   <y-m>0.43623</y-m>
+   <z-m>0.28348</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.375</y>
+   <z>0.625</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle7</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.7139</x-m>
+   <y-m>0.29145</y-m>
+   <z-m>0.42818</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.625</y>
+   <z>0.375</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle8</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71384</x-m>
+   <y-m>0.10238</y-m>
+   <z-m>0.50656</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.875</y>
+   <z>0.125</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle9</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71384</x-m>
+   <y-m>-0.10233</y-m>
+   <z-m>0.50656</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.875</y>
+   <z>-0.125</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle10</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71388</x-m>
+   <y-m>-0.29144</y-m>
+   <z-m>0.4282</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.625</y>
+   <z>-0.375</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle11</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71384</x-m>
+   <y-m>-0.43621</y-m>
+   <z-m>0.28348</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.375</y>
+   <z>-0.625</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle12</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71383</x-m>
+   <y-m>-0.51454</y-m>
+   <z-m>0.09436</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>-0.125</y>
+   <z>-0.875</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle13</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71383</x-m>
+   <y-m>-0.51454</y-m>
+   <z-m>-0.11034</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.125</y>
+   <z>-0.875</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle14</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71382</x-m>
+   <y-m>-0.43621</y-m>
+   <z-m>-0.29946</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.375</y>
+   <z>-0.625</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle15</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71386</x-m>
+   <y-m>-0.29147</y-m>
+   <z-m>-0.44422</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.625</y>
+   <z>-0.375</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+  <object-name>engineNozzle16</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71385</x-m>
+   <y-m>-0.10234</y-m>
+   <z-m>-0.52256</z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y>0.875</y>
+   <z>-0.125</z>
+  </axis>
+ </animation>
+ 
+ <!--
+ <animation>
+  <object-name>engineNozzle</object-name>
+  <type>rotate</type>
+  <property>/engines/engine/nozzle-pos-norm</property>
+  <factor>35.0</factor>
+  <offset-deg>-35.0</offset-deg>
+  <center>
+   <x-m>5.71</x-m>
+   <y-m></y-m>
+   <z-m></z-m>
+  </center>
+  <axis>
+   <x>0</x>
+   <y></y>
+   <z></z>
+  </axis>
+ </animation>
+ -->
+ <!--******************************************* my edits *******************************************-->
  
  <model>
   <name>ExternalFlame</name>
