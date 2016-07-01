@@ -3014,7 +3014,7 @@
   <name>ExternalFlameALS</name>
   <path>Aircraft/JA37/Models/Effects/engine/augmentationFlame.xml</path>
   <offsets>
-   <x-m>5.75</x-m>
+   <x-m>5.80</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
