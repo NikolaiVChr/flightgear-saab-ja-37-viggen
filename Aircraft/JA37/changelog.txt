@@ -2373,3 +2373,7 @@ Sim: Updated how RPM for core and fan are calculated.
 Model: {Pinto} Modeled the inlet fan and duct.
 Model: {Pinto} Reworked the engine outlet.
 Model: {Pinto} Made the nozzle.
+Aero: Introduced normal factor due to mach.
+Aero: Removed the artificial factor of mach tuch.
+Control: Adjusted pitch gearing.
+Effect: Reworked the M90 hit effect.

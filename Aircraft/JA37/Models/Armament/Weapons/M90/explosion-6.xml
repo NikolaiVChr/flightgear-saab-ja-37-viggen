@@ -14,17 +14,21 @@
    <attach>world</attach>
 
    <placer>
-     <type>point</type> 
+     <type>sector</type>                                                    
+    <radius-min-m>0</radius-min-m>
+    <radius-max-m>250</radius-max-m>
+    <!--<phi-min-deg>float</phi-min-deg>
+    <phi-max-deg>float</phi-max-deg>-->
    </placer>
 
    <shooter>
-     <theta-min-deg>-180</theta-min-deg>
-     <theta-max-deg>180</theta-max-deg>
-     <phi-min-deg>-15</phi-min-deg>
-     <phi-max-deg>15</phi-max-deg>
+     <theta-min-deg>-10</theta-min-deg>
+     <theta-max-deg>10</theta-max-deg>
+     <phi-min-deg>-180</phi-min-deg>
+     <phi-max-deg>180</phi-max-deg>
      <speed-mps>
-       <value>500</value>
-       <spread>80</spread>
+       <value>0</value>
+       <spread>0</spread>
      </speed-mps>
      <rotation-speed>
        <x-min-deg-sec>0</x-min-deg-sec>
@@ -38,7 +42,7 @@
 
    <counter>
      <particles-per-sec>
-       <value>30</value>
+       <value>200</value>
        <spread>10</spread>
      </particles-per-sec>
    </counter>
@@ -66,12 +70,12 @@
          <alpha><value> 0.1 </value></alpha>
        </color>
        <size>
-         <value>1000</value>
+         <value>10</value>
        </size>
      </end>
 
      <life-sec>
-       <value>0.5</value>
+       <value>2</value>
      </life-sec>
         
      <mass-kg>  5 </mass-kg>
@@ -100,7 +104,11 @@
    <attach>world</attach>
 
    <placer>
-     <type>point</type> 
+     <type>sector</type>                                                    
+    <radius-min-m>0</radius-min-m>
+    <radius-max-m>250</radius-max-m>
+    <!--<phi-min-deg>float</phi-min-deg>
+    <phi-max-deg>float</phi-max-deg>-->
    </placer>
 
    <shooter>
@@ -109,8 +117,8 @@
      <phi-min-deg>-180</phi-min-deg>
      <phi-max-deg>180</phi-max-deg>
      <speed-mps>
-       <value>500</value>
-       <spread>60</spread>
+       <value>0</value>
+       <spread>0</spread>
      </speed-mps>
      <rotation-speed>
        <x-min-deg-sec>0</x-min-deg-sec>
@@ -124,7 +132,7 @@
 
    <counter>
      <particles-per-sec>
-       <value>50</value>
+       <value>200</value>
        <spread>10</spread>
      </particles-per-sec>
    </counter>
@@ -140,7 +148,7 @@
          <alpha><value> 0.5 </value></alpha>
        </color>
        <size>
-         <value>20</value>
+         <value>10</value>
        </size>
      </start>
 
@@ -152,12 +160,12 @@
          <alpha><value> 0.04 </value></alpha>
        </color>
        <size>
-         <value>1200</value>
+         <value>15</value>
        </size>
      </end>
 
      <life-sec>
-       <value>40</value>
+       <value>10</value>
      </life-sec>
         
      <mass-kg>  5 </mass-kg>
