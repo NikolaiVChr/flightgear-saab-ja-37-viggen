@@ -934,7 +934,7 @@ var spamLoop = func {
   if (spam != nil) {
     setprop("/sim/multiplay/chat", spam);
   }
-  settimer(spamLoop, 0.75);
+  settimer(spamLoop, 1.20);
 }
 
 spamLoop();
