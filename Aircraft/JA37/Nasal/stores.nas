@@ -922,7 +922,11 @@ var defeatSpamFilter = func (str) {
   for (var i = 1; i <= spams; i+=1) {
     str = str~".";
   }
-  append(spamList, str);
+  var newList = [str];
+  for (var i = 0; i < size(spamList); i += 1) {
+    append(newList, spamList[i]);
+  }
+  spamList = newList;  
 }
 
 var spamLoop = func {
