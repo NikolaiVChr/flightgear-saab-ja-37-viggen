@@ -65,6 +65,8 @@ Sim: Be able to notch the rb71 again.
 Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
 Sim: Make speed and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
+Sim: Make retarded version of M71.
+Sim: Be able to switch if M55 should fire all at once, or one at a time.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.

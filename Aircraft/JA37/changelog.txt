@@ -2378,3 +2378,4 @@ Aero: Removed the artificial factor of mach tuch.
 Control: Adjusted pitch gearing.
 Effect: Reworked the M90 hit effect.
 Sim: Hit and fire msg. are now delayed if they are close coupled in time.
+Effect: Made wingtip vapour be seen over MP again.

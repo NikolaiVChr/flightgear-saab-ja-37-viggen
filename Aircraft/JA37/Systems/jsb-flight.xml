@@ -169,9 +169,39 @@
         
     </channel>
 
+    <channel execrate="4" name="effects">
 
+        <fcs_function name="effects/wingtip-vapour">
+            <function>
+                <and>
+                   <gt>
+                     <property>/velocities/airspeed-kt</property>
+                     <value>120</value>
+                   </gt>
+                   <gt>
+                     <property>/environment/relative-humidity</property>
+                     <value>50</value>
+                   </gt>
+                   <or>
+                     <lt>
+                       <property>/position/altitude-ft</property>
+                       <value>800</value>
+                     </lt>
+                      <gt>
+                        <property>aero/alpha-deg</property>
+                        <value>15.0</value>
+                      </gt>
+                   </or>
+                   <lt>
+                     <property>/environment/temperature-degc</property>
+                     <value>20</value>
+                   </lt>
+                   <property>structural/wings/serviceable</property>
+                 </and>
+            </function>
+        </fcs_function>
 
-
+    </channel>
 
     <channel execrate="4" name="instruments">
 
