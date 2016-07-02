@@ -1558,7 +1558,7 @@ var AIM = {
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(me.coord.alt()*M2FT);
-
+		me.pitchN.setDoubleValue(0);
 		me.msl_prop.setBoolValue(0);
 		me.smoke_prop.setBoolValue(0);
 		me.explode_prop.setBoolValue(1);
