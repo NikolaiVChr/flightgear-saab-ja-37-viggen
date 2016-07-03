@@ -112,6 +112,8 @@ var apStopAT = func {
   setprop("/autopilot/locks/speed", "");
 }
 
+var lock = "";
+
 var apLoop = func {
 
   if(getprop("gear/gear[2]/wow") == 1) {
@@ -130,6 +132,34 @@ var apLoop = func {
       setprop("/autopilot/settings/target-aoa", 15.5);
     } else {
       setprop("/autopilot/settings/target-aoa", 10.5);#should really be 9-12 depending on weight
+    }
+  }
+
+  var trimCmd = getprop("controls/flight/trim-yaw");
+  if (trimCmd == nil) {
+    trimCmd = 0;
+  }
+  if (getprop("/autopilot/locks/heading") != "" and getprop("/autopilot/locks/heading") != nil and trimCmd != 0) {
+    # Pilot is using yaw trim to adjust attitude A/P
+    lock = getprop("/autopilot/locks/heading");
+    # stop A/P from controlling roll:
+    setprop("ja37/avionics/temp-halt-ap-roll", 0);
+    # increase roll
+    setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg") + trimCmd * 1);
+  } elsif (lock != "") {
+    # keep new heading/roll
+    lock = "";
+    if (getprop("/autopilot/locks/heading") == "dg-heading-hold") {
+      setprop("autopilot/settings/heading-bug-deg", getprop("orientation/heading-magnetic-deg"));
+    } elsif (getprop("/autopilot/locks/heading") == "true-heading-hold") {
+      setprop("autopilot/settings/true-heading-deg", getprop("orientation/heading-deg"));
+    } elsif (getprop("/autopilot/locks/heading") == "nav1-hold") {
+      # nop
+    }
+    setprop("ja37/avionics/temp-halt-ap-roll", 1);
+  } else {
+    if(trimCmd != 0) {
+      setprop("/controls/flight/rudder-trim", getprop("/controls/flight/rudder-trim") + trimCmd * 0.01);
     }
   }
 

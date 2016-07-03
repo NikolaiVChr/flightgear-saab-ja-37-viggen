@@ -41,14 +41,14 @@
                     <value>0</value>
                 </binding>
             </mod-up>
-            <binding>
+            <!--<binding>
                 <command>property-adjust</command>
                 <property>/controls/flight/rudder-trim</property>
                 <step>-0.05</step>
                 <min>0</min>
                 <max>1</max>
                 <wrap>false</wrap>
-            </binding>
+            </binding>-->
             <binding>
                 <command>nasal</command>
                 <script>ja37.click();</script>
@@ -74,14 +74,14 @@
                     <value>0</value>
                 </binding>
             </mod-up>
-            <binding>
+            <!--<binding>
                 <command>property-adjust</command>
                 <property>/controls/flight/rudder-trim</property>
                 <step>0.05</step>
                 <min>0</min>
                 <max>1</max>
                 <wrap>false</wrap>
-            </binding>
+            </binding>-->
             <binding>
                 <command>nasal</command>
                 <script>ja37.click();</script>

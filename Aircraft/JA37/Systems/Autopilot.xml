@@ -117,6 +117,7 @@
                     <property>/autopilot/locks/heading</property>
                     <value>wing-leveler</value>
                 </equals>
+                <property>ja37/avionics/temp-halt-ap-roll</property>
             </condition>
         </enable>
         <gain>0</gain>
@@ -510,8 +511,13 @@
         <name>Heading Bug Hold (DG based) Stage 1</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/heading</property>
-            <value>dg-heading-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/heading</property>
+                    <value>dg-heading-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-roll</property>
+            </condition>
         </enable>
         <input>
             <property>/autopilot/internal/heading-bug-error-deg</property>
@@ -567,8 +573,13 @@
         <name>True Heading Hold (DG based) Stage 1</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/heading</property>
-            <value>true-heading-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/heading</property>
+                    <value>true-heading-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-roll</property>
+            </condition>
         </enable>
         <input>
             <property>/autopilot/internal/true-heading-error-deg</property>
@@ -622,8 +633,13 @@
         <name>Nav1 Hold Stage 1</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/heading</property>
-            <value>nav1-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/heading</property>
+                    <value>nav1-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-roll</property>
+            </condition>
         </enable>
         <input>
             <property>/autopilot/internal/nav1-heading-error-deg</property>
