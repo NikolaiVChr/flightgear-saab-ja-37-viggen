@@ -29,6 +29,7 @@ Model: Fix z-fighting on M71-rail and M90.
 Model: Make the AJ37 black tube next to HUD, used for vision guided munitions. It should have transparent glass cover.
 Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
+Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
@@ -61,7 +62,6 @@ Sim: Include Shinobis missile changes into missile code. (heat)
 Sim: Stop auto-selecting when in tactical mode.
 Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Be able to notch the rb71 again.
-Sim: A/P control in cockpit: A/T on throttle. Trims change heading/altitude. Chapter 12-4 in AJS37 manual part 1.
 Sim: Make speed and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: Make retarded version of M71.
@@ -69,7 +69,6 @@ Sim: Be able to switch if M55 should fire all at once, or one at a time.
 Sim: CSS A/P ATT/ALT mode: Stick can be used to fly to new A/P setting.
 Sim: A/P does auto trim of roll and pitch.
 Sim: Auto pitch trim at speeds over M0.93.
-Sim: Implement nav1 glideslope (gs1-hold) for altitude lock.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.

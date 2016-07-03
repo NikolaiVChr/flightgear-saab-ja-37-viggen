@@ -2391,3 +2391,4 @@ Sim: A/T disengage at right gear compression.
 Sim: Made a15.5 button on frontpanel, that will set A/T to mode 3 when enabled.
 Sim: Bank roll has a roll limit depending on speed. If you slow down with that on, it will decrease target roll.
 Sim: Yaw trim will make the A/P bank to one side until its let go (at constant roll rate), after which it will fly in the new heading/roll. Normal A/P roll limit apply.
+Sim: Implemented nav1 glideslope (gs1-hold) for altitude lock.
