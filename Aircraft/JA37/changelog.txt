@@ -2380,3 +2380,13 @@ Effect: Reworked the M90 hit effect.
 Sim: Hit and fire msg. are now delayed if they are close coupled in time.
 Effect: Made wingtip vapour be seen over MP again.
 Effect: Made gunpod and bottom airinlet be shaded by ubershader.
+Sim: Pressing the ATT button, will engage bank-hold, if roll angle is between 7-66 degs (or gears down), else heading-hold. Only at pitch lower than 60 degs.
+Sim: Pressing the ALT button, will engage altitude-hold.
+Sim: Pressing the A/T button, will engage speed A/P.
+Sim: Pressing the STICK button, will disengage A/P.
+Sim: A/T mode 1: Minimum 550 Km/h. (297kt)
+Sim: A/T mode 2: Gear has been out for more than 5 secs. Keeps AoA 10.5 deg.
+Sim: A/T mode 3: Gear has been out for more than 5 secs, and 15.5 button pressed. Keeps AoA 15.5.
+Sim: A/T disengage at right gear compression.
+Sim: Made a15.5 button on frontpanel, that will set A/T to mode 3 when enabled.
+Sim: Bank roll has a roll limit depending on speed. If you slow down with that on, it will decrease target roll.

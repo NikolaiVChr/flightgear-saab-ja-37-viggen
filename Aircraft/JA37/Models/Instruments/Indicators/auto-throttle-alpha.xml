@@ -6,14 +6,16 @@
     <animation>
         <type>material</type>
         <object-name>display</object-name>
+        <condition>
+            <property>ja37/avionics/high-alpha</property>
+        </condition>
         <emission>
             <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
-            <factor-prop>/instrumentation/at-indicator</factor-prop>
+            <factor-prop>/systems/electrical/dc-light</factor-prop>
         </emission>
     </animation>
-
 
     <animation>
         <type>pick</type>
@@ -22,23 +24,27 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>AFK</tooltip-id>
-                <label>Automatic throttle</label>
+                <tooltip-id>AFK-alpha</tooltip-id>
+                <label>Automatic throttle high alpha</label>
             </binding>
         </hovered>
         <action>
-            <name>A/T engage</name>
+            <name>A/T alpha</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>nasal</command>
-                <script>
-                    ja37.apContSpeed();
-                    ja37.click();
-                </script>
+                <command>property-toggle</command>
+                <property>ja37/avionics/high-alpha</property>
             </binding>
         </action>
     </animation>
 
+    <animation>
+        <type>material</type>
+        <object-name>display</object-name>
+        <property-base>ja37/texture</property-base>
+        <texture-prop>switch-ap-alpha</texture-prop>
+        <texture>alpha.png</texture>
+    </animation>
 
 </PropertyList>

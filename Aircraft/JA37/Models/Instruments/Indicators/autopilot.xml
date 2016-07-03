@@ -41,6 +41,18 @@
                 <property>/instrumentation/attitude-indicator</property>
             </binding>
         </hovered>
+        <action>
+            <name>auto att</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    ja37.apContAtt();
+                    ja37.click();
+                </script>
+            </binding>
+        </action>
     </animation>
 
     <animation>
@@ -76,6 +88,18 @@
                 <property>/instrumentation/altitude-indicator</property>
             </binding>
         </hovered>
+        <action>
+            <name>auto alt</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    ja37.apContAlt();
+                    ja37.click();
+                </script>
+            </binding>
+        </action>
     </animation>
 
     <animation>
@@ -111,6 +135,18 @@
                 <property>/instrumentation/joystick-indicator</property>
             </binding>
         </hovered>
+        <action>
+            <name>A/P disengage</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    ja37.stopAP();
+                    ja37.click();
+                </script>
+            </binding>
+        </action>
     </animation>
 
 </PropertyList>

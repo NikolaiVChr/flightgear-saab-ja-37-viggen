@@ -24,6 +24,10 @@
                     </equals>
                     <equals>
                         <property>/autopilot/locks/heading</property>
+                        <value>dg-roll-hold</value>
+                    </equals>
+                    <equals>
+                        <property>/autopilot/locks/heading</property>
                         <value>true-heading-hold</value>
                     </equals>
                     <equals>
@@ -189,11 +193,45 @@
             <Ti>25.0</Ti>
             <!-- was 10 -->
             <Td>0.5</Td>
-            <u_min>0.0</u_min>
+            <u_min>0.15</u_min>
             <u_max>1.0</u_max>
         </config>
     </pid-controller>
 
+    <pid-controller>
+        <name>Auto throttle AoA</name>
+        <debug>false</debug>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/speed</property>
+                    <value>constant-AoA</value>
+                </equals>
+                <equals>
+                    <property>/ja37/avionics/autopilot</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </enable>
+        <input>
+            <property>/orientation/alpha-deg</property>
+        </input>
+        <reference>
+            <property>/autopilot/settings/target-aoa</property>
+        </reference>
+        <output>
+            <property>/controls/engines/engine/throttle</property>
+        </output>
+        <config>
+            <Kp>-0.10</Kp>
+            <beta>1.0</beta>
+            <alpha>0.1</alpha>
+            <Ti>1.0</Ti>
+            <Td>1.0</Td>
+            <u_min>0.15</u_min>
+            <u_max>1.0</u_max>
+        </config>
+    </pid-controller>
 
     <filter>
         <name>AP:Pitch sample and hold</name>

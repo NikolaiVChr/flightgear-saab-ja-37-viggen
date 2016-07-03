@@ -480,7 +480,7 @@
     <name>A/P</name>
     <offsets>
       <x-m>  0.005</x-m>
-      <y-m> -0.22</y-m>
+      <y-m> -0.225</y-m>
       <z-m>  0.28</z-m>
     </offsets>
   </model>
@@ -495,6 +495,16 @@
     </offsets>
   </model>
   
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/auto-throttle-alpha.xml</path>
+    <name>A/T alpha</name>
+    <offsets>
+      <x-m>  0.000</x-m>
+      <y-m> -0.185</y-m>
+      <z-m>  0.27</z-m>
+    </offsets>
+  </model>
+
   <model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/reverse.xml</path>
     <name>Reverse indicator</name>

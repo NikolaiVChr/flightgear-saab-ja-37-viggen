@@ -169,6 +169,68 @@
         
     </channel>
 
+    <channel execrate="4" name="autopilot">
+
+        <switch name="autopilot/gears-time-steady">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="autopilot/gears-time-steady">
+                gear/gear-pos-norm == 1
+            </test>
+        </switch>
+
+        <fcs_function name="autopilot/gears-time-AoA-hold">
+            <function>
+                <sum>
+                    <p>autopilot/gears-time-steady</p>
+                    <v>5</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="autopilot/AoA-hold">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                sim-time-sec gt autopilot/gears-time-AoA-hold
+            </test>
+        </switch>
+
+        <fcs_function name="autopilot/max-roll">
+            <function>
+                <table>
+                    <independentVar lookup="row">velocities/vtrue-kts</independentVar>
+                    <tableData>
+                        124 20
+                        351 60
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="autopilot/min-roll">
+            <function>
+                <table>
+                    <independentVar lookup="row">velocities/vtrue-kts</independentVar>
+                    <tableData>
+                        124 -20
+                        351 -60
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <switch name="autopilot/roll-hold">
+            <default value="/autopilot/internal/target-roll-deg"/>
+            <test logic="OR" value="autopilot/max-roll">
+                /autopilot/internal/target-roll-deg gt autopilot/max-roll
+            </test>
+            <test logic="OR" value="autopilot/min-roll">
+                /autopilot/internal/target-roll-deg lt autopilot/min-roll
+            </test>
+            <output>/autopilot/internal/target-roll-deg</output>
+        </switch>
+
+    </channel>
+
     <channel execrate="4" name="effects">
 
         <fcs_function name="effects/wingtip-vapour">
