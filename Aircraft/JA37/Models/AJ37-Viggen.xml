@@ -1428,6 +1428,7 @@
     <object-name>gearRightHinge</object-name>
     <object-name>gearRightDoorsOpen</object-name>
     <object-name>gearRightDoorsClosed</object-name>
+    <object-name>bottomAirInlet</object-name>
   </effect>
 
   <effect>

@@ -8,9 +8,10 @@
 	    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
 	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
 	    <object-name>ja37fin</object-name>
-		<object-name>ja37dropTank</object-name>
-		<object-name>ja37upperPitotTube</object-name>
-		<object-name>ja37upperVerticalStabilizer</object-name>
+		  <object-name>ja37dropTank</object-name>
+		  <object-name>ja37upperPitotTube</object-name>
+		  <object-name>ja37upperVerticalStabilizer</object-name>
+      <object-name>gunpod</object-name>
 	</effect>
 
 	<!-- ====== drop tank ====== -->
@@ -579,6 +580,7 @@
     <object-name>gearRightHinge</object-name>
     <object-name>gearRightDoorsOpen</object-name>
     <object-name>gearRightDoorsClosed</object-name>
+    <object-name>bottomAirInlet</object-name>
   </effect>
 
   <effect>
