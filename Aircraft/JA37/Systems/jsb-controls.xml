@@ -205,7 +205,7 @@
             <output>fcs/pitch-damper/rate</output>
         </pure_gain>
 
-        <fcs_function name="systems/flight/stick-css-neg">
+        <fcs_function name="fcs/elevator/stick-css-neg">
             <function>
                 <difference>
                     <property> fcs/elevator/stick-geared </property>
@@ -214,7 +214,7 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="systems/flight/stick-css-pos">
+        <fcs_function name="fcs/elevator/stick-css-pos">
             <function>
                 <difference>
                     <property> fcs/elevator/stick-geared </property>
@@ -223,12 +223,12 @@
             </function>
         </fcs_function>
 
-        <switch name="systems/flight/stick-css-deadzone">
+        <switch name="fcs/elevator/stick-css-deadzone">
             <default value="0"/>
-            <test logic="AND" value="systems/flight/stick-css-pos">
+            <test logic="AND" value="fcs/elevator/stick-css-pos">
                 fcs/elevator/stick-geared gt  0.15
             </test>
-            <test logic="AND" value="systems/flight/stick-css-neg">
+            <test logic="AND" value="fcs/elevator/stick-css-neg">
                 fcs/elevator/stick-geared lt  -0.15
             </test>
             <output>/controls/flight/elevator-cmd-ap</output>
@@ -236,7 +236,7 @@
 
         <switch name="fcs/elevator/stick-css">
             <default value="0"/>
-            <test logic="OR" value="systems/flight/stick-css-deadzone">
+            <test logic="OR" value="fcs/elevator/stick-css-deadzone">
                 /ja37/avionics/temp-halt-ap-pitch == 0
             </test>
         </switch>
@@ -612,7 +612,7 @@
             <output>fcs/roll-damper/rate</output>
         </pure_gain>
 
-        <fcs_function name="systems/aileron/stick-css-neg">
+        <fcs_function name="fcs/aileron/stick-css-neg">
             <function>
                 <difference>
                     <property> fcs/aileron/stick-geared </property>
@@ -621,7 +621,7 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="systems/aileron/stick-css-pos">
+        <fcs_function name="fcs/aileron/stick-css-pos">
             <function>
                 <difference>
                     <property> fcs/aileron/stick-geared </property>
@@ -630,12 +630,12 @@
             </function>
         </fcs_function>
 
-        <switch name="systems/aileron/stick-css-deadzone">
+        <switch name="fcs/aileron/stick-css-deadzone">
             <default value="0"/>
-            <test logic="AND" value="systems/aileron/stick-css-pos">
+            <test logic="AND" value="fcs/aileron/stick-css-pos">
                 fcs/aileron/stick-geared gt  0.15
             </test>
-            <test logic="AND" value="systems/aileron/stick-css-neg">
+            <test logic="AND" value="fcs/aileron/stick-css-neg">
                 fcs/aileron/stick-geared lt  -0.15
             </test>
             <output>/controls/flight/aileron-cmd-ap</output>
@@ -643,7 +643,7 @@
 
         <switch name="fcs/aileron/stick-css">
             <default value="0"/>
-            <test logic="OR" value="systems/aileron/stick-css-deadzone">
+            <test logic="OR" value="fcs/aileron/stick-css-deadzone">
                 /ja37/avionics/temp-halt-ap-roll2 == 0
             </test>
         </switch>
