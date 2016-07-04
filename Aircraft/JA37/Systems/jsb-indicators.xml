@@ -1462,6 +1462,14 @@
                                     </eq>
                                 </and>
                             </or>
+                            <eq>
+                                <p>/ja37/avionics/temp-halt-ap-pitch</p>
+                                <v>1</v>
+                            </eq>
+                            <eq>
+                                <p>/ja37/avionics/temp-halt-ap-roll2</p>
+                                <v>1</v>
+                            </eq>
                         </and>
                     </not>
                     <eq>
