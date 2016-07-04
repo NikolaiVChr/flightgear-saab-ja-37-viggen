@@ -7,7 +7,10 @@
         <type>material</type>
         <object-name>display</object-name>
         <condition>
-            <property>ja37/avionics/high-alpha</property>
+            <or>
+                <property>ja37/avionics/high-alpha</property>
+                <property>controls/lighting/test-indicator-panels</property>
+            </or>
         </condition>
         <emission>
             <red>1.0</red>
