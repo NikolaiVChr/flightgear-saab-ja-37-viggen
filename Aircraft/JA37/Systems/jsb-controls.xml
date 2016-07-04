@@ -209,7 +209,7 @@
             <function>
                 <difference>
                     <property> fcs/elevator/stick-geared </property>
-                    <value> -0.25 </value>
+                    <value> -0.15 </value>
                 </difference>
             </function>
         </fcs_function>
@@ -218,7 +218,7 @@
             <function>
                 <difference>
                     <property> fcs/elevator/stick-geared </property>
-                    <value> 0.25 </value>
+                    <value> 0.15 </value>
                 </difference>
             </function>
         </fcs_function>
@@ -226,10 +226,10 @@
         <switch name="systems/flight/stick-css-deadzone">
             <default value="0"/>
             <test logic="AND" value="systems/flight/stick-css-pos">
-                fcs/elevator/stick-geared gt  0.25
+                fcs/elevator/stick-geared gt  0.15
             </test>
             <test logic="AND" value="systems/flight/stick-css-neg">
-                fcs/elevator/stick-geared lt  -0.25
+                fcs/elevator/stick-geared lt  -0.15
             </test>
             <output>/controls/flight/elevator-cmd-ap</output>
         </switch>

@@ -132,7 +132,10 @@ var apLoop = func {
     } elsif (getprop("ja37/avionics/high-alpha") == 1) {
       setprop("/autopilot/settings/target-aoa", 15.5);
     } else {
-      setprop("/autopilot/settings/target-aoa", 10.5);#should really be 9-12 depending on weight
+      var weight = getprop("fdm/jsbsim/inertia/weight-lbs");
+      var aoa = 9 + ((weight - 28000) / (38000 - 28000)) * (12 - 9);
+      aoa = clamp(aoa, 9, 12);
+      setprop("/autopilot/settings/target-aoa", aoa);#is 9-12 depending on weight
     }
   }
 
