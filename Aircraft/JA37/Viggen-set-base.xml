@@ -534,6 +534,7 @@
             <fun type="bool">false</fun>
             <high-alpha type="bool">false</high-alpha>
             <temp-halt-ap-roll type="bool">true</temp-halt-ap-roll>
+            <temp-halt-ap-roll2 type="bool">true</temp-halt-ap-roll2>
             <temp-halt-ap-pitch type="bool">true</temp-halt-ap-pitch>
         </avionics>
         <systems>

@@ -612,8 +612,59 @@
             <output>fcs/roll-damper/rate</output>
         </pure_gain>
 
-        <summer name="names/aileron/cmd-sum">
+        <fcs_function name="systems/aileron/stick-css-neg">
+            <function>
+                <difference>
+                    <property> fcs/aileron/stick-geared </property>
+                    <value> -0.15 </value>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/aileron/stick-css-pos">
+            <function>
+                <difference>
+                    <property> fcs/aileron/stick-geared </property>
+                    <value> 0.15 </value>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/aileron/stick-css-deadzone">
+            <default value="0"/>
+            <test logic="AND" value="systems/aileron/stick-css-pos">
+                fcs/aileron/stick-geared gt  0.15
+            </test>
+            <test logic="AND" value="systems/aileron/stick-css-neg">
+                fcs/aileron/stick-geared lt  -0.15
+            </test>
+            <output>/controls/flight/aileron-cmd-ap</output>
+        </switch>
+
+        <switch name="fcs/aileron/stick-css">
+            <default value="0"/>
+            <test logic="OR" value="systems/aileron/stick-css-deadzone">
+                /ja37/avionics/temp-halt-ap-roll2 == 0
+            </test>
+        </switch>
+
+        <switch name="fcs/aileron/stick-css-ap">
+            <default value="0"/>
+            <test logic="OR" value="/controls/flight/aileron-ap">
+                /ja37/avionics/temp-halt-ap-roll2 == 1
+            </test>
+            <output>/controls/flight/aileron-ap</output>
+        </switch>
+
+        <pure_gain name="fcs/aileron/stick-geared-switched">
             <input>fcs/aileron/stick-geared</input>
+            <gain>/ja37/avionics/temp-halt-ap-roll2</gain>
+        </pure_gain>
+
+        <summer name="names/aileron/cmd-sum">
+            <input>fcs/aileron/stick-geared-switched</input>
+            <input>fcs/aileron/stick-css</input>
+            <input>/controls/flight/aileron-ap</input>
             <input>fcs/roll-trim-cmd-norm</input>
             <input>fcs/roll-limiter/rate</input>
             <input>fcs/roll-damper/rate</input>

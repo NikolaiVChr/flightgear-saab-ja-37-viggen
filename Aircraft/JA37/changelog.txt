@@ -2395,3 +2395,4 @@ Sim: Implemented nav1 glideslope (gs1-hold) for altitude lock.
 Sim: Added key CTRL-Left and CTRL-Right for yaw trim.
 Sim: CSS A/P ALT mode: Stick can be used to fly to new A/P setting.
 Sim: A/T mode 2 now decided AoA depending on weight.
+Sim: CSS A/P ATT mode: Stick can be used to fly to new A/P setting.

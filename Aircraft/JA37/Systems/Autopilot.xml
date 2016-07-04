@@ -2,9 +2,9 @@
 <PropertyList>
     <params>
         <controls>
-            <aileron>controls/flight/aileron</aileron>
+            <aileron>controls/flight/aileron-ap</aileron>
             <rudder>controls/flight/rudder</rudder>
-            <elevator>controls/flight/elevator</elevator>
+            <elevator>controls/flight/elevator-ap</elevator>
         </controls>
     </params>
 
@@ -48,7 +48,7 @@
             <property>/autopilot/internal/target-roll-deg</property>
         </reference>
         <output>
-            <property>/controls/flight/aileron</property>
+            <property>/controls/flight/aileron-ap</property>
         </output>
         <config>
             <!--<Kp>0.0040</Kp>
@@ -118,6 +118,7 @@
                     <value>wing-leveler</value>
                 </equals>
                 <property>ja37/avionics/temp-halt-ap-roll</property>
+                <property>ja37/avionics/temp-halt-ap-roll2</property>
             </condition>
         </enable>
         <gain>0</gain>
@@ -583,6 +584,7 @@
                     <value>dg-heading-hold</value>
                 </equals>
                 <property>ja37/avionics/temp-halt-ap-roll</property>
+                <property>ja37/avionics/temp-halt-ap-roll2</property>
             </condition>
         </enable>
         <input>
@@ -645,6 +647,7 @@
                     <value>true-heading-hold</value>
                 </equals>
                 <property>ja37/avionics/temp-halt-ap-roll</property>
+                <property>ja37/avionics/temp-halt-ap-roll2</property>
             </condition>
         </enable>
         <input>
@@ -705,6 +708,7 @@
                     <value>nav1-hold</value>
                 </equals>
                 <property>ja37/avionics/temp-halt-ap-roll</property>
+                <property>ja37/avionics/temp-halt-ap-roll2</property>
             </condition>
         </enable>
         <input>

@@ -114,6 +114,7 @@ var apStopAT = func {
 
 var lock = "";
 var lockP = "";
+var usedStick = 0;
 
 var apLoop = func {
 
@@ -140,6 +141,7 @@ var apLoop = func {
   }
 
   var trimCmd = getprop("controls/flight/trim-yaw");
+  var rollCmd = getprop("controls/flight/aileron-cmd-ap");
   if (trimCmd == nil) {
     trimCmd = 0;
   }
@@ -150,6 +152,12 @@ var apLoop = func {
     setprop("ja37/avionics/temp-halt-ap-roll", 0);
     # increase roll
     setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg") + trimCmd * 1);
+  } elsif (getprop("/autopilot/locks/heading") != "" and getprop("/autopilot/locks/heading") != nil and rollCmd != 0) {
+    # Pilot is using stick lateral motion to adjust attitude A/P
+    lock = getprop("/autopilot/locks/heading");
+    # stop A/P from controlling pitch:
+    setprop("ja37/avionics/temp-halt-ap-roll2", 0);
+    usedStick = 1;
   } elsif (lock != "") {
     # keep new heading/roll
     lock = "";
@@ -161,6 +169,11 @@ var apLoop = func {
       # nop
     }
     setprop("ja37/avionics/temp-halt-ap-roll", 1);
+    setprop("ja37/avionics/temp-halt-ap-roll2", 1);
+    if (usedStick == 1) {
+      setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg"));
+      usedStick = 0;
+    }
   } else {
     if(trimCmd != 0) {
       setprop("/controls/flight/rudder-trim", getprop("/controls/flight/rudder-trim") + trimCmd * 0.01);
@@ -173,8 +186,6 @@ var apLoop = func {
     lockP = getprop("/autopilot/locks/altitude");
     # stop A/P from controlling pitch:
     setprop("ja37/avionics/temp-halt-ap-pitch", 0);
-    # pitch the plane
-    #setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg") + trimCmd * 1);
   } elsif (lockP != "") {
     # keep new altitude/pitch/AoA/vertical-speed
     lockP = "";
