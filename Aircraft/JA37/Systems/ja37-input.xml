@@ -1213,6 +1213,18 @@
                 </binding>
             </mod-ctrl>
         </key>
+
+        <key n="262">
+          <name>F6</name>
+          <desc>noop</desc>
+          <repeatable type="bool">false</repeatable>
+          <binding>
+           <command>nasal</command>
+           <script>
+            ja37.noop();
+           </script>
+          </binding>
+         </key>
 		
     </keyboard>
 </PropertyList>
