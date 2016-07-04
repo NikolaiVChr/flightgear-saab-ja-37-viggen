@@ -33,6 +33,7 @@ Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
+Animation: Make rear boogie rotate at rotation.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
@@ -66,7 +67,7 @@ Sim: Make speed and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: Make retarded version of M71.
 Sim: Be able to switch if M55 should fire all at once, or one at a time.
-Sim: CSS A/P ATT/ALT mode: Stick can be used to fly to new A/P setting.
+Sim: CSS A/P ATT mode: Stick can be used to fly to new A/P attitude setting.
 Sim: A/P does auto trim of roll and pitch.
 Sim: Auto pitch trim at speeds over M0.93.
 Radar: Make database of RCS of common aircrafts.

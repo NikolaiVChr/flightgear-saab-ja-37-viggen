@@ -1156,15 +1156,13 @@
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
-                    <command>property-assign</command>
+                    <command>property-cycle</command>
                     <property>controls/flight/trim-yaw</property>
-                    <value>-1</value>
+                    <value type="int">1</value>
+                    <value type="int">0</value>
+                    <value type="int">-1</value>
+                    <wrap>false</wrap>
                 </binding>
-                <mod-up>
-                    <command>property-assign</command>
-                    <property>controls/flight/trim-yaw</property>
-                    <value>0</value>
-                </mod-up>
             </mod-ctrl>
         </key>
 
@@ -1174,15 +1172,13 @@
             <mod-ctrl>
                 <desc>Trim yaw (or adjust AP heading.)</desc>
                 <binding>
-                    <command>property-assign</command>
+                    <command>property-cycle</command>
                     <property>controls/flight/trim-yaw</property>
-                    <value>1</value>
+                    <value type="int">-1</value>
+                    <value type="int">0</value>
+                    <value type="int">1</value>
+                    <wrap>false</wrap>
                 </binding>
-                <mod-up>
-                    <command>property-assign</command>
-                    <property>controls/flight/trim-yaw</property>
-                    <value>0</value>
-                </mod-up>
             </mod-ctrl>
         </key>
 		

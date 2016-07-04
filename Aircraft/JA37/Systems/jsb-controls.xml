@@ -60,28 +60,30 @@
 
         <fcs_function name="fcs/elevator/stick-geared">
             <function>
-                <table>
-                    <independentVar lookup="row">fcs/elevator-cmd-norm</independentVar>
-                    <tableData>
-                        -1.00  -1.00
-                        -0.86  -0.74
-                        -0.75  -0.56
-                        -0.62  -0.40
-                        -0.50  -0.28
-                        -0.38  -0.19
-                        -0.23  -0.11
-                        -0.10  -0.045
-                         0.00   0.00
-                         0.10   0.045
-                         0.23   0.11
-                         0.38   0.19
-                         0.50   0.28
-                         0.62   0.40
-                         0.75   0.56
-                         0.86   0.74
-                         1.00   1.00
-                    </tableData>
-                </table>
+                <product>
+                    <table>
+                        <independentVar lookup="row">fcs/elevator-cmd-norm</independentVar>
+                        <tableData>
+                            -1.00  -1.00
+                            -0.86  -0.74
+                            -0.75  -0.56
+                            -0.62  -0.40
+                            -0.50  -0.28
+                            -0.38  -0.19
+                            -0.23  -0.11
+                            -0.10  -0.045
+                             0.00   0.00
+                             0.10   0.045
+                             0.23   0.11
+                             0.38   0.19
+                             0.50   0.28
+                             0.62   0.40
+                             0.75   0.56
+                             0.86   0.74
+                             1.00   1.00
+                        </tableData>
+                    </table>
+                </product>
             </function>
         </fcs_function>
 
@@ -203,8 +205,59 @@
             <output>fcs/pitch-damper/rate</output>
         </pure_gain>
 
-        <summer name="names/elevator/cmd-sum">
+        <fcs_function name="systems/flight/stick-css-neg">
+            <function>
+                <difference>
+                    <property> fcs/elevator/stick-geared </property>
+                    <value> -0.25 </value>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/stick-css-pos">
+            <function>
+                <difference>
+                    <property> fcs/elevator/stick-geared </property>
+                    <value> 0.25 </value>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/flight/stick-css-deadzone">
+            <default value="0"/>
+            <test logic="AND" value="systems/flight/stick-css-pos">
+                fcs/elevator/stick-geared gt  0.25
+            </test>
+            <test logic="AND" value="systems/flight/stick-css-neg">
+                fcs/elevator/stick-geared lt  -0.25
+            </test>
+            <output>/controls/flight/elevator-cmd-ap</output>
+        </switch>
+
+        <switch name="fcs/elevator/stick-css">
+            <default value="0"/>
+            <test logic="OR" value="systems/flight/stick-css-deadzone">
+                /ja37/avionics/temp-halt-ap-pitch == 0
+            </test>
+        </switch>
+
+        <switch name="fcs/elevator/stick-css-ap">
+            <default value="0"/>
+            <test logic="OR" value="/controls/flight/elevator-ap">
+                /ja37/avionics/temp-halt-ap-pitch == 1
+            </test>
+            <output>/controls/flight/elevator-ap</output>
+        </switch>
+
+        <pure_gain name="fcs/elevator/stick-geared-switched">
             <input>fcs/elevator/stick-geared</input>
+            <gain>/ja37/avionics/temp-halt-ap-pitch</gain>
+        </pure_gain>
+
+        <summer name="names/elevator/cmd-sum">
+            <input>fcs/elevator/stick-geared-switched</input>
+            <input>fcs/elevator/stick-css</input>
+            <input>/controls/flight/elevator-ap</input>
             <input>fcs/pitch-trim-cmd-norm</input>
             <input>fcs/pitch-damper/rate</input>
             <clipto>

@@ -140,6 +140,7 @@
                     <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
         </enable>
         <input>
@@ -147,7 +148,7 @@
         </input>
         <reference>/autopilot/settings/target-pitch-deg</reference>
         <output>
-            <property>/controls/flight/elevator</property>
+            <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
             <Kp>-0.05</Kp>
@@ -264,6 +265,7 @@
                     <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
         </enable>
         <input>
@@ -274,7 +276,7 @@
             <scale>0.0166667</scale>
         </reference>
         <output>
-            <property>/controls/flight/elevator</property>
+            <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
             <Kp>-1.00</Kp>
@@ -313,6 +315,7 @@
                     <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
         </enable>
         <input>
@@ -322,7 +325,7 @@
             <property>/autopilot/settings/target-aoa-deg</property>
         </reference>
         <output>
-            <property>/controls/flight/elevator</property>
+            <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
             <Kp>-0.05</Kp>
@@ -355,8 +358,13 @@
         <name>Altitude Hold (Altimeter based) Stage 1</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>altitude-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>altitude-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
+            </condition>
         </enable>
         <input>
             <property>/instrumentation/altimeter/indicated-altitude-ft</property>
@@ -386,8 +394,13 @@
         <name>Altitude Hold (Altimeter based) Stage 2</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>altitude-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>altitude-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
+            </condition>
         </enable>
         <input>
             <property>/velocities/vertical-speed-fps</property>
@@ -396,7 +409,7 @@
             <property>/autopilot/internal/target-climb-rate-fps</property>
         </reference>
         <output>
-            <property>/controls/flight/elevator</property>
+            <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
             <Kp>-0.003</Kp>
@@ -430,8 +443,13 @@
         <name>agl Hold (Altimeter based) Stage 1</name>
         <debug>false</debug>
         <enable>
-            <property>/autopilot/locks/altitude</property>
-            <value>agl-hold</value>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>agl-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
+            </condition>
         </enable>
         <input>
             <property>/position/altitude-agl-ft</property>
@@ -468,6 +486,7 @@
                     <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
         </enable>
         <input>
@@ -477,7 +496,7 @@
             <property>/autopilot/internal/target-climb-rate-fps</property>
         </reference>
         <output>
-            <property>/controls/flight/elevator</property>
+            <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
             <Kp>-0.003</Kp>
@@ -515,6 +534,7 @@
                     <property>/ja37/avionics/autopilot</property>
                     <value>1</value>
                 </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
         </enable>
         <input>
@@ -524,7 +544,7 @@
             <property>instrumentation/nav[0]/gs-rate-of-climb</property>
         </reference>
         <output>
-            <property>/controls/flight/elevator</property>
+            <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
             <Kp>-0.003</Kp>

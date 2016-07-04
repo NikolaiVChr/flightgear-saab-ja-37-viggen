@@ -138,7 +138,7 @@
         <desc>Reset view</desc>
     </key>
     <key>
-        <name>Ctrl Left/Right</name>
+        <name>CTRL Left/Right</name>
         <desc>Yaw trim or A/P heading/roll adjust</desc>
     </key>
     <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.

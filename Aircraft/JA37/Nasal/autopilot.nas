@@ -113,6 +113,7 @@ var apStopAT = func {
 }
 
 var lock = "";
+var lockP = "";
 
 var apLoop = func {
 
@@ -163,7 +164,39 @@ var apLoop = func {
     }
   }
 
+  var pitchCmd = getprop("controls/flight/elevator-cmd-ap");
+  if (getprop("/autopilot/locks/altitude") != "" and getprop("/autopilot/locks/altitude") != nil and pitchCmd != 0) {
+    # Pilot is using stick to adjust altitude A/P
+    lockP = getprop("/autopilot/locks/altitude");
+    # stop A/P from controlling pitch:
+    setprop("ja37/avionics/temp-halt-ap-pitch", 0);
+    # pitch the plane
+    #setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg") + trimCmd * 1);
+  } elsif (lockP != "") {
+    # keep new altitude/pitch/AoA/vertical-speed
+    lockP = "";
+    if (getprop("/autopilot/locks/altitude") == "altitude-hold") {
+      setprop("autopilot/settings/target-altitude-ft", getprop("instrumentation/altimeter/indicated-altitude-ft"));
+    } elsif (getprop("/autopilot/locks/altitude") == "pitch-hold") {
+      setprop("/autopilot/settings/target-pitch-deg", getprop("/orientation/pitch-deg"));
+    } elsif (getprop("/autopilot/locks/altitude") == "vertical-speed-hold") {
+      setprop("/autopilot/settings/vertical-speed-fpm", getprop("/velocities/vertical-speed-fps")*60);
+    } elsif (getprop("/autopilot/locks/altitude") == "aoa-hold") {
+      setprop("/autopilot/settings/target-aoa-deg", getprop("/orientation/alpha-deg"));
+    } elsif (getprop("/autopilot/locks/altitude") == "agl-hold") {
+      setprop("autopilot/settings/target-agl-ft", getprop("position/altitude-agl-ft"));
+    }
+    setprop("ja37/avionics/temp-halt-ap-pitch", 1);
+  }
+
   settimer(apLoop, 0.1);
 }
 
 apLoop();
+
+var apLoop2 = func {
+  setprop("controls/flight/trim-yaw", 0);
+  settimer(apLoop2, 0.5);
+}
+
+#apLoop2();
