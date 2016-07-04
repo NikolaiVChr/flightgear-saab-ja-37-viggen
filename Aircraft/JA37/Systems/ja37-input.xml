@@ -1149,6 +1149,42 @@
                 <script>ja37.resetView();</script>
             </binding>
         </key>
+
+        <key n="356">
+            <name>Ctrl Left</name>
+            <repeatable type="bool">false</repeatable>
+            <mod-ctrl>
+                <desc>Trim yaw (or adjust AP heading.)</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>-1</value>
+                </binding>
+                <mod-up>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>0</value>
+                </mod-up>
+            </mod-ctrl>
+        </key>
+
+        <key n="358">
+            <name>Ctrl Right</name>
+            <repeatable type="bool">false</repeatable>
+            <mod-ctrl>
+                <desc>Trim yaw (or adjust AP heading.)</desc>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>1</value>
+                </binding>
+                <mod-up>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-yaw</property>
+                    <value>0</value>
+                </mod-up>
+            </mod-ctrl>
+        </key>
 		
     </keyboard>
 </PropertyList>
