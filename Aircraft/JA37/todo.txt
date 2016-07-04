@@ -70,6 +70,7 @@ Sim: Make retarded version of M71.
 Sim: Be able to switch if M55 should fire all at once, or one at a time.
 Sim: A/P does auto trim of roll and pitch.
 Sim: Auto pitch trim at speeds over M0.93.
+Sim: Review A/P working property use. Also in jsb for stick control.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
