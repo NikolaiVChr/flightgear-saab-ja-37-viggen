@@ -267,6 +267,65 @@
 
     <channel execrate="4" name="instruments">
 
+        <fcs_function name="names/instruments/g-force">
+            <function>
+                <quotient>
+                    <product>
+                        <p>accelerations/a-pilot-z-ft_sec2</p>
+                        <v>-1</v>
+                    </product>
+                    <p>accelerations/gravity-ft_sec2</p>
+                </quotient>
+            </function>
+            <output>/ja37/accelerations/pilot-G</output>
+        </fcs_function>
+
+        <fcs_function name="names/instruments/g-force-norm">
+            <function>
+                    <product>
+                        <p>/ja37/accelerations/pilot-G</p>
+                        <v>0.01</v>
+                    </product>
+            </function>
+            <output>/ja37/accelerations/pilot-G-norm</output>
+        </fcs_function>
+
+        <!--<washout_filter name="names/instruments/g-force-damped">
+          <input> /ja37/accelerations/pilot-G </input>
+          <c1> 1 </c1>
+          <output> /ja37/accelerations/pilot-G-damped </output>
+        </washout_filter>-->
+
+        <kinematic name="names/instruments/g-force-norm-damped">
+            <input>/ja37/accelerations/pilot-G-norm</input>
+            <traverse>
+                <setting>
+                    <position>-1</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>20</time>
+                </setting>
+            </traverse>
+            <clipto>
+                <min>-1</min>
+                <max>1</max>
+            </clipto>
+            <output> /ja37/accelerations/pilot-G-norm-damped </output>
+        </kinematic>
+
+        <fcs_function name="names/instruments/g-force-damped">
+            <function>
+                    <product>
+                        <p>/ja37/accelerations/pilot-G-norm-damped</p>
+                        <v>100</v>
+                    </product>
+            </function>
+            <output>/ja37/accelerations/pilot-G-damped</output>
+        </fcs_function>
+
+
         <!-- The ratio between N2 and N1 is approx 1:0.7184 -->
 
         <fcs_function name="propulsion/engine/aj37-n2-rpm_r-s">

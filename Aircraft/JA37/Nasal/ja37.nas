@@ -668,13 +668,6 @@ var speed_loop = func () {
     settimer(speed_loop, 0.05);
     return;
   }
-  # calc g-force
-  var gravity = input.gravity.getValue();
-  var GCurrent = input.zAccPilot.getValue();  
-  if (GCurrent != nil and gravity != nil) {
-    GCurrent = - GCurrent / gravity;
-    input.pilotG.setDoubleValue(GCurrent);
-  }
 
   ## control augmented thrust ##
   var n1 = input.n1.getValue();

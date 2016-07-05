@@ -46,7 +46,7 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>ja37/accelerations/pilot-G</property>
+        <property>ja37/accelerations/pilot-G-damped</property>
         <interpolation>
             <entry>
                 <ind>-2</ind>
