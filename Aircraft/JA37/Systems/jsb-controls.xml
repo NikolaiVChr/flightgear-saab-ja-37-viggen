@@ -1401,8 +1401,8 @@
                 <table>
                     <independentVar lookup="row">/ja37/accelerations/pilot-G</independentVar>
                     <tableData>
-                        2.0           -0.75
-                        4.0             0
+                        3.0           -0.75
+                        4.5           -0.1
                     </tableData>
                 </table>
             </function>
@@ -1414,8 +1414,8 @@
                 <table>
                     <independentVar lookup="row">/ja37/accelerations/pilot-G</independentVar>
                     <tableData>
-                       -1.0             0
-                        0.0            0.75
+                       -1.20           0
+                       -0.20           0.75
                     </tableData>
                 </table>
             </function>
