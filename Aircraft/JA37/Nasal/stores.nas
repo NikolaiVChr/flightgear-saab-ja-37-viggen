@@ -464,7 +464,7 @@ var loop_stores = func {
         var payloadWeight = props.globals.getNode("payload/weight["~ i ~"]/weight-lb");
       
         if (i == 0) {
-          payloadName.setValue("RB 15F Attackrobot");
+          payloadName.setValue("RB 71 Skyflash");
         } elsif (i == 2) {
           payloadName.setValue("RB 71 Skyflash");
         } elsif (i == 1 or i == 3) {

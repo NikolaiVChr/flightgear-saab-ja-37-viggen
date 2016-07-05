@@ -254,23 +254,6 @@
             <gain>/ja37/avionics/temp-halt-ap-pitch</gain>
         </pure_gain>
 
-        <switch name="names/elevator/pitch-trim-cmd-norm">
-            <default value="/control/flight/elevator-trim"/>
-            <test logic="AND" value="fcs/elevator/cmd-sum">
-                accelerations/Nz gt 0.90
-                accelerations/Nz lt 1.15
-                velocities/mach  gt 0.93
-                aero/q-rad_sec   lt 0.0175
-                aero/q-rad_sec   gt -0.0175
-            </test>
-            <output>/control/flight/elevator-trim</output>
-            <clipto>
-                <min>-0.5</min>
-                <max>0.5</max>
-            </clipto>
-        </switch>
-
-
         <summer name="names/elevator/cmd-sum">
             <input>fcs/elevator/stick-geared-switched</input>
             <input>fcs/elevator/stick-css</input>
@@ -283,6 +266,30 @@
             </clipto>
             <output>fcs/elevator/cmd-sum</output>
         </summer>
+
+        <switch name="names/elevator/pitch-trim-cmd-norm">
+            <default value="/control/flight/elevator-trim"/>
+            <test logic="AND" value="fcs/elevator/cmd-sum">
+                accelerations/Nz gt 0.90
+                accelerations/Nz lt 1.15
+                velocities/mach  gt 0.93
+                velocities/q-rad_sec   lt 0.0175
+                velocities/q-rad_sec   gt -0.0175
+            </test>
+            <test logic="AND" value="fcs/elevator/cmd-sum">
+                accelerations/Nz gt 0.90
+                accelerations/Nz lt 1.15
+                velocities/q-rad_sec   lt 0.0175
+                velocities/q-rad_sec   gt -0.0175
+                /ja37/avionics/temp-halt-ap-pitch == 1
+                /ja37/avionics/auto-attitude-on == 1
+            </test>
+            <output>/control/flight/elevator-trim</output>
+            <clipto>
+                <min>-0.5</min>
+                <max>0.5</max>
+            </clipto>
+        </switch>
 
         <!--<fcs_function name="systems/flight/pitch-gearing">
             <function>
