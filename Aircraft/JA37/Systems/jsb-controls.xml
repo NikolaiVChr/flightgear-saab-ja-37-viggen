@@ -267,29 +267,57 @@
             <output>fcs/elevator/cmd-sum</output>
         </summer>
 
-        <switch name="names/elevator/pitch-trim-cmd-norm">
-            <default value="/control/flight/elevator-trim"/>
+        <!-- auto pitch trim
+        <switch name="names/elevator/pitch-trim-cmd-norm-target">
+            <default value="/controls/flight/elevator-trim-target"/>
             <test logic="AND" value="fcs/elevator/cmd-sum">
-                accelerations/Nz gt 0.90
-                accelerations/Nz lt 1.15
+                accelerations/Nz gt 0.97
+                accelerations/Nz lt 1.03
                 velocities/mach  gt 0.93
-                velocities/q-rad_sec   lt 0.0175
-                velocities/q-rad_sec   gt -0.0175
+                velocities/q-rad_sec   lt 0.01
+                velocities/q-rad_sec   gt -0.01
             </test>
             <test logic="AND" value="fcs/elevator/cmd-sum">
-                accelerations/Nz gt 0.90
-                accelerations/Nz lt 1.15
-                velocities/q-rad_sec   lt 0.0175
-                velocities/q-rad_sec   gt -0.0175
+                accelerations/Nz gt 0.97
+                accelerations/Nz lt 1.03
+                velocities/q-rad_sec   lt 0.01
+                velocities/q-rad_sec   gt -0.01
                 /ja37/avionics/temp-halt-ap-pitch == 1
                 /ja37/avionics/auto-attitude-on == 1
             </test>
-            <output>/control/flight/elevator-trim</output>
+            <output>/controls/flight/elevator-trim-target</output>
             <clipto>
                 <min>-0.5</min>
                 <max>0.5</max>
             </clipto>
         </switch>
+
+        <kinematic name="names/elevator/trim-norm-lag">
+            <input>/controls/flight/elevator-trim-target</input>
+            <traverse>
+                <setting>
+                    <position> -1.0 </position>
+                    <time>      0.0 </time>
+                </setting>
+                <setting>
+                    <position>  1.0 </position>
+                    <time>      5.0 </time>
+                </setting>
+            </traverse>
+            <output>/controls/flight/elevator-trim-lag</output>
+        </kinematic>
+
+        <switch name="names/elevator/pitch-trim-cmd-norm">
+            <default value="/controls/flight/elevator-trim"/>
+            <test logic="AND" value="/controls/flight/elevator-trim-lag">
+                /controls/flight/elevator-trim-target ne /controls/flight/elevator-trim
+            </test>
+            <output>/controls/flight/elevator-trim</output>
+            <clipto>
+                <min>-0.5</min>
+                <max>0.5</max>
+            </clipto>
+        </switch>-->
 
         <!--<fcs_function name="systems/flight/pitch-gearing">
             <function>
