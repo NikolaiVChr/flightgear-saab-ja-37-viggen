@@ -180,7 +180,7 @@ FuelEfficiency.updateFuelEfficiency = func {
     engineRunning = 0;
   } else {
     foreach(var engine; props.globals.getNode("/engines").getChildren("engine")) {
-      if (engine.getNode("running").getValue() == 1) {
+      if (engine.getNode("running") != nil and engine.getNode("running").getValue() == 1) {
           fuelFlow += me.getFuelFlow(engine);
       }
     }
