@@ -142,12 +142,6 @@ var processTracks = func (vector, carrier, missile = 0, mp = 0, type = -1) {
       if(trackInfo != nil) {
         var distance = trackInfo.get_range()*NM2M;
 
-        # tell the jsbsim hook system that if we are near a carrier
-        if(carrier == TRUE and distance < 1000) {
-          # is carrier and is within 1 Km range
-          carrierNear = TRUE;
-        }
-
         # find and remember the type of the track
         var typeNode = track.getChild("model-shorter");
         var model = nil;
@@ -157,7 +151,13 @@ var processTracks = func (vector, carrier, missile = 0, mp = 0, type = -1) {
           var pathNode = track.getNode("sim/model/path");
           if (pathNode != nil) {
             var path = pathNode.getValue();
+
             model = split(".", split("/", path)[-1])[0];
+
+            if (distance < 1000 and (model == "mp-clemenceau" or model == "mp-eisenhower" or model == "mp-nimitz" or model == "mp-vinson")) {
+              carrierNear = TRUE;
+            }
+
             model = remove_suffix(model, "-model");
             model = remove_suffix(model, "-anim");
             track.addChild("model-shorter").setValue(model);
@@ -192,6 +192,12 @@ var processTracks = func (vector, carrier, missile = 0, mp = 0, type = -1) {
             funcHash.listenerID1 = setlistener(track.getChild("valid"), func {call(func funcHash.callme1(), nil, funcHash, funcHash, var err =[]);}, 0, 1);
             funcHash.listenerID2 = setlistener(pathNode,                func {call(func funcHash.callme2(), nil, funcHash, funcHash, var err =[]);}, 0, 1);
           }
+        }
+
+        # tell the jsbsim hook system that if we are near a carrier
+        if(carrier == TRUE and distance < 1000) {
+          # is carrier and is within 1 Km range
+          carrierNear = TRUE;
         }
 
         var unique = track.getChild("unique");
