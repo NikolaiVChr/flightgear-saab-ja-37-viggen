@@ -53,11 +53,11 @@
       </direction>
     </force>
 
-    <force name="hook" frame="WIND">
+    <force name="hook" frame="BODY">
       <location unit="M">
-        <x>    5.16180 </x>
+        <x>    -1 </x>
         <y>    0.00000 </y>
-        <z>   -0.75707 </z>
+        <z>    0 </z>
       </location>
       <direction>
         <x>  -1.0 </x>
