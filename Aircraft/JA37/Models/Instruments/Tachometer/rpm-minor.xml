@@ -1,39 +1,15 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <PropertyList>
-    <path>../gauge.ac</path>
-
-    <model>
-        <path>rpm-minor.xml</path>
-        <name>minor needle</name>
-        <offsets>
-          <x-m>  0.003</x-m>
-          <y-m>  0</y-m>
-          <z-m> -0.0125</z-m>
-      </offsets>
-    </model>
-
-    <effect>
-        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-        <object-name>glass</object-name>
-    </effect>
+    <path>../smallNeedle.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>mount</object-name>
+        <object-name>smallNeedle</object-name>
     </effect>
 
     <animation>
-        <type>material</type>
-        <object-name>dial</object-name>
-        <property-base>ja37/texture</property-base>
-        <texture-prop>gauge-rpm</texture-prop>
-        <texture>rpmface.png</texture>
-    </animation>
-
-    <animation>
         <type>pick</type>
-        <object-name>glass</object-name>
-        <object-name>mount</object-name>
+        <object-name>smallNeedle</object-name>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -46,8 +22,7 @@
 
     <animation>
         <type>material</type>
-        <object-name>needle</object-name>
-        <object-name>dial</object-name>
+        <object-name>smallNeedle</object-name>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
             <green-prop>instrumentation/instrumentation-light/g</green-prop>
@@ -58,22 +33,22 @@
 
     <animation>
         <type>rotate</type>
-        <object-name>needle</object-name>
+        <object-name>smallNeedle</object-name>
         <condition>
             <greater-than>
                 <property>systems/electrical/outputs/dc-voltage</property>
                 <value>23</value>
             </greater-than>
         </condition>
-        <property>engines/engine/n2</property>
+        <property>fdm/jsbsim/propulsion/engine/n2-mod</property>
         <interpolation>
             <entry>
                 <ind>0</ind>
-                <dep>-130</dep>
+                <dep>0</dep>
             </entry>
             <entry>
-                <ind>100</ind>
-                <dep>107.5</dep>
+                <ind>10</ind>
+                <dep>360</dep>
             </entry>
         </interpolation>
         <center>

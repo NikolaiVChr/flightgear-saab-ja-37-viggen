@@ -267,6 +267,20 @@
 
     <channel execrate="4" name="instruments">
 
+        <fcs_function name="propulsion/engine/n2-mod">
+            <function>
+                <product>
+                    <fraction>
+                        <quotient>
+                            <p>propulsion/engine/n2</p>
+                            <v>10</v>
+                        </quotient>
+                    </fraction>
+                    <v>10</v>
+                </product>
+            </function>
+        </fcs_function>
+
         <fcs_function name="names/instruments/g-force">
             <function>
                 <quotient>
