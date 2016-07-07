@@ -814,6 +814,7 @@
                     <serviceable type="bool">true</serviceable>
                 </reverse-system>
                 <reverser-cmd type="bool">false</reverser-cmd>
+                <starter-cmd-hold type="bool">false</starter-cmd-hold>
             </engine>
         </engines>
         <gear>

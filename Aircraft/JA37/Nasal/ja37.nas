@@ -1200,6 +1200,7 @@ var autostarttimer = func {
 var stopAutostart = func {
   setprop("/controls/engines/engine[0]/cutoff", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
+  setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   setprop("/controls/electric/main", FALSE);
   setprop("/controls/electric/battery", FALSE);
@@ -1209,6 +1210,7 @@ var stopAutostart = func {
 }
 
 var startSupply = func {
+  setprop("/controls/engines/engine[0]/starter-cmd-hold", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   if (getprop("fdm/jsbsim/systems/electrical/external/available") == TRUE) {
     # using ext. power
@@ -1240,6 +1242,7 @@ var endSupply = func {
 
 #Simulating autostart function
 var autostart = func {
+  setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   popupTip("Starting engine..");
   click();
@@ -1307,7 +1310,6 @@ var final_engine = func () {
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     popupTip("Engine ready.");
-    setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     setprop("/controls/electric/battery", TRUE);

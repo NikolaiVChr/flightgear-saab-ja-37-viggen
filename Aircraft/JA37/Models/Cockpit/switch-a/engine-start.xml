@@ -51,6 +51,18 @@
                 <value>1</value>
             </binding>
             <binding>
+                    <command>property-assign</command>
+                    <property>controls/engines/engine[0]/starter-cmd-hold</property>
+                    <value>1</value>
+                </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/engines/engine[0]/starter-cmd-hold</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+            <binding>
                 <command>nasal</command>
                 <script>ja37.click();</script>
             </binding>

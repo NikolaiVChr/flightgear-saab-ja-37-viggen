@@ -219,9 +219,9 @@ Old values:
   <aerodynamics file="ja37-aerodynamics.xml"/>
   <system file="jsb-hydraulic"/>
   <system file="jsb-flight"/>
+  <system file="jsb-electric"/>
   <system file="jsb-indicators"/>
   <system file="jsb-cannon_recoil"/>
-  <system file="jsb-electric"/>
   <system file="jsb-fuel"/>
   <external_reactions file="Systems/jsb-external-reactions"/>
   <ground_reactions file="Systems/jsb-ground-reactions"/>

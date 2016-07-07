@@ -156,7 +156,7 @@
             </condition>
         </item>
         <item>
-            <name>Start engine</name>
+            <name>Hold engine starter (2 secs)</name>
             <value>ON</value>
             <marker>
                 <x-m>-3.7322</x-m>
@@ -164,15 +164,10 @@
                 <z-m>0.1116</z-m>
                 <scale>3.0000</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/engines/engine[0]/starter-cmd</property>
-                <value>1</value>
-            </binding>
             <condition>
                 <and>
                     <equals>
-                        <property>controls/engines/engine[0]/starter-cmd</property>
+                        <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
                         <value>1</value>
                     </equals>
                 </and>
@@ -540,7 +535,7 @@
             </condition>
         </item>
         <item>
-            <name>Start engine</name>
+            <name>Hold engine starter (2 sec)</name>
             <value>ON</value>
             <marker>
                 <x-m>-3.7322</x-m>
@@ -548,15 +543,10 @@
                 <z-m>0.1116</z-m>
                 <scale>3.0000</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/engines/engine[0]/starter-cmd</property>
-                <value>1</value>
-            </binding>
             <condition>
                 <and>
                     <equals>
-                        <property>controls/engines/engine[0]/starter-cmd</property>
+                        <property>fdm/jsbsim/systems/electrical/starter-relay-R1</property>
                         <value>1</value>
                     </equals>
                 </and>

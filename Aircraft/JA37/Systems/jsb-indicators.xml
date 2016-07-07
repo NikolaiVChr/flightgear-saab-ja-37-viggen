@@ -1050,7 +1050,7 @@
                             </eq>
                             <lt>
                                 <property>propulsion/engine[0]/n2</property>
-                                <value>57</value>
+                                <value>50</value>
                             </lt>
                             <gt>
                                 <property>propulsion/engine[0]/n2</property>
@@ -1085,7 +1085,7 @@
                         </eq>
                         <lt>
                             <property>propulsion/engine[0]/n2</property>
-                            <value>57</value>
+                            <value>50</value>
                         </lt>
                         <eq>
                             <property>/engines/engine/thrust_lb</property>
@@ -1819,12 +1819,20 @@
             <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /ja37/sound/terrain-on == 1
             </test>
-        </switch>        
+        </switch>
+
+        <switch name="/instrumentation/terrain-warning-test">
+            <default value="0"/>
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
 
         <switch name="/instrumentation/terrain-warning-light">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /instrumentation/terrain-warning == 1
+                /instrumentation/terrain-warning-test == 1
             </test>
         </switch>        
 
@@ -2311,7 +2319,8 @@
             </description>
             <default value="0"/>
             <test logic="OR" value="1">
-                propulsion/starter_cmd_copy == 1
+                systems/electrical/starter-relay-R1 == 1
+                /controls/engines/engine[0]/starter-cmd == 1
             </test>
         </switch>
 

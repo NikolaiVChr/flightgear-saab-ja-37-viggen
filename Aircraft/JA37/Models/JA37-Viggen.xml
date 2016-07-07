@@ -491,14 +491,11 @@
   <animation>
     <type>material</type>
     <object-name>radarMountAltWarnIndicator</object-name>
-    <condition>
-      <property>/instrumentation/terrain-warning</property>
-    </condition>
     <emission>
         <red>1.0</red>
         <green>0.0</green>
         <blue>0.0</blue>
-        <factor-prop>systems/electrical/dc-light</factor-prop>
+        <factor-prop>/instrumentation/terrain-warning-light</factor-prop>
     </emission>
   </animation>
 
