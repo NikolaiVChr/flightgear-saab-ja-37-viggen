@@ -33,6 +33,27 @@ AJ37 Manual
   5  225 -   87.35kg * 2
 Same fuel flow capacity to engine as JA37
 Radar range setting: max 120 Km
+Droptank weight: 96 Kg
+Emptyweight (no droptank, probably with pilot): 10572
+
+No droptank:
+------------
+Max speed at sealevel: M1.1
+Max mil speed at sealevel: M0.9
+Max mil speed at 6KM: M0.94
+Max mil speed at 11Km: M0.87
+Max mil altitude: 11.1Km
+Stall speed sealevel: M0.18
+Stall speed 10Km: M0.4
+Max speed (indicated) 1350 KM/h
+Max speed at 11KM (standard atm.): M1.82
+Max speed at 15.3Km (standard atm.): M1.37
+Time to reach mach 1.1 (standard atm.): 0.65 minutes
+Time to reach mach 0.9 at mil (standard atm.): 2.25 minutes
+
+
+
+
 
 Air Power Journal, Summer 1993, various issues of FlygvapenNytt and other Swedish air force informational material ()
 =======================================================================
