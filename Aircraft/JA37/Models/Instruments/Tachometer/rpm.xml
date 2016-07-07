@@ -28,8 +28,8 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>tachometer</tooltip-id>
-                <label>N1: %3d percent</label>
-                <property>engines/engine/n1</property>
+                <label>N2: %3d percent</label>
+                <property>engines/engine/n2</property>
             </binding>
         </hovered>
     </animation>
@@ -55,7 +55,7 @@
                 <value>23</value>
             </greater-than>
         </condition>
-        <property>engines/engine/n1</property>
+        <property>engines/engine/n2</property>
         <interpolation>
             <entry>
                 <ind>20</ind>

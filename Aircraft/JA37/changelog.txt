@@ -2399,3 +2399,4 @@ Sim: CSS A/P ATT mode: Stick can be used to fly to new A/P setting.
 Sim: A/T speed is now controllable by using ctrl-arrow up/down keys.
 Sim: Auto pitch trim at speeds over M0.93. The plane must be flying at 1G and only be pitching up or down slowly.
 Model: Damped the Accelerometer.
+Model: The tachometer now shows N2 instead of N1, as per manual.
