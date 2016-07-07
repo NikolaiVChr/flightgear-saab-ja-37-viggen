@@ -141,7 +141,7 @@ Old values:
     <!--<ixx unit="KG*M2">  21960.58  </ixx>
     <iyy unit="KG*M2">  88334.06  </iyy>
     <izz unit="KG*M2">  78179.33  </izz>-->
-    <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
+    <emptywt unit="KG" > 10500 </emptywt><!-- AJ37 manual -->
     <location name="CG" unit="M">
       <x> 1.79878 </x>
       <!--  -->
@@ -149,7 +149,7 @@ Old values:
       <z> 0 </z>
     </location>
     <pointmass name="Pilot">
-      <weight unit="LBS"> 165 </weight>
+      <weight unit="KG"> 72 </weight>
       <location name="POINTMASS" unit="M">
         <x> -3.3 </x>
         <y>  0.0 </y>
@@ -205,7 +205,7 @@ Old values:
       </location>
     </pointmass>
     <pointmass name="Center fuselage pylon">
-      <weight unit="LBS"> 224.87 </weight> <!-- Estimate by David Culp, notice when this change also change it in nasal scripts and aero section -->
+      <weight unit="LBS"> 211.64 </weight> <!-- JA37 manual, notice when this change also change it in nasal scripts and aero section -->
       <location name="POINTMASS" unit="M">
         <x>  0.52406 </x>
         <y>  0.00 </y>

@@ -101,7 +101,7 @@ var loop_stores = func {
           or (payloadName.getValue() == "RB 75 Maverick" and payloadWeight.getValue() != 462)
           or (payloadName.getValue() == "M90 Bombkapsel" and payloadWeight.getValue() != 1322.77)
           or (payloadName.getValue() == "TEST" and payloadWeight.getValue() != 50)
-          or (payloadName.getValue() == "Drop tank" and payloadWeight.getValue() != 224.87))) {
+          or (payloadName.getValue() == "Drop tank" and payloadWeight.getValue() != 211.64))) {
         # armament or drop tank was loaded manually through payload/fuel dialog, so setting the pylon to not released
         setprop("controls/armament/station["~(i+1)~"]/released", FALSE);
         #print("adding "~i);
@@ -432,8 +432,8 @@ var loop_stores = func {
         }
       } elsif (selected == "Drop tank") {
         # the pylon has a drop tank, give it a pointmass
-        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 224.87) {
-          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 224.87);#if change this also change it in jsbsim and -set file
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 211.64) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 211.64);#if change this also change it in jsbsim and -set file
         }
         input.tank8Selected.setValue(TRUE);
         input.tank8Jettison.setValue(FALSE);

@@ -969,7 +969,7 @@
                 <property>aero/function/stores-wave-drag-factor</property>
                 <nq>
                     <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>224.87</value>
+                    <value>211.64</value>
                 </nq>
             </product>
         </function>
@@ -1047,7 +1047,7 @@
                 </difference>
                 <eq>
                     <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>224.87</value>
+                    <value>211.64</value>
                 </eq>
             </product>
         </function>
@@ -1260,7 +1260,7 @@
                 </table>
                 <eq>
                     <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>224.87</value>
+                    <value>211.64</value>
                 </eq>
             </product>
         </function>
@@ -1463,7 +1463,7 @@
                 </table>
                 <eq>
                     <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>224.87</value>
+                    <value>211.64</value>
                 </eq>
             </product>
         </function>
@@ -2430,7 +2430,7 @@
                 </table>
                 <eq>
                     <property>inertia/pointmass-weight-lbs[7]</property>
-                    <value>224.87</value>
+                    <value>211.64</value>
                 </eq>
             </product>
         </function>
