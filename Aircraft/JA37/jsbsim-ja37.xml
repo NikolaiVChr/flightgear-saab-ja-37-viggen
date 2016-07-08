@@ -141,7 +141,7 @@ Old values:
     <!--<ixx unit="KG*M2">  21960.58  </ixx>
     <iyy unit="KG*M2">  88334.06  </iyy>
     <izz unit="KG*M2">  78179.33  </izz>-->
-    <emptywt unit="KG" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
+    <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
       <x> 1.79878 </x>
       <!--  -->
