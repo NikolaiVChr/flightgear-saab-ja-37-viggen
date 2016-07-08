@@ -243,8 +243,9 @@
 
         <switch name="fcs/elevator/stick-css-ap">
             <default value="0"/>
-            <test logic="OR" value="/controls/flight/elevator-ap">
+            <test logic="AND" value="/controls/flight/elevator-ap">
                 /ja37/avionics/temp-halt-ap-pitch == 1
+                /ja37/avionics/auto-altitude-on == 1
             </test>
             <output>/controls/flight/elevator-ap</output>
         </switch>
@@ -704,6 +705,7 @@
             <default value="0"/>
             <test logic="OR" value="/controls/flight/aileron-ap">
                 /ja37/avionics/temp-halt-ap-roll2 == 1
+                /ja37/avionics/auto-attitude-on == 1
             </test>
             <output>/controls/flight/aileron-ap</output>
         </switch>
