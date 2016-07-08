@@ -382,26 +382,6 @@ var update_loop = func {
       input.aeroSmoke.setIntValue(1);
     }
 
-    # auto-pilot engaged
-
-    if (size(input.apLockSpeed.getValue()) == 0) {
-      input.indAT.setBoolValue(FALSE);
-    } else {
-      input.indAT.setBoolValue(TRUE);
-    }
-
-    if (input.apLockHead.getValue() == "") {
-      input.indAH.setBoolValue(FALSE);
-    } else {
-      input.indAH.setBoolValue(TRUE);
-    }
-
-    if (input.apLockAlt.getValue() == "") {
-      input.indAA.setBoolValue(FALSE);
-    } else {
-      input.indAA.setBoolValue(TRUE);
-    }
-	
 	  var DME = input.dme.getValue() != "---" and input.dme.getValue() != "" and input.dmeDist.getValue() != nil;
     
     # distance indicator
@@ -1057,7 +1037,6 @@ var main_init = func {
   speed_loop();
   slow_loop();
   battery_listener();
-  hydr1Lost();
   code_ct();
   not();
 

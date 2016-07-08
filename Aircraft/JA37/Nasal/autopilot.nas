@@ -1,3 +1,17 @@
+inputAP = {
+  apLockAlt:        "autopilot/locks/altitude",
+  apLockHead:       "autopilot/locks/heading",
+  apLockSpeed:      "autopilot/locks/speed",  
+  indAA:            "ja37/avionics/auto-altitude-on",
+  indAH:            "ja37/avionics/auto-attitude-on",
+  indAT:            "ja37/avionics/auto-throttle-on",
+};
+
+# setup property nodes for the loop
+foreach(var name; keys(inputAP)) {
+    inputAP[name] = props.globals.getNode(inputAP[name], 1);
+}
+
 var follow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if(radar_logic.selection != nil and radar_logic.selection.getNode() != nil) {
@@ -118,6 +132,26 @@ var usedStick = 0;
 
 var apLoop = func {
 
+    # auto-pilot engaged
+
+    if (size(input.apLockSpeed.getValue()) == 0) {
+      input.indAT.setBoolValue(FALSE);
+    } else {
+      input.indAT.setBoolValue(TRUE);
+    }
+
+    if (input.apLockHead.getValue() == "") {
+      input.indAH.setBoolValue(FALSE);
+    } else {
+      input.indAH.setBoolValue(TRUE);
+    }
+
+    if (input.apLockAlt.getValue() == "") {
+      input.indAA.setBoolValue(FALSE);
+    } else {
+      input.indAA.setBoolValue(TRUE);
+    }
+
   if(getprop("gear/gear[2]/wow") == 1) {
     apStopAT();
   } elsif (getprop("/autopilot/locks/speed") == "speed-with-throttle") {
@@ -206,7 +240,11 @@ var apLoop = func {
   settimer(apLoop, 0.1);
 }
 
-apLoop();
+var ap_init_listener = setlistener("sim/signals/fdm-initialized", func {
+  apLoop();
+  hydr1Lost();
+  removelistener(ap_init_listener);
+}, 0, 0);
 
 var apLoop2 = func {
   setprop("controls/flight/trim-yaw", 0);
