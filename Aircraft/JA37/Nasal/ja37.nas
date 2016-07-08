@@ -1073,6 +1073,15 @@ var main_init = func {
     setlistener("/environment/lightning/lightning-pos-y", thunder_listener);
   }
 
+  setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
+  setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
+  setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
+  setprop("controls/electric/lights-ext-flash", rand()>0.5?TRUE:FALSE);
+  setprop("controls/electric/lights-ext-beacon", rand()>0.5?TRUE:FALSE);
+  setprop("controls/electric/lights-ext-nav", rand()>0.5?TRUE:FALSE);
+  setprop("controls/electric/lights-land-switch", rand()>0.5?TRUE:FALSE);
+  setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
+
   # start weapon systems
   settimer(func { armament.main_weapons() }, 2);
 
@@ -1192,6 +1201,9 @@ var autostarttimer = func {
       #print("autostarting");
       setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", TRUE);
       popupTip("Autostarting..");
+      setprop("controls/gear/brake-parking", TRUE);
+      setprop("fdm/jsbsim/fcs/canopy/engage", FALSE);
+      setprop("controls/ventilation/airconditioning-enabled", TRUE);
   	  settimer(startSupply, 1.5, 1);
     }
   }
@@ -1206,6 +1218,7 @@ var stopAutostart = func {
   setprop("/controls/electric/battery", FALSE);
   setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
   setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
+
   autostarting = FALSE;
 }
 
@@ -1229,6 +1242,11 @@ var startSupply = func {
 }
 
 var endSupply = func {
+  setprop("ja37/radar/enabled", TRUE);
+  setprop("controls/engines/engine/reverser-cmd", FALSE);
+  setprop("controls/electric/reserve", FALSE);
+  setprop("controls/fuel/auto", TRUE);
+  setprop("controls/altimeter-radar", TRUE);
   if (getprop("systems/electrical/outputs/dc-voltage") > 23) {
     # have power to start
     settimer(autostart, 1.5, 1);
@@ -1242,6 +1260,10 @@ var endSupply = func {
 
 #Simulating autostart function
 var autostart = func {
+  setprop("controls/electric/lights-ext-flash", TRUE);
+  setprop("controls/electric/lights-ext-beacon", TRUE);
+  setprop("controls/electric/lights-ext-nav", TRUE);
+  setprop("controls/electric/lights-land-switch", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
   popupTip("Starting engine..");
@@ -1287,6 +1309,7 @@ var waiting_n1 = func {
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
       popupTip("Generator on.");
+      setprop("controls/oxygen", TRUE);
       settimer(final_engine, 0.5, 1);
     } else {
       settimer(waiting_n1, 0.5, 1);

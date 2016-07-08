@@ -2406,3 +2406,5 @@ Model: Some rework of start indicator lights and master warning during startup.
 Sim: Studied AJ37 manual and found interesting numbers, added to performance doc.
 Aero: Changed pilot, empty and droptank weights. As per AJ37 manual.
 Sim: Changed Vne for AJ37 as per manual.
+Sim: The plane now starts up more cold.
+Sim: Adjusted checklist for starting up more cold. Approx as manaul.

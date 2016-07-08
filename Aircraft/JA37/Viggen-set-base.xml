@@ -448,7 +448,7 @@
         <radar>
             <selectedMP type="int">-1</selectedMP>
             <selected type="int">-1</selected>
-            <enabled userarchive="y" type="bool">true</enabled>
+            <enabled userarchive="y" type="bool">false</enabled>
             <look-through-terrain type="bool">true</look-through-terrain>
             <doppler-enabled type="bool">true</doppler-enabled>
             <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
@@ -560,7 +560,7 @@
             </structural>
             <fcs>
                 <canopy>
-                    <engage type="bool"/>
+                    <engage type="bool">true</engage>
                     <has-power/>
                     <serviceable type="bool">true</serviceable>
                     <hinges>
@@ -824,10 +824,10 @@
             </launchbar>
         </gear>
         <electric>
-            <lights-ext-flash type="bool">true</lights-ext-flash>
-            <lights-ext-beacon type="bool">true</lights-ext-beacon>
-            <lights-ext-nav type="bool">true</lights-ext-nav>
-            <lights-land-switch type="bool">true</lights-land-switch>
+            <lights-ext-flash type="bool">false</lights-ext-flash>
+            <lights-ext-beacon type="bool">false</lights-ext-beacon>
+            <lights-ext-nav type="bool">false</lights-ext-nav>
+            <lights-land-switch type="bool">false</lights-land-switch>
             <reserve type="bool">false</reserve>
         </electric>
         <lighting>
@@ -847,7 +847,7 @@
         </fuel>
         <ventilation>
             <airconditioning-type type="int">0</airconditioning-type><!-- cold for 12s: -1 auto: 0 warm for 12s: 1 -->
-            <airconditioning-enabled type="bool">true</airconditioning-enabled>
+            <airconditioning-enabled type="bool">false</airconditioning-enabled>
             <airconditioning-temperature type="double">16.0</airconditioning-temperature><!-- used for auto -->
             <windshield-hot-air-knob type="double">0.0</windshield-hot-air-knob>
         </ventilation>
@@ -856,8 +856,8 @@
             <trim-yaw type="int">0</trim-yaw>
             <rudder-trim type="double">0.0</rudder-trim>
         </flight>
-        <oxygen type="bool">true</oxygen>
-        <altimeter-radar type="bool">true</altimeter-radar>
+        <oxygen type="bool">false</oxygen>
+        <altimeter-radar type="bool">false</altimeter-radar>
     </controls>
     <gear>
         <serviceable type="bool">true</serviceable>

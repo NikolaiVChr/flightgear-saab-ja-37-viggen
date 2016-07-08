@@ -3,28 +3,7 @@
 <PropertyList>
 
     <checklist>
-        <title>Start engine using battery</title>
-        <item>
-            <name>Canopy</name>
-            <value>CLOSE (O)</value>
-            <marker>
-                <x-m>-3.7628</x-m>
-                <y-m>-0.3240</y-m>
-                <z-m>0.1050</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <condition>
-                <equals>
-                    <property>fdm/jsbsim/fcs/canopy/pos-norm</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>fdm/jsbsim/fcs/canopy/engage</property>
-                <value>0</value>
-            </binding>
-        </item>
+        <title>Pre-flight checks</title>
         <item>
             <name>Parking Brakes</name>
             <value>SET (shift-B)</value>
@@ -47,6 +26,48 @@
             </binding>
         </item>
         <item>
+            <name>Canopy</name>
+            <value>CLOSE (O)</value>
+            <marker>
+                <x-m>-3.7628</x-m>
+                <y-m>-0.3240</y-m>
+                <z-m>0.1050</z-m>
+                <scale>3.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>fdm/jsbsim/fcs/canopy/pos-norm</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>fdm/jsbsim/fcs/canopy/engage</property>
+                <value>0</value>
+            </binding>
+        </item>
+        <item>
+            <name>Landing gear</name>
+            <value>DOWN (shift-G)</value>
+            <marker>
+                <x-m>-3.2496</x-m>
+                <y-m>-0.3116</y-m>
+                <z-m>-0.0661</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>/controls/gear/gear-down</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/gear/gear-down</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
             <name>Throttle</name>
             <value>CLOSE (PG Down)</value>
             <condition>
@@ -64,73 +85,29 @@
             </binding>
         </item>
         <item>
-            <name>Generator</name>
-            <value>OFF</value>
+            <name>Air-condition</name>
+            <value>ON</value>
             <marker>
-                <x-m>-3.7223</x-m>
-                <y-m>-0.4240</y-m>
-                <z-m>0.1050</z-m>
-                <scale>3.0000</scale>
+                <x-m>-3.4124</x-m>
+                <y-m>-0.4620</y-m>
+                <z-m>0.1165</z-m>
+                <scale>1.0000</scale>
             </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/electric/engine[0]/generator</property>
-                <value>0</value>
-            </binding>
             <condition>
                 <equals>
-                    <property>controls/electric/engine[0]/generator</property>
-                    <value>0</value>
+                    <property>controls/ventilation/airconditioning-enabled</property>
+                    <value>1</value>
                 </equals>
             </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/ventilation/airconditioning-enabled</property>
+                <value>1</value>
+            </binding>
         </item>
         <item>
             <name>Autopilot</name>
             <value>OFF</value>
-        </item>
-        <item>
-            <name>Power supply selector</name>
-            <value>Generator</value>
-            <marker>
-                <x-m>-3.6975</x-m>
-                <y-m>-0.4240</y-m>
-                <z-m>0.0959</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <binding>
-                <command>property-toggle</command>
-                <property>fdm/jsbsim/systems/electrical/external/switch</property>
-            </binding>
-            <condition>
-                <and>
-                    <equals>
-                        <property>fdm/jsbsim/systems/electrical/external/switch</property>
-                        <value>0</value>
-                    </equals>
-                </and>
-            </condition>
-        </item>
-        <item>
-            <name>Battery</name>
-            <value>ON</value>
-            <marker>
-                <x-m>-3.7702</x-m>
-                <y-m>-0.3917</y-m>
-                <z-m>0.1116</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/electric/battery</property>
-            </binding>
-            <condition>
-                <and>
-                    <equals>
-                        <property>/controls/electric/battery</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-            </condition>
         </item>
         <item>
             <name>Cutoff</name>
@@ -156,6 +133,332 @@
             </condition>
         </item>
         <item>
+            <name>Radar</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.4843</x-m>
+                <y-m>-0.3017</y-m>
+                <z-m>0.0165</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>ja37/hud/tracks-enabled</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/hud/tracks-enabled</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Reverser</name>
+            <value>OFF</value>
+            <marker>
+                <x-m>-3.9380</x-m>
+                <y-m>-0.3132</y-m>
+                <z-m>0.2760</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/engines/engine/reverser-cmd</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/engines/engine/reverser-cmd</property>
+                <value>0</value>
+            </binding>
+        </item>
+        <item>
+            <name>Pitch gearing</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.5603</x-m>
+                <y-m>0.4430</y-m>
+                <z-m>0.2223</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>fdm/jsbsim/fcs/elevator/gearing-enable</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Backup power</name>
+            <value>OFF</value>
+            <marker>
+                <x-m>-3.5868</x-m>
+                <y-m>0.4430</y-m>
+                <z-m>0.2223</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/electric/reserve</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/reserve</property>
+                <value>0</value>
+            </binding>
+        </item>
+        <item>
+            <name>Afterburner cutoff</name>
+            <value>OPEN</value>
+            <marker>
+                <x-m>-3.6190</x-m>
+                <y-m>0.4430</y-m>
+                <z-m>0.2223</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/engines/engine/cutoff-augmentation</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/engines/engine/cutoff-augmentation</property>
+                <value>0</value>
+            </binding>
+        </item>
+        <item>
+            <name>Fuel regulation</name>
+            <value>AUTO</value>
+            <marker>
+                <x-m>-3.6496</x-m>
+                <y-m>0.4430</y-m>
+                <z-m>0.2223</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/fuel/auto</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/fuel/auto</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Radar altimeter</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.8264</x-m>
+                <y-m>0.4430</y-m>
+                <z-m>0.1380</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/altimeter-radar</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/altimeter-radar</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Battery</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.7702</x-m>
+                <y-m>-0.3917</y-m>
+                <z-m>0.1116</z-m>
+                <scale>3.0000</scale>
+            </marker>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/electric/battery</property>
+            </binding>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/electric/battery</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </condition>
+        </item>
+        <item>
+            <name>Silence master warning if on</name>
+            <value>SILENCE</value>
+            <marker>
+                <x-m>-4.0446</x-m>
+                <y-m>-0.1496</y-m>
+                <z-m>0.4537</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <binding>
+                <command>property-assign</command>
+                <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
+                <value>0</value>
+            </binding>
+        </item>
+        <item>
+            <name>Control lights</name>
+            <value>HOLD DOWN</value>
+            <marker>
+                <x-m>-3.8438</x-m>
+                <y-m>-0.4231</y-m>
+                <z-m>0.1488</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/lighting/test-indicator-panels</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <!-- silence master warning should be here -->
+        <item>
+            <name>Control fuel level</name>
+            <value>CHECK</value>
+            <marker>
+                <x-m>-3.9760</x-m>
+                <y-m>0.2694</y-m>
+                <z-m>0.2405</z-m>
+                <scale>1.0000</scale>
+            </marker>
+        </item>
+        <item>
+            <name>Anti-collision light</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.4397</x-m>
+                <y-m>0.4669</y-m>
+                <z-m>0.1405</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/electric/lights-ext-flash</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/lights-ext-flash</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Beacon lights</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.5058</x-m>
+                <y-m>0.4669</y-m>
+                <z-m>0.1405</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/electric/lights-ext-beacon</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/lights-ext-beacon</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Navigation lights</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.4711</x-m>
+                <y-m>0.4669</y-m>
+                <z-m>0.1405</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/electric/lights-ext-nav</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/lights-ext-nav</property>
+                <value>1</value>
+            </binding>
+        </item>
+        <item>
+            <name>Landing lights</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.4058</x-m>
+                <y-m>0.4669</y-m>
+                <z-m>0.1405</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <condition>
+                <equals>
+                    <property>controls/electric/lights-land-switch</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/electric/lights-land-switch</property>
+                <value>1</value>
+            </binding>
+        </item>
+
+    </checklist>
+
+
+
+
+
+
+    <checklist>
+        <title>Start engine using battery</title>
+        <item>
+            <name>Power supply selector</name>
+            <value>Generator</value>
+            <marker>
+                <x-m>-3.6975</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.0959</z-m>
+                <scale>3.0000</scale>
+            </marker>
+            <binding>
+                <command>property-toggle</command>
+                <property>fdm/jsbsim/systems/electrical/external/switch</property>
+            </binding>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/systems/electrical/external/switch</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+        </item>
+        <item>
             <name>Hold engine starter (2 secs)</name>
             <value>ON</value>
             <marker>
@@ -174,7 +477,7 @@
             </condition>
         </item>
         <item>
-            <name>RPM</name>
+            <name>Fan RPM</name>
             <value>5-20%</value>
             <condition>
                 <and>
@@ -186,6 +489,29 @@
                         <property>/engines/engine[0]/n1</property>
                         <value>20</value>
                     </less-than>
+                </and>
+            </condition>
+        </item>
+        <item>
+            <name>Mask oxygen</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.8794</x-m>
+                <y-m>0.4016</y-m>
+                <z-m>0.1570</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/oxygen</property>
+                <value>1</value>
+            </binding>
+            <condition>
+                <and>
+                    <equals>
+                        <property>controls/oxygen</property>
+                        <value>1</value>
+                    </equals>
                 </and>
             </condition>
         </item>
@@ -349,90 +675,7 @@
 
     <checklist>
         <title>Start engine using ext. power</title>
-        <item>
-            <name>Canopy</name>
-            <value>CLOSE (O)</value>
-            <marker>
-                <x-m>-3.7628</x-m>
-                <y-m>-0.3240</y-m>
-                <z-m>0.1050</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <condition>
-                <equals>
-                    <property>fdm/jsbsim/fcs/canopy/pos-norm</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>fdm/jsbsim/fcs/canopy/engage</property>
-                <value>0</value>
-            </binding>
-        </item>
-        <item>
-            <name>Parking Brakes</name>
-            <value>SET (shift-B)</value>
-            <marker>
-                <x-m>-3.2628</x-m>
-                <y-m>-0.3512</y-m>
-                <z-m>-0.0727</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <condition>
-                <equals>
-                    <property>/controls/gear/brake-parking</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>/controls/gear/brake-parking</property>
-                <value>1</value>
-            </binding>
-        </item>
-        <item>
-            <name>Throttle</name>
-            <value>CLOSE (PG Down)</value>
-            <condition>
-                <and>
-                    <less-than>
-                        <property>/controls/engines/engine[0]/throttle</property>
-                        <value>0.02</value>
-                    </less-than>
-                </and>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>/controls/engines/engine[0]/throttle</property>
-                <value>0</value>
-            </binding>
-        </item>
-        <item>
-            <name>Generator</name>
-            <value>OFF</value>
-            <marker>
-                <x-m>-3.7223</x-m>
-                <y-m>-0.4240</y-m>
-                <z-m>0.1050</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <binding>
-                <command>property-assign</command>
-                <property>controls/electric/engine[0]/generator</property>
-                <value>0</value>
-            </binding>
-            <condition>
-                <equals>
-                    <property>controls/electric/engine[0]/generator</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-        </item>
-        <item>
-            <name>Autopilot</name>
-            <value>OFF</value>
-        </item>
+
         <item>
             <name>Toggle external power (menu)</name>
             <value>ON</value>
@@ -553,7 +796,7 @@
             </condition>
         </item>
         <item>
-            <name>RPM</name>
+            <name>Fan RPM</name>
             <value>5-20%</value>
             <condition>
                 <and>
@@ -565,6 +808,29 @@
                         <property>/engines/engine[0]/n1</property>
                         <value>20</value>
                     </less-than>
+                </and>
+            </condition>
+        </item>
+        <item>
+            <name>Mask oxygen</name>
+            <value>ON</value>
+            <marker>
+                <x-m>-3.8794</x-m>
+                <y-m>0.4016</y-m>
+                <z-m>0.1570</z-m>
+                <scale>1.0000</scale>
+            </marker>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/oxygen</property>
+                <value>1</value>
+            </binding>
+            <condition>
+                <and>
+                    <equals>
+                        <property>controls/oxygen</property>
+                        <value>1</value>
+                    </equals>
                 </and>
             </condition>
         </item>
@@ -655,28 +921,6 @@
                 </and>
             </condition>
         </item>-->
-        <item>
-            <name>Battery</name>
-            <value>ON</value>
-            <marker>
-                <x-m>-3.7702</x-m>
-                <y-m>-0.3917</y-m>
-                <z-m>0.1116</z-m>
-                <scale>3.0000</scale>
-            </marker>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/electric/battery</property>
-            </binding>
-            <condition>
-                <and>
-                    <equals>
-                        <property>/controls/electric/battery</property>
-                        <value>1</value>
-                    </equals>
-                </and>
-            </condition>
-        </item>        
         <item>
             <name>Nose wheel steering</name>
             <value>ON (M)</value>
