@@ -2575,7 +2575,8 @@
 
  <!-- engine -->
 
- <model><!-- particle heat distortion -->
+<!-- particle heat distortion -->
+ <model>
   <name>exhaust_heat</name>
   <path>Aircraft/JA37/Models/Effects/engine/exhaust.xml</path>
   <offsets>
@@ -3023,7 +3024,7 @@
   <name>HeatBlurALS</name>
   <path>Aircraft/JA37/Models/Effects/engine/heatDistortion.xml</path>
   <offsets>
-   <x-m>6.825</x-m>
+   <x-m>7.4</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>

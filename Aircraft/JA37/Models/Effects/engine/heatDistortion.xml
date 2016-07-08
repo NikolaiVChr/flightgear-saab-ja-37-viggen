@@ -34,16 +34,20 @@
     <type>scale</type>
     <object-name>Bounding_box</object-name>
     <nopreview/>
-    <property>sim/multiplay/generic/float[16]</property><!-- thrust -->
-    <x-min>0</x-min>
-    <y-min>1</y-min>
-    <z-min>1</z-min>
-    <x-max>1</x-max>
-    <y-max>1</y-max>
-    <z-max>1</z-max>
-    <x-factor>0.0004</x-factor>
-    <y-factor>0.0004</y-factor>
-    <z-factor>0.0004</z-factor>
+    <x-offset>2.5</x-offset>
+    <y-offset>10</y-offset>
+    <z-offset>10</z-offset>
   </animation>
+
+    <!--<f>
+        <radius type="double">0.0001</radius>
+        <expand type="double">0.5</expand>
+        <dens type="double">0.05</dens>
+        <flame type="double">0</flame>
+        <noise1 type="double">0.5</noise1>
+        <noise2 type="double">0.5</noise2>
+        <noise type="int">1</noise>
+        <color type="double">0</color>
+    </f>-->
 
 </PropertyList>

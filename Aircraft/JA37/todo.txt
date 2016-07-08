@@ -126,6 +126,7 @@ Sim: {Pinto} Has experienced that 2 engine directories were created under engine
 Sound: Could hear aim-9 growl even though not in tact mode, in external view.
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Effect: Firing many M70 rockets in quick succession will make FG crash. [Probably fixed]
+Sim: When disengaging autofollow, A/P keeps infuencing elevator.
 
 
 Issues with FG:
