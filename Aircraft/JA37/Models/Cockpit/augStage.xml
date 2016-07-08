@@ -52,6 +52,10 @@
                 <property>systems/electrical/outputs/dc-voltage</property>
                 <value>23</value>
             </greater-than>
+			<equals>
+				<property>controls/engines/engine[0]/cutoff-augmentation</property>
+				<value>0</value>
+			</equals>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
@@ -79,6 +83,10 @@
                 <property>systems/electrical/outputs/dc-voltage</property>
                 <value>23</value>
             </greater-than>
+			<equals>
+				<property>controls/engines/engine[0]/cutoff-augmentation</property>
+				<value>0</value>
+			</equals>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
@@ -100,6 +108,10 @@
                 <property>systems/electrical/outputs/dc-voltage</property>
                 <value>23</value>
             </greater-than>
+			<equals>
+				<property>controls/engines/engine[0]/cutoff-augmentation</property>
+				<value>0</value>
+			</equals>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
