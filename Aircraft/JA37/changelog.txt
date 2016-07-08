@@ -2408,3 +2408,4 @@ Aero: Changed pilot, empty and droptank weights. As per AJ37 manual.
 Sim: Changed Vne for AJ37 as per manual.
 Sim: The plane now starts up more cold.
 Sim: Adjusted checklist for starting up more cold. Approx as manaul.
+HUD: Ships now have their own symbol in tactical mode.
