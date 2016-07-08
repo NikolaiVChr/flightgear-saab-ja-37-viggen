@@ -711,7 +711,13 @@ var HUDnasal = {
                            .lineTo( (50/1024)*canvasWidth, (50/1024)*canvasWidth)
                            .lineTo( (50/1024)*canvasWidth,   0)
                            .setStrokeLineWidth(w)
-                           .setColor(r,g,b, a);                                                      
+                           .setColor(r,g,b, a);
+    HUDnasal.main.target_sea = HUDnasal.main.diamond_group.createChild("path")
+                           .moveTo(-(50/1024)*canvasWidth,   0)
+                           .lineTo(0, (50/1024)*canvasWidth)
+                           .lineTo( (50/1024)*canvasWidth,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a); 
     HUDnasal.main.diamond_dist = HUDnasal.main.diamond_group.createChild("text");
     HUDnasal.main.diamond_dist.setText("..");
     HUDnasal.main.diamond_dist.setColor(r,g,b, a);
@@ -822,7 +828,7 @@ var HUDnasal = {
              HUDnasal.main.hdgLineR, HUDnasal.main.head_scale_indicator, HUDnasal.main.turn_indicator, HUDnasal.main.arrow, HUDnasal.main.head_scale_horz_ticks,
              HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
-             HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target_air, HUDnasal.main.target_ground, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
+             HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target_air, HUDnasal.main.target_sea, HUDnasal.main.target_ground, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
              HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, HUDnasal.main.distanceScale, HUDnasal.main.targetDistance1,
              HUDnasal.main.targetDistance2, HUDnasal.main.landing_line, HUDnasal.main.heading_bug_horz];
@@ -2454,6 +2460,7 @@ var HUDnasal = {
           if (diamond > 0) {
             me.target_air.hide();
             me.target_ground.hide();
+            me.target_sea.hide();
 
             if (blink == TRUE) {
               if((diamond == 1 and me.input.fiveHz.getValue() == TRUE) or (diamond == 2 and me.input.tenHz.getValue() == TRUE)) {
@@ -2470,17 +2477,24 @@ var HUDnasal = {
             }
 
           } elsif (blink == FALSE or me.input.fiveHz.getValue() == TRUE) {
-            if (selection.get_type() == radar_logic.SURFACE or selection.get_type() == radar_logic.MARINE) {
+            if (selection.get_type() == radar_logic.SURFACE) {
               me.target_ground.show();
+              me.target_air.hide();
+              me.target_sea.hide();
+            } elsif (selection.get_type() == radar_logic.MARINE) {
+              me.target_ground.hide();
+              me.target_sea.show();
               me.target_air.hide();
             } else {
               me.target_air.show();
               me.target_ground.hide();
+              me.target_sea.hide();
             }
             me.diamond.hide();
           } else {
             me.target_air.hide();
             me.target_ground.hide();
+            me.target_sea.hide();
             me.diamond.hide();
           }
           me.diamond_group.show();
@@ -2512,6 +2526,7 @@ var HUDnasal = {
           me.diamond.hide();
           me.target_air.hide();
           me.target_ground.hide();
+          me.target_sea.hide();
         }
 
         #velocity vector
