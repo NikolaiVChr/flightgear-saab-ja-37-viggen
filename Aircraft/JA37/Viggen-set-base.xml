@@ -1028,7 +1028,6 @@
         <!-- structural G limits: -->
         <max-positive-g>7.0</max-positive-g>        <!-- Pilots were usually not allowed to exceed this -->
         <max-negative-g>-2.66</max-negative-g>
-        <vne>1386</vne>
     </limits>
 
     <!--**********************************************************************

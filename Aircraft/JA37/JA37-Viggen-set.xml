@@ -660,4 +660,8 @@
         </systems>        
     </ja37>
 
+    <limits>
+        <vne>1386</vne>
+    </limits>
+
 </PropertyList>

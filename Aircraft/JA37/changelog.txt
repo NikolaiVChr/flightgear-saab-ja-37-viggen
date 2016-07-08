@@ -2401,3 +2401,8 @@ Sim: Auto pitch trim at speeds over M0.93. The plane must be flying at 1G and on
 Model: Damped the Accelerometer.
 Model: The tachometer now shows N2 instead of N1, as per manual.
 Model: {Pinto} New tachometer dial and minor needle.
+Sim: Minor rework of startup sequence. Now required to hold starter for 2 seconds.
+Model: Some rework of start indicator lights and master warning during startup.
+Sim: Studied AJ37 manual and found interesting numbers, added to performance doc.
+Aero: Changed pilot, empty and droptank weights. As per AJ37 manual.
+Sim: Changed Vne for AJ37 as per manual.
