@@ -1101,6 +1101,7 @@ var load_interior = func {
 
 var load_interior_final = func {
     setprop("sim/current-view/field-of-view", 90);
+    setprop("ja37/avionics/welcome", TRUE);
     print("..Done!");
 }
 

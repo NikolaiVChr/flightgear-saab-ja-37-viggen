@@ -536,6 +536,7 @@
             <temp-halt-ap-roll type="bool">true</temp-halt-ap-roll>
             <temp-halt-ap-roll2 type="bool">true</temp-halt-ap-roll2>
             <temp-halt-ap-pitch type="bool">true</temp-halt-ap-pitch>
+            <welcome type="bool">false</welcome>
         </avionics>
         <systems>
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
