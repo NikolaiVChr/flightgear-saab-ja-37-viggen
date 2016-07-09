@@ -16,6 +16,15 @@
     </offsets>
 
    <condition>
+     <or>
+       <less-than>
+         <property>/sim/rendering/shaders/model</property>
+         <value>1</value>
+       </less-than>
+       <not>
+        <property>/sim/rendering/shaders/skydome</property>
+       </not>
+     </or>
      <and>
       <less-than-equals>   
        <property>sim/multiplay/generic/float[17]</property><!--  velocities/airspeed-kt -->

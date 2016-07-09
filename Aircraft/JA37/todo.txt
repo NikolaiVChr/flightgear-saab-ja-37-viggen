@@ -70,6 +70,8 @@ Sim: Make retarded version of M71.
 Sim: Be able to switch if M55 should fire all at once, or one at a time.
 Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
+Sim: Make weapons hit all nearby targets.
+Sim: Make dumb bombs not require a target.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
@@ -126,7 +128,6 @@ Sim: {Pinto} Has experienced that 2 engine directories were created under engine
 Sound: Could hear aim-9 growl even though not in tact mode, in external view.
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Effect: Firing many M70 rockets in quick succession will make FG crash. [Probably fixed]
-Sim: When disengaging autofollow, A/P keeps infuencing elevator.
 
 
 Issues with FG:

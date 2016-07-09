@@ -3859,15 +3859,15 @@
   </offsets>
  </model>
 
- <!--<model>
+ <model>
   <name>HeatBlurALS</name>
   <path>Aircraft/JA37/Models/Effects/engine/heatDistortion.xml</path>
   <offsets>
-   <x-m>6.825</x-m>
+   <x-m>6.8</x-m>
    <y-m>0.0</y-m>
    <z-m>0.0</z-m>
   </offsets>
- </model>-->
+ </model>
 
 
 <!--  other particle effects -->

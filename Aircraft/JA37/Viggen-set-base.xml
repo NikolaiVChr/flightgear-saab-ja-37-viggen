@@ -458,6 +458,16 @@
             <smoke type="int">1</smoke>
             <!-- 1: off  2: yellow  3: blue -->
             <smoke-cmd type="int">1</smoke-cmd>
+            <heatblur>
+                <radius type="double">0.001</radius>
+                <expand type="double">0.5</expand>
+                <dens type="double">0.05</dens>
+                <flame type="double">0</flame>
+                <noise1 type="double">1</noise1>
+                <noise2 type="double">0.01</noise2>
+                <noise type="int">1</noise>
+                <color type="double">0</color>
+            </heatblur>
         </effect>
         <blink>
             <five-Hz>

@@ -408,7 +408,13 @@ var update_loop = func {
     if(getprop("sim/description") != "Saab JA-37 Viggen" and getprop("/instrumentation/radar/range") == 180000) {
       setprop("/instrumentation/radar/range", 120000);
     }
-	
+
+    # ALS heat blur
+    var inv_speed = 100-getprop("velocities/airspeed-kt");
+	  setprop("velocities/airspeed-kt-inv", inv_speed);
+    setprop("ja37/effect/heatblur/dens", clamp((getprop("engines/engine/n2")/100-getprop("velocities/airspeed-kt")/250)*0.035, 0, 1));
+
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop
