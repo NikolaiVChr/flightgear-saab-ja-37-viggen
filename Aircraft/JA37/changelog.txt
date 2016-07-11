@@ -2407,6 +2407,7 @@ Sim: Studied AJ37 manual and found interesting numbers, added to performance doc
 Aero: Changed pilot, empty and droptank weights. As per AJ37 manual.
 Sim: Changed Vne for AJ37 as per manual.
 Sim: The plane now starts up more cold.
-Sim: Adjusted checklist for starting up more cold. Approx as manaul.
+Sim: Adjusted checklist for starting up more cold. Approx as manual.
 HUD: Ships now have their own symbol in tactical mode.
-Effect: In ALS with model shader on at least 2, there will now be heat blur effect.
+Effect: In ALS with model shader on at least 1, there will now be heat blur effect.
+Effect: The normal map is now more subtle.
