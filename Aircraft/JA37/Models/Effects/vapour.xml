@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyList>
   <particlesystem>
-    <name>strake-vortex</name>
+    <name>vapour</name>
     <texture>puff.png</texture>
     <emissive>false</emissive>
     <lighting>false</lighting>
