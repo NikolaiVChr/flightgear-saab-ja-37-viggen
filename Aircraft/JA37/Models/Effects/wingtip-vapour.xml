@@ -27,7 +27,7 @@
     </or>
    </condition>
  
-   <attach>world</attach>
+   <attach>local</attach>
  
    <placer>
      <type>point</type> 
