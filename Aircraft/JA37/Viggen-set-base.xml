@@ -973,6 +973,9 @@
         <main>
             <rpm alias="/engines/engine/nozzle-pos-norm"/>
         </main>
+        <tail>
+            <rpm alias="/orientation/alpha-deg"/>
+        </tail>
     </rotors>
 
 
@@ -1269,7 +1272,7 @@
         <property>sim/time/time-log</property>
        </entry>
       </log>-->
-        <log>
+        <!--<log>
            <filename>C:/Users/Nikolai/Documents/ja37_missile_performancelog.csv</filename>
            <enabled>false</enabled>
            <interval-ms>50</interval-ms>
@@ -1299,6 +1302,22 @@
             <title>Thrust</title>
             <property>logging/missile/thrust-lbf</property>
            </entry>
+        </log>-->
+        <log>
+           <filename>C:/Users/Nikolai/Documents/ja37_missile_test.csv</filename>
+           <enabled>false</enabled>
+           <interval-ms>10</interval-ms>
+           <delimiter>,</delimiter>
+           <entry>
+            <enabled>true</enabled>
+            <title>dt</title>
+            <property>logging/missile/dt</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>LOSr</title>
+            <property>logging/missile/LOS-rate</property>
+           </entry>
         </log>
         <time-log type="string">0:0:0</time-log>
         <date-log type="string">0/0/0</date-log>
@@ -1317,6 +1336,10 @@
             <speed-m type="double">0.0</speed-m>
             <drag-lbf type="double">0.0</drag-lbf>
             <thrust-lbf type="double">0.0</thrust-lbf>
+
+            <!-- test -->
+            <LOS-rate type="double">0.0</LOS-rate>
+            <dt type="double">0.0</dt>
         </missile>
     </logging>
 </PropertyList>

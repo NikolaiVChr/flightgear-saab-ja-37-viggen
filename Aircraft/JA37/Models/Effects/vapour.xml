@@ -13,13 +13,19 @@
     <condition>
       <and>
         <greater-than>
-          <property>orientation/alpha-deg</property>
+          <property>rotors/tail/rpm</property><!-- alias: orientation/alpha-deg -->
           <value>15.0</value>
         </greater-than>
-        <greater-than>
-          <property>velocities/airspeed-kt</property>
-          <value>175</value>
-        </greater-than>
+        <or>
+          <greater-than>
+            <property>velocities/airspeed-kt</property>
+            <value>175</value>
+          </greater-than>
+          <greater-than><!-- used for showing this effect over MP -->
+            <property>velocities/true-airspeed-kt</property>
+            <value>175</value>
+          </greater-than>
+        </or>
       </and>
     </condition>
     <attach>local</attach>
