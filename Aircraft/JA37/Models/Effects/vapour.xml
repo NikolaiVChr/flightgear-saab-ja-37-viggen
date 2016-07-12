@@ -8,7 +8,7 @@
     <offsets>
       <x-m>0</x-m>
       <y-m>0</y-m>
-      <z-m>1.5</z-m>
+      <z-m>0</z-m>
     </offsets>
     <condition>
       <and>
@@ -18,37 +18,125 @@
         </greater-than>
         <greater-than>
           <property>velocities/airspeed-kt</property>
-          <value>200</value>
+          <value>150</value>
         </greater-than>
       </and>
     </condition>
-    <attach>world</attach>
+    <attach>local</attach>
     <placer>
-      <type>point</type>
+      <type>segments</type>
+        <!-- left wing -->
+        <vertex>
+          <x-m>  0.55276 </x-m>
+          <y-m> -1.35813  </y-m>
+          <z-m> -0.25554  </z-m>
+        </vertex>
+        <vertex>
+          <x-m>  1.40283 </x-m>
+          <y-m>  -2.24328 </y-m>
+          <z-m>  -0.28639 </z-m>
+        </vertex>
+        <vertex>
+          <x-m>  2.38803 </x-m>
+          <y-m> -2.99079  </y-m>
+          <z-m>  -0.31234 </z-m>
+        </vertex>
+        <vertex>
+          <x-m> 3.55654  </x-m>
+          <y-m> -3.74959  </y-m>
+          <z-m>  -0.33863 </z-m>
+        </vertex>
+        <vertex>
+          <x-m> 4.71573  </x-m>
+          <y-m> -4.56894  </y-m>
+          <z-m> -0.35559  </z-m>
+        </vertex>
+        <!-- right wing -->
+        <vertex>
+          <x-m> 4.71573  </x-m>
+          <y-m> 4.56894  </y-m>
+          <z-m> -0.35559  </z-m>
+        </vertex>
+        <vertex>
+          <x-m> 3.55654  </x-m>
+          <y-m> 3.74959  </y-m>
+          <z-m>  -0.33863 </z-m>
+        </vertex>
+        <vertex>
+          <x-m>  2.38803 </x-m>
+          <y-m> 2.99079  </y-m>
+          <z-m>  -0.31234 </z-m>
+        </vertex>
+        <vertex>
+          <x-m>  1.40283 </x-m>
+          <y-m>  2.24328 </y-m>
+          <z-m>  -0.28639 </z-m>
+        </vertex>
+        <vertex>
+          <x-m>  0.55276 </x-m>
+          <y-m> 1.35813  </y-m>
+          <z-m> -0.25554  </z-m>
+        </vertex>
+        <!-- left canard -->
+        <vertex>
+          <x-m> -0.80877 </x-m>
+          <y-m> -2.44963 </y-m>
+          <z-m> 0.16327 </z-m>
+        </vertex>
+        <vertex>
+          <x-m> -1.96617 </x-m>
+          <y-m> -1.75156 </y-m>
+          <z-m> 0.26854 </z-m>
+        </vertex>
+        <vertex>
+          <x-m> -2.87066 </x-m>
+          <y-m> -1.20615 </y-m>
+          <z-m> 0.34286 </z-m>
+        </vertex>
+        <!-- right canard -->
+        <vertex>
+          <x-m> -0.80877 </x-m>
+          <y-m> 2.44963 </y-m>
+          <z-m> 0.16327 </z-m>
+        </vertex>
+        <vertex>
+          <x-m> -1.96617 </x-m>
+          <y-m> 1.75156 </y-m>
+          <z-m> 0.26854 </z-m>
+        </vertex>
+        <vertex>
+          <x-m> -2.87066 </x-m>
+          <y-m> 1.20615 </y-m>
+          <z-m> 0.34286 </z-m>
+        </vertex>
+        
+        
+
+        <!--<vertex>
+          <x-m>  </x-m>
+          <y-m>  </y-m>
+          <z-m>  </z-m>
+        </vertex>-->
     </placer>
     <shooter>
-      <theta-min-deg>-5</theta-min-deg>
-      <theta-max-deg>10</theta-max-deg>
-      <phi-min-deg>-10</phi-min-deg>
-      <phi-max-deg>10</phi-max-deg>
       <speed-mps>
         <value>0</value>
-        <spread>10</spread>
+        <spread>0</spread>
       </speed-mps>
       <rotation-speed>
-        <x-max-deg-sec>300</x-max-deg-sec>
-        <x-min-deg-sec>-300</x-min-deg-sec>
-        <y-max-deg-sec>300</y-max-deg-sec>
-        <y-min-deg-sec>-300</y-min-deg-sec>
-        <z-max-deg-sec>300</z-max-deg-sec>
-        <z-min-deg-sec>-300</z-min-deg-sec>
+        <x-max-deg-sec> 00</x-max-deg-sec>
+        <x-min-deg-sec>00</x-min-deg-sec>
+        <y-max-deg-sec> 00</y-max-deg-sec>
+        <y-min-deg-sec>00</y-min-deg-sec>
+        <z-max-deg-sec> 00</z-max-deg-sec>
+        <z-min-deg-sec>00</z-min-deg-sec>
       </rotation-speed>
     </shooter>
     <counter>
       <particles-per-sec>
         <property>velocities/airspeed-kt</property>
-        <factor>1</factor>
-        <spread>5</spread>
+        <factor>50</factor>
+        <spread>0</spread>
       </particles-per-sec>
     </counter>
     <align>billboard</align>
@@ -65,11 +153,11 @@
             <value>1</value>
           </blue>
           <alpha>
-            <value>0.2</value>
+            <value>0.05</value>
           </alpha>
         </color>
         <size>
-          <value>4</value>
+          <value>0.5</value>
         </size>
       </start>
       <end>
@@ -84,23 +172,23 @@
             <value>1</value>
           </blue>
           <alpha>
-            <value>0.2</value>
+            <value>0.0</value>
           </alpha>
         </color>
         <size>
-          <value>1</value>
+          <value>0.0</value>
         </size>
       </end>
       <life-sec>
-        <value>0.0075</value>
+        <value>0.00001</value>
       </life-sec>
-      <mass-kg>0.025</mass-kg>
-      <radius-m>0.175</radius-m>
+      <mass-kg>1.0025</mass-kg>
+      <radius-m>0</radius-m>
     </particle>
     <program>
       <fluid>air</fluid>
       <gravity type="bool">true</gravity>
-      <wind type="bool">true</wind>
+      <wind type="bool">false</wind>
     </program>
   </particlesystem>
 </PropertyList>

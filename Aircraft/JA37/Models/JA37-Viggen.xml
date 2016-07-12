@@ -3045,15 +3045,15 @@
     </offsets>
   </model>
 
- <!--<model>  never worked as intended, so commented out.
-  <name>strake-vortex</name>
-  <path>Aircraft/JA37/Models/Effects/strake-vortex.xml</path>
+ <model>  
+  <name>vapour</name>
+  <path>Aircraft/JA37/Models/Effects/vapour.xml</path>
   <offsets>
-   <x-m>0.58</x-m>
-   <y-m>0</y-m>
-   <z-m>0.25</z-m>
+   <x-m>0.0</x-m>
+   <y-m>0.0</y-m>
+   <z-m>0.0</z-m>
   </offsets>
- </model>-->
+ </model>
 
 <model>
   <name>aerobatic_smoke_blue</name>
