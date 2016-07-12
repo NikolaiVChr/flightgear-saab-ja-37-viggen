@@ -18,7 +18,7 @@
         </greater-than>
         <greater-than>
           <property>velocities/airspeed-kt</property>
-          <value>150</value>
+          <value>175</value>
         </greater-than>
       </and>
     </condition>
@@ -157,7 +157,7 @@
           </alpha>
         </color>
         <size>
-          <value>0.5</value>
+          <value>0.3</value>
         </size>
       </start>
       <end>
