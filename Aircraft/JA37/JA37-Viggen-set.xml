@@ -41,6 +41,7 @@
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-9.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-10.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-11.png</splash-texture>
+            <splash-texture>Aircraft/JA37/GUI/ja37-splash-12.png</splash-texture>
         </startup>
 
         <gui>
