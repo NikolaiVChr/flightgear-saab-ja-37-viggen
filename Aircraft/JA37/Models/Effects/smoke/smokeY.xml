@@ -22,7 +22,7 @@
     <emissive>false</emissive>
     <lighting>false</lighting>
     <align>billboard</align> <!-- billboard / fixed -->
-    <attach>local</attach> <!-- world / local-->
+    <attach>world</attach> <!-- world / local-->
 
     <placer>
       <type>point</type> <!-- sector / segments / point -->
