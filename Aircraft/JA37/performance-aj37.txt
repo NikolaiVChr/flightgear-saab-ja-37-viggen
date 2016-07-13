@@ -22,8 +22,8 @@ wingarea (canards) 6.70 m^2
 normal start weight 15225 Kg / 33563.17 lbm (exclusiv drop tank and armament)
 Wheelbase 5.7 meter (to boogies middle)
 
-AJ37 Manual
-===========
+AJ37 Manuals
+============
 6845 Liter fuel (5525 Internal, 1320 in droptank)
   Tank, content
   1 1700 - 1320.00kg
@@ -50,6 +50,31 @@ Max speed at 11KM (standard atm.): M1.82
 Max speed at 15.3Km (standard atm.): M1.37
 Time to reach mach 1.1 (standard atm.): 0.65 minutes
 Time to reach mach 0.9 at mil (standard atm.): 2.25 minutes
+
+Misc
+----
+Max AJ37 allowed G-force = 8
+Max AJ37 allowed AoA = 18 (will limit to 8G under 700 Km/h / M1)
+Max JA37 allowed AoA = 23 (will limit to 8G under 650 KM/h / M1)
+RM8A critical AoA before compressor stall = 20
+RM8B critical AoA before compressor stall = 25
+At high altitude the AoA limit is replaced by elevator limit. Aproxx at M1.0
+Elevons can go 27 up and 21 down for both AJ and JA.
+ of those 22 up and 16 down is used for elevators (AJ), and additional 4 up/down in the JA.
+At M0.9 sealevel 0.7 deg rotation of elevator per G.
+At supersonic 11Km 5 deg rotation of elevator per G.
+If pulling stick fully back 17.2 cm gives 22 deg elevator, without pitch gearing, pull stick back 3.8 cm would give 4.8 elevator up, result would be 8G at sealevel at M0.9
+Pitch gearing works in same setting for AJ and JA.
+Pitch gearing works from still to 850 Km7H cal-airspeed, where it reaches high speed mode, where elevator is limited to 8.7 deg up (GSA). Below 3.5 Km high speed mode is never reached. (AJ)
+Stick goes from 100 forward to 150 back. (probably newton)
+The autotrim has an additional 3-3.5 deg elevator authority. It takes 15 seconds to fully reset.
+In the JA there is also a series-servo that has additional 4 deg up and down.
+If you at M1.1 pull 6G at 3Km the plane will decellarate with 10m/s^2 and reach M0.9 where the elevator authority is greatest before the auto-trim has reset. This means if the pilot is not careful he will pull significantly more than 8G. Simulations has shown that the planes structural limit can be reached this way (12G)
+
+
+
+
+
 
 
 
