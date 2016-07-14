@@ -85,7 +85,7 @@
                             1.32997 0.88037
                             1.36254 0.87423
                             1.39186 0.86963
-                            1.7     1.3
+                            1.7     2
                         </tableData>
                     </table>
                     <v>3.280840</v><!-- convert to feet -->
@@ -1969,7 +1969,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
-                <v>0.85</v>
+                <v>1.0</v>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">fcs/elevator-pos-deg</independentVar>

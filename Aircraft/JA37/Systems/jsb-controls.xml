@@ -55,7 +55,7 @@
 -->
 
 
-    <channel execrate="1" name="Elevons">
+    <channel execrate="1" name="Elevators">
         <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
         <fcs_function name="fcs/elevator/stick-geared">
@@ -84,33 +84,6 @@
                         </tableData>
                     </table>
                 </product>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="fcs/aileron/stick-geared">
-            <function>
-                <table>
-                    <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
-                    <tableData>
-                        -1.00  -1.00
-                        -0.86  -0.74
-                        -0.75  -0.56
-                        -0.62  -0.40
-                        -0.50  -0.28
-                        -0.38  -0.19
-                        -0.23  -0.11
-                        -0.10  -0.045
-                         0.00   0.00
-                         0.10   0.045
-                         0.23   0.11
-                         0.38   0.19
-                         0.50   0.28
-                         0.62   0.40
-                         0.75   0.56
-                         0.86   0.74
-                         1.00   1.00
-                    </tableData>
-                </table>
             </function>
         </fcs_function>
 
@@ -225,11 +198,13 @@
             <table>
                 <independentVar lookup="row">aero/qbar-psf</independentVar>
                 <tableData>
-                     0     1.0
-                     800   1.0
+                     0     1.00
+                     800   1.00
+                     850   0.70
                      1000  0.40
-                     1500  0.25
-                     2500  0.15
+                     1300  0.25
+                     1500  0.15
+                     2500  0.10
                 </tableData>
             </table>
         </scheduled_gain>
@@ -349,12 +324,11 @@
                                         0.0      6562  13123 19685 26247 29527
                             0.40        -22.0   -22.0  -22.0 -22.0 -22.0 -22.0
                             0.70        -11.8   -12.5  -15.5 -20.0 -22.0 -22.0
-                            0.95        -15.3   -15.3  -12.5 -16.5 -20.0 -22.0
-                            1.05        -15.3   -15.3  -15.5 -20.0 -22.0 -22.0
-                            1.20        -10.0   -15.3  -18.0 -22.0 -22.0 -22.0
-                            1.40        -10.0   -17.0  -20.5 -22.0 -22.0 -22.0
-                            1.50        -10.0   -17.5  -22.0 -22.0 -22.0 -22.0
-                            <!-- the 3 x 10.0 is a hack -->
+                            0.95         -8.0   -10.0  -12.5 -16.5 -20.0 -22.0
+                            1.05        -8.0    -9.0  -15.5 -20.0 -22.0 -22.0
+                            1.20        -6.0    -6.5  -18.0 -22.0 -22.0 -22.0
+                            1.40        -4.0    -5.0  -20.5 -22.0 -22.0 -22.0
+                            1.50        -2.0    -3.0  -22.0 -22.0 -22.0 -22.0
                         </tableData>
                     </table>
                     <v>-1</v>
@@ -439,6 +413,9 @@
         <!-- select which of the above tables is active -->
         <switch name="fcs/elevator/cmd-final">
             <default value="fcs/elevator/cmd-adjust-positive"/>
+            <test logic="OR" value="fcs/elevator/cmd-sum">
+                fcs/elevator/gearing-enable == 0
+            </test>
             <test logic="OR" value="fcs/elevator/cmd-adjust-negative">
                 fcs/elevator/cmd-sum lt 0
             </test>
@@ -453,7 +430,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      0.63 </time><!-- from NASA F-16 doc: 60 deg/s -->
+                    <time>      1.5 </time><!-- high number will prevent too much instant G when fast pulling back -->
                 </setting>
             </traverse>
             <clipto>
@@ -468,15 +445,15 @@
         </kinematic>
 
         <scheduled_gain name="fcs/elevator/alpha-scheduler-ja37">
-            <input>fcs/elevator/cmd-sum</input>
+            <input>fcs/elevator/cmd-final</input>
             <table>
                 <independentVar>aero/alpha-deg</independentVar>
                 <tableData>
                 -23     0.00
                 -21     0.75
-                -10     1.00
+                
                  0.0    1.00
-                 10     1.00
+                 
                  21     0.75
                  23     0.00
                 </tableData>
@@ -484,15 +461,13 @@
         </scheduled_gain>
 
         <scheduled_gain name="fcs/elevator/alpha-scheduler-aj37">
-            <input>fcs/elevator/cmd-sum</input>
+            <input>fcs/elevator/cmd-final</input>
             <table>
                 <independentVar>aero/alpha-deg</independentVar>
                 <tableData>
                 -18     0.00
                 -16     0.75
-                -10     1.00
                  0.0    1.00
-                 10     1.00
                  16     0.75
                  18     0.00
                 </tableData>
@@ -504,33 +479,30 @@
             <test logic="OR" value="fcs/elevator/alpha-scheduler-aj37">
                /ja37/systems/variant == 1
             </test>
+            <clipto>
+                <min>-1</min>
+                <max>1</max>
+            </clipto>
         </switch>
         
-        <summer name="fcs/elevator/pos-norm-alpha-limit">
-          <input>fcs/elevator/alpha-scheduler</input>
-          <clipto>
-            <min>-1</min>
-            <max>1</max>
-          </clipto>
-        </summer>
-
         <switch name="names/elevator/tmp-norm">
-            <default value="fcs/elevator/pos-norm-alpha-limit"/>
+            <default value="fcs/elevator/alpha-scheduler"/>
             <test logic="OR" value="0">
                 structural/wings/serviceable == 0
             </test>
             <test logic="OR" value="fcs/elevator/pos-norm">
                 systems/hydraulics/flight-surface-actuation == 0
                 fcs/elevator/serviceable == 0
-            </test>
+            </test>            
             <test logic="AND" value="fcs/elevator/cmd-final">
+                <!-- not sure if this should be here or not.
+                     Remove this test to make alpha limiter works in all regimes -->
                 velocities/vc-kts gt fcs/elevator/alpha-limit-speed
-                fcs/elevator/gearing-enable == 1
             </test>
             <output>fcs/elevator/tmp-norm</output>
         </switch>
 
-        <aerosurface_scale name="names/elevator/trim-deg">
+        <!--<aerosurface_scale name="names/elevator/trim-deg">
             <input>fcs/pitch-trim-cmd-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -542,7 +514,7 @@
                 <max>16</max>
             </range>
             <output>fcs/elevator/trim-deg</output>
-        </aerosurface_scale>
+        </aerosurface_scale>-->
 
         <aerosurface_scale name="names/elevator/pos-rad">
             <input>fcs/elevator/pos-norm</input>
@@ -557,6 +529,37 @@
             </range>
             <output>fcs/elevator-pos-rad</output>
         </aerosurface_scale>
+
+    </channel>
+
+    <channel execrate="1" name="Ailerons">
+
+        <fcs_function name="fcs/aileron/stick-geared">
+            <function>
+                <table>
+                    <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
+                    <tableData>
+                        -1.00  -1.00
+                        -0.86  -0.74
+                        -0.75  -0.56
+                        -0.62  -0.40
+                        -0.50  -0.28
+                        -0.38  -0.19
+                        -0.23  -0.11
+                        -0.10  -0.045
+                         0.00   0.00
+                         0.10   0.045
+                         0.23   0.11
+                         0.38   0.19
+                         0.50   0.28
+                         0.62   0.40
+                         0.75   0.56
+                         0.86   0.74
+                         1.00   1.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
 
         <switch name="names/roll-limiter/active">
             <default value="0.0"/>
@@ -826,6 +829,10 @@
             <gain>57.296</gain>
             <output>fcs/left-aileron-pos-deg</output>
         </pure_gain>
+
+    </channel>    
+
+    <channel execrate="1" name="Elevons">
 
         <summer name="names/elevon/Left-Elevon-Pos-Rad">
             <input>fcs/left-aileron-pos-rad</input>
@@ -1357,22 +1364,6 @@
             <output>propulsion/engine/augmentation</output>
         </switch>
 
-        <!--
-      <kinematic name="fcs/throttle-pos-norm-kinematic">
-        <input>fcs/throttle-cmd-norm</input>
-        <traverse>
-          <setting>
-            <position>  0.0 </position>
-            <time>      0.0 </time>
-          </setting>
-          <setting>
-            <position>  1.0 </position>
-            <time>      4.0 </time>
-          </setting>
-        </traverse>
-      </kinematic>
-
-        -->
     </channel>
 
 
