@@ -426,6 +426,7 @@ var update_loop = func {
 var TILSprev = FALSE;
 var acPrev = 0;
 var acTimer = 0;
+var tert = FALSE;
 
 # slow updating loop
 var slow_loop = func () {
@@ -631,6 +632,19 @@ var slow_loop = func () {
   setprop("/environment/aircraft-effects/frost-level", frostNorm);
   setprop("/environment/aircraft-effects/fog-level", fogNorm);
   setprop("/environment/aircraft-effects/use-mask", mask);
+
+  # tertiary engine opening, page 188 of JA37Di manual
+  if (input.dcVolt.getValue() > 23) {
+    if (tert == FALSE and input.mach.getValue() > 0.67 and input.gearCmdNorm.getValue() == 0 and getprop("fdm/jsbsim/propulsion/engine/zone") > 1 and getprop("controls/engines/engine/cutoff-augmentation") == FALSE) {
+      # the door closes
+      tert = TRUE;
+      interpolate("ja37/systems/tertiary-opening", 0.0, 10);
+    } elsif (input.mach.getValue() < 0.64 and tert == TRUE) {
+      # the door opens
+      tert = FALSE;
+      interpolate("ja37/systems/tertiary-opening", 1.0, 10);
+    }
+  }
 
   settimer(slow_loop, 1.5);
 }

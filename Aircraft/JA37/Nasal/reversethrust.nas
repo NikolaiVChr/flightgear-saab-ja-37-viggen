@@ -15,6 +15,7 @@ togglereverser = func () {
 
 reverse_loop = func () {
   var command = controlsEngine.getChild("reverser-cmd").getValue();
+  command = getprop("ja37/systems/tertiary-opening") == 1?command:0;
   if (hydr1.getValue() == nil or dcVolt.getValue() == nil
       or hydr1.getValue() == 0 or dcVolt.getValue() < 23) {
     #Its important to tell people why the reversing fails, or they will think its a bug.

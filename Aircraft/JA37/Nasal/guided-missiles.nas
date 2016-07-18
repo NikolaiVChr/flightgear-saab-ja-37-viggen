@@ -1158,7 +1158,7 @@ var AIM = {
 			# augmented proportional navigation for heading #
 			#################################################
 
-			var horz_closing_rate_fps = me.clamp(((me.dist_last - me.dist_curr)*M2FT)/me.last_dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
+			var horz_closing_rate_fps = me.clamp(((me.dist_last - me.dist_curr)*M2FT)/me.dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
 			#printf("Horz closing rate: %5d", horz_closing_rate_fps);
 			var proportionality_constant = 3;
 
@@ -1170,11 +1170,39 @@ var AIM = {
 				c_dv -= 360;
 			}
 			var line_of_sight_rate_rps = (D2R*c_dv)/me.dt;
+
 			#printf("LOS rate: %.4f rad/s", line_of_sight_rate_rps);
+
+			#if (me.before_last_t_coord != nil) {
+			#	var t_heading = me.before_last_t_coord.course_to(me.t_coord);
+			#	var t_dist   = me.before_last_t_coord.distance_to(me.t_coord);
+			#	var t_dist_dir   = me.before_last_t_coord.direct_distance_to(me.t_coord);
+			#	var t_climb      = me.t_coord.alt() - me.before_last_t_coord.alt();
+			#	var t_horz_speed = (t_dist*M2FT)/(me.dt+me.last_dt);
+			#	var t_speed      = (t_dist_dir*M2FT)/(me.dt+me.last_dt);
+			#} else {
+			#	var t_heading = me.last_t_coord.course_to(me.t_coord);
+			#	var t_dist   = me.last_t_coord.distance_to(me.t_coord);
+			#	var t_dist_dir   = me.last_t_coord.direct_distance_to(me.t_coord);
+			#	var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
+			#	var t_horz_speed = (t_dist*M2FT)/me.dt;
+			#	var t_speed      = (t_dist_dir*M2FT)/me.dt;
+			#}
+			
+			#var t_pitch      = math.atan2(t_climb,t_dist)*R2D;
+			
 
 			# calculate target acc as normal to LOS line:
 			var t_heading        = me.Tgt.get_heading();
 			var t_pitch          = me.Tgt.get_Pitch();
+
+			if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
+				# taking sideslip and AoA into consideration:
+				t_heading = me.last_t_coord.course_to(me.t_coord);
+				#var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
+				#var t_dist   = me.last_t_coord.distance_to(me.t_coord);
+				#t_pitch      = math.atan2(t_climb,t_dist)*R2D;
+			}
 			var t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
 			var t_horz_speed     = math.abs(math.cos(t_pitch*D2R)*t_speed);
 			var t_LOS_norm_head  = me.t_course + 90;
@@ -1191,6 +1219,7 @@ var AIM = {
 			# acceleration perpendicular to instantaneous line of sight in feet/sec^2
 			var acc_sideways_ftps2 = proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps+proportionality_constant*t_LOS_norm_acc/2;
 			#printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
+
 			# now translate that sideways acc to an angle:
 			var velocity_vector_length_fps = me.old_speed_horz_fps;
 			var commanded_sideways_vector_length_fps = acc_sideways_ftps2*me.dt;
@@ -1203,15 +1232,15 @@ var AIM = {
 			if (me.cruise_or_loft == FALSE) {# and me.last_cruise_or_loft == FALSE
 				# augmented proportional navigation for elevation #
 				###################################################
-				var vert_closing_rate_fps = me.clamp(((me.dist_direct_last - me.dist_curr_direct)*M2FT)/me.last_dt,1,1000000);
+				var vert_closing_rate_fps = me.clamp(((me.dist_direct_last - me.dist_curr_direct)*M2FT)/me.dt,1,1000000);
 				var line_of_sight_rate_up_rps = (D2R*(me.t_elev_deg-me.last_t_elev_deg))/me.dt;
 
 				# calculate target acc as normal to LOS line: (up acc is positive)
 				var t_approach_bearing             = me.t_course + 180;
-				var t_horz_speed_away_from_missile = -math.cos((t_approach_bearing - t_heading)*D2R)* t_horz_speed;
-				var t_horz_comp_speed              = math.cos((90+me.t_elev_deg)*D2R)*t_horz_speed_away_from_missile;
-				var t_vert_comp_speed              = math.sin(t_pitch*D2R)*t_speed*math.cos(me.t_elev_deg*D2R);
-				var t_LOS_elev_norm_speed          = t_horz_comp_speed + t_vert_comp_speed;
+				
+
+				# used to do this with trigonometry, but vector math is simpler to understand: (they give same result though)
+				var t_LOS_elev_norm_speed     = me.scalarProj(t_heading,t_pitch,t_speed,t_approach_bearing,me.t_elev_deg*-1 +90);
 
 				if (me.last_t_elev_norm_speed == nil) {
 					me.last_t_elev_norm_speed = t_LOS_elev_norm_speed;
@@ -1226,6 +1255,21 @@ var AIM = {
 				me.raw_steer_signal_elev = math.atan2(commanded_upwards_vector_length_fps, velocity_vector_length_fps)*R2D;
 			}
 		}
+	},
+
+	scalarProj: func (head, pitch, magn, projHead, projPitch) {
+		# Convert the 2 polar vectors to cartesian
+		var ax = magn * math.cos(pitch*D2R) * math.cos(-head*D2R);
+		var ay = magn * math.cos(pitch*D2R) * math.sin(-head*D2R);
+		var az = magn * math.sin(pitch*D2R);
+
+		var bx = 1 * math.cos(projPitch*D2R) * math.cos(-projHead*D2R);
+		var by = 1 * math.cos(projPitch*D2R) * math.sin(-projHead*D2R);
+		var bz = 1 * math.sin(projPitch*D2R);
+
+		# the dot product is the scalar projection.
+		var result = (ax * bx + ay*by+az*bz)/1;
+		return result;
 	},
 
 	map: func (value, leftMin, leftMax, rightMin, rightMax) {

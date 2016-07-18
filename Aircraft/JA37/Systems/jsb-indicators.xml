@@ -623,6 +623,43 @@
         <!-- Swedish: EJ REV (blinking)
         -->
 
+        <fcs_function name="systems/indicators/no-reverse-tertiary">
+            <function>
+                <and>
+                    <or>
+                        <nq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>0</value>
+                        </nq>
+                        <lt>
+                            <property>velocities/mach</property>
+                            <value>0.64</value>
+                        </lt>
+                    </or>
+                    <nq>
+                        <property>/ja37/systems/tertiary-opening</property>
+                        <value>1</value>
+                    </nq>
+                </and>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/no-reverse-tertiary-time">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="systems/indicators/no-reverse-tertiary-time">
+                systems/indicators/no-reverse-tertiary == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/indicators/no-reverse-tertiary-times-up">
+            <function>
+                <sum>
+                    <p>systems/indicators/no-reverse-tertiary-time</p>
+                    <v>10</v>
+                </sum>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/indicators/no-reverse-primary">
             <function>
                 <or>
@@ -646,6 +683,10 @@
                             <value>0</value>
                         </eq>
                     </and>
+                    <lt>
+                        <property>systems/indicators/no-reverse-tertiary-times-up</property>
+                        <property>sim-time-sec</property>
+                    </lt>
                 </or>
             </function>
         </fcs_function>
