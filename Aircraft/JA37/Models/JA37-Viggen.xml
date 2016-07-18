@@ -677,6 +677,21 @@
 
 <!-- Fuselage animations -->
 
+  <animation>
+     <type>translate</type>
+     <object-name>outletCover</object-name>
+     <property>ja37/systems/tertiary-opening</property>
+     <factor>-0.35</factor>
+     <axis>
+       <x>1</x>
+     </axis>
+     <center>
+          <x-m>0</x-m>
+          <y-m>0</y-m>
+          <z-m>0</z-m>
+      </center>
+  </animation>
+
   <model>
     <name>ext-power</name>
     <path>Aircraft/JA37/Models/ext-power.xml</path>
