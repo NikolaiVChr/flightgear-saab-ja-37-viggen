@@ -450,11 +450,9 @@
                 <independentVar>aero/alpha-deg</independentVar>
                 <tableData>
                 -23     0.00
-                -21     0.75
-                
+                -21     0.60
                  0.0    1.00
-                 
-                 21     0.75
+                 21     0.60
                  23     0.00
                 </tableData>
             </table>
@@ -466,9 +464,9 @@
                 <independentVar>aero/alpha-deg</independentVar>
                 <tableData>
                 -18     0.00
-                -16     0.75
+                -16     0.60
                  0.0    1.00
-                 16     0.75
+                 16     0.60
                  18     0.00
                 </tableData>
             </table>
@@ -531,6 +529,15 @@
         </aerosurface_scale>
 
     </channel>
+
+
+
+
+
+
+
+
+
 
     <channel execrate="1" name="Ailerons">
 
