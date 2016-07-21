@@ -85,7 +85,7 @@
                             1.32997 0.88037
                             1.36254 0.87423
                             1.39186 0.86963
-                            1.7     1.3
+                            1.7     1.0
                         </tableData>
                     </table>
                     <v>3.280840</v><!-- convert to feet -->
@@ -135,7 +135,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>structural/wings/normal-factor</property>
-                <property>aero/function/CNmachFactor</property>
+                <!--<property>aero/function/CNmachFactor</property>-->
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
@@ -1088,7 +1088,6 @@
                 <property>aero/function/Afactors</property>
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
-                <!-- tuned to achieve 0.90 mach at sea-level mil thrust, as per the Swedish sources and pilot testimony. -->
                 <property>aero/factor-axial</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -1996,12 +1995,12 @@
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <tableData>
                         0.6   1.0
-                        0.8   0.8
+                        0.8   0.7
                         1.0   0.6
-                        1.2   0.4
-                        1.4   0.4
-                        1.7   0.4
-                        2.0   0.4  
+                        1.2   0.5
+                        1.4   0.6
+                        1.7   0.6
+                        2.0   0.6
                     </tableData>
                 </table>
                 <table>
