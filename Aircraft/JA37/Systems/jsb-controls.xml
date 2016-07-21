@@ -403,7 +403,7 @@
                 <independentVar lookup="column">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
                 <tableData>
                             0    100     150    400
-                     0     0.35  0.35    0.35   0.35
+                     0     0.60  0.60    0.60   0.60
                      1     1.0   1.0     0.50   1.00
                 </tableData>
             </table>
@@ -1267,32 +1267,36 @@
 
 
 
-    <channel execrate="2" name="Throttle">
+    <channel execrate="1" name="Throttle"><!-- execrate must be 1, else wont overwrite fcs/throttle-pos-norm properly -->
 
         <aerosurface_scale name="names/throttle/pos-norm-scale">
-            <input>fcs/throttle-cmd-norm</input>
+            <input>/controls/engines/engine/throttle</input>
             <zero_centered> false </zero_centered>
             <domain>
-                <min>  0.0 </min>
+                <min>  0.00 </min>
                 <max>  0.90 </max>
             </domain>
             <range>
                 <min>  0.0 </min>
                 <max>  1.0 </max>
             </range>
+            <clipto>
+                <min>  0 </min>
+                <max>  1 </max>
+            </clipto>
             <output>fcs/throttle-pos-norm-scale</output>
         </aerosurface_scale>
 
         <!-- factor for augmentation power -->
         <aerosurface_scale name="names/throttle/zone-factor">
-            <input>fcs/throttle-cmd-norm</input>
+            <input>/controls/engines/engine/throttle</input>
             <zero_centered> false </zero_centered>
             <domain>
                 <min>  0.94 </min>
                 <max>  1.00 </max>
             </domain>
             <range>
-                <min>  0.70 </min>
+                <min>  0.60 </min>
                 <max>  1.00 </max>
             </range>
             <output>propulsion/engine/zone-factor</output>
@@ -1356,13 +1360,14 @@
             <input>fcs/throttle-pos-norm-scale</input>
             <gain>1.0</gain>
             <output>fcs/throttle-pos-norm</output>
+            <!--<output>fcs/throttle-cmd-norm</output>-->
         </pure_gain>
 
         <switch name="names/throttle/augmentation">
             <default value="0"/>
             <test logic="AND" value="1">
               fcs/throttle-cmd-norm ge 0.940
-              propulsion/engine/n1 ge 84
+              propulsion/engine/n2 ge 84
               /controls/engines/engine/cutoff-augmentation == 0
               /engines/engine/is-reversed == 0
               /engines/engine/afterburner/serviceable == 1
