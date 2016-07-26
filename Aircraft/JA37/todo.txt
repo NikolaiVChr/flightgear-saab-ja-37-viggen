@@ -72,6 +72,7 @@ Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make weapons hit all nearby targets.
 Sim: Make dumb bombs not require a target.
+Sim: When inverted for more than 10 secs, let oil pressure be affected, and disrupt engine operations.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
