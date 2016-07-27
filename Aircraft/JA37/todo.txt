@@ -25,7 +25,7 @@ Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
 Model: Proper floor in the cockpit.
 Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
-Model: Fix z-fighting on M71-rail and M90.
+Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
 Model: Make the AJ37 black tube next to HUD, used for vision guided munitions. It should have transparent glass cover.
 Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
