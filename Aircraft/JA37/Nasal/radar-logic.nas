@@ -341,12 +341,19 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
     #aircraft angle
     var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
     var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
+    var xa_rad_corr = xg_rad * math.cos(0) - yg_rad * math.sin(0);
 
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;
     }
     while (xa_rad > math.pi) {
       xa_rad = xa_rad - 2*math.pi;
+    }
+    while (xa_rad_corr < -math.pi) {
+      xa_rad_corr = xa_rad_corr + 2*math.pi;
+    }
+    while (xa_rad_corr > math.pi) {
+      xa_rad_corr = xa_rad_corr - 2*math.pi;
     }
     while (ya_rad > math.pi) {
       ya_rad = ya_rad - 2*math.pi;
@@ -355,7 +362,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    if(ya_rad > -61.5 * D2R and ya_rad < 61.5 * D2R and xa_rad > -61.5 * D2R and xa_rad < 61.5 * D2R) {
+    if(ya_rad > -61.5 * D2R and ya_rad < 61.5 * D2R and xa_rad_corr > -61.5 * D2R and xa_rad_corr < 61.5 * D2R) {
       #is within the radar cone
       # AJ37 manual: 61.5 deg sideways.
 
@@ -381,14 +388,14 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
       var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -ya_rad * rad2deg;
 
       var contact = Contact.new(node, type);
-      contact.setPolar(distanceRadar, xa_rad);
+      contact.setPolar(distanceRadar, xa_rad_corr);
       contact.setCartesian(hud_pos_x, hud_pos_y);
       return contact;
 
     } elsif (carrier == TRUE) {
       # need to return carrier even if out of radar cone, due to carrierNear calc
       var contact = Contact.new(node, type);
-      contact.setPolar(900000, xa_rad);
+      contact.setPolar(900000, xa_rad_corr);
       contact.setCartesian(900000, 900000);# 900000 used in hud to know if out of radar cone.
       return contact;
     }
@@ -1201,7 +1208,7 @@ var ContactGPS = {
 
     var self      =  geo.aircraft_position();
     var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    =  input.roll.getValue()*deg2rads;
+    var myRoll    =  0;#input.roll.getValue()*deg2rads;  Ignore roll, since a real radar does that
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);

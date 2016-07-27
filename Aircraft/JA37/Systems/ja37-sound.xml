@@ -1607,6 +1607,26 @@
             </volume>
         </m70>
 
+        <!--<rb24-signal>
+            <name>rb25-signal</name>
+            <mode>looped</mode>
+            <type>avionics</type>
+            <path>Aircraft/JA37/Sounds/aim-9-growl.wav</path>
+            <condition>
+                <property>rb-25/on</property>
+            </condition>
+            <pitch>
+                <property>rb-25/pitch</property>
+                <min>-10</min>
+                <max>10</max>
+            </pitch>
+            <volume>
+                <property>rb-25/vol</property>
+                <min>-10</min>
+                <max>10</max>
+            </volume>
+        </rb24-signal>-->
+
         <rb24-signal>
             <name>rb24-signal</name>
             <mode>looped</mode>
@@ -1621,8 +1641,11 @@
                 </equals>
             </condition>
             <pitch>
+                <property>payload/armament/rb-24/sound-volume</property>
                 <factor>1.00</factor>
-                <max>2</max>
+                <offset>1.60</offset>
+                <min>0</min>
+                <max>1</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-24/sound-volume</property>
@@ -1643,8 +1666,11 @@
                 </equals>
             </condition>
             <pitch>
+                <property>payload/armament/rb-24j/sound-volume</property>
                 <factor>1.00</factor>
-                <max>2</max>
+                <offset>1.60</offset>
+                <min>0</min>
+                <max>1</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-24j/sound-volume</property>
@@ -1665,8 +1691,11 @@
                 </equals>
             </condition>
             <pitch>
+                <property>payload/armament/rb-74/sound-volume</property>
                 <factor>1.00</factor>
-                <max>2</max>
+                <offset>1.60</offset>
+                <min>0</min>
+                <max>1</max>
             </pitch>
             <volume>
                 <property>payload/armament/rb-74/sound-volume</property>
