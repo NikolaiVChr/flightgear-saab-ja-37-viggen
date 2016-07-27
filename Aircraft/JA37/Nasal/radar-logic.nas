@@ -338,6 +338,8 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
       yg_rad = yg_rad + 2*math.pi;
     }
 
+    myRoll    =  0;# Ignore roll, since a real radar does that
+
     #aircraft angle
     var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
     var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
@@ -1201,7 +1203,7 @@ var ContactGPS = {
 
     var self      =  geo.aircraft_position();
     var myPitch   =  input.pitch.getValue()*deg2rads;
-    var myRoll    =  input.roll.getValue()*deg2rads;
+    var myRoll    =  0;#input.roll.getValue()*deg2rads;  Ignore roll, since a real radar does that
     var myAlt     =  self.alt();
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
