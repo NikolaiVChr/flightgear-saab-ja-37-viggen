@@ -2421,6 +2421,17 @@ var HUDnasal = {
           } else {
             me.diamond_name.setText(selection.get_model());
           }
+          if (pos_x > (100/1024)*canvasWidth) {
+            me.diamond_dist.setAlignment("right-top");
+            me.diamond_dist.setTranslation(-(40/1024)*canvasWidth, (55/1024)*canvasWidth);
+            me.diamond_name.setAlignment("right-bottom");
+            me.diamond_name.setTranslation(-(40/1024)*canvasWidth, -(55/1024)*canvasWidth);
+          } elsif (pos_x < -(100/1024)*canvasWidth) {
+            me.diamond_dist.setAlignment("left-top");
+            me.diamond_dist.setTranslation((40/1024)*canvasWidth, (55/1024)*canvasWidth);
+            me.diamond_name.setAlignment("left-bottom");
+            me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
+          }
           me.target_circle[me.selection_index].hide();
 
 
@@ -2510,6 +2521,17 @@ var HUDnasal = {
             me.diamond_dist.setText(sprintf("%.1f", diamond_dist/1000));
           } else {
             me.diamond_dist.setText(sprintf("%02d", diamond_dist/1000));
+          }
+          if (pos_x > (100/1024)*canvasWidth) {
+            me.diamond_dist.setAlignment("right-top");
+            me.diamond_dist.setTranslation(-(40/1024)*canvasWidth, (55/1024)*canvasWidth);
+            me.diamond_name.setAlignment("right-bottom");
+            me.diamond_name.setTranslation(-(40/1024)*canvasWidth, -(55/1024)*canvasWidth);
+          } elsif (pos_x < -(100/1024)*canvasWidth) {
+            me.diamond_dist.setAlignment("left-top");
+            me.diamond_dist.setTranslation((40/1024)*canvasWidth, (55/1024)*canvasWidth);
+            me.diamond_name.setAlignment("left-bottom");
+            me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
           }
           if (me.input.callsign.getValue() == TRUE) {
             me.diamond_name.setText(selection.get_Callsign());
