@@ -19,7 +19,7 @@ var OurRoll        = props.globals.getNode("orientation/roll-deg");
 var OurPitch       = props.globals.getNode("orientation/pitch-deg");
 var HudReticleDev  = props.globals.getNode("payload/armament/hud/reticle-total-deviation", 1);#polar coords
 var HudReticleDeg  = props.globals.getNode("payload/armament/hud/reticle-total-angle", 1);
-var update_loop_time = 0.000;
+var update_loop_time = 0.100;
 
 var SIM_TIME = 0;
 var REAL_TIME = 1;
@@ -1356,7 +1356,7 @@ var AIM = {
 		#var wh_mass = me.weight_whead_lbs / slugs_to_lbs;
 		#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
 		#impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
-
+		min_distance = min_distance / 3.5;
 		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 		if (min_distance < me.reportDist) {
