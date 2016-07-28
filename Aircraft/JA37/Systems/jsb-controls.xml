@@ -55,7 +55,7 @@
 -->
 
 
-    <channel execrate="1" name="Elevons">
+    <channel execrate="1" name="Elevators">
         <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
         <fcs_function name="fcs/elevator/stick-geared">
@@ -87,32 +87,26 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="fcs/aileron/stick-geared">
-            <function>
-                <table>
-                    <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
-                    <tableData>
-                        -1.00  -1.00
-                        -0.86  -0.74
-                        -0.75  -0.56
-                        -0.62  -0.40
-                        -0.50  -0.28
-                        -0.38  -0.19
-                        -0.23  -0.11
-                        -0.10  -0.045
-                         0.00   0.00
-                         0.10   0.045
-                         0.23   0.11
-                         0.38   0.19
-                         0.50   0.28
-                         0.62   0.40
-                         0.75   0.56
-                         0.86   0.74
-                         1.00   1.00
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
+        <switch name="fcs/elevator/alpha-limit-speed">
+            <default value="350.9719"/>
+            <test logic="AND" value="377.96976">
+                /ja37/systems/variant == 1
+            </test>
+        </switch>
+
+        <switch name="fcs/elevator/alpha-limit">
+            <default value="180"/>
+            <test logic="AND" value="23">
+                <!-- JA and calibrated airspeed less than 650 km/h -->
+                /ja37/systems/variant == 0
+                velocities/vc-kts lt fcs/elevator/alpha-limit-speed
+            </test>
+            <test logic="AND" value="18">
+                <!-- AJ and calibrated airspeed less than 700 km/h -->
+                /ja37/systems/variant == 0
+                velocities/vc-kts lt fcs/elevator/alpha-limit-speed
+            </test>
+        </switch>
 
         <fcs_function name="fcs/elevator/cmd-abs-inv">
             <function>
@@ -193,15 +187,32 @@
             <input>fcs/pitch-damper/pitch-rate-unfiltered</input>
             <c1>fcs/pitch-damper/washout-factor</c1>            <!-- default 1.33 -->
             <clipto>
-                <min>-0.5</min>
-                <max> 0.5</max>
+                <min>-0.3</min>
+                <max> 0.3</max>
             </clipto>
             <output>fcs/pitch-damper/rate-washout</output>
         </washout_filter>
 
-        <pure_gain name="names/pitch-damper/rate">
+        <scheduled_gain name="fcs/pitch-damper/rate-qbar">
             <input>fcs/pitch-damper/rate-washout</input>
+            <table>
+                <independentVar lookup="row">aero/qbar-psf</independentVar>
+                <tableData>
+                     0     1.00
+                     800   1.00
+                     850   0.70
+                     1000  0.40
+                     1300  0.25
+                     1500  0.15
+                     2500  0.10
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <pure_gain name="names/pitch-damper/rate">
+            <input>fcs/pitch-damper/rate-qbar</input>
             <gain>fcs/pitch-damper/active</gain>
+            <gain>fcs/pitch-damper/qbar-limit</gain>
             <output>fcs/pitch-damper/rate</output>
         </pure_gain>
 
@@ -268,127 +279,109 @@
             <output>fcs/elevator/cmd-sum</output>
         </summer>
 
-        <!-- auto pitch trim
-        <switch name="names/elevator/pitch-trim-cmd-norm-target">
-            <default value="/controls/flight/elevator-trim-target"/>
-            <test logic="AND" value="fcs/elevator/cmd-sum">
-                accelerations/Nz gt 0.97
-                accelerations/Nz lt 1.03
-                velocities/mach  gt 0.93
-                velocities/q-rad_sec   lt 0.01
-                velocities/q-rad_sec   gt -0.01
-            </test>
-            <test logic="AND" value="fcs/elevator/cmd-sum">
-                accelerations/Nz gt 0.97
-                accelerations/Nz lt 1.03
-                velocities/q-rad_sec   lt 0.01
-                velocities/q-rad_sec   gt -0.01
-                /ja37/avionics/temp-halt-ap-pitch == 1
-                /ja37/avionics/auto-attitude-on == 1
-            </test>
-            <output>/controls/flight/elevator-trim-target</output>
-            <clipto>
-                <min>-0.5</min>
-                <max>0.5</max>
-            </clipto>
-        </switch>
-
-        <kinematic name="names/elevator/trim-norm-lag">
-            <input>/controls/flight/elevator-trim-target</input>
-            <traverse>
-                <setting>
-                    <position> -1.0 </position>
-                    <time>      0.0 </time>
-                </setting>
-                <setting>
-                    <position>  1.0 </position>
-                    <time>      5.0 </time>
-                </setting>
-            </traverse>
-            <output>/controls/flight/elevator-trim-lag</output>
-        </kinematic>
-
-        <switch name="names/elevator/pitch-trim-cmd-norm">
-            <default value="/controls/flight/elevator-trim"/>
-            <test logic="AND" value="/controls/flight/elevator-trim-lag">
-                /controls/flight/elevator-trim-target ne /controls/flight/elevator-trim
-            </test>
-            <output>/controls/flight/elevator-trim</output>
-            <clipto>
-                <min>-0.5</min>
-                <max>0.5</max>
-            </clipto>
-        </switch>-->
-
-        <!--<fcs_function name="systems/flight/pitch-gearing">
-            <function>
-                <table>
-                    <independentVar lookup="row">velocities/mach</independentVar>
-                    <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-                    <tableData>
-                                    0.0      20000     45000
-                        0.0         1.00      1.00      1.00
-                        0.5         1.00      1.00      1.00
-                        0.625       0.80      1.00      1.00
-                        0.75        0.45      1.00      1.00
-                        1.0         0.18      0.60      1.00
-                        1.5         0.10      0.20      1.00
-                        2.2         0.05      0.10      0.30
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>-->
-
-        <!--<fcs_function name="systems/flight/pitch-gearing">
-            <function>
-                <product>
-                    <table>
-                        <independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
-                        <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-                        <tableData>
-                                   0.0    35000.0
-                            000    0.40    0.70
-                            100    0.65    0.60
-                            200    0.65    0.50
-                            300    0.625   0.40
-                            400    0.35    0.50
-                            500    0.33    0.25
-                            600    0.25    0.25
-                            700    0.17    0.17
-                            800    0.16    0.15
-                            900    0.09    0.15
-                           1000    0.063   0.100
-                           1200    0.047   0.075
-                           1400    0.031   0.075
-                           1600    0.016   0.025
-                        </tableData>
-                    </table>
-                </product>
-            </function>
-        </fcs_function>-->
-
-        <fcs_function name="systems/flight/pitch-gearing-restrictive">
+        <fcs_function name="systems/flight/pitch-gearing-aj37">
             <function>
                 <product>
                     <table>
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                         <tableData>
-                                        0.0      20000     45000
-                            0.00        1.00      0.75      0.50            
-                            0.10        0.75      0.75      0.50
-                            0.50        0.50      0.60      0.50
-                            0.65        0.37      0.60      0.50
-                            0.80        0.28      0.60      0.50
-                            1.00        0.25      0.45      0.70
-                            1.50        0.15      0.30      0.70
-                            2.00        0.10      0.12      0.65
+                                   0.0  6562  13123 19685 26247 29527 36089
+                            0.32  -22    -22   -22    -22   -22  -22    -22  
+                            0.70  -8.7   -10   -13    -16   -18.5 -20   -22   
+                            0.95  -8.7   -8.7  -10    -15   -20   -20   -22      
+                            1.05  -11.8  -11.8 -13.5  -16.5 -21  -22    -22      
+                            1.20  -11.8  -11.8 -15    -18.5 -22  -22    -22      
+                            1.40  -11.8  -14   -16    -20   -22  -22    -22
+                            1.50  -11.8  -15   -17    -21   -22  -22    -22      
                         </tableData>
                     </table>
-                    <!--<property>/test</property>-->
+                    <v>-1</v>
                </product>
             </function>
         </fcs_function>
+
+        <aerosurface_scale name="systems/flight/pitch-gearing-aj37-norm">
+            <input>systems/flight/pitch-gearing-aj37</input>
+            <zero_centered> true </zero_centered>
+            <domain>
+                <min> -16.0 </min>
+                <max>  22.0 </max>
+            </domain>
+            <range>
+                <min>-1</min>                
+                <max>1</max>
+            </range>
+        </aerosurface_scale>
+
+        <fcs_function name="systems/flight/pitch-gearing-ja37">
+            <function>
+                <product>
+                    <table>
+                        <independentVar lookup="row">velocities/mach</independentVar>
+                        <independentVar lookup="column">atmosphere/density-altitude</independentVar>
+                        <tableData>
+                                        0.0      6562  9843 13123 16404 19685 22966 26247 29527
+                            0.40        -22.0   -22.0 -22.0 -22.0 -22.0 -22.0 -22.0 -22.0 -22.0
+                            0.70        -11.8   -12.5 -15.3 -15.5 -17.5 -20.0 -17.5 -22.0 -22.0
+                            0.95        -15.3   -15.3 -11.8 -12.5 -15.3 -16.5 -18.0 -20.0 -22.0
+                            1.05        -15.3   -15.3 -15.5 -15.5 -17.5 -20.0 -22.0 -22.0 -22.0
+                            1.20        -15.3   -15.3 -16.5 -18.0 -20.0 -22.0 -22.0 -22.0 -22.0
+                            1.40        -15.3   -16.0 -18.7 -20.5 -22.0 -22.0 -22.0 -22.0 -22.0
+                            1.50        -15.3   -20.0 -20.0 -22.0 -22.0 -22.0 -22.0 -22.0 -22.0
+                        </tableData>
+                    </table>
+                    <v>-1</v>
+               </product>
+            </function>
+        </fcs_function>
+
+        <!--<fcs_function name="systems/flight/pitch-gearing-ja37">
+            <function>
+                <product>
+                    <table>
+                        <independentVar lookup="row">aero/qbar-psf</independentVar>
+                        <tableData>
+                            0.40 239 -22
+                            0.45 302 -20
+                            0.50 374 -17.5
+                            0.60 535 -15.3
+                            0.65 630 -12.5
+                            0.70 731 -11.8
+                            0.95 1332 -15.3
+                            1.19 2000 -15.3
+                            6000
+                            1.30 1947
+                            9000
+                            1.35 1931
+                            15000
+                            1.47 1778
+                        </tableData>
+                    </table>
+                    <v>-1</v>
+               </product>
+            </function>
+        </fcs_function>-->
+
+        <aerosurface_scale name="systems/flight/pitch-gearing-ja37-norm">
+            <input>systems/flight/pitch-gearing-ja37</input>
+            <zero_centered> true </zero_centered>
+            <domain>
+                <min> -16.0 </min>
+                <max>  22.0 </max>
+            </domain>
+            <range>
+                <min>-1</min>                
+                <max>1</max>
+            </range>
+        </aerosurface_scale>
+
+        <switch name="systems/flight/pitch-gearing-norm">
+            <default value="systems/flight/pitch-gearing-ja37-norm"/>
+            <test logic="OR" value="systems/flight/pitch-gearing-aj37-norm">
+               /ja37/systems/variant == 1
+            </test>
+        </switch>
 
         <fcs_function name="systems/flight/pitch-gearing-fun">
             <function>
@@ -414,28 +407,11 @@
         </fcs_function>
 
         <switch name="systems/flight/pitch-gearing">
-            <default value="systems/flight/pitch-gearing-restrictive"/>
+            <default value="systems/flight/pitch-gearing-norm"/>
             <test logic="OR" value="systems/flight/pitch-gearing-fun">
                 /ja37/avionics/fun == 1
             </test>
         </switch>
-
-
-<!--
-100  0.15 0.30
-200  0.30 0.59
-300  0.45 0.85
-400  0.61 1.10
-500  0.76 1.32
-600  0.91 1.54
-700  1.06 1.73
-800  1.21 1.93
-900  
-1000 
-1200 
-1400 
-1600 -->
-
 
         <!-- At high speeds elevator up deflection is reduced,
            At high altitude elevator up deflection is increased -->
@@ -454,37 +430,21 @@
                 <independentVar lookup="column">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
                 <tableData>
                             0    100     150    400
-                     0     0.35  0.35    0.35   0.35
+                     0     0.60  0.60    0.60   0.60
                      1     1.0   1.0     0.50   1.00
                 </tableData>
             </table>
             <output>fcs/elevator/cmd-adjust-positive</output>
         </scheduled_gain>
 
-        <!--<scheduled_gain name="names/elevator/adjust-pos">
-            <input>fcs/elevator/cmd-sum</input>
-            <table>
-                <independentVar lookup="row">velocities/mach</independentVar>
-                <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-                <tableData>
-                                  0.0       45000.0
-                      0.0         1.00         1.0
-                      0.5         1.00         1.0
-                      0.625       0.85         1.0
-                      0.75        0.25         1.0
-                      1.0         0.08         1.0
-                      2.2         0.03         0.2
-                </tableData>
-            </table>
-            <output>fcs/elevator/cmd-adjust-positive</output>
-        </scheduled_gain>-->
-
         <!-- select which of the above tables is active -->
         <switch name="fcs/elevator/cmd-final">
             <default value="fcs/elevator/cmd-adjust-positive"/>
+            <test logic="OR" value="fcs/elevator/cmd-sum">
+                fcs/elevator/gearing-enable == 0
+            </test>
             <test logic="OR" value="fcs/elevator/cmd-adjust-negative">
                 fcs/elevator/cmd-sum lt 0
-                <!--fcs/mouse-optimized == 1-->
             </test>
         </switch>
 
@@ -497,7 +457,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      0.25 </time>
+                    <time>      1.5 </time><!-- high number will prevent too much instant G when fast pulling back -->
                 </setting>
             </traverse>
             <clipto>
@@ -511,22 +471,63 @@
             <output>fcs/elevator/pos-norm</output>
         </kinematic>
 
+        <scheduled_gain name="fcs/elevator/alpha-scheduler-ja37">
+            <input>fcs/elevator/cmd-final</input>
+            <table>
+                <independentVar>aero/alpha-deg</independentVar>
+                <tableData>
+                -23     0.00
+                -21     0.60
+                 0.0    1.00
+                 21     0.60
+                 23     0.00
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <scheduled_gain name="fcs/elevator/alpha-scheduler-aj37">
+            <input>fcs/elevator/cmd-final</input>
+            <table>
+                <independentVar>aero/alpha-deg</independentVar>
+                <tableData>
+                -18     0.00
+                -16     0.60
+                 0.0    1.00
+                 16     0.60
+                 18     0.00
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <switch name="fcs/elevator/alpha-scheduler">
+            <default value="fcs/elevator/alpha-scheduler-ja37"/>
+            <test logic="OR" value="fcs/elevator/alpha-scheduler-aj37">
+               /ja37/systems/variant == 1
+            </test>
+            <clipto>
+                <min>-1</min>
+                <max>1</max>
+            </clipto>
+        </switch>
+        
         <switch name="names/elevator/tmp-norm">
-            <default value="fcs/elevator/cmd-sum"/>
+            <default value="fcs/elevator/alpha-scheduler"/>
             <test logic="OR" value="0">
                 structural/wings/serviceable == 0
             </test>
             <test logic="OR" value="fcs/elevator/pos-norm">
                 systems/hydraulics/flight-surface-actuation == 0
                 fcs/elevator/serviceable == 0
-            </test>
-            <test logic="OR" value="fcs/elevator/cmd-final">
-                fcs/elevator/gearing-enable == 1
+            </test>            
+            <test logic="AND" value="fcs/elevator/cmd-final">
+                <!-- not sure if this should be here or not.
+                     Remove this test to make alpha limiter works in all regimes -->
+                velocities/vc-kts gt fcs/elevator/alpha-limit-speed
             </test>
             <output>fcs/elevator/tmp-norm</output>
         </switch>
 
-        <aerosurface_scale name="names/elevator/trim-deg">
+        <!--<aerosurface_scale name="names/elevator/trim-deg">
             <input>fcs/pitch-trim-cmd-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -534,11 +535,11 @@
                 <max>  1.0 </max>
             </domain>
             <range>
-                <min>-25</min>
-                <max>20</max>
+                <min>-22</min>
+                <max>16</max>
             </range>
             <output>fcs/elevator/trim-deg</output>
-        </aerosurface_scale>
+        </aerosurface_scale>-->
 
         <aerosurface_scale name="names/elevator/pos-rad">
             <input>fcs/elevator/pos-norm</input>
@@ -548,11 +549,51 @@
                 <max>  1.0 </max>
             </domain>
             <range>
-                <min>-0.4363</min>                <!--  -25 deg -->
-                <max>0.3491</max>                <!--    20 deg -->
+                <min>-0.38397</min>                <!--  -22 deg -->
+                <max>0.27925</max>                <!--    16 deg -->
             </range>
             <output>fcs/elevator-pos-rad</output>
         </aerosurface_scale>
+
+    </channel>
+
+
+
+
+
+
+
+
+
+
+    <channel execrate="1" name="Ailerons">
+
+        <fcs_function name="fcs/aileron/stick-geared">
+            <function>
+                <table>
+                    <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
+                    <tableData>
+                        -1.00  -1.00
+                        -0.86  -0.74
+                        -0.75  -0.56
+                        -0.62  -0.40
+                        -0.50  -0.28
+                        -0.38  -0.19
+                        -0.23  -0.11
+                        -0.10  -0.045
+                         0.00   0.00
+                         0.10   0.045
+                         0.23   0.11
+                         0.38   0.19
+                         0.50   0.28
+                         0.62   0.40
+                         0.75   0.56
+                         0.86   0.74
+                         1.00   1.00
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
 
         <switch name="names/roll-limiter/active">
             <default value="0.0"/>
@@ -822,6 +863,10 @@
             <gain>57.296</gain>
             <output>fcs/left-aileron-pos-deg</output>
         </pure_gain>
+
+    </channel>    
+
+    <channel execrate="1" name="Elevons">
 
         <summer name="names/elevon/Left-Elevon-Pos-Rad">
             <input>fcs/left-aileron-pos-rad</input>
@@ -1249,32 +1294,36 @@
 
 
 
-    <channel execrate="2" name="Throttle">
+    <channel execrate="1" name="Throttle"><!-- execrate must be 1, else wont overwrite fcs/throttle-pos-norm properly -->
 
         <aerosurface_scale name="names/throttle/pos-norm-scale">
-            <input>fcs/throttle-cmd-norm</input>
+            <input>/controls/engines/engine/throttle</input>
             <zero_centered> false </zero_centered>
             <domain>
-                <min>  0.0 </min>
+                <min>  0.00 </min>
                 <max>  0.90 </max>
             </domain>
             <range>
                 <min>  0.0 </min>
                 <max>  1.0 </max>
             </range>
+            <clipto>
+                <min>  0 </min>
+                <max>  1 </max>
+            </clipto>
             <output>fcs/throttle-pos-norm-scale</output>
         </aerosurface_scale>
 
         <!-- factor for augmentation power -->
         <aerosurface_scale name="names/throttle/zone-factor">
-            <input>fcs/throttle-cmd-norm</input>
+            <input>/controls/engines/engine/throttle</input>
             <zero_centered> false </zero_centered>
             <domain>
                 <min>  0.94 </min>
                 <max>  1.00 </max>
             </domain>
             <range>
-                <min>  0.70 </min>
+                <min>  0.60 </min>
                 <max>  1.00 </max>
             </range>
             <output>propulsion/engine/zone-factor</output>
@@ -1338,13 +1387,14 @@
             <input>fcs/throttle-pos-norm-scale</input>
             <gain>1.0</gain>
             <output>fcs/throttle-pos-norm</output>
+            <!--<output>fcs/throttle-cmd-norm</output>-->
         </pure_gain>
 
         <switch name="names/throttle/augmentation">
             <default value="0"/>
             <test logic="AND" value="1">
               fcs/throttle-cmd-norm ge 0.940
-              propulsion/engine/n1 ge 84
+              propulsion/engine/n2 ge 84
               /controls/engines/engine/cutoff-augmentation == 0
               /engines/engine/is-reversed == 0
               /engines/engine/afterburner/serviceable == 1
@@ -1353,22 +1403,6 @@
             <output>propulsion/engine/augmentation</output>
         </switch>
 
-        <!--
-      <kinematic name="fcs/throttle-pos-norm-kinematic">
-        <input>fcs/throttle-cmd-norm</input>
-        <traverse>
-          <setting>
-            <position>  0.0 </position>
-            <time>      0.0 </time>
-          </setting>
-          <setting>
-            <position>  1.0 </position>
-            <time>      4.0 </time>
-          </setting>
-        </traverse>
-      </kinematic>
-
-        -->
     </channel>
 
 

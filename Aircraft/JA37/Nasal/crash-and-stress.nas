@@ -558,7 +558,7 @@ var crashCode = nil;
 var crash_start = func {
 	removelistener(lsnr);
 	if (getprop("ja37/supported/crash-system") == 1) {
-		crashCode = CrashAndStress.new([0,1,2], {"weightLbs":33477.19, "maxG": 12, "minG": -4}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
+		crashCode = CrashAndStress.new([0,1,2], {"weightLbs":33477.19, "maxG": 12, "minG": -5.5}, ["controls/gear1", "controls/gear2", "controls/flight/aileron", "controls/flight/elevator"]);
 		# The JA-37C manual says wings can handle 3.5KPa at 36662.87 LBS, thats 73.1 LBS/SqFt
 		# The wingarea is 46M^2 which is 495.1 ft^2
 		# So the wings can handle 36191.81 LBS

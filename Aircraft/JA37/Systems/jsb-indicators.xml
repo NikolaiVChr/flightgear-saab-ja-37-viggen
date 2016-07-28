@@ -655,7 +655,7 @@
             <function>
                 <sum>
                     <p>systems/indicators/no-reverse-tertiary-time</p>
-                    <v>10</v>
+                    <v>12</v><!-- manual say 10, but have to give it time to open -->
                 </sum>
             </function>
         </fcs_function>

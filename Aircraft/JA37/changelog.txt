@@ -2424,3 +2424,21 @@ Model: {Pinto} Added tertiary gate to engine outlet.
 Radar: Radar will now respond to roll to cancel it out.
 HUD: Echo distance and type/callsign is now displayed on the side of the echo where there is most room in the HUD.
 Sound: Modified pitch for aim 9 growl.
+Aero: Made new table for movement of neutral point due to mach.
+Control: Replaced the pitch gearing with a new system, and it now only works above a certain speed.
+Aero: Made elevators have less pitch moment.
+Control: Made alpha limiter for low speeds.
+Control: Adjusted pitch damper according to dynamic pressure.
+Aero: Introduced pitch moment due to elevator due to mach.
+Aero: Introduced pitch due to zero moment due to mach.
+Aero: Adjustment to elevator effect due to mach.
+Control: Adjustment to alpha limiter.
+Sim: Fixed Vne was in Km/h, not kt.
+Sim: The plane can now structurally handle more negative Gs.
+Control: The plane is now easier to pitch down.
+Control: Fixed that the engine would not go to 100% before aug thrust is commanded.
+Control: Fixed that aug would be limited by N1, is now correctly 84% N2.
+Aero: Disabled normal due to mach.
+Aero: Static margin is now slightly less at very high speeds.
+Aero: Elevator due to mach has been adjusted.
+GUI: Removed the aerobatic pitch gearing setting.

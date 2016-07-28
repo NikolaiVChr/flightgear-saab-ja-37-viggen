@@ -295,19 +295,19 @@ var Dialog = {
           me.dialog.elevatorButton.setBinding("nasal", "ja37.Dialog.elevatorToggle()");
 
           ######   Aerobatic button   #####
-          var funRow = topRow.addChild("group");
-          funRow.set("layout", "hbox");
-          funRow.set("pref-height", 25);
-          funRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var funRow = topRow.addChild("group");
+          #funRow.set("layout", "hbox");
+          #funRow.set("pref-height", 25);
+          #funRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #tracksRow.set("valign", "center");
           
-          var funText = funRow.addChild("text").set("label", "Elevator gearing type:");
-          funRow.addChild("empty").set("stretch", 1);
-          me.dialog.funButton = funRow.addChild("button");
-          me.dialog.funButton.set("halign", "right");
-          me.dialog.funButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #var funText = funRow.addChild("text").set("label", "Elevator gearing type:");
+          #funRow.addChild("empty").set("stretch", 1);
+          #me.dialog.funButton = funRow.addChild("button");
+          #me.dialog.funButton.set("halign", "right");
+          #me.dialog.funButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.funButton.setBinding("nasal", "ja37.Dialog.funToggle()");
+          #me.dialog.funButton.setBinding("nasal", "ja37.Dialog.funToggle()");
 
           ######   Aileron gearing button   #####
           var aileronRow = topRow.addChild("group");
@@ -595,12 +595,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
-    funToggle: func {
-      ja37.click();
-      var enabled = getprop("ja37/avionics/fun");
-      setprop("ja37/avionics/fun", !enabled);
-      me.refreshButtons();
-    },
+#    funToggle: func {
+#      ja37.click();
+#      var enabled = getprop("ja37/avionics/fun");
+#      setprop("ja37/avionics/fun", !enabled);
+#      me.refreshButtons();
+#    },
 
     yawToggle: func {
       ja37.click();
@@ -829,13 +829,13 @@ var Dialog = {
       }
       me.dialog.elevatorButton.node.setValues({"legend": legend});
 
-      enabled = getprop("ja37/avionics/fun");
-      if(enabled == 1) {
-        legend = "Aerobatic";
-      } else {
-        legend = "Restricted";
-      }
-      me.dialog.funButton.node.setValues({"legend": legend});
+#      enabled = getprop("ja37/avionics/fun");
+#      if(enabled == 1) {
+#        legend = "Aerobatic";
+#      } else {
+#        legend = "Restricted";
+#      }
+#      me.dialog.funButton.node.setValues({"legend": legend});
 
       #enabled = getprop("fdm/jsbsim/fcs/mouse-optimized");
       #if(enabled == 1) {
