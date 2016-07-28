@@ -321,20 +321,47 @@
                         <independentVar lookup="row">velocities/mach</independentVar>
                         <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                         <tableData>
-                                        0.0      6562  13123 19685 26247 29527
-                            0.40        -22.0   -22.0  -22.0 -22.0 -22.0 -22.0
-                            0.70        -11.8   -12.5  -15.5 -20.0 -22.0 -22.0
-                            0.95        -15.3   -15.3  -12.5 -16.5 -20.0 -22.0
-                            1.05        -15.3   -15.3  -15.5 -20.0 -22.0 -22.0
-                            1.20        -15.3   -15.3  -18.0 -22.0 -22.0 -22.0
-                            1.40        -15.3   -16.0  -20.5 -22.0 -22.0 -22.0
-                            1.50        -15.3   -20.0  -22.0 -22.0 -22.0 -22.0
+                                        0.0      6562  9843 13123 16404 19685 22966 26247 29527
+                            0.40        -22.0   -22.0 -22.0 -22.0 -22.0 -22.0 -22.0 -22.0 -22.0
+                            0.70        -11.8   -12.5 -15.3 -15.5 -17.5 -20.0 -17.5 -22.0 -22.0
+                            0.95        -15.3   -15.3 -11.8 -12.5 -15.3 -16.5 -18.0 -20.0 -22.0
+                            1.05        -15.3   -15.3 -15.5 -15.5 -17.5 -20.0 -22.0 -22.0 -22.0
+                            1.20        -15.3   -15.3 -16.5 -18.0 -20.0 -22.0 -22.0 -22.0 -22.0
+                            1.40        -15.3   -16.0 -18.7 -20.5 -22.0 -22.0 -22.0 -22.0 -22.0
+                            1.50        -15.3   -20.0 -20.0 -22.0 -22.0 -22.0 -22.0 -22.0 -22.0
                         </tableData>
                     </table>
                     <v>-1</v>
                </product>
             </function>
         </fcs_function>
+
+        <!--<fcs_function name="systems/flight/pitch-gearing-ja37">
+            <function>
+                <product>
+                    <table>
+                        <independentVar lookup="row">aero/qbar-psf</independentVar>
+                        <tableData>
+                            0.40 239 -22
+                            0.45 302 -20
+                            0.50 374 -17.5
+                            0.60 535 -15.3
+                            0.65 630 -12.5
+                            0.70 731 -11.8
+                            0.95 1332 -15.3
+                            1.19 2000 -15.3
+                            6000
+                            1.30 1947
+                            9000
+                            1.35 1931
+                            15000
+                            1.47 1778
+                        </tableData>
+                    </table>
+                    <v>-1</v>
+               </product>
+            </function>
+        </fcs_function>-->
 
         <aerosurface_scale name="systems/flight/pitch-gearing-ja37-norm">
             <input>systems/flight/pitch-gearing-ja37</input>
