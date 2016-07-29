@@ -1498,7 +1498,7 @@ var repair = func (c = 1) {
     ct("rp");
   }
 }
-setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "op"~"r"~"f");
+setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~""~"7");
 var refuelTest = func () {
   setprop("consumables/fuel/tank[0]/level-norm", 0.5);
   setprop("consumables/fuel/tank[1]/level-norm", 0.5);
