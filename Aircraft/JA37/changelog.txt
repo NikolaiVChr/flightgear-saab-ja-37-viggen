@@ -2417,7 +2417,7 @@ Sim: Minor missile change that make them better predict the targets horizontal m
 Effect: More forgiving redout.
 GUI: {Pinto} Another ja37 splash.
 
-4.003 - 2016 August 17
+4.003 - 2016 August 16
 =====
 Effect: Black damage smoke, now again attached to world.
 Model: {Pinto} Added tertiary gate to engine outlet.
