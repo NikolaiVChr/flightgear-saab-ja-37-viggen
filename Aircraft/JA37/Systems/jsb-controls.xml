@@ -90,7 +90,7 @@
         <switch name="fcs/elevator/alpha-limit-speed">
             <default value="350.9719"/>
             <test logic="AND" value="377.96976">
-                /ja37/systems/variant == 1
+                /ja37/systems/variant gt 0
             </test>
         </switch>
 
@@ -379,7 +379,7 @@
         <switch name="systems/flight/pitch-gearing-norm">
             <default value="systems/flight/pitch-gearing-ja37-norm"/>
             <test logic="OR" value="systems/flight/pitch-gearing-aj37-norm">
-               /ja37/systems/variant == 1
+               /ja37/systems/variant gt 0
             </test>
         </switch>
 
@@ -502,7 +502,7 @@
         <switch name="fcs/elevator/alpha-scheduler">
             <default value="fcs/elevator/alpha-scheduler-ja37"/>
             <test logic="OR" value="fcs/elevator/alpha-scheduler-aj37">
-               /ja37/systems/variant == 1
+               /ja37/systems/variant gt 0
             </test>
             <clipto>
                 <min>-1</min>

@@ -382,7 +382,7 @@
                 /ja37/systems/variant == 0
             </test>
             <test logic="OR" value="propulsion/engine/aj37-n2-rpm_r-s">
-                /ja37/systems/variant == 1
+                /ja37/systems/variant gt 0
             </test>
         </switch>
 

@@ -405,7 +405,7 @@ var update_loop = func {
       
     }
 
-    if(getprop("sim/description") != "Saab JA-37 Viggen" and getprop("/instrumentation/radar/range") == 180000) {
+    if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {
       setprop("/instrumentation/radar/range", 120000);
     }
 

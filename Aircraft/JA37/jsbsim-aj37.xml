@@ -4,7 +4,7 @@
 
 <!--**********************************************************************
 
-                            Main JSBSim Flight Dynamics Model file for JA-37
+                            Main JSBSim Flight Dynamics Model file for AJ(S)-37
 
 
 *************************************************************************-->   
@@ -18,7 +18,7 @@
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
     </license>
-    <description> Models a Saab AJ-37 Viggen </description>
+    <description> Models a Saab AJ(S)-37 Viggen </description>
     <note>
          This model was created using data that is, or has been, publically
          available by means of (declassified) technical reports, textbooks, image graphs or

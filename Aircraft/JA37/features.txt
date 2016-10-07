@@ -1,7 +1,7 @@
 
-*************************************************
-**  Flightgear JA-37 / AJ-37 feature overview  **
-*************************************************
+**********************************************************
+**  Flightgear JA-37 / AJ-37 / AJS-37 feature overview  **
+**********************************************************
 
 I estimate I have used more than 2000 hours of work on the Viggen. (including learning the various skills needed)
 When the Viggen is first loaded I think its not apparent how much work is invested in it by me and other authors, I have therefore compiled a short overview of its main features:
@@ -9,7 +9,7 @@ When the Viggen is first loaded I think its not apparent how much work is invest
 
 Flightgear compatibility
 ------
-The Viggen is compatible with Flightgear version 2.10 to 2016.2.
+The Viggen is compatible with Flightgear version 2.10 to 2016.3.
 A separate download is available for Flightgear 2.8. It will not be updated so often as the regular download.
 
 Aerodynamics
@@ -77,7 +77,7 @@ Realistic modeled indicator panels for various warnings, alerts and notices.
 
 Engine
 -----
-Volvo RM-8B (AJ37: RM-8A) turbine with accurate fuel consumption and performance in different air density and speed regimes.
+Volvo RM-8B (AJ(S)37: RM-8A) turbine with accurate fuel consumption and performance in different air density and speed regimes.
 A thrust reverser is equipped which require proper hydraulics and electricity to work.
 Afterburner that has 3 continuous zones of operation.
 

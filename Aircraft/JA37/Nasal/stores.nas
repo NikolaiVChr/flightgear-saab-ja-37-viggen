@@ -1154,7 +1154,7 @@ var ammoCount = func (station) {
 }
 
 var selectCannon = func {
-  if(getprop("sim/description") == "Saab JA-37 Viggen") {
+  if(getprop("ja37/systems/variant") == 0) {
     setprop("controls/armament/station-select", 0);
     ja37.click();
   }
@@ -1178,7 +1178,7 @@ var cycle_weapons = func {
 
   while(newType == "none") {
     if (type == "none") {
-      if(getprop("sim/description") == "Saab JA-37 Viggen") {
+      if(getprop("ja37/systems/variant") == 0) {
         sel = 0;
         newType = "KCA";
       } else {
@@ -1288,7 +1288,7 @@ var cycle_weapons = func {
         type = "RB 15F Attackrobot";
       }
     } elsif (type == "RB 15F Attackrobot") {
-      if(getprop("sim/description") == "Saab JA-37 Viggen") {
+      if(getprop("ja37/systems/variant") == 0) {
         sel = 0;
         newType = "KCA";
       } else {
@@ -1419,6 +1419,96 @@ reloadJAAir2Ground = func {
 
 reloadAJAir2Tank = func {
   # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "M70 ARAK");
+  setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[2]/selected", "M70 ARAK");
+  setprop("payload/weight[3]/selected", "RB 75 Maverick");
+  setprop("payload/weight[4]/selected", "none");
+  setprop("payload/weight[5]/selected", "none");
+  setprop("ai/submodels/submodel[6]/count", 6);
+  setprop("ai/submodels/submodel[8]/count", 6);
+  screen.log.write("2 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
+  screen.log.write("1 RB-75 Maverick attached", 0.0, 1.0, 0.0);
+  screen.log.write("1 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+}
+
+reloadAJAir2Ship = func {
+  # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "RB 04E Attackrobot");
+  setprop("payload/weight[1]/selected", "RB 05A Attackrobot");
+  setprop("payload/weight[2]/selected", "RB 04E Attackrobot");
+  setprop("payload/weight[3]/selected", "RB 75 Maverick");
+  setprop("payload/weight[4]/selected", "none");
+  setprop("payload/weight[5]/selected", "none");
+  screen.log.write("1 RB-05A missile attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-04E cruise-antiship-missile attached", 0.0, 1.0, 0.0);
+  screen.log.write("1 RB-75 Maverick attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+}
+
+reloadAJAir2Personel = func {
+  # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "M55 AKAN");
+  setprop("ai/submodels/submodel[10]/count", 150);
+  setprop("payload/weight[1]/selected", "M71 Bomblavett");
+  setprop("payload/weight[1]/ammo", 4);
+  setprop("payload/weight[2]/selected", "M55 AKAN");
+  setprop("ai/submodels/submodel[12]/count", 150);
+  setprop("payload/weight[3]/selected", "M71 Bomblavett");
+  setprop("payload/weight[3]/ammo", 4);
+  setprop("payload/weight[4]/selected", "none");
+  setprop("payload/weight[5]/selected", "none");
+  screen.log.write("2 M55 cannonpod attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 M71 bomblet rail attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+}
+
+reloadAJAir2Air = func {
+  # Reload missiles - 4 of them.
+  setprop("payload/weight[0]/selected", "M55 AKAN");
+  setprop("ai/submodels/submodel[10]/count", 150);
+  setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[2]/selected", "M55 AKAN");
+  setprop("ai/submodels/submodel[12]/count", 150);
+  setprop("payload/weight[3]/selected", "RB 24J Sidewinder");
+  setprop("payload/weight[4]/selected", "none");
+  setprop("payload/weight[5]/selected", "none");
+  screen.log.write("2 M55 cannonpod attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
+
+  # Reload flares - 40 of them.
+  setprop("ai/submodels/submodel[0]/count", 60);
+  setprop("ai/submodels/submodel[1]/count", 60);
+  screen.log.write("60 flares loaded", 0.0, 1.0, 0.0);
+
+  # Reload cannon - 146 of them.
+  reloadGuns();
+}
+
+reloadAJSAir2Tank = func {
+  # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 75 Maverick");
   setprop("payload/weight[1]/selected", "M70 ARAK");
   setprop("payload/weight[2]/selected", "RB 75 Maverick");
@@ -1440,18 +1530,17 @@ reloadAJAir2Tank = func {
   reloadGuns();
 }
 
-reloadAJAir2Ship = func {
+reloadAJSAir2Ship = func {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 15F Attackrobot");
   setprop("payload/weight[1]/selected", "RB 05A Attackrobot");
-  setprop("payload/weight[2]/selected", "RB 04E Attackrobot");
+  setprop("payload/weight[2]/selected", "RB 15F Attackrobot");
   setprop("payload/weight[3]/selected", "RB 75 Maverick");
   setprop("payload/weight[4]/selected", "RB 24J Sidewinder");
   setprop("payload/weight[5]/selected", "RB 24J Sidewinder");
   screen.log.write("1 RB-05A missile attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 RB-04E cruise-antiship-missile attached", 0.0, 1.0, 0.0);
   screen.log.write("1 RB-75 Maverick attached", 0.0, 1.0, 0.0);
-  screen.log.write("1 RB-15F cruise-missiles attached", 0.0, 1.0, 0.0);
+  screen.log.write("2 RB-15F cruise-missiles attached", 0.0, 1.0, 0.0);
   screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
@@ -1463,7 +1552,7 @@ reloadAJAir2Ship = func {
   reloadGuns();
 }
 
-reloadAJAir2Personel = func {
+reloadAJSAir2Personel = func {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
@@ -1488,7 +1577,7 @@ reloadAJAir2Personel = func {
   reloadGuns();
 }
 
-reloadAJAir2Air = func {
+reloadAJSAir2Air = func {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
@@ -1514,7 +1603,7 @@ reloadAJAir2Air = func {
 reloadGuns = func {
   # Reload cannon - 146 of them.
   #setprop("ai/submodels/submodel[2]/count", 29);
-  if(getprop("sim/description") == "Saab JA-37 Viggen") {
+  if(getprop("ja37/systems/variant") == 0) {
     setprop("ai/submodels/submodel[3]/count", 146);
     setprop("ai/submodels/submodel[4]/count", 146);
     screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
