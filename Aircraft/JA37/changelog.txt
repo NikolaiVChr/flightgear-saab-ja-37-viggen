@@ -2448,3 +2448,4 @@ GUI: Removed the aerobatic pitch gearing setting.
 Sim: Reduced loadout for AJ-37.
 Sim: Added AJS-37 variant.
 Radar: {Pinto} Fixed a bug and optimized the terrain masking check for MP planes.
+GUI: {Pinto} Added AJS-37 splash screen.

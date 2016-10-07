@@ -32,6 +32,7 @@
 
         <startup>
             <splash-title>Swedish post coldwar attack aircraft</splash-title>
+            <splash-texture>Aircraft/JA37/GUI/ajs37-splash.png</splash-texture>
         </startup>
 
         <gui>
