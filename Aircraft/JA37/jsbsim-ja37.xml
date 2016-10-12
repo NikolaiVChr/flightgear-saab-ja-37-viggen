@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 4.002 </version>
+    <version> 4.006 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -64,9 +64,33 @@
        title="AERODYNAMIC CHARACTERISTICS OF THE CLOSE-COUPLED CANARD" date="Jan 1979"
        link="http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19750004860.pdf"/>
 
-       <reference refID="NASA-TN-D-7505" author="Gloss, B. B."
+      <reference refID="NASA-TN-D-7505" author="Gloss, B. B."
        title="Effect of canard location and size on canard-wing interference and aerodynamic center shift related to maneuvering aircraft at transonic speeds" date="Jun 01, 1974"
        link="http://hdl.handle.net/2060/19740020361"/>
+
+       <reference refID="SFI-AJ-37-Del-2" author="Försvarets Materielverk"
+       title="FPL AJ37 Speciel Förarinstruktion Del 2" date="1975"/>
+
+       <reference refID="SFI-AJ-37-Del-3" author="Försvarets Materielverk"
+       title="FPL AJ37 Speciel Förarinstruktion Del 3" date="1979"/>
+
+       <reference refID="SFI-AJS-37-Del-1" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 1" date="1994"/>
+
+       <reference refID="SFI-AJS-37-Del-2" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 2" date="1994"/>
+
+       <reference refID="SFI-AJS-37-Del-3" author="Försvarets Materielverk"
+       title="FPL AJS37 Speciel Förarinstruktion Del 3" date="1994"/>
+
+       <reference refID="SFI-JA-37C-Del-1" author="Försvarets Materielverk"
+       title="A/C 37 Flight Manual Part 1" date="1999"/>
+
+       <reference refID="SFI-JA-37Di-Del-1" author="Försvarets Materielverk"
+       title="FPL JA37Di Speciel Förarinstruktion Del 1" date="2003"/>
+
+       <reference refID="SSI-AJS-37" author="Försvarets Materielverk"
+       title="FPL 37 Speciel Startnings-instruktion" date="1997"/>
   </fileheader>
   
 

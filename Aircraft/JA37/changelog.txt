@@ -2449,3 +2449,21 @@ Sim: Reduced loadout for AJ-37.
 Sim: Added AJS-37 variant.
 Radar: {Pinto} Fixed a bug and optimized the terrain masking check for MP planes.
 GUI: {Pinto} Added AJS-37 splash screen.
+
+4.005 - 2016 October 12 (this version is for FG 2.8 only)
+=====
+Fixed plane so it flies in Flightgear version 2.8.0.5
+Model: Fixed some textures that was not power of two.
+Effect: Disabled all shader effects.
+Sound: Fixed that path to 2 sound files were not specified local.
+Sim: Changed some properties that did not exist in FG 2.8
+Sim: Changed the JSB tag pi into the number for FG 2.8
+Sim: Made propulsion and contact points inlined to work in FG 2.8
+Sim: Disabled carrier support.
+Sim: Removed clip tags from all JSB switches.
+
+4.006 - 2016 October 12
+=====
+HUD: Fixed that on older FG versions DME would show even if off.
+Sim: Init gravity for older FG versions that do not calculate it themselves. (this fixes FG 3.0.0 crash)
+Sound: Fixed that path to 2 sound files were not specified local.
