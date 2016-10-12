@@ -101,7 +101,7 @@
 
         <flybyslow>
             <name>high pitch fly by</name>
-            <path>Sounds/roar-medium.wav</path>
+            <path>Aircraft/JA37/Sounds/roar-medium.wav</path>
             <mode>looped</mode>
             <condition>
                 <equals>
@@ -2133,7 +2133,7 @@
 
         <aircraft-crash>
             <name>aircraft-impact</name>
-            <path>Sounds/aircraft-crash.wav</path>
+            <path>Aircraft/JA37/Sounds/aircraft-crash.wav</path>
             <mode>once</mode>
             <condition>
                 <equals>
