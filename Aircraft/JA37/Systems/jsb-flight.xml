@@ -134,14 +134,14 @@
                             </product>
                             <quotient>
                                 <product>
-                                    <pi/>
+                                    <value>3.14159</value>
                                     <value>2.0</value>
                                 </product>
                                 <property>velocities/psidot-rad_sec</property>
                             </quotient>
                         </product>
                         <product>
-                            <pi/>
+                            <value>3.14159</value>
                             <value>0.5</value>
                         </product>
                     </quotient>
@@ -288,7 +288,7 @@
                         <p>accelerations/a-pilot-z-ft_sec2</p>
                         <v>-1</v>
                     </product>
-                    <p>accelerations/gravity-ft_sec2</p>
+                    <v>32.1740</v>
                 </quotient>
             </function>
             <output>/ja37/accelerations/pilot-G</output>

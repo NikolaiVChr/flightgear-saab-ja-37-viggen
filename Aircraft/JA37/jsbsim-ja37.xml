@@ -13,7 +13,7 @@
   <fileheader>
     <author> Nikolai V. Chr. </author>
     <filecreationdate> 2013-02-15 </filecreationdate>
-    <version> 4.002 </version>
+    <version> 4.005 </version>
     <license>
       <licenseName>GPL 2 (General Public License version 2)</licenseName>
       <licenseURL>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseURL>
@@ -214,7 +214,338 @@ Old values:
     </pointmass>
   </mass_balance>
   
-  <propulsion file="Systems/jsb-propulsion-ja37"/>
+  <ground_reactions>
+    <contact type="BOGEY" name="NOSE_LG">
+      <location unit="M">
+        <x> -3.37534 </x>
+        <y> 0 </y>
+        <z> -2.1 </z>
+      </location>
+      <!-- sources say brakes could hold afterburner, the front is so high due to if rear is high, heavy crosswind landings will fail. -->
+      <static_friction>  0.900 </static_friction>
+      <dynamic_friction> 0.25 </dynamic_friction>
+      <rolling_friction> 0.01 </rolling_friction>
+      <spring_coeff unit="LBS/FT"> 40000 </spring_coeff><!-- hardness of spring. Low value means gear collapses more per energy applied. High value might give jsbsim trouble. -->
+      <damping_coeff unit="LBS/FT/SEC"> 7500 </damping_coeff><!-- higher value slows down how fast the gear absorbs energy -->
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 20000 </damping_coeff_rebound><!-- high value means the gear is slower to release the energy it stored when collapsed -->
+      <max_steer unit="DEG"> 30 </max_steer>
+      <brake_group> LEFT </brake_group><!-- FG do not use CENTER, TAIL or NOSE braking group, so must use LEFT or RIGHT -->
+      <retractable>1</retractable>
+    </contact>
+    <contact type="BOGEY" name="LEFT_MLG">
+      <location unit="M">
+        <x>  2.64670 </x>
+        <y> -2.15204 </y>
+        <z> -2.1 </z>
+      </location>
+      <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
+      <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
+      <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
+      <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 7000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 30000 </damping_coeff_rebound>
+      <max_steer unit="DEG"> 0.0 </max_steer>
+      <brake_group> LEFT </brake_group>
+      <retractable>1</retractable>
+    </contact>
+    <contact type="BOGEY" name="RIGHT_MLG">
+      <location unit="M">
+        <x> 2.64670 </x>
+        <y> 2.15204 </y>
+        <z> -2.1 </z>
+      </location>
+      <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
+      <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
+      <rolling_friction> 0.02 </rolling_friction><!-- double bogey means double value -->
+      <spring_coeff unit="LBS/FT"> 37500 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 7000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 30000 </damping_coeff_rebound>
+      <max_steer unit="DEG"> 0.0 </max_steer>
+      <brake_group> RIGHT </brake_group>
+      <retractable>1</retractable>
+    </contact>
+    <contact type="STRUCTURE" name="LEFT_WT">
+      <location unit="M">
+        <x> 5.65783 </x>
+        <y> -5.09762 </y>
+        <z> -0.3954 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="RIGHT_WT">
+      <location unit="M">
+        <x> 5.65783 </x>
+        <y> 5.09763 </y>
+        <z> -0.3954 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="TOP_VT">
+      <location unit="M">
+        <x> 5.64575 </x>
+        <y> 0 </y>
+        <z> 3.41594 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="RADARDOME">
+      <location unit="M">
+        <x> -7.25245 </x>
+        <y> 0 </y>
+        <z> -0.53892 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="CANOPY">
+      <location unit="M">
+        <x> -3.94918 </x>
+        <y> 0 </y>
+        <z> 0.8438 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="LEFT_CANARD_TIP">
+      <location unit="M">
+        <x> -0.59304 </x>
+        <y> -2.56202 </y>
+        <z> 0.14643 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact> 
+    <contact type="STRUCTURE" name="RIGHT_CANARD_TIP">
+      <location unit="M">
+        <x> -0.59304 </x>
+        <y> 2.56202 </y>
+        <z> 0.14643 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="EXHAUST">
+      <location unit="M">
+        <x> 6.78812 </x>
+        <y> 0 </y>
+        <z> -0.59328 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact>
+    <contact type="STRUCTURE" name="CENTER_PYLON">
+      <location unit="M">
+        <x> 0.37482 </x>
+        <y> 0 </y>
+        <z> -0.98881 </z>
+      </location>
+      <static_friction> 5.0 </static_friction>
+      <dynamic_friction> 4.0 </dynamic_friction>
+      <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+      <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+      <damping_coeff_rebound unit="LBS/FT/SEC"> 40000 </damping_coeff_rebound>
+    </contact> 
+  </ground_reactions>
+
+<propulsion>
+  <engine file="RM8B">
+    <location unit="M"><!-- inlet -->
+      <x> -3.4 </x>
+      <y> 0 </y>
+      <z> 0 </z>
+    </location>
+    <orient unit="DEG">
+      <roll> 0.0 </roll>
+      <pitch> 0 </pitch>
+      <yaw> 0 </yaw>
+    </orient>
+    <feed>0</feed>
+    <thruster file="direct">
+      <location unit="M"> <!-- exhaust, not end of reverser system -->
+        <x> 6.0 </x>
+        <y> 0 </y>
+        <z> 0 </z>
+      </location>
+      <orient unit="DEG">
+        <roll> 0.0 </roll>
+        <pitch> 0.0 </pitch>
+        <yaw> 0.0 </yaw>
+      </orient>
+    </thruster>
+  </engine>
+
+    <!--  Liter to KG conversion for F-40:
+          
+          6.48 LBM/USGallon = 2.9392785576 Kg/1 Gallon = 2.9392785576 Kg/3.785411784 Liter
+          = 0.2641720523581484 * 2.9392785576 Kg / Liter = 0.7764752490134901 Kg/Liter
+    -->
+    <!-- Internal: 4454.00 Kg, External: 1190.00 Kg (JA37, Swedish airforce website)
+    -->
+    
+  <tank type="FUEL"><!-- fuel type used: F-40 with density of 6.48 -->
+    <!-- Fuselage Main Tank 1 -->
+    <location unit="M">
+      <x> 1.79878 </x>
+      <y> 0.00 </y>
+      <z> 0.51982 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 1484 </capacity><!-- old: 1500 Kg -->
+    <contents unit="KG"> 1484 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 1 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Fuselage Forward Tank 2 -->
+    <location unit="M">
+      <x> -2.24 </x>
+      <y>  0.00 </y>
+      <z>  0.30 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 916.24 </capacity><!-- 1180 Liter --><!-- old: 750 Kg -->
+    <contents unit="KG"> 916.24 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Left Fuselage Minor Tank 3V -->
+    <location unit="M">
+      <x> -0.50305 </x>
+      <y> -0.7 </y>
+      <z>  0.52599 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 124.24 </capacity><!-- 160 Liter --><!-- old: 250 Kg -->
+    <contents unit="KG"> 124.24 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Right Fuselage Minor Tank 3H -->
+    <location unit="M">
+      <x> -0.50305 </x>
+      <y>  0.7 </y>
+      <z>  0.52599 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 124.24 </capacity><!-- 160 Liter --><!-- old: 250 Kg -->
+    <contents unit="KG"> 124.24 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Left Minor Wing Tank 5V -->
+    <location unit="M">
+      <x>  1.20 </x>
+      <y> -1.66 </y>
+      <z> -0.28 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 87.35 </capacity><!-- 112.5 Liter --><!-- old: 227 Kg -->
+    <contents unit="KG"> 87.35 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Right Minor Wing Tank 5H -->
+    <location unit="M">
+      <x>  1.20 </x>
+      <y>  1.66</y>
+      <z> -0.28 </z>
+    </location>
+    <radius unit="M"> 0.15 </radius>
+    <capacity unit="KG"> 87.35 </capacity><!-- 112.5 Liter --><!-- old: 227 Kg -->
+    <contents unit="KG"> 87.35 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Left wing tank 4V -->
+    <location unit="M">
+      <x>  4.50696 </x>
+      <y> -2.39707 </y>
+      <z> -0.30 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 815.3 </capacity><!-- 1050 Liter --><!-- old: 625 Kg -->
+    <contents unit="KG"> 815.3 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Right wing tank 4H -->
+    <location unit="M">
+      <x>  4.50696 </x>
+      <y>  2.39707 </y>
+      <z> -0.30 </z>
+    </location>
+    <radius unit="M"> 0.50 </radius>
+    <capacity unit="KG"> 815.3 </capacity><!-- 1050 Liter --><!-- old: 625 Kg -->
+    <contents unit="KG"> 815.3 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+  <tank type="FUEL">
+    <!-- Drop tank -->
+    <location unit="M">
+      <x>  0.52406 </x>
+      <y>  0.00 </y>
+      <z> -1.25748 </z>
+    </location>
+    <radius unit="M"> 0.25 </radius>
+    <capacity unit="KG"> 1024.95 </capacity><!-- 1320 Liter --><!-- old: 1190 Kg , Swedish airforce website -->
+    <contents unit="KG"> 0 </contents>
+    <temperature> 59 </temperature>
+    <density unit="LBS/GAL"> 6.48 </density>
+    <type>F-40</type>
+    <priority> 0 </priority>
+  </tank>
+</propulsion>
+
   <flight_control file="Systems/jsb-controls"/>
   <aerodynamics file="ja37-aerodynamics.xml"/>
   <system file="jsb-hydraulic"/>
@@ -224,10 +555,9 @@ Old values:
   <system file="jsb-cannon_recoil"/>
   <system file="jsb-fuel"/>
   <external_reactions file="Systems/jsb-external-reactions"/>
-  <ground_reactions file="Systems/jsb-ground-reactions"/>
 
   <!--  Carrier (note, these functions are not offical. As the real Viggen did not have carrier capacity, and so is not documented) -->
-  <system file="jsb-carrier"/>
+  <!--<system file="jsb-carrier"/>-->
   
 <!--<output name="C:/Users/Nikolai/Documents/ja37_datalog.csv" type="CSV" rate="10">
     <property> /position/latitude-deg </property>

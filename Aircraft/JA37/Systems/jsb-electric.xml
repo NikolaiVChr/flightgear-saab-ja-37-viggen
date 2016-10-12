@@ -450,10 +450,6 @@
                 /controls/electric/lights-land-switch == 1
                 gear/gear-pos-norm gt 0
             </test>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
             <output>/ja37/effect/landing-light</output>
         </switch>
 
@@ -506,10 +502,6 @@
                 systems/electrical/battery-producing-dc ge 22
                 /systems/electrical/outputs/dc-voltage gt 22
             </test>
-            <clipto>
-                <min> 0 </min>
-                <max> 1 </max>
-            </clipto>
         </switch>
 
         <switch name="systems/electrical/starter-time">

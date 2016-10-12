@@ -105,7 +105,7 @@ TODO: manual fuel controls
             <default value="-2.757956226619069296"/>            <!-- 5800 L/h from 3V to 2 -->
             <test logic="OR" value="0">
                 propulsion/tank[2]/contents-lbs LE 0
-                propulsion/tank[1]/pct-full GE 99.9
+                /consumables/fuel/tank[1]/level-norm GE 0.999
                 systems/fuel/pneumatic-low-pressure == 0
             </test>
             <output>propulsion/tank[2]/external-flow-rate-pps</output>
@@ -115,7 +115,7 @@ TODO: manual fuel controls
             <default value="-2.757956226619069296"/>            <!-- 5800 L/h from 2 to 3H -->
             <test logic="OR" value="0">
                 propulsion/tank[1]/contents-lbs LE 0
-                propulsion/tank[3]/pct-full GE 99.9
+                /consumables/fuel/tank[3]/level-norm GE 0.999
                 systems/fuel/pneumatic-low-pressure == 0
             </test>
         </switch>
@@ -141,7 +141,7 @@ TODO: manual fuel controls
             </test>
             <test logic="OR" value="0">
                 propulsion/tank[8]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 /consumables/fuel/tank[8]/jettisoned == 1
                 propulsion/engine[0]/n2 lt 70
                 systems/fuel/pneumatics/serviceable == 0
@@ -166,7 +166,7 @@ TODO: manual fuel controls
             <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4V to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[6]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 structural/wings/serviceable == 0
                 /orientation/pitch-deg gt 60
                 /orientation/pitch-deg lt -30
@@ -211,7 +211,7 @@ TODO: manual fuel controls
             <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4H to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[7]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 structural/wings/serviceable == 0
                 /orientation/pitch-deg gt 60
                 /orientation/pitch-deg lt -30
@@ -256,7 +256,7 @@ TODO: manual fuel controls
             <default value="-5.515912453238138592"/>            <!-- 11600 L/h from 3H to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 /orientation/pitch-deg gt 60
                 /orientation/pitch-deg lt -30
                 /orientation/roll-deg lt -40
@@ -292,7 +292,7 @@ TODO: manual fuel controls
             <default value="-8.273868679857207888"/>            <!-- 17400 L/h from 2 to distributor -->
             <test logic="OR" value="0">
                 propulsion/tank[3]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 /orientation/pitch-deg gt 60
                 /orientation/pitch-deg lt -30
                 /orientation/roll-deg lt -40
@@ -341,7 +341,7 @@ TODO: manual fuel controls
             <default value="-2.3775484712233356"/><!-- 5000 L/h from 5V -->
             <test logic="OR" value="0">
                 propulsion/tank[4]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 /systems/electrical/outputs/ac-main-voltage lt 150
                 systems/fuel/fuel-pumps/serviceable == 0
             </test>
@@ -367,7 +367,7 @@ TODO: manual fuel controls
             <default value="-2.3775484712233356"/><!-- 5000 L/h from 5H -->
             <test logic="OR" value="0">
                 propulsion/tank[5]/contents-lbs LE 0
-                propulsion/tank[0]/pct-full GE 99.9
+                /consumables/fuel/tank[0]/level-norm GE 0.999
                 /systems/electrical/outputs/ac-main-voltage lt 150        
                 systems/fuel/fuel-pumps/serviceable == 0
             </test>

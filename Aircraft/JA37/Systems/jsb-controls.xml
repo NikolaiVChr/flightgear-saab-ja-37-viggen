@@ -483,6 +483,10 @@
                  23     0.00
                 </tableData>
             </table>
+            <clipto>
+                <min>-1</min>
+                <max>1</max>
+            </clipto>
         </scheduled_gain>
 
         <scheduled_gain name="fcs/elevator/alpha-scheduler-aj37">
@@ -497,6 +501,10 @@
                  18     0.00
                 </tableData>
             </table>
+            <clipto>
+                <min>-1</min>
+                <max>1</max>
+            </clipto>
         </scheduled_gain>
 
         <switch name="fcs/elevator/alpha-scheduler">
@@ -504,10 +512,6 @@
             <test logic="OR" value="fcs/elevator/alpha-scheduler-aj37">
                /ja37/systems/variant gt 0
             </test>
-            <clipto>
-                <min>-1</min>
-                <max>1</max>
-            </clipto>
         </switch>
         
         <switch name="names/elevator/tmp-norm">
@@ -1154,10 +1158,6 @@
                   gear/gear-cmd-norm == 1
                   systems/hydraulics/system1/pressure == 0
             </test>
-            <clipto>
-                <min>  0 </min>
-                <max>  1 </max>
-            </clipto>
             <output>gear/gear-target-norm</output>
         </switch>
 
@@ -1167,10 +1167,6 @@
                   systems/hydraulics/flight-surface-actuation == 0
                   gear/serviceable == 0
             </test>
-            <clipto>
-                <min>  0 </min>
-                <max>  1 </max>
-            </clipto>
             <output>gear/gear-filtered-norm</output>
         </switch>
 
