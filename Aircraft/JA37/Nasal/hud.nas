@@ -1725,7 +1725,7 @@ var HUDnasal = {
   },
 
   displayQFE: func (mode) {
-    var DME = me.input.dme.getValue() != "---" and me.input.dme.getValue() != "";
+    var DME = me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0;
     if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
       if (me.input.TILS.getValue() == TRUE) {
         if (DME == TRUE) {
@@ -2235,7 +2235,7 @@ var HUDnasal = {
         me.distanceText.hide();
       }
       me.dist_scale_group.show();
-    } elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil) {
+    } elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
       var distance = me.input.dmeDist.getValue();
       var line = (200/1024)*canvasWidth;
       var maxDist = 20;
