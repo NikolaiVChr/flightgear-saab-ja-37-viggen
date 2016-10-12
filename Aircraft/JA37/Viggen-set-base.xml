@@ -565,6 +565,9 @@
     </ai>
     <fdm>
         <jsbsim>
+            <accelerations>
+                <gravity-ft_sec2 type="double">32.1740</gravity-ft_sec2><!-- start value for compatibility with older FG versions -->
+            </accelerations>
             <structural>
                 <wings>
                     <serviceable type="bool">true</serviceable>
