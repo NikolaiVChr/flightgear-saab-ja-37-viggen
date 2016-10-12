@@ -2113,6 +2113,7 @@ var HUDnasal = {
       var rotationSpeed = 250+((weight-28725)/(40350-28725))*(280-250);#km/h
       # as per manual, minimum rotation speed is 250:
       rotationSpeed = ja37.clamp(rotationSpeed, 250, 1000);
+      #rotationSpeed = getprop("fdm/jsbsim/systems/flight/rotation-speed");
       var pixelPerKmh = (2/3*line)/rotationSpeed;
       if(me.input.ias.getValue() < 75/kts2kmh) {
         me.mySpeed.setTranslation(pixelPerKmh*75, 0);

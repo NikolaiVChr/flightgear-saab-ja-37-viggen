@@ -552,6 +552,26 @@
                 </product>
             </function>
         </fcs_function>
+
+        <!-- AJS-37 manual part 2, page 173 -->
+        <fcs_function name="systems/flight/rotation-speed">
+            <function>
+                <table>
+                    <independentVar lookup="row">inertia/weight-lbs</independentVar>
+                    <independentVar lookup="column">/environment/temperature-degc</independentVar>
+                    <tableData>
+                        <!-- rotation speed in Km/h at max afterburner -->
+                                    -15.0    0.0   15.0   30.0
+                        28660.09    122.5  133.0  150.0  167.5
+                        33069.34    155.0  165.0  177.5  194.0
+                        37478.58    180.0  190.0  202.5  216.0
+                        41887.83    200.0  210.0  220.0  232.5
+                        <!-- This output is at present not used as it gives about 75% of a sane value.
+                             Not sure why. -->
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
     
     </channel>
 

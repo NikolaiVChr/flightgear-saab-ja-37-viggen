@@ -376,13 +376,14 @@
             </range>
         </aerosurface_scale>
 
-        <switch name="systems/flight/pitch-gearing-norm">
+        <switch name="systems/flight/pitch-gearing">
             <default value="systems/flight/pitch-gearing-ja37-norm"/>
             <test logic="OR" value="systems/flight/pitch-gearing-aj37-norm">
                /ja37/systems/variant gt 0
             </test>
         </switch>
 
+        <!--
         <fcs_function name="systems/flight/pitch-gearing-fun">
             <function>
                 <product>
@@ -401,7 +402,6 @@
                             2.00        0.10      0.20      0.70
                         </tableData>
                     </table>
-                    <!--<property>/test</property>-->
                </product>
             </function>
         </fcs_function>
@@ -411,7 +411,7 @@
             <test logic="OR" value="systems/flight/pitch-gearing-fun">
                 /ja37/avionics/fun == 1
             </test>
-        </switch>
+        </switch>-->
 
         <!-- At high speeds elevator up deflection is reduced,
            At high altitude elevator up deflection is increased -->
