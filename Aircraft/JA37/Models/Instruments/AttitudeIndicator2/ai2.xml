@@ -3,15 +3,15 @@
 
     <path>secai.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>AI2Glass</object-name>
-    </effect>
+    </effect>-->
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>AI2Cube</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

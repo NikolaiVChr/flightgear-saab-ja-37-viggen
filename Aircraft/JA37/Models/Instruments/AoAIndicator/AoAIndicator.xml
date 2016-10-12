@@ -2,10 +2,10 @@
 <PropertyList>
     <path>AoAIndicator.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Cylinder</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>
@@ -21,10 +21,10 @@
         </hovered>
     </animation>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glassAoA</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>material</type>

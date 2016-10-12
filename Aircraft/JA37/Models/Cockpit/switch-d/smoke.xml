@@ -4,12 +4,12 @@
 
     <path>switch-d2.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>D2_mount</object-name>
         <object-name>D2_red</object-name>
         <object-name>D2_lever</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

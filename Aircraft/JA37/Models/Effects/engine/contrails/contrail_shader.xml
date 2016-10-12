@@ -3,7 +3,7 @@
 <PropertyList>
 	<path>Aircraft/Generic/Effects/PersistentContrails/contrail20.ac</path>
 
-	<effect>
+	<!--<effect>
 		<inherits-from>Aircraft/JA37/Models/Effects/engine/contrails/contrail</inherits-from>
 		<!--<object-name>contrail</object-name>-->
 		<object-name>rect1</object-name>
@@ -26,7 +26,7 @@
 		<object-name>rect18</object-name>
 		<object-name>rect19</object-name>
 		<object-name>rect20</object-name>
-	</effect>
+	</effect>-->
 
 	<animation>
 		<enable-hot type="bool">false</enable-hot>

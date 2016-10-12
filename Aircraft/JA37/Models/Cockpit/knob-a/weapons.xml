@@ -4,14 +4,14 @@
 
     <path>knob-a2.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
         <object-name>A2_handle</object-name>  
         <object-name>A2_screw</object-name>
         <object-name>A2_marker</object-name>
         <object-name>A2_mount</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

@@ -4,11 +4,11 @@
 
     <path>knob-g.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>knob</object-name>
         <object-name>plane</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

@@ -4,19 +4,19 @@
 
     <path>range-selector.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glassRadarRange</object-name>
-    </effect>
+    </effect>-->
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>CW</object-name>
         <object-name>CCW</object-name>
         <object-name>RCube</object-name>
         <object-name>RCylinder</object-name>
         <object-name>RPlane</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>scale</type>

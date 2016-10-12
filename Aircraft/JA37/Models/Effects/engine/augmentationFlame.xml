@@ -13,10 +13,10 @@
     <heading-deg>0</heading-deg>
    </offsets>
    
-  <effect>
+  <!--<effect>
    <inherits-from>augmentationFlame</inherits-from>
    <object-name>Bounding_box</object-name>
-  </effect>
+  </effect>-->
 
   <animation>
     <type>select</type>

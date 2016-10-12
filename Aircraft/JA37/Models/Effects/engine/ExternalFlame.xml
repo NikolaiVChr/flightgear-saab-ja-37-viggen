@@ -13,10 +13,10 @@
     <heading-deg>0</heading-deg>
    </offsets>
    
-  <effect>
+  <!--<effect>
    <inherits-from>Effects/model-transparent</inherits-from>
    <object-name>ExternalFlamePoly</object-name>
-  </effect>
+  </effect>-->
 
   <animation>
     <type>noshadow</type>

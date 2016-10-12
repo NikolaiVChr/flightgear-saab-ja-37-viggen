@@ -4,14 +4,13 @@
 
 	<path>aj37.ac</path>
 
-	<effect>
+	<!--<effect>
 	    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
-	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
 	    <object-name>aj37fin</object-name>
 		<object-name>aj37dropTank</object-name>
 		<object-name>aj37upperPitotTube</object-name>
 		<object-name>aj37upperVerticalStabilizer</object-name>
-	</effect>
+	</effect>-->
 
 	<!-- ====== drop tank ====== -->
 
@@ -1394,9 +1393,9 @@
   </model>
 
 <!-- Material shaders   -->
-  <effect>
+  <!--<effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
+
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
     <object-name>elevonLeftOuter</object-name>
@@ -1426,16 +1425,16 @@
     <object-name>gearRightDoorsOpen</object-name>
     <object-name>gearRightDoorsClosed</object-name>
     <object-name>bottomAirInlet</object-name>
-  </effect>
+  </effect>-->
 
-  <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
+  <!--<effect>
+    <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
     <object-name>dashPanel</object-name>
     <object-name>dashPanelTap</object-name>
     <object-name>sidepanelLeft</object-name>
     <object-name>sidepanelRight</object-name>
     <object-name>hudRestBack</object-name>
-    <!--<object-name>hudStruts</object-name>-->
+
     <object-name>plaqueLeftMount</object-name>
     <object-name>plaqueRightMount</object-name>
     <object-name>radarMount</object-name>
@@ -1444,34 +1443,34 @@
     <object-name>plaqueLeft</object-name>
     <object-name>plaqueRight</object-name>
     <object-name>radarHeading</object-name>
-    <!--<object-name>radarScreen</object-name>-->
-    <object-name>seat</object-name>
-  </effect>
 
-  <effect>
+    <object-name>seat</object-name>
+  </effect>-->
+
+  <!--<effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
     <object-name>glassRadar</object-name>
-  </effect>
+  </effect>-->
 
-  <effect>
-    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-total-transparent-shader</inherits-from>-->
+  <!--<effect>
+
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>hud</object-name>
-  </effect>
+  </effect>-->
 
-  <effect>  
+  <!--<effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-mirror</inherits-from>
     <object-name>mirrorreflect</object-name>
-  </effect>
+  </effect>-->
 
-  <effect>  
+  <!--<effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-glass-combined</inherits-from>
     <object-name>glassInternal</object-name>
     <object-name>frontglasInternal</object-name>
-  </effect>
+  </effect>-->
 
 
-  <effect>  
+  <!--<effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
     <object-name>gearFrontOleoStrut</object-name>
     <object-name>gearLeftOleoStrut</object-name>
@@ -1490,18 +1489,18 @@
     <object-name>mirrorholder</object-name>
     <object-name>engineOutlet</object-name>
     <object-name>engineRear</object-name>
-  </effect>
+  </effect>-->
 
-  <effect>  
+  <!--<effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-nozzle-combined</inherits-from>
     <object-name>nozzle</object-name>
-  </effect>
+  </effect>-->
 
-  <effect>  
+  <!--<effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/frostAndRain/glass</inherits-from>
     <object-name>glassOuter</object-name>
     <object-name>frontglas</object-name>
-  </effect>
+  </effect>-->
 
   <!--<animation>
   <type>select</type>

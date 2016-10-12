@@ -3,16 +3,16 @@
 
     <path>ai1.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glassAI1</object-name>
-    </effect>
+    </effect>-->
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>ai-ring</object-name>
         <object-name>CLOCK_mount</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

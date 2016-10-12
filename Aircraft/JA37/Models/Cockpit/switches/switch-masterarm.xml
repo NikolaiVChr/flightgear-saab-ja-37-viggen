@@ -4,15 +4,15 @@
 
     <path>switch.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Switch</object-name>
-    </effect>
+    </effect>-->
 
-	<effect>
+	<!--<effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>Text</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

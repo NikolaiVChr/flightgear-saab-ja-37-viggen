@@ -12,13 +12,12 @@
 
     <path>kt76a.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Front</object-name>
         <object-name>Ident</object-name>
         <object-name>Border</object-name>
-        <!--<object-name>vitre</object-name>-->
-    </effect>
+    </effect>-->
 
     <params>
         <serviceable>instrumentation/transponder/serviceable</serviceable>
@@ -161,13 +160,13 @@
         <object-name>vitre</object-name>
     </animation>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>vitre</object-name>
         <condition>
             <property>sim/rendering/rembrandt/enabled</property>
         </condition>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>rotate</type>

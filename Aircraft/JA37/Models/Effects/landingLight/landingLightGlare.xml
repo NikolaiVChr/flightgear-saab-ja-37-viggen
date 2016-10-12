@@ -20,10 +20,10 @@
     <object-name>glare</object-name>
   </animation>
 
-   <effect>
+   <!--<effect>
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>glare</object-name>
-  </effect>
+  </effect>-->
 
  <animation>
   <type>rotate</type>

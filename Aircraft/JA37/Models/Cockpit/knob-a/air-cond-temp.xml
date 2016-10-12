@@ -4,14 +4,14 @@
 
     <path>knob-a1.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>___knob_A_disc</object-name>
         <object-name>___knob_A_handle</object-name>  
         <object-name>___knob_A_screw</object-name>
         <object-name>Circle</object-name>
         <object-name>Circle.001</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

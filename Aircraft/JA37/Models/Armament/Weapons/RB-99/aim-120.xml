@@ -6,9 +6,9 @@
 
 	<nopreview/>
 
-	<effect>
+	<!--<effect>
 	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
 	  <object-name>aim-120</object-name>
-	</effect>
+	</effect>-->
 
 </PropertyList>

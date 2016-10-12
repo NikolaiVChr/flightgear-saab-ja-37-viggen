@@ -21,10 +21,10 @@
     <object-name>LightBeaconGlow</object-name>
   </animation>
 
-  <effect>
+  <!--<effect>
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>LightBeaconGlow</object-name>
-  </effect>
+  </effect>-->
 
   <!-- Animations -->
 

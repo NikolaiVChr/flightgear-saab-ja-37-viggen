@@ -2,10 +2,10 @@
 <PropertyList>
     <path>../smallNeedle.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>smallNeedle</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

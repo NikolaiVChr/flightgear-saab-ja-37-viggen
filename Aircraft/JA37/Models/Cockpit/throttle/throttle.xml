@@ -4,7 +4,7 @@
 
     <path>throttle.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
 		<object-name>ButtonBottom</object-name>
 		<object-name>ButtonTop</object-name>
@@ -33,7 +33,7 @@
 		<object-name>Rot3-2_screwHead</object-name>
 		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
-	</effect>
+	</effect>-->
 
     <animation>
         <type>pick</type>

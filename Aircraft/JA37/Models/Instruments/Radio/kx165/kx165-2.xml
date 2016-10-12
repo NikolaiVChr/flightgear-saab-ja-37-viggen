@@ -47,10 +47,10 @@
 
     <path>kx165.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Chassis</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <object-name>Chassis</object-name>

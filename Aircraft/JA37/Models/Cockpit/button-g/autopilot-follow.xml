@@ -4,14 +4,14 @@
 
     <path>button-double-g.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>buttonLeft</object-name>
         <object-name>buttonRight</object-name>
         <object-name>plate</object-name>
         <object-name>ringLeft</object-name>
         <object-name>ringRight</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

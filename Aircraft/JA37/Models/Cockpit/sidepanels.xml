@@ -4,10 +4,9 @@
 
     <path>sidepanels.ac</path>
 
-  <effect>
+  <!--<effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
     <object-name>dashPanel</object-name>
-    <!--<object-name>dashPanelMount</object-name>-->
     <object-name>innerWall_sides</object-name>
     <object-name>InnerWall_back</object-name>
     <object-name>sidePanel_L</object-name>
@@ -20,6 +19,6 @@
     <object-name>sidePanel_R_mount_C</object-name>
     <object-name>sidePanel_L_mount_A</object-name>
     <object-name>sidePanel_L_mount_B</object-name>
-  </effect>
+  </effect>-->
 
 </PropertyList>

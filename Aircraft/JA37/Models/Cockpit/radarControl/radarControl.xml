@@ -4,7 +4,7 @@
 
     <path>radarControl.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
 		<object-name>BoltL_cap</object-name>
 		<object-name>BoltL_hexagon</object-name>
@@ -24,7 +24,7 @@
 		<object-name>Ring</object-name>
 		<object-name>Wheel_KnurledFaces</object-name>
 		<object-name>Wheel_SmoothFaces</object-name>
-	</effect>
+	</effect>-->
 
     <animation>
         <type>pick</type>

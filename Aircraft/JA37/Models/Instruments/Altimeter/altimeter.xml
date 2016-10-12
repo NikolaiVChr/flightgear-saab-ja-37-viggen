@@ -4,15 +4,15 @@
 
     <path>altimeter.ac</path>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
         <object-name>glassAlt1</object-name>
-    </effect>
+    </effect>-->
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Cube</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>pick</type>

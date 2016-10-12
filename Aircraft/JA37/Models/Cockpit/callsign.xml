@@ -10,10 +10,10 @@
         <z-m>  0.0</z-m>
     </offsets>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>Callsign</object-name>
-    </effect>
+    </effect>-->
 
     <animation>
         <type>material</type>

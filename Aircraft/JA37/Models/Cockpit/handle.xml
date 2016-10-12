@@ -5,8 +5,8 @@
     <path>handle.ac</path>
 
 
-	<effect>
+	<!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>handleObj</object-name>
-    </effect>
+    </effect>-->
 </PropertyList>

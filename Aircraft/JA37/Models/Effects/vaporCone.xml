@@ -5,10 +5,10 @@
   <path>vaporCone.ac</path>
   <nopreview/>
   
-  <effect>
+  <!--<effect>
     <inherits-from>Effects/model-transparent</inherits-from>
     <object-name>vaporCone</object-name>
-  </effect>
+  </effect>-->
 
   <animation>
     <type>noshadow</type>

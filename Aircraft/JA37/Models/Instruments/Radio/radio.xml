@@ -4,10 +4,10 @@
 
     <path>radio.ac</path>
 	
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Mount</object-name>
-    </effect>
+    </effect>-->
 	
 	<animation>
         <type>material</type>
