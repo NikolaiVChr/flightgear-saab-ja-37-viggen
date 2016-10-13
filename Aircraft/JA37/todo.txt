@@ -7,7 +7,7 @@ Features and improvements:
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
-Aero: Make cannon pod detachable and have pointweight. (and model it above drop-tank)
+Aero: Make JA cannon pod detachable and have pointweight. (and model it above drop-tank)
 Aero: Air-brakes, even though they got welded shut in mid 80ties. (Request from JazzTp)
 Aero: Make recoil not assume that FDM rate is 120 Hz.
 Control: Pitch damper should also take lateral normal (Nz) acceleration as input as per manual.
@@ -26,7 +26,7 @@ Model: The reserve generator. (ram air turbine)
 Model: Proper floor in the cockpit.
 Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
 Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
-Model: Make the AJ37 black tube next to HUD, used for vision guided munitions. It should have transparent glass cover.
+Model: Make the AJ37 black tube next to HUD, used for vision guided munition RB-75. It should have transparent glass cover.
 Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
@@ -34,7 +34,7 @@ Model: Review all indicator lights. For example the A/T light should blink by ma
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
-Animation: Make rear boogie rotate at rotation.
+Animation: Make rear boogie rotate at takeoff/landing rotation.
 Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
@@ -55,7 +55,6 @@ Sim: Specific damage to gears in crash code, speed of impact and vertical speed 
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Sim: Make data-link between Viggens.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
-Sim: Replace nasal strobe blinker with JSB code.
 Sim: Implement maximum speed reactions - Vne.
 Sim: Implement navigation controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
@@ -159,9 +158,9 @@ Model: Improve the 57-F21 red 'ghost' livery.
 Model: Improve the 46-F04 unknown export livery - Great lake monster.
 Model: Improve the 02-F21 swedish sun livery.
 Model: Improve the Flightgear livery.
-Model: Make the 11-F16 black/grey camo livery.
-Model: Make the 12-F04 black and gold livery.
-Model: Make the 48-F21 finnish export livery. (Akktu Stakki - Lonely Wolf)
+Model: Improve the 11-F16 black/grey camo livery.
+Model: Improve the 12-F04 black and gold livery.
+Model: Improve the 48-F21 finnish export livery. (Akktu Stakki - Lonely Wolf)
 
 
 Require more data:

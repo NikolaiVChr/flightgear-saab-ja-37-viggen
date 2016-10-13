@@ -71,26 +71,44 @@
       <reference refID="SFI-AJ-37-Del-2" author="Försvarets Materielverk"
        title="FPL AJ37 Speciel Förarinstruktion Del 2" date="1975"/>
 
-       <reference refID="SFI-AJ-37-Del-3" author="Försvarets Materielverk"
+      <reference refID="SFI-AJ-37-Del-3" author="Försvarets Materielverk"
        title="FPL AJ37 Speciel Förarinstruktion Del 3" date="1979"/>
 
-       <reference refID="SFI-AJS-37-Del-1" author="Försvarets Materielverk"
+      <reference refID="SFI-AJS-37-Del-1" author="Försvarets Materielverk"
        title="FPL AJS37 Speciel Förarinstruktion Del 1" date="1994"/>
 
-       <reference refID="SFI-AJS-37-Del-2" author="Försvarets Materielverk"
+      <reference refID="SFI-AJS-37-Del-2" author="Försvarets Materielverk"
        title="FPL AJS37 Speciel Förarinstruktion Del 2" date="1994"/>
 
-       <reference refID="SFI-AJS-37-Del-3" author="Försvarets Materielverk"
+      <reference refID="SFI-AJS-37-Del-3" author="Försvarets Materielverk"
        title="FPL AJS37 Speciel Förarinstruktion Del 3" date="1994"/>
 
-       <reference refID="SFI-JA-37C-Del-1" author="Försvarets Materielverk"
+      <reference refID="SFI-JA-37C-Del-1" author="Försvarets Materielverk"
        title="A/C 37 Flight Manual Part 1" date="1999"/>
 
-       <reference refID="SFI-JA-37Di-Del-1" author="Försvarets Materielverk"
+      <reference refID="SFI-JA-37Di-Del-1" author="Försvarets Materielverk"
        title="FPL JA37Di Speciel Förarinstruktion Del 1" date="2003"/>
 
-       <reference refID="SSI-AJS-37" author="Försvarets Materielverk"
+      <reference refID="SSI-AJS-37" author="Försvarets Materielverk"
        title="FPL 37 Speciel Startnings-instruktion" date="1997"/>
+
+      <reference refID="KOMP-AERODYN-FPL-37" author="Försvarets Materielverk"
+       title="Aerodynamik fpl 37 - Kompendium I" date="1975"/>
+
+      <reference refID="KOMP-AERODYN3-FPL-37" author="Försvarets Materielverk"
+       title="Aerodynamik fpl 37 - Kompendium III" date="1981"/>
+
+      <!-- note: the following 3 books is missing date -->
+
+      <reference refID="VIGGEN" author="Sven Stridsberg"
+       title="Viggen"/>
+
+      <reference refID="SYS-37-VIGGEN" author="Flyg Historisk Revy"
+       title="System 37 Viggen"/>
+
+      <reference refID="PIC-BOOK-VIGGEN"
+       title="Nordic Airpower - Saab 37 Viggen"/>
+
   </fileheader>
   
 
