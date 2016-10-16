@@ -341,7 +341,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
     #aircraft angle
     var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
     var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
-    var xa_rad_corr = xg_rad * math.cos(0) - yg_rad * math.sin(0);
+    var xa_rad_corr = xg_rad;
 
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;
@@ -362,7 +362,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    if(ya_rad > -61.5 * D2R and ya_rad < 61.5 * D2R and xa_rad_corr > -61.5 * D2R and xa_rad_corr < 61.5 * D2R) {
+    if(ya_rad > -61.5 * D2R and ya_rad < 61.5 * D2R and xa_rad > -61.5 * D2R and xa_rad < 61.5 * D2R) {
       #is within the radar cone
       # AJ37 manual: 61.5 deg sideways.
 
