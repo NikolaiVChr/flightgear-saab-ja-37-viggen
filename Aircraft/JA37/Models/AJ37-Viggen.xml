@@ -1490,6 +1490,7 @@
     <object-name>mirrorholder</object-name>
     <object-name>engineOutlet</object-name>
     <object-name>engineRear</object-name>
+    <object-name>outletCover</object-name>
   </effect>
 
   <effect>  
