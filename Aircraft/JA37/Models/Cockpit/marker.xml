@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<PropertyList>
+	<!-- marker for tutorial system -->
+	<path>marker.ac</path>
+	<nopreview/>
+
+	<animation>
+		<name>cross</name>
+		<object-name>x</object-name>
+		<object-name>y</object-name>
+		<object-name>z</object-name>
+	</animation>
+
+	<animation>
+		<name>marker</name>
+		<object-name>cross</object-name>
+		<object-name>arrow</object-name>
+		<enable-hot>false</enable-hot>
+	</animation>
+
+	<animation>
+		<type>noshadow</type>
+		<object-name>marker</object-name>
+	</animation>
+
+	<animation>
+		<type>billboard</type>
+		<object-name>arrow</object-name>
+	</animation>
+
+	<animation>
+		<type>scale</type>
+		<object-name>arrow</object-name>
+		<property>sim/model/marker/scale/value</property>
+		<x-factor>1</x-factor>
+		<y-factor>1</y-factor>
+		<z-factor>1</z-factor>
+		<x-offset>0</x-offset>
+		<y-offset>0</y-offset>
+		<z-offset>0</z-offset>
+	</animation>
+
+	<animation>
+		<type>timed</type>
+		<object-name>arrow</object-name>
+		<object-name>null</object-name>
+		<duration-sec>0.5</duration-sec>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>arrow</object-name>
+		<condition>
+			<property>sim/model/marker/arrow-enabled</property>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>cross</object-name>
+		<condition>
+			<property>sim/model/marker/cross-enabled</property>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>marker</object-name>
+		<property>sim/model/marker/x/value</property>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>marker</object-name>
+		<property>sim/model/marker/y/value</property>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>marker</object-name>
+		<property>sim/model/marker/z/value</property>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+</PropertyList>

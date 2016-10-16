@@ -8,21 +8,10 @@
     <max-m>5</max-m>
   </animation>-->
 
-  <!-- tutorial marker - There is going to an error in console for one of these, just ignore it.
-       Future: include the marker in the ja37 distribution. -->
-  <model><!-- FG 2016.1- -->
-    <!--<condition>
-      <not>
-        <property>ja37/supported/new-marker</property>
-      </not>
-    </condition>-->
-    <path>Models/Aircraft/marker.xml</path>
-  </model>
-  <model><!-- FG 2016.2+ -->
-      <!--<condition>
-          <property>ja37/supported/new-marker</property>
-      </condition>-->
-      <path>Aircraft/Generic/marker.xml</path>
+  <!-- tutorial marker
+        included the marker in the ja37 distribution, so it works with all FG versions. -->
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/marker.xml</path>
   </model>
 
  <model>
