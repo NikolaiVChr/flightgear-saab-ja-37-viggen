@@ -575,7 +575,7 @@
 
     </channel>
 
-    <channel execrate="2" name="Engine-outlet">
+    <channel execrate="4" name="Engine-outlet">
 
         <!--
             tertiary engine opening, page 188 of JA37Di manual
@@ -613,7 +613,7 @@
                 </setting>
                 <setting>
                     <position>1</position>
-                    <time>5.0</time>
+                    <time>5.0</time><!-- closing takes 5s as per manual -->
                 </setting>
             </traverse>
             <clipto>
@@ -622,7 +622,80 @@
             </clipto>
             <output> /ja37/systems/tertiary-opening </output>
         </kinematic>
+
+        <!--
+            Engine reversing, page 189 of JA37Di manual
+
+            Todo: Blow off reverser doors if reversing is active while tertiary is closed or semi-closed.
+        -->
+        <switch name="systems/flight/reverse/state-cmd">
+            <default value="systems/flight/reverse/state-cmd"/>
+            <test logic="AND" value="0">
+                <!-- forward thrust -->
+              /ja37/systems/tertiary-opening lt 1
+            </test>
+            <test logic="AND" value="0">
+                <!-- forward thrust -->
+              systems/flight/reverse/state-cmd == 1
+              /controls/engines/engine[0]/reverser-cmd == 0
+            </test>
+            <test logic="AND" value="1">
+                <!-- reverse thrust -->
+              systems/flight/reverse/state-cmd == 0
+              /controls/engines/engine[0]/reverser-cmd == 1
+            </test>
+        </switch>
+
+        <switch name="systems/flight/reverse/state-current">
+            <default value="systems/flight/reverse/state"/>
+            <test logic="AND" value="systems/flight/reverse/state-cmd">
+                /systems/electrical/outputs/dc-voltage gt 23
+                systems/hydraulics/system1/pressure == 1
+                /controls/engines/engine[0]/reverse-system/serviceable == 1
+            </test>
+        </switch>
+
+        <kinematic name="systems/flight/reverse/state">
+            <input>systems/flight/reverse/state-current</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>1.5</time><!-- reversing takes 1.5s as per manual -->
+                </setting>
+            </traverse>
+            <clipto>
+                <min>0</min>
+                <max>1</max>
+            </clipto>
+            <output> /engines/engine[0]/reverser-pos-norm </output>
+        </kinematic>
     
+        <aerosurface_scale name="systems/flight/reverse/state-angle">
+            <input>systems/flight/reverse/state</input>
+            <zero_centered> true </zero_centered>
+            <domain>
+                <min> 0 </min>
+                <max> 1 </max>
+            </domain>
+            <range>
+                <min>0</min>                
+                <max>2.0669551</max><!-- Max 7716.18lbs thrust. So acos(-34323.27876347009N / 72100N). -->
+            </range>
+            <output> propulsion/engine[0]/reverser-angle-rad </output>
+        </aerosurface_scale>
+        
+        <switch name="systems/flight/reverse/is-reversed">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                systems/flight/reverse/state == 1
+            </test>
+            <output> /engines/engine[0]/is-reversed </output>
+        </switch>
+
     </channel>
 
     <channel execrate="2" name="blinkers">
