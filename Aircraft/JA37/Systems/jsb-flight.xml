@@ -572,6 +572,56 @@
                 </table>
             </function>
         </fcs_function>
+
+    </channel>
+
+    <channel execrate="2" name="Engine-outlet">
+
+        <!--
+            tertiary engine opening, page 188 of JA37Di manual
+        -->
+        <switch name="systems/flight/tertiary/state-cmd">
+            <default value="systems/flight/tertiary/state-cmd"/>
+            <test logic="AND" value="0">
+                <!-- gate closes -->
+              systems/flight/tertiary/state-cmd == 1
+              velocities/mach gt 0.67
+              gear/gear-cmd-norm == 0
+              propulsion/engine/zone gt 1
+              /controls/engines/engine/cutoff-augmentation == 0
+            </test>
+            <test logic="AND" value="1">
+                <!-- gate opens -->
+              systems/flight/tertiary/state-cmd == 0
+              velocities/mach lt 0.64              
+            </test>
+        </switch>
+
+        <switch name="systems/flight/tertiary/state-current">
+            <default value="systems/flight/tertiary/state"/>
+            <test logic="AND" value="systems/flight/tertiary/state-cmd">
+                /systems/electrical/outputs/dc-voltage gt 23
+            </test>
+        </switch>
+
+        <kinematic name="systems/flight/tertiary/state">
+            <input>systems/flight/tertiary/state-current</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>5.0</time>
+                </setting>
+            </traverse>
+            <clipto>
+                <min>0</min>
+                <max>1</max>
+            </clipto>
+            <output> /ja37/systems/tertiary-opening </output>
+        </kinematic>
     
     </channel>
 

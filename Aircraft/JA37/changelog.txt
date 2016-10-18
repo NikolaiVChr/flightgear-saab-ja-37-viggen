@@ -2475,3 +2475,4 @@ Model: Made many faces that didn't needed to be double sided, single sided.
 Model: Fixed that some normals was pointing inwards.
 Model: Included the tutorial marker in the saab37 distribution, so it works with all FG versions.
 Effect: Applied metal ubershader to outlet tertiary gate.
+Sim: Tertiary engine opening is now JSB controlled as nasal interpolation is unreliable.
