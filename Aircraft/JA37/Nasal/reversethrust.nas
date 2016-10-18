@@ -13,6 +13,11 @@ togglereverser = func () {
   ja37.click();
 }
 
+reverserOn = func () {
+  controlsEngine.getChild("reverser-cmd").setBoolValue(1);
+  ja37.click();
+}
+
 var re_init_listener = setlistener("/sim/signals/reinit", func {
   #at reinit set thrust forward
   reverserPos.setValue(0.0);

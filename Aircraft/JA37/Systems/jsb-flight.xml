@@ -575,7 +575,7 @@
 
     </channel>
 
-    <channel execrate="4" name="Engine-outlet">
+    <channel execrate="4" name="Engine">
 
         <!--
             tertiary engine opening, page 188 of JA37Di manual
@@ -695,6 +695,32 @@
             </test>
             <output> /engines/engine[0]/is-reversed </output>
         </switch>
+
+        <!-- absolute thrust (used for sound) -->
+        <fcs_function name="systems/flight/engine/thrust_abs">
+            <function>
+                <abs>
+                    <property>/engines/engine/thrust_lb</property>
+                </abs>
+            </function>
+            <output>/engines/engine/thrust_lb-absolute</output>
+        </fcs_function>
+
+        <!-- for some reason this fails to write to the property, so is done in nasal.
+
+        <switch name="systems/flight/engine/augmentation">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                propulsion/engine/augmentation == 1
+            </test>
+            <output> /controls/engines/engine/augmentation </output>
+        </switch>
+
+        <pure_gain name="systems/flight/engine/augmentation">
+            <input>propulsion/engine/augmentation</input>
+            <gain>1.0</gain>
+            <output>/controls/engines/engine/augmentation</output>
+        </pure_gain>-->
 
     </channel>
 

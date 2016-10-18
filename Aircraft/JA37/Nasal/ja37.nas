@@ -251,21 +251,6 @@ var update_loop = func {
       input.fuelTemp.setBoolValue(FALSE);
     }
 
-    ## control flaps ##
-
-    var flapsCommand = 0;
-    var battery = input.dcVolt.getValue();
-
-    if (battery > 23) {
-      flapsCommand = 1;
-    } else {
-      flapsCommand = 0;
-    }
-    if (input.flapPosCmd.getValue() != flapsCommand) {
-      #trying to not write to fdm unless changed.
-      input.flapPosCmd.setDoubleValue(flapsCommand);
-    }
-    
     #if(getprop("/sim/failure-manager/controls/flight/rudder/serviceable") == 1) {
     #  setprop("fdm/jsbsim/fcs/rudder/serviceable", 1);
     #} elsif (getprop("fdm/jsbsim/fcs/rudder/serviceable") == 1) {
@@ -302,7 +287,7 @@ var update_loop = func {
           #print("Auto-reversing the thrust");
           touchdown1 = FALSE;
           touchdown2 = FALSE;
-          reversethrust.togglereverser();
+          reversethrust.reverserOn();
         }
       }
     }
@@ -310,16 +295,6 @@ var update_loop = func {
     prevGear0 = gear0;
     prevGear1 = gear1;
     prevGear2 = gear2;
-
-    # Make sure have engine sound at reverse thrust
-
-    var thrust = input.thrustLb.getValue();
-     
-    if(thrust != nil) {
-      input.thrustLbAbs.setDoubleValue(abs(thrust));
-    } else {
-      input.thrustLbAbs.setDoubleValue(0);
-    }
 
     # meter altitude property
 

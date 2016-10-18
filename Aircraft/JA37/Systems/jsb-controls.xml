@@ -1239,6 +1239,14 @@
     <channel execrate="1" name="Flaps">
         <!-- Can move 30 degrees down, and 4 degrees up -->
 
+        <switch name="names/flaps/cmd-active">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /systems/electrical/outputs/dc-voltage gt 23
+            </test>
+            <output>fcs/flaps/pos-cmd</output>
+        </switch>
+
         <kinematic name="names/flaps/pos-norm">
             <input>fcs/flaps/tmp-norm</input>
             <traverse>
