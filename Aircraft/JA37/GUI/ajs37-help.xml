@@ -193,7 +193,7 @@
 
       Flaps
       _____
-      The JA-37 control the flaps automatically.
+      The Viggen control the flaps automatically.
       At takeoff and landing it will set flaps to 30 degrees down.
       In flight it will be set at 4 degrees up.    
 
@@ -201,6 +201,13 @@
       __________________
       The afterburner has 3 stages, the throttle controls this. Throttle position 94% = stage 1, 96% = stage 2, 98% = stage 3
       The nozzle indicator alternate as a afterburner stage indicator.
+
+      Instruments
+      ___________
+      The angle of attack indicator will act as a pitch indicator when on the ground.
+      If the next waypoint is an airport it will be shown as a circle on the radar screen. If a runway is specified it will also show the direction as a line out from the circle.
+      The selected radar echo will be shown a '+' on the radar screen.
+      Mouse middle clicking on altimeter setting knobs, will reset to standard pressure.      
 
       HUD info
       ________

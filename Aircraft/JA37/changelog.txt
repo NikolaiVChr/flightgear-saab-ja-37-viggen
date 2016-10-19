@@ -2479,3 +2479,4 @@ Sim: Tertiary engine opening is now JSB controlled as nasal interpolation is unr
 Sim: Reversing is now JSB controlled as nasal interpolation is unreliable.
 Sim: Moved some minor systems to JSB from Nasal.
 GUI: Moved help and checklist files to GUI folder.
+GUI: Update of help.
