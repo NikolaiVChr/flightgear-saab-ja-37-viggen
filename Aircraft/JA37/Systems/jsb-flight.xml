@@ -149,16 +149,6 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="names/flight/reverser-position">
-            <function>
-                <difference>
-                    <value>1</value>
-                    <property>/engines/engine/reverser-pos-norm</property>
-                </difference>
-            </function>
-            <output>/engines/engine/reverser-position</output>
-        </fcs_function>
-
         <switch name="aero/spin-norm">
             <default value="0"/>
             <test logic="OR" value="1">
@@ -262,6 +252,41 @@
                  </and>
             </function>
         </fcs_function>
+
+        <fcs_function name="systems/flight/buffeting/output">
+            <function>
+                <product>
+                    <sum>
+                        <sin>
+                          <product>
+                            <property>sim-time-sec</property>
+                            <property>systems/flight/buffeting/var1</property>
+                          </product>
+                        </sin>
+                        <sin>
+                          <product>
+                            <property>sim-time-sec</property>
+                            <property>systems/flight/buffeting/var2</property>
+                          </product>
+                        </sin>
+                        <sin>
+                          <product>
+                            <property>sim-time-sec</property>
+                            <property>systems/flight/buffeting/var3</property>
+                          </product>
+                        </sin>
+                    </sum>
+                    <table>
+                        <independentVar lookup="row">atmosphere/density-altitude</independentVar>
+                        <tableData>
+                              0.0         1.0
+                          30000.0         0.0
+                        </tableData>
+                    </table>
+                    <property>systems/flight/buffeting/magnitude</property>
+                </product>
+            </function>
+        </fcs_function>        
 
     </channel>
 
@@ -518,41 +543,6 @@
             </test>
         </switch>    
 
-        <fcs_function name="systems/flight/buffeting/output">
-            <function>
-                <product>
-                    <sum>
-                        <sin>
-                          <product>
-                            <property>sim-time-sec</property>
-                            <property>systems/flight/buffeting/var1</property>
-                          </product>
-                        </sin>
-                        <sin>
-                          <product>
-                            <property>sim-time-sec</property>
-                            <property>systems/flight/buffeting/var2</property>
-                          </product>
-                        </sin>
-                        <sin>
-                          <product>
-                            <property>sim-time-sec</property>
-                            <property>systems/flight/buffeting/var3</property>
-                          </product>
-                        </sin>
-                    </sum>
-                    <table>
-                        <independentVar lookup="row">atmosphere/density-altitude</independentVar>
-                        <tableData>
-                              0.0         1.0
-                          30000.0         0.0
-                        </tableData>
-                    </table>
-                    <property>systems/flight/buffeting/magnitude</property>
-                </product>
-            </function>
-        </fcs_function>
-
         <!-- AJS-37 manual part 2, page 173 -->
         <fcs_function name="systems/flight/rotation-speed">
             <function>
@@ -695,6 +685,16 @@
             </test>
             <output> /engines/engine[0]/is-reversed </output>
         </switch>
+
+        <fcs_function name="names/flight/reverser-position">
+            <function>
+                <difference>
+                    <value>1</value>
+                    <property>/engines/engine/reverser-pos-norm</property>
+                </difference>
+            </function>
+            <output>/engines/engine/reverser-position</output>
+        </fcs_function>
 
         <!-- absolute thrust (used for sound) -->
         <fcs_function name="systems/flight/engine/thrust_abs">

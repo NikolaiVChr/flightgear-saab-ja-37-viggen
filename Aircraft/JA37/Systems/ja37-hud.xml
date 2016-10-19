@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 
+<!-- This is the default HUD system, in the Viggen it is used in FG versions before canvas were available. -->
+
 <PropertyList>
     <name>JA37 Hud</name>
 

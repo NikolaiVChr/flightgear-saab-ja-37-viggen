@@ -401,7 +401,6 @@ var update_loop = func {
 var TILSprev = FALSE;
 var acPrev = 0;
 var acTimer = 0;
-var tert = FALSE;
 
 # slow updating loop
 var slow_loop = func () {
