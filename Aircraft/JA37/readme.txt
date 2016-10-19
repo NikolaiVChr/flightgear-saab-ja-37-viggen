@@ -26,7 +26,7 @@ There is now a separate download in the hangar for FG 2.8
 Notes
 ---------
 The aircraft is sorta Rembrandt ready, no glaring issues. ALS is recommended though.
-JA-37 models the mid 80'ties upgraded version of JA-37 (not to be confused with JA-37D)
+JA-37 models the mid 80'ties upgraded version of JA-37B (not to be confused with JA-37D)
 Be mindful of failure messages, if a gear locking mechanism fails due to being deployed at too high speed, that gear will not be able to support the weight of the aircraft till you repair it from the menu.
 
 
