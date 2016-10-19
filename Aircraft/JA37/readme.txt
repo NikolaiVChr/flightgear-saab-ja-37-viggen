@@ -13,7 +13,7 @@ Suggested Settings
 ------------------
 Wildfire: On (for crashing)
 Particles: On (Used for various stuff)
-Advanced weather: Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
+Advanced weather: METAR, Generate aloft-waypoints, Generate thermals, Terrain Effects, Realistic visibility. (it's an all-weather fighter, it can handle it)
 Model-shader: top setting
 Cockpit view options: Enable dynamic cockpit view. Redout/blackout is enabled by default and cannot be disabled, it will show as not checked though.
 

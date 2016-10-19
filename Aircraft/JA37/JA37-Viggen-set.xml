@@ -74,7 +74,7 @@
 
         </model>
 
-        <help include="Systems/ja37-help.xml"/>
+        <help include="GUI/ja37-help.xml"/>
 
 
         <!--**********************************************************************

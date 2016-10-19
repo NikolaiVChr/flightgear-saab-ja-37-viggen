@@ -2477,3 +2477,5 @@ Model: Included the tutorial marker in the saab37 distribution, so it works with
 Effect: Applied metal ubershader to outlet tertiary gate.
 Sim: Tertiary engine opening is now JSB controlled as nasal interpolation is unreliable.
 Sim: Reversing is now JSB controlled as nasal interpolation is unreliable.
+Sim: Moved some minor systems to JSB from Nasal.
+GUI: Moved help and checklist files to GUI folder.

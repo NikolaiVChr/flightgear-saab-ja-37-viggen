@@ -374,7 +374,7 @@
         </multiplay>
 
 
-        <checklists include="Systems/ja37-checklists.xml"/>
+        <checklists include="GUI/ja37-checklists.xml"/>
 
 
         <!--**********************************************************************

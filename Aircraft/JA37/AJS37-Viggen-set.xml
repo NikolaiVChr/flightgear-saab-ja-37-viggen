@@ -65,7 +65,7 @@
 
         </model>
 
-        <help include="Systems/ajs37-help.xml"/>
+        <help include="GUI/ajs37-help.xml"/>
 
 
         <!--**********************************************************************
