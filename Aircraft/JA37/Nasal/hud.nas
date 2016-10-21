@@ -1109,8 +1109,12 @@ var HUDnasal = {
     }
   },
 
+  topHeadingScaleShown: func () {
+    return mode != LANDING or me.input.pitch.getValue() < -2 or me.input.pitch.getValue() > 13.5;
+  },
+
   displayHeadingScale: func () {
-    if (mode != LANDING or me.input.pitch.getValue() < -2 or me.input.pitch.getValue() > 13.5) {
+    if (me.topHeadingScaleShown()) {
       if(me.input.srvHead.getValue() == TRUE) {
         var heading = me.input.hdg.getValue();
         var headOffset = heading/10 - int (heading/10);
@@ -1263,7 +1267,7 @@ var HUDnasal = {
         pos_x = (687/1024)*canvasWidth-(512/1024)*canvasWidth;
       }
       me.heading_bug_group.setTranslation(pos_x, -headScalePlace);
-      if((mode != LANDING or me.input.pitch.getValue() < -5 or me.input.pitch.getValue() > 9) and (blink == FALSE or me.input.fiveHz.getValue() == TRUE)) {
+      if(me.topHeadingScaleShown() and (blink == FALSE or me.input.fiveHz.getValue() == TRUE)) {
         me.heading_bug.show();
       } else {
         me.heading_bug.hide();
