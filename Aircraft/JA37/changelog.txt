@@ -2482,3 +2482,5 @@ GUI: Moved help and checklist files to GUI folder.
 GUI: Update of help.
 Radar: Fixed that the runway line on radar had to be converted from magnetic to true.
 HUD: Allowed the localizer heading line to move 3 degrees more to the sides.
+HUD: Limited glidepath vertical lines to move max half their own length upwards, as per manual.
+HUD: Fixed glidepath vertical lines was moving opposite of what manual states.

@@ -1630,8 +1630,14 @@ var HUDnasal = {
         deg = me.input.nav0HeadingDefl.getValue()*0.8;# -10 to +10, showed as -8 till +8
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
-          var dev3 = me.input.nav0GSNeedleDefl.getValue() * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;
-          var dev2 = me.input.nav0GSNeedleDefl.getValue() * 3*pixelPerDegreeY+2.86*pixelPerDegreeY;
+          var factor = me.input.nav0GSNeedleDefl.getValue() * -1;
+          if (factor < 0) {
+            # manual states that they can move one length down and half length up. This is to limit to half up.
+            # Maybe should clip instead of scale, not sure.
+            factor *= 0.5;
+          }
+          var dev3 = factor * 5 * pixelPerDegreeY +2.86*pixelPerDegreeY;
+          var dev2 = factor * 3 * pixelPerDegreeY +2.86*pixelPerDegreeY;
           me.desired_lines3.setTranslation(pixelPerDegreeX*deg, dev3);
           me.desired_lines2.setTranslation(pixelPerDegreeX*deg, dev2);
           guideUseLines = TRUE;
