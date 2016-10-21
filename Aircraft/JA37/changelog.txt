@@ -2480,3 +2480,4 @@ Sim: Reversing is now JSB controlled as nasal interpolation is unreliable.
 Sim: Moved some minor systems to JSB from Nasal.
 GUI: Moved help and checklist files to GUI folder.
 GUI: Update of help.
+Radar: Fixed that the runway line on radar had to be converted from magnetic to true.

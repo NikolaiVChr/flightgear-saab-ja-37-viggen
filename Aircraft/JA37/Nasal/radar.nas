@@ -320,6 +320,8 @@ var radar = {
       screenEnabled:        "ja37/radar/enabled",
       timeElapsed:          "sim/time/elapsed-sec",
       viewNumber:           "sim/current-view/view-number",
+      headTrue:             "orientation/heading-deg",
+      headMagn:             "orientation/heading-magnetic-deg",
     };
 
     # setup property nodes for the loop
@@ -411,7 +413,9 @@ var radar = {
             name = split("C", split("L", split("R", name)[0])[0])[0];
             name = num(name);
             if (name != nil and size(icao) == 4) {
-              var head = 10 * name;
+              var head = 10 * name;#magnetic
+              var magDiff = me.input.headTrue.getValue() - me.input.headMagn.getValue();
+              head += magDiff;#true
               # 10 20 20 40 Km long line, depending on radar setting, as per manual.
               var runway_l = 10000;
               if (me.radarRange == 120000 or me.radarRange == 180000) {
