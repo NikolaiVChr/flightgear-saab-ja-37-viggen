@@ -1627,7 +1627,7 @@ var HUDnasal = {
     if(mode == LANDING) {
       var deg = deflect;
       if (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE) {
-        deg = me.input.nav0HeadingDefl.getValue()/2;# -10 to 10, divided by 2.
+        deg = me.input.nav0HeadingDefl.getValue()*0.8;# -10 to +10, showed as -8 till +8
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
           var dev3 = me.input.nav0GSNeedleDefl.getValue() * 5*pixelPerDegreeY+2.86*pixelPerDegreeY;

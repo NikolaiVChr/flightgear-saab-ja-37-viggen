@@ -2481,3 +2481,4 @@ Sim: Moved some minor systems to JSB from Nasal.
 GUI: Moved help and checklist files to GUI folder.
 GUI: Update of help.
 Radar: Fixed that the runway line on radar had to be converted from magnetic to true.
+HUD: Allowed the localizer heading line to move 3 degrees more to the sides.
