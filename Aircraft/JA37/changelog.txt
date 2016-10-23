@@ -2485,3 +2485,4 @@ HUD: Allowed the localizer heading line to move 3 degrees more to the sides.
 HUD: Limited glidepath vertical lines to move max half their own length upwards, as per manual.
 HUD: Fixed glidepath vertical lines was moving opposite of what manual states.
 HUD: Fixed that top heading scale bug would sometimes be shown when the scale was not shown and vice versa.
+Sim: Introduced some more conditions under which the tertiary opening would open up.

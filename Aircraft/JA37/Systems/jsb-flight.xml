@@ -585,6 +585,21 @@
               systems/flight/tertiary/state-cmd == 0
               velocities/mach lt 0.64              
             </test>
+            <test logic="AND" value="1">
+                <!-- gate opens -->
+              systems/flight/tertiary/state-cmd == 0
+              gear/gear-cmd-norm ne 0              
+            </test>
+            <test logic="AND" value="1">
+                <!-- gate opens -->
+              systems/flight/tertiary/state-cmd == 0
+              propulsion/engine/zone le 1             
+            </test>
+            <test logic="AND" value="1">
+                <!-- gate opens -->
+              systems/flight/tertiary/state-cmd == 0
+              /controls/engines/engine/cutoff-augmentation == 1             
+            </test>
         </switch>
 
         <switch name="systems/flight/tertiary/state-current">
