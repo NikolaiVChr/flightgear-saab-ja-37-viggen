@@ -457,7 +457,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      1.5 </time><!-- high number will prevent too much instant G when fast pulling back -->
+                    <time>      1.257 </time><!-- 35 degs per second -->
                 </setting>
             </traverse>
             <clipto>
@@ -803,7 +803,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      0.25 </time>
+                    <time>      0.857 </time><!-- 35 degs per second -->
                 </setting>
             </traverse>
             <clipto>
@@ -880,19 +880,54 @@
             <output>fcs/right-elevon-pos-rad</output>
         </summer>
 
-        <pure_gain name="names/elevon/Left-Elevon-Pos-Deg">
+        <pure_gain name="names/elevon/Left-Elevon-Outer-Pos-Deg">
             <input>fcs/left-elevon-pos-rad</input>
             <gain>57.296</gain>
             <output>fcs/left-aileron-pos-norm</output>
             <!-- is really deg, but use this for MP transmit -->
         </pure_gain>
 
-        <pure_gain name="names/elevon/Right-Elevon-Pos-Deg">
+        <pure_gain name="names/elevon/Right-Elevon-Outer-Pos-Deg">
             <input>fcs/right-elevon-pos-rad</input>
             <gain>57.296</gain>
             <output>fcs/right-aileron-pos-norm</output>
             <!-- is really deg, but use this for MP transmit -->
         </pure_gain>
+
+        <kinematic name="names/elevon/Left-Elevon-Inner-Pos-Deg">
+            <input>fcs/left-aileron-pos-norm</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position> -37.0 </position>
+                    <time>      0.0 </time>
+                </setting>
+                <setting>
+                    <position>  31.0 </position>
+                    <time>      2.50 </time><!-- 29.5 degs per second -->
+                </setting>
+            </traverse>
+            <output>fcs/elevator-pos-norm</output>
+            <!-- is really deg, but use this for MP transmit -->
+        </kinematic>
+
+        <kinematic name="names/elevon/Right-Elevon-Inner-Pos-Deg">
+            <input>fcs/right-aileron-pos-norm</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position> -37.0 </position>
+                    <time>      0.0 </time>
+                </setting>
+                <setting>
+                    <position>  31.0 </position>
+                    <time>      2.50 </time><!-- 29.5 degs per second -->
+                </setting>
+            </traverse>
+            <output>fcs/spoiler-pos-norm</output>
+            <!-- is really deg, but use this for MP transmit -->
+        </kinematic>
+
     </channel>
 
 

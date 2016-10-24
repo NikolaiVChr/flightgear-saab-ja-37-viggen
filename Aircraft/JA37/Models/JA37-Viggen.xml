@@ -1180,7 +1180,6 @@
  
 <animation>
   <type>rotate</type>
-  <object-name>elevonRightInner</object-name>
   <object-name>elevonRightOuter</object-name>
   <property>surface-positions/right-aileron-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
@@ -1196,9 +1195,38 @@
 
  <animation>
   <type>rotate</type>
-  <object-name>elevonLeftInner</object-name>
   <object-name>elevonLeftOuter</object-name>
   <property>surface-positions/left-aileron-pos-norm</property><!-- auto MP transmit -->
+  <factor>1.0</factor>
+  <axis>
+   <x2-m> 5.84096 </x2-m>
+   <y2-m> -0.99576 </y2-m>
+   <z2-m> -0.31533 </z2-m>
+   <x1-m> 5.84928 </x1-m>
+   <y1-m> -5.10587 </y1-m>
+   <z1-m> -0.39563 </z1-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>elevonRightInner</object-name>
+  <property>surface-positions/spoilers-pos-norm</property><!-- auto MP transmit -->
+  <factor>1.0</factor>
+  <axis>   
+   <x1-m> 5.84096 </x1-m>
+   <y1-m> 0.99576 </y1-m>
+   <z1-m> -0.31533 </z1-m>
+   <x2-m> 5.84928 </x2-m>
+   <y2-m> 5.10587 </y2-m>
+   <z2-m> -0.39563 </z2-m>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>elevonLeftInner</object-name>
+  <property>surface-positions/elevator-pos-norm</property><!-- auto MP transmit -->
   <factor>1.0</factor>
   <axis>
    <x2-m> 5.84096 </x2-m>
