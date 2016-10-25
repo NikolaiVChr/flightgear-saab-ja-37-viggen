@@ -56,7 +56,7 @@ input = {
   perfSpin:         "/sim/gui/dialogs/performance-monitor/spin",
   mach:             "/velocities/mach",
   speedV:           "/velocities/vertical-speed-fps",
-  speedAir:         "/velocities/airspeed-kt",
+  speedAir:         "/fdm/jsbsim/velocities/vtrue-kts",
   alpha:            "/orientation/alpha-deg",
   G:                "/ja37/accelerations/pilot-G",
   p:                "/fdm/jsbsim/velocities/p-aero-rad_sec",
