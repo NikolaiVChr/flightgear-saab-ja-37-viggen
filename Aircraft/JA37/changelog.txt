@@ -2486,3 +2486,6 @@ HUD: Limited glidepath vertical lines to move max half their own length upwards,
 HUD: Fixed glidepath vertical lines was moving opposite of what manual states.
 HUD: Fixed that top heading scale bug would sometimes be shown when the scale was not shown and vice versa.
 Sim: Introduced some more conditions under which the tertiary opening would open up.
+Control: The inner elevons now react more coarse, sluggish than the faster outer elevons.
+Control: Elevon hydraulic deflection speed adjusted so roll and pitch deflections use same deg/s.
+GUI: Fixed that performance monitor would show calibrated airspeed instead of true.
