@@ -2468,7 +2468,7 @@ HUD: Fixed that on older FG versions DME would show even if off.
 Sim: Init gravity for older FG versions that do not calculate it themselves. (this fixes FG 3.0.0 crash)
 Sound: Fixed that path to 2 sound files were not specified local.
 
-4.007
+4.007 - 2016 November 5
 =====
 Radar: Small optimization.
 Model: Made many faces that didn't needed to be double sided, single sided.
