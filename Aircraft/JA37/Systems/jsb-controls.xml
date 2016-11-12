@@ -457,7 +457,8 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      1.257 </time><!-- 35 degs per second -->
+                    <!--<time>      1.257 </time>--><!-- 35 degs per second -->
+                    <time>      1.5 </time>
                 </setting>
             </traverse>
             <clipto>
