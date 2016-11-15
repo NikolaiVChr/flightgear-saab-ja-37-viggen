@@ -2490,6 +2490,11 @@ Control: The inner elevons now react more coarse, sluggish than the faster outer
 Control: Elevon hydraulic deflection speed adjusted so roll and pitch deflections use same deg/s.
 GUI: Fixed that performance monitor would show calibrated airspeed instead of true.
 
-4.008 - 2016 November 12
+4.008 - 2016 November 12  (Flightgear 2016.4.1 version)
 =====
+Sim: [Pinto] Improved damage from guns code and added new armament.
 Control: Reverted change in actuation speed for elevator.
+
+4.009
+=====
+GUI: Added 3 thumbnails for new launcher in FG 2017.1.1

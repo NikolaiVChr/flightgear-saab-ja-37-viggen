@@ -52,6 +52,21 @@
             </style>
         </gui>
 
+        <thumbnail>
+            <type>panel</type>
+            <name>GUI/thumbnail-panel.jpg</name>
+        </thumbnail>
+
+        <thumbnail>
+            <type>exterior</type>
+            <name>GUI/thumbnail-exterior.jpg</name>
+        </thumbnail>
+
+        <thumbnail>
+          <type>interior</type>
+          <name>GUI/thumbnail-interior.jpg</name>
+        </thumbnail>
+
         <model>
             <path>Aircraft/JA37/Models/AJS37-Viggen.xml</path>
 
