@@ -4,7 +4,7 @@
 ##                                                                               ##
 ## Author: Nikolai V. Chr.                                                       ##
 ##                                                                               ##
-## Version 1.0             License: GPL 2.0                                      ##
+## Version 1.04            License: GPL 2.0                                      ##
 ##                                                                               ##
 ###################################################################################
 
@@ -61,7 +61,15 @@ var redout_fast_log = math.log10(invert(redout_fast));
 var blackout = 0;
 var redout   = 0;
 
+var redout_loop = func {
+	setprop("/sim/rendering/redout/enabled", 1);# enable the Fg default redout/blackout system.
+	setprop("/sim/rendering/redout/parameters/blackout-onset-g", 5);
+	setprop("/sim/rendering/redout/parameters/blackout-complete-g", 8);
+	setprop("/sim/rendering/redout/parameters/redout-onset-g", -1.5);
+	setprop("/sim/rendering/redout/parameters/redout-complete-g", -4);
 
+    settimer(redout_loop, 0);
+}
 
 var blackout_loop = func {
 	setprop("/sim/rendering/redout/enabled", 0);# disable the Fg default redout/blackout system.
@@ -69,7 +77,7 @@ var blackout_loop = func {
 	var g = 0;
 	if (fdm == "jsb") {
 		# JSBSim
-		g = getprop("fdm/jsbsim/accelerations/Nz");
+		g = -getprop("accelerations/pilot/z-accel-fps_sec")/32.174;
 	} else {
 		# Yasim
 		g = getprop("/accelerations/pilot-g[0]");
@@ -154,7 +162,11 @@ var blackout_loop = func {
 var blackout_init = func {
 	fdm = getprop("/sim/flight-model");
 
-	blackout_loop();
+	if (getprop("sim/rendering/redout/internal/log/g-force") == nil) {
+		blackout_loop();
+	} else {
+		redout_loop();
+	}
 }
 
 
