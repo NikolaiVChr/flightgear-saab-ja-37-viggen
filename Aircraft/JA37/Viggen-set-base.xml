@@ -299,13 +299,18 @@
 *************************************************************************-->
         <rendering>
             <redout>
-                <enabled>false</enabled>
+                <enabled type="bool" userarchive="y">true</enabled>
                 <parameters>
-                    <!-- this will make screen pretty close to black at 9G, think max for pilot functioning is 8G-9G but have no official numbers.-->
-                    <blackout-complete-g type="double">11.0</blackout-complete-g>
-                    <blackout-onset-g type="double">8.0</blackout-onset-g>
-                    <redout-complete-g type="double">-5.0</redout-complete-g>
-                    <redout-onset-g type="double">-3.5</redout-onset-g>
+                    <blackout-onset-g type="double">5</blackout-onset-g>
+                    <blackout-complete-g type="double">8</blackout-complete-g>
+                    <onset-blackout-sec type="double">300</onset-blackout-sec>
+                    <fast-blackout-sec type="double">30</fast-blackout-sec>
+                    <redout-onset-g type="double">-1.5</redout-onset-g>
+                    <redout-complete-g type="double">-4</redout-complete-g>
+                    <onset-redout-sec type="double">45</onset-redout-sec>
+                    <fast-redout-sec type="double">3.5</fast-redout-sec>
+                    <recover-fast-sec type="double">7</recover-fast-sec>
+                    <recover-slow-sec type="double">15</recover-slow-sec>
                 </parameters>
             </redout>
         </rendering>
