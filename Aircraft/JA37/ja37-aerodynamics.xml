@@ -1991,7 +1991,7 @@
                 <property>aero/qbar-psf</property>
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
-                <table>
+                <!--<table>
                     <independentVar lookup="row">velocities/mach</independentVar>
                     <tableData>
                         0.6   1.0
@@ -2002,7 +2002,7 @@
                         1.7   0.6
                         2.0   0.6
                     </tableData>
-                </table>
+                </table>-->
                 <table>
                     <!-- this is for low speed only, hence the table above -->
                     <independentVar lookup="row">aero/alpha-deg</independentVar>

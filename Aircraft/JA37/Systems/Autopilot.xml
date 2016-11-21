@@ -162,10 +162,10 @@
             <Ti>1.0</Ti>
             <Td>0.0</Td>
             <u_min>
-                <property>/autopilot/internal/min-elevator</property>
+                -1
             </u_min>
             <u_max>
-                <property>/autopilot/internal/max-elevator</property>
+                1
             </u_max>
         </config>
     </pid-controller>
@@ -345,10 +345,10 @@
             <Td>0.00001</Td>
             <!-- derivator time -->
             <u_min>
-                <property>/autopilot/internal/min-elevator</property>
+                -1
             </u_min>
             <u_max>
-                <property>/autopilot/internal/max-elevator</property>
+                1
             </u_max>
         </config>
     </pid-controller>
@@ -415,24 +415,17 @@
             <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
-            <Kp>-0.003</Kp>
-            <!-- proportional gain -->
-            <beta>1.0</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma>
-            <!-- input value weighing factor for -->
-            <!-- unfiltered derivative error -->
-            <Ti>10.0</Ti>
-            <!-- integrator time -->
-            <Td>0.00001</Td>
-            <!-- derivator time -->
+            <Kp>-0.01</Kp>    <!-- proportional gain -->
+            <beta>1.0</beta>  <!-- input value weighing factor -->
+            <alpha>0.1</alpha><!-- low pass filter weighing factor -->
+            <gamma>0.0</gamma><!-- input value weighing factor for unfiltered derivative error -->
+            <Ti>15.0</Ti>     <!-- integrator time -->
+            <Td>0.001</Td>    <!-- derivator time -->
             <u_min>
-                <property>/autopilot/internal/min-elevator</property>
+                -1
             </u_min>
             <u_max>
-                <property>/autopilot/internal/max-elevator</property>
+                1
             </u_max>
         </config>
     </pid-controller>
@@ -502,24 +495,17 @@
             <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
-            <Kp>-0.003</Kp>
-            <!-- proportional gain -->
-            <beta>1.0</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma>
-            <!-- input value weighing factor for -->
-            <!-- unfiltered derivative error -->
-            <Ti>10.0</Ti>
-            <!-- integrator time -->
-            <Td>0.00001</Td>
-            <!-- derivator time -->
+            <Kp>-0.01</Kp>    <!-- proportional gain -->
+            <beta>1.0</beta>  <!-- input value weighing factor -->
+            <alpha>0.1</alpha><!-- low pass filter weighing factor -->
+            <gamma>0.0</gamma><!-- input value weighing factor for unfiltered derivative error -->
+            <Ti>15.0</Ti>     <!-- integrator time -->
+            <Td>0.001</Td>    <!-- derivator time -->
             <u_min>
-                <property>/autopilot/internal/min-elevator</property>
+                -1
             </u_min>
             <u_max>
-                <property>/autopilot/internal/max-elevator</property>
+                1
             </u_max>
         </config>
     </pid-controller>
@@ -550,24 +536,17 @@
             <property>/controls/flight/elevator-ap</property>
         </output>
         <config>
-            <Kp>-0.003</Kp>
-            <!-- proportional gain -->
-            <beta>1.0</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma>
-            <!-- input value weighing factor for -->
-            <!-- unfiltered derivative error -->
-            <Ti>10.0</Ti>
-            <!-- integrator time -->
-            <Td>0.00001</Td>
-            <!-- derivator time -->
+            <Kp>-0.01</Kp>    <!-- proportional gain -->
+            <beta>1.0</beta>  <!-- input value weighing factor -->
+            <alpha>0.1</alpha><!-- low pass filter weighing factor -->
+            <gamma>0.0</gamma><!-- input value weighing factor for unfiltered derivative error -->
+            <Ti>15.0</Ti>     <!-- integrator time -->
+            <Td>0.001</Td>    <!-- derivator time -->
             <u_min>
-                <property>/autopilot/internal/min-elevator</property>
+                -1
             </u_min>
             <u_max>
-                <property>/autopilot/internal/max-elevator</property>
+                1
             </u_max>
         </config>
     </pid-controller>

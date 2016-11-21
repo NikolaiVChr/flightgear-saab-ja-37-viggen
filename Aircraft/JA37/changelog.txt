@@ -2498,3 +2498,5 @@ Control: Reverted change in actuation speed for elevator.
 4.009
 =====
 GUI: Added 3 thumbnails for new launcher in FG 2017.1.1
+Control: Made pitch control be normal based.
+Sim: Blackout code now respect default blackout if FG version is 2017.1.0 or larger.

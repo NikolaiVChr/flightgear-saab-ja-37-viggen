@@ -71,7 +71,7 @@ The autotrim has an additional 3-3.5 deg elevator authority. It takes 15 seconds
 In the JA there is also a series-servo that has additional 4 deg up and down.
 If you at M1.1 pull 6G at 3Km the plane will decellarate with 10m/s^2 and reach M0.9 where the elevator authority is greatest before the auto-trim has reset. This means if the pilot is not careful he will pull significantly more than 8G. Simulations has shown that the planes structural limit can be reached this way (12G)
 
-
+Auto trim above M0.93 and when A/P.
 
 
 
