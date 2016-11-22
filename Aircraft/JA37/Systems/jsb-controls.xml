@@ -62,8 +62,6 @@
 
 
 
-
-
     <channel execrate="1" name="Elevators">
 
         <fcs_function name="fcs/elevator/cmd-g">
@@ -276,22 +274,8 @@
 
         <pure_gain name="fcs/elevator/delta">
             <input>fcs/elevator/raw-delta</input>
-            <gain> 0.14 </gain>
+            <gain> 0.07 </gain>
         </pure_gain>
-
-        <fcs_function name="fcs/elevator/F3">
-            <function>
-                <table>
-                    <independentVar lookup="row">aero/qbar-psf</independentVar>
-                    <tableData>
-                        0.0 1
-                        300 1
-                        800 0.533
-                        3000 0.083
-                    </tableData>
-                </table>
-            </function>
-        </fcs_function>
 
         <pure_gain name="fcs/elevator/delta-schedule">
             <input>fcs/elevator/delta</input>
