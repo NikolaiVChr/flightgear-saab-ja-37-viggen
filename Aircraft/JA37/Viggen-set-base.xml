@@ -1057,9 +1057,8 @@
 *************************************************************************-->
     <limits>
         <max-gear-extension-speed>334.77</max-gear-extension-speed>        <!-- as per manual -->
-        <!-- structural G limits: -->
-        <max-positive-g>8.0</max-positive-g>        <!-- Pilots were usually not allowed to exceed this -->
-        <max-negative-g>-2.66</max-negative-g>
+        <max-positive-g>8.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
+        <max-negative-g>-2.0</max-negative-g>
     </limits>
 
     <!--**********************************************************************
