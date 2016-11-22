@@ -55,204 +55,208 @@
 -->
 
 
-    <channel execrate="1" name="Elevators">
-        <!-- Elevator contribution can move elevons 20 degrees down, and 25 degrees up -->
 
-        <fcs_function name="fcs/elevator/stick-geared">
+
+
+
+
+
+
+    <channel execrate="1" name="Elevators">
+
+        <fcs_function name="fcs/elevator/cmd-g">
             <function>
                 <product>
                     <table>
                         <independentVar lookup="row">fcs/elevator-cmd-norm</independentVar>
                         <tableData>
-                            -1.00  -1.00
-                            -0.86  -0.74
-                            -0.75  -0.56
-                            -0.62  -0.40
-                            -0.50  -0.28
-                            -0.38  -0.19
-                            -0.23  -0.11
-                            -0.10  -0.045
-                             0.00   0.00
-                             0.10   0.045
-                             0.23   0.11
-                             0.38   0.19
-                             0.50   0.28
-                             0.62   0.40
-                             0.75   0.56
-                             0.86   0.74
-                             1.00   1.00
+                            -1.00  7.00
+                            -0.20  0.50
+                            -0.05  0.00
+                             0.00  0.00
+                             0.05  0.00
+                             0.20 -0.50
+                             1.00 -3.00
                         </tableData>
                     </table>
                 </product>
             </function>
+            <output>/controls/flight/elevator-cmd-ap</output>
         </fcs_function>
 
-        <switch name="fcs/elevator/alpha-limit-speed">
-            <default value="350.9719"/>
-            <test logic="AND" value="377.96976">
-                /ja37/systems/variant gt 0
-            </test>
-        </switch>
+        <aerosurface_scale name="fcs/elevator/cmd-g-trim">
+            <input>fcs/pitch-trim-cmd-norm</input>
+            <zero_centered> true </zero_centered>
+            <domain>
+                <min> -1.0 </min>
+                <max>  1.0 </max>
+            </domain>
+            <range>
+                <min> -2.0 </min>
+                <max>  2.0 </max>
+            </range>
+        </aerosurface_scale>
 
-        <switch name="fcs/elevator/alpha-limit">
-            <default value="180"/>
-            <test logic="AND" value="23">
-                <!-- JA and calibrated airspeed less than 650 km/h -->
-                /ja37/systems/variant == 0
-                velocities/vc-kts lt fcs/elevator/alpha-limit-speed
-            </test>
-            <test logic="AND" value="18">
-                <!-- AJ and calibrated airspeed less than 700 km/h -->
-                /ja37/systems/variant == 0
-                velocities/vc-kts lt fcs/elevator/alpha-limit-speed
-            </test>
-        </switch>
+        <summer name="fcs/elevator/cmd-g-sum">
+            <input>fcs/elevator/cmd-g-trim</input>
+            <input>fcs/elevator/cmd-g</input>
+            <clipto>
+                <min> -3 </min>
+                <max>  7 </max>
+            </clipto>
+        </summer>
 
-        <fcs_function name="fcs/elevator/cmd-abs-inv">
+        <lag_filter name="fcs/elevator/cmd-lag">
+            <input> fcs/elevator/cmd-g-sum </input>
+            <c1> 8.3 </c1>
+        </lag_filter>
+
+        <fcs_function name="fcs/elevator/a_n">
+            <function>
+                <quotient>
+                    <sum>
+                        <product>
+                            <property> velocities/q-rad_sec </property>
+                            <property> velocities/u-fps </property>
+                        </product>
+                        <product>
+                            <v>-1</v>
+                            <property> velocities/p-rad_sec </property>
+                            <property> velocities/v-fps </property>
+                        </product>
+                        <product>
+                            <v>32.174</v>
+                            <cos>
+                                <property> attitude/theta-rad </property>
+                            </cos>
+                            <cos>
+                                <property> attitude/phi-rad </property>
+                            </cos>
+                        </product>
+                        <product>
+                            <v>-1</v>
+                            <property> accelerations/wdot-ft_sec2 </property>
+                        </product>
+                    </sum>
+                    <v>32.174</v>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="fcs/elevator/normal-1">
             <function>
                 <difference>
-                    <value>1</value>
-                    <product>
-                        <table>
-                            <independentVar lookup="row">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
-                            <tableData>
-                                300    0.00
-                                400    0.35
-                            </tableData>
-                        </table>
-                        <abs>
-                            <property>fcs/elevator/stick-geared</property>
-                        </abs>
-                    </product>
+                    <property> fcs/elevator/a_n </property>
+                    <value> 1 </value>
                 </difference>
             </function>
         </fcs_function>
 
-        <switch name="names/pitch-damper/active">
-            <default value="0.0"/>
-            <test logic="AND" value="fcs/elevator/cmd-abs-inv">
+        <switch name="fcs/elevator/normal-1-special">
+            <description>This prevents NaN to propagate through the system</description>
+            <default value="0"/>
+            <test logic="AND" value="fcs/elevator/normal-1">
+                fcs/elevator/a_n lt  30
+                fcs/elevator/a_n gt -30
+            </test>
+        </switch>
+
+        <switch name="fcs/pitch-damper/active">
+            <default value="0"/>
+            <test logic="AND" value="1">
                 gear/unit[0]/WOW ne 1
                 aero/spin-norm == 0
                 fcs/pitch-damper/enable ne 0.0
                 fcs/pitch-damper/serviceable == 1
             </test>
-            <output>fcs/pitch-damper/active</output>
         </switch>
 
-        <scheduled_gain name="names/pitch-damper/pitch-rate-unfiltered">
+        <pure_gain name="velocities/q-aero-deg_sec">
             <input>velocities/q-aero-rad_sec</input>
-            <table>
-                <independentVar lookup="row">velocities/ve-kts</independentVar>
-                <tableData>
-                    30.0   0.00
-                    60.0   1.00
-                </tableData>
-            </table>
-            <gain>fcs/pitch-damper/pitch-rate-gain</gain>            <!-- default 2 -->
-            <output>fcs/pitch-damper/pitch-rate-unfiltered</output>
-        </scheduled_gain>
-
-        <fcs_function name="accelerations/Nz-centered">
-            <function>
-                <sum>
-                    <property>accelerations/Nz</property>
-                    <value>-1</value>
-                </sum>
-            </function>
-        </fcs_function>
-
-        <scheduled_gain name="names/pitch-damper/nz-rate-unfiltered">
-            <input>accelerations/Nz-centered</input>
-            <table>
-                <independentVar lookup="row">velocities/ve-kts</independentVar>
-                <tableData>
-                    30.0   0.00
-                    60.0   1.00
-                </tableData>
-            </table>
-            <gain>fcs/pitch-damper/nz-rate-gain</gain>            <!-- default ? -->
-            <output>fcs/pitch-damper/nz-rate-unfiltered</output>
-        </scheduled_gain>
-
-        <fcs_function name="fcs/pitch-damper/rate-unfiltered">
-            <function>
-                <sum>
-                    <property>fcs/pitch-damper/nz-rate-unfiltered</property>
-                    <property>fcs/pitch-damper/pitch-rate-unfiltered</property>
-                </sum>
-            </function>
-        </fcs_function>
-
-        <washout_filter name="names/pitch-damper/rate-washout">
-            <input>fcs/pitch-damper/pitch-rate-unfiltered</input>
-            <c1>fcs/pitch-damper/washout-factor</c1>            <!-- default 1.33 -->
-            <clipto>
-                <min>-0.3</min>
-                <max> 0.3</max>
-            </clipto>
-            <output>fcs/pitch-damper/rate-washout</output>
-        </washout_filter>
-
-        <scheduled_gain name="fcs/pitch-damper/rate-qbar">
-            <input>fcs/pitch-damper/rate-washout</input>
-            <table>
-                <independentVar lookup="row">aero/qbar-psf</independentVar>
-                <tableData>
-                     0     1.00
-                     800   1.00
-                     850   0.70
-                     1000  0.40
-                     1300  0.25
-                     1500  0.15
-                     2500  0.10
-                </tableData>
-            </table>
-        </scheduled_gain>
-
-        <pure_gain name="names/pitch-damper/rate">
-            <input>fcs/pitch-damper/rate-qbar</input>
-            <gain>fcs/pitch-damper/active</gain>
-            <gain>fcs/pitch-damper/qbar-limit</gain>
-            <output>fcs/pitch-damper/rate</output>
+            <gain> 57.2957795 </gain>
         </pure_gain>
 
-        <fcs_function name="fcs/elevator/stick-css-neg">
-            <function>
-                <difference>
-                    <property> fcs/elevator/stick-geared </property>
-                    <value> -0.15 </value>
-                </difference>
-            </function>
-        </fcs_function>
+        <pure_gain name="fcs/elevator/q">
+            <input>velocities/q-aero-deg_sec</input>
+            <gain> fcs/pitch-damper/active </gain>
+        </pure_gain>
 
-        <fcs_function name="fcs/elevator/stick-css-pos">
-            <function>
-                <difference>
-                    <property> fcs/elevator/stick-geared </property>
-                    <value> 0.15 </value>
-                </difference>
-            </function>
-        </fcs_function>
+        <washout_filter name="fcs/elevator/q-lag">
+          <input> fcs/elevator/q </input>
+          <c1> 1 </c1>
+        </washout_filter>
 
-        <switch name="fcs/elevator/stick-css-deadzone">
-            <default value="0"/>
-            <test logic="AND" value="fcs/elevator/stick-css-pos">
-                fcs/elevator/stick-geared gt  0.15
-            </test>
-            <test logic="AND" value="fcs/elevator/stick-css-neg">
-                fcs/elevator/stick-geared lt  -0.15
-            </test>
-            <output>/controls/flight/elevator-cmd-ap</output>
-        </switch>
-
-        <switch name="fcs/elevator/stick-css">
-            <default value="0"/>
-            <test logic="OR" value="fcs/elevator/stick-css-deadzone">
-                /ja37/avionics/temp-halt-ap-pitch == 0
+        <switch name="fcs/elevator/q-gain-value">
+            <default value="0.334"/>
+            <test logic="OR" value="0.668">
+                gear/unit[1]/WOW eq 1
+                gear/unit[2]/WOW eq 1
             </test>
         </switch>
 
-        <switch name="fcs/elevator/stick-css-ap">
+        <pure_gain name="fcs/elevator/q-gain">
+            <input>fcs/elevator/q-lag</input>
+            <gain> fcs/elevator/q-gain-value </gain>
+        </pure_gain>
+
+        <summer name="fcs/elevator/normal-final">
+            <input> fcs/elevator/q-gain </input>
+            <input> fcs/elevator/normal-1-special </input>
+        </summer>
+
+        <lead_lag_filter name="fcs/elevator/normal-lag">
+          <input> fcs/elevator/normal-final </input>
+          <c1> 3 </c1>
+          <c2> 12 </c2>
+          <c3> 1 </c3>
+          <c4> 12 </c4>
+        </lead_lag_filter>
+
+        <switch name="fcs/elevator/alpha-max">
+            <default value="23"/>
+            <test logic="AND" value="18">
+                /ja37/systems/variant gt 0
+            </test>
+        </switch>
+
+        <summer name="fcs/elevator/alpha-clamp">
+            <input>aero/alpha-deg</input><!-- should really be indicated -->
+            <clipto>
+                <min>-5</min>
+                <max>fcs/elevator/alpha-max</max>
+            </clipto>
+        </summer>
+
+        <switch name="fcs/elevator/alpha-switch">
+            <default value="fcs/elevator/alpha-clamp"/>
+            <test logic="OR" value="0">
+                gear/unit[1]/WOW eq 1
+                gear/unit[2]/WOW eq 1
+            </test>
+        </switch>
+
+        <lag_filter name="fcs/elevator/alpha-lag">
+            <input> fcs/elevator/alpha-switch </input>
+            <c1> 10 </c1>
+        </lag_filter>
+
+        <fcs_function name="fcs/elevator/alpha-sum">
+            <function>
+                <difference>
+                    <property> fcs/elevator/alpha-lag </property>
+                    <difference>
+                        <p> fcs/elevator/alpha-max </p>
+                        <v> 8.5 </v>
+                    </difference>
+                </difference>
+            </function>
+            <clipto>
+                <min> 0 </min>
+                <max> 1000 </max>
+            </clipto>
+        </fcs_function>
+
+        <switch name="fcs/elevator/stick-css-ap"><!-- not sure if this is needed anymore -->
             <default value="0"/>
             <test logic="AND" value="/controls/flight/elevator-ap">
                 /ja37/avionics/temp-halt-ap-pitch == 1
@@ -261,22 +265,87 @@
             <output>/controls/flight/elevator-ap</output>
         </switch>
 
-        <pure_gain name="fcs/elevator/stick-geared-switched">
-            <input>fcs/elevator/stick-geared</input>
-            <gain>/ja37/avionics/temp-halt-ap-pitch</gain>
+        <summer name="fcs/elevator/raw-delta">
+            <input> fcs/elevator/alpha-sum </input>
+            <input> -fcs/elevator/cmd-lag </input>
+            <input> fcs/elevator/normal-lag </input>
+            <input> /controls/flight/elevator-ap </input>
+        </summer>
+
+        <pure_gain name="fcs/elevator/delta">
+            <input>fcs/elevator/raw-delta</input>
+            <gain> 0.07 </gain>
         </pure_gain>
 
-        <summer name="names/elevator/cmd-sum">
-            <input>fcs/elevator/stick-geared-switched</input>
-            <input>fcs/elevator/stick-css</input>
-            <input>/controls/flight/elevator-ap</input>
-            <input>fcs/pitch-trim-cmd-norm</input>
-            <input>fcs/pitch-damper/rate</input>
+        <pure_gain name="fcs/elevator/delta-schedule">
+            <input>fcs/elevator/delta</input>
+            <gain> 1 </gain>
+        </pure_gain>
+
+        <fcs_function name="fcs/elevator/integrator-feedback-deadzone-neg">
+            <function>
+                <difference>
+                    <property> fcs/elevator/output </property>
+                    <v> -1 </v>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="fcs/elevator/integrator-feedback-deadzone-pos">
+            <function>
+                <difference>
+                    <property> fcs/elevator/output </property>
+                    <v> 1 </v>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <switch name="fcs/elevator/integrator-feedback-deadzone">
+            <default value="0"/>
+            <test logic="AND" value="fcs/elevator/integrator-feedback-deadzone-pos">
+                fcs/elevator/output gt  1
+            </test>
+            <test logic="AND" value="fcs/elevator/integrator-feedback-deadzone-neg">
+                fcs/elevator/output lt  -1
+            </test>
+        </switch>
+
+        <pure_gain name="fcs/elevator/integrator-feedback">
+            <input>fcs/elevator/integrator-feedback-deadzone</input>
+            <gain> 5 </gain>
+        </pure_gain>
+
+        <summer name="fcs/elevator/integrator-input">
+            <input> fcs/elevator/delta-schedule </input>
+            <input> -fcs/elevator/integrator-feedback </input>
+            <input> fcs/elevator/integrator-feedback-ground </input>
+        </summer>
+
+        <integrator name="fcs/elevator/integrator">
+            <input> fcs/elevator/integrator-input </input>
+            <c1> 5 </c1>
             <clipto>
-                <min>-1.0</min>
-                <max>1.0</max>
+                <min> -1 </min>
+                <max>  1 </max>
             </clipto>
-            <output>fcs/elevator/cmd-sum</output>
+        </integrator>
+
+        <switch name="fcs/elevator/integrator-feedback-ground">
+            <default value="0"/>
+            <test logic="OR" value="fcs/elevator/integrator-feedback-calm">
+                gear/unit[1]/WOW eq 1
+                gear/unit[2]/WOW eq 1
+            </test>
+        </switch>
+
+        <pure_gain name="fcs/elevator/integrator-feedback-calm">
+            <input>fcs/elevator/integrator</input>
+            <gain> -0.5 </gain>
+        </pure_gain>
+
+        <summer name="fcs/elevator/output">
+            <input> fcs/elevator/delta-schedule </input>
+            <input> fcs/elevator/integrator </input>
         </summer>
 
         <fcs_function name="systems/flight/pitch-gearing-aj37">
@@ -336,33 +405,6 @@
             </function>
         </fcs_function>
 
-        <!--<fcs_function name="systems/flight/pitch-gearing-ja37">
-            <function>
-                <product>
-                    <table>
-                        <independentVar lookup="row">aero/qbar-psf</independentVar>
-                        <tableData>
-                            0.40 239 -22
-                            0.45 302 -20
-                            0.50 374 -17.5
-                            0.60 535 -15.3
-                            0.65 630 -12.5
-                            0.70 731 -11.8
-                            0.95 1332 -15.3
-                            1.19 2000 -15.3
-                            6000
-                            1.30 1947
-                            9000
-                            1.35 1931
-                            15000
-                            1.47 1778
-                        </tableData>
-                    </table>
-                    <v>-1</v>
-               </product>
-            </function>
-        </fcs_function>-->
-
         <aerosurface_scale name="systems/flight/pitch-gearing-ja37-norm">
             <input>systems/flight/pitch-gearing-ja37</input>
             <zero_centered> true </zero_centered>
@@ -378,73 +420,27 @@
 
         <switch name="systems/flight/pitch-gearing">
             <default value="systems/flight/pitch-gearing-ja37-norm"/>
+            <test logic="OR" value="1">
+                fcs/elevator/gearing-enable == 0
+            </test>
             <test logic="OR" value="systems/flight/pitch-gearing-aj37-norm">
                /ja37/systems/variant gt 0
             </test>
         </switch>
 
-        <!--
-        <fcs_function name="systems/flight/pitch-gearing-fun">
-            <function>
-                <product>
-                    <table>
-                        <independentVar lookup="row">velocities/mach</independentVar>
-                        <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-                        <tableData>
-                                        0.0      20000     45000
-                            0.00        1.00      0.85      0.65            
-                            0.10        0.85      0.85      0.65
-                            0.50        0.75      0.75      0.65
-                            0.65        0.50      0.75      0.65
-                            0.80        0.35      0.75      0.65
-                            1.00        0.30      0.60      0.75
-                            1.50        0.20      0.35      0.75
-                            2.00        0.10      0.20      0.70
-                        </tableData>
-                    </table>
-               </product>
-            </function>
-        </fcs_function>
-
-        <switch name="systems/flight/pitch-gearing">
-            <default value="systems/flight/pitch-gearing-norm"/>
-            <test logic="OR" value="systems/flight/pitch-gearing-fun">
-                /ja37/avionics/fun == 1
-            </test>
-        </switch>-->
-
-        <!-- At high speeds elevator up deflection is reduced,
-           At high altitude elevator up deflection is increased -->
-        <pure_gain name="names/elevator/adjust-neg">
-            <input>fcs/elevator/cmd-sum</input>
-            <gain>systems/flight/pitch-gearing</gain>
-            <output>fcs/elevator/cmd-adjust-negative</output>
+        <pure_gain name="fcs/elevator/output-geared">
+            <input>fcs/elevator/output</input>
+            <gain> systems/flight/pitch-gearing </gain>
         </pure_gain>
 
-        <!-- At high speeds elevator down deflection is reduced,
-           At high altitude elevator down deflection is increased -->
-        <scheduled_gain name="names/elevator/adjust-pos">
-            <input>fcs/elevator/cmd-adjust-negative</input>
-            <table>
-                <independentVar lookup="row">gear/gear-pos-norm</independentVar>
-                <independentVar lookup="column">/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
-                <tableData>
-                            0    100     150    400
-                     0     0.60  0.60    0.60   0.60
-                     1     1.0   1.0     0.50   1.00
-                </tableData>
-            </table>
-            <output>fcs/elevator/cmd-adjust-positive</output>
-        </scheduled_gain>
-
-        <!-- select which of the above tables is active -->
-        <switch name="fcs/elevator/cmd-final">
-            <default value="fcs/elevator/cmd-adjust-positive"/>
-            <test logic="OR" value="fcs/elevator/cmd-sum">
-                fcs/elevator/gearing-enable == 0
+        <switch name="fcs/elevator/tmp-norm">
+            <default value="fcs/elevator/output-geared"/>
+            <test logic="OR" value="0">
+                structural/wings/serviceable == 0
             </test>
-            <test logic="OR" value="fcs/elevator/cmd-adjust-negative">
-                fcs/elevator/cmd-sum lt 0
+            <test logic="OR" value="fcs/elevator/pos-norm">
+                systems/hydraulics/flight-surface-actuation == 0
+                fcs/elevator/serviceable == 0
             </test>
         </switch>
 
@@ -456,9 +452,12 @@
                     <time>      0.0 </time>
                 </setting>
                 <setting>
+                    <position>  0.0 </position>
+                    <time>      0.44 </time>
+                </setting>
+                <setting>
                     <position>  1.0 </position>
-                    <!--<time>      1.257 </time>--><!-- 35 degs per second -->
-                    <time>      1.5 </time>
+                    <time>      0.32 </time>
                 </setting>
             </traverse>
             <clipto>
@@ -472,77 +471,7 @@
             <output>fcs/elevator/pos-norm</output>
         </kinematic>
 
-        <scheduled_gain name="fcs/elevator/alpha-scheduler-ja37">
-            <input>fcs/elevator/cmd-final</input>
-            <table>
-                <independentVar>aero/alpha-deg</independentVar>
-                <tableData>
-                -23     0.00
-                -21     0.60
-                 0.0    1.00
-                 21     0.60
-                 23     0.00
-                </tableData>
-            </table>
-        </scheduled_gain>
-
-        <scheduled_gain name="fcs/elevator/alpha-scheduler-aj37">
-            <input>fcs/elevator/cmd-final</input>
-            <table>
-                <independentVar>aero/alpha-deg</independentVar>
-                <tableData>
-                -18     0.00
-                -16     0.60
-                 0.0    1.00
-                 16     0.60
-                 18     0.00
-                </tableData>
-            </table>
-        </scheduled_gain>
-
-        <switch name="fcs/elevator/alpha-scheduler">
-            <default value="fcs/elevator/alpha-scheduler-ja37"/>
-            <test logic="OR" value="fcs/elevator/alpha-scheduler-aj37">
-               /ja37/systems/variant gt 0
-            </test>
-            <clipto>
-                <min>-1</min>
-                <max>1</max>
-            </clipto>
-        </switch>
-        
-        <switch name="names/elevator/tmp-norm">
-            <default value="fcs/elevator/alpha-scheduler"/>
-            <test logic="OR" value="0">
-                structural/wings/serviceable == 0
-            </test>
-            <test logic="OR" value="fcs/elevator/pos-norm">
-                systems/hydraulics/flight-surface-actuation == 0
-                fcs/elevator/serviceable == 0
-            </test>            
-            <test logic="AND" value="fcs/elevator/cmd-final">
-                <!-- not sure if this should be here or not.
-                     Remove this test to make alpha limiter works in all regimes -->
-                velocities/vc-kts gt fcs/elevator/alpha-limit-speed
-            </test>
-            <output>fcs/elevator/tmp-norm</output>
-        </switch>
-
-        <!--<aerosurface_scale name="names/elevator/trim-deg">
-            <input>fcs/pitch-trim-cmd-norm</input>
-            <zero_centered> true </zero_centered>
-            <domain>
-                <min> -1.0 </min>
-                <max>  1.0 </max>
-            </domain>
-            <range>
-                <min>-22</min>
-                <max>16</max>
-            </range>
-            <output>fcs/elevator/trim-deg</output>
-        </aerosurface_scale>-->
-
-        <aerosurface_scale name="names/elevator/pos-rad">
+        <aerosurface_scale name="fcs/elevator/output-rad">
             <input>fcs/elevator/pos-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -557,14 +486,6 @@
         </aerosurface_scale>
 
     </channel>
-
-
-
-
-
-
-
-
 
 
     <channel execrate="1" name="Ailerons">

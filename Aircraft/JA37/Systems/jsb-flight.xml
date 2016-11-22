@@ -309,11 +309,8 @@
         <fcs_function name="names/instruments/g-force">
             <function>
                 <quotient>
-                    <product>
-                        <p>accelerations/a-pilot-z-ft_sec2</p>
-                        <v>-1</v>
-                    </product>
-                    <p>accelerations/gravity-ft_sec2</p>
+                    <p>accelerations/a-pilot-z-ft_sec2</p>
+                    <v>-32.174</v>
                 </quotient>
             </function>
             <output>/ja37/accelerations/pilot-G</output>

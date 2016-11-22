@@ -625,6 +625,9 @@
                     <serviceable alias="/sim/failure-manager/controls/flight/aileron/serviceable"/>
                 </aileron>
                 <elevator>
+                    <output type="double">0.0</output>
+                    <pos-norm type="double">0.0</pos-norm>
+                    <integrator-feedback-calm type="double">0.0</integrator-feedback-calm>
                     <gearing-enable type="bool">true</gearing-enable>
                     <serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
                 </elevator>
@@ -1054,9 +1057,8 @@
 *************************************************************************-->
     <limits>
         <max-gear-extension-speed>334.77</max-gear-extension-speed>        <!-- as per manual -->
-        <!-- structural G limits: -->
-        <max-positive-g>7.0</max-positive-g>        <!-- Pilots were usually not allowed to exceed this -->
-        <max-negative-g>-2.66</max-negative-g>
+        <max-positive-g>8.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
+        <max-negative-g>-2.0</max-negative-g>
     </limits>
 
     <!--**********************************************************************
