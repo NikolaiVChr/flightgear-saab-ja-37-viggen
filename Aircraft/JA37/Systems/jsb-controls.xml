@@ -246,13 +246,13 @@
                     <property> fcs/elevator/alpha-lag </property>
                     <difference>
                         <p> fcs/elevator/alpha-max </p>
-                        <v> 8.5 </v>
+                        <v> 7 </v>
                     </difference>
                 </difference>
             </function>
             <clipto>
                 <min> 0 </min>
-                <max> 1000 </max>
+                <max> 10000 </max>
             </clipto>
         </fcs_function>
 
