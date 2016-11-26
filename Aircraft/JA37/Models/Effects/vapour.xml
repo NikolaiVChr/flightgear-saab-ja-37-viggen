@@ -14,7 +14,7 @@
       <and>
         <greater-than>
           <property>rotors/tail/rpm</property><!-- alias: orientation/alpha-deg -->
-          <value>15.0</value>
+          <value>17.0</value>
         </greater-than>
         <or>
           <greater-than>
