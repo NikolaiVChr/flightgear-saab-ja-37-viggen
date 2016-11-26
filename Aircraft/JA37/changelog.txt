@@ -2501,3 +2501,5 @@ GUI: Added 3 thumbnails for new launcher in FG 2017.1.1
 Control: Made pitch control be normal based, as per diagrams of real Viggen FCS.
 Sim: Blackout code now respect default blackout if FG version is 2017.1.0 or larger.
 Sim: Increased G to 8, before FG complains that you are overpulling Gs. Negative set to -2.
+Sim: Tuned altitude A/P.
+Effect: Wingtip vapour is now from canards.

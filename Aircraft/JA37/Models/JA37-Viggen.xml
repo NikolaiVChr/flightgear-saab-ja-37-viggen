@@ -3133,9 +3133,12 @@
   <name>wingtip-condensation-trail-left</name>
   <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
   <offsets>
-   <x-m>5.82588</x-m>
+    <x-m>-0.26831</x-m>
+   <y-m>-2.5873</y-m>
+   <z-m>0.12828</z-m>
+   <!--<x-m>5.82588</x-m>
    <y-m>-5.11376</y-m>
-   <z-m>-0.39589</z-m>
+   <z-m>-0.39589</z-m>-->
   </offsets>
  </model>
 
@@ -3143,9 +3146,12 @@
   <name>wingtip-condensation-trail-right</name>
   <path>Aircraft/JA37/Models/Effects/wingtip-vapour.xml</path>
   <offsets>
-   <x-m>5.82588</x-m>
+    <x-m>-0.26831</x-m>
+   <y-m>2.5873</y-m>
+   <z-m>0.12828</z-m>
+   <!--<x-m>5.82588</x-m>
    <y-m>5.11376</y-m>
-   <z-m>-0.39589</z-m>
+   <z-m>-0.39589</z-m>-->
   </offsets>
  </model>
 
