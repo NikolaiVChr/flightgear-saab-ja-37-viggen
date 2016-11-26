@@ -357,6 +357,33 @@
 
     <!-- Stage #1 sets target rate of climb based on diff between current alt -->
     <!-- and target altitude. -->
+    <filter>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>altitude-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
+            </condition>
+        </enable>
+        <gain>0.1</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/autopilot/settings/target-altitude-ft</property>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                </dif>
+            </expression>
+        </input>
+        <output>
+            <property>/autopilot/internal/target-climb-rate-fps</property>
+        </output>
+        <min><property>fdm/jsbsim/autopilot/descent</property></min>
+        <max><property>fdm/jsbsim/autopilot/climb</property></max>
+    </filter>
+
     <pi-simple-controller>
         <name>Altitude Hold (Altimeter based) Stage 1</name>
         <debug>false</debug>
@@ -364,7 +391,7 @@
             <condition>
                 <equals>
                     <property>/autopilot/locks/altitude</property>
-                    <value>altitude-hold</value>
+                    <value>altitude-holda</value>
                 </equals>
                 <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
@@ -416,16 +443,13 @@
         </output>
         <config>
             <Kp>-0.01</Kp>    <!-- proportional gain -->
-            <beta>1.0</beta>  <!-- input value weighing factor -->
-            <alpha>0.1</alpha><!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma><!-- input value weighing factor for unfiltered derivative error -->
-            <Ti>15.0</Ti>     <!-- integrator time -->
-            <Td>0.001</Td>    <!-- derivator time -->
+            <Ti>10</Ti>     <!-- integrator time -->
+            <Td>0.0001</Td>    <!-- derivator time -->
             <u_min>
-                -1
+                -0.75
             </u_min>
             <u_max>
-                1
+                 0.75
             </u_max>
         </config>
     </pid-controller>
@@ -442,7 +466,7 @@
             <condition>
                 <equals>
                     <property>/autopilot/locks/altitude</property>
-                    <value>agl-hold</value>
+                    <value>agl-holda</value>
                 </equals>
                 <property>ja37/avionics/temp-halt-ap-pitch</property>
             </condition>
@@ -467,6 +491,33 @@
             <!-- maximum output clamp -->
         </config>
     </pi-simple-controller>
+
+    <filter>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <equals>
+                    <property>/autopilot/locks/altitude</property>
+                    <value>agl-hold</value>
+                </equals>
+                <property>ja37/avionics/temp-halt-ap-pitch</property>
+            </condition>
+        </enable>
+        <gain>0.1</gain>
+        <input>
+            <expression>
+                <dif>
+                    <property>/autopilot/settings/target-agl-ft</property>
+                    <property>/position/altitude-agl-ft</property>
+                </dif>
+            </expression>
+        </input>
+        <output>
+            <property>/autopilot/internal/target-climb-rate-fps</property>
+        </output>
+        <min><property>fdm/jsbsim/autopilot/descent</property></min>
+        <max><property>fdm/jsbsim/autopilot/climb</property></max>
+    </filter>
 
     <!-- Stage #2 drives the elevator to achieve the desired climb rate. -->
     <pid-controller>
@@ -496,16 +547,13 @@
         </output>
         <config>
             <Kp>-0.01</Kp>    <!-- proportional gain -->
-            <beta>1.0</beta>  <!-- input value weighing factor -->
-            <alpha>0.1</alpha><!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma><!-- input value weighing factor for unfiltered derivative error -->
-            <Ti>15.0</Ti>     <!-- integrator time -->
-            <Td>0.001</Td>    <!-- derivator time -->
+            <Ti>10</Ti>     <!-- integrator time -->
+            <Td>0.0001</Td>    <!-- derivator time -->
             <u_min>
-                -1
+                -0.75
             </u_min>
             <u_max>
-                1
+                0.75
             </u_max>
         </config>
     </pid-controller>
@@ -537,16 +585,13 @@
         </output>
         <config>
             <Kp>-0.01</Kp>    <!-- proportional gain -->
-            <beta>1.0</beta>  <!-- input value weighing factor -->
-            <alpha>0.1</alpha><!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma><!-- input value weighing factor for unfiltered derivative error -->
-            <Ti>15.0</Ti>     <!-- integrator time -->
-            <Td>0.001</Td>    <!-- derivator time -->
+            <Ti>10</Ti>     <!-- integrator time -->
+            <Td>0.0001</Td>    <!-- derivator time -->
             <u_min>
-                -1
+                -0.75
             </u_min>
             <u_max>
-                1
+                0.75
             </u_max>
         </config>
     </pid-controller>

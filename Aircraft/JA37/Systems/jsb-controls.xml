@@ -212,6 +212,14 @@
           <c4> 12 </c4>
         </lead_lag_filter>
 
+        <switch name="fcs/elevator/normal-error">
+            <default value="fcs/elevator/normal-lag"/>
+            <test logic="AND" value="fcs/elevator/normal-lag">
+                /ja37/avionics/temp-halt-ap-pitch == 1
+                /ja37/avionics/auto-altitude-on == 1
+            </test>
+        </switch>
+
         <switch name="fcs/elevator/alpha-max">
             <default value="23"/>
             <test logic="AND" value="18">
@@ -256,20 +264,19 @@
             </clipto>
         </fcs_function>
 
-        <switch name="fcs/elevator/stick-css-ap"><!-- not sure if this is needed anymore -->
+        <switch name="fcs/elevator/stick-css-ap">
             <default value="0"/>
             <test logic="AND" value="/controls/flight/elevator-ap">
                 /ja37/avionics/temp-halt-ap-pitch == 1
                 /ja37/avionics/auto-altitude-on == 1
             </test>
-            <output>/controls/flight/elevator-ap</output>
         </switch>
 
         <summer name="fcs/elevator/raw-delta">
             <input> fcs/elevator/alpha-sum </input>
             <input> -fcs/elevator/cmd-lag </input>
-            <input> fcs/elevator/normal-lag </input>
-            <input> /controls/flight/elevator-ap </input>
+            <input> fcs/elevator/normal-error </input>
+            <input> fcs/elevator/stick-css-ap </input>
         </summer>
 
         <pure_gain name="fcs/elevator/delta">
@@ -1393,9 +1400,37 @@
 
         <pure_gain name="names/autopilot/Autopilot-min-climb">
             <input>autopilot/climb</input>
-            <gain>-0.2</gain>
+            <gain>-0.3</gain>
             <output>autopilot/descent</output>
         </pure_gain>
+
+        <fcs_function name="autopilot/normal-min">
+            <function>
+                <table>
+                    <independentVar lookup="row">/orientation/pitch-deg</independentVar>
+                    <tableData>
+                         -5 -0.1
+                          0  0.5
+                         30  1
+                    </tableData>
+                </table>
+            </function>
+            <output>/autopilot/internal/normal-min</output>
+        </fcs_function>
+
+        <fcs_function name="autopilot/normal-max">
+            <function>
+                <table>
+                    <independentVar lookup="row">/orientation/pitch-deg</independentVar>
+                    <tableData>
+                      -30  -1
+                        0  -0.5
+                        5  0.1
+                    </tableData>
+                </table>
+            </function>
+            <output>/autopilot/internal/normal-max</output>
+        </fcs_function>
 
         <fcs_function name="names/autopilot/Autopilot-min-elevator">
             <function>

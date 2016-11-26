@@ -215,7 +215,7 @@ var apLoop = func {
   }
 
   var pitchCmd = getprop("controls/flight/elevator-cmd-ap");
-  if (getprop("/autopilot/locks/altitude") != "" and getprop("/autopilot/locks/altitude") != nil and pitchCmd != 0) {
+  if (getprop("/autopilot/locks/altitude") != "" and getprop("/autopilot/locks/altitude") != nil and math.abs(pitchCmd) > 0.075) {
     # Pilot is using stick to adjust altitude A/P
     lockP = getprop("/autopilot/locks/altitude");
     # stop A/P from controlling pitch:
