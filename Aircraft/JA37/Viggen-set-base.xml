@@ -884,6 +884,7 @@
             <trim-reset type="bool">false</trim-reset>
             <trim-yaw type="int">0</trim-yaw>
             <rudder-trim type="double">0.0</rudder-trim>
+            <elevator-ap type="double">0.0</elevator-ap>
         </flight>
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>

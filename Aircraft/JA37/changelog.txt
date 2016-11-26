@@ -2495,7 +2495,7 @@ GUI: Fixed that performance monitor would show calibrated airspeed instead of tr
 Sim: [Pinto] Improved damage from guns code and added new armament.
 Control: Reverted change in actuation speed for elevator.
 
-4.009
+4.009 - 2016 November 26
 =====
 GUI: Added 3 thumbnails for new launcher in FG 2017.1.1
 Control: Made pitch control be normal based, as per diagrams of real Viggen FCS.
