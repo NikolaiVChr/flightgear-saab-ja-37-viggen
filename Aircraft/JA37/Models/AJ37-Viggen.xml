@@ -13,6 +13,17 @@
 		<object-name>aj37upperVerticalStabilizer</object-name>
 	</effect>
 
+ <animation> 
+  <type>material</type> 
+  <object-name>VIDDisplay</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>1.0</green>
+   <blue>1.0</blue>
+   <factor-prop>systems/electrical/dc-light</factor-prop>
+  </emission>
+ </animation>
+
 	<!-- ====== drop tank ====== -->
 
 	<animation>

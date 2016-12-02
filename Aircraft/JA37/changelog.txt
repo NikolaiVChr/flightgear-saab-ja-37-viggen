@@ -2503,3 +2503,7 @@ Sim: Blackout code now respect default blackout if FG version is 2017.1.0 or lar
 Sim: Increased G to 8, before FG complains that you are overpulling Gs. Negative set to -2.
 Sim: Tuned altitude A/P.
 Effect: Wingtip vapour is now from canards.
+
+4.010
+=====
+Model: Added VID display for AJ(S)-37.
