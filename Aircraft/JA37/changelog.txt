@@ -2507,3 +2507,5 @@ Effect: Wingtip vapour is now from canards.
 4.010
 =====
 Model: Added VID display for AJ(S)-37.
+Model: {Pinto} Made much better HUDs.
+Model: {Pinto} Adjusted sunscreen to make room for VID in AJ.

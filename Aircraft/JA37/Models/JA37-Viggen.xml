@@ -14,6 +14,12 @@
       <object-name>gunpod</object-name>
 	</effect>
 
+  <effect>
+    <inherits-from>Effects/model-transparent</inherits-from>
+    <object-name>hudBottomPlateGlass</object-name>
+    <object-name>hudGlassJA</object-name>
+  </effect>
+
 	<!-- ====== drop tank ====== -->
 
 	<animation>
