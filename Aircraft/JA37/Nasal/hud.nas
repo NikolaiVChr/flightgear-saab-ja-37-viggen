@@ -2321,14 +2321,11 @@ var HUDnasal = {
 
         if(pos_x > (512/1024)*canvasWidth) {
           showme = FALSE;
-        }
-        if(pos_x < -(512/1024)*canvasWidth) {
+        } elsif(pos_x < -(512/1024)*canvasWidth) {
           showme = FALSE;
-        }
-        if(pos_y > (512/1024)*canvasWidth) {
+        } elsif(pos_y > (512/1024)*canvasWidth) {
           showme = FALSE;
-        }
-        if(pos_y < -(512/1024)*canvasWidth) {
+        } elsif(pos_y < -(512/1024)*canvasWidth) {
           showme = FALSE;
         }
 
@@ -2360,7 +2357,16 @@ var HUDnasal = {
       var armSelect = me.input.station.getValue();
       if(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett") {
 
+        var bomb = nil;
+        if(armament.AIM.active[armSelect-1] != nil) {
+          bomb = armament.AIM.active[armSelect-1];
+        } else {
+          me.ccip_symbol.hide();
+          return;
+        }
+
         var agl = getprop("position/altitude-agl-ft")*FT2M;
+        var alti = getprop("position/altitude-ft")*FT2M;
         var pitch = getprop("orientation/pitch-deg");
         var vel = getprop("velocities/groundspeed-kt")*0.5144;#m/s
         var heading = getprop("orientation/heading-deg");#true
@@ -2376,25 +2382,17 @@ var HUDnasal = {
         var vel_x = vel*math.cos(pitch*D2R);
         var fps_x = vel_x * M2FT;
 
-        var bomb = nil;
-        if(armament.AIM.active[armSelect-1] != nil) {
-          bomb = armament.AIM.active[armSelect-1];
-        } else {
-          me.ccip_symbol.hide();
-          return;
-        }
-
         var rs = armament.rho_sndspeed(dens-(agl/2)*M2FT);
         var rho = rs[0];
         var Cd = bomb.drag(mach);
         var mass = bomb.weight_launch_lbs / armament.slugs_to_lbs;
+        var q = 0.5 * rho * fps_z * fps_z;
+        var deacc = (Cd * q * bomb.eda) / mass;
         var max_iter = 500;
 
         while (alt > 0 and iter < max_iter) {
           t += dt;
           iter += 1;
-          var q = 0.5 * rho * fps_z * fps_z;# dynamic pressure
-          var deacc = (Cd * q * bomb.eda) / mass;
           var acc = -9.81 + deacc * FT2M;
           vel_z += acc * dt;
           alt = alt + vel_z*dt+0.5*acc*dt*dt;
@@ -2405,9 +2403,8 @@ var HUDnasal = {
           me.ccip_symbol.hide();
           return;
         }
-        t -= 0.75 * math.cos(pitch*D2R);#fudge factor
-        var deacc = 0;
-        var q = 0.5 * rho * fps_x * fps_x;
+        t -= 0.75 * math.cos(pitch*D2R);            # fudge factor
+        q = 0.5 * rho * fps_x * fps_x;
         deacc = (Cd * q * bomb.eda) / mass;
         var acc = -deacc * FT2M;
         var dist = vel_x*t+0.5*acc*t*t;
@@ -2415,7 +2412,8 @@ var HUDnasal = {
         var ac = geo.aircraft_position();
         var ccipPos = geo.Coord.new(ac);
         ccipPos.apply_course_distance(heading, dist);
-        var elev = geo.elevation(ac.lat(), ac.lon());
+        #var elev = geo.elevation(ac.lat(), ac.lon());
+        var elev = alti-agl;#faster
         ccipPos.set_alt(elev);
         
 
@@ -2432,14 +2430,11 @@ var HUDnasal = {
 
           if(pos_x > (512/1024)*canvasWidth) {
             showme = FALSE;
-          }
-          if(pos_x < -(512/1024)*canvasWidth) {
+          } elsif(pos_x < -(512/1024)*canvasWidth) {
             showme = FALSE;
-          }
-          if(pos_y > (512/1024)*canvasWidth) {
+          } elsif(pos_y > (512/1024)*canvasWidth) {
             showme = FALSE;
-          }
-          if(pos_y < -(512/1024)*canvasWidth) {
+          } elsif(pos_y < -(512/1024)*canvasWidth) {
             showme = FALSE;
           }
 
