@@ -776,6 +776,10 @@ var HUDnasal = {
                            .lineTo( (5/1024)*canvasWidth,   0)
                            .lineTo(  0,  (5/1024)*canvasWidth)
                            .lineTo(-(5/1024)*canvasWidth,   0)
+                           .moveTo(-(25/1024)*canvasWidth,   0)
+                           .arcLargeCW((25/1024)*canvasWidth, (25/1024)*canvasWidth, 0,  (50/1024)*canvasWidth, 0)
+                           .moveTo(-(25/1024)*canvasWidth,   0)
+                           .arcLargeCCW((25/1024)*canvasWidth, (25/1024)*canvasWidth, 0,  (50/1024)*canvasWidth, 0)
                            .setStrokeLineWidth(w)
                            .setColor(r,g,b, a);
 
@@ -2376,7 +2380,6 @@ var HUDnasal = {
         var t = 0.0;
         var dt = 0.1;
         var alt = agl;
-        var iter = 0;
         var vel_z = vel*math.sin(pitch*D2R);#positive upwards
         var fps_z = vel_z * M2FT;
         var vel_x = vel*math.cos(pitch*D2R);
@@ -2388,18 +2391,16 @@ var HUDnasal = {
         var mass = bomb.weight_launch_lbs / armament.slugs_to_lbs;
         var q = 0.5 * rho * fps_z * fps_z;
         var deacc = (Cd * q * bomb.eda) / mass;
-        var max_iter = 500;
 
-        while (alt > 0 and iter < max_iter) {
+        while (alt > 0 and t <= 16) {#16 secs is max fall time according to manual
           t += dt;
-          iter += 1;
           var acc = -9.81 + deacc * FT2M;
           vel_z += acc * dt;
           alt = alt + vel_z*dt+0.5*acc*dt*dt;
         }
         #printf("time=%0.1f", t);
 
-        if (iter >= max_iter) {
+        if (t >= 16) {
           me.ccip_symbol.hide();
           return;
         }
