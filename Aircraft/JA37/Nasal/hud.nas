@@ -2364,20 +2364,54 @@ var HUDnasal = {
         var pitch = getprop("orientation/pitch-deg");
         var vel = getprop("velocities/groundspeed-kt")*0.5144;#m/s
         var heading = getprop("orientation/heading-deg");#true
+        var dens = getprop("fdm/jsbsim/atmosphere/density-altitude");
+        var mach = getprop("velocities/mach");
 
         var t = 0.0;
+        var dt = 0.1;
         var alt = agl;
-        while (alt > 0 and t < 30) {
-          t = t + 0.1;
-          alt = agl + vel*math.sin(pitch*D2R)*t-0.5*9.81*t*t;
-        }
+        var iter = 0;
+        var vel_z = vel*math.sin(pitch*D2R);#positive upwards
+        var fps_z = vel_z * M2FT;
+        var vel_x = vel*math.cos(pitch*D2R);
+        var fps_x = vel_x * M2FT;
 
-        if (t > 25) {
+        var bomb = nil;
+        if(armament.AIM.active[armSelect-1] != nil) {
+          bomb = armament.AIM.active[armSelect-1];
+        } else {
           me.ccip_symbol.hide();
           return;
         }
 
-        var dist = vel*math.cos(pitch*D2R)*t;
+        var rs = armament.rho_sndspeed(dens-(agl/2)*M2FT);
+        var rho = rs[0];
+        var Cd = bomb.drag(mach);
+        var mass = bomb.weight_launch_lbs / armament.slugs_to_lbs;
+        var max_iter = 500;
+
+        while (alt > 0 and iter < max_iter) {
+          t += dt;
+          iter += 1;
+          var q = 0.5 * rho * fps_z * fps_z;# dynamic pressure
+          var deacc = (Cd * q * bomb.eda) / mass;
+          var acc = -9.81 + deacc * FT2M;
+          vel_z += acc * dt;
+          alt = alt + vel_z*dt+0.5*acc*dt*dt;
+        }
+        #printf("time=%0.1f", t);
+
+        if (iter >= max_iter) {
+          me.ccip_symbol.hide();
+          return;
+        }
+        t -= 0.75 * math.cos(pitch*D2R);#fudge factor
+        var deacc = 0;
+        var q = 0.5 * rho * fps_x * fps_x;
+        deacc = (Cd * q * bomb.eda) / mass;
+        var acc = -deacc * FT2M;
+        var dist = vel_x*t+0.5*acc*t*t;
+
         var ac = geo.aircraft_position();
         var ccipPos = geo.Coord.new(ac);
         ccipPos.apply_course_distance(heading, dist);
