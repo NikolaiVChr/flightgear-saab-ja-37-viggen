@@ -2372,10 +2372,18 @@ var HUDnasal = {
         var agl = getprop("position/altitude-agl-ft")*FT2M;
         var alti = getprop("position/altitude-ft")*FT2M;
         var pitch = getprop("orientation/pitch-deg");
+        var roll = getprop("orientation/roll-deg");
         var vel = getprop("velocities/groundspeed-kt")*0.5144;#m/s
         var heading = getprop("orientation/heading-deg");#true
         var dens = getprop("fdm/jsbsim/atmosphere/density-altitude");
         var mach = getprop("velocities/mach");
+
+        var alpha = getprop("orientation/alpha-deg");
+        var beta = getprop("orientation/side-slip-deg");# positive is air from right
+
+        var alpha_diff = alpha * math.cos(roll*D2R) + beta * math.sin(roll*D2R);
+        alpha_diff = alpha > 0?alpha_diff:0;
+        pitch = pitch - alpha_diff;
 
         var t = 0.0;
         var dt = 0.1;
@@ -2404,7 +2412,7 @@ var HUDnasal = {
           me.ccip_symbol.hide();
           return;
         }
-        t -= 0.75 * math.cos(pitch*D2R);            # fudge factor
+        #t -= 0.75 * math.cos(pitch*D2R);            # fudge factor
         q = 0.5 * rho * fps_x * fps_x;
         deacc = (Cd * q * bomb.eda) / mass;
         var acc = -deacc * FT2M;
