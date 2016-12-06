@@ -767,6 +767,18 @@ var HUDnasal = {
     HUDnasal.main.tower_symbol_icao.setTranslation((12/1024)*canvasWidth, -(12/1024)*canvasWidth);
     HUDnasal.main.tower_symbol_icao.setFontSize((60/1024)*canvasWidth*fs, ar);
 
+    #ccip symbol
+    HUDnasal.main.ccip_symbol = HUDnasal.main.root.createChild("group");
+    HUDnasal.main.ccip_symbol.createTransform();
+    var ccip = HUDnasal.main.ccip_symbol.createChild("path")
+                           .moveTo(-(5/1024)*canvasWidth,   0)
+                           .lineTo(  0, -(5/1024)*canvasWidth)
+                           .lineTo( (5/1024)*canvasWidth,   0)
+                           .lineTo(  0,  (5/1024)*canvasWidth)
+                           .lineTo(-(5/1024)*canvasWidth,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);
+
     #distance scale
     HUDnasal.main.dist_scale_group = HUDnasal.main.root.createChild("group").setTranslation(-(100/1024)*canvasWidth, (distScalePos/1024)*canvasWidth);
     HUDnasal.main.mySpeed = HUDnasal.main.dist_scale_group.createChild("path")
@@ -831,7 +843,7 @@ var HUDnasal = {
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
              HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target_air, HUDnasal.main.target_sea, HUDnasal.main.target_ground, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
              HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
-             tower, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, HUDnasal.main.distanceScale, HUDnasal.main.targetDistance1,
+             tower, ccip, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, HUDnasal.main.distanceScale, HUDnasal.main.targetDistance1,
              HUDnasal.main.targetDistance2, HUDnasal.main.landing_line, HUDnasal.main.heading_bug_horz];
 
     artifactsText0 = [HUDnasal.main.airspeedInt, HUDnasal.main.airspeed, HUDnasal.main.hdgM, HUDnasal.main.hdgL, HUDnasal.main.hdgR, HUDnasal.main.qfe,
@@ -1081,6 +1093,9 @@ var HUDnasal = {
 
       # tower symbol
       me.displayTower();
+
+      # CCIP
+      me.displayCCIP();
 
       skip = !skip;#we skip some function every other time, for performance
 
@@ -2336,6 +2351,79 @@ var HUDnasal = {
       }
     } else {
       me.tower_symbol.hide();
+    }
+  },
+
+  displayCCIP: func () {
+    if(mode == COMBAT) {
+
+      var armSelect = me.input.station.getValue();
+      if(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett") {
+
+        var agl = getprop("position/altitude-agl-ft")*FT2M;
+        var pitch = getprop("orientation/pitch-deg");
+        var vel = getprop("velocities/groundspeed-kt")*0.5144;#m/s
+        var heading = getprop("orientation/heading-deg");#true
+
+        var t = 0.0;
+        var alt = agl;
+        while (alt > 0 and t < 30) {
+          t = t + 0.1;
+          alt = agl + vel*math.sin(pitch*D2R)*t-0.5*9.81*t*t;
+        }
+
+        if (t > 25) {
+          me.ccip_symbol.hide();
+          return;
+        }
+
+        var dist = vel*math.cos(pitch*D2R)*t;
+        var ac = geo.aircraft_position();
+        var ccipPos = geo.Coord.new(ac);
+        ccipPos.apply_course_distance(heading, dist);
+        var elev = geo.elevation(ac.lat(), ac.lon());
+        ccipPos.set_alt(elev);
+        
+
+
+        var showme = TRUE;
+
+        var hud_pos = radar_logic.ContactGPS.new("CCIP", ccipPos);
+        if(hud_pos != nil) {
+          var distance = hud_pos.get_range()*NM2M;
+          var pos_x = hud_pos.get_cartesian()[0];
+          var pos_y = hud_pos.get_cartesian()[1];
+
+          #printf("dist=%0.1f (%3d , %3d)", dist, pos_x, pos_y);
+
+          if(pos_x > (512/1024)*canvasWidth) {
+            showme = FALSE;
+          }
+          if(pos_x < -(512/1024)*canvasWidth) {
+            showme = FALSE;
+          }
+          if(pos_y > (512/1024)*canvasWidth) {
+            showme = FALSE;
+          }
+          if(pos_y < -(512/1024)*canvasWidth) {
+            showme = FALSE;
+          }
+
+          if(showme == TRUE) {
+            me.ccip_symbol.setTranslation(pos_x, pos_y);
+            me.ccip_symbol.show();
+            me.ccip_symbol.update();
+          } else {
+            me.ccip_symbol.hide();
+          }
+        } else {
+          me.ccip_symbol.hide();
+        }
+      } else {
+        me.ccip_symbol.hide();
+      }
+    } else {
+      me.ccip_symbol.hide();
     }
   },
 
