@@ -534,6 +534,7 @@
             <altimeters-calibrated type="bool">0</altimeters-calibrated>
             <primaryData type="bool">false</primaryData>
             <TN type="bool">false</TN>
+            <vid type="bool">false</vid>
             <ignitionSys type="bool">false</ignitionSys>
             <startSys type="bool">false</startSys>
             <joystick type="bool">false</joystick>
@@ -885,6 +886,7 @@
             <trim-yaw type="int">0</trim-yaw>
             <rudder-trim type="double">0.0</rudder-trim>
             <elevator-ap type="double">0.0</elevator-ap>
+            <aileron-ap type="double">0.0</aileron-ap>
         </flight>
         <oxygen type="bool">false</oxygen>
         <altimeter-radar type="bool">false</altimeter-radar>

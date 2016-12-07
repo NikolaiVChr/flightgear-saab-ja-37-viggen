@@ -29,6 +29,7 @@ Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
+Model: Make individual m71 show in MP.
 Animation: Show wheels spinning in MP also.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
@@ -70,6 +71,7 @@ Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make weapons hit all nearby targets.
 Sim: Make dumb bombs not require a target.
 Sim: When inverted for more than 10 secs, let oil pressure be affected, and disrupt engine operations.
+Sim: Fix that the heading hold combined with A/T AoA hold is now unstable.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.

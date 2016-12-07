@@ -2515,4 +2515,5 @@ HUD: Made distancescale blink if M71 flighttime is below arming time, and switch
 Sound: Removed explosion sound if weapon did not arm.
 Sim: Made hit message different if weapon did not have time to arm.
 Sim: Made RB-15F anti-ship only, since the F version did not have ground attack capability.
-Sim: Fixed that A/P could influence flight even after A/P was swicthed off due to timing between A/P code and JSBSim.
+Sim: Fixed that A/P could influence flight even after A/P was switched off due to timing between A/P code and JSBSim.
+Model: Made VID turn on only when power is available and RB-75 is selected and searching.
