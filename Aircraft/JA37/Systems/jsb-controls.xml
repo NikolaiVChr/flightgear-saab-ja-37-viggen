@@ -673,7 +673,7 @@
 
         <switch name="fcs/aileron/stick-css-ap">
             <default value="0"/>
-            <test logic="OR" value="/controls/flight/aileron-ap">
+            <test logic="AND" value="/controls/flight/aileron-ap">
                 /ja37/avionics/temp-halt-ap-roll2 == 1
                 /ja37/avionics/auto-attitude-on == 1
             </test>
