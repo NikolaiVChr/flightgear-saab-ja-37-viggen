@@ -636,7 +636,7 @@
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
                 <rb-15f>                    
-                    <!-- Swedish cruise-missile RB-15F mach 0.8-->
+                    <!-- Swedish antiship cruise-missile RB-15F mach 0.8-->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
@@ -665,7 +665,7 @@
                     <min-fire-range-nm type="double">0.5</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <max-report-distance type="double">65</max-report-distance>
-                    <class type="string">GM</class>
+                    <class type="string">M</class>
                     <fire-msg>Greyhound</fire-msg>
                 </rb-15f>
                 <m90>
