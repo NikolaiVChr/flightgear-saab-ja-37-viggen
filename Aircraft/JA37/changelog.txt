@@ -2510,3 +2510,7 @@ Model: Added VID display for AJ(S)-37.
 Model: {Pinto} Made much better HUDs.
 Model: {Pinto} Adjusted sunscreen to make room for VID in AJ.
 HUD: M71 now has continously computed impact point (CCIP) aiming.
+HUD: Made distance scale show flight time for M71, with arming time and max time.
+HUD: Made distancescale blink if M71 flighttime is below arming time, and switch off if above max flight time.
+Sound: Removed explosion sound if weapon did not arm.
+Sim: Made hit message different if weapon did not have time to arm.

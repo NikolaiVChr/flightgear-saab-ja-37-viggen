@@ -710,7 +710,7 @@
                     <guidance type="string">radar</guidance> 
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">20</max-fire-range-nm>               
-                    <FCS-field-deg type="int">180</FCS-field-deg>            
+                    <FCS-field-deg type="int">360</FCS-field-deg>            
                     <seeker-field-deg type="int">220</seeker-field-deg>     
                     <max-g type="int">15</max-g>
                     <max-launch-g type="int">7</max-launch-g>               

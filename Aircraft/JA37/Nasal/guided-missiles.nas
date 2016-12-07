@@ -250,6 +250,7 @@ var AIM = {
 		m.energyBleedKt = 0;
 
 		m.lastFlare = 0;
+		m.explodeSound = TRUE;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
 		m.SwSoundVol.setDoubleValue(m.vol_search);
@@ -794,7 +795,9 @@ var AIM = {
 				me.sndSpeed = sound_fps;
 				me.sndDistance = 0;
 				me.elapsed_last = systime();
-				me.sndPropagate();
+				if (me.explodeSound == TRUE) {
+					me.sndPropagate();
+				}
 				return;
 			}
 		} else {
@@ -1306,7 +1309,11 @@ var AIM = {
         if(ground != nil and me.direct_dist_m != nil)
         {
             if(ground > me.coord.alt()) {
-                me.explode("Hit terrain.");
+            	var event = "exploded";
+            	if(me.life_time < me.arming_time) {
+                	event = "landed disarmed";
+            	}
+            	me.explode("Hit terrain.", event);
                 return TRUE;
             }
         }
@@ -1314,7 +1321,7 @@ var AIM = {
 		return FALSE;
 	},
 
-	explode: func (reason) {
+	explode: func (reason, event = "exploded") {
 		# Get missile relative position to the target at last frame.
 		#var t_bearing_deg = me.last_t_coord.course_to(me.last_coord);
 		#var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
@@ -1357,7 +1364,7 @@ var AIM = {
 		#print("FOX2: me.direct_dist_m = ",  me.direct_dist_m, " time ",getprop("sim/time/elapsed-sec"));
 		#impact_report(me.t_coord, wh_mass, "missile"); # pos, alt, mass_slug,(speed_mps)
 
-		var phrase = sprintf( me.type~" exploded: %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
+		var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
 		print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 		if (min_distance < me.reportDist) {
 			me.sendMessage(phrase);
@@ -1366,7 +1373,12 @@ var AIM = {
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
-		me.animate_explosion();
+		if (event == "exploded") {
+			me.animate_explosion();
+			me.explodeSound = TRUE;
+		} else {
+			me.explodeSound = FALSE;
+		}
 		me.Tgt = nil;
 	},
 

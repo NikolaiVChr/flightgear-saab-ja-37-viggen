@@ -1083,8 +1083,11 @@ var HUDnasal = {
       # desired alt lines
       me.displayDesiredAltitudeLines(guide);
 
+      # CCIP
+      var fallTime = me.displayCCIP();
+
       # distance scale
-      me.showDistanceScale(mode);
+      me.showDistanceScale(mode, fallTime);
 
       ### artificial horizon and pitch lines ###
       me.displayPitchLines(mode);
@@ -1098,8 +1101,7 @@ var HUDnasal = {
       # tower symbol
       me.displayTower();
 
-      # CCIP
-      me.displayCCIP();
+      
 
       skip = !skip;#we skip some function every other time, for performance
 
@@ -2130,7 +2132,7 @@ var HUDnasal = {
     }
   },
 
-  showDistanceScale: func (mode) {
+  showDistanceScale: func (mode, fallTime) {
     if(mode == TAKEOFF) {
       var line = (200/1024)*canvasWidth;
 
@@ -2169,6 +2171,9 @@ var HUDnasal = {
         var minDist = nil;# meters
         var maxDist = nil;# meters
         var currDist = radar_logic.selection.get_range()*NM2M;
+        var unit = "meters";
+        var blink = FALSE;
+        var shown = TRUE;
         if(armSelect == 0) {
           # cannon
           minDist =  100;
@@ -2215,8 +2220,9 @@ var HUDnasal = {
           maxDist = 2800;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M71 Bomblavett") {
           # robot 15F
-          minDist =   0;
-          maxDist = 1000;
+          unit = "seconds";
+          minDist =   4;
+          maxDist =  16;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M90 Bombkapsel") {
           # robot 15F
           minDist =   0.1 * NM2M;
@@ -2231,12 +2237,30 @@ var HUDnasal = {
           maxDist =180000;
         }
         if(currDist != nil and minDist != nil) {
-          var pixelPerMeter = (3/5*line)/(maxDist - minDist);
-          var startDist = (minDist - ((maxDist - minDist)/3));
-          var pos = pixelPerMeter*(currDist-startDist);
-          pos = clamp(pos, 0, line);
-          me.mySpeed.setTranslation(pos, 0);
-          me.mySpeed.show();
+          if (unit == "meters") {
+            var pixelPerMeter = (3/5*line)/(maxDist - minDist);
+            var startDist = (minDist - ((maxDist - minDist)/3));
+            var pos = pixelPerMeter*(currDist-startDist);
+            pos = clamp(pos, 0, line);
+            me.mySpeed.setTranslation(pos, 0);
+          } else {
+            var pixelPerMeter = (3/5*line)/(maxDist - minDist);
+            var startDist = (minDist - ((maxDist - minDist)/3));
+            var pos = pixelPerMeter*(fallTime-startDist);
+            pos = clamp(pos, 0, line);
+            me.mySpeed.setTranslation(pos, 0);
+            if (fallTime < 4) {
+              blink = TRUE;
+            }
+            if (fallTime > 16) {
+              shown = FALSE;
+            }
+          }
+          if(shown == TRUE and (blink == FALSE or me.input.tenHz.getValue() == TRUE)) {
+            me.mySpeed.show();
+          } else {
+            me.mySpeed.hide();
+          }
         } else {
           me.mySpeed.hide();
         }
@@ -2244,9 +2268,15 @@ var HUDnasal = {
         me.targetDistance2.setTranslation(4/5*line, 0);
 
         me.targetSpeed.hide();
-        me.targetDistance1.show();
-        me.targetDistance2.show();
-        me.distanceScale.show();
+        if(shown == TRUE and (blink == FALSE or me.input.tenHz.getValue() == TRUE)) {
+          me.targetDistance1.show();
+          me.targetDistance2.show();
+          me.distanceScale.show();
+        } else {
+          me.targetDistance1.hide();
+          me.targetDistance2.hide();
+          me.distanceScale.hide();
+        }
       } else {
         me.mySpeed.hide();
         me.targetSpeed.hide();
@@ -2366,7 +2396,7 @@ var HUDnasal = {
           bomb = armament.AIM.active[armSelect-1];
         } else {
           me.ccip_symbol.hide();
-          return;
+          return 20;
         }
 
         var agl = getprop("position/altitude-agl-ft")*FT2M;
@@ -2410,7 +2440,7 @@ var HUDnasal = {
 
         if (t >= 16) {
           me.ccip_symbol.hide();
-          return;
+          return t;
         }
         #t -= 0.75 * math.cos(pitch*D2R);            # fudge factor
         q = 0.5 * rho * fps_x * fps_x;
@@ -2457,12 +2487,14 @@ var HUDnasal = {
         } else {
           me.ccip_symbol.hide();
         }
+        return t;
       } else {
         me.ccip_symbol.hide();
       }
     } else {
       me.ccip_symbol.hide();
     }
+    return 20;
   },
 
   displayRadarTracks: func (mode) {
