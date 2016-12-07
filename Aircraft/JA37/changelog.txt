@@ -2514,3 +2514,5 @@ HUD: Made distance scale show flight time for M71, with arming time and max time
 HUD: Made distancescale blink if M71 flighttime is below arming time, and switch off if above max flight time.
 Sound: Removed explosion sound if weapon did not arm.
 Sim: Made hit message different if weapon did not have time to arm.
+Sim: Made RB-15F anti-ship only, since the F version did not have ground attack capability.
+Sim: Fixed that A/P could influence flight even after A/P was swicthed off due to timing between A/P code and JSBSim.
