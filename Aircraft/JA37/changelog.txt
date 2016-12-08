@@ -2506,7 +2506,7 @@ Effect: Wingtip vapour is now from canards.
 
 4.010
 =====
-Model: Added VID display for AJ(S)-37.
+Model: Added VID display (black tube next to HUD) for AJ(S)-37, in real life used to aim RB-75 with.
 Model: {Pinto} Made much better HUDs.
 Model: {Pinto} Adjusted sunscreen to make room for VID in AJ.
 HUD: M71 now has continously computed impact point (CCIP) aiming. (is only aiming mode available, yet..)
@@ -2519,3 +2519,4 @@ Sim: Fixed that A/P could influence flight even after A/P was switched off due t
 Model: Made VID turn on only when power is available and RB-75 is selected and searching.
 Control: Disabled AoA limiter when A/P altitude hold is active.
 Sim: Fixed altitude hold combined with A/T AoA hold was unstable.
+Animation: Show wheels spinning in MP also.
