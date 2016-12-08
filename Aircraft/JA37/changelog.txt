@@ -2509,7 +2509,7 @@ Effect: Wingtip vapour is now from canards.
 Model: Added VID display for AJ(S)-37.
 Model: {Pinto} Made much better HUDs.
 Model: {Pinto} Adjusted sunscreen to make room for VID in AJ.
-HUD: M71 now has continously computed impact point (CCIP) aiming.
+HUD: M71 now has continously computed impact point (CCIP) aiming. (is only aiming mode available, yet..)
 HUD: Made distance scale show flight time for M71, with arming time and max time.
 HUD: Made distancescale blink if M71 flighttime is below arming time, and switch off if above max flight time.
 Sound: Removed explosion sound if weapon did not arm.
@@ -2517,3 +2517,5 @@ Sim: Made hit message different if weapon did not have time to arm.
 Sim: Made RB-15F anti-ship only, since the F version did not have ground attack capability.
 Sim: Fixed that A/P could influence flight even after A/P was switched off due to timing between A/P code and JSBSim.
 Model: Made VID turn on only when power is available and RB-75 is selected and searching.
+Control: Disabled AoA limiter when A/P altitude hold is active.
+Sim: Fixed altitude hold combined with A/T AoA hold was unstable.

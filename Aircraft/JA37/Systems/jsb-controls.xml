@@ -241,6 +241,11 @@
                 gear/unit[1]/WOW eq 1
                 gear/unit[2]/WOW eq 1
             </test>
+            <test logic="AND" value="0">
+                <!-- disable AoA limiter when A/P pitch is running -->
+                /ja37/avionics/temp-halt-ap-pitch == 1
+                /ja37/avionics/auto-altitude-on == 1
+            </test>
         </switch>
 
         <lag_filter name="fcs/elevator/alpha-lag">
@@ -1388,8 +1393,8 @@
                 <tableData>
                               <!-- feet/min -->
                       000             0
-                      175             0
-                      225            50
+                      100             0<!-- was 175-->
+                      225          2500<!-- was  50-->
                       350         15000
                       700         20000
                      1400         75000
@@ -1400,7 +1405,7 @@
 
         <pure_gain name="names/autopilot/Autopilot-min-climb">
             <input>autopilot/climb</input>
-            <gain>-0.3</gain>
+            <gain>-0.8</gain>
             <output>autopilot/descent</output>
         </pure_gain>
 
