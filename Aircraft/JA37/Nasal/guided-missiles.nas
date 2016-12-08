@@ -42,6 +42,8 @@ var ORDNANCE = 3;
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbs = 32.1740485564;
 
+var first_in_air = FALSE;# first missile is in the air, other missiles should not write to blade[x].
+
 #
 # The radar will make sure to keep this variable updated.
 # Whatever is targeted and ready to be fired upon, should be set here.
@@ -251,6 +253,7 @@ var AIM = {
 
 		m.lastFlare = 0;
 		m.explodeSound = TRUE;
+		m.first = FALSE;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
 		m.SwSoundVol.setDoubleValue(m.vol_search);
@@ -261,6 +264,10 @@ var AIM = {
 	#done
 	del: func {
 		#print("deleted");
+		if (me.first == TRUE) {
+			first_in_air = FALSE;
+			me.resetFirst();
+		}
 		me.model.remove();
 		me.ai.remove();
 		if (me.status == MISSILE_FLYING) {
@@ -749,6 +756,8 @@ var AIM = {
 		#setprop("logging/missile/drag-lbf", Cd * q * me.eda);
 		#setprop("logging/missile/thrust-lbf", thrust_lbf);
 
+		me.setFirst(grav_bomb);
+
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(me.alt_ft);
@@ -812,6 +821,24 @@ var AIM = {
 		}
 		me.last_dt = me.dt;
 		settimer(func me.flight(), update_loop_time, SIM_TIME);		
+	},
+
+	setFirst: func(grav_bomb) {
+		if (grav_bomb == FALSE) {
+			if (me.first == TRUE or first_in_air == FALSE) {
+				me.first = TRUE;
+				first_in_air = TRUE;
+				setprop("rotors/main/blade[0]/flap-deg", me.coord.lat());
+				setprop("rotors/main/blade[1]/flap-deg", me.coord.lon());
+				setprop("rotors/main/blade[2]/flap-deg", me.coord.alt());
+			}
+		}
+	},
+
+	resetFirst: func() {
+		setprop("rotors/main/blade[0]/flap-deg", 0);
+		setprop("rotors/main/blade[1]/flap-deg", 0);
+		setprop("rotors/main/blade[2]/flap-deg", 0);
 	},
 
 	limitG: func () {

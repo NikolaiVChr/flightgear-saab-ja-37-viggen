@@ -1248,86 +1248,74 @@
         var livery_update = aircraft.livery_update.new("Aircraft/JA37/Models/Liveries");
 
         var skip = 0;
-        var str = self.getNode("sim/multiplay/generic/string[13]");
-        if (str == nil or str.getValue() == nil) {
+        var alt = getprop("rotors/main/blade[2]/flap-deg");
+        if (alt == nil) {
           skip = 1;
         }
 
         var objs = {};
 
         var loop = func () {
-          var mp_str = split(":", str.getValue());
+          var lat = getprop("rotors/main/blade[0]/flap-deg");
+          var lon = getprop("rotors/main/blade[1]/flap-deg");
+          var alt = getprop("rotors/main/blade[2]/flap-deg");
 
-          foreach(var mis; mp_str) {
-            var mis_s = split(";", mis);
-            if (size(mis_s) == 4) {
-              var id = mis_s[0];
-              var objModel = objs[id];
-              if (objModel == nil) {
-                # create model
-                #print("creating "~mis);
-                var n = props.globals.getNode("models", 1);
-                var i = 0;
-                for (i = 0; 1==1; i += 1) {
-                  if (n.getChild("model", i, 0) == nil) {
-                    break;
-                  }
+          if(alt != 0) {
+            var objModel = objs["first"];
+            if (objModel == nil) {
+              # create model
+              #print("creating "~mis);
+              var n = props.globals.getNode("models", 1);
+              var i = 0;
+              for (i = 0; 1==1; i += 1) {
+                if (n.getChild("model", i, 0) == nil) {
+                  break;
                 }
-                objModel = n.getChild("model", i, 1);
-
-                objModel.getNode("elevation",1).setDoubleValue(0);
-                objModel.getNode("latitude",1).setDoubleValue(0);
-                objModel.getNode("longitude",1).setDoubleValue(0);
-                objModel.getNode("elevation-ft-prop",1).setValue(objModel.getPath()~"/elevation");
-                objModel.getNode("latitude-deg-prop",1).setValue(objModel.getPath()~"/latitude");
-                objModel.getNode("longitude-deg-prop",1).setValue(objModel.getPath()~"/longitude");
-                objModel.getNode("heading-deg",1).setDoubleValue(0);
-                objModel.getNode("pitch-deg",1).setDoubleValue(0);
-                objModel.getNode("roll-deg",1).setDoubleValue(0);
-                objModel.getNode("path",1).setValue("Aircraft/JA37/Models/Armament/Weapons/MP_missile/mp_missile.xml");
-
-                var loadNode = objModel.getNode("load", 1);
-                loadNode.setBoolValue(1);
-
-                objs[id] = objModel;
-                loadNode.remove();
               }
-            }            
-          }
+              objModel = n.getChild("model", i, 1);
 
-          foreach(var obj; keys(objs)) {
-            var exist = 0;
-            foreach(var mis; mp_str) {
-              var mis_s = split(";", mis);
-              if (size(mis_s) == 4) {
-                var id = mis_s[0];
-                var objModel = objs[id];
-                if (id != obj) {
-                  continue;
-                }
-                #print("found a missile!");
-                exist = 1;
-                var lat = num(mis_s[1]);
-                var lon = num(mis_s[2]);
-                var alt = num(mis_s[3]);
+              objModel.getNode("elevation",1).setDoubleValue(0);
+              objModel.getNode("latitude",1).setDoubleValue(0);
+              objModel.getNode("longitude",1).setDoubleValue(0);
+              objModel.getNode("elevation-ft-prop",1).setValue(objModel.getPath()~"/elevation");
+              objModel.getNode("latitude-deg-prop",1).setValue(objModel.getPath()~"/latitude");
+              objModel.getNode("longitude-deg-prop",1).setValue(objModel.getPath()~"/longitude");
+              objModel.getNode("heading-deg",1).setDoubleValue(0);
+              objModel.getNode("pitch-deg",1).setDoubleValue(0);
+              objModel.getNode("roll-deg",1).setDoubleValue(0);
+              objModel.getNode("path",1).setValue("Aircraft/JA37/Models/Armament/Weapons/MP_missile/mp_missile.xml");
 
-                var objModel = objs[id];
-                if (objModel == nil) {
-                  print("error: did not find mp missile.");
-                  return;
-                }
-                objModel.getNode("latitude").setDoubleValue(lat);
-                objModel.getNode("longitude").setDoubleValue(lon);
-                objModel.getNode("elevation").setDoubleValue(alt);
-              }
-            }
-            if (exist == 0) {
-              # remove model
-              var objModel = objs[obj];
-              objModel.remove();
-              delete(objs, obj);
+              var loadNode = objModel.getNode("load", 1);
+              loadNode.setBoolValue(1);
+
+              objs["first"] = objModel;
+              loadNode.remove();
             }
           }
+          var exist = 0;
+          if(alt != 0) {
+            exist = 1;
+
+            var objModel = objs["first"];
+            #print("found a missile!");
+
+            var objModel = objs["first"];
+            if (objModel == nil) {
+              print("error: did not find mp missile.");
+              return;
+            }
+            objModel.getNode("latitude").setDoubleValue(lat);
+            objModel.getNode("longitude").setDoubleValue(lon);
+            objModel.getNode("elevation").setDoubleValue(alt*M2FT);
+
+          }
+          if (exist == 0) {
+            # remove model
+            var objModel = objs["first"];
+            objModel.remove();
+            delete(objs, "first");
+          }
+
           if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
             return;
           }

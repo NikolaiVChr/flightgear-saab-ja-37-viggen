@@ -2389,7 +2389,7 @@ var HUDnasal = {
     if(mode == COMBAT) {
 
       var armSelect = me.input.station.getValue();
-      if(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett") {
+      if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett") {
 
         var bomb = nil;
         if(armament.AIM.active[armSelect-1] != nil) {
