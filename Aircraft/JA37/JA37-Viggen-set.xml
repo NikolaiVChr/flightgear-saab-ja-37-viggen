@@ -81,7 +81,7 @@
 
             <livery>
                 <!-- Default Livery -->
-                <file type="string">saf59.xml</file>
+                <file type="string">saf59</file>
                 <texture type="string">j37_texture.png</texture><!--
                 <name type="string">Swedish Air Force 59</name>
                 <owner type="string">SAF</owner>-->

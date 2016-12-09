@@ -449,8 +449,10 @@
           if (exist == 0) {
             # remove model
             var objModel = objs["first"];
-            objModel.remove();
-            delete(objs, "first");
+            if (objModel != nil) {
+              objModel.remove();
+              delete(objs, "first");
+            }
           }
 
           if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
