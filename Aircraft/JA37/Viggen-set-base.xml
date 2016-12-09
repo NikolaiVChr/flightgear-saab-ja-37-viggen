@@ -366,10 +366,10 @@
                 <!-- for Bombable: -->
                 <!--<string n="9" type="string"/>-->
                 <int n="10" type="int">0</int>                                                                      <!-- use this for flare (later) -->
-                <!--<int n="11" alias="/controls/armament/station[1]/trigger"/>   ammo for m71            
-                <int n="12" alias="/controls/armament/station[2]/trigger"/>          - // -     
-                <int n="13" alias="/controls/armament/station[3]/trigger"/>          - // -     
-                <int n="14" alias="/controls/armament/station[4]/trigger"/>          - // -  -->               
+                <int n="11" alias="/payload/weight[0]/ammo"/>  <!-- m71 ammo -->
+                <int n="12" alias="/payload/weight[1]/ammo"/>  
+                <int n="13" alias="/payload/weight[2]/ammo"/>       
+                <int n="14" alias="/payload/weight[3]/ammo"/>                      
                 <!-- misc -->
                 <!--<string n="0" alias="/sim/aircraft-version"/>-->
                 <string n="10" type="string">none</string><!-- flare -->
