@@ -29,11 +29,10 @@ Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
-Model: Make individual m71 show in MP.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
-Sim: Improve autopilot further. (alt-hold should use pitch not v-speed)
+Sim: Improve autopilot further.
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
 Sim: Reset controls after A/P let go of them.
@@ -72,7 +71,6 @@ Sim: Make dumb bombs not require a target.
 Sim: When inverted for more than 10 secs, let oil pressure be affected, and disrupt engine operations.
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Make flare over MP use int instead of String.
-Sim: Send m71 ammo over MP through int[11-14].
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
@@ -89,6 +87,7 @@ HUD: All track semi circles and semi box should have a line in them. (might degr
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
+HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
 
 
 
@@ -107,6 +106,7 @@ Model: CTRL-X in HUD view will not zoom to correct level.
 Model: Droptank indicator should really be a steerpoint indicator.
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 Model: sim load-lag when coming near other ja37. [reproduced, select anims are probably to blame]
+Model: All shader use of <use> does not work over MP.
 Radar: Shooting at imdrone ship, it blinks in and out before getting lock.
 Report: {JabberWocky} After A/P the plane consumes too much fuel. [not reproduceable]
 Sim: Check missile sound at KCA again..

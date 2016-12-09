@@ -2520,3 +2520,6 @@ Model: Made VID turn on only when power is available and RB-75 is selected and s
 Control: Disabled AoA limiter when A/P altitude hold is active.
 Sim: Fixed altitude hold combined with A/T AoA hold was unstable.
 Animation: Show wheels spinning in MP also.
+Model: Made individual m71 show over MP.
+Sim: Removed support for Bombable.
+Model: Changed default livery for AJS.
