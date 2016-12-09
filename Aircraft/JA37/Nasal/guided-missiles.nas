@@ -265,7 +265,6 @@ var AIM = {
 	del: func {
 		#print("deleted");
 		if (me.first == TRUE) {
-			first_in_air = FALSE;
 			me.resetFirst();
 		}
 		me.model.remove();
@@ -836,6 +835,7 @@ var AIM = {
 	},
 
 	resetFirst: func() {
+		first_in_air = FALSE;
 		setprop("rotors/main/blade[0]/flap-deg", 0);
 		setprop("rotors/main/blade[1]/flap-deg", 0);
 		setprop("rotors/main/blade[2]/flap-deg", 0);
