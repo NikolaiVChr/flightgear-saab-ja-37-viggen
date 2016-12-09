@@ -385,19 +385,19 @@
         var livery_update = aircraft.livery_update.new("Aircraft/JA37/Models/Liveries");
 
         var skip = 0;
-        var alt = getprop("rotors/main/blade[2]/flap-deg");
-        if (alt == nil) {
+        var alt = self.getNode("rotors/main/blade[2]/flap-deg");
+        if (alt == nil or alt.getValue() == nil) {
           skip = 1;
         }
 
         var objs = {};
 
         var loop = func () {
-          var lat = getprop("rotors/main/blade[0]/flap-deg");
-          var lon = getprop("rotors/main/blade[1]/flap-deg");
-          var alt = getprop("rotors/main/blade[2]/flap-deg");
+          var lat = self.getNode("rotors/main/blade[0]/flap-deg");
+          var lon = self.getNode("rotors/main/blade[1]/flap-deg");
+          var alt = self.getNode("rotors/main/blade[2]/flap-deg");
 
-          if(alt != 0) {
+          if(alt.getValue() != 0) {
             var objModel = objs["first"];
             if (objModel == nil) {
               # create model
@@ -430,7 +430,7 @@
             }
           }
           var exist = 0;
-          if(alt != 0) {
+          if(alt.getValue() != 0) {
             exist = 1;
 
             var objModel = objs["first"];
@@ -440,9 +440,9 @@
             } else {
               print("found a missile!");
             }
-            objModel.getNode("latitude").setDoubleValue(lat);
-            objModel.getNode("longitude").setDoubleValue(lon);
-            objModel.getNode("elevation").setDoubleValue(alt*M2FT);
+            objModel.getNode("latitude").setDoubleValue(lat.getValue());
+            objModel.getNode("longitude").setDoubleValue(lon.getValue());
+            objModel.getNode("elevation").setDoubleValue(alt.getValue()*M2FT);
 
           }
           if (exist == 0) {
