@@ -554,23 +554,6 @@ var loop_stores = func {
     flareCount = -1;
   }
 
-  #var mkeys = keys(armament.AIM.flying);
-  #var str = "";
-  #foreach(var m; mkeys) {
-  #  var mid = m;
-  #  m = armament.AIM.flying[m];
-  #  var lat = m.latN.getValue();
-  #  var lon = m.lonN.getValue();
-  #  var alt = m.altN.getValue();
-    #print();
-    #print(mid);
-    #print(lat);
-    #print(lon);
-    #print(alt);
-  #  str = str~mid~";"~lat~";"~lon~";"~alt~":";
-  #}
-  #setprop("sim/multiplay/generic/string[13]", str);
-
   settimer(func { loop_stores() }, STORES_UPDATE_PERIOD);
 }
 
