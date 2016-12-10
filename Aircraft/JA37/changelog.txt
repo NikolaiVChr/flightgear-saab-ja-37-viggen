@@ -2524,3 +2524,5 @@ Model: Made individual m71 show over MP.
 Sim: Removed support for Bombable.
 Model: Changed default livery for AJS.
 Sim: Made so only AoA throttle hold combined with altitude hold ignores AoA limiter.
+Effect: Fixed regression that cannon would no longer fire.
+Model: Fixed that 2 liveries were mixed together on SAF 01.
