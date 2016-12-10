@@ -2504,7 +2504,7 @@ Sim: Increased G to 8, before FG complains that you are overpulling Gs. Negative
 Sim: Tuned altitude A/P.
 Effect: Wingtip vapour is now from canards.
 
-4.010
+4.010 - 2016 December 12
 =====
 Model: Added VID display (black tube next to HUD) for AJ(S)-37, in real life used to aim RB-75 with.
 Model: {Pinto} Made much better HUDs.
