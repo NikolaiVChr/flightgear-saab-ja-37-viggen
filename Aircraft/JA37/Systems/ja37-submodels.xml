@@ -49,7 +49,7 @@
     <submodel>
         <name>cannon tracer</name>
         <model>Aircraft/JA37/Models/Armament/Weapons/KCA/tracer.xml</model>
-        <trigger>sim/multiplay/generic/int[10]</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <trigger>controls/armament/station[0]/trigger</trigger>        <!--  -->
         <speed>3383.33</speed>        <!-- ft/sec-->
         <repeat>true</repeat>
         <delay>0.22</delay>        <!-- secs between repeats, every 5th is tracer -->
@@ -73,7 +73,7 @@
     <submodel>
         <name>KCA cannon shell</name>
         <model>Models/Geometry/null.ac</model>
-        <trigger>sim/multiplay/generic/int[10]</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <trigger>controls/armament/station[0]/trigger</trigger>        <!--  -->
         <speed>3383.33</speed>
         <repeat>true</repeat>
         <delay>0.044</delay>
@@ -101,7 +101,7 @@
     <submodel>
         <name>cannonsmoke</name>
         <model>Aircraft/JA37/Models/Armament/Weapons/KCA/smoke.xml</model>
-        <trigger>sim/multiplay/generic/int[10]</trigger>        <!-- controls/armament/station[0]/trigger -->
+        <trigger>controls/armament/station[0]/trigger</trigger>        <!--  -->
         <speed>10.0</speed>
         <repeat>true</repeat>
         <delay>0.044</delay>

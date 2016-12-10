@@ -1,12 +1,5 @@
 <?xml version="1.0"?>
 <PropertyList>
-    <params>
-        <controls>
-            <aileron>controls/flight/aileron-ap</aileron>
-            <rudder>controls/flight/rudder</rudder>
-            <elevator>controls/flight/elevator-ap</elevator>
-        </controls>
-    </params>
 
     <pid-controller>
         <name>Roll target leveler</name>

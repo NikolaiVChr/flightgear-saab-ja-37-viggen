@@ -2523,3 +2523,4 @@ Animation: Show wheels spinning in MP also.
 Model: Made individual m71 show over MP.
 Sim: Removed support for Bombable.
 Model: Changed default livery for AJS.
+Sim: Made so only AoA throttle hold combined with altitude hold ignores AoA limiter.

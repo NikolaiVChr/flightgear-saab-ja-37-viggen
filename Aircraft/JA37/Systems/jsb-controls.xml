@@ -242,9 +242,11 @@
                 gear/unit[2]/WOW eq 1
             </test>
             <test logic="AND" value="0">
-                <!-- disable AoA limiter when A/P pitch is running -->
+                <!-- disable AoA limiter when A/P pitch is running with A/T AoA hold -->
                 /ja37/avionics/temp-halt-ap-pitch == 1
                 /ja37/avionics/auto-altitude-on == 1
+                /ja37/avionics/auto-throttle-on == 1
+                autopilot/AoA-hold == 1
             </test>
         </switch>
 

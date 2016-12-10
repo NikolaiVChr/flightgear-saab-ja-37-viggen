@@ -385,6 +385,8 @@
         var livery_update = aircraft.livery_update.new("Aircraft/JA37/Models/Liveries");
 
         var skip = 0;
+        var lat = self.getNode("rotors/main/blade[0]/flap-deg");
+        var lon = self.getNode("rotors/main/blade[1]/flap-deg");
         var alt = self.getNode("rotors/main/blade[2]/flap-deg");
         if (alt == nil or alt.getValue() == nil) {
           skip = 1;
@@ -392,10 +394,7 @@
 
         var objs = {};
 
-        var loop = func () {
-          var lat = self.getNode("rotors/main/blade[0]/flap-deg");
-          var lon = self.getNode("rotors/main/blade[1]/flap-deg");
-          var alt = self.getNode("rotors/main/blade[2]/flap-deg");
+        var loop = func () {          
 
           if(alt.getValue() != 0) {
             var objModel = objs["first"];
