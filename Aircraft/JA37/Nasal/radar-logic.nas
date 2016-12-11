@@ -64,7 +64,7 @@ var findRadarTracks = func () {
     var vehicles = input.ai_models.getChildren("groundvehicle");
     var rb24 = input.ai_models.getChildren("rb-24");
     var rb24j = input.ai_models.getChildren("rb-24j");
-	  var rb71 = input.ai_models.getChildren("rb-71");
+    var rb71 = input.ai_models.getChildren("rb-71");
     var rb74 = input.ai_models.getChildren("rb-74");
     var rb99 = input.ai_models.getChildren("rb-99");
     var rb15 = input.ai_models.getChildren("rb-15f");
@@ -89,7 +89,7 @@ var findRadarTracks = func () {
     processTracks(vehicles, FALSE, FALSE, FALSE, SURFACE);
     processTracks(rb24, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb24j, FALSE, TRUE, FALSE, ORDNANCE);
-	  processTracks(rb71, FALSE, TRUE, FALSE, ORDNANCE);
+    processTracks(rb71, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb74, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb99, FALSE, TRUE, FALSE, ORDNANCE);
     processTracks(rb15, FALSE, TRUE, FALSE, ORDNANCE);
@@ -322,7 +322,7 @@ var trackCalc = func (aircraftPos, range, carrier, mp, type, node) {
     #distance = math.sqrt(pow2(aircraftPos.z() - self.z()) + pow2(aircraftPos.y() - self.y()));
 
     #ground angle
-    var yg_rad = math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
+    var yg_rad = getPitch(self, aircraftPos)-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
     var xg_rad = (self.course_to(aircraftPos) - myHeading) * deg2rads;
 
     while (xg_rad > math.pi) {
@@ -527,8 +527,8 @@ var isGroundNotBehind = func(t_coord, t_node){
 
 var get_Elevation_from_Coord = func(t_coord) {
     # fix later: Nasal runtime error: floating point error in math.asin() when logged in as observer:
-    var myPitch = math.asin((t_coord.alt() - geo.aircraft_position().alt()) / t_coord.direct_distance_to(geo.aircraft_position())) * R2D;
-    return myPitch;
+    #var myPitch = math.asin((t_coord.alt() - geo.aircraft_position().alt()) / t_coord.direct_distance_to(geo.aircraft_position())) * R2D;
+    return getPitch(geo.aircraft_position(), t_coord)*R2D;
 }
 
 var get_horizon = func(own_alt, t_node){
@@ -702,11 +702,19 @@ var Contact = {
         obj.alt             = obj.posProp.getNode("altitude-ft");
         obj.lat             = obj.posProp.getNode("latitude-deg");
         obj.lon             = obj.posProp.getNode("longitude-deg");
+
+        obj.x             = obj.posProp.getNode("global-x");
+        obj.y             = obj.posProp.getNode("global-y");
+        obj.z             = obj.posProp.getNode("global-z");
 #});
 #debug.benchmark("radar process3", func {
         #As it is a geo.Coord object, we have to update lat/lon/alt ->and alt is in meters
         obj.coord = geo.Coord.new();
-        obj.coord.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.alt.getValue() * FT2M);
+        if (obj.x == nil or obj.x.getValue() == nil) {
+          obj.coord.set_latlon(obj.lat.getValue(), obj.lon.getValue(), obj.alt.getValue() * FT2M);
+        } else {
+          obj.coord.set_xyz(obj.x.getValue(), obj.y.getValue(), obj.z.getValue());
+        }
 #});
 #debug.benchmark("radar process4", func {
         obj.pitch           = obj.oriProp.getNode("pitch-deg");
@@ -786,10 +794,11 @@ var Contact = {
         e = me.elevation.getValue();
         if(e == nil or e == 0) {
             # AI/MP has no radar properties
-            var self = geo.aircraft_position();
-            me.get_Coord();
-            var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
-            e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
+            #var self = geo.aircraft_position();
+            #me.get_Coord();
+            #var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
+            #e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
+            e = getPitch(self, me.coord);
         }
         return e;
     },
@@ -938,14 +947,14 @@ var Contact = {
     },
 
     get_Elevation_from_Coord: func(MyAircraftCoord) {
-        me.get_Coord();
-        var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
-        if (math.abs(value) > 1) {
+        #me.get_Coord();
+        #var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
+        #if (math.abs(value) > 1) {
           # warning this else will fail if logged in as observer and see aircraft on other side of globe
-          return 0;
-        }
-        var myPitch = math.asin(value) * R2D;
-        return myPitch;
+        #  return 0;
+        #}
+        #var myPitch = math.asin(value) * R2D;
+        return getPitch(me.get_Coord(), MyAircraftCoord);
     },
 
     get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
@@ -1014,11 +1023,11 @@ var ContactGPS = {
   },
 
   getElevation: func() {
-      var e = 0;
-      var self = geo.aircraft_position();
-      var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
-      e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
-      return e;
+      #var e = 0;
+      #var self = geo.aircraft_position();
+      #var angleInv = ja37.clamp(self.distance_to(me.coord)/self.direct_distance_to(me.coord), -1, 1);
+      #e = (self.alt()>me.coord.alt()?-1:1)*math.acos(angleInv)*R2D;
+      return getPitch(self, me.coord);
   },
 
   getNode: func () {
@@ -1096,13 +1105,13 @@ var ContactGPS = {
   },
 
   get_Elevation_from_Coord: func(MyAircraftCoord) {
-      var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
-      if (math.abs(value) > 1) {
+      #var value = (me.coord.alt() - MyAircraftCoord.alt()) / me.coord.direct_distance_to(MyAircraftCoord);
+      #if (math.abs(value) > 1) {
         # warning this else will fail if logged in as observer and see aircraft on other side of globe
-        return 0;
-      }
-      var myPitch = math.asin(value) * R2D;
-      return myPitch;
+      #  return 0;
+      #}
+      #var myPitch = math.asin(value) * R2D;
+      return getPitch(me.get_Coord(), MyAircraftCoord) * R2D;
   },
 
   get_total_elevation_from_Coord: func(own_pitch, MyAircraftCoord){
@@ -1143,7 +1152,7 @@ var ContactGPS = {
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
 
-    var yg_rad = math.atan2(gpsAlt-myAlt, distance) - myPitch; 
+    var yg_rad = getPitch(self, me.coord)-myPitch;#math.atan2(gpsAlt-myAlt, distance) - myPitch; 
     var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
     
     while (xg_rad > math.pi) {
@@ -1159,7 +1168,7 @@ var ContactGPS = {
       yg_rad = yg_rad + 2*math.pi;
     }
 
-    #aircraft angle
+    #aircraft angle, remember positive roll is right
     var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
     var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
 
@@ -1193,7 +1202,7 @@ var ContactGPS = {
     var myHeading =  input.hdgReal.getValue();
     var distance  =  self.distance_to(me.coord);
 
-    var yg_rad = math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
+    var yg_rad = getPitch(self, me.coord)-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
     var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
     
     while (xg_rad > math.pi) {
@@ -1230,5 +1239,16 @@ var ContactGPS = {
 
     return [distanceRadar, xa_rad];
   },
-}
+};
 
+var getPitch = func (coord1, coord2) {
+  #pitch from c1 to c2
+  var coord3 = geo.Coord.new(coord1);
+  coord3.set_alt(coord2.alt());
+  var d12 = coord1.direct_distance_to(coord2);
+  var d32 = coord3.direct_distance_to(coord2);
+  var altD = coord1.alt()-coord3.alt();
+  var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
+  var pitch = -1* (90 - y);
+  return pitch*D2R;
+}

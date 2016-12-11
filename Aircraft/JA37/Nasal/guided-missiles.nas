@@ -893,9 +893,9 @@ var AIM = {
 	aspect: func () {
 		var rearAspect = 0;
 
-		var t_dist_m = me.coord.distance_to(me.t_coord);
-		var alt_delta_m = me.coord.alt() - me.t_coord.alt();
-		var elev_deg =  math.atan2( alt_delta_m, t_dist_m ) * R2D;
+		#var t_dist_m = me.coord.distance_to(me.t_coord);
+		#var alt_delta_m = me.coord.alt() - me.t_coord.alt();
+		var elev_deg =  me.getPitch(me.t_coord, me.coord);#math.atan2( alt_delta_m, t_dist_m ) * R2D; elevation to missile from target aircraft
 		var elevation_offset = elev_deg - me.Tgt.get_Pitch();
 
 		var course = me.t_coord.course_to(me.coord);
@@ -933,10 +933,10 @@ var AIM = {
 
 		# Calculate current target elevation and azimut deviation.
 		me.t_alt            = me.t_coord.alt()*M2FT;
-		var t_alt_delta_m   = (me.t_alt - me.alt_ft) * FT2M;
+		#var t_alt_delta_m   = (me.t_alt - me.alt_ft) * FT2M;
 		me.dist_curr        = me.coord.distance_to(me.t_coord);
 		me.dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
-		me.t_elev_deg       = math.atan2( t_alt_delta_m, me.dist_curr ) * R2D;
+		me.t_elev_deg       = me.getPitch(me.coord, me.t_coord);#math.atan2( t_alt_delta_m, me.dist_curr ) * R2D;
 		me.t_course         = me.coord.course_to(me.t_coord);
 		me.curr_deviation_e = me.t_elev_deg - me.pitch;
 		me.curr_deviation_h = me.t_course - me.hdg;
@@ -1426,6 +1426,18 @@ var AIM = {
 		c.set_xyz(x,y,z);
 
 		return c;
+	},
+
+	getPitch: func (coord1, coord2) {
+		#pitch from c1 to c2
+		  var coord3 = geo.Coord.new(coord1);
+		  coord3.set_alt(coord2.alt());
+		  var d12 = coord1.direct_distance_to(coord2);
+		  var d32 = coord3.direct_distance_to(coord2);
+		  var altD = coord1.alt()-coord3.alt();
+		  var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
+		  var pitch = -1* (90 - y);
+		  return pitch;
 	},
 
 	# aircraft searching for lock
