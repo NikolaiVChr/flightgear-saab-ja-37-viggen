@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+	<path>shadow-vol-ja37.ac</path>
+
+	<effect>
+	    <inherits-from>Effects/shadow-vol</inherits-from>
+	    <object-name>shadow-vol</object-name>
+	    <object-name>shadow-vol-tank</object-name>
+	</effect>
+
+	<animation>
+	    <object-name>shadow-vol</object-name>
+        <type>select</type>
+        <condition>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+	                <property>/sim/rendering/shaders/skydome</property>
+	                <value>1</value>
+				</equals>
+        </condition>
+    </animation>
+
+    <animation>
+	    <object-name>shadow-vol-tank</object-name>
+        <type>select</type>
+        <condition>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+	                <property>/sim/rendering/shaders/skydome</property>
+	                <value>1</value>
+				</equals>
+                <equals>
+				    <property>sim/multiplay/generic/int[16]</property><!-- consumables/fuel/tank[8]/jettisoned -->
+				    <value>0</value>
+				</equals>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>noshadow</type>
+	    <object-name>shadow-vol</object-name>
+	    <object-name>shadow-vol-tank</object-name>
+    </animation>
+
+	<!-- Pitch -->
+    <animation>
+        <type>rotate</type>
+	    <object-name>shadow-vol</object-name>
+	    <object-name>shadow-vol-tank</object-name>
+        <property>/orientation/pitch-deg</property>
+        <factor>-1.0</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <!-- Roll -->
+    <animation>
+        <type>rotate</type>
+	    <object-name>shadow-vol</object-name>
+	    <object-name>shadow-vol-tank</object-name>
+        <property>/orientation/roll-deg</property>
+        <factor>1.0</factor>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+</PropertyList>	

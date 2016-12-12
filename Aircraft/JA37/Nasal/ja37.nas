@@ -624,6 +624,8 @@ var speed_loop = func () {
     input.landLightALS.setBoolValue(FALSE);
   }
 
+  setprop("/position/altitude-agl-m", getprop("/position/altitude-agl-ft")*0.3048);                             # todo: make as filter
+
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
     settimer(speed_loop, 0.05);

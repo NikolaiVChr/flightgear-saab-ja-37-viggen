@@ -4,6 +4,12 @@
 
 	<path>ja37.ac</path>
 
+  <!-- ALS volume shadow -->
+  <!--<model>
+    <path>Aircraft/JA37/Models/Effects/ground-shadow/shadow.xml</path>
+    <name>shadow-volume</name>
+  </model>-->
+
 	<effect>
 	    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
 	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
