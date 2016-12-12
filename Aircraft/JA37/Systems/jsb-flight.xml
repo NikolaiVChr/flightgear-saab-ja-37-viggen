@@ -276,13 +276,13 @@
                           </product>
                         </sin>
                     </sum>
-                    <table>
+                    <!--<table>
                         <independentVar lookup="row">atmosphere/density-altitude</independentVar>
                         <tableData>
                               0.0         1.0
                           30000.0         0.0
                         </tableData>
-                    </table>
+                    </table>-->
                     <property>systems/flight/buffeting/magnitude</property>
                 </product>
             </function>

@@ -411,6 +411,10 @@
             <autopilot>
                 <path>Aircraft/JA37/Systems/Autopilot.xml</path>
             </autopilot>
+            <property-rule n="101">
+              <name>altitude_agl-m</name>
+              <path>Aircraft/JA37/Systems/rules-misc.xml</path>
+            </property-rule>
         </systems>
 
         <!--**********************************************************************
@@ -720,7 +724,7 @@
                         <var1 type="double">10</var1>
                         <var2 type="double">25</var2>
                         <var3 type="double">50</var3>
-                        <magnitude type="double">0.0005</magnitude>
+                        <magnitude type="double">0.00035</magnitude>
                     </buffeting>
                     <tertiary>
                         <state type="double">0</state>

@@ -53,6 +53,7 @@ input = {
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",
   dcVolt:           "systems/electrical/outputs/dc-voltage",
+  dens:             "fdm/jsbsim/atmosphere/density-altitude",
   dme:              "instrumentation/dme/KDI572-574/nm",
   dmeDist:          "instrumentation/dme/indicated-distance-nm",
   downFps:          "/velocities/down-relground-fps",
@@ -624,8 +625,6 @@ var speed_loop = func () {
     input.landLightALS.setBoolValue(FALSE);
   }
 
-  setprop("/position/altitude-agl-m", getprop("/position/altitude-agl-ft")*0.3048);                             # todo: make as filter
-
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
     settimer(speed_loop, 0.05);
@@ -698,20 +697,46 @@ var logTime = func{
   }
 }
 
+var map = func (value, leftMin, leftMax, rightMin, rightMax) {
+      # Figure out how 'wide' each range is
+      var leftSpan = leftMax - leftMin;
+      var rightSpan = rightMax - rightMin;
+
+      # Convert the left range into a 0-1 range (float)
+      var valueScaled = (value - leftMin) / leftSpan;
+
+      # Convert the 0-1 range into a value in the right range.
+      return rightMin + (valueScaled * rightSpan);
+}
+
 var theShakeEffect = func{
-  var rSpeed = input.airspeed.getValue();
+  var rSpeed = input.airspeed.getValue();#change to ground speed
   var G = input.pilotG.getValue();
   var alpha = input.alpha.getValue();
   var mach = input.mach.getValue();
   var wow = input.wow1.getValue();
-  var myTime = input.elapsed.getValue();
 
-  if (rSpeed == nil or G == nil or alpha == nil or mach == nil or wow == nil or myTime == nil) {
+  if (rSpeed == nil or G == nil or alpha == nil or mach == nil or wow == nil) {
     return;
   }
 
-  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>20) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
-    input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()); 
+  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>4.5) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
+    var factor = 0;
+    var densFactor = clamp(1-input.dens.getValue()/30000, 0, 1);
+    if (G > 7) {
+      factor += map(G,7,9,0,1)*densFactor;
+    }
+    if (alpha > 4.5 and rSpeed > 30 and mach < 1) {
+      factor += map(alpha,4.5,12,0,1)*densFactor;# manual says no buffeting from alpha at mach 1+. And that it starts from 4.5 and goes to max at 12.
+    }
+    if (mach>0.97 and mach<1.05) {
+      factor += 1*densFactor;
+    }
+    if (wow and rSpeed>100) {
+      factor += map(rSpeed,100,200,0,1);
+    }
+    factor = clamp(factor,0,1);
+    input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()*factor); 
   }elsif (input.viewName.getValue() == "Cockpit View") {
     input.viewYOffset.setDoubleValue(defaultView);
   } 
