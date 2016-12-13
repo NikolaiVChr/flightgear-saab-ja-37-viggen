@@ -1,6 +1,6 @@
 ###########################################################################
 #######	
-####### Guided missiles code for Flightgear. 
+####### Guided/Cruise missiles and dumb/glide bombs code for Flightgear.
 #######
 ####### License: GPL 2
 #######
@@ -93,7 +93,7 @@ var AIM = {
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 		m.trackWeak         = 1;
 
-		m.prop              = AcModel.getNode("armament/"~m.type_lc~"/").getChild("msl", 0 , 1);
+		m.prop              = AcModel.getNode("armament/"~m.type_lc~"/").getChild("msl", 0, 1);
 		m.SwSoundOnOff      = AcModel.getNode("armament/"~m.type_lc~"/sound-on-off");
         m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume");
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
@@ -119,7 +119,6 @@ var AIM = {
 		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");
 		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");
 		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");
-		#m.searcher_beam_width   = getprop("payload/armament/"~m.type_lc~"/searcher-beam-width");
 		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");
 		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
 		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");
@@ -1639,7 +1638,7 @@ var AIM = {
 		} elsif ( v > mm ) {
 			v = mm;
 		}
-	return(v);
+		return(v);
 	},
 
 	clamp: func(v, min, max) { v < min ? min : v > max ? max : v },
@@ -1800,7 +1799,6 @@ setprop("payload/armament/hud/hud-sw-reticle-switch/enabled", 1);
 
 
 
-var OurRoll            = props.globals.getNode("orientation/roll-deg");
 var eye_hud_m          = 0.6;#pilot: -3.30  hud: -3.9
 var hud_radius_m       = 0.100;
 
