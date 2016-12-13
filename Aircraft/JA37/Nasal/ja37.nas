@@ -732,7 +732,7 @@ var theShakeEffect = func{
     if (mach>0.97 and mach<1.05) {
       factor += 1*densFactor;
     }
-    if (wow and rSpeed>100) {
+    if (wow == TRUE and rSpeed > 100) {
       factor += map(rSpeed,100,200,0,1);
     }
     factor = clamp(factor,0,1);

@@ -15,7 +15,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>AoA Indicator</tooltip-id>
-                <label>Angle of Attack: %0.1f°</label>
+                <label>Angle of Attack: %0.1f°</label><!-- change this to show it indicates pitch at wow -->
                 <property>orientation/alpha-deg</property>
             </binding>
         </hovered>
@@ -50,12 +50,24 @@
         <property>fdm/jsbsim/systems/flight/aoa-indicator</property>
         <interpolation>
             <entry>
-                <ind>-7</ind>
-                <dep>-55</dep>
+                <ind>-4</ind>
+                <dep>-123</dep>
+            </entry>
+            <entry>
+                <ind>0</ind>
+                <dep>-92</dep>
+            </entry>
+            <entry>
+                <ind>10</ind>
+                <dep>-5</dep>
+            </entry>
+            <entry>
+                <ind>20</ind>
+                <dep>79</dep>
             </entry>
             <entry>
                 <ind>30</ind>
-                <dep>250</dep>
+                <dep>159</dep>
             </entry>
         </interpolation>
         <center>

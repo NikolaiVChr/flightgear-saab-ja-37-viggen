@@ -16,7 +16,6 @@ Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
-Model: The minimum AoA the indicator should show is -4 degrees, not -7.
 Model: Fix that landing gear oleo struts now are too bright.
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
 Model: Make the tooltips fail when gauge fail.

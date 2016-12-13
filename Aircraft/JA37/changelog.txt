@@ -1,6 +1,6 @@
-==============================================
-Flightgear Saab JA-37 / AJ-37 Viggen Changelog
-==============================================
+===================================
+Flightgear Saab 37 Viggen Changelog
+===================================
 
 1.0 - Late 2012
 ---
@@ -2545,3 +2545,5 @@ Sim: Better init of armament position.
 Sim: Removed double declaration of variable in missile code.
 Sim: Made RB-15F be terrain following again.
 Effect: Made all weapon smoke trails be unaffected by lightning as it don't work proper anyway.
+Model: Made AoA indicator look more like the real in Viggen.
+Model: The minimum AoA the indicator should show is now -4 degrees, not -7.
