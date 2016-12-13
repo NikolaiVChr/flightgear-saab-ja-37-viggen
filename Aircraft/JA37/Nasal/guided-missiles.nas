@@ -1004,8 +1004,8 @@ var AIM = {
 						if (me.flareNumber != nil and me.flareNumber != me.lastFlare) {
 							# target has released a new flare, lets check if it fools us
 							me.lastFlare = me.flareNumber;
-							me.aspect = me.aspect() / 180;
-							me.fooled = rand() < (0.2 + 0.1 * me.aspect);
+							me.aspectDeg = me.aspect() / 180;
+							me.fooled = rand() < (0.2 + 0.1 * me.aspectDeg);
 							# 20% chance to be fooled, extra up till 10% chance added if front aspect
 							if (me.fooled) {
 								# fooled by the flare
