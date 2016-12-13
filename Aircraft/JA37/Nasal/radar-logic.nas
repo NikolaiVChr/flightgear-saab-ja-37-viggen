@@ -386,7 +386,7 @@ var RadarLogic = {
           if (me.doppler(aircraftPos, node) == TRUE) {
             # doppler picks it up, must be an aircraft
             type = AIR;
-          } elsif (aircraftAlt > 1) {
+          } elsif (me.aircraftAlt > 1) {
             # doppler does not see it, and is not on sea, must be ground target
             type = SURFACE;
           } else {
