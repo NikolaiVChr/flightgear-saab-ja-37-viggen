@@ -123,12 +123,12 @@ var AIM = {
 		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly straight
 		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");     # time before selfdestruct
 		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar
-		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of aircraft
+		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
 		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
-		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");             # sound volume beofre getting solid lock
-		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only used in heat seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
-        m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");              # if 0 then it wont snap up. if below 10000 then is cruise altitude above ground. If above then max altitude it will snap up to.
+		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");             # sound volume before getting solid lock
+		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only for heat seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
+        m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");              # if 0 then no snap up. Below 10000 then cruise altitude above ground. Above 10000 max altitude it will snap up to.
         m.follow                = getprop("payload/armament/"~m.type_lc~"/terrain-follow");             # used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");          # it wont get solid lock before the target has this range
         m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");                       # if the weapon is rail or tube fired set to true. If dropped 7ft before ignited set to false.
@@ -260,6 +260,11 @@ var AIM = {
 		m.lastFlare = 0;
 		m.explodeSound = TRUE;
 		m.first = FALSE;
+
+		# these 3 is used for limiting spam to console:
+		m.heatLostLock = FALSE;
+		m.semiLostLock = FALSE;
+		m.tooLowSpeed  = FALSE;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
 		m.SwSoundVol.setDoubleValue(m.vol_search);
@@ -436,7 +441,8 @@ var AIM = {
 		#settimer(func { HudReticleDeg.setValue(0) }, 2);
 		#interpolate(HudReticleDev, 0, 2);
 
-		printf("Launch %s at %s, %.1f Mach, %5d ft.", me.type, me.callsign, getprop("velocities/mach"), getprop("position/altitude-ft"));
+		me.startMach = getprop("velocities/mach");
+		printf("Launch %s at %s, %.1f Mach, %5d ft.", me.type, me.callsign, me.startMach, getprop("position/altitude-ft"));
 
 		me.mass = me.weight_launch_lbs / slugs_to_lbs;
 
@@ -685,11 +691,7 @@ var AIM = {
 				#
 				me.guide();
 				me.limitG();
-				if (me.all_aspect == FALSE and me.rear_aspect() == FALSE) {
-	            	me.track_signal_e = 0;
-	            	me.track_signal_h = 0;
-	            	print(me.type~": Heat seeking missile lost lock, attempting to reaquire..");
-	            }
+				
 	            me.pitch      += me.track_signal_e;
             	me.hdg        += me.track_signal_h;
 	            #printf("%.1f deg elevation command done, new pitch: %.1f deg", me.track_signal_e, pitch_deg);
@@ -804,7 +806,7 @@ var AIM = {
 			me.exploded = me.proximity_detection();
 			
 			if (me.exploded == TRUE) {
-				printf("%s max speed was %.2f Mach.", me.type, me.maxMach);
+				printf("%s max absolute speed was %.2f Mach. Max relative speed was %.2f Mach.", me.type, me.maxMach, me.maxMach-me.startMach);
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = me.sound_fps;
 				me.sndDistance = 0;
@@ -1025,16 +1027,37 @@ var AIM = {
 		if(me.speed_m < me.min_speed_for_guiding) {
 			# it doesn't guide at lower speeds
 			me.guiding = FALSE;
-			print(me.type~": Not guiding (too low speed)");
+			if (me.tooLowSpeed == FALSE) {
+				print(me.type~": Not guiding (too low speed)");
+			}
+			me.tooLowSpeed = TRUE;
 		} elsif (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE) {
 			# if its semi-radar guided and the target is no longer painted
 			me.guiding = FALSE;
-			print(me.type~": Not guiding (lost radar reflection, trying to reaquire)");
+			if (me.semiLostLock == FALSE) {
+				print(me.type~": Not guiding (lost radar reflection, trying to reaquire)");
+			}
+			me.semiLostLock = TRUE;
 		} elsif (me.curr_deviation_e > me.max_seeker_dev or me.curr_deviation_e < (-1 * me.max_seeker_dev)
 			  or me.curr_deviation_h > me.max_seeker_dev or me.curr_deviation_h < (-1 * me.max_seeker_dev)) {
 			# target is not in missile seeker view anymore
-			print(me.type~": Target is not in missile seeker view anymore");
+			print(me.type~": Target is not in missile seeker view anymore.");
 			me.free = TRUE;
+		} elsif (me.all_aspect == FALSE and me.rear_aspect() == FALSE) {
+			me.guiding = FALSE;
+           	if (me.heatLostLock == FALSE) {
+        		print(me.type~": Missile lost heat lock, attempting to reaquire..");
+        	}
+        	me.heatLostLock = TRUE;
+		} elsif (me.semiLostLock == TRUE) {
+			print(me.type~": Reaquired radar reflection.");
+			me.semiLostLock = FALSE;
+		} elsif (me.heatLostLock == TRUE) {
+	       	print(me.type~": Regained heat lock.");
+	       	me.heatLostLock = FALSE;
+	    } elsif (me.tooLowSpeed == TRUE) {
+			print(me.type~": Gained speed and started guiding.");
+			me.tooLowSpeed = FALSE;
 		}
 	},
 
@@ -1076,9 +1099,9 @@ var AIM = {
 
         	# detect terrain for use in terrain following
         	me.nextGroundElevationMem[1] -= 1;
-            me.geoPlus2 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*5);
-            me.geoPlus3 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*10);
-            me.geoPlus4 = nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*20);
+            me.geoPlus2 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*5);
+            me.geoPlus3 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*10);
+            me.geoPlus4 = me.nextGeoloc(me.coord.lat(), me.coord.lon(), me.hdg, me.old_speed_fps, me.dt*20);
             me.e1 = geo.elevation(me.coord.lat(), me.coord.lon());# This is done, to make sure is does not decline before it has passed obstacle.
             me.e2 = geo.elevation(me.geoPlus2.lat(), me.geoPlus2.lon());# This is the main one.
             me.e3 = geo.elevation(me.geoPlus3.lat(), me.geoPlus3.lon());# This is an extra, just in case there is an high cliff it needs longer time to climb.
@@ -1750,6 +1773,17 @@ var AIM = {
 		return me.lastgoodguess;
 	},
 
+	nextGeoloc: func(lat, lon, heading, speed, dt, alt=100) {
+	    # lng & lat & heading, in degree, speed in fps
+	    # this function should send back the futures lng lat
+	    me.distanceN = speed * dt * FT2M; # should be a distance in meters
+	    #print("distance ", distance);
+	    # much simpler than trigo
+	    me.NextGeo = geo.Coord.new().set_latlon(lat, lon, alt);
+	    me.NextGeo.apply_course_distance(heading, me.distanceN);
+	    return NextGeo;
+	},
+
 	active: {},
 	flying: {},
 };
@@ -1877,17 +1911,6 @@ var rho_sndspeed = func(altitude) {
 	var snd_speed = math.sqrt( 1.4 * 1716 * (T + 459.7));
 	return [rho, snd_speed];
 
-}
-
-var nextGeoloc = func(lat, lon, heading, speed, dt, alt=100){
-    # lng & lat & heading, in degree, speed in fps
-    # this function should send back the futures lng lat
-    var distance = speed * dt * FT2M; # should be a distance in meters
-    #print("distance ", distance);
-    # much simpler than trigo
-    var NextGeo = geo.Coord.new().set_latlon(lat, lon, alt);
-    NextGeo.apply_course_distance(heading, distance);
-    return NextGeo;
 }
 
 #var AIM_instance = [nil, nil,nil,nil];#init aim-9
