@@ -2531,3 +2531,17 @@ Model: Fixed that 2 liveries were mixed together on SAF 01.
 =====
 Sim: Getting pitch to target now takes curvature of earth into account, in missiles and radar.
 Model: Converted some flat shaded faces to smooth shaded on fuselage.
+Effect: Made buffeting smarter and more correct.
+Effect: Floodlight is now more lit.
+Sim: Armaments now is optimized for Nasal garbage collection.
+Sim: Armaments now makes bigger effort to find impact distance.
+Radar: Converted radar logic to be object oriented.
+Sim: Armament no longer reports bleed in console. But now reports type, in other messages.
+Radar: Radar logic now optimized for Nasal garbage collection.
+Sim: More accurate way of passing target location updates to armament.
+HUD: Reduced texture imprint by 4 times.
+Radar: Reduced texture imprint by 4 times.
+Sim: Better init of armament position.
+Sim: Removed double declaration of variable in missile code.
+Sim: Made RB-15F be terrain following again.
+Effect: Made all weapon smoke trails be unaffected by lightning as it don't work proper anyway.

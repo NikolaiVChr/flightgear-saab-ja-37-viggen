@@ -5,7 +5,7 @@
    <texture>../smoke.png</texture>
 
    <emissive type="bool">false</emissive>
-   <lighting type="bool">true</lighting>
+   <lighting type="bool">false</lighting>
 
    <condition>
          <property>payload/armament/rb-24j/flags/smoke-id-0</property>
