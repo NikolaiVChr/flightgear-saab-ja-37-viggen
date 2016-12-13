@@ -563,7 +563,7 @@ var AIM = {
 
 	flight: func {#GCD
 		if (me.Tgt.isValid() == FALSE) {
-			print("Target went away, deleting missile.");
+			print(me.type~": Target went away, deleting missile.");
 			me.del();
 			return;
 		}
@@ -688,7 +688,7 @@ var AIM = {
 				if (me.all_aspect == FALSE and me.rear_aspect() == FALSE) {
 	            	me.track_signal_e = 0;
 	            	me.track_signal_h = 0;
-	            	print("Heat seeking missile lost lock, attempting to reaquire..");
+	            	print(me.type~": Heat seeking missile lost lock, attempting to reaquire..");
 	            }
 	            me.pitch      += me.track_signal_e;
             	me.hdg        += me.track_signal_h;
@@ -790,7 +790,7 @@ var AIM = {
 
 				if ( me.g > me.max_g_current and me.init_launch != 0) {
 					me.free = TRUE;
-					print("Missile attempted to pull too many G, it broke.");
+					printf("%s: Missile attempted to pull too many G, it broke.", me.type);
 				}
 			} else {
 				me.g = 0;
@@ -801,10 +801,10 @@ var AIM = {
 #printf("Mach %02.1f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, thrust_lbf, me.g);
 #printf("Alt %05.1f ft", alt_ft);
 
-			me.exploded = me.poximity_detection();
+			me.exploded = me.proximity_detection();
 			
 			if (me.exploded == TRUE) {
-				printf("%s max speed was %.2f Mach, bleed %4d kt.", me.type, me.maxMach, me.energyBleedKt);
+				printf("%s max speed was %.2f Mach.", me.type, me.maxMach);
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = me.sound_fps;
 				me.sndDistance = 0;
@@ -863,7 +863,7 @@ var AIM = {
             #print(sprintf("G1 %.2f", myG));
             me.myG2 = me.steering_speed_G(me.track_signal_e, me.track_signal_h, me.old_speed_fps, me.dt);
             #print(sprintf("G2 %.2f", myG)~sprintf(" - Coeff %.2f", MyCoef));
-            printf("Missile pulling almost max G: %.1f G", me.myG2);
+            printf("%s: Missile pulling almost max G: %.1f G", me.type, me.myG2);
         }
 	},
 
@@ -1009,10 +1009,10 @@ var AIM = {
 							# 20% chance to be fooled, extra up till 10% chance added if front aspect
 							if (me.fooled) {
 								# fooled by the flare
-								print("Missile fooled by flare");
+								print(me.type~": Missile fooled by flare");
 								me.free = TRUE;
 							} else {
-								print("Missile ignored flare");
+								print(me.type~": Missile ignored flare");
 							}
 						}
 					}
@@ -1025,15 +1025,15 @@ var AIM = {
 		if(me.speed_m < me.min_speed_for_guiding) {
 			# it doesn't guide at lower speeds
 			me.guiding = FALSE;
-			print("Not guiding (too low speed)");
+			print(me.type~": Not guiding (too low speed)");
 		} elsif (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE) {
 			# if its semi-radar guided and the target is no longer painted
 			me.guiding = FALSE;
-			print("Not guiding (lost radar reflection, trying to reaquire)");
+			print(me.type~": Not guiding (lost radar reflection, trying to reaquire)");
 		} elsif (me.curr_deviation_e > me.max_seeker_dev or me.curr_deviation_e < (-1 * me.max_seeker_dev)
 			  or me.curr_deviation_h > me.max_seeker_dev or me.curr_deviation_h < (-1 * me.max_seeker_dev)) {
 			# target is not in missile seeker view anymore
-			print("Target is not in missile seeker view anymore");
+			print(me.type~": Target is not in missile seeker view anymore");
 			me.free = TRUE;
 		}
 	},
@@ -1052,7 +1052,7 @@ var AIM = {
 				#print(sprintf("last-elev=%.1f", me.last_deviation_e)~sprintf(" last-elev-adj=%.1f", me.last_track_e));
 				#print(sprintf("last-head=%.1f", me.last_deviation_h)~sprintf(" last-head-adj=%.1f", me.last_track_h));
 				# lost lock due to angular speed limit
-				printf("%.1f deg/s too big angular change for seeker head.", me.deviation_per_sec);
+				printf("%s: %.1f deg/s too big angular change for seeker head.", me.type, me.deviation_per_sec);
 				me.free = TRUE;
 			}
 		}
@@ -1086,7 +1086,7 @@ var AIM = {
 			if (me.e1 != nil) {
             	me.nextGroundElevation = me.e1;
             } else {
-            	print("nil terrain, blame terrasync! Cruise-missile keeping altitude.");
+            	print(me.type~": nil terrain, blame terrasync! Cruise-missile keeping altitude.");
             }
             if (me.e2 != nil and me.e2 > me.nextGroundElevation) {
             	me.nextGroundElevation = me.e2;
@@ -1328,7 +1328,7 @@ var AIM = {
 	    return rightMin + (valueScaled * rightSpan);
 	},
 
-	poximity_detection: func {#GCD
+	proximity_detection: func {#GCD
 		me.cur_dir_dist_m = me.coord.direct_distance_to(me.t_coord);
 		# Get current direct distance.
 		if ( me.direct_dist_m != nil and me.life_time > me.arming_time) {
