@@ -662,6 +662,7 @@
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">1500</self-destruct-time-sec>  
                     <loft-altitude>100</loft-altitude>
+                    <terrain-follow type="bool">true</terrain-follow>
                     <min-fire-range-nm type="double">0.5</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <max-report-distance type="double">65</max-report-distance>
@@ -694,6 +695,7 @@
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">120</self-destruct-time-sec>
                     <loft-altitude>600</loft-altitude>             <!-- source: terrain follow, but dont trust it -->
+                    <terrain-follow type="bool">true</terrain-follow>
                     <min-fire-range-nm type="double">0.1</min-fire-range-nm>             <!-- source: VERY close -->
                     <max-report-distance type="double">250</max-report-distance>
                     <rail type="bool">false</rail>
@@ -758,6 +760,7 @@
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">140</self-destruct-time-sec>
                     <loft-altitude>50</loft-altitude>                                     <!-- source -->
+                    <terrain-follow type="bool">false</terrain-follow>
                     <min-fire-range-nm type="double">0.1</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <max-report-distance type="double">65</max-report-distance>

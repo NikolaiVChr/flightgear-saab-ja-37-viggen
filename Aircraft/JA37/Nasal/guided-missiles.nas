@@ -106,36 +106,37 @@ var AIM = {
 		m.speed_m           = 0;
 
 		# AIM specs:
-		m.aim9_fov_diam         = getprop("payload/armament/"~m.type_lc~"/FCS-field-deg");
+		m.aim9_fov_diam         = getprop("payload/armament/"~m.type_lc~"/FCS-field-deg");              # fire control system total field of view
 		m.aim9_fov              = m.aim9_fov_diam / 2;
-		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-fire-range-nm");
-		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/seeker-field-deg") / 2;
-		m.force_lbs_1           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-1");
-		m.force_lbs_2           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-2");
-		m.stage_1_duration      = getprop("payload/armament/"~m.type_lc~"/stage-1-duration-sec");
-		m.stage_2_duration      = getprop("payload/armament/"~m.type_lc~"/stage-2-duration-sec");
-		m.weight_launch_lbs     = getprop("payload/armament/"~m.type_lc~"/weight-launch-lbs");
-		m.weight_whead_lbs      = getprop("payload/armament/"~m.type_lc~"/weight-warhead-lbs");
-		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");
-		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");
-		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");
-		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");
-		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach");
-		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");
-		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");
-		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");
-		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");
-		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");
-		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");
-		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");
-        m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");
-        m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");
-        m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");
-        m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");
-        m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");
-        m.class                 = getprop("payload/armament/"~m.type_lc~"/class");
-        m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");
-        m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");
+		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-fire-range-nm");          # max range that the FCS allows firing
+		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/seeker-field-deg") / 2;       # missiles own seekers total FOV
+		m.force_lbs_1           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-1");         # stage 1 thrust, set both stages to zero to simulate gravity bomb, set them to 1 to simulate glide bomb
+		m.force_lbs_2           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-2");         # stage 2 thrust
+		m.stage_1_duration      = getprop("payload/armament/"~m.type_lc~"/stage-1-duration-sec");       # stage 1 duration
+		m.stage_2_duration      = getprop("payload/armament/"~m.type_lc~"/stage-2-duration-sec");       # stage 2 duration
+		m.weight_launch_lbs     = getprop("payload/armament/"~m.type_lc~"/weight-launch-lbs");          # total weight of armament
+		m.weight_whead_lbs      = getprop("payload/armament/"~m.type_lc~"/weight-warhead-lbs");         # warhead weight
+		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");                 # drag coefficient
+		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");                  # normally is crosssection area of missile (without fins)
+		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");                      # max G-force the missile can pull at sealevel
+		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");            # time for weapon to arm
+		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly straight
+		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");     # time before selfdestruct
+		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar
+		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of aircraft
+		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
+		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
+		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");             # sound volume beofre getting solid lock
+		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only used in heat seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
+        m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");              # if 0 then it wont snap up. if below 10000 then is cruise altitude above ground. If above then max altitude it will snap up to.
+        m.follow                = getprop("payload/armament/"~m.type_lc~"/terrain-follow");             # used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
+        m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");          # it wont get solid lock before the target has this range
+        m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");                       # if the weapon is rail or tube fired set to true. If dropped 7ft before ignited set to false.
+        m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");              # length of tube/rail
+        m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");         # true for rail, false for vertical tube
+        m.class                 = getprop("payload/armament/"~m.type_lc~"/class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
+        m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this missile
+        m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # max distance from target the missile will report that it has exploded, instead of just passed.
 		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.elapsed_last          = 0;
 
@@ -1105,7 +1106,7 @@ var AIM = {
             }
 
             me.Daground = 0;# zero for sealevel in case target is ship. Don't shoot A/S missiles over terrain. :)
-            if(me.Tgt.get_type() == SURFACE) {
+            if(me.Tgt.get_type() == SURFACE or me.follow == TRUE) {
                 me.Daground = me.nextGroundElevation * M2FT;
             }
             me.loft_alt_curr = me.loft_alt;

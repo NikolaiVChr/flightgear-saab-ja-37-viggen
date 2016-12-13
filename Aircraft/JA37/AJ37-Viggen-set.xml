@@ -588,6 +588,7 @@
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">140</self-destruct-time-sec>
                     <loft-altitude>50</loft-altitude>                                     <!-- source -->
+                    <terrain-follow type="bool">false</terrain-follow>
                     <min-fire-range-nm type="double">0.1</min-fire-range-nm>
                     <rail type="bool">false</rail>
                     <max-report-distance type="double">65</max-report-distance>
