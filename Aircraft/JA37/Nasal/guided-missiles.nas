@@ -673,7 +673,7 @@ var AIM = {
 		}
 
 		# Get target position.
-		me.t_coord.set_latlon(me.Tgt.get_Latitude(), me.Tgt.get_Longitude(), me.Tgt.get_altitude() * FT2M);
+		me.t_coord = me.Tgt.get_Coord();
 
 		###################
 		#### Guidance.#####

@@ -822,7 +822,11 @@ var Contact = {
     },
 
     get_Coord: func(){
-        me.coord.set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue() * FT2M);
+        if (me.x != nil and me.x.getValue() != nil) {
+          me.coord.set_xyz(me.x.getValue(), me.y.getValue(), me.z.getValue());
+        } else {
+          me.coord.set_latlon(me.lat.getValue(), me.lon.getValue(), me.alt.getValue() * FT2M);
+        }
         var TgTCoord  = geo.Coord.new(me.coord);
         return TgTCoord;
     },
