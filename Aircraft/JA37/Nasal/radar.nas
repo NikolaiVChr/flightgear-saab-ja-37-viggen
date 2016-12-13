@@ -10,7 +10,7 @@ var TRUE  = 1;
 var abs = func(n) { n < 0 ? -n : n }
 var sgn = func(n) { n < 0 ? -1 : 1 }
 var g = nil;
-var pixels_max = 256;
+var pixels_max = 128;
 
 # radar canon color
 var black_r = 0.0;

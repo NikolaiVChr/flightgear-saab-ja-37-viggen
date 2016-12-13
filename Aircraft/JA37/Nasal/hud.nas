@@ -50,7 +50,7 @@ var HUDBottom = 0.63; # position of bottom of HUD in meters. 0.63
 #var HUDHoriz = -4.0; # position of HUD on x axis in meters. -4.0
 var HUDHoriz = -4.06203;#pintos new hud
 var HUDHeight = HUDTop - HUDBottom; # height of HUD
-var canvasWidth = 512;
+var canvasWidth = 256;
 var max_width = (450/1024)*canvasWidth;
 # HUD z is 0.63 - 0.77. Height of HUD is 0.14m
 # Therefore each pixel is 0.14 / 1024 = 0.00013671875m or each meter is 7314.2857142857142857142857142857 pixels.
