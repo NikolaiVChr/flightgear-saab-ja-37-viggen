@@ -8,7 +8,7 @@
 #######  XIII, 5N1N0B1, Nikolai V. Chr.
 ####### 
 ####### In addition, some code is derived from work by:
-#######  David Culp, Vivian Meazza
+#######  David Culp, Vivian Meazza, M. Franz
 #######
 ###########################################################################
 
@@ -567,7 +567,7 @@ var AIM = {
 			me.del();
 			return;
 		}
-		me.dt = deltaSec.getValue();#TODO: find out more about how this property works (most likely time since last time nasal timers were called)
+		me.dt = deltaSec.getValue();#TODO: time since last time nasal timers were called
 		if (me.dt == 0) {
 			#FG is likely paused
 			me.paused = 1;

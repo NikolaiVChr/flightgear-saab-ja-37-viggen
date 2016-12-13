@@ -96,10 +96,11 @@ Armament
 -----
 JA37: 30mm Cannon with authentic shell properties and accurate recoil.
 JA37: Unguided rocket pods and guided RB-24J, RB-74, RB-99 and RB-71 air2air missiles, that can be fired at AI and MP alike.
-AJ37: Unguided rocket and cannon pods and guided RB-75, RB-04, RB-05, M90 and RB-15F air2ground missiles. Plus 3 kinds of sidewinders.
+AJ37: Unguided rocket and cannon pods and guided RB-75, RB-04, RB-05 air2surface weapons. Plus sidewinders; RB-24, RB-24J, RB-74.
+AJS37: Unguided rocket and cannon pods and guided RB-75, RB-04, RB-05, M90 and RB-15F air2surface weapons. Plus sidewinders; RB-24, RB-24J, RB-74.
 RB-24 / RB-24J works as rear aspect only.
 Dual releasing flares that work against RB24, RB-24J and RB74.
-Compatible with the Bombable addon.
+M71 dumb bombs with CCIP aiming.
 Ability to target a GPS coordinate and fire at it.
 
 Model
