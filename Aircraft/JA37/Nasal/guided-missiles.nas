@@ -386,9 +386,9 @@ var AIM = {
 		}
 
 		me.pitchN.setDoubleValue(ac_pitch);
-		me.rollN.setDoubleValue(ac_roll);
+		me.rollN.setDoubleValue(0);
 
-		me.coord.set_latlon(mlat, mlon, malt * FT2M);
+		me.coord = geo.Coord.new(init_coord);
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
 		me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
