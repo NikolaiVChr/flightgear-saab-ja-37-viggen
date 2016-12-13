@@ -1781,7 +1781,7 @@ var AIM = {
 	    # much simpler than trigo
 	    me.NextGeo = geo.Coord.new().set_latlon(lat, lon, alt);
 	    me.NextGeo.apply_course_distance(heading, me.distanceN);
-	    return NextGeo;
+	    return me.NextGeo;
 	},
 
 	active: {},
