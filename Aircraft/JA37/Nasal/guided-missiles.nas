@@ -946,6 +946,7 @@ var AIM = {
 			# the greater angle away from clear engine view the greater chance of losing lock.
 			me.offset_away = me.offset - 45;
 			me.probability = me.offset_away/135;
+			me.probability = me.probability*2.5;# The higher the factor, the less chance to keep lock.
 			me.rearAspect = rand() > me.probability;
 		}
 
