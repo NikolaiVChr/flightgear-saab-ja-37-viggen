@@ -2559,3 +2559,4 @@ Effect: Reduced armament smoke particles to avoid crashing.
 Sim: IR missiles now report if missed and if they were fooled by flare.
 Sim: Added possibility to specify navigation system for guided munitions.
 Sim: RB-05 no longer uses APN, but flies direct to target.
+Sim: Guided munitions no longer to take alpha and beta of target into account, it was too unreliable.

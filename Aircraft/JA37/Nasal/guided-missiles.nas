@@ -17,7 +17,7 @@
 # Firstly make sure you read the comments (line 150+) below for the properties.
 # For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G.
 # Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform.
-# Stage durations is allowed to be 0, so can thrust values.If there is no second stage, instead of just setting stage 2 thrust to 0,
+# Stage durations is allowed to be 0, so can thrust values. If there is no second stage, instead of just setting stage 2 thrust to 0,
 #  set stage 2 duration to 0 also. For unpowered munitions, set all thrusts to 0.
 # For very low sea skimming missiles, be sure to set terrain following to false, you cannot have it both ways.
 #   Since if it goes very low (below 100ft), it cannot navigate terrain reliable.
@@ -30,6 +30,7 @@
 #   Amraam. Also notice they generally not hit so close against Scenario/AI objects compared to MP aircraft due to the way these are updated.
 # Laser and semi-radar guided munitions need the target to be painted to keep lock. Notice gps guided munition that are all aspect will never lose lock,
 #   whether they can 'see' the target or not.
+# Remotely controlled navigation is not implemented. But the way it flies can be simulated by setting direct navigation with semi-radar or laser guidance.
 # 
 #
 # Limitations:
@@ -308,6 +309,7 @@ var AIM = {
 		m.energyBleedKt = 0;
 
 		m.lastFlare = 0;
+		m.fooled = FALSE;
 		m.explodeSound = TRUE;
 		m.first = FALSE;
 
@@ -1323,15 +1325,24 @@ var AIM = {
 			# calculate target acc as normal to LOS line:
 			me.t_heading        = me.Tgt.get_heading();
 			me.t_pitch          = me.Tgt.get_Pitch();
-
-			if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
-				# taking sideslip and AoA into consideration:
-				me.t_heading = me.last_t_coord.course_to(me.t_coord);
-				#var t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
-				#var t_dist   = me.last_t_coord.distance_to(me.t_coord);
-				#t_pitch      = math.atan2(t_climb,t_dist)*R2D;
-			}
 			me.t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
+
+			#if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
+			#	# taking sideslip and AoA into consideration:
+			#	me.t_heading    = me.last_t_coord.course_to(me.t_coord);
+			#	me.t_climb      = me.t_coord.alt() - me.last_t_coord.alt();
+			#	me.t_dist       = me.last_t_coord.distance_to(me.t_coord);
+			#	me.t_pitch      = math.atan2(me.t_climb, me.t_dist) * R2D;
+			#} elsif (me.Tgt.get_Speed() > 25) {
+				# target position was not updated since last loop.
+				# to avoid confusing the navigation, we just fly
+				# straight.
+				#print("not updated");
+			#	return;
+			#}
+
+
+			
 			me.t_horz_speed     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed);
 			me.t_LOS_norm_head  = me.t_course + 90;
 			me.t_LOS_norm_speed = math.cos((me.t_LOS_norm_head - me.t_heading)*D2R)*me.t_horz_speed;
