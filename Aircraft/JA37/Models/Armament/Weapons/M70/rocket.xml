@@ -42,7 +42,7 @@
 
      <counter>
        <particles-per-sec>
-         <value>75</value>
+         <value>50</value>
          <spread>0</spread>
        </particles-per-sec>
      </counter>
@@ -130,7 +130,7 @@
 
      <counter>
        <particles-per-sec>
-         <value>100</value>
+         <value>50</value>
          <spread>0</spread>
        </particles-per-sec>
      </counter>
