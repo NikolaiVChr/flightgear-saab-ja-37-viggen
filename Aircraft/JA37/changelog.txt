@@ -2546,4 +2546,11 @@ Sim: Removed double declaration of variable in missile code.
 Sim: Made RB-15F be terrain following again.
 Effect: Made all weapon smoke trails be unaffected by lightning as it don't work proper anyway.
 Model: Made AoA indicator look more like the real in Viggen.
-Model: The minimum AoA the indicator should show is now -4 degrees, not -7.
+Model: The minimum AoA/pitch the indicator should show is now -4 degrees, not -7.
+Sim: Smarter console output for missile code.
+Sim: Weapons now display smoke trail over MP, one at a time. (experimental)
+Sim: Weapons can now also be unguided, GPS or laser guided.
+Sim: Weapon code now has much more documentation.
+Sim: Made dropped munitions keep track of target while in the drop before engine kicks in.
+Sim: Prevented munitions from crusing, if they did not snap up.
+Sim: Made sure M71 model is shown also after some from same pylon has exploded.

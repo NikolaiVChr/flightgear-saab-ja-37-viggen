@@ -512,7 +512,7 @@
                     <thrust-lbf-stage-1 type="double">3821.75</thrust-lbf-stage-1><!-- authentic -->
                     <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>    <!-- authentic -->
                     <stage-1-duration-sec type="double">3.5</stage-1-duration-sec><!-- authentic -->
-                    <stage-2-duration-sec type="double">1.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
+                    <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">179</weight-launch-lbs>      <!-- authentic -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
                     <drag-coeff type="double">0.5</drag-coeff>                   <!-- guesstimate -->
@@ -537,7 +537,7 @@
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">radar</guidance> 
+                    <guidance type="string">unguided</guidance> 
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">20</max-fire-range-nm>               
                     <FCS-field-deg type="int">360</FCS-field-deg>            
@@ -569,7 +569,7 @@
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">radar</guidance>                              <!-- source -->
+                    <guidance type="string">gps</guidance>                              
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">17.28</max-fire-range-nm>            <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
@@ -602,7 +602,7 @@
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">semi-radar</guidance>                        <!-- source -->
+                    <guidance type="string">semi-radar</guidance>                        <!-- should really be remote guided -->
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
@@ -634,7 +634,7 @@
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">radar</guidance>                             <!-- source -->
+                    <guidance type="string">radar</guidance>                             <!-- heat? -->
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">12</max-fire-range-nm>              <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            

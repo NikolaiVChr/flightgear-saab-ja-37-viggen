@@ -1,6 +1,6 @@
-###########################################################################
+#################################################################################
 #######	
-####### Guided/Cruise missiles and dumb/glide bombs code for Flightgear.
+####### Guided/Cruise missiles, rockets and dumb/glide bombs code for Flightgear.
 #######
 ####### License: GPL 2
 #######
@@ -10,8 +10,52 @@
 ####### In addition, some code is derived from work by:
 #######  David Culp, Vivian Meazza, M. Franz
 #######
-###########################################################################
+##################################################################################
 
+# Some notes about making weapons:
+#
+# Firstly make sure you read the comments (line 150) below for the properties.
+# For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G.
+# Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform.
+# Stage durations is allowed to be 0, so can thrust values.If there is no second stage, instead of just setting stage 2 thrust to 0,
+#  set stage 2 duration to 0 also. For unpowered munitions, set all thrusts to 0.
+# For very low sea skimming missiles, be sure to set terrain following to false, you cannot have it both ways.
+#   Since if it goes very low (below 100ft), it cannot navigate terrain reliable.
+# The property terrain following only goes into effect, if a cruise altitude is set below 10000ft and not set to 0.
+# If litterature quotes a max distance for a weapon, its a good bet it is under the condition that the target
+#   is approaching the launch platform with high speed and does not evade, and also if the launch platform is an aircraft,
+#   that it also is approaching the target with high speed. In other words, high closing rate. Missiles typically have significantly
+#   less range against an evading or escaping target than what is commonly believed.
+# When you test missiles against aircraft, be sure to do it with a framerate of 25+, else they will not hit very good, especially high speed missiles like
+#   Amraam. Also notice they generally not hit so close against Scenario/AI objects compared to MP aircraft due to the way these are updated.
+# 
+#
+# Limitations:
+# 
+# The weapons use a simplified flight model that does not have AoA or sideslip. Mass balance, rotational inertia,
+#   weight change due to fuel consumption is also not implemented. They also do not roll.
+# If you fire a weapon and have HoT enabled in flightgear, they will not hit very precise.
+# The weapons are highly dependant on framerate, so low frame rate will make them hit imprecise.
+#
+#
+# Future features:
+#
+# Make certain weapon type not require a target to fire.
+# Make ground hitting weapons hit all nearby targets, not just what its locked on.
+# Chaff interaction for radar guided weapons.
+# ECM disturbance of getting radar lock.
+# Lock on jam. (advanced feature)
+# After FG gets HLA: stop using MP chat for hit messages.
+# Allow firing only if certain conditions are met. Like not being inverted when firing dropped weapons.
+# Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
+# Specify navigational guidance. (right now they all use APN).
+# Ground launched rails that rotate towards target before firing.
+# Make weapon unreliable by design, to simulate weapons which were unreliable, like Phoenix.
+# Sub munitions that have their own guidance/FDM. (advanced)
+# GPS guided munitions could have waypoints added.
+# Specify terminal manouvres and preferred impact aspect.
+#
+# Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 
 var AcModel        = props.globals.getNode("payload");
 var OurHdg         = props.globals.getNode("orientation/heading-deg");
@@ -106,8 +150,7 @@ var AIM = {
 		m.speed_m           = 0;
 
 		# AIM specs:
-		m.aim9_fov_diam         = getprop("payload/armament/"~m.type_lc~"/FCS-field-deg");              # fire control system total field of view
-		m.aim9_fov              = m.aim9_fov_diam / 2;
+		m.fcs_fov               = getprop("payload/armament/"~m.type_lc~"/FCS-field-deg") / 2;          # fire control system total field of view
 		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-fire-range-nm");          # max range that the FCS allows firing
 		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/seeker-field-deg") / 2;       # missiles own seekers total FOV
 		m.force_lbs_1           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-1");         # stage 1 thrust, set both stages to zero to simulate gravity bomb, set them to 1 to simulate glide bomb
@@ -122,7 +165,7 @@ var AIM = {
 		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");            # time for weapon to arm
 		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly straight
 		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");     # time before selfdestruct
-		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar
+		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar/laser/gps/unguided
 		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
 		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
@@ -135,9 +178,11 @@ var AIM = {
         m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");              # length of tube/rail
         m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");         # true for rail, false for vertical tube
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
-        m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this missile
+        m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # max distance from target the missile will report that it has exploded, instead of just passed.
-		m.aim_9_model           = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
+
+
+		m.weapon_model          = getprop("payload/armament/models")~type~"/"~m.type_lc~"-";
 		m.elapsed_last          = 0;
 
 		m.target_air = find("A", m.class)==-1?FALSE:TRUE;
@@ -170,7 +215,7 @@ var AIM = {
 		m.ai.getNode("sign", 1).setValue(sign);
 		#m.model.getNode("collision", 1).setBoolValue(0);
 		#m.model.getNode("impact", 1).setBoolValue(0);
-		var id_model = m.aim_9_model ~ m.ID ~ ".xml";
+		var id_model = m.weapon_model ~ m.ID ~ ".xml";
 		m.model.getNode("path", 1).setValue(id_model);
 		m.life_time = 0;
 
@@ -672,19 +717,13 @@ var AIM = {
 			me.speed_change_fps = me.speed_change_fps + me.energyBleed(me.g, me.altN.getValue() + me.density_alt_diff);
 		}
 
-		me.grav_bomb = FALSE;
-		if (me.force_lbs_1 == 0 and me.force_lbs_2 == 0) {
-			# for now gravity bombs cannot be guided.
-			me.grav_bomb = TRUE;
-		}
-
 		# Get target position.
 		me.t_coord = me.Tgt.get_Coord();
 
 		###################
 		#### Guidance.#####
 		###################
-		if (me.free == FALSE and me.life_time > me.drop_time and me.grav_bomb == FALSE
+		if (me.free == FALSE and me.guidance != "unguided"
 			and (me.rail == FALSE or me.rail_passed == TRUE)) {
 				#
 				# Here we figure out how to guide, navigate and steer.
@@ -703,12 +742,6 @@ var AIM = {
        	me.last_track_e = me.track_signal_e;
 		me.last_track_h = me.track_signal_h;
 
-
-		# Nikolai V. Chr.:
-		# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
-		# which next update will be added in the direction the missile points, which we do not want.
-		# therefore only real gravity drop is added to gravity bombs.
-		
 		me.new_speed_fps        = me.speed_change_fps + me.old_speed_fps;
 		if (me.new_speed_fps < 0) {
 			# drag and bleed can theoretically make the speed less than 0, this will prevent that from happening.
@@ -726,18 +759,25 @@ var AIM = {
 			me.rail_speed_into_wind = me.rail_speed_into_wind + me.speed_change_fps;
 		}
 
-		if (me.grav_bomb == TRUE) {
-			# true gravity acc
+		# Calculate altitude and elevation velocity vector (no incidence here).
+		if (me.guidance == "unguided" or me.life_time < me.drop_time or me.guiding == FALSE) {
+			# true gravity acc makes the weapon pitch down
 			me.speed_down_fps += g_fps * me.dt;
+			#print("old pitch:"~me.pitch);
 			me.pitch = math.atan2(-me.speed_down_fps, me.speed_horizontal_fps ) * R2D;
+			#print("new pitch:"~me.pitch);
+			me.alt_ft = me.alt_ft - (me.speed_down_fps * me.dt);
+		} else {
+			# The missile just falls due to gravity, it doesn't pitch
+			# If we add gravity while the missile is guiding, the gravity speed will be added to total speed,
+			# which next update will be added in the direction the missile points, which we do not want.
+			# therefore we must accelerate down due to gravity in the down speed component.
+
+			# a real missile would pitch ofc. but then have to calc how fuel affects CoG and its inertia/momentum
+			me.alt_ft = me.alt_ft - ((me.speed_down_fps + g_fps * me.dt) * me.dt);
 		}
 
-		# Calculate altitude and elevation velocity vector (no incidence here).
-		
-		# The missile just falls due to gravity, it doesn't pitch
-		# a real missile would pitch ofc. but then have to calc how fuel affects CoG and its inertia/momentum
-
-		me.alt_ft = me.alt_ft - ((me.speed_down_fps + g_fps * me.dt * (!me.grav_bomb)) * me.dt);
+			
 
 		#printf("down_s=%.1f grav=%.1f", me.speed_down_fps*me.dt, g_fps * me.dt * !grav_bomb * me.dt);
 
@@ -763,7 +803,7 @@ var AIM = {
 		#setprop("logging/missile/drag-lbf", Cd * q * me.eda);
 		#setprop("logging/missile/thrust-lbf", thrust_lbf);
 
-		me.setFirst(me.grav_bomb);
+		me.setFirst();
 
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
@@ -801,7 +841,7 @@ var AIM = {
 # Uncomment the following lines to check stats while flying:
 #
 #printf("Mach %02.1f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, thrust_lbf, me.g);
-#printf("Alt %05.1f ft", alt_ft);
+#printf("Alt %05.1f ft , distance to target %02.1f NM", alt_ft, me.direct_dist_m*M2NM);
 
 			me.exploded = me.proximity_detection();
 			
@@ -833,20 +873,26 @@ var AIM = {
 		settimer(func me.flight(), update_loop_time, SIM_TIME);		
 	},
 
-	setFirst: func(grav_bomb) {#GCD
-		if (grav_bomb == FALSE) {
+	setFirst: func() {#GCD
+		if (me.smoke_prop.getValue() == TRUE) {
 			if (me.first == TRUE or first_in_air == FALSE) {
+				# report position over MP for MP animation of smoke trail.
 				me.first = TRUE;
 				first_in_air = TRUE;
+				# using helicopter properties for reporting over MP. To mount this code on a helicopter, you best change that.
 				setprop("rotors/main/blade[0]/flap-deg", me.coord.lat());
 				setprop("rotors/main/blade[1]/flap-deg", me.coord.lon());
 				setprop("rotors/main/blade[2]/flap-deg", me.coord.alt());
 			}
+		} elsif (me.first == TRUE and me.life_time > me.drop_time + me.stage_1_duration + me.stage_2_duration) {
+			# this weapon was reporting its position over MP, but now its fuel has used up. So allow for another to do that.
+			me.resetFirst();
 		}
 	},
 
 	resetFirst: func() {#GCD
 		first_in_air = FALSE;
+		me.first = FALSE;
 		setprop("rotors/main/blade[0]/flap-deg", 0);
 		setprop("rotors/main/blade[1]/flap-deg", 0);
 		setprop("rotors/main/blade[2]/flap-deg", 0);
@@ -1049,6 +1095,8 @@ var AIM = {
         		print(me.type~": Missile lost heat lock, attempting to reaquire..");
         	}
         	me.heatLostLock = TRUE;
+		} elsif (me.life_time < me.drop_time) {
+			me.guiding = FALSE;
 		} elsif (me.semiLostLock == TRUE) {
 			print(me.type~": Reaquired radar reflection.");
 			me.semiLostLock = FALSE;
@@ -1093,6 +1141,7 @@ var AIM = {
 		me.loft_minimum = 10;# miles
 		me.cruise_minimum = 10;# miles
 		me.cruise_or_loft = FALSE;
+		me.time_before_snap_up = me.drop_time * 3;
 		
         if(me.loft_alt != 0 and me.loft_alt < 10000) {
         	# this is for Air to ground/sea cruise-missile (SCALP, Sea-Eagle, Taurus, Tomahawk, RB-15...)
@@ -1168,7 +1217,7 @@ var AIM = {
             }
         } elsif (me.loft_alt != 0 and me.dist_curr * M2NM > me.loft_minimum
 			 and me.t_elev_deg < me.loft_angle #and me.t_elev_deg > -7.5
-			 and me.dive_token == FALSE) {
+			 and me.dive_token == FALSE and me.life_time > me.time_before_snap_up) {
 			# stage 1 lofting: due to target is more than 10 miles out and we havent reached 
 			# our desired cruising alt, and the elevation to target is less than lofting angle.
 			# The -7.5 limit, is so the seeker don't lose track of target when lofting.
@@ -1190,7 +1239,7 @@ var AIM = {
 				me.dive_token = TRUE;
 				#print("Is last turn, APN takes it from here..")
 			}
-		} elsif (me.t_elev_deg < 0 #and me.life_time < me.stage_1_duration+me.stage_2_duration+me.drop_time
+		} elsif (me.t_elev_deg < 0 and me.last_cruise_or_loft == TRUE
 		         and me.dist_curr * M2NM > me.cruise_minimum) {
 			# stage 1/2 cruising: keeping altitude since target is below and more than 5 miles out
 
@@ -1205,7 +1254,7 @@ var AIM = {
 			#print("Cruising, desire "~attitude~" degs pitch.");
 			me.cruise_or_loft = TRUE;
 			me.dive_token = TRUE;
-		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 2.5) {
+		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 2.5 and me.life_time > me.time_before_snap_up) {
 			# after cruising, point the missile in the general direction of the target, before APN starts guiding.
 			me.raw_steer_signal_elev = me.curr_deviation_e;
 			me.cruise_or_loft = TRUE;
@@ -1448,7 +1497,7 @@ var AIM = {
 
 	sendMessage: func (str) {#GCD
 		if (getprop("payload/armament/msg")) {
-			armament.defeatSpamFilter(str);
+			defeatSpamFilter(str);
 		} else {
 			setprop("/sim/messages/atc", str);
 		}
@@ -1512,7 +1561,7 @@ var AIM = {
 				me.abs_total_elev = math.abs(me.total_elev);
 				me.abs_dev_deg = math.abs(me.total_horiz);
 				if ((me.guidance != "semi-radar" or me.is_painted(me.tagt) == TRUE)
-				    and me.rng < me.max_detect_rng and me.abs_total_elev < me.aim9_fov and me.abs_dev_deg < me.aim9_fov ) {
+				    and me.rng < me.max_detect_rng and me.abs_total_elev < me.fcs_fov and me.abs_dev_deg < me.fcs_fov ) {
 					#print("search4");
 					me.status = MISSILE_LOCK;
 					me.SwSoundOnOff.setBoolValue(TRUE);
@@ -1637,7 +1686,7 @@ var AIM = {
 		# Check if in range and in the (square shaped here) seeker FOV.
 		me.abs_total_elev = math.abs(me.total_elev);
 		me.abs_dev_deg = math.abs(me.total_horiz);
-		if (me.abs_total_elev < me.aim9_fov and me.abs_dev_deg < me.aim9_fov and me.Tgt.get_range() < me.max_detect_rng) {
+		if (me.abs_total_elev < me.fcs_fov and me.abs_dev_deg < me.fcs_fov and me.Tgt.get_range() < me.max_detect_rng) {
 			return TRUE;
 		}
 		# Target out of FOV or range while still not launched, return to search loop.
@@ -1669,18 +1718,26 @@ var AIM = {
 
 	animation_flags_props: func {
 		# Create animation flags properties.
-		var msl_path = "payload/armament/"~me.type_lc~"/flags/msl-id-" ~ me.ID;
-		me.msl_prop = props.globals.initNode( msl_path, 1, "BOOL", 1);
-		var smoke_path = "payload/armament/"~me.type_lc~"/flags/smoke-id-" ~ me.ID;
-		me.smoke_prop = props.globals.initNode( smoke_path, 0, "BOOL", 1);
-		var explode_path = "payload/armament/"~me.type_lc~"/flags/explode-id-" ~ me.ID;
-		me.explode_prop = props.globals.initNode( explode_path, 0, "BOOL", 1);
-		var explode_smoke_path = "payload/armament/"~me.type_lc~"/flags/explode-smoke-id-" ~ me.ID;
-		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, 0, "BOOL", 1);
+		var path_base = "payload/armament/"~me.type_lc~"/flags/";
+
+		var msl_path = path_base~"msl-id-" ~ me.ID;
+		me.msl_prop = props.globals.initNode( msl_path, TRUE, "BOOL", TRUE);
+		me.msl_prop.setBoolValue(TRUE);# this is cause it might already exist, and so need to force value
+
+		var smoke_path = path_base~"smoke-id-" ~ me.ID;
+		me.smoke_prop = props.globals.initNode( smoke_path, FALSE, "BOOL", TRUE);
+
+		var explode_path = path_base~"explode-id-" ~ me.ID;
+		me.explode_prop = props.globals.initNode( explode_path, FALSE, "BOOL", TRUE);
+
+		var explode_smoke_path = path_base~"explode-smoke-id-" ~ me.ID;
+		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, FALSE, "BOOL", TRUE);
+
 		var explode_sound_path = "payload/armament/flags/explode-sound-on-" ~ me.ID;;
-		me.explode_sound_prop = props.globals.initNode( explode_sound_path, 0, "BOOL", 1);
+		me.explode_sound_prop = props.globals.initNode( explode_sound_path, FALSE, "BOOL", TRUE);
+
 		var explode_sound_vol_path = "payload/armament/flags/explode-sound-vol-" ~ me.ID;;
-		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE", 1);
+		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE", TRUE);
 	},
 
 	animate_explosion: func {#GCD
@@ -1691,12 +1748,12 @@ var AIM = {
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(me.coord.alt()*M2FT);
 		me.pitchN.setDoubleValue(0);
-		me.msl_prop.setBoolValue(0);
-		me.smoke_prop.setBoolValue(0);
-		me.explode_prop.setBoolValue(1);
-		settimer( func me.explode_prop.setBoolValue(0), 0.5 );
-		settimer( func me.explode_smoke_prop.setBoolValue(1), 0.5 );
-		settimer( func me.explode_smoke_prop.setBoolValue(0), 3 );
+		me.msl_prop.setBoolValue(FALSE);
+		me.smoke_prop.setBoolValue(FALSE);
+		me.explode_prop.setBoolValue(TRUE);
+		settimer( func me.explode_prop.setBoolValue(FALSE), 0.5 );
+		settimer( func me.explode_smoke_prop.setBoolValue(TRUE), 0.5 );
+		settimer( func me.explode_smoke_prop.setBoolValue(FALSE), 3 );
 	},
 
 	sndPropagate: func {
@@ -1875,7 +1932,39 @@ var deviation_normdeg = func(our_heading, target_bearing) {
 	return(dev_norm);
 }
 
-#was environment
+#
+# this code make sure messages don't trigger the MP spam filter:
+
+var spams = 0;
+var spamList = [];
+
+var defeatSpamFilter = func (str) {
+  spams += 1;
+  if (spams == 15) {
+    spams = 1;
+  }
+  str = str~":";
+  for (var i = 1; i <= spams; i+=1) {
+    str = str~".";
+  }
+  var newList = [str];
+  for (var i = 0; i < size(spamList); i += 1) {
+    append(newList, spamList[i]);
+  }
+  spamList = newList;  
+}
+
+var spamLoop = func {
+  var spam = pop(spamList);
+  if (spam != nil) {
+    setprop("/sim/multiplay/chat", spam);
+  }
+  settimer(spamLoop, 1.20);
+}
+
+spamLoop();
+
+
 var const_e = 2.71828183;
 
 var rho_sndspeed = func(altitude) {
