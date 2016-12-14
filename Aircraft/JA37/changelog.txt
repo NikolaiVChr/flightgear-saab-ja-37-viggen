@@ -2555,3 +2555,7 @@ Sim: Made dropped munitions keep track of target while in the drop before engine
 Sim: Prevented munitions from crusing, if they did not snap up.
 Sim: Made sure M71 model is shown also after some from same pylon has exploded.
 Sim: Added vision guided support in weapons code.
+Effect: Reduced armament smoke particles to avoid crashing.
+Sim: IR missiles now report if missed and if they were fooled by flare.
+Sim: Added possibility to specify navigation system for guided munitions.
+Sim: RB-05 no longer uses APN, but flies direct to target.

@@ -1275,7 +1275,9 @@ var AIM = {
 
 			if (me.navigation == "direct") {
 				me.raw_steer_signal_head = me.curr_deviation_h;
-				me.raw_steer_signal_elev = me.curr_deviation_e;
+				if (me.cruise_or_loft == FALSE) {
+					me.raw_steer_signal_elev = me.curr_deviation_e;
+				}
 				return;
 			} elsif (me.navigation == "PN") {
 				me.apn = 0;

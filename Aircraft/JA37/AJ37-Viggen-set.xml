@@ -603,6 +603,7 @@
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">semi-radar</guidance>                        <!-- should really be remote guided -->
+                    <navigation type="string">direct</navigation>
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">4.86</max-fire-range-nm>            <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
