@@ -50,7 +50,6 @@
 # After FG gets HLA: stop using MP chat for hit messages.
 # Allow firing only if certain conditions are met. Like not being inverted when firing dropped weapons.
 # Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
-# Specify navigational guidance. (right now they all use APN).
 # Ground launched rails/tubes that rotate towards target before firing.
 # Make weapon unreliable by design, to simulate weapons which were unreliable, like Phoenix.
 # Sub munitions that have their own guidance/FDM. (advanced)
@@ -162,12 +161,13 @@ var AIM = {
 		m.weight_launch_lbs     = getprop("payload/armament/"~m.type_lc~"/weight-launch-lbs");          # total weight of armament
 		m.weight_whead_lbs      = getprop("payload/armament/"~m.type_lc~"/weight-warhead-lbs");         # warhead weight
 		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");                 # drag coefficient
-		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");                  # normally is crosssection area of missile (without fins)
+		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");                  # normally is crosssection area of munition (without fins)
 		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");                      # max G-force the missile can pull at sealevel
 		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");            # time for weapon to arm
 		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly straight
 		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");     # time before selfdestruct
 		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided
+		m.navigation            = getprop("payload/armament/"~m.type_lc~"/navigation");                 # direct/PN/APN (use direct for bombs, use PN for very old missiles, use APN for modern missiles)
 		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
 		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
@@ -191,6 +191,9 @@ var AIM = {
 		m.target_sea = find("M", m.class)==-1?FALSE:TRUE;#use M for marine, since S can be confused with surface.
 		m.target_gnd = find("G", m.class)==-1?FALSE:TRUE;
 
+		if (m.navigation == nil) {
+			m.navigation = "APN";
+		}
 
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
@@ -1270,6 +1273,16 @@ var AIM = {
 			# augmented proportional navigation for heading #
 			#################################################
 
+			if (me.navigation == "direct") {
+				me.raw_steer_signal_head = me.curr_deviation_h;
+				me.raw_steer_signal_elev = me.curr_deviation_e;
+				return;
+			} elsif (me.navigation == "PN") {
+				me.apn = 0;
+			} else {
+				me.apn = 1;
+			}
+
 			me.horz_closing_rate_fps = me.clamp(((me.dist_last - me.dist_curr)*M2FT)/me.dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
 			#printf("Horz closing rate: %5d", horz_closing_rate_fps);
 			me.proportionality_constant = 3;
@@ -1281,6 +1294,7 @@ var AIM = {
 			while(me.c_dv > 180) {
 				me.c_dv -= 360;
 			}
+
 			me.line_of_sight_rate_rps = (D2R*me.c_dv)/me.dt;
 
 			#printf("LOS rate: %.4f rad/s", line_of_sight_rate_rps);
@@ -1329,7 +1343,7 @@ var AIM = {
 			me.last_t_norm_speed = me.t_LOS_norm_speed;
 
 			# acceleration perpendicular to instantaneous line of sight in feet/sec^2
-			me.acc_sideways_ftps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.proportionality_constant*me.t_LOS_norm_acc/2;
+			me.acc_sideways_ftps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_norm_acc/2;
 			#printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
 
 			# now translate that sideways acc to an angle:
@@ -1361,7 +1375,7 @@ var AIM = {
 				me.t_LOS_elev_norm_acc            = (me.t_LOS_elev_norm_speed - me.last_t_elev_norm_speed)/me.dt;
 				me.last_t_elev_norm_speed          = me.t_LOS_elev_norm_speed;
 
-				me.acc_upwards_ftps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
+				me.acc_upwards_ftps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
 				me.velocity_vector_length_fps = me.old_speed_fps;
 				me.commanded_upwards_vector_length_fps = me.acc_upwards_ftps2*me.dt;
 				me.raw_steer_signal_elev = math.atan2(me.commanded_upwards_vector_length_fps, me.velocity_vector_length_fps)*R2D;
