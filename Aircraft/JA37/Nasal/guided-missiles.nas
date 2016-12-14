@@ -28,6 +28,8 @@
 #   less range against an evading or escaping target than what is commonly believed.
 # When you test missiles against aircraft, be sure to do it with a framerate of 25+, else they will not hit very good, especially high speed missiles like
 #   Amraam. Also notice they generally not hit so close against Scenario/AI objects compared to MP aircraft due to the way these are updated.
+# Laser and semi-radar guided munitions need the target to be painted to keep lock. Notice gps guided munition that are all aspect will never lose lock,
+#   whether they can 'see' the target or not.
 # 
 #
 # Limitations:
@@ -170,7 +172,7 @@ var AIM = {
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
 		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
 		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");             # sound volume before getting solid lock
-		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only for heat seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
+		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only for heat/vision seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
         m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");              # if 0 then no snap up. Below 10000 then cruise altitude above ground. Above 10000 max altitude it will snap up to.
         m.follow                = getprop("payload/armament/"~m.type_lc~"/terrain-follow");             # used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");          # it wont get solid lock before the target has this range
@@ -1110,7 +1112,7 @@ var AIM = {
 	},
 
 	canSeekerKeepUp: func () {#GCD
-		if (me.last_deviation_e != nil and me.guidance == "heat") {
+		if (me.last_deviation_e != nil and (me.guidance == "heat" or me.guidance == "vision")) {
 			# calculate if the seeker can keep up with the angular change of the target
 			#
 			# missile own movement is subtracted from this change due to seeker being on gyroscope
@@ -1131,7 +1133,6 @@ var AIM = {
 		me.last_deviation_e = me.curr_deviation_e;
 		me.last_deviation_h = me.curr_deviation_h;
 	},
-
 
 	cruiseAndLoft: func () {#GCD
 		#
