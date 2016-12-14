@@ -14,7 +14,7 @@
 
 # Some notes about making weapons:
 #
-# Firstly make sure you read the comments (line 150) below for the properties.
+# Firstly make sure you read the comments (line 150+) below for the properties.
 # For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G.
 # Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform.
 # Stage durations is allowed to be 0, so can thrust values.If there is no second stage, instead of just setting stage 2 thrust to 0,
@@ -49,7 +49,7 @@
 # Allow firing only if certain conditions are met. Like not being inverted when firing dropped weapons.
 # Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
 # Specify navigational guidance. (right now they all use APN).
-# Ground launched rails that rotate towards target before firing.
+# Ground launched rails/tubes that rotate towards target before firing.
 # Make weapon unreliable by design, to simulate weapons which were unreliable, like Phoenix.
 # Sub munitions that have their own guidance/FDM. (advanced)
 # GPS guided munitions could have waypoints added.
@@ -165,7 +165,7 @@ var AIM = {
 		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");            # time for weapon to arm
 		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly straight
 		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");     # time before selfdestruct
-		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar/laser/gps/unguided
+		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided
 		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
 		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
 		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
@@ -1077,15 +1077,15 @@ var AIM = {
 				print(me.type~": Not guiding (too low speed)");
 			}
 			me.tooLowSpeed = TRUE;
-		} elsif (me.guidance == "semi-radar" and me.is_painted(me.Tgt) == FALSE) {
+		} elsif ((me.guidance == "semi-radar" or me.guidance =="laser") and me.is_painted(me.Tgt) == FALSE) {
 			# if its semi-radar guided and the target is no longer painted
 			me.guiding = FALSE;
 			if (me.semiLostLock == FALSE) {
 				print(me.type~": Not guiding (lost radar reflection, trying to reaquire)");
 			}
 			me.semiLostLock = TRUE;
-		} elsif (me.curr_deviation_e > me.max_seeker_dev or me.curr_deviation_e < (-1 * me.max_seeker_dev)
-			  or me.curr_deviation_h > me.max_seeker_dev or me.curr_deviation_h < (-1 * me.max_seeker_dev)) {
+		} elsif ((me.curr_deviation_e > me.max_seeker_dev or me.curr_deviation_e < (-1 * me.max_seeker_dev)
+			  or me.curr_deviation_h > me.max_seeker_dev or me.curr_deviation_h < (-1 * me.max_seeker_dev)) and me.guidance != "gps") {
 			# target is not in missile seeker view anymore
 			print(me.type~": Target is not in missile seeker view anymore.");
 			me.free = TRUE;
@@ -1560,7 +1560,7 @@ var AIM = {
 				# Check if in range and in the (square shaped here) seeker FOV.
 				me.abs_total_elev = math.abs(me.total_elev);
 				me.abs_dev_deg = math.abs(me.total_horiz);
-				if ((me.guidance != "semi-radar" or me.is_painted(me.tagt) == TRUE)
+				if (((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
 				    and me.rng < me.max_detect_rng and me.abs_total_elev < me.fcs_fov and me.abs_dev_deg < me.fcs_fov ) {
 					#print("search4");
 					me.status = MISSILE_LOCK;

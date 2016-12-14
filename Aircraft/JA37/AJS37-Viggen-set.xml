@@ -806,7 +806,7 @@
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">radar</guidance>                             <!-- heat? -->
+                    <guidance type="string">vision</guidance>                           
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">12</max-fire-range-nm>              <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            

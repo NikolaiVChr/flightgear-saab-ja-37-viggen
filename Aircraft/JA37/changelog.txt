@@ -2554,3 +2554,4 @@ Sim: Weapon code now has much more documentation.
 Sim: Made dropped munitions keep track of target while in the drop before engine kicks in.
 Sim: Prevented munitions from crusing, if they did not snap up.
 Sim: Made sure M71 model is shown also after some from same pylon has exploded.
+Sim: Added vision guided support in weapons code.
