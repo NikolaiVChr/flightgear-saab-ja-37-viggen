@@ -1057,7 +1057,7 @@ var AIM = {
 							me.aspectDeg = me.aspect() / 180;
 							me.fooled = rand() < (0.2 + 0.1 * me.aspectDeg);
 							# 20% chance to be fooled, extra up till 10% chance added if front aspect
-							if (me.fooled) {
+							if (me.fooled == TRUE) {
 								# fooled by the flare
 								print(me.type~": Missile fooled by flare");
 								me.free = TRUE;
@@ -1441,6 +1441,10 @@ var AIM = {
 		#var t_delta_alt_m = me.last_coord.alt() - me.last_t_coord.alt();
 		#var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
 		#var t_dist_m  = me.direct_dist_m;
+
+		if (me.fooled == TRUE) {
+			reason = "Fooled by flare.";
+		}
 		
 		var min_distance = me.direct_dist_m;
 		var explosion_coord = me.last_coord;
