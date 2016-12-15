@@ -429,17 +429,6 @@ var AIM = {
 		me.hdgN.setDoubleValue(ac_hdg);
 
 		if (me.rail == FALSE) {
-			# align into wind (commented out since heavy wind make missiles lose sight of target.)
-			var alpha = OurAlpha.getValue();
-			var beta = OurBeta.getValue();# positive is air from right
-
-			var alpha_diff = alpha * math.cos(ac_roll*D2R) + beta * math.sin(ac_roll*D2R);
-			alpha_diff = alpha > 0?alpha_diff:0;# not using alpha if its negative to avoid missile flying through aircraft.
-			ac_pitch = ac_pitch - alpha_diff;
-			
-			var beta_diff = beta * math.cos(ac_roll*D2R) * ((ac_roll > 90 or ac_roll < -90)?-1:1) - alpha * math.sin(ac_roll*D2R);
-			#ac_hdg = ac_hdg + beta_diff;
-
 			# drop distance in time
 			me.drop_time = math.sqrt(2*7/g_fps);# time to fall 7 ft to clear aircraft
 		}
@@ -680,7 +669,11 @@ var AIM = {
 		me.thrust_lbf = me.thrust();# pounds force (lbf)
 
 		
+		# Get total old speed, thats what we will use in next loop.
+		me.old_speed_horz_fps = math.sqrt((me.speed_east_fps*me.speed_east_fps)+(me.speed_north_fps*me.speed_north_fps));
+		me.old_speed_fps = math.sqrt((me.old_speed_horz_fps*me.old_speed_horz_fps)+(me.speed_down_fps*me.speed_down_fps));
 
+		me.setRadarProperties(me.old_speed_fps);
 
 		
 
@@ -828,12 +821,6 @@ var AIM = {
 		#setprop("/logging/missile/t-latitude-deg", me.t_coord.lat());
 		#setprop("/logging/missile/t-longitude-deg", me.t_coord.lon());
 		#setprop("/logging/missile/t-altitude-ft", me.t_coord.alt()*M2FT);
-
-		# Get total old speed, thats what we will use in next loop.
-		me.old_speed_horz_fps = math.sqrt((me.speed_east_fps*me.speed_east_fps)+(me.speed_north_fps*me.speed_north_fps));
-		me.old_speed_fps = math.sqrt((me.old_speed_horz_fps*me.old_speed_horz_fps)+(me.speed_down_fps*me.speed_down_fps));
-
-		me.setRadarProperties(me.old_speed_fps);
 
 		##############################
 		#### Proximity detection.#####
