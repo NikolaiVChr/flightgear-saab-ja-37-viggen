@@ -70,6 +70,7 @@ Sim: When inverted for more than 10 secs, let oil pressure be affected, and disr
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Make flare over MP use int instead of String.
 Sim: Review all replay signals.
+Sim: Only send propertis over MP when they change, will save up property space.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.

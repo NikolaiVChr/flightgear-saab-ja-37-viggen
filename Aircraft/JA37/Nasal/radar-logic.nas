@@ -1246,11 +1246,15 @@ var getPitch = func (coord1, coord2) {
   var coord3 = geo.Coord.new(coord1);
   coord3.set_alt(coord2.alt());
   var d12 = coord1.direct_distance_to(coord2);
-  var d32 = coord3.direct_distance_to(coord2);
-  var altD = coord1.alt()-coord3.alt();
-  var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
-  var pitch = -1* (90 - y);
-  return pitch*D2R;
+  if (d12 > 0.01) {
+    var d32 = coord3.direct_distance_to(coord2);
+    var altD = coord1.alt()-coord3.alt();
+    var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
+    var pitch = -1* (90 - y);
+    return pitch*D2R;
+  } else {
+    return 0;
+  }
 };
 
 var radarLogic = nil;
