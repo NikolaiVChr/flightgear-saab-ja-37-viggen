@@ -15,22 +15,28 @@
 # Some notes about making weapons:
 #
 # Firstly make sure you read the comments (line 150+) below for the properties.
-# For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G.
-# Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform.
+# For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G, to simulate them slowly adjusting to hit the target.
+# Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform. I usually fly at mach 1 at 20000 ft,
+#   there I make sure it can reach approx the max relative speed. For older missiles the max speed quoted is sometimes absolute speed though, so beware.
+#   Speeds quoted in in unofficial sources can be any of them, but if its around mach 5 its a good bet its absolute, only very few missiles are hypersonic.
 # Stage durations is allowed to be 0, so can thrust values. If there is no second stage, instead of just setting stage 2 thrust to 0,
-#  set stage 2 duration to 0 also. For unpowered munitions, set all thrusts to 0.
+#   set stage 2 duration to 0 also. For unpowered munitions, set all thrusts to 0.
 # For very low sea skimming missiles, be sure to set terrain following to false, you cannot have it both ways.
 #   Since if it goes very low (below 100ft), it cannot navigate terrain reliable.
 # The property terrain following only goes into effect, if a cruise altitude is set below 10000ft and not set to 0.
+#   Cruise missiles against ground targets will always terrain follow, no matter that property.
 # If litterature quotes a max distance for a weapon, its a good bet it is under the condition that the target
 #   is approaching the launch platform with high speed and does not evade, and also if the launch platform is an aircraft,
-#   that it also is approaching the target with high speed. In other words, high closing rate. Missiles typically have significantly
-#   less range against an evading or escaping target than what is commonly believed.
+#   that it also is approaching the target with high speed. In other words, high closing rate. For example the AIM-7, which can hit bombers out at 32 NM,
+#   will often have to be within 5.5 NM of an escaping target to hit it (official info). Missiles typically have significantly less range against an evading
+#   or escaping target than what is commonly believed. I usually fly at 20000 ft at mach 1, approach a target flying at me with same speed and altitude,
+#   to test max range.
 # When you test missiles against aircraft, be sure to do it with a framerate of 25+, else they will not hit very good, especially high speed missiles like
-#   Amraam. Also notice they generally not hit so close against Scenario/AI objects compared to MP aircraft due to the way these are updated.
+#   Amraam or Phoenix. Also notice they generally not hit so close against Scenario/AI objects compared to MP aircraft due to the way these are updated.
 # Laser and semi-radar guided munitions need the target to be painted to keep lock. Notice gps guided munition that are all aspect will never lose lock,
 #   whether they can 'see' the target or not.
 # Remotely controlled navigation is not implemented, but the way it flies can be simulated by setting direct navigation with semi-radar or laser guidance.
+# 
 # 
 #
 # Limitations:

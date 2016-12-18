@@ -2566,3 +2566,8 @@ Sim: Missile gravity acc. is now applied differently, should work better.
 Sim: Stopped compensating for beta and alpha twice during release of missile.
 Sim: Missiles now dont pull too many G when lofting or pitching to cruise.
 Sim: Made lofting/cruising smarter and simpler.
+Sim: Made the RB71 loft less.
+Sim: Now also warn when f-14 fires sparrow.
+Sim: Reduced Skyflash max G.
+Sim: If a missile target is less than 10 miles out, lofting and cruising will stop.
+Effect: Redout onset is now -2.
