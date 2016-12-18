@@ -1217,6 +1217,22 @@
         <blackout>
             <file>Aircraft/JA37/Nasal/blackout.nas</file>
         </blackout>
+        <!-- Uncomment below to enable FGplot -->
+        <!--
+        <plot>
+            <file>Aircraft/JA37/Nasal/plot/Pbutton.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Pchooser.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Pgraph.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Phelper.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Plegend.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Plines.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Pload.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Pmarks.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Pmenu.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Psave.nas</file>
+            <file>Aircraft/JA37/Nasal/plot/Ptext.nas</file>
+        </plot>
+        -->
     </nasal>
 
     <!-- Logging to universal CSV format. change enabled to true to log -->
