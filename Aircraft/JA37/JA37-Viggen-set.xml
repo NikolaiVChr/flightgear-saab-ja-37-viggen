@@ -472,6 +472,7 @@
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
+                    <navigation type="string">APN</navigation>
                     <class type="string">A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-24j>
@@ -500,12 +501,13 @@
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- guess -->
                     <self-destruct-time-sec type="double">50</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-                    <loft-altitude>0</loft-altitude>
+                    <loft-altitude type="int">0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
                     <rail-length-m type="double">2.667</rail-length-m><!-- 16S210 AIM-9 Missile Launcher -->
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
+                    <navigation type="string">APN</navigation>
                     <class type="string">A</class>
                     <fire-msg>Fox 2</fire-msg>
                 </rb-74>
@@ -520,7 +522,7 @@
                     <max-fire-range-nm type="double">24.3</max-fire-range-nm><!-- Skyflash range is 24.3nm -->
                     <FCS-field-deg type="int">25</FCS-field-deg>               
                     <seeker-field-deg type="int">110</seeker-field-deg>    
-                    <max-g type="int">30</max-g>                                      <!-- guess -->
+                    <max-g type="int">20</max-g>                                      <!-- guess -->
                     <thrust-lbf-stage-1 type="double">5750</thrust-lbf-stage-1><!-- authentic -->
                     <thrust-lbf-stage-2 type="double">1018</thrust-lbf-stage-2><!-- authentic -->
                     <stage-1-duration-sec type="double">4.5</stage-1-duration-sec> <!-- authentic -->
@@ -529,13 +531,13 @@
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>
                     <drag-coeff type="double">0.6</drag-coeff>
                     <drag-area type="double">0.3382</drag-area><!-- sq ft (0.3281 ft radius) authentic -->
-                    <searcher-beam-width type="double">3.0</searcher-beam-width>               <!-- guess -->
                     <arming-time-sec type="double">2.5</arming-time-sec>                       <!-- guess -->
                     <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">75</self-destruct-time-sec>         <!-- guess -->
-                    <loft-altitude>36000</loft-altitude><!-- in stage 1 it want to climb to this altitude -->
+                    <self-destruct-time-sec type="double">75</self-destruct-time-sec>         <!-- guesstimate -->
+                    <loft-altitude>22000</loft-altitude><!-- in stage 1 it want to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
+                    <navigation type="string">APN</navigation>
                     <rail type="bool">false</rail>
                     <class type="string">A</class>
                     <fire-msg>Fox 1</fire-msg>
@@ -567,6 +569,7 @@
                     <loft-altitude>36000</loft-altitude><!-- it will attempt to climb to this altitude -->
                     <min-fire-range-nm type="double">0.35</min-fire-range-nm>
                     <max-report-distance type="double">65</max-report-distance>
+                    <navigation type="string">APN</navigation>
                     <rail type="bool">false</rail>
                     <class type="string">A</class>
                     <fire-msg>Fox 3</fire-msg>
