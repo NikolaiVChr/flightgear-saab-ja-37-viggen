@@ -2446,9 +2446,19 @@ var HUDnasal = {
           return t;
         }
         #t -= 0.75 * math.cos(pitch*D2R);            # fudge factor
+
         q = 0.5 * rho * fps_x * fps_x;
         deacc = (Cd * q * bomb.eda) / mass;
         var acc = -deacc * FT2M;
+        
+        var fps_x_final = t*acc+fps_x;# calc final horz speed
+        var fps_x_average = (fps_x-(fps_x-fps_x_final)*0.5);
+        var mach_average = fps_x_average / rs[1];
+        
+        Cd = bomb.drag(mach_average);
+        q = 0.5 * rho * fps_x_average * fps_x_average;
+        deacc = (Cd * q * bomb.eda) / mass;
+        acc = -deacc * FT2M;
         var dist = vel_x*t+0.5*acc*t*t;
 
         var ac = geo.aircraft_position();
