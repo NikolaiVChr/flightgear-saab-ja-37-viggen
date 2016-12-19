@@ -40,6 +40,11 @@
 #
 # Usage:
 #
+# To create a weapon call AIM.new(pylon, type, description). The pylon is an integer from 0 or higher. When its launched it will read the pylon position in
+#   controls/armament/station[pylon+1]/offsets, where the position properties must be x-m, y-m and z-m. The type is just a string, the description is a string
+#   that is exposed in its radar properties under AI/models during flight.
+# The model that is loaded and shown is located in the aircraft folder at the value of payload/armament/models in a subfolder with same name as type.
+#   Inside the subfolder the xml file is called [lowercase type]-[pylon].xml
 # To start making the missile try and get a lock, set its status to MISSILE_SEARCH and call search(), the missile will then keep trying to get a lock on 'contact'.
 #   'contact' can be set to nil at any time or changed. To stop the search, just set its status to MISSILE_STANDBY.
 # To release the munition at a target call release(), do this only after the missile has set its own status to MISSILE_LOCK.
