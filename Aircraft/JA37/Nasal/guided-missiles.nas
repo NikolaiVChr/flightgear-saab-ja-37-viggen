@@ -780,8 +780,7 @@ var AIM = {
 		me.speed_horizontal_fps = math.cos(me.pitch * D2R) * me.new_speed_fps;
 		me.speed_north_fps      = math.cos(me.hdg * D2R) * me.speed_horizontal_fps;
 		me.speed_east_fps       = math.sin(me.hdg * D2R) * me.speed_horizontal_fps;
-		# todo: do all calc in vector components, that will next loop make grav be applied correct.
-		me.speed_down_fps += g_fps * me.dt;
+		me.speed_down_fps      += g_fps * me.dt;
 
 		if (me.rail == TRUE and me.rail_passed == FALSE) {
 			# missile still on rail, lets calculate its speed relative to the wind coming in from the aircraft nose.

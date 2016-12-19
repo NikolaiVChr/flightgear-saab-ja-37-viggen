@@ -2407,6 +2407,9 @@ var HUDnasal = {
         var heading = getprop("orientation/heading-deg");#true
         var dens = getprop("fdm/jsbsim/atmosphere/density-altitude");
         var mach = getprop("velocities/mach");
+        var speed_down_fps = getprop("velocities/speed-down-fps");
+        var speed_east_fps = getprop("velocities/speed-east-fps");
+        var speed_north_fps = getprop("velocities/speed-north-fps");
 
         var alpha = getprop("orientation/alpha-deg");
         var beta = getprop("orientation/side-slip-deg");# positive is air from right
@@ -2418,9 +2421,9 @@ var HUDnasal = {
         var t = 0.0;
         var dt = 0.1;
         var alt = agl;
-        var vel_z = vel*math.sin(pitch*D2R);#positive upwards
-        var fps_z = vel_z * M2FT;
-        var vel_x = vel*math.cos(pitch*D2R);
+        var vel_z = -speed_down_fps*FT2M;#positive upwards
+        var fps_z = -speed_down_fps;
+        var vel_x = math.sqrt(speed_east_fps*speed_east_fps+speed_north_fps*speed_north_fps)*FT2M;
         var fps_x = vel_x * M2FT;
 
         var rs = bomb.rho_sndspeed(dens-(agl/2)*M2FT);
@@ -2436,7 +2439,7 @@ var HUDnasal = {
           vel_z += acc * dt;
           alt = alt + vel_z*dt+0.5*acc*dt*dt;
         }
-        #printf("time=%0.1f", t);
+        #printf("predict fall time=%0.1f", t);
 
         if (t >= 16) {
           me.ccip_symbol.hide();
