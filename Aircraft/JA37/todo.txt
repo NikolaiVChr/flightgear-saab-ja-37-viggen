@@ -71,6 +71,8 @@ Sim: Make schedule for max climb rate with A/P at slow speed different when gear
 Sim: Make flare over MP use int instead of String.
 Sim: Review all replay signals.
 Sim: Only send propertis over MP when they change, will save up property space.
+Sim: M70 and M55 should fire simultanously, as per dev notes.
+Sim: Set 4 M71 to fire in ripple at each trigger press.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
