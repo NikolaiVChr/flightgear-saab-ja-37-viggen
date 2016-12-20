@@ -2571,3 +2571,4 @@ Sim: Now also warn when f-14 fires sparrow.
 Sim: Reduced Skyflash max G.
 Sim: If a missile target is less than 10 miles out, lofting and cruising will stop.
 Effect: Redout onset is now -2.
+Radar: On radarscreen is now the set range, as per manual.

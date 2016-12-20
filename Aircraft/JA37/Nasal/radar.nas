@@ -10,7 +10,7 @@ var TRUE  = 1;
 var abs = func(n) { n < 0 ? -n : n }
 var sgn = func(n) { n < 0 ? -1 : 1 }
 var g = nil;
-var pixels_max = 128;
+var pixels_max = 256;
 
 # radar canon color
 var black_r = 0.0;
@@ -193,6 +193,14 @@ var radar = {
      .setStrokeLineWidth((8/1024)*pixels_max)
      .setColor(black_r, black_g, black_b);
 
+    # range text
+    m.rangeText = m.lineGroup.createChild("text")
+      .setText("120")
+      .setAlignment("center-center")
+      .setFontSize((37.5/1024)*pixels_max, 1.0)
+      .setTranslation((280/1024)*pixels_max, (-110/1024)*pixels_max)
+      .setColor(black_r, black_g, black_b);
+
     # upper arc
     m.lineGroup.createChild("path")
                .moveTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.8982873)
@@ -342,7 +350,7 @@ var radar = {
         and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
-      
+      me.rangeText.setText(sprintf("%3d",me.radarRange/1000));
       var dt = me.input.timeElapsed.getValue();
       
       #Stroke animation
@@ -538,11 +546,11 @@ var radar = {
 #  else if (diff < -430) diff=-430;
 #  return diff;
 #}
-
+var scope = nil;
 var theinit = setlistener("ja37/supported/initialized", func {
   if(getprop("ja37/supported/radar") == 1) {
     removelistener(theinit);
-    var scope = radar.new();
+    scope = radar.new();
     scope.update();
   }
 }, 1, 0);
