@@ -1275,12 +1275,41 @@
 
     <channel execrate="1" name="Throttle"><!-- execrate must be 1, else wont overwrite fcs/throttle-pos-norm properly -->
 
-        <aerosurface_scale name="names/throttle/pos-norm-scale">
+        <!-- from AJS-37 Description part 4
+
+        throttle pos:
+        0-3 deg = stop mode
+        13-16   = ground idle
+        24.5    = flight idle
+        62-65   = max mil
+        120     = zone 3 end
+
+        -->
+
+        <aerosurface_scale name="names/throttle/pos-norm-deg">
             <input>/controls/engines/engine/throttle</input>
             <zero_centered> false </zero_centered>
             <domain>
                 <min>  0.00 </min>
-                <max>  0.90 </max>
+                <max>  1.00 </max>
+            </domain>
+            <range>
+                <min>    0 </min>
+                <max>  120 </max>
+            </range>
+            <clipto>
+                <min>  0 </min>
+                <max>  120 </max>
+            </clipto>
+            <output>fcs/throttle-pos-deg</output>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="names/throttle/pos-norm-scale">
+            <input>fcs/throttle-pos-deg</input>
+            <zero_centered> false </zero_centered>
+            <domain>
+                <min>  0 </min>
+                <max> 62 </max>
             </domain>
             <range>
                 <min>  0.0 </min>
@@ -1295,16 +1324,20 @@
 
         <!-- factor for augmentation power -->
         <aerosurface_scale name="names/throttle/zone-factor">
-            <input>/controls/engines/engine/throttle</input>
+            <input>fcs/throttle-pos-deg</input>
             <zero_centered> false </zero_centered>
             <domain>
-                <min>  0.94 </min>
-                <max>  1.00 </max>
+                <min>   70 </min>
+                <max>  120 </max>
             </domain>
             <range>
                 <min>  0.60 </min>
                 <max>  1.00 </max>
             </range>
+            <clipto>
+                <min>  0 </min>
+                <max>  1 </max>
+            </clipto>
             <output>propulsion/engine/zone-factor</output>
         </aerosurface_scale>
 
@@ -1312,32 +1345,36 @@
         <switch name="names/throttle/zone">
             <default value="0"/>
             <test logic="AND" value="0">
-              fcs/throttle-cmd-norm lt 0.94
-          </test>
+              fcs/throttle-pos-deg lt 70
+            </test>
             <test logic="AND" value="1">
-              fcs/throttle-cmd-norm lt 0.96
-          </test>
+              fcs/throttle-pos-deg lt 82.5
+            </test>
             <test logic="AND" value="2">
-              fcs/throttle-cmd-norm lt 0.98
-          </test>
+              fcs/throttle-pos-deg lt 95
+            </test>
             <test logic="AND" value="3">
-              fcs/throttle-cmd-norm gt 0.98
-          </test>
+              fcs/throttle-pos-deg ge 95
+            </test>
             <output>propulsion/engine/zone</output>
         </switch>
 
         <!-- used for animating nozzle indicator -->
         <aerosurface_scale name="names/throttle/zone-scaled">
-            <input>fcs/throttle-cmd-norm</input>
+            <input>fcs/throttle-pos-deg</input>
             <zero_centered> false </zero_centered>
             <domain>
-                <min>  0.94 </min>
-                <max>  1.00 </max>
+                <min>   70 </min>
+                <max>  120 </max>
             </domain>
             <range>
                 <min>  0.00 </min>
                 <max>  1.00 </max>
             </range>
+            <clipto>
+                <min>  0 </min>
+                <max>  1 </max>
+            </clipto>
             <output>propulsion/engine/zone-scaled</output>
         </aerosurface_scale>
 
@@ -1372,7 +1409,7 @@
         <switch name="names/throttle/augmentation">
             <default value="0"/>
             <test logic="AND" value="1">
-              fcs/throttle-cmd-norm ge 0.940
+              fcs/throttle-pos-deg ge 70
               propulsion/engine/n2 ge 84
               /controls/engines/engine/cutoff-augmentation == 0
               /engines/engine/is-reversed == 0
