@@ -80,7 +80,7 @@
 # Specify terminal manouvres and preferred impact aspect.
 # Limit guiding if needed so that the missile don't lose sight of target.
 # Change flare to use helicopter property double.
-# Heat seeker could lock on to sun. (AIM-9B could not look closer than 20 degrees to the sun, later versions: 5 deg).
+# Make check for seeker FOV round instead of square, same with check for lock on sun.
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 
@@ -201,6 +201,7 @@ var AIM = {
 		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
 		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");             # sound volume before getting solid lock
 		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only for heat/vision seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
+		m.sun_lock              = getprop("payload/armament/"~m.type_lc~"/lock-on-sun-deg");            # only for heat seeking missiles. If it looks at sun within this angle, it will lose lock on target.
         m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");              # if 0 then no snap up. Below 10000 then cruise altitude above ground. Above 10000 max altitude it will snap up to.
         m.follow                = getprop("payload/armament/"~m.type_lc~"/terrain-follow");             # used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");          # it wont get solid lock before the target has this range
@@ -559,6 +560,17 @@ var AIM = {
 		var fuel_per_energy = me.weight_fuel_lbm / energyT;
 		me.fuel_per_sec_1  = (fuel_per_energy * energy1) / me.stage_1_duration;
 		me.fuel_per_sec_2  = (fuel_per_energy * energy2) / me.stage_2_duration;
+
+		# find the sun:
+		if(me.guidance == "heat") {
+			var sun_x = getprop("ephemeris/sun/local/x");
+			var sun_y = getprop("ephemeris/sun/local/x");
+			var sun_z = getprop("ephemeris/sun/local/x");
+			me.sun_power = getprop("/rendering/scene/diffuse/red");
+			me.sun = geo.Coord.new(me.ac_init);
+			me.sun.set_xyz(me.sun.x()+sun_x*200000, me.sun.y()+sun_y*200000, me.sun.z()+sun_z*200000);#heat seeking missiles don't fly far, so setting it 200Km away is fine.
+		}
+		me.lock_on_sun = FALSE;
 
 		me.flight();
 		loadNode.remove();
@@ -1094,6 +1106,8 @@ var AIM = {
 
 		me.checkForFlare();
 
+		me.checkForSun();
+
 		me.checkForGuidance();
 
 		me.canSeekerKeepUp();
@@ -1147,6 +1161,26 @@ var AIM = {
 						}
 					}
 				}
+			}
+		}
+	},
+
+	checkForSun: func () {
+		if (me.guidance == "heat" and me.sun_power > 0.6) {
+			# heat seeker locked on to sun
+			me.sun_dev_e = me.getPitch(me.coord, me.sun) - me.pitch;
+			me.sun_dev_h = me.coord.course_to(me.sun) - me.hdg;
+			while(me.sun_dev_h < -180) {
+				me.sun_dev_h += 360;
+			}
+			while(me.sun_dev_h > 180) {
+				me.sun_dev_h -= 360;
+			}
+			# now we check if the sun is behind the target, which is the direction the gyro seeker is pointed at:
+			if (math.abs(me.sun_dev_e-me.curr_deviation_e) < me.sun_lock and math.abs(me.sun_dev_h-me.curr_deviation_h) < me.sun_lock) {
+				print(me.type~": Locked onto sun, lost target. ");
+				me.lock_on_sun = TRUE;
+				me.free = TRUE;
 			}
 		}
 	},
@@ -1564,7 +1598,9 @@ var AIM = {
 		#var new_t_alt_m = me.t_coord.alt() + t_delta_alt_m;
 		#var t_dist_m  = me.direct_dist_m;
 
-		if (me.fooled == TRUE) {
+		if (me.lock_on_sun == TRUE) {
+			reason = "Locked onto sun.";
+		} elsif (me.fooled == TRUE) {
 			reason = "Fooled by flare.";
 		}
 		

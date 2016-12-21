@@ -558,6 +558,7 @@
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">26</self-destruct-time-sec>         <!-- authentic -->
                     <seeker-angular-speed-dps type="double">10.0</seeker-angular-speed-dps><!-- deg/sec authentic-->
+                    <lock-on-sun-deg type="double">20</lock-on-sun-deg>
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
@@ -592,6 +593,7 @@
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
                     <seeker-angular-speed-dps type="double">14.9</seeker-angular-speed-dps><!-- deg/sec authentic-->
+                    <lock-on-sun-deg type="double">5</lock-on-sun-deg>
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
@@ -625,6 +627,7 @@
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- guess -->
                     <self-destruct-time-sec type="double">50</self-destruct-time-sec>         <!-- guess -->
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
+                    <lock-on-sun-deg type="double">5</lock-on-sun-deg>
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
