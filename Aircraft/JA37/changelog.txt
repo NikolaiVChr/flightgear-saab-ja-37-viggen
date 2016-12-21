@@ -2540,7 +2540,6 @@ Sim: Armament no longer reports bleed in console. But now reports type, in other
 Radar: Radar logic now optimized for Nasal garbage collection.
 Sim: More accurate way of passing target location updates to armament.
 HUD: Reduced texture imprint by 4 times.
-Radar: Reduced texture imprint by 4 times.
 Sim: Better init of armament position.
 Sim: Removed double declaration of variable in missile code.
 Sim: Made RB-15F be terrain following again.
@@ -2576,3 +2575,4 @@ Sim: Munitions code now can optionally consume fuel.
 Sim: More informative console output when missile loses view of target.
 Control: Throttle control was adjusted as per AJS manual.
 Animation: Nozzle-indicator, tachometer, AoA-indicator and epr-gauge now goes to zero when DC voltage is too low.
+Animation: Nozzle-indicator, tachometer, AoA-indicator and epr-gauge is now damped, so the needle wont jump around.

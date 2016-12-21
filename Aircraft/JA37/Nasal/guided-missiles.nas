@@ -80,6 +80,7 @@
 # Specify terminal manouvres and preferred impact aspect.
 # Limit guiding if needed so that the missile don't lose sight of target.
 # Change flare to use helicopter property double.
+# Heat seeker could lock on to sun. (AIM-9B could not look closer than 20 degrees to the sun, later versions: 5 deg).
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 
@@ -1212,7 +1213,7 @@ var AIM = {
 				#print(sprintf("last-elev=%.1f", me.last_deviation_e)~sprintf(" last-elev-adj=%.1f", me.last_track_e));
 				#print(sprintf("last-head=%.1f", me.last_deviation_h)~sprintf(" last-head-adj=%.1f", me.last_track_h));
 				# lost lock due to angular speed limit
-				printf("%s: %.1f deg/s too big angular change for seeker head.", me.type, me.deviation_per_sec);
+				printf("%s: %.1f deg/s too fast angular change for seeker head.", me.type, me.deviation_per_sec);
 				me.free = TRUE;
 			}
 		}
@@ -1331,7 +1332,7 @@ var AIM = {
 				me.dive_token = TRUE;
 				#print("Is last turn, APN takes it from here..")
 			}
-		} elsif (me.coord.alt() > me.Tgt.get_Coord().alt() and me.last_cruise_or_loft == TRUE
+		} elsif (me.coord.alt() > me.t_coord.alt() and me.last_cruise_or_loft == TRUE
 		         and me.absolutePitch > -25 and me.dist_curr * M2NM > 10) {
 			# cruising: keeping altitude since target is below and more than -45 degs down
 
@@ -1376,8 +1377,8 @@ var AIM = {
 				me.apn = 1;
 			}
 
-			me.horz_closing_rate_fps = me.clamp(((me.dist_last - me.dist_curr)*M2FT)/me.dt, 1, 1000000);#clamped due to cruise missiles that can fly slower than target.
-			#printf("Horz closing rate: %5d", horz_closing_rate_fps);
+			me.horz_closing_rate_fps = me.clamp(((me.dist_last - me.dist_curr)*M2FT)/me.dt, 0.1, 1000000);#clamped due to cruise missiles that can fly slower than target.
+			#printf("Horz closing rate: %5d ft/sec", me.horz_closing_rate_fps);
 			me.proportionality_constant = 3;
 
 			me.c_dv = me.t_course-me.last_t_course;
@@ -1461,7 +1462,8 @@ var AIM = {
 				# augmented proportional navigation for elevation #
 				###################################################
 				#print(me.navigation~" in fully control");
-				me.vert_closing_rate_fps = me.clamp(((me.dist_direct_last - me.dist_curr_direct)*M2FT)/me.dt,1,1000000);
+				me.vert_closing_rate_fps = me.clamp(((me.dist_direct_last - me.dist_curr_direct)*M2FT)/me.dt, 0.1, 1000000);
+				#printf("Vert closing rate: %5d ft/sec", me.vert_closing_rate_fps);
 				me.line_of_sight_rate_up_rps = (D2R*(me.t_elev_deg-me.last_t_elev_deg))/me.dt;
 
 				# calculate target acc as normal to LOS line: (up acc is positive)
