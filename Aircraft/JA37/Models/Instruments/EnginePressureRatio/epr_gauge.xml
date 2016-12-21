@@ -57,23 +57,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
-        <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
-        </condition>
-        <!--        <expression>
-          <product>
-            <sum>
-              <property>/engines/engine/epr</property>
-              <value>-1</value>
-            </sum>
-            <value>190</value>
-          </product>
-        </expression>
-        <max>330</max>-->
-        <property>engines/engine/epr</property>
+        <property>engines/engine/epr-gauge</property>
         <interpolation>
             <entry>
                 <ind>1</ind>

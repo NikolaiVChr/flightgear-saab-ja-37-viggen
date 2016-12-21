@@ -23,12 +23,6 @@
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
-        <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
-        </condition>
         <property>fdm/jsbsim/propulsion/engine/nozzle</property>
         <factor>240</factor>
         <offset-deg>-120</offset-deg>

@@ -1378,16 +1378,6 @@
             <output>propulsion/engine/zone-scaled</output>
         </aerosurface_scale>
 
-        <!-- used for animating nozzle indicator -->
-        <switch name="names/throttle/nozzle">
-            <default value="propulsion/engine/zone-scaled"/>
-            <test logic="OR" value="/engines/engine/nozzle-pos-norm">
-              propulsion/engine/zone == 0
-              propulsion/engine/augmentation == 0
-          </test>
-            <output>propulsion/engine/nozzle</output>
-        </switch>
-
         <!-- used for animating afterburner flame -->
         <switch name="names/throttle/aug-flame">
             <default value="propulsion/engine/zone-scaled"/>

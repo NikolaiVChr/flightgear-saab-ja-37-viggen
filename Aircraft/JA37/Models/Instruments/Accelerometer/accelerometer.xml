@@ -46,7 +46,7 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>ja37/accelerations/pilot-G-damped</property>
+        <property>ja37/accelerations/pilot-G-lag</property>
         <interpolation>
             <entry>
                 <ind>-2</ind>
@@ -72,62 +72,6 @@
             <z>0</z>
         </axis>
     </animation>
-    <!--<animation>
-    <type>rotate</type>
-    <object-name>needle-max</object-name>
-    <property>sim/model/ja37/instrumentation/g-meter/g-max</property>
-    <interpolation>
-      <entry><ind>-5</ind><dep>-202.5</dep></entry>
-      <entry><ind>-4</ind><dep>-112.5</dep></entry>
-      <entry><ind>-3</ind><dep>-90</dep></entry>
-      <entry><ind>-1</ind><dep>-45</dep></entry>
-      <entry><ind>0</ind><dep>-22.5</dep></entry>
-      <entry><ind>1</ind><dep>0</dep></entry>
-      <entry><ind>3</ind><dep>45</dep></entry>
-      <entry><ind>5</ind><dep>90</dep></entry>
-      <entry><ind>7</ind><dep>135</dep></entry>
-      <entry><ind>9</ind><dep>180</dep></entry>
-      <entry><ind>10</ind><dep>202.5</dep></entry>
-    </interpolation>
-    <center>
-      <x-m>0</x-m>
-      <y-m>0</y-m>
-      <z-m>0</z-m>
-    </center> 
-    <axis>
-      <x>-1</x>
-      <y>0</y>
-      <z>0</z>
-    </axis>
-  </animation>
-  <animation>
-    <type>rotate</type>
-    <object-name>needle-min</object-name>
-    <property>sim/model/ja37/instrumentation/g-meter/g-min</property>
-    <interpolation>
-      <entry><ind>-5</ind><dep>-202.5</dep></entry>
-      <entry><ind>-4</ind><dep>-112.5</dep></entry>
-      <entry><ind>-3</ind><dep>-90</dep></entry>
-      <entry><ind>-1</ind><dep>-45</dep></entry>
-      <entry><ind>0</ind><dep>-22.5</dep></entry>
-      <entry><ind>1</ind><dep>0</dep></entry>
-      <entry><ind>3</ind><dep>45</dep></entry>
-      <entry><ind>5</ind><dep>90</dep></entry>
-      <entry><ind>7</ind><dep>135</dep></entry>
-      <entry><ind>9</ind><dep>180</dep></entry>
-      <entry><ind>10</ind><dep>202.5</dep></entry>
-    </interpolation>
-    <center>
-      <x-m>0</x-m>
-      <y-m>0</y-m>
-      <z-m>0</z-m>
-    </center> 
-    <axis>
-      <x>-1</x>
-      <y>0</y>
-      <z>0</z>
-    </axis>
-  </animation>-->
 
     <animation>
         <type>material</type>

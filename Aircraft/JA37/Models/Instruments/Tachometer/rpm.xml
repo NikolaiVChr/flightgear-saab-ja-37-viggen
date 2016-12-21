@@ -59,13 +59,7 @@
     <animation>
         <type>rotate</type>
         <object-name>needle</object-name>
-        <condition>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
-        </condition>
-        <property>engines/engine/n2</property>
+        <property>fdm/jsbsim/propulsion/engine/tachometer</property>
         <interpolation>
             <entry>
                 <ind>0</ind>

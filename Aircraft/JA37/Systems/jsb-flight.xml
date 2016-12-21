@@ -292,12 +292,61 @@
 
     <channel execrate="4" name="instruments">
 
+        <!-- used for animating nozzle indicator -->
+        <switch name="names/throttle/nozzle-direct">
+            <default value="propulsion/engine/zone-scaled"/>
+            <test logic="OR" value="0">
+              /systems/electrical/outputs/dc-voltage lt 23
+            </test>
+            <test logic="OR" value="/engines/engine/nozzle-pos-norm">
+              propulsion/engine/zone == 0
+              propulsion/engine/augmentation == 0
+            </test>
+            <output>propulsion/engine/nozzle-direct</output>
+        </switch>
+
+        <lag_filter name="names/throttle/nozzle">
+            <input> propulsion/engine/nozzle-direct </input>
+            <c1> 5 </c1>
+            <output>propulsion/engine/nozzle</output>
+        </lag_filter>
+
+        <!-- used for animating epr gauge -->
+        <switch name="names/instr/epr-direct">
+            <default value="/engines/engine/epr"/>
+            <test logic="OR" value="0">
+              /systems/electrical/outputs/dc-voltage lt 23
+            </test>
+            <output>/engines/engine/epr-direct</output>
+        </switch>
+
+        <lag_filter name="names/instr/epr">
+            <input> /engines/engine/epr-direct </input>
+            <c1> 5 </c1>
+            <output>/engines/engine/epr-gauge</output>
+        </lag_filter>
+
+        <!-- used for animating tachometer -->
+        <switch name="names/instr/tachometer-direct">
+            <default value="propulsion/engine/n2"/>
+            <test logic="OR" value="0">
+              /systems/electrical/outputs/dc-voltage lt 23
+            </test>
+            <output>propulsion/engine/tachometer-direct</output>
+        </switch>
+
+        <lag_filter name="names/instr/tachometer">
+            <input> propulsion/engine/tachometer-direct </input>
+            <c1> 5 </c1>
+            <output>propulsion/engine/tachometer</output>
+        </lag_filter>
+
         <fcs_function name="propulsion/engine/n2-mod">
             <function>
                 <product>
                     <fraction>
                         <quotient>
-                            <p>propulsion/engine/n2</p>
+                            <p>propulsion/engine/tachometer</p>
                             <v>10</v>
                         </quotient>
                     </fraction>
@@ -315,6 +364,13 @@
             </function>
             <output>/ja37/accelerations/pilot-G</output>
         </fcs_function>
+
+        <!-- used for animating accelerometer -->
+        <lag_filter name="names/instr/accelerometer">
+            <input> /ja37/accelerations/pilot-G </input>
+            <c1> 5 </c1>
+            <output>/ja37/accelerations/pilot-G-lag</output>
+        </lag_filter>
 
         <fcs_function name="names/instruments/g-force-norm">
             <function>
@@ -533,12 +589,21 @@
             </function>
         </fcs_function>
 
-        <switch name="systems/flight/aoa-indicator">
+        <!-- animating AoA indicator -->
+        <switch name="systems/flight/aoa-indicator-direct">
             <default value="aero/alpha-deg"/>
+            <test logic="OR" value="0">
+              /systems/electrical/outputs/dc-voltage lt 23
+            </test>
             <test logic="OR" value="/instrumentation/attitude-indicator/indicated-pitch-deg">
                 gear/unit[0]/WOW == 1
             </test>
-        </switch>    
+        </switch>
+
+        <lag_filter name="systems/flight/aoa-indicator">
+            <input> systems/flight/aoa-indicator-direct </input>
+            <c1> 5 </c1>
+        </lag_filter>
 
         <!-- AJS-37 manual part 2, page 173 -->
         <fcs_function name="systems/flight/rotation-speed">

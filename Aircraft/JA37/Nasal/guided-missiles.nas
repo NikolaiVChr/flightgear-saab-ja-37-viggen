@@ -1170,7 +1170,7 @@ var AIM = {
 			if (me.curr_deviation_e > me.max_seeker_dev) {
 				me.viewLost = "Target is above seeker view.";
 			} elsif (me.curr_deviation_e < (-1 * me.max_seeker_dev)) {
-				me.viewLost = "Target is below seeker view. "~(me.dist_curr*M2NM)~" NM and "~((me.coord.alt()-me.t_coord.alt())*M2NM)~" NM alt diff.";
+				me.viewLost = "Target is below seeker view. "~(me.dist_curr*M2NM)~" NM and "~((me.coord.alt()-me.t_coord.alt())*M2FT)~" ft diff.";
 			} elsif (me.curr_deviation_h > me.max_seeker_dev) {
 				me.viewLost = "Target is right of seeker view.";
 			} else {
