@@ -486,7 +486,7 @@ var loop_stores = func {
         } elsif (i == 4) {
           payloadName.setValue("RB 74 Sidewinder");
         } elsif (i == 5) {
-          payloadName.setValue("RB 24J Sidewinder");
+          payloadName.setValue("TEST");
         }
       }
     }

@@ -1060,14 +1060,16 @@ var main_init = func {
     setlistener("/environment/lightning/lightning-pos-y", thunder_listener);
   }
 
-  setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
-  setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
-  setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
-  setprop("controls/electric/lights-ext-flash", rand()>0.5?TRUE:FALSE);
-  setprop("controls/electric/lights-ext-beacon", rand()>0.5?TRUE:FALSE);
-  setprop("controls/electric/lights-ext-nav", rand()>0.5?TRUE:FALSE);
-  setprop("controls/electric/lights-land-switch", rand()>0.5?TRUE:FALSE);
-  setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
+  if(getprop("dev") != TRUE) {
+    setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
+    setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-flash", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-beacon", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-ext-nav", rand()>0.5?TRUE:FALSE);
+    setprop("controls/electric/lights-land-switch", rand()>0.5?TRUE:FALSE);
+    setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
+  }
 
   # start weapon systems
   settimer(func { armament.main_weapons() }, 2);
