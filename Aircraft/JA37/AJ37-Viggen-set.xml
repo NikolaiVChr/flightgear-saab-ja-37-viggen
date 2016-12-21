@@ -472,7 +472,7 @@
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">6.9</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
-                    <seeker-field-deg type="int">110</seeker-field-deg>                 <!-- total seeker angle -->
+                    <seeker-field-deg type="int">54</seeker-field-deg>                 <!-- authentic: 25 deg gyro + 2 deg searcher-beam-width -->
                     <max-g type="int">10</max-g>                                  <!-- source -->
                     <max-launch-g type="int">7</max-launch-g>                     <!-- authentic -->
                     <thrust-lbf-stage-1 type="double">4271.3699</thrust-lbf-stage-1><!-- authentic -->
@@ -506,7 +506,7 @@
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">7.83</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
-                    <seeker-field-deg type="int">110</seeker-field-deg>                 <!-- total seeker angle -->
+                    <seeker-field-deg type="int">62</seeker-field-deg>                 <!-- guesstimate: 30 deg gyro + 1 deg searcher-beam-width -->
                     <max-g type="int">22</max-g>                                  <!-- source -->
                     <max-launch-g type="int">7</max-launch-g>                     <!-- authentic -->
                     <thrust-lbf-stage-1 type="double">3821.75</thrust-lbf-stage-1><!-- authentic -->
