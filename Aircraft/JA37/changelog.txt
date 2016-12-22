@@ -2576,3 +2576,6 @@ Sim: More informative console output when missile loses view of target.
 Control: Throttle control was adjusted as per AJS manual.
 Animation: Nozzle-indicator, tachometer, AoA-indicator and epr-gauge now goes to zero when DC voltage is too low.
 Animation: Nozzle-indicator, tachometer, AoA-indicator and epr-gauge is now damped, so the needle wont jump around.
+Sim: Sidewinders seeker total FOV reduced considerably.
+Sim: Sidewinder can now lock onto sun if unlucky.
+Sim: Updated mentioned authors in munitions code.
