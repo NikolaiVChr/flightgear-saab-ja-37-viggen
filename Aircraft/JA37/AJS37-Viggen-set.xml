@@ -552,7 +552,8 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">160.94</weight-launch-lbs>      <!-- authentic 73Kg -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
-                    <drag-coeff type="double">0.5</drag-coeff>                   <!-- guesstimate -->
+                    <weight-fuel-lbm type="double">54</weight-fuel-lbm>           <!-- guess -->
+                    <drag-coeff type="double">1.5</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius) authentic -->
                     <arming-time-sec type="double">2.2</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
@@ -587,7 +588,8 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">179</weight-launch-lbs>      <!-- authentic -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
-                    <drag-coeff type="double">0.5</drag-coeff>                   <!-- guesstimate -->
+                    <weight-fuel-lbm type="double">60</weight-fuel-lbm>           <!-- guess -->
+                    <drag-coeff type="double">1.0</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius) authentic -->
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
@@ -621,6 +623,7 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- authentic -->
                     <weight-launch-lbs type="double">188</weight-launch-lbs>      <!-- authentic -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
+                    <weight-fuel-lbm type="double">63</weight-fuel-lbm>           <!-- guess -->
                     <drag-coeff type="double">0.5</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.143</drag-area>                    <!-- sq ft -->
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- guess -->

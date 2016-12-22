@@ -958,7 +958,7 @@ var AIM = {
 			me.weight_current = me.weight_current - me.fuel_per_sec_1 * me.dt;
 		}
 		#printf("weight %0.1f", me.weight_current);
-		me.mass = me.weight_current / slugs_to_lbm;		
+		me.mass = me.weight_current / slugs_to_lbm;
 
 		me.last_dt = me.dt;
 		settimer(func me.flight(), update_loop_time, SIM_TIME);		
