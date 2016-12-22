@@ -2429,7 +2429,7 @@ var HUDnasal = {
         var rs = bomb.rho_sndspeed(dens-(agl/2)*M2FT);
         var rho = rs[0];
         var Cd = bomb.drag(mach);
-        var mass = bomb.weight_launch_lbs / armament.slugs_to_lbs;
+        var mass = bomb.weight_launch_lbm / armament.slugs_to_lbm;
         var q = 0.5 * rho * fps_z * fps_z;
         var deacc = (Cd * q * bomb.eda) / mass;
 
