@@ -82,7 +82,7 @@
 # Specify terminal manouvres and preferred impact aspect.
 # Limit guiding if needed so that the missile don't lose sight of target.
 # Change flare to use helicopter property double.
-# Make check for seeker FOV round instead of square, same with check for lock on sun.
+# Make check for seeker FOV round instead of square.
 # Consider to average the closing speed in proportional navigation. So get it between second last positions and current, instead of last to currect.
 # Drag coeff due to exhaust.
 #
@@ -1181,7 +1181,8 @@ var AIM = {
 				me.sun_dev_h -= 360;
 			}
 			# now we check if the sun is behind the target, which is the direction the gyro seeker is pointed at:
-			if (math.abs(me.sun_dev_e-me.curr_deviation_e) < me.sun_lock and math.abs(me.sun_dev_h-me.curr_deviation_h) < me.sun_lock) {
+			me.sun_dev = math.sqrt((me.sun_dev_e-me.curr_deviation_e)*(me.sun_dev_e-me.curr_deviation_e)+(me.sun_dev_h-me.curr_deviation_h)*(me.sun_dev_h-me.curr_deviation_h));
+			if (me.sun_dev < me.sun_lock) {
 				print(me.type~": Locked onto sun, lost target. ");
 				me.lock_on_sun = TRUE;
 				me.free = TRUE;
