@@ -2579,3 +2579,4 @@ Animation: Nozzle-indicator, tachometer, AoA-indicator and epr-gauge is now damp
 Sim: Sidewinders seeker total FOV reduced considerably.
 Sim: Sidewinder can now lock onto sun if unlucky.
 Sim: Updated mentioned authors in munitions code.
+Model: {Spectre} New livery: Ferris F21-79

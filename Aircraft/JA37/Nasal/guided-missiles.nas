@@ -83,6 +83,7 @@
 # Limit guiding if needed so that the missile don't lose sight of target.
 # Change flare to use helicopter property double.
 # Make check for seeker FOV round instead of square, same with check for lock on sun.
+# Consider to average the closing speed in proportional navigation. So get it between second last positions and current, instead of last to currect.
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 
