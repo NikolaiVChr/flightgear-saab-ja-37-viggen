@@ -2582,3 +2582,5 @@ Sim: Updated mentioned authors in munitions code.
 Model: {Spectre} New livery: Ferris F21-79
 Sim: Made sidewinders consume fuel.
 Sim: Increased drag for M71 bomblets.
+Model: {Pinto} Made retarded M71.
+Sim: Updated firecontrol to be able to fire M71 retarded.
