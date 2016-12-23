@@ -2584,3 +2584,4 @@ Sim: Made sidewinders consume fuel.
 Sim: Increased drag for M71 bomblets.
 Model: {Pinto} Made retarded M71.
 Sim: Updated firecontrol to be able to fire M71 retarded.
+Sim: M71 and M71r now drop alternating from pylons as per manual.

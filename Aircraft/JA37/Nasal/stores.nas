@@ -657,10 +657,15 @@ var trigger_listener = func {
           ammo = ammo - 1;
           setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
           if(ammo > 0) {
-            next = FALSE;
+            #next = FALSE;
           }
         }
-        if(next == TRUE) {
+        if(next == TRUE and (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)")) {
+          var newStation = selectTypeBombs(fired, armSelect);
+          if (newStation != -1) {
+            input.stationSelect.setValue(newStation);
+          }
+        } elsif(next == TRUE) {
           var newStation = selectType(fired);
           if (newStation != -1) {
             input.stationSelect.setValue(newStation);
@@ -1013,13 +1018,40 @@ var nearby_explosion_b = func {
 ############ weapon selection #####################
 
 var selectType = func (type) {
-  var priority = [1,3,2,4,5,6,7];
+  var priority = [4,2,3,1,5,6,7];
   var sel = -1;
   var i = 0;
 
   while (sel == -1 and i < 7) {
     var test = getprop("payload/weight["~(priority[i]-1)~"]/selected");
     if (test == type and hasRockets(priority[i]) != 0 and hasShells(priority[i]) != 0 and hasBombs(priority[i]) != 0 and hasBombsR(priority[i]) != 0) {
+      sel = priority[i];
+    }
+    i += 1;
+  }
+
+  return sel;
+}
+
+var selectTypeBombs = func (type, current) {
+  # drop order as per manual:
+  # RF, LF ... RW, LW ... C
+  # So RF, LF, RF, LF, RF, LF, RF, LF, RW, LW, RW, LW, RW, LW, RW, LW, C, C, C, C
+  var priority = [4,2,4,2,3,1,3,1,7,4,2,4,2,3,1,3,1,7];
+  var sel = -1;
+  var j = 0;
+
+  var prio = -1;
+  while (prio != current) {
+    var prio = priority[j];
+    j += 1;
+  }
+
+  var i = j;
+
+  while (sel == -1 and i < 17) {
+    var test = getprop("payload/weight["~(priority[i]-1)~"]/selected");
+    if (test == type and hasBombs(priority[i]) != 0 and hasBombsR(priority[i]) != 0) {
       sel = priority[i];
     }
     i += 1;

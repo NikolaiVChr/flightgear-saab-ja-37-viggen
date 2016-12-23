@@ -72,7 +72,6 @@ Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: M70 and M55 should fire simultanously, as per dev notes.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
-Sim: M71 and M71r should drop alternating from pylons as per manual.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
