@@ -576,11 +576,11 @@
    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
    <or>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
       <value>1060</value> <!--weight-->
      </equals>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[11]</property><!-- payload/weight[3]/weight-lb -->
       <value>1062</value> <!--weight-->
      </equals>
    </or>
@@ -812,11 +812,11 @@
   <condition>
    <or>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
       <value>1060</value> <!--weight-->
      </equals>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[12]</property><!-- payload/weight[3]/weight-lb -->
       <value>1062</value> <!--weight-->
      </equals>
    </or>
@@ -1041,11 +1041,11 @@
    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable --> <!-- delete if not on wing -->
    <or>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
       <value>1060</value> <!--weight-->
      </equals>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[13]</property><!-- payload/weight[3]/weight-lb -->
       <value>1062</value> <!--weight-->
      </equals>
    </or>
@@ -1277,11 +1277,11 @@
   <condition>
    <or>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
       <value>1060</value> <!--weight-->
      </equals>
      <equals>
-      <property>sim/multiplay/generic/float[10]</property><!-- payload/weight[3]/weight-lb -->
+      <property>sim/multiplay/generic/float[14]</property><!-- payload/weight[3]/weight-lb -->
       <value>1062</value> <!--weight-->
      </equals>
    </or>
