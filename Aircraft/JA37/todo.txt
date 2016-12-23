@@ -61,7 +61,6 @@ Sim: Be able to notch the rb71 again.
 Sim: Make speed, roll and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: Make retarded version of M71.
-Sim: Be able to switch if M55 should fire all at once, or one at a time.
 Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make weapons hit all nearby targets.
@@ -70,7 +69,7 @@ Sim: When inverted for more than 10 secs, let oil pressure be affected, and disr
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Make flare over MP use int instead of String.
 Sim: Review all replay signals.
-Sim: Only send propertis over MP when they change, will save up property space.
+Sim: Only send properties over MP when they change, will save up property space.
 Sim: M70 and M55 should fire simultanously, as per dev notes.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
 Radar: Make database of RCS of common aircrafts.

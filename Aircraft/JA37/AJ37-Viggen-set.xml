@@ -469,6 +469,7 @@
                     <vol-track type="double">0.25</vol-track>
                     <vol-track-weak type="double">0.175</vol-track-weak>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
+                    <navigation type="string">APN</navigation>
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">6.9</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
@@ -505,6 +506,7 @@
                     <vol-track type="double">0.25</vol-track>
                     <vol-track-weak type="double">0.175</vol-track-weak>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
+                    <navigation type="string">APN</navigation>
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">7.83</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
@@ -554,7 +556,7 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>        <!-- source -->
                     <weight-launch-lbs type="double">264</weight-launch-lbs>        <!-- source -->
                     <weight-warhead-lbs type="double">200</weight-warhead-lbs>   <!-- guess -->
-                    <drag-coeff type="double">0.025</drag-coeff>                   
+                    <drag-coeff type="double">0.1</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
                     <drag-area type="double">1.95</drag-area>                          
                     <arming-time-sec type="double">4.0</arming-time-sec>                  <!-- source -->
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
@@ -574,6 +576,7 @@
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">gps</guidance>                              
+                    <navigation type="string">direct</navigation>
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">17.28</max-fire-range-nm>            <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
@@ -640,6 +643,7 @@
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">vision</guidance>                             
+                    <navigation type="string">direct</navigation>
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">12</max-fire-range-nm>              <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
@@ -665,102 +669,6 @@
                     <class type="string">GM</class>
                     <fire-msg>Rifle</fire-msg>
                 </rb-75>
-                <!-- test: SAM S-300-->
-                <!--<test> 
-                    <sound-on-off type="bool">false</sound-on-off>
-                    <sound-volume type="double">0.0</sound-volume>
-                    <vol-search type="double">0.00</vol-search>
-                    <vol-track type="double">0.15</vol-track>
-                    <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">radar</guidance>
-                    <all-aspect type="bool">true</all-aspect>
-                    <max-fire-range-nm type="int">85</max-fire-range-nm>
-                    <FCS-field-deg type="int">360</FCS-field-deg>
-                    <seeker-field-deg type="int">360</seeker-field-deg>
-                    <max-g type="int">25</max-g>
-                    <thrust-lbf-stage-1 type="double">100000</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">75000</thrust-lbf-stage-2> 
-                    <stage-1-duration-sec type="double">0.25</stage-1-duration-sec>
-                    <stage-2-duration-sec type="double">12.0</stage-2-duration-sec>
-                    <weight-launch-lbs>3920</weight-launch-lbs>
-                    <weight-warhead-lbs>315</weight-warhead-lbs>
-                    <drag-coeff type="double">0.15</drag-coeff>
-                    <drag-area type="double">2.11349</drag-area>
-                    <searcher-beam-width type="double">3.0</searcher-beam-width> 
-                    <arming-time-sec type="double">2</arming-time-sec> 
-                    <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach> 
-                    <self-destruct-time-sec type="double">160</self-destruct-time-sec> 
-                    <seeker-angular-speed-dps type="double">3000</seeker-angular-speed-dps>
-                    <loft-altitude>0</loft-altitude>
-                    <min-fire-range-nm type="double">0.85</min-fire-range-nm>
-                    <rail type="bool">true</rail>
-                    <rail-length-m type="double">7.5</rail-length-m>
-                    <rail-point-forward type="bool">false</rail-point-forward>
-                    <class type="string">A/A</class>
-                    <fire-msg>Grumble</fire-msg>
-                </test>-->
-                <!--<test>        
-                    <sound-on-off type="bool">false</sound-on-off>
-                    <sound-volume type="double">0.0</sound-volume>
-                    <vol-search type="double">0.00</vol-search>
-                    <vol-track type="double">0.15</vol-track>
-                    <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">radar</guidance>
-                    <all-aspect type="bool">true</all-aspect>
-                    <max-fire-range-nm type="int">38.8</max-fire-range-nm>
-                    <FCS-field-deg type="int">200</FCS-field-deg>
-                    <seeker-field-deg type="int">360</seeker-field-deg>
-                    <max-g type="int">30</max-g>
-                    <thrust-lbf-stage-1 type="double">9000</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">1500</thrust-lbf-stage-2>    
-                    <stage-1-duration-sec type="double">4.0</stage-1-duration-sec>
-                    <stage-2-duration-sec type="double">15.0</stage-2-duration-sec>
-                    <weight-launch-lbs>291</weight-launch-lbs>
-                    <weight-warhead-lbs>44</weight-warhead-lbs>
-                    <drag-coeff type="double">0.5</drag-coeff>
-                    <drag-area type="double">0.2739</drag-area>
-                    <searcher-beam-width type="double">3.0</searcher-beam-width>               
-                    <arming-time-sec type="double">1.6</arming-time-sec>                       
-                    <min-speed-for-guiding-mach type="double">0.9</min-speed-for-guiding-mach> 
-                    <self-destruct-time-sec type="double">90</self-destruct-time-sec>         
-                    <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps>
-                    <loft-altitude>0</loft-altitude>
-                    <min-fire-range-nm type="double">0.35</min-fire-range-nm>
-                    <rail type="bool">true</rail>
-                    <rail-length-m type="double">5</rail-length-m>
-                    <rail-point-forward type="bool">false</rail-point-forward>
-                    <class type="string">A/A</class>
-                    <fire-msg>Fox 3</fire-msg>
-                </test>-->
-                <!--<test>
-                    <sound-on-off type="bool">false</sound-on-off>
-                    <sound-volume type="double">0.0</sound-volume>
-                    <vol-search type="double">0.03</vol-search>
-                    <guidance type="string">radar</guidance> 
-                    <all-aspect type="bool">true</all-aspect>
-                    <max-fire-range-nm type="double">100</max-fire-range-nm>
-                    <FCS-field-deg type="int">25</FCS-field-deg>            
-                    <seeker-field-deg type="int">180</seeker-field-deg>     
-                    <max-g type="int">20</max-g>                            
-                    <max-launch-g type="int">7</max-launch-g>               
-                    <thrust-lbf-stage-1 type="double">150</thrust-lbf-stage-1>
-                    <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>
-                    <stage-1-duration-sec type="double">200.5</stage-1-duration-sec>
-                    <stage-2-duration-sec type="double">1.0</stage-2-duration-sec>
-                    <weight-launch-lbs type="double">179</weight-launch-lbs>      
-                    <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   
-                    <drag-coeff type="double">0.5</drag-coeff>                   
-                    <drag-area type="double">0.143</drag-area>
-                    <searcher-beam-width type="double">2.0</searcher-beam-width>  
-                    <arming-time-sec type="double">1.4</arming-time-sec>          
-                    <min-speed-for-guiding-mach type="double">0.4</min-speed-for-guiding-mach>
-                    <self-destruct-time-sec type="double">250</self-destruct-time-sec>         
-                    <seeker-angular-speed-dps type="double">50</seeker-angular-speed-dps>
-                    <loft-altitude>100</loft-altitude>
-                    <min-fire-range-nm type="double">0.2</min-fire-range-nm>
-                    <rail type="bool">false</rail>
-                    <class type="string">A/G</class>
-                </test>-->
             </armament>
     </payload>
 

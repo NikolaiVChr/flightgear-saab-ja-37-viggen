@@ -59,11 +59,11 @@
 #
 # Limitations:
 # 
-# The weapons use a simplified flight model that does not have AoA or sideslip. Mass balance, rotational inertia, wind,
-#   weight change due to fuel consumption is also not implemented. They also do not roll.
+# The weapons use a simplified flight model that does not have AoA or sideslip. Mass balance, rotational inertia, wind is also not implemented. They also do not roll.
 # If you fire a weapon and have HoT enabled in flightgear, they likely will not hit very precise.
 # The weapons are highly dependant on framerate, so low frame rate will make them hit imprecise.
 # APN does not take target sideslip and AoA into account when considering the targets acceleration. It assumes the target flies in the direction its pointed.
+# The drag curves are tailored for sizable munitions, so it does not work well will bullet or cannon sized munition, submodels are better suited for that.
 #
 #
 # Future features:
