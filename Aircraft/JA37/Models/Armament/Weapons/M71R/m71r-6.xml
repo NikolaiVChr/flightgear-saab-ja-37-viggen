@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+
+
+<PropertyList>
+
+	<name>m71-6</name>
+	<path>m71r.ac</path>
+
+	<animation>
+		<type>select</type>
+		<object-name>m71</object-name>
+		<object-name>parachute</object-name>
+		<condition>
+			<property>payload/armament/m71r/flags/msl-id-6</property>
+		</condition>
+	</animation>
+
+	<model>
+		<name>explosion</name>
+		<path>Aircraft/JA37/Models/Armament/Weapons/M71R/explosion-6.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<animation>
+  		<object-name>m71</object-name>
+  		<object-name>parachute</object-name>
+  		<enable-hot type="bool">false</enable-hot>
+ 	</animation>
+
+</PropertyList>

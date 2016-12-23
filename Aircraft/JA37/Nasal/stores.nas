@@ -90,6 +90,7 @@ var loop_stores = func {
           (payloadName.getValue() == "M70 ARAK" and payloadWeight.getValue() != 794)
           or (payloadName.getValue() == "M55 AKAN" and payloadWeight.getValue() != 802.5)
           or (payloadName.getValue() == "M71 Bomblavett" and payloadWeight.getValue() != 1060)
+          or (payloadName.getValue() == "M71 Bomblavett (Retarded)" and payloadWeight.getValue() != 1062)
           or (payloadName.getValue() == "RB 24 Sidewinder" and payloadWeight.getValue() != 160.94)
           or (payloadName.getValue() == "RB 24J Sidewinder" and payloadWeight.getValue() != 179)
           or (payloadName.getValue() == "RB 74 Sidewinder" and payloadWeight.getValue() != 188)
@@ -219,6 +220,15 @@ var loop_stores = func {
             #print("removing aim-7 logic");
             armament.AIM.active[i].del();
           }
+        } elsif (payloadName.getValue() == "M71 Bomblavett (Retarded)") {
+          # is not center pylon and is RB74
+          #print("m71 "~i);
+          setprop("payload/weight["~i~"]/ammo", 4);
+          if(armament.AIM.active[i] != nil and armament.AIM.active[i].type != "M71R") {
+            # remove aim-7 logic from that pylon
+            #print("removing aim-7 logic");
+            armament.AIM.active[i].del();
+          }
         } elsif (payloadName.getValue() == "M70 ARAK") {
             if (i == 6) {
               setprop("ai/submodels/submodel["~(15)~"]/count", 6);
@@ -303,7 +313,17 @@ var loop_stores = func {
       if(payloadName.getValue() == "M71 Bomblavett") {
         var ammo = getprop("payload/weight["~i~"]/ammo");
         if(ammo > 0) {
-          if(armament.AIM.new(i, "M71", "Bomblet") != -1) {
+          if(armament.AIM.new(i, "M71", "Virgo") != -1) {
+            # loaded a bomb            
+          } else {
+            # AIM already loaded
+          }
+        }
+      }
+      if(payloadName.getValue() == "M71 Bomblavett (Retarded)") {
+        var ammo = getprop("payload/weight["~i~"]/ammo");
+        if(ammo > 0) {
+          if(armament.AIM.new(i, "M71R", "Virgo") != -1) {
             # loaded a bomb            
           } else {
             # AIM already loaded
@@ -438,6 +458,11 @@ var loop_stores = func {
         # the pylon has a rocket pod, give it a pointmass
         if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1060) {
           setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1060);
+        }
+      } elsif (selected == "M71 Bomblavett (Retarded)") {
+        # the pylon has a rocket pod, give it a pointmass
+        if (getprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]") != 1062) {
+          setprop("fdm/jsbsim/inertia/pointmass-weight-lbs["~ (i+1) ~"]", 1062);
         }
       } elsif (selected == "M55 AKAN") {
         # the pylon has a rocket pod, give it a pointmass
@@ -611,7 +636,7 @@ var trigger_listener = func {
       if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == 1 and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE) and radar_logic.selection != nil) {
         #missile locked, fire it.
 
-        if (fired != "M71 Bomblavett") {
+        if (fired != "M71 Bomblavett" and fired != "M71 Bomblavett (Retarded)") {
           setprop("payload/weight["~ (armSelect-1) ~"]/selected", "none");# empty the pylon
           setprop("controls/armament/station["~armSelect~"]/released", TRUE);# setting the pylon as fired
         }
@@ -627,7 +652,7 @@ var trigger_listener = func {
           setprop("/sim/messages/atc", phrase);
         }
         var next = TRUE;
-        if (fired == "M71 Bomblavett") {
+        if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
           var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
           ammo = ammo - 1;
           setprop("payload/weight["~(armSelect-1)~"]/ammo", ammo);
@@ -747,6 +772,7 @@ var warhead_lbs = {
     "RB-75":               126.00,
     "M90":                 500.00,
     "M71":                 200.00,
+    "M71R":                200.00,
     "MK-82":               192.00,
     "LAU-68":               10.00,
     "M317":                145.00,
@@ -993,7 +1019,7 @@ var selectType = func (type) {
 
   while (sel == -1 and i < 7) {
     var test = getprop("payload/weight["~(priority[i]-1)~"]/selected");
-    if (test == type and hasRockets(priority[i]) != 0 and hasShells(priority[i]) != 0 and hasBombs(priority[i]) != 0) {
+    if (test == type and hasRockets(priority[i]) != 0 and hasShells(priority[i]) != 0 and hasBombs(priority[i]) != 0 and hasBombsR(priority[i]) != 0) {
       sel = priority[i];
     }
     i += 1;
@@ -1005,6 +1031,18 @@ var selectType = func (type) {
 var hasBombs = func (station) {
   var loaded = -1;
   if (getprop("payload/weight["~(station-1)~"]/selected") == "M71 Bomblavett") {
+    var payload = station -1; 
+    var ammo = getprop("payload/weight["~payload~"]/ammo");
+    if (ammo != nil) {
+      loaded = ammo;
+    }
+  }
+  return loaded;
+}
+
+var hasBombsR = func (station) {
+  var loaded = -1;
+  if (getprop("payload/weight["~(station-1)~"]/selected") == "M71 Bomblavett (Retarded)") {
     var payload = station -1; 
     var ammo = getprop("payload/weight["~payload~"]/ammo");
     if (ammo != nil) {
@@ -1130,6 +1168,12 @@ var ammoCount = func (station) {
         var bombs = hasBombs(i);
         ammo = bombs == -1?ammo:(bombs+ammo);
       }
+    } elsif (type == "M71 Bomblavett (Retarded)") {
+      ammo = 0;
+      for(var i = 1; i < 8; i += 1) {
+        var bombs = hasBombsR(i);
+        ammo = bombs == -1?ammo:(bombs+ammo);
+      }
     } elsif (type == "M55 AKAN") {
       ammo = 0;
       for(var i = 1; i < 8; i += 1) {
@@ -1241,6 +1285,13 @@ var cycle_weapons = func {
         type = "M71 Bomblavett";
       }
     } elsif (type == "M71 Bomblavett") {
+      sel = selectType("M71 Bomblavett (Retarded)");
+      if (sel != -1) {
+        newType = "M71 Bomblavett (Retarded)";
+      } else {
+        type = "M71 Bomblavett (Retarded)";
+      }
+    } elsif (type == "M71 Bomblavett (Retarded)") {
       sel = selectType("M90 Bombkapsel");
       if (sel != -1) {
         newType = "M90 Bombkapsel";

@@ -1815,6 +1815,9 @@ var HUDnasal = {
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett") {
         me.qfe.setText("M71");
         me.qfe.show();
+      } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)") {
+        me.qfe.setText("M71R");
+        me.qfe.show();
       } elsif(getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M90 Bombkapsel") {
         me.qfe.setText("M90");
         me.qfe.show();
@@ -1954,6 +1957,13 @@ var HUDnasal = {
         me.reticle_missile.hide();
         me.reticle_c_missile.show();
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M71 Bomblavett") {
+        air2air = FALSE;
+        air2ground = TRUE;
+        me.showSidewind(FALSE);
+        me.reticle_cannon.hide();
+        me.reticle_missile.hide();
+        me.reticle_c_missile.show();
+      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M71 Bomblavett (Retarded)") {
         air2air = FALSE;
         air2ground = TRUE;
         me.showSidewind(FALSE);
@@ -2223,6 +2233,11 @@ var HUDnasal = {
           unit = "seconds";
           minDist =   4;
           maxDist =  16;
+        } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M71 Bomblavett (Retarded)") {
+          # robot 15F
+          unit = "seconds";
+          minDist =   4;
+          maxDist =  16;
         } elsif (getprop("payload/weight["~(armSelect-1)~"]/selected") == "M90 Bombkapsel") {
           # robot 15F
           minDist =   0.1 * NM2M;
@@ -2389,7 +2404,7 @@ var HUDnasal = {
     if(mode == COMBAT) {
 
       var armSelect = me.input.station.getValue();
-      if(armSelect != 0 and getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett") {
+      if(armSelect != 0 and (getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett" or getprop("payload/weight["~ (armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)")) {
 
         var bomb = nil;
         if(armament.AIM.active[armSelect-1] != nil) {

@@ -302,6 +302,10 @@
                 <name>M71 Bomblavett</name>
                 <lbs>1060</lbs>
             </opt>
+            <opt>
+                <name>M71 Bomblavett (Retarded)</name>
+                <lbs>1062</lbs>
+            </opt>
         </weight>
         <weight n="1">
             <name>Left fuselage pylon</name>
@@ -336,6 +340,10 @@
                 <name>M71 Bomblavett</name>
                 <lbs>1060</lbs>
             </opt>
+            <opt>
+                <name>M71 Bomblavett (Retarded)</name>
+                <lbs>1062</lbs>
+            </opt>
         </weight>
         <weight n="2">
             <name>Right wing pylon</name>
@@ -361,6 +369,10 @@
             <opt>
                 <name>M71 Bomblavett</name>
                 <lbs>1060</lbs>
+            </opt>
+            <opt>
+                <name>M71 Bomblavett (Retarded)</name>
+                <lbs>1062</lbs>
             </opt>
         </weight>
         <weight n="3">
@@ -395,6 +407,10 @@
             <opt>
                 <name>M71 Bomblavett</name>
                 <lbs>1060</lbs>
+            </opt>
+            <opt>
+                <name>M71 Bomblavett (Retarded)</name>
+                <lbs>1062</lbs>
             </opt>
         </weight>
         <weight n="4">
@@ -456,6 +472,10 @@
             <opt>
                 <name>M71 Bomblavett</name>
                 <lbs>1060</lbs>
+            </opt>
+            <opt>
+                <name>M71 Bomblavett (Retarded)</name>
+                <lbs>1062</lbs>
             </opt>
         </weight>
         <armament>
@@ -568,6 +588,38 @@
                     <class type="string">GM</class>
                     <fire-msg>Bombs away</fire-msg>
                 </m71>
+                <m71r>
+                    <!-- Swedish bomblet M71 Virgo retarded with parachute -->
+                    <sound-on-off type="bool">false</sound-on-off>
+                    <sound-volume type="double">0.0</sound-volume>
+                    <vol-search type="double">0.00</vol-search>
+                    <vol-track type="double">0.15</vol-track>
+                    <vol-track-weak type="double">0.1</vol-track-weak>
+                    <guidance type="string">unguided</guidance> 
+                    <all-aspect type="bool">true</all-aspect>
+                    <max-fire-range-nm type="double">20</max-fire-range-nm>               
+                    <FCS-field-deg type="int">360</FCS-field-deg>            
+                    <seeker-field-deg type="int">220</seeker-field-deg>     
+                    <max-g type="int">15</max-g>
+                    <max-launch-g type="int">7</max-launch-g>               
+                    <thrust-lbf-stage-1 type="double">0</thrust-lbf-stage-1>
+                    <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>
+                    <stage-1-duration-sec type="double">0.0</stage-1-duration-sec>        <!-- source -->
+                    <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>        <!-- source -->
+                    <weight-launch-lbs type="double">264</weight-launch-lbs>        <!-- source -->
+                    <weight-warhead-lbs type="double">200</weight-warhead-lbs>   <!-- guess -->
+                    <drag-coeff type="double">2.5</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
+                    <drag-area type="double">1.95</drag-area>                          
+                    <arming-time-sec type="double">4.0</arming-time-sec>                  <!-- source -->
+                    <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
+                    <self-destruct-time-sec type="double">120</self-destruct-time-sec>
+                    <loft-altitude>0</loft-altitude>             
+                    <min-fire-range-nm type="double">0.0</min-fire-range-nm>
+                    <max-report-distance type="double">150</max-report-distance>
+                    <rail type="bool">false</rail>
+                    <class type="string">GM</class>
+                    <fire-msg>Bombs away</fire-msg>
+                </m71r>
                 <rb-04e>
                     <!-- Swedish antiship cruise-missile RB-04E subsonic -->
                     <sound-on-off type="bool">false</sound-on-off>
