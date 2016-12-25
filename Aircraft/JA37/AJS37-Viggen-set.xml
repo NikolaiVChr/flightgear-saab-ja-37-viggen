@@ -573,14 +573,14 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">160.94</weight-launch-lbs>      <!-- authentic 73Kg -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
-                    <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>           <!-- authentic -->
+                    <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>           <!-- source -->
                     <drag-coeff type="double">1.35</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius) authentic -->
                     <arming-time-sec type="double">2.2</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">26</self-destruct-time-sec>         <!-- authentic -->
                     <seeker-angular-speed-dps type="double">10.0</seeker-angular-speed-dps><!-- deg/sec authentic-->
-                    <lock-on-sun-deg type="double">20</lock-on-sun-deg>
+                    <lock-on-sun-deg type="double">20</lock-on-sun-deg>              <!-- source -->
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
@@ -597,7 +597,7 @@
                     <vol-track type="double">0.25</vol-track>
                     <vol-track-weak type="double">0.175</vol-track-weak>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
-                    <navigation type="string">PN</navigation>
+                    <navigation type="string">PN</navigation>                     <!-- source: AIM-9D and forward had PN or APN -->
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">7.83</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
@@ -610,14 +610,14 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec><!-- Aim-9J/rb-24j -->
                     <weight-launch-lbs type="double">179</weight-launch-lbs>      <!-- authentic -->
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
-                    <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>           <!-- guess -->
+                    <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>           <!-- source -->
                     <drag-coeff type="double">0.9</drag-coeff>                   <!-- guesstimate -->
                     <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius) authentic -->
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
-                    <seeker-angular-speed-dps type="double">14.9</seeker-angular-speed-dps><!-- deg/sec authentic-->
-                    <lock-on-sun-deg type="double">5</lock-on-sun-deg>
+                    <seeker-angular-speed-dps type="double">14</seeker-angular-speed-dps><!-- deg/sec authentic-->
+                    <lock-on-sun-deg type="double">5</lock-on-sun-deg>            <!-- source -->
                     <loft-altitude>0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
                     <rail type="bool">true</rail>
