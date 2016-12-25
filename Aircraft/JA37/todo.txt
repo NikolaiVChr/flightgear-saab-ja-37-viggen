@@ -60,7 +60,6 @@ Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Be able to notch the rb71 again.
 Sim: Make speed, roll and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
-Sim: Make retarded version of M71.
 Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make weapons hit all nearby targets.
@@ -70,7 +69,6 @@ Sim: Make schedule for max climb rate with A/P at slow speed different when gear
 Sim: Make flare over MP use int instead of String.
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
-Sim: M70 and M55 should fire simultanously, as per dev notes.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
 Radar: Make database of RCS of common aircrafts.
 Effect: Rembrandt landing lightcone.

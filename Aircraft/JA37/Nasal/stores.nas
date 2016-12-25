@@ -594,33 +594,55 @@ var trigger_listener = func {
     setprop("/controls/armament/station["~armSelect~"]/trigger", trigger);
     var str = "payload/weight["~(armSelect-1)~"]/selected";
     if (armSelect != 0 and getprop(str) == "M70 ARAK") {
-      setprop("/controls/armament/station["~armSelect~"]/trigger-m70", trigger);
+      setprop("/controls/armament/station["~1~"]/trigger-m70", trigger);
+      setprop("/controls/armament/station["~2~"]/trigger-m70", trigger);
+      setprop("/controls/armament/station["~3~"]/trigger-m70", trigger);
+      setprop("/controls/armament/station["~4~"]/trigger-m70", trigger);
+      setprop("/controls/armament/station["~7~"]/trigger-m70", trigger);
     }
     if (armSelect == 1 and getprop(str) == "M55 AKAN") {
-      setprop("/controls/armament/station[9]/trigger", FALSE);
-      setprop("/controls/armament/station[10]/trigger", FALSE);
       setprop("/controls/armament/station[8]/trigger", trigger);
+      var str3 = "payload/weight["~(3-1)~"]/selected";
+      if (getprop(str3) == "M55 AKAN") {
+        setprop("/controls/armament/station[9]/trigger", trigger);
+      }
+      var str7 = "payload/weight["~(7-1)~"]/selected";
+      if (getprop(str7) == "M55 AKAN") {
+        setprop("/controls/armament/station[10]/trigger", trigger);
+      }
     }
     if (armSelect == 3 and getprop(str) == "M55 AKAN") {
-      setprop("/controls/armament/station[8]/trigger", FALSE);
-      setprop("/controls/armament/station[10]/trigger", FALSE);
       setprop("/controls/armament/station[9]/trigger", trigger);
+      var str1 = "payload/weight["~(1-1)~"]/selected";
+      if (getprop(str1) == "M55 AKAN") {
+        setprop("/controls/armament/station[8]/trigger", trigger);
+      }
+      var str7 = "payload/weight["~(7-1)~"]/selected";
+      if (getprop(str7) == "M55 AKAN") {
+        setprop("/controls/armament/station[10]/trigger", trigger);
+      }
     }
     if (armSelect == 7 and getprop(str) == "M55 AKAN") {
-      setprop("/controls/armament/station[8]/trigger", FALSE);
-      setprop("/controls/armament/station[9]/trigger", FALSE);
       setprop("/controls/armament/station[10]/trigger", trigger);
+      var str1 = "payload/weight["~(1-1)~"]/selected";
+      if (getprop(str1) == "M55 AKAN") {
+        setprop("/controls/armament/station[8]/trigger", trigger);
+      }
+      var str3 = "payload/weight["~(3-1)~"]/selected";
+      if (getprop(str3) == "M55 AKAN") {
+        setprop("/controls/armament/station[9]/trigger", trigger);
+      }
     }
   } else {
     setprop("/controls/armament/station["~armSelect~"]/trigger", FALSE);
-    setprop("/controls/armament/station["~armSelect~"]/trigger-m70", FALSE);
-    if (armSelect == 1) {
+    setprop("/controls/armament/station["~1~"]/trigger-m70", FALSE);
+    setprop("/controls/armament/station["~2~"]/trigger-m70", FALSE);
+    setprop("/controls/armament/station["~3~"]/trigger-m70", FALSE);
+    setprop("/controls/armament/station["~4~"]/trigger-m70", FALSE);
+    setprop("/controls/armament/station["~7~"]/trigger-m70", FALSE);
+    if (armSelect == 1 or armSelect == 7 or armSelect == 3) {
       setprop("/controls/armament/station[8]/trigger", FALSE);
-    }
-    if (armSelect == 3) {
       setprop("/controls/armament/station[9]/trigger", FALSE);
-    }
-    if (armSelect == 7) {
       setprop("/controls/armament/station[10]/trigger", FALSE);
     }
   }

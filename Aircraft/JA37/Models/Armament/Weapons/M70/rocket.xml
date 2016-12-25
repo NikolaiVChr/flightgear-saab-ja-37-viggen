@@ -84,8 +84,8 @@
 
      <program>
        <fluid>               air  </fluid>
-       <gravity type="bool"> true </gravity>
-       <wind typ="bool">     true </wind>
+       <gravity type="bool"> false </gravity>
+       <wind typ="bool">     false </wind>
      </program>
 
    </particlesystem>
@@ -172,8 +172,8 @@
 
      <program>
        <fluid>               air  </fluid>
-       <gravity type="bool"> true </gravity>
-       <wind typ="bool">     true </wind>
+       <gravity type="bool"> false </gravity>
+       <wind typ="bool">     false </wind>
      </program>
 
    </particlesystem>
