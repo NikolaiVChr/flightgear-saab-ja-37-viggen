@@ -146,6 +146,7 @@ Default FG HUD (done)
 Livery work
 -----------
 Model: Improve the 01     eastern livery.
+Model: Improve the 79-F21 ferris
 Model: Improve the 01-F21 viking livery.
 Model: Improve the 31-F17 grey livery.
 Model: Improve the 32-F17 Blå Petter livery. (Blue Peter)
