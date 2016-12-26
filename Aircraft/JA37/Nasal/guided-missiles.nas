@@ -14,7 +14,7 @@
 
 # Some notes about making weapons:
 #
-# Firstly make sure you read the comments (line 180+) below for the properties.
+# Firstly make sure you read the comments (line 190+) below for the properties.
 # For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G, to simulate them slowly adjusting to hit the target.
 # Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform. I usually fly at the typical usage
 #   regime for that missile, so for example for sidewinder it would be mach 1+ at 20000 ft,
