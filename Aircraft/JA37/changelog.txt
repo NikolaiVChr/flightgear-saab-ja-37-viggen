@@ -2527,7 +2527,7 @@ Sim: Made so only AoA throttle hold combined with altitude hold ignores AoA limi
 Effect: Fixed regression that cannon would no longer fire.
 Model: Fixed that 2 liveries were mixed together on SAF 01.
 
-4.011
+4.011 - 2016 December 26
 =====
 Sim: Getting pitch to target now takes curvature of earth into account, in missiles and radar.
 Model: Converted some flat shaded faces to smooth shaded on fuselage.
