@@ -84,7 +84,9 @@
 # Change flare to use helicopter property double.
 # Make check for seeker FOV round instead of square.
 # Consider to average the closing speed in proportional navigation. So get it between second last positions and current, instead of last to currect.
-# Drag coeff due to exhaust.
+# Drag coeff reduction due to exhaust plume.
+# Proportional navigation should use vector math instead decomposite horizontal/vertical navigation.
+# If closing speed is negative, consider to switch to pure pursuit from proportional navigation, the target might turn back into missile.
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 

@@ -1045,14 +1045,22 @@ var HUDnasal = {
       #  return;
       #}
 
-      var cannon = me.input.station.getValue() == 0 and me.input.combat.getValue() == TRUE;
+      var cannon = me.input.station.getValue() == 0;
+      cannon = cannon or getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M55 AKAN";
+      cannon = me.input.combat.getValue() == TRUE and cannon;
       var out_of_ammo = FALSE;
-      if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
-            out_of_ammo = TRUE;
-      } elsif (me.input.station.getValue() == 0 and me.input.cannonAmmo.getValue() == 0) {
-            out_of_ammo = TRUE;
-      } elsif (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70 ARAK" and getprop("ai/submodels/submodel["~(4+me.input.station.getValue())~"]/count") == 0) {
-            out_of_ammo = TRUE;
+      #if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
+      #      out_of_ammo = TRUE;
+      #} elsif (me.input.station.getValue() == 0 and me.input.cannonAmmo.getValue() == 0) {
+      #      out_of_ammo = TRUE;
+      #} elsif (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70 ARAK" and getprop("ai/submodels/submodel["~(4+me.input.station.getValue())~"]/count") == 0) {
+      #      out_of_ammo = TRUE;
+      #}
+      var ammo = armament.ammoCount(me.input.station.getValue());
+      if (ammo > 0) {
+        out_of_ammo = FALSE;
+      } else {
+        out_of_ammo = TRUE;
       }
 
       # ground collision warning
@@ -1977,15 +1985,6 @@ var HUDnasal = {
         me.reticle_cannon.hide();
         me.reticle_missile.hide();
         me.reticle_c_missile.show();
-      } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M55 AKAN") {
-        me.showSidewind(FALSE);
-        me.reticle_cannon.setTranslation(0, centerOffset);
-        me.reticle_cannon.show();
-        me.reticle_missile.hide();
-        me.reticle_c_missile.hide();
-        air2air = FALSE;
-        air2ground = FALSE;
-        return me.showFlightPathVector(1, TRUE, mode);
       } elsif(getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "TEST") {
         air2air = TRUE;
         air2ground = FALSE;

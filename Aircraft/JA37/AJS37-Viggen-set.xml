@@ -597,7 +597,7 @@
                     <vol-track type="double">0.25</vol-track>
                     <vol-track-weak type="double">0.175</vol-track-weak>
                     <guidance type="string">heat</guidance>                       <!-- heat, radar or semi-radar -->
-                    <navigation type="string">PN</navigation>                     <!-- source: AIM-9D and forward had PN or APN -->
+                    <navigation type="string">PN</navigation>                     <!-- source: AIM-9D and forward had PN, TPN or APN -->
                     <all-aspect type="bool">false</all-aspect>                    <!-- all or rear-only -->
                     <max-fire-range-nm type="double">7.83</max-fire-range-nm> <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>                              <!-- total aircraft angle -->
