@@ -520,22 +520,18 @@ var AIM = {
 			# currently not supported in Yasim
 			me.density_alt_diff = getprop("fdm/jsbsim/atmosphere/density-altitude") - me.ac.alt()*M2FT;
 		}
-		if (me.Tgt != nil) {
+
+		# setup lofting and cruising
+		me.snapUp = me.loft_alt > 10000;
+		if (me.Tgt != nil and me.snapUp == TRUE) {
 			var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
-			if (me.loft_alt > 36000) {
-				#for phoenix missile
-				#f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
-				me.loft_alt = 36000+((dst-38)/(me.max_detect_rng-38))*(me.loft_alt-36000);
-				me.loft_alt = me.clamp(me.loft_alt, 10001, 200000);
-				#printf("Loft to max %5d ft.", me.loft_alt);
-			} elsif (me.loft_alt > 10000) {
-				#
-				# adjust the snap-up altitude to initial distance of target.
-				#			
-				me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500;
-				me.loft_alt = me.clamp(me.loft_alt, 10001, 200000);
-				#printf("Loft to max %5d ft.", me.loft_alt);
-			}
+			#
+			#f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
+#				me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500; original code
+#				me.loft_alt = 0+((dst-38)/(me.max_detect_rng-38))*(me.loft_alt-36000);   originally for phoenix missile
+#			me.loft_alt = 0+((dst-10)/(me.max_detect_rng-10))*(me.loft_alt-0);           also doesn't really work
+#			me.loft_alt = me.clamp(me.loft_alt, 0, 200000);
+			printf("Loft to max %5d ft.", me.loft_alt);
 		}
 
 
@@ -919,12 +915,12 @@ var AIM = {
 #
 # Uncomment the following lines to check stats while flying:
 #
-#printf("Mach %02.1f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, me.thrust_lbf, me.g);
+#printf("Mach %02.2f , time %03.1f s , thrust %03.1f lbf , G-force %02.2f", me.speed_m, me.life_time, me.thrust_lbf, me.g);
 #printf("Alt %05.1f ft , distance to target %02.1f NM", me.alt_ft, me.direct_dist_m*M2NM);			
 			
 			if (me.exploded == TRUE) {
 				printf("%s max absolute %.2f Mach. Max relative %.2f Mach. Max alt %6d ft.", me.type, me.maxMach, me.maxMach-me.startMach, me.maxAlt);
-				printf(" Fired at %s from %.1f Mach, %5d ft at %3d NM distance. Pursued %0.1f NM.", me.callsign, me.startMach, me.startAlt, me.startDist * M2NM, me.ac_init.direct_distance_to(me.coord)*M2NM);
+				printf(" Fired at %s from %.1f Mach, %5d ft at %3d NM distance. Flew %0.1f NM.", me.callsign, me.startMach, me.startAlt, me.startDist * M2NM, me.ac_init.direct_distance_to(me.coord)*M2NM);
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = me.sound_fps;
 				me.sndDistance = 0;
@@ -1271,9 +1267,8 @@ var AIM = {
 		me.cruise_or_loft = FALSE;
 		me.time_before_snap_up = me.drop_time * 3;
 		me.limitGs = FALSE;
-		me.absolutePitch = me.getPitch(me.coord, me.Tgt.get_Coord());
 		
-        if(me.loft_alt != 0 and me.loft_alt < 10000) {
+        if(me.loft_alt != 0 and me.snapUp == FALSE) {
         	# this is for Air to ground/sea cruise-missile (SCALP, Sea-Eagle, Taurus, Tomahawk, RB-15...)
 
         	# detect terrain for use in terrain following
@@ -1345,7 +1340,7 @@ var AIM = {
             if (me.cruise_or_loft == TRUE) {
             	#print(" pitch "~me.pitch~" + me.raw_steer_signal_elev "~me.raw_steer_signal_elev);
             }
-        } elsif (me.loft_alt != 0 and me.absolutePitch > -25 and me.dist_curr * M2NM > 10
+        } elsif (me.loft_alt != 0 and me.t_elev_deg > -25 and me.dist_curr * M2NM > 10
 			 and me.t_elev_deg < me.loft_angle #and me.t_elev_deg > -7.5
 			 and me.dive_token == FALSE) {
 			# lofting: due to target is more than 10 miles out and we havent reached 
@@ -1373,8 +1368,8 @@ var AIM = {
 				me.dive_token = TRUE;
 				#print("Is last turn, APN takes it from here..")
 			}
-		} elsif (me.coord.alt() > me.t_coord.alt() and me.last_cruise_or_loft == TRUE
-		         and me.absolutePitch > -25 and me.dist_curr * M2NM > 10) {
+		} elsif (me.loft_alt != 0 and me.coord.alt() > me.t_coord.alt() and me.last_cruise_or_loft == TRUE
+		         and me.t_elev_deg > -25 and me.dist_curr * M2NM > 10) {
 			# cruising: keeping altitude since target is below and more than -45 degs down
 
 			me.ratio = (g_fps * me.dt)/me.old_speed_fps;
