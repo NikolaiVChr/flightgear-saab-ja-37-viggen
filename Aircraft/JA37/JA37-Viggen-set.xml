@@ -440,7 +440,7 @@
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
-                <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 -->
+                <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 relative -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.075</vol-search>
@@ -478,7 +478,7 @@
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 2</fire-msg>
                 </rb-24j>
-                <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 3 -->
+                <rb-74>             <!-- RB-74 (Swedish version of aim-9L sidewinder) mach 3 relative -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.075</vol-search>
@@ -514,18 +514,18 @@
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 2</fire-msg>
                 </rb-74>
-                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) mach 2.9 -->
+                <rb-71>          <!-- RB-71 specs (Swedish version of Skyflash (aim-7f Sparrow)) mach 2.9 relative -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
-                    <guidance type="string">semi-radar</guidance>           <!-- heat, radar or semi-radar -->
-                    <all-aspect type="bool">true</all-aspect>                         <!-- all or rear-only -->
-                    <max-fire-range-nm type="double">24.3</max-fire-range-nm><!-- Skyflash range is 24.3nm -->
+                    <guidance type="string">semi-radar</guidance>                  <!-- authentic -->
+                    <all-aspect type="bool">true</all-aspect>                      <!-- authentic -->
+                    <max-fire-range-nm type="double">22</max-fire-range-nm>        <!-- Skyflash range is 24.3nm -->
                     <FCS-field-deg type="int">25</FCS-field-deg>               
                     <seeker-field-deg type="int">110</seeker-field-deg>    
-                    <max-g type="int">20</max-g>                                      <!-- guess -->
+                    <max-g type="int">20</max-g>                                   <!-- guess -->
                     <thrust-lbf-stage-1 type="double">5750</thrust-lbf-stage-1>    <!-- authentic -->
                     <thrust-lbf-stage-2 type="double">1018</thrust-lbf-stage-2>    <!-- authentic -->
                     <stage-1-duration-sec type="double">4.5</stage-1-duration-sec> <!-- authentic -->
@@ -533,12 +533,12 @@
                     <weight-launch-lbs type="double">510</weight-launch-lbs>       <!-- authentic for aim-7f, Skyflash is 425-->
                     <weight-warhead-lbs type="double">88</weight-warhead-lbs>      <!-- authentic -->
                     <weight-fuel-lbm type="double">135</weight-fuel-lbm>           <!-- authentic -->
-                    <drag-coeff type="double">1.7</drag-coeff>
-                    <drag-area type="double">0.3382</drag-area><!-- sq ft (0.3281 ft radius) authentic -->
-                    <arming-time-sec type="double">2.5</arming-time-sec>                       <!-- authentic -->
-                    <min-speed-for-guiding-mach type="double">0.6</min-speed-for-guiding-mach> <!-- guess -->
-                    <self-destruct-time-sec type="double">75</self-destruct-time-sec>         <!-- authentic -->
-                    <loft-altitude type="int">0</loft-altitude><!-- in stage 1 it want to climb to this altitude -->
+                    <drag-coeff type="double">0.25</drag-coeff>
+                    <drag-area type="double">0.3382</drag-area>                    <!-- authentic -->
+                    <arming-time-sec type="double">2.5</arming-time-sec>           <!-- authentic -->
+                    <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach> <!-- guess -->
+                    <self-destruct-time-sec type="double">75</self-destruct-time-sec><!-- authentic -->
+                    <loft-altitude type="int">30000</loft-altitude>
                     <min-fire-range-nm type="double">0.16</min-fire-range-nm>      <!-- authentic -->
                     <max-report-distance type="double">65</max-report-distance>
                     <navigation type="string">APN</navigation>
@@ -546,7 +546,7 @@
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 1</fire-msg>
                 </rb-71>
-                <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) mach 4-->
+                <rb-99>         <!-- RB-99 specs (Swedish version of AIM-120B Amraam) mach 4 relative -->
                     <sound-on-off type="bool">false</sound-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
