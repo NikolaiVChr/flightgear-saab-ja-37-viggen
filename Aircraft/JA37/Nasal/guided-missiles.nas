@@ -523,16 +523,16 @@ var AIM = {
 
 		# setup lofting and cruising
 		me.snapUp = me.loft_alt > 10000;
-		if (me.Tgt != nil and me.snapUp == TRUE) {
-			var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
+		#if (me.Tgt != nil and me.snapUp == TRUE) {
+			#var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
 			#
 			#f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
 #				me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500; original code
 #				me.loft_alt = 0+((dst-38)/(me.max_detect_rng-38))*(me.loft_alt-36000);   originally for phoenix missile
 #			me.loft_alt = 0+((dst-10)/(me.max_detect_rng-10))*(me.loft_alt-0);           also doesn't really work
 #			me.loft_alt = me.clamp(me.loft_alt, 0, 200000);
-			printf("Loft to max %5d ft.", me.loft_alt);
-		}
+			#printf("Loft to max %5d ft.", me.loft_alt);
+		#}
 
 
 		me.SwSoundVol.setDoubleValue(0);
@@ -1364,7 +1364,7 @@ var AIM = {
 			me.raw_steer_signal_elev = -me.pitch + me.t_elev_deg;
 			#print("Turning, desire "~me.t_elev_deg~" degs pitch.");
 			me.cruise_or_loft = TRUE;
-			if (math.abs(me.curr_deviation_e) < 5) {
+			if (math.abs(me.curr_deviation_e) < 7.5) {
 				me.dive_token = TRUE;
 				#print("Is last turn, APN takes it from here..")
 			}
@@ -1384,7 +1384,7 @@ var AIM = {
 			me.cruise_or_loft = TRUE;
 			me.limitGs = TRUE;
 			me.dive_token = TRUE;
-		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 2.5 and me.life_time > me.time_before_snap_up) {
+		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 7.5 and me.life_time > me.time_before_snap_up) {
 			# after cruising, point the missile in the general direction of the target, before APN starts guiding.
 			#print("Rotating toward target");
 			me.raw_steer_signal_elev = me.curr_deviation_e;
@@ -1490,6 +1490,8 @@ var AIM = {
 			me.commanded_sideways_vector_length_fps = me.acc_sideways_ftps2*me.dt;
 			me.raw_steer_signal_head = math.atan2(me.commanded_sideways_vector_length_fps, me.velocity_vector_length_fps)*R2D;
 
+			#printf("Proportional lead: %0.1f deg horz", -(me.curr_deviation_h-me.raw_steer_signal_head));
+
 			#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,horz_closing_rate_fps));
 			#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
 			#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_deviation_h, me.raw_steer_signal_head));
@@ -1520,6 +1522,7 @@ var AIM = {
 				me.velocity_vector_length_fps = me.old_speed_fps;
 				me.commanded_upwards_vector_length_fps = me.acc_upwards_ftps2*me.dt;
 				me.raw_steer_signal_elev = math.atan2(me.commanded_upwards_vector_length_fps, me.velocity_vector_length_fps)*R2D;
+				#printf("Proportional lead: %0.1f deg elev", -(me.curr_deviation_e-me.raw_steer_signal_elev));
 			}
 		}
 	},
