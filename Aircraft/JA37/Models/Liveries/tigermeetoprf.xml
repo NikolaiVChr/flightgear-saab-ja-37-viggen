@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">Tiger Meet OPRF</name>
+    <texture>Liveries/TIGERMEET/tiger-meet-oprf.png</texture>
+    <owner type="string">Spectre</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>
