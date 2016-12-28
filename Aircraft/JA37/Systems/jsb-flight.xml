@@ -293,8 +293,24 @@
     <channel execrate="4" name="instruments">
 
         <!-- used for animating nozzle indicator -->
+
+        <fcs_function name="names/throttle/nozzle-zone">
+            <function>
+                <table>
+                    <independentVar lookup="row">propulsion/engine/zone-scaled</independentVar>
+                    <tableData>
+                        0.00       0.15
+                        0.25       0.38
+                        0.50       0.60
+                        1.00       1.00
+                    </tableData>
+                </table>
+            </function>
+            <output>propulsion/engine/zone-instr</output>
+        </fcs_function>
+
         <switch name="names/throttle/nozzle-direct">
-            <default value="propulsion/engine/zone-scaled"/>
+            <default value="propulsion/engine/zone-instr"/>
             <test logic="OR" value="0">
               /systems/electrical/outputs/dc-voltage lt 23
             </test>

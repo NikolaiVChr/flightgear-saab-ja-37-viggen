@@ -2592,4 +2592,9 @@ HUD: Fixed that out of ammo FPI was always shown when M55 selected.
 
 4.012
 =====
-Model: {Spectre} Added Tiger Meet 2014 Livery.
+Model: {Spectre} Added 2 Tiger Meet Liveries.
+Sim: New missile lofting system.
+Sim: Adjustments to RB71.
+Sim: Adjustment to missile lofting.
+Sim: RB99 fuel weight adjusted.
+Animation: Fixed that the zone gauge does not show the correct zone anymore.
