@@ -2598,3 +2598,4 @@ Sim: Adjustments to RB71.
 Sim: Adjustment to missile lofting.
 Sim: RB99 fuel weight adjusted.
 Animation: Fixed that the zone gauge does not show the correct zone anymore.
+Radar: The type of the selection fed to the HUD would sometimes be off, hopefully no more.

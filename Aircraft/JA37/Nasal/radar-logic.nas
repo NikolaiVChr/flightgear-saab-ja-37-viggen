@@ -45,6 +45,7 @@ var RadarLogic = {
 
     new: func() {
         var radarLogic     = { parents : [RadarLogic]};
+        radarLogic.typeHashes = {};
         return radarLogic;
     },
 
@@ -173,35 +174,40 @@ var RadarLogic = {
               me.model = me.remove_suffix(me.model, "-anim");
               track.addChild("model-shorter").setValue(me.model);
 
-              me.funcHash = {
-                #init: func (listener, trck) {
-                #  me.listenerID = listener;
-                #  me.trackme = trck;
-                #},
-                callme1: func (funcHash) {
-                  if(funcHash.trackme.getChild("valid").getValue() == FALSE) {
-                    var child = funcHash.trackme.removeChild("model-shorter",0);#index 0 must be specified!
+              var funcHash = {
+                new: func (trackN, pNode) {
+                  me.listenerID1 = setlistener(trackN.getChild("valid"), func me.callme1(), nil, 1);
+                  me.listenerID2 = setlistener(pNode,                    func me.callme2(), nil, 1);
+                },
+                callme1: func () {
+                  if(me.trackme.getChild("valid").getValue() == FALSE) {
+                    var child = me.trackme.removeChild("model-shorter",0);#index 0 must be specified!
                     if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
-                      removelistener(funcHash.listenerID1);
-                      removelistener(funcHash.listenerID2);
+                      me.del();
                     }
                   }
                 },
-                callme2: func (funcHash) {
-                  if(funcHash.trackme.getNode("sim/model/path") == nil or funcHash.trackme.getNode("sim/model/path").getValue() != me.oldpath) {
-                    var child = funcHash.trackme.removeChild("model-shorter",0);
+                callme2: func () {
+                  if(me.trackme.getNode("sim/model/path") == nil or funcHash.trackme.getNode("sim/model/path").getValue() != me.oldpath) {
+                    var child = me.trackme.removeChild("model-shorter",0);
                     if (child != nil) {#for some reason this can be called two times, even if listener removed, therefore this check.
-                      removelistener(funcHash.listenerID1);
-                      removelistener(funcHash.listenerID2);
+                      me.del();
                     }
                   }
-                }
+                },
+                del: func () {
+                  removelistener(me.listenerID1);
+                  removelistener(me.listenerID2);
+                  radar_logic.radarLogic.typeHashes[me.trackme.getPath()] = nil;
+                },
               };
               
-              me.funcHash.trackme = track;
-              me.funcHash.oldpath = me.path;
-              me.funcHash.listenerID1 = setlistener(track.getChild("valid"), func {call(func funcHash.callme1(me.funcHash), nil, me.funcHash, me.funcHash, var err =[]);}, 0, 1);
-              me.funcHash.listenerID2 = setlistener(me.pathNode,                func {call(func funcHash.callme2(me.funcHash), nil, me.funcHash, me.funcHash, var err =[]);}, 0, 1);
+              funcHash.trackme = track;
+              funcHash.oldpath = me.path;
+
+              me.typeHashes[track.getPath()] = funcHash;
+
+              funcHash.new(track, me.pathNode);
             }
           }
 
