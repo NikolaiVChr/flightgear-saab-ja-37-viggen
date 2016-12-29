@@ -71,11 +71,46 @@ var radar = {
     m.strokeHeight = (m.strokeOriginY - m.strokeTopY);
 
     m.lineGroup = g.createChild("group")
-                   .setTranslation(pixels_max/2, m.strokeOriginY);
+                   .setTranslation(pixels_max/2, m.strokeOriginY)
+                   .set("z-index", 4);
+    m.horzGroup = g.createChild("group")
+                   .setTranslation(pixels_max/2, pixels_max/2)
+                   .set("z-index", 5);
 
-    ##############
-    # antennae   #
-    ##############
+    ##############################
+    # white artificial horizon   #
+    ##############################
+
+    m.horzLines = m.horzGroup.createChild("path")
+               .moveTo(-(50/1024)*pixels_max, 0)
+               .lineTo(-(512/1024)*pixels_max, 0)
+               .moveTo((50/1024)*pixels_max, 0)
+               .lineTo((512/1024)*pixels_max, 0)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b)
+               .set("z-index", 5);
+
+    m.horzRef = g.createChild("path")
+               .moveTo(pixels_max/2-(25/1024)*pixels_max, pixels_max/2-(16/1024)*pixels_max)
+               .lineTo(pixels_max/2-(75/1024)*pixels_max, pixels_max/2-(16/1024)*pixels_max)
+               .moveTo(pixels_max/2+(25/1024)*pixels_max, pixels_max/2-(16/1024)*pixels_max)
+               .lineTo(pixels_max/2+(75/1024)*pixels_max, pixels_max/2-(16/1024)*pixels_max)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b)
+               .set("z-index", 5);
+
+    m.desired_lines3 = m.horzGroup.createChild("path")
+               .moveTo(-(375/1024)*pixels_max, 0)
+               .lineTo(-(375/1024)*pixels_max, (100/1024)*pixels_max)
+               .moveTo((375/1024)*pixels_max, 0)
+               .lineTo((375/1024)*pixels_max, (100/1024)*pixels_max)
+               .setStrokeLineWidth((8/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b)
+               .set("z-index", 5);
+
+    ####################
+    # black antennae   #
+    ####################
 
     m.ant = g.createChild("path")
                .moveTo(pixels_max/2-m.strokeHeight*0.02, m.strokeTopY-m.strokeHeight*0.06)
@@ -103,26 +138,32 @@ var radar = {
                .moveTo(0, -m.strokeHeight*0.04)
                .lineTo(0, m.strokeHeight*0.04)
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b);
+               .setColor(black_r, black_g, black_b)
+               .set("z-index", 10);
 
 
     #####################
     # white destination #
     #####################
 
-    m.dest = m.lineGroup.createChild("group").hide();
+    m.dest = g.createChild("group")
+                .hide()
+                .setTranslation(pixels_max/2, m.strokeOriginY)
+                .set("z-index", 8);
     m.dest_runway = m.dest.createChild("path")
                .moveTo(0, 0)
                .lineTo(0, -50)
                .setStrokeLineWidth((8/1024)*pixels_max)
                .setColor(white_r, white_g, white_b)
-               .hide();
+               .hide()
+               .set("z-index", 8);
     m.dest_circle = m.dest.createChild("path")
                .moveTo(-m.strokeHeight*0.075, 0)
                .arcSmallCW(m.strokeHeight*0.075, m.strokeHeight*0.075, 0, m.strokeHeight*0.15, 0)
                .arcSmallCW(m.strokeHeight*0.075, m.strokeHeight*0.075, 0, -m.strokeHeight*0.15, 0)
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(white_r, white_g, white_b);
+               .setColor(white_r, white_g, white_b)
+               .set("z-index", 8);
                
 
     ###############
@@ -136,7 +177,8 @@ var radar = {
      .lineTo(0, -(m.strokeOriginY - m.strokeTopY))
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
 
     # right 30 deg vertical
     m.lineGroup.createChild("path")
@@ -144,7 +186,8 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight*-0.87881711)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
     
      #x = cos(deg)*z
      #
@@ -159,7 +202,8 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight*-0.87881711)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
 
     # right 61.5 deg
     m.lineGroup.createChild("path")
@@ -167,7 +211,8 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * 0.5 * -0.47715876)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
     
     # left 61.5 deg
     m.lineGroup.createChild("path")
@@ -175,7 +220,8 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * 0.5 * -0.47715876)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
 
     # left vert
     m.lineGroup.createChild("path")
@@ -183,7 +229,8 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * -0.87881711, m.strokeHeight * -0.8982873)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
 
     # right vert
     m.lineGroup.createChild("path")
@@ -191,7 +238,8 @@ var radar = {
      .lineTo(m.strokeHeight * 0.5 * 0.87881711, m.strokeHeight * -0.8982873)
      .close()
      .setStrokeLineWidth((8/1024)*pixels_max)
-     .setColor(black_r, black_g, black_b);
+     .setColor(black_r, black_g, black_b)
+     .set("z-index", 4);
 
     # range text
     m.rangeText = m.lineGroup.createChild("text")
@@ -199,7 +247,8 @@ var radar = {
       .setAlignment("center-center")
       .setFontSize((37.5/1024)*pixels_max, 1.0)
       .setTranslation((280/1024)*pixels_max, (-110/1024)*pixels_max)
-      .setColor(black_r, black_g, black_b);
+      .setColor(black_r, black_g, black_b)
+      .set("z-index", 4);
 
     # upper arc
     m.lineGroup.createChild("path")
@@ -207,7 +256,8 @@ var radar = {
                .arcSmallCW(m.strokeHeight, m.strokeHeight, 0,  m.strokeHeight * 0.87881711, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b);
+               .setColor(black_r, black_g, black_b)
+               .set("z-index", 4);
 
 
     # 66.6% arc
@@ -217,7 +267,8 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.6666, m.strokeHeight*0.6666, 0,  m.strokeHeight * 0.87881711, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b);
+               .setColor(black_r, black_g, black_b)
+               .set("z-index", 4);
 
     # 33.3% arc
     #
@@ -229,7 +280,8 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.3333, m.strokeHeight*0.3333, 0, m.strokeHeight*0.2929*2, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b);
+               .setColor(black_r, black_g, black_b)
+               .set("z-index", 4);
 
     # 16.66% arc
     #
@@ -241,7 +293,8 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.1666, m.strokeHeight*0.1666, 0, m.strokeHeight*0.1464*2, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b);
+               .setColor(black_r, black_g, black_b)
+               .set("z-index", 4);
 
     # 8.33% arc
     #
@@ -253,7 +306,8 @@ var radar = {
                .arcSmallCW(m.strokeHeight*0.0833, m.strokeHeight*0.0833, 0, m.strokeHeight*0.0732*2, 0)
                #.close()
                .setStrokeLineWidth((8/1024)*pixels_max)
-               .setColor(black_r, black_g, black_b);
+               .setColor(black_r, black_g, black_b)
+               .set("z-index", 4);
 
     m.stroke_angle=0; #center yaw -80 to 80 mode=2    
     m.stroke_dir = [6];
@@ -281,7 +335,8 @@ var radar = {
          .lineTo(0, -(m.strokeOriginY-m.strokeTopY))
          .close()
          .setStrokeLineWidth((28/1024)*pixels_max)
-         .setColor(white_r, grn, white_b));
+         .setColor(white_r, grn, white_b)
+         .set("z-index", 3));
        append(m.tfstroke, m.stroke[i].createTransform());
        m.tfstroke[i].setTranslation(pixels_max/2, m.strokeOriginY);
        m.stroke[i].hide();
@@ -299,7 +354,8 @@ var radar = {
          .close()
          .setColorFill(black_r, black_g, black_b, opaque)
          .setStrokeLineWidth((2/1024)*pixels_max)
-         .setColor(black_r, black_g, black_b, opaque));
+         .setColor(black_r, black_g, black_b, opaque)
+         .set("z-index", 9));
        append(m.tfblip, m.blip[i].createTransform());
        m.tfblip[i].setTranslation(0, 0);
        m.blip[i].hide();
@@ -314,8 +370,13 @@ var radar = {
         #     .setTranslation(0,0);
 
     m.input = {
+      alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
+      APLockAlt:        "autopilot/locks/altitude",
+      APTgtAgl:         "autopilot/settings/target-agl-ft",
+      APTgtAlt:         "autopilot/settings/target-altitude-ft",
       heading:              "instrumentation/heading-indicator/indicated-heading-deg",
       hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
+      rad_alt:          "position/altitude-agl-ft",
       radarEnabled:         "ja37/hud/tracks-enabled",
       radarRange:           "instrumentation/radar/range",
       radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
@@ -325,6 +386,7 @@ var radar = {
       rmDist:               "autopilot/route-manager/wp/dist",
       rmId:                 "autopilot/route-manager/wp/id",
       rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
+      RMCurrWaypoint:   "autopilot/route-manager/current-wp",
       screenEnabled:        "ja37/radar/enabled",
       timeElapsed:          "sim/time/elapsed-sec",
       viewNumber:           "sim/current-view/view-number",
@@ -469,6 +531,36 @@ var radar = {
         me.ant.hide();
       }
     
+      # show horizon lines
+      var roll = getprop("orientation/roll-deg");
+      me.horzGroup.setRotation(-roll*D2R);
+
+      var desired_alt_delta_ft = nil;
+      if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
+        desired_alt_delta_ft = (500*M2FT)-me.input.rad_alt.getValue();
+      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
+        desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
+        desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
+      } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
+        var i = me.input.RMCurrWaypoint.getValue();
+        var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
+        if(rt_alt != nil and rt_alt > 0) {
+          desired_alt_delta_ft = rt_alt - me.input.alt_ft.getValue();
+        }
+      }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
+      if(desired_alt_delta_ft != nil) {
+        var pos_y = clamp(-(desired_alt_delta_ft*FT2M)/10, -(50/1024)*pixels_max, (100/1024)*pixels_max);#500 m up, 1000 m down
+
+        me.desired_lines3.setTranslation(0, pos_y);
+        me.desired_lines3.show();
+      } else {
+        me.desired_lines3.hide();
+      }
+
+
+
+
       settimer(
         #func debug.benchmark("rad loop", 
           func me.update()

@@ -2604,3 +2604,5 @@ Sim: Flares now use another MP property. Base chance of being fooled decreased. 
 GUI: G-force limits now depends on gear extension and total weight, as per manual.
 GUI: Pilot weight can now be adjusted in payload dialog.
 HUD: Fixed that at takeoff the desired altitude lines would rely on barometer, not radar altimeter.
+Radar: Added artificial horizon lines and desired altitude lines.
+Radar: Ordered the elements of which is shown on top of which.
