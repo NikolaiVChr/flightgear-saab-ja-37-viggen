@@ -290,6 +290,16 @@
 
     </channel>
 
+    <channel execrate="4" name="payloads">
+
+        <pure_gain name="names/payload/pilot-lbm">
+            <input>/payload/weight[7]/weight-lb</input>
+            <gain>1</gain>
+            <output>inertia/pointmass-weight-lbs[0]</output>
+        </pure_gain>
+
+    </channel>
+
     <channel execrate="4" name="instruments">
 
         <!-- used for animating nozzle indicator -->

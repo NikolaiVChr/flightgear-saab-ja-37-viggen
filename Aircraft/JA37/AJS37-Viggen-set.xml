@@ -549,6 +549,12 @@
                 <lbs>1322.77</lbs>
             </opt>
         </weight>
+        <weight n="7"><!-- manual states due to ejection system min 54, max 100 Kg -->
+            <name type="string">Pilot</name>
+            <weight-lb type="double">158.7328</weight-lb>
+            <min-lb type="double">119</min-lb>
+            <max-lb type="double">220.5</max-lb>
+        </weight>
         <armament>
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
                 <msg type="bool">false</msg>
