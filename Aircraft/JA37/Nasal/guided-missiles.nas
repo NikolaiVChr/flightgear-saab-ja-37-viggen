@@ -16,19 +16,19 @@
 #
 # Firstly make sure you read the comments (line 190+) below for the properties.
 # For laser/gps guided gravity bombs make sure to set the max G very low, like 0.5G, to simulate them slowly adjusting to hit the target.
-# Remember for air to air missiles the speed quoted in litterature is normally the speed above the launch platform. I usually fly at the typical max usage
+# Remember for air to air missiles the speed quoted in literature is normally the speed above the launch platform. I usually fly at the typical max usage
 #   regime for that missile, so for example for AIM-7 it would be at 40000 ft,
 #   there I make sure it can reach approx the max relative speed. For older missiles the max speed quoted is sometimes absolute speed though, so beware.
 #   If it quotes aerodynamic speed then its the absolute speed. Speeds quoted in in unofficial sources can be any of them,
 #   but if its around mach 5 for A/A its a good bet its absolute, only very few A/A missiles are likely hypersonic. (probably due to heat or fuel limitations)
-# If you cannot find fuel weight in litterature, you probably wont go far off with a value that is 1/4 to 1/3 of total launch weight.
+# If you cannot find fuel weight in literature, you probably wont go far off with a value that is 1/4 to 1/3 of total launch weight for a A/A missile.
 # Stage durations is allowed to be 0, so can thrust values. If there is no second stage, instead of just setting stage 2 thrust to 0,
 #   set stage 2 duration to 0 also. For unpowered munitions, set all thrusts to 0.
 # For very low sea skimming missiles, be sure to set terrain following to false, you cannot have it both ways.
 #   Since if it goes very low (below 100ft), it cannot navigate terrain reliable.
 # The property terrain following only goes into effect, if a cruise altitude is set below 10000ft and not set to 0.
 #   Cruise missiles against ground targets will always terrain follow, no matter that property.
-# If litterature quotes a max distance for a weapon, its a good bet it is under the condition that the target
+# If literature quotes a max distance for a weapon, its a good bet it is under the condition that the target
 #   is approaching the launch platform with high speed and does not evade, and also if the launch platform is an aircraft,
 #   that it also is approaching the target with high speed. In other words, high closing rate. For example the AIM-7, which can hit bombers out at 32 NM,
 #   will often have to be within 3 NM of an escaping target to hit it (source). Missiles typically have significantly less range against an evading
@@ -84,9 +84,9 @@
 # Limit guiding if needed so that the missile don't lose sight of target.
 # Change flare to use helicopter property double.
 # Make check for seeker FOV round instead of square.
-# Consider to average the closing speed in proportional navigation. So get it between second last positions and current, instead of last to currect.
+# Consider to average the closing speed in proportional navigation. So get it between second last positions and current, instead of last to current.
 # Drag coeff reduction due to exhaust plume.
-# Proportional navigation should use vector math instead decomposite horizontal/vertical navigation.
+# Proportional navigation should use vector math instead decomposition horizontal/vertical navigation.
 # If closing speed is negative, consider to switch to pure pursuit from proportional navigation, the target might turn back into missile.
 # 
 #
