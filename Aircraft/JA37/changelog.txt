@@ -2599,3 +2599,4 @@ Sim: Adjustment to missile lofting.
 Sim: RB99 fuel weight adjusted.
 Animation: Fixed that the zone gauge does not show the correct zone anymore.
 Radar: The type of the selection fed to the HUD would sometimes be off, hopefully no more.
+Sim: Missiles proportional navigation now predicts the gravity and compensates.
