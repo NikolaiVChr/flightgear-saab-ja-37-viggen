@@ -1088,8 +1088,8 @@
 *************************************************************************-->
     <limits>
         <max-gear-extension-speed>334.77</max-gear-extension-speed>        <!-- as per manual -->
-        <max-positive-g>8.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
-        <max-negative-g>-2.0</max-negative-g>
+        <max-positive-g>7.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
+        <max-negative-g>-3.0</max-negative-g> <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
     </limits>
 
     <!--**********************************************************************

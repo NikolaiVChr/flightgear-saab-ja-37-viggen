@@ -2601,3 +2601,4 @@ Animation: Fixed that the zone gauge does not show the correct zone anymore.
 Radar: The type of the selection fed to the HUD would sometimes be off, hopefully no more.
 Sim: Missiles proportional navigation now predicts the gravity and compensates.
 Sim: Flares now use another MP property. Base chance of being fooled decreased. But chance increased at front aspect.
+GUI: G-force limits now depends on gear extension and total weight, as per manual.

@@ -76,7 +76,7 @@
                              0.00  0.00
                              0.05  0.00
                              0.20 -0.50
-                             1.00 -3.00
+                             1.00 -4.00
                         </tableData>
                     </table>
                 </product>
@@ -97,11 +97,44 @@
             </range>
         </aerosurface_scale>
 
+        <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
+            <function>
+                <product>
+                    <table>
+                        <independentVar lookup="row">inertia/weight-lbs</independentVar>
+                        <tableData>
+                                0.00  7.00
+                            30864.72  7.00
+                            40340.00  5.00
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+        </fcs_function>
+
+        <switch name="fcs/elevator/cmg-limit-pos">
+            <description>As per manual with gears out no more than 3G allowed.</description>
+            <default value="fcs/elevator/cmg-limit-pos-weight"/>
+            <test logic="AND" value="3">
+                gear/gear-pos-norm ne 0
+            </test>
+            <output>/limits/max-positive-g</output>
+        </switch>
+
+        <switch name="fcs/elevator/cmg-limit-neg">
+            <description>As per manual with gears out no less than 0G allowed.</description>
+            <default value="-3"/>
+            <test logic="AND" value="0">
+                gear/gear-pos-norm ne 0
+            </test>
+            <output>/limits/max-negative-g</output>
+        </switch>
+
         <summer name="fcs/elevator/cmd-g-sum">
             <input>fcs/elevator/cmd-g-trim</input>
             <input>fcs/elevator/cmd-g</input>
             <clipto>
-                <min> -3 </min>
+                <min> -4 </min>
                 <max>  7 </max>
             </clipto>
         </summer>

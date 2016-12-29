@@ -91,6 +91,7 @@ var blackout_loop = func {
 	if (g == nil) {
 		g = 1;
 	}
+	setprop("/accelerations/pilot-gdamped", g);
 
 	var g_log = g <= 1?0:math.log10(g);
 	if (g < blackout_onset) {
