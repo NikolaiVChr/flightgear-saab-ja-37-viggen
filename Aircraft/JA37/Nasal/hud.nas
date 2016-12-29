@@ -629,7 +629,7 @@ var HUDnasal = {
                       .moveTo(-(15/1024)*canvasWidth, (55/1024)*canvasWidth)
                       .lineTo(-(15/1024)*canvasWidth, (25/1024)*canvasWidth);                      
 
-
+    # altitude desired lines
     HUDnasal.main.desired_lines3 = HUDnasal.main.desired_lines_group.createChild("path")
                      .moveTo(-(200/1024)*canvasWidth + w/2, 0)
                      .vert(5*pixelPerDegreeY)
@@ -1629,7 +1629,7 @@ var HUDnasal = {
     if (guideUseLines == FALSE) {
       var desired_alt_delta_ft = nil;
       if(mode == TAKEOFF) {
-        desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
+        desired_alt_delta_ft = (500*M2FT)-me.input.rad_alt.getValue();
       } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
         desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {

@@ -2603,3 +2603,4 @@ Sim: Missiles proportional navigation now predicts the gravity and compensates.
 Sim: Flares now use another MP property. Base chance of being fooled decreased. But chance increased at front aspect.
 GUI: G-force limits now depends on gear extension and total weight, as per manual.
 GUI: Pilot weight can now be adjusted in payload dialog.
+HUD: Fixed that at takeoff the desired altitude lines would rely on barometer, not radar altimeter.

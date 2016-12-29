@@ -1,5 +1,5 @@
-TODO for Flightgear JA-37
-=========================
+TODO for Flightgear Saab 37 Viggen
+==================================
 
 
 Features and improvements:
@@ -53,17 +53,17 @@ Sim: Replace MP hit and fire messages with something else, so can leave civilian
 Sim: Implement maximum speed reactions - Vne.
 Sim: Implement navigation controls into the cockpit.
 Sim: Engine fire: reduced thrust, stuck throttle.
-Sim: Make missile code generic aircraft independent.
+Sim: Make missile code generic to be used on helis also.
 Sim: Include Shinobis missile changes into missile code. (heat)
 Sim: Stop auto-selecting when in tactical mode.
 Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Be able to notch the rb71 again.
-Sim: Make speed, roll and altitude limits on firing missiles.
+Sim: Make speed, roll, Nz and altitude limits on firing missiles.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make weapons hit all nearby targets.
-Sim: Make dumb bombs not require a target.
+Sim: Make m71 bombs not require a target.
 Sim: When inverted for more than 10 secs, let oil pressure be affected, and disrupt engine operations.
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Review all replay signals.
