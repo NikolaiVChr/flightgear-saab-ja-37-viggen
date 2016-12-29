@@ -810,7 +810,7 @@ var Contact = {
     },
 
     getFlareNode: func () {
-      return me.node.getNode("sim/multiplay/generic/string[10]");
+      return me.node.getNode("rotors/blade[4]/flap-deg");
     },
 
     setPolar: func(dist, angle) {

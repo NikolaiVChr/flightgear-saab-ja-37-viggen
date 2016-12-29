@@ -1144,24 +1144,20 @@ var AIM = {
 			#
 			me.flareNode = me.Tgt.getFlareNode();
 			if (me.flareNode != nil) {
-				me.flareString = me.flareNode.getValue();
-				if (me.flareString != nil and me.flareString != "") {
-					me.flareVector = split(":", me.flareString);
-					if (me.flareVector != nil and size(me.flareVector) == 2 and me.flareVector[1] == "flare") {
-						me.flareNumber = num(me.flareVector[0]);
-						if (me.flareNumber != nil and me.flareNumber != me.lastFlare) {
-							# target has released a new flare, lets check if it fools us
-							me.lastFlare = me.flareNumber;
-							me.aspectDeg = me.aspect() / 180;
-							me.fooled = rand() < (0.2 + 0.1 * me.aspectDeg);
-							# 20% chance to be fooled, extra up till 10% chance added if front aspect
-							if (me.fooled == TRUE) {
-								# fooled by the flare
-								print(me.type~": Missile fooled by flare");
-								me.free = TRUE;
-							} else {
-								print(me.type~": Missile ignored flare");
-							}
+				me.flareNumber = me.flareNode.getValue();
+				if (me.flareNumber != nil and me.flareNumber != 0) {
+					if (me.flareNumber != me.lastFlare) {
+						# target has released a new flare, lets check if it fools us
+						me.lastFlare = me.flareNumber;
+						me.aspectDeg = me.aspect() / 180;
+						me.fooled = rand() < (0.15 + 0.15 * me.aspectDeg);
+						# 15% chance to be fooled, extra up till 15% chance added if front aspect
+						if (me.fooled == TRUE) {
+							# fooled by the flare
+							print(me.type~": Missile fooled by flare");
+							me.free = TRUE;
+						} else {
+							print(me.type~": Missile ignored flare");
 						}
 					}
 				}

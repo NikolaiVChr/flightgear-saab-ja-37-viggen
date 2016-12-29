@@ -381,9 +381,9 @@
                 <int n="14" alias="/payload/weight[3]/ammo"/>                      
                 <!-- misc -->
                 <!--<string n="0" alias="/sim/aircraft-version"/> not used anymore -->
-                <string n="10" type="string">none</string><!-- flare -->
+                <!--<string n="10" type="string">none</string>--><!-- flare -->
                 <!--<string n="13" type="string"></string>--><!-- not used -->
-                <string n="15" type="string"></string><!-- anti-c -->
+                <string n="15" type="string"></string><!-- antic -->
             </generic>
         </multiplay>
 
@@ -1017,6 +1017,9 @@
             <blade n="2">
                 <flap-deg type="double">0</flap-deg>
                 <position-deg alias="/gear/gear[2]/rollspeed-ms"/>
+            </blade>
+            <blade n="4">
+                <flap-deg type="double">0</flap-deg><!-- used for releasing flares -->
             </blade>
         </main>
         <tail>

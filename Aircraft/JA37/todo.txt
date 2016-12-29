@@ -66,7 +66,6 @@ Sim: Make weapons hit all nearby targets.
 Sim: Make dumb bombs not require a target.
 Sim: When inverted for more than 10 secs, let oil pressure be affected, and disrupt engine operations.
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
-Sim: Make flare over MP use int instead of String.
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
