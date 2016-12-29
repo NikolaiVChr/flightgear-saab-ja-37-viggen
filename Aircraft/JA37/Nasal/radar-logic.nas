@@ -810,7 +810,7 @@ var Contact = {
     },
 
     getFlareNode: func () {
-      return me.node.getNode("rotors/blade[4]/flap-deg");
+      return me.node.getNode("rotors/main/blade[4]/flap-deg");
     },
 
     setPolar: func(dist, angle) {
