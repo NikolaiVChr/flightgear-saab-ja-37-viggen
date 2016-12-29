@@ -1018,7 +1018,7 @@
                 <flap-deg type="double">0</flap-deg>
                 <position-deg alias="/gear/gear[2]/rollspeed-ms"/>
             </blade>
-            <blade n="4">
+            <blade n="3">
                 <flap-deg type="double">0</flap-deg><!-- used for releasing flares -->
             </blade>
         </main>
