@@ -525,6 +525,7 @@ var AIM = {
 
 		# setup lofting and cruising
 		me.snapUp = me.loft_alt > 10000;
+		me.rotate_token = FALSE;
 		#if (me.Tgt != nil and me.snapUp == TRUE) {
 			#var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
 			#
@@ -1338,7 +1339,18 @@ var AIM = {
             if (me.cruise_or_loft == TRUE) {
             	#print(" pitch "~me.pitch~" + me.raw_steer_signal_elev "~me.raw_steer_signal_elev);
             }
-        } elsif (me.snapUp == TRUE and me.t_elev_deg > -25 and me.dist_curr * M2NM > 10
+        } elsif (me.rail == TRUE and me.rail_forward == FALSE and me.rotate_token == FALSE) {
+			# tube launched missile turns towards target
+
+			me.raw_steer_signal_elev = -me.pitch + me.t_elev_deg;
+			#print("Turning, desire "~me.t_elev_deg~" degs pitch.");
+			me.cruise_or_loft = TRUE;
+			me.limitGs = TRUE;
+			if (math.abs(me.curr_deviation_e) < 7.5) {
+				me.rotate_token = TRUE;
+				#print("Is last turn, snap-up/PN takes it from here..")
+			}
+		} elsif (me.snapUp == TRUE and me.t_elev_deg > -25 and me.dist_curr * M2NM > 10
 			 and me.t_elev_deg < me.loft_angle #and me.t_elev_deg > -7.5
 			 and me.dive_token == FALSE) {
 			# lofting: due to target is more than 10 miles out and we havent reached 
@@ -1356,16 +1368,6 @@ var AIM = {
 				#print("Stopped lofting");
 			}
 			me.cruise_or_loft = TRUE;
-		} elsif (me.rail == TRUE and me.rail_forward == FALSE and me.dive_token == FALSE) {
-			# tube launched missile turns towards target
-
-			me.raw_steer_signal_elev = -me.pitch + me.t_elev_deg;
-			#print("Turning, desire "~me.t_elev_deg~" degs pitch.");
-			me.cruise_or_loft = TRUE;
-			if (math.abs(me.curr_deviation_e) < 7.5) {
-				me.dive_token = TRUE;
-				#print("Is last turn, APN takes it from here..")
-			}
 		} elsif (me.snapUp == TRUE and me.coord.alt() > me.t_coord.alt() and me.last_cruise_or_loft == TRUE
 		         and me.t_elev_deg > -25 and me.dist_curr * M2NM > 10) {
 			# cruising: keeping altitude since target is below and more than -45 degs down
@@ -1576,8 +1578,10 @@ var AIM = {
             	if(me.life_time < me.arming_time) {
                 	me.event = "landed disarmed";
             	}
-            	me.explode("Hit terrain.", me.event);
-                return TRUE;
+            	if ((me.Tgt != nil and me.direct_dist_m != nil) or me.Tgt == nil) {
+            		me.explode("Hit terrain.", me.event);
+            		return TRUE;
+            	}
             }
         }
 
