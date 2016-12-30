@@ -386,7 +386,8 @@ var radar = {
       rmDist:               "autopilot/route-manager/wp/dist",
       rmId:                 "autopilot/route-manager/wp/id",
       rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
-      RMCurrWaypoint:   "autopilot/route-manager/current-wp",
+      RMCurrWaypoint:       "autopilot/route-manager/current-wp",
+      roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
       screenEnabled:        "ja37/radar/enabled",
       timeElapsed:          "sim/time/elapsed-sec",
       viewNumber:           "sim/current-view/view-number",
@@ -532,8 +533,7 @@ var radar = {
       }
     
       # show horizon lines
-      var roll = getprop("orientation/roll-deg");
-      me.horzGroup.setRotation(-roll*D2R);
+      me.horzGroup.setRotation(-me.input.roll.getValue()*D2R);
 
       var desired_alt_delta_ft = nil;
       if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
