@@ -1429,6 +1429,10 @@ var AIM = {
 				me.raw_steer_signal_head = me.curr_deviation_h;
 				if (me.cruise_or_loft == FALSE) {
 					me.raw_steer_signal_elev = me.curr_deviation_e;
+					me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
+		            me.gravComp = me.pitch - me.attitudePN;
+		            #printf("Gravity compensation %0.2f degs", me.gravComp);
+		            me.raw_steer_signal_elev += me.gravComp;
 				}
 				return;
 			} elsif (me.navigation == "PN") {
