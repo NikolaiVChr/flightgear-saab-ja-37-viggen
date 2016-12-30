@@ -215,7 +215,8 @@ var AIM = {
         m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");          # it wont get solid lock before the target has this range
         m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");                       # if the weapon is rail or tube fired set to true. If dropped 7ft before ignited set to false.
         m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");              # length of tube/rail
-        m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");         # true for rail, false for vertical tube
+        m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");         # true for rail, false for rail/tube with a pitch
+        m.rail_pitch_deg        = getprop("payload/armament/"~m.type_lc~"/rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
         m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # max distance from target the missile will report that it has exploded, instead of just passed.
@@ -377,7 +378,7 @@ var AIM = {
 		me.deleted = TRUE;
 	},
 
-	getGPS: func(x, y, z) {#GCD
+	getGPS: func(x, y, z, pitch) {#GCD
 		#
 		# get Coord from body position. x,y,z must be in meters.
 		# derived from Vivian's code in AIModel/submodel.cxx.
@@ -389,7 +390,7 @@ var AIM = {
 		}
 
 		me.ac_roll = OurRoll.getValue();
-		me.ac_pitch = OurPitch.getValue();
+		me.ac_pitch = pitch;
 		me.ac_hdg   = OurHdg.getValue();
 
 		me.in    = [0,0,0];
@@ -466,11 +467,17 @@ var AIM = {
 		var ac_pitch = OurPitch.getValue();
 		var ac_hdg   = OurHdg.getValue();
 
+		if (me.rail == TRUE) {
+			if (me.rail_forward == FALSE) {
+				ac_pitch = ac_pitch + me.rail_pitch_deg;
+			}
+		}
+
 		# Compute missile initial position relative to A/C center
 		me.x = me.pylon_prop.getNode("offsets/x-m").getValue();
 		me.y = me.pylon_prop.getNode("offsets/y-m").getValue();
 		me.z = me.pylon_prop.getNode("offsets/z-m").getValue();
-		var init_coord = me.getGPS(me.x, me.y, me.z);
+		var init_coord = me.getGPS(me.x, me.y, me.z, ac_pitch);
 
 		# Set submodel initial position:
 		var mlat = init_coord.lat();
@@ -506,8 +513,13 @@ var AIM = {
 		me.speed_north_fps = getprop("velocities/speed-north-fps");
 		if (me.rail == TRUE) {
 			if (me.rail_forward == FALSE) {
-				# rail is actually a tube pointing upward
-				me.rail_speed_into_wind = -getprop("velocities/wBody-fps");# wind from below
+				if (me.rail_pitch_deg == 90) {
+					# rail is actually a tube pointing upward
+					me.rail_speed_into_wind = -getprop("velocities/wBody-fps");# wind from below
+				} else {
+					#does not account for incoming airstream, yet.
+					me.rail_speed_into_wind = 0;
+				}
 			} else {
 				# rail is pointing forward
 				me.rail_speed_into_wind = getprop("velocities/uBody-fps");# wind from nose
@@ -835,8 +847,13 @@ var AIM = {
 				me.opposing_wind = me.u;
 				me.hdg = OurHdg.getValue();
 			} else {
-				me.pitch = 90;
-				me.opposing_wind = -me.w;
+				me.pitch = OurPitch.getValue() + me.rail_pitch_deg;
+				if (me.rail_pitch_deg == 90) {
+					me.opposing_wind = -me.w;
+				} else {
+					# no incoming airstream if not vertical tube
+					me.opposing_wind = 0;
+				}
 				me.hdg = me.Tgt.get_bearing();
 			}			
 
@@ -846,8 +863,10 @@ var AIM = {
 			me.rail_pos = me.rail_pos + me.movement_on_rail;
 			if (me.rail_forward == TRUE) {
 				me.x = me.x - (me.movement_on_rail * FT2M);# negative cause positive is rear in body coordinates
-			} else {
+			} elsif (me.rail_pitch_deg == 90) {
 				me.z = me.z + (me.movement_on_rail * FT2M);# positive cause positive is up in body coordinates
+			} else {
+				me.x = me.x - (me.movement_on_rail * FT2M);
 			}
 		}
 
@@ -859,7 +878,12 @@ var AIM = {
 			me.coord.set_alt(me.alt_ft * FT2M);
 		} else {
 			# missile on rail, lets move it on the rail
-			me.coord = me.getGPS(me.x, me.y, me.z);
+			if (me.rail_pitch_deg == 90 or me.rail_forward == TRUE) {
+				me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue());
+			} else {
+				# kind of a hack, but work
+				me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue()+me.rail_pitch_deg);
+			}
 			me.alt_ft = me.coord.alt() * M2FT;
 			# find its speed, for used in calc old speed
 			me.speed_down_fps       = -math.sin(me.pitch * D2R) * me.rail_speed_into_wind;
