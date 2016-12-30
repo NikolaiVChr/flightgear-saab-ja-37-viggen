@@ -810,7 +810,7 @@
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">radar</guidance>                              <!-- source -->
-                    <navigation type="string">direct</navigation>
+                    <navigation type="string">APN</navigation>
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">17.28</max-fire-range-nm>            <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
@@ -877,7 +877,7 @@
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">vision</guidance>
-                    <navigation type="string">direct</navigation>                           
+                    <navigation type="string">APN</navigation>                           
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">12</max-fire-range-nm>              <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
