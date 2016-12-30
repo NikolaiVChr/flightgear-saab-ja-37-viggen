@@ -148,7 +148,6 @@ var radar = {
 
     m.dest = g.createChild("group")
                 .hide()
-                .setTranslation(pixels_max/2, m.strokeOriginY)
                 .set("z-index", 8);
     m.dest_runway = m.dest.createChild("path")
                .moveTo(0, 0)
@@ -471,7 +470,7 @@ var radar = {
           var x = math.cos(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
           var y = math.sin(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
 
-          me.dest.setTranslation(x, -y);
+          me.dest.setTranslation(pixels_max/2+x, m.strokeOriginY-y);
 
           me.dest.show();
 
