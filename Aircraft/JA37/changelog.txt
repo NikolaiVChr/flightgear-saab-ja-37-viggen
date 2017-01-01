@@ -2590,7 +2590,7 @@ Sim: Fixed M70 and M55 should fire simultaneously, as per dev notes.
 Sim: Made the RB-24 more authentic and less able to hit.
 HUD: Fixed that out of ammo FPI was always shown when M55 selected.
 
-4.012
+4.012 - 2017 January 1
 =====
 Model: {Spectre} Added 2 Tiger Meet Liveries.
 Sim: New missile lofting system.
@@ -2599,10 +2599,11 @@ Sim: Adjustment to missile lofting.
 Sim: RB99 performance drastically changed.
 Animation: Fixed that the zone gauge does not show the correct zone anymore.
 Radar: The type of the selection fed to the HUD would sometimes be off, hopefully no more.
-Sim: Missiles proportional navigation now predicts the gravity and compensates.
+Sim: Missiles guidance law now predicts the gravity and compensates.
 Sim: Flares now use another MP property. Base chance of being fooled decreased. But chance increased at front aspect.
 GUI: G-force limits now depends on gear extension and total weight, as per manual.
 GUI: Pilot weight can now be adjusted in payload dialog.
 HUD: Fixed that at takeoff the desired altitude lines would rely on barometer, not radar altimeter.
 Radar: Added artificial horizon lines and desired altitude lines.
 Radar: Ordered the elements of which is shown on top of which.
+Sim: Better tube launched simulation.
