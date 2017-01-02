@@ -2614,3 +2614,4 @@ Engine: JA fuel tanks content adjusted as per JA-37D manual.
 Radar: Fixed a nasal error when showing waypoint.
 HUD: Big nasal garbage collection optimizations.
 HUD: Fixed CCIP was not so accurate when in a bank while dropping.
+Radar: Nasal garbage collection optimizations in radar screen code.

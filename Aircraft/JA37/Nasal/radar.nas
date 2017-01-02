@@ -369,13 +369,13 @@ var radar = {
         #     .setTranslation(0,0);
 
     m.input = {
-      alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
-      APLockAlt:        "autopilot/locks/altitude",
-      APTgtAgl:         "autopilot/settings/target-agl-ft",
-      APTgtAlt:         "autopilot/settings/target-altitude-ft",
+      alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
+      APLockAlt:            "autopilot/locks/altitude",
+      APTgtAgl:             "autopilot/settings/target-agl-ft",
+      APTgtAlt:             "autopilot/settings/target-altitude-ft",
       heading:              "instrumentation/heading-indicator/indicated-heading-deg",
       hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
-      rad_alt:          "position/altitude-agl-ft",
+      rad_alt:              "position/altitude-agl-ft",
       radarEnabled:         "ja37/hud/tracks-enabled",
       radarRange:           "instrumentation/radar/range",
       radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
@@ -405,30 +405,28 @@ var radar = {
 
   update: func()
   {
-  #Modes 0=Off, 1=Autoscan, 2=Manual, 5=Course guide, 6=Course and glide
-    var rmode=1;#getprop("instrumentation/radar/mode");
     if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and me.input.radarVoltage.getValue() != nil
         and me.input.radarScreenVoltage.getValue() > 23 and me.input.radarVoltage.getValue() > 170
         and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.rangeText.setText(sprintf("%3d",me.radarRange/1000));
-      var dt = me.input.timeElapsed.getValue();
+      me.dt = me.input.timeElapsed.getValue();
       
       #Stroke animation
-      if (dt == nil) {
-        dt = 5;
+      if (me.dt == nil) {
+        me.dt = 5;
       }            
       # compute new stroke angle if has hydr pressure
       if(me.input.hydrPressure.getValue() == 1) {
         # AJ37 manual: 110 degrees per second: 1.0733775 x 1radian= 123 degrees. 123deg = 2.14675498 rad for full scan.
-        me.stroke_angle = math.sin(dt*2.14675498)*1.0733775;
+        me.stroke_angle = math.sin(me.dt*2.14675498)*1.0733775;
         forindex (i; me.stroke) me.stroke[i].show();
       } else {
         forindex (i; me.stroke) me.stroke[i].hide();
       }
       #convert to radians
-      var curr_angle = me.stroke_angle;# * 0.0175; 
+      me.curr_angle = me.stroke_angle;# * 0.0175; 
       # animate fading stroke angles
       for(var i=0; i < me.no_stroke-1; i = i+1) {
         me.tfstroke[i].setRotation(me.stroke_dir[i+1]);
@@ -436,13 +434,13 @@ var radar = {
         me.stroke_dir[i] = me.stroke_dir[i+1];
       }
       #animate the stroke
-      me.tfstroke[me.no_stroke-1].setRotation(curr_angle);
+      me.tfstroke[me.no_stroke-1].setRotation(me.curr_angle);
       #print("dir 5 = "~curr_angle);
-      var prev_angle = me.stroke_dir[me.no_stroke-1];
-      me.stroke_dir[me.no_stroke-1] = curr_angle;
+      me.prev_angle = me.stroke_dir[me.no_stroke-1];
+      me.stroke_dir[me.no_stroke-1] = me.curr_angle;
 
       #Update blips
-      me.update_blip(curr_angle, prev_angle);
+      me.update_blip(me.curr_angle, me.prev_angle);
 
       # draw destination
       #var freq = getprop("instrumentation/nav/frequencies/selected-mhz");
@@ -461,43 +459,43 @@ var radar = {
       #}
 
       if (me.input.rmActive.getValue() == TRUE) {
-        var dist = me.input.rmDist.getValue();        
-        var bearing = me.input.rmTrueBearing.getValue();#true
-        var heading = me.input.heading.getValue();#true
-        if (dist != nil and bearing != nil and heading != nil) {
-          var bug = bearing - heading;
+        me.dist = me.input.rmDist.getValue();        
+        me.bearing = me.input.rmTrueBearing.getValue();#true
+        me.heading = me.input.heading.getValue();#true
+        if (me.dist != nil and me.bearing != nil and me.heading != nil) {
+          me.bug = me.bearing - me.heading;
 
-          var x = math.cos(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
-          var y = math.sin(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
+          me.x = math.cos(-(me.bug-90) * D2R) * (me.dist/(me.radarRange * M2NM)) * me.strokeHeight;
+          me.y = math.sin(-(me.bug-90) * D2R) * (me.dist/(me.radarRange * M2NM)) * me.strokeHeight;
 
-          me.dest.setTranslation(pixels_max/2+x, me.strokeOriginY-y);
+          me.dest.setTranslation(pixels_max/2+me.x, me.strokeOriginY-me.y);
 
           me.dest.show();
 
-          var name = me.input.rmId.getValue();
-          if (name != nil and size(split("-", name))>1) {
+          me.name = me.input.rmId.getValue();
+          if (me.name != nil and size(split("-", me.name))>1) {
             #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
-            name = split("-", name);
-            var icao = name[0];
-            name = name[1];
-            name = split("C", split("L", split("R", name)[0])[0])[0];
-            name = num(name);
-            if (name != nil and size(icao) == 4) {
-              var head = 10 * name;#magnetic
-              var magDiff = me.input.headTrue.getValue() - me.input.headMagn.getValue();
-              head += magDiff;#true
+            me.name = split("-", me.name);
+            me.icao = me.name[0];
+            me.name = me.name[1];
+            me.name = split("C", split("L", split("R", me.name)[0])[0])[0];
+            me.name = num(me.name);
+            if (me.name != nil and size(me.icao) == 4) {
+              me.head = 10 * me.name;#magnetic
+              me.magDiff = me.input.headTrue.getValue() - me.input.headMagn.getValue();
+              me.head += me.magDiff;#true
               # 10 20 20 40 Km long line, depending on radar setting, as per manual.
-              var runway_l = 10000;
+              me.runway_l = 10000;
               if (me.radarRange == 120000 or me.radarRange == 180000) {
-                runway_l = 40000;
+                me.runway_l = 40000;
               } elsif (me.radarRange == 60000) {
-                runway_l = 20000;
+                me.runway_l = 20000;
               } elsif (me.radarRange == 30000) {
-                runway_l = 20000;
+                me.runway_l = 20000;
               }
-              var scale = (runway_l/me.radarRange) * me.strokeHeight/50;
-              me.dest_runway.setScale(1, scale);
-              me.dest.setRotation((180+head-heading)*D2R);
+              me.scale = (me.runway_l/me.radarRange) * me.strokeHeight/50;
+              me.dest_runway.setScale(1, me.scale);
+              me.dest.setRotation((180+me.head-me.heading)*D2R);
               me.dest_runway.show();
               } else {
                 me.dest_runway.hide();
@@ -514,13 +512,12 @@ var radar = {
 
 
       # show antanea height
-      var a2a = canvas_HUD.air2air;
-      if (a2a == TRUE) {
+      if (canvas_HUD.air2air == TRUE) {
         if (radar_logic.selection != nil) {
-          var elev = radar_logic.selection.getElevation();
-          elev = clamp(elev, -10, 10)/10;
-          var x = me.strokeHeight*0.18*elev;
-          me.ant_cursor.setTranslation(x, 0);
+          me.elev = radar_logic.selection.getElevation();
+          me.elev = clamp(me.elev, -10, 10)/10;
+          me.xx = me.strokeHeight*0.18*me.elev;
+          me.ant_cursor.setTranslation(me.xx, 0);
           me.ant_cursor.show();
         } else {
           me.ant_cursor.hide();
@@ -534,24 +531,24 @@ var radar = {
       # show horizon lines
       me.horzGroup.setRotation(-me.input.roll.getValue()*D2R);
 
-      var desired_alt_delta_ft = nil;
+      me.desired_alt_delta_ft = nil;
       if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
-        desired_alt_delta_ft = (500*M2FT)-me.input.rad_alt.getValue();
+        me.desired_alt_delta_ft = (500*M2FT)-me.input.rad_alt.getValue();
       } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
-        desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
-        desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
+        me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
       } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
-        var i = me.input.RMCurrWaypoint.getValue();
-        var rt_alt = getprop("autopilot/route-manager/route/wp["~i~"]/altitude-ft");
-        if(rt_alt != nil and rt_alt > 0) {
-          desired_alt_delta_ft = rt_alt - me.input.alt_ft.getValue();
+        me.i = me.input.RMCurrWaypoint.getValue();
+        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.i~"]/altitude-ft");
+        if(me.rt_alt != nil and me.rt_alt > 0) {
+          me.desired_alt_delta_ft = me.rt_alt - me.input.alt_ft.getValue();
         }
       }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
-      if(desired_alt_delta_ft != nil) {
-        var pos_y = clamp(-(desired_alt_delta_ft*FT2M)/10, -(50/1024)*pixels_max, (100/1024)*pixels_max);#500 m up, 1000 m down
+      if(me.desired_alt_delta_ft != nil) {
+        me.pos_y = clamp(-(me.desired_alt_delta_ft*FT2M)/10, -(50/1024)*pixels_max, (100/1024)*pixels_max);#500 m up, 1000 m down
 
-        me.desired_lines3.setTranslation(0, pos_y);
+        me.desired_lines3.setTranslation(0, me.pos_y);
         me.desired_lines3.show();
       } else {
         me.desired_lines3.hide();
@@ -572,59 +569,59 @@ var radar = {
   },
   
   update_blip: func(curr_angle, prev_angle) {
-        var b_i=0;
-        var lock = FALSE;
+        me.b_i=0;
+        me.anyLock = FALSE;
         foreach (var mp; radar_logic.tracks) {
           # Node with valid position data (and "distance!=nil").
 
-          var distance = mp.get_polar()[0];
-          var xa_rad = mp.get_polar()[1];
+          me.distance = mp.get_polar()[0];
+          me.xa_rad = mp.get_polar()[1];
 
           #make blip
-          if (b_i < me.no_blip and distance != nil and distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
+          if (me.b_i < me.no_blip and me.distance != nil and me.distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
               #aircraft is within the radar ray cone
-              var locked = FALSE;
+              me.locked = FALSE;
               if (mp.isPainted() == TRUE) {
-                lock = TRUE;
-                locked = TRUE;
+                me.anyLock = TRUE;
+                me.locked = TRUE;
               }
               if(curr_angle < prev_angle) {
-                var crr_angle = curr_angle;
+                me.crr_angle = curr_angle;
                 curr_angle = prev_angle;
-                prev_angle = crr_angle;
+                prev_angle = me.crr_angle;
               }
-              if (xa_rad > prev_angle and xa_rad < curr_angle) {
+              if (me.xa_rad > prev_angle and me.xa_rad < curr_angle) {
                 #aircraft is between the current stroke and the previous stroke position
-                me.blip_alpha[b_i]=1;
+                me.blip_alpha[me.b_i]=1;
                 # plot the blip on the radar screen
-                var pixelDistance = -distance*((me.strokeOriginY-me.strokeTopY)/me.radarRange); #distance in pixels
+                me.pixelDistance = -me.distance*((me.strokeOriginY-me.strokeTopY)/me.radarRange); #distance in pixels
                 
                 #translate from polar coords to cartesian coords
-                var pixelX =  pixelDistance * math.cos(xa_rad + math.pi/2) + pixels_max/2;
-                var pixelY =  pixelDistance * math.sin(xa_rad + math.pi/2) + me.strokeOriginY;
+                me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2) + pixels_max/2;
+                me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2) + me.strokeOriginY;
                 #print("pixel blip ("~pixelX~", "~pixelY);
-                me.tfblip[b_i].setTranslation(pixelX, pixelY); 
-                if (locked == TRUE) {
-                  pixelXL = pixelX;
-                  pixelYL = pixelY;
+                me.tfblip[me.b_i].setTranslation(me.pixelX, me.pixelY); 
+                if (me.locked == TRUE) {
+                  pixelXL = me.pixelX;
+                  pixelYL = me.pixelY;
                 }
               } else {
                 #aircraft is not near the stroke, fade it
-                me.blip_alpha[b_i] = me.blip_alpha[b_i]*0.90;
+                me.blip_alpha[me.b_i] = me.blip_alpha[me.b_i]*0.90;
               }
-              me.blip[b_i].show();
-              me.blip[b_i].setColor(black_r, black_g, black_b, me.blip_alpha[b_i]);
-              me.blip[b_i].setColorFill(black_r, black_g, black_b, me.blip_alpha[b_i]);
-              b_i=b_i+1;
+              me.blip[me.b_i].show();
+              me.blip[me.b_i].setColor(black_r, black_g, black_b, me.blip_alpha[me.b_i]);
+              me.blip[me.b_i].setColorFill(black_r, black_g, black_b, me.blip_alpha[me.b_i]);
+              me.b_i=me.b_i+1;
           }
         }
-        if (lock == FALSE) {
+        if (me.anyLock == FALSE) {
           me.lock.hide();
         } else {
           me.lock.setTranslation(pixelXL, pixelYL);
           me.lock.show();
         }
-        for (i = b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
+        for (var i = me.b_i; i < me.no_blip; i=i+1) me.blip[i].hide();
     },
 };
 
