@@ -2428,7 +2428,6 @@ var HUDnasal = {
         me.alti = getprop("position/altitude-ft")*FT2M;
         me.roll = getprop("orientation/roll-deg");
         me.vel = getprop("velocities/groundspeed-kt")*0.5144;#m/s
-        me.heading = getprop("orientation/heading-deg");#true
         me.dens = getprop("fdm/jsbsim/atmosphere/density-altitude");
         me.mach = getprop("velocities/mach");
         me.speed_down_fps = getprop("velocities/speed-down-fps");
@@ -2480,6 +2479,19 @@ var HUDnasal = {
 
         me.ac = geo.aircraft_position();
         me.ccipPos = geo.Coord.new(me.ac);
+
+        # we calc heading from composite speeds, due to alpha and beta might influence direction bombs will fall:
+        me.vectorMag = math.sqrt(me.speed_east_fps*me.speed_east_fps+me.speed_north_fps*me.speed_north_fps);
+        me.heading = -math.asin(me.speed_north_fps/me.vectorMag)*R2D+90;#divide by vector mag, to get normalized unit vector length
+        if (me.speed_east_fps/me.vectorMag < 0) {
+          me.heading = -me.heading;
+          while (me.heading > 360) {
+            me.heading -= 360;
+          }
+          while (me.heading < 0) {
+            me.heading += 360;
+          }
+        }
         me.ccipPos.apply_course_distance(me.heading, me.dist);
         #var elev = geo.elevation(ac.lat(), ac.lon());
         me.elev = me.alti-me.agl;#faster
