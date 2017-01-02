@@ -2611,3 +2611,4 @@ Sim: Better tube launched simulation.
 4.013
 =====
 Engine: JA fuel tanks content adjusted as per JA-37D manual.
+Radar: Fixed a nasal error when showing waypoint.

@@ -9,7 +9,7 @@ Tank 1:
 Tanks 2, 3 and 4
 - use flow distributor (use hydr 1) [is really 4 pumps]
 - the tanks are emptied evenly.
-- loss of hydr capacity is 4000 L/h
+- loss of hydr capacity is 4000 L/h (or machanic issue)
 - stops when pitch higher than 60 deg, lower than 30 deg
 - stops when roll right higher than 50 deg, left higher than 40 deg
 - 3V fuel is flowing to 2, 2 flows to 3H and distributor
@@ -27,6 +27,7 @@ X-tank:
 - cannot be ejected when wow[0] is on
 - can only be ejected when master arm is off
 - uses DC to be ejected
+- If air-pressure becomes to low to empty and more than 3% (~170L) fuel left, the X-TANK BRÄ goes on.
 
 
 Calculations to get tanks emptied evenly:
@@ -160,7 +161,7 @@ TODO: manual fuel controls
 
 
 
-    <channel execrate="1" name="Hydraulic fuel pumps">
+    <channel execrate="1" name="Hydraulic fuel pumps"><!-- fuel distributor -->
 
         <switch name="systems/fuel/tank6-output">
             <default value="-6.89489056654767324"/>            <!-- 14500 L/h from 4V to distributor -->
@@ -190,7 +191,7 @@ TODO: manual fuel controls
                 systems/hydraulics/system1/pressure == 0
                 systems/fuel/pneumatic-low-pressure == 0
             </test>
-            <test logic="AND" value="-0.95101938848933424">
+            <test logic="AND" value="-0.95101938848933424"><!-- 2000 L/h - low speed -->
                 /controls/fuel/auto == 0
                 /controls/fuel/hydraulic-pump == 2
             </test>

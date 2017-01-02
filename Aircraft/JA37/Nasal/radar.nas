@@ -470,7 +470,7 @@ var radar = {
           var x = math.cos(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
           var y = math.sin(-(bug-90) * D2R) * (dist/(me.radarRange * M2NM)) * me.strokeHeight;
 
-          me.dest.setTranslation(pixels_max/2+x, m.strokeOriginY-y);
+          me.dest.setTranslation(pixels_max/2+x, me.strokeOriginY-y);
 
           me.dest.show();
 
