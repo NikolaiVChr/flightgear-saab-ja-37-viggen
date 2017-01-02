@@ -2608,7 +2608,7 @@ Radar: Added artificial horizon lines and desired altitude lines.
 Radar: Ordered the elements of which is shown on top of which.
 Sim: Better tube launched simulation.
 
-4.013
+4.013 - 2017 January 2
 =====
 Engine: JA fuel tanks content adjusted as per JA-37D manual.
 Radar: Fixed a nasal error when showing waypoint.
