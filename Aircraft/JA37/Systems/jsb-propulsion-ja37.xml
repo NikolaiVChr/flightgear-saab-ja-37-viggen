@@ -32,8 +32,8 @@
           6.48 LBM/USGallon = 2.9392785576 Kg/1 Gallon = 2.9392785576 Kg/3.785411784 Liter
           = 0.2641720523581484 * 2.9392785576 Kg / Liter = 0.7764752490134901 Kg/Liter
     -->
-    <!-- Internal: 4454.00 Kg, External: 1190.00 Kg (JA37, Swedish airforce website)
-    -->
+
+    <!-- Source of current values: JA-37D manual part 3 -->
     
   <tank type="FUEL"><!-- fuel type used: F-40 with density of 6.48 -->
     <!-- Fuselage Main Tank 1 -->
@@ -43,8 +43,8 @@
       <z> 0.51982 </z>
     </location>
     <radius unit="M"> 0.50 </radius>
-    <capacity unit="KG"> 1484 </capacity><!-- old: 1500 Kg -->
-    <contents unit="KG"> 1484 </contents>
+    <capacity unit="KG"> 1578.6 </capacity><!-- 2033 L -->
+    <contents unit="KG"> 1578.6 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -58,8 +58,8 @@
       <z>  0.30 </z>
     </location>
     <radius unit="M"> 0.50 </radius>
-    <capacity unit="KG"> 916.24 </capacity><!-- 1180 Liter --><!-- old: 750 Kg -->
-    <contents unit="KG"> 916.24 </contents>
+    <capacity unit="KG"> 939.5 </capacity><!-- 1210 Liter -->
+    <contents unit="KG"> 939.5 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -73,8 +73,8 @@
       <z>  0.52599 </z>
     </location>
     <radius unit="M"> 0.15 </radius>
-    <capacity unit="KG"> 124.24 </capacity><!-- 160 Liter --><!-- old: 250 Kg -->
-    <contents unit="KG"> 124.24 </contents>
+    <capacity unit="KG"> 101.7 </capacity><!-- 131 Liter -->
+    <contents unit="KG"> 101.7 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -88,8 +88,8 @@
       <z>  0.52599 </z>
     </location>
     <radius unit="M"> 0.15 </radius>
-    <capacity unit="KG"> 124.24 </capacity><!-- 160 Liter --><!-- old: 250 Kg -->
-    <contents unit="KG"> 124.24 </contents>
+    <capacity unit="KG"> 122.7 </capacity><!-- 158 Liter -->
+    <contents unit="KG"> 122.7 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -103,8 +103,8 @@
       <z> -0.28 </z>
     </location>
     <radius unit="M"> 0.15 </radius>
-    <capacity unit="KG"> 87.35 </capacity><!-- 112.5 Liter --><!-- old: 227 Kg -->
-    <contents unit="KG"> 87.35 </contents>
+    <capacity unit="KG"> 86.6 </capacity><!-- 111.5 Liter -->
+    <contents unit="KG"> 86.6 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -118,8 +118,8 @@
       <z> -0.28 </z>
     </location>
     <radius unit="M"> 0.15 </radius>
-    <capacity unit="KG"> 87.35 </capacity><!-- 112.5 Liter --><!-- old: 227 Kg -->
-    <contents unit="KG"> 87.35 </contents>
+    <capacity unit="KG"> 86.6 </capacity><!-- 111.5 Liter -->
+    <contents unit="KG"> 86.6 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -133,8 +133,8 @@
       <z> -0.30 </z>
     </location>
     <radius unit="M"> 0.50 </radius>
-    <capacity unit="KG"> 815.3 </capacity><!-- 1050 Liter --><!-- old: 625 Kg -->
-    <contents unit="KG"> 815.3 </contents>
+    <capacity unit="KG"> 817.2 </capacity><!-- 1052.5 Liter -->
+    <contents unit="KG"> 817.2 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -148,8 +148,8 @@
       <z> -0.30 </z>
     </location>
     <radius unit="M"> 0.50 </radius>
-    <capacity unit="KG"> 815.3 </capacity><!-- 1050 Liter --><!-- old: 625 Kg -->
-    <contents unit="KG"> 815.3 </contents>
+    <capacity unit="KG"> 817.2 </capacity><!-- 1052.5 Liter -->
+    <contents unit="KG"> 817.2 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>
     <type>F-40</type>
@@ -163,7 +163,7 @@
       <z> -1.25748 </z>
     </location>
     <radius unit="M"> 0.25 </radius>
-    <capacity unit="KG"> 1024.95 </capacity><!-- 1320 Liter --><!-- old: 1190 Kg , Swedish airforce website -->
+    <capacity unit="KG"> 970.6 </capacity><!-- 1250 Liter -->
     <contents unit="KG"> 0 </contents>
     <temperature> 59 </temperature>
     <density unit="LBS/GAL"> 6.48 </density>

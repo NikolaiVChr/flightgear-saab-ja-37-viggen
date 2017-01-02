@@ -2607,3 +2607,7 @@ HUD: Fixed that at takeoff the desired altitude lines would rely on barometer, n
 Radar: Added artificial horizon lines and desired altitude lines.
 Radar: Ordered the elements of which is shown on top of which.
 Sim: Better tube launched simulation.
+
+4.013
+=====
+Engine: JA fuel tanks content adjusted as per JA-37D manual.
