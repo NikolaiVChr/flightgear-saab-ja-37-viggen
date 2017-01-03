@@ -813,17 +813,25 @@ var warhead_lbs = {
 };
 
 var fireMsgs = {
-    " FOX3 at":       nil,
-    " FOX2 at":       nil,
-    " FOX1 at":       nil,
-    " Fox 1 at":      nil,
-    " Fox 2 at":      nil,
-    " Fox 3 at":      nil,
-    " Greyhound at":  nil,
-    " Bombs away at": nil,
-    " Bruiser at":    nil,
-    " Rifle at":      nil,
-    " Bird away at":  nil,
+  
+    # F14
+    " FOX3 at":       nil, # radar
+    " FOX2 at":       nil, # heat
+    " FOX1 at":       nil, # semi-radar
+
+    # Viggen
+    " Fox 1 at":      nil, # semi-radar
+    " Fox 2 at":      nil, # heat
+    " Fox 3 at":      nil, # radar
+    " Greyhound at":  nil, # cruise missile
+    " Bombs away at": nil, # bombs
+    " Bruiser at":    nil, # anti-ship
+    " Rifle at":      nil, # TV guided
+
+    # SAM and missile frigate
+    " Bird away at":  nil, # G/A
+
+    # F15
     " aim7 at":       nil,
     " aim9 at":       nil,
     " aim120 at":     nil,

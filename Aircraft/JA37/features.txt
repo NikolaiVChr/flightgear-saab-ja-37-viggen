@@ -9,7 +9,7 @@ When the Viggen is first loaded I think its not apparent how much work is invest
 
 Flightgear compatibility
 ------
-The Viggen is compatible with Flightgear version 2.10 to 2016.4.
+The Viggen is compatible with Flightgear version 2.10 to 2016.4.4
 A separate download is available for Flightgear 2.8. It will not be updated so often as the regular download.
 
 Aerodynamics
@@ -66,7 +66,7 @@ Gauges are in metric and Swedish description. But they have Tooltips, showing Im
 Switches, knobs and buttons have english text for convenience.
 Custom Canvas HUD built from Saab flight manual with 4 modes of operation: navigation, landing, takeoff and tactical.
 HUD values depend on indicated values, not real values.
-HUD can switch to Imperial units.
+HUD can switch between Imperial and Metric units.
 The callsign (or type), velocity vector and distance of the selected track is also displayed in the HUD. It also display nearest tower.
 HUD shows radar tracks of aircraft plus scenario objects like ferries, balloons, tankers, carriers, tanks, bus, trains etc.
 At ILS landings the HUD will show a glideslope guide, if the runway supports it. Also DME if supported and enabled.
@@ -105,7 +105,7 @@ Ability to target a GPS coordinate and fire at it.
 
 Model
 -----
-Eleven authentic Swedish Airforce and 6 fictive Flightgear liveries included.
+12 authentic Swedish Airforce and 10 fictive Flightgear liveries included.
 Selection view, with camera pointing to the aircraft from outside and towards the current selected MP/AI aircraft.
 Ubershaded exterior model and cockpit panels. Also flood light is supported if model shader is enabled.
 Normal mapped exterior model.

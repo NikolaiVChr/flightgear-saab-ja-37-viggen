@@ -2615,3 +2615,8 @@ Radar: Fixed a nasal error when showing waypoint.
 HUD: Big nasal garbage collection optimizations.
 HUD: Fixed CCIP was not so accurate when in a bank while dropping.
 Radar: Nasal garbage collection optimizations in radar screen code.
+
+4.014
+=====
+Sim: Small improvement to lookup of fire messages for incoming warnings.
+Sim: Add own callsign to MP msg if it gets omitted by FG.
