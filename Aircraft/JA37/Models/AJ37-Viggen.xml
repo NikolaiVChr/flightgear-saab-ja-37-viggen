@@ -3438,6 +3438,58 @@
    <interpolation include="scissor-interpolation.xml"/>
 </animation>
 
+<!--      compress left gear when retracting (experimental) -->
+<animation>
+   <type>translate</type>
+   <object-name>gearLeftOleoStrut</object-name>
+   <object-name>gearLeftScissorBottom</object-name>
+   <object-name>gearLeftBottom</object-name>
+   <object-name>gearLeftWheel1</object-name>
+   <object-name>gearLeftWheel2</object-name>
+   <object-name>tyre-smoke-left</object-name>
+   <property>gear/gear[1]/position-norm</property>
+   <factor>-0.3048</factor>
+   <offset-m>0.3048</offset-m>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m>  2.64670 </x-m>
+        <y-m> -2.33204 </y-m>
+        <z-m> -2.1 </z-m>
+    </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearLeftScissorTop</object-name>
+   <property>gear/gear[1]/position-norm</property>
+   <axis>
+     <y>1</y>
+   </axis>
+   <center>    
+     <x-m>  2.27377 </x-m>
+     <y-m> -2.11446 </y-m>
+     <z-m> -1.2140  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation-retract.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearLeftScissorBottom</object-name>
+   <property>gear/gear[1]/position-norm</property>
+   <axis>
+     <y>-1</y>
+   </axis>
+   <center>  
+     <x-m>  2.27377 </x-m>
+     <y-m> -2.11446 </y-m>
+     <z-m> -1.5088  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation-retract.xml"/>
+</animation>
+
 <!-- spinning left wheel calc
 
      radius = -1.76576 - -2.07213 = 0.30637
@@ -3909,6 +3961,58 @@
      <z-m> -1.5088  </z-m>
    </center>
    <interpolation include="scissor-interpolation.xml"/>
+</animation>
+
+<!--            compress right gear when retracting-->
+<animation>
+   <type>translate</type>
+   <object-name>gearRightScissorBottom</object-name>
+   <object-name>gearRightOleoStrut</object-name>
+   <object-name>gearRightBottom</object-name>
+   <object-name>gearRightWheel1</object-name>
+   <object-name>gearRightWheel2</object-name>
+   <object-name>tyre-smoke-right</object-name>
+   <property>gear/gear[2]/position-norm</property><!-- auto MP trasmit -->
+   <factor>-0.3048</factor>
+   <offset-m>0.3048</offset-m>
+   <axis>
+     <z>1</z>
+   </axis>
+   <center>
+        <x-m> 2.64670 </x-m>
+        <y-m> 2.15204 </y-m>
+        <z-m> -2.1 </z-m>
+    </center>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearRightScissorTop</object-name>
+   <property>gear/gear[2]/position-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>1</y>
+   </axis>
+   <center>    
+     <x-m>  2.27377 </x-m>
+     <y-m>  2.21946 </y-m>
+     <z-m> -1.2140  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation-retract.xml"/>
+</animation>
+
+<animation>
+   <type>rotate</type>
+   <object-name>gearRightScissorBottom</object-name>
+   <property>gear/gear[2]/position-norm</property><!-- auto MP trasmit -->
+   <axis>
+     <y>-1</y>
+   </axis>
+   <center>  
+     <x-m>  2.27377 </x-m>
+     <y-m>  2.21946 </y-m>
+     <z-m> -1.5088  </z-m>
+   </center>
+   <interpolation include="scissor-interpolation-retract.xml"/>
 </animation>
 
 

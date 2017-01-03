@@ -2620,3 +2620,4 @@ Radar: Nasal garbage collection optimizations in radar screen code.
 =====
 Sim: Small improvement to lookup of fire messages for incoming warnings.
 Sim: Add own callsign to MP msg if it gets omitted by FG.
+Animation: Rear gears are now compressed at retracting.
