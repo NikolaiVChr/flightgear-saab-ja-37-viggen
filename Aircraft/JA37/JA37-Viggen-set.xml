@@ -444,6 +444,8 @@
         </weight>
         <armament>
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
+                <pylon-offset type="int">1</pylon-offset>
+                <pylon-stations>controls/armament</pylon-stations>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 relative -->

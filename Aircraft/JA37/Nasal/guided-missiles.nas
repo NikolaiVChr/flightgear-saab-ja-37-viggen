@@ -5,7 +5,7 @@
 ####### License: GPL 2
 #######
 ####### Authors:
-#######  Alexis Bory, Fabien Barbier, Justin Nicholson, Nikolai V. Chr.
+#######  Alexis Bory, Fabien Barbier, Richard Harrison, Justin Nicholson, Nikolai V. Chr.
 ####### 
 ####### In addition, some code is derived from work by:
 #######  David Culp, Vivian Meazza, M. Franz
@@ -150,6 +150,7 @@ var contact = nil;
 # get_Longitude()
 # get_altitude()
 # get_Pitch()
+# get_Speed()
 # get_heading()
 # getFlareNode()  - Used for flares.
 # isPainted()     - Tells if this target is still being tracked by the launch platform, only used in semi-radar and laser guided missiles.
@@ -172,13 +173,12 @@ var AIM = {
 		m.status            = MISSILE_STANDBY; # -1 = stand-by, 0 = searching, 1 = locked, 2 = fired.
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 		m.trackWeak         = 1;
-
 		m.prop              = AcModel.getNode("armament/"~m.type_lc~"/").getChild("msl", 0, 1);
 		m.SwSoundOnOff      = AcModel.getNode("armament/"~m.type_lc~"/sound-on-off");
         m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume");
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
-		m.pylon_prop        = props.globals.getNode("controls/armament").getChild("station", p+1);
+		m.pylon_prop        = props.globals.getNode(AcModel.getNode("armament/pylon-stations").getValue()).getChild("station", p+AcModel.getNode("armament/pylon-offset").getValue());
 		m.Tgt               = nil;
 		m.callsign          = "Unknown";
 		m.update_track_time = 0;
