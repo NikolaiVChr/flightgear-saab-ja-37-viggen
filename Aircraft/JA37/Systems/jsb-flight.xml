@@ -718,26 +718,79 @@
         </kinematic>
 
         <!--
-            Engine reversing, page 189 of JA37Di manual
+            Engine reversing, page 189 of JA37Di manual, page 220 of JA37C manual
 
             Todo: Blow off reverser doors if reversing is active while tertiary is closed or semi-closed.
         -->
-        <switch name="systems/flight/reverse/state-cmd">
-            <default value="systems/flight/reverse/state-cmd"/>
-            <test logic="OR" value="0">
-                <!-- forward thrust -->
-              /ja37/systems/tertiary-opening lt 1
-              gear/unit[0]/WOW ne 1
+
+        <switch name="systems/flight/reverse/R1-time">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="systems/flight/reverse/R1-time">
+                gear/unit[2]/WOW == 1
             </test>
-            <test logic="AND" value="0">
-                <!-- forward thrust -->
-              systems/flight/reverse/state-cmd == 1
-              /controls/engines/engine[0]/reverser-cmd == 0
+        </switch>
+
+        <fcs_function name="systems/flight/reverse/R1-time-release">
+            <function>
+                <sum>
+                    <p>systems/flight/reverse/R1-time</p>
+                    <v>1</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/flight/reverse/R1">
+            <default value="1"/>
+            <test logic="OR" value="0">
+                sim-time-sec gt systems/flight/reverse/R1-time-release
+            </test>
+        </switch>
+
+        <switch name="systems/flight/reverse/R2-time">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="systems/flight/reverse/R2-time">
+                gear/unit[0]/WOW == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/flight/reverse/R2-time-release">
+            <function>
+                <sum>
+                    <p>systems/flight/reverse/R2-time</p>
+                    <v>30</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/flight/reverse/R2">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                sim-time-sec lt systems/flight/reverse/R2-time-release
+                systems/flight/reverse/R2-time lt sim-time-sec
+            </test>
+        </switch>
+
+        <switch name="systems/flight/reverse/state-cmd">
+            <default value="0"/>
+            <test logic="AND" value="1">
+              /ja37/systems/tertiary-opening == 1
+              gear/gear-cmd-norm == 1
+              gear/unit[0]/WOW == 1
+              /controls/engines/engine[0]/reverser-cmd == 1
             </test>
             <test logic="AND" value="1">
-                <!-- reverse thrust -->
-              systems/flight/reverse/state-cmd == 0
               /controls/engines/engine[0]/reverser-cmd == 1
+              /ja37/systems/tertiary-opening == 1
+              gear/unit[2]/WOW == 1
+              gear/gear-cmd-norm == 1
+              systems/flight/reverse/R1 == 1
+            </test>
+            <test logic="AND" value="1">
+              /controls/engines/engine[0]/reverser-cmd == 1
+              /ja37/systems/tertiary-opening == 1
+              gear/unit[2]/WOW == 1
+              gear/gear-cmd-norm == 1
+              systems/flight/reverse/R2 == 1
             </test>
         </switch>
 

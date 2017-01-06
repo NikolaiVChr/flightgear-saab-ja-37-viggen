@@ -12,11 +12,11 @@ var UPDATE_PERIOD = 0.1;
 var FALSE = 0;
 var TRUE = 1;
 
-var prevGear0 = TRUE;
-var prevGear1 = TRUE;
-var prevGear2 = TRUE;
-var touchdown1 = FALSE;
-var touchdown2 = FALSE;
+#var prevGear0 = TRUE;
+#var prevGear1 = TRUE;
+#var prevGear2 = TRUE;
+#var touchdown1 = FALSE;
+#var touchdown2 = FALSE;
 var total_fuel = 0;
 var bingoFuel = FALSE;
 
@@ -42,7 +42,7 @@ input = {
   apLockSpeed:      "autopilot/locks/speed",
   asymLoad:         "fdm/jsbsim/inertia/asymmetric-wing-load",
   augmentation:     "/controls/engines/engine[0]/augmentation",
-  autoReverse:      "ja37/autoReverseThrust",
+  #autoReverse:      "ja37/autoReverseThrust",
   breathVol:        "ja37/sound/breath-volume",
   buffOut:          "fdm/jsbsim/systems/flight/buffeting/output",
   cabinPressure:    "fdm/jsbsim/systems/flight/cabin-pressure-kpm2",
@@ -260,42 +260,42 @@ var update_loop = func {
     #}
 
     # automatic reverse thrust enabler
-    var reversed = input.reversed.getValue();
+    #var reversed = input.reversed.getValue();
 
-    var gear0 = input.wow0.getValue();
-    var gear1 = input.wow1.getValue();
-    var gear2 = input.wow2.getValue();
+    #var gear0 = input.wow0.getValue();
+    #var gear1 = input.wow1.getValue();
+    #var gear2 = input.wow2.getValue();
 
-    if(input.autoReverse.getValue() == TRUE and reversed == FALSE) {
-      if(gear1 == TRUE) {
+    #if(input.autoReverse.getValue() == TRUE and reversed == FALSE) {
+    #  if(gear1 == TRUE) {
         #left boogie touching
-        if(prevGear1 == FALSE) {
-          touchdown1 = TRUE;
-        }
-      } else {
-        touchdown1 = FALSE;
-      }
-      if(gear2 == TRUE) {
+    #    if(prevGear1 == FALSE) {
+    #      touchdown1 = TRUE;
+    #    }
+    #  } else {
+    #    touchdown1 = FALSE;
+    #  }
+    #  if(gear2 == TRUE) {
         #right boogie touching
-        if(prevGear2 == FALSE) {
-          touchdown2 = TRUE;
-        }
-      } else {
-        touchdown2 = FALSE;
-      }
-      if(touchdown1 == TRUE and touchdown2 == TRUE) {
-        if(gear0 == TRUE) {
+    #    if(prevGear2 == FALSE) {
+    #      touchdown2 = TRUE;
+    #    }
+    #  } else {
+    #    touchdown2 = FALSE;
+    #  }
+    #  if(touchdown1 == TRUE and touchdown2 == TRUE) {
+    #    if(gear0 == TRUE) {
           #print("Auto-reversing the thrust");
-          touchdown1 = FALSE;
-          touchdown2 = FALSE;
-          reversethrust.reverserOn();
-        }
-      }
-    }
+    #      touchdown1 = FALSE;
+    #      touchdown2 = FALSE;
+    #      reversethrust.reverserOn();
+    #    }
+    #  }
+    #}
 
-    prevGear0 = gear0;
-    prevGear1 = gear1;
-    prevGear2 = gear2;
+    #prevGear0 = gear0;
+    #prevGear1 = gear1;
+    #prevGear2 = gear2;
 
     # meter altitude property
 

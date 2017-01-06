@@ -1786,7 +1786,7 @@
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
                 /controls/lighting/test-indicator-panels == 1
-                /engines/engine/is-reversed == 1
+                /controls/engines/engine[0]/reverser-cmd == 1
             </test>
         </switch>
 

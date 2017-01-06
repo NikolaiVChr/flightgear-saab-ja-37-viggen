@@ -188,7 +188,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/reverse-auto.xml</path>
     <name>auto reverse</name>
     <offsets>
@@ -197,7 +197,7 @@
       <y-m>  0.000</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/nosewheel-steer.xml</path>

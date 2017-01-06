@@ -145,19 +145,19 @@ var Dialog = {
           me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
 
           ######   reverse button   #####
-          var reverseRow = topRow.addChild("group");
-          reverseRow.set("layout", "hbox");
-          reverseRow.set("pref-height", 25);
-          reverseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #var reverseRow = topRow.addChild("group");
+          #reverseRow.set("layout", "hbox");
+          #reverseRow.set("pref-height", 25);
+          #reverseRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #reverseRow.set("valign", "center");
           
-          var reverseText = reverseRow.addChild("text").set("label", "Automatic reverse thrust at touchdown:");
-          reverseRow.addChild("empty").set("stretch", 1);
-          me.dialog.reverseButton = reverseRow.addChild("button");
-          me.dialog.reverseButton.set("halign", "right");
-          me.dialog.reverseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          #var reverseText = reverseRow.addChild("text").set("label", "Automatic reverse thrust at touchdown:");
+          #reverseRow.addChild("empty").set("stretch", 1);
+          #me.dialog.reverseButton = reverseRow.addChild("button");
+          #me.dialog.reverseButton.set("halign", "right");
+          #me.dialog.reverseButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
+          #me.dialog.reverseButton.setBinding("nasal", "ja37.Dialog.reverseToggle()");
 
           ######   hud button   #####
           var hudRow = topRow.addChild("group");
@@ -541,12 +541,12 @@ var Dialog = {
       me.refreshButtons();
     },
 
-    reverseToggle: func {
-      ja37.click();
-      var enabled = getprop("ja37/autoReverseThrust");
-      setprop("ja37/autoReverseThrust", !enabled);
-      me.refreshButtons();
-    },
+    #reverseToggle: func {
+    #  ja37.click();
+    #  var enabled = getprop("ja37/autoReverseThrust");
+    #  setprop("ja37/autoReverseThrust", !enabled);
+    #  me.refreshButtons();
+    #},
 
     hudToggle: func {
       var enabled = getprop("ja37/hud/mode");
@@ -733,13 +733,13 @@ var Dialog = {
       }
       me.dialog.breakButton.node.setValues({"legend": legend});
 
-      enabled = getprop("ja37/autoReverseThrust");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.reverseButton.node.setValues({"legend": legend});
+      #enabled = getprop("ja37/autoReverseThrust");
+      #if(enabled == 1) {
+      #  legend = "Enabled";
+      #} else {
+      #  legend = "Disabled";
+      #}
+      #me.dialog.reverseButton.node.setValues({"legend": legend});
 
       enabled = getprop("ja37/hud/mode");
       if(enabled == 1) {
