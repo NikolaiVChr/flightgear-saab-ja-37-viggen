@@ -1323,7 +1323,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      2.0 </time>
+                    <time>      2.5 </time>
                 </setting>
             </traverse>
             <output>fcs/speedbrake-pos-norm</output>
