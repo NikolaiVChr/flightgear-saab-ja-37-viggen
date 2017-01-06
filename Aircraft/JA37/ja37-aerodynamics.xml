@@ -515,6 +515,22 @@
         </function>
 
         <!-- estimate -->
+        <function name="aero/coefficient/CABrake">
+            <description>
+               Speedbrake axial Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/speedbrake-pos-norm</property>
+                <property>aero/drag/speedbrake</property>
+                <cos>
+                    <property>aero/alpha-rad</property>
+                </cos>
+            </product>
+        </function>
+
+        <!-- estimate -->
         <function name="aero/coefficient/CACanopy">
             <description>
                Canopy axial Coefficient

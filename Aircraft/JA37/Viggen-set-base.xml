@@ -441,6 +441,15 @@
         <time>
             <full-init type="bool">false</full-init>
         </time>
+        <failure-manager>
+            <controls>
+                <flight>
+                    <speedbrake>
+                        <serviceable type="bool">true</serviceable>
+                    </speedbrake>
+                </flight>
+            </controls>
+        </failure-manager>
     </sim>
     <ja37>
         <accelerations>
@@ -751,6 +760,7 @@
                     <rudder type="double">      0.010</rudder>                    <!-- at full 25 degrees deflection -->
                     <elevon-left type="double"> 0.015</elevon-left>                    <!-- full 40 degrees upward deflection -->
                     <elevon-right type="double">0.015</elevon-right>                    <!-- full 40 degrees upward deflection -->
+                    <speedbrake type="double">  0.020</speedbrake>                    <!-- fully open -->
                 </drag>
             </aero>
             <inertia>

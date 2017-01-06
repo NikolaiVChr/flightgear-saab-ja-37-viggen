@@ -9,6 +9,7 @@
                 <sum>
                     <property>aero/coefficient/CAtakeoff</property>
                     <property>aero/coefficient/CACanopy</property>
+                    <property>aero/coefficient/CABrake</property>
                     <property>aero/coefficient/CACanopyOff</property>
                     <property>aero/coefficient/CAElevonLeft</property>
                     <property>aero/coefficient/CAElevonRight</property>
@@ -723,9 +724,10 @@
         -->
         <switch name="systems/flight/reverse/state-cmd">
             <default value="systems/flight/reverse/state-cmd"/>
-            <test logic="AND" value="0">
+            <test logic="OR" value="0">
                 <!-- forward thrust -->
               /ja37/systems/tertiary-opening lt 1
+              gear/unit[0]/WOW ne 1
             </test>
             <test logic="AND" value="0">
                 <!-- forward thrust -->

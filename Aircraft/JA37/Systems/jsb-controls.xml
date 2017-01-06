@@ -1302,9 +1302,34 @@
 
     </channel>
 
+    <channel execrate="1" name="Speedbrake">
 
+        <switch name="fcs/speedbrake-cmd-norm-output">
+            <default value="fcs/speedbrake-cmd-norm"/>
+            <test logic="OR" value="0">
+                  velocities/mach gt 0.92
+            </test>
+            <test logic="OR" value="fcs/speedbrake-pos-norm">
+                  systems/hydraulics/system1/pressure == 0
+            </test>
+        </switch>
 
+        <kinematic name="names/speedbrake/pos-norm">
+            <input>fcs/speedbrake-cmd-norm-output</input>
+            <traverse>
+                <setting>
+                    <position>  0.0 </position>
+                    <time>      0.0 </time>
+                </setting>
+                <setting>
+                    <position>  1.0 </position>
+                    <time>      2.0 </time>
+                </setting>
+            </traverse>
+            <output>fcs/speedbrake-pos-norm</output>
+        </kinematic>
 
+    </channel>
 
     <channel execrate="1" name="Throttle"><!-- execrate must be 1, else wont overwrite fcs/throttle-pos-norm properly -->
 

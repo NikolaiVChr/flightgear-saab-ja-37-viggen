@@ -420,6 +420,34 @@
             </function>
         </fcs_function>
 
+        <!-- Swedish: LUFTBROMS (steady)
+        -->
+
+        <fcs_function name="systems/indicators/speedbrake-primary">
+            <function>
+                <lt>
+                    <property>/sim/failure-manager/controls/flight/speedbrake/serviceable</property>
+                    <value>1</value>
+                </lt>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/indicators/speedbrake-secondary">
+            <function>
+                <gt>
+                    <property>fcs/speedbrake-pos-norm</property>
+                    <value>0</value>
+                </gt>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/indicators/speedbrake">
+            <default value="systems/indicators/speedbrake-secondary"/>
+            <test logic="OR" value="/ja37/blink/ten-Hz/state">
+                /controls/lighting/test-indicator-panels == 1
+                systems/indicators/speedbrake-primary == 1
+            </test>
+        </switch>
                 
         <!-- Swedish: ELFÖRS (blinking)
         -->

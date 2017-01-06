@@ -156,7 +156,22 @@
         </emission>
     </animation>
 
-    <!-- right 1 is not used -->
+    <!-- Swedish: LUFTBROMS (steady)
+    -->
+    <animation>
+        <name>electrical</name>
+        <object-name>indicatorRight1</object-name>
+        <type>material</type>
+        <condition>
+            <property>fdm/jsbsim/systems/indicators/speedbrake</property>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
 
     <!-- Swedish: ELFÖRS (blinking)
     -->

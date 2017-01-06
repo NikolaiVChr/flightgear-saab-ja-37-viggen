@@ -9,6 +9,7 @@ GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Air-brakes, even though they got welded shut in mid 80ties. (Request from JazzTp)
 Aero: Make recoil not assume that FDM rate is 120 Hz.
+Aero: Tune speedbrake better.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
@@ -27,6 +28,8 @@ Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
+Model: Make switch for speedbrake.
+Model: Remove switch and logic for auto-reversing.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Buffeting of view, when get hit, crash.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
@@ -69,6 +72,7 @@ Sim: Make schedule for max climb rate with A/P at slow speed different when gear
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
+Sim: Improve the logic for allowing reversing depending on gear compression, as per manual.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot faint/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
