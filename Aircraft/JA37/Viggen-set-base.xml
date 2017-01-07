@@ -614,10 +614,10 @@
                 <yaw-damper>
                     <serviceable type="bool">true</serviceable>
                     <enable type="bool">true</enable>
-                    <yaw-rate-gain type="double">3</yaw-rate-gain>
+                    <yaw-rate-gain type="double">1</yaw-rate-gain>
                     <roll-rate-gain type="double">0.125</roll-rate-gain>
-                    <lateral-acc-gain type="double">-0.05</lateral-acc-gain>
-                    <washout-factor type="double">1.0</washout-factor>
+                    <lateral-acc-gain type="double">-0.015</lateral-acc-gain>
+                    <washout-factor type="double">1.55</washout-factor>
                 </yaw-damper>
                 <pitch-damper>
                     <serviceable type="bool">true</serviceable>
