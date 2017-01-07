@@ -765,10 +765,16 @@
 
         <fcs_function name="systems/indicators/oil-pressure-primary">
             <function>
-                <lt>
-                    <property>/engines/engine[0]/oil-pressure-psi</property>
-                    <value>30</value>
-                </lt>
+                <or>
+                    <lt>
+                        <property>propulsion/engine/oil-pressure-psi</property>
+                        <value>15.0</value>
+                    </lt>
+                    <gt>
+                        <property>systems/flight/oil/pressure-drop-norm</property>
+                        <value>0.66</value>
+                    </gt>
+                </or>
             </function>
         </fcs_function>
 
@@ -1114,7 +1120,7 @@
                     <or>
                         <and>
                             <eq>
-                                <property>/controls/engines/engine[0]/cutoff</property>
+                                <property>propulsion/engine/cutoff-actual</property>
                                 <value>0</value>
                             </eq>
                             <lt>
@@ -1797,7 +1803,7 @@
             </test>      
             <test logic="AND" value="/systems/electrical/dc-light">
                 propulsion/starter_cmd_copy == 1
-                /controls/engines/engine[0]/cutoff == 1
+                propulsion/engine/cutoff-commanded == 1
                 propulsion/engine/n1 gt 5.2
             </test>
         </switch>

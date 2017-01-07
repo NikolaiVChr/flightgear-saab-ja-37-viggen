@@ -92,7 +92,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/psi2", getprop("fdm/jsbsim/systems/hydraulics/system2/main/psi"));
   setprop("/sim/gui/dialogs/systems-monitor/psiR", getprop("fdm/jsbsim/systems/hydraulics/system2/reserve/psi"));
   setprop("/sim/gui/dialogs/systems-monitor/flaps", getprop("fdm/jsbsim/fcs/flap-pos-deg"));
-  setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("engines/engine/oil-pressure-psi"));
+  setprop("/sim/gui/dialogs/systems-monitor/oil", getprop("fdm/jsbsim/propulsion/engine/oil-pressure-psi"));
   var temp = nil;
   if (getprop("ja37/supported/fuel-temp") == 1) {
     temp = getprop("consumables/fuel/tank[0]/temperature_degC");

@@ -494,7 +494,7 @@ setServiceable = func {
 	setprop("controls/flight/elevator/serviceable", 1);
 
 	#Switch on engine
-	setprop("controls/engines/engine/cutoff", 0);
+	setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", 0);
 	setprop("ja37/damage/cutoff-reason", "aircraft break");
 }
 
@@ -607,7 +607,7 @@ aircraft_lock_all = func {
 	setprop("instrumentation/pedals/serviceable", 0);
 
 	#Switch off engine
-	setprop("controls/engines/engine/cutoff", 1);
+	setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", 1);
 	setprop("ja37/damage/cutoff-reason", "unknown");
 }
 

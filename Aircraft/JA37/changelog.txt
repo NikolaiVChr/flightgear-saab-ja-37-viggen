@@ -2626,3 +2626,5 @@ Aero: Speedbrakes added, only deploy beneath mach 0.92.
 Model: Removed switch and logic for automatic thrust reversal at touchdown, as the handle will do that now.
 Animation: The reversing indicator will now light up anytime the reverse handle is pulled.
 Control: Improved yaw damper.
+Model: Added speedbrake switch.
+Engine: Inverted flight will now make oil pressure drop. Too much, and engine will start to cut out.

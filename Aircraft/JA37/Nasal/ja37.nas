@@ -49,7 +49,7 @@ input = {
   canopyPos:        "fdm/jsbsim/fcs/canopy/pos-norm",
   canopyHinge:      "/fdm/jsbsim/fcs/canopy/hinges/serviceable",
   combat:           "/ja37/hud/current-mode",
-  cutoff:           "controls/engines/engine[0]/cutoff",
+  cutoff:           "fdm/jsbsim/propulsion/engine/cutoff-commanded",
   damage:           "environment/damage",
   damageSmoke:      "environment/damage-smoke",
   dcVolt:           "systems/electrical/outputs/dc-voltage",
@@ -613,6 +613,8 @@ var slow_loop = func () {
 
 # fast updating loop
 var speed_loop = func () {
+
+  setprop("controls/engines/engine[0]/cutoff", getprop("fdm/jsbsim/propulsion/engine/cutoff-actual"));
 
   # switch on and off ALS landing lights
   if(input.landLight.getValue() > 0) {    
@@ -1200,7 +1202,7 @@ var autostarttimer = func {
 }
 
 var stopAutostart = func {
-  setprop("/controls/engines/engine[0]/cutoff", TRUE);
+  setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
@@ -1258,7 +1260,7 @@ var autostart = func {
   setprop("/controls/electric/engine[0]/generator", FALSE);
   popupTip("Starting engine..");
   click();
-  setprop("/controls/engines/engine[0]/cutoff", TRUE);
+  setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
   start_count = 0;
   settimer(waiting_n1, 0.5, 1);
@@ -1276,26 +1278,26 @@ var waiting_n1 = func {
     } else {
       popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }
-    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();
   } elsif (getprop("/engines/engine[0]/n1") > 4.9) {
     if (getprop("/engines/engine[0]/n1") < 20) {
-      if (getprop("/controls/engines/engine[0]/cutoff") == TRUE) {
+      if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == TRUE) {
         click();
-        setprop("/controls/engines/engine[0]/cutoff", FALSE);
-        if (getprop("/controls/engines/engine[0]/cutoff") == FALSE) {
+        setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", FALSE);
+        if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
           popupTip("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
         } else {
-          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+          print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
           stopAutostart();
           popupTip("Engine not igniting. Aborting engine start.");
         }
       } else {
         settimer(waiting_n1, 0.5, 1);
       }
-    }  elsif (getprop("/engines/engine[0]/n1") > 10 and getprop("/controls/engines/engine[0]/cutoff") == FALSE) {
-      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
+    }  elsif (getprop("/engines/engine[0]/n1") > 10 and getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
+      #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
       popupTip("Generator on.");
@@ -1319,7 +1321,7 @@ var final_engine = func () {
     } else {
       popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }    
-    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("/controls/engines/engine[0]/cutoff")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
+    print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
     popupTip("Engine ready.");

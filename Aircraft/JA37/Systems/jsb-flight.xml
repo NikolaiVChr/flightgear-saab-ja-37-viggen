@@ -654,7 +654,7 @@
 
     </channel>
 
-    <channel execrate="4" name="Engine">
+    <channel execrate="1" name="Engine">
 
         <!--
             tertiary engine opening, page 188 of JA37Di manual
@@ -879,6 +879,68 @@
             <gain>1.0</gain>
             <output>/controls/engines/engine/augmentation</output>
         </pure_gain>-->
+
+
+        <!-- inverted flight will make oil pressure drop -->
+
+        <fcs_function name="systems/flight/oil/inverted-flight">
+            <function>
+                <max>
+                    <product>
+                        <cos>
+                            <property>attitude/roll-rad</property>
+                        </cos>
+                        <v>-1</v>
+                    </product>
+                    <v>0</v>
+                </max>
+            </function>
+        </fcs_function>
+
+        <kinematic name="systems/flight/oil/pressure-drop-norm">
+            <input>systems/flight/oil/inverted-flight</input>
+            <noscale/>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>15</time>
+                </setting>
+            </traverse>
+        </kinematic>
+
+        <fcs_function name="systems/flight/oil/pressure-drop-psi">
+            <function>
+                <product>
+                    <property>/engines/engine/oil-pressure-psi</property>
+                    <property>systems/flight/oil/pressure-drop-norm</property>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="propulsion/engine/oil-pressure-psi">
+            <function>
+                <max>
+                    <value>0</value>
+                    <difference>
+                        <property>/engines/engine/oil-pressure-psi</property>
+                        <property>systems/flight/oil/pressure-drop-psi</property>
+                    </difference>
+                </max>
+            </function>
+        </fcs_function>
+
+        <switch name="propulsion/engine/cutoff-actual">
+            <default value="1"/>
+            <test logic="AND" value="0">
+                propulsion/engine/cutoff-commanded == 0
+                systems/flight/oil/pressure-drop-norm lt 0.75
+            </test>
+            <!--<output>/controls/engines/engine[0]/cutoff</output>-->
+        </switch>
 
     </channel>
 

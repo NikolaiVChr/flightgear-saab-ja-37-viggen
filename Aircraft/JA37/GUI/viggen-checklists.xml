@@ -120,13 +120,13 @@
             </marker>
             <binding>
                 <command>property-assign</command>
-                <property>controls/engines/engine[0]/cutoff</property>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                 <value>1</value>
             </binding>
             <condition>
                 <and>
                     <equals>
-                        <property>/controls/engines/engine[0]/cutoff</property>
+                        <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                         <value>1</value>
                     </equals>
                 </and>
@@ -526,13 +526,13 @@
             </marker>
             <binding>
                 <command>property-assign</command>
-                <property>controls/engines/engine[0]/cutoff</property>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                 <value>0</value>
             </binding>
             <condition>
                 <and>
                     <equals>
-                        <property>/controls/engines/engine[0]/cutoff</property>
+                        <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                         <value>0</value>
                     </equals>
                 </and>
@@ -765,13 +765,13 @@
             </marker>
             <binding>
                 <command>property-assign</command>
-                <property>controls/engines/engine[0]/cutoff</property>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                 <value>1</value>
             </binding>
             <condition>
                 <and>
                     <equals>
-                        <property>/controls/engines/engine[0]/cutoff</property>
+                        <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                         <value>1</value>
                     </equals>
                 </and>
@@ -845,13 +845,13 @@
             </marker>
             <binding>
                 <command>property-assign</command>
-                <property>controls/engines/engine[0]/cutoff</property>
+                <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                 <value>0</value>
             </binding>
             <condition>
                 <and>
                     <equals>
-                        <property>/controls/engines/engine[0]/cutoff</property>
+                        <property>fdm/jsbsim/propulsion/engine/cutoff-commanded</property>
                         <value>0</value>
                     </equals>
                 </and>
