@@ -312,9 +312,16 @@
             </marker>
             <binding>
                 <command>property-assign</command>
-                <property>fdm/jsbsim/systems/indicators/master-warning/warning</property>
-                <value>0</value>
+                <property>ja37/avionics/master-warning-button</property>
+                <value>1</value>
             </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/avionics/master-warning-button</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
         </item>
         <item>
             <name>Control lights</name>
