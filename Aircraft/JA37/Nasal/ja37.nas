@@ -751,14 +751,14 @@ var theShakeEffect = func{
     }
     if (wow == TRUE and rSpeed > 100) {
       factor += map(rSpeed,100,200,0,1);
-    }
+    }    
+    factor = clamp(factor,0,1);
     if (near == TRUE) {
-      factor += 1;
+      factor += 2;
     }
     if (explode == TRUE) {
-      factor += 1;
+      factor += 3.5;
     }
-    factor = clamp(factor,0,1);
     input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()*factor); 
   } elsif (input.viewName.getValue() == "Cockpit View") {
     input.viewYOffset.setDoubleValue(defaultView);
