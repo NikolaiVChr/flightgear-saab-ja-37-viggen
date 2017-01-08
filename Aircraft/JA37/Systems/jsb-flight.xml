@@ -565,6 +565,27 @@
             </function>
         </fcs_function>
 
+        <fcs_function name="systems/flight/instr/oxygen-manometer-pre">
+            <function>
+                <product>
+                    <property>/ja37/systems/oxygen-bottle-pressure</property>
+                    <table>
+                        <independentVar lookup="row">/systems/electrical/outputs/ac-instr-voltage</independentVar>
+                        <tableData>
+                                 99.0         0.0
+                                100.0         1.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+        </fcs_function>
+
+        <lag_filter name="systems/flight/instr/oxygen-manometer">
+            <input> systems/flight/instr/oxygen-manometer-pre </input>
+            <c1> 5 </c1>
+            <output> /ja37/systems/oxygen-manometer </output>
+        </lag_filter>
+
         <fcs_function name="systems/flight/environment-pressure-kPa">
             <function>
                 <product>

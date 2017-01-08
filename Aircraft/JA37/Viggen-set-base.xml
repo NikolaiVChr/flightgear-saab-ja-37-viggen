@@ -579,6 +579,7 @@
         </avionics>
         <systems>
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
+            <oxygen-manometer type="double">0.0</oxygen-manometer>
             <tertiary-opening type="double">1.0</tertiary-opening>
         </systems>
     </ja37>

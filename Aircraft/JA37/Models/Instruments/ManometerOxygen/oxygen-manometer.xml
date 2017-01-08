@@ -29,7 +29,7 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>ja37/systems/oxygen-bottle-pressure</property>
+        <property>ja37/systems/oxygen-manometer</property>
         <interpolation>
             <entry>
                 <ind>0</ind>
