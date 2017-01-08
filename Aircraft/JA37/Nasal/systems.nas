@@ -64,7 +64,8 @@ MiscMonitor.properties = func() {
     { property : "temp",         name : "Cockpit temperature",   format : "%2.1f", unit : "dec C",  halign : "right" },
     { property : "outlet",       name : "Exhaust gas temp.",     format : "%3.1f", unit : "deg C",  halign : "right" },
     { property : "fuelT",        name : "Fuel temperature",      format : "%3.1f", unit : "deg C",  halign : "right" },
-    { property : "oxygen",       name : "Oxygen pressure (mask) ",format : "%1.4f", unit : "psi",    halign : "right" },
+    { property : "oxygen",       name : "Oxygen pressure (mask)",format : "%1.4f", unit : "psi",    halign : "right" },
+    { property : "cabin",        name : "Cabin pressure"        ,format : "%1.4f", unit : "psi",    halign : "right" },
     { property : "psi1",         name : "Hydraulics 1",          format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "psi2",         name : "Hydraulics 2",          format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "psiR",         name : "Hydraulics Reserve",    format : "%4.1f", unit : "psi",    halign : "right" },
@@ -110,6 +111,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/AC-major", getprop("systems/electrical/outputs/ac-main-voltage"));
   setprop("/sim/gui/dialogs/systems-monitor/Battery-charge", getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")*100);
   setprop("/sim/gui/dialogs/systems-monitor/oxygen", getprop("fdm/jsbsim/systems/flight/oxygen-pressure-kPa")*0.0098692);
+  setprop("/sim/gui/dialogs/systems-monitor/cabin", getprop("fdm/jsbsim/systems/flight/cabin-pressure-kPa")*0.0098692);
   setprop("/sim/gui/dialogs/systems-monitor/fuel-ratio", getprop("/instrumentation/fuel/ratio")*100);
   setprop("/sim/gui/dialogs/systems-monitor/maxG", getprop("fdm/jsbsim/fcs/elevator/cmg-limit-pos"));
   setprop("/sim/gui/dialogs/systems-monitor/minG", getprop("fdm/jsbsim/fcs/elevator/cmg-limit-neg"));

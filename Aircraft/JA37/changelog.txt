@@ -2622,7 +2622,7 @@ Sim: Small improvement to lookup of fire messages for incoming warnings.
 Sim: Add own callsign to MP msg if it gets omitted by FG.
 Animation: Rear gears are now compressed at retracting.
 Sim: Thrust reverser now depends on some relays for gear compressions, as per electrical diagram in manual.
-Aero: Speedbrakes added, only deploy beneath mach 0.92.
+Aero: Speedbrakes added, only deploy beneath mach 0.92. (no external animation though)
 Model: Removed switch and logic for automatic thrust reversal at touchdown, as the handle will do that now.
 Animation: The reversing indicator will now light up anytime the reverse handle is pulled.
 Control: Improved yaw damper.
@@ -2630,3 +2630,5 @@ Model: Added speedbrake switch.
 Engine: Inverted flight will now make oil pressure drop. Too much, and engine will start to cut out.
 Effect: Made view shake if hit by missile or aircraft explode.
 Animation: Seat can now be raised or lowered.
+GUI: Added cabin pressure to systems monitor.
+Sim: Made oxygen bottle slowly consume oxygen, when used.

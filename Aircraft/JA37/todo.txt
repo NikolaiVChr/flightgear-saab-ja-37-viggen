@@ -70,7 +70,7 @@ Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
 Effect: Rembrandt landing lightcone.
-Effect: Make pilot faint/die due to G-forces.
+Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Make sounds when taking damage in bombable.

@@ -7,7 +7,9 @@ var encode3bits = func(first, second, third) {
   return integer;
 }
 
-var UPDATE_PERIOD = 0.1;
+var LOOP_STANDARD_RATE = 0.10;
+var LOOP_FAST_RATE     = 0.05;
+var LOOP_SLOW_RATE     = 1.50;
 
 var FALSE = 0;
 var TRUE = 1;
@@ -205,7 +207,7 @@ var update_loop = func {
 
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
-    settimer(update_loop, UPDATE_PERIOD);
+    settimer(update_loop, LOOP_STANDARD_RATE);
   } else {
     # set the full-init property
     if(input.elapsed.getValue() > input.elapsedInit.getValue() + 5) {
@@ -397,7 +399,7 @@ var update_loop = func {
       #func debug.benchmark("j37 loop", 
         update_loop
         #)
-    , UPDATE_PERIOD);
+    , LOOP_STANDARD_RATE);
   }
 }
 
@@ -409,7 +411,7 @@ var acTimer = 0;
 var slow_loop = func () {
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
-    settimer(slow_loop, 1.5);
+    settimer(slow_loop, LOOP_SLOW_RATE);
     return;
   }
 
@@ -610,7 +612,13 @@ var slow_loop = func () {
   setprop("/environment/aircraft-effects/fog-level", fogNorm);
   setprop("/environment/aircraft-effects/use-mask", mask);
 
-  settimer(slow_loop, 1.5);
+  # consume oxygen bottle pressure
+  if (getprop("controls/oxygen") == TRUE) {
+    var amount = getprop("ja37/systems/oxygen-bottle-pressure")-125/(18000/LOOP_SLOW_RATE);#5 hours to consume all 125 kpm2
+    setprop("ja37/systems/oxygen-bottle-pressure", amount);
+  }
+
+  settimer(slow_loop, LOOP_SLOW_RATE);
 }
 
 # fast updating loop
@@ -631,7 +639,7 @@ var speed_loop = func () {
 
   if(input.replay.getValue() == TRUE) {
     # replay is active, skip rest of loop.
-    settimer(speed_loop, 0.05);
+    settimer(speed_loop, LOOP_FAST_RATE);
     return;
   }
 
@@ -684,7 +692,7 @@ var speed_loop = func () {
 
   logTime();
 
-  settimer(speed_loop, 0.05);
+  settimer(speed_loop, LOOP_FAST_RATE);
 }
 
 
@@ -1054,7 +1062,7 @@ var main_init = func {
   setprop("/environment/aircraft-effects/dewpoint-inside-degC", getprop("environment/dewpoint-degc"));
 
   # init oxygen bottle pressure
-  setprop("ja37/systems/oxygen-bottle-pressure", rand()*75+50);#todo: start high, and lower slowly during flight
+  setprop("ja37/systems/oxygen-bottle-pressure", 75+50);
 
   # start minor loops
   speed_loop();
