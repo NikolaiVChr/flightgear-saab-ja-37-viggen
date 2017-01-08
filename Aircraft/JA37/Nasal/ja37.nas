@@ -612,10 +612,40 @@ var slow_loop = func () {
   setprop("/environment/aircraft-effects/fog-level", fogNorm);
   setprop("/environment/aircraft-effects/use-mask", mask);
 
+  if (tempInside < 10 and rand() > 0.95) {
+    if (tempInside < 5) {
+      screen.log.write("You are freezing", 1.0, 0.0, 0.0);
+    } else {
+      screen.log.write("You feel cold", 1.0, 0.5, 0.0);
+    }
+  } elsif (tempInside > 23 and rand() > 0.95) {
+    if (tempInside > 26) {
+      screen.log.write("You are sweating, the cabin is way too hot", 1.0, 0.0, 0.0);
+    } else {
+      screen.log.write("You feel its too warm in the cabin", 1.0, 0.5, 0.0);
+    }
+  }
+
   # consume oxygen bottle pressure
   if (getprop("controls/oxygen") == TRUE) {
     var amount = getprop("ja37/systems/oxygen-bottle-pressure")-127/(18000/LOOP_SLOW_RATE);#5 hours to consume all 127 kpm2
     setprop("ja37/systems/oxygen-bottle-pressure", amount);
+  }
+
+  # warnings if trouble breathing
+  var mask = getprop("fdm/jsbsim/systems/flight/oxygen-pressure-kPa");
+  var cabin = getprop("fdm/jsbsim/systems/flight/cabin-pressure-kPa");
+  var oxy = getprop("/controls/oxygen");
+  var bottle = getprop("/ja37/systems/oxygen-bottle-pressure");
+
+  if (cabin < 25) {
+    if (oxy == FALSE or bottle < 25) {
+      screen.log.write("You feel dizzy from lack of oxygen", 1.0, 0.0, 0.0);
+    }
+  } elsif (cabin < 35) {
+    if (oxy == FALSE or bottle < 35) {
+      screen.log.write("You feel the lack of oxygen", 1.0, 0.5, 0.0);
+    }
   }
 
   settimer(slow_loop, LOOP_SLOW_RATE);
