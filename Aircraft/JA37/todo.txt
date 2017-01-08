@@ -27,9 +27,8 @@ Model: Button with fliplid to jettison all stores including drop-tank.
 Model: Button with fliplid to jettison drop-tank.
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
-Model: Make switch for speedbrake.
+Model: Model speedbrakes.
 Animation: Proper animation of gear doors and gear retraction.
-Animation: Buffeting of view, when get hit, crash.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Sim: Improve autopilot further.
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)

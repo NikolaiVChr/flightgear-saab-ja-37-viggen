@@ -121,6 +121,8 @@ input = {
   MPint9:           "sim/multiplay/generic/int[9]",
   n1:               "/engines/engine/n1",
   n2:               "/engines/engine/n2",
+  nearby:           "damage/sounds/nearby-explode-on",
+  explode:          "damage/sounds/explode-on",
   pilotG:           "ja37/accelerations/pilot-G",
   pneumatic:        "fdm/jsbsim/systems/fuel/pneumatics/serviceable",
   rad_alt:          "position/altitude-agl-ft",
@@ -717,12 +719,14 @@ var theShakeEffect = func{
   var alpha = input.alpha.getValue();
   var mach = input.mach.getValue();
   var wow = input.wow1.getValue();
+  var near = input.nearby.getValue();
+  var explode = input.explode.getValue();
 
-  if (rSpeed == nil or G == nil or alpha == nil or mach == nil or wow == nil) {
+  if (rSpeed == nil or G == nil or alpha == nil or mach == nil or wow == nil or near == nil or explode == nil) {
     return;
   }
 
-  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>4.5) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100))) {
+  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>4.5) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100) or near = TRUE or explode = TRUE)) {
     var factor = 0;
     var densFactor = clamp(1-input.dens.getValue()/30000, 0, 1);
     if (G > 7) {
@@ -737,9 +741,15 @@ var theShakeEffect = func{
     if (wow == TRUE and rSpeed > 100) {
       factor += map(rSpeed,100,200,0,1);
     }
+    if (near == TRUE) {
+      factor += 1;
+    }
+    if (explode == TRUE) {
+      factor += 1;
+    }
     factor = clamp(factor,0,1);
     input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()*factor); 
-  }elsif (input.viewName.getValue() == "Cockpit View") {
+  } elsif (input.viewName.getValue() == "Cockpit View") {
     input.viewYOffset.setDoubleValue(defaultView);
   } 
 }
