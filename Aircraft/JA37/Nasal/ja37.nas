@@ -689,6 +689,7 @@ var speed_loop = func () {
 
 
 var defaultView = getprop("sim/view/config/y-offset-m");
+setprop("ja37/effect/seat", defaultView);
 
 var logTime = func{
   #log time and date for outputing ucsv files for converting into KML files for google earth.
@@ -726,7 +727,9 @@ var theShakeEffect = func{
     return;
   }
 
-  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>4.5) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100) or near = TRUE or explode = TRUE)) {
+  defaultView = getprop("ja37/effect/seat");
+
+  if(input.viewName.getValue() == "Cockpit View" and (((G > 7 or alpha>4.5) and rSpeed>30) or (mach>0.97 and mach<1.05) or (wow and rSpeed>100) or near == TRUE or explode == TRUE)) {
     var factor = 0;
     var densFactor = clamp(1-input.dens.getValue()/30000, 0, 1);
     if (G > 7) {

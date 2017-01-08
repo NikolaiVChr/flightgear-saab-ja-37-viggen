@@ -2629,3 +2629,4 @@ Control: Improved yaw damper.
 Model: Added speedbrake switch.
 Engine: Inverted flight will now make oil pressure drop. Too much, and engine will start to cut out.
 Effect: Made view shake if hit by missile or aircraft explode.
+Animation: Seat can now be raised or lowered.

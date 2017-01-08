@@ -1225,6 +1225,37 @@
            </script>
           </binding>
          </key>
+
+         <key n="360">
+          <name>Shift PageUp</name>
+          <desc>Increase seat position</desc>
+          <repeatable type="bool">true</repeatable>
+          <mod-shift>
+           <desc>Up</desc>
+           <binding>
+              <command>property-adjust</command>
+              <property>ja37/effect/seat</property>
+              <step>0.0025</step>
+              <min>0.6</min>
+              <max>0.8</max>
+            </binding>
+          </mod-shift>
+         </key>
 		
+        <key n="361">
+          <name>Shift PageDown</name>
+          <desc>Decrease seat position</desc>
+          <repeatable type="bool">true</repeatable>
+          <mod-shift>
+           <desc>Up</desc>
+           <binding>
+              <command>property-adjust</command>
+              <property>ja37/effect/seat</property>
+              <step>-0.0025</step>
+              <min>0.6</min>
+              <max>0.8</max>
+            </binding>
+          </mod-shift>
+         </key>
     </keyboard>
 </PropertyList>

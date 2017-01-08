@@ -5,6 +5,8 @@ inputAP = {
   indAA:            "ja37/avionics/auto-altitude-on",
   indAH:            "ja37/avionics/auto-attitude-on",
   indAT:            "ja37/avionics/auto-throttle-on",
+  hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
+  dcVolt:           "systems/electrical/outputs/dc-voltage",
 };
 
 # setup property nodes for the loop
@@ -41,7 +43,7 @@ var follow = func () {
 
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
-  if (input.hydr1On.getValue() == 0 or input.dcVolt.getValue() < 23) {
+  if (inputAP.hydr1On.getValue() == 0 or inputAP.dcVolt.getValue() < 23) {
     setprop("ja37/avionics/autopilot", FALSE);
     #stopAP();
   } else {
@@ -134,22 +136,22 @@ var apLoop = func {
 
     # auto-pilot engaged
 
-    if (size(input.apLockSpeed.getValue()) == 0) {
-      input.indAT.setBoolValue(FALSE);
+    if (size(inputAP.apLockSpeed.getValue()) == 0) {
+      inputAP.indAT.setBoolValue(FALSE);
     } else {
-      input.indAT.setBoolValue(TRUE);
+      inputAP.indAT.setBoolValue(TRUE);
     }
 
-    if (input.apLockHead.getValue() == "") {
-      input.indAH.setBoolValue(FALSE);
+    if (inputAP.apLockHead.getValue() == "") {
+      inputAP.indAH.setBoolValue(FALSE);
     } else {
-      input.indAH.setBoolValue(TRUE);
+      inputAP.indAH.setBoolValue(TRUE);
     }
 
-    if (input.apLockAlt.getValue() == "") {
-      input.indAA.setBoolValue(FALSE);
+    if (inputAP.apLockAlt.getValue() == "") {
+      inputAP.indAA.setBoolValue(FALSE);
     } else {
-      input.indAA.setBoolValue(TRUE);
+      inputAP.indAA.setBoolValue(TRUE);
     }
 
   if(getprop("gear/gear[2]/wow") == 1) {

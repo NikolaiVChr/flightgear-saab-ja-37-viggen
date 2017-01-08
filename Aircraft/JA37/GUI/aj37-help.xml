@@ -145,6 +145,14 @@
         <name>CTRL Up/Down</name>
         <desc>A/T speed adjust</desc>
     </key>
+    <key>
+        <name>Shift PageUp</name>
+        <desc>Adjust seat up</desc>
+    </key>
+    <key>
+        <name>Shift PageDown</name>
+        <desc>Adjust seat down</desc>
+    </key>
     <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
       <name>L</name>
       <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
