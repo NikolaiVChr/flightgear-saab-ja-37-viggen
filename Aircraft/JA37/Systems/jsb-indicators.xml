@@ -1390,7 +1390,7 @@
                     </eq>
                     <lt>
                         <property>/ja37/systems/oxygen-bottle-pressure</property>
-                        <value>50</value><!-- should really be 4Kpa -->
+                        <value>41</value><!-- 4Mpa (41 kp/cm2) -->
                     </lt>
                 </or>
             </function>

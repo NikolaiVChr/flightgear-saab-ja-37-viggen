@@ -614,7 +614,7 @@ var slow_loop = func () {
 
   # consume oxygen bottle pressure
   if (getprop("controls/oxygen") == TRUE) {
-    var amount = getprop("ja37/systems/oxygen-bottle-pressure")-125/(18000/LOOP_SLOW_RATE);#5 hours to consume all 125 kpm2
+    var amount = getprop("ja37/systems/oxygen-bottle-pressure")-127/(18000/LOOP_SLOW_RATE);#5 hours to consume all 127 kpm2
     setprop("ja37/systems/oxygen-bottle-pressure", amount);
   }
 
@@ -1062,7 +1062,7 @@ var main_init = func {
   setprop("/environment/aircraft-effects/dewpoint-inside-degC", getprop("environment/dewpoint-degc"));
 
   # init oxygen bottle pressure
-  setprop("ja37/systems/oxygen-bottle-pressure", 75+50);
+  setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
 
   # start minor loops
   speed_loop();
