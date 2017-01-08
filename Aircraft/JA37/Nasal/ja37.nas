@@ -309,12 +309,12 @@ var update_loop = func {
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
 
-    # low speed warning
+    # low speed warning (as per manual)
     var lowSpeed = FALSE;
-    if ((input.speedKt.getValue() * 1.852) < 375) {
+    if ((input.speedKt.getValue() * 1.85184) < 375) {
       if (input.indAltMeter.getValue() < 1200) {
-        if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * 0.3048) > 500) or input.gearsPos.getValue() != 1) {#manual: should be 30, not 500
-          if (input.n2.getValue() < 70.5 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
+        if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * FT2M) > 30) or input.gearsPos.getValue() != 1) {
+          if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") < 19 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             lowSpeed = TRUE;
           }
         }
