@@ -2632,3 +2632,6 @@ Effect: Made view shake if hit by missile or aircraft explode.
 Animation: Seat can now be raised or lowered.
 GUI: Added cabin pressure to systems monitor.
 Sim: Made oxygen bottle slowly consume oxygen, when used.
+Animation: Decreased the oxygen bottle pressure warning to 41 kp/cm2 as per manual.
+Sim: Increased the oxygen bottle refill to 127 kp/cm2 as per manual.
+Sim: Oxygen supply to mask now depends also on bottle pressure besides altitude density.

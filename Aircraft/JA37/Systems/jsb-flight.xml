@@ -553,6 +553,14 @@
                               85301.8         6.7 <!-- 15000m cabin density alt / 26000m density alt -->
                         </tableData>
                     </table>
+                    <table>
+                        <independentVar lookup="row">/ja37/systems/oxygen-bottle-pressure</independentVar>
+                        <tableData>
+                            <!-- kp/cm2 -->
+                                 15.0         0.0
+                                 40.0         1.0
+                        </tableData>
+                    </table>
                 </product>
             </function>
         </fcs_function>

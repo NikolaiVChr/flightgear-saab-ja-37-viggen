@@ -1109,6 +1109,9 @@ var re_init = func {
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
+  # init oxygen bottle pressure
+  setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
+
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
