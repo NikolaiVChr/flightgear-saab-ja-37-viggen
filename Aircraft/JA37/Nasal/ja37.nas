@@ -614,9 +614,9 @@ var slow_loop = func () {
   if (rand() > 0.95) {
     if (tempInside < 10) {
       if (tempInside < 5) {
-        screen.log.write("You are freezing", 1.0, 0.0, 0.0);
+        screen.log.write("You are freezing, the cabin is very cold", 1.0, 0.0, 0.0);
       } else {
-        screen.log.write("You feel cold", 1.0, 0.5, 0.0);
+        screen.log.write("You feel cold, the cockpit is cold", 1.0, 0.5, 0.0);
       }
     } elsif (tempInside > 23) {
       if (tempInside > 26) {
