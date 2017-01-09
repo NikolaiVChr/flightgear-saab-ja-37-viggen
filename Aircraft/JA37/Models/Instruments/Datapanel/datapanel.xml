@@ -1,0 +1,424 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>datapanel.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+    </effect>
+	
+	<effect>
+        <inherits-from>Effects/model-transparent</inherits-from>
+		<object>rensaCover</object>
+    </effect>
+	
+	<!--
+	**********************************
+	Numpad Buttons
+	**********************************
+	-->
+	
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad0</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(0);</script>
+			</binding>
+		</action>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>numpad1</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(1);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad2</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(2);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad3</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(3);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad4</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(4);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad5</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(5);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad6</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(6);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad7</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(7);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad8</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(8);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>numpad9</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(9);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>rensa</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>navigation.data_display(-1);</script>
+			</binding>
+		</action>
+	</animation>
+	
+	<!--
+	**********************************
+	Display
+	**********************************
+	-->
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>1Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[0]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>2Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[1]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>3Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[2]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>4Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[3]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>5Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[4]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>6Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[5]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>textranslate</type>
+		<object-name>7Data</object-name>
+		<property>/sim/ja37/navigation/dp-display[6]</property>
+		<bias>1.0001</bias>
+		<factor>0.0909</factor>
+		<step>1</step>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+		</axis>
+	</animation>
+	
+	<!--
+	**********************************
+	Mode Knob
+	**********************************
+	-->
+	<!-- rotate by 32* -->
+	<animation>
+		<type>pick</type>
+		<object-name>modeSelectKnob</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-adjust</command>
+				<property>/sim/ja37/navigation/dp-mode</property>
+				<step>1</step>
+				<min>0</min>
+				<max>7</max>
+				<wrap>true</wrap>
+			</binding>
+		</action>
+		<action>
+			<button>1</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-adjust</command>
+				<property>/sim/ja37/navigation/dp-mode</property>
+				<step>-1</step>
+				<min>0</min>
+				<max>7</max>
+				<wrap>true</wrap>
+			</binding>
+		</action>
+	</animation>
+	
+	
+	<animation>
+		<type>rotate</type>
+		<object-name>modeSelectKnob</object-name>
+		<property>/sim/ja37/navigation/dp-mode</property>
+		<factor>30</factor>
+		<center>
+			<x-m>  0.01125 </x-m>
+			<y-m> -0.02300 </y-m>
+			<z-m>  0.00000 </z-m>
+		</center>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>1</z>
+		</axis>
+	</animation>
+	<!--
+	**********************************
+	Clear Button Cover
+	**********************************
+	-->
+	
+	<animation>
+		<type>pick</type>
+		<object-name>rensaCover</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>/sim/ja37/navigation/rensa-cover</property>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>rotate</type>
+		<object-name>rensaCover</object-name>
+		<property>/sim/ja37/navigation/rensa-cover</property>
+		<factor>135</factor>
+		<center>
+			<x-m> 0   </x-m>
+			<y-m> -.0051   </y-m>
+			<z-m> 0.0066</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+	
+	<!--
+	**********************************
+	PosNeg Switch
+	**********************************
+	-->
+	
+	<animation>
+		<type>pick</type>
+		<object-name>posNegSwitch</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>/sim/ja37/navigation/ispos</property>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>rotate</type>
+		<object-name>posNegSwitch</object-name>
+		<property>/sim/ja37/navigation/ispos</property>
+		<factor>60</factor>
+		<center>
+			<x-m> -.03860   </x-m>
+			<y-m> 0   </y-m>
+			<z-m> .00463   </z-m>
+		</center>
+		<axis>
+			<x>0</x>
+			<y>1</y>
+			<z>0</z>
+		</axis>
+	</animation>
+	
+	<!--
+	**********************************
+	PosNeg Switch
+	**********************************
+	-->
+	
+	<animation>
+		<type>pick</type>
+		<object-name>inOutSwitch</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>/sim/ja37/navigation/inout</property>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>rotate</type>
+		<object-name>inOutSwitch</object-name>
+		<property>/sim/ja37/navigation/inout</property>
+		<factor>60</factor>
+		<center>
+			<x-m> 0   </x-m>
+			<y-m> 0.01861   </y-m>
+			<z-m> 0.00464   </z-m>
+		</center>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+	
+	
+</PropertyList>

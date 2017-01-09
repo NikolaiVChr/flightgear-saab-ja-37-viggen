@@ -104,8 +104,8 @@
     <path>Aircraft/JA37/Models/Cockpit/knob-g/windshield-hot-air.xml</path>
     <name>windshield hot air</name>
     <offsets>
-      <x-m>  0.40</x-m>
-      <y-m>  0.05</y-m>
+      <x-m>  0.565</x-m>
+      <y-m> -0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -114,8 +114,8 @@
     <path>Aircraft/JA37/Models/Cockpit/button-g/autopilot-follow.xml</path>
     <name>follow</name>
     <offsets>
-      <x-m>  0.30</x-m>
-      <y-m>  0.05</y-m>
+      <x-m>  0.476</x-m>
+      <y-m>  -0.020</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -124,8 +124,8 @@
     <path>Aircraft/JA37/Models/Cockpit/button-g/flares.xml</path>
     <name>flares</name>
     <offsets>
-      <x-m>  0.30</x-m>
-      <y-m> -0.025</y-m>
+      <x-m>  0.476</x-m>
+      <y-m>  -0.085</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -160,5 +160,35 @@
       <z-m>  0.00</z-m>
     </offsets>
   </model>
+
+  <model>
+     <path>Aircraft/JA37/Models/Cockpit/switch-a/tils-group.xml</path>
+     <name>follow</name>
+     <offsets>
+       <x-m>  0.422</x-m>
+       <y-m>  -0.028</y-m>
+       <z-m>  0.00</z-m>
+     </offsets>
+   </model>
+
+  <model>
+     <path>Aircraft/JA37/Models/Instruments/Datapanel/datapanel.xml</path>
+     <name>Datapanel</name>
+     <offsets>
+       <x-m>.3313</x-m>
+       <y-m>-0.059</y-m>
+       <z-m>-0.004</z-m>
+     </offsets>
+   </model>
+   
+   <model>
+     <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel.xml</path>
+     <name>Navpanel</name>
+     <offsets>
+       <x-m>.3485</x-m>
+       <y-m>0.025</y-m>
+       <z-m>-0.004</z-m>
+     </offsets>
+   </model>
 
 </PropertyList>
