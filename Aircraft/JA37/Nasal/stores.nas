@@ -720,12 +720,12 @@ var trigger_listener = func {
 
 ############ Cannon impact messages #####################
 
-var last_impact = 0;
-
-var hit_count = 0;
+var hits_count = 0;
+var hit_timer  = FALSE;
+var hit_callsign = "";
 
 var impact_listener = func {
-  if (radar_logic.selection != nil and (input.elapsed.getValue()-last_impact) > 1) {
+  if (radar_logic.selection != nil) {
     var ballistic_name = input.impact.getValue();
     var ballistic = props.globals.getNode(ballistic_name, 0);
     if (ballistic != nil) {
@@ -738,20 +738,33 @@ var impact_listener = func {
         var selectionPos = radar_logic.selection.get_Coord();
 
         var distance = impactPos.distance_to(selectionPos);
-        if (distance < 125) {
-          last_impact = input.elapsed.getValue();
-          var phrase =  ballistic.getNode("name").getValue() ~ " hit: " ~ radar_logic.selection.get_Callsign();
-          if (getprop("payload/armament/msg")) {
-            defeatSpamFilter(phrase);
-			      #hit_count = hit_count + 1;
-          } else {
-            setprop("/sim/messages/atc", phrase);
+        if (distance < 75) {
+          var typeOrd = ballistic.getNode("name").getValue();
+          hits_count += 1;
+          if ( hit_timer == FALSE ) {
+            hit_timer = TRUE;
+            hit_callsign = radar_logic.selection.get_Callsign();
+            settimer(func{hitmessage(typeOrd);},1);
           }
         }
       }
     }
   }
 }
+
+var hitmessage = func(typeOrd) {
+  #print("inside hitmessage");
+  var phrase = typeOrd ~ " hit: " ~ hit_callsign ~ ": " ~ hits_count ~ " hits";
+  if (getprop("payload/armament/msg") == TRUE) {
+    defeatSpamFilter(phrase);
+  } else {
+    setprop("/sim/messages/atc", phrase);
+  }
+  hit_callsign = "";
+  hit_timer = 0;
+  hits_count = 0;
+}
+
 
 ############ response to MP messages #####################
 
