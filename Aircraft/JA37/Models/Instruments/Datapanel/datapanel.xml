@@ -6,10 +6,24 @@
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>numpad0</object-name>
+        <object-name>numpad1</object-name>
+        <object-name>numpad2</object-name>
+        <object-name>numpad3</object-name>
+        <object-name>numpad4</object-name>
+        <object-name>numpad5</object-name>
+        <object-name>numpad6</object-name>
+        <object-name>numpad7</object-name>
+        <object-name>numpad8</object-name>
+        <object-name>numpad9</object-name>
+        <object-name>modeSelectKnob</object-name>
+        <object-name>rensa</object-name>
+        <object-name>inOutSwitch</object-name>
+        <object-name>posNegSwitch</object-name>
     </effect>
 	
 	<effect>
-        <inherits-from>Effects/model-transparent</inherits-from>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
 		<object>rensaCover</object>
     </effect>
 	

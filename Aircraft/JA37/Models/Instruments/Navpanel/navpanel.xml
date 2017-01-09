@@ -6,6 +6,21 @@
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>breakpoint1</object-name>
+        <object-name>breakpoint2</object-name>
+        <object-name>breakpoint3</object-name>
+        <object-name>breakpoint4</object-name>
+        <object-name>breakpoint5</object-name>
+        <object-name>breakpoint6</object-name>
+        <object-name>breakpoint7</object-name>
+        <object-name>breakpoint8</object-name>
+        <object-name>breakpoint9</object-name>
+        <object-name>breakpointX</object-name>
+        <object-name>LSSKU</object-name>
+        <object-name>LWP</object-name>
+        <object-name>A2_disc_UV_mapped_TILS</object-name>
+		<object-name>A2_handle</object-name>
+		<object-name>A2_screw</object-name>
     </effect>
 
 	<!--
