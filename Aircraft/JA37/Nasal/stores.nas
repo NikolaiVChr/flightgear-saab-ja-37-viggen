@@ -1758,32 +1758,33 @@ reloadGuns = func {
 
 var drop = func {
     if (getprop("/consumables/fuel/tank[8]/jettisoned") == TRUE) {
-       ja37.popupTip("Drop tank already jettisoned.");
+       screen.log.write("Drop tank already jettisoned.", 0.0, 1.0, 0.0);
        return;
     }  
     if (input.wow0.getValue() > 0.05) {
-       ja37.popupTip("Can not eject drop tank while on ground!"); 
+       screen.log.write("Can not eject drop tank while on ground!", 0.0, 1.0, 0.0);
        return;
     }
     if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
-       ja37.popupTip("Too little DC power to eject drop tank!");
+       screen.log.write("Too little DC power to eject drop tank!", 0.0, 1.0, 0.0);
        return;
     }
     ja37.click();
     setprop("payload/weight[6]/selected", "none");# empty the pylon
-    ja37.popupTip("Drop tank shut off and ejected. Using internal fuel.");
+    screen.log.write("Drop tank shut off and ejected. Using internal fuel.", 0.0, 1.0, 0.0);
  }
 
  var dropAll = func {
     if (input.wow0.getValue() > 0.05) {
-       ja37.popupTip("Can not jettison stores while on ground!"); 
+       screen.log.write("Can not jettison stores while on ground!", 0.0, 1.0, 0.0);
        return;
     }
     if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
-       ja37.popupTip("Too little DC power to jettison!");
+       screen.log.write("Too little DC power to jettison!", 0.0, 1.0, 0.0);
        return;
     }
     ja37.click();
+    screen.log.write("All stores jettisoned.", 0.0, 1.0, 0.0);
     setprop("payload/weight[0]/selected", "none");
     setprop("payload/weight[1]/selected", "none");
     setprop("payload/weight[2]/selected", "none");
