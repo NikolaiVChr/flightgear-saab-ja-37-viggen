@@ -53,7 +53,18 @@
                 <property>ja37/radio/kv1/button-mhz</property>
                 <value>0</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
+            </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Bas</tooltip-id>
+                <label>Set to BASE freq (not funtional)</label>
+            </binding>
+        </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
@@ -82,10 +93,6 @@
                 <value>1</value>
             </binding>
             <binding>
-                <command>nasal</command>
-                <script>ch_select.updateToRadio()</script>
-            </binding>
-            <binding>
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-bas</property>
                 <value>0</value>
@@ -95,7 +102,18 @@
                 <property>ja37/radio/kv1/button-mhz</property>
                 <value>0</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
+            </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Nr</tooltip-id>
+                <label>Set to preset freq</label>
+            </binding>
+        </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
@@ -124,10 +142,6 @@
                 <value>1</value>
             </binding>
             <binding>
-                <command>nasal</command>
-                <script>ch_select.updateToRadio()</script>
-            </binding>
-            <binding>
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-nr</property>
                 <value>0</value>
@@ -137,7 +151,18 @@
                 <property>ja37/radio/kv1/button-bas</property>
                 <value>0</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
+            </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Mhz</tooltip-id>
+                <label>Set to freq</label>
+            </binding>
+        </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
@@ -567,6 +592,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>tp</tooltip-id>
+                <label>Clear top display to enter new values</label>
+            </binding>
+        </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
@@ -606,6 +638,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>bt</tooltip-id>
+                <label>Clear bottom display to enter new values</label>
+            </binding>
+        </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
@@ -645,6 +684,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>md</tooltip-id>
+                <label>Clear middle display to enter new values</label>
+            </binding>
+        </hovered>
     </animation>
 	<animation>
 	   <type>translate</type>
@@ -833,6 +879,13 @@
                 <script>ja37.click()</script>
             </binding>
 		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>Bas</tooltip-id>
+                <label>Select FM/AM (not functional)</label>
+            </binding>
+        </hovered>
 	</animation>
 	<animation>
         <type>rotate</type>
