@@ -97,4 +97,26 @@
         </offsets>
     </model>
 
+    <model>
+        <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-tank.xml</path>
+        <name>jett-xtank</name>
+        <offsets>
+            <heading-deg>-90</heading-deg>
+            <x-m>  0.170</x-m>
+            <y-m>  0.014</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-stores.xml</path>
+        <name>jett-stores</name>
+        <offsets>
+            <heading-deg>-90</heading-deg>
+            <x-m>  0.120</x-m>
+            <y-m>  0.014</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
 </PropertyList>

@@ -1774,6 +1774,25 @@ var drop = func {
     ja37.popupTip("Drop tank shut off and ejected. Using internal fuel.");
  }
 
+ var dropAll = func {
+    if (input.wow0.getValue() > 0.05) {
+       ja37.popupTip("Can not jettison stores while on ground!"); 
+       return;
+    }
+    if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
+       ja37.popupTip("Too little DC power to jettison!");
+       return;
+    }
+    ja37.click();
+    setprop("payload/weight[0]/selected", "none");
+    setprop("payload/weight[1]/selected", "none");
+    setprop("payload/weight[2]/selected", "none");
+    setprop("payload/weight[3]/selected", "none");
+    setprop("payload/weight[4]/selected", "none");
+    setprop("payload/weight[5]/selected", "none");
+    setprop("payload/weight[6]/selected", "none");# empty the pylon
+ }
+
 ############ main function #####################
 
 var main_weapons = func {

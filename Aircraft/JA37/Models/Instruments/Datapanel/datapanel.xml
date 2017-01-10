@@ -20,6 +20,8 @@
         <object-name>rensa</object-name>
         <object-name>inOutSwitch</object-name>
         <object-name>posNegSwitch</object-name>
+        <object-name>rensaCoverHardware</object-name>
+        <object-name>mount</object-name>
     </effect>
 	
 	<effect>

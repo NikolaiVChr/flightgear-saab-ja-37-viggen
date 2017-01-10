@@ -21,15 +21,13 @@ Model: Radar range control should be only 3 digits. (and be another place in the
 Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
 Model: Proper floor in the cockpit.
-Model: Buttons for ejecting drop-tank/armaments. They have a flip lid.
 Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
-Model: Button with fliplid to jettison all stores including drop-tank.
-Model: Button with fliplid to jettison drop-tank.
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Model: Model speedbrakes.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
+Animation: Make jettison stores fall down.
 Sim: Improve autopilot further.
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
@@ -40,7 +38,6 @@ Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Replace all generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
-Sim: Make drop-tank fall down. (use slaved submodel)
 Sim: Missiles should lock onto flares from other mil plane types.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
 Sim: Complete hydraulic dependencies: Brakes.
@@ -85,6 +82,7 @@ HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned of
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
+HUD: Should show INT on left side when in interoprability mode and on ground. Will blink and go away when gear retract.
 
 
 

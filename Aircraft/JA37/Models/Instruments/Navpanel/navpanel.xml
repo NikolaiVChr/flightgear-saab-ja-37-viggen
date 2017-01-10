@@ -18,6 +18,7 @@
         <object-name>breakpointX</object-name>
         <object-name>LSSKU</object-name>
         <object-name>LWP</object-name>
+        <object-name>mount</object-name>
         <object-name>A2_disc_UV_mapped_TILS</object-name>
 		<object-name>A2_handle</object-name>
 		<object-name>A2_screw</object-name>
