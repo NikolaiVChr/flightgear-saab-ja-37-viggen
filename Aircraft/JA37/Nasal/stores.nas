@@ -777,6 +777,7 @@ var cannon_types = {
     " GAU-8/A hit":           0.10, # 30mm
     " BK27 cannon hit":       0.07, # 27mm
     " GSh-30 hit":            0.10, # 30mm
+    " 7.62 hit":              0.005,# 7.62mm
     " 50 BMG hit":            0.015,# 12.7mm
 };
     
@@ -825,6 +826,7 @@ var warhead_lbs = {
     "R-60":                  6.60,
     "R-27R1":               85.98,
     "R-27T1":               85.98,
+    "FAB-500":             564.00,
 };
 
 var fireMsgs = {
