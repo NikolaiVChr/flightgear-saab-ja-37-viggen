@@ -36,4 +36,17 @@
         </offsets>
     </model>
 
+    <model>
+        <path>Aircraft/JA37/Models/Instruments/Volume/panel-volume.xml</path>
+        <name>volume</name>
+        <offsets>
+            <heading-deg>00</heading-deg>
+            <pitch-deg>00</pitch-deg>
+            <yaw-deg>00</yaw-deg>
+            <x-m> -0.185 </x-m><!-- x -->
+            <y-m> -0.120 </y-m><!-- z -->
+            <z-m>  0 </z-m>
+        </offsets>
+    </model>
+
 </PropertyList>

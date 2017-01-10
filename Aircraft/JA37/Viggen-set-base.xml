@@ -549,6 +549,7 @@
             <incoming11 type="bool">false</incoming11>
             <incoming12 type="bool">false</incoming12>
             <incoming type="bool">false</incoming>
+            <helmet type="double">0.9</helmet>
         </sound>
         <damage>
             <enabled type="bool">true</enabled>

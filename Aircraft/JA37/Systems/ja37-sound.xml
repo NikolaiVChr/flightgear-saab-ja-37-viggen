@@ -66,6 +66,7 @@
                 </equals>
             </condition>
             <volume>
+                <property>ja37/sound/helmet</property>
                 <factor>1</factor>
             </volume>
         </welcome>
@@ -740,7 +741,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </stall>
 
@@ -795,7 +797,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </alpha>
 
@@ -846,7 +849,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>3.5</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </alphawarn>
 
@@ -875,7 +879,8 @@
                 </not>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </takeoffalpha>
 
@@ -894,7 +899,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </bingo>
 
@@ -913,7 +919,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </pullup>
 
@@ -932,7 +939,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </lowspeed>
 
@@ -951,7 +959,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </master>
 
@@ -970,7 +979,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -989,7 +999,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1008,7 +1019,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1027,7 +1039,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1046,7 +1059,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1065,7 +1079,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1084,7 +1099,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1103,7 +1119,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1122,7 +1139,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1141,7 +1159,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1160,7 +1179,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1179,7 +1199,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1198,7 +1219,8 @@
                 </greater-than>
             </condition>
             <volume>
-                <factor>4</factor>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
             </volume>
         </incoming>
 
@@ -1871,6 +1893,7 @@
                 </greater-than>
             </condition>
             <volume>
+                <property>ja37/sound/helmet</property>
                 <factor>1</factor>
                 <max>1</max>
             </volume>
@@ -1891,6 +1914,7 @@
                 </greater-than>
             </condition>
             <volume>
+                <property>ja37/sound/helmet</property>
                 <factor>1</factor>
                 <max>1</max>
             </volume>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+    <path>panel-volume.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Panel</object-name>
+        <object-name>knob-ir</object-name>
+        <object-name>knob-volume</object-name>
+        <object-name>mount-ir</object-name>
+        <object-name>panel</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knob-volume</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-vol</tooltip-id>
+                <label>Helmet speaker volume</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knob-ir</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-irrb</tooltip-id>
+                <label>IR-RB</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knob-volume</object-name>
+        <action>
+            <button>3</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/sound/helmet</property>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knob-volume</object-name>
+        <action>
+            <button>4</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/sound/helmet</property>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>knob-volume</object-name>
+        <property>ja37/sound/helmet</property>
+        <factor>150</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.0375 </y-m>
+            <z-m>  0.00 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 0.0 </y>
+            <z> -1.0 </z>
+        </axis>
+    </animation>
+
+</PropertyList>
