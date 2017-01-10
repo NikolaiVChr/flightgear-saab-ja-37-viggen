@@ -1889,6 +1889,26 @@
             </test>
         </switch>
 
+        <fcs_function name="/instrumentation/terrain-warning-hold">
+            <function>
+                <lt>
+                    <quotient>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <property>/autopilot/settings/target-altitude-ft</property>                        
+                    </quotient>
+                    <v>0.8</v>
+                </lt>
+            </function>
+        </fcs_function>
+
+        <switch name="/instrumentation/terrain-warning-secondary">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /instrumentation/terrain-warning-hold == 1
+                /ja37/avionics/auto-altitude-on == 1
+            </test>
+        </switch> 
+
         <switch name="/instrumentation/terrain-warning">
             <default value="0"/>
             <test logic="OR" value="/ja37/blink/ten-Hz/state">
@@ -1908,6 +1928,9 @@
             <test logic="OR" value="/systems/electrical/dc-light">
                 /instrumentation/terrain-warning == 1
                 /instrumentation/terrain-warning-test == 1
+            </test>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /instrumentation/terrain-warning-secondary == 1
             </test>
         </switch>        
 
