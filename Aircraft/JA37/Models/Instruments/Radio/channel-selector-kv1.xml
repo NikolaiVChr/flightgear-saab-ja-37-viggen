@@ -82,6 +82,10 @@
                 <value>1</value>
             </binding>
             <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
+            </binding>
+            <binding>
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-bas</property>
                 <value>0</value>
@@ -118,6 +122,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-mhz</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.updateToRadio()</script>
             </binding>
             <binding>
                 <command>property-assign</command>

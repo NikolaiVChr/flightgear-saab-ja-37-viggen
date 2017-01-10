@@ -1,3 +1,8 @@
+#
+# H = 121.50 MHz
+#
+
+
 var STANDBY = 0;
 var INPUT = 1;
 var mode = STANDBY;
@@ -41,6 +46,21 @@ var updateToRadio = func {
 			setprop("instrumentation/nav/frequencies/selected-mhz", number);
 		} elsif (CN == 1 and MK == 1) {
 			setprop("instrumentation/adf/frequencies/selected-khz", number);
+		}
+	} elsif (getprop("ja37/radio/kv1/button-nr") == 1) {
+		var ch = num(middle);
+		if (ch == 0) {
+			# nop
+		} elsif (ch < 200) {
+			# nav
+		   mhz=107.95+ch*0.05;
+		   setprop("instrumentation/radio/switches/com-nav", 1);
+		   setprop("instrumentation/nav/frequencies/selected-mhz", mhz);
+		} else {
+			# comm
+		   mhz =  117.975+(ch-200)*0.025;		   
+		   setprop("instrumentation/radio/switches/com-nav", 0);
+		   setprop("instrumentation/comm/frequencies/selected-mhz", mhz);
 		}
 	}
 };
