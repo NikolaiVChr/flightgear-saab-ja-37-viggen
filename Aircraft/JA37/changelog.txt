@@ -2653,3 +2653,4 @@ Model: Fixed that pitch trim switch would not trim down from level.
 Model: Fixed that yaw trim switch worked opposite.
 Model: Pylon selector knob now can do the outer pylons also. (still missing texture)
 Model: Weapon mode selector now can be set to off. It still has no logic though.
+HUD: Fixed that altitude scale vertical zero line was in wrong place.

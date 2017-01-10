@@ -299,7 +299,7 @@ var HUDnasal = {
       
     # vert line at zero alt if it is lower than radar zero
       HUDnasal.main.alt_scale_line = HUDnasal.main.alt_scale_grp.createChild("path")
-      .moveTo(0, 30)
+      .moveTo(0, (30/1024)*canvasWidth)
       .vert(-(60/1024)*canvasWidth)
       .setStrokeLineWidth(w)
       .setColor(r,g,b, a);
