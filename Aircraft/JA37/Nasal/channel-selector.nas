@@ -7,6 +7,11 @@ var top    = "36C";
 var middle = "321";
 var bottom = "12345";
 
+var roundabout = func(x) {
+  var y = x - int(x);
+  return y < 0.5 ? int(x) : 1 + int(x) ;
+};
+
 var resetDisplays = func {
 	setprop("ja37/radio/kv1/digit-top-1", getPlace(substr(top, 0 , 1)));
 	setprop("ja37/radio/kv1/digit-top-2", getPlace(substr(top, 1 , 1)));
@@ -25,7 +30,6 @@ var resetDisplays = func {
 };
 
 var updateToRadio = func {
-	# to the real logic here
 	if (getprop("ja37/radio/kv1/button-mhz") == 1) {
 		var number = num(bottom)/100;
 		var CN = getprop("instrumentation/radio/switches/com-nav");
@@ -42,7 +46,7 @@ var updateToRadio = func {
 };
 
 var updateFromRadio = func {
-	var freq = getprop("instrumentation/radio/display-freq")*100;
+	var freq = roundabout(getprop("instrumentation/radio/display-freq")*100);
 	bottom = ""~freq;
 	digit = 1;
 	mode = STANDBY;

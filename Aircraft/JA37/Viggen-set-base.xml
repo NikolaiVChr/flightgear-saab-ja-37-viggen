@@ -585,6 +585,7 @@
         <radio>
             <kv1>
                 <button-mhz type="bool">true</button-mhz>
+                <switch type="bool">true</switch><!-- set to FM per default -->
             </kv1>
         </radio>
     </ja37>
