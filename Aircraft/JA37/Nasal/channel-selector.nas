@@ -55,11 +55,13 @@ var updateToRadio = func {
 			# nav
 		   mhz=107.95+ch*0.05;
 		   setprop("instrumentation/radio/switches/com-nav", 1);
+		   setprop("instrumentation/radio/switches/mhz-khz", 0);
 		   setprop("instrumentation/nav/frequencies/selected-mhz", mhz);
 		} else {
 			# comm
 		   mhz =  117.975+(ch-200)*0.025;		   
 		   setprop("instrumentation/radio/switches/com-nav", 0);
+		   setprop("instrumentation/radio/switches/mhz-khz", 0);
 		   setprop("instrumentation/comm/frequencies/selected-mhz", mhz);
 		}
 	}
