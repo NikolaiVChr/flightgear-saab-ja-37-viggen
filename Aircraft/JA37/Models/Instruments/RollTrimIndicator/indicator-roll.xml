@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+    <path>indicator-roll.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>MountLight</object-name>
+        <object-name>Mount</object-name>
+    </effect>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>Glass</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+    	<object-name>Light</object-name>
+        <emission>
+            <red>0</red>
+            <green>1</green>
+            <blue>0</blue>
+            <factor-prop>ja37/avionics/roll-trim-centered</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>MountLight</object-name>
+        <object-name>Mount</object-name>
+        <object-name>Glass</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rtc</tooltip-id>
+                <label>Roll trim indicator</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

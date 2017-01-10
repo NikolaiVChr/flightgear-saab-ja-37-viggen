@@ -2643,3 +2643,5 @@ Model: {Pinto} Added datapanel and navpanel. Not functional yet.
 Animation: The red lamp next to radar screen, now also warns if altitude is somewhat lower than alt-hold.
 Model: Fixed radar range selector glass cover was not scaled.
 Model: Added volume panel.
+Model: Fixed that roll trim switch would only trim right.
+Model: Added roll trim indicator.

@@ -1808,6 +1808,15 @@
             </test>
         </switch>
 
+        <switch name="/ja37/avionics/roll-trim-centered">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/flight/aileron-trim == 0
+                /controls/lighting/test-indicator-panels == 1
+            </test>
+        </switch>
+        
+
         <switch name="systems/electrical/battery-charging-test">
             <description>
                       Converted DC digital
