@@ -30,6 +30,7 @@
         <object-name>RCube</object-name>
         <object-name>RCylinder</object-name>
         <object-name>RPlane</object-name>
+        <object-name>glassRadarRange</object-name>
         <x-offset>1.00</x-offset>
         <y-offset>1.25</y-offset>
         <z-offset>1.25</z-offset>

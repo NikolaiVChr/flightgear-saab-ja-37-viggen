@@ -2641,3 +2641,4 @@ GUI: Made text warnings for temperature and oxygen supply for pilot.
 Model: Added KV1 radio channel selector.
 Model: {Pinto} Added datapanel and navpanel. Not functional yet.
 Animation: The red lamp next to radar screen, now also warns if altitude is somewhat lower than alt-hold.
+Model: Fixed radar range selector glass cover was not scaled.
