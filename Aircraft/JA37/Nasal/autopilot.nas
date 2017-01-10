@@ -3,6 +3,7 @@ inputAP = {
   apLockHead:       "autopilot/locks/heading",
   apLockSpeed:      "autopilot/locks/speed",  
   indAA:            "ja37/avionics/auto-altitude-on",
+  indAAH:           "ja37/avionics/auto-altitude-hold-on",
   indAH:            "ja37/avionics/auto-attitude-on",
   indAT:            "ja37/avionics/auto-throttle-on",
   hydr1On:          "fdm/jsbsim/systems/hydraulics/system1/pressure",
@@ -150,8 +151,14 @@ var apLoop = func {
 
     if (inputAP.apLockAlt.getValue() == "") {
       inputAP.indAA.setBoolValue(FALSE);
+      inputAP.indAAH.setBoolValue(FALSE);
     } else {
       inputAP.indAA.setBoolValue(TRUE);
+      if (inputAP.apLockAlt.getValue() == "altitude-hold") {
+        inputAP.indAAH.setBoolValue(TRUE);
+      } else {
+        inputAP.indAAH.setBoolValue(FALSE);
+      }
     }
 
   if(getprop("gear/gear[2]/wow") == 1) {

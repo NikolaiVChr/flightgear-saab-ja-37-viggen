@@ -567,6 +567,7 @@
             <auto-throttle-on type="bool">false</auto-throttle-on>
             <auto-altitude-on type="bool">false</auto-altitude-on>
             <auto-attitude-on type="bool">false</auto-attitude-on>
+            <auto-altitude-hold-on type="bool">false</auto-altitude-hold-on>
             <fuel-internal-ratio type="double">0.0</fuel-internal-ratio>
             <tankpump type="bool">false</tankpump>
             <xtank type="bool">false</xtank>
