@@ -1811,8 +1811,11 @@
         <switch name="/ja37/avionics/roll-trim-centered">
             <default value="0"/>
             <test logic="OR" value="/systems/electrical/dc-light">
-                /controls/flight/aileron-trim == 0
                 /controls/lighting/test-indicator-panels == 1
+            </test>
+            <test logic="AND" value="/systems/electrical/dc-light">
+                /controls/flight/aileron-trim lt 0.025
+                /controls/flight/aileron-trim gt -0.025
             </test>
         </switch>
         
