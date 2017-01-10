@@ -29,10 +29,10 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>fdm/jsbsim/fcs/elevator/trim-deg</property>
+        <property>/controls/flight/elevator-trim</property>
         <interpolation>
             <entry>
-                <ind>-10</ind>
+                <ind>-1</ind>
                 <dep>-120</dep>
             </entry>
             <entry>
@@ -40,7 +40,7 @@
                 <dep>-85</dep>
             </entry>
             <entry>
-                <ind>10</ind>
+                <ind>1</ind>
                 <dep>-45</dep>
             </entry>
         </interpolation>

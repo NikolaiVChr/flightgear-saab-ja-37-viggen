@@ -37,7 +37,7 @@
                 <step>-1.00</step>
                 <min>0</min>
                 <max>2</max>
-                <wrap>true</wrap>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -54,7 +54,7 @@
                 <step>1.00</step>
                 <min>0</min>
                 <max>2</max>
-                <wrap>true</wrap>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>

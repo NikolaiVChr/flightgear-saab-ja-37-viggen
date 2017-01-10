@@ -34,10 +34,10 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/armament/station-select</property>
-                <step>-1.00</step>
+                <step>-1</step>
                 <min>0</min>
-                <max>5</max>
-                <wrap>true</wrap>
+                <max>6</max>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -51,10 +51,10 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/armament/station-select</property>
-                <step>1.00</step>
+                <step>1</step>
                 <min>0</min>
-                <max>5</max>
-                <wrap>true</wrap>
+                <max>6</max>
+                <wrap>false</wrap>
             </binding>
         </action>
     </animation>
@@ -71,6 +71,8 @@
             <entry><ind>2</ind><dep>40</dep></entry>
             <entry><ind>3</ind><dep>80</dep></entry>
             <entry><ind>4</ind><dep>120</dep></entry>
+            <entry><ind>5</ind><dep>140</dep></entry>
+            <entry><ind>6</ind><dep>160</dep></entry>
         </interpolation>
         <center>
             <x-m>  0.00 </x-m>
