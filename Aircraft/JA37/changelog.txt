@@ -2647,3 +2647,4 @@ Model: Fixed that roll trim switch would only trim right.
 Model: Added roll trim indicator.
 Model: Added button with fliplid to jettison all stores including drop-tank.
 Model: Added button with fliplid to jettison drop-tank.
+Model: Fixed that backup altimeter would not adjust pressure high enough.

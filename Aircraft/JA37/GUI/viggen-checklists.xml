@@ -29,9 +29,9 @@
             <name>Canopy</name>
             <value>CLOSE (O)</value>
             <marker>
-                <x-m>-3.7628</x-m>
-                <y-m>-0.3240</y-m>
-                <z-m>0.1050</z-m>
+                <x-m>-3.8256</x-m>
+                <y-m>-0.4661</y-m>
+                <z-m>0.1422</z-m>
                 <scale>3.0000</scale>
             </marker>
             <condition>
@@ -157,10 +157,10 @@
             <name>Reverser</name>
             <value>OFF</value>
             <marker>
-                <x-m>-3.9380</x-m>
-                <y-m>-0.3132</y-m>
-                <z-m>0.2760</z-m>
-                <scale>1.0000</scale>
+                <x-m>-3.9481</x-m>
+                <y-m>-0.3048</y-m>
+                <z-m>0.2715</z-m>
+                <scale>5.0000</scale>
             </marker>
             <condition>
                 <equals>
@@ -1099,9 +1099,9 @@
             <name>Thrust</name>
             <value>Reverse</value>
             <marker>
-                <x-m>-3.9936</x-m>
-                <y-m>-0.2593</y-m>
-                <z-m>0.3467</z-m>
+                <x-m>-3.9481</x-m>
+                <y-m>-0.3048</y-m>
+                <z-m>0.2715</z-m>
                 <scale>5.0000</scale>
             </marker>
             <condition>

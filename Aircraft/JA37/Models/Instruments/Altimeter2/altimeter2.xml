@@ -200,12 +200,12 @@
         <action>
             <button>0</button>
             <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
+            <interval-sec>0.15</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
                 <step>-0.025</step>
-                <min>26.0</min>
+                <min>20.0</min>
                 <max>33.0</max>
                 <wrap>false</wrap>
             </binding>
@@ -245,12 +245,12 @@
         <action>
             <button>0</button>
             <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
+            <interval-sec>0.15</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
                 <step>0.025</step>
-                <min>26.0</min>
+                <min>20.0</min>
                 <max>33.0</max>
                 <wrap>false</wrap>
             </binding>
@@ -270,12 +270,12 @@
         <action>
             <button>3</button>
             <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
+            <interval-sec>0.15</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
                 <step>-0.005</step>
-                <min>26.0</min>
+                <min>20.0</min>
                 <max>33.0</max>
                 <wrap>false</wrap>
             </binding>
@@ -287,12 +287,12 @@
         <action>
             <button>4</button>
             <repeatable>true</repeatable>
-            <interval-sec>0.2</interval-sec>
+            <interval-sec>0.15</interval-sec>
             <binding>
                 <command>property-adjust</command>
                 <property>instrumentation/altimeter/setting-inhg</property>
                 <step>0.005</step>
-                <min>26.0</min>
+                <min>20.0</min>
                 <max>33.0</max>
                 <wrap>false</wrap>
             </binding>
