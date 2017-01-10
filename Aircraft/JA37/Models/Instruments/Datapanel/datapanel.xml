@@ -182,6 +182,23 @@
 	Display
 	**********************************
 	-->
+
+	<animation>
+        <type>material</type>
+        <object-name>1Data</object-name>
+		<object-name>2Data</object-name>
+		<object-name>3Data</object-name>
+		<object-name>4Data</object-name>
+		<object-name>5Data</object-name>
+		<object-name>6Data</object-name>
+		<object-name>7Data</object-name>
+        <emission>
+            <red>1</red>
+            <green>1</green>
+            <blue>1</blue>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
+        </emission>
+    </animation>
 	
 	<animation>
 		<type>textranslate</type>
