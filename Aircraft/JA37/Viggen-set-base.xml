@@ -582,6 +582,11 @@
             <oxygen-manometer type="double">0.0</oxygen-manometer>
             <tertiary-opening type="double">1.0</tertiary-opening>
         </systems>
+        <radio>
+            <kv1>
+                <button-mhz type="bool">true</button-mhz>
+            </kv1>
+        </radio>
     </ja37>
     <ai>
         <submodels>
@@ -1233,6 +1238,9 @@
         <blackout>
             <file>Aircraft/JA37/Nasal/blackout.nas</file>
         </blackout>
+        <ch_select>
+            <file>Aircraft/JA37/Nasal/channel-selector.nas</file>
+        </ch_select>
         <!-- Uncomment below to enable FGplot -->
         <!--
         <plot>

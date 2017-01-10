@@ -43,13 +43,16 @@
                 <property>ja37/radio/kv1/button-bas</property>
                 <value>1</value>
             </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/kv1/button-bas</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-nr</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-mhz</property>
+                <value>0</value>
+            </binding>
         </action>
     </animation>
 	<animation>
@@ -78,13 +81,16 @@
                 <property>ja37/radio/kv1/button-nr</property>
                 <value>1</value>
             </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/kv1/button-nr</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-bas</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-mhz</property>
+                <value>0</value>
+            </binding>
         </action>
     </animation>
 	<animation>
@@ -113,13 +119,16 @@
                 <property>ja37/radio/kv1/button-mhz</property>
                 <value>1</value>
             </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/kv1/button-mhz</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-nr</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radio/kv1/button-bas</property>
+                <value>0</value>
+            </binding>
         </action>
     </animation>
 	<animation>
@@ -147,6 +156,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-0</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(0)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -183,6 +196,10 @@
                 <property>ja37/radio/kv1/button-1</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(1)</script>
+            </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
@@ -217,6 +234,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-2</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(2)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -253,6 +274,10 @@
                 <property>ja37/radio/kv1/button-3</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(3)</script>
+            </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
@@ -287,6 +312,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-4</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(4)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -323,6 +352,10 @@
                 <property>ja37/radio/kv1/button-5</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(5)</script>
+            </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
@@ -357,6 +390,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-6</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(6)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -393,6 +430,10 @@
                 <property>ja37/radio/kv1/button-7</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(7)</script>
+            </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
@@ -427,6 +468,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-8</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(8)</script>
             </binding>
             <mod-up>
                 <binding>
@@ -463,6 +508,10 @@
                 <property>ja37/radio/kv1/button-9</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.button(9)</script>
+            </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
@@ -497,6 +546,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-cl1</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.cl1()</script>
             </binding>
             <mod-up>
                 <binding>
@@ -533,6 +586,10 @@
                 <property>ja37/radio/kv1/button-cl3</property>
                 <value>1</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.cl3()</script>
+            </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
@@ -567,6 +624,10 @@
                 <command>property-assign</command>
                 <property>ja37/radio/kv1/button-cl2</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ch_select.cl2()</script>
             </binding>
             <mod-up>
                 <binding>
@@ -726,8 +787,8 @@
 	</animation>
 	<animation>
 		<type>textranslate</type>
-		<object-name>topDig1</object-name>
-		<property>ja37/radio/kv1/digit-top-1</property>
+		<object-name>botDig4</object-name>
+		<property>ja37/radio/kv1/digit-bottom-4</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>
@@ -738,8 +799,8 @@
 	</animation>
 	<animation>
 		<type>textranslate</type>
-		<object-name>topDig2</object-name>
-		<property>ja37/radio/kv1/digit-top-2</property>
+		<object-name>botDig5</object-name>
+		<property>ja37/radio/kv1/digit-bottom-5</property>
 		<bias>0</bias>
 		<factor>0.07617</factor><!-- 0.07617 = 39px/512px -->
 		<step>1</step>

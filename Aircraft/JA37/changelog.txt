@@ -2638,5 +2638,5 @@ Sim: Oxygen supply to mask now depends also on bottle pressure besides altitude 
 Sound: Adjusted low speed warning to work more accurate like manual.
 Animation: Made oxygen manometer not instantly flip to full when turned on.
 GUI: Made text warnings for temperature and oxygen supply for pilot.
-Model: Added KV1 radio channel selector, it has no functions yet though.
+Model: Added KV1 radio channel selector.
 Model: {Pinto} Added datapanel and navpanel. Not functional yet.
