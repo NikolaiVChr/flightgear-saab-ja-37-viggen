@@ -458,7 +458,7 @@ var slow_loop = func () {
           standbyStr = " (Standby: "~secondClosestRunway~")";
           setprop("instrumentation/nav[0]/frequencies/standby-mhz", runways[secondClosestRunway].ils.frequency / 100);
         }
-        popupTip("TILS tuned to "~icao~" "~closestRunway~standbyStr, 25, 6);
+        notice("TILS tuned to "~icao~" "~closestRunway~standbyStr, 25, 6);
       }
     }
     TILSprev = TRUE;
@@ -906,7 +906,7 @@ var test_support = func {
   var minor = num(version[1]);
   var detail = num(version[2]);
   if (major < 2) {
-    popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+    notice("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
       setprop("ja37/supported/hud", FALSE);
       setprop("ja37/supported/options", FALSE);
@@ -924,7 +924,7 @@ var test_support = func {
     setprop("ja37/supported/fire", FALSE);
     setprop("ja37/supported/new-marker", FALSE);
     if(minor < 7) {
-      popupTip("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+      notice("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
       setprop("ja37/supported/hud", FALSE);
       setprop("ja37/supported/options", FALSE);
@@ -933,7 +933,7 @@ var test_support = func {
       setprop("ja37/supported/crash-system", 0);
       setprop("ja37/supported/ubershader", FALSE);
     } elsif(minor < 9) {
-      popupTip("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
+      notice("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("ja37/supported/radar", FALSE);
       setprop("ja37/supported/hud", FALSE);
       setprop("ja37/supported/options", FALSE);
@@ -1240,13 +1240,13 @@ var autostarttimer = func {
   if (autostarting == FALSE) {
     autostarting = TRUE;
     if (getprop("/engines/engine[0]/running") > 0) {
-     popupTip("Stopping engine. Turning off electrical system.");
+     notice("Stopping engine. Turning off electrical system.");
      click();
      stopAutostart();
     } else {
       #print("autostarting");
       setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", TRUE);
-      popupTip("Autostarting..");
+      notice("Autostarting..");
       setprop("controls/gear/brake-parking", TRUE);
       setprop("fdm/jsbsim/fcs/canopy/engage", FALSE);
       setprop("controls/ventilation/airconditioning-enabled", TRUE);
@@ -1276,13 +1276,13 @@ var startSupply = func {
     click();
     setprop("fdm/jsbsim/systems/electrical/external/switch", TRUE);
     setprop("/controls/electric/main", TRUE);
-    popupTip("Enabling power using external supply.");
+    notice("Enabling power using external supply.");
   } else {
     # using battery
     click();
     setprop("/controls/electric/battery", TRUE);
     setprop("/controls/electric/main", TRUE);
-    popupTip("Enabling power using battery.");
+    notice("Enabling power using battery.");
   }
   settimer(endSupply, 1.5, 1);
 }
@@ -1300,7 +1300,7 @@ var endSupply = func {
     # not enough power to start
     click();
     stopAutostart();
-    popupTip("Not enough power to autostart, aborting.");
+    notice("Not enough power to autostart, aborting.");
   }
 }
 
@@ -1312,7 +1312,7 @@ var autostart = func {
   setprop("controls/electric/lights-land-switch", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
-  popupTip("Starting engine..");
+  notice("Starting engine..");
   click();
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   #setprop("/controls/engines/engine[0]/starter-cmd", TRUE);
@@ -1326,11 +1326,11 @@ var waiting_n1 = func {
   #print(start_count);
   if (start_count > 45) {
     if(bingoFuel == TRUE) {
-      popupTip("Engine start failed. Check fuel.");
+      notice("Engine start failed. Check fuel.");
     } elsif (getprop("systems/electrical/outputs/dc-voltage") < 23) {
-      popupTip("Engine start failed. Check battery.");
+      notice("Engine start failed. Check battery.");
     } else {
-      popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
+      notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }
     print("Autostart failed. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();
@@ -1340,12 +1340,12 @@ var waiting_n1 = func {
         click();
         setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", FALSE);
         if (getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded") == FALSE) {
-          popupTip("Engine igniting.");
+          notice("Engine igniting.");
           settimer(waiting_n1, 0.5, 1);
         } else {
           print("Autostart failed 2. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
           stopAutostart();
-          popupTip("Engine not igniting. Aborting engine start.");
+          notice("Engine not igniting. Aborting engine start.");
         }
       } else {
         settimer(waiting_n1, 0.5, 1);
@@ -1354,7 +1354,7 @@ var waiting_n1 = func {
       #print("Autostart success. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main"));
       click();
       setprop("controls/electric/engine[0]/generator", TRUE);
-      popupTip("Generator on.");
+      notice("Generator on.");
       setprop("controls/oxygen", TRUE);
       settimer(final_engine, 0.5, 1);
     } else {
@@ -1369,16 +1369,16 @@ var final_engine = func () {
   start_count += 1* getprop("sim/speed-up");
   if (start_count > 70) {
     if(bingoFuel == TRUE) {
-      popupTip("Engine start failed. Check fuel.");
+      notice("Engine start failed. Check fuel.");
     } elsif (getprop("systems/electrical/outputs/dc-voltage") < 23) {
-      popupTip("Engine start failed. Check battery.");
+      notice("Engine start failed. Check battery.");
     } else {
-      popupTip("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
+      notice("Autostart failed. If engine has not reported failure, report bug to aircraft developer.");
     }    
     print("Autostart failed 3. n1="~getprop("/engines/engine[0]/n1")~" cutoff="~getprop("fdm/jsbsim/propulsion/engine/cutoff-commanded")~" starter="~getprop("/controls/engines/engine[0]/starter")~" generator="~getprop("/controls/electric/engine[0]/generator")~" battery="~getprop("/controls/electric/main")~" fuel="~bingoFuel);
     stopAutostart();  
   } elsif (getprop("/engines/engine[0]/running") > FALSE) {
-    popupTip("Engine ready.");
+    notice("Engine ready.");
     setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
     setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
     setprop("/controls/electric/battery", TRUE);
@@ -1411,9 +1411,9 @@ var toggleYawDamper = func {
   var enabled = getprop("fdm/jsbsim/fcs/yaw-damper/enable");
   setprop("fdm/jsbsim/fcs/yaw-damper/enable", !enabled);
   if(enabled == FALSE) {
-    popupTip("Yaw damper: ON");
+    notice("Yaw damper: ON");
   } else {
-    popupTip("Yaw damper: OFF");
+    notice("Yaw damper: OFF");
   }
 }
 
@@ -1422,9 +1422,9 @@ var togglePitchDamper = func {
   var enabled = getprop("fdm/jsbsim/fcs/pitch-damper/enable");
   setprop("fdm/jsbsim/fcs/pitch-damper/enable", !enabled);
   if(enabled == FALSE) {
-    popupTip("Pitch damper: ON");
+    notice("Pitch damper: ON");
   } else {
-    popupTip("Pitch damper: OFF");
+    notice("Pitch damper: OFF");
   }
 }
 
@@ -1433,9 +1433,9 @@ var toggleRollDamper = func {
   var enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
   setprop("fdm/jsbsim/fcs/roll-damper/enable", !enabled);
   if(enabled == FALSE) {
-    popupTip("Roll damper: ON");
+    notice("Roll damper: ON");
   } else {
-    popupTip("Roll damper: OFF");
+    notice("Roll damper: OFF");
   }
 }
 
@@ -1444,9 +1444,9 @@ var toggleHook = func {
   var enabled = getprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm");
   setprop("fdm/jsbsim/systems/hook/tailhook-cmd-norm", !enabled);
   if(enabled == FALSE) {
-    popupTip("Arrester hook: Extended");
+    notice("Arrester hook: Extended");
   } else {
-    popupTip("Arrester hook: Retracted");
+    notice("Arrester hook: Retracted");
   }
 }
 
@@ -1455,9 +1455,9 @@ var toggleNosewheelSteer = func {
   var enabled = getprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable");
   setprop("fdm/jsbsim/gear/unit[0]/nose-wheel-steering/enable", !enabled);
   if(enabled == FALSE) {
-    popupTip("Nose Wheel Steering: ON", 1.5);
+    notice("Nose Wheel Steering: ON", 1.5);
   } else {
-    popupTip("Nose Wheel Steering: OFF", 1.5);
+    notice("Nose Wheel Steering: OFF", 1.5);
   }
 }
 
@@ -1466,9 +1466,9 @@ var toggleTracks = func {
   var enabled = getprop("ja37/hud/tracks-enabled");
   setprop("ja37/hud/tracks-enabled", !enabled);
   if(enabled == FALSE) {
-    popupTip("Radar ON");
+    notice("Radar ON");
   } else {
-    popupTip("Radar OFF");
+    notice("Radar OFF");
   }
 }
 
@@ -1477,9 +1477,9 @@ var applyParkingBrake = func(v) {
     if(!v) return;
     ja37.click();
     if (getprop("/controls/gear/brake-parking") == TRUE) {
-      popupTip("Parking brakes: ON");
+      notice("Parking brakes: ON");
     } else {
-      popupTip("Parking brakes: OFF");
+      notice("Parking brakes: OFF");
     }
 }
 
@@ -1487,13 +1487,13 @@ var cycleSmoke = func() {
     ja37.click();
     if (getprop("/ja37/effect/smoke-cmd") == 1) {
       setprop("/ja37/effect/smoke-cmd", 2);
-      popupTip("Smoke: Yellow");
+      notice("Smoke: Yellow");
     } elsif (getprop("/ja37/effect/smoke-cmd") == 2) {
       setprop("/ja37/effect/smoke-cmd", 3);
-      popupTip("Smoke: Blue");
+      notice("Smoke: Blue");
     } else {
       setprop("/ja37/effect/smoke-cmd", 1);#1 for backward compatibility to be off per default
-      popupTip("Smoke: OFF");
+      notice("Smoke: OFF");
     }
 }
 
@@ -1515,6 +1515,10 @@ var popupTip = func(label, y = 25, delay = nil) {
         gui.popupTip(label, delay);
       }
     }
+}
+
+var notice = func (str) {
+  screen.log.write(str, 0.0, 0.0, 1.0);
 }
 
 var _popupTip = func(label, y, delay) {
