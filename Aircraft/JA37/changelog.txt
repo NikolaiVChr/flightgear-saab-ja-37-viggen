@@ -2616,10 +2616,10 @@ HUD: Big nasal garbage collection optimizations.
 HUD: Fixed CCIP was not so accurate when in a bank while dropping.
 Radar: Nasal garbage collection optimizations in radar screen code.
 
-4.014
+4.014 - 2017 January 11
 =====
 Sim: Small improvement to lookup of fire messages for incoming warnings.
-Sim: Add own callsign to fie/hit MP msg if it gets omitted by FG.
+Sim: Add own callsign to fire/hit MP msg if it gets omitted by FG.
 Animation: Rear gears are now compressed at retracting.
 Sim: Thrust reverser now depends on some relays for gear compressions, as per electrical diagram in manual.
 Aero: Speedbrakes added, only deploy beneath mach 0.92. (no external animation though)
