@@ -174,6 +174,7 @@ var AIM = {
 		m.trackWeak         = 1;
 		m.prop              = AcModel.getNode("armament/"~m.type_lc~"/").getChild("msl", 0, 1);
 		m.SwSoundOnOff      = AcModel.getNode("armament/"~m.type_lc~"/sound-on-off");
+		m.SwSoundFireOnOff  = AcModel.getNode("armament/"~m.type_lc~"/sound-fire-on-off");
         m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume");
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
@@ -355,6 +356,7 @@ var AIM = {
 		m.tooLowSpeed  = FALSE;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
+		m.SwSoundFireOnOff.setBoolValue(FALSE);
 		m.SwSoundVol.setDoubleValue(m.vol_search);
 		#me.trackWeak = 1;
 
@@ -453,6 +455,11 @@ var AIM = {
 	release: func() {#GCn
 		# Release missile/bomb from its pylon/rail/tube and send it away.
 		#
+		if(me.arming_time == 5000) {
+			me.SwSoundFireOnOff.setBoolValue(FALSE);
+		} else {
+			me.SwSoundFireOnOff.setBoolValue(TRUE);
+		}
 		me.status = MISSILE_FLYING;
 		me.flyID = rand();
 		AIM.flying[me.flyID] = me;
@@ -750,6 +757,9 @@ var AIM = {
 		
 		me.life_time += me.dt;
 		
+		if(me.life_time > 8) {# todo: make this duration configurable
+			me.SwSoundFireOnOff.setBoolValue(FALSE);
+		}
 
 		me.thrust_lbf = me.thrust();# pounds force (lbf)
 

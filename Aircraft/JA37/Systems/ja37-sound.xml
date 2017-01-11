@@ -1450,7 +1450,7 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[1]/released</property>
+                <property>payload/armament/rb-24j/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -1469,7 +1469,7 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[2]/released</property>
+                <property>payload/armament/rb-74/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -1488,7 +1488,7 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[3]/released</property>
+                <property>payload/armament/rb-99/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -1507,7 +1507,7 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[4]/released</property>
+                <property>payload/armament/rb-05a/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -1526,7 +1526,7 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[5]/released</property>
+                <property>payload/armament/rb-75/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -1545,7 +1545,7 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[6]/released</property>
+                <property>payload/armament/rb-04e/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>
@@ -1564,7 +1564,45 @@
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
             <condition>
-                <property>controls/armament/station[7]/released</property>
+                <property>payload/armament/m90/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -0.09941 </x>
+                <y> 0.01 </y>
+                <z> -0.97819 </z>
+            </position>
+            <volume>
+                <factor>0.75</factor>
+                <max>1</max>
+            </volume>
+        </missile6>
+        <missile6>
+            <name>missile7</name>
+            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-24/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> -0.09941 </x>
+                <y> 0.01 </y>
+                <z> -0.97819 </z>
+            </position>
+            <volume>
+                <factor>0.75</factor>
+                <max>1</max>
+            </volume>
+        </missile6>
+        <missile6>
+            <name>missile7</name>
+            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-15f/sound-fire-on-off</property>
             </condition>
             <reference-dist>25</reference-dist>
             <max-dist>10000</max-dist>

@@ -492,6 +492,7 @@
                 <damage type="bool">false</damage>
                 <rb-24>                    <!-- RB-24 (Swedish version of aim-9b sidewinder) mach 1.5 -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.075</vol-search>
                     <vol-track type="double">0.25</vol-track>
@@ -529,6 +530,7 @@
                 </rb-24>
                 <rb-24j>                    <!-- RB-24J (Swedish version of aim-9j sidewinder) mach 2 -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.075</vol-search>
                     <vol-track type="double">0.25</vol-track>
@@ -567,6 +569,7 @@
                 <m71>
                     <!-- Swedish bomblet M71 Virgo -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
@@ -599,6 +602,7 @@
                 <m71r>
                     <!-- Swedish bomblet M71 Virgo retarded with parachute -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
@@ -631,6 +635,7 @@
                 <rb-04e>
                     <!-- Swedish antiship cruise-missile RB-04E subsonic -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
@@ -665,6 +670,7 @@
                 <rb-05a>                    
                     <!-- Swedish attack-missile RB-05A supersonic -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
@@ -698,6 +704,7 @@
                 <rb-75>                    
                     <!-- Swedish version of AGM-65B Maverick RB-75 620kt -->
                     <sound-on-off type="bool">false</sound-on-off>
+                    <sound-fire-on-off type="bool">false</sound-fire-on-off>
                     <sound-volume type="double">0.0</sound-volume>
                     <vol-search type="double">0.00</vol-search>
                     <vol-track type="double">0.15</vol-track>
