@@ -2658,3 +2658,5 @@ HUD: Fixed that altitude scale vertical zero line was in wrong place.
 4.015
 =====
 Animation: The stores will now show being jettisoned and fall down, except drop tank.
+Sound: Removed firing sound when jettisoning stores.
+Model: Added 2 non functional switches to weapons panel.

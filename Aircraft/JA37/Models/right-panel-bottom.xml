@@ -102,7 +102,7 @@
         <name>jett-xtank</name>
         <offsets>
             <heading-deg>-90</heading-deg>
-            <x-m>  0.170</x-m>
+            <x-m>  0.185</x-m>
             <y-m>  0.014</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -113,8 +113,30 @@
         <name>jett-stores</name>
         <offsets>
             <heading-deg>-90</heading-deg>
-            <x-m>  0.120</x-m>
+            <x-m>  0.15</x-m>
             <y-m>  0.014</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-d/sim.xml</path>
+        <name>sim</name>
+        <offsets>
+            <heading-deg>0</heading-deg>
+            <x-m>  0.105</x-m>
+            <y-m>  0.011</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <path>Aircraft/JA37/Models/Cockpit/switch-d/safety.xml</path>
+        <name>safe</name>
+        <offsets>
+            <heading-deg>0</heading-deg>
+            <x-m>  0.055</x-m>
+            <y-m>  0.011</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
