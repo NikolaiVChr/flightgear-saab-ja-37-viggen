@@ -11,6 +11,8 @@ var MISSILE_FLYING = 2;
 var flareCount = -1;
 var flareStart = -1;
 
+var jettisonAll = FALSE;
+
 input = {
   acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
   acMainVolt:       "systems/electrical/outputs/ac-main-voltage",
@@ -348,7 +350,21 @@ var loop_stores = func {
       var payloadName = props.globals.getNode("payload/weight["~ i ~"]/selected");
       if(armament.AIM.active[i] != nil) {
         # missile is mounted on pylon
-        if(armSelect != (i+1) and armament.AIM.active[i].status != MISSILE_FLYING) {
+        if(jettisonAll == TRUE) {
+          armament.AIM.active[i].eject();
+          if (payloadName.getValue() != "M71 Bomblavett" and payloadName.getValue() != "M71 Bomblavett (Retarded)") {
+            payloadName.setValue("none");# empty the pylon
+            setprop("controls/armament/station["~(1+i)~"]/released", TRUE);# setting the pylon as fired
+          }
+          if (payloadName.getValue() == "M71 Bomblavett" or payloadName.getValue() == "M71 Bomblavett (Retarded)") {
+            var ammo = getprop("payload/weight["~i~"]/ammo");
+            ammo = ammo - 1;
+            setprop("payload/weight["~i~"]/ammo", ammo);
+            if (ammo == 0) {
+              setprop("payload/weight["~ i ~"]/selected", "none");# empty the pylon
+            }
+          }
+        } elsif(armSelect != (i+1) and armament.AIM.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
           armament.AIM.active[i].status = MISSILE_STANDBY;
           #print("not sel "~i);
@@ -366,6 +382,8 @@ var loop_stores = func {
           #print("active "~i);
           armament.AIM.active[i].search();
         } 
+      } elsif (jettisonAll == TRUE and (payloadName.getValue() == "M70 ARAK" or payloadName.getValue() == "M55 AKAN" or payloadName.getValue() == "Drop tank")) {
+        payloadName.setValue("none");
       }
       if (armSelect == (i+1)) {
         if(payloadName.getValue() == "RB 75 Maverick"
@@ -1784,14 +1802,16 @@ var drop = func {
        return;
     }
     ja37.click();
-    screen.log.write("All stores jettisoned.", 0.0, 1.0, 0.0);
-    setprop("payload/weight[0]/selected", "none");
-    setprop("payload/weight[1]/selected", "none");
-    setprop("payload/weight[2]/selected", "none");
-    setprop("payload/weight[3]/selected", "none");
-    setprop("payload/weight[4]/selected", "none");
-    setprop("payload/weight[5]/selected", "none");
-    setprop("payload/weight[6]/selected", "none");# empty the pylon
+    screen.log.write("All stores jettisoning.", 0.0, 1.0, 0.0);
+    jettisonAll = TRUE;
+    settimer(func {jettisonAll = FALSE;},5);
+#    setprop("payload/weight[0]/selected", "none");
+#    setprop("payload/weight[1]/selected", "none");
+#    setprop("payload/weight[2]/selected", "none");
+#    setprop("payload/weight[3]/selected", "none");
+#    setprop("payload/weight[4]/selected", "none");
+#    setprop("payload/weight[5]/selected", "none");
+#    setprop("payload/weight[6]/selected", "none");# empty the pylon
  }
 
 ############ main function #####################
