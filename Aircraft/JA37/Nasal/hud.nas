@@ -121,7 +121,7 @@ var HUDnasal = {
     #HUDnasal.main.canvas.del();
     #HUDnasal.main.canvas = canvas.new(HUDnasal.canvas_settings);
     HUDnasal.main.canvas.addPlacement(HUDnasal.main.place);
-    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.05);
+    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.025);
     HUDnasal.main.root = HUDnasal.main.canvas.createGroup()
                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
     
@@ -2901,9 +2901,9 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
    hud_pilot.slip_indicator.setColorFill(red, green, blue, a);
    
    if (backup == FALSE) {
-     HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.05);
+     HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.025);
    } else {
-     HUDnasal.main.canvas.setColorBackground(red, green, 0.3, 0.05);
+     HUDnasal.main.canvas.setColorBackground(red, green, 0.3, 0.025);
    }
   #print("HUD being reinitialized.");
 };

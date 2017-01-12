@@ -61,7 +61,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>brakemano</tooltip-id>
-                <label>Brake manometer %0.1f kp/cm2</label>
+                <label>Brake manometer</label><!-- %0.1f kp/cm2 -->
                 <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
             </binding>
         </hovered>
