@@ -61,7 +61,8 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>cabinmano</tooltip-id>
-                <label>Cabin differential manometer (kp/cm2)</label>
+                <label>Cabin differential manometer %0.2f kp/cm2</label>
+                <property>fdm/jsbsim/systems/flight/cabin-diff-pressure-kpm2</property>
             </binding>
         </hovered>
     </animation>

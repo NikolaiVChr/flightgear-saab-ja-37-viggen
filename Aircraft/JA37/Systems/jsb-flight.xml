@@ -653,7 +653,7 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="systems/flight/brake-pressure-tmp-kPa">
+        <fcs_function name="systems/flight/brake-pressure-tmp-kpm2">
             <function>
                 <product>
                     <or>
@@ -664,19 +664,19 @@
                     <table>
                         <independentVar lookup="row">forces/fbx-gear-lbs</independentVar>
                         <tableData>
-                            -40000         4.0
-                            -30000         3.0
+                            -40000         400
+                            -30000         300
                                  0         0.0
-                             30000         3.0
-                             40000         4.0
+                             30000         300
+                             40000         400
                         </tableData>
                     </table>
                 </product>
             </function>
         </fcs_function>
 
-        <lag_filter name="systems/flight/brake-pressure-kPa">
-            <input> systems/flight/brake-pressure-tmp-kPa </input>
+        <lag_filter name="systems/flight/brake-pressure-kpm2">
+            <input> systems/flight/brake-pressure-tmp-kpm2 </input>
             <c1> 10 </c1>
         </lag_filter>
 

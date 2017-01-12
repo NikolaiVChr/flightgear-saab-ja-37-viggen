@@ -29,14 +29,14 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>fdm/jsbsim/systems/flight/brake-pressure-kPa</property>
+        <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
         <interpolation>
             <entry>
                 <ind>0</ind>
                 <dep>-135</dep>
             </entry>
             <entry>
-                <ind>3.5</ind>
+                <ind>350</ind>
                 <dep>137.5</dep>
             </entry>
         </interpolation>
@@ -61,7 +61,8 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>brakemano</tooltip-id>
-                <label>Brake manometer</label>
+                <label>Brake manometer %0.1f kp/cm2</label>
+                <property>fdm/jsbsim/systems/flight/brake-pressure-kpm2</property>
             </binding>
         </hovered>
     </animation>
