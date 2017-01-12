@@ -2667,3 +2667,5 @@ Animation: Cockpit pressure manometer now show differential pressure, not absolu
 Sim: If gear is down and locked and no WOW, cabin pressure system duct now closes, as per manual.
 Sim: Cabin pressure changes no longer happen instantly.
 Animation: Brake manometer now registers brake pressure much more smart.
+HUD: Made HUD a little brighter and now should play nice with ALS filters.
+Model: Text on front panel now plays somewhat nice with IR and night vision.

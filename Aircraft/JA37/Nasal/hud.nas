@@ -2863,6 +2863,7 @@ var init = func() {
     
     #print("HUD initialized.");
     hud_pilot.update();
+    IR_loop();
   }
 };
 
@@ -2873,6 +2874,11 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 #setprop("/systems/electrical/battery", 0);
 id = setlistener("ja37/supported/initialized", init, 0, 0);
 
+var IR_loop = func {
+  reinit(on_backup_power);
+  settimer(IR_loop, 1.5);
+};
+
 var reinit = func(backup = FALSE) {#mostly called to change HUD color
    #reinitHUD = 1;
 
@@ -2880,6 +2886,14 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
    var red = backup == FALSE?r:1;
    var green = backup == FALSE?g:0.5;
    var blue = backup == FALSE?b:0;
+
+   var IR = getprop("sim/rendering/shaders/skydome") == TRUE and getprop("sim/rendering/als-filters/use-filtering") == TRUE and getprop("sim/rendering/als-filters/use-IR-vision") == TRUE;
+
+   if (IR) {
+      # IR vision enabled, lets not have a green HUD:
+      red = green;
+      blue = green;
+   }
 
    foreach(var item; artifacts0) {
     item.setColor(red, green, blue, a);
@@ -2900,7 +2914,9 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
    }
    hud_pilot.slip_indicator.setColorFill(red, green, blue, a);
    
-   if (backup == FALSE) {
+   if (IR) {
+     HUDnasal.main.canvas.setColorBackground(red, green, blue, 0.025);
+   } elsif (backup == FALSE) {
      HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.025);
    } else {
      HUDnasal.main.canvas.setColorBackground(red, green, 0.3, 0.025);
