@@ -2665,4 +2665,5 @@ GUI: {Pinto} Replaced a splash picture.
 GUI: Fixed tooltips on radio.
 Animation: Cockpit pressure manometer now show differential pressure, not absolute. As per manual.
 Sim: If gear is down and locked and no WOW, cabin pressure system duct now closes, as per manual.
-Sim: Cabin pressure changes no longer changes instantly.
+Sim: Cabin pressure changes no longer happen instantly.
+Animation: Brake manometer now registers brake pressure much more smart.

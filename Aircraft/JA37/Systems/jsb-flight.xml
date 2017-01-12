@@ -653,21 +653,32 @@
             </function>
         </fcs_function>
 
-        <fcs_function name="systems/flight/brake-pressure-kPa">
+        <fcs_function name="systems/flight/brake-pressure-tmp-kPa">
             <function>
                 <product>
-                    <property>/controls/gear/brake-left</property>
+                    <or>
+                        <property>/controls/gear/brake-left</property>
+                        <property>/controls/gear/brake-parking</property>
+                    </or>
                     <property>gear/unit[1]/WOW</property>
                     <table>
-                        <independentVar lookup="row">velocities/vg-fps</independentVar>
+                        <independentVar lookup="row">forces/fbx-gear-lbs</independentVar>
                         <tableData>
-                              0         0.0
-                            320         3.5
+                            -40000         4.0
+                            -30000         3.0
+                                 0         0.0
+                             30000         3.0
+                             40000         4.0
                         </tableData>
                     </table>
                 </product>
             </function>
         </fcs_function>
+
+        <lag_filter name="systems/flight/brake-pressure-kPa">
+            <input> systems/flight/brake-pressure-tmp-kPa </input>
+            <c1> 10 </c1>
+        </lag_filter>
 
         <!-- animating AoA indicator -->
         <switch name="systems/flight/aoa-indicator-direct">
