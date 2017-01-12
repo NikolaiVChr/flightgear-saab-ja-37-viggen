@@ -512,7 +512,9 @@ var RadarLogic = {
     # Or Hide using anti doppler movements
 
     if (input.dopplerOn.getValue() == FALSE or 
-        (t_node.getNode("velocities/true-airspeed-kt") != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() > 250)
+        (t_node.getNode("velocities/true-airspeed-kt") != nil and t_node.getNode("velocities/true-airspeed-kt").getValue() != nil
+         and t_node.getNode("radar/range-nm") != nil and t_node.getNode("radar/range-nm").getValue() != nil
+         and math.atan2(t_node.getNode("velocities/true-airspeed-kt").getValue(), t_node.getNode("radar/range-nm").getValue()*1000) > 0.025)# if aircraft traverse speed seen from me is high
         ) {
       return TRUE;
     }
