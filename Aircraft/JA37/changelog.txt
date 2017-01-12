@@ -2660,3 +2660,6 @@ HUD: Fixed that altitude scale vertical zero line was in wrong place.
 Animation: The stores will now show being jettisoned and fall down, except drop tank.
 Sound: Removed firing sound when jettisoning stores.
 Model: Added 2 non functional switches to weapons panel.
+Sim: The RB-71 can be notched again.
+GUI: {Pinto} Replaced a splash picture.
+GUI: Fixed tooltips on radio.

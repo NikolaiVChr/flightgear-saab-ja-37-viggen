@@ -736,7 +736,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>leftMacroKnob</tooltip-id>
+                <tooltip-id>leftMicroKnob</tooltip-id>
                 <label>Adjust frequency (fine)</label>
             </binding>
         </hovered>
@@ -748,7 +748,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>leftMacroKnob</tooltip-id>
+                <tooltip-id>rightMacroKnob</tooltip-id>
                 <label>Adjust radial</label>
             </binding>
         </hovered>
@@ -760,8 +760,32 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>leftMacroKnob</tooltip-id>
+                <tooltip-id>rightMicroKnob</tooltip-id>
                 <label>Adjust volume</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchLeft</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switchLeft</tooltip-id>
+                <label>Toggle comm/nav</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchRight</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switchRight</tooltip-id>
+                <label>Toggle freq. band</label>
             </binding>
         </hovered>
     </animation>
