@@ -25,6 +25,8 @@ Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might 
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Model: Model speedbrakes.
+Model: Button for jettison canopy near throttle.
+Model: Fuze panel.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison stores fall down.

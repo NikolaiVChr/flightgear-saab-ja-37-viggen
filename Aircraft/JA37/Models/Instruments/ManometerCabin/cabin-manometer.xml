@@ -29,7 +29,7 @@
                 <value>100</value>
             </greater-than>
         </condition>
-        <property>fdm/jsbsim/systems/flight/cabin-pressure-kpm2</property>
+        <property>fdm/jsbsim/systems/flight/cabin-diff-pressure-kpm2</property>
         <interpolation>
             <entry>
                 <ind>0</ind>
@@ -61,7 +61,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>cabinmano</tooltip-id>
-                <label>Cabin manometer (kp/cm2)</label>
+                <label>Cabin differential manometer (kp/cm2)</label>
             </binding>
         </hovered>
     </animation>

@@ -2663,3 +2663,6 @@ Model: Added 2 non functional switches to weapons panel.
 Sim: The RB-71 can be notched again.
 GUI: {Pinto} Replaced a splash picture.
 GUI: Fixed tooltips on radio.
+Animation: Cockpit pressure manometer now show differential pressure, not absolute. As per manual.
+Sim: If gear is down and locked and no WOW, cabin pressure system duct now closes, as per manual.
+Sim: Cabin pressure changes no longer changes instantly.

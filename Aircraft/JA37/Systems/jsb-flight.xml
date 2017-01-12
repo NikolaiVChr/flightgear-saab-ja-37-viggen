@@ -603,7 +603,8 @@
                     <table>
                         <independentVar lookup="row">atmosphere/density-altitude</independentVar>
                         <tableData>
-                                  0.0         0.0   
+                                  0.0         0.0
+                               8500.0         0.0
                               16404.2        19.6 <!--  5000m density alt -->
                               65616.8        23.5 <!-- 20000m density alt -->
                         </tableData>
@@ -612,12 +613,22 @@
             </function>
         </fcs_function>
 
-        <switch name="systems/flight/cabin-pressure-kPa">
+        <switch name="systems/flight/cabin-pressure-tmp-kPa">
             <default value="systems/flight/closed-canopy-cabin-pressure-kPa"/>
             <test logic="OR" value="systems/flight/environment-pressure-kPa">
               fcs/canopy/pos-norm ne 0
-          </test>
+              fcs/canopy/hinges/serviceable ne 1
+            </test>
+            <test logic="AND" value="systems/flight/cabin-pressure-tmp-kPa">
+              gear/gear-pos-norm == 1
+              gear/unit[0]/WOW ne 1
+            </test>
         </switch>
+
+        <lag_filter name="systems/flight/cabin-pressure-kPa">
+            <input> systems/flight/cabin-pressure-tmp-kPa </input>
+            <c1> 0.5 </c1>
+        </lag_filter>
 
         <fcs_function name="systems/flight/cabin-pressure-kpm2">
             <!-- kilopond per square cm2-->
@@ -626,6 +637,19 @@
                     <property>systems/flight/cabin-pressure-kPa</property>
                     <value>0.010197162129779</value>
                 </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/cabin-diff-pressure-kpm2">
+            <!-- kilopond per square cm2-->
+            <function>
+                <difference>
+                    <property>systems/flight/cabin-pressure-kpm2</property>
+                    <product>
+                        <property>systems/flight/environment-pressure-kPa</property>
+                        <value>0.010197162129779</value>
+                    </product>
+                </difference>
             </function>
         </fcs_function>
 
