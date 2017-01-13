@@ -905,6 +905,22 @@
                 </equals>
             </condition>
         </item>
+        <item>
+            <name>Toggle external power (menu)</name>
+            <value>OFF</value>
+            <binding>
+                <command>property-toggle</command>
+                <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+            </binding>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/systems/electrical/external/enable-cmd</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+        </item>
         <!--<item>
             <name>Engine starter</name>
             <value>OFF</value>

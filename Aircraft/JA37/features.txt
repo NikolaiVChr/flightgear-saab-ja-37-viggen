@@ -61,7 +61,7 @@ Damage system for getting hit by ordnance.
 
 Avionics
 -----
-The cockpit features 77 working controls.
+The cockpit features 96 working controls.
 Gauges are in metric and Swedish description. But they have Tooltips, showing Imperial and English units.
 Switches, knobs and buttons have english text for convenience.
 Custom Canvas HUD built from Saab flight manual with 4 modes of operation: navigation, landing, takeoff and tactical.
