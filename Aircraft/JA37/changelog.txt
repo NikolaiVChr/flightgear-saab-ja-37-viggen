@@ -2669,3 +2669,4 @@ Sim: Cabin pressure changes no longer happen instantly.
 Animation: Brake manometer now registers brake pressure much more smart.
 HUD: Made HUD a little brighter and now should play nice with ALS filters.
 Model: Text on front panel now plays somewhat nice with IR and night vision.
+HUD: It now shows INT on runway when interoperability is enabled.
