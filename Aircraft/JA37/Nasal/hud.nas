@@ -1567,6 +1567,7 @@ var HUDnasal = {
     # determine max radar alt in current unit
     me.radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
     me.alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
+    me.INT = FALSE;
     if (me.input.units.getValue() == FALSE and (me.input.wow2.getValue() == TRUE
         or (me.inter == TRUE and me.input.gearCmdNorm.getValue() == 0 and me.input.gearsPos.getValue() > 0)
         or (me.inter == TRUE and me.input.gearsPos.getValue() == 1))) {
@@ -1576,17 +1577,23 @@ var HUDnasal = {
         me.alt.setText("");
       }
       me.inter = TRUE;
-    } elsif (radAlt == nil and me.input.ctrlRadar.getValue() == 1) {
+      me.INT = TRUE;
+    }
+    if (radAlt == nil and me.input.ctrlRadar.getValue() == 1) {
       # Radar alt instrument not initialized yet
-      me.inter = FALSE;
-      me.alt.setText("");
+      if (me.INT == FALSE) {
+        me.inter = FALSE;
+        me.alt.setText("");
+      }
       countQFE = 0;
       QFEcalibrated = FALSE;
       me.input.altCalibrated.setBoolValue(FALSE);
     } elsif (radAlt != nil and radAlt < me.radar_clamp) {
-      me.inter = FALSE;
-      # in radar alt range
-      me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, me.radar_clamp)));
+      if (me.INT == FALSE) {
+        me.inter = FALSE;
+        # in radar alt range
+        me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, me.radar_clamp)));
+      }
       # check for QFE warning
       me.diff = radAlt - alt;
       if (countQFE == 0 and (me.diff > me.alt_diff or me.diff < -me.alt_diff)) {
@@ -1613,24 +1620,25 @@ var HUDnasal = {
         me.input.altCalibrated.setBoolValue(FALSE);
       }
     } else {
-      me.inter = FALSE;
       # is above height for checking for calibration
       countQFE = 0;
       #QFE = 0;
       QFEcalibrated = TRUE;
       me.input.altCalibrated.setBoolValue(TRUE);
       #print("QFE not calibrated, and is not blinking");
+      if (me.INT == FALSE) {
+        me.inter = FALSE;
+        me.gElev_ft = me.input.elev_ft.getValue();
+        me.gElev_m  = me.input.elev_m.getValue();
 
-      me.gElev_ft = me.input.elev_ft.getValue();
-      me.gElev_m  = me.input.elev_m.getValue();
+        if (me.gElev_ft == nil or me.gElev_m == nil) {
+          me.alt.setText("");
+        } else {
+          me.metric = me.input.units.getValue();
+          me.terrainAlt = me.metric == TRUE?me.gElev_m:me.gElev_ft;
 
-      if (me.gElev_ft == nil or me.gElev_m == nil) {
-        me.alt.setText("");
-      } else {
-        me.metric = me.input.units.getValue();
-        me.terrainAlt = me.metric == TRUE?me.gElev_m:me.gElev_ft;
-
-        me.alt.setText(sprintf("%4d", clamp(me.terrainAlt, 0, 9999)));
+          me.alt.setText(sprintf("%4d", clamp(me.terrainAlt, 0, 9999)));
+        }
       }
     }
   },
