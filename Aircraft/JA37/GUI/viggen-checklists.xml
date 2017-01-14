@@ -906,6 +906,28 @@
             </condition>
         </item>
         <item>
+            <name>Power supply selector</name>
+            <value>GENERATOR</value>
+            <marker>
+                <x-m>-3.6975</x-m>
+                <y-m>-0.4240</y-m>
+                <z-m>0.0959</z-m>
+                <scale>3.0000</scale>
+            </marker>
+            <binding>
+                <command>property-toggle</command>
+                <property>fdm/jsbsim/systems/electrical/external/switch</property>
+            </binding>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/systems/electrical/external/switch</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+        </item>
+        <item>
             <name>Toggle external power (menu)</name>
             <value>OFF</value>
             <binding>
