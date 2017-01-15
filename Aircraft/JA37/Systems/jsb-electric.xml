@@ -184,6 +184,11 @@
             </traverse>
         </kinematic>
 
+        <pure_gain name="systems/electrical/generator-reserve-rpm">
+            <input>systems/electrical/generator-reserve-running-norm</input>
+            <gain>500.0</gain>
+        </pure_gain>
+
         <switch name="systems/electrical/generator-reserve-supplying">
             <description>
                       Reserve is supplying, bool

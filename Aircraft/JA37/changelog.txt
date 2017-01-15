@@ -2655,7 +2655,7 @@ Model: Pylon selector knob now can do the outer pylons also. (still missing text
 Model: Weapon mode selector now can be set to off. It still has no logic though.
 HUD: Fixed that altitude scale vertical zero line was in wrong place.
 
-4.015
+4.015 - 2017 January 15
 =====
 Animation: The stores will now show being jettisoned and fall down, except drop tank.
 Sound: Removed firing sound when jettisoning stores.
@@ -2680,3 +2680,4 @@ Sim: The ram air turbine will now be damaged if deployed at too high speeds.
 Sim: The ram air turbine now needs hydraulic from system 2 to deploy or retract.
 Aero: The ram air turbine now produces drag.
 Sim: The ram air turbine now extends when taking off, in this state is does not disconnect main generator though.
+Sim: Fixed that auto-start would sometimes fail due to reserve power being on.

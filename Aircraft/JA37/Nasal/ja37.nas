@@ -1284,13 +1284,13 @@ var startSupply = func {
     setprop("/controls/electric/main", TRUE);
     notice("Enabling power using battery.");
   }
+  setprop("controls/electric/reserve", FALSE);
   settimer(endSupply, 1.5, 1);
 }
 
 var endSupply = func {
   setprop("ja37/radar/enabled", TRUE);
   setprop("controls/engines/engine/reverser-cmd", FALSE);
-  setprop("controls/electric/reserve", FALSE);
   setprop("controls/fuel/auto", TRUE);
   setprop("controls/altimeter-radar", TRUE);
   if (getprop("systems/electrical/outputs/dc-voltage") > 23) {
