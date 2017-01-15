@@ -8,6 +8,8 @@
 
 <PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
+        <aircraft-version>4.015</aircraft-version>
+
         <tags>
             <!--<tag>saab</tag>
         <tag>1-engine</tag>
