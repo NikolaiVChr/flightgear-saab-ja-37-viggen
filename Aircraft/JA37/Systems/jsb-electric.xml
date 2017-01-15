@@ -70,12 +70,25 @@
             </traverse>
         </kinematic>
 
-        <switch name="systems/electrical/generator-reserve-deploy-cmd">
+        <switch name="systems/electrical/generator-reserve-deploy-runway-cmd">
             <description>
-                      Reserve is commanded deployed, bool
+                      Reserve is commanded deployed due to taking off
 
-                      TODO: Should also happen when nose gear is compressed, and will retract together with gears.
-                            This however should not disconnect the main generator.
+                      Happen when nose gear is compressed, and will retract together with gears.
+                      This however should not disconnect the main generator.
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="AND" value="gear/gear-pos-norm">
+                systems/electrical/generator-reserve-deploy-runway-cmd gt 0
+            </test>
+        </switch>
+
+        <switch name="systems/electrical/generator-reserve-deploy-emergency-cmd">
+            <description>
+                      Reserve is commanded deployed due to emergency, bool
             </description>
             <default value="0"/>
             <test logic="OR" value="1">
@@ -84,6 +97,19 @@
             <test logic="AND" value="1">
                 /systems/electrical/serviceable == 0
                 /velocities/airspeed-kt lt 594
+            </test>
+        </switch>
+
+        <switch name="systems/electrical/generator-reserve-deploy-cmd">
+            <description>
+                      Reserve is commanded deployed, bool
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                systems/electrical/generator-reserve-deploy-emergency-cmd == 1
+            </test>
+            <test logic="OR" value="systems/electrical/generator-reserve-deploy-runway-cmd">
+                systems/electrical/generator-reserve-deploy-runway-cmd gt 0
             </test>
         </switch>
 
@@ -180,7 +206,7 @@
             </test>
             <test logic="AND" value="systems/electrical/generator-reserve-running-norm">
                 systems/electrical/external/switch == 0
-                systems/electrical/generator-reserve-deploy-cmd == 1
+                systems/electrical/generator-reserve-deploy-emergency-cmd == 1
             </test>
             <test logic="AND" value="systems/electrical/generator-running-norm">
                 systems/electrical/external/switch == 0
@@ -228,7 +254,7 @@
             <default value="/systems/electrical/outputs/ac-main-voltage"/>
             <test logic="AND" value="0">
                 gear/gear-pos-norm == 1
-                systems/electrical/generator-reserve-deploy-cmd == 1
+                systems/electrical/generator-reserve-deploy-emergency-cmd == 1
             </test>
         </switch>
 

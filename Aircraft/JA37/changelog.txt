@@ -2679,3 +2679,4 @@ Sim: If ram air turbine is deployed and gears extended, DC will be supplied by b
 Sim: The ram air turbine will now be damaged if deployed at too high speeds.
 Sim: The ram air turbine now needs hydraulic from system 2 to deploy or retract.
 Aero: The ram air turbine now produces drag.
+Sim: The ram air turbine now extends when taking off, in this state is does not disconnect main generator though.
