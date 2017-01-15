@@ -2670,5 +2670,6 @@ Animation: Brake manometer now registers brake pressure much more smart.
 HUD: Made HUD a little brighter and now should play nice with ALS filters.
 Model: Text on front panel now plays somewhat nice with IR and night vision.
 HUD: It now shows INT on runway when interoperability is enabled.
-GUI: Fixed that switching to generator power, was missing from checklist
+GUI: Fixed that switching to generator power, was missing from checklist.
 Model: Fixed that some parts of radio and primary altimeter was flat shaded.
+Model: Added jettison canopy button.
