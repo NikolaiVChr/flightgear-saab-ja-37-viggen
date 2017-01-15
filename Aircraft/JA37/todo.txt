@@ -28,7 +28,7 @@ Model: Model speedbrakes.
 Model: Fuze panel.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
-Animation: Make jettison drop tank actually fall down.
+Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
 Sim: Improve autopilot further.
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)

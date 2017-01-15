@@ -15,7 +15,7 @@ A separate download is available for Flightgear 2.8. It will not be updated so o
 Aerodynamics
 -----
 JSBSim FDM based mostly on original Saab windtunnel data.
-47 individual aerodynamic coefficients.
+48 individual aerodynamic coefficients.
 Aerodynamic effect of air intake factor, ground effects and control surface shading.
 At high alpha asymmetric vortex detachment of left or right side, resulting in adverse effects.
 Very high alpha handling including realistic departures such as stall, spiral dive, flat spin and inverted spin.
@@ -53,7 +53,7 @@ Custom flight recorder records 53 extra properties for accurate replay functiona
 
 Failure system
 -----
-26 extra failures beside the standard ones.
+25 extra failures beside the standard ones.
 Canopy motor, canopy hinges, wings attachment and individual gear locking mechanisms are preset to fail under specific conditions.
 Engine fire preset to start under certain conditions. Can fail engine if left burning too long.
 Crash-detection and high-G structural break tied into the failure system, it can randomly fail components proportional to the damage the plane takes.

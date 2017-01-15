@@ -34,7 +34,7 @@
             <description>
                       Generator running command
             </description>
-            <input>/systems/generator/serviceable</input>
+            <input>/systems/electrical/serviceable</input>
             <table>
                 <independentVar lookup="row">propulsion/engine[0]/n2</independentVar>
                 <independentVar lookup="column">/controls/electric/engine/generator</independentVar>
@@ -53,6 +53,9 @@
         <kinematic name="systems/electrical/generator-running-norm">
             <description>
                       Generator running normalized
+
+                      TODO: When this generator has been disconnected due to ram air turbine,
+                      set in off position switch, and then back on, to get it reconnected.
             </description>
             <input>systems/electrical/generator-cmd</input>
             <traverse>
@@ -67,6 +70,50 @@
             </traverse>
         </kinematic>
 
+        <switch name="systems/electrical/generator-reserve-deploy-cmd">
+            <description>
+                      Reserve is commanded deployed, bool
+
+                      TODO: Should also happen when nose gear is compressed, and will retract together with gears.
+                            This however should not disconnect the main generator.
+            </description>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                /controls/electric/reserve == 1
+            </test>
+            <test logic="AND" value="1">
+                /systems/electrical/serviceable == 0
+                /velocities/airspeed-kt lt 594
+            </test>
+        </switch>
+
+        <switch name="systems/electrical/generator-reserve-pos-state">
+            <description>
+                      Reserve cmd position, bool
+            </description>
+            <default value="systems/electrical/generator-reserve-deploy-cmd"/>
+            <test logic="AND" value="systems/electrical/generator-reserve-pos-norm">
+                systems/hydraulics/system1/pressure == 0
+            </test>
+        </switch>
+
+        <kinematic name="systems/electrical/generator-reserve-pos-norm">
+            <description>
+                      Generator reserve position normalized
+            </description>
+            <input>systems/electrical/generator-reserve-pos-state</input>
+            <traverse>
+                <setting>
+                    <position>  0.0 </position>
+                    <time>      0.0 </time>
+                </setting>
+                <setting>
+                    <position>  1.0 </position>
+                    <time>      1.5 </time>
+                </setting>
+            </traverse>
+        </kinematic>
+
         <fcs_function name="systems/electrical/generator-reserve-cmd">
             <description>
                       Generator reserve (Ram Air turbine) running command
@@ -76,7 +123,10 @@
             <function>
                 <product>
                     <p>/systems/generator-reserve/serviceable</p>
-                    <p>/controls/electric/reserve</p>
+                    <eq>
+                        <p>systems/electrical/generator-reserve-pos-norm</p>
+                        <v>1</v>
+                    </eq>
                     <table>
                         <independentVar lookup="row">/velocities/airspeed-kt</independentVar>
                         <independentVar lookup="column">gear/gear-pos-norm</independentVar>
@@ -103,7 +153,7 @@
                 </setting>
                 <setting>
                     <position>  1.0 </position>
-                    <time>      3.0 </time>
+                    <time>      4.5 </time><!-- manual say 3-6 seconds -->
                 </setting>
             </traverse>
         </kinematic>
@@ -116,7 +166,7 @@
             <test logic="AND" value="1">
                 systems/electrical/generator-reserve-running-norm == 1
                 systems/electrical/external/switch == 0
-                /controls/electric/reserve == 1
+                systems/electrical/generator-reserve-pos-norm == 1
             </test>
         </switch>
 
@@ -130,7 +180,7 @@
             </test>
             <test logic="AND" value="systems/electrical/generator-reserve-running-norm">
                 systems/electrical/external/switch == 0
-                /controls/electric/reserve == 1
+                systems/electrical/generator-reserve-deploy-cmd == 1
             </test>
             <test logic="AND" value="systems/electrical/generator-running-norm">
                 systems/electrical/external/switch == 0
@@ -169,11 +219,24 @@
             </range>
         </aerosurface_scale>
 
+        <switch name="systems/electrical/rectifiers-input">
+            <description>
+                      Rectifiers activated
+
+                      JA-37C manual page 90
+            </description>
+            <default value="/systems/electrical/outputs/ac-main-voltage"/>
+            <test logic="AND" value="0">
+                gear/gear-pos-norm == 1
+                systems/electrical/generator-reserve-deploy-cmd == 1
+            </test>
+        </switch>
+
         <aerosurface_scale name="systems/electrical/battery-charge-dc">
             <description>
                       Converted DC voltage
             </description>
-            <input>/systems/electrical/outputs/ac-main-voltage</input>
+            <input>systems/electrical/rectifiers-input</input>
             <zero_centered> true </zero_centered>
             <domain>
                 <min>    0 </min>
@@ -290,7 +353,6 @@
             <default value="0"/>
             <test logic="AND" value="1">
               /controls/electric/battery gt 0
-              /systems/electrical/serviceable gt 0
               systems/electrical/battery-charge-dc lt systems/electrical/battery-producing-dc
             </test>
         </switch>
@@ -334,7 +396,6 @@
             <default value="0"/>
             <test logic="AND" value="systems/electrical/AC-main-voltage">
                 /controls/electric/main gt 0
-                /systems/electrical/serviceable gt 0
             </test>
             <output>/systems/electrical/outputs/ac-main-voltage</output>
         </switch>
@@ -346,7 +407,6 @@
             <default value="0"/>
             <test logic="AND" value="systems/electrical/AC-instr-voltage">
                 /controls/electric/main gt 0
-                /systems/electrical/serviceable gt 0
             </test>
             <output>/systems/electrical/outputs/ac-instr-voltage</output>
         </switch>

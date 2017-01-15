@@ -531,6 +531,22 @@
         </function>
 
         <!-- estimate -->
+        <function name="aero/coefficient/CATurbine">
+            <description>
+               Speedbrake axial Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>systems/electrical/generator-reserve-pos-norm</property>
+                <property>aero/drag/ram-air-turbine</property>
+                <cos>
+                    <property>aero/alpha-rad</property>
+                </cos>
+            </product>
+        </function>
+
+        <!-- estimate -->
         <function name="aero/coefficient/CACanopy">
             <description>
                Canopy axial Coefficient

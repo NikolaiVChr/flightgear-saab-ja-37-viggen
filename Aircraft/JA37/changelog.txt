@@ -2673,3 +2673,9 @@ HUD: It now shows INT on runway when interoperability is enabled.
 GUI: Fixed that switching to generator power, was missing from checklist.
 Model: Fixed that some parts of radio and primary altimeter was flat shaded.
 Model: Added jettison canopy button.
+Sim: The failure mode for all electrical has been changed to work for only main generator. The specific generator mode is now gone.
+Sim: The ram air turbine now deploys auto if main is damaged.
+Sim: If ram air turbine is deployed and gears extended, DC will be supplied by battery.
+Sim: The ram air turbine will now be damaged if deployed at too high speeds.
+Sim: The ram air turbine now needs hydraulic from system 2 to deploy or retract.
+Aero: The ram air turbine now produces drag.

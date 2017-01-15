@@ -10,6 +10,7 @@
                     <property>aero/coefficient/CAtakeoff</property>
                     <property>aero/coefficient/CACanopy</property>
                     <property>aero/coefficient/CABrake</property>
+                    <property>aero/coefficient/CATurbine</property>                    
                     <property>aero/coefficient/CACanopyOff</property>
                     <property>aero/coefficient/CAElevonLeft</property>
                     <property>aero/coefficient/CAElevonRight</property>

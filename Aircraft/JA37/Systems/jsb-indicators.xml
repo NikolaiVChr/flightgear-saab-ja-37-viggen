@@ -516,10 +516,6 @@
                             </eq>
                         </or>
                     </and>
-                    <eq>
-                        <property>/systems/electrical/serviceable</property>
-                        <value>0</value>
-                    </eq>
                 </or>
             </function>
         </fcs_function>

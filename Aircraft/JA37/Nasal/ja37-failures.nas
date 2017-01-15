@@ -219,13 +219,16 @@ var install_new_failures = func {
     var actuator_radar = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Radar", actuator_radar);
 
-    prop = "systems/generator";
-    var actuator_generator = set_unserviceable(prop);
-    FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
+    #prop = "systems/generator";
+    #var actuator_generator = set_unserviceable(prop);
+    #FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
 
     prop = "systems/generator-reserve";
+    var trigger_rg = RandSpeedTrigger.new(631.8, 660, "fdm/jsbsim/systems/electrical/generator-reserve-pos-norm");
     var actuator_generator_reserve = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Reserve Generator", actuator_generator_reserve);
+    FailureMgr.set_trigger(prop, trigger_rg);
+    trigger_rg.arm();
 
     prop = "controls/engines/engine/reverse-system";
     var actuator_reverser = set_unserviceable(prop);
@@ -548,13 +551,16 @@ var install_newer_failures = func {
     var actuator_radar = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Radar", actuator_radar);
 
-    prop = "systems/generator";
-    var actuator_generator = compat_failure_modes.set_unserviceable(prop);
-    FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
+    #prop = "systems/generator";
+    #var actuator_generator = compat_failure_modes.set_unserviceable(prop);
+    #FailureMgr.add_failure_mode(prop, "Generator", actuator_generator);
 
     prop = "systems/generator-reserve";
+    var trigger_rg = RandSpeedTrigger.new(631.8, 660, "fdm/jsbsim/systems/electrical/generator-reserve-pos-norm");
     var actuator_generator_reserve = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Reserve Generator", actuator_generator_reserve);
+    FailureMgr.set_trigger(prop, trigger_rg);
+    trigger_rg.arm();
 
     prop = "controls/engines/engine/reverse-system";
     var actuator_reverser = compat_failure_modes.set_unserviceable(prop);
