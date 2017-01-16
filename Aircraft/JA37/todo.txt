@@ -25,10 +25,13 @@ Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might 
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Model: Model speedbrakes.
-Model: Fuze panel.
+Model: Fuze panel. Right side.
+Model: Radar panel. Left side.
+Model: Radio panel. Left side.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
+Engine: Switch aug. type in engine?
 Sim: Improve autopilot further.
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
@@ -67,6 +70,7 @@ Sim: Make schedule for max climb rate with A/P at slow speed different when gear
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
+Sim: Make data and nav panel functional.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.

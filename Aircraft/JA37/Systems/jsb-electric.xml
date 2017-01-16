@@ -78,7 +78,11 @@
                       This however should not disconnect the main generator.
             </description>
             <default value="0"/>
-            <test logic="OR" value="1">
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/dc-voltage ge 20
+                gear/unit[0]/WOW == 1
+            </test>
+            <test logic="OR" value="0">
                 gear/unit[0]/WOW == 1
             </test>
             <test logic="AND" value="gear/gear-pos-norm">

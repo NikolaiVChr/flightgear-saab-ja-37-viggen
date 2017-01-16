@@ -780,7 +780,7 @@ var theShakeEffect = func{
       factor += 1*densFactor;
     }
     if (wow == TRUE and rSpeed > 100) {
-      factor += map(rSpeed,100,200,0,1);
+      factor += map(rSpeed,100,200,0,0.50);
     }    
     factor = clamp(factor,0,1);
     if (near == TRUE) {
@@ -789,8 +789,10 @@ var theShakeEffect = func{
     if (explode == TRUE) {
       factor += 3.5;
     }
+    setprop("ja37/effect/buffeting", factor);
     input.viewYOffset.setDoubleValue(defaultView+input.buffOut.getValue()*factor); 
   } elsif (input.viewName.getValue() == "Cockpit View") {
+    setprop("ja37/effect/buffeting", 0);
     input.viewYOffset.setDoubleValue(defaultView);
   } 
 }
@@ -1256,15 +1258,18 @@ var autostarttimer = func {
 }
 
 var stopAutostart = func {
+  setprop("/controls/electric/main", FALSE);
+  setprop("/controls/electric/battery", FALSE);
+  settimer(stopFinal, 5, 1);#allow time for ram air and flaps to retract
+}
+
+stopFinal = func {
   setprop("fdm/jsbsim/propulsion/engine/cutoff-commanded", TRUE);
   setprop("/controls/engines/engine[0]/starter-cmd", FALSE);
   setprop("/controls/engines/engine[0]/starter-cmd-hold", FALSE);
   setprop("/controls/electric/engine[0]/generator", FALSE);
-  setprop("/controls/electric/main", FALSE);
-  setprop("/controls/electric/battery", FALSE);
   setprop("fdm/jsbsim/systems/electrical/external/switch", FALSE);
   setprop("fdm/jsbsim/systems/electrical/external/enable-cmd", FALSE);
-
   autostarting = FALSE;
 }
 

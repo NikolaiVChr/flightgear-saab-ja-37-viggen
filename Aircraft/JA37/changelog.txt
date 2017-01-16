@@ -2681,3 +2681,8 @@ Sim: The ram air turbine now needs hydraulic from system 2 to deploy or retract.
 Aero: The ram air turbine now produces drag.
 Sim: The ram air turbine now extends when taking off, in this state is does not disconnect main generator though.
 Sim: Fixed that auto-start would sometimes fail due to reserve power being on.
+
+4.016
+=====
+Sim: Made sure when auto shutting down, that ram air turbine and flaps is fully retracted.
+GUI: Added buffeting and ram air turbine stats to systems monitor.
