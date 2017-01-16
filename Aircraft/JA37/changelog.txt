@@ -2688,3 +2688,4 @@ Sim: Made sure when auto shutting down, that ram air turbine and flaps is fully 
 GUI: Added buffeting and ram air turbine stats to systems monitor.
 GUI: Added tertiary gate to systems monitor.
 GUI: Made checklist for shutting down.
+GUI: Reseting view with shift-q now is smooth.

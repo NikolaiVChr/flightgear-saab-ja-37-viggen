@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--**********************************************************************
 
-                                          Common file for Saab 37 Flightgear aircraft
+                        Common file for Saab 37 Flightgear aircraft
 
 
 *************************************************************************-->   
@@ -9,6 +9,13 @@
 <PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
         <aircraft-version>4.015</aircraft-version>
+
+        <rating>
+            <FDM type="int">4</FDM>
+            <systems type="int">5</systems>
+            <cockpit type="int">4</cockpit>
+            <model type="int">3</model>
+        </rating>
 
         <tags>
             <!--<tag>saab</tag>
