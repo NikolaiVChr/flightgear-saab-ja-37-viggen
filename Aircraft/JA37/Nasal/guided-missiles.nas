@@ -1957,6 +1957,15 @@ var AIM = {
 		var explode_path = path_base~"explode-id-" ~ me.ID;
 		me.explode_prop = props.globals.initNode( explode_path, FALSE, "BOOL", TRUE);
 
+		var explode_path = path_base~"explode-id-" ~ me.ID;
+		me.explode_prop = props.globals.initNode( explode_path, FALSE, "BOOL", TRUE);
+
+		var flash_path = path_base~"flash-id-" ~ me.ID;
+		me.flash_prop = props.globals.initNode( flash_path, 0, "DOUBLE", TRUE);
+
+		var flash_alpha_path = path_base~"flash-alpha-id-" ~ me.ID;
+		me.flash_alpha_prop = props.globals.initNode( flash_alpha_path, 0, "DOUBLE", TRUE);
+
 		var explode_smoke_path = path_base~"explode-smoke-id-" ~ me.ID;
 		me.explode_smoke_prop = props.globals.initNode( explode_smoke_path, FALSE, "BOOL", TRUE);
 
@@ -1977,6 +1986,8 @@ var AIM = {
 		me.pitchN.setDoubleValue(0);# this will make explosions from cluster bombs (like M90) align to ground 'sorta'.
 		me.msl_prop.setBoolValue(FALSE);
 		me.smoke_prop.setBoolValue(FALSE);
+		me.flash_prop.setDoubleValue((1.5-getprop("rendering/scene/diffuse/red"))*375);
+		me.flash_alpha_prop.setDoubleValue(1-getprop("rendering/scene/diffuse/red"));
 		me.explode_prop.setBoolValue(TRUE);
 		settimer( func me.explode_prop.setBoolValue(FALSE), 0.5 );
 		settimer( func me.explode_smoke_prop.setBoolValue(TRUE), 0.5 );

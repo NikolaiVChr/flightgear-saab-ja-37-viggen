@@ -86,6 +86,91 @@
 
  </particlesystem>
 
+<particlesystem>
+   <name>explosion shine</name>
+   <texture>../flash.png</texture>
+
+   <emissive type="bool">true</emissive>
+   <lighting type="bool">false</lighting>
+
+   <condition>
+         <property>payload/armament/rb-99/flags/explode-id-0</property>
+   </condition>
+
+   <attach>world</attach>
+
+   <placer>
+     <type>point</type> 
+   </placer>
+
+   <shooter>
+     <theta-min-deg>-180</theta-min-deg>
+     <theta-max-deg>180</theta-max-deg>
+     <phi-min-deg>-180</phi-min-deg>
+     <phi-max-deg>180</phi-max-deg>
+     <speed-mps>
+       <value>0</value>
+       <spread>0</spread>
+     </speed-mps>
+     <rotation-speed>
+       <x-min-deg-sec>0</x-min-deg-sec>
+       <y-min-deg-sec>0</y-min-deg-sec>
+       <z-min-deg-sec>0</z-min-deg-sec>
+       <x-max-deg-sec>0</x-max-deg-sec>
+       <y-max-deg-sec>0</y-max-deg-sec>
+       <z-max-deg-sec>0</z-max-deg-sec>
+     </rotation-speed>
+   </shooter>
+
+   <counter>
+     <particles-per-sec>
+       <value>2</value>
+       <spread>0</spread>
+     </particles-per-sec>
+   </counter>
+      
+   <align>billboard</align>
+
+   <particle>
+     <start>
+       <color>
+         <red><value>   1.0 </value></red>
+         <green><value> 1.0 </value></green>
+         <blue><value>  1.0 </value></blue>
+         <alpha><value> 1.0 </value></alpha>
+       </color>
+       <size>
+         <value>125</value>
+       </size>
+     </start>
+
+     <end>
+       <color>
+         <red><value>   1.0 </value></red>
+         <green><value> 1.0 </value></green>
+         <blue><value>  1.0 </value></blue>
+         <alpha><property>payload/armament/rb-99/flags/flash-alpha-id-0</property></alpha>
+       </color>
+       <size>
+         <property>payload/armament/rb-99/flags/flash-id-0</property>
+       </size>
+     </end>
+
+     <life-sec>
+       <value>0.10</value>
+     </life-sec>
+        
+     <mass-kg>  5 </mass-kg>
+     <radius-m> 0.5 </radius-m>
+   </particle>
+
+   <program>
+     <fluid>               air  </fluid>
+     <gravity type="bool"> false </gravity>
+     <wind typ="bool">     false </wind>
+   </program>
+
+ </particlesystem>
 
 <particlesystem>
    <name>explosion-smoke</name>
