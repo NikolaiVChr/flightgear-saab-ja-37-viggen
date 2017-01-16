@@ -30,6 +30,7 @@ Model: Model speedbrakes.
 Model: Fuze panel. Right side.
 Model: Radar panel. Left side.
 Model: Radio panel. Left side.
+Model: Switch for short or normal landings. HUD FPI fin should be updated too.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
@@ -87,6 +88,8 @@ HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned of
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
+HUD: Slave-SI centers the landing guide.
+HUD: Should landing guide vertical placement really depend on sink rate below certain alt?
 
 
 
