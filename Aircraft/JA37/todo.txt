@@ -46,14 +46,14 @@ Sim: Missiles should lock onto flares from other mil plane types.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
 Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
+Sim: Electric drain.
 Sim: Shift-m should be a key without shift instead for convenience.
 Sim: Specific damage to gears in crash code, speed of impact and vertical speed separate. (terrain type?)
 Sim: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Sim: Make data-link between Viggens.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Sim: Implement maximum speed reactions - Vne.
-Sim: Implement navigation controls into the cockpit.
-Sim: Engine fire: reduced thrust, stuck throttle.
+Sim: Engine fire improvement: reduced thrust, stuck throttle.
 Sim: Make missile code generic to be used on helis also.
 Sim: Include Shinobis missile changes into missile code. (heat)
 Sim: Stop auto-selecting when in tactical mode.
@@ -65,7 +65,6 @@ Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make weapons hit all nearby targets.
 Sim: Make m71 bombs not require a target.
-Sim: When inverted for more than 10 secs, let oil pressure be affected, and disrupt engine operations.
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
@@ -75,7 +74,6 @@ Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Sound: More annunciater warnings and other sounds. (transonic)
-Sound: Make sounds when taking damage in bombable.
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
 Radar: Make database of RCS of common aircrafts.

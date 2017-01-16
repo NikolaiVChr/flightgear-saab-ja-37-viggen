@@ -129,7 +129,7 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/ram", ram);
   setprop("/sim/gui/dialogs/systems-monitor/ram-rpm", getprop("fdm/jsbsim/systems/electrical/generator-reserve-rpm"));
   setprop("/sim/gui/dialogs/systems-monitor/buffet", getprop("ja37/effect/buffeting")*100);
-  var gate = getprop("fdm/jsbsim/systems/flight/tertiary/state");
+  var gate = getprop("/ja37/systems/tertiary-opening");
   if (gate == 0) {
     gate = "closed";
   } elsif (gate == 1) {
