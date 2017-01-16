@@ -2686,3 +2686,4 @@ Sim: Fixed that auto-start would sometimes fail due to reserve power being on.
 =====
 Sim: Made sure when auto shutting down, that ram air turbine and flaps is fully retracted.
 GUI: Added buffeting and ram air turbine stats to systems monitor.
+GUI: Added tertiary gate to systems monitor.

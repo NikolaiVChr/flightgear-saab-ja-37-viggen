@@ -70,8 +70,9 @@ MiscMonitor.properties = func() {
     { property : "psi2",         name : "Hydraulics 2",          format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "psiR",         name : "Hydraulics Reserve",    format : "%4.1f", unit : "psi",    halign : "right" },
     { property : "oil",          name : "Oil pressure",          format : "%5.1f", unit : "psi",    halign : "right" },
-    { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },    
-    { property : "ram",          name : "Ram Air Turbine Pos",   format : "%s"   , unit : ""   ,    halign : "right" },    
+    { property : "flaps",        name : "Flaps",                 format : "%2.1f", unit : "deg",    halign : "right" },
+    { property : "gate",         name : "Tertiary gate",         format : "%s"   , unit : ""   ,    halign : "right" },    
+    { property : "ram",          name : "Ram Air Turbine Pos",   format : "%s"   , unit : ""   ,    halign : "right" },
     { property : "ram-rpm",      name : "Ram Air Turbine",       format : "%2.1f", unit : "r/min",  halign : "right" },
     { property : "AC-major",     name : "Main AC",               format : "%2.1f", unit : "volt",   halign : "right" },
     { property : "AC-minor",     name : "Instrument AC",         format : "%2.1f", unit : "volt",   halign : "right" },
@@ -128,6 +129,15 @@ MiscMonitor.update = func()
   setprop("/sim/gui/dialogs/systems-monitor/ram", ram);
   setprop("/sim/gui/dialogs/systems-monitor/ram-rpm", getprop("fdm/jsbsim/systems/electrical/generator-reserve-rpm"));
   setprop("/sim/gui/dialogs/systems-monitor/buffet", getprop("ja37/effect/buffeting")*100);
+  var gate = getprop("fdm/jsbsim/systems/flight/tertiary/state");
+  if (gate == 0) {
+    gate = "closed";
+  } elsif (gate == 1) {
+    gate = "open";
+  } else {
+    gate = "transit";
+  }
+  setprop("/sim/gui/dialogs/systems-monitor/gate", gate);
 }
 
 MiscMonitor.reinit = func() {
