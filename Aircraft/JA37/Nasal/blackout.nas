@@ -16,6 +16,18 @@ var invert = func (acc) {
 	return g_inv;
 }
 
+var map = func (value, leftMin, leftMax, rightMin, rightMax) {
+    # Figure out how 'wide' each range is
+    var leftSpan = leftMax - leftMin;
+    var rightSpan = rightMax - rightMin;
+
+    # Convert the left range into a 0-1 range (float)
+    var valueScaled = (value - leftMin) / leftSpan;
+
+    # Convert the 0-1 range into a value in the right range.
+    return rightMin + (valueScaled * rightSpan);
+}
+
 
 #
 # Customize the values according to the quality of the G-suit the pilot is wearing. The times are in seconds.
@@ -32,12 +44,17 @@ var invert = func (acc) {
 #
 
 var blackout_onset      =    5;
+<<<<<<< Updated upstream
 var blackout_fast       =    8;
 var redout_onset        =   -2;
+=======
+var blackout_fast       =   10;
+var redout_onset        = -1.5;
+>>>>>>> Stashed changes
 var redout_fast         =   -4;
 
 var blackout_onset_time =  300;
-var blackout_fast_time  =   30;
+var blackout_fast_time  =   10;
 var redout_onset_time   =   45;
 var redout_fast_time    =  3.5;
 
@@ -150,16 +167,37 @@ var blackout_loop = func {
 
 	var sum = blackout - redout;
 
-	if (getprop("/sim/current-view/internal") == 0) {
-		# not inside aircraft
-		setprop("/sim/rendering/redout/red", 0);
-    	setprop("/sim/rendering/redout/alpha", 0);
-	} elsif (sum < 0) {
-		setprop("/sim/rendering/redout/red", 1);
-    	setprop("/sim/rendering/redout/alpha", -1 * sum);
+	if ( getprop("/sim/rendering/redout/internal/log/g-force") != nil ) {
+		if (getprop("/sim/current-view/internal") == 0) {
+			# not inside aircraft
+			setprop("/sim/rendering/redout/red", 0);
+	    	setprop("/sim/rendering/redout/alpha", 0);
+		} elsif (sum < 0) {
+			setprop("/sim/rendering/redout/red", 1);
+	    	setprop("/sim/rendering/redout/alpha", -1 * sum);
+	    } else {
+	    	setprop("/sim/rendering/redout/red", 0);
+	    	setprop("/sim/rendering/redout/alpha", sum);
+	    }
     } else {
-    	setprop("/sim/rendering/redout/red", 0);
-    	setprop("/sim/rendering/redout/alpha", sum);
+
+    	var grey   = map(sum, 0.33, 0.8, 1, 0);
+    	var black  = map(sum, 0.66, 1.0, 0, 1);
+    	var tunnel = map(sum, 0.50, 1.0, 1, 0);
+
+    	if (getprop("/sim/current-view/internal") == 0) {
+			# not inside aircraft
+			setprop("/sim/rendering/redout/red", 0);
+	    	setprop("/sim/rendering/redout/alpha", 0);
+		} elsif (sum < 0) {
+			setprop("/sim/rendering/redout/red", 1);
+	    	setprop("/sim/rendering/redout/alpha", -1 * sum);
+	    } else {
+	    	setprop("/sim/rendering/redout/red", 0);
+	    	setprop("/sim/rendering/redout/alpha", black);
+	    	setprop("/sim/rendering/als-filters/gamma", tunnel);
+	    	setprop("/sim/rendering/als-filters/brightness", grey);
+	    }
     }
 
     settimer(blackout_loop, 0);
