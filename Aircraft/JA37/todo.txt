@@ -30,7 +30,10 @@ Model: Model speedbrakes.
 Model: Fuze panel. Right side.
 Model: Radar panel. Left side.
 Model: Radio panel. Left side.
-Model: Switch for short or normal landings. HUD FPI fin should be updated too.
+Model: Switch/knob? for short or normal landings. HUD FPI fin should be updated too.
+Model: Airspeed indicator should have mach number also.
+Model: Stores jettisoned indicator on top right of front panel?
+Model: Switch ALT CISI, altitude source.
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
@@ -73,13 +76,25 @@ Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
 Sim: Make data and nav panel functional.
+Sim: Double-check all uses of radar altimeter that it is enabled.
+Sim: Heading hold not available during gears down, its always roll hold.
+Sim: Pressing ATT should enable pitch hold also.
+Sim: Pressing SPAK engages dampers, lowest A/P mode.
+Sim: After exiting transonic the altitude hold is recomputed.
+Sim: ATT/ALT: picth > 60 bank > 66 then 5 secs, blinking ATT then disengage.
+Sim: Downgrade is pressing lower button. Then master warning with sound comes on.
+Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
+Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
+Sim: Implement the landing modes on page 478 in ja37c manual.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
+Sound: Low speed warning is off when A/T is on.
 Radar: Make database of RCS of common aircrafts.
+Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline?
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
@@ -88,8 +103,8 @@ HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned of
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
-HUD: Slave-SI centers the landing guide.
-HUD: Should landing guide vertical placement really depend on sink rate below certain alt?
+HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (Is it also present in JA?)
+HUD: Landing guide vertical placement depend on max sink rate 2.8m/s below certain alt. At same time guide is lateral fixed to FPI.
 
 
 
