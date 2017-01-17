@@ -33,7 +33,7 @@ Model: Radio panel. Left side.
 Model: Switch/knob? for short or normal landings. HUD FPI fin should be updated too.
 Model: Airspeed indicator should have mach number also.
 Model: Stores jettisoned indicator on top right of front panel?
-Model: Switch ALT CISI, altitude source.
+Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Animation: Proper animation of gear doors and gear retraction.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
@@ -95,7 +95,7 @@ Sound: Rework how missile buzz and growl works.
 Sound: Low speed warning is off when A/T is on.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
-Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline?
+Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
@@ -103,8 +103,8 @@ HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned of
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
-HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (Is it also present in JA?)
-HUD: Landing guide vertical placement depend on max sink rate 2.8m/s below certain alt. At same time guide is lateral fixed to FPI.
+HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
+HUD: Landing guide vertical placement depend on max sink rate 2.8m/s below 15m radalt (or 35 for baroalt). At same time guide is lateral fixed to FPI.
 
 
 
