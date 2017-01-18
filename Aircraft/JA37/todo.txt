@@ -76,7 +76,6 @@ Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
 Sim: Make data and nav panel functional.
-Sim: Double-check all uses of radar altimeter that it is enabled.
 Sim: Heading hold not available during gears down, its always roll hold.
 Sim: Pressing ATT should enable pitch hold also.
 Sim: Pressing SPAK engages dampers, lowest A/P mode.
@@ -86,6 +85,7 @@ Sim: Downgrade is pressing lower button. Then master warning with sound comes on
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
 Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
 Sim: Implement the landing modes on page 478 in ja37c manual.
+Sim: Fix the AC can not remove frost at very high altitudes.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.

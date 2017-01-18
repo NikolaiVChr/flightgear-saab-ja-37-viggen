@@ -309,11 +309,13 @@ var update_loop = func {
     # setprop("gear/gear/compression-wheel", (getprop("gear/gear/compression-ft")*0.3048-1.84812));
 
 
-    # low speed warning (as per manual)
+    # low speed warning (as per manual page 279 in JA37C part 1)
     var lowSpeed = FALSE;
-    if ((input.speedKt.getValue() * 1.85184) < 375) {
+    if ((input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
       if (input.indAltMeter.getValue() < 1200) {
-        if ((input.gearsPos.getValue() == 1 and (input.rad_alt.getValue() * FT2M) > 30) or input.gearsPos.getValue() != 1) {
+        if (
+          (input.gearsPos.getValue() == 1 and (getprop("controls/altimeter-radar")==TRUE?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
+          or input.gearsPos.getValue() != 1) {
           if (getprop("fdm/jsbsim/fcs/throttle-pos-deg") < 19 or input.reversed.getValue() == TRUE or input.engineRunning.getValue() == FALSE) {
             lowSpeed = TRUE;
           }
@@ -474,6 +476,7 @@ var slow_loop = func () {
 
   var acSetting = getprop("controls/ventilation/airconditioning-type");
   if (acSetting != 0) {
+    # 12 second of cold or hot air has been selected.
     if (acPrev != acSetting) {
       acTimer = input.elapsed.getValue();
     } elsif (acTimer+12 < input.elapsed.getValue()) {
@@ -517,14 +520,17 @@ var slow_loop = func () {
   var ACRunning = input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE;
 
   # calc inside temp
+  var hotAir_deg_min = 2.0;# how fast does the sources heat up cockpit.
+  var AC_deg_min     = 6.0;
+  var pilot_deg_min  = 0.2;
   var knob = getprop("controls/ventilation/windshield-hot-air-knob");
   var hotAirOnWindshield = input.dcVolt.getValue() > 23?knob:0;
   if (input.canopyPos.getValue() > 0 or input.canopyHinge.getValue() == FALSE) {
     tempInside = tempOutside;
   } else {
-    tempInside = tempInside + hotAirOnWindshield * 0.05; # having hot air on windshield will also heat cockpit
+    tempInside = tempInside + hotAirOnWindshield * (hotAir_deg_min/(60/LOOP_SLOW_RATE)); # having hot air on windshield will also heat cockpit (10 degs/5 mins).
     if (tempInside < 37) {
-      tempInside = tempInside + 0.005; # pilot will also heat cockpit with 1 deg per 5 mins
+      tempInside = tempInside + (pilot_deg_min/(60/LOOP_SLOW_RATE)); # pilot will also heat cockpit with 1 deg per 5 mins
     }
     # outside temp will influence inside temp:
     var coolingFactor = clamp(abs(tempInside - tempOutside)*0.005, 0, 0.10);# 20 degrees difference will cool/warm with 0.10 Deg C every 1.5 second
@@ -536,9 +542,9 @@ var slow_loop = func () {
     if (ACRunning == TRUE) {
       # AC is running and will work to adjust to influence the inside temperature
       if (tempInside < tempAC) {
-        tempInside = clamp(tempInside+0.15, -1000, tempAC);
+        tempInside = clamp(tempInside+(AC_deg_min/(60/LOOP_SLOW_RATE)), -1000, tempAC);
       } elsif (tempInside > tempAC) {
-        tempInside = clamp(tempInside-0.15, tempAC, 1000);
+        tempInside = clamp(tempInside-(AC_deg_min/(60/LOOP_SLOW_RATE)), tempAC, 1000);
       }
     }
   }
