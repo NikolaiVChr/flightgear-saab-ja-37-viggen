@@ -957,7 +957,7 @@
             <dewpoint-inside-degC type="float" userarchive="n">0.0</dewpoint-inside-degC>
             <temperature-inside-degC type="float" userarchive="n">15.0</temperature-inside-degC>
             <temperature-glass-degC type="float" userarchive="n">15.0</temperature-glass-degC>
-            <glass-temperature-index type="float" userarchive="n">0.75</glass-temperature-index>
+            <glass-temperature-index type="float" userarchive="n">0.60</glass-temperature-index>
             <fog-inside type="float" userarchive="n">0.0</fog-inside>
             <fog-outside type="float" userarchive="n">0.0</fog-outside>
             <frost-inside type="float" userarchive="n">0.0</frost-inside>

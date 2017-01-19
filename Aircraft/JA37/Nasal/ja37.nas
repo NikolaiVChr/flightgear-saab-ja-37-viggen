@@ -142,6 +142,7 @@ input = {
   servFire:         "engines/engine[0]/fire/serviceable",
   serviceElec:      "systems/electrical/serviceable",
   speedKt:          "/instrumentation/airspeed-indicator/indicated-speed-kt",
+  speedTrueKt:      "fdm/jsbsim/velocities/vtrue-kts",
   speedMach:        "/instrumentation/airspeed-indicator/indicated-mach",
   speedWarn:        "ja37/sound/speed-on",
   srvHead:          "instrumentation/heading-indicator/serviceable",
@@ -513,7 +514,9 @@ var slow_loop = func () {
   # If the AC is turned on and on auto setting, it will slowly move the cockpit temperature toward its temperature setting.
   # The dewpoint inside the cockpit depends on the outside dewpoint and how the AC is working.
   var tempOutside = getprop("environment/temperature-degc");
-  var tempInside = getprop("environment/aircraft-effects/temperature-inside-degC");
+  var ramRise     = (input.speedTrueKt.getValue()*input.speedTrueKt.getValue())/(87*87);#this is called the ram rise formula
+  tempOutside    += ramRise;
+  var tempInside  = getprop("environment/aircraft-effects/temperature-inside-degC");
   var tempOutsideDew = getprop("environment/dewpoint-degc");
   var tempInsideDew = getprop("/environment/aircraft-effects/dewpoint-inside-degC");
   var tempACDew = 5;# aircondition dew point target. 5 = dry
