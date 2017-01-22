@@ -571,6 +571,7 @@ var radar = {
   update_blip: func(curr_angle, prev_angle) {
         me.b_i=0;
         me.anyLock = FALSE;
+        me.currSelect = radar_logic.selection != nil?radar_logic.selection.getUnique():-1;
         foreach (var mp; radar_logic.tracks) {
           # Node with valid position data (and "distance!=nil").
 
@@ -581,7 +582,7 @@ var radar = {
           if (me.b_i < me.no_blip and me.distance != nil and me.distance < me.radarRange ){#and alt-100 > getprop("/environment/ground-elevation-m")){
               #aircraft is within the radar ray cone
               me.locked = FALSE;
-              if (mp.isPainted() == TRUE) {
+              if (mp.getUnique() == me.currSelect) {
                 me.anyLock = TRUE;
                 me.locked = TRUE;
               }
