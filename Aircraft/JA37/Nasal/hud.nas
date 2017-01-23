@@ -2134,7 +2134,13 @@ var HUDnasal = {
             # too high landing speed
             me.translation_speed = (me.speed_max - me.speed)*2;
           }
-          me.translation = (me.alpha-16.5)*4;#16.5 is ideal AoA for landing
+          me.idealAlpha = 15.5;# the ideal aoa for landing.
+          if (getprop("ja37/avionics/high-alpha") == 0) {
+            me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs");
+            me.idealAlpha = 9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
+            me.idealAlpha = ja37.clamp(me.idealAlpha, 9, 12);
+          }
+          me.translation = (me.alpha-me.idealAlpha)*4;
           if (math.abs(me.translation) < math.abs(me.translation_speed)) {
             # using speed as guide for tail
             me.translation = me.translation_speed;
