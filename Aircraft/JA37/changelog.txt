@@ -2692,4 +2692,17 @@ GUI: Reseting view with shift-q now is smooth.
 Sound: Low speed warning now depends on baro-altimeter when radar altimeter is switched off.
 Sim: Glass frost now is influenced by ram rise temperature, and glass-temp-index has been reduced.
 Radar: Fixed that radarlock would not show on screen for non-air targets.
-Sim: A/T wont engage AB.
+Sim: A/T wont engage AB no longer.
+Sim: A/P downgrade is now pressing lower button. Then master warning with sound comes on.
+Sim: Pressing ATT now enable pitch hold also.
+Sim: Pressing SPAK engages dampers, lowest A/P mode.
+Sim: Heading hold will switch to roll hold when gears down.
+Sim: Loss of AC for 2 secs disengage A/T AoA.
+Sim: Loss of AC for 6 secs disengage A/T speed.
+Sim: Masterwarning at loss of AC after 2 secs for A/T. If restored, masterwarning cease and A/T resumes.
+Sim: Loss of DC disengages A/P without warning, if comes back within 6 secs, it reengages.
+Sim: A/P mode Pushbuttons powered by DC not AC.
+Sim: Inside the transonic ALT mode works for only 1 min.
+Sim: ATT/ALT: pitch > 60 bank > 66 then 5 secs, blinking pushbuttons then disengage.
+Sim: Using A/P menu will disengage higher A/P modes and will not give nice indicator warnings if something goes wrong.
+HUD: Ideal landing alpha now depends on switch 15.5 setting or weight.

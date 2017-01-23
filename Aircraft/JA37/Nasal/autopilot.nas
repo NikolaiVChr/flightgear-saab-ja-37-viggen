@@ -15,7 +15,7 @@ inputAP = {
 var FALSE = 0;
 var TRUE = 1;
 
-var DEBUG_OUT = TRUE;
+var DEBUG_OUT = FALSE;
 
 # setup property nodes for the loop
 foreach(var name; keys(inputAP)) {
