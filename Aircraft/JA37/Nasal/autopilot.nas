@@ -24,6 +24,7 @@ foreach(var name; keys(inputAP)) {
 
 var follow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
+  mode = ja37.clamp(mode, 0, 1);
   if(radar_logic.selection != nil and radar_logic.selection.getNode() != nil) {
     var target = radar_logic.selection.getNode();
     setprop("/autopilot/target-tracking-ja37/target-root", target.getPath());
@@ -123,6 +124,7 @@ var stopAP = func {
   setprop("/autopilot/locks/speed", "");
   setprop("/autopilot/locks/altitude", "");
   setprop("/autopilot/locks/heading", "");
+  mode = ja37.clamp(mode, 0,1);
 }
 
 var lostfollow = func () {
@@ -155,18 +157,19 @@ var lockAtt      = getprop("/autopilot/locks/heading");
 var lockPitch    = getprop("/autopilot/locks/altitude");
 
 var mode1 = func {
+  setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if (mode == 0) {
-    mode = 1;
     apContDamp();
   } elsif (mode > 1) {
-    mode = 1;
     softWarn = TRUE;
   }
+  mode = 1;  
   if (DEBUG_OUT) print("button cmd mode "~mode);
   menu = FALSE;
 };
 
 var mode2 = func {
+  setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if (mode == 3) {
     softWarn = TRUE;
   } elsif (mode == 0) {
@@ -178,6 +181,7 @@ var mode2 = func {
 };
 
 var mode3 = func {
+  setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if (mode == 0) {
     apContDamp();
   }

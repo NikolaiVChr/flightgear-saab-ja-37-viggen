@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <PropertyList>
     <keyboard>
-        <key n="1">
+        <!--<key n="1">
             <name>Shift-Ctrl-A</name>
             <mod-shift>
                 <desc>Autopilot continue on heading/alt</desc>
@@ -12,7 +12,7 @@
                     </script>
                 </binding>
             </mod-shift>
-        </key>
+        </key>-->
         <key n="108">
             <name>l</name>
             <desc>Toggle arrester hook</desc>

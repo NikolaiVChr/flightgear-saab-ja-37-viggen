@@ -129,10 +129,10 @@
         <name>ctrl n</name>
         <desc>Target next route-manager waypoint</desc>
     </key>
-    <key>
+    <!--<key>
         <name>Ctrl Shift a</name>
         <desc>Continue on current heading, speed and altitude with A/P</desc>
-    </key>
+    </key>-->
     <key>
         <name>Q</name>
         <desc>Reset view</desc>
