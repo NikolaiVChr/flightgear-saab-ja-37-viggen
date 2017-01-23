@@ -15,6 +15,8 @@ inputAP = {
 var FALSE = 0;
 var TRUE = 1;
 
+var DEBUG_OUT = TRUE;
+
 # setup property nodes for the loop
 foreach(var name; keys(inputAP)) {
     inputAP[name] = props.globals.getNode(inputAP[name], 1);
@@ -145,9 +147,12 @@ var mode = 1;
 var modeT = 0;
 var prevMode = 1;
 var softWarn = FALSE;
-var lockThrottle = "";
-var lockAtt = "";
-var lockPitch = "";
+setprop("/autopilot/locks/speed", "");
+setprop("/autopilot/locks/altitude", "");
+setprop("/autopilot/locks/heading", "");
+var lockThrottle = getprop("/autopilot/locks/speed");
+var lockAtt      = getprop("/autopilot/locks/heading");
+var lockPitch    = getprop("/autopilot/locks/altitude");
 
 var mode1 = func {
   if (mode == 0) {
@@ -157,6 +162,7 @@ var mode1 = func {
     mode = 1;
     softWarn = TRUE;
   }
+  if (DEBUG_OUT) print("button cmd mode "~mode);
   menu = FALSE;
 };
 
@@ -167,6 +173,7 @@ var mode2 = func {
     apContDamp();
   }
   mode = 2;
+  if (DEBUG_OUT) print("button cmd mode "~mode);
   menu = FALSE;
 };
 
@@ -175,6 +182,7 @@ var mode3 = func {
     apContDamp();
   }
   mode = 3;
+  if (DEBUG_OUT) print("button cmd mode "~mode);
   menu = FALSE;
 };
 
@@ -277,6 +285,7 @@ var usedStick = 0;
 var menu = FALSE;
 
 var apLoop = func {
+    if (DEBUG_OUT) print("looping:");
     if (getprop("fdm/jsbsim/systems/indicators/master-warning/ap-downgrade") == 1) {
       # downgrade warning has been clicked away, remove it:
       setprop("/ja37/avionics/autopilot-soft-warn", FALSE);
@@ -286,23 +295,28 @@ var apLoop = func {
                       or getprop("fdm/jsbsim/fcs/yaw-damper/enable") == FALSE  or getprop("fdm/jsbsim/fcs/yaw-damper/serviceable") == FALSE)) {
       softWarn = TRUE;
       mode = 0;
+      if (DEBUG_OUT) print("lack of dampers cmd mode "~mode);
     }
     if (mode == 0 and getprop("fdm/jsbsim/fcs/pitch-damper/enable") == TRUE and getprop("fdm/jsbsim/fcs/pitch-damper/serviceable") == TRUE
                   and getprop("fdm/jsbsim/fcs/roll-damper/enable")  == TRUE and getprop("fdm/jsbsim/fcs/roll-damper/serviceable") == TRUE
                   and getprop("fdm/jsbsim/fcs/yaw-damper/enable")   == TRUE and getprop("fdm/jsbsim/fcs/yaw-damper/serviceable") == TRUE) {
       mode = 1;
+      if (DEBUG_OUT) print("dampers cmd mode "~mode);
     }
     if (lostDC_sec > 6) {
       # if dc lost then A/P wont function, it will resume at dc unless 6 secs has passed:
       mode = mode == 0?0:1;
+      if (DEBUG_OUT) print("loss of DC cmd mode "~mode);
     }
     if (getprop("fdm/jsbsim/systems/indicators/auto-altitude-primary") == 1) {
       # 
       mode = ja37.clamp(mode, 0, 2);
+      if (DEBUG_OUT) print("alt indicator cmd mode "~mode);
     }
     if (getprop("fdm/jsbsim/systems/indicators/auto-attitude-primary") == 1) {
       # 
       mode = ja37.clamp(mode, 0, 1);
+      if (DEBUG_OUT) print("att indicator cmd mode "~mode);
     }
     if (getprop("fdm/jsbsim/systems/indicators/flightstick-primary") == 1) {
       # 
@@ -345,10 +359,12 @@ var apLoop = func {
   if (inputAP.apLockHead.getValue() != lockAtt) {
     mode = mode==0?0:1;
     menu = TRUE;
+    if (DEBUG_OUT) print("menu head cmd mode "~mode);
   }
   if (inputAP.apLockAlt.getValue() != lockPitch) {
     mode = mode==0?0:1;
     menu = TRUE;
+    if (DEBUG_OUT) print("menu pitch cmd mode "~mode~" "~inputAP.apLockAlt.getValue()~" != "~lockPitch);
   }
 
   #
@@ -409,7 +425,7 @@ var apLoop = func {
     } else {
       var weight = getprop("fdm/jsbsim/inertia/weight-lbs");
       var aoa = 9 + ((weight - 28000) / (38000 - 28000)) * (12 - 9);
-      aoa = clamp(aoa, 9, 12);
+      aoa = ja37.clamp(aoa, 9, 12);
       setprop("/autopilot/settings/target-aoa", aoa);#is 9-12 depending on weight
       modeT = 2;
     }
@@ -421,6 +437,7 @@ var apLoop = func {
   if (mode > 1 and getprop("/autopilot/locks/heading") == "dg-heading-hold" and getprop("gear/gear/position-norm") == 1) {
     # we no longer have conditions for heading hold in mode 2/3, we switch to roll hold.
     apContRoll();
+    if (DEBUG_OUT) print("switched to roll hold due to gears got extended");
   }
   var trimCmd = getprop("controls/flight/trim-yaw");
   var rollCmd = getprop("controls/flight/aileron-cmd-ap");

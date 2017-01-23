@@ -576,7 +576,7 @@
             <autopilot type="bool">false</autopilot>
             <autopilot-mode type="int">1</autopilot-mode>
             <auto-throttle-on type="bool">false</auto-throttle-on>
-            <auto-throttle-max type="bool">0.58333</auto-throttle-max>
+            <auto-throttle-max type="double">0.58333</auto-throttle-max>
             <auto-altitude-on type="bool">false</auto-altitude-on>
             <auto-attitude-on type="bool">false</auto-attitude-on>
             <auto-altitude-hold-on type="bool">false</auto-altitude-hold-on>
@@ -1221,7 +1221,6 @@
             <file>Aircraft/JA37/Nasal/chronograph.nas</file>
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
-            <file>Aircraft/JA37/Nasal/autopilot.nas</file>
         </ja37>
         <canvas_HUD>
             <file>Aircraft/JA37/Nasal/hud.nas</file>

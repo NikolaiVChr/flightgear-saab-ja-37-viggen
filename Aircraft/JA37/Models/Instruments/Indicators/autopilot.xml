@@ -37,7 +37,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Attitude Indicator</tooltip-id>
-                <label>Automatic Attitude</label>
+                <label>Automatic Attitude/pitch</label>
                 <property>/instrumentation/attitude-indicator</property>
             </binding>
         </hovered>
@@ -84,7 +84,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Altitude Warning Indicator</tooltip-id>
-                <label>Automatic Altitude</label>
+                <label>Automatic Altitude/attitude</label>
                 <property>/instrumentation/altitude-indicator</property>
             </binding>
         </hovered>
@@ -131,7 +131,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Spak Indicator</tooltip-id>
-                <label>Flightstick active</label>
+                <label>Dampers active</label>
                 <property>/instrumentation/joystick-indicator</property>
             </binding>
         </hovered>
