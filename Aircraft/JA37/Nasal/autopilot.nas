@@ -32,7 +32,7 @@ var follow = func () {
     setprop("/autopilot/target-tracking-ja37/enable", TRUE);
     var range = 0.075;
     setprop("/autopilot/target-tracking-ja37/goal-range-nm", range);
-    popupTip("A/P follow: ON");
+    ja37.popupTip("A/P follow: ON");
 
     setprop("autopilot/settings/target-altitude-ft", 10000);# set some default values until the follow script sets them.
     setprop("autopilot/settings/heading-bug-deg", 0);
@@ -43,7 +43,7 @@ var follow = func () {
     setprop("/autopilot/locks/heading", "dg-heading-hold");
   } else {
     setprop("/autopilot/target-tracking-ja37/enable", FALSE);
-    popupTip("A/P follow: no valid target.");
+    ja37.popupTip("A/P follow: no valid target.");
     setprop("/autopilot/locks/speed", "");
     setprop("/autopilot/locks/altitude", "");
     setprop("/autopilot/locks/heading", "");
@@ -115,7 +115,7 @@ var hydr1Lost = func {
 }
 
 var unfollow = func () {
-  popupTip("A/P follow: OFF");
+  ja37.popupTip("A/P follow: OFF");
   stopAP();
 }
 
@@ -128,7 +128,7 @@ var stopAP = func {
 }
 
 var lostfollow = func () {
-  popupTip("A/P follow: lost target.");
+  ja37.popupTip("A/P follow: lost target.");
   stopAP();
 }
 
@@ -326,6 +326,11 @@ var apLoop = func {
       # 
       #mode = 0;
       #apStopDamp();
+    }
+    if (inputAP.hydr1On.getValue() == 0) {
+      # 
+      mode = ja37.clamp(mode, 0, 1);
+      if (DEBUG_OUT) print("hydr cmd mode "~mode);
     }
 
     # auto-pilot engaged
