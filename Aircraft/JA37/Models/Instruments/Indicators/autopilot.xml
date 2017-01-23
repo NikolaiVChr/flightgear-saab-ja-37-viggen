@@ -48,7 +48,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    ja37.apContAtt();
+                    auto.mode2();
                     ja37.click();
                 </script>
             </binding>
@@ -95,7 +95,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    ja37.apContAlt();
+                    auto.mode3();
                     ja37.click();
                 </script>
             </binding>
@@ -142,7 +142,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    ja37.stopAP();
+                    auto.mode1();
                     ja37.click();
                 </script>
             </binding>

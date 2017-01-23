@@ -2692,3 +2692,4 @@ GUI: Reseting view with shift-q now is smooth.
 Sound: Low speed warning now depends on baro-altimeter when radar altimeter is switched off.
 Sim: Glass frost now is influenced by ram rise temperature, and glass-temp-index has been reduced.
 Radar: Fixed that radarlock would not show on screen for non-air targets.
+Sim: A/T wont engage AB.

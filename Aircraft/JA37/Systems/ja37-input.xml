@@ -8,7 +8,7 @@
                 <binding>
                     <command>nasal</command>
                     <script>
-                       ja37.apCont();
+                       auto.apCont();
                     </script>
                 </binding>
             </mod-shift>
@@ -333,7 +333,7 @@
             <desc>Set autopilot to follow current target</desc>
             <binding>
                 <command>nasal</command>
-                <script>ja37.follow();</script>
+                <script>auto.follow();</script>
             </binding>
         </key>
         <key n="70">
@@ -341,7 +341,7 @@
             <desc>Set autopilot to stop follow current target</desc>
             <binding>
                 <command>nasal</command>
-                <script>ja37.unfollow();</script>
+                <script>auto.unfollow();</script>
             </binding>
         </key>
         <key n="8">

@@ -105,6 +105,7 @@ HUD: Make crossing out of hud when armament not ready to fire and trigger is pre
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
 HUD: Landing guide vertical placement depend on max sink rate 2.8m/s below 15m radalt (or 35 for baroalt). At same time guide is lateral fixed to FPI.
+HUD: Alpha fin depends on button 15.5.
 
 
 

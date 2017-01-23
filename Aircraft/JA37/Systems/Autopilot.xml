@@ -229,7 +229,7 @@
             <Ti>1.0</Ti>
             <Td>100.0</Td>
             <u_min>0.15</u_min>
-            <u_max>1.0</u_max>
+            <u_max><property>ja37/avionics/auto-throttle-max</property></u_max>
         </config>
     </pid-controller>
 

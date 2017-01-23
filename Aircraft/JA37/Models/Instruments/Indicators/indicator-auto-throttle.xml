@@ -33,7 +33,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    ja37.apContSpeed();
+                    auto.apContSpeed();
                     ja37.click();
                 </script>
             </binding>
