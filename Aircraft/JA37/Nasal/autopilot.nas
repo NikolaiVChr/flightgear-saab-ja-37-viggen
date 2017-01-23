@@ -296,9 +296,18 @@ var apLoop = func {
       # if dc lost then A/P wont function, it will resume at dc unless 6 secs has passed:
       mode = mode == 0?0:1;
     }
-    if (outside_bounds_sec > 5) {
+    if (getprop("fdm/jsbsim/systems/indicators/auto-altitude-primary") == 1) {
       # 
-      mode = mode == 0?0:1;
+      mode = ja37.clamp(mode, 0, 2);
+    }
+    if (getprop("fdm/jsbsim/systems/indicators/auto-attitude-primary") == 1) {
+      # 
+      mode = ja37.clamp(mode, 0, 1);
+    }
+    if (getprop("fdm/jsbsim/systems/indicators/flightstick-primary") == 1) {
+      # 
+      #mode = 0;
+      #apStopDamp();
     }
 
     # auto-pilot engaged

@@ -924,11 +924,15 @@
                             <property>/controls/flight/trim-yaw</property>
                             <value>0</value>
                         </ne>
+                        <gt>
+                            <property>/ja37/avionics/ap-outside-bounds-sec</property>
+                            <value>0</value>
+                        </gt>
                     </or>
-                    <eq>
-                        <property>/ja37/avionics/auto-attitude-on</property>
+                    <gt>
+                        <property>/ja37/avionics/autopilot-mode</property>
                         <value>1</value>
-                    </eq>
+                    </gt>
                 </and>
             </function>
         </fcs_function>
@@ -936,57 +940,60 @@
         <fcs_function name="systems/indicators/auto-attitude-primary">
             <function>
                 <or>
-                    <or>
-                        <eq>
-                            <property>fcs/rudder/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>fcs/aileron/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>fcs/elevator/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <and>
-                            <gt>
-                                <property>/ja37/avionics/autopilot-mode</property>
-                                <value>1</value>
-                            </gt>
-                            <or>
-                                <eq>
-                                    <property>fcs/pitch-damper/serviceable</property>
-                                    <value>0</value>
-                                </eq>
-                                <eq>
-                                    <property>fcs/roll-damper/serviceable</property>
-                                    <value>0</value>
-                                </eq>
-                                <eq>
-                                    <property>fcs/yaw-damper/serviceable</property>
-                                    <value>0</value>
-                                </eq>
-                            </or>
-                        </and>
-                        <eq>
-                            <property>fcs/roll-limiter/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <lt>
-                            <property>systems/hydraulics/flight-surface-actuation</property>
-                            <value>0.5</value>
-                        </lt>
-                    </or>
                     <and>
-                        <eq>
-                            <property>/ja37/avionics/autopilot</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>/ja37/avionics/auto-attitude-on</property>
+                        <gt>
+                            <property>/ja37/avionics/autopilot-mode</property>
                             <value>1</value>
+                        </gt>
+                        <or>
+                            <gt>
+                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
+                                <value>5</value>
+                            </gt>                            
+                            <eq>
+                                <property>fcs/pitch-damper/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/roll-damper/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/yaw-damper/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/rudder/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/aileron/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/elevator/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/roll-limiter/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <lt>
+                                <property>systems/hydraulics/flight-surface-actuation</property>
+                                <value>0.5</value>
+                            </lt>
+                        </or>
+                    </and>
+                    <and>
+                        <!-- keep alerting even if A/P was switched off till warn button is pressed -->
+                        <eq>
+                            <property>systems/indicators/master-warning/auto-att-issue</property>
+                            <value>3</value>
                         </eq>
+                        <eq>
+                            <property>systems/indicators/auto-attitude-primary</property>
+                            <value>1</value>
+                        </eq>                            
                     </and>
                 </or>
             </function>
@@ -1016,11 +1023,19 @@
                             <property>/controls/flight/trim-yaw</property>
                             <value>0</value>
                         </ne>
+                        <gt>
+                            <property>/ja37/avionics/transonic-sec</property>
+                            <value>0</value>
+                        </gt>
+                        <gt>
+                            <property>/ja37/avionics/ap-outside-bounds-sec</property>
+                            <value>0</value>
+                        </gt>
                     </or>
-                    <eq>
-                        <property>/ja37/avionics/auto-altitude-on</property>
-                        <value>1</value>
-                    </eq>
+                    <gt>
+                        <property>/ja37/avionics/autopilot-mode</property>
+                        <value>2</value>
+                    </gt>
                 </and>
             </function>
         </fcs_function>
@@ -1028,61 +1043,64 @@
         <fcs_function name="systems/indicators/auto-altitude-primary">
             <function>
                 <or>
-                    <or>
-                        <eq>
-                            <property>fcs/rudder/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>fcs/aileron/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <eq>
-                            <property>fcs/elevator/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <and>
-                            <gt>
-                                <property>/ja37/avionics/autopilot-mode</property>
-                                <value>2</value>
-                            </gt>
-                            <or>
-                                <gt>
-                                    <property>/ja37/avionics/transonic-sec</property>
-                                    <value>60</value>
-                                </gt>
-                                <eq>
-                                    <property>fcs/pitch-damper/serviceable</property>
-                                    <value>0</value>
-                                </eq>
-                                <eq>
-                                    <property>fcs/roll-damper/serviceable</property>
-                                    <value>0</value>
-                                </eq>
-                                <eq>
-                                    <property>fcs/yaw-damper/serviceable</property>
-                                    <value>0</value>
-                                </eq>
-                            </or>
-                        </and>
-                        <eq>
-                            <property>fcs/roll-limiter/serviceable</property>
-                            <value>0</value>
-                        </eq>
-                        <lt>
-                            <property>systems/hydraulics/flight-surface-actuation</property>
-                            <value>0.5</value>
-                        </lt>
-                    </or>
                     <and>
+                        <gt>
+                            <property>/ja37/avionics/autopilot-mode</property>
+                            <value>2</value>
+                        </gt>
+                        <or>
+                            <gt>
+                                <property>/ja37/avionics/transonic-sec</property>
+                                <value>60</value>
+                            </gt>
+                            <gt>
+                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
+                                <value>5</value>
+                            </gt>                            
+                            <eq>
+                                <property>fcs/pitch-damper/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/roll-damper/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/yaw-damper/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/rudder/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/aileron/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/elevator/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <eq>
+                                <property>fcs/roll-limiter/serviceable</property>
+                                <value>0</value>
+                            </eq>
+                            <lt>
+                                <property>systems/hydraulics/flight-surface-actuation</property>
+                                <value>0.5</value>
+                            </lt>
+                        </or>
+                    </and>
+                    <and>
+                        <!-- keep alerting even if A/P was switched off till warn button is pressed -->
                         <eq>
-                            <property>/ja37/avionics/autopilot</property>
-                            <value>0</value>
+                            <property>systems/indicators/master-warning/auto-alt-issue</property>
+                            <value>3</value>
                         </eq>
                         <eq>
-                            <property>/ja37/avionics/auto-altitude-on</property>
+                            <property>systems/indicators/auto-altitude-primary</property>
                             <value>1</value>
-                        </eq>
+                        </eq>                            
                     </and>
                 </or>
             </function>
