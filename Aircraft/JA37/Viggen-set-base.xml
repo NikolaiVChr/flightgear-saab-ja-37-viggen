@@ -583,6 +583,7 @@
             <autopilot-soft-warn type="bool">false</autopilot-soft-warn>
             <lost-ac-sec type="double">-1</lost-ac-sec>
             <lost-dc-sec type="double">-1</lost-dc-sec>
+            <transonic-sec type="double">-1</transonic-sec>
             <ap-outside-bounds-sec type="double">-1</ap-outside-bounds-sec>
             <fuel-internal-ratio type="double">0.0</fuel-internal-ratio>
             <tankpump type="bool">false</tankpump>

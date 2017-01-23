@@ -56,6 +56,9 @@ var lostDC_time = 0;
 var outside_bounds_sec = -1;
 var outside_bounds_time = 0;
 
+var transonic_sec = -1;
+var transonic_time = 0;
+
 var hydr1Lost = func {
   #if hydraulic system1 loses pressure or too low voltage then disengage A/P.
   var ap = TRUE;
@@ -81,27 +84,29 @@ var hydr1Lost = func {
   } else {
     lostAC_sec = -1;
   }
-  if (lostAC_sec == -1 and inputAP.acMainVolt.getValue() < 150) {
-    lostAC_sec = 0;
-    lostAC_time = inputAP.elapsed.getValue();
-  } elsif (lostAC_sec != -1 and inputAP.acMainVolt.getValue() < 150) {
-    lostAC_sec = inputAP.elapsed.getValue() - lostAC_time;
-  } else {
-    lostAC_sec = -1;
-  }
   var outside = getprop("controls/flight/aileron-cmd-ap") == 0 and math.abs(getprop("controls/flight/elevator-cmd-ap")) < 0.075 and (math.abs(getprop("orientation/roll-deg")) > 66 or getprop("orientation/pitch-deg") > 60);
   if (outside_bounds_sec == -1 and outside) {
     outside_bounds_sec = 0;
-    lostAC_time = inputAP.elapsed.getValue();
+    outside_bounds_time = inputAP.elapsed.getValue();
   } elsif (outside_bounds_sec != -1 and outside) {
     outside_bounds_sec = inputAP.elapsed.getValue() - outside_bounds_time;
   } else {
     outside_bounds_sec = -1;
   }
+  var transonic = getprop("/instrumentation/airspeed-indicator/indicated-mach") > 0.97 and getprop("/instrumentation/airspeed-indicator/indicated-mach") < 1.05;
+  if (transonic_sec == -1 and transonic) {
+    transonic_sec = 0;
+    transonic_time = inputAP.elapsed.getValue();
+  } elsif (transonic_sec != -1 and transonic) {
+    transonic_sec = inputAP.elapsed.getValue() - transonic_time;
+  } else {
+    transonic_sec = -1;
+  }
   
   setprop("ja37/avionics/autopilot", ap);
   setprop("ja37/avionics/lost-ac-sec", lostAC_sec);
   setprop("ja37/avionics/lost-dc-sec", lostDC_sec);
+  setprop("ja37/avionics/transonic-sec", transonic_sec);
   setprop("ja37/avionics/ap-outside-bounds-sec", outside_bounds_sec);
   settimer(hydr1Lost, 0.5);
 }

@@ -1047,6 +1047,10 @@
                                 <value>2</value>
                             </gt>
                             <or>
+                                <gt>
+                                    <property>/ja37/avionics/transonic-sec</property>
+                                    <value>60</value>
+                                </gt>
                                 <eq>
                                     <property>fcs/pitch-damper/serviceable</property>
                                     <value>0</value>
@@ -1641,24 +1645,16 @@
                         <property>/systems/electrical/outputs/dc-voltage</property>
                         <value>23</value>
                     </gt>
+                    <eq>
+                        <property>systems/indicators/flightstick-primary</property>
+                        <value>0</value>
+                    </eq>
                     <and>
                         <gt>
                             <property>/ja37/avionics/autopilot-mode</property>
                             <value>0</value>
                         </gt>
-                        <eq>
-                            <property>/controls/flight/trim-yaw</property>
-                            <value>0</value>
-                        </eq>
                     </and>
-                    <eq>
-                        <property>systems/indicators/flightstick-primary</property>
-                        <value>0</value>
-                    </eq>
-                    <eq>
-                        <property>systems/hydraulics/flight-surface-actuation</property>
-                        <value>1.0</value>
-                    </eq>
                 </and>
             </function>
         </fcs_function>
@@ -1671,19 +1667,15 @@
                         <value>23</value>
                     </gt>
                     <and>
-                        <eq>
-                            <property>/ja37/avionics/autopilot</property>
-                            <value>1</value>
-                        </eq>
                         <gt>
                             <property>/ja37/avionics/autopilot-mode</property>
                             <value>0</value>
                         </gt>
+                        <eq>
+                            <property>/controls/flight/trim-yaw</property>
+                            <value>0</value>
+                        </eq>
                     </and>
-                    <eq>
-                        <property>systems/hydraulics/flight-surface-actuation</property>
-                        <value>0.5</value>
-                    </eq>
                 </and>
             </function>
         </fcs_function>
@@ -1723,16 +1715,6 @@
                             <property>/ja37/avionics/autopilot-mode</property>
                             <value>1</value>
                         </gt>
-                        <or>
-                            <gt>
-                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                                <value>0</value>
-                            </gt>
-                            <eq>
-                                <property>/controls/flight/trim-yaw</property>
-                                <value>0</value>
-                            </eq>
-                        </or>
                     </and>
                 </and>
             </function>
@@ -1745,22 +1727,22 @@
                         <property>/systems/electrical/outputs/dc-voltage</property>
                         <value>23</value>
                     </gt>
-                    <eq>
-                        <property>/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
-                    <or>
+                    <and>
                         <gt>
                             <property>/ja37/avionics/autopilot-mode</property>
                             <value>1</value>
                         </gt>
-                    </or>
-                    <or>
-                        <gt>
-                            <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                            <value>5</value>
-                        </gt>
-                    </or>
+                        <or>
+                            <gt>
+                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
+                                <value>0</value>
+                            </gt>
+                            <ne>
+                                <property>/controls/flight/trim-yaw</property>
+                                <value>0</value>
+                            </ne>
+                        </or>
+                    </and>
                 </and>
             </function>
         </fcs_function>
@@ -1791,25 +1773,11 @@
                         <property>/systems/electrical/outputs/dc-voltage</property>
                         <value>23</value>
                     </gt>
-                    <eq>
-                        <property>/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
                     <and>
                         <gt>
                             <property>/ja37/avionics/autopilot-mode</property>
                             <value>2</value>
                         </gt>
-                        <or>
-                            <gt>
-                                <property>/ja37/avionics/ap-outside-bounds-sec</property>
-                                <value>0</value>
-                            </gt>
-                            <eq>
-                                <property>/controls/flight/trim-yaw</property>
-                                <value>0</value>
-                            </eq>
-                        </or>
                     </and>
                 </and>
             </function>
@@ -1822,10 +1790,6 @@
                         <property>/systems/electrical/outputs/dc-voltage</property>
                         <value>23</value>
                     </gt>
-                    <eq>
-                        <property>/ja37/avionics/autopilot</property>
-                        <value>1</value>
-                    </eq>
                     <gt>
                         <property>/ja37/avionics/autopilot-mode</property>
                         <value>2</value>
@@ -1839,6 +1803,10 @@
                             <property>/ja37/avionics/ap-outside-bounds-sec</property>
                             <value>5</value>
                         </gt>
+                        <ne>
+                            <property>/controls/flight/trim-yaw</property>
+                            <value>0</value>
+                        </ne>
                     </or>
                 </and>
             </function>
