@@ -2150,15 +2150,15 @@ var HUDnasal = {
             me.idealAlpha = 9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
             me.idealAlpha = ja37.clamp(me.idealAlpha, 9, 12);
           }
-          me.translation = (me.alpha-me.idealAlpha)*4;
+          me.translation = (me.alpha-me.idealAlpha)*6.5;
           if (math.abs(me.translation) < math.abs(me.translation_speed)) {
             # using speed as guide for tail
             me.translation = me.translation_speed;
           }
-          me.translation = clamp(me.translation, -400, 400);
+          me.translation = clamp(me.translation, -60, 30);
           me.reticle_fin_group.setTranslation(0, (me.translation/1024)*canvasWidth);
-          if (me.alpha > 20) {
-            # blink the fin if alpha is high
+          if (me.alpha > me.idealAlpha+3) {
+            # blink the fin if alpha is way too high
             if(me.input.tenHz.getValue() == TRUE) {
               me.aim_reticle_fin.show();
             } else {
