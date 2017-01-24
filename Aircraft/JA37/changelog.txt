@@ -2711,3 +2711,4 @@ HUD: Ideal approach speed now depends on switch 15.5 setting.
 HUD: Landing guide vertical placement now depend on max sink rate 2.8m/s below 15m radar alt (or 35m for baro-alt). At same time guide is lateral fixed to FPI.
 Sim: Indicator 'gears' on left panel will now show steady light also for when gear is down, but all not locked. After 10 secs. it will blink for that also.
 Control: Roll, yaw and pitch damper plus roll limiter now depends on AC power (indirectly).
+GUI: Pressing shift-q now also works smooth for right side.

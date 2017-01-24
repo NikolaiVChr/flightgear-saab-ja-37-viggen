@@ -1815,8 +1815,13 @@ var loadIFail = func () {
 }
 
 var resetView = func () {
+  var hd = getprop("sim/current-view/heading-offset-deg");
+  var hd_t = getprop("sim/current-view/config/heading-offset-deg");
+  if (hd > 180) {
+    hd_t = hd_t + 360;
+  }
   interpolate("sim/current-view/field-of-view", getprop("sim/current-view/config/default-field-of-view-deg"), 1);
-  interpolate("sim/current-view/heading-offset-deg", getprop("sim/current-view/config/heading-offset-deg"),1);
+  interpolate("sim/current-view/heading-offset-deg", hd_t,1);
   interpolate("sim/current-view/pitch-offset-deg", getprop("sim/current-view/config/pitch-offset-deg"),1);
   interpolate("sim/current-view/roll-offset-deg", getprop("sim/current-view/config/roll-offset-deg"),1);
   interpolate("sim/current-view/x-offset-m", 0, 1.5);
