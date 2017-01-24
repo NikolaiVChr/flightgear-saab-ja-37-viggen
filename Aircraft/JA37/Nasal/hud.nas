@@ -1065,6 +1065,8 @@ var HUDnasal = {
         me.out_of_ammo = TRUE;
       }
 
+      me.finalVisual = me.input.ctrlRadar.getValue() == 1? (me.input.rad_alt.getValue() * FT2M) < 15 : (me.input.alt_ft.getValue() * FT2M) < 35;
+
       # ground collision warning
       me.displayGroundCollisionArrow(mode);
 
@@ -1678,7 +1680,7 @@ var HUDnasal = {
     me.guideUseLines = FALSE;
     if(mode == LANDING) {
       me.deg = deflect;
-      me.finalVisual = me.input.ctrlRadar.getValue() == 1? (me.input.rad_alt.getValue() * FT2M) < 15 : (me.input.alt_ft.getValue() * FT2M) < 35;
+      
       if (me.finalVisual == FALSE and (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE)) {
         me.deg = me.input.nav0HeadingDefl.getValue()*0.8;# -10 to +10, showed as -8 till +8
 
@@ -2127,7 +2129,7 @@ var HUDnasal = {
         
         me.reticle_group.setTranslation(me.pos_x, me.pos_y);
                 
-        if (mode == LANDING) {
+        if (mode == LANDING and me.finalVisual == FALSE) {
           # move fin to alpha
           me.alpha = me.input.alphaJSB.getValue();
           me.speed = me.input.ias.getValue();
