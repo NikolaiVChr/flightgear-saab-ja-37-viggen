@@ -304,6 +304,37 @@
 
     <channel execrate="4" name="instruments">
 
+        <!-- used for animating epr gauge -->
+
+        <fcs_function name="propulsion/engine/p7-p2">
+            <function>
+                <table>
+                    <independentVar lookup="row">propulsion/engine/MilThrust</independentVar>
+                    <independentVar lookup="column">propulsion/engine/n2</independentVar>
+                    <tableData>
+                                   57     100 
+                        0         1.0     1.00
+                        1         1.0     2.06 <!-- AJS-37 manual part 1, engine section -->
+                        1.6       1.0     2.70 <!-- extrapolated -->
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+        <switch name="names/instr/epr-direct">
+            <default value="propulsion/engine/p7-p2"/>
+            <test logic="OR" value="0">
+              /systems/electrical/outputs/dc-voltage lt 23
+            </test>
+            <output>/engines/engine/epr-direct</output>
+        </switch>
+
+        <lag_filter name="names/instr/epr">
+            <input> /engines/engine/epr-direct </input>
+            <c1> 5 </c1>
+            <output>/engines/engine/epr-gauge</output>
+        </lag_filter>
+
         <!-- used for animating nozzle indicator -->
 
         <fcs_function name="names/throttle/nozzle-zone">
@@ -337,21 +368,6 @@
             <input> propulsion/engine/nozzle-direct </input>
             <c1> 5 </c1>
             <output>propulsion/engine/nozzle</output>
-        </lag_filter>
-
-        <!-- used for animating epr gauge -->
-        <switch name="names/instr/epr-direct">
-            <default value="/engines/engine/epr"/>
-            <test logic="OR" value="0">
-              /systems/electrical/outputs/dc-voltage lt 23
-            </test>
-            <output>/engines/engine/epr-direct</output>
-        </switch>
-
-        <lag_filter name="names/instr/epr">
-            <input> /engines/engine/epr-direct </input>
-            <c1> 5 </c1>
-            <output>/engines/engine/epr-gauge</output>
         </lag_filter>
 
         <!-- used for animating tachometer -->

@@ -36,7 +36,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>epr</tooltip-id>
                 <label>Engine pressure ratio: %1.2f</label>
-                <property>/engines/engine/epr</property>
+                <property>fdm/jsbsim/propulsion/engine/p7-p2</property>
             </binding>
         </hovered>
     </animation>

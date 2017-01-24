@@ -2715,3 +2715,4 @@ GUI: Pressing shift-q now also works smooth for right side.
 Effect: There is now until -5 degrees a cap on how much frost can form.
 Effect: Made the glass have little less insulation quality.
 HUD: Made the FPI fin not move during final visual approach.
+Sim: The engine pressure ratio is now computed manually.
