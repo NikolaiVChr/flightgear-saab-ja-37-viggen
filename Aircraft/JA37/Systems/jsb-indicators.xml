@@ -281,7 +281,27 @@
                             <property>/gear/gear[1]/wow</property>
                             <value>1</value>
                         </eq>
-                    </and>                
+                    </and>
+                    <and>
+                        <or>
+                            <eq>
+                                <property>gear/unit[1]/z-position</property>
+                                <value>0.001</value>
+                            </eq>
+                            <eq>
+                                <property>gear/unit[2]/z-position</property>
+                                <value>0.001</value>
+                            </eq>
+                            <eq>
+                                <property>gear/unit[0]/z-position</property>
+                                <value>0.001</value>
+                            </eq>
+                        </or>
+                        <eq>
+                            <property>/gear/gear[0]/position-norm</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
                 </or>
             </function>
         </fcs_function>

@@ -83,7 +83,7 @@ Sim: OPT FIX button pressed will make the current destination selected moved to 
 Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
 Sim: Implement the landing modes on page 478 in ja37c manual.
 Sim: Fix the AC can not remove frost at very high altitudes.
-Sim: Gyros depend on AC? And dampers depend on gyros..
+Sim: Gyros depend on AC. And dampers depend on gyros..
 Sim: Pitot depend on AC.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
@@ -103,7 +103,7 @@ HUD: When DME are enabled at the same time as ILS with glideslope, the distance 
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
-HUD: Landing guide vertical placement depend on max sink rate 2.8m/s below 15m radalt (or 35 for baroalt). At same time guide is lateral fixed to FPI.
+
 
 
 

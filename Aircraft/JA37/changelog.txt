@@ -2708,4 +2708,5 @@ HUD: Ideal landing alpha now depends on switch 15.5 setting or weight.
 Sim: Flying with ALT A/P mode in transonic for more than 60 secs will disengage that mode.
 Sim: Removed support for key CTRL-SHIFT-a.
 HUD: Ideal approach speed now depends on switch 15.5 setting.
-HUD: Landing guide vertical placement now depend on max sink rate 2.8m/s below 15m radar alt (or 35 for baro-alt). At same time guide is lateral fixed to FPI.
+HUD: Landing guide vertical placement now depend on max sink rate 2.8m/s below 15m radar alt (or 35m for baro-alt). At same time guide is lateral fixed to FPI.
+Sim: Indicator 'gears' on left panel will now show steady light also for when gear is down, but all not locked. After 10 secs. it will blink for that also.
