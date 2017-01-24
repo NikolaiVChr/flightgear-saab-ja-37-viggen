@@ -24,8 +24,8 @@ foreach(var name; keys(inputAP)) {
 
 var follow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
-  mode = ja37.clamp(mode, 0, 1);
   if(radar_logic.selection != nil and radar_logic.selection.getNode() != nil) {
+    mode = ja37.clamp(mode, 0, 1);
     var target = radar_logic.selection.getNode();
     setprop("/autopilot/target-tracking-ja37/target-root", target.getPath());
     #this is done in -set file: /autopilot/target-tracking-ja37/min-speed-kt
@@ -156,6 +156,13 @@ var lockThrottle = getprop("/autopilot/locks/speed");
 var lockAtt      = getprop("/autopilot/locks/heading");
 var lockPitch    = getprop("/autopilot/locks/altitude");
 
+var menuOff = func {
+  lockThrottle = getprop("/autopilot/locks/speed");
+  lockAtt      = getprop("/autopilot/locks/heading");
+  lockPitch    = getprop("/autopilot/locks/altitude"); 
+  menu = FALSE; 
+}
+
 var mode1 = func {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if (mode == 0) {
@@ -165,7 +172,7 @@ var mode1 = func {
   }
   mode = 1;  
   if (DEBUG_OUT) print("button cmd mode "~mode);
-  menu = FALSE;
+  menuOff();
 };
 
 var mode2 = func {
@@ -177,7 +184,7 @@ var mode2 = func {
   }
   mode = 2;
   if (DEBUG_OUT) print("button cmd mode "~mode);
-  menu = FALSE;
+  menuOff();
 };
 
 var mode3 = func {
@@ -187,7 +194,7 @@ var mode3 = func {
   }
   mode = 3;
   if (DEBUG_OUT) print("button cmd mode "~mode);
-  menu = FALSE;
+  menuOff();
 };
 
 var apContDamp = func {
