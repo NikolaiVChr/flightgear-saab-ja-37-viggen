@@ -640,11 +640,11 @@ var HUDnasal = {
                      .setColor(r,g,b, a);
 
     HUDnasal.main.landing_line = HUDnasal.main.horizon_group2.createChild("path")
-                     .moveTo(-(200/1024)*canvasWidth, pixelPerDegreeY*2.86)
+                     .moveTo(-(200/1024)*canvasWidth, 0)
                      .horiz((160/1024)*canvasWidth)
-                     .moveTo((40/1024)*canvasWidth, pixelPerDegreeY*2.86)
+                     .moveTo((40/1024)*canvasWidth, 0)
                      .horiz((160/1024)*canvasWidth)
-                     .moveTo(0, pixelPerDegreeY*2.86)
+                     .moveTo(0, 0)
                      .arcSmallCW((4/1024)*canvasWidth, (4/1024)*canvasWidth, 0, -(8/1024)*canvasWidth, 0)
                      .arcSmallCW((4/1024)*canvasWidth, (4/1024)*canvasWidth, 0,  (8/1024)*canvasWidth, 0)
                      .setStrokeLineWidth(w)
@@ -1678,7 +1678,8 @@ var HUDnasal = {
     me.guideUseLines = FALSE;
     if(mode == LANDING) {
       me.deg = deflect;
-      if (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE) {
+      me.finalVisual = me.input.ctrlRadar.getValue() == 1? (me.input.rad_alt.getValue() * FT2M) < 15 : (me.input.alt_ft.getValue() * FT2M) < 35;
+      if (me.finalVisual == FALSE and (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE)) {
         me.deg = me.input.nav0HeadingDefl.getValue()*0.8;# -10 to +10, showed as -8 till +8
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
@@ -1695,7 +1696,13 @@ var HUDnasal = {
           me.guideUseLines = TRUE;
         }
       }
-      HUDnasal.main.landing_line.setTranslation(pixelPerDegreeX*me.deg, 0);
+      me.desiredSink_deg = 2.86;
+      if (me.finalVisual == TRUE) {
+        me.sinkRateMax_mps = 2.8;
+        me.groundspeed_mps = me.input.gs.getValue() != 0?me.input.gs.getValue() * KT2FPS * FT2M:0.0001;
+        me.desiredSink_deg = math.asin(me.sinkRateMax_mps/me.groundspeed_mps)*R2D;
+      }
+      HUDnasal.main.landing_line.setTranslation(pixelPerDegreeX*me.deg, me.desiredSink_deg*pixelPerDegreeY);
       HUDnasal.main.landing_line.show();
     } else {
       HUDnasal.main.landing_line.hide();
@@ -2124,8 +2131,9 @@ var HUDnasal = {
           # move fin to alpha
           me.alpha = me.input.alphaJSB.getValue();
           me.speed = me.input.ias.getValue();
-          me.speed_min = 105;
-          me.speed_max = 134;
+          me.highAlpha = getprop("ja37/avionics/high-alpha");
+          me.speed_min = me.highAlpha==TRUE?105:150;
+          me.speed_max = me.highAlpha==TRUE?134:170;
           me.translation_speed = 0;
           if (me.speed < me.speed_min) {
             # too low landing speed
@@ -2135,7 +2143,7 @@ var HUDnasal = {
             me.translation_speed = (me.speed_max - me.speed)*2;
           }
           me.idealAlpha = 15.5;# the ideal aoa for landing.
-          if (getprop("ja37/avionics/high-alpha") == 0) {
+          if (me.highAlpha == FALSE) {
             me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs");
             me.idealAlpha = 9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
             me.idealAlpha = ja37.clamp(me.idealAlpha, 9, 12);

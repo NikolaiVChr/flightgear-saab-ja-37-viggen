@@ -2707,3 +2707,5 @@ Sim: Using A/P menu will disengage higher A/P modes and will not give nice indic
 HUD: Ideal landing alpha now depends on switch 15.5 setting or weight.
 Sim: Flying with ALT A/P mode in transonic for more than 60 secs will disengage that mode.
 Sim: Removed support for key CTRL-SHIFT-a.
+HUD: Ideal approach speed now depends on switch 15.5 setting.
+HUD: Landing guide vertical placement now depend on max sink rate 2.8m/s below 15m radar alt (or 35 for baro-alt). At same time guide is lateral fixed to FPI.
