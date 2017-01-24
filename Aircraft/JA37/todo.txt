@@ -85,6 +85,7 @@ Sim: Implement the landing modes on page 478 in ja37c manual.
 Sim: Fix the AC can not remove frost at very high altitudes.
 Sim: Gyros depend on AC. And dampers depend on gyros..
 Sim: Pitot depend on AC.
+Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.

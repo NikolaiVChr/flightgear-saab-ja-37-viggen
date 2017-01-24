@@ -201,6 +201,7 @@
                 aero/spin-norm == 0
                 fcs/pitch-damper/enable ne 0.0
                 fcs/pitch-damper/serviceable == 1
+                /systems/electrical/outputs/ac-main-voltage gt 150
             </test>
         </switch>
 
@@ -575,6 +576,7 @@
                 aero/spin-norm == 0
                 fcs/roll-limiter/enable ne 0.0
                 fcs/roll-limiter/serviceable == 1
+                /systems/electrical/outputs/ac-main-voltage gt 150
             </test>
             <output>fcs/roll-limiter/active</output>
         </switch>
@@ -642,6 +644,7 @@
                     aero/spin-norm == 0
                     fcs/roll-damper/enable ne 0.0
                     fcs/roll-damper/serviceable == 1
+                    /systems/electrical/outputs/ac-main-voltage gt 150
             </test>
             <output>fcs/roll-damper/active</output>
         </switch>
@@ -935,12 +938,12 @@
 
         <switch name="names/yaw-damper/active">
             <default value="0.0"/>
-            <test logic="AND" value="1"
-                >
-            aero/spin-norm == 0
-            fcs/yaw-damper/enable ne 0.0
-            fcs/yaw-damper/serviceable == 1
-        </test>
+            <test logic="AND" value="1">
+                aero/spin-norm == 0
+                fcs/yaw-damper/enable ne 0.0
+                fcs/yaw-damper/serviceable == 1
+                /systems/electrical/outputs/ac-main-voltage gt 150
+            </test>
             <output>fcs/yaw-damper/active</output>
         </switch>
 
