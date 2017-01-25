@@ -2,8 +2,8 @@ Authors of the JA-37 / AJ-37 / AJS-37 Viggen aircraft for the Flightgear simulat
 
 Anders Lejczak - anders.lejczak at colacola.se
 ====================================
-Original 3D model
-Original textures and bumpmap
+Original exterior 3D model
+Original exterior textures and bumpmap
 
 Nikolai V. Chr. - emptyyetfull at gmail.com - Forum name: Necolatis
 ==================================
@@ -52,7 +52,7 @@ KSUU Crew 1 livery.
 
 Forum name: Spectre
 ===================
-Several liveries.
+Bunch of liveries.
 
 
 Thanks

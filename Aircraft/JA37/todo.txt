@@ -77,13 +77,11 @@ Sim: Only send properties over MP when they change, will save up property space.
 Sim: Set 4 M71 to fire in ripple at each trigger press.
 Sim: Make data and nav panel functional.
 Sim: After exiting transonic the altitude hold is recomputed. 
-Sim: AC on before pushbuttons light up?
+Sim: AC power on before pushbuttons light up?
 Sim: To disengage A/P to mode 0 press switch on stick or pull fuse (will also disengage A/T).
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
 Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
 Sim: Implement the landing modes on page 478 in ja37c manual.
-Sim: Fix the AC can not remove frost at very high altitudes.
-Sim: Gyros depend on AC. And dampers depend on gyros..
 Sim: Pitot depend on AC.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Effect: Rembrandt landing lightcone.
@@ -96,6 +94,7 @@ Sound: Low speed warning is off when A/T is on.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.
+Radar: Show the approach curve at end of runway line, as per manual.
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
