@@ -48,6 +48,9 @@ var head = 0;#true degs
 
 var approach_circle = nil;#Coord
 
+var last_icao = "";
+var icao = "";
+
 #
 # tangent circle: 4100 m radius
 #
@@ -85,11 +88,11 @@ var landing_loop = func {
           	if (name != nil and size(split("-", name))>1) {
 	            #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
 	            name = split("-", name);
-	            var icao = name[0];
+	            icao = name[0];
 	            name = name[1];
 	            name = split("C", split("L", split("R", name)[0])[0])[0];
 	            name = num(name);
-	            if (name != nil and size(icao) == 4) {
+	            if (name != nil and size(icao) >= 3 and size(icao) < 5) {
 					head = 10 * name;#magnetic
 					var magDiff = input.headTrue.getValue() - input.headMagn.getValue();
 					head += magDiff;#true
@@ -98,7 +101,10 @@ var landing_loop = func {
 	        }
 	    }
     }
-
+    if (icao != last_icao) {
+    	mode = -1;
+    	last_icao = icao;
+    }
     if (has_waypoint > 0) {
     	if (has_waypoint > 1) {
     		show_runway_line = TRUE;
