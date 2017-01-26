@@ -1265,6 +1265,9 @@
         <auto>
             <file>Aircraft/JA37/Nasal/autopilot.nas</file>
         </auto>
+        <land>
+            <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
+        </land>
         <!-- Uncomment below to enable FGplot -->
         <!--
         <plot>

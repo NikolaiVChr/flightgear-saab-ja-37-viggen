@@ -163,6 +163,13 @@ var radar = {
                .setStrokeLineWidth((8/1024)*pixels_max)
                .setColor(white_r, white_g, white_b)
                .set("z-index", 8);
+    m.approach_circle = g.createChild("path")
+               .moveTo(-150, 0)
+               .arcSmallCW(150, 150, 0, 300, 0)
+               .arcSmallCW(150, 150, 0, -300, 0)
+               .setStrokeLineWidth((16/1024)*pixels_max)
+               .setColor(white_r, white_g, white_b)
+               .set("z-index", 8);
                
 
     ###############
@@ -458,57 +465,61 @@ var radar = {
       #  }
       #}
 
-      if (me.input.rmActive.getValue() == TRUE) {
-        me.dist = me.input.rmDist.getValue();        
-        me.bearing = me.input.rmTrueBearing.getValue();#true
-        me.heading = me.input.heading.getValue();#true
-        if (me.dist != nil and me.bearing != nil and me.heading != nil) {
-          me.bug = me.bearing - me.heading;
-
-          me.x = math.cos(-(me.bug-90) * D2R) * (me.dist/(me.radarRange * M2NM)) * me.strokeHeight;
-          me.y = math.sin(-(me.bug-90) * D2R) * (me.dist/(me.radarRange * M2NM)) * me.strokeHeight;
+      
+      if (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE) {
+          me.x = math.cos(-(land.runway_bug-90) * D2R) * (land.runway_dist/(me.radarRange * M2NM)) * me.strokeHeight;
+          me.y = math.sin(-(land.runway_bug-90) * D2R) * (land.runway_dist/(me.radarRange * M2NM)) * me.strokeHeight;
 
           me.dest.setTranslation(pixels_max/2+me.x, me.strokeOriginY-me.y);
-
           me.dest.show();
 
-          me.name = me.input.rmId.getValue();
-          if (me.name != nil and size(split("-", me.name))>1) {
-            #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
-            me.name = split("-", me.name);
-            me.icao = me.name[0];
-            me.name = me.name[1];
-            me.name = split("C", split("L", split("R", me.name)[0])[0])[0];
-            me.name = num(me.name);
-            if (me.name != nil and size(me.icao) == 4) {
-              me.head = 10 * me.name;#magnetic
-              me.magDiff = me.input.headTrue.getValue() - me.input.headMagn.getValue();
-              me.head += me.magDiff;#true
-              # 10 20 20 40 Km long line, depending on radar setting, as per manual.
-              me.runway_l = 10000;
-              if (me.radarRange == 120000 or me.radarRange == 180000) {
-                me.runway_l = 40000;
-              } elsif (me.radarRange == 60000) {
-                me.runway_l = 20000;
-              } elsif (me.radarRange == 30000) {
-                me.runway_l = 20000;
-              }
-              me.scale = (me.runway_l/me.radarRange) * me.strokeHeight/50;
-              me.dest_runway.setScale(1, me.scale);
-              me.dest.setRotation((180+me.head-me.heading)*D2R);
-              me.dest_runway.show();
-              } else {
-                me.dest_runway.hide();
-              }
+          if (land.show_waypoint_circle == TRUE) {
+              me.dest_circle.show();
+          } else {
+              me.dest_circle.hide();
+          }
+
+          if (land.show_runway_line == TRUE) {
+            # 10 20 20 40 Km long line, depending on radar setting, as per manual.
+            me.runway_l = land.line*1000;
+    #        if (me.radarRange == 120000 or me.radarRange == 180000) {
+    #          me.runway_l = 40000;
+    #        } elsif (me.radarRange == 60000) {
+    #          me.runway_l = 20000;
+    #        } elsif (me.radarRange == 30000) {
+    #          me.runway_l = 20000;
+    #        }
+            me.scale = (me.runway_l/me.radarRange) * me.strokeHeight/50;
+            me.dest_runway.setScale(1, me.scale);
+            me.heading = me.input.heading.getValue();#true
+            me.dest.setRotation((180+land.head-me.heading)*D2R);
+            me.dest_runway.show();
+            if (land.show_approach_circle == TRUE) {
+              me.scale = (4100/me.radarRange) * me.strokeHeight/150;
+              me.approach_circle.setScale(me.scale);
+              me.acir = radar_logic.ContactGPS.new("circle", land.approach_circle);
+              me.distance = me.acir.get_polar()[0];
+              me.xa_rad   = me.acir.get_polar()[1];
+              me.pixelDistance = -me.distance*((me.strokeOriginY-me.strokeTopY)/me.radarRange); #distance in pixels
+              #translate from polar coords to cartesian coords
+              me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2) + pixels_max/2;
+              me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2) + me.strokeOriginY;
+              me.approach_circle.setTranslation(me.pixelX, me.pixelY);
+              me.approach_circle.show();
+            } else {
+              me.approach_circle.hide();
+            }            
           } else {
             me.dest_runway.hide();
+            me.approach_circle.hide();
           }
-        } else {
-          me.dest.hide();
-        }
       } else {
-        me.dest.hide();
+        me.dest_circle.hide();
+        me.dest_runway.hide();
+        me.approach_circle.hide();
       }
+      
+      
 
 
       # show antanea height
