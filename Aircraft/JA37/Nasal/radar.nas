@@ -471,7 +471,7 @@ var radar = {
           me.y = math.sin(-(land.runway_bug-90) * D2R) * (land.runway_dist/(me.radarRange * M2NM)) * me.strokeHeight;
 
           me.dest.setTranslation(pixels_max/2+me.x, me.strokeOriginY-me.y);
-          me.dest.show();
+          
 
           if (land.show_waypoint_circle == TRUE) {
               me.dest_circle.show();
@@ -514,6 +514,7 @@ var radar = {
             me.dest_runway.hide();
             me.approach_circle.hide();
           }
+          me.dest.show();
       } else {
         me.dest_circle.hide();
         me.dest_runway.hide();

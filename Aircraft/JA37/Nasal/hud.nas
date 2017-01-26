@@ -2129,35 +2129,29 @@ var HUDnasal = {
         
         me.reticle_group.setTranslation(me.pos_x, me.pos_y);
                 
-        if (mode == LANDING and me.finalVisual == FALSE) {
-          # move fin to alpha
-          me.alpha = me.input.alphaJSB.getValue();
-          me.speed = me.input.ias.getValue();
-          me.highAlpha = getprop("ja37/avionics/high-alpha");
-          me.speed_min = me.highAlpha==TRUE?105:150;
-          me.speed_max = me.highAlpha==TRUE?134:170;
-          me.translation_speed = 0;
-          if (me.speed < me.speed_min) {
-            # too low landing speed
-            me.translation_speed = (me.speed_min - me.speed)*2;
-          } elsif (me.speed > me.speed_max) {
-            # too high landing speed
-            me.translation_speed = (me.speed_max - me.speed)*2;
-          }
-          me.idealAlpha = 15.5;# the ideal aoa for landing.
-          if (me.highAlpha == FALSE) {
-            me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs");
-            me.idealAlpha = 9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
-            me.idealAlpha = ja37.clamp(me.idealAlpha, 9, 12);
-          }
-          me.translation = (me.alpha-me.idealAlpha)*6.5;
-          if (math.abs(me.translation) < math.abs(me.translation_speed)) {
-            # using speed as guide for tail
-            me.translation = me.translation_speed;
-          }
+        if (mode == LANDING) {
+          # move fin to alpha or speed
+          me.gearsDown = me.input.gearsPos.getValue();
+
+          if (me.gearsDown == TRUE) {
+            me.alpha = me.input.alphaJSB.getValue();
+            me.highAlpha = getprop("ja37/avionics/high-alpha");
+            me.idealAlpha = 15.5;# the ideal aoa for landing.
+            if (me.highAlpha == FALSE) {
+              me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs");
+              me.idealAlpha = 9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
+              me.idealAlpha = ja37.clamp(me.idealAlpha, 9, 12);
+            }
+            me.translation = (me.alpha-me.idealAlpha)*6.5;
+          } else {
+            me.speed = me.input.ias.getValue();
+            me.speed_goal = 297;
+            me.translation = (me.speed_goal - me.speed)*2;
+          }        
+
           me.translation = clamp(me.translation, -60, 30);
           me.reticle_fin_group.setTranslation(0, (me.translation/1024)*canvasWidth);
-          if (me.alpha > me.idealAlpha+3) {
+          if (me.gearsDown == TRUE and me.alpha > me.idealAlpha+3) {
             # blink the fin if alpha is way too high
             if(me.input.tenHz.getValue() == TRUE) {
               me.aim_reticle_fin.show();
