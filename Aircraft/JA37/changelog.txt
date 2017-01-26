@@ -2721,3 +2721,4 @@ Sim: Fixed pitch hold for A/P mode 2 didn't work.
 Radar: Fixed that displaying approach circle on radar would be affected by pitching.
 Sim: Reset landing mode if airport is switched.
 Sound: Low speed warning is off when A/T is on.
+Radar: Runway line on radar now uses precise runway heading if available.

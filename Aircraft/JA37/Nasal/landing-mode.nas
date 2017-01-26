@@ -48,8 +48,11 @@ var head = 0;#true degs
 
 var approach_circle = nil;#Coord
 
+var last_runway = "";
 var last_icao = "";
 var icao = "";
+
+var has_waypoint = 0;
 
 #
 # tangent circle: 4100 m radius
@@ -74,8 +77,7 @@ var landing_loop = func {
 	show_runway_line = FALSE;
 	show_waypoint_circle = FALSE;
 	show_approach_circle = FALSE;
-
-	var has_waypoint = 0;
+	
 	var bearing = 0;
 	if (input.rmActive.getValue() == TRUE) {
         runway_dist = input.rmDist.getValue();        
@@ -83,23 +85,46 @@ var landing_loop = func {
         bearing = input.rmTrueBearing.getValue();#true
         if (runway_dist != nil and bearing != nil and heading != nil) {
           	runway_bug = bearing - heading;
-          	has_waypoint = 1;
           	var name = input.rmId.getValue();
           	if (name != nil and size(split("-", name))>1) {
 	            #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
 	            name = split("-", name);
 	            icao = name[0];
-	            name = name[1];
-	            name = split("C", split("L", split("R", name)[0])[0])[0];
-	            name = num(name);
-	            if (name != nil and size(icao) >= 3 and size(icao) < 5) {
-					head = 10 * name;#magnetic
-					var magDiff = input.headTrue.getValue() - input.headMagn.getValue();
-					head += magDiff;#true
-					has_waypoint = 2;
-				}
-	        }
-	    }
+	            var runway = name[1];
+                if (icao != last_icao or runway != last_runway) {
+                    var hd = -1000;
+                    var info = airportinfo(icao);
+                    if (info != nil) {
+                        var rw = info.runways[runway];
+                        if (rw != nil) {
+                            hd = rw.heading;
+                        }
+                    }
+                    if (hd == -1000) {
+        	            var number = split("C", split("L", split("R", runway)[0])[0])[0];
+        	            number = num(number);
+        	            if (number != nil and size(icao) >= 3 and size(icao) < 5) {
+        					head = 10 * number;#magnetic
+        					var magDiff = input.headTrue.getValue() - input.headMagn.getValue();
+        					head += magDiff;#true
+        					has_waypoint = 2;
+        				} else {
+                            has_waypoint = 1;
+                        }
+                    } else {
+                        head = hd;
+                        has_waypoint = 2;
+                    }
+                    last_runway = runway;
+                }
+	        } else {
+                has_waypoint = 1;
+            }
+	    } else {
+            has_waypoint = 0;
+        }
+    } else {
+        has_waypoint = 0;
     }
     if (icao != last_icao) {
     	mode = -1;
@@ -132,7 +157,7 @@ var landing_loop = func {
     		var distCenter = geo.aircraft_position().distance_to(runway);
     		approach_circle = runway;
 
-    		if (runway_dist*NM2M < 10000 or ILS == TRUE) {#test if glideslope/ILS or less than 10 Km
+    		if (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000) or ILS == TRUE) {#test if glideslope/ILS or less than 10 Km
     			show_waypoint_circle = TRUE;
     			mode = 3;
     		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle
