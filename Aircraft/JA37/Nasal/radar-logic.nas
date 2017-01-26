@@ -1245,7 +1245,14 @@ var ContactGPS = {
     #aircraft angle
     var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
     var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
+    var xa_rad_corr = xg_rad;
 
+    while (xa_rad_corr < -math.pi) {
+      xa_rad_corr = xa_rad_corr + 2*math.pi;
+    }
+    while (xa_rad_corr > math.pi) {
+      xa_rad_corr = xa_rad_corr - 2*math.pi;
+    }
     while (xa_rad < -math.pi) {
       xa_rad = xa_rad + 2*math.pi;
     }
@@ -1259,9 +1266,9 @@ var ContactGPS = {
       ya_rad = ya_rad + 2*math.pi;
     }
 
-    var distanceRadar = distance/math.cos(myPitch);
+    var distanceRadar = distance;#/math.cos(myPitch);
 
-    return [distanceRadar, xa_rad];
+    return [distanceRadar, xa_rad_corr];
   },
 };
 
