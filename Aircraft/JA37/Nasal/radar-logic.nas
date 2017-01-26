@@ -1270,7 +1270,7 @@ var getPitch = func (coord1, coord2) {
   var coord3 = geo.Coord.new(coord1);
   coord3.set_alt(coord2.alt());
   var d12 = coord1.direct_distance_to(coord2);
-  if (d12 > 0.01) {
+  if (d12 > 0.01 and coord1.alt() != coord2.alt()) {# not sure how to cope with same altitudes.
     var d32 = coord3.direct_distance_to(coord2);
     var altD = coord1.alt()-coord3.alt();
     var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
