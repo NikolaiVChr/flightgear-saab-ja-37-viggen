@@ -81,7 +81,6 @@ Sim: AC power on before pushbuttons light up?
 Sim: To disengage A/P to mode 0 press switch on stick or pull fuse (will also disengage A/T).
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
 Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
-Sim: Implement the landing modes on page 478 in ja37c manual.
 Sim: Pitot depend on AC.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Effect: Rembrandt landing lightcone.
@@ -90,7 +89,6 @@ Effect: Make tires burst if too high speed with parking brakes.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
-Sound: Low speed warning is off when A/T is on.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.

@@ -2716,3 +2716,8 @@ Effect: There is now until -5 degrees a cap on how much frost can form.
 Effect: Made the glass have little less insulation quality.
 HUD: Made the FPI fin not move during final visual approach.
 Sim: The engine pressure ratio is now computed manually.
+Radar: Runway line is now augmented by an approach circle in landing mode 1 and start of 2.
+Sim: Fixed pitch hold for A/P mode 2 didn't work.
+Radar: Fixed that displaying approach circle on radar would be affected by pitching.
+Sim: Reset landing mode if airport is switched.
+Sound: Low speed warning is off when A/T is on.

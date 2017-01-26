@@ -312,7 +312,7 @@ var update_loop = func {
 
     # low speed warning (as per manual page 279 in JA37C part 1)
     var lowSpeed = FALSE;
-    if ((input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
+    if (auto.modeT < 2 and (input.speedKt.getValue() * 1.85184) < 375 and input.wow1.getValue() == FALSE) {
       if (input.indAltMeter.getValue() < 1200) {
         if (
           (input.gearsPos.getValue() == 1 and (getprop("controls/altimeter-radar")==TRUE?(input.rad_alt.getValue() * FT2M) > 30:(input.indAltFt.getValue() * FT2M) > 30))
