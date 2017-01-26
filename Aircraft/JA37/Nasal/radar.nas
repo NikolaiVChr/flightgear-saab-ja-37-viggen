@@ -496,6 +496,7 @@ var radar = {
             me.dest_runway.show();
             if (land.show_approach_circle == TRUE) {
               me.scale = (4100/me.radarRange) * me.strokeHeight/150;
+              me.approach_circle.setStrokeLineWidth(((8/me.scale)/1024)*pixels_max);
               me.approach_circle.setScale(me.scale);
               me.acir = radar_logic.ContactGPS.new("circle", land.approach_circle);
               me.distance = me.acir.get_polar()[0];
@@ -507,7 +508,7 @@ var radar = {
               me.approach_circle.setTranslation(me.pixelX, me.pixelY);
               me.approach_circle.show();
             } else {
-              me.approach_circle.hide();
+              me.approach_circle.hide();#pitch.......1x.......................................................
             }            
           } else {
             me.dest_runway.hide();

@@ -131,6 +131,7 @@ Sim: {Pinto} After fire M70, and reload, they will fire again. [might be fixed]
 Sim: {Pinto} Has experienced that 2 engine directories were created under engines. That leads to error in performance monitor.
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Effect: Firing many M70 rockets in quick succession will make FG crash. [Probably fixed]
+Sim: A/T at high alpha does not work for Pinto, too high alpha. (3k ft, 30% fuel, no reverse)
 
 
 Issues with FG:

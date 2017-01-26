@@ -218,8 +218,8 @@ var apContAtt = func {
     } else {
       apContHead();
     }
-  }
-  apContPitch();
+    apContPitch();
+  }  
 }
 
 var apStopAtt = func {
@@ -247,7 +247,7 @@ var apContHead = func {
 var apContPitch = func {
   # pitch lock
   setprop("/autopilot/locks/altitude", "pitch-hold");
-  setprop("/autopilot/internal/target-pitch-deg", getprop("/orientation/pitch-deg"));
+  setprop("/autopilot/settings/target-pitch-deg", getprop("/orientation/pitch-deg"));
   lockPitch = "pitch-hold";
 };
 
