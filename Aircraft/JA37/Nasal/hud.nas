@@ -931,6 +931,7 @@ var HUDnasal = {
         mach:             "instrumentation/airspeed-indicator/indicated-mach",
         mode:             "ja37/hud/mode",
         nav0GSNeedleDefl: "instrumentation/nav[0]/gs-needle-deflection-norm",
+        nav0GSNeedleDeflD:"instrumentation/nav[0]/gs-needle-deflection-deg",
         nav0GSInRange:    "instrumentation/nav[0]/gs-in-range",
         nav0HasGS:        "instrumentation/nav[0]/has-gs",
         nav0Heading:      "instrumentation/nav[0]/heading-deg",
@@ -1249,9 +1250,7 @@ var HUDnasal = {
 
   displayHeadingBug: func () {
     me.desired_mag_heading = nil;
-    if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
-      me.desired_mag_heading = me.input.nav0Heading.getValue();
-    } elsif (me.input.APLockHeading.getValue() == "dg-heading-hold") {
+    if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
       me.desired_mag_heading = me.input.APHeadingBug.getValue();
     } elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
       me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
@@ -1260,6 +1259,9 @@ var HUDnasal = {
     } elsif( me.input.RMActive.getValue() == 1) {
       #var i = getprop("autopilot/route-manager/current-wp");
       me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
+    } elsif (me.input.nav0InRange.getValue() == TRUE) {
+      # bug to VOR, ADF or ILS
+      me.desired_mag_heading = me.input.nav0Heading.getValue();# TODO: is this really mag?
     }
     if(me.desired_mag_heading != nil) {
       #print("desired "~desired_mag_heading);
@@ -1714,19 +1716,15 @@ var HUDnasal = {
 
   displayLandingGuide: func (mode, deflect) {
     me.guideUseLines = FALSE;
-    if(mode == LANDING and (me.input.nav0InRange.getValue() == TRUE or land.mode > 2)) {
+    if(mode == LANDING and ((me.input.nav0InRange.getValue() == TRUE and land.mode < 1) or land.mode > 2)) {
       me.deg = deflect;
       
       if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE) {
-        me.deg = me.input.nav0HeadingDefl.getValue()*0.8;# -10 to +10, showed as -8 till +8
+        me.deg = clamp(me.input.nav0HeadingDefl.getValue(), -8,8);# -10 to +10, clamped as -8 till +8
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
-          me.factor = me.input.nav0GSNeedleDefl.getValue() * -1;
-          if (me.factor < 0) {
-            # manual states that they can move one length down and half length up. This is to limit to half up.
-            # Maybe should clip instead of scale, not sure.
-            me.factor *= 0.5;
-          }
+          me.factor = clamp(me.input.nav0GSNeedleDefl.getValue() * -1, -0.5, 1);
+          
           me.dev3 = me.factor * 5 * pixelPerDegreeY +2.86*pixelPerDegreeY;
           me.dev2 = me.factor * 3 * pixelPerDegreeY +2.86*pixelPerDegreeY;
           me.desired_lines3.setTranslation(pixelPerDegreeX*me.deg, me.dev3);
