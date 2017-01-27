@@ -136,9 +136,9 @@ var landing_loop = func {
     if (has_waypoint > 0) {
     	if (has_waypoint > 1) {
     		show_runway_line = TRUE;
-    		var highAlpha = getprop("ja37/avionics/high-alpha");
+    		var short = getprop("ja37/avionics/approach");
 
-    		line = highAlpha==TRUE?10:20;
+    		line = short == TRUE?10:20;
 
     		var ILS = input.nav0InRange.getValue() == TRUE;# and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
 

@@ -573,6 +573,7 @@
             <joystick type="bool">false</joystick>
             <canopyAndSeat type="bool">false</canopyAndSeat>
             <oxygen type="bool">false</oxygen>
+            <approach type="bool">false</approach><!-- true = short -->
             <autopilot type="bool">false</autopilot>
             <autopilot-mode type="int">1</autopilot-mode>
             <auto-throttle-on type="bool">false</auto-throttle-on>

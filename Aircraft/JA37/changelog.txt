@@ -2725,3 +2725,4 @@ Radar: Runway line on radar now uses precise runway heading if available.
 HUD: 550Km ref speed in landing mode 1 with gears up. In landing mode with gears down its only moved by alpha.
 HUD: Landing guide now only show in landing mode 3 or optical mode or when ILS is intercepted.
 HUD: 500m baro set as rf alt in landing mode 1 and 2.
+Model: Added temp. switch for short/normal approach.

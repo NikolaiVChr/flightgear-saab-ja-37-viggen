@@ -362,15 +362,26 @@
   </model>
 
   <model>
-        <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-canopy.xml</path>
-        <name>jett-canopy</name>
-        <offsets>
-            <heading-deg>-270</heading-deg>
-            <x-m>  0.45</x-m>
-            <y-m>  0.000</y-m>
-            <z-m>  0.00</z-m>
-        </offsets>
-    </model>
+      <path>Aircraft/JA37/Models/Instruments/Datapanel/jett-canopy.xml</path>
+      <name>jett-canopy</name>
+      <offsets>
+          <heading-deg>-270</heading-deg>
+          <x-m>  0.460</x-m>
+          <y-m>  0.000</y-m>
+          <z-m>  0.00</z-m>
+      </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/switch-a/approach.xml</path>
+    <name>approach</name>
+    <offsets>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.415</x-m>
+      <y-m>  0.000</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/radarControl/radarControl.xml</path>
