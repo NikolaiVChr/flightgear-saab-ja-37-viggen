@@ -2728,3 +2728,5 @@ HUD: 500m baro set as rf alt in landing mode 1 and 2.
 Model: Added temp. switch for short/normal approach.
 HUD: Made altitude hold boxes.
 Radar: Made altitude hold boxes.
+HUD: Made altitude boxes blink 2Hz when should.
+Radar: Made altitude boxes blink 2Hz when should.

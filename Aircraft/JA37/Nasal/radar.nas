@@ -415,6 +415,7 @@ var radar = {
       viewNumber:           "sim/current-view/view-number",
       headTrue:             "orientation/heading-deg",
       headMagn:             "orientation/heading-magnetic-deg",
+      twoHz:                "ja37/blink/two-Hz/state",
     };
 
     # setup property nodes for the loop
@@ -591,7 +592,7 @@ var radar = {
         } else {
           me.desired_lines3.hide();
         }
-        if (me.showBoxes == TRUE) {
+        if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
           me.desired_boxes.show();
         } else {
           me.desired_boxes.hide();

@@ -953,6 +953,7 @@ var HUDnasal = {
         speed_n:          "velocities/speed-north-fps",
         station:          "controls/armament/station-select",
         tenHz:            "ja37/blink/ten-Hz/state",
+        twoHz:            "ja37/blink/two-Hz/state",
         terrainOn:        "ja37/sound/terrain-on",
         TILS:             "ja37/hud/TILS",
         towerAlt:         "sim/tower/altitude-ft",
@@ -1694,7 +1695,7 @@ var HUDnasal = {
         } else {
           me.desired_lines3.hide();
         }
-        if (me.showBoxes == TRUE) {
+        if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
           me.desired_boxes.show();
         } else {
           me.desired_boxes.hide();

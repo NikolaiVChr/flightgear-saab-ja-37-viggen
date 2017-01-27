@@ -1027,6 +1027,21 @@
 
     <channel execrate="2" name="blinkers">
 
+        <fcs_function name="systems/flight/blink/two">
+            <function>
+                <integer>
+                  <mod>
+                    <product>
+                        <property>sim-time-sec</property>
+                        <value>2</value>
+                    </product>
+                    <value>2</value>
+                  </mod>
+                </integer>
+            </function>
+            <output>/ja37/blink/two-Hz/state</output>
+        </fcs_function>
+
         <fcs_function name="systems/flight/blink/five">
             <function>
                 <integer>

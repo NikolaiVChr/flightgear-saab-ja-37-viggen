@@ -507,6 +507,9 @@
             </heatblur>
         </effect>
         <blink>
+            <two-Hz>
+                <state type="bool">false</state>
+            </two-Hz>
             <five-Hz>
                 <state type="bool">false</state>
             </five-Hz>
