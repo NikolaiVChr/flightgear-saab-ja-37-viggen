@@ -1292,16 +1292,25 @@ var startSupply = func {
     click();
     setprop("fdm/jsbsim/systems/electrical/external/switch", TRUE);
     setprop("/controls/electric/main", TRUE);
+    setprop("controls/electric/reserve", FALSE);
     notice("Enabling power using external supply.");
-  } else {
+    settimer(endSupply, 1.5, 1);
+  } elsif (getprop("fdm/jsbsim/systems/electrical/battery-producing-dc") > 23) {
     # using battery
     click();
     setprop("/controls/electric/battery", TRUE);
     setprop("/controls/electric/main", TRUE);
+    setprop("controls/electric/reserve", FALSE);
     notice("Enabling power using battery.");
+    settimer(endSupply, 1.5, 1);
+  } else {
+    # using reserve power, hope for enough speed for hydraulics
+    setprop("controls/electric/reserve", TRUE);
+    setprop("/controls/electric/main", TRUE);
+    setprop("/controls/gear/gear-down", FALSE);
+    notice("Enabling power using ram air turbine..gears will retract.");
+    settimer(endSupply, 10, 1);
   }
-  setprop("controls/electric/reserve", FALSE);
-  settimer(endSupply, 1.5, 1);
 }
 
 var endSupply = func {
