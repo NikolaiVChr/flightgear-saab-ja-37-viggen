@@ -91,7 +91,6 @@ Sound: Rework how missile buzz and growl works.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.
-Radar: Make altitude hold boxes.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
@@ -99,6 +98,7 @@ HUD: When DME are enabled at the same time as ILS with glideslope, the distance 
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Make use of Richards new wrapper, to improve terrain warning. (2017.1.1)
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
+HUD: Make altitude boxes blink when should. (also in radar)
 
 
 

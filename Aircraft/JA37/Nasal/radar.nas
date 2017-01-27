@@ -10,7 +10,7 @@ var TRUE  = 1;
 var abs = func(n) { n < 0 ? -n : n }
 var sgn = func(n) { n < 0 ? -1 : 1 }
 var g = nil;
-var pixels_max = 256;
+var pixels_max = 512;
 
 # radar canon color
 var black_r = 0.0;
@@ -107,6 +107,22 @@ var radar = {
                .setStrokeLineWidth((8/1024)*pixels_max)
                .setColor(white_r, white_g, white_b)
                .set("z-index", 5);
+
+    # altitude boxes
+    m.desired_boxes = m.horzGroup.createChild("path")
+                     .moveTo(-(380/1024)*pixels_max, 0)
+                     .vert((50/1024)*pixels_max)
+                     .horiz((10/1024)*pixels_max)
+                     .vert(-(50/1024)*pixels_max)
+                     .horiz(-(10/1024)*pixels_max)
+                     .moveTo((380/1024)*pixels_max, 0)
+                     .vert((50/1024)*pixels_max)
+                     .horiz(-(10/1024)*pixels_max)
+                     .vert(-(50/1024)*pixels_max)
+                     .horiz((10/1024)*pixels_max)
+                     .setStrokeLineWidth((8/1024)*pixels_max)
+                     .setColor(white_r, white_g, white_b)
+                     .set("z-index", 5);
 
     ####################
     # black antennae   #
@@ -543,12 +559,19 @@ var radar = {
     
       # show horizon lines
       me.horzGroup.setRotation(-me.input.roll.getValue()*D2R);
-
+      me.showBoxes = FALSE;
+      me.showLines = TRUE;
       me.desired_alt_delta_ft = nil;
       if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+        me.showBoxes = TRUE;
+        if (me.input.alt_ft.getValue() * FT2M > 1000) {
+          me.showLines = FALSE;
+        }
+      } elsif(canvas_HUD.mode == canvas_HUD.LANDING and land.mode < 3 and land.mode > 0) {
+        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
       } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
@@ -562,9 +585,20 @@ var radar = {
         me.pos_y = clamp(-(me.desired_alt_delta_ft*FT2M)/10, -(50/1024)*pixels_max, (100/1024)*pixels_max);#500 m up, 1000 m down
 
         me.desired_lines3.setTranslation(0, me.pos_y);
-        me.desired_lines3.show();
+        me.desired_boxes.setTranslation(0, me.pos_y);
+        if (me.showLines == TRUE) {
+          me.desired_lines3.show();
+        } else {
+          me.desired_lines3.hide();
+        }
+        if (me.showBoxes == TRUE) {
+          me.desired_boxes.show();
+        } else {
+          me.desired_boxes.hide();
+        }
       } else {
         me.desired_lines3.hide();
+        me.desired_boxes.hide();
       }
 
 
