@@ -639,6 +639,21 @@ var HUDnasal = {
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
+    # altitude boxes
+    HUDnasal.main.desired_boxes = HUDnasal.main.desired_lines_group.createChild("path")
+                     .moveTo(-(215/1024)*canvasWidth + w/2, 0)
+                     .vert(2.5*pixelPerDegreeY)
+                     .horiz((30/1024)*canvasWidth)
+                     .vert(-2.5*pixelPerDegreeY)
+                     .horiz((-30/1024)*canvasWidth)
+                     .moveTo((215/1024)*canvasWidth - w/2, 0)
+                     .vert(2.5*pixelPerDegreeY)
+                     .horiz((-30/1024)*canvasWidth)
+                     .vert(-2.5*pixelPerDegreeY)
+                     .horiz((30/1024)*canvasWidth)
+                     .setStrokeLineWidth(w)
+                     .setColor(r,g,b, a);
+
     HUDnasal.main.landing_line = HUDnasal.main.horizon_group2.createChild("path")
                      .moveTo(-(200/1024)*canvasWidth, 0)
                      .horiz((160/1024)*canvasWidth)
@@ -847,7 +862,7 @@ var HUDnasal = {
              HUDnasal.main.alt_scale_high, HUDnasal.main.alt_scale_med, HUDnasal.main.alt_scale_low, HUDnasal.main.slip_indicator,
              HUDnasal.main.alt_scale_line, HUDnasal.main.aim_reticle_fin, HUDnasal.main.reticle_cannon, HUDnasal.main.desired_lines2,
              HUDnasal.main.alt_pointer, HUDnasal.main.rad_alt_pointer, HUDnasal.main.target_air, HUDnasal.main.target_sea, HUDnasal.main.target_ground, HUDnasal.main.desired_lines3, HUDnasal.main.horizon_line_gap,
-             HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
+             HUDnasal.main.desired_boxes, HUDnasal.main.reticle_no_ammo, HUDnasal.main.takeoff_symbol, HUDnasal.main.horizon_line, HUDnasal.main.horizon_dots, HUDnasal.main.diamond,
              tower, ccip, HUDnasal.main.aim_reticle, HUDnasal.main.targetSpeed, HUDnasal.main.mySpeed, HUDnasal.main.distanceScale, HUDnasal.main.targetDistance1,
              HUDnasal.main.targetDistance2, HUDnasal.main.landing_line, HUDnasal.main.heading_bug_horz];
 
@@ -1648,10 +1663,16 @@ var HUDnasal = {
   displayDesiredAltitudeLines: func (guideUseLines) {
     if (guideUseLines == FALSE) {
       me.desired_alt_delta_ft = nil;
+      me.showBoxes = FALSE;
+      me.showLines = TRUE;
       if(mode == TAKEOFF) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+        me.showBoxes = TRUE;
+        if (me.input.alt_ft.getValue() * FT2M > 1000) {
+          me.showLines = FALSE;
+        }
       } elsif(mode == LANDING and land.mode < 3 and land.mode > 0) {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
@@ -1667,14 +1688,26 @@ var HUDnasal = {
         me.pos_y = clamp(-me.desired_alt_delta_ft*me.pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
 
         me.desired_lines3.setTranslation(0, me.pos_y);
-        me.desired_lines3.show();
+        me.desired_boxes.setTranslation(0, me.pos_y);
+        if (me.showLines == TRUE) {
+          me.desired_lines3.show();
+        } else {
+          me.desired_lines3.hide();
+        }
+        if (me.showBoxes == TRUE) {
+          me.desired_boxes.show();
+        } else {
+          me.desired_boxes.hide();
+        }
       } else {
         me.desired_lines3.hide();
+        me.desired_boxes.hide();
       }
       me.desired_lines2.hide();
     } else {
       me.desired_lines2.show();
       me.desired_lines3.show();
+      me.desired_boxes.hide();# todo: show them
     }
   },
 
