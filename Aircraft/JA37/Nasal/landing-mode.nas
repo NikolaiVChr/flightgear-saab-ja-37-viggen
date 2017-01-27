@@ -14,6 +14,9 @@ input = {
     nav0GSInRange:    	  "instrumentation/nav[0]/gs-in-range",
     nav0HasGS:        	  "instrumentation/nav[0]/has-gs",
     nav0InRange:       	  "instrumentation/nav[0]/in-range",
+    ctrlRadar:            "controls/altimeter-radar",
+    rad_alt:              "position/altitude-agl-ft",
+    alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
 };
 
 # setup property nodes for the loop
@@ -137,7 +140,7 @@ var landing_loop = func {
 
     		line = highAlpha==TRUE?10:20;
 
-    		var ILS = input.nav0InRange.getValue() == TRUE and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
+    		var ILS = input.nav0InRange.getValue() == TRUE;# and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
 
     		# find approach circle
     		var curr = input.rmCurrWaypoint.getValue();
@@ -156,8 +159,10 @@ var landing_loop = func {
     		runway.apply_course_distance(geo.normdeg(rectAngle), 4100);
     		var distCenter = geo.aircraft_position().distance_to(runway);
     		approach_circle = runway;
-
-    		if (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000) or ILS == TRUE) {#test if glideslope/ILS or less than 10 Km
+            if (input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) {
+                mode = 4;
+                show_waypoint_circle = TRUE;
+    		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000) or ILS == TRUE) {#test if glideslope/ILS or less than 10 Km
     			show_waypoint_circle = TRUE;
     			mode = 3;
     		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle

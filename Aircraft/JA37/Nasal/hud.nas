@@ -1652,6 +1652,8 @@ var HUDnasal = {
         me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+      } elsif(mode == LANDING and land.mode < 3 and land.mode > 0) {
+        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
       } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
         me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
       } elsif(me.input.RMActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
@@ -1678,10 +1680,10 @@ var HUDnasal = {
 
   displayLandingGuide: func (mode, deflect) {
     me.guideUseLines = FALSE;
-    if(mode == LANDING) {
+    if(mode == LANDING and (me.input.nav0InRange.getValue() == TRUE or land.mode > 2)) {
       me.deg = deflect;
       
-      if (me.finalVisual == FALSE and (me.input.nav0InRange.getValue() == TRUE or me.input.TILS.getValue() == TRUE)) {
+      if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE) {
         me.deg = me.input.nav0HeadingDefl.getValue()*0.8;# -10 to +10, showed as -8 till +8
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
