@@ -1704,7 +1704,7 @@ var HUDnasal = {
       if (me.finalVisual == TRUE) {
         me.sinkRateMax_mps = 2.8;
         me.groundspeed_mps = me.input.gs.getValue() != 0?me.input.gs.getValue() * KT2FPS * FT2M:0.0001;
-        me.desiredSink_deg = math.asin(me.sinkRateMax_mps/me.groundspeed_mps)*R2D;
+        me.desiredSink_deg = math.asin(clamp(me.sinkRateMax_mps/me.groundspeed_mps,-1,1))*R2D;
       }
       HUDnasal.main.landing_line.setTranslation(pixelPerDegreeX*me.deg, me.desiredSink_deg*pixelPerDegreeY);
       HUDnasal.main.landing_line.show();

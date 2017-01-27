@@ -140,7 +140,7 @@ var landing_loop = func {
 
     		line = short == TRUE?10:20;
 
-    		var ILS = input.nav0InRange.getValue() == TRUE;# and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
+    		var ILS = input.nav0InRange.getValue() == TRUE and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
 
     		# find approach circle
     		var curr = input.rmCurrWaypoint.getValue();

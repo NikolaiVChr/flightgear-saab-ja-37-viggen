@@ -30,7 +30,6 @@ Model: Model speedbrakes.
 Model: Fuze panel. Right side.
 Model: Radar panel. Left side.
 Model: Radio panel. Left side.
-Model: Switch/knob? for short or normal landings. HUD FPI fin should be updated too.
 Model: Airspeed indicator should have mach number also.
 Model: Stores jettisoned indicator on top right of front panel?
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
@@ -92,7 +91,6 @@ Sound: Rework how missile buzz and growl works.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.
-Radar: Show the approach curve at end of runway line, as per manual.
 HUD: Make boxes for desired pitch.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
