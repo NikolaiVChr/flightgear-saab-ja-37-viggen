@@ -266,14 +266,14 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/button-g/trim-reset.xml</path>
-    <name>reset trim</name>
-    <offsets>
-      <heading-deg>90</heading-deg>
-      <x-m>  0.70</x-m>
-      <y-m> -0.025</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
+      <path>Aircraft/JA37/Models/Instruments/Datapanel/trim-reset.xml</path>
+      <name>reset trim</name>
+      <offsets>
+          <heading-deg>-270</heading-deg>
+          <x-m>  0.70</x-m>
+          <y-m> -0.025</y-m>
+          <z-m>  0.00</z-m>
+      </offsets>
   </model>
 
   <model>

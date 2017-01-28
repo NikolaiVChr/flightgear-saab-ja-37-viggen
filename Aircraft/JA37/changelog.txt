@@ -2733,3 +2733,4 @@ Radar: Made altitude boxes blink 2Hz when should.
 HUD: Some refinement of ILS guide.
 HUD: If landing base is programmed in route manager, ILS guide wont show till 10 Km out.
 HUD: Heading bug for ADF, VOR or ILS now has lower priority to show than A/P or waypoint.
+Model: Changed the reset trim button to fliplid, as per manual.

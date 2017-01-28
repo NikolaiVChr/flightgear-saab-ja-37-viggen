@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>fliplid-switch.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>rensa</object-name>
+        <object-name>rensaCoverHardware</object-name>
+        <object-name>mount</object-name>
+    </effect>
+	
+	<effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+		<object>rensaCover</object>
+    </effect>
+
+    <animation>
+		<type>pick</type>
+		<object-name>rensa</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+                <command>property-assign</command>
+                <property>controls/flight/trim-reset</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/flight/elevator-trim</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/flight/aileron-trim</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/flight/rudder-trim</property>
+                <value>0</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>controls/flight/trim-reset</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>button-trim-reset</tooltip-id>
+                <label>Reset trim</label>
+            </binding>
+        </hovered>
+	</animation>
+
+
+	<!--
+	**********************************
+	Clear Button Cover
+	**********************************
+	-->
+	
+	<animation>
+		<type>pick</type>
+		<object-name>rensaCover</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>/sim/ja37/navigation/reset-trim-cover</property>
+			</binding>
+		</action>
+	</animation>
+	
+	<animation>
+		<type>rotate</type>
+		<object-name>rensaCover</object-name>
+		<property>/sim/ja37/navigation/reset-trim-cover</property>
+		<factor>135</factor>
+		<center>
+			<x-m> 0.00064   </x-m>
+			<y-m> -0.01189   </y-m>
+			<z-m> 0.00492</z-m>
+		</center>
+		<axis>
+			<x>1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+	</animation>
+
+	<animation>
+        <type>material</type>
+        <object-name>rensaCover</object-name>
+        <property-base>ja37/texture</property-base>
+        <texture-prop>switch-reset-trim-cover</texture-prop>
+        <texture>TRIM-RESET.png</texture>
+    </animation>
+
+</PropertyList>
