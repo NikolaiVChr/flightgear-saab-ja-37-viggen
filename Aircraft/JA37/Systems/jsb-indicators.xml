@@ -2052,13 +2052,16 @@
 
         <fcs_function name="/instrumentation/terrain-warning-hold">
             <function>
-                <lt>
-                    <quotient>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <property>/autopilot/settings/target-altitude-ft</property>                        
-                    </quotient>
-                    <v>0.8</v>
-                </lt>
+                <and>
+                    <property>/ja37/avionics/auto-altitude-hold-on</property>
+                    <lt>
+                        <quotient>
+                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                            <property>/autopilot/settings/target-altitude-ft</property>
+                        </quotient>
+                        <v>0.8</v>
+                    </lt>
+                </and>
             </function>
         </fcs_function>
 

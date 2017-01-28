@@ -90,7 +90,7 @@ Sound: Adjust the volume of the explosion of nearby missile, depending on distan
 Sound: Rework how missile buzz and growl works.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
-Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline.
+Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline?
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
