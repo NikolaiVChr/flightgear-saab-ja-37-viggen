@@ -51,6 +51,7 @@ var head = 0;#true degs
 
 var approach_circle = nil;#Coord
 
+var runway = "";
 var last_runway = "";
 var last_icao = "";
 var icao = "";
@@ -80,7 +81,8 @@ var landing_loop = func {
 	show_runway_line = FALSE;
 	show_waypoint_circle = FALSE;
 	show_approach_circle = FALSE;
-	
+	runway = "";
+    icao = "";
 	var bearing = 0;
 	if (input.rmActive.getValue() == TRUE) {
         runway_dist = input.rmDist.getValue();        
@@ -90,10 +92,9 @@ var landing_loop = func {
           	runway_bug = bearing - heading;
           	var name = input.rmId.getValue();
           	if (name != nil and size(split("-", name))>1) {
-	            #print(name~"="~dist~" "~me.strokeHeight~" "~(me.radarRange * M2NM));
 	            name = split("-", name);
 	            icao = name[0];
-	            var runway = name[1];
+	            runway = name[1];
                 if (icao != last_icao or runway != last_runway) {
                     var hd = -1000;
                     var info = airportinfo(icao);
@@ -118,7 +119,6 @@ var landing_loop = func {
                         head = hd;
                         has_waypoint = 2;
                     }
-                    last_runway = runway;
                 }
 	        } else {
                 has_waypoint = 1;
@@ -129,9 +129,10 @@ var landing_loop = func {
     } else {
         has_waypoint = 0;
     }
-    if (icao != last_icao) {
+    if (icao != last_icao or last_runway != runway) {
     	mode = -1;
     	last_icao = icao;
+        last_runway = runway;
     }
     if (has_waypoint > 0) {
     	if (has_waypoint > 1) {
@@ -153,7 +154,7 @@ var landing_loop = func {
 
     		var diff = bearing - head;#positive for pos
     		diff = geo.normdeg180(diff);	
-    		var rect = (diff>0?90:-90);           #setprop("AA-rect", rect);
+    		var rect = (diff>0?90:-90);           
 			var rectAngle = head+180+rect;
 
     		runway.apply_course_distance(geo.normdeg(rectAngle), 4100);
@@ -162,7 +163,7 @@ var landing_loop = func {
             if (input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) {
                 mode = 4;
                 show_waypoint_circle = TRUE;
-    		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000) or ILS == TRUE) {#test if glideslope/ILS or less than 10 Km
+    		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000)) {# or ILS == TRUE test if glideslope/ILS or less than 10 Km
     			show_waypoint_circle = TRUE;
     			mode = 3;
     		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle
@@ -171,7 +172,10 @@ var landing_loop = func {
     		} elsif (mode == 2 and distCenter < (4100+250)) {
     			show_approach_circle = TRUE;
     			mode = 2;
-    		} elsif (mode == 2 and runway_dist*NM2M < (line*2000)) {
+    		} elsif (mode == 2 and (runway_dist*NM2M > (line*1000+4100) or distCenter > 11000)) {
+                show_approach_circle = TRUE;
+                mode = 1;
+            } elsif (mode == 2 and runway_dist*NM2M < (line*1000+4100)) {
     			show_waypoint_circle = TRUE;
     			mode = 2;
     		} else {
@@ -185,8 +189,6 @@ var landing_loop = func {
     } else {
     	mode = -1;
     }
-    #setprop("AA-mode", mode);
-    #setprop("AA-line", line);
     settimer(landing_loop, 0.05);
 }
 
