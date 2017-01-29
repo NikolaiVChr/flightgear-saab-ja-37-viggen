@@ -83,6 +83,7 @@ MiscMonitor.properties = func() {
     { property : "buffet",       name : "Buffeting",             format : "%1.1f", unit : "%",      halign : "right" },
     { property : "maxG",         name : "Max allowed",           format : "%1.1f", unit : "G",      halign : "right" },
     { property : "minG",         name : "Min allowed",           format : "%1.1f", unit : "G",      halign : "right" },
+    { property : "landing",      name : "Landing",               format : "%s",    unit : "",       halign : "right" },
   ]
 }
 
@@ -138,6 +139,19 @@ MiscMonitor.update = func()
     gate = "transit";
   }
   setprop("/sim/gui/dialogs/systems-monitor/gate", gate);
+  var landingMode = "Off/No Route";
+  if(canvas_HUD.mode == canvas_HUD.LANDING) {
+    if (land.mode == 1) {
+      landingMode = "Mode 1";
+    } elsif (land.mode == 2) {
+      landingMode = "Mode 2";
+    } elsif (land.mode == 3) {
+      landingMode = "Mode 3";
+    } elsif (land.mode == 4) {
+      landingMode = "Optical";
+    }
+  }
+  setprop("/sim/gui/dialogs/systems-monitor/landing", landingMode);
 }
 
 MiscMonitor.reinit = func() {
