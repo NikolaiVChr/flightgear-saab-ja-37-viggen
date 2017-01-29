@@ -1351,7 +1351,7 @@ var HUDnasal = {
     me.pixelPerFeet = nil;
     # determine which alt scale to use
     if(me.metric == 1) {
-      me.pixelPerFeet = altimeterScaleHeight/50;
+      me.pixelPerFeet = altimeterScaleHeight/(50*M2FT);
       if (alt_scale_mode == -1) {
         if (alt < 45) {
           alt_scale_mode = 0;
@@ -1359,7 +1359,7 @@ var HUDnasal = {
           alt_scale_mode = 1;
         } else {
           alt_scale_mode = 2;
-          me.pixelPerFeet = altimeterScaleHeight/100;
+          me.pixelPerFeet = altimeterScaleHeight/(100*M2FT);
         }
       } elsif (alt_scale_mode == 0) {
         if (alt < 45) {
@@ -1372,7 +1372,7 @@ var HUDnasal = {
           alt_scale_mode = 1;
         } else if (alt >= 90) {
           alt_scale_mode = 2;
-          me.pixelPerFeet = altimeterScaleHeight/100;
+          me.pixelPerFeet = altimeterScaleHeight/(100*M2FT);
         } else if (alt < 40) {
           alt_scale_mode = 0;
         } else {
@@ -1381,7 +1381,7 @@ var HUDnasal = {
       } elsif (alt_scale_mode == 2) {
         if (alt >= 85) {
           alt_scale_mode = 2;
-          me.pixelPerFeet = altimeterScaleHeight/100;
+          me.pixelPerFeet = altimeterScaleHeight/(100*M2FT);
         } else {
           alt_scale_mode = 1;
         }
@@ -1717,10 +1717,10 @@ var HUDnasal = {
   displayLandingGuide: func (mode, deflect) {
     me.guideUseLines = FALSE;
     if(mode == LANDING and ((me.input.nav0InRange.getValue() == TRUE and land.mode < 1) or land.mode > 2)) {
-      me.deg = deflect;
+      me.deg = clamp(deflect, -8, 6);
       
       if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE) {
-        me.deg = clamp(me.input.nav0HeadingDefl.getValue(), -8,8);# -10 to +10, clamped as -8 till +8
+        me.deg = clamp(me.input.nav0HeadingDefl.getValue(), -8, 6);# -10 to +10, clamped as -8 till +6
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
           me.factor = clamp(me.input.nav0GSNeedleDefl.getValue() * -1, -0.5, 1);
