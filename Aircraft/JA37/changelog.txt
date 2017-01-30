@@ -2682,7 +2682,7 @@ Aero: The ram air turbine now produces drag.
 Sim: The ram air turbine now extends when taking off, in this state is does not disconnect main generator though.
 Sim: Fixed that auto-start would sometimes fail due to reserve power being on.
 
-4.016
+4.016 - 2017 January 29
 =====
 Sim: Made sure when auto shutting down, that ram air turbine and flaps is fully retracted.
 GUI: Added buffeting and ram air turbine stats to systems monitor.
@@ -2692,10 +2692,10 @@ GUI: Reseting view with shift-q now is smooth.
 Sound: Low speed warning now depends on baro-altimeter when radar altimeter is switched off.
 Sim: Glass frost now is influenced by ram rise temperature, and glass-temp-index has been reduced.
 Radar: Fixed that radarlock would not show on screen for non-air targets.
-Sim: A/T wont engage AB no longer.
+Sim: A/T wont engage AB no longer, as per manual.
 Sim: A/P downgrade is now pressing lower button. Then master warning with sound comes on.
 Sim: Pressing ATT now enable pitch hold also.
-Sim: Pressing SPAK engages dampers, lowest A/P mode.
+Sim: Pressing STICK engages dampers, lowest A/P mode.
 Sim: Heading hold will switch to roll hold when gears down.
 Sim: Loss of AC for 2 secs disengage A/T AoA.
 Sim: Loss of AC for 6 secs disengage A/T speed.
@@ -2734,7 +2734,7 @@ HUD: Some refinement of ILS guide.
 HUD: If landing base is programmed in route manager, ILS guide wont show till 10 Km out.
 HUD: Heading bug for ADF, VOR or ILS now has lower priority to show than A/P or waypoint.
 Model: Changed the reset trim button to fliplid, as per manual.
-HUD: Made the lateral movement of landing guide clamp to 6 degs to right.
+HUD: Made the lateral movement of landing guide clamp to 6 degs to right, to not be hidden behind alt. scale.
 HUD: Fixed that altitude lines/boxes did not match the scale when in metric mode.
 GUI: Added landing mode to systems monitor.
 GUI: Made option for changing quality of G-suit.

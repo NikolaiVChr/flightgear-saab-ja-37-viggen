@@ -8,7 +8,7 @@
 
 <PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
-        <aircraft-version>4.015</aircraft-version>
+        <aircraft-version>4.016</aircraft-version>
 
         <rating>
             <FDM type="int">4</FDM>
@@ -308,7 +308,7 @@
 *************************************************************************-->
         <rendering>
             <redout>
-                <enabled type="bool" userarchive="y">true</enabled>
+                <enabled type="bool" userarchive="n" archive="n">true</enabled>
                 <parameters>
                     <blackout-onset-g type="double">5</blackout-onset-g>
                     <blackout-complete-g type="double">8</blackout-complete-g>
