@@ -384,6 +384,20 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           me.dialog.annunButton.setBinding("nasal", "ja37.Dialog.annunToggle()");
 
+          ######   G-suit button   #####
+          var suitRow = topRow.addChild("group");
+          suitRow.set("layout", "hbox");
+          suitRow.set("pref-height", 25);
+          suitRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #suitRow.set("valign", "center");
+          
+          var suitText = suitRow.addChild("text").set("label", "G-Suit quality anno:");
+          suitRow.addChild("empty").set("stretch", 1);
+          me.dialog.suitButton = suitRow.addChild("button");
+          me.dialog.suitButton.set("halign", "right");
+          me.dialog.suitButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.suitButton.setBinding("nasal", "ja37.Dialog.suitToggle()");
+
           ######   terrain can hide radar tracks button   #####
           var realRadarRow = topRow.addChild("group");
           realRadarRow.set("layout", "hbox");
@@ -673,6 +687,17 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    suitToggle: func {
+      var value = getprop("ja37/effect/g-suit");
+      if (value < 3) {
+        value += 1;
+      } else {
+        value = 1;
+      }
+      setprop("ja37/effect/g-suit", value);
+      me.refreshButtons();
+    },
+
     light: func {
       canvas_HUD.r = 0.6;
       canvas_HUD.g = 1.0;
@@ -892,6 +917,16 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.hitButton.node.setValues({"legend": legend});
+
+      enabled = getprop("ja37/effect/g-suit");
+      if(enabled == 1) {
+        legend = "1971";
+      } elsif (enabled == 2) {
+        legend = "1979";
+      } else {
+        legend = "1997";
+      }
+      me.dialog.suitButton.node.setValues({"legend": legend});
 
       #props.dump(me.dialog.prop()); # handy command, don't forget it.
 

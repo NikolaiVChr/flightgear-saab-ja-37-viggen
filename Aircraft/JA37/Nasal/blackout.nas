@@ -61,8 +61,46 @@ var redout_fast_log = math.log10(invert(redout_fast));
 var blackout = 0;
 var redout   = 0;
 
+var suit = 3;
+
+var init_suit = func {
+	blackout_onset_log = math.log10(blackout_onset);
+	blackout_fast_log = math.log10(blackout_fast);
+	redout_onset_log = math.log10(invert(redout_onset));
+	redout_fast_log = math.log10(invert(redout_fast));
+}
+
+var changeSuit = func {
+	if (suit == 1) {
+		#1971
+		blackout_onset      =  4.5;
+		blackout_fast       =    7;
+		blackout_onset_time =  300;
+		blackout_fast_time  =   10;
+	} elsif (suit == 2) {
+		#1979
+		blackout_onset      = 4.75;
+		blackout_fast       =    8;
+		blackout_onset_time =  300;
+		blackout_fast_time  =   10;
+	} else {
+		#1997
+		blackout_onset      =    5;
+		blackout_fast       =    8;
+		blackout_onset_time =  300;
+		blackout_fast_time  =   30;
+	}
+	init_suit();
+}
+
 var redout_loop = func {
 	setprop("sim/rendering/redout/enabled", 1);# enable the Fg default redout/blackout system.
+
+	if (suit != getprop("ja37/effect/g-suit")) {
+		suit = getprop("ja37/effect/g-suit");
+		changeSuit();
+	}
+
 	setprop("sim/rendering/redout/parameters/blackout-onset-g", blackout_onset);
 	setprop("sim/rendering/redout/parameters/blackout-complete-g", blackout_fast);
 	setprop("sim/rendering/redout/parameters/redout-onset-g", redout_onset);
@@ -78,6 +116,10 @@ var redout_loop = func {
 }
 
 var blackout_loop = func {
+	if (suit != getprop("ja37/effect/g-suit")) {
+		suit = getprop("ja37/effect/g-suit");
+		changeSuit();
+	}
 	setprop("/sim/rendering/redout/enabled", 0);# disable the Fg default redout/blackout system.
 	var dt = getprop("sim/time/delta-sec");
 	var g = 0;

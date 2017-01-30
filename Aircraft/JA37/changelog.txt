@@ -2737,3 +2737,4 @@ Model: Changed the reset trim button to fliplid, as per manual.
 HUD: Made the lateral movement of landing guide clamp to 6 degs to right.
 HUD: Fixed that altitude lines/boxes did not match the scale when in metric mode.
 GUI: Added landing mode to systems monitor.
+GUI: Made option for changing quality of G-suit.

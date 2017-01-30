@@ -505,6 +505,7 @@
                 <noise type="int">1</noise>
                 <color type="double">0</color>
             </heatblur>
+            <g-suit type="int">3</g-suit>
         </effect>
         <blink>
             <two-Hz>
