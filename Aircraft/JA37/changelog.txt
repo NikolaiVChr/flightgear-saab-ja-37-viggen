@@ -2738,3 +2738,7 @@ HUD: Made the lateral movement of landing guide clamp to 6 degs to right, to not
 HUD: Fixed that altitude lines/boxes did not match the scale when in metric mode.
 GUI: Added landing mode to systems monitor.
 GUI: Made option for changing quality of G-suit.
+
+4.017
+=====
+HUD: Now always show landing guide when no route to runway has been programmed and in landing mode.

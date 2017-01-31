@@ -61,7 +61,7 @@ Damage system for getting hit by ordnance.
 
 Avionics
 -----
-The cockpit features 96 working controls.
+The cockpit features 97 working controls.
 Gauges are in metric and Swedish description. But they have Tooltips, showing Imperial and English units.
 Switches, knobs and buttons have english text for convenience.
 Custom Canvas HUD built from Saab flight manual with 4 modes of operation: navigation, landing, takeoff and tactical.
@@ -85,7 +85,7 @@ Afterburner that has 3 continuous zones of operation.
 Sound
 -----
 58 distinct sounds, including 19 annunciation warnings.
-9 multiplayer sounds enabled.
+9 multiplayer sounds enabled. (is for now disabled until FG MP sounds is fixed)
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.
 When guided missiles hit, the sound is propagated according to the speed of sound at the altitude, and so the explosion will be realistically delayed.
@@ -135,7 +135,7 @@ Different Viggen version are to high degree compatible with each other in MP.
 
 GUI
 -----
-4 Checklists; startup with ext. power, startup with battery, takeoff and landing.
+5 Checklists; startup with ext. power, startup with battery, shutdown, takeoff and landing.
 Performance monitor with environment stats, aerodynamic ratios, landing/takeoff distance measurement and other interesting values.
 Systems monitor, that reveals internal systems state.
 Options panel, with many configurable options.

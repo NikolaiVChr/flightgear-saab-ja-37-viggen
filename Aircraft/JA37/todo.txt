@@ -81,6 +81,7 @@ Sim: OPT FIX button pressed will make the current destination selected moved to 
 Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
 Sim: Pitot depend on AC.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
+Sim: The A/P for glideslope is not very reliable, fix.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.

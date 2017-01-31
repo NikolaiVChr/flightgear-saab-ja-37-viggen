@@ -1716,7 +1716,7 @@ var HUDnasal = {
 
   displayLandingGuide: func (mode, deflect) {
     me.guideUseLines = FALSE;
-    if(mode == LANDING and ((me.input.nav0InRange.getValue() == TRUE and land.mode < 1) or land.mode > 2)) {
+    if(mode == LANDING and (land.mode < 1 or land.mode > 2)) {
       me.deg = clamp(deflect, -8, 6);
       
       if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE) {
