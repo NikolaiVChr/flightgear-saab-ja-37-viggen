@@ -2743,3 +2743,6 @@ GUI: Made option for changing quality of G-suit.
 =====
 HUD: Now always show landing guide when no route to runway has been programmed and in landing mode.
 Effect: Added rust effect to cockpit and fuselage, enabled in options.
+Sound: Made welcome msg. delayed for FG 2017.1
+Sim: Added GSh-23 to damage.
+Effect: Put cockpit shader on pedals.
