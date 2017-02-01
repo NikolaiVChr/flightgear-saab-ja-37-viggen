@@ -506,6 +506,8 @@
                 <color type="double">0</color>
             </heatblur>
             <g-suit type="int">3</g-suit>
+            <rust-outside type="int">0</rust-outside>
+            <rust-inside type="int">0</rust-inside>
         </effect>
         <blink>
             <two-Hz>

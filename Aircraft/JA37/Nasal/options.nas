@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 775;
+var DIALOG_HEIGHT = 725;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -398,6 +398,20 @@ var Dialog = {
           me.dialog.suitButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           me.dialog.suitButton.setBinding("nasal", "ja37.Dialog.suitToggle()");
 
+          ######   G-rust button   #####
+          var rustRow = topRow.addChild("group");
+          rustRow.set("layout", "hbox");
+          rustRow.set("pref-height", 25);
+          rustRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #rustRow.set("valign", "center");
+          
+          var rustText = rustRow.addChild("text").set("label", "Rust (Needs ALS and FG 2017.1):");
+          rustRow.addChild("empty").set("stretch", 1);
+          me.dialog.rustButton = rustRow.addChild("button");
+          me.dialog.rustButton.set("halign", "right");
+          me.dialog.rustButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.rustButton.setBinding("nasal", "ja37.Dialog.rustToggle()");
+
           ######   terrain can hide radar tracks button   #####
           var realRadarRow = topRow.addChild("group");
           realRadarRow.set("layout", "hbox");
@@ -698,6 +712,18 @@ var Dialog = {
       me.refreshButtons();
     },
 
+    rustToggle: func {
+      var value = getprop("ja37/effect/rust-inside");
+      if (value == 2) {
+        value = 0;
+      } else {
+        value = 2;
+      }
+      setprop("ja37/effect/rust-inside", value);
+      setprop("ja37/effect/rust-outside", value);
+      me.refreshButtons();
+    },
+
     light: func {
       canvas_HUD.r = 0.6;
       canvas_HUD.g = 1.0;
@@ -927,6 +953,14 @@ var Dialog = {
         legend = "1997";
       }
       me.dialog.suitButton.node.setValues({"legend": legend});
+
+      enabled = getprop("ja37/effect/rust-inside");
+      if(enabled == 0) {
+        legend = "Clean";
+      } elsif (enabled == 2) {
+        legend = "Rusty";
+      }
+      me.dialog.rustButton.node.setValues({"legend": legend});
 
       #props.dump(me.dialog.prop()); # handy command, don't forget it.
 

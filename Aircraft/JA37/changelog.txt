@@ -2742,3 +2742,4 @@ GUI: Made option for changing quality of G-suit.
 4.017
 =====
 HUD: Now always show landing guide when no route to runway has been programmed and in landing mode.
+Effect: Added rust effect to cockpit and fuselage, enabled in options.
