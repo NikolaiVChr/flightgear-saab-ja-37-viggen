@@ -1180,8 +1180,12 @@ var load_interior = func {
 
 var load_interior_final = func {
     setprop("sim/current-view/field-of-view", 90);
-    setprop("ja37/avionics/welcome", TRUE);
     print("..Done!");
+    settimer( load_interior_final2, 1.5 );
+}
+
+var load_interior_final2 = func {
+    setprop("ja37/avionics/welcome", TRUE);
 }
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
