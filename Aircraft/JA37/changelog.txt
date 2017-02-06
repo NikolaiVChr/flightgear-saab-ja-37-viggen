@@ -2746,3 +2746,4 @@ Effect: Added rust effect to cockpit and fuselage, enabled in options.
 Sound: Made welcome msg. delayed for FG 2017.1
 Sim: Added GSh-23 to damage.
 Effect: Put cockpit shader on pedals.
+Animation: Fixed that DME indicator would get stuck if dme/waypoint is more than 40 KM out.

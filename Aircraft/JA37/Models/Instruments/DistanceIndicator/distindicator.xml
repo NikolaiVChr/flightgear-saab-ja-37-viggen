@@ -29,20 +29,24 @@
 					<property>systems/electrical/outputs/ac-instr-voltage</property>
 					<value>100</value>
 				</greater-than>
-				<less-than>
-					<property>autopilot/route-manager/wp/dist-km</property>
-					<value>40</value>
-				</less-than>
 			</and>
         </condition>
         <property>autopilot/route-manager/wp/dist-km</property>
-        <factor>6</factor>
-        <offset-deg>240</offset-deg>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>-120</dep>
+            </entry>
+            <entry>
+                <ind>40</ind>
+                <dep>120</dep>
+            </entry>
+        </interpolation>
         <axis>
             <x>-1</x>
             <y>0</y>
             <z>0</z>
-        </axis>
+        </axis> 
     </animation>
 
     <animation>
