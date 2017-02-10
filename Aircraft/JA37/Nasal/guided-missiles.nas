@@ -355,7 +355,10 @@ var AIM = {
 		m.rail_speed_into_wind = 0;
 
 		# stats
-		m.maxMach     = 0;
+		m.maxMach      = 0;
+		m.maxMach1     = 0;#stage 1
+		m.maxMach2     = 0;#stage 2
+		m.maxMach3     = 0;#stage 2 end
 		m.energyBleedKt = 0;
 
 		m.lastFlare = 0;
@@ -806,6 +809,15 @@ var AIM = {
 		if (me.speed_m > me.maxMach) {
 			me.maxMach = me.speed_m;
 		}
+		if (me.speed_m > me.maxMach1 and me.life_time > me.drop_time and me.life_time <= (me.drop_time + me.stage_1_duration)) {
+			me.maxMach1 = me.speed_m;
+		}
+		if (me.speed_m > me.maxMach2 and me.life_time > (me.drop_time + me.stage_1_duration) and me.life_time <= (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+			me.maxMach2 = me.speed_m;
+		}
+		if (me.maxMach3 == 0 and me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+			me.maxMach3 = me.speed_m;
+		}
 
 		me.Cd = me.drag(me.speed_m);
 
@@ -983,7 +995,8 @@ var AIM = {
 #printf("Alt %05.1f ft , distance to target %02.1f NM", me.alt_ft, me.direct_dist_m*M2NM);			
 			
 			if (me.exploded == TRUE) {
-				printf("%s max absolute %.2f Mach. Max relative %.2f Mach. Max alt %6d ft.", me.type, me.maxMach, me.maxMach-me.startMach, me.maxAlt);
+				printf("%s max absolute %.2f Mach. Max relative %.2f Mach. Max alt %6d ft. Terminal %.2f mach.", me.type, me.maxMach, me.maxMach-me.startMach, me.maxAlt, me.speed_m);
+				printf(" Absolute %.2f Mach in stage 1. Absolute %.2f Mach in stage 2. Absolute %.2f mach propulsion end.", me.maxMach1, me.maxMach2, me.maxMach3);
 				printf(" Fired at %s from %.1f Mach, %5d ft at %3d NM distance. Flew %0.1f NM.", me.callsign, me.startMach, me.startAlt, me.startDist * M2NM, me.ac_init.direct_distance_to(me.coord)*M2NM);
 				# We exploded, and start the sound propagation towards the plane
 				me.sndSpeed = me.sound_fps;
