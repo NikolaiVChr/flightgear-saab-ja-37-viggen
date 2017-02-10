@@ -239,11 +239,11 @@ var RadarLogic = {
             selection = me.trackInfo;
             lookatSelection();
             selection_updated = TRUE;
-            if (selection.get_type() == AIR) {
+            #if (selection.get_type() == AIR) {
               me.paint(selection.getNode(), TRUE);
-            } else {
-              me.paint(selection.getNode(), FALSE);
-            }
+            #} else {
+            #  me.paint(selection.getNode(), FALSE);
+            #}
           #} elsif (track.getChild("name") != nil and track.getChild("name").getValue() == "RB-24J") {
             #for testing that selection view follows missiles
           #  selection = trackInfo;
@@ -253,11 +253,11 @@ var RadarLogic = {
             # this track is already selected, updating it
             #print("updating target");
             selection = me.trackInfo;
-            if (selection.get_type() == AIR) {
+            #if (selection.get_type() == AIR) {
               me.paint(selection.getNode(), TRUE);
-            } else {
-              me.paint(selection.getNode(), FALSE);
-            }
+            #} else {
+            #  me.paint(selection.getNode(), FALSE);
+            #}
             selection_updated = TRUE;
           } else {
             #print("end2 "~selection.getUnique()~"=="~unique.getValue());
@@ -686,11 +686,11 @@ var nextTarget = func () {
       tracks_index = 0;
     }
     selection = tracks[tracks_index];
-    if (selection.get_type() == AIR) {
+    #if (selection.get_type() == AIR) {
       radarLogic.paint(selection.getNode(), TRUE);
-    } else {
-      radarLogic.paint(selection.getNode(), FALSE);
-    }
+    #} else {
+    #  radarLogic.paint(selection.getNode(), FALSE);
+    #}
     lookatSelection();
   } else {
     tracks_index = -1;
@@ -718,11 +718,11 @@ var centerTarget = func () {
   }
   if (centerMost != nil) {
     selection = centerMost;
-    if (selection.get_type() == AIR) {
+    #if (selection.get_type() == AIR) {
       radarLogic.paint(selection.getNode(), TRUE);
-    } else {
-      radarLogic.paint(selection.getNode(), FALSE);
-    }
+    #} else {
+    #  radarLogic.paint(selection.getNode(), FALSE);
+    #}
     lookatSelection();
     tracks_index = centerIndex;
   }
