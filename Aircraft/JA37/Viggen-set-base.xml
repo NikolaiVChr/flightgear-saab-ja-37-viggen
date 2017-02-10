@@ -477,6 +477,7 @@
             <ubershader type="bool">false</ubershader>
             <fuel-temp type="bool">true</fuel-temp>
             <new-marker type="bool">true</new-marker>
+            <picking type="bool">false</picking>
         </supported>
         <failures>
             <installed type="bool">false</installed>
@@ -488,6 +489,7 @@
             <look-through-terrain type="bool">true</look-through-terrain>
             <doppler-enabled type="bool">true</doppler-enabled>
             <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
+            <time-till-crash type="double">15</time-till-crash>
         </radar>
         <effect>
             <landing-light type="double">0</landing-light>

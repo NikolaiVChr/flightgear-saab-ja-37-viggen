@@ -419,7 +419,7 @@ var Dialog = {
           realRadarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #rb24msgRow.set("valign", "center");
           
-          var realRadarText = realRadarRow.addChild("text").set("label", "MP planes can hide for radar behind terrain:");
+          var realRadarText = realRadarRow.addChild("text").set("label", "Hide radar echos behind terrain: (always enabled in 2017.1+)");
           realRadarRow.addChild("empty").set("stretch", 1);
           me.dialog.realRadarButton = realRadarRow.addChild("button");
           me.dialog.realRadarButton.set("halign", "right");
@@ -913,10 +913,10 @@ var Dialog = {
       me.dialog.annunButton.node.setValues({"legend": legend});
 
       enabled = getprop("ja37/radar/look-through-terrain");
-      if(enabled == 1) {
-        legend = "Disabled";
-      } else {
+      if(enabled == 0 or getprop("ja37/supported/picking") == 1) {
         legend = "Enabled";
+      } else {
+        legend = "Disabled";
       }
       me.dialog.realRadarButton.node.setValues({"legend": legend});
 

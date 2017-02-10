@@ -89,6 +89,7 @@ Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
 Sound: Make greeting at full volume in 2017.1.1
+Sound: Jettison canopy and then opening it with switch, will produce sound, fix that.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline?

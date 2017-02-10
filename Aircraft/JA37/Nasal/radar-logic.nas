@@ -25,6 +25,15 @@ var MARINE = 1;
 var SURFACE = 2;
 var ORDNANCE = 3;
 
+var knownShips = {
+    "missile_frigate":       nil,
+    "frigate":       nil,
+    "USS-LakeChamplain":     nil,
+    "USS-NORMANDY":     nil,
+    "USS-OliverPerry":     nil,
+    "USS-SanAntonio":     nil,
+};
+
 var input = {
         radar_serv:       "instrumentation/radar/serviceable",
         hdgReal:          "/orientation/heading-deg",
@@ -391,16 +400,19 @@ var RadarLogic = {
         #is within the radar cone
         # AJ37 manual: 61.5 deg sideways.
 
-        if (mp == TRUE) {
+        if (mp == TRUE or getprop("ja37/supported/picking") == TRUE) {
           # is multiplayer
           if (me.isNotBehindTerrain(aircraftPos) == FALSE) {
             #hidden behind terrain
             return nil;
           }
+        }
+        if (mp == TRUE) {
+          me.shrtr = node.getChild("model-shorter")==nil?"nil":node.getChild("model-shorter").getValue();
           if (me.doppler(aircraftPos, node) == TRUE) {
             # doppler picks it up, must be an aircraft
             type = AIR;
-          } elsif (me.aircraftAlt > 1) {
+          } elsif (me.aircraftAlt > 1 and !contains(knownShips, me.shrtr)) {
             # doppler does not see it, and is not on sea, must be ground target
             type = SURFACE;
           } else {
@@ -432,75 +444,101 @@ var RadarLogic = {
 # The following 6 methods is from Mirage 2000-5
 #
   isNotBehindTerrain: func(SelectCoord) {
-    # this function has been optimized by Pinto
-    me.isVisible = 0;
-    me.MyCoord = geo.aircraft_position();
-    
-    # Because there is no terrain on earth that can be between these 2
-    if(me.MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and input.lookThrough.getValue() == FALSE)
-    {
-        # Temporary variable
-        # A (our plane) coord in meters
-        me.a = me.MyCoord.x();
-        me.b = me.MyCoord.y();
-        me.c = me.MyCoord.z();
-        # B (target) coord in meters
-        me.d = SelectCoord.x();
-        me.e = SelectCoord.y();
-        me.f = SelectCoord.z();
-        me.difa = me.d - me.a;
-        me.difb = me.e - me.b;
-        me.difc = me.f - me.c;
-    
-    #print("a,b,c | " ~ a ~ "," ~ b ~ "," ~ c);
-    #print("d,e,f | " ~ d ~ "," ~ e ~ "," ~ f);
-    
-        # direct Distance in meters
-        me.myDistance = math.sqrt( math.pow((me.d-me.a),2) + math.pow((me.e-me.b),2) + math.pow((me.f-me.c),2)); #calculating distance ourselves to avoid another call to geo.nas (read: speed, probably).
-        #print("myDistance: " ~ myDistance);
-        me.Aprime = geo.Coord.new();
-        
-        # Here is to limit FPS drop on very long distance
-        me.L = 500;
-        if(me.myDistance > 50000)
-        {
-            me.L = me.myDistance / 15;
-        }
-        me.maxLoops = int(me.myDistance / me.L);
-        
-        me.isVisible = 1;
-        # This loop will make travel a point between us and the target and check if there is terrain
-        for(var i = 1 ; i <= me.maxLoops ; i += 1)
-        {
-          #calculate intermediate step
-          #basically dividing the line into maxLoops number of steps, and checking at each step
-          #to ascii-art explain it:
-          #  |us|----------|step 1|-----------|step 2|--------|step 3|----------|them|
-          #there will be as many steps as there is i
-          #every step will be equidistant
+    if (getprop("ja37/supported/picking") == TRUE) {
+      var myPos = geo.aircraft_position();
+
+      var xyz = {"x":myPos.x(),                  "y":myPos.y(),                 "z":myPos.z()};
+      var dir = {"x":SelectCoord.x()-myPos.x(),  "y":SelectCoord.y()-myPos.y(), "z":SelectCoord.z()-myPos.z()};
+
+      # Check for terrain between own aircraft and other:
+      v = get_cart_ground_intersection(xyz, dir);
+      if (v == nil) {
+        return TRUE;
+        #printf("No terrain, planes has clear view of each other");
+      } else {
+       var terrain = geo.Coord.new();
+       terrain.set_latlon(v.lat, v.lon, v.elevation);
+       var maxDist = myPos.direct_distance_to(SelectCoord);
+       var terrainDist = myPos.direct_distance_to(terrain);
+       if (terrainDist < maxDist) {
+         #print("terrain found between the planes");
+         return FALSE;
+       } else {
+          return TRUE;
+          #print("The planes has clear view of each other");
+       }
+      }
+    } else {
+      # this function has been optimized by Pinto
+      me.isVisible = 0;
+      me.MyCoord = geo.aircraft_position();
+      
+      # Because there is no terrain on earth that can be between these 2
+      if(me.MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and input.lookThrough.getValue() == FALSE)
+      {
+          # Temporary variable
+          # A (our plane) coord in meters
+          me.a = me.MyCoord.x();
+          me.b = me.MyCoord.y();
+          me.c = me.MyCoord.z();
+          # B (target) coord in meters
+          me.d = SelectCoord.x();
+          me.e = SelectCoord.y();
+          me.f = SelectCoord.z();
+          me.difa = me.d - me.a;
+          me.difb = me.e - me.b;
+          me.difc = me.f - me.c;
+      
+      #print("a,b,c | " ~ a ~ "," ~ b ~ "," ~ c);
+      #print("d,e,f | " ~ d ~ "," ~ e ~ "," ~ f);
+      
+          # direct Distance in meters
+          me.myDistance = math.sqrt( math.pow((me.d-me.a),2) + math.pow((me.e-me.b),2) + math.pow((me.f-me.c),2)); #calculating distance ourselves to avoid another call to geo.nas (read: speed, probably).
+          #print("myDistance: " ~ myDistance);
+          me.Aprime = geo.Coord.new();
           
-          #also, if i == 0 then the first step will be our plane
-          
-          me.x = ((me.difa/(me.maxLoops+1))*i)+me.a;
-          me.y = ((me.difb/(me.maxLoops+1))*i)+me.b;
-          me.z = ((me.difc/(me.maxLoops+1))*i)+me.c;
-          #print("i:" ~ i ~ "|x,y,z | " ~ x ~ "," ~ y ~ "," ~ z);
-          me.Aprime.set_xyz(me.x,me.y,me.z);
-          me.AprimeTerrainAlt = geo.elevation(me.Aprime.lat(), me.Aprime.lon());
-          if(me.AprimeTerrainAlt == nil)
+          # Here is to limit FPS drop on very long distance
+          me.L = 500;
+          if(me.myDistance > 50000)
           {
-            me.AprimeTerrainAlt = 0;
+              me.L = me.myDistance / 15;
           }
+          me.maxLoops = int(me.myDistance / me.L);
           
-          if(me.AprimeTerrainAlt > me.Aprime.alt())
+          me.isVisible = 1;
+          # This loop will make travel a point between us and the target and check if there is terrain
+          for(var i = 1 ; i <= me.maxLoops ; i += 1)
           {
-            return 0;
+            #calculate intermediate step
+            #basically dividing the line into maxLoops number of steps, and checking at each step
+            #to ascii-art explain it:
+            #  |us|----------|step 1|-----------|step 2|--------|step 3|----------|them|
+            #there will be as many steps as there is i
+            #every step will be equidistant
+            
+            #also, if i == 0 then the first step will be our plane
+            
+            me.x = ((me.difa/(me.maxLoops+1))*i)+me.a;
+            me.y = ((me.difb/(me.maxLoops+1))*i)+me.b;
+            me.z = ((me.difc/(me.maxLoops+1))*i)+me.c;
+            #print("i:" ~ i ~ "|x,y,z | " ~ x ~ "," ~ y ~ "," ~ z);
+            me.Aprime.set_xyz(me.x,me.y,me.z);
+            me.AprimeTerrainAlt = geo.elevation(me.Aprime.lat(), me.Aprime.lon());
+            if(me.AprimeTerrainAlt == nil)
+            {
+              me.AprimeTerrainAlt = 0;
+            }
+            
+            if(me.AprimeTerrainAlt > me.Aprime.alt())
+            {
+              return 0;
+            }
           }
-        }
-    }
-    else
-    {
-        me.isVisible = 1;
+      }
+      else
+      {
+          me.isVisible = 1;
+      }
     }
     return me.isVisible;
   },

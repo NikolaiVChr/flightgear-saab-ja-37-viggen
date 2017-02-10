@@ -2041,12 +2041,29 @@
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
                 /controls/altimeter-radar == 1
+                /ja37/supported/picking == 0
             </test>
             <test logic="AND" value="1">
                 /ja37/hud/current-mode ne 3 <!-- not equals landing -->
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
                 /controls/altimeter-radar == 1
+                /ja37/supported/picking == 0
+            </test>
+            <test logic="AND" value="1">
+                /ja37/hud/current-mode == 3 <!-- equals landing -->
+                /position/altitude-agl-ft gt 164
+                /ja37/radar/time-till-crash lt 10
+                /ja37/radar/time-till-crash gt 0
+                /controls/altimeter-radar == 1
+                /ja37/supported/picking == 1
+            </test>
+            <test logic="AND" value="1">
+                /ja37/hud/current-mode ne 3 <!-- not equals landing -->
+                /ja37/radar/time-till-crash lt 10
+                /ja37/radar/time-till-crash gt 0
+                /controls/altimeter-radar == 1
+                /ja37/supported/picking == 1
             </test>
         </switch>
 

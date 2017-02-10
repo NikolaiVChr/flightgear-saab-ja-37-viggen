@@ -397,6 +397,50 @@ var update_loop = func {
 	  setprop("velocities/airspeed-kt-inv", inv_speed);
     setprop("ja37/effect/heatblur/dens", clamp((getprop("engines/engine/n2")/100-getprop("velocities/airspeed-kt")/250)*0.035, 0, 1));
 
+    ## terrain detection ##
+    if (getprop("ja37/supported/picking") == TRUE) {
+      setprop("ja37/radar/look-through-terrain", FALSE);
+    }
+    if (getprop("ja37/supported/picking") == TRUE and (getprop("velocities/speed-east-fps") != 0 or getprop("velocities/speed-north-fps") != 0)) {
+      var start = geo.aircraft_position();
+
+      var speed_down_fps  = getprop("velocities/speed-down-fps");
+      var speed_east_fps  = getprop("velocities/speed-east-fps");
+      var speed_north_fps = getprop("velocities/speed-north-fps");
+      var speed_horz_fps  = math.sqrt((speed_east_fps*speed_east_fps)+(speed_north_fps*speed_north_fps));
+      var speed_fps       = math.sqrt((speed_horz_fps*speed_horz_fps)+(speed_down_fps*speed_down_fps));
+      var heading = 0;
+      if (speed_north_fps >= 0) {
+        heading -= math.acos(speed_east_fps/speed_horz_fps)*R2D - 90;
+      } else {
+        heading -= -math.acos(speed_east_fps/speed_horz_fps)*R2D - 90;
+      }
+      heading = geo.normdeg(heading);
+      #cos(90-heading)*horz = east
+      #acos(east/horz) - 90 = -head
+
+      var end = geo.Coord.new(start);
+      end.apply_course_distance(heading, speed_horz_fps*FT2M);
+      end.set_alt(end.alt()-speed_down_fps*FT2M);
+
+      var dir_x = end.x()-start.x();
+      var dir_y = end.y()-start.y();
+      var dir_z = end.z()-start.z();
+      var xyz = {"x":start.x(),  "y":start.y(),  "z":start.z()};
+      var dir = {"x":dir_x,      "y":dir_y,      "z":dir_z};
+
+      var geod = get_cart_ground_intersection(xyz, dir);
+      if (geod != nil) {
+        end.set_latlon(geod.lat, geod.lon, geod.elevation);# seems it in meters
+        var dist = start.direct_distance_to(end)*M2FT;
+        var time = dist / speed_fps;
+        setprop("/ja37/radar/time-till-crash", time);
+      } else {
+        setprop("/ja37/radar/time-till-crash", 15);
+      }
+    } else {
+      setprop("/ja37/radar/time-till-crash", 15);
+    }
 
     settimer(
       #func debug.benchmark("j37 loop", 
@@ -931,11 +975,13 @@ var test_support = func {
       setprop("ja37/supported/lightning", FALSE);
       setprop("ja37/supported/fire", FALSE);
       setprop("ja37/supported/new-marker", FALSE);
+      setprop("ja37/supported/picking", FALSE);
   } elsif (major == 2) {
     setprop("ja37/supported/landing-light", FALSE);
     setprop("ja37/supported/lightning", FALSE);
     setprop("ja37/supported/fire", FALSE);
     setprop("ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/picking", FALSE);
     if(minor < 7) {
       notice("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
@@ -984,6 +1030,7 @@ var test_support = func {
     setprop("ja37/supported/lightning", TRUE);
     setprop("ja37/supported/fire", FALSE);
     setprop("ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/picking", FALSE);
     if (minor == 0) {
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/landing-light", FALSE);
@@ -1016,8 +1063,25 @@ var test_support = func {
     setprop("ja37/supported/lightning", TRUE);
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/picking", FALSE);
     if (minor >= 2) {
       setprop("ja37/supported/new-marker", TRUE);
+    }
+  } elsif (major == 2017) {
+    setprop("ja37/supported/options", TRUE);
+    setprop("ja37/supported/radar", TRUE);
+    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/old-custom-fails", 2);
+    setprop("ja37/supported/landing-light", TRUE);
+    setprop("ja37/supported/popuptips", 2);
+    setprop("ja37/supported/crash-system", 1);
+    setprop("ja37/supported/ubershader", TRUE);
+    setprop("ja37/supported/lightning", TRUE);
+    setprop("ja37/supported/fire", TRUE);
+    setprop("ja37/supported/new-marker", FALSE);
+    setprop("ja37/supported/picking", TRUE);
+    if (minor == 0) {
+      setprop("ja37/supported/picking", FALSE);
     }
   } else {
     # future proof
@@ -1032,6 +1096,7 @@ var test_support = func {
     setprop("ja37/supported/lightning", TRUE);
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", TRUE);
+    setprop("ja37/supported/picking", TRUE);
   }
   setprop("ja37/supported/initialized", TRUE);
 
