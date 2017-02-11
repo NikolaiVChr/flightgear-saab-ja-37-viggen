@@ -1672,6 +1672,20 @@
 
     <channel execrate="4" name="Misc indicator lights logic">
 
+        <switch name="systems/indicators/dc-light-tenHz">
+            <default value="0"/>
+            <test logic="AND" value="/systems/electrical/dc-light">               
+                /ja37/blink/ten-Hz/state == 1
+            </test>
+        </switch>
+
+        <switch name="systems/indicators/dc-light-fiveHz">
+            <default value="0"/>
+            <test logic="AND" value="/systems/electrical/dc-light">               
+                /ja37/blink/five-Hz/state == 1
+            </test>
+        </switch>
+
         <!-- Swedish: SPAK (green)
 
             Indicator: Flightstick is controlling fully/partly the airplane
@@ -1720,13 +1734,13 @@
 
         <switch name="/instrumentation/joystick-indicator">
             <default value="0"/>
-            <test logic="AND" value="/ja37/blink/ten-Hz/state">               
+            <test logic="AND" value="systems/indicators/dc-light-tenHz">               
                 /controls/lighting/test-indicator-panels == 1
             </test>
-            <test logic="AND" value="/ja37/blink/ten-Hz/state">               
+            <test logic="AND" value="systems/indicators/dc-light-tenHz">               
                 systems/indicators/flightstick-active-primary == 1
             </test>
-            <test logic="AND" value="1">
+            <test logic="AND" value="/systems/electrical/dc-light">
                 systems/indicators/flightstick-active-secondary == 1
             </test>
         </switch>
@@ -1779,13 +1793,13 @@
 
         <switch name="/instrumentation/attitude-indicator">
             <default value="0"/>
-            <test logic="AND" value="/ja37/blink/five-Hz/state">
+            <test logic="AND" value="systems/indicators/dc-light-fiveHz">
                 /controls/lighting/test-indicator-panels == 1
             </test>
-            <test logic="AND" value="/ja37/blink/five-Hz/state">              
+            <test logic="AND" value="systems/indicators/dc-light-fiveHz">              
                 systems/indicators/auto-attitude-light-primary == 1
             </test>
-            <test logic="AND" value="1">                
+            <test logic="AND" value="/systems/electrical/dc-light">                
                 systems/indicators/auto-attitude-light-secondary == 1
             </test>
         </switch>
@@ -1842,13 +1856,13 @@
 
         <switch name="/instrumentation/altitude-indicator">
             <default value="0"/>
-            <test logic="AND" value="/ja37/blink/five-Hz/state">
+            <test logic="AND" value="systems/indicators/dc-light-fiveHz">
                 /controls/lighting/test-indicator-panels == 1
             </test>
-            <test logic="AND" value="/ja37/blink/five-Hz/state">               
+            <test logic="AND" value="systems/indicators/dc-light-fiveHz">               
                 systems/indicators/auto-altitude-light-primary == 1
             </test>
-            <test logic="AND" value="1">                
+            <test logic="AND" value="/systems/electrical/dc-light">                
                 systems/indicators/auto-altitude-light-secondary == 1
             </test>
         </switch>

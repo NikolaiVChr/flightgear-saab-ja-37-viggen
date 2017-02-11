@@ -2748,3 +2748,4 @@ Sim: Added GSh-23 to damage.
 Effect: Put cockpit shader on pedals.
 Animation: Fixed that DME indicator would get stuck if dme/waypoint is more than 40 KM out.
 Sim: Made canopy not be able to make opening/closing sound when broken off.
+Animation: Made A/P pushbutton be powered by DC voltage.
