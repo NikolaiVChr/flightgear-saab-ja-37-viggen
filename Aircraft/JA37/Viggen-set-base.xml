@@ -113,6 +113,7 @@
             <visibility>false</visibility>
         </panel_2>
 
+
         <hud>
             <!-- Backup HUD, when custom HUD is disabled -->
             <path n="1">Aircraft/JA37/Systems/ja37-hud.xml</path>
@@ -1277,6 +1278,13 @@
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>
+        <vector>
+            <file>Aircraft/JA37/Nasal/vector.nas</file>
+        </vector>
+        <rcs>
+            <file>Aircraft/JA37/Nasal/rcs.nas</file>
+        </rcs>
+        
         <!-- Uncomment below to enable FGplot -->
         <!--
         <plot>
