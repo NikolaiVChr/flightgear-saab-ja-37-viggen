@@ -792,7 +792,7 @@
                     </lt>
                     <gt>
                         <property>systems/flight/oil/pressure-drop-norm</property>
-                        <value>0.66</value>
+                        <value>0.5</value>
                     </gt>
                 </or>
             </function>

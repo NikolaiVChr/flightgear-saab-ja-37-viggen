@@ -968,9 +968,10 @@
             <function>
                 <max>
                     <product>
-                        <cos>
-                            <property>attitude/roll-rad</property>
-                        </cos>
+                        <sum>
+                            <property>/ja37/accelerations/pilot-G</property>
+                            <v>-1</v>
+                        </sum>
                         <v>-1</v>
                     </product>
                     <v>0</v>
@@ -987,7 +988,7 @@
                     <time>0.0</time>
                 </setting>
                 <setting>
-                    <position>1</position>
+                    <position>0.75</position>
                     <time>15</time>
                 </setting>
             </traverse>
@@ -1018,7 +1019,7 @@
             <default value="1"/>
             <test logic="AND" value="0">
                 propulsion/engine/cutoff-commanded == 0
-                systems/flight/oil/pressure-drop-norm lt 0.75
+                systems/flight/oil/pressure-drop-norm lt 0.5625
             </test>
             <!--<output>/controls/engines/engine[0]/cutoff</output>-->
         </switch>
