@@ -683,7 +683,7 @@ var slow_loop = func () {
   }
   # consume oxygen bottle pressure
   if (getprop("controls/oxygen") == TRUE) {
-    var amount = getprop("ja37/systems/oxygen-bottle-pressure")-127/(21600/LOOP_SLOW_RATE);#6 hours to consume all 127 kpm2
+    var amount = getprop("ja37/systems/oxygen-bottle-pressure")-127/(27000/LOOP_SLOW_RATE);#7.5 hours to consume all 127 kpm2
     setprop("ja37/systems/oxygen-bottle-pressure", amount);
   }
 
