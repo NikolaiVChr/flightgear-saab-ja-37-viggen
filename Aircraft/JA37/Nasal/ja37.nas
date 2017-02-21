@@ -1096,7 +1096,7 @@ var test_support = func {
     setprop("ja37/supported/lightning", TRUE);
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", TRUE);
-    setprop("ja37/supported/picking", TRUE);
+    setprop("ja37/supported/picking", FALSE);
   }
   setprop("ja37/supported/initialized", TRUE);
 
