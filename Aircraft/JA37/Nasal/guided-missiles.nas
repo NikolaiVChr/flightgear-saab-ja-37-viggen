@@ -191,7 +191,8 @@ var AIM = {
         m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume");
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
-		m.pylon_prop        = props.globals.getNode(AcModel.getNode("armament/pylon-stations").getValue()).getChild("station", p+AcModel.getNode("armament/pylon-offset").getValue());
+		m.stationName       = AcModel.getNode("armament/station-name").getValue();
+		m.pylon_prop        = props.globals.getNode(AcModel.getNode("armament/pylon-stations").getValue()).getChild(m.stationName, p+AcModel.getNode("armament/pylon-offset").getValue());
 		m.Tgt               = nil;
 		m.callsign          = "Unknown";
 		m.update_track_time = 0;
@@ -296,9 +297,11 @@ var AIM = {
 		}
 		m.ai = n.getChild(m.type_lc, i, 1);
 
-		m.ai.getNode("valid", 1).setBoolValue(1);
+		m.ai.getNode("valid", 1).setBoolValue(0);
 		m.ai.getNode("name", 1).setValue(type);
 		m.ai.getNode("sign", 1).setValue(sign);
+		m.ai.getNode("callsign", 1).setValue(type);
+		m.ai.getNode("missile", 1).setBoolValue(1);
 		#m.model.getNode("collision", 1).setBoolValue(0);
 		#m.model.getNode("impact", 1).setBoolValue(0);
 		var id_model = m.weapon_model ~ m.ID ~ ".xml";
@@ -652,6 +655,7 @@ var AIM = {
 
 		me.flight();
 		loadNode.remove();
+		me.ai.getNode("valid").setBoolValue(1);
 	},
 
 	drag: func (mach) {#GCD
@@ -1128,7 +1132,9 @@ var AIM = {
 		me.self = geo.aircraft_position();
 		me.ai.getNode("radar/bearing-deg", 1).setDoubleValue(me.self.course_to(me.coord));
 		me.ai.getNode("radar/elevation-deg", 1).setDoubleValue(me.getPitch(me.self, me.coord));
+		me.ai.getNode("radar/range-nm", 1).setDoubleValue(me.self.distance_to(me.coord)*M2NM);
 		me.ai.getNode("velocities/true-airspeed-kt",1).setDoubleValue(new_speed_fps * FPS2KT);
+		me.ai.getNode("velocities/vertical-speed-fps",1).setDoubleValue(-me.speed_down_fps);
 	},
 
 	rear_aspect: func () {#GCD
@@ -1809,7 +1815,7 @@ var AIM = {
 		                        # you don't have a second chance. Missile missed
 		                        me.free = 1;
 		                        me.usedChance = TRUE;
-		                        return TRUE;
+		                        return FALSE;
 			                }
 			            }
 			            if (me.life_time > me.selfdestruct_time) {

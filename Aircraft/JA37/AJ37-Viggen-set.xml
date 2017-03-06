@@ -478,14 +478,15 @@
         </weight>
         <armament>
                 <models type="string">Aircraft/JA37/Models/Armament/Weapons/</models>
-                <modelsUseCase type="bool">false</modelsUseCase>
-                <modelsUpperCase type="bool">false</modelsUpperCase>
+                <modelsUseCase type="bool">true</modelsUseCase>
+                <modelsUpperCase type="bool">true</modelsUpperCase>
                 <MP-lat type="string">rotors/main/blade[0]/flap-deg</MP-lat>
                 <MP-lon type="string">rotors/main/blade[1]/flap-deg</MP-lon>
                 <MP-alt type="string">rotors/main/blade[2]/flap-deg</MP-alt>
                 <hit-interpolation type="bool">true</hit-interpolation>
                 <pylon-offset type="int">1</pylon-offset>
                 <pylon-stations>controls/armament</pylon-stations>
+                <station-name type="string">station</station-name>
                 <msg type="bool">false</msg>
                 <damage type="bool">false</damage>
                 <rb-24>                    <!-- RB-24 (Swedish version of aim-9b sidewinder) mach 1.5 -->
