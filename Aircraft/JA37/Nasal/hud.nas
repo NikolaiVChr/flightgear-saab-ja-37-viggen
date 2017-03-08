@@ -50,7 +50,7 @@ var HUDBottom = 0.63; # position of bottom of HUD in meters. 0.63
 #var HUDHoriz = -4.0; # position of HUD on x axis in meters. -4.0
 var HUDHoriz = -4.06203;#pintos new hud
 var HUDHeight = HUDTop - HUDBottom; # height of HUD
-var canvasWidth = 256;
+var canvasWidth = 512;
 var max_width = (450/1024)*canvasWidth;
 # HUD z is 0.63 - 0.77. Height of HUD is 0.14m
 # Therefore each pixel is 0.14 / 1024 = 0.00013671875m or each meter is 7314.2857142857142857142857142857 pixels.
@@ -85,9 +85,9 @@ var sideslipPlaceYFinal = 0;
 var missile_aim_position = centerOffset+0.03*pixelPerMeter;
 var QFE_position = centerOffset+(5.5*pixelPerDegreeY);
 var dig_alt_position = centerOffset+(9.0*pixelPerDegreeY);
-var r = 0.6;#HUD colors
+var r = 0.0;#HUD colors
 var g = 1.0;
-var b = 0.6;
+var b = 0.0;
 var a = 1.0;
 var w = (getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth;  #line stroke width (saved between sessions)
 var ar = 1.0;#font aspect ratio, less than 1 make more wide.
@@ -122,7 +122,8 @@ var HUDnasal = {
     #HUDnasal.main.canvas = canvas.new(HUDnasal.canvas_settings);
     HUDnasal.inter = FALSE;
     HUDnasal.main.canvas.addPlacement(HUDnasal.main.place);
-    HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.025);
+    #HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.025);
+    HUDnasal.main.canvas.setColorBackground(r, g, b, 0.0);
     HUDnasal.main.root = HUDnasal.main.canvas.createGroup()
                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
     
@@ -2941,13 +2942,24 @@ var IR_loop = func {
   settimer(IR_loop, 1.5);
 };
 
+setlistener("sim/rendering/shaders/skydome", func {reinit(on_backup_power);});
+
 var reinit = func(backup = FALSE) {#mostly called to change HUD color
    #reinitHUD = 1;
+
+   if (getprop("sim/rendering/shaders/skydome") == TRUE) {
+     r = 0;
+     b = 0;
+   } else {
+     r = 0.6;
+     b = 0.6;
+   }
 
    # if on backup power then amber will be the colour
    var red = backup == FALSE?r:1;
    var green = backup == FALSE?g:0.5;
    var blue = backup == FALSE?b:0;
+   var alpha = backup == FALSE?a:clamp(a,0,0.85);
 
    var IR = getprop("sim/rendering/shaders/skydome") == TRUE and getprop("sim/rendering/als-filters/use-filtering") == TRUE and getprop("sim/rendering/als-filters/use-IR-vision") == TRUE;
 
@@ -2958,48 +2970,43 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
    }
 
    foreach(var item; artifacts0) {
-    item.setColor(red, green, blue, a);
+    item.setColor(red, green, blue, alpha);
     item.setStrokeLineWidth((getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth);
    }
 
    foreach(var item; artifacts1) {
-    item.setColor(red, green, blue, a);
+    item.setColor(red, green, blue, alpha);
     item.setStrokeLineWidth((getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth);
    }
 
    foreach(var item; artifactsText0) {
-    item.setColor(red, green, blue, a);
+    item.setColor(red, green, blue, alpha);
    }
 
    foreach(var item; artifactsText1) {
-    item.setColor(red, green, blue, a);
+    item.setColor(red, green, blue, alpha);
    }
-   hud_pilot.slip_indicator.setColorFill(red, green, blue, a);
+   hud_pilot.slip_indicator.setColorFill(red, green, blue, alpha);
    
    if (IR) {
-     HUDnasal.main.canvas.setColorBackground(red, green, blue, 0.025);
+     HUDnasal.main.canvas.setColorBackground(red, green, blue, 0);
    } elsif (backup == FALSE) {
-     HUDnasal.main.canvas.setColorBackground(0.36, g, 0.3, 0.025);
+     HUDnasal.main.canvas.setColorBackground(red, green, blue, 0);
    } else {
-     HUDnasal.main.canvas.setColorBackground(red, green, 0.3, 0.025);
+     HUDnasal.main.canvas.setColorBackground(red, green, blue, 0);
    }
   #print("HUD being reinitialized.");
 };
 
 var cycle_brightness = func () {
   if(getprop("ja37/hud/mode") > 0) {
-    g += 0.2;
-    if(g > 1.0 and r == 0.6) {
+    #var br = getprop("ja37/hud/brightness");
+    a += 0.15;
+    if(a > 1.0) {
       #reset
-      g = 0.2;
-      r = 0.0;
-      b = 0.0;
-    } elsif (g > 1.0) {
-      r += 0.6;
-      g =  1.0;
-      b += 0.6;
+      a = 0.55;
     }
-    setprop("controls/lighting/hud", r+g);
+    #setprop("ja37/hud/brightness", br);
     reinit(on_backup_power);
     ja37.click();
   } else {

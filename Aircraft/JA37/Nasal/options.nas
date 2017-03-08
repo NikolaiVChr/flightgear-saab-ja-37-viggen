@@ -494,14 +494,14 @@ var Dialog = {
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #hudRow.set("valign", "center");
                     
-          hudRow.addChild("text").set("label", "HUD color:");
+          hudRow.addChild("text").set("label", "HUD brightness:");
           hudRow.addChild("empty").set("stretch", 1);
           me.dialog.hudLight = hudRow.addChild("button");
           me.dialog.hudMedium = hudRow.addChild("button");
           me.dialog.hudDark = hudRow.addChild("button");
-          me.dialog.hudLight.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Light", default: 0 });
+          me.dialog.hudLight.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Bright", default: 0 });
           me.dialog.hudMedium.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Medium", default: 0 });
-          me.dialog.hudDark.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Dark", default: 0 });
+          me.dialog.hudDark.node.setValues({ "pref-width": 100, "pref-height": 25, legend: "Dim", default: 0 });
           me.dialog.hudLight.setBinding("nasal", "ja37.Dialog.light()");
           me.dialog.hudMedium.setBinding("nasal", "ja37.Dialog.medium()");
           me.dialog.hudDark.setBinding("nasal", "ja37.Dialog.dark()");
@@ -725,32 +725,20 @@ var Dialog = {
     },
 
     light: func {
-      canvas_HUD.r = 0.6;
-      canvas_HUD.g = 1.0;
-      canvas_HUD.b = 0.6;
-      #canvas_HUD.a = 1.0;
-      #canvas_HUD.w = 10;
-      #canvas_HUD.fs = 1;
+      #setprop("ja37/hud/brightness", 1.0);
+      canvas_HUD.a = 1.00;
       canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     medium: func {
-      canvas_HUD.r = 0.0;
-      canvas_HUD.g = 0.8;
-      canvas_HUD.b = 0.0;
-      #canvas_HUD.a = 1.0;      
-      #canvas_HUD.w = 11;
-      #canvas_HUD.fs = 1.1;
+      #setprop("ja37/hud/brightness", 6.0);
+      canvas_HUD.a = 0.70;
       canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 
     dark: func {
-      canvas_HUD.r = 0.0;
-      canvas_HUD.g = 0.4;
-      canvas_HUD.b = 0.0;
-      #canvas_HUD.a = 1.0;
-      #canvas_HUD.w = 12;
-      #canvas_HUD.fs = 1.2;
+      #setprop("ja37/hud/brightness", 4.0);
+      canvas_HUD.a = 0.55;
       canvas_HUD.reinit(canvas_HUD.on_backup_power);
     },
 

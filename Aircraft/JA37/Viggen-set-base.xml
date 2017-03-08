@@ -537,6 +537,12 @@
             <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
             <TILS type="bool">false</TILS>
             <landing-mode type="bool">false</landing-mode>
+            <brightness type="double">1.0</brightness>
+            <overlay type="bool">true</overlay>
+            <overlay-alpha type="double">0.35</overlay-alpha>
+            <overlay-glare type="double">0.40</overlay-glare>
+            <mask type="bool">true</mask>
+            <emission type="double">1</emission>
         </hud>
         <sound>
             <click-on type="bool">false</click-on>
