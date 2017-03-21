@@ -34,6 +34,8 @@
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-10.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-11.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-12.png</splash-texture>
+            <splash-logo-x-norm>0.5</splash-logo-x-norm>
+            <splash-logo-y-norm>0.5</splash-logo-y-norm>
         </startup>
 
         <gui>
@@ -53,20 +55,20 @@
             </style>
         </gui>
 
-        <thumbnail>
+        <!--<preview>
             <type>panel</type>
-            <name>GUI/thumbnail-panel.jpg</name>
-        </thumbnail>
+            <path>GUI/thumbnail-panel.jpg</path>
+        </preview>
 
-        <thumbnail>
+        <preview>
             <type>exterior</type>
-            <name>GUI/thumbnail-exterior.jpg</name>
-        </thumbnail>
+            <path>GUI/thumbnail-exterior.jpg</path>
+        </preview>-->
 
-        <thumbnail>
+        <!--<thumbnail>
           <type>interior</type>
           <name>GUI/thumbnail-interior.jpg</name>
-        </thumbnail>
+        </thumbnail>-->
 
         <model>
             <path>Aircraft/JA37/Models/JA37-Viggen.xml</path>
