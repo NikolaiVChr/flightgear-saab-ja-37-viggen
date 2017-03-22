@@ -1128,7 +1128,7 @@
                   gear/gear-pos-norm == 0
                   velocities/mach gt 0.65
             </test>
-            <!-- at loss of hydr-1 the gears can go down, but not up: -->
+            <!-- at loss of hydr-1 the gears can go down (if positive gravity), but not up: -->
             <test logic="AND" value="gear/gear-pos-norm">
                   gear/gear-cmd-norm == 0
                   systems/hydraulics/system1/pressure == 0
@@ -1136,6 +1136,7 @@
             <test logic="AND" value="gear/gear-cmd-norm">
                   gear/gear-cmd-norm == 1
                   systems/hydraulics/system1/pressure == 0
+                  accelerations/Nz gt 0.5
             </test>
             <clipto>
                 <min>  0 </min>
