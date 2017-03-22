@@ -1138,6 +1138,10 @@
                   systems/hydraulics/system1/pressure == 0
                   accelerations/Nz gt 0.5
             </test>
+            <test logic="AND" value="gear/gear-pos-norm">
+                  gear/gear-cmd-norm == 1
+                  systems/hydraulics/system1/pressure == 0
+            </test>
             <clipto>
                 <min>  0 </min>
                 <max>  1 </max>
