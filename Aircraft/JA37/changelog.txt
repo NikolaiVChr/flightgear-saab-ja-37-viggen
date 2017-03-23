@@ -2751,3 +2751,16 @@ Sim: Made canopy not be able to make opening/closing sound when broken off.
 Animation: Made A/P pushbutton be powered by DC voltage.
 Sim: Oil pressure when inverted now is detected by negative G, not roll.
 Sim: Decreased rate of oxygen consumption.
+
+4.018 - 2017 March 23
+=====
+Sim: Check for 2018+ FG for now picking is off.
+HUD: Increased texel resolution.
+HUD: Applied Thorstens new HUD shader.
+Model: Unify fuselage material between variants.
+GUI: Fix thumbnail for 2017.2.0
+Control: At gear deployment at loss of hydr1 they now only go down by positive gravity.
+Model: Adjusted some fuselage materials.
+Model: Made bare metal parts of aircraft more dark.
+Effect: Small change to bare-metal shader.
+Model: Moved UV of all bare metal into same place on base texture.

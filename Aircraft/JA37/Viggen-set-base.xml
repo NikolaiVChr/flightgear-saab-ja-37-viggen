@@ -8,7 +8,7 @@
 
 <PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
-        <aircraft-version>4.017</aircraft-version>
+        <aircraft-version>4.018</aircraft-version>
 
         <rating>
             <FDM type="int">4</FDM>
