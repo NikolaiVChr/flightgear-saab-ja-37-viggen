@@ -965,18 +965,23 @@
         <!-- inverted flight will make oil pressure drop -->
 
         <fcs_function name="systems/flight/oil/inverted-flight">
+            <description>G of -1 will become +0.75, -0.25 will become +0</description>
             <function>
                 <max>
-                    <product>
-                        <sum>
-                            <property>/ja37/accelerations/pilot-G</property>
+                    <sum>
+                        <product>
+                            <property>accelerations/Nz</property>
                             <v>-1</v>
-                        </sum>
-                        <v>-1</v>
-                    </product>
+                        </product>
+                        <v>-0.25</v>
+                    </sum>
                     <v>0</v>
                 </max>
             </function>
+            <clipto>
+                <min>0</min>
+                <max>0.75</max>
+            </clipto>
         </fcs_function>
 
         <kinematic name="systems/flight/oil/pressure-drop-norm">
