@@ -2768,3 +2768,6 @@ Model: Moved UV of all bare metal into same place on base texture.
 4.019
 =====
 Sim: Fixed that 0 G not -1 G was regarded as inverted flight. Oil pressure would drop too often.
+Sound: Added speedbrakes sound.
+Aero: Added speedbrakes, ram air turbine and open canopy to normal forces.
+Aero: Made speedbrakes have more drag.

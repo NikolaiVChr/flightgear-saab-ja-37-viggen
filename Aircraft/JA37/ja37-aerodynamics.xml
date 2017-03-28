@@ -266,10 +266,60 @@
             </product>
         </function>
 
+        <!-- estimate -->
+        <function name="aero/coefficient/CNBrake">
+            <description>
+               Speedbrake normal Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>fcs/speedbrake-pos-norm</property>
+                <property>aero/drag/speedbrake</property>
+                <sin>
+                    <property>aero/alpha-rad</property>
+                </sin>
+            </product>
+        </function>
+
+        <!-- estimate -->
+        <function name="aero/coefficient/CNTurbine">
+            <description>
+               Ram air turbine normal Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <property>systems/electrical/generator-reserve-pos-norm</property>
+                <property>aero/drag/ram-air-turbine</property>
+                <sin>
+                    <property>aero/alpha-rad</property>
+                </sin>
+            </product>
+        </function>
+
+        <!-- estimate -->
+        <function name="aero/coefficient/CNCanopy">
+            <description>
+               Canopy normal Coefficient
+            </description>
+            <product>
+                <property>aero/qbar-psf</property>
+                <property>metrics/Sw-sqft</property>
+                <!--<property>aero/function/mach-effect-prefactor</property>-->
+                <property>fcs/canopy/pos-norm</property>
+                <property>fcs/canopy/hinges/serviceable</property>
+                <property>aero/drag/canopy</property>
+                <sin>
+                    <property>aero/alpha-rad</property>
+                </sin>
+            </product>
+        </function>
+
         <!-- page 80 fig 63 -->
         <function name="aero/coefficient/CNGndElevator">
             <description>
-                        Normal force due to elevator groundeffect
+                        Normal force due to elevator due to groundeffect
             </description>
             <product>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
@@ -533,7 +583,7 @@
         <!-- estimate -->
         <function name="aero/coefficient/CATurbine">
             <description>
-               Speedbrake axial Coefficient
+               Ram air turbine axial Coefficient
             </description>
             <product>
                 <property>aero/qbar-psf</property>

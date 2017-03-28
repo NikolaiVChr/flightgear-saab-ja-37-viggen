@@ -25,6 +25,7 @@
                     <property>aero/coefficient/CATank</property>
                     <property>aero/coefficient/CA</property>
                     <property>aero/coefficient/CAwave</property>
+                    <property>aero/coefficient/CABrake</property>
                 </sum>
             </function>
         </fcs_function>
@@ -37,6 +38,9 @@
                     <property>aero/coefficient/CNGndElevator</property>
                     <property>aero/coefficient/CNflaps</property>
                     <property>aero/coefficient/CNwave</property>
+                    <property>aero/coefficient/CNBrake</property>
+                    <property>aero/coefficient/CNTurbine</property>
+                    <property>aero/coefficient/CNCanopy</property>
                 </sum>
             </function>
         </fcs_function>
@@ -76,6 +80,18 @@
                         </cos>
                     </product>
                 </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/Cd-total">
+            <function>
+                <quotient>
+                    <quotient>
+                        <property>systems/flight/drag-force-lb</property>
+                        <property>aero/qbar-psf</property>
+                    </quotient>
+                    <property>metrics/Sw-sqft</property>
+                </quotient>
             </function>
         </fcs_function>
 

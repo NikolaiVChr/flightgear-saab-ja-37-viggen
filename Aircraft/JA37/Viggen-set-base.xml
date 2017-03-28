@@ -804,7 +804,7 @@
                     <rudder type="double">      0.010</rudder>                    <!-- at full 25 degrees deflection -->
                     <elevon-left type="double"> 0.015</elevon-left>                    <!-- full 40 degrees upward deflection -->
                     <elevon-right type="double">0.015</elevon-right>                    <!-- full 40 degrees upward deflection -->
-                    <speedbrake type="double">  0.020</speedbrake>                    <!-- fully extended -->
+                    <speedbrake type="double">  0.030</speedbrake>                    <!-- fully extended -->
                     <ram-air-turbine type="double">0.0025</ram-air-turbine>                    <!-- fully extended -->
                 </drag>
             </aero>
