@@ -336,6 +336,9 @@
                       Battery drain, normalized
 
                       10 mins to recharge/drain
+
+                      0 = no charge
+                      1 = 100% charge
             </description>
             <input>systems/electrical/battery-drain-cmd</input>
             <traverse>

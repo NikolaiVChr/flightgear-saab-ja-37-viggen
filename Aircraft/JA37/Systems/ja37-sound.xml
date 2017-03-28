@@ -573,21 +573,9 @@
 
         <rumble>
             <name>gear rumble</name>
-            <!--<mode>looped</mode>-->
             <path>Sounds/rumble.wav</path>
             <mode>in-transit</mode>
             <property>gear/gear[0]/position-norm</property>
-            <!--<condition>
-                <property>sim/current-view/internal</property>
-                <greater-than>
-                    <property>gear/gear[0]/position-norm</property>
-                    <value>0</value>
-                </greater-than>
-                <less-than>
-                    <property>gear/gear[0]/position-norm</property>
-                    <value>1</value>
-                </less-than>
-            </condition>-->
             <reference-dist>3</reference-dist>
             <max-dist>10</max-dist>
             <position>
@@ -596,13 +584,38 @@
                 <z>-0.6</z>
             </position>
             <pitch>
-                <min>1.05</min>
-                <max>1.051</max>
+                <factor>1.75</factor>
+                <offset>0</offset>
+                <min>0</min>
+                <max>2</max>
             </pitch>
             <volume>
                 <max>0.40</max>
             </volume>
         </rumble>
+
+        <brake>
+            <name>speedbrake</name>
+            <path>Aircraft/JA37/Sounds/speedbrake.wav</path>
+            <mode>in-transit</mode>
+            <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
+            <position>
+                <x>0.01</x>
+                <y>0.01</y>
+                <z>0.01</z>
+            </position>
+            <pitch>
+                <factor>1</factor>
+                <offset>0</offset>
+                <min>0</min>
+                <max>2</max>
+            </pitch>
+            <volume>
+                <max>0.40</max>
+            </volume>
+        </brake>
 
         <roll>
             <name>roll on runway</name>

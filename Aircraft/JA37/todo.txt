@@ -17,7 +17,6 @@ Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
-Model: Fix that landing gear oleo struts now are too bright.
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
 Model: Make the tooltips fail when gauge fail.
 Model: The reserve generator. (ram air turbine)
@@ -58,12 +57,11 @@ Sim: Make data-link between Viggens.
 Sim: Replace MP hit and fire messages with something else, so can leave civilian traffic in peace.
 Sim: Implement maximum speed reactions - Vne.
 Sim: Engine fire improvement: reduced thrust, stuck throttle.
-Sim: Make missile code generic to be used on helis also.
-Sim: Include Shinobis missile changes into missile code. (heat)
 Sim: Stop auto-selecting when in tactical mode.
 Sim: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Sim: Be able to notch the rb71 again.
 Sim: Make speed, roll, Nz and altitude limits on firing missiles.
+Sim: Make boolean hasVectorThrust for missiles. If it has then reduce drastic the bleeding of speed during high G turns.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
@@ -78,9 +76,10 @@ Sim: After exiting transonic the altitude hold is recomputed.
 Sim: To disengage A/P to mode 0 press switch on stick or pull fuse (will also disengage A/T).
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
 Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
-Sim: Pitot depend on AC.
+Sim: Pitot depend on AC power.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Sim: The A/P for glideslope is not very reliable, fix.
+Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -96,7 +95,7 @@ HUD: All track semi circles and semi box should have a line in them. (might degr
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
-HUD: Enable Richards new wrapper, to improve terrain warning. (2017.1.1)
+HUD: Enable Richards new wrapper, to improve terrain warning. (2018.1.1)
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
 
 

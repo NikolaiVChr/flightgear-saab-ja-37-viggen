@@ -2764,3 +2764,7 @@ Model: Adjusted some fuselage materials.
 Model: Made bare metal parts of aircraft more dark.
 Effect: Small change to bare-metal shader.
 Model: Moved UV of all bare metal into same place on base texture.
+
+4.019
+=====
+Sim: Fixed that 0 G not -1 G was regarded as inverted flight. Oil pressure would drop too often.
