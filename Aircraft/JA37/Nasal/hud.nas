@@ -1017,29 +1017,48 @@ var HUDnasal = {
     centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));
 
     # since mode is used outside of the HUD also, the mode is calculated before we determine if the HUD should be updated:
-    me.takeoffForbidden = me.input.pitch.getValue() > 3 or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
-    if(mode != TAKEOFF and !me.takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
+    me.hasRotated = FALSE;
+    if (me.input.mach.getValue() > 0.1) {
+      # we are moving, calc the flight path angle
+      me.vel_gh = math.sqrt(me.input.speed_n.getValue()*me.input.speed_n.getValue()+me.input.speed_e.getValue()*me.input.speed_e.getValue());
+      me.vel_gv = -me.input.speed_d.getValue();
+      me.hasRotated = math.atan2(me.vel_gv, me.vel_gh)*R2D > 3;
+    }
+    me.takeoffForbidden = me.hasRotated or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
+    if(mode != TAKEOFF and !me.takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
+      # nosewheel touch runway, so we switch to TAKEOFF
       mode = TAKEOFF;
       modeTimeTakeoff = -1;
     } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
+      # developer mode is active with tactical request, so we switch to COMBAT
       mode = COMBAT;
       modeTimeTakeoff = -1;
-    } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and me.takeoffForbidden) {
+    } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and me.input.wow0.getValue() == FALSE) {
+      # Nosewheel lifted off, so we start the 4 second counter
       modeTimeTakeoff = me.input.elapsedSec.getValue();
-    } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 3) {
-      if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
-        mode = LANDING;
+    } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 4) {
+      if (me.takeoffForbidden == TRUE) {
+        # time to switch away from TAKEOFF mode.
+        if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
+          mode = LANDING;
+        } else {
+          mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        }
+        modeTimeTakeoff = -1;
       } else {
-        mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+        # 4 second has passed since frontgear touched runway, but conditions to switch from TAKEOFF has still not been met.
+        mode = TAKEOFF;
       }
-      modeTimeTakeoff = -1;
     } elsif ((mode == COMBAT or mode == NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
+      # Switch to LANDING
       mode = LANDING;
       modeTimeTakeoff = -1;
     } elsif (mode == COMBAT or mode == NAV) {
+      # determine if we should have COMBAT or NAV
       mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
       modeTimeTakeoff = -1;
     } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
+      # switch from LANDING to COMBAT/NAV
       mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
       modeTimeTakeoff = -1;
     }
@@ -1758,14 +1777,24 @@ var HUDnasal = {
         me.airspeed.setText(sprintf("%.2f", me.mach));
       } else {
         me.speed = air2ground == TRUE?me.input.gs.getValue()*kts2kmh:me.input.ias.getValue() * kts2kmh;
-        me.airspeed.setText(sprintf("%03d", me.speed));
+        if (me.input.ias.getValue() * kts2kmh > 75) {
+          me.airspeed.setText(sprintf("%03d", me.speed));
+        } else {
+          me.airspeed.setText("");
+        }
       }
     } elsif (mode == LANDING or mode == TAKEOFF or me.mach < 0.5) {
+      # interoperability without mach
       me.airspeedInt.hide();
-      me.speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
-      me.type  = air2ground == TRUE?"GS":"KT";
-      me.airspeed.setText(sprintf(me.type~"%03d", me.speed));
+      if (me.input.ias.getValue() * kts2kmh > 75) {
+        me.speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+        me.type  = air2ground == TRUE?"GS":"KT";
+        me.airspeed.setText(sprintf(me.type~"%03d", me.speed));
+      } else {
+        me.airspeed.setText("");
+      }
     } else {
+      # interoperability with mach
       me.speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
       me.type  = air2ground == TRUE?"GS":"KT";
       me.airspeedInt.setText(sprintf(me.type~"%03d", me.speed));
@@ -1810,7 +1839,7 @@ var HUDnasal = {
   },
 
   displayTurnCoordinator: func () {
-    if (me.input.sideslipOn.getValue() == TRUE) {
+    if (me.input.sideslipOn.getValue() == TRUE and me.final == FALSE) {
       if(me.input.srvTurn.getValue() == 1) {
         #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
         me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -(150/1024)*canvasWidth, (150/1024)*canvasWidth), 0);
@@ -2212,36 +2241,40 @@ var HUDnasal = {
 
   showDistanceScale: func (mode, fallTime) {
     if(mode == TAKEOFF) {
-      me.line = (200/1024)*canvasWidth;
+      if (me.input.pitch.getValue() < 5) {
+        me.line = (200/1024)*canvasWidth;
 
-      # rotation speeds:
-      #28725 lbm -> 250 km/h
-      #40350 lbm -> 280 km/h
-      # extra/inter-polation:
-      # f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
-      me.weight = getprop("fdm/jsbsim/inertia/weight-lbs");
-      me.rotationSpeed = 250+((me.weight-28725)/(40350-28725))*(280-250);#km/h
-      # as per manual, minimum rotation speed is 250:
-      me.rotationSpeed = ja37.clamp(me.rotationSpeed, 250, 1000);
-      #rotationSpeed = getprop("fdm/jsbsim/systems/flight/rotation-speed");
-      me.pixelPerKmh = (2/3*me.line)/me.rotationSpeed;
-      if(me.input.ias.getValue() < 75/kts2kmh) {
-        me.mySpeed.setTranslation(me.pixelPerKmh*75, 0);
+        # rotation speeds:
+        #28725 lbm -> 250 km/h
+        #40350 lbm -> 280 km/h
+        # extra/inter-polation:
+        # f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
+        me.weight = getprop("fdm/jsbsim/inertia/weight-lbs");
+        me.rotationSpeed = 250+((me.weight-28725)/(40350-28725))*(280-250);#km/h
+        # as per manual, minimum rotation speed is 250:
+        me.rotationSpeed = ja37.clamp(me.rotationSpeed, 250, 1000);
+        #rotationSpeed = getprop("fdm/jsbsim/systems/flight/rotation-speed");
+        me.pixelPerKmh = (2/3*me.line)/me.rotationSpeed;
+        if(me.input.ias.getValue() < 75/kts2kmh) {
+          me.mySpeed.setTranslation(me.pixelPerKmh*75, 0);
+        } else {
+          me.pos = me.pixelPerKmh*me.input.ias.getValue()*kts2kmh;
+          if(me.pos > me.line) {
+            me.pos = me.line;
+          }
+          me.mySpeed.setTranslation(me.pos, 0);
+        }      
+        me.targetSpeed.setTranslation(2/3*me.line, 0);
+        me.targetSpeed.show();
+        me.mySpeed.show();
+        me.targetDistance1.hide();
+        me.targetDistance2.hide();
+        me.distanceText.hide();
+        me.distanceScale.show();
+        me.dist_scale_group.show();
       } else {
-        me.pos = me.pixelPerKmh*me.input.ias.getValue()*kts2kmh;
-        if(me.pos > me.line) {
-          me.pos = me.line;
-        }
-        me.mySpeed.setTranslation(me.pos, 0);
-      }      
-      me.targetSpeed.setTranslation(2/3*me.line, 0);
-      me.targetSpeed.show();
-      me.mySpeed.show();
-      me.targetDistance1.hide();
-      me.targetDistance2.hide();
-      me.distanceText.hide();
-      me.distanceScale.show();
-      me.dist_scale_group.show();
+        me.dist_scale_group.hide();
+      }
     } elsif (mode == COMBAT) {
       if (radar_logic.selection != nil) {
         me.line = (200/1024)*canvasWidth;
@@ -2430,7 +2463,7 @@ var HUDnasal = {
     me.towerAlt = me.input.towerAlt.getValue();
     me.towerLat = me.input.towerLat.getValue();
     me.towerLon = me.input.towerLon.getValue();
-    if(mode != COMBAT and me.towerAlt != nil and me.towerLat != nil and me.towerLon != nil) {# and me.final == FALSE
+    if(mode != COMBAT and me.towerAlt != nil and me.towerLat != nil and me.towerLon != nil and me.final == FALSE) {# and me.final == FALSE
       me.towerPos = geo.Coord.new();
       me.towerPos.set_latlon(me.towerLat, me.towerLon, me.towerAlt*FT2M);
       me.showme = TRUE;

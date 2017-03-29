@@ -2771,3 +2771,7 @@ Sim: Fixed that 0 G not -1 G was regarded as inverted flight. Oil pressure would
 Sound: Added speedbrakes sound.
 Aero: Added speedbrakes, ram air turbine and open canopy to normal forces.
 Aero: Made speedbrakes have more drag.
+HUD: Changed conditions on when to switch from takeoff mode as per manual.
+HUD: Changed when distancescale showing rotation speed should shut off, as per manual.
+HUD: When HUD declutters, tower and sideslip indicator now goes away.
+HUD: Digital airspeed is now only shown above 75 Km/h as per manual.
