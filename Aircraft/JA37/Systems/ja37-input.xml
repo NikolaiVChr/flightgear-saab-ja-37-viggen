@@ -1257,5 +1257,17 @@
             </binding>
           </mod-shift>
          </key>
+
+         <key n="19">
+          <name>Ctrl-S</name>
+          <desc>Toggle auto-throttle lock</desc>
+          <binding>
+           <command>nasal</command>
+           <script>
+                auto.apContSpeed();
+                ja37.click();
+            </script>
+          </binding>
+         </key>
     </keyboard>
 </PropertyList>
