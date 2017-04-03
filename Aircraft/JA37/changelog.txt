@@ -2777,3 +2777,4 @@ HUD: When HUD declutters, tower and sideslip indicator now goes away.
 HUD: Digital airspeed is now only shown above 75 Km/h as per manual.
 GUI: Ctrl-s now toggles aut throttle always.
 Sim: Made check to ensure max allowed G for weapons never go below 0.25 G.
+Sound: Added wind sound from speedbrakes.

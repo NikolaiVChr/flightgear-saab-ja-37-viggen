@@ -88,5 +88,6 @@ C172p - Some sound settings. Thunder and rain sounds and most of their code from
 707 - External power supply truck.
 M2000-5 - Code to stop radar from looking through terrain and pulse doppler functionality. Buffeting of view. Loop for iterating through menubar.
 Saunders-Roe-Princess - Speedbrake sound.
+Pond-racer: speedbrake wind sound.
 
 Might have forgotten some.

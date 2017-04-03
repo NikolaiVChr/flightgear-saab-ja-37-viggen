@@ -617,6 +617,24 @@
             </volume>
         </brake>
 
+        <brake-wind>
+            <name>wind</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/speedbrake-wind.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>sim/current-view/internal</property>
+                <greater-than>
+                    <property>fdm/jsbsim/fcs/speedbrake-pos-norm</property>
+                    <value>0.5</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <property>velocities/airspeed-kt</property>
+                <factor>0.0015</factor>
+            </volume>
+        </brake-wind>
+
         <roll>
             <name>roll on runway</name>
             <mode>looped</mode>
@@ -704,7 +722,7 @@
 
         <controls>
             <name>click</name>
-            <path>Sounds/click.wav</path>
+            <path>Aircraft/JA37/Sounds/click.wav</path>
             <mode>once</mode>
             <type>avionics</type>
             <condition>
