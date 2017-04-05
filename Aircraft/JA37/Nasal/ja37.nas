@@ -703,6 +703,13 @@ var slow_loop = func () {
       }
     }
   }
+
+  #warning if max rolling speed is exceeded
+  var max = getprop("limits/vroll");
+  if ((input.wow0.getValue() == TRUE or input.wow2.getValue() == TRUE) and max != nil and getprop("velocities/groundspeed-kt") > max) {
+    screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
+  }
+
   settimer(slow_loop, LOOP_SLOW_RATE);
 }
 
