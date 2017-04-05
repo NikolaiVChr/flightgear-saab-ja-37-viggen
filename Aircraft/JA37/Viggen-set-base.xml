@@ -991,6 +991,26 @@
             <clip-distance type="double">1.75</clip-distance>
         </precipitation-control>
         <pressure-inhg type="double">30</pressure-inhg>
+        <weather-scenarios>
+            <scenario n="17">
+                <description type="string">ISA standard atmosphere.
+                    Be sure to use basic weather for flight testing with this.</description>
+                <metar type="string">XXXX 012345Z 00000KT 35SM 15/05 Q1013.25 NOSIG</metar>
+                <name type="string">ISA</name>
+            </scenario>
+            <scenario n="18">
+                <description type="string">ISA +10 standard atmosphere.
+                    Be sure to use basic weather for flight testing with this.</description>
+                <metar type="string">XXXX 012345Z 00000KT 35SM 25/15 Q1013.25 NOSIG</metar>
+                <name type="string">ISA +10</name>
+            </scenario>
+            <scenario n="19">
+                <description type="string">ISA -15 standard atmosphere.
+                    Be sure to use basic weather for flight testing with this.</description>
+                <metar type="string">XXXX 012345Z 00000KT 35SM 00/M10 Q1013.25 NOSIG</metar>
+                <name type="string">ISA -15</name>
+            </scenario>
+        </weather-scenarios>
     </environment>
     <autopilot>
         <target-tracking-ja37>
