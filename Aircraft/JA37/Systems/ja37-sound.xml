@@ -718,6 +718,84 @@
             </pitch>
         </squeal>
 
+        <gear-explode>
+            <name>gear-nose-damaged</name>
+            <path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+            <mode>once</mode>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
+            <condition>
+                <equals>
+                    <property>fdm/jsbsim/gear/unit[0]/z-position</property>
+                    <value>0.001</value>
+                </equals>
+            </condition>
+            <position>
+                <x> -3.37534 </x>
+                <y> 0.01 </y>
+                <z> -2.1 </z>
+            </position>
+            <pitch>
+                <factor>1.20</factor>
+            </pitch>
+            <volume>
+                <factor>0.25</factor>
+                <max>1</max>
+            </volume>
+        </gear-explode>
+
+        <gear-explode>
+            <name>gear-left-damaged</name>
+            <path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+            <mode>once</mode>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
+            <condition>
+                <equals>
+                    <property>fdm/jsbsim/gear/unit[1]/z-position</property>
+                    <value>0.001</value>
+                </equals>
+            </condition>
+            <position>
+                <x>  2.64670 </x>
+                <y>  2.15204 </y><!-- in sound xml files this is opposite of aircraft structural coord. system -->
+                <z> -2.1 </z>
+            </position>
+            <pitch>
+                <factor>1.20</factor>
+            </pitch>
+            <volume>
+                <factor>0.25</factor>
+                <max>1</max>
+            </volume>
+        </gear-explode>
+
+        <gear-explode>
+            <name>gear-right-damaged</name>
+            <path>Aircraft/JA37/Sounds/aircraft-explode.wav</path>
+            <mode>once</mode>
+            <reference-dist>3</reference-dist>
+            <max-dist>10</max-dist>
+            <condition>
+                <equals>
+                    <property>fdm/jsbsim/gear/unit[2]/z-position</property>
+                    <value>0.001</value>
+                </equals>
+            </condition>
+            <position>
+                <x> 2.64670 </x>
+                <y> -2.15204 </y><!-- in sound xml files this is opposite of aircraft structural coord. system -->
+                <z> -2.1 </z>
+            </position>
+            <pitch>
+                <factor>1.20</factor>
+            </pitch>
+            <volume>
+                <factor>0.25</factor>
+                <max>1</max>
+            </volume>
+        </gear-explode>
+
         <!--                                          cockpit controls                           -->
 
         <controls>
