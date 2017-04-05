@@ -631,7 +631,7 @@
             </condition>
             <volume>
                 <property>velocities/airspeed-kt</property>
-                <factor>0.0015</factor>
+                <factor>0.001</factor>
             </volume>
         </brake-wind>
 
