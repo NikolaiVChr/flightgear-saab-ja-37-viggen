@@ -2783,3 +2783,6 @@ Engine: Updated idle thrust for RM-8A and RM-8B.
 Engine: Lowered mil thrust fuel consumption for RM-8A.
 GUI: Made warning if maximum allowed rolling speed is exceeded.
 Sound: Made small sound explosion when gears break due to too high speed.
+Animation: {Richard} Limit radar compass to rate-limit specified in manuals.
+Animation: {Richard} Limit radar compass heading bug to rate-limit specified in manuals.
+Model: Made radar compass heading bug, have flood-light also.
