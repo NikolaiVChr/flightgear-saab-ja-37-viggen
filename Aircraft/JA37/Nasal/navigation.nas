@@ -70,25 +70,6 @@ var heading_indicator = func {
 		input.radioHeadNorm.setDoubleValue(input.navNeedle.getValue()); #just use the regular ol' nav heading indicator.
 	}
 
-	# radar compass:
-	var inp = getprop("orientation/heading-magnetic-deg");
-    var out = getprop("ja37/avionics/heading-magnetic-limited-deg");
-    out = geo.normdeg(out);
-    var tmp = inp-out;
-    if (math.abs(tmp) > 180) {
-        tmp = (inp+180) - (out-180);
-    }
-    var maxRate = getprop("sim/time/delta-sec")*30;
-    if (math.abs(tmp) < maxRate) {
-      setprop("ja37/avionics/heading-magnetic-limited-deg", inp);
-    } else {
-      if (tmp > 0) {
-        setprop("ja37/avionics/heading-magnetic-limited-deg", out+maxRate);
-      } else {
-        setprop("ja37/avionics/heading-magnetic-limited-deg", out-maxRate);
-      }
-    }
-
 	settimer(heading_indicator, 0);
 }
 
