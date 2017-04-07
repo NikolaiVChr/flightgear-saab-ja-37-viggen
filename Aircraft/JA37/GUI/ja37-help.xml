@@ -98,6 +98,10 @@
         <desc>TILS on/off</desc>
     </key>
     <key>
+        <name>CTRL-y</name>
+        <desc>Ask tower for QFE setting.</desc>
+    </key>
+    <key>
         <name>r</name>
         <desc>Toggle radar</desc>
     </key>

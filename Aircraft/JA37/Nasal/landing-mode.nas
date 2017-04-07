@@ -55,6 +55,7 @@ var runway = "";
 var last_runway = "";
 var last_icao = "";
 var icao = "";
+var runway_alt = nil;
 
 var has_waypoint = 0;
 
@@ -96,12 +97,16 @@ var landing_loop = func {
 	            icao = name[0];
 	            runway = name[1];
                 if (icao != last_icao or runway != last_runway) {
+                    runway_alt = nil;
                     var hd = -1000;
                     var info = airportinfo(icao);
                     if (info != nil) {
                         var rw = info.runways[runway];
                         if (rw != nil) {
                             hd = rw.heading;
+                            var lat = rw.lat;
+                            var lon = rw.lon;
+                            runway_alt = geo.elevation(lat, lon);
                         }
                     }
                     if (hd == -1000) {
@@ -193,3 +198,27 @@ var landing_loop = func {
 }
 
 landing_loop();
+
+var window = screen.window.new(nil, 325, 2, 7.5);
+#window.fg = [1, 1, 1, 1];
+window.align = "left";
+
+var askTower = func () {
+    if (icao != "" and runway != "" and runway_alt != nil) {
+        window.write(icao~" tower; how is the weather at "~runway~"?", 0.0, 1.0, 0.0);
+        
+        var pressure = getprop("environment/pressure-inhg");
+        var qnh = getprop("environment/pressure-sea-level-inhg");
+        var lvl  = getprop("position/altitude-ft");
+        var rlvl = runway_alt * M2FT;
+        var qfe = extrapolate(rlvl, 0, lvl, qnh, pressure);
+        var qfe2 = qfe * 33.863887;
+        window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa.", runway, qfe, qfe2), 0.0, 0.6, 0.6);
+    } else {
+        window.write("To ask tower you must have a airport and runway active in route-manager, and be near the tower!", 1.0, 0.0, 0.0);
+    }
+};
+
+var extrapolate = func (x, x1, x2, y1, y2) {
+    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+};

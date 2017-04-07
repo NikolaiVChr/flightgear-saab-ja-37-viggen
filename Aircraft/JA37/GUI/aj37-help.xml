@@ -89,13 +89,17 @@
         <name>M</name>
         <desc>Toggle nose wheel steering</desc>
     </key>
-	<key>
+	  <key>
         <name>Y</name>
         <desc>Landing HUD mode on/off</desc>
     </key>
-	<key>
+	  <key>
         <name>y</name>
         <desc>TILS on/off</desc>
+    </key>
+    <key>
+        <name>CTRL-y</name>
+        <desc>Ask tower for QFE setting.</desc>
     </key>
     <key>
         <name>r</name>

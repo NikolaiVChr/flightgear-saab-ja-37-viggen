@@ -570,6 +570,16 @@
           </binding>
          </key>
 
+         <key n="25">
+            <name>CTRL-Y</name>
+            <desc>Ask tower for landing info</desc>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>land.askTower()</script>
+            </binding>
+        </key>
+
          <key n="97">
           <name>a</name>
           <desc>Increase speed-up</desc>
