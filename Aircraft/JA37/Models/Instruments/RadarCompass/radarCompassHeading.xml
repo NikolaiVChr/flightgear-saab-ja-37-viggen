@@ -7,6 +7,7 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>radarCompassHeadingIndicator</object-name>
+        <object-name>waypointHeadingIndicator</object-name>
     </effect>
 
     <animation>
