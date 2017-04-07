@@ -385,7 +385,6 @@ var update_loop = func {
 	  if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE) {
 	    # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
 	    input.rmBearingRel.setDoubleValue(input.rmBearing.getValue() - input.headingMagn.getValue());
-      
     }
 
     if(getprop("ja37/systems/variant") != 0 and getprop("/instrumentation/radar/range") == 180000) {

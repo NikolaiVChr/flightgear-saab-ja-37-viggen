@@ -33,6 +33,8 @@
          merchantability and fitness for a particular purpose are disclaimed.
       </note>
 
+      <!-- the references are in no particular order. More were used, but tried to keep the list minimal -->
+
       <reference refID="NASA TM-88403" author="Krister Karling"
        title="Aerodynamics of the Viggen 37 Aircraft" date="June 1986"
        link="http://hdl.handle.net/2060/19860019453"/>
@@ -125,7 +127,7 @@
       <reference refID="NOTES-37" author="Försvarets Materielverk"
        title="Flygplan Saab 37 Viggen med föregångare, projektarkiv öppna" date="1979"/>
 
-      <reference refID="PREPARATION-37" author="Försvarets Materielverk"
+      <reference refID="SKI-37" author="Försvarets Materielverk"
        title="Speciell Klargöringsinstruktion FPL AJS, AJSH, AJSF37 Vapen/Spaning" date="1995"/>
 
       <reference refID="CHECKLISTS-JA37" author="Försvarets Materielverk"

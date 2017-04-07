@@ -2782,3 +2782,4 @@ GUI: Added weather presets for ISA atmospheres.
 Engine: Updated idle thrust for RM-8A and RM-8B.
 Engine: Lowered mil thrust fuel consumption for RM-8A.
 GUI: Made warning if maximum allowed rolling speed is exceeded.
+Sound: Made small sound explosion when gears break due to too high speed.

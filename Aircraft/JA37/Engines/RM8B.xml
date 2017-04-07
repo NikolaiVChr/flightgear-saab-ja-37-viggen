@@ -11,8 +11,8 @@
     <bleed>           0.03</bleed>    <!-- -->
     <idlen1>         30.0 </idlen1>    <!-- http://www.airliners.net/  Also has a source saying 22%, but had to choose -->
     <idlen2>         57.0 </idlen2>    <!-- JA-37Di manual -->    <!-- http://www.boeing-727.com/ - JT8D-17A : 58.5 -->
-    <n1spinup>        1.0 </n1spinup>    <!-- Fan rotor rpm starter acceleration (default 1.0) -->
-    <n2spinup>        3.0 </n2spinup>    <!-- Core rotor rpm starter acceleration (default 3.0) -->
+    <n1spinup>        1.0 </n1spinup>    <!-- Fan rotor rpm starter acceleration (default 1.0%/sec) -->
+    <n2spinup>        3.0 </n2spinup>    <!-- Core rotor rpm starter acceleration (default 3.0%/sec) -->
     <maxn1>         102.4 </maxn1>    <!-- http://www.boeing-727.com/ -->
     <maxn2>         100.0 </maxn2>    <!-- http://www.boeing-727.com/ -->
     <augmented>         1 </augmented>
@@ -72,6 +72,7 @@
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
+                    <!-- AeromatiC++ 3.3.9 -->
                          -10000     0     10000   20000   30000   40000   50000   60000
                      0.0  0.0430  0.0488  0.0528  0.0694  0.0899  0.1183  0.1467  0
                      0.2  0.0500  0.0501  0.0335  0.0544  0.0797  0.1049  0.1342  0
@@ -112,7 +113,7 @@
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                 <tableData>
-                    <!-- Aeromatic++ 3.10 - Not calculated using the Stanford Engine Model for RM8B since that will use some undefined cruise thrust, instead of max -->
+                    <!-- Aeromatic++ 3.3.9 - Not calculated using the Stanford Engine Model for RM8B since that will use some undefined cruise thrust, instead of max -->
                            -10000       0   10000   20000   30000   40000   50000   70000
                      0.0    1.1816  1.0000  0.8184  0.6627  0.5280  0.3756  0.2327  0
                      0.2    1.1308  0.9599  0.7890  0.6406  0.5116  0.3645  0.2258  0

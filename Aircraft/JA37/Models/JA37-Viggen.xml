@@ -878,7 +878,7 @@
     <value>23</value>
    </greater-than>
   </condition>
-  <property>orientation/heading-magnetic-deg</property>
+  <property>ja37/avionics/heading-magnetic-limited-deg</property>
   <factor>-1.0</factor>
   <!--<center>
    <x-m>-3.98169</x-m>

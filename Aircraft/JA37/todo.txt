@@ -20,7 +20,7 @@ Model: Put in more working instruments and controls.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
 Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
-Model: Make the tooltips fail when gauge fail.
+Model: Make the tooltips fail when gauges fail.
 Model: The reserve generator. (ram air turbine)
 Model: Proper floor in the cockpit.
 Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
@@ -88,6 +88,7 @@ Effect: Make tires burst if too high speed with parking brakes.
 Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
+Sound: Sound from wind hitting the gears when extended.
 Radar: Make database of RCS of common aircrafts.
 Radar: Memory button, for freezing image.
 Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline?

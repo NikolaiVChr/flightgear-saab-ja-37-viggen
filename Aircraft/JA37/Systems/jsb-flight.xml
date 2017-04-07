@@ -318,6 +318,98 @@
 
     </channel>
 
+    <channel execrate="1" name="rdr-heading-bug">
+            <!-- RJH:2017-04: 
+            work out heading demand (from 0 to 360) wrapping values around the zero point
+                from 0 to 359: delta -1
+                from 1 to 2: delta 1
+                from 2 to 1: delta -1
+                from 359 to 0: delta 1
+                
+                in traditional language: 
+                double GetROC(double current, double demand)
+                {
+
+                    if (Math.Abs(current-demand) > 180)
+                        if (current > demand)
+                            return (demand+180) - (current-180);
+                        else
+                            return (demand-180) - (current+180);
+
+                    return demand-current;
+                }
+        -->
+        <fcs_function name="systems/demand-bug">
+            <function>
+                <ifthen>
+                    <ge>
+                        <abs>
+                            <difference>
+                                <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
+                                <property>/autopilot/route-manager/wp/bearing-deg-rel</property>
+                            </difference>
+                        </abs>
+                        <value>180</value>
+                    </ge>
+                    <ifthen>
+                        <ge>
+                            <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
+                            <property>/autopilot/route-manager/wp/bearing-deg-rel</property>
+                        </ge>
+                        <difference>
+                            <sum>
+                                <property>/autopilot/route-manager/wp/bearing-deg-rel</property>
+                                <value>180</value>
+                            </sum>
+                            <difference>
+                                <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
+                                <value>180</value>
+                            </difference>
+                        </difference>
+                        <difference>
+                            <difference>
+                                <property>/autopilot/route-manager/wp/bearing-deg-rel</property>
+                                <value>180</value>
+                            </difference>
+                            <sum>
+                                <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
+                                <value>180</value>
+                            </sum>
+                        </difference>
+                    </ifthen>
+                    <difference>
+                        <property>/autopilot/route-manager/wp/bearing-deg-rel</property>
+                        <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
+                    </difference>
+                        
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/demand-bug-rate">
+            <function>
+                <sum>
+                    <max>
+                        <product>
+                            <property>simulation/dt</property>
+                            <value>-25</value>
+                        </product>
+                        <min>
+                            <product>
+                                <property>simulation/dt</property>
+                                <value>25</value>
+                            </product>
+                            <property>systems/demand-bug</property>
+                        </min>
+                    </max>
+                    <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
+                </sum>
+            </function>
+            <output>/autopilot/route-manager/wp/bearing-deg-rel-rate</output>
+        </fcs_function>
+
+    </channel>
+
     <channel execrate="4" name="instruments">
 
         <!-- used for animating epr gauge -->

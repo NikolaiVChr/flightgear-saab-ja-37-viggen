@@ -4,15 +4,15 @@
 
     <path>radar_compass_heading.ac</path>
 
-    <animation>
-        <type>material</type>
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>radarCompassHeadingIndicator</object-name>
-    </animation>
+    </effect>
 
     <animation>
         <type>rotate</type>
         <object-name>waypointHeadingIndicator</object-name>
-        <property>autopilot/route-manager/wp/bearing-deg-rel</property>
+        <property>autopilot/route-manager/wp/bearing-deg-rel-rate</property>
 		<condition>
             <greater-than>
                 <property>systems/electrical/outputs/dc-voltage</property>

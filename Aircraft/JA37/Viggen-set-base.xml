@@ -594,6 +594,7 @@
             <autopilot-mode type="int">1</autopilot-mode>
             <auto-throttle-on type="bool">false</auto-throttle-on>
             <auto-throttle-max type="double">0.58333</auto-throttle-max>
+            <heading-magnetic-limited-deg type="double">0</heading-magnetic-limited-deg>
             <auto-altitude-on type="bool">false</auto-altitude-on>
             <auto-attitude-on type="bool">false</auto-attitude-on>
             <auto-altitude-hold-on type="bool">false</auto-altitude-hold-on>
@@ -1023,6 +1024,7 @@
 		<route-manager>
 			<wp>
 				<bearing-deg-rel type="double">0</bearing-deg-rel>
+                <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
 			</wp>
 		</route-manager>
         <internal>
