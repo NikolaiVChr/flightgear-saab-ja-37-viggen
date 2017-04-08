@@ -84,6 +84,7 @@ var landing_loop = func {
 	show_approach_circle = FALSE;
 	runway = "";
     icao = "";
+    runway_rw = nil;
 	var bearing = 0;
 	if (input.rmActive.getValue() == TRUE) {
         runway_dist = input.rmDist.getValue();        
@@ -97,7 +98,6 @@ var landing_loop = func {
 	            icao = name[0];
 	            runway = name[1];
                 if (icao != last_icao or runway != last_runway) {
-                    runway_rw = nil;
                     var hd = -1000;
                     var info = airportinfo(icao);
                     if (info != nil) {
