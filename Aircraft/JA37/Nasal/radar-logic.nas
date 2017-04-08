@@ -6,7 +6,7 @@ var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
 var feet2meter = 0.3048;
 
-var radarRange = getprop("ja37/systems/variant") == 0?180000:120000;#meter, is estimate. The AJ(S)-37 has 120KM and JA37 is almost 10 years newer, so is reasonable I think.
+var radarRange = getprop("ja37/systems/variant") == 0?120000:120000;#meter, is estimate. The AJ(S)-37 has 120KM and JA37 is almost 10 years newer, so is reasonable I think.
 
 var self = nil;
 var myAlt = nil;
