@@ -55,7 +55,7 @@ var runway = "";
 var last_runway = "";
 var last_icao = "";
 var icao = "";
-var runway_alt = nil;
+var runway_rw = nil;
 
 var has_waypoint = 0;
 
@@ -97,16 +97,14 @@ var landing_loop = func {
 	            icao = name[0];
 	            runway = name[1];
                 if (icao != last_icao or runway != last_runway) {
-                    runway_alt = nil;
+                    runway_rw = nil;
                     var hd = -1000;
                     var info = airportinfo(icao);
                     if (info != nil) {
                         var rw = info.runways[runway];
                         if (rw != nil) {
                             hd = rw.heading;
-                            var lat = rw.lat;
-                            var lon = rw.lon;
-                            runway_alt = geo.elevation(lat, lon);
+                            runway_rw = rw;
                         }
                     }
                     if (hd == -1000) {
@@ -204,6 +202,12 @@ var window = screen.window.new(nil, 325, 2, 7.5);
 window.align = "left";
 
 var askTower = func () {
+    var runway_alt = nil;
+    if (runway_rw != nil) {
+        var lat = runway_rw.lat;
+        var lon = runway_rw.lon;
+        runway_alt = geo.elevation(lat, lon);
+    }
     if (icao != "" and runway != "" and runway_alt != nil) {
         window.write(icao~" tower; how is the weather at "~runway~"?", 0.0, 1.0, 0.0);
         
@@ -213,7 +217,21 @@ var askTower = func () {
         var rlvl = runway_alt * M2FT;
         var qfe = extrapolate(rlvl, 0, lvl, qnh, pressure);
         var qfe2 = qfe * 33.863887;
-        window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa.", runway, qfe, qfe2), 0.0, 0.6, 0.6);
+        var ils = " No ILS.";
+
+        if (runway_rw != nil) {
+            var runway_ils = nil;
+            var vec = findNavaidsWithinRange(runway_rw, 10, "ils");
+            if (vec != nil and size(vec) > 0) {
+                runway_ils = vec[0];
+            } else {
+                runway_ils = nil;
+            }
+            if (runway_ils != nil) {
+                ils = " ILS is "~roundFreq(runway_ils.frequency)~" MHz.";
+            }
+        }
+        window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa. %s", runway, qfe, qfe2, ils), 0.0, 0.6, 0.6);
     } else {
         window.write("To ask tower you must have a airport and runway active in route-manager, and be near the tower!", 1.0, 0.0, 0.0);
     }
@@ -221,4 +239,10 @@ var askTower = func () {
 
 var extrapolate = func (x, x1, x2, y1, y2) {
     return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+};
+
+var roundFreq = func(x) {
+  var y = ""~x;
+  var a = substr(y, 0, 3)~"."~substr(y, -2);
+  return a;
 };
