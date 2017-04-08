@@ -2793,3 +2793,4 @@ GUI: Ask tower now also returns ILS freq. if available.
 =====
 GUI: Hotfix for ctrl-y request.
 Engine: Increased slightly aug thrust fuel consumption for RM-8A.
+Sim: Fixed that Dynamic View Manager concluded that the Viggen was a helicopter.

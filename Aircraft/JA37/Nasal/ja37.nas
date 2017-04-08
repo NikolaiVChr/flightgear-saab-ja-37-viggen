@@ -1912,3 +1912,17 @@ var resetView = func () {
   interpolate("sim/current-view/roll-offset-deg", getprop("sim/current-view/config/roll-offset-deg"),0.66);
   interpolate("sim/current-view/x-offset-m", 0, 1);
 }
+
+dynamic_view.register(func {
+              me.default_plane();      # uncomment one of these if you want
+#           # me.default_helicopter(); # to base your code on the defaults
+#
+#                                      # positive values rotate (deg) or move (m)
+#           me.heading_offset = ...    #     left
+#           me.pitch_offset = ...      #     up
+#           me.roll_offset = ...       #     right
+#           me.x_offset = ...          #     right     (transversal axis)
+#           me.y_offset = ...          #     up        (vertical axis)
+#           me.z_offset = ...          #     back/aft  (longitudinal axis)
+#           me.fov_offset = ...        #     zoom out  (field of view)
+   });
