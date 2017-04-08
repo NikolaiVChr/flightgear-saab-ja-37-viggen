@@ -4,8 +4,8 @@
   <milthrust unit="N">  65600 </milthrust>    <!-- AJS-37 manual -->
   <maxthrust unit="N"> 115600 </maxthrust>    <!-- AJS-37 manual -->
   <bypassratio>     1.07 </bypassratio><!-- Turbofan and turbojet engines: database handbook. -->
-  <tsfc>            0.58 </tsfc>        <!-- Turbofan and turbojet engines: database handbook. -->
-  <atsfc>           2.5 </atsfc>
+  <tsfc>            0.58 </tsfc>       <!-- Turbofan and turbojet engines: database handbook. -->
+  <atsfc>           2.539</atsfc>
   <bleed>           0.03</bleed>
   <idlen1>         30.0 </idlen1>
   <idlen2>         57.0 </idlen2>
