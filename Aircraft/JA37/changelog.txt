@@ -2788,3 +2788,7 @@ Animation: {Richard} Limit radar compass heading bug to rate-limit specified in 
 Model: Made radar compass heading bug, have flood-light also.
 GUI: Made CTRL-y ask tower for runway local QFE pressure.
 GUI: Ask tower now also returns ILS freq. if available.
+
+4.020
+=====
+GUI: Hotfix for ctrl-y request.
