@@ -197,7 +197,7 @@ var landing_loop = func {
 
 landing_loop();
 
-var window = screen.window.new(nil, 325, 2, 7.5);
+var window = screen.window.new(nil, 325, 2, 10);
 #window.fg = [1, 1, 1, 1];
 window.align = "left";
 
@@ -233,7 +233,7 @@ var askTower = func () {
         }
         window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa. %s", runway, qfe, qfe2, ils), 0.0, 0.6, 0.6);
     } else {
-        window.write("To ask tower you must have a airport and runway active in route-manager, and be near the tower!", 1.0, 0.0, 0.0);
+        window.write("To ask tower you must have a airport and runway active in route-manager, and fly near the tower!", 1.0, 0.0, 0.0);
     }
 };
 
