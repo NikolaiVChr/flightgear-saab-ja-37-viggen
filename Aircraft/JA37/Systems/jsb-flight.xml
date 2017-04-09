@@ -37,6 +37,7 @@
                     <property>aero/coefficient/CNGnd</property>
                     <property>aero/coefficient/CNGndElevator</property>
                     <property>aero/coefficient/CNflaps</property>
+                    <property>aero/coefficient/CNgear</property>
                     <property>aero/coefficient/CNwave</property>
                     <property>aero/coefficient/CNBrake</property>
                     <property>aero/coefficient/CNTurbine</property>

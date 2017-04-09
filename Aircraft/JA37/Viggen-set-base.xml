@@ -1482,7 +1482,7 @@
         <log>
            <filename>C:/Users/Nikolai/Documents/ja37_drag_test.csv</filename>
            <enabled>false</enabled>
-           <interval-ms>10</interval-ms>
+           <interval-ms>100</interval-ms>
            <delimiter>,</delimiter>
            <entry>
             <enabled>true</enabled>

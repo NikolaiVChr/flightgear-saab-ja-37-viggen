@@ -120,6 +120,17 @@
         </product>
     </function>
 
+        <!-- estimate -->
+    <function name="aero/function/Cdgear">
+        <description>Drag_due_to_gear</description>
+        <product>
+            <property>aero/qbar-psf</property>
+            <property>metrics/Sw-sqft</property>
+            <property>gear/gear-pos-norm</property>
+            <property>aero/drag/gear</property>
+        </product>
+    </function>
+
     <axis name="NORMAL">
 
 
@@ -138,7 +149,7 @@
                 <!--<property>aero/function/CNmachFactor</property>-->
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
-                    <independentVar lookup="column">aero/alpha-deg</independentVar>
+                    <independentVar lookup="column">aero/alpha-deg</independentVar><!-- sadly 3D tables needs to have minimum 2 columns -->
                     <independentVar lookup="table">fcs/elevator-pos-deg</independentVar>
                     <!-- [measured using graph analyser] -->
                     <tableData breakPoint="-20.0"><!-- from graph 31a page 46 -->
@@ -257,10 +268,10 @@
                 <table>
                     <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
-                    <tableData>
-                               0.0     5.0    15.0
-                        0.0  0.0000  0.2000  0.6500
-                        2.2  0.0000  0.0000  0.0000
+                    <tableData><!-- alpha = 90 is an estimate -->
+                               0.0     5.0    15.0     90.0
+                        0.0  0.0000  0.2000  0.6500  -0.2500
+                        2.2  0.0000  0.0000  0.0000   0.0000
                     </tableData>
                 </table>
             </product>
@@ -340,7 +351,7 @@
         <!-- from graph 31c page 46 -->
         <function name="aero/coefficient/CNflaps">
             <description>
-                        Normal force due to gear and flaps
+                        Normal force due to flaps
             </description>
             <product>
                 <!--<property>aero/function/mach-effect-prefactor</property>-->
@@ -365,6 +376,22 @@
                       53.62779    0.00000
                     </tableData>
                 </table>
+            </product>
+        </function>
+
+        <function name="aero/coefficient/CNgear">
+            <description>
+                Normal force due to gear
+            </description>
+            <product>
+                <sum>
+                    <product>
+                        <property>aero/function/Cdgear</property>
+                        <sin>
+                            <property>aero/alpha-rad</property>
+                        </sin>
+                    </product>
+                </sum>
             </product>
         </function>
 
@@ -454,20 +481,6 @@
         </sum>-->
     </function>
 
-    <!-- estimate -->
-    <function name="aero/function/CAgear">
-        <description>Axial_due_to_gear</description>
-        <product>
-            <property>aero/qbar-psf</property>
-            <property>metrics/Sw-sqft</property>
-            <property>gear/gear-pos-norm</property>
-            <property>aero/drag/gear</property>
-            <cos>
-                <property>aero/alpha-rad</property>
-            </cos>
-        </product>
-    </function>
-
     <!-- Datcom+ Pro -->
     <function name="aero/function/CAflaps">
         <description>Axial due to flaps</description>
@@ -551,6 +564,9 @@
     </function>
 
     <axis name="AXIAL">
+
+        <!-- this section is semi-generated / semi-reverse-engineered from performance and from single drag curve (with gears out).
+             reason: windtunnel data simply lacks this for some reason. -->
         
         <function name="aero/coefficient/CAtakeoff">
             <description>
@@ -559,7 +575,12 @@
             <product>
                 <property>aero/function/Afactors</property>
                 <sum>
-                    <property>aero/function/CAgear</property>
+                    <product>
+                        <property>aero/function/Cdgear</property>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
                     <property>aero/function/CAflaps</property>
                 </sum>
             </product>
