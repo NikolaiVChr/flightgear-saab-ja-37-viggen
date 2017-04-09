@@ -497,7 +497,7 @@ var radar = {
           }
 
           if (land.show_runway_line == TRUE) {
-            # 10 20 20 40 Km long line, depending on radar setting, as per manual.
+            # 10 20 20 40 Km long line, depending on radar setting, as per AJ manual.
             me.runway_l = land.line*1000;
     #        if (me.radarRange == 120000 or me.radarRange == 180000) {
     #          me.runway_l = 40000;

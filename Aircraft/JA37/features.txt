@@ -9,13 +9,13 @@ When the Viggen is first loaded I think its not apparent how much work is invest
 
 Flightgear compatibility
 ------
-The Viggen is compatible with Flightgear version 2.10 to 2016.4.4
+The Viggen is compatible with Flightgear version 2.10 to 2017.1.3
 A separate download is available for Flightgear 2.8. It will not be updated so often as the regular download.
 
 Aerodynamics
 -----
 JSBSim FDM based mostly on original Saab windtunnel data.
-48 individual aerodynamic coefficients.
+49 individual aerodynamic coefficients.
 Aerodynamic effect of air intake factor, ground effects and control surface shading.
 At high alpha asymmetric vortex detachment of left or right side, resulting in adverse effects.
 Very high alpha handling including realistic departures such as stall, spiral dive, flat spin and inverted spin.
@@ -71,7 +71,7 @@ The callsign (or type), velocity vector and distance of the selected track is al
 HUD shows radar tracks of aircraft plus scenario objects like ferries, balloons, tankers, carriers, tanks, bus, trains etc.
 At ILS landings the HUD will show a glideslope guide, if the runway supports it. Also DME if supported and enabled.
 Other HUD features such as distance scale, variant altitude scale, heading scale on horizon in landing mode, diamond at missile lock, altimeter calibration warning etc.
-Radar with 180 Km (120 Km for AJ37) range that show MP and AI objects alike depend on hydraulic and electricity.
+Radar with 120 Km range that show MP and AI objects alike depend on hydraulic and electricity.
 In regards to MP planes the radar can be setup to be pulse doppler and/or not able to see through terrain.
 Auto-start and auto shut down scripts.
 Realistic modeled indicator panels for various warnings, alerts and notices.
@@ -84,7 +84,7 @@ Afterburner that has 3 continuous zones of operation.
 
 Sound
 -----
-58 distinct sounds, including 19 annunciation warnings.
+60 distinct sounds, including 19 annunciation warnings.
 9 multiplayer sounds enabled. (is for now disabled until FG MP sounds is fixed)
 When canopy is open wind and exterior engine sounds can be heard.
 No out of place sounds being played at start of sim.
@@ -117,7 +117,7 @@ Preloaded exterior view, for fast switching to exterior view.
 Effects
 -----
 Aerobatic smoke in yellow or blue.
-Wing vapour under the right atmospheric conditions.
+Canard tip vapours under the right atmospheric conditions.
 Under right conditions, contrails will form and if persistent contrail shader is on they will show also.
 Lights that depends on distance viewed and sun position.
 Beacon light that simulate rotating beacons.

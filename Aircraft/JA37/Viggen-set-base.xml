@@ -796,9 +796,10 @@
                     <vortex type="double">1.0</vortex>
                 </function>
                 <drag>
-                    <!-- drag - Notice fuselage is about 0.024 at alpha=0 -->
-                    <gear type="double">        0.020</gear>                    <!-- fully extended -->
-                    <flaps type="double">       0.010</flaps>                    <!-- full 30 degrees downward deflection of canard flaps -->
+                    <!-- drag - Notice fuselage is about 0.010 at alpha=2 -->
+                    <!-- drag: flaps, gears and fuselage at 2 deg alpha must give 0.058 together to match data.-->
+                    <gear type="double">        0.045</gear>                    <!-- fully extended -->
+                    <flaps type="double">       0.0036</flaps>                    <!-- full 30 degrees downward deflection of canard flaps -->
                     <missile type="double">     0.0001444</missile> <!-- aim-9 -->
                     <drop-tank type="double">   0.0015</drop-tank>
                     <canopy type="double">      0.025</canopy>                    <!-- fully open -->
@@ -806,7 +807,7 @@
                     <rudder type="double">      0.010</rudder>                    <!-- at full 25 degrees deflection -->
                     <elevon-left type="double"> 0.015</elevon-left>                    <!-- full 40 degrees upward deflection -->
                     <elevon-right type="double">0.015</elevon-right>                    <!-- full 40 degrees upward deflection -->
-                    <speedbrake type="double">  0.030</speedbrake>                    <!-- fully extended -->
+                    <speedbrake type="double">  0.040</speedbrake>                    <!-- fully extended -->
                     <ram-air-turbine type="double">0.0025</ram-air-turbine>                    <!-- fully extended -->
                 </drag>
             </aero>
@@ -1462,7 +1463,7 @@
             <property>logging/missile/thrust-lbf</property>
            </entry>
         </log>-->
-        <log>
+        <!--<log>
            <filename>C:/Users/Nikolai/Documents/ja37_missile_test.csv</filename>
            <enabled>false</enabled>
            <interval-ms>10</interval-ms>
@@ -1476,6 +1477,32 @@
             <enabled>true</enabled>
             <title>LOSr</title>
             <property>logging/missile/LOS-rate</property>
+           </entry>
+        </log>-->
+        <log>
+           <filename>C:/Users/Nikolai/Documents/ja37_drag_test.csv</filename>
+           <enabled>false</enabled>
+           <interval-ms>10</interval-ms>
+           <delimiter>,</delimiter>
+           <entry>
+            <enabled>true</enabled>
+            <title>Cd-N</title>
+            <property>fdm/jsbsim/systems/flight/drag-force-N</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>Cd-c-N</title>
+            <property>fdm/jsbsim/systems/flight/drag-force-clean-N</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>AoA</title>
+            <property>orientation/alpha-deg</property>
+           </entry>
+           <entry>
+            <enabled>true</enabled>
+            <title>Vi</title>
+            <property>instrumentation/airspeed-indicator/indicated-speed-kmh</property>
            </entry>
         </log>
         <time-log type="string">0:0:0</time-log>

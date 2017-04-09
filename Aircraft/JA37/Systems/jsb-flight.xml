@@ -83,6 +83,38 @@
             </function>
         </fcs_function>
 
+        <fcs_function name="systems/flight/drag-force-tank-lb">
+            <function>
+                    <product>
+                        <property>aero/coefficient/CATank</property>
+                        <cos>
+                            <property>aero/alpha-rad</property>
+                        </cos>
+                    </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/drag-force-N">
+            <function>
+                <product>
+                    <property>systems/flight/drag-force-lb</property>
+                    <value>4.44822</value>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="systems/flight/drag-force-clean-N">
+            <function>
+                <product>
+                    <difference>
+                        <property>systems/flight/drag-force-lb</property>
+                        <property>systems/flight/drag-force-tank-lb</property>
+                    </difference>
+                    <value>4.44822</value>
+                </product>
+            </function>
+        </fcs_function>
+
         <fcs_function name="systems/flight/Cd-total">
             <function>
                 <quotient>

@@ -479,7 +479,7 @@
                     <table>
                         <independentVar lookup="row"> aero/alpha-deg </independentVar>
                         <independentVar lookup="column"> fcs/flap-pos-deg </independentVar>
-                        <tableData>
+                        <tableData><!-- drag -->
                                         -4.0000     .0000   15.0000   30.0000
                              -2.0000     .0001     .0000     .0012     .0017
                                .0000    -.0002     .0000     .0019     .0027
@@ -510,13 +510,14 @@
                 <product>
                     <table>
                         <independentVar lookup="row"> fcs/flap-pos-deg </independentVar>
-                        <tableData>
+                        <tableData><!-- lift -->
                              -4.0000    -.0058
                                .0000     .0000
                              15.0000     .0207
                              30.0000     .0254
                         </tableData>
                     </table>
+                    <value>3.0</value><!-- this is from comparing windtunnel normal force for flaps with Datcom generated -->
                     <sin>
                         <property>aero/alpha-rad</property>
                     </sin>
