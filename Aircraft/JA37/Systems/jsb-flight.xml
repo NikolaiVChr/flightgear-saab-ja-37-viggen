@@ -921,9 +921,10 @@
             </test>
         </switch>
 
-        <lag_filter name="systems/flight/aoa-indicator">
+        <lag_filter name="systems/flight/aoa-indicator-locked">
             <input> systems/flight/aoa-indicator-direct </input>
             <c1> 5 </c1>
+            <output> systems/flight/aoa-indicator </output>
         </lag_filter>
 
         <!-- AJS-37 manual part 2, page 173 -->

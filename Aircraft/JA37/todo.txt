@@ -13,6 +13,7 @@ Aero: Tune speedbrake better.
 Aero: Make cannon ammo have pointweight.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Control: Make bigger factor in pitch normal comparison. (beware of oscillations)
+Control: Limit elevator deflection due to servo-moment being smaller than moment of air-pressure. Page 19-20 in AK III.
 Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.

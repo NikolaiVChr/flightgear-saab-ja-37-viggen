@@ -85,11 +85,11 @@
             <property type="string">fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
         </signal>
         <!-- Instruments -->
-        <!--<signal>
+        <signal>
           <type>float</type>
-          <property type="string">fdm/jsbsim/aero/alpha-deg</property>
+          <property type="string">fdm/jsbsim/systems/flight/aoa-indicator</property>
           <interpolation>angular-deg</interpolation>
-        </signal>-->
+        </signal>
         <signal>
             <type>float</type>
             <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
