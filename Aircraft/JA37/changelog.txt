@@ -2797,3 +2797,4 @@ Sim: Fixed that Dynamic View Manager concluded that the Viggen was a helicopter.
 Radar: JA37 max range setting lowered to 120 Km. (source: former JA37 pilot)
 Sim: Fixed AoA indicator would not work in replay.
 Sim: Did an overhaul of replay recording.
+Model: Fixed AoA indicator needle would z-fight on Linux.
