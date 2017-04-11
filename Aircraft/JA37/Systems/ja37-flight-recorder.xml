@@ -2,7 +2,7 @@
 <PropertyList>
     <replay-config type="int">0</replay-config>
     <config n="0">
-        <name type="string">JA-37 Flight Recorder</name>
+        <name type="string">Saab 37 Flight Recorder</name>
         <!-- Custom properties -->
         <signals include="/Aircraft/Generic/flightrecorder/components/environment.xml"/>
         <signals include="/Aircraft/Generic/flightrecorder/components/position.xml"/>
@@ -24,9 +24,15 @@
           <property type="string">/controls/gear/nosegear-steering-cmd-norm</property>
           <interpolation>linear</interpolation>
         </signal> -->
-        <!-- More custom signals here -->
+
+
+        <!-- custom signals here -->
+
+
+
 
         <!-- control surfaces -->
+
         <signal>
             <type>float</type>
             <property type="string">surface-positions/flap-pos-norm</property>
@@ -84,7 +90,11 @@
             <type>bool</type>
             <property type="string">fdm/jsbsim/fcs/canopy/hinges/serviceable</property>
         </signal>
+
+
+
         <!-- Instruments -->
+
         <signal>
           <type>float</type>
           <property type="string">fdm/jsbsim/systems/flight/aoa-indicator</property>
@@ -94,10 +104,42 @@
             <type>float</type>
             <property type="string">instrumentation/altimeter/indicated-altitude-ft</property>
         </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">engines/engine/epr-gauge</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">instrumentation/fuel/needleF_rot</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">fdm/jsbsim/propulsion/engine/nozzle</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">ja37/accelerations/pilot-G-lag</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">ja37/avionics/heading-magnetic-limited-deg</property>
+        </signal>
+
+
+
         <!-- Sound -->
+
         <signal>
             <type>float</type>
             <property type="string">engines/engine/thrust_lb</property>
+        </signal>
+        <signal>
+            <type>float</type>
+            <property type="string">fdm/jsbsim/fcs/speedbrake-pos-norm</property>
         </signal>
         <signal>
             <type>float</type>
@@ -135,7 +177,10 @@
             <type>bool</type>
             <property type="string">engines/engine[0]/is-reversed</property>
         </signal>
+
+
         <!-- exterior lights -->
+
         <signal>
             <type>float</type>
             <property type="string">sim/multiplay/generic/int[9]</property>
@@ -181,7 +226,10 @@
             <type>bool</type>
             <property type="string">controls/electric/lights-land-switch</property>
         </signal>
+
+
         <!-- Effects -->
+
         <signal>
             <type>float</type>
             <property type="string">engines/engine/flame</property>
@@ -199,19 +247,26 @@
             <property type="string">fdm/jsbsim/propulsion/engine/zone-scaled</property>
         </signal>
         <signal>
-            <type>float</type>
+            <type>float</type><!-- afterburner flame size -->
             <property type="string">sim/multiplay/generic/float[3]</property>
+        </signal>
+        <signal>
+            <type>float</type><!-- translucency of afterburner flame -->
+            <property type="string">sim/multiplay/generic/float[2]</property>
         </signal>
         <signal>
             <type>bool</type>
             <property type="string">engines/engine[0]/augmentation</property>
         </signal>
         <signal>
-            <type>int8</type>
+            <type>int8</type><!-- contrails and damage smoke bits -->
             <property type="string">sim/multiplay/generic/int[18]</property>
         </signal>
+
+
         <!-- Stores -->
-        <!--<signal>
+
+        <!--<signal> this will consume ammo, so disabled
             <type>bool</type>
             <property type="string">controls/armament/station[0]/trigger</property>
         </signal>-->
@@ -277,22 +332,25 @@
             <property type="string">payload/weight[5]/weight-lb</property>
         </signal>
         <signal>
-            <type>int8</type>
+            <type>int8</type><!-- outer pylons sidewinders and canard tip vapour -->
             <property type="string">sim/multiplay/generic/int[19]</property>
         </signal>
+
+
         <!-- Gears -->
-        <!--<signal>
-          <type>float</type>
-          <property type="string">gear/gear/compression-norm</property>
+
+        <signal>
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/gear/unit[0]/WOW</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">gear/gear[1]/compression-norm</property>
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/gear/unit[1]/WOW</property>
         </signal>
         <signal>
-          <type>float</type>
-          <property type="string">gear/gear[2]/compression-norm</property>
-        </signal>-->
+          <type>bool</type>
+          <property type="string">fdm/jsbsim/gear/unit[2]/WOW</property>
+        </signal>
         <signal>
             <type>float</type>
             <property type="string">surface-positions/nose-wheel-pos-norm</property>
@@ -307,4 +365,6 @@
     - bool:   1 bit/sample (yes, 1 bit. 8 bools per byte).
     -->
     <!-- remember string types are unsupported -->
+    <!-- if recording a jsb generated property,
+         make sure in jsb its set as output, not name -->
 </PropertyList>

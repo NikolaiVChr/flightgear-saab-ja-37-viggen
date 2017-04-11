@@ -436,10 +436,10 @@
         
         <replay>
             <buffer>
-                <high-res-time type="double">600</high-res-time>               <!-- default:   60 -->
+                <high-res-time type="double">60</high-res-time>               <!-- default:   60 -->
                 <medium-res-time type="double">1200</medium-res-time>          <!-- default:  600 -->
                 <low-res-time type="double">3600</low-res-time>                <!-- default: 3600 -->
-                <medium-res-sample-dt type="double">0.5</medium-res-sample-dt> <!-- default:  0.5 -->
+                <medium-res-sample-dt type="double">0.15</medium-res-sample-dt> <!-- default:  0.5 -->
                 <low-res-sample-dt type="double">5</low-res-sample-dt>         <!-- default:    5 -->
             </buffer>
         </replay>

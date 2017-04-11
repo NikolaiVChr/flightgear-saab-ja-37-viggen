@@ -992,7 +992,7 @@ var HUDnasal = {
       #############             main loop                         ################
       ############################################################################
   update: func() {
-    setprop("instrumentation/airspeed-indicator/indicated-speed-kmh", getprop("instrumentation/airspeed-indicator/indicated-speed-kt")*kts2kmh);
+    #setprop("instrumentation/airspeed-indicator/indicated-speed-kmh", getprop("instrumentation/airspeed-indicator/indicated-speed-kt")*kts2kmh);
     me.has_power = TRUE;
     if (me.input.elecAC.getValue() < 100) {
       # primary power is off
