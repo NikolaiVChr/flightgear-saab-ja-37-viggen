@@ -66,8 +66,8 @@ var radar = {
     
     var g_tf = g.createTransform();
 
-    m.strokeOriginY = (975/1024) * pixels_max;
-    m.strokeTopY = (200/1024) * pixels_max;
+    m.strokeOriginY = (900/1024) * pixels_max;
+    m.strokeTopY = (150/1024) * pixels_max;
     m.strokeHeight = (m.strokeOriginY - m.strokeTopY);
 
     m.lineGroup = g.createChild("group")
@@ -267,8 +267,8 @@ var radar = {
     m.rangeText = m.lineGroup.createChild("text")
       .setText("120")
       .setAlignment("center-center")
-      .setFontSize((37.5/1024)*pixels_max, 1.0)
-      .setTranslation((280/1024)*pixels_max, (-110/1024)*pixels_max)
+      .setFontSize((64/1024)*pixels_max, 1.0)
+      .setTranslation((280/1024)*pixels_max, (-80/1024)*pixels_max)
       .setColor(black_r, black_g, black_b)
       .set("z-index", 4);
 
