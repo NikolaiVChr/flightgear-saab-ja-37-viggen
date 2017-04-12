@@ -2803,3 +2803,4 @@ Control: Increased response to longitudal stick input.
 Aero: Audit of mass and balance.
 Aero: Fixed that most fuel tanks mass location had not been changed last time CG was adjusted.
 Aero: Decreased speedbrake drag. (source: former JA37 pilot)
+Aero: Disabled pitch due to inlet mass flow ratio, due it being wrong.

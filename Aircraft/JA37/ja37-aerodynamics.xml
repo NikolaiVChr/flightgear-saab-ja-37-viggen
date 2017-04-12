@@ -1878,10 +1878,17 @@
 
     <axis name="PITCH">
 
-        <!-- page 67 fig51b - CmCA -->
+        <!-- page 67 fig51b - CmCA --><!--
         <function name="aero/coefficient/CmCA">
             <description>
                               Pitch due to Air intake factor
+
+                              Using 3D table due to alpha data points not being the same,
+                              the extra column is required, and is therefore a copy
+
+                              [measured using graph analyser]
+
+                              The air intake factor is wrong, for the time being this is therefore commented out.
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -1891,13 +1898,11 @@
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
                     <independentVar lookup="table">aero/function/air-intake-factor-CA</independentVar>
-                    <tableData breakPoint="1.0"><!-- [measured using graph analyser] -->
+                    <tableData breakPoint="1.0">
                                       0         1
                          0.00000   0.00000   0.00000
                          1.00000   0.00000   0.00000
                     </tableData>
-                    <!-- Using 3D table due to alpha data points not being the same,
-                        the extra column is required, and is therefore a copy -->
                     <tableData breakPoint="2.0">
                                       0         1
                          0.00000   0.00000   0.00000
@@ -1942,7 +1947,7 @@
                     </tableData>
                 </table>
             </product>
-        </function>
+        </function>-->
 
         <!-- page 74 - zero moment numbers -->
         <function name="aero/coefficient/CmZero">
