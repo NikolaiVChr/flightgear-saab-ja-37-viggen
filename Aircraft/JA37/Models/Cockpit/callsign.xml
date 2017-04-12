@@ -39,24 +39,26 @@
         <object-name>Callsign</object-name>
         <condition>
             <not>
-                <equals>
-                    <property>sim/rendering/shaders/skydome</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>sim/rendering/als-filters/use-filtering</property>
-                    <value>1</value>
-                </equals>
-                <or>
+                <and>
                     <equals>
-                        <property>sim/rendering/als-filters/use-IR-vision</property>
+                        <property>sim/rendering/shaders/skydome</property>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property>sim/rendering/als-filters/use-night-vision</property>
+                        <property>sim/rendering/als-filters/use-filtering</property>
                         <value>1</value>
                     </equals>
-                </or>
+                    <or>
+                        <equals>
+                            <property>sim/rendering/als-filters/use-IR-vision</property>
+                            <value>1</value>
+                        </equals>
+                        <equals>
+                            <property>sim/rendering/als-filters/use-night-vision</property>
+                            <value>1</value>
+                        </equals>
+                    </or>
+                </and>
             </not>
         </condition>
         <emission>

@@ -7,7 +7,7 @@ Features and improvements:
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
-GUI: AT some point switch to new thrumbnails format.
+GUI: AT some point switch to new thumbnails format.
 Aero: Make recoil not assume that FDM rate is 120 Hz.
 Aero: Tune speedbrake better.
 Aero: Make cannon ammo have pointweight.
