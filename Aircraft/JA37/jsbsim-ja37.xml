@@ -171,7 +171,7 @@
       <wingarea unit="M2">       46.0     </wingarea><!-- main wings --><!-- from Saab windtunnel data document -->
       <wingspan unit="M">        10.0     </wingspan><!-- main wings --><!-- from Saab windtunnel data document -->
       <chord unit="M">            7.4     </chord><!-- ref. chord from Saab windtunnel data document (its the root chord),
-                                                       the real MAC is 4.73 meter (Datcom+ Pro) -->
+                                                       the real MAC is about 4.73 meter (Datcom+ Pro) -->
       <htailarea unit="M2">      46.0     </htailarea><!-- using main wings for this since they act as htail also -->
       <!-- data calculated using DATCOM+ Pro -->
       <vtailarea unit="M2">      5.115   </vtailarea>
@@ -180,7 +180,7 @@
       <!-- Measured using Saab diagram in Gimp -->
       <wing_incidence unit="DEG"> 0.00    </wing_incidence>
     <location name="AERORP" unit="M">
-      <x> 1.79878 </x>
+      <x> 1.5517 </x><!-- same as CG, its modified in aero_ref_pt_shift_x according to current static margin -->
       <y> 0 </y>
       <z> -0.20081 </z>
     </location>
@@ -197,34 +197,6 @@
     <pitot_angle unit="DEG"> 0.0 </pitot_angle>
   </metrics>
   
-<!-- CoG and AeroRP:
-
-Page 47: stability margin at low speed
-will be on the order of O.3 - 0.5 m, which is a rather representative measure
-of the distance between the neutral point and the point of gravity in respect
-to an airplane of that size). [about prototype for AJ37, the attack variant]
-
-AeroRP:
-
-Bombers airfoil analysis says 0.257 chord (1.9018 m) from leading edge (x=0.30698 m), so that gives Aerorp x=2.20878 m.
-Setting the aerorp at main wing height z=-0.20081, this also makes the roll damping work much more effective.
-
-However on the model the landing gear is 0.3 meters too much forward, so when landing it will be difficult to touch down the nose wheel.
-For that reason it will be moved 0.3 meters forward from 2.20878 meters.
-
-CoG:
-
-Page 43: STA X65B = 12350mm [about prototype for AJ37, the attack variant], 1155mm after the flaps trailing edge (x=0.22 m) which gives x=1.375 m
-
-Now the JA37 had longer fuselage due to longer engine, also the more powerful engine was most certainly heavier.
-That means the CoG would have been further aft on the JA37 compared to the prototype for AJ37. It also makes sense for a fighter to have less longitudal stability compared to the attack variant.
-
-So the static margin of 0.3 meter does sound reasonable even though thats from the prototype.
-
-Old values:
-<x> 0.6399 </x>
-<x> 0.3399 </x>
- -->
 
   <mass_balance>
     <!-- Datcom+ Pro -->
@@ -236,9 +208,9 @@ Old values:
     <!--<ixx unit="KG*M2">  21960.58  </ixx>
     <iyy unit="KG*M2">  88334.06  </iyy>
     <izz unit="KG*M2">  78179.33  </izz>-->
-    <emptywt unit="LBS" > 23657.81 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
+    <emptywt unit="KG" > 10731 </emptywt><!-- Swedish airforce website (Is for JA37Di) -->
     <location name="CG" unit="M">
-      <x> 1.79878 </x>
+      <x> 1.5517 </x>
       <!--  -->
       <y> 0 </y>
       <z> 0 </z>

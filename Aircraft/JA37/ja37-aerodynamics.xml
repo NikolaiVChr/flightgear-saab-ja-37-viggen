@@ -37,13 +37,9 @@
 
                 NASA-TN-D-7505 page 134 - Configuration: Wing II and Canard II
 
-                MAC for the JA-37 is 4.73 meter, and since this function is
-                multiplied to ref. chord (7.4 meter) and that is actually this planes root chord,
-                have to multiply the table with the ratio of root chord to mean aerodynamic chord: 0.6392.
-
                 ===============
 
-                I now have a better source than the above, from official aerodynamic manual.
+                I now have a better source than the above, from official aerodynamic compendium:
                 
             </description>
             <quotient>

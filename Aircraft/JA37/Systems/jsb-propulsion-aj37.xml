@@ -38,7 +38,7 @@
   <tank type="FUEL"><!-- fuel type used: F-40 with density of 6.48 -->
     <!-- Fuselage Main Tank 1 -->
     <location unit="M">
-      <x> 1.79878 </x>
+      <x> 1.5517 </x>
       <y> 0.00 </y>
       <z> 0.51982 </z>
     </location>
@@ -53,7 +53,7 @@
   <tank type="FUEL">
     <!-- Fuselage Forward Tank 2 -->
     <location unit="M">
-      <x> -2.24 </x>
+      <x> -2.33708 </x>
       <y>  0.00 </y>
       <z>  0.30 </z>
     </location>
@@ -68,7 +68,7 @@
   <tank type="FUEL">
     <!-- Left Fuselage Minor Tank 3V -->
     <location unit="M">
-      <x> -0.50305 </x>
+      <x> -0.60013 </x>
       <y> -0.7 </y>
       <z>  0.52599 </z>
     </location>
@@ -83,7 +83,7 @@
   <tank type="FUEL">
     <!-- Right Fuselage Minor Tank 3H -->
     <location unit="M">
-      <x> -0.50305 </x>
+      <x> -0.60013 </x>
       <y>  0.7 </y>
       <z>  0.52599 </z>
     </location>
@@ -98,7 +98,7 @@
   <tank type="FUEL">
     <!-- Left Minor Wing Tank 5V -->
     <location unit="M">
-      <x>  1.20 </x>
+      <x>  1.10292 </x>
       <y> -1.66 </y>
       <z> -0.28 </z>
     </location>
@@ -113,7 +113,7 @@
   <tank type="FUEL">
     <!-- Right Minor Wing Tank 5H -->
     <location unit="M">
-      <x>  1.20 </x>
+      <x>  1.10292 </x>
       <y>  1.66</y>
       <z> -0.28 </z>
     </location>
@@ -128,7 +128,7 @@
   <tank type="FUEL">
     <!-- Left wing tank 4V -->
     <location unit="M">
-      <x>  4.50696 </x>
+      <x>  4.40988 </x>
       <y> -2.39707 </y>
       <z> -0.30 </z>
     </location>
@@ -143,7 +143,7 @@
   <tank type="FUEL">
     <!-- Right wing tank 4H -->
     <location unit="M">
-      <x>  4.50696 </x>
+      <x>  4.40988 </x>
       <y>  2.39707 </y>
       <z> -0.30 </z>
     </location>
@@ -158,7 +158,7 @@
   <tank type="FUEL">
     <!-- Drop tank -->
     <location unit="M">
-      <x>  0.52406 </x>
+      <x>  0.42698 </x>
       <y>  0.00 </y>
       <z> -1.25748 </z>
     </location>
