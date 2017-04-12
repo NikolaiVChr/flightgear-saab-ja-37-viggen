@@ -522,7 +522,7 @@ AeroMonitor.update = func()
   input.perfTw.setDoubleValue(input.tw.getValue());
   input.perfLw.setDoubleValue(input.lw.getValue());
   input.perfTd.setDoubleValue(input.td.getValue());
-  input.perfMargin.setDoubleValue((input.rp.getValue()+input.rpShift.getValue()*291.338-input.cg.getValue())*0.0254);
+  input.perfMargin.setDoubleValue((input.rp.getValue()+input.rpShift.getValue()*getprop("fdm/jsbsim/metrics/cbarw-ft")*FT2M*M2IN-input.cg.getValue())*IN2M);
 
   var stall = input.stall.getValue();
   var stallText = stall == 1?"True":"False";
