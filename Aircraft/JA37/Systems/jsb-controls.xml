@@ -323,7 +323,7 @@
 
         <pure_gain name="fcs/elevator/delta">
             <input>fcs/elevator/raw-delta</input>
-            <gain> 0.07 </gain>
+            <gain> 0.09 </gain>
         </pure_gain>
 
         <pure_gain name="fcs/elevator/delta-schedule">

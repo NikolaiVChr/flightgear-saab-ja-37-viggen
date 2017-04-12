@@ -2798,3 +2798,8 @@ Radar: JA37 max range setting lowered to 120 Km. (source: former JA37 pilot)
 Sim: Fixed AoA indicator would not work in replay.
 Sim: Did an overhaul of replay recording.
 Model: Fixed AoA indicator needle would z-fight on Linux.
+GUI: Made calc of static margin more readable.
+Control: Increased response to longitudal stick input.
+Aero: Audit of mass and balance.
+Aero: Fixed that most fuel tanks mass location had not been changed last time CG was adjusted.
+Aero: Decreased speedbrake drag. (source: former JA37 pilot)
