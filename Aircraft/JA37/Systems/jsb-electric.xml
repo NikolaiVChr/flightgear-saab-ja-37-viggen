@@ -11,7 +11,7 @@
             <default value="0"/>
             <test logic="AND" value="1">
                 systems/electrical/external/enable-cmd == 1
-                velocities/vg-fps lt 0.015
+                velocities/vg-fps lt 0.05
                 gear/unit[0]/WOW == 1
                 gear/unit[1]/WOW == 1
                 gear/unit[2]/WOW == 1
@@ -402,6 +402,7 @@
             <default value="systems/electrical/battery-charge-dc"/>
             <test logic="AND" value="systems/electrical/battery-producing-dc">
                 systems/electrical/battery-active == 1
+                /sim/crashed ne 1
             </test>
             <output>/systems/electrical/outputs/dc-voltage</output>
         </switch>
