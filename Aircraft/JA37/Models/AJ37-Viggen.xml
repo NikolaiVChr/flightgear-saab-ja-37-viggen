@@ -2313,11 +2313,11 @@
  <animation>
   <type>material</type> 
   <object-name>radarScreen</object-name>
-  <emission>  
-   <red>0.7</red> 
-   <green>0.7</green> 
-   <blue>0.7</blue>
-   <factor-prop>systems/electrical/dc-light</factor-prop>
+  <emission>
+      <red>1</red>
+      <green>1</green>
+      <blue>1</blue>
+      <factor-prop>controls/lighting/instruments-norm</factor-prop>
   </emission>
  </animation>
 
