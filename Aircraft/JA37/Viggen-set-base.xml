@@ -301,6 +301,8 @@
             </dynamic>
         </view>
 
+        <crashed type="bool">false</crashed>
+
         <!--**********************************************************************
 
                                           Rendering
@@ -613,6 +615,9 @@
             <temp-halt-ap-pitch type="bool">true</temp-halt-ap-pitch>
             <welcome type="bool">false</welcome>
             <roll-trim-centered type="bool">true</roll-trim-centered>
+            <annunciator>
+                <serviceable type="bool">true</serviceable>
+            </annunciator>
         </avionics>
         <systems>
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>

@@ -832,6 +832,7 @@
             <type>avionics</type>
             <condition>
                 <property>sim/current-view/internal</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <not>
                     <property>fdm/jsbsim/gear/unit[0]/WOW</property>
                 </not>
@@ -863,6 +864,7 @@
             <path>Aircraft/JA37/Sounds/warning-very-high-alpha.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <not>
                     <property>gear/gear/position-norm</property>
                 </not>                                        
@@ -917,6 +919,7 @@
             <path>Aircraft/JA37/Sounds/caution-high-alpha.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <not>
                     <property>gear/gear/position-norm</property>
                 </not>
@@ -969,6 +972,7 @@
             <path>Aircraft/JA37/Sounds/warning-very-high-alpha.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>gear/gear/position-norm</property>
                 <greater-than>
                     <property>orientation/alpha-deg</property>
@@ -999,6 +1003,7 @@
             <path>Aircraft/JA37/Sounds/fuel-low.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/fuel-low-on</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1019,6 +1024,7 @@
             <path>Aircraft/JA37/Sounds/pull-up.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/terrain-on</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1039,6 +1045,7 @@
             <path>Aircraft/JA37/Sounds/warning-low-speed.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/speed-on</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1059,6 +1066,7 @@
             <path>Aircraft/JA37/Sounds/warning-master.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>fdm/jsbsim/systems/indicators/master-warning/audio</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1079,6 +1087,7 @@
             <path>Aircraft/JA37/Sounds/incoming.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1099,6 +1108,7 @@
             <path>Aircraft/JA37/Sounds/incoming-01.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming1</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1119,6 +1129,7 @@
             <path>Aircraft/JA37/Sounds/incoming-02.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming2</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1139,6 +1150,7 @@
             <path>Aircraft/JA37/Sounds/incoming-03.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming3</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1159,6 +1171,7 @@
             <path>Aircraft/JA37/Sounds/incoming-04.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming4</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1179,6 +1192,7 @@
             <path>Aircraft/JA37/Sounds/incoming-05.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming5</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1199,6 +1213,7 @@
             <path>Aircraft/JA37/Sounds/incoming-06.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming6</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1219,6 +1234,7 @@
             <path>Aircraft/JA37/Sounds/incoming-12.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming12</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1239,6 +1255,7 @@
             <path>Aircraft/JA37/Sounds/incoming-07.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming7</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1259,6 +1276,7 @@
             <path>Aircraft/JA37/Sounds/incoming-08.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming8</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1279,6 +1297,7 @@
             <path>Aircraft/JA37/Sounds/incoming-09.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming9</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1299,6 +1318,7 @@
             <path>Aircraft/JA37/Sounds/incoming-10.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming10</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -1319,6 +1339,7 @@
             <path>Aircraft/JA37/Sounds/incoming-11.wav</path>
             <type>avionics</type>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ja37/sound/incoming11</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -2031,6 +2052,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/flare.wav</path>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ai/submodels/submodel[0]/flare-release-snd</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>
@@ -2052,6 +2074,7 @@
             <type>avionics</type>
             <path>Aircraft/JA37/Sounds/flareOut.wav</path>
             <condition>
+                <property>ja37/avionics/annunciator/serviceable</property>
                 <property>ai/submodels/submodel[0]/flare-release-out-snd</property>
                 <property>sim/current-view/internal</property>
                 <property>ja37/sound/annunciation-enabled</property>

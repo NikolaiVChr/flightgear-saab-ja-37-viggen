@@ -298,6 +298,10 @@ var install_new_failures = func {
     var actuator_afterburner = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Afterburner", actuator_afterburner);
 
+    prop = "ja37/avionics/annunciator";
+    var actuator_annunciator = set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Annunciator", actuator_annunciator);
+
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
     prop = "controls/flight/aileron";
@@ -629,6 +633,10 @@ var install_newer_failures = func {
     prop = "engines/engine/afterburner";
     var actuator_afterburner = compat_failure_modes.set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Afterburner", actuator_afterburner);
+
+    prop = "ja37/avionics/annunciator";
+    var actuator_annunciator = compat_failure_modes.set_unserviceable(prop);
+    FailureMgr.add_failure_mode(prop, "Annunciator", actuator_annunciator);
 
     # replace actuators on control surfaces due to jsbsim takes care of jamming
 
