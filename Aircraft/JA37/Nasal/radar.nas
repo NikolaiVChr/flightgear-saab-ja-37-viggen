@@ -23,9 +23,9 @@ var white_g = 1.0;
 var white_b = 0.7;
 
 # background color
-var green_r = 0.4;
-var green_g = 0.9;
-var green_b = 0.4;
+var green_r = 0.2;
+var green_g = 0.65;
+var green_b = 0.2;
 
 var opaque = 1.0;
 
