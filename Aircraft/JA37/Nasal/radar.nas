@@ -62,6 +62,7 @@ var radar = {
     # ... and place it on the object called Screen
     m.canvas.addPlacement({"node": "radarScreen", "texture": "radar-canvas.png"});
     m.canvas.setColorBackground(green_r, green_g, green_b);
+    m.canvas.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
     g = m.canvas.createGroup();
     
     var g_tf = g.createTransform();

@@ -2809,3 +2809,6 @@ Sound: Annunciator now also has a failure mode.
 Radar: Screen is now darker background green.
 Radar: Screen brightness is now also controlled by instrument light knob.
 Model: Fixed that callsign on frontpanel would be lit bright all the time.
+Radar: Made font of radar range bigger.
+Radar: Moved radar picture a bit upwards.
+Radar: Changed font of radar range.
