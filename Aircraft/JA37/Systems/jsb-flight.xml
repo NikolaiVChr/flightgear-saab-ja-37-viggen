@@ -515,6 +515,47 @@
 
     </channel>
 
+    <channel execrate="4" name="investigate-intake-flow">
+
+        <!--<fcs_function name="propulsion/engine/intake-flow-number-factor">
+            <description>
+                         mil*factor
+                CA = ____________________________
+                     rho*intakeArea*freeflowspeed
+
+                     For mach 0.4 (AJ37):
+                CA = 1.3
+                intakeArea = 0.6 m^2 / 6.46 ft^2
+                freeflowspeed = velocities/uBody-fps
+                rho = atmosphere/rho-slugs_ft3
+                mil = propulsion/engine/MilThrust
+
+                          CA*rho*area*speed
+                factor = __________________
+                                mil
+
+
+                Test:
+                  fly 0.4M
+                  full mil thrust
+                  0m alt
+                  ISA conditions
+            </description>
+            <function>
+                <quotient>
+                    <product>
+                        <value>1.3</value>
+                        <value>6.46</value>
+                        <property>atmosphere/rho-slugs_ft3</property>
+                        <property>/velocities/uBody-fps</property>
+                    </product>
+                    <property>propulsion/engine/MilThrust</property>
+                </quotient>
+            </function>
+        </fcs_function>-->
+
+    </channel>
+
     <channel execrate="4" name="instruments">
 
         <!-- used for animating epr gauge -->

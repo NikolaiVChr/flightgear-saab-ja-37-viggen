@@ -1851,17 +1851,19 @@
 
 
     <!-- from graph page 66  -->
-    <function name="aero/function/air-intake-factor-CA">
+    <!--<function name="aero/function/air-intake-factor-CA">
         <description>
                         Air intake factor
+
+                        thrust at M0.5, 30% and 60% N1 is extrapolated
+                        thrust at 80% N1 is from doc mentioning trimmed stable flight
         </description>
         <product>
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">propulsion/engine/n1</independentVar>
                 <tableData>
-                    <!-- thrust at M0.5, 30% and 60% N1 is extrapolated -->
-                    <!-- thrust at 80% N1 is from doc mentioning trimmed stable flight -->
+                    
                           30.0   60.0   80.0   102.4
                    0.17   1.00   3.00   3.00    3.00
                    0.20   1.00   1.50   2.00    2.50
@@ -1873,13 +1875,42 @@
                 </tableData>
             </table>
         </product>
+    </function>-->
+
+    <function name="aero/function/CA-intake-flow-number">
+        <description>
+                     mil*factor
+            CA = ____________________________
+                 rho*intakeArea*freeflowspeed
+
+            intakeArea = 0.6 m^2 / 6.46 ft^2
+            freeflowspeed = velocities/uBody-fps
+            rho = atmosphere/rho-slugs_ft3
+            mil = propulsion/engine/MilThrust
+            factor = 10.142755
+
+            The limitation of this is that it wont work with idle thrust,
+            as it depend on mil thrust. So the factor will be too large
+            when running with idle thrust.
+        </description>
+        <quotient>
+            <product>
+                <property>propulsion/engine/MilThrust</property>
+                <value>10.142755</value>
+            </product>
+            <product>
+                <value>6.46</value>
+                <property>atmosphere/rho-slugs_ft3</property>
+                <property>/velocities/uBody-fps</property>
+            </product>
+        </quotient>
     </function>
 
 
     <axis name="PITCH">
 
-        <!-- page 67 fig51b - CmCA --><!--
-        <function name="aero/coefficient/CmCA">
+        <!-- page 67 fig51b - CmCA -->
+        <!--<function name="aero/coefficient/CmCA">
             <description>
                               Pitch due to Air intake factor
 
@@ -1887,8 +1918,6 @@
                               the extra column is required, and is therefore a copy
 
                               [measured using graph analyser]
-
-                              The air intake factor is wrong, for the time being this is therefore commented out.
             </description>
             <product>
                 <property>aero/qbar-psf</property>
@@ -1897,7 +1926,7 @@
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/alpha-deg</independentVar>
-                    <independentVar lookup="table">aero/function/air-intake-factor-CA</independentVar>
+                    <independentVar lookup="table">aero/function/CA-intake-flow-number</independentVar>
                     <tableData breakPoint="1.0">
                                       0         1
                          0.00000   0.00000   0.00000
