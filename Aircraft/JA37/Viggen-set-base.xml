@@ -18,16 +18,18 @@
         </rating>
 
         <tags>
-            <!--<tag>saab</tag>
-        <tag>1-engine</tag>
-        <tag>1990s</tag>
-        <tag>combat</tag>-->
+            <!--<tag>saab</tag>-->
+            <tag>single-engine</tag>
             <tag>jet</tag>
             <tag>retractable-gear</tag>
             <tag>supersonic</tag>
             <tag>coldwar</tag>
             <tag>fighter</tag>
+            <tag>tricycle</tag>
+            <tag>1970s</tag>
             <tag>1980s</tag>
+            <tag>1990s</tag>
+            <tag>2000s</tag>
             <tag>stol</tag>
             <tag>cannard</tag>
             <tag>delta</tag>
