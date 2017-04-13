@@ -2812,3 +2812,4 @@ Model: Fixed that callsign on frontpanel would be lit bright all the time.
 Radar: Made font of radar range bigger.
 Radar: Moved radar picture a bit upwards.
 Radar: Changed font of radar range.
+Sim: Updated tags.
