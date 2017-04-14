@@ -55,6 +55,10 @@
     <type>select</type>
     <object-name>LightNavGlowR</object-name>
     <condition>
+      <equals>
+          <property>sim/rendering/shaders/skydome</property>
+          <value>0</value>
+      </equals>
       <or><!-- nav: bit 3 -->
         <equals>
           <property>sim/multiplay/generic/int[9]</property>

@@ -2800,8 +2800,7 @@ Sim: Did an overhaul of replay recording.
 Model: Fixed AoA indicator needle would z-fight on Linux.
 GUI: Made calc of static margin more readable.
 Control: Increased response to longitudinal stick input.
-Aero: Audit of mass and balance.
-Aero: Fixed that most fuel tanks mass location had not been changed last time CG was adjusted.
+Aero: Audit of mass and balance, found an issue.
 Aero: Decreased speedbrake drag. (source: former JA37 pilot)
 Aero: Disabled pitch due to inlet mass flow ratio, due it being wrong.
 Sim: The Viggens autostart should no longer be interupted by filling fuel or stores.
@@ -2813,3 +2812,4 @@ Radar: Made font of radar range bigger.
 Radar: Moved radar picture a bit upwards.
 Radar: Changed font of radar range.
 Sim: Updated tags.
+Model: Replaced navigation light with procedural lights in ALS.

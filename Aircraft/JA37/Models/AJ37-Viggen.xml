@@ -4912,6 +4912,56 @@
 <!-- Navigation lights -->
 
   <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-left.xml</path>
+    <name>lightGlowALSLeft</name>
+        <offsets>
+          <x-m> 5.65783</x-m>
+          <y-m> -5.09762</y-m>
+          <z-m> -0.3954</z-m>
+        </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Effects/proc-als-lights/nav-light-right.xml</path>
+    <name>lightGlowALSRight</name>
+        <offsets>
+          <x-m> 5.65783</x-m>
+          <y-m> 5.09762</y-m>
+          <z-m> -0.3954</z-m>
+        </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>lightGlowALSLeft</object-name>
+    <object-name>lightGlowALSRight</object-name>
+    <condition>
+      <equals>
+          <property>sim/rendering/shaders/skydome</property>
+          <value>1</value>
+      </equals>
+      <or><!-- nav: bit 3 -->
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>4</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>5</value>
+        </equals>
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>6</value>
+        </equals>            
+        <equals>
+          <property>sim/multiplay/generic/int[9]</property>
+          <value>7</value>
+        </equals>       
+      </or>
+    </condition>
+   </animation>
+
+  <model>
     <path>Aircraft/JA37/Models/Effects/nav-light-glow-right.xml</path>
     <name>lightglowR</name>
     <offsets>
