@@ -2997,7 +2997,7 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
 
    var IR = getprop("sim/rendering/shaders/skydome") == TRUE and getprop("sim/rendering/als-filters/use-filtering") == TRUE and getprop("sim/rendering/als-filters/use-IR-vision") == TRUE;
 
-   if (IR) {
+   if (1==2 and IR) {
       # IR vision enabled, lets not have a green HUD:
       red = green;
       blue = green;

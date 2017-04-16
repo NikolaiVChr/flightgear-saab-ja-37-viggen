@@ -2812,4 +2812,5 @@ Radar: Made font of radar range bigger.
 Radar: Moved radar picture a bit upwards.
 Radar: Changed font of radar range.
 Sim: Updated tags.
-Model: Replaced navigation light with procedural lights in ALS.
+Effect: Replaced navigation light with procedural lights in ALS.
+Aero: Reenabled pitch due to inlet mass flow number.

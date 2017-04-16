@@ -1889,8 +1889,8 @@
             mil = propulsion/engine/MilThrust
             factor = 10.142755
 
-            The limitation of this is that it wont work with idle thrust,
-            as it depend on mil thrust. So the factor will be too large
+            The limitation of this is that it wont work so well near idle thrust,
+            as it depend on mil thrust. So the factor will be bit too large
             when running with idle thrust.
         </description>
         <quotient>
@@ -1910,9 +1910,9 @@
     <axis name="PITCH">
 
         <!-- page 67 fig51b - CmCA -->
-        <!--<function name="aero/coefficient/CmCA">
+        <function name="aero/coefficient/CmCA">
             <description>
-                              Pitch due to Air intake factor
+                              Pitch due to Air intake flow number
 
                               Using 3D table due to alpha data points not being the same,
                               the extra column is required, and is therefore a copy
@@ -1976,7 +1976,7 @@
                     </tableData>
                 </table>
             </product>
-        </function>-->
+        </function>
 
         <!-- page 74 - zero moment numbers -->
         <function name="aero/coefficient/CmZero">
