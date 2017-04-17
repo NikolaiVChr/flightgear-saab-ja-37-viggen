@@ -560,14 +560,29 @@
 
         <!-- used for animating epr gauge -->
 
+        <fcs_function name="propulsion/engine/n2-squared">
+            <function>
+                <product>
+                    <difference>
+                        <p>propulsion/engine/n2</p>
+                        <v>57</v>
+                    </difference>
+                    <difference>
+                        <p>propulsion/engine/n2</p>
+                        <v>57</v>
+                    </difference>
+                </product>
+            </function>
+        </fcs_function>
+
         <fcs_function name="propulsion/engine/p7-p2">
             <function>
                 <table>
                     <independentVar lookup="row">propulsion/engine/MilThrust</independentVar>
-                    <independentVar lookup="column">propulsion/engine/n2</independentVar>
+                    <independentVar lookup="column">propulsion/engine/n2-squared</independentVar>
                     <tableData>
-                                   57       70 
-                        0         1.02     1.00
+                                   0       1849
+                        0         1.00     1.00
                         1         1.02     2.06 <!-- AJS-37 manual part 1, engine section -->
                         1.6       1.02     2.70 <!-- extrapolated -->
                     </tableData>
