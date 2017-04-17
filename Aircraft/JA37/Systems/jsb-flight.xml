@@ -566,10 +566,10 @@
                     <independentVar lookup="row">propulsion/engine/MilThrust</independentVar>
                     <independentVar lookup="column">propulsion/engine/n2</independentVar>
                     <tableData>
-                                   57     100 
-                        0         1.0     1.00
-                        1         1.0     2.06 <!-- AJS-37 manual part 1, engine section -->
-                        1.6       1.0     2.70 <!-- extrapolated -->
+                                   57       70 
+                        0         1.02     1.00
+                        1         1.02     2.06 <!-- AJS-37 manual part 1, engine section -->
+                        1.6       1.02     2.70 <!-- extrapolated -->
                     </tableData>
                 </table>
             </function>

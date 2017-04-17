@@ -2802,7 +2802,7 @@ GUI: Made calc of static margin more readable.
 Control: Increased response to longitudinal stick input.
 Aero: Audit of mass and balance, found an issue.
 Aero: Decreased speedbrake drag. (source: former JA37 pilot)
-Aero: Disabled pitch due to inlet mass flow ratio, due it being wrong.
+Aero: Disabled pitch due to inlet mass flow number, due it being wrong.
 Sim: The Viggens autostart should no longer be interupted by filling fuel or stores.
 Sound: Annunciator now also has a failure mode.
 Radar: Screen is now darker background green.
@@ -2814,3 +2814,4 @@ Radar: Changed font of radar range.
 Sim: Updated tags.
 Effect: Replaced navigation light with procedural lights in ALS.
 Aero: Reenabled pitch due to inlet mass flow number.
+Sim: Adjusted the lower EPR ratings.
