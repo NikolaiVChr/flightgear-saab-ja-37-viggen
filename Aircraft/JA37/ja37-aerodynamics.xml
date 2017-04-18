@@ -1887,7 +1887,7 @@
             freeflowspeed = velocities/uBody-fps
             rho = atmosphere/rho-slugs_ft3
             mil = propulsion/engine/MilThrust
-            factor = 10.142755
+            factor = 0.0001395
 
             The limitation of this is that it wont work so well near idle thrust,
             as it depend on mil thrust. So the factor will be bit too large
@@ -1895,8 +1895,8 @@
         </description>
         <quotient>
             <product>
-                <property>propulsion/engine/MilThrust</property>
-                <value>10.142755</value>
+                <property>propulsion/engine/mil-rate</property>
+                <value>0.0001395</value>
             </product>
             <product>
                 <value>6.46</value>
