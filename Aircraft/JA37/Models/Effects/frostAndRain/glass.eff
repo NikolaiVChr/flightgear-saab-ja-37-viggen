@@ -95,6 +95,9 @@
     </predicate>
     <pass>
       <lighting>true</lighting>
+      <depth>
+  <write-mask type="bool">false</write-mask>
+      </depth>
       <material>
         <active><use>material/active</use></active>
         <ambient><use>material/ambient</use></ambient>
@@ -146,14 +149,14 @@
         <internal-format><use>texture[2]/internal-format</use></internal-format>
       </texture-unit>
       <texture-unit>
-	<unit>3</unit>
-	<type><use>texture[3]/type</use></type>
-	<images><use>texture[3]/images</use></images>
+  <unit>3</unit>
+  <type><use>texture[3]/type</use></type>
+  <images><use>texture[3]/images</use></images>
       </texture-unit>
       <texture-unit>
-	<unit>4</unit>
-	<type><use>texture[4]/type</use></type>
-	<images><use>texture[4]/images</use></images>
+  <unit>4</unit>
+  <type><use>texture[4]/type</use></type>
+  <images><use>texture[4]/images</use></images>
       </texture-unit>
       <vertex-program-two-side>
         <use>vertex-program-two-side</use>
@@ -162,6 +165,7 @@
         <vertex-shader>Aircraft/JA37/Models/Effects/frostAndRain/glass-ALS.vert</vertex-shader>
         <fragment-shader>Aircraft/JA37/Models/Effects/frostAndRain/glass-ALS.frag</fragment-shader>
         <fragment-shader>Aircraft/JA37/Models/Effects/frostAndRain/noise.frag</fragment-shader>
+        <fragment-shader>Aircraft/JA37/Models/Effects/hud/filters-ALS.frag</fragment-shader>
       </program>
 
      <uniform>
@@ -175,44 +179,44 @@
         <value><use>overlay-color</use></value>
      </uniform>
      <uniform>
-	<name>lightmap_r_factor</name>
-	<type>float</type>
-	<value><use>lightmap-factor[0]</use></value>
-     </uniform>	   
+  <name>lightmap_r_factor</name>
+  <type>float</type>
+  <value><use>lightmap-factor[0]</use></value>
+     </uniform>    
      <uniform>
-	<name>lightmap_r_color</name>
-	<type>float-vec3</type>
-	<value><use>lightmap-color[0]</use></value>
+  <name>lightmap_r_color</name>
+  <type>float-vec3</type>
+  <value><use>lightmap-color[0]</use></value>
      </uniform>
     <uniform>
-	<name>lightmap_g_factor</name>
-	<type>float</type>
-	<value><use>lightmap-factor[1]</use></value>
-     </uniform>	   
+  <name>lightmap_g_factor</name>
+  <type>float</type>
+  <value><use>lightmap-factor[1]</use></value>
+     </uniform>    
      <uniform>
-	<name>lightmap_g_color</name>
-	<type>float-vec3</type>
-	<value><use>lightmap-color[1]</use></value>
+  <name>lightmap_g_color</name>
+  <type>float-vec3</type>
+  <value><use>lightmap-color[1]</use></value>
      </uniform>
     <uniform>
-	<name>lightmap_b_factor</name>
-	<type>float</type>
-	<value><use>lightmap-factor[2]</use></value>
-     </uniform>	   
+  <name>lightmap_b_factor</name>
+  <type>float</type>
+  <value><use>lightmap-factor[2]</use></value>
+     </uniform>    
      <uniform>
-	<name>lightmap_b_color</name>
-	<type>float-vec3</type>
-	<value><use>lightmap-color[2]</use></value>
+  <name>lightmap_b_color</name>
+  <type>float-vec3</type>
+  <value><use>lightmap-color[2]</use></value>
      </uniform>
     <uniform>
-	<name>lightmap_a_factor</name>
-	<type>float</type>
-	<value><use>lightmap-factor[3]</use></value>
-     </uniform>	   
+  <name>lightmap_a_factor</name>
+  <type>float</type>
+  <value><use>lightmap-factor[3]</use></value>
+     </uniform>    
      <uniform>
-	<name>lightmap_a_color</name>
-	<type>float-vec3</type>
-	<value><use>lightmap-color[3]</use></value>
+  <name>lightmap_a_color</name>
+  <type>float-vec3</type>
+  <value><use>lightmap-color[3]</use></value>
      </uniform>
      <uniform>
         <name>splash_x</name>
@@ -255,9 +259,9 @@
         <value><use>scattering</use></value>
       </uniform>
       <uniform>
-	<name>terminator</name>
-	<type>float</type>
-	<value><use>terminator</use></value>
+  <name>terminator</name>
+  <type>float</type>
+  <value><use>terminator</use></value>
       </uniform>
       <uniform>
         <name>ground_scattering</name>
@@ -265,9 +269,9 @@
         <value><use>ground_scattering</use></value>
       </uniform>
       <uniform>
-	<name>terminator</name>
-	<type>float</type>
-	<value><use>terminator</use></value>
+  <name>terminator</name>
+  <type>float</type>
+  <value><use>terminator</use></value>
       </uniform>
       <uniform>
         <name>overcast</name>
@@ -314,6 +318,48 @@
         <type>float</type>
         <value><use>overlay-glare</use></value>
       </uniform>
+  <!-- filtering -->
+      <uniform>
+        <name>gamma</name>
+        <type>float</type>
+        <value><use>gamma</use></value>
+      </uniform>
+      <uniform>
+        <name>brightness</name>
+        <type>float</type>
+        <value><use>brightness</use></value>
+      </uniform>
+      <uniform>
+        <name>use_filtering</name>
+        <type>bool</type>
+        <value><use>use_filtering</use></value>
+      </uniform>
+      <uniform>
+        <name>use_night_vision</name>
+        <type>bool</type>
+        <value><use>use_night_vision</use></value>
+      </uniform>
+      <uniform>
+        <name>use_IR_vision</name>
+        <type>bool</type>
+        <value><use>use_IR_vision</use></value>
+      </uniform>
+      <uniform>
+        <name>delta_T</name>
+        <type>float</type>
+        <value><use>delta_T</use></value>
+      </uniform>
+      <uniform>
+        <name>fact_grey</name>
+        <type>float</type>
+        <value><use>fact_grey</use></value>
+      </uniform>
+      <uniform>
+        <name>fact_black</name>
+        <type>float</type>
+        <value><use>fact_black</use></value>
+      </uniform>
+
       <uniform>
         <name>texture</name>
         <type>sampler-2d</type>
@@ -330,49 +376,49 @@
         <value type="int">2</value>
       </uniform>
       <uniform>
-	<name>cube_texture</name>
+  <name>cube_texture</name>
         <type>sampler-cube</type>
-	<value type="int">3</value>
+  <value type="int">3</value>
       </uniform>
       <uniform>
-	<name>cube_light_texture</name>
+  <name>cube_light_texture</name>
         <type>sampler-cube</type>
-	<value type="int">4</value>
+  <value type="int">4</value>
       </uniform>
       <uniform>
-	<name>use_reflection</name>
-	<type>int</type>
-	<value><use>use-reflection</use></value>
+  <name>use_reflection</name>
+  <type>int</type>
+  <value><use>use-reflection</use></value>
       </uniform>
       <uniform>
-	<name>use_mask</name>
-	<type>int</type>
-	<value><use>use-mask</use></value>
+  <name>use_mask</name>
+  <type>int</type>
+  <value><use>use-mask</use></value>
       </uniform>
       <uniform>
-	<name>use_wipers</name>
-	<type>int</type>
-	<value><use>use-wipers</use></value>
+  <name>use_wipers</name>
+  <type>int</type>
+  <value><use>use-wipers</use></value>
       </uniform>
       <uniform>
-	<name>use_overlay</name>
-	<type>int</type>
-	<value><use>use-overlay</use></value>
+  <name>use_overlay</name>
+  <type>int</type>
+  <value><use>use-overlay</use></value>
       </uniform>
       <uniform>
-	<name>use_reflection_lightmap</name>
-	<type>int</type>
-	<value><use>use-reflection-lightmap</use></value>
+  <name>use_reflection_lightmap</name>
+  <type>int</type>
+  <value><use>use-reflection-lightmap</use></value>
       </uniform>
       <uniform>
-	<name>lightmap_multi</name>
-	<type>int</type>
-	<value><use>lightmap-multi</use></value>
+  <name>lightmap_multi</name>
+  <type>int</type>
+  <value><use>lightmap-multi</use></value>
       </uniform>
       <uniform>
-	<name>adaptive_mapping</name>
-	<type>int</type>
-	<value><use>surface-mapping-scheme</use></value>
+  <name>adaptive_mapping</name>
+  <type>int</type>
+  <value><use>surface-mapping-scheme</use></value>
       </uniform>
       <uniform>
         <name>colorMode</name>
@@ -386,82 +432,82 @@
   <!-- Rembrandt technique of model-default comes at 10, so we insert before that -->
 
   <technique n="9">
-		<pass>
-			<lighting>true</lighting>
-			<depth>
-				<write-mask type="bool">false</write-mask>
-			</depth>
-			<material>
-				<active>
-					<use>material/active</use>
-				</active>
-				<ambient>
-					<use>material/ambient</use>
-				</ambient>
-				<diffuse>
-					<use>material/diffuse</use>
-				</diffuse>
-				<specular>
-					<use>material/specular</use>
-				</specular>
-				<emissive>
-					<use>material/emissive</use>
-				</emissive>
-				<shininess>
-					<use>material/shininess</use>
-				</shininess>
-				<color-mode>
-					<use>material/color-mode</use>
-				</color-mode>
-			</material>
-			<blend>
-				<active>
-					<use>blend/active</use>
-				</active>
-				<source>
-					<use>blend/source</use>
-				</source>
-				<destination>
-					<use>blend/destination</use>
-				</destination>
-			</blend>
-			<shade-model>
-				<use>shade-model</use>
-			</shade-model>
-			<cull-face>
-				<use>cull-face</use>
-			</cull-face>
-				<render-bin>
-					<bin-number>111</bin-number>
-					<bin-name>DepthSortedBin</bin-name>
-				</render-bin>
-			<texture-unit>
-				<unit>0</unit>
-				<active>
-					<use>texture[0]/active</use>
-				</active>
+    <pass>
+      <lighting>true</lighting>
+      <depth>
+        <write-mask type="bool">false</write-mask>
+      </depth>
+      <material>
+        <active>
+          <use>material/active</use>
+        </active>
+        <ambient>
+          <use>material/ambient</use>
+        </ambient>
+        <diffuse>
+          <use>material/diffuse</use>
+        </diffuse>
+        <specular>
+          <use>material/specular</use>
+        </specular>
+        <emissive>
+          <use>material/emissive</use>
+        </emissive>
+        <shininess>
+          <use>material/shininess</use>
+        </shininess>
+        <color-mode>
+          <use>material/color-mode</use>
+        </color-mode>
+      </material>
+      <blend>
+        <active>
+          <use>blend/active</use>
+        </active>
+        <source>
+          <use>blend/source</use>
+        </source>
+        <destination>
+          <use>blend/destination</use>
+        </destination>
+      </blend>
+      <shade-model>
+        <use>shade-model</use>
+      </shade-model>
+      <cull-face>
+        <use>cull-face</use>
+      </cull-face>
+        <render-bin>
+          <bin-number>111</bin-number>
+          <bin-name>DepthSortedBin</bin-name>
+        </render-bin>
+      <texture-unit>
+        <unit>0</unit>
+        <active>
+          <use>texture[0]/active</use>
+        </active>
                 <type>
                     <use>texture[0]/type</use>
                 </type>
-				<image>
-					<use>texture[0]/image</use>
-				</image>
-				<filter>
-					<use>texture[0]/filter</use>
-				</filter>
-				<wrap-s>
-					<use>texture[0]/wrap-s</use>
-				</wrap-s>
-				<wrap-t>
-					<use>texture[0]/wrap-t</use>
-				</wrap-t>
+        <image>
+          <use>texture[0]/image</use>
+        </image>
+        <filter>
+          <use>texture[0]/filter</use>
+        </filter>
+        <wrap-s>
+          <use>texture[0]/wrap-s</use>
+        </wrap-s>
+        <wrap-t>
+          <use>texture[0]/wrap-t</use>
+        </wrap-t>
       
-				<environment>
-					<mode>modulate</mode>
-				</environment>
-			</texture-unit>
-		</pass>
-	</technique>
+        <environment>
+          <mode>modulate</mode>
+        </environment>
+      </texture-unit>
+    </pass>
+  </technique>
 
 
 </PropertyList>
