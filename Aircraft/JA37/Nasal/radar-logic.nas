@@ -154,9 +154,9 @@ var RadarLogic = {
         me.trackInfo = nil;
   #debug.benchmark("radar trackitemcalc", func {
         if(missile == FALSE) {
-          me.trackInfo = me.trackItemCalc(track, radarRange, carrier, mp, type);
+          me.trackInfo = me.trackItemCalc(track, getprop("instrumentation/radar/range"), carrier, mp, type);
         } else {
-          me.trackInfo = me.trackMissileCalc(track, radarRange, carrier, mp, type);
+          me.trackInfo = me.trackMissileCalc(track, getprop("instrumentation/radar/range"), carrier, mp, type);
         }
   #});
   #debug.benchmark("radar process", func {
@@ -425,14 +425,14 @@ var RadarLogic = {
         me.hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -me.ya_rad * rad2deg;
 
         me.contact = Contact.new(node, type);
-        me.contact.setPolar(me.distanceRadar, me.xa_rad_corr);
+        me.contact.setPolar(me.distanceRadar, me.xa_rad_corr, me.xa_rad, me.ya_rad);
         me.contact.setCartesian(me.hud_pos_x, me.hud_pos_y);
         return me.contact;
 
       } elsif (carrier == TRUE) {
         # need to return carrier even if out of radar cone, due to carrierNear calc
         me.contact = Contact.new(node, type);
-        me.contact.setPolar(900000, me.xa_rad_corr);
+        me.contact.setPolar(900000, me.xa_rad_corr, me.xa_rad, me.ya_rad);
         me.contact.setCartesian(900000, 900000);# 900000 used in hud to know if out of radar cone.
         return me.contact;
       }
@@ -869,8 +869,8 @@ var Contact = {
       return me.node.getNode("rotors/main/blade[3]/flap-deg");
     },
 
-    setPolar: func(dist, angle) {
-      me.polar = [dist,angle];
+    setPolar: func(dist, angle, angleX, angleY) {
+      me.polar = [dist,angle,angleX,angleY];
     },
 
     setCartesian: func(x, y) {
@@ -1306,7 +1306,7 @@ var ContactGPS = {
 
     var distanceRadar = distance;#/math.cos(myPitch);
 
-    return [distanceRadar, xa_rad_corr];
+    return [distanceRadar, xa_rad_corr, me.xa_rad, me.ya_rad];
   },
 };
 

@@ -1819,7 +1819,7 @@ var HUDnasal = {
     me.horizon_group3.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
     me.horizon_group4.setTranslation(0, pixelPerDegreeY * me.input.pitch.getValue());
     me.horizon_group.setTranslation(0, centerOffset);
-    me.rot = -me.input.roll.getValue() * deg2rads;
+    me.rot = -me.input.roll.getValue() * D2R;
     me.h_rot.setRotation(me.rot);
     if(mode == COMBAT) {
       me.horizon_group3.show();
@@ -2177,9 +2177,12 @@ var HUDnasal = {
                  + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
                  + me.vel_gz * me.cp * me.cr;
    
-      me.dir_y = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * rad2deg;
-      me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * rad2deg;
+      me.dir_y = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
+      me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
       
+      setprop("ja37/displays/fpi-horz-deg", me.dir_x);#used in MI display
+      setprop("ja37/displays/fpi-vert-deg", me.dir_y);
+
       me.pos_x = clamp(me.dir_x * pixelPerDegreeX, -max_width, max_width);
       me.pos_y = clamp((me.dir_y * pixelPerDegreeY)+centerOffset, -max_width, (430/1024)*canvasWidth);
 

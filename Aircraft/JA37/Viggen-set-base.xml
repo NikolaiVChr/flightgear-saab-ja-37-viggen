@@ -1273,6 +1273,9 @@
         <canvas_HUD>
             <file>Aircraft/JA37/Nasal/hud.nas</file>
         </canvas_HUD>
+        <MI>
+            <file>Aircraft/JA37/Nasal/display-mi.nas</file>
+        </MI>
         <monitor>
             <file>Aircraft/JA37/Nasal/dialog-perf.nas</file>
             <file>Aircraft/JA37/Nasal/performance.nas</file>
