@@ -1,11 +1,11 @@
 # todo:
 # servicable, indicated, common snippets with HUD, interoperability
 # power supply, on off, brightness
-# distance_scale_left
 # alt lines should shrink
 # heading bug?
-# steerpoint symbols
+# steerpoint symbols: #
 # nez indicator
+# rb99 link
 # full OOP
 # use Pinto's model
 var (width,height) = (341,512);
@@ -327,6 +327,8 @@ var loop = func {
 	displayGroundCollisionArrow();
 	mi.showAltLines();
 	mi.displayRadarTracks();
+	mi.showqfe();
+	mi.showArm();
 	settimer(loop,0.05);
 };
 
@@ -429,6 +431,10 @@ var MI = {
 			tracks_enabled:   	  "ja37/hud/tracks-enabled",
 			radar_serv:       	  "instrumentation/radar/serviceable",
 			tenHz:            	  "ja37/blink/ten-Hz/state",
+			qfeActive:        	  "ja37/displays/qfe-active",
+	        qfeShown:		  	  "ja37/displays/qfe-shown",
+	        station:          	  "controls/armament/station-select",
+	        currentMode:          "ja37/hud/current-mode",
       	};
    
       	foreach(var name; keys(mi.input)) {
@@ -520,10 +526,10 @@ var MI = {
 
 	    # tgt scale (left side)
       	rootCenter.createChild("path")
-         .moveTo(-texel_per_degree*70, 85 * texel_per_degree)
-         .vert(-2*85 * texel_per_degree)         
-         .setStrokeLineWidth(w)
-         .setColor(r,g,b, a);
+			.moveTo(-texel_per_degree*70, 85 * texel_per_degree)
+			.vert(-2*85 * texel_per_degree)         
+			.setStrokeLineWidth(w)
+			.setColor(r,g,b, a);
 		for(var i = 0; i <= 6; i += 1) # tgt scale ticks (left side)
 		      rootCenter.createChild("path")
 		         .moveTo(-texel_per_degree*70, -i * (85/3) * texel_per_degree + 85 * texel_per_degree)
@@ -540,12 +546,56 @@ var MI = {
 		         .setColor(r,g,b, a));
 		}
 		me.dist_cursor = rootCenter.createChild("path")
-				.moveTo(0,0)
-				.lineTo(5*texel_per_degree,5*texel_per_degree)
-				.moveTo(0,0)
-				.lineTo(5*texel_per_degree,-5*texel_per_degree)
-				.setStrokeLineWidth(w)
-		        .setColor(r,g,b, a);
+			.moveTo(0,0)
+			.lineTo(5*texel_per_degree,5*texel_per_degree)
+			.moveTo(0,0)
+			.lineTo(5*texel_per_degree,-5*texel_per_degree)
+			.setStrokeLineWidth(w)
+	        .setColor(r,g,b, a);
+
+		me.qfe = rootCenter.createChild("text")
+    		.setText("QFE")
+    		.setColor(r,g,b, a)
+    		.setAlignment("center-top")
+    		.setTranslation(-70*texel_per_degree, 90*texel_per_degree)
+    		.setFontSize(15, 1);
+
+    	me.arm = rootCenter.createChild("text")
+    		.setText("None")
+    		.setColor(r,g,b, a)
+    		.setAlignment("left-top")
+    		.setTranslation(-80*texel_per_degree, 100*texel_per_degree)
+    		.setFontSize(15, 1);
+	},
+
+	showArm: func {
+		if (me.input.currentMode.getValue() == displays.COMBAT) {
+			me.ammo = armament.ammoCount(me.input.station.getValue());
+		    if (me.ammo == -1) {
+		    	me.ammoT = "  ";
+		    } else {
+		    	me.ammoT = me.ammo~" ";
+		    }
+      		me.arm.setText(me.ammoT~displays.common.currArmName);
+      		me.arm.show();
+      	} else {
+      		me.arm.hide();
+      	}
+	},
+
+	showqfe: func {
+		if (me.input.qfeActive.getValue() != nil) {
+			if (me.input.qfeActive.getValue() == TRUE) {
+				me.qfe.setText("QFE");
+				if (me.input.qfeShown.getValue() == TRUE) {
+					me.qfe.show();
+				} else {
+					me.qfe.hide();
+				}
+			} else {
+				me.qfe.hide();
+			}
+		}
 	},
 
   displayRadarTracks: func () {
@@ -779,76 +829,76 @@ var MI = {
 	}
   },
 
-  displayRadarTrack: func (hud_pos) {
-    me.pos_xx = hud_pos.get_polar()[2]*R2D;
-    me.pos_yy = -hud_pos.get_polar()[3]*R2D;
-    me.showmeT = hud_pos.get_cartesian()[0]<me.input.radarRange.getValue()?TRUE:FALSE;
-    
-    me.currentIndexT = me.track_index;
+	displayRadarTrack: func (hud_pos) {
+		me.pos_xx = hud_pos.get_polar()[2]*R2D;
+		me.pos_yy = -hud_pos.get_polar()[3]*R2D;
+		me.showmeT = hud_pos.get_cartesian()[0]<me.input.radarRange.getValue()?TRUE:FALSE;
 
-    if(hud_pos == radar_logic.selection and hud_pos.get_cartesian()[0] != 900000) {
-        me.selection_updated = TRUE;
-        me.selection_index = 0;
-        me.currentIndexT = 0;
-    }
-    
-    if(me.currentIndexT > -1 and (me.showmeT == TRUE or me.currentIndexT == 0)) {
-      me.target_circle[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-      me.target_circle[me.currentIndexT].show();
-      me.target_circle[me.currentIndexT].update();
-      if (hud_pos.get_type() != radar_logic.ORDNANCE) {
-      	me.target_missile[me.currentIndexT].hide();
-      } else {
-      	me.target_missile[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-      	me.target_missile[me.currentIndexT].show();
-      	me.target_missile[me.currentIndexT].update();
-      }
-      if(me.currentIndexT != 0) {
-        me.track_index += 1;
-        if (me.track_index == maxTracks) {
-          me.track_index = -1;
-        }
-      }
-    }
-  },
+		me.currentIndexT = me.track_index;
+
+		if(hud_pos == radar_logic.selection and hud_pos.get_cartesian()[0] != 900000) {
+			me.selection_updated = TRUE;
+			me.selection_index = 0;
+			me.currentIndexT = 0;
+		}
+
+		if(me.currentIndexT > -1 and (me.showmeT == TRUE or me.currentIndexT == 0)) {
+			me.target_circle[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+			me.target_circle[me.currentIndexT].show();
+			me.target_circle[me.currentIndexT].update();
+			if (hud_pos.get_type() != radar_logic.ORDNANCE) {
+				me.target_missile[me.currentIndexT].hide();
+			} else {
+				me.target_missile[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+				me.target_missile[me.currentIndexT].show();
+				me.target_missile[me.currentIndexT].update();
+			}
+			if(me.currentIndexT != 0) {
+				me.track_index += 1;
+				if (me.track_index == maxTracks) {
+					me.track_index = -1;
+				}
+			}
+		}
+	},
 
 	showAltLines: func {
 		if (me.input.alt_ft.getValue() != nil) {
-      me.showLines = TRUE;
-      me.desired_alt_delta_ft = nil;
-      if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
-        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
-        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
-      } elsif(canvas_HUD.mode == canvas_HUD.LANDING and land.mode < 3 and land.mode > 0) {
-        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
-      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
-        me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
-      } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
-        me.i = me.input.RMCurrWaypoint.getValue();
-        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.i~"]/altitude-ft");
-        if(me.rt_alt != nil and me.rt_alt > 0) {
-          me.desired_alt_delta_ft = me.rt_alt - me.input.alt_ft.getValue();
-        }
-      }
-      if(me.desired_alt_delta_ft != nil) {
-        me.pos_y = clamp(-((me.desired_alt_delta_ft*FT2M)/300)*85*texel_per_degree*0.5, -85*texel_per_degree*0.25, 85*texel_per_degree*0.5);#150 m up, 300 m down
+	      me.showLines = TRUE;
+	      me.desired_alt_delta_ft = nil;
+	      if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
+	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
+	      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
+	        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
+	      } elsif(canvas_HUD.mode == canvas_HUD.LANDING and land.mode < 3 and land.mode > 0) {
+	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
+	      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
+	        me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
+	      } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
+	        me.i = me.input.RMCurrWaypoint.getValue();
+	        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.i~"]/altitude-ft");
+	        if(me.rt_alt != nil and me.rt_alt > 0) {
+	          me.desired_alt_delta_ft = me.rt_alt - me.input.alt_ft.getValue();
+	        }
+	      }
+	      if(me.desired_alt_delta_ft != nil) {
+	        me.pos_y = clamp(-((me.desired_alt_delta_ft*FT2M)/300)*85*texel_per_degree*0.5, -85*texel_per_degree*0.25, 85*texel_per_degree*0.5);#150 m up, 300 m down
 
-        desired_lines3.setTranslation(0, me.pos_y);
-        if (me.showLines == TRUE) {
-          desired_lines3.show();
-        } else {
-          desired_lines3.hide();
-        }
- #       if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
- #         me.desired_boxes.show();
- #       } else {
- #         me.desired_boxes.hide();
- #       }
-      } else {
-        desired_lines3.hide();
-      }
-  }
+	        desired_lines3.setTranslation(0, me.pos_y);
+	        if (me.showLines == TRUE) {
+	          desired_lines3.show();
+	        } else {
+	          desired_lines3.hide();
+	        }
+	 #       if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
+	 #         me.desired_boxes.show();
+	 #       } else {
+	 #         me.desired_boxes.hide();
+	 #       }
+	      } else {
+	        desired_lines3.hide();
+	      }
+	  	}
 	},
 };
 

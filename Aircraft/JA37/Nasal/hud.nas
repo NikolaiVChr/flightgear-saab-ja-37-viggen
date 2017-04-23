@@ -39,12 +39,6 @@ var air2ground = FALSE;
 
 var skip = FALSE;
 
-# -100 - 0 : not blinking
-# 1 - 10   : blinking
-# 11 - 125 : steady on
-var countQFE = 0;
-var QFEcalibrated = FALSE;# if the altimeters are calibrated
-
 var HUDTop = 0.77; # position of top of HUD in meters. 0.77
 var HUDBottom = 0.63; # position of bottom of HUD in meters. 0.63
 #var HUDHoriz = -4.0; # position of HUD on x axis in meters. -4.0
@@ -975,7 +969,9 @@ var HUDnasal = {
         elev_ft:          "position/ground-elev-ft",
         elev_m:           "position/ground-elev-m",
         gs:               "velocities/groundspeed-kt",
-        terrainWarn:      "/instrumentation/terrain-warning"
+        terrainWarn:      "/instrumentation/terrain-warning",
+        qfeActive:        "ja37/displays/qfe-active",
+        qfeShown:     "ja37/displays/qfe-shown",
       };
    
       foreach(var name; keys(HUDnasal.main.input)) {
@@ -1017,53 +1013,7 @@ var HUDnasal = {
     me.fromTop = HUDTop - me.input.viewZ.getValue();
     centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));
 
-    # since mode is used outside of the HUD also, the mode is calculated before we determine if the HUD should be updated:
-    me.hasRotated = FALSE;
-    if (me.input.mach.getValue() > 0.1) {
-      # we are moving, calc the flight path angle
-      me.vel_gh = math.sqrt(me.input.speed_n.getValue()*me.input.speed_n.getValue()+me.input.speed_e.getValue()*me.input.speed_e.getValue());
-      me.vel_gv = -me.input.speed_d.getValue();
-      me.hasRotated = math.atan2(me.vel_gv, me.vel_gh)*R2D > 3;
-    }
-    me.takeoffForbidden = me.hasRotated or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
-    if(mode != TAKEOFF and !me.takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
-      # nosewheel touch runway, so we switch to TAKEOFF
-      mode = TAKEOFF;
-      modeTimeTakeoff = -1;
-    } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
-      # developer mode is active with tactical request, so we switch to COMBAT
-      mode = COMBAT;
-      modeTimeTakeoff = -1;
-    } elsif (mode == TAKEOFF and modeTimeTakeoff == -1 and me.input.wow0.getValue() == FALSE) {
-      # Nosewheel lifted off, so we start the 4 second counter
-      modeTimeTakeoff = me.input.elapsedSec.getValue();
-    } elsif (modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - modeTimeTakeoff > 4) {
-      if (me.takeoffForbidden == TRUE) {
-        # time to switch away from TAKEOFF mode.
-        if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
-          mode = LANDING;
-        } else {
-          mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-        }
-        modeTimeTakeoff = -1;
-      } else {
-        # 4 second has passed since frontgear touched runway, but conditions to switch from TAKEOFF has still not been met.
-        mode = TAKEOFF;
-      }
-    } elsif ((mode == COMBAT or mode == NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
-      # Switch to LANDING
-      mode = LANDING;
-      modeTimeTakeoff = -1;
-    } elsif (mode == COMBAT or mode == NAV) {
-      # determine if we should have COMBAT or NAV
-      mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-      modeTimeTakeoff = -1;
-    } elsif (mode == LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
-      # switch from LANDING to COMBAT/NAV
-      mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
-      modeTimeTakeoff = -1;
-    }
-    me.input.currentMode.setIntValue(mode);
+    mode = me.input.currentMode.getValue();
 
     if(me.has_power == FALSE or me.input.mode.getValue() == 0) {
       me.root.hide();
@@ -1626,47 +1576,13 @@ var HUDnasal = {
         me.inter = FALSE;
         me.alt.setText("");
       }
-      countQFE = 0;
-      QFEcalibrated = FALSE;
-      me.input.altCalibrated.setBoolValue(FALSE);
     } elsif (radAlt != nil and radAlt < me.radar_clamp) {
       if (me.INT == FALSE) {
         me.inter = FALSE;
         # in radar alt range
         me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, me.radar_clamp)));
       }
-      # check for QFE warning
-      me.diff = radAlt - alt;
-      if (countQFE == 0 and (me.diff > me.alt_diff or me.diff < -me.alt_diff)) {
-        #print("QFE warning " ~ countQFE);
-        # is not calibrated, and is not blinking
-        QFEcalibrated = FALSE;
-        me.input.altCalibrated.setBoolValue(FALSE);
-        countQFE = 1;     
-        #print("QFE not calibrated, and is not blinking");     
-      } elsif (me.diff > -me.alt_diff and me.diff < me.alt_diff) {
-          #is calibrated
-        if (QFEcalibrated == FALSE and countQFE < 11) {
-          # was not calibrated before, is now.
-          #print("QFE was not calibrated before, is now. "~countQFE);
-          countQFE = 11;
-        }
-        QFEcalibrated = TRUE;
-        me.input.altCalibrated.setBoolValue(TRUE);
-      } elsif (QFEcalibrated == 1 and (me.diff > me.alt_diff or me.diff < -me.alt_diff)) {
-        # was calibrated before, is not anymore.
-        #print("QFE was calibrated before, is not anymore. "~countQFE);
-        countQFE = 1;
-        QFEcalibrated = FALSE;
-        me.input.altCalibrated.setBoolValue(FALSE);
-      }
     } else {
-      # is above height for checking for calibration
-      countQFE = 0;
-      #QFE = 0;
-      QFEcalibrated = TRUE;
-      me.input.altCalibrated.setBoolValue(TRUE);
-      #print("QFE not calibrated, and is not blinking");
       if (me.INT == FALSE) {
         me.inter = FALSE;
         me.gElev_ft = me.input.elev_ft.getValue();
@@ -1878,104 +1794,19 @@ var HUDnasal = {
       me.qfe.setText("DME");
       me.qfe.show();
     } elsif (mode == COMBAT) {
-      me.armSelect = me.input.station.getValue();
-      if (me.armSelect > 0) {
-        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
-      } else {
-        me.armament = "";
-      }
-      if(me.armSelect == 0) {
-        me.qfe.setText("AKAN");
-        me.qfe.show();
-      } elsif(me.armament == "RB 24 Sidewinder") {
-        me.qfe.setText("RB-24");
-        me.qfe.show();
-      } elsif(me.armament == "RB 24J Sidewinder") {
-        me.qfe.setText("RB-24J");
-        me.qfe.show();
-      } elsif(me.armament == "RB 74 Sidewinder") {
-        me.qfe.setText("RB-74");
-        me.qfe.show();
-      } elsif(me.armament == "M70 ARAK") {
-        me.qfe.setText("M70 ARAK");
-        me.qfe.show();
-      } elsif(me.armament == "RB 71 Skyflash") {
-        me.qfe.setText("RB-71");
-        me.qfe.show();
-      } elsif(me.armament == "RB 99 Amraam") {
-        me.qfe.setText("RB-99");
-        me.qfe.show();
-      } elsif(me.armament == "RB 15F Attackrobot") {
-        me.qfe.setText("RB-15F");
-        me.qfe.show();
-      } elsif(me.armament == "RB 04E Attackrobot") {
-        me.qfe.setText("RB-04E");
-        me.qfe.show();
-      } elsif(me.armament == "RB 05A Attackrobot") {
-        me.qfe.setText("RB-05A");
-        me.qfe.show();
-      } elsif(me.armament == "RB 75 Maverick") {
-        me.qfe.setText("RB-75");
-        me.qfe.show();
-      } elsif(me.armament == "M71 Bomblavett") {
-        me.qfe.setText("M71");
-        me.qfe.show();
-      } elsif(me.armament == "M71 Bomblavett (Retarded)") {
-        me.qfe.setText("M71R");
-        me.qfe.show();
-      } elsif(me.armament == "M90 Bombkapsel") {
-        me.qfe.setText("M90");
-        me.qfe.show();
-      } elsif(me.armament == "M55 AKAN") {
-        me.qfe.setText("M55 AKAN");
-        me.qfe.show();
-      } elsif(me.armament == "TEST") {
-        me.qfe.setText("TEST");
-        me.qfe.show();
-      } else {
-        me.qfe.setText("None");
-        me.qfe.show();
-      }        
-    } elsif (countQFE > 0) {
+      me.qfe.setText(displays.common.currArmName);
+      me.qfe.show();
+    } elsif (me.input.qfeActive.getValue()) {
       # QFE is shown
       me.qfe.setText("QFE");
-      if(countQFE == 1) {
-        countQFE = 2;
-      }
-      if(countQFE < 10) {
-         # blink the QFE
-        if(me.input.fiveHz.getValue() == TRUE) {
-          me.qfe.show();
-        } else {
-          me.qfe.hide();
-        }
-      } elsif (countQFE == 10) {
-        #if(me.input.ias.getValue() < 10) {
-          # adjust the altimeter (commented out after placing altimeter in plane)
-          # var inhg = getprop("systems/static/pressure-inhg");
-          #setprop("instrumentation/altimeter/setting-inhg", inhg);
-         # countQFE = 11;
-          #print("QFE adjusted " ~ inhg);
-        #} else {
-          countQFE = -100;
-        #}
-      } elsif (countQFE < 125) {
-        # QFE is steady
-        countQFE = countQFE + 1;
+      if(me.input.qfeShown.getValue() == TRUE) {
         me.qfe.show();
-        #print("steady on");
       } else {
-        countQFE = -100;
-        QFEcalibrated = TRUE;
-        me.input.altCalibrated.setBoolValue(TRUE);
-        #print("off");
+        me.qfe.hide();
       }
     } else {
       me.qfe.hide();
-      countQFE = clamp(countQFE+1, -101, 0);
-      #print("hide  off");
     }
-    #print("QFE count " ~ countQFE);
   },
 
   showReticle: func (mode, cannon, out_of_ammo) {
