@@ -10,7 +10,7 @@
   <splash-z>0</splash-z>
   <rnorm>0</rnorm>
   <gsnorm>0</gsnorm>
-  <frost-level><use>/environment/aircraft-effects/frost-level</use></frost-level>
+  <frost-level>0</frost-level>
   <surface-mapping-scheme type="int">0</surface-mapping-scheme>
   <fog-level>0</fog-level>
   <use-wipers>0</use-wipers>
@@ -19,7 +19,7 @@
   <overlay-glare type="float"><use>ja37/hud/overlay-glare</use></overlay-glare>
   <use-reflection type="int">0</use-reflection>
   <reflection-strength type="float">1.0</reflection-strength>
-  <use-mask type="int"><use>ja37/hud/mask</use></use-mask>
+  <use-mask type="int">0</use-mask>
   <use-reflection-lightmap type="int">0</use-reflection-lightmap>
   <lightmap-multi type="int">0</lightmap-multi>
   <lightmap-factor type="float" n="0">1.0</lightmap-factor>
