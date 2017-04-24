@@ -32,245 +32,6 @@ var fpi_max = 9;
 
 var maxTracks = 32;# how many radar tracks can be shown at once in the MI (was 16)
 
-var fpi = root.createChild("path")
-      .moveTo(texel_per_degree*fpi_max, -w*2)
-      .lineTo(texel_per_degree*fpi_min, -w*2)
-      .moveTo(texel_per_degree*fpi_max,  w*2)
-      .lineTo(texel_per_degree*fpi_min,  w*2)
-      .moveTo(texel_per_degree*fpi_max, 0)
-      .lineTo(texel_per_degree*fpi_min, 0)
-      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0, -texel_per_degree*fpi_med, 0)
-      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0,  texel_per_degree*fpi_med, 0)
-      .close()
-      .moveTo(-texel_per_degree*fpi_min, -w*2)
-      .lineTo(-texel_per_degree*fpi_max, -w*2)
-      .moveTo(-texel_per_degree*fpi_min,  w*2)
-      .lineTo(-texel_per_degree*fpi_max,  w*2)
-      .moveTo(-texel_per_degree*fpi_min,  0)
-      .lineTo(-texel_per_degree*fpi_max,  0)
-      #tail
-      .moveTo(-w*1, -texel_per_degree*fpi_min)
-      .lineTo(-w*1, -texel_per_degree*fpi_med)
-      .moveTo(w*1, -texel_per_degree*fpi_min)
-      .lineTo(w*1, -texel_per_degree*fpi_med)
-      .setStrokeLineWidth(w)
-      .setColor(r,g,b, a);
-
-var rootCenter = root.createChild("group");
-rootCenter.setTranslation(width/2,height/2);
-var horizon_group = rootCenter.createChild("group");
-var horz_rot = horizon_group.createTransform();
-var horizon_group2 = horizon_group.createChild("group");
-var horizon_line = horizon_group2.createChild("path")
-                     .moveTo(-height*0.75, -w*1.5)
-                     .horiz(height*1.5)
-                     .moveTo(-height*0.75, w*1.5)
-                     .horiz(height*1.5)
-                     .setStrokeLineWidth(w)
-                     .setColor(r,g,b, a);
-var horizon_alt = horizon_group2.createChild("text")
-		.setText("")
-		.setFontSize((25/512)*width, 1.0)
-        .setAlignment("center-bottom")
-        .setTranslation(-texel_per_degree*45, -w*4)
-        .setColor(r,g,b, a);
-
-for(var i = 0; i <= 20; i += 1) # alt scale (right side)
-      rootCenter.createChild("path")
-         .moveTo(texel_per_degree*70, -i * (85/10) * texel_per_degree + 85 * texel_per_degree)
-         .horiz(5 * texel_per_degree)         
-         .setStrokeLineWidth(w)
-         .setColor(r,g,b, a);
-for(var i = 0; i <= 4; i += 1) # alt scale large ticks (right side)
-      rootCenter.createChild("path")
-         .moveTo(texel_per_degree*70, -i * (85/2) * texel_per_degree + 85 * texel_per_degree)
-         .horiz(10 * texel_per_degree)         
-         .setStrokeLineWidth(w)
-         .setColor(r,g,b, a);
-for(var i = 0; i <= 4; i += 1) # alt scale large ticks text (right side)
-      rootCenter.createChild("text")
-      	 .setText(i*5)
-         .setFontSize((15/512)*width, 1.0)
-         .setAlignment("right-bottom")
-         .setTranslation(texel_per_degree*80, -i * (85/2) * texel_per_degree + 85 * texel_per_degree-w)
-         .setColor(r,g,b, a);
-
-var alt_cursor = rootCenter.createChild("path")
-		.moveTo(0,0)
-		.lineTo(-5*texel_per_degree,5*texel_per_degree)
-		.moveTo(0,0)
-		.lineTo(-5*texel_per_degree,-5*texel_per_degree)
-		.setStrokeLineWidth(w)
-        .setColor(r,g,b, a);
-
-var ground_cursor = rootCenter.createChild("path")
-		.moveTo(-10*texel_per_degree,0)
-		.horiz(20*texel_per_degree)
-		.setStrokeLineWidth(w)
-        .setColor(r,g,b, a);
-
-# ground
-var ground_grp = root.createChild("group");
-var ground2_grp = ground_grp.createChild("group");
-var ground_grp_trans = ground2_grp.createTransform();
-var ground = ground2_grp.createChild("path")
-		.moveTo(0,0)
-		.lineTo( -30*texel_per_degree, 7.5*texel_per_degree)
-		.moveTo(0,0)
-		.lineTo(  30*texel_per_degree, 7.5*texel_per_degree)
-		.moveTo( -30*texel_per_degree, 7.5*texel_per_degree)
-		.lineTo( -60*texel_per_degree, 30*texel_per_degree)
-		.moveTo(  30*texel_per_degree, 7.5*texel_per_degree)
-		.lineTo(  60*texel_per_degree, 30*texel_per_degree)
-		.moveTo(0,w*2)
-		.lineTo( -30*texel_per_degree, 7.5*texel_per_degree+w*2)
-		.moveTo(0,w*2)
-		.lineTo(  30*texel_per_degree, 7.5*texel_per_degree+w*2)
-		.moveTo( -30*texel_per_degree, 7.5*texel_per_degree+w*2)
-		.lineTo( -60*texel_per_degree, 30*texel_per_degree+w*2)
-		.moveTo(  30*texel_per_degree, 7.5*texel_per_degree+w*2)
-		.lineTo(  60*texel_per_degree, 30*texel_per_degree+w*2)
-		.moveTo(0,-w*2)
-		.lineTo( -30*texel_per_degree, 7.5*texel_per_degree-w*2)
-		.moveTo(0,-w*2)
-		.lineTo(  30*texel_per_degree, 7.5*texel_per_degree-w*2)
-		.moveTo( -30*texel_per_degree, 7.5*texel_per_degree-w*2)
-		.lineTo( -60*texel_per_degree, 30*texel_per_degree-w*2)
-		.moveTo(  30*texel_per_degree, 7.5*texel_per_degree-w*2)
-		.lineTo(  60*texel_per_degree, 30*texel_per_degree-w*2)
-		.setStrokeLineWidth(w)
-        .setColor(r,g,b, a);
-
-    # Collision warning arrow
-var arr_15 = 1.5;
-var arr_30 = 3;
-var arr_90 = 9;
-var arr_120 = 12;
-
-var arrow_group = rootCenter.createChild("group");  
-var arrow_trans = arrow_group.createTransform();
-var arrow =
-      arrow_group.createChild("path")
-      .setColor(r,g,b, a)
-      .moveTo(-arr_15*texel_per_degree,  arr_90*texel_per_degree)
-      .lineTo(-arr_15*texel_per_degree, -arr_90*texel_per_degree)
-      .lineTo(-arr_30*texel_per_degree, -arr_90*texel_per_degree)
-      .lineTo(  0, -arr_120*texel_per_degree)
-      .lineTo( arr_30*texel_per_degree, -arr_90*texel_per_degree)
-      .lineTo( arr_15*texel_per_degree, -arr_90*texel_per_degree)
-      .lineTo( arr_15*texel_per_degree,  arr_90*texel_per_degree)
-      .setStrokeLineWidth(w);
-
-    # scale heading ticks
-var headScaleTickSpacing = 10 * texel_per_degree;
-var headScalePlace       = 90 * texel_per_degree;
-var head_scale_grp = rootCenter.createChild("group");
-
-#clip is in canvas coordinates
-var clip = (center_y-headScalePlace-texel_per_degree*7.5-(15/512)*width-w)~"px, "~(center_x+60*texel_per_degree)~"px, "~(center_y-headScalePlace+w)~"px, "~(center_x-60*texel_per_degree)~"px";
-head_scale_grp.set("clip", "rect("~clip~")");#top,right,bottom,left
-
-var head_scale_grp_trans = head_scale_grp.createTransform();
-var head_scale = head_scale_grp.createChild("path")
-        .moveTo(0, 0)
-        .vert(-5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*2, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(-headScaleTickSpacing*2, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(-headScaleTickSpacing*1, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*1, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*3, 0)
-        .vert(-5*texel_per_degree)
-        .moveTo(-headScaleTickSpacing*3, 0)
-        .vert(-5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*4, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(-headScaleTickSpacing*4, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*5, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(-headScaleTickSpacing*5, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*6, 0)
-        .vert(-5*texel_per_degree)
-        .moveTo(-headScaleTickSpacing*6, 0)
-        .vert(-5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*7, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*8, 0)
-        .vert(-2.5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*9, 0)
-        .vert(-5*texel_per_degree)
-        .moveTo(headScaleTickSpacing*-9, 0)
-        .horiz(headScaleTickSpacing*18)
-        .setStrokeLineWidth(w)
-        .setColor(r,g,b, a);
-
-    # headingindicator
-var head_scale_indicator = rootCenter.createChild("path")
-    .moveTo(-5*texel_per_degree, -headScalePlace+5*texel_per_degree)
-    .lineTo(0, -headScalePlace)
-    .lineTo(5*texel_per_degree, -headScalePlace+5*texel_per_degree)
-    .setColor(r,g,b, a)
-    .setStrokeLineWidth(w);
-
-    # Heading middle number
-var hdgM = head_scale_grp.createChild("text")
-    .setColor(r,g,b, a)
-    .setAlignment("center-bottom")
-    .setFontSize((15/512)*width, 1);
-
-    # Heading left number
-var hdgL = head_scale_grp.createChild("text")
-    .setColor(r,g,b, a)
-    .setAlignment("center-bottom")
-    .setFontSize((15/512)*width, 1);
-
-    # Heading right number
-var hdgR = head_scale_grp.createChild("text")
-    .setColor(r,g,b, a)
-    .setAlignment("center-bottom")
-    .setFontSize((15/512)*width, 1);
-
-    # Heading left2 number
-var hdgL2 = head_scale_grp.createChild("text")
-    .setColor(r,g,b, a)
-    .setAlignment("center-bottom")
-    .setFontSize((15/512)*width, 1);
-
-    # Heading right2 number
-var hdgR2 = head_scale_grp.createChild("text")
-    .setColor(r,g,b, a)
-    .setAlignment("center-bottom")
-    .setFontSize((15/512)*width, 1);
-
-    # Heading right3 number
-var hdgR3 = head_scale_grp.createChild("text")
-    .setColor(r,g,b, a)
-    .setAlignment("center-bottom")
-    .setFontSize((15/512)*width, 1);
-
-
-    # alt lines
-var desired_lines3 = horizon_group2.createChild("path")
-               .moveTo(-60*texel_per_degree, 0)
-               .lineTo(-60*texel_per_degree, 85*texel_per_degree*0.5)
-               .moveTo(-60*texel_per_degree+w*2.5, 0)
-               .lineTo(-60*texel_per_degree+w*2.5, 85*texel_per_degree*0.5)
-               .moveTo(-60*texel_per_degree-w*2.5, 0)
-               .lineTo(-60*texel_per_degree-w*2.5, 85*texel_per_degree*0.5)
-               .moveTo(60*texel_per_degree, 0)
-               .lineTo(60*texel_per_degree, 85*texel_per_degree*0.5)
-               .moveTo(60*texel_per_degree+w*2.5, 0)
-               .lineTo(60*texel_per_degree+w*2.5, 85*texel_per_degree*0.5)
-               .moveTo(60*texel_per_degree-w*2.5, 0)
-               .lineTo(60*texel_per_degree-w*2.5, 85*texel_per_degree*0.5)
-               .setStrokeLineWidth(w)
-               .setColor(r,g,b);
-
 var roundabout = func(x) {
   var y = x - int(x);
   return y < 0.5 ? int(x) : 1 + int(x) ;
@@ -280,119 +41,6 @@ var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
 var FALSE = 0;
 var TRUE = 1;
-
-var fpi_x = 0;
-var fpi_y = 0;
-
-var loop = func {
-	fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
-	fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
-	if (fpi_x_deg == nil) {
-		fpi_x_deg = 0;
-		fpi_y_deg = 0;
-	}
-	fpi_x = center_x+fpi_x_deg*texel_per_degree;
-	fpi_y = center_y+fpi_y_deg*texel_per_degree;
-	fpi.setTranslation(fpi_x, fpi_y);
-
-	var rot = -getprop("orientation/roll-deg") * D2R;
-	horz_rot.setRotation(rot);
-	horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
-
-	var alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
-	var ground = getprop("position/ground-elev-m");
-	if (ground == nil) {
-		ground = -10000;
-	}
-	if (alt != nil) {
-		alt_cursor.setTranslation(texel_per_degree*70, -(alt*FT2M)/20000 * 2 * 85 * texel_per_degree + 85 * texel_per_degree);
-		ground_cursor.setTranslation(texel_per_degree*70, -(ground)/20000 * 2 * 85 * texel_per_degree + 85 * texel_per_degree);
-		var text = "";
-		if(alt*FT2M < 1000) {
-			text = ""~roundabout(alt*FT2M/10)*10;
-		} else {
-			text = sprintf("%.1f", alt*FT2M/1000);
-		}
-		horizon_alt.setText(text);
-		alt_cursor.show();
-		ground_cursor.show();
-		horizon_alt.show();
-	} else {
-		alt_cursor.hide();
-		ground_cursor.hide();
-		horizon_alt.hide();
-	}
-	displayHeadingScale();
-	displayGround();
-	displayGroundCollisionArrow();
-	mi.showAltLines();
-	mi.displayRadarTracks();
-	mi.showqfe();
-	mi.showArm();
-	settimer(loop,0.05);
-};
-
-var displayGroundCollisionArrow = func () {
-    if (getprop("/instrumentation/terrain-warning") == TRUE) {
-      arrow_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
-      arrow.show();
-    } else {
-      arrow.hide();
-    }
-};
-
-var displayGround = func () {
-	var time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
-	if (time != nil and time >= 0 and time < 40) {
-		time = clamp(time - 10,0,30);
-		var dist = time/30 * 90 * texel_per_degree;
-		ground_grp.setTranslation(fpi_x, fpi_y);
-		ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
-		ground.setTranslation(0, dist);
-		ground_grp.show();
-	} else {
-		ground_grp.hide();
-	}
-};
-
-var displayHeadingScale = func () {
-    var heading = getprop("orientation/heading-magnetic-deg");
-    var headOffset = heading/30 - int (heading/30);
-    var middleText = int(heading/30)*3;
-    var middleOffset = nil;
-    if(middleText == 36) {
-      middleText = 0;
-    }
-    var leftText   = middleText ==  0?33 :middleText-3;
-    var rightText  = middleText == 33?0  :middleText+3;
-    var leftText2  = leftText   ==  0?33 :leftText-3;
-    var rightText2 = rightText  == 33?0  :rightText+3;
-    var rightText3 = rightText2 == 33?0  :rightText2+3;
-
-    if (headOffset > 0.5) {
-      middleOffset = -(headOffset)*headScaleTickSpacing*3;
-      head_scale_grp_trans.setTranslation(middleOffset, -headScalePlace);
-      head_scale_grp.update();
-    } else {
-      middleOffset = -headOffset*headScaleTickSpacing*3;
-      head_scale_grp_trans.setTranslation(middleOffset, -headScalePlace);
-      head_scale_grp.update();
-    }
-    hdgM.setTranslation(0, -7.5*texel_per_degree);
-    hdgM.setText(sprintf("%02d", middleText));
-    hdgL.setTranslation(-headScaleTickSpacing*3, -7.5*texel_per_degree);
-    hdgL.setText(sprintf("%02d", leftText));
-    hdgR.setTranslation(headScaleTickSpacing*3, -7.5*texel_per_degree);
-    hdgR.setText(sprintf("%02d", rightText));
-    hdgL2.setTranslation(-headScaleTickSpacing*6, -7.5*texel_per_degree);
-    hdgL2.setText(sprintf("%02d", leftText2));
-    hdgR2.setTranslation(headScaleTickSpacing*6, -7.5*texel_per_degree);
-    hdgR2.setText(sprintf("%02d", rightText2));
-    hdgR3.setTranslation(headScaleTickSpacing*9, -7.5*texel_per_degree);
-    hdgR3.setText(sprintf("%02d", rightText3));
-    head_scale_grp.show();
-    head_scale_indicator.show();
-};
 
 var MI = {
 
@@ -447,7 +95,248 @@ var MI = {
 	},
 
 	setupCanvasSymbols: func {
-		me.radar_group = rootCenter.createChild("group");
+
+		me.fpi = root.createChild("path")
+		      .moveTo(texel_per_degree*fpi_max, -w*2)
+		      .lineTo(texel_per_degree*fpi_min, -w*2)
+		      .moveTo(texel_per_degree*fpi_max,  w*2)
+		      .lineTo(texel_per_degree*fpi_min,  w*2)
+		      .moveTo(texel_per_degree*fpi_max, 0)
+		      .lineTo(texel_per_degree*fpi_min, 0)
+		      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0, -texel_per_degree*fpi_med, 0)
+		      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0,  texel_per_degree*fpi_med, 0)
+		      .close()
+		      .moveTo(-texel_per_degree*fpi_min, -w*2)
+		      .lineTo(-texel_per_degree*fpi_max, -w*2)
+		      .moveTo(-texel_per_degree*fpi_min,  w*2)
+		      .lineTo(-texel_per_degree*fpi_max,  w*2)
+		      .moveTo(-texel_per_degree*fpi_min,  0)
+		      .lineTo(-texel_per_degree*fpi_max,  0)
+		      #tail
+		      .moveTo(-w*1, -texel_per_degree*fpi_min)
+		      .lineTo(-w*1, -texel_per_degree*fpi_med)
+		      .moveTo(w*1, -texel_per_degree*fpi_min)
+		      .lineTo(w*1, -texel_per_degree*fpi_med)
+		      .setStrokeLineWidth(w)
+		      .setColor(r,g,b, a);
+
+		me.rootCenter = root.createChild("group");
+		me.rootCenter.setTranslation(width/2,height/2);
+		me.horizon_group = me.rootCenter.createChild("group");
+		me.horz_rot = me.horizon_group.createTransform();
+		me.horizon_group2 = me.horizon_group.createChild("group");
+		me.horizon_line = me.horizon_group2.createChild("path")
+		                     .moveTo(-height*0.75, -w*1.5)
+		                     .horiz(height*1.5)
+		                     .moveTo(-height*0.75, w*1.5)
+		                     .horiz(height*1.5)
+		                     .setStrokeLineWidth(w)
+		                     .setColor(r,g,b, a);
+		me.horizon_alt = me.horizon_group2.createChild("text")
+				.setText("")
+				.setFontSize((25/512)*width, 1.0)
+		        .setAlignment("center-bottom")
+		        .setTranslation(-texel_per_degree*45, -w*4)
+		        .setColor(r,g,b, a);
+
+		for(var i = 0; i <= 20; i += 1) # alt scale (right side)
+		      me.rootCenter.createChild("path")
+		         .moveTo(texel_per_degree*70, -i * (85/10) * texel_per_degree + 85 * texel_per_degree)
+		         .horiz(5 * texel_per_degree)         
+		         .setStrokeLineWidth(w)
+		         .setColor(r,g,b, a);
+		for(var i = 0; i <= 4; i += 1) # alt scale large ticks (right side)
+		      me.rootCenter.createChild("path")
+		         .moveTo(texel_per_degree*70, -i * (85/2) * texel_per_degree + 85 * texel_per_degree)
+		         .horiz(10 * texel_per_degree)         
+		         .setStrokeLineWidth(w)
+		         .setColor(r,g,b, a);
+		me.altScaleTexts = [];
+		for(var i = 0; i <= 4; i += 1) # alt scale large ticks text (right side)
+		      append(me.altScaleTexts, me.rootCenter.createChild("text")
+		      	 .setText(i*5)
+		         .setFontSize((15/512)*width, 1.0)
+		         .setAlignment("right-bottom")
+		         .setTranslation(texel_per_degree*80, -i * (85/2) * texel_per_degree + 85 * texel_per_degree-w)
+		         .setColor(r,g,b, a));
+
+		me.alt_cursor = me.rootCenter.createChild("path")
+				.moveTo(0,0)
+				.lineTo(-5*texel_per_degree,5*texel_per_degree)
+				.moveTo(0,0)
+				.lineTo(-5*texel_per_degree,-5*texel_per_degree)
+				.setStrokeLineWidth(w)
+		        .setColor(r,g,b, a);
+
+		me.ground_cursor = me.rootCenter.createChild("path")
+				.moveTo(-10*texel_per_degree,0)
+				.horiz(20*texel_per_degree)
+				.setStrokeLineWidth(w)
+		        .setColor(r,g,b, a);
+
+		# ground
+		me.ground_grp = root.createChild("group");
+		me.ground2_grp = me.ground_grp.createChild("group");
+		me.ground_grp_trans = me.ground2_grp.createTransform();
+		me.groundCurve = me.ground2_grp.createChild("path")
+				.moveTo(0,0)
+				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree)
+				.moveTo(0,0)
+				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree)
+				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree)
+				.lineTo( -60*texel_per_degree, 30*texel_per_degree)
+				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree)
+				.lineTo(  60*texel_per_degree, 30*texel_per_degree)
+				.moveTo(0,w*2)
+				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree+w*2)
+				.moveTo(0,w*2)
+				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree+w*2)
+				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree+w*2)
+				.lineTo( -60*texel_per_degree, 30*texel_per_degree+w*2)
+				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree+w*2)
+				.lineTo(  60*texel_per_degree, 30*texel_per_degree+w*2)
+				.moveTo(0,-w*2)
+				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree-w*2)
+				.moveTo(0,-w*2)
+				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree-w*2)
+				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree-w*2)
+				.lineTo( -60*texel_per_degree, 30*texel_per_degree-w*2)
+				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree-w*2)
+				.lineTo(  60*texel_per_degree, 30*texel_per_degree-w*2)
+				.setStrokeLineWidth(w)
+		        .setColor(r,g,b, a);
+
+		    # Collision warning arrow
+		me.arr_15 = 1.5;
+		me.arr_30 = 3;
+		me.arr_90 = 9;
+		me.arr_120 = 12;
+
+		me.arrow_group = me.rootCenter.createChild("group");  
+		me.arrow_trans = me.arrow_group.createTransform();
+		me.arrow =
+		      me.arrow_group.createChild("path")
+		      .setColor(r,g,b, a)
+		      .moveTo(-me.arr_15*texel_per_degree,  me.arr_90*texel_per_degree)
+		      .lineTo(-me.arr_15*texel_per_degree, -me.arr_90*texel_per_degree)
+		      .lineTo(-me.arr_30*texel_per_degree, -me.arr_90*texel_per_degree)
+		      .lineTo(  0,                         -me.arr_120*texel_per_degree)
+		      .lineTo( me.arr_30*texel_per_degree, -me.arr_90*texel_per_degree)
+		      .lineTo( me.arr_15*texel_per_degree, -me.arr_90*texel_per_degree)
+		      .lineTo( me.arr_15*texel_per_degree,  me.arr_90*texel_per_degree)
+		      .setStrokeLineWidth(w);
+
+		    # scale heading ticks
+		me.headScaleTickSpacing = 10 * texel_per_degree;
+		me.headScalePlace       = 90 * texel_per_degree;
+		me.head_scale_grp = me.rootCenter.createChild("group");
+
+		#clip is in canvas coordinates
+		me.clip = (center_y-me.headScalePlace-texel_per_degree*7.5-(15/512)*width-w)~"px, "~(center_x+60*texel_per_degree)~"px, "~(center_y-me.headScalePlace+w)~"px, "~(center_x-60*texel_per_degree)~"px";
+		me.head_scale_grp.set("clip", "rect("~me.clip~")");#top,right,bottom,left
+
+		me.head_scale_grp_trans = me.head_scale_grp.createTransform();
+		me.head_scale = me.head_scale_grp.createChild("path")
+		        .moveTo(0, 0)
+		        .vert(-5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*2, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(-me.headScaleTickSpacing*2, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(-me.headScaleTickSpacing*1, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*1, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*3, 0)
+		        .vert(-5*texel_per_degree)
+		        .moveTo(-me.headScaleTickSpacing*3, 0)
+		        .vert(-5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*4, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(-me.headScaleTickSpacing*4, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*5, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(-me.headScaleTickSpacing*5, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*6, 0)
+		        .vert(-5*texel_per_degree)
+		        .moveTo(-me.headScaleTickSpacing*6, 0)
+		        .vert(-5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*7, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*8, 0)
+		        .vert(-2.5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*9, 0)
+		        .vert(-5*texel_per_degree)
+		        .moveTo(me.headScaleTickSpacing*-9, 0)
+		        .horiz(me.headScaleTickSpacing*18)
+		        .setStrokeLineWidth(w)
+		        .setColor(r,g,b, a);
+
+		    # headingindicator
+		me.head_scale_indicator = me.rootCenter.createChild("path")
+		    .moveTo(-5*texel_per_degree, -me.headScalePlace+5*texel_per_degree)
+		    .lineTo(0, -me.headScalePlace)
+		    .lineTo(5*texel_per_degree, -me.headScalePlace+5*texel_per_degree)
+		    .setColor(r,g,b, a)
+		    .setStrokeLineWidth(w);
+
+		    # Heading middle number
+		me.hdgM = me.head_scale_grp.createChild("text")
+		    .setColor(r,g,b, a)
+		    .setAlignment("center-bottom")
+		    .setFontSize((15/512)*width, 1);
+
+		    # Heading left number
+		me.hdgL = me.head_scale_grp.createChild("text")
+		    .setColor(r,g,b, a)
+		    .setAlignment("center-bottom")
+		    .setFontSize((15/512)*width, 1);
+
+		    # Heading right number
+		me.hdgR = me.head_scale_grp.createChild("text")
+		    .setColor(r,g,b, a)
+		    .setAlignment("center-bottom")
+		    .setFontSize((15/512)*width, 1);
+
+		    # Heading left2 number
+		me.hdgL2 = me.head_scale_grp.createChild("text")
+		    .setColor(r,g,b, a)
+		    .setAlignment("center-bottom")
+		    .setFontSize((15/512)*width, 1);
+
+		    # Heading right2 number
+		me.hdgR2 = me.head_scale_grp.createChild("text")
+		    .setColor(r,g,b, a)
+		    .setAlignment("center-bottom")
+		    .setFontSize((15/512)*width, 1);
+
+		    # Heading right3 number
+		me.hdgR3 = me.head_scale_grp.createChild("text")
+		    .setColor(r,g,b, a)
+		    .setAlignment("center-bottom")
+		    .setFontSize((15/512)*width, 1);
+
+
+		    # alt lines
+		me.desired_lines3 = me.horizon_group2.createChild("path")
+		               .moveTo(-60*texel_per_degree, 0)
+		               .lineTo(-60*texel_per_degree, 85*texel_per_degree*0.5)
+		               .moveTo(-60*texel_per_degree+w*2.5, 0)
+		               .lineTo(-60*texel_per_degree+w*2.5, 85*texel_per_degree*0.5)
+		               .moveTo(-60*texel_per_degree-w*2.5, 0)
+		               .lineTo(-60*texel_per_degree-w*2.5, 85*texel_per_degree*0.5)
+		               .moveTo(60*texel_per_degree, 0)
+		               .lineTo(60*texel_per_degree, 85*texel_per_degree*0.5)
+		               .moveTo(60*texel_per_degree+w*2.5, 0)
+		               .lineTo(60*texel_per_degree+w*2.5, 85*texel_per_degree*0.5)
+		               .moveTo(60*texel_per_degree-w*2.5, 0)
+		               .lineTo(60*texel_per_degree-w*2.5, 85*texel_per_degree*0.5)
+		               .setStrokeLineWidth(w)
+		               .setColor(r,g,b);
+
+		me.radar_group = me.rootCenter.createChild("group");
 
 		      #diamond
 	    me.diamond_group = me.radar_group.createChild("group");
@@ -487,7 +376,7 @@ var MI = {
 #	     	.setAlignment("left-top")
 #	     	.setTranslation(texel_per_degree*5, texel_per_degree*4)
 #	     	.setFontSize(10, 1);
-	    me.diamond_name = rootCenter.createChild("text")
+	    me.diamond_name = me.rootCenter.createChild("text")
 		    .setText("..")
 		    .setColor(r,g,b, a)
 		    .setAlignment("center-bottom")
@@ -510,42 +399,42 @@ var MI = {
 	    me.target_missile = [];
 	    me.target_group = me.radar_group.createChild("group");
 	    for(var i = 0; i < maxTracks; i += 1) {      
-	      target_circles = me.target_group.createChild("path")
+	      me.target_circles = me.target_group.createChild("path")
 	                           .moveTo(-texel_per_degree*6, 0)
 	                           .arcLargeCW(texel_per_degree*6, texel_per_degree*6, 0,  texel_per_degree*12, 0)
 	                           .setStrokeLineWidth(w)
 	                           .setColor(r,g,b, a);
-	      target_m = me.target_group.createChild("path")
+	      me.target_m = me.target_group.createChild("path")
 	                           .moveTo(-texel_per_degree*4, 0)
 	                           .arcLargeCW(texel_per_degree*4, texel_per_degree*4, 0,  texel_per_degree*8, 0)
 	                           .setStrokeLineWidth(w)
 	                           .setColor(r,g,b, a);
-	      append(me.target_circle, target_circles);
-	      append(me.target_missile, target_m);
+	      append(me.target_circle, me.target_circles);
+	      append(me.target_missile, me.target_m);
 	    }
 
 	    # tgt scale (left side)
-      	rootCenter.createChild("path")
+      	me.rootCenter.createChild("path")
 			.moveTo(-texel_per_degree*70, 85 * texel_per_degree)
 			.vert(-2*85 * texel_per_degree)         
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b, a);
 		for(var i = 0; i <= 6; i += 1) # tgt scale ticks (left side)
-		      rootCenter.createChild("path")
+		      me.rootCenter.createChild("path")
 		         .moveTo(-texel_per_degree*70, -i * (85/3) * texel_per_degree + 85 * texel_per_degree)
 		         .horiz(-10 * texel_per_degree)         
 		         .setStrokeLineWidth(w)
 		         .setColor(r,g,b, a);
 		me.tgtTexts = [];
 		for(var i = 0; i <= 3; i += 1) {# tgt scale large ticks text (left side)
-		      append(me.tgtTexts, rootCenter.createChild("text")
+		      append(me.tgtTexts, me.rootCenter.createChild("text")
 		      	 .setText(i*10)
 		         .setFontSize((15/512)*width, 1.0)
 		         .setAlignment("right-bottom")
 		         .setTranslation(i!=3?-texel_per_degree*75:-texel_per_degree*65, -i * (85/1.5) * texel_per_degree + 85 * texel_per_degree-w)
 		         .setColor(r,g,b, a));
 		}
-		me.dist_cursor = rootCenter.createChild("path")
+		me.dist_cursor = me.rootCenter.createChild("path")
 			.moveTo(0,0)
 			.lineTo(5*texel_per_degree,5*texel_per_degree)
 			.moveTo(0,0)
@@ -553,19 +442,153 @@ var MI = {
 			.setStrokeLineWidth(w)
 	        .setColor(r,g,b, a);
 
-		me.qfe = rootCenter.createChild("text")
+		me.qfe = me.rootCenter.createChild("text")
     		.setText("QFE")
     		.setColor(r,g,b, a)
     		.setAlignment("center-top")
     		.setTranslation(-70*texel_per_degree, 90*texel_per_degree)
     		.setFontSize(15, 1);
 
-    	me.arm = rootCenter.createChild("text")
+    	me.arm = me.rootCenter.createChild("text")
     		.setText("None")
     		.setColor(r,g,b, a)
     		.setAlignment("left-top")
     		.setTranslation(-80*texel_per_degree, 100*texel_per_degree)
     		.setFontSize(15, 1);
+	},
+
+	loop: func {
+		me.interoperability = me.input.units.getValue();
+
+		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
+		me.fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
+		if (me.fpi_x_deg == nil) {
+			me.fpi_x_deg = 0;
+			me.fpi_y_deg = 0;
+		}
+		me.fpi_x = center_x+me.fpi_x_deg*texel_per_degree;
+		me.fpi_y = center_y+me.fpi_y_deg*texel_per_degree;
+		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
+
+		me.rot = -getprop("orientation/roll-deg") * D2R;
+		me.horz_rot.setRotation(me.rot);
+		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+
+		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
+		me.ground = getprop("position/ground-elev-m");
+		if (me.ground == nil) {
+			me.ground = -10000;
+		}
+		if (me.alt != nil) {
+			me.alt_cursor.setTranslation(texel_per_degree*70, -(me.alt*FT2M)/20000 * 2 * 85 * texel_per_degree + 85 * texel_per_degree);
+			me.ground_cursor.setTranslation(texel_per_degree*70, -(me.ground)/20000 * 2 * 85 * texel_per_degree + 85 * texel_per_degree);
+			me.text = "";
+			if (me.interoperability == displays.METRIC) {
+				if(me.alt*FT2M < 1000) {
+					me.text = ""~roundabout(me.alt*FT2M/10)*10;
+				} else {
+					me.text = sprintf("%.1f", me.alt*FT2M/1000);
+				}
+			} else {
+				if(me.alt < 1000) {
+					me.text = ""~roundabout(me.alt/10)*10;
+				} else {
+					me.text = sprintf("%.1f", me.alt/1000);
+				}
+			}
+			me.horizon_alt.setText(me.text);
+			if (me.interoperability == displays.METRIC) {
+				me.altScaleTexts[0].setText("0");
+				me.altScaleTexts[1].setText("5");
+				me.altScaleTexts[2].setText("10");
+				me.altScaleTexts[3].setText("15");
+				me.altScaleTexts[4].setText("20");
+			} else {
+				me.altScaleTexts[0].setText("0");
+				me.altScaleTexts[1].setText("16");
+				me.altScaleTexts[2].setText("33");
+				me.altScaleTexts[3].setText("49");
+				me.altScaleTexts[4].setText("66");
+			}
+			me.alt_cursor.show();
+			me.ground_cursor.show();
+			me.horizon_alt.show();
+		} else {
+			me.alt_cursor.hide();
+			me.ground_cursor.hide();
+			me.horizon_alt.hide();
+		}
+		me.displayHeadingScale();
+		me.displayGround();
+		me.displayGroundCollisionArrow();
+		me.showAltLines();
+		me.displayRadarTracks();
+		me.showqfe();
+		me.showArm();
+
+		settimer(func me.loop(), 0.05);
+	},
+
+	displayGroundCollisionArrow: func () {
+	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
+	      me.arrow_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+	      me.arrow.show();
+	    } else {
+	      me.arrow.hide();
+	    }
+	},
+
+	displayGround: func () {
+		me.time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
+		if (me.time != nil and me.time >= 0 and me.time < 40) {
+			me.time = clamp(me.time - 10,0,30);
+			me.dist = me.time/30 * 90 * texel_per_degree;
+			me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
+			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+			me.groundCurve.setTranslation(0, me.dist);
+			me.ground_grp.show();
+		} else {
+			me.ground_grp.hide();
+		}
+	},
+
+	displayHeadingScale: func () {
+	    me.heading = getprop("orientation/heading-magnetic-deg");
+	    me.headOffset = me.heading/30 - int (me.heading/30);
+	    me.middleText = int(me.heading/30)*3;
+	    me.middleOffset = nil;
+	    if(me.middleText == 36) {
+	      me.middleText = 0;
+	    }
+	    me.leftText   = me.middleText ==  0?33 :me.middleText-3;
+	    me.rightText  = me.middleText == 33?0  :me.middleText+3;
+	    me.leftText2  = me.leftText   ==  0?33 :me.leftText-3;
+	    me.rightText2 = me.rightText  == 33?0  :me.rightText+3;
+	    me.rightText3 = me.rightText2 == 33?0  :me.rightText2+3;
+
+	    if (me.headOffset > 0.5) {
+	      me.middleOffset = -(me.headOffset)*me.headScaleTickSpacing*3;
+	      me.head_scale_grp_trans.setTranslation(me.middleOffset, -me.headScalePlace);
+	      me.head_scale_grp.update();
+	    } else {
+	      me.middleOffset = -me.headOffset*me.headScaleTickSpacing*3;
+	      me.head_scale_grp_trans.setTranslation(me.middleOffset, -me.headScalePlace);
+	      me.head_scale_grp.update();
+	    }
+	    me.hdgM.setTranslation(0, -7.5*texel_per_degree);
+	    me.hdgM.setText(sprintf("%02d", me.middleText));
+	    me.hdgL.setTranslation(-me.headScaleTickSpacing*3, -7.5*texel_per_degree);
+	    me.hdgL.setText(sprintf("%02d", me.leftText));
+	    me.hdgR.setTranslation(me.headScaleTickSpacing*3, -7.5*texel_per_degree);
+	    me.hdgR.setText(sprintf("%02d", me.rightText));
+	    me.hdgL2.setTranslation(-me.headScaleTickSpacing*6, -7.5*texel_per_degree);
+	    me.hdgL2.setText(sprintf("%02d", me.leftText2));
+	    me.hdgR2.setTranslation(me.headScaleTickSpacing*6, -7.5*texel_per_degree);
+	    me.hdgR2.setText(sprintf("%02d", me.rightText2));
+	    me.hdgR3.setTranslation(me.headScaleTickSpacing*9, -7.5*texel_per_degree);
+	    me.hdgR3.setText(sprintf("%02d", me.rightText3));
+	    me.head_scale_grp.show();
+	    me.head_scale_indicator.show();
 	},
 
 	showArm: func {
@@ -806,26 +829,50 @@ var MI = {
 		me.diamond_name.setText("");
 		me.dist_cursor.hide();
 	}
-	if (me.input.radarRange.getValue() == 15000) {
-		me.tgtTexts[0].setText("0");
-		me.tgtTexts[1].setText("5");
-		me.tgtTexts[2].setText("10");
-		me.tgtTexts[3].setText("15");
-	} elsif (me.input.radarRange.getValue() == 30000) {
-		me.tgtTexts[0].setText("0");
-		me.tgtTexts[1].setText("10");
-		me.tgtTexts[2].setText("20");
-		me.tgtTexts[3].setText("30");
-	} elsif (me.input.radarRange.getValue() == 60000) {
-		me.tgtTexts[0].setText("0");
-		me.tgtTexts[1].setText("20");
-		me.tgtTexts[2].setText("40");
-		me.tgtTexts[3].setText("60");
-	} elsif (me.input.radarRange.getValue() == 120000) {
-		me.tgtTexts[0].setText("0");
-		me.tgtTexts[1].setText("40");
-		me.tgtTexts[2].setText("80");
-		me.tgtTexts[3].setText("120");
+	if (me.interoperability == displays.METRIC) {
+		if (me.input.radarRange.getValue() == 15000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("5");
+			me.tgtTexts[2].setText("10");
+			me.tgtTexts[3].setText("15");
+		} elsif (me.input.radarRange.getValue() == 30000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("10");
+			me.tgtTexts[2].setText("20");
+			me.tgtTexts[3].setText("30");
+		} elsif (me.input.radarRange.getValue() == 60000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("20");
+			me.tgtTexts[2].setText("40");
+			me.tgtTexts[3].setText("60");
+		} elsif (me.input.radarRange.getValue() == 120000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("40");
+			me.tgtTexts[2].setText("80");
+			me.tgtTexts[3].setText("120");
+		}
+	} else {
+		if (me.input.radarRange.getValue() == 15000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("2.7");
+			me.tgtTexts[2].setText("5.4");
+			me.tgtTexts[3].setText("8.1");
+		} elsif (me.input.radarRange.getValue() == 30000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("5.4");
+			me.tgtTexts[2].setText("11");
+			me.tgtTexts[3].setText("16");
+		} elsif (me.input.radarRange.getValue() == 60000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("11");
+			me.tgtTexts[2].setText("22");
+			me.tgtTexts[3].setText("32");
+		} elsif (me.input.radarRange.getValue() == 120000) {
+			me.tgtTexts[0].setText("0");
+			me.tgtTexts[1].setText("22");
+			me.tgtTexts[2].setText("43");
+			me.tgtTexts[3].setText("65");
+		}
 	}
   },
 
@@ -884,11 +931,11 @@ var MI = {
 	      if(me.desired_alt_delta_ft != nil) {
 	        me.pos_y = clamp(-((me.desired_alt_delta_ft*FT2M)/300)*85*texel_per_degree*0.5, -85*texel_per_degree*0.25, 85*texel_per_degree*0.5);#150 m up, 300 m down
 
-	        desired_lines3.setTranslation(0, me.pos_y);
+	        me.desired_lines3.setTranslation(0, me.pos_y);
 	        if (me.showLines == TRUE) {
-	          desired_lines3.show();
+	          me.desired_lines3.show();
 	        } else {
-	          desired_lines3.hide();
+	          me.desired_lines3.hide();
 	        }
 	 #       if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
 	 #         me.desired_boxes.show();
@@ -896,11 +943,11 @@ var MI = {
 	 #         me.desired_boxes.hide();
 	 #       }
 	      } else {
-	        desired_lines3.hide();
+	        me.desired_lines3.hide();
 	      }
 	  	}
 	},
 };
 
 var mi = MI.new();
-loop();
+mi.loop();
