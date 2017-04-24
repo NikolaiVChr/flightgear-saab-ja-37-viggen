@@ -1,5 +1,5 @@
 # todo:
-# servicable, indicated, common snippets with HUD, interoperability
+# servicable, indicated
 # power supply, on off, brightness
 # alt lines should shrink
 # heading bug?

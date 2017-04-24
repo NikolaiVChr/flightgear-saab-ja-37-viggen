@@ -2802,7 +2802,7 @@ GUI: Made calc of static margin more readable.
 Control: Increased response to longitudinal stick input.
 Aero: Audit of mass and balance, found an issue.
 Aero: Decreased speedbrake drag. (source: former JA37 pilot)
-Aero: Disabled pitch due to inlet mass flow number, due it being wrong.
+Aero: Disabled pitch due to inlet mass flow number, due to it being wrong.
 Sim: The Viggens autostart should no longer be interupted by filling fuel or stores.
 Sound: Annunciator now also has a failure mode.
 Radar: Screen is now darker background green.
@@ -2815,3 +2815,9 @@ Sim: Updated tags.
 Effect: Replaced navigation light with procedural lights in ALS.
 Aero: Reenabled pitch due to inlet mass flow number.
 Sim: Adjusted the lower EPR ratings.
+Effect: Update to HUD effect so it works with filters.
+
+4.100
+=====
+MI: Added a dialog, that shows the coming MI display. Will be placed where round radar is today.
+Effect: Removed frost from HUD.
