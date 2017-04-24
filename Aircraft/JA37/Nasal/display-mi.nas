@@ -1,7 +1,6 @@
 # todo:
 # servicable, indicated
-# power supply, on off, brightness
-# alt lines should shrink
+# power supply, on off, brightness (emmision)
 # heading bug?
 # steerpoint symbols: #
 # nez indicator
@@ -83,6 +82,7 @@ var MI = {
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
+	        ctrlRadar:        "controls/altimeter-radar",
       	};
    
       	foreach(var name; keys(mi.input)) {
@@ -336,6 +336,18 @@ var MI = {
 		               .setStrokeLineWidth(w)
 		               .setColor(r,g,b);
 
+		me.radar_index = me.horizon_group2.createChild("path")
+		               .moveTo(-60*texel_per_degree-w*2.5, 0)
+		               .horiz(-10*texel_per_degree)
+		               .moveTo(-60*texel_per_degree-w*2.5, 0)
+		               .lineTo(-70*texel_per_degree-w*2.5, 5*texel_per_degree)
+		               .moveTo(60*texel_per_degree+w*2.5, 0)
+		               .horiz(10*texel_per_degree)
+		               .moveTo(60*texel_per_degree+w*2.5, 0)
+		               .lineTo(70*texel_per_degree+w*2.5, 5*texel_per_degree)
+		               .setStrokeLineWidth(w)
+		               .setColor(r,g,b);
+
 		me.radar_group = me.rootCenter.createChild("group");
 
 		      #diamond
@@ -525,6 +537,7 @@ var MI = {
 		me.displayRadarTracks();
 		me.showqfe();
 		me.showArm();
+		me.radarIndex();
 
 		settimer(func me.loop(), 0.05);
 	},
@@ -913,18 +926,24 @@ var MI = {
 		if (me.input.alt_ft.getValue() != nil) {
 	      me.showLines = TRUE;
 	      me.desired_alt_delta_ft = nil;
+	      me.desired_alt_ft = nil;
 	      if(canvas_HUD.mode == canvas_HUD.TAKEOFF) {
+	      	me.desired_alt_ft = (500*M2FT);
 	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
 	      } elsif (me.input.APLockAlt.getValue() == "altitude-hold" and me.input.APTgtAlt.getValue() != nil) {
+	      	me.desired_alt_ft = me.input.APTgtAlt.getValue();
 	        me.desired_alt_delta_ft = me.input.APTgtAlt.getValue()-me.input.alt_ft.getValue();
 	      } elsif(canvas_HUD.mode == canvas_HUD.LANDING and land.mode < 3 and land.mode > 0) {
+	      	me.desired_alt_ft = (500*M2FT);
 	        me.desired_alt_delta_ft = (500*M2FT)-me.input.alt_ft.getValue();
 	      } elsif (me.input.APLockAlt.getValue() == "agl-hold" and me.input.APTgtAgl.getValue() != nil) {
+	      	me.desired_alt_ft = me.input.APTgtAgl.getValue();
 	        me.desired_alt_delta_ft = me.input.APTgtAgl.getValue()-me.input.rad_alt.getValue();
 	      } elsif(me.input.rmActive.getValue() == 1 and me.input.RMCurrWaypoint.getValue() != nil and me.input.RMCurrWaypoint.getValue() >= 0) {
 	        me.i = me.input.RMCurrWaypoint.getValue();
 	        me.rt_alt = getprop("autopilot/route-manager/route/wp["~me.i~"]/altitude-ft");
 	        if(me.rt_alt != nil and me.rt_alt > 0) {
+	          me.desired_alt_ft = me.rt_alt;
 	          me.desired_alt_delta_ft = me.rt_alt - me.input.alt_ft.getValue();
 	        }
 	      }
@@ -932,21 +951,35 @@ var MI = {
 	        me.pos_y = clamp(-((me.desired_alt_delta_ft*FT2M)/300)*85*texel_per_degree*0.5, -85*texel_per_degree*0.25, 85*texel_per_degree*0.5);#150 m up, 300 m down
 
 	        me.desired_lines3.setTranslation(0, me.pos_y);
-	        if (me.showLines == TRUE) {
+
+	        me.scale = clamp(extrapolate(me.desired_alt_ft, 200, 300, 0.6666, 1), 0.6666, 1);
+
+	        me.desired_lines3.setScale(1, me.scale);
+
+	        if (me.showLines == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
 	          me.desired_lines3.show();
 	        } else {
 	          me.desired_lines3.hide();
 	        }
-	 #       if (me.showBoxes == TRUE and (getprop("fdm/jsbsim/systems/indicators/auto-altitude-secondary") == FALSE or me.input.twoHz.getValue())) {
-	 #         me.desired_boxes.show();
-	 #       } else {
-	 #         me.desired_boxes.hide();
-	 #       }
 	      } else {
 	        me.desired_lines3.hide();
 	      }
 	  	}
 	},
+
+	radarIndex: func {
+		me.radAlt = me.input.ctrlRadar.getValue() == TRUE?me.input.rad_alt.getValue() * FT2M : nil;
+		if (me.radAlt != nil and me.radAlt < 600) {
+			me.radar_index.setTranslation(0, extrapolate(me.radAlt, 0, 600, 0, 100*texel_per_degree));
+			me.radar_index.show();
+		} else {
+			me.radar_index.hide();
+		}
+	},
+};
+
+var extrapolate = func (x, x1, x2, y1, y2) {
+    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
 
 var mi = MI.new();

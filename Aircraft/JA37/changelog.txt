@@ -2819,5 +2819,5 @@ Effect: Update to HUD effect so it works with filters.
 
 4.100
 =====
-MI: Added a dialog, that shows the coming MI display. Will be placed where round radar is today.
 Effect: Removed frost from HUD.
+MI: Added a dialog, that shows the coming MI display. Will be placed where round radar is today.
