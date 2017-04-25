@@ -927,4 +927,10 @@
         <vne>729</vne><!-- AJ37 manual -->
     </limits>
 
+    <nasal>
+        <rdr>
+            <file>Aircraft/JA37/Nasal/radar.nas</file>
+        </rdr>
+    </nasal>
+
 </PropertyList>

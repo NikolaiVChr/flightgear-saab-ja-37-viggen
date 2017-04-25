@@ -773,5 +773,14 @@
     <limits>
         <vne>789</vne>
     </limits>
+
+    <nasal>
+        <MI>
+            <file>Aircraft/JA37/Nasal/display-mi.nas</file>
+        </MI>
+        <TI>
+            <file>Aircraft/JA37/Nasal/display-ti.nas</file>
+        </TI>
+    </nasal>
     
 </PropertyList>
