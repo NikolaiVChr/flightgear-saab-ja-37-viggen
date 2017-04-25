@@ -2789,7 +2789,7 @@ Model: Made radar compass heading bug, have flood-light also.
 GUI: Made CTRL-y ask tower for runway local QFE pressure.
 GUI: Ask tower now also returns ILS freq. if available.
 
-4.020
+4.020 - 2017 April 23
 =====
 GUI: Hotfix for ctrl-y request.
 Engine: Increased slightly aug thrust fuel consumption for RM-8A.
@@ -2820,4 +2820,5 @@ Effect: Update to HUD effect so it works with filters.
 4.100
 =====
 Effect: Removed frost from HUD.
-MI: Added a dialog, that shows the coming MI display. Will be placed where round radar is today.
+MI: Added a dialog, that shows the coming MI display. Will be placed in the JA where round radar is today.
+TI: Added a dialog, that shows the coming TI color display. Will be placed right of MI display.

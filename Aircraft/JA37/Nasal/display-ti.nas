@@ -1,11 +1,14 @@
 # todo:
 # servicable, indicated
 # power supply, on off, brightness (emmision)
-# moving map
+# buttons functions
 # geo grid
-# radar echoes
-# own position
-# steerpoint symbols: #
+# radar echoes types
+# runway proper styles
+# bottom text
+# buttons text
+# steerpoint symbols: # ?
+# ground symbol, ground arrow, horizont, FPI in some modes
 # full OOP
 # use Pinto's model
 var (width,height) = (341,512);
@@ -78,19 +81,26 @@ var last_type = type;
 
 # stuff
 
-#TI colors
-var rWhite = 1.0;
+#TI symbol colors
+var rWhite = 1.0; # other / self / own_missile
 var gWhite = 1.0;
 var bWhite = 1.0;
-var rYellow = 1.0;
+
+var rYellow = 1.0;# possible threat
 var gYellow = 1.0;
 var bYellow = 0.0;
-var rRed = 1.0;
+
+var rRed = 1.0;   # threat
 var gRed = 0.0;
 var bRed = 0.0;
-var rGreen = 0.0;
+
+var rGreen = 0.0; # own side
 var gGreen = 1.0;
 var bGreen = 0.0;
+
+var rTyrk = 0.25; # navigation aid
+var gTyrk = 0.88;
+var bTyrk = 0.81;
 
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
@@ -227,20 +237,55 @@ var TI = {
 	               .moveTo(0, 0)
 	               .lineTo(0, -1)
 	               .setStrokeLineWidth(w)
-	               .setColor(rGreen,gGreen,bGreen, a)
+	               .setColor(rTyrk,gTyrk,bTyrk, a)
 	               .hide();
 	    me.dest_circle = me.dest.createChild("path")
 	               .moveTo(-25, 0)
 	               .arcSmallCW(25, 25, 0, 50, 0)
 	               .arcSmallCW(25, 25, 0, -50, 0)
 	               .setStrokeLineWidth(w)
-	               .setColor(rGreen,gGreen,bGreen, a);
+	               .setColor(rTyrk,gTyrk,bTyrk, a);
 	    me.approach_circle = me.rootCenter.createChild("path")
 	               .moveTo(-100, 0)
 	               .arcSmallCW(100, 100, 0, 200, 0)
 	               .arcSmallCW(100, 100, 0, -200, 0)
 	               .setStrokeLineWidth(w)
-	               .setColor(rGreen,gGreen,bGreen, a);
+	               .setColor(rTyrk,gTyrk,bTyrk, a);
+
+	    me.threats = [];
+	    for (var i = 0; i < 5; i += 1) {
+	    	append(me.threats, me.radar_group.createChild("path")
+	               .moveTo(-100, 0)
+	               .arcSmallCW(100, 100, 0, 200, 0)
+	               .arcSmallCW(100, 100, 0, -200, 0)
+	               .setStrokeLineWidth(w)
+	               .setColor(rRed,gRed,bRed, a));
+	    }
+
+	    me.missiles = [];
+	    me.missilesVector = [];
+	    for (var i = 0; i < 6; i += 1) {
+	    	var grp = me.radar_group.createChild("group")
+				.set("z-index", maxTracks-i);
+			var grp2 = grp.createChild("group")
+				.setTranslation(0,-10*MM2TEX);
+			var vector = grp2.createChild("path")
+			  .moveTo(0,  0)
+			  .lineTo(0, -1*MM2TEX)
+			  .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+			grp.createChild("path")
+		      .moveTo(-2.5*MM2TEX,  5*MM2TEX)
+		      .lineTo(   0,       -10*MM2TEX)
+		      .moveTo( 2.5*MM2TEX,  5*MM2TEX)
+		      .lineTo(   0,       -10*MM2TEX)
+		      .moveTo(-2.5*MM2TEX,  5*MM2TEX)
+		      .lineTo( 2.5*MM2TEX,  5*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+		    append(me.missiles, grp);
+		    append(me.missilesVector, vector);
+	    }
 	},
 
 	loop: func {
@@ -316,7 +361,8 @@ var TI = {
 	displayRadarTracks: func () {
 
 	  	var mode = canvas_HUD.mode;
-
+		me.threatIndex = -1;
+		me.missileIndex = -1;
 	    me.track_index = 1;
 	    me.selection_updated = FALSE;
 	    me.tgt_dist = 1000000;
@@ -336,9 +382,21 @@ var TI = {
 				me.displayRadarTrack(hud_pos);
 			}
 			if(me.track_index != -1) {
-				#hide the the rest unused circles
+				#hide the the rest unused echoes
 				for(var i = me.track_index; i < maxTracks ; i+=1) {
 			  		me.echoesAircraft[i].hide();
+				}
+			}
+			if(me.threatIndex < 4) {
+				#hide the the rest unused threats
+				for(var i = me.threatIndex; i < 4 ; i+=1) {
+			  		me.threats[i+1].hide();
+				}
+			}
+			if(me.missileIndex < 5) {
+				#hide the the rest unused missiles
+				for(var i = me.missileIndex; i < 5 ; i+=1) {
+			  		me.missiles[i+1].hide();
 				}
 			}
 			if(me.selection_updated == FALSE) {
@@ -361,6 +419,8 @@ var TI = {
 
 		me.currentIndexT = me.track_index;
 
+		me.ordn = contact.get_type() == radar_logic.ORDNANCE;
+
 		if(contact == radar_logic.selection and contact.get_cartesian()[0] != 900000) {
 			me.selection_updated = TRUE;
 			me.selection_index = 0;
@@ -368,27 +428,61 @@ var TI = {
 		}
 
 		if(me.currentIndexT > -1 and (me.showmeT == TRUE or me.currentIndexT == 0)) {
-			me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 			me.tgtHeading = contact.get_heading();
 		    me.tgtSpeed = contact.get_Speed();
 		    me.myHeading = me.input.hdgReal.getValue();
-		    if (me.tgtHeading != nil) {
-		        me.relHeading = me.tgtHeading - me.myHeading;
-		        #me.relHeading -= 180;
-		        me.echoesAircraft[me.currentIndexT].setRotation(me.relHeading * D2R);
-		    }
-		    if (me.tgtSpeed != nil) {
-		    	me.echoesAircraftVector[me.currentIndexT].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 250*MM2TEX));
-	    	} else {
-	    		me.echoesAircraftVector[me.currentIndexT].setScale(1, 1);
-	    	}
-			me.echoesAircraft[me.currentIndexT].show();
-			me.echoesAircraft[me.currentIndexT].update();
+		    if (me.ordn == FALSE) {
+		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
+			    if (me.tgtHeading != nil) {
+			        me.relHeading = me.tgtHeading - me.myHeading;
+			        #me.relHeading -= 180;
+			        me.echoesAircraft[me.currentIndexT].setRotation(me.relHeading * D2R);
+			    }
+			    if (me.tgtSpeed != nil) {
+			    	me.echoesAircraftVector[me.currentIndexT].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+		    	} else {
+		    		me.echoesAircraftVector[me.currentIndexT].setScale(1, 1);
+		    	}
+				me.echoesAircraft[me.currentIndexT].show();
+				me.echoesAircraft[me.currentIndexT].update();
+			} else {
+				if (me.missileIndex < 5) {
+					me.missileIndex += 1;
+					me.missiles[me.missileIndex].setTranslation(me.pos_xx, me.pos_yy);					
+					if (me.tgtHeading != nil) {
+				        me.relHeading = me.tgtHeading - me.myHeading;
+				        #me.relHeading -= 180;
+				        me.missiles[me.missileIndex].setRotation(me.relHeading * D2R);
+				    }
+				    if (me.tgtSpeed != nil) {
+				    	me.missilesVector[me.missileIndex].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+			    	} else {
+			    		me.missilesVector[me.missileIndex].setScale(1, 1);
+			    	}
+			    	me.missiles[me.missileIndex].show();
+			    }
+				me.echoesAircraft[me.currentIndexT].hide();
+			}
 			if(me.currentIndexT != 0) {
 				me.track_index += 1;
 				if (me.track_index == maxTracks) {
 					me.track_index = -1;
 				}
+			}
+			if (contact.get_model() == "missile_frigate" and me.threatIndex < 4) {
+				me.threatIndex += 1;
+				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
+				me.scale = 60*NM2M*M2TEX/100;
+		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
+		      	me.threats[me.threatIndex].setScale(me.scale);
+				me.threats[me.threatIndex].show();
+			} elsif (contact.get_model() == "buk-m2" and me.threatIndex < 4) {
+				me.threatIndex += 1;
+				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
+				me.scale = 20*NM2M*M2TEX/100;
+		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
+		      	me.threats[me.threatIndex].setScale(me.scale);
+				me.threats[me.threatIndex].show();
 			}
 		}
 	},
