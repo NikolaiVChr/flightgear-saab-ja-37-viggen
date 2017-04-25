@@ -588,6 +588,7 @@
                     <max-report-distance type="double">65</max-report-distance>
                     <navigation type="string">APN</navigation>
                     <rail type="bool">false</rail>
+                    <telemetry type="bool">true</telemetry>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 3</fire-msg>
                 </rb-99>

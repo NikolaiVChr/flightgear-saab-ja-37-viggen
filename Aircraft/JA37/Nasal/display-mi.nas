@@ -392,7 +392,7 @@ var MI = {
 		    .setText("..")
 		    .setColor(r,g,b, a)
 		    .setAlignment("center-bottom")
-		    .setTranslation(0, texel_per_degree*100)
+		    .setTranslation(0, texel_per_degree*110)
 		    .setFontSize(15, 1);
 
 
@@ -457,8 +457,8 @@ var MI = {
 		me.qfe = me.rootCenter.createChild("text")
     		.setText("QFE")
     		.setColor(r,g,b, a)
-    		.setAlignment("center-top")
-    		.setTranslation(-70*texel_per_degree, 90*texel_per_degree)
+    		.setAlignment("left-top")
+    		.setTranslation(-75*texel_per_degree, 90*texel_per_degree)
     		.setFontSize(15, 1);
 
     	me.arm = me.rootCenter.createChild("text")
@@ -623,13 +623,24 @@ var MI = {
 		if (me.input.qfeActive.getValue() != nil) {
 			if (me.input.qfeActive.getValue() == TRUE) {
 				me.qfe.setText("QFE");
+				me.qfe.setFontSize(15, 1);
 				if (me.input.qfeShown.getValue() == TRUE) {
 					me.qfe.show();
 				} else {
 					me.qfe.hide();
 				}
 			} else {
-				me.qfe.hide();
+				if (size(me.tele) != 0) {
+					var text = "LNK99";
+					for(var i = 0; i < size(me.tele); i+=1) {
+						text = text ~ me.tele[i];
+					}
+					me.qfe.setText(text);
+					me.qfe.setFontSize(12.5, 1);
+					me.qfe.show();
+				} else {
+					me.qfe.hide();
+				}
 			}
 		}
 	},
@@ -642,6 +653,7 @@ var MI = {
     me.selection_updated = FALSE;
     me.tgt_dist = 1000000;
     me.tgt_callsign = "";
+    me.tele = [];
 
     if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
       me.radar_group.show();
@@ -909,6 +921,11 @@ var MI = {
 			if (hud_pos.get_type() != radar_logic.ORDNANCE) {
 				me.target_missile[me.currentIndexT].hide();
 			} else {
+				var eta = hud_pos.getETA();
+				var hit = hud_pos.getHitChance();
+				if (eta != nil) {
+					append(me.tele, sprintf(": %d%% %ds", hit, eta))
+				}
 				me.target_missile[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
 				me.target_missile[me.currentIndexT].show();
 				me.target_missile[me.currentIndexT].update();

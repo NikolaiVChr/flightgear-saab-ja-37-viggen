@@ -346,7 +346,7 @@ var RadarLogic = {
       #print("Received invalid position data: dist "~distance);
       #target_circle[track_index+maxTargetsMP].hide();
       #print(i~" invalid pos.");
-    } elsif (me.distanceDirect < range) {#is max radar range of ja37
+    } elsif (me.distanceDirect < range or node.getName() == "rb-99") {#is max radar range of ja37
       # Node with valid position data (and "distance!=nil").
       #distance = distance*kts2kmh*1000;
       me.aircraftAlt = aircraftPos.alt(); #altitude in meters
@@ -396,7 +396,7 @@ var RadarLogic = {
         me.ya_rad = me.ya_rad + 2*math.pi;
       }
 
-      if(me.ya_rad > -61.5 * D2R and me.ya_rad < 61.5 * D2R and me.xa_rad > -61.5 * D2R and me.xa_rad < 61.5 * D2R) {
+      if(node.getName() == "rb-99" or (me.ya_rad > -61.5 * D2R and me.ya_rad < 61.5 * D2R and me.xa_rad > -61.5 * D2R and me.xa_rad < 61.5 * D2R)) {
         #is within the radar cone
         # AJ37 manual: 61.5 deg sideways.
 
@@ -787,6 +787,9 @@ var Contact = {
         obj.painted         = c.getNode("painted");
         obj.unique          = c.getNode("unique");
         obj.validTree       = 0;
+
+        obj.eta             = c.getNode("ETA");
+        obj.hit             = c.getNode("hit");
 #});
 #debug.benchmark("radar process5", func {        
         #obj.transponderID   = c.getNode("instrumentation/transponder/transmitted-id");
@@ -812,6 +815,20 @@ var Contact = {
         obj.cartesian       = [0,0];
         
         return obj;
+    },
+
+    getETA: func {
+      if (me.eta != nil) {
+        return me.eta.getValue();
+      }
+      return nil;
+    },
+
+    getHitChance: func {
+      if (me.hit != nil) {
+        return me.hit.getValue();
+      }
+      return nil;
     },
 
     isValid: func () {
@@ -1107,6 +1124,14 @@ var ContactGPS = {
   get_Coord: func(){
       return me.coord;
   },
+
+  getETA: func {
+      return nil;
+    },
+
+    getHitChance: func {
+      return nil;
+    },
 
   get_Callsign: func(){
       return me.callsign;
