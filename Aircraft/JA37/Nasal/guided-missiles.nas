@@ -1097,6 +1097,10 @@ var AIM = {
 					me.hit -= me.clamp(40*me.eta/(me.life_time*0.85), 0, 40);
 				}
 			}
+			if (me.curr_deviation_h != nil and me.dist_curr > 50) {
+				# penalty for target being off-bore
+				me.hit -= math.abs(me.curr_deviation_h)/2.5;
+			}
 			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed and me.t_speed != 0) {
 				# bonus for traveling faster than target
 				me.hit += (me.old_speed_fps / me.t_speed)*15;
