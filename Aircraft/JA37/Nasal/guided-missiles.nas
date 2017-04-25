@@ -1083,17 +1083,24 @@ var AIM = {
 		if (me.data == TRUE) {
 			me.eta = me.free == TRUE or me.horz_closing_rate_fps == -1?-1:(me.dist_curr*M2FT)/me.horz_closing_rate_fps;
 			me.hit = 50;# in percent
-			if (me.selfdestruct_time-me.life_time < me.eta) {
-				# reduce alot if eta later than lifespan
-				me.hit -= 50;
-			} elsif (me.eta != -1) {
-				# if its hitting late in life, then reduce
-				me.hit -= (me.eta / me.selfdestruct_time-me.life_time) * 25;
+			if (me.life_time > me.drop_time+me.stage_1_duration) {
+				# little less optimistic after reaching topspeed
+				if (me.selfdestruct_time-me.life_time < me.eta) {
+					# reduce alot if eta later than lifespan
+					me.hit -= 75;
+				} elsif (me.eta != -1 and (me.selfdestruct_time-me.life_time) != 0) {
+					# if its hitting late in life, then reduce
+					me.hit -= (me.eta / (me.selfdestruct_time-me.life_time)) * 25;
+				}
+				if (me.eta > 0) {
+					# penalty if eta is high
+					me.hit -= me.clamp(40*me.eta/(me.life_time*0.85), 0, 40);
+				}
 			}
-			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed) {
+			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed and me.t_speed != 0) {
 				# bonus for traveling faster than target
 				me.hit += (me.old_speed_fps / me.t_speed)*15;
-			}
+			}			
 			if (me.free == TRUE) {
 				# penalty for not longer guiding
 				me.hit -= 75;
