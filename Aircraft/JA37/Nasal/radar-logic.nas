@@ -1306,7 +1306,7 @@ var ContactGPS = {
 
     var distanceRadar = distance;#/math.cos(myPitch);
 
-    return [distanceRadar, xa_rad_corr, me.xa_rad, me.ya_rad];
+    return [distanceRadar, xa_rad_corr, xa_rad, ya_rad];
   },
 };
 

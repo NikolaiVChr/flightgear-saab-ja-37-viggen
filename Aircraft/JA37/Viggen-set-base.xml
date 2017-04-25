@@ -1270,6 +1270,9 @@
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </ja37>
+        <land>
+            <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
+        </land>
         <displays>
             <file>Aircraft/JA37/Nasal/common-displays.nas</file>
         </displays>
@@ -1279,6 +1282,9 @@
         <MI>
             <file>Aircraft/JA37/Nasal/display-mi.nas</file>
         </MI>
+        <TI>
+            <file>Aircraft/JA37/Nasal/display-ti.nas</file>
+        </TI>
         <monitor>
             <file>Aircraft/JA37/Nasal/dialog-perf.nas</file>
             <file>Aircraft/JA37/Nasal/performance.nas</file>
@@ -1319,9 +1325,6 @@
         <auto>
             <file>Aircraft/JA37/Nasal/autopilot.nas</file>
         </auto>
-        <land>
-            <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
-        </land>
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>
