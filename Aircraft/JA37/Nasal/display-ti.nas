@@ -109,7 +109,9 @@ var fpi_min = 3;
 var fpi_med = 6;
 var fpi_max = 9;
 
-var maxTracks = 32;# how many radar tracks can be shown at once in the TI (was 16)
+var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was 16)
+var maxMissiles = 6;
+var maxThreats  = 5;
 
 var roundabout = func(x) {
   var y = x - int(x);
@@ -253,7 +255,7 @@ var TI = {
 	               .setColor(rTyrk,gTyrk,bTyrk, a);
 
 	    me.threats = [];
-	    for (var i = 0; i < 5; i += 1) {
+	    for (var i = 0; i < maxThreats; i += 1) {
 	    	append(me.threats, me.radar_group.createChild("path")
 	               .moveTo(-100, 0)
 	               .arcSmallCW(100, 100, 0, 200, 0)
@@ -264,7 +266,7 @@ var TI = {
 
 	    me.missiles = [];
 	    me.missilesVector = [];
-	    for (var i = 0; i < 6; i += 1) {
+	    for (var i = 0; i < maxMissiles; i += 1) {
 	    	var grp = me.radar_group.createChild("group")
 				.set("z-index", maxTracks-i);
 			var grp2 = grp.createChild("group")
@@ -286,6 +288,18 @@ var TI = {
 		    append(me.missiles, grp);
 		    append(me.missilesVector, vector);
 	    }
+
+	    me.gpsSymbol = me.radar_group.createChild("path")
+		      .moveTo(-5*MM2TEX, 10*MM2TEX)
+		      .vert(            -20*MM2TEX)
+		      .moveTo( 5*MM2TEX, 10*MM2TEX)
+		      .vert(            -20*MM2TEX)
+		      .moveTo(-10*MM2TEX, 5*MM2TEX)
+		      .horiz(            20*MM2TEX)
+		      .moveTo(-10*MM2TEX,-5*MM2TEX)
+		      .horiz(            20*MM2TEX)
+		      .setColor(rTyrk,gTyrk,bTyrk, a)
+		      .setStrokeLineWidth(w);
 	},
 
 	loop: func {
@@ -364,6 +378,7 @@ var TI = {
 		me.threatIndex = -1;
 		me.missileIndex = -1;
 	    me.track_index = 1;
+	    me.isGPS = FALSE;
 	    me.selection_updated = FALSE;
 	    me.tgt_dist = 1000000;
 	    me.tgt_callsign = "";
@@ -373,9 +388,9 @@ var TI = {
 
 			me.selection = radar_logic.selection;
 
-			#if (me.selection != nil) {
-			#	me.displayRadarTrack(me.selection);
-			#}
+			if (me.selection != nil and me.selection.parents[0] == radar_logic.ContactGPS) {
+		        me.displayRadarTrack(me.selection);
+		    }
 
 			# do yellow triangles here
 			foreach(hud_pos; radar_logic.tracks) {
@@ -387,26 +402,28 @@ var TI = {
 			  		me.echoesAircraft[i].hide();
 				}
 			}
-			if(me.threatIndex < 4) {
+			if(me.threatIndex < maxThreats-1) {
 				#hide the the rest unused threats
-				for(var i = me.threatIndex; i < 4 ; i+=1) {
+				for(var i = me.threatIndex; i < maxThreats-1 ; i+=1) {
 			  		me.threats[i+1].hide();
 				}
 			}
-			if(me.missileIndex < 5) {
+			if(me.missileIndex < maxMissiles-1) {
 				#hide the the rest unused missiles
-				for(var i = me.missileIndex; i < 5 ; i+=1) {
+				for(var i = me.missileIndex; i < maxMissiles-1 ; i+=1) {
 			  		me.missiles[i+1].hide();
 				}
 			}
 			if(me.selection_updated == FALSE) {
 				me.echoesAircraft[0].hide();
 			}
+			if (me.isGPS == FALSE) {
+				me.gpsSymbol.hide();
+		    }
 	    } else {
 	      	# radar tracks not shown at all
 	      	me.radar_group.hide();
 	    }
-	    #me.targetScale();
 	},
 
 	displayRadarTrack: func (contact) {
@@ -423,7 +440,6 @@ var TI = {
 
 		if(contact == radar_logic.selection and contact.get_cartesian()[0] != 900000) {
 			me.selection_updated = TRUE;
-			me.selection_index = 0;
 			me.currentIndexT = 0;
 		}
 
@@ -431,7 +447,12 @@ var TI = {
 			me.tgtHeading = contact.get_heading();
 		    me.tgtSpeed = contact.get_Speed();
 		    me.myHeading = me.input.hdgReal.getValue();
-		    if (me.ordn == FALSE) {
+		    if (me.currentIndexT == 0 and contact.parents[0] == radar_logic.ContactGPS) {
+		    	me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);
+		    	me.gpsSymbol.show();
+		    	me.isGPS = TRUE;
+		    	me.echoesAircraft[me.currentIndexT].hide();
+		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 			    if (me.tgtHeading != nil) {
 			        me.relHeading = me.tgtHeading - me.myHeading;
@@ -446,7 +467,7 @@ var TI = {
 				me.echoesAircraft[me.currentIndexT].show();
 				me.echoesAircraft[me.currentIndexT].update();
 			} else {
-				if (me.missileIndex < 5) {
+				if (me.missileIndex < maxMissiles-1) {
 					me.missileIndex += 1;
 					me.missiles[me.missileIndex].setTranslation(me.pos_xx, me.pos_yy);					
 					if (me.tgtHeading != nil) {
@@ -460,6 +481,7 @@ var TI = {
 			    		me.missilesVector[me.missileIndex].setScale(1, 1);
 			    	}
 			    	me.missiles[me.missileIndex].show();
+			    	me.missiles[me.missileIndex].update();
 			    }
 				me.echoesAircraft[me.currentIndexT].hide();
 			}
@@ -469,14 +491,14 @@ var TI = {
 					me.track_index = -1;
 				}
 			}
-			if (contact.get_model() == "missile_frigate" and me.threatIndex < 4) {
+			if (contact.get_model() == "missile_frigate" and me.threatIndex < maxThreats-1) {
 				me.threatIndex += 1;
 				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
 				me.scale = 60*NM2M*M2TEX/100;
 		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
 		      	me.threats[me.threatIndex].setScale(me.scale);
 				me.threats[me.threatIndex].show();
-			} elsif (contact.get_model() == "buk-m2" and me.threatIndex < 4) {
+			} elsif (contact.get_model() == "buk-m2" and me.threatIndex < maxThreats-1) {
 				me.threatIndex += 1;
 				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
 				me.scale = 20*NM2M*M2TEX/100;
