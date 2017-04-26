@@ -500,7 +500,7 @@ var MI = {
     		.setTranslation(-sidePositionOfSideScales, -halfHeightOfSideScales-20*texel_per_degree)
     		.setFontSize(15, 1);
 
-    	me.aoaT = me.rootCenter.createChild("text")
+    	me.distT = me.rootCenter.createChild("text")
     		.setText("A")
     		.setColor(r,g,b, a)
     		.setAlignment("center-bottom")
@@ -883,18 +883,22 @@ var MI = {
     },
 
     showTopInfo: func {
-    	if (me.input.mach.getValue() != nil) {
-  	  		me.machT.setText(sprintf("M%.2f", me.input.mach.getValue()));
+    	# this is info about the target.
+    	
+  		if (me.tgt_dist != nil) {
+  			# distance
+  			if (me.interoperability == displays.METRIC) {
+  	  			me.distT.setText(sprintf("A%d", me.tgt_dist/1000));
+  			} else {
+  				me.distT.setText(sprintf("NM%d", me.tgt_dist*M2NM));
+  			}
   		} else {
-  			me.machT.setText("");
+  			me.distT.setText("");
   		}
-  		if (me.input.alphaJSB.getValue() != nil) {
-  	  		me.aoaT.setText(sprintf("A%d", me.input.alphaJSB.getValue()));
-  		} else {
-  			me.aoaT.setText("");
-  		}
-  		me.alt = me.input.alt_ft.getValue();
-  		if (me.alt != nil) {
+  		
+  		if (me.tgt_alt != nil) {
+  			# altitude
+  			me.alt = me.tgt_alt*M2FT;
   			me.text = "";
 			if (me.interoperability == displays.METRIC) {
 				if(me.alt*FT2M < 1000) {
@@ -903,15 +907,23 @@ var MI = {
 					me.text = sprintf("H%.1f", me.alt*FT2M/1000);
 				}
 			} else {
-				if(me.alt < 1000) {
-					me.text = "H"~roundabout(me.alt/10)*10;
-				} else {
-					me.text = sprintf("H%.1f", me.alt/1000);
-				}
+				me.text = sprintf("FT%d", me.alt);
 			}
   	  		me.altT.setText(me.text);
+
+  	  		if (radar_logic.selection != nil) {
+	    		# speed
+	    		me.tgt_speed_kt = radar_logic.selection.get_Speed();
+	    		me.rs = armament.AIM.rho_sndspeed(me.alt);
+				me.sound_fps = me.rs[1];
+	    		me.speed_m = (me.tgt_speed_kt*KT2FPS) / me.sound_fps;
+	  	  		me.machT.setText(sprintf("M%.2f", me.speed_m));
+	  		} else {
+	  			me.machT.setText("");
+	  		}
   		} else {
   			me.altT.setText("");
+  			me.machT.setText("");
   		}
     },
 
