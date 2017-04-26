@@ -67,10 +67,10 @@ var maps_base = getprop("/sim/fg-home") ~ '/cache/mapsTI';
 # dark_only_labels
 
 var makeUrl =
-  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png');#http://otile2.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg'
+  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png');#http://otile2.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg'
 var makePath =
-  string.compileTemplate(maps_base ~ '/carto/{z}/{x}/{y}.png');#/osm-{type}/{z}/{x}/{y}.jpg
-var num_tiles = [3, 3];#figure this out
+  string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');#/osm-{type}/{z}/{x}/{y}.jpg
+var num_tiles = [4, 4];
 
 var center_tile_offset = [(num_tiles[0] - 1) / 2,(num_tiles[1] - 1) / 2];#(width/tile_size)/2,(height/tile_size)/2];
 #  (num_tiles[0] - 1) / 2,
@@ -524,7 +524,8 @@ var TI = {
 		for(var x = 0; x < num_tiles[0]; x += 1) {
 		  	tiles[x] = setsize([], num_tiles[1]);
 		  	for(var y = 0; y < num_tiles[1]; y += 1)
-		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile");
+		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile")
+		    	.set("fill", "rgb(128,128,128)");
 		}
 	},
 
