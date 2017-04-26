@@ -1160,6 +1160,16 @@
             </binding>
         </key>
 
+        <key n="17">
+            <name>CTRL-Q</name>
+            <desc>View head-down-displays</desc>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.HDDView();</script>
+            </binding>
+        </key>
+
         <key n="356">
             <name>Ctrl Left</name>
             <repeatable type="bool">false</repeatable>

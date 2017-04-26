@@ -142,6 +142,10 @@
         <desc>Reset view</desc>
     </key>
     <key>
+        <name>CTRL-q</name>
+        <desc>View displays</desc>
+    </key>
+    <key>
         <name>CTRL Left/Right</name>
         <desc>Yaw trim or A/P heading/roll adjust</desc>
     </key>
