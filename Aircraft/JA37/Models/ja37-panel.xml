@@ -563,5 +563,16 @@
         <z-m> 0.216</z-m>
       </offsets>
   </model>
+
+  <animation>
+      <object-name>radarCompassHeading</object-name>
+      <type>select</type>
+      <condition>
+       <greater-than>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </greater-than>
+      </condition>
+    </animation>
   
 </PropertyList>

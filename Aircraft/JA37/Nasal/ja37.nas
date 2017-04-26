@@ -514,7 +514,7 @@ var slow_loop = func () {
     TILSprev = FALSE;
   }
 
-  if (getprop("sim/replay/disable") == FALSE and input.acInstrVolt.getValue() > 100) {
+  if (getprop("sim/replay/replay-state") == 0 and input.acInstrVolt.getValue() > 100) {
     setprop("ja37/avionics/record-on", TRUE);
   } else {
     setprop("ja37/avionics/record-on", FALSE);

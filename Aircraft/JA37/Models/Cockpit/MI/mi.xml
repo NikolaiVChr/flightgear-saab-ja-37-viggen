@@ -204,7 +204,7 @@
         <type>pick</type>
         <object-name>button_reg</object-name>
         <visible>true</visible>
-        <action>
+        <!--<action>
             <name>record on/off</name>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -212,12 +212,12 @@
                 <command>property-toggle</command>
                 <property>sim/replay/disable</property>
             </binding>
-        </action>
+        </action>-->
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Reg</tooltip-id>
-                <label>Record Flight Tape</label>
+                <label>Recording Flight Tape</label>
             </binding>
         </hovered>
     </animation>  	
