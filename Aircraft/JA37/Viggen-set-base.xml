@@ -587,6 +587,7 @@
             <altimeters-calibrated type="bool">0</altimeters-calibrated>
             <primaryData type="bool">false</primaryData>
             <TN type="bool">false</TN>
+            <record-on type="bool">false</record-on>
             <vid type="bool">false</vid>
             <ignitionSys type="bool">false</ignitionSys>
             <startSys type="bool">false</startSys>
