@@ -6,25 +6,39 @@
 # nez indicator
 # full OOP
 # use Pinto's model
-var (width,height) = (341,512);
+var (width,height) = (512,512);#341
 
-var window = canvas.Window.new([width, height],"dialog")
-                   .set('title', "MI display");
 var gone = 0;
-window.del = func() {
-  print("Cleaning up window:","MI","\n");
+
+#var window = canvas.Window.new([width, height],"dialog")
+#                   .set('title', "MI display");
+#window.del = func() {
+#  print("Cleaning up window:","MI","\n");
   #update_timer.stop();
-  gone = TRUE;
+#  gone = TRUE;
 # explanation for the call() technique at: http://wiki.flightgear.org/Object_oriented_programming_in_Nasal#Making_safer_base-class_calls
-  call(canvas.Window.del, [], me);
-};
-var root = window.getCanvas(1).createGroup();
+#  call(canvas.Window.del, [], me);
+#};
+#var root = window.getCanvas(1).createGroup();
+#window.getCanvas(1).setColorBackground(0, 0, 0, 1.0);
+#window.getCanvas(1).addPlacement({"node": "screen", "texture": "mi_base.png"});
+
+var canvas = canvas.new({
+  "name": "MI",   # The name is optional but allow for easier identification
+  "size": [width, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
+  "view": [width, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
+                        # which will be stretched the size of the texture, required)
+  "mipmapping": 0       # Enable mipmapping (optional)
+});
+var root = canvas.createGroup();
+canvas.setColorBackground(0, 0, 0, 1.0);
+canvas.addPlacement({"node": "screen", "texture": "mi_base.png"});
+
 root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
-window.getCanvas(1).setColorBackground(0, 0, 0, 1.0);
 
-var (center_x, center_y) = (width/2,height/2);
+var (center_x, center_y) = (396.6625/2,height/2);
 
-var texel_per_degree = width/(85*2);
+var texel_per_degree = 396.6625/(85*2);
 
 var halfHeightOfSideScales   = 75 * texel_per_degree;
 var sidePositionOfSideScales = 70 * texel_per_degree;
@@ -54,6 +68,22 @@ var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
 var FALSE = 0;
 var TRUE = 1;
+
+var helpOn = FALSE;
+
+var pressP3 = func {
+	helpOn = TRUE;
+};
+
+var releaseP3 = func {
+	helpOn = FALSE;
+};
+
+var brightness = func {
+	bright += 1;
+};
+
+var bright = 0;
 
 var MI = {
 
@@ -99,6 +129,7 @@ var MI = {
 	        ctrlRadar:        "controls/altimeter-radar",
 	        alphaJSB:         "fdm/jsbsim/aero/alpha-deg",
 	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
+	        acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
       	};
    
       	foreach(var name; keys(mi.input)) {
@@ -107,15 +138,18 @@ var MI = {
 
       	mi.setupCanvasSymbols();
 
-      	mi.modeHelp = TRUE;
       	mi.tgt_dist_last = nil;
+      	mi.brightness = 1;
 
       	return mi;
 	},
 
 	setupCanvasSymbols: func {
 
-		me.fpi = root.createChild("path")
+		me.rootCenter = root.createChild("group");
+		me.rootCenter.setTranslation(center_x,center_y);
+
+		me.fpi = me.rootCenter.createChild("path")
 		      .moveTo(texel_per_degree*fpi_max, -w*2)
 		      .lineTo(texel_per_degree*fpi_min, -w*2)
 		      .moveTo(texel_per_degree*fpi_max,  w*2)
@@ -139,8 +173,7 @@ var MI = {
 		      .setStrokeLineWidth(w)
 		      .setColor(r,g,b, a);
 
-		me.rootCenter = root.createChild("group");
-		me.rootCenter.setTranslation(width/2,height/2);
+		
 		me.horizon_group = me.rootCenter.createChild("group");
 		me.horz_rot = me.horizon_group.createTransform();
 		me.horizon_group2 = me.horizon_group.createChild("group");
@@ -200,8 +233,33 @@ var MI = {
 				.setStrokeLineWidth(w)
 		        .setColor(r,g,b, a);
 
+		me.cursor = me.rootCenter.createChild("path")
+				.moveTo(-ticksShort*4,0)
+				.horiz(ticksShort*8)
+				.moveTo(0,-ticksShort*4)
+				.vert(ticksShort*8)
+				.setStrokeLineWidth(w)
+				.setTranslation(0,halfHeightOfSideScales)
+		        .setColor(r,g,b, a);
+
+		me.cursor_lock = me.rootCenter.createChild("path")
+				.moveTo(-ticksShort, 0)
+	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
+	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
+	            .moveTo(-ticksShort, 0)
+	            .horiz(-ticksShort*3)
+	            .moveTo(ticksShort, 0)
+	            .horiz(ticksShort*3)
+	            .moveTo(0, ticksShort)
+	            .vert(ticksShort*3)
+	            .moveTo(0,-ticksShort)
+	            .vert(-ticksShort*3)
+				.setStrokeLineWidth(w)
+				.hide()
+		        .setColor(r,g,b, a);
+
 		# ground
-		me.ground_grp = root.createChild("group");
+		me.ground_grp = me.rootCenter.createChild("group");
 		me.ground2_grp = me.ground_grp.createChild("group");
 		me.ground_grp_trans = me.ground2_grp.createTransform();
 		me.groundCurve = me.ground2_grp.createChild("path")
@@ -377,48 +435,11 @@ var MI = {
 		me.radar_group = me.rootCenter.createChild("group");
 
 		      #diamond
-	    me.diamond_group = me.radar_group.createChild("group");
-	    
-	    me.diamond_group.createTransform();
-	    me.diamond = me.diamond_group.createChild("path")
-	                           .moveTo(-texel_per_degree*10,   0)
-	                           .lineTo(  0, -texel_per_degree*10)
-	                           .lineTo( texel_per_degree*10,   0)
-	                           .lineTo(  0,  texel_per_degree*10)
-	                           .lineTo(-texel_per_degree*10,   0)
-	                           .setStrokeLineWidth(w)
-	                           .setColor(r,g,b, a);
-	    me.target_air = me.diamond_group.createChild("path")
-	                           .moveTo(-texel_per_degree*7,   0)
-	                           .lineTo(-texel_per_degree*7, -texel_per_degree*7)
-	                           .lineTo( texel_per_degree*7, -texel_per_degree*7)
-	                           .lineTo( texel_per_degree*7,   0)
-	                           .setStrokeLineWidth(w)
-	                           .setColor(r,g,b, a);
-	    me.target_ground = me.diamond_group.createChild("path")
-	                           .moveTo(-texel_per_degree*7,   0)
-	                           .lineTo(-texel_per_degree*7, texel_per_degree*7)
-	                           .lineTo( texel_per_degree*7, texel_per_degree*7)
-	                           .lineTo( texel_per_degree*7,   0)
-	                           .setStrokeLineWidth(w)
-	                           .setColor(r,g,b, a);
-	    me.target_sea = me.diamond_group.createChild("path")
-	                           .moveTo(-texel_per_degree*7,   0)
-	                           .lineTo(0, texel_per_degree*7)
-	                           .lineTo( texel_per_degree*7,   0)
-	                           .setStrokeLineWidth(w)
-	                           .setColor(r,g,b, a); 
-#	    me.diamond_dist = me.diamond_group.createChild("text")
-#	    	.setText("..")
-#	     	.setColor(r,g,b, a)
-#	     	.setAlignment("left-top")
-#	     	.setTranslation(texel_per_degree*5, texel_per_degree*4)
-#	     	.setFontSize(10, 1);
 	    me.diamond_name = me.rootCenter.createChild("text")
 		    .setText("..")
 		    .setColor(r,g,b, a)
 		    .setAlignment("center-bottom")
-		    .setTranslation(0, texel_per_degree*25+halfHeightOfSideScales)
+		    .setTranslation(0, texel_per_degree*20+halfHeightOfSideScales)
 		    .setFontSize(15, 1);
 
 
@@ -431,24 +452,18 @@ var MI = {
 	                                  .setStrokeLineWidth(w)
 	                                  .setColor(r,g,b, a);
 
-
-		# halfcircle targets
-	    me.target_circle  = [];
-	    me.target_missile = [];
-	    me.target_group = me.radar_group.createChild("group");
+	    me.echoes  = [];
+	    me.echo_group = me.radar_group.createChild("group");
 	    for(var i = 0; i < maxTracks; i += 1) {      
-	      me.target_circles = me.target_group.createChild("path")
-	                           .moveTo(-texel_per_degree*6, 0)
-	                           .arcLargeCW(texel_per_degree*6, texel_per_degree*6, 0,  texel_per_degree*12, 0)
+	      me.target_echoes = me.radar_group.createChild("path")
+	                           .moveTo(-texel_per_degree*1, 0)
+	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0,  texel_per_degree*2, 0)
+	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0, -texel_per_degree*2, 0)
+	                           .close()
+         					   .setColorFill(r,g,b, a)
 	                           .setStrokeLineWidth(w)
 	                           .setColor(r,g,b, a);
-	      me.target_m = me.target_group.createChild("path")
-	                           .moveTo(-texel_per_degree*4, 0)
-	                           .arcLargeCW(texel_per_degree*4, texel_per_degree*4, 0,  texel_per_degree*8, 0)
-	                           .setStrokeLineWidth(w)
-	                           .setColor(r,g,b, a);
-	      append(me.target_circle, me.target_circles);
-	      append(me.target_missile, me.target_m);
+	      append(me.echoes, me.target_echoes);
 	    }
 
 	    # tgt scale (left side)
@@ -469,7 +484,7 @@ var MI = {
 		      	 .setText(i*10)
 		         .setFontSize((15/512)*width, 1.0)
 		         .setAlignment("right-bottom")
-		         .setTranslation(i!=3?-ticksMed-sidePositionOfSideScales:-sidePositionOfSideScales+ticksMed, -i * halfHeightOfSideScales / 1.5 + halfHeightOfSideScales-w)
+		         .setTranslation(i!=3?-ticksShort-sidePositionOfSideScales:-sidePositionOfSideScales+ticksLong, -i * halfHeightOfSideScales / 1.5 + halfHeightOfSideScales-w)
 		         .setColor(r,g,b, a));
 		}
 		me.dist_cursor = me.rootCenter.createChild("path")
@@ -498,7 +513,7 @@ var MI = {
     		.setText("M")
     		.setColor(r,g,b, a)
     		.setAlignment("left-bottom")
-    		.setTranslation(-sidePositionOfSideScales, -halfHeightOfSideScales-27*texel_per_degree)
+    		.setTranslation(-60*texel_per_degree, -halfHeightOfSideScales-27*texel_per_degree)
     		.setFontSize(15, 1);
 
     	me.distT = me.rootCenter.createChild("text")
@@ -519,28 +534,52 @@ var MI = {
     		.setText("H")
     		.setColor(r,g,b, a)
     		.setAlignment("right-bottom")
-    		.setTranslation(sidePositionOfSideScales, -halfHeightOfSideScales-27*texel_per_degree)
+    		.setTranslation(60*texel_per_degree, -halfHeightOfSideScales-27*texel_per_degree)
     		.setFontSize(15, 1);
 
     	me.rowBottom1 = me.rootCenter.createChild("text")
     		.setText(" D   -   -  SVY  -   -  BIT LNK")
     		.setColor(r,g,b, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(0, height/2-25)
+    		.setTranslation(0, height/2-20)
     		.setFontSize(15, 1);
 
     	me.rowBottom2 = me.rootCenter.createChild("text")
     		.setText(" -   -   -  VMI  -  TNF HÄN  - ")
     		.setColor(r,g,b, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(0, height/2-10)
+    		.setTranslation(0, height/2-5)
     		.setFontSize(15, 1);
 	},
 
+	########################################################################################################
+	########################################################################################################
+	#
+	#  main loop
+	#
+	#
+	########################################################################################################
+	########################################################################################################
 	loop: func {
 		if ( gone == TRUE) {
 			return;
 		}
+		if (bright > 0) {
+			bright -= 1;
+			me.brightness -= 0.25;
+			if (me.brightness < 0) {
+				me.brightness = 1;
+			}
+		}
+		
+		if (me.brightness == 0 or me.input.acInstrVolt.getValue() < 100) {
+			setprop("ja37/avionics/brightness-mi", 0);
+			settimer(func me.loop(), 0.05);
+			return;
+		} else {
+			setprop("ja37/avionics/brightness-mi", mi.brightness);
+		}
+
 		me.interoperability = me.input.units.getValue();
 		
 
@@ -550,8 +589,8 @@ var MI = {
 			me.fpi_x_deg = 0;
 			me.fpi_y_deg = 0;
 		}
-		me.fpi_x = center_x+me.fpi_x_deg*texel_per_degree;
-		me.fpi_y = center_y+me.fpi_y_deg*texel_per_degree;
+		me.fpi_x = me.fpi_x_deg*texel_per_degree;
+		me.fpi_y = me.fpi_y_deg*texel_per_degree;
 		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
 
 		me.rot = -getprop("orientation/roll-deg") * D2R;
@@ -677,9 +716,9 @@ var MI = {
 		}
 	},
 
-  	displayRadarTracks: func () {
+	displayRadarTracks: func () {
 
-	  	var mode = canvas_HUD.mode;
+		var mode = canvas_HUD.mode;
 
 	    me.track_index = 1;
 	    me.selection_updated = FALSE;
@@ -693,6 +732,7 @@ var MI = {
 	      me.selection = radar_logic.selection;
 
 	      if (me.selection != nil and me.selection.parents[0] == radar_logic.ContactGPS) {
+	      	# this is not part of track vector, so we process it seperately
 	        me.displayRadarTrack(me.selection);
 	      }
 
@@ -703,34 +743,18 @@ var MI = {
 	      if(me.track_index != -1) {
 	        #hide the the rest unused circles
 	        for(var i = me.track_index; i < maxTracks ; i+=1) {
-	          me.target_circle[i].hide();
-	          me.target_missile[i].hide();
+	          me.echoes[i].hide();
 	        }
 	      }
 	      if(me.selection_updated == FALSE) {
-	        me.target_circle[0].hide();
-	        me.target_missile[0].hide();
+	        me.echoes[0].hide();
+	        me.cursor.show();
 	      }
 	      
-	      #me.target_group.update();
-	      
-
 	      # draw selection
 	      if(me.selection != nil and me.selection.isValid() == TRUE and me.selection_updated == TRUE) {
 	        # selection is currently in forward looking radar view
-	        me.blink = FALSE;
 
-	        me.pos_x = me.selection.get_polar()[2]*R2D;
-	        me.pos_y = -me.selection.get_polar()[3]*R2D;
-	        me.distPolar = me.selection.get_polar()[0];
-
-	        if(me.selection.get_type() != radar_logic.ORDNANCE and mode == canvas_HUD.COMBAT) {
-	          #targetable
-	          #diamond_node = selection[6];
-	          #armament.contact = me.selection;
-	          me.diamond_group.setTranslation(me.pos_x*texel_per_degree, me.pos_y*texel_per_degree);
-	          me.diamond_dista = me.input.units.getValue() ==1  ? me.selection.get_range()*NM2M : me.selection.get_range()*1000;
-	          
 	          me.tgt_dist = me.selection.get_range()*NM2M;
 	          me.tgt_alt  = me.selection.get_altitude()*FT2M;
 	          if (me.input.callsign.getValue() == TRUE) {
@@ -738,149 +762,67 @@ var MI = {
 	          } else {
 	            me.tgt_callsign = me.selection.get_model();
 	          }
-	#          if (me.pos_x > 10) {
-	#            me.diamond_dist.setAlignment("right-top");
-	#            me.diamond_dist.setTranslation(-7*texel_per_degree, 5*texel_per_degree);
-	#            me.diamond_name.setAlignment("right-bottom");
-	#            me.diamond_name.setTranslation(-7*texel_per_degree, -5*texel_per_degree);
-	#          } elsif (me.pos_x < -10) {
-	#            me.diamond_dist.setAlignment("left-top");
-	#            me.diamond_dist.setTranslation(7*texel_per_degree, 5*texel_per_degree);
-	#            me.diamond_name.setAlignment("left-bottom");
-	#            me.diamond_name.setTranslation(7*texel_per_degree, -5*texel_per_degree);
-	#          }
-	          me.target_circle[me.selection_index].hide();
-	          me.target_missile[me.selection_index].hide();
-
-
-	          me.armSelect = me.input.station.getValue();
-	          me.displayDiamond = 0;
-	          #print();
-	          me.roll = me.input.roll.getValue();
-	          if(armament.AIM.active[me.armSelect-1] != nil and armament.AIM.active[me.armSelect-1].status == armament.MISSILE_LOCK
-	             and (armament.AIM.active[me.armSelect-1].rail == TRUE or (me.roll > -90 and me.roll < 90))) {
-	            # lock and not inverted if the missiles is to be dropped
-	            me.weak = armament.AIM.active[me.armSelect-1].trackWeak;
-	            if (me.weak == TRUE) {
-	              me.displayDiamond = 1;
-	            } else {
-	              me.displayDiamond = 2;
-	            }
-	          }		  
-			  
-	          if (me.displayDiamond > 0) {
-	            me.target_air.hide();
-	            me.target_ground.hide();
-	            me.target_sea.hide();
-
-	            if (me.diamond == 1 or me.input.tenHz.getValue() == TRUE) {
-	                me.diamond.show();
-	            } else {
-	                me.diamond.hide();
-	            }
-	          } else {
-	            if (me.selection.get_type() == radar_logic.SURFACE) {
-	              me.target_ground.show();
-	              me.target_air.hide();
-	              me.target_sea.hide();
-	            } elsif (me.selection.get_type() == radar_logic.MARINE) {
-	              me.target_ground.hide();
-	              me.target_sea.show();
-	              me.target_air.hide();
-	            } else {
-	              me.target_air.show();
-	              me.target_ground.hide();
-	              me.target_sea.hide();
-	            }
-	            me.diamond.hide();
-	          }# else {
-	          #  me.target_air.hide();
-	          #  me.target_ground.hide();
-	          #  me.target_sea.hide();
-	          #  me.diamond.hide();
-	          #}
-	          me.diamond_group.show();
-
-	        } else {
-	          #untargetable but selectable, like carriers and tankers, or planes in navigation mode
-	          #diamond_node = nil;
-	          #armament.contact = nil;
-	          me.diamond_group.setTranslation(me.pos_x*texel_per_degree, me.pos_y*texel_per_degree);
-	          me.target_circle[me.selection_index].setTranslation(me.pos_x*texel_per_degree, me.pos_y*texel_per_degree);
-	          if (me.selection.get_type() == armament.ORDNANCE) {
-	          	me.target_missile[me.selection_index].setTranslation(me.pos_x*texel_per_degree, me.pos_y*texel_per_degree);
-	          	me.target_missile[me.selection_index].show();
-	          } else {
-	          	me.target_missile[me.selection_index].hide();
-	          }
-	          me.diamond_dista = me.input.units.getValue() == TRUE  ? me.selection.get_range()*NM2M : me.selection.get_range()*1000;
-	          me.tgt_dist = me.selection.get_range()*NM2M;
-	          me.tgt_alt  = me.selection.get_altitude()*FT2M;
-
-	          if (me.input.callsign.getValue() == TRUE) {
-	            me.tgt_callsign = me.selection.get_Callsign();
-	          } else {
-	            me.tgt_callsign = me.selection.get_model();
-	          }
-	          
-	          
-	          me.target_circle[me.selection_index].show();
-	          
-	          me.diamond_group.show();
-	          me.diamond.hide();
-	          me.target_air.hide();
-	          me.target_ground.hide();
-	          me.target_sea.hide();
-	        }
-
-	        #velocity vector
-		      me.tgtHeading = me.selection.get_heading();
-		      me.tgtSpeed = me.selection.get_Speed();
-		      me.myHeading = me.input.hdgReal.getValue();
-		      me.myRoll = me.input.roll.getValue();
-		      if (me.tgtHeading == nil or me.tgtSpeed == nil) {
-		        me.vel_vec.hide();
-		      } else {
-		        me.relHeading = me.tgtHeading - me.myHeading - me.myRoll;
-		        
-		        me.relHeading -= 180;# this makes the line trail instead of lead
-		        me.relHeading = me.relHeading * D2R;
-
-		        me.vel_vec_trans_group.setTranslation(me.pos_x*texel_per_degree, me.pos_y*texel_per_degree);
-		        me.vel_vec_rot_group.setRotation(me.relHeading);
-		        me.vel_vec.setScale(1, me.tgtSpeed/10);
-		        
-		        # note since trigonometry circle is opposite direction of compas heading direction, the line will trail the target.
-		        me.vel_vec.show();
-		      }
-
-	        me.target_circle[me.selection_index].update();
-	        me.target_missile[me.selection_index].update();
-	        me.diamond_group.update();
+	          me.cursor.hide();
 	      } else {
 	        # selection is outside radar view
 	        # or invalid
 	        # or nothing selected
-	        #diamond_node = nil;
-	        #armament.contact = nil;
-	        if(me.selection != nil) {
-	          #selection[2] = nil;#no longer sure why I do this..
-	        }
-	        me.diamond_group.hide();
-	        me.vel_vec.hide();
-	        me.target_circle[0].hide();
-	        me.target_missile[0].hide();
 	        me.tgt_alt  = nil;
 	      	me.tgt_dist = nil;
+	      	me.cursor_lock.hide();
 	      }
-	      #print("");
 	    } else {
 	      # radar tracks not shown at all
 	      me.tgt_alt  = nil;
 	      me.tgt_dist = nil;
 	      me.radar_group.hide();
 	    }
-  	},
+	},
+
+	displayRadarTrack: func (hud_pos) {
+		me.pos_xx = hud_pos.get_polar()[2]*R2D;
+		me.pos_yy = -hud_pos.get_polar()[3]*R2D;
+
+		me.currentIndexT = me.track_index;
+
+		if(hud_pos == radar_logic.selection and hud_pos.get_cartesian()[0] != 900000) {
+			me.selection_updated = TRUE;
+			me.selection_index = 0;
+			me.currentIndexT = 0;
+			if (me.selection.parents[0] == radar_logic.ContactGPS) {
+				me.currentIndexT = -1;
+				me.echoes[0].hide();
+			}
+			me.lock = TRUE;
+		} else {
+			me.lock = FALSE;
+		}
+
+		if(me.currentIndexT > -1) {
+			me.echoes[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+			me.echoes[me.currentIndexT].show();
+			me.echoes[me.currentIndexT].update();
+			if (hud_pos.get_type() == radar_logic.ORDNANCE) {
+				var eta = hud_pos.getETA();
+				var hit = hud_pos.getHitChance();
+				if (eta != nil) {
+					append(me.tele, sprintf(": %d%% %ds", hit, eta))
+				}
+			}
+			if(me.currentIndexT != 0) {
+				me.track_index += 1;
+				if (me.track_index == maxTracks) {
+					me.track_index = -1;
+				}
+			}
+		}
+		if (me.lock == TRUE) {
+			me.cursor_lock.setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+			me.cursor_lock.show();
+			me.cursor_lock.update();
+			me.cursor.hide();
+		}
+	},
 
     showTgtName: func {
   	  	if (me.input.tracks_enabled.getValue() == TRUE) {
@@ -947,9 +889,9 @@ var MI = {
     },
 
     showBottomInfo: func {
-    	if (me.modeHelp == TRUE) {
+    	if (helpOn == TRUE) {
     		me.rowBottom1.show();
-    		me.rowBottom1.show();
+    		me.rowBottom2.show();
 		} else {
 			me.rowBottom1.hide();
 			me.rowBottom2.hide();
@@ -1009,44 +951,6 @@ var MI = {
 			}
 		}
   	},
-
-	displayRadarTrack: func (hud_pos) {
-		me.pos_xx = hud_pos.get_polar()[2]*R2D;
-		me.pos_yy = -hud_pos.get_polar()[3]*R2D;
-		me.showmeT = hud_pos.get_cartesian()[0]<me.input.radarRange.getValue()?TRUE:FALSE;
-
-		me.currentIndexT = me.track_index;
-
-		if(hud_pos == radar_logic.selection and hud_pos.get_cartesian()[0] != 900000) {
-			me.selection_updated = TRUE;
-			me.selection_index = 0;
-			me.currentIndexT = 0;
-		}
-
-		if(me.currentIndexT > -1 and (me.showmeT == TRUE or me.currentIndexT == 0)) {
-			me.target_circle[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-			me.target_circle[me.currentIndexT].show();
-			me.target_circle[me.currentIndexT].update();
-			if (hud_pos.get_type() != radar_logic.ORDNANCE) {
-				me.target_missile[me.currentIndexT].hide();
-			} else {
-				var eta = hud_pos.getETA();
-				var hit = hud_pos.getHitChance();
-				if (eta != nil) {
-					append(me.tele, sprintf(": %d%% %ds", hit, eta))
-				}
-				me.target_missile[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-				me.target_missile[me.currentIndexT].show();
-				me.target_missile[me.currentIndexT].update();
-			}
-			if(me.currentIndexT != 0) {
-				me.track_index += 1;
-				if (me.track_index == maxTracks) {
-					me.track_index = -1;
-				}
-			}
-		}
-	},
 
 	altScale: func {
 		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");

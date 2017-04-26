@@ -507,15 +507,24 @@
   </model>
 
   <animation>
-    <type>material</type>
-    <object-name>radarMountAltWarnIndicator</object-name>
-    <emission>
-        <red>1.0</red>
-        <green>0.0</green>
-        <blue>0.0</blue>
-        <factor-prop>/instrumentation/terrain-warning-light</factor-prop>
-    </emission>
-  </animation>
+      <object-name>radarMountAltWarnIndicator</object-name>
+      <object-name>radarMount</object-name>
+      <object-name>radarScreen</object-name>
+      <object-name>radarHeading</object-name>
+      <object-name>TWR1</object-name>
+      <object-name>TWR3</object-name>
+      <object-name>TWR5</object-name>
+      <object-name>TWR7</object-name>
+      <object-name>TWR9</object-name>
+      <object-name>TWR11</object-name>
+      <type>select</type>
+      <condition>
+       <greater-than>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </greater-than>
+      </condition>
+    </animation>
 
   <model>
     <name>pilot</name>

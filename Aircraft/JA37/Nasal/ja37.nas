@@ -508,8 +508,16 @@ var slow_loop = func () {
       }
     }
     TILSprev = TRUE;
+    setprop("ja37/hud/TILS-on", TRUE);
   } else {
+    setprop("ja37/hud/TILS-on", FALSE);
     TILSprev = FALSE;
+  }
+
+  if (getprop("sim/replay/disable") == FALSE and input.acInstrVolt.getValue() > 100) {
+    setprop("ja37/avionics/record-on", TRUE);
+  } else {
+    setprop("ja37/avionics/record-on", FALSE);
   }
 
   ###########################################################

@@ -2,6 +2,27 @@
 <PropertyList>
 
   <model>
+    <name>MI</name>
+    <path>Aircraft/JA37/Models/Cockpit/MI/mi.xml</path>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.000</y-m>
+      <z-m> 0.0475</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+      <object-name>MI</object-name>
+      <type>select</type>
+      <condition>
+       <equals>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </equals>
+      </condition>
+    </animation>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
     <name>G Meter</name>
     <offsets>
@@ -297,13 +318,24 @@
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Radar/range-selector.xml</path>
-    <name>Radar range</name>
+    <name>RadarRange</name>
     <offsets>
       <x-m>  0.035</x-m>
       <y-m>  0</y-m>
       <z-m>  0.030</z-m>
     </offsets>
   </model>
+
+  <animation>
+      <object-name>RadarRange</object-name>
+      <type>select</type>
+      <condition>
+       <greater-than>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </greater-than>
+      </condition>
+    </animation>
 
 
 <!--     left side    -->
@@ -380,7 +412,7 @@
     <offsets>
       <x-m>  0.00</x-m>
       <y-m> -0.17</y-m>
-      <z-m>  0.075</z-m>
+      <z-m>  0.08</z-m>
     </offsets>
   </model>
 

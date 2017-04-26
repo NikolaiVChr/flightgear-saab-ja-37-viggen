@@ -47,10 +47,19 @@ zoom_curr = 2;
 
 var M2TEX = 1/meterPerPixel[zoom];
 
-var changeZoom = func() {
+var zoomIn = func() {
   zoom_curr += 1;
   if (zoom_curr > 4) {
   	zoom_curr = 0;
+  }
+  zoom = zooms[zoom_curr];
+  M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
+}
+
+var zoomOut = func() {
+  zoom_curr -= 1;
+  if (zoom_curr < 0) {
+  	zoom_curr = 4;
   }
   zoom = zooms[zoom_curr];
   M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
@@ -173,6 +182,7 @@ var TI = {
 	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
 	        ctrlRadar:        "controls/altimeter-radar",
+	        acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -317,6 +327,7 @@ var TI = {
 		me.interoperability = me.input.units.getValue();
 
 		me.updateMap();
+		M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 		me.showSelfVector();
 		me.displayRadarTracks();
 		me.showRunway();
