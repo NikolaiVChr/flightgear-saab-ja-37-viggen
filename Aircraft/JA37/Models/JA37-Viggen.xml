@@ -511,6 +511,7 @@
       <object-name>radarMount</object-name>
       <object-name>radarScreen</object-name>
       <object-name>radarHeading</object-name>
+      <object-name>glassRadar</object-name>
       <object-name>TWR1</object-name>
       <object-name>TWR3</object-name>
       <object-name>TWR5</object-name>
@@ -629,7 +630,6 @@
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
-    <object-name>glassRadar</object-name>
     <object-name>hudBottomPlateGlass</object-name>
   </effect>
 
