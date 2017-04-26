@@ -4,13 +4,20 @@
 # heading bug?
 # steerpoint symbols: #
 # nez indicator
-# rb99 link
 # full OOP
 # use Pinto's model
 var (width,height) = (341,512);
 
 var window = canvas.Window.new([width, height],"dialog")
                    .set('title', "MI display");
+var gone = 0;
+window.del = func() {
+  print("Cleaning up window:","MI","\n");
+  #update_timer.stop();
+  gone = TRUE;
+# explanation for the call() technique at: http://wiki.flightgear.org/Object_oriented_programming_in_Nasal#Making_safer_base-class_calls
+  call(canvas.Window.del, [], me);
+};
 var root = window.getCanvas(1).createGroup();
 root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
 window.getCanvas(1).setColorBackground(0, 0, 0, 1.0);
@@ -507,6 +514,9 @@ var MI = {
 	},
 
 	loop: func {
+		if ( gone == TRUE) {
+			return;
+		}
 		me.interoperability = me.input.units.getValue();
 
 		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
@@ -535,7 +545,6 @@ var MI = {
 		me.showArm();
 		me.radarIndex();
 		me.showTopInfo();
-
 		settimer(func me.loop(), 0.05);
 	},
 

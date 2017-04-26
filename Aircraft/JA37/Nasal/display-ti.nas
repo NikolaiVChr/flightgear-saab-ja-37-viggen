@@ -16,6 +16,14 @@ var (width,height) = (341,512);
 var window = canvas.Window.new([width, height],"dialog")
 					.set('x', width*2.75)
                    .set('title', "TI display");
+var gone = 0;
+window.del = func() {
+  print("Cleaning up window:","TI","\n");
+  #update_timer.stop();
+  gone = TRUE;
+# explanation for the call() technique at: http://wiki.flightgear.org/Object_oriented_programming_in_Nasal#Making_safer_base-class_calls
+  call(canvas.Window.del, [], me);
+};
 var root = window.getCanvas(1).createGroup();
 root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
 window.getCanvas(1).setColorBackground(0, 0, 0, 1.0);
@@ -303,6 +311,9 @@ var TI = {
 	},
 
 	loop: func {
+		if ( gone == TRUE) {
+			return;
+		}
 		me.interoperability = me.input.units.getValue();
 
 		me.updateMap();
