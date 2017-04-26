@@ -903,9 +903,9 @@ var MI = {
   			}
   			if (me.tgt_dist_last != nil) {
   				if (me.interoperability == displays.METRIC) {
-	  	  			me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"ÖKA":"AVTA"));
+	  	  			me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"ÖKA":me.tgt_dist!=me.tgt_dist_last?"AVTA":""));
 	  			} else {
-	  				me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"INC":"DEC"));
+	  				me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"INC":me.tgt_dist!=me.tgt_dist_last?"DEC":""));
 	  			}
   			}
   			me.tgt_dist_last = me.tgt_dist;
