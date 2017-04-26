@@ -785,6 +785,9 @@ var MI = {
 	        me.tgt_alt  = nil;
 	      	me.tgt_dist = nil;
 	      	me.cursor_lock.hide();
+	      	if (cursorOn == FALSE) {
+	      		me.cursor.hide();
+	      	}
 	      }
 	    } else {
 	      # radar tracks not shown at all
