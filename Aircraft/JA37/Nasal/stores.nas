@@ -1844,6 +1844,7 @@ var main_weapons = func {
 }
 
 var selectNextWaypoint = func () {
+  if (getprop("ja37/avionics/cursor-on") != FALSE) {
   var active_wp = getprop("autopilot/route-manager/current-wp");
 
   if (active_wp == nil or active_wp < 0) {
@@ -1880,6 +1881,7 @@ var selectNextWaypoint = func () {
   var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
 
   radar_logic.selection = contact;
+}
 }
 
 setprop("/sim/failure-manager/display-on-screen", FALSE);

@@ -234,7 +234,7 @@ var RadarLogic = {
 
           append(tracks, me.trackInfo);
 
-          if(selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
+          if(1==0 and selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
             #this is first tracks in radar field, so will be default selection
             selection = me.trackInfo;
             lookatSelection();
@@ -678,6 +678,7 @@ var RadarLogic = {
 };
 
 var nextTarget = func () {
+  if (getprop("ja37/avionics/cursor-on") != FALSE){
   var max_index = size(tracks)-1;
   if(max_index > -1) {
     if(tracks_index < max_index) {
@@ -698,9 +699,11 @@ var nextTarget = func () {
       radarLogic.paint(selection.getNode(), FALSE);
     }
   }
+}
 };
 
 var centerTarget = func () {
+  if (getprop("ja37/avionics/cursor-on") != FALSE) {
   var centerMost = nil;
   var centerDist = 99999;
   var centerIndex = -1;
@@ -726,6 +729,7 @@ var centerTarget = func () {
     lookatSelection();
     tracks_index = centerIndex;
   }
+}
 };
 
 var lookatSelection = func () {
