@@ -26,7 +26,7 @@ var (center_x, center_y) = (width/2,height/2);
 
 var texel_per_degree = width/(85*2);
 
-var halfHeightOfSideScales   = 85 * texel_per_degree;
+var halfHeightOfSideScales   = 75 * texel_per_degree;
 var sidePositionOfSideScales = 70 * texel_per_degree;
 var ticksLong                = 10 * texel_per_degree;
 var ticksMed                 =  5 * texel_per_degree;
@@ -107,6 +107,8 @@ var MI = {
 
       	mi.setupCanvasSymbols();
 
+      	mi.modeHelp = TRUE;
+
       	return mi;
 	},
 
@@ -152,7 +154,7 @@ var MI = {
 				.setText("")
 				.setFontSize((25/512)*width, 1.0)
 		        .setAlignment("center-bottom")
-		        .setTranslation(-texel_per_degree*45, -w*4)
+		        .setTranslation(-sidePositionOfSideScales*2/3, -w*4)
 		        .setColor(r,g,b, a);
 
 		for(var i = 0; i <= 20; i += 1) # alt scale (right side)
@@ -351,7 +353,7 @@ var MI = {
 		               .moveTo(-sidePositionOfAltLines-w*2.5, 0)
 		               .lineTo(-sidePositionOfAltLines-w*2.5, halfHeightOfSideScales*0.5)
 		               .moveTo(sidePositionOfAltLines, 0)
-		               .lineTo(sidePositionOfAltLines, 85*texel_per_degree*0.5)
+		               .lineTo(sidePositionOfAltLines, halfHeightOfSideScales*0.5)
 		               .moveTo(sidePositionOfAltLines+w*2.5, 0)
 		               .lineTo(sidePositionOfAltLines+w*2.5, halfHeightOfSideScales*0.5)
 		               .moveTo(sidePositionOfAltLines-w*2.5, 0)
@@ -481,7 +483,7 @@ var MI = {
     		.setText("QFE")
     		.setColor(r,g,b, a)
     		.setAlignment("left-top")
-    		.setTranslation(-5*texel_per_degree-sidePositionOfSideScales, halfHeightOfSideScales+5*texel_per_degree)
+    		.setTranslation(5*texel_per_degree-sidePositionOfSideScales, halfHeightOfSideScales+5*texel_per_degree)
     		.setFontSize(15, 1);
 
     	me.arm = me.rootCenter.createChild("text")
@@ -510,6 +512,20 @@ var MI = {
     		.setColor(r,g,b, a)
     		.setAlignment("right-bottom")
     		.setTranslation(sidePositionOfSideScales, -halfHeightOfSideScales-20*texel_per_degree)
+    		.setFontSize(15, 1);
+
+    	me.rowBottom1 = me.rootCenter.createChild("text")
+    		.setText(" D   -   -  SVY  -   -  BIT LNK")
+    		.setColor(r,g,b, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(0, height/2-25)
+    		.setFontSize(15, 1);
+
+    	me.rowBottom2 = me.rootCenter.createChild("text")
+    		.setText(" -   -   -  VMI  -  TNF HÄN  - ")
+    		.setColor(r,g,b, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(0, height/2-10)
     		.setFontSize(15, 1);
 	},
 
@@ -545,6 +561,7 @@ var MI = {
 		me.showArm();
 		me.radarIndex();
 		me.showTopInfo();
+		me.showBottomInfo();
 		settimer(func me.loop(), 0.05);
 	},
 
@@ -561,7 +578,7 @@ var MI = {
 		me.time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
 		if (me.time != nil and me.time >= 0 and me.time < 40) {
 			me.time = clamp(me.time - 10,0,30);
-			me.dist = me.time/30 * 90 * texel_per_degree;
+			me.dist = me.time/30 * halfHeightOfSideScales;
 			me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
 			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
@@ -898,6 +915,16 @@ var MI = {
   		}
     },
 
+    showBottomInfo: func {
+    	if (me.modeHelp == TRUE) {
+    		me.rowBottom1.show();
+    		me.rowBottom1.show();
+		} else {
+			me.rowBottom1.hide();
+			me.rowBottom2.hide();
+		}
+    },
+
   	targetScale: func {
 	  	if (me.tgt_dist != nil and me.tgt_dist < me.input.radarRange.getValue()) {
 	  		me.dist_cursor.setTranslation(-sidePositionOfSideScales, -(me.tgt_dist / me.input.radarRange.getValue()) * 2 * halfHeightOfSideScales + halfHeightOfSideScales);
@@ -1091,7 +1118,7 @@ var MI = {
 	radarIndex: func {
 		me.radAlt = me.input.ctrlRadar.getValue() == TRUE?me.input.rad_alt.getValue() * FT2M : nil;
 		if (me.radAlt != nil and me.radAlt < 600) {
-			me.radar_index.setTranslation(0, extrapolate(me.radAlt, 0, 600, 0, 100*texel_per_degree));
+			me.radar_index.setTranslation(0, extrapolate(me.radAlt, 0, 600, 0, halfHeightOfSideScales));
 			me.radar_index.show();
 		} else {
 			me.radar_index.hide();
