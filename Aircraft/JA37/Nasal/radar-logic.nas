@@ -234,7 +234,7 @@ var RadarLogic = {
 
           append(tracks, me.trackInfo);
 
-          if(selection == nil) {
+          if(selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
             #this is first tracks in radar field, so will be default selection
             selection = me.trackInfo;
             lookatSelection();

@@ -64,7 +64,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>a</tooltip-id>
-                <label>TI: Zoom in</label>
+                <label>TI: Zoom out</label>
             </binding>
         </hovered>
     </animation>
@@ -86,10 +86,56 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>b</tooltip-id>
-                <label>TI: Zoom out</label>
+                <label>TI: Zoom in</label>
             </binding>
         </hovered>
     </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_pi</object-name>
+        <visible>true</visible>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>jl</tooltip-id>
+                <label>Fighter link</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_pek</object-name>
+        <visible>true</visible>
+        <action>
+            <name>cursor</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>MI.cursor();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>pek</tooltip-id>
+                <label>MI/TI: Cursor</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+	    <type>material</type>
+	    <object-name>button_pek</object-name>
+	    <emission>
+	        <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
+   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+	        <factor-prop>/ja37/avionics/cursor-on</factor-prop>
+	    </emission>
+  	</animation>
 
     <animation>
         <type>pick</type>
@@ -115,6 +161,19 @@
                 <command>set-tooltip</command>
                 <tooltip-id>p3</tooltip-id>
                 <label>MI help</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>indicator_tls</object-name>
+        <visible>true</visible>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>tls</tooltip-id>
+                <label>TILS</label>
             </binding>
         </hovered>
     </animation>

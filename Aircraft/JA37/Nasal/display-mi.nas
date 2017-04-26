@@ -85,6 +85,12 @@ var brightness = func {
 
 var bright = 0;
 
+var cursor = func {
+	cursorOn = !cursorOn;
+}
+
+var cursorOn = TRUE;
+
 var MI = {
 
 	new: func {
@@ -572,12 +578,19 @@ var MI = {
 			}
 		}
 		
+		
+		if (cursorOn == FALSE) {
+			radar_logic.selection = nil;
+		}
+
 		if (me.brightness == 0 or me.input.acInstrVolt.getValue() < 100) {
 			setprop("ja37/avionics/brightness-mi", 0);
+			setprop("ja37/avionics/cursor-on", FALSE);
 			settimer(func me.loop(), 0.05);
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-mi", mi.brightness);
+			setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 
 		me.interoperability = me.input.units.getValue();
@@ -748,7 +761,9 @@ var MI = {
 	      }
 	      if(me.selection_updated == FALSE) {
 	        me.echoes[0].hide();
-	        me.cursor.show();
+	        if (cursorOn == TRUE) {
+	        	me.cursor.show();
+	        }
 	      }
 	      
 	      # draw selection
