@@ -108,6 +108,7 @@ var MI = {
       	mi.setupCanvasSymbols();
 
       	mi.modeHelp = TRUE;
+      	mi.tgt_dist_last = nil;
 
       	return mi;
 	},
@@ -497,11 +498,18 @@ var MI = {
     		.setText("M")
     		.setColor(r,g,b, a)
     		.setAlignment("left-bottom")
-    		.setTranslation(-sidePositionOfSideScales, -halfHeightOfSideScales-20*texel_per_degree)
+    		.setTranslation(-sidePositionOfSideScales, -halfHeightOfSideScales-27*texel_per_degree)
     		.setFontSize(15, 1);
 
     	me.distT = me.rootCenter.createChild("text")
     		.setText("A")
+    		.setColor(r,g,b, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(0, -halfHeightOfSideScales-27*texel_per_degree)
+    		.setFontSize(15, 1);
+
+    	me.distT2 = me.rootCenter.createChild("text")
+    		.setText("ÖKA")
     		.setColor(r,g,b, a)
     		.setAlignment("center-bottom")
     		.setTranslation(0, -halfHeightOfSideScales-20*texel_per_degree)
@@ -511,7 +519,7 @@ var MI = {
     		.setText("H")
     		.setColor(r,g,b, a)
     		.setAlignment("right-bottom")
-    		.setTranslation(sidePositionOfSideScales, -halfHeightOfSideScales-20*texel_per_degree)
+    		.setTranslation(sidePositionOfSideScales, -halfHeightOfSideScales-27*texel_per_degree)
     		.setFontSize(15, 1);
 
     	me.rowBottom1 = me.rootCenter.createChild("text")
@@ -534,6 +542,7 @@ var MI = {
 			return;
 		}
 		me.interoperability = me.input.units.getValue();
+		
 
 		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
 		me.fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
@@ -892,8 +901,18 @@ var MI = {
   			} else {
   				me.distT.setText(sprintf("NM%d", me.tgt_dist*M2NM));
   			}
+  			if (me.tgt_dist_last != nil) {
+  				if (me.interoperability == displays.METRIC) {
+	  	  			me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"ÖKA":"AVTA"));
+	  			} else {
+	  				me.distT2.setText(sprintf("%s", me.tgt_dist>me.tgt_dist_last?"INC":"DEC"));
+	  			}
+  			}
+  			me.tgt_dist_last = me.tgt_dist;
   		} else {
   			me.distT.setText("");
+  			me.distT2.setText("");
+  			me.tgt_dist_last = nil;
   		}
   		
   		if (me.tgt_alt != nil) {
@@ -907,7 +926,7 @@ var MI = {
 					me.text = sprintf("H%.1f", me.alt*FT2M/1000);
 				}
 			} else {
-				me.text = sprintf("FT%d", me.alt);
+				me.text = sprintf("FT%d", roundabout(me.alt/10)*10);
 			}
   	  		me.altT.setText(me.text);
 
