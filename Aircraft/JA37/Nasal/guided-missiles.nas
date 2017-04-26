@@ -1103,7 +1103,7 @@ var AIM = {
 			}
 			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed and me.t_speed != 0) {
 				# bonus for traveling faster than target
-				me.hit += (me.old_speed_fps / me.t_speed)*15;
+				me.hit += me.clamp((me.old_speed_fps / me.t_speed)*15,-25,50);
 			}			
 			if (me.free == TRUE) {
 				# penalty for not longer guiding
