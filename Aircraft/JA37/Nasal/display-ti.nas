@@ -11,22 +11,23 @@
 # ground symbol, ground arrow, horizont, FPI in some modes
 # full OOP
 # use Pinto's model
-var (width,height) = (341,512);
+var (width,height) = (381.315,512);
 
-var window = canvas.Window.new([width, height],"dialog")
+var window = canvas.Window.new([height, height],"dialog")
 					.set('x', width*2.75)
                    .set('title', "TI display");
 var gone = 0;
 window.del = func() {
   print("Cleaning up window:","TI","\n");
   #update_timer.stop();
-  gone = TRUE;
+#  gone = TRUE;
 # explanation for the call() technique at: http://wiki.flightgear.org/Object_oriented_programming_in_Nasal#Making_safer_base-class_calls
   call(canvas.Window.del, [], me);
 };
 var root = window.getCanvas(1).createGroup();
 root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
 window.getCanvas(1).setColorBackground(0.3, 0.3, 0.3, 1.0);
+window.getCanvas(1).addPlacement({"node": "ti_screen", "texture": "ti.png"});
 
 var (center_x, center_y) = (width/2,height/2);
 
@@ -97,6 +98,12 @@ var last_tile = [-1,-1];
 var last_type = type;
 
 # stuff
+
+var brightness = func {
+	bright += 1;
+};
+
+var bright = 0;
 
 #TI symbol colors
 var rWhite = 1.0; # other / self / own_missile
@@ -192,8 +199,9 @@ var TI = {
       	ti.setupCanvasSymbols();
       	ti.setupMap();
 
-      	me.lastRRT = 0;
-		me.lastRR  = 0;
+      	ti.lastRRT = 0;
+		ti.lastRR  = 0;
+		ti.brightness = 1;
 
       	return ti;
 	},
@@ -323,11 +331,95 @@ var TI = {
 		      .setStrokeLineWidth(w);
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
+
+		me.bottom_text_grp = root.createChild("group");
+		me.textBArmType = me.bottom_text_grp.createChild("text")
+    		.setText("74")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("left-top")
+    		.setTranslation(0, height-height*0.09)
+    		.setFontSize(40, 1);
+    	me.textBArmType = me.bottom_text_grp.createChild("text")
+    		.setText("71")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(20, height-height*0.01)
+    		.setFontSize(10, 1);
+    	me.textBTactType1 = me.bottom_text_grp.createChild("text")
+    		.setText("J")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-top")
+    		.setTranslation(55, height-height*0.1)
+    		.setFontSize(10, 1);
+    	me.textBTactType2 = me.bottom_text_grp.createChild("text")
+    		.setText("K")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-top")
+    		.setTranslation(55, height-height*0.1+20)
+    		.setFontSize(10, 1);
+    	me.textBTactType3 = me.bottom_text_grp.createChild("text")
+    		.setText("T")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-top")
+    		.setTranslation(55, height-height*0.1+40)
+    		.setFontSize(10, 1);
+    	me.textBBase = me.bottom_text_grp.createChild("text")
+    		.setText("9040T")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(80, height-height*0.01)
+    		.setFontSize(10, 1);
+    	me.textBMode = me.bottom_text_grp.createChild("text")
+    		.setText("LF")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-center")
+    		.setTranslation(125, height-height*0.05)
+    		.setFontSize(40, 1);
+    	me.textBDistN = me.bottom_text_grp.createChild("text")
+    		.setText("A")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("right-bottom")
+    		.setTranslation(width/2, height-height*0.025)
+    		.setFontSize(20, 1);
+    	me.textBDistN = me.bottom_text_grp.createChild("text")
+    		.setText("11")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("left-bottom")
+    		.setTranslation(width/2, height-height*0.025)
+    		.setFontSize(30, 1);
+    	me.textBAlpha = me.bottom_text_grp.createChild("text")
+    		.setText("ALFA 20,5")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("right-bottom")
+    		.setTranslation(width, height-height*0.01)
+    		.setFontSize(25, 1);
+    	me.textBWeight = me.bottom_text_grp.createChild("text")
+    		.setText("VIKT 13,4")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("right-top")
+    		.setTranslation(width, height-height*0.09)
+    		.setFontSize(25, 1);
 	},
 
 	loop: func {
 		if ( gone == TRUE) {
 			return;
+		}
+		if (bright > 0) {
+			bright -= 1;
+			me.brightness -= 0.25;
+			if (me.brightness < 0) {
+				me.brightness = 1;
+			}
+		}
+		if (me.brightness == 0 or me.input.acInstrVolt.getValue() < 100) {
+			setprop("ja37/avionics/brightness-ti", 0);
+			#setprop("ja37/avionics/cursor-on", FALSE);
+			settimer(func me.loop(), 0.05);
+			return;
+		} else {
+			setprop("ja37/avionics/brightness-ti", me.brightness);
+			#setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 		me.interoperability = me.input.units.getValue();
 
@@ -345,7 +437,7 @@ var TI = {
 	showBottomText: func {
 		me.upText = FALSE;
 		#clip is in canvas coordinates
-		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.075-height*0.075*me.upText)~"px, "~0~"px";
+		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.1-height*0.1*me.upText)~"px, "~0~"px";
 		me.rootCenter.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		me.mapCentrum.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		#me.bottom_text_grp

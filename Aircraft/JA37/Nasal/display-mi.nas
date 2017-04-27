@@ -589,7 +589,7 @@ var MI = {
 			settimer(func me.loop(), 0.05);
 			return;
 		} else {
-			setprop("ja37/avionics/brightness-mi", mi.brightness);
+			setprop("ja37/avionics/brightness-mi", me.brightness);
 			setprop("ja37/avionics/cursor-on", cursorOn);
 		}
 

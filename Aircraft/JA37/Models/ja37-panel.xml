@@ -12,6 +12,16 @@
   </model>
 
   <model>
+    <name>TI</name>
+    <path>Aircraft/JA37/Models/Cockpit/TI/ti.xml</path>
+    <offsets>
+      <x-m> 0.000</x-m>
+      <y-m> 0.195</y-m>
+      <z-m> 0.12</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Accelerometer/accelerometer.xml</path>
     <name>G Meter</name>
     <offsets>
