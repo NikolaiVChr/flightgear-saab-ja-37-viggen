@@ -615,36 +615,6 @@
         </output>
         <type>gain</type>
         <gain>4</gain>
-        <config>
-            <!-- this stuff is not used anymore, keep it for sentimental value :) -->
-            <Kp>
-                <property>/autopilot/pid/heading-targetroll-Kp</property>
-                <value>-0.001</value>
-            </Kp>
-            <!-- proportional gain -->
-            <Ti>
-                <property>/autopilot/pid/heading-targetroll-Ti</property>
-                <value>0.025</value>
-            </Ti>
-            <!-- integrator time -->
-            <Td>
-                <property>/autopilot/pid/heading-targetroll-Td</property>
-                <value>0.1</value>
-            </Td>
-            <!-- derivator time -->
-
-            <beta>1</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma>
-            <!-- input value weighing factor for -->
-            <!-- unfiltered derivative error -->
-            <u_min>-55.0</u_min>
-            <!-- minimum output clamp -->
-            <u_max> 55.0</u_max>
-            <!-- maximum output clamp -->
-        </config>
         <min>-55.0</min>
         <!-- minimum output clamp -->
         <max> 55.0</max>
@@ -678,33 +648,6 @@
         </output>
         <type>gain</type>
         <gain>4</gain>
-        <config>
-            <!-- this stuff is not used anymore, keep it for sentimental value :) -->
-            <Kp>
-                <property>/autopilot/pid/heading-targetroll-Kp</property>
-            </Kp>
-            <!-- proportional gain -->
-            <Ti>
-                <property>/autopilot/pid/heading-targetroll-Ti</property>
-            </Ti>
-            <!-- integrator time -->
-            <Td>
-                <property>/autopilot/pid/heading-targetroll-Td</property>
-            </Td>
-            <!-- derivator time -->
-
-            <beta>1.0</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma>
-            <!-- input value weighing factor for -->
-            <!-- unfiltered derivative error -->
-            <u_min>-55.0</u_min>
-            <!-- minimum output clamp -->
-            <u_max> 55.0</u_max>
-            <!-- maximum output clamp -->
-        </config>
         <min>-55.0</min>
         <!-- minimum output clamp -->
         <max> 55.0</max>
@@ -739,33 +682,6 @@
         </output>
         <type>gain</type>
         <gain>4</gain>
-        <config>
-            <!-- this stuff is not used anymore, keep it for sentimental value :) -->
-            <Kp>
-                <property>/autopilot/pid/heading-targetroll-Kp</property>
-            </Kp>
-            <!-- proportional gain -->
-            <Ti>
-                <property>/autopilot/pid/heading-targetroll-Ti</property>
-            </Ti>
-            <!-- integrator time -->
-            <Td>
-                <property>/autopilot/pid/heading-targetroll-Td</property>
-            </Td>
-            <!-- derivator time -->
-
-            <beta>1.0</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <gamma>0.0</gamma>
-            <!-- input value weighing factor for -->
-            <!-- unfiltered derivative error -->
-            <u_min>-55.0</u_min>
-            <!-- minimum output clamp -->
-            <u_max> 55.0</u_max>
-            <!-- maximum output clamp -->
-        </config>
         <min>-55.0</min>
         <!-- minimum output clamp -->
         <max> 55.0</max>
