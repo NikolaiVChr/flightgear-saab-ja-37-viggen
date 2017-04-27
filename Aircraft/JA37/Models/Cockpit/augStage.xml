@@ -35,27 +35,32 @@
         <type>material</type>
         <condition>
             <or>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/zone</property>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/zone</property>
-                    <value>2</value>
-                </equals>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/zone</property>
-                    <value>3</value>
-                </equals>
+                <property>/controls/lighting/test-indicator-panels</property>
+                <and>
+                    <or>
+                        <equals>
+                            <property>fdm/jsbsim/propulsion/engine/zone</property>
+                            <value>1</value>
+                        </equals>
+                        <equals>
+                            <property>fdm/jsbsim/propulsion/engine/zone</property>
+                            <value>2</value>
+                        </equals>
+                        <equals>
+                            <property>fdm/jsbsim/propulsion/engine/zone</property>
+                            <value>3</value>
+                        </equals>
+                    </or>
+                    <greater-than>
+                        <property>systems/electrical/outputs/dc-voltage</property>
+                        <value>23</value>
+                    </greater-than>
+        			<equals>
+        				<property>controls/engines/engine[0]/cutoff-augmentation</property>
+        				<value>0</value>
+        			</equals>
+                </and>
             </or>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
-			<equals>
-				<property>controls/engines/engine[0]/cutoff-augmentation</property>
-				<value>0</value>
-			</equals>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
@@ -70,23 +75,28 @@
         <type>material</type>
         <condition>
             <or>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/zone</property>
-                    <value>2</value>
-                </equals>
-                <equals>
-                    <property>fdm/jsbsim/propulsion/engine/zone</property>
-                    <value>3</value>
-                </equals>
+                <property>/controls/lighting/test-indicator-panels</property>
+                <and>
+                    <or>
+                        <equals>
+                            <property>fdm/jsbsim/propulsion/engine/zone</property>
+                            <value>2</value>
+                        </equals>
+                        <equals>
+                            <property>fdm/jsbsim/propulsion/engine/zone</property>
+                            <value>3</value>
+                        </equals>
+                    </or>
+                    <greater-than>
+                        <property>systems/electrical/outputs/dc-voltage</property>
+                        <value>23</value>
+                    </greater-than>
+        			<equals>
+        				<property>controls/engines/engine[0]/cutoff-augmentation</property>
+        				<value>0</value>
+        			</equals>
+                </and>
             </or>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
-			<equals>
-				<property>controls/engines/engine[0]/cutoff-augmentation</property>
-				<value>0</value>
-			</equals>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
@@ -100,18 +110,23 @@
         <object-name>Number3</object-name>
         <type>material</type>
         <condition>
-            <equals>
-                <property>fdm/jsbsim/propulsion/engine/zone</property>
-                <value>3</value>
-            </equals>
-            <greater-than>
-                <property>systems/electrical/outputs/dc-voltage</property>
-                <value>23</value>
-            </greater-than>
-			<equals>
-				<property>controls/engines/engine[0]/cutoff-augmentation</property>
-				<value>0</value>
-			</equals>
+            <or>
+                <property>/controls/lighting/test-indicator-panels</property>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/propulsion/engine/zone</property>
+                        <value>3</value>
+                    </equals>
+                    <greater-than>
+                        <property>systems/electrical/outputs/dc-voltage</property>
+                        <value>23</value>
+                    </greater-than>
+        			<equals>
+        				<property>controls/engines/engine[0]/cutoff-augmentation</property>
+        				<value>0</value>
+        			</equals>
+                </and>
+            </or>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
