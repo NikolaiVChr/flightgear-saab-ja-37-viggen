@@ -13,21 +13,31 @@
 # use Pinto's model
 var (width,height) = (381.315,512);
 
-var window = canvas.Window.new([height, height],"dialog")
-					.set('x', width*2.75)
-                   .set('title', "TI display");
-var gone = 0;
-window.del = func() {
-  print("Cleaning up window:","TI","\n");
+#var window = canvas.Window.new([height, height],"dialog")
+#					.set('x', width*2.75)
+#                   .set('title', "TI display");
+#var gone = 0;
+#window.del = func() {
+#  print("Cleaning up window:","TI","\n");
   #update_timer.stop();
 #  gone = TRUE;
 # explanation for the call() technique at: http://wiki.flightgear.org/Object_oriented_programming_in_Nasal#Making_safer_base-class_calls
-  call(canvas.Window.del, [], me);
-};
-var root = window.getCanvas(1).createGroup();
+#  call(canvas.Window.del, [], me);
+#};
+#var root = window.getCanvas(1).createGroup();
+var canvas = canvas.new({
+  "name": "MI",   # The name is optional but allow for easier identification
+  "size": [height, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
+  "view": [height, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
+                        # which will be stretched the size of the texture, required)
+  "mipmapping": 0       # Enable mipmapping (optional)
+});
+var root = canvas.createGroup();
 root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
-window.getCanvas(1).setColorBackground(0.3, 0.3, 0.3, 1.0);
-window.getCanvas(1).addPlacement({"node": "ti_screen", "texture": "ti.png"});
+#window.getCanvas(1).setColorBackground(0.3, 0.3, 0.3, 1.0);
+#window.getCanvas(1).addPlacement({"node": "ti_screen", "texture": "ti.png"});
+canvas.setColorBackground(0.3, 0.3, 0.3, 1.0);
+canvas.addPlacement({"node": "ti_screen", "texture": "ti.png"});
 
 var (center_x, center_y) = (width/2,height/2);
 
@@ -211,8 +221,15 @@ var TI = {
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
 		ti.brightness = 1;
-		ti.stateMenyOn = FALSE;
+
+		ti.menyShowMain = FALSE;
+		ti.menyShowFast = FALSE;
+		ti.menyMain     = 9;
+		ti.menyTrap     = TRUE;
+		ti.menySvy      = TRUE;
+		ti.menyGPS      = TRUE;
 		ti.upText = FALSE;
+		ti.errorLogPage = 0;
 
       	return ti;
 	},
@@ -459,50 +476,58 @@ var TI = {
     		.setTranslation(width, height-height*0.085)
     		.setFontSize(18, 1);
 
-    	me.menyRoot = root.createChild("group")
+    	me.menyMainRoot = root.createChild("group")
     		.hide();
-    	me.menyBottom8 = me.menyRoot.createChild("text")
+    	me.menyBottom8 = me.menyMainRoot.createChild("text")
     		.setText("VAP")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.11, height)
     		.setFontSize(10, 1);
-    	me.menyBottom9 = me.menyRoot.createChild("text")
+    	me.menyBottom9 = me.menyMainRoot.createChild("text")
     		.setText("SYST")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.25, height)
     		.setFontSize(10, 1);
-    	me.menyBottom10 = me.menyRoot.createChild("text")
+    	me.menyBottom10 = me.menyMainRoot.createChild("text")
     		.setText("PMGD")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.40, height)
     		.setFontSize(10, 1);
-    	me.menyBottom11 = me.menyRoot.createChild("text")
+    	me.menyBottom11 = me.menyMainRoot.createChild("text")
     		.setText("UDAT")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.55, height)
     		.setFontSize(10, 1);
-    	me.menyBottom12 = me.menyRoot.createChild("text")
+    	me.menyBottom12 = me.menyMainRoot.createChild("text")
     		.setText("F™")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.71, height)
     		.setFontSize(10, 1);
-    	me.menyBottom13 = me.menyRoot.createChild("text")
+    	me.menyBottom13 = me.menyMainRoot.createChild("text")
     		.setText("KONF")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.84, height)
     		.setFontSize(10, 1);
+    	me.errorRoot = root.createChild("group")
+    		.hide();
+    	me.errorList = me.errorRoot.createChild("text")
+    		.setText("..OKAY..\n..OKAY..")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("left-top")
+    		.setTranslation(0, 20)
+    		.setFontSize(10, 1);
 	},
 
 	loop: func {
-		if ( gone == TRUE) {
-			return;
-		}
+		#if ( gone == TRUE) {
+		#	return;
+		#}
 		if (bright > 0) {
 			bright -= 1;
 			me.brightness -= 0.25;
@@ -513,7 +538,7 @@ var TI = {
 		if (me.brightness == 0 or me.input.acInstrVolt.getValue() < 100) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
-			settimer(func me.loop(), 0.05);
+			settimer(func me.loop(), 0.25);
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-ti", me.brightness);
@@ -528,102 +553,231 @@ var TI = {
 		me.showRunway();
 		me.showRadarLimit();
 		me.showBottomText();
-		me.meny();
+		me.menyUpdate();
 
 		settimer(func me.loop(), 0.5);
 	},
 
-	meny: func {
-		if (me.stateMenyOn == TRUE) {
+	menyUpdate: func {
+		if (me.menyShowMain == TRUE) {
+			me.menyShowFast = TRUE;#figure this out better
+			me.menyMainRoot.show();
 			me.upText = TRUE;
 		} else {
+			me.menyMainRoot.hide();
 			me.upText = FALSE;
+		}
+		if (me.menyMain == 12) {
+			me.mapCentrum.hide();
+			me.rootCenter.hide();
+			me.bottom_text_grp.hide();
+			me.errorRoot.show();
+			call(func {
+				var buffer = FailureMgr.get_log_buffer();
+				var str = "";
+    			foreach(entry; buffer) {
+      				str = str~entry.time~" "~entry.message~"\n";
+    			}
+				me.errorList.setText(str)});
+			me.errorRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.errorLogPage);
+			me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
+			me.errorRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+		} else {
+			me.errorLogPage = 0;
+			me.mapCentrum.show();
+			me.rootCenter.show();
+			me.bottom_text_grp.show();
+			me.errorRoot.hide();
 		}
 	},
 
-	b1: func {
+	menyNoSub: func {
+		me.menyTrap = FALSE;
+		me.menySvy  = FALSE;
+		me.menyGPS  = FALSE;
+	},
 
+	b1: func {
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b2: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b3: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b4: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b5: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+			if (me.menyMain == 13 and me.menySvy == FALSE) {
+				# side view
+				me.menySvy = TRUE;
+			}
+		}
 	},
 
 	b6: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+			if (me.menyMain == 9 and me.menyTrap == FALSE) {
+				# tactical report
+				me.menyTrap = TRUE;
+			}
+		}
 	},
 
 	b7: func {
-		me.stateMenyOn = !me.stateMenyOn;
-		if (me.stateMenyOn == TRUE) {
-			me.menyRoot.show();
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
 		} else {
-			me.menyRoot.hide();
+			me.menyShowMain = FALSE;
+			me.menyShowFast = FALSE;
+			me.menyTrap = TRUE;
+			me.menyMain = 9;
 		}
 	},
 
 	b8: func {
-		
+		# weapons
+		if (me.menyShowMain == TRUE) {
+			me.menyMain = 8;
+			me.menyNoSub();
+		} else {
+			me.menyShowMain = !me.menyShowMain;
+		}
 	},
 
 	b9: func {
-		
+		# system
+		if (me.menyShowMain == TRUE) {
+			me.menyMain = 9;
+			me.menyNoSub();
+		} else {
+			me.menyShowMain = !me.menyShowMain;
+		}
 	},
 
 	b10: func {
-		
+		# display
+		if (me.menyShowMain == TRUE) {
+			me.menyMain = 10;
+			me.menyNoSub();
+		} else {
+			me.menyShowMain = !me.menyShowMain;
+		}
 	},
 
 	b11: func {
-
+		# flight data
+		if (me.menyShowMain == TRUE) {
+			me.menyMain = 11;
+			me.menyNoSub();
+		} else {
+			me.menyShowMain = !me.menyShowMain;
+		}
 	},
 
 	b12: func {
-		
+		# errors
+		if (me.menyShowMain == TRUE) {
+			me.menyMain = 12;
+			me.menyNoSub();
+		} else {
+			me.menyShowMain = !me.menyShowMain;
+		}
 	},
 
 	b13: func {
-		
+		# configuration
+		if (me.menyShowMain == TRUE) {
+			me.menyMain = 13;
+			me.menyNoSub();
+		} else {
+			me.menyShowMain = !me.menyShowMain;
+		}
 	},
 
 	b14: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+			if (me.menyMain == 13 and me.menyGPS == FALSE) {
+				# GPS settings
+				me.menyGPS = TRUE;
+			}
+		}
 	},
 
 	b15: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b16: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b17: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b18: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+		}
 	},
 
 	b19: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+			if(me.menyMain = 12) {
+				me.errorLogPage += 1;
+			}
+		}
 	},
 
 	b20: func {
-		
+		if (me.menyShowFast == FALSE) {
+			me.menyShowFast = TRUE;
+		} else {
+			if(me.menyMain = 12) {
+				me.errorLogPage -= 1;
+				if (me.errorLogPage < 0) {
+					me.errorLogPage = 0;
+				}
+			}
+		}
 	},
 
 	showBottomText: func {
