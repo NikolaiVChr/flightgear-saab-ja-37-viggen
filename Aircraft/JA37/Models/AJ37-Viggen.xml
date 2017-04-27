@@ -1899,7 +1899,7 @@
   <model>
     <name>interior</name>
     <usage>interior</usage>
-    <path>Aircraft/JA37/Models/ja37-interior.xml</path>
+    <path>Aircraft/JA37/Models/aj37-interior.xml</path>
   </model>
 
   <animation>
