@@ -338,30 +338,30 @@ var TI = {
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("left-top")
     		.setTranslation(0, height-height*0.09)
-    		.setFontSize(40, 1);
+    		.setFontSize(35, 1);
     	me.textBArmType = me.bottom_text_grp.createChild("text")
     		.setText("71")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(20, height-height*0.01)
-    		.setFontSize(10, 1);
+    		.setTranslation(25, height-height*0.01)
+    		.setFontSize(15, 1);
     	me.textBTactType1 = me.bottom_text_grp.createChild("text")
     		.setText("J")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-top")
-    		.setTranslation(55, height-height*0.1)
+    		.setTranslation(55, height-height*0.08)
     		.setFontSize(10, 1);
     	me.textBTactType2 = me.bottom_text_grp.createChild("text")
     		.setText("K")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-top")
-    		.setTranslation(55, height-height*0.1+20)
+    		.setTranslation(55, height-height*0.08+15)
     		.setFontSize(10, 1);
     	me.textBTactType3 = me.bottom_text_grp.createChild("text")
     		.setText("T")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-top")
-    		.setTranslation(55, height-height*0.1+40)
+    		.setTranslation(55, height-height*0.08+30)
     		.setFontSize(10, 1);
     	me.textBBase = me.bottom_text_grp.createChild("text")
     		.setText("9040T")
