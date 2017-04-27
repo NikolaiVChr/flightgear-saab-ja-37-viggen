@@ -126,6 +126,14 @@ var rTyrk = 0.25; # navigation aid
 var gTyrk = 0.88;
 var bTyrk = 0.81;
 
+var rGrey = 0.5;   # inactive
+var gGrey = 0.5;
+var bGrey = 0.5;
+
+var rBlack = 0.0;   # active
+var gBlack = 0.0;
+var bBlack = 0.0;
+
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
 
@@ -188,8 +196,9 @@ var TI = {
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
-	        ctrlRadar:        "controls/altimeter-radar",
-	        acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
+	        ctrlRadar:        		"controls/altimeter-radar",
+	        acInstrVolt:      		"systems/electrical/outputs/ac-instr-voltage",
+	        nav0InRange:      		"instrumentation/nav[0]/in-range",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -202,6 +211,8 @@ var TI = {
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
 		ti.brightness = 1;
+		ti.stateMenyOn = FALSE;
+		ti.upText = FALSE;
 
       	return ti;
 	},
@@ -339,7 +350,7 @@ var TI = {
     		.setAlignment("left-top")
     		.setTranslation(0, height-height*0.09)
     		.setFontSize(35, 1);
-    	me.textBArmType = me.bottom_text_grp.createChild("text")
+    	me.textBArmAmmo = me.bottom_text_grp.createChild("text")
     		.setText("71")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
@@ -363,15 +374,63 @@ var TI = {
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08+30)
     		.setFontSize(10, 1);
+    	me.textBTactType = me.bottom_text_grp.createChild("path")
+    		.moveTo(50, height-height*0.09)
+    		.horiz(12)
+    		.vert(45)
+    		.horiz(-12)
+    		.vert(-45)
+    		.setColor(rWhite,gWhite,bWhite, a)
+		    .setStrokeLineWidth(w);
     	me.textBBase = me.bottom_text_grp.createChild("text")
     		.setText("9040T")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
     		.setTranslation(80, height-height*0.01)
     		.setFontSize(10, 1);
+    	me.textBlink = me.bottom_text_grp.createChild("text")
+    		.setText("DL")
+    		.setColor(rGrey,gGrey,bGrey, a)
+    		.setAlignment("center-top")
+    		.setTranslation(72, height-height*0.08)
+    		.setFontSize(10, 1);
+    	me.textBLinkFrame = me.bottom_text_grp.createChild("path")
+    		.moveTo(65, height-height*0.085)
+    		.horiz(16)
+    		.vert(12)
+    		.horiz(-16)
+    		.vert(-12)
+    		.setColor(rWhite,gWhite,bWhite, a)
+		    .setStrokeLineWidth(w);
+		me.textBerror = me.bottom_text_grp.createChild("text")
+    		.setText("F")
+    		.setColor(rGrey,gGrey,bGrey, a)
+    		.setAlignment("center-top")
+    		.setTranslation(89, height-height*0.08)
+    		.set("z-index", 10)
+    		.setFontSize(10, 1);
+    	me.textBerrorFrame1 = me.bottom_text_grp.createChild("path")
+    		.moveTo(85, height-height*0.085)
+    		.horiz(10)
+    		.vert(12)
+    		.horiz(-10)
+    		.vert(-12)
+    		.setColor(rWhite,gWhite,bWhite, a)
+		    .setStrokeLineWidth(w);
+		me.textBerrorFrame2 = me.bottom_text_grp.createChild("path")
+    		.moveTo(85, height-height*0.085)
+    		.horiz(10)
+    		.vert(12)
+    		.horiz(-10)
+    		.vert(-12)
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.hide()
+    		.set("z-index", 1)
+		    .setColorFill(rGreen, gGreen, bGreen, a)
+		    .setStrokeLineWidth(w);
     	me.textBMode = me.bottom_text_grp.createChild("text")
     		.setText("LF")
-    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setColor(rTyrk,gTyrk,bTyrk, a)
     		.setAlignment("center-center")
     		.setTranslation(125, height-height*0.05)
     		.setFontSize(40, 1);
@@ -379,26 +438,65 @@ var TI = {
     		.setText("A")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-bottom")
-    		.setTranslation(width/2, height-height*0.025)
+    		.setTranslation(width/2, height-height*0.015)
     		.setFontSize(20, 1);
-    	me.textBDistN = me.bottom_text_grp.createChild("text")
+    	me.textBDist = me.bottom_text_grp.createChild("text")
     		.setText("11")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("left-bottom")
-    		.setTranslation(width/2, height-height*0.025)
+    		.setTranslation(width/2, height-height*0.015)
     		.setFontSize(30, 1);
     	me.textBAlpha = me.bottom_text_grp.createChild("text")
     		.setText("ALFA 20,5")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-bottom")
     		.setTranslation(width, height-height*0.01)
-    		.setFontSize(25, 1);
+    		.setFontSize(18, 1);
     	me.textBWeight = me.bottom_text_grp.createChild("text")
     		.setText("VIKT 13,4")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-top")
-    		.setTranslation(width, height-height*0.09)
-    		.setFontSize(25, 1);
+    		.setTranslation(width, height-height*0.085)
+    		.setFontSize(18, 1);
+
+    	me.menyRoot = root.createChild("group")
+    		.hide();
+    	me.menyBottom8 = me.menyRoot.createChild("text")
+    		.setText("VAP")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-Bottom")
+    		.setTranslation(width*0.11, height)
+    		.setFontSize(10, 1);
+    	me.menyBottom9 = me.menyRoot.createChild("text")
+    		.setText("SYST")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-Bottom")
+    		.setTranslation(width*0.25, height)
+    		.setFontSize(10, 1);
+    	me.menyBottom10 = me.menyRoot.createChild("text")
+    		.setText("PMGD")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-Bottom")
+    		.setTranslation(width*0.40, height)
+    		.setFontSize(10, 1);
+    	me.menyBottom11 = me.menyRoot.createChild("text")
+    		.setText("UDAT")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-Bottom")
+    		.setTranslation(width*0.55, height)
+    		.setFontSize(10, 1);
+    	me.menyBottom12 = me.menyRoot.createChild("text")
+    		.setText("F™")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-Bottom")
+    		.setTranslation(width*0.71, height)
+    		.setFontSize(10, 1);
+    	me.menyBottom13 = me.menyRoot.createChild("text")
+    		.setText("KONF")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-Bottom")
+    		.setTranslation(width*0.84, height)
+    		.setFontSize(10, 1);
 	},
 
 	loop: func {
@@ -430,17 +528,208 @@ var TI = {
 		me.showRunway();
 		me.showRadarLimit();
 		me.showBottomText();
+		me.meny();
 
 		settimer(func me.loop(), 0.5);
 	},
 
+	meny: func {
+		if (me.stateMenyOn == TRUE) {
+			me.upText = TRUE;
+		} else {
+			me.upText = FALSE;
+		}
+	},
+
+	b1: func {
+
+	},
+
+	b2: func {
+		
+	},
+
+	b3: func {
+		
+	},
+
+	b4: func {
+		
+	},
+
+	b5: func {
+		
+	},
+
+	b6: func {
+		
+	},
+
+	b7: func {
+		me.stateMenyOn = !me.stateMenyOn;
+		if (me.stateMenyOn == TRUE) {
+			me.menyRoot.show();
+		} else {
+			me.menyRoot.hide();
+		}
+	},
+
+	b8: func {
+		
+	},
+
+	b9: func {
+		
+	},
+
+	b10: func {
+		
+	},
+
+	b11: func {
+
+	},
+
+	b12: func {
+		
+	},
+
+	b13: func {
+		
+	},
+
+	b14: func {
+		
+	},
+
+	b15: func {
+		
+	},
+
+	b16: func {
+		
+	},
+
+	b17: func {
+		
+	},
+
+	b18: func {
+		
+	},
+
+	b19: func {
+		
+	},
+
+	b20: func {
+		
+	},
+
 	showBottomText: func {
-		me.upText = FALSE;
 		#clip is in canvas coordinates
-		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.1-height*0.1*me.upText)~"px, "~0~"px";
+		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
 		me.rootCenter.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		me.mapCentrum.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
-		#me.bottom_text_grp
+		me.bottom_text_grp.setTranslation(0,-height*0.025*me.upText);
+		me.textBArmType.setText(displays.common.currArmNameSh);
+		me.ammo = armament.ammoCount(me.input.station.getValue());
+	    if (me.ammo == -1) {
+	    	me.ammoT = "  ";
+	    } else {
+	    	me.ammoT = me.ammo~"";
+	    }
+		me.textBArmAmmo.setText(me.ammoT);
+		if (me.interoperability == displays.METRIC) {
+			if (displays.common.currArmNameSh == "70") {
+				me.textBTactType1.setText("A");
+				me.textBTactType2.setText("T");
+				me.textBTactType3.setText("T");
+			} else {
+				me.textBTactType1.setText("J");
+				me.textBTactType2.setText("K");
+				me.textBTactType3.setText("T");
+			}
+		} else {
+			if (displays.common.currArmNameSh == "70") {
+				me.textBTactType1.setText("A");
+				me.textBTactType2.setText("T");
+				me.textBTactType3.setText("T");
+			} else {
+				me.textBTactType1.setText("F");
+				me.textBTactType2.setText("G");
+				me.textBTactType3.setText("T");
+			}
+		}
+		me.icao = land.icao~((me.input.nav0InRange.getValue() == TRUE)?" T":"  ");
+		me.textBBase.setText(me.icao);
+		
+		me.mode = "";
+		# DL: data link
+		# RR: radar
+		if (land.mode < 3 and land.mode > 0) {
+			me.mode = "LB";# landing waypoint
+		} elsif (land.mode > 2) {
+			me.mode = "LF";# landing touchdown point
+		} elsif (me.input.currentMode.getValue() == displays.LANDING) {
+			me.mode = "L ";# landing
+		} else {
+			me.mode = "  ";# 
+		}
+		me.textBMode.setText(me.mode);
+
+		if (displays.common.distance_m != -1) {
+			if (me.interoperability == displays.METRIC) {
+				me.distance_un = displays.common.distance_m/1000;
+				me.textBDistN.setText("A");
+			} else {
+				me.distance_un = displays.common.distance_m*M2NM;
+				me.textBDistN.setText("NM");
+			}
+			if (me.distance_un < 10) {
+				me.textBDist.setText(sprintf("%.1f", me.distance_un));
+			} else {
+				me.textBDist.setText(sprintf("%d", me.distance_un));
+			}
+		} else {
+			me.textBDist.setText("  ");
+			me.textBDistN.setText(" ");
+		}
+		if (me.input.currentMode.getValue() == displays.LANDING) {
+			me.alphaT  = me.interoperability == displays.METRIC?"ALFA":"ALPH";
+			me.weightT = me.interoperability == displays.METRIC?"VIKT":"WEIG";
+			if (me.interoperability == displays.METRIC) {
+				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.453592*0.001;
+			} else {
+				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.001;
+			}
+			var weight = getprop("fdm/jsbsim/inertia/weight-lbs");
+			me.alpha   = 9 + ((weight - 28000) / (38000 - 28000)) * (12 - 9);
+			me.weightT = me.weightT~sprintf(" %.1f", me.weight);
+			me.alphaT  = me.alphaT~sprintf(" %.1f", me.alpha);
+			me.textBWeight.setText(me.weightT);
+			me.textBAlpha.setText(me.alphaT);
+		} elsif (me.input.currentMode.getValue() == displays.COMBAT) {
+			if (radar_logic.selection != nil) {
+				me.textBWeight.setText(radar_logic.selection.get_Callsign());
+				me.textBAlpha.setText(radar_logic.selection.get_model());
+			} else {
+				me.textBWeight.setText("");
+				me.textBAlpha.setText("");
+			}
+		} else {
+			me.textBWeight.setText("");
+			me.textBAlpha.setText("");
+		}
+		if (displays.common.error == FALSE) {
+			me.textBerror.setColor(rGrey, gGrey, bGrey, a);
+			me.textBerrorFrame2.hide();
+			me.textBerrorFrame1.show();
+		} else {
+			me.textBerror.setColor(rBlack, gBlack, bBlack, a);
+			me.textBerrorFrame1.hide();
+			me.textBerrorFrame2.show();
+		}
 	},
 
 	showRadarLimit: func {

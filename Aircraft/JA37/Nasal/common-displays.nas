@@ -46,6 +46,10 @@ var Common = {
 	        units:            "ja37/hud/units-metric",
 	        fiveHz:           "ja37/blink/five-Hz/state",
 	        rad_alt:          "position/altitude-agl-ft",
+	        dme:              "instrumentation/dme/KDI572-574/nm",
+        dmeDist:          "instrumentation/dme/indicated-distance-nm",
+        RMActive:         "autopilot/route-manager/active",
+        rmDist:           "autopilot/route-manager/wp/dist",
 
 	        station:          "controls/armament/station-select",
       	};
@@ -57,15 +61,46 @@ var Common = {
       	co.mode = TAKEOFF;
       	co.modeTimeTakeoff = -1;
       	co.currArmName = "None";
+      	co.currArmNameSh = "--";
+      	co.distance_m = 0;
+      	co.error = FALSE;
 
       	return co;
 	},
 
-	loop: func {
+	loop: func {#todo: make slower loop
 		me.displayMode();
 		me.QFE();
 		me.armName();
+		me.armNameShort();
+		me.distance();
+		me.errors();
 		settimer(func me.loop(), 0.05);
+	},
+
+	errors: func {
+		var failure_modes = FailureMgr._failmgr.failure_modes;
+		var mode_list = keys(failure_modes);
+
+		foreach(var failure_mode_id; mode_list) {
+			if (FailureMgr.get_failure_level(failure_mode_id)) {
+				me.error = TRUE;
+				return;
+			}
+		}
+		me.error = FALSE;
+	},
+
+	distance: func {
+		if (me.mode == COMBAT and radar_logic.selection != nil and radar_logic.selection.isPainted() == TRUE) {
+			me.distance_m = radar_logic.selection.get_range()*NM2M;
+		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
+	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
+	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil) {
+	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
+	  	} else {
+	  		me.distance_m = -1;
+	  	}
 	},
 
 	armName: func {
@@ -109,6 +144,32 @@ var Common = {
 	        me.currArmName = "TEST";	        
 	      } else {
 	        me.currArmName = "None";	        
+	      }
+	},
+
+	armNameShort: func {
+		  me.armSelect = me.input.station.getValue();
+	      if (me.armSelect > 0) {
+	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
+	      } else {
+	        me.armament = "";
+	      }
+	      if(me.armSelect == 0) {
+	        me.currArmNameSh = "AK";
+	      } elsif(me.armament == "RB 24J Sidewinder") {
+	        me.currArmNameSh = "24";	        
+	      } elsif(me.armament == "RB 74 Sidewinder") {
+	        me.currArmNameSh = "74";	        
+	      } elsif(me.armament == "M70 ARAK") {
+	        me.currArmNameSh = "70";	        
+	      } elsif(me.armament == "RB 71 Skyflash") {
+	        me.currArmNameSh = "71";	        
+	      } elsif(me.armament == "RB 99 Amraam") {
+	        me.currArmNameSh = "99";	        
+	      } elsif(me.armament == "TEST") {
+	        me.currArmNameSh = "TS";	        
+	      } else {
+	        me.currArmNameSh = "--";	        
 	      }
 	},
 

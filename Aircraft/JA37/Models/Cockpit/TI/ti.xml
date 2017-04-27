@@ -60,7 +60,7 @@
 
   	-->
 
-	<animation>
+	<!--<animation>
 	    <type>material</type>
 	    <object-name>warning_light</object-name>
 	    <emission>
@@ -309,7 +309,7 @@
    			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
             <factor-prop>systems/electrical/dc-light</factor-prop>
         </emission>
-  	</animation>
+  	</animation>-->
 
   	<!--
 
@@ -321,179 +321,282 @@
 
   	<animation>
         <type>pick</type>
-        <object-name>button_a</object-name>
-        <visible>true</visible>
+        <object-name>b1</object-name>
         <action>
-            <name>increase zoom</name>
+            <name>b1</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>TI.zoomOut();</script>
+                <script>TI.ti.b1();</script>
             </binding>
         </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>a</tooltip-id>
-                <label>TI: Zoom out</label>
-            </binding>
-        </hovered>
     </animation>
 
     <animation>
         <type>pick</type>
-        <object-name>button_b</object-name>
-        <visible>true</visible>
+        <object-name>b2</object-name>
         <action>
-            <name>decrease zoom</name>
+            <name>b1</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>TI.zoomIn();</script>
+                <script>TI.ti.b2();</script>
             </binding>
         </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>b</tooltip-id>
-                <label>TI: Zoom in</label>
-            </binding>
-        </hovered>
     </animation>
 
     <animation>
         <type>pick</type>
-        <object-name>button_pi</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>jl</tooltip-id>
-                <label>Fighter link</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>button_pek</object-name>
+        <object-name>b3</object-name>
         <action>
-            <name>cursor</name>
+            <name>b1</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>MI.cursor();</script>
+                <script>TI.ti.b3();</script>
             </binding>
         </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>pek</tooltip-id>
-                <label>MI/TI: Cursor</label>
-            </binding>
-        </hovered>
     </animation>
 
     <animation>
-	    <type>material</type>
-	    <object-name>button_pi</object-name>
-	    <object-name>button_a</object-name>
-	    <object-name>button_b</object-name>
-	    <condition>
-            <property>/controls/lighting/test-indicator-panels</property>
-        </condition>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
-        </emission>
-  	</animation>
-
-    <animation>
-	    <type>material</type>
-	    <object-name>button_pek</object-name>
-	    <condition>
-	    	<or>
-	            <property>ja37/avionics/cursor-on</property>
-	            <property>/controls/lighting/test-indicator-panels</property>
-	        </or>
-        </condition>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
-        </emission>
-  	</animation>
-
-  	<animation>
-	    <type>material</type>
-	    <object-name>button_reg</object-name>
-	    <condition>
-	    	<or>
-	            <property>ja37/avionics/record-on</property>
-	            <property>/controls/lighting/test-indicator-panels</property>
-	        </or>
-        </condition>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
-        </emission>
-  	</animation>
-
-  	<animation>
         <type>pick</type>
-        <object-name>button_reg</object-name>
-        <!--<action>
-            <name>record on/off</name>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>sim/replay/disable</property>
-            </binding>
-        </action>-->
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>Reg</tooltip-id>
-                <label>Recording Flight Tape</label>
-            </binding>
-        </hovered>
-    </animation> 
-
-    <animation>
-        <type>pick</type>
-        <object-name>button_p3</object-name>
-        <visible>true</visible>
+        <object-name>b4</object-name>
         <action>
-            <name>help MI</name>
+            <name>b1</name>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>MI.pressP3();</script>
+                <script>TI.ti.b4();</script>
             </binding>
-            <mod-up>
-	            <binding>
-	                <command>nasal</command>
-	                <script>MI.releaseP3();</script>
-	            </binding>
-	        </mod-up>
         </action>
-        <hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b5</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
             <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>p3</tooltip-id>
-                <label>MI help</label>
+                <command>nasal</command>
+                <script>TI.ti.b5();</script>
             </binding>
-        </hovered>
-    </animation> 	
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b6</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b6();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b7</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b7();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b8</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b8();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b9</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b9();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b10</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b10();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b11</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b11();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b12</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b12();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b13</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b13();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b14</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b14();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b15</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b15();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b16</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b16();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b17</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b17();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b18</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b18();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b19</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b19();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>b20</object-name>
+        <action>
+            <name>b1</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.ti.b20();</script>
+            </binding>
+        </action>
+    </animation>
 
 </PropertyList>  
