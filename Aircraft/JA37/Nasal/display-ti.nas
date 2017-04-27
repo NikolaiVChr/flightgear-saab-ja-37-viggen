@@ -26,7 +26,7 @@ window.del = func() {
 };
 var root = window.getCanvas(1).createGroup();
 root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
-window.getCanvas(1).setColorBackground(0, 0, 0, 1.0);
+window.getCanvas(1).setColorBackground(0.3, 0.3, 0.3, 1.0);
 
 var (center_x, center_y) = (width/2,height/2);
 
@@ -192,6 +192,9 @@ var TI = {
       	ti.setupCanvasSymbols();
       	ti.setupMap();
 
+      	me.lastRRT = 0;
+		me.lastRR  = 0;
+
       	return ti;
 	},
 
@@ -318,6 +321,8 @@ var TI = {
 		      .horiz(            20*MM2TEX)
 		      .setColor(rTyrk,gTyrk,bTyrk, a)
 		      .setStrokeLineWidth(w);
+
+		me.radar_limit_grp = me.radar_group.createChild("group");
 	},
 
 	loop: func {
@@ -331,8 +336,44 @@ var TI = {
 		me.showSelfVector();
 		me.displayRadarTracks();
 		me.showRunway();
+		me.showRadarLimit();
+		me.showBottomText();
 
 		settimer(func me.loop(), 0.5);
+	},
+
+	showBottomText: func {
+		me.upText = FALSE;
+		#clip is in canvas coordinates
+		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.075-height*0.075*me.upText)~"px, "~0~"px";
+		me.rootCenter.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+		me.mapCentrum.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+		#me.bottom_text_grp
+	},
+
+	showRadarLimit: func {
+		if (me.input.currentMode.getValue() == canvas_HUD.COMBAT and me.input.tracks_enabled.getValue() == TRUE) {
+			if (me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
+				me.radar_limit_grp.removeAllChildren();
+				var rdrField = 61.5*D2R;
+				var radius = M2TEX*me.input.radarRange.getValue();
+				var (leftX, leftY)   = (-math.sin(rdrField)*radius, -math.cos(rdrField)*radius);
+				me.radarLimit = me.radar_limit_grp.createChild("path")
+					.moveTo(leftX, leftY)
+					.arcSmallCW(radius, radius, 0, -leftX*2, 0)
+					.moveTo(leftX, leftY)
+					.lineTo(leftX*0.75, leftY*0.75)
+					.moveTo(-leftX, leftY)
+					.lineTo(-leftX*0.75, leftY*0.75)
+					.setColor(rTyrk,gTyrk,bTyrk, a)
+			    	.setStrokeLineWidth(w);
+			    me.lastRRT = me.input.timeElapsed.getValue();
+			    me.lastRR  = me.input.radarRange.getValue();
+			}
+			me.radar_limit_grp.show();
+	    } else {
+	    	me.radar_limit_grp.hide();
+	    }
 	},
 
 	showRunway: func {
