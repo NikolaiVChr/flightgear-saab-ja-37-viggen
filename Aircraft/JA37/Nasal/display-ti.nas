@@ -167,9 +167,10 @@ var TRUE = 1;
 
 
 var dictSE = {
+	'0':   {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF"},
 	'8':   {'8': "R7V", '9': "V7V", '10': "S7V", '11': "S7H", '12': "V7H", '13': "R7H",
 			'7': "MENY", '14': "AKAN", '15': "RENS"},
-	'9':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+	'9':   {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
 	 		'1': "SLACK", '2': "DL", '4': "B", '5': "UPOL", '6': "TRAP", '7': "MENY",
 	 		'14': "JAKT", '15': "HK",'16': "APOL", '17': "LA", '18': "LF", '19': "LB",'20': "L"},
 	'TRAP':{'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
@@ -179,12 +180,13 @@ var dictSE = {
 	'11':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
 			'4': "EDIT", '6': "EDIT", '7': "MENY", '14': "EDIT", '15': "APOL", '16': "EDIT", '17': "UPOL", '18': "EDIT", '19': "EGLA", '20': "KMAN"},
 	'12':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-	 		'19': "NED", '20': "UPP"},
+	 		'7': "MENY", '19': "NED", '20': "UPP"},
 	'13':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
 			'5': "SVY", '6': "FR28", '7': "MENY", '14': "GPS", '19': "LAS"},
 };
 
 var dictEN = {
+	'0':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF"},
 	'8':   {'8': "T7L", '9': "W7L", '10': "F7L", '11': "F7R", '12': "W7R", '13': "T7R",
 			'7': "MENU", '14': "AKAN", '15': "CLR"},
     '9':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
@@ -197,7 +199,7 @@ var dictEN = {
 	'11':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
 			'4': "EDIT", '6': "EDIT", '7': "MENU", '14': "EDIT", '15': "POLY", '16': "EDIT", '17': "UPOL", '18': "EDIT", '19': "MYMD", '20': "MMAN"},
 	'12':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-	 		'19': "DOWN", '20': "UP"},
+	 		'7': "MENU", '19': "DOWN", '20': "UP"},
 	'13':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
 			'5': "SIDE", '6': "FR28", '7': "MENU", '14': "GPS", '19': "LOCK"},
 	'GPS': {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
@@ -268,8 +270,8 @@ var TI = {
 		ti.menuShowFast = FALSE;
 		ti.menuMain     = 9;
 		ti.menuTrap     = TRUE;
-		ti.menuSvy      = TRUE;
-		ti.menuGPS      = TRUE;
+		ti.menuSvy      = FALSE;
+		ti.menuGPS      = FALSE;
 
 		ti.trapFire     = FALSE;
 
@@ -564,6 +566,30 @@ var TI = {
     				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
     				.setFontSize(12.5, 1));
 		}
+		me.menuButtonSub = [nil];
+		for(var i = 1; i <= 7; i+=1) {
+			append(me.menuButtonSub,
+				me.menuFastRoot.createChild("text")
+    				.setText("M\nE\nN\nY")
+    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColorFill(rGrey,gGrey,bGrey, a)
+    				.setAlignment("left-center")
+    				.setTranslation(width*0.060, height*0.09+(i-1)*height*0.11)
+    				.setFontSize(12.5, 1));
+		}
+		for(var i = 8; i <= 13; i+=1) {
+			append(me.menuButtonSub, nil);
+		}
+    	for(var i = 14; i <= 20; i+=1) {
+			append(me.menuButtonSub,
+				me.menuFastRoot.createChild("text")
+    				.setText("M\nE\nN\nY")
+    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setColorFill(rGrey,gGrey,bGrey, a)
+    				.setAlignment("right-center")
+    				.setTranslation(width*0.940, height*0.09+(6-(i-14))*height*0.11)
+    				.setFontSize(12.5, 1));
+		}
 	},
 
 	loop: func {
@@ -618,6 +644,7 @@ var TI = {
 		if (me.menuShowFast == TRUE) {
 			me.menuFastRoot.show();
 			me.updateFastMenu();
+			me.updateFastSubMenu();
 		} else {
 			me.menuFastRoot.hide();
 		}
@@ -707,14 +734,35 @@ var TI = {
 		if (str != nil) {
 			str = str[''~button];
 			if (str != nil) {
-				var compiled = "";
-				for(var i = 0; i < size(str); i+=1) {
-					compiled = compiled ~substr(str,i,1)~(i==(size(str)-1)?"":"\n");
-				}
-				return compiled;
+				return me.vertStr(str);
 			}
 		}
 		return "";
+	},
+
+	vertStr: func (str) {
+		var compiled = "";
+		for(var i = 0; i < size(str); i+=1) {
+			compiled = compiled ~substr(str,i,1)~(i==(size(str)-1)?"":"\n");
+		}
+		return compiled;
+	},
+
+	updateFastSubMenu: func {
+		for(var i = 1; i <= 7; i+=1) {
+			me.menuButtonSub[i].hide();
+		}
+		for(var i = 14; i <= 20; i+=1) {
+			me.menuButtonSub[i].hide();
+		}
+		me.menuButtonSub[7].show();
+		var seven = nil;
+		if (me.interoperability == displays.METRIC) {
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictSE['0'][''~me.menuMain]));
+		} else {
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictEN['0'][''~me.menuMain]));
+		}
+		me.menuButtonSub[7].setText(me.vertStr(seven));
 	},
 
 	menuNoSub: func {
