@@ -1014,6 +1014,7 @@ var HUDnasal = {
     centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));
 
     mode = me.input.currentMode.getValue();
+    me.station = me.input.station.getValue();
 
     if(me.has_power == FALSE or me.input.mode.getValue() == 0) {
       me.root.hide();
@@ -1021,13 +1022,13 @@ var HUDnasal = {
       air2air = FALSE;
       air2ground = FALSE;
       settimer(func me.update(), 0.3);
-     } elsif (me.input.service.getValue() == FALSE) {
+    } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       air2air = FALSE;
       air2ground = FALSE;
       settimer(func me.update(), 0.25);
-     } else {
+    } else {
       # commented as long as diamond node is choosen in HUD
       #if (me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) {
         # in external view
@@ -1035,9 +1036,9 @@ var HUDnasal = {
       #  return;
       #}
 
-      me.cannon = me.input.station.getValue() == 0;
-      me.cannon = me.cannon or getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M55 AKAN";
-      me.cannon = me.input.combat.getValue() == TRUE and me.cannon;
+      me.cannon = me.station == 0;
+      me.cannon = me.cannon or getprop("payload/weight["~ (me.station-1) ~"]/selected") == "M55 AKAN";
+      me.cannon = mode == COMBAT and me.cannon;
       me.out_of_ammo = FALSE;
       #if (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "none") {
       #      out_of_ammo = TRUE;
@@ -1046,7 +1047,7 @@ var HUDnasal = {
       #} elsif (me.input.station.getValue() != 0 and getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected") == "M70 ARAK" and getprop("ai/submodels/submodel["~(4+me.input.station.getValue())~"]/count") == 0) {
       #      out_of_ammo = TRUE;
       #}
-      me.ammo = armament.ammoCount(me.input.station.getValue());
+      me.ammo = armament.ammoCount(me.station);
       if (me.ammo > 0) {
         me.out_of_ammo = FALSE;
       } else {
@@ -1821,7 +1822,7 @@ var HUDnasal = {
       air2ground = FALSE;
       return me.showFlightPathVector(1, out_of_ammo, mode);
     } elsif (mode == COMBAT and cannon == FALSE) {
-      me.armament = getprop("payload/weight["~ (me.input.station.getValue()-1) ~"]/selected");
+      me.armament = getprop("payload/weight["~ (me.station-1) ~"]/selected");
       if(me.armament == "M70 ARAK") {
         air2air = FALSE;
         air2ground = TRUE;
@@ -2113,7 +2114,7 @@ var HUDnasal = {
     } elsif (mode == COMBAT) {
       if (radar_logic.selection != nil) {
         me.line = (200/1024)*canvasWidth;
-        me.armSelect = me.input.station.getValue();
+        me.armSelect = me.station;
         if (me.armSelect > 0) {
           me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
         } else {
@@ -2240,8 +2241,8 @@ var HUDnasal = {
         me.targetDistance2.hide();
         me.distanceScale.hide();
       }
-      me.ammo = armament.ammoCount(me.input.station.getValue());
-      if (me.input.station.getValue() == 0) {
+      me.ammo = armament.ammoCount(me.station);
+      if (me.station == 0) {
         me.distanceText.setText(sprintf("%3d", me.ammo));
         me.distanceText.show();
       } elsif (me.ammo != -1) {
@@ -2344,7 +2345,7 @@ var HUDnasal = {
   displayCCIP: func () {
     if(mode == COMBAT) {
 
-      me.armSelect = me.input.station.getValue();
+      me.armSelect = me.station;
       if(me.armSelect != 0 and (getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett" or getprop("payload/weight["~ (me.armSelect-1) ~"]/selected") == "M71 Bomblavett (Retarded)")) {
 
         me.bomb = nil;
@@ -2578,7 +2579,7 @@ var HUDnasal = {
           me.target_circle[me.selection_index].hide();
 
 
-          me.armSelect = me.input.station.getValue();
+          me.armSelect = me.station;
           me.displayDiamond = 0;
           #print();
           me.roll = me.input.roll.getValue();
