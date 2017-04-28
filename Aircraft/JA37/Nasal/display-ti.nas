@@ -233,6 +233,9 @@ var TI = {
 
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
+		ti.lastZ   = 0;
+
+
 		ti.brightness = 1;
 
 		ti.menuShowMain = FALSE;
@@ -984,7 +987,7 @@ var TI = {
 
 	showRadarLimit: func {
 		if (me.input.currentMode.getValue() == canvas_HUD.COMBAT and me.input.tracks_enabled.getValue() == TRUE) {
-			if (me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
+			if (me.lastZ  != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
 				me.radar_limit_grp.removeAllChildren();
 				var rdrField = 61.5*D2R;
 				var radius = M2TEX*me.input.radarRange.getValue();
@@ -1000,6 +1003,7 @@ var TI = {
 			    	.setStrokeLineWidth(w);
 			    me.lastRRT = me.input.timeElapsed.getValue();
 			    me.lastRR  = me.input.radarRange.getValue();
+			    me.lastZ  = zoom_curr;
 			}
 			me.radar_limit_grp.show();
 	    } else {
