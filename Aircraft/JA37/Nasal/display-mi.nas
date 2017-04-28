@@ -146,6 +146,7 @@ var MI = {
 
       	mi.tgt_dist_last = nil;
       	mi.brightness = 1;
+      	mi.off = FALSE;
 
       	return mi;
 	},
@@ -573,7 +574,7 @@ var MI = {
 		if (bright > 0) {
 			bright -= 1;
 			me.brightness -= 0.25;
-			if (me.brightness < 0) {
+			if (me.brightness < 0.25) {
 				me.brightness = 1;
 			}
 		}
@@ -583,7 +584,7 @@ var MI = {
 			radar_logic.selection = nil;
 		}
 
-		if (me.brightness == 0 or me.input.acInstrVolt.getValue() < 100) {
+		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-mi", 0);
 			setprop("ja37/avionics/cursor-on", FALSE);
 			settimer(func me.loop(), 0.05);

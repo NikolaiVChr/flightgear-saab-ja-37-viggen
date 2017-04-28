@@ -167,15 +167,35 @@ var TRUE = 1;
 
 
 var dictSE = {
-	'8':  {'7': "MENY", '1': "R7V", '2': "V7V", '3': "S7V", '18': "S7H", '19': "V7H", '20': "R7H", '16': "AKAN", '15': "RENS"},
-	'10': {'3': "ELKA", '4': "TMAD", '6': "SKAL", '7': "MENY", '14': "EOMR", '15': "EOMR", '16': "TID", '17': "HORI", '18': "HKM", '19': "DAG"},
-	'12': {'19': "NED", '20': "UPP"},
+	'8':   {'8': "R7V", '9': "V7V", '10': "S7V", '11': "S7H", '12': "V7H", '13': "R7H",
+			'7': "MENY", '14': "AKAN", '15': "RENS"},
+	'9':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+	 		'1': "SLACK", '2': "DL", '4': "B", '5': "UPOL", '6': "TRAP", '7': "MENY",
+	 		'14': "JAKT", '15': "HK",'16': "APOL", '17': "LA", '18': "LF", '19': "LB",'20': "L"},
+	'TRAP':{'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+	 		'2': "INLA", '3': "AVFY", '4': "FALL", '5': "MAN", '6': "SATT", '7': "MENY", '14': "RENS", '17': "ALLA", '19': "NED", '20': "UPP"},
+	'10':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+			'3': "ELKA", '4': "TMAD", '6': "SKAL", '7': "MENY", '14': "EOMR", '15': "EOMR", '16': "TID", '17': "HORI", '18': "HKM", '19': "DAG"},
+	'11':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF"},
+	'12':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+	 		'19': "NED", '20': "UPP"},
+	'13':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF"},
 };
 
 var dictEN = {
-	'8':  {'7': "MENU", '1': "T7L", '2': "W7L", '3': "F7L", '18': "F7R", '19': "W7R", '20': "T7R", '16': "AKAN", '15': "CLR"},
-	'10': {'3': "MAP", '4': "OLAY", '6': "SCAL", '7': "MENU", '14': "HOST", '15': "FRIE", '16': "TIME", '17': "HORI", '18': "CURS", '19': "DAY"},
-	'12': {'19': "DOWN", '20': "UP"},
+	'8':   {'8': "T7L", '9': "W7L", '10': "F7L", '11': "F7R", '12': "W7R", '13': "T7R",
+			'7': "MENU", '14': "AKAN", '15': "CLR"},
+    '9':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+	 		'1': "OFF", '2': "DL", '4': "B", '5': "UPOL", '6': "TRAP", '7': "MENU",
+	 		'14': "FGHT", '15': "CURV",'16': "POLY", '17': "WAYP", '18': "LF", '19': "LB",'20': "L"},
+	'TRAP':{'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+	 		'2': "LOCK", '3': "FIRE", '4': "ECM", '5': "MAN", '6': "LAND", '7': "MENU", '14': "CLR", '17': "ALL", '19': "DOWN", '20': "UP"},
+	'10':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+			'3': "MAP", '4': "OLAY", '6': "SCAL", '7': "MENU", '14': "HSTL", '15': "FRND", '16': "TIME", '17': "HORI", '18': "CURS", '19': "DAY"},
+	'11':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF"},
+	'12':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+	 		'19': "DOWN", '20': "UP"},
+	'13':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF"},
 };
 
 var TI = {
@@ -244,8 +264,12 @@ var TI = {
 		ti.menuTrap     = TRUE;
 		ti.menuSvy      = TRUE;
 		ti.menuGPS      = TRUE;
+
+		ti.trapFire     = FALSE;
+
 		ti.upText = FALSE;
-		ti.errorLogPage = 0;
+		ti.logPage = 0;
+		ti.off = FALSE;
 
       	return ti;
 	},
@@ -495,45 +519,9 @@ var TI = {
     	me.menuMainRoot = root.createChild("group")
     		.set("z-index", 20)
     		.hide();
-    	me.menuBottom8 = me.menuMainRoot.createChild("text")
-    		.setText("VAP")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-Bottom")
-    		.setTranslation(width*0.11, height)
-    		.setFontSize(13, 1);
-    	me.menuBottom9 = me.menuMainRoot.createChild("text")
-    		.setText("SYST")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-Bottom")
-    		.setTranslation(width*0.25, height)
-    		.setFontSize(13, 1);
-    	me.menuBottom10 = me.menuMainRoot.createChild("text")
-    		.setText("PMGD")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-Bottom")
-    		.setTranslation(width*0.40, height)
-    		.setFontSize(13, 1);
-    	me.menuBottom11 = me.menuMainRoot.createChild("text")
-    		.setText("UDAT")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-Bottom")
-    		.setTranslation(width*0.55, height)
-    		.setFontSize(13, 1);
-    	me.menuBottom12 = me.menuMainRoot.createChild("text")
-    		.setText("FO")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-Bottom")
-    		.setTranslation(width*0.71, height)
-    		.setFontSize(13, 1);
-    	me.menuBottom13 = me.menuMainRoot.createChild("text")
-    		.setText("KONF")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-Bottom")
-    		.setTranslation(width*0.84, height)
-    		.setFontSize(13, 1);
-    	me.errorRoot = root.createChild("group")
+    	me.logRoot = root.createChild("group")
     		.hide();
-    	me.errorList = me.errorRoot.createChild("text")
+    	me.errorList = me.logRoot.createChild("text")
     		.setText("..OKAY..\n..OKAY..")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("left-top")
@@ -554,7 +542,12 @@ var TI = {
     				.setFontSize(13, 1));
 		}
 		for(var i = 8; i <= 13; i+=1) {
-			append(me.menuButton, nil);
+			append(me.menuButton, me.menuMainRoot.createChild("text")
+    			.setText("MAIN")
+    			.setColor(rWhite,gWhite,bWhite, a)
+    			.setAlignment("center-Bottom")
+    			.setTranslation(width*0.11+(i-8)*width*0.145, height)
+    			.setFontSize(13, 1));
 		}
     	for(var i = 14; i <= 20; i+=1) {
 			append(me.menuButton,
@@ -574,11 +567,11 @@ var TI = {
 		if (bright > 0) {
 			bright -= 1;
 			me.brightness -= 0.25;
-			if (me.brightness < 0) {
+			if (me.brightness < 0.25) {
 				me.brightness = 1;
 			}
 		}
-		if (me.brightness == 0 or me.input.acInstrVolt.getValue() < 100) {
+		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
 			settimer(func me.loop(), 0.25);
@@ -607,6 +600,11 @@ var TI = {
 			me.menuMainRoot.show();
 			me.updateMainMenu();
 			me.upText = TRUE;
+		} elsif (me.menuShowMain == FALSE and me.menuMain == 8) {
+			me.menuShowFast = TRUE;#figure this out better
+			me.menuMainRoot.show();
+			me.updateMainMenu();
+			me.upText = TRUE;
 		} else {
 			me.menuMainRoot.hide();
 			me.upText = FALSE;
@@ -617,12 +615,22 @@ var TI = {
 		} else {
 			me.menuFastRoot.hide();
 		}
-		if (me.menuMain == 12) {
+		if (me.menuMain == 9) {
+			if (me.trapFire == TRUE){
+				me.hideMap();
+				me.logRoot.show();
+				var str = armament.fireLog;
+				me.errorList.setText(str);
+				me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
+				me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
+				me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+			} else{
+				me.showMap();
+			}
+		} elsif (me.menuMain == 12) {
 			# failure menu
-			me.mapCentrum.hide();
-			me.rootCenter.hide();
-			me.bottom_text_grp.hide();
-			me.errorRoot.show();
+			me.hideMap();
+			me.logRoot.show();
 			call(func {
 				var buffer = FailureMgr.get_log_buffer();
 				var str = "";
@@ -630,35 +638,48 @@ var TI = {
       				str = str~entry.time~" "~entry.message~"\n";
     			}
 				me.errorList.setText(str)});
-			me.errorRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.errorLogPage);
+			me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
 			me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-			me.errorRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+			me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		} else {
-			me.errorLogPage = 0;
-			me.mapCentrum.show();
-			me.rootCenter.show();
-			me.bottom_text_grp.show();
-			me.errorRoot.hide();
+			me.showMap();
 		}
 	},
 
+	showMap: func {
+		me.logPage = 0;
+		me.mapCentrum.show();
+		me.rootCenter.show();
+		me.logRoot.hide();
+		me.bottom_text_grp.show();
+	},
+
+	hideMap: func {
+		me.mapCentrum.hide();
+		me.rootCenter.hide();
+		me.bottom_text_grp.hide();
+	},
+
 	updateMainMenu: func {
-		if (me.interoperability == displays.METRIC) {
-			me.menuBottom8.setText("VAP");
-			me.menuBottom9.setText("SYST");
-			me.menuBottom10.setText("PMGD");
-			me.menuBottom11.setText("UDAT");
-			me.menuBottom12.setText("FO");
-			me.menuBottom13.setText("KONF");
-		} else {
-			me.menuBottom8.setText("WEAP");
-			me.menuBottom9.setText("SYST");
-			me.menuBottom9.update();
-			me.menuBottom10.setText("DISP");
-			me.menuBottom11.setText("FLDA");
-			me.menuBottom12.setText("FAIL");
-			me.menuBottom13.setText("CONF");
+		for(var i = 8; i <= 13; i+=1) {
+			me.menuButton[i].setText(me.compileMainMenu(i));
 		}
+	},
+
+	compileMainMenu: func (button) {
+		var str = nil;
+		if (me.interoperability == displays.METRIC) {
+			str = dictSE[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
+		} else {
+			str = dictEN[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
+		}
+		if (str != nil) {
+			str = str[''~button];
+			if (str != nil) {
+				return str;
+			}
+		}
+		return "";
 	},
 
 	updateFastMenu: func {
@@ -673,9 +694,9 @@ var TI = {
 	compileFastMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[''~me.menuMain];
+			str = dictSE[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
 		} else {
-			str = dictEN[''~me.menuMain];
+			str = dictEN[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
 		}
 		if (str != nil) {
 			str = str[''~button];
@@ -694,13 +715,20 @@ var TI = {
 		me.menuTrap = FALSE;
 		me.menuSvy  = FALSE;
 		me.menuGPS  = FALSE;
+		me.trapFire = FALSE;
 	},
 
 	b1: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.off == TRUE) {
+			me.off = !me.off;
+			MI.mi.off = me.off;
+		} elsif (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+				me.off = !me.off;
+				MI.mi.off = me.off;
+			} elsif (me.menuMain == 8) {
 				me.input.station.setIntValue(5);
 			}
 		}
@@ -722,6 +750,10 @@ var TI = {
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(2);
+			}
+			if (me.menuMain == 9 and me.menuTrap == TRUE) {
+				# tact fire report
+				me.trapFire = TRUE;
 			}
 		}
 	},
@@ -770,9 +802,14 @@ var TI = {
 		# weapons
 		if (me.menuShowMain == TRUE) {
 			me.menuMain = 8;
+			me.menuShowMain = FALSE;
 			me.menuNoSub();
 		} else {
-			me.menuShowMain = !me.menuShowMain;
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(5);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
 		}
 	},
 
@@ -782,7 +819,11 @@ var TI = {
 			me.menuMain = 9;
 			me.menuNoSub();
 		} else {
-			me.menuShowMain = !me.menuShowMain;
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(1);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
 		}
 	},
 
@@ -792,7 +833,11 @@ var TI = {
 			me.menuMain = 10;
 			me.menuNoSub();
 		} else {
-			me.menuShowMain = !me.menuShowMain;
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(2);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
 		}
 	},
 
@@ -802,7 +847,11 @@ var TI = {
 			me.menuMain = 11;
 			me.menuNoSub();
 		} else {
-			me.menuShowMain = !me.menuShowMain;
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(4);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
 		}
 	},
 
@@ -812,7 +861,11 @@ var TI = {
 			me.menuMain = 12;
 			me.menuNoSub();
 		} else {
-			me.menuShowMain = !me.menuShowMain;
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(3);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
 		}
 	},
 
@@ -822,7 +875,11 @@ var TI = {
 			me.menuMain = 13;
 			me.menuNoSub();
 		} else {
-			me.menuShowMain = !me.menuShowMain;
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(6);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
 		}
 	},
 
@@ -830,6 +887,13 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(0);
+			}
+			if (me.menuMain == 9 and me.menuTrap == TRUE) {
+				# clear tact reports
+				armament.fireLog = "\n      Fire log:";
+			}
 			if (me.menuMain == 13 and me.menuGPS == FALSE) {
 				# GPS settings
 				me.menuGPS = TRUE;
@@ -841,6 +905,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				#clear weapon selection
+			}
 		}
 	},
 
@@ -848,9 +915,7 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(0);
-			}
+			
 		}
 	},
 
@@ -865,9 +930,6 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(4);
-			}
 		}
 	},
 
@@ -875,11 +937,11 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(3);
+			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+				me.logPage += 1;
 			}
 			if(me.menuMain == 12) {
-				me.errorLogPage += 1;
+				me.logPage += 1;
 			}
 		}
 	},
@@ -888,13 +950,16 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(6);
+			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+				me.logPage -= 1;
+				if (me.logPage < 0) {
+					me.logPage = 0;
+				}
 			}
 			if(me.menuMain == 12) {
-				me.errorLogPage -= 1;
-				if (me.errorLogPage < 0) {
-					me.errorLogPage = 0;
+				me.logPage -= 1;
+				if (me.logPage < 0) {
+					me.logPage = 0;
 				}
 			}
 		}
