@@ -176,10 +176,12 @@ var dictSE = {
 	 		'2': "INLA", '3': "AVFY", '4': "FALL", '5': "MAN", '6': "SATT", '7': "MENY", '14': "RENS", '17': "ALLA", '19': "NED", '20': "UPP"},
 	'10':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
 			'3': "ELKA", '4': "TMAD", '6': "SKAL", '7': "MENY", '14': "EOMR", '15': "EOMR", '16': "TID", '17': "HORI", '18': "HKM", '19': "DAG"},
-	'11':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF"},
+	'11':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+			'4': "EDIT", '6': "EDIT", '7': "MENY", '14': "EDIT", '15': "APOL", '16': "EDIT", '17': "UPOL", '18': "EDIT", '19': "EGLA", '20': "KMAN"},
 	'12':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
 	 		'19': "NED", '20': "UPP"},
-	'13':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF"},
+	'13':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
+			'5': "SVY", '6': "FR28", '7': "MENY", '14': "GPS", '19': "LAS"},
 };
 
 var dictEN = {
@@ -192,10 +194,14 @@ var dictEN = {
 	 		'2': "LOCK", '3': "FIRE", '4': "ECM", '5': "MAN", '6': "LAND", '7': "MENU", '14': "CLR", '17': "ALL", '19': "DOWN", '20': "UP"},
 	'10':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
 			'3': "MAP", '4': "OLAY", '6': "SCAL", '7': "MENU", '14': "HSTL", '15': "FRND", '16': "TIME", '17': "HORI", '18': "CURS", '19': "DAY"},
-	'11':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF"},
+	'11':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+			'4': "EDIT", '6': "EDIT", '7': "MENU", '14': "EDIT", '15': "POLY", '16': "EDIT", '17': "UPOL", '18': "EDIT", '19': "MYMD", '20': "MMAN"},
 	'12':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
 	 		'19': "DOWN", '20': "UP"},
-	'13':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF"},
+	'13':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+			'5': "SIDE", '6': "FR28", '7': "MENU", '14': "GPS", '19': "LOCK"},
+	'GPS': {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
+			'7': "MENU", '14': "FIX", '15': "INIT"},
 };
 
 var TI = {
@@ -539,7 +545,7 @@ var TI = {
     				.setColor(rWhite,gWhite,bWhite, a)
     				.setAlignment("left-center")
     				.setTranslation(width*0.025, height*0.09+(i-1)*height*0.11)
-    				.setFontSize(13, 1));
+    				.setFontSize(12.5, 1));
 		}
 		for(var i = 8; i <= 13; i+=1) {
 			append(me.menuButton, me.menuMainRoot.createChild("text")
@@ -556,7 +562,7 @@ var TI = {
     				.setColor(rWhite,gWhite,bWhite, a)
     				.setAlignment("right-center")
     				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
-    				.setFontSize(13, 1));
+    				.setFontSize(12.5, 1));
 		}
 	},
 
@@ -669,9 +675,9 @@ var TI = {
 	compileMainMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
+			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
 		} else {
-			str = dictEN[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
+			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
 		}
 		if (str != nil) {
 			str = str[''~button];
@@ -694,9 +700,9 @@ var TI = {
 	compileFastMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
+			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
 		} else {
-			str = dictEN[me.menuTrap==TRUE?"TRAP":''~me.menuMain];
+			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
 		}
 		if (str != nil) {
 			str = str[''~button];
