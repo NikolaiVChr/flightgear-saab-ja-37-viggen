@@ -599,4 +599,44 @@
         </action>
     </animation>
 
+
+
+
+
+
+
+
+
+    <animation>
+      <type>material</type> 
+      <object-name>b1</object-name>
+      <object-name>b2</object-name>
+      <object-name>b3</object-name>
+      <object-name>b4</object-name>
+      <object-name>b5</object-name>
+      <object-name>b6</object-name>
+      <object-name>b7</object-name>
+      <object-name>b8</object-name>
+      <object-name>b9</object-name>
+      <object-name>b10</object-name>
+      <object-name>b11</object-name>
+      <object-name>b12</object-name>
+      <object-name>b13</object-name>
+      <object-name>b14</object-name>
+      <object-name>b15</object-name>
+      <object-name>b16</object-name>
+      <object-name>b17</object-name>
+      <object-name>b18</object-name>
+      <object-name>b19</object-name>
+      <object-name>b20</object-name>
+      <object-name>button_brightness</object-name>
+      <object-name>button_contrast</object-name>
+      <emission>
+       <red>1.0</red> 
+       <green>1.0</green> 
+       <blue>1.0</blue>
+       <factor-prop>controls/lighting/instruments-norm</factor-prop>
+      </emission>
+    </animation>
+
 </PropertyList>  

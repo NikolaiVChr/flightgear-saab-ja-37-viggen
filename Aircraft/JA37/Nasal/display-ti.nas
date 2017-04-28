@@ -165,6 +165,19 @@ var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 var FALSE = 0;
 var TRUE = 1;
 
+
+var dictSE = {
+	'8':  {'7': "MENY", '1': "R7V", '2': "V7V", '3': "S7V", '18': "S7H", '19': "V7H", '20': "R7H", '16': "AKAN", '15': "RENS"},
+	'10': {'3': "ELKA", '4': "TMAD", '6': "SKAL", '7': "MENY", '14': "EOMR", '15': "EOMR", '16': "TID", '17': "HORI", '18': "HKM", '19': "DAG"},
+	'12': {'19': "NED", '20': "UPP"},
+};
+
+var dictEN = {
+	'8':  {'7': "MENU", '1': "T7L", '2': "W7L", '3': "F7L", '18': "F7R", '19': "W7R", '20': "T7R", '16': "AKAN", '15': "CLR"},
+	'10': {'3': "MAP", '4': "OLAY", '6': "SCAL", '7': "MENU", '14': "HOST", '15': "FRIE", '16': "TIME", '17': "HORI", '18': "CURS", '19': "DAY"},
+	'12': {'19': "DOWN", '20': "UP"},
+};
+
 var TI = {
 
 	new: func {
@@ -222,12 +235,12 @@ var TI = {
 		ti.lastRR  = 0;
 		ti.brightness = 1;
 
-		ti.menyShowMain = FALSE;
-		ti.menyShowFast = FALSE;
-		ti.menyMain     = 9;
-		ti.menyTrap     = TRUE;
-		ti.menySvy      = TRUE;
-		ti.menyGPS      = TRUE;
+		ti.menuShowMain = FALSE;
+		ti.menuShowFast = FALSE;
+		ti.menuMain     = 9;
+		ti.menuTrap     = TRUE;
+		ti.menuSvy      = TRUE;
+		ti.menuGPS      = TRUE;
 		ti.upText = FALSE;
 		ti.errorLogPage = 0;
 
@@ -476,39 +489,40 @@ var TI = {
     		.setTranslation(width, height-height*0.085)
     		.setFontSize(18, 1);
 
-    	me.menyMainRoot = root.createChild("group")
+    	me.menuMainRoot = root.createChild("group")
+    		.set("z-index", 20)
     		.hide();
-    	me.menyBottom8 = me.menyMainRoot.createChild("text")
+    	me.menuBottom8 = me.menuMainRoot.createChild("text")
     		.setText("VAP")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.11, height)
     		.setFontSize(10, 1);
-    	me.menyBottom9 = me.menyMainRoot.createChild("text")
+    	me.menuBottom9 = me.menuMainRoot.createChild("text")
     		.setText("SYST")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.25, height)
     		.setFontSize(10, 1);
-    	me.menyBottom10 = me.menyMainRoot.createChild("text")
+    	me.menuBottom10 = me.menuMainRoot.createChild("text")
     		.setText("PMGD")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.40, height)
     		.setFontSize(10, 1);
-    	me.menyBottom11 = me.menyMainRoot.createChild("text")
+    	me.menuBottom11 = me.menuMainRoot.createChild("text")
     		.setText("UDAT")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.55, height)
     		.setFontSize(10, 1);
-    	me.menyBottom12 = me.menyMainRoot.createChild("text")
-    		.setText("F™")
+    	me.menuBottom12 = me.menuMainRoot.createChild("text")
+    		.setText("FO")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.71, height)
     		.setFontSize(10, 1);
-    	me.menyBottom13 = me.menyMainRoot.createChild("text")
+    	me.menuBottom13 = me.menuMainRoot.createChild("text")
     		.setText("KONF")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
@@ -522,6 +536,32 @@ var TI = {
     		.setAlignment("left-top")
     		.setTranslation(0, 20)
     		.setFontSize(10, 1);
+
+    	me.menuFastRoot = root.createChild("group")
+    		.set("z-index", 20);
+    		#.hide();
+    	me.menuButton = [nil];
+    	for(var i = 1; i <= 7; i+=1) {
+			append(me.menuButton,
+				me.menuFastRoot.createChild("text")
+    				.setText("M\nE\nN\nY")
+    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setAlignment("left-center")
+    				.setTranslation(width*0.025, height*0.09+(i-1)*height*0.11)
+    				.setFontSize(10, 1));
+		}
+		for(var i = 8; i <= 13; i+=1) {
+			append(me.menuButton, nil);
+		}
+    	for(var i = 14; i <= 20; i+=1) {
+			append(me.menuButton,
+				me.menuFastRoot.createChild("text")
+    				.setText("M\nE\nN\nY")
+    				.setColor(rWhite,gWhite,bWhite, a)
+    				.setAlignment("right-center")
+    				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
+    				.setFontSize(10, 1));
+		}
 	},
 
 	loop: func {
@@ -553,21 +593,29 @@ var TI = {
 		me.showRunway();
 		me.showRadarLimit();
 		me.showBottomText();
-		me.menyUpdate();
+		me.menuUpdate();
 
 		settimer(func me.loop(), 0.5);
 	},
 
-	menyUpdate: func {
-		if (me.menyShowMain == TRUE) {
-			me.menyShowFast = TRUE;#figure this out better
-			me.menyMainRoot.show();
+	menuUpdate: func {
+		if (me.menuShowMain == TRUE) {
+			me.menuShowFast = TRUE;#figure this out better
+			me.menuMainRoot.show();
+			me.updateMainMenu();
 			me.upText = TRUE;
 		} else {
-			me.menyMainRoot.hide();
+			me.menuMainRoot.hide();
 			me.upText = FALSE;
 		}
-		if (me.menyMain == 12) {
+		if (me.menuShowFast == TRUE) {
+			me.menuFastRoot.show();
+			me.updateFastMenu();
+		} else {
+			me.menuFastRoot.hide();
+		}
+		if (me.menuMain == 12) {
+			# failure menu
 			me.mapCentrum.hide();
 			me.rootCenter.hide();
 			me.bottom_text_grp.hide();
@@ -591,187 +639,234 @@ var TI = {
 		}
 	},
 
-	menyNoSub: func {
-		me.menyTrap = FALSE;
-		me.menySvy  = FALSE;
-		me.menyGPS  = FALSE;
+	updateMainMenu: func {
+		if (me.interoperability == displays.METRIC) {
+			me.menuBottom8.setText("VAP");
+			me.menuBottom9.setText("SYST");
+			me.menuBottom10.setText("PMGD");
+			me.menuBottom11.setText("UDAT");
+			me.menuBottom12.setText("FO");
+			me.menuBottom13.setText("KONF");
+		} else {
+			me.menuBottom8.setText("WEAP");
+			me.menuBottom9.setText("SYST");
+			me.menuBottom10.setText("DISP");
+			me.menuBottom11.setText("FLDA");
+			me.menuBottom12.setText("FAIL");
+			me.menuBottom13.setText("CONF");
+		}
+	},
+
+	updateFastMenu: func {
+		for(var i = 1; i <= 7; i+=1) {
+			me.menuButton[i].setText(me.compileFastMenu(i));
+		}
+		for(var i = 14; i <= 20; i+=1) {
+			me.menuButton[i].setText(me.compileFastMenu(i));
+		}
+	},
+
+	compileFastMenu: func (button) {
+		var str = nil;
+		if (me.interoperability == displays.METRIC) {
+			str = dictSE[''~me.menuMain];
+		} else {
+			str = dictEN[''~me.menuMain];
+		}
+		if (str != nil) {
+			str = str[''~button];
+			if (str != nil) {
+				var compiled = "";
+				for(var i = 0; i < size(str); i+=1) {
+					compiled = compiled ~substr(str,i,1)~(i==(size(str)-1)?"":"\n");
+				}
+				return compiled;
+			}
+		}
+		return "";
+	},
+
+	menuNoSub: func {
+		me.menuTrap = FALSE;
+		me.menuSvy  = FALSE;
+		me.menuGPS  = FALSE;
 	},
 
 	b1: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b2: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b3: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b4: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b5: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
-			if (me.menyMain == 13 and me.menySvy == FALSE) {
+			if (me.menuMain == 13 and me.menuSvy == FALSE) {
 				# side view
-				me.menySvy = TRUE;
+				me.menuSvy = TRUE;
 			}
 		}
 	},
 
 	b6: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
-			if (me.menyMain == 9 and me.menyTrap == FALSE) {
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
 				# tactical report
-				me.menyTrap = TRUE;
+				me.menuTrap = TRUE;
 			}
 		}
 	},
 
 	b7: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
-			me.menyShowMain = FALSE;
-			me.menyShowFast = FALSE;
-			me.menyTrap = TRUE;
-			me.menyMain = 9;
+			me.menuShowMain = FALSE;
+			me.menuShowFast = FALSE;
+			me.menuTrap = TRUE;
+			me.menuMain = 9;
 		}
 	},
 
 	b8: func {
 		# weapons
-		if (me.menyShowMain == TRUE) {
-			me.menyMain = 8;
-			me.menyNoSub();
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 8;
+			me.menuNoSub();
 		} else {
-			me.menyShowMain = !me.menyShowMain;
+			me.menuShowMain = !me.menuShowMain;
 		}
 	},
 
 	b9: func {
 		# system
-		if (me.menyShowMain == TRUE) {
-			me.menyMain = 9;
-			me.menyNoSub();
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 9;
+			me.menuNoSub();
 		} else {
-			me.menyShowMain = !me.menyShowMain;
+			me.menuShowMain = !me.menuShowMain;
 		}
 	},
 
 	b10: func {
 		# display
-		if (me.menyShowMain == TRUE) {
-			me.menyMain = 10;
-			me.menyNoSub();
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 10;
+			me.menuNoSub();
 		} else {
-			me.menyShowMain = !me.menyShowMain;
+			me.menuShowMain = !me.menuShowMain;
 		}
 	},
 
 	b11: func {
 		# flight data
-		if (me.menyShowMain == TRUE) {
-			me.menyMain = 11;
-			me.menyNoSub();
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 11;
+			me.menuNoSub();
 		} else {
-			me.menyShowMain = !me.menyShowMain;
+			me.menuShowMain = !me.menuShowMain;
 		}
 	},
 
 	b12: func {
 		# errors
-		if (me.menyShowMain == TRUE) {
-			me.menyMain = 12;
-			me.menyNoSub();
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 12;
+			me.menuNoSub();
 		} else {
-			me.menyShowMain = !me.menyShowMain;
+			me.menuShowMain = !me.menuShowMain;
 		}
 	},
 
 	b13: func {
 		# configuration
-		if (me.menyShowMain == TRUE) {
-			me.menyMain = 13;
-			me.menyNoSub();
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 13;
+			me.menuNoSub();
 		} else {
-			me.menyShowMain = !me.menyShowMain;
+			me.menuShowMain = !me.menuShowMain;
 		}
 	},
 
 	b14: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
-			if (me.menyMain == 13 and me.menyGPS == FALSE) {
+			if (me.menuMain == 13 and me.menuGPS == FALSE) {
 				# GPS settings
-				me.menyGPS = TRUE;
+				me.menuGPS = TRUE;
 			}
 		}
 	},
 
 	b15: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b16: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b17: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b18: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
 		}
 	},
 
 	b19: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
-			if(me.menyMain = 12) {
+			if(me.menuMain = 12) {
 				me.errorLogPage += 1;
 			}
 		}
 	},
 
 	b20: func {
-		if (me.menyShowFast == FALSE) {
-			me.menyShowFast = TRUE;
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
 		} else {
-			if(me.menyMain = 12) {
+			if(me.menuMain = 12) {
 				me.errorLogPage -= 1;
 				if (me.errorLogPage < 0) {
 					me.errorLogPage = 0;
