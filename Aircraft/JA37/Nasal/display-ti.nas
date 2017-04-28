@@ -700,6 +700,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(5);
+			}
 		}
 	},
 
@@ -707,6 +710,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(1);
+			}
 		}
 	},
 
@@ -714,6 +720,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(2);
+			}
 		}
 	},
 
@@ -839,6 +848,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(0);
+			}
 		}
 	},
 
@@ -853,6 +865,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(4);
+			}
 		}
 	},
 
@@ -860,6 +875,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(3);
+			}
 			if(me.menuMain == 12) {
 				me.errorLogPage += 1;
 			}
@@ -870,6 +888,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(6);
+			}
 			if(me.menuMain == 12) {
 				me.errorLogPage -= 1;
 				if (me.errorLogPage < 0) {
@@ -987,7 +1008,7 @@ var TI = {
 
 	showRadarLimit: func {
 		if (me.input.currentMode.getValue() == canvas_HUD.COMBAT and me.input.tracks_enabled.getValue() == TRUE) {
-			if (me.lastZ  != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
+			if (me.lastZ != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
 				me.radar_limit_grp.removeAllChildren();
 				var rdrField = 61.5*D2R;
 				var radius = M2TEX*me.input.radarRange.getValue();
