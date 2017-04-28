@@ -26,7 +26,7 @@ var (width,height) = (381.315,512);
 #};
 #var root = window.getCanvas(1).createGroup();
 var canvas = canvas.new({
-  "name": "MI",   # The name is optional but allow for easier identification
+  "name": "TI",   # The name is optional but allow for easier identification
   "size": [height, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
   "view": [height, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
                         # which will be stretched the size of the texture, required)
@@ -391,19 +391,19 @@ var TI = {
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.textBTactType2 = me.bottom_text_grp.createChild("text")
     		.setText("K")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08+15)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.textBTactType3 = me.bottom_text_grp.createChild("text")
     		.setText("T")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-top")
     		.setTranslation(55, height-height*0.08+30)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.textBTactType = me.bottom_text_grp.createChild("path")
     		.moveTo(50, height-height*0.09)
     		.horiz(12)
@@ -497,37 +497,37 @@ var TI = {
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.11, height)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.menuBottom9 = me.menuMainRoot.createChild("text")
     		.setText("SYST")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.25, height)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.menuBottom10 = me.menuMainRoot.createChild("text")
     		.setText("PMGD")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.40, height)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.menuBottom11 = me.menuMainRoot.createChild("text")
     		.setText("UDAT")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.55, height)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.menuBottom12 = me.menuMainRoot.createChild("text")
     		.setText("FO")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.71, height)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.menuBottom13 = me.menuMainRoot.createChild("text")
     		.setText("KONF")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-Bottom")
     		.setTranslation(width*0.84, height)
-    		.setFontSize(10, 1);
+    		.setFontSize(13, 1);
     	me.errorRoot = root.createChild("group")
     		.hide();
     	me.errorList = me.errorRoot.createChild("text")
@@ -548,7 +548,7 @@ var TI = {
     				.setColor(rWhite,gWhite,bWhite, a)
     				.setAlignment("left-center")
     				.setTranslation(width*0.025, height*0.09+(i-1)*height*0.11)
-    				.setFontSize(10, 1));
+    				.setFontSize(13, 1));
 		}
 		for(var i = 8; i <= 13; i+=1) {
 			append(me.menuButton, nil);
@@ -560,7 +560,7 @@ var TI = {
     				.setColor(rWhite,gWhite,bWhite, a)
     				.setAlignment("right-center")
     				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
-    				.setFontSize(10, 1));
+    				.setFontSize(13, 1));
 		}
 	},
 
@@ -650,6 +650,7 @@ var TI = {
 		} else {
 			me.menuBottom8.setText("WEAP");
 			me.menuBottom9.setText("SYST");
+			me.menuBottom9.update();
 			me.menuBottom10.setText("DISP");
 			me.menuBottom11.setText("FLDA");
 			me.menuBottom12.setText("FAIL");
@@ -856,7 +857,7 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if(me.menuMain = 12) {
+			if(me.menuMain == 12) {
 				me.errorLogPage += 1;
 			}
 		}
@@ -866,7 +867,7 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if(me.menuMain = 12) {
+			if(me.menuMain == 12) {
 				me.errorLogPage -= 1;
 				if (me.errorLogPage < 0) {
 					me.errorLogPage = 0;
