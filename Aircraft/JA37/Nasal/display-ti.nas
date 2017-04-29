@@ -566,6 +566,9 @@ var TI = {
     	me.menuFastRoot = root.createChild("group")
     		.set("z-index", 20);
     		#.hide();
+
+    	# text for outer menu items
+		#
     	me.menuButton = [nil];
     	for(var i = 1; i <= 7; i+=1) {
 			append(me.menuButton,
@@ -580,8 +583,9 @@ var TI = {
 			append(me.menuButton, me.menuMainRoot.createChild("text")
     			.setText("MAIN")
     			.setColor(rWhite,gWhite,bWhite, a)
-    			.setAlignment("center-Bottom")
-    			.setTranslation(width*0.11+(i-8)*width*0.145, height)
+    			.setAlignment("center-bottom")
+    			.setPadding(0,0,0,0)
+    			.setTranslation(width*0.135+(i-8)*width*0.1475, height)
     			.setFontSize(13, 1));
 		}
     	for(var i = 14; i <= 20; i+=1) {
@@ -593,6 +597,9 @@ var TI = {
     				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
     				.setFontSize(12.5, 1));
 		}
+
+		# boxes for outer menu items
+		#
 		me.menuButtonBox = [nil];
     	for(var i = 1; i <= 7; i+=1) {
 			append(me.menuButtonBox,
@@ -607,10 +614,10 @@ var TI = {
 		}
 		for(var i = 8; i <= 13; i+=1) {
 			append(me.menuButtonBox, me.menuMainRoot.createChild("path")
-					.moveTo(width*0.11+(i-8)*width*0.145-6.25*2, height)
-    				.horiz(6.25*7)
+					.moveTo(width*0.135+((i-8)*width*0.1475)-6.25*3, height)
+    				.horiz(6.25*6)
     				.vert(-6.25*2)
-    				.horiz(-6.25*7)
+    				.horiz(-6.25*6)
     				.vert(6.25*2)
     				.setColor(rWhite,gWhite,bWhite, a)
 		    		.setStrokeLineWidth(w));
@@ -627,6 +634,8 @@ var TI = {
 		    		.setStrokeLineWidth(w));
 		}
 
+		# text for inner menu items
+		#
 		me.menuButtonSub = [nil];
 		for(var i = 1; i <= 7; i+=1) {
 			append(me.menuButtonSub,
@@ -652,6 +661,8 @@ var TI = {
     				.setFontSize(12.5, 1));
 		}
 
+		# boxes for inner menu items
+		#
 		me.menuButtonSubBox = [nil];
     	for(var i = 1; i <= 7; i+=1) {
 			append(me.menuButtonSubBox,
