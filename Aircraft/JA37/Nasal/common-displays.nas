@@ -173,6 +173,32 @@ var Common = {
 	      }
 	},
 
+	armNamePylon: func (station) {
+		  me.armSelect = station;
+	      if (me.armSelect > 0) {
+	        me.armamentp = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
+	      } else {
+	        me.armamentp = "";
+	      }
+	      if(me.armSelect == 0) {
+	        return "AK";
+	      } elsif(me.armamentp == "RB 24J Sidewinder") {
+	        return "24";	        
+	      } elsif(me.armamentp == "RB 74 Sidewinder") {
+	        return "74";	        
+	      } elsif(me.armamentp == "M70 ARAK") {
+	        return "70";	        
+	      } elsif(me.armamentp == "RB 71 Skyflash") {
+	        return "71";	        
+	      } elsif(me.armamentp == "RB 99 Amraam") {
+	        return "99";	        
+	      } elsif(me.armamentp == "TEST") {
+	        return "TS";	        
+	      } else {
+	        return nil;
+	      }
+	},
+
 	displayMode: func {
 		if (me.input.mach.getValue() != nil) {
 		    me.hasRotated = FALSE;

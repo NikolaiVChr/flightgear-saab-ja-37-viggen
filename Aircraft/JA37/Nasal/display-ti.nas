@@ -167,43 +167,45 @@ var TRUE = 1;
 
 
 var dictSE = {
-	'0':   {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF"},
-	'8':   {'8': "R7V", '9': "V7V", '10': "S7V", '11': "S7H", '12': "V7H", '13': "R7H",
-			'7': "MENY", '14': "AKAN", '15': "RENS"},
-	'9':   {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-	 		'1': "SLACK", '2': "DL", '4': "B", '5': "UPOL", '6': "TRAP", '7': "MENY",
-	 		'14': "JAKT", '15': "HK",'16': "APOL", '17': "LA", '18': "LF", '19': "LB",'20': "L"},
-	'TRAP':{'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-	 		'2': "INLA", '3': "AVFY", '4': "FALL", '5': "MAN", '6': "SATT", '7': "MENY", '14': "RENS", '17': "ALLA", '19': "NED", '20': "UPP"},
-	'10':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-			'3': "ELKA", '4': "TMAD", '6': "SKAL", '7': "MENY", '14': "EOMR", '15': "EOMR", '16': "TID", '17': "HORI", '18': "HKM", '19': "DAG"},
-	'11':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-			'4': "EDIT", '6': "EDIT", '7': "MENY", '14': "EDIT", '15': "APOL", '16': "EDIT", '17': "UPOL", '18': "EDIT", '19': "EGLA", '20': "KMAN"},
-	'12':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-	 		'7': "MENY", '19': "NED", '20': "UPP"},
-	'13':  {'8': "VAP", '9': "SYST", '10': "PMGD", '11': "UDAT", '12': "FO", '13': "KONF",
-			'5': "SVY", '6': "FR28", '7': "MENY", '14': "GPS", '19': "LAS"},
+	'0':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"]},
+	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
+			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
+	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+	 		'1': [TRUE, "SLACK"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
+	 		'14': [FALSE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
+	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+			'3': [FALSE, "ELKA"], '4': [FALSE, "TMAD"], '6': [FALSE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [FALSE, "TID"], '17': [FALSE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
+	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [FALSE, "EGLA"], '20': [FALSE, "KMAN"]},
+	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
+	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+			'5': [FALSE, "SVY"], '6': [FALSE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "LAS"]},
+	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [FALSE, "INIT"]},
 };
 
 var dictEN = {
-	'0':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF"},
-	'8':   {'8': "T7L", '9': "W7L", '10': "F7L", '11': "F7R", '12': "W7R", '13': "T7R",
-			'7': "MENU", '14': "AKAN", '15': "CLR"},
-    '9':   {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-	 		'1': "OFF", '2': "DL", '4': "B", '5': "UPOL", '6': "TRAP", '7': "MENU",
-	 		'14': "FGHT", '15': "CURV",'16': "POLY", '17': "WAYP", '18': "LF", '19': "LB",'20': "L"},
-	'TRAP':{'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-	 		'2': "LOCK", '3': "FIRE", '4': "ECM", '5': "MAN", '6': "LAND", '7': "MENU", '14': "CLR", '17': "ALL", '19': "DOWN", '20': "UP"},
-	'10':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-			'3': "MAP", '4': "OLAY", '6': "SCAL", '7': "MENU", '14': "HSTL", '15': "FRND", '16': "TIME", '17': "HORI", '18': "CURS", '19': "DAY"},
-	'11':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-			'4': "EDIT", '6': "EDIT", '7': "MENU", '14': "EDIT", '15': "POLY", '16': "EDIT", '17': "UPOL", '18': "EDIT", '19': "MYMD", '20': "MMAN"},
-	'12':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-	 		'7': "MENU", '19': "DOWN", '20': "UP"},
-	'13':  {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-			'5': "SIDE", '6': "FR28", '7': "MENU", '14': "GPS", '19': "LOCK"},
-	'GPS': {'8': "WEAP", '9': "SYST", '10': "DISP", '11': "FLDA", '12': "FAIL", '13': "CONF",
-			'7': "MENU", '14': "FIX", '15': "INIT"},
+	'0':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"]},
+	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
+			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
+    '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
+	 		'14': [FALSE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
+	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+			'3': [FALSE, "MAP"], '4': [FALSE, "OLAY"], '6': [FALSE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [FALSE, "TIME"], '17': [FALSE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
+	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [FALSE, "MYMD"], '20': [FALSE, "MMAN"]},
+	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
+	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+			'5': [FALSE, "SIDE"], '6': [FALSE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
+	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [FALSE, "INIT"]},
 };
 
 var TI = {
@@ -247,9 +249,10 @@ var TI = {
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        station:          	  "controls/armament/station-select",
 	        currentMode:          "ja37/hud/current-mode",
-	        ctrlRadar:        		"controls/altimeter-radar",
-	        acInstrVolt:      		"systems/electrical/outputs/ac-instr-voltage",
-	        nav0InRange:      		"instrumentation/nav[0]/in-range",
+	        ctrlRadar:        	  "controls/altimeter-radar",
+	        acInstrVolt:      	  "systems/electrical/outputs/ac-instr-voltage",
+	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
+	        fullMenus:            "ja37/displays/show-full-menus",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -278,6 +281,7 @@ var TI = {
 		ti.upText = FALSE;
 		ti.logPage = 0;
 		ti.off = FALSE;
+		ti.showFullMenus = TRUE;
 
       	return ti;
 	},
@@ -566,6 +570,40 @@ var TI = {
     				.setTranslation(width*0.975, height*0.09+(6-(i-14))*height*0.11)
     				.setFontSize(12.5, 1));
 		}
+		me.menuButtonBox = [nil];
+    	for(var i = 1; i <= 7; i+=1) {
+			append(me.menuButtonBox,
+				me.menuFastRoot.createChild("path")
+    				.moveTo(width*0.025-3.125, height*0.09+(i-1)*height*0.11-6.25*4)
+    				.horiz(6.25*2)
+    				.vert(6.25*8)
+    				.horiz(-6.25*2)
+    				.vert(-6.25*8)
+    				.setColor(rWhite,gWhite,bWhite, a)
+		    		.setStrokeLineWidth(w));
+		}
+		for(var i = 8; i <= 13; i+=1) {
+			append(me.menuButtonBox, me.menuMainRoot.createChild("path")
+					.moveTo(width*0.11+(i-8)*width*0.145-6.25*2, height)
+    				.horiz(6.25*7)
+    				.vert(-6.25*2)
+    				.horiz(-6.25*7)
+    				.vert(6.25*2)
+    				.setColor(rWhite,gWhite,bWhite, a)
+		    		.setStrokeLineWidth(w));
+		}
+    	for(var i = 14; i <= 20; i+=1) {
+			append(me.menuButtonBox,
+				me.menuFastRoot.createChild("path")
+					.moveTo(width*0.975, height*0.09+(6-(i-14))*height*0.11-6.25*4)
+    				.horiz(-6.25*2)
+    				.vert(6.25*8)
+    				.horiz(6.25*2)
+    				.vert(-6.25*8)
+    				.setColor(rWhite,gWhite,bWhite, a)
+		    		.setStrokeLineWidth(w));
+		}
+
 		me.menuButtonSub = [nil];
 		for(var i = 1; i <= 7; i+=1) {
 			append(me.menuButtonSub,
@@ -589,6 +627,33 @@ var TI = {
     				.setAlignment("right-center")
     				.setTranslation(width*0.940, height*0.09+(6-(i-14))*height*0.11)
     				.setFontSize(12.5, 1));
+		}
+
+		me.menuButtonSubBox = [nil];
+    	for(var i = 1; i <= 7; i+=1) {
+			append(me.menuButtonSubBox,
+				me.menuFastRoot.createChild("path")
+    				.moveTo(width*0.060-3.125, height*0.09+(i-1)*height*0.11-6.25*4)
+    				.horiz(6.25*2)
+    				.vert(6.25*8)
+    				.horiz(-6.25*2)
+    				.vert(-6.25*8)
+    				.setColor(rWhite,gWhite,bWhite, a)
+		    		.setStrokeLineWidth(w));
+		}
+		for(var i = 8; i <= 13; i+=1) {
+			append(me.menuButtonSubBox, nil);
+		}
+    	for(var i = 14; i <= 20; i+=1) {
+			append(me.menuButtonSubBox,
+				me.menuFastRoot.createChild("path")
+					.moveTo(width*0.940, height*0.09+(6-(i-14))*height*0.11-6.25*4)
+    				.horiz(-6.25*2)
+    				.vert(6.25*8)
+    				.horiz(6.25*2)
+    				.vert(-6.25*8)
+    				.setColor(rWhite,gWhite,bWhite, a)
+		    		.setStrokeLineWidth(w));
 		}
 	},
 
@@ -627,6 +692,7 @@ var TI = {
 	},
 
 	menuUpdate: func {
+		me.showFullMenus = me.input.fullMenus.getValue();
 		if (me.menuShowMain == TRUE) {
 			me.menuShowFast = TRUE;#figure this out better
 			me.menuMainRoot.show();
@@ -696,6 +762,68 @@ var TI = {
 	updateMainMenu: func {
 		for(var i = 8; i <= 13; i+=1) {
 			me.menuButton[i].setText(me.compileMainMenu(i));
+			if (me.menuMain == 8) {
+				me.updateMainMenuTextWeapons(i);
+			} else {
+				if (me.menuMain == i) {
+					me.menuButtonBox[i].show();
+				} else {
+					me.menuButtonBox[i].hide();
+				}
+			}
+		}
+		if (me.menuMain == 8) {
+			if (me.input.station.getValue() == 5) {
+				me.menuButtonBox[8].show();
+			} else {
+				me.menuButtonBox[8].hide();
+			}
+			if (me.input.station.getValue() == 1) {
+				me.menuButtonBox[9].show();
+			} else {
+				me.menuButtonBox[9].hide();
+			}
+			if (me.input.station.getValue() == 2) {
+				me.menuButtonBox[10].show();
+			} else {
+				me.menuButtonBox[10].hide();
+			}
+			if (me.input.station.getValue() == 4) {
+				me.menuButtonBox[11].show();
+			} else {
+				me.menuButtonBox[11].hide();
+			}
+			if (me.input.station.getValue() == 3) {
+				me.menuButtonBox[12].show();
+			} else {
+				me.menuButtonBox[12].hide();
+			}
+			if (me.input.station.getValue() == 6) {
+				me.menuButtonBox[13].show();
+			} else {
+				me.menuButtonBox[13].hide();
+			}
+		}
+	},
+
+	updateMainMenuTextWeapons: func (position) {
+		var pyl = 0;
+		if (position == 8) {
+			pyl = 5;
+		} elsif (position == 9) {
+			pyl = 1;
+		} elsif (position == 10) {
+			pyl = 2;
+		} elsif (position == 11) {
+			pyl = 4;
+		} elsif (position == 12) {
+			pyl = 3;
+		} elsif (position == 13) {
+			pyl = 6;
+		}
+		me.pylon = displays.common.armNamePylon(pyl);
+		if (me.pylon != nil) {
+			me.menuButton[position].setText(me.pylon);
 		}
 	},
 
@@ -708,8 +836,8 @@ var TI = {
 		}
 		if (str != nil) {
 			str = str[''~button];
-			if (str != nil) {
-				return str;
+			if (str != nil and (me.showFullMenus == TRUE or str[0] == TRUE)) {
+				return str[1];
 			}
 		}
 		return "";
@@ -718,9 +846,14 @@ var TI = {
 	updateFastMenu: func {
 		for(var i = 1; i <= 7; i+=1) {
 			me.menuButton[i].setText(me.compileFastMenu(i));
+			me.menuButtonBox[i].hide();
 		}
 		for(var i = 14; i <= 20; i+=1) {
 			me.menuButton[i].setText(me.compileFastMenu(i));
+			me.menuButtonBox[i].hide();
+		}
+		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
+			me.menuButtonBox[14].show();
 		}
 	},
 
@@ -733,8 +866,8 @@ var TI = {
 		}
 		if (str != nil) {
 			str = str[''~button];
-			if (str != nil) {
-				return me.vertStr(str);
+			if (str != nil and (me.showFullMenus == TRUE or str[0] == TRUE)) {
+				return me.vertStr(str[1]);
 			}
 		}
 		return "";
@@ -751,16 +884,19 @@ var TI = {
 	updateFastSubMenu: func {
 		for(var i = 1; i <= 7; i+=1) {
 			me.menuButtonSub[i].hide();
+			me.menuButtonSubBox[i].hide();
 		}
 		for(var i = 14; i <= 20; i+=1) {
 			me.menuButtonSub[i].hide();
+			me.menuButtonSubBox[i].hide();
 		}
 		me.menuButtonSub[7].show();
+		me.menuButtonSubBox[7].show();
 		var seven = nil;
 		if (me.interoperability == displays.METRIC) {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictSE['0'][''~me.menuMain]));
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictSE['0'][''~me.menuMain][1]));
 		} else {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictEN['0'][''~me.menuMain]));
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictEN['0'][''~me.menuMain][1]));
 		}
 		me.menuButtonSub[7].setText(me.vertStr(seven));
 	},
@@ -847,6 +983,7 @@ var TI = {
 		} else {
 			me.menuShowMain = FALSE;
 			me.menuShowFast = FALSE;
+			me.menuNoSub();
 			me.menuTrap = TRUE;
 			me.menuMain = 9;
 		}

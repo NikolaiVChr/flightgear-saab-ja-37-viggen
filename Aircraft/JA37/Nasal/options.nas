@@ -412,6 +412,20 @@ var Dialog = {
           me.dialog.rustButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
           me.dialog.rustButton.setBinding("nasal", "ja37.Dialog.rustToggle()");
 
+          ######   menu button   #####
+          var menuRow = topRow.addChild("group");
+          menuRow.set("layout", "hbox");
+          menuRow.set("pref-height", 25);
+          menuRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+          #hitRow.set("valign", "center");
+          
+          var menuText = menuRow.addChild("text").set("label", "TI Display: show only working menu items");
+          menuRow.addChild("empty").set("stretch", 1);
+          me.dialog.menuButton = menuRow.addChild("button");
+          me.dialog.menuButton.set("halign", "right");
+          me.dialog.menuButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+          me.dialog.menuButton.setBinding("nasal", "ja37.Dialog.menuToggle()");
+
           ######   terrain can hide radar tracks button   #####
           var realRadarRow = topRow.addChild("group");
           realRadarRow.set("layout", "hbox");
@@ -599,6 +613,12 @@ var Dialog = {
     bankToggle: func {
       var enabled = getprop("ja37/hud/bank-indicator");
       setprop("ja37/hud/bank-indicator", !enabled);
+      me.refreshButtons();
+    },
+    
+    menuToggle: func {
+      var enabled = getprop("ja37/displays/show-full-menus");
+      setprop("ja37/displays/show-full-menus", !enabled);
       me.refreshButtons();
     },
 
@@ -827,6 +847,14 @@ var Dialog = {
         legend = "Disabled";
       }
       me.dialog.pitchButton.node.setValues({"legend": legend});
+
+      enabled = getprop("ja37/displays/show-full-menus");
+      if(enabled == 1) {
+        legend = "Full";
+      } else {
+        legend = "Functional";
+      }
+      me.dialog.menuButton.node.setValues({"legend": legend});
 
       enabled = getprop("fdm/jsbsim/fcs/roll-damper/enable");
       if(enabled == 1) {
