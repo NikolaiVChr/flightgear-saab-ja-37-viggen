@@ -596,21 +596,8 @@ var MI = {
 
 		me.interoperability = me.input.units.getValue();
 		
-
-		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
-		me.fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
-		if (me.fpi_x_deg == nil) {
-			me.fpi_x_deg = 0;
-			me.fpi_y_deg = 0;
-		}
-		me.fpi_x = me.fpi_x_deg*texel_per_degree;
-		me.fpi_y = me.fpi_y_deg*texel_per_degree;
-		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
-
-		me.rot = -getprop("orientation/roll-deg") * D2R;
-		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
-
+		me.displayFPI();
+		me.displayHorizon();
 		me.displayHeadingScale();
 		me.displayGround();
 		me.displayGroundCollisionArrow();
@@ -625,6 +612,24 @@ var MI = {
 		me.showTopInfo();
 		me.showBottomInfo();
 		settimer(func me.loop(), 0.05);
+	},
+
+	displayFPI: func {
+		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
+		me.fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
+		if (me.fpi_x_deg == nil) {
+			me.fpi_x_deg = 0;
+			me.fpi_y_deg = 0;
+		}
+		me.fpi_x = me.fpi_x_deg*texel_per_degree;
+		me.fpi_y = me.fpi_y_deg*texel_per_degree;
+		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
+	},
+
+	displayHorizon: func {
+		me.rot = -getprop("orientation/roll-deg") * D2R;
+		me.horz_rot.setRotation(me.rot);
+		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
 	},
 
 	displayGroundCollisionArrow: func () {

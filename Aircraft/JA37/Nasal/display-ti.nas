@@ -42,6 +42,7 @@ canvas.addPlacement({"node": "ti_screen", "texture": "ti.png"});
 var (center_x, center_y) = (width/2,height/2);
 
 var MM2TEX = 1;
+var texel_per_degree = 2*MM2TEX;
 
 # map setup
 
@@ -109,6 +110,10 @@ var last_type = type;
 
 # stuff
 
+var FLIGHTDATA_ON = 2;
+var FLIGHTDATA_CLR = 1;
+var FLIGHTDATA_OFF = 0;
+
 var brightness = func {
 	bright += 1;
 };
@@ -144,6 +149,10 @@ var rBlack = 0.0;   # active
 var gBlack = 0.0;
 var bBlack = 0.0;
 
+var rGB = 0.5;   # flight data
+var gGB = 0.5;
+var bGB = 0.75;
+
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
 
@@ -167,6 +176,7 @@ var TRUE = 1;
 
 
 var dictSE = {
+	'HORI': {'0': [TRUE, "AV"], '1': [TRUE, "RENS"], '2': [TRUE, "PA"]},
 	'0':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"]},
 	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
@@ -176,7 +186,7 @@ var dictSE = {
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'3': [FALSE, "ELKA"], '4': [FALSE, "TMAD"], '6': [FALSE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [FALSE, "TID"], '17': [FALSE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
+			'3': [FALSE, "ELKA"], '4': [FALSE, "TMAD"], '6': [FALSE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [FALSE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [FALSE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -188,6 +198,7 @@ var dictSE = {
 };
 
 var dictEN = {
+	'HORI': {'0': [TRUE, "OFF"], '1': [TRUE, "CLR"], '2': [TRUE, "ON"]},
 	'0':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"]},
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
@@ -197,7 +208,7 @@ var dictEN = {
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [FALSE, "MAP"], '4': [FALSE, "OLAY"], '6': [FALSE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [FALSE, "TIME"], '17': [FALSE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
+			'3': [FALSE, "MAP"], '4': [FALSE, "OLAY"], '6': [FALSE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [FALSE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [FALSE, "MYMD"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -282,6 +293,7 @@ var TI = {
 		ti.logPage = 0;
 		ti.off = FALSE;
 		ti.showFullMenus = TRUE;
+		ti.displayFlight = FLIGHTDATA_OFF;
 
       	return ti;
 	},
@@ -297,6 +309,9 @@ var TI = {
 
 		me.rootCenter = root.createChild("group")
 			.setTranslation(width/2,height*2/3)
+			.set("z-index",  9);
+		me.rootRealCenter = root.createChild("group")
+			.setTranslation(width/2,height/2)
 			.set("z-index", 10);
 		me.selfSymbol = me.rootCenter.createChild("path")
 		      .moveTo(-5*MM2TEX,  5*MM2TEX)
@@ -532,6 +547,7 @@ var TI = {
     		.set("z-index", 20)
     		.hide();
     	me.logRoot = root.createChild("group")
+    		.set("z-index", 5)
     		.hide();
     	me.errorList = me.logRoot.createChild("text")
     		.setText("..OKAY..\n..OKAY..")
@@ -655,6 +671,87 @@ var TI = {
     				.setColor(rWhite,gWhite,bWhite, a)
 		    		.setStrokeLineWidth(w));
 		}
+
+		var fpi_min = 3;
+		var fpi_med = 6;
+		var fpi_max = 9;
+
+		me.fpi = me.rootRealCenter.createChild("path")
+		      .moveTo(texel_per_degree*fpi_max, -w*2)
+		      .lineTo(texel_per_degree*fpi_min, -w*2)
+		      .moveTo(texel_per_degree*fpi_max,  w*2)
+		      .lineTo(texel_per_degree*fpi_min,  w*2)
+		      .moveTo(texel_per_degree*fpi_max, 0)
+		      .lineTo(texel_per_degree*fpi_min, 0)
+		      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0, -texel_per_degree*fpi_med, 0)
+		      .arcSmallCCW(texel_per_degree*fpi_min, texel_per_degree*fpi_min, 0,  texel_per_degree*fpi_med, 0)
+		      .close()
+		      .moveTo(-texel_per_degree*fpi_min, -w*2)
+		      .lineTo(-texel_per_degree*fpi_max, -w*2)
+		      .moveTo(-texel_per_degree*fpi_min,  w*2)
+		      .lineTo(-texel_per_degree*fpi_max,  w*2)
+		      .moveTo(-texel_per_degree*fpi_min,  0)
+		      .lineTo(-texel_per_degree*fpi_max,  0)
+		      #tail
+		      .moveTo(-w*1, -texel_per_degree*fpi_min)
+		      .lineTo(-w*1, -texel_per_degree*fpi_med)
+		      .moveTo(w*1, -texel_per_degree*fpi_min)
+		      .lineTo(w*1, -texel_per_degree*fpi_med)
+		      .setStrokeLineWidth(w)
+		      .setColor(rGB,gGB,bGB, a);
+
+		
+		me.horizon_group = me.rootRealCenter.createChild("group");
+		me.horz_rot = me.horizon_group.createTransform();
+		me.horizon_group2 = me.horizon_group.createChild("group");
+		me.horizon_line = me.horizon_group2.createChild("path")
+		                     .moveTo(-height*0.75, 0)
+		                     .horiz(height*1.5)
+		                     .setStrokeLineWidth(w)
+		                     .setColor(rGB,gGB,bGB, a);
+		me.horizon_alt = me.horizon_group2.createChild("text")
+				.setText("????")
+				.setFontSize((25/512)*width, 1.0)
+		        .setAlignment("center-bottom")
+		        .setTranslation(-width*1/3, -w*4)
+		        .setColor(rGB,gGB,bGB, a);
+
+		# ground
+		me.ground_grp = me.rootRealCenter.createChild("group");
+		me.ground2_grp = me.ground_grp.createChild("group");
+		me.ground_grp_trans = me.ground2_grp.createTransform();
+		me.groundCurve = me.ground2_grp.createChild("path")
+				.moveTo(0,0)
+				.lineTo( -30*texel_per_degree, 7.5*texel_per_degree)
+				.moveTo(0,0)
+				.lineTo(  30*texel_per_degree, 7.5*texel_per_degree)
+				.moveTo( -30*texel_per_degree, 7.5*texel_per_degree)
+				.lineTo( -60*texel_per_degree, 30*texel_per_degree)
+				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree)
+				.lineTo(  60*texel_per_degree, 30*texel_per_degree)
+				.setStrokeLineWidth(w)
+		        .setColor(rGB,gGB,bGB, a);
+
+		    # Collision warning arrow
+		me.arr_15  = 5*0.75;
+		me.arr_30  = 5*1.5;
+		me.arr_90  = 3*9;
+		me.arr_120 = 3*12;
+
+		me.arrow_group = me.rootRealCenter.createChild("group");  
+		me.arrow_trans = me.arrow_group.createTransform();
+		me.arrow =
+		      me.arrow_group.createChild("path")
+		      .setColor(rRed,gRed,bRed, a)
+		      .setColorFill(rRed,gRed,bRed, a)
+		      .moveTo(-me.arr_15*MM2TEX,  me.arr_90*MM2TEX)
+		      .lineTo(-me.arr_15*MM2TEX, -me.arr_90*MM2TEX)
+		      .lineTo(-me.arr_30*MM2TEX, -me.arr_90*MM2TEX)
+		      .lineTo(  0,                         -me.arr_120*MM2TEX)
+		      .lineTo( me.arr_30*MM2TEX, -me.arr_90*MM2TEX)
+		      .lineTo( me.arr_15*MM2TEX, -me.arr_90*MM2TEX)
+		      .lineTo( me.arr_15*MM2TEX,  me.arr_90*MM2TEX)
+		      .setStrokeLineWidth(w);
 	},
 
 	loop: func {
@@ -687,8 +784,38 @@ var TI = {
 		me.showRadarLimit();
 		me.showBottomText();
 		me.menuUpdate();
+		me.updateFlightData();
 
 		settimer(func me.loop(), 0.5);
+	},
+
+	updateFlightData: func {
+		me.fData = FALSE;
+		if (getprop("ja37/sound/terrain-on") == TRUE) {
+			me.fData = TRUE;
+#			if (me.menuMain == 12 or (me.menuTrap == TRUE and me.trapFire == TRUE)) {
+#				me.menuShowMain = FALSE;
+#				me.menuShowFast = FALSE;
+#				me.menuNoSub();
+#				me.menuTrap = TRUE;
+#				me.menuMain = 9;
+#			}
+		} elsif (me.displayFlight == FLIGHTDATA_ON) {
+			me.fData = TRUE;
+		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.alt_ft.getValue()*FT2M < 1000 or getprop("orientation/pitch-deg") > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
+			me.fData = TRUE;
+		}
+		if (me.fData == TRUE) {
+			me.displayFPI();
+			me.displayHorizon();
+			me.displayGround();
+			me.displayGroundCollisionArrow();
+		} else {
+			me.fpi.hide();
+			me.horizon_group2.hide();
+			me.ground_grp.hide();
+			me.arrow.hide();
+		}
 	},
 
 	menuUpdate: func {
@@ -899,6 +1026,17 @@ var TI = {
 			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictEN['0'][''~me.menuMain][1]));
 		}
 		me.menuButtonSub[7].setText(me.vertStr(seven));
+		if (me.menuMain == 10) {
+			me.menuButtonSub[17].show();
+			me.menuButtonSubBox[17].show();
+			var seventeen = nil;
+			if (me.interoperability == displays.METRIC) {
+				seventeen = dictSE['HORI'][''~me.displayFlight][1];
+			} else {
+				seventeen = dictEN['HORI'][''~me.displayFlight][1];
+			}
+			me.menuButtonSub[17].setText(me.vertStr(seventeen));
+		}
 	},
 
 	menuNoSub: func {
@@ -1114,6 +1252,12 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if(me.menuMain == 10) {
+				me.displayFlight += 1;
+				if (me.displayFlight == 3) {
+					me.displayFlight = 0;
+				}
+			}
 		}
 	},
 
@@ -1153,6 +1297,74 @@ var TI = {
 					me.logPage = 0;
 				}
 			}
+		}
+	},
+
+	displayFPI: func {
+		me.fpi_x_deg = getprop("ja37/displays/fpi-horz-deg");
+		me.fpi_y_deg = getprop("ja37/displays/fpi-vert-deg");
+		if (me.fpi_x_deg == nil) {
+			me.fpi_x_deg = 0;
+			me.fpi_y_deg = 0;
+		}
+		me.fpi_x = me.fpi_x_deg*texel_per_degree;
+		me.fpi_y = me.fpi_y_deg*texel_per_degree;
+		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
+		me.fpi.show();
+	},
+
+	displayHorizon: func {
+		me.rot = -getprop("orientation/roll-deg") * D2R;
+		me.horz_rot.setRotation(me.rot);
+		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
+		if (me.alt != nil) {
+			me.text = "";
+			if (me.interoperability == displays.METRIC) {
+				if(me.alt*FT2M < 1000) {
+					me.text = ""~roundabout(me.alt*FT2M/10)*10;
+				} else {
+					me.text = sprintf("%.1f", me.alt*FT2M/1000);
+				}
+			} else {
+				if(me.alt < 1000) {
+					me.text = ""~roundabout(me.alt/10)*10;
+				} else {
+					me.text = sprintf("%.1f", me.alt/1000);
+				}
+			}
+			me.horizon_alt.setText(me.text);
+		} else {
+			me.horizon_alt.setText("");
+		}
+		me.horizon_group2.show();
+	},
+
+	displayGroundCollisionArrow: func () {
+	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
+	      me.arrow_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+	      me.arrow.show();
+	    } else {
+	      me.arrow.hide();
+	    }
+	},
+
+	displayGround: func () {
+		me.time = getprop("fdm/jsbsim/gear/unit[0]/WOW") == TRUE?0:getprop("fdm/jsbsim/systems/indicators/time-till-crash");
+		if (me.time != nil and me.time >= 0 and me.time < 40) {
+			me.timeC = clamp(me.time - 10,0,30);
+			me.dist = (me.timeC/30) * (height/2);
+			me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
+			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+			me.groundCurve.setTranslation(0, me.dist);
+			if (me.time < 10 and me.time != 0) {
+				me.groundCurve.setColor(rRed,gRed,bRed, a);
+			} else {
+				me.groundCurve.setColor(rGB,gGB,bGB, a);
+			}
+			me.ground_grp.show();
+		} else {
+			me.ground_grp.hide();
 		}
 	},
 
