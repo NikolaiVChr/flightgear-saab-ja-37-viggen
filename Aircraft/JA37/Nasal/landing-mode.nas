@@ -56,6 +56,7 @@ var last_runway = "";
 var last_icao = "";
 var icao = "";
 var runway_rw = nil;
+var showActiveSteer = FALSE;#if TI should show steerpoint
 
 var has_waypoint = 0;
 
@@ -94,34 +95,41 @@ var landing_loop = func {
           	var name = input.rmId.getValue();
           	if (name != nil and size(split("-", name))>1) {
 	            name = split("-", name);
-	            icao = name[0];
-	            runway = name[1];
-                if (icao != last_icao or runway != last_runway) {
+                
+                if (name[0] != "APP" and name[0] != "DEP" and size(findAirportsByICAO(name[0])) != 0) {#check for steerpoints if its icao or just a steerpoint name
+    	            icao = name[0];
+    	            runway = name[1];
+
+                    if (icao != last_icao or runway != last_runway) {
+                        runway_rw = nil;
+                        var hd = -1000;
+                        var info = airportinfo(icao);
+                        if (info != nil) {
+                            var rw = info.runways[runway];
+                            if (rw != nil) {
+                                hd = rw.heading;
+                                runway_rw = rw;
+                            }
+                        }
+                        if (hd == -1000) {
+            	            var number = split("C", split("L", split("R", runway)[0])[0])[0];
+            	            number = num(number);
+            	            if (number != nil and size(icao) >= 3 and size(icao) < 5) {
+            					head = 10 * number;#magnetic
+            					var magDiff = input.headTrue.getValue() - input.headMagn.getValue();
+            					head += magDiff;#true
+            					has_waypoint = 2;
+            				} else {
+                                has_waypoint = 1;
+                            }
+                        } else {
+                            head = hd;
+                            has_waypoint = 2;
+                        }
+                    }
+                } else{
+                    has_waypoint = 1;
                     runway_rw = nil;
-                    var hd = -1000;
-                    var info = airportinfo(icao);
-                    if (info != nil) {
-                        var rw = info.runways[runway];
-                        if (rw != nil) {
-                            hd = rw.heading;
-                            runway_rw = rw;
-                        }
-                    }
-                    if (hd == -1000) {
-        	            var number = split("C", split("L", split("R", runway)[0])[0])[0];
-        	            number = num(number);
-        	            if (number != nil and size(icao) >= 3 and size(icao) < 5) {
-        					head = 10 * number;#magnetic
-        					var magDiff = input.headTrue.getValue() - input.headMagn.getValue();
-        					head += magDiff;#true
-        					has_waypoint = 2;
-        				} else {
-                            has_waypoint = 1;
-                        }
-                    } else {
-                        head = hd;
-                        has_waypoint = 2;
-                    }
                 }
 	        } else {
                 has_waypoint = 1;
@@ -142,6 +150,7 @@ var landing_loop = func {
     }
     if (has_waypoint > 0) {
     	if (has_waypoint > 1) {
+            showActiveSteer = FALSE;
     		show_runway_line = TRUE;
     		var short = getprop("ja37/avionics/approach");
 
@@ -190,9 +199,11 @@ var landing_loop = func {
     		}
 		} else {
 			show_waypoint_circle = TRUE;
+            showActiveSteer = TRUE;
 			mode = 0;
 		}    	
     } else {
+        showActiveSteer = TRUE;
     	mode = -1;
     }
     settimer(landing_loop, 0.05);

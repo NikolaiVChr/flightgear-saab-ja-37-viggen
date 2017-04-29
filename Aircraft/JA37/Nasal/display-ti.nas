@@ -141,6 +141,10 @@ var rTyrk = 0.25; # navigation aid
 var gTyrk = 0.88;
 var bTyrk = 0.81;
 
+var rDTyrk = 0.15; # route polygon
+var gDTyrk = 0.60;
+var bDTyrk = 0.55;
+
 var rGrey = 0.5;   # inactive
 var gGrey = 0.5;
 var bGrey = 0.5;
@@ -163,6 +167,7 @@ var fpi_max = 9;
 var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was 16)
 var maxMissiles = 6;
 var maxThreats  = 5;
+var maxSteers   =25;
 
 var roundabout = func(x) {
   var y = x - int(x);
@@ -182,7 +187,7 @@ var dictSE = {
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'1': [TRUE, "SLACK"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
-	 		'14': [FALSE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'14': [FALSE, "JAKT"], '15': [FALSE, "HK"],'16': [TRUE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -204,7 +209,7 @@ var dictEN = {
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [FALSE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'14': [FALSE, "FGHT"], '15': [FALSE, "CURV"],'16': [TRUE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -311,6 +316,19 @@ var TI = {
 	               .setColor(rRed,gRed,bRed, a));
 	    }
 
+	    me.steerpoint = [];
+	    for (var i = 0; i < maxSteers; i += 1) {
+	    	append(me.steerpoint, me.rootCenter.createChild("path")
+	               .moveTo(-10*MM2TEX, 0)
+	               .lineTo(0, -15*MM2TEX)
+	               .lineTo(10*MM2TEX, 0)
+	               .lineTo(0, 15*MM2TEX)
+	               .lineTo(-10*MM2TEX, 0)
+	               .setStrokeLineWidth(w)
+	               .setColor(rDTyrk,gDTyrk,bDTyrk, a));
+	    }
+	    me.steerPoly = me.rootCenter.createChild("group");
+
 	    me.missiles = [];
 	    me.missilesVector = [];
 	    for (var i = 0; i < maxMissiles; i += 1) {
@@ -337,14 +355,11 @@ var TI = {
 	    }
 
 	    me.gpsSymbol = me.radar_group.createChild("path")
-		      .moveTo(-5*MM2TEX, 10*MM2TEX)
+		      .moveTo(-10*MM2TEX, 10*MM2TEX)
 		      .vert(            -20*MM2TEX)
-		      .moveTo( 5*MM2TEX, 10*MM2TEX)
-		      .vert(            -20*MM2TEX)
-		      .moveTo(-10*MM2TEX, 5*MM2TEX)
 		      .horiz(            20*MM2TEX)
-		      .moveTo(-10*MM2TEX,-5*MM2TEX)
-		      .horiz(            20*MM2TEX)
+		      .vert(             20*MM2TEX)
+		      .horiz(           -20*MM2TEX)
 		      .setColor(rTyrk,gTyrk,bTyrk, a)
 		      .setStrokeLineWidth(w);
 
@@ -772,9 +787,13 @@ var TI = {
 		ti.displayTime = FALSE;
 		ti.ownPosition = 0.25;
 		ti.mapPlaces = CLEANMAP;
+		ti.showSteers = TRUE;
+		ti.showSteerPoly = FALSE;
 
       	return ti;
 	},
+
+
 
 	########################################################################################################
 	########################################################################################################
@@ -784,6 +803,9 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+
+
 	loop: func {
 		#if ( gone == TRUE) {
 		#	return;
@@ -815,6 +837,8 @@ var TI = {
 		me.showBottomText();
 		me.menuUpdate();
 		me.showTime();
+		me.showSteerPoints();
+		me.showPoly();#must be under showSteerPoints
 
 		settimer(func me.loop(), 0.5);
 	},
@@ -830,6 +854,8 @@ var TI = {
 		settimer(func me.loopFast(), 0.05);
 	},
 
+
+
 	########################################################################################################
 	########################################################################################################
 	#
@@ -838,6 +864,8 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+
 
 	menuUpdate: func {
 		me.showFullMenus = me.input.fullMenus.getValue();
@@ -1003,6 +1031,9 @@ var TI = {
 		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
 		}
+		if (me.menuMain == 9 and me.showSteerPoly == TRUE) {
+			me.menuButtonBox[16].show();
+		}
 		if (me.menuMain == 10 and me.displayTime == TRUE) {
 			me.menuButtonBox[16].show();
 		}
@@ -1079,6 +1110,8 @@ var TI = {
 		me.trapFire = FALSE;
 	},
 
+
+
 	########################################################################################################
 	########################################################################################################
 	#
@@ -1088,7 +1121,71 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 
-	showTime: func {
+	showSteerPoints: func {
+		me.points = getprop("autopilot/route-manager/route/num");
+		me.poly = [];
+		for (var wp = 0; wp < maxSteers; wp += 1) {
+			if (me.points-1 >= wp and getprop("autopilot/route-manager/active") == TRUE) {
+				me.node = globals.props.getNode("autopilot/route-manager/route/wp["~wp~"]");
+
+  				if (me.node == nil or me.showSteers == FALSE) {
+  					me.steerpoint[wp].hide();
+    				continue;
+  				}
+				me.lat = me.node.getNode("latitude-deg");
+  				me.lon = me.node.getNode("longitude-deg");
+  				#me.alt = node.getNode("altitude-m").getValue();
+				me.name = me.node.getNode("id");
+				me.texCoord = me.laloToTexel();
+				if (getprop("autopilot/route-manager/current-wp") == wp and land.showActiveSteer == FALSE) {
+					me.steerpoint[wp].hide();
+    				continue;
+				} elsif (getprop("autopilot/route-manager/current-wp") == wp) {
+					me.steerpoint[wp].setColor(rTyrk,gTyrk,bTyrk,a);
+					append(me.poly, [me.texCoord[0], me.texCoord[1]]);
+				} else {
+					me.steerpoint[wp].setColor(rDTyrk,gDTyrk,bDTyrk,a);
+					append(me.poly, [me.texCoord[0], me.texCoord[1]]);
+				}
+				me.steerpoint[wp].setTranslation(me.texCoord[0], me.texCoord[1]);
+  				me.steerpoint[wp].show();
+			} else {
+				me.steerpoint[wp].hide();
+			}
+  		}
+  	},
+
+  	laloToTexel: func {
+		me.coord = geo.Coord.new();
+  		me.coord.set_latlon(me.lat.getValue(), me.lon.getValue());
+  		me.coordSelf = geo.aircraft_position();
+  		me.angle = (me.coordSelf.course_to(me.coord)-me.input.hdgReal.getValue())*D2R;
+		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
+		me.pos_yy		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.sin(me.angle + math.pi/2);
+  		return [me.pos_xx, me.pos_yy];
+  	},
+
+  	showPoly: func {
+  		if (me.showSteerPoly == TRUE and size(me.poly) > 1) {
+  			me.steerPoly.removeAllChildren();
+  			me.prevLeg = nil;
+  			foreach(leg; me.poly) {
+  				if (me.prevLeg != nil) {
+  					me.steerPoly.createChild("path")
+  						.moveTo(me.prevLeg[0], me.prevLeg[1])
+  						.lineTo(leg[0], leg[1])
+  						.setColor(rDTyrk,gDTyrk,bDTyrk,a)
+  						.setStrokeLineWidth(w);
+  				}
+  				me.prevLeg = leg;
+  			}
+  			me.steerPoly.show();
+  		} else {
+  			me.steerPoly.hide();
+  		}
+  	},
+
+  	showTime: func {
 		if (me.displayTime == TRUE) {
 			me.textTime.setText(getprop("sim/time/gmt-string")~" Z");# should really be local time
 			me.textTime.show();
@@ -1327,11 +1424,11 @@ var TI = {
 	},
 
 	showRunway: func {
-		if (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE) {
+		if (land.showActiveSteer == FALSE and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
 		  me.x = math.cos(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
 		  me.y = math.sin(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
 
-		  me.dest.setTranslation(me.x, -me.y);		  
+		  me.dest.setTranslation(me.x, -me.y);
 
 		  if (land.show_waypoint_circle == TRUE) {
 		  	  #me.scale = clamp(2000*M2TEX/100, 25/100, 50);
@@ -1379,9 +1476,9 @@ var TI = {
 		  }
 		  me.dest.show();
 		} else {
-		me.dest_circle.hide();
-		me.dest_runway.hide();
-		me.approach_circle.hide();
+			me.dest_circle.hide();
+			me.dest_runway.hide();
+			me.approach_circle.hide();
 		}
 	},
 
@@ -1529,6 +1626,7 @@ var TI = {
 	},
 
 
+
 	########################################################################################################
 	########################################################################################################
 	#
@@ -1537,6 +1635,8 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+
 
 	b1: func {
 		if (me.off == TRUE) {
@@ -1745,6 +1845,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 9) {
+				me.showSteerPoly = !me.showSteerPoly;
+			}
 			if (me.menuMain == 10) {
 				me.displayTime = !me.displayTime;
 			}
@@ -1816,6 +1919,8 @@ var TI = {
 		}
 	},
 
+
+
 	########################################################################################################
 	########################################################################################################
 	#
@@ -1824,6 +1929,7 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
 
 
 	setupMap: func {
