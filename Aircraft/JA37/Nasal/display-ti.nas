@@ -7,7 +7,7 @@
 # steerpoint symbols: # ?
 # full OOP
 # use Pinto's model
-var (width,height) = (381.315,512);
+var (width,height) = (381,512);#381.315
 
 #var window = canvas.Window.new([height, height],"dialog")
 #					.set('x', width*2.75)
@@ -779,7 +779,7 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 	#
-	#  main loops
+	#  begin main loops
 	#
 	#
 	########################################################################################################
@@ -830,43 +830,14 @@ var TI = {
 		settimer(func me.loopFast(), 0.05);
 	},
 
-	showTime: func {
-		if (me.displayTime == TRUE) {
-			me.textTime.setText(getprop("sim/time/gmt-string")~" Z");# should really be local time
-			me.textTime.show();
-		} else {
-			me.textTime.hide();
-		}
-	},
-
-	updateFlightData: func {
-		me.fData = FALSE;
-		if (getprop("ja37/sound/terrain-on") == TRUE) {
-			me.fData = TRUE;
-#			if (me.menuMain == 12 or (me.menuTrap == TRUE and me.trapFire == TRUE)) {
-#				me.menuShowMain = FALSE;
-#				me.menuShowFast = FALSE;
-#				me.menuNoSub();
-#				me.menuTrap = TRUE;
-#				me.menuMain = 9;
-#			}
-		} elsif (me.displayFlight == FLIGHTDATA_ON) {
-			me.fData = TRUE;
-		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.alt_ft.getValue()*FT2M < 1000 or getprop("orientation/pitch-deg") > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
-			me.fData = TRUE;
-		}
-		if (me.fData == TRUE) {
-			me.displayFPI();
-			me.displayHorizon();
-			me.displayGround();
-			me.displayGroundCollisionArrow();
-		} else {
-			me.fpi.hide();
-			me.horizon_group2.hide();
-			me.ground_grp.hide();
-			me.arrow.hide();
-		}
-	},
+	########################################################################################################
+	########################################################################################################
+	#
+	#  menu display
+	#
+	#
+	########################################################################################################
+	########################################################################################################
 
 	menuUpdate: func {
 		me.showFullMenus = me.input.fullMenus.getValue();
@@ -1108,281 +1079,50 @@ var TI = {
 		me.trapFire = FALSE;
 	},
 
-	b1: func {
-		if (me.off == TRUE) {
-			me.off = !me.off;
-			MI.mi.off = me.off;
-		} elsif (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
+	########################################################################################################
+	########################################################################################################
+	#
+	#  misc overlays
+	#
+	#
+	########################################################################################################
+	########################################################################################################
+
+	showTime: func {
+		if (me.displayTime == TRUE) {
+			me.textTime.setText(getprop("sim/time/gmt-string")~" Z");# should really be local time
+			me.textTime.show();
 		} else {
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
-				me.off = !me.off;
-				MI.mi.off = me.off;
-			}
+			me.textTime.hide();
 		}
 	},
 
-	b2: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			
+	updateFlightData: func {
+		me.fData = FALSE;
+		if (getprop("ja37/sound/terrain-on") == TRUE) {
+			me.fData = TRUE;
+#			if (me.menuMain == 12 or (me.menuTrap == TRUE and me.trapFire == TRUE)) {
+#				me.menuShowMain = FALSE;
+#				me.menuShowFast = FALSE;
+#				me.menuNoSub();
+#				me.menuTrap = TRUE;
+#				me.menuMain = 9;
+#			}
+		} elsif (me.displayFlight == FLIGHTDATA_ON) {
+			me.fData = TRUE;
+		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.alt_ft.getValue()*FT2M < 1000 or getprop("orientation/pitch-deg") > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
+			me.fData = TRUE;
 		}
-	},
-
-	b3: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
+		if (me.fData == TRUE) {
+			me.displayFPI();
+			me.displayHorizon();
+			me.displayGround();
+			me.displayGroundCollisionArrow();
 		} else {
-			
-			if (me.menuMain == 9 and me.menuTrap == TRUE) {
-				# tact fire report
-				me.trapFire = TRUE;
-			}
-		}
-	},
-
-	b4: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 10) {
-				# place names on map
-				me.mapPlaces = !me.mapPlaces;
-				if (me.mapPlaces == PLACES) {
-					type = "light_all";
-					makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
-				} else {
-					type = "light_nolabels";
-					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
-				}
-			}
-		}
-	},
-
-	b5: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 13 and me.menuSvy == FALSE) {
-				# side view
-				me.menuSvy = TRUE;
-			}
-		}
-	},
-
-	b6: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
-				# tactical report
-				me.menuTrap = TRUE;
-			}
-			if (me.menuMain == 10) {
-				# change zoom
-				zoomIn();
-			}
-		}
-	},
-
-	b7: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			me.menuShowMain = FALSE;
-			me.menuShowFast = FALSE;
-			me.menuNoSub();
-			me.menuTrap = TRUE;
-			me.menuMain = 9;
-		}
-	},
-
-	b8: func {
-		# weapons
-		if (me.menuShowMain == TRUE) {
-			me.menuMain = 8;
-			me.menuShowMain = FALSE;
-			me.menuNoSub();
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(5);
-			} else {
-				me.menuShowMain = !me.menuShowMain;
-			}
-		}
-	},
-
-	b9: func {
-		# system
-		if (me.menuShowMain == TRUE) {
-			me.menuMain = 9;
-			me.menuNoSub();
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(1);
-			} else {
-				me.menuShowMain = !me.menuShowMain;
-			}
-		}
-	},
-
-	b10: func {
-		# display
-		if (me.menuShowMain == TRUE) {
-			me.menuMain = 10;
-			me.menuNoSub();
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(2);
-			} else {
-				me.menuShowMain = !me.menuShowMain;
-			}
-		}
-	},
-
-	b11: func {
-		# flight data
-		if (me.menuShowMain == TRUE) {
-			me.menuMain = 11;
-			me.menuNoSub();
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(4);
-			} else {
-				me.menuShowMain = !me.menuShowMain;
-			}
-		}
-	},
-
-	b12: func {
-		# errors
-		if (me.menuShowMain == TRUE) {
-			me.menuMain = 12;
-			me.menuNoSub();
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(3);
-			} else {
-				me.menuShowMain = !me.menuShowMain;
-			}
-		}
-	},
-
-	b13: func {
-		# configuration
-		if (me.menuShowMain == TRUE) {
-			me.menuMain = 13;
-			me.menuNoSub();
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(6);
-			} else {
-				me.menuShowMain = !me.menuShowMain;
-			}
-		}
-	},
-
-	b14: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(0);
-			}
-			if (me.menuMain == 9 and me.menuTrap == TRUE) {
-				# clear tact reports
-				armament.fireLog = "\n      Fire log:";
-			}
-			if (me.menuMain == 13 and me.menuGPS == FALSE) {
-				# GPS settings
-				me.menuGPS = TRUE;
-			}
-		}
-	},
-
-	b15: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 8) {
-				#clear weapon selection
-			}
-		}
-	},
-
-	b16: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 10) {
-				me.displayTime = !me.displayTime;
-			}
-		}
-	},
-
-	b17: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if(me.menuMain == 10) {
-				me.displayFlight += 1;
-				if (me.displayFlight == 3) {
-					me.displayFlight = 0;
-				}
-			}
-		}
-	},
-
-	b18: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-		}
-	},
-
-	b19: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
-				me.logPage += 1;
-			}
-			if(me.menuMain == 11) {
-				if (me.ownPosition < 0.25) {
-					me.ownPosition = 0.25;
-				} elsif (me.ownPosition < 0.50) {
-					me.ownPosition = 0.50;
-				} elsif (me.ownPosition < 0.75) {
-					me.ownPosition = 0.75;
-				} elsif (me.ownPosition < 1) {
-					me.ownPosition = 1;
-				} elsif (me.ownPosition = 1) {
-					me.ownPosition = 0;
-				}
-			}
-			if(me.menuMain == 12) {
-				me.logPage += 1;
-			}			
-		}
-	},
-
-	b20: func {
-		if (me.menuShowFast == FALSE) {
-			me.menuShowFast = TRUE;
-		} else {
-			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
-				me.logPage -= 1;
-				if (me.logPage < 0) {
-					me.logPage = 0;
-				}
-			}
-			if(me.menuMain == 12) {
-				me.logPage -= 1;
-				if (me.logPage < 0) {
-					me.logPage = 0;
-				}
-			}
+			me.fpi.hide();
+			me.horizon_group2.hide();
+			me.ground_grp.hide();
+			me.arrow.hide();
 		}
 	},
 
@@ -1782,6 +1522,310 @@ var TI = {
 		}
 	},
 
+	showSelfVector: func {
+		# length = time to travel in 60 seconds.
+		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrats speed. (should really be ground speed)
+		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+	},
+
+
+	########################################################################################################
+	########################################################################################################
+	#
+	#  buttons
+	#
+	#
+	########################################################################################################
+	########################################################################################################
+
+	b1: func {
+		if (me.off == TRUE) {
+			me.off = !me.off;
+			MI.mi.off = me.off;
+		} elsif (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+				me.off = !me.off;
+				MI.mi.off = me.off;
+			}
+		}
+	},
+
+	b2: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			
+		}
+	},
+
+	b3: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			
+			if (me.menuMain == 9 and me.menuTrap == TRUE) {
+				# tact fire report
+				me.trapFire = TRUE;
+			}
+		}
+	},
+
+	b4: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 10) {
+				# place names on map
+				me.mapPlaces = !me.mapPlaces;
+				if (me.mapPlaces == PLACES) {
+					type = "light_all";
+					makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
+				} else {
+					type = "light_nolabels";
+					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
+				}
+			}
+		}
+	},
+
+	b5: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 13 and me.menuSvy == FALSE) {
+				# side view
+				me.menuSvy = TRUE;
+			}
+		}
+	},
+
+	b6: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+				# tactical report
+				me.menuTrap = TRUE;
+			}
+			if (me.menuMain == 10) {
+				# change zoom
+				zoomIn();
+			}
+		}
+	},
+
+	b7: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			me.menuShowMain = FALSE;
+			me.menuShowFast = FALSE;
+			me.menuNoSub();
+			me.menuTrap = TRUE;
+			me.menuMain = 9;
+		}
+	},
+
+	b8: func {
+		# weapons
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 8;
+			me.menuShowMain = FALSE;
+			me.menuNoSub();
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(5);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
+		}
+	},
+
+	b9: func {
+		# system
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 9;
+			me.menuNoSub();
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(1);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
+		}
+	},
+
+	b10: func {
+		# display
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 10;
+			me.menuNoSub();
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(2);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
+		}
+	},
+
+	b11: func {
+		# flight data
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 11;
+			me.menuNoSub();
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(4);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
+		}
+	},
+
+	b12: func {
+		# errors
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 12;
+			me.menuNoSub();
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(3);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
+		}
+	},
+
+	b13: func {
+		# configuration
+		if (me.menuShowMain == TRUE) {
+			me.menuMain = 13;
+			me.menuNoSub();
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(6);
+			} else {
+				me.menuShowMain = !me.menuShowMain;
+			}
+		}
+	},
+
+	b14: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 8) {
+				me.input.station.setIntValue(0);
+			}
+			if (me.menuMain == 9 and me.menuTrap == TRUE) {
+				# clear tact reports
+				armament.fireLog = "\n      Fire log:";
+			}
+			if (me.menuMain == 13 and me.menuGPS == FALSE) {
+				# GPS settings
+				me.menuGPS = TRUE;
+			}
+		}
+	},
+
+	b15: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 8) {
+				#clear weapon selection
+			}
+		}
+	},
+
+	b16: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if (me.menuMain == 10) {
+				me.displayTime = !me.displayTime;
+			}
+		}
+	},
+
+	b17: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if(me.menuMain == 10) {
+				me.displayFlight += 1;
+				if (me.displayFlight == 3) {
+					me.displayFlight = 0;
+				}
+			}
+		}
+	},
+
+	b18: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+		}
+	},
+
+	b19: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+				me.logPage += 1;
+			}
+			if(me.menuMain == 11) {
+				if (me.ownPosition < 0.25) {
+					me.ownPosition = 0.25;
+				} elsif (me.ownPosition < 0.50) {
+					me.ownPosition = 0.50;
+				} elsif (me.ownPosition < 0.75) {
+					me.ownPosition = 0.75;
+				} elsif (me.ownPosition < 1) {
+					me.ownPosition = 1;
+				} elsif (me.ownPosition = 1) {
+					me.ownPosition = 0;
+				}
+			}
+			if(me.menuMain == 12) {
+				me.logPage += 1;
+			}			
+		}
+	},
+
+	b20: func {
+		if (me.menuShowFast == FALSE) {
+			me.menuShowFast = TRUE;
+		} else {
+			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+				me.logPage -= 1;
+				if (me.logPage < 0) {
+					me.logPage = 0;
+				}
+			}
+			if(me.menuMain == 12) {
+				me.logPage -= 1;
+				if (me.logPage < 0) {
+					me.logPage = 0;
+				}
+			}
+		}
+	},
+
+	########################################################################################################
+	########################################################################################################
+	#
+	#  map
+	#
+	#
+	########################################################################################################
+	########################################################################################################
+
+
 	setupMap: func {
 		for(var x = 0; x < num_tiles[0]; x += 1) {
 		  	tiles[x] = setsize([], num_tiles[1]);
@@ -1789,12 +1833,6 @@ var TI = {
 		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile")
 		    	.set("fill", "rgb(128,128,128)");
 		}
-	},
-
-	showSelfVector: func {
-		# length = time to travel in 60 seconds.
-		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrats speed. (should really be ground speed)
-		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 250*MM2TEX));
 	},
 
 	updateMap: func {
