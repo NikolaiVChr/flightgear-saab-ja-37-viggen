@@ -91,7 +91,7 @@ var makeUrl =
   string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png');#http://otile2.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg'
 var makePath =
   string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');#/osm-{type}/{z}/{x}/{y}.jpg
-var num_tiles = [4, 4];
+var num_tiles = [5, 5];
 
 var center_tile_offset = [(num_tiles[0] - 1) / 2,(num_tiles[1] - 1) / 2];#(width/tile_size)/2,(height/tile_size)/2];
 #  (num_tiles[0] - 1) / 2,
@@ -186,9 +186,9 @@ var dictSE = {
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'3': [FALSE, "ELKA"], '4': [FALSE, "TMAD"], '6': [FALSE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [FALSE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
+			'3': [FALSE, "ELKA"], '4': [FALSE, "TMAD"], '6': [FALSE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [FALSE, "EGLA"], '20': [FALSE, "KMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -208,9 +208,9 @@ var dictEN = {
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [FALSE, "MAP"], '4': [FALSE, "OLAY"], '6': [FALSE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [FALSE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
+			'3': [FALSE, "MAP"], '4': [FALSE, "OLAY"], '6': [FALSE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [FALSE, "MYMD"], '20': [FALSE, "MMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -294,6 +294,8 @@ var TI = {
 		ti.off = FALSE;
 		ti.showFullMenus = TRUE;
 		ti.displayFlight = FLIGHTDATA_OFF;
+		ti.displayTime = FALSE;
+		ti.ownPosition = 0.25;
 
       	return ti;
 	},
@@ -752,8 +754,24 @@ var TI = {
 		      .lineTo( me.arr_15*MM2TEX, -me.arr_90*MM2TEX)
 		      .lineTo( me.arr_15*MM2TEX,  me.arr_90*MM2TEX)
 		      .setStrokeLineWidth(w);
+
+		me.textTime = root.createChild("text")
+    		.setText("h:min:s")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("right-top")
+    		.setTranslation(width, 4)
+    		.set("z-index", 7)
+    		.setFontSize(13, 1);
 	},
 
+	########################################################################################################
+	########################################################################################################
+	#
+	#  main loop
+	#
+	#
+	########################################################################################################
+	########################################################################################################
 	loop: func {
 		#if ( gone == TRUE) {
 		#	return;
@@ -785,8 +803,18 @@ var TI = {
 		me.showBottomText();
 		me.menuUpdate();
 		me.updateFlightData();
+		me.showTime();
 
 		settimer(func me.loop(), 0.5);
+	},
+
+	showTime: func {
+		if (me.displayTime == TRUE) {
+			me.textTime.setText(getprop("sim/time/gmt-string")~" Z");# should really be local time
+			me.textTime.show();
+		} else {
+			me.textTime.hide();
+		}
 	},
 
 	updateFlightData: func {
@@ -981,6 +1009,9 @@ var TI = {
 		}
 		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
+		}
+		if (me.menuMain == 10 and me.displayTime == TRUE) {
+			me.menuButtonBox[16].show();
 		}
 	},
 
@@ -1244,7 +1275,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			
+			if (me.menuMain == 10) {
+				me.displayTime = !me.displayTime;
+			}
 		}
 	},
 
@@ -1275,9 +1308,22 @@ var TI = {
 			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
 				me.logPage += 1;
 			}
+			if(me.menuMain == 11) {
+				if (me.ownPosition < 0.25) {
+					me.ownPosition = 0.25;
+				} elsif (me.ownPosition < 0.50) {
+					me.ownPosition = 0.50;
+				} elsif (me.ownPosition < 0.75) {
+					me.ownPosition = 0.75;
+				} elsif (me.ownPosition < 1) {
+					me.ownPosition = 1;
+				} elsif (me.ownPosition = 1) {
+					me.ownPosition = 0;
+				}
+			}
 			if(me.menuMain == 12) {
 				me.logPage += 1;
-			}
+			}			
 		}
 	},
 
@@ -1647,7 +1693,7 @@ var TI = {
 			        me.echoesAircraft[me.currentIndexT].setRotation(me.relHeading * D2R);
 			    }
 			    if (me.tgtSpeed != nil) {
-			    	me.echoesAircraftVector[me.currentIndexT].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+			    	me.echoesAircraftVector[me.currentIndexT].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 		    	} else {
 		    		me.echoesAircraftVector[me.currentIndexT].setScale(1, 1);
 		    	}
@@ -1663,7 +1709,7 @@ var TI = {
 				        me.missiles[me.missileIndex].setRotation(me.relHeading * D2R);
 				    }
 				    if (me.tgtSpeed != nil) {
-				    	me.missilesVector[me.missileIndex].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+				    	me.missilesVector[me.missileIndex].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 			    	} else {
 			    		me.missilesVector[me.missileIndex].setScale(1, 1);
 			    	}
@@ -1713,6 +1759,10 @@ var TI = {
 
 	updateMap: func {
 		# update the map
+
+		
+		me.rootCenter.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
+		me.mapCentrum.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
 		
 		  # get current position
 		  var lat = getprop('/position/latitude-deg');
