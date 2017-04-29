@@ -1112,8 +1112,6 @@ var TI = {
 			if (me.menuMain == 9 and me.menuTrap == FALSE) {
 				me.off = !me.off;
 				MI.mi.off = me.off;
-			} elsif (me.menuMain == 8) {
-				me.input.station.setIntValue(5);
 			}
 		}
 	},
@@ -1122,9 +1120,7 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(1);
-			}
+			
 		}
 	},
 
@@ -1132,9 +1128,7 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 8) {
-				me.input.station.setIntValue(2);
-			}
+			
 			if (me.menuMain == 9 and me.menuTrap == TRUE) {
 				# tact fire report
 				me.trapFire = TRUE;
