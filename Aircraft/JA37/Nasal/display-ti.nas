@@ -48,14 +48,15 @@ var texel_per_degree = 2*MM2TEX;
 
 var tile_size = 256;
 var zoom = 9;
-var type = "sat";
+var type = "light_nolabels";
 
 # index   = zoom level
 # content = meter per pixel of tiles
 #                   0                             5                               10                               15                      19
 meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];
-zooms = [4, 7, 9, 11, 13];
-zoom_curr = 2;
+zooms      = [4, 7, 9, 11, 13];
+zoomLevels = [200, 400, 800, 1.6, 3.2];
+zoom_curr  = 2;
 
 var M2TEX = 1/meterPerPixel[zoom];
 
@@ -88,7 +89,7 @@ var maps_base = getprop("/sim/fg-home") ~ '/cache/mapsTI';
 # dark_only_labels
 
 var makeUrl =
-  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png');#http://otile2.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg'
+  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/{type}/{z}/{x}/{y}.png');#http://otile2.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg'
 var makePath =
   string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');#/osm-{type}/{z}/{x}/{y}.jpg
 var num_tiles = [5, 5];
@@ -113,6 +114,9 @@ var last_type = type;
 var FLIGHTDATA_ON = 2;
 var FLIGHTDATA_CLR = 1;
 var FLIGHTDATA_OFF = 0;
+
+var CLEANMAP = 0;
+var PLACES   = 1;
 
 var brightness = func {
 	bright += 1;
@@ -186,7 +190,7 @@ var dictSE = {
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'3': [FALSE, "ELKA"], '4': [FALSE, "TMAD"], '6': [FALSE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
+			'3': [FALSE, "ELKA"], '4': [TRUE, "ORTS"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -208,7 +212,7 @@ var dictEN = {
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [FALSE, "MAP"], '4': [FALSE, "OLAY"], '6': [FALSE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
+			'3': [FALSE, "MAP"], '4': [TRUE, "TEXT"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -296,6 +300,7 @@ var TI = {
 		ti.displayFlight = FLIGHTDATA_OFF;
 		ti.displayTime = FALSE;
 		ti.ownPosition = 0.25;
+		ti.mapPlaces = CLEANMAP;
 
       	return ti;
 	},
@@ -613,7 +618,7 @@ var TI = {
     	for(var i = 14; i <= 20; i+=1) {
 			append(me.menuButtonBox,
 				me.menuFastRoot.createChild("path")
-					.moveTo(width*0.975, height*0.09+(6-(i-14))*height*0.11-6.25*4)
+					.moveTo(width*0.975+3.125, height*0.09+(6-(i-14))*height*0.11-6.25*4)
     				.horiz(-6.25*2)
     				.vert(6.25*8)
     				.horiz(6.25*2)
@@ -665,7 +670,7 @@ var TI = {
     	for(var i = 14; i <= 20; i+=1) {
 			append(me.menuButtonSubBox,
 				me.menuFastRoot.createChild("path")
-					.moveTo(width*0.940, height*0.09+(6-(i-14))*height*0.11-6.25*4)
+					.moveTo(width*0.940+3.125, height*0.09+(6-(i-14))*height*0.11-6.25*4)
     				.horiz(-6.25*2)
     				.vert(6.25*8)
     				.horiz(6.25*2)
@@ -1013,6 +1018,9 @@ var TI = {
 		if (me.menuMain == 10 and me.displayTime == TRUE) {
 			me.menuButtonBox[16].show();
 		}
+		if (me.menuMain == 10 and me.mapPlaces == TRUE) {
+			me.menuButtonBox[4].show();
+		}
 	},
 
 	compileFastMenu: func (button) {
@@ -1058,6 +1066,7 @@ var TI = {
 		}
 		me.menuButtonSub[7].setText(me.vertStr(seven));
 		if (me.menuMain == 10) {
+			#show flight data
 			me.menuButtonSub[17].show();
 			me.menuButtonSubBox[17].show();
 			var seventeen = nil;
@@ -1067,6 +1076,11 @@ var TI = {
 				seventeen = dictEN['HORI'][''~me.displayFlight][1];
 			}
 			me.menuButtonSub[17].setText(me.vertStr(seventeen));
+			# zoom level
+			me.menuButtonSub[6].show();
+			me.menuButtonSubBox[6].show();
+			var six = zoomLevels[zoom_curr]~"";
+			me.menuButtonSub[6].setText(me.vertStr(six));
 		}
 	},
 
@@ -1121,6 +1135,17 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 10) {
+				# place names on map
+				me.mapPlaces = !me.mapPlaces;
+				if (me.mapPlaces == PLACES) {
+					type = "light_all";
+					makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
+				} else {
+					type = "light_nolabels";
+					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
+				}
+			}			
 		}
 	},
 
@@ -1142,6 +1167,10 @@ var TI = {
 			if (me.menuMain == 9 and me.menuTrap == FALSE) {
 				# tactical report
 				me.menuTrap = TRUE;
+			}
+			if (me.menuMain == 10) {
+				# change zoom
+				zoomIn();
 			}
 		}
 	},
@@ -1806,9 +1835,9 @@ var TI = {
 			          		.done(func(r) {
 			          	  		#print('received image ' ~ img_path~" " ~ r.status ~ " " ~ r.reason);
 			          	  		tile.set("src", img_path);
-			          	  	})
+			          	  	});
 			              #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-			              .fail(func (r) print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason));
+			              #.fail(func (r) print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason));
 			        }
 			        else {# cached image found, reusing
 			          #print('loading ' ~ img_path);
