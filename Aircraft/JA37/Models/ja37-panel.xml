@@ -62,8 +62,8 @@
     <name>Fuel Gauge</name>
     <offsets>
       <x-m>  0.000</x-m>
-      <y-m>  0.40</y-m>
-      <z-m> -0.0</z-m>
+      <y-m>  0.37</y-m>
+      <z-m>  0.04</z-m>
     </offsets>
   </model>
 

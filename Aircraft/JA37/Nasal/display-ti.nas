@@ -1,14 +1,10 @@
 # todo:
 # servicable, indicated
-# power supply, on off, brightness (emmision)
 # buttons functions
 # geo grid
 # radar echoes types
 # runway proper styles
-# bottom text
-# buttons text
 # steerpoint symbols: # ?
-# ground symbol, ground arrow, horizont, FPI in some modes
 # full OOP
 # use Pinto's model
 var (width,height) = (381.315,512);
@@ -224,86 +220,6 @@ var dictEN = {
 };
 
 var TI = {
-
-	new: func {
-	  	var ti = { parents: [TI] };
-	  	ti.input = {
-			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
-			APLockAlt:            "autopilot/locks/altitude",
-			APTgtAgl:             "autopilot/settings/target-agl-ft",
-			APTgtAlt:             "autopilot/settings/target-altitude-ft",
-			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
-			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
-			rad_alt:              "position/altitude-agl-ft",
-			radarEnabled:         "ja37/hud/tracks-enabled",
-			radarRange:           "instrumentation/radar/range",
-			radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
-			radarServ:            "instrumentation/radar/serviceable",
-			radarVoltage:         "systems/electrical/outputs/ac-main-voltage",
-			rmActive:             "autopilot/route-manager/active",
-			rmDist:               "autopilot/route-manager/wp/dist",
-			rmId:                 "autopilot/route-manager/wp/id",
-			rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
-			RMCurrWaypoint:       "autopilot/route-manager/current-wp",
-			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
-			screenEnabled:        "ja37/radar/enabled",
-			timeElapsed:          "sim/time/elapsed-sec",
-			viewNumber:           "sim/current-view/view-number",
-			headTrue:             "orientation/heading-deg",
-			headMagn:             "orientation/heading-magnetic-deg",
-			twoHz:                "ja37/blink/two-Hz/state",
-			station:          	  "controls/armament/station-select",
-			roll:             	  "orientation/roll-deg",
-			units:                "ja37/hud/units-metric",
-			callsign:             "ja37/hud/callsign",
-			hdgReal:              "orientation/heading-deg",
-			tracks_enabled:   	  "ja37/hud/tracks-enabled",
-			radar_serv:       	  "instrumentation/radar/serviceable",
-			tenHz:            	  "ja37/blink/ten-Hz/state",
-			qfeActive:        	  "ja37/displays/qfe-active",
-	        qfeShown:		  	  "ja37/displays/qfe-shown",
-	        station:          	  "controls/armament/station-select",
-	        currentMode:          "ja37/hud/current-mode",
-	        ctrlRadar:        	  "controls/altimeter-radar",
-	        acInstrVolt:      	  "systems/electrical/outputs/ac-instr-voltage",
-	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
-	        fullMenus:            "ja37/displays/show-full-menus",
-      	};
-   
-      	foreach(var name; keys(ti.input)) {
-        	ti.input[name] = props.globals.getNode(ti.input[name], 1);
-      	}
-
-      	ti.setupCanvasSymbols();
-      	ti.setupMap();
-
-      	ti.lastRRT = 0;
-		ti.lastRR  = 0;
-		ti.lastZ   = 0;
-
-
-		ti.brightness = 1;
-
-		ti.menuShowMain = FALSE;
-		ti.menuShowFast = FALSE;
-		ti.menuMain     = 9;
-		ti.menuTrap     = TRUE;
-		ti.menuSvy      = FALSE;
-		ti.menuGPS      = FALSE;
-
-		ti.trapFire     = FALSE;
-
-		ti.upText = FALSE;
-		ti.logPage = 0;
-		ti.off = FALSE;
-		ti.showFullMenus = TRUE;
-		ti.displayFlight = FLIGHTDATA_OFF;
-		ti.displayTime = FALSE;
-		ti.ownPosition = 0.25;
-		ti.mapPlaces = CLEANMAP;
-
-      	return ti;
-	},
 
 	setupCanvasSymbols: func {
 		me.mapCentrum = root.createChild("group")
@@ -780,10 +696,90 @@ var TI = {
     		.setFontSize(13, 1);
 	},
 
+	new: func {
+	  	var ti = { parents: [TI] };
+	  	ti.input = {
+			alt_ft:               "instrumentation/altimeter/indicated-altitude-ft",
+			APLockAlt:            "autopilot/locks/altitude",
+			APTgtAgl:             "autopilot/settings/target-agl-ft",
+			APTgtAlt:             "autopilot/settings/target-altitude-ft",
+			heading:              "instrumentation/heading-indicator/indicated-heading-deg",
+			hydrPressure:         "fdm/jsbsim/systems/hydraulics/system1/pressure",
+			rad_alt:              "position/altitude-agl-ft",
+			radarEnabled:         "ja37/hud/tracks-enabled",
+			radarRange:           "instrumentation/radar/range",
+			radarScreenVoltage:   "systems/electrical/outputs/dc-voltage",
+			radarServ:            "instrumentation/radar/serviceable",
+			radarVoltage:         "systems/electrical/outputs/ac-main-voltage",
+			rmActive:             "autopilot/route-manager/active",
+			rmDist:               "autopilot/route-manager/wp/dist",
+			rmId:                 "autopilot/route-manager/wp/id",
+			rmTrueBearing:        "autopilot/route-manager/wp/true-bearing-deg",
+			RMCurrWaypoint:       "autopilot/route-manager/current-wp",
+			roll:                 "instrumentation/attitude-indicator/indicated-roll-deg",
+			screenEnabled:        "ja37/radar/enabled",
+			timeElapsed:          "sim/time/elapsed-sec",
+			viewNumber:           "sim/current-view/view-number",
+			headTrue:             "orientation/heading-deg",
+			headMagn:             "orientation/heading-magnetic-deg",
+			twoHz:                "ja37/blink/two-Hz/state",
+			station:          	  "controls/armament/station-select",
+			roll:             	  "orientation/roll-deg",
+			units:                "ja37/hud/units-metric",
+			callsign:             "ja37/hud/callsign",
+			hdgReal:              "orientation/heading-deg",
+			tracks_enabled:   	  "ja37/hud/tracks-enabled",
+			radar_serv:       	  "instrumentation/radar/serviceable",
+			tenHz:            	  "ja37/blink/ten-Hz/state",
+			qfeActive:        	  "ja37/displays/qfe-active",
+	        qfeShown:		  	  "ja37/displays/qfe-shown",
+	        station:          	  "controls/armament/station-select",
+	        currentMode:          "ja37/hud/current-mode",
+	        ctrlRadar:        	  "controls/altimeter-radar",
+	        acInstrVolt:      	  "systems/electrical/outputs/ac-instr-voltage",
+	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
+	        fullMenus:            "ja37/displays/show-full-menus",
+      	};
+   
+      	foreach(var name; keys(ti.input)) {
+        	ti.input[name] = props.globals.getNode(ti.input[name], 1);
+      	}
+
+      	ti.setupCanvasSymbols();
+      	ti.setupMap();
+
+      	ti.lastRRT = 0;
+		ti.lastRR  = 0;
+		ti.lastZ   = 0;
+
+
+		ti.brightness = 1;
+
+		ti.menuShowMain = FALSE;
+		ti.menuShowFast = FALSE;
+		ti.menuMain     = 9;
+		ti.menuTrap     = TRUE;
+		ti.menuSvy      = FALSE;
+		ti.menuGPS      = FALSE;
+
+		ti.trapFire     = FALSE;
+
+		ti.upText = FALSE;
+		ti.logPage = 0;
+		ti.off = FALSE;
+		ti.showFullMenus = TRUE;
+		ti.displayFlight = FLIGHTDATA_OFF;
+		ti.displayTime = FALSE;
+		ti.ownPosition = 0.25;
+		ti.mapPlaces = CLEANMAP;
+
+      	return ti;
+	},
+
 	########################################################################################################
 	########################################################################################################
 	#
-	#  main loop
+	#  main loops
 	#
 	#
 	########################################################################################################
@@ -818,10 +814,20 @@ var TI = {
 		me.showRadarLimit();
 		me.showBottomText();
 		me.menuUpdate();
-		me.updateFlightData();
 		me.showTime();
 
 		settimer(func me.loop(), 0.5);
+	},
+
+	loopFast: func {
+		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
+			settimer(func me.loopFast(), 0.05);
+			return;
+		} else {
+		}
+		me.updateFlightData();
+
+		settimer(func me.loopFast(), 0.05);
 	},
 
 	showTime: func {
@@ -1150,7 +1156,7 @@ var TI = {
 					type = "light_nolabels";
 					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
 				}
-			}			
+			}
 		}
 	},
 
@@ -1876,3 +1882,4 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 
 var ti = TI.new();
 ti.loop();
+ti.loopFast();
