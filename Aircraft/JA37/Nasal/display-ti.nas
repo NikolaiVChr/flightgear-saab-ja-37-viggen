@@ -1139,6 +1139,10 @@ var TI = {
 				me.texCoord = me.laloToTexel();
 				if (getprop("autopilot/route-manager/current-wp") == wp and land.showActiveSteer == FALSE) {
 					me.steerpoint[wp].hide();
+					if (wp != me.points-1) {
+						# airport is not last steerpoint, we make a leg to/from that also
+						append(me.poly, [me.texCoord[0], me.texCoord[1]]);
+					}
     				continue;
 				} elsif (getprop("autopilot/route-manager/current-wp") == wp) {
 					me.steerpoint[wp].setColor(rTyrk,gTyrk,bTyrk,a);
