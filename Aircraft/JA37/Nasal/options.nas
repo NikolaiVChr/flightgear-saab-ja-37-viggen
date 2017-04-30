@@ -13,7 +13,7 @@ var Dialog = {
         var font = { name: "FIXED_8x13" };
 
         me.dialog = nil;
-        me.name = "JA-37 Options";
+        me.name = "Saab 37 Options";
 
 #        me.listeners=[];
 #        append(me.listeners, setlistener("/sim/signals/reinit-gui", func me._redraw_()));
@@ -984,8 +984,8 @@ var Dialog = {
       # me.dialog.setBinding("dialog-close", props.Node.new({"dialog-name": "JA-37 Options"}));
       # me.dialog.setBinding("dialog-show",  props.Node.new({"dialog-name": "JA-37 Options"}));
       # this does the same, refresh the dialog:
-      fgcommand("dialog-close", props.Node.new({"dialog-name": "JA-37 Options"}));
-      fgcommand("dialog-show", props.Node.new({"dialog-name": "JA-37 Options"}));
+      fgcommand("dialog-close", props.Node.new({"dialog-name": "Saab 37 Options"}));
+      fgcommand("dialog-show", props.Node.new({"dialog-name": "Saab 37 Options"}));
     },
 
     del: func {

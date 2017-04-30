@@ -8,7 +8,7 @@
 
 
 *************************************************************************-->
-    <title>Saab JA-37 Viggen</title>
+    <title>Saab JA-37Di Viggen</title>
     <key>
         <name>s</name>
         <desc>Startup / shutdown (if walker is enabled use menu instead)</desc>
@@ -308,7 +308,6 @@
 
       Trivia
       ______
-      This is the mid 80'ties version. So it has no airbrake
       400 meter runway is required to takeoff.
       500 meter runway is required to land.
       Climb to 10,000m from brakes off in less than 100 seconds.
