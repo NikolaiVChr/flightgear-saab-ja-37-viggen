@@ -187,13 +187,13 @@ var dictSE = {
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'1': [TRUE, "SLACK"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
-	 		'14': [FALSE, "JAKT"], '15': [FALSE, "HK"],'16': [TRUE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'14': [FALSE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'3': [FALSE, "ELKA"], '4': [TRUE, "ORTS"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [TRUE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -209,13 +209,13 @@ var dictEN = {
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [FALSE, "FGHT"], '15': [FALSE, "CURV"],'16': [TRUE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'14': [FALSE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [FALSE, "MAP"], '4': [TRUE, "TEXT"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [TRUE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -896,6 +896,9 @@ var TI = {
 
 
 	menuUpdate: func {
+		#
+		# Update the display of the menus
+		#
 		me.showFullMenus = me.input.fullMenus.getValue();
 		if (me.menuShowMain == TRUE) {
 			me.menuShowFast = TRUE;#figure this out better
@@ -950,6 +953,9 @@ var TI = {
 	},
 
 	showMap: func {
+		#
+		# Reveal map and its overlays
+		#
 		me.logPage = 0;
 		me.mapCentrum.show();
 		me.rootCenter.show();
@@ -959,6 +965,9 @@ var TI = {
 	},
 
 	hideMap: func {
+		#
+		# Hide map and its overlays (due to a log page being displayed)
+		#
 		me.mapCentrum.hide();
 		me.rootCenter.hide();
 		me.bottom_text_grp.hide();
@@ -966,6 +975,9 @@ var TI = {
 	},
 
 	updateMainMenu: func {
+		#
+		# Update the display of the main menus
+		#
 		for(var i = 8; i <= 13; i+=1) {
 			me.menuButton[i].setText(me.compileMainMenu(i));
 			if (me.menuMain == 8) {
@@ -1050,6 +1062,9 @@ var TI = {
 	},
 
 	updateFastMenu: func {
+		#
+		# Update the display of the fast menus
+		#
 		for(var i = 1; i <= 7; i+=1) {
 			me.menuButton[i].setText(me.compileFastMenu(i));
 			me.menuButtonBox[i].hide();
@@ -1061,8 +1076,8 @@ var TI = {
 		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
 		}
-		if (me.menuMain == 9 and me.showSteerPoly == TRUE) {
-			me.menuButtonBox[16].show();
+		if (me.menuMain == 11 and me.showSteerPoly == TRUE) {
+			me.menuButtonBox[15].show();
 		}
 		if (me.menuMain == 10 and me.displayTime == TRUE) {
 			me.menuButtonBox[16].show();
@@ -1097,6 +1112,9 @@ var TI = {
 	},
 
 	updateFastSubMenu: func {
+		#
+		# Update the display of the fast inner menu items.
+		#
 		for(var i = 1; i <= 7; i+=1) {
 			me.menuButtonSub[i].hide();
 			me.menuButtonSubBox[i].hide();
@@ -1134,6 +1152,9 @@ var TI = {
 	},
 
 	menuNoSub: func {
+		#
+		# Make sure none of the sub main menus are active
+		#
 		me.menuTrap = FALSE;
 		me.menuSvy  = FALSE;
 		me.menuGPS  = FALSE;
@@ -1755,7 +1776,7 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 	#
-	#  buttons
+	#  button functions
 	#
 	#
 	########################################################################################################
@@ -1963,6 +1984,9 @@ var TI = {
 			if (me.menuMain == 8) {
 				#clear weapon selection
 			}
+			if (me.menuMain == 11) {
+				me.showSteerPoly = !me.showSteerPoly;
+			}
 		}
 	},
 
@@ -1970,9 +1994,6 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 9) {
-				me.showSteerPoly = !me.showSteerPoly;
-			}
 			if (me.menuMain == 10) {
 				me.displayTime = !me.displayTime;
 			}
@@ -2049,7 +2070,7 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 	#
-	#  map
+	#  map display
 	#
 	#
 	########################################################################################################
@@ -2133,15 +2154,6 @@ var TI = {
 		  }
 
 		  me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
-	},
-
-	displayGroundCollisionArrow: func () {
-	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
-	      me.arrow_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
-	      me.arrow.show();
-	    } else {
-	      me.arrow.hide();
-	    }
 	},
 };
 
