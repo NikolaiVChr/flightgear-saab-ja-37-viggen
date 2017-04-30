@@ -197,7 +197,7 @@ var dictSE = {
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'5': [FALSE, "SVY"], '6': [FALSE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "LAS"]},
+			'5': [FALSE, "SVY"], '6': [TRUE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "LAS"]},
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
 };
@@ -219,7 +219,7 @@ var dictEN = {
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'5': [FALSE, "SIDE"], '6': [FALSE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
+			'5': [FALSE, "SIDE"], '6': [TRUE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
 	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
 };
@@ -827,6 +827,7 @@ var TI = {
 		ti.showSteerPoly = FALSE;
 		ti.ModeAttack = TRUE;
 		ti.GPSinit    = FALSE;
+		ti.fr28Top    = FALSE;
 
       	return ti;
 	},
@@ -1150,6 +1151,7 @@ var TI = {
 			me.menuButtonSub[i].hide();
 			me.menuButtonSubBox[i].hide();
 		}
+		# button 7 is always showing stuff
 		me.menuButtonSub[7].show();
 		me.menuButtonSubBox[7].show();
 		var seven = nil;
@@ -1177,6 +1179,7 @@ var TI = {
 			me.menuButtonSub[6].setText(me.vertStr(six));
 		}
 		if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			# radar in attack or fight mode
 			var ft = nil;
 			if (me.interoperability == displays.METRIC) {
 				ft = "ATT";
@@ -1188,6 +1191,18 @@ var TI = {
 				me.menuButtonSubBox[14].show();
 			}
 			me.menuButtonSub[14].show();
+		}
+		if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
+			# use top or belly antaenna
+			var ant = nil;
+			if (me.interoperability == displays.METRIC) {
+				ant = me.fr28Top==TRUE?"RYG":"BUK";
+			} else {
+				ant = me.fr28Top==TRUE?"OVER":"UNDR";
+			}
+			me.menuButtonSub[6].setText(me.vertStr(ant));
+			me.menuButtonSub[6].show();
+			me.menuButtonSubBox[6].show();
 		}
 	},
 
@@ -1910,6 +1925,9 @@ var TI = {
 			if (me.menuMain == 10) {
 				# change zoom
 				zoomIn();
+			}
+			if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
+				me.fr28Top = !me.fr28Top;
 			}
 		}
 	},
