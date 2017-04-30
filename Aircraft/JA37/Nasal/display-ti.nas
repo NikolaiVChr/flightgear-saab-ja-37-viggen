@@ -199,7 +199,7 @@ var dictSE = {
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'5': [FALSE, "SVY"], '6': [FALSE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "LAS"]},
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [FALSE, "INIT"]},
+			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
 };
 
 var dictEN = {
@@ -209,7 +209,7 @@ var dictEN = {
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [TRUE, "ROUT"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [TRUE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -221,7 +221,7 @@ var dictEN = {
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'5': [FALSE, "SIDE"], '6': [FALSE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
 	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [FALSE, "INIT"]},
+			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
 };
 
 var TI = {
@@ -249,6 +249,14 @@ var TI = {
 		      .moveTo(-5*MM2TEX,  5*MM2TEX)
 		      .lineTo( 5*MM2TEX,  5*MM2TEX)
 		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+		me.selfSymbolGPS = me.rootCenter.createChild("path")
+		      .moveTo(-5*MM2TEX,  5*MM2TEX)
+		      .lineTo( 0,       -10*MM2TEX)
+		      .lineTo( 5*MM2TEX,  5*MM2TEX)
+		      .lineTo(-5*MM2TEX,  5*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColorFill(rWhite,gWhite,bWhite)
 		      .setStrokeLineWidth(w);
 
 		me.navBugs = root.createChild("group")
@@ -818,6 +826,7 @@ var TI = {
 		ti.showSteers = TRUE;
 		ti.showSteerPoly = FALSE;
 		ti.ModeAttack = TRUE;
+		ti.GPSinit    = FALSE;
 
       	return ti;
 	},
@@ -1096,6 +1105,12 @@ var TI = {
 		}
 		if (me.menuMain == 10 and me.mapPlaces == TRUE) {
 			me.menuButtonBox[4].show();
+		}
+		if (me.menuMain == 13 and me.menuGPS == TRUE and me.GPSinit == TRUE) {
+			me.menuButtonBox[15].show();
+			if (radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
+				me.menuButtonBox[14].show();
+			}
 		}
 	},
 
@@ -1705,6 +1720,13 @@ var TI = {
 		# length = time to travel in 60 seconds.
 		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
 		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+		if (me.GPSinit == TRUE) {
+			me.selfSymbol.hide();
+			me.selfSymbolGPS.show()
+		} else {
+			me.selfSymbol.show();
+			me.selfSymbolGPS.hide()
+		}
 	},
 
 	showHeadingBug: func {
@@ -2003,6 +2025,21 @@ var TI = {
 				# clear tact reports
 				armament.fireLog = "\n      Fire log:";
 			}
+			if (me.menuMain == 13 and me.menuGPS == TRUE) {
+				# GPS fix
+				if (me.GPSinit == TRUE) {
+					  var coord = geo.aircraft_position();
+
+					  var ground = geo.elevation(coord.lat(), coord.lon());
+    				  if(ground != nil) {
+      						coord.set_alt(ground);
+      				  }
+
+					  var contact = radar_logic.ContactGPS.new("FIX", coord);
+
+					  radar_logic.selection = contact;
+				}
+			}
 			if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				# GPS settings
 				me.menuGPS = TRUE;
@@ -2019,6 +2056,13 @@ var TI = {
 			}
 			if (me.menuMain == 11) {
 				me.showSteerPoly = !me.showSteerPoly;
+			}
+			if (me.menuMain == 13 and me.menuGPS == TRUE) {
+				me.GPSinit = !me.GPSinit;
+				if (me.GPSinit == FALSE and radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
+					# clear the FIX if gps is turned off
+					radar_logic.selection = nil;
+				}
 			}
 		}
 	},

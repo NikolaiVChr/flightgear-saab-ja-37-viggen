@@ -1994,7 +1994,7 @@ var AIM = {
 		  me.coord3.set_alt(coord2.alt());
 		  me.d12 = coord1.direct_distance_to(coord2);
 		  me.d32 = me.coord3.direct_distance_to(coord2);
-		  if (me.d12 > 0.01) {
+		  if (me.d12 > 0.1 and coord1.alt() != coord2.alt()) {
 		  	me.altDi = coord1.alt()-me.coord3.alt();
 		  	me.yyy = R2D * math.acos((math.pow(me.d12, 2)+math.pow(me.altDi,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.altDi));
 		  	me.pitchC = -1* (90 - me.yyy);
