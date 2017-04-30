@@ -1252,8 +1252,10 @@ var TI = {
     				continue;
 				} elsif (getprop("autopilot/route-manager/current-wp") == wp) {
 					me.steerpoint[wp].setColor(rTyrk,gTyrk,bTyrk,a);
+					me.steerpoint[wp].set("z-index", 10);
 					append(me.poly, [me.texCoord[0], me.texCoord[1]]);
 				} else {
+					me.steerpoint[wp].set("z-index", 5);
 					me.steerpoint[wp].setColor(rDTyrk,gDTyrk,bDTyrk,a);
 					append(me.poly, [me.texCoord[0], me.texCoord[1]]);
 				}
