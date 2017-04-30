@@ -220,7 +220,8 @@ var update_loop = func {
   	 ## Sets fuel gauge needles rotation ##
   	 
      if(input.tank8LvlNorm.getValue() != nil) {
-       input.fuelNeedleB.setDoubleValue(input.tank8LvlNorm.getValue()*230);
+       #input.fuelNeedleB.setDoubleValue(input.tank8LvlNorm.getValue()*230);
+       input.fuelNeedleB.setDoubleValue(0);
      }     
 
     var current = input.tank0LvlGal.getValue()
