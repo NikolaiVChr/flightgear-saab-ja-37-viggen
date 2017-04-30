@@ -89,6 +89,8 @@
             </greater-than>
         </condition>
         <property>/instrumentation/fuel/needleF_rot</property>
+        <factor>0.99</factor>
+        <offset-deg>-1</offset-deg>
         <max>325</max>
         <axis>   
            <x1-m> 0.87930 </x1-m>
