@@ -186,8 +186,8 @@ var dictSE = {
 	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-	 		'1': [TRUE, "SLACK"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
-	 		'14': [FALSE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'1': [TRUE, "SLACK"], '2': [FALSE, "DL"], '4': [TRUE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
+	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -208,8 +208,8 @@ var dictEN = {
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [FALSE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [FALSE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [TRUE, "ROUT"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "WAYP"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -264,7 +264,7 @@ var TI = {
 		me.commanded = me.navBugs.createChild("path")
 		      .moveTo(-2.5*MM2TEX,  6*MM2TEX)
 		      .vert(9*MM2TEX)
-		      .moveTo(0,  3)
+		      .moveTo(0,  0)
 		      .vert(12*MM2TEX)
 		      .moveTo(2.5*MM2TEX,  6*MM2TEX)
 		      .vert(9*MM2TEX)
@@ -817,6 +817,7 @@ var TI = {
 		ti.mapPlaces = CLEANMAP;
 		ti.showSteers = TRUE;
 		ti.showSteerPoly = FALSE;
+		ti.ModeAttack = TRUE;
 
       	return ti;
 	},
@@ -962,7 +963,7 @@ var TI = {
 		me.mapCentrum.show();
 		me.rootCenter.show();
 		me.logRoot.hide();
-		me.navBugs.show();print("show");
+		me.navBugs.show();
 		me.bottom_text_grp.show();
 	},
 
@@ -973,7 +974,7 @@ var TI = {
 		me.mapCentrum.hide();
 		me.rootCenter.hide();
 		me.bottom_text_grp.hide();
-		me.navBugs.hide();print("hide");
+		me.navBugs.hide();
 	},
 
 	updateMainMenu: func {
@@ -1078,6 +1079,15 @@ var TI = {
 		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
 		}
+		if (me.menuMain == 9 and me.menuTrap == FALSE and me.showSteers == TRUE) {
+			me.menuButtonBox[4].show();
+		}
+		if (me.menuMain == 9 and me.menuTrap == FALSE and me.ModeAttack == FALSE) {
+			me.menuButtonBox[14].show();
+		}
+		if (me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+			me.menuButtonBox[3].show();
+		}
 		if (me.menuMain == 11 and me.showSteerPoly == TRUE) {
 			me.menuButtonBox[15].show();
 		}
@@ -1151,6 +1161,19 @@ var TI = {
 			var six = zoomLevels[zoom_curr]~"";
 			me.menuButtonSub[6].setText(me.vertStr(six));
 		}
+		if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			var ft = nil;
+			if (me.interoperability == displays.METRIC) {
+				ft = "ATT";
+			} else {
+				ft = "ATT";
+			}
+			me.menuButtonSub[14].setText(me.vertStr(ft));
+			if (me.ModeAttack == TRUE) {
+				me.menuButtonSubBox[14].show();
+			}
+			me.menuButtonSub[14].show();
+		}
 	},
 
 	menuNoSub: func {
@@ -1223,7 +1246,7 @@ var TI = {
   	},
 
   	showPoly: func {
-  		if (me.showSteerPoly == TRUE and size(me.poly) > 1) {
+  		if (me.showSteers == TRUE and me.showSteerPoly == TRUE and size(me.poly) > 1) {
   			me.steerPoly.removeAllChildren();
   			me.prevLeg = nil;
   			foreach(leg; me.poly) {
@@ -1363,7 +1386,7 @@ var TI = {
 	    }
 		me.textBArmAmmo.setText(me.ammoT);
 		if (me.interoperability == displays.METRIC) {
-			if (displays.common.currArmNameSh == "70") {
+			if (me.ModeAttack == TRUE) {
 				me.textBTactType1.setText("A");
 				me.textBTactType2.setText("T");
 				me.textBTactType3.setText("T");
@@ -1373,7 +1396,7 @@ var TI = {
 				me.textBTactType3.setText("T");
 			}
 		} else {
-			if (displays.common.currArmNameSh == "70") {
+			if (me.ModeAttack == TRUE) {
 				me.textBTactType1.setText("A");
 				me.textBTactType2.setText("T");
 				me.textBTactType3.setText("T");
@@ -1388,15 +1411,17 @@ var TI = {
 		
 		me.mode = "";
 		# DL: data link
-		# RR: radar
+		# RR: radar guided steering
 		if (land.mode < 3 and land.mode > 0) {
-			me.mode = "LB";# landing waypoint
+			me.mode = me.interoperability == displays.METRIC?"LB":"LS";# landing steerpoint
 		} elsif (land.mode > 2) {
-			me.mode = "LF";# landing touchdown point
+			me.mode = me.interoperability == displays.METRIC?"LF":"LT";# landing touchdown point
 		} elsif (me.input.currentMode.getValue() == displays.LANDING) {
 			me.mode = "L ";# landing
+		} elsif (me.showSteers == TRUE and me.input.rmActive.getValue() == TRUE) {
+			me.mode = me.interoperability == displays.METRIC?"B ":"SP";# following steerpoint route
 		} else {
-			me.mode = "  ";# 
+			me.mode = "  ";# VFR
 		}
 		me.textBMode.setText(me.mode);
 
@@ -1824,6 +1849,9 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+				me.showSteers = !me.showSteers;
+			}
 			if (me.menuMain == 10) {
 				# place names on map
 				me.mapPlaces = !me.mapPlaces;
@@ -1842,7 +1870,7 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			if (me.menuMain == 13 and me.menuSvy == FALSE) {
+			if (me.menuMain == 13 and me.menuSvy == FALSE and me.menuGPS == FALSE) {
 				# side view
 				me.menuSvy = TRUE;
 			}
@@ -1968,11 +1996,14 @@ var TI = {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(0);
 			}
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+				me.ModeAttack = !me.ModeAttack;
+			}
 			if (me.menuMain == 9 and me.menuTrap == TRUE) {
 				# clear tact reports
 				armament.fireLog = "\n      Fire log:";
 			}
-			if (me.menuMain == 13 and me.menuGPS == FALSE) {
+			if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				# GPS settings
 				me.menuGPS = TRUE;
 			}
