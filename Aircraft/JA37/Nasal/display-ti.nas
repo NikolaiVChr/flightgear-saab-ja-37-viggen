@@ -1710,7 +1710,6 @@ var TI = {
 	    	} elsif (math.abs(me.bugOffset) > 90) {
 	    		me.xxx       = -math.tan(me.bugOffset*D2R)*(height*0.9-(height*0.875-(height*0.875)*me.ownPosition))+width/2;
 	    		me.yyy       = height*0.9;
-	    		printf("offset %d  tan %d  me.xxx %d", me.bugOffset, math.tan(me.bugOffset*D2R)*10, me.xxx);
 	    		if (me.xxx < 0) {
 	    			# lower left side
 	    			me.xxx = 0;
