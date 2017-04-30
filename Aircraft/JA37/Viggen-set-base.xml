@@ -472,7 +472,7 @@
         <autoReverseThrust userarchive="y" type="bool">false</autoReverseThrust>
         <supported>
             <old-custom-fails type="int">0</old-custom-fails>
-            <hud type="bool">false</hud>
+            <canvas type="bool">false</canvas>
             <radar type="bool">false</radar>
             <options type="bool">false</options>
             <landing-light type="bool">false</landing-light>

@@ -978,9 +978,9 @@ var test_support = func {
   var minor = num(version[1]);
   var detail = num(version[2]);
   if (major < 2) {
-    notice("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+    notice("Saab 37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
-      setprop("ja37/supported/hud", FALSE);
+      setprop("ja37/supported/canvas", FALSE);
       setprop("ja37/supported/options", FALSE);
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/popuptips", 0);
@@ -998,18 +998,18 @@ var test_support = func {
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
     if(minor < 7) {
-      notice("JA-37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
+      notice("Saab 37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
-      setprop("ja37/supported/hud", FALSE);
+      setprop("ja37/supported/canvas", FALSE);
       setprop("ja37/supported/options", FALSE);
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/popuptips", 0);
       setprop("ja37/supported/crash-system", 0);
       setprop("ja37/supported/ubershader", FALSE);
     } elsif(minor < 9) {
-      notice("JA-37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
+      notice("Saab 37 Canvas Radar and HUD is only supported in Flightgear version 2.10 and upwards. They have been disabled.");
       setprop("ja37/supported/radar", FALSE);
-      setprop("ja37/supported/hud", FALSE);
+      setprop("ja37/supported/canvas", FALSE);
       setprop("ja37/supported/options", FALSE);
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/hud/mode", 0);
@@ -1018,7 +1018,7 @@ var test_support = func {
       setprop("ja37/supported/ubershader", FALSE);
     } elsif(minor < 11) {
       setprop("ja37/supported/radar", TRUE);
-      setprop("ja37/supported/hud", TRUE);
+      setprop("ja37/supported/canvas", TRUE);
       setprop("ja37/supported/options", FALSE);
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/popuptips", 0);
@@ -1026,7 +1026,7 @@ var test_support = func {
       setprop("ja37/supported/ubershader", TRUE);
     } else {
       setprop("ja37/supported/radar", TRUE);
-      setprop("ja37/supported/hud", TRUE);
+      setprop("ja37/supported/canvas", TRUE);
       setprop("ja37/supported/options", FALSE);
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/popuptips", 1);
@@ -1036,7 +1036,7 @@ var test_support = func {
   } elsif (major == 3) {
     setprop("ja37/supported/options", TRUE);
     setprop("ja37/supported/radar", TRUE);
-    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/canvas", TRUE);
     setprop("ja37/supported/old-custom-fails", 2);
     setprop("ja37/supported/landing-light", TRUE);
     setprop("ja37/supported/popuptips", 2);
@@ -1069,7 +1069,7 @@ var test_support = func {
   } elsif (major == 2016) {
     setprop("ja37/supported/options", TRUE);
     setprop("ja37/supported/radar", TRUE);
-    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/canvas", TRUE);
     setprop("ja37/supported/old-custom-fails", 2);
     setprop("ja37/supported/landing-light", TRUE);
     setprop("ja37/supported/popuptips", 2);
@@ -1085,7 +1085,7 @@ var test_support = func {
   } elsif (major == 2017) {
     setprop("ja37/supported/options", TRUE);
     setprop("ja37/supported/radar", TRUE);
-    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/canvas", TRUE);
     setprop("ja37/supported/old-custom-fails", 2);
     setprop("ja37/supported/landing-light", TRUE);
     setprop("ja37/supported/popuptips", 2);
@@ -1102,7 +1102,7 @@ var test_support = func {
     # future proof
     setprop("ja37/supported/options", TRUE);
     setprop("ja37/supported/radar", TRUE);
-    setprop("ja37/supported/hud", TRUE);
+    setprop("ja37/supported/canvas", TRUE);
     setprop("ja37/supported/old-custom-fails", 2);
     setprop("ja37/supported/landing-light", TRUE);
     setprop("ja37/supported/popuptips", 2);
@@ -1228,7 +1228,7 @@ var main_init = func {
 
 # re init
 var re_init = func {
-  print("Re-initializing JA-37 Viggen systems");
+  print("Re-initializing Saab 37 Viggen systems");
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 

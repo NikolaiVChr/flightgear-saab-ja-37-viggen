@@ -2470,7 +2470,7 @@
  <!--<animation>
   <type>select</type>
   <condition>
-    <property>ja37/supported/hud</property>
+    <property>ja37/supported/canvas</property>
   </condition>
   <object-name>hud</object-name>
   <object-name>hudStruts</object-name>
@@ -2480,7 +2480,7 @@
   <type>scale</type>
   <object-name>hud</object-name>
   <object-name>hudStruts</object-name>
-  <property>ja37/supported/hud</property>
+  <property>ja37/supported/canvas</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>

@@ -23,18 +23,22 @@ var gone = 0;
 #window.getCanvas(1).setColorBackground(0, 0, 0, 1.0);
 #window.getCanvas(1).addPlacement({"node": "screen", "texture": "mi_base.png"});
 
-var canvas = canvas.new({
-  "name": "MI",   # The name is optional but allow for easier identification
-  "size": [width, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
-  "view": [width, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
-                        # which will be stretched the size of the texture, required)
-  "mipmapping": 0       # Enable mipmapping (optional)
-});
-var root = canvas.createGroup();
-canvas.setColorBackground(0, 0, 0, 1.0);
-canvas.addPlacement({"node": "screen", "texture": "mi_base.png"});
+var mycanvas = nil;
+var root = nil;
+var setupCanvas = func {
+	mycanvas = canvas.new({
+	  "name": "MI",   # The name is optional but allow for easier identification
+	  "size": [width, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
+	  "view": [width, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
+	                        # which will be stretched the size of the texture, required)
+	  "mipmapping": 0       # Enable mipmapping (optional)
+	});
+	root = mycanvas.createGroup();
+	mycanvas.setColorBackground(0, 0, 0, 1.0);
+	mycanvas.addPlacement({"node": "screen", "texture": "mi_base.png"});
 
-root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
+	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
+};
 
 var (center_x, center_y) = (396.6625/2,height/2);
 
@@ -1089,5 +1093,14 @@ var extrapolate = func (x, x1, x2, y1, y2) {
     return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
 
-var mi = MI.new();
-mi.loop();
+var mi = nil;
+var init = func {
+	removelistener(idl); # only call once
+	if (getprop("ja37/supported/canvas") == TRUE) {
+		setupCanvas();
+		mi = MI.new();
+		mi.loop();
+	}
+}
+
+idl = setlistener("ja37/supported/initialized", init, 0, 0);

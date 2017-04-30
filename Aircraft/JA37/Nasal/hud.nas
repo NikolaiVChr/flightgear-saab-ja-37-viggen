@@ -2789,7 +2789,7 @@ var reinitHUD = FALSE;
 var hud_pilot = nil;
 var init = func() {
   removelistener(id); # only call once
-  if(getprop("ja37/supported/hud") == TRUE) {
+  if(getprop("ja37/supported/canvas") == TRUE) {
     hud_pilot = HUDnasal.new({"node": "hud", "texture": "hud.png"});
     #setprop("sim/hud/visibility[1]", 0);
     

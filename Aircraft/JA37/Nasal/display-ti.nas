@@ -21,20 +21,23 @@ var (width,height) = (381,512);#381.315
 #  call(canvas.Window.del, [], me);
 #};
 #var root = window.getCanvas(1).createGroup();
-var canvas = canvas.new({
-  "name": "TI",   # The name is optional but allow for easier identification
-  "size": [height, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
-  "view": [height, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
-                        # which will be stretched the size of the texture, required)
-  "mipmapping": 0       # Enable mipmapping (optional)
-});
-var root = canvas.createGroup();
-root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
-#window.getCanvas(1).setColorBackground(0.3, 0.3, 0.3, 1.0);
-#window.getCanvas(1).addPlacement({"node": "ti_screen", "texture": "ti.png"});
-canvas.setColorBackground(0.3, 0.3, 0.3, 1.0);
-canvas.addPlacement({"node": "ti_screen", "texture": "ti.png"});
-
+var mycanvas = nil;
+var root = nil;
+var setupCanvas = func {
+	mycanvas = canvas.new({
+	  "name": "TI",   # The name is optional but allow for easier identification
+	  "size": [height, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
+	  "view": [height, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
+	                        # which will be stretched the size of the texture, required)
+	  "mipmapping": 0       # Enable mipmapping (optional)
+	});
+	root = mycanvas.createGroup();
+	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
+	#window.getCanvas(1).setColorBackground(0.3, 0.3, 0.3, 1.0);
+	#window.getCanvas(1).addPlacement({"node": "ti_screen", "texture": "ti.png"});
+	mycanvas.setColorBackground(0.3, 0.3, 0.3, 1.0);
+	mycanvas.addPlacement({"node": "ti_screen", "texture": "ti.png"});
+}
 var (center_x, center_y) = (width/2,height/2);
 
 var MM2TEX = 1;
@@ -186,7 +189,7 @@ var dictSE = {
 	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-	 		'1': [TRUE, "SLACK"], '2': [FALSE, "DL"], '4': [TRUE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
+	 		'1': [TRUE, "SLACK"], '2': [TRUE, "DL"], '4': [TRUE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
 	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
@@ -208,8 +211,8 @@ var dictEN = {
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'1': [TRUE, "OFF"], '2': [FALSE, "DL"], '4': [TRUE, "ROUT"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [TRUE, "FGHT"], '15': [FALSE, "CURV"],'16': [FALSE, "POLY"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
+	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "POLY"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -444,14 +447,25 @@ var TI = {
     		.setColor(rGrey,gGrey,bGrey, a)
     		.setAlignment("center-top")
     		.setTranslation(72, height-height*0.08)
+    		.set("z-index", 10)
     		.setFontSize(10, 1);
-    	me.textBLinkFrame = me.bottom_text_grp.createChild("path")
+    	me.textBLinkFrame1 = me.bottom_text_grp.createChild("path")
     		.moveTo(65, height-height*0.085)
     		.horiz(16)
     		.vert(12)
     		.horiz(-16)
     		.vert(-12)
     		.setColor(rWhite,gWhite,bWhite, a)
+		    .setStrokeLineWidth(w);
+		me.textBLinkFrame2 = me.bottom_text_grp.createChild("path")
+    		.moveTo(65, height-height*0.085)
+    		.horiz(16)
+    		.vert(12)
+    		.horiz(-16)
+    		.vert(-12)
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.set("z-index", 1)
+		    .setColorFill(rGreen, gGreen, bGreen, a)
 		    .setStrokeLineWidth(w);
 		me.textBerror = me.bottom_text_grp.createChild("text")
     		.setText("F")
@@ -828,6 +842,7 @@ var TI = {
 		ti.ModeAttack = TRUE;
 		ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
+		ti.dataLink   = FALSE;
 
       	return ti;
 	},
@@ -952,7 +967,7 @@ var TI = {
 			me.logRoot.show();
 			call(func {
 				var buffer = FailureMgr.get_log_buffer();
-				var str = "";
+				var str = "  Failure log:\n";
     			foreach(entry; buffer) {
       				str = str~entry.time~" "~entry.message~"\n";
     			}
@@ -1089,11 +1104,26 @@ var TI = {
 		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
 		}
+		if (me.menuMain == 9 and me.menuTrap == FALSE and me.dataLink == TRUE) {
+			me.menuButtonBox[2].show();
+		}
 		if (me.menuMain == 9 and me.menuTrap == FALSE and me.showSteers == TRUE) {
 			me.menuButtonBox[4].show();
 		}
 		if (me.menuMain == 9 and me.menuTrap == FALSE and me.ModeAttack == FALSE) {
 			me.menuButtonBox[14].show();
+		}
+		if (me.menuMain == 9 and me.menuTrap == FALSE and me.showFullMenus == TRUE) {
+			if (land.mode < 3 and land.mode > 0) {
+				# landing before descent
+				me.menuButtonBox[19].show();
+			} elsif (land.mode > 2) {
+				# landing descent
+				me.menuButtonBox[18].show();
+			} elsif (me.input.currentMode.getValue() == displays.LANDING) {
+				# generic landing mode
+				me.menuButtonBox[20].show();
+			}
 		}
 		if (me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
 			me.menuButtonBox[3].show();
@@ -1509,6 +1539,15 @@ var TI = {
 			me.textBerrorFrame1.hide();
 			me.textBerrorFrame2.show();
 		}
+		if (me.dataLink == FALSE) {
+			me.textBlink.setColor(rGrey, gGrey, bGrey, a);
+			me.textBLinkFrame2.hide();
+			me.textBLinkFrame1.show();
+		} else {
+			me.textBlink.setColor(rBlack, gBlack, bBlack, a);
+			me.textBLinkFrame1.hide();
+			me.textBLinkFrame2.show();
+		}
 	},
 
 	showRadarLimit: func {
@@ -1868,7 +1907,10 @@ var TI = {
 		if (me.menuShowFast == FALSE) {
 			me.menuShowFast = TRUE;
 		} else {
-			
+			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+				# datalink / STRILL
+				me.dataLink = !me.dataLink;
+			}
 		}
 	},
 
@@ -1880,7 +1922,7 @@ var TI = {
 			if (me.menuMain == 9 and me.menuTrap == TRUE) {
 				# tact fire report
 				me.trapFire = TRUE;
-			}
+			}			
 		}
 	},
 
@@ -2258,6 +2300,15 @@ var extrapolate = func (x, x1, x2, y1, y2) {
     return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
 
-var ti = TI.new();
-ti.loop();
-ti.loopFast();
+var ti = nil;
+var init = func {
+	removelistener(idl); # only call once
+	if (getprop("ja37/supported/canvas") == TRUE) {
+		setupCanvas();
+		ti = TI.new();
+		ti.loop();
+		ti.loopFast();
+	}
+}
+
+idl = setlistener("ja37/supported/initialized", init, 0, 0);
