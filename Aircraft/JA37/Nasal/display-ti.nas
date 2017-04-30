@@ -250,6 +250,26 @@ var TI = {
 		      .lineTo( 5*MM2TEX,  5*MM2TEX)
 		      .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
+
+		me.navBugs = root.createChild("group");
+		# direction of travel indicator
+		me.navBugs.createChild("path")
+		      .moveTo( width/2,  0)
+		      .vert(7.5*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w)
+		      .set("z-index", 5);
+		# commanded direction of travel indicator
+		me.commanded = me.navBugs.createChild("path")
+		      .moveTo(-2.5*MM2TEX,  6*MM2TEX)
+		      .vert(9*MM2TEX)
+		      .moveTo(0,  3)
+		      .vert(12*MM2TEX)
+		      .moveTo(2.5*MM2TEX,  6*MM2TEX)
+		      .vert(9*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w)
+		      .set("z-index", 5);
 		me.selfVectorG = me.rootCenter.createChild("group")
 			.setTranslation(0,-10*MM2TEX);
 		me.selfVector = me.selfVectorG.createChild("path")
@@ -754,6 +774,12 @@ var TI = {
 	        acInstrVolt:      	  "systems/electrical/outputs/ac-instr-voltage",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
 	        fullMenus:            "ja37/displays/show-full-menus",
+	        APLockHeading:    "autopilot/locks/heading",
+	        APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
+	        APnav0HeadingErr: "autopilot/internal/nav1-heading-error-deg",
+	        APHeadingBug:     "autopilot/settings/heading-bug-deg",
+	        RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
+	        RMActive:         "autopilot/route-manager/active",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -839,6 +865,7 @@ var TI = {
 		me.showTime();
 		me.showSteerPoints();
 		me.showPoly();#must be under showSteerPoints
+		me.showHeadingBug();
 
 		settimer(func me.loop(), 0.5);
 	},
@@ -926,6 +953,7 @@ var TI = {
 		me.mapCentrum.show();
 		me.rootCenter.show();
 		me.logRoot.hide();
+		me.navBugs.show();
 		me.bottom_text_grp.show();
 	},
 
@@ -933,6 +961,7 @@ var TI = {
 		me.mapCentrum.hide();
 		me.rootCenter.hide();
 		me.bottom_text_grp.hide();
+		me.navBugs.hide();
 	},
 
 	updateMainMenu: func {
@@ -1625,10 +1654,102 @@ var TI = {
 
 	showSelfVector: func {
 		# length = time to travel in 60 seconds.
-		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrats speed. (should really be ground speed)
+		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
 		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 250*MM2TEX));
 	},
 
+	showHeadingBug: func {
+		me.desired_mag_heading = nil;
+	    if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
+	    	me.desired_mag_heading = me.input.APHeadingBug.getValue();
+	    } elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
+	    	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
+	    } elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
+	    	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
+	    } elsif( me.input.RMActive.getValue() == 1) {
+	    	#var i = getprop("autopilot/route-manager/current-wp");
+	    	me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
+	    } elsif (me.input.nav0InRange.getValue() == TRUE) {
+	    	# bug to VOR, ADF or ILS
+	    	me.desired_mag_heading = me.input.nav0Heading.getValue();# TODO: is this really mag?
+	    }
+	    if (me.desired_mag_heading != nil) {
+	    	me.myMaghdg  = me.input.headMagn.getValue();
+	    	me.bugOffset = geo.normdeg180(me.desired_mag_heading-me.myMaghdg);
+	    	if (math.abs(me.bugOffset) < 90) {
+	    		me.xxx       = math.tan(me.bugOffset*D2R)*(height*0.875-(height*0.875)*me.ownPosition)+width/2;
+	    		me.yyy       = 0;
+	    		if (me.xxx < 0) {
+	    			# upper left side
+	    			me.xxx = 0;
+	    			me.yyy = math.tan((-90-me.bugOffset)*D2R)*width/2+(height*0.875-(height*0.875)*me.ownPosition);
+	    			me.commanded.setRotation(-90*D2R);
+	    			me.commanded.setTranslation(me.xxx, me.yyy);
+	    			if (me.menuShowFast == FALSE) {
+	    				me.commanded.show();
+	    			} else {
+	    				me.commanded.hide();
+	    			}
+	    		} elsif (me.xxx > width) {
+	    			# upper right side
+					me.xxx = width;
+					me.yyy = math.tan((me.bugOffset+90)*D2R)*width/2+(height*0.875-(height*0.875)*me.ownPosition);
+					me.commanded.setRotation(90*D2R);
+					me.commanded.setTranslation(me.xxx, me.yyy);
+					if (me.menuShowFast == FALSE) {
+	    				me.commanded.show();
+	    			} else {
+	    				me.commanded.hide();
+	    			}
+	    		} else {
+	    			# top
+	    			me.commanded.setRotation(0*D2R);
+	    			me.commanded.setTranslation(me.xxx, me.yyy);
+	    			me.commanded.show();
+	    		}
+	    	} elsif (math.abs(me.bugOffset) > 90) {
+	    		me.xxx       = -math.tan(me.bugOffset*D2R)*(height*0.9-(height*0.875-(height*0.875)*me.ownPosition))+width/2;
+	    		me.yyy       = height*0.9;
+	    		printf("offset %d  tan %d  me.xxx %d", me.bugOffset, math.tan(me.bugOffset*D2R)*10, me.xxx);
+	    		if (me.xxx < 0) {
+	    			# lower left side
+	    			me.xxx = 0;
+	    			me.yyy = math.tan((-me.bugOffset-90)*D2R)*width/2+(height*0.875-(height*0.875)*me.ownPosition);
+	    			me.commanded.setRotation(-90*D2R);
+	    			me.commanded.setTranslation(me.xxx, me.yyy);
+	    			if (me.menuShowFast == FALSE) {
+	    				me.commanded.show();
+	    			} else {
+	    				me.commanded.hide();
+	    			}
+	    		} elsif (me.xxx > width) {
+	    			# lower right side
+					me.xxx = width;
+					me.yyy = math.tan((me.bugOffset-90)*D2R)*width/2+(height*0.875-(height*0.875)*me.ownPosition);
+					me.commanded.setRotation(90*D2R);
+					me.commanded.setTranslation(me.xxx, me.yyy);
+					if (me.menuShowFast == FALSE) {
+	    				me.commanded.show();
+	    			} else {
+	    				me.commanded.hide();
+	    			}
+	    		} else {
+	    			# bottom
+	    			me.commanded.setRotation(180*D2R);
+	    			me.commanded.setTranslation(me.xxx, me.yyy);
+	    			if (me.menuShowMain == FALSE) {
+	    				me.commanded.show();
+	    			} else {
+	    				me.commanded.hide();
+	    			}
+	    		}
+	    	} else {
+	    		me.commanded.hide();
+	    	}
+	    } else {
+	    	me.commanded.hide();
+	    }
+	},
 
 
 	########################################################################################################
