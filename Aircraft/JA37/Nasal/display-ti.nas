@@ -780,6 +780,7 @@ var TI = {
 	        APHeadingBug:     "autopilot/settings/heading-bug-deg",
 	        RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
 	        RMActive:         "autopilot/route-manager/active",
+	        nav0Heading:      "instrumentation/nav[0]/heading-deg",
       	};
    
       	foreach(var name; keys(ti.input)) {
