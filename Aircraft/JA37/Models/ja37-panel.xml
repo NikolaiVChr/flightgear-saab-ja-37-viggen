@@ -57,7 +57,25 @@
     <z-offset>0.8</z-offset>
   </animation>
 
-  <model>
+<model>
+    <path>Aircraft/JA37/Models/Instruments/FuelJA/fuel_ja.xml</path>
+    <name>Fuel Gauge</name>
+    <offsets>
+      <x-m>  0.035</x-m>
+      <y-m>  0.38</y-m>
+      <z-m>  0.04</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>Fuel Gauge</object-name>
+    <x-offset>0.5</x-offset>
+    <y-offset>0.9</y-offset>
+    <z-offset>0.9</z-offset>
+  </animation>
+
+  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Fuel/fuel_gauge.xml</path>
     <name>Fuel Gauge</name>
     <offsets>
@@ -73,7 +91,7 @@
     <x-offset>0.5</x-offset>
     <y-offset>0.9</y-offset>
     <z-offset>0.9</z-offset>
-  </animation>
+  </animation>-->
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/EnginePressureRatio/epr_gauge.xml</path>
