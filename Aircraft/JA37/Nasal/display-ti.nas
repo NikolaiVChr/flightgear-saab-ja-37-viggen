@@ -251,7 +251,8 @@ var TI = {
 		      .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
 
-		me.navBugs = root.createChild("group");
+		me.navBugs = root.createChild("group")
+			.set("z-index", 4);
 		# direction of travel indicator
 		me.navBugs.createChild("path")
 		      .moveTo( width/2,  0)
@@ -866,7 +867,7 @@ var TI = {
 		me.showTime();
 		me.showSteerPoints();
 		me.showPoly();#must be under showSteerPoints
-		me.showHeadingBug();
+		
 
 		settimer(func me.loop(), 0.5);
 	},
@@ -878,6 +879,7 @@ var TI = {
 		} else {
 		}
 		me.updateFlightData();
+		me.showHeadingBug();
 
 		settimer(func me.loopFast(), 0.05);
 	},
@@ -921,7 +923,7 @@ var TI = {
 		} else {
 			me.menuFastRoot.hide();
 		}
-		if (me.menuMain == 9) {
+		if (me.menuMain == 9 and me.menuTrap == TRUE) {
 			if (me.trapFire == TRUE){
 				me.hideMap();
 				me.logRoot.show();
@@ -960,7 +962,7 @@ var TI = {
 		me.mapCentrum.show();
 		me.rootCenter.show();
 		me.logRoot.hide();
-		me.navBugs.show();
+		me.navBugs.show();print("show");
 		me.bottom_text_grp.show();
 	},
 
@@ -971,7 +973,7 @@ var TI = {
 		me.mapCentrum.hide();
 		me.rootCenter.hide();
 		me.bottom_text_grp.hide();
-		me.navBugs.hide();
+		me.navBugs.hide();print("hide");
 	},
 
 	updateMainMenu: func {
@@ -1688,7 +1690,7 @@ var TI = {
 	    	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
 	    } elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
 	    	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
-	    } elsif( me.input.RMActive.getValue() == 1) {
+	    } elsif( me.input.RMActive.getValue() == TRUE) {
 	    	#var i = getprop("autopilot/route-manager/current-wp");
 	    	me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
 	    } elsif (me.input.nav0InRange.getValue() == TRUE) {
