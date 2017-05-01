@@ -2820,5 +2820,20 @@ Effect: Update to HUD effect so it works with filters.
 4.100
 =====
 Effect: Removed frost from HUD.
-MI: Added a dialog, that shows the coming MI display. Will be placed in the JA where round radar is today.
-TI: Added a dialog, that shows the coming TI color display. Will be placed right of MI display.
+Model: {Pinto} Added model for MI display.
+Model: {Pinto} Added model for TI display.
+MI: Made MI display canvas.
+TI: Made TI display canvas.
+Radar: Removed auto selecting echoes.
+Sim: Pitched cockpit view down by 1 degree.
+Model: Removed the inverted shadow map above MI panel.
+GUI: CTRL-q now looks down at displays.
+Animation: Made aug stages lit up at lamp test.
+Model: {Pinto} Did new mount and placement for JA fuel gauge.
+Model: Rearranged frontpanel and part of right panel for JA37Di.
+Sim: {Onox} Removed unused config in autopilot.
+GUI: Added option for only showing TI menu items that is functional.
+Sim: Fixed that landing system would think some steerpoints were airports.
+Animation: Fuel gauge second needle is no longer showing droptank fuel. It really was used for something else. Pretty sure this is the second time I fixed that, strange.
+Sim: The JA-37 has been renamed to JA-37Di.
+Model: {Onox} Added mouse wheel zooming to certain exterior views.
