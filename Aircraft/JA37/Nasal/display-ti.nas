@@ -1519,14 +1519,9 @@ var TI = {
 			me.alphaT  = me.alphaT~sprintf(" %.1f", me.alpha);
 			me.textBWeight.setText(me.weightT);
 			me.textBAlpha.setText(me.alphaT);
-		} elsif (me.input.currentMode.getValue() == displays.COMBAT) {
-			if (radar_logic.selection != nil and (me.selection_updated == TRUE or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
-				me.textBWeight.setText(radar_logic.selection.get_Callsign());
-				me.textBAlpha.setText(radar_logic.selection.get_model());
-			} else {
-				me.textBWeight.setText("");
-				me.textBAlpha.setText("");
-			}
+		} elsif (displays.common.distance_m != -1) {
+			me.textBWeight.setText(displays.common.distance_name);
+			me.textBAlpha.setText(displays.common.distance_model);
 		} else {
 			me.textBWeight.setText("");
 			me.textBAlpha.setText("");

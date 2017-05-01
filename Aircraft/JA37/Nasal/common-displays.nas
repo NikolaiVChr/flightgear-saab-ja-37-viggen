@@ -59,7 +59,7 @@ var Common = {
         dmeDist:          "instrumentation/dme/indicated-distance-nm",
         RMActive:         "autopilot/route-manager/active",
         rmDist:           "autopilot/route-manager/wp/dist",
-
+units:                "ja37/hud/units-metric",
 	        station:          "controls/armament/station-select",
       	};
    
@@ -71,7 +71,9 @@ var Common = {
       	co.modeTimeTakeoff = -1;
       	co.currArmName = "None";
       	co.currArmNameSh = "--";
-      	co.distance_m = 0;
+      	co.distance_m = -1;
+      	co.distance_name = "";
+		co.distance_model = "";
       	co.error = FALSE;
 
       	return co;
@@ -101,17 +103,28 @@ var Common = {
 	},
 
 	distance: func {
-		if (me.mode == COMBAT and radar_logic.selection != nil and containsVector(radar_logic.tracks, radar_logic.selection)) {
+		if (me.mode == COMBAT and radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
 			# in tactical mode, selection has highest priority
 			me.distance_m = radar_logic.selection.get_range()*NM2M;
+			me.distance_name = radar_logic.selection.get_Callsign();
+			me.distance_model = radar_logic.selection.get_model();
 		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
 	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
-	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil) {
+	    	me.distance_name = "";
+			me.distance_model = "DME";
+	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1) {
 	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
-	    } elsif (radar_logic.selection != nil and containsVector(radar_logic.tracks, radar_logic.selection)) {
+	    	me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
+	    	me.distance_name = me.theID!=nil?me.theID:"";
+			me.distance_model = me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
+	    } elsif (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
 	    	me.distance_m = radar_logic.selection.get_range()*NM2M;
+	    	me.distance_name = radar_logic.selection.get_Callsign();
+			me.distance_model = radar_logic.selection.get_model();
 	  	} else {
 	  		me.distance_m = -1;
+	  		me.distance_name = "";
+			me.distance_model = "";
 	  	}
 	},
 
