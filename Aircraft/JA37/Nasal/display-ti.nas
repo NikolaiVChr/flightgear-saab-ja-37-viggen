@@ -1704,9 +1704,9 @@ var TI = {
 					.moveTo(leftX, leftY)
 					.arcSmallCW(radius, radius, 0, -leftX*2, 0)
 					.moveTo(leftX, leftY)
-					.lineTo(leftX*0.75, leftY*0.75)
+					.lineTo(leftX*0.80, leftY*0.80)
 					.moveTo(-leftX, leftY)
-					.lineTo(-leftX*0.75, leftY*0.75)
+					.lineTo(-leftX*0.80, leftY*0.80)
 					.setColor(rTyrk,gTyrk,bTyrk, a)
 			    	.setStrokeLineWidth(w);
 			    me.lastRRT = me.input.timeElapsed.getValue();
