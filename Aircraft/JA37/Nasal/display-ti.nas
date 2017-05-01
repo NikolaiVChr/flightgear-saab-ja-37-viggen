@@ -42,6 +42,7 @@ var (center_x, center_y) = (width/2,height/2);
 
 var MM2TEX = 1;
 var texel_per_degree = 2*MM2TEX;
+var KT2KMH = 1.85184;
 
 # map setup
 
@@ -397,6 +398,95 @@ var TI = {
 		      .setStrokeLineWidth(w);
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
+
+		# steerpoint info box
+		me.wpTextField     = root.createChild("group")
+			.set("z-index", 4);
+		var wpStartx = width*0.060-3.125+6.25*2+w*2;
+		var wpStarty = height-height*0.1-height*0.025-w*2;
+		var wpW      = 0.29;
+		var wpH      = 0.15;
+		me.wpTextFrame     = me.wpTextField.createChild("path")
+			.moveTo(wpStartx,  wpStarty)#above bottom text field and next to fast menu sub boxes
+		      .vert(            -height*wpH)
+		      .horiz(            width*wpW)
+		      .vert(             height*wpH)
+		      .horiz(           -width*wpW)
+
+		      .moveTo(wpStartx, wpStarty-height*wpH*0.2)
+		      .horiz(            width*wpW)
+		      .moveTo(wpStartx, wpStarty-height*wpH*0.4)
+		      .horiz(            width*wpW)
+		      .moveTo(wpStartx, wpStarty-height*wpH*0.6)
+		      .horiz(            width*wpW)
+		      .moveTo(wpStartx, wpStarty-height*wpH*0.8)
+		      .horiz(            width*wpW)
+		      .moveTo(wpStartx+width*wpW*0.3, wpStarty)
+		      .vert(            -height*wpH)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+		me.wpTextNumDesc = me.wpTextField.createChild("text")
+    		.setText("BEN")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.8-w)
+    		.setFontSize(15, 1);
+    	me.wpTextNum = me.wpTextField.createChild("text")
+    		.setText("1 AV 4")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.8-w)
+    		.setFontSize(15, 1);
+    	me.wpTextPosDesc = me.wpTextField.createChild("text")
+    		.setText("B")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.6-w)
+    		.setFontSize(15, 1);
+    	me.wpTextPos = me.wpTextField.createChild("text")
+    		.setText("0 -> 1")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.6-w)
+    		.setFontSize(15, 1);
+    	me.wpTextAltDesc = me.wpTextField.createChild("text")
+    		.setText("H")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.4-w)
+    		.setFontSize(15, 1);
+    	me.wpTextAlt = me.wpTextField.createChild("text")
+    		.setText("10000")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.4-w)
+    		.setFontSize(15, 1);
+    	me.wpTextSpeedDesc = me.wpTextField.createChild("text")
+    		.setText("M")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.2-w)
+    		.setFontSize(15, 1);
+    	me.wpTextSpeed = me.wpTextField.createChild("text")
+    		.setText("300")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.2-w)
+    		.setFontSize(15, 1);
+    	me.wpTextETADesc = me.wpTextField.createChild("text")
+    		.setText("ETA")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.0-w)
+    		.setFontSize(15, 1);
+    	me.wpTextETA = me.wpTextField.createChild("text")
+    		.setText("3:43")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.0-w)
+    		.setFontSize(15, 1);
+
+
 
 		me.bottom_text_grp = root.createChild("group");
 		me.textBArmType = me.bottom_text_grp.createChild("text")
@@ -893,6 +983,7 @@ var TI = {
 		me.menuUpdate();
 		me.showTime();
 		me.showSteerPoints();
+		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
 		
 
@@ -1257,6 +1348,51 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+	showSteerPointInfo: func {
+		if (getprop("autopilot/route-manager/active") == TRUE and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
+			# steerpoints ON and route active, plus not being in combat and having something selected by radar
+			# that if statement needs refining!
+			me.wp     = getprop("autopilot/route-manager/current-wp");
+			me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
+
+			me.wpNum  = me.wp+1;
+			me.points = getprop("autopilot/route-manager/route/num");
+			me.legs   = me.points-1;
+			me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.interoperability==displays.METRIC?" AV ":" OF ")~me.legs;
+
+			me.wpAlt  = me.node.getNode("altitude-ft").getValue();
+			if (me.wpAlt == nil) {
+				me.wpAlt = "";
+			} elsif (me.wpAlt < 5000) {
+				me.wpAlt = "";
+			} else {
+				# bad coding, shame on me..
+				me.wpAlt  = me.interoperability==displays.METRIC?me.wpAlt*FT2M:me.wpAlt;
+				me.wpAlt = sprintf("%d", me.wpAlt);
+			}
+			me.wpSpeed= getprop("autopilot/route-manager/cruise/speed-kts");
+			me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
+			me.wpETAText = sprintf("%d", me.wpETA);
+			if (me.wpETA > 500) {
+				me.wpETAText = "";
+			}
+
+			me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
+			me.wpTextNum.setText(me.legText);
+			me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"B":"SP");
+			me.wpTextPos.setText((me.wpNum-1)~" -> "~me.wpNum);
+			me.wpTextAltDesc.setText(me.interoperability==displays.METRIC?"H":"A");
+			me.wpTextAlt.setText(me.wpAlt);
+			me.wpTextSpeedDesc.setText(me.interoperability==displays.METRIC?"KMH":"KT");
+			me.wpTextSpeed.setText(sprintf("%d", me.interoperability==displays.METRIC?me.wpSpeed*KT2KMH:me.wpSpeed));
+			me.wpTextETADesc.setText("ETA");
+			me.wpTextETA.setText(me.wpETAText);
+			me.wpTextField.show();
+		} else {
+			me.wpTextField.hide();
+		}
+	},
 
 	showSteerPoints: func {
 		me.points = getprop("autopilot/route-manager/route/num");
