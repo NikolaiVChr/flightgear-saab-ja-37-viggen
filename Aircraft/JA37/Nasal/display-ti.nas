@@ -202,9 +202,11 @@ var dictSE = {
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'5': [FALSE, "SVY"], '6': [TRUE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "LAS"]},
+			'5': [TRUE, "SVY"], '6': [TRUE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "LAS"]},
 	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
+	'SVY': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
+			'5': [FALSE, "FOST"], '6': [FALSE, "VISA"], '7': [TRUE, "MENU"], '14': [FALSE, "SKAL"], '15': [FALSE, "RMAX"], '16': [FALSE, "HMAX"]},
 };
 
 var dictEN = {
@@ -224,9 +226,11 @@ var dictEN = {
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'5': [FALSE, "SIDE"], '6': [TRUE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
+			'5': [TRUE, "SIDE"], '6': [TRUE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
+	'SIDE': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+			'5': [FALSE, "WIN"], '6': [FALSE, "SHOW"], '7': [TRUE, "MENU"], '14': [FALSE, "SCAL"], '15': [FALSE, "RMAX"], '16': [FALSE, "AMAX"]},
 };
 
 var TI = {
@@ -1171,9 +1175,9 @@ var TI = {
 	compileMainMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
+			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~me.menuMain))];
 		} else {
-			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
+			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":''~me.menuMain))];
 		}
 		if (str != nil) {
 			str = str[''~button];
@@ -1243,9 +1247,9 @@ var TI = {
 	compileFastMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
+			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~me.menuMain))];
 		} else {
-			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":''~me.menuMain)];
+			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":''~me.menuMain))];
 		}
 		if (str != nil) {
 			str = str[''~button];
@@ -1281,9 +1285,9 @@ var TI = {
 		me.menuButtonSubBox[7].show();
 		var seven = nil;
 		if (me.interoperability == displays.METRIC) {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictSE['0'][''~me.menuMain][1]));
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":(dictSE['0'][''~me.menuMain][1])));
 		} else {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(dictEN['0'][''~me.menuMain][1]));
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":(dictEN['0'][''~me.menuMain][1])));
 		}
 		me.menuButtonSub[7].setText(me.vertStr(seven));
 		if (me.menuMain == 10) {
