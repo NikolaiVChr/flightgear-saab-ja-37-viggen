@@ -934,6 +934,7 @@ var TI = {
 		ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
 		ti.dataLink   = FALSE;
+		ti.mapshowing = TRUE;
 
       	return ti;
 	},
@@ -1082,6 +1083,7 @@ var TI = {
 		me.logRoot.hide();
 		me.navBugs.show();
 		me.bottom_text_grp.show();
+		me.mapshowing = TRUE;
 	},
 
 	hideMap: func {
@@ -1092,6 +1094,7 @@ var TI = {
 		me.rootCenter.hide();
 		me.bottom_text_grp.hide();
 		me.navBugs.hide();
+		me.mapshowing = FALSE;
 	},
 
 	updateMainMenu: func {
@@ -1350,8 +1353,9 @@ var TI = {
 	########################################################################################################
 
 	showSteerPointInfo: func {
+		# little infobox with details about next steerpoint
 		me.wp     = getprop("autopilot/route-manager/current-wp");
-		if (getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
+		if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
 			# steerpoints ON and route active, plus not being in combat and having something selected by radar
 			# that if statement needs refining!
 			
@@ -1396,6 +1400,7 @@ var TI = {
 	},
 
 	showSteerPoints: func {
+		# steerpoints on map
 		me.points = getprop("autopilot/route-manager/route/num");
 		me.poly = [];
 		for (var wp = 0; wp < maxSteers; wp += 1) {
@@ -1446,6 +1451,7 @@ var TI = {
   	},
 
   	showPoly: func {
+  		# route polygon
   		if (me.showSteers == TRUE and me.showSteerPoly == TRUE and size(me.poly) > 1) {
   			me.steerPoly.removeAllChildren();
   			me.prevLeg = nil;
