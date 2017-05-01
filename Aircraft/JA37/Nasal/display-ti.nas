@@ -1350,10 +1350,11 @@ var TI = {
 	########################################################################################################
 
 	showSteerPointInfo: func {
-		if (getprop("autopilot/route-manager/active") == TRUE and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
+		me.wp     = getprop("autopilot/route-manager/current-wp");
+		if (getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
 			# steerpoints ON and route active, plus not being in combat and having something selected by radar
 			# that if statement needs refining!
-			me.wp     = getprop("autopilot/route-manager/current-wp");
+			
 			me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
 
 			me.wpNum  = me.wp+1;
