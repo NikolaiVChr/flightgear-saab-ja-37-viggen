@@ -53,7 +53,7 @@ var type = "light_nolabels";
 # index   = zoom level
 # content = meter per pixel of tiles
 #                   0                             5                               10                               15                      19
-meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];
+meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];# at equator
 zooms      = [4, 7, 9, 11, 13];
 zoomLevels = [3.2, 1.6, 800, 400, 200];
 zoom_curr  = 2;
@@ -402,6 +402,65 @@ var TI = {
 		      .setStrokeLineWidth(w);
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
+
+		# target info box
+		me.tgtTextField     = root.createChild("group")
+			.set("z-index", 4);
+		var tgtStartx = width*0.060-3.125+6.25*2+w*2;
+		var tgtStarty = height-height*0.1-height*0.025-w*2;
+		var tgtW      = 0.15;
+		var tgtH      = 0.10;
+		me.tgtTextFrame     = me.tgtTextField.createChild("path")
+			.moveTo(tgtStartx,  tgtStarty)#above bottom text field and next to fast menu sub boxes
+		      .vert(            -height*tgtH)
+		      .horiz(            width*tgtW)
+		      .vert(             height*tgtH)
+		      .horiz(           -width*tgtW)
+
+		      .moveTo(tgtStartx, tgtStarty-height*tgtH*0.33)
+		      .horiz(            width*tgtW)
+		      .moveTo(tgtStartx, tgtStarty-height*tgtH*0.66)
+		      .horiz(            width*tgtW)
+		      .moveTo(tgtStartx+width*tgtW*0.2, tgtStarty)
+		      .vert(            -height*tgtH)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+		me.tgtTextDistDesc = me.tgtTextField.createChild("text")
+    		.setText("A")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(tgtStartx+width*tgtW*0.1, tgtStarty-height*tgtH*0.66-w)
+    		.setFontSize(15, 1);
+    	me.tgtTextDist = me.tgtTextField.createChild("text")
+    		.setText("74")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(tgtStartx+width*tgtW*0.60, tgtStarty-height*tgtH*0.66-w)
+    		.setFontSize(15, 1);
+    	me.tgtTextHeiDesc = me.tgtTextField.createChild("text")
+    		.setText("H")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(tgtStartx+width*tgtW*0.1, tgtStarty-height*tgtH*0.33-w)
+    		.setFontSize(15, 1);
+    	me.tgtTextHei = me.tgtTextField.createChild("text")
+    		.setText("4700")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(tgtStartx+width*tgtW*0.60, tgtStarty-height*tgtH*0.33-w)
+    		.setFontSize(15, 1);
+    	me.tgtTextSpdDesc = me.tgtTextField.createChild("text")
+    		.setText("M")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(tgtStartx+width*tgtW*0.1, tgtStarty-height*tgtH*0.0-w)
+    		.setFontSize(15, 1);
+    	me.tgtTextSpd = me.tgtTextField.createChild("text")
+    		.setText("0,80")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(tgtStartx+width*tgtW*0.60, tgtStarty-height*tgtH*0.0-w)
+    		.setFontSize(15, 1);		
 
 		# steerpoint info box
 		me.wpTextField     = root.createChild("group")
@@ -990,6 +1049,7 @@ var TI = {
 		me.showSteerPoints();
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
+		me.showTargetInfo();#must be after displayRadarTracks
 		
 
 		settimer(func me.loop(), 0.5);
@@ -1355,6 +1415,74 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+	showTargetInfo: func {
+		if (me.mapshowing == TRUE and me.input.currentMode.getValue() == displays.COMBAT and radar_logic.selection != nil and radar_logic.selection.isPainted() == TRUE) {
+			# this is info about the locked target.
+    	
+	  		if (me.tgt_dist != nil) {
+	  			# distance
+	  			if (me.interoperability == displays.METRIC) {
+	  	  			me.tgtTextDistDesc.setText("A");
+					if (me.tgt_dist < 1000) {
+						me.distText = sprintf("%d", me.tgt_dist);
+					} else {
+						me.distText = sprintf("%.1f", me.tgt_dist/1000);
+					}
+					me.tgtTextDist.setText(me.distText);
+	  			} else {
+	  				me.tgtTextDistDesc.setText("D");
+					if (me.tgt_dist*M2NM < 1000) {
+						me.distText = sprintf("%d", me.tgt_dist*M2NM);
+					} else {
+						me.distText = sprintf("%.1f", me.tgt_dist*M2NM/1000);
+					}
+					me.tgtTextDist.setText(me.distText);
+	  			}
+	  		} else {
+	  			me.tgtTextDist.setText("");
+	  		}
+	  		
+	  		if (me.tgt_alt != nil) {
+	  			# altitude
+	  			me.alt = me.tgt_alt;
+	  			me.text = "";
+				if (me.interoperability == displays.METRIC) {
+					me.tgtTextHeiDesc.setText("H");
+					if(me.alt < 1000) {
+						me.text = ""~int(roundabout(me.alt/10)*10);
+					} else {
+						me.text = sprintf("%.1f", me.alt/1000);
+					}
+				} else {
+					me.tgtTextHeiDesc.setText("A");
+					if(me.alt*M2FT < 1000) {
+						me.text = ""~int(roundabout(me.alt*M2FT/10)*10);
+					} else {
+						me.text = sprintf("%.1f", me.alt*M2FT/1000);
+					}
+				}
+	  	  		me.tgtTextHei.setText(me.text);
+
+	  	  		if (radar_logic.selection != nil) {
+		    		# speed
+		    		me.tgt_speed_kt = radar_logic.selection.get_Speed();
+		    		me.rs = armament.AIM.rho_sndspeed(me.alt*M2FT);
+					me.sound_fps = me.rs[1];
+		    		me.speed_m = (me.tgt_speed_kt*KT2FPS) / me.sound_fps;
+		  	  		me.tgtTextSpd.setText(sprintf("%.2f", me.speed_m));
+		  		} else {
+		  			me.tgtTextSpd.setText("");
+		  		}
+	  		} else {
+	  			me.tgtSpdAlt.setText("");
+	  			me.tgtTextAlt.setText("");
+	  		}
+			me.tgtTextField.show();
+		} else {
+			me.tgtTextField.hide();
+		}
+	},	
 
 	showSteerPointInfo: func {
 		# little infobox with details about next steerpoint
@@ -1822,12 +1950,19 @@ var TI = {
 			}
 			if(me.selection_updated == FALSE) {
 				me.echoesAircraft[0].hide();
+				me.tgt_dist = nil;
+	          	me.tgt_alt  = nil;
+			} else {
+				me.tgt_dist = me.selection.get_range()*NM2M;
+	          	me.tgt_alt  = me.selection.get_altitude()*FT2M;
 			}
 			if (me.isGPS == FALSE) {
 				me.gpsSymbol.hide();
 		    }
 	    } else {
 	      	# radar tracks not shown at all
+	      	me.tgt_dist = nil;
+	        me.tgt_alt  = nil;
 	      	me.radar_group.hide();
 	    }
 	},
