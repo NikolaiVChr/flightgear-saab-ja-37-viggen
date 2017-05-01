@@ -1424,18 +1424,18 @@ var TI = {
 	  			# distance
 	  			if (me.interoperability == displays.METRIC) {
 	  	  			me.tgtTextDistDesc.setText("A");
-					if (me.tgt_dist < 1000) {
-						me.distText = sprintf("%d", me.tgt_dist);
+					if (me.tgt_dist < 10000) {
+						me.distText = sprintf("%d", me.tgt_dist/1000);
 					} else {
 						me.distText = sprintf("%.1f", me.tgt_dist/1000);
 					}
 					me.tgtTextDist.setText(me.distText);
 	  			} else {
 	  				me.tgtTextDistDesc.setText("D");
-					if (me.tgt_dist*M2NM < 1000) {
+					if (me.tgt_dist*M2NM > 10) {
 						me.distText = sprintf("%d", me.tgt_dist*M2NM);
 					} else {
-						me.distText = sprintf("%.1f", me.tgt_dist*M2NM/1000);
+						me.distText = sprintf("%.1f", me.tgt_dist*M2NM);
 					}
 					me.tgtTextDist.setText(me.distText);
 	  			}
