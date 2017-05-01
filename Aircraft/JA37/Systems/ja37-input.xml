@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <PropertyList>
+
+    <mice include="ja37-mice.xml"/>
+
     <keyboard>
         <!--<key n="1">
             <name>Shift-Ctrl-A</name>
