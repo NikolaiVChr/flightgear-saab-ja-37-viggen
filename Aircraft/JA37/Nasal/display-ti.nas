@@ -54,7 +54,7 @@ var type = "light_nolabels";
 #                   0                             5                               10                               15                      19
 meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];
 zooms      = [4, 7, 9, 11, 13];
-zoomLevels = [200, 400, 800, 1.6, 3.2];
+zoomLevels = [3.2, 1.6, 800, 400, 200];
 zoom_curr  = 2;
 
 var M2TEX = 1/meterPerPixel[zoom];
@@ -2233,66 +2233,64 @@ var TI = {
 		me.rootCenter.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
 		me.mapCentrum.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
 		
-		  # get current position
-		  var lat = getprop('/position/latitude-deg');
-		  var lon = getprop('/position/longitude-deg');
+		# get current position
+		var lat = getprop('/position/latitude-deg');
+		var lon = getprop('/position/longitude-deg');
 
-		  var n = math.pow(2, zoom);
-		  var offset = [
-		    n * ((lon + 180) / 360) - center_tile_offset[0],
-		    (1 - math.ln(math.tan(lat * math.pi/180) + 1 / math.cos(lat * math.pi/180)) / math.pi) / 2 * n - center_tile_offset[1]
-		  ];
-		  var tile_index = [int(offset[0]), int(offset[1])];
+		var n = math.pow(2, zoom);
+		var offset = [
+			n * ((lon + 180) / 360) - center_tile_offset[0],
+			(1 - math.ln(math.tan(lat * D2R) + 1 / math.cos(lat * D2R)) / math.pi) / 2 * n - center_tile_offset[1]
+		];
+		var tile_index = [int(offset[0]), int(offset[1])];
 
-		  var ox = tile_index[0] - offset[0];
-		  var oy = tile_index[1] - offset[1];
+		var ox = tile_index[0] - offset[0];
+		var oy = tile_index[1] - offset[1];
 
-		  for(var x = 0; x < num_tiles[0]; x += 1) {
-		    for(var y = 0; y < num_tiles[1]; y += 1) {
-		      tiles[x][y].setTranslation(int((ox + x) * tile_size + 0.5), int((oy + y) * tile_size + 0.5));
-		      #tiles[x][y].update();
-		    }
-		  }
+		for(var x = 0; x < num_tiles[0]; x += 1) {
+			for(var y = 0; y < num_tiles[1]; y += 1) {
+				tiles[x][y].setTranslation(int((ox + x) * tile_size + 0.5), int((oy + y) * tile_size + 0.5));
+			}
+		}
 
-		  if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type )  {
-		    for(var x = 0; x < num_tiles[0]; x += 1) {
-		      for(var y = 0; y < num_tiles[1]; y += 1) {
-		        var pos = {
-		          z: zoom,
-		          x: int(offset[0] + x),
-		          y: int(offset[1] + y),
-		          type: type
-		        };
+		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type )  {
+			for(var x = 0; x < num_tiles[0]; x += 1) {
+		  		for(var y = 0; y < num_tiles[1]; y += 1) {
+					var pos = {
+						z: zoom,
+						x: int(offset[0] + x),
+						y: int(offset[1] + y),
+						type: type
+					};
 
-		        (func {
-			        var img_path = makePath(pos);
-			        var tile = tiles[x][y];
+					(func {
+					    var img_path = makePath(pos);
+					    var tile = tiles[x][y];
 
-			        if( io.stat(img_path) == nil ) { # image not found, save in $FG_HOME
-			          var img_url = makeUrl(pos);
-			          #print('requesting ' ~ img_url);
-			          http.save(img_url, img_path)
-			          		.done(func(r) {
-			          	  		#print('received image ' ~ img_path~" " ~ r.status ~ " " ~ r.reason);
-			          	  		tile.set("src", img_path);
-			          	  	});
-			              #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-			              #.fail(func (r) print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason));
-			        }
-			        else {# cached image found, reusing
-			          #print('loading ' ~ img_path);
-			          tile.set("src", img_path);
-			          tile.update();
-			        }
-		        })();
-		      }
-		    }
+					    if( io.stat(img_path) == nil ) { # image not found, save in $FG_HOME
+					      	var img_url = makeUrl(pos);
+					      	#print('requesting ' ~ img_url);
+					      	http.save(img_url, img_path)
+					      		.done(func(r) {
+					      	  		#print('received image ' ~ img_path~" " ~ r.status ~ " " ~ r.reason);
+					      	  		tile.set("src", img_path);
+					      	  		});
+					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
+					          #.fail(func (r) print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason));
+					    } else {# cached image found, reusing
+					      	#print('loading ' ~ img_path);
+					      	tile.set("src", img_path);
+					      	tile.update();
+					    }
+					})();
+		  		}
+			}
 
-		    last_tile = tile_index;
-		    last_type = type;
-		  }
+		last_tile = tile_index;
+		last_type = type;
+		}
 
-		  me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
+		me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
 	},
 };
 
