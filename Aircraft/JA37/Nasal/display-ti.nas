@@ -107,6 +107,7 @@ var tiles = setsize([], num_tiles[0]);
 
 var last_tile = [-1,-1];
 var last_type = type;
+var last_zoom = zoom;
 
 # stuff
 
@@ -2253,7 +2254,7 @@ var TI = {
 			}
 		}
 
-		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type )  {
+		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
 					var pos = {
@@ -2288,6 +2289,7 @@ var TI = {
 
 		last_tile = tile_index;
 		last_type = type;
+		last_zoom = zoom;
 		}
 
 		me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
