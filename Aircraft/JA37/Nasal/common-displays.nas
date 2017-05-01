@@ -14,6 +14,15 @@ var IMPERIAL = 0;
 
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
 
+var containsVector = func (vec, item) {
+	foreach(test; vec) {
+		if (test == item) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 # -100 - 0 : not blinking
 # 1 - 10   : blinking
 # 11 - 125 : steady on
@@ -92,12 +101,15 @@ var Common = {
 	},
 
 	distance: func {
-		if (me.mode == COMBAT and radar_logic.selection != nil and radar_logic.selection.isPainted() == TRUE) {
+		if (me.mode == COMBAT and radar_logic.selection != nil and containsVector(radar_logic.tracks, radar_logic.selection)) {
+			# in tactical mode, selection has highest priority
 			me.distance_m = radar_logic.selection.get_range()*NM2M;
 		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
 	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
 	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil) {
 	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
+	    } elsif (radar_logic.selection != nil and containsVector(radar_logic.tracks, radar_logic.selection)) {
+	    	me.distance_m = radar_logic.selection.get_range()*NM2M;
 	  	} else {
 	  		me.distance_m = -1;
 	  	}

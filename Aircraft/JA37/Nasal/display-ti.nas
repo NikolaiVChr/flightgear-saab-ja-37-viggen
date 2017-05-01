@@ -889,7 +889,7 @@ var TI = {
 		me.displayRadarTracks();
 		me.showRunway();
 		me.showRadarLimit();
-		me.showBottomText();
+		me.showBottomText();# must be after displayRadarTracks
 		me.menuUpdate();
 		me.showTime();
 		me.showSteerPoints();
@@ -1520,7 +1520,7 @@ var TI = {
 			me.textBWeight.setText(me.weightT);
 			me.textBAlpha.setText(me.alphaT);
 		} elsif (me.input.currentMode.getValue() == displays.COMBAT) {
-			if (radar_logic.selection != nil) {
+			if (radar_logic.selection != nil and (me.selection_updated == TRUE or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
 				me.textBWeight.setText(radar_logic.selection.get_Callsign());
 				me.textBAlpha.setText(radar_logic.selection.get_model());
 			} else {
