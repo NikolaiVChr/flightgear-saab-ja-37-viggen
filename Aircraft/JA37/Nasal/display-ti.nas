@@ -1796,7 +1796,11 @@ var TI = {
 			me.textBAlpha.setText(me.alphaT);
 		} elsif (displays.common.distance_m != -1) {
 			me.textBWeight.setText(displays.common.distance_name);
-			me.textBAlpha.setText(displays.common.distance_model);
+			if (displays.common.distance_model != displays.common.distance_name) {
+				me.textBAlpha.setText(displays.common.distance_model);
+			} else {
+				me.textBAlpha.setText("");
+			}
 		} else {
 			me.textBWeight.setText("");
 			me.textBAlpha.setText("");
