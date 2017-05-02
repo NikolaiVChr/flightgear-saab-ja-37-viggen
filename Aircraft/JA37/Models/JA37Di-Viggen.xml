@@ -592,6 +592,7 @@
     <object-name>gearFrontTop</object-name>
     <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
+    <object-name>gearFrontDoorsClosed</object-name>
     <object-name>gearLeftMid</object-name>
     <object-name>gearLeftBottom</object-name>
     <object-name>gearLeftTop</object-name>
