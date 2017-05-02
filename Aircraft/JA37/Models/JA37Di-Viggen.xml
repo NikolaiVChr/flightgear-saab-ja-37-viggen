@@ -357,11 +357,8 @@
 		<object-name>rudder</object-name>
 		<object-name>gearFrontDoorsOpenLeft</object-name>
 		<object-name>gearFrontDoorsOpenRight</object-name>
-		<object-name>gearFrontDoorsClosed</object-name>
 		<object-name>gearLeftDoorsOpen</object-name>
-		<object-name>gearLeftDoorsClosed</object-name>
 		<object-name>gearRightDoorsOpen</object-name>
-		<object-name>gearRightDoorsClosed</object-name>
 		<object-name>gunpod</object-name>
 		<object-name>bottomAirInlet</object-name>
 		<!--<object-name>gearFront</object-name>
@@ -592,19 +589,16 @@
     <object-name>gearFrontTop</object-name>
     <object-name>gearFrontDoorsOpenLeft</object-name>
     <object-name>gearFrontDoorsOpenRight</object-name>
-    <object-name>gearFrontDoorsClosed</object-name>
     <object-name>gearLeftMid</object-name>
     <object-name>gearLeftBottom</object-name>
     <object-name>gearLeftTop</object-name>
     <object-name>gearLeftHinge</object-name>
     <object-name>gearLeftDoorsOpen</object-name>
-    <object-name>gearLeftDoorsClosed</object-name>
     <object-name>gearRightMid</object-name>
     <object-name>gearRightBottom</object-name>
     <object-name>gearRightTop</object-name>
     <object-name>gearRightHinge</object-name>
     <object-name>gearRightDoorsOpen</object-name>
-    <object-name>gearRightDoorsClosed</object-name>
     <object-name>bottomAirInlet</object-name>
   </effect>
 
@@ -2247,17 +2241,7 @@
 
 <!--      right       -->
 
-  <animation>
-  <type>select</type>
-  <condition>
-    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
-   <equals>
-    <property>gear/gear[2]/position-norm</property>
-    <value>0.0</value>
-   </equals>
-  </condition>
-  <object-name>gearRightDoorsClosed</object-name>
- </animation>
+
 
  <!--<animation>
   <type>scale</type>
@@ -2400,7 +2384,7 @@
     <value>0.0</value>
    </greater-than>
   </condition>
-  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearRightOuterDoor</object-name>
  </animation>
 
  <!--<animation>
@@ -2475,7 +2459,7 @@
   </axis>
  </animation>-->
 
-<animation>
+<!--<animation>
   <type>scale</type>
   <object-name>gearRightMid</object-name>
   <object-name>gearRightScissorTop</object-name>
@@ -2487,7 +2471,7 @@
   <object-name>gearRightWheel1</object-name>
   <object-name>gearRightWheel2</object-name>
   <object-name>gearRightLight</object-name>
-  <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
+  <property>gear/gear[2]/position-norm</property>
   <interpolation>
    <entry>
     <ind> 0.00 </ind>
@@ -2511,7 +2495,7 @@
    <y>1.0</y>
    <z>0.0</z>
   </axis>
- </animation>
+ </animation>-->
 
 <animation>
   <type>rotate</type>
@@ -2552,12 +2536,12 @@
 
 <animation>
   <type>rotate</type>
-  <object-name>gearRightDoorsOpen</object-name>
+  <object-name>gearLeftOuterDoor</object-name>
   <property>gear/gear[2]/position-norm</property><!-- auto MP transmit -->
   <interpolation>
    <entry>
     <ind> 0.0</ind>
-    <dep> 80.0</dep>
+    <dep> 0.0</dep>
    </entry>
    <entry>
     <ind> 0.75</ind>
@@ -2565,18 +2549,18 @@
    </entry>
    <entry>
     <ind> 1.0</ind>
-    <dep> 0.0</dep>
+    <dep>-90.0</dep>
    </entry>
   </interpolation>
-  <min-deg>0</min-deg>
-  <max-deg>90</max-deg>
+  <min-deg>-90</min-deg>
+  <max-deg>0</max-deg>
   <axis>   
-   <x1-m>  3.10500 </x1-m>
-   <y1-m>  2.27236 </y1-m>
-   <z1-m> -0.40247 </z1-m>
-   <x2-m>  2.41235 </x2-m>
-   <y2-m>  2.27238 </y2-m>
-   <z2-m> -0.40247 </z2-m>
+   <x1-m>  3.15291 </x1-m>
+   <y1-m>  2.26718 </y1-m>
+   <z1-m> -0.37753 </z1-m>
+   <x2-m>  2.24979 </x2-m>
+   <y2-m>  2.26655 </y2-m>
+   <z2-m> -0.37756 </z2-m>
   </axis>
  </animation>
 
