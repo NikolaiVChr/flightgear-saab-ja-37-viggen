@@ -108751,7 +108751,7 @@ refs 4
 130 0.444116 0.931049
 kids 0
 OBJECT poly
-name "gearLeftInnerDoor"
+name "gearRightInnerDoor"
 data 19
 glassOuter.mesh.011
 crease 30.0
@@ -110461,7 +110461,7 @@ refs 4
 6 0.393733 0.504207
 kids 0
 OBJECT poly
-name "gearLeftOuterDoor"
+name "gearRightOuterDoor"
 data 12
 fuselage.000
 crease 30.0
@@ -121126,7 +121126,7 @@ refs 4
 128 0.474591 0.936312
 kids 0
 OBJECT poly
-name "gearRightInnerDoor"
+name "gearLeftInnerDoor"
 data 19
 glassOuter.mesh.020
 crease 30.0
@@ -122814,7 +122814,7 @@ refs 4
 8 0.392857 0.50857
 kids 0
 OBJECT poly
-name "gearRightOuterDoor"
+name "gearLeftOuterDoor"
 data 19
 undercarriagecl.000
 crease 30.0
