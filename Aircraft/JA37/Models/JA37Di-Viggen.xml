@@ -357,6 +357,7 @@
 		<object-name>rudder</object-name>
 		<object-name>gearFrontDoorsOpenLeft</object-name>
 		<object-name>gearFrontDoorsOpenRight</object-name>
+    <object-name>gearFrontDoorsClosed</object-name>
 		<object-name>gearLeftOuterDoor</object-name>
     <object-name>gearLeftInnerDoor</object-name>
     <object-name>gearRightOuterDoor</object-name>
