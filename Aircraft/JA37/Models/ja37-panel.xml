@@ -26,7 +26,7 @@
     <name>G Meter</name>
     <offsets>
       <x-m>  0.0025</x-m>
-      <y-m> -0.1887</y-m>
+      <y-m> -0.1825</y-m>
       <z-m>  0.23</z-m>
     </offsets>
   </model>
@@ -116,7 +116,7 @@
     <name>Augmentation Indicator</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.135</y-m>
+      <y-m> -0.1275</y-m>
       <z-m>  0.2075</z-m>
     </offsets>
   </model>
@@ -365,7 +365,7 @@
     <name>Airspeed</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.12</y-m>
+      <y-m> -0.115</y-m>
       <z-m>  0.22</z-m>
     </offsets>
   </model>
