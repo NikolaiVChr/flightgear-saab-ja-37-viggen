@@ -2849,9 +2849,12 @@ var TI = {
 					      		.done(func(r) {
 					      	  		#print('received image ' ~ img_path~" " ~ r.status ~ " " ~ r.reason);
 					      	  		tile.set("src", img_path);
-					      	  		});
+					      	  		})
 					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-					          #.fail(func (r) print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason));
+					          .fail(func (r) {#print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
+					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
+					      					tile.update();
+					      					});
 					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
 					      	#print('loading ' ~ img_path);
 					      	tile.set("src", img_path);
