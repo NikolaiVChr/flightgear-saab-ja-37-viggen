@@ -768,7 +768,10 @@
     <ja37>
         <systems>
             <variant type="int">0</variant>
-        </systems>        
+        </systems>
+        <texture>
+            <KV1 type="string">channel-selector-ja.png</KV1>
+        </texture>        
     </ja37>
 
     <limits>

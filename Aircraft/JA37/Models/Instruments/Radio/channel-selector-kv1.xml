@@ -871,10 +871,10 @@
 			<button>0</button>
 			<repeatable>false</repeatable>
 			<binding>
-				<command>property-toggle</command>
-				<property>ja37/radio/kv1/switch</property>
-			</binding>
-			<binding>
+                <command>property-toggle</command>
+                <property>instrumentation/radio/switches/com-nav</property>
+            </binding>
+            <binding>
                 <command>nasal</command>
                 <script>ja37.click()</script>
             </binding>
@@ -883,16 +883,16 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>Bas</tooltip-id>
-                <label>Select FM/AM (not functional)</label>
+                <label>Select Comm/Nav</label>
             </binding>
         </hovered>
 	</animation>
 	<animation>
         <type>rotate</type>
         <object-name>Switch</object-name>
-        <property>ja37/radio/kv1/switch</property>
-        <factor>60</factor>
-        <offset-deg>-30</offset-deg>
+        <property>instrumentation/radio/switches/com-nav</property>
+        <factor>-60</factor>
+        <offset-deg>30</offset-deg>
         <center>
             <x-m> 0.00907 </x-m>
             <y-m> 0.03043 </y-m>
@@ -903,6 +903,14 @@
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Panel</object-name>
+        <property-base>ja37/texture</property-base>
+        <texture-prop>KV1</texture-prop>
+        <texture>channel-selector-ja.png</texture>
     </animation>
 
 </PropertyList>
