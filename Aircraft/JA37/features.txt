@@ -61,7 +61,7 @@ Damage system for getting hit by ordnance.
 
 Avionics
 -----
-The cockpit features 97 working controls.
+The cockpit features 100+ working controls.
 Gauges are in metric and Swedish description. But they have Tooltips, showing Imperial and English units.
 Switches, knobs and buttons have english text for convenience.
 Custom Canvas HUD built from Saab flight manual with 4 modes of operation: navigation, landing, takeoff and tactical.
@@ -75,6 +75,7 @@ Radar with 120 Km range that show MP and AI objects alike depend on hydraulic an
 In regards to MP planes the radar can be setup to be pulse doppler and/or not able to see through terrain.
 Auto-start and auto shut down scripts.
 Realistic modeled indicator panels for various warnings, alerts and notices.
+In the JA37; glass cockpit modeled closely after manual descriptions.
 
 Engine
 -----
