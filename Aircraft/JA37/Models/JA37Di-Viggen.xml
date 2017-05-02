@@ -2549,10 +2549,10 @@
    </entry>
    <entry>
     <ind> 1.0</ind>
-    <dep>-90.0</dep>
+    <dep>-92.5</dep>
    </entry>
   </interpolation>
-  <min-deg>-90</min-deg>
+  <min-deg>-92.5</min-deg>
   <max-deg>0</max-deg>
   <axis>   
    <x1-m>  3.15291 </x1-m>
