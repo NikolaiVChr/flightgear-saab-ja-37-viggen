@@ -2837,3 +2837,8 @@ Sim: Fixed that landing system would think some steerpoints were airports.
 Animation: Fuel gauge second needle is no longer showing droptank fuel. It really was used for something else. Pretty sure this is the second time I fixed that, strange.
 Sim: The JA-37 has been renamed to JA-37Di.
 Model: {Onox} Added mouse wheel zooming to certain exterior views.
+Model: {pinto} New gear well.
+Model: {pinto} New hi-def inlet.
+Animation: Animated Pintos new gear doors.
+Model: Changed switch on kv1 to nav/comm, temp. measure.
+GUI: New option to disable using Internet to update the TI map.
