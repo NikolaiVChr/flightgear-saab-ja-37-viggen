@@ -1106,6 +1106,8 @@ var TI = {
 		#if ( gone == TRUE) {
 		#	return;
 		#}
+		me.interoperability = me.input.units.getValue();
+		
 		if (bright > 0) {
 			bright -= 1;
 			me.brightness -= 0.25;
@@ -1122,7 +1124,7 @@ var TI = {
 			setprop("ja37/avionics/brightness-ti", me.brightness);
 			#setprop("ja37/avionics/cursor-on", cursorOn);
 		}
-		me.interoperability = me.input.units.getValue();
+		
 
 		me.updateMap();
 		me.showMapScale();
