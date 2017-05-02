@@ -3,6 +3,52 @@
 
 	<path>ti.ac</path>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>backplate</object-name>
+        <object-name>knob</object-name>
+        <object-name>pillar_0</object-name>
+        <object-name>pillar_1</object-name>
+        <object-name>pillar_2</object-name>
+        <object-name>pillar_3</object-name>
+        <object-name>pillar_4</object-name>
+        <object-name>pillar_5</object-name>
+        <object-name>pillar_6</object-name>
+        <object-name>pillar_7</object-name>
+        <object-name>pillar_8</object-name>
+        <object-name>pillar_9</object-name>
+        <object-name>pillar_10</object-name>
+        <object-name>pillar_11</object-name>
+        <object-name>pillar_12</object-name>
+        <object-name>pillar_13</object-name>
+        <object-name>pillar_14</object-name>
+        <object-name>pillar_15</object-name>
+        <object-name>pillar_off</object-name>
+        <object-name>button_contrast</object-name>
+        <object-name>button_brightness</object-name>
+        <object-name>b1</object-name>
+        <object-name>b2</object-name>
+        <object-name>b3</object-name>
+        <object-name>b4</object-name>
+        <object-name>b5</object-name>
+        <object-name>b6</object-name>
+        <object-name>b7</object-name>
+        <object-name>b8</object-name>
+        <object-name>b9</object-name>
+        <object-name>b10</object-name>
+        <object-name>b11</object-name>
+        <object-name>b12</object-name>
+        <object-name>b13</object-name>
+        <object-name>b14</object-name>
+        <object-name>b15</object-name>
+        <object-name>b16</object-name>
+        <object-name>b17</object-name>
+        <object-name>b18</object-name>
+        <object-name>b19</object-name>
+        <object-name>b20</object-name>
+        <!--<object-name>ti_screen</object-name>-->
+    </effect>
+
   	<!--
 
 
@@ -86,256 +132,21 @@
 
   	-->
 
-	<!--<animation>
-	    <type>material</type>
-	    <object-name>warning_light</object-name>
-	    <emission>
-	        <red>1.0</red>
-	        <green>0.0</green>
-	        <blue>0.0</blue>
-	        <factor-prop>/instrumentation/terrain-warning-light</factor-prop>
-	    </emission>
-  	</animation>
-
-  	<animation>
-        <type>textranslate</type>
-        <object-name>warning_light</object-name>
-        <property>/instrumentation/terrain-warning-light</property>
-        <factor>0.05</factor>
-        <step>1</step>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-    </animation>
-
     <animation>
-        <type>pick</type>
-        <object-name>indicator_tls</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>tls</tooltip-id>
-                <label>TILS</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-	    <type>material</type>
-	    <object-name>indicator_tls</object-name>
-	    <condition>
-	    	<or>
-	            <property>ja37/hud/TILS-on</property>
-	            <property>/controls/lighting/test-indicator-panels</property>
-	        </or>
-        </condition>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
-        </emission>
-  	</animation>
-
-  	<animation>
-        <type>pick</type>
-        <object-name>indicator_tnf</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>tnf</tooltip-id>
-                <label>Inertial navigation initialization</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>indicator_lower_left</object-name>
-        <object-name>indicator_upper_left</object-name>
-        <object-name>indicator_lower_right</object-name>
-        <object-name>indicator_upper_right</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>rwr</tooltip-id>
-                <label>Radar warning reciever indicator</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-	  <type>material</type> 
-	  <object-name>indicator_upper_right</object-name>
-	  <condition>
-	    <equals>
-	      <property>ja37/blink/ten-Hz/state</property>
-	      <value>1</value>
-	    </equals>
-	    <or>
-	      <equals>
-	        <property>instrumentation/radar/twr2</property>
-	        <value>1</value>
-	      </equals>
-	      <property>/controls/lighting/test-indicator-panels</property>
-	    </or>
-	  </condition>
-	  <emission>
-	   <red>1.0</red> 
-	   <green>0.0</green> 
-	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
-	  </emission>
-	</animation>
-
-	<animation>
-	  <type>material</type> 
-	  <object-name>indicator_lower_right</object-name>
-	  <condition>
-	    <equals>
-	      <property>ja37/blink/ten-Hz/state</property>
-	      <value>1</value>
-	    </equals>
-	    <or>
-	      <equals>
-	        <property>instrumentation/radar/twr4</property>
-	        <value>1</value>
-	      </equals>
-	      <property>/controls/lighting/test-indicator-panels</property>
-	    </or>
-	  </condition>
-	  <emission>
-	   <red>1.0</red> 
-	   <green>0.0</green> 
-	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
-	  </emission>
-	</animation>
-
-	<animation>
-	  <type>material</type> 
-	  <object-name>indicator_lower_left</object-name>
-	  <condition>
-	    <equals>
-	      <property>ja37/blink/ten-Hz/state</property>
-	      <value>1</value>
-	    </equals>
-	    <or>
-	      <equals>
-	        <property>instrumentation/radar/twr8</property>
-	        <value>1</value>
-	      </equals>
-	      <property>/controls/lighting/test-indicator-panels</property>
-	    </or>
-	  </condition>
-	  <emission>
-	   <red>1.0</red> 
-	   <green>0.0</green> 
-	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
-	  </emission>
-	</animation>
-
-	<animation>
-	  <type>material</type> 
-	  <object-name>indicator_upper_left</object-name>
-	  <condition>
-	    <equals>
-	      <property>ja37/blink/ten-Hz/state</property>
-	      <value>1</value>
-	    </equals>
-	    <or>
-	      <equals>
-	        <property>instrumentation/radar/twr10</property>
-	        <value>1</value>
-	      </equals>
-	      <property>/controls/lighting/test-indicator-panels</property>
-	    </or>
-	  </condition>
-	  <emission>
-	   <red>1.0</red> 
-	   <green>0.0</green> 
-	   <blue>0.0</blue>
-	   <factor-prop>systems/electrical/dc-light</factor-prop>
-	  </emission>
-	</animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>indicator_ik</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>ik</tooltip-id>
-                <label>Identification</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>indicator_j</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>j</tooltip-id>
-                <label>Intercept</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>indicator_id</object-name>
-        <visible>true</visible>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>id</tooltip-id>
-                <label>Non-doppler mode</label>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-	    <type>material</type>
-	    <object-name>indicator_j</object-name>
-	    <object-name>indicator_ik</object-name>
-	    <object-name>indicator_id</object-name>
-	    <condition>
+        <type>material</type>
+        <object-name>light_green_right</object-name>
+        <object-name>light_green_left</object-name>
+        <condition>
             <property>/controls/lighting/test-indicator-panels</property>
         </condition>
         <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
+            <red>0</red> 
+            <green>1</green> 
+            <blue>0</blue>
+            <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
-  	</animation>
+    </animation>
 
-    <animation>
-	    <type>material</type>
-	    <object-name>indicator_tnf</object-name>
-	    <condition>
-	    	<or>
-	            <property>fdm/jsbsim/systems/indicators/inertia-navigation</property>
-	            <property>/controls/lighting/test-indicator-panels</property>
-	        </or>
-        </condition>
-        <emission>
-            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
-   			<green-prop>instrumentation/instrumentation-light/g</green-prop> 
-   			<blue-prop>instrumentation/instrumentation-light/b</blue-prop>
-            <factor-prop>systems/electrical/dc-light</factor-prop>
-        </emission>
-  	</animation>-->
 
   	<!--
 
