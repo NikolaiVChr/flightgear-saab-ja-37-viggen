@@ -20,7 +20,7 @@
       <location unit="M">
         <x>  2.64670 </x>
         <y> -2.15204 </y>
-        <z> -2.1 </z>
+        <z> -2.08561 </z>
       </location>
       <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
       <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
@@ -36,7 +36,7 @@
       <location unit="M">
         <x> 2.64670 </x>
         <y> 2.15204 </y>
-        <z> -2.1 </z>
+        <z> -2.08561 </z>
       </location>
       <static_friction>  0.900 </static_friction><!-- double bogey means double value -->
       <dynamic_friction> 0.5 </dynamic_friction><!-- double bogey means double value -->
