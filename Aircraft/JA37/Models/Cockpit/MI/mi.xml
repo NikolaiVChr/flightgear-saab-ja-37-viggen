@@ -8,6 +8,29 @@
         <object-name>backplate</object-name>
         <object-name>knob</object-name>
         <object-name>lowerplate</object-name>
+        <object-name>button_1</object-name>
+        <object-name>button_2</object-name>
+        <object-name>button_3</object-name>
+        <object-name>button_4</object-name>
+        <object-name>button_a</object-name>
+        <object-name>button_a</object-name>
+        <object-name>button_b</object-name>
+        <object-name>button_m1</object-name>
+        <object-name>button_m2</object-name>
+        <object-name>button_m3</object-name>
+        <object-name>button_m4</object-name>
+        <object-name>button_p1</object-name>
+        <object-name>button_p2</object-name>
+        <object-name>button_p3</object-name>
+        <object-name>button_p4</object-name>
+        <object-name>button_pek</object-name>
+        <object-name>button_pi</object-name>
+        <object-name>button_reg</object-name>
+        <object-name>button_x1</object-name>
+        <object-name>button_x2</object-name>
+        <object-name>button_x3</object-name>
+        <object-name>button_x4</object-name>
+        <object-name>warninglighthousing</object-name>
         <!--<object-name>screen</object-name>-->
     </effect>
 

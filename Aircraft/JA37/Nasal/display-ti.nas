@@ -109,6 +109,7 @@ var tiles = setsize([], num_tiles[0]);
 var last_tile = [-1,-1];
 var last_type = type;
 var last_zoom = zoom;
+var lastLiveMap = getprop("ja37/displays/live-map");
 
 # stuff
 
@@ -1107,7 +1108,7 @@ var TI = {
 		#	return;
 		#}
 		me.interoperability = me.input.units.getValue();
-		
+
 		if (bright > 0) {
 			bright -= 1;
 			me.brightness -= 0.25;
@@ -2826,8 +2827,8 @@ var TI = {
 				tiles[x][y].setTranslation(int((ox + x) * tile_size + 0.5), int((oy + y) * tile_size + 0.5));
 			}
 		}
-
-		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom)  {
+		var liveMap = getprop("ja37/displays/live-map");
+		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or liveMap != lastLiveMap)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
 					var pos = {
@@ -2841,7 +2842,7 @@ var TI = {
 					    var img_path = makePath(pos);
 					    var tile = tiles[x][y];
 
-					    if( io.stat(img_path) == nil ) { # image not found, save in $FG_HOME
+					    if( io.stat(img_path) == nil and liveMap == TRUE) { # image not found, save in $FG_HOME
 					      	var img_url = makeUrl(pos);
 					      	#print('requesting ' ~ img_url);
 					      	http.save(img_url, img_path)
@@ -2851,9 +2852,13 @@ var TI = {
 					      	  		});
 					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
 					          #.fail(func (r) print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason));
-					    } else {# cached image found, reusing
+					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
 					      	#print('loading ' ~ img_path);
 					      	tile.set("src", img_path);
+					      	tile.update();
+					    } else {
+					    	# internet not allowed, so no tile shown
+					    	tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
 					      	tile.update();
 					    }
 					})();
@@ -2863,6 +2868,7 @@ var TI = {
 		last_tile = tile_index;
 		last_type = type;
 		last_zoom = zoom;
+		lastLiveMap = liveMap;
 		}
 
 		me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);

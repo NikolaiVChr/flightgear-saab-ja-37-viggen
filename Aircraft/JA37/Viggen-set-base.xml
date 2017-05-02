@@ -83,6 +83,7 @@
             <path>ja37/hud/stroke-linewidth</path>
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
+            <path>ja37/displays/live-map</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
@@ -636,6 +637,7 @@
         </avionics>
         <displays>
             <show-full-menus type="bool">true</show-full-menus>
+            <live-map type="bool">true</live-map>
         </displays>
         <systems>
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
