@@ -232,7 +232,7 @@ var dictEN = {
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'5': [TRUE, "SIDE"], '6': [TRUE, "FR28"], '7': [FALSE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
+			'5': [TRUE, "SIDE"], '6': [TRUE, "FR28"], '7': [TRUE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
 	'SIDE': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
