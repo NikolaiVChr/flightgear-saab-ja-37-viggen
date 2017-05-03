@@ -1462,6 +1462,9 @@ var TI = {
 				} elsif (me.input.currentMode.getValue() == displays.LANDING) {
 					# generic landing mode
 					me.menuButtonBox[20].show();
+				} elsif (me.showSteers == TRUE and me.input.rmActive.getValue() == TRUE) {
+					# following route
+					me.menuButtonBox[17].show();
 				}
 			}
 			if (me.menuTrap == TRUE and me.trapFire == TRUE) {
