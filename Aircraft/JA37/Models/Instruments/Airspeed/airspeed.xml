@@ -68,7 +68,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>airspeed</tooltip-id>
                 <label>Airspeed: %4d kt</label>
-                <property>/velocities/airspeed-kt</property>
+                <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
                 <!-- /instrumentation/airspeed-indicator/indicated-mach -->
             </binding>
         </hovered>

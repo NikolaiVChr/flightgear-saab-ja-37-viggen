@@ -109,7 +109,7 @@ TI: Move cursor between TI and MI.
 TI: Slew cursor.
 TI: Edit route.
 TI: Change runway symbol.
-TI: Show near airports if menu enabled.
+TI: Show near small airports as stipled.
 TI: Show/edit bullseye.
 TI: Implement Sidvy.
 TI: Show fligthtime in menu UD-UT.
