@@ -180,6 +180,7 @@ var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was
 var maxMissiles = 6;
 var maxThreats  = 5;
 var maxSteers   =25;
+var maxBases    =50;
 
 var roundabout = func(x) {
   var y = x - int(x);
@@ -202,7 +203,7 @@ var dictSE = {
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'3': [FALSE, "ELKA"], '4': [TRUE, "ORTS"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [TRUE, "DAG"]},
+			'3': [TRUE, "ORTS"], '4': [TRUE, "TMAD"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -226,7 +227,7 @@ var dictEN = {
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [FALSE, "MAP"], '4': [TRUE, "TEXT"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
+			'3': [TRUE, "TEXT"], '4': [TRUE, "AIRP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -264,6 +265,7 @@ var TI = {
 		      .moveTo(-5*MM2TEX,  5*MM2TEX)
 		      .lineTo( 5*MM2TEX,  5*MM2TEX)
 		      .setColor(rWhite,gWhite,bWhite, a)
+		      .set("z-index", 10)
 		      .setStrokeLineWidth(w);
 		me.selfSymbolGPS = me.rootCenter.createChild("path")
 		      .moveTo(-5*MM2TEX,  5*MM2TEX)
@@ -272,11 +274,13 @@ var TI = {
 		      .lineTo(-5*MM2TEX,  5*MM2TEX)
 		      .setColor(rWhite,gWhite,bWhite, a)
 		      .setColorFill(rWhite,gWhite,bWhite)
+		      .set("z-index", 10)
 		      .setStrokeLineWidth(w);
 
 		me.mapScaleTickPosX = width*0.975/2;
 		me.mapScaleTickPosTxtX = width*0.975/2-width*0.025/2;
-		me.mapScale = me.rootCenter.createChild("group");
+		me.mapScale = me.rootCenter.createChild("group")
+			.set("z-index", 3);
 		me.mapScale.createChild("path")
 			.moveTo(me.mapScaleTickPosX, height)
 			.vert(-height*2)
@@ -382,6 +386,7 @@ var TI = {
 		      .setStrokeLineWidth(w)
 		      .set("z-index", 5);
 		me.selfVectorG = me.rootCenter.createChild("group")
+			.set("z-index", 10)
 			.setTranslation(0,-10*MM2TEX);
 		me.selfVector = me.selfVectorG.createChild("path")
 			  .moveTo(0,  0)
@@ -389,7 +394,8 @@ var TI = {
 			  .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
 
-		me.radar_group = me.rootCenter.createChild("group");
+		me.radar_group = me.rootCenter.createChild("group")
+			.set("z-index", 5);
 		me.echoesAircraft = [];
 		me.echoesAircraftVector = [];
 		for (var i = 0; i < maxTracks; i += 1) {
@@ -416,6 +422,7 @@ var TI = {
 		}
 
 	    me.dest = me.rootCenter.createChild("group")
+	    	.set("z-index", 7)
             .hide()
             .set("z-index", 5);
 	    me.dest_runway = me.dest.createChild("path")
@@ -431,6 +438,7 @@ var TI = {
 	               .setStrokeLineWidth(w)
 	               .setColor(rTyrk,gTyrk,bTyrk, a);
 	    me.approach_circle = me.rootCenter.createChild("path")
+	    			.set("z-index", 7)
 	               .moveTo(-100, 0)
 	               .arcSmallCW(100, 100, 0, 200, 0)
 	               .arcSmallCW(100, 100, 0, -200, 0)
@@ -450,6 +458,7 @@ var TI = {
 	    me.steerpoint = [];
 	    for (var i = 0; i < maxSteers; i += 1) {
 	    	append(me.steerpoint, me.rootCenter.createChild("path")
+	    			.set("z-index", 6)
 	               .moveTo(-10*MM2TEX, 0)
 	               .lineTo(0, -15*MM2TEX)
 	               .lineTo(10*MM2TEX, 0)
@@ -458,7 +467,8 @@ var TI = {
 	               .setStrokeLineWidth(w)
 	               .setColor(rDTyrk,gDTyrk,bDTyrk, a));
 	    }
-	    me.steerPoly = me.rootCenter.createChild("group");
+	    me.steerPoly = me.rootCenter.createChild("group")
+	    			.set("z-index", 6);
 
 	    me.missiles = [];
 	    me.missilesVector = [];
@@ -911,6 +921,50 @@ var TI = {
 		    		.setStrokeLineWidth(w));
 		}
 
+		me.base_grp = me.rootCenter.createChild("group")
+			.set("z-index", 2);
+
+		me.baseLargeText = [];
+		me.baseLarge = [];
+
+		for(var i = 0; i < maxBases; i+=1) {
+			append(me.baseLarge,
+				me.base_grp.createChild("path")
+	               .moveTo(-20, 0)
+	               .arcSmallCW(20, 20, 0, 40, 0)
+	               .arcSmallCW(20, 20, 0, -40, 0)
+	               .setStrokeLineWidth(w)
+	               .setColor(rTyrk,gTyrk,bTyrk, a));
+			append(me.baseLargeText,
+				me.base_grp.createChild("text")
+    				.setText("ICAO")
+    				.setColor(rTyrk,gTyrk,bTyrk, a)
+    				.setAlignment("center-center")
+    				.setTranslation(0,0)
+    				.hide()
+    				.setFontSize(13, 1));
+		}
+
+		me.baseSmallText = [];
+		me.baseSmall = [];
+
+		for(var i = 0; i < maxBases; i+=1) {
+			append(me.baseSmall,
+				me.base_grp.createChild("path")
+	               .moveTo(-15, 0)
+	               .arcSmallCW(15, 15, 0, 30, 0)
+	               .arcSmallCW(15, 15, 0, -30, 0)
+	               .setStrokeLineWidth(w)
+	               .setColor(rTyrk,gTyrk,bTyrk, a));
+			append(me.baseSmallText,
+				me.base_grp.createChild("text")
+    				.setText("ICA")
+    				.setColor(rTyrk,gTyrk,bTyrk, a)
+    				.setAlignment("center-center")
+    				.setTranslation(0,0)
+    				.hide()
+    				.setFontSize(13, 1));
+		}
 
 		# flight data
 		var fpi_min = 3;
@@ -1094,6 +1148,8 @@ var TI = {
 		ti.fr28Top    = FALSE;
 		ti.dataLink   = FALSE;
 		ti.mapshowing = TRUE;
+		ti.basesNear  = [];
+		ti.basesEnabled = FALSE;
 		
 
       	return ti;
@@ -1154,6 +1210,7 @@ var TI = {
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
 		me.showTargetInfo();#must be after displayRadarTracks
+		me.showBasesNear();
 		
 
 		settimer(func me.loop(), 0.5);
@@ -1169,6 +1226,17 @@ var TI = {
 		me.showHeadingBug();
 
 		settimer(func me.loopFast(), 0.05);
+	},
+
+	loopSlow: func {
+		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
+			settimer(func me.loopSlow(), 0.05);
+			return;
+		} else {
+		}
+		me.updateBasesNear();
+
+		settimer(func me.loopSlow(), 180);
 	},
 
 
@@ -1409,6 +1477,9 @@ var TI = {
 			me.menuButtonBox[19].show();
 		}
 		if (me.menuMain == 10 and me.mapPlaces == TRUE) {
+			me.menuButtonBox[3].show();
+		}
+		if (me.menuMain == 10 and me.basesEnabled == TRUE) {
 			me.menuButtonBox[4].show();
 		}
 		if (me.menuMain == 13 and me.menuGPS == TRUE and me.GPSinit == TRUE) {
@@ -1530,6 +1601,8 @@ var TI = {
 
 
 
+
+
 	########################################################################################################
 	########################################################################################################
 	#
@@ -1538,6 +1611,76 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+
+
+	updateBasesNear: func {
+		me.basesNear = [];
+		me.ports = findAirportsWithinRange(75);
+		foreach(var port; me.ports) {
+			var small = size(port.id) < 4;
+		    append(me.basesNear, {"icao": port.id, "lat": port.lat, "lon": port.lon, "elev": port.elevation, "small": small});
+		}
+	},
+
+	showBasesNear: func {
+		if (me.basesEnabled == TRUE and zoom_curr >= 2) {
+			var numL = 0;
+			var numS = 0;
+			foreach(var base; me.basesNear) {
+				if (base["icao"] != land.icao) {
+					me.coord = geo.Coord.new();
+					me.coord.set_latlon(base["lat"], base["lon"], base["elev"]);
+					if (me.coord.distance_to(geo.aircraft_position()) < height/M2TEX) {
+			    		me.baseIcao = base["icao"];
+			    		if (size(me.baseIcao) != nil and me.baseIcao != "") {
+				    		me.small = base["small"];
+				    		me.baseGPS = radar_logic.ContactGPS.new(me.baseIcao, me.coord);
+				    		me.polar = me.baseGPS.get_polar();
+				    		me.distance = me.polar[0];
+				            me.xa_rad   = me.polar[1];
+				      		me.pixelDistance = -me.distance*M2TEX; #distance in pixels
+				      		#translate from polar coords to cartesian coords
+				      		me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2);
+				      		me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2);
+				      		if (me.small == TRUE) {
+					      		if (numS < maxBases) {
+					      			me.baseSmall[numS].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseSmallText[numS].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseSmallText[numS].setText(me.baseIcao);
+					      			me.baseSmallText[numS].setRotation(-getprop("orientation/heading-deg")*D2R);
+					      			me.baseSmall[numS].show();
+					      			me.baseSmallText[numS].show();
+					      			numS += 1;
+					      		}
+				      		} else {
+				      			if (numL < maxBases) {
+				      				me.baseLarge[numL].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseLargeText[numL].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseLargeText[numL].setText(me.baseIcao);
+					      			me.baseLargeText[numL].show();
+					      			me.baseLargeText[numL].setRotation(-getprop("orientation/heading-deg")*D2R);
+					      			me.baseLarge[numL].show();
+					      			numL += 1;
+					      		}
+				      		}
+				      	}
+			    	}
+			    }
+			}
+			for(var i = numL; i < maxBases; i += 1) {
+				me.baseLargeText[i].hide();
+				me.baseLarge[i].hide();
+			}
+			for(var i = numS; i < maxBases; i += 1) {
+				me.baseSmallText[i].hide();
+				me.baseSmall[i].hide();
+			}
+			me.base_grp.show();
+		} else {
+			me.base_grp.hide();
+		}
+	},
 
 	showMapScale: func {
 		if (me.mapshowing == TRUE and me.menuShowFast == FALSE) {
@@ -2548,7 +2691,18 @@ var TI = {
 				# tact fire report
 				me.trapFire = TRUE;
 				me.quickOpen = 10000;
-			}			
+			}		
+			if (me.menuMain == 10) {
+				# place names on map
+				me.mapPlaces = !me.mapPlaces;
+				if (me.mapPlaces == PLACES) {
+					type = "light_all";
+					makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
+				} else {
+					type = "light_nolabels";
+					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
+				}
+			}	
 		}
 	},
 
@@ -2566,15 +2720,7 @@ var TI = {
 				me.showSteers = !me.showSteers;
 			}
 			if (me.menuMain == 10) {
-				# place names on map
-				me.mapPlaces = !me.mapPlaces;
-				if (me.mapPlaces == PLACES) {
-					type = "light_all";
-					makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
-				} else {
-					type = "light_nolabels";
-					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
-				}
+				me.basesEnabled = !me.basesEnabled;
 			}
 		}
 	},
@@ -3038,6 +3184,7 @@ var init = func {
 		ti = TI.new();
 		ti.loop();
 		ti.loopFast();
+		ti.loopSlow();
 	}
 }
 
