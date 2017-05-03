@@ -1088,7 +1088,6 @@ var TI = {
 			roll:             	  "orientation/roll-deg",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
-			hdgReal:              "orientation/heading-deg",
 			tracks_enabled:   	  "ja37/hud/tracks-enabled",
 			radar_serv:       	  "instrumentation/radar/serviceable",
 			tenHz:            	  "ja37/blink/ten-Hz/state",
@@ -1107,7 +1106,6 @@ var TI = {
 	        RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
 	        RMActive:         "autopilot/route-manager/active",
 	        nav0Heading:      "instrumentation/nav[0]/heading-deg",
-	        hdg:              "orientation/heading-magnetic-deg",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -2050,7 +2048,7 @@ var TI = {
 		me.coord = geo.Coord.new();
   		me.coord.set_latlon(me.lat.getValue(), me.lon.getValue());
   		me.coordSelf = geo.aircraft_position();
-  		me.angle = (me.coordSelf.course_to(me.coord)-me.input.hdgReal.getValue())*D2R;
+  		me.angle = (me.coordSelf.course_to(me.coord)-me.input.headTrue.getValue())*D2R;
 		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
 		me.pos_yy		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.sin(me.angle + math.pi/2);
   		return [me.pos_xx, me.pos_yy];
@@ -2465,7 +2463,7 @@ var TI = {
 		if(me.currentIndexT > -1 and (me.showmeT == TRUE or me.currentIndexT == 0)) {
 			me.tgtHeading = contact.get_heading();
 		    me.tgtSpeed = contact.get_Speed();
-		    me.myHeading = me.input.hdgReal.getValue();
+		    me.myHeading = me.input.headTrue.getValue();
 		    if (me.currentIndexT == 0 and contact.parents[0] == radar_logic.ContactGPS) {
 		    	me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);
 		    	me.gpsSymbol.show();
@@ -2546,9 +2544,9 @@ var TI = {
 	    if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
 	    	me.desired_mag_heading = me.input.APHeadingBug.getValue();
 	    } elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
-	    	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
+	    	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.headMagn.getValue();#getprop("autopilot/settings/true-heading-deg")+
 	    } elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
-	    	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
+	    	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.headMagn.getValue();
 	    } elsif( me.input.RMActive.getValue() == TRUE) {
 	    	#var i = getprop("autopilot/route-manager/current-wp");
 	    	me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
