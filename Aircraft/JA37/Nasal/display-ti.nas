@@ -1107,6 +1107,7 @@ var TI = {
 	        RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
 	        RMActive:         "autopilot/route-manager/active",
 	        nav0Heading:      "instrumentation/nav[0]/heading-deg",
+	        hdg:              "orientation/heading-magnetic-deg",
       	};
    
       	foreach(var name; keys(ti.input)) {
