@@ -10,7 +10,7 @@ MATERIAL "glassMatInternal" rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.
 MATERIAL "metalMat"         rgb 0.80 0.80 0.80  amb 0.70 0.70 0.70  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi  64 trans 0.00
 MATERIAL "glassRadarMat"    rgb 0.60 0.60 0.60  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 1.00 1.00 1.00  shi 128 trans 0.70
 MATERIAL "hudMat"           rgb 0.80 0.80 0.80  amb 0.00 0.00 0.00  emis 0.00 0.00 0.00  spec 0.00 0.00 0.00  shi  50 trans 0.10
-MATERIAL "hudRestMat"       rgb 0.26 0.26 0.26  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
+MATERIAL "hudRestMat"       rgb 0.60 0.60 0.60  amb 0.50 0.50 0.50  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
 MATERIAL "hudGlass"         rgb 0.54 0.54 0.54  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  56 trans 0.95
 MATERIAL "redLightMat"      rgb 0.50 0.00 0.00  amb 0.31 0.31 0.31  emis 0.00 0.00 0.00  spec 0.50 0.00 0.00  shi  80 trans 0.00
 MATERIAL "greenLightMat"    rgb 0.00 0.50 0.00  amb 0.31 0.31 0.31  emis 0.00 0.00 0.00  spec 0.00 0.50 0.00  shi  80 trans 0.00

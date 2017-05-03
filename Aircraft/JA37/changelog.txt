@@ -2842,3 +2842,4 @@ Model: {pinto} New hi-def inlet.
 Animation: Animated Pintos new gear doors.
 Model: Changed switch on kv1 to nav/comm, temp. measure.
 GUI: New option to disable using Internet to update the TI map.
+Effect: Fixed floodlight does not work with hudRestPlaque.

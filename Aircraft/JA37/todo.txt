@@ -36,6 +36,7 @@ Model: Stores jettisoned indicator on top right of front panel?
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Model: The KURS gauge in the JA was more complex, needs making.
 Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA, needs making.
+Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness, needs making.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
 Engine: Switch aug. type in engine?
@@ -147,7 +148,7 @@ Sim: {Pinto} Has experienced that 2 engine directories were created under engine
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Effect: Firing many M70 rockets in quick succession will make FG crash. [Probably fixed]
 Sim: A/T at high alpha does not work for Pinto, too high alpha. (3k ft, 30% fuel, no reverse)
-Effect: Floodlight does not work with hudRestPlaque.
+
 
 
 Issues with FG:
