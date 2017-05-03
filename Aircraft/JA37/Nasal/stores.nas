@@ -11,7 +11,7 @@ var MISSILE_FLYING = 2;
 var flareCount = -1;
 var flareStart = -1;
 
-var fireLog = "\n      Fire log:";
+var fireLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
 
 var jettisonAll = FALSE;
 
@@ -693,7 +693,7 @@ var trigger_listener = func {
         } else {
           setprop("/sim/messages/atc", phrase);
         }
-        fireLog = fireLog~"\n     Self: "~phrase;
+        fireLog.push("Self: "~phrase);
         var next = TRUE;
         if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
           var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
@@ -899,7 +899,7 @@ var incoming_listener = func {
       }
       if (contains(fireMsgs, last_vector[1]) or m2000 == TRUE) {
         # air2air being fired
-        fireLog = fireLog~"\n     "~last;
+        fireLog.push(last);
         if (size(last_vector) > 2 or m2000 == TRUE) {
           #print("Missile launch detected at"~last_vector[2]~" from "~author);
           if (m2000 == TRUE or last_vector[2] == " "~callsign) {
@@ -1214,6 +1214,16 @@ var hasRockets = func (station) {
     loaded = ammo;
   }
   return loaded;
+}
+
+var count99 = func () {
+  for (var i = 0;i<6;i+=1) {
+    var type = getprop("payload/weight["~i~"]/selected");
+    if (type == "RB 99 Amraam") {
+      return ammoCount(i+1);
+    }
+  }
+  return 0;
 }
 
 var ammoCount = func (station) {

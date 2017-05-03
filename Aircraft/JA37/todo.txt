@@ -115,10 +115,15 @@ TI: Implement Sidvy.
 TI: Show fligthtime in menu UD-UT.
 TI: More TRAP logs.
 TI: Selects self.
+TI: Brightness and position buttons should do nothing when not active.
+MI: Show ECM on TI [M2]
 MI: Slew cursor.
 MI: Implement radar sweep.
+MI: Improve mark event [X3]
+MI: Improve BIT test. [X1]
+MI: Make to switch off link rb99. [X2]
+MI: Make TNF to stop/start intial nav.
 CI: Memory button, for freezing image.
-CI: When ILS and DME is tuned to airport, show it on radarscreen with a 20km centerline?
 CI: Slew cursor.
 
 

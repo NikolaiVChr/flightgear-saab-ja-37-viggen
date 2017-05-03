@@ -525,6 +525,81 @@
                 <label>MI help</label>
             </binding>
         </hovered>
-    </animation> 	
+    </animation> 
 
-</PropertyList>  
+    <animation>
+        <type>pick</type>
+        <object-name>button_2</object-name>
+        <visible>true</visible>
+        <action>
+            <name>SVY TI</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>MI.press2();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_x1</object-name>
+        <visible>true</visible>
+        <action>
+            <name>BIT</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>MI.pressX1();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_x2</object-name>
+        <visible>true</visible>
+        <action>
+            <name>LNK</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>MI.pressX2();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_x3</object-name>
+        <visible>true</visible>
+        <action>
+            <name>HAN</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>MI.pressX3();</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_m2</object-name>
+        <visible>true</visible>
+        <action>
+            <name>ECM</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>MI.pressM2();</script>
+            </binding>
+        </action>
+    </animation>
+
+</PropertyList>

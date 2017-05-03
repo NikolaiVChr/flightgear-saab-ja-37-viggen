@@ -83,6 +83,43 @@ var releaseP3 = func {
 	helpOn = FALSE;
 };
 
+var press2 = func {
+	# SVY on TI
+	TI.ti.showSVY();
+};
+
+var pressM2 = func {
+	# ECM on TI
+	TI.ti.showECM();
+};
+
+var pressX3 = func {
+	# mark event
+	#
+	# record:
+	#  selection
+	#  echoes
+	#  time
+	#  orientation
+	#  velocities
+	#  position
+	TI.ti.recordEvent();
+};
+
+var pressX1 = func {
+	# RB99 self tests
+	#
+	# Show on TI
+	TI.ti.doBIT();
+};
+
+var pressX2 = func {
+	# RB99 link
+	#
+	# transfer to TI
+	TI.ti.showLNK();
+};
+
 var brightness = func {
 	bright += 1;
 };
@@ -151,6 +188,7 @@ var MI = {
       	mi.tgt_dist_last = nil;
       	mi.brightness = 1;
       	mi.off = FALSE;
+      	mi.helpTime = 0;
 
       	return mi;
 	},
@@ -918,7 +956,25 @@ var MI = {
 
     showBottomInfo: func {
     	if (helpOn == TRUE) {
+    		me.helpTime = me.input.timeElapsed.getValue();
+    		if (me.interoperability == displays.METRIC) {
+    			me.rowBottom1.setText(" D   -   -  SVY  -   -  BIT LNK");
+	    		me.rowBottom2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
+    		} else {
+    			me.rowBottom1.setText(" D   -   -  SID  -   -  BIT LNK");
+	    		me.rowBottom2.setText(" -   -   -  ECM  -  INN EVN  - ");
+    		}
     		me.rowBottom1.show();
+    		me.rowBottom2.show();
+    	} elsif (me.input.timeElapsed.getValue() - me.helpTime < 5) {
+    		if (me.interoperability == displays.METRIC) {
+    			me.rowBottom1.setText(" D   -   -  SVY  -   -  BIT LNK");
+	    		me.rowBottom2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
+    		} else {
+    			me.rowBottom1.setText(" D   -   -  SID  -   -  BIT LNK");
+	    		me.rowBottom2.setText(" -   -   -  ECM  -  INN EVN  - ");
+    		}
+			me.rowBottom1.show();
     		me.rowBottom2.show();
 		} else {
 			me.rowBottom1.hide();
