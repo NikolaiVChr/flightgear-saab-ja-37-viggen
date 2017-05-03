@@ -197,14 +197,14 @@ var dictSE = {
 	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-	 		'1': [TRUE, "SLACK"], '2': [TRUE, "DL"], '4': [TRUE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
+	 		'1': [TRUE, "SLACK"], '2': [TRUE, "DL"], '4': [TRUE, "B"], '5': [TRUE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
 	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'3': [FALSE, "ELKA"], '4': [TRUE, "ORTS"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [TRUE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -221,14 +221,14 @@ var dictEN = {
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "POLY"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
+	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [TRUE, "POLY"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "APOL"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [FALSE, "MAP"], '4': [TRUE, "TEXT"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [TRUE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -643,7 +643,7 @@ var TI = {
     		.setFontSize(15, 1);
 
 
-
+    	# bottom txt field
 		me.bottom_text_grp = root.createChild("group");
 		me.textBArmType = me.bottom_text_grp.createChild("text")
     		.setText("74")
@@ -911,6 +911,8 @@ var TI = {
 		    		.setStrokeLineWidth(w));
 		}
 
+
+		# flight data
 		var fpi_min = 3;
 		var fpi_med = 6;
 		var fpi_max = 9;
@@ -936,7 +938,7 @@ var TI = {
 		      .lineTo(-w*1, -texel_per_degree*fpi_med)
 		      .moveTo(w*1, -texel_per_degree*fpi_min)
 		      .lineTo(w*1, -texel_per_degree*fpi_med)
-		      .setStrokeLineWidth(w)
+		      .setStrokeLineWidth(w*2)
 		      .setColor(rGB,gGB,bGB, a);
 
 		
@@ -946,7 +948,7 @@ var TI = {
 		me.horizon_line = me.horizon_group2.createChild("path")
 		                     .moveTo(-height*0.75, 0)
 		                     .horiz(height*1.5)
-		                     .setStrokeLineWidth(w)
+		                     .setStrokeLineWidth(w*2)
 		                     .setColor(rGB,gGB,bGB, a);
 		me.horizon_alt = me.horizon_group2.createChild("text")
 				.setText("????")
@@ -968,10 +970,10 @@ var TI = {
 				.lineTo( -60*texel_per_degree, 30*texel_per_degree)
 				.moveTo(  30*texel_per_degree, 7.5*texel_per_degree)
 				.lineTo(  60*texel_per_degree, 30*texel_per_degree)
-				.setStrokeLineWidth(w)
+				.setStrokeLineWidth(w*2)
 		        .setColor(rGB,gGB,bGB, a);
 
-		    # Collision warning arrow
+		# Collision warning arrow
 		me.arr_15  = 5*0.75;
 		me.arr_30  = 5*1.5;
 		me.arr_90  = 3*9;
@@ -1070,11 +1072,11 @@ var TI = {
 
 		ti.menuShowMain = FALSE;
 		ti.menuShowFast = FALSE;
-		ti.menuMain     = 9;
-		ti.menuTrap     = TRUE;
+		ti.menuMain     = -9;
+		ti.menuTrap     = FALSE;
 		ti.menuSvy      = FALSE;
 		ti.menuGPS      = FALSE;
-
+		ti.quickTimer   = -25;
 		ti.trapFire     = FALSE;
 
 		ti.upText = FALSE;
@@ -1187,16 +1189,22 @@ var TI = {
 		# Update the display of the menus
 		#
 		me.showFullMenus = me.input.fullMenus.getValue();
+		if (me.menuShowMain == FALSE and me.menuShowFast == TRUE) {
+			if (me.input.timeElapsed.getValue() - me.quickTimer > me.quickOpen) {
+				# close quick menu after 20 seconds, or after 3 seconds of a sidebutton press.
+				me.menuShowFast = FALSE;
+				me.menuMain = -9;
+				me.menuNoSub();
+			}
+		}
 		if (me.menuShowMain == TRUE) {
-			me.menuShowFast = TRUE;#figure this out better
+			#me.menuShowFast = TRUE;#figure this out better
 			me.menuMainRoot.show();
 			me.updateMainMenu();
 			me.upText = TRUE;
-		} elsif (me.menuShowMain == FALSE and me.menuMain == 8) {
-			me.menuShowFast = TRUE;#figure this out better
-			me.menuMainRoot.show();
-			me.updateMainMenu();
-			me.upText = TRUE;
+		} elsif (me.menuShowMain == FALSE and me.menuShowFast == TRUE) {
+			me.menuMainRoot.hide();
+			me.upText = FALSE;
 		} else {
 			me.menuMainRoot.hide();
 			me.upText = FALSE;
@@ -1208,7 +1216,7 @@ var TI = {
 		} else {
 			me.menuFastRoot.hide();
 		}
-		if (me.menuMain == 9 and me.menuTrap == TRUE) {
+		if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
 			if (me.trapFire == TRUE){
 				me.hideMap();
 				me.logRoot.show();
@@ -1337,9 +1345,9 @@ var TI = {
 	compileMainMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~me.menuMain))];
+			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
 		} else {
-			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":''~me.menuMain))];
+			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":''~math.abs(me.menuMain)))];
 		}
 		if (str != nil) {
 			str = str[''~button];
@@ -1365,32 +1373,34 @@ var TI = {
 		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
 		}
-		if (me.menuMain == 9 and me.menuTrap == FALSE and me.dataLink == TRUE) {
-			me.menuButtonBox[2].show();
-		}
-		if (me.menuMain == 9 and me.menuTrap == FALSE and me.showSteers == TRUE) {
-			me.menuButtonBox[4].show();
-		}
-		if (me.menuMain == 9 and me.menuTrap == FALSE and me.ModeAttack == FALSE) {
-			me.menuButtonBox[14].show();
-		}
-		if (me.menuMain == 9 and me.menuTrap == FALSE and me.showFullMenus == TRUE) {
-			if (land.mode < 3 and land.mode > 0) {
-				# landing before descent
-				me.menuButtonBox[19].show();
-			} elsif (land.mode > 2) {
-				# landing descent
-				me.menuButtonBox[18].show();
-			} elsif (me.input.currentMode.getValue() == displays.LANDING) {
-				# generic landing mode
-				me.menuButtonBox[20].show();
+		if (math.abs(me.menuMain) == 9) {
+			if (me.menuTrap == FALSE and me.dataLink == TRUE) {
+				me.menuButtonBox[2].show();
 			}
-		}
-		if (me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
-			me.menuButtonBox[3].show();
-		}
-		if (me.menuMain == 11 and me.showSteerPoly == TRUE) {
-			me.menuButtonBox[15].show();
+			if (me.menuTrap == FALSE and me.showSteers == TRUE) {
+				me.menuButtonBox[4].show();
+			}
+			if (me.menuTrap == FALSE and me.ModeAttack == FALSE) {
+				me.menuButtonBox[14].show();
+			}
+			if (me.menuTrap == FALSE and me.showFullMenus == TRUE) {
+				if (land.mode < 3 and land.mode > 0) {
+					# landing before descent
+					me.menuButtonBox[19].show();
+				} elsif (land.mode > 2) {
+					# landing descent
+					me.menuButtonBox[18].show();
+				} elsif (me.input.currentMode.getValue() == displays.LANDING) {
+					# generic landing mode
+					me.menuButtonBox[20].show();
+				}
+			}
+			if (me.menuTrap == TRUE and me.trapFire == TRUE) {
+				me.menuButtonBox[3].show();
+			}
+			if (me.showSteerPoly == TRUE and me.menuTrap == FALSE) {
+				me.menuButtonBox[5].show();
+			}
 		}
 		if (me.menuMain == 10 and me.displayTime == TRUE) {
 			me.menuButtonBox[16].show();
@@ -1412,9 +1422,9 @@ var TI = {
 	compileFastMenu: func (button) {
 		var str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~me.menuMain))];
+			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
 		} else {
-			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":''~me.menuMain))];
+			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":''~math.abs(me.menuMain)))];
 		}
 		if (str != nil) {
 			str = str[''~button];
@@ -1450,9 +1460,9 @@ var TI = {
 		me.menuButtonSubBox[7].show();
 		var seven = nil;
 		if (me.interoperability == displays.METRIC) {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":(dictSE['0'][''~me.menuMain][1])));
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":(dictSE['0'][''~math.abs(me.menuMain)][1])));
 		} else {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":(dictEN['0'][''~me.menuMain][1])));
+			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":(dictEN['0'][''~math.abs(me.menuMain)][1])));
 		}
 		me.menuButtonSub[7].setText(me.vertStr(seven));
 		if (me.menuMain == 10) {
@@ -1480,7 +1490,7 @@ var TI = {
 				me.menuButtonSubBox[19].show();
 			}
 		}
-		if (me.menuMain == 9 and me.menuTrap == FALSE) {
+		if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 			# radar in attack or fight mode
 			var ft = nil;
 			if (me.interoperability == displays.METRIC) {
@@ -2490,10 +2500,16 @@ var TI = {
 		if (me.off == TRUE) {
 			me.off = !me.off;
 			MI.mi.off = me.off;
-		} elsif (me.menuShowFast == FALSE) {
+		} elsif (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 				me.off = !me.off;
 				MI.mi.off = me.off;
 			}
@@ -2501,10 +2517,16 @@ var TI = {
 	},
 
 	b2: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 				# datalink / STRILL
 				me.dataLink = !me.dataLink;
 			}
@@ -2512,22 +2534,35 @@ var TI = {
 	},
 
 	b3: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
 			
-			if (me.menuMain == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
 				# tact fire report
 				me.trapFire = TRUE;
+				me.quickOpen = 10000;
 			}			
 		}
 	},
 
 	b4: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 				me.showSteers = !me.showSteers;
 			}
 			if (me.menuMain == 10) {
@@ -2545,9 +2580,18 @@ var TI = {
 	},
 
 	b5: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}			
+			if (math.abs(me.menuMain) == 9) {
+				me.showSteerPoly = !me.showSteerPoly;
+			}
 			if (me.menuMain == 13 and me.menuSvy == FALSE and me.menuGPS == FALSE) {
 				# side view
 				me.menuSvy = TRUE;
@@ -2556,11 +2600,18 @@ var TI = {
 	},
 
 	b6: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 				# tactical report
+				me.quickOpen = 20;
 				me.menuTrap = TRUE;
 			}
 			if (me.menuMain == 10) {
@@ -2574,113 +2625,143 @@ var TI = {
 	},
 
 	b7: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
 		} else {
 			me.menuShowMain = FALSE;
 			me.menuShowFast = FALSE;
 			me.menuNoSub();
-			me.menuTrap = TRUE;
-			me.menuMain = 9;
+			me.menuMain = -9;
 		}
 	},
 
 	b8: func {
 		# weapons
-		if (me.menuShowMain == TRUE) {
+		if (me.menuShowMain == TRUE and me.menuMain != 8) {
 			me.menuMain = 8;
-			me.menuShowMain = FALSE;
+			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(5);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
+				if (me.menuShowFast == TRUE) {
+					me.menuMain = math.abs(me.menuMain);
+				}
 			}
 		}
 	},
 
 	b9: func {
 		# system
-		if (me.menuShowMain == TRUE) {
+		if (me.menuShowMain == TRUE and me.menuMain != 8) {
 			me.menuMain = 9;
+			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(1);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
+				if (me.menuShowFast == TRUE) {
+					me.menuMain = math.abs(me.menuMain);
+				}
 			}
 		}
 	},
 
 	b10: func {
 		# display
-		if (me.menuShowMain == TRUE) {
+		if (me.menuShowMain == TRUE and me.menuMain != 8) {
 			me.menuMain = 10;
+			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(2);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
+				if (me.menuShowFast == TRUE) {
+					me.menuMain = math.abs(me.menuMain);
+				}
 			}
 		}
 	},
 
 	b11: func {
 		# flight data
-		if (me.menuShowMain == TRUE) {
+		if (me.menuShowMain == TRUE and me.menuMain != 8) {
 			me.menuMain = 11;
+			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(4);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
+				if (me.menuShowFast == TRUE) {
+					me.menuMain = math.abs(me.menuMain);
+				}
 			}
 		}
 	},
 
 	b12: func {
 		# errors
-		if (me.menuShowMain == TRUE) {
+		if (me.menuShowMain == TRUE and me.menuMain != 8) {
 			me.menuMain = 12;
+			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(3);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
+				if (me.menuShowFast == TRUE) {
+					me.menuMain = math.abs(me.menuMain);
+				}
 			}
 		}
 	},
 
 	b13: func {
 		# configuration
-		if (me.menuShowMain == TRUE) {
+		if (me.menuShowMain == TRUE and me.menuMain != 8) {
 			me.menuMain = 13;
+			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(6);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
+				if (me.menuShowFast == TRUE) {
+					me.menuMain = math.abs(me.menuMain);
+				}
 			}
 		}
 	},
 
 	b14: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
 			if (me.menuMain == 8) {
 				me.input.station.setIntValue(0);
 			}
-			if (me.menuMain == 9 and me.menuTrap == FALSE) {
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 				me.ModeAttack = !me.ModeAttack;
 			}
-			if (me.menuMain == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
 				# clear tact reports
 				armament.fireLog = "\n      Fire log:";
 			}
@@ -2707,14 +2788,17 @@ var TI = {
 	},
 
 	b15: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
 			if (me.menuMain == 8) {
 				#clear weapon selection
-			}
-			if (me.menuMain == 11) {
-				me.showSteerPoly = !me.showSteerPoly;
 			}
 			if (me.menuMain == 13 and me.menuGPS == TRUE) {
 				me.GPSinit = !me.GPSinit;
@@ -2727,9 +2811,15 @@ var TI = {
 	},
 
 	b16: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
 			if (me.menuMain == 10) {
 				me.displayTime = !me.displayTime;
 			}
@@ -2737,9 +2827,15 @@ var TI = {
 	},
 
 	b17: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
 			if(me.menuMain == 10) {
 				me.displayFlight += 1;
 				if (me.displayFlight == 3) {
@@ -2750,17 +2846,29 @@ var TI = {
 	},
 
 	b18: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
 		}
 	},
 
 	b19: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
-			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
+			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
 				me.logPage += 1;
 			}
 			if(me.menuMain == 10) {
@@ -2786,10 +2894,16 @@ var TI = {
 	},
 
 	b20: func {
-		if (me.menuShowFast == FALSE) {
+		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.menuShowFast = TRUE;
-		} else {
-			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
+			me.quickTimer = me.input.timeElapsed.getValue();
+			me.quickOpen = 20;
+		} elsif (me.menuShowFast == TRUE) {
+			if (me.menuShowMain == FALSE) {
+				me.quickTimer = me.input.timeElapsed.getValue();
+				me.quickOpen = 3;
+			}
+			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
 					me.logPage = 0;

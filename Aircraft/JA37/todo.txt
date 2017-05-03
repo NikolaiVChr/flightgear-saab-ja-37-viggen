@@ -115,6 +115,9 @@ TI: Implement Sidvy.
 TI: Show fligthtime in menu UD-UT.
 TI: More TRAP logs.
 TI: Selects self.
+TI: Quick menu off after 20 secs.
+TI: Quick menu is SYST.
+TI: Main menu starts with no menu.
 MI: Slew cursor.
 MI: Implement radar sweep.
 CI: Memory button, for freezing image.
