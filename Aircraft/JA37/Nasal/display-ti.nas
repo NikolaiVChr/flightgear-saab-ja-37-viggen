@@ -179,7 +179,7 @@ var fpi_max = 9;
 var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was 16)
 var maxMissiles = 6;
 var maxThreats  = 5;
-var maxSteers   =25;
+var maxSteers   =50;
 var maxBases    =50;
 
 var roundabout = func(x) {
@@ -773,13 +773,13 @@ var TI = {
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-bottom")
     		.setTranslation(width, height-height*0.01)
-    		.setFontSize(18, 1);
+    		.setFontSize(17, 1);
     	me.textBWeight = me.bottom_text_grp.createChild("text")
     		.setText("VIKT 13,4")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-top")
     		.setTranslation(width, height-height*0.085)
-    		.setFontSize(18, 1);
+    		.setFontSize(17, 1);
 
     	me.menuMainRoot = root.createChild("group")
     		.set("z-index", 20)
