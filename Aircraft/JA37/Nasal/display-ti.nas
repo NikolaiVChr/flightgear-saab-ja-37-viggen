@@ -2527,7 +2527,7 @@ var TI = {
 	showSelfVector: func {
 		# length = time to travel in 60 seconds.
 		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
-		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 250*MM2TEX));
+		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 		if (me.GPSinit == TRUE) {
 			me.selfSymbol.hide();
 			me.selfSymbolGPS.show()
