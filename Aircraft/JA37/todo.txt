@@ -34,6 +34,8 @@ Model: Radio panel. Left side.
 Model: Airspeed indicator should have mach number also.
 Model: Stores jettisoned indicator on top right of front panel?
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
+Model: The KURS gauge in the JA was more complex, needs making.
+Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA, needs making.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
 Engine: Switch aug. type in engine?
@@ -92,8 +94,6 @@ Sound: Adjust the volume of the explosion of nearby missile, depending on distan
 Sound: Rework how missile buzz and growl works.
 Sound: Sound from wind hitting the gears when extended.
 Radar: Make database of RCS of common aircrafts.
-Radar: Memory button, for freezing image.
-Radar: When ILS and DME is tuned to airport, show it on radar with a 20km centerline?
 Radar: Make rb71 notchable again, by introducing 3 diff painted properties instead of one.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
@@ -116,6 +116,10 @@ TI: More TRAP logs.
 TI: Selects self.
 MI: Slew cursor.
 MI: Implement radar sweep.
+CI: Memory button, for freezing image.
+CI: When ILS and DME is tuned to airport, show it on radarscreen with a 20km centerline?
+CI: Slew cursor.
+
 
 
 Bugs:
@@ -127,7 +131,7 @@ HUD: When autostarting is in progress, the HUD will switch off for a fraction of
 HUD: When the altitude difference to a track is much larger than the horizontal distance, the track positions are off.
 HUD: {JazzTp} When FG HUD is in 2nd or 3rd mode, it does not go away when switching to custom. [reproduced]
 Model: CTRL-X in HUD view will not zoom to correct level.
-Model: Droptank indicator should really be a steerpoint indicator.
+Model: AJ Droptank indicator should really be a steerpoint indicator.
 Model: In FG 2.12 radar screen does not work as it should. (no canvas replacement)
 Model: All shader use of <use> does not work over MP.
 Sim: Find out why cannon and sidewinder fire randomly after instant replay.
@@ -143,6 +147,7 @@ Sim: {Pinto} Has experienced that 2 engine directories were created under engine
 Sound: If at the end of non-looped replay view mode is fly-by-view, sounds will continue looping. [not reproduced]
 Effect: Firing many M70 rockets in quick succession will make FG crash. [Probably fixed]
 Sim: A/T at high alpha does not work for Pinto, too high alpha. (3k ft, 30% fuel, no reverse)
+Effect: Floodlight does not work with hudRestPlaque.
 
 
 Issues with FG:

@@ -332,10 +332,26 @@
     <name>callsign</name>
     <offsets>
       <x-m> 0.002</x-m>
-      <y-m>-0.25</y-m>
-      <z-m> 0.22</z-m>
+      <y-m>-0.31</y-m>
+      <z-m> 0.14</z-m>
     </offsets>
   </model>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>callsign</object-name>
+    <offset-deg>90</offset-deg>
+    <center>
+     <x-m> 0.002</x-m>
+      <y-m>-0.31</y-m>
+      <z-m> 0.14</z-m>
+    </center>
+    <axis>
+     <x>1</x>
+     <y>0</y>
+     <z>0</z>
+    </axis>
+  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Altimeter/altimeter.xml</path>
