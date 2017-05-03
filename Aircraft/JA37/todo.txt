@@ -103,9 +103,19 @@ HUD: Make crossing out of hud when armament not ready to fire and trigger is pre
 HUD: Enable Richards new wrapper, to improve terrain warning. (2018.1.1)
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
 HUD: Altitude scale should only be shown when engine is running due to it need AC power.
-
-
-
+TI: Show lat/lon grid in menu UDAT.
+TI: Move cursor between TI and MI.
+TI: Slew cursor.
+TI: Edit route.
+TI: Change runway symbol.
+TI: Show near airports if menu enabled.
+TI: Show/edit bullseye.
+TI: Implement Sidvy.
+TI: Show fligthtime in menu UD-UT.
+TI: More TRAP logs.
+TI: Selects self.
+MI: Slew cursor.
+MI: Implement radar sweep.
 
 
 Bugs:
