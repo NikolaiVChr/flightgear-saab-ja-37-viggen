@@ -2069,6 +2069,7 @@ var TI = {
   				}
   				me.prevLeg = leg;
   			}
+  			me.steerPoly.update();
   			me.steerPoly.show();
   		} else {
   			me.steerPoly.hide();
