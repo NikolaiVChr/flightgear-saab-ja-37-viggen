@@ -22,6 +22,7 @@
 
         <startup>
             <splash-title>Swedish coldwar fighter</splash-title>
+            <splash-texture>Aircraft/JA37/GUI/ja37-splash-0.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-2.png</splash-texture>
             <splash-texture>Aircraft/JA37/GUI/ja37-splash-3.png</splash-texture>
