@@ -1615,11 +1615,13 @@ var TI = {
 
 
 	updateBasesNear: func {
-		me.basesNear = [];
-		me.ports = findAirportsWithinRange(75);
-		foreach(var port; me.ports) {
-			var small = size(port.id) < 4;
-		    append(me.basesNear, {"icao": port.id, "lat": port.lat, "lon": port.lon, "elev": port.elevation, "small": small});
+		if (me.basesEnabled == TRUE) {
+			me.basesNear = [];
+			me.ports = findAirportsWithinRange(75);
+			foreach(var port; me.ports) {
+				var small = size(port.id) < 4;
+			    append(me.basesNear, {"icao": port.id, "lat": port.lat, "lon": port.lon, "elev": port.elevation, "small": small});
+			}
 		}
 	},
 
@@ -2721,6 +2723,10 @@ var TI = {
 			}
 			if (me.menuMain == 10) {
 				me.basesEnabled = !me.basesEnabled;
+				if (me.basesEnabled == TRUE) {
+					# do initial update, since else we might wait up to 3 mins.
+					me.updateBasesNear();
+				}
 			}
 		}
 	},
