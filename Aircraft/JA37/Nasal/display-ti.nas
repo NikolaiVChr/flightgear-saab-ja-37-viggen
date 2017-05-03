@@ -9,6 +9,11 @@
 # use Pinto's model
 var (width,height) = (381,512);#381.315
 
+
+var FALSE = 0;
+var TRUE = 1;
+
+
 #var window = canvas.Window.new([height, height],"dialog")
 #					.set('x', width*2.75)
 #                   .set('title', "TI display");
@@ -110,6 +115,7 @@ var last_tile = [-1,-1];
 var last_type = type;
 var last_zoom = zoom;
 var lastLiveMap = getprop("ja37/displays/live-map");
+var lastDay   = TRUE;
 
 # stuff
 
@@ -182,8 +188,7 @@ var roundabout = func(x) {
 
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
-var FALSE = 0;
-var TRUE = 1;
+
 
 
 var dictSE = {
@@ -197,7 +202,7 @@ var dictSE = {
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 	 		'2': [FALSE, "INLA"], '3': [TRUE, "AVFY"], '4': [FALSE, "FALL"], '5': [FALSE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"], '17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-			'3': [FALSE, "ELKA"], '4': [TRUE, "ORTS"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [FALSE, "DAG"]},
+			'3': [FALSE, "ELKA"], '4': [TRUE, "ORTS"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [FALSE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"], '17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [TRUE, "APOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
@@ -221,7 +226,7 @@ var dictEN = {
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [FALSE, "LOCK"], '3': [TRUE, "FIRE"], '4': [FALSE, "ECM"], '5': [FALSE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [FALSE, "MAP"], '4': [TRUE, "TEXT"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [FALSE, "DAY"]},
+			'3': [FALSE, "MAP"], '4': [TRUE, "TEXT"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [TRUE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -1053,6 +1058,7 @@ var TI = {
       	}
 
       	ti.setupCanvasSymbols();
+      	ti.day = TRUE;
       	ti.setupMap();
 
       	ti.lastRRT = 0;
@@ -1086,6 +1092,7 @@ var TI = {
 		ti.fr28Top    = FALSE;
 		ti.dataLink   = FALSE;
 		ti.mapshowing = TRUE;
+		
 
       	return ti;
 	},
@@ -1125,7 +1132,11 @@ var TI = {
 			setprop("ja37/avionics/brightness-ti", me.brightness);
 			#setprop("ja37/avionics/cursor-on", cursorOn);
 		}
-		
+		if (me.day == TRUE) {
+			mycanvas.setColorBackground(0.3, 0.3, 0.3, 1.0);
+		} else {
+			mycanvas.setColorBackground(0.15, 0.15, 0.15, 1.0);
+		}
 
 		me.updateMap();
 		me.showMapScale();
@@ -1384,6 +1395,9 @@ var TI = {
 		if (me.menuMain == 10 and me.displayTime == TRUE) {
 			me.menuButtonBox[16].show();
 		}
+		if (me.menuMain == 10 and me.day == TRUE) {
+			me.menuButtonBox[19].show();
+		}
 		if (me.menuMain == 10 and me.mapPlaces == TRUE) {
 			me.menuButtonBox[4].show();
 		}
@@ -1452,11 +1466,19 @@ var TI = {
 				seventeen = dictEN['HORI'][''~me.displayFlight][1];
 			}
 			me.menuButtonSub[17].setText(me.vertStr(seventeen));
+
 			# zoom level
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
 			var six = zoomLevels[zoom_curr]~"";
 			me.menuButtonSub[6].setText(me.vertStr(six));
+
+			# day/night map
+			me.menuButtonSub[19].setText(me.vertStr(me.interoperability == displays.METRIC?"NATT":"NGHT"));
+			me.menuButtonSub[19].show();
+			if (me.day == FALSE) {
+				me.menuButtonSubBox[19].show();
+			}
 		}
 		if (me.menuMain == 9 and me.menuTrap == FALSE) {
 			# radar in attack or fight mode
@@ -2741,6 +2763,9 @@ var TI = {
 			if(me.menuMain == 9 and me.menuTrap == TRUE and me.trapFire == TRUE) {
 				me.logPage += 1;
 			}
+			if(me.menuMain == 10) {
+				me.day = !me.day;
+			}
 			if(me.menuMain == 11) {
 				if (me.ownPosition < 0.25) {
 					me.ownPosition = 0.25;
@@ -2793,17 +2818,25 @@ var TI = {
 
 
 	setupMap: func {
+		me.mapFinal.removeAllChildren();
 		for(var x = 0; x < num_tiles[0]; x += 1) {
 		  	tiles[x] = setsize([], num_tiles[1]);
-		  	for(var y = 0; y < num_tiles[1]; y += 1)
-		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile")
-		    	.set("fill", "rgb(128,128,128)");
+		  	for(var y = 0; y < num_tiles[1]; y += 1) {
+		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile");
+		    	if (me.day == TRUE) {
+		    		tiles[x][y].set("fill", "rgb(128,128,128)");
+	    		} else {
+	    			tiles[x][y].set("fill", "rgb(64,64,64)");
+	    		}
+	    	}
 		}
 	},
 
 	updateMap: func {
 		# update the map
-
+		if (lastDay != me.day)  {
+			me.setupMap();
+		}
 		
 		me.rootCenter.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
 		me.mapCentrum.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
@@ -2828,7 +2861,7 @@ var TI = {
 			}
 		}
 		var liveMap = getprop("ja37/displays/live-map");
-		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or liveMap != lastLiveMap)  {
+		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or liveMap != lastLiveMap or lastDay != me.day)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
 					var pos = {
@@ -2872,6 +2905,7 @@ var TI = {
 		last_type = type;
 		last_zoom = zoom;
 		lastLiveMap = liveMap;
+		lastDay = me.day;
 		}
 
 		me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
