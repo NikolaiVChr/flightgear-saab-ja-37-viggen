@@ -2845,3 +2845,9 @@ GUI: New option to disable using Internet to update the TI map.
 Effect: Fixed floodlight does not work with hudRestPlaque.
 Model: Made tooltip for airspeed indicator show indicated, not true airspeed.
 GUI: {Swamp} Nice new splash for JA.
+
+4.101
+=====
+TI: Prettyfied some code.
+MI: Enabled mipmapping.
+Model: Adjusted some gauge on frontpanel for JA.

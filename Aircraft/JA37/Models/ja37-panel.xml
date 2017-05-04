@@ -26,7 +26,7 @@
     <name>G Meter</name>
     <offsets>
       <x-m>  0.0025</x-m>
-      <y-m> -0.1825</y-m>
+      <y-m> -0.1800</y-m>
       <z-m>  0.23</z-m>
     </offsets>
   </model>
@@ -116,7 +116,7 @@
     <name>Augmentation Indicator</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.1275</y-m>
+      <y-m> -0.1250</y-m>
       <z-m>  0.2075</z-m>
     </offsets>
   </model>
@@ -366,9 +366,9 @@
   <animation>
     <type>scale</type>
     <object-name>Altitude indicator</object-name>
-    <x-offset>0.75</x-offset>
-    <y-offset>0.75</y-offset>
-    <z-offset>0.75</z-offset>
+    <x-offset>0.50</x-offset>
+    <y-offset>0.70</y-offset>
+    <z-offset>0.70</z-offset>
     <center>
      <x-m>  0.000 </x-m>
       <y-m> -0.265 </y-m>
@@ -381,17 +381,17 @@
     <name>Airspeed</name>
     <offsets>
       <x-m>  0.00</x-m>
-      <y-m> -0.115</y-m>
-      <z-m>  0.22</z-m>
+      <y-m> -0.1175</y-m>
+      <z-m>  0.23</z-m>
     </offsets>
   </model>
 
   <animation>
     <type>scale</type>
     <object-name>Airspeed</object-name>
-    <x-offset>1.1</x-offset>
-    <y-offset>1.1</y-offset>
-    <z-offset>1.1</z-offset>
+    <x-offset>1.05</x-offset>
+    <y-offset>1.05</y-offset>
+    <z-offset>1.05</z-offset>
   </animation>
 
   <model>
