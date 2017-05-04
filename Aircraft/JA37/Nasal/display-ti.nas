@@ -1311,9 +1311,7 @@ var TI = {
 		    			}
 						me.errorList.setText(str);
 					});
-					me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
-					me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-					me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+					me.clipLogPage();
 				} elsif (me.trapMan == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
@@ -1325,9 +1323,7 @@ var TI = {
 		    			}
 						me.errorList.setText(str);
 					});
-					me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
-					me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-					me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+					me.clipLogPage();
 				} elsif (me.trapLock == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
@@ -1339,9 +1335,7 @@ var TI = {
 		    			}
 						me.errorList.setText(str);
 					});
-					me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
-					me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-					me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+					me.clipLogPage();
 				} elsif (me.trapECM == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
@@ -1353,9 +1347,7 @@ var TI = {
 		    			}
 						me.errorList.setText(str);
 					});
-					me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
-					me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-					me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+					me.clipLogPage();
 				} else{
 					me.showMap();
 				}
@@ -1371,9 +1363,7 @@ var TI = {
 	    			}
 					me.errorList.setText(str);
 				});
-				me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
-				me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-				me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+				me.clipLogPage();
 			} else {
 				me.showMap();
 			}
@@ -1390,9 +1380,7 @@ var TI = {
     			}
 				me.errorList.setText(str);
 			});
-			me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
-			me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
-			me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+			me.clipLogPage();
 
 			# improve this crap programming:
 			if (me.input.timeElapsed.getValue()-me.BITtime > armament.count99()*2+5) {
@@ -1416,6 +1404,12 @@ var TI = {
 				me.BITok1 = TRUE;
 			}
 		}
+	},
+
+	clipLogPage: func {
+		me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
+		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
+		me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 	},
 
 	showMap: func {
@@ -2834,6 +2828,11 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 
+	openQuickMenu: func {
+		me.menuShowFast = TRUE;
+		me.quickTimer = me.input.timeElapsed.getValue();
+		me.quickOpen = 20;
+	},
 
 
 	b1: func {
@@ -2842,9 +2841,7 @@ var TI = {
 			MI.mi.off = me.off;
 			me.active = !me.off;
 		} elsif (me.active and me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.active and me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -2861,9 +2858,7 @@ var TI = {
 	b2: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -2887,9 +2882,7 @@ var TI = {
 	b3: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -2921,9 +2914,7 @@ var TI = {
 	b4: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -2953,9 +2944,7 @@ var TI = {
 	b5: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -2982,9 +2971,7 @@ var TI = {
 	b6: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3008,9 +2995,7 @@ var TI = {
 	b7: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} else {
 			me.menuShowMain = FALSE;
 			me.menuShowFast = FALSE;
@@ -3136,9 +3121,7 @@ var TI = {
 	b14: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3183,9 +3166,7 @@ var TI = {
 	b15: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3207,9 +3188,7 @@ var TI = {
 	b16: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3224,9 +3203,7 @@ var TI = {
 	b17: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3244,9 +3221,7 @@ var TI = {
 	b18: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3258,9 +3233,7 @@ var TI = {
 	b19: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
@@ -3294,9 +3267,7 @@ var TI = {
 	b20: func {
 		if (!me.active) return;
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
-			me.menuShowFast = TRUE;
-			me.quickTimer = me.input.timeElapsed.getValue();
-			me.quickOpen = 20;
+			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();

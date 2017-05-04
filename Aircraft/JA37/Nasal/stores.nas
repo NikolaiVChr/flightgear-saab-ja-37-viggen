@@ -921,7 +921,7 @@ var incoming_listener = func {
                 while(clock > 360) {
                   clock = clock - 360;
                 }
-                ecmLog.push(last~clock~" deg.");
+                ecmLog.push(last~sprintf("%d deg.", clock));
                 #print("incoming from "~clock);
                 if (clock >= 345 or clock < 15) {
                   playIncomingSound("12");

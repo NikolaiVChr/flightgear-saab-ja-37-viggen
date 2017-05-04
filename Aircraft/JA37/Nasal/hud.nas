@@ -2614,7 +2614,7 @@ var HUDnasal = {
           #print("diamond="~diamond~" blink="~blink);
           if (me.displayDiamond > 0) {
             if (radar_logic.lockLast == nil or (radar_logic.lockLast != nil and radar_logic.lockLast.getUnique() != me.selection.getUnique())) {
-              radar_logic.lockLog.push("Locked on to "~me.selection.get_Callsign());
+              radar_logic.lockLog.push(sprintf("Locked on to %s (%s)",me.selection.get_Callsign(),armament.AIM.active[me.armSelect-1].type));
               radar_logic.lockLast = me.selection;
             }
             me.target_air.hide();
