@@ -1579,17 +1579,19 @@ var TI = {
 				me.menuButtonBox[5].show();
 			}
 		}
-		if (me.menuMain == 10 and me.displayTime == TRUE) {
-			me.menuButtonBox[16].show();
-		}
-		if (me.menuMain == 10 and me.day == TRUE) {
-			me.menuButtonBox[19].show();
-		}
-		if (me.menuMain == 10 and me.mapPlaces == TRUE) {
-			me.menuButtonBox[3].show();
-		}
-		if (me.menuMain == 10 and me.basesEnabled == TRUE) {
-			me.menuButtonBox[4].show();
+		if (me.menuMain == 10) {
+			if (me.mapPlaces == TRUE) {
+				me.menuButtonBox[3].show();
+			}
+			if (me.basesEnabled == TRUE) {
+				me.menuButtonBox[4].show();
+			}
+			if (me.displayTime == TRUE) {
+				me.menuButtonBox[16].show();
+			}
+			if (me.day == TRUE) {
+				me.menuButtonBox[19].show();
+			}
 		}
 		if (me.menuMain == 13 and me.menuGPS == TRUE and me.GPSinit == TRUE) {
 			me.menuButtonBox[15].show();
@@ -1872,202 +1874,74 @@ var TI = {
 	},
 
 	showMapScale: func {
-		# improve this bloated code
 		if (me.mapshowing == TRUE and me.menuShowFast == FALSE) {
+			var tick1 = 0;
+			var tick2 = 0;
+			var tick3 = 0;
 			if (me.interoperability == displays.METRIC) {
 				if (zoom == 4) {
-					me.mapScaleTick1.setTranslation(0, -1000000*M2TEX);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -1000000*M2TEX);
-					me.mapScaleTick2.setTranslation(0, -2000000*M2TEX);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -2000000*M2TEX);
-					me.mapScaleTick3.setTranslation(0, -3000000*M2TEX);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -3000000*M2TEX);
-					me.mapScaleTick1Txt.setText("1000");
-					me.mapScaleTick2Txt.setText("2000");
-					me.mapScaleTick3Txt.setText("3000");
-					me.mapScaleTickM1.setTranslation(0, 1000000*M2TEX);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 1000000*M2TEX);
-					me.mapScaleTickM2.setTranslation(0, 2000000*M2TEX);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 2000000*M2TEX);
-					me.mapScaleTickM3.setTranslation(0, 3000000*M2TEX);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 3000000*M2TEX);
-					me.mapScaleTickM1Txt.setText("-1000");
-					me.mapScaleTickM2Txt.setText("-2000");
-					me.mapScaleTickM3Txt.setText("-3000");
+					tick1 = 1000;
 				} elsif (zoom == 7) {
-					me.mapScaleTick1.setTranslation(0, -100000*M2TEX);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -100000*M2TEX);
-					me.mapScaleTick2.setTranslation(0, -200000*M2TEX);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -200000*M2TEX);
-					me.mapScaleTick3.setTranslation(0, -300000*M2TEX);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -300000*M2TEX);
-					me.mapScaleTick1Txt.setText("100");
-					me.mapScaleTick2Txt.setText("200");
-					me.mapScaleTick3Txt.setText("300");
-					me.mapScaleTickM1.setTranslation(0, 100000*M2TEX);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 100000*M2TEX);
-					me.mapScaleTickM2.setTranslation(0, 200000*M2TEX);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 200000*M2TEX);
-					me.mapScaleTickM3.setTranslation(0, 300000*M2TEX);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 300000*M2TEX);
-					me.mapScaleTickM1Txt.setText("-100");
-					me.mapScaleTickM2Txt.setText("-200");
-					me.mapScaleTickM3Txt.setText("-300");
+					tick1 = 150;
 				} elsif (zoom == 9) {
-					me.mapScaleTick1.setTranslation(0, -25000*M2TEX);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -25000*M2TEX);
-					me.mapScaleTick2.setTranslation(0, -50000*M2TEX);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -50000*M2TEX);
-					me.mapScaleTick3.setTranslation(0, -75000*M2TEX);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -75000*M2TEX);
-					me.mapScaleTick1Txt.setText("25");
-					me.mapScaleTick2Txt.setText("50");
-					me.mapScaleTick3Txt.setText("75");
-					me.mapScaleTickM1.setTranslation(0, 25000*M2TEX);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 25000*M2TEX);
-					me.mapScaleTickM2.setTranslation(0, 50000*M2TEX);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 50000*M2TEX);
-					me.mapScaleTickM3.setTranslation(0, 75000*M2TEX);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 75000*M2TEX);
-					me.mapScaleTickM1Txt.setText("-25");
-					me.mapScaleTickM2Txt.setText("-50");
-					me.mapScaleTickM3Txt.setText("-75");
+					tick1 = 35;
 				} elsif (zoom == 11) {
-					me.mapScaleTick1.setTranslation(0, -5000*M2TEX);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -5000*M2TEX);
-					me.mapScaleTick2.setTranslation(0, -10000*M2TEX);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -10000*M2TEX);
-					me.mapScaleTick3.setTranslation(0, -15000*M2TEX);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -15000*M2TEX);
-					me.mapScaleTick1Txt.setText("5");
-					me.mapScaleTick2Txt.setText("10");
-					me.mapScaleTick3Txt.setText("15");
-					me.mapScaleTickM1.setTranslation(0, 5000*M2TEX);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 5000*M2TEX);
-					me.mapScaleTickM2.setTranslation(0, 10000*M2TEX);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 10000*M2TEX);
-					me.mapScaleTickM3.setTranslation(0, 15000*M2TEX);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 15000*M2TEX);
-					me.mapScaleTickM1Txt.setText("-5");
-					me.mapScaleTickM2Txt.setText("-10");
-					me.mapScaleTickM3Txt.setText("-15");
+					tick1 = 10;
 				} elsif (zoom == 13) {
-					me.mapScaleTick1.setTranslation(0, -2000*M2TEX);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -2000*M2TEX);
-					me.mapScaleTick2.setTranslation(0, -4000*M2TEX);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -4000*M2TEX);
-					me.mapScaleTick3.setTranslation(0, -6000*M2TEX);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -6000*M2TEX);
-					me.mapScaleTick1Txt.setText("2");
-					me.mapScaleTick2Txt.setText("4");
-					me.mapScaleTick3Txt.setText("6");
-					me.mapScaleTickM1.setTranslation(0, 2000*M2TEX);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 2000*M2TEX);
-					me.mapScaleTickM2.setTranslation(0, 4000*M2TEX);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 4000*M2TEX);
-					me.mapScaleTickM3.setTranslation(0, 6000*M2TEX);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 6000*M2TEX);
-					me.mapScaleTickM1Txt.setText("-2");
-					me.mapScaleTickM2Txt.setText("-4");
-					me.mapScaleTickM3Txt.setText("-6");
+					tick1 = 2;
 				}
+				tick2 = tick1*2;
+				tick3 = tick1*3;
+				me.mapScaleTick1.setTranslation(0, -tick1*M2TEX*1000);
+				me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -tick1*M2TEX*1000);
+				me.mapScaleTick2.setTranslation(0, -tick2*M2TEX*1000);
+				me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -tick2*M2TEX*1000);
+				me.mapScaleTick3.setTranslation(0, -tick3*M2TEX*1000);
+				me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -tick3*M2TEX*1000);
+				me.mapScaleTick1Txt.setText(""~tick1);
+				me.mapScaleTick2Txt.setText(""~tick2);
+				me.mapScaleTick3Txt.setText(""~tick3);
+				me.mapScaleTickM1.setTranslation(0, tick1*M2TEX*1000);
+				me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, tick1*M2TEX*1000);
+				me.mapScaleTickM2.setTranslation(0, tick2*M2TEX*1000);
+				me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, tick2*M2TEX*1000);
+				me.mapScaleTickM3.setTranslation(0, tick3*M2TEX*1000);
+				me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, tick3*M2TEX*1000);
+				me.mapScaleTickM1Txt.setText("-"~tick1);
+				me.mapScaleTickM2Txt.setText("-"~tick2);
+				me.mapScaleTickM3Txt.setText("-"~tick3);
 			} else {
 				if (zoom == 4) {
-					me.mapScaleTick1.setTranslation(0, -500*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -500*M2TEX*NM2M);
-					me.mapScaleTick2.setTranslation(0, -1000*M2TEX*NM2M);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -1000*M2TEX*NM2M);
-					me.mapScaleTick3.setTranslation(0, -1500*M2TEX*NM2M);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -1500*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setText("500");
-					me.mapScaleTick2Txt.setText("1000");
-					me.mapScaleTick3Txt.setText("1500");
-					me.mapScaleTickM1.setTranslation(0, 500*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 500*M2TEX*NM2M);
-					me.mapScaleTickM2.setTranslation(0, 1000*M2TEX*NM2M);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 1000*M2TEX*NM2M);
-					me.mapScaleTickM3.setTranslation(0, 1500*M2TEX*NM2M);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 1500*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setText("-500");
-					me.mapScaleTickM2Txt.setText("-1000");
-					me.mapScaleTickM3Txt.setText("-1500");
+					tick1 = 500;
 				} elsif (zoom == 7) {
-					me.mapScaleTick1.setTranslation(0, -75*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -75*M2TEX*NM2M);
-					me.mapScaleTick2.setTranslation(0, -150*M2TEX*NM2M);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -150*M2TEX*NM2M);
-					me.mapScaleTick3.setTranslation(0, -225*M2TEX*NM2M);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -225*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setText("75");
-					me.mapScaleTick2Txt.setText("150");
-					me.mapScaleTick3Txt.setText("225");
-					me.mapScaleTickM1.setTranslation(0, 75*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 75*M2TEX*NM2M);
-					me.mapScaleTickM2.setTranslation(0, 150*M2TEX*NM2M);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 150*M2TEX*NM2M);
-					me.mapScaleTickM3.setTranslation(0, 225*M2TEX*NM2M);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 225*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setText("-75");
-					me.mapScaleTickM2Txt.setText("-150");
-					me.mapScaleTickM3Txt.setText("-225");
+					tick1 =  75;
 				} elsif (zoom == 9) {
-					me.mapScaleTick1.setTranslation(0, -20*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -20*M2TEX*NM2M);
-					me.mapScaleTick2.setTranslation(0, -40*M2TEX*NM2M);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -40*M2TEX*NM2M);
-					me.mapScaleTick3.setTranslation(0, -60*M2TEX*NM2M);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -60*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setText("20");
-					me.mapScaleTick2Txt.setText("40");
-					me.mapScaleTick3Txt.setText("60");
-					me.mapScaleTickM1.setTranslation(0, 20*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 20*M2TEX*NM2M);
-					me.mapScaleTickM2.setTranslation(0, 40*M2TEX*NM2M);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 40*M2TEX*NM2M);
-					me.mapScaleTickM3.setTranslation(0, 60*M2TEX*NM2M);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 60*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setText("-20");
-					me.mapScaleTickM2Txt.setText("-40");
-					me.mapScaleTickM3Txt.setText("-60");
+					tick1 =  20;
 				} elsif (zoom == 11) {
-					me.mapScaleTick1.setTranslation(0, -4*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -4*M2TEX*NM2M);
-					me.mapScaleTick2.setTranslation(0, -8*M2TEX*NM2M);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -8*M2TEX*NM2M);
-					me.mapScaleTick3.setTranslation(0, -12*M2TEX*NM2M);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -12*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setText("4");
-					me.mapScaleTick2Txt.setText("8");
-					me.mapScaleTick3Txt.setText("12");
-					me.mapScaleTickM1.setTranslation(0, 4*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 4*M2TEX*NM2M);
-					me.mapScaleTickM2.setTranslation(0, 8*M2TEX*NM2M);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 8*M2TEX*NM2M);
-					me.mapScaleTickM3.setTranslation(0, 12*M2TEX*NM2M);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 12*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setText("-4");
-					me.mapScaleTickM2Txt.setText("-8");
-					me.mapScaleTickM3Txt.setText("-12");
+					tick1 =   4;
 				} elsif (zoom == 13) {
-					me.mapScaleTick1.setTranslation(0, -1*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -1*M2TEX*NM2M);
-					me.mapScaleTick2.setTranslation(0, -2*M2TEX*NM2M);
-					me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -2*M2TEX*NM2M);
-					me.mapScaleTick3.setTranslation(0, -3*M2TEX*NM2M);
-					me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -3*M2TEX*NM2M);
-					me.mapScaleTick1Txt.setText("1");
-					me.mapScaleTick2Txt.setText("2");
-					me.mapScaleTick3Txt.setText("3");
-					me.mapScaleTickM1.setTranslation(0, 1*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, 1*M2TEX*NM2M);
-					me.mapScaleTickM2.setTranslation(0, 2*M2TEX*NM2M);
-					me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, 2*M2TEX*NM2M);
-					me.mapScaleTickM3.setTranslation(0, 3*M2TEX*NM2M);
-					me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, 3*M2TEX*NM2M);
-					me.mapScaleTickM1Txt.setText("-1");
-					me.mapScaleTickM2Txt.setText("-2");
-					me.mapScaleTickM3Txt.setText("-3");
+					tick1 =   1;
 				}
+				tick2 = tick1*2;
+				tick3 = tick1*3;
+				me.mapScaleTick1.setTranslation(0, -tick1*M2TEX*NM2M);
+				me.mapScaleTick1Txt.setTranslation(me.mapScaleTickPosTxtX, -tick1*M2TEX*NM2M);
+				me.mapScaleTick2.setTranslation(0, -tick2*M2TEX*NM2M);
+				me.mapScaleTick2Txt.setTranslation(me.mapScaleTickPosTxtX, -tick2*M2TEX*NM2M);
+				me.mapScaleTick3.setTranslation(0, -tick3*M2TEX*NM2M);
+				me.mapScaleTick3Txt.setTranslation(me.mapScaleTickPosTxtX, -tick3*M2TEX*NM2M);
+				me.mapScaleTick1Txt.setText(""~tick1);
+				me.mapScaleTick2Txt.setText(""~tick2);
+				me.mapScaleTick3Txt.setText(""~tick3);
+				me.mapScaleTickM1.setTranslation(0, tick1*M2TEX*NM2M);
+				me.mapScaleTickM1Txt.setTranslation(me.mapScaleTickPosTxtX, tick1*M2TEX*NM2M);
+				me.mapScaleTickM2.setTranslation(0, tick2*M2TEX*NM2M);
+				me.mapScaleTickM2Txt.setTranslation(me.mapScaleTickPosTxtX, tick2*M2TEX*NM2M);
+				me.mapScaleTickM3.setTranslation(0, tick3*M2TEX*NM2M);
+				me.mapScaleTickM3Txt.setTranslation(me.mapScaleTickPosTxtX, tick3*M2TEX*NM2M);
+				me.mapScaleTickM1Txt.setText("-"~tick1);
+				me.mapScaleTickM2Txt.setText("-"~tick2);
+				me.mapScaleTickM3Txt.setText("-"~tick3);
 			}
 			me.mapScale.show();
 		} else {

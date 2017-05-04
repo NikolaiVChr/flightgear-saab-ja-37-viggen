@@ -31,7 +31,7 @@ var setupCanvas = func {
 	  "size": [width, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
 	  "view": [width, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
 	                        # which will be stretched the size of the texture, required)
-	  "mipmapping": 0       # Enable mipmapping (optional)
+	  "mipmapping": 1       # Enable mipmapping (optional)
 	});
 	root = mycanvas.createGroup();
 	mycanvas.setColorBackground(0, 0, 0, 1.0);
@@ -40,9 +40,9 @@ var setupCanvas = func {
 	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
 };
 
-var (center_x, center_y) = (396.6625/2,height/2);
+var (center_x, center_y) = (397/2,height/2);#396.6625
 
-var texel_per_degree = 396.6625/(85*2);
+var texel_per_degree = 397/(85*2);
 
 var halfHeightOfSideScales   = 75 * texel_per_degree;
 var sidePositionOfSideScales = 70 * texel_per_degree;
