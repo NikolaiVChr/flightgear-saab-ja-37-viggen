@@ -191,7 +191,9 @@ var roundabout = func(x) {
 
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v };
 
-
+var circlePos = func (deg, radius) {
+	return [radius*math.cos(deg*D2R),radius*math.sin(deg*D2R)];
+}
 
 
 var dictSE = {
@@ -953,9 +955,31 @@ var TI = {
 		for(var i = 0; i < maxBases; i+=1) {
 			append(me.baseSmall,
 				me.base_grp.createChild("path")
-	               .moveTo(-15, 0)
-	               .arcSmallCW(15, 15, 0, 30, 0)
-	               .arcSmallCW(15, 15, 0, -30, 0)
+					# stipled circle
+	               .moveTo(circlePos(5, 15)[0], circlePos(5, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(40, 15)[0]-circlePos(5, 15)[0], circlePos(40, 15)[1]-circlePos(5, 15)[1])
+
+	               .moveTo(circlePos(50, 15)[0], circlePos(50, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(85, 15)[0]-circlePos(50, 15)[0], circlePos(85, 15)[1]-circlePos(50, 15)[1])
+
+	               .moveTo(circlePos(95, 15)[0], circlePos(95, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(130, 15)[0]-circlePos(95, 15)[0], circlePos(130, 15)[1]-circlePos(95, 15)[1])
+
+	               .moveTo(circlePos(140, 15)[0], circlePos(140, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(175, 15)[0]-circlePos(140, 15)[0], circlePos(175, 15)[1]-circlePos(140, 15)[1])
+
+	               .moveTo(circlePos(185, 15)[0], circlePos(185, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(220, 15)[0]-circlePos(185, 15)[0], circlePos(220, 15)[1]-circlePos(185, 15)[1])
+
+	               .moveTo(circlePos(230, 15)[0], circlePos(230, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(265, 15)[0]-circlePos(230, 15)[0], circlePos(265, 15)[1]-circlePos(230, 15)[1])
+
+	               .moveTo(circlePos(275, 15)[0], circlePos(275, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(310, 15)[0]-circlePos(275, 15)[0], circlePos(310, 15)[1]-circlePos(275, 15)[1])
+
+	               .moveTo(circlePos(320, 15)[0], circlePos(320, 15)[1])
+	               .arcSmallCW(15, 15, 0, circlePos(355, 15)[0]-circlePos(320, 15)[0], circlePos(355, 15)[1]-circlePos(320, 15)[1])
+
 	               .setStrokeLineWidth(w)
 	               .setColor(rTyrk,gTyrk,bTyrk, a));
 			append(me.baseSmallText,
