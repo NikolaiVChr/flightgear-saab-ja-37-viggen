@@ -2404,7 +2404,6 @@
    <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>
   <object-name>gearRightOuterDoor</object-name>
-  <object-name>gearRightInnerDoor</object-name>
  </animation>
 
  <!--<animation>
