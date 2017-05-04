@@ -109,13 +109,13 @@ TI: Move cursor between TI and MI.
 TI: Slew cursor.
 TI: Edit route.
 TI: Change runway symbol.
-TI: Show near small airports as stipled.
 TI: Show/edit bullseye.
 TI: Implement Sidvy.
 TI: Show fligthtime in menu UD-UT.
 TI: More TRAP logs.
 TI: Selects self.
 TI: Brightness and position buttons should do nothing when not active.
+TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 MI: Show ECM on TI [M2]
 MI: Slew cursor.
 MI: Implement radar sweep.
