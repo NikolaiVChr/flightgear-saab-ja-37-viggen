@@ -202,6 +202,7 @@ var circlePos = func (deg, radius) {
 	return [radius*math.cos(deg*D2R),radius*math.sin(deg*D2R)];
 }
 
+# notice the Swedish letter are missing accents {èôé} due to them not being always read correct by Nasal loader.
 
 var dictSE = {
 	'HORI': {'0': [TRUE, "AV"], '1': [TRUE, "RENS"], '2': [TRUE, "PA"]},
@@ -239,11 +240,14 @@ var dictEN = {
 	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [TRUE, "POLY"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
 	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "APOL"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
+	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
+	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [FALSE, "AAA"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
+			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [FALSE, "AAA"], '16': [TRUE, "TIME"],
+			'17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "LPOL"], '16': [FALSE, "EDIT"], '17': [FALSE, "MPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "LPOL"], '16': [FALSE, "EDIT"],
+			'17': [FALSE, "MPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
