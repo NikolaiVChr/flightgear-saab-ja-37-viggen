@@ -12,6 +12,7 @@ var flareCount = -1;
 var flareStart = -1;
 
 var fireLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
+var ecmLog = events.LogBuffer.new(echo: 0);#compatible with older FG?
 
 var jettisonAll = FALSE;
 
@@ -899,11 +900,11 @@ var incoming_listener = func {
       }
       if (contains(fireMsgs, last_vector[1]) or m2000 == TRUE) {
         # air2air being fired
-        fireLog.push(last);
         if (size(last_vector) > 2 or m2000 == TRUE) {
           #print("Missile launch detected at"~last_vector[2]~" from "~author);
           if (m2000 == TRUE or last_vector[2] == " "~callsign) {
             # its being fired at me
+
             #print("Incoming!");
             var enemy = radar_logic.getCallsign(author);
             if (enemy != nil) {
@@ -920,6 +921,7 @@ var incoming_listener = func {
                 while(clock > 360) {
                   clock = clock - 360;
                 }
+                ecmLog.push(last~clock~" deg.");
                 #print("incoming from "~clock);
                 if (clock >= 345 or clock < 15) {
                   playIncomingSound("12");

@@ -2613,6 +2613,10 @@ var HUDnasal = {
           #               .setColor(r,g,b, a);
           #print("diamond="~diamond~" blink="~blink);
           if (me.displayDiamond > 0) {
+            if (radar_logic.lockLast == nil or (radar_logic.lockLast != nil and radar_logic.lockLast.getUnique() != me.selection.getUnique())) {
+              radar_logic.lockLog.push("Locked on to "~me.selection.get_Callsign());
+              radar_logic.lockLast = me.selection;
+            }
             me.target_air.hide();
             me.target_ground.hide();
             me.target_sea.hide();
@@ -2657,6 +2661,7 @@ var HUDnasal = {
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           #diamond_node = nil;
+          radar_logic.lockLast = nil;
           armament.contact = nil;
           me.diamond_group.setTranslation(me.pos_x, me.pos_y);
           me.target_circle[me.selection_index].setTranslation(me.pos_x, me.pos_y);
@@ -2727,6 +2732,7 @@ var HUDnasal = {
         # or invalid
         # or nothing selected
         #diamond_node = nil;
+        radar_logic.lockLast = nil;
         armament.contact = nil;
         if(me.selection != nil) {
           #selection[2] = nil;#no longer sure why I do this..
@@ -2738,6 +2744,7 @@ var HUDnasal = {
       #print("");
     } else {
       # radar tracks not shown at all
+      radar_logic.lockLast = nil;
       me.radar_group.hide();
     }
   },

@@ -20,6 +20,9 @@ var tracks_index = 0;
 var tracks = [];
 var callsign_struct = {};
 
+var lockLog  = events.LogBuffer.new(echo: 0);#compatible with older FG?
+var lockLast = nil;
+
 var AIR = 0;
 var MARINE = 1;
 var SURFACE = 2;

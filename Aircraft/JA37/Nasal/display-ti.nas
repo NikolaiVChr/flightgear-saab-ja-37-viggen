@@ -1135,6 +1135,8 @@ var TI = {
 		ti.quickTimer   = -25;
 		ti.trapFire     = FALSE;
 		ti.trapMan      = FALSE;
+		ti.trapLock     = FALSE;
+		ti.trapECM      = FALSE;
 
 		ti.upText = FALSE;
 		ti.logPage = 0;
@@ -1318,6 +1320,34 @@ var TI = {
 					call(func {
 						var buffer = me.logEvents.get_buffer();
 						var str = "       Event log:\n";
+		    			foreach(entry; buffer) {
+		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+		    			}
+						me.errorList.setText(str);
+					});
+					me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
+					me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
+					me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+				} elsif (me.trapLock == TRUE) {
+					me.hideMap();
+					me.logRoot.show();
+					call(func {
+						var buffer = radar_logic.lockLog.get_buffer();
+						var str = "       Lock log:\n";
+		    			foreach(entry; buffer) {
+		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+		    			}
+						me.errorList.setText(str);
+					});
+					me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
+					me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
+					me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+				} elsif (me.trapECM == TRUE) {
+					me.hideMap();
+					me.logRoot.show();
+					call(func {
+						var buffer = armament.ecmLog.get_buffer();
+						var str = "       ECM log:\n";
 		    			foreach(entry; buffer) {
 		      				str = str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
@@ -1539,8 +1569,14 @@ var TI = {
 					me.menuButtonBox[17].show();
 				}
 			}
+			if (me.menuTrap == TRUE and me.trapLock == TRUE) {
+				me.menuButtonBox[2].show();
+			}
 			if (me.menuTrap == TRUE and me.trapFire == TRUE) {
 				me.menuButtonBox[3].show();
+			}
+			if (me.menuTrap == TRUE and me.trapECM == TRUE) {
+				me.menuButtonBox[4].show();
 			}
 			if (me.menuTrap == TRUE and me.trapMan == TRUE) {
 				me.menuButtonBox[5].show();
@@ -1677,6 +1713,8 @@ var TI = {
 		me.menuGPS  = FALSE;
 		me.trapFire = FALSE;
 		me.trapMan = FALSE;
+		me.trapLock = FALSE;
+		me.trapECM  = FALSE;
 	},
 
 
@@ -1706,7 +1744,18 @@ var TI = {
 	showECM: func {
 		# ECM and warnings
 		if (!me.active) return;
-		
+
+		# tact ecm report (todo: show current ecm instead)
+		me.menuMain = 9;
+		me.menuNoSub();
+		me.menuTrap = TRUE;
+		me.menuShowFast = TRUE;
+		me.menuShowMain = TRUE;
+		me.trapECM = TRUE;
+		me.trapLock = FALSE;
+		me.trapFire = FALSE;
+		me.trapMan = FALSE;
+		me.quickOpen = 10000;
 	},
 
 	showLNK: func {
@@ -1730,19 +1779,14 @@ var TI = {
 	recordEvent: func {
 		# mark event
 		#
-		# record:
-		#  selection
-		#  echoes
-		#  time
-		#  orientation
-		#  velocities
-		#  position
 		var tgt = "";
 		if(radar_logic.selection != nil) {
 			tgt = radar_logic.selection.get_Callsign();
 		}
-		var message = sprintf("\n      IAS: %d kt\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
+		var message = sprintf("\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
 			me.input.ias.getValue(),
+			me.input.headMagn.getValue(),
+			me.input.alt_ft.getValue(),
 			tgt,
 			size(radar_logic.tracks),
 			getprop("position/latitude-deg"),
@@ -2829,6 +2873,14 @@ var TI = {
 				# datalink / STRILL
 				me.dataLink = !me.dataLink;
 			}
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+				# tact lock report
+				me.trapLock = TRUE;
+				me.trapFire = FALSE;
+				me.trapMan = FALSE;
+				me.trapECM = FALSE;
+				me.quickOpen = 10000;
+			}	
 		}
 	},
 
@@ -2848,6 +2900,8 @@ var TI = {
 				# tact fire report
 				me.trapFire = TRUE;
 				me.trapMan = FALSE;
+				me.trapECM = FALSE;
+				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}		
 			if (me.menuMain == 10) {
@@ -2878,6 +2932,14 @@ var TI = {
 			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
 				me.showSteers = !me.showSteers;
 			}
+			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+				# tact lock report
+				me.trapECM = TRUE;
+				me.trapLock = FALSE;
+				me.trapFire = FALSE;
+				me.trapMan = FALSE;
+				me.quickOpen = 10000;
+			}
 			if (me.menuMain == 10) {
 				me.basesEnabled = !me.basesEnabled;
 				if (me.basesEnabled == TRUE) {
@@ -2903,6 +2965,8 @@ var TI = {
 				# event report
 				me.trapMan = TRUE;
 				me.trapFire = FALSE;
+				me.trapECM = FALSE;
+				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}	
 			if (math.abs(me.menuMain) == 9) {
@@ -3091,6 +3155,8 @@ var TI = {
 				armament.fireLog.clear();
 				me.logEvents.clear();
 				me.logBIT.clear();
+				radar_logic.lockLog.clear();
+				armament.ecmLog.clear();
 			}
 			if (me.menuMain == 13 and me.menuGPS == TRUE) {
 				# GPS fix
@@ -3200,7 +3266,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE)) {
+			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
 				me.logPage += 1;
 			}
 			if(me.menuMain == 10) {
@@ -3236,7 +3302,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE)) {
+			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
 					me.logPage = 0;
