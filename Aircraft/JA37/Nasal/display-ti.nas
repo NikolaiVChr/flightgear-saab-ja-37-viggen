@@ -128,6 +128,13 @@ var FLIGHTDATA_OFF = 0;
 var CLEANMAP = 0;
 var PLACES   = 1;
 
+var MAIN_WEAPONS       =  8;
+var MAIN_SYSTEMS       =  9;
+var MAIN_DISPLAY       = 10;
+var MAIN_MISSION_DATA  = 11;
+var MAIN_FAILURES      = 12;
+var MAIN_CONFIGURATION = 13;
+
 var brightness = func {
 	bright += 1;
 };
@@ -222,25 +229,25 @@ var dictSE = {
 
 var dictEN = {
 	'HORI': {'0': [TRUE, "OFF"], '1': [TRUE, "CLR"], '2': [TRUE, "ON"]},
-	'0':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"]},
+	'0':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"]},
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
-    '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+    '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [TRUE, "POLY"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
 	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "APOL"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
-	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"], '17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
-	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [TRUE, "TEXT"], '4': [TRUE, "AIRP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [FALSE, "HSTL"], '15': [FALSE, "FRND"], '16': [TRUE, "TIME"], '17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
-	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "POLY"], '16': [FALSE, "EDIT"], '17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
-	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
-	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'5': [TRUE, "SIDE"], '6': [TRUE, "FR28"], '7': [TRUE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
-	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
-	'SIDE': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "FLDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'SIDE': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'5': [FALSE, "WIN"], '6': [FALSE, "SHOW"], '7': [TRUE, "MENU"], '14': [FALSE, "SCAL"], '15': [FALSE, "RMAX"], '16': [FALSE, "AMAX"]},
 };
 
@@ -1152,7 +1159,7 @@ var TI = {
 
 		ti.menuShowMain = FALSE;
 		ti.menuShowFast = FALSE;
-		ti.menuMain     = -9;
+		ti.menuMain     = -MAIN_SYSTEMS;
 		ti.menuTrap     = FALSE;
 		ti.menuSvy      = FALSE;
 		ti.menuGPS      = FALSE;
@@ -1300,7 +1307,7 @@ var TI = {
 				if (me.input.timeElapsed.getValue() - me.quickTimer > me.quickOpen) {
 					# close quick menu after 20 seconds, or after 3 seconds of a sidebutton press.
 					me.menuShowFast = FALSE;
-					me.menuMain = -9;
+					me.menuMain = -MAIN_SYSTEMS;
 					me.menuNoSub();
 				}
 			}
@@ -1323,7 +1330,7 @@ var TI = {
 			} else {
 				me.menuFastRoot.hide();
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				if (me.trapFire == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
@@ -1375,7 +1382,7 @@ var TI = {
 				} else{
 					me.showMap();
 				}
-			} elsif (me.menuMain == 12) {
+			} elsif (me.menuMain == MAIN_FAILURES) {
 				# failure menu
 				me.hideMap();
 				me.logRoot.show();
@@ -1464,9 +1471,9 @@ var TI = {
 		#
 		# Update the display of the main menus
 		#
-		for(var i = 8; i <= 13; i+=1) {
+		for(var i = MAIN_WEAPONS; i <= MAIN_CONFIGURATION; i+=1) {
 			me.menuButton[i].setText(me.compileMainMenu(i));
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.updateMainMenuTextWeapons(i);
 			} else {
 				if (me.menuMain == i) {
@@ -1476,7 +1483,7 @@ var TI = {
 				}
 			}
 		}
-		if (me.menuMain == 8) {
+		if (me.menuMain == MAIN_WEAPONS) {
 			if (me.input.station.getValue() == 5) {
 				me.menuButtonBox[8].show();
 			} else {
@@ -1559,10 +1566,10 @@ var TI = {
 			me.menuButton[i].setText(me.compileFastMenu(i));
 			me.menuButtonBox[i].hide();
 		}
-		if (me.menuMain == 8 and me.input.station.getValue() == 0) {
+		if (me.menuMain == MAIN_WEAPONS and me.input.station.getValue() == 0) {
 			me.menuButtonBox[14].show();
 		}
-		if (math.abs(me.menuMain) == 9) {
+		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE and me.dataLink == TRUE) {
 				me.menuButtonBox[2].show();
 			}
@@ -1603,7 +1610,7 @@ var TI = {
 				me.menuButtonBox[5].show();
 			}
 		}
-		if (me.menuMain == 10) {
+		if (me.menuMain == MAIN_DISPLAY) {
 			if (me.mapPlaces == TRUE) {
 				me.menuButtonBox[3].show();
 			}
@@ -1617,7 +1624,7 @@ var TI = {
 				me.menuButtonBox[19].show();
 			}
 		}
-		if (me.menuMain == 13 and me.menuGPS == TRUE and me.GPSinit == TRUE) {
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and me.GPSinit == TRUE) {
 			me.menuButtonBox[15].show();
 			if (radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
 				me.menuButtonBox[14].show();
@@ -1671,7 +1678,7 @@ var TI = {
 			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDE":(dictEN['0'][''~math.abs(me.menuMain)][1])));
 		}
 		me.menuButtonSub[7].setText(me.vertStr(seven));
-		if (me.menuMain == 10) {
+		if (me.menuMain == MAIN_DISPLAY) {
 			#show flight data
 			me.menuButtonSub[17].show();
 			me.menuButtonSubBox[17].show();
@@ -1696,7 +1703,7 @@ var TI = {
 				me.menuButtonSubBox[19].show();
 			}
 		}
-		if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
+		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 			# radar in attack or fight mode
 			var ft = nil;
 			if (me.interoperability == displays.METRIC) {
@@ -1710,7 +1717,7 @@ var TI = {
 			}
 			me.menuButtonSub[14].show();
 		}
-		if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 			# use top or belly antaenna
 			var ant = nil;
 			if (me.interoperability == displays.METRIC) {
@@ -1754,7 +1761,7 @@ var TI = {
 	showSVY: func {
 		# side view
 		if (!me.active) return;
-		me.menuMain = 13;
+		me.menuMain = MAIN_CONFIGURATION;
 		me.menuNoSub();			
 		me.menuSvy = TRUE;
 		me.menuShowMain = TRUE;
@@ -1766,7 +1773,7 @@ var TI = {
 		if (!me.active) return;
 
 		# tact ecm report (todo: show current ecm instead)
-		me.menuMain = 9;
+		me.menuMain = MAIN_SYSTEMS;
 		me.menuNoSub();
 		me.menuTrap = TRUE;
 		me.menuShowFast = TRUE;
@@ -2745,7 +2752,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				me.off = !me.off;
 				MI.mi.off = me.off;
 				me.active = !me.off;
@@ -2762,11 +2769,11 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				# datalink / STRILL
 				me.dataLink = !me.dataLink;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact lock report
 				me.trapLock = TRUE;
 				me.trapFire = FALSE;
@@ -2787,7 +2794,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact fire report
 				me.trapFire = TRUE;
 				me.trapMan = FALSE;
@@ -2795,7 +2802,7 @@ var TI = {
 				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}		
-			if (me.menuMain == 10) {
+			if (me.menuMain == MAIN_DISPLAY) {
 				# place names on map
 				me.mapPlaces = !me.mapPlaces;
 				if (me.mapPlaces == PLACES) {
@@ -2818,10 +2825,10 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				me.showSteers = !me.showSteers;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact lock report
 				me.trapECM = TRUE;
 				me.trapLock = FALSE;
@@ -2848,7 +2855,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# event report
 				me.trapMan = TRUE;
 				me.trapFire = FALSE;
@@ -2856,10 +2863,10 @@ var TI = {
 				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}	
-			if (math.abs(me.menuMain) == 9) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 				me.showSteerPoly = !me.showSteerPoly;
 			}
-			if (me.menuMain == 13 and me.menuSvy == FALSE and me.menuGPS == FALSE) {
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == FALSE and me.menuGPS == FALSE) {
 				# side view
 				me.menuSvy = TRUE;
 			}
@@ -2875,16 +2882,16 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				# tactical report
 				me.quickOpen = 20;
 				me.menuTrap = TRUE;
 			}
-			if (me.menuMain == 10) {
+			if (me.menuMain == MAIN_DISPLAY) {
 				# change zoom
 				zoomIn();
 			}
-			if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				me.fr28Top = !me.fr28Top;
 			}
 		}
@@ -2905,12 +2912,12 @@ var TI = {
 	b8: func {
 		# weapons
 		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != 8) {
-			me.menuMain = 8;
+		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+			me.menuMain = MAIN_WEAPONS;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(5);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
@@ -2924,12 +2931,12 @@ var TI = {
 	b9: func {
 		# system
 		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != 8) {
-			me.menuMain = 9;
+		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+			me.menuMain = MAIN_SYSTEMS;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(1);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
@@ -2943,12 +2950,12 @@ var TI = {
 	b10: func {
 		# display
 		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != 8) {
-			me.menuMain = 10;
+		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+			me.menuMain = MAIN_DISPLAY;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(2);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
@@ -2962,12 +2969,12 @@ var TI = {
 	b11: func {
 		# flight data
 		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != 8) {
-			me.menuMain = 11;
+		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+			me.menuMain = MAIN_MISSION_DATA;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(4);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
@@ -2981,12 +2988,12 @@ var TI = {
 	b12: func {
 		# errors
 		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != 8) {
-			me.menuMain = 12;
+		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+			me.menuMain = MAIN_FAILURES;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(3);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
@@ -3000,12 +3007,12 @@ var TI = {
 	b13: func {
 		# configuration
 		if (!me.active) return;
-		if (me.menuShowMain == TRUE and me.menuMain != 8) {
-			me.menuMain = 13;
+		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
+			me.menuMain = MAIN_CONFIGURATION;
 			me.menuShowFast = TRUE;
 			me.menuNoSub();
 		} else {
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(6);
 			} else {
 				me.menuShowMain = !me.menuShowMain;
@@ -3025,13 +3032,13 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				me.input.station.setIntValue(0);
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == FALSE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				me.ModeAttack = !me.ModeAttack;
 			}
-			if (math.abs(me.menuMain) == 9 and me.menuTrap == TRUE) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# clear tact reports
 				armament.fireLog.clear();
 				me.logEvents.clear();
@@ -3039,7 +3046,7 @@ var TI = {
 				radar_logic.lockLog.clear();
 				armament.ecmLog.clear();
 			}
-			if (me.menuMain == 13 and me.menuGPS == TRUE) {
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				# GPS fix
 				if (me.GPSinit == TRUE) {
 					  var coord = geo.aircraft_position();
@@ -3054,7 +3061,7 @@ var TI = {
 					  radar_logic.selection = contact;
 				}
 			}
-			if (me.menuMain == 13 and me.menuGPS == FALSE and me.menuSvy == FALSE) {
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				# GPS settings
 				me.menuGPS = TRUE;
 			}
@@ -3070,10 +3077,10 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (me.menuMain == 8) {
+			if (me.menuMain == MAIN_WEAPONS) {
 				#clear weapon selection
 			}
-			if (me.menuMain == 13 and me.menuGPS == TRUE) {
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				me.GPSinit = !me.GPSinit;
 				if (me.GPSinit == FALSE and radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
 					# clear the FIX if gps is turned off
@@ -3092,7 +3099,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if (me.menuMain == 10) {
+			if (me.menuMain == MAIN_DISPLAY) {
 				me.displayTime = !me.displayTime;
 			}
 		}
@@ -3107,7 +3114,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(me.menuMain == 10) {
+			if(me.menuMain == MAIN_DISPLAY) {
 				me.displayFlight += 1;
 				if (me.displayFlight == 3) {
 					me.displayFlight = 0;
@@ -3137,13 +3144,13 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
+			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
 				me.logPage += 1;
 			}
-			if(me.menuMain == 10) {
+			if(me.menuMain == MAIN_DISPLAY) {
 				me.day = !me.day;
 			}
-			if(me.menuMain == 11) {
+			if(me.menuMain == MAIN_MISSION_DATA) {
 				if (me.ownPosition < 0.25) {
 					me.ownPosition = 0.25;
 				} elsif (me.ownPosition < 0.50) {
@@ -3156,7 +3163,7 @@ var TI = {
 					me.ownPosition = 0;
 				}
 			}
-			if(me.menuMain == 12) {
+			if(me.menuMain == MAIN_FAILURES) {
 				me.logPage += 1;
 			}			
 		}
@@ -3171,13 +3178,13 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == 9 and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
+			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
 					me.logPage = 0;
 				}
 			}
-			if(me.menuMain == 12) {
+			if(me.menuMain == MAIN_FAILURES) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
 					me.logPage = 0;
