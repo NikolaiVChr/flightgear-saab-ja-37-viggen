@@ -423,7 +423,7 @@ var RadarLogic = {
           }
         }
 
-        me.distanceRadar = me.distance/math.cos(myPitch);
+        me.distanceRadar = me.distance;#*math.cos(myPitch); hmm
         me.hud_pos_x = canvas_HUD.pixelPerDegreeX * me.xa_rad * rad2deg;
         me.hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * -me.ya_rad * rad2deg;
 
