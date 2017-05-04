@@ -2852,3 +2852,7 @@ TI: Prettyfied some code.
 MI: Enabled mipmapping.
 Model: Adjusted some gauges on frontpanel for JA.
 TI: Made small airport circles be stipled.
+TI: More authentic presentation of 2 menu items in display menu.
+TI: Moved clock a bit inwards.
+TI: Made some code easier to read and maintain.
+TI: Made menu item in display able to switch off threat circles.
