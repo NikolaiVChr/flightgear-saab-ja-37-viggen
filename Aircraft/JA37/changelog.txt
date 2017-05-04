@@ -2850,5 +2850,5 @@ GUI: {Swamp} Nice new splash for JA.
 =====
 TI: Prettyfied some code.
 MI: Enabled mipmapping.
-Model: Adjusted some gauge on frontpanel for JA.
+Model: Adjusted some gauges on frontpanel for JA.
 TI: Made small airport circles be stipled.

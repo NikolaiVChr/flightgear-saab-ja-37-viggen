@@ -2169,7 +2169,7 @@ var TI = {
 
   	showTime: func {
 		if (me.displayTime == TRUE) {
-			me.textTime.setText(getprop("sim/time/gmt-string")~" Z");# should really be local time
+			me.textTime.setText(getprop("sim/time/gmt-string")~" Z  ");# should really be local time
 			me.textTime.show();
 		} else {
 			me.textTime.hide();
