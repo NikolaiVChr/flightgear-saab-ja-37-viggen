@@ -1697,14 +1697,14 @@ var TI = {
 				me.menuButtonSubBox[19].show();
 			}
 
-			# day/night map
-			me.menuButtonSub[3].setText(me.vertStr(me.interoperability == displays.METRIC?"ORTS":"PLAC"));
+			# place names overlay
+			me.menuButtonSub[3].setText(me.vertStr("MAX"));
 			me.menuButtonSub[3].show();
 			if (me.mapPlaces == TRUE) {
 				me.menuButtonSubBox[3].show();
 			}
 
-			# day/night map
+			# airports overlay
 			me.menuButtonSub[4].setText(me.vertStr(me.interoperability == displays.METRIC?"TMAD":"AIRP"));
 			me.menuButtonSub[4].show();
 			if (me.basesEnabled == TRUE) {
