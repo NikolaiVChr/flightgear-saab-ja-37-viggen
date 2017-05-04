@@ -2817,7 +2817,7 @@ Aero: Reenabled pitch due to inlet mass flow number.
 Sim: Adjusted the lower EPR ratings.
 Effect: Update to HUD effect so it works with filters.
 
-4.100
+4.100 - 2017 May 3
 =====
 Effect: Removed frost from HUD.
 Model: {Pinto} Added model for MI display.
@@ -2843,3 +2843,5 @@ Animation: Animated Pintos new gear doors.
 Model: Changed switch on kv1 to nav/comm, temp. measure.
 GUI: New option to disable using Internet to update the TI map.
 Effect: Fixed floodlight does not work with hudRestPlaque.
+Model: Made tooltip for airspeed indicator show indicated, not true airspeed.
+GUI: {Swamp} Nice new splash for JA.
