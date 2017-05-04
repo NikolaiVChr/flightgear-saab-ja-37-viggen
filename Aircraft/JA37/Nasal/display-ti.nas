@@ -66,7 +66,7 @@ zoom_curr  = 2;
 var M2TEX = 1/meterPerPixel[zoom];
 
 var zoomIn = func() {
-	if (TI.ti.active == FALSE) return;
+	if (ti.active == FALSE) return;
   zoom_curr += 1;
   if (zoom_curr > 4) {
   	zoom_curr = 0;
@@ -76,7 +76,7 @@ var zoomIn = func() {
 }
 
 var zoomOut = func() {
-	if (TI.ti.active == FALSE) return;
+	if (ti.active == FALSE) return;
   zoom_curr -= 1;
   if (zoom_curr < 0) {
   	zoom_curr = 4;
