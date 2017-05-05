@@ -113,7 +113,7 @@ var lastDay   = TRUE;
 
 # stuff
 
-var FLIGHTDATA_ON = 2;
+var FLIGHTDATA_ON  = 2;
 var FLIGHTDATA_CLR = 1;
 var FLIGHTDATA_OFF = 0;
 
@@ -1942,13 +1942,13 @@ var TI = {
 		if (me.SVYactive == TRUE) {
 			me.svy_grp2.removeAllChildren();
 			
-			me.SVYoriginX = width*0.05;
-			me.SVYoriginY = height*0.125+height*0.125*me.SVYsize-height*0.05;
-			me.SVYwidth   = width*0.90;
-			me.SVYheight  = height*0.125+height*0.125*me.SVYsize-height*0.10;
+			me.SVYoriginX = width*0.05;#texel
+			me.SVYoriginY = height*0.125+height*0.125*me.SVYsize-height*0.05;#texel
+			me.SVYwidth   = width*0.90;#texel
+			me.SVYheight  = height*0.125+height*0.125*me.SVYsize-height*0.10;#texel
 			me.SVYalt     = me.SVYhmax*1000;#meter
 			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?me.SVYrmax*1000:me.SVYwidth/M2TEX);#meter
-			me.SVYticksize= width*0.01;
+			me.SVYticksize= width*0.01;#texel
 
 			me.svy_grp2.createChild("path")
 				.moveTo(me.SVYoriginX, height*0.05)

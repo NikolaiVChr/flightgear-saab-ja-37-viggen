@@ -1145,7 +1145,7 @@ var ContactGPS = {
   },
 
   get_model: func(){
-      return "GPS Target";
+      return "GPS Location";
   },
 
   get_Speed: func(){
