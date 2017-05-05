@@ -961,7 +961,7 @@ var MI = {
     			me.rowBottom1.setText(" D   -   -  SVY  -   -  BIT LNK");
 	    		me.rowBottom2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
     		} else {
-    			me.rowBottom1.setText(" D   -   -  SID  -   -  BIT LNK");
+    			me.rowBottom1.setText(" D   -   -  SDV  -   -  BIT LNK");
 	    		me.rowBottom2.setText(" -   -   -  ECM  -  INN EVN  - ");
     		}
     		me.rowBottom1.show();
@@ -971,7 +971,7 @@ var MI = {
     			me.rowBottom1.setText(" D   -   -  SVY  -   -  BIT LNK");
 	    		me.rowBottom2.setText(" -   -   -  VMI  -  TNF HÄN  - ");
     		} else {
-    			me.rowBottom1.setText(" D   -   -  SID  -   -  BIT LNK");
+    			me.rowBottom1.setText(" D   -   -  SDV  -   -  BIT LNK");
 	    		me.rowBottom2.setText(" -   -   -  ECM  -  INN EVN  - ");
     		}
 			me.rowBottom1.show();
