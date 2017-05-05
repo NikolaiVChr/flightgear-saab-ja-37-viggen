@@ -1882,22 +1882,14 @@ var TI = {
 		if (!me.active) return;
 
 		# tact ecm report (todo: show current ecm instead)
-		me.menuMain = MAIN_SYSTEMS;
-		me.menuNoSub();
-		me.menuTrap = TRUE;
-		me.menuShowFast = TRUE;
-		me.menuShowMain = TRUE;
-		me.trapECM = TRUE;
-		me.trapLock = FALSE;
-		me.trapFire = FALSE;
-		me.trapMan = FALSE;
-		me.quickOpen = 10000;
+		print("TI ECM page not implemented yet, coming soon^tm.");
 	},
 
 	showLNK: func {
 		# show RB99 link
 		if (!me.active) return;
-		
+
+		print("TI RB99 link not implemented yet, coming soon^tm.");
 	},
 
 	doBIT: func {
@@ -1919,12 +1911,13 @@ var TI = {
 		if(radar_logic.selection != nil) {
 			tgt = radar_logic.selection.get_Callsign();
 		}
+		var echoes = size(radar_logic.tracks);
 		var message = sprintf("\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
 			me.input.ias.getValue(),
 			me.input.headMagn.getValue(),
 			me.input.alt_ft.getValue(),
-			tgt,
-			size(radar_logic.tracks),
+			echoes==0?"":tgt,
+			echoes,
 			getprop("position/latitude-deg"),
 			getprop("position/longitude-deg")
 			);
@@ -1945,19 +1938,37 @@ var TI = {
 		# update and display side view
 		if (me.SVYactive == TRUE) {
 			me.svy_grp2.removeAllChildren();
-			me.svy_grp2.createChild("path")
-				.moveTo(width*0.05, height*0.05)
-				.vert(height*0.125+height*0.125*me.SVYsize-height*0.10)
-				.horiz(width*0.90)
-				.setStrokeLineWidth(w)
-				.setColor(rWhite,gWhite,bWhite,a);
-
+			
 			me.SVYoriginX = width*0.05;
 			me.SVYoriginY = height*0.125+height*0.125*me.SVYsize-height*0.05;
 			me.SVYwidth   = width*0.90;
 			me.SVYheight  = height*0.125+height*0.125*me.SVYsize-height*0.10;
 			me.SVYalt     = me.SVYhmax*1000;#meter
 			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?me.SVYrmax*1000:me.SVYwidth/M2TEX);#meter
+			me.SVYticksize= width*0.01;
+
+			me.svy_grp2.createChild("path")
+				.moveTo(me.SVYoriginX, height*0.05)
+				.vert(me.SVYheight)
+				.horiz(me.SVYwidth)
+				.moveTo(me.SVYoriginX-me.SVYticksize, height*0.05)
+				.horiz(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX-me.SVYticksize, height*0.05+me.SVYheight*0.5)
+				.horiz(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX-me.SVYticksize, height*0.05+me.SVYheight*0.75)
+				.horiz(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX-me.SVYticksize, height*0.05+me.SVYheight*0.25)
+				.horiz(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX+me.SVYwidth, me.SVYoriginY-me.SVYticksize)
+				.vert(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX+me.SVYwidth*0.5, me.SVYoriginY-me.SVYticksize)
+				.vert(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX+me.SVYwidth*0.75, me.SVYoriginY-me.SVYticksize)
+				.vert(me.SVYticksize*2)
+				.moveTo(me.SVYoriginX+me.SVYwidth*0.25, me.SVYoriginY-me.SVYticksize)
+				.vert(me.SVYticksize*2)
+				.setStrokeLineWidth(w)
+				.setColor(rWhite,gWhite,bWhite,a);
 
 			me.selfSymbolSvy.setTranslation(me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt);
 			me.selfSymbolSvy.setRotation(90*D2R);
@@ -1977,8 +1988,8 @@ var TI = {
 
 			me.textSvyX.setText(textX);
 			me.textSvyY.setText(textY);
-			me.textSvyY.setTranslation(me.SVYoriginX, height*0.05);
-			me.textSvyX.setTranslation(width*0.95, height*0.125+height*0.125*me.SVYsize-height*0.05);
+			me.textSvyY.setTranslation(me.SVYoriginX, height*0.05-w);
+			me.textSvyX.setTranslation(width*0.95, height*0.125+height*0.125*me.SVYsize-height*0.05+me.SVYticksize+w);
 
 			me.svy_grp.update();
 			me.svy_grp.show();
