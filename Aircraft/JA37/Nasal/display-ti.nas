@@ -1196,17 +1196,17 @@ var TI = {
 	        acInstrVolt:      	  "systems/electrical/outputs/ac-instr-voltage",
 	        nav0InRange:      	  "instrumentation/nav[0]/in-range",
 	        fullMenus:            "ja37/displays/show-full-menus",
-	        APLockHeading:    "autopilot/locks/heading",
-	        APTrueHeadingErr: "autopilot/internal/true-heading-error-deg",
-	        APnav0HeadingErr: "autopilot/internal/nav1-heading-error-deg",
-	        APHeadingBug:     "autopilot/settings/heading-bug-deg",
-	        RMWaypointBearing:"autopilot/route-manager/wp/bearing-deg",
-	        RMActive:         "autopilot/route-manager/active",
-	        nav0Heading:      "instrumentation/nav[0]/heading-deg",
-	        ias:              "instrumentation/airspeed-indicator/indicated-speed-kt",
-	        wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
-        	wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
-        	wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
+	        APLockHeading:    	  "autopilot/locks/heading",
+	        APTrueHeadingErr: 	  "autopilot/internal/true-heading-error-deg",
+	        APnav0HeadingErr: 	  "autopilot/internal/nav1-heading-error-deg",
+	        APHeadingBug:     	  "autopilot/settings/heading-bug-deg",
+	        RMWaypointBearing:	  "autopilot/route-manager/wp/bearing-deg",
+	        RMActive:             "autopilot/route-manager/active",
+	        nav0Heading:          "instrumentation/nav[0]/heading-deg",
+	        ias:                  "instrumentation/airspeed-indicator/indicated-speed-kt",
+	        wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
+        	wow1:                 "fdm/jsbsim/gear/unit[1]/WOW",
+        	wow2:                 "fdm/jsbsim/gear/unit[2]/WOW",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -1828,8 +1828,10 @@ var TI = {
 				me.menuButtonSubBox[14].show();
 			}
 
-			me.menuButtonSub[15].setText(me.vertStr(me.interoperability == displays.METRIC?"EGET":"FRND"));
-			me.menuButtonSub[15].show();
+			if (me.showFullMenus == TRUE) {
+				me.menuButtonSub[15].setText(me.vertStr(me.interoperability == displays.METRIC?"EGET":"FRND"));
+				me.menuButtonSub[15].show();
+			}
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 			# radar in attack or fight mode
@@ -2399,13 +2401,6 @@ var TI = {
 		me.fData = FALSE;
 		if (getprop("ja37/sound/terrain-on") == TRUE) {
 			me.fData = TRUE;
-#			if (me.menuMain == 12 or (me.menuTrap == TRUE and me.trapFire == TRUE)) {
-#				me.menuShowMain = FALSE;
-#				me.menuShowFast = FALSE;
-#				me.menuNoSub();
-#				me.menuTrap = TRUE;
-#				me.menuMain = 9;
-#			}
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.alt_ft.getValue()*FT2M < 1000 or getprop("orientation/pitch-deg") > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
@@ -2990,6 +2985,14 @@ var TI = {
 		me.quickOpen = 20;
 	},
 
+	closeTraps: func {
+		me.trapLock  = FALSE;
+		me.trapFire  = FALSE;
+		me.trapMan   = FALSE;
+		me.trapECM   = FALSE;
+		me.trapLand  = FALSE;
+	},
+
 
 	b1: func {
 		if (me.off == TRUE) {
@@ -3026,11 +3029,8 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact lock report
+				me.closeTraps();
 				me.trapLock = TRUE;
-				me.trapFire = FALSE;
-				me.trapMan = FALSE;
-				me.trapECM = FALSE;
-				me.trapLand  = FALSE;
 				me.quickOpen = 10000;
 			}	
 		}
@@ -3048,11 +3048,8 @@ var TI = {
 			
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact fire report
+				me.closeTraps();
 				me.trapFire = TRUE;
-				me.trapMan = FALSE;
-				me.trapECM = FALSE;
-				me.trapLand  = FALSE;
-				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}		
 			if (me.menuMain == MAIN_DISPLAY) {
@@ -3082,12 +3079,9 @@ var TI = {
 				me.showSteers = !me.showSteers;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
-				# tact lock report
+				# tact ecm report
+				me.closeTraps();
 				me.trapECM = TRUE;
-				me.trapLand  = FALSE;
-				me.trapLock = FALSE;
-				me.trapFire = FALSE;
-				me.trapMan = FALSE;
 				me.quickOpen = 10000;
 			}
 			if (me.menuMain == 10) {
@@ -3111,11 +3105,8 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# event report
+				me.closeTraps();
 				me.trapMan = TRUE;
-				me.trapFire = FALSE;
-				me.trapECM = FALSE;
-				me.trapLand  = FALSE;
-				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}	
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
@@ -3148,11 +3139,8 @@ var TI = {
 				me.menuTrap = TRUE;
 			} elsif (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# land report
-				me.trapMan = FALSE;
-				me.trapFire = FALSE;
-				me.trapECM = FALSE;
+				me.closeTraps();
 				me.trapLand  = TRUE;
-				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
