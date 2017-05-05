@@ -24,8 +24,10 @@
         <object-name>pillar_14</object-name>
         <object-name>pillar_15</object-name>
         <object-name>pillar_off</object-name>
-        <object-name>button_contrast</object-name>
-        <object-name>button_brightness</object-name>
+        <object-name>button_brightness_plus</object-name>
+        <object-name>button_brightness_minus</object-name>
+        <object-name>button_position_plus</object-name>
+        <object-name>button_position_minus</object-name>
         <object-name>b1</object-name>
         <object-name>b2</object-name>
         <object-name>b3</object-name>
@@ -78,7 +80,7 @@
 
   	<animation>
         <type>pick</type>
-        <object-name>button_brightness</object-name>
+        <object-name>button_brightness_plus</object-name>
         <visible>true</visible>
         <action>
             <name>brightness</name>
@@ -86,7 +88,29 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>TI.brightness();</script>
+                <script>TI.brightnessP();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>flipperBp</tooltip-id>
+                <label>TI: Brightness</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_brightness_minus</object-name>
+        <visible>true</visible>
+        <action>
+            <name>brightness</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>TI.brightnessM();</script>
             </binding>
         </action>
         <hovered>
@@ -100,7 +124,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>button_contrast</object-name>
+        <object-name>button_position_plus</object-name>
         <visible>true</visible>
         <action>
             <name>position</name>
@@ -110,8 +134,36 @@
                 <command>nasal</command>
                 <script>TI.ti.ownPosition += 0.01;
                         if (TI.ti.ownPosition > 1) {
+                            TI.ti.ownPosition = 1;
+                        }
+                    </script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>flipperCP</tooltip-id>
+                <label>TI: Position</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>button_position_minus</object-name>
+        <visible>true</visible>
+        <action>
+            <name>position</name>
+            <button>0</button>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script><![CDATA[
+                        TI.ti.ownPosition -= 0.01;
+                        if (TI.ti.ownPosition < 0) {
                             TI.ti.ownPosition = 0;
                         }
+                        ]]>
                     </script>
             </binding>
         </action>
@@ -466,8 +518,10 @@
       <object-name>b18</object-name>
       <object-name>b19</object-name>
       <object-name>b20</object-name>
-      <object-name>button_brightness</object-name>
-      <object-name>button_contrast</object-name>
+      <object-name>button_brightness_plus</object-name>
+      <object-name>button_brightness_minus</object-name>
+      <object-name>button_position_plus</object-name>
+      <object-name>button_position_minus</object-name>
       <emission>
        <red>1.0</red> 
        <green>1.0</green> 

@@ -131,8 +131,12 @@ var SVY_ELKA = 0;
 var SVY_RMAX = 1;
 var SVY_MI   = 2;
 
-var brightness = func {
-	bright += 1;
+var brightnessP = func {
+	ti.brightness += 0.25;
+};
+
+var brightnessM = func {
+	ti.brightness -= 0.25;
 };
 
 var bright = 0;
@@ -1284,13 +1288,12 @@ var TI = {
 		#}
 		me.interoperability = me.input.units.getValue();
 
-		if (bright > 0) {
-			bright -= 1;
-			me.brightness -= 0.25;
-			if (me.brightness < 0.25) {
-				me.brightness = 1;
-			}
+		if (me.brightness < 0.25) {
+			me.brightness = 0.25;
+		} elsif (me.brightness > 1) {
+			me.brightness = 1;
 		}
+
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
