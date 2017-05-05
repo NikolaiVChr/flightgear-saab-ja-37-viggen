@@ -8,7 +8,7 @@
 # use Pinto's model
 var (width,height) = (512,512);#341
 
-var gone = 0;
+#var gone = 0;
 
 #var window = canvas.Window.new([width, height],"dialog")
 #                   .set('title', "MI display");
@@ -610,9 +610,9 @@ var MI = {
 	########################################################################################################
 	########################################################################################################
 	loop: func {
-		if ( gone == TRUE) {
-			return;
-		}
+		#if ( gone == TRUE) {
+		#	return;
+		#}
 		if (bright > 0) {
 			bright -= 1;
 			me.brightness -= 0.25;

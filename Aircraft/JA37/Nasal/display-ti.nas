@@ -135,6 +135,10 @@ var MAIN_MISSION_DATA  = 11;
 var MAIN_FAILURES      = 12;
 var MAIN_CONFIGURATION = 13;
 
+var SVY_ELKA = 0;
+var SVY_RMAX = 1;
+var SVY_MI   = 2;
+
 var brightness = func {
 	bright += 1;
 };
@@ -181,10 +185,6 @@ var bGB = 0.75;
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
 
-var fpi_min = 3;
-var fpi_med = 6;
-var fpi_max = 9;
-
 var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was 16)
 var maxMissiles = 6;
 var maxThreats  = 5;
@@ -202,7 +202,7 @@ var circlePos = func (deg, radius) {
 	return [radius*math.cos(deg*D2R),radius*math.sin(deg*D2R)];
 }
 
-# notice the Swedish letter are missing accents {èôé} due to them not being always read correct by Nasal loader.
+# notice the Swedish letter are missing accents {√Ö√ñ√Ñ} due to them not being always read correct by Nasal/Canvas.
 
 var dictSE = {
 	'HORI': {'0': [TRUE, "AV"], '1': [TRUE, "RENS"], '2': [TRUE, "PA"]},
@@ -1095,6 +1095,65 @@ var TI = {
     		.setTranslation(width, 4)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
+
+    	me.rootSVY = root.createChild("group")
+    	    .set("z-index", 1);
+    	me.svy_grp = me.rootSVY.createChild("group");
+    	me.svy_grp2 = me.svy_grp.createChild("group")
+    		.set("z-index", 1);
+    	me.echoesAircraftSvy = [];
+		me.echoesAircraftSvyVector = [];
+		for (var i = 0; i < maxTracks; i += 1) {
+			var grp = me.svy_grp.createChild("group")
+				.set("z-index", maxTracks-i);
+			var vector = grp.createChild("path")
+			  .moveTo(0,  0)
+			  .lineTo(0, -1*MM2TEX)
+			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+		      .setStrokeLineWidth(w);
+			grp.createChild("path")
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .moveTo( 5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 5*MM2TEX, 15*MM2TEX)
+		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+		      .setStrokeLineWidth(w);
+		    append(me.echoesAircraftSvy, grp);
+		    append(me.echoesAircraftSvyVector, vector);
+		}
+		me.selfSymbolSvy = me.svy_grp.createChild("path")
+		      .moveTo(-5*MM2TEX,  15*MM2TEX)
+		      .lineTo( 0,       0*MM2TEX)
+		      .moveTo( 5*MM2TEX,  15*MM2TEX)
+		      .lineTo( 0,       0*MM2TEX)
+		      .moveTo(-5*MM2TEX,  15*MM2TEX)
+		      .lineTo( 5*MM2TEX,  15*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .set("z-index", 10)
+		      .setStrokeLineWidth(w);
+		me.selfVectorSvy = me.svy_grp.createChild("path")
+			  .moveTo(0,  0)
+			  .set("z-index", 10)
+			  .lineTo(1*MM2TEX, 0)
+			  .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+
+		me.textSvyY = me.svy_grp.createChild("text")
+    		.setText("40 KM")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("left-bottom")
+    		.setTranslation(0, 0)
+    		.set("z-index", 7)
+    		.setFontSize(13, 1);
+    	me.textSvyX = me.svy_grp.createChild("text")
+    		.setText("120 KM")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-top")
+    		.setTranslation(0, 0)
+    		.set("z-index", 7)
+    		.setFontSize(13, 1);
 	},
 
 	new: func {
@@ -1176,6 +1235,13 @@ var TI = {
 		ti.trapLock     = FALSE;
 		ti.trapECM      = FALSE;
 
+		# SVY
+		ti.SVYactive    = FALSE;
+		ti.SVYscale     = SVY_ELKA;
+		ti.SVYrmax      = 120;# 15 -120
+		ti.SVYhmax      = 20;# 5, 10, 20 or 40 KM
+		ti.SVYsize      = 2;#size 1-3
+
 		ti.upText = FALSE;
 		ti.logPage = 0;
 		ti.off = FALSE;
@@ -1251,6 +1317,7 @@ var TI = {
 		me.updateMap();
 		me.showMapScale();
 		M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
+		me.updateSVY();# must be before displayRadarTracks and showselfvector
 		me.showSelfVector();
 		me.displayRadarTracks();
 		me.showRunway();
@@ -1262,8 +1329,7 @@ var TI = {
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
 		me.showTargetInfo();#must be after displayRadarTracks
-		me.showBasesNear();
-		
+		me.showBasesNear();		
 
 		settimer(func me.loop(), 0.5);
 	},
@@ -1457,6 +1523,7 @@ var TI = {
 		me.logPage = 0;
 		me.mapCentrum.show();
 		me.rootCenter.show();
+		me.rootSVY.show();
 		me.logRoot.hide();
 		me.navBugs.show();
 		me.bottom_text_grp.show();
@@ -1467,6 +1534,7 @@ var TI = {
 		#
 		# Hide map and its overlays (due to a log page being displayed)
 		#
+		me.rootSVY.hide();
 		me.mapCentrum.hide();
 		me.rootCenter.hide();
 		me.bottom_text_grp.hide();
@@ -1754,6 +1822,34 @@ var TI = {
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
 		}
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
+			# side view configuration
+			me.menuButtonSub[5].setText(me.vertStr(""~me.SVYsize));
+			me.menuButtonSub[5].show();
+			me.menuButtonSubBox[5].show();
+
+			me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"ALLT":"ALL"));
+			me.menuButtonSub[6].show();
+			me.menuButtonSubBox[6].show();
+
+			var skal = nil;
+			if (me.interoperability == displays.METRIC) {
+				skal = me.SVYscale==SVY_ELKA?"ELKA":(me.SVYscale==SVY_MI?"MI":"RMAX");
+			} else {
+				skal = me.SVYscale==SVY_ELKA?"EMAP":(me.SVYscale==SVY_MI?"MI":"RMAX");
+			}
+			me.menuButtonSub[14].setText(me.vertStr(skal));
+			me.menuButtonSub[14].show();
+			me.menuButtonSubBox[14].show();
+
+			me.menuButtonSub[15].setText(me.vertStr(sprintf("%d", me.SVYrmax*1000*M2NM)));
+			me.menuButtonSub[15].show();
+			me.menuButtonSubBox[15].show();
+
+			me.menuButtonSub[16].setText(me.vertStr(sprintf("%d", me.SVYhmax*M2FT)));
+			me.menuButtonSub[16].show();
+			me.menuButtonSubBox[16].show();
+		}
 	},
 
 	menuNoSub: func {
@@ -1786,11 +1882,7 @@ var TI = {
 	showSVY: func {
 		# side view
 		if (!me.active) return;
-		me.menuMain = MAIN_CONFIGURATION;
-		me.menuNoSub();			
-		me.menuSvy = TRUE;
-		me.menuShowMain = TRUE;
-		me.menuShowFast = TRUE;
+		me.SVYactive = !me.SVYactive;
 	},
 
 	showECM: func {
@@ -1857,7 +1949,50 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 
-	
+	updateSVY: func {
+		# update and display side view
+		if (me.SVYactive == TRUE) {
+			me.svy_grp2.removeAllChildren();
+			me.svy_grp2.createChild("path")
+				.moveTo(width*0.05, height*0.05)
+				.vert(height*0.125*me.SVYsize-height*0.10)
+				.horiz(width*0.90)
+				.setStrokeLineWidth(w)
+				.setColor(rWhite,gWhite,bWhite,a);
+
+			me.SVYoriginX = width*0.05;
+			me.SVYoriginY = height*0.125*me.SVYsize-height*0.05;
+			me.SVYwidth   = width*0.90;
+			me.SVYheight  = height*0.125*me.SVYsize-height*0.10;
+			me.SVYalt     = me.SVYhmax*1000;#meter
+			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?me.SVYrmax*1000:me.SVYwidth/M2TEX);#meter
+
+			me.selfSymbolSvy.setTranslation(me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt);
+			me.selfSymbolSvy.setRotation(90*D2R);
+			me.selfVectorSvy.setTranslation(me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt);
+			#me.selfVectorSvy.setRotation(90*D2R);
+
+			var textX = "";
+
+			if (me.interoperability == displays.METRIC) {
+				textX = sprintf("%d KM " ,me.SVYrange*0.001);
+				textY = sprintf("%d KM" ,me.SVYhmax);
+			} else {
+				textX = sprintf("%d NM " ,me.SVYrange*M2NM);
+				textY = sprintf("%dK FT" ,me.SVYhmax*M2FT);
+			}
+
+			me.textSvyX.setText(textX);
+			me.textSvyY.setText(textY);
+			me.textSvyY.setTranslation(me.SVYoriginX, height*0.05);
+			me.textSvyX.setTranslation(width*0.95, height*0.125*me.SVYsize-height*0.05);
+
+			me.svy_grp.update();
+			me.svy_grp.show();
+		} else {
+			me.svy_grp.hide();
+		}
+	},
 
 	updateBasesNear: func {
 		if (me.basesEnabled == TRUE) {
@@ -2301,9 +2436,11 @@ var TI = {
 
 	showBottomText: func {
 		#clip is in canvas coordinates
-		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
+		me.clip2 = (me.SVYactive*height*0.125*me.SVYsize)~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
 		me.rootCenter.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		me.mapCentrum.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+		me.clip3 = 0~"px, "~width~"px, "~(me.SVYactive*height*0.125*me.SVYsize)~"px, "~0~"px";
+		me.svy_grp.set("clip", "rect("~me.clip3~")");#top,right,bottom,left
 		me.bottom_text_grp.setTranslation(0,-height*0.025*me.upText);
 		me.textBArmType.setText(displays.common.currArmNameSh);
 		me.ammo = armament.ammoCount(me.input.station.getValue());
@@ -2503,9 +2640,9 @@ var TI = {
 	displayRadarTracks: func () {
 
 	  	var mode = canvas_HUD.mode;
-		me.threatIndex = -1;
+		me.threatIndex  = -1;
 		me.missileIndex = -1;
-	    me.track_index = 1;
+	    me.track_index  = 1;
 	    me.isGPS = FALSE;
 	    me.selection_updated = FALSE;
 	    me.tgt_dist = 1000000;
@@ -2528,6 +2665,7 @@ var TI = {
 				#hide the the rest unused echoes
 				for(var i = me.track_index; i < maxTracks ; i+=1) {
 			  		me.echoesAircraft[i].hide();
+			  		me.echoesAircraftSvy[i].hide();
 				}
 			}
 			if(me.threatIndex < maxThreats-1) {
@@ -2544,6 +2682,9 @@ var TI = {
 			}
 			if(me.selection_updated == FALSE) {
 				me.echoesAircraft[0].hide();
+				if (me.SVYactive == TRUE) {
+					me.echoesAircraftSvy[0].hide();
+				}
 				me.tgt_dist = nil;
 	          	me.tgt_alt  = nil;
 			} else {
@@ -2587,6 +2728,7 @@ var TI = {
 		    	me.gpsSymbol.show();
 		    	me.isGPS = TRUE;
 		    	me.echoesAircraft[me.currentIndexT].hide();
+		    	me.echoesAircraftSvy[me.currentIndexT].hide();
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 			    if (me.tgtHeading != nil) {
@@ -2601,6 +2743,27 @@ var TI = {
 		    	}
 				me.echoesAircraft[me.currentIndexT].show();
 				me.echoesAircraft[me.currentIndexT].update();
+				if (me.SVYactive == TRUE) {
+					me.altsvy  = contact.get_altitude()*FT2M;
+					me.distsvy = contact.get_Coord().distance_to(geo.aircraft_position());
+					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange, me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt);
+				    if (me.tgtHeading != nil) {
+				        me.relHeading = me.tgtHeading - me.myHeading;
+				        #me.relHeading -= 180;
+				        var rot = 90;
+				        if (math.abs(geo.normdeg180(me.relHeading)) > 90) {
+				        	rot = -90;
+				        }
+				        me.echoesAircraftSvy[me.currentIndexT].setRotation(rot * D2R);
+				    }
+				    if (me.tgtSpeed != nil) {
+				    	me.echoesAircraftSvyVector[me.currentIndexT].setScale(1, clamp(((me.tgtSpeed/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX));
+			    	} else {
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setScale(1, 1);
+			    	}
+					me.echoesAircraftSvy[me.currentIndexT].show();
+					me.echoesAircraftSvy[me.currentIndexT].update();
+				}
 			} else {
 				if (me.missileIndex < maxMissiles-1) {
 					me.missileIndex += 1;
@@ -2619,6 +2782,7 @@ var TI = {
 			    	me.missiles[me.missileIndex].update();
 			    }
 				me.echoesAircraft[me.currentIndexT].hide();
+				me.echoesAircraftSvy[me.currentIndexT].hide();
 			}
 			if(me.currentIndexT != 0) {
 				me.track_index += 1;
@@ -2648,6 +2812,9 @@ var TI = {
 		# length = time to travel in 60 seconds.
 		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
 		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
+		if (me.SVYactive == TRUE) {
+			me.selfVectorSvy.setScale(clamp(((spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
+		}
 		if (me.GPSinit == TRUE) {
 			me.selfSymbol.hide();
 			me.selfSymbolGPS.show()
@@ -2895,6 +3062,11 @@ var TI = {
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == FALSE and me.menuGPS == FALSE) {
 				# side view
 				me.menuSvy = TRUE;
+			} elsif (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
+				me.SVYsize += 1;
+				if (me.SVYsize > 3) {
+					me.SVYsize = 1;
+				}
 			}
 		}
 	},
@@ -3087,6 +3259,16 @@ var TI = {
 					  radar_logic.selection = contact;
 				}
 			}
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
+				# svy scale
+				if (me.SVYscale == SVY_ELKA) {
+					me.SVYscale = SVY_RMAX;
+				} elsif (me.SVYscale == SVY_RMAX) {
+					me.SVYscale = SVY_MI;
+				} elsif (me.SVYscale == SVY_MI) {
+					me.SVYscale = SVY_ELKA;
+				}
+			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				# GPS settings
 				me.menuGPS = TRUE;
@@ -3117,6 +3299,12 @@ var TI = {
 					radar_logic.selection = nil;
 				}
 			}
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
+				me.SVYrmax *= 2;
+				if (me.SVYrmax > 120) {
+					me.SVYrmax = 15;
+				}
+			}
 		}
 	},
 
@@ -3131,6 +3319,12 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				me.displayTime = !me.displayTime;
+			}
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
+				me.SVYhmax *= 2;
+				if (me.SVYhmax > 40) {
+					me.SVYhmax = 5;
+				}
 			}
 		}
 	},
