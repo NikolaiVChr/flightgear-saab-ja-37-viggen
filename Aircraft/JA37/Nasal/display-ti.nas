@@ -1150,7 +1150,7 @@ var TI = {
     	me.textSvyX = me.svy_grp.createChild("text")
     		.setText("120 KM")
     		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("center-top")
+    		.setAlignment("right-top")
     		.setTranslation(0, 0)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
@@ -1975,10 +1975,10 @@ var TI = {
 			var textX = "";
 
 			if (me.interoperability == displays.METRIC) {
-				textX = sprintf("%d KM " ,me.SVYrange*0.001);
+				textX = sprintf("%d KM" ,me.SVYrange*0.001);
 				textY = sprintf("%d KM" ,me.SVYhmax);
 			} else {
-				textX = sprintf("%d NM " ,me.SVYrange*M2NM);
+				textX = sprintf("%d NM" ,me.SVYrange*M2NM);
 				textY = sprintf("%dK FT" ,me.SVYhmax*M2FT);
 			}
 
