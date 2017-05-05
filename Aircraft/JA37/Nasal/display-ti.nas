@@ -211,7 +211,7 @@ var dictSE = {
 	 		'1': [TRUE, "SLACK"], '2': [TRUE, "DL"], '4': [TRUE, "B"], '5': [TRUE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
 	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "APOL"], '17': [FALSE, "LA"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
-	 		'2': [TRUE, "INLA"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [FALSE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
+	 		'2': [TRUE, "INLA"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [TRUE, "SATT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
 	 		'17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "FO"], '13': [TRUE, "KONF"],
 			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"],
@@ -238,7 +238,7 @@ var dictEN = {
 	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [TRUE, "POLY"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
 	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "APOL"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [FALSE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
+	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [FALSE, "AAA"], '16': [TRUE, "TIME"],
@@ -1204,6 +1204,9 @@ var TI = {
 	        RMActive:         "autopilot/route-manager/active",
 	        nav0Heading:      "instrumentation/nav[0]/heading-deg",
 	        ias:              "instrumentation/airspeed-indicator/indicated-speed-kt",
+	        wow0:             "fdm/jsbsim/gear/unit[0]/WOW",
+        	wow1:             "fdm/jsbsim/gear/unit[1]/WOW",
+        	wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -1232,6 +1235,7 @@ var TI = {
 		ti.trapMan      = FALSE;
 		ti.trapLock     = FALSE;
 		ti.trapECM      = FALSE;
+		ti.trapLand     = FALSE;
 
 		# SVY
 		ti.SVYactive    = FALSE;
@@ -1259,6 +1263,7 @@ var TI = {
 		ti.basesEnabled = FALSE;
 		ti.logEvents  = events.LogBuffer.new(echo: 0);#compatible with older FG?		
 		ti.logBIT     = events.LogBuffer.new(echo: 0);#compatible with older FG?
+		ti.logLand    = events.LogBuffer.new(echo: 0);#compatible with older FG?
 		ti.BITon = FALSE;
 		ti.BITtime = 0;
 		ti.BITok1 = FALSE;
@@ -1269,6 +1274,7 @@ var TI = {
 		ti.showSAMs = TRUE;
 		ti.newFails = FALSE;
 		ti.lastFailBlink = TRUE;
+		ti.landed = TRUE;
 
 		ti.startFailListener();
 
@@ -1348,6 +1354,7 @@ var TI = {
 		}
 		me.updateFlightData();
 		me.showHeadingBug();
+		me.testLanding();
 
 		settimer(func me.loopFast(), 0.05);
 	},
@@ -1440,6 +1447,18 @@ var TI = {
 					call(func {
 						var buffer = radar_logic.lockLog.get_buffer();
 						var str = "       Lock log:\n";
+		    			foreach(entry; buffer) {
+		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+		    			}
+						me.errorList.setText(str);
+					});
+					me.clipLogPage();
+				} elsif (me.trapLand == TRUE) {
+					me.hideMap();
+					me.logRoot.show();
+					call(func {
+						var buffer = me.logLand.get_buffer();
+						var str = "       Landing log:\n";
 		    			foreach(entry; buffer) {
 		      				str = str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
@@ -1694,6 +1713,9 @@ var TI = {
 			if (me.menuTrap == TRUE and me.trapMan == TRUE) {
 				me.menuButtonBox[5].show();
 			}
+			if (me.menuTrap == TRUE and me.trapLand == TRUE) {
+				me.menuButtonBox[6].show();
+			}
 			if (me.showSteerPoly == TRUE and me.menuTrap == FALSE) {
 				me.menuButtonBox[5].show();
 			}
@@ -1873,9 +1895,10 @@ var TI = {
 		me.menuSvy  = FALSE;
 		me.menuGPS  = FALSE;
 		me.trapFire = FALSE;
-		me.trapMan = FALSE;
+		me.trapMan  = FALSE;
 		me.trapLock = FALSE;
 		me.trapECM  = FALSE;
+		me.trapLand = FALSE;
 	},
 
 
@@ -1954,6 +1977,16 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+	testLanding: func {
+		var wow = me.input.wow0.getValue() and me.input.wow0.getValue() and me.input.wow0.getValue();
+		if (me.landed == FALSE and wow == TRUE) {
+			me.logLand.push("Has landed.");
+			me.landed = TRUE;
+		} elsif (wow == FALSE) {
+			me.landed = FALSE;
+		}
+	},
 
 	updateSVY: func {
 		# update and display side view
@@ -2997,6 +3030,7 @@ var TI = {
 				me.trapFire = FALSE;
 				me.trapMan = FALSE;
 				me.trapECM = FALSE;
+				me.trapLand  = FALSE;
 				me.quickOpen = 10000;
 			}	
 		}
@@ -3017,6 +3051,7 @@ var TI = {
 				me.trapFire = TRUE;
 				me.trapMan = FALSE;
 				me.trapECM = FALSE;
+				me.trapLand  = FALSE;
 				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}		
@@ -3049,6 +3084,7 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact lock report
 				me.trapECM = TRUE;
+				me.trapLand  = FALSE;
 				me.trapLock = FALSE;
 				me.trapFire = FALSE;
 				me.trapMan = FALSE;
@@ -3078,6 +3114,7 @@ var TI = {
 				me.trapMan = TRUE;
 				me.trapFire = FALSE;
 				me.trapECM = FALSE;
+				me.trapLand  = FALSE;
 				me.trapLock = FALSE;
 				me.quickOpen = 10000;
 			}	
@@ -3109,6 +3146,14 @@ var TI = {
 				# tactical report
 				me.quickOpen = 20;
 				me.menuTrap = TRUE;
+			} elsif (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
+				# land report
+				me.trapMan = FALSE;
+				me.trapFire = FALSE;
+				me.trapECM = FALSE;
+				me.trapLand  = TRUE;
+				me.trapLock = FALSE;
+				me.quickOpen = 10000;
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# change zoom
@@ -3266,6 +3311,7 @@ var TI = {
 				armament.fireLog.clear();
 				me.logEvents.clear();
 				me.logBIT.clear();
+				me.logLand.clear();
 				radar_logic.lockLog.clear();
 				armament.ecmLog.clear();
 			}
@@ -3393,7 +3439,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
+			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand  == TRUE)) {
 				me.logPage += 1;
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
@@ -3427,7 +3473,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE)) {
+			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand == TRUE)) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
 					me.logPage = 0;

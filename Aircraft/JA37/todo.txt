@@ -111,7 +111,6 @@ TI: Edit route.
 TI: Change runway symbol.
 TI: Show/edit bullseye.
 TI: Show fligthtime in menu UD-UT.
-TI: More TRAP logs.
 TI: Selects self.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
