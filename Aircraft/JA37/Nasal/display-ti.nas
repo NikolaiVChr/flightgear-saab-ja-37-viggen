@@ -132,10 +132,12 @@ var SVY_RMAX = 1;
 var SVY_MI   = 2;
 
 var brightnessP = func {
+	if (ti.active == FALSE) return;
 	ti.brightness += 0.25;
 };
 
 var brightnessM = func {
+	if (ti.active == FALSE) return;
 	ti.brightness -= 0.25;
 };
 

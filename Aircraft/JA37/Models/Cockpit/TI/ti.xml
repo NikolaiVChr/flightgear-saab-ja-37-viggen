@@ -132,11 +132,13 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>TI.ti.ownPosition += 0.01;
-                        if (TI.ti.ownPosition > 1) {
-                            TI.ti.ownPosition = 1;
-                        }
-                    </script>
+                <script>
+                    if (TI.ti.active == 0) return;
+                    TI.ti.ownPosition += 0.01;
+                    if (TI.ti.ownPosition > 1) {
+                        TI.ti.ownPosition = 1;
+                    }
+                </script>
             </binding>
         </action>
         <hovered>
@@ -159,12 +161,13 @@
             <binding>
                 <command>nasal</command>
                 <script><![CDATA[
-                        TI.ti.ownPosition -= 0.01;
-                        if (TI.ti.ownPosition < 0) {
-                            TI.ti.ownPosition = 0;
-                        }
-                        ]]>
-                    </script>
+                    if (TI.ti.active == 0) return;
+                    TI.ti.ownPosition -= 0.01;
+                    if (TI.ti.ownPosition < 0) {
+                        TI.ti.ownPosition = 0;
+                    }
+                    ]]>
+                </script>
             </binding>
         </action>
         <hovered>

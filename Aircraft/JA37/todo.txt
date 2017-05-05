@@ -113,7 +113,6 @@ TI: Show/edit bullseye.
 TI: Show fligthtime in menu UD-UT.
 TI: More TRAP logs.
 TI: Selects self.
-TI: Brightness and position buttons should do nothing when not active.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
 TI: Add missiles to SVY.
@@ -122,8 +121,8 @@ MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
 MI: Improve BIT test. [X1]
-MI: Make to switch off link rb99. [X2]
-MI: Make TNF to stop/start intial nav.
+MI: Transfer link rb99 to TI. [X2]
+MI: Make TNF to stop/start inertial nav.
 MI: NEZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
