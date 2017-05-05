@@ -1955,15 +1955,15 @@ var TI = {
 			me.svy_grp2.removeAllChildren();
 			me.svy_grp2.createChild("path")
 				.moveTo(width*0.05, height*0.05)
-				.vert(height*0.125*me.SVYsize-height*0.10)
+				.vert(height*0.125+height*0.125*me.SVYsize-height*0.10)
 				.horiz(width*0.90)
 				.setStrokeLineWidth(w)
 				.setColor(rWhite,gWhite,bWhite,a);
 
 			me.SVYoriginX = width*0.05;
-			me.SVYoriginY = height*0.125*me.SVYsize-height*0.05;
+			me.SVYoriginY = height*0.125+height*0.125*me.SVYsize-height*0.05;
 			me.SVYwidth   = width*0.90;
-			me.SVYheight  = height*0.125*me.SVYsize-height*0.10;
+			me.SVYheight  = height*0.125+height*0.125*me.SVYsize-height*0.10;
 			me.SVYalt     = me.SVYhmax*1000;#meter
 			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?me.SVYrmax*1000:me.SVYwidth/M2TEX);#meter
 
@@ -1985,7 +1985,7 @@ var TI = {
 			me.textSvyX.setText(textX);
 			me.textSvyY.setText(textY);
 			me.textSvyY.setTranslation(me.SVYoriginX, height*0.05);
-			me.textSvyX.setTranslation(width*0.95, height*0.125*me.SVYsize-height*0.05);
+			me.textSvyX.setTranslation(width*0.95, height*0.125+height*0.125*me.SVYsize-height*0.05);
 
 			me.svy_grp.update();
 			me.svy_grp.show();
@@ -2436,10 +2436,10 @@ var TI = {
 
 	showBottomText: func {
 		#clip is in canvas coordinates
-		me.clip2 = (me.SVYactive*height*0.125*me.SVYsize)~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
+		me.clip2 = (me.SVYactive*height*0.125+me.SVYactive*height*0.125*me.SVYsize)~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
 		me.rootCenter.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		me.mapCentrum.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
-		me.clip3 = 0~"px, "~width~"px, "~(me.SVYactive*height*0.125*me.SVYsize)~"px, "~0~"px";
+		me.clip3 = 0~"px, "~width~"px, "~(me.SVYactive*height*0.125+me.SVYactive*height*0.125*me.SVYsize)~"px, "~0~"px";
 		me.svy_grp.set("clip", "rect("~me.clip3~")");#top,right,bottom,left
 		me.bottom_text_grp.setTranslation(0,-height*0.025*me.upText);
 		me.textBArmType.setText(displays.common.currArmNameSh);
