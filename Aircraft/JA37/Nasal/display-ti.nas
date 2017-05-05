@@ -1267,10 +1267,19 @@ var TI = {
 		ti.BITok4 = FALSE;
 		ti.active = TRUE;
 		ti.showSAMs = TRUE;
+		ti.newFails = FALSE;
+		ti.lastFailBlink = TRUE;
+
+		ti.startFailListener();
 
       	return ti;
 	},
 
+
+	startFailListener: func {
+		#this will run entire session, so no need to unsubscribe.
+		FailureMgr.events["trigger-fired"].subscribe(func {call(func{me.newFails = 1}, nil, me, me)});
+	},
 
 
 	########################################################################################################
@@ -1464,6 +1473,7 @@ var TI = {
 	    			}
 					me.errorList.setText(str);
 				});
+				me.newFails = FALSE;
 				me.clipLogPage();
 			} else {
 				me.showMap();
@@ -1544,7 +1554,12 @@ var TI = {
 		# Update the display of the main menus
 		#
 		for(var i = MAIN_WEAPONS; i <= MAIN_CONFIGURATION; i+=1) {
-			me.menuButton[i].setText(me.compileMainMenu(i));
+			if (i != MAIN_FAILURES or me.menuMain == MAIN_WEAPONS or me.newFails == FALSE or me.lastFailBlink == FALSE) {
+				me.menuButton[i].setText(me.compileMainMenu(i));
+			} else {
+				# blink failure menu
+				me.menuButton[i].setText("");
+			}
 			if (me.menuMain == MAIN_WEAPONS) {
 				me.updateMainMenuTextWeapons(i);
 			} else {
@@ -1555,6 +1570,7 @@ var TI = {
 				}
 			}
 		}
+		me.lastFailBlink = !me.lastFailBlink;
 		if (me.menuMain == MAIN_WEAPONS) {
 			if (me.input.station.getValue() == 5) {
 				me.menuButtonBox[8].show();

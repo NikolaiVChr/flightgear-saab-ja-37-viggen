@@ -2864,3 +2864,5 @@ TI: Refinement of SVY axises.
 TI: Divided flipper buttons into 2 parts.
 Radar: Renamed GPS Target to GPS Location.
 TI: Brightness and position flipper buttons now do nothing when display is off.
+TI: FAIL menu item will now blink if new failures has occured.
+MI: Failure will now show on the display if there are new failures.

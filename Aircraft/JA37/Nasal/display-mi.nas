@@ -883,11 +883,13 @@ var MI = {
 	},
 
     showTgtName: func {
-  	  	if (me.input.tracks_enabled.getValue() == TRUE) {
+    	if (TI.ti.newFails == TRUE) {
+    		me.diamond_name.setText(me.interoperability == displays.METRIC?"FÖ":"Failure");
+  	  	} elsif (me.input.tracks_enabled.getValue() == TRUE) {
   			me.diamond_name.setText(me.tgt_callsign);
   		} else {
   			# radar is off, so silent mode
-  			me.diamond_name.setText("..Silent..");
+  			me.diamond_name.setText(me.interoperability == displays.METRIC?"..TYST..":"..Silent..");
   		}
     },
 
