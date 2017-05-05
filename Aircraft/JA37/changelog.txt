@@ -2861,3 +2861,4 @@ TI: Implemented the SIDV/SVY view. Use button 2 on MI to show it.
 4.102
 =====
 TI: Refinement of SVY axises.
+TI: Divided flipper buttons into 2 parts.
