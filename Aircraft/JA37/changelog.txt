@@ -2846,7 +2846,7 @@ Effect: Fixed floodlight does not work with hudRestPlaque.
 Model: Made tooltip for airspeed indicator show indicated, not true airspeed.
 GUI: {Swamp} Nice new splash for JA.
 
-4.101
+4.101 - 2017 May 5
 =====
 TI: Prettyfied some code.
 MI: Enabled mipmapping.
@@ -2856,4 +2856,4 @@ TI: More authentic presentation of 2 menu items in display menu.
 TI: Moved clock a bit inwards.
 TI: Made some code easier to read and maintain.
 TI: Made menu item in display able to switch off threat circles.
-TI: Implemented the SIDE/SVY view. Use button 2 on MI to show it.
+TI: Implemented the SIDV/SVY view. Use button 2 on MI to show it.
