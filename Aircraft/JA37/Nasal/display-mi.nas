@@ -1,11 +1,3 @@
-# todo:
-# servicable, indicated
-# power supply, on off, brightness (emmision)
-# heading bug?
-# steerpoint symbols: #
-# nez indicator
-# full OOP
-# use Pinto's model
 var (width,height) = (512,512);#341
 
 #var gone = 0;

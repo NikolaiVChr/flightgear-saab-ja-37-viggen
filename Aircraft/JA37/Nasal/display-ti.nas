@@ -1,12 +1,4 @@
-# todo:
-# servicable, indicated
-# buttons functions
-# geo grid
-# radar echoes types
-# runway proper styles
-# steerpoint symbols: # ?
-# full OOP
-# use Pinto's model
+
 var (width,height) = (381,512);#381.315
 
 
@@ -1973,6 +1965,7 @@ var TI = {
 			#me.selfVectorSvy.setRotation(90*D2R);
 
 			var textX = "";
+			var textY = "";
 
 			if (me.interoperability == displays.METRIC) {
 				textX = sprintf("%d KM" ,me.SVYrange*0.001);

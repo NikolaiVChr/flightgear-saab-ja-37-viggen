@@ -124,6 +124,7 @@ MI: Improve mark event [X3]
 MI: Improve BIT test. [X1]
 MI: Make to switch off link rb99. [X2]
 MI: Make TNF to stop/start intial nav.
+MI: NEZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
 

@@ -225,6 +225,11 @@
       The selected radar echo will be shown a '+' on the radar screen.
       Mouse middle clicking on altimeter setting knobs, will reset to standard pressure.
 
+      Displays
+      ________
+      MI: (center display), press button P3 for help.
+      TI: (right display), switching away from interoperability mode will show menus in Swedish.
+
       HUD info
       ________
       The HUD uses Km/h and meters, but this can be switched to imperial with 'I'.
