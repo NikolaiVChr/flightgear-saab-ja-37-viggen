@@ -2858,7 +2858,7 @@ TI: Made some code easier to read and maintain.
 TI: Made menu item in display able to switch off threat circles.
 TI: Implemented the SIDV/SVY view. Use button 2 on MI to show it.
 
-4.102
+4.102 - 2017 May 6
 =====
 TI: Refinement of SVY axises.
 TI: Divided flipper buttons into 2 parts.
