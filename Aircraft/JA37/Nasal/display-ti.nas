@@ -14,7 +14,7 @@ var TRUE = 1;
 #  print("Cleaning up window:","TI","\n");
   #update_timer.stop();
 #  gone = TRUE;
-# explanation for the call() technique at: http://wiki.flightgear.org/Object_oriented_programming_in_Nasal#Making_safer_base-class_calls
+# 
 #  call(canvas.Window.del, [], me);
 #};
 #var root = window.getCanvas(1).createGroup();
@@ -22,11 +22,11 @@ var mycanvas = nil;
 var root = nil;
 var setupCanvas = func {
 	mycanvas = canvas.new({
-	  "name": "TI",   # The name is optional but allow for easier identification
-	  "size": [height, height], # Size of the underlying texture (should be a power of 2, required) [Resolution]
-	  "view": [height, height],  # Virtual resolution (Defines the coordinate system of the canvas [Dimensions]
-	                        # which will be stretched the size of the texture, required)
-	  "mipmapping": 0       # Enable mipmapping (optional)
+	  "name": "TI",   
+	  "size": [height, height], 
+	  "view": [height, height], 
+	                       
+	  "mipmapping": 0       
 	});
 	root = mycanvas.createGroup();
 	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
@@ -1677,47 +1677,46 @@ var TI = {
 			me.menuButtonBox[14].show();
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
-			if (me.menuTrap == FALSE and me.dataLink == TRUE) {
-				me.menuButtonBox[2].show();
-			}
-			if (me.menuTrap == FALSE and me.showSteers == TRUE) {
-				me.menuButtonBox[4].show();
-			}
-			if (me.menuTrap == FALSE and me.ModeAttack == FALSE) {
-				me.menuButtonBox[14].show();
-			}
-			if (me.menuTrap == FALSE and me.showFullMenus == TRUE) {
-				if (land.mode < 3 and land.mode > 0) {
-					# landing before descent
-					me.menuButtonBox[19].show();
-				} elsif (land.mode > 2) {
-					# landing descent
-					me.menuButtonBox[18].show();
-				} elsif (me.input.currentMode.getValue() == displays.LANDING) {
-					# generic landing mode
-					me.menuButtonBox[20].show();
-				} elsif (me.showSteers == TRUE and me.input.rmActive.getValue() == TRUE) {
-					# following route
-					me.menuButtonBox[17].show();
+			if (me.menuTrap == FALSE) {
+				if (me.dataLink == TRUE) {
+					me.menuButtonBox[2].show();
 				}
-			}
-			if (me.menuTrap == TRUE and me.trapLock == TRUE) {
-				me.menuButtonBox[2].show();
-			}
-			if (me.menuTrap == TRUE and me.trapFire == TRUE) {
-				me.menuButtonBox[3].show();
-			}
-			if (me.menuTrap == TRUE and me.trapECM == TRUE) {
-				me.menuButtonBox[4].show();
-			}
-			if (me.menuTrap == TRUE and me.trapMan == TRUE) {
-				me.menuButtonBox[5].show();
-			}
-			if (me.menuTrap == TRUE and me.trapLand == TRUE) {
-				me.menuButtonBox[6].show();
-			}
-			if (me.showSteerPoly == TRUE and me.menuTrap == FALSE) {
-				me.menuButtonBox[5].show();
+				if (me.showSteers == TRUE) {
+					me.menuButtonBox[4].show();
+				}
+				if (me.ModeAttack == FALSE) {
+					me.menuButtonBox[14].show();
+				}
+				if (me.showFullMenus == TRUE) {
+					if (land.mode < 3 and land.mode > 0) {
+						# landing before descent
+						me.menuButtonBox[19].show();
+					} elsif (land.mode > 2) {
+						# landing descent
+						me.menuButtonBox[18].show();
+					} elsif (me.input.currentMode.getValue() == displays.LANDING) {
+						# generic landing mode
+						me.menuButtonBox[20].show();
+					} elsif (me.showSteers == TRUE and me.input.rmActive.getValue() == TRUE) {
+						# following route
+						me.menuButtonBox[17].show();
+					}
+				}
+				if (me.showSteerPoly == TRUE) {
+					me.menuButtonBox[5].show();
+				}
+			} else {
+				if (me.trapLock == TRUE) {
+					me.menuButtonBox[2].show();
+				} elsif (me.trapFire == TRUE) {
+					me.menuButtonBox[3].show();
+				} elsif (me.trapECM == TRUE) {
+					me.menuButtonBox[4].show();
+				} elsif (me.trapMan == TRUE) {
+					me.menuButtonBox[5].show();
+				} elsif (me.trapLand == TRUE) {
+					me.menuButtonBox[6].show();
+				}			
 			}
 		}
 		if (me.menuMain == MAIN_DISPLAY) {
@@ -1821,13 +1820,14 @@ var TI = {
 				me.menuButtonSubBox[4].show();
 			}
 
-			# airports overlay
+			# threat overlay
 			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"FI":"HSTL"));
 			me.menuButtonSub[14].show();
 			if (me.showSAMs == TRUE) {
 				me.menuButtonSubBox[14].show();
 			}
 
+			# friendly AAA
 			if (me.showFullMenus == TRUE) {
 				me.menuButtonSub[15].setText(me.vertStr(me.interoperability == displays.METRIC?"EGET":"FRND"));
 				me.menuButtonSub[15].show();
@@ -2003,6 +2003,7 @@ var TI = {
 			me.SVYrange   = me.SVYscale==SVY_MI?me.input.radarRange.getValue():(me.SVYscale==SVY_RMAX?me.SVYrmax*1000:me.SVYwidth/M2TEX);#meter
 			me.SVYticksize= width*0.01;#texel
 
+			# not the most efficient code..
 			me.svy_grp2.createChild("path")
 				.moveTo(me.SVYoriginX, height*0.05)
 				.vert(me.SVYheight)
@@ -2648,15 +2649,7 @@ var TI = {
 		  }
 
 		  if (land.show_runway_line == TRUE) {
-		    # 10 20 20 40 Km long line, depending on radar setting, as per AJ manual.
 		    me.runway_l = land.line*1000;
-		#        if (me.radarRange == 120000 or me.radarRange == 180000) {
-		#          me.runway_l = 40000;
-		#        } elsif (me.radarRange == 60000) {
-		#          me.runway_l = 20000;
-		#        } elsif (me.radarRange == 30000) {
-		#          me.runway_l = 20000;
-		#        }
 		    me.scale = me.runway_l*M2TEX;
 		    me.dest_runway.setScale(1, me.scale);
 		    me.heading = me.input.heading.getValue();#true

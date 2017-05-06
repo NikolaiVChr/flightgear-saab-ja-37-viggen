@@ -110,12 +110,12 @@ TI: Slew cursor.
 TI: Edit route.
 TI: Change runway symbol.
 TI: Show/edit bullseye.
-TI: Show fligthtime in menu UD-UT.
-TI: Selects self.
+TI: Show fligthtime by using controls UD-UT.
+TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
 TI: Add missiles to SVY.
-MI: Show ECM on TI [M2]
+MI: Show ECM on TI [M2].
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
