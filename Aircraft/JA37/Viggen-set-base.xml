@@ -84,6 +84,16 @@
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
+            <path>ja37/faf/friend-1</path>
+            <path>ja37/faf/friend-2</path>
+            <path>ja37/faf/friend-3</path>
+            <path>ja37/faf/friend-4</path>
+            <path>ja37/faf/foe-1</path>
+            <path>ja37/faf/foe-2</path>
+            <path>ja37/faf/foe-3</path>
+            <path>ja37/faf/foe-4</path>
+            <path>ja37/faf/foe-5</path>
+            <path>ja37/faf/foe-6</path>
             <!--<path>sim/model/livery/file</path>-->
         </aircraft-data>
 
@@ -651,16 +661,16 @@
             </kv1>
         </radio>
         <faf>
-            <friend-1 type="string"></friend-1>
-            <friend-2 type="string"></friend-2>
-            <friend-3 type="string"></friend-3>
-            <friend-4 type="string"></friend-4>
-            <foe-1 type="string"></foe-1>
-            <foe-2 type="string"></foe-2>
-            <foe-3 type="string"></foe-3>
-            <foe-4 type="string"></foe-4>
-            <foe-5 type="string"></foe-5>
-            <foe-6 type="string"></foe-6>
+            <friend-1 userarchive="y" type="string"></friend-1>
+            <friend-2 userarchive="y" type="string"></friend-2>
+            <friend-3 userarchive="y" type="string"></friend-3>
+            <friend-4 userarchive="y" type="string"></friend-4>
+            <foe-1 userarchive="y" type="string"></foe-1>
+            <foe-2 userarchive="y" type="string"></foe-2>
+            <foe-3 userarchive="y" type="string"></foe-3>
+            <foe-4 userarchive="y" type="string"></foe-4>
+            <foe-5 userarchive="y" type="string"></foe-5>
+            <foe-6 userarchive="y" type="string"></foe-6>
         </faf>
     </ja37>
     <ai>
