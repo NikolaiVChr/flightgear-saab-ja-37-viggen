@@ -24,7 +24,7 @@
 
         <startup>
             <splash-title>Swedish post coldwar attack aircraft</splash-title>
-            <splash-texture>Aircraft/JA37/GUI/ajs37-splash.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ajs37-splash.png</splash-texture>
         </startup>
 
         <gui>
@@ -46,17 +46,17 @@
 
         <!--<thumbnail>
             <type>panel</type>
-            <name>GUI/thumbnail-panel.jpg</name>
+            <name>gui/thumbnail-panel.jpg</name>
         </thumbnail>
 
         <thumbnail>
             <type>exterior</type>
-            <name>GUI/thumbnail-exterior.jpg</name>
+            <name>gui/thumbnail-exterior.jpg</name>
         </thumbnail>
 
         <thumbnail>
           <type>interior</type>
-          <name>GUI/thumbnail-interior.jpg</name>
+          <name>gui/thumbnail-interior.jpg</name>
         </thumbnail>-->
 
         <model>
@@ -72,7 +72,7 @@
 
         </model>
 
-        <help include="GUI/ajs37-help.xml"/>
+        <help include="gui/ajs37-help.xml"/>
 
 
         <!--**********************************************************************

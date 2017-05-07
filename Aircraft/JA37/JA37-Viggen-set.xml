@@ -22,19 +22,19 @@
 
         <startup>
             <splash-title>Swedish coldwar fighter</splash-title>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-0.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-2.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-3.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-4.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-5.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-6.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-7.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-8.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-9.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-10.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-11.png</splash-texture>
-            <splash-texture>Aircraft/JA37/GUI/ja37-splash-12.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-0.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-2.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-3.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-4.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-5.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-6.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-7.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-8.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-9.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-10.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-11.png</splash-texture>
+            <splash-texture>Aircraft/JA37/gui/ja37-splash-12.png</splash-texture>
             <splash-logo-x-norm>0.5</splash-logo-x-norm>
             <splash-logo-y-norm>0.5</splash-logo-y-norm>
         </startup>
@@ -58,17 +58,17 @@
 
         <!--<preview>
             <type>panel</type>
-            <path>GUI/thumbnail-panel.jpg</path>
+            <path>gui/thumbnail-panel.jpg</path>
         </preview>
 
         <preview>
             <type>exterior</type>
-            <path>GUI/thumbnail-exterior.jpg</path>
+            <path>gui/thumbnail-exterior.jpg</path>
         </preview>-->
 
         <!--<thumbnail>
           <type>interior</type>
-          <name>GUI/thumbnail-interior.jpg</name>
+          <name>gui/thumbnail-interior.jpg</name>
         </thumbnail>-->
 
         <model>
@@ -84,7 +84,7 @@
 
         </model>
 
-        <help include="GUI/ja37-help.xml"/>
+        <help include="gui/ja37-help.xml"/>
 
 
         <!--**********************************************************************
@@ -224,6 +224,14 @@
                                 monitor2.SystemsMonitor.instance().start();
                             </script>
                         </binding>
+                    </item>
+                    <item>
+                      <label>Friends and Foes</label>
+                      <name>faf</name>
+                      <binding>
+                        <command>dialog-show</command>
+                        <dialog-name>faf</dialog-name>
+                      </binding>
                     </item>
                     <item>
                         <label>Toggle external power</label>

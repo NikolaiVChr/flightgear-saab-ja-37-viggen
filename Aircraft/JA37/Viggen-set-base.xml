@@ -412,7 +412,7 @@
         </multiplay>
 
 
-        <checklists include="GUI/viggen-checklists.xml"/>
+        <checklists include="gui/viggen-checklists.xml"/>
 
 
         <!--**********************************************************************
