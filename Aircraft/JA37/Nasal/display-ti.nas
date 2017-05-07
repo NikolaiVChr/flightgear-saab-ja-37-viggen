@@ -2313,8 +2313,8 @@ var TI = {
 		  			me.tgtTextSpd.setText("");
 		  		}
 	  		} else {
-	  			me.tgtSpdAlt.setText("");
-	  			me.tgtTextAlt.setText("");
+	  			me.tgtTextSpd.setText("");
+	  			me.tgtTextHei.setText("");
 	  		}
 			me.tgtTextField.show();
 		} else {
