@@ -2861,10 +2861,13 @@ TI: Implemented the SIDV/SVY view. Use button 2 on MI to show it.
 4.102 - 2017 May 6
 =====
 TI: Refinement of SVY axises.
-TI: Divided flipper buttons into 2 parts.
+TI: Divided rocker buttons into 2 parts.
 Radar: Renamed GPS Target to GPS Location.
-TI: Brightness and position flipper buttons now do nothing when display is off.
+TI: Brightness and position rocker buttons now do nothing when display is off.
 TI: FAIL menu item will now blink if new failures has occured.
 MI: Failure will now show on the display if there are new failures.
 TI: Implemented landing log page.
 Sim: Added saab tag.
+
+4.103
+=====

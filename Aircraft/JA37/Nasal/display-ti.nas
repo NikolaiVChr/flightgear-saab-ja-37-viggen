@@ -184,10 +184,10 @@ var a = 1.0;#alpha
 var w = 1.0;#stroke width
 
 var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was 16)
-var maxMissiles = 6;
-var maxThreats  = 5;
-var maxSteers   =50;
-var maxBases    =50;
+var maxMissiles =  6;
+var maxThreats  =  5;
+var maxSteers   = 50;
+var maxBases    = 50;
 
 var roundabout = func(x) {
   var y = x - int(x);
@@ -1398,7 +1398,6 @@ var TI = {
 				}
 			}
 			if (me.menuShowMain == TRUE) {
-				#me.menuShowFast = TRUE;#figure this out better
 				me.menuMainRoot.show();
 				me.updateMainMenu();
 				me.upText = TRUE;
