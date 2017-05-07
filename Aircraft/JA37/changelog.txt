@@ -2871,3 +2871,7 @@ Sim: Added saab tag.
 
 4.103
 =====
+GUI: Rename of gui folder.
+GUI: Added dialog to define friends and foes.
+TI: Echoes are now color coded according to friendly, boogie, bandit.
+TI: Selection now looks more faithful to manual.
