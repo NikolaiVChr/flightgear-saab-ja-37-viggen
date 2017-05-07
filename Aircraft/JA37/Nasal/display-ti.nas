@@ -200,6 +200,15 @@ var circlePos = func (deg, radius) {
 	return [radius*math.cos(deg*D2R),radius*math.sin(deg*D2R)];
 }
 
+var containsVector = func (vec, item) {
+	foreach(test; vec) {
+		if (test == item) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 # notice the Swedish letter are missing accents {ÅÖÄ} due to them not being always read correct by Nasal/Canvas.
 
 var dictSE = {
@@ -414,7 +423,29 @@ var TI = {
 			.set("z-index", 5);
 		me.echoesAircraft = [];
 		me.echoesAircraftVector = [];
-		for (var i = 0; i < maxTracks; i += 1) {
+		# selection
+		var grp = me.radar_group.createChild("group")
+			.set("z-index", maxTracks-0);
+		var grp2 = grp.createChild("group")
+			.setTranslation(0,-10*MM2TEX);
+		var vector = grp2.createChild("path")
+		  .moveTo(0,  0)
+		  .lineTo(0, -1*MM2TEX)
+		  .setColor(rYellow,gYellow,bYellow, a)
+	      .setStrokeLineWidth(w);
+		grp.createChild("path")
+	       .moveTo(-10, 0)
+           .arcSmallCW(10, 10, 0, 20, 0)
+           .arcSmallCW(10, 10, 0, -20, 0)
+           .moveTo(-5, 5)
+           .arcSmallCW(5, 5, 0, 10, 0)
+           .arcSmallCW(5, 5, 0, -10, 0)
+	       .setColor(rYellow,gYellow,bYellow, a)
+	       .setStrokeLineWidth(w);
+	    append(me.echoesAircraft, grp);
+	    append(me.echoesAircraftVector, vector);
+	    #unselected
+		for (var i = 1; i < maxTracks; i += 1) {
 			var grp = me.radar_group.createChild("group")
 				.set("z-index", maxTracks-i);
 			var grp2 = grp.createChild("group")
@@ -1101,7 +1132,27 @@ var TI = {
     		.set("z-index", 1);
     	me.echoesAircraftSvy = [];
 		me.echoesAircraftSvyVector = [];
-		for (var i = 0; i < maxTracks; i += 1) {
+		var grpS = me.svy_grp.createChild("group")
+			.set("z-index", maxTracks-0);
+		var grpS2 = grpS.createChild("group")
+			.setTranslation(0,-10*MM2TEX);
+		var vectorS = grpS2.createChild("path")
+		  .moveTo(0,  0)
+		  .lineTo(0, -1*MM2TEX)
+		  .setColor(rYellow,gYellow,bYellow, a)
+	      .setStrokeLineWidth(w);
+		grpS.createChild("path")
+	       .moveTo(-10, 0)
+           .arcSmallCW(10, 10, 0, 20, 0)
+           .arcSmallCW(10, 10, 0, -20, 0)
+           .moveTo(-5, 5)
+           .arcSmallCW(5, 5, 0, 10, 0)
+           .arcSmallCW(5, 5, 0, -10, 0)
+	       .setColor(rYellow,gYellow,bYellow, a)
+	       .setStrokeLineWidth(w);
+	    append(me.echoesAircraftSvy, grpS);
+	    append(me.echoesAircraftSvyVector, vectorS);
+		for (var i = 1; i < maxTracks; i += 1) {
 			var grp = me.svy_grp.createChild("group")
 				.set("z-index", maxTracks-i);
 			var vector = grp.createChild("path")
@@ -1275,6 +1326,8 @@ var TI = {
 		ti.newFails = FALSE;
 		ti.lastFailBlink = TRUE;
 		ti.landed = TRUE;
+		ti.foes    = [];
+		ti.friends = [];
 
 		ti.startFailListener();
 
@@ -1331,6 +1384,7 @@ var TI = {
 		M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 		me.updateSVY();# must be before displayRadarTracks and showselfvector
 		me.showSelfVector();
+		me.defineEnemies();# must be before displayRadarTracks
 		me.displayRadarTracks();
 		me.showRunway();
 		me.showRadarLimit();
@@ -2682,6 +2736,11 @@ var TI = {
 		}
 	},
 
+	defineEnemies: func {
+		me.foes    = [getprop("ja37/faf/foe-1"),getprop("ja37/faf/foe-2"),getprop("ja37/faf/foe-3"),getprop("ja37/faf/foe-4"),getprop("ja37/faf/foe-5"),getprop("ja37/faf/foe-6")];
+		me.friends = [getprop("ja37/faf/friend-1"),getprop("ja37/faf/friend-2"),getprop("ja37/faf/friend-3"),getprop("ja37/faf/friend-4")];
+	},
+
 	displayRadarTracks: func () {
 
 	  	var mode = canvas_HUD.mode;
@@ -2768,6 +2827,13 @@ var TI = {
 			me.tgtHeading = contact.get_heading();
 		    me.tgtSpeed = contact.get_Speed();
 		    me.myHeading = me.input.headTrue.getValue();
+		    me.boogie = 0;
+		    if (containsVector(me.friends, contact.get_Callsign())) {
+	    		me.boogie = 1;
+	    	} elsif (containsVector(me.foes, contact.get_Callsign())) {
+	    		me.boogie = -1;
+	    	}
+
 		    if (me.currentIndexT == 0 and contact.parents[0] == radar_logic.ContactGPS) {
 		    	me.gpsSymbol.setTranslation(me.pos_xx, me.pos_yy);
 		    	me.gpsSymbol.show();
@@ -2776,6 +2842,18 @@ var TI = {
 		    	me.echoesAircraftSvy[me.currentIndexT].hide();
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
+
+		    	if (me.boogie == 1) {
+		    		me.echoesAircraft[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+		    		me.echoesAircraftVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+		    	} elsif (me.boogie == -1) {
+		    		me.echoesAircraft[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+		    		me.echoesAircraftVector[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+		    	} else {
+		    		me.echoesAircraft[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+		    		me.echoesAircraftVector[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+		    	}
+
 			    if (me.tgtHeading != nil) {
 			        me.relHeading = me.tgtHeading - me.myHeading;
 			        #me.relHeading -= 180;
@@ -2792,6 +2870,16 @@ var TI = {
 					me.altsvy  = contact.get_altitude()*FT2M;
 					me.distsvy = contact.get_Coord().distance_to(geo.aircraft_position());
 					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange, me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt);
+					if (me.boogie == 1) {
+			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+			    	} elsif (me.boogie == -1) {
+			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+			    	} else {
+			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+			    	}
 				    if (me.tgtHeading != nil) {
 				        me.relHeading = me.tgtHeading - me.myHeading;
 				        #me.relHeading -= 180;
@@ -2838,6 +2926,11 @@ var TI = {
 			if (me.showSAMs == TRUE and contact.get_model() == "missile_frigate" and me.threatIndex < maxThreats-1) {
 				me.threatIndex += 1;
 				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
+				if (me.boogie == 1) {
+		    		me.threats[me.threatIndex].setColor(rGreen,gGreen,bGreen,a);
+		    	} else {
+		    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
+		    	}
 				me.scale = 60*NM2M*M2TEX/100;
 		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
 		      	me.threats[me.threatIndex].setScale(me.scale);
@@ -2845,6 +2938,11 @@ var TI = {
 			} elsif (me.showSAMs == TRUE and contact.get_model() == "buk-m2" and me.threatIndex < maxThreats-1) {
 				me.threatIndex += 1;
 				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
+				if (me.boogie == 1) {
+		    		me.threats[me.threatIndex].setColor(rGreen,gGreen,bGreen,a);
+		    	} else {
+		    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
+		    	}
 				me.scale = 20*NM2M*M2TEX/100;
 		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
 		      	me.threats[me.threatIndex].setScale(me.scale);

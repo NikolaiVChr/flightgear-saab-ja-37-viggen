@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<PropertyList>
+	<name>faf</name>
+  	<modal>false</modal>
+  	<layout>vbox</layout>
+  	<draggable>true</draggable>
+    <resizable>true</resizable>
+    <width>250</width>
+    <height>450</height>
+
+    <group>
+		<layout>hbox</layout>
+		<empty><stretch>1</stretch></empty>
+
+		<text>
+			<label>Friends and Foes</label>
+		</text>
+
+		<empty><stretch>1</stretch></empty>
+
+		<button>
+			<pref-width>16</pref-width>
+			<pref-height>16</pref-height>
+			<legend></legend>
+			<default>1</default>
+			<keynum>27</keynum>
+			<border>2</border>
+			<binding>
+				<command>dialog-close</command>
+			</binding>
+			<binding>
+				<command>dialog-apply</command>
+			</binding>
+		</button>
+	</group>
+
+  	<text>
+	    <label>Callsigns:</label>
+	    <height>25</height>
+	</text>
+
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Friend 1</label>
+	  	<property>ja37/faf/friend-1</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Friend 2</label>
+	  	<property>ja37/faf/friend-2</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Friend 3</label>
+	  	<property>ja37/faf/friend-3</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Friend 4</label>
+	  	<property>ja37/faf/friend-4</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Foe 1</label>
+	  	<property>ja37/faf/foe-1</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Foe 2</label>
+	  	<property>ja37/faf/foe-2</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Foe 3</label>
+	  	<property>ja37/faf/foe-3</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Foe 4</label>
+	  	<property>ja37/faf/foe-4</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Foe 5</label>
+	  	<property>ja37/faf/foe-5</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+	<input>
+	  	<width>250</width>
+	  	<height>25</height>
+	  	<label>Foe 6</label>
+	  	<property>ja37/faf/foe-6</property>
+	  	<live>true</live>
+	  	<halign>left</halign>
+        <binding>
+            <command>dialog-apply</command>
+      	</binding>
+	</input>
+</PropertyList>

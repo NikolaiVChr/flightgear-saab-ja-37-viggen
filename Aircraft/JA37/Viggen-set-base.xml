@@ -650,6 +650,18 @@
                 <switch type="bool">true</switch><!-- set to FM per default -->
             </kv1>
         </radio>
+        <faf>
+            <friend-1 type="string"></friend-1>
+            <friend-2 type="string"></friend-2>
+            <friend-3 type="string"></friend-3>
+            <friend-4 type="string"></friend-4>
+            <foe-1 type="string"></foe-1>
+            <foe-2 type="string"></foe-2>
+            <foe-3 type="string"></foe-3>
+            <foe-4 type="string"></foe-4>
+            <foe-5 type="string"></foe-5>
+            <foe-6 type="string"></foe-6>
+        </faf>
     </ja37>
     <ai>
         <submodels>
