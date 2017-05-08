@@ -1272,6 +1272,7 @@ var TI = {
 	        RMActive:             "autopilot/route-manager/active",
 	        nav0Heading:          "instrumentation/nav[0]/heading-deg",
 	        ias:                  "instrumentation/airspeed-indicator/indicated-speed-kt",
+	        tas:                  "instrumentation/airspeed-indicator/true-speed-kt",
 	        wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
         	wow1:                 "fdm/jsbsim/gear/unit[1]/WOW",
         	wow2:                 "fdm/jsbsim/gear/unit[2]/WOW",
@@ -2970,7 +2971,7 @@ var TI = {
 
 	showSelfVector: func {
 		# length = time to travel in 60 seconds.
-		var spd = getprop("velocities/airspeed-kt");# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
+		var spd = me.input.tas.getValue();# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
 		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 		if (me.SVYactive == TRUE) {
 			me.selfVectorSvy.setScale(clamp(((spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
