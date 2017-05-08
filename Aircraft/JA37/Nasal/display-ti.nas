@@ -285,27 +285,6 @@ var TI = {
 			.setTranslation(width/2,height/2)
 			.set("z-index", 10);
 
-		# own symbol
-		me.selfSymbol = me.rootCenter.createChild("path")
-		      .moveTo(-5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 0,       -10*MM2TEX)
-		      .moveTo( 5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 0,       -10*MM2TEX)
-		      .moveTo(-5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 5*MM2TEX,  5*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
-		      .set("z-index", 10)
-		      .setStrokeLineWidth(w);
-		me.selfSymbolGPS = me.rootCenter.createChild("path")
-		      .moveTo(-5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 0,       -10*MM2TEX)
-		      .lineTo( 5*MM2TEX,  5*MM2TEX)
-		      .lineTo(-5*MM2TEX,  5*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
-		      .setColorFill(rWhite,gWhite,bWhite)
-		      .set("z-index", 10)
-		      .setStrokeLineWidth(w);
-
 		# map scale
 		me.mapScaleTickPosX = width*0.975/2;
 		me.mapScaleTickPosTxtX = width*0.975/2-width*0.025/2;
@@ -416,9 +395,28 @@ var TI = {
 		      .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w)
 		      .set("z-index", 5);
+		
+		# own symbol
+		me.selfSymbol = me.rootCenter.createChild("path")
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .lineTo( 5*MM2TEX, 15*MM2TEX)
+		      .lineTo(-5*MM2TEX, 15*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .set("z-index", 10)
+		      .setStrokeLineWidth(w);
+		me.selfSymbolGPS = me.rootCenter.createChild("path")
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .lineTo( 5*MM2TEX, 15*MM2TEX)
+		      .lineTo(-5*MM2TEX, 15*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setColorFill(rWhite,gWhite,bWhite)
+		      .set("z-index", 10)
+		      .setStrokeLineWidth(w);
 		me.selfVectorG = me.rootCenter.createChild("group")
 			.set("z-index", 10)
-			.setTranslation(0,-10*MM2TEX);
+			.setTranslation(0,0);
 		me.selfVector = me.selfVectorG.createChild("path")
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
@@ -2887,7 +2885,7 @@ var TI = {
 				me.echoesAircraft[me.currentIndexT].update();
 				if (me.SVYactive == TRUE) {
 					me.altsvy  = contact.get_altitude()*FT2M;
-					me.distsvy = contact.get_Coord().distance_to(geo.aircraft_position());
+					me.distsvy = math.cos(me.angle)*contact.get_Coord().distance_to(geo.aircraft_position());
 					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange, me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt);
 					if (me.boogie == 1) {
 			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
