@@ -427,19 +427,19 @@ var TI = {
 		var grp = me.radar_group.createChild("group")
 			.set("z-index", maxTracks-0);
 		var grp2 = grp.createChild("group")
-			.setTranslation(0,-10*MM2TEX);
+			.setTranslation(0,0);
 		var vector = grp2.createChild("path")
 		  .moveTo(0,  0)
 		  .lineTo(0, -1*MM2TEX)
 		  .setColor(rYellow,gYellow,bYellow, a)
 	      .setStrokeLineWidth(w);
 		grp.createChild("path")
-	       .moveTo(-10, 0)
-           .arcSmallCW(10, 10, 0, 20, 0)
-           .arcSmallCW(10, 10, 0, -20, 0)
-           .moveTo(-5, 5)
-           .arcSmallCW(5, 5, 0, 10, 0)
-           .arcSmallCW(5, 5, 0, -10, 0)
+	       .moveTo(-7.5, 7.5)
+           .arcSmallCW(7.5, 7.5, 0, 15, 0)
+           .arcSmallCW(7.5, 7.5, 0, -15, 0)
+           .moveTo(-3.75, 11.25)
+           .arcSmallCW(3.75, 3.75, 0, 7.5, 0)
+           .arcSmallCW(3.75, 3.75, 0, -7.5, 0)
 	       .setColor(rYellow,gYellow,bYellow, a)
 	       .setStrokeLineWidth(w);
 	    append(me.echoesAircraft, grp);
@@ -449,24 +449,88 @@ var TI = {
 			var grp = me.radar_group.createChild("group")
 				.set("z-index", maxTracks-i);
 			var grp2 = grp.createChild("group")
-				.setTranslation(0,-10*MM2TEX);
+				.setTranslation(0, 0);
 			var vector = grp2.createChild("path")
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
 			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
 		      .setStrokeLineWidth(w);
 			grp.createChild("path")
-		      .moveTo(-5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 0,       -10*MM2TEX)
-		      .moveTo( 5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 0,       -10*MM2TEX)
-		      .moveTo(-5*MM2TEX,  5*MM2TEX)
-		      .lineTo( 5*MM2TEX,  5*MM2TEX)
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .moveTo( 5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 5*MM2TEX, 15*MM2TEX)
 		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
 		      .setStrokeLineWidth(w);
 		    append(me.echoesAircraft, grp);
 		    append(me.echoesAircraftVector, vector);
 		}
+
+		me.rootSVY = root.createChild("group")
+    	    .set("z-index", 1);
+    	me.svy_grp = me.rootSVY.createChild("group");
+    	me.svy_grp2 = me.svy_grp.createChild("group")
+    		.set("z-index", 1);
+    	me.echoesAircraftSvy = [];
+		me.echoesAircraftSvyVector = [];
+		var grpS = me.svy_grp.createChild("group")
+			.set("z-index", maxTracks-0);
+		var grpS2 = grpS.createChild("group")
+			.setTranslation(0,0);
+		var vectorS = grpS2.createChild("path")
+		  .moveTo(0,  0)
+		  .lineTo(0, -1*MM2TEX)
+		  .setColor(rYellow,gYellow,bYellow, a)
+	      .setStrokeLineWidth(w);
+		grpS.createChild("path")
+	       .moveTo(-7.5, 7.5)
+           .arcSmallCW(7.5, 7.5, 0, 15, 0)
+           .arcSmallCW(7.5, 7.5, 0, -15, 0)
+           .moveTo(-3.75, 11.25)
+           .arcSmallCW(3.75, 3.75, 0, 7.5, 0)
+           .arcSmallCW(3.75, 3.75, 0, -7.5, 0)
+	       .setColor(rYellow,gYellow,bYellow, a)
+	       .setStrokeLineWidth(w);
+	    append(me.echoesAircraftSvy, grpS);
+	    append(me.echoesAircraftSvyVector, vectorS);
+		for (var i = 1; i < maxTracks; i += 1) {
+			var grp = me.svy_grp.createChild("group")
+				.set("z-index", maxTracks-i);
+			var vector = grp.createChild("path")
+			  .moveTo(0,  0)
+			  .lineTo(0, -1*MM2TEX)
+			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+		      .setStrokeLineWidth(w);
+			grp.createChild("path")
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .moveTo( 5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 0,         0*MM2TEX)
+		      .moveTo(-5*MM2TEX, 15*MM2TEX)
+		      .lineTo( 5*MM2TEX, 15*MM2TEX)
+		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
+		      .setStrokeLineWidth(w);
+		    append(me.echoesAircraftSvy, grp);
+		    append(me.echoesAircraftSvyVector, vector);
+		}
+		me.selfSymbolSvy = me.svy_grp.createChild("path")
+		      .moveTo(-5*MM2TEX,  15*MM2TEX)
+		      .lineTo( 0,       0*MM2TEX)
+		      .moveTo( 5*MM2TEX,  15*MM2TEX)
+		      .lineTo( 0,       0*MM2TEX)
+		      .moveTo(-5*MM2TEX,  15*MM2TEX)
+		      .lineTo( 5*MM2TEX,  15*MM2TEX)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .set("z-index", 10)
+		      .setStrokeLineWidth(w);
+		me.selfVectorSvy = me.svy_grp.createChild("path")
+			  .moveTo(0,  0)
+			  .set("z-index", 10)
+			  .lineTo(1*MM2TEX, 0)
+			  .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
 
 	    me.dest = me.rootCenter.createChild("group")
 	    	.set("z-index", 7)
@@ -1124,70 +1188,6 @@ var TI = {
     		.setTranslation(width, 4)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
-
-    	me.rootSVY = root.createChild("group")
-    	    .set("z-index", 1);
-    	me.svy_grp = me.rootSVY.createChild("group");
-    	me.svy_grp2 = me.svy_grp.createChild("group")
-    		.set("z-index", 1);
-    	me.echoesAircraftSvy = [];
-		me.echoesAircraftSvyVector = [];
-		var grpS = me.svy_grp.createChild("group")
-			.set("z-index", maxTracks-0);
-		var grpS2 = grpS.createChild("group")
-			.setTranslation(0,-10*MM2TEX);
-		var vectorS = grpS2.createChild("path")
-		  .moveTo(0,  0)
-		  .lineTo(0, -1*MM2TEX)
-		  .setColor(rYellow,gYellow,bYellow, a)
-	      .setStrokeLineWidth(w);
-		grpS.createChild("path")
-	       .moveTo(-10, 0)
-           .arcSmallCW(10, 10, 0, 20, 0)
-           .arcSmallCW(10, 10, 0, -20, 0)
-           .moveTo(-5, 5)
-           .arcSmallCW(5, 5, 0, 10, 0)
-           .arcSmallCW(5, 5, 0, -10, 0)
-	       .setColor(rYellow,gYellow,bYellow, a)
-	       .setStrokeLineWidth(w);
-	    append(me.echoesAircraftSvy, grpS);
-	    append(me.echoesAircraftSvyVector, vectorS);
-		for (var i = 1; i < maxTracks; i += 1) {
-			var grp = me.svy_grp.createChild("group")
-				.set("z-index", maxTracks-i);
-			var vector = grp.createChild("path")
-			  .moveTo(0,  0)
-			  .lineTo(0, -1*MM2TEX)
-			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
-		      .setStrokeLineWidth(w);
-			grp.createChild("path")
-		      .moveTo(-5*MM2TEX, 15*MM2TEX)
-		      .lineTo( 0,         0*MM2TEX)
-		      .moveTo( 5*MM2TEX, 15*MM2TEX)
-		      .lineTo( 0,         0*MM2TEX)
-		      .moveTo(-5*MM2TEX, 15*MM2TEX)
-		      .lineTo( 5*MM2TEX, 15*MM2TEX)
-		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
-		      .setStrokeLineWidth(w);
-		    append(me.echoesAircraftSvy, grp);
-		    append(me.echoesAircraftSvyVector, vector);
-		}
-		me.selfSymbolSvy = me.svy_grp.createChild("path")
-		      .moveTo(-5*MM2TEX,  15*MM2TEX)
-		      .lineTo( 0,       0*MM2TEX)
-		      .moveTo( 5*MM2TEX,  15*MM2TEX)
-		      .lineTo( 0,       0*MM2TEX)
-		      .moveTo(-5*MM2TEX,  15*MM2TEX)
-		      .lineTo( 5*MM2TEX,  15*MM2TEX)
-		      .setColor(rWhite,gWhite,bWhite, a)
-		      .set("z-index", 10)
-		      .setStrokeLineWidth(w);
-		me.selfVectorSvy = me.svy_grp.createChild("path")
-			  .moveTo(0,  0)
-			  .set("z-index", 10)
-			  .lineTo(1*MM2TEX, 0)
-			  .setColor(rWhite,gWhite,bWhite, a)
-		      .setStrokeLineWidth(w);
 
 		me.textSvyY = me.svy_grp.createChild("text")
     		.setText("40 KM")
