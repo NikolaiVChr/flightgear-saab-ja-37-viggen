@@ -88,6 +88,8 @@
             <path>ja37/faf/friend-2</path>
             <path>ja37/faf/friend-3</path>
             <path>ja37/faf/friend-4</path>
+            <path>ja37/faf/friend-5</path>
+            <path>ja37/faf/friend-6</path>
             <path>ja37/faf/foe-1</path>
             <path>ja37/faf/foe-2</path>
             <path>ja37/faf/foe-3</path>
@@ -665,6 +667,8 @@
             <friend-2 userarchive="y" type="string"></friend-2>
             <friend-3 userarchive="y" type="string"></friend-3>
             <friend-4 userarchive="y" type="string"></friend-4>
+            <friend-5 userarchive="y" type="string"></friend-5>
+            <friend-6 userarchive="y" type="string"></friend-6>
             <foe-1 userarchive="y" type="string"></foe-1>
             <foe-2 userarchive="y" type="string"></foe-2>
             <foe-3 userarchive="y" type="string"></foe-3>

@@ -268,6 +268,7 @@ var dictEN = {
 var TI = {
 
 	setupCanvasSymbols: func {
+		# map groups
 		me.mapCentrum = root.createChild("group")
 			.set("z-index", 1)
 			.setTranslation(width/2,height*2/3);
@@ -276,12 +277,15 @@ var TI = {
 		me.mapFinal = me.mapCenter.createChild("group");
 		me.mapFinal.setTranslation(-tile_size*center_tile_offset[0],-tile_size*center_tile_offset[1]);
 
+		# groups
 		me.rootCenter = root.createChild("group")
 			.setTranslation(width/2,height*2/3)
 			.set("z-index",  9);
 		me.rootRealCenter = root.createChild("group")
 			.setTranslation(width/2,height/2)
 			.set("z-index", 10);
+
+		# own symbol
 		me.selfSymbol = me.rootCenter.createChild("path")
 		      .moveTo(-5*MM2TEX,  5*MM2TEX)
 		      .lineTo( 0,       -10*MM2TEX)
@@ -302,6 +306,7 @@ var TI = {
 		      .set("z-index", 10)
 		      .setStrokeLineWidth(w);
 
+		# map scale
 		me.mapScaleTickPosX = width*0.975/2;
 		me.mapScaleTickPosTxtX = width*0.975/2-width*0.025/2;
 		me.mapScale = me.rootCenter.createChild("group")
@@ -390,6 +395,7 @@ var TI = {
     		.setFontSize(15, 1);
 
 
+    	# hading bugs and line for direction of travel
 		me.navBugs = root.createChild("group")
 			.set("z-index", 4);
 		# direction of travel indicator
@@ -419,8 +425,10 @@ var TI = {
 			  .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
 
+		# main radar and SVY group
 		me.radar_group = me.rootCenter.createChild("group")
 			.set("z-index", 5);
+
 		me.echoesAircraft = [];
 		me.echoesAircraftVector = [];
 		# selection
@@ -468,6 +476,7 @@ var TI = {
 		    append(me.echoesAircraftVector, vector);
 		}
 
+		# SVY
 		me.rootSVY = root.createChild("group")
     	    .set("z-index", 1);
     	me.svy_grp = me.rootSVY.createChild("group");
@@ -531,7 +540,23 @@ var TI = {
 			  .lineTo(1*MM2TEX, 0)
 			  .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
+		# SVY coordinate text
+		me.textSvyY = me.svy_grp.createChild("text")
+    		.setText("40 KM")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("left-bottom")
+    		.setTranslation(0, 0)
+    		.set("z-index", 7)
+    		.setFontSize(13, 1);
+    	me.textSvyX = me.svy_grp.createChild("text")
+    		.setText("120 KM")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("right-top")
+    		.setTranslation(0, 0)
+    		.set("z-index", 7)
+    		.setFontSize(13, 1);
 
+		# runway symbols
 	    me.dest = me.rootCenter.createChild("group")
 	    	.set("z-index", 7)
             .hide()
@@ -556,6 +581,7 @@ var TI = {
 	               .setStrokeLineWidth(w)
 	               .setColor(rTyrk,gTyrk,bTyrk, a);
 
+	    # threat circles
 	    me.threats = [];
 	    for (var i = 0; i < maxThreats; i += 1) {
 	    	append(me.threats, me.radar_group.createChild("path")
@@ -566,6 +592,7 @@ var TI = {
 	               .setColor(rRed,gRed,bRed, a));
 	    }
 
+	    # route symbols
 	    me.steerpoint = [];
 	    for (var i = 0; i < maxSteers; i += 1) {
 	    	append(me.steerpoint, me.rootCenter.createChild("path")
@@ -581,6 +608,7 @@ var TI = {
 	    me.steerPoly = me.rootCenter.createChild("group")
 	    			.set("z-index", 6);
 
+	    # missiles
 	    me.missiles = [];
 	    me.missilesVector = [];
 	    for (var i = 0; i < maxMissiles; i += 1) {
@@ -606,6 +634,7 @@ var TI = {
 		    append(me.missilesVector, vector);
 	    }
 
+	    # gps symbol
 	    me.gpsSymbol = me.radar_group.createChild("path")
 		      .moveTo(-10*MM2TEX, 10*MM2TEX)
 		      .vert(            -20*MM2TEX)
@@ -892,9 +921,7 @@ var TI = {
     		.setTranslation(width, height-height*0.085)
     		.setFontSize(17, 1);
 
-    	me.menuMainRoot = root.createChild("group")
-    		.set("z-index", 20)
-    		.hide();
+    	# log pages
     	me.logRoot = root.createChild("group")
     		.set("z-index", 5)
     		.hide();
@@ -905,6 +932,10 @@ var TI = {
     		.setTranslation(0, 20)
     		.setFontSize(10, 1);
 
+    	# menu groups
+    	me.menuMainRoot = root.createChild("group")
+    		.set("z-index", 20)
+    		.hide();
     	me.menuFastRoot = root.createChild("group")
     		.set("z-index", 20);
     		#.hide();
@@ -1032,12 +1063,13 @@ var TI = {
 		    		.setStrokeLineWidth(w));
 		}
 
+		# airport overlay
 		me.base_grp = me.rootCenter.createChild("group")
 			.set("z-index", 2);
 
+		# large airports
 		me.baseLargeText = [];
 		me.baseLarge = [];
-
 		for(var i = 0; i < maxBases; i+=1) {
 			append(me.baseLarge,
 				me.base_grp.createChild("path")
@@ -1056,9 +1088,9 @@ var TI = {
     				.setFontSize(13, 1));
 		}
 
+		# small airports
 		me.baseSmallText = [];
 		me.baseSmall = [];
-
 		for(var i = 0; i < maxBases; i+=1) {
 			append(me.baseSmall,
 				me.base_grp.createChild("path")
@@ -1181,26 +1213,13 @@ var TI = {
 		      .lineTo( me.arr_15*MM2TEX,  me.arr_90*MM2TEX)
 		      .setStrokeLineWidth(w);
 
+
+		# time
 		me.textTime = root.createChild("text")
     		.setText("h:min:s")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-top")
     		.setTranslation(width, 4)
-    		.set("z-index", 7)
-    		.setFontSize(13, 1);
-
-		me.textSvyY = me.svy_grp.createChild("text")
-    		.setText("40 KM")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("left-bottom")
-    		.setTranslation(0, 0)
-    		.set("z-index", 7)
-    		.setFontSize(13, 1);
-    	me.textSvyX = me.svy_grp.createChild("text")
-    		.setText("120 KM")
-    		.setColor(rWhite,gWhite,bWhite, a)
-    		.setAlignment("right-top")
-    		.setTranslation(0, 0)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
 	},
@@ -2738,7 +2757,7 @@ var TI = {
 
 	defineEnemies: func {
 		me.foes    = [getprop("ja37/faf/foe-1"),getprop("ja37/faf/foe-2"),getprop("ja37/faf/foe-3"),getprop("ja37/faf/foe-4"),getprop("ja37/faf/foe-5"),getprop("ja37/faf/foe-6")];
-		me.friends = [getprop("ja37/faf/friend-1"),getprop("ja37/faf/friend-2"),getprop("ja37/faf/friend-3"),getprop("ja37/faf/friend-4")];
+		me.friends = [getprop("ja37/faf/friend-1"),getprop("ja37/faf/friend-2"),getprop("ja37/faf/friend-3"),getprop("ja37/faf/friend-4"),getprop("ja37/faf/friend-5"),getprop("ja37/faf/friend-6")];
 	},
 
 	displayRadarTracks: func () {
