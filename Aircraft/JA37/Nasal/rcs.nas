@@ -41,6 +41,12 @@ var rcs_database = {
     "212-TwinHuey":             25,     #guess
     "412-Griffin":              25,     #guess
     "QF-4E":                    1,      #actual: 6
+    "depot":                    170,    #estimated with blender
+    "buk-m2":                   7,      #estimated with blender
+    "truck":                    1.5,    #estimated with blender
+    "missile_frigate":          450,    #estimated with blender
+    "frigate":                  450,    #estimated with blender
+    "tower":                    60,     #estimated with blender
 };
 
 #most detection ranges are for a target that has an rcs of 5m^2, so leave that at default if not specified by source material
