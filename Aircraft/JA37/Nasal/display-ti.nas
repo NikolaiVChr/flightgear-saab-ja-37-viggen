@@ -422,6 +422,7 @@ var TI = {
 			.set("z-index", 10)
 			.setTranslation(0,0);
 		me.selfVector = me.selfVectorG.createChild("path")
+			  .set("z-index", 10)
 			  .moveTo(0,  0)
 			  .lineTo(0, -1*MM2TEX)
 			  .setColor(rWhite,gWhite,bWhite, a)
@@ -561,8 +562,7 @@ var TI = {
 		# runway symbols
 	    me.dest = me.rootCenter.createChild("group")
 	    	.set("z-index", 7)
-            .hide()
-            .set("z-index", 5);
+            .hide();
 	    me.dest_runway = me.dest.createChild("path")
 	               .moveTo(0, 0)
 	               .lineTo(0, -1)
@@ -1091,7 +1091,7 @@ var TI = {
 		}
 
 		me.ecm_grp = me.rootCenter.createChild("group")
-			.set("z-index", 2);
+			.set("z-index", 1);
 		me.ecmRadius = 50;
 		me.ecm12 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
@@ -2068,8 +2068,6 @@ var TI = {
 		# ECM and warnings
 		if (!me.active) return;
 		me.ECMon = !me.ECMon;
-		# tact ecm report (todo: show current ecm instead)
-		print("TI ECM page not implemented yet, coming soon^tm.");
 	},
 
 	showLNK: func {
@@ -2125,61 +2123,85 @@ var TI = {
 		if (me.ECMon == TRUE) {
 			if (getprop("ja37/sound/incoming12") == TRUE) {
 				me.ecm12.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[11] == TRUE) {
+				me.ecm12.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm12.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming1") == TRUE) {
 				me.ecm1.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[0] == TRUE) {
+				me.ecm1.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm1.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming2") == TRUE) {
 				me.ecm2.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[1] == TRUE) {
+				me.ecm2.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm2.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming3") == TRUE) {
 				me.ecm3.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[2] == TRUE) {
+				me.ecm3.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm3.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming4") == TRUE) {
 				me.ecm4.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[3] == TRUE) {
+				me.ecm4.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm4.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming5") == TRUE) {
 				me.ecm5.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[4] == TRUE) {
+				me.ecm5.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm5.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming6") == TRUE) {
 				me.ecm6.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[5] == TRUE) {
+				me.ecm6.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm6.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming7") == TRUE) {
 				me.ecm7.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[6] == TRUE) {
+				me.ecm7.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm7.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming8") == TRUE) {
 				me.ecm8.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[7] == TRUE) {
+				me.ecm8.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm8.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming9") == TRUE) {
 				me.ecm9.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[8] == TRUE) {
+				me.ecm9.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm9.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming10") == TRUE) {
 				me.ecm10.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[9] == TRUE) {
+				me.ecm10.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm10.setColor(rGreen,gGreen,bGreen,a);
 			}
 			if (getprop("ja37/sound/incoming11") == TRUE) {
 				me.ecm11.setColor(rRed,gRed,bRed,a);
+			} elsif (radar_logic.rwr[10] == TRUE) {
+				me.ecm11.setColor(rYellow,gYellow,bYellow,a);
 			} else {
 				me.ecm11.setColor(rGreen,gGreen,bGreen,a);
 			}

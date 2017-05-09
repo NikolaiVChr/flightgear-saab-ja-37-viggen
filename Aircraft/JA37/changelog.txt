@@ -2881,3 +2881,7 @@ TI: Made selection same size as other echoes.
 GUI: Added button to switch foes and friends.
 TI: Moved center of own symbol to tip of triangle.
 TI: Fixed that in SVY zoomed in sometimes the position and vector direction didn't match.
+TI: Using true airspeed for own velocity vector instead of calibrated airspeed.
+Radar: {Pinto} Implemented RCS size into detection ranges. [disabled for now]
+TI: ECM overlay now shows incoming direction for a few seconds.
+TI: ECM overlay will now show detected radar beams from non-friendly MP sources.
