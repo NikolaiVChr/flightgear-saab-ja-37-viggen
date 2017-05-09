@@ -199,6 +199,11 @@ var circlePos = func (deg, radius) {
 	return [radius*math.cos(deg*D2R),radius*math.sin(deg*D2R)];
 }
 
+var circlePosH = func (deg, radius) {
+	# compensate for heading going opposite unit circle and 0 deg being forward
+	return [radius*math.cos((-deg+90)*D2R),-radius*math.sin((-deg+90)*D2R)];
+}
+
 var containsVector = func (vec, item) {
 	foreach(test; vec) {
 		if (test == item) {
@@ -1085,6 +1090,70 @@ var TI = {
     				.setFontSize(13, 1));
 		}
 
+		me.ecm_grp = me.rootCenter.createChild("group")
+			.set("z-index", 2);
+		me.ecmRadius = 50;
+		me.ecm12 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(14, me.ecmRadius)[0]-circlePosH(-14, me.ecmRadius)[0], circlePosH(14, me.ecmRadius)[1]-circlePosH(-14, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rGreen,gGreen,bGreen, a);
+	    me.ecm1 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(16, me.ecmRadius)[0], circlePosH(16, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(44, me.ecmRadius)[0]-circlePosH(16, me.ecmRadius)[0], circlePosH(44, me.ecmRadius)[1]-circlePosH(16, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rRed,gRed,bRed, a);
+	    me.ecm2 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(46, me.ecmRadius)[0], circlePosH(46, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(74, me.ecmRadius)[0]-circlePosH(46, me.ecmRadius)[0], circlePosH(74, me.ecmRadius)[1]-circlePosH(46, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm3 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(76, me.ecmRadius)[0], circlePosH(76, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(104, me.ecmRadius)[0]-circlePosH(76, me.ecmRadius)[0], circlePosH(104, me.ecmRadius)[1]-circlePosH(76, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm4 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(106, me.ecmRadius)[0], circlePosH(106, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(134, me.ecmRadius)[0]-circlePosH(106, me.ecmRadius)[0], circlePosH(134, me.ecmRadius)[1]-circlePosH(106, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm5 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(136, me.ecmRadius)[0], circlePosH(136, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(164, me.ecmRadius)[0]-circlePosH(136, me.ecmRadius)[0], circlePosH(164, me.ecmRadius)[1]-circlePosH(136, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm6 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(166, me.ecmRadius)[0], circlePosH(166, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(194, me.ecmRadius)[0]-circlePosH(166, me.ecmRadius)[0], circlePosH(194, me.ecmRadius)[1]-circlePosH(166, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm7 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(196, me.ecmRadius)[0], circlePosH(196, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(224, me.ecmRadius)[0]-circlePosH(196, me.ecmRadius)[0], circlePosH(224, me.ecmRadius)[1]-circlePosH(196, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm8 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(226, me.ecmRadius)[0], circlePosH(226, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(254, me.ecmRadius)[0]-circlePosH(226, me.ecmRadius)[0], circlePosH(254, me.ecmRadius)[1]-circlePosH(226, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm9 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(256, me.ecmRadius)[0], circlePosH(256, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(284, me.ecmRadius)[0]-circlePosH(256, me.ecmRadius)[0], circlePosH(284, me.ecmRadius)[1]-circlePosH(256, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm10 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(286, me.ecmRadius)[0], circlePosH(286, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(314, me.ecmRadius)[0]-circlePosH(286, me.ecmRadius)[0], circlePosH(314, me.ecmRadius)[1]-circlePosH(286, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+	    me.ecm11 = me.ecm_grp.createChild("path")
+			.moveTo(circlePosH(316, me.ecmRadius)[0], circlePosH(316, me.ecmRadius)[1])
+	        .arcSmallCW(me.ecmRadius, me.ecmRadius, 0, circlePosH(344, me.ecmRadius)[0]-circlePosH(316, me.ecmRadius)[0], circlePosH(344, me.ecmRadius)[1]-circlePosH(316, me.ecmRadius)[1])
+	        .setStrokeLineWidth(w*10)
+	        .setColor(rYellow,gYellow,bYellow, a);
+
 		# small airports
 		me.baseSmallText = [];
 		me.baseSmall = [];
@@ -1345,6 +1414,7 @@ var TI = {
 		ti.landed = TRUE;
 		ti.foes    = [];
 		ti.friends = [];
+		ti.ECMon   = FALSE;
 
 		ti.startFailListener();
 
@@ -1413,6 +1483,7 @@ var TI = {
 		me.showPoly();#must be under showSteerPoints
 		me.showTargetInfo();#must be after displayRadarTracks
 		me.showBasesNear();		
+		me.ecmOverlay();
 
 		settimer(func me.loop(), 0.5);
 	},
@@ -1996,7 +2067,7 @@ var TI = {
 	showECM: func {
 		# ECM and warnings
 		if (!me.active) return;
-
+		me.ECMon = !me.ECMon;
 		# tact ecm report (todo: show current ecm instead)
 		print("TI ECM page not implemented yet, coming soon^tm.");
 	},
@@ -2049,6 +2120,74 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+	ecmOverlay: func {
+		if (me.ECMon == TRUE) {
+			if (getprop("ja37/sound/incoming12") == TRUE) {
+				me.ecm12.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm12.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming1") == TRUE) {
+				me.ecm1.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm1.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming2") == TRUE) {
+				me.ecm2.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm2.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming3") == TRUE) {
+				me.ecm3.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm3.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming4") == TRUE) {
+				me.ecm4.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm4.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming5") == TRUE) {
+				me.ecm5.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm5.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming6") == TRUE) {
+				me.ecm6.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm6.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming7") == TRUE) {
+				me.ecm7.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm7.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming8") == TRUE) {
+				me.ecm8.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm8.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming9") == TRUE) {
+				me.ecm9.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm9.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming10") == TRUE) {
+				me.ecm10.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm10.setColor(rGreen,gGreen,bGreen,a);
+			}
+			if (getprop("ja37/sound/incoming11") == TRUE) {
+				me.ecm11.setColor(rRed,gRed,bRed,a);
+			} else {
+				me.ecm11.setColor(rGreen,gGreen,bGreen,a);
+			}
+			me.ecm_grp.show();
+		} else {
+			me.ecm_grp.hide();
+		}
+	},
 
 	testLanding: func {
 		var wow = me.input.wow0.getValue() and me.input.wow0.getValue() and me.input.wow0.getValue();
