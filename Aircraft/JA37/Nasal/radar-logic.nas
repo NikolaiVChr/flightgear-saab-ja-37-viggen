@@ -375,7 +375,7 @@ var RadarLogic = {
 
     
 
-    if (TI.ti.ECMon == TRUE and me.distance < 120000 and mp == TRUE and node.getNode("callsign") != nil) {
+    if (me.distance < 120000 and mp == TRUE and node.getNode("callsign") != nil and getprop("ja37/systems/variant") == 0 and TI.ti.ECMon == TRUE) {
         # if within 120 Km and a multiplayer, we check if its radar beams are detected.
         var callsign = node.getNode("callsign").getValue();
         #print("callsign "~callsign);

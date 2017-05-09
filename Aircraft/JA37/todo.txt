@@ -115,7 +115,6 @@ TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
 TI: Add missiles to SVY.
-MI: Show ECM on TI [M2].
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
