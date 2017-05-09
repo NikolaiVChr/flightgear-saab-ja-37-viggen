@@ -430,7 +430,12 @@ var RadarLogic = {
         me.contact = Contact.new(node, type);
         me.contact.setPolar(me.distanceRadar, me.xa_rad_corr, me.xa_rad, me.ya_rad);
         me.contact.setCartesian(me.hud_pos_x, me.hud_pos_y);
-        return me.contact;
+
+        if (node.getName() == "rb-99" or rcs.isInRadarRange(contact, 65, 1) == TRUE) {# 40 / 3.2
+          return me.contact;
+        } else {
+          return nil;
+        }        
 
       } elsif (carrier == TRUE) {
         # need to return carrier even if out of radar cone, due to carrierNear calc
@@ -783,6 +788,7 @@ var Contact = {
 #});
 #debug.benchmark("radar process4", func {
         obj.pitch           = obj.oriProp.getNode("pitch-deg");
+        obj.pitch           = obj.oriProp.getNode("roll-deg");
         obj.speed           = obj.velProp.getNode("true-airspeed-kt");
         obj.vSpeed          = obj.velProp.getNode("vertical-speed-fps");
         obj.callsign        = c.getNode("callsign", 1);
@@ -990,6 +996,11 @@ var Contact = {
         return n;
     },
 
+    get_Roll: func(){
+        var n = me.roll.getValue();
+        return n;
+    },
+
     get_heading : func(){
         var n = me.heading.getValue();
         if(n == nil)
@@ -1164,6 +1175,10 @@ var ContactGPS = {
   },
 
   get_Pitch: func(){
+      return 0;
+  },
+
+  get_Roll: func(){
       return 0;
   },
 

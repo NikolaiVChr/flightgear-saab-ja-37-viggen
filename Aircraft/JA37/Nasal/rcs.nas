@@ -6,53 +6,77 @@ var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
   print("RCS final: "~getRCS(echoCoord, echoHeading, echoPitch, echoRoll, myCoord, frontRCS));
 };
 
-var testPintos = func {
-    var rel_heading = rand()*360-180;
-    var rel_pitch = rand()*180-90;
-    var target_roll = rand()*360-180;
-    testPinto(rel_heading, rel_pitch, target_roll);
-    settimer(testPintos,0.25);
-}
+var rcs_database = {
+    "default":                  200,    #default value if target's model isn't listed
+    "F-14B":                    12,     #guess
+    "F-15C":                    10,     #low end of sources
+    "F-15D":                    11,     #low end of sources
+    "JA37-Viggen":              3,      #guess
+    "AJ37-Viggen":              3,      #guess
+    "AJS37-Viggen":             3,      #guess
+    "JA37Di-Viggen":            3,      #guess
+    "m2000-5B":                 1,
+    "707":                      100,    #guess
+    "707-TT":                   100,    #guess
+    "EC-137D":                  110,    #guess
+    "B-1B":                     10,
+    "Blackbird-SR71A":          0.01,
+    "Blackbird-SR71B":          0.012,
+    "Blackbird-SR71A-BigTail":  0.012,
+    "ch53e":                    20,     #guess
+    "MiG-21bis":                3.5,
+    "MQ-9":                     1,      #guess
+    "KC-137R":                  100,    #guess
+    "KC-137R-RT":               100,    #guess
+    "A-10":                     23.5, 
+    "KC-10A":                   100,    #guess
+    "Typhoon":                  0.5,
+    "C-137R":                   100,    #guess
+    "RC-137R":                  100,    #guess
+    "EC-137R":                  110,    #guess
+    "c130":                     100,    #guess
+    "SH-60J":                   30,     #guess
+    "UH-60J":                   30,     #guess
+    "uh1":                      30,     #guess
+    "212-TwinHuey":             25,     #guess
+    "412-Griffin":              25,     #guess
+    "QF-4E":                    1,      #actual: 6
+};
 
+#most detection ranges are for a target that has an rcs of 5m^2, so leave that at default if not specified by source material
 
-var testPinto = func (rel_heading, rel_pitch, target_roll) {
-    #var abs_pitch = math.atan2(targetAircraftAlt-myAlt, distance);
-    #var rel_pitch = math.abs((abs_pitch - my_pitch) + target_aircraft_pitch);
-    # front + back + side + top should always equal 1.
-    # rel_pitch is the relative pitch of the target aircraft in relation to the originating aircraft.
-    # rel_heading is the relative heading of the target aircraft in relation to the originating aircraft.
-    # front = rel_heading (90* = 0, 180* = 1) * pitch (0* = 1, 90* = 0)
-    var front = math.clamp((rel_heading-90)/90,0,1) * math.abs((rel_pitch-90)/90);
-    # back = rel_heading (0* = 1, 90* = 0) * pitch (0* = 1, 90* = 0)
-    var back = math.clamp((90 - rel_heading)/90,0,1) * math.abs((rel_pitch-90)/90);
-    # side = rel_heading (0* = 0, 90* = 1, 180* = 0) * roll (0* = 0, 90* = 1)
-    var side = math.abs(math.abs(rel_heading/90-1)-1) * math.abs((target_roll-90)/90);
-    # top = rel_heading (0* = 1, 90* = 0, 180* = 1) * pitch (0* = 0, 90* = 1) + rel_heading (0* = 0, 90* = 1, 180* = 0) * roll (0* = 0, 90* = 1)
-    var top = (math.abs((rel_heading/90)-1) * (rel_pitch/90)) + (math.abs(math.abs(rel_heading/90-1)-1) * (target_roll/90));
-    printf("top=%.2f back=%.2f side=%.2f front=%.2f sum=%.3f", top, back, side, front, top+back+side+front);
-}
+var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
+    if (contact != nil) {
+        return targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Pitch(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs);
+    }
+    return 0;
+};
 
-var testPinto2 = func (rel_heading, rel_pitch, rel_pitch_inv, target_roll) {
-    # This does not take curvature of earth into account:
-    var abs_pitch = math.atan2(targetAircraftAlt-myAlt, distance);#radians
+var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch, targetRoll, myCoord, myRadarDistance_m, myRadarStrength_rcs = 5) {
+    #print(targetModel);
+    var target_front_rcs = nil;
+    if ( contains(rcs_database,targetModel) ) {
+        target_front_rcs = rcs_database[targetModel];
+    } else {
+        target_front_rcs = rcs_database["default"];
+    }
+    var target_rcs = getRCS(targetCoord, targetHeading, targetPitch, targetRoll, myCoord, target_front_rcs);
+    var target_distance = myCoord.direct_distance_to(targetCoord);
+    #use inverse square to determine max signal strength vs target signal strength
+    var my_max_signal = myRadarStrength_rcs/math.pow(myRadarDistance_m,2);
+    var target_signal = target_rcs/math.pow(target_distance,2);
 
-    # This should be split up into 2 methods, since when target rel_heading is away from me its pitch will act opposite
-    # my_pitch should not be used at all in this method, since the view of target aircraft does not change at all when I pitch up or down, as long as its in the radar cone.
-    var rel_pitch = math.abs((abs_pitch - my_pitch) + target_aircraft_pitch);#degrees
+    # comparing with standard formula
+    var currMaxDist = myRadarDistance_m/math.pow(myRadarStrength_rcs/target_rcs, 1/4);
+    return currMaxDist > target_distance;
 
-    #
-    # rel_pitch_inv: 0 = rear points at me
-    var front = math.clamp( math.cos(rel_heading),0,1) * math.cos(rel_pitch);
-    var back  = math.clamp(-math.cos(rel_heading),0,1) * math.cos(rel_pitch_inv);
-
-    # this is difficult, but not impossible to calculate with trigonometry:
-    var top = (math.abs((rel_heading/90)-1) * (rel_pitch/90)) + (math.abs(math.abs(rel_heading/90-1)-1) * (target_roll/90));
-
-    # now here comes the real trouble:
-    var side = math.abs(math.abs(rel_heading/90-1)-1) * math.abs((target_roll-90)/90);
-
-    # getting all 4 to amount to 1, would give a headache from hell, so going another route..
-    printf("top=%.2f back=%.2f side=%.2f front=%.2f", top, back, side, front);
+    if ( my_max_signal <= target_signal ) {
+        print("true");
+        return 1;
+    } else {
+        print("false");
+        return 0;
+    }
 }
 
 var getRCS = func (echoCoord, echoHeading, echoPitch, echoRoll, myCoord, frontRCS) {
@@ -64,22 +88,22 @@ var getRCS = func (echoCoord, echoHeading, echoPitch, echoRoll, myCoord, frontRC
     var vectorEchoNose = vector.Math.eulerToCartesian3X(echoHeading, echoPitch, echoRoll);
     var vectorEchoTop  = vector.Math.eulerToCartesian3Z(echoHeading, echoPitch, echoRoll);
     var view2D         = vector.Math.projVectorOnPlane(vectorEchoTop,vectorToEcho);
-    print("top  "~vector.Math.format(vectorEchoTop));
-    print("nose "~vector.Math.format(vectorEchoNose));
-    print("view "~vector.Math.format(vectorToEcho));
-    print("view2D "~vector.Math.format(view2D));
+    #print("top  "~vector.Math.format(vectorEchoTop));
+    #print("nose "~vector.Math.format(vectorEchoNose));
+    #print("view "~vector.Math.format(vectorToEcho));
+    #print("view2D "~vector.Math.format(view2D));
     var angleToNose    = geo.normdeg180(vector.Math.angleBetweenVectors(vectorEchoNose, view2D)+180);
-    print("horz aspect "~angleToNose);
+    #print("horz aspect "~angleToNose);
     var horzRCS = 0;
     if (math.abs(angleToNose) <= 90) {
       horzRCS = extrapolate(math.abs(angleToNose), 0, 90, frontRCS, sideRCSFactor*frontRCS);
     } else {
       horzRCS = extrapolate(math.abs(angleToNose), 90, 180, sideRCSFactor*frontRCS, rearRCSFactor*frontRCS);
     }
-    print("RCS horz "~horzRCS);
+    #print("RCS horz "~horzRCS);
     #next we calculate the 3D RCS:
     var angleToBelly    = geo.normdeg180(vector.Math.angleBetweenVectors(vectorEchoTop, vectorToEcho));
-    print("angle to belly "~angleToBelly);
+    #print("angle to belly "~angleToBelly);
     var realRCS = 0;
     if (math.abs(angleToBelly) <= 90) {
       realRCS = extrapolate(math.abs(angleToBelly),  0,  90, bellyRCSFactor*frontRCS, horzRCS);
