@@ -25,7 +25,6 @@ var setupCanvas = func {
 	  "name": "TI",   
 	  "size": [height, height], 
 	  "view": [height, height], 
-	                       
 	  "mipmapping": 0       
 	});
 	root = mycanvas.createGroup();

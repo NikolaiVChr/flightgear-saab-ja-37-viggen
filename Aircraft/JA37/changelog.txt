@@ -2880,4 +2880,4 @@ TI: Made echoes be centered at tip of triangle.
 TI: Made selection same size as other echoes.
 GUI: Added button to switch foes and friends.
 TI: Moved center of own symbol to tip of triangle.
-TI: Fixed that in SVY zoomed in sometimes can be seen that the position and direction, don't match.
+TI: Fixed that in SVY zoomed in sometimes the position and vector direction didn't match.
