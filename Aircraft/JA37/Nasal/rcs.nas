@@ -15,6 +15,7 @@ var rcs_database = {
     "AJ37-Viggen":              3,      #guess
     "AJS37-Viggen":             3,      #guess
     "JA37Di-Viggen":            3,      #guess
+    "m2000-5":                  1,
     "m2000-5B":                 1,
     "707":                      100,    #guess
     "707-TT":                   100,    #guess
