@@ -25,7 +25,7 @@ var setupCanvas = func {
 	  "name": "TI",   
 	  "size": [height, height], 
 	  "view": [height, height], 
-	  "mipmapping": 0       
+	  "mipmapping": 0
 	});
 	root = mycanvas.createGroup();
 	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
@@ -1497,8 +1497,8 @@ var TI = {
 		me.updateFlightData();
 		me.showHeadingBug();
 		me.testLanding();
-
-		settimer(func me.loopFast(), 0.05);
+		me.rate = getprop("sim/frame-rate-worst");
+		settimer(func me.loopFast(), me.rate !=nil?clamp(2/getprop("sim/frame-rate-worst"), 0.05, 0.5):0.5);
 	},
 
 	loopSlow: func {

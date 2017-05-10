@@ -81,12 +81,17 @@ units:                "ja37/hud/units-metric",
 
 	loop: func {#todo: make slower loop
 		me.displayMode();
-		me.QFE();
 		me.armName();
 		me.armNameShort();
 		me.distance();
 		me.errors();
-		settimer(func me.loop(), 0.05);
+		me.rate = getprop("sim/frame-rate-worst");
+		settimer(func me.loop(), me.rate!=nil?clamp(2/me.rate, 0.05, 0.5):0.5);
+	},
+
+	loopFast: func {
+		me.QFE();
+		settimer(func me.loopFast(), 0.05);
 	},
 
 	errors: func {
@@ -367,3 +372,4 @@ units:                "ja37/hud/units-metric",
 
 var common = Common.new();
 common.loop();
+common.loopFast();

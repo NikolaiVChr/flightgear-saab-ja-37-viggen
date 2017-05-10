@@ -638,7 +638,8 @@ var MI = {
 		me.radarIndex();
 		me.showTopInfo();
 		me.showBottomInfo();
-		settimer(func me.loop(), 0.05);
+		me.rate = getprop("sim/frame-rate-worst");
+		settimer(func me.loop(), me.rate!=nil?clamp(2/me.rate, 0.05, 0.5):0.5);
 	},
 
 	displayFPI: func {
