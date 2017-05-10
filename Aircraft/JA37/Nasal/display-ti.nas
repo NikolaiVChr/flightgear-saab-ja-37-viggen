@@ -1565,60 +1565,60 @@ var TI = {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						var buffer = armament.fireLog.get_buffer();
-						var str = "       Fire log:\n";
-		    			foreach(entry; buffer) {
-		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+						me.buffer = armament.fireLog.get_buffer();
+						me.str = "       Fire log:\n";
+		    			foreach(entry; me.buffer) {
+		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
-						me.errorList.setText(str);
+						me.errorList.setText(me.str);
 					});
 					me.clipLogPage();
 				} elsif (me.trapMan == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						var buffer = me.logEvents.get_buffer();
-						var str = "       Event log:\n";
-		    			foreach(entry; buffer) {
-		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+						me.buffer = me.logEvents.get_buffer();
+						me.str = "       Event log:\n";
+		    			foreach(entry; me.buffer) {
+		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
-						me.errorList.setText(str);
+						me.errorList.setText(me.str);
 					});
 					me.clipLogPage();
 				} elsif (me.trapLock == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						var buffer = radar_logic.lockLog.get_buffer();
-						var str = "       Lock log:\n";
-		    			foreach(entry; buffer) {
-		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+						me.buffer = radar_logic.lockLog.get_buffer();
+						me.str = "       Lock log:\n";
+		    			foreach(entry; me.buffer) {
+		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
-						me.errorList.setText(str);
+						me.errorList.setText(me.str);
 					});
 					me.clipLogPage();
 				} elsif (me.trapLand == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						var buffer = me.logLand.get_buffer();
-						var str = "       Landing log:\n";
-		    			foreach(entry; buffer) {
-		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+						me.buffer = me.logLand.get_buffer();
+						me.str = "       Landing log:\n";
+		    			foreach(entry; me.buffer) {
+		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
-						me.errorList.setText(str);
+						me.errorList.setText(me.str);
 					});
 					me.clipLogPage();
 				} elsif (me.trapECM == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						var buffer = armament.ecmLog.get_buffer();
-						var str = "       ECM log:\n";
-		    			foreach(entry; buffer) {
-		      				str = str~"    "~entry.time~" "~entry.message~"\n";
+						me.buffer = armament.ecmLog.get_buffer();
+						me.str = "       ECM log:\n";
+		    			foreach(entry; me.buffer) {
+		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
-						me.errorList.setText(str);
+						me.errorList.setText(me.str);
 					});
 					me.clipLogPage();
 				} else{
@@ -1629,12 +1629,12 @@ var TI = {
 				me.hideMap();
 				me.logRoot.show();
 				call(func {
-					var buffer = FailureMgr.get_log_buffer();
-					var str = "       Failure log:\n";
-	    			foreach(entry; buffer) {
-	      				str = str~"    "~entry.time~" "~entry.message~"\n";
+					me.buffer = FailureMgr.get_log_buffer();
+					me.str = "       Failure log:\n";
+	    			foreach(entry; me.buffer) {
+	      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 	    			}
-					me.errorList.setText(str);
+					me.errorList.setText(me.str);
 				});
 				me.newFails = FALSE;
 				me.clipLogPage();
@@ -1647,12 +1647,12 @@ var TI = {
 			me.hideMap();
 			me.logRoot.show();
 			call(func {
-				var buffer = me.logBIT.get_buffer();
-				var str = "       RB-99 Build In Test (BIT) log:\n";
-    			foreach(entry; buffer) {
-      				str = str~"    "~entry.time~" "~entry.message~"\n";
+				me.buffer = me.logBIT.get_buffer();
+				me.str = "       RB-99 Build In Test (BIT) log:\n";
+    			foreach(entry; me.buffer) {
+      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
     			}
-				me.errorList.setText(str);
+				me.errorList.setText(me.str);
 			});
 			me.clipLogPage();
 
@@ -1769,37 +1769,37 @@ var TI = {
 	},
 
 	updateMainMenuTextWeapons: func (position) {
-		var pyl = 0;
+		me.pyl = 0;
 		if (position == 8) {
-			pyl = 5;
+			me.pyl = 5;
 		} elsif (position == 9) {
-			pyl = 1;
+			me.pyl = 1;
 		} elsif (position == 10) {
-			pyl = 2;
+			me.pyl = 2;
 		} elsif (position == 11) {
-			pyl = 4;
+			me.pyl = 4;
 		} elsif (position == 12) {
-			pyl = 3;
+			me.pyl = 3;
 		} elsif (position == 13) {
-			pyl = 6;
+			me.pyl = 6;
 		}
-		me.pylon = displays.common.armNamePylon(pyl);
+		me.pylon = displays.common.armNamePylon(me.pyl);
 		if (me.pylon != nil) {
 			me.menuButton[position].setText(me.pylon);
 		}
 	},
 
 	compileMainMenu: func (button) {
-		var str = nil;
+		me.str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
+			me.str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
 		} else {
-			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":''~math.abs(me.menuMain)))];
+			me.str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":''~math.abs(me.menuMain)))];
 		}
-		if (str != nil) {
-			str = str[''~button];
-			if (str != nil and (me.showFullMenus == TRUE or str[0] == TRUE)) {
-				return str[1];
+		if (me.str != nil) {
+			me.str = me.str[''~button];
+			if (me.str != nil and (me.showFullMenus == TRUE or me.str[0] == TRUE)) {
+				return me.str[1];
 			}
 		}
 		return "";
@@ -1880,23 +1880,23 @@ var TI = {
 	},
 
 	compileFastMenu: func (button) {
-		var str = nil;
+		me.str = nil;
 		if (me.interoperability == displays.METRIC) {
-			str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
+			me.str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
 		} else {
-			str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":''~math.abs(me.menuMain)))];
+			me.str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":''~math.abs(me.menuMain)))];
 		}
-		if (str != nil) {
-			str = str[''~button];
-			if (str != nil and (me.showFullMenus == TRUE or str[0] == TRUE)) {
-				return me.vertStr(str[1]);
+		if (me.str != nil) {
+			me.str = me.str[''~button];
+			if (me.str != nil and (me.showFullMenus == TRUE or me.str[0] == TRUE)) {
+				return me.vertStr(me.str[1]);
 			}
 		}
 		return "";
 	},
 
 	vertStr: func (str) {
-		var compiled = "";
+		me.compiled = "";
 		for(var i = 0; i < size(str); i+=1) {
 			me.sub = substr(str,i,1);
 			if (me.sub == "\xC3") {
@@ -1904,9 +1904,9 @@ var TI = {
 				me.sub = substr(str,i,2);
 				i += 1;
 			}
-			compiled = compiled~me.sub~(i==(size(str)-1)?"":"\n");
+			me.compiled = me.compiled~me.sub~(i==(size(str)-1)?"":"\n");
 		}
-		return compiled;
+		return me.compiled;
 	},
 
 	updateFastSubMenu: func {
@@ -1924,30 +1924,30 @@ var TI = {
 		# button 7 is always showing stuff
 		me.menuButtonSub[7].show();
 		me.menuButtonSubBox[7].show();
-		var seven = nil;
+		me.seven = nil;
 		if (me.interoperability == displays.METRIC) {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":(dictSE['0'][''~math.abs(me.menuMain)][1])));
+			me.seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":(dictSE['0'][''~math.abs(me.menuMain)][1])));
 		} else {
-			seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":(dictEN['0'][''~math.abs(me.menuMain)][1])));
+			me.seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":(dictEN['0'][''~math.abs(me.menuMain)][1])));
 		}
-		me.menuButtonSub[7].setText(me.vertStr(seven));
+		me.menuButtonSub[7].setText(me.vertStr(me.seven));
 		if (me.menuMain == MAIN_DISPLAY) {
 			#show flight data
 			me.menuButtonSub[17].show();
 			me.menuButtonSubBox[17].show();
-			var seventeen = nil;
+			me.seventeen = nil;
 			if (me.interoperability == displays.METRIC) {
-				seventeen = dictSE['HORI'][''~me.displayFlight][1];
+				me.seventeen = dictSE['HORI'][''~me.displayFlight][1];
 			} else {
-				seventeen = dictEN['HORI'][''~me.displayFlight][1];
+				me.seventeen = dictEN['HORI'][''~me.displayFlight][1];
 			}
-			me.menuButtonSub[17].setText(me.vertStr(seventeen));
+			me.menuButtonSub[17].setText(me.vertStr(me.seventeen));
 
 			# zoom level
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
-			var six = zoomLevels[zoom_curr]~"";
-			me.menuButtonSub[6].setText(me.vertStr(six));
+			me.six = zoomLevels[zoom_curr]~"";
+			me.menuButtonSub[6].setText(me.vertStr(me.six));
 
 			# day/night map
 			me.menuButtonSub[19].setText(me.vertStr(me.interoperability == displays.METRIC?"NATT":"NGHT"));
@@ -1985,13 +1985,13 @@ var TI = {
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 			# radar in attack or fight mode
-			var ft = nil;
+			me.ft = nil;
 			if (me.interoperability == displays.METRIC) {
-				ft = "ATT";
+				me.ft = "ATT";
 			} else {
-				ft = "ATT";
+				me.ft = "ATT";
 			}
-			me.menuButtonSub[14].setText(me.vertStr(ft));
+			me.menuButtonSub[14].setText(me.vertStr(me.ft));
 			if (me.ModeAttack == TRUE) {
 				me.menuButtonSubBox[14].show();
 			}
@@ -1999,13 +1999,13 @@ var TI = {
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 			# use top or belly antaenna
-			var ant = nil;
+			me.ant = nil;
 			if (me.interoperability == displays.METRIC) {
-				ant = me.fr28Top==TRUE?"RYG":"BUK";
+				me.ant = me.fr28Top==TRUE?"RYG":"BUK";
 			} else {
-				ant = me.fr28Top==TRUE?"OVER":"UNDR";
+				me.ant = me.fr28Top==TRUE?"OVER":"UNDR";
 			}
-			me.menuButtonSub[6].setText(me.vertStr(ant));
+			me.menuButtonSub[6].setText(me.vertStr(me.ant));
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
 		}
@@ -2019,13 +2019,13 @@ var TI = {
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
 
-			var skal = nil;
+			me.skal = nil;
 			if (me.interoperability == displays.METRIC) {
-				skal = me.SVYscale==SVY_ELKA?"ELKA":(me.SVYscale==SVY_MI?"MI":"RMAX");
+				me.skal = me.SVYscale==SVY_ELKA?"ELKA":(me.SVYscale==SVY_MI?"MI":"RMAX");
 			} else {
-				skal = me.SVYscale==SVY_ELKA?"EMAP":(me.SVYscale==SVY_MI?"MI":"RMAX");
+				me.skal = me.SVYscale==SVY_ELKA?"EMAP":(me.SVYscale==SVY_MI?"MI":"RMAX");
 			}
-			me.menuButtonSub[14].setText(me.vertStr(skal));
+			me.menuButtonSub[14].setText(me.vertStr(me.skal));
 			me.menuButtonSub[14].show();
 			me.menuButtonSubBox[14].show();
 
@@ -2101,21 +2101,21 @@ var TI = {
 	recordEvent: func {
 		# mark event
 		#
-		var tgt = "";
+		me.tgt = "";
 		if(radar_logic.selection != nil) {
-			tgt = radar_logic.selection.get_Callsign();
+			me.tgt = radar_logic.selection.get_Callsign();
 		}
-		var echoes = size(radar_logic.tracks);
-		var message = sprintf("\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
+		me.echoes = size(radar_logic.tracks);
+		me.message = sprintf("\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
 			me.input.ias.getValue(),
 			me.input.headMagn.getValue(),
 			me.input.alt_ft.getValue(),
-			echoes==0?"":tgt,
-			echoes,
+			me.echoes==0?"":me.tgt,
+			me.echoes,
 			getprop("position/latitude-deg"),
 			getprop("position/longitude-deg")
 			);
-		me.logEvents.push(message);
+		me.logEvents.push(me.message);
 	},
 
 
@@ -2221,11 +2221,11 @@ var TI = {
 	},
 
 	testLanding: func {
-		var wow = me.input.wow0.getValue() and me.input.wow0.getValue() and me.input.wow0.getValue();
-		if (me.landed == FALSE and wow == TRUE) {
+		me.wow = me.input.wow0.getValue() and me.input.wow0.getValue() and me.input.wow0.getValue();
+		if (me.landed == FALSE and me.wow == TRUE) {
 			me.logLand.push("Has landed.");
 			me.landed = TRUE;
-		} elsif (wow == FALSE) {
+		} elsif (me.wow == FALSE) {
 			me.landed = FALSE;
 		}
 	},
@@ -2272,19 +2272,19 @@ var TI = {
 			me.selfVectorSvy.setTranslation(me.SVYoriginX, me.SVYoriginY-me.SVYheight*me.input.alt_ft.getValue()*FT2M/me.SVYalt);
 			#me.selfVectorSvy.setRotation(90*D2R);
 
-			var textX = "";
-			var textY = "";
+			me.textX = "";
+			me.textY = "";
 
 			if (me.interoperability == displays.METRIC) {
-				textX = sprintf("%d KM" ,me.SVYrange*0.001);
-				textY = sprintf("%d KM" ,me.SVYhmax);
+				me.textX = sprintf("%d KM" ,me.SVYrange*0.001);
+				me.textY = sprintf("%d KM" ,me.SVYhmax);
 			} else {
-				textX = sprintf("%d NM" ,me.SVYrange*M2NM);
-				textY = sprintf("%dK FT" ,me.SVYhmax*M2FT);
+				me.textX = sprintf("%d NM" ,me.SVYrange*M2NM);
+				me.textY = sprintf("%dK FT" ,me.SVYhmax*M2FT);
 			}
 
-			me.textSvyX.setText(textX);
-			me.textSvyY.setText(textY);
+			me.textSvyX.setText(me.textX);
+			me.textSvyY.setText(me.textY);
 			me.textSvyY.setTranslation(me.SVYoriginX, height*0.05-w);
 			me.textSvyX.setTranslation(width*0.95, height*0.125+height*0.125*me.SVYsize-height*0.05+me.SVYticksize+w);
 
@@ -2300,16 +2300,16 @@ var TI = {
 			me.basesNear = [];
 			me.ports = findAirportsWithinRange(75);
 			foreach(var port; me.ports) {
-				var small = size(port.id) < 4;
-			    append(me.basesNear, {"icao": port.id, "lat": port.lat, "lon": port.lon, "elev": port.elevation, "small": small});
+				me.small = size(port.id) < 4;
+			    append(me.basesNear, {"icao": port.id, "lat": port.lat, "lon": port.lon, "elev": port.elevation, "small": me.small});
 			}
 		}
 	},
 
 	showBasesNear: func {
 		if (me.basesEnabled == TRUE and zoom_curr >= 2) {
-			var numL = 0;
-			var numS = 0;
+			me.numL = 0;
+			me.numS = 0;
 			foreach(var base; me.basesNear) {
 				if (base["icao"] != land.icao) {
 					me.coord = geo.Coord.new();
@@ -2327,35 +2327,35 @@ var TI = {
 				      		me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2);
 				      		me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2);
 				      		if (me.small == TRUE) {
-					      		if (numS < maxBases) {
-					      			me.baseSmall[numS].setTranslation(me.pixelX, me.pixelY);
-					      			me.baseSmallText[numS].setTranslation(me.pixelX, me.pixelY);
-					      			me.baseSmallText[numS].setText(me.baseIcao);
-					      			me.baseSmallText[numS].setRotation(-getprop("orientation/heading-deg")*D2R);
-					      			me.baseSmall[numS].show();
-					      			me.baseSmallText[numS].show();
-					      			numS += 1;
+					      		if (me.numS < maxBases) {
+					      			me.baseSmall[me.numS].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseSmallText[me.numS].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseSmallText[me.numS].setText(me.baseIcao);
+					      			me.baseSmallText[me.numS].setRotation(-getprop("orientation/heading-deg")*D2R);
+					      			me.baseSmall[me.numS].show();
+					      			me.baseSmallText[me.numS].show();
+					      			me.numS += 1;
 					      		}
 				      		} else {
-				      			if (numL < maxBases) {
-				      				me.baseLarge[numL].setTranslation(me.pixelX, me.pixelY);
-					      			me.baseLargeText[numL].setTranslation(me.pixelX, me.pixelY);
-					      			me.baseLargeText[numL].setText(me.baseIcao);
-					      			me.baseLargeText[numL].show();
-					      			me.baseLargeText[numL].setRotation(-getprop("orientation/heading-deg")*D2R);
-					      			me.baseLarge[numL].show();
-					      			numL += 1;
+				      			if (me.numL < maxBases) {
+				      				me.baseLarge[me.numL].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseLargeText[me.numL].setTranslation(me.pixelX, me.pixelY);
+					      			me.baseLargeText[me.numL].setText(me.baseIcao);
+					      			me.baseLargeText[me.numL].show();
+					      			me.baseLargeText[me.numL].setRotation(-getprop("orientation/heading-deg")*D2R);
+					      			me.baseLarge[me.numL].show();
+					      			me.numL += 1;
 					      		}
 				      		}
 				      	}
 			    	}
 			    }
 			}
-			for(var i = numL; i < maxBases; i += 1) {
+			for(var i = me.numL; i < maxBases; i += 1) {
 				me.baseLargeText[i].hide();
 				me.baseLarge[i].hide();
 			}
-			for(var i = numS; i < maxBases; i += 1) {
+			for(var i = me.numS; i < maxBases; i += 1) {
 				me.baseSmallText[i].hide();
 				me.baseSmall[i].hide();
 			}
@@ -2809,8 +2809,8 @@ var TI = {
 			} else {
 				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.001;
 			}
-			var weight = getprop("fdm/jsbsim/inertia/weight-lbs");
-			me.alpha   = 9 + ((weight - 28000) / (38000 - 28000)) * (12 - 9);
+			me.weightLBM = getprop("fdm/jsbsim/inertia/weight-lbs");
+			me.alpha   = 9 + ((me.weightLBM - 28000) / (38000 - 28000)) * (12 - 9);
 			me.weightT = me.weightT~sprintf(" %.1f", me.weight);
 			me.alphaT  = me.alphaT~sprintf(" %.1f", me.alpha);
 			me.textBWeight.setText(me.weightT);
@@ -2850,16 +2850,17 @@ var TI = {
 		if (me.input.currentMode.getValue() == canvas_HUD.COMBAT and me.input.tracks_enabled.getValue() == TRUE) {
 			if (me.lastZ != zoom_curr or me.lastRR != me.input.radarRange.getValue() or me.input.timeElapsed.getValue() - me.lastRRT > 1600) {
 				me.radar_limit_grp.removeAllChildren();
-				var rdrField = 61.5*D2R;
-				var radius = M2TEX*me.input.radarRange.getValue();
-				var (leftX, leftY)   = (-math.sin(rdrField)*radius, -math.cos(rdrField)*radius);
+				me.rdrField = 61.5*D2R;
+				me.radius = M2TEX*me.input.radarRange.getValue();
+				me.leftX = -math.sin(me.rdrField)*me.radius;
+				me.leftY = -math.cos(me.rdrField)*me.radius;
 				me.radarLimit = me.radar_limit_grp.createChild("path")
-					.moveTo(leftX, leftY)
-					.arcSmallCW(radius, radius, 0, -leftX*2, 0)
-					.moveTo(leftX, leftY)
-					.lineTo(leftX*0.80, leftY*0.80)
-					.moveTo(-leftX, leftY)
-					.lineTo(-leftX*0.80, leftY*0.80)
+					.moveTo(me.leftX, me.leftY)
+					.arcSmallCW(me.radius, me.radius, 0, -me.leftX*2, 0)
+					.moveTo(me.leftX, me.leftY)
+					.lineTo(me.leftX*0.80, me.leftY*0.80)
+					.moveTo(-me.leftX, me.leftY)
+					.lineTo(-me.leftX*0.80, me.leftY*0.80)
 					.setColor(rTyrk,gTyrk,bTyrk, a)
 			    	.setStrokeLineWidth(w);
 			    me.lastRRT = me.input.timeElapsed.getValue();
@@ -2930,7 +2931,6 @@ var TI = {
 
 	displayRadarTracks: func () {
 
-	  	var mode = canvas_HUD.mode;
 		me.threatIndex  = -1;
 		me.missileIndex = -1;
 	    me.track_index  = 1;
@@ -3070,11 +3070,11 @@ var TI = {
 				    if (me.tgtHeading != nil) {
 				        me.relHeading = me.tgtHeading - me.myHeading;
 				        #me.relHeading -= 180;
-				        var rot = 90;
+				        me.rot = 90;
 				        if (math.abs(geo.normdeg180(me.relHeading)) > 90) {
-				        	rot = -90;
+				        	me.rot = -90;
 				        }
-				        me.echoesAircraftSvy[me.currentIndexT].setRotation(rot * D2R);
+				        me.echoesAircraftSvy[me.currentIndexT].setRotation(me.rot * D2R);
 				    }
 				    if (me.tgtSpeed != nil) {
 				    	me.echoesAircraftSvyVector[me.currentIndexT].setScale(1, clamp(((me.tgtSpeed/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX));
@@ -3140,10 +3140,10 @@ var TI = {
 
 	showSelfVector: func {
 		# length = time to travel in 60 seconds.
-		var spd = me.input.tas.getValue();# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
-		me.selfVector.setScale(1, clamp((spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
+		me.spd = me.input.tas.getValue();# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
+		me.selfVector.setScale(1, clamp((me.spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 		if (me.SVYactive == TRUE) {
-			me.selfVectorSvy.setScale(clamp(((spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
+			me.selfVectorSvy.setScale(clamp(((me.spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
 		}
 		if (me.GPSinit == TRUE) {
 			me.selfSymbol.hide();
@@ -3583,16 +3583,16 @@ var TI = {
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				# GPS fix
 				if (me.GPSinit == TRUE) {
-					  var coord = geo.aircraft_position();
+					  me.coord = geo.aircraft_position();
 
-					  var ground = geo.elevation(coord.lat(), coord.lon());
-    				  if(ground != nil) {
-      						coord.set_alt(ground);
+					  me.ground = geo.elevation(me.coord.lat(), me.coord.lon());
+    				  if(me.ground != nil) {
+      						coord.set_alt(me.ground);
       				  }
 
-					  var contact = radar_logic.ContactGPS.new("FIX", coord);
+					  me.contact = radar_logic.ContactGPS.new("FIX", me.coord);
 
-					  radar_logic.selection = contact;
+					  radar_logic.selection = me.contact;
 				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
@@ -3791,69 +3791,69 @@ var TI = {
 		me.mapCentrum.setTranslation(width/2, height*0.875-(height*0.875)*me.ownPosition);
 		
 		# get current position
-		var lat = getprop('/position/latitude-deg');
-		var lon = getprop('/position/longitude-deg');
+		me.lat = getprop('/position/latitude-deg');
+		me.lon = getprop('/position/longitude-deg');
 
-		var n = math.pow(2, zoom);
-		var offset = [
-			n * ((lon + 180) / 360) - center_tile_offset[0],
-			(1 - math.ln(math.tan(lat * D2R) + 1 / math.cos(lat * D2R)) / math.pi) / 2 * n - center_tile_offset[1]
+		me.n = math.pow(2, zoom);
+		me.offset = [
+			me.n * ((me.lon + 180) / 360) - center_tile_offset[0],
+			(1 - math.ln(math.tan(me.lat * D2R) + 1 / math.cos(me.lat * D2R)) / math.pi) / 2 * me.n - center_tile_offset[1]
 		];
-		var tile_index = [int(offset[0]), int(offset[1])];
+		me.tile_index = [int(me.offset[0]), int(me.offset[1])];
 
-		var ox = tile_index[0] - offset[0];
-		var oy = tile_index[1] - offset[1];
+		me.ox = me.tile_index[0] - me.offset[0];
+		me.oy = me.tile_index[1] - me.offset[1];
 
 		for(var x = 0; x < num_tiles[0]; x += 1) {
 			for(var y = 0; y < num_tiles[1]; y += 1) {
-				tiles[x][y].setTranslation(int((ox + x) * tile_size + 0.5), int((oy + y) * tile_size + 0.5));
+				tiles[x][y].setTranslation(int((me.ox + x) * tile_size + 0.5), int((me.oy + y) * tile_size + 0.5));
 			}
 		}
-		var liveMap = getprop("ja37/displays/live-map");
-		if(tile_index[0] != last_tile[0] or tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or liveMap != lastLiveMap or lastDay != me.day)  {
+		me.liveMap = getprop("ja37/displays/live-map");
+		if(me.tile_index[0] != last_tile[0] or me.tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or me.liveMap != lastLiveMap or lastDay != me.day)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
-					var pos = {
+					me.pos = {
 						z: zoom,
-						x: int(offset[0] + x),
-						y: int(offset[1] + y),
+						x: int(me.offset[0] + x),
+						y: int(me.offset[1] + y),
 						type: type
 					};
 
 					(func {
-					    var img_path = makePath(pos);
-					    var tile = tiles[x][y];
+					    me.img_path = makePath(me.pos);
+					    me.tile = tiles[x][y];
 
-					    if( io.stat(img_path) == nil and liveMap == TRUE) { # image not found, save in $FG_HOME
-					      	var img_url = makeUrl(pos);
+					    if( io.stat(me.img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
+					      	me.img_url = makeUrl(me.pos);
 					      	#print('requesting ' ~ img_url);
-					      	http.save(img_url, img_path)
+					      	http.save(me.img_url, me.img_path)
 					      		.done(func(r) {
 					      	  		#print('received image ' ~ img_path~" " ~ r.status ~ " " ~ r.reason);
-					      	  		tile.set("src", img_path);
+					      	  		me.tile.set("src", me.img_path);
 					      	  		})
 					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
 					          .fail(func (r) {#print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
-					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
-					      					tile.update();
+					          				me.tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
+					      					me.tile.update();
 					      					});
-					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
+					    } elsif (io.stat(me.img_path) != nil) {# cached image found, reusing
 					      	#print('loading ' ~ img_path);
-					      	tile.set("src", img_path);
-					      	tile.update();
+					      	me.tile.set("src", me.img_path);
+					      	me.tile.update();
 					    } else {
 					    	# internet not allowed, so no tile shown
-					    	tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
-					      	tile.update();
+					    	me.tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
+					      	me.tile.update();
 					    }
 					})();
 		  		}
 			}
 
-		last_tile = tile_index;
+		last_tile = me.tile_index;
 		last_type = type;
 		last_zoom = zoom;
-		lastLiveMap = liveMap;
+		lastLiveMap = me.liveMap;
 		lastDay = me.day;
 		}
 
