@@ -1598,8 +1598,7 @@ reloadJAAir2Ground = func {
   setprop("ai/submodels/submodel[6]/count", 6);
   setprop("ai/submodels/submodel[7]/count", 6);
   setprop("ai/submodels/submodel[8]/count", 6);
-  screen.log.write("2 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
-  screen.log.write("2 RB-15F cruise-missiles attached", 0.0, 1.0, 0.0);
+  screen.log.write("4 Bofors M70 rocket pods attached", 0.0, 1.0, 0.0);
   screen.log.write("2 RB-24J Sidewinder attached", 0.0, 1.0, 0.0);
 
   # Reload flares - 40 of them.
