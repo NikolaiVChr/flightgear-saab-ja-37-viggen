@@ -1498,7 +1498,7 @@ var TI = {
 		me.showHeadingBug();
 		me.testLanding();
 		me.rate = getprop("sim/frame-rate-worst");
-		settimer(func me.loopFast(), me.rate !=nil?clamp(2/getprop("sim/frame-rate-worst"), 0.05, 0.5):0.5);
+		settimer(func me.loopFast(), me.rate !=nil?clamp(2.1/me.rate, 0.05, 0.5):0.5);
 	},
 
 	loopSlow: func {

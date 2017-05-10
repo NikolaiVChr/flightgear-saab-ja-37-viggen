@@ -2885,3 +2885,5 @@ TI: Using true airspeed for own velocity vector instead of calibrated airspeed.
 Radar: {Pinto} Implemented RCS size into detection ranges. [disabled for now]
 TI: ECM overlay now shows incoming direction for a few seconds.
 TI: ECM overlay will now show detected radar beams from non-friendly MP sources.
+MI: Made MI display more performance friendly.
+GUI: Fixed wrong loadout msg. when JA selecting a2g.

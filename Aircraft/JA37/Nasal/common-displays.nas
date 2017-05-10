@@ -86,7 +86,7 @@ units:                "ja37/hud/units-metric",
 		me.distance();
 		me.errors();
 		me.rate = getprop("sim/frame-rate-worst");
-		settimer(func me.loop(), me.rate!=nil?clamp(2/me.rate, 0.05, 0.5):0.5);
+		settimer(func me.loop(), me.rate!=nil?clamp(2.15/me.rate, 0.05, 0.5):0.5);
 	},
 
 	loopFast: func {
