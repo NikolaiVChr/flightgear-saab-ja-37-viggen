@@ -2887,3 +2887,10 @@ TI: ECM overlay now shows incoming direction for a few seconds.
 TI: ECM overlay will now show detected radar beams from non-friendly MP sources.
 MI: Made MI display more performance friendly.
 GUI: Fixed wrong loadout msg. when JA selecting a2g.
+MI: Made the timing of running nasal loop uneven to TI/common.
+Radar: Added single seat Mirage to RCS list.
+TI: Fixed menus would not show Swedish chars.
+MI: Prevent possible divide by zero at very low framerate.
+Sim: Better initialization of displays common loops.
+TI: Optimized some parts for Nasal GC.
+TI: Fixed that steerpoint polygon could be toggled in TRAP menu.
