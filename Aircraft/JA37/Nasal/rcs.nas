@@ -49,11 +49,24 @@ var rcs_database = {
     "tower":                    60,     #estimated with blender
 };
 
+var prevVisible = {};
+
+var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
+    var sign = contact.get_Callsign();
+    if (contains(prevVisible, sign)) {
+        return prevVisible[sign];
+    } else {
+        return isInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
+    }
+}
+
 #most detection ranges are for a target that has an rcs of 5m^2, so leave that at default if not specified by source material
 
 var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     if (contact != nil) {
-        return targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Pitch(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs);
+        var value = targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Pitch(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs);
+        prevVisible[contact.get_Callsign()] = value;
+        return value;
     }
     return 0;
 };
@@ -69,8 +82,8 @@ var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch,
     var target_rcs = getRCS(targetCoord, targetHeading, targetPitch, targetRoll, myCoord, target_front_rcs);
     var target_distance = myCoord.direct_distance_to(targetCoord);
     #use inverse square to determine max signal strength vs target signal strength
-    var my_max_signal = myRadarStrength_rcs/math.pow(myRadarDistance_m,2);
-    var target_signal = target_rcs/math.pow(target_distance,2);
+    #var my_max_signal = myRadarStrength_rcs/math.pow(myRadarDistance_m,2);
+    #var target_signal = target_rcs/math.pow(target_distance,2);
 
     # comparing with standard formula
     var currMaxDist = myRadarDistance_m/math.pow(myRadarStrength_rcs/target_rcs, 1/4);
