@@ -3386,7 +3386,7 @@ var TI = {
 				me.trapMan = TRUE;
 				me.quickOpen = 10000;
 			}	
-			if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				me.showSteerPoly = !me.showSteerPoly;
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == FALSE and me.menuGPS == FALSE) {
