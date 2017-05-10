@@ -371,5 +371,11 @@ units:                "ja37/hud/units-metric",
 };
 
 var common = Common.new();
-common.loop();
-common.loopFast();
+
+var init = func {
+	removelistener(idl); # only call once
+	common.loop();
+	common.loopFast();
+}	
+
+idl = setlistener("ja37/supported/initialized", init, 0, 0);
