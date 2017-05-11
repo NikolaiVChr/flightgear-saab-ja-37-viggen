@@ -234,7 +234,7 @@ var AIM = {
         m.class                 = getprop("payload/armament/"~m.type_lc~"/class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
         m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # Interpolation hit: max distance from target it report it exploded, not passed. Trig hit: Distance where it will trigger.
-        m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # length of tube/rail
+        m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
 
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         # three variables used for trigonometry hit calc:
