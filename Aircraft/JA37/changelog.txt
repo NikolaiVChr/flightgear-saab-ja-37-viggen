@@ -2894,3 +2894,5 @@ MI: Prevent possible divide by zero at very low framerate.
 Sim: Better initialization of displays common loops.
 TI: Optimized some parts for Nasal GC.
 TI: Fixed that steerpoint polygon could be toggled in TRAP menu.
+Sim: Fixed missile impact report was incompatible with Bombable.
+TI: Fixed that optimizing for GC in map update function could make tiles fail to load.

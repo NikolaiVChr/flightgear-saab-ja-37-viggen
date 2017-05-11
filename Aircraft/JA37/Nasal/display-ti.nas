@@ -3813,39 +3813,40 @@ var TI = {
 		if(me.tile_index[0] != last_tile[0] or me.tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or me.liveMap != lastLiveMap or lastDay != me.day)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
-					me.pos = {
+		  			# inside here we use 'var' instead of 'me.' due to generator function, should be able to remember it.
+					var pos = {
 						z: zoom,
 						x: int(me.offset[0] + x),
 						y: int(me.offset[1] + y),
 						type: type
 					};
 
-					(func {
-					    me.img_path = makePath(me.pos);
-					    me.tile = tiles[x][y];
+					(func {# generator function
+					    var img_path = makePath(pos);
+					    var tile = tiles[x][y];
 
-					    if( io.stat(me.img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
-					      	me.img_url = makeUrl(me.pos);
+					    if( io.stat(img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
+					      	var img_url = makeUrl(pos);
 					      	#print('requesting ' ~ img_url);
-					      	http.save(me.img_url, me.img_path)
+					      	http.save(img_url, img_path)
 					      		.done(func(r) {
 					      	  		#print('received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
 					      	  		#print(""~(io.stat(me.img_path) != nil));
-					      	  		me.tile.set("src", me.img_path);# this sometimes fails with: Cannot find image file. I suspect its due to 2 tiles downloading the same image async.
+					      	  		tile.set("src", img_path);# this sometimes fails with: 'Cannot find image file' if use me. instead of var.
 					      	  		})
 					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
 					          .fail(func (r) {#print('Failed to get image ' ~ me.img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
-					          				me.tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
-					      					me.tile.update();
+					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
+					      					tile.update();
 					      					});
-					    } elsif (io.stat(me.img_path) != nil) {# cached image found, reusing
+					    } elsif (io.stat(img_path) != nil) {# cached image found, reusing
 					      	#print('loading ' ~ me.img_path);
-					      	me.tile.set("src", me.img_path);
-					      	me.tile.update();
+					      	tile.set("src", img_path);
+					      	tile.update();
 					    } else {
 					    	# internet not allowed, so no tile shown
-					    	me.tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
-					      	me.tile.update();
+					    	tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
+					      	tile.update();
 					    }
 					})();
 		  		}
