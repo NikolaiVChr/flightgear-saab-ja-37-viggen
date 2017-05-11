@@ -1910,7 +1910,7 @@ var AIM = {
 		me.coord = explosion_coord;
 
 		var wh_mass = event == "exploded"?me.weight_whead_lbm:0;#will report 0 mass if did not have time to arm
-		impact_report(me.coord, wh_mass, "munition", me.type);
+		impact_report(me.coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);
 
 		if (me.Tgt != nil) {
 			var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ me.callsign;
@@ -1944,7 +1944,7 @@ var AIM = {
         me.t_coord.apply_course_distance(t_bearing_deg, t_dist_m);
         me.t_coord.set_alt(new_t_alt_m);
         var wh_mass = event == "exploded"?me.weight_whead_lbm:0;#will report 0 mass if did not have time to arm
-        impact_report(me.t_coord, wh_mass, "munition", me.type);
+        impact_report(me.t_coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);
 
 		if (me.lock_on_sun == TRUE) {
 			reason = "Locked onto sun.";
@@ -2385,7 +2385,7 @@ var AIM = {
 #	speed-mps DOUBLE
 #	type STRING
 # valid "true" BOOL
-var impact_report = func(pos, mass, string, name) {
+var impact_report = func(pos, mass, string, name, speed_mps) {
 	# Find the next index for "ai/models/model-impact" and create property node.
 	var n = props.globals.getNode("ai/models", 1);
 	for (var i = 0; 1; i += 1)
@@ -2397,9 +2397,11 @@ var impact_report = func(pos, mass, string, name) {
 	impact.getNode("impact/latitude-deg", 1).setDoubleValue(pos.lat());
 	impact.getNode("impact/longitude-deg", 1).setDoubleValue(pos.lon());
 	impact.getNode("warhead-lbm", 1).setDoubleValue(mass);
+	impact.getNode("mass-slug", 1).setDoubleValue(mass/slugs_to_lbm);
+	impact.getNode("impact/speed-mps", 1).setDoubleValue(speed_mps);
 	#impact.getNode("speed-mps", 1).setValue(speed_mps);
 	impact.getNode("valid", 1).setBoolValue(1);
-	impact.getNode("impact/type", 1).setValue("terrain");
+	impact.getNode("impact/type", 1).setValue("something");#"terrain"
 	impact.getNode("name", 1).setValue(name);
 
 	var impact_str = "/ai/models/" ~ string ~ "[" ~ i ~ "]";
