@@ -2869,7 +2869,7 @@ MI: Failure will now show on the display if there are new failures.
 TI: Implemented landing log page.
 Sim: Added saab tag.
 
-4.103
+4.103 - 2017 May 11
 =====
 GUI: Rename of gui folder.
 GUI: Added dialog to define friends and foes.
