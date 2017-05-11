@@ -3829,16 +3829,17 @@ var TI = {
 					      	#print('requesting ' ~ img_url);
 					      	http.save(me.img_url, me.img_path)
 					      		.done(func(r) {
-					      	  		#print('received image ' ~ img_path~" " ~ r.status ~ " " ~ r.reason);
-					      	  		me.tile.set("src", me.img_path);
+					      	  		#print('received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
+					      	  		#print(""~(io.stat(me.img_path) != nil));
+					      	  		me.tile.set("src", me.img_path);# this sometimes fails with: Cannot find image file. I suspect its due to 2 tiles downloading the same image async.
 					      	  		})
 					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-					          .fail(func (r) {#print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
+					          .fail(func (r) {#print('Failed to get image ' ~ me.img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
 					          				me.tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
 					      					me.tile.update();
 					      					});
 					    } elsif (io.stat(me.img_path) != nil) {# cached image found, reusing
-					      	#print('loading ' ~ img_path);
+					      	#print('loading ' ~ me.img_path);
 					      	me.tile.set("src", me.img_path);
 					      	me.tile.update();
 					    } else {
