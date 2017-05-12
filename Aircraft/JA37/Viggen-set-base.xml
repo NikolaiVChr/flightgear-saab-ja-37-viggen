@@ -412,9 +412,9 @@
                 <!--<string n="9" type="string"/> not used -->
                 <int n="10" type="int">0</int>                                                                      <!-- use this for flare (future) -->
                 <int n="11" alias="/payload/weight[0]/ammo"/>  <!-- m71 ammo -->
-                <int n="12" alias="/payload/weight[1]/ammo"/>  
-                <int n="13" alias="/payload/weight[2]/ammo"/>       
-                <int n="14" alias="/payload/weight[3]/ammo"/>                      
+                <int n="12" alias="/payload/weight[1]/ammo"/>
+                <int n="13" alias="/payload/weight[2]/ammo"/>
+                <int n="14" alias="/payload/weight[3]/ammo"/>
                 <!-- misc -->
                 <!--<string n="0" alias="/sim/aircraft-version"/> not used anymore -->
                 <!--<string n="10" type="string">none</string>--><!-- flare -->

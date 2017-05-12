@@ -431,7 +431,7 @@ var update_loop = func {
 
       var geod = get_cart_ground_intersection(xyz, dir);
       if (geod != nil) {
-        end.set_latlon(geod.lat, geod.lon, geod.elevation);# seems it in meters
+        end.set_latlon(geod.lat, geod.lon, geod.elevation);
         var dist = start.direct_distance_to(end)*M2FT;
         var time = dist / speed_fps;
         setprop("/ja37/radar/time-till-crash", time);
@@ -1095,8 +1095,11 @@ var test_support = func {
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
-    if (minor == 0) {
-      setprop("ja37/supported/picking", FALSE);
+    if (minor == 2 and detail > 0) {
+      setprop("ja37/supported/picking", TRUE);
+    }
+    if (minor > 2) {
+      setprop("ja37/supported/picking", TRUE);
     }
   } else {
     # future proof
@@ -1111,7 +1114,7 @@ var test_support = func {
     setprop("ja37/supported/lightning", TRUE);
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", TRUE);
-    setprop("ja37/supported/picking", FALSE);
+    setprop("ja37/supported/picking", TRUE);
   }
   setprop("ja37/supported/initialized", TRUE);
 
@@ -1778,7 +1781,7 @@ var code_ct = func () {
     dm = 0;
   }
   var tm = getprop("ja37/radar/look-through-terrain");
-  if (tm == nil or tm != 1) {
+  if (getprop("ja37/supported/picking") == 1 or tm == nil or tm != 1) {
     tm = 0;
   }
   var rd = !getprop("ja37/radar/doppler-enabled");

@@ -447,7 +447,7 @@ var Dialog = {
           realRadarRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #rb24msgRow.set("valign", "center");
           
-          var realRadarText = realRadarRow.addChild("text").set("label", "Hide radar echos behind terrain: (always enabled in 2018.1+)");
+          var realRadarText = realRadarRow.addChild("text").set("label", "Terrain blocks radar: (always enabled in 2017.2.1+)");
           realRadarRow.addChild("empty").set("stretch", 1);
           me.dialog.realRadarButton = realRadarRow.addChild("button");
           me.dialog.realRadarButton.set("halign", "right");
