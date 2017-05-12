@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 725;
+var DIALOG_HEIGHT = 750;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -517,7 +517,7 @@ var Dialog = {
 
           #HUD brightness
           var hudRow = workArea.addChild("group");
-          hudRow.set("layout", "vbox");
+          hudRow.set("layout", "hbox");
           hudRow.set("pref-height", 25);
           hudRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #hudRow.set("valign", "center");

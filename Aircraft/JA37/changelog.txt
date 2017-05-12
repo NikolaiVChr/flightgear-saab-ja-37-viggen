@@ -2896,3 +2896,8 @@ TI: Optimized some parts for Nasal GC.
 TI: Fixed that steerpoint polygon could be toggled in TRAP menu.
 Sim: Fixed missile impact report was incompatible with Bombable.
 TI: Fixed that optimizing for GC in map update function could make tiles fail to load.
+
+4.104
+=====
+Animation: Fixed 2 switches was not animated correct.
+GUI: Fixed overlapping buttons in option dialog.
