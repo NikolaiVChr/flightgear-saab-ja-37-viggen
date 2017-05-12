@@ -68,7 +68,7 @@
         <object-name>D2_lever</object-name>
         <property>ja37/armament/sim</property>
         <factor>20</factor>
-        <offset-deg>-40</offset-deg>
+        <offset-deg>-20</offset-deg>
         <center>
             <x-m>  0.00 </x-m>
             <y-m>  0.00616 </y-m>
