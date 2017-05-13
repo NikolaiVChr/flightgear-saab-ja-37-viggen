@@ -3844,8 +3844,8 @@ var TI = {
 					      	tile.set("src", img_path);
 					      	tile.update();
 					    } else {
-					    	# internet not allowed, so no tile shown
-					    	tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
+					    	# internet not allowed, so noise tile shown
+					    	tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/noiseTile.png");
 					      	tile.update();
 					    }
 					})();
