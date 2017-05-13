@@ -2904,3 +2904,4 @@ GUI: Fixed overlapping buttons in option dialog.
 Radar: Detection if radar view is obscurred by terrain is now faster and better. (only FG 2017.2.1+)
 Sim: Missiles can now lose sight of target if obscured by terrain. (only FG 2017.2.1+)
 Sim: Terrain warning now is much smarter. (only FG 2017.2.1+)
+Animation: Fixed fuel gauge could change too fast.

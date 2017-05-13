@@ -92,7 +92,7 @@
                 <value>150</value>
             </greater-than>
         </condition>
-        <property>/instrumentation/fuel/needleF_rot</property>
+        <property>/instrumentation/fuel/needleF_rot_final</property>
         <factor>0.99</factor>
         <offset-deg>-1</offset-deg>
         <max>325</max>

@@ -90,7 +90,7 @@
                 <value>150</value>
             </greater-than>
         </condition>
-        <property>/instrumentation/fuel/needleF_rot</property>
+        <property>/instrumentation/fuel/needleF_rot_final</property>
         <max>325</max>
         <center>
             <x-m>0</x-m>

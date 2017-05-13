@@ -637,6 +637,20 @@
             <output>/engines/engine/epr-gauge</output>
         </lag_filter>
 
+        <switch name="names/instr/fuel-on">
+            <default value="/instrumentation/fuel/needleF_rot"/>
+            <test logic="OR" value="/instrumentation/fuel/needleF_rot_on">
+              /systems/electrical/outputs/ac-main-voltage lt 150
+            </test>
+            <output>/instrumentation/fuel/needleF_rot_on</output>
+        </switch>
+
+        <lag_filter name="names/instr/fuel">
+            <input> /instrumentation/fuel/needleF_rot_on </input>
+            <c1> 5 </c1>
+            <output>/instrumentation/fuel/needleF_rot_final</output>
+        </lag_filter>
+
         <!-- used for animating nozzle indicator -->
 
         <fcs_function name="names/throttle/nozzle-zone">
