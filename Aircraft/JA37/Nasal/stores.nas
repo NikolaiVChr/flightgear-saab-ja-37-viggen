@@ -750,7 +750,7 @@ var impact_listener = func {
   if (radar_logic.selection != nil) {
     var ballistic_name = input.impact.getValue();
     var ballistic = props.globals.getNode(ballistic_name, 0);
-    if (ballistic != nil) {
+    if (ballistic != nil and ballistic.getName() != "munition") {
       var typeNode = ballistic.getNode("impact/type");
       if (typeNode != nil and typeNode.getValue() != "terrain") {
         var lat = ballistic.getNode("impact/latitude-deg").getValue();
