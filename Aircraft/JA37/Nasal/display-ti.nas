@@ -87,10 +87,10 @@ var maps_base = getprop("/sim/fg-home") ~ '/cache/mapsTI';
 # dark_only_labels
 
 var makeUrl =
-  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/{type}/{z}/{x}/{y}.png');#http://otile2.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.jpg'
+  string.compileTemplate('http://cartodb-basemaps-c.global.ssl.fastly.net/{type}/{z}/{x}/{y}.png');
 var makePath =
-  string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');#/osm-{type}/{z}/{x}/{y}.jpg
-var num_tiles = [5, 5];
+  string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
+var num_tiles = [5, 5];# must be uneven, 5x5 will ensure we never see edge of map tiles when canvas is 512px high.
 
 var center_tile_offset = [(num_tiles[0] - 1) / 2,(num_tiles[1] - 1) / 2];#(width/tile_size)/2,(height/tile_size)/2];
 #  (num_tiles[0] - 1) / 2,
@@ -282,7 +282,7 @@ var TI = {
 		me.mapCenter = me.mapCentrum.createChild("group");
 		me.mapRot = me.mapCenter.createTransform();
 		me.mapFinal = me.mapCenter.createChild("group");
-		me.mapFinal.setTranslation(-tile_size*center_tile_offset[0],-tile_size*center_tile_offset[1]);
+		#me.mapFinal.setTranslation(-tile_size*center_tile_offset[0],-tile_size*center_tile_offset[1]);
 
 		# groups
 		me.rootCenter = root.createChild("group")
@@ -3795,26 +3795,39 @@ var TI = {
 		me.lon = getprop('/position/longitude-deg');
 
 		me.n = math.pow(2, zoom);
-		me.offset = [
-			me.n * ((me.lon + 180) / 360) - center_tile_offset[0],
-			(1 - math.ln(math.tan(me.lat * D2R) + 1 / math.cos(me.lat * D2R)) / math.pi) / 2 * me.n - center_tile_offset[1]
+		me.center_tile_float = [
+			me.n * ((me.lon + 180) / 360),
+			(1 - math.ln(math.tan(me.lat * D2R) + 1 / math.cos(me.lat * D2R)) / math.pi) / 2 * me.n
 		];
-		me.tile_index = [int(me.offset[0]), int(me.offset[1])];
+		# center_tile_offset[1]
+		me.center_tile_int = [int(me.center_tile_float[0]), int(me.center_tile_float[1])];
 
-		me.ox = me.tile_index[0] - me.offset[0];
-		me.oy = me.tile_index[1] - me.offset[1];
+		me.center_tile_fraction_x = me.center_tile_float[0] - me.center_tile_int[0];
+		me.center_tile_fraction_y = me.center_tile_float[1] - me.center_tile_int[1];
+#printf("centertile: %d,%d fraction %.2f,%.2f",me.center_tile_int[0],me.center_tile_int[1],me.center_tile_fraction_x,me.center_tile_fraction_y);
+		me.tile_offset = [int(num_tiles[0]/2), int(num_tiles[1]/2)];
+
+		# 3x3 example: (same for both canvas-tiles and map-tiles)
+		#  *************************
+		#  * -1,-1 *  0,-1 *  1,-1 *
+		#  *************************
+		#  * -1, 0 *  0, 0 *  1, 0 *
+		#  *************************
+		#  * -1, 1 *  0, 1 *  1, 1 *
+		#  *************************
+		#
 
 		for(var xxx = 0; xxx < num_tiles[0]; xxx += 1) {
 			for(var yyy = 0; yyy < num_tiles[1]; yyy += 1) {
-				tiles[xxx][yyy].setTranslation(int((me.ox + xxx) * tile_size + 0.5), int((me.oy + yyy) * tile_size + 0.5));
+				tiles[xxx][yyy].setTranslation(-int((me.center_tile_fraction_x - xxx+me.tile_offset[0]) * tile_size), -int((me.center_tile_fraction_y - yyy+me.tile_offset[1]) * tile_size));
 			}
 		}
 		me.liveMap = getprop("ja37/displays/live-map");
-		if(me.tile_index[0] != last_tile[0] or me.tile_index[1] != last_tile[1] or type != last_type or zoom != last_zoom or me.liveMap != lastLiveMap or lastDay != me.day)  {
+		if(me.center_tile_int[0] != last_tile[0] or me.center_tile_int[1] != last_tile[1] or type != last_type or zoom != last_zoom or me.liveMap != lastLiveMap or lastDay != me.day)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
 		  			# inside here we use 'var' instead of 'me.' due to generator function, should be able to remember it.
-		  			var xx = int(me.offset[0] + x);
+		  			var xx = me.center_tile_int[0] + x - me.tile_offset[0];
 		  			if (xx < 0) {
 		  				# when close to crossing 180 longitude meridian line, make sure we see the tiles on the positive side of the line.
 		  				xx = me.n + xx;#print(xx~" from "~(xx-me.n));
@@ -3825,7 +3838,7 @@ var TI = {
 					var pos = {
 						z: zoom,
 						x: xx,
-						y: int(me.offset[1] + y),
+						y: me.center_tile_int[1] + y - me.tile_offset[1],
 						type: type
 					};
 
@@ -3861,7 +3874,7 @@ var TI = {
 		  		}
 			}
 
-		last_tile = me.tile_index;
+		last_tile = me.center_tile_int;
 		last_type = type;
 		last_zoom = zoom;
 		lastLiveMap = me.liveMap;

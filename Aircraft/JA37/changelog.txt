@@ -2910,3 +2910,4 @@ Sim: Prevented new missile report to generate a cannon hit.
 Model: {Spectre} Added livery inspired from song Big Iron.
 GUI: Made the colors of FAF dialog so that cursor can be seen.
 TI: Fixed that when passing longitude 180 meridian line, map would not show across the line till it was passed.
+TI: Fixed that rounding errors would display wrong map tiles at longitude close to -180 when flying on same side of meridian line.
