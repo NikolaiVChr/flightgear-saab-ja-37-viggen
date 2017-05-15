@@ -50,9 +50,9 @@
             <command>dialog-apply</command>
       	</binding>
       	<color>
-      		<red>0</red>
+      		<red>0.5</red>
       		<green>1</green>
-      		<blue>0</blue>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -66,9 +66,9 @@
             <command>dialog-apply</command>
       	</binding>
       	<color>
-      		<red>0</red>
+      		<red>0.5</red>
       		<green>1</green>
-      		<blue>0</blue>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -82,9 +82,9 @@
             <command>dialog-apply</command>
       	</binding>
       	<color>
-      		<red>0</red>
+      		<red>0.5</red>
       		<green>1</green>
-      		<blue>0</blue>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -98,9 +98,9 @@
             <command>dialog-apply</command>
       	</binding>
       	<color>
-      		<red>0</red>
+      		<red>0.5</red>
       		<green>1</green>
-      		<blue>0</blue>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -114,9 +114,9 @@
             <command>dialog-apply</command>
       	</binding>
       	<color>
-      		<red>0</red>
+      		<red>0.5</red>
       		<green>1</green>
-      		<blue>0</blue>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -130,9 +130,9 @@
             <command>dialog-apply</command>
       	</binding>
       	<color>
-      		<red>0</red>
+      		<red>0.5</red>
       		<green>1</green>
-      		<blue>0</blue>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -147,8 +147,8 @@
       	</binding>
       	<color>
       		<red>1</red>
-      		<green>0</green>
-      		<blue>0</blue>
+      		<green>0.5</green>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -163,8 +163,8 @@
       	</binding>
       	<color>
       		<red>1</red>
-      		<green>0</green>
-      		<blue>0</blue>
+      		<green>0.5</green>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -179,8 +179,8 @@
       	</binding>
       	<color>
       		<red>1</red>
-      		<green>0</green>
-      		<blue>0</blue>
+      		<green>0.5</green>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -195,8 +195,8 @@
       	</binding>
       	<color>
       		<red>1</red>
-      		<green>0</green>
-      		<blue>0</blue>
+      		<green>0.5</green>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -211,8 +211,8 @@
       	</binding>
       	<color>
       		<red>1</red>
-      		<green>0</green>
-      		<blue>0</blue>
+      		<green>0.5</green>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<input>
@@ -227,8 +227,8 @@
       	</binding>
       	<color>
       		<red>1</red>
-      		<green>0</green>
-      		<blue>0</blue>
+      		<green>0.5</green>
+      		<blue>0.5</blue>
       	</color>
 	</input>
 	<button>
