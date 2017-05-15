@@ -3804,9 +3804,9 @@ var TI = {
 		me.ox = me.tile_index[0] - me.offset[0];
 		me.oy = me.tile_index[1] - me.offset[1];
 
-		for(var x = 0; x < num_tiles[0]; x += 1) {
-			for(var y = 0; y < num_tiles[1]; y += 1) {
-				tiles[x][y].setTranslation(int((me.ox + x) * tile_size + 0.5), int((me.oy + y) * tile_size + 0.5));
+		for(var xxx = 0; xxx < num_tiles[0]; xxx += 1) {
+			for(var yyy = 0; yyy < num_tiles[1]; yyy += 1) {
+				tiles[xxx][yyy].setTranslation(int((me.ox + xxx) * tile_size + 0.5), int((me.oy + yyy) * tile_size + 0.5));
 			}
 		}
 		me.liveMap = getprop("ja37/displays/live-map");
@@ -3814,9 +3814,17 @@ var TI = {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
 		  			# inside here we use 'var' instead of 'me.' due to generator function, should be able to remember it.
+		  			var xx = int(me.offset[0] + x);
+		  			if (xx < 0) {
+		  				# when close to crossing 180 longitude meridian line, make sure we see the tiles on the positive side of the line.
+		  				xx = me.n + xx;#print(xx~" from "~(xx-me.n));
+		  			} elsif (xx >= me.n) {
+		  				# when close to crossing 180 longitude meridian line, make sure we dont double load the tiles on the negative side of the line.
+		  				xx = xx - me.n;#print(xx~" from "~(xx+me.n));
+		  			}
 					var pos = {
 						z: zoom,
-						x: int(me.offset[0] + x),
+						x: xx,
 						y: int(me.offset[1] + y),
 						type: type
 					};
@@ -3824,7 +3832,7 @@ var TI = {
 					(func {# generator function
 					    var img_path = makePath(pos);
 					    var tile = tiles[x][y];
-
+					    #print('showing ' ~ img_path);
 					    if( io.stat(img_path) == nil and me.liveMap == TRUE) { # image not found, save in $FG_HOME
 					      	var img_url = makeUrl(pos);
 					      	#print('requesting ' ~ img_url);
@@ -3833,9 +3841,10 @@ var TI = {
 					      	  		#print('received image ' ~ me.img_path~" " ~ r.status ~ " " ~ r.reason);
 					      	  		#print(""~(io.stat(me.img_path) != nil));
 					      	  		tile.set("src", img_path);# this sometimes fails with: 'Cannot find image file' if use me. instead of var.
+					      	  		tile.update();
 					      	  		})
 					          #.done(func {print('received image ' ~ img_path); tile.set("src", img_path);})
-					          .fail(func (r) {#print('Failed to get image ' ~ me.img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
+					          .fail(func (r) {#print('Failed to get image ' ~ img_path ~ ' ' ~ r.status ~ ': ' ~ r.reason);
 					          				tile.set("src", "Aircraft/JA37/Models/Cockpit/TI/emptyTile.png");
 					      					tile.update();
 					      					});
