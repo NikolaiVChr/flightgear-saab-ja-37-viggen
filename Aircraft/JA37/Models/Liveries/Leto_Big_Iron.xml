@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">Leto Big Iron</name>
+    <texture>Liveries/Gunslinger/Leto_Big_Iron.png</texture>
+    <owner type="string">Leto</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>
