@@ -2807,12 +2807,12 @@ var TI = {
 			me.alphaT  = me.interoperability == displays.METRIC?"ALFA":"ALPH";
 			me.weightT = me.interoperability == displays.METRIC?"VIKT":"WEIG";
 			if (me.interoperability == displays.METRIC) {
-				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.453592*0.001;
+				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG*0.001;
 			} else {
 				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.001;
 			}
-			me.weightLBM = getprop("fdm/jsbsim/inertia/weight-lbs");
-			me.alpha   = 9 + ((me.weightLBM - 28000) / (38000 - 28000)) * (12 - 9);
+			me.weightKG = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG;
+			me.alpha   = clamp(extrapolate(me.weightKG, 15000, 16500, 15.5, 9.0), 9, 20.5);#9 + ((me.weightLBM - 28000) / (38000 - 28000)) * (12 - 9);
 			me.weightT = me.weightT~sprintf(" %.1f", me.weight);
 			me.alphaT  = me.alphaT~sprintf(" %.1f", me.alpha);
 			me.textBWeight.setText(me.weightT);
