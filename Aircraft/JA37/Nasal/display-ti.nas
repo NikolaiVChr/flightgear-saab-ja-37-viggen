@@ -213,6 +213,10 @@ var containsVector = func (vec, item) {
 	return FALSE;
 }
 
+var extrapolate = func (x, x1, x2, y1, y2) {
+    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+};
+
 # notice the Swedish letter are missing accents in vertical menu items {ÅÖÄ} due to them not being always read correct by Nasal substr().
 # Å = \xC3\x85
 # Ö = \xC3\x96
@@ -3910,10 +3914,6 @@ var TI = {
 
 		me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
 	},
-};
-
-var extrapolate = func (x, x1, x2, y1, y2) {
-    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
 
 var ti = nil;

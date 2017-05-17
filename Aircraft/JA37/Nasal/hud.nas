@@ -14,6 +14,9 @@ var roundabout = func(x) {
   var y = x - int(x);
   return y < 0.5 ? int(x) : 1 + int(x) ;
 };
+var extrapolate = func (x, x1, x2, y1, y2) {
+    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+};
 var deg2rads = math.pi/180.0;
 var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
@@ -2038,8 +2041,8 @@ var HUDnasal = {
             me.highAlpha = getprop("ja37/avionics/high-alpha");
             me.idealAlpha = 15.5;# the ideal aoa for landing.
             if (me.highAlpha == FALSE) {
-              me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs");
-              me.idealAlpha = 9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
+              me.myWeight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG;
+              me.idealAlpha = extrapolate(me.myWeight, 15000, 16500, 15.5, 9.0);#9 + ((me.myWeight - 28000) / (38000 - 28000)) * (12 - 9);#is 9-12 depending on weight
               me.idealAlpha = ja37.clamp(me.idealAlpha, 9, 12);
             }
             me.translation = (me.alpha-me.idealAlpha)*6.5;

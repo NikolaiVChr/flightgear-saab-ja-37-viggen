@@ -2913,3 +2913,5 @@ TI: Fixed that when passing longitude 180 meridian line, map would not show acro
 TI: Fixed that rounding errors would display wrong map tiles at longitude close to -180 when flying on same side of meridian line.
 MI: Transfer link rb99 to TI. [X2] (right side of bottom text field)
 Model: Renamed Big Iron Livery.
+TI: Updated recommended landing alpha according to sources (approxed).
+HUD: Updated recommended landing alpha according to sources (approxed).
