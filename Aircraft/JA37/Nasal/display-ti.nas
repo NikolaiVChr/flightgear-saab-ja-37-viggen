@@ -912,19 +912,19 @@ var TI = {
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("left-bottom")
     		.setTranslation(width/2, height-height*0.015)
-    		.setFontSize(30, 1);
+    		.setFontSize(27, 1);
     	me.textBAlpha = me.bottom_text_grp.createChild("text")
     		.setText("ALFA 20,5")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-bottom")
     		.setTranslation(width, height-height*0.01)
-    		.setFontSize(17, 1);
+    		.setFontSize(16, 1);
     	me.textBWeight = me.bottom_text_grp.createChild("text")
     		.setText("VIKT 13,4")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("right-top")
     		.setTranslation(width, height-height*0.085)
-    		.setFontSize(17, 1);
+    		.setFontSize(16, 1);
 
     	# log pages
     	me.logRoot = root.createChild("group")
@@ -1418,6 +1418,8 @@ var TI = {
 		ti.foes    = [];
 		ti.friends = [];
 		ti.ECMon   = FALSE;
+		ti.lnk99   = FALSE;
+		ti.tele    = [];
 
 		ti.startFailListener();
 
@@ -2083,7 +2085,7 @@ var TI = {
 		# show RB99 link
 		if (!me.active) return;
 
-		print("TI RB99 link not implemented yet, coming soon^tm.");
+		me.lnk99 = !me.lnk99;
 	},
 
 	doBIT: func {
@@ -2815,6 +2817,25 @@ var TI = {
 			me.alphaT  = me.alphaT~sprintf(" %.1f", me.alpha);
 			me.textBWeight.setText(me.weightT);
 			me.textBAlpha.setText(me.alphaT);
+		} elsif (me.lnk99 == TRUE) {
+			me.weightT = "";
+			for (var i = 0; i < 2; i+=1) {
+				if (size(me.tele) > i) {
+					me.weightT = me.weightT~sprintf("|%2ds%2d%%", clamp(me.tele[i][1],-9,99),me.tele[i][0]);
+				} else {
+					me.weightT = me.weightT~"|      ";
+				}
+			}
+			me.alphaT = "";
+			for (var i = 2; i < 4; i+=1) {
+				if (size(me.tele) > i) {
+					me.alphaT = me.alphaT~sprintf("|%2ds%2d%%", clamp(me.tele[i][1],-9,99),me.tele[i][0]);
+				} else {
+					me.alphaT  =  me.alphaT~"|      ";
+				}
+			}
+			me.textBWeight.setText(me.weightT);
+			me.textBAlpha.setText(me.alphaT);
 		} elsif (displays.common.distance_m != -1) {
 			me.textBWeight.setText(displays.common.distance_name);
 			if (displays.common.distance_model != displays.common.distance_name) {
@@ -2938,6 +2959,7 @@ var TI = {
 	    me.selection_updated = FALSE;
 	    me.tgt_dist = 1000000;
 	    me.tgt_callsign = "";
+	    me.tele = [];
 
 	    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
 			me.radar_group.show();
@@ -3085,6 +3107,11 @@ var TI = {
 					me.echoesAircraftSvy[me.currentIndexT].update();
 				}
 			} else {
+				me.eta99 = contact.getETA();
+				me.hit99 = contact.getHitChance();
+				if (me.eta99 != nil) {
+					append(me.tele, [me.hit99, me.eta99]);
+				}
 				if (me.missileIndex < maxMissiles-1) {
 					me.missileIndex += 1;
 					me.missiles[me.missileIndex].setTranslation(me.pos_xx, me.pos_yy);					
