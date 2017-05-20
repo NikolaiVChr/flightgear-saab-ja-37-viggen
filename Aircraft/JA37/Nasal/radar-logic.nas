@@ -373,7 +373,13 @@ var RadarLogic = {
       return nil;
     }
 
-    
+    if (mp == TRUE or getprop("ja37/supported/picking") == TRUE) {
+      # is multiplayer or 2017.2.1+
+      if (me.isNotBehindTerrain(aircraftPos) == FALSE) {
+        #hidden behind terrain
+        return nil;
+      }
+    }
 
     if (me.distance < 120000 and mp == TRUE and node.getNode("callsign") != nil and getprop("ja37/systems/variant") == 0 and TI.ti.ECMon == TRUE) {
         # if within 120 Km and a multiplayer, we check if its radar beams are detected.
@@ -453,13 +459,7 @@ var RadarLogic = {
         #is within the radar cone
         # AJ37 manual: 61.5 deg sideways.
 
-        if (mp == TRUE or getprop("ja37/supported/picking") == TRUE) {
-          # is multiplayer
-          if (me.isNotBehindTerrain(aircraftPos) == FALSE) {
-            #hidden behind terrain
-            return nil;
-          }
-        }
+        
         if (mp == TRUE) {
           me.shrtr = node.getChild("model-shorter")==nil?"nil":node.getChild("model-shorter").getValue();
           if (me.doppler(aircraftPos, node) == TRUE) {
@@ -499,7 +499,7 @@ var RadarLogic = {
   },
 
 #
-# The following 6 methods is from Mirage 2000-5
+# The following 6 methods is partly from Mirage 2000-5
 #
   isNotBehindTerrain: func(SelectCoord) {
     if (getprop("ja37/supported/picking") == TRUE) {

@@ -135,7 +135,7 @@ var major = num(version[0]);
 var minor = num(version[1]);
 var pica  = num(version[2]);
 var pickingMethod = FALSE;
-if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2) or major > 2017) {#change this when 2017.1 comes out if the method is merged into fg main git branch
+if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2) or major > 2017) {
 	pickingMethod = TRUE;
 }
 var offsetMethod = FALSE;

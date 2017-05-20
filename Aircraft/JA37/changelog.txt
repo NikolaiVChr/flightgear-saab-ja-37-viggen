@@ -2915,3 +2915,7 @@ MI: Transfer link rb99 to TI. [X2] (right side of bottom text field)
 Model: Renamed Big Iron Livery.
 TI: Updated recommended landing alpha according to sources (approxed).
 HUD: Updated recommended landing alpha according to sources (approxed).
+
+4.105
+=====
+Radar: Fixed that radar warning reciever would not check if the aircraft is behind terrain.
