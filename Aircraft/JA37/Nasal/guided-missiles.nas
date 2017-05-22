@@ -1546,7 +1546,7 @@ var AIM = {
 			#print("Turning, desire "~me.t_elev_deg~" degs pitch.");
 			me.cruise_or_loft = TRUE;
 			me.limitGs = TRUE;
-			if (math.abs(me.curr_deviation_e) < 20) {
+			if (math.abs(me.curr_deviation_e) < 7.5) {
 				me.rotate_token = TRUE;
 				#print("Is last turn, snap-up/PN takes it from here..")
 			}
@@ -1584,7 +1584,7 @@ var AIM = {
 			me.cruise_or_loft = TRUE;
 			me.limitGs = TRUE;
 			me.dive_token = TRUE;
-		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 7.5 and me.life_time > me.time_before_snap_up and me.rotate_token == FALSE) {
+		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 7.5 and me.life_time > me.time_before_snap_up) {
 			# after cruising, point the missile in the general direction of the target, before APN starts guiding.
 			#print("Rotating toward target");
 			me.raw_steer_signal_elev = me.curr_deviation_e;
