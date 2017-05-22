@@ -788,6 +788,7 @@ var AIM = {
 	flight: func {#GCD
 		if (me.Tgt != nil and me.Tgt.isValid() == FALSE) {
 			print(me.type~": Target went away, deleting missile.");
+			me.sendMessage(me.type~" missed "~me.callsign~": Target logged off.");
 			me.del();
 			return;
 		}
@@ -1362,7 +1363,7 @@ var AIM = {
 				me.terrain.set_latlon(me.terrainGeod.lat, me.terrainGeod.lon, me.terrainGeod.elevation);
 				me.maxDist = me.coord.direct_distance_to(me.t_coord);
 				me.terrainDist = me.coord.direct_distance_to(me.terrain);
-				if (me.terrainDist > me.maxDist) {
+				if (me.terrainDist >= me.maxDist) {
 					me.lostLOS = FALSE;
 					return;
 				}
@@ -1541,11 +1542,11 @@ var AIM = {
         } elsif (me.rail == TRUE and me.rail_forward == FALSE and me.rotate_token == FALSE) {
 			# tube launched missile turns towards target
 
-			me.raw_steer_signal_elev = -me.pitch + me.t_elev_deg;
+			me.raw_steer_signal_elev = me.curr_deviation_e;
 			#print("Turning, desire "~me.t_elev_deg~" degs pitch.");
 			me.cruise_or_loft = TRUE;
 			me.limitGs = TRUE;
-			if (math.abs(me.curr_deviation_e) < 7.5) {
+			if (math.abs(me.curr_deviation_e) < 20) {
 				me.rotate_token = TRUE;
 				#print("Is last turn, snap-up/PN takes it from here..")
 			}
@@ -1583,7 +1584,7 @@ var AIM = {
 			me.cruise_or_loft = TRUE;
 			me.limitGs = TRUE;
 			me.dive_token = TRUE;
-		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 7.5 and me.life_time > me.time_before_snap_up) {
+		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 7.5 and me.life_time > me.time_before_snap_up and me.rotate_token == FALSE) {
 			# after cruising, point the missile in the general direction of the target, before APN starts guiding.
 			#print("Rotating toward target");
 			me.raw_steer_signal_elev = me.curr_deviation_e;
