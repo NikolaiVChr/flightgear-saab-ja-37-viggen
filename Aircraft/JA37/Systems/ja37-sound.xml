@@ -1576,6 +1576,25 @@
         </cannon>
 
         <missile1>
+            <name>missile0</name>
+            <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
+            <mode>once</mode>
+            <condition>
+                <property>payload/armament/rb-71/sound-fire-on-off</property>
+            </condition>
+            <reference-dist>25</reference-dist>
+            <max-dist>10000</max-dist>
+            <position>
+                <x> 3.15986 </x>
+                <y> -2.70311 </y>
+                <z> -0.67645 </z>
+            </position>
+            <volume>
+                <factor>0.75</factor>
+                <max>1</max>
+            </volume>
+        </missile1>
+        <missile1>
             <name>missile1</name>
             <path>Aircraft/JA37/Sounds/RB-24J.wav</path>
             <mode>once</mode>
