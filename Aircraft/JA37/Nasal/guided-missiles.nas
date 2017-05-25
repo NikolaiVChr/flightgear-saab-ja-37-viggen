@@ -166,6 +166,7 @@ var contact = nil;
 # get_Speed()
 # get_heading()
 # getFlareNode()  - Used for flares.
+# getChaffNode()  - Used for chaff.
 # isPainted()     - Tells if this target is still being tracked by the launch platform, only used in semi-radar and laser guided missiles.
 
 var AIM = {
@@ -236,6 +237,7 @@ var AIM = {
         m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
         m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # Interpolation hit: max distance from target it report it exploded, not passed. Trig hit: Distance where it will trigger.
         m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
+        m.chaffResistance       = getprop("payload/armament/"~m.type_lc~"/chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.85.
 
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         # three variables used for trigonometry hit calc:
@@ -245,6 +247,9 @@ var AIM = {
 
         if (m.data == nil) {
         	m.data = FALSE;
+        }
+        if (m.chaffResistance == nil) {
+        	m.chaffResistance = 0.85;
         }
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
@@ -403,6 +408,8 @@ var AIM = {
 		m.energyBleedKt = 0;
 
 		m.lastFlare = 0;
+		m.chaffLast = 0;
+		m.chaffFooled = FALSE;
 		m.fooled = FALSE;
 		m.explodeSound = TRUE;
 		m.first = FALSE;
@@ -1187,7 +1194,7 @@ var AIM = {
 		#
 		# If is heat-seeking rear-aspect-only missile, check if it has good view on engine(s) and can keep lock.
 		#
-		me.offset = me.aspect();
+		me.offset = me.aspectToExhaust();
 
 		if (me.offset < 45) {
 			# clear view of engine heat, keep the lock
@@ -1205,36 +1212,21 @@ var AIM = {
 		return me.rearAspect;# 1: keep lock, 0: lose lock
 	},
 
-	aspect: func () {#GCD
-		me.rearAspect = 0;
+	aspectToExhaust: func () {#GCD
+		# return angle to viewing rear of target
+		me.vectorToEcho   = vector.Math.eulerToCartesian2(me.coord.course_to(me.t_coord), vector.Math.getPitch(me.coord, me.t_coord));
+    	me.vectorEchoNose = vector.Math.eulerToCartesian3X(me.Tgt.get_heading(), me.Tgt.get_Pitch(), me.Tgt.get_Roll());
+    	me.angleToRear    = geo.normdeg180(vector.Math.angleBetweenVectors(me.vectorToEcho, me.vectorEchoNose));
+    	#printf("Angle to rear %d degs.", math.abs(me.angleToRear));
+    	return math.abs(me.angleToRear);
+    },
 
-		#var t_dist_m = me.coord.distance_to(me.t_coord);
-		#var alt_delta_m = me.coord.alt() - me.t_coord.alt();
-		me.elev_deg =  me.getPitch(me.t_coord, me.coord);#math.atan2( alt_delta_m, t_dist_m ) * R2D; elevation to missile from target aircraft
-		me.elevation_offset = me.elev_deg - me.Tgt.get_Pitch();
-
-		me.courseA = me.t_coord.course_to(me.coord);
-		me.heading_offset = me.courseA - me.Tgt.get_heading();
-
-		#
-		while (me.heading_offset < -180) {
-			me.heading_offset += 360;
-		}
-		while (me.heading_offset > 180) {
-			me.heading_offset -= 360;
-		}
-		while (me.elevation_offset < -180) {
-			me.elevation_offset += 360;
-		}
-		while (me.elevation_offset > 180) {
-			me.elevation_offset -= 360;
-		}
-		me.elevation_offset = math.abs(me.elevation_offset);
-		me.heading_offset = 180 - math.abs(me.heading_offset);
-
-		me.offset = math.max(me.elevation_offset, me.heading_offset);
-
-		return me.offset;		
+    aspectToTop: func () {#GCD
+    	# WIP: not used, and might never be
+    	me.vectorEchoTop  = vector.Math.eulerToCartesian3Z(echoHeading, echoPitch, echoRoll);
+    	me.view2D         = vector.Math.projVectorOnPlane(me.vectorEchoTop, me.vectorToEcho);
+		me.angleToNose    = geo.normdeg180(vector.Math.angleBetweenVectors(me.vectorEchoNose, me.view2D)+180);
+		me.angleToBelly   = geo.normdeg180(vector.Math.angleBetweenVectors(me.vectorEchoTop, me.vectorToEcho));
 	},
 
 	guide: func() {#GCD
@@ -1269,6 +1261,8 @@ var AIM = {
 		}
 
 		me.checkForFlare();
+
+		me.checkForChaff();
 
 		me.checkForSun();
 
@@ -1311,7 +1305,7 @@ var AIM = {
 					if (me.flareNumber != me.lastFlare) {
 						# target has released a new flare, lets check if it fools us
 						me.lastFlare = me.flareNumber;
-						me.aspectDeg = me.aspect() / 180;
+						me.aspectDeg = me.aspectToExhaust() / 180;
 						me.fooled = rand() < (0.15 + 0.15 * me.aspectDeg);
 						# 15% chance to be fooled, extra up till 15% chance added if front aspect
 						if (me.fooled == TRUE) {
@@ -1324,6 +1318,43 @@ var AIM = {
 					}
 				}
 			}
+		}
+	},
+
+	checkForChaff: func () {#GCD
+		#
+		# Check for being fooled by chaff.
+		#
+		if (me.guidance == "radar" or me.guidance == "semi-radar") {
+			#
+			# TODO: Use Richards Emissary for this.
+			#
+			me.chaffNode = me.Tgt.getChaffNode();
+			if (me.chaffNode != nil) {
+				me.chaffNumber = me.chaffNode.getValue();
+				if (me.chaffNumber != nil and me.chaffNumber != 0) {
+					if (me.chaffNumber != me.chaffLast) {
+						# target has released a new chaff, lets check if it tricks us
+						me.chaffLast = me.chaffNumber;
+						me.aspectNorm = math.abs(geo.normdeg180(me.aspectToExhaust() * 2))/180;# 0 = viewing engine or front, 1 = viewing side, belly or top.
+						
+						# chance to be tricked when viewing engine or nose, less if viewing other aspects
+						me.chaffFooled = rand() > (me.chaffResistance + (1-me.chaffResistance) * 0.5 * me.aspectNorm);
+						
+						if (me.chaffFooled == TRUE and rand() > me.chaffResistance) {
+							# will not regain lock
+							print(me.type~": Missile tricked by chaff and wont regain lock");
+							me.free = TRUE;
+						} elsif (me.chaffFooled == TRUE) {
+							print(me.type~": Missile temporary tricked by chaff");
+						} else {
+							print(me.type~": Missile ignored chaff");
+						}
+					}
+					return;
+				}
+			}
+			me.chaffFooled = FALSE;
 		}
 	},
 
@@ -1432,6 +1463,9 @@ var AIM = {
 	    } elsif (me.tooLowSpeed == TRUE) {
 			print(me.type~": Gained speed and started guiding.");
 			me.tooLowSpeed = FALSE;
+		} elsif (me.chaffFooled == TRUE) {
+			#print(me.type~": Chaff disrupt view.");
+			me.guiding = FALSE;
 		}
 	},
 
@@ -1882,6 +1916,8 @@ var AIM = {
 			reason = "Locked onto sun.";
 		} elsif (me.fooled == TRUE) {
 			reason = "Fooled by flare.";
+		} elsif (me.chaffFooled == TRUE) {
+			reason = "Tricked by chaff.";
 		}
 		
 		var explosion_coord = me.last_coord;
@@ -1952,6 +1988,8 @@ var AIM = {
 			reason = "Locked onto sun.";
 		} elsif (me.fooled == TRUE) {
 			reason = "Fooled by flare.";
+		} elsif (me.chaffFooled == TRUE) {
+			reason = "Tricked by chaff.";
 		}
 		
 		if (me.Tgt != nil) {

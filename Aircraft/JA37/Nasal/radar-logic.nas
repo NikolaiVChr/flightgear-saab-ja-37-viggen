@@ -838,7 +838,7 @@ var Contact = {
 #});
 #debug.benchmark("radar process4", func {
         obj.pitch           = obj.oriProp.getNode("pitch-deg");
-        obj.pitch           = obj.oriProp.getNode("roll-deg");
+        obj.roll            = obj.oriProp.getNode("roll-deg");
         obj.speed           = obj.velProp.getNode("true-airspeed-kt");
         obj.vSpeed          = obj.velProp.getNode("vertical-speed-fps");
         obj.callsign        = c.getNode("callsign", 1);
@@ -947,6 +947,10 @@ var Contact = {
 
     getFlareNode: func () {
       return me.node.getNode("rotors/main/blade[3]/flap-deg");
+    },
+
+    getChaffNode: func () {
+      return me.node.getNode("rotors/main/blade[3]/position-deg");
     },
 
     setPolar: func(dist, angle, angleX, angleY) {
@@ -1182,7 +1186,11 @@ var ContactGPS = {
   },
 
   getFlareNode: func () {
-    return "";
+    return nil;
+  },
+
+  getChaffNode: func () {
+    return nil;
   },
 
   remove: func(){
