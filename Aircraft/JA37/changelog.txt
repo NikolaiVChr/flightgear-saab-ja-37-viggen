@@ -2919,3 +2919,5 @@ HUD: Updated recommended landing alpha according to sources (approxed).
 4.105
 =====
 Radar: Fixed that radar warning reciever would not check if the aircraft is behind terrain.
+Sim: {Pinto} Fixed callsigns with more than 7 chars could not get damaged.
+Sound: Fixed missing fire sound from rb71.
