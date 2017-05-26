@@ -408,7 +408,10 @@ var AIM = {
 		m.energyBleedKt = 0;
 
 		m.lastFlare = 0;
+		m.flareTime = 0;
 		m.chaffLast = 0;
+		m.chaffTime = 0;
+		m.chaffDelay = 1;
 		m.chaffFooled = FALSE;
 		m.fooled = FALSE;
 		m.explodeSound = TRUE;
@@ -1294,7 +1297,7 @@ var AIM = {
 		#
 		# Check for being fooled by flare.
 		#
-		if (me.guidance == "heat") {
+		if (me.guidance == "heat" and getprop("sim/time/elapsed-sec")-me.flareTime > 1) {
 			#
 			# TODO: Use Richards Emissary for this.
 			#
@@ -1304,6 +1307,7 @@ var AIM = {
 				if (me.flareNumber != nil and me.flareNumber != 0) {
 					if (me.flareNumber != me.lastFlare) {
 						# target has released a new flare, lets check if it fools us
+						me.flareTime = getprop("sim/time/elapsed-sec");
 						me.lastFlare = me.flareNumber;
 						me.aspectDeg = me.aspectToExhaust() / 180;
 						me.fooled = rand() < (0.15 + 0.15 * me.aspectDeg);
@@ -1325,7 +1329,7 @@ var AIM = {
 		#
 		# Check for being fooled by chaff.
 		#
-		if (me.guidance == "radar" or me.guidance == "semi-radar") {
+		if ((me.guidance == "radar" or me.guidance == "semi-radar") and getprop("sim/time/elapsed-sec")-me.chaffTime > me.chaffDelay) {#
 			#
 			# TODO: Use Richards Emissary for this.
 			#
@@ -1333,28 +1337,34 @@ var AIM = {
 			if (me.chaffNode != nil) {
 				me.chaffNumber = me.chaffNode.getValue();
 				if (me.chaffNumber != nil and me.chaffNumber != 0) {
-					if (me.chaffNumber != me.chaffLast) {
-						# target has released a new chaff, lets check if it tricks us
+					if (me.chaffNumber != me.chaffLast) {# problem here is MP interpolates to new values. Hence the timer.
+						# target has released a new chaff, lets check if it blinds us
 						me.chaffLast = me.chaffNumber;
+						me.chaffTime = getprop("sim/time/elapsed-sec");
 						me.aspectNorm = math.abs(geo.normdeg180(me.aspectToExhaust() * 2))/180;# 0 = viewing engine or front, 1 = viewing side, belly or top.
 						
-						# chance to be tricked when viewing engine or nose, less if viewing other aspects
+						# chance to be blinded when viewing engine or nose, less if viewing other aspects
 						me.chaffFooled = rand() > (me.chaffResistance + (1-me.chaffResistance) * 0.5 * me.aspectNorm);
 						
 						if (me.chaffFooled == TRUE and rand() > me.chaffResistance) {
 							# will not regain lock
-							print(me.type~": Missile tricked by chaff and wont regain lock");
+							print(me.type~": Missile blinded by chaff and wont regain lock");
 							me.free = TRUE;
 						} elsif (me.chaffFooled == TRUE) {
-							print(me.type~": Missile temporary tricked by chaff");
+							print(me.type~": Missile temporary blinded by chaff");
+							me.chaffDelay = 3;
 						} else {
 							print(me.type~": Missile ignored chaff");
+							me.chaffDelay = 1;
 						}
+					} else {
+						me.chaffDelay = 1;
 					}
 					return;
 				}
 			}
 			me.chaffFooled = FALSE;
+			me.chaffDelay = 1;
 		}
 	},
 
@@ -1917,7 +1927,7 @@ var AIM = {
 		} elsif (me.fooled == TRUE) {
 			reason = "Fooled by flare.";
 		} elsif (me.chaffFooled == TRUE) {
-			reason = "Tricked by chaff.";
+			reason = "blinded by chaff.";
 		}
 		
 		var explosion_coord = me.last_coord;
@@ -1989,7 +1999,7 @@ var AIM = {
 		} elsif (me.fooled == TRUE) {
 			reason = "Fooled by flare.";
 		} elsif (me.chaffFooled == TRUE) {
-			reason = "Tricked by chaff.";
+			reason = "blinded by chaff.";
 		}
 		
 		if (me.Tgt != nil) {

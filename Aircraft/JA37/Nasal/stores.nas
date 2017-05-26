@@ -591,7 +591,7 @@ var loop_stores = func {
   if (getprop("ai/submodels/submodel[0]/flare-release-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
     setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
     setprop("rotors/main/blade[3]/flap-deg", 0);
-    setprop("rotors/main/blade[3]/position-deg", 0);
+    setprop("rotors/main/blade[3]/position-deg", 0);#MP interpolates between numbers, so nil is better than 0.
   }
   if (getprop("ai/submodels/submodel[0]/flare-release-out-snd") == TRUE and (flareStart + 1) < input.elapsed.getValue()) {
     setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
