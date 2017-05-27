@@ -2921,3 +2921,10 @@ HUD: Updated recommended landing alpha according to sources (approxed).
 Radar: Fixed that radar warning reciever would not check if the aircraft is behind terrain.
 Sim: {Pinto} Fixed callsigns with more than 7 chars could not get damaged.
 Sound: Fixed missing fire sound from rb71.
+Radar: Fixed that GPS selection would return string as flare node.
+Sim: Added chaff functionality.
+Sim: Fixed regression that missiles would use targets roll for its pitch.
+Radar: Fixed RCS calculation would use pitch for roll.
+Sim: Fixed heat seeking missiles lock on rear aspect only was flawed, now uses vector math instead of trigonometry.
+Sim: Fixed parse error in damage code.
+TI: Increased threat circle for SAMs.

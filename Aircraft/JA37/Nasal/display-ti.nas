@@ -3149,7 +3149,7 @@ var TI = {
 		    	} else {
 		    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
 		    	}
-				me.scale = 60*NM2M*M2TEX/100;
+				me.scale = 80*NM2M*M2TEX/100;
 		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
 		      	me.threats[me.threatIndex].setScale(me.scale);
 				me.threats[me.threatIndex].show();
