@@ -2929,3 +2929,4 @@ Sim: Fixed heat seeking missiles lock on rear aspect only was flawed, now uses v
 Sim: Fixed parse error in damage code.
 TI: Increased threat circle for SAMs.
 GUI: Splash screens for 2017.2.1 added.
+GUI: Added interior previews.
