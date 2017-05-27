@@ -44,20 +44,23 @@
             </style>
         </gui>
 
-        <!--<thumbnail>
-            <type>panel</type>
-            <name>gui/thumbnail-panel.jpg</name>
-        </thumbnail>
-
-        <thumbnail>
-            <type>exterior</type>
-            <name>gui/thumbnail-exterior.jpg</name>
-        </thumbnail>
-
-        <thumbnail>
-          <type>interior</type>
-          <name>gui/thumbnail-interior.jpg</name>
-        </thumbnail>-->
+        <previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs1.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs2.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs3.png</path>
+            </preview>
+        </previews>
 
         <model>
             <path>Aircraft/JA37/Models/AJS37-Viggen.xml</path>
