@@ -334,7 +334,7 @@ var AIM = {
 		m.coord               = geo.Coord.new().set_latlon(0, 0, 0);
 		m.last_coord          = nil;
 		m.before_last_coord   = nil;
-		m.t_coord             = geo.Coord.new().set_latlon(0, 0, 0);
+		m.t_coord             = nil;
 		m.last_t_coord        = m.t_coord;
 		m.before_last_t_coord = nil;
 
@@ -581,6 +581,10 @@ var AIM = {
 		me.rollN.setDoubleValue(0);
 
 		me.coord = geo.Coord.new(init_coord);
+		# Get target position.
+		if (me.Tgt != nil) {
+			me.t_coord = me.Tgt.get_Coord();
+		}
 
 		me.model.getNode("latitude-deg-prop", 1).setValue(me.latN.getPath());
 		me.model.getNode("longitude-deg-prop", 1).setValue(me.lonN.getPath());
@@ -885,7 +889,7 @@ var AIM = {
 
 		# Get target position.
 		if (me.Tgt != nil) {
-			me.t_coord = me.Tgt.get_Coord();
+#			me.t_coord = me.Tgt.get_Coord();
 		}
 
 		###################
@@ -998,6 +1002,17 @@ var AIM = {
 		if (me.alt_ft > me.maxAlt) {
 			me.maxAlt = me.alt_ft;
 		}
+		# Get target position.
+		if (me.Tgt != nil) {
+			me.t_coord = me.Tgt.get_Coord();
+		}
+		# record coords so we can give the latest nearest position for impact.
+		me.before_last_coord   = geo.Coord.new(me.last_coord);
+		me.last_coord          = geo.Coord.new(me.coord);
+		if (me.Tgt != nil) {
+			me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
+			me.last_t_coord        = geo.Coord.new(me.t_coord);
+		}
 
 		# performance logging:
 		#
@@ -1066,13 +1081,6 @@ var AIM = {
 			}
 		} else {
 			me.g = 0;
-		}
-		# record coords so we can give the latest nearest position for impact.
-		me.before_last_coord   = geo.Coord.new(me.last_coord);
-		me.last_coord          = geo.Coord.new(me.coord);
-		if (me.Tgt != nil) {
-			me.before_last_t_coord = geo.Coord.new(me.last_t_coord);
-			me.last_t_coord        = geo.Coord.new(me.t_coord);
 		}
 
 		if (me.rail_passed == FALSE and (me.rail == FALSE or me.rail_pos > me.rail_dist_m * M2FT)) {
