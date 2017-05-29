@@ -1113,9 +1113,9 @@ var AIM = {
 				# penalty for target being off-bore
 				me.hit -= math.abs(me.curr_deviation_h)/2.5;
 			}
-			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed and me.t_speed != 0) {
+			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed_fps and me.t_speed_fps != 0) {
 				# bonus for traveling faster than target
-				me.hit += me.clamp((me.old_speed_fps / me.t_speed)*15,-25,50);
+				me.hit += me.clamp((me.old_speed_fps / me.t_speed_fps)*15,-25,50);
 			}			
 			if (me.free == TRUE) {
 				# penalty for not longer guiding
@@ -1665,15 +1665,9 @@ var AIM = {
 			#printf("Horz closing rate: %5d ft/sec", me.horz_closing_rate_fps);
 			me.proportionality_constant = 3;
 
-			me.c_dv = me.t_course-me.last_t_course;
-			while(me.c_dv < -180) {
-				me.c_dv += 360;
-			}
-			while(me.c_dv > 180) {
-				me.c_dv -= 360;
-			}
-
-			me.line_of_sight_rate_rps = (D2R*me.c_dv)/me.dt;
+			me.c_dv = geo.normdeg180(me.t_course-me.last_t_course);
+			
+			me.line_of_sight_rate_rps = (D2R*me.c_dv)/me.dt;#positive clockwise
 
 			#printf("LOS rate: %.4f rad/s", line_of_sight_rate_rps);
 
@@ -1699,7 +1693,7 @@ var AIM = {
 			# calculate target acc as normal to LOS line:
 			me.t_heading        = me.Tgt.get_heading();
 			me.t_pitch          = me.Tgt.get_Pitch();
-			me.t_speed          = me.Tgt.get_Speed()*KT2FPS;#true airspeed
+			me.t_speed_fps      = me.Tgt.get_Speed()*KT2FPS;#true airspeed
 
 			#if (me.last_t_coord.direct_distance_to(me.t_coord) != 0) {
 			#	# taking sideslip and AoA into consideration:
@@ -1717,31 +1711,34 @@ var AIM = {
 
 
 			
-			me.t_horz_speed     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed);
-			me.t_LOS_norm_head  = me.t_course + 90;
-			me.t_LOS_norm_speed = math.cos((me.t_LOS_norm_head - me.t_heading)*D2R)*me.t_horz_speed;
+			me.t_horz_speed_fps     = math.abs(math.cos(me.t_pitch*D2R)*me.t_speed_fps);#flawed due to AoA is not taken into account, but dont have that info.
+			me.t_LOS_norm_head_deg  = me.t_course + 90;#when looking at target this direction will be 90 deg right of target
+			me.t_LOS_norm_speed_fps = math.cos((me.t_LOS_norm_head_deg - me.t_heading)*D2R)*me.t_horz_speed_fps;
 
 			if (me.last_t_norm_speed == nil) {
-				me.last_t_norm_speed = me.t_LOS_norm_speed;
+				me.last_t_norm_speed = me.t_LOS_norm_speed_fps;
 			}
 
-			me.t_LOS_norm_acc   = (me.t_LOS_norm_speed - me.last_t_norm_speed)/me.dt;
+			me.t_LOS_norm_acc_fps2  = (me.t_LOS_norm_speed_fps - me.last_t_norm_speed)/me.dt;
 
-			me.last_t_norm_speed = me.t_LOS_norm_speed;
+			me.last_t_norm_speed = me.t_LOS_norm_speed_fps;
 
 			# acceleration perpendicular to instantaneous line of sight in feet/sec^2
-			me.acc_sideways_ftps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_norm_acc/2;
+			me.acc_lateral_fps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_norm_acc_fps2/2;
 			#printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
 
 			# now translate that sideways acc to an angle:
-			me.velocity_vector_length_fps = me.old_speed_horz_fps;
-			me.commanded_sideways_vector_length_fps = me.acc_sideways_ftps2*me.dt;
-			me.raw_steer_signal_head = math.atan2(me.commanded_sideways_vector_length_fps, me.velocity_vector_length_fps)*R2D;
+			me.velocity_vector_length_fps = me.clamp(me.old_speed_horz_fps, 0.0001, 1000000);
+			me.commanded_lateral_vector_length_fps = me.acc_lateral_fps2*me.dt;
+
+			#isosceles triangle:
+			me.raw_steer_signal_head = math.asin(me.clamp((me.commanded_lateral_vector_length_fps*0.5)/me.velocity_vector_length_fps,-1,1))*R2D*2;
+			#me.raw_steer_signal_head = math.atan2(me.commanded_lateral_vector_length_fps, me.velocity_vector_length_fps)*R2D; # flawed, its not a right triangle
 
 			#printf("Proportional lead: %0.1f deg horz", -(me.curr_deviation_h-me.raw_steer_signal_head));
 
 			#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,horz_closing_rate_fps));
-			#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_sideways_ftps2));
+			#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_lateral_fps2));
 			#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_deviation_h, me.raw_steer_signal_head));
 
 			if (me.cruise_or_loft == FALSE) {# and me.last_cruise_or_loft == FALSE
@@ -1757,7 +1754,7 @@ var AIM = {
 				
 
 				# used to do this with trigonometry, but vector math is simpler to understand: (they give same result though)
-				me.t_LOS_elev_norm_speed     = me.scalarProj(me.t_heading,me.t_pitch,me.t_speed,me.t_approach_bearing,me.t_elev_deg*-1 +90);
+				me.t_LOS_elev_norm_speed     = me.scalarProj(me.t_heading,me.t_pitch,me.t_speed_fps,me.t_approach_bearing,me.t_elev_deg*-1 +90);
 
 				if (me.last_t_elev_norm_speed == nil) {
 					me.last_t_elev_norm_speed = me.t_LOS_elev_norm_speed;
@@ -1766,11 +1763,12 @@ var AIM = {
 				me.t_LOS_elev_norm_acc            = (me.t_LOS_elev_norm_speed - me.last_t_elev_norm_speed)/me.dt;
 				me.last_t_elev_norm_speed          = me.t_LOS_elev_norm_speed;
 
-				me.acc_upwards_ftps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
-				me.velocity_vector_length_fps = me.old_speed_fps;
-				me.commanded_upwards_vector_length_fps = me.acc_upwards_ftps2*me.dt;
+				me.acc_upwards_fps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
+				me.velocity_vector_length_fps = me.clamp(me.old_speed_fps, 0.0001, 1000000);
+				me.commanded_upwards_vector_length_fps = me.acc_upwards_fps2*me.dt;
 
-				me.raw_steer_signal_elev = math.atan2(me.commanded_upwards_vector_length_fps, me.velocity_vector_length_fps)*R2D;
+				me.raw_steer_signal_elev = math.asin(me.clamp((me.commanded_upwards_vector_length_fps*0.5)/me.velocity_vector_length_fps,-1,1))*R2D*2;
+				#me.raw_steer_signal_elev = math.atan2(me.commanded_upwards_vector_length_fps, me.velocity_vector_length_fps)*R2D;
 
 				# now compensate for the predicted gravity drop of attitude:				
 	            me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;

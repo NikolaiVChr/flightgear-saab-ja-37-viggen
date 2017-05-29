@@ -2930,3 +2930,4 @@ Sim: Fixed parse error in damage code.
 TI: Increased threat circle for SAMs.
 GUI: Splash screens for 2017.2.1 added.
 GUI: Added interior previews.
+Sim: Small adjustment to missile APN.

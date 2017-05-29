@@ -86,6 +86,8 @@ Sim: Pitot depend on AC power.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Sim: The A/P for glideslope is not very reliable, fix.
 Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup.
+Sim: Make so that flares cannot be used after aircraft has crashed.
+Sim: Home on jam for missiles.
 Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
@@ -94,8 +96,10 @@ Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
 Sound: Sound from wind hitting the gears when extended.
-Radar: Make database of RCS of common aircrafts.
+Radar: Enable database of RCS of common aircrafts.
 Radar: Make rb71 notchable again, by introducing 3 diff painted properties instead of one.
+Radar: Make ECM jamming.
+Radar: Make other planes notice when radar is off.
 HUD: Alt scale follow pitch lines at more than 1 degree roll from level flight. (swedish pilots seems able to read upside down, not sure I will make this)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
@@ -109,7 +113,7 @@ TI: Slew cursor.
 TI: Edit route.
 TI: Change runway symbol.
 TI: Show/edit bullseye.
-TI: Show fligthtime by using controls UD-UT.
+TI: Show flighttime by using controls UD-UT.
 TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
