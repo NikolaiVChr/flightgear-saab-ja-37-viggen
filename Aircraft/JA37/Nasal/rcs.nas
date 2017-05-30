@@ -1,3 +1,10 @@
+#
+# Radar Cross-section calculation for radars
+# 
+# Main author: Pinto
+#
+# License: GPL 2
+#
 var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
   var myCoord = geo.aircraft_position();
   var echoCoord = geo.Coord.new(myCoord);
@@ -52,6 +59,10 @@ var rcs_database = {
 
 var prevVisible = {};
 
+var inRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
+    return rand() < 0.05?rcs.isInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs) == 1:rcs.wasInRadarRange(contact, myRadarDistance_nm, myRadarStrength_rcs);
+}
+
 var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     var sign = contact.get_Callsign();
     if (contains(prevVisible, sign)) {
@@ -61,8 +72,6 @@ var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     }
 }
 
-#most detection ranges are for a target that has an rcs of 5m^2, so leave that at default if not specified by source material
-
 var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     if (contact != nil) {
         var value = targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs);
@@ -71,6 +80,8 @@ var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     }
     return 0;
 };
+
+#most detection ranges are for a target that has an rcs of 5m^2, so leave that at default if not specified by source material
 
 var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch, targetRoll, myCoord, myRadarDistance_m, myRadarStrength_rcs = 5) {
     #print(targetModel);

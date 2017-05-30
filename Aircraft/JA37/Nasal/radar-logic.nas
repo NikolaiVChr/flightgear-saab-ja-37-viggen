@@ -481,7 +481,7 @@ var RadarLogic = {
         me.contact.setPolar(me.distanceRadar, me.xa_rad_corr, me.xa_rad, me.ya_rad);
         me.contact.setCartesian(me.hud_pos_x, me.hud_pos_y);
 
-        if (node.getName() == "rb-99" or 1==1 or (rand() < 0.05?rcs.isInRadarRange(me.contact, 65, 1) == TRUE:rcs.wasInRadarRange(me.contact, 65, 1))) {# 40 / 3.2
+        if (node.getName() == "rb-99" or 1==1 or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
           return me.contact;
         } else {
           return nil;
