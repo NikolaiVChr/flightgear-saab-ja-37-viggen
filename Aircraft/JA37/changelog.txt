@@ -2916,7 +2916,7 @@ Model: Renamed Big Iron Livery.
 TI: Updated recommended landing alpha according to sources (approxed).
 HUD: Updated recommended landing alpha according to sources (approxed).
 
-4.105
+4.105 - 2017 July 15
 =====
 Radar: Fixed that radar warning reciever would not check if the aircraft is behind terrain.
 Sim: {Pinto} Fixed callsigns with more than 7 chars could not get damaged.
@@ -2932,3 +2932,5 @@ GUI: Splash screens for 2017.2.1 added.
 GUI: Added interior previews.
 Sim: Small adjustment to missile APN.
 Sim: Fixed that low framerate would make missiles be inaccurate.
+Radar: Moved rcs loopup mechanism to rcs.nas
+Sim: Fixed regression in heatseekers locking on to sun.
