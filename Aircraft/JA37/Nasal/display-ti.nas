@@ -3616,7 +3616,7 @@ var TI = {
 
 					  me.ground = geo.elevation(me.coord.lat(), me.coord.lon());
     				  if(me.ground != nil) {
-      						coord.set_alt(me.ground);
+      						me.coord.set_alt(me.ground);
       				  }
 
 					  me.contact = radar_logic.ContactGPS.new("FIX", me.coord);
