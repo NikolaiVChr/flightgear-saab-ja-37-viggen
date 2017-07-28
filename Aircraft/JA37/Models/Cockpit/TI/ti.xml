@@ -48,7 +48,11 @@
         <object-name>b18</object-name>
         <object-name>b19</object-name>
         <object-name>b20</object-name>
-        <!--<object-name>ti_screen</object-name>-->
+    </effect>
+
+    <effect><!-- for Rembrandt to render illuminated canvas texture correct -->
+     <inherits-from>Effects/model-transparent</inherits-from>
+     <object-name>ti_screen</object-name>
     </effect>
 
   	<!--
@@ -59,16 +63,35 @@
 
   	-->
 
-  	<animation>
-	    <type>material</type>
-	    <object-name>ti_screen</object-name>
-	    <emission>
-	        <red>1.0</red>
-	        <green>1.0</green>
-	        <blue>1.0</blue>
-	        <factor-prop>ja37/avionics/brightness-ti</factor-prop>
-	    </emission>
-  	</animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>ti_screen</object-name>
+        <!--<condition>
+            <equals>
+              <property>/sim/rendering/rembrandt/enabled</property>
+              <value>1</value>
+            </equals>
+        </condition>
+        <ambient>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>ja37/avionics/brightness-ti</factor-prop>
+        </ambient>
+        <diffuse>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>ja37/avionics/brightness-ti</factor-prop>
+        </diffuse>-->
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>ja37/avionics/brightness-ti</factor-prop>
+        </emission>
+    </animation>
 
   	<!--
 
