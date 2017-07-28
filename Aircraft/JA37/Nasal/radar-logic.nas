@@ -1416,17 +1416,27 @@ var ContactGPS = {
 };
 
 var getPitch = func (coord1, coord2) {
-  #pitch from c1 to c2
+  #pitch from coord1 to coord2 in radians (takes curvature of earth into effect.)
+  if (coord1.lat() == coord2.lat() and coord1.lon() == coord2.lon()) {
+    if (coord2.alt() > coord1.alt()) {
+      return 90*D2R;
+    } elsif (coord2.alt() < coord1.alt()) {
+      return -90*D2R;
+    } else {
+      return 0;
+    }
+  }
   var coord3 = geo.Coord.new(coord1);
   coord3.set_alt(coord2.alt());
   var d12 = coord1.direct_distance_to(coord2);
-  if (d12 > 0.1 and coord1.alt() != coord2.alt()) {# not sure how to cope with same altitudes.
+  if (d12 > 0.1 and coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
     var d32 = coord3.direct_distance_to(coord2);
     var altD = coord1.alt()-coord3.alt();
     var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
     var pitch = -1* (90 - y);
     return pitch*D2R;
   } else {
+    # arccos wont like if the coord are the same
     return 0;
   }
 };

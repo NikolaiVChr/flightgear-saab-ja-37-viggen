@@ -2939,3 +2939,4 @@ Sim: Fixed regression in heatseekers locking on to sun.
 =====
 TI: Green threat circles is now selectable in menu as friendly fire zones instead of being tied to hostile fire-zones menu-item.
 TI: Fixed regression that fixing a GPS location would fail.
+Sim: Fixed that pitch calculation between 2 point could fail in some cases where pitch would be +/- 90 degs.
