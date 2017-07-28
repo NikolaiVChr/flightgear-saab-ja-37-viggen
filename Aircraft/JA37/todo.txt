@@ -7,10 +7,10 @@ Features and improvements:
 GUI: Option to turn off verbose popups.
 GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
-GUI: AT some point switch to new thumbnails format.
 Aero: Make recoil not assume that FDM rate is 120 Hz.
 Aero: Tune speedbrake better.
 Aero: Make cannon ammo have pointweight.
+Aero: Adjust wave drag so max speed is M1.85 in ISA atmosphere and M2.03 in ISA-15.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Control: Make bigger factor in pitch normal comparison. (beware of oscillations)
 Control: Limit elevator deflection due to servo-moment being smaller than moment of air-pressure. Page 19-20 in AK III.

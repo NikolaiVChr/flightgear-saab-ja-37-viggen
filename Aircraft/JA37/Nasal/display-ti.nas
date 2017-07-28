@@ -1568,67 +1568,41 @@ var TI = {
 				me.menuFastRoot.hide();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
+				me.drawLog = FALSE;
 				if (me.trapFire == TRUE) {
-					me.hideMap();
-					me.logRoot.show();
-					call(func {
-						me.buffer = armament.fireLog.get_buffer();
-						me.str = "       Fire log:\n";
-		    			foreach(entry; me.buffer) {
-		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
-		    			}
-						me.errorList.setText(me.str);
-					});
-					me.clipLogPage();
+					me.buffer = armament.fireLog;
+					me.bufferStr = "       Fire log:\n";
+					me.drawLog = TRUE;
 				} elsif (me.trapMan == TRUE) {
-					me.hideMap();
-					me.logRoot.show();
-					call(func {
-						me.buffer = me.logEvents.get_buffer();
-						me.str = "       Event log:\n";
-		    			foreach(entry; me.buffer) {
-		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
-		    			}
-						me.errorList.setText(me.str);
-					});
-					me.clipLogPage();
+					me.buffer = me.logEvents;
+					me.bufferStr = "       Event log:\n";
+					me.drawLog = TRUE;
 				} elsif (me.trapLock == TRUE) {
-					me.hideMap();
-					me.logRoot.show();
-					call(func {
-						me.buffer = radar_logic.lockLog.get_buffer();
-						me.str = "       Lock log:\n";
-		    			foreach(entry; me.buffer) {
-		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
-		    			}
-						me.errorList.setText(me.str);
-					});
-					me.clipLogPage();
+					me.buffer = radar_logic.lockLog;
+					me.bufferStr = "       Lock log:\n";
+					me.drawLog = TRUE;
 				} elsif (me.trapLand == TRUE) {
-					me.hideMap();
-					me.logRoot.show();
-					call(func {
-						me.buffer = me.logLand.get_buffer();
-						me.str = "       Landing log:\n";
-		    			foreach(entry; me.buffer) {
-		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
-		    			}
-						me.errorList.setText(me.str);
-					});
-					me.clipLogPage();
+					me.buffer = me.logLand;
+					me.bufferStr = "       Landing log:\n";
+					me.drawLog = TRUE;
 				} elsif (me.trapECM == TRUE) {
+					me.buffer = armament.ecmLog;
+					me.bufferStr = "       ECM log:\n";
+					me.drawLog = TRUE;
+				}
+				if (me.drawLog == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						me.buffer = armament.ecmLog.get_buffer();
-						me.str = "       ECM log:\n";
-		    			foreach(entry; me.buffer) {
+						me.bufferContent = me.buffer.get_buffer();
+						me.str = me.bufferStr;
+		    			foreach(entry; me.bufferContent) {
 		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 		    			}
 						me.errorList.setText(me.str);
 					});
 					me.clipLogPage();
-				} else{
+				} else {
 					me.showMap();
 				}
 			} elsif (me.menuMain == MAIN_FAILURES) {
