@@ -111,7 +111,7 @@ TI: Show lat/lon grid in menu UDAT.
 TI: Move cursor between TI and MI.
 TI: Slew cursor.
 TI: Edit route.
-TI: Change runway symbol.
+TI: Change runway symbol to proper TI version.
 TI: Show/edit bullseye.
 TI: Show flighttime by using controls UD-UT.
 TI: Select self.
@@ -121,6 +121,7 @@ TI: Add missiles to SVY.
 TI: Waypoint info should show ETA to next waypoint.
 TI: Make route info with overall ETA.
 TI: Terrain arrow should stay on for 3 seconds after pull up.
+TI: Artificial horizon should move in relation to FPI, which in turn should be fixed in middle of display.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]

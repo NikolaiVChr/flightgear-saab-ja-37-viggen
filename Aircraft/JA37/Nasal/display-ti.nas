@@ -261,7 +261,7 @@ var dictEN = {
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [FALSE, "AAA"], '16': [TRUE, "TIME"],
+			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "LPOL"], '16': [FALSE, "EDIT"],
@@ -1415,7 +1415,8 @@ var TI = {
 		ti.BITok3 = FALSE;
 		ti.BITok4 = FALSE;
 		ti.active = TRUE;
-		ti.showSAMs = TRUE;
+		ti.showHostileZones = TRUE;
+		ti.showFriendlyZones = TRUE;
 		ti.newFails = FALSE;
 		ti.lastFailBlink = TRUE;
 		ti.landed = TRUE;
@@ -1979,14 +1980,15 @@ var TI = {
 			# threat overlay
 			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"FI":"HSTL"));
 			me.menuButtonSub[14].show();
-			if (me.showSAMs == TRUE) {
+			if (me.showHostileZones == TRUE) {
 				me.menuButtonSubBox[14].show();
 			}
 
 			# friendly AAA
-			if (me.showFullMenus == TRUE) {
-				me.menuButtonSub[15].setText(me.vertStr(me.interoperability == displays.METRIC?"EGET":"FRND"));
-				me.menuButtonSub[15].show();
+			me.menuButtonSub[15].setText(me.vertStr(me.interoperability == displays.METRIC?"EGET":"FRND"));
+			me.menuButtonSub[15].show();
+			if (me.showFriendlyZones == TRUE) {
+				me.menuButtonSubBox[15].show();
 			}
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
@@ -3141,30 +3143,26 @@ var TI = {
 					me.track_index = -1;
 				}
 			}
-			if (me.showSAMs == TRUE and contact.get_model() == "missile_frigate" and me.threatIndex < maxThreats-1) {
-				me.threatIndex += 1;
-				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
-				if (me.boogie == 1) {
-		    		me.threats[me.threatIndex].setColor(rGreen,gGreen,bGreen,a);
-		    	} else {
-		    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
-		    	}
-				me.scale = 80*NM2M*M2TEX/100;
-		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
-		      	me.threats[me.threatIndex].setScale(me.scale);
-				me.threats[me.threatIndex].show();
-			} elsif (me.showSAMs == TRUE and contact.get_model() == "buk-m2" and me.threatIndex < maxThreats-1) {
-				me.threatIndex += 1;
-				me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
-				if (me.boogie == 1) {
-		    		me.threats[me.threatIndex].setColor(rGreen,gGreen,bGreen,a);
-		    	} else {
-		    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
-		    	}
-				me.scale = 30*NM2M*M2TEX/100;
-		      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
-		      	me.threats[me.threatIndex].setScale(me.scale);
-				me.threats[me.threatIndex].show();
+			if (((me.showHostileZones == TRUE and me.boogie < 1) or (me.showFriendlyZones == TRUE and me.boogie == 1)) and me.threatIndex < maxThreats-1) {
+				me.threatRadiusNM = -1;
+				if (contact.get_model()      == "missile_frigate") {
+					me.threatRadiusNM = 80;
+				} elsif (contact.get_model() == "buk-m2") {
+					me.threatRadiusNM = 30;
+				}
+				if (me.threatRadiusNM != -1) {
+					me.threatIndex += 1;
+					me.threats[me.threatIndex].setTranslation(me.pos_xx, me.pos_yy);
+					if (me.boogie == 1) {
+			    		me.threats[me.threatIndex].setColor(rGreen,gGreen,bGreen,a);
+			    	} else {
+			    		me.threats[me.threatIndex].setColor(rRed,gRed,bRed,a);
+			    	}
+					me.scale = me.threatRadiusNM*NM2M*M2TEX/100;
+			      	me.threats[me.threatIndex].setStrokeLineWidth(w/me.scale);
+			      	me.threats[me.threatIndex].setScale(me.scale);
+					me.threats[me.threatIndex].show();
+				}
 			}
 		}
 	},
@@ -3642,7 +3640,7 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# show threat circles
-				me.showSAMs = !me.showSAMs;
+				me.showHostileZones = !me.showHostileZones;
 			}			
 		}
 	},
@@ -3671,6 +3669,10 @@ var TI = {
 				if (me.SVYrmax > 120) {
 					me.SVYrmax = 15;
 				}
+			}
+			if (me.menuMain == MAIN_DISPLAY) {
+				# show friendly threat circles
+				me.showFriendlyZones = !me.showFriendlyZones;
 			}
 		}
 	},
