@@ -106,7 +106,7 @@ HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned of
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
-HUD: Altitude scale should only be shown when engine is running due to it need AC power.
+HUD: Altitude scale should only be shown when engine is running due to it need AC power. (pitot-static needs AC?)
 HUD: Make option: realistic or easy-readable (as now).
 TI: Show lat/lon grid in menu UDAT.
 TI: Move cursor between TI and MI.
