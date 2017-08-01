@@ -2,6 +2,8 @@ var Math = {
     #
     # Author: Nikolai V. Chr.
     #
+    # Version 1.1
+    #
     # When doing euler to cartesian: +x = forw, +y = right, +z = up.
     #
     clamp: func(v, min, max) { v < min ? min : v > max ? max : v },

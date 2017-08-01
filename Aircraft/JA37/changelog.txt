@@ -2943,3 +2943,7 @@ Sim: Fixed that pitch calculation between 2 point could fail in some cases where
 TI: Fixed that display would be extremely dark in Rembrandt.
 MI: Fixed that display would be extremely dark in Rembrandt.
 TI: Prettyfied code for TRAP logs.
+
+4.107
+=====
+Aero: Added wake turbulence support from AI planes.
