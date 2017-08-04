@@ -1429,10 +1429,14 @@ var getPitch = func (coord1, coord2) {
   var coord3 = geo.Coord.new(coord1);
   coord3.set_alt(coord2.alt());
   var d12 = coord1.direct_distance_to(coord2);
-  if (d12 > 0.1 and coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
+  if (d12 != 0 and coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
     var d32 = coord3.direct_distance_to(coord2);
     var altD = coord1.alt()-coord3.alt();
-    var y = R2D * math.acos((math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD));
+    var l = (math.pow(d12, 2)+math.pow(altD,2)-math.pow(d32, 2))/(2 * d12 * altD);
+    if (l < -1 or l > 1) {
+      return 0;
+    }
+    var y = R2D * math.acos(l);
     var pitch = -1* (90 - y);
     return pitch*D2R;
   } else {

@@ -2942,8 +2942,9 @@ TI: Fixed regression that fixing a GPS location would fail.
 Sim: Fixed that pitch calculation between 2 point could fail in some cases where pitch would be exact +/- 90 degs.
 TI: Fixed that display would be extremely dark in Rembrandt.
 MI: Fixed that display would be extremely dark in Rembrandt.
-TI: Prettyfied code for TRAP logs.
+TI: Prettified code for TRAP logs.
 
 4.107
 =====
-Aero: Added wake turbulence support from AI planes.
+Aero: Added wake turbulence support from AI planes. (FG 2017.3.1+)
+Sim: Another guard for bad math operation in pitch method.

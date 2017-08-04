@@ -51,7 +51,7 @@ Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Replace all generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
-Sim: Missiles should lock onto flares from other mil plane types.
+Sim: Missiles should lock onto flares from more other mil plane types.
 Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
 Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
@@ -131,6 +131,7 @@ MI: Make TNF to stop/start inertial nav.
 MI: NEZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
+Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
 
 

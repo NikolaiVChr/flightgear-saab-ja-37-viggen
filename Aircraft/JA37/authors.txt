@@ -5,13 +5,14 @@ Anders Lejczak - anders.lejczak at colacola.se
 Original exterior 3D model
 Original exterior textures and bumpmap
 
-Nikolai V. Chr. - emptyyetfull at gmail.com - Forum name: Necolatis
+Nikolai V. Chr. - emptyyetfull at gmail.com - Forum name: Necolatis - Callsign: Leto
 ==================================
 Maintainer
-FDM
-Controls
+Aerodynamics
+Flight control system
 Sounds
 HUD
+Canvas displays
 Animations
 Nasal
 Effects
@@ -36,23 +37,22 @@ Ambient occlusion textures
 
 Justin Nicholson - Forum name: Pinto
 ====================================
-Added the RB-71 missile.
-Armament textures and models.
-AJ37 model.
+Most armament textures and models.
+AJ37/AJS37 variant models.
 Cannon spam filter defeating.
-Misc. cockpit improvements (radio etc..)
-Misc. model improvements. (optimizations, adjustments, UV mappings plus more)
+Many cockpit improvements (radio, datapanel, etc..)
+Misc. model improvements. (optimizations, adjustments, UV mappings plus much more)
 Grey/black camo livery.
 Plus many other changes.
 
-Steve Brown - Forum name: swampthing
+Steve Brown - Forum name: swampthing - Callsign: swamp
 ======================
 KSUU Crew 1 livery.
 2 exterior engine sounds.
 
-Forum name: Spectre
+Enrico Castaldi - Forum name: Spectre
 ===================
-Bunch of liveries.
+Many of the liveries.
 
 
 Thanks
