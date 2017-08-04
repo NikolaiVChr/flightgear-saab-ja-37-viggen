@@ -2948,3 +2948,4 @@ TI: Prettified code for TRAP logs.
 =====
 Aero: Added wake turbulence support from AI planes. (FG 2017.3.1+)
 Sim: Another guard for bad math operation in pitch method.
+Radar: SR-71 will now be more observable.
