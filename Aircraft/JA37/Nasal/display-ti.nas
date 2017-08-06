@@ -440,6 +440,7 @@ var TI = {
 			.set("z-index", 5);
 
 		me.echoesAircraft = [];
+		me.echoesAircraftTri = [];
 		me.echoesAircraftVector = [];
 		# selection
 		var grp = me.radar_group.createChild("group")
@@ -451,7 +452,7 @@ var TI = {
 		  .lineTo(0, -1*MM2TEX)
 		  .setColor(rYellow,gYellow,bYellow, a)
 	      .setStrokeLineWidth(w);
-		grp.createChild("path")
+		var tri = grp.createChild("path")
 	       .moveTo(-7.5, 7.5)
            .arcSmallCW(7.5, 7.5, 0, 15, 0)
            .arcSmallCW(7.5, 7.5, 0, -15, 0)
@@ -461,6 +462,7 @@ var TI = {
 	       .setColor(rYellow,gYellow,bYellow, a)
 	       .setStrokeLineWidth(w);
 	    append(me.echoesAircraft, grp);
+	    append(me.echoesAircraftTri, tri);
 	    append(me.echoesAircraftVector, vector);
 	    #unselected
 		for (var i = 1; i < maxTracks; i += 1) {
@@ -473,7 +475,7 @@ var TI = {
 			  .lineTo(0, -1*MM2TEX)
 			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
 		      .setStrokeLineWidth(w);
-			grp.createChild("path")
+			var tri = grp.createChild("path")
 		      .moveTo(-5*MM2TEX, 15*MM2TEX)
 		      .lineTo( 0,         0*MM2TEX)
 		      .moveTo( 5*MM2TEX, 15*MM2TEX)
@@ -483,6 +485,7 @@ var TI = {
 		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
 		      .setStrokeLineWidth(w);
 		    append(me.echoesAircraft, grp);
+		    append(me.echoesAircraftTri, tri);
 		    append(me.echoesAircraftVector, vector);
 		}
 
@@ -493,6 +496,7 @@ var TI = {
     	me.svy_grp2 = me.svy_grp.createChild("group")
     		.set("z-index", 1);
     	me.echoesAircraftSvy = [];
+    	me.echoesAircraftSvyTri = [];
 		me.echoesAircraftSvyVector = [];
 		var grpS = me.svy_grp.createChild("group")
 			.set("z-index", maxTracks-0);
@@ -503,7 +507,7 @@ var TI = {
 		  .lineTo(0, -1*MM2TEX)
 		  .setColor(rYellow,gYellow,bYellow, a)
 	      .setStrokeLineWidth(w);
-		grpS.createChild("path")
+		var tri = grpS.createChild("path")
 	       .moveTo(-7.5, 7.5)
            .arcSmallCW(7.5, 7.5, 0, 15, 0)
            .arcSmallCW(7.5, 7.5, 0, -15, 0)
@@ -513,6 +517,7 @@ var TI = {
 	       .setColor(rYellow,gYellow,bYellow, a)
 	       .setStrokeLineWidth(w);
 	    append(me.echoesAircraftSvy, grpS);
+	    append(me.echoesAircraftSvyTri, tri);
 	    append(me.echoesAircraftSvyVector, vectorS);
 		for (var i = 1; i < maxTracks; i += 1) {
 			var grp = me.svy_grp.createChild("group")
@@ -522,7 +527,7 @@ var TI = {
 			  .lineTo(0, -1*MM2TEX)
 			  .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
 		      .setStrokeLineWidth(w);
-			grp.createChild("path")
+			var tri = grp.createChild("path")
 		      .moveTo(-5*MM2TEX, 15*MM2TEX)
 		      .lineTo( 0,         0*MM2TEX)
 		      .moveTo( 5*MM2TEX, 15*MM2TEX)
@@ -532,6 +537,7 @@ var TI = {
 		      .setColor(i!=0?rYellow:rRed,i!=0?gYellow:gRed,i!=0?bYellow:bRed, a)
 		      .setStrokeLineWidth(w);
 		    append(me.echoesAircraftSvy, grp);
+		    append(me.echoesAircraftSvyTri, tri);
 		    append(me.echoesAircraftSvyVector, vector);
 		}
 		me.selfSymbolSvy = me.svy_grp.createChild("path")
@@ -1434,7 +1440,9 @@ var TI = {
 
 	startFailListener: func {
 		#this will run entire session, so no need to unsubscribe.
-		FailureMgr.events["trigger-fired"].subscribe(func {call(func{me.newFails = 1}, nil, me, me)});
+		if (getprop("ja37/supported/failEvents") == TRUE) {
+			FailureMgr.events["trigger-fired"].subscribe(func {call(func{me.newFails = 1}, nil, me, me)});
+		}
 	},
 
 
@@ -1616,7 +1624,7 @@ var TI = {
 	      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
 	    			}
 					me.errorList.setText(me.str);
-				});
+				}, nil, var err = []);
 				me.newFails = FALSE;
 				me.clipLogPage();
 			} else {
@@ -3033,13 +3041,13 @@ var TI = {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 
 		    	if (me.boogie == 1) {
-		    		me.echoesAircraft[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+		    		me.echoesAircraftTri[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
 		    		me.echoesAircraftVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
 		    	} elsif (me.boogie == -1) {
-		    		me.echoesAircraft[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+		    		me.echoesAircraftTri[me.currentIndexT].setColor(rRed,gRed,bRed,a);
 		    		me.echoesAircraftVector[me.currentIndexT].setColor(rRed,gRed,bRed,a);
 		    	} else {
-		    		me.echoesAircraft[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+		    		me.echoesAircraftTri[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
 		    		me.echoesAircraftVector[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
 		    	}
 
@@ -3060,13 +3068,13 @@ var TI = {
 					me.distsvy = math.cos(me.angle)*contact.get_Coord().distance_to(geo.aircraft_position());
 					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange, me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt);
 					if (me.boogie == 1) {
-			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
+			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
 			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
 			    	} elsif (me.boogie == -1) {
-			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rRed,gRed,bRed,a);
+			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rRed,gRed,bRed,a);
 			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rRed,gRed,bRed,a);
 			    	} else {
-			    		me.echoesAircraftSvy[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
+			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
 			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rYellow,gYellow,bYellow,a);
 			    	}
 				    if (me.tgtHeading != nil) {

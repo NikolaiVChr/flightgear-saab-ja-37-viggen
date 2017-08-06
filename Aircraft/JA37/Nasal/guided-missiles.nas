@@ -674,9 +674,14 @@ var AIM = {
 			var sun_x = getprop("ephemeris/sun/local/x");
 			var sun_y = getprop("ephemeris/sun/local/y");# unit vector pointing to sun in geocentric coords
 			var sun_z = getprop("ephemeris/sun/local/z");
-			me.sun_power = getprop("/rendering/scene/diffuse/red");
-			me.sun = geo.Coord.new();
-			me.sun.set_xyz(me.ac_init.x()+sun_x*200000, me.ac_init.y()+sun_y*200000, me.ac_init.z()+sun_z*200000);#heat seeking missiles don't fly far, so setting it 200Km away is fine.
+			if (sun_x != nil) {
+				me.sun_enabled = TRUE;
+				me.sun = geo.Coord.new();
+				me.sun.set_xyz(me.ac_init.x()+sun_x*200000, me.ac_init.y()+sun_y*200000, me.ac_init.z()+sun_z*200000);#heat seeking missiles don't fly far, so setting it 200Km away is fine.
+			} else {
+				# old FG versions does not supply location of sun. So this feature gets disabled.
+				me.sun_enabled = FALSE;
+			}
 		}
 		me.lock_on_sun = FALSE;
 
@@ -1380,7 +1385,7 @@ var AIM = {
 	},
 
 	checkForSun: func () {
-		if (me.guidance == "heat" and me.sun_power > 0.6) {
+		if (me.sun_enabled == TRUE and me.guidance == "heat" and getprop("/rendering/scene/diffuse/red") > 0.6) {
 			# test for heat seeker locked on to sun
 			me.sun_dev_e = me.getPitch(me.coord, me.sun) - me.pitch;
 			me.sun_dev_h = me.coord.course_to(me.sun) - me.hdg;

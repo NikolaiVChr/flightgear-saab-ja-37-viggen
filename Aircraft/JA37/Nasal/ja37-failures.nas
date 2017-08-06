@@ -228,7 +228,7 @@ var install_new_failures = func {
     var actuator_generator_reserve = set_unserviceable(prop);
     FailureMgr.add_failure_mode(prop, "Reserve Generator", actuator_generator_reserve);
     FailureMgr.set_trigger(prop, trigger_rg);
-    trigger_rg.arm();
+    #trigger_rg.arm();
 
     prop = "controls/engines/engine/reverse-system";
     var actuator_reverser = set_unserviceable(prop);

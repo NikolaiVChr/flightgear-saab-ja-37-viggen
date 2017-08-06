@@ -1324,6 +1324,9 @@
 
 *************************************************************************-->
     <nasal>
+        <events>
+            <file>Aircraft/JA37/Nasal/events.nas</file>
+        </events>
         <reversethrust>
             <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
         </reversethrust>

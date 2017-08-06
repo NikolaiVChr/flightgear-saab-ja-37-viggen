@@ -991,12 +991,14 @@ var test_support = func {
       setprop("ja37/supported/fire", FALSE);
       setprop("ja37/supported/new-marker", FALSE);
       setprop("ja37/supported/picking", FALSE);
+      setprop("ja37/supported/failEvents", FALSE);
   } elsif (major == 2) {
     setprop("ja37/supported/landing-light", FALSE);
     setprop("ja37/supported/lightning", FALSE);
     setprop("ja37/supported/fire", FALSE);
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
+    setprop("ja37/supported/failEvents", FALSE);
     if(minor < 7) {
       notice("Saab 37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
@@ -1046,6 +1048,7 @@ var test_support = func {
     setprop("ja37/supported/fire", FALSE);
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
+    setprop("ja37/supported/failEvents", FALSE);
     if (minor == 0) {
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/landing-light", FALSE);
@@ -1062,9 +1065,11 @@ var test_support = func {
       setprop("ja37/supported/popuptips", 1);
       setprop("ja37/supported/lightning", FALSE);
       setprop("ja37/supported/fire", TRUE);
+      setprop("ja37/supported/failEvents", TRUE);
     } elsif (minor <= 6) {
       setprop("ja37/supported/lightning", FALSE);
       setprop("ja37/supported/fire", TRUE);
+      setprop("ja37/supported/failEvents", TRUE);
     }
   } elsif (major == 2016) {
     setprop("ja37/supported/options", TRUE);
@@ -1079,6 +1084,7 @@ var test_support = func {
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
+    setprop("ja37/supported/failEvents", TRUE);
     if (minor >= 2) {
       setprop("ja37/supported/new-marker", TRUE);
     }
@@ -1095,6 +1101,7 @@ var test_support = func {
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
+    setprop("ja37/supported/failEvents", TRUE);
     if (minor == 2 and detail > 0) {
       setprop("ja37/supported/picking", TRUE);
     }
@@ -1115,6 +1122,7 @@ var test_support = func {
     setprop("ja37/supported/fire", TRUE);
     setprop("ja37/supported/new-marker", TRUE);
     setprop("ja37/supported/picking", TRUE);
+    setprop("ja37/supported/failEvents", TRUE);
   }
   setprop("ja37/supported/initialized", TRUE);
 

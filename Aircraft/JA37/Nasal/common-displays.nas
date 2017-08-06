@@ -99,7 +99,7 @@ units:                "ja37/hud/units-metric",
 		var mode_list = keys(failure_modes);
 
 		foreach(var failure_mode_id; mode_list) {
-			if (FailureMgr.get_failure_level(failure_mode_id)) {
+			if (getprop(FailureMgr.proproot ~ failure_mode_id ~ "/failure-level")) {
 				me.error = TRUE;
 				return;
 			}
