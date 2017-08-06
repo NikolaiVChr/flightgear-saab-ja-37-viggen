@@ -2950,5 +2950,6 @@ Aero: Added wake turbulence support from AI planes. (FG 2017.3.1+)
 Sim: Another guard for bad math operation in pitch method.
 Radar: SR-71 will now be more observable.
 
-4.108
+4.108 - 2017 August 6
 =====
+Sim: Fixed some issues that would prevent the Viggen from working with Flightgear 3.2. Notice the TI failure menu will not be working in this FG version.
