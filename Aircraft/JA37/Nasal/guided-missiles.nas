@@ -666,6 +666,9 @@ var AIM = {
 		me.fuel_per_sec_1  = (fuel_per_impulse * impulse1) / me.stage_1_duration;# lbm/s
 		me.fuel_per_sec_2  = (fuel_per_impulse * impulse2) / me.stage_2_duration;# lbm/s
 
+		# uncomment this line to see how much energy/fuel the missile have.
+		#printf("Impulse per fuel: %s has %0.2f (lbf*s)/lbm.", me.type, 1/fuel_per_impulse);
+
 		# find the sun:
 		if(me.guidance == "heat") {
 			var sun_x = getprop("ephemeris/sun/local/x");

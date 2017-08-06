@@ -1,5 +1,5 @@
 #
-# Methods that is used across multiple displays (HUD, radarscreen, MI, TI)
+# Methods that is used across multiple displays (HUD, CI, MI, TI)
 #
 var TAKEOFF = 0;
 var NAV = 1;
