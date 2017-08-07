@@ -1978,7 +1978,7 @@ var AIM = {
 		impact_report(me.coord, wh_mass, "munition", me.type, me.new_speed_fps*FT2M);
 
 		if (me.Tgt != nil) {
-			var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ me.fooled == FALSE?me.callsign:me.callsign ~ "'s flare";
+			var phrase = sprintf( me.type~" "~event~": %01.1f", min_distance) ~ " meters from: " ~ (me.fooled == FALSE?me.callsign:me.callsign ~ "'s flare");
 			print(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 			if (min_distance < me.reportDist) {
 				me.sendMessage(phrase);
