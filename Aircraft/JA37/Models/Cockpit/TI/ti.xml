@@ -53,6 +53,23 @@
     <effect><!-- for Rembrandt to render illuminated canvas texture correct -->
      <inherits-from>Effects/model-transparent</inherits-from>
      <object-name>ti_screen</object-name>
+     <condition>
+        <equals>
+          <property>/sim/rendering/rembrandt/enabled</property>
+          <value>1</value>
+        </equals>
+    </condition>
+    </effect>
+
+    <effect><!--  -->
+     <inherits-from>Effects/model-deferred</inherits-from>
+     <object-name>ti_screen</object-name>
+     <condition>
+        <equals>
+          <property>/sim/rendering/rembrandt/enabled</property>
+          <value>0</value>
+        </equals>
+    </condition>
     </effect>
 
   	<!--
