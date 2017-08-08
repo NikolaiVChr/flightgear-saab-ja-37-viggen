@@ -2953,3 +2953,13 @@ Radar: SR-71 will now be more observable.
 4.108 - 2017 August 6
 =====
 Sim: Fixed some issues that would prevent the Viggen from working with Flightgear 3.2. Notice the TI failure menu will not be working in this FG version.
+
+4.109
+=====
+Sim: Heatseekers will now pursuit the flare when they lock onto it.
+TI: Fixed display would not black out when using ALS and filters.
+MI: Fixed display would not black out when using ALS and filters.
+Radar: Extra RCS checks for sanity.
+Sim: Fixed regression in non heat seeking missiles.
+Sim: Refactored getPitch method to one instance.
+Radar: Fixed using FG computed elevation would not account for curvature of earth.

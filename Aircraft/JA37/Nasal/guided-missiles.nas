@@ -70,14 +70,12 @@
 # Future features:
 #
 # Make ground hitting weapons hit all nearby targets, not just what its locked on.
-# Chaff interaction for radar guided weapons.
 # ECM disturbance of getting radar lock.
 # Lock on jam. (advanced feature)
 # After FG gets HLA: stop using MP chat for hit messages.
 # Allow firing only if certain conditions are met. Like not being inverted when firing dropped weapons.
 # Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
 # Ground launched rails/tubes that rotate towards target before firing.
-# Make weapon unreliable by design, to simulate weapons which were unreliable, like Phoenix.
 # Sub munitions that have their own guidance/FDM. (advanced)
 # GPS guided munitions could have waypoints added.
 # Specify terminal manouvres and preferred impact aspect.
@@ -87,6 +85,10 @@
 # Drag coeff reduction due to exhaust plume.
 # Proportional navigation should use vector math instead decomposition horizontal/vertical navigation.
 # If closing speed is negative, consider to switch to pure pursuit from proportional navigation, the target might turn back into missile.
+# Bleeding speed due to high G turning should depend on drag-area, with AIM-120s as reference. (that would mean recalibrate all cruise-missiles so they don't crash)
+# Rename drag-area to cross-section-sqft. Drag area is actually drag coefficient multiplied by cross-section.
+# Make semi-self-radar guided weapons that is semi guided until terminal phase where they switch on own radar. (AIM-120, AIM-54)
+# Make anti-radiation guided feature. (HARM)
 #
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
@@ -2070,33 +2072,7 @@ var AIM = {
 
 	getPitch: func (coord1, coord2) {#GCD
 		#pitch from coord1 to coord2 in degrees (takes curvature of earth into effect.)
-		if (coord1.lat() == coord2.lat() and coord1.lon() == coord2.lon()) {
-	        if (coord2.alt() > coord1.alt()) {
-	          return 90;
-	        } elsif (coord2.alt() < coord1.alt()) {
-	          return -90;
-	        } else {
-	          return 0;
-	        }
-	    }
-		me.coord3 = geo.Coord.new(coord1);
-		me.coord3.set_alt(coord2.alt());
-		me.d12 = coord1.direct_distance_to(coord2);
-		if (me.d12 != 0 and coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
-			me.d32 = me.coord3.direct_distance_to(coord2);
-			me.altDi = coord1.alt()-me.coord3.alt();
-			me.len = (math.pow(me.d12, 2)+math.pow(me.altDi,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.altDi);
-	        if (me.len < -1 or me.len > 1) {
-	          return 0;
-	        }
-			me.yyy = R2D * math.acos(me.len);
-			me.pitchC = -1* (90 - me.yyy);
-			return me.pitchC;
-	  	} else{
-	  		# arccos wont like if the coord are the same
-	  		return 0;
-	  	}
-		  
+		return vector.Math.getPitch(coord1, coord2);
 	},
 
 	# aircraft searching for lock

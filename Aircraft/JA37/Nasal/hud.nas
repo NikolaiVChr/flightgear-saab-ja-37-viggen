@@ -3,7 +3,7 @@
 #
 # Nicked some code from the buccaneer and the wiki example to get started
 #
-# Made for the JA-37 by Necolatis
+# Made for the JA-37 by Nikolai V. Chr.
 # ==============================================================================
 
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
