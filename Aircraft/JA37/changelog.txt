@@ -2963,4 +2963,6 @@ Radar: Extra RCS checks for sanity.
 Sim: Fixed regression in non heat seeking missiles.
 Sim: Refactored getPitch method to one instance.
 Radar: Fixed using FG computed elevation would not account for curvature of earth.
-Weapons: Simplified and upgraded counter measure system.
+Arms: Simplified and upgraded counter measure system.
+Radar: Fixed type for f14 RCS.
+HUD: In interoperability mode terrain elevation now shows up to 99999ft.

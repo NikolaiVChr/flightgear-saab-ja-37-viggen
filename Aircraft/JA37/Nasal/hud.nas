@@ -1596,9 +1596,13 @@ var HUDnasal = {
           me.alt.setText("");
         } else {
           me.metric = me.input.units.getValue();
-          me.terrainAlt = me.metric == TRUE?me.gElev_m:me.gElev_ft;
-
-          me.alt.setText(sprintf("%4d", clamp(me.terrainAlt, 0, 9999)));
+          if (me.metric == TRUE) {
+            me.terrainAlt = me.gElev_m;
+            me.alt.setText(sprintf("%4d", clamp(me.terrainAlt, 0, 9999)));
+          } else {
+            me.terrainAlt = me.gElev_ft;
+            me.alt.setText(sprintf("%5d", clamp(me.terrainAlt, 0, 99999)));
+          }          
         }
       }
     }

@@ -1,16 +1,18 @@
-#################################################################################
+#########################################################################################
 #######	
 ####### Guided/Cruise missiles, rockets and dumb/glide bombs code for Flightgear.
 #######
-####### License: GPL 2
+####### License: GPL 2.0
 #######
 ####### Authors:
 #######  Alexis Bory, Fabien Barbier, Richard Harrison, Justin Nicholson, Nikolai V. Chr.
 ####### 
+####### The file vector.nas needs to be available in namespace 'vector'.
+#######
 ####### In addition, some code is derived from work by:
 #######  David Culp, Vivian Meazza, M. Franz
 #######
-##################################################################################
+#########################################################################################
 
 # Some notes about making weapons:
 #
