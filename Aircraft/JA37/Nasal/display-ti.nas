@@ -2641,7 +2641,7 @@ var TI = {
 
 	updateFlightData: func {
 		me.fData = FALSE;
-		if (getprop("ja37/sound/terrain-on") == TRUE) {
+		if (getprop("ja37/sound/terrain-on") == TRUE or getprop("instrumentation/terrain-warning") == TRUE) {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;

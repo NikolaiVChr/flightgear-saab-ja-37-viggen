@@ -2081,6 +2081,22 @@
             </test>
         </switch>
 
+        <switch name="/instrumentation/terrain-warning-steady-time">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="/instrumentation/terrain-warning-steady-time">
+                /ja37/sound/terrain-on == 0
+            </test>
+        </switch>
+
+        <fcs_function name="/instrumentation/terrain-warning-steady">
+            <function>
+                <sum>
+                    <p>/instrumentation/terrain-warning-steady-time</p>
+                    <v>3</v>
+                </sum>
+            </function>
+        </fcs_function>
+
         <fcs_function name="/instrumentation/terrain-warning-hold">
             <function>
                 <and>
@@ -2108,6 +2124,9 @@
             <default value="0"/>
             <test logic="OR" value="/ja37/blink/ten-Hz/state">
                 /ja37/sound/terrain-on == 1
+            </test>
+            <test logic="AND" value="1">
+                /instrumentation/terrain-warning-steady gt sim-time-sec
             </test>
         </switch>
 

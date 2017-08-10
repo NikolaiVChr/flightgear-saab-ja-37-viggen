@@ -2971,3 +2971,7 @@ HUD: When not in interoperability mode, mach and Km/h can now be displayed toget
 HUD: When not in interoperability mode, GS will still show.
 TI: Made button 6 in sideview configuration switch mode. It still has no effect though.
 TI: Renamed english READ DATA menu item in configuration menu.
+HUD: Made a crude DLZ show on distance scale for JA.
+HUD: Ground collision warning arrow should stay on for 3 seconds after the warning.
+TI: Ground collision warning arrow should stay on for 3 seconds after the warning.
+MI: Ground collision warning arrow should stay on for 3 seconds after the warning.

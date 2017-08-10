@@ -244,9 +244,9 @@ var AIM = {
         m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
         m.chaffResistance       = getprop("payload/armament/"~m.type_lc~"/chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950.
         m.flareResistance       = getprop("payload/armament/"~m.type_lc~"/flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.850.
-        m.dlz_enabled           = getprop("payload/armament/"~m.type_lc~"/DLZ");                        # 
-        m.dlz_opt_alt           = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-alt-feet");       # 
-        m.dlz_opt_mach          = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-closing-mach");   # 
+        m.dlz_enabled           = getprop("payload/armament/"~m.type_lc~"/DLZ");                        # Supports dynamic launch zone info.
+        m.dlz_opt_alt           = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-alt-feet");       # Altitude required to hit the target at max range.
+        m.dlz_opt_mach          = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-closing-mach");   # Closing speed required to hit the target at max range.
         
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         # three variables used for trigonometry hit calc:
@@ -490,7 +490,7 @@ var AIM = {
 
     	me.dlz_opt   = me.clamp(me.max_detect_rng *0.3* (me.dlz_o_alt/me.dlz_opt_alt) + me.max_detect_rng *0.2* (me.dlz_t_alt/me.dlz_opt_alt) + me.max_detect_rng *0.5* (me.dlz_CS/me.dlz_opt_mach),me.min_dist,me.max_detect_rng);
     	me.dlz_nez   = me.clamp(me.dlz_opt * (me.dlz_tG/45), me.min_dist, me.dlz_opt);
-    	#printf("Dynamic Launch Zone (NM): Maximum=%0.1f Optimal=%0.1f NEZ=%0.1f Minimum=%0.1f",me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist);
+    	#printf("Dynamic Launch Zone (NM): Maximum=%0.1f Optimistic=%0.1f NEZ=%0.1f Minimum=%0.1f",me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist);
     	return [me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist,geo.aircraft_position().direct_distance_to(me.contactCoord)*M2NM];
 	},
 
@@ -2138,7 +2138,6 @@ var AIM = {
 		} elsif (me.deleted == TRUE) {
 			return;
 		}
-		me.getDLZ();
 		#print("search");
 		# search.
 		if (1==1 or contact != me.Tgt) {
@@ -2214,7 +2213,6 @@ var AIM = {
 		}
 		#print("lock");
 		# Time interval since lock time or last track loop.
-		me.getDLZ();
 		if (me.status == MISSILE_LOCK) {		
 			# Status = locked. Get target position relative to our aircraft.
 			me.curr_deviation_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation());
