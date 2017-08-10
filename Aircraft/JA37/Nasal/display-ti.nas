@@ -129,6 +129,9 @@ var MAIN_CONFIGURATION = 13;
 var SVY_ELKA = 0;
 var SVY_RMAX = 1;
 var SVY_MI   = 2;
+var SVY_ALL  = 0;
+var SVY_RR   = 1;
+var SVY_120  = 2;
 
 var brightnessP = func {
 	if (ti.active == FALSE) return;
@@ -269,7 +272,7 @@ var dictEN = {
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'5': [TRUE, "SIDV"], '6': [TRUE, "FR28"], '7': [TRUE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "LOCK"]},
+			'5': [TRUE, "SIDV"], '6': [TRUE, "FR28"], '7': [TRUE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "READ"]},
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
 	'SIDV': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -1393,6 +1396,7 @@ var TI = {
 		ti.SVYrmax      = 120;# 15 -120
 		ti.SVYhmax      = 20;# 5, 10, 20 or 40 KM
 		ti.SVYsize      = 2;#size 1-3
+		ti.SVYinclude   = SVY_ALL;
 
 		ti.upText = FALSE;
 		ti.logPage = 0;
@@ -1998,14 +2002,21 @@ var TI = {
 			me.menuButtonSub[6].setText(me.vertStr(me.ant));
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
+			me.menuButtonSub[19].setText(me.vertStr("DATA"));
+			me.menuButtonSub[19].show();
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 			# side view configuration
 			me.menuButtonSub[5].setText(me.vertStr(""~me.SVYsize));
 			me.menuButtonSub[5].show();
 			me.menuButtonSubBox[5].show();
-
-			me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"ALLT":"ALL"));
+			if (me.SVYinclude == SVY_ALL) {
+				me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"ALLT":"ALL"));
+			} elsif (me.SVYinclude == SVY_120) {
+				me.menuButtonSub[6].setText(me.vertStr("120"));
+			} else {
+				me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"RR":"RDR"));
+			}
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
 
@@ -3437,6 +3448,12 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				me.fr28Top = !me.fr28Top;
+			}
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == TRUE) {
+				me.SVYinclude += 1;
+				if (me.SVYinclude > 2) {
+					me.SVYinclude = 0;
+				}
 			}
 		}
 	},
