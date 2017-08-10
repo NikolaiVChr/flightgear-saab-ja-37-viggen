@@ -17,10 +17,7 @@ var roundabout = func(x) {
 var extrapolate = func (x, x1, x2, y1, y2) {
     return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
-var deg2rads = math.pi/180.0;
-var rad2deg = 180.0/math.pi;
 var kts2kmh = 1.852;
-var feet2meter = 0.3048;
 
 var alt_scale_mode = -1; # the alt scale is not linear, this indicates which part is showed
 
@@ -58,7 +55,7 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 
 
 # Since the HUD is not curved, we have to choose an avarage degree where degree per pixel is calculated from. 7.5 is chosen.
-var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*deg2rads))/7.5); 
+var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*D2R))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var distScalePos = 160;
@@ -124,7 +121,7 @@ var HUDnasal = {
     HUDnasal.main.root = HUDnasal.main.canvas.createGroup()
                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
     
-    #HUDnasal.main.root.setScale(math.sin(slant*deg2rads), 1);
+    #HUDnasal.main.root.setScale(math.sin(slant*D2R), 1);
     HUDnasal.main.root.setTranslation(canvasWidth/2, canvasWidth/2);
 
     # digital airspeed kts/mach 
@@ -1128,7 +1125,7 @@ var HUDnasal = {
 
   displayGroundCollisionArrow: func (mode) {
     if (me.input.terrainWarn.getValue() == TRUE) {
-      me.arrow_trans.setRotation(- me.input.roll.getValue()*deg2rads);
+      me.arrow_trans.setRotation(- me.input.roll.getValue()*D2R);
       me.arrow.show();
     } else {
       me.arrow.hide();
@@ -1314,8 +1311,8 @@ var HUDnasal = {
 
   displayAltitude: func () {
     me.metric = me.input.units.getValue();
-    me.alti = me.metric == TRUE ? me.input.alt_ft.getValue() * feet2meter : me.input.alt_ft.getValue();
-    me.radAlt = me.input.ctrlRadar.getValue() == 1?(me.metric == TRUE ? me.input.rad_alt.getValue() * feet2meter : me.input.rad_alt.getValue()):nil;
+    me.alti = me.metric == TRUE ? me.input.alt_ft.getValue() * FT2M : me.input.alt_ft.getValue();
+    me.radAlt = me.input.ctrlRadar.getValue() == 1?(me.metric == TRUE ? me.input.rad_alt.getValue() * FT2M : me.input.rad_alt.getValue()):nil;
 
     me.displayAltitudeScale(me.alti, me.radAlt);
     me.displayDigitalAltitude(me.alti, me.radAlt);
@@ -1560,8 +1557,8 @@ var HUDnasal = {
     me.alt.show();
     # alt and radAlt is in current unit
     # determine max radar alt in current unit
-    me.radar_clamp = me.input.units.getValue() ==1 ? 100 : 100/feet2meter;
-    me.alt_diff = me.input.units.getValue() ==1 ? 7 : 7/feet2meter;
+    me.radar_clamp = me.input.units.getValue() ==1 ? 100 : 100*M2FT;
+    me.alt_diff = me.input.units.getValue() ==1 ? 7 : 7*M2FT;
     me.INT = FALSE;
     if (me.input.units.getValue() == FALSE and (me.input.wow2.getValue() == TRUE
         or (me.inter == TRUE and me.input.gearCmdNorm.getValue() == 0 and me.input.gearsPos.getValue() > 0)
@@ -1584,7 +1581,7 @@ var HUDnasal = {
       if (me.INT == FALSE) {
         me.inter = FALSE;
         # in radar alt range
-        me.alt.setText("R " ~ sprintf("%3d", clamp(radAlt, 0, me.radar_clamp)));
+        me.alt.setText(sprintf("R %3d", clamp(radAlt, 0, me.radar_clamp)));
       }
     } else {
       if (me.INT == FALSE) {
@@ -1694,16 +1691,28 @@ var HUDnasal = {
   displayDigitalSpeed: func (mode) {
     me.mach = me.input.mach.getValue();
     me.metric = me.input.units.getValue();
+    me.displayGS = air2ground;# in AJ(S) speed type is selected by weapon type when in tactical mode.
+    if (mode == LANDING or me.input.rad_alt.getValue()*FT2M > 1000) {
+      # page 368 in JA37Di manual (small).
+      me.displayGS = FALSE;
+    } elsif (getprop("ja37/systems/variant") == 0) {
+      #JA-37Di
+      me.displayGS = TI.ti.ModeAttack;# in JA speed type can be selected on TI display
+    }
     if(me.metric == TRUE) {
       # metric
       me.airspeedInt.hide();
-      if (me.mach >= 0.5) 
-      {
+      if (me.mach >= 0.5 and mode != LANDING and mode != TAKEOFF) {
+        me.speed = me.displayGS == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+        me.type  = me.displayGS == TRUE?"GS":"";
+        me.airspeedInt.setText(sprintf(me.type~"%03d", me.speed));
+        me.airspeedInt.show();
         me.airspeed.setText(sprintf("%.2f", me.mach));
       } else {
-        me.speed = air2ground == TRUE?me.input.gs.getValue()*kts2kmh:me.input.ias.getValue() * kts2kmh;
+        me.speed = me.displayGS == TRUE?me.input.gs.getValue()*kts2kmh:me.input.ias.getValue() * kts2kmh;
+        me.type  = me.displayGS == TRUE?"GS":"";
         if (me.input.ias.getValue() * kts2kmh > 75) {
-          me.airspeed.setText(sprintf("%03d", me.speed));
+          me.airspeed.setText(sprintf("%s%03d", me.type, me.speed));
         } else {
           me.airspeed.setText("");
         }
@@ -1712,16 +1721,16 @@ var HUDnasal = {
       # interoperability without mach
       me.airspeedInt.hide();
       if (me.input.ias.getValue() * kts2kmh > 75) {
-        me.speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
-        me.type  = air2ground == TRUE?"GS":"KT";
+        me.speed = me.displayGS == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+        me.type  = me.displayGS == TRUE?"GS":"KT";
         me.airspeed.setText(sprintf(me.type~"%03d", me.speed));
       } else {
         me.airspeed.setText("");
       }
     } else {
       # interoperability with mach
-      me.speed = air2ground == TRUE?me.input.gs.getValue():me.input.ias.getValue();
-      me.type  = air2ground == TRUE?"GS":"KT";
+      me.speed = me.displayGS == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+      me.type  = me.displayGS == TRUE?"GS":"KT";
       me.airspeedInt.setText(sprintf(me.type~"%03d", me.speed));
       me.airspeedInt.show();
       me.airspeed.setText(sprintf("M%.2f", me.mach));
@@ -1766,7 +1775,7 @@ var HUDnasal = {
   displayTurnCoordinator: func () {
     if (me.input.sideslipOn.getValue() == TRUE and me.final == FALSE) {
       if(me.input.srvTurn.getValue() == 1) {
-        #me.t_rot.setRotation(getprop("/orientation/roll-deg") * deg2rads * 0.5);
+        #me.t_rot.setRotation(getprop("/orientation/roll-deg") * D2R * 0.5);
         me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -(150/1024)*canvasWidth, (150/1024)*canvasWidth), 0);
         #if(me.final == TRUE) {
         #  me.turn_group.setTranslation(sideslipPlaceXFinal, sideslipPlaceYFinal);
@@ -1998,9 +2007,9 @@ var HUDnasal = {
       me.vel_gy = me.input.speed_e.getValue();
       me.vel_gz = me.input.speed_d.getValue();
    
-      me.yaw = me.input.hdgReal.getValue() * deg2rads;
-      me.roll = me.input.roll.getValue() * deg2rads;
-      me.pitch = me.input.pitch.getValue() * deg2rads;
+      me.yaw = me.input.hdgReal.getValue() * D2R;
+      me.roll = me.input.roll.getValue() * D2R;
+      me.pitch = me.input.pitch.getValue() * D2R;
    
       me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
       me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
@@ -2520,23 +2529,23 @@ var HUDnasal = {
           # notice we dont use the top 50 texels of the HUD, due to semi circles would become invisible.
 
           # TODO: the airplane axis should be uses as origin.
-          me.angle = math.atan2(-me.pos_y, me.pos_x) * rad2deg;
+          me.angle = math.atan2(-me.pos_y, me.pos_x) * R2D;
           
           if (me.angle > -45 and me.angle < 42.06) {
             # right side
             me.pos_x = (512/1024)*canvasWidth;
-            me.pos_y = -math.tan(me.angle*deg2rads) * (512/1024)*canvasWidth;
+            me.pos_y = -math.tan(me.angle*D2R) * (512/1024)*canvasWidth;
           } elsif (me.angle > 137.94 or me.angle < -135) {
             # left side
             me.pos_x = -(512/1024)*canvasWidth;
-            me.pos_y = math.tan(me.angle*deg2rads) * (512/1024)*canvasWidth;
+            me.pos_y = math.tan(me.angle*D2R) * (512/1024)*canvasWidth;
           } elsif (me.angle > 42.06 and me.angle < 137.94) {
             # top side
-            me.pos_x = 1/math.tan(me.angle*deg2rads) * (462/1024)*canvasWidth;
+            me.pos_x = 1/math.tan(me.angle*D2R) * (462/1024)*canvasWidth;
             me.pos_y = -(462/1024)*canvasWidth;
           } elsif (me.angle < -45 and me.angle > -135) {
             # bottom side
-            me.pos_x = -1/math.tan(me.angle*deg2rads) * (512/1024)*canvasWidth;
+            me.pos_x = -1/math.tan(me.angle*D2R) * (512/1024)*canvasWidth;
             me.pos_y = (512/1024)*canvasWidth;
           }
         }
@@ -2607,8 +2616,8 @@ var HUDnasal = {
           #var down = me.myHeading+180.0;
           #var relative_heading = heading + down - 90.0;
           #var relative_speed = speed/10.0;
-          #var pos_y = relative_speed * math.sin(relative_heading/rad2deg);
-          #var pos_x = relative_speed * math.cos(relative_heading/rad2deg);
+          #var pos_y = relative_speed * math.sin(relative_heading*D2R);
+          #var pos_x = relative_speed * math.cos(relative_heading*D2R);
 
           #if(me.track_line != nil) {
           #  me.diamond_group_line.removeAllChildren();
@@ -2719,7 +2728,7 @@ var HUDnasal = {
             me.relHeading = me.tgtHeading - me.myHeading - me.myRoll;
             
             me.relHeading -= 180;# this makes the line trail instead of lead
-            me.relHeading = me.relHeading * deg2rads;
+            me.relHeading = me.relHeading * D2R;
 
             me.vel_vec_trans_group.setTranslation(me.pos_x, me.pos_y);
             me.vel_vec_rot_group.setRotation(me.relHeading);

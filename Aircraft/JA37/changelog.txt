@@ -2966,3 +2966,6 @@ Radar: Fixed using FG computed elevation would not account for curvature of eart
 Arms: Simplified and upgraded counter measure system.
 Radar: Fixed type for f14 RCS.
 HUD: In interoperability mode terrain elevation now shows up to 99999ft.
+HUD: When attack mode is chosen on TI show groundspeed in HUD, when below 1000m AGL. (instead of weapon type determining it)
+HUD: When not in interoperability mode, mach and Km/h can now be displayed together.
+HUD: When not in interoperability mode, GS will still show.

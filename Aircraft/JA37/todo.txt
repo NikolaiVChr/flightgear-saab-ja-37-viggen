@@ -9,6 +9,7 @@ GUI: Improve Checklists.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make recoil not assume that FDM rate is 120 Hz.
 Aero: Tune speedbrake better.
+Aero: Remove speedbrake in JA and AJS. Only AJ should have it.
 Aero: Make cannon ammo have pointweight.
 Aero: Adjust wave drag so max speed is M1.85 in ISA atmosphere and M2.03 in ISA-15.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
@@ -118,7 +119,7 @@ TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
 TI: Add missiles to SVY.
-TI: Waypoint info should show ETA to next waypoint.
+TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: Make route info with overall ETA.
 TI: Terrain arrow should stay on for 3 seconds after pull up.
 TI: Artificial horizon should move in relation to FPI, which in turn should be fixed in middle of display.
