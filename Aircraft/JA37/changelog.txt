@@ -2975,3 +2975,4 @@ HUD: Made a crude DLZ show on distance scale for JA.
 HUD: Ground collision warning arrow should stay on for 3 seconds after the warning.
 TI: Ground collision warning arrow should stay on for 3 seconds after the warning.
 MI: Ground collision warning arrow should stay on for 3 seconds after the warning.
+TI: Artificial horizon and ground symbol now move in relation to FPI, which in turn is fixed in middle of display.

@@ -2670,14 +2670,14 @@ var TI = {
 		}
 		me.fpi_x = me.fpi_x_deg*texel_per_degree;
 		me.fpi_y = me.fpi_y_deg*texel_per_degree;
-		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
+		#me.fpi.setTranslation(me.fpi_x, me.fpi_y);
 		me.fpi.show();
 	},
 
 	displayHorizon: func {
 		me.rot = -getprop("orientation/roll-deg") * D2R;
 		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+		me.horizon_group2.setTranslation(0-me.fpi_x, texel_per_degree * getprop("orientation/pitch-deg")-me.fpi_y);
 		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
 		if (me.alt != nil) {
 			me.text = "";
@@ -2715,7 +2715,7 @@ var TI = {
 		if (me.time != nil and me.time >= 0 and me.time < 40) {
 			me.timeC = clamp(me.time - 10,0,30);
 			me.dist = (me.timeC/30) * (height/2);
-			me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
+			me.ground_grp.setTranslation(0, 0);
 			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
 			if (me.time < 10 and me.time != 0) {
