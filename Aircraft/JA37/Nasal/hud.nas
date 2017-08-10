@@ -2130,6 +2130,12 @@ var HUDnasal = {
     } elsif (mode == COMBAT) {
       if (radar_logic.selection != nil) {
         me.line = (200/1024)*canvasWidth;
+        me.armActive = displays.common.armActive();
+        if (me.armActive != nil) {
+          me.dlz = me.armActive.getDLZ();
+        } else {
+          me.dlz = nil;
+        }
         me.armSelect = me.station;
         if (me.armSelect > 0) {
           me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
@@ -2209,7 +2215,42 @@ var HUDnasal = {
           me.minDist =     0;
           me.maxDist =180000;
         }
-        if(me.currDist != nil and me.minDist != nil) {
+        if (me.dlz != nil) {
+          if (size(me.dlz) > 0) {
+            me.pixelPerMeterLine = me.line/(me.dlz[0]*NM2M);
+            me.mySpeed.setTranslation(me.pixelPerMeterLine*(me.dlz[4]*NM2M), 0);
+            me.targetSpeed.setTranslation(me.pixelPerMeterLine*(me.dlz[1]*NM2M), 0);
+            me.targetDistance1.setTranslation(me.pixelPerMeterLine*(me.dlz[3]*NM2M), 0);
+            me.targetDistance2.setTranslation(me.pixelPerMeterLine*(me.dlz[2]*NM2M), 0);
+            me.targetSpeed.show();
+            me.targetDistance1.show();
+            me.targetDistance2.show();
+            me.distanceScale.show();
+            if (me.input.tenHz.getValue() == TRUE or (me.dlz[4] > me.dlz[2] and me.dlz[4] > me.dlz[3])) {
+              me.mySpeed.show();
+            } else {
+              me.mySpeed.hide();
+            }            
+          } else {
+            me.targetSpeed.hide();
+            me.targetDistance1.hide();
+            me.targetDistance2.hide();
+            me.distanceScale.hide();
+            me.mySpeed.hide();
+          }
+          me.ammo = armament.ammoCount(me.station);
+          if (me.station == 0) {
+            me.distanceText.setText(sprintf("%3d", me.ammo));
+            me.distanceText.show();
+          } elsif (me.ammo != -1) {
+            me.distanceText.setText(sprintf("%1d", me.ammo));
+            me.distanceText.show();
+          } else {
+            me.distanceText.hide();
+          }
+          me.dist_scale_group.show();
+          return;
+        } elsif(me.currDist != nil and me.minDist != nil) {
           if (me.unit == "meters") {
             me.pixelPerMeterLine = (3/5*me.line)/(me.maxDist - me.minDist);
             me.startDist = (me.minDist - ((me.maxDist - me.minDist)/3));

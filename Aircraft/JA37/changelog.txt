@@ -2969,3 +2969,5 @@ HUD: In interoperability mode terrain elevation now shows up to 99999ft.
 HUD: When attack mode is chosen on TI show groundspeed in HUD, when below 1000m AGL. (instead of weapon type determining it)
 HUD: When not in interoperability mode, mach and Km/h can now be displayed together.
 HUD: When not in interoperability mode, GS will still show.
+TI: Made button 6 in sideview configuration switch mode. It still has no effect though.
+TI: Renamed english READ DATA menu item in configuration menu.

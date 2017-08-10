@@ -101,6 +101,7 @@ var OurRoll        = props.globals.getNode("orientation/roll-deg");
 var OurPitch       = props.globals.getNode("orientation/pitch-deg");
 var OurAlpha       = props.globals.getNode("orientation/alpha-deg");
 var OurBeta        = props.globals.getNode("orientation/side-slip-deg");
+var ourAlt         = props.globals.getNode("position/altitude-ft");
 var deltaSec       = props.globals.getNode("sim/time/delta-sec");
 var speedUp        = props.globals.getNode("sim/speed-up");
 var noseAir        = props.globals.getNode("velocities/uBody-fps");
@@ -243,7 +244,10 @@ var AIM = {
         m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
         m.chaffResistance       = getprop("payload/armament/"~m.type_lc~"/chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950.
         m.flareResistance       = getprop("payload/armament/"~m.type_lc~"/flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.850.
-
+        m.dlz_enabled           = getprop("payload/armament/"~m.type_lc~"/DLZ");                        # 
+        m.dlz_opt_alt           = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-alt-feet");       # 
+        m.dlz_opt_mach          = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-closing-mach");   # 
+        
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
         # three variables used for trigonometry hit calc:
 		m.vApproch       = 1;
@@ -459,6 +463,35 @@ var AIM = {
 		}
 		me.SwSoundVol.setDoubleValue(0);
 		me.deleted = TRUE;
+	},
+
+	getDLZ: func {#GCD (garbage collection optimization done)
+		if (me.dlz_enabled != TRUE) {
+			return nil;
+		} elsif (contact == nil or me.status != MISSILE_LOCK) {
+			return [];
+		}
+		me.dlz_t_alt = contact.get_altitude();
+		me.dlz_o_alt = ourAlt.getValue();
+		me.dlz_t_rs = me.rho_sndspeed(me.dlz_t_alt);
+		me.dlz_t_rho = me.dlz_t_rs[0];
+		me.dlz_t_sound_fps = me.dlz_t_rs[1];
+		me.dlz_tG    = me.maxG(me.dlz_t_rho, me.max_g);
+		me.dlz_t_mach = contact.get_Speed()*KT2FPS/me.dlz_t_sound_fps;
+		me.dlz_o_mach = getprop("velocities/mach");
+		me.contactCoord = contact.get_Coord();
+		me.vectorToEcho   = vector.Math.eulerToCartesian2(contact.get_bearing(), vector.Math.getPitch(geo.aircraft_position(), me.contactCoord));
+    	me.vectorEchoNose = vector.Math.eulerToCartesian3X(contact.get_heading(), contact.get_Pitch(), contact.get_Roll());
+    	me.angleToRear    = geo.normdeg180(vector.Math.angleBetweenVectors(me.vectorToEcho, me.vectorEchoNose));
+    	me.abso           = math.abs(me.angleToRear)-90;
+    	me.mach_factor    = math.sin(me.abso*D2R);
+    	
+    	me.dlz_CS         = me.mach_factor*me.dlz_t_mach+me.dlz_o_mach;
+
+    	me.dlz_opt   = me.clamp(me.max_detect_rng *0.3* (me.dlz_o_alt/me.dlz_opt_alt) + me.max_detect_rng *0.2* (me.dlz_t_alt/me.dlz_opt_alt) + me.max_detect_rng *0.5* (me.dlz_CS/me.dlz_opt_mach),me.min_dist,me.max_detect_rng);
+    	me.dlz_nez   = me.clamp(me.dlz_opt * (me.dlz_tG/45), me.min_dist, me.dlz_opt);
+    	#printf("Dynamic Launch Zone (NM): Maximum=%0.1f Optimal=%0.1f NEZ=%0.1f Minimum=%0.1f",me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist);
+    	return [me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist,geo.aircraft_position().direct_distance_to(me.contactCoord)*M2NM];
 	},
 
 	getGPS: func(x, y, z, pitch) {#GCD
@@ -2105,6 +2138,7 @@ var AIM = {
 		} elsif (me.deleted == TRUE) {
 			return;
 		}
+		me.getDLZ();
 		#print("search");
 		# search.
 		if (1==1 or contact != me.Tgt) {
@@ -2180,7 +2214,7 @@ var AIM = {
 		}
 		#print("lock");
 		# Time interval since lock time or last track loop.
-		
+		me.getDLZ();
 		if (me.status == MISSILE_LOCK) {		
 			# Status = locked. Get target position relative to our aircraft.
 			me.curr_deviation_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation());

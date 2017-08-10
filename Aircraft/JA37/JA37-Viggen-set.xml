@@ -542,6 +542,9 @@
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
                     <navigation type="string">APN</navigation>
+                    <DLZ type="bool">true</DLZ>
+                    <DLZ-optimal-alt-feet type="double">40000</DLZ-optimal-alt-feet>
+                    <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 2</fire-msg>
                 </rb-24j>
@@ -580,6 +583,9 @@
                     <rail-point-forward type="bool">true</rail-point-forward>
                     <max-report-distance type="double">65</max-report-distance>
                     <navigation type="string">APN</navigation>
+                    <DLZ type="bool">true</DLZ>
+                    <DLZ-optimal-alt-feet type="double">40000</DLZ-optimal-alt-feet>
+                    <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 2</fire-msg>
                 </rb-74>
@@ -613,6 +619,9 @@
                     <max-report-distance type="double">65</max-report-distance>
                     <navigation type="string">APN</navigation>
                     <chaff-resistance type="double">0.95</chaff-resistance>
+                    <DLZ type="bool">true</DLZ>
+                    <DLZ-optimal-alt-feet type="double">40000</DLZ-optimal-alt-feet>
+                    <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
                     <rail type="bool">false</rail>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 1</fire-msg>
@@ -649,6 +658,9 @@
                     <chaff-resistance type="double">0.95</chaff-resistance>
                     <rail type="bool">false</rail>
                     <telemetry type="bool">true</telemetry>
+                    <DLZ type="bool">true</DLZ>
+                    <DLZ-optimal-alt-feet type="double">40000</DLZ-optimal-alt-feet>
+                    <DLZ-optimal-closing-mach type="double">2.0</DLZ-optimal-closing-mach>
                     <class type="string">A</class>
                     <fire-msg type="string">Fox 3</fire-msg>
                 </rb-99>

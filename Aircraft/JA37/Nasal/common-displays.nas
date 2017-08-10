@@ -185,6 +185,15 @@ units:                "ja37/hud/units-metric",
 	      }
 	},
 
+	armActive: func {
+		me.armSelect = me.input.station.getValue();
+	    if (me.armSelect > 0) {
+	        me.aim = armament.AIM.active[me.armSelect-1];
+	        return me.aim;
+	    }
+	    return nil;
+	},
+
 	armNameShort: func {
 		  me.armSelect = me.input.station.getValue();
 	      if (me.armSelect > 0) {
