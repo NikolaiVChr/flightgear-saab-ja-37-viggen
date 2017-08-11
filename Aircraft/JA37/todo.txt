@@ -126,7 +126,7 @@ MI: Implement radar sweep.
 MI: Improve mark event [X3]
 MI: Improve BIT test. [X1]
 MI: Make TNF to stop/start inertial nav.
-MI: NEZ indicator.
+MI: DLZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.

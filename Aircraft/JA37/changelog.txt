@@ -2972,7 +2972,9 @@ HUD: When not in interoperability mode, GS will still show.
 TI: Made button 6 in sideview configuration switch mode. It still has no effect though.
 TI: Renamed english READ DATA menu item in configuration menu.
 HUD: Made a crude DLZ show on distance scale for JA.
-HUD: Ground collision warning arrow should stay on for 3 seconds after the warning.
-TI: Ground collision warning arrow should stay on for 3 seconds after the warning.
-MI: Ground collision warning arrow should stay on for 3 seconds after the warning.
+HUD: Ground collision warning arrow now stay on for 3 seconds after the warning.
+TI: Ground collision warning arrow now stay on for 3 seconds after the warning.
+MI: Ground collision warning arrow now stay on for 3 seconds after the warning.
+Animation: Ground collision warning lamp now stay on for 3 seconds after the warning.
 TI: Artificial horizon and ground symbol now move in relation to FPI, which in turn is fixed in middle of display.
+Arms: Adjusted DLZ data and FCS FoV for sidewinders.
