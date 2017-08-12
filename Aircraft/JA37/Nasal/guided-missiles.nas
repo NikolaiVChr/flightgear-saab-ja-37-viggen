@@ -264,6 +264,15 @@ var AIM = {
         	m.chaffResistance = 0.95;
         }
 
+        if (m.force_lbf_1 == nil or m.force_lbf_1 == 0) {
+        	m.force_lbf_1 = 0;
+        	m.stage_1_duration = 0;
+        }
+        if (m.force_lbf_2 == nil or m.force_lbf_2 == 0) {
+        	m.force_lbf_2 = 0;
+        	m.stage_2_duration = 0;
+        }
+
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
         m.useModelUpperCase     = getprop("payload/armament/modelsUpperCase");
         m.weapon_model_type     = type;
@@ -416,6 +425,7 @@ var AIM = {
 		m.rail_speed_into_wind = 0;
 
 		# stats
+		m.maxFPS       = 0;
 		m.maxMach      = 0;
 		m.maxMach1     = 0;#stage 1
 		m.maxMach2     = 0;#stage 2
@@ -689,6 +699,7 @@ var AIM = {
 		#interpolate(HudReticleDev, 0, 2);
 
 		me.startMach = getprop("velocities/mach");
+		me.startFPS = getprop("velocities/groundspeed-kt")*KT2FPS;
 		me.startAlt  = getprop("position/altitude-ft");
 		me.startDist = 0;
 		me.maxAlt = me.startAlt;
@@ -768,6 +779,10 @@ var AIM = {
 		return me.clamp(max_g_sealevel+((rho-0.0023769)/(0.00036159-0.0023769))*(max_g_sealevel*0.5909-max_g_sealevel),0.25,100);
 	},
 
+	extrapolate: func (x, x1, x2, y1, y2) {
+    	return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+	},
+
 	thrust: func () {#GCD
 		# Determine the thrust at this moment.
 		#
@@ -775,15 +790,19 @@ var AIM = {
 		# If the rocket is 2 stage, then ignite the second stage when 1st has burned out.
 		#
 		me.thrust_lbf = 0;# pounds force (lbf)
-		if (me.life_time > me.drop_time) {
-			me.thrust_lbf = me.force_lbf_1;
-		}
-		if (me.life_time > me.stage_1_duration + me.drop_time) {
-			me.thrust_lbf = me.force_lbf_2;
-		}
 		if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
 			me.thrust_lbf = 0;
+		} elsif (me.life_time > me.stage_1_duration + me.drop_time) {
+			me.thrust_lbf = me.force_lbf_2;
+		} elsif (me.life_time > me.drop_time) {
+			me.thrust_lbf = me.force_lbf_1;
 		}
+		
+		#me.force_cutoff_s = 0;# seen charts of real (aim9m) that thrust dont stop instantly, but fades out. This term would say hwo long it takes to fade out. Need to rework fuel consumption first. Maybe in future.
+		#if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration-me.force_cutoff_s) and me.life_time < (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
+		#	me.thrust_lbf = me.extrapolate(me.life_time - (me.drop_time + me.stage_1_duration + me.stage_2_duration - me.force_cutoff_s),0,me.force_cutoff_s,me.thrust_lbf,0);
+		#}
+		
 		if (me.thrust_lbf < 1) {
 			me.smoke_prop.setBoolValue(0);
 		} else {
@@ -918,6 +937,9 @@ var AIM = {
 
 		me.speed_m = me.old_speed_fps / me.sound_fps;
 
+		if (me.old_speed_fps > me.maxFPS) {
+			me.maxFPS = me.old_speed_fps;
+		}
 		if (me.speed_m > me.maxMach) {
 			me.maxMach = me.speed_m;
 		}
@@ -963,6 +985,7 @@ var AIM = {
 		} else {
 			me.track_signal_e = 0;
 			me.track_signal_h = 0;
+			#printf("not guiding %d %d %d %d %d",me.Tgt != nil,me.free == FALSE,me.guidance != "unguided",me.rail == FALSE,me.rail_passed == TRUE);
 		}
        	me.last_track_e = me.track_signal_e;
 		me.last_track_h = me.track_signal_h;
@@ -1101,7 +1124,7 @@ var AIM = {
 		me.altN.setDoubleValue(me.alt_ft);
 		me.pitchN.setDoubleValue(me.pitch);
 		me.hdgN.setDoubleValue(me.hdg);
-
+		#printf("pitch %d", me.pitch);
 		# log missiles to unicsv for visualizing flightpath in Google Earth
 		#
 		#setprop("/logging/missile/latitude-deg", me.coord.lat());
@@ -1137,6 +1160,7 @@ var AIM = {
 			
 			if (me.exploded == TRUE) {
 				printf("%s max absolute %.2f Mach. Max relative %.2f Mach. Max alt %6d ft. Terminal %.2f mach.", me.type, me.maxMach, me.maxMach-me.startMach, me.maxAlt, me.speed_m);
+				printf("%s max relative %d ft/s.", me.type, me.maxFPS-me.startFPS);
 				printf(" Absolute %.2f Mach in stage 1. Absolute %.2f Mach in stage 2. Absolute %.2f mach propulsion end.", me.maxMach1, me.maxMach2, me.maxMach3);
 				printf(" Fired at %s from %.1f Mach, %5d ft at %3d NM distance. Flew %0.1f NM.", me.callsign, me.startMach, me.startAlt, me.startDist * M2NM, me.ac_init.direct_distance_to(me.coord)*M2NM);
 				# We exploded, and start the sound propagation towards the plane
@@ -1333,14 +1357,10 @@ var AIM = {
 		#var (t_course, me.dist_curr) = courseAndDistance(me.coord, me.t_coord);
 		#me.dist_curr = me.dist_curr * NM2M;	
 
+		#printf("Elevation to target %d degs", me.t_elev_deg);
 		#printf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt()));
 
-		while(me.curr_deviation_h < -180) {
-			me.curr_deviation_h += 360;
-		}
-		while(me.curr_deviation_h > 180) {
-			me.curr_deviation_h -= 360;
-		}
+		me.curr_deviation_h = geo.normdeg180(me.curr_deviation_h);
 
 		me.checkForFlare();
 
