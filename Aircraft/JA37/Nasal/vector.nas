@@ -74,17 +74,28 @@ var Math = {
         }
       }
       me.coord3 = geo.Coord.new(coord1);
-      me.coord3.set_alt(coord2.alt());
-      me.d12 = coord1.direct_distance_to(coord2);
-      if (me.d12 != 0 and coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
+      me.coord3.set_alt(coord2.alt());      
+      if (coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
+        me.d13 = coord1.alt()-me.coord3.alt();
+        me.d12 = coord1.direct_distance_to(coord2);
+        if (me.d12 == 0) {
+            # on top of each other, maybe rounding error..
+            return 0;
+        }
         me.d32 = me.coord3.direct_distance_to(coord2);
-        me.altD = coord1.alt()-me.coord3.alt();
-        me.len = (math.pow(me.d12, 2)+math.pow(me.altD,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.altD);
+        if (math.abs(me.d13)+me.d32 < me.d12) {
+            # rounding errors somewhere..one triangle side is longer than other 2 sides combined.
+            return 0;
+        }
+        # standard formula for a triangle where all 3 side lengths are known:
+        me.len = (math.pow(me.d12, 2)+math.pow(me.d13,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.d13);
         if (me.len < -1 or me.len > 1) {
+          # something went wrong, maybe rounding error..
           return 0;
         }
-        me.y = R2D * math.acos(me.len);
-        me.pitch = -1* (90 - me.y);
+        me.angle = R2D * math.acos(me.len);
+        me.pitch = -1* (90 - me.angle);
+        #printf("d12 %.4f  d32 %.4f  aldD %.4f len %.4f", me.d12, me.d32, me.d13, me.len);
         return me.pitch;
       } else {
         # arccos wont like if the coord are the same
