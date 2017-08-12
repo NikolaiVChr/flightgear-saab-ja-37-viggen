@@ -2537,7 +2537,7 @@ var HUDnasal = {
 
       me.selection = radar_logic.selection;
 
-      if (me.selection != nil and me.selection.parents[0] == radar_logic.ContactGPS) {
+      if (me.selection != nil and (me.selection.parents[0] == radar_logic.ContactGPS or me.selection.parents[0] == radar_logic.ContactGhost)) {
         me.displayRadarTrack(me.selection);
       }
 

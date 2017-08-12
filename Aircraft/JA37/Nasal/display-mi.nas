@@ -778,7 +778,7 @@ var MI = {
 
 	      me.selection = radar_logic.selection;
 
-	      if (me.selection != nil and me.selection.parents[0] == radar_logic.ContactGPS) {
+	      if (me.selection != nil and (me.selection.parents[0] == radar_logic.ContactGPS or me.selection.parents[0] == radar_logic.ContactGhost)) {
 	      	# this is not part of track vector, so we process it seperately
 	        me.displayRadarTrack(me.selection);
 	      }
@@ -841,7 +841,7 @@ var MI = {
 			me.selection_updated = TRUE;
 			me.selection_index = 0;
 			me.currentIndexT = 0;
-			if (me.selection.parents[0] == radar_logic.ContactGPS) {
+			if (me.selection.parents[0] == radar_logic.ContactGPS or me.selection.parents[0] == radar_logic.ContactGhost) {
 				me.currentIndexT = -1;
 				me.echoes[0].hide();
 			}

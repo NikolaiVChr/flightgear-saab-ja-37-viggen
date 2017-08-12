@@ -2965,7 +2965,7 @@ var TI = {
 
 			me.selection = radar_logic.selection;
 
-			if (me.selection != nil and me.selection.parents[0] == radar_logic.ContactGPS) {
+			if (me.selection != nil and (me.selection.parents[0] == radar_logic.ContactGPS or me.selection.parents[0] == radar_logic.ContactGhost)) {
 		        me.displayRadarTrack(me.selection);
 		    }
 
@@ -3693,6 +3693,11 @@ var TI = {
 				if (me.SVYhmax > 40) {
 					me.SVYhmax = 5;
 				}
+			}
+			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
+				# ghost target
+				me.contact = radar_logic.ContactGhost.new();
+				radar_logic.selection = me.contact;
 			}
 		}
 	},
