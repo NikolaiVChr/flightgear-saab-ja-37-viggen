@@ -128,3 +128,11 @@ var Math = {
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
     },
 };
+
+# Fix for geo.Coord:
+geo.Coord.set_x = func(x) { me._cupdate(); me._pdirty = 1; me._x = x; me };
+geo.Coord.set_y = func(y) { me._cupdate(); me._pdirty = 1; me._y = y; me };
+geo.Coord.set_z = func(z) { me._cupdate(); me._pdirty = 1; me._z = z; me };
+geo.Coord.set_lat = func(lat) { me._pupdate(); me._cdirty = 1; me._lat = lat * D2R; me };
+geo.Coord.set_lon = func(lon) { me._pupdate(); me._cdirty = 1; me._lon = lon * D2R; me };
+geo.Coord.set_alt = func(alt) { me._pupdate(); me._cdirty = 1; me._alt = alt; me };
