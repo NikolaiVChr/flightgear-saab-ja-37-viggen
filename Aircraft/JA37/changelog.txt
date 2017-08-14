@@ -2993,3 +2993,5 @@ Arms: Better impulse output when uncommented.
 Arms: Added support for vectored thrust.
 Arms: Proportionality constant for PN/APN can now be specified.
 Arms: Some cleanup of code and comments.
+Sim: Finally fixed getPitch method, it was rounding errors.
+Sim: getPitch method now works for same altitudes also.

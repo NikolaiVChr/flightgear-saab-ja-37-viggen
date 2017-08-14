@@ -1451,7 +1451,7 @@ var ContactGhost = {
 
   get_Coord: func(){
       var ghost = geo.aircraft_position();
-      var alt = ghost.alt()+25;
+      var alt = ghost.alt()+0;
       ghost.apply_course_distance(getprop("orientation/heading-deg"),8*NM2M);
       ghost.set_alt(alt);
       return ghost;

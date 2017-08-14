@@ -73,11 +73,11 @@ var Math = {
           return 0;
         }
       }
-      me.coord3 = geo.Coord.new(coord1);
-      me.coord3.set_alt(coord2.alt());      
-      if (coord1.alt() != coord2.alt()) {# this triangle method dont work with same altitudes.
-        me.d13 = coord1.alt()-me.coord3.alt();
+      if (coord1.alt() != coord2.alt()) {
         me.d12 = coord1.direct_distance_to(coord2);
+        me.coord3 = geo.Coord.new(coord1);
+        me.coord3.set_alt(coord1.alt()-me.d12*0.5);# this will increase the area of the triangle so that rounding errors dont get in the way.
+        me.d13 = coord1.alt()-me.coord3.alt();        
         if (me.d12 == 0) {
             # on top of each other, maybe rounding error..
             return 0;
@@ -88,18 +88,30 @@ var Math = {
             return 0;
         }
         # standard formula for a triangle where all 3 side lengths are known:
-        me.len = (math.pow(me.d12, 2)+math.pow(me.d13,2)-math.pow(me.d32, 2))/(2 * me.d12 * me.d13);
+        me.len = (math.pow(me.d12, 2)+math.pow(me.d13,2)-math.pow(me.d32, 2))/(2 * me.d12 * math.abs(me.d13));
         if (me.len < -1 or me.len > 1) {
-          # something went wrong, maybe rounding error..
-          return 0;
+            # something went wrong, maybe rounding error..
+            return 0;
         }
         me.angle = R2D * math.acos(me.len);
         me.pitch = -1* (90 - me.angle);
-        #printf("d12 %.4f  d32 %.4f  aldD %.4f len %.4f", me.d12, me.d32, me.d13, me.len);
+        #printf("d12 %.4f  d32 %.4f  d13 %.4f len %.4f pitch %.4f angle %.4f", me.d12, me.d32, me.d13, me.len, me.pitch, me.angle);
         return me.pitch;
       } else {
-        # arccos wont like if the coord are the same
-        return 0;
+        # same altitude
+        me.nc = geo.Coord.new();
+        me.nc.set_xyz(0,0,0);        # center of earth
+        me.radiusEarth = coord1.direct_distance_to(me.nc);# current distance to earth center
+        me.d12 = coord1.direct_distance_to(coord2);
+        # standard formula for a triangle where all 3 side lengths are known:
+        me.len = (math.pow(me.d12, 2)+math.pow(me.radiusEarth,2)-math.pow(me.radiusEarth, 2))/(2 * me.d12 * me.radiusEarth);
+        if (me.len < -1 or me.len > 1) {
+            # something went wrong, maybe rounding error..
+            return 0;
+        }
+        me.angle = R2D * math.acos(me.len);
+        me.pitch = -1* (90 - me.angle);
+        return me.pitch;
       }
     },
 
@@ -141,7 +153,7 @@ geo.Coord.apply_course_distance2 = func(course, dist) {# this method in geo is n
         course *= D2R;
         var nc = geo.Coord.new();
         nc.set_xyz(0,0,0);        # center of earth
-        dist /= me.direct_distance_to(nc);#todo: make this properly
+        dist /= me.direct_distance_to(nc);# current distance to earth center
         
         if (dist < 0.0) {
           dist = abs(dist);

@@ -1380,7 +1380,7 @@ var AIM = {
 		#var t_alt_delta_m   = (me.t_alt - me.alt_ft) * FT2M;
 		me.dist_curr        = me.coord.distance_to(me.t_coord);
 		me.dist_curr_direct = me.coord.direct_distance_to(me.t_coord);
-		me.t_elev_deg       = me.getPitch(me.coord, me.t_coord);#math.atan2( t_alt_delta_m, me.dist_curr ) * R2D;
+		me.t_elev_deg       = me.getPitch(me.coord, me.t_coord);
 		me.t_course         = me.coord.course_to(me.t_coord);
 		me.curr_deviation_e = me.t_elev_deg - me.pitch;
 		me.curr_deviation_h = me.t_course - me.hdg;
@@ -1388,8 +1388,9 @@ var AIM = {
 		#var (t_course, me.dist_curr) = courseAndDistance(me.coord, me.t_coord);
 		#me.dist_curr = me.dist_curr * NM2M;	
 
-		#printf("Elevation to target %d degs", me.t_elev_deg);
+		#printf("Elevation to target %0.2f degs, deviation %0.2f degs, pitch %.2f degs", me.t_elev_deg, me.curr_deviation_e, me.pitch);
 		#printf("Altitude above launch platform = %.1f ft", M2FT * (me.coord.alt()-me.ac.alt()));
+		#printf("Altitude. Target %.1f. Missile %.1f. Atan2 %.1f", me.t_coord.alt()*M2FT, me.coord.alt()*M2FT, math.atan2( me.t_coord.alt()-me.coord.alt(), me.dist_curr ) * R2D);
 
 		me.curr_deviation_h = geo.normdeg180(me.curr_deviation_h);
 
@@ -1865,7 +1866,7 @@ var AIM = {
 
 			#print(sprintf("LOS-rate=%.2f rad/s - closing-rate=%.1f ft/s",line_of_sight_rate_rps,horz_closing_rate_fps));
 			#print(sprintf("commanded-perpendicular-acceleration=%.1f ft/s^2", acc_lateral_fps2));
-			#print(sprintf("horz leading by %.1f deg, commanding %.1f deg", me.curr_deviation_h, me.raw_steer_signal_head));
+			#printf("horz leading by %.1f deg, commanding %.1f deg", me.curr_deviation_h, me.raw_steer_signal_head);
 
 			if (me.cruise_or_loft == FALSE) {# and me.last_cruise_or_loft == FALSE
 				# augmented proportional navigation for elevation #
