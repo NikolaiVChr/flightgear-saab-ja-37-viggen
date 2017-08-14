@@ -75,23 +75,23 @@
 # ECM disturbance of getting radar lock.
 # Lock on jam. (advanced feature)
 # After FG gets HLA: stop using MP chat for hit messages.
-# Allow firing only if certain conditions are met. Like not being inverted when firing dropped weapons.
+# Allow firing only if certain conditions are met. Like not being inverted when firing ejected weapons.
 # Remote controlled guidance (advanced feature and probably not very practical in FG..yet)
 # Ground launched rails/tubes that rotate towards target before firing.
 # Sub munitions that have their own guidance/FDM. (advanced)
 # GPS guided munitions could have waypoints added.
 # Specify terminal manouvres and preferred impact aspect.
-# Limit guiding if needed so that the missile don't lose sight of target.
-# Make check for seeker FOV round instead of square.
+# Limit guiding if needed so that the missile don't lose sight of target?
 # Consider to average the closing speed in proportional navigation. So get it between second last positions and current, instead of last to current.
 # Drag coeff reduction due to exhaust plume.
 # Proportional navigation should use vector math instead decomposition horizontal/vertical navigation.
 # If closing speed is negative, consider to switch to pure pursuit from proportional navigation, the target might turn back into missile.
 # Bleeding speed due to high G turning should depend on drag-area, with AIM-120s as reference. (that would mean recalibrate all cruise-missiles so they don't crash)
-# Rename drag-area to cross-section-sqft. Drag area is actually drag coefficient multiplied by cross-section.
 # Make semi-self-radar guided weapons that is semi guided until terminal phase where they switch on own radar. (AIM-120, AIM-54)
-# Make anti-radiation guided feature. (HARM)
-#
+# Make anti-radiation guided feature. (HARM, SHRIKE)
+# Max-g should be seperated into max structural G that it will never exceed, and max-g for certain mach. Should still depend also on altitude of course. This way it needs a certain speed to perform certain G.
+# Real rocket thrust does not necesarily cutoff instantly. Make an optional fadeout. (use the aim-9 new variant paper page as guide)
+# Support for seeker FOV that is smaller than FCS FOV. (ASRAAM)
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 
@@ -193,9 +193,19 @@ var AIM = {
 		m.free              = 0; # 0 = status fired with lock, 1 = status fired but having lost lock.
 		m.trackWeak         = 1;
 		m.prop              = AcModel.getNode("armament/"~m.type_lc~"/").getChild("msl", 0, 1);
-		m.SwSoundOnOff      = AcModel.getNode("armament/"~m.type_lc~"/sound-on-off");
-		m.SwSoundFireOnOff  = AcModel.getNode("armament/"~m.type_lc~"/sound-fire-on-off");
-        m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume");
+		m.SwSoundOnOff      = AcModel.getNode("armament/"~m.type_lc~"/sound-on-off",1);
+		m.SwSoundFireOnOff  = AcModel.getNode("armament/"~m.type_lc~"/sound-fire-on-off",1);
+        m.SwSoundVol        = AcModel.getNode("armament/"~m.type_lc~"/sound-volume",1);
+        if (m.SwSoundOnOff.getValue() == nil) {
+        	m.SwSoundOnOff.setBoolValue(0);
+        }
+        if (m.SwSoundFireOnOff.getValue() == nil) {
+        	m.SwSoundFireOnOff.setBoolValue(0);
+        }
+        if (m.SwSoundVol.getValue() == nil) {
+        	m.SwSoundVol.setDoubleValue(0);
+        }
+        m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
 		m.stationName       = AcModel.getNode("armament/station-name").getValue();
@@ -206,56 +216,78 @@ var AIM = {
 		m.direct_dist_m     = nil;
 		m.speed_m           = 0;
 
-		# AIM specs:
-		m.fcs_fov               = getprop("payload/armament/"~m.type_lc~"/FCS-field-deg") / 2;          # fire control system total field of view
-		m.max_detect_rng        = getprop("payload/armament/"~m.type_lc~"/max-fire-range-nm");          # max range that the FCS allows firing
-		m.max_seeker_dev        = getprop("payload/armament/"~m.type_lc~"/seeker-field-deg") / 2;       # missiles own seekers total FOV
-		m.force_lbf_1           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-1");         # stage 1 thrust, set both stages to zero to simulate gravity bomb, set them to 1 to simulate glide bomb
-		m.force_lbf_2           = getprop("payload/armament/"~m.type_lc~"/thrust-lbf-stage-2");         # stage 2 thrust
-		m.stage_1_duration      = getprop("payload/armament/"~m.type_lc~"/stage-1-duration-sec");       # stage 1 duration
-		m.stage_2_duration      = getprop("payload/armament/"~m.type_lc~"/stage-2-duration-sec");       # stage 2 duration
-		m.weight_launch_lbm     = getprop("payload/armament/"~m.type_lc~"/weight-launch-lbs");          # total weight of armament, including fuel and warhead.
-		m.weight_whead_lbm      = getprop("payload/armament/"~m.type_lc~"/weight-warhead-lbs");         # warhead weight
-		m.weight_fuel_lbm       = getprop("payload/armament/"~m.type_lc~"/weight-fuel-lbm");            # fuel weight [optional]. If this property is not present, it won't lose weight as the fuel is used.
-		m.Cd_base               = getprop("payload/armament/"~m.type_lc~"/drag-coeff");                 # drag coefficient
-		m.eda                   = getprop("payload/armament/"~m.type_lc~"/drag-area");                  # normally is crosssection area of munition (without fins)
-		m.max_g                 = getprop("payload/armament/"~m.type_lc~"/max-g");                      # max G-force the missile can pull at sealevel
-		m.arming_time           = getprop("payload/armament/"~m.type_lc~"/arming-time-sec");            # time for weapon to arm
-		m.min_speed_for_guiding = getprop("payload/armament/"~m.type_lc~"/min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly straight
-		m.selfdestruct_time     = getprop("payload/armament/"~m.type_lc~"/self-destruct-time-sec");     # time before selfdestruct
-		m.guidance              = getprop("payload/armament/"~m.type_lc~"/guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided
-		m.navigation            = getprop("payload/armament/"~m.type_lc~"/navigation");                 # direct/PN/APN (use direct for bombs, use PN for very old missiles, use APN for modern missiles)
-		m.all_aspect            = getprop("payload/armament/"~m.type_lc~"/all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
-		m.vol_search            = getprop("payload/armament/"~m.type_lc~"/vol-search");                 # sound volume when searcing
-		m.vol_track             = getprop("payload/armament/"~m.type_lc~"/vol-track");                  # sound volume when having lock
-		m.vol_track_weak        = getprop("payload/armament/"~m.type_lc~"/vol-track-weak");             # sound volume before getting solid lock
-		m.angular_speed         = getprop("payload/armament/"~m.type_lc~"/seeker-angular-speed-dps");   # only for heat/vision seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
-		m.sun_lock              = getprop("payload/armament/"~m.type_lc~"/lock-on-sun-deg");            # only for heat seeking missiles. If it looks at sun within this angle, it will lose lock on target.
-        m.loft_alt              = getprop("payload/armament/"~m.type_lc~"/loft-altitude");              # if 0 then no snap up. Below 10000 then cruise altitude above ground. Above 10000 max altitude it will snap up to.
-        m.follow                = getprop("payload/armament/"~m.type_lc~"/terrain-follow");             # used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
-        m.min_dist              = getprop("payload/armament/"~m.type_lc~"/min-fire-range-nm");          # it wont get solid lock before the target has this range
-        m.rail                  = getprop("payload/armament/"~m.type_lc~"/rail");                       # if the weapon is rail or tube fired set to true. If dropped 7ft before ignited set to false.
-        m.rail_dist_m           = getprop("payload/armament/"~m.type_lc~"/rail-length-m");              # length of tube/rail
-        m.rail_forward          = getprop("payload/armament/"~m.type_lc~"/rail-point-forward");         # true for rail, false for rail/tube with a pitch
-        m.rail_pitch_deg        = getprop("payload/armament/"~m.type_lc~"/rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
-        m.class                 = getprop("payload/armament/"~m.type_lc~"/class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
-        m.brevity               = getprop("payload/armament/"~m.type_lc~"/fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
-        m.reportDist            = getprop("payload/armament/"~m.type_lc~"/max-report-distance");        # Interpolation hit: max distance from target it report it exploded, not passed. Trig hit: Distance where it will trigger.
-        m.data                  = getprop("payload/armament/"~m.type_lc~"/telemetry");                  # Boolean. Data link back to aircraft when missile is flying.
-        m.chaffResistance       = getprop("payload/armament/"~m.type_lc~"/chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950.
-        m.flareResistance       = getprop("payload/armament/"~m.type_lc~"/flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.850.
-        m.dlz_enabled           = getprop("payload/armament/"~m.type_lc~"/DLZ");                        # Supports dynamic launch zone info.
-        m.dlz_opt_alt           = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-alt-feet");       # Altitude required to hit the target at max range.
-        m.dlz_opt_mach          = getprop("payload/armament/"~m.type_lc~"/DLZ-optimal-closing-mach");   # Closing speed required to hit the target at max range.
+		m.nodeString = "payload/armament/"~m.type_lc~"/";
+
+		###############
+		# Weapon specs:
+		###############
+
+		# detection and firing
+		m.max_fire_range_nm     = getprop(m.nodeString~"max-fire-range-nm");          # max range that the FCS allows firing
+		m.min_fire_range_nm     = getprop(m.nodeString~"min-fire-range-nm");          # it wont get solid lock before the target has this range
+		m.fcs_fov               = getprop(m.nodeString~"FCS-field-deg") / 2;          # fire control system total field of view diameter for when searching and getting lock before launch.
+		m.class                 = getprop(m.nodeString~"class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
+        m.brevity               = getprop(m.nodeString~"fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
+		# navigation, guiding and seekerhead
+		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
+		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided
+		m.navigation            = getprop(m.nodeString~"navigation");                 # direct/PN/APN (use direct for gravity bombs, use PN for very old missiles, use APN for modern missiles)
+		m.pro_constant          = getprop(m.nodeString~"proportionality-constant");   # Constant for how sensitive proportional navigation is to target speed/acc. Normally between 3-6. [optional]
+		m.all_aspect            = getprop(m.nodeString~"all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
+		m.angular_speed         = getprop(m.nodeString~"seeker-angular-speed-dps");   # only for heat/vision seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
+		m.sun_lock              = getprop(m.nodeString~"lock-on-sun-deg");            # only for heat seeking missiles. If it looks at sun within this angle, it will lose lock on target.
+		m.loft_alt              = getprop(m.nodeString~"loft-altitude");              # if 0 then no snap up. Below 10000 then cruise altitude above ground. Above 10000 max altitude it will snap up to.
+        m.follow                = getprop(m.nodeString~"terrain-follow");             # used for anti-ship missiles that should be able to terrain follow instead of purely sea skimming.
+		# engine
+		m.force_lbf_1           = getprop(m.nodeString~"thrust-lbf-stage-1");         # stage 1 thrust
+		m.force_lbf_2           = getprop(m.nodeString~"thrust-lbf-stage-2");         # stage 2 thrust [optional]
+		m.stage_1_duration      = getprop(m.nodeString~"stage-1-duration-sec");       # stage 1 duration
+		m.stage_2_duration      = getprop(m.nodeString~"stage-2-duration-sec");       # stage 2 duration [optional]
+		m.weight_fuel_lbm       = getprop(m.nodeString~"weight-fuel-lbm");            # fuel weight [optional]. If this property is not present, it won't lose weight as the fuel is used.
+		m.vector_thrust         = getprop(m.nodeString~"vector-thrust");              # Boolean. [optional]
+		# aerodynamic
+		m.weight_launch_lbm     = getprop(m.nodeString~"weight-launch-lbs");          # total weight of armament, including fuel and warhead.
+		m.Cd_base               = getprop(m.nodeString~"drag-coeff");                 # drag coefficient
+		m.ref_area_sqft         = getprop(m.nodeString~"cross-section-sqft");         # normally is crosssection area of munition (without fins)
+		m.max_g                 = getprop(m.nodeString~"max-g");                      # max G-force the missile can pull at sealevel
+		m.min_speed_for_guiding = getprop(m.nodeString~"min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly ballistic.
+		# detonation
+		m.weight_whead_lbm      = getprop(m.nodeString~"weight-warhead-lbs");         # warhead weight
+		m.arming_time           = getprop(m.nodeString~"arming-time-sec");            # time for weapon to arm
+		m.selfdestruct_time     = getprop(m.nodeString~"self-destruct-time-sec");     # time before selfdestruct
+		m.reportDist            = getprop(m.nodeString~"max-report-distance");        # Interpolation hit: max distance from target it report it exploded, not passed. Trig hit: Distance where it will trigger.
+		# avionics sounds
+		m.vol_search            = getprop(m.nodeString~"vol-search");                 # sound volume when searcing
+		m.vol_track             = getprop(m.nodeString~"vol-track");                  # sound volume when having lock
+		m.vol_track_weak        = getprop(m.nodeString~"vol-track-weak");             # sound volume before getting solid lock
+		# launching conditions
+        m.rail                  = getprop(m.nodeString~"rail");                       # if the weapon is rail or tube fired set to true. If dropped 7ft before ignited set to false.
+        m.rail_dist_m           = getprop(m.nodeString~"rail-length-m");              # length of tube/rail
+        m.rail_forward          = getprop(m.nodeString~"rail-point-forward");         # true for rail, false for rail/tube with a pitch
+        m.rail_pitch_deg        = getprop(m.nodeString~"rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
+        # counter-measures
+        m.chaffResistance       = getprop(m.nodeString~"chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950. [optional]
+        m.flareResistance       = getprop(m.nodeString~"flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.950. [optional]
+        # data-link to launch platform
+        m.data                  = getprop(m.nodeString~"telemetry");                  # Boolean. Data link back to aircraft when missile is flying. [optional]
+        m.dlz_enabled           = getprop(m.nodeString~"DLZ");                        # Supports dynamic launch zone info. For now only works with A/A. [optional]
+        m.dlz_opt_alt           = getprop(m.nodeString~"DLZ-optimal-alt-feet");       # Minimum altitude required to hit the target at max range.
+        m.dlz_opt_mach          = getprop(m.nodeString~"DLZ-optimal-closing-mach");   # Closing speed required to hit the target at max range at minimum altitude.
         
-        m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
+        
         # three variables used for trigonometry hit calc:
 		m.vApproch       = 1;
         m.tpsApproch     = 0;
         m.usedChance     = FALSE;
 
-        if (m.data == nil) {
+        if (m.weight_fuel_lbm == nil) {
+			m.weight_fuel_lbm = 0;
+		}
+		if (m.data == nil) {
         	m.data = FALSE;
+        }
+        if (m.vector_thrust == nil) {
+        	m.vector_thrust = FALSE;
         }
         if (m.flareResistance == nil) {
         	m.flareResistance = 0.95;
@@ -263,7 +295,9 @@ var AIM = {
         if (m.chaffResistance == nil) {
         	m.chaffResistance = 0.95;
         }
-
+        if (m.pro_constant == nil) {
+        	m.pro_constant = 3;
+        }
         if (m.force_lbf_1 == nil or m.force_lbf_1 == 0) {
         	m.force_lbf_1 = 0;
         	m.stage_1_duration = 0;
@@ -272,6 +306,9 @@ var AIM = {
         	m.force_lbf_2 = 0;
         	m.stage_2_duration = 0;
         }
+        if (m.navigation == nil) {
+			m.navigation = "APN";
+		}
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
         m.useModelUpperCase     = getprop("payload/armament/modelsUpperCase");
@@ -303,10 +340,6 @@ var AIM = {
 		m.target_air = find("A", m.class)==-1?FALSE:TRUE;
 		m.target_sea = find("M", m.class)==-1?FALSE:TRUE;#use M for marine, since S can be confused with surface.
 		m.target_gnd = find("G", m.class)==-1?FALSE:TRUE;
-
-		if (m.navigation == nil) {
-			m.navigation = "APN";
-		}
 
 		# Find the next index for "models/model" and create property node.
 		# Find the next index for "ai/models/aim-9" and create property node.
@@ -498,10 +531,10 @@ var AIM = {
     	
     	me.dlz_CS         = me.mach_factor*me.dlz_t_mach+me.dlz_o_mach;
 
-    	me.dlz_opt   = me.clamp(me.max_detect_rng *0.3* (me.dlz_o_alt/me.dlz_opt_alt) + me.max_detect_rng *0.2* (me.dlz_t_alt/me.dlz_opt_alt) + me.max_detect_rng *0.5* (me.dlz_CS/me.dlz_opt_mach),me.min_dist,me.max_detect_rng);
-    	me.dlz_nez   = me.clamp(me.dlz_opt * (me.dlz_tG/45), me.min_dist, me.dlz_opt);
-    	#printf("Dynamic Launch Zone (NM): Maximum=%0.1f Optimistic=%0.1f NEZ=%0.1f Minimum=%0.1f",me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist);
-    	return [me.max_detect_rng,me.dlz_opt,me.dlz_nez,me.min_dist,geo.aircraft_position().direct_distance_to(me.contactCoord)*M2NM];
+    	me.dlz_opt   = me.clamp(me.max_fire_range_nm *0.3* (me.dlz_o_alt/me.dlz_opt_alt) + me.max_fire_range_nm *0.2* (me.dlz_t_alt/me.dlz_opt_alt) + me.max_fire_range_nm *0.5* (me.dlz_CS/me.dlz_opt_mach),me.min_fire_range_nm,me.max_fire_range_nm);
+    	me.dlz_nez   = me.clamp(me.dlz_opt * (me.dlz_tG/45), me.min_fire_range_nm, me.dlz_opt);
+    	#printf("Dynamic Launch Zone (NM): Maximum=%0.1f Optimistic=%0.1f NEZ=%0.1f Minimum=%0.1f",me.max_fire_range_nm,me.dlz_opt,me.dlz_nez,me.min_fire_range_nm);
+    	return [me.max_fire_range_nm,me.dlz_opt,me.dlz_nez,me.min_fire_range_nm,geo.aircraft_position().direct_distance_to(me.contactCoord)*M2NM];
 	},
 
 	getGPS: func(x, y, z, pitch) {#GCD
@@ -685,9 +718,9 @@ var AIM = {
 			#var dst = me.coord.distance_to(me.Tgt.get_Coord()) * M2NM;
 			#
 			#f(x) = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1)
-#				me.loft_alt = me.loft_alt - ((me.max_detect_rng - 10) - (dst - 10))*500; original code
-#				me.loft_alt = 0+((dst-38)/(me.max_detect_rng-38))*(me.loft_alt-36000);   originally for phoenix missile
-#			me.loft_alt = 0+((dst-10)/(me.max_detect_rng-10))*(me.loft_alt-0);           also doesn't really work
+#				me.loft_alt = me.loft_alt - ((me.max_fire_range_nm - 10) - (dst - 10))*500; original code
+#				me.loft_alt = 0+((dst-38)/(me.max_fire_range_nm-38))*(me.loft_alt-36000);   originally for phoenix missile
+#			me.loft_alt = 0+((dst-10)/(me.max_fire_range_nm-10))*(me.loft_alt-0);           also doesn't really work
 #			me.loft_alt = me.clamp(me.loft_alt, 0, 200000);
 			#printf("Loft to max %5d ft.", me.loft_alt);
 		#}
@@ -712,9 +745,6 @@ var AIM = {
 		me.mass = me.weight_launch_lbm / slugs_to_lbm;
 
 		# find the fuel consumption - lbm/sec
-		if (me.weight_fuel_lbm == nil) {
-			me.weight_fuel_lbm = 0;
-		}
 		var impulse1 = me.force_lbf_1 * me.stage_1_duration; # lbf*s
 		var impulse2 = me.force_lbf_2 * me.stage_2_duration; # lbf*s
 		var impulseT = impulse1 + impulse2;                  # lbf*s
@@ -722,8 +752,8 @@ var AIM = {
 		me.fuel_per_sec_1  = (fuel_per_impulse * impulse1) / me.stage_1_duration;# lbm/s
 		me.fuel_per_sec_2  = (fuel_per_impulse * impulse2) / me.stage_2_duration;# lbm/s
 
-		# uncomment this line to see how much energy/fuel the missile have.
-		#printf("Impulse per fuel: %s has %0.2f (lbf*s)/lbm.", me.type, 1/fuel_per_impulse);
+		# uncomment this line to see how much energy/fuel the missile have. For solid fuel rockets, it is normally 200-280. Lower for smokeless, higher for smoke.
+		#printf("Specific Impulse: %s has %0.2f (lbf*s)/lbm. Total impulse: %.2f lbf*s.", me.type, 1/fuel_per_impulse, impulseT);
 
 		# find the sun:
 		if(me.guidance == "heat") {
@@ -818,7 +848,7 @@ var AIM = {
 		
 		me.acc = thrust_lbf / me.mass;
 		me.q = 0.5 * rho * me.old_speed_fps * me.old_speed_fps;# dynamic pressure
-		me.drag_acc = (me.Cd * me.q * me.eda) / me.mass;
+		me.drag_acc = (me.Cd * me.q * me.ref_area_sqft) / me.mass;
 
 		# get total new speed change (minus gravity)
 		return me.acc*me.dt - me.drag_acc*me.dt;
@@ -848,6 +878,7 @@ var AIM = {
         # For good measure the result is clamped to below zero.
         me.speedLoss = me.clamp(me.speedLoss, -100000, 0);
         me.energyBleedKt += me.speedLoss * FPS2KT;
+        me.speedLoss = me.speedLoss-me.vector_thrust*me.speedLoss*0.66;# vector thrust will only bleed 1/3 of the calculated loss.
         return me.speedLoss;
     },
 
@@ -1114,7 +1145,7 @@ var AIM = {
 		#setprop("logging/missile/dist-nm", me.ac_init.distance_to(me.coord)*M2NM);
 		#setprop("logging/missile/alt-m", me.alt_ft * FT2M);
 		#setprop("logging/missile/speed-m", me.speed_m*1000);
-		#setprop("logging/missile/drag-lbf", Cd * q * me.eda);
+		#setprop("logging/missile/drag-lbf", Cd * q * me.ref_area_sqft);
 		#setprop("logging/missile/thrust-lbf", thrust_lbf);
 
 		me.setFirst();
@@ -1469,12 +1500,7 @@ var AIM = {
 			# test for heat seeker locked on to sun
 			me.sun_dev_e = me.getPitch(me.coord, me.sun) - me.pitch;
 			me.sun_dev_h = me.coord.course_to(me.sun) - me.hdg;
-			while(me.sun_dev_h < -180) {
-				me.sun_dev_h += 360;
-			}
-			while(me.sun_dev_h > 180) {
-				me.sun_dev_h -= 360;
-			}
+			me.sun_dev_h = geo.normdeg180(me.sun_dev_h);
 			# now we check if the sun is behind the target, which is the direction the gyro seeker is pointed at:
 			me.sun_dev = math.sqrt((me.sun_dev_e-me.curr_deviation_e)*(me.sun_dev_e-me.curr_deviation_e)+(me.sun_dev_h-me.curr_deviation_h)*(me.sun_dev_h-me.curr_deviation_h));
 			if (me.sun_dev < me.sun_lock) {
@@ -1539,18 +1565,18 @@ var AIM = {
 				print(me.type~": Not guiding (lost radar reflection, trying to reaquire)");
 			}
 			me.semiLostLock = TRUE;
-		} elsif ((math.abs(me.curr_deviation_e) > me.max_seeker_dev or math.abs(me.curr_deviation_h) > me.max_seeker_dev) and me.guidance != "gps") {
+		} elsif (!me.FOV_check(me.curr_deviation_h, me.curr_deviation_e, me.max_seeker_dev) and me.guidance != "gps") {
 			# target is not in missile seeker view anymore
-			if (me.curr_deviation_e > me.max_seeker_dev) {
-				me.viewLost = "Target is above seeker view.";
-			} elsif (me.curr_deviation_e < (-1 * me.max_seeker_dev)) {
-				me.viewLost = "Target is below seeker view. "~(me.dist_curr*M2NM)~" NM and "~((me.coord.alt()-me.t_coord.alt())*M2FT)~" ft diff.";
-			} elsif (me.curr_deviation_h > me.max_seeker_dev) {
-				me.viewLost = "Target is right of seeker view.";
-			} else {
-				me.viewLost = "Target is left of seeker view.";
-			}
-			print(me.type~": Target is not in missile seeker view anymore. "~me.viewLost);
+			#if (me.curr_deviation_e > me.max_seeker_dev) {
+			#	me.viewLost = "Target is above seeker view.";
+			#} elsif (me.curr_deviation_e < (-1 * me.max_seeker_dev)) {
+			#	me.viewLost = "Target is below seeker view. "~(me.dist_curr*M2NM)~" NM and "~((me.coord.alt()-me.t_coord.alt())*M2FT)~" ft diff.";
+			#} elsif (me.curr_deviation_h > me.max_seeker_dev) {
+			#	me.viewLost = "Target is right of seeker view.";
+			#} else {
+			#	me.viewLost = "Target is left of seeker view.";
+			#}
+			print(me.type~": Target is not in missile seeker view anymore. ");#~me.viewLost);
 			me.free = TRUE;
 		} elsif (me.all_aspect == FALSE and me.rear_aspect() == FALSE) {
 			me.guiding = FALSE;
@@ -1725,11 +1751,13 @@ var AIM = {
 			me.limitGs = TRUE;
 			me.dive_token = TRUE;
 		} elsif (me.last_cruise_or_loft == TRUE and math.abs(me.curr_deviation_e) > 7.5 and me.life_time > me.time_before_snap_up) {
-			# after cruising, point the missile in the general direction of the target, before APN starts guiding.
+			# after cruising, point the missile in the general direction of the target, before PN starts guiding.
 			#print("Rotating toward target");
 			me.raw_steer_signal_elev = me.curr_deviation_e;
 			me.cruise_or_loft = TRUE;
 			#me.limitGs = TRUE;
+
+			# TODO: this needs to be worked on.
 		}
 	},
 
@@ -1759,7 +1787,6 @@ var AIM = {
 
 			me.horz_closing_rate_fps = me.clamp(((me.dist_last - me.dist_curr)*M2FT)/me.dt, 0.1, 1000000);#clamped due to cruise missiles that can fly slower than target.
 			#printf("Horz closing rate: %5d ft/sec", me.horz_closing_rate_fps);
-			me.proportionality_constant = 3;
 
 			me.c_dv = geo.normdeg180(me.t_course-me.last_t_course);
 			
@@ -1823,7 +1850,7 @@ var AIM = {
 			me.last_t_norm_speed = me.t_LOS_norm_speed_fps;
 
 			# acceleration perpendicular to instantaneous line of sight in feet/sec^2
-			me.acc_lateral_fps2 = me.proportionality_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_norm_acc_fps2/2;
+			me.acc_lateral_fps2 = me.pro_constant*me.line_of_sight_rate_rps*me.horz_closing_rate_fps+me.apn*me.pro_constant*me.t_LOS_norm_acc_fps2/2;
 			#printf("horz acc = %.1f + %.1f", proportionality_constant*line_of_sight_rate_rps*horz_closing_rate_fps, proportionality_constant*t_LOS_norm_acc/2);
 
 			# now translate that sideways acc to an angle:
@@ -1862,7 +1889,7 @@ var AIM = {
 				me.t_LOS_elev_norm_acc            = (me.t_LOS_elev_norm_speed - me.last_t_elev_norm_speed)/me.dt;
 				me.last_t_elev_norm_speed          = me.t_LOS_elev_norm_speed;
 
-				me.acc_upwards_fps2 = me.proportionality_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.proportionality_constant*me.t_LOS_elev_norm_acc/2;
+				me.acc_upwards_fps2 = me.pro_constant*me.line_of_sight_rate_up_rps*me.vert_closing_rate_fps+me.apn*me.pro_constant*me.t_LOS_elev_norm_acc/2;
 				me.velocity_vector_length_fps = me.clamp(me.old_speed_fps, 0.0001, 1000000);
 				me.commanded_upwards_vector_length_fps = me.acc_upwards_fps2*me.dt;
 
@@ -2171,11 +2198,9 @@ var AIM = {
 				me.rng = me.tagt.get_range();
 				me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
 				me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
-				# Check if in range and in the (square shaped here) seeker FOV.
-				me.abs_total_elev = math.abs(me.total_elev);
-				me.abs_dev_deg = math.abs(me.total_horiz);
+				# Check if in range and in the seeker FOV.
 				if (((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
-				    and me.rng < me.max_detect_rng and me.abs_total_elev < me.fcs_fov and me.abs_dev_deg < me.fcs_fov ) {
+				    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov) ) {
 					#print("search4");
 					me.status = MISSILE_LOCK;
 					me.SwSoundOnOff.setBoolValue(TRUE);
@@ -2263,8 +2288,8 @@ var AIM = {
 			}
 			# We are not launched yet: update_track() loops by itself at 10 Hz.
 			me.dist = geo.aircraft_position().direct_distance_to(me.Tgt.get_Coord());
-			if (me.time - me.update_track_time > 1 and me.dist != nil and me.dist > (me.min_dist * NM2M)) {
-				# after 1 second we get solid track if target is further than minimum distance.
+			if (me.time - me.update_track_time > 1) {
+				# after 1 second we get solid track.
 				me.SwSoundOnOff.setBoolValue(TRUE);
 				me.SwSoundVol.setDoubleValue(me.vol_track);
 				me.trackWeak = 0;
@@ -2293,13 +2318,20 @@ var AIM = {
 		settimer(func me.search(), 0.1);
 	},
 
+	FOV_check: func (deviation_hori, deviation_elev, fov_radius) {
+		me.fov_radial = math.sqrt(math.pow(deviation_hori,2)+math.pow(deviation_elev,2));
+		if (me.fov_radial <= fov_radius) {
+			return TRUE;
+		}
+		# out of FOV
+		return FALSE;
+	},
+
 	check_t_in_fov: func {#GCD
 		me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation()); # deg.
-		me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());         # deg.
-		# Check if in range and in the (square shaped here) seeker FOV.
-		me.abs_total_elev = math.abs(me.total_elev);
-		me.abs_dev_deg = math.abs(me.total_horiz);
-		if (me.abs_total_elev < me.fcs_fov and me.abs_dev_deg < me.fcs_fov and me.Tgt.get_range() < me.max_detect_rng) {
+		me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());    # deg.
+		# Check if in range and in the seeker FOV.
+		if (me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov) and me.Tgt.get_range() < me.max_fire_range_nm and me.Tgt.get_range() > me.min_fire_range_nm) {
 			return TRUE;
 		}
 		# Target out of FOV or range while still not launched, return to search loop.

@@ -520,7 +520,7 @@
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
                     <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>           <!-- source -->
                     <drag-coeff type="double">1.35</drag-coeff>                   <!-- guesstimate -->
-                    <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius) authentic -->
+                    <cross-section-sqft type="double">0.143</cross-section-sqft><!-- sq ft (0.2133 ft radius) authentic -->
                     <arming-time-sec type="double">2.2</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">26</self-destruct-time-sec>         <!-- authentic -->
@@ -558,7 +558,7 @@
                     <weight-warhead-lbs type="double">20.8</weight-warhead-lbs>   <!-- authentic -->
                     <weight-fuel-lbm type="double">42.02</weight-fuel-lbm>           <!-- source -->
                     <drag-coeff type="double">0.9</drag-coeff>                   <!-- guesstimate -->
-                    <drag-area type="double">0.143</drag-area><!-- sq ft (0.2133 ft radius) authentic -->
+                    <cross-section-sqft type="double">0.143</cross-section-sqft><!-- sq ft (0.2133 ft radius) authentic -->
                     <arming-time-sec type="double">1.4</arming-time-sec>          <!-- authentic -->
                     <min-speed-for-guiding-mach type="double">0.8</min-speed-for-guiding-mach><!-- authentic -->
                     <self-destruct-time-sec type="double">43</self-destruct-time-sec>         <!-- authentic -->
@@ -595,7 +595,7 @@
                     <weight-launch-lbs type="double">264</weight-launch-lbs>        <!-- source -->
                     <weight-warhead-lbs type="double">200</weight-warhead-lbs>   <!-- guess -->
                     <drag-coeff type="double">0.08</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
-                    <drag-area type="double">1.95</drag-area>                          
+                    <cross-section-sqft type="double">1.95</cross-section-sqft>                          
                     <arming-time-sec type="double">4.0</arming-time-sec>                  <!-- source -->
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">120</self-destruct-time-sec>
@@ -628,7 +628,7 @@
                     <weight-launch-lbs type="double">264</weight-launch-lbs>        <!-- source -->
                     <weight-warhead-lbs type="double">200</weight-warhead-lbs>   <!-- guess -->
                     <drag-coeff type="double">1.0</drag-coeff>  <!-- as a reference MK-82 500 pound bomb is 0.1 - 0.2 -->
-                    <drag-area type="double">1.95</drag-area>                          
+                    <cross-section-sqft type="double">1.95</cross-section-sqft>                          
                     <arming-time-sec type="double">4.0</arming-time-sec>                  <!-- source -->
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">120</self-destruct-time-sec>
@@ -662,7 +662,7 @@
                     <weight-launch-lbs type="double">1378</weight-launch-lbs>             <!-- source -->
                     <weight-warhead-lbs type="double">661</weight-warhead-lbs>            <!-- source -->
                     <drag-coeff type="double">0.05</drag-coeff>                   
-                    <drag-area type="double">8.454</drag-area>                            <!-- source -->
+                    <cross-section-sqft type="double">8.454</cross-section-sqft>                            <!-- source -->
                     <arming-time-sec type="double">2.0</arming-time-sec>
                     <min-speed-for-guiding-mach type="double">0.25</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">140</self-destruct-time-sec>
@@ -697,7 +697,7 @@
                     <weight-launch-lbs type="double">672.4</weight-launch-lbs>            <!-- source -->
                     <weight-warhead-lbs type="double">353</weight-warhead-lbs>            <!-- source -->
                     <drag-coeff type="double">0.06</drag-coeff>                   
-                    <drag-area type="double">3.04</drag-area>                             <!-- source -->
+                    <cross-section-sqft type="double">3.04</cross-section-sqft>                             <!-- source -->
                     <arming-time-sec type="double">4.5</arming-time-sec>                  <!-- manual -->
                     <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">24</self-destruct-time-sec>     <!-- manual -->
@@ -732,7 +732,7 @@
                     <weight-launch-lbs type="double">462</weight-launch-lbs>              <!-- source -->
                     <weight-warhead-lbs type="double">126</weight-warhead-lbs>            <!-- source -->
                     <drag-coeff type="double">0.06</drag-coeff>                   
-                    <drag-area type="double">3.14</drag-area>                             <!-- source -->
+                    <cross-section-sqft type="double">3.14</cross-section-sqft>                             <!-- source -->
                     <arming-time-sec type="double">1.0</arming-time-sec>          
                     <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">55</self-destruct-time-sec>  

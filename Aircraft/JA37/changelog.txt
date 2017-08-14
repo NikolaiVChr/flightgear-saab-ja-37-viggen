@@ -2978,3 +2978,18 @@ MI: Ground collision warning arrow now stay on for 3 seconds after the warning.
 Animation: Ground collision warning lamp now stay on for 3 seconds after the warning.
 TI: Artificial horizon and ground symbol now move in relation to FPI, which in turn is fixed in middle of display.
 Arms: Adjusted DLZ data and FCS FoV for sidewinders.
+Radar: Fake radar target for testing. Hidden access.
+Arms: Added output to console for FPS relative.
+Arms: Started building fading out of rocket thrust.
+Arms: Made RB-74 terminate before its speed is so low it wont hit anything anyway. Aerodynamic range will then also better match published data.
+Sim: Better commenting in getPitch method.
+Fix for geo.Coord bad methods. If fix works, remember to send to FG mailing list.
+Arms: adjustment to AJS RB74.
+Arms: Removed need for sound bools in weapons specs.
+Arms: Renamed drag-area to cross-section.
+Arms: Made check for seeker/FCS FOV round instead of square.
+Arms: Renamed some nasal variables.
+Arms: Better impulse output when uncommented.
+Arms: Added support for vectored thrust.
+Arms: Proportionality constant for PN/APN can now be specified.
+Arms: Some cleanup of code and comments.

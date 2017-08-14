@@ -2436,7 +2436,7 @@ var HUDnasal = {
         me.Cd = me.bomb.drag(me.mach);
         me.mass = me.bomb.weight_launch_lbm / armament.slugs_to_lbm;
         me.q = 0.5 * me.rho * me.fps_z * me.fps_z;
-        me.deacc = (me.Cd * me.q * me.bomb.eda) / me.mass;
+        me.deacc = (me.Cd * me.q * me.bomb.ref_area_sqft) / me.mass;
 
         while (me.altC > 0 and me.t <= 16) {#16 secs is max fall time according to manual
           me.t += me.dt;
@@ -2453,7 +2453,7 @@ var HUDnasal = {
         #t -= 0.75 * math.cos(pitch*D2R);            # fudge factor
 
         me.q = 0.5 * me.rho * me.fps_x * me.fps_x;
-        me.deacc = (me.Cd * me.q * me.bomb.eda) / me.mass;
+        me.deacc = (me.Cd * me.q * me.bomb.ref_area_sqft) / me.mass;
         me.acc = -me.deacc * FT2M;
         
         me.fps_x_final = me.t*me.acc+me.fps_x;# calc final horz speed
@@ -2462,7 +2462,7 @@ var HUDnasal = {
         
         me.Cd = me.bomb.drag(me.mach_average);
         me.q = 0.5 * me.rho * me.fps_x_average * me.fps_x_average;
-        me.deacc = (me.Cd * me.q * me.bomb.eda) / me.mass;
+        me.deacc = (me.Cd * me.q * me.bomb.ref_area_sqft) / me.mass;
         me.acc = -me.deacc * FT2M;
         me.dist = me.vel_x*me.t+0.5*me.acc*me.t*me.t;
 

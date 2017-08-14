@@ -136,7 +136,7 @@ geo.Coord.set_z = func(z) { me._cupdate(); me._pdirty = 1; me._z = z; me };
 geo.Coord.set_lat = func(lat) { me._pupdate(); me._cdirty = 1; me._lat = lat * D2R; me };
 geo.Coord.set_lon = func(lon) { me._pupdate(); me._cdirty = 1; me._lon = lon * D2R; me };
 geo.Coord.set_alt = func(alt) { me._pupdate(); me._cdirty = 1; me._alt = alt; me };
-geo.Coord.apply_course_distance = func(course, dist) {
+geo.Coord.apply_course_distance2 = func(course, dist) {# this method in geo is not bad, just wanted to see if this way of doing it worked better.
         me._pupdate();
         course *= D2R;
         var nc = geo.Coord.new();
