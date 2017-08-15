@@ -17,6 +17,10 @@ var TRUE = 1;
 
 var DEBUG_OUT = FALSE;
 
+var extrapolate = func (x, x1, x2, y1, y2) {
+    return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+};
+
 # setup property nodes for the loop
 foreach(var name; keys(inputAP)) {
     inputAP[name] = props.globals.getNode(inputAP[name], 1);
@@ -439,8 +443,8 @@ var apLoop = func {
       setprop("/autopilot/settings/target-aoa", 15.5);
       modeT = 3;
     } else {
-      var weight = getprop("fdm/jsbsim/inertia/weight-lbs");
-      var aoa = 9 + ((weight - 28000) / (38000 - 28000)) * (12 - 9);
+      var weight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG;
+      var aoa = extrapolate(weight, 15000, 16500, 15.5, 9.0);
       aoa = ja37.clamp(aoa, 9, 12);
       setprop("/autopilot/settings/target-aoa", aoa);#is 9-12 depending on weight
       modeT = 2;

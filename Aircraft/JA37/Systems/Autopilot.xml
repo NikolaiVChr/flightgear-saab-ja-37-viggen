@@ -225,9 +225,9 @@
             <property>/controls/engines/engine/throttle</property>
         </output>
         <config>
-            <Kp>-0.10</Kp>
-            <Ti>1.0</Ti>
-            <Td>100.0</Td>
+            <Kp>-0.09</Kp>
+            <Ti>0.14</Ti>
+            <Td>200.0</Td>
             <u_min>0.0</u_min>
             <u_max><property>ja37/avionics/auto-throttle-max</property></u_max>
         </config>
