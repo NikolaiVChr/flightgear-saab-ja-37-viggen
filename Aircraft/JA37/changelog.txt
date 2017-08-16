@@ -2997,3 +2997,10 @@ Sim: Finally fixed getPitch method, it was rounding errors.
 Sim: getPitch method now works for same altitudes also.
 Radar: RCS code is now in effect.
 Control: {Pinto} Fixed the auto-throttle not holding AoA on fast PC. The new values should work on both fast and slow PCs.
+HUD: Pitch lines follow FPI. And therefore, so will the landing guide.
+HUD: Collision arrow is now on FPI.
+HUD: Smaller alt scale.
+HUD: When FPI is not shown, its position is now still be calculated.
+HUD: Altitude scale now show just a number when in tactical mode.
+HUD: Heading scale now has smaller ticks.
+HUD: Negative pitch lines, now has a gap on right side.
