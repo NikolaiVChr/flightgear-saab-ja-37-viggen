@@ -3004,3 +3004,4 @@ HUD: When FPI is not shown, its position is now still be calculated.
 HUD: Altitude scale now show just a number when in tactical mode.
 HUD: Heading scale now has smaller ticks.
 HUD: Negative pitch lines, now has a gap on right side.
+Control: Increased rudder authority a small bit in all regimes.
