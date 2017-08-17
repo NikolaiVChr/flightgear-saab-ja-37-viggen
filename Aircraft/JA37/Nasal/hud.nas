@@ -1832,7 +1832,24 @@ var HUDnasal = {
     me.fpi_pos_rel_x = math.sin(me.fpi_angle-me.rot)*me.fpi_polar;
     #me.fpi_pos_rel_y = math.cos(me.fpi_angle-me.rot)*me.fpi_polar;
     #me.fpi_lateral_polar = me.fpi_pos_rel_y/math.cos(me.rot);
-    me.horizon_lateral = clamp(me.fpi_pos_rel_x,-canvasWidth/4,canvasWidth/2);#-math.sqrt(me.fpi_lateral_polar*me.fpi_lateral_polar-me.fpi_pos_rel_y*me.fpi_pos_rel_y);
+    me.max_lateral_pitchnumbers = 0;
+    me.max_lateral_pitchnumbers_p = 0;
+    me.rot_deg = geo.normdeg(-me.input.roll.getValue());
+    me.default_lateral_pitchnumbers = canvasWidth*0.25;
+    if (me.rot_deg >= 0 and me.rot_deg < 90) {
+      me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,0,90,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers+centerOffset);
+      me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,0,90,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers-centerOffset);
+    } elsif (me.rot_deg >= 90 and me.rot_deg < 180) {
+      me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,90,180,me.default_lateral_pitchnumbers+centerOffset,me.default_lateral_pitchnumbers);
+      me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,90,180,me.default_lateral_pitchnumbers-centerOffset,me.default_lateral_pitchnumbers);
+    } elsif (me.rot_deg >= 180 and me.rot_deg < 270) {
+      me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,180,270,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers-centerOffset);
+      me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,180,270,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers+centerOffset);
+    } else {
+      me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,270,360,me.default_lateral_pitchnumbers-centerOffset,me.default_lateral_pitchnumbers);
+      me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,270,360,me.default_lateral_pitchnumbers+centerOffset,me.default_lateral_pitchnumbers);
+    }
+    me.horizon_lateral = clamp(me.fpi_pos_rel_x,-me.max_lateral_pitchnumbers,me.max_lateral_pitchnumbers_p);#-math.sqrt(me.fpi_lateral_polar*me.fpi_lateral_polar-me.fpi_pos_rel_y*me.fpi_pos_rel_y);
     me.horizon_group.setTranslation(0, centerOffset);
     me.horizon_group2.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
     me.horizon_group3.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
