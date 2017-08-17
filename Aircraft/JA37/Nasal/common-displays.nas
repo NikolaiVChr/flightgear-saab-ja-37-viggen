@@ -12,6 +12,9 @@ var TRUE = 1;
 var METRIC = 1;
 var IMPERIAL = 0;
 
+var MI = 0;
+var TI = 1;
+
 var clamp = func(v, min, max) { v < min ? min : v > max ? max : v }
 
 var containsVector = func (vec, item) {
@@ -75,6 +78,7 @@ units:                "ja37/hud/units-metric",
       	co.distance_name = "";
 		co.distance_model = "";
       	co.error = FALSE;
+      	co.cursor = MI;
 
       	return co;
 	},

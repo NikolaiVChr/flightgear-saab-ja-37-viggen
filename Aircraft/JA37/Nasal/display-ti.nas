@@ -239,7 +239,7 @@ var dictSE = {
 	 		'17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"],
-			'17': [TRUE, "HORI"], '18': [FALSE, "HKM"], '19': [TRUE, "DAG"]},
+			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "\xC3\x85POL"], '16': [FALSE, "EDIT"],
 			'17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
@@ -266,7 +266,7 @@ var dictEN = {
 	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
-			'17': [TRUE, "HORI"], '18': [FALSE, "CURS"], '19': [TRUE, "DAY"]},
+			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "LPOL"], '16': [FALSE, "EDIT"],
 			'17': [FALSE, "MPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
@@ -678,6 +678,23 @@ var TI = {
 		      .setStrokeLineWidth(w);
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
+
+		me.cursor = me.rootCenter.createChild("path")# is off set 1 pixel to right
+				.moveTo(-24*MM2TEX,0)
+				.horiz(20*MM2TEX)
+				.moveTo(0,0)
+				.horiz(1*MM2TEX)
+				.moveTo(6*MM2TEX,0)
+				.horiz(20*MM2TEX)
+				.moveTo(1*MM2TEX,-25*MM2TEX)
+				.vert(20*MM2TEX)
+				.moveTo(1*MM2TEX,5*MM2TEX)
+				.vert(20*MM2TEX)
+				.setStrokeLineWidth(w*3)
+				.setTranslation(50*MM2TEX, 0)
+				.setStrokeLineCap("round")
+				.set("z-index", 6)
+		        .setColor(rWhite,gWhite,bWhite, a);
 
 		# target info box
 		me.tgtTextField     = root.createChild("group")
@@ -1521,6 +1538,7 @@ var TI = {
 		me.showTargetInfo();#must be after displayRadarTracks
 		me.showBasesNear();		
 		me.ecmOverlay();
+		me.showCursor();
 
 		settimer(func me.loop(), 0.5);
 	},
@@ -1878,6 +1896,9 @@ var TI = {
 			if (me.day == TRUE) {
 				me.menuButtonBox[19].show();
 			}
+			if (displays.common.cursor == displays.TI) {
+				me.menuButtonBox[18].show();
+			}
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and me.GPSinit == TRUE) {
 			me.menuButtonBox[15].show();
@@ -2143,6 +2164,14 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+
+	showCursor: func {
+		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
+			me.cursor.show();
+		} else {
+			me.cursor.hide();
+		}
+	},
 
 	ecmOverlay: func {
 		if (me.ECMon == TRUE) {
@@ -3757,6 +3786,9 @@ var TI = {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
+			}
+			if(me.menuMain == MAIN_DISPLAY) {
+				displays.common.cursor = !displays.common.cursor;
 			}
 		}
 	},

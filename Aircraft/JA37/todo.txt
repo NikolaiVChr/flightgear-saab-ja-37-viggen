@@ -112,7 +112,6 @@ HUD: heading scale follow pitch lines and FPI. (canvas clip is not smart enough 
 HUD: Digital speed should follow pitch lines and FPI.
 HUD: Weapon selection should be shown with 2 chars next to distance scale, instead of to the left.
 TI: Show lat/lon grid in menu UDAT.
-TI: Move cursor between TI and MI.
 TI: Slew cursor.
 TI: Edit route.
 TI: Show/edit bullseye.

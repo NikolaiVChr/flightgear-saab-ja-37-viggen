@@ -877,8 +877,10 @@ var MI = {
 	      }
 	      if(me.selection_updated == FALSE) {
 	        me.echoes[0].hide();
-	        if (cursorOn == TRUE) {
+	        if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
 	        	me.cursor.show();
+	        } else {
+	        	me.cursor.hide();
 	        }
 	      }
 	      
@@ -951,9 +953,11 @@ var MI = {
 			}
 		}
 		if (me.lock == TRUE) {
-			me.cursor_lock.setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
-			me.cursor_lock.show();
-			me.cursor_lock.update();
+			if (displays.common.cursor == displays.MI) {
+				me.cursor_lock.setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+				me.cursor_lock.show();
+				me.cursor_lock.update();
+			}
 			me.cursor.hide();
 		}
 	},
