@@ -542,13 +542,12 @@ var MI = {
 		         .setTranslation(i!=3?-ticksShort-sidePositionOfSideScales:-sidePositionOfSideScales+ticksLong, -i * halfHeightOfSideScales / 1.5 + halfHeightOfSideScales-w)
 		         .setColor(r,g,b, a));
 		}
-		me.dist_cursor = me.rootCenter.createChild("path")
-			.moveTo(0,0)
-			.lineTo(ticksMed,ticksMed)
-			.moveTo(0,0)
-			.lineTo(ticksMed,-ticksMed)
-			.setStrokeLineWidth(w)
-	        .setColor(r,g,b, a);
+	    me.dist_cursor = me.rootCenter.createChild("path")
+				.moveTo(0, 0)
+	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
+	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
+				.setStrokeLineWidth(w)
+		        .setColor(r,g,b, a);
 
 		me.qfe = me.rootCenter.createChild("text")
     		.setText("QFE")
@@ -806,6 +805,7 @@ var MI = {
       					me.a2a_circle_arc.hide();
       				}
       				if (me.dlz_cross == TRUE) {
+      					# for now this wont happen, as the missile wont have lock below min dist and therefore wont return dlz info.
       					me.a2a_cross.show();
       				} else {
       					me.a2a_cross.hide();
