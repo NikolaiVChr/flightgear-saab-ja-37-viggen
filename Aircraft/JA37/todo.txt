@@ -115,7 +115,6 @@ TI: Show lat/lon grid in menu UDAT.
 TI: Move cursor between TI and MI.
 TI: Slew cursor.
 TI: Edit route.
-TI: Change runway symbol to proper TI version.
 TI: Show/edit bullseye.
 TI: Show flighttime by using controls UD-UT.
 TI: Select self.

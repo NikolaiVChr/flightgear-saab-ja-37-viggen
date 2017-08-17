@@ -580,16 +580,30 @@ var TI = {
 	    me.dest = me.rootCenter.createChild("group")
 	    	.set("z-index", 7)
             .hide();
-	    me.dest_runway = me.dest.createChild("path")
+	    me.approach_line = me.dest.createChild("path")
 	               .moveTo(0, 0)
 	               .lineTo(0, -1)
-	               .setStrokeLineWidth(w)
+	               .setStrokeLineWidth(w*1.5)
+	               .setStrokeLineCap("butt")
 	               .setColor(rTyrk,gTyrk,bTyrk, a)
 	               .hide();
+	    me.runway_line = me.dest.createChild("path")
+	               .moveTo(0, 0)
+	               .lineTo(0, 1)
+	               .setStrokeLineWidth(w*4.5)
+	               .setStrokeLineCap("butt")
+	               .setColor(rWhite,gWhite,bWhite, a)
+	               .hide();
+	    me.runway_name = me.dest.createChild("text")
+    		.setText("32")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-center")
+    		.setTranslation(25, 0)
+    		.setFontSize(15, 1);
 	    me.dest_circle = me.dest.createChild("path")
-	               .moveTo(-25, 0)
-	               .arcSmallCW(25, 25, 0, 50, 0)
-	               .arcSmallCW(25, 25, 0, -50, 0)
+	               .moveTo(-12.5, 0)
+	               .arcSmallCW(12.5, 12.5, 0, 25, 0)
+	               .arcSmallCW(12.5, 12.5, 0, -25, 0)
 	               .setStrokeLineWidth(w)
 	               .setColor(rTyrk,gTyrk,bTyrk, a);
 	    me.approach_circle = me.rootCenter.createChild("path")
@@ -597,7 +611,7 @@ var TI = {
 	               .moveTo(-100, 0)
 	               .arcSmallCW(100, 100, 0, 200, 0)
 	               .arcSmallCW(100, 100, 0, -200, 0)
-	               .setStrokeLineWidth(w)
+	               .setStrokeLineWidth(w*1.5)
 	               .setColor(rTyrk,gTyrk,bTyrk, a);
 
 	    # threat circles
@@ -2913,10 +2927,20 @@ var TI = {
 		  if (land.show_runway_line == TRUE) {
 		    me.runway_l = land.line*1000;
 		    me.scale = me.runway_l*M2TEX;
-		    me.dest_runway.setScale(1, me.scale);
+		    me.approach_line.setScale(1, me.scale);
 		    me.heading = me.input.heading.getValue();#true
 		    me.dest.setRotation((180+land.head-me.heading)*D2R);
-		    me.dest_runway.show();
+		    me.runway_name.setText(land.runway);
+		    me.runway_name.setRotation(-(180+land.head)*D2R);
+		    me.runway_name.show();
+		    me.approach_line.show();
+		    if (land.runway_rw != nil and land.runway_rw.length > 0) {
+		    	me.scale = land.runway_rw.length*M2TEX;
+	    	} else {
+	    		me.scale = 400*M2TEX;
+	    	}
+	    	me.runway_line.setScale(1, me.scale);
+		    me.runway_line.show();
 		    if (land.show_approach_circle == TRUE) {
 		      me.scale = 4100*M2TEX/100;
 		      me.approach_circle.setStrokeLineWidth(w/me.scale);
@@ -2934,14 +2958,18 @@ var TI = {
 		      me.approach_circle.hide();#pitch.......1x.......................................................
 		    }            
 		  } else {
-		    me.dest_runway.hide();
+		    me.approach_line.hide();
 		    me.approach_circle.hide();
+		    me.runway_line.hide();
+		    me.runway_name.hide();
 		  }
 		  me.dest.show();
 		} else {
 			me.dest_circle.hide();
-			me.dest_runway.hide();
+			me.approach_line.hide();
 			me.approach_circle.hide();
+			me.runway_line.hide();
+		    me.runway_name.hide();
 		}
 	},
 

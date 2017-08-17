@@ -3007,3 +3007,4 @@ HUD: Negative pitch lines, now has a gap on right side.
 Control: Increased rudder authority a small bit in all regimes.
 MI: Added weapons circle.
 MI: Changed pointer on distance scale to be a circle.
+TI: Added white runway line and name to landing symbol.
