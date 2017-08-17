@@ -207,6 +207,27 @@ var MI = {
 		      .setStrokeLineWidth(w)
 		      .setColor(r,g,b, a);
 
+		me.reticle_missile =
+      me.a2a_circle = me.rootCenter.createChild("path")
+      .setColor(r,g,b, a)
+      .moveTo( 45*texel_per_degree, 0)
+      .arcSmallCCW(45*texel_per_degree,45*texel_per_degree, 0, -45*texel_per_degree,-45*texel_per_degree)
+      .moveTo( -45*texel_per_degree, 0)
+      .arcSmallCCW(45*texel_per_degree,45*texel_per_degree, 0,  90*texel_per_degree, 0)
+      .setStrokeLineWidth(w);
+      me.a2a_circle_arc = me.rootCenter.createChild("path")
+      .setColor(r,g,b, a)
+      .moveTo(-45*texel_per_degree, 0)
+      .arcSmallCW(45*texel_per_degree,45*texel_per_degree, 0,  45*texel_per_degree,-45*texel_per_degree)
+      .setStrokeLineWidth(w);
+      me.a2a_cross = me.rootCenter.createChild("path")
+		      .moveTo(-40*texel_per_degree, 40*texel_per_degree)
+		      .lineTo(40*texel_per_degree, -40*texel_per_degree)
+		      .moveTo(40*texel_per_degree, 40*texel_per_degree)
+		      .lineTo(-40*texel_per_degree, 40*texel_per_degree)
+		      .setStrokeLineWidth(w)
+		      .setColor(r,g,b, a);
+
 		
 		me.horizon_group = me.rootCenter.createChild("group");
 		me.horz_rot = me.horizon_group.createTransform();
@@ -635,6 +656,7 @@ var MI = {
 		me.showTgtName();
 		me.showqfe();
 		me.showArm();
+		me.showArmCircle();
 		me.radarIndex();
 		me.showTopInfo();
 		me.showBottomInfo();
@@ -735,6 +757,66 @@ var MI = {
       	} else {
       		me.arm.hide();
       	}
+	},
+
+	showArmCircle: func {
+		if (me.input.currentMode.getValue() == displays.COMBAT) {
+			me.armActive = displays.common.armActive();
+			if (me.armActive != nil) {
+				me.dlz = me.armActive.getDLZ();
+				if (me.dlz != nil and size(me.dlz) > 0) {
+					me.dlz_scale = 1;
+					me.dlz_full = FALSE;
+					me.dlz_circle = FALSE;
+					me.dlz_cross  = FALSE;
+					if (me.dlz[4] < me.dlz[3]) {
+						# MIN
+						me.dlz_circle = FALSE;
+						me.dlz_cross  = TRUE;
+					} elsif (me.dlz[4] < me.dlz[2]) {
+						# NEZ
+						me.dlz_full   = TRUE;
+						me.dlz_scale  = 1;
+						me.dlz_circle = TRUE;
+					} elsif (me.dlz[4] < me.dlz[1]) {
+						# OPT
+						me.dlz_full   = FALSE;
+						me.dlz_scale  = 1;
+						me.dlz_circle = TRUE;
+					} elsif (me.dlz[4] < me.dlz[0]) {
+						# MISS
+						me.dlz_full   = FALSE;
+						me.dlz_circle = TRUE;
+						me.dlz_scale  = extrapolate(me.dlz[4],me.dlz[1],me.dlz[0],1,0.01);
+					} else {
+						me.dlz_circle = FALSE;
+						me.dlz_cross  = FALSE;
+					}
+					me.a2a_circle.setScale(me.dlz_scale);
+					me.a2a_circle.setStrokeLineWidth(w/me.dlz_scale);
+					if (me.dlz_circle == TRUE) {
+      					me.a2a_circle.show();
+      					if (me.dlz_full == TRUE) {
+							me.a2a_circle_arc.show();
+      					} else {
+      						me.a2a_circle_arc.hide();
+      					}
+      				} else {
+      					me.a2a_circle.hide();
+      					me.a2a_circle_arc.hide();
+      				}
+      				if (me.dlz_cross == TRUE) {
+      					me.a2a_cross.show();
+      				} else {
+      					me.a2a_cross.hide();
+      				}
+      				return;
+      			}
+			}			
+      	}
+      	me.a2a_circle.hide();
+      	me.a2a_circle_arc.hide();
+      	me.a2a_cross.hide();
 	},
 
 	showqfe: func {

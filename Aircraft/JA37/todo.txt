@@ -124,7 +124,6 @@ TI: Make radar limit on SVY.
 TI: Add missiles to SVY.
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: Make route info with overall ETA.
-MI: Weapon circle.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]

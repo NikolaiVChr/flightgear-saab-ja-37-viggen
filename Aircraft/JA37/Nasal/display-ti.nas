@@ -25,7 +25,8 @@ var setupCanvas = func {
 	  "name": "TI",   
 	  "size": [height, height], 
 	  "view": [height, height], 
-	  "mipmapping": 0
+	  "mipmapping": 0,
+	  #"additive-blend": 1
 	});
 	root = mycanvas.createGroup();
 	root.set("font", "LiberationFonts/LiberationMono-Regular.ttf");
