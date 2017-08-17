@@ -3009,3 +3009,4 @@ MI: Added weapons circle.
 MI: Changed pointer on distance scale to be a circle.
 TI: Added white runway line and name to landing symbol.
 TI: Adding menu item function for moving cursor between TI and MI.
+TI: Added sub settings for some non functional menu items.
