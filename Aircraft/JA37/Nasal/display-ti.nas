@@ -2014,18 +2014,35 @@ var TI = {
 			}
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-			# radar in attack or fight mode
-			me.ft = nil;
-			if (me.interoperability == displays.METRIC) {
-				me.ft = "ATT";
-			} else {
-				me.ft = "ATT";
-			}
-			me.menuButtonSub[14].setText(me.vertStr(me.ft));
+			#me.menuButtonSub[1].setText(me.vertStr("EP"));
+			#me.menuButtonSub[1].show();
+			me.menuButtonSub[14].setText(me.vertStr("ATT"));
 			if (me.ModeAttack == TRUE) {
 				me.menuButtonSubBox[14].show();
 			}
 			me.menuButtonSub[14].show();
+			if (me.showFullMenus == TRUE) {
+				me.menuButtonSub[16].setText(me.vertStr("AB"));
+				me.menuButtonSub[16].show();
+			}
+		}
+		if (me.menuMain == MAIN_MISSION_DATA and me.showFullMenus == TRUE) {
+			me.menuButtonSub[4].setText(me.vertStr("BEYE"));
+			me.menuButtonSub[6].setText(me.vertStr("POLY"));
+			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"\xC3\x85POL":"APOL"));
+			me.menuButtonSub[15].setText(me.vertStr("AB"));
+			me.menuButtonSub[16].setText(me.vertStr(me.interoperability == displays.METRIC?"UPOL":"MPOL"));
+			me.menuButtonSub[17].setText(me.vertStr("1234"));
+			me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"SP"));
+			me.menuButtonSub[19].setText(me.vertStr("1234"));
+			me.menuButtonSub[4].show();
+			me.menuButtonSub[6].show();
+			me.menuButtonSub[14].show();
+			me.menuButtonSub[15].show();
+			me.menuButtonSub[16].show();
+			me.menuButtonSub[17].show();
+			me.menuButtonSub[18].show();
+			me.menuButtonSub[19].show();
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 			# use top or belly antaenna
