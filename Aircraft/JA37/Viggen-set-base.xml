@@ -552,6 +552,11 @@
                 <color type="double">0</color>
             </heatblur>
             <g-suit type="int">3</g-suit>
+            <pod0 type="bool">true</pod0>
+            <pod1 type="bool">true</pod1>
+            <pod2 type="bool">true</pod2>
+            <pod3 type="bool">true</pod3>
+            <pod4 type="bool">true</pod4>
             <rust-outside type="int">0</rust-outside>
             <rust-inside type="int">0</rust-inside>
         </effect>

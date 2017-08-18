@@ -57,6 +57,7 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 # Since the HUD is not curved, we have to choose an avarage degree where degree per pixel is calculated from. 7.5 is chosen.
 var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*D2R))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
+#printf("HUD total field of view %.1f degs (the real is 17 degs)", 512/pixelPerDegreeY);#17.3 degs in last test
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var distScalePos = 160;
 var sidewindPosition = centerOffset+(10*pixelPerDegreeY); #should be 10 degrees under aicraft axis.

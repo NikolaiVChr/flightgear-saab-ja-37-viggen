@@ -442,6 +442,43 @@ var update_loop = func {
       setprop("/ja37/radar/time-till-crash", 15);
     }
 
+    # conditionals for dropping M70/droptank
+    if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[11]") == 794) {
+      #left wing rocket pod mounted
+      setprop("ja37/effect/pod0", FALSE);
+      setprop("ai/submodels/submodel[17]/count", 1);
+    } else {
+      setprop("ja37/effect/pod0", TRUE);
+    }
+    if (getprop("sim/multiplay/generic/float[12]") == 794) {
+      #left wing rocket pod mounted
+      setprop("ja37/effect/pod1", FALSE);
+      setprop("ai/submodels/submodel[18]/count", 1);
+    } else {
+      setprop("ja37/effect/pod1", TRUE);
+    }
+    if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[13]") == 794) {
+      #left wing rocket pod mounted
+      setprop("ja37/effect/pod2", FALSE);
+      setprop("ai/submodels/submodel[19]/count", 1);
+    } else {
+      setprop("ja37/effect/pod2", TRUE);
+    }
+    if (getprop("sim/multiplay/generic/float[14]") == 794) {
+      #left wing rocket pod mounted
+      setprop("ja37/effect/pod3", FALSE);
+      setprop("ai/submodels/submodel[20]/count", 1);
+    } else {
+      setprop("ja37/effect/pod3", TRUE);
+    }
+    if (getprop("sim/multiplay/generic/float[10]") == 794) {
+      #left wing rocket pod mounted
+      setprop("ja37/effect/pod4", FALSE);
+      setprop("ai/submodels/submodel[21]/count", 1);
+    } else {
+      setprop("ja37/effect/pod4", TRUE);
+    }
+
     settimer(
       #func debug.benchmark("j37 loop", 
         update_loop

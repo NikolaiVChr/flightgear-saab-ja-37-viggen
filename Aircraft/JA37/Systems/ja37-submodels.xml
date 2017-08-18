@@ -445,4 +445,122 @@
         <submodel-path>Aircraft/JA37/Systems/ja37-subsubmodels.xml</submodel-path>
         <expiry>true</expiry>
     </submodel>
+
+    <submodel><!-- submodel 17 -->
+        <name>M70 rocket pod0</name>        <!-- left wing -->
+        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
+        <trigger>ja37/effect/pod0</trigger>
+        <speed>0</speed>
+        <repeat>true</repeat>
+        <delay>0.25</delay>
+        <count>0</count>
+        <y-offset>  -9.2</y-offset><!-- in feet -->
+        <z-offset> -4.92</z-offset>
+        <x-offset> -7.22</x-offset>
+        <yaw-offset>0.0</yaw-offset>
+        <pitch-offset>0.0</pitch-offset>
+        <external-force>false</external-force>
+        <force-stabilised>false</force-stabilised>
+        <cd>0.5</cd>        
+        <eda>2.112</eda>
+        <weight>794</weight>
+        <wind>true</wind>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
+    </submodel>
+
+    <submodel><!-- submodel 18 -->
+        <name>M70 rocket pod1</name>        <!-- left fuselage -->
+        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
+        <trigger>ja37/effect/pod1</trigger>
+        <speed>0</speed>
+        <repeat>true</repeat>
+        <delay>0.25</delay>
+        <count>0</count>
+        <y-m> -3.12</y-m>
+        <z-m> -5.82</z-m>
+        <x-m> -3.28</x-m>
+        <yaw-offset>0.0</yaw-offset>
+        <pitch-offset>0.0</pitch-offset>
+        <external-force>false</external-force>
+        <force-stabilised>false</force-stabilised>
+        <cd>0.5</cd>        
+        <eda>2.112</eda>
+        <weight>794</weight>
+        <wind>true</wind>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
+    </submodel>
+
+    <submodel><!-- submodel 19 -->
+        <name>M70 rocket pod2</name>        <!-- right wing -->
+        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
+        <trigger>ja37/effect/pod2</trigger>
+        <speed>0</speed>
+        <repeat>true</repeat>
+        <delay>0.25</delay>
+        <count>0</count>
+        <y-offset>   9.2</y-offset><!-- in feet -->
+        <z-offset> -4.92</z-offset>
+        <x-offset> -7.22</x-offset>
+        <yaw-offset>0.0</yaw-offset>
+        <pitch-offset>0.0</pitch-offset>
+        <external-force>false</external-force>
+        <force-stabilised>false</force-stabilised>
+        <cd>0.5</cd>        
+        <eda>2.112</eda>
+        <weight>794</weight>
+        <wind>true</wind>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
+    </submodel>
+
+    <submodel><!-- submodel 20 -->
+        <name>M70 rocket pod3</name>        <!-- right fuselage -->
+        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
+        <trigger>ja37/effect/pod3</trigger>
+        <speed>0</speed>
+        <repeat>true</repeat>
+        <delay>0.25</delay>
+        <count>0</count>
+        <y-m>  3.12</y-m>
+        <z-m> -5.82</z-m>
+        <x-m> -3.28</x-m>
+        <yaw-offset>0.0</yaw-offset>
+        <pitch-offset>0.0</pitch-offset>
+        <external-force>false</external-force>
+        <force-stabilised>false</force-stabilised>
+        <cd>0.5</cd>        
+        <eda>2.112</eda>
+        <weight>794</weight>
+        <wind>true</wind>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
+    </submodel>
+
+    <submodel><!-- submodel 21 -->
+        <name>M70 rocket pod4</name>        <!-- center -->
+        <model>Aircraft/JA37/Models/Armament/Weapons/M70/rocketPod.xml</model>
+        <trigger>ja37/effect/pod4</trigger>
+        <speed>0</speed>
+        <repeat>true</repeat>
+        <delay>0.25</delay>
+        <count>0</count>
+        <x-m> -1.31</x-m>
+        <y-m>  0</y-m>
+        <z-m> -6.07</z-m>
+        <yaw-offset>0.0</yaw-offset>
+        <pitch-offset>0.0</pitch-offset>
+        <external-force>false</external-force>
+        <force-stabilised>false</force-stabilised>
+        <cd>0.5</cd>        
+        <eda>2.112</eda>
+        <weight>794</weight>
+        <wind>true</wind>
+        <buoyancy>0</buoyancy>
+        <life>30</life>
+    </submodel>
 </PropertyList>
+
+
+      

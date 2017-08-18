@@ -39,7 +39,7 @@ Model: The KURS gauge in the JA was more complex, needs making.
 Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA, needs making.
 Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness, needs making.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
-Animation: Make jettison drop-tank/rocket pod actually fall down like other stores do.
+Animation: Make jettison drop-tank actually fall down like other stores do.
 Engine: Switch aug. type in engine?
 Engine: Model compressor surge/stall including bang sound.
 Sim: Improve autopilot further.
@@ -64,7 +64,6 @@ Sim: Implement maximum speed reactions - Vne.
 Sim: Engine fire improvement: reduced thrust, stuck throttle.
 Sim: Stop auto-selecting when in tactical mode. (semi-done)
 Sim: Make speed, roll, Nz and altitude limits on firing missiles.
-Sim: Make boolean hasVectorThrust for missiles. If it has then reduce drastic the bleeding of speed during high G turns.
 Sim: Find the exact spot the center M70 fires from (submodels).
 Sim: A/P does auto trim of roll.
 Sim: Review A/P working property use. Also in jsb for stick control.
@@ -96,7 +95,6 @@ Sound: More annunciater warnings and other sounds. (transonic)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
 Sound: Sound from wind hitting the gears when extended.
-Radar: Enable database of RCS of common aircrafts.
 Radar: Make rb71 notchable again, by introducing 3 diff painted properties instead of one.
 Radar: Make ECM jamming.
 Radar: Make other planes notice when radar is off.
