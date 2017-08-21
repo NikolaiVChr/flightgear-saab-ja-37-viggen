@@ -58,17 +58,18 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*D2R))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #printf("HUD total field of view %.1f degs (the real is 17 degs)", 512/pixelPerDegreeY);#17.3 degs in last test
+printf("HUD optical center %.1f degs below aircraft axis. (the real is 7.3 degs, so adjust %0.2f meter up)", -centerOffset/pixelPerDegreeY, (7.3+centerOffset/pixelPerDegreeY)*pixelPerDegreeY/pixelPerMeter);
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
-var distScalePos = 160;
+var distScalePos = 2.75*pixelPerDegreeY;
 var sidewindPosition = centerOffset+(10*pixelPerDegreeY); #should be 10 degrees under aicraft axis.
 var sidewindPerKnot = max_width/30; # Max sidewind displayed is set at 30 kts. 450pixels is maximum is can move to the side.
-var headScalePlace = (350/1024)*canvasWidth; # vert placement of heading scale, remember to change clip also.
+var headScalePlace = 2.5*pixelPerDegreeY; # vert placement of heading scale, remember to change clip also.
 var headScaleTickSpacing = (65/1024)*canvasWidth;# horizontal spacing between ticks. Remember to adjust bounding box when changing.
 
-var reticle_factor = 1.3;# size of flight path indicator, aiming reticle, and out of ammo reticle
+var reticle_factor = 1.15;# size of flight path indicator, aiming reticle, and out of ammo reticle
 var sidewind_factor = 1.0;# size of sidewind indicator
-var airspeedPlace = (420/1024)*canvasWidth;
-var airspeedPlaceFinal = -(100/1024)*canvasWidth;
+var airspeedPlace = 5*pixelPerDegreeY;
+var airspeedPlaceFinal = -1.5*pixelPerDegreeY;
 var sideslipPlaceX = (325/1024)*canvasWidth;
 var sideslipPlaceY = (425/1024)*canvasWidth;
 var sideslipPlaceXFinal = 0;
@@ -86,15 +87,16 @@ var fs = 0.8;#font size factor
 
 # alt scale
 var altimeterScaleHeight = (112.5/1024)*canvasWidth; # the height of the low alt scale. Also used in the other scales as a reference height.
-var scalePlace = (300/1024)*canvasWidth; #horizontal placement of alt scales
+var scalePlace = 3.5*pixelPerDegreeX; #horizontal placement of alt scales
 var altScaleWidth = (200/1024)*canvasWidth;
-var altScaleTickS = (20/1024)*canvasWidth;#small
-var altScaleTickM = (40/1024)*canvasWidth;#medium
-var altScaleTickL = (60/1024)*canvasWidth;#large
+var altScaleTickS = (15/1024)*canvasWidth;#small
+var altScaleTickM = (25/1024)*canvasWidth;#medium
+var altScaleTickL = (40/1024)*canvasWidth;#large
 var altScaleFontSize = (60/1024)*canvasWidth*fs;
-var numberOffset = (80/1024)*canvasWidth; #alt scale numbers horizontal offset from scale 
+var numberOffset = (55/1024)*canvasWidth; #alt scale numbers horizontal offset from scale 
 var radPointerProxim = (60/1024)*canvasWidth; #when alt indicater is too close to radar ground indicator, hide indicator
 var indicatorOffset = -(10/1024)*canvasWidth; #alt scale indicators horizontal offset from scale (must be high, due to bug #1054 in canvas)
+# +-78 texel high, 
 
 var artifacts0 = nil;
 var artifacts1 = [];
@@ -108,7 +110,7 @@ var HUDnasal = {
     "name": "HUDnasal",
     "size": [canvasWidth, canvasWidth],# size of the texture
     "view": [canvasWidth, canvasWidth],# size of canvas coordinate system
-    "mipmapping": 0,
+    "mipmapping": 1,
     "additive-blend": 1# bool
     #"coverage-samples": int
     #"color-samples": int
@@ -138,38 +140,44 @@ var HUDnasal = {
                 .set("font", "LiberationFonts/LiberationMono-Regular.ttf");# If using default font, horizontal alignment is not accurate (bug #1054), also prettier char spacing. 
     
     #me.root.setScale(math.sin(slant*D2R), 1);
-    me.root.setTranslation(canvasWidth/2, canvasWidth/2);
+    me.root.setTranslation(canvasWidth/2, canvasWidth/2)
+    .set("z-order", 0);
 
     # groups for horizon and FPI
-    me.fpi_group = me.root.createChild("group");
-    me.horizon_group = me.root.createChild("group");
+    me.fpi_group = me.root.createChild("group")
+      .set("z-order", 1);
+    me.horizon_group = me.root.createChild("group")
+      .set("z-order", 1);
 
-    # digital airspeed kts/mach 
-    me.airspeed = me.root.createChild("text")
-      .setText("000")
-      .setFontSize((85/1024)*canvasWidth*fs, ar)
-      .setColor(r,g,b, a)
-      .setAlignment("center-center")
-      .setTranslation(0 , airspeedPlace);
-    me.airspeedInt = me.root.createChild("text")
-      .setText("000")
-      .setFontSize((85/1024)*canvasWidth*fs, ar)
-      .setColor(r,g,b, a)
-      .setAlignment("center-center")
-      .setTranslation(0 , airspeedPlace-(70/1024)*canvasWidth);
+        # masking
+    #me.clipAltScale = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", -altimeterScaleHeight*1.4, altScaleWidth, altimeterScaleHeight*1.4, -(70/1024)*canvasWidth);
+    me.alt_scale_clip_grp=me.horizon_group.createChild("group")
+      #.set("clip-frame", canvas.Element.LOCAL)#canvas.Element.GLOBAL (the default value), canvas.Element.PARENT or canvas.Element.LOCAL
+      #.set("clip", me.clipAltScale)#top,right,bottom,left
+      .set("z-order", 0);
 
 
     # scale heading ticks
-    var clip = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", (12/1024)*canvasWidth, (687/1024)*canvasWidth, (212/1024)*canvasWidth, (337/1024)*canvasWidth);
-    me.head_scale_grp = me.root.createChild("group");
-    me.head_scale_grp.set("clip", clip);#top,right,bottom,left
-    me.head_scale_grp.set("clip-frame", canvas.Element.GLOBAL);
+#    var clip = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", (12/1024)*canvasWidth, (687/1024)*canvasWidth, (212/1024)*canvasWidth, (337/1024)*canvasWidth);
+    me.head_scale_grp = me.alt_scale_clip_grp.createChild("group")
+      .set("z-index",5);
+#    me.head_scale_grp.set("clip", clip);#top,right,bottom,left
+#    me.head_scale_grp.set("clip-frame", canvas.Element.GLOBAL);
 #    me.alty2=me.head_scale_grp.createChild("path")
 #  .moveTo(-5000,-5000)
 #  .lineTo(5000,5000)
 #  .setStrokeLineWidth(5000)
   #.setColorFill(0,0,1,0.5)
 #  .setColor(0,0,1,0.5);
+
+me.clipHeadScale = me.alt_scale_clip_grp.createChild("image")
+.setTranslation(-128,-headScalePlace-128)
+.set("z-index",10)
+.set("blend-source-rgb","zero")
+.set("blend-source-alpha","zero")
+.set("blend-destination-rgb","one")
+.set("blend-destination-alpha","one-minus-src-alpha")
+.set("src", "Aircraft/JA37/gui/canvas-blend-mask/hud-head-scale.png");
     me.head_scale = me.head_scale_grp.createChild("path")
         .moveTo(-headScaleTickSpacing*2, 0)
         .vert(-(40/1024)*canvasWidth)
@@ -186,7 +194,8 @@ var HUDnasal = {
         .show();
 
         #heading bug
-    me.heading_bug_group = me.root.createChild("group");
+    me.heading_bug_group = me.alt_scale_clip_grp.createChild("group")
+    .set("z-index",5);
     #me.heading_bug_group.set("clip", "rect(62px, 687px, 262px, 337px)");#top,right,bottom,left
     me.heading_bug = me.heading_bug_group.createChild("path")
     .setColor(r,g,b, a)
@@ -215,9 +224,9 @@ var HUDnasal = {
       .close();
 
     # headingindicator
-    me.head_scale_indicator = me.root.createChild("path")
+    me.head_scale_indicator = me.alt_scale_clip_grp.createChild("path")
     .setColor(r,g,b, a)
-    
+    .set("z-index",5)
     .setStrokeLineWidth(w)
     .moveTo(-(30/1024)*canvasWidth, -headScalePlace+(30/1024)*canvasWidth)
     .lineTo(0, -headScalePlace)
@@ -243,28 +252,52 @@ var HUDnasal = {
 
     
 
-    # Altitude
-    me.clipAltScale = sprintf("rect(%.1fpx, %.1fpx, %.1fpx, %.1fpx)", -altimeterScaleHeight*1.4, altScaleWidth, altimeterScaleHeight*1.4, -(70/1024)*canvasWidth);
-    me.alt_scale_clip_grp=me.root.createChild("group")
-      .set("clip-frame", canvas.Element.LOCAL)#canvas.Element.GLOBAL (the default value), canvas.Element.PARENT or canvas.Element.LOCAL
-      .set("clip", me.clipAltScale)#top,right,bottom,left
-      .setTranslation(scalePlace,0);
-    me.alt_scale_grp=me.alt_scale_clip_grp.createChild("group");  
+
+
+
+    # digital airspeed kts/mach 
+    me.airspeed = me.alt_scale_clip_grp.createChild("text")
+      .setText("000")
+      .setFontSize((75/1024)*canvasWidth*fs, ar)
+      .setColor(r,g,b, a)
+      .setAlignment("center-top")
+      .setTranslation(0 , airspeedPlace)
+      .set("z-order", 12);
+    me.airspeedInt = me.alt_scale_clip_grp.createChild("text")
+      .setText("000")
+      .setFontSize((75/1024)*canvasWidth*fs, ar)
+      .setColor(r,g,b, a)
+      .setAlignment("center-top")
+      .setTranslation(0 , airspeedPlace-(70/1024)*canvasWidth)
+      .set("z-order", 12);
+
+
+      #altitude scale
+me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
+.setTranslation(scalePlace-00,-128)
+.set("z-index",10)
+.set("blend-source-rgb","zero")
+.set("blend-source-alpha","zero")
+.set("blend-destination-rgb","one")
+.set("blend-destination-alpha","one-minus-src-alpha")
+.set("src", "Aircraft/JA37/gui/canvas-blend-mask/hud-alt-scale.png");
+    me.alt_scale_grp=me.alt_scale_clip_grp.createChild("group")
+    .setTranslation(scalePlace,0);
     # tactical altitude number
     me.alt_tact = me.alt_scale_clip_grp.createChild("text")
       .setText(".")
       .setFontSize((60/1024)*canvasWidth*fs, ar)
       .setColor(r,g,b, a)
       .setAlignment("left-center")
-      .setTranslation(0, 0);
+      .setTranslation(scalePlace, 0);
     #me.alt_scale_grp_trans = me.alt_scale_grp.createTransform();
 
 #me.alty=me.alt_scale_clip_grp.createChild("path")
 #.moveTo(-5000,-5000)
 #.lineTo(5000,5000)
 #.setStrokeLineWidth(5000)
-#.setColorFill(0,0,1,0.5)
-#.setColor(0,0,1,0.5);
+#.set("z-order", 5)
+#.setColor(0,0,1,0.01);
     # alt scale high
     me.alt_scale_high=me.alt_scale_grp.createChild("path")
       .moveTo(0, -6*altimeterScaleHeight/2)
@@ -381,7 +414,7 @@ var HUDnasal = {
       .lineTo(-(30/1024)*canvasWidth,-(30/1024)*canvasWidth)
       .moveTo(0,0)
       .lineTo(-(30/1024)*canvasWidth, (30/1024)*canvasWidth)
-      .setTranslation(indicatorOffset, 0);
+      .setTranslation(scalePlace+indicatorOffset, 0);
     # alt scale radar ground indicator
     me.rad_alt_pointer = me.alt_scale_grp.createChild("path")
       .setColor(r,g,b, a)
@@ -394,21 +427,12 @@ var HUDnasal = {
       .moveTo(-(25/1024)*canvasWidth,0)
       .lineTo(-(50/1024)*canvasWidth,(42/1024)*canvasWidth);
     
-    # QFE warning (inhg not properly set / is being adjusted)
-    me.qfe = me.root.createChild("text");
-    me.qfe.setText("QFE");
-    me.qfe.hide();
-    me.qfe.setColor(r,g,b, a);
-    me.qfe.setAlignment("center-center");
-    me.qfe.setTranslation(-(365/1024)*canvasWidth, QFE_position);
-    me.qfe.setFontSize((80/1024)*canvasWidth*fs, ar);
-
     # Altitude number (Not shown in landing/takeoff mode. Radar at less than 100 feet)
     me.alt = me.root.createChild("text");
     me.alt.setColor(r,g,b, a);
     me.alt.setAlignment("center-center");
     me.alt.setTranslation(-(375/1024)*canvasWidth, dig_alt_position);
-    me.alt.setFontSize((85/1024)*canvasWidth*fs, ar);
+    me.alt.setFontSize((80/1024)*canvasWidth*fs, ar);
 
     
     # Collision warning arrow
@@ -417,13 +441,13 @@ var HUDnasal = {
     me.arrow =
       me.arrow_group.createChild("path")
       .setColor(r,g,b, a)
-      .moveTo(-(15/1024)*canvasWidth,  (90/1024)*canvasWidth)
-      .lineTo(-(15/1024)*canvasWidth, -(90/1024)*canvasWidth)
-      .lineTo(-(30/1024)*canvasWidth, -(90/1024)*canvasWidth)
-      .lineTo(  0, -(120/1024)*canvasWidth)
-      .lineTo( (30/1024)*canvasWidth, -(90/1024)*canvasWidth)
-      .lineTo( (15/1024)*canvasWidth, -(90/1024)*canvasWidth)
-      .lineTo( (15/1024)*canvasWidth,  (90/1024)*canvasWidth)
+      .moveTo(-(10/1024)*canvasWidth*reticle_factor,  (45/1024)*canvasWidth*reticle_factor)
+      .lineTo(-(10/1024)*canvasWidth*reticle_factor, -(45/1024)*canvasWidth*reticle_factor)
+      .lineTo(-(15/1024)*canvasWidth*reticle_factor, -(45/1024)*canvasWidth*reticle_factor)
+      .lineTo(  0, -(60/1024)*canvasWidth*reticle_factor)
+      .lineTo( (15/1024)*canvasWidth*reticle_factor, -(45/1024)*canvasWidth*reticle_factor)
+      .lineTo( (10/1024)*canvasWidth*reticle_factor, -(45/1024)*canvasWidth*reticle_factor)
+      .lineTo( (10/1024)*canvasWidth*reticle_factor,  (45/1024)*canvasWidth*reticle_factor)
       
       .setStrokeLineWidth(w);
 
@@ -547,40 +571,40 @@ var HUDnasal = {
     me.negative_horizon_lines = 
     for(var i = -18; i <= -1; i += 1) { # stipled lines
       append(artifacts1, me.horizon_group4.createChild("path")
-                     .moveTo((200/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
+                     .moveTo(2*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
                      #.moveTo((300/1024)*canvasWidth, -i * distance)
                      #.horiz((50/1024)*canvasWidth)
-                     .moveTo((400/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
-                     .moveTo((500/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
-                     .moveTo((600/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
-                     .moveTo((700/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
-                     .moveTo((800/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
-                     .moveTo((900/1024)*canvasWidth, -i * distance)
-                     .horiz((50/1024)*canvasWidth)
+                     .moveTo(5*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
+                     .moveTo(6.5*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
+                     .moveTo(8*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
+                     .moveTo(9.5*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
+                     .moveTo(11*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
+                     .moveTo(12.5*pixelPerDegreeX, -i * distance)
+                     .horiz(0.75*pixelPerDegreeX)
 
-                     .moveTo(-(200/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(300/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(400/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(500/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(600/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(700/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(800/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     .moveTo(-(900/1024)*canvasWidth, -i * distance)
-                     .horiz(-(50/1024)*canvasWidth)
-                     
+                     .moveTo(-2*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-3.5*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-5*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-6.5*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-8*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-9.5*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-11*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+                     .moveTo(-12.5*pixelPerDegreeX, -i * distance)
+                     .horiz(-0.75*pixelPerDegreeX)
+
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a));
     }
@@ -588,20 +612,20 @@ var HUDnasal = {
     for(var i = 1; i <= 18; i += 1) # full drawn lines
       append(artifacts1, me.horizon_group2.createChild("path")
          .moveTo((950/1024)*canvasWidth, -i * distance)
-         .horiz(-(750/1024)*canvasWidth)
+         .horiz(-(950/1024)*canvasWidth+2*pixelPerDegreeX)
 
          .moveTo(-(950/1024)*canvasWidth, -i * distance)
-         .horiz((750/1024)*canvasWidth)
+         .horiz((950/1024)*canvasWidth-2*pixelPerDegreeX)
          
          .setStrokeLineWidth(w)
          .setColor(r,g,b, a));
 
     for(var i = -18; i <= 18; i += 1) { # small vertical lines in combat mode
       append(artifacts1, me.horizon_group3.createChild("path")
-         .moveTo(-(200/1024)*canvasWidth, -i * distance)
+         .moveTo(-2*pixelPerDegreeX, -i * distance)
          .vert((25/1024)*canvasWidth)
 
-         .moveTo((200/1024)*canvasWidth, -i * distance)
+         .moveTo(2*pixelPerDegreeX, -i * distance)
          .vert((25/1024)*canvasWidth)
          
          .setStrokeLineWidth(w)
@@ -614,29 +638,40 @@ var HUDnasal = {
          .setText(i*5)
          .setFontSize((75/1024)*canvasWidth*fs, ar)
          .setAlignment("right-bottom")
-         .setTranslation(-(200/1024)*canvasWidth, -i * distance - 5)
+         .setTranslation(-2.75*pixelPerDegreeX, -i * distance - 5)
          .setColor(r,g,b, a));
     for(var i = 1; i <= 18; i += 1)
       append(artifactsText1, me.horizon_group2.createChild("text")
          .setText("+" ~ i*5)
          .setFontSize((75/1024)*canvasWidth*fs, ar)
          .setAlignment("right-bottom")
-         .setTranslation(-(200/1024)*canvasWidth, -i * distance - 5)
+         .setTranslation(-2.75*pixelPerDegreeX, -i * distance - 5)
          .setColor(r,g,b, a));
                  
  
     #Horizon line
+    me.horizon_line_nav = me.horizon_group2.createChild("path")
+                     .moveTo(-(850/1024)*canvasWidth, 0)
+                     .horiz((850/1024)*canvasWidth-2.5*pixelPerDegreeX)
+                     .moveTo(3*pixelPerDegreeX, 0)
+                     .horiz(0.5*pixelPerDegreeX)
+                     .moveTo(5.5*pixelPerDegreeX, 0)
+                     .horiz((500/1024)*canvasWidth)
+                     .setStrokeLineWidth(w)
+                     .setColor(r,g,b, a);
+
+    #Horizon line
     me.horizon_line = me.horizon_group2.createChild("path")
                      .moveTo(-(850/1024)*canvasWidth, 0)
-                     .horiz((650/1024)*canvasWidth)
-                     .moveTo((200/1024)*canvasWidth, 0)
+                     .horiz((850/1024)*canvasWidth-2*pixelPerDegreeX)
+                     .moveTo(2*pixelPerDegreeX, 0)
                      .horiz((650/1024)*canvasWidth)
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
     me.horizon_line_gap = me.horizon_group2.createChild("path")
-                     .moveTo(-(200/1024)*canvasWidth, 0)
-                     .horiz((400/1024)*canvasWidth)
+                     .moveTo(-2.5*pixelPerDegreeX, 0)
+                     .horiz(5*pixelPerDegreeX)
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
@@ -681,21 +716,21 @@ var HUDnasal = {
 
     # altitude desired lines
     me.desired_lines3 = me.desired_lines_group.createChild("path")
-                     .moveTo(-(200/1024)*canvasWidth + w/2, 0)
+                     .moveTo(-2.5*pixelPerDegreeX + w/2, 0)
                      .vert(5*pixelPerDegreeY)
-                     .moveTo((200/1024)*canvasWidth - w/2, 0)
+                     .moveTo(2.5*pixelPerDegreeX - w/2, 0)
                      .vert(5*pixelPerDegreeY)
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);
 
     # altitude boxes
     me.desired_boxes = me.desired_lines_group.createChild("path")
-                     .moveTo(-(215/1024)*canvasWidth + w/2, 0)
+                     .moveTo(-2.5*pixelPerDegreeX-(15/1024)*canvasWidth + w/2, 0)
                      .vert(2.5*pixelPerDegreeY)
                      .horiz((30/1024)*canvasWidth)
                      .vert(-2.5*pixelPerDegreeY)
                      .horiz((-30/1024)*canvasWidth)
-                     .moveTo((215/1024)*canvasWidth - w/2, 0)
+                     .moveTo(2.5*pixelPerDegreeX+(15/1024)*canvasWidth - w/2, 0)
                      .vert(2.5*pixelPerDegreeY)
                      .horiz((-30/1024)*canvasWidth)
                      .vert(-2.5*pixelPerDegreeY)
@@ -715,9 +750,9 @@ var HUDnasal = {
                      .setColor(r,g,b, a);                     
 
     me.desired_lines2 = me.desired_lines_group.createChild("path")
-                     .moveTo(-(140/1024)*canvasWidth + w/2, 0)
+                     .moveTo(-1.5*pixelPerDegreeX + w/2, 0)
                      .vert(3*pixelPerDegreeY)
-                     .moveTo((140/1024)*canvasWidth - w/2, 0)
+                     .moveTo(1.5*pixelPerDegreeX - w/2, 0)
                      .vert(3*pixelPerDegreeY)
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);                     
@@ -726,22 +761,22 @@ var HUDnasal = {
     var dot_full = (4/1024)*canvasWidth;
 
     me.horizon_dots = me.horizon_group2.createChild("path")
-                     .moveTo(-(37/1024)*canvasWidth, 0)#-35
+                     .moveTo(-2.5*pixelPerDegreeX+2.5*pixelPerDegreeX/3.5, 0)#-35
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
-                     .moveTo(-(107/1024)*canvasWidth, 0)#-105
+                     .moveTo(-2.5*pixelPerDegreeX+2*2.5*pixelPerDegreeX/3.5, 0)#-105
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
-                     .moveTo(-(177/1024)*canvasWidth, 0)#-175
+                     .moveTo(-2.5*pixelPerDegreeX+3*2.5*pixelPerDegreeX/3.5, 0)#-175
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
-                     .moveTo((177/1024)*canvasWidth, 0)#175
+                     .moveTo(-2.5*pixelPerDegreeX+4*2.5*pixelPerDegreeX/3.5, 0)#175
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
-                     .moveTo((107/1024)*canvasWidth, 0)#105
+                     .moveTo(-2.5*pixelPerDegreeX+5*2.5*pixelPerDegreeX/3.5, 0)#105
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
-                     .moveTo((37/1024)*canvasWidth, 0)#35
+                     .moveTo(-2.5*pixelPerDegreeX+6*2.5*pixelPerDegreeX/3.5, 0)#35
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
                      .setStrokeLineWidth(w)
@@ -849,7 +884,9 @@ var HUDnasal = {
                            .setColor(r,g,b, a);
 
     #distance scale
-    me.dist_scale_group = me.root.createChild("group").setTranslation(-(100/1024)*canvasWidth, (distScalePos/1024)*canvasWidth);
+    me.dist_scale_group = me.alt_scale_clip_grp.createChild("group")
+                            .setTranslation(-(100/1024)*canvasWidth, distScalePos)
+                            .set("z-index",15);
     me.mySpeed = me.dist_scale_group.createChild("path")
                             .moveTo(   0,   0)
                             .lineTo( -(10/1024)*canvasWidth, -(10/1024)*canvasWidth)
@@ -886,6 +923,14 @@ var HUDnasal = {
                             .setAlignment("left-top")
                             .setTranslation((200/1024)*canvasWidth, (10/1024)*canvasWidth)
                             .setFontSize((60/1024)*canvasWidth*fs, ar);
+    # QFE warning (inhg not properly set / is being adjusted)
+    me.qfe = me.dist_scale_group.createChild("text");
+    me.qfe.setText("QFE");
+    me.qfe.setColor(r,g,b, a);
+    me.qfe.setAlignment("right-center");
+    me.qfe.setTranslation(-(20/1024)*canvasWidth, 0);
+    me.qfe.setFontSize((75/1024)*canvasWidth*fs, ar);
+
     me.distanceScale = me.dist_scale_group.createChild("path")
                             .moveTo(   0, 0)
                             .lineTo( (200/1024)*canvasWidth, 0)
@@ -911,7 +956,7 @@ var HUDnasal = {
              me.alt_scale_high, me.alt_scale_med, me.alt_scale_low, me.slip_indicator,
              me.alt_scale_line, me.aim_reticle_fin, me.reticle_cannon, me.desired_lines2,
              me.alt_pointer, me.rad_alt_pointer, me.target_air, me.target_sea, me.target_ground, me.desired_lines3, me.horizon_line_gap,
-             me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_dots, me.diamond,
+             me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_line_nav, me.horizon_dots, me.diamond,
              tower, ccip, me.aim_reticle, me.targetSpeed, me.mySpeed, me.distanceScale, me.targetDistance1,
              me.targetDistance2, me.landing_line, me.heading_bug_horz];
 #artifacts0 =[];
@@ -920,7 +965,7 @@ var HUDnasal = {
                       me.alt_low, me.alt_med, me.alt_high, me.alt_higher, me.alt,
                       me.hdgMH, me.hdgLH, me.hdgRH, me.distanceText, me.alt_tact];
 #artifactsText0 = [];
-  me.pos_x = canvasWidth*0.5;
+  me.pos_x = canvasWidth*0.4;
 
   },
   setColorBackground: func () { 
@@ -1067,6 +1112,7 @@ var HUDnasal = {
     # in case the user has adjusted the Z view position, we calculate the Y point in the HUD in line with pilots eyes.
     me.fromTop = HUDTop - me.input.viewZ.getValue();
     centerOffset = -1 * ((512/1024)*canvasWidth - (me.fromTop * pixelPerMeter));
+    sidewindPosition = centerOffset+(10*pixelPerDegreeY);
 
     mode = me.input.currentMode.getValue();
     me.station = me.input.station.getValue();
@@ -1332,26 +1378,26 @@ var HUDnasal = {
        # degOffset = desired_mag_heading - headingMiddle;
       #}
       
-      me.pos_x = me.middleOffset + me.degOffset*(headScaleTickSpacing/5);
+      me.pos_xxx = me.middleOffset + me.degOffset*(headScaleTickSpacing/5);
       #print("bug offset deg "~degOffset~"bug offset pix "~pos_x);
       me.blink = FALSE;
       #62px, 687px, 262px, 337px
-      if (me.pos_x < (337/1024)*canvasWidth-(512/1024)*canvasWidth) {
+      if (me.pos_xxx < (337/1024)*canvasWidth-(512/1024)*canvasWidth) {
         me.blink = TRUE;
-        me.pos_x = (337/1024)*canvasWidth-(512/1024)*canvasWidth;
-      } elsif (me.pos_x > (687/1024)*canvasWidth-(512/1024)*canvasWidth) {
+        me.pos_xxx = (337/1024)*canvasWidth-(512/1024)*canvasWidth;
+      } elsif (me.pos_xxx > (687/1024)*canvasWidth-(512/1024)*canvasWidth) {
         me.blink = TRUE;
-        me.pos_x = (687/1024)*canvasWidth-(512/1024)*canvasWidth;
+        me.pos_xxx = (687/1024)*canvasWidth-(512/1024)*canvasWidth;
       }
-      me.heading_bug_group.setTranslation(me.pos_x, -headScalePlace);
+      me.heading_bug_group.setTranslation(me.pos_xxx, -headScalePlace);
       if(me.topHeadingScaleShown() and (me.blink == FALSE or me.input.fiveHz.getValue() == TRUE)) {
         me.heading_bug.show();
       } else {
         me.heading_bug.hide();
       }
       if (mode == LANDING) {
-        me.pos_x = me.middleOffsetHorz + me.degOffset*(pixelPerDegreeX);
-        me.heading_bug_horz_group.setTranslation(me.pos_x, 0);
+        me.pos_xxx = me.middleOffsetHorz + me.degOffset*(pixelPerDegreeX);
+        me.heading_bug_horz_group.setTranslation(me.pos_xxx, 0);
         me.heading_bug_horz.show();
       } else {
         me.heading_bug_horz.hide();
@@ -1468,12 +1514,12 @@ var HUDnasal = {
     if(me.verbose > 1) print("Alt scale mode = "~alt_scale_mode);
     if(me.verbose > 1) print("Alt = "~alt);
     #place the scale
-    me.alt_pointer.setTranslation(indicatorOffset, 0);
+    me.alt_pointer.setTranslation(scalePlace+indicatorOffset, 0);
     if (alt_scale_mode == 0) {
       me.alt_scale_factor = me.metric == 1 ? 50 : 200;
       me.offset = altimeterScaleHeight/me.alt_scale_factor * alt;#vertical placement of scale. Half-scale-height/alt-in-half-scale * alt
       if(me.verbose > 1) print("Alt offset = "~me.offset);
-      me.alt_scale_grp.setTranslation(0, me.offset);
+      me.alt_scale_grp.setTranslation(scalePlace, me.offset);
       me.alt_scale_med.hide();
       me.alt_scale_high.hide();
       me.alt_scale_low.show();
@@ -1525,7 +1571,7 @@ var HUDnasal = {
       me.alt_low.show();
       me.offset = 2*altimeterScaleHeight/me.alt_scale_factor * alt;#vertical placement of scale. Scale-height/alt-in-scale * alt
       if(me.verbose > 1) print("Alt offset = "~me.offset);
-      me.alt_scale_grp.setTranslation(0, me.offset);
+      me.alt_scale_grp.setTranslation(scalePlace, me.offset);
       me.alt_low.setTranslation(numberOffset, 0);
       me.alt_med.setTranslation(numberOffset, -altimeterScaleHeight);
       me.alt_high.setTranslation(numberOffset, -altimeterScaleHeight*2);
@@ -1575,7 +1621,7 @@ var HUDnasal = {
       me.offset = 2*altimeterScaleHeight/me.alt_scale_factor * me.factor;#vertical placement of scale. Scale-height/alt-in-scale * alt
 
       if(me.verbose > 1) print("Alt offset = "~me.offset);
-      me.alt_scale_grp.setTranslation(0, me.offset);
+      me.alt_scale_grp.setTranslation(scalePlace, me.offset);
       me.alt_low.setTranslation(numberOffset , 0);
       me.alt_med.setTranslation(numberOffset , -altimeterScaleHeight);
       me.alt_high.setTranslation(numberOffset , -2*altimeterScaleHeight);
@@ -1703,10 +1749,10 @@ var HUDnasal = {
         }
       }# elsif (getprop("autopilot/locks/altitude") == "gs1-hold") {
       if(me.desired_alt_delta_ft != nil) {
-        me.pos_y = clamp(-me.desired_alt_delta_ft*me.pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
+        me.pos_yyy = clamp(-me.desired_alt_delta_ft*me.pixelPerFeet, -2.5*pixelPerDegreeY, 2.5*pixelPerDegreeY);
 
-        me.desired_lines3.setTranslation(0, me.pos_y);
-        me.desired_boxes.setTranslation(0, me.pos_y);
+        me.desired_lines3.setTranslation(0, me.pos_yyy);
+        me.desired_boxes.setTranslation(0, me.pos_yyy);
         if (me.showLines == TRUE) {
           me.desired_lines3.show();
         } else {
@@ -1825,12 +1871,14 @@ var HUDnasal = {
     me.h_rot.setRotation(me.rot);
     # now figure out how much we move horizon group laterally, to keep FPI in middle of it.
     me.pos_y_rel = me.pos_y - centerOffset;
-    me.fpi_polar = math.sqrt(me.pos_x*me.pos_x+me.pos_y_rel*me.pos_y_rel);
-    me.fpi_angle = math.acos(-me.pos_y_rel/me.fpi_polar);
+    me.fpi_polar = clamp(math.sqrt(me.pos_x*me.pos_x+me.pos_y_rel*me.pos_y_rel),0.0001,10000);
+    me.inv_angle = clamp(-me.pos_y_rel/me.fpi_polar,-1,1);
+    me.fpi_angle = math.acos(me.inv_angle);
     if (me.pos_x < 0) {
       me.fpi_angle *= -1;
     }
-    me.fpi_pos_rel_x = math.sin(me.fpi_angle-me.rot)*me.fpi_polar;
+    me.fpi_pos_rel_x    = math.sin(me.fpi_angle-me.rot)*me.fpi_polar;
+    me.horizon_vertical = clamp(-math.cos(me.fpi_angle-me.rot)*me.fpi_polar, -canvasWidth/2, canvasWidth/2-centerOffset-altimeterScaleHeight*1.4);
     #me.fpi_pos_rel_y = math.cos(me.fpi_angle-me.rot)*me.fpi_polar;
     #me.fpi_lateral_polar = me.fpi_pos_rel_y/math.cos(me.rot);
     me.max_lateral_pitchnumbers = 0;
@@ -1851,30 +1899,38 @@ var HUDnasal = {
       me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,270,360,me.default_lateral_pitchnumbers+centerOffset,me.default_lateral_pitchnumbers);
     }
     me.horizon_lateral = clamp(me.fpi_pos_rel_x,-me.max_lateral_pitchnumbers,me.max_lateral_pitchnumbers_p);#-math.sqrt(me.fpi_lateral_polar*me.fpi_lateral_polar-me.fpi_pos_rel_y*me.fpi_pos_rel_y);
+
     me.horizon_group.setTranslation(0, centerOffset);
     me.horizon_group2.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
     me.horizon_group3.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
     me.horizon_group4.setTranslation(me.horizon_lateral, pixelPerDegreeY * me.input.pitch.getValue());
+    me.alt_scale_clip_grp.setTranslation(me.horizon_lateral, me.horizon_vertical);
     if(mode == COMBAT) {
       me.horizon_group3.show();
       me.horizon_group4.show();
       me.horizon_dots.hide();
       me.horizon_line_gap.hide();
+      me.horizon_line_nav.hide();
+      me.horizon_line.show();
     } elsif (mode == LANDING) {
       me.horizon_group3.hide();
       me.horizon_group4.hide();
       me.horizon_dots.hide();
       me.horizon_line_gap.show();
+      me.horizon_line_nav.hide();
+      me.horizon_line.show();
     } else {
       me.horizon_group3.hide();
       me.horizon_group4.show();
       me.horizon_dots.show();
       me.horizon_line_gap.hide();
+      me.horizon_line_nav.show();
+      me.horizon_line.hide();
     }
   },
 
   displayTurnCoordinator: func () {
-    if (me.input.sideslipOn.getValue() == TRUE and me.final == FALSE) {
+    if (1==0 and me.input.sideslipOn.getValue() == TRUE and me.final == FALSE) {
       if(me.input.srvTurn.getValue() == 1) {
         #me.t_rot.setRotation(getprop("/orientation/roll-deg") * D2R * 0.5);
         me.slip_indicator.setTranslation(clamp(me.input.beta.getValue()*20, -(150/1024)*canvasWidth, (150/1024)*canvasWidth), 0);
@@ -1937,7 +1993,7 @@ var HUDnasal = {
       me.reticle_c_missile.hide();
       air2air = FALSE;
       air2ground = FALSE;
-      return me.showFlightPathVector(1, out_of_ammo, mode);
+      return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
     } elsif (mode == COMBAT and cannon == FALSE) {
       me.armament = getprop("payload/weight["~ (me.station-1) ~"]/selected");
       if(me.armament == "M70 ARAK") {
@@ -2047,7 +2103,7 @@ var HUDnasal = {
         me.reticle_missile.hide();
         me.reticle_c_missile.hide();
       }
-      return me.showFlightPathVector(1, out_of_ammo, mode);
+      return me.showFlightPathVector(out_of_ammo, out_of_ammo, mode);
     } elsif (mode != TAKEOFF and mode != LANDING) {# or me.input.wow_nlg.getValue() == 0
       # flight path vector (FPV)
       air2air = FALSE;
@@ -2452,6 +2508,7 @@ var HUDnasal = {
     } else {
       me.dist_scale_group.hide();
     }
+    me.dist_scale_group.setTranslation(-(100/1024)*canvasWidth, distScalePos);
   },
 
   displayTower: func () {

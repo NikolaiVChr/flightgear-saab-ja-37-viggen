@@ -185,7 +185,7 @@ units:                "ja37/hud/units-metric",
 	      } elsif(me.armament == "TEST") {
 	        me.currArmName = "TEST";	        
 	      } else {
-	        me.currArmName = "None";	        
+	        me.currArmName = getprop("ja37/hud/units-metric")==1?"TOM":"NONE";
 	      }
 	},
 

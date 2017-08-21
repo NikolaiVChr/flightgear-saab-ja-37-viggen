@@ -3012,3 +3012,19 @@ TI: Adding menu item function for moving cursor between TI and MI.
 TI: Added sub settings for some non functional menu items.
 HUD: Redid limits for how much pitch lines can move, so the pitch numbers don't leave HUD.
 Animation: Ejecting M70 will now animate it falling. Sometimes it wont animate on subsequent ejections though.
+HUD: alt. scale now follow pitch lines and FPI.
+HUD: heading scale now follow pitch lines and FPI.
+HUD: Digital speed now follow pitch lines and FPI.
+HUD: Removed sideslip indicator.
+HUD: In tactical mode normal FPI is no longer shown.
+HUD: Horizon line in nav mode now has a gap.
+HUD: Digital speed now rotates with pitch lines and is 5 degs under FPI, -1.5 at landing high alpha.
+HUD: Heading scale now rotates with pitch lines 2.5 degs over FPI.
+HUD: Distance scale now rotates with pitch lines 2.75 degs below FPI.
+HUD: Adjusted position of pitch line numbers.
+HUD: Adjusted horizon and pitch lines gap lengths.
+HUD: Reduced the fontsize of many texts.
+HUD: Reduced size of FPIs and collision arrow.
+HUD: Distance scale now transform with pitch lines.
+HUD: Weapon/TILS text is moved next to distance scale.
+HUD: Reenabled mip-mapping.

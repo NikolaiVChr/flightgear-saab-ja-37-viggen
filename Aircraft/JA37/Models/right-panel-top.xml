@@ -83,7 +83,7 @@
         </offsets>
     </model>
 
-    <model>
+    <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/hud-sideslip.xml</path>
         <name>switch-sideslip</name>
         <offsets>
@@ -91,7 +91,7 @@
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
-    </model>
+    </model>-->
 
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/tils.xml</path>

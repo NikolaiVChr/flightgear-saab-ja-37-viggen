@@ -105,10 +105,8 @@ HUD: Make crossing out of hud when armament not ready to fire and trigger is pre
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
 HUD: Altitude scale should only be shown when engine is running due to it need AC power. (pitot-static needs AC?)
 HUD: Make option: realistic or easy-readable alt scale (as before).
-HUD: alt. scale follow pitch lines at more than 1 degree roll from level flight. (canvas clip is not smart enough yet)
-HUD: heading scale follow pitch lines and FPI. (canvas clip is not smart enough yet)
-HUD: Digital speed should follow pitch lines and FPI.
-HUD: Weapon selection should be shown with 2 chars next to distance scale, instead of to the left.
+HUD: Weapon selection should be shown with 2 chars next to distance scale, instead of 4 chars.
+HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 TI: Show lat/lon grid in menu UDAT.
 TI: Slew cursor.
 TI: Edit route.
@@ -120,6 +118,7 @@ TI: Make radar limit on SVY.
 TI: Add missiles to SVY.
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: Make route info with overall ETA.
+TI: Clear pylon selection.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -129,7 +128,6 @@ MI: DLZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
-
 
 
 Bugs:
