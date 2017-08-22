@@ -3031,3 +3031,4 @@ HUD: Reenabled mip-mapping.
 Sim: Pitched view slightly up.
 HUD: When aircraft is still, moved the FPI to aircraft axis.
 HUD: Weapon name next to distance scale is now very short.
+HUD: Redid limits for how much digital speed, alt. scale and heading scale can move vertically, so they don't leave HUD too much.
