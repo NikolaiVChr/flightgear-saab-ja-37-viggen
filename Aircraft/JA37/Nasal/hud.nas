@@ -1969,7 +1969,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.qfe.setText("DME");
       me.qfe.show();
     } elsif (mode == COMBAT) {
-      me.qfe.setText(displays.common.currArmName);
+      me.qfe.setText(displays.common.currArmNameMedium);
       me.qfe.show();
     } elsif (me.input.qfeActive.getValue()) {
       # QFE is shown
@@ -2289,16 +2289,20 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.targetDistance2.hide();
         me.distanceText.hide();
         me.distanceScale.show();
-        me.dist_scale_group.show();
       } else {
-        me.dist_scale_group.hide();
+        me.targetSpeed.hide();
+        me.mySpeed.hide();
+        me.targetDistance1.hide();
+        me.targetDistance2.hide();
+        me.distanceText.hide();
+        me.distanceScale.hide();
       }
     } elsif (mode == COMBAT) {
       if (radar_logic.selection != nil) {
         me.line = (200/1024)*canvasWidth;
-        me.armActive = displays.common.armActive();
-        if (me.armActive != nil) {
-          me.dlz = me.armActive.getDLZ();
+        me.aim = displays.common.armActive();
+        if (me.aim != nil) {
+          me.dlz = me.aim.getDLZ();
         } else {
           me.dlz = nil;
         }
@@ -2318,68 +2322,18 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           # cannon
           me.minDist =  100;
           me.maxDist = 2500;# as per sources
-        } elsif (me.armament == "RB 24 Sidewinder") {
+        } elsif (me.aim != nil) {
           # sidewinders
-          me.minDist =   400;
-          me.maxDist = 12801.6;
-        } elsif (me.armament == "RB 24J Sidewinder") {
-          # sidewinders
-          me.minDist =   300;# authentic: (1000ft)
-          me.maxDist = 14500;
-        } elsif (me.armament == "RB 74 Sidewinder") {
-          # sidewinders
-          me.minDist =   325;
-          me.maxDist = 17964.4;
-        } elsif (me.armament == "RB 71 Skyflash") {
-          # skyflash
-          me.minDist =   350;
-          me.maxDist = 40744;
-        } elsif (me.armament == "RB 99 Amraam") {
-          # amraam
-          me.minDist =   400;
-          me.maxDist = 71857.6;
-        } elsif (me.armament == "RB 15F Attackrobot") {
-          # robot 15F
-          me.minDist =   400;
-          me.maxDist = 150000;
-        } elsif (me.armament == "RB 04E Attackrobot") {
-          # robot 15F
-          me.minDist =   0.1 * NM2M;
-          me.maxDist = 17.28 * NM2M;
-        } elsif (me.armament == "RB 05A Attackrobot") {
-          # robot 15F
-          me.minDist =   0.2 * NM2M;
-          me.maxDist = 4.86 * NM2M;
-        } elsif (me.armament == "RB 75 Maverick") {
-          # robot 15F
-          me.minDist =   0.2 * NM2M;
-          me.maxDist = 12 * NM2M;
+          me.minDist =   me.aim.min_fire_range_nm*NM2M;
+          me.maxDist =   me.aim.max_fire_range_nm*NM2M;
         } elsif (me.armament == "M55 AKAN") {
           # robot 15F
-          me.minDist =   0;
+          me.minDist =  100;
           me.maxDist = 2800;
-        } elsif (me.armament == "M71 Bomblavett") {
-          # robot 15F
-          me.unit = "seconds";
-          me.minDist =   4;
-          me.maxDist =  16;
-        } elsif (me.armament == "M71 Bomblavett (Retarded)") {
-          # robot 15F
-          me.unit = "seconds";
-          me.minDist =   4;
-          me.maxDist =  16;
-        } elsif (me.armament == "M90 Bombkapsel") {
-          # robot 15F
-          me.minDist =   0.1 * NM2M;
-          me.maxDist = 8 * NM2M;
         } elsif (me.armament == "M70 ARAK") {
           # Rocket pod
           me.minDist =   200;
           me.maxDist =  2000;
-        } elsif (me.armament == "TEST") {
-          # test
-          me.minDist =     0;
-          me.maxDist =180000;
         }
         if (me.dlz != nil) {
           if (size(me.dlz) > 0) {
@@ -2414,7 +2368,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           } else {
             me.distanceText.hide();
           }
-          me.dist_scale_group.show();
           return;
         } elsif(me.currDist != nil and me.minDist != nil) {
           if (me.unit == "meters") {
@@ -2474,7 +2427,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       } else {
         me.distanceText.hide();
       }
-      me.dist_scale_group.show();
     } elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
       me.distance = me.input.dmeDist.getValue();
       me.line = (200/1024)*canvasWidth;
@@ -2493,7 +2445,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.targetDistance2.hide();
       me.distanceText.show();
       me.distanceScale.show();
-      me.dist_scale_group.show();
     } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil) {
       me.distance = me.input.rmDist.getValue();
       me.line = (200/1024)*canvasWidth;
@@ -2512,9 +2463,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.targetDistance2.hide();
       me.distanceText.show();
       me.distanceScale.show();
-      me.dist_scale_group.show();
     } else {
-      me.dist_scale_group.hide();
+      me.targetSpeed.hide();
+      me.mySpeed.hide();
+      me.targetDistance1.hide();
+      me.targetDistance2.hide();
+      me.distanceText.hide();
+      me.distanceScale.hide();
     }
     me.dist_scale_group.setTranslation(-(100/1024)*canvasWidth, distScalePos);
   },

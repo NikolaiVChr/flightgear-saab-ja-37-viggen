@@ -73,6 +73,7 @@ units:                "ja37/hud/units-metric",
       	co.mode = TAKEOFF;
       	co.modeTimeTakeoff = -1;
       	co.currArmName = "None";
+      	co.currArmNameMedium = "";
       	co.currArmNameSh = "--";
       	co.distance_m = -1;
       	co.distance_name = "";
@@ -87,6 +88,7 @@ units:                "ja37/hud/units-metric",
 		me.displayMode();
 		me.armName();
 		me.armNameShort();
+		me.armNameMedium();
 		me.distance();
 		me.errors();
 		me.rate = getprop("sim/frame-rate-worst");
@@ -186,6 +188,50 @@ units:                "ja37/hud/units-metric",
 	        me.currArmName = "TEST";	        
 	      } else {
 	        me.currArmName = getprop("ja37/hud/units-metric")==1?"TOM":"NONE";
+	      }
+	},
+
+	armNameMedium: func {
+		  me.armSelect = me.input.station.getValue();
+	      if (me.armSelect > 0) {
+	        me.armament = getprop("payload/weight["~ (me.armSelect-1) ~"]/selected");
+	      } else {
+	        me.armament = "";
+	      }
+	      if(me.armSelect == 0) {
+	        me.currArmNameMedium = "AK";	        
+	      } elsif(me.armament == "RB 24 Sidewinder") {
+	        me.currArmNameMedium = "24";	        
+	      } elsif(me.armament == "RB 24J Sidewinder") {
+	        me.currArmNameMedium = "24J";	        
+	      } elsif(me.armament == "RB 74 Sidewinder") {
+	        me.currArmNameMedium = "74";	        
+	      } elsif(me.armament == "M70 ARAK") {
+	        me.currArmNameMedium = "70";	        
+	      } elsif(me.armament == "RB 71 Skyflash") {
+	        me.currArmNameMedium = "71";	        
+	      } elsif(me.armament == "RB 99 Amraam") {
+	        me.currArmNameMedium = "99";	        
+	      } elsif(me.armament == "RB 15F Attackrobot") {
+	        me.currArmNameMedium = "15";	        
+	      } elsif(me.armament == "RB 04E Attackrobot") {
+	        me.currArmNameMedium = "04";	        
+	      } elsif(me.armament == "RB 05A Attackrobot") {
+	        me.currArmNameMedium = "05";	        
+	      } elsif(me.armament == "RB 75 Maverick") {
+	        me.currArmNameMedium = "75";	        
+	      } elsif(me.armament == "M71 Bomblavett") {
+	        me.currArmNameMedium = "71";	        
+	      } elsif(me.armament == "M71 Bomblavett (Retarded)") {
+	        me.currArmNameMedium = "71R";	        
+	      } elsif(me.armament == "M90 Bombkapsel") {
+	        me.currArmNameMedium = "90";	        
+	      } elsif(me.armament == "M55 AKAN") {
+	        me.currArmNameMedium = "55";	        
+	      } elsif(me.armament == "TEST") {
+	        me.currArmNameMedium = "TEST";	        
+	      } else {
+	        me.currArmNameMedium = getprop("ja37/hud/units-metric")==1?"TOM":"NONE";
 	      }
 	},
 
