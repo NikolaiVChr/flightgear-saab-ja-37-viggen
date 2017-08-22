@@ -69,7 +69,7 @@ var headScaleTickSpacing = (65/1024)*canvasWidth;# horizontal spacing between ti
 var reticle_factor = 1.15;# size of flight path indicator, aiming reticle, and out of ammo reticle
 var sidewind_factor = 1.0;# size of sidewind indicator
 var airspeedPlace = 5*pixelPerDegreeY;
-var airspeedPlaceFinal = -1.5*pixelPerDegreeY;
+var airspeedPlaceFinal = -5*pixelPerDegreeY;
 var sideslipPlaceX = (325/1024)*canvasWidth;
 var sideslipPlaceY = (425/1024)*canvasWidth;
 var sideslipPlaceXFinal = 0;
@@ -1878,7 +1878,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.fpi_angle *= -1;
     }
     me.fpi_pos_rel_x    = math.sin(me.fpi_angle-me.rot)*me.fpi_polar;
-    me.horizon_vertical = clamp(-math.cos(me.fpi_angle-me.rot)*me.fpi_polar, -canvasWidth/2, canvasWidth/2-centerOffset-altimeterScaleHeight*1.4);
+    me.horizon_vertical = clamp(-math.cos(me.fpi_angle-me.rot)*me.fpi_polar, -centerOffset-canvasWidth/4, canvasWidth/2-centerOffset-altimeterScaleHeight*1.4);
     #me.fpi_pos_rel_y = math.cos(me.fpi_angle-me.rot)*me.fpi_polar;
     #me.fpi_lateral_polar = me.fpi_pos_rel_y/math.cos(me.rot);
     me.max_lateral_pitchnumbers = 0;
@@ -2162,10 +2162,17 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.vel_gx = me.input.speed_n.getValue();
     me.vel_gy = me.input.speed_e.getValue();
     me.vel_gz = me.input.speed_d.getValue();
- 
+
     me.yaw = me.input.hdgReal.getValue() * D2R;
     me.roll = me.input.roll.getValue() * D2R;
     me.pitch = me.input.pitch.getValue() * D2R;
+
+    if (math.sqrt(me.vel_gx *me.vel_gx+me.vel_gy*me.vel_gy+me.vel_gz*me.vel_gz)<15) {
+      # we are pretty much still, point the vector along axis.
+      me.vel_gx = math.cos(me.yaw)*1;
+      me.vel_gy = math.sin(me.yaw)*1;
+      me.vel_gz = 0;
+    }
  
     me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
     me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);

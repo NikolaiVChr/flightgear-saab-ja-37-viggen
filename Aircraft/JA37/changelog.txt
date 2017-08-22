@@ -3028,3 +3028,5 @@ HUD: Reduced size of FPIs and collision arrow.
 HUD: Distance scale now transform with pitch lines.
 HUD: Weapon/TILS text is moved next to distance scale.
 HUD: Reenabled mip-mapping.
+Sim: Pitched view slightly up.
+HUD: When aircraft is still, moved the FPI to aircraft axis.
