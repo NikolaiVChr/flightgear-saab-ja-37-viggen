@@ -58,7 +58,7 @@ var centerOffset = -1 * (canvasWidth/2 - ((HUDTop - getprop("sim/view[0]/config/
 var pixelPerDegreeY = pixelPerMeter*(((getprop("sim/view[0]/config/z-offset-m") - HUDHoriz) * math.tan(7.5*D2R))/7.5); 
 var pixelPerDegreeX = pixelPerDegreeY; #horizontal axis
 #printf("HUD total field of view %.1f degs (the real is 17 degs)", 512/pixelPerDegreeY);#17.3 degs in last test
-printf("HUD optical center %.1f degs below aircraft axis. (the real is 7.3 degs, so adjust %0.2f meter up)", -centerOffset/pixelPerDegreeY, (7.3+centerOffset/pixelPerDegreeY)*pixelPerDegreeY/pixelPerMeter);
+#printf("HUD optical center %.1f degs below aircraft axis. (the real is 7.3 degs, so adjust %0.2f meter up)", -centerOffset/pixelPerDegreeY, (7.3+centerOffset/pixelPerDegreeY)*pixelPerDegreeY/pixelPerMeter);
 #var slant = 35; #degrees the HUD is slanted away from the pilot.
 var distScalePos = 2.75*pixelPerDegreeY;
 var sidewindPosition = centerOffset+(10*pixelPerDegreeY); #should be 10 degrees under aicraft axis.
@@ -757,8 +757,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                      .setStrokeLineWidth(w)
                      .setColor(r,g,b, a);                     
 
-    var dot_half = (2/1024)*canvasWidth;
-    var dot_full = (4/1024)*canvasWidth;
+    var dot_half = w;
+    var dot_full = w*2;
 
     me.horizon_dots = me.horizon_group2.createChild("path")
                      .moveTo(-2.5*pixelPerDegreeX+2.5*pixelPerDegreeX/3.5, 0)#-35
@@ -780,6 +780,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                      .arcSmallCW(dot_half, dot_half, 0, -dot_full, 0)
                      .arcSmallCW(dot_half, dot_half, 0, dot_full, 0)
                      .setStrokeLineWidth(w)
+                     .setColorFill(r,g,b, a)
                      .setColor(r,g,b, a);
 
       ####  targets
