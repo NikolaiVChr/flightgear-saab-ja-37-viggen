@@ -1888,26 +1888,27 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.default_lateral_pitchnumbers = canvasWidth*0.25;
     me.max_vertical_max = 0;
     me.max_vertical_min = 0;
+    me.vertical_buffer = mode==LANDING?altimeterScaleHeight*1.4:6*pixelPerDegreeY;
     if (me.rot_deg >= 0 and me.rot_deg < 90) {
       me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,0,90,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers+centerOffset);
       me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,0,90,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers-centerOffset);
       me.max_vertical_min = extrapolate(me.rot_deg,0,90, -centerOffset-canvasWidth/4, -canvasWidth/4);
-      me.max_vertical_max = extrapolate(me.rot_deg,0,90, canvasWidth/2-centerOffset-altimeterScaleHeight*1.4, canvasWidth/2-altimeterScaleHeight*1.4);
+      me.max_vertical_max = extrapolate(me.rot_deg,0,90, canvasWidth/2-centerOffset-me.vertical_buffer, canvasWidth/2-me.vertical_buffer);
     } elsif (me.rot_deg >= 90 and me.rot_deg < 180) {
       me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,90,180,me.default_lateral_pitchnumbers+centerOffset,me.default_lateral_pitchnumbers);
       me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,90,180,me.default_lateral_pitchnumbers-centerOffset,me.default_lateral_pitchnumbers);
       me.max_vertical_min = extrapolate(me.rot_deg,90,180, -canvasWidth/4, centerOffset-canvasWidth/4);
-      me.max_vertical_max = extrapolate(me.rot_deg,90,180, canvasWidth/2-altimeterScaleHeight*1.4, canvasWidth/2+centerOffset-altimeterScaleHeight*1.4);
+      me.max_vertical_max = extrapolate(me.rot_deg,90,180, canvasWidth/2-me.vertical_buffer, canvasWidth/2+centerOffset-me.vertical_buffer);
     } elsif (me.rot_deg >= 180 and me.rot_deg < 270) {
       me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,180,270,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers-centerOffset);
       me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,180,270,me.default_lateral_pitchnumbers,me.default_lateral_pitchnumbers+centerOffset);
       me.max_vertical_min = extrapolate(me.rot_deg,180,270, centerOffset-canvasWidth/4, -canvasWidth/4);
-      me.max_vertical_max = extrapolate(me.rot_deg,180,270, canvasWidth/2+centerOffset-altimeterScaleHeight*1.4, canvasWidth/2-altimeterScaleHeight*1.4);
+      me.max_vertical_max = extrapolate(me.rot_deg,180,270, canvasWidth/2+centerOffset-me.vertical_buffer, canvasWidth/2-me.vertical_buffer);
     } else {
       me.max_lateral_pitchnumbers   = extrapolate(me.rot_deg,270,360,me.default_lateral_pitchnumbers-centerOffset,me.default_lateral_pitchnumbers);
       me.max_lateral_pitchnumbers_p = extrapolate(me.rot_deg,270,360,me.default_lateral_pitchnumbers+centerOffset,me.default_lateral_pitchnumbers);
       me.max_vertical_min = extrapolate(me.rot_deg,270,360, -canvasWidth/4,-centerOffset-canvasWidth/4);
-      me.max_vertical_max = extrapolate(me.rot_deg,270,360, canvasWidth/2-altimeterScaleHeight*1.4,canvasWidth/2-centerOffset-altimeterScaleHeight*1.4);
+      me.max_vertical_max = extrapolate(me.rot_deg,270,360, canvasWidth/2-me.vertical_buffer,canvasWidth/2-centerOffset-me.vertical_buffer);
     }
     me.horizon_lateral  = clamp(me.fpi_pos_rel_x,-me.max_lateral_pitchnumbers,me.max_lateral_pitchnumbers_p);#-math.sqrt(me.fpi_lateral_polar*me.fpi_lateral_polar-me.fpi_pos_rel_y*me.fpi_pos_rel_y);
     me.horizon_vertical = clamp(-math.cos(me.fpi_angle-me.rot)*me.fpi_polar, me.max_vertical_min, me.max_vertical_max);

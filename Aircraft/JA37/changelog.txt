@@ -3040,3 +3040,4 @@ Arms: Fixed bug when locking onto chaff it would stop guiding after chaff.
 Arms: When not guiding it will now also not snap-up/cruise/terrain-follow or anything like that.
 Arms: When turning towards target before PN takes over, it will now not aim so precise.
 Arms: Lowered cruise missiles max G by large amount, to prevent bleeding alot of speed when navigating terrain.
+HUD: Redid limits for how much digital speed vertically, so it also don't leave HUD too much.
