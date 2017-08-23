@@ -3041,3 +3041,4 @@ Arms: When not guiding it will now also not snap-up/cruise/terrain-follow or any
 Arms: When turning towards target before PN takes over, it will now not aim so precise.
 Arms: Lowered cruise missiles max G by large amount, to prevent bleeding alot of speed when navigating terrain.
 HUD: Redid limits for how much digital speed vertically, so it also don't leave HUD too much.
+Model: Replaced left and right plaque textures for the JA variant.

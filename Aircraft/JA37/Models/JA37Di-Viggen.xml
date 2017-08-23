@@ -729,6 +729,22 @@
 
 <!-- Fuselage animations -->
 
+    <animation>
+        <type>material</type>
+        <object-name>plaqueRight</object-name>
+        <property-base>ja37/texture</property-base>
+        <texture-prop>plaque-right</texture-prop>
+        <texture>plaque-right-ja.png</texture>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>plaqueLeft</object-name>
+        <property-base>ja37/texture</property-base>
+        <texture-prop>plaque-left</texture-prop>
+        <texture>plaque-left-ja.png</texture>
+    </animation>
+
   <animation>
      <type>translate</type>
      <object-name>outletCover</object-name>
