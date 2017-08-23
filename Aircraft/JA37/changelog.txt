@@ -3032,3 +3032,11 @@ Sim: Pitched view slightly up.
 HUD: When aircraft is still, moved the FPI to aircraft axis.
 HUD: Weapon name next to distance scale is now very short.
 HUD: Redid limits for how much digital speed, alt. scale and heading scale can move vertically, so they don't leave HUD too much.
+Arms: Added new missile property for selfdestruct when losing target lock.
+Arms: High speed missiles now dive down on target earlier so they have more time to pitch down.
+Arms: At negative closing rates, missile will now fly straight and not attempt to steer.
+Arms: Added new guidance laws: PN horzontal, but fixed degree offset in vertical.
+Arms: Fixed bug when locking onto chaff it would stop guiding after chaff.
+Arms: When not guiding it will now also not snap-up/cruise/terrain-follow or anything like that.
+Arms: When turning towards target before PN takes over, it will now not aim so precise.
+Arms: Lowered cruise missiles max G by large amount, to prevent bleeding alot of speed when navigating terrain.
