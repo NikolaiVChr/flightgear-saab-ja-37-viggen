@@ -2582,7 +2582,10 @@ var TI = {
 			me.legs   = me.points-1;
 			me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.interoperability==displays.METRIC?" AV ":" OF ")~me.legs;
 
-			me.wpAlt  = me.node.getNode("altitude-ft").getValue();
+			me.wpAlt  = me.node.getNode("altitude-ft");
+			if (me.wpAlt != nil) {
+				me.wpAlt = me.wpAlt.getValue();
+			}
 			if (me.wpAlt == nil) {
 				me.wpAlt = "";
 			} elsif (me.wpAlt < 5000) {
