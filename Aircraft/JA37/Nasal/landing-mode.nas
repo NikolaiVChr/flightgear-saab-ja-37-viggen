@@ -482,6 +482,11 @@ var landing_loop = func {
     		runway.apply_course_distance(geo.normdeg(rectAngle), 4100);
     		var distCenter = geo.aircraft_position().distance_to(runway);
     		approach_circle = runway;
+            if (getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE) {
+                # seems route manager was activated through FG menu.
+                mode_B_active == TRUE;
+                mode = 0;
+            }
             if (mode_OPT_active==TRUE or ((input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) and mode_B_active == FALSE and mode_L_active == FALSE)) {
                 mode = 4;
                 mode_B_active = FALSE;

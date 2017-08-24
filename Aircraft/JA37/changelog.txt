@@ -3056,3 +3056,4 @@ Sim: Extending gears will no longer automatically switch to landing mode.
 TI: Fixed that non existant property in RM could crash display.
 TI: Fixed that route-manager could get into non-valid state, and crash TI display. (this bug might still crash other systems!)
 Sim: Fixed that when selecting B/S or L (nav mode), it would still switch to optical landing mode on the ground.
+Sim: If route is activated through route manager, default its set to B/S.
