@@ -3054,3 +3054,4 @@ Sim: Pressing key 'Y' in JA variant, will act as if pressing LS/LB in TI.
 TI: The steer order now shows only in tyrkoiuse color if L or S/B is choosen.
 Sim: Extending gears will no longer automatically switch to landing mode.
 TI: Fixed that non existant property in RM could crash display.
+TI: Fixed that route-manager could get into non-valid state, and crash TI display. (this bug might still crash other systems!)

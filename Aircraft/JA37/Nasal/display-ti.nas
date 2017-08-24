@@ -2571,6 +2571,12 @@ var TI = {
 	showSteerPointInfo: func {
 		# little infobox with details about next steerpoint
 		me.wp     = getprop("autopilot/route-manager/current-wp");
+		me.points = getprop("autopilot/route-manager/route/num");
+		if (me.wp > me.points-1) {
+			# bug in route manager occurred, fixing it. TODO: fix route-manager.
+			setprop("autopilot/route-manager/current-wp", me.points-1);
+			me.wp = me.points-1;
+		}
 		if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
 			# steerpoints ON and route active, plus not being in combat and having something selected by radar
 			# that if statement needs refining!
@@ -2578,7 +2584,7 @@ var TI = {
 			me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
 
 			me.wpNum  = me.wp+1;
-			me.points = getprop("autopilot/route-manager/route/num");
+			
 			me.legs   = me.points-1;
 			me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.interoperability==displays.METRIC?" AV ":" OF ")~me.legs;
 
