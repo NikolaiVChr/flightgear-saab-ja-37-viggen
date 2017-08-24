@@ -163,13 +163,13 @@ var rGreen = 0.0; # own side
 var gGreen = 1.0;
 var bGreen = 0.0;
 
-var rTyrk = 0.25; # navigation aid
-var gTyrk = 0.88;
-var bTyrk = 0.81;
+var rDTyrk = 0.20; # route polygon
+var gDTyrk = 0.75;
+var bDTyrk = 0.60;
 
-var rDTyrk = 0.15; # route polygon
-var gDTyrk = 0.60;
-var bDTyrk = 0.55;
+var rTyrk = 0.35; # navigation aid
+var gTyrk = 1.00;
+var bTyrk = 0.90;
 
 var rGrey = 0.5;   # inactive
 var gGrey = 0.5;
@@ -1439,7 +1439,7 @@ var TI = {
 		ti.ownPosition = 0.25;
 		ti.mapPlaces = CLEANMAP;
 		ti.showSteers = TRUE;
-		ti.showSteerPoly = FALSE;
+		ti.showSteerPoly = TRUE;
 		ti.ModeAttack = FALSE;
 		ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
@@ -1870,7 +1870,7 @@ var TI = {
 					me.menuButtonBox[14].show();
 				}
 				if (me.showSteerPoly == TRUE) {
-					me.menuButtonBox[5].show();
+					#me.menuButtonBox[5].show();
 				}
 			} else {
 				if (me.trapLock == TRUE) {
@@ -2628,6 +2628,11 @@ var TI = {
 		# steerpoints on map
 		me.points = getprop("autopilot/route-manager/route/num");
 		me.poly = [];
+		me.nextActive = FALSE;
+		me.nextDist = getprop("autopilot/route-manager/wp/dist");
+		if (me.nextDist == nil or me.nextDist == 0) {
+			me.nextDist = 1000000;
+		}
 		for (var wp = 0; wp < maxSteers; wp += 1) {
 			if (me.points-1 >= wp and getprop("autopilot/route-manager/active") == TRUE) {
 				me.node = globals.props.getNode("autopilot/route-manager/route/wp["~wp~"]");
@@ -2645,17 +2650,20 @@ var TI = {
 					me.steerpoint[wp].hide();
 					if (wp != me.points-1) {
 						# airport is not last steerpoint, we make a leg to/from that also
-						append(me.poly, [me.texCoord[0], me.texCoord[1]]);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE]);
 					}
+					me.nextActive = me.nextDist*NM2M<20000;
     				continue;
 				} elsif (getprop("autopilot/route-manager/current-wp") == wp) {
 					me.steerpoint[wp].setColor(rTyrk,gTyrk,bTyrk,a);
 					me.steerpoint[wp].set("z-index", 10);
-					append(me.poly, [me.texCoord[0], me.texCoord[1]]);
+					append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE]);
+					me.nextActive = me.nextDist*NM2M<20000;
 				} else {
 					me.steerpoint[wp].set("z-index", 5);
 					me.steerpoint[wp].setColor(rDTyrk,gDTyrk,bDTyrk,a);
-					append(me.poly, [me.texCoord[0], me.texCoord[1]]);
+					append(me.poly, [me.texCoord[0], me.texCoord[1], me.nextActive]);
+					me.nextActive = FALSE;
 				}
 				me.steerpoint[wp].setTranslation(me.texCoord[0], me.texCoord[1]);
   				me.steerpoint[wp].show();
@@ -2677,11 +2685,15 @@ var TI = {
 
   	showPoly: func {
   		# route polygon
+  		#
+  		# current leg is shown and next legs if less than 20Km away.
+  		# If main menu MISSION-DATA is enabled, then show all legs.
+  		# 
   		if (me.showSteers == TRUE and me.showSteerPoly == TRUE and size(me.poly) > 1) {
   			me.steerPoly.removeAllChildren();
   			me.prevLeg = nil;
   			foreach(leg; me.poly) {
-  				if (me.prevLeg != nil) {
+  				if (me.prevLeg != nil and (leg[2] == TRUE or me.menuMain == MAIN_MISSION_DATA)) {
   					me.steerPoly.createChild("path")
   						.moveTo(me.prevLeg[0], me.prevLeg[1])
   						.lineTo(leg[0], leg[1])
@@ -3502,7 +3514,7 @@ var TI = {
 				me.quickOpen = 10000;
 			}	
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-				me.showSteerPoly = !me.showSteerPoly;
+				#me.showSteerPoly = !me.showSteerPoly;
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == FALSE and me.menuGPS == FALSE) {
 				# side view
