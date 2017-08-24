@@ -232,8 +232,8 @@ var dictSE = {
 	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-	 		'1': [TRUE, "SL\xC3\x84CK"], '2': [TRUE, "DL"], '4': [TRUE, "B"], '5': [TRUE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
-	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "\xC3\x85POL"], '17': [FALSE, "L\xC3\x85"], '18': [FALSE, "LF"], '19': [FALSE, "LB"],'20': [FALSE, "L"]},
+	 		'1': [TRUE, "SL\xC3\x84CK"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "B"], '5': [TRUE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
+	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "\xC3\x85POL"], '17': [FALSE, "L\xC3\x85"], '18': [TRUE, "LF"], '19': [TRUE, "LB"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 	 		'2': [TRUE, "INL\xC3\x84"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [TRUE, "S\xC3\x84TT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
 	 		'17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
@@ -259,8 +259,8 @@ var dictEN = {
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '4': [TRUE, "ROUT"], '5': [TRUE, "POLY"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "APOL"], '17': [FALSE, "STPT"], '18': [FALSE, "LT"], '19': [FALSE, "LS"],'20': [FALSE, "L"]},
+	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "S"], '5': [TRUE, "POLY"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "APOL"], '17': [FALSE, "STPT"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
@@ -1851,26 +1851,23 @@ var TI = {
 				if (me.dataLink == TRUE) {
 					me.menuButtonBox[2].show();
 				}
-				if (me.showSteers == TRUE) {
+				if (land.mode_B_active == TRUE) {
 					me.menuButtonBox[4].show();
+				}
+				if (land.mode_LF_active == TRUE) {
+					me.menuButtonBox[18].show();
+				}
+				if (land.mode_LB_active == TRUE) {
+					me.menuButtonBox[19].show();
+				}
+				if (land.mode_L_active == TRUE) {
+					me.menuButtonBox[20].show();
+				}
+				if (land.mode_OPT_active == TRUE) {
+					me.menuButtonBox[3].show();
 				}
 				if (me.ModeAttack == FALSE) {
 					me.menuButtonBox[14].show();
-				}
-				if (me.showFullMenus == TRUE) {
-					if (land.mode < 3 and land.mode > 0) {
-						# landing before descent
-						me.menuButtonBox[19].show();
-					} elsif (land.mode > 2) {
-						# landing descent
-						me.menuButtonBox[18].show();
-					} elsif (me.input.currentMode.getValue() == displays.LANDING) {
-						# generic landing mode
-						me.menuButtonBox[20].show();
-					} elsif (me.showSteers == TRUE and me.input.rmActive.getValue() == TRUE) {
-						# following route
-						me.menuButtonBox[17].show();
-					}
 				}
 				if (me.showSteerPoly == TRUE) {
 					me.menuButtonBox[5].show();
@@ -2014,8 +2011,8 @@ var TI = {
 			}
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-			#me.menuButtonSub[1].setText(me.vertStr("EP"));
-			#me.menuButtonSub[1].show();
+			me.menuButtonSub[1].setText(me.vertStr("EP"));
+			me.menuButtonSub[1].show();
 			me.menuButtonSub[14].setText(me.vertStr("ATT"));
 			if (me.ModeAttack == TRUE) {
 				me.menuButtonSubBox[14].show();
@@ -2833,16 +2830,24 @@ var TI = {
 		me.mode = "";
 		# DL: data link
 		# RR: radar guided steering
-		if (land.mode < 3 and land.mode > 0) {
+		if (land.mode_LB_active == TRUE) {
 			me.mode = me.interoperability == displays.METRIC?"LB":"LS";# landing steerpoint
-		} elsif (land.mode > 2) {
+			me.textBMode.setColor(rWhite,gWhite,bWhite);
+		} elsif (land.mode_LF_active == TRUE) {
 			me.mode = me.interoperability == displays.METRIC?"LF":"LT";# landing touchdown point
-		} elsif (me.input.currentMode.getValue() == displays.LANDING) {
-			me.mode = "L ";# landing
-		} elsif (me.showSteers == TRUE and me.input.rmActive.getValue() == TRUE) {
-			me.mode = me.interoperability == displays.METRIC?"B ":"SP";# following steerpoint route
+			me.textBMode.setColor(rWhite,gWhite,bWhite);
+		} elsif (land.mode_L_active == TRUE) {
+			me.mode = "L ";# steering to landing base
+			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
+		} elsif (land.mode_B_active == TRUE) {
+			me.mode = me.interoperability == displays.METRIC?"B ":"S";# following steerpoint route
+			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
+		} elsif (land.mode_OPT_active == TRUE) {
+			me.mode = "OP";# visual landing phase
+			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		} else {
 			me.mode = "  ";# VFR
+			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		}
 		me.textBMode.setText(me.mode);
 
@@ -2955,7 +2960,7 @@ var TI = {
 	},
 
 	showRunway: func {
-		if (land.showActiveSteer == FALSE and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
+		if (land.mode_B_active == FALSE and (land.show_waypoint_circle == TRUE or land.show_runway_line == TRUE)) {
 		  me.x = math.cos(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
 		  me.y = math.sin(-(land.runway_bug-90) * D2R) * land.runway_dist*NM2M*M2TEX;
 
@@ -3426,6 +3431,9 @@ var TI = {
 				me.trapFire = TRUE;
 				me.quickOpen = 10000;
 			}		
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				land.OPT();
+			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# place names on map
 				me.mapPlaces = !me.mapPlaces;
@@ -3450,7 +3458,8 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-				me.showSteers = !me.showSteers;
+				#me.showSteers = !me.showSteers;
+				land.B();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact ecm report
@@ -3807,6 +3816,9 @@ var TI = {
 			if(me.menuMain == MAIN_DISPLAY) {
 				displays.common.cursor = !displays.common.cursor;
 			}
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				land.LF();
+			}
 		}
 	},
 
@@ -3821,6 +3833,9 @@ var TI = {
 			}
 			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand  == TRUE)) {
 				me.logPage += 1;
+			}
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				land.LB();
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
 				me.day = !me.day;
@@ -3858,6 +3873,9 @@ var TI = {
 				if (me.logPage < 0) {
 					me.logPage = 0;
 				}
+			}
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				land.L();
 			}
 			if(me.menuMain == MAIN_FAILURES) {
 				me.logPage -= 1;

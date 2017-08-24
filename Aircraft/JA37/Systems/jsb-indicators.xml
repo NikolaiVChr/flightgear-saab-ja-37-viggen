@@ -2050,7 +2050,7 @@
                 /ja37/hud/current-mode == 0 <!-- equals takeoff -->
             </test>
             <test logic="AND" value="1">
-                /ja37/hud/current-mode == 3 <!-- equals landing -->
+                gear/gear-pos-norm == 1 <!-- equals landing -->
                 /position/altitude-agl-ft gt 164
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
@@ -2058,14 +2058,14 @@
                 /ja37/supported/picking == 0
             </test>
             <test logic="AND" value="1">
-                /ja37/hud/current-mode ne 3 <!-- not equals landing -->
+                gear/gear-pos-norm ne 1 <!-- not equals landing -->
                 systems/indicators/time-till-crash lt 10
                 systems/indicators/time-till-crash gt 0
                 /controls/altimeter-radar == 1
                 /ja37/supported/picking == 0
             </test>
             <test logic="AND" value="1">
-                /ja37/hud/current-mode == 3 <!-- equals landing -->
+                gear/gear-pos-norm == 1 <!-- equals landing -->
                 /position/altitude-agl-ft gt 164
                 /ja37/radar/time-till-crash lt 10
                 /ja37/radar/time-till-crash gt 0
@@ -2073,6 +2073,7 @@
                 /ja37/supported/picking == 1
             </test>
             <test logic="AND" value="1">
+                gear/gear-pos-norm ne 1
                 /ja37/hud/current-mode ne 3 <!-- not equals landing -->
                 /ja37/radar/time-till-crash lt 10
                 /ja37/radar/time-till-crash gt 0

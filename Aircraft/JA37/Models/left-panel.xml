@@ -383,6 +383,17 @@
     </offsets>
   </model>
 
+  <animation>
+    <type>select</type>
+    <object-name>approach</object-name>
+    <condition>
+       <greater-than>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </greater-than>
+    </condition>
+  </animation>
+  
   <model>
     <path>Aircraft/JA37/Models/Cockpit/radarControl/radarControl.xml</path>
     <name>radar control</name>

@@ -1156,7 +1156,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.out_of_ammo = TRUE;
       }
 
-      me.finalVisual = me.input.ctrlRadar.getValue() == 1? (me.input.rad_alt.getValue() * FT2M) < 15 : (me.input.alt_ft.getValue() * FT2M) < 35;
+      me.finalVisual = land.mode_OPT_active;
 
       # ground collision warning
       me.displayGroundCollisionArrow(mode);

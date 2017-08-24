@@ -60,22 +60,329 @@ var showActiveSteer = FALSE;#if TI should show steerpoint
 
 var has_waypoint = 0;
 
+var mode_B_active = FALSE;
+var mode_L_active = FALSE;
+var mode_LB_active = FALSE;
+var mode_LF_active = FALSE;
+var mode_OPT_active = FALSE;
+
+var B = func {
+    setprop("ja37/hud/landing-mode", FALSE);
+    if (getprop("autopilot/route-manager/active") == FALSE and getprop("autopilot/route-manager/route/num") > 0) {
+        fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
+        mode_B_active = TRUE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        mode_OPT_active = FALSE;
+        showActiveSteer = TRUE;
+        mode = 0;
+    } elsif (getprop("autopilot/route-manager/active") == FALSE) {
+        mode_B_active = FALSE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        mode_OPT_active = FALSE;
+        showActiveSteer = TRUE;
+        mode = -1;
+    } elsif (mode_B_active == TRUE) {
+        # next steerpoint
+        var curr = getprop("autopilot/route-manager/current-wp");
+        var max = getprop("autopilot/route-manager/route/num") - 1;
+        if (curr == max) {
+            curr = 0;
+        } else {
+            curr += 1;
+        }
+        setprop("autopilot/route-manager/current-wp", curr);
+        mode_B_active = TRUE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        mode_OPT_active = FALSE;
+        showActiveSteer = TRUE;
+        mode = 0;
+    } else {
+        mode_B_active = TRUE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        mode_OPT_active = FALSE;
+        showActiveSteer = TRUE;
+        mode = 0;
+    }
+};
+
+var activateRunway = func {
+    # select runway (airport must be active in RM)
+    var numb = getprop("autopilot/route-manager/route/num");
+    var curr = getprop("autopilot/route-manager/current-wp");
+    var name = getprop("autopilot/route-manager/route/wp["~curr~"]/id");
+    var rwy  = "";
+    if (name != nil and size(split("-", name))>1) {
+        name = split("-", name);
+        if (name[0] != nil and name[0] != "APP" and name[0] != "DEP" and size(findAirportsByICAO(name[0])) != 0) {
+            rwy = name[1];
+            name = name[0];
+            return TRUE;
+        }
+    }
+    var airpList = findAirportsByICAO(name);
+    var airp = nil;
+    foreach (var airport ; airpList) {
+        if (airport.id == name) {
+            airp = airport;
+            break;
+        }
+    }
+    if (airp == nil) {
+        return FALSE;
+    }
+    var runways = airp.runways;
+    var runwaysVector = [];
+    foreach (var runwayKey ; keys(runways)) {
+        append(runwaysVector, runways[runwayKey]);
+    }
+    var currRWY = -1;
+    for (var i = 0; i<size(runwaysVector);i+=1) {
+        if (runwaysVector[i].id == rwy) {
+            currRWY = i;
+            break;
+        }
+    }
+    currRWY += 1;
+    if (currRWY >= size(runwaysVector)) {
+        currRWY = 0;
+    }
+    var nextRW = name~"-"~runwaysVector[currRWY].id;
+    fgcommand("delete-waypt", props.Node.new({"index": curr}));
+    #print("deleted in cycle");
+    #setprop("autopilot/route-manager/input", "@insert" ~ curr ~ ":" ~ nextRW);
+    #print("inserted in cycle: "~"@insert" ~ curr ~ ":" ~ nextRW);
+    #gui.dialog_update("route-manager");
+    setprop("autopilot/route-manager/destination/airport", name);
+    setprop("autopilot/route-manager/destination/runway", runwaysVector[currRWY].id);
+    if (numb > getprop("autopilot/route-manager/route/num")) {
+        #something went wrong, the steerpoint was deleted, but new wasn't created
+        return FALSE;
+        #print("failed to insert runway");
+    } else {
+        if (getprop("autopilot/route-manager/active") == FALSE) {
+            fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
+        }
+        setprop("autopilot/route-manager/current-wp", getprop("autopilot/route-manager/route/num")-1);
+        mode = 0;
+        #print("selected runway");
+        return TRUE;
+    }
+};
+
+var L = func {
+    setprop("ja37/hud/landing-mode", FALSE);
+    setprop("ja37/avionics/approach", FALSE);#long
+    if (getprop("autopilot/route-manager/active") == TRUE and isSteerPointAirport(getprop("autopilot/route-manager/current-wp")) == TRUE and mode_L_active == TRUE) {
+        # cycle runways
+        var numb = getprop("autopilot/route-manager/route/num");
+        var curr = getprop("autopilot/route-manager/current-wp");
+        var name = getprop("autopilot/route-manager/route/wp["~curr~"]/id");
+        var rwy  = "";
+        if (name != nil and size(split("-", name))>1) {
+            name = split("-", name);
+            if (name[0] != nil and name[0] != "APP" and name[0] != "DEP" and size(findAirportsByICAO(name[0])) != 0) {
+                rwy = name[1];
+                name = name[0];
+            }
+        }
+        var airpList = findAirportsByICAO(name);
+        var airp = nil;
+        foreach (var airport ; airpList) {
+            if (airport.id == name) {
+                airp = airport;
+                break;
+            }
+        }
+        if (airp == nil) {
+            mode_LB_active = FALSE;
+            mode_LF_active = FALSE;
+            mode_B_active = FALSE;
+            mode_L_active = FALSE;
+            mode_OPT_active = FALSE;
+            showActiveSteer = TRUE;
+            return;
+        }
+        var runways = airp.runways;
+        var runwaysVector = [];
+        foreach (var runwayKey ; keys(runways)) {
+            append(runwaysVector, runways[runwayKey]);
+        }
+        var currRWY = -1;
+        for (var i = 0; i<size(runwaysVector);i+=1) {
+            if (runwaysVector[i].id == rwy) {
+                currRWY = i;
+                break;
+            }
+        }
+        currRWY += 1;
+        if (currRWY >= size(runwaysVector)) {
+            currRWY = 0;
+        }
+        var nextRW = name~"-"~runwaysVector[currRWY].id;
+        fgcommand("delete-waypt", props.Node.new({"index": curr}));
+        #print("deleted in cycle");
+        #setprop("autopilot/route-manager/input", "@insert" ~ curr ~ ":" ~ nextRW);
+        #print("inserted in cycle: "~"@insert" ~ curr ~ ":" ~ nextRW);
+        #gui.dialog_update("route-manager");
+        setprop("autopilot/route-manager/destination/airport", name);
+        setprop("autopilot/route-manager/destination/runway", runwaysVector[currRWY].id);
+        if (numb > getprop("autopilot/route-manager/route/num")) {
+            #something went wrong, the steerpoint was deleted, but new wasn't created
+            mode_L_active = FALSE;
+            mode_B_active = FALSE;
+            mode = -1;
+            #print("failed to insert runway");
+        } else {
+            if (getprop("autopilot/route-manager/active") == FALSE) {
+                fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
+            }
+            setprop("autopilot/route-manager/current-wp", getprop("autopilot/route-manager/route/num")-1);
+            mode = 0;
+            #print("cycled runway");
+            mode_L_active = TRUE;
+            mode_B_active = FALSE;
+        }
+    } else {
+        if (selectDestination() == TRUE) {
+            mode_L_active = TRUE;
+            mode_B_active = FALSE;
+            mode = 0;
+        } else {
+            stopRM();
+            mode_B_active = FALSE;
+            mode_L_active = FALSE;
+        }
+    }
+    mode_LB_active = FALSE;
+    mode_LF_active = FALSE;
+    mode_OPT_active = FALSE;
+    showActiveSteer = TRUE;
+};
+
+var LB = func {
+    setprop("ja37/hud/landing-mode", TRUE);
+    setprop("ja37/avionics/approach", FALSE);#long
+    mode_B_active = FALSE;
+    mode_L_active = FALSE;
+    mode_LF_active = FALSE;
+    mode_OPT_active = FALSE;
+    showActiveSteer = FALSE;
+    if (selectDestination() == TRUE and activateRunway() == TRUE) {
+        mode = 1;
+        mode_LB_active = TRUE;
+    } else {
+        stopRM();
+        mode_LB_active = FALSE;
+    }
+};
+
+var LF = func {
+    setprop("ja37/hud/landing-mode", TRUE);
+    setprop("ja37/avionics/approach", TRUE);#short
+    mode_B_active = FALSE;
+    mode_L_active = FALSE;
+    mode_LB_active = FALSE;
+    mode_OPT_active = FALSE;
+    showActiveSteer = FALSE;
+    if (selectDestination() == TRUE and activateRunway() == TRUE) {
+        mode = 2;
+        mode_LF_active = TRUE;
+    } else {
+        stopRM();
+        mode_LF_active = FALSE;
+    }
+};
+
+var OPT = func {
+    if (getprop("gear/gear/position-norm") > 0 or getprop("ja37/hud/landing-mode") == TRUE) {
+        mode = 4;
+        mode_B_active = FALSE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        mode_OPT_active = TRUE;
+        showActiveSteer = FALSE;
+    }
+};
+
+var selectDestinationOld = func {
+    var max = getprop("autopilot/route-manager/route/num") - 1;
+    for (var i = max; i > -1 ; i-=1) {
+        if (isSteerPointAirport(i) == TRUE) {
+            if (getprop("autopilot/route-manager/active") == FALSE) {
+                fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
+            }
+            setprop("autopilot/route-manager/current-wp", i);
+            #print("selected last airport in route.");
+            return TRUE;
+        }
+    }
+    return FALSE;
+};
+
+var selectDestination = func {
+    if (getprop("autopilot/route-manager/destination/airport") != nil and getprop("autopilot/route-manager/destination/airport") != "") {
+        var max = getprop("autopilot/route-manager/route/num") - 1;
+        if (isSteerPointAirport(getprop("autopilot/route-manager/route/num")-1) == TRUE) {
+            if (getprop("autopilot/route-manager/active") == FALSE) {
+                fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
+            }
+            setprop("autopilot/route-manager/current-wp", getprop("autopilot/route-manager/route/num")-1);
+            #print("selected destination airport in route.");
+            return TRUE;
+        }
+    } else {
+        return selectDestinationOld();
+    }
+    return FALSE;
+};
+
+var stopRM =  func {
+    setprop("autopilot/route-manager/active", FALSE);
+    mode = -1;
+    #print("stop rm");
+};
+
+var isSteerPointAirport = func (wp) {
+    var name = getprop("autopilot/route-manager/route/wp["~wp~"]/id");
+    if (name != nil and size(split("-", name))>1) {
+        name = split("-", name);
+        if (name[0] != nil and name[0] != "APP" and name[0] != "DEP" and size(findAirportsByICAO(name[0])) != 0) {
+            return TRUE;
+        }
+    } else {
+        # TODO: select a runway here?
+        if (name != nil and name != "APP" and name != "DEP" and size(findAirportsByICAO(name)) != 0) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+};
+
 #
 # tangent circle: 4100 m radius
 #
-# mode 1:
+# mode 1: (LB)
 # if A/P mode 3 active then 500m is commanded only after that mode disengage
 # 550 Km/h is ref. in hud fin with gear up
 #
-# mode 2:
+# mode 2: (LF)
 # starts when distance to tangent point is less than 100m and increasing
-# appoach cicle goes away
+# approach cicle goes away
 #
 # mode 3:
 # starts when tils is captured
 # stops and mode 2 if TILS is lost for more than 5 secs
 #
-# mode 4:
+# mode 4: (OPT)
 # 2.8m/s sinkrate max for non flare landing.
 
 var landing_loop = func {
@@ -150,7 +457,7 @@ var landing_loop = func {
     }
     if (has_waypoint > 0) {
     	if (has_waypoint > 1) {
-            showActiveSteer = FALSE;
+            #showActiveSteer = FALSE;
     		show_runway_line = TRUE;
     		var short = getprop("ja37/avionics/approach");
 
@@ -175,36 +482,111 @@ var landing_loop = func {
     		runway.apply_course_distance(geo.normdeg(rectAngle), 4100);
     		var distCenter = geo.aircraft_position().distance_to(runway);
     		approach_circle = runway;
-            if (input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) {
+            if (mode_OPT_active==TRUE or (input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35)) {
                 mode = 4;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                mode_LB_active = FALSE;
+                mode_LF_active = FALSE;
+                mode_OPT_active = TRUE;
+                showActiveSteer = FALSE;
                 show_waypoint_circle = TRUE;
     		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000)) {# or ILS == TRUE test if glideslope/ILS or less than 10 Km
     			show_waypoint_circle = TRUE;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                mode_LB_active = FALSE;
+                mode_LF_active = TRUE;
+                mode_OPT_active = FALSE;
+                showActiveSteer = FALSE;
     			mode = 3;
+                #print("descent mode 3");
     		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle
     			show_approach_circle = TRUE;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                mode_LB_active = FALSE;
+                mode_LF_active = TRUE;
+                mode_OPT_active = FALSE;
+                showActiveSteer = FALSE;
     			mode = 2;
     		} elsif (mode == 2 and distCenter < (4100+250)) {
     			show_approach_circle = TRUE;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                mode_LB_active = FALSE;
+                mode_LF_active = TRUE;
+                mode_OPT_active = FALSE;
+                showActiveSteer = FALSE;
     			mode = 2;
+                #print("keeping mode 2 with circle");
     		} elsif (mode == 2 and (runway_dist*NM2M > (line*1000+4100) or distCenter > 11000)) {
                 show_approach_circle = TRUE;
-                mode = 1;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                if (short==TRUE)  {
+                    mode_LB_active = FALSE;
+                    mode_LF_active = TRUE;
+                    showActiveSteer = FALSE;
+                    mode = 2;
+                    #print("short mode 2");
+                } else {
+                    mode_LB_active = TRUE;
+                    mode_LF_active = FALSE;
+                    showActiveSteer = TRUE;
+                    mode = 1;
+                    #print("long mode 1");
+                }
+                mode_OPT_active = FALSE;
             } elsif (mode == 2 and runway_dist*NM2M < (line*1000+4100)) {
     			show_waypoint_circle = TRUE;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                mode_LB_active = FALSE;
+                mode_LF_active = TRUE;
+                mode_OPT_active = FALSE;
+                showActiveSteer = FALSE;
     			mode = 2;
-    		} else {
+                #print("approach mode 2");
+    		} elsif (getprop("ja37/hud/landing-mode")==TRUE and short == FALSE) {
     			mode = 1;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+                mode_LB_active = TRUE;
+                mode_LF_active = FALSE;
+                mode_OPT_active = FALSE;
+                showActiveSteer = FALSE;
     			show_approach_circle = TRUE;
-    		}
+                #print("default mode 1");
+    		} else {
+                mode = 0;
+                showActiveSteer = TRUE;
+                show_waypoint_circle = TRUE;
+            }
 		} else {
 			show_waypoint_circle = TRUE;
             showActiveSteer = TRUE;
-			mode = 0;
+            mode_LB_active = FALSE;
+            mode_LF_active = FALSE;
+            if (mode_OPT_active == TRUE) {
+                mode = 4;
+                mode_B_active = FALSE;
+                mode_L_active = FALSE;
+            } else {
+                mode = 0;
+            }
 		}    	
     } else {
         showActiveSteer = TRUE;
-    	mode = -1;
+        mode_B_active = FALSE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        if (mode_OPT_active == TRUE) {
+            mode = 4;
+        } else {
+            mode = -1;
+        }
     }
     settimer(landing_loop, 0.05);
 }

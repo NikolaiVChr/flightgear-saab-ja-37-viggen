@@ -3042,3 +3042,14 @@ Arms: When turning towards target before PN takes over, it will now not aim so p
 Arms: Lowered cruise missiles max G by large amount, to prevent bleeding alot of speed when navigating terrain.
 HUD: Redid limits for how much digital speed vertically, so it also don't leave HUD too much.
 Model: Replaced left and right plaque textures for the JA variant.
+TI: In menu SYST, button 'B'/'S' will switch to navigation mode, and activate route. If already in that mode, the button switches to next steerpoint. If route is active, steerpoints always show.
+TI: In menu SYST, button 'L'/'L' will switch to navigation mode, and activate route and select landing base as next steerpoint, long approach. Repeating presses selects runway.
+TI: In menu SYST, button 'LB'/'LS' will switch to landing mode steer order towards approach circle tangent point. Mode 1.
+TI: In menu SYST, button 'LF'/'LT' highlighted in landing mode 2/3. Mode 2 with short approach if pressed.
+TI: In menu SYST, button 3 'OPT' will switch to optical landing mode 4. (unauthentic, should really be on stick)
+TI: Off button now have sub 'EP' for electronic presentation system EP12.
+Model: Removed approach and landing mode cockpit switches for JA-37Di variant.
+TI: When pressing LB/LF it will activate a runway on selected destination if none is activated.
+Sim: Pressing key 'Y' in JA variant, will act as if pressing LS/LB in TI.
+TI: The steer order now shows only in tyrkoiuse color if L or S/B is choosen.
+Sim: Extending gears will no longer automatically switch to landing mode.

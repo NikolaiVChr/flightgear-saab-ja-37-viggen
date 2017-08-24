@@ -320,7 +320,7 @@ units:                "ja37/hud/units-metric",
 		    } elsif (me.modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - me.modeTimeTakeoff > 4) {
 		      if (me.takeoffForbidden == TRUE) {
 		        # time to switch away from TAKEOFF mode.
-		        if (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE) {
+		        if (me.input.landingMode.getValue() == TRUE) {
 		          me.mode= LANDING;
 		        } else {
 		          me.mode= me.input.combat.getValue() == 1 ? COMBAT : NAV;
@@ -330,7 +330,7 @@ units:                "ja37/hud/units-metric",
 		        # 4 second has passed since frontgear touched runway, but conditions to switch from TAKEOFF has still not been met.
 		        me.mode= TAKEOFF;
 		      }
-		    } elsif ((me.mode== COMBAT or me.mode== NAV) and (me.input.gearsPos.getValue() == 1 or me.input.landingMode.getValue() == TRUE)) {
+		    } elsif ((me.mode== COMBAT or me.mode== NAV) and (me.input.landingMode.getValue() == TRUE)) {
 		      # Switch to LANDING
 		      me.mode= LANDING;
 		      me.modeTimeTakeoff = -1;
@@ -338,7 +338,7 @@ units:                "ja37/hud/units-metric",
 		      # determine if we should have COMBAT or NAV
 		      me.mode= me.input.combat.getValue() == 1 ? COMBAT : NAV;
 		      me.modeTimeTakeoff = -1;
-		    } elsif (me.mode== LANDING and me.input.gearsPos.getValue() == 0 and me.input.landingMode.getValue() == FALSE) {
+		    } elsif (me.mode== LANDING and me.input.landingMode.getValue() == FALSE) {
 		      # switch from LANDING to COMBAT/NAV
 		      me.mode= me.input.combat.getValue() == 1 ? COMBAT : NAV;
 		      me.modeTimeTakeoff = -1;

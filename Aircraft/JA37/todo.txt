@@ -40,6 +40,7 @@ Model: The mount for the 3 autopilot buttons on frontpanel was different in the 
 Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness, needs making.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank actually fall down like other stores do.
+Animation: Red warning light on MI should blink with 4Hz.
 Engine: Switch aug. type in engine?
 Engine: Model compressor surge/stall including bang sound.
 Sim: Improve autopilot further.
@@ -80,6 +81,7 @@ Sim: Some systems should get DC power directly from batt., some only when main p
 Sim: The A/P for glideslope is not very reliable, fix.
 Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup.
 Sim: Make so that flares cannot be used after aircraft has crashed.
+Sim: Check terrain warning for when gears is down/landing mode in manual. (its now set to gears down detect)
 Arms: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
 Arms: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Arms: Be able to notch the rb71 again.
@@ -91,7 +93,7 @@ Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Replace beacon, landing and strobe lights with procedural lights in ALS.
-Sound: More annunciater warnings and other sounds. (transonic)
+Sound: More annunciater warnings and other sounds. (transonic/Vne is same signal)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
 Sound: Sound from wind hitting the gears when extended.
@@ -107,6 +109,7 @@ HUD: Altitude scale should only be shown when engine is running due to it need A
 HUD: Make option: realistic or easy-readable alt scale (as before).
 HUD: Weapon selection should be shown with 2 chars next to distance scale, instead of 4 chars.
 HUD: Radar alt in alt scale, can move outside clip bounds. fix?
+HUD: When should distance scale line not be shown, but distance still?
 TI: Show lat/lon grid in menu UDAT.
 TI: Slew cursor.
 TI: Edit route.
@@ -119,6 +122,9 @@ TI: Add missiles to SVY.
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: Make route info with overall ETA.
 TI: Clear pylon selection.
+TI: Another navigation mode is RR (steer order from radar). Not sure what it does.
+TI: In menu SYST, button 'UPOL'/'MPOL' should show steerpoint lines instead?
+TI: In menu SYST, button 'LF'/'LT'. Steer order first around circle then towards touchdown point.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -138,8 +144,9 @@ Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of 
 Callsign of selected radar echo in HUD is unrealistic.
 Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?)
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
-Master-arm, interoperability and display switches on frontpanel, should not be there. Instead there was: SNABBRESN and RESERVKURS.
+Master-arm, interoperability and display switches on frontpanel, should not be there. Instead there was: button SNABBRESN (reinit gyro, max 3 mins, light on during) and RESERVKURS.
 TILS was really a military ILS system. Not a system for finding nearest ILS freq.
+The FPI in HUD was really limited to +- 7.5 degs lateral.
 
 
 Bugs:
