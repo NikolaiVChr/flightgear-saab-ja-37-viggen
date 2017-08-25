@@ -3063,3 +3063,4 @@ TI: In main menu MSDA all polygon legs are shown.
 TI: Renamed english abbriviations for mission and return to base polygons.
 MI: Added target indicator to heading scale.
 Arms: Fixed a nullpointer exception in missile telemetry code.
+HUD: In tactical mode distance scale will no longer show if no weapon is selected.

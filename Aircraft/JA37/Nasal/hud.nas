@@ -2334,15 +2334,15 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.minDist =  100;
           me.maxDist = 2500;# as per sources
         } elsif (me.aim != nil) {
-          # sidewinders
+          # missile code
           me.minDist =   me.aim.min_fire_range_nm*NM2M;
           me.maxDist =   me.aim.max_fire_range_nm*NM2M;
         } elsif (me.armament == "M55 AKAN") {
-          # robot 15F
+          # pylon mounted cannons
           me.minDist =  100;
           me.maxDist = 2800;
         } elsif (me.armament == "M70 ARAK") {
-          # Rocket pod
+          # Rocket pods
           me.minDist =   200;
           me.maxDist =  2000;
         }
@@ -2407,6 +2407,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           }
         } else {
           me.mySpeed.hide();
+          me.shown = FALSE;
         }
         me.targetDistance1.setTranslation(1/5*me.line, 0);
         me.targetDistance2.setTranslation(4/5*me.line, 0);
