@@ -3061,3 +3061,5 @@ TI: Made Turkuiose color a bit brighter.
 TI: Steerpoint polygon legs now show only the current leg, and next leg only if distance to it is less than 20Km.
 TI: In main menu MSDA all polygon legs are shown.
 TI: Renamed english abbriviations for mission and return to base polygons.
+MI: Added target indicator to heading scale.
+Arms: Fixed a nullpointer exception in missile telemetry code.

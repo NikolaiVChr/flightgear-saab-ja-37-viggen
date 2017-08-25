@@ -1252,7 +1252,7 @@ var AIM = {
 				# penalty for target being off-bore
 				me.hit -= math.abs(me.curr_deviation_h)/2.5;
 			}
-			if (me.guiding == TRUE and me.old_speed_fps > me.t_speed_fps and me.t_speed_fps != 0) {
+			if (me.guiding == TRUE and me.t_speed_fps != nil and me.old_speed_fps > me.t_speed_fps and me.t_speed_fps != 0) {
 				# bonus for traveling faster than target
 				me.hit += me.clamp((me.old_speed_fps / me.t_speed_fps)*15,-25,50);
 			}			
@@ -2661,10 +2661,8 @@ var develev_to_devroll = func(dev_rad, elev_rad) {
 
 #was in radar
 var deviation_normdeg = func(our_heading, target_bearing) {
-	var dev_norm = our_heading - target_bearing;
-	while (dev_norm < -180) dev_norm += 360;
-	while (dev_norm > 180) dev_norm -= 360;
-	return(dev_norm);
+	var dev_norm = geo.normdeg180(our_heading - target_bearing);
+	return dev_norm;
 }
 
 #

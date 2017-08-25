@@ -1660,6 +1660,11 @@ var ContactGhost = {
   },
 };
 
+var deviation_normdeg = func(our_heading, target_bearing) {
+  var dev_norm = geo.normdeg180(our_heading - target_bearing);
+  return dev_norm;
+}
+
 var radarLogic = nil;
 
 var starter = func () {

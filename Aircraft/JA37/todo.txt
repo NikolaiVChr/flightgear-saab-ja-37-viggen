@@ -125,7 +125,10 @@ TI: Another navigation mode is RR (steer order from radar). Not sure what it doe
 TI: In menu SYST, button 'LF'/'LT'. Steer order first around circle then towards touchdown point.
 TI: There should be 4 mission routes and 2 return to base routes. Use Nasal Flightplans.
 TI: Routes can have target steerpoints (Mxx/Txx).
-TI: Button LÅ/LR should work as B/S except for return to base route, instead of mission route.
+TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to activate, B/S will be selected if it is not when activating. (I asume its the same as B/S for RTB instead of mission).
+TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
+TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
+TI: 
 TI: Edit all 6 routes.
 MI: Slew cursor.
 MI: Implement radar sweep.
