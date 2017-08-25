@@ -112,7 +112,6 @@ HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 HUD: When should distance scale line not be shown, but distance still?
 TI: Show lat/lon grid in menu UDAT.
 TI: Slew cursor.
-TI: Edit route.
 TI: Show/edit bullseye.
 TI: Show flighttime by using controls UD-UT.
 TI: Select self.
@@ -123,8 +122,11 @@ TI: Waypoint info should show ETA to next waypoint. And seperate infobox for ful
 TI: Make route info with overall ETA.
 TI: Clear pylon selection.
 TI: Another navigation mode is RR (steer order from radar). Not sure what it does.
-TI: In menu SYST, button 'UPOL'/'MPOL' should show steerpoint lines instead?
 TI: In menu SYST, button 'LF'/'LT'. Steer order first around circle then towards touchdown point.
+TI: There should be 4 mission routes and 2 return to base routes. Use Nasal Flightplans.
+TI: Routes can have target steerpoints (Mxx/Txx).
+TI: Button LÅ/LR should work as B/S except for return to base route, instead of mission route.
+TI: Edit all 6 routes.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
