@@ -421,6 +421,13 @@ var MI = {
 		    .setColor(r,g,b, a)
 		    .setStrokeLineWidth(w);
 
+		me.head_scale_tgt_indicator = me.rootCenter.createChild("path")
+				.moveTo(-ticksShort, -me.headScalePlace)
+	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
+	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
+				.setStrokeLineWidth(w)
+		        .setColor(r,g,b, a);
+
 		    # Heading middle number
 		me.hdgM = me.head_scale_grp.createChild("text")
 		    .setColor(r,g,b, a)
@@ -645,11 +652,11 @@ var MI = {
 		
 		me.displayFPI();
 		me.displayHorizon();
-		me.displayHeadingScale();
 		me.displayGround();
 		me.displayGroundCollisionArrow();
 		me.showAltLines();
 		me.displayRadarTracks();
+		me.displayHeadingScale();#must be after radar tracks
 		me.altScale();
 		me.targetScale();
 		me.showTgtName();
@@ -741,6 +748,12 @@ var MI = {
 	    me.hdgR3.setText(sprintf("%02d", me.rightText3));
 	    me.head_scale_grp.show();
 	    me.head_scale_indicator.show();
+	    if (me.tgt_bug != nil and math.abs(me.tgt_bug) < 60) {
+			me.head_scale_tgt_indicator.setTranslation(me.tgt_bug*texel_per_degree, 0);
+			me.head_scale_tgt_indicator.show();
+		} else {
+			me.head_scale_tgt_indicator.hide();
+		}
 	},
 
 	showArm: func {
@@ -890,6 +903,7 @@ var MI = {
 
 	          me.tgt_dist = me.selection.get_range()*NM2M;
 	          me.tgt_alt  = me.selection.get_altitude()*FT2M;
+	          me.tgt_bug  = me.selection.get_deviation(getprop("orientation/heading-deg"), geo.aircraft_position());
 	          if (me.input.callsign.getValue() == TRUE) {
 	            me.tgt_callsign = me.selection.get_Callsign();
 	          } else {
@@ -902,6 +916,7 @@ var MI = {
 	        # or nothing selected
 	        me.tgt_alt  = nil;
 	      	me.tgt_dist = nil;
+	      	me.tgt_bug  = nil;
 	      	me.cursor_lock.hide();
 	      	if (cursorOn == FALSE) {
 	      		me.cursor.hide();
@@ -911,6 +926,7 @@ var MI = {
 	      # radar tracks not shown at all
 	      me.tgt_alt  = nil;
 	      me.tgt_dist = nil;
+	      me.tgt_bug  = nil;
 	      me.radar_group.hide();
 	    }
 	},

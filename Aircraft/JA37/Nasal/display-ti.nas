@@ -263,7 +263,7 @@ var dictEN = {
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "S"], '5': [FALSE, "MPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "RPOL"], '17': [FALSE, "STPT"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "RPOL"], '17': [FALSE, "LR"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
@@ -2024,6 +2024,8 @@ var TI = {
 			if (me.showFullMenus == TRUE) {
 				me.menuButtonSub[16].setText(me.vertStr("AB"));
 				me.menuButtonSub[16].show();
+				me.menuButtonSub[5].setText(me.vertStr("1234"));
+				me.menuButtonSub[5].show();
 			}
 		}
 		if (me.menuMain == MAIN_MISSION_DATA and me.showFullMenus == TRUE) {
