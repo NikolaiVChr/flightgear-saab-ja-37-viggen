@@ -406,8 +406,8 @@ var landing_loop = func {
                 if (name[0] != "APP" and name[0] != "DEP" and size(findAirportsByICAO(name[0])) != 0) {#check for steerpoints if its icao or just a steerpoint name
     	            icao = name[0];
     	            runway = name[1];
-
                     if (icao != last_icao or runway != last_runway) {
+                        setprop("ja37/hud/TILS-on", FALSE);
                         runway_rw = nil;
                         var hd = -1000;
                         var info = airportinfo(icao);
@@ -416,6 +416,10 @@ var landing_loop = func {
                             if (rw != nil) {
                                 hd = rw.heading;
                                 runway_rw = rw;
+                                if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
+                                    setprop("instrumentation/nav[0]/frequencies/selected-mhz", runway_rw.ils.frequency/100);
+                                    setprop("ja37/hud/TILS-on", TRUE);
+                                }
                             }
                         }
                         if (hd == -1000) {
@@ -437,18 +441,22 @@ var landing_loop = func {
                 } else{
                     has_waypoint = 1;
                     runway_rw = nil;
+                    setprop("ja37/hud/TILS-on", FALSE);
                 }
 	        } else {
                 has_waypoint = 1;
                 runway_rw = nil;
+                setprop("ja37/hud/TILS-on", FALSE);
             }
 	    } else {
             has_waypoint = 0;
             runway_rw = nil;
+            setprop("ja37/hud/TILS-on", FALSE);
         }
     } else {
         has_waypoint = 0;
         runway_rw = nil;
+        setprop("ja37/hud/TILS-on", FALSE);
     }
     if (icao != last_icao or last_runway != runway) {
     	mode = -1;

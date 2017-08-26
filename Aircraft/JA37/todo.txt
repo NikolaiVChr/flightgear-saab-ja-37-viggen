@@ -110,6 +110,7 @@ HUD: Make option: realistic or easy-readable alt scale (as before).
 HUD: Weapon selection should be shown with 2 chars next to distance scale, instead of 4 chars.
 HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 HUD: When should distance scale line not be shown, but distance still?
+HUD: Dont show ILS guide, if the ILS is not for runway that is being landed on.
 TI: Show lat/lon grid in menu UDAT.
 TI: Slew cursor.
 TI: Show/edit bullseye.
@@ -144,13 +145,12 @@ Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 List of un-authentic systems scheduled for removal at some point
 ----------------------------------------------------------------
 A/P auto-follow never existed.
-Automatic landing mode selection was really selected manual.
+Automatic landing mode selection in AJ was really selected manual like in the JA.
 Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of these variants.
 Callsign of selected radar echo in HUD is unrealistic.
 Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?)
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
 Master-arm, interoperability and display switches on frontpanel, should not be there. Instead there was: button SNABBRESN (reinit gyro, max 3 mins, light on during) and RESERVKURS.
-TILS was really a military ILS system. Not a system for finding nearest ILS freq.
 The FPI in HUD was really limited to +- 7.5 degs lateral.
 
 

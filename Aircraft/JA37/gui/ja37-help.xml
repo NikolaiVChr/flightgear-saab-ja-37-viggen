@@ -93,10 +93,6 @@
         <name>Y</name>
         <desc>Landing mode LS</desc>
     </key>
-	<key>
-        <name>y</name>
-        <desc>TILS on/off</desc>
-    </key>
     <key>
         <name>CTRL-y</name>
         <desc>Ask tower for QFE setting.</desc>

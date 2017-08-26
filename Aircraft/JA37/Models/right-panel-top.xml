@@ -93,7 +93,7 @@
         </offsets>
     </model>-->
 
-    <model>
+    <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/tils.xml</path>
         <name>switch-tils</name>
         <offsets>
@@ -101,7 +101,7 @@
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
-    </model>
+    </model>-->
 
     <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/landing-mode.xml</path>
