@@ -57,6 +57,7 @@ var last_icao = "";
 var icao = "";
 var runway_rw = nil;
 var showActiveSteer = FALSE;#if TI should show steerpoint
+var ils = 0;
 
 var has_waypoint = 0;
 
@@ -407,7 +408,7 @@ var landing_loop = func {
     	            icao = name[0];
     	            runway = name[1];
                     if (icao != last_icao or runway != last_runway) {
-                        setprop("ja37/hud/TILS-on", FALSE);
+                        ils = 0;
                         runway_rw = nil;
                         var hd = -1000;
                         var info = airportinfo(icao);
@@ -417,8 +418,7 @@ var landing_loop = func {
                                 hd = rw.heading;
                                 runway_rw = rw;
                                 if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
-                                    setprop("instrumentation/nav[0]/frequencies/selected-mhz", runway_rw.ils.frequency/100);
-                                    setprop("ja37/hud/TILS-on", TRUE);
+                                    ils = runway_rw.ils.frequency/100;
                                 }
                             }
                         }
@@ -441,22 +441,18 @@ var landing_loop = func {
                 } else{
                     has_waypoint = 1;
                     runway_rw = nil;
-                    setprop("ja37/hud/TILS-on", FALSE);
                 }
 	        } else {
                 has_waypoint = 1;
                 runway_rw = nil;
-                setprop("ja37/hud/TILS-on", FALSE);
             }
 	    } else {
             has_waypoint = 0;
             runway_rw = nil;
-            setprop("ja37/hud/TILS-on", FALSE);
         }
     } else {
         has_waypoint = 0;
         runway_rw = nil;
-        setprop("ja37/hud/TILS-on", FALSE);
     }
     if (icao != last_icao or last_runway != runway) {
     	mode = -1;
@@ -576,7 +572,14 @@ var landing_loop = func {
                 showActiveSteer = TRUE;
                 show_waypoint_circle = TRUE;
             }
+            if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE) {
+                setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
+                setprop("ja37/hud/TILS-on", TRUE);
+            } else {
+                setprop("ja37/hud/TILS-on", FALSE);
+            }
 		} else {
+            setprop("ja37/hud/TILS-on", FALSE);
 			show_waypoint_circle = TRUE;
             showActiveSteer = TRUE;
             mode_LB_active = FALSE;
@@ -590,6 +593,7 @@ var landing_loop = func {
             }
 		}    	
     } else {
+        setprop("ja37/hud/TILS-on", FALSE);
         showActiveSteer = TRUE;
         mode_B_active = FALSE;
         mode_L_active = FALSE;
