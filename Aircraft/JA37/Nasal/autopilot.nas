@@ -29,6 +29,7 @@ foreach(var name; keys(inputAP)) {
 var follow = func () {
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
   if(radar_logic.selection != nil and radar_logic.selection.getNode() != nil) {
+    land.noMode();
     mode = ja37.clamp(mode, 0, 1);
     var target = radar_logic.selection.getNode();
     setprop("/autopilot/target-tracking-ja37/target-root", target.getPath());
@@ -120,6 +121,10 @@ var hydr1Lost = func {
 
 var unfollow = func () {
   ja37.popupTip("A/P follow: OFF");
+  stopAP();
+}
+
+var unfollowSilent = func () {
   stopAP();
 }
 

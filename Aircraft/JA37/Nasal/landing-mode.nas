@@ -68,6 +68,7 @@ var mode_LF_active = FALSE;
 var mode_OPT_active = FALSE;
 
 var B = func {
+    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     if (getprop("autopilot/route-manager/active") == FALSE and getprop("autopilot/route-manager/route/num") > 0) {
         fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
@@ -179,6 +180,7 @@ var activateRunway = func {
 };
 
 var L = func {
+    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     setprop("ja37/avionics/approach", FALSE);#long
     if (getprop("autopilot/route-manager/active") == TRUE and isSteerPointAirport(getprop("autopilot/route-manager/current-wp")) == TRUE and mode_L_active == TRUE) {
@@ -269,6 +271,7 @@ var L = func {
 };
 
 var LB = func {
+    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", TRUE);
     setprop("ja37/avionics/approach", FALSE);#long
     mode_B_active = FALSE;
@@ -286,6 +289,7 @@ var LB = func {
 };
 
 var LF = func {
+    auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", TRUE);
     setprop("ja37/avionics/approach", TRUE);#short
     mode_B_active = FALSE;
@@ -304,6 +308,7 @@ var LF = func {
 
 var OPT = func {
     if (getprop("gear/gear/position-norm") > 0 or getprop("ja37/hud/landing-mode") == TRUE) {
+        auto.unfollowSilent();
         mode = 4;
         mode_B_active = FALSE;
         mode_L_active = FALSE;
@@ -312,6 +317,18 @@ var OPT = func {
         mode_OPT_active = TRUE;
         showActiveSteer = FALSE;
     }
+};
+
+var noMode = func {
+    setprop("ja37/hud/landing-mode", FALSE);
+    setprop("ja37/avionics/approach", FALSE);#long
+    mode = 0;
+    mode_B_active = FALSE;
+    mode_L_active = FALSE;
+    mode_LB_active = FALSE;
+    mode_LF_active = FALSE;
+    mode_OPT_active = FALSE;
+    showActiveSteer = TRUE;
 };
 
 var selectDestinationOld = func {
@@ -486,7 +503,7 @@ var landing_loop = func {
     		runway.apply_course_distance(geo.normdeg(rectAngle), 4100);
     		var distCenter = geo.aircraft_position().distance_to(runway);
     		approach_circle = runway;
-            if (getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE) {
+            if (getprop("/autopilot/target-tracking-ja37/enable") == FALSE and getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE) {
                 # seems route manager was activated through FG menu.
                 mode_B_active = TRUE;
                 mode = 0;

@@ -3069,3 +3069,5 @@ Sim: Key 'y' function and TILS switch has been removed.
 TI: T for TILS now only show when ILS has been captured from current selected landing base.
 TI: Menu SYST button 1 should show RR when flying, and only OFF when on ground. RR is steer order from radar, so for now its auto-follow.
 HUD: No longer show ILS guide, if the ILS is not for runway that is being landed on. If no landing steerpoint is set, it will still show.
+TI: Clicking key 'Y' or L, S, LT or LS will now stop auto-follow (RR). S will no longer be autoactivated through routemanager if RR is on.
+Sim: Switching on RR will now disengage landing mode and steerpoint modes.
