@@ -3066,3 +3066,6 @@ Arms: Fixed a nullpointer exception in missile telemetry code.
 HUD: In tactical mode distance scale will no longer show if no weapon is selected.
 Sim: Nav will now tune to ILS of runway if its the current steerpoint in landing mode. And HUD will show TILS if this is done.
 Sim: Key 'y' function and TILS switch has been removed.
+TI: T for TILS now only show when ILS has been captured from current selected landing base.
+TI: Menu SYST button 1 should show RR when flying, and only OFF when on ground. RR is steer order from radar, so for now its auto-follow.
+HUD: No longer show ILS guide, if the ILS is not for runway that is being landed on. If no landing steerpoint is set, it will still show.

@@ -1851,6 +1851,12 @@ var TI = {
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
+				if (me.input.wow1.getValue() == 0) {
+					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
+						me.menuButtonBox[1].show();
+					}
+					me.menuButton[1].setText(me.vertStr("RR"));
+				}
 				if (me.dataLink == TRUE) {
 					me.menuButtonBox[2].show();
 				}
@@ -2014,8 +2020,10 @@ var TI = {
 			}
 		}
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-			me.menuButtonSub[1].setText(me.vertStr("EP"));
-			me.menuButtonSub[1].show();
+			if (me.input.wow1.getValue() == TRUE) {
+				me.menuButtonSub[1].setText(me.vertStr("EP"));
+				me.menuButtonSub[1].show();
+			}
 			me.menuButtonSub[14].setText(me.vertStr("ATT"));
 			if (me.ModeAttack == TRUE) {
 				me.menuButtonSubBox[14].show();
@@ -2070,7 +2078,7 @@ var TI = {
 			} elsif (me.SVYinclude == SVY_120) {
 				me.menuButtonSub[6].setText(me.vertStr("120"));
 			} else {
-				me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"RR":"RDR"));
+				me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"RR":"RR"));
 			}
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
@@ -2850,13 +2858,16 @@ var TI = {
 				me.textBTactType3.setText("T");
 			}
 		}
-		me.icao = land.icao~((me.input.nav0InRange.getValue() == TRUE)?" T":"  ");
+		me.icao = land.icao~((land.ils != 0)?" T":"  ");
 		me.textBBase.setText(me.icao);
 		
 		me.mode = "";
 		# DL: data link
 		# RR: radar guided steering
-		if (land.mode_LB_active == TRUE) {
+		if(getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
+			me.mode = me.interoperability == displays.METRIC?"RR":"RR";# landing steerpoint
+			me.textBMode.setColor(rWhite,gWhite,bWhite);
+		} elsif (land.mode_LB_active == TRUE) {
 			me.mode = me.interoperability == displays.METRIC?"LB":"LS";# landing steerpoint
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		} elsif (land.mode_LF_active == TRUE) {
@@ -3412,9 +3423,17 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-				me.off = !me.off;
-				MI.mi.off = me.off;
-				me.active = !me.off;
+				if (me.input.wow1.getValue() == 1) {
+					me.off = !me.off;
+					MI.mi.off = me.off;
+					me.active = !me.off;
+				} else {
+					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
+						auto.unfollow();
+					} else {
+						auto.follow();
+					}
+				}
 			}
 		}
 	},

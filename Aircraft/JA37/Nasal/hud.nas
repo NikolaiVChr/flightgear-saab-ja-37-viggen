@@ -1781,7 +1781,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     if(mode == LANDING and (land.mode < 1 or land.mode > 2)) {
       me.deg = 0;#clamp(deflect, -8, 6);
       
-      if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE) {
+      if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE and (land.has_waypoint < 1 or ( land.has_waypoint > 1 and land.ils != 0))) {
         me.deg = clamp(me.input.nav0HeadingDefl.getValue(), -8, 8);# -10 to +10, clamped as -8 till +6
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {
@@ -1961,20 +1961,27 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displayQFE: func (mode) {
     me.DME = me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0;
     if (mode == LANDING and me.input.nav0InRange.getValue() == TRUE) {
-      if (me.input.TILS.getValue() == TRUE) {
+      if (land.has_waypoint > 1 and land.ils != 0) {
         if (me.DME == TRUE) {
           me.qfe.setText("TILS/DME");
         } else {
           me.qfe.setText("TILS");
         }
         me.qfe.show();
-      } else {
+      } elsif (land.has_waypoint < 1) {
         if (me.DME == TRUE) {
           me.qfe.setText("ILS/DME");
         } else {
           me.qfe.setText("ILS");
         }
         me.qfe.show();
+      } else {
+        if (me.DME == TRUE) {
+          me.qfe.setText("DME");
+          me.qfe.show();
+        } else {
+          me.qfe.hide();
+        }
       }
     } elsif ((mode == LANDING or mode == NAV) and me.DME == TRUE) {
       me.qfe.setText("DME");
