@@ -583,7 +583,7 @@
             <bank-indicator userarchive="y" type="bool">false</bank-indicator>
             <callsign type="bool">true</callsign>
             <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
-            <TILS type="bool">false</TILS>
+            <TILS type="bool">true</TILS>
             <landing-mode type="bool">false</landing-mode>
             <brightness type="double">1.0</brightness>
             <overlay type="bool">true</overlay>
@@ -1097,6 +1097,7 @@
 				<bearing-deg-rel type="double">0</bearing-deg-rel>
                 <bearing-deg-rel-rate type="double">0</bearing-deg-rel-rate>
 			</wp>
+            <disable-route-manager type="bool">true</disable-route-manager><!-- just disables the default delegate -->
 		</route-manager>
         <internal>
             <target-roll-deg type="double">0</target-roll-deg>
@@ -1332,6 +1333,10 @@
         <events>
             <file>Aircraft/JA37/Nasal/events.nas</file>
         </events>
+        <auto>
+            <file>Aircraft/JA37/Nasal/flightPlanDelegate.nas</file>
+            <file>Aircraft/JA37/Nasal/autopilot.nas</file>
+        </auto>
         <reversethrust>
             <file>Aircraft/JA37/Nasal/reversethrust.nas</file>
         </reversethrust>
@@ -1393,9 +1398,6 @@
         <ch_select>
             <file>Aircraft/JA37/Nasal/channel-selector.nas</file>
         </ch_select>
-        <auto>
-            <file>Aircraft/JA37/Nasal/autopilot.nas</file>
-        </auto>
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>

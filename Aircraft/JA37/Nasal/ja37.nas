@@ -500,7 +500,7 @@ var slow_loop = func () {
   }
 
   #TILS
-  if(input.TILS.getValue() == TRUE and input.acInstrVolt.getValue() > 100) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
+  if(1==0 and input.TILS.getValue() == TRUE and input.acInstrVolt.getValue() > 100) {#  and canvas_HUD != nil and canvas_HUD.mode == canvas_HUD.LANDING
     var icao = getprop("sim/tower/airport-id");
     var runways = airportinfo(icao).runways;
     var closestRunway = -1;

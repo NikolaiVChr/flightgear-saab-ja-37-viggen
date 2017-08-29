@@ -1781,7 +1781,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     if(mode == LANDING and (land.mode < 1 or land.mode > 2)) {
       me.deg = 0;#clamp(deflect, -8, 6);
       
-      if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE and (land.has_waypoint < 1 or ( land.has_waypoint > 1 and land.ils != 0))) {
+      if (me.finalVisual == FALSE and me.input.nav0InRange.getValue() == TRUE and (land.has_waypoint < 1 or ( land.has_waypoint > 1 and land.ils != 0 and getprop("ja37/hud/TILS") == TRUE))) {
         me.deg = clamp(me.input.nav0HeadingDefl.getValue(), -8, 8);# -10 to +10, clamped as -8 till +6
 
         if (me.input.nav0HasGS.getValue() == TRUE and me.input.nav0GSInRange.getValue() == TRUE) {

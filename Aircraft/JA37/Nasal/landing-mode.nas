@@ -434,7 +434,7 @@ var landing_loop = func {
                             if (rw != nil) {
                                 hd = rw.heading;
                                 runway_rw = rw;
-                                if (getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
+                                if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
                                     ils = runway_rw.ils.frequency/100;
                                 }
                             }
@@ -589,7 +589,7 @@ var landing_loop = func {
                 showActiveSteer = TRUE;
                 show_waypoint_circle = TRUE;
             }
-            if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE) {
+            if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE and getprop("ja37/hud/TILS") == TRUE) {
                 setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
                 setprop("ja37/hud/TILS-on", TRUE);
             } else {

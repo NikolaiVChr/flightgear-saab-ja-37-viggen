@@ -2960,7 +2960,7 @@ Sim: Heatseekers will now pursuit the flare when they lock onto it.
 TI: Fixed display would not black out when using ALS and filters.
 MI: Fixed display would not black out when using ALS and filters.
 Radar: Extra RCS checks for sanity.
-Sim: Fixed regression in non heat seeking missiles.
+Arms: Fixed regression in non heat seeking missiles.
 Sim: Refactored getPitch method to one instance.
 Radar: Fixed using FG computed elevation would not account for curvature of earth.
 Arms: Simplified and upgraded counter measure system.
@@ -3065,9 +3065,12 @@ MI: Added target indicator to heading scale.
 Arms: Fixed a nullpointer exception in missile telemetry code.
 HUD: In tactical mode distance scale will no longer show if no weapon is selected.
 Sim: Nav will now tune to ILS of runway if its the current steerpoint in landing mode. And HUD will show TILS if this is done.
-Sim: Key 'y' function and TILS switch has been removed.
+Sim: Key 'y' function has been removed.
 TI: T for TILS now only show when ILS has been captured from current selected landing base.
 TI: Menu SYST button 1 should show RR when flying, and only OFF when on ground. RR is steer order from radar, so for now its auto-follow.
 HUD: No longer show ILS guide, if the ILS is not for runway that is being landed on. If no landing steerpoint is set, it will still show.
 TI: Clicking key 'Y' or L, S, LT or LS will now stop auto-follow (RR). S will no longer be autoactivated through routemanager if RR is on.
 Sim: Switching on RR will now disengage landing mode and steerpoint modes.
+Sim: Replaced the default flightplan delegate to keep flightplan active after reaching last steerpoint.
+TI: ALFA and VIKT now only display when gears extended and in landing mode.
+Sim: The TILS switch now toggles the TILS system, and is on by default. If off and ILS is manually set and no landing base coded in, ILS will still work.

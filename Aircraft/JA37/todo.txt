@@ -124,14 +124,13 @@ TI: Waypoint info should show ETA to next waypoint. And seperate infobox for ful
 TI: Make route info with overall ETA.
 TI: Clear pylon selection.
 TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not sure what how they work.
-TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent ppoint.
+TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: There should be 4 mission routes and 2 return to base routes. Use Nasal Flightplans.
 TI: Routes can have target steerpoints (Mxx/Txx).
 TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to activate, B/S will be selected if it is not when activating. (I asume its the same as B/S for RTB instead of mission).
 TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
 TI: Edit all 6 routes.
-TI: AlFA and weight should only display when gears extended.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -145,7 +144,7 @@ Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
 List of un-authentic systems scheduled for removal at some point
 ----------------------------------------------------------------
-A/P auto-follow never existed.
+A/P auto-follow never existed. RR steer order, was probably just heading and altitude bugs.
 Automatic landing mode selection in AJ was really selected manual like in the JA.
 Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of these variants.
 Callsign of selected radar echo in HUD is unrealistic.

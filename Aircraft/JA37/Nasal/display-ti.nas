@@ -1395,6 +1395,7 @@ var TI = {
 	        wow0:                 "fdm/jsbsim/gear/unit[0]/WOW",
         	wow1:                 "fdm/jsbsim/gear/unit[1]/WOW",
         	wow2:                 "fdm/jsbsim/gear/unit[2]/WOW",
+        	gearsPos:         	  "gear/gear/position-norm",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -2858,7 +2859,7 @@ var TI = {
 				me.textBTactType3.setText("T");
 			}
 		}
-		me.icao = land.icao~((land.ils != 0)?" T":"  ");
+		me.icao = land.icao~((land.ils != 0 and getprop("ja37/hud/TILS") == TRUE)?" T":"  ");
 		me.textBBase.setText(me.icao);
 		
 		me.mode = "";
@@ -2905,7 +2906,7 @@ var TI = {
 			me.textBDist.setText("  ");
 			me.textBDistN.setText(" ");
 		}
-		if (me.input.currentMode.getValue() == displays.LANDING) {
+		if (me.input.currentMode.getValue() == displays.LANDING and me.input.gearsPos.getValue() == 1) {
 			me.alphaT  = me.interoperability == displays.METRIC?"ALFA":"ALPH";
 			me.weightT = me.interoperability == displays.METRIC?"VIKT":"WEIG";
 			if (me.interoperability == displays.METRIC) {
