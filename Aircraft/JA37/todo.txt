@@ -131,6 +131,7 @@ TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to
 TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
 TI: Edit all 6 routes.
+TI: If systems get damaged do not display wrong info. See damage example section below for what cause the mishap:
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -140,6 +141,28 @@ MI: DLZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
+
+
+Damage example section
+======================
+23:13:07 Hydraulic 1 condition 0%
+23:13:07 Static system condition 0%
+23:13:07 Speed Brake condition 0%
+23:13:07 Nav 1 Glideslope condition 0%
+23:13:07 Head Up Display condition 0%
+23:13:07 Heading Indicator condition 0%
+23:13:07 Vacuum system condition 0%
+23:13:07 Nose wheel steering condition 0%
+23:13:07 Instrument lights condition 0%
+23:13:07 DME condition 0%
+23:13:07 Radar condition 0%
+23:13:07 Gear condition 0%
+23:13:07 Annunciator condition 0%
+23:13:07 ASI condition 0%
+23:13:07 Fuel flow distributor condition 0%
+23:13:07 VSI condition 0%
+23:13:07 Canopy hinges condition 0%
+Took 32.4% damage from RB-74 missile at 7.4 meters. 17 systems was hit
 
 
 List of un-authentic systems scheduled for removal at some point

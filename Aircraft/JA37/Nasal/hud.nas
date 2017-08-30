@@ -2207,7 +2207,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
                + me.vel_gz * me.cp * me.cr;
  
-    me.dir_y = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
+    me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
     me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
     
     setprop("ja37/displays/fpi-horz-deg", me.dir_x);#used in MI display

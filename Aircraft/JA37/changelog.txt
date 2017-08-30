@@ -3074,3 +3074,4 @@ Sim: Switching on RR will now disengage landing mode and steerpoint modes.
 Sim: Replaced the default flightplan delegate to keep flightplan active after reaching last steerpoint.
 TI: ALFA and VIKT now only display when gears extended and in landing mode.
 Sim: The TILS switch now toggles the TILS system, and is on by default. If off and ILS is manually set and no landing base coded in, ILS will still work.
+HUD: Fixed that at extreme pitch the echoes or Fixes would not be displayed correct.
