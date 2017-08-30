@@ -416,8 +416,6 @@ var RadarLogic = {
       me.yg_rad = vector.Math.getPitch(self, aircraftPos)*D2R-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
       me.xg_rad = (self.course_to(aircraftPos) - myHeading) * D2R;
 
-      
-
       while (me.xg_rad > math.pi) {
         me.xg_rad = me.xg_rad - 2*math.pi;
       }
@@ -455,42 +453,6 @@ var RadarLogic = {
         me.ya_rad = me.ya_rad + 2*math.pi;
       }
 
-      me.ptch = vector.Math.getPitch(self,aircraftPos);
-      me.dst  = self.direct_distance_to(aircraftPos);
-      me.brng = self.course_to(aircraftPos);
-      me.hrz  = math.cos(me.ptch*D2R)*me.dst;
-
-      me.vel_gz = -math.sin(me.ptch*D2R)*me.dst;
-      me.vel_gx = math.cos(me.brng*D2R) *me.hrz;
-      me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
-      
-
-      me.yaw   = myHeading * D2R;
-      me.roll  = myRoll;
-      me.pitch = myPitch;
-
-      #printf("heading %.1f bearing %.1f pitch %.1f north %.1f east %.1f down %.1f", input.hdgReal.getValue(), me.brng, me.ptch, me.vel_gx, me.vel_gy, me.vel_gz);
-
-      me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
-      me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
-      me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
-   
-      me.vel_bx = me.vel_gx * me.cy * me.cp
-                 + me.vel_gy * me.sy * me.cp
-                 + me.vel_gz * -me.sp;
-      me.vel_by = me.vel_gx * (me.cy * me.sp * me.sr - me.sy * me.cr)
-                 + me.vel_gy * (me.sy * me.sp * me.sr + me.cy * me.cr)
-                 + me.vel_gz * me.cp * me.sr;
-      me.vel_bz = me.vel_gx * (me.cy * me.sp * me.cr + me.sy * me.sr)
-                 + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
-                 + me.vel_gz * me.cp * me.cr;
-   
-      me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
-      me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
-
-      me.hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
-      me.hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
-
       if(node.getName() == "rb-99" or (me.ya_rad > -61.5 * D2R and me.ya_rad < 61.5 * D2R and me.xa_rad > -61.5 * D2R and me.xa_rad < 61.5 * D2R)) {
         #is within the radar cone
         # AJ37 manual: 61.5 deg sideways.
@@ -509,6 +471,42 @@ var RadarLogic = {
           }
         }
 
+        me.ptch = vector.Math.getPitch(self,aircraftPos);
+        me.dst  = self.direct_distance_to(aircraftPos);
+        me.brng = self.course_to(aircraftPos);
+        me.hrz  = math.cos(me.ptch*D2R)*me.dst;
+
+        me.vel_gz = -math.sin(me.ptch*D2R)*me.dst;
+        me.vel_gx = math.cos(me.brng*D2R) *me.hrz;
+        me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
+        
+
+        me.yaw   = myHeading * D2R;
+        me.roll  = myRoll;
+        me.pitch = myPitch;
+
+        #printf("heading %.1f bearing %.1f pitch %.1f north %.1f east %.1f down %.1f", input.hdgReal.getValue(), me.brng, me.ptch, me.vel_gx, me.vel_gy, me.vel_gz);
+
+        me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
+        me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
+        me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
+     
+        me.vel_bx = me.vel_gx * me.cy * me.cp
+                   + me.vel_gy * me.sy * me.cp
+                   + me.vel_gz * -me.sp;
+        me.vel_by = me.vel_gx * (me.cy * me.sp * me.sr - me.sy * me.cr)
+                   + me.vel_gy * (me.sy * me.sp * me.sr + me.cy * me.cr)
+                   + me.vel_gz * me.cp * me.sr;
+        me.vel_bz = me.vel_gx * (me.cy * me.sp * me.cr + me.sy * me.sr)
+                   + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
+                   + me.vel_gz * me.cp * me.cr;
+     
+        me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
+        me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
+
+        me.hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
+        me.hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
+        
         me.distanceRadar = me.distance;#*math.cos(myPitch); hmm
 
         me.contact = Contact.new(node, type);
