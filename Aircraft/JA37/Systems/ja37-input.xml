@@ -1175,6 +1175,18 @@
             </binding>
         </key>
 
+        <key n="17">
+            <name>CTRL-SHIFT-Q</name>
+            <desc>View head-up-display</desc>
+            <repeatable>false</repeatable>
+            <mod-shift>
+                <binding>
+                    <command>nasal</command>
+                    <script>ja37.HUDView();</script>
+                </binding>
+            </mod-shift>
+        </key>
+
         <key n="356">
             <name>Ctrl Left</name>
             <repeatable type="bool">false</repeatable>

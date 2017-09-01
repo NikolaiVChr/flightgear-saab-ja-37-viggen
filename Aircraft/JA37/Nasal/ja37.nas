@@ -1985,6 +1985,21 @@ var HDDView = func () {
   }
 }
 
+var HUDView = func () {
+  if (getprop("sim/current-view/view-number") == 0) {
+    var hd = getprop("sim/current-view/heading-offset-deg");
+    var hd_t = getprop("sim/current-view/config/heading-offset-deg");
+    if (hd > 180) {
+      hd_t = hd_t + 360;
+    }
+    interpolate("sim/current-view/field-of-view", 39, 0.66);
+    interpolate("sim/current-view/heading-offset-deg", hd_t,0.66);
+    interpolate("sim/current-view/pitch-offset-deg", -3,0.66);
+    interpolate("sim/current-view/roll-offset-deg", getprop("sim/current-view/config/roll-offset-deg"),0.66);
+    interpolate("sim/current-view/x-offset-m", 0, 1); 
+  }
+}
+
 dynamic_view.register(func {
               me.default_plane();      # uncomment one of these if you want
 #           # me.default_helicopter(); # to base your code on the defaults

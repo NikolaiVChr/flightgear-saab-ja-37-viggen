@@ -302,7 +302,8 @@
                 </limits>
             </config>
         </view>
-        <view n="120">            <!-- 13 in hud.nas -->
+        <!-- 13 in hud.nas -->
+        <!--<view n="120">            
             <name>HUD view</name>
             <type>lookfrom</type>
             <internal>true</internal>
@@ -323,7 +324,7 @@
             <dynamic>
                 <enabled type="bool">false</enabled>
             </dynamic>
-        </view>
+        </view>-->
 
         <crashed type="bool">false</crashed>
 

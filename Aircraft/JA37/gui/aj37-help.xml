@@ -30,11 +30,11 @@
         <desc>Fire selected weapon</desc>
     </key>
     <!--<key>
-        <name>CTRL-5</name>
+        <name>Ctrl-5</name>
         <desc>Select cannon</desc>
     </key>-->
     <key>
-        <name>CTRL-1..4 and CTRL-6..8</name>
+        <name>Ctrl-1..4 and Ctrl-6..8</name>
         <desc>Select pylon</desc>
     </key>
 	<key>
@@ -94,7 +94,7 @@
         <desc>Landing HUD mode on/off</desc>
     </key>
     <key>
-        <name>CTRL-y</name>
+        <name>Ctrl-y</name>
         <desc>Ask tower for QFE setting.</desc>
     </key>
     <key>
@@ -126,7 +126,7 @@
         <desc>Select radar track center most in HUD</desc>
     </key>
     <key>
-        <name>ctrl n</name>
+        <name>Ctrl n</name>
         <desc>Target next route-manager waypoint</desc>
     </key>
     <!--<key>
@@ -138,11 +138,15 @@
         <desc>Reset view</desc>
     </key>
     <key>
-        <name>CTRL Left/Right</name>
+        <name>Ctrl-Shift-q</name>
+        <desc>View HUD</desc>
+    </key>
+    <key>
+        <name>Ctrl Left/Right</name>
         <desc>Yaw trim or A/P heading/roll adjust</desc>
     </key>
     <key>
-        <name>CTRL Up/Down</name>
+        <name>Ctrl Up/Down</name>
         <desc>A/T speed adjust</desc>
     </key>
     <key>
@@ -294,8 +298,8 @@
       & - mhz / khz
       + - volume up
       = - volume down
-      CTRL-. - next waypoint
-      CTRL-, - previous waypoint
+      Ctrl-. - next waypoint
+      Ctrl-, - previous waypoint
       \ - DME
 
       Trivia
