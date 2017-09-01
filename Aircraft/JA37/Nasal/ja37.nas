@@ -1992,7 +1992,7 @@ var HUDView = func () {
     if (hd > 180) {
       hd_t = hd_t + 360;
     }
-    interpolate("sim/current-view/field-of-view", 39, 0.66);
+    interpolate("sim/current-view/field-of-view", 48, 0.66);
     interpolate("sim/current-view/heading-offset-deg", hd_t,0.66);
     interpolate("sim/current-view/pitch-offset-deg", -3,0.66);
     interpolate("sim/current-view/roll-offset-deg", getprop("sim/current-view/config/roll-offset-deg"),0.66);
