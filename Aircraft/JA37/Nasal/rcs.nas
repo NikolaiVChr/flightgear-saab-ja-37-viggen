@@ -20,6 +20,7 @@ var rcs_database = {
     "f-14b":                    12,     #guess
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
+    "f15-bs":                   10,
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
     "AJS37-Viggen":             3,      #guess
