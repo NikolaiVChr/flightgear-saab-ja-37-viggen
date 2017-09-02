@@ -480,7 +480,7 @@
             </binding>
         </key>
 		
-	    <key n="121">
+	    <!--<key n="121">
             <name>y</name>
             <desc>TILS</desc>
             <binding>
@@ -491,7 +491,7 @@
                 <command>nasal</command>
                 <script>ja37.notice("This function has been disabled. Use route-manager and landing mode to do it instead.");</script>
             </binding>
-        </key>
+        </key>-->
 		
 		<key n="117">
             <name>u</name>
