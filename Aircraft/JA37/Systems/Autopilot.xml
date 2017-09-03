@@ -1,125 +1,397 @@
 <?xml version="1.0"?>
+
+<!-- JA37 Viggen Autopilot -->
+<!-- Retuned and Overhauled -->
+<!-- (c) 2017 Joshua Davidson (it0uchpods) -->
+
 <PropertyList>
 
-    <pid-controller>
-        <name>Roll target leveler</name>
-        <debug>false</debug>
-        <enable>
-            <condition>
-                <or>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>wing-leveler</value>
-                    </equals>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>dg-heading-hold</value>
-                    </equals>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>dg-roll-hold</value>
-                    </equals>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>true-heading-hold</value>
-                    </equals>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>nav1-hold</value>
-                    </equals>
-                </or>
-                <equals>
-                    <property>/ja37/avionics/autopilot</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-        </enable>
-        <input>
-            <property>/orientation/roll-deg</property>
-        </input>
-        <reference>
-            <property>/autopilot/internal/target-roll-deg</property>
-        </reference>
-        <output>
-            <property>/controls/flight/aileron-ap</property>
-        </output>
-        <config>
-            <!--<Kp>0.0040</Kp>
-        <Ti>6.0</Ti>
-        <Td>0.0</Td>-->
-            <Kp>
-                <property>/autopilot/pid/wingleveler-Kp</property>
-                <value>0.025</value>
-            </Kp>
-            <!-- proportional gain -->
-            <Ti>
-                <property>/autopilot/pid/wingleveler-Ti</property>
-                <value>1</value>
-            </Ti>
-            <!-- integrator time -->
-            <Td>
-                <property>/autopilot/pid/wingleveler-Td</property>
-                <value>1</value>
-            </Td>
-            <!-- derivator time  -->
-            <beta>1.0</beta>
-            <!-- input value weighing factor -->
-            <alpha>0.1</alpha>
-            <!-- low pass filter weighing factor -->
-            <u_min>-0.25</u_min>
-            <u_max> 0.25</u_max>
-        </config>
-    </pid-controller>
+ <!-- =============================================================== -->
+ <!-- Lateral  Modes                                                  -->
+ <!-- =============================================================== -->
 
-    <filter>
-        <type>gain</type>
-        <enable>
-            <condition>
-                <or>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>dg-heading-hold</value>
-                    </equals>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>true-heading-hold</value>
-                    </equals>
-                    <equals>
-                        <property>/autopilot/locks/heading</property>
-                        <value>nav1-hold</value>
-                    </equals>
-                </or>
-                <equals>
-                    <property>/ja37/avionics/autopilot</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-        </enable>
-        <gain>0.005</gain>
-        <input><property>/autopilot/internal/target-roll-deg</property></input>
-        <output>
-            <property>/controls/flight/rudder</property>
-        </output>
-    </filter>
+	<filter>
+		<name>WINGS LEVEL</name>
+		<type>gain</type>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/heading</property>
+					<value>wing-leveler</value>
+				</equals>
+				<property>ja37/avionics/temp-halt-ap-roll</property>
+				<property>ja37/avionics/temp-halt-ap-roll2</property>
+			</condition>
+		</enable>
+		<gain>0</gain>
+		<input>0</input>
+		<output>
+			<property>/autopilot/internal/target-roll-deg</property>
+		</output>
+	</filter>
 
-    <filter>
-        <type>gain</type>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/autopilot/locks/heading</property>
-                    <value>wing-leveler</value>
-                </equals>
-                <property>ja37/avionics/temp-halt-ap-roll</property>
-                <property>ja37/avionics/temp-halt-ap-roll2</property>
-            </condition>
-        </enable>
-        <gain>0</gain>
-        <input>0</input>
-        <output>
-            <property>/autopilot/internal/target-roll-deg</property>
-        </output>
+	<filter>
+		<type>gain</type>
+		<gain>1</gain>
+		<input>/autopilot/internal/heading-bug-error-deg</input>
+		<output>/autopilot/internal/heading-bug-error-deg-norm</output>
+		<min>-30</min>
+		<max>30</max>
+	</filter>
+
+	<pi-simple-controller>
+		<name>HEADING MAGNETIC</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/heading</property>
+					<value>dg-heading-hold</value>
+				</equals>
+				<property>ja37/avionics/temp-halt-ap-roll</property>
+				<property>ja37/avionics/temp-halt-ap-roll2</property>
+			</condition>
+		</enable>
+		<input>
+			<property>/autopilot/internal/heading-bug-error-deg-norm</property>
+		</input>
+		<reference>
+			<value>0.0</value>
+		</reference>
+		<output>
+			<property>/autopilot/internal/target-roll-deg</property>
+		</output>
+		<config>
+			<Kp>-4.0</Kp>
+			<Ki>0.0</Ki>
+			<min>
+				<property>/fdm/jsbsim/autopilot/max-roll</property>
+				<scale>-1</scale>
+			</min>
+			<max>
+				<property>/fdm/jsbsim/autopilot/max-roll</property>
+			</max>
+		</config>
+	</pi-simple-controller>
+	
+	<filter>
+		<type>gain</type>
+		<gain>1</gain>
+		<input>/autopilot/internal/true-heading-error-deg</input>
+		<output>/autopilot/internal/true-heading-error-deg-norm</output>
+		<min>-30</min>
+		<max>30</max>
+	</filter>
+
+	<pi-simple-controller>
+		<name>HEADING TRUE</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/heading</property>
+					<value>true-heading-hold</value>
+				</equals>
+				<property>ja37/avionics/temp-halt-ap-roll</property>
+				<property>ja37/avionics/temp-halt-ap-roll2</property>
+			</condition>
+		</enable>
+		<input>
+			<property>/autopilot/internal/true-heading-error-deg-norm</property>
+		</input>
+		<reference>
+			<value>0.0</value>
+		</reference>
+		<output>
+			<property>/autopilot/internal/target-roll-deg</property>
+		</output>
+		<config>
+			<Kp>-4.0</Kp>
+			<Ki>0.0</Ki>
+			<min>
+				<property>/fdm/jsbsim/autopilot/max-roll</property>
+				<scale>-1</scale>
+			</min>
+			<max>
+				<property>/fdm/jsbsim/autopilot/max-roll</property>
+			</max>
+		</config>
+	</pi-simple-controller>
+	
+	<filter>
+		<type>gain</type>
+		<gain>1</gain>
+		<input>/autopilot/internal/nav1-heading-error-deg</input>
+		<output>/autopilot/internal/nav1-heading-error-deg-norm</output>
+		<min>-30</min>
+		<max>30</max>
+	</filter>
+	
+	<pi-simple-controller>
+		<name>NAV1 TRK</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/heading</property>
+					<value>nav1-hold</value>
+				</equals>
+				<property>ja37/avionics/temp-halt-ap-roll</property>
+				<property>ja37/avionics/temp-halt-ap-roll2</property>
+			</condition>
+		</enable>
+		<input>
+			<property>/autopilot/internal/nav1-heading-error-deg-norm</property>
+		</input>
+		<reference>
+			<value>0.0</value>
+		</reference>
+		<output>
+			<property>/autopilot/internal/target-roll-deg</property>
+		</output>
+		<config>
+			<Kp>-4.5</Kp>
+			<Ki>0.0001</Ki>
+			<min>
+				<property>/fdm/jsbsim/autopilot/max-roll</property>
+				<scale>-1</scale>
+			</min>
+			<max>
+				<property>/fdm/jsbsim/autopilot/max-roll</property>
+			</max>
+		</config>
+	</pi-simple-controller>
+
+	<filter>
+		<name>ROLL DEG SYNC</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1</gain>
+		<enable>
+			<condition>
+				<or>
+					<and>
+						<not-equals>
+							<property>/autopilot/locks/heading</property>
+							<value>wing-leveler</value>
+						</not-equals>
+						<not-equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-heading-hold</value>
+						</not-equals>
+						<not-equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-roll-hold</value>
+						</not-equals>
+						<not-equals>
+							<property>/autopilot/locks/heading</property>
+							<value>true-heading-hold</value>
+						</not-equals>
+						<not-equals>
+							<property>/autopilot/locks/heading</property>
+							<value>nav1-hold</value>
+						</not-equals>
+					</and>
+					<equals>
+						<property>/ja37/avionics/autopilot</property>
+						<value>0</value>
+					</equals>
+				</or>
+			</condition>
+		</enable>
+		<input>/orientation/roll-deg</input>
+		<output>/autopilot/internal/target-roll-deg</output>
+		<min>
+			<property>/fdm/jsbsim/autopilot/max-roll</property>
+			<scale>-1</scale>
+		</min>
+		<max>
+			<property>/fdm/jsbsim/autopilot/max-roll</property>
+		</max>
+	</filter>
+
+	<filter>
+		<name>IT-CONTROLLER: TARGET ROLL CMD</name>
+		<debug>false</debug>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<input>
+			<property>/autopilot/internal/target-roll-deg</property>
+		</input>
+		<output>/autopilot/internal/target-roll</output>
+		<type>noise-spike</type>
+		<max-rate-of-change>8</max-rate-of-change>
+	</filter>
+
+	<filter>
+		<name>System Command: Roll Rate</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>-0.12</gain>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>wing-leveler</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-heading-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-roll-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>true-heading-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>nav1-hold</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/ja37/avionics/autopilot</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<property>/orientation/roll-deg</property>
+		</input>
+		<reference>
+			<property>/autopilot/internal/target-roll</property>
+		</reference>
+		<output>
+			<property>/autopilot/internal/roll-rate-cmd</property>
+		</output>   	
+		<min>-0.5</min>
+		<max>0.5</max>
+	</filter>
+	
+	<filter>
+		<name>IT-CONTROLLER: ROLL RATE CMD</name>
+		<type>gain</type>
+		<gain>1</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/autopilot/internal/roll-rate-cmd</property> 
+					<entry><ind>-1</ind><dep>-20.0</dep></entry>
+					<entry><ind> 0</ind><dep>  0.0</dep></entry>
+					<entry><ind> 1</ind><dep> 20.0</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/autopilot/internal/roll-rate</output>
     </filter>
+	
+	<pid-controller>
+		<name>IT-CONTROLLER: ROLL</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>wing-leveler</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-heading-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-roll-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>true-heading-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>nav1-hold</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/ja37/avionics/autopilot</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<property>/orientation/roll-rate-degps</property>
+		</input>
+		<reference>
+			<property>/autopilot/internal/roll-rate</property>
+		</reference>
+		<output>
+			<property>/autopilot/internal/aileron-cmd</property>
+		</output>
+		<config>
+			<Kp>0.035</Kp>
+			<beta>1</beta>
+			<alpha>0.1</alpha>
+			<gamma>0</gamma>
+			<Ti>1.0</Ti>
+			<Td>0.005</Td>
+			<u_min>-1</u_min>
+			<u_max>1</u_max>
+		</config>
+	</pid-controller>
+	
+	<filter>
+		<name>IT-CONTROLLER: ROLL CMD</name>
+		<debug>false</debug>
+		<feedback-if-disabled>true</feedback-if-disabled>
+		<initialize-to>output</initialize-to>
+		<enable>
+			<condition>
+				<and>
+					<or>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>wing-leveler</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-heading-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>dg-roll-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>true-heading-hold</value>
+						</equals>
+						<equals>
+							<property>/autopilot/locks/heading</property>
+							<value>nav1-hold</value>
+						</equals>
+					</or>
+					<equals>
+						<property>/ja37/avionics/autopilot</property>
+						<value>1</value>
+					</equals>
+				</and>
+			</condition>
+		</enable>
+		<input>
+			<property>/autopilot/internal/aileron-cmd</property>
+		</input>
+		<output>/controls/flight/aileron-ap</output>
+		<type>noise-spike</type>
+		<max-rate-of-change>0.7</max-rate-of-change>
+	</filter>
+
+	<!-- Pitch -->
 
     <pid-controller>
         <name>Pitch hold</name>
@@ -587,105 +859,4 @@
         </config>
     </pid-controller>
 
-    <!-- Heading Bug Hold.  2 stage cascade controller. -->
-
-    <!-- Stage #1 sets target roll based on diff between current heading -->
-    <!-- and heading bug. -->
-    <filter>
-        <name>Heading Bug Hold (DG based) Stage 1</name>
-        <debug>false</debug>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/autopilot/locks/heading</property>
-                    <value>dg-heading-hold</value>
-                </equals>
-                <property>ja37/avionics/temp-halt-ap-roll</property>
-                <property>ja37/avionics/temp-halt-ap-roll2</property>
-            </condition>
-        </enable>
-        <input>
-            <property>/autopilot/internal/heading-bug-error-deg</property>
-        </input>
-        <reference>
-            <value>0.0</value>
-        </reference>
-        <output>
-            <property>/autopilot/internal/target-roll-deg</property>
-        </output>
-        <type>gain</type>
-        <gain>4</gain>
-        <min>-55.0</min>
-        <!-- minimum output clamp -->
-        <max> 55.0</max>
-    </filter>
-
-    <!-- True Heading hold.  2 stage cascade controller. -->
-
-    <!-- Stage #1 sets target roll based on diff between current heading -->
-    <!-- and target heading. -->
-    <filter>
-        <name>True Heading Hold (DG based) Stage 1</name>
-        <debug>false</debug>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/autopilot/locks/heading</property>
-                    <value>true-heading-hold</value>
-                </equals>
-                <property>ja37/avionics/temp-halt-ap-roll</property>
-                <property>ja37/avionics/temp-halt-ap-roll2</property>
-            </condition>
-        </enable>
-        <input>
-            <property>/autopilot/internal/true-heading-error-deg</property>
-        </input>
-        <reference>
-            <value>0.0</value>
-        </reference>
-        <output>
-            <property>/autopilot/internal/target-roll-deg</property>
-        </output>
-        <type>gain</type>
-        <gain>4</gain>
-        <min>-55.0</min>
-        <!-- minimum output clamp -->
-        <max> 55.0</max>
-    </filter>
-
-
-    <!-- Nav1 hold.  2 stage cascade controller. -->
-
-    <!-- Stage #1 sets target roll based on diff between current heading -->
-    <!-- and target heading. -->
-    <filter>
-        <name>Nav1 Hold Stage 1</name>
-        <debug>false</debug>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/autopilot/locks/heading</property>
-                    <value>nav1-hold</value>
-                </equals>
-                <property>ja37/avionics/temp-halt-ap-roll</property>
-                <property>ja37/avionics/temp-halt-ap-roll2</property>
-            </condition>
-        </enable>
-        <input>
-            <property>/autopilot/internal/nav1-heading-error-deg</property>
-        </input>
-        <reference>
-            <value>0.0</value>
-        </reference>
-        <output>
-            <property>/autopilot/internal/target-roll-deg</property>
-        </output>
-        <type>gain</type>
-        <gain>4</gain>
-        <min>-55.0</min>
-        <!-- minimum output clamp -->
-        <max> 55.0</max>
-    </filter>
-
 </PropertyList>
-<!-- In progress and disabled atm. Remember: http://forum.flightgear.org/viewtopic.php?f=46&t=10171-->
