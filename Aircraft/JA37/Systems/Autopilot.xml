@@ -382,7 +382,9 @@
 		</config>
 	</pid-controller>
 
-	<!-- Pitch -->
+ <!-- =============================================================== -->
+ <!-- Vertical Modes                                                  -->
+ <!-- =============================================================== -->
 
     <pid-controller>
         <name>Pitch hold</name>
@@ -423,76 +425,6 @@
             <u_max>
                 1
             </u_max>
-        </config>
-    </pid-controller>
-
-    <pid-controller>
-        <name>Auto throttle</name>
-        <debug>false</debug>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/autopilot/locks/speed</property>
-                    <value>speed-with-throttle</value>
-                </equals>
-                <equals>
-                    <property>/ja37/avionics/autopilot</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-        </enable>
-        <input>
-            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-        </input>
-        <reference>
-            <property>/autopilot/settings/target-speed-kt</property>
-        </reference>
-        <output>
-            <property>/controls/engines/engine/throttle</property>
-        </output>
-        <config>
-            <Kp>0.01</Kp>
-            <!-- was 0.005 -->
-            <beta>1.0</beta>
-            <alpha>0.1</alpha>
-            <Ti>25.0</Ti>
-            <!-- was 10 -->
-            <Td>0.5</Td>
-            <u_min>0.15</u_min>
-            <u_max><property>ja37/avionics/auto-throttle-max</property></u_max>
-        </config>
-    </pid-controller>
-
-    <pid-controller>
-        <name>Auto throttle AoA</name>
-        <debug>false</debug>
-        <enable>
-            <condition>
-                <equals>
-                    <property>/autopilot/locks/speed</property>
-                    <value>constant-AoA</value>
-                </equals>
-                <equals>
-                    <property>/ja37/avionics/autopilot</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-        </enable>
-        <input>
-            <property>/orientation/alpha-deg</property>
-        </input>
-        <reference>
-            <property>/autopilot/settings/target-aoa</property>
-        </reference>
-        <output>
-            <property>/controls/engines/engine/throttle</property>
-        </output>
-        <config>
-            <Kp>-0.009</Kp>
-            <Ti>0.040</Ti>
-            <Td>400.0</Td>
-            <u_min>0.0</u_min>
-            <u_max><property>ja37/avionics/auto-throttle-max</property></u_max>
         </config>
     </pid-controller>
 
@@ -849,5 +781,85 @@
             </u_max>
         </config>
     </pid-controller>
+	
+ <!-- =============================================================== -->
+ <!-- Velocity Modes                                                  -->
+ <!-- =============================================================== -->
+
+	<pid-controller>
+		<name>Auto throttle</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/speed</property>
+					<value>speed-with-throttle</value>
+				</equals>
+				<equals>
+					<property>/ja37/avionics/autopilot</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+		</input>
+		<reference>
+			<property>/autopilot/settings/target-speed-kt</property>
+		</reference>
+		<output>
+			<property>/controls/engines/engine/throttle</property>
+		</output>
+		<config>
+			<Kp>0.05</Kp>
+			<beta>1.0</beta>
+			<alpha>0.1</alpha>
+			<gamma>0.0</gamma>
+			<Ti>10.0</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.15</u_min>
+			<u_max>
+				<property>/ja37/avionics/auto-throttle-max</property>
+			</u_max>
+		</config>
+	</pid-controller>
+
+	<pid-controller>
+		<name>Auto throttle AoA</name>
+		<debug>false</debug>
+		<enable>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/speed</property>
+					<value>constant-AoA</value>
+				</equals>
+				<equals>
+					<property>/ja37/avionics/autopilot</property>
+					<value>1</value>
+				</equals>
+			</condition>
+		</enable>
+		<input>
+			<property>/orientation/alpha-deg</property>
+		</input>
+		<reference>
+			<property>/autopilot/settings/target-aoa</property>
+		</reference>
+		<output>
+			<property>/controls/engines/engine/throttle</property>
+		</output>
+		<config>
+			<Kp>-0.01</Kp>
+			<beta>1.0</beta>
+			<alpha>0.1</alpha>
+			<gamma>0.0</gamma>
+			<Ti>10.0</Ti>
+			<Td>0.00001</Td>
+			<u_min>0.0</u_min>
+			<u_max>
+				<property>/ja37/avionics/auto-throttle-max</property>
+			</u_max>
+		</config>
+	</pid-controller>
 
 </PropertyList>
