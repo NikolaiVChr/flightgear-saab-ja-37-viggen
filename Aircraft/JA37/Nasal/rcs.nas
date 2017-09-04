@@ -18,9 +18,11 @@ var test = func (echoHeading, echoPitch, echoRoll, bearing, frontRCS) {
 var rcs_database = {
     "default":                  200,    #default value if target's model isn't listed
     "f-14b":                    12,     #guess
+    "F-14D":                    12,     #guess
+    "f-14b-bs":                 0.001,   # low so it dont show up on radar
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
-    "f15-bs":                   10,
+    "f15-bs":                   0.001,   # low so it dont show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
     "AJS37-Viggen":             3,      #guess
