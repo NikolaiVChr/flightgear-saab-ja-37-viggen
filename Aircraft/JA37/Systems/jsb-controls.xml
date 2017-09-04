@@ -724,10 +724,12 @@
             <!--<output>/controls/flight/aileron-ap</output>-->
         </switch>
 
-        <pure_gain name="fcs/aileron/stick-geared-switched">
-            <input>fcs/aileron/stick-geared</input>
-            <gain>/ja37/avionics/temp-halt-ap-roll2</gain>
-        </pure_gain>
+        <switch name="fcs/aileron/stick-geared-switched">
+            <default value="fcs/aileron/stick-geared"/>
+            <test logic="AND" value="0">
+                /ja37/avionics/auto-attitude-on == 1
+            </test>
+        </switch>
 
         <summer name="names/aileron/cmd-sum">
             <input>fcs/aileron/stick-geared-switched</input>
