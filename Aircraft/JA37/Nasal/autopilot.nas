@@ -479,23 +479,22 @@ var apLoop = func {
   } elsif (getprop("/autopilot/locks/heading") != "" and getprop("/autopilot/locks/heading") != nil and rollCmd != 0) {
     # Pilot is using stick lateral motion to adjust attitude A/P
     lock = getprop("/autopilot/locks/heading");
-    # stop A/P from controlling pitch:
+    # stop A/P from controlling roll:
     setprop("ja37/avionics/temp-halt-ap-roll2", 0);
     usedStick = 1;
   } elsif (lock != "") {
     # keep new heading/roll
     lock = "";
     if (getprop("/autopilot/locks/heading") == "dg-heading-hold") {
-      setprop("autopilot/settings/heading-bug-deg", getprop("orientation/heading-magnetic-deg"));
+      setprop("autopilot/settings/heading-bug-deg", math.round(getprop("orientation/heading-magnetic-deg"), 1));
     } elsif (getprop("/autopilot/locks/heading") == "true-heading-hold") {
-      setprop("autopilot/settings/true-heading-deg", getprop("orientation/heading-deg"));
+      setprop("autopilot/settings/true-heading-deg", math.round(getprop("orientation/heading-deg"), 1));
     } elsif (getprop("/autopilot/locks/heading") == "nav1-hold") {
       # nop
     }
     setprop("ja37/avionics/temp-halt-ap-roll", 1);
     setprop("ja37/avionics/temp-halt-ap-roll2", 1);
     if (usedStick == 1) {
-      setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg"));
       usedStick = 0;
     }
   } else {

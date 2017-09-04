@@ -63,7 +63,7 @@
 		</output>
 		<config>
 			<Kp>-4.0</Kp>
-			<Ki>0.0</Ki>
+			<Ki>0.000001</Ki>
 			<min>
 				<property>/fdm/jsbsim/autopilot/max-roll</property>
 				<scale>-1</scale>
@@ -107,7 +107,7 @@
 		</output>
 		<config>
 			<Kp>-4.0</Kp>
-			<Ki>0.0</Ki>
+			<Ki>0.000001</Ki>
 			<min>
 				<property>/fdm/jsbsim/autopilot/max-roll</property>
 				<scale>-1</scale>
@@ -196,6 +196,8 @@
 						<property>/ja37/avionics/autopilot</property>
 						<value>0</value>
 					</equals>
+					<not><property>ja37/avionics/temp-halt-ap-roll</property></not>
+					<not><property>ja37/avionics/temp-halt-ap-roll2</property></not>
 				</or>
 			</condition>
 		</enable>
@@ -220,7 +222,24 @@
 		</input>
 		<output>/autopilot/internal/target-roll</output>
 		<type>noise-spike</type>
-		<max-rate-of-change>8</max-rate-of-change>
+		<max-rate-of-change>
+			<condition>
+				<not-equals>
+					<property>/autopilot/locks/heading</property>
+					<value>dg-roll-hold</value>
+				</not-equals>
+			</condition>
+			<value>8</value>
+		</max-rate-of-change>
+		<max-rate-of-change>
+			<condition>
+				<equals>
+					<property>/autopilot/locks/heading</property>
+					<value>dg-roll-hold</value>
+				</equals>
+			</condition>
+			<value>10000</value>
+		</max-rate-of-change>
 	</filter>
 
 	<filter>
@@ -264,13 +283,28 @@
 			<property>/orientation/roll-deg</property>
 		</input>
 		<reference>
+			<condition>
+				<and>
+					<property>ja37/avionics/temp-halt-ap-roll</property>
+					<property>ja37/avionics/temp-halt-ap-roll2</property>
+				</and>
+			</condition>
 			<property>/autopilot/internal/target-roll</property>
+		</reference>
+		<reference>
+			<condition>
+				<or>
+					<not><property>ja37/avionics/temp-halt-ap-roll</property></not>
+					<not><property>ja37/avionics/temp-halt-ap-roll2</property></not>
+				</or>
+			</condition>
+			<property>/orientation/roll-deg</property>
 		</reference>
 		<output>
 			<property>/autopilot/internal/roll-rate-cmd</property>
 		</output>   	
-		<min>-0.5</min>
-		<max>0.5</max>
+		<min>-1</min>
+		<max>1</max>
 	</filter>
 	
 	<filter>
@@ -322,6 +356,8 @@
 						<property>/ja37/avionics/autopilot</property>
 						<value>1</value>
 					</equals>
+					<property>ja37/avionics/temp-halt-ap-roll</property>
+					<property>ja37/avionics/temp-halt-ap-roll2</property>
 				</and>
 			</condition>
 		</enable>
@@ -332,64 +368,19 @@
 			<property>/autopilot/internal/roll-rate</property>
 		</reference>
 		<output>
-			<property>/autopilot/internal/aileron-cmd</property>
+			<property>/controls/flight/aileron-ap</property>
 		</output>
 		<config>
-			<Kp>0.035</Kp>
+			<Kp>0.092</Kp>
 			<beta>1</beta>
 			<alpha>0.1</alpha>
 			<gamma>0</gamma>
 			<Ti>1.0</Ti>
-			<Td>0.005</Td>
+			<Td>0.0005</Td>
 			<u_min>-1</u_min>
 			<u_max>1</u_max>
 		</config>
 	</pid-controller>
-	
-	<filter>
-		<name>IT-CONTROLLER: ROLL CMD</name>
-		<debug>false</debug>
-		<feedback-if-disabled>true</feedback-if-disabled>
-		<initialize-to>output</initialize-to>
-		<enable>
-			<condition>
-				<and>
-					<or>
-						<equals>
-							<property>/autopilot/locks/heading</property>
-							<value>wing-leveler</value>
-						</equals>
-						<equals>
-							<property>/autopilot/locks/heading</property>
-							<value>dg-heading-hold</value>
-						</equals>
-						<equals>
-							<property>/autopilot/locks/heading</property>
-							<value>dg-roll-hold</value>
-						</equals>
-						<equals>
-							<property>/autopilot/locks/heading</property>
-							<value>true-heading-hold</value>
-						</equals>
-						<equals>
-							<property>/autopilot/locks/heading</property>
-							<value>nav1-hold</value>
-						</equals>
-					</or>
-					<equals>
-						<property>/ja37/avionics/autopilot</property>
-						<value>1</value>
-					</equals>
-				</and>
-			</condition>
-		</enable>
-		<input>
-			<property>/autopilot/internal/aileron-cmd</property>
-		</input>
-		<output>/controls/flight/aileron-ap</output>
-		<type>noise-spike</type>
-		<max-rate-of-change>0.7</max-rate-of-change>
-	</filter>
 
 	<!-- Pitch -->
 
