@@ -241,14 +241,13 @@ var apStopAtt = func {
 var apContRoll = func {
   # roll lock
   setprop("/autopilot/locks/heading", "");
-  setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg"));
   setprop("/autopilot/locks/heading", "dg-roll-hold");
   lockAtt = "dg-roll-hold";
 };
 
 var apContHead = func {
   # heading lock
-  setprop("autopilot/settings/heading-bug-deg", getprop("orientation/heading-magnetic-deg"));
+  setprop("autopilot/settings/heading-bug-deg", math.round(getprop("orientation/heading-magnetic-deg"), 1));
   setprop("/autopilot/locks/heading", "dg-heading-hold");
   lockAtt = "dg-heading-hold";
 };
@@ -256,7 +255,7 @@ var apContHead = func {
 var apContPitch = func {
   # pitch lock
   setprop("/autopilot/locks/altitude", "pitch-hold");
-  setprop("/autopilot/settings/target-pitch-deg", getprop("/orientation/pitch-deg"));
+  setprop("/autopilot/settings/target-pitch-deg", math.round(getprop("/orientation/pitch-deg"), 1));
   lockPitch = "pitch-hold";
 };
 
@@ -269,7 +268,7 @@ var apStopPitch = func {
 var apContAlt = func {
   # alt lock
   setprop("/autopilot/target-tracking-ja37/enable", FALSE);
-  setprop("autopilot/settings/target-altitude-ft", getprop("instrumentation/altimeter/indicated-altitude-ft"));
+  setprop("autopilot/settings/target-altitude-ft", math.round(getprop("/autopilot/internal/altitude-2-sec-ahead"), 100));
   setprop("/autopilot/locks/altitude", "altitude-hold");
   lockPitch = "altitude-hold";
 }
@@ -286,7 +285,7 @@ var apContSpeed = func {
     apStopAT();
   } else {
     setprop("/autopilot/target-tracking-ja37/enable", FALSE);
-    setprop("autopilot/settings/target-speed-kt", getprop("instrumentation/airspeed-indicator/indicated-speed-kt"));
+    setprop("autopilot/settings/target-speed-kt", math.round(getprop("instrumentation/airspeed-indicator/indicated-speed-kt"), 1));
     setprop("/autopilot/locks/speed", "speed-with-throttle");
     modeT = 1;
     lockThrottle = "speed-with-throttle";
@@ -513,7 +512,7 @@ var apLoop = func {
     # keep new altitude/pitch/AoA/vertical-speed
     lockP = "";
     if (getprop("/autopilot/locks/altitude") == "altitude-hold") {
-      setprop("autopilot/settings/target-altitude-ft", math.round(getprop("instrumentation/altimeter/indicated-altitude-ft"), 100));
+      setprop("autopilot/settings/target-altitude-ft", math.round(getprop("/autopilot/internal/altitude-2-sec-ahead"), 100));
     } elsif (getprop("/autopilot/locks/altitude") == "pitch-hold") {
       setprop("/autopilot/settings/target-pitch-deg", math.round(getprop("/orientation/pitch-deg"), 1));
     } elsif (getprop("/autopilot/locks/altitude") == "vertical-speed-hold") {
@@ -521,7 +520,7 @@ var apLoop = func {
     } elsif (getprop("/autopilot/locks/altitude") == "aoa-hold") {
       setprop("/autopilot/settings/target-aoa-deg", math.round(getprop("/orientation/alpha-deg"), 0.1));
     } elsif (getprop("/autopilot/locks/altitude") == "agl-hold") {
-      setprop("autopilot/settings/target-agl-ft", math.round(getprop("position/altitude-agl-ft"), 100));
+      setprop("autopilot/settings/target-agl-ft", math.round(getprop("/autopilot/internal/agl-2-sec-ahead"), 100));
     }
     setprop("ja37/avionics/temp-halt-ap-pitch", 1);
   }
