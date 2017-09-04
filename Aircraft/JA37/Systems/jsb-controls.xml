@@ -85,7 +85,7 @@
             <output>/controls/flight/elevator-cmd-ap</output>
         </fcs_function>
 
-        <aerosurface_scale name="fcs/elevator/cmd-g-trim">
+        <!--<aerosurface_scale name="fcs/elevator/cmd-g-trim">
             <input>fcs/pitch-trim-cmd-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -93,10 +93,15 @@
                 <max>  1.0 </max>
             </domain>
             <range>
-                <min> -2.0 </min>
-                <max>  2.0 </max>
+                <min> -1.0 </min>
+                <max>  1.0 </max>
             </range>
-        </aerosurface_scale>
+        </aerosurface_scale>-->
+
+        <pure_gain name="fcs/elevator/cmd-g-trim">
+            <input>fcs/pitch-trim-cmd-norm</input>
+            <gain> -1 </gain>
+        </pure_gain>
 
         <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
             <function>
