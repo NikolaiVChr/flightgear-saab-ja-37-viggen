@@ -873,8 +873,10 @@
 			<gamma>0</gamma>
 			<Ti>0.35</Ti>
 			<Td>0.0005</Td>
-			<u_min>-1</u_min>
-			<u_max>1</u_max>
+			<u_min>
+				<property>/fdm/jsbsim/autopilot/min-g</property>
+			</u_min>
+			<u_max>0.75</u_max>
 		</config>
 	</pid-controller>
 
