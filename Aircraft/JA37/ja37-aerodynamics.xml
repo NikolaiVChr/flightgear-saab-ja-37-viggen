@@ -2269,7 +2269,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
                 <property>aero/ci2vel</property>
-                <property>aero/alphadot-deg_sec</property>
+                <property>aero/alphadot-rad_sec</property>
                 <table>
                     <independentVar>aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->

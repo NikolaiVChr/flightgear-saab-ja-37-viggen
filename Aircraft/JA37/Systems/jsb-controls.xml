@@ -61,7 +61,12 @@
 
 
 
-
+    <property value="0.05">fcs/elevator/gains/delta</property>
+    <property value="5">fcs/elevator/gains/int</property>
+    <property value="5">fcs/elevator/gains/int-feedback</property>
+    <property value="-0.5">fcs/elevator/gains/int-calm</property>
+    <property value="0.334">fcs/elevator/gains/damp-q</property>
+    <property value="0.668">fcs/elevator/gains/damp-q-wow</property>
 
     <channel execrate="1" name="Elevators">
 
@@ -231,8 +236,8 @@
         </washout_filter>
 
         <switch name="fcs/elevator/q-gain-value">
-            <default value="0.334"/>
-            <test logic="OR" value="0.668">
+            <default value="fcs/elevator/gains/damp-q"/>
+            <test logic="OR" value="fcs/elevator/gains/damp-q-wow">
                 gear/unit[1]/WOW eq 1
                 gear/unit[2]/WOW eq 1
             </test>
@@ -332,7 +337,7 @@
 
         <pure_gain name="fcs/elevator/delta">
             <input>fcs/elevator/raw-delta</input>
-            <gain> 0.09 </gain>
+            <gain> fcs/elevator/gains/delta </gain>
         </pure_gain>
 
         <pure_gain name="fcs/elevator/delta-schedule">
@@ -370,7 +375,7 @@
 
         <pure_gain name="fcs/elevator/integrator-feedback">
             <input>fcs/elevator/integrator-feedback-deadzone</input>
-            <gain> 5 </gain>
+            <gain> fcs/elevator/gains/int-feedback </gain>
         </pure_gain>
 
         <summer name="fcs/elevator/integrator-input">
@@ -381,11 +386,11 @@
 
         <integrator name="fcs/elevator/integrator">
             <input> fcs/elevator/integrator-input </input>
-            <c1> 5 </c1>
-            <clipto>
+            <c1> fcs/elevator/gains/int </c1>
+            <!--<clipto>
                 <min> -1 </min>
                 <max>  1 </max>
-            </clipto>
+            </clipto>-->
         </integrator>
 
         <switch name="fcs/elevator/integrator-feedback-ground">
@@ -398,7 +403,7 @@
 
         <pure_gain name="fcs/elevator/integrator-feedback-calm">
             <input>fcs/elevator/integrator</input>
-            <gain> -0.5 </gain>
+            <gain> fcs/elevator/gains/int-calm </gain>
         </pure_gain>
 
         <summer name="fcs/elevator/output">
