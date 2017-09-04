@@ -440,7 +440,7 @@ var apLoop = func {
     }
   } elsif (getprop("/autopilot/locks/speed") == "constant-AoA") {
     if(getprop("fdm/jsbsim/autopilot/AoA-hold") == 0) {
-      setprop("autopilot/settings/target-speed-kt", getprop("instrumentation/airspeed-indicator/indicated-speed-kt"));
+      setprop("autopilot/settings/target-speed-kt", math.round(getprop("instrumentation/airspeed-indicator/indicated-speed-kt"), 1));
       setprop("/autopilot/locks/speed", "speed-with-throttle");
       lockThrottle = "speed-with-throttle";
       modeT = 1;
@@ -513,15 +513,15 @@ var apLoop = func {
     # keep new altitude/pitch/AoA/vertical-speed
     lockP = "";
     if (getprop("/autopilot/locks/altitude") == "altitude-hold") {
-      setprop("autopilot/settings/target-altitude-ft", getprop("instrumentation/altimeter/indicated-altitude-ft"));
+      setprop("autopilot/settings/target-altitude-ft", math.round(getprop("instrumentation/altimeter/indicated-altitude-ft"), 100));
     } elsif (getprop("/autopilot/locks/altitude") == "pitch-hold") {
-      setprop("/autopilot/settings/target-pitch-deg", getprop("/orientation/pitch-deg"));
+      setprop("/autopilot/settings/target-pitch-deg", math.round(getprop("/orientation/pitch-deg"), 1));
     } elsif (getprop("/autopilot/locks/altitude") == "vertical-speed-hold") {
-      setprop("/autopilot/settings/vertical-speed-fpm", getprop("/velocities/vertical-speed-fps")*60);
+      setprop("/autopilot/settings/vertical-speed-fpm", math.round(getprop("/autopilot/internal/vert-speed-fpm"), 1));
     } elsif (getprop("/autopilot/locks/altitude") == "aoa-hold") {
-      setprop("/autopilot/settings/target-aoa-deg", getprop("/orientation/alpha-deg"));
+      setprop("/autopilot/settings/target-aoa-deg", math.round(getprop("/orientation/alpha-deg"), 0.1));
     } elsif (getprop("/autopilot/locks/altitude") == "agl-hold") {
-      setprop("autopilot/settings/target-agl-ft", getprop("position/altitude-agl-ft"));
+      setprop("autopilot/settings/target-agl-ft", math.round(getprop("position/altitude-agl-ft"), 100));
     }
     setprop("ja37/avionics/temp-halt-ap-pitch", 1);
   }
