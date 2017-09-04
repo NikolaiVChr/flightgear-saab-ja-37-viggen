@@ -29,6 +29,7 @@ var rcs_database = {
     "JA37Di-Viggen":            3,      #guess
     "m2000-5":                  1,
     "m2000-5B":                 1,
+    "m2000-5B-backseat":        0.001,
     "707":                      100,    #guess
     "707-TT":                   100,    #guess
     "EC-137D":                  110,    #guess
