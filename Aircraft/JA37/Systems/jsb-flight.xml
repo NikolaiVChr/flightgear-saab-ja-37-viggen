@@ -270,6 +270,19 @@
             <output>/autopilot/internal/target-roll-deg</output>
         </switch>
 
+        <fcs_function name="autopilot/min-g">
+            <function>
+                <table>
+                    <independentVar lookup="row">/orientation/roll-deg</independentVar>
+                    <tableData>
+                        -60 -2
+                          0 -0.75
+                         60 -2
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
     </channel>
 
     <channel execrate="4" name="effects">
