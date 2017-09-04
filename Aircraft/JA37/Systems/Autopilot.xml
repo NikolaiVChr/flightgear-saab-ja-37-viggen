@@ -728,6 +728,7 @@
 						<property>/ja37/avionics/autopilot</property>
 						<value>0</value>
 					</equals>
+					<not><property>ja37/avionics/temp-halt-ap-pitch</property></not>
 				</or>
 			</condition>
 		</enable>
@@ -867,12 +868,12 @@
 			<property>/controls/flight/elevator-ap</property>
 		</output>
 		<config>
-			<Kp>-0.32</Kp>
+			<Kp>-0.28</Kp>
 			<beta>1</beta>
 			<alpha>0.1</alpha>
 			<gamma>0</gamma>
 			<Ti>0.35</Ti>
-			<Td>0.0005</Td>
+			<Td>0.01</Td>
 			<u_min>
 				<property>/fdm/jsbsim/autopilot/min-g</property>
 			</u_min>

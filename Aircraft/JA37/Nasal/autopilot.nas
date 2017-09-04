@@ -255,7 +255,6 @@ var apContHead = func {
 var apContPitch = func {
   # pitch lock
   setprop("/autopilot/locks/altitude", "pitch-hold");
-  setprop("/autopilot/settings/target-pitch-deg", math.round(getprop("/orientation/pitch-deg"), 1));
   lockPitch = "pitch-hold";
 };
 
@@ -488,8 +487,6 @@ var apLoop = func {
       setprop("autopilot/settings/heading-bug-deg", math.round(getprop("orientation/heading-magnetic-deg"), 1));
     } elsif (getprop("/autopilot/locks/heading") == "true-heading-hold") {
       setprop("autopilot/settings/true-heading-deg", math.round(getprop("orientation/heading-deg"), 1));
-    } elsif (getprop("/autopilot/locks/heading") == "nav1-hold") {
-      # nop
     }
     setprop("ja37/avionics/temp-halt-ap-roll", 1);
     setprop("ja37/avionics/temp-halt-ap-roll2", 1);
@@ -513,8 +510,6 @@ var apLoop = func {
     lockP = "";
     if (getprop("/autopilot/locks/altitude") == "altitude-hold") {
       setprop("autopilot/settings/target-altitude-ft", math.round(getprop("/autopilot/internal/altitude-2-sec-ahead"), 100));
-    } elsif (getprop("/autopilot/locks/altitude") == "pitch-hold") {
-      setprop("/autopilot/settings/target-pitch-deg", math.round(getprop("/orientation/pitch-deg"), 1));
     } elsif (getprop("/autopilot/locks/altitude") == "vertical-speed-hold") {
       setprop("/autopilot/settings/vertical-speed-fpm", math.round(getprop("/autopilot/internal/vert-speed-fpm"), 1));
     } elsif (getprop("/autopilot/locks/altitude") == "aoa-hold") {

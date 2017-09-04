@@ -200,8 +200,12 @@
             </test>
         </switch>
 
-        <switch name="fcs/pitch-damper/active">
+		<switch name="fcs/pitch-damper/active">
             <default value="0"/>
+            <test logic="AND" value="0">
+                /ja37/avionics/temp-halt-ap-pitch == 1
+                /ja37/avionics/auto-altitude-on == 1
+            </test>
             <test logic="AND" value="1">
                 gear/unit[0]/WOW ne 1
                 aero/spin-norm == 0
