@@ -246,7 +246,7 @@
 		<name>System Command: Roll Rate</name>
 		<debug>false</debug>
 		<type>gain</type>
-		<gain>-0.12</gain>
+		<gain>-0.08</gain>
 		<enable>
 			<condition>
 				<and>
@@ -315,9 +315,9 @@
 			<expression>
 				<table>
 					<property>/autopilot/internal/roll-rate-cmd</property> 
-					<entry><ind>-1</ind><dep>-20.0</dep></entry>
+					<entry><ind>-1</ind><dep>-25.0</dep></entry>
 					<entry><ind> 0</ind><dep>  0.0</dep></entry>
-					<entry><ind> 1</ind><dep> 20.0</dep></entry>
+					<entry><ind> 1</ind><dep> 25.0</dep></entry>
 				</table>
 			</expression>
 		</input>
@@ -371,14 +371,14 @@
 			<property>/controls/flight/aileron-ap</property>
 		</output>
 		<config>
-			<Kp>0.092</Kp>
+			<Kp>0.04</Kp>
 			<beta>1</beta>
 			<alpha>0.1</alpha>
 			<gamma>0</gamma>
-			<Ti>1.0</Ti>
-			<Td>0.0005</Td>
-			<u_min>-1</u_min>
-			<u_max>1</u_max>
+			<Ti>0.45</Ti>
+			<Td>0.0001</Td>
+			<u_min>-0.7</u_min>
+			<u_max>0.7</u_max>
 		</config>
 	</pid-controller>
 
