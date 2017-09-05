@@ -1,4 +1,4 @@
-Authors of the JA-37 / AJ-37 / AJS-37 Viggen aircraft for the Flightgear simulator:
+Authors of the Saab 37 Viggen aircraft for the Flightgear simulator:
 
 Anders Lejczak - anders.lejczak at colacola.se
 ====================================

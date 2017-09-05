@@ -766,9 +766,17 @@
                 <elevator>
                     <output type="double">0.0</output>
                     <pos-norm type="double">0.0</pos-norm>
-                    <integrator-feedback-calm type="double">0.0</integrator-feedback-calm>
                     <gearing-enable type="bool">true</gearing-enable>
                     <serviceable alias="/sim/failure-manager/controls/flight/elevator/serviceable"/>
+                    <integrator-feedback-calm type="double">0.0</integrator-feedback-calm>
+                    <gains>
+                        <delta type="double">0.05</delta>
+                        <int type="double">5</int>
+                        <int-feedback type="double">5</int-feedback>
+                        <int-calm type="double">-0.5</int-calm>
+                        <damp-q type="double">0.334</damp-q>
+                        <damp-q-wow type="double">0.668</damp-q-wow>
+                    </gains>
                 </elevator>
                 <flaps>
                     <pos-cmd type="double">0</pos-cmd>

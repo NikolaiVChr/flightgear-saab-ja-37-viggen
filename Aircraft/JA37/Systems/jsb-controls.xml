@@ -61,13 +61,6 @@
 
 
 
-    <property value="0.05">fcs/elevator/gains/delta</property>
-    <property value="5">fcs/elevator/gains/int</property>
-    <property value="5">fcs/elevator/gains/int-feedback</property>
-    <property value="-0.5">fcs/elevator/gains/int-calm</property>
-    <property value="0.334">fcs/elevator/gains/damp-q</property>
-    <property value="0.668">fcs/elevator/gains/damp-q-wow</property>
-
     <channel execrate="1" name="Elevators">
 
         <fcs_function name="fcs/elevator/cmd-g">
