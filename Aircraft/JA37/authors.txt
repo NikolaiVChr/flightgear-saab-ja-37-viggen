@@ -1,4 +1,4 @@
-Authors of the JA-37 / AJ-37 / AJS-37 Viggen aircraft for the Flightgear simulator:
+Authors of the Saab 37 Viggen aircraft for the Flightgear simulator:
 
 Anders Lejczak - anders.lejczak at colacola.se
 ====================================
@@ -44,6 +44,10 @@ Many cockpit improvements (radio, datapanel, etc..)
 Misc. model improvements. (optimizations, adjustments, UV mappings plus much more)
 Grey/black camo livery.
 Plus many other changes.
+
+Joshua Davidson - Forum name: it0uchpods
+========================================
+Autopilot control and tuning.
 
 Steve Brown - Forum name: swampthing - Callsign: swamp
 ======================

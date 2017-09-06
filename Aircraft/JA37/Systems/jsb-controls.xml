@@ -61,8 +61,6 @@
 
 
 
-
-
     <channel execrate="1" name="Elevators">
 
         <fcs_function name="fcs/elevator/cmd-g">
@@ -85,7 +83,7 @@
             <output>/controls/flight/elevator-cmd-ap</output>
         </fcs_function>
 
-        <aerosurface_scale name="fcs/elevator/cmd-g-trim">
+        <!--<aerosurface_scale name="fcs/elevator/cmd-g-trim">
             <input>fcs/pitch-trim-cmd-norm</input>
             <zero_centered> true </zero_centered>
             <domain>
@@ -93,10 +91,15 @@
                 <max>  1.0 </max>
             </domain>
             <range>
-                <min> -2.0 </min>
-                <max>  2.0 </max>
+                <min> -1.0 </min>
+                <max>  1.0 </max>
             </range>
-        </aerosurface_scale>
+        </aerosurface_scale>-->
+
+        <pure_gain name="fcs/elevator/cmd-g-trim">
+            <input>fcs/pitch-trim-cmd-norm</input>
+            <gain> -1 </gain>
+        </pure_gain>
 
         <fcs_function name="fcs/elevator/cmg-limit-pos-weight">
             <function>
@@ -195,8 +198,12 @@
             </test>
         </switch>
 
-        <switch name="fcs/pitch-damper/active">
+		<switch name="fcs/pitch-damper/active">
             <default value="0"/>
+            <test logic="AND" value="0">
+                /ja37/avionics/temp-halt-ap-pitch == 1
+                /ja37/avionics/auto-altitude-on == 1
+            </test>
             <test logic="AND" value="1">
                 gear/unit[0]/WOW ne 1
                 aero/spin-norm == 0
@@ -222,8 +229,8 @@
         </washout_filter>
 
         <switch name="fcs/elevator/q-gain-value">
-            <default value="0.334"/>
-            <test logic="OR" value="0.668">
+            <default value="fcs/elevator/gains/damp-q"/>
+            <test logic="OR" value="fcs/elevator/gains/damp-q-wow">
                 gear/unit[1]/WOW eq 1
                 gear/unit[2]/WOW eq 1
             </test>
@@ -323,7 +330,7 @@
 
         <pure_gain name="fcs/elevator/delta">
             <input>fcs/elevator/raw-delta</input>
-            <gain> 0.09 </gain>
+            <gain> fcs/elevator/gains/delta </gain>
         </pure_gain>
 
         <pure_gain name="fcs/elevator/delta-schedule">
@@ -361,7 +368,7 @@
 
         <pure_gain name="fcs/elevator/integrator-feedback">
             <input>fcs/elevator/integrator-feedback-deadzone</input>
-            <gain> 5 </gain>
+            <gain> fcs/elevator/gains/int-feedback </gain>
         </pure_gain>
 
         <summer name="fcs/elevator/integrator-input">
@@ -372,11 +379,11 @@
 
         <integrator name="fcs/elevator/integrator">
             <input> fcs/elevator/integrator-input </input>
-            <c1> 5 </c1>
-            <clipto>
+            <c1> fcs/elevator/gains/int </c1>
+            <!--<clipto>
                 <min> -1 </min>
                 <max>  1 </max>
-            </clipto>
+            </clipto>-->
         </integrator>
 
         <switch name="fcs/elevator/integrator-feedback-ground">
@@ -389,7 +396,7 @@
 
         <pure_gain name="fcs/elevator/integrator-feedback-calm">
             <input>fcs/elevator/integrator</input>
-            <gain> -0.5 </gain>
+            <gain> fcs/elevator/gains/int-calm </gain>
         </pure_gain>
 
         <summer name="fcs/elevator/output">
@@ -724,10 +731,12 @@
             <!--<output>/controls/flight/aileron-ap</output>-->
         </switch>
 
-        <pure_gain name="fcs/aileron/stick-geared-switched">
-            <input>fcs/aileron/stick-geared</input>
-            <gain>/ja37/avionics/temp-halt-ap-roll2</gain>
-        </pure_gain>
+        <switch name="fcs/aileron/stick-geared-switched">
+            <default value="fcs/aileron/stick-geared"/>
+            <test logic="AND" value="0">
+                /ja37/avionics/auto-attitude-on == 1
+            </test>
+        </switch>
 
         <summer name="names/aileron/cmd-sum">
             <input>fcs/aileron/stick-geared-switched</input>
