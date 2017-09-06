@@ -624,7 +624,7 @@
 			<property>/autopilot/internal/target-pitch-deg</property>
 		</output>
 		<config>
-			<Kp>0.005</Kp>
+			<Kp>0.009</Kp>
 			<Ti>2.5</Ti>
 			<Td>0.0001</Td>
 			<u_min>
