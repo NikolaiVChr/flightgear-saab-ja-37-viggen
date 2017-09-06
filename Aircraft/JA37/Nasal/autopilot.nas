@@ -488,8 +488,10 @@ var apLoop = func {
     } elsif (getprop("/autopilot/locks/heading") == "true-heading-hold") {
       setprop("autopilot/settings/true-heading-deg", math.round(getprop("orientation/heading-deg"), 1));
     }
-    setprop("ja37/avionics/temp-halt-ap-roll", 1);
-    setprop("ja37/avionics/temp-halt-ap-roll2", 1);
+	settimer(func {
+		setprop("ja37/avionics/temp-halt-ap-roll", 1);
+		setprop("ja37/avionics/temp-halt-ap-roll2", 1);
+	}, 0.1);
     if (usedStick == 1) {
       usedStick = 0;
     }
@@ -517,7 +519,9 @@ var apLoop = func {
     } elsif (getprop("/autopilot/locks/altitude") == "agl-hold") {
       setprop("autopilot/settings/target-agl-ft", math.round(getprop("/autopilot/internal/agl-2-sec-ahead"), 100));
     }
-    setprop("ja37/avionics/temp-halt-ap-pitch", 1);
+	settimer(func {
+		setprop("ja37/avionics/temp-halt-ap-pitch", 1);
+	}, 0.1);
   }
 
   settimer(apLoop, 0.1);
