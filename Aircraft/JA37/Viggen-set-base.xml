@@ -1405,6 +1405,9 @@
         <rcs>
             <file>Aircraft/JA37/Nasal/rcs.nas</file>
         </rcs>
+        <route>
+            <file>Aircraft/JA37/Nasal/flightplans.nas</file>
+        </route>
         
         <!-- Uncomment below to enable FGplot -->
         <!--

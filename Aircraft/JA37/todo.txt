@@ -175,6 +175,9 @@ Distance to selected radar echo was next to distance scale where ammo is now, no
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
 Master-arm, interoperability and display switches on frontpanel, should not be there. Instead there was: button SNABBRESN (reinit gyro, max 3 mins, light on during) and RESERVKURS.
 The FPI in HUD was really limited to +- 7.5 degs lateral.
+In the orig plane the HUD decimal delimiter is ',' not '.'.
+VOR, ADF navigation, the real did not have this.
+Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
 
 
 Bugs:

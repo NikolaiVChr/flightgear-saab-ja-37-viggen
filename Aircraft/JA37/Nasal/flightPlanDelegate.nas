@@ -108,8 +108,7 @@ var RouteManagerDelegate = {
     _endOfFlightPlan: func (plan) {
         printlog('info', "end of flight-plan, reactivating last waypoint");
         #plan.cleanPlan();
-        fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
-        plan.current = plan.getPlanSize()-1;
+        route.Plan._finishedPrimary();
     },
 };
 
