@@ -1864,6 +1864,9 @@ var TI = {
 				if (land.mode_B_active == TRUE) {
 					me.menuButtonBox[4].show();
 				}
+				if (land.mode_LA_active == TRUE) {
+					me.menuButtonBox[17].show();
+				}
 				if (land.mode_LF_active == TRUE) {
 					me.menuButtonBox[18].show();
 				}
@@ -2030,11 +2033,17 @@ var TI = {
 				me.menuButtonSubBox[14].show();
 			}
 			me.menuButtonSub[14].show();
-			if (me.showFullMenus == TRUE) {
-				me.menuButtonSub[16].setText(me.vertStr("AB"));
-				me.menuButtonSub[16].show();
-				me.menuButtonSub[5].setText(me.vertStr("1234"));
-				me.menuButtonSub[5].show();
+
+			me.menuButtonSub[5].setText(me.vertStr(route.Polygon.flyMiss.name));
+			me.menuButtonSub[5].show();
+			if (route.Polygon.flyMiss == route.Polygon.primary) {
+				me.menuButtonSubBox[5].show();
+			}
+
+			me.menuButtonSub[16].setText(me.vertStr(route.Polygon.flyRTB.name));
+			me.menuButtonSub[16].show();
+			if (route.Polygon.flyRTB == route.Polygon.primary) {
+				me.menuButtonSubBox[16].show();
 			}
 		}
 		if (me.menuMain == MAIN_MISSION_DATA and me.showFullMenus == TRUE) {
@@ -3539,7 +3548,29 @@ var TI = {
 				me.quickOpen = 10000;
 			}	
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
-				#me.showSteerPoly = !me.showSteerPoly;
+				me.activateAlso = FALSE;
+				me.startAlso = FALSE;
+				if (route.Polygon.flyMiss.isPrimary() == TRUE) {
+					me.activateAlso = TRUE;
+					if (route.Polygon.isPrimaryActive() == TRUE) {
+						me.startAlso = TRUE;
+					}
+				}
+				if (route.Polygon.flyMiss == route.Polygon.polys["1"]) {
+					route.Polygon.flyMiss = route.Polygon.polys["2"];
+				} elsif (route.Polygon.flyMiss == route.Polygon.polys["2"]) {
+					route.Polygon.flyMiss = route.Polygon.polys["3"];
+				} elsif (route.Polygon.flyMiss == route.Polygon.polys["3"]) {
+					route.Polygon.flyMiss = route.Polygon.polys["4"];
+				} elsif (route.Polygon.flyMiss == route.Polygon.polys["4"]) {
+					route.Polygon.flyMiss = route.Polygon.polys["1"];
+				}
+				if (me.activateAlso == TRUE) {
+					route.Polygon.flyMiss.activate();
+					if (me.startAlso == TRUE) {
+						route.Polygon.startPrimary();
+					}
+				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == FALSE and me.menuGPS == FALSE) {
 				# side view
@@ -3829,6 +3860,27 @@ var TI = {
 				me.contact = radar_logic.ContactGhost.new();
 				radar_logic.selection = me.contact;
 			}
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				me.activateAlso = FALSE;
+				me.startAlso = FALSE;
+				if (route.Polygon.flyRTB.isPrimary() == TRUE) {
+					me.activateAlso = TRUE;
+					if (route.Polygon.isPrimaryActive() == TRUE) {
+						me.startAlso = TRUE;
+					}
+				}
+				if (route.Polygon.flyRTB == route.Polygon.polys["A"]) {
+					route.Polygon.flyRTB = route.Polygon.polys["B"];
+				} elsif (route.Polygon.flyRTB == route.Polygon.polys["B"]) {
+					route.Polygon.flyRTB = route.Polygon.polys["A"];
+				}
+				if (me.activateAlso == TRUE) {
+					route.Polygon.flyRTB.activate();
+					if (me.startAlso == TRUE) {
+						route.Polygon.startPrimary();
+					}
+				}
+			}
 		}
 	},
 
@@ -3840,6 +3892,9 @@ var TI = {
 			if (me.menuShowMain == FALSE) {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
+			}
+			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				land.LA();
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
 				me.displayFlight += 1;

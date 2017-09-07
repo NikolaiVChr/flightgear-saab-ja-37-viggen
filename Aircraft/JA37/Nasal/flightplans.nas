@@ -59,13 +59,24 @@ var Polygon = {
 		return Polygon.flyRTB.getBase();
 	},
 
+	isLandingBaseRunwayActive: func {
+		if (Polygon.flyRTB == Polygon.primary and Polygon.isPrimaryActive() == TRUE and Polygon.primary.plan.destination_runway != nil and Polygon.primary.getSize()-1==Polygon.primary.plan.current) {
+			return TRUE;
+		}
+	},
+
+	startPrimary: func {
+		fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
+	},
+
 	activateLandingBase: func {
 		me.base = Polygon.getLandingBase();
+		Polygon.flyRTB.activate();
 		if (me.base != nil) {
-			Polygon.flyRTB.activate();
 			Polygon.primary.current = Polygon.primary.getSize()-1;
-			Polygon.primary.forceRunway();
-			return TRUE;
+			if(Polygon.primary.forceRunway()) {
+				Polygon.startPrimary();
+			}
 		} else {
 			Polygon.deactivate();
 			return FALSE;
@@ -73,9 +84,10 @@ var Polygon = {
 	},
 
 	deactivate: func {
-		if (Polygon.isPrimaryActive() == TRUE) {
-			Polygon.primary.plan.cleanPlan();#careful here, if called twice it will clean plan.
-		}
+		fgcommand("activate-flightplan", props.Node.new({"activate": 0}));
+		#if (Polygon.isPrimaryActive() == TRUE) {
+		#	Polygon.primary.plan.cleanPlan();#careful here, if called twice it will clean plan.
+		#}
 	},
 
 	isPrimaryActive: func {
@@ -101,8 +113,9 @@ var Polygon = {
 		#called from RouteManagerDelegate
 		if (Polygon.primary.type == TYPE_MISS) {
 			Polygon.flyRTB.activate();
+			Polygon.startPrimary();
 		} elsif (Polygon.primary.type == TYPE_RTB) {
-			Polygon.primary.activate();
+			Polygon.startPrimary();
 			Polygon.selectDestinationOnPrimary();
 		}
 	},
@@ -110,7 +123,7 @@ var Polygon = {
 	selectDestinationOnPrimary: func {
 		Polygon.primary.plan.current = Polygon.primary.plan.getPlanSize()-1;
 		return Polygon.primary.plan.getPlanSize() != 0;
-	}
+	},
 
 	#
 	# Instance methods and variables
@@ -142,10 +155,34 @@ var Polygon = {
 		return me.polygon;
 	},
 
+	getSteerpoint: func {
+		if (me.plan.current == me.getSize()-1 and me.plan.destination_runway != nil and me.plan.destination != nil) {
+			return [me.plan.destination_runway, me.plan.destination];
+		}
+		if (me.plan.current == me.getSize()-1 and me.plan.destination != nil) {
+			return [me.plan.destination];
+		}
+		if (me.plan.current == 0 and me.plan.departure_runway != nil and me.plan.departure != nil) {
+			return [me.plan.departure_runway, me.plan.departure];
+		}
+		if (me.plan.current == 0 and me.plan.departure != nil) {
+			return [me.plan.departure];
+		}
+		return [me.plan.currentWP()];
+	},
+
+	getIndex: func {
+		return me.plan.current;
+	},
+
+	getLeg: func {
+		return me.plan.currentWP();
+	},
+
 	activate: func {
 		Polygon.activating = TRUE;
-		me.plan.activate();
 		Polygon.primary = me;
+		me.plan.activate();
 	},
 
 	isPrimary: func {
@@ -208,6 +245,7 @@ var Polygon = {
 		# cycle through destination runways.
 		me.base = me.plan.destination;
 		me.baseRwy = me.plan.destination_runway;
+		me.shouldStart = me.isPrimary() == TRUE and Polygon.isPrimaryActive() == TRUE;
 		if (me.base != nil) {
 			me.runways = me.base.runways;
 	        me.runwaysVector = [];
@@ -220,7 +258,7 @@ var Polygon = {
 	        me.currRWY = -1;
 	        if (me.baseRwy != nil) {
 		        for (var i = 0; i<size(me.runwaysVector);i+=1) {
-		            if (me.runwaysVector[i] == me.baseRwy) {
+		            if (me.runwaysVector[i].id == me.baseRwy.id) {
 		                me.currRWY = i;
 		                break;
 		            }
@@ -230,10 +268,21 @@ var Polygon = {
 	        if (me.currRWY >= size(me.runwaysVector)) {
 	            me.currRWY = 0;
 	        }
-	        me.plan.destination_runway = me.runwaysVector[currRWY];	        
+	        me.plan.destination_runway = me.runwaysVector[me.currRWY];	 
+	        if (me.shouldStart == TRUE) {
+	        	Polygon.startPrimary();
+	        	me.plan.current = me.getSize()-1;
+	        }
 	        return TRUE;
 		} else {
 			return FALSE;
 		}
 	},
 };
+
+var poly_start = func {
+	removelistener(lsnr);
+	Polygon.setupJAPolygons();#TODO make proper
+}
+
+var lsnr = setlistener("ja37/supported/initialized", poly_start);

@@ -1353,6 +1353,9 @@
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </ja37>
+        <route>
+            <file>Aircraft/JA37/Nasal/flightplans.nas</file>
+        </route>
         <land>
             <file>Aircraft/JA37/Nasal/landing-mode.nas</file>
         </land>
@@ -1405,9 +1408,7 @@
         <rcs>
             <file>Aircraft/JA37/Nasal/rcs.nas</file>
         </rcs>
-        <route>
-            <file>Aircraft/JA37/Nasal/flightplans.nas</file>
-        </route>
+        
         
         <!-- Uncomment below to enable FGplot -->
         <!--
