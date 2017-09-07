@@ -50,7 +50,8 @@ var Polygon = {
 			Polygon.flyMiss      = poly1;
 			Polygon.editRTB      = poly1;
 			Polygon.editMiss     = poly1;
-		}		
+		}
+		print("finished plan Init");
 	},
 
 	# TODO make AJ polys
@@ -99,25 +100,36 @@ var Polygon = {
 	},
 
 	_planExchange: func {
+		print("plan exhanged");
 		if (Polygon._activating == TRUE) {
 			Polygon._activating = FALSE;
+			print("..it was planned");
 		} else {
 			# New plan was loaded in route-manager
 			var poly = Polygon.primary;
 			poly.plan = flightplan();
 			poly.plan.id = plan.name;
+			print("..it was unexpected");
 		}
 	},
 
 	_finishedPrimary: func {
 		#called from RouteManagerDelegate
-		if (Polygon.primary.type == TYPE_MISS) {
-			Polygon.flyRTB.activate();
-			Polygon.startPrimary();
-		} elsif (Polygon.primary.type == TYPE_RTB) {
-			Polygon.startPrimary();
-			Polygon.selectDestinationOnPrimary();
+		print("plan finished");
+		if (Polygon._activating == FALSE) {
+			if (Polygon.primary.type == TYPE_MISS) {
+				Polygon.flyRTB.activate();
+				Polygon.startPrimary();
+				print("..starting "~Polygon.flyRTB.name);
+			} elsif (Polygon.primary.type == TYPE_RTB) {
+				Polygon.startPrimary();
+				Polygon.selectDestinationOnPrimary();
+				print("..restarted "~Polygon.flyMiss.name);
+			}
+		} else {
+			print("..for real");
 		}
+		# TODO Handle that finish is called just from activating another.
 	},
 
 	selectDestinationOnPrimary: func {
@@ -180,12 +192,13 @@ var Polygon = {
 	},
 
 	activate: func {
-		Polygon.activating = TRUE;
+		Polygon._activating = TRUE;
 		Polygon.primary = me;
 		me.plan.activate();
 	},
 
 	isPrimary: func {
+		return Polygon.primary == me;
 		if (me.multi == TRUE) {
 			return me.plan.active;
 		} else {

@@ -1149,9 +1149,9 @@ var test_support = func {
     }
     if (minor > 2) {
       setprop("ja37/supported/picking", TRUE);
-      if (detail > 0) {
+#      if (detail > 0) {
         setprop("ja37/supported/multiple-flightplans", TRUE);
-      }
+#      }
     }
   } else {
     # future proof

@@ -322,6 +322,8 @@ var landing_loop = func {
                 head = wp[0].heading;
                 has_waypoint = 2;
             }
+        } elsif (runway_dist != nil and bearing != nil and heading != nil) {
+            print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
         }
     }
     if (has_waypoint > 0) {
