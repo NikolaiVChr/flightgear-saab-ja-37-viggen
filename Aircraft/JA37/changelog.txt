@@ -3077,3 +3077,4 @@ Sim: The TILS switch now toggles the TILS system, and is on by default. If off a
 HUD: Fixed that at extreme pitch the echoes or Fixes would not be displayed correct.
 GUI: Pressing ctrl-shift-q in cockpit view will now zoom in on HUD. The HUD view has been removed.
 Sim: Route-manager and TI now supports multiple flightplans. (FG 2017.3.1+)
+TI: Map place names will now always be shown in menu MSDA.

@@ -1540,6 +1540,7 @@ var TI = {
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
 		me.showTargetInfo();#must be after displayRadarTracks
+		me.updateMapNames();
 		me.showBasesNear();		
 		me.ecmOverlay();
 		me.showCursor();
@@ -2392,6 +2393,16 @@ var TI = {
 			me.svy_grp.show();
 		} else {
 			me.svy_grp.hide();
+		}
+	},
+
+	updateMapNames: func {
+		if (me.mapPlaces == PLACES or me.menuMain == MAIN_MISSION_DATA) {
+			type = "light_all";
+			makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
+		} else {
+			type = "light_nolabels";
+			makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
 		}
 	},
 
@@ -3515,13 +3526,6 @@ var TI = {
 			if (me.menuMain == MAIN_DISPLAY) {
 				# place names on map
 				me.mapPlaces = !me.mapPlaces;
-				if (me.mapPlaces == PLACES) {
-					type = "light_all";
-					makePath = string.compileTemplate(maps_base ~ '/cartoLN/{z}/{x}/{y}.png');
-				} else {
-					type = "light_nolabels";
-					makePath = string.compileTemplate(maps_base ~ '/cartoL/{z}/{x}/{y}.png');
-				}
 			}	
 		}
 	},
