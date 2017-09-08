@@ -1324,6 +1324,14 @@
         </heading-indicator>
     </instrumentation>
 
+    <xmlPlans>
+        <!--<mission1 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss1.xml</mission1>-->
+        <mission2 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss1.xml</mission2>
+        <mission3 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss2.xml</mission3>
+        <mission4 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss3.xml</mission4>
+        <rtbA type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/rtbA.xml</rtbA>
+        <rtbB type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/rtbB.xml</rtbB>
+    </xmlPlans>
     <!--**********************************************************************
 
                                           Nasal scrips

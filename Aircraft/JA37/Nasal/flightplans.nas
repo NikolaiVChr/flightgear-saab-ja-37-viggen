@@ -24,28 +24,28 @@ var Polygon = {
 		Polygon._setupListeners();
 		me.multi = getprop("ja37/supported/multiple-flightplans");
 		if (me.multi == TRUE) {
-			var poly1 = Polygon.new("1", TYPE_MISS, TRUE);
+			var poly1 = Polygon.new("1", TYPE_MISS, nil, TRUE);
 			Polygon.polys["1"] = poly1;
 			for (var i = 2; i<=4; i+=1) {
-				var poly = Polygon.new(""~i, TYPE_MISS);
+				var poly = Polygon.new(""~i, TYPE_MISS, getprop("xmlPlans/mission"~i));
 				Polygon.polys[""~i] = poly;
 			}
-			var polyA = Polygon.new("A", TYPE_RTB);
+			var polyA = Polygon.new("A", TYPE_RTB, getprop("xmlPlans/rtbA"));
 			Polygon.polys["A"]   = polyA;
 
-			var polyB = Polygon.new("B", TYPE_RTB);
+			var polyB = Polygon.new("B", TYPE_RTB, getprop("xmlPlans/rtbB"));
 			Polygon.polys["B"]   = polyB;
 
 			Polygon.primary      = poly1;
-			Polygon.editing      = poly1;
+			#Polygon.editing      = poly1;
 			Polygon.editRTB      = polyA;
 			Polygon.editMiss     = poly1;
 			Polygon.flyRTB       = polyA;
 			Polygon.flyMiss      = poly1;
 		} else {
-			var poly1 = Polygon.new("1", TYPE_MIX, TRUE);
+			var poly1 = Polygon.new("1", TYPE_MIX, nil, TRUE);
 			Polygon.primary      = poly1;
-			Polygon.editing      = poly1;
+			#Polygon.editing      = poly1;
 			Polygon.flyRTB       = poly1;
 			Polygon.flyMiss      = poly1;
 			Polygon.editRTB      = poly1;
@@ -72,7 +72,7 @@ var Polygon = {
 
 	activateLandingBase: func {
 		me.base = Polygon.getLandingBase();
-		Polygon.flyRTB.activate();
+		Polygon.flyRTB.setAsPrimary();
 		if (me.base != nil) {
 			if(Polygon.primary.forceRunway()) {
 				Polygon.startPrimary();
@@ -140,10 +140,12 @@ var Polygon = {
 	#
 	# Instance methods and variables
 	#
-	new: func (name, type, default = 0) {
+	new: func (name, type, xml, default = 0) {
 		var newPoly = { parents : [Polygon]};
 		if (default == 1) {
 			newPoly.plan = flightplan();
+		} elsif (xml != nil) {
+			newPoly.plan = flightplan(xml);
 		} else {
 			newPoly.plan = flightplan("C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/emptyPlan.xml");
 			#newPoly.plan = flightplan().clone();    #TODO
@@ -192,7 +194,7 @@ var Polygon = {
 		return me.plan.currentWP();
 	},
 
-	activate: func {
+	setAsPrimary: func {
 		if (!me.isPrimary()) {
 			Polygon._activating = TRUE;
 			Polygon.primary = me;

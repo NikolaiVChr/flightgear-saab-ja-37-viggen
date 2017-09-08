@@ -142,6 +142,10 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
+Sim: Make AJ work with multi-plans.
+TI: The currently edited plan, should show in MSDA menu.
+TI: Convert polygon drawing from RM to plans.
+
 
 Damage example section
 ======================

@@ -232,8 +232,8 @@ var dictSE = {
 	'8':   {'8': [TRUE, "R7V"], '9': [TRUE, "V7V"], '10': [TRUE, "S7V"], '11': [TRUE, "S7H"], '12': [TRUE, "V7H"], '13': [TRUE, "R7H"],
 			'7': [TRUE, "MENY"], '14': [TRUE, "AKAN"], '15': [FALSE, "RENS"]},
 	'9':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-	 		'1': [TRUE, "SL\xC3\x84CK"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "B"], '5': [FALSE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
-	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [FALSE, "\xC3\x85POL"], '17': [FALSE, "L\xC3\x85"], '18': [TRUE, "LF"], '19': [TRUE, "LB"],'20': [TRUE, "L"]},
+	 		'1': [TRUE, "SL\xC3\x84CK"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "B"], '5': [TRUE, "UPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENY"],
+	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [TRUE, "\xC3\x85POL"], '17': [TRUE, "L\xC3\x85"], '18': [TRUE, "LF"], '19': [TRUE, "LB"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 	 		'2': [TRUE, "INL\xC3\x84"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [TRUE, "S\xC3\x84TT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
 	 		'17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
@@ -241,8 +241,8 @@ var dictSE = {
 			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [FALSE, "EDIT"], '15': [FALSE, "\xC3\x85POL"], '16': [FALSE, "EDIT"],
-			'17': [FALSE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [TRUE, "EDIT"], '15': [TRUE, "\xC3\x85POL"], '16': [TRUE, "EDIT"],
+			'17': [TRUE, "UPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
@@ -262,8 +262,8 @@ var dictEN = {
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
 			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "S"], '5': [FALSE, "MPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
-	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [FALSE, "RPOL"], '17': [FALSE, "LR"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
+	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "S"], '5': [TRUE, "MPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
+	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [TRUE, "RPOL"], '17': [TRUE, "LR"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
 	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
@@ -271,8 +271,8 @@ var dictEN = {
 			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [FALSE, "EDIT"], '15': [FALSE, "RPOL"], '16': [FALSE, "EDIT"],
-			'17': [FALSE, "MPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
+			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [TRUE, "EDIT"], '15': [TRUE, "RPOL"], '16': [TRUE, "EDIT"],
+			'17': [TRUE, "MPOL"], '18': [FALSE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -1604,8 +1604,10 @@ var TI = {
 				me.upText = TRUE;
 			} elsif (me.menuShowMain == FALSE and me.menuShowFast == TRUE) {
 				me.menuMainRoot.hide();
+				me.stopEditPlan();
 				me.upText = FALSE;
 			} else {
+				me.stopEditPlan();
 				me.menuMainRoot.hide();
 				me.upText = FALSE;
 			}
@@ -1674,6 +1676,7 @@ var TI = {
 		} else {
 			me.menuMainRoot.hide();
 			me.menuFastRoot.hide();
+			me.stopEditPlan();
 			me.hideMap();
 			me.logRoot.show();
 			call(func {
@@ -1714,6 +1717,10 @@ var TI = {
 		me.logRoot.setTranslation(0,  -(height-height*0.025*me.upText)*me.logPage);
 		me.clip2 = 0~"px, "~width~"px, "~(height-height*0.025*me.upText)~"px, "~0~"px";
 		me.logRoot.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
+	},
+
+	stopEditPlan: func {
+		route.Polygon.editing = nil;
 	},
 
 	showMap: func {
@@ -1764,6 +1771,9 @@ var TI = {
 			}
 		}
 		me.lastFailBlink = !me.lastFailBlink;
+		if (me.menuMain != MAIN_MISSION_DATA) {
+			me.stopEditPlan();
+		}
 		if (me.menuMain == MAIN_WEAPONS) {
 			if (me.input.station.getValue() == 5) {
 				me.menuButtonBox[8].show();
@@ -2046,23 +2056,31 @@ var TI = {
 				me.menuButtonSubBox[16].show();
 			}
 		}
-		if (me.menuMain == MAIN_MISSION_DATA and me.showFullMenus == TRUE) {
-			me.menuButtonSub[4].setText(me.vertStr("BEYE"));
-			me.menuButtonSub[6].setText(me.vertStr("POLY"));
+		if (me.menuMain == MAIN_MISSION_DATA) {
+			if (me.showFullMenus == TRUE) {
+				me.menuButtonSub[4].setText(me.vertStr("BEYE"));
+				me.menuButtonSub[6].setText(me.vertStr("POLY"));
+				me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"SP"));
+				me.menuButtonSub[19].setText(me.vertStr("1234"));
+				me.menuButtonSub[4].show();
+				me.menuButtonSub[6].show();
+				me.menuButtonSub[18].show();
+				me.menuButtonSub[19].show();
+			}
 			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"\xC3\x85POL":"RPOL"));
-			me.menuButtonSub[15].setText(me.vertStr("AB"));
 			me.menuButtonSub[16].setText(me.vertStr(me.interoperability == displays.METRIC?"UPOL":"MPOL"));
-			me.menuButtonSub[17].setText(me.vertStr("1234"));
-			me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"SP"));
-			me.menuButtonSub[19].setText(me.vertStr("1234"));
-			me.menuButtonSub[4].show();
-			me.menuButtonSub[6].show();
-			me.menuButtonSub[14].show();
-			me.menuButtonSub[15].show();
-			me.menuButtonSub[16].show();
+			me.menuButtonSub[15].setText(me.vertStr(route.Polygon.editRTB.name));
+			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.name));
 			me.menuButtonSub[17].show();
-			me.menuButtonSub[18].show();
-			me.menuButtonSub[19].show();
+			me.menuButtonSub[15].show();
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_MISS) {
+				me.menuButtonSubBox[16].show();
+			}
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_RTB) {
+				me.menuButtonSubBox[14].show();
+			}
+			me.menuButtonSub[14].show();
+			me.menuButtonSub[16].show();
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 			# use top or belly antaenna
@@ -2649,27 +2667,32 @@ var TI = {
 
 	showSteerPoints: func {
 		# steerpoints on map
-		me.points = getprop("autopilot/route-manager/route/num");
+		me.curr_plan = route.Polygon.primary;
+		if (me.menuMain == MAIN_MISSION_DATA and route.Polygon.editing != nil) {
+			me.curr_plan = route.Polygon.editing;
+		}
 		me.poly = [];
 		me.nextActive = FALSE;
 		me.nextDist = getprop("autopilot/route-manager/wp/dist");
 		if (me.nextDist == nil or me.nextDist == 0) {
 			me.nextDist = 1000000;
 		}
+		me.polygon = me.curr_plan.getPolygon();
+		me.points = size(me.polygon);
 		for (var wp = 0; wp < maxSteers; wp += 1) {
-			if (me.points-1 >= wp and getprop("autopilot/route-manager/active") == TRUE) {
-				me.node = globals.props.getNode("autopilot/route-manager/route/wp["~wp~"]");
+			if (me.points > wp and (route.Polygon.isPrimaryActive() == TRUE or me.menuMain == MAIN_MISSION_DATA)) {
+				me.node = me.polygon[wp];
 
   				if (me.node == nil or me.showSteers == FALSE) {
   					me.steerpoint[wp].hide();
     				continue;
   				}
-				me.lat = me.node.getNode("latitude-deg");
-  				me.lon = me.node.getNode("longitude-deg");
+				me.lat = me.node.wp_lat;
+  				me.lon = me.node.wp_lon;
   				#me.alt = node.getNode("altitude-m").getValue();
-				me.name = me.node.getNode("id");
+				me.name = me.node.id;
 				me.texCoord = me.laloToTexel();
-				if (getprop("autopilot/route-manager/current-wp") == wp and land.showActiveSteer == FALSE) {
+				if (me.curr_plan.isPrimary() == TRUE and me.curr_plan.isPrimaryActive() == TRUE and me.curr_plan.getLeg() != nil and me.curr_plan.getLeg().id == me.node.id and land.showActiveSteer == FALSE) {
 					me.steerpoint[wp].hide();
 					if (wp != me.points-1) {
 						# airport is not last steerpoint, we make a leg to/from that also
@@ -2677,7 +2700,7 @@ var TI = {
 					}
 					me.nextActive = me.nextDist*NM2M<20000;
     				continue;
-				} elsif (getprop("autopilot/route-manager/current-wp") == wp) {
+				} elsif (me.curr_plan.isPrimary() == TRUE and me.curr_plan.isPrimaryActive() == TRUE and me.curr_plan.getLeg() != nil and me.curr_plan.getLeg().id == me.node.id) {
 					me.steerpoint[wp].setColor(rTyrk,gTyrk,bTyrk,a);
 					me.steerpoint[wp].set("z-index", 10);
 					append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE]);
@@ -2698,7 +2721,7 @@ var TI = {
 
   	laloToTexel: func {
 		me.coord = geo.Coord.new();
-  		me.coord.set_latlon(me.lat.getValue(), me.lon.getValue());
+  		me.coord.set_latlon(me.lat, me.lon);
   		me.coordSelf = geo.aircraft_position();
   		me.angle = (me.coordSelf.course_to(me.coord)-me.input.headTrue.getValue())*D2R;
 		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
@@ -3566,7 +3589,7 @@ var TI = {
 					route.Polygon.flyMiss = route.Polygon.polys["1"];
 				}
 				if (me.activateAlso == TRUE) {
-					route.Polygon.flyMiss.activate();
+					route.Polygon.flyMiss.setAsPrimary();
 					if (me.startAlso == TRUE) {
 						route.Polygon.startPrimary();
 					}
@@ -3801,7 +3824,14 @@ var TI = {
 			if (me.menuMain == MAIN_DISPLAY) {
 				# show threat circles
 				me.showHostileZones = !me.showHostileZones;
-			}			
+			}
+			if (me.menuMain == MAIN_MISSION_DATA) {
+				if (route.Polygon.editing != route.Polygon.editRTB) {
+					route.Polygon.editing = route.Polygon.editRTB;
+				} else {
+					route.Polygon.editing = nil;
+				}
+			}
 		}
 	},
 
@@ -3833,6 +3863,17 @@ var TI = {
 			if (me.menuMain == MAIN_DISPLAY) {
 				# show friendly threat circles
 				me.showFriendlyZones = !me.showFriendlyZones;
+			}
+			if (me.menuMain == MAIN_MISSION_DATA) {
+				me.replaceEdit = route.Polygon.editRTB == route.Polygon.editing;
+				if (route.Polygon.editRTB == route.Polygon.polys["A"]) {
+					route.Polygon.editRTB = route.Polygon.polys["B"];
+				} elsif (route.Polygon.editRTB == route.Polygon.polys["B"]) {
+					route.Polygon.editRTB = route.Polygon.polys["A"];
+				}
+				if (me.replaceEdit == TRUE) {
+					route.Polygon.editing = route.Polygon.editRTB;
+				}
 			}
 		}
 	},
@@ -3875,10 +3916,17 @@ var TI = {
 					route.Polygon.flyRTB = route.Polygon.polys["A"];
 				}
 				if (me.activateAlso == TRUE) {
-					route.Polygon.flyRTB.activate();
+					route.Polygon.flyRTB.setAsPrimary();
 					if (me.startAlso == TRUE) {
 						route.Polygon.startPrimary();
 					}
+				}
+			}
+			if (me.menuMain == MAIN_MISSION_DATA) {
+				if (route.Polygon.editing != route.Polygon.editMiss) {
+					route.Polygon.editing = route.Polygon.editMiss;
+				} else {
+					route.Polygon.editing = nil;
 				}
 			}
 		}
@@ -3900,6 +3948,21 @@ var TI = {
 				me.displayFlight += 1;
 				if (me.displayFlight == 3) {
 					me.displayFlight = 0;
+				}
+			}
+			if (me.menuMain == MAIN_MISSION_DATA) {
+				me.replaceEdit = route.Polygon.editMiss == route.Polygon.editing;
+				if (route.Polygon.editMiss == route.Polygon.polys["1"]) {
+					route.Polygon.editMiss = route.Polygon.polys["2"];
+				} elsif (route.Polygon.editMiss == route.Polygon.polys["2"]) {
+					route.Polygon.editMiss = route.Polygon.polys["3"];
+				} elsif (route.Polygon.editMiss == route.Polygon.polys["3"]) {
+					route.Polygon.editMiss = route.Polygon.polys["4"];
+				} elsif (route.Polygon.editMiss == route.Polygon.polys["4"]) {
+					route.Polygon.editMiss = route.Polygon.polys["1"];
+				}
+				if (me.replaceEdit == TRUE) {
+					route.Polygon.editing = route.Polygon.editMiss;
 				}
 			}
 		}

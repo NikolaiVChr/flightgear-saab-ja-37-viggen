@@ -66,16 +66,22 @@ var mode_LB_active = FALSE;
 var mode_LF_active = FALSE;
 var mode_OPT_active = FALSE;
 
+var debugAll = FALSE;
+
+var printDA = func (str) {
+    if (debugAll) print (str);
+}
+
 var B = func {
     auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     if (route.Polygon.flyMiss.isPrimary() == FALSE) {
-        route.Polygon.flyMiss.activate();
-        print(route.Polygon.flyMiss.name~" set as primary.");
+        route.Polygon.flyMiss.setAsPrimary();
+        printDA(route.Polygon.flyMiss.name~" set as primary.");
     }
 
     if (route.Polygon.isPrimaryActive() == FALSE and route.Polygon.primary.getSize() > 0) {
-        print("B: activate");
+        printDA("B: activate");
         route.Polygon.startPrimary();
         mode_B_active = TRUE;
         mode_LA_active = FALSE;
@@ -86,7 +92,7 @@ var B = func {
         showActiveSteer = TRUE;
         mode = 0;
     } elsif (route.Polygon.isPrimaryActive() == FALSE) {
-        print("B: empty, not activate");
+        printDA("B: empty, not activate");
         mode_B_active = FALSE;
         mode_LA_active = FALSE;
         mode_L_active = FALSE;
@@ -96,7 +102,7 @@ var B = func {
         showActiveSteer = TRUE;
         mode = -1;
     } elsif (mode_B_active == TRUE) {
-        print("B: cycle");
+        printDA("B: cycle");
         # next steerpoint
         route.Polygon.primary.cycle();
         mode_B_active = TRUE;
@@ -108,7 +114,7 @@ var B = func {
         showActiveSteer = TRUE;
         mode = 0;
     } else {
-        print("B: already activated, setting B");
+        printDA("B: already activated, setting B");
         mode_B_active = TRUE;
         mode_LA_active = FALSE;
         mode_L_active = FALSE;
@@ -124,12 +130,12 @@ var LA = func {
     auto.unfollowSilent();
     setprop("ja37/hud/landing-mode", FALSE);
     if (route.Polygon.flyRTB.isPrimary() == FALSE) {
-        route.Polygon.flyRTB.activate();
-        print(route.Polygon.flyRTB.name~" set as primary.");
+        route.Polygon.flyRTB.setAsPrimary();
+        printDA(route.Polygon.flyRTB.name~" set as primary.");
     }
 
     if (route.Polygon.isPrimaryActive() == FALSE and route.Polygon.primary.getSize() > 0) {
-        print("LA: activate");
+        printDA("LA: activate");
         route.Polygon.startPrimary();
         mode_LA_active = TRUE;
         mode_B_active = FALSE;
@@ -140,7 +146,7 @@ var LA = func {
         showActiveSteer = TRUE;
         mode = 0;
     } elsif (route.Polygon.isPrimaryActive() == FALSE) {
-        print("LA: empty, not activate");
+        printDA("LA: empty, not activate");
         mode_B_active = FALSE;
         mode_L_active = FALSE;
         mode_LB_active = FALSE;
@@ -150,7 +156,7 @@ var LA = func {
         showActiveSteer = TRUE;
         mode = -1;
     } elsif (mode_LA_active == TRUE) {
-        print("LA: cycle");
+        printDA("LA: cycle");
         # next steerpoint
         route.Polygon.primary.cycle();
         mode_LA_active = TRUE;
@@ -162,7 +168,7 @@ var LA = func {
         showActiveSteer = TRUE;
         mode = 0;
     } else {
-        print("LA: already activated, setting LA");
+        printDA("LA: already activated, setting LA");
         mode_LA_active = TRUE;
         mode_B_active = FALSE;
         mode_L_active = FALSE;
@@ -180,14 +186,14 @@ var L = func {
     setprop("ja37/avionics/approach", FALSE);#long
 
     if (route.Polygon.isLandingBaseRunwayActive() == TRUE and mode_L_active == TRUE) {
-        print("calling cycle runway");
+        printDA("calling cycle runway");
         route.Polygon.primary.cycleDestinationRunway();
         mode_L_active = TRUE;
         mode_B_active = FALSE;
         mode = 0;
     } else {
         if (route.Polygon.activateLandingBase()) {
-            print("base activated");
+            printDA("base activated");
             mode_L_active = TRUE;
             mode_B_active = FALSE;
             mode = 0;
@@ -364,7 +370,7 @@ var landing_loop = func {
                     mode_LA_active = TRUE;
                 }
                 mode = 0;
-                print("menu activation");
+                printDA("menu activation");
             }
             if (mode_OPT_active==TRUE or ((input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) and mode_B_active == FALSE and mode_L_active == FALSE and mode_LA_active == FALSE)) {
                 mode = 4;
@@ -376,7 +382,7 @@ var landing_loop = func {
                 mode_OPT_active = TRUE;
                 showActiveSteer = FALSE;
                 show_waypoint_circle = TRUE;
-                print("OPT activate");
+                printDA("OPT activate");
     		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000)) {# or ILS == TRUE test if glideslope/ILS or less than 10 Km
     			show_waypoint_circle = TRUE;
                 mode_B_active = FALSE;
@@ -387,7 +393,7 @@ var landing_loop = func {
                 mode_OPT_active = FALSE;
                 showActiveSteer = FALSE;
     			mode = 3;
-                print("descent mode 3");
+                printDA("descent mode 3");
     		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle
     			show_approach_circle = TRUE;
                 mode_B_active = FALSE;
@@ -397,7 +403,7 @@ var landing_loop = func {
                 mode_LF_active = TRUE;
                 mode_OPT_active = FALSE;
                 showActiveSteer = FALSE;
-                print("on circle");
+                printDA("on circle");
     			mode = 2;
     		} elsif (mode == 2 and distCenter < (4100+250)) {
     			show_approach_circle = TRUE;
@@ -409,7 +415,7 @@ var landing_loop = func {
                 mode_OPT_active = FALSE;
                 showActiveSteer = FALSE;
     			mode = 2;
-                print("keeping mode 2 with circle");
+                printDA("keeping mode 2 with circle");
     		} elsif (mode == 2 and (runway_dist*NM2M > (line*1000+4100) or distCenter > 11000)) {
                 show_approach_circle = TRUE;
                 mode_B_active = FALSE;
@@ -420,13 +426,13 @@ var landing_loop = func {
                     mode_LF_active = TRUE;
                     showActiveSteer = FALSE;
                     mode = 2;
-                    print("short mode 2");
+                    printDA("short mode 2");
                 } else {
                     mode_LB_active = TRUE;
                     mode_LF_active = FALSE;
                     showActiveSteer = TRUE;
                     mode = 1;
-                    print("long mode 1");
+                    printDA("long mode 1");
                 }
                 mode_OPT_active = FALSE;
             } elsif (mode == 2 and runway_dist*NM2M < (line*1000+4100)) {
@@ -439,7 +445,7 @@ var landing_loop = func {
                 mode_OPT_active = FALSE;
                 showActiveSteer = FALSE;
     			mode = 2;
-                print("approach mode 2");
+                printDA("approach mode 2");
     		} elsif (getprop("ja37/hud/landing-mode")==TRUE and short == FALSE) {
     			mode = 1;
                 mode_B_active = FALSE;
@@ -450,12 +456,12 @@ var landing_loop = func {
                 mode_OPT_active = FALSE;
                 showActiveSteer = FALSE;
     			show_approach_circle = TRUE;
-                print("default mode 1");
+                printDA("default mode 1");
     		} else {
                 mode = 0;
                 showActiveSteer = TRUE;
                 show_waypoint_circle = TRUE;
-                print("steer active");
+                printDA("steer active");
             }
             if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE and getprop("ja37/hud/TILS") == TRUE) {
                 setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
@@ -474,10 +480,10 @@ var landing_loop = func {
                 mode_B_active = FALSE;
                 mode_L_active = FALSE;
                 mode_LA_active = FALSE;
-                print("mode 4");
+                printDA("mode 4");
             } else {
                 mode = 0;
-                print("something something mode 0");
+                printDA("something something mode 0");
             }
 		}    	
     } else {
@@ -490,10 +496,10 @@ var landing_loop = func {
         mode_LF_active = FALSE;
         if (mode_OPT_active == TRUE) {
             mode = 4;
-            print("last mode 0");
+            printDA("last mode 0");
         } else {
             mode = -1;
-            print("last mode -1");
+            printDA("last mode -1");
         }
     }
     settimer(landing_loop, 0.05);
