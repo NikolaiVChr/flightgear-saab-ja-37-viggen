@@ -530,7 +530,7 @@ var apLoop = func {
     nextPitch = 1;
   }
 
-  settimer(apLoop, 0.1);
+  settimer(apLoop, 0.2);
 }
 
 var ap_init_listener = setlistener("sim/signals/fdm-initialized", func {
