@@ -302,9 +302,9 @@ var lockP = "";
 var usedStick = 0;
 var menu = FALSE;
 
-var nextRoll1 = 0;
-var nextRoll2 = 0;
-var nextPitch = 0;
+var nextRoll1 = 1;
+var nextRoll2 = 1;
+var nextPitch = 1;
 
 var apLoop = func {
     if (DEBUG_OUT) print("looping:");
