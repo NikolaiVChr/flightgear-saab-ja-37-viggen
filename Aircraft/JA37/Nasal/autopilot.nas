@@ -302,8 +302,18 @@ var lockP = "";
 var usedStick = 0;
 var menu = FALSE;
 
+var nextRoll1 = 0;
+var nextRoll2 = 0;
+var nextPitch = 0;
+
 var apLoop = func {
     if (DEBUG_OUT) print("looping:");
+
+    setprop("ja37/avionics/temp-halt-ap-pitch", nextPitch);
+    setprop("ja37/avionics/temp-halt-ap-roll", nextRoll1);
+    setprop("ja37/avionics/temp-halt-ap-roll2", nextRoll2);
+
+
     if (getprop("fdm/jsbsim/systems/indicators/master-warning/ap-downgrade") == 1) {
       # downgrade warning has been clicked away, remove it:
       setprop("/ja37/avionics/autopilot-soft-warn", FALSE);
@@ -471,14 +481,14 @@ var apLoop = func {
     # Pilot is using yaw trim to adjust attitude A/P
     lock = getprop("/autopilot/locks/heading");
     # stop A/P from controlling roll:
-    setprop("ja37/avionics/temp-halt-ap-roll", 0);
+    nextRoll1 = 0;
     # increase roll
     setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg") + trimCmd * 1);
   } elsif (getprop("/autopilot/locks/heading") != "" and getprop("/autopilot/locks/heading") != nil and rollCmd != 0) {
     # Pilot is using stick lateral motion to adjust attitude A/P
     lock = getprop("/autopilot/locks/heading");
     # stop A/P from controlling roll:
-    setprop("ja37/avionics/temp-halt-ap-roll2", 0);
+    nextRoll2 = 0;
     usedStick = 1;
   } elsif (lock != "") {
     # keep new heading/roll
@@ -488,10 +498,8 @@ var apLoop = func {
     } elsif (getprop("/autopilot/locks/heading") == "true-heading-hold") {
       setprop("autopilot/settings/true-heading-deg", math.round(getprop("orientation/heading-deg"), 1));
     }
-	settimer(func {
-		setprop("ja37/avionics/temp-halt-ap-roll", 1);
-		setprop("ja37/avionics/temp-halt-ap-roll2", 1);
-	}, 0.1);
+  	nextRoll1 = 1;
+    nextRoll2 = 1;
     if (usedStick == 1) {
       usedStick = 0;
     }
@@ -506,7 +514,7 @@ var apLoop = func {
     # Pilot is using stick to adjust altitude A/P
     lockP = getprop("/autopilot/locks/altitude");
     # stop A/P from controlling pitch:
-    setprop("ja37/avionics/temp-halt-ap-pitch", 0);
+    nextPitch = 0;
   } elsif (lockP != "") {
     # keep new altitude/pitch/AoA/vertical-speed
     lockP = "";
@@ -519,9 +527,7 @@ var apLoop = func {
     } elsif (getprop("/autopilot/locks/altitude") == "agl-hold") {
       setprop("autopilot/settings/target-agl-ft", math.round(getprop("/autopilot/internal/agl-2-sec-ahead"), 100));
     }
-	settimer(func {
-		setprop("ja37/avionics/temp-halt-ap-pitch", 1);
-	}, 0.1);
+    nextPitch = 1;
   }
 
   settimer(apLoop, 0.1);
