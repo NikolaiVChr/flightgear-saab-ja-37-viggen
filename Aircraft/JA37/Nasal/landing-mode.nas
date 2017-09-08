@@ -180,17 +180,19 @@ var L = func {
     setprop("ja37/avionics/approach", FALSE);#long
 
     if (route.Polygon.isLandingBaseRunwayActive() == TRUE and mode_L_active == TRUE) {
+        print("calling cycle runway");
         route.Polygon.primary.cycleDestinationRunway();
         mode_L_active = TRUE;
         mode_B_active = FALSE;
         mode = 0;
     } else {
         if (route.Polygon.activateLandingBase()) {
+            print("base activated");
             mode_L_active = TRUE;
             mode_B_active = FALSE;
             mode = 0;
         } else {
-            route.Polygon.deactivate();
+            route.Polygon.stopPrimary();
             mode_B_active = FALSE;
             mode_L_active = FALSE;
             mode = -1;
@@ -217,7 +219,7 @@ var LB = func {
         mode = 1;
         mode_LB_active = TRUE;
     } else {
-        route.Polygon.deactivate();
+        route.Polygon.stopPrimary();
         mode_LB_active = FALSE;
     }
 };
@@ -236,7 +238,7 @@ var LF = func {
         mode = 2;
         mode_LF_active = TRUE;
     } else {
-        route.Polygon.deactivate();
+        route.Polygon.stopPrimary();
         mode_LF_active = FALSE;
     }
 };
@@ -297,11 +299,12 @@ var landing_loop = func {
     runway_rw = nil;
     ils = 0;
 	if (route.Polygon.isPrimaryActive() == TRUE) {
+        has_waypoint = 0;
         runway_dist = input.rmDist.getValue();        
         var heading = input.heading.getValue();#true
         bearing = input.rmTrueBearing.getValue();#true
         if (runway_dist != nil and bearing != nil and heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
-            has_waypoint = 0;
+            has_waypoint = 1;
           	runway_bug = bearing - heading;
             var wp = route.Polygon.primary.getSteerpoint();
             #print("current: "~ghosttype(wp[0]));
@@ -309,7 +312,7 @@ var landing_loop = func {
             if (ghosttype(wp[0]) == "airport") {
                 ils = 0;
                 icao   = wp[0].id;
-                has_waypoint = 1;
+                #has_waypoint = 1;
             }
             if (ghosttype(wp[0]) == "runway") {
                 ils = 0;
@@ -323,7 +326,7 @@ var landing_loop = func {
                 has_waypoint = 2;
             }
         } elsif (runway_dist != nil and bearing != nil and heading != nil) {
-            print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
+            #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
         }
     }
     if (has_waypoint > 0) {

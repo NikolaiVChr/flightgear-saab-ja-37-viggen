@@ -74,17 +74,17 @@ var Polygon = {
 		me.base = Polygon.getLandingBase();
 		Polygon.flyRTB.activate();
 		if (me.base != nil) {
-			Polygon.primary.current = Polygon.primary.getSize()-1;
 			if(Polygon.primary.forceRunway()) {
 				Polygon.startPrimary();
 			}
+			Polygon.primary.plan.current = Polygon.primary.getSize()-1;
 		} else {
-			Polygon.deactivate();
+			Polygon.stopPrimary();
 			return FALSE;
 		}
 	},
 
-	deactivate: func {
+	stopPrimary: func {
 		fgcommand("activate-flightplan", props.Node.new({"activate": 0}));
 		#if (Polygon.isPrimaryActive() == TRUE) {
 		#	Polygon.primary.plan.cleanPlan();#careful here, if called twice it will clean plan.
@@ -145,8 +145,9 @@ var Polygon = {
 		if (default == 1) {
 			newPoly.plan = flightplan();
 		} else {
-			newPoly.plan = flightplan().clone();
-			newPoly.plan.cleanPlan();
+			newPoly.plan = flightplan("C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/emptyPlan.xml");
+			#newPoly.plan = flightplan().clone();    #TODO
+			#newPoly.plan.cleanPlan();
 		}
 		if (type == TYPE_RTB) {
 			newPoly.plan.departure = nil;
@@ -192,18 +193,16 @@ var Polygon = {
 	},
 
 	activate: func {
-		Polygon._activating = TRUE;
-		Polygon.primary = me;
-		me.plan.activate();
+		if (!me.isPrimary()) {
+			Polygon._activating = TRUE;
+			Polygon.primary = me;
+			#fgcommand("activate-flightplan", props.Node.new({"activate": 0}));#TODO: temp line
+			me.plan.activate();
+		}
 	},
 
 	isPrimary: func {
 		return Polygon.primary == me;
-		if (me.multi == TRUE) {
-			return me.plan.active;
-		} else {
-			return TRUE;
-		}
 	},
 
 	getSize: func {
@@ -212,7 +211,7 @@ var Polygon = {
 
 	cycle: func {
 		# Cycle waypoints
-		if (me.plan.current = me.getSize()-1) {
+		if (me.plan.current == me.getSize()-1) {
 			me.plan.current = 0;
 		} else {
 			me.plan.current = me.plan.current +1;
@@ -223,10 +222,12 @@ var Polygon = {
 		# Will return destination or last waypoint (if its a airport).
 		if (me.getSize() > 0) {
 			if(me.plan.destination != nil) {
+				print("getBase returning dest which is airport "~me.plan.destination.id);
 				return me.plan.destination;
 			} else {
 				me.base = me.plan.getWP(me.getSize()-1);
 				if (ghosttype(me.base) == "airport") {
+					print("getBase returning "~(me.getSize()-1)~" which is airport "~me.base.id);
 					return me.base;
 				}
 			}
