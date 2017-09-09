@@ -7,6 +7,12 @@ var TYPE_MISS = 2;# mission plan
 var TRUE  = 1;
 var FALSE = 0;
 
+var debugAll = TRUE;
+
+var printDA = func (str) {
+    if (debugAll) print (str);
+}
+
 var Polygon = {
 	#
 	# Class methods and variables
@@ -52,10 +58,20 @@ var Polygon = {
 			Polygon.editRTB      = poly1;
 			Polygon.editMiss     = poly1;
 		}
-		print("finished plan Init");
+		printDA("JA: finished plan Init");
 	},
 
-	# TODO make AJ polys
+	setupAJPolygons: func {
+		Polygon._setupListeners();
+		var poly1 = Polygon.new("1", TYPE_MIX, nil, TRUE);
+		Polygon.primary      = poly1;
+		#Polygon.editing      = poly1;
+		Polygon.flyRTB       = poly1;
+		Polygon.flyMiss      = poly1;
+		Polygon.editRTB      = poly1;
+		Polygon.editMiss     = poly1;
+		printDA("AJ: finished plan Init");
+	},
 
 	getLandingBase: func {
 		return Polygon.flyRTB.getBase();
@@ -101,16 +117,16 @@ var Polygon = {
 	},
 
 	_planExchange: func {
-		print("plan exhanged");
+		printDA("plan exhanged");
 		if (Polygon._activating == TRUE) {
 			Polygon._activating = FALSE;
-			print("..it was planned");
+			printDA("..it was planned");
 		} else {
 			# New plan was loaded in route-manager
 			var poly = Polygon.primary;
 			poly.plan = flightplan();
 			poly.plan.id = poly.name;
-			print("..it was unexpected");
+			printDA("..it was unexpected");
 		}
 	},
 
@@ -120,21 +136,21 @@ var Polygon = {
 		if (pln.id != nil) {
 			plns = pln.id;
 		}
-		print("plan finished: "~plns);
+		printDA("plan finished: "~plns);
 		if (Polygon._activating == FALSE) {
 			if (Polygon.primary.type == TYPE_MISS) {
 				Polygon.flyRTB.setAsPrimary();
 				Polygon.startPrimary();
-				print("..starting "~Polygon.flyRTB.name);
+				printDA("..starting "~Polygon.flyRTB.name);
 			} elsif (Polygon.primary.type == TYPE_RTB and Polygon.primary.getSize() > 0) {
 				Polygon.startPrimary();
 				Polygon.selectDestinationOnPrimary();
-				print("..restarted last on "~Polygon.primary.name);
+				printDA("..restarted last on "~Polygon.primary.name);
 			}
 		} else {
-			print("..for real");
+			printDA("..for real");
 		}
-		# TODO Handle that finish is called just from activating another.
+		# TODO Handle if finish is called just from activating another.
 	},
 
 	selectDestinationOnPrimary: func {
@@ -235,12 +251,12 @@ var Polygon = {
 		# Will return destination or last waypoint (if its a airport).
 		if (me.getSize() > 0) {
 			if(me.plan.destination != nil) {
-				print("getBase returning dest which is airport "~me.plan.destination.id);
+				printDA("getBase returning dest which is airport "~me.plan.destination.id);
 				return me.plan.destination;
 			} else {
 				me.base = me.plan.getWP(me.getSize()-1);
 				if (ghosttype(me.base) == "airport") {
-					print("getBase returning "~(me.getSize()-1)~" which is airport "~me.base.id);
+					printDA("getBase returning "~(me.getSize()-1)~" which is airport "~me.base.id);
 					return me.base;
 				}
 			}
@@ -309,7 +325,11 @@ var Polygon = {
 
 var poly_start = func {
 	removelistener(lsnr);
-	Polygon.setupJAPolygons();#TODO make proper
+	if (getprop("ja37/systems/variant") == 0) {
+		Polygon.setupJAPolygons();
+	} else {
+		Polygon.setupAJPolygons();
+	}
 }
 
 var lsnr = setlistener("ja37/supported/initialized", poly_start);

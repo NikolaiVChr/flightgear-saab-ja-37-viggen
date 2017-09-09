@@ -2678,12 +2678,21 @@ var TI = {
 		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
 		
 		if (me.menuMain == MAIN_MISSION_DATA) {
-			append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
-			append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
-			append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
-			append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
-			append(me.all_plans, [route.Polygon.polys["A"], route.Polygon.polys["A"] == route.Polygon.editing, TRUE]);
-			append(me.all_plans, [route.Polygon.polys["B"], route.Polygon.polys["B"] == route.Polygon.editing, TRUE]);
+			if (route.Polygon.primary.type == route.TYPE_MIX) {
+				append(me.all_plans, [route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE]);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+			} else {
+				append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["A"], route.Polygon.polys["A"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["B"], route.Polygon.polys["B"] == route.Polygon.editing, TRUE]);
+			}
 		} else {
 			append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
 			append(me.all_plans, nil);

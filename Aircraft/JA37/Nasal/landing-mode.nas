@@ -57,6 +57,12 @@ var runway_rw = nil;
 var showActiveSteer = FALSE;#if TI should show steerpoint
 var ils = 0;
 
+#
+# -1: no plan started
+#  0: plan running, steerpoint not active
+#  1: plan running, next steerpoint is not runway
+#  2: plan running, next steerpoint is runway
+#
 var has_waypoint = 0;
 
 var mode_B_active = FALSE;
