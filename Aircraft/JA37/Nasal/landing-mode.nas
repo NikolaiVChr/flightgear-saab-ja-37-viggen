@@ -373,6 +373,7 @@ var landing_loop = func {
                 printDA("menu activation");
             }
             if (mode_OPT_active==TRUE or ((input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) and mode_B_active == FALSE and mode_L_active == FALSE and mode_LA_active == FALSE)) {
+                # mode OPT
                 mode = 4;
                 mode_B_active = FALSE;
                 mode_L_active = FALSE;
@@ -384,6 +385,7 @@ var landing_loop = func {
                 show_waypoint_circle = TRUE;
                 printDA("OPT activate");
     		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000)) {# or ILS == TRUE test if glideslope/ILS or less than 10 Km
+                # switch to mode 3 (descent)
     			show_waypoint_circle = TRUE;
                 mode_B_active = FALSE;
                 mode_LA_active = FALSE;
@@ -395,6 +397,7 @@ var landing_loop = func {
     			mode = 3;
                 printDA("descent mode 3");
     		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle
+                # touch approach circle, switch to mode 2
     			show_approach_circle = TRUE;
                 mode_B_active = FALSE;
                 mode_LA_active = FALSE;
@@ -406,6 +409,7 @@ var landing_loop = func {
                 printDA("on circle");
     			mode = 2;
     		} elsif (mode == 2 and distCenter < (4100+250)) {
+                # keep mode 2
     			show_approach_circle = TRUE;
                 mode_B_active = FALSE;
                 mode_LA_active = FALSE;
@@ -417,6 +421,7 @@ var landing_loop = func {
     			mode = 2;
                 printDA("keeping mode 2 with circle");
     		} elsif (mode == 2 and (runway_dist*NM2M > (line*1000+4100) or distCenter > 11000)) {
+                # we are far away in mode 2
                 show_approach_circle = TRUE;
                 mode_B_active = FALSE;
                 mode_LA_active = FALSE;
@@ -436,6 +441,7 @@ var landing_loop = func {
                 }
                 mode_OPT_active = FALSE;
             } elsif (mode == 2 and runway_dist*NM2M < (line*1000+4100)) {
+                # we are close in mode 2
     			show_waypoint_circle = TRUE;
                 mode_B_active = FALSE;
                 mode_LA_active = FALSE;
@@ -447,6 +453,7 @@ var landing_loop = func {
     			mode = 2;
                 printDA("approach mode 2");
     		} elsif (getprop("ja37/hud/landing-mode")==TRUE and short == FALSE) {
+                # default for mode 1
     			mode = 1;
                 mode_B_active = FALSE;
                 mode_LA_active = FALSE;
@@ -458,6 +465,7 @@ var landing_loop = func {
     			show_approach_circle = TRUE;
                 printDA("default mode 1");
     		} else {
+                # 
                 mode = 0;
                 showActiveSteer = TRUE;
                 show_waypoint_circle = TRUE;
@@ -470,6 +478,7 @@ var landing_loop = func {
                 setprop("ja37/hud/TILS-on", FALSE);
             }
 		} else {
+            # Following waypoint
             setprop("ja37/hud/TILS-on", FALSE);
 			show_waypoint_circle = TRUE;
             showActiveSteer = TRUE;
@@ -483,10 +492,19 @@ var landing_loop = func {
                 printDA("mode 4");
             } else {
                 mode = 0;
+                if (route.Polygon.primary.type == route.TYPE_MISS) {
+                    mode_B_active = TRUE;
+                    mode_L_active = FALSE;
+                    mode_LA_active = FALSE;
+                } elsif (route.Polygon.primary.type == route.TYPE_RTB and mode_L_active == FALSE) {
+                    mode_B_active = FALSE;
+                    mode_LA_active = TRUE;
+                }
                 printDA("something something mode 0");
             }
-		}    	
+		}
     } else {
+        # route-manager not active
         setprop("ja37/hud/TILS-on", FALSE);
         showActiveSteer = TRUE;
         mode_B_active = FALSE;
