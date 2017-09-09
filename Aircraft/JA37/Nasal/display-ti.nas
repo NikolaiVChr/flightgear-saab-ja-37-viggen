@@ -189,7 +189,7 @@ var w = 1.0;#stroke width
 var maxTracks   = 32;# how many radar tracks can be shown at once in the TI (was 16)
 var maxMissiles =  6;
 var maxThreats  =  5;
-var maxSteers   = 50;
+var maxSteers   = 48;#careful with this one
 var maxBases    = 50;
 
 var roundabout = func(x) {
@@ -630,7 +630,7 @@ var TI = {
 
 	    # route symbols
 	    me.steerpoint = [];
-	    for (var i = 0; i < maxSteers; i += 1) {
+	    for (var i = 0; i < maxSteers*6; i += 1) {
 	    	append(me.steerpoint, me.rootCenter.createChild("path")
 	    			.set("z-index", 6)
 	               .moveTo(-10*MM2TEX, 0)
@@ -1442,8 +1442,8 @@ var TI = {
 		ti.displayTime = FALSE;
 		ti.ownPosition = 0.25;
 		ti.mapPlaces = CLEANMAP;
-		ti.showSteers = TRUE;
-		ti.showSteerPoly = TRUE;
+		ti.showSteers = TRUE;#only for debug turn to false
+		ti.showSteerPoly = TRUE;#only for debug turn to false
 		ti.ModeAttack = FALSE;
 		ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
@@ -1892,9 +1892,6 @@ var TI = {
 				}
 				if (me.ModeAttack == FALSE) {
 					me.menuButtonBox[14].show();
-				}
-				if (me.showSteerPoly == TRUE) {
-					#me.menuButtonBox[5].show();
 				}
 			} else {
 				if (me.trapLock == TRUE) {
@@ -2678,56 +2675,86 @@ var TI = {
 
 	showSteerPoints: func {
 		# steerpoints on map
-		me.curr_plan = route.Polygon.primary;
-		if (me.menuMain == MAIN_MISSION_DATA and route.Polygon.editing != nil) {
-			me.curr_plan = route.Polygon.editing;
+		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
+		
+		if (me.menuMain == MAIN_MISSION_DATA) {
+			append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["A"], route.Polygon.polys["A"] == route.Polygon.editing, TRUE]);
+			append(me.all_plans, [route.Polygon.polys["B"], route.Polygon.polys["B"] == route.Polygon.editing, TRUE]);
+		} else {
+			append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
+			append(me.all_plans, nil);
+			append(me.all_plans, nil);
+			append(me.all_plans, nil);
+			append(me.all_plans, nil);
+			append(me.all_plans, nil);
 		}
-		me.poly = [];
-		me.nextActive = FALSE;
+
 		me.nextDist = getprop("autopilot/route-manager/wp/dist");
 		if (me.nextDist == nil or me.nextDist == 0) {
 			me.nextDist = 1000000;
 		}
-		me.polygon = me.curr_plan.getPolygon();
-		me.points = size(me.polygon);
-		for (var wp = 0; wp < maxSteers; wp += 1) {
-			if (me.points > wp and (route.Polygon.isPrimaryActive() == TRUE or me.menuMain == MAIN_MISSION_DATA)) {
-				me.node = me.polygon[wp];
 
-  				if (me.node == nil or me.showSteers == FALSE) {
-  					me.steerpoint[wp].hide();
-    				continue;
-  				}
-				me.lat = me.node.wp_lat;
-  				me.lon = me.node.wp_lon;
-  				#me.alt = node.getNode("altitude-m").getValue();
-				me.name = me.node.id;
-				me.texCoord = me.laloToTexel();
-				if (me.curr_plan.isPrimary() == TRUE and me.curr_plan.isPrimaryActive() == TRUE and me.curr_plan.getLeg() != nil and me.curr_plan.getLeg().id == me.node.id and land.showActiveSteer == FALSE) {
-					me.steerpoint[wp].hide();
-					if (wp != me.points-1) {
-						# airport is not last steerpoint, we make a leg to/from that also
-						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE]);
-					}
-					me.nextActive = me.nextDist*NM2M<20000;
-    				continue;
-				} elsif (me.curr_plan.isPrimary() == TRUE and me.curr_plan.isPrimaryActive() == TRUE and me.curr_plan.getLeg() != nil and me.curr_plan.getLeg().id == me.node.id) {
-					me.steerpoint[wp].setColor(rTyrk,gTyrk,bTyrk,a);
-					me.steerpoint[wp].set("z-index", 10);
-					append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE]);
-					me.nextActive = me.nextDist*NM2M<20000;
-				} else {
-					me.steerpoint[wp].set("z-index", 5);
-					me.steerpoint[wp].setColor(rDTyrk,gDTyrk,bDTyrk,a);
-					append(me.poly, [me.texCoord[0], me.texCoord[1], me.nextActive]);
-					me.nextActive = FALSE;
-				}
-				me.steerpoint[wp].setTranslation(me.texCoord[0], me.texCoord[1]);
-  				me.steerpoint[wp].show();
-			} else {
-				me.steerpoint[wp].hide();
+		me.poly = [];#0: lat  1: lon  2: draw leg 3: not dark
+		
+		for(me.steerCounter = 0;me.steerCounter < 6; me.steerCounter += 1) {
+			me.curr_plan = me.all_plans[me.steerCounter];
+			me.nextActive = FALSE;
+			if (me.curr_plan != nil) {
+				me.polygon = me.curr_plan[0].getPolygon();
+				me.points = size(me.polygon);
+				#printf("%d Steers for %s", me.points, me.curr_plan[0].name);
 			}
-  		}
+			for (var wp = 0; wp < maxSteers; wp += 1) {
+				if (me.curr_plan != nil and me.points > wp and (route.Polygon.isPrimaryActive() == TRUE or me.menuMain == MAIN_MISSION_DATA)) {
+					me.node = me.polygon[wp];
+
+	  				if (me.node == nil or me.showSteers == FALSE) {
+	  					me.steerpoint[wp+48*me.steerCounter].hide();
+	    				continue;
+	  				}
+					me.lat = me.node.wp_lat;
+	  				me.lon = me.node.wp_lon;
+	  				#me.alt = node.getNode("altitude-m").getValue();
+					me.name = me.node.id;
+					me.texCoord = me.laloToTexel();
+					if ((land.showActiveSteer == FALSE and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
+						# waypoint is hidden
+						me.steerpoint[wp+48*me.steerCounter].hide();
+						if (wp != me.points-1) {
+							# airport is not last steerpoint, we make a leg to/from that also
+							append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, FALSE]);
+						}
+						me.nextActive = me.nextDist*NM2M<20000;
+	    				continue;
+					} elsif (me.curr_plan[2] == FALSE and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
+						# waypoint is the active and we not in MSDA menu
+						me.steerpoint[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
+						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, FALSE]);
+						me.nextActive = me.nextDist*NM2M<20000;
+					} elsif (me.curr_plan[1] == TRUE) {
+						# waypoint is in the polygon selected for editing
+						me.steerpoint[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
+						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, TRUE]);
+						me.nextActive = FALSE;
+					} else {
+						me.steerpoint[wp+48*me.steerCounter].set("z-index", 5);
+						me.steerpoint[wp+48*me.steerCounter].setColor(rDTyrk,gDTyrk,bDTyrk,a);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0 and (me.nextActive or me.curr_plan[2]), FALSE]);
+						me.nextActive = FALSE;
+					}
+					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
+	  				me.steerpoint[wp+48*me.steerCounter].show();
+				} else {
+					me.steerpoint[wp+48*me.steerCounter].hide();
+				}
+	  		}
+	  	}
   	},
 
   	laloToTexel: func {
@@ -2745,16 +2772,18 @@ var TI = {
   		#
   		# current leg is shown and next legs if less than 20Km away.
   		# If main menu MISSION-DATA is enabled, then show all legs.
+  		# tyrk color if editing that polygon, else dark tyrk. White for currently edited leg (soon).
   		# 
   		if (me.showSteers == TRUE and me.showSteerPoly == TRUE and size(me.poly) > 1) {
   			me.steerPoly.removeAllChildren();
   			me.prevLeg = nil;
   			foreach(leg; me.poly) {
-  				if (me.prevLeg != nil and (leg[2] == TRUE or me.menuMain == MAIN_MISSION_DATA)) {
+  				if (me.prevLeg != nil and leg[2] == TRUE) {
   					me.steerPoly.createChild("path")
   						.moveTo(me.prevLeg[0], me.prevLeg[1])
   						.lineTo(leg[0], leg[1])
-  						.setColor(rDTyrk,gDTyrk,bDTyrk,a)
+  						.setColor(leg[3]?rTyrk:rDTyrk,leg[3]?gTyrk:gDTyrk,leg[3]?bTyrk:bDTyrk,a)
+  						.set("z-index", leg[3]?2:1)
   						.setStrokeLineWidth(w);
   				}
   				me.prevLeg = leg;
