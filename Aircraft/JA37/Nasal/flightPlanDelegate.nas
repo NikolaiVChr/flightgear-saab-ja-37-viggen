@@ -108,7 +108,7 @@ var RouteManagerDelegate = {
     _endOfFlightPlan: func (plan) {
         printlog('info', "end of flight-plan, reactivating last waypoint");
         #plan.cleanPlan();
-        route.Polygon._finishedPrimary();
+        route.Polygon._finishedPrimary(plan);
     },
 };
 

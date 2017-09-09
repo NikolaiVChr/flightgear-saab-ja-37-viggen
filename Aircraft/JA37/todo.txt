@@ -143,8 +143,11 @@ CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
 Sim: Make AJ work with multi-plans.
-TI: The currently edited plan, should show in MSDA menu.
-TI: Convert polygon drawing from RM to plans.
+Sim: Stop loading plans per default
+Sim: Reenable check for stable FG.
+Sim: Test Remove prints and test.
+Sim: auto switch from miss to rtb, check that landing can handle it.
+Sim: Make sure tainted can be removed.
 
 
 Damage example section

@@ -24,7 +24,7 @@ var Polygon = {
 		Polygon._setupListeners();
 		me.multi = getprop("ja37/supported/multiple-flightplans");
 		if (me.multi == TRUE) {
-			var poly1 = Polygon.new("1", TYPE_MISS, nil, TRUE);
+			var poly1 = Polygon.new("1", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
 			Polygon.polys["1"] = poly1;
 			for (var i = 2; i<=4; i+=1) {
 				var poly = Polygon.new(""~i, TYPE_MISS, getprop("xmlPlans/mission"~i));
@@ -36,12 +36,13 @@ var Polygon = {
 			var polyB = Polygon.new("B", TYPE_RTB, getprop("xmlPlans/rtbB"));
 			Polygon.polys["B"]   = polyB;
 
-			Polygon.primary      = poly1;
+			
 			#Polygon.editing      = poly1;
 			Polygon.editRTB      = polyA;
 			Polygon.editMiss     = poly1;
 			Polygon.flyRTB       = polyA;
 			Polygon.flyMiss      = poly1;
+			poly1.setAsPrimary();
 		} else {
 			var poly1 = Polygon.new("1", TYPE_MIX, nil, TRUE);
 			Polygon.primary      = poly1;
@@ -96,7 +97,7 @@ var Polygon = {
 	},
 
 	_setupListeners: func {
-		setlistener("autopilot/route-manager/signals/flightplan-changed", func Polygon._planExchange);
+		setlistener("autopilot/route-manager/signals/flightplan-changed", func {Polygon._planExchange()});
 	},
 
 	_planExchange: func {
@@ -108,23 +109,27 @@ var Polygon = {
 			# New plan was loaded in route-manager
 			var poly = Polygon.primary;
 			poly.plan = flightplan();
-			poly.plan.id = plan.name;
+			poly.plan.id = poly.name;
 			print("..it was unexpected");
 		}
 	},
 
-	_finishedPrimary: func {
+	_finishedPrimary: func (pln) {
 		#called from RouteManagerDelegate
-		print("plan finished");
+		var plns="";
+		if (pln.id != nil) {
+			plns = pln.id;
+		}
+		print("plan finished: "~plns);
 		if (Polygon._activating == FALSE) {
 			if (Polygon.primary.type == TYPE_MISS) {
-				Polygon.flyRTB.activate();
+				Polygon.flyRTB.setAsPrimary();
 				Polygon.startPrimary();
 				print("..starting "~Polygon.flyRTB.name);
-			} elsif (Polygon.primary.type == TYPE_RTB) {
+			} elsif (Polygon.primary.type == TYPE_RTB and Polygon.primary.getSize() > 0) {
 				Polygon.startPrimary();
 				Polygon.selectDestinationOnPrimary();
-				print("..restarted "~Polygon.flyMiss.name);
+				print("..restarted last on "~Polygon.primary.name);
 			}
 		} else {
 			print("..for real");
@@ -150,14 +155,15 @@ var Polygon = {
 			newPoly.plan = flightplan("C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/emptyPlan.xml");
 			#newPoly.plan = flightplan().clone();    #TODO
 			#newPoly.plan.cleanPlan();
-		}
-		if (type == TYPE_RTB) {
-			newPoly.plan.departure = nil;
+			#if (type == TYPE_RTB) {
+			#	newPoly.plan.departure = nil;
+			#}
 		}
 		#newPoly.plan.destination = nil;   error in FG
 		newPoly.plan.id = name;
 		newPoly.name = name;
 		newPoly.type = type;
+		newPoly.tainted = FALSE;
 		return newPoly;
 	},
 
@@ -199,7 +205,12 @@ var Polygon = {
 			Polygon._activating = TRUE;
 			Polygon.primary = me;
 			#fgcommand("activate-flightplan", props.Node.new({"activate": 0}));#TODO: temp line
+			if (me.tainted) {
+				me.plan = me.plan.clone();
+				me.plan.id = me.name;
+			}
 			me.plan.activate();
+			me.tainted = TRUE;
 		}
 	},
 
