@@ -201,8 +201,16 @@ var update_loop = func {
   input.MPfloat2.setDoubleValue(translucency);
 
   # ALS effect
-  red = clamp(1 - red, 0.25, 1);
-  input.MPfloat9.setDoubleValue(red);
+  var red2 = clamp(1 - red, 0.25, 1);
+  input.MPfloat9.setDoubleValue(red2);
+
+  # set afterburner white at night:
+  #setprop("ja37/effect/flame-low-color-r",  0.863+(1-red));
+  #setprop("ja37/effect/flame-low-color-g",  0.347+(1-red));
+  #setprop("ja37/effect/flame-low-color-b",  0.238+(1-red));
+  #setprop("ja37/effect/flame-high-color-r", 0.863+(1-red));
+  #setprop("ja37/effect/flame-high-color-g", 0.238+(1-red));
+  #setprop("ja37/effect/flame-high-color-b", 0.347+(1-red));
 
   # End stuff
 

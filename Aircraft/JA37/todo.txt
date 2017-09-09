@@ -95,6 +95,7 @@ Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Replace beacon, landing and strobe lights with procedural lights in ALS.
+Effect: Afterburner should be more white at night.
 Sound: More annunciater warnings and other sounds. (transonic/Vne is same signal)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
