@@ -147,9 +147,8 @@ Sim: Stop loading plans per default
 Sim: Reenable check for stable FG in ja37.nas.
 Sim: Remove prints and test.
 Sim: Make sure tainted can be removed.
-Sim: indexOfWP??
+Sim: indexOfWP?? and createWP() and insertWP() crash with long name.
 TI: Reset speed of fast loop
-Control: /ja37/avionics/temp-halt-ap-roll2 == 0 for pinto
 
 MSDA page
 =========
@@ -173,7 +172,7 @@ EDIT: Click over steerpoint will highlight it and show infobox.
       New? Type (target/steerpoint)? insert?
 Continual reminder to press 'y' to toggle back fligth controls.
 Emergency ctrl if crashing.
-Cursor can click buttons.
+
 
 plan2 (snowy)
 dialog that works like laptop touchpad.

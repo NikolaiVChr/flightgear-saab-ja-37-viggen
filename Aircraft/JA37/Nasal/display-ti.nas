@@ -692,7 +692,7 @@ var TI = {
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
 
-		me.cursor = me.rootCenter.createChild("path")# is off set 1 pixel to right
+		me.cursor = root.createChild("path")# is off set 1 pixel to right
 				.moveTo(-24*MM2TEX,0)
 				.horiz(20*MM2TEX)
 				.moveTo(0,0)
@@ -704,9 +704,9 @@ var TI = {
 				.moveTo(1*MM2TEX,5*MM2TEX)
 				.vert(20*MM2TEX)
 				.setStrokeLineWidth(w*3)
-				.setTranslation(50*MM2TEX, 0)
+				.setTranslation(50*MM2TEX, height*0.5)
 				.setStrokeLineCap("round")
-				.set("z-index", 20)
+				.set("z-index", 25)#max
 		        .setColor(rWhite,gWhite,bWhite, a);
 
 		# target info box
@@ -2247,24 +2247,36 @@ var TI = {
 			if(!getprop("/ja37/systems/input-controls-flight")) {
 				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/elevator-cmd-norm");
 				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/aileron-cmd-norm");
-				me.cursorMoveY  = 100 * me.rate * me.cursorSpeedY;
-				me.cursorMoveX  = 100 * me.rate * me.cursorSpeedX;
+				me.cursorMoveY  = 150 * me.rate * me.cursorSpeedY;
+				me.cursorMoveX  = 150 * me.rate * me.cursorSpeedX;
 				me.cursorPosX  += me.cursorMoveX;
 				me.cursorPosY  += me.cursorMoveY;
 				me.cursorPosX   = clamp(me.cursorPosX, -width*0.5,  width*0.5);
 				me.cursorPosY   = clamp(me.cursorPosY, -me.rootCenterY, height-me.rootCenterY);
-				me.cursor.setTranslation(me.cursorPosX,me.cursorPosY);# is off set 1 pixel to right
+				me.cursorGPosX = me.cursorPosX + width*0.5;
+				me.cursorGPosY = me.cursorPosY + me.rootCenterY;
+				me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
 				me.cursorTrigger = getprop("controls/armament/trigger");
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
 				if (route.Polygon.editSteer) {
-					
 					me.cursorDrag = route.Polygon.selectSteer;
 					me.newSteerPos = me.TexelToLaLo(me.cursorPosX, me.cursorPosY);
-					me.cursorDrag[0].wp_lat = me.newSteerPos[0];
-					me.cursorDrag[0].wp_lon = me.newSteerPos[1];
+					#me.cursorDrag[0].wp_lat = me.newSteerPos[0];
+					#me.cursorDrag[0].wp_lon = me.newSteerPos[1];
 					#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
-				} else {
+					if(me.cursorTrigger and !me.cursorTriggerPrev) {
+						route.Polygon.editApply(me.newSteerPos[0],me.newSteerPos[1]);
+					}
+				} elsif (route.Polygon.editing != nil) {
+					# click on delete/insert
 					me.newSteerPos = nil;
+				} elsif (me.cursorTrigger and !me.cursorTriggerPrev) {
+					# click on edge buttons
+					me.newSteerPos = nil;
+					me.bMethod = me.getButtonMethod();
+					if (me.bMethod != nil) {
+						me.bMethod();
+					}
 				}
 			} else {
 				me.cursorTrigger = FALSE;
@@ -2276,6 +2288,79 @@ var TI = {
 			me.newSteerPos = nil;
 			me.cursor.hide();
 		}
+		me.cursorTriggerPrev = me.cursorTrigger;
+	},
+
+	getButtonMethod: func () {
+		#TODO: should really highlight menutext
+		if (me.cursorGPosY > height-6.25*2) {
+			# possible main menu click
+			if (me.cursorGPosX > width*0.135+((8-8)*width*0.1475)-6.25*3 and me.cursorGPosX < width*0.135+((8-8)*width*0.1475)-6.25*3+6*6.25) {
+				return me.b8;
+			}
+			if (me.cursorGPosX > width*0.135+((9-8)*width*0.1475)-6.25*3 and me.cursorGPosX < width*0.135+((9-8)*width*0.1475)-6.25*3+6*6.25) {
+				return me.b9;
+			}
+			if (me.cursorGPosX > width*0.135+((10-8)*width*0.1475)-6.25*3 and me.cursorGPosX < width*0.135+((10-8)*width*0.1475)-6.25*3+6*6.25) {
+				return me.b10;
+			}
+			if (me.cursorGPosX > width*0.135+((11-8)*width*0.1475)-6.25*3 and me.cursorGPosX < width*0.135+((11-8)*width*0.1475)-6.25*3+6*6.25) {
+				return me.b11;
+			}
+			if (me.cursorGPosX > width*0.135+((12-8)*width*0.1475)-6.25*3 and me.cursorGPosX < width*0.135+((12-8)*width*0.1475)-6.25*3+6*6.25) {
+				return me.b12;
+			}
+			if (me.cursorGPosX > width*0.135+((13-8)*width*0.1475)-6.25*3 and me.cursorGPosX < width*0.135+((13-8)*width*0.1475)-6.25*3+6*6.25) {
+				return me.b13;
+			}
+		} elsif (me.cursorGPosX < width*0.060-3.125+2*6.25) {
+			# possible left menu click
+			if (me.cursorGPosY > height*0.09+(1-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(1-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b1;
+			}
+			if (me.cursorGPosY > height*0.09+(2-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(2-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b2;
+			}
+			if (me.cursorGPosY > height*0.09+(3-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(3-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b3;
+			}
+			if (me.cursorGPosY > height*0.09+(4-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(4-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b4;
+			}
+			if (me.cursorGPosY > height*0.09+(5-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(5-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b5;
+			}
+			if (me.cursorGPosY > height*0.09+(6-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(6-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b6;
+			}
+			if (me.cursorGPosY > height*0.09+(7-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(7-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b7;
+			}
+		} elsif (me.cursorGPosX > width*0.940+3.125-2*6.25) {
+			# possible right menu click
+			if (me.cursorGPosY > height*0.09+(1-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(1-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b20;
+			}
+			if (me.cursorGPosY > height*0.09+(2-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(2-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b19;
+			}
+			if (me.cursorGPosY > height*0.09+(3-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(3-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b18;
+			}
+			if (me.cursorGPosY > height*0.09+(4-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(4-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b17;
+			}
+			if (me.cursorGPosY > height*0.09+(5-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(5-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b16;
+			}
+			if (me.cursorGPosY > height*0.09+(6-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(6-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b15;
+			}
+			if (me.cursorGPosY > height*0.09+(7-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(7-1)*height*0.11-6.25*4+8*6.25) {
+				return me.b14;
+			}
+		}
+		return nil;
 	},
 
 	ecmOverlay: func {
@@ -2670,58 +2755,94 @@ var TI = {
 	},	
 
 	showSteerPointInfo: func {
-		# little infobox with details about next steerpoint
-		me.wp     = getprop("autopilot/route-manager/current-wp");
-		me.points = getprop("autopilot/route-manager/route/num");
-		if (me.wp > me.points-1) {
-			# bug in route manager occurred, fixing it. TODO: fix route-manager.
-			setprop("autopilot/route-manager/current-wp", me.points-1);
-			me.wp = me.points-1;
-		}
-		if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
-			# steerpoints ON and route active, plus not being in combat and having something selected by radar
-			# that if statement needs refining!
-			
-			me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
+		if (me.menuMain == MAIN_MISSION_DATA) {
+			if (route.Polygon.editing != nil) {
+				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"POLY":"POLY");
+				me.wpTextNum.setText(route.Polygon.editing.name);
 
-			me.wpNum  = me.wp+1;
-			
-			me.legs   = me.points-1;
-			me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.interoperability==displays.METRIC?" AV ":" OF ")~me.legs;
+				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"NUM":"NUM");
+				me.wpTextPos.setText(sprintf("%d",route.Polygon.editing.getSize()));
 
-			me.wpAlt  = me.node.getNode("altitude-ft");
-			if (me.wpAlt != nil) {
-				me.wpAlt = me.wpAlt.getValue();
-			}
-			if (me.wpAlt == nil) {
-				me.wpAlt = "";
-			} elsif (me.wpAlt < 5000) {
-				me.wpAlt = "";
+				me.wpTextField.show();
+
+				if (route.Polygon.selectSteer != nil) {
+					#extra info about current selected steer
+					me.wpTextAltDesc.setText("ID");
+					me.wpTextAlt.setText(route.Polygon.selectSteer[0].id);
+
+					me.wpTextSpeedDesc.setText(me.interoperability==displays.METRIC?"LALO":"LALO");
+					me.wpTextSpeed.setText(geo.format(route.Polygon.selectSteer[0].wp_lat,route.Polygon.selectSteer[0].wp_lon));
+
+					me.wpTextETADesc.setText(me.interoperability==displays.METRIC?"B":"S");
+					me.wpTextETA.setText((1+route.Polygon.selectSteer[1])~"");
+				} else {
+					#empty info about current selected steer
+					me.wpTextAltDesc.setText("");
+					me.wpTextAlt.setText("");
+
+					me.wpTextSpeedDesc.setText("");
+					me.wpTextSpeed.setText("");
+
+					me.wpTextETADesc.setText("");
+					me.wpTextETA.setText("");
+				}
 			} else {
-				# bad coding, shame on me..
-				me.wpAlt  = me.interoperability==displays.METRIC?me.wpAlt*FT2M:me.wpAlt;
-				me.wpAlt = sprintf("%d", me.wpAlt);
+				me.wpTextField.hide();
 			}
-			me.wpSpeed= getprop("autopilot/route-manager/cruise/speed-kts");
-			me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
-			me.wpETAText = sprintf("%d", me.wpETA);
-			if (me.wpETA > 500) {
-				me.wpETAText = "";
-			}
-
-			me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
-			me.wpTextNum.setText(me.legText);
-			me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"B":"SP");
-			me.wpTextPos.setText((me.wpNum-1)~" -> "~me.wpNum);
-			me.wpTextAltDesc.setText(me.interoperability==displays.METRIC?"H":"A");
-			me.wpTextAlt.setText(me.wpAlt);
-			me.wpTextSpeedDesc.setText(me.interoperability==displays.METRIC?"KMH":"KT");
-			me.wpTextSpeed.setText(sprintf("%d", me.interoperability==displays.METRIC?me.wpSpeed*KT2KMH:me.wpSpeed));
-			me.wpTextETADesc.setText("ETA");
-			me.wpTextETA.setText(me.wpETAText);
-			me.wpTextField.show();
 		} else {
-			me.wpTextField.hide();
+			# little infobox with details about next steerpoint
+			me.wp     = getprop("autopilot/route-manager/current-wp");
+			me.points = getprop("autopilot/route-manager/route/num");
+			if (me.wp > me.points-1) {
+				# bug in route manager occurred, fixing it. TODO: fix route-manager.
+				setprop("autopilot/route-manager/current-wp", me.points-1);
+				me.wp = me.points-1;
+			}
+			if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
+				# steerpoints ON and route active, plus not being in combat and having something selected by radar
+				# that if statement needs refining!
+				
+				me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
+
+				me.wpNum  = me.wp+1;
+				
+				me.legs   = me.points-1;
+				me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.interoperability==displays.METRIC?" AV ":" OF ")~me.legs;
+
+				me.wpAlt  = me.node.getNode("altitude-ft");
+				if (me.wpAlt != nil) {
+					me.wpAlt = me.wpAlt.getValue();
+				}
+				if (me.wpAlt == nil) {
+					me.wpAlt = "";
+				} elsif (me.wpAlt < 5000) {
+					me.wpAlt = "";
+				} else {
+					# bad coding, shame on me..
+					me.wpAlt  = me.interoperability==displays.METRIC?me.wpAlt*FT2M:me.wpAlt;
+					me.wpAlt = sprintf("%d", me.wpAlt);
+				}
+				me.wpSpeed= getprop("autopilot/route-manager/cruise/speed-kts");
+				me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
+				me.wpETAText = sprintf("%d", me.wpETA);
+				if (me.wpETA > 500) {
+					me.wpETAText = "";
+				}
+
+				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
+				me.wpTextNum.setText(me.legText);
+				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"B":"SP");
+				me.wpTextPos.setText((me.wpNum-1)~" -> "~me.wpNum);
+				me.wpTextAltDesc.setText(me.interoperability==displays.METRIC?"H":"A");
+				me.wpTextAlt.setText(me.wpAlt);
+				me.wpTextSpeedDesc.setText(me.interoperability==displays.METRIC?"KMH":"KT");
+				me.wpTextSpeed.setText(sprintf("%d", me.interoperability==displays.METRIC?me.wpSpeed*KT2KMH:me.wpSpeed));
+				me.wpTextETADesc.setText("ETA");
+				me.wpTextETA.setText(me.wpETAText);
+				me.wpTextField.show();
+			} else {
+				me.wpTextField.hide();
+			}
 		}
 	},
 
@@ -2831,7 +2952,7 @@ var TI = {
 						me.nextActive = FALSE;
 					}
 					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
-					if (me.curr_plan[1] and me.cursorTrigger) {
+					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer) {
 						me.cursorDistX = me.cursorPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
@@ -4135,9 +4256,6 @@ var TI = {
 				land.LF();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
-				if(route.Polygon.editSteer and me.newSteerPos != nil) {
-					route.Polygon.editApply(me.newSteerPos[0],me.newSteerPos[1]);
-				}
 				route.Polygon.editSteerpoint();
 			}
 		}

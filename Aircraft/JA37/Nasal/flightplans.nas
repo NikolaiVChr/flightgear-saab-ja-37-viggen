@@ -94,8 +94,14 @@ var Polygon = {
 			#Polygon.selectSteer[0].wp_lat = lat;
 			#Polygon.selectSteer[0].wp_lon = lon;
 			# TODO: what about name??!
+			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.selectSteer[1]+rand())*100);
+			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
+			#print(me.newName);
 			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
-			Polygon.editing.plan.insertWP(createWP({lat:lati,lon:long},"Steer "~Polygon.selectSteer[1],"pseudo"), Polygon.selectSteer[1]);
+			#print("deleted WP");
+			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
+			#print("inserted WP");
+			Polygon.selectSteer = [me.newSteerpoint, Polygon.selectSteer[1]];
 			Polygon._apply = FALSE;
 		}
 	},
