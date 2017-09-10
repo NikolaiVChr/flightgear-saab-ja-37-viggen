@@ -155,6 +155,7 @@ Steerpoint names indistinguishable for diff. plans.
 
 Plan for cursor:
 ================
+plan1 (leto)
 Only on TI to start with.
 CURS, MMAP or EDIT will enable it if PEK is enabled.
 Trigger will click.
@@ -168,6 +169,8 @@ EDIT: Click over steerpoint will highlight it and show infobox.
       EDIT/SP will edit it. Moving will then move it. Click or EDIT/SP will set. (no cancel)
       New? Type (target/steerpoint)? insert?
 
+plan2 (snowy)
+dialog that works like laptop touchpad.
 
 Damage example section
 ======================

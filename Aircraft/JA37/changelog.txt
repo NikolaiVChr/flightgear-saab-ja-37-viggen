@@ -3088,4 +3088,7 @@ TI: Menu MSDA-EDIT RPOL/MPOL will now highlight the choosen, editing is still no
 TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to activate, B/S will be selected if it is not when activating.
 TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
 TI: Map place names will now always be shown in menu MSDA.
+TI: MYPS now will show position framed. If adjusted frame will go away.
+TI: MYPS now longer can set the aircraft at the top.
+TI: Steerpoints now have numbers and type attached and is north oriented. In MSDA, only the edited plan will have them.
 Aero: Default direction for ai wake now added.
