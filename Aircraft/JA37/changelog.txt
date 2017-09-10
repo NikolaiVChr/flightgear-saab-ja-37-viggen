@@ -3094,3 +3094,4 @@ TI: Steerpoints now have numbers and type attached and is north oriented. In MSD
 Aero: Default direction for ai wake now added.
 TI: Flight input can now control cursor, toggle with 'y'. (not on MI)
 TI: Cursor can now select and edit steerpoint.
+Animation: Radar stick now animated.

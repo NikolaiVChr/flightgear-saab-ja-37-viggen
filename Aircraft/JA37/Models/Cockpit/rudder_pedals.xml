@@ -13,7 +13,7 @@
     <animation>
         <type>translate</type>
         <object-name>Pedal.1</object-name>
-        <property>controls/flight/rudder</property>
+        <property>fdm/jsbsim/fcs/rudder/input</property>
         <factor>0.06</factor>
         <axis>
             <x>1.0</x>
@@ -42,7 +42,7 @@
     <animation>
         <type>translate</type>
         <object-name>Pedal.2</object-name>
-        <property>controls/flight/rudder</property>
+        <property>fdm/jsbsim/fcs/rudder/input</property>
         <factor>-0.06</factor>
         <axis>
             <x>1.0</x>
