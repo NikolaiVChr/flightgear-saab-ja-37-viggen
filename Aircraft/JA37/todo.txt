@@ -38,6 +38,7 @@ Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Model: The KURS gauge in the JA was more complex, needs making.
 Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA, needs making.
 Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness, needs making.
+Model: JA texture version for datapanel.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank actually fall down like other stores do.
 Animation: Red warning light on MI should blink with 4Hz.

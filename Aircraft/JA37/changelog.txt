@@ -3092,10 +3092,12 @@ TI: MYPS now will show position framed. If adjusted frame will go away.
 TI: MYPS now longer can set the aircraft at the top.
 TI: Steerpoints now have numbers and type attached and is north oriented. In MSDA, only the edited plan will have them.
 Aero: Default direction for ai wake now added.
-TI: Flight input can now control cursor, toggle with 'y'. (not on MI)
+TI: Flight input can now control cursor, toggle with 'y'. (not on MI). Trigger will click.
 TI: Cursor can now select and edit steerpoint.
 Animation: Radar stick now animated.
 TI: Cursor can now click edge buttons and is now z-indexed above everything else.
 TI: Small infobox will now show up in MSDA menu if plan being edited.
 GUI: Continual reminder to press 'y' to toggle back flight controls.
 Control: Emergency flight ctrl enabled if less than 10 sec to impact with ground.
+TI: Menu MSDA-MMAP will now freeze the map relative to ground (except for heading).
+TI: Menu MSDA-MMAP allows cursor to set new map center. Center is where aircraft location was before.

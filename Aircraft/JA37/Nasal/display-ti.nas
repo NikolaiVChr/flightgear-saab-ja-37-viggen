@@ -1416,6 +1416,11 @@ var TI = {
       	ti.day = TRUE;
       	ti.setupMap();
 
+      	#map
+      	ti.lat = getprop('/position/latitude-deg');
+		ti.lon = getprop('/position/longitude-deg');
+      	ti.mapSelfCentered = TRUE;
+
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
 		ti.lastZ   = 0;
@@ -1538,6 +1543,7 @@ var TI = {
 			mycanvas.setColorBackground(0.15, 0.15, 0.15, 1.0);
 		}
 
+		me.whereIsMap();#must be before mapUpdate
 		me.updateMap();
 		me.showMapScale();
 		M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
@@ -1726,6 +1732,10 @@ var TI = {
 					me.logBIT.push("RB-99: ....OK");
 				me.BITok1 = TRUE;
 			}
+		}
+		if (me.menuMain != MAIN_MISSION_DATA) {
+			me.dragMapEnabled = FALSE;
+			me.mapSelfCentered = TRUE;
 		}
 	},
 
@@ -1932,6 +1942,11 @@ var TI = {
 			}
 			if (displays.common.cursor == displays.TI) {
 				me.menuButtonBox[18].show();
+			}
+		}
+		if (me.menuMain == MAIN_MISSION_DATA) {
+			if (me.dragMapEnabled == TRUE) {
+				me.menuButtonBox[20].show();
 			}
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and me.GPSinit == TRUE) {
@@ -2252,30 +2267,37 @@ var TI = {
 				me.cursorPosX  += me.cursorMoveX;
 				me.cursorPosY  += me.cursorMoveY;
 				me.cursorPosX   = clamp(me.cursorPosX, -width*0.5,  width*0.5);
-				me.cursorPosY   = clamp(me.cursorPosY, -me.rootCenterY, height-me.rootCenterY);
+				me.cursorPosY   = clamp(me.cursorPosY, -me.rootCenterY, height-me.rootCenterY);#relative to map center
 				me.cursorGPosX = me.cursorPosX + width*0.5;
-				me.cursorGPosY = me.cursorPosY + me.rootCenterY;
+				me.cursorGPosY = me.cursorPosY + me.rootCenterY;# relative to canvas
+				me.cursorOPosX = me.cursorPosX + me.tempReal[0];
+				me.cursorOPosY = me.cursorPosY + me.tempReal[1];# relative to rootCenter
 				me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
 				me.cursorTrigger = getprop("controls/armament/trigger");
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
 				if (route.Polygon.editSteer) {
-					me.cursorDrag = route.Polygon.selectSteer;
-					me.newSteerPos = me.TexelToLaLo(me.cursorPosX, me.cursorPosY);
+					#me.cursorDrag = route.Polygon.selectSteer;
 					#me.cursorDrag[0].wp_lat = me.newSteerPos[0];
 					#me.cursorDrag[0].wp_lon = me.newSteerPos[1];
 					#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 					if(me.cursorTrigger and !me.cursorTriggerPrev) {
+						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 						route.Polygon.editApply(me.newSteerPos[0],me.newSteerPos[1]);
 					}
-				} elsif (route.Polygon.editing != nil) {
+				#} elsif (route.Polygon.editing != nil) {
 					# click on delete/insert
-					me.newSteerPos = nil;
+				#	me.newSteerPos = nil;
 				} elsif (me.cursorTrigger and !me.cursorTriggerPrev) {
 					# click on edge buttons
 					me.newSteerPos = nil;
 					me.bMethod = me.getButtonMethod();
 					if (me.bMethod != nil) {
 						me.bMethod();
+					} elsif (me.dragMapEnabled) {
+						me.newMapPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+						me.lat = me.newMapPos[0];
+						me.lon = me.newMapPos[1];
+						me.mapSelfCentered = FALSE;
 					}
 				}
 			} else {
@@ -2908,11 +2930,11 @@ var TI = {
 	  					me.steerpoint[wp+48*me.steerCounter].hide();
 	    				continue;
 	  				}
-					me.lat = me.node.wp_lat;
-	  				me.lon = me.node.wp_lon;
+					me.lat_wp = me.node.wp_lat;
+	  				me.lon_wp = me.node.wp_lon;
 	  				#me.alt = node.getNode("altitude-m").getValue();
 					me.name = me.node.id;
-					me.texCoord = me.laloToTexel();
+					me.texCoord = me.laloToTexel(me.lat_wp, me.lon_wp);
 					if (me.wpSelect == wp) {
 						# waypoint is selected
 						#printf("doing for %d", me.wpSelect);
@@ -2953,8 +2975,8 @@ var TI = {
 					}
 					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
 					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer) {
-						me.cursorDistX = me.cursorPosX-me.texCoord[0];
-						me.cursorDistY = me.cursorPosY-me.texCoord[1];
+						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
+						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
 						if (me.cursorDist < 12) {
 							route.Polygon.selectSteerpoint(me.curr_plan[0].name, me.node, wp);# dangerous!!! what if somebody is editing plan in routemanager?
@@ -2976,17 +2998,18 @@ var TI = {
 	  	}
   	},
 
-  	laloToTexel: func {
+  	laloToTexel: func (la, lo) {
 		me.coord = geo.Coord.new();
-  		me.coord.set_latlon(me.lat, me.lon);
-  		me.coordSelf = geo.aircraft_position();
+  		me.coord.set_latlon(la, lo);
+  		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
+  		me.coordSelf.set_latlon(me.lat_own, me.lon_own);
   		me.angle = (me.coordSelf.course_to(me.coord)-me.input.headTrue.getValue())*D2R;
 		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
 		me.pos_yy		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.sin(me.angle + math.pi/2);
-  		return [me.pos_xx, me.pos_yy];
+  		return [me.pos_xx, me.pos_yy];#relative to rootCenter
   	},
 
-  	TexelToLaLo: func (x,y) {#relative to rootCenter
+  	TexelToLaLoMap: func (x,y) {#relative to map center
   		x /= M2TEX;
   		y /= M2TEX;
   		me.mDist  = math.sqrt(x*x+y*y);
@@ -3000,7 +3023,8 @@ var TI = {
   		me.texAngle  = -me.texAngle*R2D+90;#convert from unit circle to heading circle, 0=up on display
   		me.headAngle = getprop("orientation/heading-deg")+me.texAngle;#bearing
   		#printf("%d bearing   %d rel bearing", me.headAngle, me.texAngle);
-  		me.coordSelf = geo.aircraft_position();
+  		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
+  		me.coordSelf.set_latlon(me.lat, me.lon);
   		me.coordSelf.apply_course_distance(me.headAngle, me.mDist);
 
   		return [me.coordSelf.lat(), me.coordSelf.lon()];
@@ -4321,6 +4345,14 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				land.L();
 			}
+			if(me.menuMain == MAIN_MISSION_DATA) {
+				me.dragMapEnabled = !me.dragMapEnabled;
+				me.mapSelfCentered = !me.dragMapEnabled;
+				if (!me.mapSelfCentered) {
+					me.lat = me.lat_own;
+					me.lon = me.lon_own;
+				}
+			}
 			if(me.menuMain == MAIN_FAILURES) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
@@ -4358,18 +4390,33 @@ var TI = {
 		}
 	},
 
+	whereIsMap: func {
+		# update the map position
+		me.lat_own = getprop('/position/latitude-deg');
+		me.lon_own = getprop('/position/longitude-deg');
+		if (me.menuMain != MAIN_MISSION_DATA or me.mapSelfCentered) {
+			# get current position
+			me.lat = me.lat_own;
+			me.lon = me.lon_own;# TODO: USE GPS/INS here.
+		}
+	},
+
 	updateMap: func {
 		# update the map
 		if (lastDay != me.day)  {
 			me.setupMap();
 		}
 		me.rootCenterY = height*0.875-(height*0.875)*me.ownPosition;
-		me.rootCenter.setTranslation(width/2, me.rootCenterY);
+		if (!me.mapSelfCentered) {
+			me.lat_wp   = getprop('/position/latitude-deg');
+			me.lon_wp   = getprop('/position/longitude-deg');
+			me.tempReal = me.laloToTexel(me.lat,me.lon);#delicate
+			me.rootCenter.setTranslation(width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]);
+		} else {
+			me.tempReal = [0,0];
+			me.rootCenter.setTranslation(width/2, me.rootCenterY);
+		}
 		me.mapCentrum.setTranslation(width/2, me.rootCenterY);
-		
-		# get current position
-		me.lat = getprop('/position/latitude-deg');
-		me.lon = getprop('/position/longitude-deg');
 
 		me.n = math.pow(2, zoom);
 		me.center_tile_float = [
@@ -4399,6 +4446,7 @@ var TI = {
 				tiles[xxx][yyy].setTranslation(-int((me.center_tile_fraction_x - xxx+me.tile_offset[0]) * tile_size), -int((me.center_tile_fraction_y - yyy+me.tile_offset[1]) * tile_size));
 			}
 		}
+
 		me.liveMap = getprop("ja37/displays/live-map");
 		if(me.center_tile_int[0] != last_tile[0] or me.center_tile_int[1] != last_tile[1] or type != last_type or zoom != last_zoom or me.liveMap != lastLiveMap or lastDay != me.day)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
