@@ -172,6 +172,8 @@ EDIT: Click over steerpoint will highlight it and show infobox.
       EDIT/SP will edit it. Moving will then move it. Click or EDIT/SP will set. (no cancel)
       New? Type (target/steerpoint)? insert?
 Continual reminder to press 'y' to toggle back fligth controls.
+Emergency ctrl if crashing.
+Cursor can click buttons.
 
 plan2 (snowy)
 dialog that works like laptop touchpad.

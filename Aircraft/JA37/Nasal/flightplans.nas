@@ -95,7 +95,7 @@ var Polygon = {
 			#Polygon.selectSteer[0].wp_lon = lon;
 			# TODO: what about name??!
 			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
-			Polygon.editing.plan.insertWP(createWP({lat:lati,lon:long},""~Polygon.selectSteer[1],"pseudo"), Polygon.selectSteer[1]);
+			Polygon.editing.plan.insertWP(createWP({lat:lati,lon:long},"Steer "~Polygon.selectSteer[1],"pseudo"), Polygon.selectSteer[1]);
 			Polygon._apply = FALSE;
 		}
 	},
