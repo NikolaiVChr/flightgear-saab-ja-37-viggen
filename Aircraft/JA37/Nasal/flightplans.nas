@@ -77,10 +77,10 @@ var Polygon = {
 
 	selectSteerpoint: func (planName, leg, index) {
 		me.editIndex = Polygon.editing.plan.indexOfWP(leg);
-		printf("%s %s %d",planName, leg.id, me.editIndex);
+		#printf("%s %s %d",planName, leg.id, me.editIndex);
 		if (planName == Polygon.editing.name){#} and me.editIndex != nil and me.editIndex != -1) {
 			Polygon.selectSteer = [leg, index];
-			print("select");
+			printDA("select");
 			if (me.selectL != nil) {
 				removelistener(me.selectL);
 			}
@@ -103,7 +103,7 @@ var Polygon = {
 	editSteerpoint: func () {
 		if (Polygon.selectSteer != nil) {
 			Polygon.editSteer = !Polygon.editSteer;
-			print("toggle edit: "~Polygon.editSteer);
+			printDA("toggle edit: "~Polygon.editSteer);
 		}
 		return Polygon.editSteer;
 	},
@@ -124,12 +124,12 @@ var Polygon = {
 		if (Polygon._apply == FALSE) {
 			removelistener(me.selectL);
 			me.selectL = nil;
-			print("plan edited!!!");
+			printDA("plan edited, steer edit cancelled.");
 			Polygon.editSteer = FALSE;
 			Polygon.selectSteer = nil;
 			return;
 		}
-		print("plan not edited!!!");
+		#print("plan not edited!!!");
 	},
 
 	getLandingBase: func {

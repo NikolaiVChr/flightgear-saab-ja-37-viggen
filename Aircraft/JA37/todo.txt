@@ -149,6 +149,7 @@ Sim: Remove prints and test.
 Sim: Make sure tainted can be removed.
 Sim: indexOfWP??
 TI: Reset speed of fast loop
+Control: /ja37/avionics/temp-halt-ap-roll2 == 0 for pinto
 
 MSDA page
 =========
