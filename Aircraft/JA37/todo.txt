@@ -148,6 +148,7 @@ Sim: Reenable check for stable FG in ja37.nas.
 Sim: Remove prints and test.
 Sim: Make sure tainted can be removed.
 Sim: indexOfWP??
+TI: Reset speed of fast loop
 
 MSDA page
 =========
@@ -169,6 +170,7 @@ MMAP: move certain texels/sec for full stick.
 EDIT: Click over steerpoint will highlight it and show infobox.
       EDIT/SP will edit it. Moving will then move it. Click or EDIT/SP will set. (no cancel)
       New? Type (target/steerpoint)? insert?
+Continual reminder to press 'y' to toggle back fligth controls.
 
 plan2 (snowy)
 dialog that works like laptop touchpad.

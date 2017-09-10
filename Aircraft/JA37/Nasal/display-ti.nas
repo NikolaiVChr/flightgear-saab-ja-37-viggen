@@ -2257,11 +2257,12 @@ var TI = {
 				me.cursorTrigger = getprop("controls/armament/trigger");
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
 				if (route.Polygon.editSteer) {
-					print("dragging steerpoint");
+					
 					me.cursorDrag = route.Polygon.selectSteer;
 					me.newSteerPos = me.TexelToLaLo(me.cursorPosX, me.cursorPosY);
 					me.cursorDrag[0].wp_lat = me.newSteerPos[0];
 					me.cursorDrag[0].wp_lon = me.newSteerPos[1];
+					print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 				} else {
 					me.newSteerPos = nil;
 				}

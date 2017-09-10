@@ -3092,3 +3092,5 @@ TI: MYPS now will show position framed. If adjusted frame will go away.
 TI: MYPS now longer can set the aircraft at the top.
 TI: Steerpoints now have numbers and type attached and is north oriented. In MSDA, only the edited plan will have them.
 Aero: Default direction for ai wake now added.
+TI: Flight input can now control cursor, toggle with 'y'. (not on MI)
+TI: Cursor can now select and edit steerpoint.
