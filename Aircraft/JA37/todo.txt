@@ -126,13 +126,11 @@ TI: Make route info with overall ETA.
 TI: Clear pylon selection.
 TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not sure what how they work.
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
-TI: There should be 4 mission routes and 2 return to base routes. Use Nasal Flightplans.
-TI: Routes can have target steerpoints (Mxx/Txx).
-TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to activate, B/S will be selected if it is not when activating. (I asume its the same as B/S for RTB instead of mission).
-TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
+TI: Routes can have target steerpoints (Mxx/Txx).
 TI: Edit all 6 routes.
 TI: If systems get damaged do not display wrong info. See damage example section below for what cause the mishap:
+TI: MYPS number should be shown framed when its not been adjusted.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -143,10 +141,32 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
+Multiplan branch
+================
 Sim: Stop loading plans per default
 Sim: Reenable check for stable FG in ja37.nas.
 Sim: Remove prints and test.
 Sim: Make sure tainted can be removed.
+
+MSDA page
+=========
+Steerpoint names indistinguishable for diff. plans.
+  Maybe show only names on editing. (done)
+
+Plan for cursor:
+================
+Only on TI to start with.
+CURS, MMAP or EDIT will enable it if PEK is enabled.
+Trigger will click.
+Stick will move. When cursor active, stick position is frozen, not reset.
+MMAP: move certain texels/sec for full stick.
+	  Click will set.
+	  Click any edge button will cancel.
+      Handle stuff that is aircraft position oriented on map.
+      Exit menu or click another menu will reset map position.
+EDIT: Click over steerpoint will highlight it and show infobox.
+      EDIT/SP will edit it. Moving will then move it. Click or EDIT/SP will set. (no cancel)
+      New? Type (target/steerpoint)? insert?
 
 
 Damage example section

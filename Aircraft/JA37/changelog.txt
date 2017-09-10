@@ -3077,6 +3077,7 @@ Sim: The TILS switch now toggles the TILS system, and is on by default. If off a
 HUD: Fixed that at extreme pitch the echoes or Fixes would not be displayed correct.
 GUI: Pressing ctrl-shift-q in cockpit view will now zoom in on HUD. The HUD view has been removed.
 Sim: JA Route-manager and TI now supports multiple flightplans. (FG 2017.3.1+)
+TI: There can be 4 mission routes and 2 return to base routes.
 Sim: Route manager will show the current active plan. When plan changes, the RM will show the new plan.
 Sim: Landing/route mode logic now works on flightplans instead of route-manager.
 Sim: First steerpoint in plan RTB will autostart in mode LR when a mission plan ends.
@@ -3084,6 +3085,7 @@ Sim: Last steerpoint in plan RTB will autostart when a RTB plan ends.
 Sim: All 6 flightplans can be preloaded from XML will some startup commands.
 TI: MSDA menu will now show all plans.
 TI: Menu MSDA-EDIT RPOL/MPOL will now highlight the choosen, editing is still not possible.
-TI: Menu SYST-LR now works like S, just for RTB plan.
+TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to activate, B/S will be selected if it is not when activating.
+TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
 TI: Map place names will now always be shown in menu MSDA.
 Aero: Default direction for ai wake now added.

@@ -630,16 +630,26 @@ var TI = {
 
 	    # route symbols
 	    me.steerpoint = [];
+	    me.steerpointText = [];
 	    for (var i = 0; i < maxSteers*6; i += 1) {
-	    	append(me.steerpoint, me.rootCenter.createChild("path")
-	    			.set("z-index", 6)
-	               .moveTo(-10*MM2TEX, 0)
-	               .lineTo(0, -15*MM2TEX)
-	               .lineTo(10*MM2TEX, 0)
-	               .lineTo(0, 15*MM2TEX)
-	               .lineTo(-10*MM2TEX, 0)
-	               .setStrokeLineWidth(w)
-	               .setColor(rDTyrk,gDTyrk,bDTyrk, a));
+       		var stGrp = me.rootCenter.createChild("group");
+       		append(me.steerpointText, stGrp.createChild("text")
+	    		.setText("B2")
+	    		.setColor(rWhite,gWhite,bWhite, a)
+	    		.setAlignment("right-center")
+	    		.setTranslation(-10*MM2TEX, 0)
+	    		.set("z-index", 6)
+	    		.setFontSize(13, 1));
+    		stGrp.createChild("path")
+    		   .set("z-index", 6)
+               .moveTo(-10*MM2TEX, 0)
+               .lineTo(0, -15*MM2TEX)
+               .lineTo(10*MM2TEX, 0)
+               .lineTo(0, 15*MM2TEX)
+               .lineTo(-10*MM2TEX, 0)
+               .setStrokeLineWidth(w)
+               .setColor(rDTyrk,gDTyrk,bDTyrk, a);
+			append(me.steerpoint, stGrp);
 	    }
 	    me.steerPoly = me.rootCenter.createChild("group")
 	    			.set("z-index", 6);
@@ -1441,6 +1451,7 @@ var TI = {
 		ti.displayFlight = FLIGHTDATA_OFF;
 		ti.displayTime = FALSE;
 		ti.ownPosition = 0.25;
+		ti.ownPositionDigital = 2;
 		ti.mapPlaces = CLEANMAP;
 		ti.showSteers = TRUE;#only for debug turn to false
 		ti.showSteerPoly = TRUE;#only for debug turn to false
@@ -1872,7 +1883,8 @@ var TI = {
 				if (me.dataLink == TRUE) {
 					me.menuButtonBox[2].show();
 				}
-				if (land.mode_B_active == TRUE) {
+				if (land.mode_B_active == TRUE or land.mode_LA_active == TRUE) {
+					# is kind of a hack. It pretends that LÅ is a submode in S.
 					me.menuButtonBox[4].show();
 				}
 				if (land.mode_LA_active == TRUE) {
@@ -2059,11 +2071,16 @@ var TI = {
 				me.menuButtonSub[4].setText(me.vertStr("BEYE"));
 				me.menuButtonSub[6].setText(me.vertStr("POLY"));
 				me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"SP"));
-				me.menuButtonSub[19].setText(me.vertStr("1234"));
 				me.menuButtonSub[4].show();
 				me.menuButtonSub[6].show();
 				me.menuButtonSub[18].show();
+			}
+			if (me.ownPositionDigital == 0) {
 				me.menuButtonSub[19].show();
+			} else {
+				me.menuButtonSub[19].setText(""~me.ownPositionDigital);
+				me.menuButtonSub[19].show();
+				me.menuButtonSubBox[19].show();
 			}
 			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"\xC3\x85POL":"RPOL"));
 			me.menuButtonSub[16].setText(me.vertStr(me.interoperability == displays.METRIC?"UPOL":"MPOL"));
@@ -2676,7 +2693,7 @@ var TI = {
 	showSteerPoints: func {
 		# steerpoints on map
 		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
-		
+		me.steerRot = -getprop("orientation/heading-deg")*D2R;
 		if (me.menuMain == MAIN_MISSION_DATA) {
 			if (route.Polygon.primary.type == route.TYPE_MIX) {
 				append(me.all_plans, [route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE]);
@@ -2708,6 +2725,10 @@ var TI = {
 		}
 
 		me.poly = [];#0: lat  1: lon  2: draw leg 3: not dark
+		me.steerSE = me.interoperability == displays.METRIC;
+		me.steerB = me.steerSE?"B":"S";
+		me.steerA = me.steerSE?"\xC3\x85":"R";
+		me.steerM = me.steerSE?"M":"T";
 		
 		for(me.steerCounter = 0;me.steerCounter < 6; me.steerCounter += 1) {
 			me.curr_plan = me.all_plans[me.steerCounter];
@@ -2743,21 +2764,31 @@ var TI = {
 						# waypoint is the active and we not in MSDA menu
 						me.steerpoint[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
 						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
+						me.steerpointText[wp+48*me.steerCounter].set("z-index", 10);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, FALSE]);
 						me.nextActive = me.nextDist*NM2M<20000;
 					} elsif (me.curr_plan[1] == TRUE) {
 						# waypoint is in the polygon selected for editing
 						me.steerpoint[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
+						me.steerpointText[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
 						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, TRUE]);
 						me.nextActive = FALSE;
 					} else {
 						me.steerpoint[wp+48*me.steerCounter].set("z-index", 5);
 						me.steerpoint[wp+48*me.steerCounter].setColor(rDTyrk,gDTyrk,bDTyrk,a);
+						me.steerpointText[wp+48*me.steerCounter].setColor(rDTyrk,gDTyrk,bDTyrk,a);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0 and (me.nextActive or me.curr_plan[2]), FALSE]);
 						me.nextActive = FALSE;
 					}
 					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
+					me.steerpoint[wp+48*me.steerCounter].setRotation(me.steerRot);
+					if (me.curr_plan[1] or (!me.curr_plan[1] and !me.curr_plan[2])) {
+						# plan is being edited or we are not in MSDA page:
+						me.steerpointText[wp+48*me.steerCounter].setText(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA)~(wp+1));
+					} else {
+						me.steerpointText[wp+48*me.steerCounter].setText("");
+					}
 	  				me.steerpoint[wp+48*me.steerCounter].show();
 				} else {
 					me.steerpoint[wp+48*me.steerCounter].hide();
@@ -4049,14 +4080,19 @@ var TI = {
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				if (me.ownPosition < 0.25) {
 					me.ownPosition = 0.25;
+					me.ownPositionDigital = 2;
 				} elsif (me.ownPosition < 0.50) {
 					me.ownPosition = 0.50;
+					me.ownPositionDigital = 3;
 				} elsif (me.ownPosition < 0.75) {
 					me.ownPosition = 0.75;
-				} elsif (me.ownPosition < 1) {
-					me.ownPosition = 1;
-				} elsif (me.ownPosition = 1) {
+					me.ownPositionDigital = 4;
+				#} elsif (me.ownPosition < 1) {
+				#	me.ownPosition = 1;
+				#	me.ownPositionDigital = ?;
+				} else {
 					me.ownPosition = 0;
+					me.ownPositionDigital = 1;
 				}
 			}
 			if(me.menuMain == MAIN_FAILURES) {

@@ -178,6 +178,7 @@
                     if (TI.ti.ownPosition > 1) {
                         TI.ti.ownPosition = 1;
                     }
+                    TI.ti.ownPositionDigital = 0;
                 </script>
             </binding>
         </action>
@@ -206,6 +207,7 @@
                     if (TI.ti.ownPosition < 0) {
                         TI.ti.ownPosition = 0;
                     }
+                    TI.ti.ownPositionDigital = 0;
                     ]]>
                 </script>
             </binding>
