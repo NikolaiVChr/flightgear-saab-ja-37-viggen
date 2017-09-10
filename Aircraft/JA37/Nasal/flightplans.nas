@@ -1,5 +1,3 @@
-#autopilot/route-manager/signals/edited
-
 var TYPE_MIX  = 0;# plan has both mission and RTB
 var TYPE_RTB  = 1;# return to base plan
 var TYPE_MISS = 2;# mission plan
@@ -25,6 +23,10 @@ var Polygon = {
 	_activating: FALSE,
 	flyRTB: nil,
 	flyMiss: nil,
+	editSteer: FALSE,
+	selectSteer: nil,
+	selectL: nil,
+	_apply: FALSE,
 
 	setupJAPolygons: func {
 		Polygon._setupListeners();
@@ -71,6 +73,63 @@ var Polygon = {
 		Polygon.editRTB      = poly1;
 		Polygon.editMiss     = poly1;
 		printDA("AJ: finished plan Init");
+	},
+
+	selectSteerpoint: func (planName, leg, index) {
+		me.editIndex = Polygon.editing.plan.indexOfWP(leg);
+		printf("%s %s %d",planName, leg.id, me.editIndex);
+		if (planName == Polygon.editing.name){#} and me.editIndex != nil and me.editIndex != -1) {
+			Polygon.selectSteer = [leg, index];
+			print("select");
+			if (me.selectL != nil) {
+				removelistener(me.selectL);
+			}
+			me.selectL = setlistener("autopilot/route-manager/signals/edited", func {Polygon._planEdited()});
+		}
+	},
+
+	editApply: func (lati, long) {
+		if (Polygon.editSteer) {
+			Polygon._apply = TRUE;
+			#Polygon.selectSteer[0].wp_lat = lat;
+			#Polygon.selectSteer[0].wp_lon = lon;
+			# TODO: what about name??!
+			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			Polygon.editing.plan.insertWP(createWP({lat:lati,lon:long},""~Polygon.selectSteer[1],"pseudo"), Polygon.selectSteer[1]);
+			Polygon._apply = FALSE;
+		}
+	},
+
+	editSteerpoint: func () {
+		if (Polygon.selectSteer != nil) {
+			Polygon.editSteer = !Polygon.editSteer;
+			print("toggle edit: "~Polygon.editSteer);
+		}
+		return Polygon.editSteer;
+	},
+
+	editSteerpointStop: func () {
+		Polygon.editSteer = FALSE;
+	},
+
+	editPlan: func (plan) {
+		if (plan != Polygon.editing) {
+			Polygon.editSteer = FALSE;
+			Polygon.selectSteer = nil;
+		}
+		Polygon.editing = plan;
+	},
+
+	_planEdited: func {
+		if (Polygon._apply == FALSE) {
+			removelistener(me.selectL);
+			me.selectL = nil;
+			print("plan edited!!!");
+			Polygon.editSteer = FALSE;
+			Polygon.selectSteer = nil;
+			return;
+		}
+		print("plan not edited!!!");
 	},
 
 	getLandingBase: func {
@@ -127,6 +186,10 @@ var Polygon = {
 			poly.plan = flightplan();
 			poly.plan.id = poly.name;
 			printDA("..it was unexpected");
+		}
+		if (Polygon.primary == Polygon.editing) {
+			Polygon.editSteer = FALSE;
+			Polygon.selectSteer = nil;
 		}
 	},
 

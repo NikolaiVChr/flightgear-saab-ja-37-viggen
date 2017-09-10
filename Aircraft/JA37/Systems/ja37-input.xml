@@ -480,18 +480,19 @@
             </binding>
         </key>
 		
-	    <!--<key n="121">
+	    <key n="121">
             <name>y</name>
-            <desc>TILS</desc>
+            <desc>Cursor control</desc>
             <binding>
                 <command>property-toggle</command>
-                <property>ja37/hud/TILS</property>
+                <property>ja37/systems/input-controls-flight</property>
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>ja37.notice("This function has been disabled. Use route-manager and landing mode to do it instead.");</script>
+                <script>if (getprop("ja37/systems/input-controls-flight")) ja37.notice("Cursor ctrl OFF. Flight ctrl ON.");
+                        else ja37.notice("Cursor ctrl ON. Flight ctrl OFF.");</script>
             </binding>
-        </key>-->
+        </key>
 		
 		<key n="117">
             <name>u</name>

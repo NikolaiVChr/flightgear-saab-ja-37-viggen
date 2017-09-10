@@ -62,6 +62,47 @@
 
 
 
+    <channel execrate="1" name="input">
+
+        <switch name="fcs/elevator/input">
+            <description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
+            <default value="fcs/elevator-cmd-norm"/>
+            <test logic="AND" value="fcs/elevator/input">
+                /ja37/systems/input-controls-flight == 0
+            </test>
+        </switch>
+
+        <switch name="fcs/aileron/input">
+            <description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
+            <default value="fcs/aileron-cmd-norm"/>
+            <test logic="AND" value="fcs/aileron/input">
+                /ja37/systems/input-controls-flight == 0
+            </test>
+        </switch>
+
+        <switch name="fcs/rudder/input">
+            <description>If flight input is used to control CI/TI/MI cursor, flight controls are frozen.</description>
+            <default value="fcs/rudder-cmd-norm"/>
+            <test logic="AND" value="fcs/rudder/input">
+                /ja37/systems/input-controls-flight == 0
+            </test>
+        </switch>
+
+    </channel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <channel execrate="1" name="Elevators">
 
@@ -69,7 +110,7 @@
             <function>
                 <product>
                     <table>
-                        <independentVar lookup="row">fcs/elevator-cmd-norm</independentVar>
+                        <independentVar lookup="row">fcs/elevator/input</independentVar>
                         <tableData>
                             -1.00  7.00
                             -0.20  0.50
@@ -537,12 +578,29 @@
     </channel>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <channel execrate="1" name="Ailerons">
 
         <fcs_function name="fcs/aileron/stick-geared">
             <function>
                 <table>
-                    <independentVar lookup="row">fcs/aileron-cmd-norm</independentVar>
+                    <independentVar lookup="row">fcs/aileron/input</independentVar>
                     <tableData>
                         -1.00  -1.00
                         -0.86  -0.74
@@ -907,13 +965,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     <channel execrate="1" name="Yaw">
         <!-- Rudder can move 25 degrees to each side -->
 
         <fcs_function name="fcs/rudder/stick-geared">
             <function>
                 <table>
-                    <independentVar lookup="row">fcs/rudder-cmd-norm</independentVar>
+                    <independentVar lookup="row">fcs/rudder/input</independentVar>
                     <tableData>
                         -1.00  -1.00
                         -0.86  -0.74
@@ -1106,6 +1175,15 @@
             <output>fcs/rudder-pos-deg</output>
         </aerosurface_scale>
     </channel>
+
+
+
+
+
+
+
+
+
 
 
 

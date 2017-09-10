@@ -147,6 +147,7 @@ Sim: Stop loading plans per default
 Sim: Reenable check for stable FG in ja37.nas.
 Sim: Remove prints and test.
 Sim: Make sure tainted can be removed.
+Sim: indexOfWP??
 
 MSDA page
 =========
