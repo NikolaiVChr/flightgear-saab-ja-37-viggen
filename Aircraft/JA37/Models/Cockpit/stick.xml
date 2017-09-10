@@ -9,7 +9,7 @@
         <object-name>stick-handle</object-name>
         <object-name>stick-roll</object-name>
         <object-name>stick-mast</object-name>
-        <property>controls/flight/elevator</property>
+        <property>fdm/jsbsim/fcs/elevator/input</property>
         <factor>20</factor>
         <center>
             <z-m>0.0153</z-m>
@@ -23,7 +23,7 @@
         <type>rotate</type>
         <object-name>stick-handle</object-name>
         <object-name>stick-roll</object-name>
-        <property>controls/flight/aileron</property>
+        <property>fdm/jsbsim/fcs/aileron/input</property>
         <factor>20</factor>
         <center>
             <z-m>0.1895</z-m>
@@ -35,7 +35,7 @@
     <animation>
         <type>rotate</type>
         <object-name>stick-roll</object-name>
-        <property>controls/flight/aileron</property>
+        <property>fdm/jsbsim/fcs/aileron/input</property>
         <interpolation>
             <entry>
                 <ind>1</ind>
