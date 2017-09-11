@@ -636,6 +636,8 @@
             <TN type="bool">false</TN>
             <record-on type="bool">false</record-on>
             <vid type="bool">false</vid>
+            <gps-cmd type="bool">false</gps-cmd>
+            <gps-nav type="bool">false</gps-nav>
             <ignitionSys type="bool">false</ignitionSys>
             <startSys type="bool">false</startSys>
             <joystick type="bool">false</joystick>

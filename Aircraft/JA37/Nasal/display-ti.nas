@@ -1463,7 +1463,7 @@ var TI = {
 		ti.showSteers = TRUE;#only for debug turn to false
 		ti.showSteerPoly = TRUE;#only for debug turn to false
 		ti.ModeAttack = FALSE;
-		ti.GPSinit    = FALSE;
+		#ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
 		ti.dataLink   = FALSE;
 		ti.mapshowing = TRUE;
@@ -1951,8 +1951,10 @@ var TI = {
 				me.menuButtonBox[20].show();
 			}
 		}
-		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and me.GPSinit == TRUE) {
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and (getprop("ja37/avionics/gps-nav") == TRUE or(getprop("ja37/avionics/gps-cmd") and me.input.twoHz.getValue()))) {
 			me.menuButtonBox[15].show();
+		}
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and getprop("ja37/avionics/gps-nav") == TRUE) {
 			if (radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
 				me.menuButtonBox[14].show();
 			}
@@ -2803,10 +2805,10 @@ var TI = {
 	showSteerPointInfo: func {
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 			me.wpTextNumDesc.setText("LON");
-			me.wpTextNum.setText(me.GPSinit?ja37.convertDegreeToStringLon(getprop("position/longitude-deg")):"000 00 00");
+			me.wpTextNum.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLon(getprop("position/longitude-deg")):"000 00 00");
 
 			me.wpTextPosDesc.setText("LAT");
-			me.wpTextPos.setText(me.GPSinit?ja37.convertDegreeToStringLat(getprop("position/latitude-deg")):"00 00 00");
+			me.wpTextPos.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLat(getprop("position/latitude-deg")):"00 00 00");
 
 			me.wpTextNum.setFontSize(13, 1.2);
 			me.wpTextPos.setFontSize(13, 1.2);
@@ -2815,7 +2817,7 @@ var TI = {
 			me.wpTextAlt.setText("1");
 
 			me.wpTextSpeedDesc.setText("MOD");
-			me.wpTextSpeed.setText(me.GPSinit?"NAV":"BIT");#TODO: INIT
+			me.wpTextSpeed.setText(getprop("ja37/avionics/gps-cmd")?(getprop("ja37/avionics/gps-nav")?"NAV":"INIT"):"BIT");
 
 			me.wpTextETADesc.setText("FEL");
 			me.wpTextETA.setText(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":"");
@@ -3670,7 +3672,7 @@ var TI = {
 		if (me.SVYactive == TRUE) {
 			me.selfVectorSvy.setScale(clamp(((me.spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
 		}
-		if (me.GPSinit == TRUE) {
+		if (getprop("ja37/avionics/gps-nav") == TRUE) {
 			me.selfSymbol.hide();
 			me.selfSymbolGPS.show();
 		} else {
@@ -4149,7 +4151,7 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				# GPS fix
-				if (me.GPSinit == TRUE) {
+				if (getprop("ja37/avionics/gps-nav") == TRUE) {
 					  me.coord = geo.aircraft_position();
 
 					  me.ground = geo.elevation(me.coord.lat(), me.coord.lon());
@@ -4203,8 +4205,8 @@ var TI = {
 				#clear weapon selection
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
-				me.GPSinit = !me.GPSinit;
-				if (me.GPSinit == FALSE and radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
+				setprop("ja37/avionics/gps-cmd", !getprop("ja37/avionics/gps-cmd"));
+				if (getprop("ja37/avionics/gps-cmd") == FALSE and radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
 					# clear the FIX if gps is turned off
 					radar_logic.selection = nil;
 				}

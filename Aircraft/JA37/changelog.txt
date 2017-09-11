@@ -3101,7 +3101,11 @@ GUI: Continual reminder to press 'y' to toggle back flight controls.
 Control: Emergency flight ctrl enabled if less than 10 sec to impact with ground.
 TI: Menu MSDA-MMAP will now freeze the map relative to ground (except for heading).
 TI: Menu MSDA-MMAP allows cursor to set new map center. Center is where aircraft location was before.
+Sim: Set a minimum required FG version.
 TI: Since we have no radar panel, 3 functions was added to edge buttons in menu MSDA for delete, add and append steerpoint.
 TI: Heading bug will no longer show A/P target.
 HUD: Heading bug will no longer show A/P target.
+GUI: Warning will appear randomly to remind when flight controls inactive.
+Sim: Now logic supports proper number of RTB plans. TI does not however.
 TI: Menu CONF-GPS now has infobox showing lat/lon.
+TI: GPS now takes 30 secs. to initialize.
