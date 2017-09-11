@@ -763,7 +763,7 @@ var slow_loop = func () {
     screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
   }
 
-  if (getprop("ja37/systems/input-controls-flight") == FALSE and rand() > 0.95) {
+  if (getprop("ja37/systems/input-controls-flight") == FALSE and rand() > 0.90) {
     ja37.notice("Flight ctrls OFF. Press key 'y' to reactivate.");
   }
 
@@ -842,7 +842,8 @@ var speed_loop = func () {
   logTime();
 
   if (getprop("ja37/systems/input-controls-flight") == FALSE and getprop("/instrumentation/terrain-warning") == TRUE) {
-    setprop("ja37/systems/input-controls-flight", 1);
+    setprop("ja37/systems/input-controls-flight", TRUE);
+    notice("Terrain warning made you grab the flight controls! Cursor inactive.");
   }
 
   settimer(speed_loop, LOOP_FAST_RATE);
