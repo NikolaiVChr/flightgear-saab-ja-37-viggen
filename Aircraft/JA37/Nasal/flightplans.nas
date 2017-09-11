@@ -120,6 +120,7 @@ var Polygon = {
 			Polygon.editSteer   = FALSE;
 			Polygon._apply = TRUE;
 			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			Polygon.selectSteer = nil;
 			Polygon._apply = FALSE;
 			printDA("toggle delete. ");
 			return TRUE;
