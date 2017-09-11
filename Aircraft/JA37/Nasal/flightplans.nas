@@ -34,29 +34,28 @@ var Polygon = {
 		Polygon._setupListeners();
 		me.multi = getprop("ja37/supported/multiple-flightplans");
 		if (me.multi == TRUE) {
-			var poly1 = Polygon.new("1", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
+			var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
 			Polygon.polys["1"] = poly1;
 			for (var i = 2; i<=4; i+=1) {
-				var poly = Polygon.new(""~i, TYPE_MISS, getprop("xmlPlans/mission"~i));
+				var poly = Polygon.new(""~i, "", TYPE_MISS, getprop("xmlPlans/mission"~i));
 				Polygon.polys[""~i] = poly;
 			}
-			var polyA = Polygon.new("A", TYPE_RTB, getprop("xmlPlans/rtbA"));
-			Polygon.polys["A"]   = polyA;
+			for (var i = 1; i<=1; i+=1) {#TODO: there should be 4, but until JA nav. panel is modeled, making only 1
+				var polyA = Polygon.new(""~i, "A", TYPE_RTB, getprop("xmlPlans/rtb"~i~"A"));
+				Polygon.polys[polyA.getName()]   = polyA;
 
-			var polyB = Polygon.new("B", TYPE_RTB, getprop("xmlPlans/rtbB"));
-			Polygon.polys["B"]   = polyB;
-
-			
-			#Polygon.editing      = poly1;
+				var polyB = Polygon.new(""~i, "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
+				Polygon.polys[polyB.getName()]   = polyB;
+			}
+		
 			Polygon.editRTB      = polyA;
 			Polygon.editMiss     = poly1;
 			Polygon.flyRTB       = polyA;
 			Polygon.flyMiss      = poly1;
 			poly1.setAsPrimary();
 		} else {
-			var poly1 = Polygon.new("1", TYPE_MIX, nil, TRUE);
+			var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
 			Polygon.primary      = poly1;
-			#Polygon.editing      = poly1;
 			Polygon.flyRTB       = poly1;
 			Polygon.flyMiss      = poly1;
 			Polygon.editRTB      = poly1;
@@ -67,9 +66,8 @@ var Polygon = {
 
 	setupAJPolygons: func {
 		Polygon._setupListeners();
-		var poly1 = Polygon.new("1", TYPE_MIX, nil, TRUE);
+		var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
 		Polygon.primary      = poly1;
-		#Polygon.editing      = poly1;
 		Polygon.flyRTB       = poly1;
 		Polygon.flyMiss      = poly1;
 		Polygon.editRTB      = poly1;
@@ -80,7 +78,7 @@ var Polygon = {
 	selectSteerpoint: func (planName, leg, index) {
 		me.editIndex = Polygon.editing.plan.indexOfWP(leg);
 		#printf("%s %s %d",planName, leg.id, me.editIndex);
-		if (planName == Polygon.editing.name){#} and me.editIndex != nil and me.editIndex != -1) {
+		if (planName == Polygon.editing.getName()){#} and me.editIndex != nil and me.editIndex != -1) {
 			Polygon.selectSteer = [leg, index];
 			printDA("select");
 			if (me.selectL != nil) {
@@ -104,7 +102,7 @@ var Polygon = {
 		if (Polygon.editSteer) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
-			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.selectSteer[1]+rand())*100);
+			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
 			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
@@ -142,7 +140,7 @@ var Polygon = {
 		if (Polygon.insertSteer) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
-			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.selectSteer[1]+rand())*100);
+			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
 			Polygon.selectSteer = nil;
@@ -165,7 +163,7 @@ var Polygon = {
 		if (Polygon.appendSteer) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
-			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.editing.getSize()+rand())*100);
+			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.editing.getSize()+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
 			Polygon.editing.plan.appendWP(me.newSteerpoint);
 			Polygon.selectSteer = [me.newSteerpoint, Polygon.editing.getSize()-1];
@@ -277,11 +275,11 @@ var Polygon = {
 			if (Polygon.primary.type == TYPE_MISS) {
 				Polygon.flyRTB.setAsPrimary();
 				Polygon.startPrimary();
-				printDA("..starting "~Polygon.flyRTB.name);
+				printDA("..starting "~Polygon.flyRTB.getName());
 			} elsif (Polygon.primary.type == TYPE_RTB and Polygon.primary.getSize() > 0) {
 				Polygon.startPrimary();
 				Polygon.selectDestinationOnPrimary();
-				printDA("..restarted last on "~Polygon.primary.name);
+				printDA("..restarted last on "~Polygon.primary.getName());
 			}
 		} else {
 			printDA("..for real");
@@ -297,7 +295,7 @@ var Polygon = {
 	#
 	# Instance methods and variables
 	#
-	new: func (name, type, xml, default = 0) {
+	new: func (nameNum, nameVari, type, xml, default = 0) {
 		var newPoly = { parents : [Polygon]};
 		if (default == 1) {
 			newPoly.plan = flightplan();
@@ -312,11 +310,25 @@ var Polygon = {
 			#}
 		}
 		#newPoly.plan.destination = nil;   error in FG
-		newPoly.plan.id = name;
-		newPoly.name = name;
+		newPoly.plan.id = nameNum~nameVari;
+		newPoly.name = nameNum~nameVari;
+		newPoly.nameNum = nameNum;
+		newPoly.nameVari = nameVari;
 		newPoly.type = type;
 		newPoly.tainted = FALSE;
 		return newPoly;
+	},
+
+	getName: func {
+		return me.name;
+	},
+
+	getNameNumber: func {
+		return me.nameNum;
+	},
+
+	getNameVariant: func {
+		return me.nameVari;
 	},
 
 	getPolygon: func {

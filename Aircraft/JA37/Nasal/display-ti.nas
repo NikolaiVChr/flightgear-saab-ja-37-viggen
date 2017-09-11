@@ -2075,13 +2075,13 @@ var TI = {
 			}
 			me.menuButtonSub[14].show();
 
-			me.menuButtonSub[5].setText(me.vertStr(route.Polygon.flyMiss.name));
+			me.menuButtonSub[5].setText(me.vertStr(route.Polygon.flyMiss.getNameNumber()));
 			me.menuButtonSub[5].show();
 			if (route.Polygon.flyMiss == route.Polygon.primary) {
 				me.menuButtonSubBox[5].show();
 			}
 
-			me.menuButtonSub[16].setText(me.vertStr(route.Polygon.flyRTB.name));
+			me.menuButtonSub[16].setText(me.vertStr(route.Polygon.flyRTB.getNameVariant()));
 			me.menuButtonSub[16].show();
 			if (route.Polygon.flyRTB == route.Polygon.primary) {
 				me.menuButtonSubBox[16].show();
@@ -2124,8 +2124,8 @@ var TI = {
 			}
 			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"\xC3\x85POL":"RPOL"));
 			me.menuButtonSub[16].setText(me.vertStr(me.interoperability == displays.METRIC?"UPOL":"MPOL"));
-			me.menuButtonSub[15].setText(me.vertStr(route.Polygon.editRTB.name));
-			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.name));
+			me.menuButtonSub[15].setText(me.vertStr(route.Polygon.editRTB.getNameVariant()));
+			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.getNameNumber()));
 			me.menuButtonSub[17].show();
 			me.menuButtonSub[15].show();
 			if (route.Polygon.editing != nil and (route.Polygon.editing.type == route.TYPE_MISS or route.Polygon.editing.type == route.TYPE_MIX)) {
@@ -2798,13 +2798,13 @@ var TI = {
 		} else {
 			me.tgtTextField.hide();
 		}
-	},	
+	},
 
 	showSteerPointInfo: func {
 		if (me.menuMain == MAIN_MISSION_DATA) {
 			if (route.Polygon.editing != nil) {
 				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"POLY":"POLY");
-				me.wpTextNum.setText(route.Polygon.editing.name);
+				me.wpTextNum.setText(route.Polygon.editing.getName());
 
 				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"NUM":"NUM");
 				me.wpTextPos.setText(sprintf("%d",route.Polygon.editing.getSize()));
@@ -2909,8 +2909,8 @@ var TI = {
 				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["3"], route.Polygon.polys["3"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["A"], route.Polygon.polys["A"] == route.Polygon.editing, TRUE]);
-				append(me.all_plans, [route.Polygon.polys["B"], route.Polygon.polys["B"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
 			}
 		} else {
 			append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
@@ -3003,7 +3003,7 @@ var TI = {
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
 						if (me.cursorDist < 12) {
-							route.Polygon.selectSteerpoint(me.curr_plan[0].name, me.node, wp);# dangerous!!! what if somebody is editing plan in routemanager?
+							route.Polygon.selectSteerpoint(me.curr_plan[0].getName(), me.node, wp);# dangerous!!! what if somebody is editing plan in routemanager?
 							me.steerpoint[wp+48*me.steerCounter].setColor(rWhite,gWhite,bWhite,a);
 						}
 					}
@@ -4195,10 +4195,10 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				me.replaceEdit = route.Polygon.editRTB == route.Polygon.editing;
-				if (route.Polygon.editRTB == route.Polygon.polys["A"]) {
-					route.Polygon.editRTB = route.Polygon.polys["B"];
-				} elsif (route.Polygon.editRTB == route.Polygon.polys["B"]) {
-					route.Polygon.editRTB = route.Polygon.polys["A"];
+				if (route.Polygon.editRTB == route.Polygon.polys["1A"]) {
+					route.Polygon.editRTB = route.Polygon.polys["1B"];
+				} elsif (route.Polygon.editRTB == route.Polygon.polys["1B"]) {
+					route.Polygon.editRTB = route.Polygon.polys["1A"];
 				}
 				if (me.replaceEdit == TRUE) {
 					route.Polygon.editPlan(route.Polygon.editRTB);
@@ -4239,10 +4239,10 @@ var TI = {
 						me.startAlso = TRUE;
 					}
 				}
-				if (route.Polygon.flyRTB == route.Polygon.polys["A"]) {
-					route.Polygon.flyRTB = route.Polygon.polys["B"];
-				} elsif (route.Polygon.flyRTB == route.Polygon.polys["B"]) {
-					route.Polygon.flyRTB = route.Polygon.polys["A"];
+				if (route.Polygon.flyRTB == route.Polygon.polys["1A"]) {
+					route.Polygon.flyRTB = route.Polygon.polys["1B"];
+				} elsif (route.Polygon.flyRTB == route.Polygon.polys["1B"]) {
+					route.Polygon.flyRTB = route.Polygon.polys["1A"];
 				}
 				if (me.activateAlso == TRUE) {
 					route.Polygon.flyRTB.setAsPrimary();
