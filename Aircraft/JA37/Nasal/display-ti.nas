@@ -240,9 +240,10 @@ var dictSE = {
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
-	'11':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
+	'11':  {'2': [TRUE, "INFG"], '3': [TRUE, "NY"], '5': [TRUE, "RADR"], # hack
+	        '8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [TRUE, "EDIT"], '15': [TRUE, "\xC3\x85POL"], '16': [TRUE, "EDIT"],
-			'17': [TRUE, "UPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "EGLA"], '20': [FALSE, "KMAN"]},
+			'17': [TRUE, "UPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "EGLA"], '20': [TRUE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
@@ -270,9 +271,10 @@ var dictEN = {
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
-	'11':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
+	'11':  {'2': [TRUE, "INS"], '3': [TRUE, "ADD"], '5': [TRUE, "DEL"], # hack
+		    '8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [TRUE, "EDIT"], '15': [TRUE, "RPOL"], '16': [TRUE, "EDIT"],
-			'17': [TRUE, "MPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "MYPS"], '20': [FALSE, "MMAN"]},
+			'17': [TRUE, "MPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "MYPS"], '20': [TRUE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
@@ -2089,11 +2091,25 @@ var TI = {
 			if (me.showFullMenus == TRUE) {
 				me.menuButtonSub[4].setText(me.vertStr("BEYE"));
 				me.menuButtonSub[6].setText(me.vertStr("POLY"));
-				me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"SP"));#TODO move out of functional
 				me.menuButtonSub[4].show();
 				me.menuButtonSub[6].show();
-				me.menuButtonSub[18].show();
 			}
+
+			#hack:
+			me.menuButtonSub[2].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[2].show();
+			if (route.Polygon.insertSteer) {
+				me.menuButtonSubBox[2].show();
+			}
+			me.menuButtonSub[3].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[3].show();
+			if (route.Polygon.appendSteer) {
+				me.menuButtonSubBox[3].show();
+			}
+			me.menuButtonSub[5].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[5].show();
+			######
+
 			if (me.ownPositionDigital == 0) {
 				me.menuButtonSub[19].show();
 			} else {
@@ -2101,6 +2117,8 @@ var TI = {
 				me.menuButtonSub[19].show();
 				me.menuButtonSubBox[19].show();
 			}
+			me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[18].show();
 			if (route.Polygon.editSteer) {
 				me.menuButtonSubBox[18].show();
 			}
@@ -2276,17 +2294,23 @@ var TI = {
 				me.cursorTrigger = getprop("controls/armament/trigger");
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
 				if (route.Polygon.editSteer) {
-					#me.cursorDrag = route.Polygon.selectSteer;
-					#me.cursorDrag[0].wp_lat = me.newSteerPos[0];
-					#me.cursorDrag[0].wp_lon = me.newSteerPos[1];
 					#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 					if(me.cursorTrigger and !me.cursorTriggerPrev) {
 						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 						route.Polygon.editApply(me.newSteerPos[0],me.newSteerPos[1]);
 					}
-				#} elsif (route.Polygon.editing != nil) {
-					# click on delete/insert
-				#	me.newSteerPos = nil;
+				} elsif (route.Polygon.insertSteer) {
+					if(me.cursorTrigger and !me.cursorTriggerPrev) {
+						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+						route.Polygon.insertApply(me.newSteerPos[0],me.newSteerPos[1]);
+					}
+					#me.newSteerPos = nil;
+				} elsif (route.Polygon.appendSteer) {
+					if(me.cursorTrigger and !me.cursorTriggerPrev) {#if thsi is nested condition then only this can be done. Is this what we want?
+						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+						route.Polygon.appendApply(me.newSteerPos[0],me.newSteerPos[1]);
+					}
+					#me.newSteerPos = nil;
 				} elsif (me.cursorTrigger and !me.cursorTriggerPrev) {
 					# click on edge buttons
 					me.newSteerPos = nil;
@@ -2853,7 +2877,7 @@ var TI = {
 
 				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
 				me.wpTextNum.setText(me.legText);
-				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"B":"SP");
+				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"B":"S");
 				me.wpTextPos.setText((me.wpNum-1)~" -> "~me.wpNum);
 				me.wpTextAltDesc.setText(me.interoperability==displays.METRIC?"H":"A");
 				me.wpTextAlt.setText(me.wpAlt);
@@ -2974,7 +2998,7 @@ var TI = {
 						me.nextActive = FALSE;
 					}
 					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
-					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer) {
+					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer) {
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
@@ -3622,23 +3646,23 @@ var TI = {
 		}
 		if (me.GPSinit == TRUE) {
 			me.selfSymbol.hide();
-			me.selfSymbolGPS.show()
+			me.selfSymbolGPS.show();
 		} else {
 			me.selfSymbol.show();
-			me.selfSymbolGPS.hide()
+			me.selfSymbolGPS.hide();
 		}
 	},
 
 	showHeadingBug: func {
 		me.desired_mag_heading = nil;
-	    if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
-	    	me.desired_mag_heading = me.input.APHeadingBug.getValue();
-	    } elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
-	    	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.headMagn.getValue();#getprop("autopilot/settings/true-heading-deg")+
-	    } elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
-	    	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.headMagn.getValue();
-	    } elsif( me.input.RMActive.getValue() == TRUE) {
-	    	#var i = getprop("autopilot/route-manager/current-wp");
+	    #if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
+	    #	me.desired_mag_heading = me.input.APHeadingBug.getValue();
+	    #} elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
+	    #	me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.headMagn.getValue();#getprop("autopilot/settings/true-heading-deg")+
+	    #} elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
+	    #	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.headMagn.getValue();
+	    #} els
+	    if( me.input.RMActive.getValue() == TRUE) {
 	    	me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
 	    } elsif (me.input.nav0InRange.getValue() == TRUE) {
 	    	# bug to VOR, ADF or ILS
@@ -3793,6 +3817,9 @@ var TI = {
 				me.trapLock = TRUE;
 				me.quickOpen = 10000;
 			}	
+			if(me.menuMain == MAIN_MISSION_DATA) {
+				route.Polygon.insertSteerpoint();
+			}
 		}
 	},
 
@@ -3819,6 +3846,9 @@ var TI = {
 				# place names on map
 				me.mapPlaces = !me.mapPlaces;
 			}	
+			if(me.menuMain == MAIN_MISSION_DATA) {
+				route.Polygon.appendSteerpoint();
+			}
 		}
 	},
 
@@ -3899,6 +3929,9 @@ var TI = {
 				if (me.SVYsize > 3) {
 					me.SVYsize = 1;
 				}
+			}
+			if(me.menuMain == MAIN_MISSION_DATA) {
+				route.Polygon.deleteSteerpoint();
 			}
 		}
 	},

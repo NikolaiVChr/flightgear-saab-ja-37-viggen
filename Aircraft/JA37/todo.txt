@@ -115,7 +115,6 @@ HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 HUD: When should distance scale line not be shown, but distance still?
 HUD: In OPT mode, the sink rate is only at low altitudes, before that its 1:20.
 TI: Show lat/lon grid in menu UDAT.
-TI: Slew cursor.
 TI: Show/edit bullseye.
 TI: Show flighttime by using controls UD-UT.
 TI: Select self.
@@ -129,9 +128,9 @@ TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not s
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
 TI: Routes can have target steerpoints (Mxx/Txx).
-TI: Edit all 6 routes.
-TI: If systems get damaged do not display wrong info. See damage example section below for what cause the mishap:
 TI: MYPS number should be shown framed when its not been adjusted.
+TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add.
+TI: Edit, append or insert steerpoint shoudl really be controlled from radar panel.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -142,61 +141,7 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
-Multiplan branch
-================
-Sim: Stop loading plans per default
-Sim: Reenable check for stable FG in ja37.nas.
-Sim: Remove prints and test.
-Sim: Make sure tainted can be removed.
-Sim: indexOfWP?? and createWP() and insertWP() crash with long name.
-TI: Reset speed of fast loop
 
-MSDA page
-=========
-Steerpoint names indistinguishable for diff. plans.
-  Maybe show only names on editing. (done)
-
-Plan for cursor:
-================
-plan1 (leto)
-Only on TI to start with.
-CURS, MMAP or EDIT will enable it if PEK is enabled.
-Trigger will click.
-Stick will move. When cursor active, stick position is frozen, not reset.
-MMAP: move certain texels/sec for full stick.
-	  Click will set.
-	  Click any edge button will cancel.
-      Handle stuff that is aircraft position oriented on map.
-      Exit menu or click another menu will reset map position.
-EDIT: Click over steerpoint will highlight it and show infobox.
-      EDIT/SP will edit it. Moving will then move it. Click or EDIT/SP will set. (no cancel)
-      New? Type (target/steerpoint)? insert?
-
-
-
-plan2 (snowy)
-dialog that works like laptop touchpad.
-
-Damage example section
-======================
-23:13:07 Hydraulic 1 condition 0%
-23:13:07 Static system condition 0%
-23:13:07 Speed Brake condition 0%
-23:13:07 Nav 1 Glideslope condition 0%
-23:13:07 Head Up Display condition 0%
-23:13:07 Heading Indicator condition 0%
-23:13:07 Vacuum system condition 0%
-23:13:07 Nose wheel steering condition 0%
-23:13:07 Instrument lights condition 0%
-23:13:07 DME condition 0%
-23:13:07 Radar condition 0%
-23:13:07 Gear condition 0%
-23:13:07 Annunciator condition 0%
-23:13:07 ASI condition 0%
-23:13:07 Fuel flow distributor condition 0%
-23:13:07 VSI condition 0%
-23:13:07 Canopy hinges condition 0%
-Took 32.4% damage from RB-74 missile at 7.4 meters. 17 systems was hit
 
 
 List of un-authentic systems scheduled for removal at some point

@@ -24,6 +24,8 @@ var Polygon = {
 	flyRTB: nil,
 	flyMiss: nil,
 	editSteer: FALSE,
+	appendSteer: FALSE,
+	insertSteer: FALSE,
 	selectSteer: nil,
 	selectL: nil,
 	_apply: FALSE,
@@ -88,39 +90,99 @@ var Polygon = {
 		}
 	},
 
-	editApply: func (lati, long) {
-		if (Polygon.editSteer) {
-			Polygon._apply = TRUE;
-			#Polygon.selectSteer[0].wp_lat = lat;
-			#Polygon.selectSteer[0].wp_lon = lon;
-			# TODO: what about name??!
-			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.selectSteer[1]+rand())*100);
-			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
-			#print(me.newName);
-			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
-			#print("deleted WP");
-			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
-			#print("inserted WP");
-			Polygon.selectSteer = [me.newSteerpoint, Polygon.selectSteer[1]];
-			Polygon._apply = FALSE;
-		}
-	},
-
 	editSteerpoint: func () {
 		if (Polygon.selectSteer != nil) {
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
 			Polygon.editSteer = !Polygon.editSteer;
 			printDA("toggle edit: "~Polygon.editSteer);
 		}
 		return Polygon.editSteer;
 	},
 
+	editApply: func (lati, long) {
+		if (Polygon.editSteer) {
+			Polygon._apply = TRUE;
+			# TODO: what about name??!
+			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.selectSteer[1]+rand())*100);
+			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
+			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
+			Polygon.selectSteer = [me.newSteerpoint, Polygon.selectSteer[1]];
+			Polygon._apply = FALSE;
+		}
+	},
+
+	deleteSteerpoint: func {
+		if (Polygon.selectSteer != nil) {
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editSteer   = FALSE;
+			Polygon._apply = TRUE;
+			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			Polygon._apply = FALSE;
+			printDA("toggle delete. ");
+			return TRUE;
+		}
+		return FALSE;
+	},
+
+	insertSteerpoint: func () {
+		if (Polygon.selectSteer != nil) {
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = !Polygon.insertSteer;
+			Polygon.editSteer = FALSE;
+			printDA("toggle insert: "~Polygon.insertSteer);
+		}
+		return Polygon.insertSteer;
+	},
+
+	insertApply: func (lati, long) {
+		if (Polygon.insertSteer) {
+			Polygon._apply = TRUE;
+			# TODO: what about name??!
+			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.selectSteer[1]+rand())*100);
+			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
+			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
+			Polygon.selectSteer = nil;
+			Polygon.insertSteer = !Polygon.insertSteer;
+			Polygon._apply = FALSE;
+		}
+	},
+
+	appendSteerpoint: func () {
+		if (Polygon.editing != nil) {
+			Polygon.insertSteer = FALSE;
+			Polygon.appendSteer = !Polygon.appendSteer;
+			Polygon.editSteer = FALSE;
+			printDA("toggle append: "~Polygon.appendSteer);
+		}
+		return Polygon.appendSteer;
+	},
+
+	appendApply: func (lati, long) {
+		if (Polygon.appendSteer) {
+			Polygon._apply = TRUE;
+			# TODO: what about name??!
+			me.newName = sprintf("%s%d", Polygon.editing.name, (Polygon.editing.getSize()+rand())*100);
+			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
+			Polygon.editing.plan.appendWP(me.newSteerpoint);
+			Polygon.selectSteer = [me.newSteerpoint, Polygon.editing.getSize()-1];
+			Polygon._apply = FALSE;
+		}
+	},
+
 	editSteerpointStop: func () {
 		Polygon.editSteer = FALSE;
+		Polygon.appendSteer = FALSE;
+		Polygon.insertSteer = FALSE;
 	},
 
 	editPlan: func (plan) {
 		if (plan != Polygon.editing) {
 			Polygon.editSteer = FALSE;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
 			Polygon.selectSteer = nil;
 		}
 		Polygon.editing = plan;
@@ -132,6 +194,8 @@ var Polygon = {
 			me.selectL = nil;
 			printDA("plan edited, steer edit cancelled.");
 			Polygon.editSteer = FALSE;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
 			Polygon.selectSteer = nil;
 			return;
 		}
@@ -195,6 +259,8 @@ var Polygon = {
 		}
 		if (Polygon.primary == Polygon.editing) {
 			Polygon.editSteer = FALSE;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
 			Polygon.selectSteer = nil;
 		}
 	},

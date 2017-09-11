@@ -89,7 +89,11 @@
         <name>M</name>
         <desc>Toggle nose wheel steering</desc>
     </key>
-	<key>
+    <key>
+        <name>y</name>
+        <desc>Toggle cursor/flight control</desc>
+    </key>
+	  <key>
         <name>Y</name>
         <desc>Landing mode LS</desc>
     </key>
