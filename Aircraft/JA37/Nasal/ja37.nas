@@ -2039,3 +2039,37 @@ dynamic_view.register(func {
 #           me.z_offset = ...          #     back/aft  (longitudinal axis)
 #           me.fov_offset = ...        #     zoom out  (field of view)
    });
+
+var convertDoubleToDegree = func (value) {
+        var sign = value < 0 ? -1 : 1;
+        var abs = math.abs(math.round(value * 1000000));
+        var dec = math.fmod(abs,1000000) / 1000000;
+        var deg = math.floor(abs / 1000000) * sign;
+        var min = math.floor(dec * 60);
+        var sec = (dec - min / 60) * 3600;
+        return [deg,min,sec];
+}
+var convertDegreeToStringLat = func (lat) {
+  lat = convertDoubleToDegree(lat);
+  var s = "N";
+  if (lat[0]<0) {
+    s = "S";
+  }
+  return sprintf("%s %02d %02d %02d",s,math.abs(lat[0]),lat[1],lat[2]);
+}
+var convertDegreeToStringLon = func (lon) {
+  lon = convertDoubleToDegree(lon);
+  var s = "E";
+  if (lon[0]<0) {
+    s = "W";
+  }
+  return sprintf("%s %03d %02d %02d",s,math.abs(lon[0]),lon[1],lon[2]);
+}
+var convertDegreeToDouble = func (hour, minute, second) {
+  var d = hour+minute/60+second/3600;
+  return d;
+}
+var myPosToString = func {
+  print(convertDegreeToStringLat(getprop("position/latitude-deg"))~"  "~convertDegreeToStringLon(getprop("position/longitude-deg")));
+}
+#myPosToString();

@@ -2801,8 +2801,31 @@ var TI = {
 	},
 
 	showSteerPointInfo: func {
-		if (me.menuMain == MAIN_MISSION_DATA) {
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
+			me.wpTextNumDesc.setText("LON");
+			me.wpTextNum.setText(me.GPSinit?ja37.convertDegreeToStringLon(getprop("position/longitude-deg")):"000 00 00");
+
+			me.wpTextPosDesc.setText("LAT");
+			me.wpTextPos.setText(me.GPSinit?ja37.convertDegreeToStringLat(getprop("position/latitude-deg")):"00 00 00");
+
+			me.wpTextNum.setFontSize(13, 1.2);
+			me.wpTextPos.setFontSize(13, 1.2);
+
+			me.wpTextAltDesc.setText("FOM");
+			me.wpTextAlt.setText("1");
+
+			me.wpTextSpeedDesc.setText("MOD");
+			me.wpTextSpeed.setText(me.GPSinit?"NAV":"BIT");#TODO: INIT
+
+			me.wpTextETADesc.setText("FEL");
+			me.wpTextETA.setText(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":"");
+
+			me.wpTextField.show();
+		} elsif (me.menuMain == MAIN_MISSION_DATA) {
 			if (route.Polygon.editing != nil) {
+				me.wpTextNum.setFontSize(15, 1);
+				me.wpTextPos.setFontSize(15, 1);
+
 				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"POLY":"POLY");
 				me.wpTextNum.setText(route.Polygon.editing.getName());
 
@@ -2847,6 +2870,9 @@ var TI = {
 			if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
 				# steerpoints ON and route active, plus not being in combat and having something selected by radar
 				# that if statement needs refining!
+
+				me.wpTextNum.setFontSize(15, 1);
+				me.wpTextPos.setFontSize(15, 1);
 				
 				me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
 

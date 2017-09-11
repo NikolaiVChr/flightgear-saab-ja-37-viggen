@@ -3104,3 +3104,4 @@ TI: Menu MSDA-MMAP allows cursor to set new map center. Center is where aircraft
 TI: Since we have no radar panel, 3 functions was added to edge buttons in menu MSDA for delete, add and append steerpoint.
 TI: Heading bug will no longer show A/P target.
 HUD: Heading bug will no longer show A/P target.
+TI: Menu CONF-GPS now has infobox showing lat/lon.
