@@ -142,6 +142,8 @@ CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 
 
+append to RTB shoudl unset dest
+delete or insert first should del departure
 
 
 List of un-authentic systems scheduled for removal at some point

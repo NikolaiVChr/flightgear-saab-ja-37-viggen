@@ -104,7 +104,17 @@ var Polygon = {
 			# TODO: what about name??!
 			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
-			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
+				Polygon.editing.plan.departure = nil;
+				#TODO:check if this also sets runway to nil.
+				printDA("edit dep runway is nil:"~(Polygon.editing.plan.departure_runway == nil));
+			} elsif (Polygon.selectSteer[1] == Polygon.editing.getSize()-1 and Polygon.editing.plan.destination != nil) {
+				Polygon.editing.plan.destination = nil;
+				#TODO:check if this also sets runway to nil.
+				printDA("edit dest runway is nil:"~(Polygon.editing.plan.destination_runway == nil));
+			} else {
+				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			}
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
 			Polygon.selectSteer = [me.newSteerpoint, Polygon.selectSteer[1]];
 			Polygon._apply = FALSE;
@@ -117,7 +127,17 @@ var Polygon = {
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer   = FALSE;
 			Polygon._apply = TRUE;
-			Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
+				Polygon.editing.plan.departure = nil;
+				#TODO:check if this also sets runway to nil.
+				printDA("delete dep runway is nil:"~(Polygon.editing.plan.departure_runway == nil));
+			} elsif (Polygon.selectSteer[1] == Polygon.editing.getSize()-1 and Polygon.editing.plan.destination != nil) {
+				Polygon.editing.plan.destination = nil;
+				#TODO:check if this also sets runway to nil.
+				printDA("delete dest runway is nil:"~(Polygon.editing.plan.destination_runway == nil));
+			} else {
+				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			}
 			Polygon.selectSteer = nil;
 			Polygon._apply = FALSE;
 			printDA("toggle delete. ");
@@ -168,6 +188,7 @@ var Polygon = {
 			Polygon.editing.plan.appendWP(me.newSteerpoint);
 			Polygon.selectSteer = [me.newSteerpoint, Polygon.editing.getSize()-1];
 			Polygon._apply = FALSE;
+			printDA("appended, dest is nil: "~(Polygon.editing.plan.destination == nil));
 		}
 	},
 
@@ -247,7 +268,6 @@ var Polygon = {
 	_planExchange: func {
 		printDA("plan exhanged");
 		if (Polygon._activating == TRUE) {
-			Polygon._activating = FALSE;
 			printDA("..it was planned");
 		} else {
 			# New plan was loaded in route-manager
@@ -271,7 +291,7 @@ var Polygon = {
 			plns = pln.id;
 		}
 		printDA("plan finished: "~plns);
-		if (Polygon._activating == FALSE) {
+		if (Polygon._activating == FALSE and plns == Polygon.primary.getName()) {
 			if (Polygon.primary.type == TYPE_MISS) {
 				Polygon.flyRTB.setAsPrimary();
 				Polygon.startPrimary();
@@ -282,7 +302,7 @@ var Polygon = {
 				printDA("..restarted last on "~Polygon.primary.getName());
 			}
 		} else {
-			printDA("..for real");
+			printDA("..it was deactivated. Nothing to worry about.");
 		}
 		# TODO Handle if finish is called just from activating another.
 	},
@@ -300,9 +320,12 @@ var Polygon = {
 		if (default == 1) {
 			newPoly.plan = flightplan();
 		} elsif (xml != nil) {
-			newPoly.plan = flightplan(xml);
+			newPoly.plan = createFlightplan(xml);
+			if (newPoly.plan == nil) {
+				newPoly.plan = createFlightplan();
+			}
 		} else {
-			newPoly.plan = flightplan("C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/emptyPlan.xml");
+			newPoly.plan = createFlightplan();
 			#newPoly.plan = flightplan().clone();    #TODO
 			#newPoly.plan.cleanPlan();
 			#if (type == TYPE_RTB) {
@@ -315,7 +338,7 @@ var Polygon = {
 		newPoly.nameNum = nameNum;
 		newPoly.nameVari = nameVari;
 		newPoly.type = type;
-		newPoly.tainted = FALSE;
+		#newPoly.tainted = FALSE;
 		return newPoly;
 	},
 
@@ -366,15 +389,19 @@ var Polygon = {
 
 	setAsPrimary: func {
 		if (!me.isPrimary()) {
+			printDA("Polygon._activating = TRUE;");
 			Polygon._activating = TRUE;
 			Polygon.primary = me;
 			#fgcommand("activate-flightplan", props.Node.new({"activate": 0}));#TODO: temp line
-			if (me.tainted) {
-				me.plan = me.plan.clone();
-				me.plan.id = me.name;
-			}
+			#if (me.tainted) {
+		#		me.plan = me.plan.clone();
+			#	me.plan.id = me.name;
+			#}
+			printDA("activating plan "~me.getName());
 			me.plan.activate();
-			me.tainted = TRUE;
+			#me.tainted = TRUE;
+			printDA("Polygon._activating = FALSE;");
+			Polygon._activating = FALSE;
 		}
 	},
 
