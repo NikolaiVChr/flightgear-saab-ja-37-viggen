@@ -141,8 +141,6 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 Control: overhaul rudder trim.
-Sim: append to RTB should unset dest
-Sim: delete or insert first should del departure
 
 
 

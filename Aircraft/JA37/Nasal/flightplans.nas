@@ -129,15 +129,12 @@ var Polygon = {
 			Polygon._apply = TRUE;
 			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
 				Polygon.editing.plan.departure = nil;
-				#TODO:check if this also sets runway to nil.
-				#printDA("delete dep runway is nil:"~(Polygon.editing.plan.departure_runway == nil));
 			} elsif (Polygon.selectSteer[1] == Polygon.editing.getSize()-1 and Polygon.editing.plan.destination != nil) {
 				Polygon.editing.plan.destination = nil;
-				#TODO:check if this also sets runway to nil.
-				#printDA("delete dest runway is nil:"~(Polygon.editing.plan.destination_runway == nil));
 			} else {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
+			Polygon._setDestDep(Polygon.editing);
 			Polygon.selectSteer = nil;
 			Polygon._apply = FALSE;
 			printDA("toggle delete. ");
@@ -162,6 +159,17 @@ var Polygon = {
 			# TODO: what about name??!
 			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
+			
+			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
+				# replace departure with regular waypoint
+				print("insert: clear dep");
+				me.firstWP = Polygon.editing.plan.getWP(0);
+				me.firstWP = createWP({lat: me.firstWP.lat, lon: me.firstWP.lon}, me.firstWP.id, "pseudo");
+				Polygon.editing.plan.departure = nil;
+				print("inserting old dep as navaid");
+				#me.lastWP.wp_type = "navaid";#will prevent it from being cleared as a star/approach in future.
+				Polygon.editing.plan.insertWP(me.firstWP,0);
+			}
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
 			Polygon.selectSteer = nil;
 			Polygon.insertSteer = !Polygon.insertSteer;
@@ -185,10 +193,18 @@ var Polygon = {
 			# TODO: what about name??!
 			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.editing.getSize()+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
+			me.lastWP = nil;
+			if (Polygon.editing.plan.destination != nil) {
+				me.lastWP = Polygon.editing.plan.getWP(Polygon.editing.getSize()-1);
+				print("append: dest != nil and last "~(me.lastWP!= nil));
+				me.lastWP = createWP({lat: me.lastWP.lat, lon: me.lastWP.lon}, me.lastWP.id, "pseudo");
+				Polygon.editing.plan.destination = nil;# this will make the delegate clear wp from list.
+				Polygon.editing.plan.appendWP(me.lastWP);
+			}
 			Polygon.editing.plan.appendWP(me.newSteerpoint);
 			Polygon.selectSteer = [me.newSteerpoint, Polygon.editing.getSize()-1];
 			Polygon._apply = FALSE;
-			printDA("appended, dest is nil: "~(Polygon.editing.plan.destination == nil));
+
 		}
 	},
 
@@ -271,48 +287,10 @@ var Polygon = {
 			var poly = Polygon.primary;
 			poly.plan = flightplan();
 			poly.plan.id = poly.name;
-			if (poly.type == TYPE_RTB or poly.type == TYPE_MIX) {
-				# prioritize setting dest on rtb/mix
-				if (poly.plan.destination == nil and poly.getSize()>0) {
-					me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
-					if (me.lookupID != nil) {
-						me.airport = airportinfo(me.lookupID);
-						if (me.airport != nil and ghosttype(me.airport) == "airport") {
-							poly.plan.destination = me.airport;
-						}
-					}
-				}
-				if (poly.plan.departure == nil and poly.getSize()>1) {
-					me.lookupID = poly.plan.getWP(0).id;
-					if (me.lookupID != nil) {
-						me.airport = airportinfo(me.lookupID);
-						if (me.airport != nil and ghosttype(me.airport) == "airport") {
-							poly.plan.departure = me.airport;
-						}
-					}
-				}
-			}
-			if (poly.type == TYPE_MISS) {
-				# prioritize setting dep on mission
-				if (poly.plan.departure == nil and poly.getSize()>0) {
-					me.lookupID = poly.plan.getWP(0).id;
-					if (me.lookupID != nil) {
-						me.airport = airportinfo(me.lookupID);
-						if (me.airport != nil and ghosttype(me.airport) == "airport") {
-							poly.plan.departure = me.airport;
-						}
-					}
-				}
-				if (poly.plan.destination == nil and poly.getSize()>1) {
-					me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
-					if (me.lookupID != nil) {
-						me.airport = airportinfo(me.lookupID);
-						if (me.airport != nil and ghosttype(me.airport) == "airport") {
-							poly.plan.destination = me.airport;
-						}
-					}
-				}
-			}
+			#me.alreadyApply = Polygon._apply;
+			#Polygon._apply = TRUE;
+			Polygon._setDestDep(poly);
+			#Polygon._apply = me.alreadyApply;
 			printDA("..it was unexpected");
 		}
 		if (Polygon.primary == Polygon.editing) {
@@ -320,6 +298,55 @@ var Polygon = {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
 			Polygon.selectSteer = nil;
+		}
+	},
+
+	_setDestDep: func (poly) {
+		if (poly.type == TYPE_RTB or poly.type == TYPE_MIX) {
+			# prioritize setting dest on rtb/mix
+			if (poly.plan.destination == nil and poly.getSize()>0) {
+				me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
+				if (me.lookupID != nil) {
+					me.airport = airportinfo(me.lookupID);
+					if (me.airport != nil and ghosttype(me.airport) == "airport") {
+						poly.plan.deleteWP(poly.getSize()-1);
+						poly.plan.destination = me.airport;
+					}
+				}
+			}
+			if (poly.plan.departure == nil and poly.getSize()>1) {
+				me.lookupID = poly.plan.getWP(0).id;
+				if (me.lookupID != nil) {
+					me.airport = airportinfo(me.lookupID);
+					if (me.airport != nil and ghosttype(me.airport) == "airport") {
+						poly.plan.deleteWP(0);
+						poly.plan.departure = me.airport;
+					}
+				}
+			}
+		}
+		if (poly.type == TYPE_MISS) {
+			# prioritize setting dep on mission
+			if (poly.plan.departure == nil and poly.getSize()>0) {
+				me.lookupID = poly.plan.getWP(0).id;
+				if (me.lookupID != nil) {
+					me.airport = airportinfo(me.lookupID);
+					if (me.airport != nil and ghosttype(me.airport) == "airport") {
+						poly.plan.deleteWP(0);
+						poly.plan.departure = me.airport;
+					}
+				}
+			}
+			if (poly.plan.destination == nil and poly.getSize()>1) {
+				me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
+				if (me.lookupID != nil) {
+					me.airport = airportinfo(me.lookupID);
+					if (me.airport != nil and ghosttype(me.airport) == "airport") {
+						poly.plan.deleteWP(poly.getSize()-1);
+						poly.plan.destination = me.airport;
+					}
+				}
+			}
 		}
 	},
 

@@ -3136,3 +3136,7 @@ TI: Made cursor slewing be more smooth.
 Radar: Code performance optimized.
 Radar: Faster RCS check for aircraft not in table.
 Model: Fixed JA fuel gauge problems.
+Sim: Append to RTB plan now unset destination.
+Sim: Insert as first steerpoint unset departure.
+Sim: Delete last steerpoint unset destination. Sets new last if is airport.
+Sim: Delete first steerpoint unset departure. Sets new first if is airport.
