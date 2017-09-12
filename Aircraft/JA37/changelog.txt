@@ -3076,6 +3076,25 @@ TI: ALFA and VIKT now only display when gears extended and in landing mode.
 Sim: The TILS switch now toggles the TILS system, and is on by default. If off and ILS is manually set and no landing base coded in, ILS will still work.
 HUD: Fixed that at extreme pitch the echoes or Fixes would not be displayed correct.
 GUI: Pressing ctrl-shift-q in cockpit view will now zoom in on HUD. The HUD view has been removed.
+Control: {it0uchpods} Overhaul Autopilot Roll
+Control: Fixed the stick had aileron control in CSS deadzone.
+Control: {it0uchpods} Autopilot Roll Tweaking
+Control: {it0uchpods} Overhaul A/T
+Control: {it0uchpods} Overhaul AP Pitch and Tweak
+Control: Allow A/P elevator to pull more G when banked.
+Control: {it0uchpods} Limit u_min G now dynamic
+Control: Fixed pitch trim was negated and too large effect.
+Control: {it0uchpods} Autopilot logic fixes, rounding, predictino
+Control: {it0uchpods} Autopilot Pitch update, disable damper on AP Pitch
+Doc: Added it0uchpods to author document.
+Control: Moved some properties to set file.
+Control: {it0uchpods} Adjust Target RoC PID for new pitch
+Control: {it0uchpods} Fix Pitch CSS not working properly, improve CSS
+Control: Better delay of halt AP variables.
+Control: Nasal A/P loop twice as slow.
+Control: {it0uchpods} Attempt to fix Alt oscilation issue
+Control: Remove delay for engaging AP CSS.
+Control: Fixed bad init of A/P halt properties.
 Sim: JA Route-manager and TI now supports multiple flightplans. (FG 2017.3.1+)
 TI: There can be 4 mission routes and 2 return to base routes.
 Sim: Route manager will show the current active plan. When plan changes, the RM will show the new plan.
