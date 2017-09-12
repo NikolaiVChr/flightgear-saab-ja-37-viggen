@@ -140,10 +140,10 @@ MI: DLZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
+Sim: append to RTB should unset dest
+Sim: delete or insert first should del departure
 
 
-append to RTB shoudl unset dest
-delete or insert first should del departure
 
 
 List of un-authentic systems scheduled for removal at some point

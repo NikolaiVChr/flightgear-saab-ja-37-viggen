@@ -763,7 +763,7 @@ var slow_loop = func () {
     screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
   }
 
-  if (getprop("ja37/systems/input-controls-flight") == FALSE and rand() > 0.90) {
+  if (getprop("ja37/systems/input-controls-flight") == FALSE and rand() > 0.95) {
     ja37.notice("Flight ctrls OFF. Press key 'y' to reactivate.");
   }
 
