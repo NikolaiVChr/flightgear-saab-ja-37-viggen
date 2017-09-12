@@ -38,6 +38,7 @@ Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Model: The KURS gauge in the JA was more complex, needs making.
 Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA, needs making.
 Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness, needs making.
+Model: JA texture version for datapanel.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank actually fall down like other stores do.
 Animation: Red warning light on MI should blink with 4Hz.
@@ -95,6 +96,7 @@ Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Replace beacon, landing and strobe lights with procedural lights in ALS.
+Effect: Afterburner should be more white at night.
 Sound: More annunciater warnings and other sounds. (transonic/Vne is same signal)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
@@ -113,7 +115,6 @@ HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 HUD: When should distance scale line not be shown, but distance still?
 HUD: In OPT mode, the sink rate is only at low altitudes, before that its 1:20.
 TI: Show lat/lon grid in menu UDAT.
-TI: Slew cursor.
 TI: Show/edit bullseye.
 TI: Show flighttime by using controls UD-UT.
 TI: Select self.
@@ -125,13 +126,11 @@ TI: Make route info with overall ETA.
 TI: Clear pylon selection.
 TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not sure what how they work.
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
-TI: There should be 4 mission routes and 2 return to base routes. Use Nasal Flightplans.
-TI: Routes can have target steerpoints (Mxx/Txx).
-TI: Button LÅ/LR is a subfunction in B/S and return to base route must exist to activate, B/S will be selected if it is not when activating. (I asume its the same as B/S for RTB instead of mission).
-TI: Reclicking on LÅ/LR will switch to next steerpoint in RTB route.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
-TI: Edit all 6 routes.
-TI: If systems get damaged do not display wrong info. See damage example section below for what cause the mishap:
+TI: Routes can have target steerpoints (Mxx/Txx).
+TI: MYPS number should be shown framed when its not been adjusted.
+TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add.
+TI: Edit, append or insert steerpoint shoudl really be controlled from radar panel.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
@@ -142,27 +141,9 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 Control: overhaul rudder trim.
+Sim: append to RTB should unset dest
+Sim: delete or insert first should del departure
 
-Damage example section
-======================
-23:13:07 Hydraulic 1 condition 0%
-23:13:07 Static system condition 0%
-23:13:07 Speed Brake condition 0%
-23:13:07 Nav 1 Glideslope condition 0%
-23:13:07 Head Up Display condition 0%
-23:13:07 Heading Indicator condition 0%
-23:13:07 Vacuum system condition 0%
-23:13:07 Nose wheel steering condition 0%
-23:13:07 Instrument lights condition 0%
-23:13:07 DME condition 0%
-23:13:07 Radar condition 0%
-23:13:07 Gear condition 0%
-23:13:07 Annunciator condition 0%
-23:13:07 ASI condition 0%
-23:13:07 Fuel flow distributor condition 0%
-23:13:07 VSI condition 0%
-23:13:07 Canopy hinges condition 0%
-Took 32.4% damage from RB-74 missile at 7.4 meters. 17 systems was hit
 
 
 List of un-authentic systems scheduled for removal at some point
@@ -175,6 +156,9 @@ Distance to selected radar echo was next to distance scale where ammo is now, no
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
 Master-arm, interoperability and display switches on frontpanel, should not be there. Instead there was: button SNABBRESN (reinit gyro, max 3 mins, light on during) and RESERVKURS.
 The FPI in HUD was really limited to +- 7.5 degs lateral.
+In the orig plane the HUD decimal delimiter is ',' not '.'.
+VOR, ADF navigation, the real did not have this.
+Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
 
 
 Bugs:

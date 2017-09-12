@@ -572,6 +572,30 @@
 
     <channel execrate="4" name="instruments">
 
+        <switch name="systems/gps/time-steady">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="systems/gps/time-steady">
+                /ja37/avionics/gps-cmd == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/gps/time-init">
+            <function>
+                <sum>
+                    <p>systems/gps/time-steady</p>
+                    <v>30</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/gps/nav">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                sim-time-sec gt systems/gps/time-init
+            </test>
+            <output>/ja37/avionics/gps-nav</output>
+        </switch>
+
         <!-- used for animating epr gauge -->
 
         <fcs_function name="propulsion/engine/mil-rate">

@@ -45,14 +45,3 @@ Git: https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen/tree/master/Air
 Help?
 -----
 Contact Necolatis on the forums to get in contact.
-
-
-Liberties taken:
-----------------
-In the orig plane the HUD decimal delimiter is ','. I choose to use the english '.' instead.
-The plane has some un-autenthic features:
-- Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
-- HUD sideslip indicator
-- TILS works different in real plane.
-- Autopilot follow.
-- ILS, VOR, ADF navigation, the real did not have this.

@@ -609,6 +609,7 @@ var loop_stores = func {
 ###########  listener for handling the trigger #########
 
 var trigger_listener = func {
+  if(!getprop("/ja37/systems/input-controls-flight")) return;
   var trigger = input.trigger.getValue();
   var armSelect = input.stationSelect.getValue();
 

@@ -132,7 +132,7 @@
         </direction>
     </force>
 
-    <!-- wake turbulence from other AI plane -->
+    <!-- wake turbulence from other AI plane (direction is controlled by properties) -->
     <force name="ai-wake" frame="BODY">
         <location unit="M">
             <!-- Center of the main wing leading edge -->
@@ -140,11 +140,17 @@
             <y> 0.0 </y>
             <z> -0.27425 </z>
         </location>
-        <!--<direction>
-            <x>   0.0 </x> works without a direction.
+        <direction>
+            <x>   0.0 </x>
             <y>   0.0 </y>
             <z>   0.0 </z>
-        </direction>-->
+        </direction>
     </force>
-    <moment name="ai-wake" frame="BODY"/>
+    <moment name="ai-wake" frame="BODY">
+        <direction>
+            <x>   0.0 </x>
+            <y>   0.0 </y>
+            <z>   0.0 </z>
+        </direction>
+    </moment>
   </external_reactions>

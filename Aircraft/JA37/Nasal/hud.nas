@@ -1322,14 +1322,14 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
   displayHeadingBug: func () {
     me.desired_mag_heading = nil;
-    if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
-      me.desired_mag_heading = me.input.APHeadingBug.getValue();
-    } elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
-      me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
-    } elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
-      me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
-    } elsif( me.input.RMActive.getValue() == 1) {
-      #var i = getprop("autopilot/route-manager/current-wp");
+    #if (me.input.APLockHeading.getValue() == "dg-heading-hold") {
+    #  me.desired_mag_heading = me.input.APHeadingBug.getValue();
+    #} elsif (me.input.APLockHeading.getValue() == "true-heading-hold") {
+    #  me.desired_mag_heading = me.input.APTrueHeadingErr.getValue()+me.input.hdg.getValue();#getprop("autopilot/settings/true-heading-deg")+
+    #} elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
+    #  me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
+    #} els
+    if( me.input.RMActive.getValue() == TRUE) {
       me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
     } elsif (me.input.nav0InRange.getValue() == TRUE) {
       # bug to VOR, ADF or ILS

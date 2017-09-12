@@ -201,8 +201,16 @@ var update_loop = func {
   input.MPfloat2.setDoubleValue(translucency);
 
   # ALS effect
-  red = clamp(1 - red, 0.25, 1);
-  input.MPfloat9.setDoubleValue(red);
+  var red2 = clamp(1 - red, 0.25, 1);
+  input.MPfloat9.setDoubleValue(red2);
+
+  # set afterburner white at night:
+  #setprop("ja37/effect/flame-low-color-r",  0.863+(1-red));
+  #setprop("ja37/effect/flame-low-color-g",  0.347+(1-red));
+  #setprop("ja37/effect/flame-low-color-b",  0.238+(1-red));
+  #setprop("ja37/effect/flame-high-color-r", 0.863+(1-red));
+  #setprop("ja37/effect/flame-high-color-g", 0.238+(1-red));
+  #setprop("ja37/effect/flame-high-color-b", 0.347+(1-red));
 
   # End stuff
 
@@ -383,7 +391,7 @@ var update_loop = func {
     }
 
     # radar compass
-	  if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE) {
+	  if (input.rmActive.getValue() == TRUE and input.srvHead.getValue() == TRUE and input.rmBearing.getValue() != nil) {
 	    # sets the proper degree of the yellow waypoint heading indicator on the compass that surrounds the radar.
 	    input.rmBearingRel.setDoubleValue(input.rmBearing.getValue() - input.headingMagn.getValue());
     }
@@ -755,6 +763,10 @@ var slow_loop = func () {
     screen.log.write("Maximum allowed rolling speed exceeded!", 1.0, 0.0, 0.0);
   }
 
+  if (getprop("ja37/systems/input-controls-flight") == FALSE and rand() > 0.95) {
+    ja37.notice("Flight ctrls OFF. Press key 'y' to reactivate.");
+  }
+
   settimer(slow_loop, LOOP_SLOW_RATE);
 }
 
@@ -828,6 +840,11 @@ var speed_loop = func () {
   theShakeEffect();
 
   logTime();
+
+  if (getprop("ja37/systems/input-controls-flight") == FALSE and getprop("/instrumentation/terrain-warning") == TRUE) {
+    setprop("ja37/systems/input-controls-flight", TRUE);
+    notice("Terrain warning made you grab the flight controls! Cursor inactive.");
+  }
 
   settimer(speed_loop, LOOP_FAST_RATE);
 }
@@ -1029,6 +1046,7 @@ var test_support = func {
       setprop("ja37/supported/new-marker", FALSE);
       setprop("ja37/supported/picking", FALSE);
       setprop("ja37/supported/failEvents", FALSE);
+      setprop("ja37/supported/multiple-flightplans", FALSE);
   } elsif (major == 2) {
     setprop("ja37/supported/landing-light", FALSE);
     setprop("ja37/supported/lightning", FALSE);
@@ -1036,6 +1054,7 @@ var test_support = func {
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
     setprop("ja37/supported/failEvents", FALSE);
+    setprop("ja37/supported/multiple-flightplans", FALSE);
     if(minor < 7) {
       notice("Saab 37 is only supported in Flightgear version 2.8 and upwards. Sorry.");
       setprop("ja37/supported/radar", FALSE);
@@ -1086,6 +1105,7 @@ var test_support = func {
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
     setprop("ja37/supported/failEvents", FALSE);
+    setprop("ja37/supported/multiple-flightplans", FALSE);
     if (minor == 0) {
       setprop("ja37/supported/old-custom-fails", 0);
       setprop("ja37/supported/landing-light", FALSE);
@@ -1122,6 +1142,7 @@ var test_support = func {
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
     setprop("ja37/supported/failEvents", TRUE);
+    setprop("ja37/supported/multiple-flightplans", FALSE);
     if (minor >= 2) {
       setprop("ja37/supported/new-marker", TRUE);
     }
@@ -1139,11 +1160,15 @@ var test_support = func {
     setprop("ja37/supported/new-marker", FALSE);
     setprop("ja37/supported/picking", FALSE);
     setprop("ja37/supported/failEvents", TRUE);
-    if (minor == 2 and detail > 0) {
+    setprop("ja37/supported/multiple-flightplans", FALSE);
+    if (minor == 2) {
       setprop("ja37/supported/picking", TRUE);
     }
     if (minor > 2) {
       setprop("ja37/supported/picking", TRUE);
+      if (detail > 0) {
+        setprop("ja37/supported/multiple-flightplans", TRUE);
+      }
     }
   } else {
     # future proof
@@ -1160,6 +1185,7 @@ var test_support = func {
     setprop("ja37/supported/new-marker", TRUE);
     setprop("ja37/supported/picking", TRUE);
     setprop("ja37/supported/failEvents", TRUE);
+    setprop("ja37/supported/multiple-flightplans", TRUE);
   }
   setprop("ja37/supported/initialized", TRUE);
 
@@ -2013,3 +2039,37 @@ dynamic_view.register(func {
 #           me.z_offset = ...          #     back/aft  (longitudinal axis)
 #           me.fov_offset = ...        #     zoom out  (field of view)
    });
+
+var convertDoubleToDegree = func (value) {
+        var sign = value < 0 ? -1 : 1;
+        var abs = math.abs(math.round(value * 1000000));
+        var dec = math.fmod(abs,1000000) / 1000000;
+        var deg = math.floor(abs / 1000000) * sign;
+        var min = math.floor(dec * 60);
+        var sec = (dec - min / 60) * 3600;
+        return [deg,min,sec];
+}
+var convertDegreeToStringLat = func (lat) {
+  lat = convertDoubleToDegree(lat);
+  var s = "N";
+  if (lat[0]<0) {
+    s = "S";
+  }
+  return sprintf("%s %02d %02d %02d",s,math.abs(lat[0]),lat[1],lat[2]);
+}
+var convertDegreeToStringLon = func (lon) {
+  lon = convertDoubleToDegree(lon);
+  var s = "E";
+  if (lon[0]<0) {
+    s = "W";
+  }
+  return sprintf("%s %03d %02d %02d",s,math.abs(lon[0]),lon[1],lon[2]);
+}
+var convertDegreeToDouble = func (hour, minute, second) {
+  var d = hour+minute/60+second/3600;
+  return d;
+}
+var myPosToString = func {
+  print(convertDegreeToStringLat(getprop("position/latitude-deg"))~"  "~convertDegreeToStringLon(getprop("position/longitude-deg")));
+}
+#myPosToString();
