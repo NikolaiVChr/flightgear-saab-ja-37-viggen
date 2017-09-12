@@ -287,6 +287,29 @@ var dictEN = {
 
 var TI = {
 
+	# # # # # # # # # # # # # 
+	# Z sorting:
+	# root
+	# 	map 1
+	# 	svy 1
+	# 	bug 4
+	# 	rapports 5
+	# 	time 7
+	# 	root center 9
+	# 		ecm 1
+	# 		airports 2
+	# 		mapScale 3
+	# 		radar echoes 5
+	# 		steerpoints 6
+	# 		runway symbols 7
+	# 		self 10	
+	# 	FPI and arrow 10
+	# 	infoBoxTarget 11
+	# 	infoBox 11
+	# 	menus 20
+	# 	cursor 25
+	# # # # # # # # # # # # 
+
 	setupCanvasSymbols: func {
 		# map groups
 		me.mapCentrum = root.createChild("group")
@@ -713,7 +736,7 @@ var TI = {
 
 		# target info box
 		me.tgtTextField     = root.createChild("group")
-			.set("z-index", 4);
+			.set("z-index", 11);
 		var tgtStartx = width*0.060-3.125+6.25*2+w*2;
 		var tgtStarty = height-height*0.1-height*0.025-w*2;
 		var tgtW      = 0.15;
@@ -772,7 +795,7 @@ var TI = {
 
 		# steerpoint info box
 		me.wpTextField     = root.createChild("group")
-			.set("z-index", 4);
+			.set("z-index", 11);
 		var wpStartx = width*0.060-3.125+6.25*2+w*2;
 		var wpStarty = height-height*0.1-height*0.025-w*2;
 		var wpW      = 0.29;
@@ -2814,7 +2837,7 @@ var TI = {
 			me.wpTextPos.setFontSize(13, 1.2);
 
 			me.wpTextAltDesc.setText("FOM");
-			me.wpTextAlt.setText("1");
+			me.wpTextAlt.setText(getprop("ja37/avionics/gps-nav")?"1":"");
 
 			me.wpTextSpeedDesc.setText("MOD");
 			me.wpTextSpeed.setText(getprop("ja37/avionics/gps-cmd")?(getprop("ja37/avionics/gps-nav")?"NAV":"INIT"):"BIT");
