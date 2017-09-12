@@ -14,7 +14,7 @@
         <object-name>bracket</object-name>
     </effect>
 
-    <effect>
+    <!--<effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Needle_F</object-name>
         <parameters>
@@ -25,7 +25,7 @@
               <bin-name>DepthSortedBin</bin-name>
             </render-bin>
         </parameters>
-    </effect>
+    </effect>-->
 
     <!--<effect>
         <inherits-from>Effects/model-transparent</inherits-from>
