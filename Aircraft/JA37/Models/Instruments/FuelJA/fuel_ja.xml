@@ -15,10 +15,34 @@
     </effect>
 
     <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>Needle_F</object-name>
+        <parameters>
+            <rendering-hint>transparent</rendering-hint>
+            <transparent>true</transparent>
+            <render-bin>
+              <bin-number>111</bin-number>
+              <bin-name>DepthSortedBin</bin-name>
+            </render-bin>
+        </parameters>
+    </effect>
+
+    <!--<effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>Needle_B</object-name>
-        <object-name>Needle_F</object-name>
-    </effect>
+        <object-name>Needle_F</object-name> not sure why, but needle goes away at certain amounts if this is on, and if use normal cockpit shader it dont show transparency correct
+    </effect>-->
+
+    <animation>
+        <type>select</type>
+        <condition>
+            <greater-than>
+                <value>149</value>
+                <value>150</value>
+            </greater-than>
+        </condition>
+        <object-name>Needle_B</object-name>
+    </animation>
 
     <!--effect>
 	<inherits-from>Effect/model-combined-deferred</inherits-from>
@@ -97,16 +121,16 @@
             </greater-than>
         </condition>
         <property>/instrumentation/fuel/needleF_rot_final</property>
-        <factor>0.99</factor>
+        <factor>1</factor>
         <offset-deg>-1</offset-deg>
         <max>325</max>
         <axis>   
-           <x1-m> 0.87930 </x1-m>
-           <y1-m>-0.42249 </y1-m>
-           <z1-m> 0.23449 </z1-m>
-           <x2-m>-0.87155 </x2-m>
-           <y2-m> 0.42474 </y2-m>
-           <z2-m>-0.23465 </z2-m>
+           <x2-m> 0.00374 </x2-m>
+           <y2-m>-0.00026 </y2-m>
+           <z2-m> 0.00007 </z2-m>
+           <x1-m> 0.02222 </x1-m>
+           <y1-m>-0.00690 </y1-m>
+           <z1-m> 0.00572 </z1-m>
         </axis>
     </animation>
 

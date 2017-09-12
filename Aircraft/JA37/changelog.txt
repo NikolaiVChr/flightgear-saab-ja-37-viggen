@@ -3133,3 +3133,6 @@ TI: Made text info boxes be Z sorted on top of map overlays.
 Model: Fixed that JA fuel gauge needle should have transparency.
 Sim: When a GPX flightplan is loaded through route-manager, dest/dep will now be set.
 TI: Made cursor slewing be more smooth.
+Radar: Code performance optimized.
+Radar: Faster RCS check for aircraft not in table.
+Model: Fixed JA fuel gauge problems.
