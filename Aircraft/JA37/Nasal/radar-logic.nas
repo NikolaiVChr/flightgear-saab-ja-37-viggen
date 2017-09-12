@@ -82,7 +82,7 @@ var RadarLogic = {
 
     loop: func () {
       me.findRadarTracks();
-      settimer(func me.loop(), 0.05);
+      settimer(func me.loop(), 0.25);
     },
 
     findRadarTracks: func () {
@@ -432,19 +432,12 @@ var RadarLogic = {
       #aircraft angle
       me.ya_rad = me.xg_rad * math.sin(myRoll) + me.yg_rad * math.cos(myRoll);
       me.xa_rad = me.xg_rad * math.cos(myRoll) - me.yg_rad * math.sin(myRoll);
-      me.xa_rad_corr = me.xg_rad;
 
       while (me.xa_rad < -math.pi) {
         me.xa_rad = me.xa_rad + 2*math.pi;
       }
       while (me.xa_rad > math.pi) {
         me.xa_rad = me.xa_rad - 2*math.pi;
-      }
-      while (me.xa_rad_corr < -math.pi) {
-        me.xa_rad_corr = me.xa_rad_corr + 2*math.pi;
-      }
-      while (me.xa_rad_corr > math.pi) {
-        me.xa_rad_corr = me.xa_rad_corr - 2*math.pi;
       }
       while (me.ya_rad > math.pi) {
         me.ya_rad = me.ya_rad - 2*math.pi;
@@ -471,47 +464,7 @@ var RadarLogic = {
           }
         }
 
-        me.ptch = vector.Math.getPitch(self,aircraftPos);
-        me.dst  = self.direct_distance_to(aircraftPos);
-        me.brng = self.course_to(aircraftPos);
-        me.hrz  = math.cos(me.ptch*D2R)*me.dst;
-
-        me.vel_gz = -math.sin(me.ptch*D2R)*me.dst;
-        me.vel_gx = math.cos(me.brng*D2R) *me.hrz;
-        me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
-        
-
-        me.yaw   = myHeading * D2R;
-        me.roll  = myRoll;
-        me.pitch = myPitch;
-
-        #printf("heading %.1f bearing %.1f pitch %.1f north %.1f east %.1f down %.1f", input.hdgReal.getValue(), me.brng, me.ptch, me.vel_gx, me.vel_gy, me.vel_gz);
-
-        me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
-        me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
-        me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
-     
-        me.vel_bx = me.vel_gx * me.cy * me.cp
-                   + me.vel_gy * me.sy * me.cp
-                   + me.vel_gz * -me.sp;
-        me.vel_by = me.vel_gx * (me.cy * me.sp * me.sr - me.sy * me.cr)
-                   + me.vel_gy * (me.sy * me.sp * me.sr + me.cy * me.cr)
-                   + me.vel_gz * me.cp * me.sr;
-        me.vel_bz = me.vel_gx * (me.cy * me.sp * me.cr + me.sy * me.sr)
-                   + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
-                   + me.vel_gz * me.cp * me.cr;
-     
-        me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
-        me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
-
-        me.hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
-        me.hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
-        
-        me.distanceRadar = me.distance;#*math.cos(myPitch); hmm
-
         me.contact = Contact.new(node, type);
-        me.contact.setPolar(me.distanceRadar, me.xa_rad_corr, me.xa_rad, me.ya_rad);
-        me.contact.setCartesian(me.hud_pos_x, me.hud_pos_y);
 
         if (node.getName() == "rb-99" or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
           return me.contact;
@@ -534,23 +487,26 @@ var RadarLogic = {
 # The following 6 methods is partly from Mirage 2000-5
 #
   isNotBehindTerrain: func(SelectCoord) {
+    me.myOwnPos = geo.aircraft_position();
+    if(me.myOwnPos.alt() > 8900 and SelectCoord.alt() > 8900) {
+      # both higher than mt. everest, so not need to check.
+      return TRUE;
+    }
     if (getprop("ja37/supported/picking") == TRUE) {
-      var myPos = geo.aircraft_position();
-
-      var xyz = {"x":myPos.x(),                  "y":myPos.y(),                 "z":myPos.z()};
-      var dir = {"x":SelectCoord.x()-myPos.x(),  "y":SelectCoord.y()-myPos.y(), "z":SelectCoord.z()-myPos.z()};
+      me.xyz = {"x":me.myOwnPos.x(),                  "y":me.myOwnPos.y(),                 "z":me.myOwnPos.z()};
+      me.dir = {"x":SelectCoord.x()-me.myOwnPos.x(),  "y":SelectCoord.y()-me.myOwnPos.y(), "z":SelectCoord.z()-me.myOwnPos.z()};
 
       # Check for terrain between own aircraft and other:
-      v = get_cart_ground_intersection(xyz, dir);
-      if (v == nil) {
+      me.v = get_cart_ground_intersection(me.xyz, me.dir);
+      if (me.v == nil) {
         return TRUE;
         #printf("No terrain, planes has clear view of each other");
       } else {
-       var terrain = geo.Coord.new();
-       terrain.set_latlon(v.lat, v.lon, v.elevation);
-       var maxDist = myPos.direct_distance_to(SelectCoord);
-       var terrainDist = myPos.direct_distance_to(terrain);
-       if (terrainDist < maxDist) {
+       me.terrain = geo.Coord.new();
+       me.terrain.set_latlon(me.v.lat, me.v.lon, me.v.elevation);
+       me.maxDist = me.myOwnPos.direct_distance_to(SelectCoord);
+       me.terrainDist = me.myOwnPos.direct_distance_to(me.terrain);
+       if (me.terrainDist < me.maxDist) {
          #print("terrain found between the planes");
          return FALSE;
        } else {
@@ -561,16 +517,15 @@ var RadarLogic = {
     } else {
       # this function has been optimized by Pinto
       me.isVisible = 0;
-      me.MyCoord = geo.aircraft_position();
       
       # Because there is no terrain on earth that can be between these 2
-      if(me.MyCoord.alt() < 8900 and SelectCoord.alt() < 8900 and input.lookThrough.getValue() == FALSE)
+      if(input.lookThrough.getValue() == FALSE)
       {
           # Temporary variable
           # A (our plane) coord in meters
-          me.a = me.MyCoord.x();
-          me.b = me.MyCoord.y();
-          me.c = me.MyCoord.z();
+          me.a = me.myOwnPos.x();
+          me.b = me.myOwnPos.y();
+          me.c = me.myOwnPos.z();
           # B (target) coord in meters
           me.d = SelectCoord.x();
           me.e = SelectCoord.y();
@@ -975,14 +930,6 @@ var Contact = {
       return me.node.getNode("rotors/main/blade[3]/position-deg");
     },
 
-    setPolar: func(dist, angle, angleX, angleY) {
-      me.polar = [dist,angle,angleX,angleY];
-    },
-
-    setCartesian: func(x, y) {
-      me.cartesian = [x,y];
-    },
-
     remove: func(){
         if(me.validTree != 0){
           me.validTree.setBoolValue(0);
@@ -1166,11 +1113,101 @@ var Contact = {
     },
 
     get_cartesian: func() {
-      return me.cartesian;
+      me.get_Coord();
+      me.crft = geo.aircraft_position();
+      me.ptch = vector.Math.getPitch(me.crft,me.coord);
+      me.dst  = me.crft.direct_distance_to(me.coord);
+      me.brng = me.crft.course_to(me.coord);
+      me.hrz  = math.cos(me.ptch*D2R)*me.dst;
+
+      me.vel_gz = -math.sin(me.ptch*D2R)*me.dst;
+      me.vel_gx = math.cos(me.brng*D2R) *me.hrz;
+      me.vel_gy = math.sin(me.brng*D2R) *me.hrz;
+      
+
+      me.yaw   = input.hdgReal.getValue() * D2R;
+      me.roll  = input.roll.getValue()    * D2R;
+      me.pitch = input.pitch.getValue()   * D2R;
+
+      #printf("heading %.1f bearing %.1f pitch %.1f north %.1f east %.1f down %.1f", input.hdgReal.getValue(), me.brng, me.ptch, me.vel_gx, me.vel_gy, me.vel_gz);
+
+      me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
+      me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
+      me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
+   
+      me.vel_bx = me.vel_gx * me.cy * me.cp
+                 + me.vel_gy * me.sy * me.cp
+                 + me.vel_gz * -me.sp;
+      me.vel_by = me.vel_gx * (me.cy * me.sp * me.sr - me.sy * me.cr)
+                 + me.vel_gy * (me.sy * me.sp * me.sr + me.cy * me.cr)
+                 + me.vel_gz * me.cp * me.sr;
+      me.vel_bz = me.vel_gx * (me.cy * me.sp * me.cr + me.sy * me.sr)
+                 + me.vel_gy * (me.sy * me.sp * me.cr - me.cy * me.sr)
+                 + me.vel_gz * me.cp * me.cr;
+   
+      me.dir_y  = math.atan2(round0(me.vel_bz), math.max(me.vel_bx, 0.001)) * R2D;
+      me.dir_x  = math.atan2(round0(me.vel_by), math.max(me.vel_bx, 0.001)) * R2D;
+
+      var hud_pos_x = canvas_HUD.pixelPerDegreeX * me.dir_x;
+      var hud_pos_y = canvas_HUD.centerOffset + canvas_HUD.pixelPerDegreeY * me.dir_y;
+
+      return [hud_pos_x, hud_pos_y];
     },
 
     get_polar: func() {
-      return me.polar;
+      me.get_Coord();
+      var aircraftAlt = me.coord.alt();
+
+      var self      =  geo.aircraft_position();
+      var myPitch   =  input.pitch.getValue()*D2R;
+      var myRoll    =  0;#input.roll.getValue()*deg2rads;  Ignore roll, since a real radar does that
+      var myAlt     =  self.alt();
+      var myHeading =  input.hdgReal.getValue();
+      var distance  =  self.distance_to(me.coord);
+
+      var yg_rad = vector.Math.getPitch(self, me.coord)*D2R-myPitch;#math.atan2(aircraftAlt-myAlt, distance) - myPitch; 
+      var xg_rad = (self.course_to(me.coord) - myHeading) * deg2rads;
+      
+      while (xg_rad > math.pi) {
+        xg_rad = xg_rad - 2*math.pi;
+      }
+      while (xg_rad < -math.pi) {
+        xg_rad = xg_rad + 2*math.pi;
+      }
+      while (yg_rad > math.pi) {
+        yg_rad = yg_rad - 2*math.pi;
+      }
+      while (yg_rad < -math.pi) {
+        yg_rad = yg_rad + 2*math.pi;
+      }
+
+      #aircraft angle
+      var ya_rad = xg_rad * math.sin(myRoll) + yg_rad * math.cos(myRoll);
+      var xa_rad = xg_rad * math.cos(myRoll) - yg_rad * math.sin(myRoll);
+      var xa_rad_corr = xg_rad;
+
+      while (xa_rad_corr < -math.pi) {
+        xa_rad_corr = xa_rad_corr + 2*math.pi;
+      }
+      while (xa_rad_corr > math.pi) {
+        xa_rad_corr = xa_rad_corr - 2*math.pi;
+      }
+      while (xa_rad < -math.pi) {
+        xa_rad = xa_rad + 2*math.pi;
+      }
+      while (xa_rad > math.pi) {
+        xa_rad = xa_rad - 2*math.pi;
+      }
+      while (ya_rad > math.pi) {
+        ya_rad = ya_rad - 2*math.pi;
+      }
+      while (ya_rad < -math.pi) {
+        ya_rad = ya_rad + 2*math.pi;
+      }
+
+      var distanceRadar = distance;#/math.cos(myPitch);
+
+      return [distanceRadar, xa_rad_corr, xa_rad, ya_rad];      
     },
 };
 
