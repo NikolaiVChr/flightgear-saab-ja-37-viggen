@@ -3132,3 +3132,4 @@ Control: Using buttons on TI SYST menu, should no longer stop all A/P.
 TI: Made text info boxes be Z sorted on top of map overlays.
 Model: Fixed that JA fuel gauge needle should have transparency.
 Sim: When a GPX flightplan is loaded through route-manager, dest/dep will now be set.
+TI: Made cursor slewing be more smooth.

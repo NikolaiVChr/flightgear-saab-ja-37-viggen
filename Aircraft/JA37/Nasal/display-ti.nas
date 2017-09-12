@@ -1601,9 +1601,9 @@ var TI = {
 		me.showHeadingBug();
 		me.testLanding();
 		me.showCursor();
-		me.rate = getprop("sim/frame-rate-worst");
-		me.rate = me.rate !=nil?clamp(2.1/(me.rate+0.001), 0.05, 0.5):0.5;
-		#me.rate = 0.05;
+		#me.rate = getprop("sim/frame-rate-worst");
+		#me.rate = me.rate !=nil?clamp(1/(me.rate+0.001), 0.05, 0.5):0.5;
+		me.rate = 0.05;
 		settimer(func me.loopFast(), me.rate);#0.001 is to prevent divide by zero
 	},
 
