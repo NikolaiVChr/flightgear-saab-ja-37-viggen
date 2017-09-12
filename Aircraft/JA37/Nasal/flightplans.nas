@@ -271,6 +271,48 @@ var Polygon = {
 			var poly = Polygon.primary;
 			poly.plan = flightplan();
 			poly.plan.id = poly.name;
+			if (poly.type == TYPE_RTB or poly.type == TYPE_MIX) {
+				# prioritize setting dest on rtb/mix
+				if (poly.plan.destination == nil and poly.getSize()>0) {
+					me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
+					if (me.lookupID != nil) {
+						me.airport = airportinfo(me.lookupID);
+						if (me.airport != nil and ghosttype(me.airport) == "airport") {
+							poly.plan.destination = me.airport;
+						}
+					}
+				}
+				if (poly.plan.departure == nil and poly.getSize()>1) {
+					me.lookupID = poly.plan.getWP(0).id;
+					if (me.lookupID != nil) {
+						me.airport = airportinfo(me.lookupID);
+						if (me.airport != nil and ghosttype(me.airport) == "airport") {
+							poly.plan.departure = me.airport;
+						}
+					}
+				}
+			}
+			if (poly.type == TYPE_MISS) {
+				# prioritize setting dep on mission
+				if (poly.plan.departure == nil and poly.getSize()>0) {
+					me.lookupID = poly.plan.getWP(0).id;
+					if (me.lookupID != nil) {
+						me.airport = airportinfo(me.lookupID);
+						if (me.airport != nil and ghosttype(me.airport) == "airport") {
+							poly.plan.departure = me.airport;
+						}
+					}
+				}
+				if (poly.plan.destination == nil and poly.getSize()>1) {
+					me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
+					if (me.lookupID != nil) {
+						me.airport = airportinfo(me.lookupID);
+						if (me.airport != nil and ghosttype(me.airport) == "airport") {
+							poly.plan.destination = me.airport;
+						}
+					}
+				}
+			}
 			printDA("..it was unexpected");
 		}
 		if (Polygon.primary == Polygon.editing) {
