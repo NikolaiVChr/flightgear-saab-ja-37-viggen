@@ -95,6 +95,7 @@ var targetRCSSignal = func(targetCoord, targetModel, targetHeading, targetPitch,
     if ( contains(rcs_database,targetModel) ) {
         target_front_rcs = rcs_database[targetModel];
     } else {
+        return 1;
         target_front_rcs = rcs_database["default"];
     }
     var target_rcs = getRCS(targetCoord, targetHeading, targetPitch, targetRoll, myCoord, target_front_rcs);
