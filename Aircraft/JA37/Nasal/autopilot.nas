@@ -125,7 +125,10 @@ var unfollow = func () {
 }
 
 var unfollowSilent = func () {
-  stopAP();
+  # only stop A/P if on follow mode.
+  if (getprop("/autopilot/target-tracking-ja37/enable")) {
+    stopAP();
+  }
 }
 
 var stopAP = func {
