@@ -10,10 +10,14 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Gauge</object-name>
-        <object-name>Needle_B</object-name>
-        <object-name>Needle_F</object-name>
         <object-name>Plane</object-name>
         <object-name>bracket</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Effects/model-transparent</inherits-from>
+        <object-name>Needle_B</object-name>
+        <object-name>Needle_F</object-name>
     </effect>
 
     <!--effect>

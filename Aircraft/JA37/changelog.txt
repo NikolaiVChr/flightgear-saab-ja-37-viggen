@@ -3111,3 +3111,4 @@ TI: Menu CONF-GPS now has infobox showing lat/lon.
 TI: GPS now takes 30 secs. to initialize.
 Control: Using buttons on TI SYST menu, should no longer stop all A/P.
 TI: Made text info boxes be Z sorted on top of map overlays.
+Model: Fixed that JA fuel gauge needle should have transparency.
