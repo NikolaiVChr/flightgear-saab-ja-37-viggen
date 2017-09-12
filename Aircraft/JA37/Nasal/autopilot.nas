@@ -302,9 +302,9 @@ var lockP = "";
 var usedStick = 0;
 var menu = FALSE;
 
-var nextRoll1 = 0;
-var nextRoll2 = 0;
-var nextPitch = 0;
+var nextRoll1 = 1;
+var nextRoll2 = 1;
+var nextPitch = 1;
 
 var apLoop = func {
     if (DEBUG_OUT) print("looping:");
@@ -482,6 +482,7 @@ var apLoop = func {
     lock = getprop("/autopilot/locks/heading");
     # stop A/P from controlling roll:
     nextRoll1 = 0;
+    setprop("ja37/avionics/temp-halt-ap-roll", nextRoll1);
     # increase roll
     setprop("autopilot/internal/target-roll-deg", getprop("orientation/roll-deg") + trimCmd * 1);
   } elsif (getprop("/autopilot/locks/heading") != "" and getprop("/autopilot/locks/heading") != nil and rollCmd != 0) {
@@ -489,6 +490,7 @@ var apLoop = func {
     lock = getprop("/autopilot/locks/heading");
     # stop A/P from controlling roll:
     nextRoll2 = 0;
+    setprop("ja37/avionics/temp-halt-ap-roll2", nextRoll2);
     usedStick = 1;
   } elsif (lock != "") {
     # keep new heading/roll
@@ -515,6 +517,7 @@ var apLoop = func {
     lockP = getprop("/autopilot/locks/altitude");
     # stop A/P from controlling pitch:
     nextPitch = 0;
+    setprop("ja37/avionics/temp-halt-ap-pitch", nextPitch);
   } elsif (lockP != "") {
     # keep new altitude/pitch/AoA/vertical-speed
     lockP = "";
@@ -530,7 +533,7 @@ var apLoop = func {
     nextPitch = 1;
   }
 
-  settimer(apLoop, 0.1);
+  settimer(apLoop, 0.2);
 }
 
 var ap_init_listener = setlistener("sim/signals/fdm-initialized", func {

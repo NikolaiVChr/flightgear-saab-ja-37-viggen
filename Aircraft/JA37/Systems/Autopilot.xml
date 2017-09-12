@@ -479,7 +479,7 @@
 		<reference>
 			<property>/autopilot/settings/target-altitude-ft</property>
 		</reference>
-		<gain>-6</gain>
+		<gain>-3</gain>
 		<output>
 			<property>/autopilot/internal/target-fpm-alt</property>
 		</output>
@@ -517,7 +517,7 @@
 		<reference>
 			<property>/autopilot/settings/target-agl-ft</property>
 		</reference>
-		<gain>-6</gain>
+		<gain>-3</gain>
 		<output>
 			<property>/autopilot/internal/target-fpm-agl</property>
 		</output>
@@ -542,6 +542,22 @@
 		<gain>1.0</gain>
 		<min>-2500</min>
 		<max>0</max>
+	</filter>
+	
+	<filter>
+		<name>IT-CONTROLLER: FPM KP (P Gain)</name>
+		<type>gain</type>
+		<gain>1</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/velocities/mach</property>
+					<entry><ind>0.2</ind><dep>0.011</dep></entry>
+					<entry><ind>1.4</ind><dep>0.005</dep></entry>
+				</table>
+			</expression>
+		</input>
+		<output>/autopilot/internal/vs-kp</output>
 	</filter>
 	
 	<pid-controller>
@@ -624,7 +640,9 @@
 			<property>/autopilot/internal/target-pitch-deg</property>
 		</output>
 		<config>
-			<Kp>0.009</Kp>
+			<Kp>
+				<property>/autopilot/internal/vs-kp</property>
+			</Kp>
 			<Ti>2.5</Ti>
 			<Td>0.0001</Td>
 			<u_min>
