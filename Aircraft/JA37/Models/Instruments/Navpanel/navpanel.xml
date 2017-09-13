@@ -155,9 +155,23 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(0);</script>
+				<script>dap.okPress();</script>
 			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.okRelease();</script>
+				</binding>
+			</mod-up>
 		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>OK</tooltip-id>
+                <label>Use this button for OK in the JA-37Di.</label>
+                <property></property>
+            </binding>
+        </hovered>
 	</animation>
 	
 	<animation>

@@ -3140,3 +3140,8 @@ Sim: Append to RTB plan now unset destination.
 Sim: Insert as first steerpoint unset departure.
 Sim: Delete last steerpoint unset destination. Sets new last if is airport.
 Sim: Delete first steerpoint unset departure. Sets new first if is airport.
+DAP: The JA now has some basic Data-panel functions. Use button BX on nav panel for OK.
+DAP: The JA panel now has a different texture and a canvas display. AJ is unchanged.
+DAP: Can now output current position, date, time, TILS freq.
+DAP: Can now input current date and time.
+DAP: Can now reset local time: enter 999999 as date or time.

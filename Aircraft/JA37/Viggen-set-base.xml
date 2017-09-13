@@ -701,6 +701,11 @@
             <foe-5 userarchive="y" type="string"></foe-5>
             <foe-6 userarchive="y" type="string"></foe-6>
         </faf>
+        <navigation>
+            <inout type="bool">true</inout>
+            <ispos type="bool">false</ispos>
+            <dp-mode type="int">0</dp-mode>
+        </navigation>
     </ja37>
     <ai>
         <submodels>
@@ -1339,13 +1344,14 @@
 
     <!--
     <xmlPlans>
-        <mission1 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss1.xml</mission1>
-        <mission2 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss2.xml</mission2>
-        <mission3 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss3.xml</mission3>
-        <mission4 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/miss4.xml</mission4>
-        <rtb1A type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/rtbA.xml</rtb1A>
-        <rtb1B type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/rtbB.xml</rtb1B>
-    </xmlPlans>-->
+        <mission1 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss1.xml</mission1>
+        <mission2 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss2.xml</mission2>
+        <mission3 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss3.xml</mission3>
+        <mission4 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss4.xml</mission4>
+        <rtb1A type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/rtbA.xml</rtb1A>
+        <rtb1B type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/rtbB.xml</rtb1B>
+    </xmlPlans>
+    -->
     <!--**********************************************************************
 
                                           Nasal scrips
@@ -1430,7 +1436,9 @@
         <rcs>
             <file>Aircraft/JA37/Nasal/rcs.nas</file>
         </rcs>
-        
+        <dap>
+            <file>Aircraft/JA37/Nasal/data-panel.nas</file>
+        </dap>
         
         <!-- Uncomment below to enable FGplot -->
         <!--

@@ -128,9 +128,12 @@ TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not s
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
 TI: Routes can have target steerpoints (Mxx/Txx).
-TI: MYPS number should be shown framed when its not been adjusted.
 TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add.
 TI: Edit, append or insert steerpoint shoudl really be controlled from radar panel.
+TI: Edit polygon and MMAN should auto move cursor to TI.
+TI: MSDA map should be north oriented (at least when MMAN is on).
+TI: Slew cursor using a dialog touchpad.
+TI: Menu CONF-READDATA should show a static page.
 MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]

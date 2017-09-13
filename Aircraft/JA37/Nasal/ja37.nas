@@ -2065,6 +2065,15 @@ var convertDegreeToStringLon = func (lon) {
   }
   return sprintf("%s %03d %02d %02d",s,math.abs(lon[0]),lon[1],lon[2]);
 }
+var convertDegreeToDispStringLat = func (lat) {
+  lat = convertDoubleToDegree(lat);
+
+  return sprintf("%02d%02d%02d",lat[0],lat[1],lat[2]);
+}
+var convertDegreeToDispStringLon = func (lon) {
+  lon = convertDoubleToDegree(lon);
+  return sprintf("%03d%02d%02d",lon[0],lon[1],lon[2]);
+}
 var convertDegreeToDouble = func (hour, minute, second) {
   var d = hour+minute/60+second/3600;
   return d;
