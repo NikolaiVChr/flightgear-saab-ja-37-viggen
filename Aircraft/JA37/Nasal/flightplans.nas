@@ -29,6 +29,7 @@ var Polygon = {
 	selectSteer: nil,
 	selectL: nil,
 	_apply: FALSE,
+	polyEdit: FALSE,
 
 	setupJAPolygons: func {
 		Polygon._setupListeners();
@@ -73,6 +74,37 @@ var Polygon = {
 		Polygon.editRTB      = poly1;
 		Polygon.editMiss     = poly1;
 		printDA("AJ: finished plan Init");
+	},
+
+	setSuperEdit: func (bool) {
+		# if enabled polygon can be deleted with DAP reset/rensa.
+		if (Polygon.editing != nil and bool) {
+			Polygon.polyEdit = TRUE;
+			Polygon.selectSteer = nil;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editSteer   = FALSE;
+			dap.set237(TRUE);
+		} else {
+			Polygon.polyEdit = FALSE;
+			dap.set237(FALSE);
+		}
+	},
+
+	deletePlan: func {
+		# super edit must be active. Called from dap.
+		if (Polygon.editing != nil and Polygon.polyEdit == TRUE) {
+			print("deleting plan");
+			Polygon.editing.plan = createFlightplan();
+			Polygon.editing.plan.id = Polygon.editing.getName();
+			if(Polygon.editing.isPrimary()) {
+				Polygon._activating = TRUE;
+				Polygon.editing.activate();
+				Polygon._activating = FALSE;
+			}
+			Polygon.polyEdit = FALSE;
+			dap.set237(FALSE);
+		}
 	},
 
 	selectSteerpoint: func (planName, leg, index) {
@@ -214,14 +246,18 @@ var Polygon = {
 		Polygon.insertSteer = FALSE;
 	},
 
-	editPlan: func (plan) {
-		if (plan != Polygon.editing) {
+	editPlan: func (poly) {
+		if (poly != Polygon.editing) {
 			Polygon.editSteer = FALSE;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
+			if (Polygon.polyEdit) {
+				dap.set237(FALSE);
+			}
+			Polygon.polyEdit    = FALSE;
 			Polygon.selectSteer = nil;
-		}
-		Polygon.editing = plan;
+			Polygon.editing = poly;
+		}		
 	},
 
 	_planEdited: func {
@@ -232,6 +268,7 @@ var Polygon = {
 			Polygon.editSteer = FALSE;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
+			Polygon.polyEdit    = FALSE;
 			Polygon.selectSteer = nil;
 			return;
 		}

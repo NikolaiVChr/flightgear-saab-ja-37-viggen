@@ -30,6 +30,7 @@ var callInit = func {
 
   var root = canvasDAP.createGroup();
   #root.show();
+  #root.set("font", getprop("/sim/aircraft-dir")~"/Nasal/DSEG7Classic-Regular.ttf");
   root.set("font", "DSEG/DSEG7/Classic/DSEG7Classic-Regular.ttf");
   signText = root.createChild("text")
         .setText("")
@@ -86,6 +87,15 @@ var cycleMax = 1;
 var input = "------";
 var digit = 0;
 var error = FALSE;
+var display = "      ";
+
+var set237 = func (bool) {
+  if (bool) {
+    state = 237;
+  } else {
+    state = OUTPUT;
+  }
+}
 
 var main = func {
   if (getprop("ja37/systems/variant") != 0) return;
@@ -93,7 +103,7 @@ var main = func {
     printDA("DAP: offline");
     return;
   }
-  var display = "";
+  
   printDA("");
   printDA("DAP: main called");
   printDA(" selector "~settingKnob);
@@ -113,11 +123,16 @@ var main = func {
       return;
     }
   }
-
   if (settingKnob != settingPrevKnob) {
 
   }
-  if (settingDir == OUT) {
+
+  if (state == 237) {
+    if(keyPressed == -1 and route.Polygon.polyEdit) {
+      # delete route plan
+      route.Polygon.deletePlan();
+    }
+  } elsif (settingDir == OUT) {
     if (ok==HOLD and cycle != -1) {
       cycle += 1;
       if (cycle > cycleMax) {
@@ -263,10 +278,12 @@ var isStateChanged = func {
 }
 
 var disp = func {
-  var display = "";
+  display = "";
 
   if (error == TRUE) {
     display = " Error";
+  } elsif (state == 237) {
+    display = "   237";
   } elsif (settingDir == OUT) {
     if (settingKnob == KNOB_DATE) {
       if (cycle == -1) {

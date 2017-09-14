@@ -242,7 +242,7 @@ var dictSE = {
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
 	'11':  {'2': [TRUE, "INFG"], '3': [TRUE, "NY"], '5': [TRUE, "RADR"], # hack
 	        '8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENY"], '14': [TRUE, "EDIT"], '15': [TRUE, "\xC3\x85POL"], '16': [TRUE, "EDIT"],
+			'4': [FALSE, "EDIT"], '6': [TRUE, "EDIT"], '7': [TRUE, "MENY"], '14': [TRUE, "EDIT"], '15': [TRUE, "\xC3\x85POL"], '16': [TRUE, "EDIT"],
 			'17': [TRUE, "UPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "EGLA"], '20': [TRUE, "KMAN"]},
 	'12':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 	 		'7': [TRUE, "MENY"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
@@ -273,7 +273,7 @@ var dictEN = {
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
 	'11':  {'2': [TRUE, "INS"], '3': [TRUE, "ADD"], '5': [TRUE, "DEL"], # hack
 		    '8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'4': [FALSE, "EDIT"], '6': [FALSE, "EDIT"], '7': [TRUE, "MENU"], '14': [TRUE, "EDIT"], '15': [TRUE, "RPOL"], '16': [TRUE, "EDIT"],
+			'4': [FALSE, "EDIT"], '6': [TRUE, "EDIT"], '7': [TRUE, "MENU"], '14': [TRUE, "EDIT"], '15': [TRUE, "RPOL"], '16': [TRUE, "EDIT"],
 			'17': [TRUE, "MPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "MYPS"], '20': [TRUE, "MMAN"]},
 	'12':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'7': [TRUE, "MENU"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
@@ -1483,8 +1483,6 @@ var TI = {
 		ti.ownPosition = 0.25;
 		ti.ownPositionDigital = 2;
 		ti.mapPlaces = CLEANMAP;
-		ti.showSteers = TRUE;#only for debug turn to false
-		ti.showSteerPoly = TRUE;#only for debug turn to false
 		ti.ModeAttack = FALSE;
 		#ti.GPSinit    = FALSE;
 		ti.fr28Top    = FALSE;
@@ -1512,9 +1510,15 @@ var TI = {
 		ti.ECMon   = FALSE;
 		ti.lnk99   = FALSE;
 		ti.tele    = [];
+
+		# cursor
 		ti.cursorPosX  = 0;
 		ti.cursorPosY  = 0;
+
+		# steerpoints
 		ti.newSteerPos = nil;
+		ti.showSteers = TRUE;#only for debug turn to false
+		ti.showSteerPoly = TRUE;#only for debug turn to false
 
 		ti.startFailListener();
 
@@ -2115,9 +2119,7 @@ var TI = {
 		if (me.menuMain == MAIN_MISSION_DATA) {
 			if (me.showFullMenus == TRUE) {
 				me.menuButtonSub[4].setText(me.vertStr("BEYE"));
-				me.menuButtonSub[6].setText(me.vertStr("POLY"));
 				me.menuButtonSub[4].show();
-				me.menuButtonSub[6].show();
 			}
 
 			#hack:
@@ -2133,6 +2135,13 @@ var TI = {
 			}
 			me.menuButtonSub[5].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
 			me.menuButtonSub[5].show();
+
+			me.menuButtonSub[6].setText(me.vertStr("POLY"));
+			me.menuButtonSub[6].show();
+			if (route.Polygon.polyEdit == TRUE) {
+				me.menuButtonSubBox[6].show();
+			}
+
 			######
 
 			if (me.ownPositionDigital == 0) {
@@ -3016,7 +3025,7 @@ var TI = {
 						me.steerpoint[wp+48*me.steerCounter].setColor(rWhite,gWhite,bWhite,a);
 						#me.steerpointText[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
 						me.steerpoint[wp+48*me.steerCounter].set("z-index", 11);
-						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, TRUE]);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, route.Polygon.polyEdit==TRUE?2:TRUE]);
 						me.nextActive = FALSE;
 					} elsif ((land.showActiveSteer == FALSE and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
 						# waypoint is hidden
@@ -3036,10 +3045,10 @@ var TI = {
 						me.nextActive = me.nextDist*NM2M<20000;
 					} elsif (me.curr_plan[1] == TRUE) {
 						# waypoint is in the polygon selected for editing
-						me.steerpoint[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
+						me.steerpoint[wp+48*me.steerCounter].setColor(route.Polygon.polyEdit==TRUE?rWhite:rTyrk,route.Polygon.polyEdit==TRUE?gWhite:gTyrk,route.Polygon.polyEdit==TRUE?bWhite:bTyrk,a);
 						#me.steerpointText[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
 						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
-						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, TRUE]);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, route.Polygon.polyEdit==TRUE?2:TRUE]);
 						me.nextActive = FALSE;
 					} else {
 						me.steerpoint[wp+48*me.steerCounter].set("z-index", 5);
@@ -3049,7 +3058,7 @@ var TI = {
 						me.nextActive = FALSE;
 					}
 					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
-					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer) {
+					if (!route.Polygon.polyEdit and me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer) {
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
@@ -3120,7 +3129,7 @@ var TI = {
   					me.steerPoly.createChild("path")
   						.moveTo(me.prevLeg[0], me.prevLeg[1])
   						.lineTo(leg[0], leg[1])
-  						.setColor(leg[3]?rTyrk:rDTyrk,leg[3]?gTyrk:gDTyrk,leg[3]?bTyrk:bDTyrk,a)
+  						.setColor(leg[3]==2?rWhite:(leg[3]?rTyrk:rDTyrk),leg[3]==2?rWhite:(leg[3]?gTyrk:gDTyrk),leg[3]==2?rWhite:(leg[3]?bTyrk:bDTyrk),a)
   						.set("z-index", leg[3]?2:1)
   						.setStrokeLineWidth(w);
   				}
@@ -4009,6 +4018,13 @@ var TI = {
 			if (me.menuMain == MAIN_DISPLAY) {
 				# change zoom
 				zoomIn();
+			}
+			if (me.menuMain == MAIN_MISSION_DATA) {
+				if (route.Polygon.polyEdit == TRUE) {
+					route.Polygon.setSuperEdit(FALSE);
+				} elsif (route.Polygon.editing != nil) {
+					route.Polygon.setSuperEdit(TRUE);
+				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				me.fr28Top = !me.fr28Top;
