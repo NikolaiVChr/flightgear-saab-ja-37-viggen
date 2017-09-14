@@ -985,6 +985,8 @@ var MI = {
     showTgtName: func {
     	if (TI.ti.newFails == TRUE) {
     		me.diamond_name.setText(me.interoperability == displays.METRIC?"FÖ":"Failure");
+  	  	} elsif (TI.ti.mreg == TRUE) {
+    		me.diamond_name.setText("MREG");
   	  	} elsif (me.input.tracks_enabled.getValue() == TRUE) {
   			me.diamond_name.setText(me.tgt_callsign);
   		} else {

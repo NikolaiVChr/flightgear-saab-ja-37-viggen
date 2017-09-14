@@ -1520,6 +1520,10 @@ var TI = {
 		ti.showSteers = TRUE;#only for debug turn to false
 		ti.showSteerPoly = TRUE;#only for debug turn to false
 
+		# MI
+		ti.mreg = FALSE;
+
+
 		ti.startFailListener();
 
       	return ti;
@@ -1571,7 +1575,7 @@ var TI = {
 		} else {
 			mycanvas.setColorBackground(0.15, 0.15, 0.15, 1.0);
 		}
-
+		me.updateMI();
 		me.whereIsMap();#must be before mapUpdate
 		me.updateMap();
 		me.showMapScale();
@@ -2247,6 +2251,11 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 
+	updateMI: func {
+		if (me.mreg == TRUE and me.mreg_time+3 < getprop("sim/time/elapsed-sec")) {
+			me.mreg = FALSE;
+		}
+	}
 
 	showSVY: func {
 		# side view
@@ -2283,6 +2292,8 @@ var TI = {
 		# mark event
 		#
 		me.tgt = "";
+		me.mreg = TRUE;
+		me.mreg_time = getprop("sim/time/elapsed-sec");
 		if(radar_logic.selection != nil) {
 			me.tgt = radar_logic.selection.get_Callsign();
 		}
