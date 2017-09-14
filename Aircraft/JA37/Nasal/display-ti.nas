@@ -2255,7 +2255,7 @@ var TI = {
 		if (me.mreg == TRUE and me.mreg_time+3 < getprop("sim/time/elapsed-sec")) {
 			me.mreg = FALSE;
 		}
-	}
+	},
 
 	showSVY: func {
 		# side view
