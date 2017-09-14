@@ -252,6 +252,11 @@ var update_loop = func {
     } else {
       input.fuelWarning.setBoolValue(FALSE);
     }
+    if((current / total_fuel) < getprop("ja37/systems/fuel-warning-extra-percent")/100) {# warning at 24% as per sources
+      setprop("ja37/sound/fuel-low-2-on",TRUE);
+    } else {
+      setprop("ja37/sound/fuel-low-2-on",FALSE);
+    }
 
     input.fuelInternalRatio.setDoubleValue(current / total_fuel);
     

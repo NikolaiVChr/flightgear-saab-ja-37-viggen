@@ -3147,3 +3147,4 @@ DAP: Can now input current date and time.
 DAP: Can now reset local time: enter 999999 as date or time.
 TI: In menu MSDA EDITPOLY can be selected if a polygon is already being edited. This will highlight it in white, and give control to DAP.
 DAP: When TI EDITPOLY is active, display will say 237 and plan can be erased by pressing RESET.
+DAP: Can now output and input extra fuel warning threshold in percent.

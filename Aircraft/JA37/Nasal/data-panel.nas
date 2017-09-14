@@ -78,8 +78,9 @@ var INPUT     = 0;
 var HOLD      = 1;
 var RELEASE   = 0;
 
-var inputDefault = "------";# these 2 should really be spaces, but canvas wont render space.
-var charDefault  = "-";
+var inputDefault  = "------";# these 3 should really be spaces, but canvas wont render space.
+var input2Default = "--";
+var charDefault   = "-";
 
 var state = OUTPUT;
 var cycle = -1;
@@ -198,6 +199,28 @@ var main = func {
           inputFull();
         }
       }
+    } elsif (settingKnob == KNOB_FUEL) {
+      if (isStateChanged()) {
+          cycle = -1;
+          cycleMax = -1;
+          digit = 0;
+          input = input2Default;
+      } else {
+        if (ok==HOLD and digit == 2) {
+            # set fuel warn
+            printDA("set extra fuel warning "~input~"%");
+            setprop("ja37/systems/fuel-warning-extra-percent", num(input));
+            input = input2Default;
+            digit = 0;
+        } elsif (keyPressed == -1) {
+          # reset
+            input = input2Default;
+            digit = 0;
+        } else {
+          # fuel input
+          input2();
+        }
+      }
     }
   }
   disp();
@@ -265,6 +288,13 @@ var inputFull = func () {
   }
 }
 
+var input2 = func () {
+  if (keyPressed != nil and digit < 2) {
+    input = substr(input, 0,digit)~keyPressed~manyChar(charDefault,2-(digit+1));
+    digit += 1;
+  }
+}
+
 var manyChar = func (char, count) {
   var result = "";
   for (var i = 0; i<count;i+=1){
@@ -313,7 +343,7 @@ var disp = func {
       if (land.ils != 0) {
         display = sprintf("%05d", int(100*land.ils));
       } else {
-        display = "------";
+        display = "000000";
       }
     } elsif (settingKnob == KNOB_LOLA) {
       if (cycle == -1) {
@@ -336,9 +366,18 @@ var disp = func {
           display = sprintf("%s",lat);
         }
       }
+    } elsif (settingKnob == KNOB_FUEL) {
+      var warn = getprop("ja37/systems/fuel-warning-extra-percent");
+      if (warn != -1) {
+        display = ""~warn;
+      } else {
+        display = "00";
+      }
     }
   } else {
-    if (settingKnob == KNOB_DATE) {
+    if (settingKnob == KNOB_FUEL) {
+      display = input;
+    } elsif (settingKnob == KNOB_DATE) {
       if (digit == 0) {
         if (cycle == 0) {
           display = "----dA";
