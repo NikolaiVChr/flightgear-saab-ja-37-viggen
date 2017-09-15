@@ -1,9 +1,13 @@
 var TYPE_MIX  = 0;# plan has both mission and RTB
 var TYPE_RTB  = 1;# return to base plan
 var TYPE_MISS = 2;# mission plan
+var TYPE_AREA = 3;# map area (LV)
 
 var TRUE  = 1;
 var FALSE = 0;
+
+var maxLV = 8;
+var maxSteers = 48;
 
 var debugAll = FALSE;
 
@@ -15,21 +19,22 @@ var Polygon = {
 	#
 	# Class methods and variables
 	#
-	primary: nil,
-	editing: nil,
+	primary: nil,#its used in routemanager
+	editing: nil,#its set for being edited
 	editRTB: nil,
 	editMiss: nil,
 	polys: {},
 	_activating: FALSE,
 	flyRTB: nil,
 	flyMiss: nil,
-	editSteer: FALSE,
-	appendSteer: FALSE,
-	insertSteer: FALSE,
-	selectSteer: nil,
-	selectL: nil,
+	editSteer: FALSE,  # selectSteer set for being moved
+	appendSteer: FALSE,# set for append
+	insertSteer: FALSE,# selectSteer set for having something inserted
+	selectSteer: nil,# content: [leg ghost, index]
+	selectL: nil,# when selectSteer is non nil, this will be listener for route-manager edit of plan. Such edit will cancel all editing. Hackish.
+	editDetail: FALSE,# selectSteer ready for having an attribute edited
 	_apply: FALSE,
-	polyEdit: FALSE,
+	#polyEdit: FALSE,
 
 	setupJAPolygons: func {
 		Polygon._setupListeners();
@@ -48,6 +53,10 @@ var Polygon = {
 				var polyB = Polygon.new(""~i, "B", TYPE_RTB, getprop("xmlPlans/rtb"~i~"B"));
 				Polygon.polys[polyB.getName()]   = polyB;
 			}
+			for (var i = 1; i<=6; i+=1) {
+				var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
+				Polygon.polys["OP"~i] = poly;
+			}
 		
 			Polygon.editRTB      = polyA;
 			Polygon.editMiss     = poly1;
@@ -61,6 +70,12 @@ var Polygon = {
 			Polygon.flyMiss      = poly1;
 			Polygon.editRTB      = poly1;
 			Polygon.editMiss     = poly1;
+
+			for (var i = 1; i<=6; i+=1) {
+				# since area never have to be activated we can use then in FG older than 2017.3.1
+				var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
+				Polygon.polys["OP"~i] = poly;
+			}
 		}
 		printDA("JA: finished plan Init");
 	},
@@ -76,7 +91,7 @@ var Polygon = {
 		printDA("AJ: finished plan Init");
 	},
 
-	setSuperEdit: func (bool) {
+	setSuperEdit: func (bool) {#deprecated
 		# if enabled polygon can be deleted with DAP reset/rensa.
 		if (Polygon.editing != nil and bool) {
 			Polygon.polyEdit = TRUE;
@@ -84,17 +99,22 @@ var Polygon = {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer   = FALSE;
-			dap.set237(TRUE);
+			#dap.set237(TRUE);
 		} else {
 			Polygon.polyEdit = FALSE;
-			dap.set237(FALSE);
+			#dap.set237(FALSE);
 		}
 	},
 
 	deletePlan: func {
-		# super edit must be active. Called from dap.
-		if (Polygon.editing != nil and Polygon.polyEdit == TRUE) {
+		# Called from dap.
+		if (Polygon.editing != nil) {
 			print("deleting plan");
+			Polygon.selectSteer = nil;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editSteer   = FALSE;
+			Polygon.editDetail  = FALSE;
 			Polygon.editing.plan = createFlightplan();
 			Polygon.editing.plan.id = Polygon.editing.getName();
 			if(Polygon.editing.isPrimary()) {
@@ -102,15 +122,15 @@ var Polygon = {
 				Polygon.editing.activate();
 				Polygon._activating = FALSE;
 			}
-			Polygon.polyEdit = FALSE;
-			dap.set237(FALSE);
+			#Polygon.polyEdit = FALSE;
+			#dap.set237(FALSE);
 		}
 	},
 
 	selectSteerpoint: func (planName, leg, index) {
 		me.editIndex = Polygon.editing.plan.indexOfWP(leg);
 		#printf("%s %s %d",planName, leg.id, me.editIndex);
-		if (planName == Polygon.editing.getName()){#} and me.editIndex != nil and me.editIndex != -1) {
+		if (planName == Polygon.editing.getName()) {#} and me.editIndex != nil and me.editIndex != -1) {
 			Polygon.selectSteer = [leg, index];
 			printDA("select");
 			if (me.selectL != nil) {
@@ -122,6 +142,7 @@ var Polygon = {
 
 	editSteerpoint: func () {
 		if (Polygon.selectSteer != nil) {
+			Polygon.editDetail = FALSE;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer = !Polygon.editSteer;
@@ -134,6 +155,10 @@ var Polygon = {
 		if (Polygon.editSteer) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
+			me.tempSpeed  = Polygon.selectSteer[0].speed_cstr;
+			me.tempSpeedT = Polygon.selectSteer[0].speed_cstr_type;
+			me.tempAlt    = Polygon.selectSteer[0].alt_cstr;
+			me.tempAltT   = Polygon.selectSteer[0].alt_cstr_type;
 			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
 			me.newSteerpoint = createWP({lat:lati,lon:long},me.newName,"pseudo");
 			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
@@ -148,13 +173,112 @@ var Polygon = {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
-			Polygon.selectSteer = [me.newSteerpoint, Polygon.selectSteer[1]];
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1]];
+			if (me.tempAlt != nil and me.tempAltT != nil) {
+				Polygon.selectSteer[0].setAltitude(me.tempAlt, me.tempAltT);
+			}
+			if (me.tempSpeed != nil and me.tempSpeedT != nil) {
+				Polygon.selectSteer[0].setSpeed(me.tempSpeed,me.tempSpeedT);
+			}
 			Polygon._apply = FALSE;
 		}
 	},
 
-	deleteSteerpoint: func {
+	editDetailMethod: func (value) {
 		if (Polygon.selectSteer != nil) {
+			Polygon.editDetail  = value;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editSteer   = FALSE;
+		} else {
+			Polygon.editDetail = FALSE;
+		}
+	},
+
+	setLon: func (long) {
+		if (Polygon.selectSteer != nil and Polygon.editDetail) {
+			Polygon._apply = TRUE;
+			# TODO: what about name??!
+			me.newName    = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
+			me.tempSpeed  = Polygon.selectSteer[0].speed_cstr;
+			me.tempSpeedT = Polygon.selectSteer[0].speed_cstr_type;
+			me.tempAlt    = Polygon.selectSteer[0].alt_cstr;
+			me.tempAltT   = Polygon.selectSteer[0].alt_cstr_type;
+			me.newSteerpoint = createWP({lat:Polygon.selectSteer[0].wp_lat,lon:long},me.newName,"pseudo");
+			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
+				Polygon.editing.plan.departure = nil;
+			} elsif (Polygon.selectSteer[1] == Polygon.editing.getSize()-1 and Polygon.editing.plan.destination != nil) {
+				Polygon.editing.plan.destination = nil;
+			} else {
+				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			}
+			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1]];
+			#Polygon.selectSteer[0].speed_cstr      = me.tempSpeed;
+			#Polygon.selectSteer[0].speed_cstr_type = me.tempSpeedT;
+			#Polygon.selectSteer[0].alt_cstr        = me.tempAlt;
+			#Polygon.selectSteer[0].alt_cstr_type   = me.tempAltT;
+			if (me.tempAlt != nil and me.tempAltT != nil) {
+				Polygon.selectSteer[0].setAltitude(me.tempAlt, me.tempAltT);
+			}
+			if (me.tempSpeed != nil and me.tempSpeedT != nil) {
+				Polygon.selectSteer[0].setSpeed(me.tempSpeed,me.tempSpeedT);
+			}
+			Polygon._apply = FALSE;
+		}
+	},
+
+	setLat: func (lati) {
+		if (Polygon.selectSteer != nil and Polygon.editDetail) {
+			Polygon._apply = TRUE;
+			# TODO: what about name??!
+			me.newName    = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
+			me.tempSpeed  = Polygon.selectSteer[0].speed_cstr;
+			me.tempSpeedT = Polygon.selectSteer[0].speed_cstr_type;
+			me.tempAlt    = Polygon.selectSteer[0].alt_cstr;
+			me.tempAltT   = Polygon.selectSteer[0].alt_cstr_type;
+			me.newSteerpoint = createWP({lat:lati,lon:Polygon.selectSteer[0].wp_lon},me.newName,"pseudo");
+			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
+				Polygon.editing.plan.departure = nil;
+			} elsif (Polygon.selectSteer[1] == Polygon.editing.getSize()-1 and Polygon.editing.plan.destination != nil) {
+				Polygon.editing.plan.destination = nil;
+			} else {
+				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
+			}
+			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1]];
+			#Polygon.selectSteer[0].speed_cstr      = me.tempSpeed;
+			#Polygon.selectSteer[0].speed_cstr_type = me.tempSpeedT;
+			#Polygon.selectSteer[0].alt_cstr        = me.tempAlt;
+			#Polygon.selectSteer[0].alt_cstr_type   = me.tempAltT;
+			if (me.tempAlt != nil and me.tempAltT != nil) {
+				Polygon.selectSteer[0].setAltitude(me.tempAlt, me.tempAltT);
+			}
+			if (me.tempSpeed != nil and me.tempSpeedT != nil) {
+				Polygon.selectSteer[0].setSpeed(me.tempSpeed,me.tempSpeedT);
+			}
+			Polygon._apply = FALSE;
+		}
+	},
+
+	setMach: func (mach) {
+		if (Polygon.selectSteer != nil and Polygon.editDetail) {
+			#Polygon.selectSteer[0].speed_cstr_type = "mach";
+			#Polygon.selectSteer[0].speed_cstr      = mach;			
+			Polygon.selectSteer[0].setSpeed(mach,"mach");
+		}
+	},
+
+	setAlt: func (alt) {
+		if (Polygon.selectSteer != nil and Polygon.editDetail) {
+			#Polygon.selectSteer[0].alt_cstr      = alt;
+			#Polygon.selectSteer[0].alt_cstr_type = "at";
+			Polygon.selectSteer[0].setAltitude(alt, "at");
+		}
+	},
+
+	deleteSteerpoint: func {
+		if (Polygon.selectSteer != nil and Polygon.editDetail == FALSE) {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer   = FALSE;
@@ -176,7 +300,7 @@ var Polygon = {
 	},
 
 	insertSteerpoint: func () {
-		if (Polygon.selectSteer != nil) {
+		if (Polygon.selectSteer != nil and !Polygon.editing.isFull() and Polygon.editDetail == FALSE) {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = !Polygon.insertSteer;
 			Polygon.editSteer = FALSE;
@@ -186,7 +310,7 @@ var Polygon = {
 	},
 
 	insertApply: func (lati, long) {
-		if (Polygon.insertSteer) {
+		if (Polygon.insertSteer and !Polygon.editing.isFull()) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
 			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.selectSteer[1]+rand())*100);
@@ -206,11 +330,13 @@ var Polygon = {
 			Polygon.selectSteer = nil;
 			Polygon.insertSteer = !Polygon.insertSteer;
 			Polygon._apply = FALSE;
+		} else {
+			Polygon.insertSteer = FALSE;
 		}
 	},
 
 	appendSteerpoint: func () {
-		if (Polygon.editing != nil) {
+		if (Polygon.editing != nil and !Polygon.editing.isFull() and Polygon.editDetail == FALSE) {
 			Polygon.insertSteer = FALSE;
 			Polygon.appendSteer = !Polygon.appendSteer;
 			Polygon.editSteer = FALSE;
@@ -220,7 +346,7 @@ var Polygon = {
 	},
 
 	appendApply: func (lati, long) {
-		if (Polygon.appendSteer) {
+		if (Polygon.appendSteer and !Polygon.editing.isFull()) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
 			me.newName = sprintf("%s%d", Polygon.editing.getName(), (Polygon.editing.getSize()+rand())*100);
@@ -234,9 +360,11 @@ var Polygon = {
 				Polygon.editing.plan.appendWP(me.lastWP);
 			}
 			Polygon.editing.plan.appendWP(me.newSteerpoint);
-			Polygon.selectSteer = [me.newSteerpoint, Polygon.editing.getSize()-1];
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.editing.getSize()-1), Polygon.editing.getSize()-1];
 			Polygon._apply = FALSE;
 
+		} else {
+			Polygon.appendSteer = FALSE;
 		}
 	},
 
@@ -244,6 +372,22 @@ var Polygon = {
 		Polygon.editSteer = FALSE;
 		Polygon.appendSteer = FALSE;
 		Polygon.insertSteer = FALSE;
+		Polygon.editDetail = FALSE;
+	},
+
+	setToggleAreaEdit: func {
+		print("area edit");
+		var poly = Polygon.polys["OP1"]; #TODO: temp stuff
+		if (poly != Polygon.editing) {
+			Polygon.editing = poly;
+		} else {
+			Polygon.editing = nil;
+		}
+		Polygon.editSteer = FALSE;
+		Polygon.appendSteer = FALSE;
+		Polygon.insertSteer = FALSE;
+		Polygon.editDetail = FALSE;
+		Polygon.selectSteer = nil;
 	},
 
 	editPlan: func (poly) {
@@ -251,10 +395,11 @@ var Polygon = {
 			Polygon.editSteer = FALSE;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
-			if (Polygon.polyEdit) {
-				dap.set237(FALSE);
-			}
-			Polygon.polyEdit    = FALSE;
+			Polygon.editDetail = FALSE;
+			#if (Polygon.polyEdit) {
+			#	dap.set237(FALSE);
+			#}
+			#Polygon.polyEdit    = FALSE;
 			Polygon.selectSteer = nil;
 			Polygon.editing = poly;
 		}		
@@ -264,11 +409,12 @@ var Polygon = {
 		if (Polygon._apply == FALSE) {
 			removelistener(me.selectL);
 			me.selectL = nil;
-			printDA("plan edited, steer edit cancelled.");
+			printDA("plan edited, edit cancelled.");
 			Polygon.editSteer = FALSE;
 			Polygon.appendSteer = FALSE;
+			Polygon.editDetail = FALSE;
 			Polygon.insertSteer = FALSE;
-			Polygon.polyEdit    = FALSE;
+			#Polygon.polyEdit    = FALSE;
 			Polygon.selectSteer = nil;
 			return;
 		}
@@ -423,7 +569,12 @@ var Polygon = {
 		if (default == 1) {
 			newPoly.plan = flightplan();
 		} elsif (xml != nil) {
-			newPoly.plan = createFlightplan(xml);
+			newPoly.plan = nil;
+			call(func {newPoly.plan = createFlightplan(xml);}, nil, var err = []);
+			if (size(err)) {
+				print(err[0]);
+				print("That plan will be init empty.");
+			}
 			if (newPoly.plan == nil) {
 				newPoly.plan = createFlightplan();
 			}
@@ -435,7 +586,12 @@ var Polygon = {
 		newPoly.nameNum = nameNum;
 		newPoly.nameVari = nameVari;
 		newPoly.type = type;
+		newPoly.color = TI.COLOR_GREY_LIGHT;
 		return newPoly;
+	},
+
+	isFull: func {
+		return (me.type == TYPE_AREA and me.getSize()>=maxLV) or (me.type != TYPE_AREA and me.getSize()>=maxSteers);
 	},
 
 	getName: func {
@@ -484,7 +640,7 @@ var Polygon = {
 	},
 
 	setAsPrimary: func {
-		if (!me.isPrimary()) {
+		if (!me.isPrimary() and me.type != TYPE_AREA) {
 			printDA("Polygon._activating = TRUE;");
 			Polygon._activating = TRUE;
 			Polygon.primary = me;

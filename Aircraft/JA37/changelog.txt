@@ -3145,7 +3145,22 @@ DAP: The JA panel now has a different texture and a canvas display. AJ is unchan
 DAP: Can now output current position, date, time, TILS freq.
 DAP: Can now input current date and time.
 DAP: Can now reset local time: enter 999999 as date or time.
-TI: In menu MSDA EDITPOLY can be selected if a polygon is already being edited. This will highlight it in white, and give control to DAP.
-DAP: When TI EDITPOLY is active, display will say 237 and plan can be erased by pressing RESET.
+DAP: When TI EDIT plan is active, display will say 237 and plan can be erased by pressing RESET.
 DAP: Can now output and input extra fuel warning threshold in percent.
 MI: Will now display MREG for 3 seconds when manual registration occurs. [X3]
+DAP: No longer shows 237 when can delete polygon. Has to be in TI setting though.
+Sim: Added support for custom map areas.
+TI: EDITPOLY now edit areas.
+TI: Started using vector for colors.
+Sim: Editing will now allow max 8 points in each area and max 48 in each plan.
+TI: Infobox for steerpoint and areapoint reworked.
+TI: Changed S/B to P in infobox/submenus for area points.
+TI: Fixed infobox font was times not changing aspect.
+TI: Via DAP the area to be edited can now be selected, OP1-OP6.
+DAP: Edit steerpoints is now possible, B-lola, B-alt, B-speed.
+DAP: Edit areas is now possible, but only lola.
+Sim: Appending/editing waypoint now set selected to a leg, not a waypoint.
+TI: CLR is now default for HORI.
+TI: EMAP-MAX can now be switched to NORM, it will now always be framed.
+TI: Formated LON/LAT will now have letter at end.
+DAP: Error is now localized to Swedish.

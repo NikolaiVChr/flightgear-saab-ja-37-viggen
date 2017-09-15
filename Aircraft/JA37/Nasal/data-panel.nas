@@ -35,7 +35,7 @@ var callInit = func {
   signText = root.createChild("text")
         .setText("")
         .setFontSize(50, 1.15)
-        .setColor(1,0,0, 1)
+        .setColor([1,0,0])
         .setAlignment("right-baseline")
         .setTranslation(256, 64);
 
@@ -83,6 +83,10 @@ var input2Default = "--";
 var charDefault   = "-";
 
 var state = OUTPUT;
+#var ti237_min = 0;
+var ti237_max = 0;
+var ti237_callback = 0;
+
 var cycle = -1;
 var cycleMax = 1;
 var input = "------";
@@ -90,12 +94,24 @@ var digit = 0;
 var error = FALSE;
 var display = "      ";
 
-var set237 = func (bool) {
-  if (bool) {
+var set237 = func (enable, digitsMax, callback) {#longitude might need 6 or 7 digits
+  if (enable) {
     state = 237;
+    #ti237_min = digitsMin;
+    ti237_max = digitsMax;
+    ti237_callback = callback;
   } else {
     state = OUTPUT;
   }
+  error = FALSE;
+  cycle = -1;
+  cycleMax = 1;
+  input = manyChar(charDefault, digitsMax);
+  digit = 0;
+}
+
+var setError = func {
+  error = TRUE;
 }
 
 var main = func {
@@ -127,9 +143,23 @@ var main = func {
   if (settingKnob != settingPrevKnob) {
 
   }
-
   if (state == 237) {
-    if(keyPressed == -1 and route.Polygon.polyEdit) {
+    if (ok==HOLD and digit == ti237_max) {
+        # set TI value
+        printDA("set 237: "~input);
+        ti237_callback(input, settingSign, TI.ti);
+        input = inputDefault;
+        digit = 0;
+    } elsif (keyPressed == -1) {
+      # reset
+        input = manyChar(charDefault, ti237_max);
+        digit = 0;
+    } else {
+      # TI input
+      inputKey(ti237_max);
+    }
+  } elsif (settingKnob==KNOB_TI ) {
+    if(keyPressed == -1 and route.Polygon.editing != nil) {
       # delete route plan
       route.Polygon.deletePlan();
     }
@@ -193,10 +223,10 @@ var main = func {
             digit = 0;
         } elsif (cycle == 0) {
           # date input
-          inputFull();
+          inputKey(6);
         } elsif (cycle == 1) {
           # date input
-          inputFull();
+          inputKey(6);
         }
       }
     } elsif (settingKnob == KNOB_FUEL) {
@@ -218,7 +248,7 @@ var main = func {
             digit = 0;
         } else {
           # fuel input
-          input2();
+          inputKey(2);
         }
       }
     }
@@ -281,16 +311,9 @@ var resetDate = func {
   fgcommand("timeofday",props.Node.new({"real":0}));
 }
 
-var inputFull = func () {
-  if (keyPressed != nil and digit < 6) {
-    input = substr(input, 0,digit)~keyPressed~manyChar(charDefault,6-(digit+1));
-    digit += 1;
-  }
-}
-
-var input2 = func () {
-  if (keyPressed != nil and digit < 2) {
-    input = substr(input, 0,digit)~keyPressed~manyChar(charDefault,2-(digit+1));
+var inputKey = func (digs) {
+  if (keyPressed != nil and digit < digs) {
+    input = substr(input, 0,digit)~keyPressed~manyChar(charDefault,digs-(digit+1));
     digit += 1;
   }
 }
@@ -311,9 +334,18 @@ var disp = func {
   display = "";
 
   if (error == TRUE) {
-    display = " Error";
+    display = metric?"   FEL":" Error";
   } elsif (state == 237) {
-    display = "   237";
+    if (digit == 0) {
+      display = "   237";
+    } else {
+      var sign = settingSign?"-":" ";
+      if (ti237_max>6) {
+        display = input;
+      } else {
+        display = sign~input;#not elegant, fix later
+      }
+    }
   } elsif (settingDir == OUT) {
     if (settingKnob == KNOB_DATE) {
       if (cycle == -1) {
@@ -393,9 +425,10 @@ var disp = func {
   #printDA(" display  *"~display~"*");
   signText.setText(display);
 };
-
+var metric = 0;
 var loop_main = func {
   if (getprop("ja37/systems/variant") != 0) return;
+  metric = getprop("ja37/hud/units-metric");
   disp();
   settimer(loop_main,1);
 }

@@ -116,7 +116,6 @@ HUD: When should distance scale line not be shown, but distance still?
 HUD: In OPT mode, the sink rate is only at low altitudes, before that its 1:20.
 TI: Show lat/lon grid in menu UDAT.
 TI: Show/edit bullseye.
-TI: Show flighttime by using controls UD-UT.
 TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, dont show moving map.
 TI: Make radar limit on SVY.
@@ -129,7 +128,6 @@ TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
 TI: Routes can have target steerpoints (Mxx/Txx).
 TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add.
-TI: Edit, append or insert steerpoint shoudl really be controlled from radar panel.
 TI: Edit polygon and MMAN should auto move cursor to TI.
 TI: MSDA map should be north oriented (at least when MMAN is on).
 TI: Slew cursor using a dialog touchpad.
@@ -144,11 +142,23 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 Control: overhaul rudder trim.
+DAP: Input/output square mappoints.
+DAP: Show current B navigation output. (POS/UT)
+DAP: Make statemachine for POS/UD and IN/UT modes.
+DAP: Input TACAN with REG/STR.
+DAP: Edit steerpoint type to target.
+DAP: Change sign to -1 and 1, instead of bool.
+TI:: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
+Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc.
+DAP: UD-UT-TI will show FTID 1:02 on TI. From !wow to wow+30 secs. Less than 3 mins on wow will not reset the time.
+TI: Cursor can select a steerpoint outside MSDA, it will then be active for steer order. Same with other objects.
+TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 
 
 
-List of un-authentic systems scheduled for removal at some point
-----------------------------------------------------------------
+
+List of un-authentic systems, most scheduled for removal/change at some point
+-----------------------------------------------------------------------------
 A/P auto-follow never existed. RR steer order, was probably just heading and altitude bugs.
 Automatic landing mode selection in AJ was really selected manual like in the JA.
 Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of these variants.
@@ -160,7 +170,11 @@ The FPI in HUD was really limited to +- 7.5 degs lateral.
 In the orig plane the HUD decimal delimiter is ',' not '.'.
 VOR, ADF navigation, the real did not have this.
 Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
-
+Aerobatic smoke.
+HUD: Upper half square should really be radar selection.
+HUD: Upper semi circle should really be radar lock.
+HUD: Lower semi circle should really be IR lock.
+TI: Delete, append or insert steerpoint shoudl really be controlled from radar stick.
 
 Bugs:
 --------------

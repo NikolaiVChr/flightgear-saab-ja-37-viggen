@@ -2051,7 +2051,7 @@ var convertDoubleToDegree = func (value) {
         var dec = math.fmod(abs,1000000) / 1000000;
         var deg = math.floor(abs / 1000000) * sign;
         var min = math.floor(dec * 60);
-        var sec = (dec - min / 60) * 3600;
+        var sec = math.round((dec - min / 60) * 3600);#TODO: unsure of this round()
         return [deg,min,sec];
 }
 var convertDegreeToStringLat = func (lat) {
@@ -2060,7 +2060,7 @@ var convertDegreeToStringLat = func (lat) {
   if (lat[0]<0) {
     s = "S";
   }
-  return sprintf("%s %02d %02d %02d",s,math.abs(lat[0]),lat[1],lat[2]);
+  return sprintf("%02d %02d %02d%s",math.abs(lat[0]),lat[1],lat[2],s);
 }
 var convertDegreeToStringLon = func (lon) {
   lon = convertDoubleToDegree(lon);
@@ -2068,7 +2068,7 @@ var convertDegreeToStringLon = func (lon) {
   if (lon[0]<0) {
     s = "W";
   }
-  return sprintf("%s %03d %02d %02d",s,math.abs(lon[0]),lon[1],lon[2]);
+  return sprintf("%03d %02d %02d%s",math.abs(lon[0]),lon[1],lon[2],s);
 }
 var convertDegreeToDispStringLat = func (lat) {
   lat = convertDoubleToDegree(lat);
@@ -2085,5 +2085,48 @@ var convertDegreeToDouble = func (hour, minute, second) {
 }
 var myPosToString = func {
   print(convertDegreeToStringLat(getprop("position/latitude-deg"))~"  "~convertDegreeToStringLon(getprop("position/longitude-deg")));
+}
+var stringToLon = func (str) {
+  var total = num(str);
+  if (total==nil) {
+    return nil;
+  }
+  var sign = 1;
+  if (total<0) {
+    str = substr(str,1);
+    sign = -1;
+  }
+  var deg = num(substr(str,0,2));
+  var min = num(substr(str,2,2));
+  var sec = num(substr(str,4,2));
+  if (size(str) == 7) {
+    deg = num(substr(str,0,3));
+    min = num(substr(str,3,2));
+    sec = num(substr(str,5,2));
+  } 
+  if(deg <= 180 and min<60 and sec<60) {
+    return convertDegreeToDouble(deg,min,sec)*sign;
+  } else {
+    return nil;
+  }
+}
+var stringToLat = func (str) {
+  var total = num(str);
+  if (total==nil) {
+    return nil;
+  }
+  var sign = 1;
+  if (total<0) {
+    str = substr(str,1);
+    sign = -1;
+  }
+  var deg = num(substr(str,0,2));
+  var min = num(substr(str,2,2));
+  var sec = num(substr(str,4,2));
+  if(deg <= 90 and min<60 and sec<60) {
+    return convertDegreeToDouble(deg,min,sec)*sign;
+  } else {
+    return nil;
+  }
 }
 #myPosToString();

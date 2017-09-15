@@ -150,38 +150,49 @@ var bright = 0;
 var rWhite = 1.0; # other / self / own_missile
 var gWhite = 1.0;
 var bWhite = 1.0;
+var COLOR_WHITE = [1,1,1];#I will slowly convert all of TI to use vectored colors instead.
 
 var rYellow = 1.0;# possible threat
 var gYellow = 1.0;
 var bYellow = 0.0;
+var COLOR_YELLOW = [1,1,0];
 
 var rRed = 1.0;   # threat
 var gRed = 0.0;
 var bRed = 0.0;
+var COLOR_RED = [1,0,0];
 
 var rGreen = 0.0; # own side
 var gGreen = 1.0;
 var bGreen = 0.0;
+var COLOR_GREEN = [0,1,0];
 
 var rDTyrk = 0.20; # route polygon
 var gDTyrk = 0.75;
 var bDTyrk = 0.60;
+var COLOR_TYRK_DARK = [0.20,0.75,0.60];
 
 var rTyrk = 0.35; # navigation aid
 var gTyrk = 1.00;
 var bTyrk = 0.90;
+var COLOR_TYRK = [0.35,1.00,0.90];
 
 var rGrey = 0.5;   # inactive
 var gGrey = 0.5;
 var bGrey = 0.5;
+var COLOR_GREY = [0.5,0.5,0.5];
+
+var COLOR_GREY_LIGHT = [0.70,0.70,0.70];
 
 var rBlack = 0.0;   # active
 var gBlack = 0.0;
 var bBlack = 0.0;
+var COLOR_BLACK = [0.0,0.0,0.0];
 
 var rGB = 0.5;   # flight data
 var gGB = 0.5;
 var bGB = 0.75;
+var COLOR_GB = [0.5,0.5,0.75];
 
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
@@ -656,7 +667,8 @@ var TI = {
 	    # route symbols
 	    me.steerpoint = [];
 	    me.steerpointText = [];
-	    for (var i = 0; i < maxSteers*6; i += 1) {
+	    me.steerpointSymbol = [];
+	    for (var i = 0; i < maxSteers*7; i += 1) {#6 for routes, 1 for areas = 7 multiplier, maxSteers = 48
        		var stGrp = me.rootCenter.createChild("group");
        		append(me.steerpointText, stGrp.createChild("text")
 	    		.setText("B2")
@@ -665,7 +677,7 @@ var TI = {
 	    		.setTranslation(-10*MM2TEX, 0)
 	    		.set("z-index", 6)
 	    		.setFontSize(13, 1));
-    		stGrp.createChild("path")
+    		append(me.steerpointSymbol, stGrp.createChild("path")
     		   .set("z-index", 6)
                .moveTo(-10*MM2TEX, 0)
                .lineTo(0, -15*MM2TEX)
@@ -673,7 +685,7 @@ var TI = {
                .lineTo(0, 15*MM2TEX)
                .lineTo(-10*MM2TEX, 0)
                .setStrokeLineWidth(w)
-               .setColor(rDTyrk,gDTyrk,bDTyrk, a);
+               .setColor(rDTyrk,gDTyrk,bDTyrk, a));
 			append(me.steerpoint, stGrp);
 	    }
 	    me.steerPoly = me.rootCenter.createChild("group")
@@ -796,88 +808,109 @@ var TI = {
 		# steerpoint info box
 		me.wpTextField     = root.createChild("group")
 			.set("z-index", 11);
-		var wpStartx = width*0.060-3.125+6.25*2+w*2;
-		var wpStarty = height-height*0.1-height*0.025-w*2;
-		var wpW      = 0.29;
-		var wpH      = 0.15;
+		me.wpStartx = width*0.060-3.125+6.25*2+w*2;
+		me.wpStarty = height-height*0.1-height*0.025-w*2;
+		me.wpW      = 0.29;
+		me.wpH      = 0.15;
 		me.wpTextFrame     = me.wpTextField.createChild("path")
-			.moveTo(wpStartx,  wpStarty)#above bottom text field and next to fast menu sub boxes
-		      .vert(            -height*wpH)
-		      .horiz(            width*wpW)
-		      .vert(             height*wpH)
-		      .horiz(           -width*wpW)
+			.moveTo(me.wpStartx,  me.wpStarty)#above bottom text field and next to fast menu sub boxes
+		      .vert(            -height*me.wpH)
+		      .horiz(            width*me.wpW)
+		      .vert(             height*me.wpH)
+		      .horiz(           -width*me.wpW)
 
-		      .moveTo(wpStartx, wpStarty-height*wpH*0.2)
-		      .horiz(            width*wpW)
-		      .moveTo(wpStartx, wpStarty-height*wpH*0.4)
-		      .horiz(            width*wpW)
-		      .moveTo(wpStartx, wpStarty-height*wpH*0.6)
-		      .horiz(            width*wpW)
-		      .moveTo(wpStartx, wpStarty-height*wpH*0.8)
-		      .horiz(            width*wpW)
-		      .moveTo(wpStartx+width*wpW*0.3, wpStarty)
-		      .vert(            -height*wpH)
+		      .moveTo(me.wpStartx, me.wpStarty-height*me.wpH*0.2)
+		      .horiz(            width*me.wpW)
+		      .moveTo(me.wpStartx, me.wpStarty-height*me.wpH*0.4)
+		      .horiz(            width*me.wpW)
+		      .moveTo(me.wpStartx, me.wpStarty-height*me.wpH*0.6)
+		      .horiz(            width*me.wpW)
+		      .moveTo(me.wpStartx, me.wpStarty-height*me.wpH*0.8)
+		      .horiz(            width*me.wpW)
+		      .moveTo(me.wpStartx+width*me.wpW*0.3, me.wpStarty)
+		      .vert(            -height*me.wpH)
 		      .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
-		me.wpTextNumDesc = me.wpTextField.createChild("text")
+		me.wpTextFrame1    = me.wpTextField.createChild("path")
+			.moveTo(me.wpStartx,  me.wpStarty-height*me.wpH)#above bottom text field and next to fast menu sub boxes
+		      .vert(            -height*me.wpH*0.2)
+		      .horiz(            width*me.wpW)
+		      .vert(             height*me.wpH*0.2)
+		      .moveTo(me.wpStartx+width*me.wpW*0.3, me.wpStarty-height*me.wpH)
+		      .vert(            -height*me.wpH*0.2)
+		      .setColor(rWhite,gWhite,bWhite, a)
+		      .setStrokeLineWidth(w);
+		me.wpText2Desc = me.wpTextField.createChild("text")
     		.setText("BEN")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.8-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.8-w)
     		.setFontSize(15, 1);
-    	me.wpTextNum = me.wpTextField.createChild("text")
+    	me.wpText2 = me.wpTextField.createChild("text")
     		.setText("1 AV 4")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.8-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.8-w)
     		.setFontSize(15, 1);
-    	me.wpTextPosDesc = me.wpTextField.createChild("text")
+    	me.wpText3Desc = me.wpTextField.createChild("text")
     		.setText("B")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.6-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.6-w)
     		.setFontSize(15, 1);
-    	me.wpTextPos = me.wpTextField.createChild("text")
+    	me.wpText3 = me.wpTextField.createChild("text")
     		.setText("0 -> 1")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.6-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.6-w)
     		.setFontSize(15, 1);
-    	me.wpTextAltDesc = me.wpTextField.createChild("text")
+    	me.wpText4Desc = me.wpTextField.createChild("text")
     		.setText("H")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.4-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.4-w)
     		.setFontSize(15, 1);
-    	me.wpTextAlt = me.wpTextField.createChild("text")
+    	me.wpText4 = me.wpTextField.createChild("text")
     		.setText("10000")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.4-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.4-w)
     		.setFontSize(15, 1);
-    	me.wpTextSpeedDesc = me.wpTextField.createChild("text")
+    	me.wpText5Desc = me.wpTextField.createChild("text")
     		.setText("M")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.2-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.2-w)
     		.setFontSize(15, 1);
-    	me.wpTextSpeed = me.wpTextField.createChild("text")
+    	me.wpText5 = me.wpTextField.createChild("text")
     		.setText("300")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.2-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.2-w)
     		.setFontSize(15, 1);
-    	me.wpTextETADesc = me.wpTextField.createChild("text")
+    	me.wpText6Desc = me.wpTextField.createChild("text")
     		.setText("ETA")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.15, wpStarty-height*wpH*0.0-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*0.0-w)
     		.setFontSize(15, 1);
-    	me.wpTextETA = me.wpTextField.createChild("text")
+    	me.wpText6 = me.wpTextField.createChild("text")
     		.setText("3:43")
     		.setColor(rWhite,gWhite,bWhite, a)
     		.setAlignment("center-bottom")
-    		.setTranslation(wpStartx+width*wpW*0.65, wpStarty-height*wpH*0.0-w)
+    		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*0.0-w)
+    		.setFontSize(15, 1);
+    	me.wpText1Desc = me.wpTextField.createChild("text")
+    		.setText("TOP")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(me.wpStartx+width*me.wpW*0.15, me.wpStarty-height*me.wpH*1.0-w)
+    		.setFontSize(15, 1);
+    	me.wpText1 = me.wpTextField.createChild("text")
+    		.setText("BLABLA")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(me.wpStartx+width*me.wpW*0.65, me.wpStarty-height*me.wpH*1.0-w)
     		.setFontSize(15, 1);
 
 
@@ -1478,7 +1511,7 @@ var TI = {
 		ti.logPage = 0;
 		ti.off = FALSE;
 		ti.showFullMenus = TRUE;
-		ti.displayFlight = FLIGHTDATA_OFF;
+		ti.displayFlight = FLIGHTDATA_CLR;
 		ti.displayTime = FALSE;
 		ti.ownPosition = 0.25;
 		ti.ownPositionDigital = 2;
@@ -1514,6 +1547,10 @@ var TI = {
 		# cursor
 		ti.cursorPosX  = 0;
 		ti.cursorPosY  = 0;
+		ti.blinkBox2 = FALSE;
+		ti.blinkBox3 = FALSE;
+		ti.blinkBox4 = FALSE;
+		ti.blinkBox5 = FALSE;
 
 		# steerpoints
 		ti.newSteerPos = nil;
@@ -2070,11 +2107,11 @@ var TI = {
 			}
 
 			# place names overlay
-			me.menuButtonSub[3].setText(me.vertStr("MAX"));
+			me.menuButtonSub[3].setText(me.vertStr(me.mapPlaces == TRUE?"MAX":"NORM"));
 			me.menuButtonSub[3].show();
-			if (me.mapPlaces == TRUE) {
+			#if (me.mapPlaces == TRUE) {
 				me.menuButtonSubBox[3].show();
-			}
+			#}
 
 			# airports overlay
 			me.menuButtonSub[4].setText(me.vertStr(me.interoperability == displays.METRIC?"TMAD":"AIRP"));
@@ -2126,23 +2163,24 @@ var TI = {
 				me.menuButtonSub[4].show();
 			}
 
+			me.isP = route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_AREA;
 			#hack:
-			me.menuButtonSub[2].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[2].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
 			me.menuButtonSub[2].show();
 			if (route.Polygon.insertSteer) {
 				me.menuButtonSubBox[2].show();
 			}
-			me.menuButtonSub[3].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[3].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
 			me.menuButtonSub[3].show();
 			if (route.Polygon.appendSteer) {
 				me.menuButtonSubBox[3].show();
 			}
-			me.menuButtonSub[5].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[5].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
 			me.menuButtonSub[5].show();
 
 			me.menuButtonSub[6].setText(me.vertStr("POLY"));
 			me.menuButtonSub[6].show();
-			if (route.Polygon.polyEdit == TRUE) {
+			if (route.Polygon.editing != nil and (route.Polygon.editing.type == route.TYPE_AREA)) {
 				me.menuButtonSubBox[6].show();
 			}
 
@@ -2155,7 +2193,7 @@ var TI = {
 				me.menuButtonSub[19].show();
 				me.menuButtonSubBox[19].show();
 			}
-			me.menuButtonSub[18].setText(me.vertStr(me.interoperability == displays.METRIC?"B":"S"));
+			me.menuButtonSub[18].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
 			me.menuButtonSub[18].show();
 			if (route.Polygon.editSteer) {
 				me.menuButtonSubBox[18].show();
@@ -2450,8 +2488,180 @@ var TI = {
 			if (me.cursorGPosY > height*0.09+(7-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(7-1)*height*0.11-6.25*4+8*6.25) {
 				return me.b14;
 			}
+		} elsif (me.cursorGPosY > me.wpStarty-me.wpH*height and me.cursorGPosY < me.wpStarty and me.cursorGPosX < me.wpStartx+me.wpW*width and me.cursorGPosX > me.wpStartx) {
+			# possible infoBox click
+			if (me.cursorGPosY < me.wpStarty-0.8*me.wpH*height) {
+				return me.box2;
+			}
+			if (me.cursorGPosY < me.wpStarty-0.6*me.wpH*height) {
+				return me.box3;
+			}
+			if (me.cursorGPosY < me.wpStarty-0.4*me.wpH*height) {
+				return me.box4;
+			}
+			if (me.cursorGPosY < me.wpStarty-0.2*me.wpH*height) {
+				return me.box5;
+			}
 		}
 		return nil;
+	},
+
+	isDAPActive: func {
+		return me.blinkBox2 or me.blinkBox3 or me.blinkBox4 or me.blinkBox5;
+	},
+
+	stopDAP: func {
+		me.blinkBox2 = FALSE;
+		me.blinkBox3 = FALSE;
+		me.blinkBox4 = FALSE;
+		me.blinkBox5 = FALSE;
+		route.Polygon.editDetailMethod(FALSE);
+		if (dap.state == 237) {
+			dap.set237(FALSE, 0, 0, nil);
+		}
+	},
+
+	box2: func {
+		if (me.isDAPActive() and me.blinkBox2 != TRUE) {
+			# stop another field edit
+			me.stopDAP();
+		}
+		if (me.isDAPActive()) {
+			# cancel this field edit
+			me.stopDAP();
+		} elsif (!me.isDAPActive() and me.menuMain == MAIN_MISSION_DATA) {
+			if (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type != route.TYPE_AREA) {
+				route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 7, me.dapBLo);
+				me.blinkBox2 = TRUE;
+			}
+			if (route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_AREA) {
+				dap.set237(TRUE, 1, me.dapA);
+				me.blinkBox2 = TRUE;
+			}
+		}
+	},
+
+	box3: func {
+		if (me.isDAPActive() and me.blinkBox3 != TRUE) {
+			# stop another field edit
+			me.stopDAP();
+		}
+		if (me.isDAPActive()) {
+			# cancel this field edit
+			me.stopDAP();
+		} elsif (!me.isDAPActive() and me.menuMain == MAIN_MISSION_DATA) {
+			if (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type != route.TYPE_AREA) {
+				route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 6, me.dapBLa);
+				me.blinkBox3 = TRUE;
+			}
+		}
+	},
+
+	box4: func {
+		if (me.isDAPActive() and me.blinkBox4 != TRUE) {
+			# stop another field edit
+			me.stopDAP();
+		}
+		if (me.isDAPActive()) {
+			# cancel this field edit
+			me.stopDAP();
+		} elsif (!me.isDAPActive() and me.menuMain == MAIN_MISSION_DATA) {
+			if (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type != route.TYPE_AREA) {
+				route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 5, me.dapBalt);
+				me.blinkBox4 = TRUE;
+			} elsif (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type == route.TYPE_AREA) {
+				route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 7, me.dapBLo);
+				me.blinkBox2 = TRUE;
+			}
+		}
+	},
+
+	box5: func {
+		if (me.isDAPActive() and me.blinkBox5 != TRUE) {
+			# stop another field edit
+			me.stopDAP();
+		}
+		if (me.isDAPActive()) {
+			# cancel this field edit
+			me.stopDAP();
+		} elsif (!me.isDAPActive() and me.menuMain == MAIN_MISSION_DATA) {
+			if (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type != route.TYPE_AREA) {
+				route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 3, me.dapBspeed);
+				me.blinkBox5 = TRUE;
+			} elsif (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type == route.TYPE_AREA) {
+				route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 6, me.dapBLa);
+				me.blinkBox3 = TRUE;
+			}
+		}
+	},
+
+	dapBLo: func (input, sign, myself) {
+		# 
+		sign = sign==0?"":"-";
+		var deg = ja37.stringToLon(sign~input);
+		print("TI recieved LO from DAP: "~sign~input);
+		if (deg!=nil) {
+			print("converted "~sign~input~" to "~ja37.convertDegreeToStringLon(deg));
+			route.Polygon.setLon(deg);
+			myself.stopDAP();
+		} else {
+			dap.setError();
+		}
+	},
+
+	dapBLa: func (input, sign, myself) {
+		# 
+		sign = sign==0?"":"-";
+		var deg = ja37.stringToLat(sign~input);
+		print("TI recieved LA from DAP: "~sign~input);
+		if (deg!=nil) {
+			print("converted "~sign~input~" to "~ja37.convertDegreeToStringLat(deg));
+			route.Polygon.setLat(deg);
+			myself.stopDAP();
+		} else {
+			dap.setError();
+		}
+	},
+
+	dapA: func (input, sign, myself) {
+		# 
+		if (input == 0 or input > 6 or sign) {
+			dap.setError();
+		} else {
+			route.Polygon.editPlan(route.Polygon.polys["OP"~input]);
+			print("TI recieved area number from DAP: "~input);
+			myself.stopDAP();
+		}
+	},
+
+	dapBspeed: func (input, sign, myself) {
+		# 
+		if (sign) {
+			dap.setError();
+		} else {
+			var mach = num(input)/100;
+			print("TI recieved mach from DAP: M"~mach);
+			route.Polygon.setMach(mach);
+			myself.stopDAP();
+		}
+	},
+
+	dapBalt: func (input, sign, myself) {
+		# 
+		if (sign) {
+			dap.setError();
+		} else {
+			var alt = num(input);
+			print("TI recieved alt from DAP: "~alt);
+			route.Polygon.setAlt(myself.interoperability == displays.METRIC?alt*M2FT:alt);#important!!! running in metric will input metric also!
+			myself.stopDAP();
+		}
 	},
 
 	ecmOverlay: func {
@@ -2847,59 +3057,155 @@ var TI = {
 
 	showSteerPointInfo: func {
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
-			me.wpTextNumDesc.setText("LON");
-			me.wpTextNum.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLon(getprop("position/longitude-deg")):"000 00 00");
+			# GPS info
+			me.wpText4.setFontSize(15, 1);
+			me.wpText5.setFontSize(15, 1);
+			me.wpText2.show();
+			me.wpText3.show();
+			me.wpText4.show();
+			me.wpText5.show();
 
-			me.wpTextPosDesc.setText("LAT");
-			me.wpTextPos.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLat(getprop("position/latitude-deg")):"00 00 00");
+			me.wpText2Desc.setText("LON");
+			me.wpText2.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLon(getprop("position/longitude-deg")):"000 00 00");
 
-			me.wpTextNum.setFontSize(13, 1.2);
-			me.wpTextPos.setFontSize(13, 1.2);
+			me.wpText3Desc.setText("LAT");
+			me.wpText3.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLat(getprop("position/latitude-deg")):"00 00 00");
 
-			me.wpTextAltDesc.setText("FOM");
-			me.wpTextAlt.setText(getprop("ja37/avionics/gps-nav")?"1":"");
+			me.wpText2.setFontSize(13, 1.0);
+			me.wpText3.setFontSize(13, 1.0);
 
-			me.wpTextSpeedDesc.setText("MOD");
-			me.wpTextSpeed.setText(getprop("ja37/avionics/gps-cmd")?(getprop("ja37/avionics/gps-nav")?"NAV":"INIT"):"BIT");
+			me.wpText4Desc.setText("FOM");
+			me.wpText4.setText(getprop("ja37/avionics/gps-nav")?"1":"");
 
-			me.wpTextETADesc.setText("FEL");
-			me.wpTextETA.setText(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":"");
+			me.wpText5Desc.setText("MOD");
+			me.wpText5.setText(getprop("ja37/avionics/gps-cmd")?(getprop("ja37/avionics/gps-nav")?"NAV":"INIT"):"BIT");
+
+			me.wpText6Desc.setText("FEL");
+			me.wpText6.setText(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":"");
+
+			me.wpText2.update();
+			me.wpText3.update();
+			me.wpText4.update();
+			me.wpText5.update();
+
+			me.wpTextFrame1.hide();
+			me.wpText1.hide();
+			me.wpText1Desc.hide();
 
 			me.wpTextField.show();
+			me.wpTextField.update();
 		} elsif (me.menuMain == MAIN_MISSION_DATA) {
-			if (route.Polygon.editing != nil) {
-				me.wpTextNum.setFontSize(15, 1);
-				me.wpTextPos.setFontSize(15, 1);
+			if (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type != route.TYPE_AREA) {
+				# info about selected steerpoint			
+				me.wpText4.setFontSize(15, 1);
+				me.wpText5.setFontSize(15, 1);
 
-				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"POLY":"POLY");
-				me.wpTextNum.setText(route.Polygon.editing.getName());
+				me.wpText1Desc.setText("ID");
+				me.wpText1.show();
+				me.wpText1.setText(route.Polygon.selectSteer[0].id);
+				me.wpText1Desc.show();
+				me.wpTextFrame1.show();
 
-				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"NUM":"NUM");
-				me.wpTextPos.setText(sprintf("%d",route.Polygon.editing.getSize()));
-
-				me.wpTextField.show();
-
-				if (route.Polygon.selectSteer != nil) {
-					#extra info about current selected steer
-					me.wpTextAltDesc.setText("ID");
-					me.wpTextAlt.setText(route.Polygon.selectSteer[0].id);
-
-					me.wpTextSpeedDesc.setText(me.interoperability==displays.METRIC?"LALO":"LALO");
-					me.wpTextSpeed.setText(geo.format(route.Polygon.selectSteer[0].wp_lat,route.Polygon.selectSteer[0].wp_lon));
-
-					me.wpTextETADesc.setText(me.interoperability==displays.METRIC?"B":"S");
-					me.wpTextETA.setText((1+route.Polygon.selectSteer[1])~"");
+				me.wpText2Desc.setText("LON");
+				me.wpText2.setText(ja37.convertDegreeToStringLon(route.Polygon.selectSteer[0].wp_lon));
+				me.wpText2.setFontSize(13, 1.0);
+				if (me.blinkBox2 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText2.show();
 				} else {
-					#empty info about current selected steer
-					me.wpTextAltDesc.setText("");
-					me.wpTextAlt.setText("");
-
-					me.wpTextSpeedDesc.setText("");
-					me.wpTextSpeed.setText("");
-
-					me.wpTextETADesc.setText("");
-					me.wpTextETA.setText("");
+					me.wpText2.hide();
 				}
+				me.wpText2.update();
+
+				me.wpText3Desc.setText("LAT");
+				me.wpText3.setText(ja37.convertDegreeToStringLat(route.Polygon.selectSteer[0].wp_lat));
+				me.wpText3.setFontSize(13, 1.0);
+				if (me.blinkBox3 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText3.show();
+				} else {
+					me.wpText3.hide();
+				}
+				me.wpText3.update();
+
+				me.constraint_alt = "-----";
+				if (route.Polygon.selectSteer[0].alt_cstr != nil and route.Polygon.selectSteer[0].alt_cstr_type == "at") {
+					me.constraint_alt = sprintf("%5d",me.interoperability==displays.METRIC?FT2M*route.Polygon.selectSteer[0].alt_cstr:route.Polygon.selectSteer[0].alt_cstr);
+				}
+				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
+				me.wpText4.setText(me.constraint_alt);
+				if (me.blinkBox4 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText4.show();
+				} else {
+					me.wpText4.hide();
+				}
+				me.wpText4.update();
+
+				me.constraint_speed = "-.--";
+				if (route.Polygon.selectSteer[0].speed_cstr != nil and (route.Polygon.selectSteer[0].speed_cstr_type == "mach" or route.Polygon.selectSteer[0].speed_cstr_type == "computed-mach")) {
+					me.constraint_speed = sprintf("%0.2f",route.Polygon.selectSteer[0].speed_cstr);
+				}
+				me.wpText5Desc.setText(me.interoperability==displays.METRIC?"M":"M");
+				me.wpText5.setText(me.constraint_speed);
+				if (me.blinkBox5 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText5.show();
+				} else {
+					me.wpText5.hide();
+				}
+				me.wpText5.update();
+
+				me.of = me.interoperability==displays.METRIC?" AV ":" OF ";
+				me.wpText6Desc.setText(me.interoperability==displays.METRIC?"B":"S");
+				me.wpText6.setText((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize());
+
+				me.wpTextField.update();
+				me.wpTextField.show();
+			} elsif (route.Polygon.editing != nil) {
+				# info about selected area point
+				me.wpText2.setFontSize(15, 1);
+				me.wpText3.setFontSize(15, 1);
+				me.wpText3.show();
+
+				me.wpText2Desc.setText("POL");
+				me.wpText2.setText(route.Polygon.editing.getName());
+				if (me.blinkBox2 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText2.show();
+				} else {
+					me.wpText2.hide();
+				}
+
+				me.of = me.interoperability==displays.METRIC?" AV ":" OF ";
+				me.wpText3Desc.setText(route.Polygon.selectSteer != nil?(me.interoperability==displays.METRIC?"PKT":"PNT"):"");
+				me.wpText3.setText(route.Polygon.selectSteer != nil?((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize()):"");
+
+				me.wpText4Desc.setText(route.Polygon.selectSteer != nil?"LON":"");
+				me.wpText4.setText(route.Polygon.selectSteer != nil?ja37.convertDegreeToStringLon(route.Polygon.selectSteer[0].wp_lon):"");
+				me.wpText4.setFontSize(13, 1.0);
+				if (me.blinkBox4 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText4.show();
+				} else {
+					me.wpText4.hide();
+				}
+
+				me.wpText5Desc.setText(route.Polygon.selectSteer != nil?"LAT":"");
+				me.wpText5.setText(route.Polygon.selectSteer != nil?ja37.convertDegreeToStringLat(route.Polygon.selectSteer[0].wp_lat):"");
+				me.wpText5.setFontSize(13, 1.0);
+				if (me.blinkBox5 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText5.show();
+				} else {
+					me.wpText5.hide();
+				}
+
+				me.wpText2.update();
+				me.wpText3.update();
+				me.wpText4.update();
+				me.wpText5.update();
+
+				me.wpText6Desc.hide();
+				me.wpText6.hide();
+				me.wpTextFrame1.hide();
+				me.wpText1.hide();
+				me.wpText1Desc.hide();
+				me.wpTextField.show();
+				me.wpTextField.update();
 			} else {
 				me.wpTextField.hide();
 			}
@@ -2916,9 +3222,15 @@ var TI = {
 				# steerpoints ON and route active, plus not being in combat and having something selected by radar
 				# that if statement needs refining!
 
-				me.wpTextNum.setFontSize(15, 1);
-				me.wpTextPos.setFontSize(15, 1);
-				
+				me.wpText2.setFontSize(15, 1);
+				me.wpText3.setFontSize(15, 1);
+				me.wpText4.setFontSize(15, 1);
+				me.wpText5.setFontSize(15, 1);
+				me.wpText2.show();
+				me.wpText3.show();
+				me.wpText4.show();
+				me.wpText5.show();
+
 				me.node   = globals.props.getNode("autopilot/route-manager/route/wp["~me.wp~"]");
 
 				me.wpNum  = me.wp+1;
@@ -2939,24 +3251,45 @@ var TI = {
 					me.wpAlt  = me.interoperability==displays.METRIC?me.wpAlt*FT2M:me.wpAlt;
 					me.wpAlt = sprintf("%d", me.wpAlt);
 				}
-				me.wpSpeed= getprop("autopilot/route-manager/cruise/speed-kts");
+
+				me.wpSpeed= me.node.getNode("speed-mach");
+				if (me.wpSpeed != nil) {
+					me.wpSpeed = me.wpSpeed.getValue();
+				}
+				if (me.wpSpeed == nil) {
+					me.wpSpeed = "-.--";
+				} else {
+					me.wpSpeed = sprintf("%0.2f", me.wpSpeed);
+				}
+
 				me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
 				me.wpETAText = sprintf("%d", me.wpETA);
 				if (me.wpETA > 500) {
 					me.wpETAText = "";
 				}
 
-				me.wpTextNumDesc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
-				me.wpTextNum.setText(me.legText);
-				me.wpTextPosDesc.setText(me.interoperability==displays.METRIC?"B":"S");
-				me.wpTextPos.setText((me.wpNum-1)~" -> "~me.wpNum);
-				me.wpTextAltDesc.setText(me.interoperability==displays.METRIC?"H":"A");
-				me.wpTextAlt.setText(me.wpAlt);
-				me.wpTextSpeedDesc.setText(me.interoperability==displays.METRIC?"KMH":"KT");
-				me.wpTextSpeed.setText(sprintf("%d", me.interoperability==displays.METRIC?me.wpSpeed*KT2KMH:me.wpSpeed));
-				me.wpTextETADesc.setText("ETA");
-				me.wpTextETA.setText(me.wpETAText);
+				me.wpText2Desc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
+				me.wpText2.setText(me.legText);
+				me.wpText3Desc.setText(me.interoperability==displays.METRIC?"B":"S");
+				me.wpText3.setText((me.wpNum-1)~" -> "~me.wpNum);
+				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
+				me.wpText4.setText(me.wpAlt);
+				me.wpText5Desc.setText("M");
+				me.wpText5.setText(sprintf("%d", me.interoperability==displays.METRIC?me.wpSpeed*KT2KMH:me.wpSpeed));
+				me.wpText6Desc.setText("ETA");
+				me.wpText6.setText(me.wpETAText);
+
+				me.wpText2.update();
+				me.wpText3.update();
+				me.wpText4.update();
+				me.wpText5.update();
+
+				me.wpTextFrame1.hide();
+				me.wpText1.hide();
+				me.wpText1Desc.hide();
+
 				me.wpTextField.show();
+				me.wpTextField.update();
 			} else {
 				me.wpTextField.hide();
 			}
@@ -2975,6 +3308,12 @@ var TI = {
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
+				append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP4"], route.Polygon.polys["OP4"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP5"], route.Polygon.polys["OP5"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
 			} else {
 				append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
@@ -2982,6 +3321,12 @@ var TI = {
 				append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP4"], route.Polygon.polys["OP4"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP5"], route.Polygon.polys["OP5"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
 			}
 		} else {
 			append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
@@ -2990,6 +3335,12 @@ var TI = {
 			append(me.all_plans, nil);
 			append(me.all_plans, nil);
 			append(me.all_plans, nil);
+			append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
+			append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
 		}
 
 		me.nextDist = getprop("autopilot/route-manager/wp/dist");
@@ -2997,15 +3348,20 @@ var TI = {
 			me.nextDist = 1000000;
 		}
 
-		me.poly = [];#0: lat  1: lon  2: draw leg 3: not dark
+		me.poly = [];#0: lat  1: lon  2: draw leg 3: color 4: z-index 5: -1 = first, +1 = last, 0 = not area
 		me.steerSE = me.interoperability == displays.METRIC;
 		me.steerB = me.steerSE?"B":"S";
 		me.steerA = me.steerSE?"\xC3\x85":"R";
 		me.steerM = me.steerSE?"M":"T";
-		
-		for(me.steerCounter = 0;me.steerCounter < 6; me.steerCounter += 1) {
+
+		for(me.steerCounter = 0;me.steerCounter < 12; me.steerCounter += 1) {
 			me.curr_plan = me.all_plans[me.steerCounter];
-			me.nextActive = FALSE;
+			if (me.curr_plan != nil and me.curr_plan[0].type == route.TYPE_AREA) {
+				me.isArea = TRUE;
+			} else {
+				me.isArea = FALSE;
+			}
+			me.nextActive = FALSE;# in some steerpoints used to determine if leg which is drawn by next steerpoint should be drawn.
 			if (me.curr_plan != nil) {
 				me.polygon = me.curr_plan[0].getPolygon();
 				me.points = size(me.polygon);
@@ -3017,12 +3373,18 @@ var TI = {
 					me.wpSelect = nil;
 				}
 			}
-			for (var wp = 0; wp < maxSteers; wp += 1) {
-				if (me.curr_plan != nil and me.points > wp and (route.Polygon.isPrimaryActive() == TRUE or me.menuMain == MAIN_MISSION_DATA)) {
-					me.node = me.polygon[wp];
+			for (var wp = 0; wp < (me.isArea?8:maxSteers); wp += 1) {
+				# wp      = local index inside a polygon
+				# wpindex = global index for use with canvas elements
+				me.wpIndex = wp+48*me.steerCounter;
+				if (me.isArea) {
+					me.wpIndex = wp+48*6+8*(me.steerCounter-6);
+				}
 
+				if (me.curr_plan != nil and me.points > wp and ((me.isArea or (route.Polygon.isPrimaryActive() == TRUE and me.curr_plan[0].isPrimary())) or me.menuMain == MAIN_MISSION_DATA)) {
+					me.node = me.polygon[wp];
 	  				if (me.node == nil or me.showSteers == FALSE) {
-	  					me.steerpoint[wp+48*me.steerCounter].hide();
+	  					me.steerpoint[me.wpIndex].hide();
 	    				continue;
 	  				}
 					me.lat_wp = me.node.wp_lat;
@@ -3030,64 +3392,87 @@ var TI = {
 	  				#me.alt = node.getNode("altitude-m").getValue();
 					me.name = me.node.id;
 					me.texCoord = me.laloToTexel(me.lat_wp, me.lon_wp);
-					if (me.wpSelect == wp) {
-						# waypoint is selected
+					if (me.isArea) {
+						# point is part of area
 						#printf("doing for %d", me.wpSelect);
-						me.steerpoint[wp+48*me.steerCounter].setColor(rWhite,gWhite,bWhite,a);
-						#me.steerpointText[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
-						me.steerpoint[wp+48*me.steerCounter].set("z-index", 11);
-						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, route.Polygon.polyEdit==TRUE?2:TRUE]);
+						me.steerpoint[me.wpIndex].setColor(me.wpSelect == wp?COLOR_WHITE:me.curr_plan[0].color);
+						me.steerpointSymbol[me.wpIndex].setScale(0.25);
+						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w*4);
+						me.steerpoint[me.wpIndex].set("z-index", 11);
+						me.areaEnd = wp==0?-1:(me.points == wp+1 and wp>1?1:0);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, me.curr_plan[1] == TRUE?COLOR_WHITE:me.curr_plan[0].color, me.curr_plan ==route.Polygon.editing?2:1, me.areaEnd]);
+					} elsif (me.wpSelect == wp) {
+						# waypoint is selected in MSDA
+						#printf("doing for %d", me.wpSelect);
+						me.steerpoint[me.wpIndex].setColor(COLOR_WHITE);
+						me.steerpointSymbol[me.wpIndex].setScale(1);
+						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w);
+						me.steerpoint[me.wpIndex].set("z-index", 11);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
 					} elsif ((land.showActiveSteer == FALSE and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
-						# waypoint is hidden
-						me.steerpoint[wp+48*me.steerCounter].hide();
+						# we are not in MSDA and waypoint is hidden
+						me.steerpoint[me.wpIndex].hide();
 						if (wp != me.points-1) {
 							# airport is not last steerpoint, we make a leg to/from that also
-							append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, FALSE]);
+							append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, COLOR_TYRK_DARK, me.curr_plan[1] == TRUE?2:1, 0]);
 						}
 						me.nextActive = me.nextDist*NM2M<20000;
 	    				continue;
 					} elsif (me.curr_plan[2] == FALSE and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
 						# waypoint is the active and we not in MSDA menu
-						me.steerpoint[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
-						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
-						me.steerpointText[wp+48*me.steerCounter].set("z-index", 10);
-						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, FALSE]);
+						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK);
+						me.steerpoint[me.wpIndex].set("z-index", 10);
+						me.steerpointSymbol[me.wpIndex].setScale(1);
+						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w);
+						me.steerpointText[me.wpIndex].set("z-index", 10);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, COLOR_TYRK_DARK, 1, 0]);
 						me.nextActive = me.nextDist*NM2M<20000;
 					} elsif (me.curr_plan[1] == TRUE) {
 						# waypoint is in the polygon selected for editing
-						me.steerpoint[wp+48*me.steerCounter].setColor(route.Polygon.polyEdit==TRUE?rWhite:rTyrk,route.Polygon.polyEdit==TRUE?gWhite:gTyrk,route.Polygon.polyEdit==TRUE?bWhite:bTyrk,a);
-						#me.steerpointText[wp+48*me.steerCounter].setColor(rTyrk,gTyrk,bTyrk,a);
-						me.steerpoint[wp+48*me.steerCounter].set("z-index", 10);
-						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, route.Polygon.polyEdit==TRUE?2:TRUE]);
+						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK);
+						me.steerpoint[me.wpIndex].set("z-index", 10);
+						me.steerpointSymbol[me.wpIndex].setScale(1);
+						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
 					} else {
-						me.steerpoint[wp+48*me.steerCounter].set("z-index", 5);
-						me.steerpoint[wp+48*me.steerCounter].setColor(rDTyrk,gDTyrk,bDTyrk,a);
-						#me.steerpointText[wp+48*me.steerCounter].setColor(rDTyrk,gDTyrk,bDTyrk,a);
-						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0 and (me.nextActive or me.curr_plan[2]), FALSE]);
+						# ordinary waypoint
+						me.steerpoint[me.wpIndex].set("z-index", 5);
+						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK_DARK);
+						me.steerpointSymbol[me.wpIndex].setScale(1);
+						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w);
+						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0 and (me.nextActive or me.curr_plan[2]), COLOR_TYRK_DARK, 1, 0]);
 						me.nextActive = FALSE;
 					}
-					me.steerpoint[wp+48*me.steerCounter].setTranslation(me.texCoord[0], me.texCoord[1]);
-					if (!route.Polygon.polyEdit and me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer) {
+					me.steerpoint[me.wpIndex].setTranslation(me.texCoord[0], me.texCoord[1]);
+					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer and !me.isDAPActive()) {
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
 						if (me.cursorDist < 12) {
 							route.Polygon.selectSteerpoint(me.curr_plan[0].getName(), me.node, wp);# dangerous!!! what if somebody is editing plan in routemanager?
-							me.steerpoint[wp+48*me.steerCounter].setColor(rWhite,gWhite,bWhite,a);
+							me.steerpoint[me.wpIndex].setColor(COLOR_WHITE);
+							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a steerpoint gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
 						}
 					}
-					me.steerpoint[wp+48*me.steerCounter].setRotation(me.steerRot);
+					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
 					if (me.curr_plan[1] or (!me.curr_plan[1] and !me.curr_plan[2])) {
 						# plan is being edited or we are not in MSDA page:
-						me.steerpointText[wp+48*me.steerCounter].setText(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA)~(wp+1));
+						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA?"":(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA));
+						me.steerpointText[me.wpIndex].setText(me.wp_pre~(wp+1));
 					} else {
-						me.steerpointText[wp+48*me.steerCounter].setText("");
+						me.steerpointText[me.wpIndex].setText("");
 					}
-	  				me.steerpoint[wp+48*me.steerCounter].show();
+					if (!me.isArea or (me.curr_plan[2] and me.curr_plan[1])) {
+						# its either part of a plan or we in MSDA menu and its being edited
+						me.steerpoint[me.wpIndex].update();# might fix being shown at map center shortly when appending.
+	  					me.steerpoint[me.wpIndex].show();
+  					} else {
+  						me.steerpoint[me.wpIndex].hide();
+  					}
 				} else {
-					me.steerpoint[wp+48*me.steerCounter].hide();
+					me.steerpoint[me.wpIndex].hide();
 				}
 	  		}
 	  	}
@@ -3126,25 +3511,41 @@ var TI = {
   	},
 
   	showPoly: func {
-  		# route polygon
+  		# route/area polygon
   		#
   		# current leg is shown and next legs if less than 20Km away.
   		# If main menu MISSION-DATA is enabled, then show all legs.
   		# tyrk color if editing that polygon, else dark tyrk. White for currently edited leg (soon).
   		# 
+  		# me.poly contain all points in both all routes and areas.
   		if (me.showSteers == TRUE and me.showSteerPoly == TRUE and size(me.poly) > 1) {
   			me.steerPoly.removeAllChildren();
   			me.prevLeg = nil;
+  			me.firstLeg = nil;
   			foreach(leg; me.poly) {
   				if (me.prevLeg != nil and leg[2] == TRUE) {
   					me.steerPoly.createChild("path")
   						.moveTo(me.prevLeg[0], me.prevLeg[1])
   						.lineTo(leg[0], leg[1])
-  						.setColor(leg[3]==2?rWhite:(leg[3]?rTyrk:rDTyrk),leg[3]==2?rWhite:(leg[3]?gTyrk:gDTyrk),leg[3]==2?rWhite:(leg[3]?bTyrk:bDTyrk),a)
-  						.set("z-index", leg[3]?2:1)
+  						.setColor(leg[3])
+  						.set("z-index", leg[4])
   						.setStrokeLineWidth(w);
   				}
   				me.prevLeg = leg;
+  				if (leg[5] == -1) {
+  					# first leg in area
+  					me.firstLeg = leg;
+  				} elsif (leg[5] == 1) {
+  					# last leg in area
+  					# close the area
+  					me.steerPoly.createChild("path")
+  						.moveTo(leg[0], leg[1])
+  						.lineTo(me.firstLeg[0], me.firstLeg[1])
+  						.setColor(me.firstLeg[3])
+  						.set("z-index", me.firstLeg[4])
+  						.setStrokeLineWidth(w);
+  				}
+  				me.lastLeg = leg;
   			}
   			me.steerPoly.update();
   			me.steerPoly.show();
@@ -4031,11 +4432,7 @@ var TI = {
 				zoomIn();
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
-				if (route.Polygon.polyEdit == TRUE) {
-					route.Polygon.setSuperEdit(FALSE);
-				} elsif (route.Polygon.editing != nil) {
-					route.Polygon.setSuperEdit(TRUE);
-				}
+				route.Polygon.setToggleAreaEdit();
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				me.fr28Top = !me.fr28Top;

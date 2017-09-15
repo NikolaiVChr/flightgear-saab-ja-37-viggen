@@ -1349,16 +1349,21 @@
         </heading-indicator>
     </instrumentation>
 
-<!--    
-    <xmlPlans>
+    <!-- Using commandline these can be entered at start. Areas should max have 8 points. The others max 48 steerpoints including dest/dep. Format GPX or FG xml. -->
+    <!--<xmlPlans>
         <mission1 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss1.xml</mission1>
         <mission2 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss2.xml</mission2>
         <mission3 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss3.xml</mission3>
         <mission4 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/miss4.xml</mission4>
         <rtb1A type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/rtbA.xml</rtb1A>
         <rtb1B type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/rtbB.xml</rtb1B>
-    </xmlPlans>
--->
+        <area1 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area1.xml</area1>
+        <area2 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area2.xml</area2>
+        <area3 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area3.xml</area3>
+        <area4 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area4.xml</area4>
+        <area5 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area5.xml</area5>
+        <area6 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area6.gpx</area6>
+    </xmlPlans>-->
     <!--**********************************************************************
 
                                           Nasal scrips
