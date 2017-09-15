@@ -340,7 +340,7 @@ var disp = func {
     if (digit == 0) {
       display = "   237";
     } else {
-      var sign = settingSign?"-":" ";
+      var sign = settingSign<0?"-":" ";
       if (ti237_max>6) {
         display = input;
       } else {
@@ -507,16 +507,16 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 var ok          = RELEASE;
 var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
-var settingSign = getprop("ja37/navigation/ispos");
+var settingSign = getprop("ja37/navigation/ispos")?-1:1;
 var settingDir  = getprop("ja37/navigation/inout");
 var settingPrevKnob = getprop("ja37/navigation/dp-mode");
-var settingPrevSign = getprop("ja37/navigation/ispos");
+var settingPrevSign = getprop("ja37/navigation/ispos")?-1:1;
 var settingPrevDir  = getprop("ja37/navigation/inout");
 
 var switch = func {
   if (getprop("ja37/systems/variant") != 0) return;
   settingKnob = getprop("ja37/navigation/dp-mode");
-  settingSign = getprop("ja37/navigation/ispos");
+  settingSign = getprop("ja37/navigation/ispos")?-1:1;
   settingDir  = getprop("ja37/navigation/inout");
   main();
 }

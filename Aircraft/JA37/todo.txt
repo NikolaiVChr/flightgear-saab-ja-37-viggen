@@ -147,13 +147,12 @@ DAP: Show current B navigation output. (POS/UT)
 DAP: Make statemachine for POS/UD and IN/UT modes.
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
-DAP: Change sign to -1 and 1, instead of bool.
 TI:: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
 TI: Cursor can select a steerpoint outside MSDA, it will then be active for steer order. Same with other objects.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
-
+DAP: Show sign of input at leftmost char always.
 
 
 

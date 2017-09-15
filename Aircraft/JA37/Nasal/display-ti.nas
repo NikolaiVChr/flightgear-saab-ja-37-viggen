@@ -2612,7 +2612,7 @@ var TI = {
 
 	dapBLo: func (input, sign, myself) {
 		# 
-		sign = sign==0?"":"-";
+		sign = sign>0?"":"-";
 		var deg = ja37.stringToLon(sign~input);
 		print("TI recieved LO from DAP: "~sign~input);
 		if (deg!=nil) {
@@ -2626,7 +2626,7 @@ var TI = {
 
 	dapBLa: func (input, sign, myself) {
 		# 
-		sign = sign==0?"":"-";
+		sign = sign>0?"":"-";
 		var deg = ja37.stringToLat(sign~input);
 		print("TI recieved LA from DAP: "~sign~input);
 		if (deg!=nil) {
@@ -2640,7 +2640,7 @@ var TI = {
 
 	dapA: func (input, sign, myself) {
 		# 
-		if (input == 0 or input > 6 or sign) {
+		if (input == 0 or input > 6 or sign < 0) {
 			dap.setError();
 		} else {
 			route.Polygon.editPlan(route.Polygon.polys["OP"~input]);
@@ -2651,7 +2651,7 @@ var TI = {
 
 	dapBspeed: func (input, sign, myself) {
 		# 
-		if (sign) {
+		if (sign < 0) {
 			dap.setError();
 		} else {
 			var mach = num(input)/100;
@@ -2663,7 +2663,7 @@ var TI = {
 
 	dapBalt: func (input, sign, myself) {
 		# 
-		if (sign) {
+		if (sign < 0) {
 			dap.setError();
 		} else {
 			var alt = num(input);
