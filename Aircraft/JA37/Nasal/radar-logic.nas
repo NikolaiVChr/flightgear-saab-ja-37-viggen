@@ -475,8 +475,8 @@ var RadarLogic = {
       } elsif (carrier == TRUE) {
         # need to return carrier even if out of radar cone, due to carrierNear calc
         me.contact = Contact.new(node, type);
-        me.contact.setPolar(900000, me.xa_rad_corr, me.xa_rad, me.ya_rad);
-        me.contact.setCartesian(900000, 900000);# 900000 used in hud to know if out of radar cone.
+        #me.contact.setPolar(900000, me.xa_rad_corr, me.xa_rad, me.ya_rad);#TODO: fix
+        #me.contact.setCartesian(900000, 900000);# 900000 used in hud to know if out of radar cone.
         return me.contact;
       }
     }
