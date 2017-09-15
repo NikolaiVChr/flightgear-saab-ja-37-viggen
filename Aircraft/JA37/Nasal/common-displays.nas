@@ -81,6 +81,11 @@ units:                "ja37/hud/units-metric",
       	co.error = FALSE;
       	co.cursor = MI;
 
+      	co.wowPrev = 0;
+      	co.timeGround = 0;
+      	co.timeLand = 0;
+      	co.ftime = 0;
+
       	return co;
 	},
 
@@ -91,6 +96,7 @@ units:                "ja37/hud/units-metric",
 		me.armNameMedium();
 		me.distance();
 		me.errors();
+		me.flighttime();
 		me.rate = getprop("sim/frame-rate-worst");
 		settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
@@ -98,6 +104,25 @@ units:                "ja37/hud/units-metric",
 	loopFast: func {
 		me.QFE();
 		settimer(func me.loopFast(), 0.05);
+	},
+
+	flighttime: func {
+		# works as JA manual says
+		me.elapsed = getprop("sim/time/elapsed-sec");
+		me.wow     = me.input.wow1.getValue();
+		
+		if (me.wow) {
+			me.timeGround = me.elapsed;
+			if (!me.wowPrev) {
+				me.timeLand = me.elapsed;
+			}
+			if (me.timeGround - me.timeLand > 3*60) {
+				me.ftime = 0;
+			}
+		} else {
+			me.ftime = me.elapsed - me.timeGround + 30;
+		}
+		me.wowPrev = me.wow;
 	},
 
 	errors: func {

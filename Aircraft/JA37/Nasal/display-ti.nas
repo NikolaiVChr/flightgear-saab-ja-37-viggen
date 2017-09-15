@@ -1407,6 +1407,13 @@ var TI = {
     		.setTranslation(width, 4)
     		.set("z-index", 7)
     		.setFontSize(13, 1);
+    	me.textFTime = root.createChild("text")
+    		.setText("FTIME h:min")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("left-top")
+    		.setTranslation(0, 4)
+    		.set("z-index", 7)
+    		.setFontSize(13, 1);
 	},
 
 	new: func {
@@ -1513,6 +1520,7 @@ var TI = {
 		ti.showFullMenus = TRUE;
 		ti.displayFlight = FLIGHTDATA_CLR;
 		ti.displayTime = FALSE;
+		ti.displayFTime = FALSE;
 		ti.ownPosition = 0.25;
 		ti.ownPositionDigital = 2;
 		ti.mapPlaces = CLEANMAP;
@@ -1626,6 +1634,7 @@ var TI = {
 		me.showBottomText();# must be after displayRadarTracks
 		me.menuUpdate();
 		me.showTime();
+		me.showFlightTime();
 		me.showSteerPoints();
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
@@ -3560,6 +3569,17 @@ var TI = {
 			me.textTime.show();
 		} else {
 			me.textTime.hide();
+		}
+	},
+
+	showFlightTime: func {
+		if (me.displayFTime == TRUE) {
+			me.fhour = int(displays.common.ftime/60/60);
+			me.fmin  = int((displays.common.ftime-me.fhour*60*60)/60);
+			me.textFTime.setText(sprintf("FTIME %d:%02d",  me.fhour, me.fmin));
+			me.textFTime.show();
+		} else {
+			me.textFTime.hide();
 		}
 	},
 

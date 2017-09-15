@@ -3164,3 +3164,4 @@ TI: CLR is now default for HORI.
 TI: EMAP-MAX can now be switched to NORM, it will now always be framed.
 TI: Formated LON/LAT will now have letter at end.
 DAP: Error is now localized to Swedish.
+DAP: UD-UT-TI will now show flighttime on TI. From takeoff +30 secs. Less than 3 mins on ground will not reset the time. (hour:min)

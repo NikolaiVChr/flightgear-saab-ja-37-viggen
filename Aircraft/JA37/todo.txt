@@ -150,7 +150,6 @@ DAP: Edit steerpoint type to target.
 DAP: Change sign to -1 and 1, instead of bool.
 TI:: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc.
-DAP: UD-UT-TI will show FTID 1:02 on TI. From !wow to wow+30 secs. Less than 3 mins on wow will not reset the time.
 TI: Cursor can select a steerpoint outside MSDA, it will then be active for steer order. Same with other objects.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 

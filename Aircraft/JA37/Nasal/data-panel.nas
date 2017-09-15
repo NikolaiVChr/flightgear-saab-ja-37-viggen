@@ -4,7 +4,7 @@ var FALSE = 0;
 
 var theInit = setlistener("ja37/supported/initialized", func {
     removelistener(theInit);
-    if (getprop("ja37/systems/variant") == 0) {
+    if (getprop("ja37/systems/variant") == 0 and getprop("ja37/supported/canvas") == TRUE) {
       callInit();
     }
 });
@@ -48,7 +48,7 @@ var callInit = func {
  #   settimer(loop_dap, 0.25);
   #}
   #loop_dap();
-  loop_main();
+  settimer(func {loop_main()},0.5);#This way we are sure TI.ti has been initialized.
 }
 
 #
@@ -332,6 +332,7 @@ var isStateChanged = func {
 
 var disp = func {
   display = "";
+  TI.ti.displayFTime = FALSE;
 
   if (error == TRUE) {
     display = metric?"   FEL":" Error";
@@ -377,6 +378,8 @@ var disp = func {
       } else {
         display = "000000";
       }
+    } elsif (settingKnob == KNOB_TI) {
+      TI.ti.displayFTime = TRUE;#should this be in main instead?
     } elsif (settingKnob == KNOB_LOLA) {
       if (cycle == -1) {
         cycle = 0;
