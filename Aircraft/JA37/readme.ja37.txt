@@ -10,7 +10,7 @@ Concise overview of datapanel
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
 
 OUT
-- TI:     Show flight time on TI
+- TI:     Show flight time on TI.
 - TILS:   Shows current TILS frequency on display.
 - CL/DA:  Show date/time on display. Cycle with OK.
 - FUEL:   Show extra fuel warning setting in percent on display.
@@ -114,7 +114,7 @@ Cursor on TI
 ============
 When cursor is on TI it can be slewed: Pressing key 'y' will toggle slaving flight-controls to the cursor.
 Use trigger to click on something.
-You can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point.
+You can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
 Terrain impact warning will switch the slaving off.
@@ -138,4 +138,4 @@ Use these command lines to pass a plan/area in launcher: (they must be in GPX or
 
 Areas should have max 8 waypoints each.
 Missions/RTB should have max 48 waypoints each.
-MIssion 2-4 and both rtb needs FG 2017.3.1 to work.
+Pre-loading needs FG 2017.3.1 to work.

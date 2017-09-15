@@ -70,12 +70,6 @@ var Polygon = {
 			Polygon.flyMiss      = poly1;
 			Polygon.editRTB      = poly1;
 			Polygon.editMiss     = poly1;
-
-			for (var i = 1; i<=6; i+=1) {
-				# since area never have to be activated we can use then in FG older than 2017.3.1
-				var poly = Polygon.new("OP"~i, "", TYPE_AREA, getprop("xmlPlans/area"~i));
-				Polygon.polys["OP"~i] = poly;
-			}
 		}
 		printDA("JA: finished plan Init");
 	},
