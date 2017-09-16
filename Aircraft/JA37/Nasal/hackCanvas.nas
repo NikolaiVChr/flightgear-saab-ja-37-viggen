@@ -1,10 +1,20 @@
+#
+# Author: Nikolai V. Chr.
+#
+# Backwards compatible with older Fgs.
+# Notice all these methods return me so they can be chained.
+#
+# This file should be loaded before any canvas use.
+#
+# Result: On Viggen get 25% more FPS. From 12 to 15.
+
+
 canvas.Text._lastText2 = "";
 canvas.Text.setText = func (text)
   {
       if (text == me._lastText2) {return me;}
       me._lastText2 = text;
       me.set("text", typeof(text) == 'scalar' ? text : "");
-      me;
   };
 canvas.Element._lastVisible = 1;
 canvas.Element.show = func ()
