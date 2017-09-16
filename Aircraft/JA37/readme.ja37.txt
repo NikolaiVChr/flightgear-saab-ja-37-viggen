@@ -6,6 +6,8 @@
 #
 #
 
+Some of these features that has to do with multiple plans or areas, wont work in less than FG 2017.3.1.
+
 Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 ===================================
 
@@ -87,14 +89,13 @@ x7x  - Various pylons. W=wing, T=wingtip, F=fuselage, L=left, R=right.
 
 SYST
 ----
-S - Steerpoint nav. or switch to next
-P - Map-area point
-L - Navigate direct for landing base or switch runway.
-LT - Nav. for touchdown point or short approach
-LS - Nav. for approach circle (long approach)
-OPT - Optical landing mode
+S - Steerpoint nav. or switch to next. Will also switch of landing mode and switch to mission plan.
+L - Navigate direct for landing base or switch runway. Will switch to RTB plan destination.
+LT - Nav. for touchdown point or short approach. Will switch to RTB plan destination.
+LS - Nav. for approach circle (long approach). Will switch to RTB plan destination.
+OPT - Optical landing mode. Can only be engaged in landing mode, so LS or LT or with gears down. Will auto engage at low alt in those modes.
 DL - STRILL data-link  (not implemented)
-LR - Return to base polygon navigation. Or switch to next.
+LR - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL - Mission polygon
 RPOL - RTB polygon
 CC - Steer order from radar
