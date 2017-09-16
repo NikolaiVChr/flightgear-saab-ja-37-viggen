@@ -87,18 +87,12 @@ var Polygon = {
 		printDA("AJ: finished plan Init");
 	},
 
-	setSuperEdit: func (bool) {#deprecated
-		# if enabled polygon can be deleted with DAP reset/rensa.
-		if (Polygon.editing != nil and bool) {
-			Polygon.polyEdit = TRUE;
-			Polygon.selectSteer = nil;
-			Polygon.appendSteer = FALSE;
-			Polygon.insertSteer = FALSE;
-			Polygon.editSteer   = FALSE;
-			#dap.set237(TRUE);
-		} else {
-			Polygon.polyEdit = FALSE;
-			#dap.set237(FALSE);
+	saveAll: func {
+		#dont use, is only for testing
+		var key = keys(Polygon.polys);
+		foreach (k; key) {
+			var poly = Polygon.polys[k];
+			poly.plan.save("C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/Viggen-autosave-"~poly.name);
 		}
 	},
 
@@ -124,7 +118,7 @@ var Polygon = {
 	},
 
 	selectSteerpoint: func (planName, leg, index) {
-		me.editIndex = Polygon.editing.plan.indexOfWP(leg);
+		#me.editIndex = Polygon.editing.plan.indexOfWP(leg); TODO: in 2 years time from now, start using this, as noone will be using old FG 2017.2.1 anymore.
 		#printf("%s %s %d",planName, leg.id, me.editIndex);
 		if (planName == Polygon.editing.getName()) {#} and me.editIndex != nil and me.editIndex != -1) {
 			Polygon.selectSteer = [leg, index];
