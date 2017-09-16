@@ -1,10 +1,12 @@
 #
 #
-#         JA-37Di special help
+#
+#         JA-37Di Mini-manual
+#
 #
 #
 
-Concise overview of datapanel (DAP) (on right panel, has keypad and display)
+Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 ===================================
 
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
@@ -39,7 +41,7 @@ IN
 
 When inputting, pay notice to the switch +/-, as that is the sign of what you input.
 
-Concise english overview of MI on JA-37Di: (center radar display)
+Concise English overview of MI on JA-37Di: (center radar display)
 ==========================================
 bottom buttons (hold P3 for help)
 --------------
@@ -56,7 +58,7 @@ A - Zoom out on TI
 B - Zoom in on TI
 
 
-Concise english overview of TI (right color display)
+Concise English overview of TI (right color display)
 ==============================
 Click a sidebutton for quick SYST menu.
 Click a bottom button for main menus.

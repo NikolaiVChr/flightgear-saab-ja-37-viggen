@@ -80,8 +80,6 @@
             <path>ja37/radar/enabled</path>
             <path>ja37/hud/units-metric</path>
             <path>ja37/hud/mode</path>
-            <path>ja37/hud/bank-indicator</path>
-            <path>ja37/autoReverseThrust</path>
             <path>ja37/hud/stroke-linewidth</path>
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
@@ -511,7 +509,6 @@
         <accelerations>
             <pilot-G type="double">1.0</pilot-G>
         </accelerations>
-        <autoReverseThrust userarchive="y" type="bool">false</autoReverseThrust>
         <supported>
             <old-custom-fails type="int">0</old-custom-fails>
             <canvas type="bool">false</canvas>
@@ -583,7 +580,7 @@
             <mode userarchive="y" type="bool">true</mode>
             <current-mode type="int">0</current-mode>
             <combat type="bool">false</combat>
-            <bank-indicator userarchive="y" type="bool">false</bank-indicator>
+            <bank-indicator type="bool">false</bank-indicator>
             <callsign type="bool">true</callsign>
             <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
             <TILS type="bool">true</TILS>

@@ -3380,7 +3380,7 @@ var TI = {
 
 		for(me.steerCounter = 0;me.steerCounter < 12; me.steerCounter += 1) {
 			me.curr_plan = me.all_plans[me.steerCounter];
-			if (me.curr_plan != nil and me.curr_plan[0].type == route.TYPE_AREA) {
+			if (me.curr_plan != nil and me.curr_plan[0].type == route.TYPE_AREA) {#maybe more solid to check steercounter
 				me.isArea = TRUE;
 			} else {
 				me.isArea = FALSE;
