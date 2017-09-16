@@ -3338,18 +3338,33 @@ var TI = {
 				append(me.all_plans, [route.Polygon.polys["OP6"], route.Polygon.polys["OP6"] == route.Polygon.editing, TRUE]);
 			}
 		} else {
-			append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
-			append(me.all_plans, nil);
-			append(me.all_plans, nil);
-			append(me.all_plans, nil);
-			append(me.all_plans, nil);
-			append(me.all_plans, nil);
-			append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
-			append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
-			append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
-			append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
-			append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
-			append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
+			if (route.Polygon.primary.type != route.TYPE_MIX) {
+				append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, [route.Polygon.polys["OP1"], FALSE, FALSE]);
+				append(me.all_plans, [route.Polygon.polys["OP2"], FALSE, FALSE]);
+				append(me.all_plans, [route.Polygon.polys["OP3"], FALSE, FALSE]);
+				append(me.all_plans, [route.Polygon.polys["OP4"], FALSE, FALSE]);
+				append(me.all_plans, [route.Polygon.polys["OP5"], FALSE, FALSE]);
+				append(me.all_plans, [route.Polygon.polys["OP6"], FALSE, FALSE]);
+			} else {
+				append(me.all_plans, [route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE]);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+			}
 		}
 
 		me.nextDist = getprop("autopilot/route-manager/wp/dist");
@@ -3382,11 +3397,11 @@ var TI = {
 					me.wpSelect = nil;
 				}
 			}
-			for (var wp = 0; wp < (me.isArea?8:maxSteers); wp += 1) {
+			for (var wp = 0; wp < (me.steerCounter>5?8:maxSteers); wp += 1) {
 				# wp      = local index inside a polygon
 				# wpindex = global index for use with canvas elements
 				me.wpIndex = wp+48*me.steerCounter;
-				if (me.isArea) {
+				if (me.steerCounter>5) {
 					me.wpIndex = wp+48*6+8*(me.steerCounter-6);
 				}
 
