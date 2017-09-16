@@ -7,7 +7,7 @@ var reset_state = props.globals.getNode("instrumentation/clock/reset-state",1);
 var elapsed_sec = props.globals.getNode("instrumentation/clock/elapsed-sec", 1);
 var indicated_sec = props.globals.getNode("instrumentation/clock/indicated-sec");
 
-aircraft.data.add("/instrumentation/clock/offset-sec");
+#aircraft.data.add("/instrumentation/clock/offset-sec");
 
 chrono_onoff.setBoolValue( 0 );
 reset_state.setBoolValue( 1 );
