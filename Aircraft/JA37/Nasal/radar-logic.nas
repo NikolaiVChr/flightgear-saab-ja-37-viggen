@@ -803,7 +803,7 @@ var Contact = {
         obj.oriProp         = c.getNode("orientation");
         obj.velProp         = c.getNode("velocities");
         obj.posProp         = c.getNode("position");
-        obj.heading         = obj.oriProp.getNode("true-heading-deg");
+        obj.headingO         = obj.oriProp.getNode("true-heading-deg");
 #});
 #debug.benchmark("radar process2", func {
         obj.alt             = obj.posProp.getNode("altitude-ft");
@@ -824,8 +824,8 @@ var Contact = {
         }
 #});
 #debug.benchmark("radar process4", func {
-        obj.pitch           = obj.oriProp.getNode("pitch-deg");
-        obj.roll            = obj.oriProp.getNode("roll-deg");
+        obj.pitchO           = obj.oriProp.getNode("pitch-deg");
+        obj.rollO            = obj.oriProp.getNode("roll-deg");
         obj.speed           = obj.velProp.getNode("true-airspeed-kt");
         obj.vSpeed          = obj.velProp.getNode("vertical-speed-fps");
         obj.callsign        = c.getNode("callsign", 1);
@@ -1015,17 +1015,17 @@ var Contact = {
     },
 
     get_Pitch: func(){
-        var n = me.pitch.getValue();
+        var n = me.pitchO.getValue();
         return n;
     },
 
     get_Roll: func(){
-        var n = me.roll.getValue();
+        var n = me.rollO.getValue();
         return n;
     },
 
     get_heading : func(){
-        var n = me.heading.getValue();
+        var n = me.headingO.getValue();
         if(n == nil)
         {
             n = 0;
