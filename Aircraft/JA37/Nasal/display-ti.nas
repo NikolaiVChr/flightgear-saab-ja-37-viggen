@@ -5044,9 +5044,11 @@ var init = func {
 	if (getprop("ja37/supported/canvas") == TRUE) {
 		setupCanvas();
 		ti = TI.new();
-		ti.loop();#must be first due to me.rootCenterY
-		ti.loopFast();
-		ti.loopSlow();
+		settimer(func {
+			ti.loop();#must be first due to me.rootCenterY
+			ti.loopFast();
+			ti.loopSlow();
+		},0.5);# this will prevent it from starting before route has been initialized.
 	}
 }
 

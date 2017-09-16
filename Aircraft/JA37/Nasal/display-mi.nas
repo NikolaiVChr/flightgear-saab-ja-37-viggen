@@ -1251,7 +1251,9 @@ var init = func {
 	if (getprop("ja37/supported/canvas") == TRUE) {
 		setupCanvas();
 		mi = MI.new();
-		mi.loop();
+		settimer(func {
+			mi.loop();
+		},0.5);# this will prevent it from starting before TI has been initialized.
 	}
 }
 
