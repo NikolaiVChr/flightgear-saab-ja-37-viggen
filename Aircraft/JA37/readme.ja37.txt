@@ -69,6 +69,12 @@ CONF - Configuration
   GPS  - GPS configuration
   SIDV - TI sideview configuration
 
+WEAP
+----
+CLR  - Not implemented.
+AKAN - Cannon.
+x7x  - Various pylons. W=wing, T=wingtip, F=fuselage, L=left, R=right.
+
 SYST
 ----
 S - Steerpoint nav. or switch to next
@@ -108,7 +114,44 @@ HORI - Show FPI, artificial horizon and ground symbol. CLR = certain conditions.
 CURS - Toggle if cursor is on MI or TI. 
 DAY  - Map contrast for daytime or NGHT for night time.
 
-TODO: insert rest of menus here. ~leto
+MSDA
+----
+EDIT
+  POLY  - Edit area polygons. Click with cursor on top field in infobox to control from DAP which area is edited.
+  RPOL  - Edit a RTB polygon.
+  MPOL  - Edit a mission polygon.
+  S/P   - Move selected point/steerpoint in current edited polygon. Then use cursor.
+INS S/P - Insert selected point/steerpoint in current edited polygon. Then use cursor.
+ADD S/P - Append point/steerpoint to current edited polygon (if it has room for more). Then use cursor.
+DEL S/P - Delete selected point/steerpoint in current edited polygon.
+RPOL    - If RPOL being edited, this is which one.
+MPOL    - If MPOL being edited, this is which one.
+MYPS    - Move own position in chunks up/down the display. If not framed minute adjustemnts have been made.
+MMAN    - MapManual movement, and map no longer follows own position. See cursor for more details.
+
+FAIL
+----
+Is just a log page. FAIL will blink at new unseen failures.
+
+CONF
+----
+SIDV - Sideview menu. See Mi on hwo to activate sideview.
+GPS  - Actiavte GPS menu.
+FR28 - Use top or belly antennae.
+READDATA- Not implemented.
+
+GPS
+---
+FIX  - When GPS has started this will make a fix on the TI/MI/HUD. Will stay until PEK switched off or something else selected.
+INIT - Start GPS. (approx 30 seconds to start)
+
+SIDV
+----
+WIN  - Sideview size
+SHOW - Not implemented.
+SCAL - If RMAX set to SCAL this controls the horizon distance shown.
+RMAX - Horizontal distance. MI=follow radar setting. SCAL=see SCAL. MAP=Follow map scale.
+AMAX - Max altitude shown.
 
 Cursor on TI
 ============
