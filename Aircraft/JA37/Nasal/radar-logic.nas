@@ -803,7 +803,7 @@ var Contact = {
         obj.oriProp         = c.getNode("orientation");
         obj.velProp         = c.getNode("velocities");
         obj.posProp         = c.getNode("position");
-        obj.headingO         = obj.oriProp.getNode("true-heading-deg");
+        obj.heading         = obj.oriProp.getNode("true-heading-deg");
 #});
 #debug.benchmark("radar process2", func {
         obj.alt             = obj.posProp.getNode("altitude-ft");
@@ -824,8 +824,8 @@ var Contact = {
         }
 #});
 #debug.benchmark("radar process4", func {
-        obj.pitchO           = obj.oriProp.getNode("pitch-deg");
-        obj.rollO            = obj.oriProp.getNode("roll-deg");
+        obj.pitch           = obj.oriProp.getNode("pitch-deg");
+        obj.roll            = obj.oriProp.getNode("roll-deg");
         obj.speed           = obj.velProp.getNode("true-airspeed-kt");
         obj.vSpeed          = obj.velProp.getNode("vertical-speed-fps");
         obj.callsign        = c.getNode("callsign", 1);
@@ -1015,17 +1015,17 @@ var Contact = {
     },
 
     get_Pitch: func(){
-        var n = me.pitchO.getValue();
+        var n = me.pitch.getValue();
         return n;
     },
 
     get_Roll: func(){
-        var n = me.rollO.getValue();
+        var n = me.roll.getValue();
         return n;
     },
 
     get_heading : func(){
-        var n = me.headingO.getValue();
+        var n = me.heading.getValue();
         if(n == nil)
         {
             n = 0;
@@ -1126,14 +1126,14 @@ var Contact = {
       
 
       me.yaw   = input.hdgReal.getValue() * D2R;
-      me.roll  = input.roll.getValue()    * D2R;
-      me.pitch = input.pitch.getValue()   * D2R;
+      me.myroll= input.roll.getValue()    * D2R;
+      me.mypitch= input.pitch.getValue()   * D2R;
 
       #printf("heading %.1f bearing %.1f pitch %.1f north %.1f east %.1f down %.1f", input.hdgReal.getValue(), me.brng, me.ptch, me.vel_gx, me.vel_gy, me.vel_gz);
 
       me.sy = math.sin(me.yaw);   me.cy = math.cos(me.yaw);
-      me.sr = math.sin(me.roll);  me.cr = math.cos(me.roll);
-      me.sp = math.sin(me.pitch); me.cp = math.cos(me.pitch);
+      me.sr = math.sin(me.myroll);  me.cr = math.cos(me.myroll);
+      me.sp = math.sin(me.mypitch); me.cp = math.cos(me.mypitch);
    
       me.vel_bx = me.vel_gx * me.cy * me.cp
                  + me.vel_gy * me.sy * me.cp
