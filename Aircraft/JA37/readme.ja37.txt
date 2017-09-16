@@ -4,10 +4,11 @@
 #
 #
 
-Concise overview of datapanel
+Concise overview of datapanel (on right panel, has keypad and display)
 =============================
 
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
+Na. panel is located just next to data-panel.
 
 OUT
 - TI:     Show flight time on TI.
@@ -34,7 +35,7 @@ IN
 - rotate knob or in/out switch to clear.
 
 
-Concise english overview of MI on JA-37Di:
+Concise english overview of MI on JA-37Di: (center radar display)
 ==========================================
 bottom buttons (hold P3 for help)
 --------------
@@ -51,7 +52,7 @@ A - Zoom out on TI
 B - Zoom in on TI
 
 
-Concise english overview of TI abbreviations
+Concise english overview of TI abbreviations (right color display)
 ============================================
 Click a sidebutton for quick menu (SYST).
 Click a bottom button for main menus.
