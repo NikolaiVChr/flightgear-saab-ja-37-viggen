@@ -3,6 +3,8 @@ var TYPE_RTB  = 1;# return to base plan
 var TYPE_MISS = 2;# mission plan
 var TYPE_AREA = 3;# map area (LV)
 
+var COLOR_GREY_LIGHT = [0.70,0.70,0.70];
+
 var TRUE  = 1;
 var FALSE = 0;
 
@@ -580,7 +582,7 @@ var Polygon = {
 		newPoly.nameNum = nameNum;
 		newPoly.nameVari = nameVari;
 		newPoly.type = type;
-		newPoly.color = TI.COLOR_GREY_LIGHT;
+		newPoly.color = COLOR_GREY_LIGHT;
 		return newPoly;
 	},
 
