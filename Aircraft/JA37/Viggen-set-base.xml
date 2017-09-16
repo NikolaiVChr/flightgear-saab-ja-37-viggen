@@ -1371,6 +1371,9 @@
         <events>
             <file>Aircraft/JA37/Nasal/events.nas</file>
         </events>
+        <hack>
+            <file>Aircraft/JA37/Nasal/hackCanvas.nas</file>
+        </hack>
         <auto>
             <file>Aircraft/JA37/Nasal/flightPlanDelegate.nas</file>
             <file>Aircraft/JA37/Nasal/autopilot.nas</file>

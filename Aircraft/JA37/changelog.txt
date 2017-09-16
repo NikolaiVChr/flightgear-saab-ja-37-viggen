@@ -3167,3 +3167,4 @@ DAP: Error is now localized to Swedish.
 DAP: UD-UT-TI will now show flighttime on TI. From takeoff +30 secs. Less than 3 mins on ground will not reset the time. (hour:min)
 Doc: Added small document to aircraft folder. It gives some help to using TI, MI and Data-panel.
 DAP: Changed sign to -1 and 1, instead of bool.
+Sim: Hacked some canvas methods, now get 25% more FPS with HUD, TI and MI on.

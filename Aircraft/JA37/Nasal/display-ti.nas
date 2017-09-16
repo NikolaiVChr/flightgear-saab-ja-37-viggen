@@ -5068,3 +5068,4 @@ var init = func {
 }
 
 idl = setlistener("ja37/supported/initialized", init, 0, 0);
+
