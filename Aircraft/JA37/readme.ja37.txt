@@ -4,11 +4,14 @@
 #
 #
 
-Concise overview of datapanel (on right panel, has keypad and display)
-=============================
+Concise overview of datapanel (DAP) (on right panel, has keypad and display)
+===================================
 
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
-Na. panel is located just next to data-panel.
+Nav. panel is located just next to data-panel.
+
+Notice first the switch IN/OUT.
+Below is listed what combination of that switch with the knob will produce:
 
 OUT
 - TI:     Show flight time on TI.
@@ -34,29 +37,33 @@ IN
 "Error" on display
 - rotate knob or in/out switch to clear.
 
+When inputting, pay notice to the switch +/-, as that is the sign of what you input.
 
 Concise english overview of MI on JA-37Di: (center radar display)
 ==========================================
 bottom buttons (hold P3 for help)
 --------------
-SDV - Sideview on TI
-BIT - RB99 self tests
-EVN - Register manual event (can be viewed in TRAP menu)
-ECM - ECM on TI
-LNK - RB99 telemetry on TI
+2  - SDV - Toggle sideview on TI
+X1 - BIT - RB99 self tests
+X3 - EVN - Register manual event (can be viewed in TRAP menu)
+M2 - ECM - Toggle ECM on TI
+X2 - LNK - Toggle RB99 telemetry on TI
 
 left buttons
 ------------
-PEK - Cursor toggle. If off then cant lock anything.
+PEK - Cursor toggle. If off then cant lock anything. Nor can cursor be shown/slewn on TI.
 A - Zoom out on TI
 B - Zoom in on TI
 
 
-Concise english overview of TI abbreviations (right color display)
-============================================
-Click a sidebutton for quick menu (SYST).
+Concise english overview of TI (right color display)
+==============================
+Click a sidebutton for quick SYST menu.
 Click a bottom button for main menus.
 Click MENU to exit menus.
+
+The rocker switch C will make minute adjustments for where on display own position is located.
+The rocker switch B change brightness of display.
 
 Menus
 -----
@@ -112,7 +119,7 @@ SCAL - Map scale.
 AAA  - Anti aircraft fire zones. FRND/HSTL show friendly/hostile zones.
 TIME - Show ZULU time.
 HORI - Show FPI, artificial horizon and ground symbol. CLR = certain conditions. ON = always. OFF = only at terrain impact warning.
-CURS - Toggle if cursor is on MI or TI. 
+CURS - Toggle if cursor is on MI or TI. (PEK on MI must be enabled to see/use cursor)
 DAY  - Map contrast for daytime or NGHT for night time.
 
 MSDA
@@ -127,7 +134,7 @@ ADD S/P - Append point/steerpoint to current edited polygon (if it has room for 
 DEL S/P - Delete selected point/steerpoint in current edited polygon.
 RPOL    - If RPOL being edited, this is which one.
 MPOL    - If MPOL being edited, this is which one.
-MYPS    - Move own position in chunks up/down the display. If not framed minute adjustemnts have been made.
+MYPS    - Move own position in chunks up/down the display. If not framed minute adjustments have been made.
 MMAN    - MapManual movement, and map no longer follows own position. See cursor for more details.
 
 FAIL
@@ -136,10 +143,10 @@ Is just a log page. FAIL will blink at new unseen failures.
 
 CONF
 ----
-SIDV - Sideview menu. See Mi on hwo to activate sideview.
-GPS  - Actiavte GPS menu.
-FR28 - Use top or belly antennae.
-READDATA- Not implemented.
+SIDV     - Sideview menu. See Mi on hwo to activate sideview.
+GPS      - Activate GPS menu.
+FR28     - Use top or belly antennae. Effect not implemented.
+READDATA - Technician data readout. Not implemented.
 
 GPS
 ---
@@ -149,7 +156,7 @@ INIT - Start GPS. (approx 30 seconds to start)
 SIDV
 ----
 WIN  - Sideview size
-SHOW - Not implemented.
+SHOW - Inclusion setting. Not implemented.
 SCAL - If RMAX set to SCAL this controls the horizon distance shown.
 RMAX - Horizontal distance. MI=follow radar setting. SCAL=see SCAL. MAP=Follow map scale.
 AMAX - Max altitude shown.
@@ -163,8 +170,8 @@ Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, an
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
 Terrain impact warning will switch the slaving off.
 
-Pre-load flightplans or map areas on startup.
-=============================================
+Pre-load flightplans and/or map areas on startup.
+=================================================
 Use these command lines to pass a plan/area in launcher: (they must be in GPX or FG route format)
 
 --prop:string:/xmlPlans/mission1=
