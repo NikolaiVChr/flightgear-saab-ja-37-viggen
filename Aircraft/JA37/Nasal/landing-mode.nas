@@ -192,18 +192,19 @@ var L = func {
     setprop("ja37/avionics/approach", FALSE);#long
 
     if (route.Polygon.isLandingBaseRunwayActive() == TRUE and mode_L_active == TRUE) {
-        printDA("calling cycle runway");
+        printDA("L: calling cycle runway");
         route.Polygon.primary.cycleDestinationRunway();
         mode_L_active = TRUE;
         mode_B_active = FALSE;
         mode = 0;
     } else {
         if (route.Polygon.activateLandingBase()) {
-            printDA("base activated");
+            printDA("L: base activated");
             mode_L_active = TRUE;
             mode_B_active = FALSE;
             mode = 0;
         } else {
+            printDA("L: plan deactivated");
             route.Polygon.stopPrimary();
             mode_B_active = FALSE;
             mode_L_active = FALSE;
@@ -228,9 +229,11 @@ var LB = func {
     mode_OPT_active = FALSE;
     showActiveSteer = FALSE;
     if (route.Polygon.activateLandingBase()) {
+        printDA("LB: base activated");
         mode = 1;
         mode_LB_active = TRUE;
     } else {
+        printDA("LB: plan deactivated");
         route.Polygon.stopPrimary();
         mode_LB_active = FALSE;
     }
@@ -247,9 +250,11 @@ var LF = func {
     mode_OPT_active = FALSE;
     showActiveSteer = FALSE;
     if (route.Polygon.activateLandingBase()) {
+        printDA("LF: base activated");
         mode = 2;
         mode_LF_active = TRUE;
     } else {
+        printDA("LF: plan deactivated");
         route.Polygon.stopPrimary();
         mode_LF_active = FALSE;
     }
@@ -257,6 +262,7 @@ var LF = func {
 
 var OPT = func {
     if (getprop("gear/gear/position-norm") > 0 or getprop("ja37/hud/landing-mode") == TRUE) {
+        printDA("OPT: activated");
         auto.unfollowSilent();
         mode = 4;
         mode_LA_active = FALSE;

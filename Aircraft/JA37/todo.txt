@@ -155,8 +155,7 @@ Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. 
 DAP: Show sign of input at leftmost char always.
 TI: Buttons should light up for quarter second when used.
 TI: Run different through plans when drawing them on canvas.
-
-
+TI: Fix proper speed constraint display in Waypoint infobox.
 
 
 

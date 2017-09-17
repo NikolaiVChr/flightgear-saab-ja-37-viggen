@@ -99,7 +99,7 @@ var Polygon = {
 	deletePlan: func {
 		# Called from dap.
 		if (Polygon.editing != nil) {
-			print("deleting plan");
+			printDA("deleting plan");
 			Polygon.selectSteer = nil;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
@@ -308,11 +308,11 @@ var Polygon = {
 			
 			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
 				# replace departure with regular waypoint
-				print("insert: clear dep");
+				printDA("insert: clear dep");
 				me.firstWP = Polygon.editing.plan.getWP(0);
 				me.firstWP = createWP({lat: me.firstWP.lat, lon: me.firstWP.lon}, me.firstWP.id, "pseudo");
 				Polygon.editing.plan.departure = nil;
-				print("inserting old dep as navaid");
+				printDA("inserting old dep as navaid");
 				#me.lastWP.wp_type = "navaid";#will prevent it from being cleared as a star/approach in future.
 				Polygon.editing.plan.insertWP(me.firstWP,0);
 			}
@@ -344,7 +344,7 @@ var Polygon = {
 			me.lastWP = nil;
 			if (Polygon.editing.plan.destination != nil) {
 				me.lastWP = Polygon.editing.plan.getWP(Polygon.editing.getSize()-1);
-				print("append: dest != nil and last "~(me.lastWP!= nil));
+				printDA("append: dest != nil and last "~(me.lastWP!= nil));
 				me.lastWP = createWP({lat: me.lastWP.lat, lon: me.lastWP.lon}, me.lastWP.id, "pseudo");
 				Polygon.editing.plan.destination = nil;# this will make the delegate clear wp from list.
 				Polygon.editing.plan.appendWP(me.lastWP);
@@ -366,7 +366,7 @@ var Polygon = {
 	},
 
 	setToggleAreaEdit: func {
-		print("area edit");
+		printDA("area edit");
 		var poly = Polygon.polys["OP1"]; #TODO: temp stuff
 		if (poly != Polygon.editing) {
 			Polygon.editing = poly;
@@ -408,7 +408,7 @@ var Polygon = {
 			Polygon.selectSteer = nil;
 			return;
 		}
-		#print("plan not edited!!!");
+		#printDA("plan not edited!!!");
 	},
 
 	getLandingBase: func {
@@ -429,11 +429,17 @@ var Polygon = {
 		me.base = Polygon.getLandingBase();
 		Polygon.flyRTB.setAsPrimary();
 		if (me.base != nil) {
+			printDA("activateLandingBase: found base");
 			if(Polygon.primary.forceRunway()) {
-				Polygon.startPrimary();
+				printDA("activateLandingBase: found runway, forced on");
+				Polygon.startPrimary();#TODO: revisit all this, and logic in ladning mdoe for this. What should happen when there is no runway found?
+			} else {
+				printDA("activateLandingBase: did not find runway");
 			}
 			Polygon.primary.plan.current = Polygon.primary.getSize()-1;
+			return TRUE;
 		} else {
+			printDA("activateLandingBase: did not find base");
 			Polygon.stopPrimary();
 			return FALSE;
 		}
@@ -669,6 +675,8 @@ var Polygon = {
 				if (ghosttype(me.base) == "airport") {
 					printDA("getBase returning "~(me.getSize()-1)~" which is airport "~me.base.id);
 					return me.base;
+				} else {
+					printDA("getBase: RTB does not have airport as last steerpoint.");
 				}
 			}
 		}
