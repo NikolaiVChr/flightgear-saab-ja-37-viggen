@@ -8,57 +8,13 @@
 
 Some of these features that has to do with multiple plans or areas, wont work in less than FG 2017.3.1.
 
-Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
-===================================
-
-OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
-Nav. panel is located just next to data-panel.
-
-Notice first the switch IN/OUT.
-Below is listed what combination of that switch with the knob will produce:
-
-OUT
-- TI:     Show flight time on TI.
-- TILS:   Shows current TILS frequency on display.
-- CL/DA:  Show date/time on display. Cycle with OK.
-- FUEL:   Show extra fuel warning setting in percent on display.
-- LOLA:   Show current LON/LAT on display. Cycle with OK. (it will not show negative sign if longitude degrees is more than 2 digits, the JA was only used in Sweden)
-- ACDATA:
-- REG/STR:
-
-IN
-- TI:     Can clear currently edited flightplan/map-area by pressing RESET.
-- TILS:  
-- CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
-- FUEL:   Set extra fuel warning in percent on display.
-- LOLA:  
-- ACDATA:
-- REG/STR:
-
-"237" on display
-- Input to TI press OK to send.
-
-"Error" on display
-- rotate knob or in/out switch to clear.
-
-When inputting, pay notice to the switch +/-, as that is the sign of what you input.
-
-Concise English overview of MI on JA-37Di: (center radar display)
-==========================================
-bottom buttons (hold P3 for help)
---------------
-2  - SDV - Toggle sideview on TI
-X1 - BIT - RB99 self tests
-X3 - EVN - Register manual event (can be viewed in TRAP menu)
-M2 - ECM - Toggle ECM on TI
-X2 - LNK - Toggle RB99 telemetry on TI
-
-left buttons
-------------
-PEK - Cursor toggle. If off then cant lock anything. Nor can cursor be shown/slewn on TI.
-A - Zoom out on TI
-B - Zoom in on TI
-
+Flightplans
+===========
+The aircraft has 6 plans. 4 mission (1-4) and 2 return to base plans (A & B).
+When you switch to another plan, entire plan in route manager will be replaced. So don't panic if route-manager clears.
+See also last section in this document: pre-loading plans.
+If your FG is older than 2017.3.1 you will only have 1 plan, that is used for both mission and RTB.
+Notice since clicking key 'Y' is the same as LS on TI display, this will also switch plan if you are already on a mission plan.
 
 Concise English overview of TI (right color display)
 ==============================
@@ -89,17 +45,17 @@ x7x  - Various pylons. W=wing, T=wingtip, F=fuselage, L=left, R=right.
 
 SYST
 ----
-S - Steerpoint nav. or switch to next. Will also switch of landing mode and switch to mission plan.
+S - Mission steerpoint nav. or switch to next. Will also switch of landing mode and switch to mission plan.
 L - Navigate direct for landing base or switch runway. Will switch to RTB plan destination.
-LT - Nav. for touchdown point or short approach. Will switch to RTB plan destination.
-LS - Nav. for approach circle (long approach). Will switch to RTB plan destination.
-OPT - Optical landing mode. Can only be engaged in landing mode, so LS or LT or with gears down. Will auto engage at low alt in those modes.
+LT - Nav. for touchdown point or short approach. Will switch to RTB plan destination. Notice if this is done on runway, OPT will engage.
+LS - Nav. for approach circle (long approach). Will switch to RTB plan destination. Notice if this is done on runway, OPT will engage.
+OPT - Optical landing mode. Can only be engaged with gears down or in landing mode (LS or LT). Will auto engage at low alt in those modes.
 DL - STRILL data-link  (not implemented)
 LR - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL - Mission polygon
 RPOL - RTB polygon
-CC - Steer order from radar
-OFF/EP - Turn off EP12 Electronic presentations (MI+TI displays)
+CC - Steer order from radar. Only work in air. (Right now it also unauthentically will set A/P to follow the steer order, will be fixed in future)
+OFF/EP - Turn off EP12 Electronic presentations (MI+TI displays). Only work on ground.
 ACRV - Attack curve (not implemented)
 FGHT - Fighter mode. HUD shows IAS
 ATCK - Attack mode. HUD shows groundspeed (at low alt)
@@ -173,6 +129,57 @@ Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, an
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
 Terrain impact warning will switch the slaving off.
 
+Concise English overview of MI on JA-37Di: (center radar display)
+==========================================
+bottom buttons (hold P3 for help)
+--------------
+2  - SDV - Toggle sideview on TI
+X1 - BIT - RB99 self tests
+X3 - EVN - Register manual event (can be viewed in TRAP menu)
+M2 - ECM - Toggle ECM on TI
+X2 - LNK - Toggle RB99 telemetry on TI
+
+left buttons
+------------
+PEK - Cursor toggle. If off then cant lock anything. Nor can cursor be shown/slewn on TI.
+A - Zoom out on TI
+B - Zoom in on TI
+
+Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
+===================================
+
+OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
+Nav. panel is located just next to data-panel.
+
+Notice first the switch IN/OUT.
+Below is listed what combination of that switch with the knob will produce:
+
+OUT
+- TI:     Show flight time on TI.
+- TILS:   Shows current TILS frequency on display.
+- CL/DA:  Show date/time on display. Cycle with OK.
+- FUEL:   Show extra fuel warning setting in percent on display.
+- LOLA:   Show current LON/LAT on display. Cycle with OK. (it will not show negative sign if longitude degrees is more than 2 digits, the JA was only used in Sweden)
+- ACDATA:
+- REG/STR:
+
+IN
+- TI:     Can clear currently edited flightplan/map-area by pressing RESET.
+- TILS:  
+- CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
+- FUEL:   Set extra fuel warning in percent on display.
+- LOLA:  
+- ACDATA:
+- REG/STR:
+
+"237" on display
+- Input to TI press OK to send.
+
+"Error" on display
+- rotate knob or in/out switch to clear.
+
+When inputting, pay notice to the switch +/-, as that is the sign of what you input.
+
 Pre-load flightplans and/or map areas on startup.
 =================================================
 Use these command lines to pass a plan/area in launcher: (they must be in GPX or FG route format)
@@ -193,3 +200,7 @@ Use these command lines to pass a plan/area in launcher: (they must be in GPX or
 Areas should have max 8 waypoints each.
 Missions/RTB should have max 48 waypoints each.
 Pre-loading needs FG 2017.3.1 to work.
+
+Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
+
+If a file cannot get loaded, the console will print a warning.
