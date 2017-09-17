@@ -251,6 +251,36 @@ var main = func {
           inputKey(2);
         }
       }
+    } elsif (settingKnob == KNOB_REG) {
+      if (isStateChanged()) {
+          cycle = -1;
+          cycleMax = -1;
+          digit = 0;
+          input = inputDefault;
+      } else {
+        if (ok==HOLD and digit == 6 and num(left(input,2))==19) {
+            # set floor warn
+            printDA("set floor warning "~input~"%");
+            var floor = metric?num(right(input,4))*M2FT:num(right(input,4));
+            if (floor == 0) {
+              floor = -10000;
+            }
+            setprop("ja37/sound/floor-ft", floor);
+            input = inputDefault;
+            digit = 0;
+        } elsif (ok==HOLD and digit == 6) {
+            printDA("set unknown address "~input~"%");
+            input = inputDefault;
+            digit = 0;
+        } elsif (keyPressed == -1) {
+          # reset
+            input = inputDefault;
+            digit = 0;
+        } else {
+          # floor input
+          inputKey(6);
+        }
+      }
     }
   }
   disp();
@@ -408,9 +438,23 @@ var disp = func {
       } else {
         display = "00";
       }
+    } elsif (settingKnob == KNOB_REG) {
+      var address = num(left(input,2));
+      if (address != nil and address==19) {
+          # floor warn
+          if (getprop("ja37/sound/floor-ft") < 0) {
+            display = "190000";
+          } else {
+            display = sprintf("19%04d", getprop("ja37/sound/floor-ft")*(metric?FT2M:1));
+          }
+      } else {
+        display = "000000";
+      }
     }
-  } else {
-    if (settingKnob == KNOB_FUEL) {
+  } else {# input
+    if (settingKnob == KNOB_REG) {
+      display = input;
+    } elsif (settingKnob == KNOB_FUEL) {
       display = input;
     } elsif (settingKnob == KNOB_DATE) {
       if (digit == 0) {

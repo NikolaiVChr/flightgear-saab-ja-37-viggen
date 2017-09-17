@@ -161,7 +161,6 @@ OUT
 - FUEL:   Show extra fuel warning setting in percent on display.
 - LOLA:   Show current LON/LAT on display. Cycle with OK. (it will not show negative sign if longitude degrees is more than 2 digits, the JA was only used in Sweden)
 - ACDATA:
-- REG/STR:
 
 IN
 - TI:     Can clear currently edited flightplan/map-area by pressing RESET.
@@ -170,7 +169,12 @@ IN
 - FUEL:   Set extra fuel warning in percent on display.
 - LOLA:  
 - ACDATA:
-- REG/STR:
+
+REG/STR:
+- IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.
+- OUT: If 2 first digits entered will show value of address in last 4 digits.
+- ADDRESSES:
+    19xxxx is training floor altitude.
 
 "237" on display
 - Input to TI press OK to send.

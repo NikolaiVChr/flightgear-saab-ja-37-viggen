@@ -856,6 +856,29 @@
             </volume>
         </stall>
 
+        <floor>
+            <name>floor</name>
+            <mode>looped</mode>
+            <path>Aircraft/JA37/Sounds/floor.wav</path>
+            <type>avionics</type>
+            <condition>
+                <property>sim/current-view/internal</property>
+                <property>ja37/avionics/annunciator/serviceable</property>
+                <property>ja37/sound/annunciation-enabled</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dc-voltage</property>
+                    <value>23</value>
+                </greater-than>
+                <less-than>
+                    <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                    <property>ja37/sound/floor-ft</property>
+                </less-than>
+            </condition>
+            <volume>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
+            </volume>
+        </floor>
 
         <!-- Alpha warnings taken from Viggen pilot manual page 242 -->
         <alpha>
