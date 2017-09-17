@@ -424,7 +424,11 @@ var disp = func {
       }
     }
   }
-
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    # hack
+    signText.setText("-888888");
+    return;
+  }
   #printDA(" display  *"~display~"*");
   signText.setText(display);
 };
@@ -446,6 +450,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 #
 # REG/STR UD IN
 # 19xxxx  training floor in meters
+# 23-bcd  Cannon burst number of shots in OP mode.
 #
 # TI UD IN
 # xxx--P  TI mappoints (square: 100-109) then OK
@@ -466,7 +471,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # 999999 reset time and date
 #
 # FPLDATA
-# interoperability
+# interoperability:  15a1cd, swedish: 15a0cd.
 
 # output UD UT
 #

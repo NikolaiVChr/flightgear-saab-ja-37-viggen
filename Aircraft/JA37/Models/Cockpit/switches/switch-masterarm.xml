@@ -40,8 +40,8 @@
         <action>
             <button>0</button>
             <binding>
-                <command>nasal</command>
-                <script>canvas_HUD.toggle_combat()</script>
+                <command>property-toggle</command>
+                <property>controls/armament/w-mode</property>
             </binding>
         </action>
         <hovered>
@@ -49,7 +49,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>switch-masterarm</tooltip-id>
                 <label>Master arm</label>
-                <property>ja37/hud/combat</property>
+                <property>controls/armament/w-mode</property>
             </binding>
         </hovered>
     </animation>
@@ -57,7 +57,7 @@
     <animation>
         <type>rotate</type>
         <object-name>Switch</object-name>
-        <property>ja37/hud/combat</property>
+        <property>controls/armament/w-mode</property>
         <factor>70</factor>
         <offset-deg>-35</offset-deg>
         <center>

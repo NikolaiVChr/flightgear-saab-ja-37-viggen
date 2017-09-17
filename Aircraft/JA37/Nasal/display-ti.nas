@@ -3912,6 +3912,7 @@ var TI = {
 		      me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2);
 		      me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2);
 		      me.approach_circle.setTranslation(me.pixelX, me.pixelY);
+		      me.approach_circle.update();#needed
 		      me.approach_circle.show();
 		    } else {
 		      me.approach_circle.hide();#pitch.......1x.......................................................

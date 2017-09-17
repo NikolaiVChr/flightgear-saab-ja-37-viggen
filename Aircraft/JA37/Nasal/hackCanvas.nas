@@ -7,6 +7,8 @@
 # This file should be loaded before any canvas use.
 #
 # Result: On Viggen get 25% more FPS. From 12 to 15.
+#
+# Inspired from what Thorsten did with setTextUpdate()
 
 
 canvas.Text._lastText2 = "";

@@ -3172,3 +3172,6 @@ HUD: Landing mode will now be reset after landing. So have to be reengaged to en
 TI: Temp. fix for steerpoint mach value being insane high or low.
 TI: Fixed regression that could not make L or LS to activate plan.
 TI: Proper fix for speed/alt constraint display in steerpoint infobox.
+Model: Masterarm is now knob OP-RED-OFF. Reduced mode is skipped.
+Model: Old masterarm switch on front panel is now RESERVKURS and does nothing.
+DAP: When electrical DC not running DAP will show -888888, only lighted by floodlight.

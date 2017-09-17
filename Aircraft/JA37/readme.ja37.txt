@@ -104,7 +104,7 @@ CONF
 ----
 SIDV     - Sideview menu. See Mi on hwo to activate sideview.
 GPS      - Activate GPS menu.
-FR28     - Use top or belly antennae. Effect not implemented.
+FR28     - Use top or belly radio antennae. Effect not implemented.
 READDATA - Technician data readout. Not implemented.
 
 GPS
