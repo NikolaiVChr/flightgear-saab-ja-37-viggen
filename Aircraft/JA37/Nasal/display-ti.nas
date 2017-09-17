@@ -3264,7 +3264,10 @@ var TI = {
 				me.wpSpeed= me.node.getNode("speed-mach");
 				if (me.wpSpeed != nil) {
 					me.wpSpeed = me.wpSpeed.getValue();
-				}
+					if (me.wpSpeed != nil and math.abs(me.wpSpeed) > 9.9 or me.wpSpeed < 0) {
+						me.wpSpeed = nil;
+					}
+				}				
 				if (me.wpSpeed == nil) {
 					me.wpSpeed = "-.--";
 				} else {
