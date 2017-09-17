@@ -3171,3 +3171,4 @@ Sim: Hacked some canvas methods, now get 25% more FPS with HUD, TI and MI on.
 HUD: Landing mode will now be reset after landing. So have to be reengaged to enable.
 TI: Temp. fix for steerpoint mach value being insane high or low.
 TI: Fixed regression that could not make L or LS to activate plan.
+TI: Proper fix for speed/alt constraint display in steerpoint infobox.

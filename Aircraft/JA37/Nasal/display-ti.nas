@@ -3136,7 +3136,7 @@ var TI = {
 				me.wpText3.update();
 
 				me.constraint_alt = "-----";
-				if (route.Polygon.selectSteer[0].alt_cstr != nil and route.Polygon.selectSteer[0].alt_cstr_type == "at") {
+				if (route.Polygon.selectSteer[0].alt_cstr != nil and route.Polygon.selectSteer[0].alt_cstr_type == "at" and route.Polygon.selectSteer[0].alt_cstr>-5000) {#Fg has habit of defaulting it to -9999
 					me.constraint_alt = sprintf("%5d",me.interoperability==displays.METRIC?FT2M*route.Polygon.selectSteer[0].alt_cstr:route.Polygon.selectSteer[0].alt_cstr);
 				}
 				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
@@ -3252,9 +3252,10 @@ var TI = {
 					me.wpAlt = me.wpAlt.getValue();
 				}
 				if (me.wpAlt == nil) {
-					me.wpAlt = "";
-				} elsif (me.wpAlt < 5000) {
-					me.wpAlt = "";
+					me.wpAlt = "-----";
+				} elsif (me.wpAlt < -5000) {
+					# FG has habit of setting default to -9999 ft
+					me.wpAlt = "-----";
 				} else {
 					# bad coding, shame on me..
 					me.wpAlt  = me.interoperability==displays.METRIC?me.wpAlt*FT2M:me.wpAlt;
@@ -3264,9 +3265,9 @@ var TI = {
 				me.wpSpeed= me.node.getNode("speed-mach");
 				if (me.wpSpeed != nil) {
 					me.wpSpeed = me.wpSpeed.getValue();
-					if (me.wpSpeed != nil and math.abs(me.wpSpeed) > 9.9 or me.wpSpeed < 0) {
-						me.wpSpeed = nil;
-					}
+					#if (me.wpSpeed != nil and math.abs(me.wpSpeed) > 9.9 or me.wpSpeed < 0) {
+					#	me.wpSpeed = nil;
+					#}
 				}				
 				if (me.wpSpeed == nil) {
 					me.wpSpeed = "-.--";
@@ -3277,7 +3278,7 @@ var TI = {
 				me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
 				me.wpETAText = sprintf("%d", me.wpETA);
 				if (me.wpETA > 500) {
-					me.wpETAText = "";
+					me.wpETAText = "---";
 				}
 
 				me.wpText2Desc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
@@ -3287,7 +3288,7 @@ var TI = {
 				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
 				me.wpText4.setText(me.wpAlt);
 				me.wpText5Desc.setText("M");
-				me.wpText5.setText(sprintf("%d", me.interoperability==displays.METRIC?me.wpSpeed*KT2KMH:me.wpSpeed));
+				me.wpText5.setText(me.wpSpeed);
 				me.wpText6Desc.setText("ETA");
 				me.wpText6.setText(me.wpETAText);
 
