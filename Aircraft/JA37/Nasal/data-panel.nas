@@ -260,16 +260,16 @@ var main = func {
       } else {
         if (ok==HOLD and digit == 6 and num(left(input,2))==19) {
             # set floor warn
-            printDA("set floor warning "~input~"%");
             var floor = metric?num(right(input,4))*M2FT:num(right(input,4));
             if (floor == 0) {
               floor = -10000;
             }
+            printDA("set floor warning "~floor~" ft");
             setprop("ja37/sound/floor-ft", floor);
             input = inputDefault;
             digit = 0;
         } elsif (ok==HOLD and digit == 6) {
-            printDA("set unknown address "~input~"%");
+            printDA("set unknown address "~input);
             input = inputDefault;
             digit = 0;
         } elsif (keyPressed == -1) {

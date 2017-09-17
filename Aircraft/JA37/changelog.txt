@@ -3176,3 +3176,4 @@ Model: Masterarm is now knob OP-RED-OFF. Reduced mode is skipped.
 Model: Old masterarm switch on front panel is now RESERVKURS and does nothing.
 DAP: When electrical DC not running DAP will show -888888, only lighted by floodlight.
 DAP: Can now input/output training floor. Address 19.
+Arms: Pure A/A missiles no longer can lock onto non-moving targets. (already couldn't in Viggen, but important for other users of the missile code)
