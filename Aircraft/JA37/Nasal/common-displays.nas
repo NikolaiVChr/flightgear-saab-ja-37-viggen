@@ -322,6 +322,12 @@ units:                "ja37/hud/units-metric",
 	},
 
 	displayMode: func {
+		# from manual:
+		#
+		# STARTMOD: always at wow0. Switch to other mode when FPI >3degs or gear retract or mach>0.35 (earliest 4s after wow0==0).
+		# NAVMOD: Press B or L, or auto switch after STARTMOD.
+		# LANDMOD: Press LT or LS on TI. (key 'Y' is same as LS)
+		#
 		if (me.input.mach.getValue() != nil) {
 		    me.hasRotated = FALSE;
 		    if (me.input.mach.getValue() > 0.1) {
@@ -330,31 +336,29 @@ units:                "ja37/hud/units-metric",
 		      me.vel_gv = -me.input.speed_d.getValue();
 		      me.hasRotated = math.atan2(me.vel_gv, me.vel_gh)*R2D > 3;
 		    }
-		    me.takeoffForbidden = me.hasRotated or me.input.mach.getValue() > 0.35 or me.input.gearsPos.getValue() != 1;
+		    me.takeoffForbidden = me.hasRotated or me.input.gearsPos.getValue() != 1;# takeoff no longer allowed
+		    me.takeoffForbidden2 = me.input.mach.getValue() > 0.35 and me.modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - me.modeTimeTakeoff > 4;
+		    me.takeoffForbidden = me.takeoffForbidden or me.takeoffForbidden2;
 		    if(me.mode!= TAKEOFF and !me.takeoffForbidden and me.input.wow0.getValue() == TRUE and me.input.dev.getValue() != TRUE) {
 		      # nosewheel touch runway, so we switch to TAKEOFF
 		      me.mode= TAKEOFF;
+		      me.input.landingMode.setValue(0);
 		      me.modeTimeTakeoff = -1;
 		    } elsif (me.input.dev.getValue() == TRUE and me.input.combat.getValue() == 1) {
-		      # developer me.modeis active with tactical request, so we switch to COMBAT
+		      # developer mode is active with tactical request, so we switch to COMBAT
 		      me.mode= COMBAT;
 		      me.modeTimeTakeoff = -1;
 		    } elsif (me.mode== TAKEOFF and me.modeTimeTakeoff == -1 and me.input.wow0.getValue() == FALSE) {
 		      # Nosewheel lifted off, so we start the 4 second counter
 		      me.modeTimeTakeoff = me.input.elapsedSec.getValue();
-		    } elsif (me.modeTimeTakeoff != -1 and me.input.elapsedSec.getValue() - me.modeTimeTakeoff > 4) {
-		      if (me.takeoffForbidden == TRUE) {
+		    } elsif (me.mode== TAKEOFF and me.takeoffForbidden == TRUE) {
 		        # time to switch away from TAKEOFF mode.
 		        if (me.input.landingMode.getValue() == TRUE) {
-		          me.mode= LANDING;
+		          me.mode = LANDING;
 		        } else {
-		          me.mode= me.input.combat.getValue() == 1 ? COMBAT : NAV;
+		          me.mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
 		        }
 		        me.modeTimeTakeoff = -1;
-		      } else {
-		        # 4 second has passed since frontgear touched runway, but conditions to switch from TAKEOFF has still not been met.
-		        me.mode= TAKEOFF;
-		      }
 		    } elsif ((me.mode== COMBAT or me.mode== NAV) and (me.input.landingMode.getValue() == TRUE)) {
 		      # Switch to LANDING
 		      me.mode= LANDING;
