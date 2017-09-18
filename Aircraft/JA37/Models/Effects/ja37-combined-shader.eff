@@ -3,9 +3,10 @@
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
     <rain-enabled type="int">2</rain-enabled>
-    <ambient-correction type="float">0.05</ambient-correction>
+    <ambient-correction type="float">0.00</ambient-correction>
     <normalmap-enabled type="int">1</normalmap-enabled>
 
+    <reflection-type type="int">2</reflection-type>
 	<lightmap-enabled type="int">1</lightmap-enabled>
 	<lightmap-multi type="int">1</lightmap-multi>
 	<lightmap-factor type="float" n="0"><use>sim/multiplay/generic/float[3]</use></lightmap-factor>
@@ -17,7 +18,7 @@
 	<lightmap-factor type="float" n="3">0.0</lightmap-factor>
 	<lightmap-color type="vec3d" n="3"> 1.0 1.0 1.0 </lightmap-color>
 
-    <reflection-enabled type="int">1</reflection-enabled>
+    <reflection-enabled type="int">0</reflection-enabled>
     <reflect-map-enabled type="int">0</reflect-map-enabled>
     <reflection-correction type="float">-0.5</reflection-correction>
     <reflection-fresnel type="float">0.0</reflection-fresnel>

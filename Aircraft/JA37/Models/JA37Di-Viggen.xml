@@ -576,6 +576,11 @@
 <!-- Material shaders   -->
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+    <!--<parameters>
+      <reflection-type type="int">2</reflection-type>
+      <reflection-enabled type="int">0</reflection-enabled>
+      <ambient-correction type="float">0.0</ambient-correction>
+    </parameters>-->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
