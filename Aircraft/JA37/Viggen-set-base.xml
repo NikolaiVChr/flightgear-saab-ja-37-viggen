@@ -890,18 +890,18 @@
                     <vortex type="double">1.0</vortex>
                 </function>
                 <drag>
-                    <!-- drag - Notice fuselage is about 0.010 at alpha=2 -->
+                    <!-- drag - Notice fuselage is about 0.013 at alpha=2 -->
                     <!-- drag: flaps, gears and fuselage at 2 deg alpha must give 0.058 together to match data.-->
-                    <gear type="double">        0.045</gear>                    <!-- fully extended -->
+                    <gear type="double">        0.042</gear>                    <!-- fully extended -->
                     <flaps type="double">       0.0036</flaps>                    <!-- full 30 degrees downward deflection of canard flaps -->
                     <missile type="double">     0.0001444</missile> <!-- aim-9 -->
                     <drop-tank type="double">   1.000</drop-tank>
                     <canopy type="double">      0.025</canopy>                    <!-- fully open -->
                     <canopy-off type="double">  0.015</canopy-off>                    <!-- broken off -->
                     <rudder type="double">      0.010</rudder>                    <!-- at full 25 degrees deflection -->
-                    <elevon-left type="double"> 0.015</elevon-left>                    <!-- full 40 degrees upward deflection -->
-                    <elevon-right type="double">0.015</elevon-right>                    <!-- full 40 degrees upward deflection -->
-                    <speedbrake type="double">  0.030</speedbrake>                    <!-- fully extended -->
+                    <elevon-left type="double"> 0.012</elevon-left>                    <!-- full 40 degrees upward deflection -->
+                    <elevon-right type="double">0.012</elevon-right>                    <!-- full 40 degrees upward deflection -->
+                    <speedbrake type="double">  0.020</speedbrake>                    <!-- fully extended -->
                     <ram-air-turbine type="double">0.0025</ram-air-turbine>                    <!-- fully extended -->
                 </drag>
             </aero>

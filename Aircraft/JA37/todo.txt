@@ -154,13 +154,10 @@ TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 DAP: Show sign of input at leftmost char always.
 TI: Buttons should light up for quarter second when used.
 TI: Run different through plans when drawing them on canvas.
-Sim: Should OPT really disable A/P?
 Sim: Why don't takeoff mode switch off OPT autoset on runway? fix..
-MI: FPI should be fixed to indicator middle, horizon and ground symbol moves in relation to it.
-Arms: A/A missiles should not lock onto non moving targets.
-Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
+MI: FPI should be fixed to indicator middle just like TI, horizon and ground symbol moves in relation to it.
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.
-
+Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
 
 
 

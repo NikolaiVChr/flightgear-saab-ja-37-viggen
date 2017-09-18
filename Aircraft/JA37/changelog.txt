@@ -3183,3 +3183,4 @@ Model: Made default livery lighter and more bluish.
 Model: Adjusted material for fuselage.
 Effect: Turned off reflections on fuselage.
 Aero: Tuned wave drag.
+Aero: Adjusted speedbrake and gears drag.
