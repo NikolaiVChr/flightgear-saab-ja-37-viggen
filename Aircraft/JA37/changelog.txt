@@ -3177,3 +3177,9 @@ Model: Old masterarm switch on front panel is now RESERVKURS and does nothing.
 DAP: When electrical DC not running DAP will show -888888, only lighted by floodlight.
 DAP: Can now input/output training floor. Address 19.
 Arms: Pure A/A missiles no longer can lock onto non-moving targets. (already couldn't in Viggen, but important for other users of the missile code)
+Model: Made AoA gauge dial dark parts darker.
+Animation: Stopped transponder controls from being backlit.
+Model: Made default livery lighter and more bluish.
+Model: Adjusted material for fuselage.
+Effect: Turned off reflections on fuselage.
+Aero: Tuned wave drag.

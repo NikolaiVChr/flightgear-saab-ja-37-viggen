@@ -450,7 +450,10 @@
     </function>    
 
 
-    <!-- reverse engineered from performance values -->
+    <!-- 
+        Aerodynanik Kompendium III page 33
+        Semi reverse-engineered from envelope chart.
+     -->
     <function name="aero/function/mach-effect-drag">
         <description>
             Change in force due to mach effect
@@ -459,15 +462,14 @@
             <product>
                 <table>
                     <independentVar lookup="row">velocities/mach</independentVar>
-                    <independentVar lookup="column">atmosphere/density-altitude</independentVar>
-                    <tableData><!--  1.25   2.2   mach, aug   -->
-                                  0.0    36089.2
-                        0.8100    0.00     0.00
-                        1.0000    0.10     0.0588
-                        1.1250    0.0825   0.0588
-                        1.2500    0.07     0.0588
-                        1.5000    0.05     0.0588
-                        2.0000    0.03     0.0588
+                    <!--<independentVar lookup="column">atmosphere/density-altitude</independentVar>-->
+                    <tableData>
+                        0.80 0.00000 <!-- approx -->
+                        0.91 0.00990 <!-- ISA Mil max speed match, 100m alt -->
+                        1.00 0.01600 <!-- approx -->
+                        1.21 0.01560 <!-- ISA Aug max speed match, 100m alt -->
+                    <!--1.85 --><!-- ISA Aug max speed match, sadly it has to be a bit lower to get ISA-15 max match -->
+                        2.03 0.01375   <!-- ISA-15 Aug max speed match, 11Km alt -->
                     </tableData>
                 </table>
                 <property>aero/factor-axial-mach</property>
@@ -1144,6 +1146,7 @@
                                 175.0000        -.0010 
                             </tableData>
                         </table>
+                        <property>aero/drag/drop-tank</property>
                         <cos>
                             <property>aero/alpha-rad</property>
                         </cos>
