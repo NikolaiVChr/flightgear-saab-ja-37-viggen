@@ -895,7 +895,7 @@
                     <gear type="double">        0.042</gear>                    <!-- fully extended -->
                     <flaps type="double">       0.0036</flaps>                    <!-- full 30 degrees downward deflection of canard flaps -->
                     <missile type="double">     0.0001444</missile> <!-- aim-9 -->
-                    <drop-tank type="double">   1.000</drop-tank>
+                    <drop-tank type="double">   1.000</drop-tank><!-- factor on DATCOM+ generated drag -->
                     <canopy type="double">      0.025</canopy>                    <!-- fully open -->
                     <canopy-off type="double">  0.015</canopy-off>                    <!-- broken off -->
                     <rudder type="double">      0.010</rudder>                    <!-- at full 25 degrees deflection -->

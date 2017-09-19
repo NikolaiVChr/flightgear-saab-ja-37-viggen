@@ -429,8 +429,7 @@
                     <difference>
                         <property>/autopilot/route-manager/wp/bearing-deg-rel</property>
                         <property>/autopilot/route-manager/wp/bearing-deg-rel-rate</property>
-                    </difference>
-                        
+                    </difference>                        
                 </ifthen>
             </function>
         </fcs_function>
@@ -597,7 +596,6 @@
         </switch>
 
         <!-- used for animating epr gauge -->
-
         <fcs_function name="propulsion/engine/mil-rate">
             <function>
                 <!-- looked in JSBSim source code to find this formula for milthrust,

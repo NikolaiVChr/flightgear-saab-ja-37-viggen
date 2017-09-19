@@ -681,6 +681,9 @@
 
   <effect>  
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
+    <!--<parameters>
+      <reflection-enabled type="int">0</reflection-enabled>
+    </parameters>-->
     <object-name>gearFrontOleoStrut</object-name>
     <object-name>gearLeftOleoStrut</object-name>
     <object-name>gearRightOleoStrut</object-name>

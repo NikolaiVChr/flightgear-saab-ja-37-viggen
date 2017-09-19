@@ -4,7 +4,7 @@
   <name>Effects/ja37-metal</name>
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
-     <reflection-enabled type="int">1</reflection-enabled>
+     <reflection-enabled type="int">0</reflection-enabled>
      <reflect-map-enabled type="int">0</reflect-map-enabled>
      <reflection-correction type="float">0</reflection-correction>
      <reflection-fresnel type="float">0.0</reflection-fresnel>

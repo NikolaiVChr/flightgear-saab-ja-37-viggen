@@ -3184,3 +3184,5 @@ Model: Adjusted material for fuselage.
 Effect: Turned off reflections on fuselage.
 Aero: Tuned wave drag.
 Aero: Adjusted speedbrake and gears drag.
+Effect: Removed reflections from nozzle and bare metal parts.
+Model: Adjusted texture color for nozzle and tertiary opening.

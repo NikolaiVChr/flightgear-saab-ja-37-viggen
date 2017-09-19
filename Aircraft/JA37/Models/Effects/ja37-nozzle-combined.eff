@@ -4,7 +4,7 @@
   <name>Effects/ja37-nozzle-combined</name>
   <inherits-from>Effects/model-combined-deferred</inherits-from>
   <parameters>
-     <reflection-enabled type="int">1</reflection-enabled>
+     <reflection-enabled type="int">0</reflection-enabled>
      <reflection-correction type="float">0.0</reflection-correction>
      <reflection-fresnel type="float">0.0</reflection-fresnel>
 
@@ -15,6 +15,10 @@
      <dirt-enabled type="int">0</dirt-enabled>
      <dirt-factor type="float">0.0</dirt-factor>
      <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
+
+      <lightmap-enabled type="int">0</lightmap-enabled>
+
+      <!-- TODO: remake light map for this -->
 
    <texture n="5"> <!-- reflection env. map -->
      <type>cubemap</type>
