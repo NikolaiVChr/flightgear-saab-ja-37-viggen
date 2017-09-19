@@ -359,6 +359,16 @@
         <type>float</type>
         <value><use>fact_black</use></value>
       </uniform>
+      <uniform>
+        <name>display_xsize</name>
+        <type>int</type>
+        <value><use>display_xsize</use></value>
+      </uniform>
+      <uniform>
+        <name>display_ysize</name>
+        <type>int</type>
+        <value><use>display_ysize</use></value>
+      </uniform>
 
       <uniform>
         <name>texture</name>
