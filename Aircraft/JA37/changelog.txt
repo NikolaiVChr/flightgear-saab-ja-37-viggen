@@ -3179,10 +3179,11 @@ DAP: Can now input/output training floor. Address 19.
 Arms: Pure A/A missiles no longer can lock onto non-moving targets. (already couldn't in Viggen, but important for other users of the missile code)
 Model: Made AoA gauge dial dark parts darker.
 Animation: Stopped transponder controls from being backlit.
-Model: Made default livery lighter and more bluish.
+Model: Made default 59 livery lighter and more bluish.
 Model: Adjusted material for fuselage.
 Effect: Turned off reflections on fuselage.
 Aero: Tuned wave drag.
 Aero: Adjusted speedbrake and gears drag.
 Effect: Removed reflections from nozzle and bare metal parts.
 Model: Adjusted texture color for nozzle and tertiary opening.
+Model: Made 66 livery lighter and more bluish.
