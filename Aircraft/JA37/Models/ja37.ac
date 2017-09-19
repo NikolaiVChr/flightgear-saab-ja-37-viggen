@@ -1,6 +1,6 @@
 AC3Db
 MATERIAL "blackMat"         rgb 0.00 0.00 0.00  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  50 trans 0.00
-MATERIAL "bodyMat"          rgb 0.80 0.80 0.80  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.65 0.65 0.65  shi  64 trans 0.00
+MATERIAL "bodyMat"          rgb 0.75 0.75 0.75  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.30 0.30 0.30  shi  64 trans 0.00
 MATERIAL "canopy"           rgb 0.80 0.80 0.80  amb 1.00 1.00 1.00  emis 0.00 0.00 0.00  spec 0.50 0.50 0.50  shi  12 trans 0.00
 MATERIAL "dashpanelMat"     rgb 0.80 0.80 0.80  amb 0.80 0.80 0.80  emis 0.00 0.00 0.00  spec 0.70 0.70 0.70  shi  50 trans 0.00
 MATERIAL "engineMat"        rgb 0.60 0.60 0.60  amb 0.60 0.60 0.60  emis 0.00 0.00 0.00  spec 0.80 0.80 0.80  shi  45 trans 0.00
