@@ -158,7 +158,7 @@ Sim: Why don't takeoff mode switch off OPT autoset on runway? fix..
 MI: FPI should be fixed to indicator middle just like TI, horizon and ground symbol moves in relation to it.
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
-
+Model: SAF32HD: frontgear well color. Red stuff on side of fuselage.
 
 
 
