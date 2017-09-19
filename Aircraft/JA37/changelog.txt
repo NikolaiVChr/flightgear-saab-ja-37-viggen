@@ -2954,7 +2954,7 @@ Radar: SR-71 will now be more observable.
 =====
 Sim: Fixed some issues that would prevent the Viggen from working with Flightgear 3.2. Notice the TI failure menu will not be working in this FG version.
 
-4.109
+4.300
 =====
 Sim: Heatseekers will now pursuit the flare when they lock onto it.
 TI: Fixed display would not black out when using ALS and filters.
@@ -3187,3 +3187,4 @@ Aero: Adjusted speedbrake and gears drag.
 Effect: Removed reflections from nozzle and bare metal parts.
 Model: Adjusted texture color for nozzle and tertiary opening.
 Model: Made 66 livery lighter and more bluish.
+Model: Added livery F16-32. HD.

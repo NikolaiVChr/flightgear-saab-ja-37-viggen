@@ -6,7 +6,7 @@
 #
 #
 
-Some of these features that has to do with multiple plans or areas, wont work in less than FG 2017.3.1.
+Some of these features that has to do with multiple flightplans or map-areas, wont work in older than FG 2017.3.1.
 
 Flightplans
 ===========
