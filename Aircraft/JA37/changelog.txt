@@ -3188,3 +3188,5 @@ Effect: Removed reflections from nozzle and bare metal parts.
 Model: Adjusted texture color for nozzle and tertiary opening.
 Model: Made 66 livery lighter and more bluish.
 Model: Added livery F16-32. HD.
+Model: Desaturated decals on SAF32 livery and made some noise on the metal paint.
+Model: Adjusted fuselage material.
