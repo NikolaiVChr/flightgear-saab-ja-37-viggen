@@ -3191,3 +3191,4 @@ Model: Added livery F16-32. HD.
 Model: Desaturated decals on SAF32 livery and made some noise on the metal paint.
 Model: Adjusted fuselage material.
 TI: Clicking edge buttons with mouse or cursor will now make them light up for 0.3 seconds.
+Effect: Added rust to nozzle.
