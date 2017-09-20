@@ -136,11 +136,13 @@ var SVY_120  = 2;
 
 var brightnessP = func {
 	if (ti.active == FALSE) return;
+	edgeButtonsStruct[21] = getprop("sim/time/elapsed-sec");
 	ti.brightness += 0.25;
 };
 
 var brightnessM = func {
 	if (ti.active == FALSE) return;
+	edgeButtonsStruct[21] = getprop("sim/time/elapsed-sec");
 	ti.brightness -= 0.25;
 };
 
@@ -295,6 +297,8 @@ var dictEN = {
 	'SIDV': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'5': [TRUE, "WIN"], '6': [TRUE, "SHOW"], '7': [TRUE, "MENU"], '14': [TRUE, "SCAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "AMAX"]},
 };
+
+var edgeButtonsStruct = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
 var TI = {
 
@@ -1655,6 +1659,7 @@ var TI = {
 		me.showHeadingBug();
 		me.testLanding();
 		me.showCursor();
+		me.edgeButtons();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#me.rate = me.rate !=nil?clamp(1/(me.rate+0.001), 0.05, 0.5):0.5;
 		me.rate = 0.05;
@@ -2357,6 +2362,26 @@ var TI = {
 		me.logEvents.push(me.message);
 	},
 
+	########################################################################################################
+	########################################################################################################
+	#
+	#  misc overlays
+	#
+	#
+	########################################################################################################
+	########################################################################################################
+
+	edgeButtons: func {
+		me.lightNorm = getprop("controls/lighting/instruments-norm");
+		me.elapsedTime = me.input.timeElapsed.getValue();
+		for (me.i = 0; me.i <22;me.i+=1) {
+			if (me.elapsedTime-edgeButtonsStruct[me.i]<0.30) {
+				setprop("ja37/light/ti"~me.i,0.75);
+			} else {
+				setprop("ja37/light/ti"~me.i,me.lightNorm);
+			}
+		}
+	},
 
 	########################################################################################################
 	########################################################################################################
@@ -4283,6 +4308,7 @@ var TI = {
 
 
 	b1: func {
+		edgeButtonsStruct[1] = me.input.timeElapsed.getValue();
 		if (me.off == TRUE) {
 			me.off = !me.off;
 			MI.mi.off = me.off;
@@ -4312,6 +4338,7 @@ var TI = {
 
 	b2: func {
 		if (!me.active) return;
+		edgeButtonsStruct[2] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4337,6 +4364,7 @@ var TI = {
 
 	b3: func {
 		if (!me.active) return;
+		edgeButtonsStruct[3] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4366,6 +4394,7 @@ var TI = {
 
 	b4: func {
 		if (!me.active) return;
+		edgeButtonsStruct[4] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4395,6 +4424,7 @@ var TI = {
 
 	b5: func {
 		if (!me.active) return;
+		edgeButtonsStruct[5] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4450,6 +4480,7 @@ var TI = {
 
 	b6: func {
 		if (!me.active) return;
+		edgeButtonsStruct[6] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4488,6 +4519,7 @@ var TI = {
 
 	b7: func {
 		if (!me.active) return;
+		edgeButtonsStruct[7] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} else {
@@ -4501,6 +4533,7 @@ var TI = {
 	b8: func {
 		# weapons
 		if (!me.active) return;
+		edgeButtonsStruct[8] = me.input.timeElapsed.getValue();
 		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_WEAPONS;
 			me.menuShowFast = TRUE;
@@ -4520,6 +4553,7 @@ var TI = {
 	b9: func {
 		# system
 		if (!me.active) return;
+		edgeButtonsStruct[9] = me.input.timeElapsed.getValue();
 		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_SYSTEMS;
 			me.menuShowFast = TRUE;
@@ -4539,6 +4573,7 @@ var TI = {
 	b10: func {
 		# display
 		if (!me.active) return;
+		edgeButtonsStruct[10] = me.input.timeElapsed.getValue();
 		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_DISPLAY;
 			me.menuShowFast = TRUE;
@@ -4558,6 +4593,7 @@ var TI = {
 	b11: func {
 		# flight data
 		if (!me.active) return;
+		edgeButtonsStruct[11] = me.input.timeElapsed.getValue();
 		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_MISSION_DATA;
 			me.menuShowFast = TRUE;
@@ -4577,6 +4613,7 @@ var TI = {
 	b12: func {
 		# errors
 		if (!me.active) return;
+		edgeButtonsStruct[12] = me.input.timeElapsed.getValue();
 		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_FAILURES;
 			me.menuShowFast = TRUE;
@@ -4595,6 +4632,7 @@ var TI = {
 
 	b13: func {
 		# configuration
+		edgeButtonsStruct[13] = me.input.timeElapsed.getValue();
 		if (!me.active) return;
 		if (me.menuShowMain == TRUE and me.menuMain != MAIN_WEAPONS) {
 			me.menuMain = MAIN_CONFIGURATION;
@@ -4614,6 +4652,7 @@ var TI = {
 
 	b14: func {
 		if (!me.active) return;
+		edgeButtonsStruct[14] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4681,6 +4720,7 @@ var TI = {
 
 	b15: func {
 		if (!me.active) return;
+		edgeButtonsStruct[15] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4724,6 +4764,7 @@ var TI = {
 
 	b16: func {
 		if (!me.active) return;
+		edgeButtonsStruct[16] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4778,6 +4819,7 @@ var TI = {
 
 	b17: func {
 		if (!me.active) return;
+		edgeButtonsStruct[17] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4814,6 +4856,7 @@ var TI = {
 
 	b18: func {
 		if (!me.active) return;
+		edgeButtonsStruct[18] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4835,6 +4878,7 @@ var TI = {
 
 	b19: func {
 		if (!me.active) return;
+		edgeButtonsStruct[19] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
@@ -4877,6 +4921,7 @@ var TI = {
 
 	b20: func {
 		if (!me.active) return;
+		edgeButtonsStruct[20] = me.input.timeElapsed.getValue();
 		if (me.menuShowFast == FALSE and me.menuShowMain == FALSE) {
 			me.openQuickMenu();
 		} elsif (me.menuShowFast == TRUE) {
