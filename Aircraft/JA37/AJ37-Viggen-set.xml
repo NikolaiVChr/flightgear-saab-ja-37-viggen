@@ -749,7 +749,10 @@
     <ja37>
         <systems>
             <variant type="int">1</variant>
-        </systems>        
+        </systems> 
+        <effect>
+            <!--<g-suit type="int">1</g-suit>--><!-- 1:71 2:79 3:97 -->       
+        </effect>
     </ja37>
 
     <limits>

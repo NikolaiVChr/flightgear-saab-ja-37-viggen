@@ -8,7 +8,7 @@
 
 <PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
-        <aircraft-version>4.108</aircraft-version>
+        <aircraft-version>4.300</aircraft-version>
 
         <minimum-fg-version>2017.3.1</minimum-fg-version>
 
@@ -551,7 +551,7 @@
                 <noise type="int">1</noise>
                 <color type="double">0</color>
             </heatblur>
-            <g-suit type="int">3</g-suit>
+            <!--<g-suit type="int">3</g-suit>--><!-- 1:71 2:79 3:97 -->
             <pod0 type="bool">true</pod0>
             <pod1 type="bool">true</pod1>
             <pod2 type="bool">true</pod2>

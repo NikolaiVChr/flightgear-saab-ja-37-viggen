@@ -2954,7 +2954,7 @@ Radar: SR-71 will now be more observable.
 =====
 Sim: Fixed some issues that would prevent the Viggen from working with Flightgear 3.2. Notice the TI failure menu will not be working in this FG version.
 
-4.300
+4.300 - 2017 September 21
 =====
 Sim: Heatseekers will now pursuit the flare when they lock onto it.
 TI: Fixed display would not black out when using ALS and filters.
@@ -3193,3 +3193,4 @@ Model: Adjusted fuselage material.
 TI: Clicking edge buttons with mouse or cursor will now make them light up for 0.3 seconds.
 Effect: Added rust to nozzle.
 Model: SAF32 livery now has slight occlusion baked in.
+Model: Made 31 livery lighter and more bluish.

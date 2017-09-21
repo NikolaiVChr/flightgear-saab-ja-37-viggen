@@ -4,7 +4,7 @@ Readme for the JA-37Di / AJ-37 / AJS-37 Viggen aircraft for the Flightgear simul
 
 Install
 ----------
-1 - Have flightgear installed. Version 2.8.0.2 to 2017.2.1 is tested. Earlier version will not work, later might.
+1 - Have flightgear installed. Version 2.8.0.2 to 2017.3.1 is tested. Earlier version will not work, later might.
 2 - Copy the entire 'JA37' folder into a folder where Flightgear will look for aircraft.
 3 - Happy flying. Check the aircraft help page inside the sim for instructions.
 
