@@ -367,6 +367,9 @@ var Landing = {
             mode_LF_active = FALSE;
             mode_OPT_active = TRUE;
             showActiveSteer = FALSE;
+        } elsif (getprop("ja37/hud/landing-mode")==FALSE) {
+            printDA("OPT: deactivated due to not in landing mode.");
+            mode_OPT_active = FALSE;
         }
         if (has_waypoint > 0) {
         	if (has_waypoint > 1) {
