@@ -3203,3 +3203,5 @@ Sim: Reduced loop speed of landing mode code.
 4.302
 =====
 Sim: Removed uses of var keyword in landing mode loop.
+Sim: Removed uses of var keyword in main saab37 loops.
+Sim: Made main saab37 loop slower.
