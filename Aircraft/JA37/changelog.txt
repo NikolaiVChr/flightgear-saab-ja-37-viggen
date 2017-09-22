@@ -3194,3 +3194,8 @@ TI: Clicking edge buttons with mouse or cursor will now make them light up for 0
 Effect: Added rust to nozzle.
 Model: SAF32 livery now has slight occlusion baked in.
 Model: Made 31 livery lighter and more bluish.
+
+4.301 - 2017 September 22
+=====
+Sim: Fixed optical landing mode would not engage automatically.
+Sim: Reduced loop speed of landing mode code.

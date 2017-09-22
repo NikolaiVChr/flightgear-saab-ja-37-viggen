@@ -347,6 +347,21 @@ var landing_loop = func {
             #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
         }
     }
+    var alt             = getprop("instrumentation/altimeter/indicated-altitude-ft")*FT2M;
+    var alt_rad         = getprop("position/altitude-agl-ft")!=nil?getprop("position/altitude-agl-ft")*FT2M:100000;
+    var alt_rad_enabled = getprop("controls/altimeter-radar");
+    if (getprop("ja37/hud/landing-mode")==TRUE and mode_OPT_active==FALSE and ((alt < 35) or (alt_rad_enabled and alt>60 and alt_rad<15))) {
+        printDA("OPT: auto activated");
+        auto.unfollowSilent();
+        mode = 4;
+        mode_LA_active = FALSE;
+        mode_B_active = FALSE;
+        mode_L_active = FALSE;
+        mode_LB_active = FALSE;
+        mode_LF_active = FALSE;
+        mode_OPT_active = TRUE;
+        showActiveSteer = FALSE;
+    }
     if (has_waypoint > 0) {
     	if (has_waypoint > 1) {
             #showActiveSteer = FALSE;
@@ -532,7 +547,7 @@ var landing_loop = func {
             printDA("last mode -1");
         }
     }
-    settimer(landing_loop, 0.05);
+    settimer(landing_loop, 0.25);
 }
 
 var land_start = func {
