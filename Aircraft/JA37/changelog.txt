@@ -3205,3 +3205,4 @@ Sim: Reduced loop speed of landing mode code.
 Sim: Removed uses of var keyword in landing mode loop.
 Sim: Removed uses of var keyword in main saab37 loops.
 Sim: Made main saab37 loop slower.
+Sim: Moved some code about dropping rocket pods into stores.nas.

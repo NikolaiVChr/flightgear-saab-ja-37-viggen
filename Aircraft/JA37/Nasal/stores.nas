@@ -602,6 +602,43 @@ var loop_stores = func {
     flareCount = -1;
   }
 
+  # conditionals for dropping M70/droptank
+  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[11]") == 794) {
+    #left wing rocket pod mounted
+    setprop("ja37/effect/pod0", FALSE);
+    setprop("ai/submodels/submodel[17]/count", 1);
+  } else {
+    setprop("ja37/effect/pod0", TRUE);
+  }
+  if (getprop("sim/multiplay/generic/float[12]") == 794) {
+    #left wing rocket pod mounted
+    setprop("ja37/effect/pod1", FALSE);
+    setprop("ai/submodels/submodel[18]/count", 1);
+  } else {
+    setprop("ja37/effect/pod1", TRUE);
+  }
+  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[13]") == 794) {
+    #left wing rocket pod mounted
+    setprop("ja37/effect/pod2", FALSE);
+    setprop("ai/submodels/submodel[19]/count", 1);
+  } else {
+    setprop("ja37/effect/pod2", TRUE);
+  }
+  if (getprop("sim/multiplay/generic/float[14]") == 794) {
+    #left wing rocket pod mounted
+    setprop("ja37/effect/pod3", FALSE);
+    setprop("ai/submodels/submodel[20]/count", 1);
+  } else {
+    setprop("ja37/effect/pod3", TRUE);
+  }
+  if (getprop("sim/multiplay/generic/float[10]") == 794) {
+    #left wing rocket pod mounted
+    setprop("ja37/effect/pod4", FALSE);
+    setprop("ai/submodels/submodel[21]/count", 1);
+  } else {
+    setprop("ja37/effect/pod4", TRUE);
+  }
+
   settimer(func { loop_stores() }, STORES_UPDATE_PERIOD);
 }
 
@@ -1882,43 +1919,43 @@ var main_weapons = func {
 
 var selectNextWaypoint = func () {
   if (getprop("ja37/avionics/cursor-on") != FALSE) {
-  var active_wp = getprop("autopilot/route-manager/current-wp");
+    var active_wp = getprop("autopilot/route-manager/current-wp");
 
-  if (active_wp == nil or active_wp < 0) {
-    screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
-    return;
-  }
-
-  var active_node = globals.props.getNode("autopilot/route-manager/route/wp["~active_wp~"]");
-
-  if (active_node == nil) {
-    screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
-    return;
-  }
-
-  var lat = active_node.getNode("latitude-deg");
-  var lon = active_node.getNode("longitude-deg");
-  var alt = active_node.getNode("altitude-m").getValue();
-
-  if (alt < -9000) {
-    var ground = geo.elevation(lat.getValue(), lon.getValue());
-    if(ground != nil) {
-      alt = ground;
-    } else {
-      screen.log.write("Active route-manager waypoint has no altitude, unable to create target.", 1.0, 0.0, 0.0);
+    if (active_wp == nil or active_wp < 0) {
+      screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
       return;
     }
+
+    var active_node = globals.props.getNode("autopilot/route-manager/route/wp["~active_wp~"]");
+
+    if (active_node == nil) {
+      screen.log.write("Active route-manager waypoint invalid, unable to create target.", 1.0, 0.0, 0.0);
+      return;
+    }
+
+    var lat = active_node.getNode("latitude-deg");
+    var lon = active_node.getNode("longitude-deg");
+    var alt = active_node.getNode("altitude-m").getValue();
+
+    if (alt < -9000) {
+      var ground = geo.elevation(lat.getValue(), lon.getValue());
+      if(ground != nil) {
+        alt = ground;
+      } else {
+        screen.log.write("Active route-manager waypoint has no altitude, unable to create target.", 1.0, 0.0, 0.0);
+        return;
+      }
+    }
+
+    var name = active_node.getNode("id");
+
+    var coord = geo.Coord.new();
+    coord.set_latlon(lat.getValue(), lon.getValue(), alt);
+
+    var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
+
+    radar_logic.selection = contact;
   }
-
-  var name = active_node.getNode("id");
-
-  var coord = geo.Coord.new();
-  coord.set_latlon(lat.getValue(), lon.getValue(), alt);
-
-  var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
-
-  radar_logic.selection = contact;
-}
 }
 
 setprop("/sim/failure-manager/display-on-screen", FALSE);
