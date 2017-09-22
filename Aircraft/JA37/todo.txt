@@ -171,7 +171,6 @@ TI: Startfix instead of time when INS is starting up.
 
 
 
-
 List of un-authentic systems, most scheduled for removal/change at some point
 -----------------------------------------------------------------------------
 A/P auto-follow never existed. RR steer order, was probably just heading and altitude bugs.

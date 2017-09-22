@@ -306,255 +306,262 @@ var noMode = func {
 # mode 4: (OPT)
 # 2.8m/s sinkrate max for non flare landing.
 
-var landing_loop = func {
-	show_runway_line = FALSE;
-	show_waypoint_circle = FALSE;
-	show_approach_circle = FALSE;
-	runway = "";
-    icao = "";
-	var bearing = 0;
-    has_waypoint = -1;
-    runway_rw = nil;
-    ils = 0;
-	if (route.Polygon.isPrimaryActive() == TRUE) {
-        has_waypoint = 0;
-        runway_dist = input.rmDist.getValue();        
-        var heading = input.heading.getValue();#true
-        bearing = input.rmTrueBearing.getValue();#true
-        if (runway_dist != nil and bearing != nil and heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
-            has_waypoint = 1;
-          	runway_bug = bearing - heading;
-            var wp = route.Polygon.primary.getSteerpoint();
-            #print("current: "~ghosttype(wp[0]));
-          	var name = wp[0].id;
-            if (ghosttype(wp[0]) == "airport") {
-                ils = 0;
-                icao   = wp[0].id;
-                #has_waypoint = 1;
-            }
-            if (ghosttype(wp[0]) == "runway") {
-                ils = 0;
-                icao   = wp[1].id;
-                runway = wp[0].id;
-                runway_rw = wp[0];
-                if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
-                    ils = runway_rw.ils.frequency/100;
+var Landing = {
+    new: func {
+        var l = {parents: [Landing]};
+        return l;
+    },
+    
+    loop: func {
+    	show_runway_line = FALSE;
+    	show_waypoint_circle = FALSE;
+    	show_approach_circle = FALSE;
+    	runway = "";
+        icao = "";
+    	me.bearing = 0;
+        has_waypoint = -1;
+        runway_rw = nil;
+        ils = 0;
+    	if (route.Polygon.isPrimaryActive() == TRUE) {
+            has_waypoint = 0;
+            runway_dist = input.rmDist.getValue();        
+            me.heading = input.heading.getValue();#true
+            me.bearing = input.rmTrueBearing.getValue();#true
+            if (runway_dist != nil and me.bearing != nil and me.heading != nil and route.Polygon.primary.getSteerpoint()[0] != nil) {
+                has_waypoint = 1;
+              	runway_bug = me.bearing - me.heading;
+                me.wp = route.Polygon.primary.getSteerpoint();
+                #print("current: "~ghosttype(wp[0]));
+              	me.name = me.wp[0].id;
+                if (ghosttype(me.wp[0]) == "airport") {
+                    ils = 0;
+                    icao   = me.wp[0].id;
+                    #has_waypoint = 1;
                 }
-                head = wp[0].heading;
-                has_waypoint = 2;
+                if (ghosttype(wp[0]) == "runway") {
+                    ils = 0;
+                    icao   = me.wp[1].id;
+                    runway = me.wp[0].id;
+                    runway_rw = me.wp[0];
+                    if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
+                        ils = runway_rw.ils.frequency/100;
+                    }
+                    head = me.wp[0].heading;
+                    has_waypoint = 2;
+                }
+            } elsif (runway_dist != nil and me.bearing != nil and me.heading != nil) {
+                #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
             }
-        } elsif (runway_dist != nil and bearing != nil and heading != nil) {
-            #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
         }
-    }
-    var alt             = getprop("instrumentation/altimeter/indicated-altitude-ft")*FT2M;
-    var alt_rad         = getprop("position/altitude-agl-ft")!=nil?getprop("position/altitude-agl-ft")*FT2M:100000;
-    var alt_rad_enabled = getprop("controls/altimeter-radar");
-    if (getprop("ja37/hud/landing-mode")==TRUE and mode_OPT_active==FALSE and ((alt < 35) or (alt_rad_enabled and alt>60 and alt_rad<15))) {
-        printDA("OPT: auto activated");
-        auto.unfollowSilent();
-        mode = 4;
-        mode_LA_active = FALSE;
-        mode_B_active = FALSE;
-        mode_L_active = FALSE;
-        mode_LB_active = FALSE;
-        mode_LF_active = FALSE;
-        mode_OPT_active = TRUE;
-        showActiveSteer = FALSE;
-    }
-    if (has_waypoint > 0) {
-    	if (has_waypoint > 1) {
-            #showActiveSteer = FALSE;
-    		show_runway_line = TRUE;
-    		var short = getprop("ja37/avionics/approach");
+        me.alt             = getprop("instrumentation/altimeter/indicated-altitude-ft")*FT2M;
+        me.alt_rad         = getprop("position/altitude-agl-ft")!=nil?getprop("position/altitude-agl-ft")*FT2M:100000;
+        me.alt_rad_enabled = getprop("controls/altimeter-radar");
+        if (getprop("ja37/hud/landing-mode")==TRUE and mode_OPT_active==FALSE and ((me.alt < 35) or (me.alt_rad_enabled and me.alt>60 and me.alt_rad<15))) {
+            printDA("OPT: auto activated");
+            auto.unfollowSilent();
+            mode = 4;
+            mode_LA_active = FALSE;
+            mode_B_active = FALSE;
+            mode_L_active = FALSE;
+            mode_LB_active = FALSE;
+            mode_LF_active = FALSE;
+            mode_OPT_active = TRUE;
+            showActiveSteer = FALSE;
+        }
+        if (has_waypoint > 0) {
+        	if (has_waypoint > 1) {
+                #showActiveSteer = FALSE;
+        		show_runway_line = TRUE;
+        		me.short = getprop("ja37/avionics/approach");
 
-    		line = short == TRUE?10:20;
+        		line = me.short == TRUE?10:20;
 
-    		var ILS = input.nav0InRange.getValue() == TRUE and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
+        		#me.ILS = input.nav0InRange.getValue() == TRUE and input.nav0HasGS.getValue() == TRUE and input.nav0GSInRange.getValue() == TRUE;
 
-    		# find approach circle
-    		var curr = input.rmCurrWaypoint.getValue();
+        		# find approach circle
+        		me.curr = input.rmCurrWaypoint.getValue();
 
-    		var lat = getprop("autopilot/route-manager/route/wp["~curr~"]/latitude-deg");
-    		var lon = getprop("autopilot/route-manager/route/wp["~curr~"]/longitude-deg");
-    		var runway = geo.Coord.new();
-    		runway.set_latlon(lat,lon, geo.aircraft_position().alt()-500);
-    		runway.apply_course_distance(geo.normdeg(head+180), line*1000);
+        		me.lat = getprop("autopilot/route-manager/route/wp["~me.curr~"]/latitude-deg");
+        		me.lon = getprop("autopilot/route-manager/route/wp["~me.curr~"]/longitude-deg");
+        		me.runwayCoord = geo.Coord.new();
+        		me.runwayCoord.set_latlon(me.lat,me.lon, geo.aircraft_position().alt()-500);
+        		me.runwayCoord.apply_course_distance(geo.normdeg(head+180), line*1000);
 
-    		var diff = bearing - head;#positive for pos
-    		diff = geo.normdeg180(diff);	
-    		var rect = (diff>0?90:-90);           
-			var rectAngle = head+180+rect;
+        		me.diff = me.bearing - head;#positive for pos
+        		me.diff = geo.normdeg180(me.diff);	
+        		me.rect = (me.diff>0?90:-90);           
+    			me.rectAngle = head+180+me.rect;
 
-    		runway.apply_course_distance(geo.normdeg(rectAngle), 4100);
-    		var distCenter = geo.aircraft_position().distance_to(runway);
-    		approach_circle = runway;
-            if (getprop("/autopilot/target-tracking-ja37/enable") == FALSE and getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE and mode_LA_active == FALSE) {
-                # seems route manager was activated through FG menu.
-                if (route.Polygon.primary == route.Polygon.flyMiss) {
-                    mode_B_active = TRUE;
-                } else {
-                    mode_LA_active = TRUE;
+        		me.runwayCoord.apply_course_distance(geo.normdeg(me.rectAngle), 4100);
+        		me.distCenter = geo.aircraft_position().distance_to(me.runwayCoord);
+        		approach_circle = me.runwayCoord;
+                if (getprop("/autopilot/target-tracking-ja37/enable") == FALSE and getprop("ja37/hud/landing-mode")==FALSE and mode_OPT_active==FALSE and mode_B_active == FALSE and mode_L_active == FALSE and mode_LB_active == FALSE and mode_LF_active == FALSE and mode_LA_active == FALSE) {
+                    # seems route manager was activated through FG menu.
+                    if (route.Polygon.primary == route.Polygon.flyMiss) {
+                        mode_B_active = TRUE;
+                    } else {
+                        mode_LA_active = TRUE;
+                    }
+                    mode = 0;
+                    printDA("menu activation");
                 }
-                mode = 0;
-                printDA("menu activation");
-            }
-            if (mode_OPT_active==TRUE or ((input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) and mode_B_active == FALSE and mode_L_active == FALSE and mode_LA_active == FALSE)) {
-                # mode OPT
-                mode = 4;
-                mode_B_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_LB_active = FALSE;
-                mode_LF_active = FALSE;
-                mode_OPT_active = TRUE;
-                showActiveSteer = FALSE;
-                show_waypoint_circle = TRUE;
-                printDA("OPT activate");
-    		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000)) {# or ILS == TRUE test if glideslope/ILS or less than 10 Km
-                # switch to mode 3 (descent)
-    			show_waypoint_circle = TRUE;
-                mode_B_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LB_active = FALSE;
-                mode_LF_active = TRUE;
-                mode_OPT_active = FALSE;
-                showActiveSteer = FALSE;
-    			mode = 3;
-                printDA("descent mode 3");
-    		} elsif (mode == 1 and distCenter < (4100+100)) {#test inside/on approach circle
-                # touch approach circle, switch to mode 2
-    			show_approach_circle = TRUE;
-                mode_B_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LB_active = FALSE;
-                mode_LF_active = TRUE;
-                mode_OPT_active = FALSE;
-                showActiveSteer = FALSE;
-                printDA("on circle");
-    			mode = 2;
-    		} elsif (mode == 2 and distCenter < (4100+250)) {
-                # keep mode 2
-    			show_approach_circle = TRUE;
-                mode_B_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LB_active = FALSE;
-                mode_LF_active = TRUE;
-                mode_OPT_active = FALSE;
-                showActiveSteer = FALSE;
-    			mode = 2;
-                printDA("keeping mode 2 with circle");
-    		} elsif (mode == 2 and (runway_dist*NM2M > (line*1000+4100) or distCenter > 11000)) {
-                # we are far away in mode 2
-                show_approach_circle = TRUE;
-                mode_B_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_L_active = FALSE;
-                if (short==TRUE)  {
+                if (mode_OPT_active==TRUE and getprop("ja37/hud/landing-mode")==TRUE) {# or ((input.ctrlRadar.getValue() == 1? (input.rad_alt.getValue() * FT2M) < 15 : (input.alt_ft.getValue() * FT2M) < 35) and mode_B_active == FALSE and mode_L_active == FALSE and mode_LA_active == FALSE)) {
+                    # mode OPT
+                    mode = 4;
+                    mode_B_active = FALSE;
+                    mode_L_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_LB_active = FALSE;
+                    mode_LF_active = FALSE;
+                    mode_OPT_active = TRUE;
+                    showActiveSteer = FALSE;
+                    show_waypoint_circle = TRUE;
+                    printDA("OPT activate");
+        		} elsif (((mode == 2 or mode == 3) and runway_dist*NM2M < 10000)) {# or ILS == TRUE test if glideslope/ILS or less than 10 Km
+                    # switch to mode 3 (descent)
+        			show_waypoint_circle = TRUE;
+                    mode_B_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_L_active = FALSE;
                     mode_LB_active = FALSE;
                     mode_LF_active = TRUE;
+                    mode_OPT_active = FALSE;
                     showActiveSteer = FALSE;
-                    mode = 2;
-                    printDA("short mode 2");
-                } else {
+        			mode = 3;
+                    printDA("descent mode 3");
+        		} elsif (mode == 1 and me.distCenter < (4100+100)) {#test inside/on approach circle
+                    # touch approach circle, switch to mode 2
+        			show_approach_circle = TRUE;
+                    mode_B_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_L_active = FALSE;
+                    mode_LB_active = FALSE;
+                    mode_LF_active = TRUE;
+                    mode_OPT_active = FALSE;
+                    showActiveSteer = FALSE;
+                    printDA("on circle");
+        			mode = 2;
+        		} elsif (mode == 2 and me.distCenter < (4100+250)) {
+                    # keep mode 2
+        			show_approach_circle = TRUE;
+                    mode_B_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_L_active = FALSE;
+                    mode_LB_active = FALSE;
+                    mode_LF_active = TRUE;
+                    mode_OPT_active = FALSE;
+                    showActiveSteer = FALSE;
+        			mode = 2;
+                    printDA("keeping mode 2 with circle");
+        		} elsif (mode == 2 and (runway_dist*NM2M > (line*1000+4100) or me.distCenter > 11000)) {
+                    # we are far away in mode 2
+                    show_approach_circle = TRUE;
+                    mode_B_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_L_active = FALSE;
+                    if (short==TRUE)  {
+                        mode_LB_active = FALSE;
+                        mode_LF_active = TRUE;
+                        showActiveSteer = FALSE;
+                        mode = 2;
+                        printDA("short mode 2");
+                    } else {
+                        mode_LB_active = TRUE;
+                        mode_LF_active = FALSE;
+                        showActiveSteer = TRUE;
+                        mode = 1;
+                        printDA("long mode 1");
+                    }
+                    mode_OPT_active = FALSE;
+                } elsif (mode == 2 and runway_dist*NM2M < (line*1000+4100)) {
+                    # we are close in mode 2
+        			show_waypoint_circle = TRUE;
+                    mode_B_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_L_active = FALSE;
+                    mode_LB_active = FALSE;
+                    mode_LF_active = TRUE;
+                    mode_OPT_active = FALSE;
+                    showActiveSteer = FALSE;
+        			mode = 2;
+                    printDA("approach mode 2");
+        		} elsif (getprop("ja37/hud/landing-mode")==TRUE and me.short == FALSE) {
+                    # default for mode 1
+        			mode = 1;
+                    mode_B_active = FALSE;
+                    mode_LA_active = FALSE;
+                    mode_L_active = FALSE;
                     mode_LB_active = TRUE;
                     mode_LF_active = FALSE;
+                    mode_OPT_active = FALSE;
+                    showActiveSteer = FALSE;
+        			show_approach_circle = TRUE;
+                    printDA("default mode 1");
+        		} else {
+                    # 
+                    mode = 0;
                     showActiveSteer = TRUE;
-                    mode = 1;
-                    printDA("long mode 1");
+                    show_waypoint_circle = TRUE;
+                    printDA("steer active");
                 }
-                mode_OPT_active = FALSE;
-            } elsif (mode == 2 and runway_dist*NM2M < (line*1000+4100)) {
-                # we are close in mode 2
-    			show_waypoint_circle = TRUE;
-                mode_B_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LB_active = FALSE;
-                mode_LF_active = TRUE;
-                mode_OPT_active = FALSE;
-                showActiveSteer = FALSE;
-    			mode = 2;
-                printDA("approach mode 2");
-    		} elsif (getprop("ja37/hud/landing-mode")==TRUE and short == FALSE) {
-                # default for mode 1
-    			mode = 1;
-                mode_B_active = FALSE;
-                mode_LA_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LB_active = TRUE;
-                mode_LF_active = FALSE;
-                mode_OPT_active = FALSE;
-                showActiveSteer = FALSE;
-    			show_approach_circle = TRUE;
-                printDA("default mode 1");
+                if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE and getprop("ja37/hud/TILS") == TRUE) {
+                    setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
+                    setprop("ja37/hud/TILS-on", TRUE);
+                } else {
+                    setprop("ja37/hud/TILS-on", FALSE);
+                }
     		} else {
-                # 
-                mode = 0;
-                showActiveSteer = TRUE;
-                show_waypoint_circle = TRUE;
-                printDA("steer active");
-            }
-            if (ils != 0 and getprop("ja37/hud/landing-mode")==TRUE and getprop("ja37/hud/TILS") == TRUE) {
-                setprop("instrumentation/nav[0]/frequencies/selected-mhz", ils);
-                setprop("ja37/hud/TILS-on", TRUE);
-            } else {
+                # Following waypoint
                 setprop("ja37/hud/TILS-on", FALSE);
-            }
-		} else {
-            # Following waypoint
+    			show_waypoint_circle = TRUE;
+                showActiveSteer = TRUE;
+                mode_LB_active = FALSE;
+                mode_LF_active = FALSE;
+                if (mode_OPT_active == TRUE) {
+                    mode = 4;
+                    mode_B_active = FALSE;
+                    mode_L_active = FALSE;
+                    mode_LA_active = FALSE;
+                    printDA("mode 4");
+                } else {
+                    mode = 0;
+                    if (route.Polygon.primary.type == route.TYPE_MISS) {
+                        mode_B_active = TRUE;
+                        mode_L_active = FALSE;
+                        mode_LA_active = FALSE;
+                    } elsif (route.Polygon.primary.type == route.TYPE_RTB and mode_L_active == FALSE) {
+                        mode_B_active = FALSE;
+                        mode_LA_active = TRUE;
+                    }
+                    printDA("something something mode 0");
+                }
+    		}
+        } else {
+            # route-manager not active
             setprop("ja37/hud/TILS-on", FALSE);
-			show_waypoint_circle = TRUE;
             showActiveSteer = TRUE;
+            mode_B_active = FALSE;
+            mode_L_active = FALSE;
+            mode_LA_active = FALSE;
             mode_LB_active = FALSE;
             mode_LF_active = FALSE;
             if (mode_OPT_active == TRUE) {
                 mode = 4;
-                mode_B_active = FALSE;
-                mode_L_active = FALSE;
-                mode_LA_active = FALSE;
-                printDA("mode 4");
+                printDA("last mode 0");
             } else {
-                mode = 0;
-                if (route.Polygon.primary.type == route.TYPE_MISS) {
-                    mode_B_active = TRUE;
-                    mode_L_active = FALSE;
-                    mode_LA_active = FALSE;
-                } elsif (route.Polygon.primary.type == route.TYPE_RTB and mode_L_active == FALSE) {
-                    mode_B_active = FALSE;
-                    mode_LA_active = TRUE;
-                }
-                printDA("something something mode 0");
+                mode = -1;
+                printDA("last mode -1");
             }
-		}
-    } else {
-        # route-manager not active
-        setprop("ja37/hud/TILS-on", FALSE);
-        showActiveSteer = TRUE;
-        mode_B_active = FALSE;
-        mode_L_active = FALSE;
-        mode_LA_active = FALSE;
-        mode_LB_active = FALSE;
-        mode_LF_active = FALSE;
-        if (mode_OPT_active == TRUE) {
-            mode = 4;
-            printDA("last mode 0");
-        } else {
-            mode = -1;
-            printDA("last mode -1");
         }
-    }
-    settimer(landing_loop, 0.25);
-}
+        settimer(func me.loop(), 0.25);
+    },
+};
 
 var land_start = func {
     removelistener(lsnr);
-    landing_loop();
-}
-
+    lander.loop();
+};
+var lander = Landing.new();
 var lsnr = setlistener("ja37/supported/initialized", land_start);
 
 var window = screen.window.new(nil, 325, 2, 10);
@@ -577,7 +584,7 @@ var askTower = func () {
         var rlvl = runway_alt * M2FT;
         var qfe = extrapolate(rlvl, 0, lvl, qnh, pressure);
         var qfe2 = qfe * 33.863887;
-        var ils = " No ILS.";
+        var ilsFreq = " No ILS.";
 
         if (runway_rw != nil) {
             var runway_ils = nil;
@@ -588,10 +595,10 @@ var askTower = func () {
                 runway_ils = nil;
             }
             if (runway_ils != nil) {
-                ils = " ILS is "~roundFreq(runway_ils.frequency)~" MHz.";
+                ilsFreq = " ILS is "~roundFreq(runway_ils.frequency)~" MHz.";
             }
         }
-        window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa. %s", runway, qfe, qfe2, ils), 0.0, 0.6, 0.6);
+        window.write(sprintf("Saab 37; QFE at runway %s is %.2f inHg or %4d hPa. %s", runway, qfe, qfe2, ilsFreq), 0.0, 0.6, 0.6);
     } else {
         window.write("To ask tower you must have a airport and runway active in route-manager, and fly near the tower!", 1.0, 0.0, 0.0);
     }
