@@ -8,7 +8,7 @@
 
 <PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
-        <aircraft-version>4.300</aircraft-version>
+        <aircraft-version>4.301</aircraft-version>
 
         <minimum-fg-version>2017.3.1</minimum-fg-version>
 
