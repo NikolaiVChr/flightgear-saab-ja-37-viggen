@@ -6,7 +6,7 @@
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
 #
-# Version 0.17
+# Version 0.18
 #
 # License:
 #   GPL 2.0
@@ -151,28 +151,28 @@ var CrashAndStress = {
 	        }
 	    }
 
-	    var prop = me.fdm.wingsFailureID;
-	    var actuator_wings = set_unserviceable_cascading(prop, modes);
-	    FailureMgr.add_failure_mode(prop, "Main wings", actuator_wings);
+	    me.prop = me.fdm.wingsFailureID;
+	    me.actuator_wings = set_unserviceable_cascading(me.prop, modes);
+	    FailureMgr.add_failure_mode(me.prop, "Main wings", me.actuator_wings);
 	},
 	# set the stresslimit for the main wings
 	setStressLimit: func (stressLimit = nil) {
 		if (stressLimit != nil) {
-			var wingloadMax = stressLimit['wingloadMaxLbs'];
-			var wingloadMin = stressLimit['wingloadMinLbs'];
-			var maxG = stressLimit['maxG'];
-			var minG = stressLimit['minG'];
-			var weight = stressLimit['weightLbs'];
-			if(wingloadMax != nil) {
-				me.wingLoadLimitUpper = wingloadMax;
-			} elsif (maxG != nil and weight != nil) {
-				me.wingLoadLimitUpper = maxG * weight;
+			me.wingloadMax = stressLimit['wingloadMaxLbs'];
+			me.wingloadMin = stressLimit['wingloadMinLbs'];
+			me.maxG = stressLimit['maxG'];
+			me.minG = stressLimit['minG'];
+			me.weight = stressLimit['weightLbs'];
+			if(me.wingloadMax != nil) {
+				me.wingLoadLimitUpper = me.wingloadMax;
+			} elsif (me.maxG != nil and me.weight != nil) {
+				me.wingLoadLimitUpper = me.maxG * me.weight;
 			}
 
-			if(wingloadMin != nil) {
-				me.wingLoadLimitLower = wingloadMin;
-			} elsif (minG != nil and weight != nil) {
-				me.wingLoadLimitLower = minG * weight;
+			if(me.wingloadMin != nil) {
+				me.wingLoadLimitLower = me.wingloadMin;
+			} elsif (me.minG != nil and me.weight != nil) {
+				me.wingLoadLimitLower = me.minG * me.weight;
 			} elsif (me.wingLoadLimitUpper != nil) {
 				me.wingLoadLimitLower = -me.wingLoadLimitUpper * 0.4;#estimate for when lower is not specified
 			}
@@ -183,10 +183,10 @@ var CrashAndStress = {
 	},
 	# repair the aircaft
 	repair: func () {
-		var failure_modes = FailureMgr._failmgr.failure_modes;
-		var mode_list = keys(failure_modes);
+		me.failure_modes = FailureMgr._failmgr.failure_modes;
+		me.mode_list = keys(me.failure_modes);
 
-		foreach(var failure_mode_id; mode_list) {
+		foreach(var failure_mode_id; me.mode_list) {
 			FailureMgr.set_failure_level(failure_mode_id, 0);
 		}
 		me.wingsAttached = TRUE;
@@ -210,16 +210,16 @@ var CrashAndStress = {
 		me.input.explodeOn.setBoolValue(FALSE);
 	},
 	_identifyGears: func (gears) {
-		var contacts = props.globals.getNode("/gear").getChildren("gear");
+		me.contacts = props.globals.getNode("/gear").getChildren("gear");
 
-		foreach(var contact; contacts) {
-			var index = contact.getIndex();
-			var isGear = me._contains(gears, index);
-			var wow = contact.getChild("wow");
-			if (isGear == TRUE) {
-				append(me.wowGear, wow);
+		foreach(var contact; me.contacts) {
+			me.index = contact.getIndex();
+			me.isGear = me._contains(gears, me.index);
+			me.wow = contact.getChild("wow");
+			if (me.isGear == TRUE) {
+				append(me.wowGear, me.wow);
 			} else {
-				append(me.wowStructure, wow);
+				append(me.wowStructure, me.wow);
 			}
 		}
 	},	
@@ -257,66 +257,66 @@ var CrashAndStress = {
 		if (me.inService == FALSE or me.input.replay.getBoolValue() == TRUE or me.repairing == TRUE) {
 			return FALSE;
 		}
-		var time = me.fdm.input.simTime.getValue();
-		if (time != nil and time > 1) {
+		me.time = me.fdm.input.simTime.getValue();
+		if (me.time != nil and me.time > 1) {
 			return TRUE;
 		}
 		return FALSE;
 	},
 	_calcGroundSpeed: func () {
-  		var realSpeed = me.fdm.getSpeedRelGround();
+  		me.realSpeed = me.fdm.getSpeedRelGround();
 
-  		return realSpeed;
+  		return me.realSpeed;
 	},
 	_impactDamage: func () {
-	    var lat = me.input.lat.getValue();
-		var lon = me.input.lon.getValue();
-		var info = geodinfo(lat, lon);
-		var solid = info == nil?TRUE:(info[1] == nil?TRUE:info[1].solid);
-		var speed = me._calcGroundSpeed();
+	    me.lat = me.input.lat.getValue();
+		me.lon = me.input.lon.getValue();
+		me.info = geodinfo(me.lat, me.lon);
+		me.solid = me.info == nil?TRUE:(me.info[1] == nil?TRUE:me.info[1].solid);
+		me.speed = me._calcGroundSpeed();
 
 		if (me.exploded == FALSE) {
-			var failure_modes = FailureMgr._failmgr.failure_modes;
-		    var mode_list = keys(failure_modes);
-		    var probability = (speed * speed) / 40000.0;# 200kt will fail everything, 0kt will fail nothing.
+			me.failure_modes = FailureMgr._failmgr.failure_modes;
+		    me.mode_list = keys(me.failure_modes);
+		    me.probability = (me.speed * me.speed) / 40000.0;# 200kt will fail everything, 0kt will fail nothing.
 		    
-		    var hitStr = "something";
-		    if(info != nil and info[1] != nil) {
-			    hitStr = info[1].names == nil?"something":info[1].names[0];
-			    foreach(infoStr; info[1].names) {
+		    me.hitStr = "something";
+		    if(me.info != nil and me.info[1] != nil) {
+			    me.hitStr = me.info[1].names == nil?"something":me.info[1].names[0];
+			    foreach(infoStr; me.info[1].names) {
 			    	if(find('_', infoStr) == -1) {
-			    		hitStr = infoStr;
+			    		me.hitStr = infoStr;
 			    		break;
 			    	}
 			    }
 			}
 		    # test for explosion
-		    if(probability > 0.766 and me.fdm.input.fuel.getValue() > 2500) {
+		    if(me.probability > 0.766 and me.fdm.input.fuel.getValue() > 2500) {
 		    	# 175kt+ and fuel in tanks will explode the aircraft on impact.
 		    	me.input.simCrashed.setBoolValue(TRUE);
-		    	me._explodeBegin("Aircraft hit "~hitStr~".");
+		    	me._explodeBegin("Aircraft hit "~me.hitStr~".");
 		    	return;
 		    }
 
-		    foreach(var failure_mode_id; mode_list) {
-		    	if(rand() < probability) {
+		    foreach(var failure_mode_id; me.mode_list) {
+		    	if(rand() < me.probability) {
 		      		FailureMgr.set_failure_level(failure_mode_id, 1);
 		      	}
 		    }
 
-			var str = "Aircraft hit "~hitStr~".";
-			me._output(str);
-		} elsif (solid == TRUE) {
+			me.str = "Aircraft hit "~me.hitStr~".";
+			me._output(me.str);
+		} elsif (me.solid == TRUE) {
 			# The aircraft is burning and will ignite the ground
 			if(me.input.wildfire.getValue() == TRUE) {
-				var pos= geo.Coord.new().set_latlon(lat, lon);
-				wildfire.ignite(pos, 1);
+				me.pos= geo.Coord.new().set_latlon(me.lat, me.lon);
+				wildfire.ignite(me.pos, 1);
 			}
 		}
-		if(solid == TRUE) {
-			me._impactSoundBegin(speed);
+		if(me.solid == TRUE) {
+			me._impactSoundBegin(me.speed);
 		} else {
-			me._impactSoundWaterBegin(speed);
+			me._impactSoundWaterBegin(me.speed);
 		}
 	},
 	_impactSoundWaterBegin: func (speed) {
@@ -340,10 +340,10 @@ var CrashAndStress = {
 	_explodeBegin: func(str) {
 		me.input.explodeOn.setBoolValue(TRUE);
 		me.exploded = TRUE;
-		var failure_modes = FailureMgr._failmgr.failure_modes;
-	    var mode_list = keys(failure_modes);
+		me.failure_modes = FailureMgr._failmgr.failure_modes;
+	    me.mode_list = keys(me.failure_modes);
 
-	    foreach(var failure_mode_id; mode_list) {
+	    foreach(var failure_mode_id; me.mode_list) {
       		FailureMgr.set_failure_level(failure_mode_id, 1);
 	    }
 
@@ -368,9 +368,9 @@ var CrashAndStress = {
 		me.input.detachOn.setBoolValue(FALSE);
 	},
 	_output: func (str, override = FALSE) {
-		var time = me.fdm.input.simTime.getValue();
-		if (override == TRUE or (time - me.lastMessageTime) > 3) {
-			me.lastMessageTime = time;
+		me.time = me.fdm.input.simTime.getValue();
+		if (override == TRUE or (me.time - me.lastMessageTime) > 3) {
+			me.lastMessageTime = me.time;
 			print(str);
 			screen.log.write(str, 0.7098, 0.5372, 0.0);# solarized yellow
 		}
@@ -381,31 +381,31 @@ var CrashAndStress = {
 	},
 	_testWaterImpact: func () {
 		if(me.input.altAgl.getValue() < 0) {
-			var lat = me.input.lat.getValue();
-			var lon = me.input.lon.getValue();
-			var info = geodinfo(lat, lon);
-			var solid = info==nil?TRUE:(info[1] == nil?TRUE:info[1].solid);
-			if(solid == FALSE) {
+			me.lat = me.input.lat.getValue();
+			me.lon = me.input.lon.getValue();
+			me.info = geodinfo(me.lat, me.lon);
+			me.solid = me.info==nil?TRUE:(me.info[1] == nil?TRUE:me.info[1].solid);
+			if(me.solid == FALSE) {
 				me._impactDamage();
 			}
 		}
 	},
 	_testStress: func () {
 		if (me._isRunning() == TRUE and me.wingsAttached == TRUE) {
-			var gForce = me.fdm.input.Nz.getValue() == nil?1:me.fdm.input.Nz.getValue();
-			var weight = me.fdm.input.weight.getValue();
-			var wingload = gForce * weight;
+			me.gForce = me.fdm.input.Nz.getValue() == nil?1:me.fdm.input.Nz.getValue();
+			me.weight = me.fdm.input.weight.getValue();
+			me.wingload = me.gForce * me.weight;
 
-			var broken = FALSE;
+			me.broken = FALSE;
 
-			if(wingload < 0) {
-				broken = me._testWingload(-wingload, -me.wingLoadLimitLower);
-				if(broken == TRUE) {
+			if(me.wingload < 0) {
+				me.broken = me._testWingload(-me.wingload, -me.wingLoadLimitLower);
+				if(me.broken == TRUE) {
 					me._stressDamage("negative");
 				}
 			} else {
-				broken = me._testWingload(wingload, me.wingLoadLimitUpper);
-				if(broken == TRUE) {
+				me.broken = me._testWingload(me.wingload, me.wingLoadLimitUpper);
+				if(me.broken == TRUE) {
 					me._stressDamage("positive");
 				}
 			}
@@ -415,22 +415,22 @@ var CrashAndStress = {
 			#me.input.trembleOn.setValue(0);
 		}
 	},
-	_testWingload: func (wingload, wingLoadLimit) {
-		if (wingload > (wingLoadLimit * 0.5)) {
+	_testWingload: func (wingloadCurr, wingLoadLimit) {
+		if (wingloadCurr > (wingLoadLimit * 0.5)) {
 			#me.input.trembleOn.setValue(1);
-			var tremble_max = math.sqrt((wingload - (wingLoadLimit * 0.5)) / (wingLoadLimit * 0.5));
+			me.tremble_max = math.sqrt((wingloadCurr - (wingLoadLimit * 0.5)) / (wingLoadLimit * 0.5));
 			#me.input.trembleMax.setDoubleValue(1);
 
-			if (wingload > (wingLoadLimit * 0.75)) {
+			if (wingloadCurr > (wingLoadLimit * 0.75)) {
 
-				#tremble_max = math.sqrt((wingload - (wingLoadLimit * 0.5)) / (wingLoadLimit * 0.5));
-				me.input.creakVol.setDoubleValue(tremble_max);
+				#me.tremble_max = math.sqrt((wingloadCurr - (wingLoadLimit * 0.5)) / (wingLoadLimit * 0.5));
+				me.input.creakVol.setDoubleValue(me.tremble_max);
 				me.input.creakOn.setBoolValue(TRUE);
 
-				if (wingload > (wingLoadLimit * 0.90)) {
+				if (wingloadCurr > (wingLoadLimit * 0.90)) {
 					me.input.crackOn.setBoolValue(TRUE);
-					me.input.crackVol.setDoubleValue(tremble_max);
-					if (wingload > wingLoadLimit) {
+					me.input.crackVol.setDoubleValue(me.tremble_max);
+					if (wingloadCurr > wingLoadLimit) {
 						me.input.crackVol.setDoubleValue(1);
 						me.input.creakVol.setDoubleValue(1);
 						#me.input.trembleMax.setDoubleValue(1);
@@ -488,16 +488,19 @@ var jsbSimProp = {
 				weight:     "fdm/jsbsim/inertia/weight-lbs",
 				fuel:       "fdm/jsbsim/propulsion/total-fuel-lbs",
 				simTime:    "fdm/jsbsim/simulation/sim-time-sec",
-				vgFps:      "fdm/jsbsim/velocities/vg-fps",
-				downFps:    "fdm/jsbsim/velocities/v-down-fps",
+				northFps:   "velocities/speed-north-fps",
+				eastFps:    "velocities/speed-east-fps",
+				downFps:    "velocities/speed-down-fps",
 				Nz:         "fdm/jsbsim/accelerations/Nz",
 	},
 	getSpeedRelGround: func () {
-		var horzSpeed = me.fps2kt(me.input.vgFps.getValue());
-  		var vertSpeed = me.fps2kt(me.input.downFps.getValue());
-  		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
+		me.northSpeed = me.input.northFps.getValue();
+		me.eastSpeed  = me.input.eastFps.getValue();
+		me.horzSpeed  = math.sqrt((me.eastSpeed * me.eastSpeed) + (me.northSpeed * me.northSpeed));
+  		me.vertSpeed  = me.input.downFps.getValue();
+  		me.realSpeed  = me.fps2kt(math.sqrt((me.horzSpeed * me.horzSpeed) + (me.vertSpeed * me.vertSpeed)));
 
-  		return realSpeed;
+  		return me.realSpeed;
 	},
 	wingsFailureID: "fdm/jsbsim/structural/wings",
 };
@@ -508,16 +511,19 @@ var yaSimProp = {
 				weight:     "yasim/gross-weight-lbs",
 				fuel:       "consumables/fuel/total-fuel-lbs",
 				simTime:    "sim/time/elapsed-sec",
-				vgFps:      "velocities/groundspeed-kt",
+				northFps:   "velocities/speed-north-fps",
+				eastFps:    "velocities/speed-east-fps",
 				downFps:    "velocities/speed-down-fps",
 				Nz:         "accelerations/n-z-cg-fps_sec",
 	},
 	getSpeedRelGround: func () {
-		var horzSpeed = me.input.vgFps.getValue();
-  		var vertSpeed = me.fps2kt(me.input.downFps.getValue());
-  		var realSpeed = math.sqrt((horzSpeed * horzSpeed) + (vertSpeed * vertSpeed));
+		me.northSpeed = me.input.northFps.getValue();
+		me.eastSpeed  = me.input.eastFps.getValue();
+		me.horzSpeed  = math.sqrt((me.eastSpeed * me.eastSpeed) + (me.northSpeed * me.northSpeed));
+  		me.vertSpeed  = me.input.downFps.getValue();
+  		me.realSpeed  = me.fps2kt(math.sqrt((me.horzSpeed * me.horzSpeed) + (me.vertSpeed * me.vertSpeed)));
 
-  		return realSpeed;
+  		return me.realSpeed;
 	},
 	wingsFailureID: "structural/wings",
 };
@@ -535,7 +541,7 @@ var yaSimProp = {
 
 # example uses:
 #
-# var crashCode = CrashAndStress.new([0,1,2]; 
+# var crashCode = CrashAndStress.new([0,1,2]); 
 #
 # var crashCode = CrashAndStress.new([0,1,2], {"weightLbs":30000, "maxG": 12});
 #
