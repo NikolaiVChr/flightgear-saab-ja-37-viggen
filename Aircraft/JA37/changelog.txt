@@ -3208,3 +3208,4 @@ Sim: Made main saab37 loop slower.
 Sim: Moved some code about dropping rocket pods into stores.nas.
 Model: Fixed canopy having strange occlusion effect on livery SAF32.
 Sim: Optical landing mode will now switch off when not in landing mode.
+Model: Updated Flightgear livery.
