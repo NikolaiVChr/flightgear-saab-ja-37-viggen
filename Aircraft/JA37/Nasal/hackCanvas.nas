@@ -9,6 +9,8 @@
 # Result: On Viggen get 25% more FPS. From 12 to 15.
 #
 # Inspired from what Thorsten did with setTextUpdate()
+#
+# Notice: Might not be forward compatible.
 
 
 canvas.Text._lastText2 = "";
