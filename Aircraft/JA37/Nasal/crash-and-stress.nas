@@ -1,7 +1,7 @@
 #
 # A Flightgear crash and stress damage system.
 #
-# Inspired and developed from the crash system in Mig15 by Slavutinsky Victor. And by Hvengel's formula for wingload stress.
+# Inspired and developed from the crash system in Mig15 by Slavutinsky Victor. And by the late Hal V. Engel's formula for wingload stress.
 #
 # Authors: Slavutinsky Victor, Nikolai V. Chr. (Necolatis)
 #
