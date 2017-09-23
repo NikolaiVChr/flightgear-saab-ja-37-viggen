@@ -338,7 +338,7 @@ var Landing = {
                     icao   = me.wp[0].id;
                     #has_waypoint = 1;
                 }
-                if (ghosttype(wp[0]) == "runway") {
+                if (ghosttype(me.wp[0]) == "runway") {
                     ils = 0;
                     icao   = me.wp[1].id;
                     runway = me.wp[0].id;
