@@ -3210,3 +3210,4 @@ Model: Fixed canopy having strange occlusion effect on livery SAF32.
 Sim: Optical landing mode will now switch off when not in landing mode.
 Model: Updated Flightgear livery.
 Sim: Crash and stress updated to not use var keyword.
+Model: Made fuselage less vivid. Metallic but matt.
