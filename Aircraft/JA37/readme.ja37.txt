@@ -208,3 +208,54 @@ Pre-loading needs FG 2017.3.1 to work.
 Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
 
 If a file cannot get loaded, the console will print a warning.
+
+Landing
+=======
+Rules
+-----
+Max allowed sidewind for short landing without flare: 30 Km/h - 16.2 kt
+Max allowed sidewind for standard landing with flare: 55 Km/h - 29.7 kt
+Landing must be standard with flare at aircraft weights over 15000 Kg or if there is fuel in the droptank.
+Reversing handle must not be pulled out before landing gear is out and locked, and indicator panel has 3 green lights.
+Max allowed EPR (engine pressure ratio) at initialization of reverser is 1.75.
+Max allowed reverse at stationary aircraft is 1.4 EPR.
+Max rolling speed in groundspeed: 320 Km/h (172.8 Kt).
+Max touchdown pitch: 20.5 deg clearing uncompressed, 16 deg partial compressed at flare, 14 degs fully compressed.
+Minimum touchdown speed 100 kt (only at 15.5 AoA short landings of course).
+Nosewheel touchdown speed: latest at 160 KM/h (86 kt).
+
+Example 1: Ad-hoc visual landing
+--------------------------------
+In no particular order do these:
+1: If you know the barometer pressure at the airport then set into one of the altimeters.
+2: Hit key 'Y'.
+3: Tune into ILS. [optional]
+4: Click the button 15.5 on front panel for short landing.
+
+Align the aircraft for the approach and slow down to about 550 Km/h (297 kt) and be about 500 m (1640 ft) AGL.
+At 15 Km (about 7.6 NM) distance from touchdown, extend gears. Engage reverse thrust if you want it to engage auto when you land.
+At 10 Km (5.4 NM) out, start to descend. The HUD will show the 2.86 deg descent line, which of-course fits, since there is 10000m left to touchdown and you are 500m above it, so a 1:20 slope.
+Notice though that that same line will start to indicate maximum sink rate (2.8 m/s) below 15m (or 35m if radar altimeter is off), so when that happens be sure to keep the flight path indicator above or on the line when that happens to not risk stress the landing gears, but still below the horizon so you don't overshoot.
+You will notice when that happens if u keep your eyes peeled on the HUD, the line will do a 'jump' and no longer be fixed, and at the same time if ILS/glideslope is set, it will no longer follow that, so last part is always a non aided (except for sink rate) visual landing.
+Also notice that the HUD will before descent when in landing mode assist you in hitting the 550Km/h speed, by moving the 'tail' on the flight path indicator.
+That same tail will during descent help you keep your AoA (9-12 or 15.5 if that button is engaged).
+Now if you did not press the 15.5 button, then do a small flare before you touchdown.
+If you engaged reverser, then apply thrust after touchdown.
+
+Example 2: Ad-hoc visual landing with A/T
+-----------------------------------------
+Do the same as above but with engaged auto-throttle.
+When you extend gears, it will automatically keep your AoA.
+
+Example 3: AJ37 landing with waypoint  (TODO: update and move to aj37 readme, and replace with ja37 version)
+-------------------------------------
+In no particular order do these:
+1: get the barometer QFE from the ATC tower and set it.
+2: be sure the active waypoint in the Route manager is set to the correct airport and runway.
+3: use the switch LANDING MODE, or hit 'Y'
+4: Tune into ILS. [optional]
+5: Engage reverse thrust if you want it to engage auto when you land.
+6: Adjust the approach length on the left panel with the switch APPROACH. 5.4 or 10.8 Nmiles.
+7: Click the button 15.5 for short runways.
+
+Notice there is now shown altitude lines on HUD and radar, start descending to align to them and aim for hitting tangentially the circle shown on radar Pinto talks about. When you hit the approach circle, you are supposed to be at 550Km/h or 297 Kt and 500m/1640ft above the airport, and you just follow the circle around keeping that speed. The approach circle is always 4.1 Km radius. For short approaches you will then immediately start descending when you hit the approach line, and for long approaches you will follow that line until half (5.4 NM out) and then start descending. The HUD will show the 2.86 deg descent line when you hit that 10 Km mark, which of-course fits, since there is 10000m left to touchdown and you are 500m above it, so a 1:20 slope. Notice though that that same line will start to indicate maximum sink rate (2.8 m/s) below 15m (or 35m if radar altimeter is off), so when that happens be sure to keep the flight path indicator above or on the line when that happens to not risk stress the landing gears, but still below the horizon so you don't overshoot. You will notice when that happens if u keep your eyes peeled on the HUD, the line will do a 'jump' and no longer be fixed, and at the same time if ILS/glideslope is set, it will no longer follow that, so last part is always a non aided (except for sink rate) visual landing. Also notice that the HUD will before descent when in landing mode assist you in hitting the 550Km/h speed, by moving the 'tail' on the flight path indicator. That same tail will during descent help you keep your AoA (9-12 or 15.5 if that button is engaged).

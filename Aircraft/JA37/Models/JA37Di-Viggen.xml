@@ -364,20 +364,6 @@
     <object-name>gearRightInnerDoor</object-name>
 		<object-name>gunpod</object-name>
 		<object-name>bottomAirInlet</object-name>
-		<!--<object-name>gearFront</object-name>
-		<object-name>gearFrontHinge</object-name>
-		<object-name>missile</object-name>
-		<object-name>missile1</object-name>
-		<object-name>missile2</object-name>
-		<object-name>missile3</object-name>
-		<object-name>gearLeft</object-name>
-		<object-name>gearLeftHinge</object-name>
-		<object-name>wheelRight1</object-name>
-		<object-name>wheelRight2</object-name>
-		<object-name>wheelLeft1</object-name>
-		<object-name>wheelLeft2</object-name>
-		<object-name>gearRight</object-name>
-		<object-name>gearRightHinge</object-name>-->
 		<object-name>ja37fin</object-name>
 		<object-name>ja37dropTank</object-name>
 		<object-name>ja37upperPitotTube</object-name>
@@ -386,6 +372,21 @@
 		<texture-prop>texture</texture-prop>
 		<texture>Aircraft/JA37/Models/j37_texture.png</texture>
 	</animation>
+
+<!--<object-name>gearFront</object-name>
+    <object-name>gearFrontHinge</object-name>
+    <object-name>missile</object-name>
+    <object-name>missile1</object-name>
+    <object-name>missile2</object-name>
+    <object-name>missile3</object-name>
+    <object-name>gearLeft</object-name>
+    <object-name>gearLeftHinge</object-name>
+    <object-name>wheelRight1</object-name>
+    <object-name>wheelRight2</object-name>
+    <object-name>wheelLeft1</object-name>
+    <object-name>wheelLeft2</object-name>
+    <object-name>gearRight</object-name>
+    <object-name>gearRightHinge</object-name>-->
 
 <!--
 	***********************************************************************************
@@ -573,7 +574,7 @@
     </offsets>
   </model>
 
-<!-- Material shaders   -->
+  <!-- Material shaders   -->
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
     <!--<parameters>
@@ -582,7 +583,15 @@
       <ambient-correction type="float">0.0</ambient-correction>
       <reflection-correction type="float">-0.45</reflection-correction>
       <reflect-map-enabled type="int">0</reflect-map-enabled>
+      <texture n="0">
+        <type>2d</type>
+        <filter>trilinear</filter>
+        <wrap-s>repeat</wrap-s>
+        <wrap-t>repeat</wrap-t>
+        <internal-format>normalized</internal-format>
+      </texture>
     </parameters>-->
+    <!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
