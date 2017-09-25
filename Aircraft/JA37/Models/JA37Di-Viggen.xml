@@ -11,8 +11,9 @@
   </model>-->
 
 	<effect>
-	    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+	    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
 	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
+      <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
 	    <object-name>ja37fin</object-name>
 		  <object-name>ja37dropTank</object-name>
 		  <object-name>ja37upperPitotTube</object-name>
@@ -576,7 +577,8 @@
 
   <!-- Material shaders   -->
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
+    <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
     <!--<parameters>
       <reflection-type type="int">2</reflection-type>
       <reflection-enabled type="int">0</reflection-enabled>
@@ -593,6 +595,10 @@
     </parameters>-->
     <!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
+    <!--<parameters>
+          <metallic type="float">0.75</metallic>
+          <ambient-factor type="float">0.75</ambient-factor>
+    </parameters>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
     <object-name>elevonLeftOuter</object-name>

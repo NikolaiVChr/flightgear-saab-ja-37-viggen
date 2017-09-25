@@ -5,7 +5,8 @@
 	<path>aj37.ac</path>
 
 	<effect>
-	    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+	    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
+      <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
 	    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
 	    <object-name>aj37fin</object-name>
 		<object-name>aj37dropTank</object-name>
@@ -1961,7 +1962,8 @@
 
 <!-- Material shaders   -->
   <effect>
-    <inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>
+    <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
+    <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>
