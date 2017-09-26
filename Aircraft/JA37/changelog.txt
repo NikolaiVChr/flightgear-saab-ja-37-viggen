@@ -3212,3 +3212,4 @@ Model: Updated Flightgear livery.
 Sim: Crash and stress updated to not use var keyword.
 Model: Made fuselage less vivid. Metallic but matt.
 Effect: Added a modified Viggen fuselage shader.
+Model: Updated Livery 57.
