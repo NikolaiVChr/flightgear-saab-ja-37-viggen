@@ -1,3 +1,7 @@
+<!--
+The fuselage effect is a modified version of model-combined-deffered.
+Modifications author: Nikolai V. Chr.
+-->
 <PropertyList>
 	<name>Aircraft/JA37/Models/Effects/fuselage/model-combined-fuselage</name>
 	<inherits-from>Effects/model-combined-deferred</inherits-from>
@@ -6,6 +10,8 @@
 		<ambient-factor type="float">0.75</ambient-factor>
 	</parameters>
 	<!--
+		Textures:
+
 		0 - livery (rgba)
 		1 - autogen. 3D noise
 		2 - normal (rgb) & shininess (a)

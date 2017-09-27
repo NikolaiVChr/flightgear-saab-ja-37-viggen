@@ -5,6 +5,8 @@
 // Emilian Huminiuc and Vivian Meazza 2011
 // ported to Atmospheric Light Scattering 
 // by Thorsten Renk, 2013
+// The fuselage effect is a modified version of model-combined-deffered.
+// Modifications author: Nikolai V. Chr. 2017
 #version 120
 
 varying	vec3 	VBinormal;
