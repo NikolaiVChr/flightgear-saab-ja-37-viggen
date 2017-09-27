@@ -32,4 +32,9 @@ canvas.Element.hide = func ()
       if (0 == me._lastVisible) {return me;}
       me._lastVisible = 0;
       me.setBool("visible", 0);
-    };
+};
+canvas.Element.setVisible = func (vis) {
+      if (vis == me._lastVisible) {return me;}
+      me._lastVisible = vis;
+      me.setBool("visible", vis);
+};
