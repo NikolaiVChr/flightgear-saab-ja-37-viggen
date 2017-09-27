@@ -33,7 +33,7 @@ Canopy & mirrors
 Afterburner lightmap
 Drop-tank and reverser texturing
 Front-panel sunshield
-Ambient occlusion textures
+Ambient occlusion cockpit textures
 
 Justin Nicholson - Forum name: Pinto
 ====================================
