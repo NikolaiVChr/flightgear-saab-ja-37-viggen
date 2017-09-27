@@ -1123,13 +1123,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.root.update();
       air2air = FALSE;
       air2ground = FALSE;
-      settimer(func me.update(), 0.3);
+      #settimer(func me.update(), 0.3);
     } elsif (me.input.service.getValue() == FALSE) {
       # The HUD has failed, due to the random failure system or crash, it will become frozen.
       # if it also later loses power, and the power comes back, the HUD will not reappear.
       air2air = FALSE;
       air2ground = FALSE;
-      settimer(func me.update(), 0.25);
+      #settimer(func me.update(), 0.25);
     } else {
       # commented as long as diamond node is choosen in HUD
       #if (me.input.viewNumber.getValue() != 0 and me.input.viewNumber.getValue() != 13) {
@@ -1216,11 +1216,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.root.show();
         me.root.update();          
       }
-      settimer(
+      #settimer(
       #func debug.benchmark("hud loop", 
-      func me.update()
+      #func me.update()
       #)
-      , 0.05);
+      #, 0.05);
       #setprop("sim/hud/visibility[1]", 0);
     }#end of HUD running check
   },#end of update
@@ -3009,11 +3009,11 @@ var init2 = setlistener("/sim/signals/reinit", func() {
 }, 0, 0);
 
 #setprop("/systems/electrical/battery", 0);
-id = setlistener("ja37/supported/initialized", init, 0, 0);
+#id = setlistener("ja37/supported/initialized", init, 0, 0);
 
 var IR_loop = func {
   reinit(on_backup_power);
-  settimer(IR_loop, 1.5);
+  #settimer(IR_loop, 1.5);
 };
 
 setlistener("sim/rendering/shaders/skydome", func {reinit(on_backup_power);});

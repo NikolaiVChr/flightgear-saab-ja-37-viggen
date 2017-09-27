@@ -51,6 +51,6 @@ var chrono_update = func {
 
 var chrono_loop = func {
 	chrono_update();
-        settimer(chrono_loop, 0.25);
+ #       settimer(chrono_loop, 0.25);
 }
-settimer(chrono_loop, 0.5);
+#settimer(chrono_loop, 0.5);

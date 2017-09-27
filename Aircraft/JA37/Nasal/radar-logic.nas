@@ -82,7 +82,7 @@ var RadarLogic = {
 
     loop: func () {
       me.findRadarTracks();
-      settimer(func me.loop(), 0.25);
+      #settimer(func me.loop(), 0.25);
     },
 
     findRadarTracks: func () {
@@ -1731,7 +1731,7 @@ var starter = func () {
   removelistener(lsnr);
   if(getprop("ja37/supported/radar") == TRUE) {
     radarLogic = RadarLogic.new();
-    radarLogic.loop();
+    #radarLogic.loop();
   }
 };
-var lsnr = setlistener("ja37/supported/initialized", starter);
+#var lsnr = setlistener("ja37/supported/initialized", starter);

@@ -645,7 +645,7 @@ var MI = {
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-mi", 0);
 			setprop("ja37/avionics/cursor-on", FALSE);
-			settimer(func me.loop(), 0.05);
+			#settimer(func me.loop(), 0.05);
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-mi", me.brightness);
@@ -671,7 +671,7 @@ var MI = {
 		me.showTopInfo();
 		me.showBottomInfo();
 		me.rate = getprop("sim/frame-rate-worst");
-		settimer(func me.loop(), me.rate!=nil?clamp(2.05/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
+		#settimer(func me.loop(), me.rate!=nil?clamp(2.05/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
 
 	displayFPI: func {
@@ -1257,4 +1257,4 @@ var init = func {
 	}
 }
 
-idl = setlistener("ja37/supported/initialized", init, 0, 0);
+#idl = setlistener("ja37/supported/initialized", init, 0, 0);

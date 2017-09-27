@@ -1,10 +1,10 @@
-var theInit = setlistener("ja37/supported/initialized", func {
-  if(getprop("ja37/supported/radar") == 1) {
-    removelistener(theInit);
-    callInit();
-  }
-}, 1, 0);
-
+#var theInit = setlistener("ja37/supported/initialized", func {
+#  if(getprop("ja37/supported/radar") == 1) {
+#    removelistener(theInit);
+#    callInit();
+#  }
+#}, 1, 0);
+var signText = nil;
 var callInit = func {
   canvasCallsign = canvas.new({
         "name": "Callsign",
@@ -19,14 +19,14 @@ var callInit = func {
   callsignGroup = canvasCallsign.createGroup();
   callsignGroup.show();
 
-  var signText = callsignGroup.createChild("text")
-        .setText("")
+  signText = callsignGroup.createChild("text")
         .setFontSize(15, 1)
         .setColor(1,1,1, 1)
         .setAlignment("center-center")
         .setTranslation(64, 8);
+}
 
-  var loop_callsign = func {
+var loop_callsign = func {
 
     var callsign = props.globals.getNode("/sim/multiplay/callsign").getValue();
 
@@ -36,7 +36,5 @@ var callInit = func {
       signText.setText("");
     }
 
-    settimer(loop_callsign, 1);
-  }
-  loop_callsign();
+    #settimer(loop_callsign, 1);
 }

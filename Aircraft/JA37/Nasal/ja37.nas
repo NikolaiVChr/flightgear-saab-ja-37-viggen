@@ -222,7 +222,7 @@ var Saab37 = {
 
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
-      settimer(func me.update_loop(), LOOP_STANDARD_RATE);
+      #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
       return;
     }
 
@@ -426,7 +426,7 @@ var Saab37 = {
       setprop("/ja37/radar/time-till-crash", 15);
     }
 
-    settimer(func me.update_loop(), LOOP_STANDARD_RATE);
+    #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
   },
 
   # fast updating loop
@@ -447,7 +447,7 @@ var Saab37 = {
 
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
-      settimer(func me.speed_loop(), LOOP_FAST_RATE);
+      #settimer(func me.speed_loop(), LOOP_FAST_RATE);
       return;
     }
 
@@ -505,7 +505,7 @@ var Saab37 = {
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
 
-    settimer(func me.speed_loop(), LOOP_FAST_RATE);
+    #settimer(func me.speed_loop(), LOOP_FAST_RATE);
   },
 
   theShakeEffect: func {
@@ -612,7 +612,7 @@ var Saab37 = {
   slow_loop: func {
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
-      settimer(func me.slow_loop(), LOOP_SLOW_RATE);
+      #settimer(func me.slow_loop(), LOOP_SLOW_RATE);
       return;
     }
 
@@ -659,7 +659,7 @@ var Saab37 = {
       ja37.notice("Flight ctrls OFF. Press key 'y' to reactivate.");
     }
 
-    settimer(func me.slow_loop(), LOOP_SLOW_RATE);
+    #settimer(func me.slow_loop(), LOOP_SLOW_RATE);
   },
 
   environment: func {
@@ -848,7 +848,121 @@ var Saab37 = {
       if (me.value < 0) me.value = 0;
       beacon_switch.setDoubleValue(me.value);
     }
-    settimer(func me.beaconLoop(), 0.05);
+    #settimer(func me.beaconLoop(), 0.05);
+  },
+
+  loopSystem: func {
+    #
+    # start all the loops in aircraft.
+    # Some loops are are not started here though, but most are.
+    # Notice some loop timers are slightly changed to spread out calls,
+    # so that many loops are not called in same frame.
+    #
+    me.loop_beacon   = maketimer(0.07, me, func me.beaconLoop());
+    me.loop_slow     = maketimer(1.50, me, func me.slow_loop());
+    me.loop_fast     = maketimer(0.06, me, func me.speed_loop());
+    me.loop_saab37   = maketimer(0.25, me, func me.update_loop());
+    me.loop_ct       = maketimer(2, me, func code_ct());
+    me.loop_not      = maketimer(60, me, func not());
+    
+    # displays commons
+    displays.common.loop();
+    displays.common.loopFast();
+    me.loop_common   = maketimer(0.21, displays.common, func displays.common.loop());
+    me.loop_commonF  = maketimer(0.05, displays.common, func displays.common.loopFast());
+    
+    # autopilot
+    me.loop_ap       = maketimer(0.20, me, func auto.apLoop());
+    me.loop_hydrLost = maketimer(0.50, me, func auto.hydr1Lost());
+
+    me.loop_chrono   = maketimer(0.26, me, func ja37.chrono_update());
+    me.loop_land     = maketimer(0.27, land.lander, func land.lander.loop());
+    me.loop_nav      = maketimer(0.28, me, func navigation.heading_indicator());
+
+    # stores
+    armament.main_weapons();
+    me.loop_stores   = maketimer(0.29, me, func armament.loop_stores());#0.05
+ 
+    me.loop_saab37.start();
+    me.loop_fast.start();
+    me.loop_slow.start();
+    me.loop_beacon.start();
+    me.loop_ct.start();
+    me.loop_not.start();
+    me.loop_ap.start();
+    me.loop_hydrLost.start();    
+    me.loop_chrono.start();
+    me.loop_land.start();
+    me.loop_nav.start();
+    me.loop_stores.start();
+
+    if(getprop("ja37/supported/radar") == TRUE) {
+      # radar
+      radar_logic.radarLogic = radar_logic.RadarLogic.new();
+      me.loop_logic  = maketimer(0.24, radar_logic.radarLogic, func radar_logic.radarLogic.loop());
+      me.loop_logic.start();
+
+      # immatriculation
+      callsign.callInit();
+      me.loop_callsign= maketimer(1, me, func callsign.loop_callsign());
+      me.loop_callsign.start();
+
+      if (getprop("ja37/supported/canvas") == TRUE and getprop("ja37/systems/variant") > 0) {
+        # CI display
+        rdr.scope = rdr.radar.new();
+        me.loop_radar_screen = maketimer(0.10, rdr.scope, func rdr.scope.update());
+        me.loop_radar_screen.start();
+      }
+    }
+
+    # flightplans
+    route.poly_start();
+
+    if (getprop("ja37/supported/canvas") == TRUE) {
+      if (getprop("ja37/systems/variant") == 0) {
+        # TI
+        # must not start looping before route has been init
+        TI.setupCanvas();
+        TI.ti = TI.TI.new();
+        TI.ti.loop();#must be first due to me.rootCenterY
+        me.loop_ti  = maketimer(0.50, TI.ti, func TI.ti.loop());
+        me.loop_tiF = maketimer(0.12, TI.ti, func TI.ti.loopFast());
+        me.loop_tiS = maketimer(180, TI.ti, func TI.ti.loopSlow());
+        me.loop_ti.start();
+        me.loop_tiF.start();
+        me.loop_tiS.start();
+
+        # MI
+        # must be after TI
+        MI.setupCanvas();
+        MI.mi = MI.MI.new();
+        me.loop_mi  = maketimer(0.15, MI.mi, func MI.mi.loop());
+        me.loop_mi.start();
+      }
+
+      # HUD:
+      canvas_HUD.hud_pilot = canvas_HUD.HUDnasal.new({"node": "hud", "texture": "hud.png"});
+      me.loop_hud = maketimer(0.05, canvas_HUD.hud_pilot, func canvas_HUD.hud_pilot.update());
+      me.loop_ir  = maketimer(1.5, me, func canvas_HUD.IR_loop());
+
+      me.loop_hud.start();
+      me.loop_ir.start();
+
+      if (getprop("ja37/systems/variant") == 0) {
+        # data-panel
+        dap.callInit();
+        me.loop_dap  = maketimer(1, me, func dap.loop_main());
+        me.loop_dap.start();
+      }
+      
+    }
+
+    if (getprop("ja37/supported/fire") == TRUE) {
+      # fire
+      failureSys.init_fire();
+      me.loop_fire  = maketimer(1, me, func failureSys.loop_fire());
+      me.loop_fire.start();
+    }
   },
 };
 
@@ -1247,16 +1361,13 @@ var main_init = func {
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
 
-  # start minor loops
-  saab37.speed_loop();
-  saab37.slow_loop();
   battery_listener();
-  code_ct();
-  not();
+  #code_ct();
+  #not();
 
   # start beacon loop
   #beaconTimer.start();
-  saab37.beaconLoop();
+  #saab37.beaconLoop();
 
   # asymmetric vortex detachment
   asymVortex();
@@ -1277,11 +1388,8 @@ var main_init = func {
     setprop("controls/fuel/auto", rand()>0.5?TRUE:FALSE);
   }
 
-  # start weapon systems
-  settimer(func { armament.main_weapons() }, 2);
-
   # start the main loop
-  saab37.update_loop();
+  saab37.loopSystem();
 
   changeGuiLoad();
 }
@@ -1841,7 +1949,6 @@ var code_ct = func () {
   }
   var final = "ct"~cu~ff~rl~rf~rp~a~dm~tm~rd~ml~sf~ifa;
   setprop("sim/multiplay/generic/string[15]", final);
-  settimer(code_ct, 2);
 }
 
 var not = func {
@@ -1855,7 +1962,7 @@ var not = func {
         var bits = spl[1];
         msg = "I ";
         if (bits == "000000000000") {
-          settimer(not, 60);
+          #settimer(not, 60);
           return;
         }
         if (substr(bits,0,1) == "1") {
@@ -1898,7 +2005,6 @@ var not = func {
     }
     setprop("/sim/multiplay/chat", msg);
   }
-  settimer(not, 60);
 }
 
 var changeGuiLoad = func()

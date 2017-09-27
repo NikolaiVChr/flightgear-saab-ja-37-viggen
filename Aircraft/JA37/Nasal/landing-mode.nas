@@ -556,7 +556,7 @@ var Landing = {
                 printDA("last mode -1");
             }
         }
-        settimer(func me.loop(), 0.25);
+        #settimer(func me.loop(), 0.25);
     },
 };
 
@@ -565,7 +565,7 @@ var land_start = func {
     lander.loop();
 };
 var lander = Landing.new();
-var lsnr = setlistener("ja37/supported/initialized", land_start);
+#var lsnr = setlistener("ja37/supported/initialized", land_start);
 
 var window = screen.window.new(nil, 325, 2, 10);
 #window.fg = [1, 1, 1, 1];

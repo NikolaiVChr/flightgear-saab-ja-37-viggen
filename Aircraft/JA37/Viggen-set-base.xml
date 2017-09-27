@@ -480,11 +480,11 @@
         
         <replay>
             <buffer>
-                <high-res-time type="double">60</high-res-time>               <!-- default:   60 -->
-                <medium-res-time type="double">1200</medium-res-time>          <!-- default:  600 -->
-                <low-res-time type="double">3600</low-res-time>                <!-- default: 3600 -->
-                <medium-res-sample-dt type="double">0.15</medium-res-sample-dt> <!-- default:  0.5 -->
-                <low-res-sample-dt type="double">5</low-res-sample-dt>         <!-- default:    5 -->
+                <high-res-time type="double">60</high-res-time>                 <!-- default:   60 -->
+                <medium-res-time type="double">1200</medium-res-time>           <!-- default:  600 -->
+                <low-res-time type="double">3600</low-res-time>                 <!-- default: 3600 -->
+                <medium-res-sample-dt type="double">0.25</medium-res-sample-dt> <!-- default:  0.5 -->
+                <low-res-sample-dt type="double">5</low-res-sample-dt>          <!-- default:    5 -->
             </buffer>
         </replay>
         <carrier>
@@ -1418,6 +1418,9 @@
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </ja37>
+        <callsign>
+            <file>Aircraft/JA37/Nasal/callsign.nas</file>
+        </callsign>
         <route>
             <file>Aircraft/JA37/Nasal/flightplans.nas</file>
         </route>

@@ -743,7 +743,7 @@ var Polygon = {
 };
 
 var poly_start = func {
-	removelistener(lsnr);
+	#removelistener(lsnr);
 	if (getprop("ja37/systems/variant") == 0) {
 		Polygon.setupJAPolygons();
 	} else {
@@ -751,4 +751,4 @@ var poly_start = func {
 	}
 }
 
-var lsnr = setlistener("ja37/supported/initialized", poly_start);
+#var lsnr = setlistener("ja37/supported/initialized", poly_start);

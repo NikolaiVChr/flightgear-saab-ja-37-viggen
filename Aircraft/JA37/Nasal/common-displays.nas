@@ -97,13 +97,13 @@ units:                "ja37/hud/units-metric",
 		me.distance();
 		me.errors();
 		me.flighttime();
-		me.rate = getprop("sim/frame-rate-worst");
-		settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
+		#me.rate = getprop("sim/frame-rate-worst");
+		#settimer(func me.loop(), me.rate!=nil?clamp(2.15/(me.rate+0.001), 0.05, 0.5):0.5);#0.001 is to prevent divide by zero
 	},
 
 	loopFast: func {
 		me.QFE();
-		settimer(func me.loopFast(), 0.05);
+		#settimer(func me.loopFast(), 0.05);
 	},
 
 	flighttime: func {
@@ -472,4 +472,4 @@ var init = func {
 	common.loopFast();
 }	
 
-idl = setlistener("ja37/supported/initialized", init, 0, 0);
+#idl = setlistener("ja37/supported/initialized", init, 0, 0);

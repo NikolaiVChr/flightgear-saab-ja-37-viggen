@@ -606,14 +606,14 @@ var radar = {
 
 
 
-      settimer(
+      #settimer(
         #func debug.benchmark("rad loop", 
-          func me.update()
+      #    func me.update()
        #   )
-        , 0.05);
+      #  , 0.05);
     } else {
       g.hide();
-      settimer(func me.update(), 1);
+      #settimer(func me.update(), 1);
     }
   },
   
@@ -685,10 +685,10 @@ var radar = {
 #  return diff;
 #}
 var scope = nil;
-var theinit = setlistener("ja37/supported/initialized", func {
-  if(getprop("ja37/supported/radar") == 1) {
-    removelistener(theinit);
-    scope = radar.new();
-    scope.update();
-  }
-}, 1, 0);
+#var theinit = setlistener("ja37/supported/initialized", func {
+#  if(getprop("ja37/supported/radar") == 1) {
+#    removelistener(theinit);
+#    scope = radar.new();
+#    scope.update();
+#  }
+#}, 1, 0);

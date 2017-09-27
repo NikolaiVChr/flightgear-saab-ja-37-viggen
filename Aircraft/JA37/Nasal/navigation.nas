@@ -70,7 +70,7 @@ var heading_indicator = func {
 		input.radioHeadNorm.setDoubleValue(input.navNeedle.getValue()); #just use the regular ol' nav heading indicator.
 	}
 
-	settimer(heading_indicator, 0);
+	#settimer(heading_indicator, 0);
 }
 
-heading_indicator();
+#heading_indicator();

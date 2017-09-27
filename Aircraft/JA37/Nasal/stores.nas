@@ -68,7 +68,7 @@ var loop_stores = func {
 
     if(input.replay.getValue() == TRUE) {
       # replay is active, skip rest of loop.
-      settimer(loop_stores, STORES_UPDATE_PERIOD);
+      #settimer(loop_stores, STORES_UPDATE_PERIOD);
       return;
     }
 
@@ -639,7 +639,7 @@ var loop_stores = func {
     setprop("ja37/effect/pod4", TRUE);
   }
 
-  settimer(func { loop_stores() }, STORES_UPDATE_PERIOD);
+  #settimer(func { loop_stores() }, STORES_UPDATE_PERIOD);
 }
 
 
@@ -1914,7 +1914,7 @@ var main_weapons = func {
   setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);
 
   # start the main loop
-  settimer(func { loop_stores() }, 0.1);
+  #settimer(func { loop_stores() }, 0.1);
 }
 
 var selectNextWaypoint = func () {

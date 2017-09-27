@@ -116,7 +116,7 @@ var hydr1Lost = func {
   setprop("ja37/avionics/lost-dc-sec", lostDC_sec);
   setprop("ja37/avionics/transonic-sec", transonic_sec);
   setprop("ja37/avionics/ap-outside-bounds-sec", outside_bounds_sec);
-  settimer(hydr1Lost, 0.5);
+  #settimer(hydr1Lost, 0.5);
 }
 
 var unfollow = func () {
@@ -536,18 +536,18 @@ var apLoop = func {
     nextPitch = 1;
   }
 
-  settimer(apLoop, 0.2);
+  #settimer(apLoop, 0.2);
 }
 
-var ap_init_listener = setlistener("sim/signals/fdm-initialized", func {
-  apLoop();
-  hydr1Lost();
-  removelistener(ap_init_listener);
-}, 0, 0);
+#var ap_init_listener = setlistener("sim/signals/fdm-initialized", func {
+  #apLoop();
+  #hydr1Lost();
+#  removelistener(ap_init_listener);
+#}, 0, 0);
 
 var apLoop2 = func {
   setprop("controls/flight/trim-yaw", 0);
-  settimer(apLoop2, 0.5);
+  #settimer(apLoop2, 0.5);
 }
 
 #apLoop2();

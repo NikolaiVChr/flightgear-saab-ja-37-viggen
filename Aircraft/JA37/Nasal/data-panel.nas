@@ -48,7 +48,7 @@ var callInit = func {
  #   settimer(loop_dap, 0.25);
   #}
   #loop_dap();
-  settimer(func {loop_main()},0.5);#This way we are sure TI.ti has been initialized.
+  #settimer(func {loop_main()},0.5);#This way we are sure TI.ti has been initialized.
 }
 
 #
@@ -481,7 +481,7 @@ var loop_main = func {
   if (getprop("ja37/systems/variant") != 0) return;
   metric = getprop("ja37/hud/units-metric");
   disp();
-  settimer(loop_main,1);
+  #settimer(loop_main,1);
 }
 
 

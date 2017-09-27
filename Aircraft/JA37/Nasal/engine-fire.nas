@@ -70,7 +70,7 @@ var loop_fire = func {
     }
 
     last_serv_status = input.serv.getValue();
-    settimer(loop_fire, 1);
+    #settimer(loop_fire, 1);
 }
 
 var test_for_fire = func {
@@ -151,13 +151,13 @@ var init_fire = func {
 	}
 
 	# start the main loop
-	settimer(func { loop_fire() }, 1);
+	#settimer(func { loop_fire() }, 1);
 }
 
 # start the init function
-var main_init_listener = setlistener("ja37/supported/initialized", func {
-	if (getprop("ja37/supported/fire") == TRUE) {
-		init_fire();
-	}	
-	removelistener(main_init_listener);
-}, 0, 0);
+#var main_init_listener = setlistener("ja37/supported/initialized", func {
+#	if (getprop("ja37/supported/fire") == TRUE) {
+#		init_fire();
+#	}	
+#	removelistener(main_init_listener);
+#}, 0, 0);

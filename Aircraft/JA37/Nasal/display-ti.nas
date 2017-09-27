@@ -1613,7 +1613,7 @@ var TI = {
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
 			setprop("ja37/avionics/brightness-ti", 0);
 			#setprop("ja37/avionics/cursor-on", FALSE);
-			settimer(func me.loop(), 0.25);
+			#settimer(func me.loop(), 0.25);
 			return;
 		} else {
 			setprop("ja37/avionics/brightness-ti", me.brightness);
@@ -1646,12 +1646,12 @@ var TI = {
 		me.updateMapNames();
 		me.showBasesNear();		
 		me.ecmOverlay();
-		settimer(func me.loop(), 0.5);
+		#settimer(func me.loop(), 0.5);
 	},
 
 	loopFast: func {
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
-			settimer(func me.loopFast(), 0.05);
+			#settimer(func me.loopFast(), 0.05);
 			return;
 		} else {
 		}
@@ -1662,19 +1662,19 @@ var TI = {
 		me.edgeButtons();
 		#me.rate = getprop("sim/frame-rate-worst");
 		#me.rate = me.rate !=nil?clamp(1/(me.rate+0.001), 0.05, 0.5):0.5;
-		me.rate = 0.05;
-		settimer(func me.loopFast(), me.rate);#0.001 is to prevent divide by zero
+		#me.rate = 0.05;
+		#settimer(func me.loopFast(), me.rate);#0.001 is to prevent divide by zero
 	},
 
 	loopSlow: func {
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {
-			settimer(func me.loopSlow(), 0.05);
+			#settimer(func me.loopSlow(), 0.05);
 			return;
 		} else {
 		}
 		me.updateBasesNear();
 
-		settimer(func me.loopSlow(), 180);
+		#settimer(func me.loopSlow(), 180);
 	},
 
 
@@ -5117,5 +5117,5 @@ var init = func {
 	}
 }
 
-idl = setlistener("ja37/supported/initialized", init, 0, 0);
+#idl = setlistener("ja37/supported/initialized", init, 0, 0);
 
