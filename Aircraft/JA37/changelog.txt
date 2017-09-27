@@ -3216,3 +3216,6 @@ Model: Updated Livery 57 Red Ghost.
 Model: Updated Livery 32 Blue Peter.
 Sim: Converted settimers to maketimers. The aircraft is no longer compatible with FG 2.10.
 Sim: Replay medium sampler made slower, to prevent crashes.
+Effect: The fuselage shader now handles low-light ambient light better.
+Effect: Converted fuselage shaders to use phong.
+Effect: ALS fuselage shader no longer does specular reflection of sky irradiance. As in some situations it looked strange.
