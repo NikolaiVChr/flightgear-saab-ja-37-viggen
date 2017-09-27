@@ -12,6 +12,7 @@ varying	vec3	VBinormal;
 varying	vec3	vViewVec;
 varying	vec3	reflVec;
 varying vec3 	vertVec;
+//varying vec3 	lightDir;
 
 varying	float	alpha;
 
@@ -80,6 +81,8 @@ void	main(void)
 		vViewVec.x = dot(t, vertVec);
 		vViewVec.y = dot(b, vertVec);
 		vViewVec.z = dot(n, vertVec);
+
+	//lightDir = vec3(gl_LightSource[0].position.xyz - vertVec);
 
     // calculate the reflection vector
 		vec4 reflect_eye = vec4(reflect(vertVec, VNormal), 0.0);

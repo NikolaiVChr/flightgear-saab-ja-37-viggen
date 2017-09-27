@@ -120,7 +120,7 @@ void main (void)
 
 	vec3 mixedcolor;
 	vec3 N = vec3(0.0,0.0,1.0);
-	float pf = 0.0;
+//	float pf = 0.0;
 
 	///BEGIN bump //////////////////////////////////////////////////////////////////
  	if (nmap_enabled > 0 ){
@@ -165,13 +165,25 @@ void main (void)
 	vec3 E = eyeDir;
 	E = normalize(E);
 
+	// eyeVec = v
+
+	float phong = 0.0;
+	vec3 Lphong = normalize(gl_LightSource[0].position.xyz);// - eyeVec
+	if (dot(N, Lphong) > 0.0) {
+        // lightsource is not behind
+   		vec3 Ephong = normalize(-eyeVec);
+   		vec3 Rphong = normalize(-reflect(Lphong,N));
+   		phong = pow(max(dot(Rphong,Ephong),0.0),gl_FrontMaterial.shininess);
+   		phong = clamp(phong, 0.0, 1.0);
+   	}
+
 	vec3 L = normalize((gl_ModelViewMatrixInverse * gl_LightSource[0].position).xyz);
-	vec3 H = normalize(L + E);
+//	vec3 H = normalize(L + E);
 
 	N = viewN;
 
 	float nDotVP = dot(N,L);
-	float nDotHV = dot(N,H);
+//	float nDotHV = dot(N,H);
 	float eDotLV = max(0.0, dot(-E,L));
 
 	//glare on the backside of tranparent objects
@@ -181,21 +193,21 @@ void main (void)
 	//}
 
 	nDotVP = max(0.0, nDotVP);
-	nDotHV = max(0.0, nDotHV);
+//	nDotHV = max(0.0, nDotHV);
 
-	if (nDotVP == 0.0)
-		pf = 0.0;
-	else
-		pf = pow(nDotHV, gl_FrontMaterial.shininess);
+//	if (nDotVP == 0.0)
+//		pf = 0.0;
+//	else
+//		pf = pow(nDotHV, gl_FrontMaterial.shininess);
 
 	vec4 Diffuse  = gl_LightSource[0].diffuse * nDotVP;
 
 	vec4 metal_specular = ( 1.0 - metallic ) * vec4 (1.0, 1.0, 1.0, 1.0) + metallic * texel;// combineMe
     metal_specular.a = 1.0;// combineMe
-	vec4 Specular = metal_specular * gl_FrontMaterial.specular * gl_LightSource[0].diffuse * pf;
+	vec4 Specular = metal_specular * gl_FrontMaterial.specular * gl_LightSource[0].diffuse * phong;
 
 	// still too much ambient at evening, but at least its pitch black at night:
-    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * 0.6 * (ambient_factor+occlusion.a*(1.0-ambient_factor));//combineMe
+    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * (ambient_factor+occlusion.a*(1.0-ambient_factor));//combineMe
     // gl_LightModel.ambient gl_LightSource[0].ambient
 
 	vec4 color = gl_Color + Diffuse*diffuseColor + ambient_color;

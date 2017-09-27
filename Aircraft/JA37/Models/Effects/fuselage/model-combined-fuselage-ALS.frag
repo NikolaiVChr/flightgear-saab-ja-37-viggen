@@ -16,6 +16,7 @@ varying	vec3 	rawpos;
 varying	vec3 	reflVec;
 varying	vec3 	vViewVec;
 varying vec3	vertVec;
+//varying vec3    lightDir;
 
 varying	float	alpha;
 
@@ -152,8 +153,8 @@ void main (void)
     vec3 N = vec3(0.0,0.0,1.0);
 
     
-    float pf = 0.0;
-    float pf1 = 0.0;
+//    float pf = 0.0;
+//    float pf1 = 0.0;
     ///some generic light scattering parameters 
     vec3 shadedFogColor = vec3(0.55, 0.67, 0.88);
     vec3 moonLightColor = vec3 (0.095, 0.095, 0.15) * moonlight;
@@ -289,15 +290,15 @@ void main (void)
     ///BEGIN bump
     if (nmap_enabled > 0){
         N = nmap.rgb * 2.0 - 1.0;
-	// this is exact only for viewing under 90 degrees but much faster than the real solution
-	reflVecN = normalize (N.x * VTangent + N.y * VBinormal + N.z * reflVec);
+	    // this is exact only for viewing under 90 degrees but much faster than the real solution
+	    reflVecN = normalize (N.x * VTangent + N.y * VBinormal + N.z * reflVec);
         N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);
         if (nmap_dds > 0)
             N = -N;
-        } else {
-            N = normalize(VNormal);
+    } else {
+        N = normalize(VNormal);
 	    reflVecN = reflVec;
-        }
+    }
     ///END bump
 
 
@@ -310,7 +311,7 @@ void main (void)
 
     float nDotVP = max(0.0, dot(N, normalize(gl_LightSource[0].position.xyz)));
     //float nDotHV = max(0.0, dot(N, normalize(gl_LightSource[0].halfVector.xyz))); 
-    float nDotHV = max(0.0, dot(N,HV));
+    //float nDotHV = max(0.0, dot(N,HV));
     //glare on the backside of tranparent objects
     //if ((gl_FrontMaterial.diffuse.a < 1.0 || texel.a < 1.0)
     //    && dot(N, normalize(gl_LightSource[0].position.xyz)) < 0.0) {
@@ -318,24 +319,33 @@ void main (void)
     //        nDotHV = max(0.0, dot(-N, HV) * (1.0 -texel.a) );
     //    }
 
-    float nDotVP1 = 0.0;
-    float nDotHV1 = 0.0;
+//    float nDotVP1 = 0.0;
+//    float nDotHV1 = 0.0;
 
-        
+    float phong = 0.0;
+    vec3 Lphong = normalize(gl_LightSource[0].position.xyz);//normalize(lightDir); // -vertVec
+    if (dot(N, Lphong) > 0.0) {
+        // lightsource is not behind
+        vec3 Ephong = normalize(-vertVec);
+        vec3 Rphong = normalize(-reflect(Lphong,N));
+        phong = pow(max(dot(Rphong,Ephong),0.0),gl_FrontMaterial.shininess);
+        phong = clamp(phong, 0.0, 1.0);
+    }
+    
     // try specular reflection of sky irradiance
-    nDotVP1 = max(0.0, dot(N, up));
-    nDotHV1 = max(0.0, dot(N, normalize(normalize(up) + normalize(-vertVec))));
+//    nDotVP1 = max(0.0, dot(N, up));
+//    nDotHV1 = max(0.0, dot(N, normalize(normalize(up) + normalize(-vertVec))));
 	
 
-    if (nDotVP == 0.0)
-	{pf = 0.0;}
-    else
-        {pf = pow(nDotHV, gl_FrontMaterial.shininess);}
+//    if (nDotVP == 0.0)
+//	{pf = 0.0;}
+//    else
+//        {pf = pow(nDotHV, gl_FrontMaterial.shininess);}
    
-   if (nDotVP1 == 0.0)
-	{pf1 = 0.0;}
-    else
-        {pf1 = pow(nDotHV1, 0.5*gl_FrontMaterial.shininess);}
+//   if (nDotVP1 == 0.0)
+//	{pf1 = 0.0;}
+//    else
+//        {pf1 = pow(nDotHV1, 0.5*gl_FrontMaterial.shininess);}
   
 
 
@@ -382,13 +392,13 @@ void main (void)
 
     vec4 metal_specular = ( 1.0 - metallic ) * vec4 (1.0, 1.0, 1.0, 1.0) + metallic * texel;// combineMe
     metal_specular.a = 1.0;// combineMe
-    vec4 Specular = metal_specular * gl_FrontMaterial.specular * light_diffuse * pf + metal_specular * gl_FrontMaterial.specular * light_ambient * pf1;// combineMe
+    vec4 Specular = metal_specular * gl_FrontMaterial.specular * light_diffuse * phong;// + metal_specular * gl_FrontMaterial.specular * light_ambient * pf1;// combineMe
     Specular+=  metal_specular * gl_FrontMaterial.specular * pow(max(0.0,-dot(N,normalize(vertVec))),gl_FrontMaterial.shininess) * vec4(secondary_light,1.0);// combineMe
 
     Specular *= refl_d;
 
-    // still too much ambient at evening, but at least its pitch black at night:
-    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * 0.6 * (ambient_factor+occlusion.a*(1.0-ambient_factor));//combineMe
+    // kind of a hack but its now pitch black at night.
+    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * (ambient_factor+occlusion.a*(1.0-ambient_factor));//combineMe
     // gl_LightModel.ambient gl_LightSource[0].ambient light_ambient
     
     vec4 color = gl_Color + Diffuse * gl_FrontMaterial.diffuse + ambient_color;
