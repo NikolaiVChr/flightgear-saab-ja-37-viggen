@@ -1,0 +1,232 @@
+<PropertyList>
+
+ <name>tune_light</name>
+ <modal>false</modal>
+ <layout>vbox</layout>
+ <width>450</width>
+ <height>350</height>
+  <group>
+   <text>
+    <label>Tune dat light</label>
+	<x>10</x>
+	<y>290</y>
+  </text>
+  
+      <!-- slider 1 -->
+      
+      <text>
+         <x>10</x>
+         <y>270</y>
+         <label>Diffuse</label>
+      </text>
+      
+      <text>
+         <x>245</x>
+         <y>270</y>
+         <label>-9.9999</label>
+         <format>%.2f</format>
+         <property>/light/diffuse</property>
+         <live>true</live>
+      </text>
+            
+      <slider>
+         <vertical>false</vertical>
+         <x>10</x>
+         <y>245</y>
+         <width>425</width>
+         <height>25</height>
+         <fraction>0</fraction>
+         <property>/light/diffuse</property>
+         <min>0</min>
+         <max>1</max>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </slider>
+      
+      <!-- slider 2 -->
+      
+      <text>
+         <x>10</x>
+         <y>220</y>
+         <label>Ambient</label>
+      </text>
+      
+      <text>
+         <x>245</x>
+         <y>220</y>
+         <label>-9.9999</label>
+         <format>%.2f</format>
+         <property>/light/ambient</property>
+         <live>true</live>
+      </text>
+            
+      <slider>
+         <vertical>false</vertical>
+         <x>10</x>
+         <y>195</y>
+         <width>425</width>
+         <height>25</height>
+         <fraction>0</fraction>
+         <property>/light/ambient</property>
+         <min>0</min>
+         <max>1</max>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </slider>
+      
+      <!-- slider 3 -->
+      
+      <text>
+         <x>10</x>
+         <y>170</y>
+         <label>Specular color</label>
+      </text>
+      
+      <text>
+         <x>245</x>
+         <y>170</y>
+         <label>-9.9999</label>
+         <format>%.2f</format>
+         <property>/light/specular</property>
+         <live>true</live>
+      </text>
+            
+      <slider>
+         <vertical>false</vertical>
+         <x>10</x>
+         <y>145</y>
+         <width>425</width>
+         <height>25</height>
+         <fraction>0</fraction>
+         <property>/light/specular</property>
+         <min>0</min>
+         <max>1</max>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </slider>
+      
+      <!-- slider 4 -->
+      
+      <text>
+         <x>10</x>
+         <y>120</y>
+         <label>Specular size</label>
+      </text>
+      
+      <text>
+         <x>245</x>
+         <y>120</y>
+         <label>-9.9999</label>
+         <format>%d</format>
+         <property>/light/shine</property>
+         <live>true</live>
+      </text>
+            
+      <slider>
+         <vertical>false</vertical>
+         <x>10</x>
+         <y>95</y>
+         <width>425</width>
+         <height>25</height>
+         <fraction>0</fraction>
+         <property>/light/shine</property>
+         <min>0</min>
+         <max>128</max>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </slider>
+            
+      <!-- slider 5 -->
+      
+      <text>
+         <x>10</x>
+         <y>70</y>
+         <label>Metallic</label>
+      </text>
+      
+      <text>
+         <x>245</x>
+         <y>70</y>
+         <label>-9.9999</label>
+         <format>%.2f</format>
+         <property>/light/metal</property>
+         <live>true</live>
+      </text>
+            
+      <slider>
+         <vertical>false</vertical>
+         <x>10</x>
+         <y>45</y>
+         <width>425</width>
+         <height>25</height>
+         <fraction>0</fraction>
+         <property>/light/metal</property>
+         <min>0</min>
+         <max>1</max>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </slider>
+      
+      <!-- slider 6 -->
+      
+      <text>
+         <x>10</x>
+         <y>320</y>
+         <label>Occlusion</label>
+      </text>
+      
+      <text>
+         <x>245</x>
+         <y>320</y>
+         <label>-9.9999</label>
+         <format>%.2f</format>
+         <property>/light/occlude</property>
+         <live>true</live>
+      </text>
+            
+      <slider>
+         <vertical>false</vertical>
+         <x>10</x>
+         <y>295</y>
+         <width>425</width>
+         <height>25</height>
+         <fraction>0</fraction>
+         <property>/light/occlude</property>
+         <min>0</min>
+         <max>1</max>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </slider>
+
+      <!-- buttons -->
+  
+      <button>
+         <legend>Apply</legend>
+         <y>10</y>
+         <x>10</x>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+      </button>
+      
+      <button>
+         <legend>Close</legend>
+         <y>10</y>
+         <x>400</x>
+         <binding>
+            <command>dialog-apply</command>
+         </binding>
+         <binding>
+            <command>dialog-close</command>
+         </binding>
+      </button>
+   
+   </group>
+
+</PropertyList>

@@ -630,6 +630,63 @@
     <object-name>bottomAirInlet</object-name>
   </effect>
 
+  <animation>
+    <type>material</type> 
+    <object-name>ja37fin</object-name>
+    <object-name>ja37dropTank</object-name>
+    <object-name>ja37upperPitotTube</object-name>
+    <object-name>ja37upperVerticalStabilizer</object-name>
+    <object-name>gunpod</object-name>
+    <object-name>canopy</object-name>
+    <object-name>elevonLeftInner</object-name>
+    <object-name>elevonLeftOuter</object-name>
+    <object-name>elevonRightInner</object-name>
+    <object-name>elevonRightOuter</object-name>
+    <object-name>flaps</object-name>
+    <object-name>fuselage</object-name>
+    <object-name>wingLeft</object-name>
+    <object-name>wingRight</object-name>
+    <object-name>rudder</object-name>
+    <object-name>gearFrontBottom</object-name>
+    <object-name>gearFrontHub</object-name>
+    <object-name>gearFrontTop</object-name>
+    <object-name>gearFrontDoorsOpenLeft</object-name>
+    <object-name>gearFrontDoorsOpenRight</object-name>
+    <object-name>gearFrontDoorsClosed</object-name>
+    <object-name>gearLeftMid</object-name>
+    <object-name>gearLeftBottom</object-name>
+    <object-name>gearLeftTop</object-name>
+    <object-name>gearLeftHinge</object-name>
+    <object-name>gearRightMid</object-name>
+    <object-name>gearRightBottom</object-name>
+    <object-name>gearRightTop</object-name>
+    <object-name>gearRightHinge</object-name>
+    <object-name>gearLeftOuterDoor</object-name>
+    <object-name>gearLeftInnerDoor</object-name>
+    <object-name>gearRightOuterDoor</object-name>
+    <object-name>gearRightInnerDoor</object-name>
+    <object-name>bottomAirInlet</object-name>
+    <diffuse>
+        <red>1</red>
+        <green>1</green>
+        <blue>1</blue>
+        <factor-prop>light/diffuse</factor-prop>
+    </diffuse>
+    <ambient>
+        <red>1</red>
+        <green>1</green>
+        <blue>1</blue>
+        <factor-prop>light/ambient</factor-prop>
+    </ambient>
+    <specular>
+        <red>1</red>
+        <green>1</green>
+        <blue>1</blue>
+        <factor-prop>light/specular</factor-prop>
+    </specular>
+    <shininess-prop>light/shine</shininess-prop>
+  </animation>
+
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->
     <object-name>dashPanel</object-name>
