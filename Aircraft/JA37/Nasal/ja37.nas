@@ -870,6 +870,8 @@ var Saab37 = {
     displays.common.loopFast();
     me.loop_common   = maketimer(0.21, displays.common, func displays.common.loop());
     me.loop_commonF  = maketimer(0.05, displays.common, func displays.common.loopFast());
+    me.loop_common.start();
+    me.loop_commonF.start();
     
     # autopilot
     me.loop_ap       = maketimer(0.20, me, func auto.apLoop());
