@@ -66,6 +66,16 @@
                 <splash type="bool">false</splash>
                 <path>gui/newSplashes/ajs4.png</path>
             </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs6.png</path>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>gui/newSplashes/ajs7.png</path>
+            </preview>
         </previews>
 
         <model>

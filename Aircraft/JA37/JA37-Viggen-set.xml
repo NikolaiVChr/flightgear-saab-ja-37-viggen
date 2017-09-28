@@ -95,12 +95,12 @@
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja8.png</path>
+                <path>gui/newSplashes/ja13.png</path>
             </preview>
             <preview>
                 <type>exterior</type>
                 <splash type="bool">true</splash>
-                <path>gui/newSplashes/ja9.png</path>
+                <path>gui/newSplashes/ja14.png</path>
             </preview>
             <preview>
                 <type>exterior</type>
