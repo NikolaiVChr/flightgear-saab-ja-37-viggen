@@ -630,7 +630,7 @@
     <object-name>bottomAirInlet</object-name>
   </effect>
 
-  <animation>
+<!--  <animation>
     <type>material</type> 
     <object-name>ja37fin</object-name>
     <object-name>ja37dropTank</object-name>
@@ -670,22 +670,22 @@
         <red>1</red>
         <green>1</green>
         <blue>1</blue>
-        <factor-prop>light/diffuse</factor-prop>
+        <factor-prop>/light/diffuse</factor-prop>
     </diffuse>
     <ambient>
         <red>1</red>
         <green>1</green>
         <blue>1</blue>
-        <factor-prop>light/ambient</factor-prop>
+        <factor-prop>/light/ambient</factor-prop>
     </ambient>
     <specular>
         <red>1</red>
         <green>1</green>
         <blue>1</blue>
-        <factor-prop>light/specular</factor-prop>
+        <factor-prop>/light/specular</factor-prop>
     </specular>
-    <shininess-prop>light/shine</shininess-prop>
-  </animation>
+    <shininess-prop>/light/shine</shininess-prop>
+  </animation>-->
 
   <effect>
     <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--ja37-cockpit-shader / shadow/interior-shadow -->

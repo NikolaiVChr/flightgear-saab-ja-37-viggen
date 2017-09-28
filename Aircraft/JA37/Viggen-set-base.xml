@@ -1387,14 +1387,14 @@
         <area6 type="string">C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/test/area6.gpx</area6>
     </xmlPlans>-->
 
-    <light>
+    <!--<light>
         <diffuse type="double">1</diffuse>
         <ambient type="double">1</ambient>
         <specular type="double">0.50</specular>
         <shine type="int">25</shine>
         <metal type="double">0.75</metal>
         <occlude type="double">0.60</occlude>
-    </light>    
+    </light>    -->
     <!--**********************************************************************
 
                                           Nasal scrips

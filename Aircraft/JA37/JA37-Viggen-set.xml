@@ -297,13 +297,13 @@
                             </script>
                         </binding>
                     </item>
-                    <item>
+                    <!--<item>
                         <label>Tune Light</label>
                         <binding>
                             <command>dialog-show</command>
                             <dialog-name>tune_light</dialog-name>
                         </binding>
-                    </item>
+                    </item>-->
                 </menu>
             </default>
         </menubar>
