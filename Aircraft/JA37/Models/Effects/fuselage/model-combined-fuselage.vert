@@ -50,7 +50,7 @@ void	main(void)
 		VTangent = normalize(gl_NormalMatrix * tempTangent);
 		VBinormal = normalize(gl_NormalMatrix * tempBinormal);
 
-		diffuseColor = gl_Color;
+		diffuseColor = gl_Color * gl_FrontMaterial.diffuse;
     // Super hack: if diffuse material alpha is less than 1, assume a
 	// transparency animation is at work
 		if (gl_FrontMaterial.diffuse.a < 1.0)

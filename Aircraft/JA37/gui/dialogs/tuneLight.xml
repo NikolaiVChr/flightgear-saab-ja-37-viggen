@@ -4,12 +4,12 @@
  <modal>false</modal>
  <layout>vbox</layout>
  <width>450</width>
- <height>350</height>
+ <height>365</height>
   <group>
    <text>
     <label>Tune dat light</label>
 	<x>10</x>
-	<y>290</y>
+	<y>340</y>
   </text>
   
       <!-- slider 1 -->
