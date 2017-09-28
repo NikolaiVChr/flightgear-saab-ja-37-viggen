@@ -3219,3 +3219,4 @@ Sim: Replay medium sampler made slower, to prevent crashes.
 Effect: The fuselage shader now handles low-light ambient light better.
 Effect: Converted fuselage shaders to use phong.
 Effect: ALS fuselage shader no longer does specular reflection of sky irradiance. As in some situations it looked strange.
+Model: Made wing spikes on livery 32, black.
