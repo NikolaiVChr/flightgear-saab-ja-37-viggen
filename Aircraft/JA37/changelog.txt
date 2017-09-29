@@ -3200,7 +3200,7 @@ Model: Made 31 livery lighter and more bluish.
 Sim: Fixed optical landing mode would not engage automatically.
 Sim: Reduced loop speed of landing mode code.
 
-4.302
+4.302 - 2017 September 28
 =====
 Sim: Removed uses of var keyword in landing mode loop.
 Sim: Removed uses of var keyword in main saab37 loops.
