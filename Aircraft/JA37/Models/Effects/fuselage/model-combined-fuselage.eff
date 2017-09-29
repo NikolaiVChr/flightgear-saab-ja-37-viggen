@@ -6,8 +6,8 @@ Modifications author: Nikolai V. Chr.
 	<name>Aircraft/JA37/Models/Effects/fuselage/model-combined-fuselage</name>
 	<inherits-from>Effects/model-combined-deferred</inherits-from>
 	<parameters>
-		<metallic type="float">0.5</metallic>
-		<ambient-factor type="float">0.75</ambient-factor>
+		<metallic type="float">0.75</metallic><!-- 0-1 -->
+		<ambient-factor type="float">0.75</ambient-factor><!-- 0-1 -->
 	</parameters>
 	<!--
 		Textures:
@@ -20,6 +20,9 @@ Modifications author: Nikolai V. Chr.
 		5 - reflect cube map (rgb)
 		6 - fresnel (rgb) & rainbow (rgb) & ambient occlusion (a)
 		7 - grain (rgba)
+
+		TODO:
+			should fog, haze be done in linear or gamma corrected space?
 	-->
 	<technique n="4"><!-- ALS -->
 	   <predicate>

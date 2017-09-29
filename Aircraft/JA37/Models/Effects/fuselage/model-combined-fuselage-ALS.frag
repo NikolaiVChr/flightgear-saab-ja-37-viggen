@@ -356,19 +356,19 @@ void main (void)
 		light_diffuse = light_diffuse * cloud_shadow_factor;
 	}
  
-   vec3 secondary_light = vec3 (0.0,0.0,0.0);
+    vec3 secondary_light = vec3 (0.0,0.0,0.0);
 
     if (use_searchlight == 1)
 	{
-	secondary_light += searchlight();
+	   secondary_light += searchlight();
 	}
     if (use_landing_light == 1)
 	{
-	secondary_light += landing_light(landing_light1_offset, landing_light3_offset);
+	   secondary_light += landing_light(landing_light1_offset, landing_light3_offset);
 	}
     if (use_alt_landing_light == 1)
 	{
-	secondary_light += landing_light(landing_light2_offset, landing_light3_offset);
+	   secondary_light += landing_light(landing_light2_offset, landing_light3_offset);
 	}
 
 
@@ -376,7 +376,7 @@ void main (void)
     Diffuse.rgb += secondary_light * light_distance_fading(dist);	
     if (use_IR_vision)
 	{
-	Diffuse.rgb = max(Diffuse.rgb, vec3 (0.5, 0.5, 0.5));
+	   Diffuse.rgb = max(Diffuse.rgb, vec3 (0.5, 0.5, 0.5));
 	}
 
     ///BEGIN reflection correction by dirt
@@ -385,7 +385,7 @@ void main (void)
 
     if ((dirt_enabled == 1) && (dirt_modulates_reflection == 1))
 	{
-	refl_d =  1.0 - (reflmap.r * dirt_r_factor  * (1.0 - dirt_reflection_factor));
+	   refl_d =  1.0 - (reflmap.r * dirt_r_factor  * (1.0 - dirt_reflection_factor));
 	}
 
     ///END reflection correction by dirt
@@ -398,7 +398,7 @@ void main (void)
     Specular *= refl_d;
 
     // kind of a hack but its now pitch black at night.
-    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * (ambient_factor+occlusion.a*(1.0-ambient_factor));//combineMe
+    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * ((1.0-ambient_factor)+occlusion.a*ambient_factor);//combineMe
     // gl_LightModel.ambient gl_LightSource[0].ambient light_ambient
     
     vec4 color = gl_Color + Diffuse * gl_FrontMaterial.diffuse + ambient_color;
@@ -430,19 +430,19 @@ void main (void)
         reflFactor = clamp(reflFactor, 0.0, 1.0);
 
         // add fringing fresnel and rainbow effects and modulate by reflection
-        vec4 reflcolor = mix(reflection, rainbow, refl_rainbow * v);
+        vec3 reflcolor = mix(reflection.rgb, rainbow.rgb, refl_rainbow * v);// combineMe
         //vec4 reflcolor = reflection;
-        vec4 reflfrescolor = mix(reflcolor, fresnel, refl_fresnel  * v);
-        vec4 noisecolor = mix(reflfrescolor, noisevec, refl_noise);
+        vec3 reflfrescolor = mix(reflcolor, fresnel.rgb, refl_fresnel  * v);// combineMe
+        vec3 noisecolor = mix(reflfrescolor, noisevec.rgb, refl_noise);// combineMe
         //vec4 raincolor = vec4(noisecolor.rgb * reflFactor, 1.0);
-        vec4 raincolor = vec4(noisecolor.rgb, 1.0);
+        vec4 raincolor = vec4(noisecolor,1.0);// combineMe
         raincolor += Specular;
         raincolor *= light_diffuse;
 
         if (refl_type == 1) {
-            mixedcolor = mix(texel, raincolor, reflFactor * refl_d).rgb;
+            mixedcolor = mix(texel, raincolor, reflFactor * refl_d).rgb;// combineMe
         } else if (refl_type == 2) {
-            mixedcolor = ((texel +(reflcolor * reflFactor * refl_d))-(0.5*reflFactor * refl_d)).rgb;
+            mixedcolor = ((texel.rgb +(reflcolor * reflFactor * refl_d))-(0.5*reflFactor * refl_d));
         }
     } else {
         mixedcolor = texel.rgb;
@@ -511,7 +511,7 @@ void main (void)
 
     
     color.a = alpha;//combineMe
-    vec4 fragColor = vec4(color.rgb * mixedcolor + ambient_Correction.rgb, color.a);//CombineMe
+    vec4 fragColor = vec4(color.rgb * mixedcolor.rgb + ambient_Correction.rgb, color.a);//CombineMe
 
     fragColor += Specular * nmap.a;
 

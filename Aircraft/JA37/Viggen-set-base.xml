@@ -1393,7 +1393,7 @@
         <specular type="double">0.50</specular>
         <shine type="int">25</shine>
         <metal type="double">0.75</metal>
-        <occlude type="double">0.60</occlude>
+        <occlude type="double">0.40</occlude>
     </light>    -->
     <!--**********************************************************************
 

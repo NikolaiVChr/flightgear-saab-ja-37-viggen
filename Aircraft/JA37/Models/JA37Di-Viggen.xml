@@ -597,7 +597,7 @@
     <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <!--<parameters>
           <metallic type="float">0.75</metallic>
-          <ambient-factor type="float">0.75</ambient-factor>
+          <ambient-factor type="float">0.25</ambient-factor>
     </parameters>-->
     <object-name>canopy</object-name>
     <object-name>elevonLeftInner</object-name>

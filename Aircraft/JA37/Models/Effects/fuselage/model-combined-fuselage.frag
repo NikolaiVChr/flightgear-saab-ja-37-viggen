@@ -207,7 +207,7 @@ void main (void)
 	vec4 Specular = metal_specular * gl_FrontMaterial.specular * gl_LightSource[0].diffuse * phong;
 
 	// still too much ambient at evening, but at least its pitch black at night:
-    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * (ambient_factor+occlusion.a*(1.0-ambient_factor));//combineMe
+    vec4 ambient_color = gl_FrontMaterial.ambient * gl_LightSource[0].ambient * gl_LightSource[0].ambient * 2 * ((1.0-ambient_factor)+occlusion.a*ambient_factor);//combineMe
     // gl_LightModel.ambient gl_LightSource[0].ambient
 
 	vec4 color = gl_Color + Diffuse*diffuseColor + ambient_color;
