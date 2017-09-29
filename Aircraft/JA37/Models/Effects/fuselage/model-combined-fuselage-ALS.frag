@@ -407,46 +407,46 @@ void main (void)
     ////////////////////////////////////////////////////////////////////
     //BEGIN reflect
     ////////////////////////////////////////////////////////////////////
-    if (refl_enabled > 0){
+    if (refl_enabled > 0) {
         float reflFactor = 0.0;
         float transparency_offset = clamp(refl_correction, -1.0, 1.0);// set the user shininess offset
 
-        if(refl_map > 0){
+        if(refl_map > 0) {
             // map the shininess of the object with user input
             //float pam = (map.a * -2) + 1; //reverse map
             reflFactor = reflmap.a + transparency_offset;
-            } else if (nmap_enabled > 0) {
-                // set the reflectivity proportional to shininess with user input
-                reflFactor = gl_FrontMaterial.shininess * 0.0078125 * nmap.a + transparency_offset;
-            } else {
-                reflFactor = gl_FrontMaterial.shininess* 0.0078125 + transparency_offset;
-                }
+        } else if (nmap_enabled > 0) {
+            // set the reflectivity proportional to shininess with user input
+            reflFactor = gl_FrontMaterial.shininess * 0.0078125 * nmap.a + transparency_offset;
+        } else {
+            reflFactor = gl_FrontMaterial.shininess* 0.0078125 + transparency_offset;
+        }
 
 	    // enhance low angle reflection by a fresnel term
 	    float fresnel_enhance = (1.0-smoothstep(0.0,0.4, dot(N,-normalize(vertVec)))) * refl_fresnel_factor;
 
 	    reflFactor+=fresnel_enhance;
 
-            reflFactor = clamp(reflFactor, 0.0, 1.0);
+        reflFactor = clamp(reflFactor, 0.0, 1.0);
 
-            // add fringing fresnel and rainbow effects and modulate by reflection
-            vec4 reflcolor = mix(reflection, rainbow, refl_rainbow * v);
-            //vec4 reflcolor = reflection;
-            vec4 reflfrescolor = mix(reflcolor, fresnel, refl_fresnel  * v);
-            vec4 noisecolor = mix(reflfrescolor, noisevec, refl_noise);
-            //vec4 raincolor = vec4(noisecolor.rgb * reflFactor, 1.0);
-	    vec4 raincolor = vec4(noisecolor.rgb, 1.0);
-            raincolor += Specular;
-            raincolor *= light_diffuse;
+        // add fringing fresnel and rainbow effects and modulate by reflection
+        vec4 reflcolor = mix(reflection, rainbow, refl_rainbow * v);
+        //vec4 reflcolor = reflection;
+        vec4 reflfrescolor = mix(reflcolor, fresnel, refl_fresnel  * v);
+        vec4 noisecolor = mix(reflfrescolor, noisevec, refl_noise);
+        //vec4 raincolor = vec4(noisecolor.rgb * reflFactor, 1.0);
+        vec4 raincolor = vec4(noisecolor.rgb, 1.0);
+        raincolor += Specular;
+        raincolor *= light_diffuse;
 
-	    if (refl_type == 1)
-            	{mixedcolor = mix(texel, raincolor, reflFactor * refl_d).rgb;}
-	    else if (refl_type == 2)
-		{mixedcolor = ((texel +(reflcolor * reflFactor * refl_d))-(0.5*reflFactor * refl_d)).rgb;}
-
-        } else {
-            mixedcolor = texel.rgb;
+        if (refl_type == 1) {
+            mixedcolor = mix(texel, raincolor, reflFactor * refl_d).rgb;
+        } else if (refl_type == 2) {
+            mixedcolor = ((texel +(reflcolor * reflFactor * refl_d))-(0.5*reflFactor * refl_d)).rgb;
         }
+    } else {
+        mixedcolor = texel.rgb;
+    }
     /////////////////////////////////////////////////////////////////////
     //END reflect
     /////////////////////////////////////////////////////////////////////
@@ -464,8 +464,8 @@ void main (void)
             //dirtFactor.b = smoothstep(0.0, 1.0, dirtFactor.b);
             mixedcolor.rgb = mix(mixedcolor.rgb, dirt_g_color, smoothstep(0.0, 1.0, dirtFactor.g));
             mixedcolor.rgb = mix(mixedcolor.rgb, dirt_b_color, smoothstep(0.0, 1.0, dirtFactor.b));
-            }
         }
+    }
     //////////////////////////////////////////////////////////////////////
     //END Dirt
     //////////////////////////////////////////////////////////////////////
@@ -479,7 +479,7 @@ void main (void)
     	texel.rgb = texel.rgb * (1.0 - 0.6 * wetness);
     	float rain_factor = 0.0;
 
-	float rain_orientation = max(dot(VNormal, up),0.0);
+	    float rain_orientation = max(dot(VNormal, up),0.0);
 
     	if ((rain_norm > 0.0) && (rain_orientation > 0.0))
 		{
@@ -535,11 +535,11 @@ void main (void)
 		lightmapcolor = addLights(lightmapcolor, lightmap_a_color * lightmapFactor.a);
 
 
-            } else {
-                lightmapcolor = lightmapTexel.rgb * lightmap_r_color * lightmapFactor.r;
-            }
-        fragColor.rgb = max(fragColor.rgb, lightmapcolor * gl_FrontMaterial.diffuse.rgb * smoothstep(0.0, 1.0, mixedcolor*.5 + lightmapcolor*.5));
+        } else {
+            lightmapcolor = lightmapTexel.rgb * lightmap_r_color * lightmapFactor.r;
         }
+        fragColor.rgb = max(fragColor.rgb, lightmapcolor * gl_FrontMaterial.diffuse.rgb * smoothstep(0.0, 1.0, mixedcolor*.5 + lightmapcolor*.5));
+    }
     //////////////////////////////////////////////////////////////////////
     // END lightmap
     /////////////////////////////////////////////////////////////////////

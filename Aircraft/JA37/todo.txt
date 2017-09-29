@@ -170,6 +170,7 @@ TI: Startfix instead of time when INS is starting up.
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
 Sound: Add data-panel switches sounds.
 Sound: Knobs for pylon and master-arm has no sound, fix.
+Model: The nosegear well, has gap between it and fuselage.
 
 
 
