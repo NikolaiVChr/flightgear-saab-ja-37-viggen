@@ -3221,3 +3221,9 @@ Effect: Converted fuselage shaders to use phong.
 Effect: ALS fuselage shader no longer does specular reflection of sky irradiance. As in some situations it looked strange.
 Model: Made wing spikes on livery 32, black.
 GUI: Updated some splash screens.
+GUI: {Pinto} Replaced a splash screen.
+Sim: Fixed common display loops were not running.
+
+4.303
+=====
+Model: Updated livery 66-F21.
