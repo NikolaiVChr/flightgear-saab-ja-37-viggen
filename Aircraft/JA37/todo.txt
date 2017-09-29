@@ -168,6 +168,8 @@ TI: In menu WEAP between the two middle edge buttons at bottom, its should say A
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
 TI: Startfix instead of time when INS is starting up.
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
+Sound: Add data-panel switches sounds.
+Sound: Knobs for pylon and master-arm has no sound, fix.
 
 
 

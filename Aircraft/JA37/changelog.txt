@@ -3227,3 +3227,5 @@ Sim: Fixed common display loops were not running.
 4.303
 =====
 Model: Updated livery 66-F21.
+Sound: Added throttle indent sounds.
+Sound: Added data-panel knob sound.
