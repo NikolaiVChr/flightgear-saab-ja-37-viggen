@@ -34,7 +34,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/combat</property>
-                <step>-1.00</step>
+                <step>1.00</step>
                 <min>0</min>
                 <max>1</max>
                 <wrap>false</wrap>
@@ -51,7 +51,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>ja37/hud/combat</property>
-                <step>1.00</step>
+                <step>-1.00</step>
                 <min>0</min>
                 <max>1</max>
                 <wrap>false</wrap>
@@ -66,9 +66,9 @@
         <object-name>A2_screw</object-name>
         <property>ja37/hud/combat</property>
         <interpolation>
-            <entry><ind>0</ind><dep>-70</dep></entry>
+            <entry><ind>0</ind><dep>70</dep></entry>
             <!--<entry><ind>1</ind><dep>0</dep></entry>-->
-            <entry><ind>1</ind><dep>70</dep></entry>
+            <entry><ind>1</ind><dep>-70</dep></entry>
         </interpolation>
         <center>
             <x-m>  0.00 </x-m>
