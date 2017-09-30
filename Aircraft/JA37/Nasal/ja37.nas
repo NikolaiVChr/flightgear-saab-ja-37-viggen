@@ -928,7 +928,7 @@ var Saab37 = {
         TI.ti = TI.TI.new();
         TI.ti.loop();#must be first due to me.rootCenterY
         me.loop_ti  = maketimer(0.50, TI.ti, func TI.ti.loop());
-        me.loop_tiF = maketimer(0.12, TI.ti, func TI.ti.loopFast());
+        me.loop_tiF = maketimer(0.05, TI.ti, func TI.ti.loopFast());
         me.loop_tiS = maketimer(180, TI.ti, func TI.ti.loopSlow());
         me.loop_ti.start();
         me.loop_tiF.start();
