@@ -2397,8 +2397,8 @@ var TI = {
 			if(!getprop("/ja37/systems/input-controls-flight")) {
 				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/elevator-cmd-norm");
 				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/aileron-cmd-norm");
-				me.cursorMoveY  = 150 * me.rate * me.cursorSpeedY;
-				me.cursorMoveX  = 150 * me.rate * me.cursorSpeedX;
+				me.cursorMoveY  = 150 * 0.05 * me.cursorSpeedY;
+				me.cursorMoveX  = 150 * 0.05 * me.cursorSpeedX;
 				me.cursorPosX  += me.cursorMoveX;
 				me.cursorPosY  += me.cursorMoveY;
 				me.cursorPosX   = clamp(me.cursorPosX, -width*0.5,  width*0.5);
