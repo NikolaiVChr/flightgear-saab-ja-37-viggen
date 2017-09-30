@@ -3229,3 +3229,6 @@ Sim: Fixed common display loops were not running.
 Model: Updated livery 66-F21.
 Sound: Added throttle indent sounds.
 Sound: Added data-panel knob sound.
+Effect: Made the occlusion factor work opposite.
+Model: Made livery Blue Peter less blue.
+Model: Adjusted wing lettering on Flightgear livery.
