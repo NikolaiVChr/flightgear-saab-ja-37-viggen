@@ -750,7 +750,7 @@
             <function>
                 <difference>
                     <property> fcs/aileron/stick-geared </property>
-                    <value> -0.15 </value>
+                    <value> -0.075 </value>
                 </difference>
             </function>
         </fcs_function>
@@ -759,7 +759,7 @@
             <function>
                 <difference>
                     <property> fcs/aileron/stick-geared </property>
-                    <value> 0.15 </value>
+                    <value> 0.075 </value>
                 </difference>
             </function>
         </fcs_function>

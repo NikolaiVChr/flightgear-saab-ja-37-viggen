@@ -3224,7 +3224,7 @@ GUI: Updated some splash screens.
 GUI: {Pinto} Replaced a splash screen.
 Sim: Fixed common display loops were not running.
 
-4.303
+4.303 - 2017 September 30
 =====
 Model: Updated livery 66-F21.
 Sound: Added throttle indent sounds.
