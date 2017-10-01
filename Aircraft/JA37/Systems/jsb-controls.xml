@@ -767,10 +767,10 @@
         <switch name="fcs/aileron/stick-css-deadzone">
             <default value="0"/>
             <test logic="AND" value="fcs/aileron/stick-css-pos">
-                fcs/aileron/stick-geared gt  0.15
+                fcs/aileron/stick-geared gt  0.075
             </test>
             <test logic="AND" value="fcs/aileron/stick-css-neg">
-                fcs/aileron/stick-geared lt  -0.15
+                fcs/aileron/stick-geared lt  -0.075
             </test>
             <output>/controls/flight/aileron-cmd-ap</output>
         </switch>

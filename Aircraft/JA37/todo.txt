@@ -174,8 +174,7 @@ Model: The nosegear well, has gap between it and fuselage.
 Model: Zoom at 30 meters but start at 25m.
 TI: Cursor dont work.
 Model: Make A/P pushlights visible in most conditions.
-Control: Make deadzone for aileron CSS smaller.
-
+MI: Display shows in color in infrared. (make a display shader)
 
 
 
