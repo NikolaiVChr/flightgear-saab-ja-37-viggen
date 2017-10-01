@@ -50,7 +50,8 @@
         <object-name>b20</object-name>
     </effect>
 
-    <effect><!-- for Rembrandt to render illuminated canvas texture correct -->
+    <!-- for Rembrandt to render illuminated canvas texture correct -->
+    <!--<effect>
      <inherits-from>Effects/model-transparent</inherits-from>
      <object-name>ti_screen</object-name>
      <condition>
@@ -59,6 +60,11 @@
           <value>1</value>
         </equals>
     </condition>
+    </effect>-->
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/displays/lcd</inherits-from>
+        <object-name>ti_screen</object-name>
     </effect>
 
     <effect><!--  -->
