@@ -4,7 +4,6 @@ Author: Nikolai V. Chr.
 -->
 <PropertyList>
 	<name>Aircraft/JA37/Models/Effects/displays/lcd</name>
-	<!--<inherits-from></inherits-from>-->
 	<parameters>
 		<inner-angle type="float">35</inner-angle><!-- 0-90, use 90 for LED or plasma display-->
 		<outer-angle type="float">60</outer-angle><!-- 0-90, but greater than inner -->
@@ -227,15 +226,15 @@ Author: Nikolai V. Chr.
 				<value><use>fact_black</use></value>
 			   </uniform>
 			<uniform>
-       				  <name>display_xsize</name>
-      				  <type>int</type>
-      				  <value><use>display_xsize</use></value>
-    			   </uniform>
-     			   <uniform>
-       				  <name>display_ysize</name>
-      				  <type>int</type>
-      				  <value><use>display_ysize</use></value>
-    			   </uniform> 
+				  <name>display_xsize</name>
+				  <type>int</type>
+				  <value><use>display_xsize</use></value>
+		   </uniform>
+			   <uniform>
+				  <name>display_ysize</name>
+				  <type>int</type>
+				  <value><use>display_ysize</use></value>
+		   </uniform> 
 		</pass>
 	</technique>
 </PropertyList>

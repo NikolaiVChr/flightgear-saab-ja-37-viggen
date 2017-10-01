@@ -67,7 +67,8 @@
         <object-name>ti_screen</object-name>
     </effect>
 
-    <effect><!--  -->
+    <!--  -->
+    <!--<effect>
      <inherits-from>Effects/model-deferred</inherits-from>
      <object-name>ti_screen</object-name>
      <condition>
@@ -76,7 +77,7 @@
           <value>0</value>
         </equals>
     </condition>
-    </effect>
+    </effect>-->
 
   	<!--
 

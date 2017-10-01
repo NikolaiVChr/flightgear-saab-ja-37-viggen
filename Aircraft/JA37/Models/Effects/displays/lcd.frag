@@ -21,98 +21,6 @@ const vec4  kYIQToB   = vec4 (1.0, -1.107, 1.704, 0.0);
 
 vec3 filter_combined (in vec3 color) ;
 
-vec3 toHsl (in vec3 texel) {
-    // Convert RGB to Hue, Saturation and Lightness
-    float var_min = min(min(texel.r,texel.g),texel.b);
-    float var_max = max(max(texel.r,texel.g),texel.b);
-    float del_max = var_max - var_min;
-
-    float l = (var_max + var_min) / 2;
-    float h = 0;
-    float s = 0;
-
-    if (del_max != 0) {
-        if (l < 0.5) {
-                s = del_max / (var_max + var_min);
-        } else {
-                s = del_max / (2 - var_max - var_min);
-        }
-
-        vec3 del = (((var_max - texel) / 6) + (del_max / 2)) / del_max;
-
-        if (texel.r == var_max) {
-                h = del.b - del.g;
-        } else if (texel.g == var_max) {
-                h = (1 / 3) + del.r - del.b;
-        } else if (texel.b == var_max) {
-                h = (2 / 3) + del.g - del.r;
-        }
-
-        if (h < 0) {
-                h += 1;
-        }
-
-        if (h > 1) {
-                h -= 1;
-        }
-    }
-    return vec3(h,s,l);
-}
-
-float oppositeHue (in float hue) {
-    // get the complementary hue
-    float h2 = hue + 0.5;
-
-    if (h2 > 1) {
-        h2 -= 1;
-    }
-    return h2;
-}
-
-float hue2rgb(in float v1,in float v2,in float vh) {
-    // helper method
-    if (vh < 0) {
-            vh += 1;
-    }
-
-    if (vh > 1) {
-            vh -= 1;
-    }
-
-    if ((6 * vh) < 1) {
-            return v1 + (v2 - v1) * 6 * vh;
-    }
-
-    if ((2 * vh) < 1) {
-            return v2;
-    }
-
-    if ((3 * vh) < 2) {
-            return v1 + (v2 - v1) * ((2 / 3 - vh) * 6);
-    }
-
-    return v1;
-}
-
-vec3 hslOpposite (in float h, in float s, in float l) {
-    // convert from HSL to RGB
-    vec3 opposite = vec3(l,l,l);
-    if (s != 0) {
-        float var_2 = 0.0;
-        if (l < 0.5) {
-            var_2 = l * (1 + s);
-        } else {
-            var_2 = (l + s) - (s * l);
-        }
-
-        float var_1 = 2 * l - var_2;
-        opposite.r = hue2rgb(var_1,var_2,h + (1 / 3));
-        opposite.g = hue2rgb(var_1,var_2,h);
-        opposite.b = hue2rgb(var_1,var_2,h - (1 / 3));
-    }
-    return opposite;
-}
-
 vec3 rotateHue (in vec4 color) {
     // Convert to YIQ
     float   YPrime  = dot (color, kRGBToYPrime);
@@ -126,9 +34,6 @@ vec3 rotateHue (in vec4 color) {
     // Make the adjustment
     hue += radians(180.0);
     YPrime = 1 - YPrime;
-    //if (hue > 1) {
-    //    hue -= 1;
-    //}
 
     // Convert back to YIQ
     Q = chroma * sin (hue);
@@ -139,18 +44,18 @@ vec3 rotateHue (in vec4 color) {
     color.r = dot (yIQ, kYIQToR);
     color.g = dot (yIQ, kYIQToG);
     color.b = dot (yIQ, kYIQToB);
+
+    // reduce contrast by alot
+    color.rgb = ((color.rgb - vec3(0.5,0.5,0.5)) * vec3(0.15,0.15,0.15)) + vec3(0.5,0.5,0.5);
     return color.rgb;
 }
 
-// todo:
-// lightning including emission
-// ALS filters
+// todo: rembrandt and stuff
 
 void main (void) {
     vec3 gamma      = vec3(1.0/2.2);// standard monitor gamma correction
     vec3 gammaInv   = vec3(2.2);
-    vec4 texel      = texture2D(BaseTex, gl_TexCoord[0].st);
-    
+    vec4 texel      = texture2D(BaseTex, gl_TexCoord[0].st);    
 
     vec3 eye = normalize(-eyeVec);
     vec3 N  = normalize(VNormal);
@@ -159,23 +64,19 @@ void main (void) {
     if (angle <= innerAngle) {
         color = texel.rgb;
     } else if (angle <= outerAngle) {
-        vec3 hsl = rotateHue(texel);//toHsl(texel.rgb);
-        //hsl.x = oppositeHue(hsl.x);
-        //hsl = hslOpposite(hsl.x,hsl.y,hsl.z);
-        float amount = (angle - innerAngle)/(outerAngle-innerAngle);//(value - min) / (max - min);
+        vec3 hsl = rotateHue(texel);
+        float amount = (angle - innerAngle)/(outerAngle-innerAngle);
         color = mix(texel.rgb, hsl, amount);
     } else if (angle <= blackAngle) {
-        vec3 hsl = rotateHue(texel);//toHsl(texel.rgb);
-        //hsl.x = oppositeHue(hsl.x);
-        //hsl = hslOpposite(hsl.x,hsl.y,hsl.z);
-        float amount = (angle - outerAngle)/(blackAngle-outerAngle);//(value - min) / (max - min)
+        vec3 hsl = rotateHue(texel);
+        float amount = (angle - outerAngle)/(blackAngle-outerAngle);
         color = mix(hsl, vec3(0,0,0), amount);
     }
     color = pow(color, gammaInv);
     color = color * gl_FrontMaterial.emission.rgb;
 
     float phong = 0.0;
-    vec3 Lphong = normalize(gl_LightSource[0].position.xyz);// - eyeVec
+    vec3 Lphong = normalize(gl_LightSource[0].position.xyz);
     if (dot(N, Lphong) > 0.0) {
         // lightsource is not behind
         vec3 Rphong = normalize(-reflect(Lphong,N));
@@ -183,8 +84,14 @@ void main (void) {
         phong = clamp(phong, 0.0, 1.0);
     }
     vec4 specular = gl_FrontMaterial.specular * gl_LightSource[0].diffuse * phong;
-    vec3 ambient = gl_FrontMaterial.ambient.rgb * gl_LightSource[0].ambient.rgb * gl_LightSource[0].ambient.rgb * 2;
-    vec3 diffuse = gl_FrontMaterial.diffuse.rgb * gl_LightSource[0].diffuse.rgb;
+    vec3 ambient = gl_FrontMaterial.ambient.rgb * gl_LightSource[0].ambient.rgb * gl_LightSource[0].ambient.rgb * 2;//hack but works, pitch black at night. :)
+
+    vec3 L = normalize((gl_ModelViewMatrixInverse * gl_LightSource[0].position).xyz);
+    N = normalize((gl_ModelViewMatrixTranspose * vec4(N,0.0)).xyz);
+    float nDotVP = dot(N,L);
+    nDotVP = max(0.0, nDotVP);
+    vec3 diffuse = gl_FrontMaterial.diffuse.rgb * gl_LightSource[0].diffuse.rgb * nDotVP;
+
     color = clamp(color+specular.rgb+ambient+diffuse, 0, 1);
 
     if (use_als > 0) {
