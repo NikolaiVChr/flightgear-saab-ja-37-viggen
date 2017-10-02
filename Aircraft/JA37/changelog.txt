@@ -3243,3 +3243,4 @@ Effect: LCD shader now supports contrast setting and works in Rembrandt (without
 Effect: TI screen edge rocker switch C now is contrast.
 Model: Reserve course switch no longer says master-arm.
 Model: Made A/P pushlights visible in more conditions.
+Model: Exterior translation zoom minimum is now 25 meters.
