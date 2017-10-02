@@ -6,6 +6,9 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>Plane.001</object-name>
+        <object-name>Cylinder</object-name>
+        <object-name>Cylinder.001</object-name>
+        <object-name>cylStick</object-name>
     </effect>
 
     <animation>

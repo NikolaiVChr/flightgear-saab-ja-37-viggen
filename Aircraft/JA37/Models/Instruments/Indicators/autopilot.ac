@@ -1,6 +1,6 @@
 AC3Db
 MATERIAL "DefaultWhite" rgb 1.0000 1.0000 1.0000  amb 0.2000 0.2000 0.2000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 10 trans 0.0000
-MATERIAL "mountMat" rgb 0.8000 0.8000 0.8000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
+MATERIAL "mountMat" rgb 1.0000 1.0000 1.0000  amb 1.0000 1.0000 1.0000  emis 0.0000 0.0000 0.0000  spec 0.5000 0.5000 0.5000  shi 12 trans 0.0000
 OBJECT world
 name "Blender_export__indicators-autopilot.1.ac"
 kids 7
