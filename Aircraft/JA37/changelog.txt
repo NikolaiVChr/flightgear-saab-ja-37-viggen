@@ -3235,4 +3235,8 @@ Model: Adjusted wing lettering on Flightgear livery.
 TI: Fixed cursor would not move.
 Animation: Fixed masterarm knob was opposite.
 Sim: Fixed regression error when A/P follow loses selection.
-Control: Make deadzone for aileron A/P CSS smaller.
+Control: Made deadzone for aileron A/P CSS smaller.
+
+4.304
+=====
+HUD: Numbers in alt scale should no longer go out of HUD area.
