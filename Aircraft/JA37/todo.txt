@@ -172,8 +172,7 @@ Sound: Add data-panel switches sounds.
 Sound: Knobs for pylon and master-arm has no sound, fix.
 Model: The nosegear well, has gap between it and fuselage.
 Model: Zoom at 30 meters but start at 25m.
-Model: Make A/P pushlights visible in most conditions.
-MI: Display shows in color in infrared. (make a display shader)
+
 
 
 

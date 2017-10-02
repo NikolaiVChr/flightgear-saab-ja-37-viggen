@@ -3242,3 +3242,4 @@ Control: Make deadzone for aileron A/P CSS smaller.
 Effect: LCD shader now supports contrast setting and works in Rembrandt (without shadows).
 Effect: TI screen edge rocker switch C now is contrast.
 Model: Reserve course switch no longer says master-arm.
+Model: Made A/P pushlights visible in more conditions.
