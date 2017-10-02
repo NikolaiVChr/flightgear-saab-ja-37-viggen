@@ -48,7 +48,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>switch-masterarm</tooltip-id>
-                <label>Master arm</label>
+                <label>Reserve course</label>
                 <property>controls/armament/w-mode</property>
             </binding>
         </hovered>

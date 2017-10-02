@@ -3236,3 +3236,9 @@ TI: Fixed cursor would not move.
 Animation: Fixed masterarm knob was opposite.
 Sim: Fixed regression error when A/P follow loses selection.
 Control: Make deadzone for aileron A/P CSS smaller.
+
+4.304
+=====
+Effect: LCD shader now supports contrast setting and works in Rembrandt (without shadows).
+Effect: TI screen edge rocker switch C now is contrast.
+Model: Reserve course switch no longer says master-arm.
