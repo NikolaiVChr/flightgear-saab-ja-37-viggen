@@ -3239,6 +3239,7 @@ Control: Made deadzone for aileron A/P CSS smaller.
 
 4.304
 =====
+Effect: Made a LCD/LED display shader. Experimentally put on the TI. At high viewing angles colors will distort, brighness will invert and contrast will decrease. Supports ALS filters.
 HUD: Numbers in alt scale should no longer go out of HUD area.
 Effect: LCD shader now supports contrast setting and works in Rembrandt (without shadows).
 Effect: TI screen edge rocker switch C now is contrast.
