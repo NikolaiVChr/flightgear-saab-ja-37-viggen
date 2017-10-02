@@ -9,6 +9,7 @@ uniform sampler2D BaseTex;
 uniform float innerAngle;//inside this angle the display is perfect
 uniform float outerAngle;//from inner to outer the display gets more color distorted.
 uniform float blackAngle;//from outer to this angle the display gets more black. From this angle to 90 the display stays black.
+uniform float contrast;//0.0001 - 255.0, 1.0 is normal
 uniform int use_als;
 
 const vec4  kRGBToYPrime = vec4 (0.299, 0.587, 0.114, 0.0);
@@ -46,7 +47,7 @@ vec3 rotateHue (in vec4 color) {
     color.b = dot (yIQ, kYIQToB);
 
     // reduce contrast by alot
-    color.rgb = ((color.rgb - vec3(0.5,0.5,0.5)) * vec3(0.15,0.15,0.15)) + vec3(0.5,0.5,0.5);
+    color.rgb = ((color.rgb - 0.5) * 0.1) + 0.5;
     return color.rgb;
 }
 
@@ -72,6 +73,10 @@ void main (void) {
         float amount = (angle - outerAngle)/(blackAngle-outerAngle);
         color = mix(hsl, vec3(0,0,0), amount);
     }
+
+    // apply contrast
+    color.rgb = ((color.rgb - 0.5) * contrast) + 0.5;
+
     color = pow(color, gammaInv);
     color = color * gl_FrontMaterial.emission.rgb;
 
