@@ -3249,3 +3249,4 @@ Model: Exterior translation zoom minimum is now 25 meters.
 Model: Changed the blue color on livery 32 Blue Peter.
 Model: Made the Fly-By View less predictable.
 Model: Started making a HD version of livery 11.
+Sound: Made the datapanel switches click.
