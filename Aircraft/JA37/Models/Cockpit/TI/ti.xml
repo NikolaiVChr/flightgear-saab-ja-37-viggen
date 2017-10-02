@@ -64,6 +64,12 @@
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/displays/lcd</inherits-from>
+        <parameters>
+            <inner-angle type="float">45</inner-angle><!-- 0-90, use 90 for LED or plasma display-->
+            <outer-angle type="float">60</outer-angle><!-- 0-90, but greater than inner -->
+            <black-angle type="float">80</black-angle><!-- 0-90, but greater than outer -->
+            <contrast type="float"><use>ja37/displays/ti-contrast</use></contrast>
+        </parameters>
         <object-name>ti_screen</object-name>
     </effect>
 
@@ -174,27 +180,19 @@
         <object-name>button_position_plus</object-name>
         <visible>true</visible>
         <action>
-            <name>position</name>
+            <name>contrastP</name>
             <button>0</button>
             <repeatable>true</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>
-                    if (TI.ti.active == 0) return;
-                    TI.edgeButtonsStruct[0] = getprop("sim/time/elapsed-sec");
-                    TI.ti.ownPosition += 0.01;
-                    if (TI.ti.ownPosition > 1) {
-                        TI.ti.ownPosition = 1;
-                    }
-                    TI.ti.ownPositionDigital = 0;
-                </script>
+                <script>TI.contrastP();</script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>flipperCP</tooltip-id>
-                <label>TI: Position</label>
+                <label>TI: Contrast</label>
             </binding>
         </hovered>
     </animation>
@@ -204,28 +202,19 @@
         <object-name>button_position_minus</object-name>
         <visible>true</visible>
         <action>
-            <name>position</name>
+            <name>contrastM</name>
             <button>0</button>
             <repeatable>true</repeatable>
             <binding>
                 <command>nasal</command>
-                <script><![CDATA[
-                    if (TI.ti.active == 0) return;
-                    TI.edgeButtonsStruct[0] = getprop("sim/time/elapsed-sec");
-                    TI.ti.ownPosition -= 0.01;
-                    if (TI.ti.ownPosition < 0) {
-                        TI.ti.ownPosition = 0;
-                    }
-                    TI.ti.ownPositionDigital = 0;
-                    ]]>
-                </script>
+                <script>TI.contrastM();</script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>flipperC</tooltip-id>
-                <label>TI: Position</label>
+                <label>TI: Contrast</label>
             </binding>
         </hovered>
     </animation>
