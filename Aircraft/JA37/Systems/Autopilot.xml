@@ -67,7 +67,7 @@
 		</output>
 		<config>
 			<Kp>-4.0</Kp>
-			<Ki>0.000001</Ki>
+			<Ki>-0.000001</Ki>
 			<min>
 				<property>/fdm/jsbsim/autopilot/max-roll</property>
 				<scale>-1</scale>
@@ -113,7 +113,7 @@
 		</output>
 		<config>
 			<Kp>-4.0</Kp>
-			<Ki>0.000001</Ki>
+			<Ki>-0.000001</Ki>
 			<min>
 				<property>/fdm/jsbsim/autopilot/max-roll</property>
 				<scale>-1</scale>
@@ -159,7 +159,7 @@
 		</output>
 		<config>
 			<Kp>-4.5</Kp>
-			<Ki>0.0001</Ki>
+			<Ki>-0.0001</Ki>
 			<min>
 				<property>/fdm/jsbsim/autopilot/max-roll</property>
 				<scale>-1</scale>
