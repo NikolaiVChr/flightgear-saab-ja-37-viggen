@@ -146,6 +146,30 @@ var brightnessM = func {
 	ti.brightness -= 0.25;
 };
 
+var contrastP = func {
+	if (ti.active == FALSE) return;
+	edgeButtonsStruct[0] = getprop("sim/time/elapsed-sec");
+	var c = getprop("ja37/displays/ti-contrast");
+	c += 0.05;
+	if (c > 4) {
+		c = 4;
+	}
+	setprop("ja37/displays/ti-contrast", c);
+};
+
+var contrastM = func {
+	if (ti.active == FALSE) return;
+	edgeButtonsStruct[0] = getprop("sim/time/elapsed-sec");
+	var c = getprop("ja37/displays/ti-contrast");
+	c -= 0.05;
+	if (c < 0.25) {
+		c = 0.25;
+	}
+	setprop("ja37/displays/ti-contrast", c);
+};
+
+
+
 var bright = 0;
 
 #TI symbol colors

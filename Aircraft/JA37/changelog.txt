@@ -3224,7 +3224,7 @@ GUI: Updated some splash screens.
 GUI: {Pinto} Replaced a splash screen.
 Sim: Fixed common display loops were not running.
 
-4.303
+4.303 - 2017 September 30
 =====
 Model: Updated livery 66-F21.
 Sound: Added throttle indent sounds.
@@ -3232,3 +3232,21 @@ Sound: Added data-panel knob sound.
 Effect: Made the occlusion factor work opposite.
 Model: Made livery Blue Peter less blue.
 Model: Adjusted wing lettering on Flightgear livery.
+TI: Fixed cursor would not move.
+Animation: Fixed masterarm knob was opposite.
+Sim: Fixed regression error when A/P follow loses selection.
+Control: Made deadzone for aileron A/P CSS smaller.
+
+4.304
+=====
+Effect: Made a LCD/LED display shader. Experimentally put on the TI. At high viewing angles colors will distort, brighness will invert and contrast will decrease. Supports ALS filters.
+HUD: Numbers in alt scale should no longer go out of HUD area.
+Effect: LCD shader now supports contrast setting and works in Rembrandt (without shadows).
+Effect: TI screen edge rocker switch C now is contrast.
+Model: Reserve course switch no longer says master-arm.
+Model: Made A/P pushlights visible in more conditions.
+Model: Exterior translation zoom minimum is now 25 meters.
+Model: Changed the blue color on livery 32 Blue Peter.
+Model: Made the Fly-By View less predictable.
+Model: Started making a HD version of livery 11.
+Sound: Made the datapanel switches click.

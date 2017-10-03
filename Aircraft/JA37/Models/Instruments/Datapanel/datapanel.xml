@@ -398,6 +398,10 @@
 				<command>property-toggle</command>
 				<property>ja37/navigation/ispos</property>
 			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>ja37.click();</script>
+			</binding>
 		</action>
 	</animation>
 	
@@ -433,6 +437,10 @@
 			<binding>
 				<command>property-toggle</command>
 				<property>ja37/navigation/inout</property>
+			</binding>
+			<binding>
+				<command>nasal</command>
+				<script>ja37.click();</script>
 			</binding>
 		</action>
 	</animation>
@@ -495,6 +503,5 @@
         <object-name>6Data</object-name>
         <object-name>7Data</object-name>
     </animation>
-	
 	
 </PropertyList>

@@ -217,7 +217,7 @@ var TrackUpdate = func(loop_id) {
         settimer(func() { TrackUpdate(loop_id); }, update_period );
     } else {
         if (getprop(getprop("/autopilot/target-tracking-ja37/target-root")~"/valid") != 1) {
-            ja37.lostfollow();
+            auto.lostfollow();
             #print(getprop("/autopilot/target-tracking-ja37/target-root"));
             #print(getprop(getprop("/autopilot/target-tracking-ja37/target-root")~"/valid"));
         }

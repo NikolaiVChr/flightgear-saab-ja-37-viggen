@@ -928,7 +928,7 @@ var Saab37 = {
         TI.ti = TI.TI.new();
         TI.ti.loop();#must be first due to me.rootCenterY
         me.loop_ti  = maketimer(0.50, TI.ti, func TI.ti.loop());
-        me.loop_tiF = maketimer(0.12, TI.ti, func TI.ti.loopFast());
+        me.loop_tiF = maketimer(0.05, TI.ti, func TI.ti.loopFast());
         me.loop_tiS = maketimer(180, TI.ti, func TI.ti.loopSlow());
         me.loop_ti.start();
         me.loop_tiF.start();
@@ -2201,3 +2201,104 @@ var stringToLat = func (str) {
   }
 }
 #myPosToString();
+
+var action_view_handler = {
+  init : func {
+    me.latN = props.globals.getNode("/sim/viewer/latitude-deg", 1);
+    me.lonN = props.globals.getNode("/sim/viewer/longitude-deg", 1);
+    me.altN = props.globals.getNode("/sim/viewer/altitude-ft", 1);
+    me.vnN = props.globals.getNode("/velocities/speed-north-fps", 1);
+    me.veN = props.globals.getNode("/velocities/speed-east-fps", 1);
+    me.vdN = props.globals.getNode("/velocities/speed-down-fps", 1);
+    me.hdgN = props.globals.getNode("/orientation/heading-deg", 1);
+
+    setlistener("/sim/signals/reinit", func(n) { n.getValue() or me.reset() });
+    setlistener("/sim/crashed", func(n) { n.getValue() and me.reset() });
+    setlistener("/sim/freeze/replay-state", func {
+      settimer(func { me.reset() }, 1); # time for replay to catch up
+    });
+    me.reset();
+  },
+  start : func {
+    me.reset();
+  },
+  reset: func {
+    me.chase = -getprop("/sim/chase-distance-m");
+    # me.course = me.hdgN.getValue();
+    var vn = me.vnN.getValue();
+    var ve = me.veN.getValue();
+    me.course = (0.5*math.pi - math.atan2(vn, ve))*R2D;
+    
+    me.last = geo.aircraft_position();
+    me.setpos(1);
+    # me.dist = 20;
+  },
+  setpos : func(force = 0) {
+    var pos = geo.aircraft_position();
+    var vn = me.vnN.getValue();
+    var ve = me.veN.getValue();
+    var vd = me.vdN.getValue();
+
+    var dist = 0.0;
+    if ( force ) {
+        # predict distance based on speed
+        var mps = math.sqrt( vn*vn + ve*ve ) * FT2M;
+        dist = mps * 3.5; # 3.5 seconds worth of travel
+    } else {
+        # use actual distance
+        dist = me.last.distance_to(pos);
+        # reset when too far (i.e. position changed due to skipping time in replay mode)
+        if (dist>5000) return me.reset();
+    }
+
+    # check if the aircraft has moved enough
+    if (dist < 1.7 * me.chase and !force)
+      return 1.13;
+
+    # "predict" and remember next aircraft position
+    # var course = me.hdgN.getValue();
+    var course = (0.5*math.pi - math.atan2(vn, ve))*R2D;
+    var delta_alt = (pos.alt() - me.last.alt()) * rand();
+    pos.apply_course_distance(course, dist * 0.8);
+    pos.set_alt(pos.alt() + delta_alt);
+    me.last.set(pos);
+
+    # apply random deviation
+    var radius = me.chase * (3 * rand() + 0.7);
+    var agl = getprop("/position/altitude-agl-ft") * FT2M;
+    if (agl > me.chase)
+      var angle = rand() * 2 * math.pi;
+    else
+      var angle = ((2 * rand() - 1) * 0.15 + 0.5) * (rand() < 0.5 ? -math.pi : math.pi);
+
+    var dev_alt = math.cos(angle) * radius;
+    var dev_side = math.sin(angle) * radius;
+    pos.apply_course_distance(course + 90, dev_side);
+
+    # and make sure it's not under ground
+    var lat = pos.lat();
+    var lon = pos.lon();
+    var alt = pos.alt();
+    var elev = geo.elevation(lat, lon);
+    if (elev != nil) {
+      elev += 2;   # min elevation
+      if (alt + dev_alt < elev and dev_alt < 0)
+        dev_alt = -dev_alt;
+      if (alt + dev_alt < elev)
+        alt = elev;
+      else
+        alt += dev_alt;
+    }
+
+    # set new view point
+    me.latN.setValue(lat);
+    me.lonN.setValue(lon);
+    me.altN.setValue(alt * M2FT);
+    return ja37.clamp(rand()*10,2,10);
+  },
+  update : func {
+    return me.setpos();
+  },
+};
+
+view.manager.register("Fly-By View", action_view_handler);
