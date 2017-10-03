@@ -3688,8 +3688,10 @@ var TI = {
 
 	displayHorizon: func {
 		me.rot = -getprop("orientation/roll-deg") * D2R;
+		me.horizon_group.setTranslation(-me.fpi_x, -me.fpi_y);
 		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0-me.fpi_x, texel_per_degree * getprop("orientation/pitch-deg")-me.fpi_y);
+		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+
 		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
 		if (me.alt != nil) {
 			me.text = "";

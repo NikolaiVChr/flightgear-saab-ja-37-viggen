@@ -1207,7 +1207,7 @@ var Contact = {
 
       var distanceRadar = distance;#/math.cos(myPitch);
 
-      return [distanceRadar, xa_rad_corr, xa_rad, ya_rad];      
+      return [distanceRadar, xa_rad_corr, xa_rad, ya_rad, ya_rad+myPitch];
     },
 };
 
@@ -1461,7 +1461,7 @@ var ContactGPS = {
 
     var distanceRadar = distance;#/math.cos(myPitch);
 
-    return [distanceRadar, xa_rad_corr, xa_rad, ya_rad];
+    return [distanceRadar, xa_rad_corr, xa_rad, ya_rad, ya_rad+myPitch];
   },
 };
 
@@ -1716,7 +1716,7 @@ var ContactGhost = {
 
     var distanceRadar = distance;#/math.cos(myPitch);
 
-    return [distanceRadar, xa_rad_corr, xa_rad, ya_rad];
+    return [distanceRadar, xa_rad_corr, xa_rad, ya_rad, ya_rad+myPitch];
   },
 };
 

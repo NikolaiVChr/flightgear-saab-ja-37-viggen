@@ -234,8 +234,8 @@ var MI = {
 
 		
 		me.horizon_group = me.rootCenter.createChild("group");
-		me.horz_rot = me.horizon_group.createTransform();
 		me.horizon_group2 = me.horizon_group.createChild("group");
+		me.horz_rot = me.horizon_group.createTransform();
 		me.horizon_line = me.horizon_group2.createChild("path")
 		                     .moveTo(-height*0.75, -w*1.5)
 		                     .horiz(height*1.5)
@@ -508,20 +508,11 @@ var MI = {
 		    .setTranslation(0, texel_per_degree*20+halfHeightOfSideScales)
 		    .setFontSize(15, 1);
 
-
-	    me.vel_vec_trans_group = me.radar_group.createChild("group");
-	    me.vel_vec_rot_group = me.vel_vec_trans_group.createChild("group");
-	    #me.vel_vec_rot = me.vel_vec_rot_group.createTransform();
-	    me.vel_vec = me.vel_vec_rot_group.createChild("path")
-	                                  .moveTo(0, 0)
-	                                  .lineTo(0,-1)
-	                                  .setStrokeLineWidth(w)
-	                                  .setColor(r,g,b, a);
-
 	    me.echoes  = [];
 	    me.echo_group = me.radar_group.createChild("group");
+	    me.echo_group_trans = me.radar_group.createTransform();
 	    for(var i = 0; i < maxTracks; i += 1) {      
-	      me.target_echoes = me.radar_group.createChild("path")
+	      me.target_echoes = me.echo_group.createChild("path")
 	                           .moveTo(-texel_per_degree*1, 0)
 	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0,  texel_per_degree*2, 0)
 	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0, -texel_per_degree*2, 0)
@@ -655,11 +646,11 @@ var MI = {
 		me.interoperability = me.input.units.getValue();
 		
 		me.displayFPI();
-		me.displayHorizon();
+		me.displayHorizon();#must be after displayFPI
 		me.displayGround();
 		me.displayGroundCollisionArrow();
 		me.showAltLines();
-		me.displayRadarTracks();
+		me.displayRadarTracks();#must be after displayFPI
 		me.displayHeadingScale();#must be after radar tracks
 		me.altScale();
 		me.targetScale();
@@ -683,13 +674,15 @@ var MI = {
 		}
 		me.fpi_x = me.fpi_x_deg*texel_per_degree;
 		me.fpi_y = me.fpi_y_deg*texel_per_degree;
-		me.fpi.setTranslation(me.fpi_x, me.fpi_y);
+		#me.fpi.setTranslation(me.fpi_x, me.fpi_y);
+		me.fpi.setTranslation(0, 0);
 	},
 
 	displayHorizon: func {
 		me.rot = -getprop("orientation/roll-deg") * D2R;
+		me.horizon_group.setTranslation(-me.fpi_x, -me.fpi_y);
 		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));		
 	},
 
 	displayGroundCollisionArrow: func () {
@@ -706,7 +699,8 @@ var MI = {
 		if (me.time != nil and me.time >= 0 and me.time < 40) {
 			me.time = clamp(me.time - 10,0,30);
 			me.dist = me.time/30 * halfHeightOfSideScales;
-			me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
+			#me.ground_grp.setTranslation(me.fpi_x, me.fpi_y);
+			me.ground_grp.setTranslation(0, 0);
 			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
 			me.ground_grp.show();
@@ -872,8 +866,15 @@ var MI = {
 	    me.tgt_callsign = "";
 	    me.tele = [];
 
+
+
 	    if(me.input.tracks_enabled.getValue() == TRUE and me.input.radar_serv.getValue() > 0) {
 	      me.radar_group.show();
+
+	      me.rot = -getprop("orientation/roll-deg") * D2R;
+		  me.radar_group.setTranslation(-me.fpi_x, -me.fpi_y);
+		  me.echo_group_trans.setRotation(me.rot);
+		  me.echo_group.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
 
 	      me.selection = radar_logic.selection;
 
@@ -936,8 +937,9 @@ var MI = {
 	},
 
 	displayRadarTrack: func (hud_pos) {
-		me.pos_xx = hud_pos.get_polar()[2]*R2D;
-		me.pos_yy = -hud_pos.get_polar()[3]*R2D;
+		me.polarEcho = hud_pos.get_polar();
+		me.pos_xx = me.polarEcho[2]*R2D;
+		me.pos_yy = -me.polarEcho[4]*R2D;
 
 		me.currentIndexT = me.track_index;
 
