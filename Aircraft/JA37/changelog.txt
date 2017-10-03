@@ -3248,9 +3248,10 @@ Model: Made A/P pushlights visible in more conditions.
 Model: Exterior translation zoom minimum is now 25 meters.
 Model: Changed the blue color on livery 32 Blue Peter.
 Model: Made the Fly-By View less predictable.
-Model: Started making a HD version of livery 11.
+Model: Made a HD version of livery 11.
 Sound: Made the datapanel switches click.
 Control: {it0uchpods} Fix missing minus sign in Ki in A/P.
 MI: FPI is now fixed to indicator middle just like TI, horizon and ground symbol moves in relation to it.
 MI: Radar echoes now follow horizon rotation.
 TI: Small fix to how horizon moves in relation to FPI.
+TI: STARTFIX is now shown when INS is starting up if time is not on.
