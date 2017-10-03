@@ -301,7 +301,10 @@ var MI = {
 				.setTranslation(0,halfHeightOfSideScales)
 		        .setColor(r,g,b, a);
 
-		me.cursor_lock = me.rootCenter.createChild("path")
+		me.cursor_grp = me.rootCenter.createChild("group");
+		me.cursor_grp2 = me.cursor_grp.createChild("group");
+		me.cursor_grp_trans = me.cursor_grp.createTransform();
+		me.cursor_lock = me.cursor_grp2.createChild("path")
 				.moveTo(-ticksShort, 0)
 	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
 	            .arcSmallCW(ticksShort, ticksShort, 0, -ticksShort*2, 0)
@@ -976,7 +979,12 @@ var MI = {
 		}
 		if (me.lock == TRUE) {
 			if (displays.common.cursor == displays.MI) {
+				me.rot = -getprop("orientation/roll-deg") * D2R;
+				me.cursor_grp.setTranslation(-me.fpi_x, -me.fpi_y);
+				me.cursor_grp_trans.setRotation(me.rot);
+				me.cursor_grp2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
 				me.cursor_lock.setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+				me.cursor_lock.setRotation(-me.rot);
 				me.cursor_lock.show();
 				me.cursor_lock.update();
 			}
