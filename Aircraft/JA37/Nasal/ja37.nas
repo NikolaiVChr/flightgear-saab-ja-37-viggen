@@ -2294,7 +2294,10 @@ var action_view_handler = {
     me.latN.setValue(lat);
     me.lonN.setValue(lon);
     me.altN.setValue(alt * M2FT);
-    return ja37.clamp(rand()*10,2,10);
+    return me.clamp(rand()*10,2,10);
+  },
+  clamp: func(v, min, max) {
+   v < min ? min : v > max ? max : v
   },
   update : func {
     return me.setpos();
