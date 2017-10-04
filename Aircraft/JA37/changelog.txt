@@ -3255,3 +3255,6 @@ MI: FPI is now fixed to indicator middle just like TI, horizon and ground symbol
 MI: Radar echoes now follow horizon rotation.
 TI: Small fix to how horizon moves in relation to FPI.
 TI: STARTFIX is now shown when INS is starting up if time is not on.
+Arms: {Richard} The option to use old HUD diamond is now a optional property.
+Arms: Ground fired missiles now can switch vertical guidance-law mid-flight.
+Animation: Fixed that in the JA the upper-left RWR light would never blink.

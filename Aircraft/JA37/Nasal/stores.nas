@@ -1021,7 +1021,7 @@ var incoming_listener = func {
                 if (clock >= 165 and clock <= 285) {
                   incomingLamp("8");
                 }
-                if (clock >= 255 and clock <= 15) {
+                if (clock >= 255 or clock <= 15) {
                   incomingLamp("10");
                 }
                 return;
