@@ -116,7 +116,11 @@ var REAL_TIME = 1;
 var TRUE = 1;
 var FALSE = 0;
 
-var use_fg_default_hud = FALSE;
+# enables the AIM-9 aiming reticle (F-14) - doesn't require the radar to be in TWS
+var use_fg_default_hud = getprop("payload/armament/use-fg-default-hud");
+if (use_fg_default_hud == nil) {
+	use_fg_default_hud = FALSE;
+}
 
 var MISSILE_STANDBY = -1;
 var MISSILE_SEARCH = 0;
@@ -231,7 +235,7 @@ var AIM = {
 		# navigation, guiding and seekerhead
 		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
 		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided
-		m.navigation            = getprop(m.nodeString~"navigation");                 # direct/PN/APN/PNxx/APNxx (use direct for gravity bombs, use PN for very old missiles, use APN for modern missiles, use PNxx/APNxx for surface to air where xx is degrees to aim above target)
+		m.navigation            = getprop(m.nodeString~"navigation");                 # direct/PN/APN/PNxx/APNxx (use direct for gravity bombs, use PN for very old missiles, use APN for modern missiles, use PNxxyy/APNxxyy for surface to air where xx is degrees to aim above target, yy is seconds it will do that)
 		m.pro_constant          = getprop(m.nodeString~"proportionality-constant");   # Constant for how sensitive proportional navigation is to target speed/acc. Normally between 3-6. [optional]
 		m.all_aspect            = getprop(m.nodeString~"all-aspect");                 # set to false if missile only locks on reliably to rear of target aircraft
 		m.angular_speed         = getprop(m.nodeString~"seeker-angular-speed-dps");   # only for heat/vision seeking missiles. Max angular speed that the target can move as seen from seeker, before seeker loses lock.
@@ -1892,9 +1896,15 @@ var AIM = {
 			#printf("horz leading by %.1f deg, commanding %.1f deg", me.curr_deviation_h, me.raw_steer_signal_head);
 
 			if (me.cruise_or_loft == FALSE) {# and me.last_cruise_or_loft == FALSE
+				me.fixed_aim = nil;
+				me.fixed_aim_time = nil;
 				if (find("PN",me.navigation) != -1 and size(me.navigation) > 3) {
-					me.fixed_aim = num(right(me.navigation, 2));
-					me.raw_steer_signal_elev = me.curr_deviation_e+me.fixed_aim;
+					me.extra = right(me.navigation, 4);
+					me.fixed_aim = num(left(me.extra, 2));
+					me.fixed_aim_time = num(right(me.extra, 2));
+		        }
+		        if (me.fixed_aim != nil and me.life_time < me.fixed_aim_time) {
+		        	me.raw_steer_signal_elev = me.curr_deviation_e+me.fixed_aim;
 					me.attitudePN = math.atan2(-(me.speed_down_fps+g_fps * me.dt), me.speed_horizontal_fps ) * R2D;
 		            me.gravComp = me.pitch - me.attitudePN;
 		            #printf("Gravity compensation %0.2f degs", me.gravComp);

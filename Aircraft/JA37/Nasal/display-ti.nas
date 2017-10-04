@@ -3636,7 +3636,7 @@ var TI = {
 			me.textTime.setText(getprop("sim/time/gmt-string")~" Z  ");# should really be local time
 			me.textTime.show();
 		} elsif (getprop("fdm/jsbsim/systems/indicators/inertia-navigation") > 0) {
-			me.textTime.setText("STARTFIX ");
+			me.textTime.setText("STARTFIX  ");
 			me.textTime.show();
 		} else {
 			me.textTime.hide();
