@@ -895,6 +895,7 @@ var warhead_lbs = {
     "R-27T1":               85.98,
     "FAB-500":             564.00,
     "Exocet":              364.00,
+    "HVAR":                  7.50,#P51
 };
 
 var fireMsgs = {
