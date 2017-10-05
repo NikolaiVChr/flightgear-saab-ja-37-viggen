@@ -825,7 +825,7 @@
 
         <knobs>
             <name>knob even</name>
-            <path>Aircraft/JA37/Sounds/knob.wav</path>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
             <type>fx</type>
             <reference-dist>0</reference-dist>
@@ -856,13 +856,13 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.50</factor>
+                <factor>0.30</factor>
             </volume>
         </knobs>
 
         <knobs>
             <name>knob uneven</name>
-            <path>Aircraft/JA37/Sounds/knob.wav</path>
+            <path>Aircraft/JA37/Sounds/knob_swamp.wav</path>
             <mode>once</mode>
             <type>fx</type>
             <reference-dist>0</reference-dist>
@@ -889,7 +889,7 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.50</factor>
+                <factor>0.30</factor>
             </volume>
         </knobs>
 

@@ -3262,3 +3262,4 @@ Arms: More roboust system for missile fire sound that works even in FCS where mi
 Arms: Vector thrust bleed reduction now only apply when thruster is on.
 Arms: Tube/rail fired weapons that is tilted will now adjust their pylon position based the the tilt.
 Arms: Added P-51 HVAR rockets to damage table.
+Sound: {Swamp} Changed the knob sound.
