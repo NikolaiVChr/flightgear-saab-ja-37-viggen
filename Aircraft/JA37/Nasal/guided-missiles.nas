@@ -492,9 +492,10 @@ var AIM = {
 		m.lostLOS      = FALSE;
 
 		m.SwSoundOnOff.setBoolValue(FALSE);
-		m.SwSoundFireOnOff.setBoolValue(FALSE);
+		#m.SwSoundFireOnOff.setBoolValue(FALSE);
 		m.SwSoundVol.setDoubleValue(m.vol_search);
 		#me.trackWeak = 1;
+		m.pendingSound = -1;
 
 		m.horz_closing_rate_fps = -1;
 
@@ -624,8 +625,10 @@ var AIM = {
 		#
 		if(me.arming_time == 5000) {
 			me.SwSoundFireOnOff.setBoolValue(FALSE);
+			me.pendingSound = -1;
 		} else {
-			me.SwSoundFireOnOff.setBoolValue(TRUE);
+			me.SwSoundFireOnOff.setBoolValue(FALSE);
+			me.pendingSound = 2;
 		}
 		me.status = MISSILE_FLYING;
 		me.flyID = rand();
@@ -651,7 +654,17 @@ var AIM = {
 		me.y = me.pylon_prop.getNode("offsets/y-m").getValue();
 		me.z = me.pylon_prop.getNode("offsets/z-m").getValue();
 		var init_coord = nil;
-		if (offsetMethod == TRUE) {
+		if (me.rail == TRUE) {
+			if (me.rail_forward == FALSE) {
+				# polar pylon coords:
+				me.rail_dist_origin = math.sqrt(me.x*me.x+me.z*me.z);
+				me.rail_origin_angle_rad = math.acos(me.clamp(me.x/me.rail_dist_origin,-1,1))*(me.z<0?-1:1);
+				# since we cheat by rotating entire launcher, we must calculate new pylon positions after the rotation:
+				me.x = me.rail_dist_origin*math.cos(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+				me.z = me.rail_dist_origin*math.sin(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+			}
+		}
+		if (offsetMethod == TRUE and (me.rail == FALSE or me.rail_forward == TRUE)) {
 			var pos = aircraftToCart({x:-me.x, y:me.y, z: -me.z});
 			init_coord = geo.Coord.new();
 			init_coord.set_xyz(pos.x, pos.y, pos.z);
@@ -887,7 +900,7 @@ var AIM = {
         # For good measure the result is clamped to below zero.
         me.speedLoss = me.clamp(me.speedLoss, -100000, 0);
         me.energyBleedKt += me.speedLoss * FPS2KT;
-        me.speedLoss = me.speedLoss-me.vector_thrust*me.speedLoss*0.66;# vector thrust will only bleed 1/3 of the calculated loss.
+        me.speedLoss = me.speedLoss-me.vector_thrust*me.speedLoss*0.66*(me.thrust_lbf==0?0:1);# vector thrust will only bleed 1/3 of the calculated loss.
         return me.speedLoss;
     },
 
@@ -912,6 +925,10 @@ var AIM = {
 	},
 
 	flight: func {#GCD
+		me.pendingSound -= 1;
+		if(me.pendingSound == 0) {
+			me.SwSoundFireOnOff.setBoolValue(TRUE);
+		}
 		if (me.Tgt != nil and me.Tgt.isValid() == FALSE) {
 			print(me.type~": Target went away, deleting missile.");
 			me.sendMessage(me.type~" missed "~me.callsign~": Target logged off.");
@@ -953,9 +970,9 @@ var AIM = {
 		
 		me.life_time += me.dt;
 		
-		if(me.life_time > 8) {# todo: make this duration configurable
-			me.SwSoundFireOnOff.setBoolValue(FALSE);
-		}
+		#if(me.life_time > 8) {# todo: make this duration configurable
+			#me.SwSoundFireOnOff.setBoolValue(FALSE);
+		#}
 
 		me.thrust_lbf = me.thrust();# pounds force (lbf)
 

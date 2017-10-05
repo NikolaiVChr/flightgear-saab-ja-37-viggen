@@ -168,9 +168,16 @@ Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. 
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
 Sound: Knobs for pylon and master-arm has no sound, fix.
 Model: The nosegear well, has gap between it and fuselage.
-Arms: Put in Richard missile HUD diamond change.
-Arms: For APNxx guidance make the fixed degres only work per low speed/low alt. (which?)
-Arms: Vector thrust bled reduction should only apply when engine is on.
+
+
+
+
+
+
+
+
+
+
 
 
 

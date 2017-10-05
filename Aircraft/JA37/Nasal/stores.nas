@@ -992,7 +992,7 @@ var incoming_listener = func {
                   playIncomingSound("");
                 }
 
-                #The incoming lamps overlap each other:
+                #The incoming CI lamps overlap each other:
                 if (clock >= 345 or clock <= 75) {
                   incomingLamp("1");
                 } 
@@ -1012,6 +1012,7 @@ var incoming_listener = func {
                   incomingLamp("11");
                 }
 
+                #The incoming MI lamps overlap each other:
                 if (clock >= 345 or clock <= 105) {
                   incomingLamp("2");
                 } 
