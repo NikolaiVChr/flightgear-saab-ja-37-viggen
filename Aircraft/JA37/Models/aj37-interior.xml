@@ -25,6 +25,17 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/frontSubPanel/frontSubPanel.xml</path>
+    <name>PanelSub</name>
+    <offsets>
+      <pitch-deg>0</pitch-deg>
+      <x-m>-3.98</x-m>
+      <y-m>0.0</y-m>
+      <z-m>0.05</z-m>
+    </offsets>
+  </model>
+
  <model>
     <path>Aircraft/JA37/Models/right-panel.xml</path>
     <name>rightPanel</name>

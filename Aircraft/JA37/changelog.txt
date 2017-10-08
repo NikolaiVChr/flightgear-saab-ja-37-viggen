@@ -3265,3 +3265,6 @@ Arms: Added P-51 HVAR rockets to damage table.
 Sound: {Swamp} Changed the knob sound.
 Model: Added subsection of front panel.
 DAP: Fixed canvas got double initialized and would therefore only show "------".
+
+4.305
+=====
