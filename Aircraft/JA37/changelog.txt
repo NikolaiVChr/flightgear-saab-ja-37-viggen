@@ -3243,7 +3243,7 @@ Effect: Made a LCD/LED display shader. Experimentally put on the TI. At high vie
 HUD: Numbers in alt scale should no longer go out of HUD area.
 Effect: LCD shader now supports contrast setting and works in Rembrandt (without shadows).
 Effect: TI screen edge rocker switch C now is contrast.
-Model: Reserve course switch no longer says master-arm.
+Model: Reserve course switch tooltip no longer says master-arm.
 Model: Made A/P pushlights visible in more conditions.
 Model: Exterior translation zoom minimum is now 25 meters.
 Model: Changed the blue color on livery 32 Blue Peter.
@@ -3263,3 +3263,5 @@ Arms: Vector thrust bleed reduction now only apply when thruster is on.
 Arms: Tube/rail fired weapons that is tilted will now adjust their pylon position based the the tilt.
 Arms: Added P-51 HVAR rockets to damage table.
 Sound: {Swamp} Changed the knob sound.
+Model: Added subsection of front panel.
+DAP: Fixed canvas got double initialized and would therefore only show "------".

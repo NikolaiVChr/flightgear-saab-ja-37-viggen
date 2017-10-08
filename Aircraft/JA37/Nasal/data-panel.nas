@@ -2,12 +2,12 @@
 var TRUE  = 1;
 var FALSE = 0;
 
-var theInit = setlistener("ja37/supported/initialized", func {
-    removelistener(theInit);
-    if (getprop("ja37/systems/variant") == 0 and getprop("ja37/supported/canvas") == TRUE) {
-      callInit();
-    }
-});
+#var theInit = setlistener("ja37/supported/initialized", func {
+#    removelistener(theInit);
+#    if (getprop("ja37/systems/variant") == 0 and getprop("ja37/supported/canvas") == TRUE) {
+#      callInit();
+#    }
+#});
 
 var debugAll = TRUE;
 
@@ -44,6 +44,7 @@ var callInit = func {
     #var callsign = props.globals.getNode("/sim/multiplay/callsign").getValue();
 
     signText.setText("------");
+    #printDA("Init DAP");
 
  #   settimer(loop_dap, 0.25);
   #}
