@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>frontSubPanel.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>-->
+        <object-name>handleTop</object-name>
+        <object-name>handleBottom</object-name>
+        <object-name>knob1</object-name>
+        <object-name>knob2</object-name>
+        <object-name>knob3</object-name>
+        <object-name>knob4</object-name>
+        <object-name>knob5</object-name>
+        <object-name>knob6</object-name>
+        <object-name>subPanel</object-name>
+        <object-name>extrudeLeft</object-name>
+        <object-name>extrudeRight</object-name>
+        <object-name>baseTop</object-name>
+        <object-name>baseBottom</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handleTop</object-name>
+        <object-name>baseTop</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+               <command>nasal</command>
+               <script>controls.applyParkingBrake(1)</script>
+            </binding>
+            <mod-up>
+               <binding>
+                <command>nasal</command>
+                <script>controls.applyParkingBrake(0)</script>
+               </binding>
+            </mod-up>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switch-parkbrake</tooltip-id>
+                <label>Parking brake</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>handleTop</object-name>
+        <property>controls/gear/brake-parking</property>
+        <factor>0.015</factor>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handleBottom</object-name>
+        <object-name>baseBottom</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switch-pedalmode</tooltip-id>
+                <label>Pedal mode</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

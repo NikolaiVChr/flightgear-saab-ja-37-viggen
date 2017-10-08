@@ -8,10 +8,10 @@
             <name>Parking Brakes</name>
             <value>SET (shift-B)</value>
             <marker>
-                <x-m>-3.2628</x-m>
-                <y-m>-0.3512</y-m>
-                <z-m>-0.0727</z-m>
-                <scale>3.0000</scale>
+                <x-m>-3.9554</x-m>
+                <y-m>-0.0595</y-m>
+                <z-m>0.0686</z-m>
+                <scale>2.4711</scale>
             </marker>
             <condition>
                 <equals>
@@ -1038,10 +1038,10 @@
             <name>Parking Brakes</name>
             <value>OFF (shift-B)</value>
             <marker>
-                <x-m>-3.2628</x-m>
-                <y-m>-0.3512</y-m>
-                <z-m>-0.0727</z-m>
-                <scale>3.0000</scale>
+                <x-m>-3.9554</x-m>
+                <y-m>-0.0595</y-m>
+                <z-m>0.0686</z-m>
+                <scale>2.4711</scale>
             </marker>
             <condition>
                 <equals>

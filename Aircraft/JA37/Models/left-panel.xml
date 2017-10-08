@@ -320,7 +320,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/brake-parking.xml</path>
     <name>parkBrake</name>
     <offsets>
@@ -329,7 +329,7 @@
       <y-m>  0.060</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
