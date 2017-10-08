@@ -3237,7 +3237,7 @@ Animation: Fixed masterarm knob was opposite.
 Sim: Fixed regression error when A/P follow loses selection.
 Control: Made deadzone for aileron A/P CSS smaller.
 
-4.304
+4.304 - 2017 October 8
 =====
 Effect: Made a LCD/LED display shader. Experimentally put on the TI. At high viewing angles colors will distort, brighness will invert and contrast will decrease. Supports ALS filters.
 HUD: Numbers in alt scale should no longer go out of HUD area.

@@ -579,6 +579,8 @@
   <effect>
     <!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-combined-shader</inherits-from>-->
     <inherits-from>Aircraft/JA37/Models/Effects/fuselage/viggen-fuselage</inherits-from>
+    <!--<inherits-from>Effects/model-interior</inherits-from>-->
+    <!--<inherits-from>Aircraft/JA37/Models/Effects/shadow/interior-shadow</inherits-from>-->
     <!--<parameters>
       <reflection-type type="int">2</reflection-type>
       <reflection-enabled type="int">0</reflection-enabled>
