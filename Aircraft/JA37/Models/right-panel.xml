@@ -223,13 +223,13 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Transponder/kt76a.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Transponder/transponder.xml</path>
     <name>Transponder</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
       <x-m>  0.62</x-m>
-      <y-m> -0.03</y-m>
-      <z-m>  0.00</z-m>
+      <y-m> -0.035</y-m>
+      <z-m> -0.005</z-m>
     </offsets>
   </model>
 

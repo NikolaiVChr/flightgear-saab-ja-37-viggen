@@ -3268,3 +3268,5 @@ DAP: Fixed canvas got double initialized and would therefore only show "------".
 
 4.305
 =====
+Model: Added the new subsection frontpanel to AJ variants also.
+Model: Made the transponder look little more like the real Viggen one. (but only a little, lol)

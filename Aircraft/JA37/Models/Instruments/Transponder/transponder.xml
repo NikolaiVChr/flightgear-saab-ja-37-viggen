@@ -1,23 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- ########################################
-
- # DR400-regent by PAF team
- # April 2012 : Modified by PAF team
- # http://equipe-flightgear.forumactif.com
-
-##########################################-->
-
 <PropertyList>
 
-    <path>kt76a.ac</path>
+    <path>transponder.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
-        <object-name>Front</object-name>
-        <object-name>Ident</object-name>
+        <object-name>panel</object-name>
+        <object-name>ident</object-name>
+        <!--<object-name>lampRespond</object-name>
+        <object-name>lampErr</object-name>-->
         <object-name>Border</object-name>
-        <!--<object-name>vitre</object-name>-->
+        <object-name>test</object-name>
         <object-name>Dial1</object-name>
         <object-name>Dial10</object-name>
         <object-name>Dial100</object-name>
@@ -26,71 +19,33 @@
         <object-name>Knob10</object-name>
         <object-name>Knob100</object-name>
         <object-name>Knob1000</object-name>
-        <object-name>KnobMode</object-name>
+        <object-name>switchMode</object-name>
+        <object-name>switchEnable</object-name>
     </effect>
 
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
+        <object-name>glass</object-name>
+    </effect>
+
+    <animation>
+        <type>noshadow</type>
+        <object-name>glass</object-name>
+    </animation>
+
     <params>
-        <serviceable>instrumentation/transponder/serviceable</serviceable>
-
-        <knob-mode>instrumentation/transponder/inputs/knob-mode</knob-mode>
-        <ident-btn>instrumentation/transponder/inputs/ident-btn</ident-btn>
-
         <digit0>instrumentation/transponder/inputs/digit[0]</digit0>
         <digit1>instrumentation/transponder/inputs/digit[1]</digit1>
         <digit2>instrumentation/transponder/inputs/digit[2]</digit2>
         <digit3>instrumentation/transponder/inputs/digit[3]</digit3>
-
-        <dimming>instrumentation/transponder/dimming-norm</dimming>
     </params>
 
     <animation>
-        <object-name>Dial1</object-name>
-        <object-name>Dial10</object-name>
-        <object-name>Dial100</object-name>
-        <object-name>Dial1000</object-name>
-        <object-name>Front</object-name>
-        <object-name>Ident</object-name>
-        <object-name>Ident-light</object-name>
-        <object-name>Knob1</object-name>
-        <object-name>Knob10</object-name>
-        <object-name>Knob100</object-name>
-        <object-name>Knob1000</object-name>
-        <object-name>Border</object-name>
-        <object-name>KnobMode</object-name>
-        <object-name>vitre</object-name>
-    </animation>
-
-    <animation>
         <type>material</type>
         <object-name>Dial1</object-name>
         <object-name>Dial10</object-name>
         <object-name>Dial100</object-name>
         <object-name>Dial1000</object-name>
-        <object-name>Front</object-name>
-        <object-name>Ident</object-name>
-        <object-name>Ident-light</object-name>
-        <object-name>Knob1</object-name>
-        <object-name>Knob10</object-name>
-        <object-name>Knob100</object-name>
-        <object-name>Knob1000</object-name>
-        <object-name>Border</object-name>
-        <object-name>KnobMode</object-name>
-        <object-name>vitre</object-name>
-
-        <property-base>/instrumentation/transponder</property-base>
-        <texture-prop>texture-file</texture-prop>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Dial1</object-name>
-        <object-name>Dial10</object-name>
-        <object-name>Dial100</object-name>
-        <object-name>Dial1000</object-name>
-        <!--<object-name>Front</object-name>-->
-        <!--<object-name>Ident-light</object-name>-->
-        <!--<object-name>Border</object-name>-->
-        <!--<object-name>vitre</object-name>-->
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
             <green-prop>instrumentation/instrumentation-light/g</green-prop>
@@ -98,79 +53,6 @@
             <factor-prop>controls/lighting/instruments-norm</factor-prop>
         </emission>
     </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Ident-light</object-name>
-        <condition>
-            <property>instrumentation/transponder/ident</property>
-            <greater-than>
-                <property>systems/electrical/outputs/ac-instr-voltage</property>
-                <value>100</value>
-            </greater-than>
-        </condition>
-        <emission>
-            <red>   1.00 </red>
-            <green> 0.20 </green>
-            <blue>  0.00 </blue>
-        </emission>
-    </animation>
-
-    <!--<animation>
-    <type>material</type>
-    <object-name>Front</object-name>
-    <object-name>Border</object-name>
-    <diffuse>
-      <red>   0.20 </red>
-      <green> 0.20 </green>
-      <blue>  0.20 </blue>
-    </diffuse>
-    <ambient>
-     <red>0.2</red>
-     <green>0.2</green>
-     <blue>0.2</blue>
-    </ambient>
-  </animation>-->
-
-    <!--<animation>
-    <type>material</type>
-    <object-name>Dial1</object-name>
-    <object-name>Dial10</object-name>
-    <object-name>Dial100</object-name>
-    <object-name>Dial1000</object-name>
-    <object-name>Front</object-name>
-    <object-name>Ident</object-name>
-    <object-name>Ident-light</object-name>
-    <object-name>Knob1</object-name>
-    <object-name>Knob10</object-name>
-    <object-name>Knob100</object-name>
-    <object-name>Knob1000</object-name>
-    <object-name>Border</object-name>
-    <object-name>KnobMode</object-name>
-    <object-name>vitre</object-name>
-    <condition>
-      <not><property>sim/rendering/rembrandt/enabled</property></not>
-    </condition>
-    <emission>
-      <red>   0.006 </red>
-      <green> 0.006 </green>
-      <blue>  0.006 </blue>
-      <factor-prop alias="../../../params/dimming"/>
-    </emission>
-  </animation>-->
-
-    <animation>
-        <type>noshadow</type>
-        <object-name>vitre</object-name>
-    </animation>
-
-    <effect>
-        <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>vitre</object-name>
-        <condition>
-            <property>sim/rendering/rembrandt/enabled</property>
-        </condition>
-    </effect>
 
     <animation>
         <type>rotate</type>
@@ -438,83 +320,104 @@
 
     <animation>
         <type>knob</type>
-        <object-name>KnobMode</object-name>
+        <object-name>switchEnable</object-name>
         <visible>true</visible>
-        <drag-scale-px>20</drag-scale-px>
+        <!--<drag-scale-px>20</drag-scale-px>-->
         <action>
             <binding>
                 <command>property-cycle</command>
-                <!--<property>/instrumentation/transponder/inputs/knob-mode</property>-->
-                <property alias="../../../../params/knob-mode"/>
-                <wrap>0</wrap>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <wrap>1</wrap>
                 <value>0</value>
                 <!-- OFF -->
-                <value>1</value>
-                <!-- SBY -->
-                <value>4</value>
-                <!-- ON  -->
                 <value>5</value>
-                <!-- ALT -->
-                <value>2</value>
-                <!-- TST -->
+                <!-- ON  -->
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>transponder-mode-btn</tooltip-id>
+                <tooltip-id>transponder-enable-btn</tooltip-id>
                 <label>Mode: %s</label>
-                <!--<property>instrumentation/transponder/inputs/knob-mode</property>-->
-                <property alias="../../../../params/knob-mode"/>
-                <mapping>nasal</mapping>
-                <script>
-          var m = arg[0];
-          if(m == 1) return 'STANDBY';
-          if(m == 4) return 'ON';
-          if(m == 5) return 'ALTITUDE';
-          if(m == 2) return 'TEST';
-          return 'OFF';
-        </script>
             </binding>
         </hovered>
     </animation>
 
     <animation>
         <type>rotate</type>
-        <object-name>KnobMode</object-name>
-        <!--<property>/instrumentation/transponder/inputs/knob-mode</property>-->
-        <property alias="../../params/knob-mode"/>
+        <object-name>switchEnable</object-name>
+        <property>/instrumentation/transponder/inputs/knob-mode</property>
+        <factor>1</factor>
+        <interpolation>
+            <entry>
+                <ind>5</ind>
+                <dep>-45</dep>
+            </entry>
+            <entry>
+                <ind>0</ind>
+                <dep>45</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>  0.01004 </x-m>
+            <y-m> -0.05511 </y-m>
+            <z-m>  0.00086 </z-m>
+        </center>
+        <axis>
+            <x>  0 </x>
+            <y>  1 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>switchMode</object-name>
+        <visible>true</visible>
+        <!--<drag-scale-px>20</drag-scale-px>-->
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <property>/instrumentation/transponder/mode</property>
+                <wrap>1</wrap>
+                <value>0</value>
+                <!-- A -->
+                <value>1</value>
+                <!-- C  -->
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-mode-btn</tooltip-id>
+                <label>Mode</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>switchMode</object-name>
+        <property>/instrumentation/transponder/mode</property>
         <factor>1</factor>
         <interpolation>
             <entry>
                 <ind>0</ind>
-                <dep>0</dep>
+                <dep>-45</dep>
             </entry>
             <entry>
                 <ind>1</ind>
                 <dep>45</dep>
             </entry>
-            <entry>
-                <ind>4</ind>
-                <dep>90</dep>
-            </entry>
-            <entry>
-                <ind>5</ind>
-                <dep>135</dep>
-            </entry>
-            <entry>
-                <ind>2</ind>
-                <dep>180</dep>
-            </entry>
         </interpolation>
         <center>
-            <x-m>  0.01453 </x-m>
-            <y-m> -0.06102 </y-m>
-            <z-m>  0.000655 </z-m>
+            <x-m>  0.01004 </x-m>
+            <y-m>  0.08976 </y-m>
+            <z-m>  0.00086 </z-m>
         </center>
         <axis>
-            <x> -1 </x>
-            <y>  0 </y>
+            <x>  0 </x>
+            <y> -1 </y>
             <z>  0 </z>
         </axis>
     </animation>
@@ -522,21 +425,60 @@
     <animation>
         <type>pick</type>
         <visible>true</visible>
-        <object-name>Ident</object-name>
+        <object-name>test</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
-                <property alias="../../../../params/ident-btn"/>
+                <property>/instrumentation/transponder/inputs/test</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/instrumentation/transponder/inputs/test</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-test</tooltip-id>
+                <label>Test transponder</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>test</object-name>
+        <property>/instrumentation/transponder/inputs/test</property>
+        <factor> 0.0018 </factor>
+        <axis>
+            <x> -1 </x>
+            <y> 0 </y>
+            <z> 0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <visible>true</visible>
+        <object-name>ident</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/instrumentation/transponder/inputs/ident-btn</property>
                 <value type="bool">true</value>
             </binding>
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
-                    <property alias="../../../../../params/ident-btn"/>
+                    <property>/instrumentation/transponder/inputs/ident-btn</property>
                     <value type="bool">false</value>
                 </binding>
             </mod-up>
@@ -552,15 +494,31 @@
 
     <animation>
         <type>translate</type>
-        <object-name>Ident</object-name>
-        <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
-        <property alias="../../params/ident-btn"/>
+        <object-name>ident</object-name>
+        <property>/instrumentation/transponder/inputs/ident-btn</property>
         <factor> 0.0018 </factor>
         <axis>
             <x> -1 </x>
             <y> 0 </y>
             <z> 0 </z>
         </axis>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>lampRespond</object-name>
+        <condition>
+            <property>instrumentation/transponder/ident</property>
+            <greater-than>
+                <property>systems/electrical/outputs/ac-instr-voltage</property>
+                <value>100</value>
+            </greater-than>
+        </condition>
+        <emission>
+            <red>   1.00 </red>
+            <green> 1.00 </green>
+            <blue>  1.00 </blue>
+        </emission>
     </animation>
 
 </PropertyList>

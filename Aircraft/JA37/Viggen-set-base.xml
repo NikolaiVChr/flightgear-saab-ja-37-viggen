@@ -1332,6 +1332,7 @@
             <name type="string">transponder</name>
             <number type="int">0</number>
             <mode type="int">1</mode>            <!-- 0 = Mode A, 1 = Mode C, 2 = Mode S -->
+            <id-code type="int">0000</id-code>
             <bus-volts type="double">24.0</bus-volts>
             <encoder-path type="string">/instrumentation/altimeter</encoder-path>
             <kt70-compatibility type="bool">false</kt70-compatibility>
@@ -1341,6 +1342,7 @@
                 <digit n="1">0</digit>                <!-- military code. For some reason does not work and is set to 1200 -->
                 <digit n="2">0</digit>
                 <digit n="3">0</digit>
+                <test type="bool">false</test>
             </inputs>
         </transponder>
         <radar>
