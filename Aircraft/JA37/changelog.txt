@@ -3266,7 +3266,8 @@ Sound: {Swamp} Changed the knob sound.
 Model: Added subsection of front panel.
 DAP: Fixed regression canvas got double initialized and would therefore only show "------".
 
-4.305
+4.305 - 2017 October 10
 =====
 Model: Added the new subsection frontpanel to AJ variants also.
 Model: Made the transponder look little more like the real Viggen one. (but only a little, lol)
+Effect: Fixed that TI display would be grey if model shader was set to lowest.
