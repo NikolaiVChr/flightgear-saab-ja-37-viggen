@@ -3264,7 +3264,7 @@ Arms: Tube/rail fired weapons that is tilted will now adjust their pylon positio
 Arms: Added P-51 HVAR rockets to damage table.
 Sound: {Swamp} Changed the knob sound.
 Model: Added subsection of front panel.
-DAP: Fixed canvas got double initialized and would therefore only show "------".
+DAP: Fixed regression canvas got double initialized and would therefore only show "------".
 
 4.305
 =====

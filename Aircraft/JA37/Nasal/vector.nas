@@ -2,12 +2,13 @@ var Math = {
     #
     # Author: Nikolai V. Chr.
     #
-    # Version 1.3
+    # Version 1.4
     #
     # When doing euler to cartesian: +x = forw, +y = right, +z = up.
     #
     clamp: func(v, min, max) { v < min ? min : v > max ? max : v },
 
+    # angle between 2 vectors. Returns 0-180 degrees.
     angleBetweenVectors: func (a,b) {
         a = me.normalize(a);
         b = me.normalize(b);
@@ -15,14 +16,17 @@ var Math = {
         return R2D * math.acos(me.value);
     },
 
+    # length of vector
     magnitudeVector: func (a) {
         return math.sqrt(math.pow(a[0],2)+math.pow(a[1],2)+math.pow(a[2],2));
     },
 
+    # dot product of 2 vectors
     dotProduct: func (a,b) {
         return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
     },
 
+    # gives an vector that points up from fuselage
     eulerToCartesian3Z: func (heading_deg, pitch_deg, roll_deg) {
         me.yaw   = heading_deg * D2R;
         me.pitch = pitch_deg   * D2R;
@@ -33,6 +37,7 @@ var Math = {
         return [me.x,me.y,me.z];
     },
 
+    # gives an vector that points forward from fuselage
     eulerToCartesian3X: func (heading_deg, pitch_deg, roll_deg) {
         me.yaw   = heading_deg * D2R;
         me.pitch = pitch_deg   * D2R;
@@ -43,6 +48,7 @@ var Math = {
         return [me.x,me.y,me.z];
     },
 
+    # gives an vector that points right from fuselage
     eulerToCartesian3Y: func (heading_deg, pitch_deg, roll_deg) {#not used but could be handy for something else
         me.yaw   = heading_deg * D2R;
         me.pitch = pitch_deg   * D2R;
@@ -53,6 +59,7 @@ var Math = {
         return [me.x,me.y,me.z];
     },
 
+    # same as eulerToCartesian3X, except it needs no roll
     eulerToCartesian2: func (heading_deg, pitch_deg) {
         me.yaw   = heading_deg * D2R;
         me.pitch = pitch_deg   * D2R;
@@ -62,8 +69,8 @@ var Math = {
         return [me.x,me.y,me.z];
     },
 
-    getPitch: func (coord1, coord2) {
-      #pitch from coord1 to coord2 in degrees (takes curvature of earth into effect.)
+    #pitch from coord1 to coord2 in degrees (takes curvature of earth into effect.)
+    getPitch: func (coord1, coord2) {      
       if (coord1.lat() == coord2.lat() and coord1.lon() == coord2.lon()) {
         if (coord2.alt() > coord1.alt()) {
           return 90;
@@ -115,33 +122,39 @@ var Math = {
       }
     },
 
+    # supply a normal to the plane, and a vector. The vector will be projected onto the plane, and that projection is returned as a vector.
     projVectorOnPlane: func (planeNormal, vector) {
       return me.minus(vector, me.product(me.dotProduct(vector,planeNormal)/math.pow(me.magnitudeVector(planeNormal),2), planeNormal));
     },
 
+    # vector a - vector b
     minus: func (a, b) {
       return [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
     },
 
+    # vector a + vector b
     plus: func (a, b) {
       return [a[0]+b[0], a[1]+b[1], a[2]+b[2]];
     },
 
+    # float * vector
     product: func (scalar, vector) {
       return [scalar*vector[0], scalar*vector[1], scalar*vector[2]]
     },
 
+    # print vector to console
     format: func (v) {
       return sprintf("(%.1f, %.1f, %.1f)",v[0],v[1],v[2]);
     },
 
+    # make vector length 1.0
     normalize: func (v) {
       me.mag = me.magnitudeVector(v);
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
     },
 };
 
-# Fix for geo.Coord:
+# Fix for geo.Coord: (not needed in FG 2017.4+)
 geo.Coord.set_x = func(x) { me._cupdate(); me._pdirty = 1; me._x = x; me };
 geo.Coord.set_y = func(y) { me._cupdate(); me._pdirty = 1; me._y = y; me };
 geo.Coord.set_z = func(z) { me._cupdate(); me._pdirty = 1; me._z = z; me };
