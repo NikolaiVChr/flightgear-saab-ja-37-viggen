@@ -12,6 +12,14 @@ var Math = {
     #
     clamp: func(v, min, max) { v < min ? min : v > max ? max : v },
 
+    convertCoords: func (x,y,z) {
+        return [-x, -y, z];
+    },
+
+    convertAngles: func (heading,pitch,roll) {
+        return [-heading, pitch, roll];
+    },
+
     # angle between 2 vectors. Returns 0-180 degrees.
     angleBetweenVectors: func (a,b) {
         a = me.normalize(a);
