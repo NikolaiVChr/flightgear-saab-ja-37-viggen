@@ -2,9 +2,13 @@ var Math = {
     #
     # Author: Nikolai V. Chr.
     #
-    # Version 1.4
+    # Version 1.5
     #
-    # When doing euler to cartesian: +x = forw, +y = right, +z = up.
+    # When doing euler coords. to cartesian: +x = forw, +y = left,  +z = up.
+    # FG struct. coords:                     +x = back, +y = right, +z = up.
+    #
+    # When doing euler angles (from pilots point of view):  yaw     = yaw left,  pitch = rotate up, roll = roll right.
+    # FG rotations:                                         heading = yaw right, pitch = rotate up, roll = roll right.
     #
     clamp: func(v, min, max) { v < min ? min : v > max ? max : v },
 
@@ -26,9 +30,65 @@ var Math = {
         return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
     },
 
+    # rotate a vector. Order: roll, pitch, yaw
+    rollPitchYawVector: func (roll, pitch, yaw, vector) {
+        me.rollM  = me.rollMatrix(roll);
+        me.pitchM = me.pitchMatrix(pitch);
+        me.yawM   = me.yawMatrix(yaw);
+        me.rotation = me.multiplyMatrices(me.multiplyMatrices(me.yawM, me.pitchM), me.rollM);
+        return me.multiplyMatrixWithVector(me.rotation, vector);
+    },
+
+    # rotate a vector. Order: yaw, pitch, roll (like an aircraft)
+    yawPitchRollVector: func (yaw, pitch, roll, vector) {
+        me.rollM  = me.rollMatrix(roll);
+        me.pitchM = me.pitchMatrix(pitch);
+        me.yawM   = me.yawMatrix(yaw);
+        me.rotation = me.multiplyMatrices(me.multiplyMatrices(me.rollM, me.pitchM), me.yawM);
+        return me.multiplyMatrixWithVector(me.rotation, vector);
+    },
+
+    # multiply 3x3 matrix with vector
+    multiplyMatrixWithVector: func (matrix, vector) {
+        return [matrix[0]*vector[0]+matrix[1]*vector[1]+matrix[2]*vector[2],
+                matrix[3]*vector[0]+matrix[4]*vector[1]+matrix[5]*vector[2],
+                matrix[6]*vector[0]+matrix[7]*vector[1]+matrix[8]*vector[2]];
+    },
+
+    # multiply 2 3x3 matrices
+    multiplyMatrices: func (a,b) {
+        return [a[0]*b[0]+a[1]*b[3]+a[2]*b[6], a[0]*b[1]+a[1]*b[4]+a[2]*b[7], a[0]*b[2]+a[1]*b[5]+a[2]*b[8],
+                a[3]*b[0]+a[4]*b[3]+a[5]*b[6], a[3]*b[1]+a[4]*b[4]+a[5]*b[7], a[3]*b[2]+a[4]*b[5]+a[5]*b[8],
+                a[6]*b[0]+a[7]*b[3]+a[8]*b[6], a[6]*b[1]+a[7]*b[4]+a[8]*b[7], a[6]*b[2]+a[7]*b[5]+a[8]*b[8]];
+    },
+
+    # matrix for rolling
+    rollMatrix: func (roll) {
+        roll = roll * D2R;
+        return [1,0,0,
+                0,math.cos(roll),-math.sin(roll),
+                0,math.sin(roll), math.cos(roll)];
+    },
+
+    # matrix for pitching
+    pitchMatrix: func (pitch) {
+        pitch = pitch * D2R;
+        return [math.cos(pitch),0,-math.sin(pitch),
+                0,1,0,
+                math.sin(pitch),0,math.cos(pitch)];
+    },
+
+    # matrix for yawing
+    yawMatrix: func (yaw) {
+        yaw = yaw * D2R;
+        return [math.cos(yaw),-math.sin(yaw),0,
+                math.sin(yaw),math.cos(yaw),0,
+                0,0,1];
+    },
+
     # gives an vector that points up from fuselage
-    eulerToCartesian3Z: func (heading_deg, pitch_deg, roll_deg) {
-        me.yaw   = heading_deg * D2R;
+    eulerToCartesian3Z: func (yaw_deg, pitch_deg, roll_deg) {
+        me.yaw   = yaw_deg     * D2R;
         me.pitch = pitch_deg   * D2R;
         me.roll  = roll_deg    * D2R;
         me.x = -math.cos(me.yaw)*math.sin(me.pitch)*math.cos(me.roll) + math.sin(me.yaw)*math.sin(me.roll);
@@ -38,8 +98,8 @@ var Math = {
     },
 
     # gives an vector that points forward from fuselage
-    eulerToCartesian3X: func (heading_deg, pitch_deg, roll_deg) {
-        me.yaw   = heading_deg * D2R;
+    eulerToCartesian3X: func (yaw_deg, pitch_deg, roll_deg) {
+        me.yaw   = yaw_deg     * D2R;
         me.pitch = pitch_deg   * D2R;
         me.roll  = roll_deg    * D2R;
         me.x = math.cos(me.yaw)*math.cos(me.pitch);
@@ -48,9 +108,9 @@ var Math = {
         return [me.x,me.y,me.z];
     },
 
-    # gives an vector that points right from fuselage
-    eulerToCartesian3Y: func (heading_deg, pitch_deg, roll_deg) {#not used but could be handy for something else
-        me.yaw   = heading_deg * D2R;
+    # gives an vector that points left from fuselage
+    eulerToCartesian3Y: func (yaw_deg, pitch_deg, roll_deg) {
+        me.yaw   = yaw_deg     * D2R;
         me.pitch = pitch_deg   * D2R;
         me.roll  = roll_deg    * D2R;
         me.x = -math.cos(me.yaw)*math.sin(me.pitch)*math.sin(me.roll) - math.sin(me.yaw)*math.cos(me.roll);
@@ -60,8 +120,8 @@ var Math = {
     },
 
     # same as eulerToCartesian3X, except it needs no roll
-    eulerToCartesian2: func (heading_deg, pitch_deg) {
-        me.yaw   = heading_deg * D2R;
+    eulerToCartesian2: func (yaw_deg, pitch_deg) {
+        me.yaw   = yaw_deg     * D2R;
         me.pitch = pitch_deg   * D2R;
         me.x = math.cos(me.pitch) * math.cos(me.yaw);
         me.y = math.cos(me.pitch) * math.sin(me.yaw);
@@ -152,6 +212,30 @@ var Math = {
       me.mag = me.magnitudeVector(v);
       return [v[0]/me.mag, v[1]/me.mag, v[2]/me.mag];
     },
+
+# rotation matrices
+#
+#
+#| 1    0          0      |
+#| 0 cos(roll) -sin(roll) |
+#| 0 sin(roll)  cos(roll) |
+#
+#| cos(pitch) 0 -sin(pitch) |
+#|     0      1      0      |
+#| sin(pitch) 0  cos(pitch) |
+#
+#| cos(yaw) -sin(yaw) 0 |
+#| sin(yaw)  cos(yaw) 0 |
+#|    0         0     1 |
+#
+# combined matrix from yaw, pitch, roll:
+#
+#| cos(yaw)cos(pitch) -cos(yaw)sin(pitch)sin(roll)-sin(yaw)cos(roll) -cos(yaw)sin(pitch)cos(roll)+sin(yaw)sin(roll)|
+#| sin(yaw)cos(pitch) -sin(yaw)sin(pitch)sin(roll)+cos(yaw)cos(roll) -sin(yaw)sin(pitch)cos(roll)-cos(yaw)sin(roll)|
+#| sin(pitch)          cos(pitch)sin(roll)                            cos(pitch)cos(roll)|
+#
+#
+
 };
 
 # Fix for geo.Coord: (not needed in FG 2017.4+)
