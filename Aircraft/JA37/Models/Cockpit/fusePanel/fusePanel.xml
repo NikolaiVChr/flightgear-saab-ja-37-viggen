@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>fusePanel.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from><!--<inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>-->
+        <object-name>panel</object-name>
+        <object-name>bolt1</object-name>
+        <object-name>fuse1</object-name>
+        <object-name>bolt2</object-name>
+        <object-name>fuse2</object-name>
+        <object-name>bolt3</object-name>
+        <object-name>fuse3</object-name>
+        <object-name>bolt4</object-name>
+        <object-name>fuse4</object-name>
+        <object-name>bolt5</object-name>
+        <object-name>fuse5</object-name>
+        <object-name>Switch</object-name>
+
+    </effect>
+
+</PropertyList>

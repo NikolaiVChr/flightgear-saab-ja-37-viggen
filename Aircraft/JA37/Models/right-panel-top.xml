@@ -44,10 +44,20 @@
     </model>
 
     <model>
+        <path>Aircraft/JA37/Models/Cockpit/fusePanel/fusePanel.xml</path>
+        <name>fuses</name>
+        <offsets>
+            <x-m> -0.980</x-m>
+            <y-m>  0.02</y-m>
+            <z-m>  0</z-m>
+        </offsets>
+    </model>
+
+    <model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-yaw.xml</path>
         <name>switch-damp-yaw</name>
         <offsets>
-            <x-m> -0.960</x-m>
+            <x-m> -0.5</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -57,7 +67,7 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-pitch.xml</path>
         <name>switch-damp-pitch</name>
         <offsets>
-            <x-m> -0.925</x-m>
+            <x-m> -0.465</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
@@ -67,13 +77,13 @@
         <path>Aircraft/JA37/Models/Cockpit/switch-a/damper-roll.xml</path>
         <name>switch-damp-roll</name>
         <offsets>
-            <x-m> -0.890</x-m>
+            <x-m> -0.43</x-m>
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>
 
-    <model>
+    <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/hud.xml</path>
         <name>switch-hud</name>
         <offsets>
@@ -81,7 +91,7 @@
             <y-m>  0.02</y-m>
             <z-m>  0</z-m>
         </offsets>
-    </model>
+    </model>-->
 
     <!--<model>
         <path>Aircraft/JA37/Models/Cockpit/switch-a/hud-sideslip.xml</path>

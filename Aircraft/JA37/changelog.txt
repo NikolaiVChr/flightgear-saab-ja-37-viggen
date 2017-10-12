@@ -3275,3 +3275,4 @@ Effect: Fixed that TI display would be grey if model shader was set to lowest.
 4.306
 =====
 Sim: Added some rotation matrix operations to vector library.
+Model: Added fuse panel.
