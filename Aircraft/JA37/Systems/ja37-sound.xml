@@ -893,6 +893,56 @@
             </volume>
         </knobs>
 
+        <gearlever>
+            <name>gearlever0</name>
+            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <and>
+                    <equals>
+                        <property>controls/gear/gear-down</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+            <position>
+                <x>-3.25</x>
+                <y>0.50</y><!-- minus means right, plus means left -->
+                <z>0.015</z>
+            </position>
+            <volume>
+                <factor>0.25</factor>
+            </volume>
+        </gearlever>
+
+        <gearlever>
+            <name>gearlever1</name>
+            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <and>
+                    <equals>
+                        <property>controls/gear/gear-down</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </condition>
+            <position>
+                <x>-3.25</x>
+                <y>0.50</y><!-- minus means right, plus means left -->
+                <z>0.015</z>
+            </position>
+            <volume>
+                <factor>0.25</factor>
+            </volume>
+        </gearlever>
+
         <throttle>
             <name>Bottom detent 1</name>
             <path>Aircraft/JA37/Sounds/throttle-idle.wav</path>

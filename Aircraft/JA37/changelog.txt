@@ -3276,3 +3276,5 @@ Effect: Fixed that TI display would be grey if model shader was set to lowest.
 =====
 Sim: Added some rotation matrix operations to vector library.
 Model: Added fuse panel.
+Model: Added gear and brake handle.
+Sound: Added gear handle.

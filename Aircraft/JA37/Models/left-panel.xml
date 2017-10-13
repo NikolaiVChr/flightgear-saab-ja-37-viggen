@@ -309,7 +309,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/gears.xml</path>
     <name>gears</name>
     <offsets>
@@ -317,6 +317,16 @@
       <x-m>  0.85</x-m>
       <y-m>  0.110</y-m>
       <z-m>  0.00</z-m>
+    </offsets>
+  </model>-->
+
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/gearsBox/gearsBox.xml</path>
+    <name>gb</name>
+    <offsets>
+      <x-m>  1.15</x-m>
+      <y-m> -0.035</y-m>
+      <z-m>  0 </z-m>
     </offsets>
   </model>
 

@@ -12,7 +12,7 @@
 
     <reflection-enabled type="int">1</reflection-enabled>
     <reflect-map-enabled type="int">0</reflect-map-enabled>
-    <reflection-correction type="float">-0.25</reflection-correction>
+    <reflection-correction type="float">-0.35</reflection-correction>
     <reflection-fresnel type="float">0.0</reflection-fresnel>
     <reflection-rainbow type="float">0.0</reflection-rainbow>
     <reflection-noise type="float">0.0</reflection-noise>

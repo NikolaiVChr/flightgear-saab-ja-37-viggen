@@ -19,7 +19,6 @@ Model: JA version of datapanel and nav. panel.
 Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness SI and RES.
 Model: Transponder panel more like the real, right panel.
 Model: Test panel. Right side, lower shelf.
-Model: Gear handle, left side, next to chair. Also has brakes.
 Model: Canopy handle left side.
 Model: Radar panel. Left side.
 Model: Radio panel KV3. Left side.
@@ -167,7 +166,6 @@ Effect: Ambient occlusion map need to be baked again, many parts are too occlude
 Sound: Knobs for pylon and master-arm has no sound, fix.
 Model: The nosegear well, has gap between it and fuselage.
 Model: The frontpanel tap is misaligned.
-
 
 
 

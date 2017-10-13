@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>gearsBox.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>handleGears</object-name>
+        <object-name>handleBrake</object-name>
+        <object-name>stickThrottle</object-name>
+        <object-name>box</object-name>
+    </effect>
+
+    <!--<effect>
+        <inherits-from>Effects/model-combined-deferred</inherits-from>
+        <object-name>box</object-name>
+    </effect>-->
+
+    <animation>
+        <type>rotate</type>
+        <object-name>handleGears</object-name>
+        <property>controls/gear/gear-down</property>
+        <factor>-20</factor>
+        <offset-deg>20</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.13614 </y-m>
+            <z-m>  0.08639 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>handleBrake</object-name>
+        <property>controls/gear/brake-left</property>
+        <factor>30</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>  0.01466 </x-m>
+            <y-m>  0.00052 </y-m>
+            <z-m> 0.08741 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handleGears</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/gear/gear-down</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>handle-gears</tooltip-id>
+                <label>Gears handle</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handleBrake</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>handle-brake</tooltip-id>
+                <label>Brake handle</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

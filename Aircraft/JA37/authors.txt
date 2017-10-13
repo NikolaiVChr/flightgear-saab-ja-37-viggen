@@ -95,5 +95,6 @@ Saunders-Roe-Princess - Speedbrake sound.
 Pond-racer: speedbrake wind sound.
 A32xx: Throttle detent sound.
 PC-9: Throttle idle sound.
+CRJ700: gear lever sound.
 
 Might have forgotten some.
