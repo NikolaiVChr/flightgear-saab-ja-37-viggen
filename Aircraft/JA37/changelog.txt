@@ -3280,3 +3280,4 @@ Model: Added gear and A/T handle.
 Sound: Added gear handle.
 Model: Added 2 knobs for controlling HUD brightness in JA.
 DAP: Fixed an error in deleting flightplan.
+Sim: Catch a harmless flightplan leg regression in FG 2017.3.1.
