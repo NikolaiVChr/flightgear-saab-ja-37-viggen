@@ -69,7 +69,7 @@
 		<object-name>Rot3-2_screwHead</object-name>
 		<object-name>Rot1-2_screwHead</object-name>
 		<object-name>Rot3arm</object-name>
-        <property>controls/engines/engine[0]/throttle</property>
+        <property>fdm/jsbsim/fcs/throttle-pos-slowed</property>
         <factor>104.0</factor>
 		<offset-deg>-52</offset-deg>
         <center>
@@ -97,7 +97,7 @@
 					<!-- deg2rad -->
 					<sum>
 							<product>
-								<property>controls/engines/engine[0]/throttle</property>
+								<property>fdm/jsbsim/fcs/throttle-pos-slowed</property>
 								<value>1.815142 </value> <!-- 104.0 -->
 							</product>
 							<value> -0.907571 </value> <!-- -52.0 -->
@@ -129,7 +129,7 @@
 						<!-- deg2rad -->
 						<sum>
 								<product>
-									<property>controls/engines/engine[0]/throttle</property>
+									<property>fdm/jsbsim/fcs/throttle-pos-slowed</property>
 									<value>1.815142 </value> <!-- 104.0 -->
 								</product>
 								<value> -0.907571 </value> <!-- -52.0 -->

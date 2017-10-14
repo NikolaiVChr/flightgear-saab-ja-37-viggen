@@ -1417,8 +1417,22 @@
 
         -->
 
-        <aerosurface_scale name="names/throttle/pos-norm-deg">
+        <kinematic name="fcs/throttle-pos-slowed">
             <input>/controls/engines/engine/throttle</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>0.5</time>
+                </setting>
+            </traverse>
+        </kinematic>
+
+        <aerosurface_scale name="names/throttle/pos-norm-deg">
+            <input>fcs/throttle-pos-slowed</input>
             <zero_centered> false </zero_centered>
             <domain>
                 <min>  0.00 </min>
