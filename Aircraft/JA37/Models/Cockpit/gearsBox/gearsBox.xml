@@ -38,9 +38,9 @@
     <animation>
         <type>rotate</type>
         <object-name>handleBrake</object-name>
-        <property>controls/gear/brake-left</property>
-        <factor>30</factor>
-        <offset-deg>0</offset-deg>
+        <property>/instrumentation/at-indicator</property>
+        <factor>-10</factor>
+        <offset-deg>10</offset-deg>
         <center>
             <x-m>  0.01466 </x-m>
             <y-m>  0.00052 </y-m>
@@ -79,9 +79,21 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>handle-brake</tooltip-id>
-                <label>Brake handle</label>
+                <label>Auto-throttle handle (down), throttle-brake (up)</label>
             </binding>
         </hovered>
+        <action>
+            <name>A/T engage</name>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    auto.apContSpeed();
+                    ja37.click();
+                </script>
+            </binding>
+        </action>
     </animation>
 
 </PropertyList>

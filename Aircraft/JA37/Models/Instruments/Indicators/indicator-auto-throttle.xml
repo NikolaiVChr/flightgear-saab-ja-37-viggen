@@ -26,7 +26,7 @@
                 <label>Automatic throttle</label>
             </binding>
         </hovered>
-        <action>
+        <!--<action>
             <name>A/T engage</name>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -37,7 +37,7 @@
                     ja37.click();
                 </script>
             </binding>
-        </action>
+        </action>-->
     </animation>
 
 

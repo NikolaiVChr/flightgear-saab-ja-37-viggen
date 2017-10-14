@@ -914,7 +914,7 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.25</factor>
+                <factor>0.45</factor>
             </volume>
         </gearlever>
 
@@ -939,7 +939,7 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.25</factor>
+                <factor>0.45</factor>
             </volume>
         </gearlever>
 
