@@ -903,7 +903,7 @@
             <condition>
                 <and>
                     <equals>
-                        <property>controls/gear/gear-down</property>
+                        <property>fdm/jsbsim/gear/gear-lever-norm</property>
                         <value>0</value>
                     </equals>
                 </and>
@@ -928,7 +928,7 @@
             <condition>
                 <and>
                     <equals>
-                        <property>controls/gear/gear-down</property>
+                        <property>fdm/jsbsim/gear/gear-lever-norm</property>
                         <value>1</value>
                     </equals>
                 </and>

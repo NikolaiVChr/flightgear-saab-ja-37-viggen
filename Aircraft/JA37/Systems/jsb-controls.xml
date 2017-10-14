@@ -1202,33 +1202,88 @@
 
     <channel execrate="1" name="Landing Gear">
 
-        <switch name="names/gear-target-norm">
+        <switch name="names/gear-lever-electro-mech-lock">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                  gear/gear-lever-norm == 0
+                  velocities/vc-kts gt 334.77
+                  gear/bypass-lever lt 1
+            </test>
+            <test logic="AND" value="1">
+                  gear/gear-lever-norm == 0
+                  velocities/mach gt 0.65
+                  gear/bypass-lever lt 1
+            </test>
+            <output>gear/gear-lever-lock-electro</output>
+        </switch>
+
+        <switch name="names/gear-lever-mech-lock">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                  gear/gear-lever-norm == 1
+                  fcs/throttle-pos-deg lt 36 <!-- approx. 82% N2 -->
+            </test>
+            <output>gear/gear-lever-lock-mech</output>
+        </switch>
+
+        <switch name="names/gear-lever-lock">
+            <default value="0"/>
+            <test logic="OR" value="1">
+                  gear/gear-lever-lock-mech == 1
+                  gear/gear-lever-lock-electro == 1
+            </test>
+            <output>gear/gear-lever-lock</output>
+        </switch>
+
+        <switch name="names/gear-lever-cmd-norm">
             <default value="gear/gear-cmd-norm"/>
+            <test logic="AND" value="1">
+                  gear/gear-lever-lock-mech == 1
+            </test>
+            <test logic="AND" value="0">
+                  gear/gear-lever-lock-electro == 1
+            </test>
+            <clipto>
+                <min>  0 </min>
+                <max>  1 </max>
+            </clipto>
+            <output>gear/gear-lever-cmd-norm</output>
+        </switch>
+
+        <kinematic name="names/gear-lever-norm">
+            <input>gear/gear-lever-cmd-norm</input>
+            <traverse>
+                <setting>
+                    <position>0.0</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1.0</position>
+                    <time>0.35</time>
+                </setting>
+            </traverse>
+            <output>gear/gear-lever-norm</output>
+        </kinematic>
+
+        <switch name="names/gear-target-norm">
+            <default value="gear/gear-lever-norm"/>
             <test logic="OR" value="1">
                   gear/unit[0]/WOW == 1
                   gear/unit[1]/WOW == 1
                   gear/unit[2]/WOW == 1
             </test>
-            <test logic="AND" value="0">
-                  gear/gear-pos-norm == 0
-                  velocities/vc-kts gt 334.77
-            </test>
-            <test logic="AND" value="0">
-                  gear/gear-pos-norm == 0
-                  velocities/mach gt 0.65
-            </test>
             <!-- at loss of hydr-1 the gears can go down (if positive gravity), but not up: -->
             <test logic="AND" value="gear/gear-pos-norm">
-                  gear/gear-cmd-norm == 0
+                  gear/gear-lever-norm == 0
                   systems/hydraulics/system1/pressure == 0
             </test>
-            <test logic="AND" value="gear/gear-cmd-norm">
-                  gear/gear-cmd-norm == 1
+            <test logic="AND" value="gear/gear-lever-norm">
+                  gear/gear-lever-norm == 1
                   systems/hydraulics/system1/pressure == 0
                   accelerations/Nz gt 0.5
             </test>
             <test logic="AND" value="gear/gear-pos-norm">
-                  gear/gear-cmd-norm == 1
+                  gear/gear-lever-norm == 1
                   systems/hydraulics/system1/pressure == 0
             </test>
             <clipto>

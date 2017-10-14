@@ -426,6 +426,14 @@ var Saab37 = {
       setprop("/ja37/radar/time-till-crash", 15);
     }
 
+    if (getprop("fdm/jsbsim/gear/gear-lever-lock-mech") == TRUE) {
+      setprop("controls/gears/gear-down", TRUE);
+      notice("The gear lever wont budge.");
+    } elsif (getprop("fdm/jsbsim/gear/gear-lever-lock-electro") == TRUE) {
+      setprop("controls/gears/gear-down", FALSE);
+      notice("The gear lever wont budge.");
+    }
+
     #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
   },
 

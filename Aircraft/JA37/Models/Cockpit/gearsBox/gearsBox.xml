@@ -20,7 +20,7 @@
     <animation>
         <type>rotate</type>
         <object-name>handleGears</object-name>
-        <property>controls/gear/gear-down</property>
+        <property>fdm/jsbsim/gear/gear-lever-norm</property>
         <factor>-20</factor>
         <offset-deg>20</offset-deg>
         <center>
@@ -67,7 +67,13 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>handle-gears</tooltip-id>
-                <label>Gears handle</label>
+                <label>Gears lever%s</label>
+                <property>fdm/jsbsim/gear/gear-lever-lock</property>
+                <mapping>nasal</mapping>
+                <script>
+                    var modes = [' ', ' (LOCKED)'];
+                    return modes[arg[0]];
+                </script>
             </binding>
         </hovered>
     </animation>

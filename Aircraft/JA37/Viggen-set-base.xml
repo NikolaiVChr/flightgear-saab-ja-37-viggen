@@ -822,6 +822,9 @@
             </fcs>
             <gear>
                 <serviceable alias="/gear/serviceable"/>
+                <gear-lever-norm type="double">1</gear-lever-norm>
+                <bypass-lever type="bool">false</bypass-lever>
+                <gear-lever-lock type="bool">false</gear-lever-lock>
                 <unit n="0">
                     <nose-wheel-steering>
                         <serviceable type="bool">true</serviceable>
@@ -1295,7 +1298,7 @@
 
 *************************************************************************-->
     <limits>
-        <max-gear-extension-speed>334.77</max-gear-extension-speed>        <!-- as per manual -->
+        <!--<max-gear-extension-speed>334.77</max-gear-extension-speed> -->       <!-- as per manual -->
         <max-positive-g>7.0</max-positive-g>  <!-- Pilots were usually not allowed to exceed this -->
         <max-negative-g>-3.0</max-negative-g> <!-- these values also depend on gear extended or not and stores. Dynamically controlled from JSB. -->
         <vroll>172.8</vroll> <!-- source: SFI Fragår JA37 -->

@@ -169,9 +169,10 @@ Model: The nosegear well, has gap between it and fuselage.
 Model: The frontpanel tap is misaligned.
 Control: Roll hold gets affected by wind. Pitch hold seems to be an integer.
 Model: The A/P pushbuttons can still be hard to see.
-Animation: A/T and gear handle should move slower.
-Model: Make emergency handle. And gear lever blocked mechanically under some conditions. E.handle unblocks it.
-
+Animation: A/T handle should move slower.
+Model: Make bypass gear handle. For unblocking electro-mech. lock in retract pos.
+Animation: Gear lever thumb latch should be in when lever moving.
+Animation: Electro-mechanical lock should only work when there is power. AC or DC?
 
 
 
