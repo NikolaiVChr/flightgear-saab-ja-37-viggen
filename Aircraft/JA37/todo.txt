@@ -17,7 +17,7 @@ Control: Make bigger factor in pitch normal comparison. (beware of oscillations)
 Control: Limit elevator deflection due to servo-moment being smaller than moment of air-pressure. Page 19-20 in AK III.
 Model: JA version of datapanel and nav. panel.
 Model: Transponder panel more like the real, right panel.
-Model: Make stick from throttle to gears handle housing.
+Model: Make stick from throttle to gears handle housing. The throttle is too wide and the sidepanel is not aligned with X axis, that prevents it.
 Model: Improve texturing of gears handle housing, it had some details on it. "REGLAGEBROMS   AFK" label also.
 Model: Test panel. Right side, lower shelf.
 Model: Canopy handle left side.

@@ -3276,6 +3276,7 @@ Effect: Fixed that TI display would be grey if model shader was set to lowest.
 =====
 Sim: Added some rotation matrix operations to vector library.
 Model: Added fuse panel.
-Model: Added gear and brake handle.
+Model: Added gear and A/T handle.
 Sound: Added gear handle.
 Model: Added 2 knobs for controlling HUD brightness in JA.
+DAP: Fixed an error in deleting flightplan.

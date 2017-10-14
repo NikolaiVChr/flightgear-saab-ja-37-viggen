@@ -109,7 +109,7 @@ var Polygon = {
 			Polygon.editing.plan.id = Polygon.editing.getName();
 			if(Polygon.editing.isPrimary()) {
 				Polygon._activating = TRUE;
-				Polygon.editing.activate();
+				Polygon.editing.plan.activate();
 				Polygon._activating = FALSE;
 			}
 			#Polygon.polyEdit = FALSE;
@@ -255,7 +255,7 @@ var Polygon = {
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			#Polygon.selectSteer[0].speed_cstr_type = "mach";
 			#Polygon.selectSteer[0].speed_cstr      = mach;			
-			Polygon.selectSteer[0].setSpeed(mach,"mach");
+			Polygon.selectSteer[0].setSpeed(mach, "mach");
 		}
 	},
 

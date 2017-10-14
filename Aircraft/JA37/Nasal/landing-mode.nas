@@ -462,7 +462,7 @@ var Landing = {
                     mode_B_active = FALSE;
                     mode_LA_active = FALSE;
                     mode_L_active = FALSE;
-                    if (short==TRUE)  {
+                    if (me.short==TRUE)  {
                         mode_LB_active = FALSE;
                         mode_LF_active = TRUE;
                         showActiveSteer = FALSE;
