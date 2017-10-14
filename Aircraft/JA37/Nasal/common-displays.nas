@@ -356,7 +356,7 @@ units:                "ja37/hud/units-metric",
 		        if (me.input.landingMode.getValue() == TRUE) {
 		          me.mode = LANDING;
 		        } else {
-		          me.mode = me.input.combat.getValue() == 1 ? COMBAT : NAV;
+		          me.mode = (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0)? COMBAT : NAV;
 		        }
 		        me.modeTimeTakeoff = -1;
 		    } elsif ((me.mode== COMBAT or me.mode== NAV) and (me.input.landingMode.getValue() == TRUE)) {
@@ -365,11 +365,11 @@ units:                "ja37/hud/units-metric",
 		      me.modeTimeTakeoff = -1;
 		    } elsif (me.mode== COMBAT or me.mode== NAV) {
 		      # determine if we should have COMBAT or NAV
-		      me.mode= me.input.combat.getValue() == 1 ? COMBAT : NAV;
+		      me.mode= (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0)? COMBAT : NAV;
 		      me.modeTimeTakeoff = -1;
 		    } elsif (me.mode== LANDING and me.input.landingMode.getValue() == FALSE) {
 		      # switch from LANDING to COMBAT/NAV
-		      me.mode= me.input.combat.getValue() == 1 ? COMBAT : NAV;
+		      me.mode= (me.input.combat.getValue() == 1 and me.input.gearsPos.getValue() == 0) ? COMBAT : NAV;
 		      me.modeTimeTakeoff = -1;
 		    }
 		    me.input.currentMode.setIntValue(me.mode);

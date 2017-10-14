@@ -167,7 +167,7 @@ Effect: Ambient occlusion map need to be baked again, many parts are too occlude
 Sound: Knobs for pylon and master-arm has no sound, fix.
 Model: The nosegear well, has gap between it and fuselage.
 Model: The frontpanel tap is misaligned.
-
+Control: Roll hold gets affected by wind. Pitch hold seems to be an integer.
 
 
 
