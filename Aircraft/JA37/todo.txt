@@ -16,7 +16,6 @@ Control: Disable failure system from freezing surfaces (remove failure mode bug 
 Control: Make bigger factor in pitch normal comparison. (beware of oscillations)
 Control: Limit elevator deflection due to servo-moment being smaller than moment of air-pressure. Page 19-20 in AK III.
 Model: JA version of datapanel and nav. panel.
-Model: In the JA there was 2 knobs under the hudRestPlaque to control HUD brightness SI and RES.
 Model: Transponder panel more like the real, right panel.
 Model: Make stick from throttle to gears handle housing.
 Model: Improve texturing of gears handle housing, it had some details on it. "REGLAGEBROMS   AFK" label also.

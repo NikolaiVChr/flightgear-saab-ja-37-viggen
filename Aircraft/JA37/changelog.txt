@@ -3278,3 +3278,4 @@ Sim: Added some rotation matrix operations to vector library.
 Model: Added fuse panel.
 Model: Added gear and brake handle.
 Sound: Added gear handle.
+Model: Added 2 knobs for controlling HUD brightness in JA.

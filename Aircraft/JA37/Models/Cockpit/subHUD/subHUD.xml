@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>subHUD.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>subHUD</object-name>
+        <object-name>knobHeadSI</object-name>
+        <object-name>knobBaseSI</object-name>
+        <object-name>knobHeadRES</object-name>
+        <object-name>knobBaseRES</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knobHeadSI</object-name>
+        <object-name>knobBaseSI</object-name>
+        <action>
+            <repeat>true</repeat>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>canvas_HUD.cycle_brightness()</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-hud-brightness</tooltip-id>
+                <label>HUD brightness</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knobHeadRES</object-name>
+        <object-name>knobBaseRES</object-name>
+        <action>
+            <repeat>true</repeat>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>canvas_HUD.cycle_brightness_res()</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-hud-brightness-res</tooltip-id>
+                <label>HUD Backup brightness</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>knobHeadSI</object-name>
+        <object-name>knobBaseSI</object-name>
+        <property>ja37/hud/brightness-si</property>
+        <factor>180</factor>
+        <center>
+            <x-m> -4.0 </x-m>
+            <y-m> -0.03 </y-m>
+            <z-m> 0.45902 </z-m>
+        </center>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>knobHeadRES</object-name>
+        <object-name>knobBaseRES</object-name>
+        <property>ja37/hud/brightness-res</property>
+        <factor>180</factor>
+        <center>
+            <x-m> -4.0 </x-m>
+            <y-m>  0.03 </y-m>
+            <z-m> 0.45902 </z-m>
+        </center>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+</PropertyList>

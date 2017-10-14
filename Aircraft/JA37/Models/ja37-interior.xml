@@ -37,6 +37,11 @@
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/subHUD/subHUD.xml</path>
+    <name>PanelSubHUD</name>
+  </model>
+
  <model>
     <path>Aircraft/JA37/Models/right-panel.xml</path>
     <name>rightPanel</name>

@@ -81,6 +81,7 @@ var r = 0.0;#HUD colors
 var g = 1.0;
 var b = 0.0;
 var a = 1.0;
+var a_res = 0.85;
 var w = (getprop("ja37/hud/stroke-linewidth")/1024)*canvasWidth;  #line stroke width (saved between sessions)
 var ar = 1.0;#font aspect ratio, less than 1 make more wide.
 var fs = 0.8;#font size factor
@@ -3033,7 +3034,7 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
    var red = backup == FALSE?r:1;
    var green = backup == FALSE?g:0.5;
    var blue = backup == FALSE?b:0;
-   var alpha = backup == FALSE?a:clamp(a,0,0.85);
+   var alpha = backup == FALSE?a:clamp(a_res,0,0.85);
 
    var IR = getprop("sim/rendering/shaders/skydome") == TRUE and getprop("sim/rendering/als-filters/use-filtering") == TRUE and getprop("sim/rendering/als-filters/use-IR-vision") == TRUE;
 
@@ -3075,16 +3076,32 @@ var reinit = func(backup = FALSE) {#mostly called to change HUD color
 var cycle_brightness = func () {
   if(getprop("ja37/hud/mode") > 0) {
     #var br = getprop("ja37/hud/brightness");
-    a += 0.15;
+    a += 0.05;
     if(a > 1.0) {
       #reset
       a = 0.55;
     }
+    setprop("ja37/hud/brightness-si", a);
     #setprop("ja37/hud/brightness", br);
     reinit(on_backup_power);
     ja37.click();
   } else {
     aircraft.HUD.cycle_brightness();
+  }
+};
+
+var cycle_brightness_res = func () {
+  if(getprop("ja37/hud/mode") > 0) {
+    #var br = getprop("ja37/hud/brightness");
+    a_res += 0.05;
+    if(a_res > 0.85) {
+      #reset
+      a_res = 0.55;
+    }
+    setprop("ja37/hud/brightness-res", a_res);
+    #setprop("ja37/hud/brightness", br);
+    reinit(on_backup_power);
+    ja37.click();
   }
 };
 
