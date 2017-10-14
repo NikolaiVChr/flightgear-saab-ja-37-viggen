@@ -1208,11 +1208,13 @@
                   gear/gear-lever-norm == 0
                   velocities/vc-kts gt 334.77
                   gear/bypass-lever lt 1
+                  /systems/electrical/outputs/dc-voltage gt 23
             </test>
             <test logic="AND" value="1">
                   gear/gear-lever-norm == 0
                   velocities/mach gt 0.65
                   gear/bypass-lever lt 1
+                  /systems/electrical/outputs/dc-voltage gt 23
             </test>
             <output>gear/gear-lever-lock-electro</output>
         </switch>
