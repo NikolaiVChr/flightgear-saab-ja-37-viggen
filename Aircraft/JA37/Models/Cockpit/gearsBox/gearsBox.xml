@@ -138,7 +138,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>handle-brake</tooltip-id>
-                <label>Auto-throttle handle (down), throttle-brake (up)</label>
+                <label>Auto-throttle (down), throttle-friction (up)</label>
             </binding>
         </hovered>
         <action>

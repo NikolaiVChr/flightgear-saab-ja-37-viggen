@@ -170,6 +170,10 @@ Model: The frontpanel tap is misaligned.
 Control: Roll hold gets affected by wind. Pitch hold seems to be an integer.
 Model: The A/P pushbuttons can still be hard to see.
 Animation: The bypass handle should not stay up for long.
+Model: The JA has a chronometer right of fuel gauge.
+
+
+
 
 
 
