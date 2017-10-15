@@ -131,6 +131,20 @@
 
   	-->
 
+    <animation>
+        <type>pick</type>
+        <object-name>light_green_left</object-name>
+        <object-name>light_green_right</object-name>
+        <visible>true</visible>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>sensors</tooltip-id>
+                <label>Light sensor</label>
+            </binding>
+        </hovered>
+    </animation>
+
   	<animation>
         <type>pick</type>
         <object-name>button_brightness_plus</object-name>
