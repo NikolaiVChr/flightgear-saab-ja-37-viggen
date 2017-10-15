@@ -3284,7 +3284,7 @@ Sim: Catch a harmless flightplan leg regression in FG 2017.3.1.
 Sim: Prevented tactical mode with gears down.
 Animation: Throttle position no longer can instantly change big amounts.
 Animation: Gear lever now move slower.
-Animation: Gear lever blocked mechanically in extend at less than 82% RPM, cannot be bypassed.
+Animation: Gear lever blocked mechanically in extend at less than approx. 82% RPM, cannot be bypassed.
 Animation: Gear lever blocked electro-mechanically in retract at high speeds.
 GUI: Made locked tooltip for gear lever.
 GUI: Made screen notice when attempting to move locked gear lever.
@@ -3294,3 +3294,4 @@ Animation: Gear lever thumb latch is now in when lever moving.
 Animation: A/T handle no longer move instantly.
 Sim: It now takes DC power to disengage the A/T handle.
 Sound: Added AT and bypass lever.
+Model: Added canopy handle.

@@ -188,7 +188,7 @@
     </offsets>
   </model>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/canopy.xml</path>
     <name>canopyswitch</name>
     <offsets>
@@ -197,7 +197,7 @@
       <y-m> -0.095</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-kv1.xml</path>

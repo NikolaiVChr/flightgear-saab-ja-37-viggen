@@ -29,10 +29,10 @@
             <name>Canopy</name>
             <value>CLOSE (O)</value>
             <marker>
-                <x-m>-3.8256</x-m>
-                <y-m>-0.4661</y-m>
-                <z-m>0.1422</z-m>
-                <scale>3.0000</scale>
+                <x-m>-3.6926</x-m>
+                <y-m>-0.3033</y-m>
+                <z-m>0.3884</z-m>
+                <scale>3.5950</scale>
             </marker>
             <condition>
                 <equals>
@@ -1389,10 +1389,10 @@
             <name>Canopy</name>
             <value>OPEN (O)</value>
             <marker>
-                <x-m>-3.8256</x-m>
-                <y-m>-0.4661</y-m>
-                <z-m>0.1422</z-m>
-                <scale>3.0000</scale>
+                <x-m>-3.6926</x-m>
+                <y-m>-0.3033</y-m>
+                <z-m>0.3884</z-m>
+                <scale>3.5950</scale>
             </marker>
             <condition>
                 <equals>

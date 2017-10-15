@@ -26,6 +26,11 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/canopyHandle/canopyHandle.xml</path>
+    <name>canopyswitch</name>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/frontSubPanel/frontSubPanel.xml</path>
     <name>PanelSub</name>
     <offsets>

@@ -1374,6 +1374,7 @@
         </dme>
         <airspeed-indicator>
             <indicated-speed-kt type="double">0.0</indicated-speed-kt>
+            <indicated-mach type="double">0.0</indicated-mach>
         </airspeed-indicator>
         <heading-indicator>
             <offset-deg type="double">0</offset-deg>

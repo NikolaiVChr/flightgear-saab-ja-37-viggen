@@ -20,7 +20,6 @@ Model: Transponder panel more like the real, right panel.
 Model: Make stick from throttle to gears handle housing. The throttle is too wide and the sidepanel is not aligned with X axis, that prevents it.
 Model: Improve texturing of gears handle housing, it had some details on it. "REGLAGEBROMS   AFK" label also.
 Model: Test panel. Right side, lower shelf.
-Model: Canopy handle left side.
 Model: Radar panel. Left side.
 Model: Radio panel KV3. Left side.
 Model: Airspeed indicator should have mach number also.

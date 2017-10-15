@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>canopyHandle.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>canopyHandle</object-name>
+        <object-name>canopyHandleMount</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>canopyHandle</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>/fdm/jsbsim/fcs/canopy/engage</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>canopy-lever</tooltip-id>
+                <label>Canopy lever</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>canopyHandle</object-name>
+        <property>/fdm/jsbsim/fcs/canopy/engage</property>
+        <factor>70</factor>
+        <offset-deg>-70</offset-deg>
+        <center>
+            <x-m> -3.70121 </x-m>
+            <y-m> -0.34482 </y-m>
+            <z-m>  0.39825 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 0.0 </y>
+            <z> -1.0 </z>
+        </axis>
+    </animation>
+
+</PropertyList>

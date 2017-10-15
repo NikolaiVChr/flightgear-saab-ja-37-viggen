@@ -908,6 +908,16 @@
 
     </channel>    
 
+
+
+
+
+
+
+
+
+
+
     <channel execrate="1" name="Elevons">
 
         <summer name="names/elevon/Left-Elevon-Pos-Rad">
@@ -1206,13 +1216,13 @@
             <default value="0"/>
             <test logic="AND" value="1">
                   gear/gear-lever-norm == 0
-                  velocities/vc-kts gt 334.77
+                  /instrumentation/airspeed-indicator/indicated-speed-kt gt 334.77
                   gear/bypass-lever lt 1
                   /systems/electrical/outputs/dc-voltage gt 23
             </test>
             <test logic="AND" value="1">
                   gear/gear-lever-norm == 0
-                  velocities/mach gt 0.65
+                  /instrumentation/airspeed-indicator/indicated-mach gt 0.65
                   gear/bypass-lever lt 1
                   /systems/electrical/outputs/dc-voltage gt 23
             </test>
