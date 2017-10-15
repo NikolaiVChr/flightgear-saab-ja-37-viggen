@@ -169,7 +169,6 @@ Model: The nosegear well, has gap between it and fuselage.
 Model: The frontpanel tap is misaligned.
 Control: Roll hold gets affected by wind. Pitch hold seems to be an integer.
 Model: The A/P pushbuttons can still be hard to see.
-Animation: A/T handle should move slower.
 Animation: The bypass handle should not stay up for long.
 
 

@@ -72,7 +72,7 @@
     <animation>
         <type>rotate</type>
         <object-name>handleBrake</object-name>
-        <property>/instrumentation/at-indicator</property>
+        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
         <factor>-10</factor>
         <offset-deg>10</offset-deg>
         <center>
@@ -146,11 +146,8 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>nasal</command>
-                <script>
-                    auto.apContSpeed();
-                    ja37.click();
-                </script>
+                <command>property-toggle</command>
+                <property>fdm/jsbsim/autopilot/throttle-lever-cmd</property>
             </binding>
         </action>
     </animation>

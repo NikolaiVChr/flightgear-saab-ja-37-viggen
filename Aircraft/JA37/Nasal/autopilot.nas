@@ -298,6 +298,7 @@ var apStopAT = func {
   # stop auto throttle
   setprop("/autopilot/locks/speed", "");
   modeT = 0;
+  setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", FALSE);
 }
 
 var lock = "";
@@ -311,6 +312,22 @@ var nextPitch = 1;
 
 var apLoop = func {
     if (DEBUG_OUT) print("looping:");
+
+    if (inputAP.dcVolt.getValue() < 23) {
+      # TODO: find out if should be DC or AC.
+      return;
+    }
+
+    # a/t lock
+    if (getprop("fdm/jsbsim/autopilot/throttle-lever-pos") == FALSE and !(getprop("/autopilot/locks/speed") == "" or getprop("/autopilot/locks/speed") == nil)) {
+      apStopAT();
+    } elsif (getprop("fdm/jsbsim/autopilot/throttle-lever-pos") == TRUE and (getprop("/autopilot/locks/speed") == "" or getprop("/autopilot/locks/speed") == nil)) {
+      setprop("/autopilot/target-tracking-ja37/enable", FALSE);
+      setprop("autopilot/settings/target-speed-kt", math.round(getprop("instrumentation/airspeed-indicator/indicated-speed-kt"), 1));
+      setprop("/autopilot/locks/speed", "speed-with-throttle");
+      modeT = 1;
+      lockThrottle = "speed-with-throttle";
+    }
 
     setprop("ja37/avionics/temp-halt-ap-pitch", nextPitch);
     setprop("ja37/avionics/temp-halt-ap-roll", nextRoll1);

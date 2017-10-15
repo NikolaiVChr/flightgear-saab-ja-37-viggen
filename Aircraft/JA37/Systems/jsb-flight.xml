@@ -212,6 +212,20 @@
 
     <channel execrate="4" name="autopilot">
 
+        <kinematic name="autopilot/throttle-lever-pos">
+            <input>autopilot/throttle-lever-cmd</input>
+            <traverse>
+                <setting>
+                    <position>0.0</position>
+                    <time>0.0</time>
+                </setting>
+                <setting>
+                    <position>1.0</position>
+                    <time>0.35</time>
+                </setting>
+            </traverse>
+        </kinematic>
+
         <switch name="autopilot/gears-time-steady">
             <default value="sim-time-sec"/>
             <test logic="OR" value="autopilot/gears-time-steady">

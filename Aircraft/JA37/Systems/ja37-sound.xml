@@ -914,7 +914,7 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.45</factor>
+                <factor>0.55</factor>
             </volume>
         </gearlever>
 
@@ -939,8 +939,132 @@
                 <z>0.015</z>
             </position>
             <volume>
-                <factor>0.45</factor>
+                <factor>0.55</factor>
             </volume>
+        </gearlever>
+
+        <gearlever>
+            <name>atlever0</name>
+            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+            <position>
+                <x>-3.25</x>
+                <y>0.50</y><!-- minus means right, plus means left -->
+                <z>0.015</z>
+            </position>
+            <volume>
+                <factor>0.55</factor>
+            </volume>
+            <pitch>
+                <factor>1.25</factor>
+                <offset>0.00</offset>
+                <min>0.00</min>
+                <max>2.00</max>
+            </pitch>
+        </gearlever>
+
+        <gearlever>
+            <name>atlever1</name>
+            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/autopilot/throttle-lever-pos</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </condition>
+            <position>
+                <x>-3.25</x>
+                <y>0.50</y><!-- minus means right, plus means left -->
+                <z>0.015</z>
+            </position>
+            <volume>
+                <factor>0.55</factor>
+            </volume>
+            <pitch>
+                <factor>1.25</factor>
+                <offset>0.00</offset>
+                <min>0.00</min>
+                <max>2.00</max>
+            </pitch>
+        </gearlever>
+
+        <gearlever>
+            <name>bplever0</name>
+            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/gear/bypass-lever</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+            <position>
+                <x>-3.25</x>
+                <y>0.50</y><!-- minus means right, plus means left -->
+                <z>0.015</z>
+            </position>
+            <volume>
+                <factor>0.65</factor>
+            </volume>
+            <pitch>
+                <factor>1.5</factor>
+                <offset>0.00</offset>
+                <min>0.00</min>
+                <max>2.00</max>
+            </pitch>
+        </gearlever>
+
+        <gearlever>
+            <name>bplever1</name>
+            <path>Aircraft/JA37/Sounds/gear-lever.wav</path>
+            <mode>once</mode>
+            <type>fx</type>
+            <reference-dist>0</reference-dist>
+            <max-dist>2</max-dist>
+            <condition>
+                <and>
+                    <equals>
+                        <property>fdm/jsbsim/gear/bypass-lever</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </condition>
+            <position>
+                <x>-3.25</x>
+                <y>0.50</y><!-- minus means right, plus means left -->
+                <z>0.015</z>
+            </position>
+            <volume>
+                <factor>0.65</factor>
+            </volume>
+            <pitch>
+                <factor>1.5</factor>
+                <offset>0.00</offset>
+                <min>0.00</min>
+                <max>2.00</max>
+            </pitch>
         </gearlever>
 
         <throttle>

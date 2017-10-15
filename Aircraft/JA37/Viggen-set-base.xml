@@ -940,6 +940,7 @@
             </inertia>
             <autopilot>
                 <one type="double">0.0166667</one>
+                <throttle-lever-cmd type="bool">false</throttle-lever-cmd>
             </autopilot>
             <propulsion>
                 <starter_cmd_copy type="bool">false</starter_cmd_copy>
