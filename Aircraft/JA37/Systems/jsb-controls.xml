@@ -1267,6 +1267,15 @@
             <output>gear/gear-lever-norm</output>
         </kinematic>
 
+        <switch name="names/gear-lever-latch">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                  gear/gear-lever-norm gt 0
+                  gear/gear-lever-norm lt 1
+            </test>
+            <output>gear/gear-lever-latch</output>
+        </switch>
+
         <switch name="names/gear-target-norm">
             <default value="gear/gear-lever-norm"/>
             <test logic="OR" value="1">

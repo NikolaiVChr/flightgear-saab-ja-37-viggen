@@ -825,6 +825,8 @@
                 <gear-lever-norm type="double">1</gear-lever-norm>
                 <bypass-lever type="bool">false</bypass-lever>
                 <gear-lever-lock type="bool">false</gear-lever-lock>
+                <gear-lever-lock-electro type="bool">false</gear-lever-lock-electro>
+                <gear-lever-lock-mech type="bool">false</gear-lever-lock-mech>
                 <unit n="0">
                     <nose-wheel-steering>
                         <serviceable type="bool">true</serviceable>

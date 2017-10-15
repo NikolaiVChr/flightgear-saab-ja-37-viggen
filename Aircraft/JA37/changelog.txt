@@ -3289,3 +3289,5 @@ Animation: Gear lever blocked electro-mechanically in retract at high speeds.
 GUI: Made locked tooltip for gear lever.
 GUI: Made screen notice when attempting to move locked gear lever.
 Animation: Electro-mechanical lock now only work when there is DC power.
+Model: Made bypass gear handle. For unblocking electro-mech. lock in retract pos.
+Animation: Gear lever thumb latch is now in when lever moving.

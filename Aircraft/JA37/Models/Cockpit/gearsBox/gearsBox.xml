@@ -8,18 +8,52 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>handleGears</object-name>
         <object-name>handleBrake</object-name>
+        <object-name>handleBypass</object-name>
+        <object-name>thumbLatch</object-name>
         <object-name>stickThrottle</object-name>
         <object-name>box</object-name>
     </effect>
 
-    <!--<effect>
-        <inherits-from>Effects/model-combined-deferred</inherits-from>
-        <object-name>box</object-name>
-    </effect>-->
+    <animation>
+        <type>translate</type>
+        <object-name>handleBypass</object-name>
+        <property>fdm/jsbsim/gear/bypass-lever</property>
+        <factor>0.010</factor>
+        <offset>0</offset>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.13614 </y-m>
+            <z-m>  0.08639 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 0.0 </y>
+            <z> 1.0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>thumbLatch</object-name>
+        <property>fdm/jsbsim/gear/gear-lever-latch</property>
+        <factor>0.004</factor>
+        <offset>0</offset>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.13614 </y-m>
+            <z-m>  0.08639 </z-m>
+        </center>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
 
     <animation>
         <type>rotate</type>
         <object-name>handleGears</object-name>
+        <object-name>thumbLatch</object-name>
         <property>fdm/jsbsim/gear/gear-lever-norm</property>
         <factor>-20</factor>
         <offset-deg>20</offset-deg>
@@ -74,6 +108,25 @@
                     var modes = [' ', ' (LOCKED)'];
                     return modes[arg[0]];
                 </script>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handleBypass</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>fdm/jsbsim/gear/bypass-lever</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>handle-bypass</tooltip-id>
+                <label>Gears lever electro-mechanical lock emergency bypass</label>
             </binding>
         </hovered>
     </animation>

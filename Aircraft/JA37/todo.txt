@@ -170,8 +170,7 @@ Model: The frontpanel tap is misaligned.
 Control: Roll hold gets affected by wind. Pitch hold seems to be an integer.
 Model: The A/P pushbuttons can still be hard to see.
 Animation: A/T handle should move slower.
-Model: Make bypass gear handle. For unblocking electro-mech. lock in retract pos.
-Animation: Gear lever thumb latch should be in when lever moving.
+Animation: The bypass handle should not stay up for long.
 
 
 
