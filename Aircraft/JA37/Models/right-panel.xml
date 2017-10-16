@@ -239,7 +239,7 @@
      <offsets>
        <heading-deg>90</heading-deg>
        <x-m>  0.422</x-m>
-       <y-m>  0.010</y-m>
+       <y-m>0.07</y-m>
        <z-m>  0.00</z-m>
      </offsets>
    </model>
@@ -259,7 +259,7 @@
      <name>Navpanel</name>
      <offsets>
        <x-m>.3485</x-m>
-       <y-m>0.06</y-m>
+       <y-m>  0.020</y-m>
        <z-m>-0.004</z-m>
      </offsets>
    </model>
