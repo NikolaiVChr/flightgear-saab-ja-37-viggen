@@ -3272,7 +3272,7 @@ Model: Added the new subsection frontpanel to AJ variants also.
 Model: Made the transponder look little more like the real Viggen one. (but only a little, lol)
 Effect: Fixed that TI display would be grey if model shader was set to lowest.
 
-4.306
+4.306 - 2017 October 15
 =====
 Sim: Added some rotation matrix operations to vector library.
 Model: Added fuse panel.
