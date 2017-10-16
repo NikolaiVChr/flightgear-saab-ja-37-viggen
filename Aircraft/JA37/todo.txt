@@ -172,7 +172,7 @@ Animation: The bypass handle should not stay up for long.
 Model: The JA has a chronometer right of fuel gauge.
 
 
-
+keep pitch with gyro
 
 
 

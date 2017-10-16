@@ -3298,3 +3298,12 @@ Model: Added canopy handle.
 Model: Added mock up of left frontmost radio panel.
 Model: Switched the nav panel and the TILS group switch.
 Model: Added handle to right panel.
+
+4.307
+=====
+Arms: Added support for anti-radiation missiles.
+Arms: Added property for if weapon should attempt to reaquire lock if it is lost.
+Arms: Added console output system. Per default nothing is output.
+Arms: Added 2 new guidance modes: pitch and gyro-pitch. They are basically just a pitch hold A/P.
+Arms: Added possibility to change guidance, target and/or guidance-law mid-flight.
+Arms: Added support for inertial guidance.
