@@ -234,6 +234,17 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
+    <name>handle</name>
+    <offsets>
+      <pitch-deg>-90</pitch-deg>
+      <x-m>  0.70 </x-m>
+      <y-m> -0.035</y-m>
+      <z-m> -0.005</z-m>
+    </offsets>
+  </model>
+
+  <model>
      <path>Aircraft/JA37/Models/Cockpit/switch-a/tils-group.xml</path>
      <name>tilsG</name>
      <offsets>

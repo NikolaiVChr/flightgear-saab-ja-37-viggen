@@ -3297,3 +3297,4 @@ Sound: Added AT and bypass lever.
 Model: Added canopy handle.
 Model: Added mock up of left frontmost radio panel.
 Model: Switched the nav panel and the TILS group switch.
+Model: Added handle to right panel.
