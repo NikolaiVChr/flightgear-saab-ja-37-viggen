@@ -3309,3 +3309,4 @@ Arms: Added possibility to change guidance, target and/or guidance-law mid-fligh
 Arms: Added support for inertial guidance.
 Model: Added test panel.
 Model: Moved and scaled transponder.
+Sim: Made the test panel functional.

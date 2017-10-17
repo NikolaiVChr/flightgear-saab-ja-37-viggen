@@ -17,6 +17,12 @@
         <object-name>btIPK</object-name>
         <object-name>btFK</object-name>
         <object-name>btFEL</object-name>
+        <object-name>btYMtp</object-name>
+        <object-name>btStarttp</object-name>
+        <object-name>btREPtp</object-name>
+        <object-name>btIPKtp</object-name>
+        <object-name>btFKtp</object-name>
+        <object-name>btFELtp</object-name>
     </effect>
 
     <animation>
@@ -86,12 +92,17 @@
     <animation>
         <type>pick</type>
         <object-name>btYM</object-name>
+        <object-name>btYMtp</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
                 <property>ja37/test/button-ym</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>test.press(1);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -101,10 +112,18 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>test-ym</tooltip-id>
+                <label>YM</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>btYM</object-name>
+       <object-name>btYMtp</object-name>
        <property>ja37/test/button-ym</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
@@ -117,16 +136,31 @@
             <z-m>0</z-m>
         </center>
     </animation>
+    <animation>
+       <type>material</type>
+       <object-name>btYMtp</object-name>
+       <emission>
+            <red>1.0</red> 
+            <green>1.0</green> 
+            <blue>1.0</blue>
+            <factor-prop>ja37/test/button-ym-tp</factor-prop>
+        </emission>
+    </animation>
 
-        <animation>
+    <animation>
         <type>pick</type>
         <object-name>btStart</object-name>
+        <object-name>btStarttp</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
                 <property>ja37/test/button-start</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>test.press(2);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -136,10 +170,18 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>test-start</tooltip-id>
+                <label>Start testing. Acknowledge test result. Interrupt and skip to next test.</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>btStart</object-name>
+       <object-name>btStarttp</object-name>
        <property>ja37/test/button-start</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
@@ -152,16 +194,31 @@
             <z-m>0</z-m>
         </center>
     </animation>
+    <animation>
+       <type>material</type>
+       <object-name>btStarttp</object-name>
+       <emission>
+            <red>1.0</red> 
+            <green>1.0</green> 
+            <blue>1.0</blue>
+            <factor-prop>ja37/test/button-start-tp</factor-prop>
+        </emission>
+    </animation>
 
-        <animation>
+    <animation>
         <type>pick</type>
         <object-name>btREP</object-name>
+        <object-name>btREPtp</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
                 <property>ja37/test/button-rep</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>test.press(3);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -171,10 +228,18 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>test-rep</tooltip-id>
+                <label>Repeat a failed test</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>btREP</object-name>
+       <object-name>btREPtp</object-name>
        <property>ja37/test/button-rep</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
@@ -187,16 +252,31 @@
             <z-m>0</z-m>
         </center>
     </animation>
+    <animation>
+       <type>material</type>
+       <object-name>btREPtp</object-name>
+       <emission>
+            <red>1.0</red> 
+            <green>1.0</green> 
+            <blue>1.0</blue>
+            <factor-prop>ja37/test/button-rep-tp</factor-prop>
+        </emission>
+    </animation>
 
-        <animation>
+    <animation>
         <type>pick</type>
         <object-name>btIPK</object-name>
+        <object-name>btIPKtp</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
                 <property>ja37/test/button-ipk</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>test.press(4);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -206,10 +286,18 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>test-ipk</tooltip-id>
+                <label>IPK</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>btIPK</object-name>
+       <object-name>btIPKtp</object-name>
        <property>ja37/test/button-ipk</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
@@ -222,16 +310,31 @@
             <z-m>0</z-m>
         </center>
     </animation>
+    <animation>
+       <type>material</type>
+       <object-name>btIPKtp</object-name>
+       <emission>
+            <red>1.0</red> 
+            <green>1.0</green> 
+            <blue>1.0</blue>
+            <factor-prop>ja37/test/button-ipk-tp</factor-prop>
+        </emission>
+    </animation>
 
-        <animation>
+    <animation>
         <type>pick</type>
         <object-name>btFK</object-name>
+        <object-name>btFKtp</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
                 <property>ja37/test/button-fk</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>test.press(5);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -241,10 +344,18 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>test-fk</tooltip-id>
+                <label>Toggle testing (some conditions must be met)</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>btFK</object-name>
+       <object-name>btFKtp</object-name>
        <property>ja37/test/button-fk</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
@@ -257,16 +368,31 @@
             <z-m>0</z-m>
         </center>
     </animation>
+    <animation>
+       <type>material</type>
+       <object-name>btFKtp</object-name>
+       <emission>
+            <red>1.0</red> 
+            <green>1.0</green> 
+            <blue>1.0</blue>
+            <factor-prop>ja37/test/button-fk-tp</factor-prop>
+        </emission>
+    </animation>
 
-        <animation>
+    <animation>
         <type>pick</type>
         <object-name>btFEL</object-name>
+        <object-name>btFELtp</object-name>
         <action>
             <button>0</button>
             <binding>
                 <command>property-assign</command>
                 <property>ja37/test/button-fel</property>
                 <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>test.press(6);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -276,10 +402,18 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>test-fel</tooltip-id>
+                <label>Dis-acknowledge test result.</label>
+            </binding>
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
        <object-name>btFEL</object-name>
+       <object-name>btFELtp</object-name>
        <property>ja37/test/button-fel</property>
        <factor>0.005</factor>
        <offset-m>0</offset-m>
@@ -291,6 +425,38 @@
             <y-m>0</y-m>
             <z-m>0</z-m>
         </center>
+    </animation>
+    <animation>
+       <type>material</type>
+       <object-name>btFELtp</object-name>
+       <emission>
+            <red>1.0</red> 
+            <green>1.0</green> 
+            <blue>1.0</blue>
+            <factor-prop>ja37/test/button-fel-tp</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+       <type>material</type>
+       <object-name>green</object-name>
+       <emission>
+            <red>0.0</red> 
+            <green>0.5</green> 
+            <blue>0.0</blue>
+            <factor-prop>ja37/test/green</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+       <type>material</type>
+       <object-name>red</object-name>
+       <emission>
+            <red>0.5</red> 
+            <green>0.0</green> 
+            <blue>0.0</blue>
+            <factor-prop>ja37/test/red</factor-prop>
+        </emission>
     </animation>
 
 </PropertyList>

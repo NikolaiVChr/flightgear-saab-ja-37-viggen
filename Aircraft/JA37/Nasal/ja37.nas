@@ -722,7 +722,7 @@ var Saab37 = {
     me.tempOutsideDew = getprop("environment/dewpoint-degc");
     me.tempInsideDew = getprop("/environment/aircraft-effects/dewpoint-inside-degC");
     me.tempACDew = 5;# aircondition dew point target. 5 = dry
-    me.ACRunning = input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE;
+    me.ACRunning = input.dcVolt.getValue() > 23 and getprop("controls/ventilation/airconditioning-enabled") == TRUE and test.ongoing == FALSE;
 
     # calc inside temp
     me.hotAir_deg_min = 2.0;# how fast does the sources heat up cockpit.
@@ -973,6 +973,8 @@ var Saab37 = {
       me.loop_fire  = maketimer(1, me, func failureSys.loop_fire());
       me.loop_fire.start();
     }
+    me.loop_test  = maketimer(0.25, me, func test.loop());
+    me.loop_test.start();
   },
 };
 

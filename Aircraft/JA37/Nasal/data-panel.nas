@@ -9,7 +9,7 @@ var FALSE = 0;
 #    }
 #});
 
-var debugAll = TRUE;
+var debugAll = FALSE;
 
 var printDA = func (str) {
     if (debugAll) print (str);
@@ -95,6 +95,10 @@ var digit = 0;
 var error = FALSE;
 var display = "      ";
 
+var testDisplay = "";
+var testMinus = 0;
+var testMinusLast = 0;
+
 var set237 = func (enable, digitsMax, callback) {#longitude might need 6 or 7 digits
   if (enable) {
     state = 237;
@@ -116,7 +120,7 @@ var setError = func {
 }
 
 var main = func {
-  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("ja37/systems/variant") != 0 or testDisplay != "") return;
   if (getprop("systems/electrical/outputs/dc-voltage") < 23){
     printDA("DAP: offline");
     return;
@@ -365,7 +369,16 @@ var disp = func {
   display = "";
   TI.ti.displayFTime = FALSE;
 
-  if (error == TRUE) {
+  if (testDisplay != "") {
+    var minus = " ";
+    if (testMinus == 1) {
+      testMinusLast = !testMinusLast;
+      if (testMinusLast == 1) {
+        minus = "-";
+      }
+    }
+    display = minus~testDisplay;
+  } elsif (error == TRUE) {
     display = metric?"   FEL":" Error";
   } elsif (state == 237) {
     if (digit == 0) {

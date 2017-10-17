@@ -731,6 +731,20 @@
             <ti21 type="double">0</ti21>
             <ti0 type="double">0</ti0>
         </light>
+        <test>
+            <ym-steady type="bool">false</ym-steady>
+            <ym-flash type="bool">false</ym-flash>
+            <start-steady type="bool">false</start-steady>
+            <start-flash type="bool">false</start-flash>
+            <rep-steady type="bool">false</rep-steady>
+            <rep-flash type="bool">false</rep-flash>
+            <ipk-steady type="bool">false</ipk-steady>
+            <ipk-flash type="bool">false</ipk-flash>
+            <fk-steady type="bool">false</fk-steady>
+            <fk-flash type="bool">false</fk-flash>
+            <fel-steady type="bool">false</fel-steady>
+            <fel-flash type="bool">false</fel-flash>
+        </test>
     </ja37>
     <ai>
         <submodels>
@@ -1498,6 +1512,9 @@
         <dap>
             <file>Aircraft/JA37/Nasal/data-panel.nas</file>
         </dap>
+        <test>
+            <file>Aircraft/JA37/Nasal/test.nas</file>
+        </test>
         
         <!-- Uncomment below to enable FGplot -->
         <!--

@@ -1119,7 +1119,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     mode = me.input.currentMode.getValue();
     me.station = me.input.station.getValue();
 
-    if(me.has_power == FALSE or me.input.mode.getValue() == 0) {
+    if(me.has_power == FALSE or me.input.mode.getValue() == 0 or test.ongoing == TRUE) {
       me.root.hide();
       me.root.update();
       air2air = FALSE;

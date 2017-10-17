@@ -209,6 +209,34 @@ Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
 
 If a file cannot get loaded, the console will print a warning.
 
+Testing
+=======
+The following conditions must be present before testing:
+--------------------------------------------------------
+- Wheels on ground
+and either
+- External power supplying
+or
+- DC and AC power on.
+- Throttle not idle
+- Throttle not too high
+
+Test
+----
+On test panel, click FK to get into testing mode. Displays, HUD and air-condition will shut off.
+To abort either switch engine starter or click FK.
+Click START/STOPP to start testing. While test of a system is ongoing data-panel minus sign will blink, and the 2 first digits will show which system being tested.
+The result of a test is shown on the data-panel without a minus sign. First 2 digits is the system, next 4 digits is details of the result.
+When a test is successful the green lamp will show.
+ You can then click START/STOPP to acknowledge and start test of next system.
+When a test is unsuccessful the red lamp will show.
+ You can then click START/STOPP to acknowledge and start test of next system.
+ Or click FEL to not acknowledge and start next test.
+ Or click REP to repeat the test.
+During a test you can click START/STOPP to skip to next test.
+When last test has been acknowledged or dis-acknowledged the testing ends.
+For now only AUTO testing can be done, meaning it will test all 20 systems. Testing through TI is not enabled yet.
+
 Landing
 =======
 Rules

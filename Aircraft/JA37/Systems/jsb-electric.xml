@@ -264,6 +264,7 @@
             <test logic="AND" value="0">
                 gear/gear-pos-norm == 1
                 systems/electrical/generator-reserve-deploy-emergency-cmd == 1
+                /controls/electric/engine/generator == 1
             </test>
         </switch>
 

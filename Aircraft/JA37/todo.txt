@@ -170,9 +170,7 @@ Control: Roll hold gets affected by wind. Pitch hold seems to be an integer.
 Model: The A/P pushbuttons can still be hard to see.
 Animation: The bypass handle should not stay up for long.
 Model: The JA has a chronometer right of fuel gauge.
-
-
-keep pitch with gyro
+Sim: Make sure ram air only supplies when AC supply is set to generator
 
 
 
