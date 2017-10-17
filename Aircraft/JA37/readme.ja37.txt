@@ -241,8 +241,8 @@ Landing
 =======
 Rules
 -----
-Max allowed sidewind for short landing without flare: 30 Km/h - 16.2 kt
-Max allowed sidewind for standard landing with flare: 55 Km/h - 29.7 kt
+Max allowed crosswind for short landing without flare: 30 Km/h - 16.2 kt
+Max allowed crosswind for standard landing with flare: 55 Km/h - 29.7 kt
 Landing must be standard with flare at aircraft weights over 15000 Kg or if there is fuel in the droptank.
 Reversing handle must not be pulled out before landing gear is out and locked, and indicator panel has 3 green lights.
 Max allowed EPR (engine pressure ratio) at initialization of reverser is 1.75.

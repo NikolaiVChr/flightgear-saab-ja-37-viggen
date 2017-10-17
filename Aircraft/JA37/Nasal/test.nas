@@ -80,7 +80,7 @@ var doTest = func {
 	state = 2;# do tests
 	iteration = 0;
 }
-#todo: batt recharge from supply
+
 var loop = func {
 	if (ongoing) {
 		# check if should abort
@@ -121,11 +121,11 @@ var loop = func {
 		}
 	} else {
 		# check if ready for testing
-		if (getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and getprop("fdm/jsbsim/systems/electrical/external/supplying") > 0.9
+		if (getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") > 0.9
 		    or (getprop("systems/electrical/outputs/ac-main-voltage") > 100
 		    	and getprop("systems/electrical/outputs/dc-voltage") > 100
 		        and getprop("fdm/jsbsim/fcs/throttle-pos-deg") > 0
-		        and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9)) {
+		        and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9))) {
 			# test can be started
 			ready = 1;
 			#print("ready");
