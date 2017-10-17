@@ -3307,3 +3307,5 @@ Arms: Added console output system. Per default nothing is output.
 Arms: Added 2 new guidance modes: pitch and gyro-pitch. They are basically just a pitch hold A/P.
 Arms: Added possibility to change guidance, target and/or guidance-law mid-flight.
 Arms: Added support for inertial guidance.
+Model: Added test panel.
+Model: Moved and scaled transponder.

@@ -163,7 +163,7 @@ OUT
 - ACDATA:
 
 IN
-- TI:     Can clear currently edited flightplan/map-area by pressing RESET.
+- TI:     Can clear currently edited flightplan/map-area by pressing CLEAR.
 - TILS:  
 - CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
 - FUEL:   Set extra fuel warning in percent on display.

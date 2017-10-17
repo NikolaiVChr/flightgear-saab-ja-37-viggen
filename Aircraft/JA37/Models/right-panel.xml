@@ -173,14 +173,16 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/knob-g/windshield-hot-air.xml</path>
-    <name>windshield hot air</name>
+    <path>Aircraft/JA37/Models/Cockpit/testPanel/testPanel.xml</path>
+    <name>hotair</name>
     <offsets>
-      <x-m>  0.565</x-m>
-      <y-m> -0.065</y-m>
+      <x-m>  0.61</x-m>
+      <y-m>  0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
+
+
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/button-g/autopilot-follow.xml</path>
@@ -227,11 +229,19 @@
     <name>Transponder</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.62</x-m>
-      <y-m> -0.035</y-m>
+      <x-m>  0.78</x-m>
+      <y-m> -0.085</y-m>
       <z-m> -0.005</z-m>
     </offsets>
   </model>
+
+  <animation>
+    <type>scale</type>
+    <object-name>Transponder</object-name>
+    <x-offset>0.7</x-offset>
+    <y-offset>0.7</y-offset>
+    <z-offset>0.7</z-offset>
+  </animation>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>
