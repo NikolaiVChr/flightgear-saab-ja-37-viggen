@@ -210,6 +210,17 @@
     </offsets>
   </model>
 
+  <animation>
+    <type>select</type>
+    <object-name>kv1</object-name>
+    <condition>
+       <equals>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </equals>
+    </condition>
+  </animation>
+
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/speedbrakes.xml</path>
     <name>speedbrakes</name>

@@ -225,23 +225,36 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Transponder/transponder.xml</path>
-    <name>Transponder</name>
+    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-me31.xml</path>
+    <name>me31-nav-panel</name>
     <offsets>
-      <pitch-deg>-90</pitch-deg>
-      <x-m>  0.78</x-m>
-      <y-m> -0.085</y-m>
-      <z-m> -0.005</z-m>
+      <heading-deg>0</heading-deg>
+      <x-m>  0.55</x-m>
+      <y-m> -0.05</y-m>
+      <z-m>  0.00</z-m>
     </offsets>
   </model>
 
   <animation>
-    <type>scale</type>
-    <object-name>Transponder</object-name>
-    <x-offset>0.7</x-offset>
-    <y-offset>0.7</y-offset>
-    <z-offset>0.7</z-offset>
+    <type>select</type>
+    <object-name>me31-nav-panel</object-name>
+    <condition>
+       <equals>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </equals>
+    </condition>
   </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Transponder/transponder.xml</path>
+    <name>Transponder</name>
+    <offsets>
+      <x-m>  0.65</x-m>
+      <y-m> -0.055</y-m>
+      <z-m> -0.005</z-m>
+    </offsets>
+  </model>
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/handle.xml</path>

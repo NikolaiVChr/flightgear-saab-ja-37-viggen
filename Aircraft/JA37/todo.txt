@@ -173,9 +173,9 @@ Model: The JA has a chronometer right of fuel gauge.
 Sim: Make sure ram air only supplies when AC supply is set to generator
 Test: Engine starter should be hold in for 30 secs before quiting test, not instantly.
 Test: Testing from TI
-Test: Shut down during testing, also indicators.
+Test: Shut down also indicators during testing.
 Test: Separate tests with test knob.
-
+Test: Always fail a test for system that is actually damaged.
 
 
 

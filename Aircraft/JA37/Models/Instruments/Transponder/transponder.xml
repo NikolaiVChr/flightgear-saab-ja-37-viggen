@@ -46,6 +46,12 @@
         <object-name>Dial10</object-name>
         <object-name>Dial100</object-name>
         <object-name>Dial1000</object-name>
+        <condition>
+            <equals>
+                <property>/instrumentation/transponder/inputs/knob-mode</property>
+                <value>5</value>
+            </equals>
+        </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop>
             <green-prop>instrumentation/instrumentation-light/g</green-prop>
@@ -61,14 +67,14 @@
         <property alias="../../params/digit3"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.01453 </x-m>
-            <y-m> -0.0185 </y-m>
-            <z-m> -0.0011345 </z-m>
+            <z-m>  0.010171 </z-m>
+            <y-m> -0.01295 </y-m>
+            <x-m>  0.00079415 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -79,14 +85,14 @@
         <property alias="../../params/digit3"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.01453 </x-m>
-            <y-m> -0.0185 </y-m>
-            <z-m>  0.000655 </z-m>
+            <z-m>  0.010171 </z-m>
+            <y-m> -0.01295 </y-m>
+            <x-m> -0.0004585 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -127,14 +133,14 @@
         <property alias="../../params/digit2"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.004 </x-m>
-            <y-m>  0.0085 </y-m>
-            <z-m> -0.0011345 </z-m>
+            <z-m>  0.0028 </z-m>
+            <y-m>  0.00595 </y-m>
+            <x-m>  0.00079415 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -145,14 +151,14 @@
         <property alias="../../params/digit2"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.01453 </x-m>
-            <y-m>  0.0085 </y-m>
-            <z-m>  0.000655 </z-m>
+            <z-m>  0.010171 </z-m>
+            <y-m>  0.00595 </y-m>
+            <x-m> -0.0004585 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -193,14 +199,14 @@
         <property alias="../../params/digit1"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.004 </x-m>
-            <y-m>  0.0355 </y-m>
-            <z-m> -0.0011345 </z-m>
+            <z-m>  0.0028 </z-m>
+            <y-m>  0.02485 </y-m>
+            <x-m>  0.00079415 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -211,14 +217,14 @@
         <property alias="../../params/digit1"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.01453 </x-m>
-            <y-m>  0.0355 </y-m>
-            <z-m>  0.000655 </z-m>
+            <z-m>  0.010171 </z-m>
+            <y-m>  0.02485 </y-m>
+            <x-m> -0.0004585 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -259,14 +265,14 @@
         <property alias="../../params/digit0"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.004 </x-m>
-            <y-m>  0.0625 </y-m>
-            <z-m> -0.0011345 </z-m>
+            <z-m>  0.0028 </z-m>
+            <y-m>  0.04375 </y-m>
+            <x-m>  0.00079415 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -277,14 +283,14 @@
         <property alias="../../params/digit0"/>
         <factor>45</factor>
         <center>
-            <x-m>  0.01453 </x-m>
-            <y-m>  0.0625 </y-m>
-            <z-m>  0.000655 </z-m>
+            <z-m>  0.010171 </z-m>
+            <y-m>  0.04375 </y-m>
+            <x-m> -0.0004585 </x-m>
         </center>
         <axis>
-            <x> -1 </x>
+            <x>  0 </x>
             <y>  0 </y>
-            <z>  0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -359,9 +365,9 @@
             </entry>
         </interpolation>
         <center>
-            <x-m>  0.01004 </x-m>
-            <y-m> -0.05511 </y-m>
-            <z-m>  0.00086 </z-m>
+            <z-m>  0.007028 </z-m>
+            <y-m> -0.038577 </y-m>
+            <x-m> -0.000602 </x-m>
         </center>
         <axis>
             <x>  0 </x>
@@ -411,9 +417,9 @@
             </entry>
         </interpolation>
         <center>
-            <x-m>  0.01004 </x-m>
-            <y-m>  0.08976 </y-m>
-            <z-m>  0.00086 </z-m>
+            <z-m>  0.007028 </z-m>
+            <y-m>  0.062832 </y-m>
+            <x-m> -0.000602 </x-m>
         </center>
         <axis>
             <x>  0 </x>
@@ -455,11 +461,11 @@
         <type>translate</type>
         <object-name>test</object-name>
         <property>/instrumentation/transponder/inputs/test</property>
-        <factor> 0.0018 </factor>
+        <factor> 0.0013 </factor>
         <axis>
-            <x> -1 </x>
+            <x> 0 </x>
             <y> 0 </y>
-            <z> 0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 
@@ -496,11 +502,11 @@
         <type>translate</type>
         <object-name>ident</object-name>
         <property>/instrumentation/transponder/inputs/ident-btn</property>
-        <factor> 0.0018 </factor>
+        <factor> 0.0013 </factor>
         <axis>
-            <x> -1 </x>
+            <x> 0 </x>
             <y> 0 </y>
-            <z> 0 </z>
+            <z> -1 </z>
         </axis>
     </animation>
 

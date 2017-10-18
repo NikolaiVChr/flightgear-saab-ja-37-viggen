@@ -40,23 +40,23 @@ var updateToRadio = func {
 		var CN = getprop("instrumentation/radio/switches/com-nav");
 		var MK = getprop("instrumentation/radio/switches/mhz-khz");
 
-		if (CN == 0 and MK == 0) {
+		#if (CN == 0 and MK == 0) {
 			setprop("instrumentation/comm/frequencies/selected-mhz", number);
-		} elsif (CN == 1 and MK == 0) {
-			setprop("instrumentation/nav/frequencies/selected-mhz", number);
-		} elsif (CN == 1 and MK == 1) {
-			setprop("instrumentation/adf/frequencies/selected-khz", number);
-		}
+		#} elsif (CN == 1 and MK == 0) {
+		#	setprop("instrumentation/nav/frequencies/selected-mhz", number);
+		#} elsif (CN == 1 and MK == 1) {
+		#	setprop("instrumentation/adf/frequencies/selected-khz", number);
+		#}
 	} elsif (getprop("ja37/radio/kv1/button-nr") == 1) {
 		var ch = num(middle);
 		if (ch == 0) {
 			# nop
-		} elsif (ch < 200) {
-			# nav
-		   mhz=107.95+ch*0.05;
-		   setprop("instrumentation/radio/switches/com-nav", 1);
-		   setprop("instrumentation/radio/switches/mhz-khz", 0);
-		   setprop("instrumentation/nav/frequencies/selected-mhz", mhz);
+		#} elsif (ch < 200) {
+		#	# nav
+		#   mhz=107.95+ch*0.05;
+		#   setprop("instrumentation/radio/switches/com-nav", 1);
+		#   setprop("instrumentation/radio/switches/mhz-khz", 0);
+		#   setprop("instrumentation/nav/frequencies/selected-mhz", mhz);
 		} else {
 			# comm
 		   mhz =  117.975+(ch-200)*0.025;		   
@@ -68,8 +68,8 @@ var updateToRadio = func {
 };
 
 var updateFromRadio = func {
-	var freq = roundabout(getprop("instrumentation/radio/display-freq")*100);
-	bottom = ""~freq;
+	var freq = roundabout(getprop("instrumentation/comm/frequencies/selected-mhz")*100);
+	bottom = sprintf("%05d", freq);
 	digit = 1;
 	mode = STANDBY;
 	display = 0;
@@ -132,7 +132,7 @@ var button = func (number) {
 					digit = 1;
 					mode = STANDBY;
 					display = 0;
-					top = getprop("ja37/radio/kv1/digit-top-1")~getprop("ja37/radio/kv1/digit-top-2")~special;
+					top = sprintf("%01d%01d%s", getprop("ja37/radio/kv1/digit-top-1"),getprop("ja37/radio/kv1/digit-top-2"),special);
 					updateToRadio();
 				} else {
 					digit += 1;
@@ -142,7 +142,7 @@ var button = func (number) {
 					digit = 1;
 					mode = STANDBY;
 					display = 0;
-					middle = getprop("ja37/radio/kv1/digit-middle-1")~getprop("ja37/radio/kv1/digit-middle-2")~getprop("ja37/radio/kv1/digit-middle-3");
+					middle = sprintf("%01d%01d%01d", getprop("ja37/radio/kv1/digit-middle-1"),getprop("ja37/radio/kv1/digit-middle-2"),getprop("ja37/radio/kv1/digit-middle-3"));
 					updateToRadio();
 				} else {
 					digit += 1;
@@ -152,7 +152,7 @@ var button = func (number) {
 					digit = 1;
 					mode = STANDBY;
 					display = 0;
-					bottom = getprop("ja37/radio/kv1/digit-bottom-1")~getprop("ja37/radio/kv1/digit-bottom-2")~getprop("ja37/radio/kv1/digit-bottom-3")~getprop("ja37/radio/kv1/digit-bottom-4")~getprop("ja37/radio/kv1/digit-bottom-5");
+					bottom = sprintf("%01d%01d%01d%01d%01d", getprop("ja37/radio/kv1/digit-bottom-1"),getprop("ja37/radio/kv1/digit-bottom-2"),getprop("ja37/radio/kv1/digit-bottom-3"),getprop("ja37/radio/kv1/digit-bottom-4"),getprop("ja37/radio/kv1/digit-bottom-5"));
 					updateToRadio();
 				} else {
 					digit += 1;
@@ -201,4 +201,4 @@ var cl3 = func {
 
 updateFromRadio();
 resetDisplays();
-setlistener("instrumentation/radio/display-freq", updateFromRadio);
+setlistener("instrumentation/comm/frequencies/selected-mhz", updateFromRadio);

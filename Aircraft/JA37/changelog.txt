@@ -3313,3 +3313,9 @@ Test: Made the test panel functional.
 MI: The TNF lamp can now be clicked to stop/start INS.
 MI: The TNF pushlamp will now blink when INS initializing, and steady when its on.
 Test: The testing will now not work if INS is initializing.
+Model: Rotated and scaled the transponder as model instead of in xml.
+Animation: Transponder lights now respond to on/off.
+Model: Added ME31 nav channel selector.
+Sim: Made KV1 channel selector use comm only, and no longer KHz.
+Model: The channel selectors no longer are shown in AJ variants.
+Sim: Fixed that channel selectors would fail if pure zeros was entered.

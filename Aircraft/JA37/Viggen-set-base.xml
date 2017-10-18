@@ -689,6 +689,9 @@
                 <button-mhz type="bool">true</button-mhz>
                 <switch type="bool">true</switch><!-- set to FM per default -->
             </kv1>
+            <me31>
+                <button-mhz type="bool">true</button-mhz>
+            </me31>
         </radio>
         <faf>
             <friend-1 userarchive="y" type="string"></friend-1>
@@ -1505,6 +1508,9 @@
         <ch_select>
             <file>Aircraft/JA37/Nasal/channel-selector.nas</file>
         </ch_select>
+        <me31>
+            <file>Aircraft/JA37/Nasal/channel-selector-me31.nas</file>
+        </me31>
         <vector>
             <file>Aircraft/JA37/Nasal/vector.nas</file>
         </vector>
