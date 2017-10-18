@@ -176,6 +176,15 @@ Test: Testing from TI
 Test: Shut down also indicators during testing.
 Test: Separate tests with test knob.
 Test: Always fail a test for system that is actually damaged.
+Model: Datapanel should be scaled to be just as wide as ME31.
+Model: Nav panel should be scaled to be just as wide as test panel.
+
+
+
+
+
+
+
 
 
 
@@ -189,9 +198,9 @@ A/P auto-follow never existed. RR steer order, was probably just heading and alt
 Automatic landing mode selection in AJ was really selected manual like in the JA.
 Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of these variants.
 Callsign of selected radar echo in HUD is unrealistic.
-Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?)
+Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?) If lineis there, the number is line length.
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
-Master-arm, interoperability and display switches on frontpanel, should not be there. Instead there was: button SNABBRESN (reinit gyro, max 3 mins, light on during) and RESERVKURS.
+Interoperability and display switches on frontpanel, should not be there. Instead there was: button SNABBRESN (reinit gyro, max 3 mins, light on during).
 The FPI in HUD was really limited to +- 7.5 degs lateral.
 In the orig plane the HUD decimal delimiter is ',' not '.'.
 VOR, ADF navigation, the real did not have this.
