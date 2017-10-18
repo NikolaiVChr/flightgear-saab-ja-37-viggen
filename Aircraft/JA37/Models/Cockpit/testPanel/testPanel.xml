@@ -102,7 +102,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>test.press(1);</script>
+                <script>testing.press(1);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -160,7 +160,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>test.press(2);</script>
+                <script>testing.press(2);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -174,7 +174,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>test-start</tooltip-id>
-                <label>Start testing. Acknowledge test result. Interrupt and skip to next test.</label>
+                <label>Start testing. Acknowledge test result. Interrupt and skip to next testing.</label>
             </binding>
         </hovered>
     </animation>
@@ -218,7 +218,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>test.press(3);</script>
+                <script>testing.press(3);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -276,7 +276,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>test.press(4);</script>
+                <script>testing.press(4);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -334,7 +334,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>test.press(5);</script>
+                <script>testing.press(5);</script>
             </binding>
             <mod-up>
                 <binding>
@@ -392,7 +392,7 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>test.press(6);</script>
+                <script>testing.press(6);</script>
             </binding>
             <mod-up>
                 <binding>
