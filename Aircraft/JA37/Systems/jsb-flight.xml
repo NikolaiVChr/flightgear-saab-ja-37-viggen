@@ -583,7 +583,55 @@
 
     </channel>
 
+
+
+
+
+
+
+
+
+
+
     <channel execrate="4" name="instruments">
+
+        <switch name="systems/ins/time-steady">
+            <default value="sim-time-sec"/>
+            <test logic="AND" value="systems/ins/time-steady">
+                /systems/electrical/outputs/dc-voltage gt 20
+                /ja37/avionics/ins-cmd == 1
+            </test>
+        </switch>
+
+        <fcs_function name="systems/ins/time-init">
+            <function>
+                <sum>
+                    <p>systems/ins/time-steady</p>
+                    <v>140</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="systems/ins/init">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/dc-voltage gt 20
+                sim-time-sec le systems/ins/time-init
+                /ja37/avionics/ins-cmd == 1
+            </test>
+            <output>/ja37/avionics/ins-init</output>
+        </switch>
+
+        <switch name="systems/ins/running">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /systems/electrical/outputs/dc-voltage gt 20
+                /ja37/avionics/ins-init == 0
+                /ja37/avionics/ins-cmd == 1
+                sim-time-sec gt systems/ins/time-init
+            </test>
+            <output>/ja37/avionics/ins</output>
+        </switch>
 
         <switch name="systems/gps/time-steady">
             <default value="sim-time-sec"/>

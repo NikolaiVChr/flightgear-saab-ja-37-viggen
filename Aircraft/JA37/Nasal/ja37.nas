@@ -99,7 +99,7 @@ input = {
   lampCanopy:       "ja37/avionics/canopyAndSeat",
   lampData:         "ja37/avionics/primaryData",
   lampIgnition:     "ja37/avionics/ignitionSys",
-  lampInertiaNav:   "ja37/avionics/TN",
+  insCmd:           "ja37/avionics/ins-cmd",
   lampOxygen:       "ja37/avionics/oxygen",
   lampStart:        "ja37/avionics/startSys",
   lampStick:        "ja37/avionics/joystick",
@@ -318,13 +318,10 @@ var Saab37 = {
       mainTimer = me.timer;
       mainOn = TRUE;
       input.lampData.setBoolValue(TRUE);
-      input.lampInertiaNav.setBoolValue(TRUE);
+      input.insCmd.setBoolValue(TRUE);
     } elsif (me.main > 20) {
       if (me.timer > (mainTimer + 20)) {
         input.lampData.setBoolValue(FALSE);
-      }
-      if (me.timer > (mainTimer + 140)) {
-        input.lampInertiaNav.setBoolValue(FALSE);
       }
     } elsif (me.main <= 20) {
       mainOn = FALSE;

@@ -22,7 +22,7 @@ Click a sidebutton for quick SYST menu.
 Click a bottom button for main menus.
 Click MENU to exit menus.
 
-The rocker switch C will make minute adjustments for where on display own position is located.
+The rocker switch C change contrast of display (only if model shaders is on, and not in Rembrandt).
 The rocker switch B change brightness of display.
 
 Menus
@@ -214,6 +214,7 @@ Testing
 The following conditions must be present before testing:
 --------------------------------------------------------
 - Wheels on ground
+- INS not initializing
 and either
 - External power supplying
 or

@@ -188,11 +188,19 @@
         <type>pick</type>
         <object-name>indicator_tnf</object-name>
         <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>ja37/avionics/ins-cmd</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>tnf</tooltip-id>
-                <label>Inertial navigation initialization</label>
+                <label>Inertial navigation</label>
             </binding>
         </hovered>
     </animation>
@@ -368,10 +376,21 @@
 	    <type>material</type>
 	    <object-name>indicator_tnf</object-name>
 	    <condition>
-	    	<or>
-	            <property>fdm/jsbsim/systems/indicators/inertia-navigation</property>
-	            <property>/controls/lighting/test-indicator-panels</property>
-	        </or>
+            <or>
+                <and>
+                    <property>ja37/avionics/ins</property>
+                    <not>
+                        <property>/controls/lighting/test-indicator-panels</property>
+                    </not>
+                </and>
+                <and>
+        	    	<or>
+        	            <property>ja37/avionics/ins-init</property>
+        	            <property>/controls/lighting/test-indicator-panels</property>
+        	        </or>
+                    <property>/ja37/blink/two-Hz/state</property>
+                </and>
+            </or>
         </condition>
         <emission>
             <red-prop>instrumentation/instrumentation-light/r</red-prop> 

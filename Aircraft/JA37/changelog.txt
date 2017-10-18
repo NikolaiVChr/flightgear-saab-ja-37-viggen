@@ -3309,4 +3309,7 @@ Arms: Added possibility to change guidance, target and/or guidance-law mid-fligh
 Arms: Added support for inertial guidance.
 Model: Added test panel.
 Model: Moved and scaled transponder.
-Sim: Made the test panel functional.
+Test: Made the test panel functional.
+MI: The TNF lamp can now be clicked to stop/start INS.
+MI: The TNF pushlamp will now blink when INS initializing, and steady when its on.
+Test: The testing will now not work if INS is initializing.

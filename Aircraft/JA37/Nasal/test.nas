@@ -84,7 +84,7 @@ var doTest = func {
 var loop = func {
 	if (ongoing) {
 		# check if should abort
-		if (getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and getprop("/controls/engines/engine[0]/starter-cmd") == 0 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") == 1 or (getprop("systems/electrical/outputs/dc-voltage") > 20 and getprop("systems/electrical/outputs/ac-main-voltage") > 100 and getprop("fdm/jsbsim/fcs/throttle-pos-deg") > 0 and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9))) {
+		if (getprop("ja37/avionics/ins-init") == 0 and getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and getprop("/controls/engines/engine[0]/starter-cmd") == 0 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") == 1 or (getprop("systems/electrical/outputs/dc-voltage") > 20 and getprop("systems/electrical/outputs/ac-main-voltage") > 100 and getprop("fdm/jsbsim/fcs/throttle-pos-deg") > 0 and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9))) {
 			# test can continue
 			if (state == 1) {
 				dap.testDisplay = sprintf("%02d0000",program);
@@ -121,9 +121,9 @@ var loop = func {
 		}
 	} else {
 		# check if ready for testing
-		if (getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") > 0.9
+		if (getprop("ja37/avionics/ins-init") == 0 and getprop("fdm/jsbsim/gear/unit[1]/WOW") == 1 and (getprop("fdm/jsbsim/systems/electrical/external/supplying") > 0.9
 		    or (getprop("systems/electrical/outputs/ac-main-voltage") > 100
-		    	and getprop("systems/electrical/outputs/dc-voltage") > 100
+		    	and getprop("systems/electrical/outputs/dc-voltage") > 20
 		        and getprop("fdm/jsbsim/fcs/throttle-pos-deg") > 0
 		        and getprop("fdm/jsbsim/fcs/throttle-pos-norm-scale") < 0.9))) {
 			# test can be started
@@ -164,11 +164,3 @@ var stopTest = func {
 	MI.mi.off = 0;
 	TI.ti.off = 0;
 }
-
-# TODO:
-#
-# engine starter should be hold in for 30 secs before quiting test.
-# TI test
-# Shut down during testing: +TI, +MI, +CI, +SI, -indicators, +heater.
-# INS must be done or off before testing can start. (clicking TNF on MI can stop it)
-# seperate tests wth knob

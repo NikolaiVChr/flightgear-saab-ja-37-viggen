@@ -1418,7 +1418,7 @@
                 <or>
                     <and>
                         <eq>
-                            <property>/ja37/avionics/TN</property><!-- involves timer when starting engine -->
+                            <property>/ja37/avionics/ins-init</property><!-- involves timer when starting engine -->
                             <value>1</value>
                         </eq>
                     </and>

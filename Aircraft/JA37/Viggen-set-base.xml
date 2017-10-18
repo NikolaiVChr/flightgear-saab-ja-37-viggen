@@ -632,7 +632,9 @@
         <avionics>
             <altimeters-calibrated type="bool">0</altimeters-calibrated>
             <primaryData type="bool">false</primaryData>
-            <TN type="bool">false</TN>
+            <ins-cmd type="bool">true</ins-cmd>
+            <ins-init type="bool">false</ins-init>
+            <ins type="bool">false</ins>
             <record-on type="bool">false</record-on>
             <vid type="bool">false</vid>
             <gps-cmd type="bool">false</gps-cmd>
