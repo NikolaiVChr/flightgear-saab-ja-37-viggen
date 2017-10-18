@@ -1520,9 +1520,9 @@
         <dap>
             <file>Aircraft/JA37/Nasal/data-panel.nas</file>
         </dap>
-        <test>
+        <testing>
             <file>Aircraft/JA37/Nasal/test.nas</file>
-        </test>
+        </testing>
         
         <!-- Uncomment below to enable FGplot -->
         <!--

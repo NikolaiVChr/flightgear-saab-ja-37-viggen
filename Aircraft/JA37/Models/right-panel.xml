@@ -184,7 +184,7 @@
 
 
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/button-g/autopilot-follow.xml</path>
     <name>follow</name>
     <offsets>
@@ -202,7 +202,7 @@
       <y-m>  -0.085</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-d/smoke.xml</path>
@@ -225,11 +225,21 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/counter-measure-panel/p152.xml</path>
+    <name>p152-panel</name>
+    <offsets>
+      <x-m>  0.50</x-m>
+      <y-m> -0.05</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-me31.xml</path>
     <name>me31-nav-panel</name>
     <offsets>
       <heading-deg>0</heading-deg>
-      <x-m>  0.55</x-m>
+      <x-m>  0.59</x-m>
       <y-m> -0.05</y-m>
       <z-m>  0.00</z-m>
     </offsets>

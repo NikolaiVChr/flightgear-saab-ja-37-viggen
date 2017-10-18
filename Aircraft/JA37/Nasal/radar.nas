@@ -432,7 +432,7 @@ var radar = {
   {
     if ((me.input.viewNumber.getValue() == 0 or me.input.viewNumber.getValue() == 13) and me.input.radarVoltage.getValue() != nil
         and me.input.radarScreenVoltage.getValue() > 23 and me.input.radarVoltage.getValue() > 170
-        and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1 and test.ongoing == FALSE) {
+        and me.input.radarServ.getValue() > 0 and me.input.screenEnabled.getValue() == 1 and me.input.radarEnabled.getValue() == 1 and testing.ongoing == FALSE) {
       g.show();
       me.radarRange = me.input.radarRange.getValue();
       me.rangeText.setText(sprintf("%3d",me.radarRange/1000));

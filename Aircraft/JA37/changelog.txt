@@ -3319,3 +3319,5 @@ Model: Added ME31 nav channel selector.
 Sim: Made KV1 channel selector use comm only, and no longer KHz.
 Model: The channel selectors no longer are shown in AJ variants.
 Sim: Fixed that channel selectors would fail if pure zeros was entered.
+Model: Added counter measure panel P152.
+Model: Removed A/P follow button.
