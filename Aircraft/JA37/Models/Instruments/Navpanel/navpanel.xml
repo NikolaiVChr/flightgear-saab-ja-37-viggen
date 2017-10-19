@@ -24,6 +24,18 @@
 		<object-name>A2_screw</object-name>
     </effect>
 
+    <animation>
+        <type>pick</type>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>np</tooltip-id>
+                <label>Nav panel</label>
+            </binding>
+        </hovered>
+    </animation>
+
 	<!--
 	**********************************
 	Numpad Buttons

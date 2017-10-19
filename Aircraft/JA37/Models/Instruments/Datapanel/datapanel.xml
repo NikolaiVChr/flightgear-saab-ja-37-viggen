@@ -28,6 +28,18 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-transparent-shader</inherits-from>
 		<object>rensaCover</object>
     </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>dp</tooltip-id>
+                <label>Data panel</label>
+            </binding>
+        </hovered>
+    </animation>
 	
 	<!--
 	**********************************
@@ -336,8 +348,8 @@
 		<property>ja37/navigation/dp-mode</property>
 		<factor>30</factor>
 		<center>
-			<x-m>  0.01125 </x-m>
-			<y-m> -0.02300 </y-m>
+			<x-m>  0.01251 </x-m>
+			<y-m> -0.02351 </y-m>
 			<z-m>  0.00000 </z-m>
 		</center>
 		<axis>
@@ -372,8 +384,8 @@
 		<factor>135</factor>
 		<center>
 			<x-m> 0   </x-m>
-			<y-m> -.0051   </y-m>
-			<z-m> 0.0066</z-m>
+			<y-m> -0.00248   </y-m>
+			<z-m> 0.00824 </z-m>
 		</center>
 		<axis>
 			<x>1</x>
@@ -411,8 +423,8 @@
 		<property>ja37/navigation/ispos</property>
 		<factor>60</factor>
 		<center>
-			<x-m> -.03860   </x-m>
-			<y-m> 0   </y-m>
+			<x-m> -0.04833   </x-m>
+			<y-m> -0.05826   </y-m>
 			<z-m> .00463   </z-m>
 		</center>
 		<axis>
@@ -451,8 +463,8 @@
 		<property>ja37/navigation/inout</property>
 		<factor>60</factor>
 		<center>
-			<x-m> 0   </x-m>
-			<y-m> 0.01861   </y-m>
+			<x-m> -0.02012   </x-m>
+			<y-m> 0.02769   </y-m>
 			<z-m> 0.00464   </z-m>
 		</center>
 		<axis>

@@ -219,17 +219,27 @@
     <name>stall</name>
     <offsets>
       <x-m>  0.525</x-m>
-      <y-m>  0.05</y-m>
+      <y-m>  0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
 
   <model>
+     <path>Aircraft/JA37/Models/Instruments/Datapanel/datapanel.xml</path>
+     <name>Datapanel</name>
+     <offsets>
+       <x-m> 0.375</x-m>
+       <y-m>-0.065</y-m>
+       <z-m>-0.004</z-m>
+     </offsets>
+   </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/counter-measure-panel/p152.xml</path>
     <name>p152-panel</name>
     <offsets>
-      <x-m>  0.50</x-m>
-      <y-m> -0.05</y-m>
+      <x-m>  0.53</x-m>
+      <y-m> -0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -239,8 +249,8 @@
     <name>me31-nav-panel</name>
     <offsets>
       <heading-deg>0</heading-deg>
-      <x-m>  0.59</x-m>
-      <y-m> -0.05</y-m>
+      <x-m>  0.615</x-m>
+      <y-m> -0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -260,8 +270,8 @@
     <path>Aircraft/JA37/Models/Instruments/Transponder/transponder.xml</path>
     <name>Transponder</name>
     <offsets>
-      <x-m>  0.65</x-m>
-      <y-m> -0.055</y-m>
+      <x-m>  0.675</x-m>
+      <y-m> -0.075</y-m>
       <z-m> -0.005</z-m>
     </offsets>
   </model>
@@ -272,7 +282,7 @@
     <offsets>
       <pitch-deg>-90</pitch-deg>
       <x-m>  0.70 </x-m>
-      <y-m> -0.035</y-m>
+      <y-m> -0.07</y-m>
       <z-m> -0.005</z-m>
     </offsets>
   </model>
@@ -282,19 +292,9 @@
      <name>tilsG</name>
      <offsets>
        <heading-deg>90</heading-deg>
-       <x-m>  0.422</x-m>
-       <y-m>0.07</y-m>
+       <x-m>  0.460</x-m>
+       <y-m> 0.08</y-m>
        <z-m>  0.00</z-m>
-     </offsets>
-   </model>
-
-  <model>
-     <path>Aircraft/JA37/Models/Instruments/Datapanel/datapanel.xml</path>
-     <name>Datapanel</name>
-     <offsets>
-       <x-m>0.36</x-m>
-       <y-m>-0.059</y-m>
-       <z-m>-0.004</z-m>
      </offsets>
    </model>
    
@@ -302,9 +302,9 @@
      <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel.xml</path>
      <name>Navpanel</name>
      <offsets>
-       <x-m>.3485</x-m>
-       <y-m>  0.020</y-m>
-       <z-m>-0.004</z-m>
+       <x-m>  0.3485</x-m>
+       <y-m>  0.050</y-m>
+       <z-m> -0.004</z-m>
      </offsets>
    </model>
 
