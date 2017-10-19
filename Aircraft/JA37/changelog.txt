@@ -3325,3 +3325,4 @@ Model: increased size of datapanel.
 Model: Moved stuff around on right panel.
 GUI: Added tooltip to transponder panel.
 Model: Added FR31 radio panel.
+Model: Improved the interior lights panel.

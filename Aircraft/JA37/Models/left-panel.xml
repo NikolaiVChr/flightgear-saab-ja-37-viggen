@@ -330,21 +330,11 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
-    <name>flood light</name>
+    <path>Aircraft/JA37/Models/Instruments/lightPanel/lightPanel.xml</path>
+    <name>int-light</name>
     <offsets>
-      <x-m>  0.90</x-m>
-      <y-m>  0.085</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/knob-g/light-instrument.xml</path>
-    <name>instrument light</name>
-    <offsets>
-      <x-m>  0.815</x-m>
-      <y-m>  0.085</y-m>
+      <x-m>  0.825</x-m>
+      <y-m>  0.065</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>

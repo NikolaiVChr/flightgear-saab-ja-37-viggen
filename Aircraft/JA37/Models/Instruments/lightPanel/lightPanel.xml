@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>lightPanel.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>panel</object-name>
+        <object-name>instr</object-name>
+        <object-name>knobPanel</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>panel</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>knob-light-flood</tooltip-id>
+                <label>Interior light panel</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>knobPanel</object-name>
+        <property>controls/lighting/flood-knob</property>
+        <factor>90</factor>
+        <center>
+            <x-m>  -0.0279 </x-m>
+            <y-m>  -0.02323 </y-m>
+            <z-m>  0.02243 </z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>        
+        <!--<action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/flood-knob</property>
+                <factor>90</factor>
+                <min>0</min>
+                <max>90</max>                
+                <wrap>false</wrap>
+            </binding>
+        </action>-->
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/flood-knob</property>
+                <factor>1</factor>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/flood-knob</property>
+                <factor>1</factor>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>instr</object-name>
+        <property>controls/lighting/instruments-knob</property>
+        <factor>90</factor>
+        <center>
+            <x-m>  0.02774 </x-m>
+            <y-m>  -0.02434 </y-m>
+            <z-m>  0.01957 </z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>        
+        <!--<action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/instruments-knob</property>
+                <factor>90</factor>
+                <min>0</min>
+                <max>90</max>                
+                <wrap>false</wrap>
+            </binding>
+        </action>-->
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/instruments-knob</property>
+                <factor>1</factor>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/lighting/instruments-knob</property>
+                <factor>1</factor>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+
+    <animation>
+       <type>material</type>
+       <object-name>backlit</object-name>
+       <emission>
+            <red-prop>instrumentation/instrumentation-light/r</red-prop> 
+            <green-prop>instrumentation/instrumentation-light/g</green-prop> 
+            <blue-prop>instrumentation/instrumentation-light/b</blue-prop>
+            <factor-prop>/systems/electrical/dc-light</factor-prop>
+        </emission>
+    </animation>
+
+</PropertyList>
