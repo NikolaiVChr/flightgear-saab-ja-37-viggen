@@ -28,6 +28,86 @@
     </animation>
 
     <animation>
+        <type>knob</type>
+        <object-name>knob1</object-name>
+        <property>ja37/p152/knob-1</property>
+        <factor>360</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>  0.02087 </x-m>
+            <y-m>  -0.03931 </y-m>
+            <z-m>  0 </z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>        
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/p152/knob-1</property>
+                <factor>1</factor>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/p152/knob-1</property>
+                <factor>1</factor>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>knob2</object-name>
+        <property>ja37/p152/knob-2</property>
+        <factor>-180</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>  0.0207 </x-m>
+            <y-m>  0.04019 </y-m>
+            <z-m>  0 </z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>        
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/p152/knob-2</property>
+                <factor>1</factor>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/p152/knob-2</property>
+                <factor>1</factor>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+
+    <animation>
         <type>pick</type>
         <object-name>button</object-name>
         <action>
