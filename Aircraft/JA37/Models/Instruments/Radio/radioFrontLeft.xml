@@ -15,6 +15,18 @@
         <object-name>9</object-name>
     </effect>
 
+    <animation>
+        <type>pick</type>
+        <object-name>Panel</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>kv3</tooltip-id>
+                <label>KV3 Channel selector</label>
+            </binding>
+        </hovered>
+    </animation>
+
 	<animation>
         <type>pick</type>
         <object-name>4</object-name>

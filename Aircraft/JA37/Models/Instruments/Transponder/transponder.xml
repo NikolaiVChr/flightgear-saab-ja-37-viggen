@@ -41,6 +41,18 @@
     </params>
 
     <animation>
+        <type>pick</type>
+        <object-name>panel</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>trs</tooltip-id>
+                <label>Transponder</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
         <type>material</type>
         <object-name>Dial1</object-name>
         <object-name>Dial10</object-name>

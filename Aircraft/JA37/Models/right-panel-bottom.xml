@@ -86,6 +86,17 @@
         </offsets>
     </model>
 
+    <animation>
+        <type>select</type>
+        <object-name>weapon-select</object-name>
+        <condition>
+           <greater-than>
+            <property>ja37/systems/variant</property>
+            <value>0</value>
+           </greater-than>
+        </condition>
+    </animation>
+
     <model>
         <path>Aircraft/JA37/Models/Cockpit/knob-a/weapons-mode.xml</path>
         <name>weapon-mode</name>

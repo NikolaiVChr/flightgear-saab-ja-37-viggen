@@ -3323,3 +3323,4 @@ Model: Added counter measure panel P152.
 Model: Removed A/P follow button.
 Model: increased size of datapanel.
 Model: Moved stuff around on right panel.
+GUI: Added tooltip to transponder panel.
