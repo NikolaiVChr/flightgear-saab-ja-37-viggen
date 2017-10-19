@@ -3328,3 +3328,4 @@ Model: Added FR31 radio panel.
 Model: Improved the interior lights panel.
 Animation: Made controls on FR31 radio panel animated.
 Animation: Made controls on P152 ECM panel animated.
+Animation: Animated pedal mode handle.

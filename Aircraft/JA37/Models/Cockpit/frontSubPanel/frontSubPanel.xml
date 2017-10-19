@@ -63,6 +63,13 @@
         <type>pick</type>
         <object-name>handleBottom</object-name>
         <object-name>baseBottom</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/flight/pedal-mode</property>
+            </binding>
+        </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -70,6 +77,18 @@
                 <label>Pedal mode</label>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>handleBottom</object-name>
+        <property>/controls/flight/pedal-mode</property>
+        <factor>0.015</factor>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
     </animation>
 
 </PropertyList>
