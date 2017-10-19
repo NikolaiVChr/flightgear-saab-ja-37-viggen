@@ -244,11 +244,21 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/Radio/fr31.xml</path>
+    <name>fr31</name>
+    <offsets>
+      <x-m>  0.650</x-m>
+      <y-m>  0.065</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/radar.xml</path>
     <name>radar</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.600</x-m>
+      <x-m>  0.550</x-m>
       <y-m>  0.100</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -259,7 +269,7 @@
     <name>radar screen</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.600</x-m>
+      <x-m>  0.550</x-m>
       <y-m>  0.070</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -270,7 +280,7 @@
       <name>reset trim</name>
       <offsets>
           <heading-deg>-270</heading-deg>
-          <x-m>  0.70</x-m>
+          <x-m>  0.72</x-m>
           <y-m> -0.025</y-m>
           <z-m>  0.00</z-m>
       </offsets>
@@ -281,7 +291,7 @@
     <name>roll trim</name>
     <offsets>
       <heading-deg>180</heading-deg>
-      <x-m>  0.84</x-m>
+      <x-m>  0.86</x-m>
       <y-m> -0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -292,7 +302,7 @@
     <name>pitch trim</name>
     <offsets>
       <heading-deg>180</heading-deg>
-      <x-m>  0.795</x-m>
+      <x-m>  0.815</x-m>
       <y-m> -0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -303,7 +313,7 @@
     <name>yaw trim</name>
     <offsets>
       <heading-deg>180</heading-deg>
-      <x-m>  0.75</x-m>
+      <x-m>  0.77</x-m>
       <y-m> -0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -323,7 +333,7 @@
     <path>Aircraft/JA37/Models/Cockpit/knob-g/light-flood.xml</path>
     <name>flood light</name>
     <offsets>
-      <x-m>  0.80</x-m>
+      <x-m>  0.90</x-m>
       <y-m>  0.085</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -333,7 +343,7 @@
     <path>Aircraft/JA37/Models/Cockpit/knob-g/light-instrument.xml</path>
     <name>instrument light</name>
     <offsets>
-      <x-m>  0.70</x-m>
+      <x-m>  0.815</x-m>
       <y-m>  0.085</y-m>
       <z-m>  0.00</z-m>
     </offsets>
@@ -387,7 +397,7 @@
     <name>radar control</name>
     <offsets>
 	  <pitch-deg>-10</pitch-deg>
-      <x-m>  0.510</x-m>
+      <x-m>  0.470</x-m>
 	  <y-m>  0.085</y-m>
       <z-m>  0.0 </z-m>
     </offsets>

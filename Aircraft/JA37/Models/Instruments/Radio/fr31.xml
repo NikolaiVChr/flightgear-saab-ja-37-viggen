@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+    <path>fr31.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>panel</object-name>
+        <object-name>test</object-name>
+        <object-name>thread</object-name>
+        <object-name>switchAuto</object-name>
+        <object-name>switchMik</object-name>
+        <object-name>switchR</object-name>
+        <object-name>B1</object-name>
+        <object-name>B2</object-name>
+        <object-name>B3</object-name>
+        <object-name>B4</object-name>
+        <object-name>B5</object-name>
+        <object-name>B6</object-name>
+        <object-name>bt1</object-name>
+        <object-name>bt2</object-name>
+        <object-name>bt3</object-name>
+        <object-name>bt4</object-name>
+        <object-name>knob92</object-name>
+        <object-name>knobTal</object-name>
+        <object-name>knobVol</object-name>
+        <object-name>lampDmount</object-name>
+        <object-name>lampTmount</object-name>
+        <object-name>mount1</object-name>
+        <object-name>mount2</object-name>
+        <object-name>mount3</object-name>
+        <object-name>mount4</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>panel</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdio</tooltip-id>
+                <label>FR31 Radio panel</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+       <type>material</type>
+       <object-name>lampT</object-name>
+       <emission>
+            <red>0.75</red> 
+            <green>0.0</green> 
+            <blue>0.0</blue>
+            <factor-prop>instrumentation/comm[0]/ptt</factor-prop>
+        </emission>
+    </animation>
+
+</PropertyList>
