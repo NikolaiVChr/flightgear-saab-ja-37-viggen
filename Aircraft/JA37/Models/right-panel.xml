@@ -267,10 +267,20 @@
   </animation>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/ME799/me799.xml</path>
+    <name>me799</name>
+    <offsets>
+      <x-m>  0.690</x-m>
+      <y-m> -0.065</y-m>
+      <z-m> -0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Instruments/Transponder/transponder.xml</path>
     <name>Transponder</name>
     <offsets>
-      <x-m>  0.675</x-m>
+      <x-m>  0.745</x-m>
       <y-m> -0.075</y-m>
       <z-m> -0.005</z-m>
     </offsets>
@@ -281,7 +291,7 @@
     <name>handle</name>
     <offsets>
       <pitch-deg>-90</pitch-deg>
-      <x-m>  0.70 </x-m>
+      <x-m>  0.77 </x-m>
       <y-m> -0.07</y-m>
       <z-m> -0.005</z-m>
     </offsets>
