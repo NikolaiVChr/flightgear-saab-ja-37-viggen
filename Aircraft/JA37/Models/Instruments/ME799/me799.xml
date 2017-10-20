@@ -25,7 +25,35 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>me799</tooltip-id>
-                <label>ME799 Nav panel</label>
+                <label>ME799 identification transponder</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handle1</object-name>
+        <object-name>disc1</object-name>
+        <object-name>screw1</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>qc</tooltip-id>
+                <label>Query code</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>handle2</object-name>
+        <object-name>disc2</object-name>
+        <object-name>screw2</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>qc</tooltip-id>
+                <label>Mode</label>
             </binding>
         </hovered>
     </animation>
