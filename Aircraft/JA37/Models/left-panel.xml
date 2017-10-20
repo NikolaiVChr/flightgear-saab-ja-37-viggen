@@ -189,45 +189,12 @@
   </model>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/radioFrontLeft.xml</path>
-    <name>flr</name>
-    <offsets>
-      <heading-deg>0</heading-deg>
-      <x-m>  0.3450</x-m>
-      <y-m>  0.065</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-kv1.xml</path>
-    <name>kv1</name>
-    <offsets>
-      <heading-deg>0</heading-deg>
-      <x-m>  0.3450</x-m>
-      <y-m>  0.065</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <animation>
-    <type>select</type>
-    <object-name>kv1</object-name>
-    <condition>
-       <equals>
-        <property>ja37/systems/variant</property>
-        <value>0</value>
-       </equals>
-    </condition>
-  </animation>
-
-  <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/speedbrakes.xml</path>
     <name>speedbrakes</name>
     <offsets>
-      <heading-deg>180</heading-deg>
-      <x-m>  0.500</x-m>
-      <y-m>  0.000</y-m>
+      <heading-deg>90</heading-deg>
+      <x-m>  0.490</x-m>
+      <y-m> -0.020</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -236,19 +203,9 @@
     <path>Aircraft/JA37/Models/Cockpit/switch-a/nosewheel-steer.xml</path>
     <name>nose steer</name>
     <offsets>
-      <heading-deg>180</heading-deg>
+      <heading-deg>90</heading-deg>
       <x-m>  0.535</x-m>
-      <y-m>  0.000</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
-
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/Radio/fr31.xml</path>
-    <name>fr31</name>
-    <offsets>
-      <x-m>  0.650</x-m>
-      <y-m>  0.065</y-m>
+      <y-m> -0.020</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -258,8 +215,8 @@
     <name>radar</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.550</x-m>
-      <y-m>  0.100</y-m>
+      <x-m>  0.590</x-m>
+      <y-m> -0.040</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -269,8 +226,8 @@
     <name>radar screen</name>
     <offsets>
       <heading-deg>90</heading-deg>
-      <x-m>  0.550</x-m>
-      <y-m>  0.070</y-m>
+      <x-m>  0.590</x-m>
+      <y-m> -0.070</y-m>
       <z-m>  0.00</z-m>
     </offsets>
   </model>
@@ -329,15 +286,7 @@
     </offsets>
   </model>
 
-  <model>
-    <path>Aircraft/JA37/Models/Instruments/lightPanel/lightPanel.xml</path>
-    <name>int-light</name>
-    <offsets>
-      <x-m>  0.825</x-m>
-      <y-m>  0.065</y-m>
-      <z-m>  0.00</z-m>
-    </offsets>
-  </model>
+
   
   <model>
     <path>Aircraft/JA37/Models/Cockpit/throttle/throttle.xml</path>
@@ -354,8 +303,8 @@
       <name>jett-canopy</name>
       <offsets>
           <heading-deg>-270</heading-deg>
-          <x-m>  0.460</x-m>
-          <y-m>  0.000</y-m>
+          <x-m>  0.450</x-m>
+          <y-m> -0.020</y-m>
           <z-m>  0.00</z-m>
       </offsets>
   </model>
@@ -381,16 +330,79 @@
        </greater-than>
     </condition>
   </animation>
-  
-  <model>
-    <path>Aircraft/JA37/Models/Cockpit/radarControl/radarControl.xml</path>
-    <name>radar control</name>
+
+    <model>
+    <path>Aircraft/JA37/Models/Instruments/Radio/radioFrontLeft.xml</path>
+    <name>flr</name>
     <offsets>
-	  <pitch-deg>-10</pitch-deg>
-      <x-m>  0.470</x-m>
-	  <y-m>  0.085</y-m>
+      <heading-deg>0</heading-deg>
+      <x-m>  0.3450</x-m>
+      <y-m>  0.065</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Radio/channel-selector-kv1.xml</path>
+    <name>kv1</name>
+    <offsets>
+      <heading-deg>0</heading-deg>
+      <x-m>  0.3450</x-m>
+      <y-m>  0.065</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <animation>
+    <type>select</type>
+    <object-name>kv1</object-name>
+    <condition>
+       <equals>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </equals>
+    </condition>
+  </animation>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Radar/radar-panel-ja.xml</path>
+    <name>radar-panel-ja</name>
+    <offsets>
+      <x-m>  0.500</x-m>
+      <y-m>  0.065</y-m>
       <z-m>  0.0 </z-m>
     </offsets>
   </model>
 
+  <model>
+    <path>Aircraft/JA37/Models/Cockpit/radarControl/radarControl.xml</path>
+    <name>radar control</name>
+    <offsets>
+      <pitch-deg>-10</pitch-deg>
+      <x-m>  0.550</x-m>
+      <y-m>  0.05</y-m>
+      <z-m>  0.0 </z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Radio/fr31.xml</path>
+    <name>fr31</name>
+    <offsets>
+      <x-m>  0.685</x-m>
+      <y-m>  0.065</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/lightPanel/lightPanel.xml</path>
+    <name>int-light</name>
+    <offsets>
+      <x-m>  0.860</x-m>
+      <y-m>  0.065</y-m>
+      <z-m>  0.00</z-m>
+    </offsets>
+  </model>
+  
 </PropertyList>
