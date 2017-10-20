@@ -286,6 +286,7 @@ var AIM = {
         m.rail_dist_m           = getprop(m.nodeString~"rail-length-m");              # length of tube/rail
         m.rail_forward          = getprop(m.nodeString~"rail-point-forward");         # true for rail, false for rail/tube with a pitch
         m.rail_pitch_deg        = getprop(m.nodeString~"rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
+        m.drop_time             = getprop(m.nodeString~"drop-time");                  # Time to fall before stage 1 thrust starts.
         # counter-measures
         m.chaffResistance       = getprop(m.nodeString~"chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950. [optional]
         m.flareResistance       = getprop(m.nodeString~"flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.950. [optional]
@@ -294,7 +295,8 @@ var AIM = {
         m.dlz_enabled           = getprop(m.nodeString~"DLZ");                        # Supports dynamic launch zone info. For now only works with A/A. [optional]
         m.dlz_opt_alt           = getprop(m.nodeString~"DLZ-optimal-alt-feet");       # Minimum altitude required to hit the target at max range.
         m.dlz_opt_mach          = getprop(m.nodeString~"DLZ-optimal-closing-mach");   # Closing speed required to hit the target at max range at minimum altitude.
-        
+		
+
         
         # three variables used for trigonometry hit calc:
 		m.vApproch       = 1;
@@ -339,6 +341,12 @@ var AIM = {
 			} else {
 				m.reaquire = FALSE;
 			}
+		}
+		if (m.rail == TRUE) {
+			# drop distance in time
+			m.drop_time = 0;
+		} elsif (m.drop_time == nil) {
+			m.drop_time = math.sqrt(2*7/g_fps);# time to fall 7 ft to clear aircraft
 		}
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
@@ -481,7 +489,6 @@ var AIM = {
 		m.nextGroundElevationMem = [-10000, -1];
 
 		#rail
-		m.drop_time = 0;
 		m.rail_passed = FALSE;
 		m.x = 0;
 		m.y = 0;
@@ -709,11 +716,6 @@ var AIM = {
 		me.lonN.setDoubleValue(mlon);
 		me.altN.setDoubleValue(malt);
 		me.hdgN.setDoubleValue(ac_hdg);
-
-		if (me.rail == FALSE) {
-			# drop distance in time
-			me.drop_time = math.sqrt(2*7/g_fps);# time to fall 7 ft to clear aircraft
-		}
 
 		me.pitchN.setDoubleValue(ac_pitch);
 		me.rollN.setDoubleValue(0);
