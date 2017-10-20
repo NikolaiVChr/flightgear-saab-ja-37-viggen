@@ -41,16 +41,16 @@
             </binding>
         </hovered>
     </animation>
-<!--
+
     <animation>
         <type>knob</type>
-        <object-name>knobVol</object-name>
-        <property>ja37/radio/fr31/knob-v</property>
-        <factor>90</factor>
-        <offset-deg>-135</offset-deg>
+        <object-name>knob1</object-name>
+        <property>ja37/radar/panel/knob-1</property>
+        <factor>32.5</factor>
+        <offset-deg>-85</offset-deg>
         <center>
-            <x-m>  -0.04043 </x-m>
-            <y-m>  0.04445 </y-m>
+            <x-m>  -0.06954 </x-m>
+            <y-m>   0.02677 </y-m>
             <z-m>  0 </z-m>
         </center>
         <axis>
@@ -61,9 +61,189 @@
         <increase>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-v</property>
+                <property>ja37/radar/panel/knob-1</property>
                 <factor>1</factor>
-                <step>0.05</step>
+                <step>1</step>
+                <min>0</min>
+                <max>4</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/radar/panel/knob-1</property>
+                <factor>1</factor>
+                <step>-1</step>
+                <min>0</min>
+                <max>4</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>btBot</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radar/panel/button-b</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/radar/panel/button-b</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+       <type>translate</type>
+       <object-name>btBot</object-name>
+       <property>ja37/radar/panel/button-b</property>
+       <factor>0.004</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>btMid</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radar/panel/button-m</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/radar/panel/button-m</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+       <type>translate</type>
+       <object-name>btMid</object-name>
+       <property>ja37/radar/panel/button-m</property>
+       <factor>0.004</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>btHidden</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radar/panel/button-h</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/radar/panel/button-h</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+       <type>translate</type>
+       <object-name>btHidden</object-name>
+       <property>ja37/radar/panel/button-h</property>
+       <factor>0.004</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>btLeft</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>ja37/radar/panel/button-l</property>
+                <value>1</value>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>ja37/radar/panel/button-l</property>
+                    <value>0</value>
+                </binding>
+            </mod-up>
+        </action>
+    </animation>
+    <animation>
+       <type>translate</type>
+       <object-name>btLeft</object-name>
+       <property>ja37/radar/panel/button-l</property>
+       <factor>0.004</factor>
+       <offset-m>0</offset-m>
+       <axis>
+         <z>-1</z>
+       </axis>
+       <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>switch2</object-name>
+        <property>ja37/radar/panel/s-2</property>
+        <factor>60</factor>
+        <offset-deg>-30</offset-deg>
+        <center>
+            <x-m>  0.05034 </x-m>
+            <y-m>  0.03862 </y-m>
+            <z-m>  0.01559 </z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>        
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/radar/panel/s-2</property>
+                <factor>1</factor>
+                <step>1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
@@ -72,9 +252,9 @@
         <decrease>
             <binding>
                 <command>property-adjust</command>
-                <property>ja37/radio/fr31/knob-v</property>
+                <property>ja37/radar/panel/s-2</property>
                 <factor>1</factor>
-                <step>-0.05</step>
+                <step>-1</step>
                 <min>0</min>
                 <max>1</max>                
                 <wrap>false</wrap>
@@ -83,6 +263,48 @@
     </animation>
 
     <animation>
+        <type>knob</type>
+        <object-name>switch1</object-name>
+        <property>ja37/radar/panel/s-1</property>
+        <factor>60</factor>
+        <offset-deg>-30</offset-deg>
+        <center>
+            <x-m>  -0.01499 </x-m>
+            <y-m>  0.04221 </y-m>
+            <z-m>  0.02296 </z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>        
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/radar/panel/s-1</property>
+                <factor>1</factor>
+                <step>1</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/radar/panel/s-1</property>
+                <factor>1</factor>
+                <step>-1</step>
+                <min>0</min>
+                <max>1</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+
+
+
+<!--    <animation>
         <type>knob</type>
         <object-name>knobLetters</object-name>
         <property>ja37/radio/fr31/knob-l</property>
