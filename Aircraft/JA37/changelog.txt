@@ -3339,3 +3339,5 @@ Model: Moved exterior lights switches to right panel.
 GUI: Converted most of the cockpit knobs to use knob animation.
 Model: Made fusebox larger.
 Model: Fixed some layout problems on left panel in AJS/AJ.
+Model: The data panel button are now taller.
+Model: The JA data panel now look more like it should.

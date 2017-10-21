@@ -131,6 +131,7 @@ var main = func {
   printDA(" selector "~settingKnob);
   printDA(" sign     "~settingSign);
   printDA(" in/out   "~settingDir);
+  printDA(" pos/msda "~settingPos);
   printDA(" cycle    "~cycle);
   printDA(" cycleMax "~cycleMax);
   printDA(" state    "~state);
@@ -294,6 +295,7 @@ var main = func {
   settingPrevKnob = settingKnob;
   settingPrevSign = settingSign;
   settingPrevDir  = settingDir;
+  settingPrevPos  = settingPos;
 };
 
 var cycleDisp = func {
@@ -572,9 +574,48 @@ var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
 var settingSign = getprop("ja37/navigation/ispos")?-1:1;
 var settingDir  = getprop("ja37/navigation/inout");
+var settingPos  = 1;
 var settingPrevKnob = getprop("ja37/navigation/dp-mode");
 var settingPrevSign = getprop("ja37/navigation/ispos")?-1:1;
 var settingPrevDir  = getprop("ja37/navigation/inout");
+var settingPrevPos  = 1;
+
+setprop("ja37/dap/pos", settingPos);
+setprop("ja37/dap/msda", !settingPos);
+setprop("ja37/dap/in", !settingDir);
+setprop("ja37/dap/out", settingDir);
+
+var toggleInOut = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  settingDir = !settingDir;
+  setprop("ja37/dap/in", !settingDir);
+  setprop("ja37/dap/out", settingDir);
+  main();
+}
+
+var togglePosMsda = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  settingPos = !settingPos;
+  setprop("ja37/dap/pos", settingPos);
+  setprop("ja37/dap/msda", !settingPos);
+  main();
+}
+
+var togglePN = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (settingSign<0) {
+    settingSign = 1;
+    setprop("ja37/navigation/ispos",0);
+  } else {
+    settingSign = -1;
+    setprop("ja37/navigation/ispos",1);
+  }
+  main();
+}
+
+var reset = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+}
 
 var switch = func {
   if (getprop("ja37/systems/variant") != 0) return;
@@ -616,5 +657,5 @@ var okRelease = func {
 }
 
 setlistener("ja37/navigation/dp-mode", switch);
-setlistener("ja37/navigation/ispos", switch);
-setlistener("ja37/navigation/inout", switch);
+#setlistener("ja37/navigation/ispos", switch);
+#setlistener("ja37/navigation/inout", switch);

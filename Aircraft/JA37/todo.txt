@@ -14,7 +14,7 @@ Aero: Adjust wave drag so max speed is M1.85 in ISA atmosphere and M2.03 in ISA-
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
 Control: Make bigger factor in pitch normal comparison. (beware of oscillations)
 Control: Limit elevator deflection due to servo-moment being smaller than moment of air-pressure. Page 19-20 in AK III.
-Model: JA version of datapanel and nav. panel.
+Model: JA version of nav. panel.
 Model: Transponder panel more like the real, right panel.
 Model: Make stick from throttle to gears handle housing. The throttle is too wide and the sidepanel is not aligned with X axis, that prevents it.
 Model: Improve texturing of gears handle housing, it had some details on it.
@@ -172,7 +172,8 @@ Test: Shut down also indicators during testing.
 Test: Separate tests with test knob.
 Test: Always fail a test for system that is actually damaged.
 Model: Nav panel should be scaled to be just as wide as test panel.
-
+Sim: Make 1 more digit in data panel.
+Sim: Make use of POS/MSDA in data-panel.
 
 
 
