@@ -26,41 +26,7 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>___knob_A_pickDecrement</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/ventilation/airconditioning-temperature</property>
-                <step>-2.00</step>
-                <min>-4</min>
-                <max>80</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>___knob_A_pickIncrement</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/ventilation/airconditioning-temperature</property>
-                <step>2.00</step>
-                <min>-4</min>
-                <max>80</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>___knob_A_disc</object-name>
         <object-name>___knob_A_handle</object-name>  
         <object-name>___knob_A_screw</object-name>
@@ -84,15 +50,29 @@
             <x> 0.0 </x>
             <y> 0.0 </y>
             <z> -1.0 </z>
-        </axis>
+        </axis>    
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/airconditioning-temperature</property>
+                <factor>1</factor>
+                <step>2</step>
+                <min>-4</min>
+                <max>80</max>                
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/airconditioning-temperature</property>
+                <factor>1</factor>
+                <step>-2</step>
+                <min>-4</min>
+                <max>80</max>                
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
     </animation>
-
-    <!--<animation>
-        <type>material</type>
-        <object-name>plane</object-name>
-        <property-base>ja37/texture</property-base>
-        <texture-prop>switch-light-flash</texture-prop>
-        <texture>light-flood.png</texture>
-    </animation>-->
 
 </PropertyList>

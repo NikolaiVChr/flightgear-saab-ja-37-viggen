@@ -313,38 +313,8 @@
 	-->
 	<!-- rotate by 32* -->
 	<animation>
-		<type>pick</type>
-		<object-name>modeSelectKnob</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>property-adjust</command>
-				<property>ja37/navigation/dp-mode</property>
-				<step>1</step>
-				<min>0</min>
-				<max>7</max>
-				<wrap>true</wrap>
-			</binding>
-		</action>
-		<action>
-			<button>1</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>property-adjust</command>
-				<property>ja37/navigation/dp-mode</property>
-				<step>-1</step>
-				<min>0</min>
-				<max>7</max>
-				<wrap>true</wrap>
-			</binding>
-		</action>
-	</animation>
-	
-	
-	<animation>
-		<type>rotate</type>
-		<object-name>modeSelectKnob</object-name>
+        <type>knob</type>
+        <object-name>modeSelectKnob</object-name>
 		<property>ja37/navigation/dp-mode</property>
 		<factor>30</factor>
 		<center>
@@ -357,7 +327,30 @@
 			<y>0</y>
 			<z>1</z>
 		</axis>
-	</animation>
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/navigation/dp-mode</property>
+                <factor>1</factor>
+                <step>1</step>
+                <min>0</min>
+                <max>6</max>           
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/navigation/dp-mode</property>
+                <factor>1</factor>
+                <step>-1</step>
+                <min>0</min>
+                <max>6</max>
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+	
 	<!--
 	**********************************
 	Clear Button Cover

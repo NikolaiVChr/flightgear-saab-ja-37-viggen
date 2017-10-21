@@ -26,41 +26,7 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>A2_pickDecrement</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/combat</property>
-                <step>1.00</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>A2_pickIncrement</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/hud/combat</property>
-                <step>-1.00</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>A2_disc_UV_mapped_WEAPONS</object-name>
         <object-name>A2_handle</object-name>  
         <object-name>A2_screw</object-name>
@@ -80,6 +46,28 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/hud/combat</property>
+                <factor>1</factor>
+                <step>1.00</step>
+                <min>0</min>
+                <max>1</max>             
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/hud/combat</property>
+                <factor>1</factor>
+                <step>-1.00</step>
+                <min>0</min>
+                <max>1</max>              
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
     </animation>
 
     <animation>

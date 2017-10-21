@@ -217,41 +217,10 @@
 	TILS Knob
 	**********************************
 	-->
-	
+
 	<animation>
-		<type>pick</type>
-		<object-name>A2_disc_UV_mapped_TILS</object-name>
-		<object-name>A2_handle</object-name>
-		<object-name>A2_screw</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>property-adjust</command>
-				<property>/sim/ja37/navigation/tils-knob</property>
-				<step>1</step>
-				<min>0</min>
-				<max>11</max>
-				<wrap>true</wrap>
-			</binding>
-		</action>
-		<action>
-			<button>1</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>property-adjust</command>
-				<property>/sim/ja37/navigation/tils-knob</property>
-				<step>-1</step>
-				<min>0</min>
-				<max>11</max>
-				<wrap>true</wrap>
-			</binding>
-		</action>
-	</animation>
-	
-	<animation>
-		<type>rotate</type>
-		<object-name>A2_disc_UV_mapped_TILS</object-name>
+        <type>knob</type>
+        <object-name>A2_disc_UV_mapped_TILS</object-name>
 		<object-name>A2_handle</object-name>
 		<object-name>A2_screw</object-name>
 		<property>/sim/ja37/navigation/tils-knob</property>
@@ -266,6 +235,26 @@
 			<y>0</y>
 			<z>-1</z>
 		</axis>
-	</animation>
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>/sim/ja37/navigation/tils-knob</property>
+				<step>1</step>
+				<min>0</min>
+				<max>10</max>        
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>/sim/ja37/navigation/tils-knob</property>
+				<step>-1</step>
+				<min>0</min>
+				<max>10</max>
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
 	
 </PropertyList>

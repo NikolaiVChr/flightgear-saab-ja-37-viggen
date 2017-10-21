@@ -38,41 +38,7 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>pickRight</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/ventilation/windshield-hot-air-knob</property>
-                <step>0.20</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>pickLeft</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>controls/ventilation/windshield-hot-air-knob</property>
-                <step>-0.20</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>knob</object-name>
         <property>controls/ventilation/windshield-hot-air-knob</property>
         <factor>270</factor>
@@ -87,6 +53,28 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/windshield-hot-air-knob</property>
+                <factor>1</factor>
+                <step>0.2</step>
+                <min>0</min>
+                <max>1</max>           
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/ventilation/windshield-hot-air-knob</property>
+                <factor>1</factor>
+                <step>-0.2</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
     </animation>
 
     <animation>

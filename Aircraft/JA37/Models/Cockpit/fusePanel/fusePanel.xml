@@ -18,7 +18,25 @@
         <object-name>bolt5</object-name>
         <object-name>fuse5</object-name>
         <object-name>Switch</object-name>
-
     </effect>
+
+    <animation>
+    <type>scale</type>
+    <object-name>panel</object-name>
+        <object-name>bolt1</object-name>
+        <object-name>fuse1</object-name>
+        <object-name>bolt2</object-name>
+        <object-name>fuse2</object-name>
+        <object-name>bolt3</object-name>
+        <object-name>fuse3</object-name>
+        <object-name>bolt4</object-name>
+        <object-name>fuse4</object-name>
+        <object-name>bolt5</object-name>
+        <object-name>fuse5</object-name>
+        <object-name>Switch</object-name>
+    <x-offset>1.5</x-offset>
+    <y-offset>1.5</y-offset>
+    <z-offset>1.5</z-offset>
+  </animation>
 
 </PropertyList>

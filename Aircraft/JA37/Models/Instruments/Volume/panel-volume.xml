@@ -38,41 +38,7 @@
     </animation>
 
     <animation>
-        <type>pick</type>
-        <object-name>knob-volume</object-name>
-        <action>
-            <button>3</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/sound/helmet</property>
-                <step>-0.05</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>knob-volume</object-name>
-        <action>
-            <button>4</button>
-            <repeatable>true</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>ja37/sound/helmet</property>
-                <step>0.05</step>
-                <min>0</min>
-                <max>1</max>
-                <wrap>false</wrap>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>knob-volume</object-name>
         <property>ja37/sound/helmet</property>
         <factor>150</factor>
@@ -87,6 +53,28 @@
             <y> 0.0 </y>
             <z> -1.0 </z>
         </axis>
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
+                <step>0.05</step>
+                <min>0</min>
+                <max>1</max>           
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>ja37/sound/helmet</property>
+                <factor>1</factor>
+                <step>-0.05</step>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
     </animation>
 
 </PropertyList>
