@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>me799.ac</path>
+    <path>cm.ac</path>
 
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
@@ -25,7 +25,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>me799</tooltip-id>
-                <label>IK PN799 identification transponder</label>
+                <label>Counter-measure panel</label>
             </binding>
         </hovered>
     </animation>
@@ -38,8 +38,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>qc</tooltip-id>
-                <label>Query code</label>
+                <tooltip-id>cp</tooltip-id>
+                <label>Chaff program</label>
             </binding>
         </hovered>
     </animation>
@@ -52,12 +52,12 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>qc</tooltip-id>
-                <label>Mode</label>
+                <tooltip-id>fp</tooltip-id>
+                <label>Flare program</label>
             </binding>
         </hovered>
     </animation>
-
+<!--
     <animation>
         <type>knob</type>
         <object-name>handle1</object-name>
@@ -141,41 +141,7 @@
             </binding>
         </decrease>
     </animation>
-
-	<animation>
-        <type>pick</type>
-        <object-name>button</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>property-assign</command>
-                <property>ja37/radio/me799/button</property>
-                <value>1</value>
-            </binding>
-            <mod-up>
-                <binding>
-                    <command>property-assign</command>
-                    <property>ja37/radio/me799/button</property>
-                    <value>0</value>
-                </binding>
-            </mod-up>
-        </action>
-    </animation>
-	<animation>
-	   <type>translate</type>
-	   <object-name>button</object-name>
-	   <property>ja37/radio/me799/button</property>
-	   <factor>0.005</factor>
-	   <offset-m>0</offset-m>
-	   <axis>
-	     <z>-1</z>
-	   </axis>
-	   <center>
-	        <x-m>0</x-m>
-	        <y-m>0</y-m>
-	        <z-m>0</z-m>
-	    </center>
-	</animation>
+-->
 
 
 </PropertyList>

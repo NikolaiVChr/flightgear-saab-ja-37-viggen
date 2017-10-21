@@ -39,38 +39,11 @@
     </model>
 
     <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-landing.xml</path>
-        <name>switch-strobe</name>
+        <path>Aircraft/JA37/Models/Instruments/counter-measure-panel/cm.xml</path>
+        <name>cm-p</name>
         <offsets>
-            <x-m>  0.465</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-anti-collision.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m>  0.430</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model> 
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-navigation.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m>  0.395</x-m>
-            <y-m>  0.02</y-m>
-            <z-m>  0</z-m>
-        </offsets>
-    </model>  
-    <model>
-        <path>Aircraft/JA37/Models/Cockpit/switch-a/light-beacon.xml</path>
-        <name>switch-strobe</name>
-        <offsets>
-            <x-m>  0.360</x-m>
-            <y-m>  0.02</y-m>
+            <x-m>  0.415</x-m>
+            <y-m>  0.035</y-m>
             <z-m>  0</z-m>
         </offsets>
     </model>

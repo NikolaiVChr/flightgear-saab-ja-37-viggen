@@ -18,7 +18,7 @@ Model: JA version of datapanel and nav. panel.
 Model: Transponder panel more like the real, right panel.
 Model: Make stick from throttle to gears handle housing. The throttle is too wide and the sidepanel is not aligned with X axis, that prevents it.
 Model: Improve texturing of gears handle housing, it had some details on it.
-Model: Radar panel. Left side.
+Model: JA version of radar control stick.
 Model: Airspeed indicator should have mach number also.
 Model: The KURS gauge in the JA was more complex.
 Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA.

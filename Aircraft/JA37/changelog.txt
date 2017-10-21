@@ -3332,3 +3332,7 @@ Animation: Animated pedal mode handle.
 Model: Added ME799 nav panel.
 Arms: Drop time is now configurable.
 Model: Added half of the JA radar panel.
+Model: Added counter-measure panel.
+GUI: Renamed ME799 to IK PN 799.
+Model: Adjusted width of transponder.
+Model: Moved exterior lights switches to right panel.
