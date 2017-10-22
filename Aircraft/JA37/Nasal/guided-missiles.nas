@@ -287,6 +287,7 @@ var AIM = {
         m.rail_forward          = getprop(m.nodeString~"rail-point-forward");         # true for rail, false for rail/tube with a pitch
         m.rail_pitch_deg        = getprop(m.nodeString~"rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
         m.drop_time             = getprop(m.nodeString~"drop-time");                  # Time to fall before stage 1 thrust starts.
+        m.deploy_time           = getprop(m.nodeString~"deploy-time");                # Time to deploy wings etc. Time starts when drop ends or rail passed.
         # counter-measures
         m.chaffResistance       = getprop(m.nodeString~"chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950. [optional]
         m.flareResistance       = getprop(m.nodeString~"flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.950. [optional]
@@ -347,6 +348,9 @@ var AIM = {
 			m.drop_time = 0;
 		} elsif (m.drop_time == nil) {
 			m.drop_time = math.sqrt(2*7/g_fps);# time to fall 7 ft to clear aircraft
+		}
+		if (m.deploy_time == nil) {
+			m.deploy_time = 0.3;
 		}
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
@@ -495,6 +499,7 @@ var AIM = {
 		m.z = 0;
 		m.rail_pos = 0;
 		m.rail_speed_into_wind = 0;
+		m.rail_passed_time = nil;
 
 		# stats
 		m.maxFPS       = 0;
@@ -1019,7 +1024,13 @@ var AIM = {
 		
 		me.life_time += me.dt;
 
-		
+		if (me.rail == FALSE) {
+			me.deploy_prop.setValue(me.clamp(me.extrapolate(me.life_time, me.drop_time, me.drop_time+me.deploy_time,0,1),0,1));
+		} elsif (me.rail_passed_time == nil and me.rail_passed == TRUE) {
+			me.rail_passed_time = me.life_time;
+		} elsif (me.rail_passed_time != nil) {
+			me.deploy_prop.setValue(me.clamp(me.extrapolate(me.life_time, me.rail_passed_time, me.rail_passed_time+me.deploy_time,0,1),0,1));
+		}
 		#if(me.life_time > 8) {# todo: make this duration configurable
 			#me.SwSoundFireOnOff.setBoolValue(FALSE);
 		#}
@@ -1783,7 +1794,7 @@ var AIM = {
             if (me.dist_curr > me.old_speed_fps * 2.5 * FT2M) {# need to give the missile time to do final navigation
                 # it's 1 or 2 seconds for this kinds of missiles...
                 me.t_alt_delta_ft = (me.loft_alt_curr + me.Daground - me.alt_ft);
-                me.printGuideDetails("var t_alt_delta_m : "~me.t_alt_delta_m);
+                me.printGuideDetails("var t_alt_delta_m : "~me.t_alt_delta_ft*FT2M);
                 if(me.loft_alt_curr + me.Daground > me.alt_ft) {
                     # 200 is for a very short reaction to terrain
                     me.printGuideDetails("Moving up");
@@ -2564,6 +2575,9 @@ var AIM = {
 
 		var explode_sound_vol_path = "payload/armament/flags/explode-sound-vol-" ~ me.ID;;
 		me.explode_sound_vol_prop = props.globals.initNode( explode_sound_vol_path, 0, "DOUBLE", TRUE);
+
+		var deploy_path = path_base~"deploy-id-" ~ me.ID;
+		me.deploy_prop = props.globals.initNode(deploy_path, 0, "DOUBLE", TRUE);
 	},
 
 	animate_explosion: func {#GCD

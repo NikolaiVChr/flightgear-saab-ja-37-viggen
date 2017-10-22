@@ -3329,15 +3329,17 @@ Model: Improved the interior lights panel.
 Animation: Made controls on FR31 radio panel animated.
 Animation: Made controls on P152 ECM panel animated.
 Animation: Animated pedal mode handle.
-Model: Added PN799 ident transponder panel.
+Model: Added ME799 ident transponder panel.
 Arms: Drop time is now configurable.
 Model: Added half of the JA radar panel.
 Model: Added counter-measure panel.
-GUI: Renamed ME799 to IK PN 799.
+GUI: Renamed ME799 to IK PN799.
 Model: Adjusted width of transponder.
 Model: Moved exterior lights switches to right panel.
 GUI: Converted most of the cockpit knobs to use knob animation.
 Model: Made fusebox larger.
 Model: Fixed some layout problems on left panel in AJS/AJ.
-Model: The data panel button are now taller.
+Model: The data panel buttons are now taller.
 Model: The JA data panel now look more like it should.
+Arms: {5N1N0B1} Fixed a bug in debug msgs. to console.
+Arms: Added support for munition deployment. For example unfolding wings or parachute.
