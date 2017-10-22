@@ -160,7 +160,6 @@ OUT
 - CL/DA:  Show date/time on display. Cycle with OK.
 - FUEL:   Show extra fuel warning setting in percent on display.
 - LOLA:   Show current LON/LAT on display. Cycle with OK. (it will not show negative sign if longitude degrees is more than 2 digits, the JA was only used in Sweden)
-- ACDATA:
 
 IN
 - TI:     Can clear currently edited flightplan/map-area by pressing CLEAR.
@@ -168,7 +167,12 @@ IN
 - CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
 - FUEL:   Set extra fuel warning in percent on display.
 - LOLA:  
-- ACDATA:
+
+ACDATA:
+- IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.
+- OUT: If 2 first digits entered will show value of address in last 4 digits.
+- ADDRESSES:
+    15axcd Interoperability = 0, Swedish and metric = 0. a, c and d is ignored.
 
 REG/STR:
 - IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.

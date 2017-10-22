@@ -261,6 +261,33 @@ var main = func {
           inputKey(2);
         }
       }
+    } elsif (settingKnob == KNOB_DATA) {
+      if (isStateChanged()) {
+          cycle = -1;
+          cycleMax = -1;
+          digit = 0;
+          input = inputDefault;
+      } else {
+        if (ok==HOLD and digit == 6 and num(left(input,2))==15) {
+            # set max alpha
+            var io = num(substr(input,3,1));
+            printDA("set interoperability "~io~" ");
+            setprop("ja37/hud/units-metric", !io);
+            input = inputDefault;
+            digit = 0;
+        } elsif (ok==HOLD and digit == 6) {
+            printDA("set unknown address "~input);
+            input = inputDefault;
+            digit = 0;
+        } elsif (keyPressed == -1) {
+          # reset
+            input = inputDefault;
+            digit = 0;
+        } else {
+          # input
+          inputKey(6);
+        }
+      }
     } elsif (settingKnob == KNOB_REG) {
       if (isStateChanged()) {
           cycle = -1;
@@ -472,8 +499,10 @@ var disp = func {
       }
     } elsif (settingKnob == KNOB_REG) {
       var address = num(left(input,2));
+      #printDA("reg adr to display out: "~(address==nil?"nil":""~address));
       if (address == nil or address==0) {
           # max alpha
+          #printDA("displaying alpha");
           display = sprintf("00%02d00", getprop("fdm/jsbsim/fcs/max-alpha-deg"));
       } elsif (address != nil and address==19) {
           # floor warn
@@ -485,9 +514,19 @@ var disp = func {
       } else {
         display = "000000";
       }
+    } elsif (settingKnob == KNOB_DATA) {
+      var address = num(left(input,2));
+      if (address != nil and address==15) {
+          # interoperability
+          display = sprintf("150%01d00", !getprop("ja37/hud/units-metric"));
+      } else {
+        display = "000000";
+      }
     }
   } else {# input
-    if (settingKnob == KNOB_REG) {
+    if (settingKnob == KNOB_DATA) {
+      display = input;
+    } elsif (settingKnob == KNOB_REG) {
       display = input;
     } elsif (settingKnob == KNOB_FUEL) {
       display = input;
