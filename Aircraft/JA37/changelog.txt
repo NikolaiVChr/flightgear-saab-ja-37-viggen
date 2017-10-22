@@ -3346,3 +3346,4 @@ Arms: Added support for munition deployment. For example unfolding wings or para
 DAP: Made statemachine for POS/MSDA and IN/OUT modes.
 DAP: In POS-OUT is now shows waypoint/airport info.
 DAP: When longitude is 7 digits with a minus sign, the DAP can now show that.
+DAP: Can now set address 00, which is max AoA the FCS will allow.

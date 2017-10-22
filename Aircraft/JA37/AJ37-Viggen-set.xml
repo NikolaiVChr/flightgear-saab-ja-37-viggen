@@ -769,6 +769,15 @@
         <vne>729</vne><!-- AJ37 manual -->
     </limits>
 
+    <fdm>
+        <jsbsim>
+            <fcs>
+                <max-alpha-deg type="int">18</max-alpha-deg>
+                <max-alpha-default-deg type="int">18</max-alpha-default-deg>
+            </fcs>
+        </jsbsim>
+    </fdm>
+
     <nasal>
         <rdr>
             <file>Aircraft/JA37/Nasal/radar.nas</file>

@@ -268,7 +268,17 @@ var main = func {
           digit = 0;
           input = inputDefault;
       } else {
-        if (ok==HOLD and digit == 6 and num(left(input,2))==19) {
+        if (ok==HOLD and digit == 6 and num(left(input,2))==0) {
+            # set max alpha
+            var alpha = num(substr(input,2,2));
+            if (alpha == 0) {
+              alpha = getprop("fdm/jsbsim/fcs/max-alpha-default-deg");
+            }
+            printDA("set max alpha "~alpha~" deg");
+            setprop("fdm/jsbsim/fcs/max-alpha-deg", alpha);
+            input = inputDefault;
+            digit = 0;
+        } elsif (ok==HOLD and digit == 6 and num(left(input,2))==19) {
             # set floor warn
             var floor = metric?num(right(input,4))*M2FT:num(right(input,4));
             if (floor == 0) {
@@ -462,7 +472,10 @@ var disp = func {
       }
     } elsif (settingKnob == KNOB_REG) {
       var address = num(left(input,2));
-      if (address != nil and address==19) {
+      if (address == nil or address==0) {
+          # max alpha
+          display = sprintf("00%02d00", getprop("fdm/jsbsim/fcs/max-alpha-deg"));
+      } elsif (address != nil and address==19) {
           # floor warn
           if (getprop("ja37/sound/floor-ft") < 0) {
             display = "190000";
@@ -497,6 +510,7 @@ var disp = func {
   }
   #printDA(" display  *"~display~"*");
   if (size(display)==8) {
+    #make room for the unauthentic 8th digit
     signText.setFontSize(50, 1.25);
   } else {
     signText.setFontSize(50, 1.125);

@@ -305,18 +305,18 @@
             </test>
         </switch>
 
-        <switch name="fcs/elevator/alpha-max">
+        <!--<switch name="fcs/fcs/alpha-max">
             <default value="23"/>
             <test logic="AND" value="18">
                 /ja37/systems/variant gt 0
             </test>
-        </switch>
+        </switch>-->
 
         <summer name="fcs/elevator/alpha-clamp">
             <input>aero/alpha-deg</input><!-- should really be indicated -->
             <clipto>
                 <min>-5</min>
-                <max>fcs/elevator/alpha-max</max>
+                <max>fcs/max-alpha-deg</max>
             </clipto>
         </summer>
 
@@ -345,7 +345,7 @@
                 <difference>
                     <property> fcs/elevator/alpha-lag </property>
                     <difference>
-                        <p> fcs/elevator/alpha-max </p>
+                        <p> fcs/max-alpha-deg </p>
                         <v> 7 </v>
                     </difference>
                 </difference>

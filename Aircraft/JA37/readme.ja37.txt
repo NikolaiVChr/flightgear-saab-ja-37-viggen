@@ -151,8 +151,8 @@ Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
 Nav. panel is located just next to data-panel.
 
-Notice first the switch IN/OUT.
-Below is listed what combination of that switch with the knob will produce:
+Notice first the button IN/OUT.
+Below is listed what combination of that button with the knob will produce (if the other button is MSDA):
 
 OUT
 - TI:     Show flight time on TI.
@@ -174,6 +174,7 @@ REG/STR:
 - IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.
 - OUT: If 2 first digits entered will show value of address in last 4 digits.
 - ADDRESSES:
+    00xxcd is maximum angle of attack setting. c and d is ignored. Setting 00 reverts to default.
     19xxxx is training floor altitude.
 
 "237" on display
@@ -183,6 +184,8 @@ REG/STR:
 - rotate knob or in/out switch to clear.
 
 When inputting, pay notice to the switch +/-, as that is the sign of what you input.
+
+If POS/MSDA button is in POS mode and the other button in OUT, the display will show steerpoint info.
 
 Pre-load flightplans and/or map areas on startup.
 =================================================

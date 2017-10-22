@@ -834,6 +834,16 @@
         <vne>789</vne>
     </limits>
 
+    <fdm>
+        <jsbsim>
+            <fcs>
+                <max-alpha-deg type="int">23</max-alpha-deg>
+                <max-alpha-default-deg type="int">23</max-alpha-default-deg>
+            </fcs>
+        </jsbsim>
+    </fdm>
+
+
     <nasal>
         <MI>
             <file>Aircraft/JA37/Nasal/display-mi.nas</file>
