@@ -3343,3 +3343,4 @@ Model: The data panel buttons are now taller.
 Model: The JA data panel now look more like it should.
 Arms: {5N1N0B1} Fixed a bug in debug msgs. to console.
 Arms: Added support for munition deployment. For example unfolding wings or parachute.
+DAP: Made statemachine for POS/MSDA and IN/OUT modes.

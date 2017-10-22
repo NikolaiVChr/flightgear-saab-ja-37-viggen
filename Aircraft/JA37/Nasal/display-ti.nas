@@ -4350,6 +4350,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				if (me.input.wow1.getValue() == 1) {
 					me.off = !me.off;
 					MI.mi.off = me.off;
@@ -4377,6 +4378,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				# datalink / STRILL
+				dap.syst();
 				me.dataLink = !me.dataLink;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
@@ -4410,6 +4412,7 @@ var TI = {
 			}		
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				land.OPT();
+				dap.syst();
 			}
 			if (me.menuMain == MAIN_DISPLAY) {
 				# place names on map
@@ -4434,6 +4437,7 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				#me.showSteers = !me.showSteers;
 				land.B();
+				dap.syst();
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
 				# tact ecm report
@@ -4468,6 +4472,7 @@ var TI = {
 				me.quickOpen = 10000;
 			}	
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				me.activateAlso = FALSE;
 				me.startAlso = FALSE;
 				if (route.Polygon.flyMiss.isPrimary() == TRUE) {
@@ -4519,6 +4524,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				# tactical report
+				dap.syst();
 				me.quickOpen = 20;
 				me.menuTrap = TRUE;
 			} elsif (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
@@ -4693,6 +4699,7 @@ var TI = {
 				me.input.station.setIntValue(0);
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				me.ModeAttack = !me.ModeAttack;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
@@ -4816,6 +4823,7 @@ var TI = {
 				radar_logic.selection = me.contact;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				me.activateAlso = FALSE;
 				me.startAlso = FALSE;
 				if (route.Polygon.flyRTB.isPrimary() == TRUE) {
@@ -4857,6 +4865,7 @@ var TI = {
 				me.quickOpen = 3;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				land.LA();
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
@@ -4897,6 +4906,7 @@ var TI = {
 				displays.common.cursor = !displays.common.cursor;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				land.LF();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
@@ -4919,6 +4929,7 @@ var TI = {
 				me.logPage += 1;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				land.LB();
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
@@ -4965,6 +4976,7 @@ var TI = {
 				}
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
+				dap.syst();
 				land.L();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {

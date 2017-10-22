@@ -146,7 +146,6 @@ Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 Control: overhaul rudder trim.
 DAP: Input/output square mappoints.
 DAP: Show current B navigation output. (POS/UT)
-DAP: Make statemachine for POS/UD and IN/UT modes.
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
 TI:: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
@@ -167,13 +166,14 @@ Animation: The bypass handle should not stay up for long.
 Model: The JA has a chronometer right of fuel gauge.
 Sim: Make sure ram air only supplies when AC supply is set to generator
 Test: Engine starter should be hold in for 30 secs before quiting test, not instantly.
-Test: Testing from TI
+Test: Testing from TI.
 Test: Shut down also indicators during testing.
 Test: Separate tests with test knob.
 Test: Always fail a test for system that is actually damaged.
 Model: Nav panel should be scaled to be just as wide as test panel.
 Sim: Make 1 more digit in data panel.
 Sim: Make use of POS/MSDA in data-panel.
+Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters.
 
 
 

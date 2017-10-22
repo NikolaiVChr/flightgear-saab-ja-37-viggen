@@ -806,14 +806,14 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>dap.reset();</script>
+				<script>dap.test();</script>
 			</binding>
 		</action>
 		<hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rs</tooltip-id>
-                <label>Button: RESET</label>
+                <label>Button: TEST</label>
             </binding>
         </hovered>
 	</animation>

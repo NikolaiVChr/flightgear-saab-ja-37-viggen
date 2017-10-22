@@ -9,7 +9,7 @@ var FALSE = 0;
 #    }
 #});
 
-var debugAll = FALSE;
+var debugAll = TRUE;
 
 var printDA = func (str) {
     if (debugAll) print (str);
@@ -64,6 +64,9 @@ var PLUS  = 0;
 
 var OUT   = 1;
 var IN    = 0;
+
+var POS   = 1;
+var MSDA  = 0;
 
 var KNOB_LOLA = 0;
 var KNOB_TILS = 1;
@@ -580,24 +583,19 @@ var settingPrevSign = getprop("ja37/navigation/ispos")?-1:1;
 var settingPrevDir  = getprop("ja37/navigation/inout");
 var settingPrevPos  = 1;
 
-setprop("ja37/dap/pos", settingPos);
-setprop("ja37/dap/msda", !settingPos);
-setprop("ja37/dap/in", !settingDir);
-setprop("ja37/dap/out", settingDir);
+
 
 var toggleInOut = func {
   if (getprop("ja37/systems/variant") != 0) return;
   settingDir = !settingDir;
-  setprop("ja37/dap/in", !settingDir);
-  setprop("ja37/dap/out", settingDir);
+  updateProps();
   main();
 }
 
 var togglePosMsda = func {
   if (getprop("ja37/systems/variant") != 0) return;
   settingPos = !settingPos;
-  setprop("ja37/dap/pos", settingPos);
-  setprop("ja37/dap/msda", !settingPos);
+  updateProps();
   main();
 }
 
@@ -605,17 +603,43 @@ var togglePN = func {
   if (getprop("ja37/systems/variant") != 0) return;
   if (settingSign<0) {
     settingSign = 1;
-    setprop("ja37/navigation/ispos",0);
   } else {
     settingSign = -1;
-    setprop("ja37/navigation/ispos",1);
   }
+  updateProps();
   main();
 }
 
-var reset = func {
+var test = func {
   if (getprop("ja37/systems/variant") != 0) return;
 }
+
+var syst = func {
+  # called from TI
+  if(getprop("fdm/jsbsim/gear/unit[0]/WOW") == FALSE) {
+    settingDir  = OUT;
+    settingPos  = POS;
+    updateProps();
+  }
+}
+
+var wow = func {
+  if(getprop("fdm/jsbsim/gear/unit[0]/WOW") == FALSE) {
+    settingDir  = OUT;
+    settingPos  = POS;
+    updateProps();
+  }
+}
+
+var updateProps = func {
+  setprop("ja37/navigation/inout", settingDir);
+  setprop("ja37/navigation/ispos", settingSign>0?0:1);
+  setprop("ja37/dap/pos", settingPos);
+  setprop("ja37/dap/msda", !settingPos);
+  setprop("ja37/dap/in", !settingDir);
+  setprop("ja37/dap/out", settingDir);
+}
+updateProps();
 
 var switch = func {
   if (getprop("ja37/systems/variant") != 0) return;
@@ -630,6 +654,12 @@ var keyPress = func (key) {
   if (getprop("systems/electrical/outputs/dc-voltage") < 23){
     printDA("DAP: offline");
     return;
+  }
+  if (settingDir != IN or settingPos != MSDA) {
+    settingDir = IN;
+    settingPos = MSDA;
+    updateProps();
+    main();
   }
   keyPressed = key;
   printDA("DAP: key "~key);
@@ -657,5 +687,6 @@ var okRelease = func {
 }
 
 setlistener("ja37/navigation/dp-mode", switch);
+setlistener("fdm/jsbsim/gear/unit[0]/WOW", wow);
 #setlistener("ja37/navigation/ispos", switch);
 #setlistener("ja37/navigation/inout", switch);
