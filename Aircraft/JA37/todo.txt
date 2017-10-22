@@ -145,7 +145,7 @@ CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
 Control: overhaul rudder trim.
 DAP: Input/output square mappoints.
-DAP: Show current B navigation output. (POS/UT)
+DAP: Show current B navigation output. (POS/OUT)
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
 TI:: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
@@ -171,8 +171,7 @@ Test: Shut down also indicators during testing.
 Test: Separate tests with test knob.
 Test: Always fail a test for system that is actually damaged.
 Model: Nav panel should be scaled to be just as wide as test panel.
-Sim: Make 1 more digit in data panel.
-Sim: Make use of POS/MSDA in data-panel.
+DAP: Make 1 more digit in data panel.
 Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters.
 
 

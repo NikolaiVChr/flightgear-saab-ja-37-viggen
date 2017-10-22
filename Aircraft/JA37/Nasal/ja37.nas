@@ -960,6 +960,8 @@ var Saab37 = {
         dap.callInit();
         me.loop_dap  = maketimer(1, me, func dap.loop_main());
         me.loop_dap.start();
+        me.loop_plan  = maketimer(0.5, me, func route.Polygon.loop());
+        me.loop_plan.start();
       }
       
     }

@@ -97,6 +97,7 @@ var input = "------";
 var digit = 0;
 var error = FALSE;
 var display = "      ";
+var posOutDisplay = "       ";
 
 var testDisplay = "";
 var testMinus = 0;
@@ -396,6 +397,8 @@ var disp = func {
         display = sign~input;#not elegant, fix later
       }
     }
+  } elsif (settingDir == OUT and settingPos == POS) {
+    display = posOutDisplay;
   } elsif (settingDir == OUT) {
     if (settingKnob == KNOB_DATE) {
       if (cycle == -1) {
@@ -493,6 +496,11 @@ var disp = func {
     return;
   }
   #printDA(" display  *"~display~"*");
+  if (size(display)==8) {
+    signText.setFontSize(50, 1.25);
+  } else {
+    signText.setFontSize(50, 1.125);
+  }
   signText.setText(display);
 };
 var metric = 0;
@@ -575,13 +583,13 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 var ok          = RELEASE;
 var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
-var settingSign = getprop("ja37/navigation/ispos")?-1:1;
+var settingSign = getprop("ja37/navigation/ispos")==MINUS?-1:1;
 var settingDir  = getprop("ja37/navigation/inout");
-var settingPos  = 1;
+var settingPos  = POS;
 var settingPrevKnob = getprop("ja37/navigation/dp-mode");
-var settingPrevSign = getprop("ja37/navigation/ispos")?-1:1;
+var settingPrevSign = getprop("ja37/navigation/ispos")==MINUS?-1:1;
 var settingPrevDir  = getprop("ja37/navigation/inout");
-var settingPrevPos  = 1;
+var settingPrevPos  = POS;
 
 
 
@@ -633,7 +641,7 @@ var wow = func {
 
 var updateProps = func {
   setprop("ja37/navigation/inout", settingDir);
-  setprop("ja37/navigation/ispos", settingSign>0?0:1);
+  setprop("ja37/navigation/ispos", settingSign>0?PLUS:MINUS);
   setprop("ja37/dap/pos", settingPos);
   setprop("ja37/dap/msda", !settingPos);
   setprop("ja37/dap/in", !settingDir);

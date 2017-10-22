@@ -746,6 +746,25 @@ var Polygon = {
 			return FALSE;
 		}
 	},
+
+	loop: func {
+		dap.posOutDisplay = "       ";
+		if (Polygon.isPrimaryActive()) {
+			me.steer = Polygon.primary.getSteerpoint();
+			if (me.steer != nil) {
+				me.distance = getprop("autopilot/route-manager/wp/dist");
+				if(me.distance != nil) {
+					if (ghosttype(me.steer[0]) == "runway" or ghosttype(me.steer[0]) == "airport") {
+						me.distance = me.distance*NM2M*0.001;
+						dap.posOutDisplay = sprintf(" 10%03d0",me.distance);
+					} else {
+						me.distance = me.distance*NM2M*0.001;
+						dap.posOutDisplay = sprintf(" 00%03d0",me.distance);
+					}
+				}
+			}
+		}
+	},
 };
 
 var poly_start = func {
