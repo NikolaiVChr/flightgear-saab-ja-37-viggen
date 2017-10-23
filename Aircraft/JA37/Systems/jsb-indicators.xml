@@ -2139,7 +2139,7 @@
 
         <switch name="/instrumentation/terrain-warning">
             <default value="0"/>
-            <test logic="OR" value="/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
                 /ja37/sound/terrain-on == 1
             </test>
             <test logic="AND" value="1">
@@ -2149,7 +2149,7 @@
 
         <switch name="/instrumentation/terrain-warning-test">
             <default value="0"/>
-            <test logic="OR" value="/ja37/blink/ten-Hz/state">
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
                 /controls/lighting/test-indicator-panels == 1
             </test>
         </switch>

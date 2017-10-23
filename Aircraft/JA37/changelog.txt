@@ -3350,3 +3350,5 @@ DAP: Can now set REG address 00, which is max AoA the FCS will allow.
 DAP: Can now set ACDATA address 15, which will set interoperability/Swedish.
 GUI: Updated checklist markers.
 Model: Updated texture for counter measure panel.
+Model: Made text on radar panel texture more readable.
+Animation: Made red terrain warning light on MI blink with 4 Hz instead of 10Hz.

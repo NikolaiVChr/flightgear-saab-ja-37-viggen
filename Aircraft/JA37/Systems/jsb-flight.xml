@@ -1462,6 +1462,21 @@
             <output>/ja37/blink/two-Hz/state</output>
         </fcs_function>
 
+        <fcs_function name="systems/flight/blink/four">
+            <function>
+                <integer>
+                  <mod>
+                    <product>
+                        <property>sim-time-sec</property>
+                        <value>4</value>
+                    </product>
+                    <value>2</value>
+                  </mod>
+                </integer>
+            </function>
+            <output>/ja37/blink/four-Hz/state</output>
+        </fcs_function>
+
         <fcs_function name="systems/flight/blink/five">
             <function>
                 <integer>

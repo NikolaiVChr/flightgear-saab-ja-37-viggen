@@ -50,7 +50,6 @@ Sim: Improve autopilot further.
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Implement ejection seat. (with parachute?)
 Sim: Reset controls after A/P let go of them.
-Sim: Stop using integers in xml where floating point is expected? (is silly, not needed, rely on typecasting instead)
 Sim: Make verbose property to be used in all nasal scripts. (possible include in options)
 Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
@@ -74,11 +73,10 @@ Sim: Review A/P working property use. Also in jsb for stick control.
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
-Sim: Make data and nav panel functional.
+Sim: Make nav panel functional.
 Sim: After exiting transonic the altitude hold is recomputed. 
 Sim: To disengage A/P to mode 0 press switch on stick or pull fuse (will also disengage A/T).
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
-Sim: Select L on systems panel to select preprogrammed landing base. LB then for long approach, LF for short.
 Sim: Pitot depend on AC power.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
 Sim: The A/P for glideslope is not very reliable, fix.
