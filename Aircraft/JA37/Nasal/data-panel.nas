@@ -9,7 +9,7 @@ var FALSE = 0;
 #    }
 #});
 
-var debugAll = TRUE;
+var debugAll = FALSE;
 
 var printDA = func (str) {
     if (debugAll) print (str);

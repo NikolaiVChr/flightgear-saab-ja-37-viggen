@@ -210,16 +210,36 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Instruments/Indicators/transonic.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/transonic-ja.xml</path>
     <name>Transonic</name>
     <offsets>
       <x-m>  0.01</x-m>
-      <y-m>  0.13</y-m>
-      <z-m>  0.36</z-m>
+      <y-m>  0.23</y-m>
+      <z-m>  0.28</z-m>
     </offsets>
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/snabbresn.xml</path>
+    <name>quickINSReset</name>
+    <offsets>
+      <x-m>  0.00</x-m>
+      <y-m>  0.20</y-m>
+      <z-m>  0.305</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/reservkurs.xml</path>
+    <name>rkurs</name>
+    <offsets>
+      <x-m>  0.00</x-m>
+      <y-m>  0.17</y-m>
+      <z-m>  0.33</z-m>
+    </offsets>
+  </model>
+
+  <!--<model>
     <path>Aircraft/JA37/Models/Cockpit/switches/switch-masterarm.xml</path>
     <name>SwitchMasterarm</name>
     <offsets>
@@ -247,7 +267,7 @@
       <y-m>  0.215</y-m>
       <z-m>  0.29</z-m>
     </offsets>
-  </model>
+  </model>-->
 
 
 <!--     center        -->

@@ -3352,3 +3352,7 @@ GUI: Updated checklist markers.
 Model: Updated texture for counter measure panel.
 Model: Made text on radar panel texture more readable.
 Animation: Made red terrain warning light on MI blink with 4 Hz instead of 10Hz.
+Model: Replaced reservkurs switch with a lampbutton. (JA)
+Model: For the JA made a more accurate white lamp warning on front panel.
+Model: Made button for quick INS reset on front panel. (JA)
+Model: Removed switches HUD-type and interoperability (that can be done via data-panel now). (JA)
