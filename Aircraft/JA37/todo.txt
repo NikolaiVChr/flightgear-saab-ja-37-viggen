@@ -43,7 +43,6 @@ Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Animation: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
 Animation: Make jettison drop-tank actually fall down like other stores do.
-Animation: Red warning light on MI should blink with 4Hz.
 Engine: Switch aug. type in engine?
 Engine: Model compressor surge/stall including bang sound.
 Sim: Improve autopilot further.
@@ -171,7 +170,7 @@ Model: Nav panel should be scaled to be just as wide as test panel.
 DAP: Make 1 more digit in data panel, when inputting longitude.
 Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters.
 Sim: AC should just blow air, not keep temperature.
-
+DAP: Minneslista JA37 has some DAP addresses. Make.
 
 
 
