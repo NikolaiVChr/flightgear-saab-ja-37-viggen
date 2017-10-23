@@ -63,7 +63,7 @@
             <red>1</red>
             <green>0.42</green>
             <blue>0.08</blue>
-            <factor-prop>ja37/avionics/reservkurs</factor-prop>
+            <factor-prop>ja37/avionics/reservkurs-indicator</factor-prop>
         </emission>
     </animation>
 

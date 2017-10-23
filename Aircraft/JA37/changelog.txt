@@ -3356,3 +3356,4 @@ Model: Replaced reservkurs switch with a lampbutton. (JA)
 Model: For the JA made a more accurate white lamp warning on front panel.
 Model: Made button for quick INS reset on front panel. (JA)
 Model: Removed switches HUD-type and interoperability (that can be done via data-panel now). (JA)
+Model: Replaced the master warning light and button. (JA)

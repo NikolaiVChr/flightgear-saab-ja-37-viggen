@@ -2051,6 +2051,14 @@
             </test>
         </switch>
 
+        <switch name="/ja37/avionics/reservkurs-indicator">
+            <default value="0"/>
+            <test logic="OR" value="/systems/electrical/dc-light">
+                /controls/lighting/test-indicator-panels == 1
+                /ja37/avionics/reservkurs == 1
+            </test>
+        </switch>
+
         <fcs_function name="systems/indicators/time-till-crash">
             <function>
                 <quotient>

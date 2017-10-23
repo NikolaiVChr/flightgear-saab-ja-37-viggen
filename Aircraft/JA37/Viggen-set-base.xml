@@ -671,6 +671,7 @@
             <annunciator>
                 <serviceable type="bool">true</serviceable>
             </annunciator>
+            <reservkurs type="bool">false</reservkurs>
         </avionics>
         <displays>
             <show-full-menus type="bool">true</show-full-menus>

@@ -414,7 +414,7 @@
     <z-offset>1.05</z-offset>
   </animation>
 
-  <model>
+  <!--<model>
     <path>Aircraft/JA37/Models/Instruments/Indicators/master-warning-1.xml</path>
     <name>WarnLeft</name>
     <offsets>
@@ -432,14 +432,14 @@
       <y-m> -0.165</y-m>
       <z-m>  0.3075</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/buttons/button-master-warning.xml</path>
+    <path>Aircraft/JA37/Models/Instruments/Indicators/master-ja.xml</path>
     <name>WarnButton</name>
     <offsets>
       <x-m>  0.01</x-m>
-      <y-m> -0.205</y-m>
+      <y-m> -0.175</y-m>
       <z-m>  0.315</z-m>
     </offsets>
   </model>
