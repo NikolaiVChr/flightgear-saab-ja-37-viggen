@@ -8,6 +8,7 @@
         <object-name>light</object-name>
         <object-name>mount</object-name>
         <object-name>base</object-name>
+        <object-name>label</object-name>
     </effect>
 
     <animation>
@@ -23,6 +24,7 @@
 
     <animation>
         <type>pick</type>
+        <object-name>label</object-name>
         <object-name>light</object-name>
         <object-name>mount</object-name>
         <object-name>base</object-name>

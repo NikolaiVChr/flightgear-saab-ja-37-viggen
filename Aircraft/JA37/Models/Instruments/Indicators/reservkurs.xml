@@ -6,6 +6,7 @@
     <effect>
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>mount</object-name>
+        <object-name>label</object-name>
     </effect>
 
     <animation>

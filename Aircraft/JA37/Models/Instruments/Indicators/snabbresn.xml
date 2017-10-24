@@ -7,6 +7,7 @@
         <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
         <object-name>shield</object-name>
         <object-name>bt</object-name>
+        <object-name>label</object-name>
     </effect>
 
     <animation>
@@ -36,7 +37,6 @@
             </binding>
         </hovered>
     </animation>
-
     <animation>
        <type>translate</type>
        <object-name>bt</object-name>
