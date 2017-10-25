@@ -157,7 +157,7 @@ var MI = {
 			hdgReal:              "orientation/heading-deg",
 			tracks_enabled:   	  "ja37/hud/tracks-enabled",
 			radar_serv:       	  "instrumentation/radar/serviceable",
-			tenHz:            	  "ja37/blink/ten-Hz/state",
+			tenHz:            	  "ja37/blink/four-Hz/state",
 			qfeActive:        	  "ja37/displays/qfe-active",
 	        qfeShown:		  	  "ja37/displays/qfe-shown",
 	        station:          	  "controls/armament/station-select",

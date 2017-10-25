@@ -32,12 +32,12 @@ Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
 Model: Put in not-working instruments and controls for immersion.
 Model: Some control textures should be aligned so they can be better viewed from current pilot point of view.
-Model: Radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
+Model: AJ radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
 Model: Make the tooltips fail when gauges fail.
 Model: Proper floor in the cockpit.
 Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
-Model: Stores jettisoned indicator on top right of front panel?
+Model: Stores jettisoned indicator on top right of front panel. (AJ)
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
 Animation: Review all indicator lights. For example the A/T light should blink by malfunctions or disengagements.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
@@ -162,7 +162,7 @@ Model: The JA has a chronometer right of fuel gauge.
 Sim: Make sure ram air only supplies when AC supply is set to generator
 Test: Engine starter should be hold in for 30 secs before quiting test, not instantly.
 Test: Testing from TI.
-Test: Shut down also indicators during testing.
+Test: Shut down also some indicators during testing.
 Test: Separate tests with test knob.
 Test: Always fail a test for system that is actually damaged.
 Model: Nav panel should be scaled to be just as wide as test panel.
@@ -175,6 +175,18 @@ Model: Oxygen switch was special.
 Model: In JA the 2 gauges on right panel sat in a panel.
 Model: OPT FIX button on left side next to canopy handle.
 Model: Switch on right side close to canopy for interior lights.
+GUI: Add checklist for non-functional controls.
+
+
+
+
+
+
+
+
+
+
+
 
 
 

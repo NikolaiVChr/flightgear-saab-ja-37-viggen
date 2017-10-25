@@ -2330,7 +2330,7 @@
   <object-name>TWR1</object-name>
   <condition>
     <equals>
-      <property>ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/four-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -2354,7 +2354,7 @@
   <object-name>TWR3</object-name>
   <condition>
     <equals>
-      <property>ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/four-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -2378,7 +2378,7 @@
   <object-name>TWR5</object-name>
   <condition>
     <equals>
-      <property>ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/four-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -2402,7 +2402,7 @@
   <object-name>TWR7</object-name>
   <condition>
     <equals>
-      <property>ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/four-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -2426,7 +2426,7 @@
   <object-name>TWR9</object-name>
   <condition>
     <equals>
-      <property>ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/four-Hz/state</property>
       <value>1</value>
     </equals>
     <or>
@@ -2450,7 +2450,7 @@
   <object-name>TWR11</object-name>
   <condition>
     <equals>
-      <property>ja37/blink/ten-Hz/state</property>
+      <property>ja37/blink/four-Hz/state</property>
       <value>1</value>
     </equals>
     <or>

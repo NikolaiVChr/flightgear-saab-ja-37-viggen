@@ -28,7 +28,7 @@ input = {
   gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
   gearsPos:         "gear/gear/position-norm",
   hz05:             "ja37/blink/five-Hz/state",
-  hz10:             "ja37/blink/ten-Hz/state",
+  hz10:             "ja37/blink/four-Hz/state",
   hzThird:          "ja37/blink/third-Hz/state",
   impact:           "/ai/models/model-impact",
   mass1:            "fdm/jsbsim/inertia/pointmass-weight-lbs[1]",

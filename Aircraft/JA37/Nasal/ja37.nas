@@ -83,7 +83,7 @@ input = {
   hydr2On:          "fdm/jsbsim/systems/hydraulics/system2/pressure-main",
   hydrCombined:     "fdm/jsbsim/systems/hydraulics/flight-surface-actuation",
   hz05:             "ja37/blink/five-Hz/state",
-  hz10:             "ja37/blink/ten-Hz/state",
+  hz10:             "ja37/blink/four-Hz/state",
   hzThird:          "ja37/blink/third-Hz/state",
   impact:           "/ai/models/model-impact",
   indAA:            "ja37/avionics/auto-altitude-on",

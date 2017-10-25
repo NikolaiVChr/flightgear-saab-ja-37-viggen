@@ -564,6 +564,9 @@
             <two-Hz>
                 <state type="bool">false</state>
             </two-Hz>
+            <four-Hz>
+                <state type="bool">false</state>
+            </four-Hz>
             <five-Hz>
                 <state type="bool">false</state>
             </five-Hz>

@@ -1453,7 +1453,7 @@
                   <mod>
                     <product>
                         <property>sim-time-sec</property>
-                        <value>2</value>
+                        <value>4</value>
                     </product>
                     <value>2</value>
                   </mod>
@@ -1468,7 +1468,7 @@
                   <mod>
                     <product>
                         <property>sim-time-sec</property>
-                        <value>4</value>
+                        <value>8</value>
                     </product>
                     <value>2</value>
                   </mod>
@@ -1483,7 +1483,7 @@
                   <mod>
                     <product>
                         <property>sim-time-sec</property>
-                        <value>5</value>
+                        <value>10</value>
                     </product>
                     <value>2</value>
                   </mod>
@@ -1498,7 +1498,7 @@
                   <mod>
                     <product>
                         <property>sim-time-sec</property>
-                        <value>10</value>
+                        <value>20</value>
                     </product>
                     <value>2</value>
                   </mod>

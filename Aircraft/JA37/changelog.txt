@@ -3359,3 +3359,4 @@ Model: Removed switches HUD-type and interoperability (that can be done via data
 Model: Replaced the master warning light and button. (JA)
 Model: Added 3 labels to JA frontpanel.
 Model: Replaced the mount for the 3 autopilot buttons on frontpanel in the JA.
+Animation: Fixed timing of some blinkers. Five Hz is now the fastest used.
