@@ -56,7 +56,7 @@ var Common = {
 	        alt_ft:           "instrumentation/altimeter/indicated-altitude-ft",
 	        ctrlRadar:        "controls/altimeter-radar",
 	        units:            "ja37/hud/units-metric",
-	        fiveHz:           "ja37/blink/five-Hz/state",
+	        fiveHz:           "ja37/blink/two-Hz/state",
 	        rad_alt:          "position/altitude-agl-ft",
 	        dme:              "instrumentation/dme/KDI572-574/nm",
         dmeDist:          "instrumentation/dme/indicated-distance-nm",

@@ -582,6 +582,7 @@
             <function>
                 <product>
                     <property>/controls/lighting/flood-knob</property>
+                    <property>/ja37/light/flood-bt</property>
                     <property>/systems/electrical/dc-light</property>
                     <value>0.5</value>
                     <difference>

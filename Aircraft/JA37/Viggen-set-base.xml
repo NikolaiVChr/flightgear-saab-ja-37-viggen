@@ -739,6 +739,7 @@
             <ti20 type="double">0</ti20>
             <ti21 type="double">0</ti21>
             <ti0 type="double">0</ti0>
+            <flood-bt type="bool">true</flood-bt>
         </light>
         <test>
             <ym-steady type="bool">false</ym-steady>

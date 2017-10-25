@@ -1018,7 +1018,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         fdpitch:          "autopilot/settings/fd-pitch-deg",
         fdroll:           "autopilot/settings/fd-roll-deg",
         fdspeed:          "autopilot/settings/target-speed-kt",
-        fiveHz:           "ja37/blink/five-Hz/state",
+        fiveHz:           "ja37/blink/two-Hz/state",
         gearCmdNorm:      "/fdm/jsbsim/gear/gear-cmd-norm",
         gearsPos:         "gear/gear/position-norm",
         hdg:              "orientation/heading-magnetic-deg",

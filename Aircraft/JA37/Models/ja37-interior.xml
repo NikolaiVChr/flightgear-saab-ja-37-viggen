@@ -38,6 +38,11 @@
   </model>
 
   <model>
+    <path>Aircraft/JA37/Models/Cockpit/sideButtons.xml</path>
+    <name>sb</name>
+  </model>
+
+  <model>
     <path>Aircraft/JA37/Models/Cockpit/subHUD/subHUD.xml</path>
     <name>PanelSubHUD</name>
   </model>

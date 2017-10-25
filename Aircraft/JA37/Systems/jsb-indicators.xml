@@ -1702,6 +1702,13 @@
             </test>
         </switch>
 
+        <switch name="systems/indicators/dc-light-twoHz">
+            <default value="0"/>
+            <test logic="AND" value="/systems/electrical/dc-light">               
+                /ja37/blink/two-Hz/state == 1
+            </test>
+        </switch>
+
         <!-- Swedish: SPAK (green)
 
             Indicator: Flightstick is controlling fully/partly the airplane
@@ -2184,7 +2191,7 @@
 
         <switch name="/ja37/test/button-ym-tp">
             <default value="0"/>
-            <test logic="OR" value="systems/indicators/dc-light-fiveHz">               
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">               
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/test/ym-flash == 1
             </test>
@@ -2195,7 +2202,7 @@
 
         <switch name="/ja37/test/button-start-tp">
             <default value="0"/>
-            <test logic="OR" value="systems/indicators/dc-light-fiveHz">               
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">               
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/test/start-flash == 1
             </test>
@@ -2206,7 +2213,7 @@
 
         <switch name="/ja37/test/button-rep-tp">
             <default value="0"/>
-            <test logic="OR" value="systems/indicators/dc-light-fiveHz">               
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">               
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/test/rep-flash == 1
             </test>
@@ -2217,7 +2224,7 @@
 
         <switch name="/ja37/test/button-ipk-tp">
             <default value="0"/>
-            <test logic="OR" value="systems/indicators/dc-light-fiveHz">               
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">               
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/test/ipk-flash == 1
             </test>
@@ -2228,7 +2235,7 @@
 
         <switch name="/ja37/test/button-fk-tp">
             <default value="0"/>
-            <test logic="OR" value="systems/indicators/dc-light-fiveHz">               
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">               
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/test/fk-flash == 1
             </test>
@@ -2239,7 +2246,7 @@
 
         <switch name="/ja37/test/button-fel-tp">
             <default value="0"/>
-            <test logic="OR" value="systems/indicators/dc-light-fiveHz">               
+            <test logic="OR" value="systems/indicators/dc-light-twoHz">               
                 /controls/lighting/test-indicator-panels == 1
                 /ja37/test/fel-flash == 1
             </test>
