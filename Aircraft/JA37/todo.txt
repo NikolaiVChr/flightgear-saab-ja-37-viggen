@@ -21,7 +21,6 @@ Model: Improve texturing of gears handle housing, it had some details on it.
 Model: JA version of radar control stick.
 Model: Airspeed indicator should have mach number also.
 Model: The KURS gauge in the JA was more complex.
-Model: The mount for the 3 autopilot buttons on frontpanel was different in the JA.
 Model: The reserve generator. (ram air turbine)
 Model: Model speedbrakes.
 Model: Chair specific to Viggen.
@@ -174,7 +173,6 @@ DAP: Minneslista JA37 has some DAP addresses. Make.
 Sim: Make use of button SNABBRESN (reinit gyro, max 3 mins, light on during).
 Model: Oxygen switch was special.
 Model: In JA the 2 gauges on right panel sat in a panel.
-Model: On frontpanel there was 3 labels next to the 3 upper right indicators/button.
 Model: OPT FIX button on left side next to canopy handle.
 Model: Switch on right side close to canopy for interior lights.
 
