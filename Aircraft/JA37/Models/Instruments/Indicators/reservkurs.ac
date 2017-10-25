@@ -1,7 +1,7 @@
 AC3Db
-MATERIAL "labelMat" rgb 0.640 0.640 0.640  amb 1.000 1.000 1.000  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 0.000
+MATERIAL "labelMat" rgb 0.640 0.640 0.640  amb 0.640 0.640 0.640  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 0.000
 MATERIAL "lightMat" rgb 0.800 0.342 0.068  amb 0.403 0.403 0.403  emis 0.000 0.000 0.000  spec 0.253 0.253 0.253  shi 12 trans 0.000
-MATERIAL "mountMat" rgb 0.040 0.040 0.040  amb 0.400 0.400 0.400  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 0.000
+MATERIAL "mountMat" rgb 0.040 0.040 0.040  amb 0.040 0.040 0.040  emis 0.000 0.000 0.000  spec 0.500 0.500 0.500  shi 12 trans 0.000
 OBJECT world
 name "Blender_exporter_v2.21__reservkurs.ac"
 kids 3

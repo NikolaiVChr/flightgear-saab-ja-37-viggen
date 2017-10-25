@@ -36,7 +36,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>reservkurs</tooltip-id>
-                <label>Backup course</label>
+                <label>Backup heading</label>
                 <property>/instrumentation/transonic-indicator</property>
             </binding>
         </hovered>
