@@ -3299,7 +3299,7 @@ Model: Added mock up of left frontmost radio panel.
 Model: Switched the nav panel and the TILS group switch.
 Model: Added handle to right panel.
 
-4.307
+4.307 - 2017 October 26
 =====
 Arms: Added support for anti-radiation missiles.
 Arms: Added property for if weapon should attempt to reaquire lock if it is lost.
@@ -3319,7 +3319,7 @@ Model: Added ME31 nav channel selector.
 Sim: Made KV1 channel selector use comm only, and no longer KHz.
 Model: The channel selectors no longer are shown in AJ variants.
 Sim: Fixed that channel selectors would fail if pure zeros was entered.
-Model: Added counter measure panel P152.
+Model: Added electronic warfare panel P152.
 Model: Removed A/P follow button.
 Model: increased size of datapanel.
 Model: Moved stuff around on right panel.

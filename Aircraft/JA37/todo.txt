@@ -167,7 +167,7 @@ Test: Separate tests with test knob.
 Test: Always fail a test for system that is actually damaged.
 Model: Nav panel should be scaled to be just as wide as test panel.
 DAP: Make 1 more digit in data panel, when inputting longitude.
-Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters.
+Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters, MI brightness.
 Sim: AC should just blow air, not keep temperature.
 DAP: Minneslista JA37 has some DAP addresses. Make.
 Sim: Make use of button SNABBRESN (reinit gyro, max 3 mins, light on during).

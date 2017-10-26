@@ -10,7 +10,7 @@
         <object-name>mountLeftMinor</object-name>
         <object-name>mountRight</object-name>
         <object-name>mountRightMinor</object-name>
-        <object-name>switch</object-name>
+        <object-name>Switch</object-name>
         <object-name>button</object-name>
     </effect>
 
@@ -54,6 +54,18 @@
 
     <animation>
         <type>pick</type>
+        <object-name>Switch</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fl</tooltip-id>
+                <label>Flood light</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
         <object-name>button</object-name>
         <action>
             <button>0</button>
@@ -70,13 +82,13 @@
                 </binding>
             </mod-up>
         </action>
-        <!--<hovered>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>md</tooltip-id>
-                <label>Clear middle display to enter new values</label>
+                <tooltip-id>of</tooltip-id>
+                <label>Visual INS fix</label>
             </binding>
-        </hovered>-->
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
