@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--ja37-metal.eff-->
+<PropertyList>
+  <name>Effects/ja37-metal</name>
+  <inherits-from>Aircraft/JA37/Models/Effects/fuselage/model-combined-fuselage</inherits-from>
+  <parameters>
+     <metallic type="float">0.85</metallic>
+     <reflection-enabled type="int">0</reflection-enabled>
+     <reflect-map-enabled type="int">0</reflect-map-enabled>
+     <reflection-correction type="float">0</reflection-correction>
+     <reflection-fresnel type="float">0.0</reflection-fresnel>
+     <reflection-rainbow type="float">0.1</reflection-rainbow>
+     <reflection-noise type="float">0.5</reflection-noise>
+     <reflection-dynamic type="int">1</reflection-dynamic>
+     <reflection-type type="int">2</reflection-type>
+
+     <normalmap-enabled type="int">0</normalmap-enabled>
+     <rain-enabled type="int">0</rain-enabled>
+     <lightmap-enabled type="int">0</lightmap-enabled>
+
+     <delta_T><use>engines/engine/egt-degf</use></delta_T>
+
+     <ambient-correction type="float">0.0</ambient-correction>
+
+     <dirt-enabled type="int">0</dirt-enabled>
+     <dirt-factor type="float">0.0</dirt-factor>
+     <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
+
+    <!-- env. reflect skymap -->
+    <texture n="5">
+      <type>cubemap</type>
+      <images>
+          <positive-x>Aircraft/Generic/Effects/fgfs-sky2/1.png</positive-x>
+          <negative-x>Aircraft/Generic/Effects/fgfs-sky2/4.png</negative-x>
+          <positive-y>Aircraft/Generic/Effects/fgfs-sky2/2.png</positive-y>
+          <negative-y>Aircraft/Generic/Effects/fgfs-sky2/3.png</negative-y>
+          <positive-z>Aircraft/Generic/Effects/fgfs-sky2/6.png</positive-z>
+          <negative-z>Aircraft/Generic/Effects/fgfs-sky2/5.png</negative-z>
+      </images>
+      <filter>linear</filter>
+    </texture>
+ </parameters>
+</PropertyList>

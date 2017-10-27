@@ -173,7 +173,7 @@ DAP: Minneslista JA37 has some DAP addresses. Make.
 Sim: Make use of button SNABBRESN (reinit gyro, max 3 mins, light on during).
 Model: Oxygen switch was special.
 Model: In JA the 2 gauges on right panel sat in a panel.
-
+Openradar has no roll and heading
 
 
 

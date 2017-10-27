@@ -7,8 +7,85 @@
 	<nopreview/>
 
 	<effect>
-	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal</inherits-from>
-	  <object-name>Pod</object-name>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal-paint</inherits-from>
+	  <object-name>PodCasing</object-name>
+	  <object-name>PodMain</object-name>
 	</effect>
+
+	<effect>
+	  <inherits-from>Aircraft/JA37/Models/Effects/ja37-metal-paint</inherits-from>
+	  <object-name>rocket1</object-name>
+	  <object-name>rocket2</object-name>
+	  <object-name>rocket3</object-name>
+	  <object-name>rocket4</object-name>
+	  <object-name>rocket5</object-name>
+	  <object-name>rocket6</object-name>
+	</effect>
+
+	<!--<animation>
+		<type>select</type>
+		<object-name>rocket1</object-name>
+		<condition>
+			<greater-than>
+				<property>/ai/submodels/submodel[5]/count</property>
+				<value>0</value>
+			</greater-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>rocket2</object-name>
+		<condition>
+			<greater-than>
+				<property>/ai/submodels/submodel[5]/count</property>
+				<value>1</value>
+			</greater-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>rocket3</object-name>
+		<condition>
+			<greater-than>
+				<property>/ai/submodels/submodel[5]/count</property>
+				<value>2</value>
+			</greater-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>rocket4</object-name>
+		<condition>
+			<greater-than>
+				<property>/ai/submodels/submodel[5]/count</property>
+				<value>3</value>
+			</greater-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>rocket5</object-name>
+		<condition>
+			<greater-than>
+				<property>/ai/submodels/submodel[5]/count</property>
+				<value>4</value>
+			</greater-than>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
+		<object-name>rocket6</object-name>
+		<condition>
+			<greater-than>
+				<property>/ai/submodels/submodel[5]/count</property>
+				<value>5</value>
+			</greater-than>
+		</condition>
+	</animation>-->
 
 </PropertyList>

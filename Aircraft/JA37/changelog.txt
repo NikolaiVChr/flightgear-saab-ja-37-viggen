@@ -3366,3 +3366,4 @@ Model: Added switch on right side close to canopy for flood lights.
 4.308
 =====
 GUI: Added some extra checklists items for before engine start.
+Model: {Pinto} New M70 model.
