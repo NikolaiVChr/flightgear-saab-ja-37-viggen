@@ -3362,3 +3362,7 @@ Model: Replaced the mount for the 3 autopilot buttons on frontpanel in the JA.
 Animation: Fixed timing of some blinkers. Five Hz is now the fastest used.
 Model: Added OPT FIX button on left side next to canopy handle.
 Model: Added switch on right side close to canopy for flood lights.
+
+4.308
+=====
+GUI: Added some extra checklists items for before engine start.
