@@ -369,21 +369,20 @@ var loop_stores = func {
           }
         } elsif(armSelect != (i+1) and armament.AIM.active[i].status != MISSILE_FLYING) {
           #pylon not selected, and not flying set missile on standby
-          armament.AIM.active[i].status = MISSILE_STANDBY;
+          armament.AIM.active[i].stop();
           #print("not sel "~i);
         } elsif (input.acMainVolt.getValue() < 150 or input.combat.getValue() != 2
                   or (armament.AIM.active[i].status != MISSILE_STANDBY
                       and armament.AIM.active[i].status != MISSILE_FLYING
                       and payloadName.getValue() == "none")) {
           #pylon has logic but missile not mounted and not flying or not in tactical mode or has no power
-          armament.AIM.active[i].status = MISSILE_STANDBY;
+          armament.AIM.active[i].stop();
           #print("empty "~i);
         } elsif (armSelect == (i+1) and armament.AIM.active[i].status == MISSILE_STANDBY
                   and input.combat.getValue() == 2) { # and payloadName.getValue() == "RB 24J"
           #pylon selected, missile mounted, in tactical mode, activate search
-          armament.AIM.active[i].status = MISSILE_SEARCH;
+          armament.AIM.active[i].start();
           #print("active "~i);
-          armament.AIM.active[i].search();
         } 
       } elsif (jettisonAll == TRUE and (payloadName.getValue() == "M70 ARAK" or payloadName.getValue() == "M55 AKAN" or payloadName.getValue() == "Drop tank")) {
         payloadName.setValue("none");

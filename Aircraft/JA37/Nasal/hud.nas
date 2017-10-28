@@ -793,6 +793,15 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     #me.diamond_group_line = me.diamond_group.createChild("group");
     #me.track_line = nil;
     me.diamond_group.createTransform();
+    me.diamond_small = me.root.createChild("path")
+                           .moveTo(-(35/1024)*canvasWidth,   0)
+                           .lineTo(  0, -(35/1024)*canvasWidth)
+                           .lineTo( (35/1024)*canvasWidth,   0)
+                           .lineTo(  0,  (35/1024)*canvasWidth)
+                           .lineTo(-(35/1024)*canvasWidth,   0)
+                           .setStrokeLineWidth(w)
+                           .hide()
+                           .setColor(r,g,b, a);
     me.diamond = me.diamond_group.createChild("path")
                            .moveTo(-(70/1024)*canvasWidth,   0)
                            .lineTo(  0, -(70/1024)*canvasWidth)
@@ -958,7 +967,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
              me.alt_scale_high, me.alt_scale_med, me.alt_scale_low, me.slip_indicator,
              me.alt_scale_line, me.aim_reticle_fin, me.reticle_cannon, me.desired_lines2,
              me.alt_pointer, me.rad_alt_pointer, me.target_air, me.target_sea, me.target_ground, me.desired_lines3, me.horizon_line_gap,
-             me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_line_nav, me.horizon_dots, me.diamond,
+             me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_line_nav, me.horizon_dots, me.diamond, me.diamond_small,
              tower, ccip, me.aim_reticle, me.targetSpeed, me.mySpeed, me.distanceScale, me.targetDistance1,
              me.targetDistance2, me.landing_line, me.heading_bug_horz];
 #artifacts0 =[];
@@ -2785,13 +2794,23 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           if(armament.AIM.active[me.armSelect-1] != nil and armament.AIM.active[me.armSelect-1].status == armament.MISSILE_LOCK
              and (armament.AIM.active[me.armSelect-1].rail == TRUE or (me.roll > -90 and me.roll < 90))) {
             # lock and not inverted if the missiles is to be dropped
-            me.weak = armament.AIM.active[me.armSelect-1].trackWeak;
-            if (me.weak == TRUE) {
-              me.displayDiamond = 1;
-            } else {
+            #me.weak = armament.AIM.active[me.armSelect-1].trackWeak;
+            #if (me.weak == TRUE) {
+            #  me.displayDiamond = 1;
+            #} else {
               me.displayDiamond = 2;
-            }
-          }		  
+            #}
+            me.diamond_small.hide();
+          }	elsif (armament.AIM.active[me.armSelect-1] != nil) {
+            var miss = armament.AIM.active[me.armSelect-1];
+            var ds = miss.getSeekerInfo();
+            if (ds == nil) {
+              me.diamond_small.hide();
+              } else {
+                me.diamond_small.setTranslation(ds[0]*pixelPerDegreeX, ds[1]*pixelPerDegreeX+centerOffset);
+                me.diamond_small.show();
+              }
+          }	  
 		  
           #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
           #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();

@@ -1717,7 +1717,7 @@
    <object-name>gearFrontScissorBottom</object-name>
    <object-name>gearFrontWheel</object-name>
    <object-name>tyre-smoke-nose</object-name>
-   <property>gear/gear[0]/compression-norm</property><!-- auto MP trasmit -->
+   <property>gear/gear[0]/compression-norm</property><!-- auto MP transmit -->
    <factor>0.3048</factor>
    <axis>
      <z>1</z>
