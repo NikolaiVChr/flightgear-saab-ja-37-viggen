@@ -2807,8 +2807,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             if (ds == nil) {
               me.diamond_small.hide();
               } else {
-                me.diamond_small.setTranslation(ds[0]*pixelPerDegreeX, ds[1]*pixelPerDegreeX+centerOffset);
+                me.diamond_small.setTranslation(ds[0]*pixelPerDegreeX, -ds[1]*pixelPerDegreeY+centerOffset);
                 me.diamond_small.show();
+                me.diamond_small.update();
               }
           }	  
 		  

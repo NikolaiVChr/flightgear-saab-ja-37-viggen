@@ -143,7 +143,7 @@ var DEBUG_STATS_DETAILS    = FALSE;
 var DEBUG_GUIDANCE         = FALSE;
 var DEBUG_GUIDANCE_DETAILS = FALSE;
 var DEBUG_FLIGHT_DETAILS   = FALSE;
-var DEBUG_CODE             = TRUE;
+var DEBUG_CODE             = FALSE;
 
 var g_fps        = 9.80665 * M2FT;
 var slugs_to_lbm = 32.1740485564;
@@ -2509,21 +2509,24 @@ print(m.detect_range_curr_nm~" nm");
 		}
 		me.coolingSyst();
 		me.reset_seeker();
-		settimer(func me.standby(), 0.25);
+		print(me.type~" standby "~me.ID);
+
+		settimer(func me.standby(), deltaSec.getValue()==0?0.5:0.25);
 	},
 
 	startup: func {
 		# looping in starting mode
+		print("startup");
 		if (me.status != MISSILE_STARTING) me.standby();
 		if (me.ready_standby_time != 0 and getprop("sim/time/elapsed-sec") > (me.ready_standby_time+me.ready_time)) {
 			me.status = MISSILE_SEARCH;
 			me.search();
 			return;
 		}
-		me.printCode("Starting up");
+		print("Starting up");
 		me.coolingSyst();
 		me.reset_seeker();
-		settimer(func me.startup(), 0.25);
+		settimer(func me.startup(), deltaSec.getValue()==0?0.5:0.25);
 	},
 
 	coolingSyst: func {
@@ -2594,26 +2597,31 @@ print(m.detect_range_curr_nm~" nm");
 					me.rng = me.tagt.get_range();
 					me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
 					me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
-					me.seeker_elev_target = -me.total_elev;
-					me.seeker_head_target = -me.total_horiz;
-					me.rotateTarget();
-					me.moveSeeker();
+					
 					# Check if in range and in the seeker FOV.
 					if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
 						and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
-					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov) and me.inBeam
+					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
 					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
-						me.printCode("search found a lock");
-						me.status = MISSILE_LOCK;
-						me.SwSoundOnOff.setBoolValue(TRUE);
-						me.SwSoundVol.setDoubleValue(me.vol_track);
-						#me.trackWeak = 1;
-						me.Tgt = me.tagt;
+						me.printCode("search ready for lock");
+						me.seeker_elev_target = -me.total_elev;
+						me.seeker_head_target = -me.total_horiz;
+						me.rotateTarget();
+						me.moveSeeker();
+						if (me.inBeam) {
+							me.printCode("search found a lock");
+							me.status = MISSILE_LOCK;
+							me.SwSoundOnOff.setBoolValue(TRUE);
+							me.SwSoundVol.setDoubleValue(me.vol_track);
+							#me.trackWeak = 1;
+							me.Tgt = me.tagt;
 
-				        me.callsign = me.Tgt.get_Callsign();
+					        me.callsign = me.Tgt.get_Callsign();
 
-						settimer(func me.update_lock(), 0.1);
-						return;
+							settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
+							return;
+						}
+						me.Tgt = nil;
 					} else {
 						me.Tgt = nil;
 					}
@@ -2628,7 +2636,7 @@ print(m.detect_range_curr_nm~" nm");
 		me.SwSoundOnOff.setBoolValue(TRUE);
 		#me.trackWeak = 1;
 		me.coolingSyst();
-		settimer(func me.search(), 0.1);
+		settimer(func me.search(), deltaSec.getValue()==0?0.5:0.1);
 	},
 
 	rotateTarget: func {
@@ -2746,17 +2754,30 @@ print(m.detect_range_curr_nm~" nm");
 		me.computeSeekerPos();
 		if (me.status != MISSILE_STANDBY ) {
 			me.in_view = me.check_t_in_fov();
+			
+			if (me.in_view == FALSE) {
+				me.printCode("out of view");
+				me.return_to_search();
+				return;
+			}
+
 			me.curr_deviation_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation());
 			me.curr_deviation_h = - deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());
 			me.seeker_elev_target = me.curr_deviation_e;
 			me.seeker_head_target = me.curr_deviation_h;
+			me.rotateTarget();
 			me.moveSeeker();
-			if (me.in_view == FALSE or !me.inBeam) {
-				me.printCode("out of view or beam");
-				me.return_to_search();
+			
+			if (!me.inBeam) {
+				me.printCode("out of beam");
+				me.status = MISSILE_SEARCH;
+				me.Tgt = nil;
+				me.SwSoundOnOff.setBoolValue(TRUE);
+				me.SwSoundVol.setDoubleValue(me.vol_search);
+				settimer(func me.search(), 0.1);
 				return;
 			}
-			
+
 			me.dist = geo.aircraft_position().direct_distance_to(me.Tgt.get_Coord());
 
 			me.SwSoundOnOff.setBoolValue(TRUE);
@@ -2774,7 +2795,7 @@ print(m.detect_range_curr_nm~" nm");
 				return;
 			}
 			me.coolingSyst();
-			settimer(func me.update_lock(), 0.1);
+			settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
 		}
 		me.standby();
 		return;
