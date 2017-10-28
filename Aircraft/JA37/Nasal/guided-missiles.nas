@@ -714,6 +714,16 @@ print(m.detect_range_curr_nm~" nm");
 		return me.caged;
 	},
 
+	isAutoUncage: func () {
+		return me.uncage_auto;
+	},
+
+	setAutoUncage: func (auto) {
+		if (me.status == MISSILE_FLYING) return;
+		me.uncage_auto = auto;
+		me.printCode("Cage auto: "~auto);
+	},
+
 	setCaged: func (cage) {
 		if (me.status == MISSILE_FLYING) return;
 		me.caged = cage;
@@ -1883,8 +1893,13 @@ print(m.detect_range_curr_nm~" nm");
 			#
 			# missile own movement is subtracted from this change due to seeker being on gyroscope
 			#
-			me.dve_dist = me.curr_deviation_e - me.last_deviation_e + me.last_track_e;
-			me.dvh_dist = me.curr_deviation_h - me.last_deviation_h + me.last_track_h;
+			if (me.caged == FALSE) {
+				me.dve_dist = me.curr_deviation_e - me.last_deviation_e + me.last_track_e;
+				me.dvh_dist = me.curr_deviation_h - me.last_deviation_h + me.last_track_h;
+			} else {
+				me.dve_dist = me.curr_deviation_e - me.last_deviation_e;
+				me.dvh_dist = me.curr_deviation_h - me.last_deviation_h;
+			}
 			me.deviation_per_sec = math.sqrt(me.dve_dist*me.dve_dist+me.dvh_dist*me.dvh_dist)/me.dt;
 
 			if (me.deviation_per_sec > me.angular_speed) {
@@ -2510,6 +2525,9 @@ print(m.detect_range_curr_nm~" nm");
 		if (deltaSec.getValue()==0) {
 			settimer(func me.standby(), 0.5);
 		}
+		if(me.uncage_auto) {
+			me.caged = TRUE;
+		}
 		if (me.deleted == TRUE or me.status == MISSILE_FLYING) return;
 		if (me.status == MISSILE_STARTING) {
 			me.printCode("Starting up missile");
@@ -2528,6 +2546,9 @@ print(m.detect_range_curr_nm~" nm");
 		#print("startup");
 		if (deltaSec.getValue()==0) {
 			settimer(func me.startup(), 0.5);
+		}
+		if(me.uncage_auto) {
+			me.caged = TRUE;
 		}
 		if (me.status != MISSILE_STARTING) me.standby();
 		if (me.ready_standby_time != 0 and getprop("sim/time/elapsed-sec") > (me.ready_standby_time+me.ready_time)) {
@@ -2594,6 +2615,9 @@ print(m.detect_range_curr_nm~" nm");
 
 		me.printCode("searching");
 		# search.
+		if(me.uncage_auto) {
+			me.caged = TRUE;
+		}
 		if (1==1 or contact != me.Tgt) {
 			#me.printCode("search2");
 			if (me.mode_slave == TRUE and me.command_tgt == TRUE) {
@@ -2619,10 +2643,16 @@ print(m.detect_range_curr_nm~" nm");
 					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
 					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
 						me.printCode("search ready for lock");
+						if (me.caged) {
+							me.seeker_elev_target = -me.total_elev;
+							me.seeker_head_target = -me.total_horiz;
+							me.rotateTarget();
+							me.moveSeeker();
+						}
 						me.seeker_elev_target = -me.total_elev;
 						me.seeker_head_target = -me.total_horiz;
 						me.rotateTarget();
-						me.moveSeeker();
+						me.testSeeker();
 						if (me.inBeam) {
 							me.printCode("search found a lock");
 							me.status = MISSILE_LOCK;
@@ -2643,8 +2673,61 @@ print(m.detect_range_curr_nm~" nm");
 				} else {
 					me.Tgt = nil;
 				}
+			} elsif (me.mode_bore == TRUE) {
+				me.slaveContacts = nil;
+				if (size(me.contacts) == 0) {
+					me.slaveContacts = [contact];
+				} else {
+					me.slaveContacts = me.contacts;
+				}
+				foreach(me.slaveContact ; me.slaveContacts) {
+					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
+						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
+		                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
+		                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
+						me.tagt = me.slaveContact;
+						me.rng = me.tagt.get_range();
+						me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
+						me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
+						
+						# Check if in range and in the seeker FOV.
+						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
+							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
+						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
+						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+							me.printCode("bore-search ready for lock");
+							if (me.caged) {
+								me.seeker_elev_target = 0;
+								me.seeker_head_target = 0;
+								me.moveSeeker();
+							}							
+							me.seeker_elev_target = -me.total_elev;
+							me.seeker_head_target = -me.total_horiz;
+							me.rotateTarget();
+							me.testSeeker();
+							if (me.inBeam) {
+								me.printCode("bore-search found a lock");
+								me.status = MISSILE_LOCK;
+								me.SwSoundOnOff.setBoolValue(TRUE);
+								me.SwSoundVol.setDoubleValue(me.vol_track);
+								#me.trackWeak = 1;
+								me.Tgt = me.tagt;
+
+						        me.callsign = me.Tgt.get_Callsign();
+
+								settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
+								return;
+							}
+							me.Tgt = nil;
+						} else {
+							me.Tgt = nil;
+						}
+					} else {
+						me.Tgt = nil;
+					}
+				}
 			} else {
-				me.printCode("bore and directed slave not supported yet");
+				me.printCode("directed slave not supported yet");
 			}
 		}
 		me.SwSoundVol.setDoubleValue(me.vol_search);
@@ -2668,12 +2751,10 @@ print(m.detect_range_curr_nm~" nm");
 	},
 
 	moveSeeker: func {
-		me.inBeam = FALSE;
 		if (me.guidance != "heat" and me.guidance != "vision") {
 			me.seeker_elev = me.seeker_elev_target;
 			me.seeker_head = me.seeker_head_target;
 			me.computeSeekerPos();
-			me.inBeam = TRUE;
 			return;
 		}
 		me.seeker_elapsed = getprop("sim/time/elapsed-sec");
@@ -2692,16 +2773,24 @@ print(m.detect_range_curr_nm~" nm");
 			if (math.sqrt(me.seeker_elev_n*me.seeker_elev_n+me.seeker_head_n*me.seeker_head_n) < me.max_seeker_dev) {
 				me.seeker_head = me.seeker_head_n;
 				me.seeker_elev = me.seeker_elev_n;
-				me.printCode("seeker moved");
-			}
-			me.printCode(sprintf("seeker to target %.1f degs. Beam radius %.1f degs.", me.seeker_delta, me.beam_width_deg));
-			if (me.seeker_delta < me.beam_width_deg) {
-				me.inBeam = TRUE;
-				me.printCode("in beam");
+				#me.printCode("seeker moved");
 			}
 		}
 		me.seeker_last_time = me.seeker_elapsed;
 		me.computeSeekerPos();
+	},
+
+	testSeeker: func {
+		me.inBeam = FALSE;
+		me.seeker_elev_delta = me.seeker_elev_target - me.seeker_elev;
+		me.seeker_head_delta = me.seeker_head_target - me.seeker_head;
+		me.seeker_delta = me.clamp(math.sqrt(me.seeker_elev_delta*me.seeker_elev_delta+me.seeker_head_delta*me.seeker_head_delta),0.000001, 100000);
+
+		me.printCode(sprintf("seeker to target %.1f degs. Beam radius %.1f degs.", me.seeker_delta, me.beam_width_deg));
+		if (me.seeker_delta < me.beam_width_deg) {
+			me.inBeam = TRUE;
+			#me.printCode("in beam");
+		}
 	},
 
 	computeSeekerPos: func {
@@ -2769,6 +2858,10 @@ print(m.detect_range_curr_nm~" nm");
 
 		#me.time = props.globals.getNode("/sim/time/elapsed-sec", 1).getValue();
 
+		if(me.uncage_auto) {
+			me.caged = FALSE;
+		}
+
 		me.computeSeekerPos();
 		if (me.status != MISSILE_STANDBY ) {
 			me.in_view = me.check_t_in_fov();
@@ -2781,11 +2874,16 @@ print(m.detect_range_curr_nm~" nm");
 
 			me.curr_deviation_e = - deviation_normdeg(OurPitch.getValue(), me.Tgt.getElevation());
 			me.curr_deviation_h = - deviation_normdeg(OurHdg.getValue(), me.Tgt.get_bearing());
+			if (!me.caged) {
+				me.seeker_elev_target = me.curr_deviation_e;
+				me.seeker_head_target = me.curr_deviation_h;
+				me.rotateTarget();
+				me.moveSeeker();
+			}			
 			me.seeker_elev_target = me.curr_deviation_e;
 			me.seeker_head_target = me.curr_deviation_h;
 			me.rotateTarget();
-			me.moveSeeker();
-			
+			me.testSeeker();
 			if (!me.inBeam) {
 				me.printCode("out of beam");
 				me.status = MISSILE_SEARCH;
@@ -2807,7 +2905,7 @@ print(m.detect_range_curr_nm~" nm");
 			} else {
 				me.slaveContact = me.contacts[0];
 			}
-			if (me.slaveContact == nil or (me.slaveContact.getUnique() != nil and me.Tgt.getUnique() != nil and me.slaveContact.getUnique() != me.Tgt.getUnique())) {
+			if (me.mode_bore == FALSE and (me.slaveContact == nil or (me.slaveContact.getUnique() != nil and me.Tgt.getUnique() != nil and me.slaveContact.getUnique() != me.Tgt.getUnique()))) {
 				me.printCode("oops ");
 				me.return_to_search();
 				return;
@@ -2883,7 +2981,7 @@ print(m.detect_range_curr_nm~" nm");
 	},
 
 	reset_seeker: func {
-		me.printCode("Reset seeker");
+		#me.printCode("Reset seeker");
 		me.seeker_elev_target = 0;
 		me.seeker_head_target = 0;
 		me.moveSeeker();

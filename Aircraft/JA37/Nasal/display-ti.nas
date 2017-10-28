@@ -2065,6 +2065,21 @@ var TI = {
 				me.menuButtonBox[14].show();
 			}
 		}
+		if (me.menuMain == MAIN_WEAPONS) {
+			me.aim9 = displays.common.armActive();
+			if (me.aim9 == nil or (me.aim9.type != "RB-74" and me.aim9.type != "RB-24J")) {
+				me.menuButton[2].setText("");
+				me.menuButton[18].setText("");
+				me.menuButton[17].setText("");
+				me.menuButton[16].setText("");
+			}
+			if (me.aim9 == nil or (me.aim9.type != "RB-74")) {
+				me.menuButton[19].setText("");
+			}
+			if (me.aim9 == nil) {
+				me.menuButton[20].setText("");
+			}
+		}
 	},
 
 	compileFastMenu: func (button) {
@@ -2132,7 +2147,7 @@ var TI = {
 					me.menuButtonSub[20].setText(me.vertStr("RDY"));
 					me.menuButtonSubBox[20].show();
 				}
-				if (me.aim9.type == "RB-74" or me.aim9.type == "RB-24J") {
+				if (me.aim9.type == "RB-74") {
 					me.menuButtonSub[19].show();
 					if (me.aim9.getWarm() != 0) {
 						me.menuButtonSub[19].setText(me.vertStr("WARM"));
@@ -2142,6 +2157,8 @@ var TI = {
 					if (me.aim9.isCooling() == 1) {
 						me.menuButtonSubBox[19].show();
 					}
+				}
+				if (me.aim9.type == "RB-74" or me.aim9.type == "RB-24J") {
 					me.menuButtonSub[18].show();
 					me.menuButtonSub[18].setText(me.vertStr("BORE"));
 					if (me.aim9.isBore()) {
@@ -2159,7 +2176,7 @@ var TI = {
 					}
 					me.menuButtonSub[2].show();
 					me.menuButtonSubBox[2].show();
-					if (me.aim9.isCaged()) {
+					if (me.aim9.isAutoUncage()) {
 						me.menuButtonSub[2].setText(me.vertStr("AUTO"));
 					} else {
 						me.menuButtonSub[2].setText(me.vertStr("MAN"));
@@ -4437,6 +4454,12 @@ var TI = {
 			}	
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.insertSteerpoint();
+			}
+			if(me.menuMain == MAIN_WEAPONS) {
+				me.aim9 = displays.common.armActive();
+				if (me.aim9 != nil) {
+					me.aim9.setAutoUncage(!me.aim9.isAutoUncage());
+				}
 			}
 		}
 	},

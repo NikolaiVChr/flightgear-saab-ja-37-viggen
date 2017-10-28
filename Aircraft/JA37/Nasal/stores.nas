@@ -725,6 +725,7 @@ var trigger_listener = func {
         #print("firing missile: "~armSelect~" "~getprop("controls/armament/station["~armSelect~"]/released"));
         var callsign = armament.AIM.active[armSelect-1].callsign;
         var brevity = armament.AIM.active[armSelect-1].brevity;
+
         armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
         
         var phrase = brevity ~ " at: " ~ callsign;

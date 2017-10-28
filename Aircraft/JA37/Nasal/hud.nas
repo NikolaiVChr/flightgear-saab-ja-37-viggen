@@ -2697,6 +2697,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     } else {
       me.diamond_small.hide();
     }
+    if (me.missileCurr != nil and me.missileCurr.isBore() and radar_logic.tracks != nil) {
+      #me.missileCurr.contacts = [radar_logic.selection];
+      #me.missileCurr.contacts.extend(radar_logic.tracks);
+      me.missileCurr.contacts = radar_logic.tracks;
+    } elsif (me.missileCurr != nil) {
+      me.missileCurr.contacts = [];
+    }
     if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
       me.radar_group.show();
 
