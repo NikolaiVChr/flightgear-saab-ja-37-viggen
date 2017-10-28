@@ -298,7 +298,7 @@ var dictEN = {
 	'HORI': {'0': [TRUE, "OFF"], '1': [TRUE, "CLR"], '2': [TRUE, "ON"]},
 	'0':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"]},
 	'8':   {'8': [TRUE, "T7L"], '9': [TRUE, "W7L"], '10': [TRUE, "F7L"], '11': [TRUE, "F7R"], '12': [TRUE, "W7R"], '13': [TRUE, "T7R"],
-			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"]},
+			'7': [TRUE, "MENU"], '14': [TRUE, "AKAN"], '15': [FALSE, "CLR"], '16': [FALSE, "CAGE"], '17': [FALSE, "MODE"], '18': [FALSE, "MODE"], '19': [FALSE, "SEEK"], '20': [FALSE, "STAT"], '2': [FALSE, "CAGE"]},
     '9':   {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'1': [TRUE, "OFF"], '2': [TRUE, "DL"], '3': [TRUE, "OPT"], '4': [TRUE, "S"], '5': [TRUE, "MPOL"], '6': [TRUE, "TRAP"], '7': [TRUE, "MENU"],
 	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [TRUE, "RPOL"], '17': [TRUE, "LR"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
@@ -2119,6 +2119,54 @@ var TI = {
 			me.seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":(dictEN['0'][''~math.abs(me.menuMain)][1])));
 		}
 		me.menuButtonSub[7].setText(me.vertStr(me.seven));
+		if (me.menuMain == MAIN_WEAPONS) {
+			me.aim9 = displays.common.armActive();
+			if (me.aim9 != nil) {
+				me.menuButtonSub[20].show();
+				if (me.aim9.status == armament.MISSILE_STANDBY) {
+					me.menuButtonSub[20].setText(me.vertStr("STBY"));
+				} elsif (me.aim9.status == armament.MISSILE_STARTING) {
+					me.menuButtonSub[20].setText(me.vertStr("STBY"));
+					me.menuButtonSubBox[20].show();
+				} elsif (me.aim9.status >= armament.MISSILE_SEARCH) {
+					me.menuButtonSub[20].setText(me.vertStr("RDY"));
+					me.menuButtonSubBox[20].show();
+				}
+				if (me.aim9.type == "RB-74" or me.aim9.type == "RB-24J") {
+					me.menuButtonSub[19].show();
+					if (me.aim9.getWarm() != 0) {
+						me.menuButtonSub[19].setText(me.vertStr("WARM"));
+					} else {
+						me.menuButtonSub[19].setText(me.vertStr("COOL"));
+					}
+					if (me.aim9.isCooling() == 1) {
+						me.menuButtonSubBox[19].show();
+					}
+					me.menuButtonSub[18].show();
+					me.menuButtonSub[18].setText(me.vertStr("BORE"));
+					if (me.aim9.isBore()) {
+						me.menuButtonSubBox[18].show();
+					}
+					me.menuButtonSub[17].show();
+					me.menuButtonSub[17].setText(me.vertStr("SLAV"));
+					if (me.aim9.isSlave()) {
+						me.menuButtonSubBox[17].show();
+					}
+					me.menuButtonSub[16].show();
+					me.menuButtonSub[16].setText(me.vertStr("CAGE"));
+					if (me.aim9.isCaged()) {
+						me.menuButtonSubBox[16].show();
+					}
+					me.menuButtonSub[2].show();
+					me.menuButtonSubBox[2].show();
+					if (me.aim9.isCaged()) {
+						me.menuButtonSub[2].setText(me.vertStr("AUTO"));
+					} else {
+						me.menuButtonSub[2].setText(me.vertStr("MAN"));
+					}
+				}
+			}
+		}
 		if (me.menuMain == MAIN_DISPLAY) {
 			#show flight data
 			me.menuButtonSub[17].show();
@@ -4851,6 +4899,12 @@ var TI = {
 					route.Polygon.editPlan(nil);
 				}
 			}
+			if(me.menuMain == MAIN_WEAPONS) {
+				me.aim9 = displays.common.armActive();
+				if (me.aim9 != nil) {
+					me.aim9.setCaged(!me.aim9.isCaged());
+				}
+			}
 		}
 	},
 
@@ -4889,6 +4943,12 @@ var TI = {
 					route.Polygon.editPlan(route.Polygon.editMiss);
 				}
 			}
+			if(me.menuMain == MAIN_WEAPONS) {
+				me.aim9 = displays.common.armActive();
+				if (me.aim9 != nil) {
+					me.aim9.setSlave(!me.aim9.isSlave());
+				}
+			}
 		}
 	},
 
@@ -4911,6 +4971,12 @@ var TI = {
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.editSteerpoint();
+			}
+			if(me.menuMain == MAIN_WEAPONS) {
+				me.aim9 = displays.common.armActive();
+				if (me.aim9 != nil) {
+					me.aim9.setBore(!me.aim9.isBore());
+				}
 			}
 		}
 	},
@@ -4956,6 +5022,12 @@ var TI = {
 			if(me.menuMain == MAIN_FAILURES) {
 				me.logPage += 1;
 			}			
+			if(me.menuMain == MAIN_WEAPONS) {
+				me.aim9 = displays.common.armActive();
+				if (me.aim9 != nil) {
+					me.aim9.setCooling(!me.aim9.isCooling());
+				}
+			}
 		}
 	},
 

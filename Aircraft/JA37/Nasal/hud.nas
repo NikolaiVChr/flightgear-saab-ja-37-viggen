@@ -794,11 +794,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     #me.track_line = nil;
     me.diamond_group.createTransform();
     me.diamond_small = me.root.createChild("path")
-                           .moveTo(-(35/1024)*canvasWidth,   0)
-                           .lineTo(  0, -(35/1024)*canvasWidth)
-                           .lineTo( (35/1024)*canvasWidth,   0)
-                           .lineTo(  0,  (35/1024)*canvasWidth)
-                           .lineTo(-(35/1024)*canvasWidth,   0)
+                           .moveTo(-(25/1024)*canvasWidth,   0)
+                           .lineTo(  0, -(25/1024)*canvasWidth)
+                           .lineTo( (25/1024)*canvasWidth,   0)
+                           .lineTo(  0,  (25/1024)*canvasWidth)
+                           .lineTo(-(25/1024)*canvasWidth,   0)
                            .setStrokeLineWidth(w)
                            .hide()
                            .setColor(r,g,b, a);
@@ -2682,7 +2682,21 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displayRadarTracks: func (mode) {
     me.track_index = 1;
     me.selection_updated = FALSE;
-
+    me.diamond_small.hide();
+    me.armSelect = me.station;
+    me.missileCurr = armament.AIM.active[me.armSelect-1];
+    if (me.missileCurr != nil and mode == COMBAT) {
+      me.ds = me.missileCurr.getSeekerInfo();
+      if (me.ds == nil) {
+          me.diamond_small.hide();
+      } else {
+          me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
+          me.diamond_small.show();
+          me.diamond_small.update();
+      }
+    } else {
+      me.diamond_small.hide();
+    }
     if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
       me.radar_group.show();
 
@@ -2787,12 +2801,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.target_circle[me.selection_index].hide();
 
 
-          me.armSelect = me.station;
           me.displayDiamond = 0;
           #print();
           me.roll = me.input.roll.getValue();
-          if(armament.AIM.active[me.armSelect-1] != nil and armament.AIM.active[me.armSelect-1].status == armament.MISSILE_LOCK
-             and (armament.AIM.active[me.armSelect-1].rail == TRUE or (me.roll > -90 and me.roll < 90))) {
+          if(me.missileCurr != nil and me.missileCurr.status == armament.MISSILE_LOCK
+             and (me.missileCurr.rail == TRUE or (me.roll > -90 and me.roll < 90))) {
             # lock and not inverted if the missiles is to be dropped
             #me.weak = armament.AIM.active[me.armSelect-1].trackWeak;
             #if (me.weak == TRUE) {
@@ -2801,16 +2814,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
               me.displayDiamond = 2;
             #}
             me.diamond_small.hide();
-          }	elsif (armament.AIM.active[me.armSelect-1] != nil) {
-            var miss = armament.AIM.active[me.armSelect-1];
-            var ds = miss.getSeekerInfo();
-            if (ds == nil) {
-              me.diamond_small.hide();
-              } else {
-                me.diamond_small.setTranslation(ds[0]*pixelPerDegreeX, -ds[1]*pixelPerDegreeY+centerOffset);
-                me.diamond_small.show();
-                me.diamond_small.update();
-              }
           }	  
 		  
           #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();

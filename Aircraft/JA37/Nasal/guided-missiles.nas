@@ -299,7 +299,7 @@ var AIM = {
         m.coolable              = getprop(m.nodeString~"coolable");#aim9l+ = true
         m.cool_time             = getprop(m.nodeString~"cool-time");#30 secs.?
         m.cool_duration         = getprop(m.nodeString~"cool-duration");#typically 2.5 hours
-        m.cool_detect_range_nm  = getprop(m.nodeString~"warm-detect-range-nm");#lower than detect-range
+        m.warm_detect_range_nm  = getprop(m.nodeString~"warm-detect-range-nm");#lower than detect-range
         m.detect_range_nm       = getprop(m.nodeString~"detect-range-nm");# current guidance mode detect range
         m.beam_width_deg        = getprop(m.nodeString~"seeker-beam-width-deg");
         m.ready_time            = getprop(m.nodeString~"ready-time");# time to get ready after standby mode.
@@ -320,6 +320,7 @@ var AIM = {
         m.seeker_elev           = 0;
         m.seeker_head           = 0;
         m.cooling_last_time     = 0;
+        m.cool_total_time       = 0;
 
         if (m.detect_range_nm == nil) {
           # backwards compatibility
@@ -662,6 +663,10 @@ print(m.detect_range_curr_nm~" nm");
 			me.cooling_last_time = 0;
 			#var time = getprop("sim/time/elapsed-sec");
 		}
+	},
+
+	isCooling: func () {
+		return me.cooling;
 	},
 
 	start: func {
@@ -2502,28 +2507,35 @@ print(m.detect_range_curr_nm~" nm");
 
 	standby: func {
 		# looping in standby mode
+		if (deltaSec.getValue()==0) {
+			settimer(func me.standby(), 0.5);
+		}
 		if (me.deleted == TRUE or me.status == MISSILE_FLYING) return;
 		if (me.status == MISSILE_STARTING) {
+			me.printCode("Starting up missile");
 			me.startup();
 			return;
 		}
 		me.coolingSyst();
 		me.reset_seeker();
-		print(me.type~" standby "~me.ID);
+		#print(me.type~" standby "~me.ID);
 
 		settimer(func me.standby(), deltaSec.getValue()==0?0.5:0.25);
 	},
 
 	startup: func {
 		# looping in starting mode
-		print("startup");
+		#print("startup");
+		if (deltaSec.getValue()==0) {
+			settimer(func me.startup(), 0.5);
+		}
 		if (me.status != MISSILE_STARTING) me.standby();
 		if (me.ready_standby_time != 0 and getprop("sim/time/elapsed-sec") > (me.ready_standby_time+me.ready_time)) {
 			me.status = MISSILE_SEARCH;
 			me.search();
 			return;
 		}
-		print("Starting up");
+		#print("Starting up");
 		me.coolingSyst();
 		me.reset_seeker();
 		settimer(func me.startup(), deltaSec.getValue()==0?0.5:0.25);
@@ -2549,12 +2561,15 @@ print(m.detect_range_curr_nm~" nm");
 				}
 			}
 			me.cooling_last_time = me.cool_elapsed;
-			me.detect_range_curr_nm = me.extrapolate(me.warm, 0, 1, me.cool_detect_range_nm, me.detect_range_nm);
+			me.detect_range_curr_nm = me.extrapolate(me.warm, 0, 1, me.detect_range_nm, me.warm_detect_range_nm);
 		}
 	},
 
 	search: func {
 		# looping in search mode
+		if (deltaSec.getValue()==0) {
+			settimer(func me.search(), 0.5);
+		}
 		if (me.deleted == TRUE) {
 			return;
 		} elsif ( me.status == MISSILE_FLYING ) {
@@ -2636,7 +2651,7 @@ print(m.detect_range_curr_nm~" nm");
 		me.SwSoundOnOff.setBoolValue(TRUE);
 		#me.trackWeak = 1;
 		me.coolingSyst();
-		settimer(func me.search(), deltaSec.getValue()==0?0.5:0.1);
+		settimer(func me.search(), 0.1);
 	},
 
 	rotateTarget: func {
@@ -2712,6 +2727,9 @@ print(m.detect_range_curr_nm~" nm");
 		#
 		# Missile locked on target
 		#
+		if (deltaSec.getValue()==0) {
+			settimer(func me.update_lock(), 0.5);
+		}
 		if (me.status == MISSILE_FLYING) {
 			return;
 		}
@@ -2796,6 +2814,7 @@ print(m.detect_range_curr_nm~" nm");
 			}
 			me.coolingSyst();
 			settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
+			return;
 		}
 		me.standby();
 		return;
@@ -2864,6 +2883,7 @@ print(m.detect_range_curr_nm~" nm");
 	},
 
 	reset_seeker: func {
+		me.printCode("Reset seeker");
 		me.seeker_elev_target = 0;
 		me.seeker_head_target = 0;
 		me.moveSeeker();
