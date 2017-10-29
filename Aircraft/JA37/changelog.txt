@@ -3374,7 +3374,7 @@ Arms: Ability to cool IR missiles. Uncooled newer AIM9 will have shorter IR dete
 Arms: IR slave to radar works almost as usual, except the seeker have to move to find target. Goes fast in the RB74 though.
 Arms: Bore mode. Will target anything that comes into aircraft bore, whether radar has it selected or not. For now the radar still have to be on though.
 Arms: Cage/uncage support. Uncaged will basically make the missile be non-slaved and seeker move by itself to keep lock.
-Arms: There is now an auto-uncage option.
+Arms: There is now an auto-uncage option. IS on by default.
 Arms: Locking will no longer be immediate, the seeker has to direct itself at the target. This can be seen in the HUD, mostly with RB24J.
 Arms: Seperate locks for each missile. So missile 1 lock on target 1, and m2 lock on t2. Not put into the viggen Fire control yet.
 Arms: Added startup time for missile before its ready.
@@ -3382,3 +3382,4 @@ TI: Support for new RB24/RB74 options in WEAP menu.
 Arms: Due to IR seeker have to move find target, can lose a lock if its somewhat off bore and aircraft do fast rolls.
 Arms: Uncaged, not bore and not slaved it now scan entire FOV for locks.
 Arms: IR lock before launch now also check aspect.
+Radar: Fixed RCS code so OpenRadar doesn't crash it.
