@@ -3367,3 +3367,15 @@ Model: Added switch on right side close to canopy for flood lights.
 =====
 GUI: Added some extra checklists items for before engine start.
 Model: {Pinto} New M70 model.
+Arms: The missile code now supports being slaved to helmet cuing or cursor on MFD/HUD.
+MI: Can now slew the MI display cursor to lock on to target. The diamond will be shown moving around on the HUD too.
+Arms: Ability to cool IR missiles. Uncooled newer AIM9 will have shorter IR detect range. Cooling fluid is set to last 1 hour.
+Arms: IR slave to radar works almost as usual, except the seeker have to move to find target. Goes fast in the RB74 though.
+Arms: Bore mode. Will target anything that comes into aircraft bore, whether radar has it selected or not. For now the radar still have to be on though.
+Arms: Cage/uncage support. Uncaged will basically make the missile be non-slaved and seeker move by itself to keep lock.
+Arms: There is now an auto-uncage option.
+Arms: Locking will no longer be immediate, the seeker has to direct itself at the target. This can be seen in the HUD, mostly with RB24J.
+Arms: Seperate locks for each missile. So missile 1 lock on target 1, and m2 lock on t2. Not put into the viggen Fire control yet.
+Arms: Added startup time for the missile before its ready.
+TI: Support for new RB24/RB74 options in WEAP menu.
+Arms: Due to IR seeker have to move find target, can lose a lock if its somewhat off bore and aircraft do fast rolls.
