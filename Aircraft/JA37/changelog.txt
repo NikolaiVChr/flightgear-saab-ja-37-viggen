@@ -3376,6 +3376,7 @@ Arms: Cage/uncage support. Uncaged will basically make the missile be non-slaved
 Arms: There is now an auto-uncage option.
 Arms: Locking will no longer be immediate, the seeker has to direct itself at the target. This can be seen in the HUD, mostly with RB24J.
 Arms: Seperate locks for each missile. So missile 1 lock on target 1, and m2 lock on t2. Not put into the viggen Fire control yet.
-Arms: Added startup time for the missile before its ready.
+Arms: Added startup time for missile before its ready.
 TI: Support for new RB24/RB74 options in WEAP menu.
 Arms: Due to IR seeker have to move find target, can lose a lock if its somewhat off bore and aircraft do fast rolls.
+Arms: Uncaged, not bore and not slaved it now scan entire FOV for locks.

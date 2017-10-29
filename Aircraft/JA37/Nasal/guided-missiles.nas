@@ -317,6 +317,8 @@ var AIM = {
         m.ready_standby_time    = 0;# time when started from standby
         m.cooling               = FALSE;
         m.command_tgt           = TRUE;
+        m.patternDir            = 1;
+        m.pattern_last_time     = 0;
         m.seeker_last_time      = 0;
         m.seeker_elev           = 0;
         m.seeker_head           = 0;
@@ -2778,6 +2780,61 @@ var AIM = {
 						me.Tgt = nil;
 					}
 				}
+			} elsif (me.mode_slave == FALSE and me.caged == FALSE and me.mode_bore == FALSE) {
+				me.slaveContacts = nil;
+				if (size(me.contacts) == 0) {
+					me.slaveContacts = [contact];
+				} else {
+					me.slaveContacts = me.contacts;
+				}
+				me.moveSeekerInPattern();
+				foreach(me.slaveContact ; me.slaveContacts) {
+					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
+						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
+		                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
+		                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
+						me.tagt = me.slaveContact;
+						me.rng = me.tagt.get_range();
+						me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
+						me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
+						
+						# Check if in range and in the seeker FOV.
+						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
+							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
+						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
+						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+							me.printCode("pattern-search ready for lock");
+							
+							me.seeker_elev_target = -me.total_elev;
+							me.seeker_head_target = -me.total_horiz;
+							me.rotateTarget();
+							me.testSeeker();
+							if (me.inBeam) {
+								me.printCode("dir-search found a lock");
+								me.status = MISSILE_LOCK;
+								me.SwSoundOnOff.setBoolValue(TRUE);
+								me.SwSoundVol.setDoubleValue(me.vol_track);
+								#me.trackWeak = 1;
+								me.Tgt = me.tagt;
+
+						        me.callsign = me.Tgt.get_Callsign();
+
+								settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
+								return;
+							}
+							me.Tgt = nil;
+						} else {
+							me.Tgt = nil;
+						}
+					} else {
+						me.Tgt = nil;
+					}
+				}
+				me.SwSoundVol.setDoubleValue(me.vol_search);
+				me.SwSoundOnOff.setBoolValue(TRUE);
+				me.coolingSyst();
+				settimer(func me.search(), 0.05);# this mode needs to be a bit faster.
+				return;
 			}
 		}
 		me.SwSoundVol.setDoubleValue(me.vol_search);
@@ -2798,6 +2855,31 @@ var AIM = {
 		polar_angle += roll;
 		me.seeker_head_target = polar_dist*math.cos(polar_angle*D2R);
 		me.seeker_elev_target = polar_dist*math.sin(polar_angle*D2R);
+	},
+
+	moveSeekerInPattern: func {
+		me.pattern_elapsed = getprop("sim/time/elapsed-sec");
+		if (me.pattern_last_time != 0) {
+			me.pattern_time = me.pattern_elapsed - me.pattern_last_time;
+
+			me.pattern_max_move = me.pattern_time*me.angular_speed;
+			me.pattern_move = me.clamp(me.beam_width_deg*1.75, 0, me.pattern_max_move);
+			me.seeker_head_n = me.seeker_head+me.pattern_move*me.patternDir;
+			if (math.sqrt(me.seeker_elev*me.seeker_elev+me.seeker_head_n*me.seeker_head_n) > me.max_seeker_dev) {
+				me.patternDir *= -1;
+				#print("dir change");
+				me.seeker_elev -= me.pattern_move;
+				if (me.seeker_elev < -me.max_seeker_dev) {
+					#print("from top");
+					me.seeker_elev = me.max_seeker_dev-me.beam_width_deg*0.5;
+					me.seeker_head = 0;
+				}
+			} else {
+				me.seeker_head = me.seeker_head_n;
+			}
+			me.computeSeekerPos();
+		}
+		me.pattern_last_time = me.pattern_elapsed;
 	},
 
 	moveSeeker: func {
