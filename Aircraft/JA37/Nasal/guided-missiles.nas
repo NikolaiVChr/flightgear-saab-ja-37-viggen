@@ -246,6 +246,13 @@ var AIM = {
 		m.fcs_fov               = getprop(m.nodeString~"FCS-field-deg") / 2;          # fire control system total field of view diameter for when searching and getting lock before launch.
 		m.class                 = getprop(m.nodeString~"class");                      # put in letters here that represent the types the missile can fire at. A=air, M=marine, G=ground
         m.brevity               = getprop(m.nodeString~"fire-msg");                   # what the pilot will call out over the comm when he fires this weapon
+        m.coolable              = getprop(m.nodeString~"coolable");                   # If the seeker supports being cooled. (AIM-9L or later supports)
+        m.cool_time             = getprop(m.nodeString~"cool-time");                  # Time to cold the seeker from fully warm.
+        m.cool_duration         = getprop(m.nodeString~"cool-duration");              # Typically 2.5 hours for cooling fluids. Much higher for electrical.
+        m.warm_detect_range_nm  = getprop(m.nodeString~"warm-detect-range-nm");       # Current guidance mode detect range. (when warm)
+        m.detect_range_nm       = getprop(m.nodeString~"detect-range-nm");            # Current guidance mode default detect range. (when cold)
+        m.beam_width_deg        = getprop(m.nodeString~"seeker-beam-width-deg");      # Seeker detector field of view diameter
+        m.ready_time            = getprop(m.nodeString~"ready-time");                 # time to get ready after standby mode.
 		# navigation, guiding and seekerhead
 		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
 		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/pitch/gyro-pitch/radiation/inertial
@@ -296,13 +303,7 @@ var AIM = {
         m.dlz_opt_alt           = getprop(m.nodeString~"DLZ-optimal-alt-feet");       # Minimum altitude required to hit the target at max range.
         m.dlz_opt_mach          = getprop(m.nodeString~"DLZ-optimal-closing-mach");   # Closing speed required to hit the target at max range at minimum altitude.
 		
-        m.coolable              = getprop(m.nodeString~"coolable");#aim9l+ = true
-        m.cool_time             = getprop(m.nodeString~"cool-time");#30 secs.?
-        m.cool_duration         = getprop(m.nodeString~"cool-duration");#typically 2.5 hours
-        m.warm_detect_range_nm  = getprop(m.nodeString~"warm-detect-range-nm");#lower than detect-range
-        m.detect_range_nm       = getprop(m.nodeString~"detect-range-nm");# current guidance mode detect range
-        m.beam_width_deg        = getprop(m.nodeString~"seeker-beam-width-deg");
-        m.ready_time            = getprop(m.nodeString~"ready-time");# time to get ready after standby mode.
+        
         m.mode_slave            = TRUE;# if slaved to command seeker directions from radar/helmet/cursor
         m.mode_bore             = FALSE;# if locked to bore locks only
         m.caged                 = TRUE;# if gyro is caged
@@ -338,8 +339,6 @@ var AIM = {
         if (m.coolable == nil) {
         	m.coolable = FALSE;
         }
-
-print(m.detect_range_curr_nm~" nm");
         
         # three variables used for trigonometry hit calc:
 		m.vApproch       = 1;
@@ -2726,8 +2725,59 @@ print(m.detect_range_curr_nm~" nm");
 						me.Tgt = nil;
 					}
 				}
-			} else {
-				me.printCode("directed slave not supported yet");
+			} elsif (me.mode_slave == TRUE and me.command_tgt == FALSE) {
+				me.slaveContacts = nil;
+				if (size(me.contacts) == 0) {
+					me.slaveContacts = [contact];
+				} else {
+					me.slaveContacts = me.contacts;
+				}
+				foreach(me.slaveContact ; me.slaveContacts) {
+					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
+						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
+		                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
+		                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
+						me.tagt = me.slaveContact;
+						me.rng = me.tagt.get_range();
+						me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
+						me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
+						
+						# Check if in range and in the seeker FOV.
+						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
+							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
+						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
+						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+							me.printCode("dir-search ready for lock");
+							if (me.caged) {
+								me.seeker_elev_target = me.command_dir_pitch;
+								me.seeker_head_target = me.command_dir_heading;
+								me.moveSeeker();
+							}
+							me.seeker_elev_target = -me.total_elev;
+							me.seeker_head_target = -me.total_horiz;
+							me.rotateTarget();
+							me.testSeeker();
+							if (me.inBeam) {
+								me.printCode("dir-search found a lock");
+								me.status = MISSILE_LOCK;
+								me.SwSoundOnOff.setBoolValue(TRUE);
+								me.SwSoundVol.setDoubleValue(me.vol_track);
+								#me.trackWeak = 1;
+								me.Tgt = me.tagt;
+
+						        me.callsign = me.Tgt.get_Callsign();
+
+								settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
+								return;
+							}
+							me.Tgt = nil;
+						} else {
+							me.Tgt = nil;
+						}
+					} else {
+						me.Tgt = nil;
+					}
+				}
 			}
 		}
 		me.SwSoundVol.setDoubleValue(me.vol_search);
@@ -2905,7 +2955,7 @@ print(m.detect_range_curr_nm~" nm");
 			} else {
 				me.slaveContact = me.contacts[0];
 			}
-			if (me.mode_bore == FALSE and (me.slaveContact == nil or (me.slaveContact.getUnique() != nil and me.Tgt.getUnique() != nil and me.slaveContact.getUnique() != me.Tgt.getUnique()))) {
+			if ((me.mode_bore == FALSE and me.mode_slave == TRUE and me.command_tgt == TRUE) and (me.slaveContact == nil or (me.slaveContact.getUnique() != nil and me.Tgt.getUnique() != nil and me.slaveContact.getUnique() != me.Tgt.getUnique()))) {
 				me.printCode("oops ");
 				me.return_to_search();
 				return;
