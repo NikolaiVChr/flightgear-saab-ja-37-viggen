@@ -173,13 +173,13 @@ DAP: Minneslista JA37 has some DAP addresses. Make.
 Sim: Make use of button SNABBRESN (reinit gyro, max 3 mins, light on during).
 Model: Oxygen switch was special.
 Model: In JA the 2 gauges on right panel sat in a panel.
-Openradar has no roll and heading
 Arms: IR locks should be possible without radar on.
 Arms: When electrical power is off, the RB24J should not be able to cool.
 Arms: Pickle delay.
 Arms: Auto LOAL. Lock on after launch.
-Arms: IR lock before launch should also check aspect.
-
+Arms: IR lock before launch should also check terrain occlusion.
+Arms: The auto pattern scan should not jump from bottom to top.
+Radar: Openradar has no roll and heading. Fix radar to handle that.
 
 
 

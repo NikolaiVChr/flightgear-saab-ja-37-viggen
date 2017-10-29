@@ -1593,11 +1593,11 @@ var AIM = {
 		me.ai.getNode("velocities/vertical-speed-fps",1).setDoubleValue(-me.speed_down_fps);
 	},
 
-	rear_aspect: func () {#GCD
+	rear_aspect: func (munition_coord, test_contact) {#GCD
 		#
 		# If is heat-seeking rear-aspect-only missile, check if it has good view on engine(s) and can keep lock.
 		#
-		me.offset = me.aspectToExhaust();
+		me.offset = me.aspectToExhaust(munition_coord, test_contact);
 
 		if (me.offset < 45) {
 			# clear view of engine heat, keep the lock
@@ -1615,10 +1615,10 @@ var AIM = {
 		return me.rearAspect;# 1: keep lock, 0: lose lock
 	},
 
-	aspectToExhaust: func () {#GCD
+	aspectToExhaust: func (munition_coord, test_contact) {#GCD
 		# return angle to viewing rear of target
-		me.vectorToEcho   = vector.Math.eulerToCartesian2(me.coord.course_to(me.t_coord), vector.Math.getPitch(me.coord, me.t_coord));
-    	me.vectorEchoNose = vector.Math.eulerToCartesian3X(me.Tgt.get_heading(), me.Tgt.get_Pitch(), me.Tgt.get_Roll());
+		me.vectorToEcho   = vector.Math.eulerToCartesian2(munition_coord.course_to(test_contact.get_Coord()), vector.Math.getPitch(munition_coord, test_contact.get_Coord()));
+    	me.vectorEchoNose = vector.Math.eulerToCartesian3X(test_contact.get_heading(), test_contact.get_Pitch(), test_contact.get_Roll());
     	me.angleToRear    = geo.normdeg180(vector.Math.angleBetweenVectors(me.vectorToEcho, me.vectorEchoNose));
     	#me.printGuideDetails(sprintf("Angle to rear %d degs.", math.abs(me.angleToRear));
     	return math.abs(me.angleToRear);
@@ -1865,7 +1865,7 @@ var AIM = {
 			} else {
 				me.guiding = FALSE;
 			}
-		} elsif (me.all_aspect == FALSE and me.rear_aspect() == FALSE) {
+		} elsif (me.all_aspect == FALSE and me.rear_aspect(me.coord, me.Tgt) == FALSE) {
 			me.guiding = FALSE;
            	if (me.heatLostLock == FALSE) {
         		me.printStats(me.type~": Missile lost heat lock, attempting to reaquire..");
@@ -2642,7 +2642,8 @@ var AIM = {
 					if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
 						and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
 					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
+					    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
 						me.printCode("search ready for lock");
 						if (me.caged) {
 							me.seeker_elev_target = -me.total_elev;
@@ -2695,7 +2696,8 @@ var AIM = {
 						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
 							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
 						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
+						    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
 							me.printCode("bore-search ready for lock");
 							if (me.caged) {
 								me.seeker_elev_target = 0;
@@ -2748,7 +2750,8 @@ var AIM = {
 						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
 							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
 						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
+						    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
 							me.printCode("dir-search ready for lock");
 							if (me.caged) {
 								me.seeker_elev_target = me.command_dir_pitch;
@@ -2802,7 +2805,8 @@ var AIM = {
 						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
 							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
 						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))) {
+						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
+						    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
 							me.printCode("pattern-search ready for lock");
 							
 							me.seeker_elev_target = -me.total_elev;
@@ -2810,7 +2814,7 @@ var AIM = {
 							me.rotateTarget();
 							me.testSeeker();
 							if (me.inBeam) {
-								me.printCode("dir-search found a lock");
+								me.printCode("pattern-search found a lock");
 								me.status = MISSILE_LOCK;
 								me.SwSoundOnOff.setBoolValue(TRUE);
 								me.SwSoundVol.setDoubleValue(me.vol_track);
