@@ -3372,7 +3372,7 @@ Arms: The missile code now supports being slaved to helmet cuing or cursor on MF
 MI: Can now slew the MI display cursor to lock on to target. The diamond will be shown moving around on the HUD too.
 Arms: Ability to cool IR missiles. Uncooled newer AIM9 will have shorter IR detect range. Cooling fluid is set to last 1 hour.
 Arms: IR slave to radar works almost as usual, except the seeker have to move to find target. Goes fast in the RB74 though.
-Arms: Bore mode. Will target anything that comes into aircraft bore, whether radar has it selected or not. For now the radar still have to be on though.
+Arms: Bore mode. Will target anything that comes into aircraft bore, whether radar has it selected or not.
 Arms: Cage/uncage support. Uncaged will basically make the missile be non-slaved and seeker move by itself to keep lock.
 Arms: There is now an auto-uncage option. IS on by default.
 Arms: Locking will no longer be immediate, the seeker has to direct itself at the target. This can be seen in the HUD, mostly with RB24J.
@@ -3380,6 +3380,9 @@ Arms: Seperate locks for each missile. So missile 1 lock on target 1, and m2 loc
 Arms: Added startup time for missile before its ready.
 TI: Support for new RB24/RB74 options in WEAP menu.
 Arms: Due to IR seeker have to move find target, can lose a lock if its somewhat off bore and aircraft do fast rolls.
-Arms: Uncaged, not bore and not slaved it now scan entire FOV for locks.
+Arms: Uncaged, not bore and not slaved it now scan HUD in a pattern for locks.
 Arms: IR lock before launch now also check aspect.
 Radar: Fixed RCS code so OpenRadar doesn't crash it.
+Radar: Whether the radar is active is now sent over MP. (compatible for now only with MiG21bis and F15)
+Arms: IR missiles can now lock onto targets without radar being active.
+Radar: RWR indication will now only show if the MP aircraft has radar or transponder turned on.

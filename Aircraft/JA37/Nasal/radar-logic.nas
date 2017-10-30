@@ -96,66 +96,67 @@ var RadarLogic = {
       
       tracks = [];
 
+      #do the MP planes
+      me.players = [];
+      foreach(item; multiplayer.model.list) {
+        append(me.players, item.node);
+      }
+      me.AIplanes = input.ai_models.getChildren("aircraft");
+      me.tankers = input.ai_models.getChildren("tanker");
+      me.ships = input.ai_models.getChildren("ship");
+      me.vehicles = input.ai_models.getChildren("groundvehicle");
+      me.rb24 = input.ai_models.getChildren("rb-24");
+      me.rb24j = input.ai_models.getChildren("rb-24j");
+      me.rb71 = input.ai_models.getChildren("rb-71");
+      me.rb74 = input.ai_models.getChildren("rb-74");
+      me.rb99 = input.ai_models.getChildren("rb-99");
+      me.rb15 = input.ai_models.getChildren("rb-15f");
+      me.rb04 = input.ai_models.getChildren("rb-04e");
+      me.rb05 = input.ai_models.getChildren("rb-05a");
+      me.rb75 = input.ai_models.getChildren("rb-75");
+      me.m90 = input.ai_models.getChildren("m90");
+      me.test = input.ai_models.getChildren("test");
+      if(selection != nil and selection.isValid() == FALSE) {
+        #print("not valid");
+        me.paint(selection.getNode(), FALSE);
+        selection = nil;
+      }
+
+
+      me.processTracks(me.players, FALSE, FALSE, TRUE);    
+      me.processTracks(me.tankers, FALSE, FALSE, FALSE, AIR);
+      me.processTracks(me.ships, FALSE, FALSE, FALSE, MARINE);
+  #debug.benchmark("radar process AI tracks", func {    
+      me.processTracks(me.AIplanes, FALSE, FALSE, FALSE, AIR);
+  #});
+      me.processTracks(me.vehicles, FALSE, FALSE, FALSE, SURFACE);
+      me.processTracks(me.rb24, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb24j, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb71, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb74, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb99, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb15, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb04, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb05, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.rb75, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.m90, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processTracks(me.test, FALSE, TRUE, FALSE, ORDNANCE);
+      me.processCallsigns(me.players);
+
+      me.carriers = input.ai_models.getChildren("carrier");
+      me.processTracks(me.carriers, TRUE, FALSE, FALSE, MARINE);
+
       if(input.tracks_enabled.getValue() == TRUE and input.radar_serv.getValue() > FALSE
          and input.voltage.getValue() > 170 and input.hydrPressure.getValue() == TRUE) {
-
-        #do the MP planes
-        me.players = [];
-        foreach(item; multiplayer.model.list) {
-          append(me.players, item.node);
-        }
-        me.AIplanes = input.ai_models.getChildren("aircraft");
-        me.tankers = input.ai_models.getChildren("tanker");
-        me.ships = input.ai_models.getChildren("ship");
-        me.vehicles = input.ai_models.getChildren("groundvehicle");
-        me.rb24 = input.ai_models.getChildren("rb-24");
-        me.rb24j = input.ai_models.getChildren("rb-24j");
-        me.rb71 = input.ai_models.getChildren("rb-71");
-        me.rb74 = input.ai_models.getChildren("rb-74");
-        me.rb99 = input.ai_models.getChildren("rb-99");
-        me.rb15 = input.ai_models.getChildren("rb-15f");
-        me.rb04 = input.ai_models.getChildren("rb-04e");
-        me.rb05 = input.ai_models.getChildren("rb-05a");
-        me.rb75 = input.ai_models.getChildren("rb-75");
-        me.m90 = input.ai_models.getChildren("m90");
-        me.test = input.ai_models.getChildren("test");
-        if(selection != nil and selection.isValid() == FALSE) {
-          #print("not valid");
-          me.paint(selection.getNode(), FALSE);
-          selection = nil;
-        }
-
-
-        me.processTracks(me.players, FALSE, FALSE, TRUE);    
-        me.processTracks(me.tankers, FALSE, FALSE, FALSE, AIR);
-        me.processTracks(me.ships, FALSE, FALSE, FALSE, MARINE);
-    #debug.benchmark("radar process AI tracks", func {    
-        me.processTracks(me.AIplanes, FALSE, FALSE, FALSE, AIR);
-    #});
-        me.processTracks(me.vehicles, FALSE, FALSE, FALSE, SURFACE);
-        me.processTracks(me.rb24, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb24j, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb71, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb74, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb99, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb15, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb04, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb05, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.rb75, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.m90, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processTracks(me.test, FALSE, TRUE, FALSE, ORDNANCE);
-        me.processCallsigns(me.players);
-
+        setprop("ja37/radar/active" , TRUE);
       } else {
         # Do not supply target info to the missiles if radar is off.
         if(selection != nil) {
           me.paint(selection.getNode(), FALSE);
         }
         selection = nil;
+        setprop("ja37/radar/active" , FALSE);
       }
-      me.carriers = input.ai_models.getChildren("carrier");
-      me.processTracks(me.carriers, TRUE, FALSE, FALSE, MARINE);
-
       if(selection != nil) {
         #append(selection, "lock");
       }
@@ -388,16 +389,24 @@ var RadarLogic = {
         if (!containsVector(me.friends, callsign)) {
             # its not a friend, so lets do the check
             if (node.getNode("orientation/true-heading-deg") != nil) {
-                var heading = node.getNode("orientation/true-heading-deg").getValue();
                 var bearing = self.course_to(aircraftPos);
-                var inv_bearing =  bearing+180;
-                var deviation = inv_bearing - heading;
-                #print("dev "~deviation);
-                if (math.abs(geo.normdeg180(deviation)) < 60) {
-                    # we detect its radar is pointed at us
-                    var clock = getClock(bearing-myHeading);
-                    #print("rwr"~clock);
-                    rwr[clock-1] = TRUE;
+                var trAct = node.getNode("instrumentation/transponder/inputs/mode");
+                if (trAct != nil and trAct.getValue() != 0) {
+                  # transponder on
+                  var clock = getClock(bearing-myHeading);
+                  rwr[clock-1] = TRUE;
+                } else {
+                  var heading = node.getNode("orientation/true-heading-deg").getValue();
+                  
+                  var inv_bearing =  bearing+180;
+                  var deviation = inv_bearing - heading;
+                  #print("dev "~deviation);
+                  var rdrAct = node.getNode("sim/multiplay/generic/int[2]");
+                  if (((rdrAct != nil and rdrAct.getValue()!=0) or rdrAct == nil) and math.abs(geo.normdeg180(deviation)) < 60) {
+                      # we detect its radar is pointed at us and active
+                      var clock = getClock(bearing-myHeading);
+                      rwr[clock-1] = TRUE;
+                  }
                 }
             }
         }
@@ -723,7 +732,7 @@ var RadarLogic = {
 };
 
 var nextTarget = func () {
-  if (getprop("ja37/avionics/cursor-on") != FALSE){
+  if (getprop("ja37/avionics/cursor-on") != FALSE and getprop("ja37/radar/active") == TRUE) {
   var max_index = size(tracks)-1;
   if(max_index > -1) {
     if(tracks_index < max_index) {
@@ -748,7 +757,7 @@ var nextTarget = func () {
 };
 
 var centerTarget = func () {
-  if (getprop("ja37/avionics/cursor-on") != FALSE) {
+  if (getprop("ja37/avionics/cursor-on") != FALSE and getprop("ja37/radar/active") == TRUE) {
   var centerMost = nil;
   var centerDist = 99999;
   var centerIndex = -1;
@@ -846,6 +855,7 @@ var Contact = {
 #});
 #debug.benchmark("radar process6", func {                
         obj.acType          = c.getNode("sim/model/ac-type");
+        obj.rdrAct          = c.getNode("sim/multiplay/generic/int[2]");
         obj.type            = c.getName();
         obj.index           = c.getIndex();
         obj.string          = "ai/models/" ~ obj.type ~ "[" ~ obj.index ~ "]";
@@ -890,6 +900,13 @@ var Contact = {
         valid = FALSE;
       }
       return valid;
+    },
+
+    isRadarActive: func {
+      if (me.rdrAct == nil or me.rdrAct.getValue() < 0 or me.rdrAct.getValue() > 1) {
+        return TRUE;
+      }
+      return me.rdrAct.getValue();
     },
 
     isPainted: func () {
@@ -1224,6 +1241,10 @@ var ContactGPS = {
     return TRUE;
   },
 
+  isRadarActive: func {
+    return FALSE;
+  },
+
   isPainted: func () {
     return TRUE;
   },
@@ -1475,6 +1496,10 @@ var ContactGhost = {
 
   isValid: func () {
     return TRUE;
+  },
+
+  isRadarActive: func {
+    return FALSE;
   },
 
   isPainted: func () {

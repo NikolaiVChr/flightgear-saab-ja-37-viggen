@@ -2704,7 +2704,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     } elsif (me.missileCurr != nil) {
       me.missileCurr.contacts = [];
     }
-    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0) {
+    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
       me.radar_group.show();
 
       me.selection = radar_logic.selection;

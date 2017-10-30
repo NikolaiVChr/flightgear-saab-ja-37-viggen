@@ -373,7 +373,7 @@
 
 
                 Also used:
-                sim/hitches/aerotow/is-slave       = radar on/off  (nil/0 = on, 1 = off)
+                sim/hitches/aerotow/is-slave       = wings on/off  
                 sim/hitches/aerotow/open           = ecm jammer on (nil/0 = off, 1 = on)
                 rotors/main/blade[0]/position-deg  = wheel spin
                 rotors/main/blade[1]/position-deg  = wheel spin
@@ -391,7 +391,7 @@
                 <int n="7" alias="/damage/sounds/explode-on"/>                <!-- to show explosion plus its sound -->
                 <!-- Animation control surfaces -->
                 <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>                <!-- to show detachment of canopy -->
-                <int n="2" alias="/fdm/jsbsim/structural/wings/serviceable"/>                <!-- to show detachment of wings -->
+                <int n="2" alias="/ja37/radar/active"/>
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>                <!-- used for animation -->
                 <!--<float n="3" alias="/fdm/jsbsim/propulsion/engine/aug-flame"/> is now done in jsbsim -->                <!-- to animate afterburnerflame -->
@@ -437,7 +437,11 @@
             </generic>
             <visibility-range-nm type="int">100</visibility-range-nm><!-- hint to MP server for how far away MP planes should transmit to this aircraft -->
         </multiplay>
-
+        <hitches>
+            <aerotow>
+                <is-slave alias="/fdm/jsbsim/structural/wings/serviceable"/> <!-- to show detachment of wings -->
+            </aerotow>
+        </hitches>
 
         <checklists include="gui/viggen-checklists.xml"/>
 
@@ -529,11 +533,12 @@
         <radar>
             <selectedMP type="int">-1</selectedMP>
             <selected type="int">-1</selected>
-            <enabled userarchive="y" type="bool">false</enabled>
+            <enabled type="bool">false</enabled>
             <look-through-terrain type="bool">true</look-through-terrain>
             <doppler-enabled type="bool">true</doppler-enabled>
             <min-doppler-speed-kt type="double">50.0</min-doppler-speed-kt>
             <time-till-crash type="double">15</time-till-crash>
+            <active type="bool">false</active>
         </radar>
         <effect>
             <landing-light type="double">0</landing-light>

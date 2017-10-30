@@ -317,7 +317,8 @@ var AIM = {
         m.ready_standby_time    = 0;# time when started from standby
         m.cooling               = FALSE;
         m.command_tgt           = TRUE;
-        m.patternDir            = 1;
+        m.patternDirY           = 1;
+        m.patternDirX           = 1;
         m.pattern_last_time     = 0;
         m.seeker_last_time      = 0;
         m.seeker_elev           = 0;
@@ -2790,7 +2791,7 @@ var AIM = {
 				} else {
 					me.slaveContacts = me.contacts;
 				}
-				me.moveSeekerInPattern();
+				me.moveSeekerInHUDPattern();
 				foreach(me.slaveContact ; me.slaveContacts) {
 					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
 						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
@@ -2861,22 +2862,54 @@ var AIM = {
 		me.seeker_elev_target = polar_dist*math.sin(polar_angle*D2R);
 	},
 
-	moveSeekerInPattern: func {
+	moveSeekerInFullPattern: func {
 		me.pattern_elapsed = getprop("sim/time/elapsed-sec");
 		if (me.pattern_last_time != 0) {
 			me.pattern_time = me.pattern_elapsed - me.pattern_last_time;
 
 			me.pattern_max_move = me.pattern_time*me.angular_speed;
 			me.pattern_move = me.clamp(me.beam_width_deg*1.75, 0, me.pattern_max_move);
-			me.seeker_head_n = me.seeker_head+me.pattern_move*me.patternDir;
+			me.seeker_head_n = me.seeker_head+me.pattern_move*me.patternDirX;
 			if (math.sqrt(me.seeker_elev*me.seeker_elev+me.seeker_head_n*me.seeker_head_n) > me.max_seeker_dev) {
-				me.patternDir *= -1;
+				me.patternDirX *= -1;
 				#print("dir change");
-				me.seeker_elev -= me.pattern_move;
-				if (me.seeker_elev < -me.max_seeker_dev) {
+				me.seeker_elev_n -= me.pattern_move*me.patternDirY;
+				if (me.seeker_elev_n < -me.max_seeker_dev) {
 					#print("from top");
-					me.seeker_elev = me.max_seeker_dev-me.beam_width_deg*0.5;
-					me.seeker_head = 0;
+					me.patternDirY *= -1;
+					me.seeker_elev += me.pattern_move*me.patternDirY;
+					#me.seeker_elev = me.max_seeker_dev-me.beam_width_deg*0.5;
+				} else {
+					me.seeker_elev = me.seeker_elev_n;
+				}
+			} else {
+				me.seeker_head = me.seeker_head_n;
+			}
+			me.computeSeekerPos();
+		}
+		me.pattern_last_time = me.pattern_elapsed;
+	},
+
+	moveSeekerInHUDPattern: func {
+		me.pattern_elapsed = getprop("sim/time/elapsed-sec");
+		if (me.seeker_elev < -15 or me.seeker_elev > 2.5 or math.abs(me.seeker_head) > 8.5) {
+			me.reset_seeker();
+		} elsif (me.pattern_last_time != 0) {
+			me.pattern_time = me.pattern_elapsed - me.pattern_last_time;
+
+			me.pattern_max_move = me.pattern_time*me.angular_speed;
+			me.pattern_move = me.clamp(me.beam_width_deg*1.75, 0, me.pattern_max_move);
+			me.seeker_head_n = me.seeker_head+me.pattern_move*me.patternDirX;
+			if (math.abs(me.seeker_head_n) > 8.5) {
+				me.patternDirX *= -1;
+				#print("dir change");
+				me.seeker_elev_n = me.seeker_elev+me.pattern_move*me.patternDirY;
+				if (me.seeker_elev_n < -15 or me.seeker_elev_n > 2.5) {
+					#print("from top");
+					me.patternDirY *= -1;
+					me.seeker_elev += me.pattern_move*me.patternDirY;
+				} else {
+					me.seeker_elev = me.seeker_elev_n;
 				}
 			} else {
 				me.seeker_head = me.seeker_head_n;

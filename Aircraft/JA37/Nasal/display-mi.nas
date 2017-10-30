@@ -873,7 +873,7 @@ var MI = {
 
 
 
-	    if(me.input.tracks_enabled.getValue() == TRUE and me.input.radar_serv.getValue() > 0) {
+	    if(me.input.tracks_enabled.getValue() == TRUE and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
 	      me.radar_group.show();
 
 	      me.rot = -getprop("orientation/roll-deg") * D2R;
