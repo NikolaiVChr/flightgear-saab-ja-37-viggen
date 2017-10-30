@@ -325,6 +325,9 @@ var AIM = {
         m.seeker_head           = 0;
         m.cooling_last_time     = 0;
         m.cool_total_time       = 0;
+        m.patternPitchUp        = 2.5;
+		m.patternPitchDown      = -15;
+		m.patternYaw            = 8.5;
 
         if (m.detect_range_nm == nil) {
           # backwards compatibility
@@ -730,6 +733,13 @@ var AIM = {
 		if (me.status == MISSILE_FLYING) return;
 		me.caged = cage;
 		me.printCode("Cage: "~cage);
+	},
+
+	setUncagedPattern: func (yaw, pitchUp, pitchDown) {
+		if (me.status == MISSILE_FLYING) return;
+		me.patternYaw       = yaw;
+		me.patternPitchUp   = pitchUp;
+		me.patternPitchDown = pitchDown;
 	},
 
 	getSeekerInfo: func {
@@ -2892,7 +2902,7 @@ var AIM = {
 
 	moveSeekerInHUDPattern: func {
 		me.pattern_elapsed = getprop("sim/time/elapsed-sec");
-		if (me.seeker_elev < -15 or me.seeker_elev > 2.5 or math.abs(me.seeker_head) > 8.5) {
+		if (me.seeker_elev < me.patternPitchDown or me.seeker_elev > me.patternPitchUp or math.abs(me.seeker_head) > me.patternYaw) {
 			me.reset_seeker();
 		} elsif (me.pattern_last_time != 0) {
 			me.pattern_time = me.pattern_elapsed - me.pattern_last_time;
@@ -2900,11 +2910,11 @@ var AIM = {
 			me.pattern_max_move = me.pattern_time*me.angular_speed;
 			me.pattern_move = me.clamp(me.beam_width_deg*1.75, 0, me.pattern_max_move);
 			me.seeker_head_n = me.seeker_head+me.pattern_move*me.patternDirX;
-			if (math.abs(me.seeker_head_n) > 8.5) {
+			if (math.abs(me.seeker_head_n) > me.patternYaw) {
 				me.patternDirX *= -1;
 				#print("dir change");
 				me.seeker_elev_n = me.seeker_elev+me.pattern_move*me.patternDirY;
-				if (me.seeker_elev_n < -15 or me.seeker_elev_n > 2.5) {
+				if (me.seeker_elev_n < me.patternPitchDown or me.seeker_elev_n > me.patternPitchUp) {
 					#print("from top");
 					me.patternDirY *= -1;
 					me.seeker_elev += me.pattern_move*me.patternDirY;

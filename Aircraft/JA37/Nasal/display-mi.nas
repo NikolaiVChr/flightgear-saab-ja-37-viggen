@@ -303,6 +303,15 @@ var MI = {
 				.setTranslation(0,halfHeightOfSideScales)
 		        .setColor(r,g,b, a);
 
+		me.diamond_small = me.rootCenter.createChild("path")
+				.moveTo(-6,-6)
+				.lineTo(6,6)
+				.moveTo(6,-6)
+				.lineTo(-6,6)
+				.setStrokeLineWidth(w)
+				.setTranslation(0,halfHeightOfSideScales)
+		        .setColor(r,g,b, a);
+
 		me.cursor_grp = me.rootCenter.createChild("group");
 		me.cursor_grp2 = me.cursor_grp.createChild("group");
 		me.cursor_grp_trans = me.cursor_grp.createTransform();
@@ -655,6 +664,7 @@ var MI = {
 		me.displayGround();
 		me.displayGroundCollisionArrow();
 		me.showAltLines();
+		me.displaySeeker();
 		me.displayRadarTracks();#must be after displayFPI
 		me.displayHeadingScale();#must be after radar tracks
 		me.altScale();
@@ -859,6 +869,26 @@ var MI = {
 				}
 			}
 		}
+	},
+
+	displaySeeker: func {
+		me.missileCurr = displays.common.armActive();
+	    if (me.missileCurr != nil and displays.common.mode == displays.COMBAT) {
+	      me.ds = me.missileCurr.getSeekerInfo();
+	      if (me.ds == nil) {
+	          me.diamond_small.hide();
+	      } else {
+	          me.diamond_small.setTranslation(me.ds[0]*texel_per_degree, -me.ds[1]*texel_per_degree);
+	          if (me.missileCurr.status != armament.MISSILE_LOCK or me.input.twoHz.getValue()) {
+	            me.diamond_small.show();
+	          } else {
+	            me.diamond_small.hide();
+	          }
+	          me.diamond_small.update();
+	      }
+	    } else {
+	      me.diamond_small.hide();
+	    }
 	},
 
 	displayRadarTracks: func () {

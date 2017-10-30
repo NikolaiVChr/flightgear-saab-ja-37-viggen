@@ -4454,7 +4454,10 @@ var TI = {
 			if(me.menuMain == MAIN_WEAPONS) {
 				me.aim9 = displays.common.armActive();
 				if (me.aim9 != nil) {
-					me.aim9.setAutoUncage(!me.aim9.isAutoUncage());
+					me.autCage = me.aim9.isAutoUncage();
+					foreach(snake;displays.common.sidewinders()) {
+						snake.setAutoUncage(!me.autCage);
+					}
 				}
 			}
 		}
@@ -4491,7 +4494,10 @@ var TI = {
 			if(me.menuMain == MAIN_WEAPONS) {
 				me.aim9 = displays.common.armActive();
 				if (me.aim9 != nil) {
-					me.aim9.setCaged(!me.aim9.isCaged());
+					me.cage = me.aim9.isCaged();
+					foreach(snake;displays.common.sidewinders()) {
+						snake.setCaged(!me.cage);
+					}
 				}
 			}
 		}
@@ -4965,7 +4971,10 @@ var TI = {
 			if(me.menuMain == MAIN_WEAPONS) {
 				me.aim9 = displays.common.armActive();
 				if (me.aim9 != nil) {
-					me.aim9.setSlave(!me.aim9.isSlave());
+					me.slaved = me.aim9.isSlave();
+					foreach(snake;displays.common.sidewinders()) {
+						snake.setSlave(!me.slaved);
+					}
 				}
 			}
 		}
@@ -4994,7 +5003,10 @@ var TI = {
 			if(me.menuMain == MAIN_WEAPONS) {
 				me.aim9 = displays.common.armActive();
 				if (me.aim9 != nil) {
-					me.aim9.setBore(!me.aim9.isBore());
+					me.bore = me.aim9.isBore();
+					foreach(snake;displays.common.sidewinders()) {
+						snake.setBore(!me.bore);
+					}
 				}
 			}
 		}
@@ -5044,7 +5056,10 @@ var TI = {
 			if(me.menuMain == MAIN_WEAPONS) {
 				me.aim9 = displays.common.armActive();
 				if (me.aim9 != nil) {
-					me.aim9.setCooling(!me.aim9.isCooling());
+					me.cooling = me.aim9.isCooling();
+					foreach(snake;displays.common.sidewinders()) {
+						snake.setCooling(!me.cooling);
+					}
 				}
 			}
 		}

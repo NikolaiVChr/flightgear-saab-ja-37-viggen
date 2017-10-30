@@ -179,9 +179,8 @@ Arms: Auto LOAL. Lock on after launch.
 Arms: IR lock before launch should also check terrain occlusion.
 Arms: The auto pattern scan should not jump from bottom to top.
 Radar: Openradar has no roll and heading. Fix radar to handle that.
-TI: Cooling IR missiles should maybe be all at once.
-Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.) (HUD)
-
+Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.)
+Arms: Should seeker position be shwon in MI and HUD for non IR?
 
 
 

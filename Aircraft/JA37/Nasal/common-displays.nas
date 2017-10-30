@@ -269,6 +269,16 @@ units:                "ja37/hud/units-metric",
 	    return nil;
 	},
 
+	sidewinders: func {
+		me.snakes = [];
+		for(var x=0; x<7; x+=1) {
+			if (armament.AIM.active[x] != nil and armament.AIM.active[x].guidance=="heat") {
+				append(me.snakes, armament.AIM.active[x]);
+			}
+		}
+		return me.snakes;
+	},
+
 	armNameShort: func {
 		  me.armSelect = me.input.station.getValue();
 	      if (me.armSelect > 0) {

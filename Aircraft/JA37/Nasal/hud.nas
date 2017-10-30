@@ -2691,7 +2691,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.diamond_small.hide();
       } else {
           me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
-          me.diamond_small.show();
+          if (me.missileCurr.status != armament.MISSILE_LOCK or me.input.twoHz.getValue()) {
+            me.diamond_small.show();
+          } else {
+            me.diamond_small.hide();
+          }
           me.diamond_small.update();
       }
     } else {
