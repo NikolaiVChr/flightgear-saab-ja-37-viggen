@@ -48,7 +48,9 @@
 #
 # To create a weapon call AIM.new(pylon, type, description, midFlightFunction). The pylon is an integer from 0 or higher. When its launched it will read the pylon position in
 #   controls/armament/station[pylon+1]/offsets, where the position properties must be x-m, y-m and z-m. The type is just a string, the description is a string
-#   that is exposed in its radar properties under AI/models during flight. The function is for chaning target, guidance or guidance-law during flight.
+#   that is exposed in its radar properties under AI/models during flight. The function is for changing target, guidance or guidance-law during flight.
+# The mid flight function will be called often during flight with 1 parameter. The param is a hash like {time_s, dist_m, mach, weapon_position}, where the latter is a geo.Coord.
+#   It expects you to return a hash with any or none of these {guidance, guidanceLaw, target}.
 # The model that is loaded and shown is located in the aircraft folder at the value of property payload/armament/models in a subfolder with same name as type.
 #   Inside the subfolder the xml file is called [lowercase type]-[pylon].xml
 # To start making the missile try to get a lock, call start(), the missile will then keep trying to get a lock on 'contact'.
