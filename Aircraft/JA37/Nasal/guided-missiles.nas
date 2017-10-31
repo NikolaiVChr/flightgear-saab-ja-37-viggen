@@ -46,20 +46,18 @@
 #
 # Usage:
 #
-# To create a weapon call AIM.new(pylon, type, description). The pylon is an integer from 0 or higher. When its launched it will read the pylon position in
+# To create a weapon call AIM.new(pylon, type, description, midFlightFunction). The pylon is an integer from 0 or higher. When its launched it will read the pylon position in
 #   controls/armament/station[pylon+1]/offsets, where the position properties must be x-m, y-m and z-m. The type is just a string, the description is a string
-#   that is exposed in its radar properties under AI/models during flight.
+#   that is exposed in its radar properties under AI/models during flight. The function is for chaning target, guidance or guidance-law during flight.
 # The model that is loaded and shown is located in the aircraft folder at the value of property payload/armament/models in a subfolder with same name as type.
 #   Inside the subfolder the xml file is called [lowercase type]-[pylon].xml
-# To start making the missile try to get a lock, set its status to MISSILE_SEARCH and call search(), the missile will then keep trying to get a lock on 'contact'.
-#   'contact' can be set to nil at any time or changed. To stop the search, just set its status to MISSILE_STANDBY. To resume the search you again have to set
-#   the status and call search().
-# To release the munition at a target call release(), do this only after the missile has set its own status to MISSILE_LOCK.
+# To start making the missile try to get a lock, call start(), the missile will then keep trying to get a lock on 'contact'.
+#   'contact' can be set to nil at any time or changed. To stop the search, just call stop(). To resume the search you again have call start().
+# To release the munition at a target call release(), normally do this after the missile has set its own status to MISSILE_LOCK.
 # When using weapons without target, call releaseAtNothing() instead of release(), search() does not need to have been called beforehand.
 #   To then find out where it hit the ground check the impact report in AI/models. The impact report will contain warhead weight, but that will be zero if
 #   the weapon did not have time to arm before hitting ground.
 # To drop the munition, without arming it nor igniting its engine, call eject().
-# At mid-flight you can change the guidance, guidance-law or target.
 # 
 #
 # Limitations:
@@ -340,7 +338,7 @@ var AIM = {
         m.detect_range_curr_nm  = m.detect_range_nm;
 
         if (m.ready_time == nil) {
-        	m.ready_time = 5;
+        	m.ready_time = 0;
         }
         if (m.coolable == nil) {
         	m.coolable = FALSE;

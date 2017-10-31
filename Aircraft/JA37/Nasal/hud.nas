@@ -1128,6 +1128,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     mode = me.input.currentMode.getValue();
     me.station = me.input.station.getValue();
 
+    me.displaySeeker(mode);
+
     if(me.has_power == FALSE or me.input.mode.getValue() == 0 or testing.ongoing == TRUE) {
       me.root.hide();
       me.root.update();
@@ -2679,12 +2681,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     return 20;
   },
 
-  displayRadarTracks: func (mode) {
-    me.track_index = 1;
-    me.selection_updated = FALSE;
+  displaySeeker: func (mode) {
+    me.missileCurr = displays.common.armActive();
     me.diamond_small.hide();
-    me.armSelect = me.station;
-    me.missileCurr = armament.AIM.active[me.armSelect-1];
     if (me.missileCurr != nil and mode == COMBAT) {
       me.ds = me.missileCurr.getSeekerInfo();
       if (me.ds == nil) {
@@ -2708,6 +2707,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     } elsif (me.missileCurr != nil) {
       me.missileCurr.contacts = [];
     }
+  },
+
+  displayRadarTracks: func (mode) {
+    me.track_index = 1;
+    me.selection_updated = FALSE;
+    me.armSelect = me.station;
+    me.missileCurr = displays.common.armActive();
     if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
       me.radar_group.show();
 

@@ -180,7 +180,7 @@ Arms: IR lock before launch should also check terrain occlusion.
 Arms: The auto pattern scan should not jump from bottom to top.
 Radar: Openradar has no roll and heading. Fix radar to handle that.
 Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.)
-Arms: Should seeker position be shwon in MI and HUD for non IR?
+Arms: Should seeker position be shown in MI and HUD for non IR?
 
 
 
