@@ -915,6 +915,7 @@ var Saab37 = {
       me.loop_callsign = maketimer(1, me, func callsign.loop_callsign());
       me.loop_callsign.start();
       },nil,var err=[]);
+      if(size(err)) print(err[0]);
 
       if (getprop("ja37/supported/canvas") == TRUE and getprop("ja37/systems/variant") > 0) {
         # CI display
