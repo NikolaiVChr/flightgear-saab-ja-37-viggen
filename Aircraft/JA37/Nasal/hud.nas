@@ -3042,6 +3042,7 @@ var init = func() {
     #print("HUD initialized.");
     hud_pilot.update();
     IR_loop();
+    setlistener("sim/rendering/shaders/skydome", func {reinit(on_backup_power);});
   }
 };
 
@@ -3057,7 +3058,7 @@ var IR_loop = func {
   #settimer(IR_loop, 1.5);
 };
 
-setlistener("sim/rendering/shaders/skydome", func {reinit(on_backup_power);});
+
 
 var reinit = func(backup = FALSE) {#mostly called to change HUD color
    #reinitHUD = 1;

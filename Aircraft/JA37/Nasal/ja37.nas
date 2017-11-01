@@ -907,7 +907,7 @@ var Saab37 = {
       # radar
       radar_logic.radarLogic = radar_logic.RadarLogic.new();
       me.loop_logic  = maketimer(0.24, radar_logic.radarLogic, func radar_logic.radarLogic.loop());
-      me.loop_logic.start();
+      #me.loop_logic.start();
 
       # immatriculation
       callsign.callInit();
@@ -964,6 +964,10 @@ var Saab37 = {
         me.loop_plan.start();
       }
       
+    }
+    if(getprop("ja37/supported/radar") == TRUE) {
+      # radar (must be called after TI)
+      me.loop_logic.start();
     }
 
     if (getprop("ja37/supported/fire") == TRUE) {
