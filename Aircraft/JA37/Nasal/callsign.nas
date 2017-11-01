@@ -24,7 +24,7 @@ var callInit = func {
         .setColor(1,1,1, 1)
         .setAlignment("center-center")
         .setTranslation(64, 8);
-}
+};
 
 var loop_callsign = func {
 
@@ -37,4 +37,4 @@ var loop_callsign = func {
     }
 
     #settimer(loop_callsign, 1);
-}
+};
