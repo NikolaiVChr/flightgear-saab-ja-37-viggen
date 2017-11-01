@@ -1457,6 +1457,9 @@
         <radar_logic>
             <file>Aircraft/JA37/Nasal/radar-logic.nas</file>
         </radar_logic>
+        <callsign>
+            <file>Aircraft/JA37/Nasal/callsign.nas</file>
+        </callsign>
         <ja37>
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
             <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
@@ -1466,9 +1469,6 @@
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
             <file>Aircraft/JA37/Nasal/callsign.nas</file>
         </ja37>
-        <callsign>
-            <file>Aircraft/JA37/Nasal/callsign.nas</file>
-        </callsign>
         <route>
             <file>Aircraft/JA37/Nasal/flightplans.nas</file>
         </route>
