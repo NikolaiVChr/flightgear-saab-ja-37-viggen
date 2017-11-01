@@ -1452,8 +1452,10 @@ var load_interior_final2 = func {
 }
 
 var main_init_listener = setlistener("sim/signals/fdm-initialized", func {
-	settimer(func main_init(), 2);
-	removelistener(main_init_listener);
+  if (getprop("sim/signals/fdm-initialized") == 1) {
+	 settimer(func main_init(), 2);
+	 removelistener(main_init_listener);
+  }
  }, 0, 0);
 
 var re_init_listener = setlistener("/sim/signals/reinit", func {
