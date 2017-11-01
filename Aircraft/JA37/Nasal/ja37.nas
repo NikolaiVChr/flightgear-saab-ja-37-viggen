@@ -910,9 +910,11 @@ var Saab37 = {
       #me.loop_logic.start();
 
       # immatriculation
+      call(func {# issue on some fast linux PCs..
       callsign.callInit();
-      me.loop_callsign= maketimer(1, me, func callsign.loop_callsign());
+      me.loop_callsign = maketimer(1, me, func callsign.loop_callsign());
       me.loop_callsign.start();
+      },nil,var err=[]);
 
       if (getprop("ja37/supported/canvas") == TRUE and getprop("ja37/systems/variant") > 0) {
         # CI display
