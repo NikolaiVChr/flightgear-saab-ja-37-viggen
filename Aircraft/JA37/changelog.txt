@@ -3367,6 +3367,7 @@ Model: Added switch on right side close to canopy for flood lights.
 =====
 GUI: Added some extra checklists items for before engine start.
 Model: {Pinto} New M70 model.
+Model: {Pinto} Replaced the RB99 with a more high-def. one.
 Arms: The munition is now in some cases pitched into airstream, to avoid it falling upwards when flying level with an AoA.
 Arms: The missile code now supports being slaved to helmet cuing or cursor on MFD/HUD.
 MI: Can now slew the MI display cursor to lock on to target. The diamond will be shown moving around on the HUD too.
