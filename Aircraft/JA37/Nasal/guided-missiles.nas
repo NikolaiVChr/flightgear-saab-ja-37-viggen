@@ -93,6 +93,7 @@
 # Real rocket thrust does not necesarily cutoff instantly. Make an optional fadeout. (use the aim-9 new variant paper page as guide)
 # Support for seeker FOV that is smaller than FCS FOV. (ASRAAM)
 # Introduce battery time. Beyond this time it wont steer.
+# Anti-rad: So if the target source goes dark, it deploys a parachute and “loiters”. If it re-detects target, it releases the parachute and fires the second motor
 #
 # Please report bugs and features to Nikolai V. Chr. | ForumUser: Necolatis | Callsign: Leto
 
@@ -143,6 +144,7 @@ var DEBUG_STATS_DETAILS    = FALSE;
 var DEBUG_GUIDANCE         = FALSE;
 var DEBUG_GUIDANCE_DETAILS = FALSE;
 var DEBUG_FLIGHT_DETAILS   = FALSE;
+var DEBUG_SEARCH           = FALSE;
 var DEBUG_CODE             = FALSE;
 
 var g_fps        = 9.80665 * M2FT;
@@ -2598,6 +2600,27 @@ var AIM = {
 		}
 	},
 
+	checkForLock: func {
+		if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
+						and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
+					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
+					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
+					    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
+			return TRUE;
+		}
+		return FALSE;
+	},
+
+	checkForClass: func {
+		if(me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
+					(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
+	                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
+	                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
+			return TRUE;
+		}
+		return FALSE;
+	},
+
 	search: func {
 		# looping in search mode
 		if (deltaSec.getValue()==0) {
@@ -2618,245 +2641,175 @@ var AIM = {
 			return;
 		} elsif ( me.status == MISSILE_LOCK) {
 			# Locked.
-			me.printCode("in search loop, but locked!");
+			me.printSearch("in search loop, but locked!");
 			me.return_to_search();
 			return;
 		}
 
 
 
-		me.printCode("searching");
+		me.printSearch("searching");
 		# search.
 		if(me.uncage_auto) {
 			me.caged = TRUE;
 		}
-		if (1==1 or contact != me.Tgt) {
-			#me.printCode("search2");
-			if (me.mode_slave == TRUE and me.command_tgt == TRUE) {
-				me.slaveContact = nil;
-				if (size(me.contacts) == 0) {
-					me.slaveContact = contact;
-				} else {
-					me.slaveContact = me.contacts[0];
-				}
-				if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
-					(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
-	                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
-	                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
-					me.printCode("search found suitable contact");
+		if (me.caged == FALSE) {
+			me.slaveContacts = nil;
+			if (size(me.contacts) == 0) {
+				me.slaveContacts = [contact];
+			} else {
+				me.slaveContacts = me.contacts;
+			}
+			me.moveSeekerInHUDPattern();
+			foreach(me.slaveContact ; me.slaveContacts) {
+				if (me.checkForClass()) {
 					me.tagt = me.slaveContact;
 					me.rng = me.tagt.get_range();
 					me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
 					me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
 					
 					# Check if in range and in the seeker FOV.
-					if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
-						and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
-					    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-					    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
-					    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
-						me.printCode("search ready for lock");
-						if (me.caged) {
-							me.seeker_elev_target = -me.total_elev;
-							me.seeker_head_target = -me.total_horiz;
-							me.rotateTarget();
-							me.moveSeeker();
-						}
+					if (me.checkForLock()) {
+						me.printSearch("pattern-search ready for lock");
+						
 						me.seeker_elev_target = -me.total_elev;
 						me.seeker_head_target = -me.total_horiz;
 						me.rotateTarget();
 						me.testSeeker();
 						if (me.inBeam) {
-							me.printCode("search found a lock");
-							me.status = MISSILE_LOCK;
-							me.SwSoundOnOff.setBoolValue(TRUE);
-							me.SwSoundVol.setDoubleValue(me.vol_track);
-							#me.trackWeak = 1;
-							me.Tgt = me.tagt;
-
-					        me.callsign = me.Tgt.get_Callsign();
-
-							settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
+							me.printSearch("pattern-search found a lock");
+							me.goToLock();
 							return;
 						}
-						me.Tgt = nil;
-					} else {
-						me.Tgt = nil;
 					}
-				} else {
-					me.Tgt = nil;
 				}
-			} elsif (me.mode_bore == TRUE) {
-				me.slaveContacts = nil;
-				if (size(me.contacts) == 0) {
-					me.slaveContacts = [contact];
-				} else {
-					me.slaveContacts = me.contacts;
+			}
+			me.Tgt = nil;
+			me.SwSoundVol.setDoubleValue(me.vol_search);
+			me.SwSoundOnOff.setBoolValue(TRUE);
+			me.coolingSyst();
+			settimer(func me.search(), 0.05);# this mode needs to be a bit faster.
+			return;
+		} elsif (me.mode_slave == TRUE and me.command_tgt == TRUE) {
+			me.slaveContact = nil;
+			if (size(me.contacts) == 0) {
+				me.slaveContact = contact;
+			} else {
+				me.slaveContact = me.contacts[0];
+			}
+			if (me.checkForClass()) {
+				me.printSearch("search found suitable contact");
+				me.tagt = me.slaveContact;
+				me.rng = me.tagt.get_range();
+				me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
+				me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
+				
+				# Check if in range and in the seeker FOV.
+				if (me.checkForLock()) {
+					me.printSearch("rdr-slave-search ready for lock");
+					if (me.caged) {
+						me.seeker_elev_target = -me.total_elev;
+						me.seeker_head_target = -me.total_horiz;
+						me.rotateTarget();
+						me.moveSeeker();
+					}
+					me.seeker_elev_target = -me.total_elev;
+					me.seeker_head_target = -me.total_horiz;
+					me.rotateTarget();
+					me.testSeeker();
+					if (me.inBeam) {
+						me.printSearch("rdr-slave-search found a lock");
+						me.goToLock();
+						return;
+					}
 				}
-				foreach(me.slaveContact ; me.slaveContacts) {
-					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
-						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
-		                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
-		                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
-						me.tagt = me.slaveContact;
-						me.rng = me.tagt.get_range();
-						me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
-						me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
-						
-						# Check if in range and in the seeker FOV.
-						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
-							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
-						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
-						    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
-							me.printCode("bore-search ready for lock");
-							if (me.caged) {
-								me.seeker_elev_target = 0;
-								me.seeker_head_target = 0;
-								me.moveSeeker();
-							}							
-							me.seeker_elev_target = -me.total_elev;
-							me.seeker_head_target = -me.total_horiz;
-							me.rotateTarget();
-							me.testSeeker();
-							if (me.inBeam) {
-								me.printCode("bore-search found a lock");
-								me.status = MISSILE_LOCK;
-								me.SwSoundOnOff.setBoolValue(TRUE);
-								me.SwSoundVol.setDoubleValue(me.vol_track);
-								#me.trackWeak = 1;
-								me.Tgt = me.tagt;
-
-						        me.callsign = me.Tgt.get_Callsign();
-
-								settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
-								return;
-							}
-							me.Tgt = nil;
-						} else {
-							me.Tgt = nil;
+			}
+		} elsif (me.mode_slave == FALSE) {
+			me.slaveContacts = nil;
+			if (size(me.contacts) == 0) {
+				me.slaveContacts = [contact];
+			} else {
+				me.slaveContacts = me.contacts;
+			}
+			if (me.mode_bore == TRUE) {
+				me.seeker_elev_target = 0;
+				me.seeker_head_target = 0;
+				me.moveSeeker();
+			}
+			foreach(me.slaveContact ; me.slaveContacts) {
+				if (me.checkForClass()) {
+					me.tagt = me.slaveContact;
+					me.rng = me.tagt.get_range();
+					me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
+					me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
+					
+					# Check if in range and in the seeker FOV.
+					if (me.checkForLock()) {
+						me.printSearch("bore-search ready for lock");
+						me.seeker_elev_target = -me.total_elev;
+						me.seeker_head_target = -me.total_horiz;
+						me.rotateTarget();
+						me.testSeeker();
+						if (me.inBeam) {
+							me.printSearch("bore-search found a lock");
+							me.goToLock();
+							return;
 						}
-					} else {
-						me.Tgt = nil;
 					}
 				}
-			} elsif (me.mode_slave == TRUE and me.command_tgt == FALSE) {
-				me.slaveContacts = nil;
-				if (size(me.contacts) == 0) {
-					me.slaveContacts = [contact];
-				} else {
-					me.slaveContacts = me.contacts;
-				}
-				foreach(me.slaveContact ; me.slaveContacts) {
-					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
-						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
-		                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
-		                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
-						me.tagt = me.slaveContact;
-						me.rng = me.tagt.get_range();
-						me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
-						me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
-						
-						# Check if in range and in the seeker FOV.
-						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
-							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
-						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
-						    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
-							me.printCode("dir-search ready for lock");
-							if (me.caged) {
-								me.seeker_elev_target = me.command_dir_pitch;
-								me.seeker_head_target = me.command_dir_heading;
-								me.moveSeeker();
-							}
-							me.seeker_elev_target = -me.total_elev;
-							me.seeker_head_target = -me.total_horiz;
-							me.rotateTarget();
-							me.testSeeker();
-							if (me.inBeam) {
-								me.printCode("dir-search found a lock");
-								me.status = MISSILE_LOCK;
-								me.SwSoundOnOff.setBoolValue(TRUE);
-								me.SwSoundVol.setDoubleValue(me.vol_track);
-								#me.trackWeak = 1;
-								me.Tgt = me.tagt;
-
-						        me.callsign = me.Tgt.get_Callsign();
-
-								settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
-								return;
-							}
-							me.Tgt = nil;
-						} else {
-							me.Tgt = nil;
+			}
+		} elsif (me.mode_slave == TRUE and me.command_tgt == FALSE) {
+			me.slaveContacts = nil;
+			if (size(me.contacts) == 0) {
+				me.slaveContacts = [contact];
+			} else {
+				me.slaveContacts = me.contacts;
+			}
+			if (me.caged) {
+				me.seeker_elev_target = me.command_dir_pitch;
+				me.seeker_head_target = me.command_dir_heading;
+				me.moveSeeker();
+			}
+			foreach(me.slaveContact ; me.slaveContacts) {
+				if (me.checkForClass()) {
+					me.tagt = me.slaveContact;
+					me.rng = me.tagt.get_range();
+					me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
+					me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
+					
+					# Check if in range and in the seeker FOV.
+					if (me.checkForLock()) {
+						me.printSearch("dir-search ready for lock");
+						me.seeker_elev_target = -me.total_elev;
+						me.seeker_head_target = -me.total_horiz;
+						me.rotateTarget();
+						me.testSeeker();
+						if (me.inBeam) {
+							me.printSearch("dir-search found a lock");
+							me.goToLock();
+							return;
 						}
-					} else {
-						me.Tgt = nil;
 					}
 				}
-			} elsif (me.mode_slave == FALSE and me.caged == FALSE and me.mode_bore == FALSE) {
-				me.slaveContacts = nil;
-				if (size(me.contacts) == 0) {
-					me.slaveContacts = [contact];
-				} else {
-					me.slaveContacts = me.contacts;
-				}
-				me.moveSeekerInHUDPattern();
-				foreach(me.slaveContact ; me.slaveContacts) {
-					if (me.slaveContact != nil and me.slaveContact.isValid() == TRUE and
-						(  (me.slaveContact.get_type() == SURFACE and me.target_gnd == TRUE)
-		                or (me.slaveContact.get_type() == AIR and me.target_air == TRUE)
-		                or (me.slaveContact.get_type() == MARINE and me.target_sea == TRUE))) {
-						me.tagt = me.slaveContact;
-						me.rng = me.tagt.get_range();
-						me.total_elev  = deviation_normdeg(OurPitch.getValue(), me.tagt.getElevation()); # deg.
-						me.total_horiz = deviation_normdeg(OurHdg.getValue(), me.tagt.get_bearing());    # deg.
-						
-						# Check if in range and in the seeker FOV.
-						if ((me.class!="A" or me.tagt.get_Speed()>15) and ((me.guidance != "semi-radar" and me.guidance != "laser") or me.is_painted(me.tagt) == TRUE)
-							and (me.guidance != "radiation" or me.is_radiating_aircraft(me.tagt) == TRUE)
-						    and me.rng < me.max_fire_range_nm and me.rng > me.min_fire_range_nm and me.FOV_check(me.total_horiz, me.total_elev, me.fcs_fov)
-						    and (me.rng < me.detect_range_curr_nm or (me.guidance != "radar" and me.guidance != "semi-radar" and me.guidance != "heat" and me.guidance != "vision" and me.guidance != "heat"))
-						    and (me.guidance != "heat" or (me.all_aspect == TRUE or me.rear_aspect(geo.aircraft_position(), me.tagt) == TRUE))) {
-							me.printCode("pattern-search ready for lock");
-							
-							me.seeker_elev_target = -me.total_elev;
-							me.seeker_head_target = -me.total_horiz;
-							me.rotateTarget();
-							me.testSeeker();
-							if (me.inBeam) {
-								me.printCode("pattern-search found a lock");
-								me.status = MISSILE_LOCK;
-								me.SwSoundOnOff.setBoolValue(TRUE);
-								me.SwSoundVol.setDoubleValue(me.vol_track);
-								#me.trackWeak = 1;
-								me.Tgt = me.tagt;
-
-						        me.callsign = me.Tgt.get_Callsign();
-
-								settimer(func me.update_lock(), deltaSec.getValue()==0?0.5:0.1);
-								return;
-							}
-							me.Tgt = nil;
-						} else {
-							me.Tgt = nil;
-						}
-					} else {
-						me.Tgt = nil;
-					}
-				}
-				me.SwSoundVol.setDoubleValue(me.vol_search);
-				me.SwSoundOnOff.setBoolValue(TRUE);
-				me.coolingSyst();
-				settimer(func me.search(), 0.05);# this mode needs to be a bit faster.
-				return;
 			}
 		}
+		me.Tgt = nil;
 		me.SwSoundVol.setDoubleValue(me.vol_search);
 		me.SwSoundOnOff.setBoolValue(TRUE);
-		#me.trackWeak = 1;
 		me.coolingSyst();
 		settimer(func me.search(), 0.1);
+	},
+
+	goToLock: func {
+		me.status = MISSILE_LOCK;
+		me.SwSoundOnOff.setBoolValue(TRUE);
+		me.SwSoundVol.setDoubleValue(me.vol_track);
+
+		me.Tgt = me.tagt;
+
+        me.callsign = me.Tgt.get_Callsign();
+
+		settimer(func me.update_lock(), 0.1);
 	},
 
 	rotateTarget: func {
@@ -2952,7 +2905,7 @@ var AIM = {
 			if (math.sqrt(me.seeker_elev_n*me.seeker_elev_n+me.seeker_head_n*me.seeker_head_n) < me.max_seeker_dev) {
 				me.seeker_head = me.seeker_head_n;
 				me.seeker_elev = me.seeker_elev_n;
-				#me.printCode("seeker moved");
+				#me.printSearch("seeker moved");
 			}
 		}
 		me.seeker_last_time = me.seeker_elapsed;
@@ -2965,10 +2918,10 @@ var AIM = {
 		me.seeker_head_delta = me.seeker_head_target - me.seeker_head;
 		me.seeker_delta = me.clamp(math.sqrt(me.seeker_elev_delta*me.seeker_elev_delta+me.seeker_head_delta*me.seeker_head_delta),0.000001, 100000);
 
-		me.printCode(sprintf("seeker to target %.1f degs. Beam radius %.1f degs.", me.seeker_delta, me.beam_width_deg));
+		me.printSearch(sprintf("seeker to target %.1f degs. Beam radius %.1f degs.", me.seeker_delta, me.beam_width_deg));
 		if (me.seeker_delta < me.beam_width_deg) {
 			me.inBeam = TRUE;
-			#me.printCode("in beam");
+			#me.printSearch("in beam");
 		}
 	},
 
@@ -3002,13 +2955,13 @@ var AIM = {
 			return;
 		}
 		if (me.Tgt == nil) {
-			me.printCode("search commanded 1");
+			me.printSearch("search commanded 1");
 			me.return_to_search();
 			return;
 		}
 		if (me.status == MISSILE_SEARCH) {
 			# Status = searching.
-			me.printCode("search commanded 2");
+			me.printSearch("search commanded 2");
 			me.return_to_search();
 			return;
 		} elsif ( me.status == MISSILE_STANDBY ) {
@@ -3022,13 +2975,13 @@ var AIM = {
 		} elsif (!me.Tgt.isValid()) {
 			# Lost of lock due to target disapearing:
 			# return to search mode.
-			me.printCode("invalid");
+			me.printSearch("invalid");
 			me.return_to_search();
 			return;
 		} elsif (me.deleted == TRUE) {
 			return;
 		}
-		me.printCode("lock");
+		me.printSearch("lock");
 		# Time interval since lock time or last track loop.
 		#if (me.status == MISSILE_LOCK) {		
 			# Status = locked. Get target position relative to our aircraft.
@@ -3046,7 +2999,7 @@ var AIM = {
 			me.in_view = me.check_t_in_fov();
 			
 			if (me.in_view == FALSE) {
-				me.printCode("out of view");
+				me.printSearch("out of view");
 				me.return_to_search();
 				return;
 			}
@@ -3064,7 +3017,7 @@ var AIM = {
 			me.rotateTarget();
 			me.testSeeker();
 			if (!me.inBeam) {
-				me.printCode("out of beam");
+				me.printSearch("out of beam");
 				me.status = MISSILE_SEARCH;
 				me.Tgt = nil;
 				me.SwSoundOnOff.setBoolValue(TRUE);
@@ -3085,7 +3038,7 @@ var AIM = {
 				me.slaveContact = me.contacts[0];
 			}
 			if ((me.mode_bore == FALSE and me.mode_slave == TRUE and me.command_tgt == TRUE) and (me.slaveContact == nil or (me.slaveContact.getUnique() != nil and me.Tgt.getUnique() != nil and me.slaveContact.getUnique() != me.Tgt.getUnique()))) {
-				me.printCode("oops ");
+				me.printSearch("oops ");
 				me.return_to_search();
 				return;
 			}
@@ -3160,7 +3113,7 @@ var AIM = {
 	},
 
 	reset_seeker: func {
-		#me.printCode("Reset seeker");
+		#me.printSearch("Reset seeker");
 		me.seeker_elev_target = 0;
 		me.seeker_head_target = 0;
 		me.moveSeeker();
@@ -3389,6 +3342,12 @@ var AIM = {
 
 	printCode: func (str) {
 		if (DEBUG_CODE) {
+			print(str);
+		}
+	},
+
+	printSearch: func (str) {
+		if (DEBUG_SEARCH) {
 			print(str);
 		}
 	},
