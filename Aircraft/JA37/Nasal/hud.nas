@@ -2684,7 +2684,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displaySeeker: func (mode) {
     me.missileCurr = displays.common.armActive();
     me.diamond_small.hide();
-    if (me.missileCurr != nil and mode == COMBAT) {
+    if (me.missileCurr != nil and mode == COMBAT and me.missileCurr.guidance == "heat") {
       me.ds = me.missileCurr.getSeekerInfo();
       if (me.ds == nil) {
           me.diamond_small.hide();

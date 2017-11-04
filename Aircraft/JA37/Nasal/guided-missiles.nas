@@ -1722,7 +1722,7 @@ var AIM = {
 						# target has released a new flare, lets check if it fools us
 						me.flareTime = getprop("sim/time/elapsed-sec");
 						me.flareLast = me.flareNumber;
-						me.aspectDeg = me.aspectToExhaust() / 180;
+						me.aspectDeg = me.aspectToExhaust(me.coord, me.Tgt) / 180;
 						me.flareLock = rand() < (1-me.flareResistance + ((1-me.flareResistance) * 0.5 * me.aspectDeg));# 50% extra chance to be fooled if front aspect
 						if (me.flareLock == TRUE) {
 							# fooled by the flare
