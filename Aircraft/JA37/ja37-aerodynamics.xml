@@ -270,6 +270,13 @@
                         2.2  0.0000  0.0000  0.0000   0.0000
                     </tableData>
                 </table>
+                <cos>
+                  <!-- Less normal due to ground effect when flying inverted-->
+                  <product>
+                      <p>/orientation/roll-deg</p>
+                      <v>0.017453</v>
+                  </product>
+              </cos>
             </product>
         </function>
 

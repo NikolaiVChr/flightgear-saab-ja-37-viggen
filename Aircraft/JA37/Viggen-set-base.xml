@@ -1462,12 +1462,14 @@
         </callsign>
         <ja37>
             <file>Aircraft/JA37/Nasal/ja37.nas</file>
-            <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
             <file>Aircraft/JA37/Nasal/liveries.nas</file>
             <file>Aircraft/JA37/Nasal/options.nas</file>
             <file>Aircraft/JA37/Nasal/chronograph.nas</file>
             <file>Aircraft/JA37/Nasal/track_target.nas</file>
         </ja37>
+        <tyre>
+            <file>Aircraft/JA37/Nasal/tyresmoke.nas</file>
+        </tyre>
         <route>
             <file>Aircraft/JA37/Nasal/flightplans.nas</file>
         </route>
