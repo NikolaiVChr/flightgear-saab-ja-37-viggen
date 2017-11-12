@@ -196,15 +196,19 @@ var contact = nil;
 
 var AIM = {
 	#done
-	new : func (p, type = "AIM-9", sign = "Sidewinder", midFlightFunction = nil) {
+	new : func (p, type = "AIM-9", sign = "Sidewinder", midFlightFunction = nil, nasalPosition = nil) {
 		if(AIM.active[p] != nil) {
 			#do not make new missile logic if one exist for this pylon.
+			return -1;
+		} elsif (AcModel.getNode("armament/"~string.lc(type)~"/") == nil) {
+			# missiletype does not exist
 			return -1;
 		}
 		var m = { parents : [AIM]};
 		# Args: p = Pylon.
 
 		m.mfFunction = midFlightFunction;
+		m.nasalPosition = nasalPosition;
 
 		m.type_lc = string.lc(type);
 		m.type = type;
@@ -230,7 +234,9 @@ var AIM = {
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
 		m.stationName       = AcModel.getNode("armament/station-name").getValue();
-		m.pylon_prop        = props.globals.getNode(AcModel.getNode("armament/pylon-stations").getValue()).getChild(m.stationName, p+AcModel.getNode("armament/pylon-offset").getValue());
+		if (m.nasalPosition == nil) {
+			m.pylon_prop        = props.globals.getNode(AcModel.getNode("armament/pylon-stations").getValue()).getChild(m.stationName, p+AcModel.getNode("armament/pylon-offset").getValue());
+		}
 		m.Tgt               = nil;
 		m.callsign          = "Unknown";
 		m.direct_dist_m     = nil;
@@ -242,6 +248,9 @@ var AIM = {
 		# Weapon specs:
 		###############
 
+		# name
+		m.typeLong              = getprop(m.nodeString~"long-name");                  # Longer name of the weapon
+		m.typeShort             = getprop(m.nodeString~"short-name");                 # Shorter name of the weapon
 		# detection and firing
 		m.max_fire_range_nm     = getprop(m.nodeString~"max-fire-range-nm");          # max range that the FCS allows firing
 		m.min_fire_range_nm     = getprop(m.nodeString~"min-fire-range-nm");          # it wont get solid lock before the target has this range
@@ -305,6 +314,7 @@ var AIM = {
         m.dlz_opt_alt           = getprop(m.nodeString~"DLZ-optimal-alt-feet");       # Minimum altitude required to hit the target at max range.
         m.dlz_opt_mach          = getprop(m.nodeString~"DLZ-optimal-closing-mach");   # Closing speed required to hit the target at max range at minimum altitude.
 		
+
         
         m.mode_slave            = TRUE;# if slaved to command seeker directions from radar/helmet/cursor
         m.mode_bore             = FALSE;# if locked to bore locks only
@@ -400,6 +410,12 @@ var AIM = {
 		}
 		if (m.deploy_time == nil) {
 			m.deploy_time = 0.3;
+		}
+		if(m.typeLong == nil) {
+			m.typeLong = m.type;
+		}
+		if(m.typeShort == nil) {
+			m.typeShort = m.type;
 		}
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
@@ -796,9 +812,15 @@ var AIM = {
 		}
 
 		# Compute missile initial position relative to A/C center
-		me.x = me.pylon_prop.getNode("offsets/x-m").getValue();
-		me.y = me.pylon_prop.getNode("offsets/y-m").getValue();
-		me.z = me.pylon_prop.getNode("offsets/z-m").getValue();
+		if (me.nasalPosition == nil) {
+			me.x = me.pylon_prop.getNode("offsets/x-m").getValue();
+			me.y = me.pylon_prop.getNode("offsets/y-m").getValue();
+			me.z = me.pylon_prop.getNode("offsets/z-m").getValue();
+		} else {
+			me.x = me.nasalPosition[0];
+			me.y = me.nasalPosition[1];
+			me.z = me.nasalPosition[2];
+		}
 		var init_coord = nil;
 		if (me.rail == TRUE) {
 			if (me.rail_forward == FALSE) {
@@ -911,7 +933,7 @@ var AIM = {
 		me.startMach = getprop("velocities/mach");
 		me.startFPS = getprop("velocities/groundspeed-kt")*KT2FPS;
 		me.startAlt  = getprop("position/altitude-ft");
-		me.startDist = 0;
+		me.startDist = -1;
 		me.maxAlt = me.startAlt;
 		if (me.Tgt != nil) {
 			me.startDist = me.ac_init.direct_distance_to(me.Tgt.get_Coord());
@@ -1280,7 +1302,7 @@ var AIM = {
 			# check stats while flying:
 			#
 			me.printFlight(sprintf("Mach %04.2f , time %05.1f s , thrust %05.1f lbf , G-force %05.2f", me.speed_m, me.life_time, me.thrust_lbf, me.g));
-			me.printFlight(sprintf("Alt %07.1f ft , direct distance to target %04.1f NM", me.alt_ft, me.direct_dist_m*M2NM));			
+			me.printFlight(sprintf("Alt %07.1f ft , direct distance to target %04.1f NM", me.alt_ft, me.Tgt!=nil?me.direct_dist_m*M2NM:-1));			
 			
 			if (me.exploded == TRUE) {
 				me.printStats(sprintf("%s max absolute %.2f Mach. Max relative %.2f Mach. Max alt %6d ft. Terminal %.2f mach.", me.type, me.maxMach, me.maxMach-me.startMach, me.maxAlt, me.speed_m));
@@ -2448,6 +2470,10 @@ var AIM = {
 			} else {
 				me.sendMessage(me.type~" missed "~me.callsign~": "~reason);
 			}
+		} elsif(me.arming_time != 5000) {
+			var phrase = sprintf(me.type~" "~event);
+			me.printStats(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
+			me.sendMessage(phrase);
 		}
 		
 		me.ai.getNode("valid", 1).setBoolValue(0);
