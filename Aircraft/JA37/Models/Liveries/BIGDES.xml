@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <sim>
+  <model>
+   <livery>
+    <name type="string">BIGDES Transformers</name>
+    <texture>Liveries/Transformers/BIGDES.png</texture>
+    <owner type="string">BIGDES</owner>
+   </livery>
+  </model>
+ </sim>
+</PropertyList>

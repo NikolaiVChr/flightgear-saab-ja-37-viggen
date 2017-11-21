@@ -3389,3 +3389,4 @@ Arms: IR missiles can now lock onto targets without radar being active.
 Radar: RWR indication will now only show if the MP aircraft has radar or transponder turned on.
 TI: IR missile settings now is propagated to all of them.
 MI: Now shows IR seeker position.
+Model: {Spectre} Livery added for BIGDES.
