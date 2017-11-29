@@ -4,7 +4,7 @@
  <sim>
   <model>
    <livery>
-    <name type="string">BIGDES Transformers</name>
+    <name type="string">Transformers BIGDES</name>
     <texture>Liveries/Transformers/BIGDES.png</texture>
     <owner type="string">BIGDES</owner>
    </livery>

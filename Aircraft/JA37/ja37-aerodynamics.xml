@@ -1623,7 +1623,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
-                <property>velocities/p-rad_sec</property>
+                <property>velocities/p-aero-rad_sec</property>
                 <property>structural/wings/normal-factor</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
@@ -1689,7 +1689,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
-                <property>velocities/r-rad_sec</property>
+                <property>velocities/r-aero-rad_sec</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -2196,7 +2196,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/cbarw-ft</property>
                 <property>aero/ci2vel</property>
-                <property>velocities/q-rad_sec</property>
+                <property>velocities/q-aero-rad_sec</property>
                 <table>
                     <independentVar>aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->
@@ -2469,7 +2469,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
-                <property>velocities/p-rad_sec</property>
+                <property>velocities/p-aero-rad_sec</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <independentVar lookup="column">aero/beta-deg</independentVar>
@@ -2525,7 +2525,7 @@
                 <property>metrics/Sw-sqft</property>
                 <property>metrics/bw-ft</property>
                 <property>aero/bi2vel</property>
-                <property>velocities/r-rad_sec</property>
+                <property>velocities/r-aero-rad_sec</property>
                 <table>
                     <independentVar lookup="row">aero/alpha-deg</independentVar>
                     <tableData><!-- [measured using graph analyser] -->

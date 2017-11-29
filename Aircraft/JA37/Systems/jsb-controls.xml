@@ -257,7 +257,7 @@
         </switch>
 
         <pure_gain name="velocities/q-aero-deg_sec">
-            <input>velocities/q-aero-rad_sec</input>
+            <input>velocities/q-rad_sec</input>
             <gain> 57.2957795 </gain>
         </pure_gain>
 
@@ -650,7 +650,7 @@
         </switch>
 
         <scheduled_gain name="names/roll-limiter/rate-unfiltered">
-            <input>velocities/p-aero-rad_sec</input>
+            <input>velocities/p-rad_sec</input>
             <table>
                 <independentVar lookup="row">velocities/ve-kts</independentVar>
                 <tableData>
@@ -718,7 +718,7 @@
         </switch>
 
         <scheduled_gain name="names/roll-damper/rate-unfiltered">
-            <input>velocities/p-aero-rad_sec</input>
+            <input>velocities/p-rad_sec</input>
             <table>
                 <independentVar lookup="row">velocities/ve-kts</independentVar>
                 <tableData>
@@ -1039,7 +1039,7 @@
         </switch>
 
         <scheduled_gain name="names/yaw-damper/roll-rate-unfiltered">
-            <input>velocities/p-aero-rad_sec</input>
+            <input>velocities/p-rad_sec</input>
             <table>
                 <independentVar lookup="row">velocities/ve-kts</independentVar>
                 <tableData>
@@ -1069,7 +1069,7 @@
         </scheduled_gain>
 
         <scheduled_gain name="names/yaw-damper/yaw-rate-unfiltered">
-            <input>velocities/r-aero-rad_sec</input>
+            <input>velocities/r-rad_sec</input>
             <table>
                 <independentVar lookup="row">velocities/ve-kts</independentVar>
                 <tableData>
