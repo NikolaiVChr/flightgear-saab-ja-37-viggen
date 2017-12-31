@@ -3363,7 +3363,7 @@ Animation: Fixed timing of some blinkers. Five Hz is now the fastest used.
 Model: Added OPT FIX button on left side next to canopy handle.
 Model: Added switch on right side close to canopy for flood lights.
 
-4.308
+4.308 - 2017 November 29
 =====
 GUI: Added some extra checklists items for before engine start.
 Model: {Pinto} New M70 model.
@@ -3390,3 +3390,5 @@ Radar: RWR indication will now only show if the MP aircraft has radar or transpo
 TI: IR missile settings now is propagated to all of them.
 MI: Now shows IR seeker position.
 Model: {Spectre} Livery added for BIGDES.
+Aero: Made all derivatives depends on rotating winds too.
+Control: Made all rotational inputs be independent from rotational winds, as they are read from gyros.
