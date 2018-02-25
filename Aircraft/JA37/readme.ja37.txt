@@ -245,6 +245,27 @@ During a test you can click START/STOPP to skip to next test.
 When last test has been acknowledged or dis-acknowledged the testing ends.
 For now only AUTO testing can be done, meaning it will test all 20 systems. Testing through TI is not enabled yet.
 
+Test programs
+-------------
+ 1 CD - CPU
+ 2 ANP - Adaptation unit
+ 3 LD - Airdata
+ 4 TN - Inertial navigation
+ 5 SA - Autopilot
+ 6 GSA - Basic flight control system
+ 7 PRES - Presentation
+ 8 EP - Electronic presentation system
+ 9 PN
+ 10 MIS - Target aquisition system
+ 11 RRS - Radar beam
+ 12 BES - RB71 Illuminator
+ 13 
+ 14 TILS - Tactical landing system
+ 15 SD - Combat control data
+ 16 RHM - Radar altimeter
+ 17 A73
+ 18 BEV - Armament
+
 Landing
 =======
 Rules

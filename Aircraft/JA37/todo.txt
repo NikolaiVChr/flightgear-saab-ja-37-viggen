@@ -35,7 +35,7 @@ Model: Some control textures should be aligned so they can be better viewed from
 Model: AJ radar range control should be only 3 digits. (and be another place in the cockpit if should be accurate)
 Model: Make the tooltips fail when gauges fail.
 Model: Proper floor in the cockpit.
-Model: Fix z-fighting on HUD brightness-knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
+Model: Fix z-fighting on HUD brightness-knob, datapanel knob, M71-rail and M90. (strange, might not be z-fighting, but sure looks like it)
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Stores jettisoned indicator on top right of front panel. (AJ)
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
@@ -163,8 +163,7 @@ Sim: Make sure ram air only supplies when AC supply is set to generator
 Test: Engine starter should be hold in for 30 secs before quiting test, not instantly.
 Test: Testing from TI.
 Test: Shut down also some indicators during testing.
-Test: Separate tests with test knob.
-Test: Always fail a test for system that is actually damaged.
+Test: Individual tests with test knob.
 Model: Nav panel should be scaled to be just as wide as test panel.
 DAP: Make 1 more digit in data panel, when inputting longitude.
 Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters, MI brightness.
