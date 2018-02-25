@@ -29,13 +29,13 @@
         <action>
             <button>0</button>
             <binding>
+                <command>nasal</command>
+                <script>if(getprop("ja37/hud/tracks-enabled")==1) {armament.ecmLog.push("Radar switched silent.");ja37.click();}</script>
+            </binding>
+            <binding>
                 <command>property-assign</command>
                 <property>ja37/hud/tracks-enabled</property>
                 <value>0</value>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
             </binding>
         </action>
     </animation>
@@ -46,13 +46,13 @@
         <action>
             <button>0</button>
             <binding>
+                <command>nasal</command>
+                <script>if(getprop("ja37/hud/tracks-enabled")==0) {armament.ecmLog.push("Radar switched active.");ja37.click();}</script>
+            </binding>
+            <binding>
                 <command>property-assign</command>
                 <property>ja37/hud/tracks-enabled</property>
                 <value>1</value>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>ja37.click();</script>
             </binding>
         </action>
     </animation>

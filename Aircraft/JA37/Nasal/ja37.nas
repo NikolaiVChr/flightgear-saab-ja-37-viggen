@@ -1327,6 +1327,8 @@ var main_init = func {
 
   test_support();
 
+  hack.init();
+
 #  aircraft.data.add("ja37/radar/enabled",
 #                    "ja37/hud/units-metric",
 #                    "ja37/hud/mode",
@@ -1750,8 +1752,10 @@ var toggleTracks = func {
   setprop("ja37/hud/tracks-enabled", !enabled);
   if(enabled == FALSE) {
     notice("Radar ON");
+    armament.ecmLog.push("Radar switched active.");
   } else {
     notice("Radar OFF");
+    armament.ecmLog.push("Radar switched silent.");
   }
 }
 

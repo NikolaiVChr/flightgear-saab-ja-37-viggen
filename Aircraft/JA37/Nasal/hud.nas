@@ -802,34 +802,37 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                            .setStrokeLineWidth(w)
                            .hide()
                            .setColor(r,g,b, a);
-    me.diamond = me.diamond_group.createChild("path")
-                           .moveTo(-(70/1024)*canvasWidth,   0)
-                           .lineTo(  0, -(70/1024)*canvasWidth)
-                           .lineTo( (70/1024)*canvasWidth,   0)
-                           .lineTo(  0,  (70/1024)*canvasWidth)
-                           .lineTo(-(70/1024)*canvasWidth,   0)
+#    me.diamond = me.diamond_group.createChild("path")
+    me.lock_rdr = me.diamond_group.createChild("path")
+                           .moveTo(-(50/1024)*canvasWidth, 0)
+                           .arcLargeCW((50/1024)*canvasWidth, (50/1024)*canvasWidth, 0,  (100/1024)*canvasWidth, 0)
                            .setStrokeLineWidth(w)
                            .setColor(r,g,b, a);
-    me.target_air = me.diamond_group.createChild("path")
-                           .moveTo(-(50/1024)*canvasWidth,   0)
-                           .lineTo(-(50/1024)*canvasWidth, -(50/1024)*canvasWidth)
-                           .lineTo( (50/1024)*canvasWidth, -(50/1024)*canvasWidth)
-                           .lineTo( (50/1024)*canvasWidth,   0)
+    me.lock_ir  = me.root.createChild("path")
+                           .moveTo((50/1024)*canvasWidth, 0)
+                           .arcLargeCW((50/1024)*canvasWidth, (50/1024)*canvasWidth, 0, -(100/1024)*canvasWidth, 0)
                            .setStrokeLineWidth(w)
-                           .setColor(r,g,b, a);
-    me.target_ground = me.diamond_group.createChild("path")
-                           .moveTo(-(50/1024)*canvasWidth,   0)
-                           .lineTo(-(50/1024)*canvasWidth, (50/1024)*canvasWidth)
-                           .lineTo( (50/1024)*canvasWidth, (50/1024)*canvasWidth)
-                           .lineTo( (50/1024)*canvasWidth,   0)
-                           .setStrokeLineWidth(w)
-                           .setColor(r,g,b, a);
-    me.target_sea = me.diamond_group.createChild("path")
-                           .moveTo(-(50/1024)*canvasWidth,   0)
-                           .lineTo(0, (50/1024)*canvasWidth)
-                           .lineTo( (50/1024)*canvasWidth,   0)
-                           .setStrokeLineWidth(w)
-                           .setColor(r,g,b, a); 
+                           .setColor(r,g,b, a);                           
+#    me.target_air = me.diamond_group.createChild("path")
+#                           .moveTo(-(50/1024)*canvasWidth,   0)
+#                           .lineTo(-(50/1024)*canvasWidth, -(50/1024)*canvasWidth)
+#                           .lineTo( (50/1024)*canvasWidth, -(50/1024)*canvasWidth)
+#                           .lineTo( (50/1024)*canvasWidth,   0)
+#                           .setStrokeLineWidth(w)
+#                           .setColor(r,g,b, a);
+#    me.target_ground = me.diamond_group.createChild("path")
+#                           .moveTo(-(50/1024)*canvasWidth,   0)
+#                           .lineTo(-(50/1024)*canvasWidth, (50/1024)*canvasWidth)
+#                           .lineTo( (50/1024)*canvasWidth, (50/1024)*canvasWidth)
+#                           .lineTo( (50/1024)*canvasWidth,   0)
+#                           .setStrokeLineWidth(w)
+#                           .setColor(r,g,b, a);
+#    me.target_sea = me.diamond_group.createChild("path")
+#                           .moveTo(-(50/1024)*canvasWidth,   0)
+#                           .lineTo(0, (50/1024)*canvasWidth)
+#                           .lineTo( (50/1024)*canvasWidth,   0)
+#                           .setStrokeLineWidth(w)
+#                           .setColor(r,g,b, a); 
     me.diamond_dist = me.diamond_group.createChild("text");
     me.diamond_dist.setText("..");
     me.diamond_dist.setColor(r,g,b, a);
@@ -837,12 +840,28 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     me.diamond_dist.setTranslation((40/1024)*canvasWidth, (55/1024)*canvasWidth);
     me.diamond_dist.setFontSize((60/1024)*canvasWidth*fs, ar);
     me.diamond_name = me.diamond_group.createChild("text");
-    me.diamond_name.setText("..");
+    me.diamond_name.setText("");
     me.diamond_name.setColor(r,g,b, a);
     me.diamond_name.setAlignment("left-bottom");
     me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
     me.diamond_name.setFontSize((60/1024)*canvasWidth*fs, ar);
 
+
+    #other targets
+
+    me.target_circle = [];
+    me.target_group = me.radar_group.createChild("group");
+    for(var i = 0; i < maxTracks; i += 1) {      
+      target_circles = me.target_group.createChild("path")
+                           .moveTo(-(50/1024)*canvasWidth,   0)
+                           .lineTo(-(50/1024)*canvasWidth, -(50/1024)*canvasWidth)
+                           .lineTo( (50/1024)*canvasWidth, -(50/1024)*canvasWidth)
+                           .lineTo( (50/1024)*canvasWidth,   0)
+                           .setStrokeLineWidth(w)
+                           .setColor(r,g,b, a);
+      append(me.target_circle, target_circles);
+      append(artifacts1, target_circles);
+    }
 
     me.vel_vec_trans_group = me.radar_group.createChild("group");
     me.vel_vec_rot_group = me.vel_vec_trans_group.createChild("group");
@@ -947,27 +966,14 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                             .lineTo( (200/1024)*canvasWidth, 0)
                             .setStrokeLineWidth(w)
                             .setColor(r,g,b, a);
-
-      #other targets
-    me.target_circle = [];
-    me.target_group = me.radar_group.createChild("group");
-    for(var i = 0; i < maxTracks; i += 1) {      
-      target_circles = me.target_group.createChild("path")
-                           .moveTo(-(50/1024)*canvasWidth, 0)
-                           .arcLargeCW((50/1024)*canvasWidth, (50/1024)*canvasWidth, 0,  (100/1024)*canvasWidth, 0)
-                           #.arcLargeCW(50, 50, 0, -100, 0)
-                           .setStrokeLineWidth(w)
-                           .setColor(r,g,b, a);
-      append(me.target_circle, target_circles);
-      append(artifacts1, target_circles);
-    }
+    
 
     artifacts0 = [me.head_scale, me.hdgLineL, me.heading_bug, me.vel_vec, me.reticle_missile, me.reticle_c_missile,
              me.hdgLineR, me.head_scale_indicator, me.turn_indicator, me.arrow, me.head_scale_horz_ticks,
              me.alt_scale_high, me.alt_scale_med, me.alt_scale_low, me.slip_indicator,
              me.alt_scale_line, me.aim_reticle_fin, me.reticle_cannon, me.desired_lines2,
-             me.alt_pointer, me.rad_alt_pointer, me.target_air, me.target_sea, me.target_ground, me.desired_lines3, me.horizon_line_gap,
-             me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_line_nav, me.horizon_dots, me.diamond, me.diamond_small,
+             me.alt_pointer, me.rad_alt_pointer, me.desired_lines3, me.horizon_line_gap, me.lock_rdr, me.lock_ir,# me.target_air, me.target_sea, me.target_ground, me.diamond
+             me.desired_boxes, me.reticle_no_ammo, me.takeoff_symbol, me.horizon_line, me.horizon_line_nav, me.horizon_dots, me.diamond_small,
              tower, ccip, me.aim_reticle, me.targetSpeed, me.mySpeed, me.distanceScale, me.targetDistance1,
              me.targetDistance2, me.landing_line, me.heading_bug_horz];
 #artifacts0 =[];
@@ -976,8 +982,8 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
                       me.alt_low, me.alt_med, me.alt_high, me.alt_higher, me.alt,
                       me.hdgMH, me.hdgLH, me.hdgRH, me.distanceText, me.alt_tact];
 #artifactsText0 = [];
-  me.pos_x = canvasWidth*0.4;
-
+    me.pos_x = canvasWidth*0.4;
+    me.lock_ir_last = FALSE;
   },
   setColorBackground: func () { 
     #me.texture.getNode('background', 1).setValue(_getColor(arg)); 
@@ -2012,6 +2018,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     } else {
       me.qfe.hide();
     }
+    #me.qfe.update(); probably not needed
   },
 
   showReticle: func (mode, cannon, out_of_ammo) {
@@ -2684,22 +2691,31 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   displaySeeker: func (mode) {
     me.missileCurr = displays.common.armActive();
     me.diamond_small.hide();
+    me.lock_ir.hide();
     if (me.missileCurr != nil and mode == COMBAT and me.missileCurr.guidance == "heat") {
       me.ds = me.missileCurr.getSeekerInfo();
       if (me.ds == nil) {
           me.diamond_small.hide();
+          me.lock_ir_last = FALSE;
       } else {
-          me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
-          if (me.missileCurr.status != armament.MISSILE_LOCK or me.input.twoHz.getValue()) {
+          if (me.missileCurr.status != armament.MISSILE_LOCK) {
+            me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
             me.diamond_small.show();
+            me.lock_ir_last = FALSE;
           } else {
-            me.diamond_small.hide();
+            if (me.lock_ir_last == FALSE) {
+              radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)",me.selection.get_Callsign(),armament.AIM.active[me.armSelect-1].type));
+            }
+            me.lock_ir_last = TRUE;
+            me.lock_ir.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
+            me.lock_ir.show();
           }
-          me.diamond_small.update();
       }
     } else {
-      me.diamond_small.hide();
+      me.lock_ir_last = FALSE;
     }
+    me.diamond_small.update();
+    me.lock_ir.update();
     if (me.missileCurr != nil and (me.missileCurr.isBore() or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isSlave() and !me.missileCurr.command_tgt)) and radar_logic.tracks != nil) {
       #me.missileCurr.contacts = [radar_logic.selection];
       #me.missileCurr.contacts.extend(radar_logic.tracks);
@@ -2723,12 +2739,12 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.displayRadarTrack(me.selection);
       }
 
-      # do circles here
+      # do upper semi squares here
       foreach(hud_pos; radar_logic.tracks) {
         me.displayRadarTrack(hud_pos);
       }
       if(me.track_index != -1) {
-        #hide the the rest unused circles
+        #hide the the rest unused upper semi squares
         for(var i = me.track_index; i < maxTracks ; i+=1) {
           me.target_circle[i].hide();
         }
@@ -2799,10 +2815,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           } else {
             me.diamond_dist.setText(sprintf("%02d", me.diamond_dista/1000));
           }
-          if (me.input.callsign.getValue() == TRUE) {
-            me.diamond_name.setText(me.selection.get_Callsign());
-          } else {
-            me.diamond_name.setText(me.selection.get_model());
+          if (getprop("ja37/systems/variant") > 0) {
+            # only show names in HUD on the AJ variants as they lack the MI display.
+            if (me.input.callsign.getValue() == TRUE) {
+              me.diamond_name.setText(me.selection.get_Callsign());
+            } else {
+              me.diamond_name.setText(me.selection.get_model());
+            }
           }
           if (me.pos_x > (100/1024)*canvasWidth) {
             me.diamond_dist.setAlignment("right-top");
@@ -2815,8 +2834,6 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.diamond_name.setAlignment("left-bottom");
             me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
           }
-          me.target_circle[me.selection_index].hide();
-
 
           me.displayDiamond = 0;
           #print();
@@ -2824,14 +2841,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           if(me.missileCurr != nil and me.missileCurr.status == armament.MISSILE_LOCK
              and (me.missileCurr.rail == TRUE or (me.roll > -90 and me.roll < 90))) {
             # lock and not inverted if the missiles is to be dropped
-            #me.weak = armament.AIM.active[me.armSelect-1].trackWeak;
-            #if (me.weak == TRUE) {
-            #  me.displayDiamond = 1;
-            #} else {
-              me.displayDiamond = 2;
-            #}
-            me.diamond_small.hide();
-          }	  
+            
+            me.displayDiamond = 2;
+#            me.diamond_small.hide();
+          }
 		  
           #var bearing = diamond_node.getNode("radar/bearing-deg").getValue();
           #var heading = diamond_node.getNode("orientation/true-heading-deg").getValue();
@@ -2853,50 +2866,28 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           #print("diamond="~diamond~" blink="~blink);
           if (me.displayDiamond > 0) {
             if (radar_logic.lockLast == nil or (radar_logic.lockLast != nil and radar_logic.lockLast.getUnique() != me.selection.getUnique())) {
-              radar_logic.lockLog.push(sprintf("Locked on to %s (%s)",me.selection.get_Callsign(),armament.AIM.active[me.armSelect-1].type));
+              radar_logic.lockLog.push(sprintf("Radar lock on to %s (%s)",me.selection.get_Callsign(),armament.AIM.active[me.armSelect-1].type));
               radar_logic.lockLast = me.selection;
             }
-            me.target_air.hide();
-            me.target_ground.hide();
-            me.target_sea.hide();
 
             if (me.blink == TRUE) {
-              if((me.displayDiamond == 1 and me.input.fiveHz.getValue() == TRUE) or (me.displayDiamond == 2 and me.input.tenHz.getValue() == TRUE)) {
-                me.diamond.show();
+              if(me.input.fiveHz.getValue() == TRUE) {
+                me.lock_rdr.show();
               } else {
-                me.diamond.hide();
+                me.lock_rdr.hide();
               }
             } else {
-              if (me.diamond == 1 or me.input.tenHz.getValue() == TRUE) {
-                me.diamond.show();
-              } else {
-                me.diamond.hide();
-              }
+              me.lock_rdr.show();
             }
-
+            me.target_circle[0].hide();
           } elsif (me.blink == FALSE or me.input.fiveHz.getValue() == TRUE) {
-            if (me.selection.get_type() == radar_logic.SURFACE) {
-              me.target_ground.show();
-              me.target_air.hide();
-              me.target_sea.hide();
-            } elsif (me.selection.get_type() == radar_logic.MARINE) {
-              me.target_ground.hide();
-              me.target_sea.show();
-              me.target_air.hide();
-            } else {
-              me.target_air.show();
-              me.target_ground.hide();
-              me.target_sea.hide();
-            }
-            me.diamond.hide();
+            me.lock_rdr.hide();
+            me.target_circle[0].show();
           } else {
-            me.target_air.hide();
-            me.target_ground.hide();
-            me.target_sea.hide();
-            me.diamond.hide();
-          }
+            me.lock_rdr.hide();
+            me.target_circle[0].hide();
+          }          
           me.diamond_group.show();
-
         } else {
           #untargetable but selectable, like carriers and tankers, or planes in navigation mode
           #diamond_node = nil;
@@ -2921,10 +2912,13 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.diamond_name.setAlignment("left-bottom");
             me.diamond_name.setTranslation((40/1024)*canvasWidth, -(55/1024)*canvasWidth);
           }
-          if (me.input.callsign.getValue() == TRUE) {
-            me.diamond_name.setText(me.selection.get_Callsign());
-          } else {
-            me.diamond_name.setText(me.selection.get_model());
+          if (getprop("ja37/systems/variant") > 0) {
+            # only show names in HUD on the AJ variants as they lack the MI display.
+            if (me.input.callsign.getValue() == TRUE) {
+              me.diamond_name.setText(me.selection.get_Callsign());
+            } else {
+              me.diamond_name.setText(me.selection.get_model());
+            }
           }
           
           if(me.blink == TRUE and me.input.fiveHz.getValue() == FALSE) {
@@ -2933,10 +2927,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.target_circle[me.selection_index].show();
           }
           me.diamond_group.show();
-          me.diamond.hide();
-          me.target_air.hide();
-          me.target_ground.hide();
-          me.target_sea.hide();
+          me.lock_rdr.hide();
         }
 
         #velocity vector

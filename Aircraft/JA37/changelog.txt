@@ -3392,3 +3392,16 @@ MI: Now shows IR seeker position.
 Model: {Spectre} Livery added for BIGDES.
 Aero: Made all derivatives depends on rotating winds too.
 Control: Made all rotational inputs be independent from rotational winds, as they are read from gyros.
+
+4.309
+=====
+Sim: Fixed that some method were called to change canvas, before the script they were changing had been loaded.
+HUD: Upper half squares is now radar echoes, with the selection having velocity vector and distance to set it apart.
+HUD: Upper semi circle is now radar lock.
+HUD: Lower semi circle is now IR lock. If radar is active and locked also, radar lock can show at same time.
+HUD: Removed text from radar selection in the JA, its already in MI/TI displays.
+HUD: No special symbols for ships or ground forces anymore. I still lack some info on the HUD symbology, but it looks like they did not have a symbol.
+HUD: Removed lock diamond symbol also. Small IR seeker diamond is still there.
+TI: ECM log will now also say when radar is turned silent or active.
+Model: Removed radar screen switch from JA variants. Its now only in AJ variants for the CI display.
+GUI: Removed Auto-follow from help, since its scheduled for removal soon, to be replaced with steering order from radar.

@@ -138,7 +138,7 @@ MI: Make TNF to stop/start inertial nav.
 MI: DLZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
-Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2018.
+Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2019.
 Control: overhaul rudder trim.
 DAP: Input/output square mappoints.
 DAP: Input TACAN with REG/STR.
@@ -194,7 +194,6 @@ List of un-authentic systems, most scheduled for removal/change at some point
 A/P auto-follow never existed. RR steer order, was probably just heading and altitude bugs.
 Automatic landing mode selection in AJ was really selected manual like in the JA.
 Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of these variants.
-Callsign of selected radar echo in HUD is unrealistic.
 Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?) If line is there, the number is line length.
 Electronic map should not work, before inertial navigation has finished initializing, or GPS is on.
 The FPI in HUD was really limited to +- 7.5 degs lateral.
@@ -202,9 +201,6 @@ In the orig plane the HUD decimal delimiter is ',' not '.'.
 VOR, ADF navigation, the real did not have this.
 Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
 Aerobatic smoke.
-HUD: Upper half square should really be radar selection.
-HUD: Upper semi circle should really be radar lock.
-HUD: Lower semi circle should really be IR lock.
 TI: Delete, append or insert steerpoint should really be controlled from radar stick.
 TI: OPT should really be a button on the flightstick.
 

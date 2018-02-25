@@ -101,14 +101,14 @@
         <name>r</name>
         <desc>Toggle radar</desc>
     </key>
-    <key>
+    <!--<key>
         <name>f</name>
         <desc>Set autopilot to follow current selection</desc>
     </key>
     <key>
         <name>F</name>
         <desc>Set autopilot to stop follow</desc>
-    </key>
+    </key>-->
     <key>
         <name>S</name>
         <desc>Cycle smoke. Off, Yellow or Blue</desc>

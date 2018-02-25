@@ -232,6 +232,17 @@
     </offsets>
   </model>
 
+  <animation>
+    <type>select</type>
+    <object-name>radar screen</object-name>
+    <condition>
+       <greater-than>
+        <property>ja37/systems/variant</property>
+        <value>0</value>
+       </greater-than>
+    </condition>
+  </animation>
+
   <model>
       <path>Aircraft/JA37/Models/Instruments/Datapanel/trim-reset.xml</path>
       <name>reset trim</name>
