@@ -181,6 +181,7 @@ Radar: Openradar has no roll and heading. Fix radar to handle that.
 Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.)
 Arms: Should seeker position be shown in MI and HUD for non IR?
 HUD: Do not show rb99 seeker diamond.
+Sim: Make use of 2018.1.1 feature of different startup options: Cold and dark, Ready to start engine, Ready for takeoff.
 
 
 
