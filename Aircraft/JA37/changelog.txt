@@ -3395,6 +3395,11 @@ Control: Made all rotational inputs be independent from rotational winds, as the
 
 4.309
 =====
+Control: {it0uchpods} Fixed many A/P bugs.
+Control: {it0uchpods} Fixed roll hold being affected by wind.
+Control: {it0uchpods} Fixed pitch hold worked only with integers.
+Control: {it0uchpods} Fixed A/P oscilations.
+Control: {it0uchpods} Upgrade A/P rate based control system to latest IV system.
 Sim: Fixed that some method were called to change canvas, before the script they were changing had been loaded.
 HUD: Upper half squares is now radar echoes, with the selection having velocity vector and distance to set it apart.
 HUD: Upper semi circle is now radar lock.
