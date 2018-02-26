@@ -4399,7 +4399,7 @@ var TI = {
 
 	b1: func {
 		edgeButtonsStruct[1] = me.input.timeElapsed.getValue();
-		if (me.off == TRUE and test.ongoing == FALSE) {
+		if (me.off == TRUE and testing.ongoing == FALSE) {
 			me.off = !me.off;
 			MI.mi.off = me.off;
 			me.active = !me.off;

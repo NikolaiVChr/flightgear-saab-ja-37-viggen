@@ -3411,3 +3411,5 @@ TI: ECM log will now also say when radar is turned silent or active.
 Model: Removed radar screen switch from JA variants. Its now only in AJ variants for the CI display.
 GUI: Removed Auto-follow from help, since its scheduled for removal soon, to be replaced with steering order from radar.
 Test: Improved testing results for systems actually damaged.
+Model: Added tooltips for circuit breakers.
+TI: Fixed that after switching displays off, it would not allow to switch them back on.
