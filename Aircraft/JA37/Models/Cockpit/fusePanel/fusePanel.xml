@@ -21,8 +21,8 @@
     </effect>
 
     <animation>
-    <type>scale</type>
-    <object-name>panel</object-name>
+        <type>scale</type>
+        <object-name>panel</object-name>
         <object-name>bolt1</object-name>
         <object-name>fuse1</object-name>
         <object-name>bolt2</object-name>
@@ -34,9 +34,93 @@
         <object-name>bolt5</object-name>
         <object-name>fuse5</object-name>
         <object-name>Switch</object-name>
-    <x-offset>1.5</x-offset>
-    <y-offset>1.5</y-offset>
-    <z-offset>1.5</z-offset>
-  </animation>
+        <x-offset>1.5</x-offset>
+        <y-offset>1.5</y-offset>
+        <z-offset>1.5</z-offset>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>panel</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fusePanel</tooltip-id>
+                <label>Circuit breaker panel (not functional yet)</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Switch</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuse0</tooltip-id>
+                <label>Switch for certain electronic circuits</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>fuse1</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuse1</tooltip-id>
+                <label>Breaker for Canopy jettison circuit</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>fuse2</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuse2</tooltip-id>
+                <label>Circuit breaker for autopilot DC</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>fuse3</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuse3</tooltip-id>
+                <label>Circuit breaker for trim and flight control system DC</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>fuse4</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuse</tooltip-id>
+                <label>Circuit breaker for limit warning system</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>fuse5</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuse</tooltip-id>
+                <label>Circuit breaker for engine starting system</label>
+            </binding>
+        </hovered>
+    </animation>
 
 </PropertyList>
