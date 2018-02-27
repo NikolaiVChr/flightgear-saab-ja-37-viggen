@@ -1401,7 +1401,7 @@ var main_init = func {
     setlistener("/environment/lightning/lightning-pos-y", thunder_listener);
   }
 
-  if(getprop("dev") != TRUE) {
+  if(getprop("ja37/systems/state") == "parked") {
     setprop("controls/engines/engine/reverser-cmd", rand()>0.5?TRUE:FALSE);
     setprop("controls/gear/brake-parking", rand()>0.5?TRUE:FALSE);
     setprop("controls/electric/reserve", rand()>0.5?TRUE:FALSE);

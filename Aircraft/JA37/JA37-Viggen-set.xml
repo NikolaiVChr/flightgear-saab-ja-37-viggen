@@ -56,6 +56,8 @@
             </style>
         </gui>
 
+        <state include="states/ready-for-takeoff.xml" n="0"/>
+
         <previews>
             <preview>
                 <type>exterior</type>

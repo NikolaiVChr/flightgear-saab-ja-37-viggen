@@ -6,7 +6,7 @@
 
 *************************************************************************-->   
 
-<PropertyList include="Systems/ja37-engines-off.xml">    <!-- change this to 'on' for fast testing/debugging -->
+<PropertyList><!-- include="Systems/ja37-engines-off.xml">-->    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
         <aircraft-version>4.308</aircraft-version>
 
@@ -693,6 +693,7 @@
             <tertiary-opening type="double">1.0</tertiary-opening>
             <input-controls-flight type="bool">true</input-controls-flight>
             <fuel-warning-extra-percent type="int">-1</fuel-warning-extra-percent>
+            <state type="string">parked</state>
         </systems>
         <radio>
             <kv1>
@@ -1072,6 +1073,8 @@
                 </reverse-system>
                 <reverser-cmd type="bool">false</reverser-cmd>
                 <starter-cmd-hold type="bool">false</starter-cmd-hold>
+                <starter-cmd type="bool">false</starter-cmd>
+                <cutoff type="bool">true</cutoff>
             </engine>
         </engines>
         <gear>
@@ -1086,6 +1089,11 @@
             <lights-ext-nav type="bool">false</lights-ext-nav>
             <lights-land-switch type="bool">false</lights-land-switch>
             <reserve type="bool">false</reserve>
+            <engine n="0">
+                <generator type="bool">false</generator>
+            </engine>
+            <main type="bool">false</main>
+            <battery type="bool">false</battery>
         </electric>
         <lighting>
             <instruments-norm type="double">0.0</instruments-norm>
@@ -1237,6 +1245,7 @@
             <egt-degf type="double">0</egt-degf>
             <oil-pressure-psi type="double">0</oil-pressure-psi>
             <rpm alias="/fdm/jsbsim/propulsion/engine/n1-rpm_r-min"/>
+            <running type="bool">false</running>
         </engine>
     </engines>
     <rotors>
