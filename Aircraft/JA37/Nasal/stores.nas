@@ -1956,7 +1956,7 @@ var selectNextWaypoint = func () {
 
     var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
 
-    radar_logic.selection = contact;
+    radar_logic.setSelection(contact);
   }
 }
 

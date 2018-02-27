@@ -644,7 +644,7 @@ var MI = {
 		
 		
 		if (cursorOn == FALSE) {
-			radar_logic.selection = nil;
+			radar_logic.setSelection(nil);
 		}
 
 		if (me.input.acInstrVolt.getValue() < 100 or me.off == TRUE) {

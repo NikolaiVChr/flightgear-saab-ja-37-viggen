@@ -101,11 +101,11 @@
         <name>r</name>
         <desc>Toggle radar</desc>
     </key>
-    <!--<key>
-        <name>f</name>
-        <desc>Set autopilot to follow current selection</desc>
-    </key>
     <key>
+        <name>f</name>
+        <desc>Toggle radar steer order on current selection</desc>
+    </key>
+    <!--<key>
         <name>F</name>
         <desc>Set autopilot to stop follow</desc>
     </key>-->

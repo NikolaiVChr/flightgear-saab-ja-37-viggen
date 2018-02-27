@@ -532,6 +532,13 @@ var TI = {
            .arcSmallCW(3.75, 3.75, 0, -7.5, 0)
 	       .setColor(rYellow,gYellow,bYellow, a)
 	       .setStrokeLineWidth(w);
+	    me.rrSymbol = me.radar_group.createChild("path")
+	       .moveTo(-15, 7.5)
+           .arcSmallCW(15, 15, 0, 30, 0)
+           .arcSmallCW(15, 15, 0, -30, 0)
+           .set("z-index", maxTracks-0) # same z-order as selection.
+	       .setColor(COLOR_WHITE)
+	       .setStrokeLineWidth(w);
 	    append(me.echoesAircraft, grp);
 	    append(me.echoesAircraftTri, tri);
 	    append(me.echoesAircraftVector, vector);
@@ -716,6 +723,13 @@ var TI = {
                .setColor(rDTyrk,gDTyrk,bDTyrk, a));
 			append(me.steerpoint, stGrp);
 	    }
+	    me.rrSymbolS = me.rootCenter.createChild("path")
+	       .moveTo(-15, 0)
+           .arcSmallCW(15, 15, 0, 30, 0)
+           .arcSmallCW(15, 15, 0, -30, 0)
+           .set("z-index", 6)
+	       .setColor(COLOR_WHITE)
+	       .setStrokeLineWidth(w);
 	    me.steerPoly = me.rootCenter.createChild("group")
 	    			.set("z-index", 6);
 
@@ -777,10 +791,12 @@ var TI = {
 		# target info box
 		me.tgtTextField     = root.createChild("group")
 			.set("z-index", 11);
-		var tgtStartx = width*0.060-3.125+6.25*2+w*2;
-		var tgtStarty = height-height*0.1-height*0.025-w*2;
+
 		var tgtW      = 0.15;
 		var tgtH      = 0.10;
+		var tgtStartx = width-(width*0.060-3.125+6.25*2+w*2) - width*tgtW;
+		var tgtStarty = height-height*0.1-height*0.025-w*2;
+		
 		me.tgtTextFrame     = me.tgtTextField.createChild("path")
 			.moveTo(tgtStartx,  tgtStarty)#above bottom text field and next to fast menu sub boxes
 		      .vert(            -height*tgtH)
@@ -1997,7 +2013,8 @@ var TI = {
 		if (math.abs(me.menuMain) == MAIN_SYSTEMS) {
 			if (me.menuTrap == FALSE) {
 				if (me.input.wow1.getValue() == 0) {
-					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
+#					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
+					if (radar_logic.steerOrder == TRUE) {
 						me.menuButtonBox[1].show();
 					}
 					me.menuButton[1].setText(me.vertStr("RR"));
@@ -3107,7 +3124,7 @@ var TI = {
 	},
 
 	showTargetInfo: func {
-		if (me.mapshowing == TRUE and me.input.currentMode.getValue() == displays.COMBAT and radar_logic.selection != nil and radar_logic.selection.isPainted() == TRUE) {
+		if (me.mapshowing == TRUE and radar_logic.selection != nil and (me.tgt_dist != nil or me.tgt_alt != nil)) {# and me.input.currentMode.getValue() == displays.COMBAT and radar_logic.selection.isPainted() == TRUE) {
 			# this is info about the locked target.
     	
 	  		if (me.tgt_dist != nil) {
@@ -3337,8 +3354,8 @@ var TI = {
 				setprop("autopilot/route-manager/current-wp", me.points-1);
 				me.wp = me.points-1;
 			}
-			if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and (me.input.currentMode.getValue() != displays.COMBAT or (radar_logic.selection == nil or radar_logic.selection.isPainted() == FALSE))) {
-				# steerpoints ON and route active, plus not being in combat and having something selected by radar
+			if (me.mapshowing == TRUE and getprop("autopilot/route-manager/active") == TRUE and me.wp != -1 and me.wp != nil and me.showSteers == TRUE and radar_logic.steerOrder == FALSE) {
+				# steerpoints ON and route active, plus not being in radar steer order mode.
 				# that if statement needs refining!
 
 				me.wpText2.setFontSize(15, 1);
@@ -3421,6 +3438,7 @@ var TI = {
 
 	showSteerPoints: func {
 		# steerpoints on map
+		me.rrSymbolS.hide();
 		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
 		me.steerRot = -getprop("orientation/heading-deg")*D2R;
 		if (me.menuMain == MAIN_MISSION_DATA) {
@@ -3518,7 +3536,7 @@ var TI = {
 				if (me.steerCounter>5) {
 					me.wpIndex = wp+48*6+8*(me.steerCounter-6);
 				}
-
+				me.doRR = FALSE;
 				if (me.curr_plan != nil and me.points > wp and ((me.isArea or (route.Polygon.isPrimaryActive() == TRUE and me.curr_plan[0].isPrimary())) or me.menuMain == MAIN_MISSION_DATA)) {
 					me.node = me.polygon[wp];
 	  				if (me.node == nil or me.showSteers == FALSE) {
@@ -3564,6 +3582,7 @@ var TI = {
 						me.steerpointSymbol[me.wpIndex].setScale(1);
 						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w);
 						me.steerpointText[me.wpIndex].set("z-index", 10);
+						me.doRR = TRUE;
 						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, COLOR_TYRK_DARK, 1, 0]);
 						me.nextActive = me.nextDist*NM2M<20000;
 					} elsif (me.curr_plan[1] == TRUE) {
@@ -3584,6 +3603,10 @@ var TI = {
 						me.nextActive = FALSE;
 					}
 					me.steerpoint[me.wpIndex].setTranslation(me.texCoord[0], me.texCoord[1]);
+					if (me.doRR) {
+						me.rrSymbolS.setTranslation(me.texCoord[0], me.texCoord[1]);
+						me.rrSymbolS.show();
+					}
 					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer and !me.isDAPActive()) {
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
@@ -3850,8 +3873,8 @@ var TI = {
 		me.mode = "";
 		# DL: data link
 		# RR: radar guided steering
-		if(getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
-			me.mode = me.interoperability == displays.METRIC?"RR":"RR";# landing steerpoint
+		if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
+			me.mode = "RR";# landing steerpoint
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		} elsif (land.mode_LB_active == TRUE) {
 			me.mode = me.interoperability == displays.METRIC?"LB":"LS";# landing steerpoint
@@ -4063,6 +4086,7 @@ var TI = {
 	    me.tgt_dist = 1000000;
 	    me.tgt_callsign = "";
 	    me.tele = [];
+  		me.rrSymbol.hide();
 
 	    if(me.input.tracks_enabled.getValue() == 1 and me.input.radar_serv.getValue() > 0 and getprop("ja37/radar/active") == TRUE) {
 			me.radar_group.show();
@@ -4152,6 +4176,11 @@ var TI = {
 		    	me.isGPS = TRUE;
 		    	me.echoesAircraft[me.currentIndexT].hide();
 		    	me.echoesAircraftSvy[me.currentIndexT].hide();
+		    	if (radar_logic.steerOrder == TRUE) {
+		    		me.rrSymbol.setTranslation(me.pos_xx, me.pos_yy-7.5);
+		    		me.rrSymbol.setRotation(0);
+		    		me.rrSymbol.show();
+		    	}
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 
@@ -4171,6 +4200,15 @@ var TI = {
 			        #me.relHeading -= 180;
 			        me.echoesAircraft[me.currentIndexT].setRotation(me.relHeading * D2R);
 			    }
+			    if (me.currentIndexT == 0 and radar_logic.steerOrder == TRUE) {
+		    		me.rrSymbol.setTranslation(me.pos_xx, me.pos_yy);
+		    		if (me.tgtHeading != nil) {
+		    			me.rrSymbol.setRotation(me.relHeading * D2R);
+	    			} else {
+	    				me.rrSymbol.setRotation(0);
+	    			}
+		    		me.rrSymbol.show();
+		    	}
 			    if (me.tgtSpeed != nil) {
 			    	me.echoesAircraftVector[me.currentIndexT].setScale(1, clamp((me.tgtSpeed/60)*NM2M*M2TEX, 1, 750*MM2TEX));
 		    	} else {
@@ -4289,7 +4327,9 @@ var TI = {
 	    #} elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
 	    #	me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.headMagn.getValue();
 	    #} els
-	    if( me.input.RMActive.getValue() == TRUE) {
+	    if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
+	    	me.desired_mag_heading = radar_logic.selection.getMagBearing();
+	    } elsif (me.input.RMActive.getValue() == TRUE) {
 	    	me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
 	    } elsif (me.input.nav0InRange.getValue() == TRUE) {
 	    	# bug to VOR, ADF or ILS
@@ -4417,11 +4457,12 @@ var TI = {
 					MI.mi.off = me.off;
 					me.active = !me.off;
 				} else {
-					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
-						auto.unfollow();
-					} else {
-						auto.follow();
-					}
+					radar_logic.toggleRadarSteerOrder();
+#					if (getprop("/autopilot/target-tracking-ja37/enable") == TRUE) {
+#						auto.unfollow();
+#					} else {
+#						auto.follow();
+#					}
 				}
 			}
 		}
@@ -4802,7 +4843,7 @@ var TI = {
 
 					  me.contact = radar_logic.ContactGPS.new("FIX", me.coord);
 
-					  radar_logic.selection = me.contact;
+					  radar_logic.setSelection(me.contact);
 				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
@@ -4850,7 +4891,7 @@ var TI = {
 				setprop("ja37/avionics/gps-cmd", !getprop("ja37/avionics/gps-cmd"));
 				if (getprop("ja37/avionics/gps-cmd") == FALSE and radar_logic.selection != nil and radar_logic.selection.get_Callsign() == "FIX") {
 					# clear the FIX if gps is turned off
-					radar_logic.selection = nil;
+					radar_logic.setSelection(nil);
 				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
@@ -4899,7 +4940,7 @@ var TI = {
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				# ghost target
 				me.contact = radar_logic.ContactGhost.new();
-				radar_logic.selection = me.contact;
+				radar_logic.setSelection(me.contact);
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();

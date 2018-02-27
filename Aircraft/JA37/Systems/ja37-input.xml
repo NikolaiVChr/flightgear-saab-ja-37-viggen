@@ -333,20 +333,20 @@
         </key>
         <key n="102">
             <name>f</name>
-            <desc>Set autopilot to follow current target</desc>
+            <desc>Toggle radar steer order on current selection</desc>
             <binding>
                 <command>nasal</command>
-                <script>auto.follow();</script>
+                <script>radar_logic.toggleRadarSteerOrder();</script>
             </binding>
         </key>
-        <key n="70">
+        <!--<key n="70">
             <name>F</name>
             <desc>Set autopilot to stop follow current target</desc>
             <binding>
                 <command>nasal</command>
                 <script>auto.unfollow();</script>
             </binding>
-        </key>
+        </key>-->
         <key n="8">
             <name>Backspace</name>
             <desc>Toggle Reversers</desc>

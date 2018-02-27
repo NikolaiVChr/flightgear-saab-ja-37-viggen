@@ -54,7 +54,7 @@ DL - STRILL data-link  (not implemented)
 LR - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL - Mission polygon
 RPOL - RTB polygon
-CC - Steer order from radar. Only work in air. (Right now it also unauthentically will set A/P to follow the steer order, will be fixed in future)
+CC - Steer order from radar on selected radar echo. Only work in air.
 OFF/EP - Turn off EP12 Electronic presentations (MI+TI displays). Only work on ground.
 ACRV - Attack curve (not implemented)
 FGHT - Fighter mode. HUD shows IAS

@@ -1347,7 +1347,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     #} elsif (me.input.APLockHeading.getValue() == "nav1-hold") {
     #  me.desired_mag_heading = me.input.APnav0HeadingErr.getValue()+me.input.hdg.getValue();
     #} els
-    if( me.input.RMActive.getValue() == TRUE) {
+    if (radar_logic.steerOrder == TRUE and radar_logic.selection != nil) {
+        me.desired_mag_heading = radar_logic.selection.getMagBearing();
+    } elsif( me.input.RMActive.getValue() == TRUE) {
       me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
     } elsif (me.input.nav0InRange.getValue() == TRUE) {
       # bug to VOR, ADF or ILS

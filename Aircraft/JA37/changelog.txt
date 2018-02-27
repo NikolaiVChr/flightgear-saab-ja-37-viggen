@@ -3413,3 +3413,9 @@ GUI: Removed Auto-follow from help, since its scheduled for removal soon, to be 
 Test: Improved testing results for systems actually damaged.
 Model: Added tooltips for circuit breakers.
 TI: Fixed that after switching displays off, it would not allow to switch them back on.
+Sim: Replaced auto-follow with radar steer order mode (RR). Use TI to enable when airborne.
+TI: Heading bug will now show radar steer order.
+HUD: Heading bug will now show radar steer order.
+TI: Moved Radar selection infobox to right side, and allow it to show at same time as steerpoint infobox.
+TI: Text info of radar selection in bottom field is now only shown at radar steer order.
+TI: White circle around steer order symbol (steerpoints and radar selections).

@@ -26,6 +26,24 @@ var getClock = func (bearing) {
     }
 }
 
+var toggleRadarSteerOrder = func {
+  steerOrder = !steerOrder;
+  if (steerOrder == TRUE) {
+    land.RR();
+  }
+}
+
+var disableSteerOrder = func {
+  steerOrder = FALSE;
+}
+
+var setSelection = func (s) {
+  selection = s;
+  steerOrder = FALSE;
+}
+
+var steerOrder = FALSE;
+
 var self = nil;
 var myAlt = nil;
 var myPitch = nil;
@@ -93,6 +111,7 @@ var RadarLogic = {
       myRoll    =  input.roll.getValue()*D2R;
       myAlt     =  self.alt();
       myHeading =  input.hdgReal.getValue();
+      selection_updated = FALSE;
       
       tracks = [];
 
@@ -120,6 +139,7 @@ var RadarLogic = {
         #print("not valid");
         me.paint(selection.getNode(), FALSE);
         selection = nil;
+        steerOrder = FALSE;
       }
 
 
@@ -155,9 +175,11 @@ var RadarLogic = {
           me.paint(selection.getNode(), FALSE);
         }
         selection = nil;
+        steerOrder = FALSE;
         setprop("ja37/radar/active" , FALSE);
       }
-      if(selection != nil) {
+      if(selection != nil and selection_updated == FALSE and selection.parents[0] != radar_logic.ContactGPS) {
+        disableSteerOrder();
         #append(selection, "lock");
       }
   },
@@ -741,6 +763,7 @@ var nextTarget = func () {
       tracks_index = 0;
     }
     selection = tracks[tracks_index];
+    steerOrder = FALSE;
     #if (selection.get_type() == AIR) {
       radarLogic.paint(selection.getNode(), TRUE);
     #} else {
@@ -774,6 +797,9 @@ var centerTarget = func () {
     }
   }
   if (centerMost != nil) {
+    if (centerMost != selection) {
+      steerOrder = FALSE;
+    }
     selection = centerMost;
     #if (selection.get_type() == AIR) {
       radarLogic.paint(selection.getNode(), TRUE);
@@ -1069,6 +1095,12 @@ var Contact = {
         return myBearing;
     },
 
+    getMagBearing: func() {
+      #not super tested
+      me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
+      return geo.normdeg(me.get_bearing() + me.mag_offset);
+    },
+
     get_reciprocal_bearing: func(){
         return geo.normdeg(me.get_bearing() + 180);
     },
@@ -1341,6 +1373,12 @@ var ContactGPS = {
       return geo.normdeg(me.get_bearing() + 180);
   },
 
+  getMagBearing: func() {
+    #not super tested
+    me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
+    return geo.normdeg(me.get_bearing() + me.mag_offset);
+  },
+
   get_deviation: func(true_heading_ref, coord){
       me.deviation =  - deviation_normdeg(true_heading_ref, me.get_bearing_from_Coord(coord));
       return me.deviation;
@@ -1597,6 +1635,12 @@ var ContactGhost = {
 
   get_reciprocal_bearing: func(){
       return geo.normdeg(me.get_bearing() + 180);
+  },
+
+  getMagBearing: func() {
+    #not super tested
+    me.mag_offset = getprop("/orientation/heading-magnetic-deg") - getprop("/orientation/heading-deg");
+    return geo.normdeg(me.get_bearing() + me.mag_offset);
   },
 
   get_deviation: func(true_heading_ref, coord){

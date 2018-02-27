@@ -130,6 +130,7 @@ var B = func {
         showActiveSteer = TRUE;
         mode = 0;
     }
+    radar_logic.disableSteerOrder();
 };
 
 var LA = func {
@@ -184,6 +185,7 @@ var LA = func {
         showActiveSteer = TRUE;
         mode = 0;
     }
+    radar_logic.disableSteerOrder();
 };
 
 var L = func {
@@ -216,6 +218,7 @@ var L = func {
     mode_LF_active = FALSE;
     mode_OPT_active = FALSE;
     showActiveSteer = TRUE;
+    radar_logic.disableSteerOrder();
 };
 
 var LB = func {
@@ -237,6 +240,7 @@ var LB = func {
         route.Polygon.stopPrimary();
         mode_LB_active = FALSE;
     }
+    radar_logic.disableSteerOrder();
 };
 
 var LF = func {
@@ -258,6 +262,7 @@ var LF = func {
         route.Polygon.stopPrimary();
         mode_LF_active = FALSE;
     }
+    radar_logic.disableSteerOrder();
 };
 
 var OPT = func {
@@ -272,13 +277,20 @@ var OPT = func {
         mode_LF_active = FALSE;
         mode_OPT_active = TRUE;
         showActiveSteer = FALSE;
+        radar_logic.disableSteerOrder();
     }
+};
+
+var RR = func {
+    # radar steer order enabled
+    noMode();
+    route.Polygon.stopPrimary();
 };
 
 var noMode = func {
     setprop("ja37/hud/landing-mode", FALSE);
     setprop("ja37/avionics/approach", FALSE);#long
-    mode = 0;
+    mode = -1;
     mode_B_active = FALSE;
     mode_L_active = FALSE;
     mode_LB_active = FALSE;
@@ -367,6 +379,7 @@ var Landing = {
             mode_LF_active = FALSE;
             mode_OPT_active = TRUE;
             showActiveSteer = FALSE;
+            radar_logic.disableSteerOrder();
         } elsif (getprop("ja37/hud/landing-mode")==FALSE) {
             printDA("OPT: deactivated due to not in landing mode.");
             mode_OPT_active = FALSE;

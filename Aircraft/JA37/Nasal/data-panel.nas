@@ -596,6 +596,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 #
 # FPLDATA
 # interoperability:  15a1cd, swedish: 15a0cd.
+# TI backlit intensity of frame buttons: 06---d
 
 # output UD UT
 #
