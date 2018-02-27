@@ -143,7 +143,7 @@ Control: overhaul rudder trim.
 DAP: Input/output square mappoints.
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
-TI:: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
+TI: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
 TI: Cursor can select a steerpoint outside MSDA, it will then be active for steer order. Same with other objects.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
@@ -191,7 +191,6 @@ TI: When display is not showing image, backup menu is in effect, which hard-code
 
 List of un-authentic systems, most scheduled for removal/change at some point
 -----------------------------------------------------------------------------
-A/P auto-follow never existed. RR steer order, was probably just heading and altitude bugs.
 Automatic landing mode selection in AJ was really selected manual like in the JA.
 Speedbrake on JA-37Di and AJS-37 were welded shut. Was only working on AJ-37 of these variants.
 Distance to selected radar echo was next to distance scale where ammo is now, not next to the echo. (was ammo count even in HUD?) If line is there, the number is line length.

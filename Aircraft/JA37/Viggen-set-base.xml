@@ -81,6 +81,7 @@
             <path>ja37/hud/units-metric</path>
             <path>ja37/hud/mode</path>
             <path>ja37/hud/stroke-linewidth</path>
+            <path>ja37/effect/g-suit</path>
             <path>ai/submodels/submodel[2]/random</path>
             <path>ai/submodels/submodel[3]/random</path>
             <path>ja37/displays/live-map</path>
@@ -556,7 +557,7 @@
                 <noise type="int">1</noise>
                 <color type="double">0</color>
             </heatblur>
-            <!--<g-suit type="int">3</g-suit>--><!-- 1:71 2:79 3:97 -->
+            <!--<g-suit type="int">3</g-suit>--><!-- 1:71 2:79 3:97 moved to individual aircraft set files -->
             <pod0 type="bool">true</pod0>
             <pod1 type="bool">true</pod1>
             <pod2 type="bool">true</pod2>

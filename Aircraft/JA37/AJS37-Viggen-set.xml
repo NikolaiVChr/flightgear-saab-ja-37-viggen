@@ -938,7 +938,10 @@
     <ja37>
         <systems>
             <variant type="int">2</variant>
-        </systems>        
+        </systems>
+        <effect>
+            <g-suit userarchive="y" type="int">2</g-suit><!-- 1:71 2:79 3:97 -->       
+        </effect>
     </ja37>
 
     <limits>

@@ -3419,3 +3419,5 @@ HUD: Heading bug will now show radar steer order.
 TI: Moved Radar selection infobox to right side, and allow it to show at same time as steerpoint infobox.
 TI: Text info of radar selection in bottom field is now only shown at radar steer order.
 TI: White circle around steer order symbol (steerpoints and radar selections).
+Effect: Fixed that g-suit option would not change in options dialog.
+Effect: G-suit setting is now persistent between sessions. default is JA/AJS=1979 AJ=1971.
