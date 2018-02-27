@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <name type="string" n="0">Engine running, ready for takeoff. Parking brakes on.</name>
+    <name type="string" n="0">Engine running, ready for takeoff. Parking brakes on. (Swedish/Metric)</name>
 
     <overlay>
         <fdm>
@@ -22,9 +22,6 @@
                         <switch type="bool">false</switch>
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
-                    <electrical>
-                        <battery-drain-norm type="double">1</battery-drain-norm>
-                    </electrical>
                 </systems>
             </jsbsim>
         </fdm>
@@ -68,11 +65,8 @@
                 <state type="string">ready</state>
             </systems>
             <hud>
-                <units-metric type="bool">false</units-metric>
+                <units-metric type="bool">true</units-metric>
             </hud>
-            <avionics>
-                <!--<master-warning-button type="bool">true</master-warning-button>-->
-            </avionics>
         </ja37>
     </overlay>
 

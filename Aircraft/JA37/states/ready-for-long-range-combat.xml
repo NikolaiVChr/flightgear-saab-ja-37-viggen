@@ -2,9 +2,41 @@
 
 <PropertyList>
 
-    <name type="string" n="0">Engine running, ready for takeoff. Parking brakes on.</name>
+    <name type="string" n="0">Engine running, ready for long range air-to-air engagements. Parking brakes on.</name>
 
     <overlay>
+        <payload>
+            <weight n="0">
+                <selected type="string">RB 99 Amraam</selected>
+            </weight>
+            <weight n="1">
+                <selected type="string">RB 99 Amraam</selected>
+            </weight>
+            <weight n="2">
+                <selected type="string">RB 99 Amraam</selected>
+            </weight>
+            <weight n="3">
+                <selected type="string">RB 99 Amraam</selected>
+            </weight>
+            <weight n="4">
+                <selected type="string">RB 74 Sidewinder</selected>
+            </weight>
+            <weight n="5">
+                <selected type="string">RB 74 Sidewinder</selected>
+            </weight>
+            <weight n="6">
+                <selected type="string">Drop tank</selected>
+            </weight>
+        </payload>
+        <consumables>
+            <fuel>
+                <tank n="8">
+                    <level-norm type="double">1.0</level-norm>
+                    <jettisoned type="bool">false</jettisoned>
+                    <selected type="bool">true</selected>
+                </tank>
+            </fuel>
+        </consumables>
         <fdm>
             <jsbsim>
                 <fcs>
@@ -16,15 +48,15 @@
                     <engine>
                         <cutoff-commanded type="bool">false</cutoff-commanded>
                     </engine>
+                    <tank n="8">
+                        <contents-lbs type="double">2139.5</contents-lbs>
+                    </tank>
                 </propulsion>
                 <systems>
                     <external>
                         <switch type="bool">false</switch>
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
-                    <electrical>
-                        <battery-drain-norm type="double">1</battery-drain-norm>
-                    </electrical>
                 </systems>
             </jsbsim>
         </fdm>
@@ -70,9 +102,6 @@
             <hud>
                 <units-metric type="bool">false</units-metric>
             </hud>
-            <avionics>
-                <!--<master-warning-button type="bool">true</master-warning-button>-->
-            </avionics>
         </ja37>
     </overlay>
 

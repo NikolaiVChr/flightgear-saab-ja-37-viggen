@@ -3423,4 +3423,5 @@ Effect: Fixed that g-suit option would not change in options dialog.
 Effect: G-suit setting is now persistent between sessions. default is JA/AJS=1979 AJ=1971.
 DAP: Made room for more digit in data panel, when inputting longitude to TI237, for the negative sign.
 Model: Added tooltips to frame of TI and Mi displays.
-Sim: Added option in launcher 2018.1.1+ to startup with engines on.
+Sim: Added options in launcher 2018.1.1+ to startup with engines on.
+Sim: Due to the new startup state options interoperability setting is no longer saved between sessions.

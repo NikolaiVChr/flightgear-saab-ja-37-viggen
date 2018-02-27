@@ -78,7 +78,7 @@
         <aircraft-data>
             <!-- Properties that get saved to persist locally between FG sessions -->
             <path>ja37/radar/enabled</path>
-            <path>ja37/hud/units-metric</path>
+            <!--<path>ja37/hud/units-metric</path>-->
             <path>ja37/hud/mode</path>
             <path>ja37/hud/stroke-linewidth</path>
             <path>ja37/effect/g-suit</path>
@@ -585,7 +585,7 @@
         </blink>
         <hud>
             <tracks-enabled type="bool">true</tracks-enabled>
-            <units-metric userarchive="y" type="bool">false</units-metric>
+            <units-metric type="bool">false</units-metric>
             <mode userarchive="y" type="bool">true</mode>
             <current-mode type="int">0</current-mode>
             <combat type="bool">false</combat>
