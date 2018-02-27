@@ -28,6 +28,9 @@
         <controls>
             <oxygen type="bool">true</oxygen>
             <altimeter-radar type="bool">true</altimeter-radar>
+            <ventilation>
+                <airconditioning-enabled type="bool">true</airconditioning-enabled>
+            </ventilation>
             <engines>
                 <engine n="0">
                     <starter-cmd type="bool">true</starter-cmd>
