@@ -164,7 +164,6 @@ Test: Testing from TI.
 Test: Shut down also some indicators during testing.
 Test: Individual tests with test knob.
 Model: Nav panel should be scaled to be just as wide as test panel.
-DAP: Make 1 more digit in data panel, when inputting longitude.
 Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters, MI brightness.
 Sim: AC should just blow air, not keep temperature.
 DAP: Minneslista JA37 has some DAP addresses. Make.
@@ -182,7 +181,8 @@ Arms: Should seeker position be shown in MI and HUD for non IR?
 HUD: Do not show rb99 seeker diamond.
 Sim: Make use of 2018.1.1 feature of different startup options: Cold and dark, Ready to start engine, Ready for takeoff.
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
-
+DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
+GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 
 
 

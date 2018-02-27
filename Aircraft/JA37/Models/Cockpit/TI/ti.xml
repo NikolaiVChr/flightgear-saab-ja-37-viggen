@@ -85,6 +85,18 @@
     </condition>
     </effect>-->
 
+    <animation>
+        <type>pick</type>
+        <object-name>backplate</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>ti-display</tooltip-id>
+                <label>TI237 display</label>
+            </binding>
+        </hovered>
+    </animation>
+
   	<!--
 
 

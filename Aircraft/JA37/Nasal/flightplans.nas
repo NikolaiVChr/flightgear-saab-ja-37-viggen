@@ -255,7 +255,7 @@ var Polygon = {
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			#Polygon.selectSteer[0].speed_cstr_type = "mach";
 			#Polygon.selectSteer[0].speed_cstr      = mach;			
-			call(func {Polygon.selectSteer[0].setSpeed(mach, "mach")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0.
+			call(func {Polygon.selectSteer[0].setSpeed(mach, "mach")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0. Fixed in 2018.1.1
 			if (err != nil and size(err) > 0) {
 				print("Harmless error M: "~err[0]);
 			}
@@ -266,7 +266,7 @@ var Polygon = {
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			#Polygon.selectSteer[0].alt_cstr      = alt;
 			#Polygon.selectSteer[0].alt_cstr_type = "at";
-			call(func {Polygon.selectSteer[0].setAltitude(alt, "at")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0.
+			call(func {Polygon.selectSteer[0].setAltitude(alt, "at")},nil, var err = []);# error in FG 2017.3.1 it seems. Worked in 2017.3.0. Fixed in 2018.1.1
 			if (err != nil and size(err) > 0) {
 				print("Harmless error A: "~err[0]);
 			}

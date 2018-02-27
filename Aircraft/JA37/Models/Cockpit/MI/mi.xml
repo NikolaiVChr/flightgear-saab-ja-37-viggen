@@ -55,6 +55,18 @@
     </condition>
     </effect>
 
+    <animation>
+        <type>pick</type>
+        <object-name>backplate</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>mi-display</tooltip-id>
+                <label>MI display</label>
+            </binding>
+        </hovered>
+    </animation>
+
   	<!--
 
 

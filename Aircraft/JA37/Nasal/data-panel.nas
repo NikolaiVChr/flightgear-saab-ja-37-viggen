@@ -106,6 +106,7 @@ var testMinusLast = 0;
 var set237 = func (enable, digitsMax, callback) {#longitude might need 6 or 7 digits
   if (enable) {
     state = 237;
+    #printf("237:%d", digitsMax);
     #ti237_min = digitsMin;
     ti237_max = digitsMax;
     ti237_callback = callback;
@@ -428,11 +429,12 @@ var disp = func {
       display = "   237";
     } else {
       var sign = settingSign<0?"-":" ";
-      if (ti237_max>6) {
-        display = input;
-      } else {
+      #printf("disp:%s_%s_%d", sign, input, ti237_max);
+      #if (ti237_max>6) {
+      #  display = input;
+      #} else {
         display = sign~input;#not elegant, fix later
-      }
+      #}
     }
   } elsif (settingDir == OUT and settingPos == POS) {
     display = posOutDisplay;
@@ -549,7 +551,7 @@ var disp = func {
   }
   #printDA(" display  *"~display~"*");
   if (size(display)==8) {
-    #make room for the unauthentic 8th digit
+    #make room for the unauthentic 8th digit, for longitudes outside Sweden
     signText.setFontSize(50, 1.25);
   } else {
     signText.setFontSize(50, 1.125);
