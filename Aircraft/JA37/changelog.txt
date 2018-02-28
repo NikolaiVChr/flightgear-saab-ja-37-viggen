@@ -3424,4 +3424,5 @@ Effect: G-suit setting is now persistent between sessions. default is JA/AJS=197
 DAP: Made room for more digit in data panel, when inputting longitude to TI237, for the negative sign.
 Model: Added tooltips to frame of TI and Mi displays.
 Sim: Added options in launcher 2018.1.1+ to startup with engines on.
-Sim: Due to the new startup state options interoperability setting is no longer saved between sessions.
+Sim: Due to the new startup state options, interoperability setting is no longer saved between sessions.
+TI: Cursor can now select a steerpoint (outside MSDA menu), it will then be active for steer order. Same with radar echoes.

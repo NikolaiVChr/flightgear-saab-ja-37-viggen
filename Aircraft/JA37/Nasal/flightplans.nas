@@ -36,6 +36,7 @@ var Polygon = {
 	selectL: nil,# when selectSteer is non nil, this will be listener for route-manager edit of plan. Such edit will cancel all editing. Hackish.
 	editDetail: FALSE,# selectSteer ready for having an attribute edited
 	_apply: FALSE,
+	jumpToSteer: nil,
 	#polyEdit: FALSE,
 
 	setupJAPolygons: func {
@@ -127,6 +128,21 @@ var Polygon = {
 				removelistener(me.selectL);
 			}
 			me.selectL = setlistener("autopilot/route-manager/signals/edited", func {Polygon._planEdited()});
+		}
+	},
+
+	jumpTo: func (leg, index) {
+		Polygon.jumpToSteer = [leg, index];
+	},
+	
+	jumpExecute: func {
+		if (Polygon.jumpToSteer != nil) {
+			if (Polygon.primary != nil and Polygon.primary.getSize() > Polygon.jumpToSteer[1]) {
+				Polygon.primary.plan.current = Polygon.jumpToSteer[1];
+			} else {
+				print("error in jump");
+			}
+			Polygon.jumpToSteer = nil;
 		}
 	},
 

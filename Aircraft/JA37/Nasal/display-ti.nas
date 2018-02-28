@@ -1612,6 +1612,7 @@ var TI = {
 		# MI
 		ti.mreg = FALSE;
 
+		#ti.cursorIsClicking = FALSE;
 
 		ti.startFailListener();
 
@@ -1687,6 +1688,7 @@ var TI = {
 		me.showBasesNear();		
 		me.ecmOverlay();
 		#settimer(func me.loop(), 0.5);
+		#me.cursorIsClicking = FALSE;# TODO: test that this works proper
 	},
 
 	loopFast: func {
@@ -2509,6 +2511,8 @@ var TI = {
 				me.cursorGPosY = me.cursorPosY + me.rootCenterY;# relative to canvas
 				me.cursorOPosX = me.cursorPosX + me.tempReal[0];
 				me.cursorOPosY = me.cursorPosY + me.tempReal[1];# relative to rootCenter
+				#me.cursorRPosX = me.cursorPosX + me.rootCenterTranslation[0];
+				#me.cursorRPosY = me.cursorPosY + me.rootCenterTranslation[1];# relative to own position
 				me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
 				me.cursorTrigger = getprop("controls/armament/trigger");
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
@@ -2525,11 +2529,20 @@ var TI = {
 					}
 					#me.newSteerPos = nil;
 				} elsif (route.Polygon.appendSteer) {
-					if(me.cursorTrigger and !me.cursorTriggerPrev) {#if thsi is nested condition then only this can be done. Is this what we want?
+					if(me.cursorTrigger and !me.cursorTriggerPrev) {#if this is nested condition then only this can be done. Is this what we want?
 						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 						route.Polygon.appendApply(me.newSteerPos[0],me.newSteerPos[1]);
 					}
 					#me.newSteerPos = nil;
+#				if (menuMain != MAIN_MISSION_DATA and me.cursorTrigger and !me.cursorTriggerPrev) {
+#						me.cursorIsClicking = TRUE;
+#						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+#						#print("selecting on map: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
+#						me.selectResult = route.Polygon.cursorSelectSteer(me.newSteerPos[0],me.newSteerPos[1]);
+#						if (!me.selectResult) {
+#							radar_logic.cursorSelectEcho(me.newSteerPos[0],me.newSteerPos[1]);
+#						}
+#					}
 				} elsif (me.cursorTrigger and !me.cursorTriggerPrev) {
 					# click on edge buttons
 					me.newSteerPos = nil;
@@ -2549,6 +2562,7 @@ var TI = {
 			}
 			me.cursor.show();
 		} else {
+			#me.cursorIsClicking = FALSE;
 			me.cursorTrigger = FALSE;
 			me.newSteerPos = nil;
 			me.cursor.hide();
@@ -3536,6 +3550,7 @@ var TI = {
 				if (me.steerCounter>5) {
 					me.wpIndex = wp+48*6+8*(me.steerCounter-6);
 				}
+				me.isSelectable = FALSE;
 				me.doRR = FALSE;
 				if (me.curr_plan != nil and me.points > wp and ((me.isArea or (route.Polygon.isPrimaryActive() == TRUE and me.curr_plan[0].isPrimary())) or me.menuMain == MAIN_MISSION_DATA)) {
 					me.node = me.polygon[wp];
@@ -3594,20 +3609,34 @@ var TI = {
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
 					} else {
-						# ordinary waypoint
+						# ordinary waypoint (might be in MSDA)
 						me.steerpoint[me.wpIndex].set("z-index", 5);
 						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK_DARK);
 						me.steerpointSymbol[me.wpIndex].setScale(1);
 						me.steerpointSymbol[me.wpIndex].setStrokeLineWidth(w);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0 and (me.nextActive or me.curr_plan[2]), COLOR_TYRK_DARK, 1, 0]);
 						me.nextActive = FALSE;
+						if (me.menuMain != MAIN_MISSION_DATA) {
+							me.isSelectable = TRUE;
+						}
 					}
 					me.steerpoint[me.wpIndex].setTranslation(me.texCoord[0], me.texCoord[1]);
 					if (me.doRR) {
 						me.rrSymbolS.setTranslation(me.texCoord[0], me.texCoord[1]);
 						me.rrSymbolS.show();
 					}
+					if (me.isSelectable and me.cursorTrigger) {
+						# not in MSDA so check if cursor is clicking on the steerpoint
+						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
+						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
+						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+						if (me.cursorDist < 12) {
+							route.Polygon.jumpTo(me.node, wp);
+							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a steerpoint gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+						}
+					}
 					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer and !me.isDAPActive()) {
+						# I think this is where cursor select a steer when a plan is in edit mode..
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
@@ -3637,6 +3666,7 @@ var TI = {
 				}
 	  		}
 	  	}
+	  	route.Polygon.jumpExecute();
   	},
 
   	laloToTexel: func (la, lo) {
@@ -4140,6 +4170,7 @@ var TI = {
 	        me.tgt_alt  = nil;
 	      	me.radar_group.hide();
 	    }
+	    radar_logic.jumpExecute();
 	},
 
 	displayRadarTrack: func (contact) {
@@ -4183,6 +4214,18 @@ var TI = {
 		    	}
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
+
+		    	if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger) {
+					# not in MSDA so check if cursor is clicking on the aircraft
+					me.cursorDistX = me.cursorOPosX-me.pos_xx;
+					me.cursorDistY = me.cursorOPosY-me.pos_yy;
+					me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+					#printf("Cursor clicking cursorOPos:%d,%d cursorRPos:%d,%d cursorGPos:%d,%d pos_:%d,%d", me.cursorOPosX, me.cursorOPosY, me.cursorRPosX, me.cursorRPosY, me.cursorGPosX, me.cursorGPosY, me.pos_xx, me.pos_yy);
+					if (me.cursorDist < 12) {
+						radar_logic.jumpTo(contact);
+						me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+					}
+				}
 
 		    	if (me.boogie == 1) {
 		    		me.echoesAircraftTri[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
@@ -5193,9 +5236,11 @@ var TI = {
 			me.lon_wp   = getprop('/position/longitude-deg');
 			me.tempReal = me.laloToTexel(me.lat,me.lon);#delicate
 			me.rootCenter.setTranslation(width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]);
+			#me.rootCenterTranslation = [width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]];
 		} else {
 			me.tempReal = [0,0];
 			me.rootCenter.setTranslation(width/2, me.rootCenterY);
+			#me.rootCenterTranslation = [width/2, me.rootCenterY];
 		}
 		me.mapCentrum.setTranslation(width/2, me.rootCenterY);
 

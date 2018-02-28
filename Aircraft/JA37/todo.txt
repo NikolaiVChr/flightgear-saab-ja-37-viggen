@@ -144,7 +144,6 @@ DAP: Input/output square mappoints.
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
 TI: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
-TI: Cursor can select a steerpoint outside MSDA, it will then be active for steer order. Same with other objects.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 DAP: Show sign of input at leftmost char always.
@@ -183,7 +182,7 @@ Sim: Make use of 2018.1.1 feature of different startup options: Cold and dark, R
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
-
+Sim: Startup with engines on, should give no masterwarning from empty battery and inertial navigation should be ready.(maybe altimeter should be preset too)
 
 
 

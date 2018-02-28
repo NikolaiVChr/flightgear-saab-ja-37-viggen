@@ -17,6 +17,17 @@ var containsVector = func (vec, item) {
   return FALSE;
 }
 
+var containsVectorIndex = func (vec, item) {
+  var ii = 0;
+  foreach(test; vec) {
+    if (test == item) {
+      return ii;
+    }
+    ii += 1;
+  }
+  return -1;
+}
+
 var getClock = func (bearing) {
     var clock = int(((geo.normdeg(bearing)-15)/30)+1);
     if (clock == 0) {
@@ -781,35 +792,56 @@ var nextTarget = func () {
 
 var centerTarget = func () {
   if (getprop("ja37/avionics/cursor-on") != FALSE and getprop("ja37/radar/active") == TRUE) {
-  var centerMost = nil;
-  var centerDist = 99999;
-  var centerIndex = -1;
-  var i = -1;
-  foreach(var track; tracks) {
-    i += 1;
-    if(track.get_cartesian()[0] != 900000) {
-      var dist = math.abs(track.get_cartesian()[0]) + math.abs(track.get_cartesian()[1]);
-      if(dist < centerDist) {
-        centerDist = dist;
-        centerMost = track;
-        centerIndex = i;
+    var centerMost = nil;
+    var centerDist = 99999;
+    var centerIndex = -1;
+    var i = -1;
+    foreach(var track; tracks) {
+      i += 1;
+      if(track.get_cartesian()[0] != 900000) {
+        var dist = math.abs(track.get_cartesian()[0]) + math.abs(track.get_cartesian()[1]);
+        if(dist < centerDist) {
+          centerDist = dist;
+          centerMost = track;
+          centerIndex = i;
+        }
       }
     }
-  }
-  if (centerMost != nil) {
-    if (centerMost != selection) {
-      steerOrder = FALSE;
+    if (centerMost != nil) {
+      if (centerMost != selection) {
+        steerOrder = FALSE;
+      }
+      selection = centerMost;
+      #if (selection.get_type() == AIR) {
+        radarLogic.paint(selection.getNode(), TRUE);
+      #} else {
+      #  radarLogic.paint(selection.getNode(), FALSE);
+      #}
+      lookatSelection();
+      tracks_index = centerIndex;
     }
-    selection = centerMost;
-    #if (selection.get_type() == AIR) {
-      radarLogic.paint(selection.getNode(), TRUE);
-    #} else {
-    #  radarLogic.paint(selection.getNode(), FALSE);
-    #}
-    lookatSelection();
-    tracks_index = centerIndex;
   }
-}
+};
+
+var jumper = nil;
+
+var jumpTo = func (c) {
+  jumper = c;
+};
+
+var jumpExecute = func {
+  if (jumper != nil) {
+    var index = containsVectorIndex(tracks, jumper);
+    if (index != -1) {
+      selection = jumper;
+      radarLogic.paint(selection.getNode(), TRUE);
+      lookatSelection();
+      tracks_index = index;
+      steerOrder = TRUE;
+      land.RR();
+    }
+    jumper = nil;
+  }
 };
 
 var lookatSelection = func () {
