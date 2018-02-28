@@ -201,6 +201,12 @@ var Polygon = {
 		}
 	},
 
+	setType: func (value) {
+		if (Polygon.selectSteer != nil) {
+#			Polygon.selectSteer[0].fly_type = value==1?"Target":Polygon.selectSteer[0].fly_type=="Target"?"flyOver":Polygon.selectSteer[0].fly_type;
+		}
+	},
+
 	setLon: func (long) {
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			Polygon._apply = TRUE;

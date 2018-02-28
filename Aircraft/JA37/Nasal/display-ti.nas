@@ -1603,6 +1603,7 @@ var TI = {
 		ti.blinkBox3 = FALSE;
 		ti.blinkBox4 = FALSE;
 		ti.blinkBox5 = FALSE;
+		ti.blinkBox6 = FALSE;
 
 		# steerpoints
 		ti.newSteerPos = nil;
@@ -2652,12 +2653,15 @@ var TI = {
 			if (me.cursorGPosY < me.wpStarty-0.2*me.wpH*height) {
 				return me.box5;
 			}
+			if (me.cursorGPosY < me.wpStarty-0.0*me.wpH*height) {
+				return me.box6;
+			}
 		}
 		return nil;
 	},
 
 	isDAPActive: func {
-		return me.blinkBox2 or me.blinkBox3 or me.blinkBox4 or me.blinkBox5;
+		return me.blinkBox2 or me.blinkBox3 or me.blinkBox4 or me.blinkBox5 or me.blinkBox6;
 	},
 
 	stopDAP: func {
@@ -2665,6 +2669,7 @@ var TI = {
 		me.blinkBox3 = FALSE;
 		me.blinkBox4 = FALSE;
 		me.blinkBox5 = FALSE;
+		me.blinkBox6 = FALSE;
 		route.Polygon.editDetailMethod(FALSE);
 		if (dap.state == 237) {
 			dap.set237(FALSE, 0, 0, nil);
@@ -2751,6 +2756,23 @@ var TI = {
 		}
 	},
 
+	box6: func {
+		if (me.isDAPActive() and me.blinkBox6 != TRUE) {
+			# stop another field edit
+			me.stopDAP();
+		}
+		if (me.isDAPActive()) {
+			# cancel this field edit
+			me.stopDAP();
+		} elsif (!me.isDAPActive() and me.menuMain == MAIN_MISSION_DATA) {
+			if (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type != route.TYPE_AREA) {
+				#route.Polygon.editDetailMethod(TRUE);
+				dap.set237(TRUE, 1, me.dapType);
+				me.blinkBox6 = TRUE;
+			}
+		}
+	},
+
 	dapBLo: func (input, sign, myself) {
 		# 
 		sign = sign>0?"":"-";
@@ -2798,6 +2820,18 @@ var TI = {
 			var mach = num(input)/100;
 			print("TI recieved mach from DAP: M"~mach);
 			route.Polygon.setMach(mach);
+			myself.stopDAP();
+		}
+	},
+
+	dapType: func (input, sign, myself) {
+		# 
+		var typ = num(input);
+		if (sign < 0 or typ > 1) {
+			dap.setError();
+		} else {			
+			print("TI recieved steerpoint type from DAP: "~typ);
+			route.Polygon.setType(typ);
 			myself.stopDAP();
 		}
 	},
@@ -3302,9 +3336,18 @@ var TI = {
 				}
 				me.wpText5.update();
 
-				me.of = me.interoperability==displays.METRIC?" AV ":" OF ";
-				me.wpText6Desc.setText(me.interoperability==displays.METRIC?"B":"S");
-				me.wpText6.setText((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize());
+				#me.of = me.interoperability==displays.METRIC?" AV ":" OF ";
+				#me.wpText6Desc.setText(me.interoperability==displays.METRIC?"B":"S");
+				#me.wpText6.setText((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize());
+
+				me.wpText6Desc.setText("TYP");
+				me.wpText6.setText(route.Polygon.selectSteer[0].fly_type);
+				if (me.blinkBox6 == FALSE or me.input.twoHz.getValue()) {
+					me.wpText6.show();
+				} else {
+					me.wpText6.hide();
+				}				
+				me.wpText6Desc.show();
 
 				me.wpTextField.update();
 				me.wpTextField.show();
