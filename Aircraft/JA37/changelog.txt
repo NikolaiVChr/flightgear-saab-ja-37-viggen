@@ -3426,3 +3426,8 @@ Model: Added tooltips to frame of TI and Mi displays.
 Sim: Added options in launcher 2018.1.1+ to startup with engines on.
 Sim: Due to the new startup state options, interoperability setting is no longer saved between sessions.
 TI: Cursor can now select a steerpoint (outside MSDA menu), it will then be active for steer order. Same with radar echoes.
+TI: Moved steerpoint name on map a little further away from the steerpoint so the steer order circle do not overlap it.
+TI: Can now show/edit bulls-eye.
+TI: Bulls-eye infobox shows relation from bulls-eye to cursor. When cursor is in SVY or bottom textfield, infobox turns off.
+DAP: Can now edit or delete bulls-eye (edit LV-area 179).
+TI: When cursor not active bulls-eye show relation to radar selection.

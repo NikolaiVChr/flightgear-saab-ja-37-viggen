@@ -722,6 +722,9 @@
             <inout type="bool">true</inout>
             <ispos type="bool">false</ispos>
             <dp-mode type="int">0</dp-mode>
+            <bulls-eye-defined type="bool">false</bulls-eye-defined>
+            <bulls-eye-lon type="double">0</bulls-eye-lon>
+            <bulls-eye-lat type="double">0</bulls-eye-lat>
         </navigation>
         <light>
             <ti1 type="double">0</ti1>

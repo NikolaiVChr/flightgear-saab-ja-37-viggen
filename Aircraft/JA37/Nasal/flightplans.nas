@@ -37,6 +37,7 @@ var Polygon = {
 	editDetail: FALSE,# selectSteer ready for having an attribute edited
 	_apply: FALSE,
 	jumpToSteer: nil,
+	editBullsEye: FALSE,
 	#polyEdit: FALSE,
 
 	setupJAPolygons: func {
@@ -406,6 +407,18 @@ var Polygon = {
 		Polygon.insertSteer = FALSE;
 		Polygon.editDetail = FALSE;
 		Polygon.selectSteer = nil;
+		Polygon.editBullsEye = FALSE;
+	},
+
+	setToggleBEEdit: func {
+		printDA("bulls-eye edit");
+		Polygon.editing = nil;
+		Polygon.editSteer = FALSE;
+		Polygon.appendSteer = FALSE;
+		Polygon.insertSteer = FALSE;
+		Polygon.editDetail = FALSE;
+		Polygon.selectSteer = nil;
+		Polygon.editBullsEye = !Polygon.editBullsEye;
 	},
 
 	editPlan: func (poly) {
@@ -420,7 +433,8 @@ var Polygon = {
 			#Polygon.polyEdit    = FALSE;
 			Polygon.selectSteer = nil;
 			Polygon.editing = poly;
-		}		
+		}	
+		Polygon.editBullsEye = FALSE;	
 	},
 
 	_planEdited: func {

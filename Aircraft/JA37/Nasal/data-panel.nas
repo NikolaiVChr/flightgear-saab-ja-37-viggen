@@ -9,7 +9,7 @@ var FALSE = 0;
 #    }
 #});
 
-var debugAll = FALSE;
+var debugAll = 1;#FALSE;
 
 var printDA = func (str) {
     if (debugAll) print (str);
@@ -83,6 +83,7 @@ var HOLD      = 1;
 var RELEASE   = 0;
 
 var inputDefault  = "------";# these 3 should really be spaces, but canvas wont render space.
+var input3Default = "---";
 var input2Default = "--";
 var charDefault   = "-";
 
@@ -102,6 +103,8 @@ var posOutDisplay = "       ";
 var testDisplay = "";
 var testMinus = 0;
 var testMinusLast = 0;
+
+var LV_lock = TRUE;
 
 var set237 = func (enable, digitsMax, callback) {#longitude might need 6 or 7 digits
   if (enable) {
@@ -151,10 +154,13 @@ var main = func {
       return;
     }
   }
+  TI.ti.displayFTime = FALSE;
   if (settingKnob != settingPrevKnob) {
 
   }
+
   if (state == 237) {
+
     if (ok==HOLD and digit == ti237_max) {
         # set TI value
         printDA("set 237: "~input);
@@ -169,28 +175,133 @@ var main = func {
       # TI input
       inputKey(ti237_max);
     }
-  } elsif (settingKnob==KNOB_TI ) {
-    if(keyPressed == -1 and route.Polygon.editing != nil) {
-      # delete route plan
-      route.Polygon.deletePlan();
-    }
+
+  } elsif (settingPos == POS) {
+    # POS IN/OUT
+      if (settingKnob==KNOB_TI and keyPressed == -1 and route.Polygon.editing != nil) {
+        # delete route plan
+        route.Polygon.deletePlan();
+      }
+
   } elsif (settingDir == OUT) {
+    # MSDA/OUT
     if (ok==HOLD and cycle != -1) {
       cycle += 1;
       if (cycle > cycleMax) {
         cycle = 0;
       }
     }
-    if ((settingKnob == KNOB_DATE)
-      or (settingKnob == KNOB_LOLA)) {
+    if ((settingKnob == KNOB_DATE) or (settingKnob == KNOB_LOLA) or (settingKnob == KNOB_TI)) {
       if (cycle == -1) {
         cycle = 0;
+      }
+      if (settingKnob == KNOB_TI) {
+        TI.ti.displayFTime = TRUE;
       }
     } else {
       cycle = -1;
     }
+
   } else {
-    if (settingKnob == KNOB_DATE) {
+    # MSDA/IN
+    if (settingKnob == KNOB_TI) {
+      # to clear the points type in 654321 and click RENSA that will clear the lock
+      # then 013124 typed in means clear from 13 to 124.
+      # by twisting knob the lock is in place again.
+      #
+      # TODO: LOLA should only be 4 digits and LO or LA displayed to the right of those?
+      if (isStateChanged()) {
+        cycle = 0;
+        cycleMax = 2;
+        digit = 0;
+        input = inputDefault;
+        LV_lock = TRUE;
+        printDA("DAP TI addresses locked.");
+      } else {
+        if (keyPressed == -1 and digit == 6) {
+          if (input == "654321" and settingSign == 1) {
+            LV_lock = FALSE; 
+            cycle = 0;
+            printDA("DAP TI addresses unlocked.");
+          }
+          input = inputDefault;
+          digit = 0;
+        } elsif (ok==HOLD and digit == 3 and cycle == 0) {
+          if (input == "179---" and settingSign == 1) {
+            digit = 0;
+            input = manyChar(charDefault, 7);
+            cycleDisp();
+            printDA("DAP request for Bulls-eye..");
+          } else {
+            error = TRUE;
+            digit = 0;
+            input = inputDefault;
+          }
+        } elsif (ok==HOLD and digit == 6 and cycle == 0) {
+          var low = num(substr(input,0,3));
+          var high = num(substr(input,3,3));
+          printDA("DAP: Request to delete TI address "~low~" to "~high);
+          if (LV_lock == FALSE and low < high and high < 200 and low > 000) {
+            digit = 0;
+            input = inputDefault;
+            if (179 >= low and 179 <= high) {
+              setprop("ja37/navigation/bulls-eye-defined", FALSE);
+              printDA("DAP: Bulls-eye deleted.");
+            }
+          } else {
+            error = TRUE;
+            digit = 0;
+            input = inputDefault;
+          }
+        } elsif (ok==HOLD and digit == 7 and cycle == 1) {
+            # set lon
+            var sign = settingSign<0?"-":"";
+            printDA("set B_E lon "~sign~input);
+            var deg = ja37.stringToLon(sign~input);
+            if (deg != nil) {
+              setprop("ja37/navigation/bulls-eye-lon", deg);
+              cycleDisp();
+              input = inputDefault;
+              digit = 0;
+              printDA("DAP TI bulls-eye longitude edited.");
+            } else {
+              error = TRUE;
+              digit = 0;
+              input = inputDefault;
+            }
+        } elsif (ok==HOLD and digit == 6 and cycle == 2) {
+            # set lat
+            var sign = settingSign<0?"-":"";
+            printDA("set B_E lat "~sign~input);
+            var deg = ja37.stringToLat(sign~input);
+            if (deg != nil) {
+              setprop("ja37/navigation/bulls-eye-lat", deg);
+              setprop("ja37/navigation/bulls-eye-defined", TRUE);
+              cycleDisp();
+              input = inputDefault;
+              digit = 0;
+              printDA("DAP TI bulls-eye latitude edited. Bulls-eye enabled.");
+            } else {
+              error = TRUE;
+              digit = 0;
+              input = inputDefault;
+            }
+        } elsif (keyPressed == -1) {
+          # reset
+          input = cycle==1?manyChar(charDefault, 7):inputDefault;
+          digit = 0;
+        } elsif (cycle == 0) {
+          # punkt no. input
+          inputKey(6);
+        } elsif (cycle == 1) {
+          # lon input
+          inputKey(7);
+        } elsif (cycle == 2) {
+          # lat input
+          inputKey(6);
+        }
+      }
+    } elsif (settingKnob == KNOB_DATE) {
       if (isStateChanged()) {
         cycle = 0;
         cycleMax = 1;
@@ -411,7 +522,6 @@ var isStateChanged = func {
 
 var disp = func {
   display = "";
-  TI.ti.displayFTime = FALSE;
 
   if (testDisplay != "") {
     var minus = " ";
@@ -470,7 +580,34 @@ var disp = func {
         display = "000000";
       }
     } elsif (settingKnob == KNOB_TI) {
-      TI.ti.displayFTime = TRUE;#should this be in main instead?
+      var address = num(left(input,3));
+      if (cycle == -1) {
+        cycle = 0;
+      }
+      if (ok == HOLD) {
+        if (cycle == 0) {
+          display = "-----P";
+        } elsif (cycle == 1) {
+          display = "----LO";
+        } else {
+          display = "----LA"
+        }
+      } else {
+        if (address == 179) {
+          #bulls-eye
+          if (cycle == 0) {
+            display = "179"
+          } elsif (cycle == 1) {
+            var lo = getprop("ja37/navigation/bulls-eye-lon");
+            var lon = ja37.convertDegreeToDispStringLon(lo);#not sure what to do when deg has 3 digit and a minus sign. No room on display.
+            display = sprintf("%s",lon);
+          } else {
+            var la = getprop("ja37/navigation/bulls-eye-lat");
+            var lat = ja37.convertDegreeToDispStringLat(la);
+            display = sprintf("%s",lat);
+          }
+        }
+      }
     } elsif (settingKnob == KNOB_LOLA) {
       if (cycle == -1) {
         cycle = 0;
@@ -530,6 +667,9 @@ var disp = func {
       display = input;
     } elsif (settingKnob == KNOB_REG) {
       display = input;
+    } elsif (settingKnob == KNOB_TI) {
+      var sign = settingSign<0?"-":" ";
+      display = sign~input;
     } elsif (settingKnob == KNOB_FUEL) {
       display = input;
     } elsif (settingKnob == KNOB_DATE) {

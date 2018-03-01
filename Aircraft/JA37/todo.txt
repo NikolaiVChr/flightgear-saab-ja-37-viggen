@@ -113,7 +113,6 @@ HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 HUD: When should distance scale line not be shown, but distance still?
 HUD: In OPT mode, the sink rate is only at low altitudes, before that its 1:20.
 TI: Show lat/lon grid in menu UDAT.
-TI: Show/edit bullseye.
 TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, don't show moving map.
 TI: Make radar limit on SVY.
@@ -184,6 +183,9 @@ DAP: When inputing to TI, it remembers the last sign used. Not sure if should fi
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 Sim: Startup with engines on, should give no masterwarning from empty battery and inertial navigation should be ready.(maybe altimeter should be preset too)
 TI: Make DAP inputing for textfields blink with update rate.
+TI: The cursor should be able to select steer order on aircraft on SVY instead of randomly whats behind it.
+
+
 
 
 

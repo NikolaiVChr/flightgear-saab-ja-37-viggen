@@ -335,7 +335,8 @@ var TI = {
 	# 	rapports 5
 	# 	time 7
 	# 	root center 9
-	# 		ecm 1
+	# 		ecm 0
+	#       bulls-eye 1
 	# 		airports 2
 	# 		mapScale 3
 	# 		radar echoes 5
@@ -709,7 +710,7 @@ var TI = {
 	    		.setText("B2")
 	    		.setColor(rWhite,gWhite,bWhite, a)
 	    		.setAlignment("right-center")
-	    		.setTranslation(-10*MM2TEX, 0)
+	    		.setTranslation(-15*MM2TEX, 0)
 	    		.set("z-index", 6)
 	    		.setFontSize(13, 1));
     		append(me.steerpointSymbol, stGrp.createChild("path")
@@ -788,6 +789,59 @@ var TI = {
 				.set("z-index", 25)#max
 		        .setColor(rWhite,gWhite,bWhite, a);
 
+		# bulls eye
+
+		me.bullsEye = me.rootCenter.createChild("path")
+					.set("z-index", 1)
+				    .moveTo(-20, 0)
+				    .horiz(40)
+				    .moveTo(0, 20)
+				    .vert(-60)
+				    .moveTo(0, -40)
+				    .lineTo(10, -30)
+				    .moveTo(0, -40)
+				    .lineTo(-10, -30)
+	                .moveTo(-20, 0)
+	                .arcSmallCW(20, 20, 0, 40, 0)
+	                .arcSmallCW(20, 20, 0, -40, 0)
+	                .setStrokeLineWidth(w)
+	                .setColor(COLOR_TYRK);
+
+		# bulls eye info box
+
+		me.beTextField     = root.createChild("group")
+			.set("z-index", 11);
+
+		var beW      = 0.35;
+		var beH      = 0.03;
+		var beStartx = width-(width*0.060-3.125+6.25*2+w*2) - width*beW;
+		var beStarty = height-height*0.1-height*0.025-w*2;
+
+		me.beTextFrame     = me.beTextField.createChild("path")
+			.moveTo(beStartx, beStarty)#above bottom text field and next to fast menu sub boxes
+		      .vert(            -height*beH)
+		      .horiz(            width*beW)
+		      .vert(             height*beH)
+		      .horiz(           -width*beW)
+
+		      .moveTo(beStartx+width*beW*0.2, beStarty)
+		      .vert(            -height*beH)
+		      .setColor(COLOR_WHITE)
+		      .setStrokeLineWidth(w);
+
+		me.beTextDesc = me.beTextField.createChild("text")
+    		.setText("B-E")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(beStartx+width*beW*0.1, beStarty-w)
+    		.setFontSize(15, 1);
+    	me.beText = me.beTextField.createChild("text")
+    		.setText("190  A132")
+    		.setColor(rWhite,gWhite,bWhite, a)
+    		.setAlignment("center-bottom")
+    		.setTranslation(beStartx+width*beW*0.6, beStarty-w)
+    		.setFontSize(15, 1);
+
 		# target info box
 		me.tgtTextField     = root.createChild("group")
 			.set("z-index", 11);
@@ -795,7 +849,7 @@ var TI = {
 		var tgtW      = 0.15;
 		var tgtH      = 0.10;
 		var tgtStartx = width-(width*0.060-3.125+6.25*2+w*2) - width*tgtW;
-		var tgtStarty = height-height*0.1-height*0.025-w*2;
+		var tgtStarty = height-height*0.14-height*0.025-w*2;
 		
 		me.tgtTextFrame     = me.tgtTextField.createChild("path")
 			.moveTo(tgtStartx,  tgtStarty)#above bottom text field and next to fast menu sub boxes
@@ -1254,7 +1308,7 @@ var TI = {
 		}
 
 		me.ecm_grp = me.rootCenter.createChild("group")
-			.set("z-index", 1);
+			.set("z-index", 0);
 		me.ecmRadius = 50;
 		me.ecm12 = me.ecm_grp.createChild("path")
 			.moveTo(circlePosH(-14, me.ecmRadius)[0], circlePosH(-14, me.ecmRadius)[1])
@@ -1557,6 +1611,7 @@ var TI = {
 		ti.SVYhmax      = 20;# 5, 10, 20 or 40 KM
 		ti.SVYsize      = 2;#size 1-3
 		ti.SVYinclude   = SVY_ALL;
+		ti.SVYheight    = 0;
 
 		ti.upText = FALSE;
 		ti.logPage = 0;
@@ -1609,6 +1664,10 @@ var TI = {
 		ti.newSteerPos = nil;
 		ti.showSteers = TRUE;#only for debug turn to false
 		ti.showSteerPoly = TRUE;#only for debug turn to false
+
+		# bulls-eye
+		ti.be = geo.Coord.new();
+  		ti.cs = geo.Coord.new();
 
 		# MI
 		ti.mreg = FALSE;
@@ -1688,6 +1747,7 @@ var TI = {
 		me.updateMapNames();
 		me.showBasesNear();		
 		me.ecmOverlay();
+		me.showBullsEye();
 		#settimer(func me.loop(), 0.5);
 		#me.cursorIsClicking = FALSE;# TODO: test that this works proper
 	},
@@ -2277,10 +2337,11 @@ var TI = {
 			}
 		}
 		if (me.menuMain == MAIN_MISSION_DATA) {
-			if (me.showFullMenus == TRUE) {
-				me.menuButtonSub[4].setText(me.vertStr("BEYE"));
-				me.menuButtonSub[4].show();
+			if (route.Polygon.editBullsEye) {
+				me.menuButtonSubBox[4].show();
 			}
+			me.menuButtonSub[4].setText(me.vertStr("BEYE"));
+			me.menuButtonSub[4].show();
 
 			me.isP = route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_AREA;
 			#hack:
@@ -2497,6 +2558,17 @@ var TI = {
 	########################################################################################################
 	########################################################################################################
 
+	isCursorOnMap: func {
+		if (me.cursorGPosY < height*0.9-height*0.025*me.upText) {
+			# the cursor is above bottom text field
+			if (me.cursorGPosY > me.SVYheight*me.SVYactive) {
+				# the cursor is below SVY field
+				return TRUE;
+			}
+		}
+		return FALSE;
+	},
+
 	showCursor: func {
 		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
 			if(!getprop("/ja37/systems/input-controls-flight")) {
@@ -2517,7 +2589,14 @@ var TI = {
 				me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
 				me.cursorTrigger = getprop("controls/armament/trigger");
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
-				if (route.Polygon.editSteer) {
+				if (route.Polygon.editBullsEye) {
+					if(me.cursorTrigger and !me.cursorTriggerPrev) {
+						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+						setprop("ja37/navigation/bulls-eye-defined", TRUE);
+						setprop("ja37/navigation/bulls-eye-lat", me.newSteerPos[0]);
+						setprop("ja37/navigation/bulls-eye-lon", me.newSteerPos[1]);
+					}
+				} elsif (route.Polygon.editSteer) {
 					#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 					if(me.cursorTrigger and !me.cursorTriggerPrev) {
 						me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
@@ -3727,6 +3806,9 @@ var TI = {
   		x /= M2TEX;
   		y /= M2TEX;
   		me.mDist  = math.sqrt(x*x+y*y);
+  		if (me.mDist == 0) {
+  			return [me.lat, me.lon];
+  		}
   		me.acosInput = clamp(x/me.mDist,-1,1);
   		if (y<0) {
   			me.texAngle = math.acos(me.acosInput);#unit circle on TI
@@ -3742,6 +3824,60 @@ var TI = {
   		me.coordSelf.apply_course_distance(me.headAngle, me.mDist);
 
   		return [me.coordSelf.lat(), me.coordSelf.lon()];
+  	},
+
+  	showBullsEye: func {
+  		if (getprop("ja37/navigation/bulls-eye-defined")) {
+  			me.beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
+  			me.bePos = me.laloToTexel(me.beLaLo[0], me.beLaLo[1]);
+  			me.bullsEye.setTranslation(me.bePos[0], me.bePos[1]);
+  			me.bullsEye.setRotation(-getprop("orientation/heading-deg")*D2R);
+  			if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
+  				# bearing and distance from Bulls-Eye to cursor
+				#
+  				me.cursorLaLo = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+  				me.be.set_latlon(me.beLaLo[0], me.beLaLo[1], 0);
+  				me.cs.set_latlon(me.cursorLaLo[0], me.cursorLaLo[1],0);
+  				me.bear = geo.normdeg(me.be.course_to(me.cs));
+  				me.beDist = me.be.distance_to(me.cs);
+  				me.beDist = me.interoperability==displays.METRIC?0.001*me.beDist:M2NM*me.beDist;
+  				me.beDistTxt = sprintf("%d",me.beDist);
+  				if (me.beDist > 10000) {
+  					me.beDistTxt = sprintf("%dK",me.beDist*0.001);
+  				} elsif (me.beDist > 1000) {
+  					me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
+  				}
+  				if (!me.isCursorOnMap()) {
+  					me.beText.setText("");
+  				} else {
+  					me.beText.setText(sprintf("%03d %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
+  				}
+  				me.beTextField.show();
+  			} elsif (radar_logic.selection != nil) {
+  				# bearing and distance from Bulls-Eye to selected radar echo
+				#
+  				me.lck = radar_logic.selection.get_Coord();
+  				me.be.set_latlon(me.beLaLo[0], me.beLaLo[1], 0);
+  				me.cs.set_latlon(me.lck.lat(), me.lck.lon(),0);
+  				me.bear = geo.normdeg(me.be.course_to(me.cs));
+  				me.beDist = me.be.distance_to(me.cs);
+  				me.beDist = me.interoperability==displays.METRIC?0.001*me.beDist:M2NM*me.beDist;
+  				me.beDistTxt = sprintf("%d",me.beDist);
+  				if (me.beDist > 10000) {
+  					me.beDistTxt = sprintf("%dK",me.beDist*0.001);
+  				} elsif (me.beDist > 1000) {
+  					me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
+  				}
+  				me.beText.setText(sprintf("%03d %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
+  				me.beTextField.show();
+  			} else {
+  				me.beTextField.hide();
+  			}
+  			me.bullsEye.show();
+		} else {
+			me.beTextField.hide();
+			me.bullsEye.hide();
+		}
   	},
 
   	showPoly: func {
@@ -4657,6 +4793,9 @@ var TI = {
 					# do initial update, since else we might wait up to 3 mins.
 					me.updateBasesNear();
 				}
+			}
+			if (me.menuMain == MAIN_MISSION_DATA) {
+				route.Polygon.setToggleBEEdit();
 			}
 		}
 	},

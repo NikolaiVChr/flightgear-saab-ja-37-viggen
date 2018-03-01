@@ -152,17 +152,15 @@ OK button is on nav panel, called BX. (due to the nav. panel is really from the 
 Nav. panel is located just next to data-panel.
 
 Notice first the button IN/OUT.
-Below is listed what combination of that button with the knob will produce (if the other button is MSDA):
+Below is listed what combination of that button with the knob will produce (if the other button is set to MSDA):
 
 OUT
-- TI:     Show flight time on TI.
 - TILS:   Shows current TILS frequency on display.
 - CL/DA:  Show date/time on display. Cycle with OK.
 - FUEL:   Show extra fuel warning setting in percent on display.
 - LOLA:   Show current LON/LAT on display. Cycle with OK. (it will not show negative sign if longitude degrees is more than 2 digits, the JA was only used in Sweden)
 
 IN
-- TI:     Can clear currently edited flightplan/map-area by pressing CLEAR.
 - TILS:  
 - CL/DA:  Set date/time. Entering 999999 for either date or time will reset.
 - FUEL:   Set extra fuel warning in percent on display.
@@ -181,13 +179,24 @@ REG/STR:
     00xxcd is maximum angle of attack setting. c and d is ignored. Setting 00 reverts to default.
     19xxxx is training floor altitude.
 
+TI
+- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK and continue inputting longitude, then latitude.
+- OUT/MSDA: If 3 first digits for address entered will show lon/lat of address, click OK to toggle between them. Hold OK down to see description before the value is shown.
+            In this state flight time is shown on TI also.
+            If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
+- POS:
+            Can clear currently edited flightplan/map-area by pressing CLEAR.
+- ADDRESSES:
+            179 is Bulls-eye
+            654321 is code for unlocking delete option. Turning knob or switching IN/OUT will reengage lock.
+
 "237" on display
 - Input to TI press OK to send.
 
 "Error" on display
 - rotate knob or in/out switch to clear.
 
-When inputting, pay notice to the switch +/-, as that is the sign of what you input.
+When inputting, pay notice to the switch +/-, as that is the sign of what you input. For some inputs its ignored though and hence not shown when you input.
 
 If POS/MSDA button is in POS mode and the other button in OUT, the display will show steerpoint info.
 
