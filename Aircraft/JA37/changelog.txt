@@ -3441,3 +3441,5 @@ DAP: If GPS is installed can now be input/output.
 Docs: Fixed typo in DAP-FPLDATA address 15.
 TI: Made the 2Hz blinking more steady.
 TI: Will now report low battery.
+Docs: Updated JA readme with bulls-eye menu item and heatseeker specific items.
+HUD: Fixed some code that used radar to get info on IR lock, instead of missile.

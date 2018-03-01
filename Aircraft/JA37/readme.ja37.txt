@@ -46,6 +46,30 @@ WEAP
 CLR  - Not implemented.
 AKAN - Cannon.
 x7x  - Various pylons. W=wing, T=wingtip, F=fuselage, L=left, R=right.
+STA
+  STBY - Standby status for missiles. Does not show for cannon.
+  RDY  - Ready to be fired status. From the signal is sent to get ready when its selected and master-arm is ON, a small duration will pass before its ready.
+
+The following menu items only show when a sidewinder is selected:
+
+CAGE
+  AUTO - Automatic uncage of heatseeker head when lock is achieved.
+  MAN  - Manual uncage of seeker head.
+SEEK
+  CAGE - When framed the seeker head is caged. Need to be set to manual for pilot to be able to change it.
+         When uncaged without lock, the seeker head will scan the sky ahead in a small pattern and lock onto anything it see.
+         This is handy for dogfight with radar off when enemy can be hard to spot.
+SEEK
+  WARM - The seeker head is not cooled down. When framed cooling has be commanded, but not yet achieved.
+  COOL - The seeker head is cooled down, and the sidewinder range is increased. Cooling fluids last for a limited time.
+MODE
+  BORE - When caged it will look straight ahead looking for something within range to lock on (and for RB24 it prefers to have view of a hot engine).
+         This is another mode that is handy for dogfight with radar off when the enemy can be seen all manouvred onto bore.
+MODE
+  SLAV - Seeker slaved to either radar or cursor on MI/HUD. To use cursor make sure to have the seeker caged.
+         Then make sure you haven't transfered the cursor to the TI display. Then make sure the radar haven't selected anything (click PEK to deselect).
+         Now make sure PEK is lit up again.
+         Then use cursor to tell the seeker where to look. You will see the seeker head position both in MI and in HUD (when inside its view).
 
 SYST
 ----
@@ -88,6 +112,9 @@ DAY  - Map contrast for daytime or NGHT for night time.
 MSDA
 ----
 EDIT
+  BEYE  - Edit bulls-eye. Use cursor to click on the map where it should be.
+          Notice when the cursor is on the TI and over the map, and small info box will appear showing bearing and distance to the cursor from bulls-eye.
+          That same infobox will give directions to radar selection instead, when cursor is on the MI display.
   POLY  - Edit area polygons. Click with cursor on top field in infobox to control from DAP which area is edited.
   RPOL  - Edit a RTB polygon.
   MPOL  - Edit a mission polygon.
@@ -124,14 +151,20 @@ SCAL - If RMAX set to SCAL this controls the horizon distance shown.
 RMAX - Horizontal distance. MI=follow radar setting. SCAL=see SCAL. MAP=Follow map scale.
 AMAX - Max altitude shown.
 
-Cursor on TI
-============
-When cursor is on TI it can be slewed: Pressing key 'y' will toggle slaving flight-controls to the cursor.
+
+
+
+
+Cursor on TI/MI
+===============
+The cursor can be slewed: Pressing key 'y' will toggle slaving flight-controls to the cursor instead.
+Terrain impact warning will switch the slaving off, so you get immediate control of the aircraft to avoid terrain impact.
+Per default the cursor is located on the MI display. See the DISP menu on the TI on how to transfer it between displays.
 Use trigger to click on something (the click will have to last up till half a second sometimes).
-You can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
+On the TI you can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
-Terrain impact warning will switch the slaving off, so you get immediate control of the aircraft to avoid terrain impact.
+
 
 
 
@@ -170,7 +203,7 @@ OUT
 - TILS:   Shows current TILS frequency on display.
 - CL/DA:  Show date/time on display. Cycle with OK.
 - FUEL:   Show extra fuel warning setting in percent on display.
-- LOLA:   Show current LON/LAT on display. Cycle with OK. (it will not show negative sign if longitude degrees is more than 2 digits, the JA was only used in Sweden)
+- LOLA:   Show current LON/LAT on display. Cycle with OK.
 
 IN
 - TILS:  

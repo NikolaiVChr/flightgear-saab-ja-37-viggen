@@ -2706,7 +2706,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
             me.lock_ir_last = FALSE;
           } else {
             if (me.lock_ir_last == FALSE) {
-              radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)",me.selection.get_Callsign(),armament.AIM.active[me.armSelect-1].type));
+              radar_logic.lockLog.push(sprintf("IR lock on to %s (%s)",me.missileCurr.callsign,me.missileCurr.type));
             }
             me.lock_ir_last = TRUE;
             me.lock_ir.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);

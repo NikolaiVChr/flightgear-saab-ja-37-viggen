@@ -399,7 +399,7 @@ var main = func {
             if (io == 0 or io == 1) {
               setprop("ja37/navigation/gps-installed", io);
               if (io == 0) {
-                FailureMgr._failmgr.logbuf.push("Main CPU: Detection of GPS unit mismatch!\nRemove physical unit or correct ACDATA.");
+                FailureMgr._failmgr.logbuf.push("Main CPU: Detection of GPS unit mismatch!\n         Remove physical unit or correct ACDATA.");
                 TI.ti.newFails = 1;
               }
             } else {
@@ -707,7 +707,7 @@ var disp = func {
       }
     }
   }
-  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23) {
     # hack
     signText.setText("-888888");
     return;
