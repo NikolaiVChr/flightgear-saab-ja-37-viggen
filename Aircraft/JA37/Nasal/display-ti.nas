@@ -1543,7 +1543,7 @@ var TI = {
 			viewNumber:           "sim/current-view/view-number",
 			headTrue:             "orientation/heading-deg",
 			headMagn:             "orientation/heading-magnetic-deg",
-			twoHz:                "ja37/blink/two-Hz/state",
+#			twoHz:                "ja37/blink/two-Hz/state",
 			station:          	  "controls/armament/station-select",
 			roll:             	  "orientation/roll-deg",
 			units:                "ja37/hud/units-metric",
@@ -1680,6 +1680,9 @@ var TI = {
 
 		ti.startFailListener();
 
+		ti.twoHz = 0;
+		ti.battChargeReported = 0;
+
       	return ti;
 	},
 
@@ -1754,6 +1757,14 @@ var TI = {
 		me.showBullsEye();
 		#settimer(func me.loop(), 0.5);
 		#me.cursorIsClicking = FALSE;# TODO: test that this works proper
+		me.twoHz = !me.twoHz;
+		if (!me.battChargeReported and getprop("fdm/jsbsim/systems/electrical/battery-charge-norm") < 0.1) {
+            FailureMgr._failmgr.logbuf.push("Warning: Battery charge less than 10%!");# dangerous, is private method!
+            me.newFails = 1;
+            me.battChargeReported = 1;
+		} elsif (getprop("fdm/jsbsim/systems/electrical/battery-charge-norm") > 0.11) {
+			me.battChargeReported = 0;
+		}
 	},
 
 	loopFast: func {
@@ -2141,7 +2152,7 @@ var TI = {
 				me.menuButtonBox[20].show();
 			}
 		}
-		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and (getprop("ja37/avionics/gps-nav") == TRUE or(getprop("ja37/avionics/gps-cmd") and me.input.twoHz.getValue()))) {
+		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and (getprop("ja37/avionics/gps-nav") == TRUE or ((getprop("ja37/avionics/gps-bit") or getprop("ja37/avionics/gps-init")) and me.twoHz))) {
 			me.menuButtonBox[15].show();
 		}
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE and getprop("ja37/avionics/gps-nav") == TRUE) {
@@ -3349,14 +3360,24 @@ var TI = {
 			me.wpText2.setFontSize(13, 1.0);
 			me.wpText3.setFontSize(13, 1.0);
 
-			me.wpText4Desc.setText("FOM");
+			me.wpText4Desc.setText("FOM");#figure of merit
 			me.wpText4.setText(getprop("ja37/avionics/gps-nav")?"1":"");
 
-			me.wpText5Desc.setText("MOD");
-			me.wpText5.setText(getprop("ja37/avionics/gps-cmd")?(getprop("ja37/avionics/gps-nav")?"NAV":"INIT"):"BIT");
+			me.wpText5Desc.setText("MOD");# mode
+			me.gps5 = "";
+			if (getprop("ja37/navigation/gps-installed")) {
+				if (getprop("ja37/avionics/gps-nav")) {
+					me.gps5 = "NAV";
+				} elsif (getprop("ja37/avionics/gps-bit")) {
+					me.gps5 = "BIT";
+				} elsif (getprop("ja37/avionics/gps-init")) {
+					me.gps5 = "INIT";
+				}
+			}
+			me.wpText5.setText(me.gps5);
 
-			me.wpText6Desc.setText("FEL");
-			me.wpText6.setText(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":"");
+			me.wpText6Desc.setText(me.interoperability==displays.METRIC?"FEL":"ERR");# error
+			me.wpText6.setText(getprop("ja37/navigation/gps-installed")?(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":""):"FPLDATA");#TODO: Don't know what the real error would look like in FPLDATA case.
 
 			me.wpText2.update();
 			me.wpText3.update();
@@ -3384,7 +3405,7 @@ var TI = {
 				me.wpText2Desc.setText("LON");
 				me.wpText2.setText(ja37.convertDegreeToStringLon(route.Polygon.selectSteer[0].wp_lon));
 				me.wpText2.setFontSize(13, 1.0);
-				if (me.blinkBox2 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox2 == FALSE or me.twoHz) {
 					me.wpText2.show();
 				} else {
 					me.wpText2.hide();
@@ -3394,7 +3415,7 @@ var TI = {
 				me.wpText3Desc.setText("LAT");
 				me.wpText3.setText(ja37.convertDegreeToStringLat(route.Polygon.selectSteer[0].wp_lat));
 				me.wpText3.setFontSize(13, 1.0);
-				if (me.blinkBox3 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox3 == FALSE or me.twoHz) {
 					me.wpText3.show();
 				} else {
 					me.wpText3.hide();
@@ -3407,7 +3428,7 @@ var TI = {
 				}
 				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
 				me.wpText4.setText(me.constraint_alt);
-				if (me.blinkBox4 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox4 == FALSE or me.twoHz) {
 					me.wpText4.show();
 				} else {
 					me.wpText4.hide();
@@ -3420,7 +3441,7 @@ var TI = {
 				}
 				me.wpText5Desc.setText(me.interoperability==displays.METRIC?"M":"M");
 				me.wpText5.setText(me.constraint_speed);
-				if (me.blinkBox5 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox5 == FALSE or me.twoHz) {
 					me.wpText5.show();
 				} else {
 					me.wpText5.hide();
@@ -3433,7 +3454,7 @@ var TI = {
 
 				me.wpText6Desc.setText("TYP");
 				me.wpText6.setText(route.Polygon.selectSteer[0].fly_type);
-				if (me.blinkBox6 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox6 == FALSE or me.twoHz) {
 					me.wpText6.show();
 				} else {
 					me.wpText6.hide();
@@ -3450,7 +3471,7 @@ var TI = {
 
 				me.wpText2Desc.setText("POL");
 				me.wpText2.setText(route.Polygon.editing.getName());
-				if (me.blinkBox2 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox2 == FALSE or me.twoHz) {
 					me.wpText2.show();
 				} else {
 					me.wpText2.hide();
@@ -3463,7 +3484,7 @@ var TI = {
 				me.wpText4Desc.setText(route.Polygon.selectSteer != nil?"LON":"");
 				me.wpText4.setText(route.Polygon.selectSteer != nil?ja37.convertDegreeToStringLon(route.Polygon.selectSteer[0].wp_lon):"");
 				me.wpText4.setFontSize(13, 1.0);
-				if (me.blinkBox4 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox4 == FALSE or me.twoHz) {
 					me.wpText4.show();
 				} else {
 					me.wpText4.hide();
@@ -3472,7 +3493,7 @@ var TI = {
 				me.wpText5Desc.setText(route.Polygon.selectSteer != nil?"LAT":"");
 				me.wpText5.setText(route.Polygon.selectSteer != nil?ja37.convertDegreeToStringLat(route.Polygon.selectSteer[0].wp_lat):"");
 				me.wpText5.setFontSize(13, 1.0);
-				if (me.blinkBox5 == FALSE or me.input.twoHz.getValue()) {
+				if (me.blinkBox5 == FALSE or me.twoHz) {
 					me.wpText5.show();
 				} else {
 					me.wpText5.hide();

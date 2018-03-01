@@ -635,19 +635,50 @@
 
         <switch name="systems/gps/time-steady">
             <default value="sim-time-sec"/>
-            <test logic="OR" value="systems/gps/time-steady">
+            <test logic="AND" value="systems/gps/time-steady">
                 /ja37/avionics/gps-cmd == 1
+                /ja37/navigation/gps-installed == 1
             </test>
         </switch>
+
+        <fcs_function name="systems/gps/time-bit">
+            <function>
+                <sum>
+                    <p>systems/gps/time-steady</p>
+                    <v>10</v>
+                </sum>
+            </function>
+        </fcs_function>
 
         <fcs_function name="systems/gps/time-init">
             <function>
                 <sum>
                     <p>systems/gps/time-steady</p>
-                    <v>30</v>
+                    <v>40</v>
                 </sum>
             </function>
         </fcs_function>
+
+        <switch name="systems/gps/bit">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                sim-time-sec lt systems/gps/time-bit
+                /ja37/avionics/gps-cmd == 1
+                /ja37/navigation/gps-installed == 1
+            </test>
+            <output>/ja37/avionics/gps-bit</output>
+        </switch>
+
+        <switch name="systems/gps/init">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                sim-time-sec lt systems/gps/time-init
+                systems/gps/bit == 0
+                /ja37/avionics/gps-cmd == 1
+                /ja37/navigation/gps-installed == 1
+            </test>
+            <output>/ja37/avionics/gps-init</output>
+        </switch>
 
         <switch name="systems/gps/nav">
             <default value="0"/>

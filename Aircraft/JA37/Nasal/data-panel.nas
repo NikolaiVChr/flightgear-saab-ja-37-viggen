@@ -380,11 +380,31 @@ var main = func {
           digit = 0;
           input = inputDefault;
       } else {
-        if (ok==HOLD and digit == 6 and num(left(input,2))==15) {
-            # set max alpha
+        var address = num(left(input,2));
+        if (ok==HOLD and digit == 6 and address != nil and address==15) {
+            # set interoperability
             var io = num(substr(input,3,1));
             printDA("set interoperability "~io~" ");
-            setprop("ja37/hud/units-metric", !io);
+            if (io == 0 or io == 1) {
+              setprop("ja37/hud/units-metric", !io);
+            } else {
+              error = TRUE;
+            }
+            input = inputDefault;
+            digit = 0;
+        } elsif (ok==HOLD and digit == 6 and address != nil and address==30) {
+            # set GPS Installed
+            var io = num(substr(input,2,1));
+            printDA("set GPS installed "~io~" ");
+            if (io == 0 or io == 1) {
+              setprop("ja37/navigation/gps-installed", io);
+              if (io == 0) {
+                FailureMgr._failmgr.logbuf.push("Main CPU: Detection of GPS unit mismatch!\nRemove physical unit or correct ACDATA.");
+                TI.ti.newFails = 1;
+              }
+            } else {
+              error = TRUE;
+            }
             input = inputDefault;
             digit = 0;
         } elsif (ok==HOLD and digit == 6) {
@@ -593,7 +613,7 @@ var disp = func {
           display = "----LA"
         }
       } else {
-        if (address == 179) {
+        if (address != nil and address == 179) {
           #bulls-eye
           if (cycle == 0) {
             display = "179"
@@ -658,6 +678,9 @@ var disp = func {
       if (address != nil and address==15) {
           # interoperability
           display = sprintf("150%01d00", !getprop("ja37/hud/units-metric"));
+      } elsif (address != nil and address==30) {
+          # GPS Installed
+          display = sprintf("30%01d000", !getprop("ja37/navigation/gps-installed"));
       } else {
         display = "000000";
       }
@@ -739,6 +762,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # FPLDATA
 # interoperability:  15a1cd, swedish: 15a0cd.
 # TI backlit intensity of frame buttons: 06---d
+# GPS-reciever installed: 300bcd (yes), 301bcd (no)
 
 # output UD UT
 #

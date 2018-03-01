@@ -127,11 +127,11 @@ AMAX - Max altitude shown.
 Cursor on TI
 ============
 When cursor is on TI it can be slewed: Pressing key 'y' will toggle slaving flight-controls to the cursor.
-Use trigger to click on something.
+Use trigger to click on something (the click will have to last up till half a second sometimes).
 You can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
-Terrain impact warning will switch the slaving off.
+Terrain impact warning will switch the slaving off, so you get immediate control of the aircraft to avoid terrain impact.
 
 
 
@@ -149,7 +149,7 @@ X2 - LNK - Toggle RB99 telemetry on TI
 
 left buttons
 ------------
-PEK - Cursor toggle. If off then cant lock anything, nor can cursor be shown/slewn on TI.
+PEK - Cursor toggle. If off then radar cannot lock anything, nor can cursor be shown/slewn on TI.
 A - Zoom out on TI
 B - Zoom in on TI
 
@@ -182,7 +182,8 @@ ACDATA:
 - IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.
 - OUT: If 2 first digits entered will show value of address in last 4 digits.
 - ADDRESSES:
-    15axcd Interoperability = 0, Swedish and metric = 0. a, c and d is ignored.
+    15axcd Interoperability = 1, Swedish and metric = 0. a, c and d is ignored.
+    30xbcd GPS Installed = 1, NO GPS = 0. b, c and d is ignored.
 
 REG/STR:
 - IN:  Input 2 digits for address, then either the value you want to set, or switch to OUT.

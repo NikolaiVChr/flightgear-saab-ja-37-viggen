@@ -648,6 +648,8 @@
             <vid type="bool">false</vid>
             <gps-cmd type="bool">false</gps-cmd>
             <gps-nav type="bool">false</gps-nav>
+            <gps-bit type="bool">false</gps-bit>
+            <gps-init type="bool">false</gps-init>
             <ignitionSys type="bool">false</ignitionSys>
             <startSys type="bool">false</startSys>
             <joystick type="bool">false</joystick>
@@ -725,6 +727,7 @@
             <bulls-eye-defined type="bool">false</bulls-eye-defined>
             <bulls-eye-lon type="double">0</bulls-eye-lon>
             <bulls-eye-lat type="double">0</bulls-eye-lat>
+            <gps-installed type="bool">true</gps-installed>
         </navigation>
         <light>
             <ti1 type="double">0</ti1>

@@ -3436,3 +3436,8 @@ Sim: Authors listed in Launcher now includes it0uchpods and Spectre, since the a
 TI: The cursor is now able to select and command steer order on aircraft on SVY instead of randomly whats behind it.
 TI: SVY is no longer shown in MSDA menu. (not 100% sure this is correct, but it makes sense..)
 TI: Made bulls-eye symbol smaller.
+TI: GPS now goes through Build In Test before initializing.
+DAP: If GPS is installed can now be input/output.
+Docs: Fixed typo in DAP-FPLDATA address 15.
+TI: Made the 2Hz blinking more steady.
+TI: Will now report low battery.
