@@ -8,6 +8,7 @@
 
 Some of these features that has to do with multiple flightplans or map-areas, wont work in older than FG 2017.3.1.
 
+
 Flightplans
 ===========
 The aircraft has 6 plans. 4 mission (1-4) and 2 return to base plans (A & B).
@@ -15,6 +16,9 @@ When you switch to another plan, entire plan in route manager will be replaced. 
 See also last section in this document: pre-loading plans.
 If your FG is older than 2017.3.1 you will only have 1 plan, that is used for both mission and RTB.
 Notice since clicking key 'Y' is the same as LS on TI display, this will also switch plan if you are already on a mission plan.
+
+
+
 
 Concise English overview of TI (right color display)
 ==============================
@@ -129,21 +133,29 @@ Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, an
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
 Terrain impact warning will switch the slaving off.
 
+
+
+
+
 Concise English overview of MI on JA-37Di: (center radar display)
 ==========================================
 bottom buttons (hold P3 for help)
 --------------
 2  - SDV - Toggle sideview on TI
 X1 - BIT - RB99 self tests
-X3 - EVN - Register manual event (can be viewed in TRAP menu)
+X3 - EVN - Register manual event (can be viewed in TI TRAP menu)
 M2 - ECM - Toggle ECM on TI
 X2 - LNK - Toggle RB99 telemetry on TI
 
 left buttons
 ------------
-PEK - Cursor toggle. If off then cant lock anything. Nor can cursor be shown/slewn on TI.
+PEK - Cursor toggle. If off then cant lock anything, nor can cursor be shown/slewn on TI.
 A - Zoom out on TI
 B - Zoom in on TI
+
+
+
+
 
 Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 ===================================
@@ -200,6 +212,10 @@ When inputting, pay notice to the switch +/-, as that is the sign of what you in
 
 If POS/MSDA button is in POS mode and the other button in OUT, the display will show steerpoint info.
 
+
+
+
+
 Pre-load flightplans and/or map areas on startup.
 =================================================
 Use these command lines to pass a plan/area in launcher: (they must be in GPX or FG route format)
@@ -225,13 +241,19 @@ Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
 
 If a file cannot get loaded, the console will print a warning.
 
+
+
+
+
 Testing
 =======
 The following conditions must be present before testing:
 --------------------------------------------------------
 - Wheels on ground
-- INS not initializing
-and either
+- INS (Inertial navigation system) not initializing
+
+and either:
+
 - External power supplying
 or
 - DC and AC power on.
@@ -245,11 +267,11 @@ To abort either switch engine starter or click FK.
 Click START/STOPP to start testing. While test of a system is ongoing data-panel minus sign will blink, and the 2 first digits will show which system being tested.
 The result of a test is shown on the data-panel without a minus sign. First 2 digits is the system, next 4 digits is details of the result.
 When a test is successful the green lamp will show.
- You can then click START/STOPP to acknowledge and start test of next system.
+  You can then click START/STOPP to acknowledge and start test of next system.
 When a test is unsuccessful the red lamp will show.
- You can then click START/STOPP to acknowledge and start test of next system.
- Or click FEL to not acknowledge and start next test.
- Or click REP to repeat the test.
+  You can then click START/STOPP to acknowledge and start test of next system.
+  Or click FEL to not acknowledge and start next test.
+  Or click REP to repeat the test.
 During a test you can click START/STOPP to skip to next test.
 When last test has been acknowledged or dis-acknowledged the testing ends.
 For now only AUTO testing can be done, meaning it will test all 20 systems. Testing through TI is not enabled yet.
@@ -274,6 +296,10 @@ Test programs
  16 RHM - Radar altimeter
  17 A73
  18 BEV - Armament
+
+
+
+
 
 Landing
 =======

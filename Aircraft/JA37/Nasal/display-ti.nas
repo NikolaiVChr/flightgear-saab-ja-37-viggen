@@ -263,6 +263,9 @@ var extrapolate = func (x, x1, x2, y1, y2) {
 # Ö = \xC3\x96
 # Ä = \xC3\x84
 
+# degree
+# \xc2\xb0
+
 var dictSE = {
 	'HORI': {'0': [TRUE, "AV"], '1': [TRUE, "RENS"], '2': [TRUE, "P\xC3\x85"]},
 	'0':   {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"]},
@@ -793,17 +796,17 @@ var TI = {
 
 		me.bullsEye = me.rootCenter.createChild("path")
 					.set("z-index", 1)
-				    .moveTo(-20, 0)
-				    .horiz(40)
-				    .moveTo(0, 20)
-				    .vert(-60)
-				    .moveTo(0, -40)
-				    .lineTo(10, -30)
-				    .moveTo(0, -40)
-				    .lineTo(-10, -30)
-	                .moveTo(-20, 0)
-	                .arcSmallCW(20, 20, 0, 40, 0)
-	                .arcSmallCW(20, 20, 0, -40, 0)
+				    .moveTo(-14, 0)
+				    .horiz(28)
+				    .moveTo(0, 14)
+				    .vert(-42)
+				    .moveTo(0, -28)
+				    .lineTo(7, -21)
+				    .moveTo(0, -28)
+				    .lineTo(-7, -21)
+	                .moveTo(-14, 0)
+	                .arcSmallCW(14, 14, 0, 28, 0)
+	                .arcSmallCW(14, 14, 0, -28, 0)
 	                .setStrokeLineWidth(w)
 	                .setColor(COLOR_TYRK);
 
@@ -1612,6 +1615,7 @@ var TI = {
 		ti.SVYsize      = 2;#size 1-3
 		ti.SVYinclude   = SVY_ALL;
 		ti.SVYheight    = 0;
+		ti.SVYoriginY   = 0;
 
 		ti.upText = FALSE;
 		ti.logPage = 0;
@@ -2561,10 +2565,18 @@ var TI = {
 	isCursorOnMap: func {
 		if (me.cursorGPosY < height*0.9-height*0.025*me.upText) {
 			# the cursor is above bottom text field
-			if (me.cursorGPosY > me.SVYheight*me.SVYactive) {
+			if (me.cursorGPosY > me.SVYoriginY*me.SVYactive*(me.menuMain != MAIN_MISSION_DATA)) {
 				# the cursor is below SVY field
 				return TRUE;
 			}
+		}
+		return FALSE;
+	},
+
+	isCursorOnSVY: func {
+		if (me.cursorGPosY < me.SVYoriginY*me.SVYactive) {
+			# the cursor is in SVY field
+			return TRUE;
 		}
 		return FALSE;
 	},
@@ -3031,7 +3043,7 @@ var TI = {
 
 	updateSVY: func {
 		# update and display side view
-		if (me.SVYactive == TRUE) {
+		if (me.SVYactive == TRUE and me.menuMain != MAIN_MISSION_DATA) {#TODO: Find out if SVY really WAS shown in MSDA menu..
 			me.svy_grp2.removeAllChildren();
 			
 			me.SVYoriginX = width*0.05;#texel
@@ -3850,7 +3862,7 @@ var TI = {
   				if (!me.isCursorOnMap()) {
   					me.beText.setText("");
   				} else {
-  					me.beText.setText(sprintf("%03d %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
+  					me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
   				}
   				me.beTextField.show();
   			} elsif (radar_logic.selection != nil) {
@@ -4041,10 +4053,10 @@ var TI = {
 
 	showBottomText: func {
 		#clip is in canvas coordinates
-		me.clip2 = (me.SVYactive*height*0.125+me.SVYactive*height*0.125*me.SVYsize)~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
+		me.clip2 = ((me.menuMain != MAIN_MISSION_DATA)*(me.SVYactive*height*0.125+me.SVYactive*height*0.125*me.SVYsize))~"px, "~width~"px, "~(height-height*0.1-height*0.025*me.upText)~"px, "~0~"px";
 		me.rootCenter.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
 		me.mapCentrum.set("clip", "rect("~me.clip2~")");#top,right,bottom,left
-		me.clip3 = 0~"px, "~width~"px, "~(me.SVYactive*height*0.125+me.SVYactive*height*0.125*me.SVYsize)~"px, "~0~"px";
+		me.clip3 = 0~"px, "~width~"px, "~((me.menuMain != MAIN_MISSION_DATA)*(me.SVYactive*height*0.125+me.SVYactive*height*0.125*me.SVYsize))~"px, "~0~"px";
 		me.svy_grp.set("clip", "rect("~me.clip3~")");#top,right,bottom,left
 		me.bottom_text_grp.setTranslation(0,-height*0.025*me.upText);
 		me.textBArmType.setText(displays.common.currArmNameSh);
@@ -4394,7 +4406,7 @@ var TI = {
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 
-		    	if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger) {
+		    	if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnMap()) {
 					# not in MSDA so check if cursor is clicking on the aircraft
 					me.cursorDistX = me.cursorOPosX-me.pos_xx;
 					me.cursorDistY = me.cursorOPosY-me.pos_yy;
@@ -4438,10 +4450,25 @@ var TI = {
 		    	}
 				me.echoesAircraft[me.currentIndexT].show();
 				me.echoesAircraft[me.currentIndexT].update();
-				if (me.SVYactive == TRUE) {
+				if (me.SVYactive == TRUE and me.menuMain != MAIN_MISSION_DATA) {
 					me.altsvy  = contact.get_altitude()*FT2M;
 					me.distsvy = math.cos(me.angle)*contact.get_Coord().distance_to(geo.aircraft_position());
-					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange, me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt);
+					me.pos_xxx = me.SVYoriginX+me.SVYwidth*me.distsvy/me.SVYrange;
+					me.pos_yyy = me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt;
+					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.pos_xxx, me.pos_yyy);
+
+					if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnSVY()) {
+						# not in MSDA so check if cursor is clicking on the aircraft
+						me.cursorDistX = me.cursorGPosX-me.pos_xxx;
+						me.cursorDistY = me.cursorGPosY-me.pos_yyy;
+						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+						#printf("Cursor clicking cursorOPos:%d,%d cursorRPos:%d,%d cursorGPos:%d,%d pos_:%d,%d", me.cursorOPosX, me.cursorOPosY, me.cursorRPosX, me.cursorRPosY, me.cursorGPosX, me.cursorGPosY, me.pos_xx, me.pos_yy);
+						if (me.cursorDist < 12) {
+							radar_logic.jumpTo(contact);
+							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+						}
+					}
+
 					if (me.boogie == 1) {
 			    		me.echoesAircraftSvyTri[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
 			    		me.echoesAircraftSvyVector[me.currentIndexT].setColor(rGreen,gGreen,bGreen,a);
@@ -4528,7 +4555,7 @@ var TI = {
 		# length = time to travel in 60 seconds.
 		me.spd = me.input.tas.getValue();# true airspeed so can be compared with other aircrafts speed. (should really be ground speed)
 		me.selfVector.setScale(1, clamp((me.spd/60)*NM2M*M2TEX, 1, 750*MM2TEX));
-		if (me.SVYactive == TRUE) {
+		if (me.SVYactive == TRUE and me.menuMain != MAIN_MISSION_DATA) {
 			me.selfVectorSvy.setScale(clamp(((me.spd/60)*NM2M/me.SVYrange)*me.SVYwidth, 1, 750*MM2TEX),1);
 		}
 		if (getprop("ja37/avionics/gps-nav") == TRUE) {

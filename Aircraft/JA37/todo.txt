@@ -177,13 +177,11 @@ Radar: Openradar has no roll and heading. Fix radar to handle that.
 Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.)
 Arms: Should seeker position be shown in MI and HUD for non IR?
 HUD: Do not show rb99 seeker diamond.
-Sim: Make use of 2018.1.1 feature of different startup options: Cold and dark, Ready to start engine, Ready for takeoff.
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 Sim: Startup with engines on, should give no masterwarning from empty battery and inertial navigation should be ready.(maybe altimeter should be preset too)
-TI: Make DAP inputing for textfields blink with update rate.
-TI: The cursor should be able to select steer order on aircraft on SVY instead of randomly whats behind it.
+TI: Make DAP inputing for textfields blink with update rate. (its at 2Hz, but seems to blink with 1Hz)
 
 
 
@@ -199,10 +197,11 @@ Electronic map should not work, before inertial navigation has finished initiali
 The FPI in HUD was really limited to +- 7.5 degs lateral.
 In the orig plane the HUD decimal delimiter is ',' not '.'.
 VOR, ADF navigation, the real did not have this.
-Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers.
-Aerobatic smoke.
-TI: Delete, append or insert steerpoint should really be controlled from radar stick.
-TI: OPT should really be a button on the flightstick.
+Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only work on carriers. Was not on the real.
+Aerobatic smoke, the real probably didn't have.
+TI: Delete, append or insert steerpoint should really be controlled from radar stick, not be part of TI menu.
+TI: OPT should really be a button on the flightstick, not be part of TI menu.
+In the real nav. panel you could select between 4 bases plus STRILL supplied base. Each could have A & B return-to-base plans. So that makes up to 10 RTB plans, instead of the current 2.
 
 Bugs:
 --------------

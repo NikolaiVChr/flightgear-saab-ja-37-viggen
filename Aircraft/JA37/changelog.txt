@@ -3431,3 +3431,8 @@ TI: Can now show/edit bulls-eye.
 TI: Bulls-eye infobox shows relation from bulls-eye to cursor. When cursor is in SVY or bottom textfield, infobox turns off.
 DAP: Can now edit or delete bulls-eye (edit LV-area 179).
 TI: When cursor not active bulls-eye show relation to radar selection.
+TI: Bulls-eye infobox now uses degree symbol.
+Sim: Authors listed in Launcher now includes it0uchpods and Spectre, since the authors font is smaller in 2018.1.1.
+TI: The cursor is now able to select and command steer order on aircraft on SVY instead of randomly whats behind it.
+TI: SVY is no longer shown in MSDA menu. (not 100% sure this is correct, but it makes sense..)
+TI: Made bulls-eye symbol smaller.
