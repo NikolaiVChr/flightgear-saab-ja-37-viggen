@@ -81,9 +81,9 @@ Sim: The A/P for glideslope is not very reliable, fix.
 Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup.
 Sim: Make so that flares cannot be used after aircraft has crashed.
 Sim: Check terrain warning for when gears is down/landing mode in manual. (its now set to gears down detect)
-Sim: Using data panel an extra bingo fuel warning can be added. % above standard warning is entered. Landing clears it, so does pressing master warning silence.
+Sim: Using data panel an extra bingo fuel warning can be added. % above standard warning is entered. Landing clears it, so does pressing master warning silence. (think its made, dont remember)
 Sim: Flightgear has a built in inertial navigations system. Use that to simulate INS.
-Arms: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode.
+Arms: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode. In DAP, burst number for OP can be entered.
 Arms: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Arms: Be able to notch the rb71 again.
 Arms: Make weapons hit all nearby targets.
@@ -115,7 +115,7 @@ HUD: In OPT mode, the sink rate is only at low altitudes, before that its 1:20.
 TI: Show lat/lon grid in menu UDAT.
 TI: Select self.
 TI: When inertial navigation is not ready and GPS is off, don't show moving map.
-TI: Make radar limit on SVY.
+TI: Make radar limit on SVY. (first radar should be changed to scan and beam be more vertically narrow)
 TI: Add missiles to SVY.
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: Make route info with overall ETA.
@@ -175,7 +175,7 @@ Arms: The auto pattern scan should not jump from bottom to top.
 Radar: Openradar has no roll and heading. Fix radar to handle that.
 Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.)
 Arms: Should seeker position be shown in MI and HUD for non IR?
-HUD: Do not show rb99 seeker diamond.
+HUD: Do not show rb99 seeker diamond. (not sure if I haven't fixed)
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
