@@ -276,7 +276,7 @@ var dictSE = {
 	 		'14': [TRUE, "JAKT"], '15': [FALSE, "HK"],'16': [TRUE, "\xC3\x85POL"], '17': [TRUE, "L\xC3\x85"], '18': [TRUE, "LF"], '19': [TRUE, "LB"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 	 		'2': [TRUE, "INL\xC3\x84"], '3': [TRUE, "AVFY"], '4': [TRUE, "FALL"], '5': [TRUE, "MAN"], '6': [TRUE, "S\xC3\x84TT"], '7': [TRUE, "MENY"], '14': [TRUE, "RENS"],
-	 		'17': [FALSE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
+	 		'17': [TRUE, "ALLA"], '19': [TRUE, "NED"], '20': [TRUE, "UPP"]},
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
@@ -307,7 +307,7 @@ var dictEN = {
 	 		'14': [TRUE, "FGHT"], '15': [FALSE, "ACRV"],'16': [TRUE, "RPOL"], '17': [TRUE, "LR"], '18': [TRUE, "LT"], '19': [TRUE, "LS"],'20': [TRUE, "L"]},
 	'TRAP':{'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 	 		'2': [TRUE, "LOCK"], '3': [TRUE, "FIRE"], '4': [TRUE, "ECM"], '5': [TRUE, "MAN"], '6': [TRUE, "LAND"], '7': [TRUE, "MENU"], '14': [TRUE, "CLR"],
-	 		'17': [FALSE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
+	 		'17': [TRUE, "ALL"], '19': [TRUE, "DOWN"], '20': [TRUE, "UP"]},
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
@@ -1606,6 +1606,7 @@ var TI = {
 		ti.trapLock     = FALSE;
 		ti.trapECM      = FALSE;
 		ti.trapLand     = FALSE;
+		ti.trapAll      = FALSE;
 
 		# SVY
 		ti.SVYactive    = FALSE;
@@ -1864,12 +1865,18 @@ var TI = {
 					me.buffer = armament.ecmLog;
 					me.bufferStr = "       ECM log:\n";
 					me.drawLog = TRUE;
+				} elsif (me.trapAll == TRUE) {
+					me.bufferContent = events.combineBuffers([armament.ecmLog.get_buffer(), me.logLand.get_buffer(), radar_logic.lockLog.get_buffer(), me.logEvents.get_buffer(), armament.fireLog.get_buffer()]);
+					me.bufferStr = "       All logs:\n";
+					me.drawLog = TRUE;
 				}
 				if (me.drawLog == TRUE) {
 					me.hideMap();
 					me.logRoot.show();
 					call(func {
-						me.bufferContent = me.buffer.get_buffer();
+						if (me.trapAll == FALSE) {
+							me.bufferContent = me.buffer.get_buffer();
+						}
 						me.str = me.bufferStr;
 		    			foreach(entry; me.bufferContent) {
 		      				me.str = me.str~"    "~entry.time~" "~entry.message~"\n";
@@ -2133,6 +2140,8 @@ var TI = {
 					me.menuButtonBox[5].show();
 				} elsif (me.trapLand == TRUE) {
 					me.menuButtonBox[6].show();
+				} elsif (me.trapAll == TRUE) {
+					me.menuButtonBox[17].show();
 				}			
 			}
 		}
@@ -2469,6 +2478,7 @@ var TI = {
 		me.trapLock = FALSE;
 		me.trapECM  = FALSE;
 		me.trapLand = FALSE;
+		me.trapAll  = FALSE;
 	},
 
 
@@ -2531,7 +2541,7 @@ var TI = {
 			me.tgt = radar_logic.selection.get_Callsign();
 		}
 		me.echoes = size(radar_logic.tracks);
-		me.message = sprintf("\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
+		me.message = sprintf("Pilot entered event\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
 			me.input.ias.getValue(),
 			me.input.headMagn.getValue(),
 			me.input.alt_ft.getValue(),
@@ -4704,6 +4714,7 @@ var TI = {
 		me.trapMan   = FALSE;
 		me.trapECM   = FALSE;
 		me.trapLand  = FALSE;
+		me.trapAll   = FALSE;
 	},
 
 
@@ -5260,6 +5271,11 @@ var TI = {
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
 				land.LA();
+			} elsif (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE) {
+				# tact reports (all of them)
+				me.closeTraps();
+				me.trapAll = TRUE;
+				me.quickOpen = 10000;
 			}
 			if(me.menuMain == MAIN_DISPLAY) {
 				me.displayFlight += 1;
@@ -5336,7 +5352,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand  == TRUE)) {
+			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapAll == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand  == TRUE)) {
 				me.logPage += 1;
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
@@ -5389,7 +5405,7 @@ var TI = {
 				me.quickTimer = me.input.timeElapsed.getValue();
 				me.quickOpen = 3;
 			}
-			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand == TRUE)) {
+			if(math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == TRUE and (me.trapFire == TRUE or me.trapAll == TRUE or me.trapMan == TRUE or me.trapLock == TRUE or me.trapECM == TRUE or me.trapLand == TRUE)) {
 				me.logPage -= 1;
 				if (me.logPage < 0) {
 					me.logPage = 0;

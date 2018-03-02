@@ -82,7 +82,7 @@ DL - STRILL data-link  (not implemented)
 LR - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL - Mission polygon
 RPOL - RTB polygon
-CC - Steer order from radar on selected radar echo. Only work in air.
+CC - Steer order from radar on selected radar echo. Only work in air. ('f' key does the same)
 OFF/EP - Turn off EP12 Electronic presentations (MI+TI displays). Only work on ground.
 ACRV - Attack curve (not implemented)
 FGHT - Fighter mode. HUD shows IAS
@@ -92,10 +92,11 @@ TRAP
 ----
 LOCK - Radar lock events
 FIRE - Weapon fire events
-ECM  - Weapon hit events (unauthentic)
+ECM  - Weapon hit events and radar-silence events.
 MAN  - Manual events log
 LAND - Landing events
 CLR  - Clear all TRAP.
+ALL  - Show all tactical reports on one page.
 DOWN - scroll down
 UP   - scroll up
 

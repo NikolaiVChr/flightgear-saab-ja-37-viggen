@@ -80,7 +80,7 @@ var LogBuffer = {
 		var stamp = getprop("/sim/time/gmt-string");
 		if (me.echo) print(stamp, " ", message);
 
-		me.buffer[me.wp] = { time: stamp, message: message };
+		me.buffer[me.wp] = { time: stamp, message: message, simTime: getprop("sim/time/elapsed-sec")};
 		me.wp += 1;
 		if (me.wp == me.max_messages) {
 			me.wp = 0;
@@ -106,3 +106,22 @@ var LogBuffer = {
 			me.buffer[0:me.wp-1];
 	}
 };
+
+var combineBuffers = func (buffers) {
+	var combined = [];
+	foreach(var buffer; buffers) {
+		foreach(var item; buffer) {
+			append(combined, item);
+		}
+	}
+	var sorter = func(a, b) {
+	    if(a.simTime < b.simTime){
+	        return -1; # A should before b in the returned vector
+	    }elsif(a.simTime == b.simTime){
+	        return 0; # A is equivalent to b 
+	    }else{
+	        return 1; # A should after b in the returned vector
+	    }
+	}
+	return sort(combined, sorter);
+}

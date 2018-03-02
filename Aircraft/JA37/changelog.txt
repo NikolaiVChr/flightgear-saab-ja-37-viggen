@@ -3445,3 +3445,4 @@ Docs: Updated JA readme with bulls-eye menu item and heatseeker specific items.
 HUD: Fixed some code that used radar to get info on IR lock, instead of missile.
 MI: Cursor can now select and unselect radar echoes. And cursor speed doubled.
 Sim: Startup with engines on, now give no masterwarning from empty battery.
+TI: SYST-TRAP-ALL menu item is now functional.
