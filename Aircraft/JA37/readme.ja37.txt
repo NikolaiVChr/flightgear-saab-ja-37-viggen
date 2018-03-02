@@ -160,10 +160,11 @@ Cursor on TI/MI
 The cursor can be slewed: Pressing key 'y' will toggle slaving flight-controls to the cursor instead.
 Terrain impact warning will switch the slaving off, so you get immediate control of the aircraft to avoid terrain impact.
 Per default the cursor is located on the MI display. See the DISP menu on the TI on how to transfer it between displays.
-Use trigger to click on something (the click will have to last up till half a second sometimes).
+Use trigger to click on something (the click will have to last up till half a second on the TI sometimes).
 On the TI you can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
+When clicking on a radar echo in MI, it get selected/locked. Same for TI, but on the TI it will also set steer order on that echo.
 
 
 

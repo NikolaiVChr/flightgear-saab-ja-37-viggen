@@ -1328,6 +1328,10 @@ var main_init = func {
   test_support();
 
   hack.init();
+  if (getprop("ja37/systems/state") != "parked") {
+    # to prevent battery from starting drained when choosing state with engine on we have to delay turning it on.
+    setprop("controls/electric/battery", TRUE);
+  }
   #setprop("ja37/avionics/master-warning-button", 0);# for when starting up with engines running, to prevent master warning.
 
 #  aircraft.data.add("ja37/radar/enabled",

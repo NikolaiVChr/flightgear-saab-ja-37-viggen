@@ -180,6 +180,10 @@ var MI = {
       	mi.helpTime = 0;
       	mi.cursorPosX = 0;
       	mi.cursorPosY = 0;
+      	mi.cursorTriggerPrev = FALSE;
+      	mi.cursorManuallyLocked = FALSE;
+      	mi.selection_updated = FALSE;
+      	mi.preventRelock = FALSE;
 
       	return mi;
 	},
@@ -313,8 +317,8 @@ var MI = {
 		        .setColor(r,g,b, a);
 
 		me.cursor_grp = me.rootCenter.createChild("group");
-		me.cursor_grp2 = me.cursor_grp.createChild("group");
 		me.cursor_grp_trans = me.cursor_grp.createTransform();
+		me.cursor_grp2 = me.cursor_grp.createChild("group");		
 		me.cursor_lock = me.cursor_grp2.createChild("path")
 				.moveTo(-ticksShort, 0)
 	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
@@ -665,6 +669,7 @@ var MI = {
 		me.displayGroundCollisionArrow();
 		me.showAltLines();
 		me.displaySeeker();
+		me.showCursor();#must be before radar tracks, but after displayFPI
 		me.displayRadarTracks();#must be after displayFPI
 		me.displayHeadingScale();#must be after radar tracks
 		me.altScale();
@@ -891,6 +896,88 @@ var MI = {
 	    }
 	},
 
+	rotate: func (angle_deg, x, y) {
+		# mimic a canvas rotation
+		me.sin = math.sin(angle_deg * D2R);
+		me.cos = math.cos(angle_deg * D2R);
+
+		return [x * me.cos + y * me.sin,-(x * me.sin - y * me.cos)];
+	},
+
+	showCursor: func {
+		if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
+
+        	if(!getprop("/ja37/systems/input-controls-flight")) {
+        		me.cursorTrigger = getprop("controls/armament/trigger");
+
+        		if (me.selection_updated == FALSE) {
+        			# we are free to move cursor
+					me.cursorSpeedY = getprop("fdm/jsbsim/fcs/elevator-cmd-norm");
+					me.cursorSpeedX = getprop("fdm/jsbsim/fcs/aileron-cmd-norm");
+					me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
+					me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
+					me.cursorPosX  += me.cursorMoveX;
+					me.cursorPosY  += me.cursorMoveY;
+					me.cursorPosX   = clamp(me.cursorPosX, -60*texel_per_degree,  60*texel_per_degree);
+					me.cursorPosY   = clamp(me.cursorPosY, -60*texel_per_degree,  60*texel_per_degree);
+					me.cursor.setTranslation(me.cursorPosX, me.cursorPosY);
+					#me.cursorTPosY  = me.cursorPosY - texel_per_degree * getprop("orientation/pitch-deg");
+					#me.rot = getprop("orientation/roll-deg") * D2R;
+					#rotate me.cursorOPos with me.rot
+					#me.sin = -math.sin(-me.rot);
+					#me.cos = math.cos(-me.rot);
+
+					var rot = me.rotate(-getprop("orientation/roll-deg"), me.cursorPosX + me.fpi_x, me.cursorPosY + me.fpi_y);
+
+					me.cursorOPosX = rot[0];
+					me.cursorOPosY = rot[1] - texel_per_degree * getprop("orientation/pitch-deg");
+
+					#printf("(%d,%d) %d", me.fpi_x, me.fpi_y, texel_per_degree * getprop("orientation/pitch-deg"));
+
+					#me.echoes[maxTracks-1].setColor(1,0,0);
+					#me.echoes[maxTracks-1].setTranslation(me.cursorOPosX,me.cursorOPosY);
+					#me.echoes[maxTracks-1].show();
+					#me.echoes[maxTracks-1].update();
+
+					me.aim9 = displays.common.armActive();
+					if (me.aim9 != nil and me.aim9.isSlave() and me.aim9.status != armament.MISSILE_LOCK) {
+						me.aim9.commandDir(me.cursorPosX/texel_per_degree, -me.cursorPosY/texel_per_degree);
+					} elsif (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
+						me.aim9.commandRadar();
+					}
+					me.cursor.show();
+				} else {
+					me.cursor.hide();# the lock cursor is shown instead
+					me.preventRelock = TRUE;
+					if (me.cursorTrigger and !me.cursorManuallyLocked) {
+						# cursor click but did not select anything, so we deselect
+						#if (radar_logic.selection != nil) print("deselect");#TODO: Should cursor move to where the lock cursor was?
+						radar_logic.setSelection(nil);
+					}
+				}
+				
+				#printf(" %d %d !%d", me.cursorTrigger, me.cursorTriggerPrev, me.cursorManuallyLocked);
+				if (!me.cursorTrigger and !me.cursorTriggerPrev) {
+					#print("stop cursorManuallyLocked");
+					me.cursorManuallyLocked = FALSE;
+					me.preventRelock = FALSE;
+				}
+			} else {
+				if (me.selection_updated == FALSE) {
+					me.cursor.show();
+				} else {
+					me.cursor.hide();# the lock cursor is shown instead
+				}
+				me.cursorManuallyLocked = FALSE;
+				me.cursorTrigger = FALSE;
+			}
+        } else {
+        	me.cursorManuallyLocked = FALSE;
+        	me.cursorTrigger = FALSE;
+        	me.cursor.hide();
+        }
+	},
+
 	displayRadarTracks: func () {
 
 		var mode = canvas_HUD.mode;
@@ -930,35 +1017,11 @@ var MI = {
 	      }
 	      if(me.selection_updated == FALSE) {
 	        me.echoes[0].hide();
-	        if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
-	        	me.aim9 = displays.common.armActive();
-	        	if(!getprop("/ja37/systems/input-controls-flight")) {
-					me.cursorSpeedY = getprop("fdm/jsbsim/fcs/elevator-cmd-norm");
-					me.cursorSpeedX = getprop("fdm/jsbsim/fcs/aileron-cmd-norm");
-					me.cursorMoveY  = 150 * 0.05 * me.cursorSpeedY;
-					me.cursorMoveX  = 150 * 0.05 * me.cursorSpeedX;
-					me.cursorPosX  += me.cursorMoveX;
-					me.cursorPosY  += me.cursorMoveY;
-					me.cursorPosX   = clamp(me.cursorPosX, -60*texel_per_degree,  60*texel_per_degree);
-					me.cursorPosY   = clamp(me.cursorPosY, -60*texel_per_degree,  60*texel_per_degree);
-					me.cursor.setTranslation(me.cursorPosX, me.cursorPosY);
-					
-					if (me.aim9 != nil and me.aim9.isSlave() and me.aim9.status != armament.MISSILE_LOCK) {
-						me.aim9.commandDir(me.cursorPosX/texel_per_degree, -me.cursorPosY/texel_per_degree);
-					} elsif (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
-						me.aim9.commandRadar();
-					}
-				}
-	        	me.cursor.show();
-	        } else {
-	        	me.cursor.hide();
-	        }
 	      } else {
         	me.aim9 = displays.common.armActive();
         	if (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
 				me.aim9.commandRadar();
 			}
-        	me.cursor.hide();
           }
 	      
 	      # draw selection
@@ -993,6 +1056,8 @@ var MI = {
 	      me.tgt_bug  = nil;
 	      me.radar_group.hide();
 	    }
+	    radar_logic.jump2Execute();
+	    me.cursorTriggerPrev = me.cursorTrigger;
 	},
 
 	displayRadarTrack: func (hud_pos) {
@@ -1017,6 +1082,18 @@ var MI = {
 
 		if(me.currentIndexT > -1) {
 			me.echoes[me.currentIndexT].setTranslation(me.pos_xx*texel_per_degree, me.pos_yy*texel_per_degree);
+			if (me.cursorTrigger and !me.cursorTriggerPrev and !me.preventRelock) {
+				me.cursorDistX = me.cursorOPosX-me.pos_xx*texel_per_degree;
+				me.cursorDistY = me.cursorOPosY-me.pos_yy*texel_per_degree;
+				me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+				#printf("testing %d",me.cursorDist);
+				if (me.cursorDist < 12) {#
+					#print("less than 20");
+					radar_logic.jump2To(hud_pos);
+					me.cursorManuallyLocked = TRUE;
+					#me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+				}
+			}
 			me.echoes[me.currentIndexT].show();
 			me.echoes[me.currentIndexT].update();
 			if (hud_pos.get_type() == radar_logic.ORDNANCE) {

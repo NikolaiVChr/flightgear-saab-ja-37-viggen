@@ -844,6 +844,25 @@ var jumpExecute = func {
   }
 };
 
+var jumper2 = nil;
+
+var jump2To = func (c) {
+  jumper2 = c;
+};
+
+var jump2Execute = func {
+  if (jumper2 != nil) {
+    var index = containsVectorIndex(tracks, jumper2);
+    if (index != -1) {
+      selection = jumper2;
+      radarLogic.paint(selection.getNode(), TRUE);
+      lookatSelection();
+      tracks_index = index;
+    }
+    jumper2 = nil;
+  }
+};
+
 var lookatSelection = func () {
   props.globals.getNode("/ja37/radar/selection-heading-deg", 1).unalias();
   props.globals.getNode("/ja37/radar/selection-pitch-deg", 1).unalias();

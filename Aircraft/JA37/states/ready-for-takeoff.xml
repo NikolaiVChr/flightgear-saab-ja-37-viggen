@@ -23,7 +23,6 @@
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
                     <electrical>
-                        <battery-drain-norm type="double">1</battery-drain-norm>
                     </electrical>
                 </systems>
             </jsbsim>
@@ -46,7 +45,7 @@
                     <generator type="bool">true</generator>
                 </engine>
                 <main type="bool">true</main>
-                <battery type="bool">true</battery>
+                <battery type="bool">false</battery>
                 <reserve type="bool">false</reserve>
                 <lights-ext-flash type="bool">true</lights-ext-flash>
                 <lights-ext-beacon type="bool">true</lights-ext-beacon>

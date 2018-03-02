@@ -129,7 +129,6 @@ TI: Edit polygon and MMAN should auto move cursor to TI.
 TI: MSDA map should be north oriented (at least when MMAN is on).
 TI: Slew cursor using a dialog touchpad.
 TI: Menu CONF-READDATA should show a static page.
-MI: Slew cursor.
 MI: Implement radar sweep.
 MI: Improve mark event [X3]
 MI: Improve BIT test. [X1]
@@ -180,7 +179,7 @@ HUD: Do not show rb99 seeker diamond.
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
-Sim: Startup with engines on, should give no masterwarning from empty battery and inertial navigation should be ready.(maybe altimeter should be preset too)
+Sim: Startup with engines on, should have inertial navigation ready. (maybe altimeter should be preset too)
 TI: Make DAP inputing for textfields blink with update rate. (its at 2Hz, but seems to blink with 1Hz)
 
 
