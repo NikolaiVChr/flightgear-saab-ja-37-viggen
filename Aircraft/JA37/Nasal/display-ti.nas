@@ -289,7 +289,7 @@ var dictSE = {
 	'13':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'5': [TRUE, "SVY"], '6': [TRUE, "FR28"], '7': [TRUE, "MENY"], '14': [TRUE, "GPS"], '19': [FALSE, "L\xC3\x84S"]},
 	'GPS': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
-			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
+			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [TRUE, "INIT"]},
 	'SVY': {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'5': [TRUE, "F\xC3\x96ST"], '6': [TRUE, "VISA"], '7': [TRUE, "MENU"], '14': [TRUE, "SKAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "HMAX"]},
 };
@@ -320,7 +320,7 @@ var dictEN = {
 	'13':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'5': [TRUE, "SIDV"], '6': [TRUE, "FR28"], '7': [TRUE, "MENU"], '14': [TRUE, "GPS"], '19': [FALSE, "READ"]},
 	'GPS': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
-			'7': [TRUE, "MENU"], '14': [TRUE, "FIX"], '15': [TRUE, "INIT"]},
+			'7': [TRUE, "MENU"], '14': [FALSE, "FIX"], '15': [TRUE, "INIT"]},
 	'SIDV': {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'5': [TRUE, "WIN"], '6': [TRUE, "SHOW"], '7': [TRUE, "MENU"], '14': [TRUE, "SCAL"], '15': [TRUE, "RMAX"], '16': [TRUE, "AMAX"]},
 };
@@ -5184,18 +5184,18 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == TRUE) {
 				# GPS fix
-				if (getprop("ja37/avionics/gps-nav") == TRUE) {
-					  me.coord = geo.aircraft_position();
-
-					  me.ground = geo.elevation(me.coord.lat(), me.coord.lon());
-    				  if(me.ground != nil) {
-      						me.coord.set_alt(me.ground);
-      				  }
-
-					  me.contact = radar_logic.ContactGPS.new("FIX", me.coord);
-
-					  radar_logic.setSelection(me.contact);
-				}
+#				if (getprop("ja37/avionics/gps-nav") == TRUE) {
+#					  me.coord = geo.aircraft_position();
+#
+#					  me.ground = geo.elevation(me.coord.lat(), me.coord.lon());
+#    				  if(me.ground != nil) {
+#      						me.coord.set_alt(me.ground);
+#      				  }
+#                                                                                    disabled feature since this is not what the fix is for
+#					  me.contact = radar_logic.ContactGPS.new("FIX", me.coord);
+#
+#					  radar_logic.setSelection(me.contact);
+#				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuSvy == TRUE) {
 				# svy scale

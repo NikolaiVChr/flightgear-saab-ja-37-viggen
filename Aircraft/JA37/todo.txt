@@ -181,6 +181,13 @@ GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixe
 Sim: Startup with engines on, should have inertial navigation ready. (maybe altimeter should be preset too)
 TI: Prioritize showing only 10 FF/LV points.
 Effect: Fix that with engine off, the wind can drive the fan which will produce smoke.
+TI: Be able to set steerorder to LV or FF points.
+TI: Cursor should be able to select and then relocate a FF or LV point in MSDA menu.
+
+
+
+
+
 
 
 
