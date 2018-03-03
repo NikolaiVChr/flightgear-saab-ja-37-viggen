@@ -226,8 +226,36 @@ var main = func {
           }
           input = inputDefault;
           digit = 0;
-        } elsif (ok==HOLD and digit == 3 and cycle == 0) {
-          if (input == "179---" and settingSign == 1) {
+        } elsif ((ok==HOLD or l==HOLD) and digit == 3 and cycle == 0) {
+          var address = num(left(input,3));
+          if (address != nil and address >= 1 and address < 190 and settingSign == 1) {
+            digit = 0;
+            input = manyChar(charDefault, 7);
+            cycleDisp();
+            lv_temp = lv["p"~sprintf("%03d", address)];
+            if (lv_temp == nil) {
+              var ptype = 0; # LV
+              var pcolor = 0;# red
+              var radius = 8;# km
+              
+              if (address >= 1 and address <= 39) {
+                radius = 5;
+              } elsif (address >= 100 and address <= 109) {
+                radius = -1;
+                ptype = 1;
+                pcolor = 2;
+              } elsif (address >= 110 and address <= 178) {
+                radius = 15;
+              } elsif (address >= 180 and address <= 189) {
+                radius = 40;
+              }
+              if (l == HOLD and !(address >= 100 and address <= 109)) {
+                pcolor = 1;#yellow
+              }
+              lv_temp = {address: address, color: pcolor, radius: radius, type: ptype};
+            }
+            printDA("DAP request for LV/FF point.");
+          } elsif (input == "179---" and settingSign == 1) {
             digit = 0;
             input = manyChar(charDefault, 7);
             cycleDisp();
@@ -248,6 +276,12 @@ var main = func {
               setprop("ja37/navigation/bulls-eye-defined", FALSE);
               printDA("DAP: Bulls-eye deleted.");
             }
+            foreach(key; keys(lv)) {
+              if (lv[key].address >= low and lv[key].address <= high) {
+                printDA("DAP: deleting point "~lv[key].address);
+                delete(lv,key);
+              }
+            }
           } else {
             error = TRUE;
             digit = 0;
@@ -259,11 +293,16 @@ var main = func {
             printDA("set B_E lon "~sign~input);
             var deg = ja37.stringToLon(sign~input);
             if (deg != nil) {
-              setprop("ja37/navigation/bulls-eye-lon", deg);
+              if (lv_temp.address == 179) {
+                setprop("ja37/navigation/bulls-eye-lon", deg);
+                printDA("DAP TI bulls-eye longitude edited.");
+              } else {
+                lv_temp.lon = deg;
+                printDA("DAP TI point longitude edited.");
+              }
               cycleDisp();
               input = inputDefault;
-              digit = 0;
-              printDA("DAP TI bulls-eye longitude edited.");
+              digit = 0;              
             } else {
               error = TRUE;
               digit = 0;
@@ -275,12 +314,19 @@ var main = func {
             printDA("set B_E lat "~sign~input);
             var deg = ja37.stringToLat(sign~input);
             if (deg != nil) {
-              setprop("ja37/navigation/bulls-eye-lat", deg);
-              setprop("ja37/navigation/bulls-eye-defined", TRUE);
+              if (lv_temp.address == 179) {
+                setprop("ja37/navigation/bulls-eye-lat", deg);
+                setprop("ja37/navigation/bulls-eye-defined", TRUE);
+                printDA("DAP TI bulls-eye latitude edited. Bulls-eye enabled.");
+              } else {
+                lv_temp.lat = deg;
+                lv["p"~sprintf("%03d", lv_temp.address)] = lv_temp;
+                printDA("DAP TI point longitude edited. Point activated.");
+                #debug.dump(lv);
+              }
               cycleDisp();
               input = inputDefault;
               digit = 0;
-              printDA("DAP TI bulls-eye latitude edited. Bulls-eye enabled.");
             } else {
               error = TRUE;
               digit = 0;
@@ -626,6 +672,28 @@ var disp = func {
             var lat = ja37.convertDegreeToDispStringLat(la);
             display = sprintf("%s",lat);
           }
+        } elsif (address != nil and address > 1 and address < 190) {
+          if (cycle == 0) {
+            display = sprintf("%03d", address);
+          } elsif (cycle == 1) {
+            var point = lv["p"~sprintf("%03d", address)];
+            if (point != nil) {
+              var lo = point.lon;
+              var lon = ja37.convertDegreeToDispStringLon(lo);
+              display = sprintf("%s",lon);
+            } else {
+              display = "------";
+            }
+          } else {
+            var point = lv["p"~sprintf("%03d", address)];
+            if (point != nil) {
+              var la = point.lon;
+              var lat = ja37.convertDegreeToDispStringLat(la);
+              display = sprintf("%s",lat);
+            } else {
+              display = "------";
+            }
+          }
         }
       }
     } elsif (settingKnob == KNOB_LOLA) {
@@ -783,6 +851,28 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # P/LO/LA
 # for LV points 1 yellow, 8 red then black, then P
 # 
+# address  rad col typ
+# 1-39     5km  ry LV
+# 40-99    8km  ry LV
+# 100-109 3.5mm  t FF 
+# 110-178 15km  ry LV
+# 180-189 40km  ry LV
+# 190-199 15km   r STRIL LV number always on
+# 
+# TI/MSDA=number
+# FF number is right and north
+# LV number is middle and north
+# max 10 LV shown at once, closest to point 22km in front of plane
+# L=yellow OK=red at address input
+
+var lv = {
+  # address, color (0=red 1=yellow 2=tyrk), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL), lon, lat
+  # note address 179 is stores as properties, not in this struct.
+  #p20: {address: 020, color: 1, radius: 5, type: 0, lon: -115.784, lat: 37.218},#example
+  #p105: {address: 105, color: 2, radius: -1, type: 1, lon: -115.784, lat: 37.218},#example
+};
+
+var lv_temp = nil;# temp storage of LV point when its being edited.
 
 # normal mode POS UT
 #
@@ -801,6 +891,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # UT = output
 
 var ok          = RELEASE;
+var l           = RELEASE;
 var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
 var settingSign = getprop("ja37/navigation/ispos")==MINUS?-1:1;
@@ -911,6 +1002,26 @@ var okRelease = func {
     return;
   }
   ok = RELEASE;
+  main();
+}
+
+var lPress = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  l = HOLD;
+  main();
+}
+
+var lRelease = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  l = RELEASE;
   main();
 }
 

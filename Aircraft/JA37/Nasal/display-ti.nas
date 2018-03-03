@@ -341,6 +341,7 @@ var TI = {
 	# 		ecm 0
 	#       bulls-eye 1
 	# 		airports 2
+	#       LV/FF    2
 	# 		mapScale 3
 	# 		radar echoes 5
 	# 		steerpoints 6
@@ -509,6 +510,9 @@ var TI = {
 			  .lineTo(0, -1*MM2TEX)
 			  .setColor(rWhite,gWhite,bWhite, a)
 		      .setStrokeLineWidth(w);
+
+		me.ppGrp = me.rootCenter.createChild("group")
+			.set("z-index", 2);
 
 		# main radar and SVY group
 		me.radar_group = me.rootCenter.createChild("group")
@@ -1751,6 +1755,7 @@ var TI = {
 		me.showSteerPoints();
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
+		me.showLVFF();
 		me.showTargetInfo();#must be after displayRadarTracks
 		me.updateMapNames();
 		me.showBasesNear();		
@@ -3921,6 +3926,68 @@ var TI = {
 			me.beTextField.hide();
 			me.bullsEye.hide();
 		}
+  	},
+
+  	showLVFF: func {
+  		# LV and FF points
+  		#
+  		# address, color (0=red 1=yellow 2=tyrk), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL), lon, lat
+
+  		me.lv = dap.lv;
+  		me.ppGrp.removeAllChildren();
+  		foreach(me.lvp;keys(me.lv)) {
+  			# for now just paint all of them and hope the pilot do not input tons at the same time
+  			me.pp = me.lv[me.lvp];
+
+  			me.ppCol = me.pp.color==0?COLOR_RED:(me.pp.color==1?COLOR_YELLOW:COLOR_TYRK);
+  			me.ppRad = me.pp.radius==-1?15:M2TEX*me.pp.radius*1000;
+  			me.ppNum = sprintf("%03d",me.pp.address);
+  			me.ppXY  = me.laloToTexel(me.pp.lat, me.pp.lon);
+
+  			if (me.pp.type==1) {
+  				# FF
+  				me.ppGrp.createChild("group")
+  						.setTranslation(me.ppXY[0], me.ppXY[1])
+  				        .createChild("path")
+  						.moveTo(me.ppRad, me.ppRad)
+  						.horiz(-me.ppRad*2)
+  						.vert(-me.ppRad*2)
+  						.horiz(me.ppRad*2)
+  						.vert(me.ppRad*2)
+  						.setRotation(-getprop("orientation/heading-deg")*D2R)
+  						.setColor(me.ppCol)
+  						.setStrokeLineWidth(w);
+  				if (me.menuMain==MAIN_MISSION_DATA or dap.settingKnob == dap.KNOB_TI) {
+  					me.ppGrp.createChild("group")
+  						.setTranslation(me.ppXY[0], me.ppXY[1])
+  						.setRotation(-getprop("orientation/heading-deg")*D2R)
+  				        .createChild("text")
+  						.setText(me.ppNum)
+  						.setColor(me.ppCol)
+    					.setAlignment("left-center")
+    					.setTranslation(me.ppRad+5, 0)
+    					.setFontSize(15, 1);
+  				}
+			} else {
+				# LV
+				me.ppGrp.createChild("path")
+  						.moveTo(me.ppXY[0]-me.ppRad, me.ppXY[1])
+  						.arcSmallCW(me.ppRad, me.ppRad, 0, me.ppRad*2, 0)
+           				.arcSmallCW(me.ppRad, me.ppRad, 0, -me.ppRad*2, 0)  						
+  						.setColor(me.ppCol)
+  						.setStrokeLineWidth(w);
+				if (me.menuMain==MAIN_MISSION_DATA or dap.settingKnob == dap.KNOB_TI) {
+  					me.ppGrp.createChild("text")
+  						.setText(me.ppNum)
+  						.setColor(me.ppCol)
+    					.setAlignment("center-center")
+    					.setTranslation(me.ppXY[0], me.ppXY[1])
+    					.setRotation(-getprop("orientation/heading-deg")*D2R)
+    					.setFontSize(15, 1);
+  				}
+			}
+  		}
+  		me.ppGrp.update();
   	},
 
   	showPoly: func {

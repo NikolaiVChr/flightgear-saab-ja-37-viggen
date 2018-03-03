@@ -3450,3 +3450,5 @@ TI: As per manual flight horizon and FPI is now in OFF state per default.
 TI: Flight data is now also shown in CLR when pitch is below 10 degree negative.
 Model: Added some tooltips to the left radio panel.
 Sim: When loading up with engines on the INS should now be finished initializing.
+DAP: FF and LV points can now be input/output.
+TI: Can now show LV/FF points.

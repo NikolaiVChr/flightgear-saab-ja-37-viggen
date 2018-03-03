@@ -207,9 +207,23 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(11);</script>
+				<script>dap.lPress();</script>
 			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.lRelease();</script>
+				</binding>
+			</mod-up>
 		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>OK</tooltip-id>
+                <label>Use this button for L in the JA-37Di. (yellow LV/FF points input)</label>
+                <property></property>
+            </binding>
+        </hovered>
 	</animation>
 	
 	<!--

@@ -138,7 +138,6 @@ CI: Memory button, for freezing image.
 CI: Slew cursor.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2019.
 Control: overhaul rudder trim.
-DAP: Input/output square mappoints.
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
 TI: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
@@ -180,7 +179,8 @@ TI: When display is not showing image, backup menu is in effect, which hard-code
 DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 Sim: Startup with engines on, should have inertial navigation ready. (maybe altimeter should be preset too)
-
+TI: Prioritize showing only 10 FF/LV points.
+Effect: Fix that with engine off, the wind can drive the fan which will produce smoke.
 
 
 

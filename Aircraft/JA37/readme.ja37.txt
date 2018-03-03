@@ -201,6 +201,7 @@ Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 ===================================
 
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
+Another button used on the nav. panel is L/WP.
 Nav. panel is located just next to data-panel.
 Notice the two lights with IN/OUT and POS/MSDA, those are buttons also.
 
@@ -236,14 +237,20 @@ REG/STR:
     19xxxx is training floor altitude.
 
 TI
-- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK and continue inputting longitude, then latitude.
+note: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address will also be shown.
+- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
 - OUT/MSDA: If 3 first digits for address entered will show lon/lat of address, click OK to toggle between them. Hold OK down to see description before the value is shown.
             In this state flight time is shown on TI also.
             If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
 - POS:
             Can clear currently edited flightplan/map-area by pressing CLEAR.
 - ADDRESSES:
+            001-039 LV circles with 5km radius
+            040-099 LV circles with 8km radius
+            100-109 FF squares
+            110-178 LV circles with 15km radius
             179 is Bulls-eye
+            180-189 LV circles with 40km radius
             654321 is code for unlocking delete option. Turning knob or switching IN/OUT will reengage lock.
 
 "237" on display
