@@ -105,6 +105,9 @@
             <hud>
                 <units-metric type="bool">true</units-metric>
             </hud>
+            <avionics>
+                <init-done type="bool">true</init-done>
+            </avionics>
         </ja37>
     </overlay>
 

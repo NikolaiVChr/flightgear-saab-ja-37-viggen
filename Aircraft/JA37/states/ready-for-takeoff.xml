@@ -74,6 +74,7 @@
             </hud>
             <avionics>
                 <!--<master-warning-button type="bool">true</master-warning-button>-->
+                <init-done type="bool">true</init-done>
             </avionics>
         </ja37>
     </overlay>

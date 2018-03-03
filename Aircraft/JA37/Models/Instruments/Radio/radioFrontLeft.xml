@@ -22,7 +22,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>kv3</tooltip-id>
-                <label>KV3 Channel selector</label>
+                <label>KV3 Channel selector for fighter link</label>
             </binding>
         </hovered>
     </animation>

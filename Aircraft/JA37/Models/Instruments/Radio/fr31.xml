@@ -41,7 +41,19 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rdio</tooltip-id>
-                <label>FR31 Radio panel</label>
+                <label>FR31 Radio panel</label><!-- found info that seems to suggest it was called FR29 not FR31 -->
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>knobVol</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioVol</tooltip-id>
+                <label>Volume</label>
             </binding>
         </hovered>
     </animation>
@@ -124,6 +136,17 @@
                 <wrap>false</wrap>
             </binding>
         </decrease>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>knobLetters</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioL</tooltip-id>
+                <label>Mode knob</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -485,13 +508,13 @@
                 </binding>
             </mod-up>
         </action>
-        <!--<hovered>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>md</tooltip-id>
-                <label>Clear middle display to enter new values</label>
+                <tooltip-id>rdio2</tooltip-id>
+                <label>ANT button for locating error</label>
             </binding>
-        </hovered>-->
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
@@ -527,13 +550,13 @@
                 </binding>
             </mod-up>
         </action>
-        <!--<hovered>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>md</tooltip-id>
-                <label>Clear middle display to enter new values</label>
+                <tooltip-id>rdio1</tooltip-id>
+                <label>ST button for locating error</label>
             </binding>
-        </hovered>-->
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
@@ -569,13 +592,13 @@
                 </binding>
             </mod-up>
         </action>
-        <!--<hovered>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>md</tooltip-id>
-                <label>Clear middle display to enter new values</label>
+                <tooltip-id>rdio3</tooltip-id>
+                <label>RP button for locating error</label>
             </binding>
-        </hovered>-->
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
@@ -611,13 +634,13 @@
                 </binding>
             </mod-up>
         </action>
-        <!--<hovered>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>md</tooltip-id>
-                <label>Clear middle display to enter new values</label>
+                <tooltip-id>rdio4</tooltip-id>
+                <label>ME1 button for locating error</label>
             </binding>
-        </hovered>-->
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
@@ -638,6 +661,13 @@
     <animation>
         <type>pick</type>
         <object-name>test</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioThr</tooltip-id>
+                <label>For transmitting to ground-command</label>
+            </binding>
+        </hovered>
         <action>
             <button>0</button>
             <binding>
@@ -695,13 +725,13 @@
                 </binding>
             </mod-up>
         </action>
-        <!--<hovered>
+        <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>md</tooltip-id>
-                <label>Clear middle display to enter new values</label>
+                <tooltip-id>rdioTest</tooltip-id>
+                <label>Test of function, performance and for errors</label>
             </binding>
-        </hovered>-->
+        </hovered>
     </animation>
     <animation>
        <type>translate</type>
@@ -760,6 +790,30 @@
     </animation>
 
     <animation>
+        <type>pick</type>
+        <object-name>switchAuto</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioAut</tooltip-id>
+                <label>Steer data control automatic</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchR</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioR</tooltip-id>
+                <label>Steer data control</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
         <type>knob</type>
         <object-name>switchR</object-name>
         <property>ja37/radio/fr31/s-r</property>
@@ -797,6 +851,18 @@
                 <wrap>false</wrap>
             </binding>
         </decrease>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switchMik</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rdioMik</tooltip-id>
+                <label>Microphone switch for comm. with mechanic or for tape recording</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>

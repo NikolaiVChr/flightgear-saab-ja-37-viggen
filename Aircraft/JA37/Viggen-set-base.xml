@@ -683,6 +683,7 @@
                 <serviceable type="bool">true</serviceable>
             </annunciator>
             <reservkurs type="bool">false</reservkurs>
+            <init-done type="bool">false</init-done>
         </avionics>
         <displays>
             <show-full-menus type="bool">true</show-full-menus>

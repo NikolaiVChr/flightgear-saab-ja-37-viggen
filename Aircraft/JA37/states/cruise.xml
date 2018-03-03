@@ -2,43 +2,26 @@
 
 <PropertyList>
 
-    <name type="string" n="0">Engine running, ready for long range air-to-air engagements. Parking brakes on.</name>
+    <name type="string" n="0">Cruising at 20000 ft, autopilot engaged. Throttle idle. Parking brakes on.</name>
 
     <overlay>
-        <payload>
-            <weight n="0">
-                <selected type="string">RB 99 Amraam</selected>
-            </weight>
-            <weight n="1">
-                <selected type="string">RB 99 Amraam</selected>
-            </weight>
-            <weight n="2">
-                <selected type="string">RB 99 Amraam</selected>
-            </weight>
-            <weight n="3">
-                <selected type="string">RB 99 Amraam</selected>
-            </weight>
-            <weight n="4">
-                <selected type="string">RB 74 Sidewinder</selected>
-            </weight>
-            <weight n="5">
-                <selected type="string">RB 74 Sidewinder</selected>
-            </weight>
-            <weight n="6">
-                <selected type="string">Drop tank</selected>
-            </weight>
-        </payload>
-        <consumables>
-            <fuel>
-                <tank n="8">
-                    <level-norm type="double">1.0</level-norm>
-                    <jettisoned type="bool">false</jettisoned>
-                    <selected type="bool">true</selected>
-                </tank>
-            </fuel>
-        </consumables>
+        <position>
+            <altitude-ft type="double">20000</altitude-ft>
+        </position>
+        <velocities>
+            <mach type="double">0.75</mach>
+        </velocities>
         <fdm>
             <jsbsim>
+                <names>
+                    <canopy>
+                        <pos-norm type="double">0</pos-norm>
+                    </canopy>
+                    <gear-pos-norm type="double">0</gear-pos-norm>
+                </names>
+                <gear>
+                    <gear-cmd-norm type="bool">true</gear-cmd-norm>
+                </gear>
                 <fcs>
                     <canopy>
                         <engage type="bool">false</engage>
@@ -48,15 +31,14 @@
                     <engine>
                         <cutoff-commanded type="bool">false</cutoff-commanded>
                     </engine>
-                    <tank n="8">
-                        <contents-lbs type="double">2139.5</contents-lbs>
-                    </tank>
                 </propulsion>
                 <systems>
                     <external>
                         <switch type="bool">false</switch>
                         <enable-cmd type="bool">false</enable-cmd>
                     </external>
+                    <electrical>
+                    </electrical>
                 </systems>
             </jsbsim>
         </fdm>
@@ -89,6 +71,9 @@
             <fuel>
                 <auto type="bool">true</auto>
             </fuel>
+            <gear>
+                <gear-down type="bool">false</gear-down>
+            </gear>
         </controls>
         <engines>
             <engine n="0">
@@ -100,13 +85,13 @@
                 <enabled type="bool">true</enabled>
             </radar>
             <systems>
-                <state type="string">ready</state>
+                <state type="string">cruise</state>
             </systems>
             <hud>
                 <units-metric type="bool">false</units-metric>
             </hud>
             <avionics>
-                <init-done type="bool">true</init-done>
+                <!--<master-warning-button type="bool">true</master-warning-button>-->
             </avionics>
         </ja37>
     </overlay>

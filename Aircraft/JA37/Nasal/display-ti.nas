@@ -1622,7 +1622,7 @@ var TI = {
 		ti.logPage = 0;
 		ti.off = FALSE;
 		ti.showFullMenus = TRUE;
-		ti.displayFlight = FLIGHTDATA_CLR;
+		ti.displayFlight = FLIGHTDATA_OFF;
 		ti.displayTime = FALSE;
 		ti.displayFTime = FALSE;
 		ti.ownPosition = 0.25;
@@ -3996,7 +3996,7 @@ var TI = {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;
-		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.alt_ft.getValue()*FT2M < 1000 or getprop("orientation/pitch-deg") > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
+		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.rad_alt.getValue()*FT2M < 1000 or math.abs(getprop("orientation/pitch-deg")) > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
 			me.fData = TRUE;
 		}
 		if (me.fData == TRUE) {

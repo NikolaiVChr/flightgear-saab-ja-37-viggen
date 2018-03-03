@@ -6,6 +6,11 @@
 #
 #
 
+
+This manual describes systems when aircraft is in English/imperial mode.
+The menu items etc. is different in Swedish/metric mode, maybe in future will make manual for that also.
+
+
 Some of these features that has to do with multiple flightplans or map-areas, wont work in older than FG 2017.3.1.
 
 
@@ -61,14 +66,14 @@ SEEK
          This is handy for dogfight with radar off when enemy can be hard to spot.
 SEEK
   WARM - The seeker head is not cooled down. When framed cooling has be commanded, but not yet achieved.
-  COOL - The seeker head is cooled down, and the sidewinder range is increased. Cooling fluids last for a limited time.
+  COOL - The seeker head is cooled down, and the sidewinder range is increased. Cooling fluids last for about 1 hour for RB74. RB24J is electrical cooled, so it wont run out.
 MODE
-  BORE - When caged it will look straight ahead looking for something within range to lock on (and for RB24 it prefers to have view of a hot engine).
-         This is another mode that is handy for dogfight with radar off when the enemy can be seen all manouvred onto bore.
+  BORE - When caged it will look straight ahead looking for something within range to lock on (and for RB24J it prefers to have view of a hot engine).
+         This is another mode that is handy for dogfight with radar off when the enemy can be seen and manouvred onto bore.
 MODE
   SLAV - Seeker slaved to either radar or cursor on MI/HUD. To use cursor make sure to have the seeker caged.
-         Then make sure you haven't transfered the cursor to the TI display. Then make sure the radar haven't selected anything (click PEK to deselect).
-         Now make sure PEK is lit up again.
+         Then make sure you haven't transfered the cursor to the TI display and that PEK is lit up. See cursor section in this document for details on how to control it.
+         Then make sure the radar haven't selected anything (click to deselect).
          Then use cursor to tell the seeker where to look. You will see the seeker head position both in MI and in HUD (when inside its view).
 
 SYST
@@ -125,12 +130,12 @@ ADD S/P - Append point/steerpoint to current edited polygon (if it has room for 
 DEL S/P - Delete selected point/steerpoint in current edited polygon.
 RPOL    - If RPOL being edited, this is which one.
 MPOL    - If MPOL being edited, this is which one.
-MYPS    - Move own position in chunks up/down the display. If not framed minute adjustments have been made.
+MYPS    - Move own position in chunks up/down the display.
 MMAN    - MapManual movement, and map no longer follows own position. See cursor for more details.
 
 FAIL
 ----
-Is just a log page. FAIL will blink at new unseen failures.
+Is just a log page. FAIL will blink at new unseen failures, when main manu is shown, also a text will display on the MI about unread fails.
 
 CONF
 ----
@@ -142,7 +147,7 @@ READDATA - Technician data readout. Not implemented.
 GPS
 ---
 FIX  - When GPS has started this will make a fix on the TI/MI/HUD. Will stay until PEK switched off or something else selected.
-INIT - Start GPS. (approx 30 seconds to start)
+INIT - Start GPS. (approx 40 seconds to start, including BIT self-test)
 
 SIDV
 ----
@@ -184,7 +189,7 @@ X2 - LNK - Toggle RB99 telemetry on TI
 
 left buttons
 ------------
-PEK - Cursor toggle. If off then radar cannot lock anything, nor can cursor be shown/slewn on TI.
+PEK - Cursor toggle. If off then radar cannot lock anything, nor can cursor be shown/slewn on TI/MI.
 A - Zoom out on TI
 B - Zoom in on TI
 
@@ -197,9 +202,12 @@ Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
 Nav. panel is located just next to data-panel.
+Notice the two lights with IN/OUT and POS/MSDA, those are buttons also.
 
-Notice first the button IN/OUT.
-Below is listed what combination of that button with the knob will produce (if the other button is set to MSDA):
+If POS/MSDA button is in POS mode and the other button in OUT, the display will show steerpoint info. This is also the default state of the data-panel.
+  nbaaau  - n: 0=steerpoint 1=airport, aaa: distance, u: uncertainty.
+
+Below is listed what combination of IN/OUT with the knob will produce (if the other button is set to MSDA):
 
 OUT
 - TILS:   Shows current TILS frequency on display.
@@ -245,8 +253,6 @@ TI
 - rotate knob or in/out switch to clear.
 
 When inputting, pay notice to the switch +/-, as that is the sign of what you input. For some inputs its ignored though and hence not shown when you input.
-
-If POS/MSDA button is in POS mode and the other button in OUT, the display will show steerpoint info.
 
 
 

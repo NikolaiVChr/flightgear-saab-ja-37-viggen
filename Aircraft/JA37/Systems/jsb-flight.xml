@@ -601,6 +601,10 @@
                 /systems/electrical/outputs/dc-voltage gt 20
                 /ja37/avionics/ins-cmd == 1
             </test>
+            <test logic="AND" value="-1000">
+                /ja37/avionics/init-done == 1
+                sim-time-sec lt 300
+            </test>
         </switch>
 
         <fcs_function name="systems/ins/time-init">

@@ -82,7 +82,7 @@ Sim: Fix that when changing airport location, battery gets drained, and therefor
 Sim: Make so that flares cannot be used after aircraft has crashed.
 Sim: Check terrain warning for when gears is down/landing mode in manual. (its now set to gears down detect)
 Sim: Using data panel an extra bingo fuel warning can be added. % above standard warning is entered. Landing clears it, so does pressing master warning silence. (think its made, dont remember)
-Sim: Flightgear has a built in inertial navigations system. Use that to simulate INS.
+Sim: Inertial navigation system.
 Arms: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode. In DAP, burst number for OP can be entered.
 Arms: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Arms: Be able to notch the rb71 again.
@@ -101,7 +101,7 @@ Sound: Rework how missile buzz and growl works.
 Sound: Sound from wind hitting the gears when extended.
 Radar: Make rb71 notchable again, by introducing 3 diff painted properties instead of one.
 Radar: Make ECM jamming.
-Radar: Make other planes notice when radar is off.
+Radar: Make other planes notice when radar is off. (semi done, think F15, mig21 and mirage does it)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Fix that HUD selects diamond_node, not radar logic, so HUD can be turned off in external view.
 HUD: When DME are enabled at the same time as ILS with glideslope, the distance scale make the ILS view confusing.
@@ -174,13 +174,13 @@ Arms: IR lock before launch should also check terrain occlusion.
 Arms: The auto pattern scan should not jump from bottom to top.
 Radar: Openradar has no roll and heading. Fix radar to handle that.
 Arms: Narrow scan pattern for dogfighting. (narrow yaw, mid to high pitch.)
-Arms: Should seeker position be shown in MI and HUD for non IR?
+Arms: Should seeker position be shown in MI and HUD for non IR? (lean towards no)
 HUD: Do not show rb99 seeker diamond. (not sure if I haven't fixed)
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 Sim: Startup with engines on, should have inertial navigation ready. (maybe altimeter should be preset too)
-TI: Make DAP inputing for textfields blink with update rate. (its at 2Hz, but seems to blink with 1Hz)
+
 
 
 
@@ -201,6 +201,9 @@ Aerobatic smoke, the real probably didn't have.
 TI: Delete, append or insert steerpoint should really be controlled from radar stick, not be part of TI menu.
 TI: OPT should really be a button on the flightstick, not be part of TI menu.
 In the real nav. panel you could select between 4 bases plus STRILL supplied base. Each could have A & B return-to-base plans. So that makes up to 10 RTB plans, instead of the current 2.
+The real Viggen displays had 2 cursors; lock-cursor and TIM-cursor. The flightgear Viggen has combined it into 1 cursor.
+
+
 
 Bugs:
 --------------

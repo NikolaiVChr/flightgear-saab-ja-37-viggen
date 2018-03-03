@@ -1421,6 +1421,18 @@ var main_init = func {
   saab37.loopSystem();
 
   changeGuiLoad();
+
+  if (getprop("ja37/systems/state") == "cruise") {
+      setprop("position/altitude-ft", 20000);
+      setprop("velocities/mach", 0.65);
+      setprop("fdm/jsbsim/autopilot/throttle-lever-cmd", 1);
+      auto.mode3();
+      settimer(cruise, 1.5);
+  }
+}
+
+var cruise = func {
+  setprop("controls/gear/gear-down", 0);
 }
 
 # re init

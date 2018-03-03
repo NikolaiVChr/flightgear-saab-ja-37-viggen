@@ -3446,3 +3446,7 @@ HUD: Fixed some code that used radar to get info on IR lock, instead of missile.
 MI: Cursor can now select and unselect radar echoes. And cursor speed doubled.
 Sim: Startup with engines on, now give no masterwarning from empty battery.
 TI: SYST-TRAP-ALL menu item is now functional.
+TI: As per manual flight horizon and FPI is now in OFF state per default.
+TI: Flight data is now also shown in CLR when pitch is below 10 degree negative.
+Model: Added some tooltips to the left radio panel.
+Sim: When loading up with engines on the INS should now be finished initializing.
