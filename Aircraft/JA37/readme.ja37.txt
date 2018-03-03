@@ -201,7 +201,7 @@ Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 ===================================
 
 OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
-Another button used on the nav. panel is L/WP.
+Another buttons used on the nav. panel is L/WP and LS/SKU (for |X|).
 Nav. panel is located just next to data-panel.
 Notice the two lights with IN/OUT and POS/MSDA, those are buttons also.
 
@@ -237,11 +237,13 @@ REG/STR:
     19xxxx is training floor altitude.
 
 TI
-note: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address will also be shown.
+note1: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address number will also be shown.
+note2: LV stands for airdefense area, and FF for pilot point.
 - IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
+            To unlock for deletion type the unlock code followed by CLEAR.
+            If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
 - OUT/MSDA: If 3 first digits for address entered will show lon/lat of address, click OK to toggle between them. Hold OK down to see description before the value is shown.
             In this state flight time is shown on TI also.
-            If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
 - POS:
             Can clear currently edited flightplan/map-area by pressing CLEAR.
 - ADDRESSES:
@@ -254,7 +256,7 @@ note: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI
             654321 is code for unlocking delete option. Turning knob or switching IN/OUT will reengage lock.
 
 "237" on display
-- Input to TI press OK to send.
+- Input to TI press OK to send or press |X| to delete the value.
 
 "Error" on display
 - rotate knob or in/out switch to clear.

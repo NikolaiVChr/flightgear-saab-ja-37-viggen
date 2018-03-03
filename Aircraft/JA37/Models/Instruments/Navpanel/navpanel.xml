@@ -185,7 +185,7 @@
             </binding>
         </hovered>
 	</animation>
-	
+
 	<animation>
 		<type>pick</type>
 		<object-name>LSSKU</object-name>
@@ -194,9 +194,23 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>navigation.nav_button(10);</script>
+				<script>dap.xPress();</script>
 			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.xRelease();</script>
+				</binding>
+			</mod-up>
 		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>X</tooltip-id>
+                <label>Use this button for delete |X| in the JA-37Di. (for sending delete input to TI)</label>
+                <property></property>
+            </binding>
+        </hovered>
 	</animation>
 	
 	<animation>

@@ -2539,22 +2539,44 @@ var TI = {
 	recordEvent: func {
 		# mark event
 		#
-		me.tgt = "";
+		# SFI del 1 flik 20 sida 17:
+		# pos, speed, alt and course (same for any locks)
+		#
+		me.tgtC = "";
+		me.tgtS = "";
+		me.tgtA = "";
+		me.tgtLA = "";
+		me.tgtLO = "";
 		me.mreg = TRUE;
 		me.mreg_time = getprop("sim/time/elapsed-sec");
+		me.message = "";
 		if(radar_logic.selection != nil) {
-			me.tgt = radar_logic.selection.get_Callsign();
+			me.tgtC = radar_logic.selection.get_Callsign()~" ("~radar_logic.selection.get_model()~")";
+			me.tgtS = sprintf("%d",radar_logic.selection.get_Speed());
+			me.tgtA = sprintf("%d",radar_logic.selection.get_altitude());
+			me.tgtLO = ja37.convertDegreeToStringLon(radar_logic.selection.get_Longitude());
+			me.tgtLA = ja37.convertDegreeToStringLat(radar_logic.selection.get_Latitude());
+			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Mag. Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: %s\n      Radar tgt. spd: %s kt\n      Radar tgt. alt: %s ft\n      Radar tgt. Lon: %s\n      Radar tgt. Lat: %s",
+				getprop("velocities/mach"),
+				me.input.headMagn.getValue(),
+				me.input.alt_ft.getValue(),
+				ja37.convertDegreeToStringLon(getprop("position/longitude-deg")),
+				ja37.convertDegreeToStringLat(getprop("position/latitude-deg")),
+				me.tgtC,
+				me.tgtS,
+				me.tgtA,
+				me.tgtLO,
+				me.tgtLA
+				);
+		} else {
+			me.message = sprintf("Pilot entered event\n      Own speed: %.2f M\n      Own Mag. Heading: %d deg\n      Own Alt: %d ft\n      Own Lon: %s\n      Own Lat: %s\n      Radar tgt. inf: No selection.",
+				getprop("velocities/mach"),
+				me.input.headMagn.getValue(),
+				me.input.alt_ft.getValue(),
+				ja37.convertDegreeToStringLon(getprop("position/longitude-deg")),
+				ja37.convertDegreeToStringLat(getprop("position/latitude-deg"))				
+				);
 		}
-		me.echoes = size(radar_logic.tracks);
-		me.message = sprintf("Pilot entered event\n      IAS: %d kt\n      Heading: %d deg\n      Alt: %d ft\n      Selected: %s\n      Echoes: %d\n      Lat: %.4f deg\n      Lon: %.4f deg",
-			me.input.ias.getValue(),
-			me.input.headMagn.getValue(),
-			me.input.alt_ft.getValue(),
-			me.echoes==0?"":me.tgt,
-			me.echoes,
-			getprop("position/latitude-deg"),
-			getprop("position/longitude-deg")
-			);
 		me.logEvents.push(me.message);
 	},
 
@@ -2892,6 +2914,10 @@ var TI = {
 
 	dapBLo: func (input, sign, myself) {
 		# 
+		if (input == nil) {
+			dap.setError();
+			return;
+		}
 		sign = sign>0?"":"-";
 		var deg = ja37.stringToLon(sign~input);
 		print("TI recieved LO from DAP: "~sign~input);
@@ -2906,6 +2932,10 @@ var TI = {
 
 	dapBLa: func (input, sign, myself) {
 		# 
+		if (input == nil) {
+			dap.setError();
+			return;
+		}
 		sign = sign>0?"":"-";
 		var deg = ja37.stringToLat(sign~input);
 		print("TI recieved LA from DAP: "~sign~input);
@@ -2920,7 +2950,7 @@ var TI = {
 
 	dapA: func (input, sign, myself) {
 		# 
-		if (input == 0 or input > 6 or sign < 0) {
+		if (input == nil or input == 0 or input > 6 or sign < 0) {
 			dap.setError();
 		} else {
 			route.Polygon.editPlan(route.Polygon.polys["OP"~input]);
@@ -2934,15 +2964,24 @@ var TI = {
 		if (sign < 0) {
 			dap.setError();
 		} else {
-			var mach = num(input)/100;
-			print("TI recieved mach from DAP: M"~mach);
-			route.Polygon.setMach(mach);
+			if (input != nil) {
+				var mach = num(input)/100;
+				print("TI recieved mach from DAP: M"~mach);
+				route.Polygon.setMach(mach);
+			} else {
+				print("TI recieved no mach from DAP.");
+				route.Polygon.setMach(nil);
+			}
 			myself.stopDAP();
 		}
 	},
 
 	dapType: func (input, sign, myself) {
 		# 
+		if (input == nil) {
+			dap.setError();
+			return;
+		}
 		var typ = num(input);
 		if (sign < 0 or typ > 1) {
 			dap.setError();
@@ -2958,9 +2997,14 @@ var TI = {
 		if (sign < 0) {
 			dap.setError();
 		} else {
-			var alt = num(input);
-			print("TI recieved alt from DAP: "~alt);
-			route.Polygon.setAlt(myself.interoperability == displays.METRIC?alt*M2FT:alt);#important!!! running in metric will input metric also!
+			if (input != nil) {
+				var alt = num(input);
+				print("TI recieved alt from DAP: "~alt);
+				route.Polygon.setAlt(myself.interoperability == displays.METRIC?alt*M2FT:alt);#important!!! running in metric will input metric also!
+			} else {
+				print("TI recieved no alt from DAP");
+				route.Polygon.setAlt(nil);#important!!! running in metric will input metric also!
+			}
 			myself.stopDAP();
 		}
 	},

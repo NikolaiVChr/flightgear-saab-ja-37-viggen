@@ -41,7 +41,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>rdio</tooltip-id>
-                <label>FR31 Radio panel</label><!-- found info that seems to suggest it was called FR29 not FR31 -->
+                <label>FR29 Radio panel</label><!-- found info that seems to suggest it was called FR29 not FR31 -->
             </binding>
         </hovered>
     </animation>

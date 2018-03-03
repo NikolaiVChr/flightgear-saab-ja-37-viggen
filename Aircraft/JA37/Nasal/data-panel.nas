@@ -161,7 +161,13 @@ var main = func {
 
   if (state == 237) {
 
-    if (ok==HOLD and digit == ti237_max) {
+    if (x==HOLD) {
+        # clear TI value
+        printDA("set 237: clear");
+        ti237_callback(nil, settingSign, TI.ti);
+        input = inputDefault;
+        digit = 0;
+    } elsif (ok==HOLD and digit == ti237_max) {
         # set TI value
         printDA("set 237: "~input);
         ti237_callback(input, settingSign, TI.ti);
@@ -892,6 +898,7 @@ var lv_temp = nil;# temp storage of LV point when its being edited.
 
 var ok          = RELEASE;
 var l           = RELEASE;
+var x           = RELEASE;
 var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
 var settingSign = getprop("ja37/navigation/ispos")==MINUS?-1:1;
@@ -1022,6 +1029,26 @@ var lRelease = func {
     return;
   }
   l = RELEASE;
+  main();
+}
+
+var xPress = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  x = HOLD;
+  main();
+}
+
+var xRelease = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  x = RELEASE;
   main();
 }
 
