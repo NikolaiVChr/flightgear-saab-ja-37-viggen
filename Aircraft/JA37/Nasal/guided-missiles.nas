@@ -112,6 +112,9 @@ var HudReticleDev  = props.globals.getNode("payload/armament/hud/reticle-total-d
 var HudReticleDeg  = props.globals.getNode("payload/armament/hud/reticle-total-angle", 1);
 var update_loop_time = 0.000;
 
+# emesaryDiff
+var fox2_unique_id = 0; # Unique index of missile in this model
+
 var SIM_TIME = 0;
 var REAL_TIME = 1;
 
@@ -166,6 +169,58 @@ var offsetMethod = FALSE;
 if ((major == 2017 and minor == 2 and pica >= 1) or (major == 2017 and minor > 2) or major > 2017) {
 	offsetMethod = TRUE;
 }
+
+# emesaryDiff
+var missile_ids = {
+"aim-120"               :1,
+"AIM120"                :1,
+"AIM-120"               :1,
+"RB-99"                 :1,
+"aim-7"                 :2,
+"AIM-7"                 :2,
+"RB-71"                 :2,
+"aim-9"                 :3,
+"AIM9"                  :3,
+"AIM-9"                 :3,
+"RB-24"                 :4,
+"RB-24J"                :5,
+"RB-74"                 :3,
+"R74"                   :6,
+"MATRA-R530"            :7,
+"Meteor"                :8,
+"AIM-54"                :9,
+"Matra R550 Magic 2"    :10,
+"MatraR550Magic2"       :10,
+"Matra MICA"            :11,
+"MatraMica"             :11,
+"MatraMicaIR"           :12,
+"RB-15F"                :13,
+"SCALP"                 :14,
+"KN-06"                 :15,
+"GBU12"                 :16,
+"GBU16"                 :17,
+"ALARM"                 :18,
+"Sea Eagle"             :19,
+"SeaEagle"              :19,
+"AGM65"                 :20,
+"M71"                   :21,
+"M71R"                  :22,
+"RB-04E"                :23,
+"RB-05A"                :24,
+"RB-75"                 :20,
+"M90"                   :25,
+"MK-82"                 :26,
+"LAU-68"                :27,
+"M317"                  :28,
+"GBU-31"                :29,
+"AIM132"                :30,
+"STORMSHADOW"           :14,
+"R-60"                  :31,
+"R-27R1"                :32,
+"R-27T1"                :33,
+"FAB-500"               :34,
+"Exocet"                :35,
+};
 
 #
 # The radar will make sure to keep this variable updated.
@@ -232,7 +287,17 @@ var AIM = {
         }
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
+
+# emesaryDiff
+# ident. This is also used for transmission over MP. 
+# 0 is reserved for shells.
+# 1..240 are available for other items that collide.
 		m.ID                = p;
+        if (contains(missile_ids, type)) {
+            m.ID = missile_ids[type];
+print("Lookup missile ",type," ID=",m.ID);
+        }
+
 		m.stationName       = AcModel.getNode("armament/station-name").getValue();
 		if (m.nasalPosition == nil) {
 			m.pylon_prop        = props.globals.getNode(AcModel.getNode("armament/pylon-stations").getValue()).getChild(m.stationName, p+AcModel.getNode("armament/pylon-offset").getValue());
@@ -241,6 +306,10 @@ var AIM = {
 		m.callsign          = "Unknown";
 		m.direct_dist_m     = nil;
 		m.speed_m           = -1;
+
+		# emesaryDiff
+		fox2_unique_id = fox2_unique_id + 1;
+        m.unique_id = fox2_unique_id;
 
 		m.nodeString = "payload/armament/"~m.type_lc~"/";
 
@@ -1375,6 +1444,20 @@ var AIM = {
 			me.ai.getNode("hit").setIntValue(me.hit);
 		}
 
+		if (me.status == MISSILE_FLYING) {
+			# emesaryDiff
+            # notify in flight using Emesary.
+            var msg = notifications.GeoEventNotification.new("mis", me.type, 2, 20+me.ID);
+            msg.Position.set_latlon(me.latN.getValue(), me.lonN.getValue(), me.altN.getValue());
+            if (me.guidance=="radar")
+              msg.Flags = 1;
+            else
+              msg.Flags = 0;
+            msg.IsDistinct = 1;
+            msg.UniqueIndex = me.unique_id;
+            ja37.geoBridgedTransmitter.NotifyAll(msg);
+        }
+
 		me.last_dt = me.dt;
 		me.prevTarget = me.Tgt;
 		me.prevGuidance = me.guidance;
@@ -2467,6 +2550,20 @@ var AIM = {
 			me.printStats(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
 			if (min_distance < me.reportDist) {
 				me.sendMessage(phrase);
+
+				if (me.flareLock == FALSE and me.chaffLock == FALSE) {
+					# emesaryDiff
+                    if(getprop("payload/armament/msg")){
+                        var msg = notifications.ArmamentNotification.new("mis", 4, 20+me.ID);
+                        msg.RelativeAltitude = explosion_coord.alt() - t_coord.alt();
+                        msg.Bearing = explosion_coord.course_to(t_coord);
+                        msg.Distance = min_distance;
+                        msg.RemoteCallsign = me.callsign; # RJHTODO: maybe handle flares / chaff 
+                        ja37.geoBridgedTransmitter.NotifyAll(msg);
+                    }
+                }
+                else
+                  print("Not notifying as hit chaff/flares");
 			} else {
 				me.sendMessage(me.type~" missed "~me.callsign~": "~reason);
 			}
@@ -2511,6 +2608,19 @@ var AIM = {
 		if (me.Tgt != nil) {
 			var phrase = sprintf( me.type~" "~event~": %.1f", me.direct_dist_m) ~ " meters from: " ~ (me.flareLock == FALSE?(me.chaffLock == FALSE?me.callsign:(me.callsign ~ "'s chaff")):me.callsign ~ "'s flare");
 			me.printStats(phrase~"  Reason: "~reason~sprintf(" time %.1f", me.life_time));
+			if (me.flareLock == FALSE and me.chaffLock == FALSE){
+				# emesaryDiff
+                if(getprop("payload/armament/msg")){
+                    var msg = notifications.ArmamentNotification.new("mis", 4, 20+me.ID);
+                    msg.RelativeAltitude = explosion_coord.alt() - me.t_coord.alt();
+                    msg.Bearing = explosion_coord.course_to(me.t_coord);
+                    msg.Distance = direct_dist_m;
+                    msg.RemoteCallsign = me.callsign; # RJHTODO: maybe handle flares / chaff 
+                    ja37.geoBridgedTransmitter.NotifyAll(msg);
+                }
+            }
+            else
+              print("Not notifying as hit chaff/flares");
 			me.sendMessage(phrase);
 		}
 		

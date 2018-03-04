@@ -1461,6 +1461,10 @@
         <events>
             <file>Aircraft/JA37/Nasal/events.nas</file>
         </events>
+        <notifications>
+            <file>Aircraft/JA37/Nasal/AircraftEventNotifications.nas</file>
+            <file>Aircraft/JA37/Nasal/ArmamentNotification.nas</file>
+        </notifications>
         <hack>
             <file>Aircraft/JA37/Nasal/hackCanvas.nas</file>
         </hack>

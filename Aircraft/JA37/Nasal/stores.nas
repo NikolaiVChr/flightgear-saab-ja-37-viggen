@@ -726,7 +726,8 @@ var trigger_listener = func {
         var callsign = armament.AIM.active[armSelect-1].callsign;
         var brevity = armament.AIM.active[armSelect-1].brevity;
 
-        armament.AIM.active[armSelect-1].release();#print("release "~(armSelect-1));
+        var msl = armament.AIM.active[armSelect-1];
+        msl.release();#print("release "~(armSelect-1));
         
         var phrase = brevity ~ " at: " ~ callsign;
         if (getprop("payload/armament/msg")) {
@@ -735,6 +736,14 @@ var trigger_listener = func {
           setprop("/sim/messages/atc", phrase);
         }
         fireLog.push("Self: "~phrase);
+
+        # emesaryDiff
+        var msg = notifications.GeoEventNotification.new("mis", msl.type, 1, 20+msl.ID);
+        msg.Position.set_latlon(msl.latN.getValue(), msl.lonN.getValue(), msl.altN.getValue());
+        msg.IsDistinct = 1;
+        msg.UniqueIndex = msl.unique_id;
+        ja37.geoBridgedTransmitter.NotifyAll(msg);
+
         var next = TRUE;
         if (fired == "M71 Bomblavett" or fired == "M71 Bomblavett (Retarded)") {
           var ammo = getprop("payload/weight["~(armSelect-1)~"]/ammo");
@@ -801,13 +810,30 @@ var impact_listener = func {
 
         var distance = impactPos.distance_to(selectionPos);
         if (distance < 75) {
-          var typeOrd = ballistic.getNode("name").getValue();
-          hits_count += 1;
-          if ( hit_timer == FALSE ) {
-            hit_timer = TRUE;
-            hit_callsign = radar_logic.selection.get_Callsign();
-            settimer(func{hitmessage(typeOrd);},1);
-          }
+          #var typeOrd = ballistic.getNode("name").getValue();
+ 
+          # emesaryDiff
+          # kind 4 = damaged
+          # 20+mid = secondary kind
+          var impact_name = ballistic.getNode("name").getValue();
+#          impact_name = "something"; #RJHTODO: for test
+          if (impact_name != nil and impact_name != "") {
+              if(getprop("payload/armament/msg")){
+                  var msg = notifications.ArmamentNotification.new("shell", 4, 20);
+                  msg.RelativeAltitude = impactPos.alt() - selectionPos.alt();
+                  msg.Bearing = impactPos.course_to(selectionPos);
+                  msg.Distance = distance;
+                  msg.RemoteCallsign = radar_logic.selection.get_Callsign();
+                  ja37.geoBridgedTransmitter.NotifyAll(msg);
+              }
+          } else
+            print("Not notifying as didn't hit callsign");
+#          hits_count += 1;
+#          if ( hit_timer == FALSE ) {
+#            hit_timer = TRUE;
+#            hit_callsign = radar_logic.selection.get_Callsign();
+#            settimer(func{hitmessage(typeOrd);},1);
+#          }
         }
       }
     }
@@ -1913,7 +1939,7 @@ var main_weapons = func {
   setlistener("/ai/models/model-impact", impact_listener, 0, 0);
 
   # setup incoming listener
-  setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);
+  #setlistener("/sim/multiplay/chat-history", incoming_listener, 0, 0);# emesaryDiff
 
   # start the main loop
   #settimer(func { loop_stores() }, 0.1);
@@ -1961,3 +1987,165 @@ var selectNextWaypoint = func () {
 }
 
 setprop("/sim/failure-manager/display-on-screen", FALSE);
+
+# emesaryDiff
+# Create emesary recipient for handling other craft's missile positioins.
+var DamageRecipient =
+{
+    new: func(_ident)
+    {
+        var new_class = emesary.Recipient.new(_ident);
+
+        new_class.Receive = func(notification)
+        {
+#
+#
+# This will be where movement and damage notifications are received. 
+# This can replace MP chat for damage notifications 
+# and allow missile visibility globally (i.e. all suitable equipped models) have the possibility
+# to receive notifications from all other suitably equipped models.
+            if (notification.NotificationType == "GeoEventNotification") {
+                print("recv: ",notification.NotificationType, " ", notification.Ident, 
+                      " Kind=",notification.Kind,
+                      " Name=",notification.Name,
+                      " SecondaryKind=",notification.SecondaryKind,
+                      " lat=",notification.Position.lat(),
+                      " lon=",notification.Position.lon(),
+                      " alt=",notification.Position.alt(),
+                      " Heading=",notification.Heading,
+                      " u_fps=",notification.u_fps,
+                      " v_fps=",notification.v_fps,
+                      " w_fps=",notification.w_fps,
+                      " IsDistinct=",notification.IsDistinct,
+                      " Callsign=",notification.Callsign,
+                      " RemoteCallsign=",notification.RemoteCallsign,
+                      " Flags=",notification.Flags);
+                #
+                # todo:
+                #   detect launches if they are nearby
+                #   animate missiles
+                #
+                var callsign = getprop("sim/multiplay/callsign");
+                callsign = size(callsign) < 8 ? callsign : left(callsign,7);
+                if (notification.RemoteCallsign != callsign) return;
+                var radarOn = bits.test(notification.Flags, 1);
+                if (!radarOn) return;# this should be little more complex later
+                var ownPos = geo.aircraft_position();
+                var bearing = ownPos.course_to(notification.Position);
+                var heading = getprop("orientation/heading-deg");
+                var clock = bearing - heading;
+                while(clock < 0) {
+                  clock = clock + 360;
+                }
+                while(clock > 360) {
+                  clock = clock - 360;
+                }
+                #print("incoming from "~clock);
+                if (clock >= 345 or clock < 15) {
+                  playIncomingSound("12");
+                } elsif (clock >= 15 and clock < 45) {
+                  playIncomingSound("1");
+                } elsif (clock >= 45 and clock < 75) {
+                  playIncomingSound("2");
+                } elsif (clock >= 75 and clock < 105) {
+                  playIncomingSound("3");
+                } elsif (clock >= 105 and clock < 135) {
+                  playIncomingSound("4");
+                } elsif (clock >= 135 and clock < 165) {
+                  playIncomingSound("5");
+                } elsif (clock >= 165 and clock < 195) {
+                  playIncomingSound("6");
+                } elsif (clock >= 195 and clock < 225) {
+                  playIncomingSound("7");
+                } elsif (clock >= 225 and clock < 255) {
+                  playIncomingSound("8");
+                } elsif (clock >= 255 and clock < 285) {
+                  playIncomingSound("9");
+                } elsif (clock >= 285 and clock < 315) {
+                  playIncomingSound("10");
+                } elsif (clock >= 315 and clock < 345) {
+                  playIncomingSound("11");
+                } else {
+                  playIncomingSound("");
+                }
+                return;
+            }
+            if (notification.NotificationType == "ArmamentNotification") {
+                if (notification.FromIncomingBridge) {
+                    print("recv: ",notification.NotificationType, " ", notification.Ident,
+                          " Kind=",notification.Kind,
+                          " SecondaryKind=",notification.SecondaryKind,
+                          " RelativeAltitude=",notification.RelativeAltitude,
+                          " Distance=",notification.Distance,
+                          " Bearing=",notification.Bearing,
+                          " RemoteCallsign=",notification.RemoteCallsign);
+#                    debug.dump(notification);
+                    #
+                    # todo:
+                    #   lookup types (and hit counts for cannon)
+                    #
+                    var callsign = getprop("sim/multiplay/callsign");
+                    callsign = size(callsign) < 8 ? callsign : left(callsign,7);
+                    if (notification.RemoteCallsign == callsign and getprop("payload/armament/msg") == 1) {
+                        #damage enabled and were getting hit
+                        if (notification.SecondaryKind == 20) {
+                            # cannon hit
+                            var probability = cannon_types[" M61A1 shell hit"];#test code
+                            var hit_count = 2;#test code
+                            if (hit_count != nil) {
+                                var damaged_sys = 0;
+                                for (var i = 1; i <= hit_count; i = i + 1) {
+                                  var failed = fail_systems(probability);
+                                  damaged_sys = damaged_sys + failed;
+                                }
+
+                                printf("Took %.1f%% x %2d damage from cannon! %s systems was hit.", probability*100, hit_count, damaged_sys);
+                                nearby_explosion();
+                            }
+                        } elsif (notification.SecondaryKind > 20) {
+                            # its a warhead
+                            var dist     = notification.Distance;
+                            var type = "AIM-9";#test code
+                            if (type == "M90") {
+                              var prob = rand()*0.5;
+                              var failed = fail_systems(prob);
+                              var percent = 100 * prob;
+                              printf("Took %.1f%% damage from %s clusterbombs at %0.1f meters. %s systems was hit", percent,type,dist,failed);
+                              nearby_explosion();
+                              return;
+                            }
+
+                            var distance = clamp(dist-3, 0, 1000000);
+                            var maxDist = 0;
+
+                            if (contains(warhead_lbs, type)) {
+                              maxDist = maxDamageDistFromWarhead(warhead_lbs[type]);
+                            } else {
+                              return;
+                            }
+
+                            var diff = maxDist-distance;
+                            if (diff < 0) {
+                              diff = 0;
+                            }
+                            
+                            diff = diff * diff;
+                            
+                            var probability = diff / (maxDist*maxDist);
+
+                            var failed = fail_systems(probability);
+                            var percent = 100 * probability;
+                            printf("Took %.1f%% damage from %s missile at %0.1f meters. %s systems was hit", percent,type,dist,failed);
+                            nearby_explosion();
+                        } 
+                    }
+                }
+            }
+            return emesary.Transmitter.ReceiptStatus_NotProcessed;
+        }
+        return new_class;
+    }
+};
+
+damage_recipient = DamageRecipient.new("DamageRecipient");
+emesary.GlobalTransmitter.Register(damage_recipient);
