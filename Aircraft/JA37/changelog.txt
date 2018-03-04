@@ -2983,7 +2983,7 @@ Arms: Added output to console for FPS relative.
 Arms: Started building fading out of rocket thrust.
 Arms: Made RB-74 terminate before its speed is so low it wont hit anything anyway. Aerodynamic range will then also better match published data.
 Sim: Better commenting in getPitch method.
-Fix for geo.Coord bad methods. If fix works, remember to send to FG mailing list.
+Sim: Fix for geo.Coord bad methods. If fix works, remember to send to FG mailing list.
 Arms: adjustment to AJS RB74.
 Arms: Removed need for sound bools in weapons specs.
 Arms: Renamed drag-area to cross-section.
@@ -3324,9 +3324,9 @@ Model: Removed A/P follow button.
 Model: increased size of datapanel.
 Model: Moved stuff around on right panel.
 GUI: Added tooltip to transponder panel.
-Model: Added FR31 radio panel.
+Model: Added FR29 radio panel.
 Model: Improved the interior lights panel.
-Animation: Made controls on FR31 radio panel animated.
+Animation: Made controls on FR29 radio panel animated.
 Animation: Made controls on P152 ECM panel animated.
 Animation: Animated pedal mode handle.
 Model: Added ME799 ident transponder panel.
@@ -3393,7 +3393,7 @@ Model: {Spectre} Livery added for BIGDES.
 Aero: Made all derivatives depends on rotating winds too.
 Control: Made all rotational inputs be independent from rotational winds, as they are read from gyros.
 
-4.309
+4.309 - 2017 March 4
 =====
 Control: {it0uchpods} Fixed many A/P bugs.
 Control: {it0uchpods} Fixed roll hold being affected by wind.
