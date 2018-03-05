@@ -2871,7 +2871,7 @@ var TI = {
 			} elsif (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type == route.TYPE_AREA) {
 				route.Polygon.editDetailMethod(TRUE);
 				dap.set237(TRUE, 7, me.dapBLo);
-				me.blinkBox2 = TRUE;
+				me.blinkBox4 = TRUE;
 			}
 		}
 	},
@@ -2892,7 +2892,7 @@ var TI = {
 			} elsif (route.Polygon.editing != nil and route.Polygon.selectSteer != nil and route.Polygon.editing.type == route.TYPE_AREA) {
 				route.Polygon.editDetailMethod(TRUE);
 				dap.set237(TRUE, 6, me.dapBLa);
-				me.blinkBox3 = TRUE;
+				me.blinkBox5 = TRUE;
 			}
 		}
 	},

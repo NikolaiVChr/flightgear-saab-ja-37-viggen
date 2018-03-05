@@ -8,7 +8,7 @@
 
 <PropertyList><!-- include="Systems/ja37-engines-off.xml">-->    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
-        <aircraft-version>4.309</aircraft-version>
+        <aircraft-version>4.310</aircraft-version>
         <author>Anders Lejczak (Orig 3D Model and Textures), Justin Nicholson (Lots of Modeling, Testing and Misc.), Enrico Castaldi (Liveries), Joshua Davidson (Autopilot), Nicola B. Bernardelli (Cockpit and Testing), Isaac Protiva (Cockpit and Lightmap), Nikolai V. Chr. (rest)</author>
         <minimum-fg-version>2017.3.1</minimum-fg-version>
 

@@ -715,7 +715,7 @@ var disp = func {
       } else {
         if (cycle == 0) {
           var lo = getprop("position/longitude-deg");
-          var lon = ja37.convertDegreeToDispStringLon(lo);#not sure what to do when deg has 3 digit and a minus sign. No room on display.
+          var lon = ja37.convertDegreeToDispStringLon(lo);
           display = sprintf("%s",lon);
         } else {
           var la = getprop("position/latitude-deg");
