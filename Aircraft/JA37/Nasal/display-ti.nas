@@ -1663,6 +1663,8 @@ var TI = {
 		# cursor
 		ti.cursorPosX  = 0;
 		ti.cursorPosY  = 0;
+		ti.cursorGPosX=50*MM2TEX;
+		ti.cursorGPosY=height*0.5;
 		ti.blinkBox2 = FALSE;
 		ti.blinkBox3 = FALSE;
 		ti.blinkBox4 = FALSE;

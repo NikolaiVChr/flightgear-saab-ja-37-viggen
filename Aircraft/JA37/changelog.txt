@@ -3455,3 +3455,4 @@ TI: Can now show LV/FF points.
 TI: Removed functionality of menu item CONF-GPS-FIX, since it was doing something else than this function really was for.
 DAP: LS/SKU button is now used in the JA37Di to send a request to delete a value when inputting to the TI.
 TI: Manual event now shows human readable lat/lon instead of doubles. Also made it contain just the info the manual states it should have.
+TI: Fixed that if bulls-eye is loaded before cursor is on TI, putting the cursor on TI would produce an error.

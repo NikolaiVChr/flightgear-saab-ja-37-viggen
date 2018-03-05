@@ -16,7 +16,7 @@ Some of these features that has to do with multiple flightplans or map-areas, wo
 
 Flightplans
 ===========
-The aircraft has 6 plans. 4 mission (1-4) and 2 return to base plans (A & B).
+The aircraft has 6 plans. 4 mission (1-4) and 2 return to base plans (A & B). Additionally it can have 6 map-areas defined.
 When you switch to another plan, entire plan in route manager will be replaced. So don't panic if route-manager clears.
 See also last section in this document: pre-loading plans.
 If your FG is older than 2017.3.1 you will only have 1 plan, that is used for both mission and RTB.
@@ -83,7 +83,7 @@ L - Navigate direct for landing base or switch runway. Will switch to RTB plan d
 LT - Nav. for touchdown point or short approach. Will switch to RTB plan destination. Notice if this is done on runway, OPT will engage.
 LS - Nav. for approach circle (long approach). Will switch to RTB plan destination. Notice if this is done on runway, OPT will engage.
 OPT - Optical landing mode. Can only be engaged with gears down or in landing mode (LS or LT). Will auto engage at low alt in those modes.
-DL - STRILL data-link  (not implemented)
+DL - STRIL data-link  (not implemented)
 LR - Return to base polygon navigation. Or switch to next steerpoint in that.
 MPOL - Mission polygon
 RPOL - RTB polygon
@@ -292,9 +292,13 @@ Example: --prop:string:/xmlPlans/area3=c:\areas\myNoFlyZone.gpx
 
 If a file cannot get loaded, the console will print a warning.
 
+Bulls-eye can be preloaded with enabling 3 properties.
 
+This example will place a Bulls-eye in Nevada, US:
 
-
+--prop:bool:/ja37/navigation/bulls-eye-defined=true
+--prop:double:ja37/navigation/bulls-eye-lat=37.20
+--prop:double:ja37/navigation/bulls-eye-lon=-115.60
 
 Testing
 =======
