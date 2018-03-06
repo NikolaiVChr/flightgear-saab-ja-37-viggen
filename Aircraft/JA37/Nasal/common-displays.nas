@@ -49,7 +49,7 @@ var Common = {
 	        landingMode:      "ja37/hud/landing-mode",
 	        currentMode:      "ja37/hud/current-mode",
 	        elapsedSec:       "sim/time/elapsed-sec",
-
+	        nav0InRange:      "instrumentation/nav[0]/in-range",
 	        qfeActive:        "ja37/displays/qfe-active",
 	        qfeShown:		  "ja37/displays/qfe-shown",
 	        altCalibrated:    "ja37/avionics/altimeters-calibrated",
@@ -152,22 +152,30 @@ units:                "ja37/hud/units-metric",
 			me.distance_m = radar_logic.selection.get_range()*NM2M;
 			me.distance_name = radar_logic.selection.get_Callsign();
 			me.distance_model = radar_logic.selection.get_model();
-		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
-			# DME
-	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
-	    	me.distance_name = "";
-			me.distance_model = "DME";
 	    } elsif (me.input.RMActive.getValue() == TRUE and me.input.rmDist.getValue() != nil and getprop("autopilot/route-manager/current-wp") != -1 and (steers or land.mode > 0)) {
 	    	# next steerpoint
 	    	me.distance_m = me.input.rmDist.getValue()*NM2M;
 	    	me.theID = getprop("autopilot/route-manager/route/wp["~getprop("autopilot/route-manager/current-wp")~"]/id");
 	    	me.distance_name = me.theID!=nil?me.theID:"";
 			me.distance_model = me.input.units.getValue() == displays.METRIC?"Brytpunkt":"Steerpoint";
+		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
+			# DME
+	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
+	    	if (me.input.nav0InRange.getValue() == TRUE) {
+	    		me.distance_name = "Radio nav";
+	    	} else {
+	    		me.distance_name = "";
+	    	}
+			me.distance_model = "DME";
 #	    } elsif (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
 #	    	# radar selection / GPS selection
 #	    	me.distance_m = radar_logic.selection.get_range()*NM2M;
 #	    	me.distance_name = radar_logic.selection.get_Callsign();
 #			me.distance_model = radar_logic.selection.get_model();
+		} elsif (me.input.nav0InRange.getValue() == TRUE) {
+			me.distance_m = -1;
+			me.distance_name = "Radio nav";
+			me.distance_model = "";
 	  	} else {
 	  		# nothing
 	  		me.distance_m = -1;

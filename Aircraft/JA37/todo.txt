@@ -186,7 +186,7 @@ TI: Cursor should be able to select and then relocate a FF or LV point in MSDA m
 Radar: RCS takes a moment to kick in apparently. Might be fixed.
 Radar: No voice warning of incoming missiles. Fix.
 Sim: At relocation: ja37.nas line 813 Nasal runtime error: setprop() passed a NaN: setprop("/environment/aircraft-effects/fog-inside", me.fogNormInside);
-Arms: Jettison all weaps gives collision. Plus at least 1 RB99 fall fast upwards.
+
 
 
 
@@ -209,7 +209,7 @@ Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only 
 Aerobatic smoke, the real probably didn't have.
 TI: Delete, append or insert steerpoint should really be controlled from radar stick, not be part of TI menu.
 TI: OPT should really be a button on the flightstick, not be part of TI menu.
-In the real nav. panel you could select between 4 bases plus STRILL supplied base. Each could have A & B return-to-base plans. So that makes up to 10 RTB plans, instead of the current 2.
+In the real nav. panel you could select between 4 bases plus STRIL supplied base. Each could have A & B return-to-base plans. So that makes up to 10 RTB plans, instead of the current 2.
 The real Viggen displays had 2 cursors; lock-cursor and TIM-cursor. The flightgear Viggen has combined it into 1 cursor.
 
 

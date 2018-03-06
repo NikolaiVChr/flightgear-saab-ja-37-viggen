@@ -50,6 +50,7 @@
 	</model>
 
 	<animation>
+		<object-name>aim120</object-name>
   		<object-name>exhaust</object-name>
 		<object-name>end</object-name>
 		<object-name>finFront1</object-name>

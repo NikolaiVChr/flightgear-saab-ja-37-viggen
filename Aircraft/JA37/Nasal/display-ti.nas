@@ -4312,17 +4312,17 @@ var TI = {
 			}
 			me.textBWeight.setText(me.weightT);
 			me.textBAlpha.setText(me.alphaT);
-		} elsif (displays.common.distance_m != -1) {
+		} else {
 			me.textBWeight.setText(displays.common.distance_name);
 			if (displays.common.distance_model != displays.common.distance_name) {
 				me.textBAlpha.setText(displays.common.distance_model);
 			} else {
 				me.textBAlpha.setText("");
 			}
-		} else {
-			me.textBWeight.setText("");
-			me.textBAlpha.setText("");
-		}
+		}# else {
+		#	me.textBWeight.setText("");
+		#	me.textBAlpha.setText("");
+		#}
 		if (displays.common.error == FALSE) {
 			me.textBerror.setColor(rGrey, gGrey, bGrey, a);
 			me.textBerrorFrame2.hide();
