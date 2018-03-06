@@ -161,21 +161,21 @@ units:                "ja37/hud/units-metric",
 		} elsif (me.input.dme.getValue() != "---" and me.input.dme.getValue() != "" and me.input.dmeDist.getValue() != nil and me.input.dmeDist.getValue() != 0) {
 			# DME
 	    	me.distance_m = me.input.dmeDist.getValue()*NM2M;
-	    	if (me.input.nav0InRange.getValue() == TRUE) {
-	    		me.distance_name = "Radio nav";
-	    	} else {
+	    	#if (me.input.nav0InRange.getValue() == TRUE) {
+	    	#	me.distance_name = "Radio nav";
+	    	#} else {
 	    		me.distance_name = "";
-	    	}
+	    	#}
 			me.distance_model = "DME";
 #	    } elsif (radar_logic.selection != nil and (containsVector(radar_logic.tracks, radar_logic.selection) or radar_logic.selection.parents[0] == radar_logic.ContactGPS)) {
 #	    	# radar selection / GPS selection
 #	    	me.distance_m = radar_logic.selection.get_range()*NM2M;
 #	    	me.distance_name = radar_logic.selection.get_Callsign();
 #			me.distance_model = radar_logic.selection.get_model();
-		} elsif (me.input.nav0InRange.getValue() == TRUE) {
-			me.distance_m = -1;
-			me.distance_name = "Radio nav";
-			me.distance_model = "";
+		#} elsif (me.input.nav0InRange.getValue() == TRUE) {
+		#	me.distance_m = -1;
+		#	me.distance_name = "Radio nav";
+		#	me.distance_model = "";
 	  	} else {
 	  		# nothing
 	  		me.distance_m = -1;

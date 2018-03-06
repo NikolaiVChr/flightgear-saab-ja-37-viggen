@@ -1351,9 +1351,9 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.desired_mag_heading = radar_logic.selection.getMagBearing();
     } elsif( me.input.RMActive.getValue() == TRUE) {
       me.desired_mag_heading = me.input.RMWaypointBearing.getValue();
-    } elsif (me.input.nav0InRange.getValue() == TRUE) {
+#    } elsif (me.input.nav0InRange.getValue() == TRUE) {
       # bug to VOR, ADF or ILS
-      me.desired_mag_heading = me.input.nav0Heading.getValue();# TODO: is this really mag?
+#      me.desired_mag_heading = me.input.nav0Heading.getValue();# TODO: is this really mag?
     }
     if(me.desired_mag_heading != nil) {
       #print("desired "~desired_mag_heading);
