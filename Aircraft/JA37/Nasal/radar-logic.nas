@@ -423,8 +423,8 @@ var RadarLogic = {
             # its not a friend, so lets do the check
             if (node.getNode("orientation/true-heading-deg") != nil) {
                 var bearing = self.course_to(aircraftPos);
-                var trAct = node.getNode("instrumentation/transponder/inputs/mode");
-                if (trAct != nil and trAct.getValue() != 0) {
+                var trAct = node.getNode("instrumentation/transponder/transmitted-id");
+                if (trAct != nil and trAct.getValue() != -9999) {#hmm kinda of a hack
                   # transponder on
                   var clock = getClock(bearing-myHeading);
                   rwr[clock-1] = TRUE;

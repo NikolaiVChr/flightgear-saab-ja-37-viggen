@@ -835,13 +835,21 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 #
 # FPLDATA
 # interoperability:  15a1cd, swedish: 15a0cd.
-# TI backlit intensity of frame buttons: 06---d
+# TI backlit intensity of frame buttons: 06xxxd
 # GPS-reciever installed: 300bcd (yes), 301bcd (no)
 
 # output UD UT
 #
 # TILS/BANA
 # [ILSFREQ]
+#
+# REG/STR
+# 01axxx  xxx=delta exceeded outlet temperature
+# 02xxxx  xxxx=highest measured outlet temp
+# 03abcd  a=1:too high force Ny detected for vert tail, b=1:ejector termal too high detected, cd=delta too high normal Nz detected (c,d)
+# 04axxx  xxx=highest normal detected (xx.x)
+# 05abxx  xx=highest alpha detected
+# 06abcd  engine wear value
 #
 # CL/DAT
 # [----CL] when holding OK

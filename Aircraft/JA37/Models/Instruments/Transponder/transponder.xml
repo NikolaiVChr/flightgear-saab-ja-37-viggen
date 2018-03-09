@@ -356,7 +356,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>transponder-enable-btn</tooltip-id>
-                <label>Mode: %s</label>
+                <label>Power</label>
             </binding>
         </hovered>
     </animation>
