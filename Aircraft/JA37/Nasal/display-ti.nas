@@ -1550,6 +1550,7 @@ var TI = {
 #			twoHz:                "ja37/blink/two-Hz/state",
 			station:          	  "controls/armament/station-select",
 			roll:             	  "orientation/roll-deg",
+			pitch:             	  "orientation/pitch-deg",
 			units:                "ja37/hud/units-metric",
 			callsign:             "ja37/hud/callsign",
 			tracks_enabled:   	  "ja37/hud/tracks-enabled",
@@ -1576,6 +1577,15 @@ var TI = {
         	wow1:                 "fdm/jsbsim/gear/unit[1]/WOW",
         	wow2:                 "fdm/jsbsim/gear/unit[2]/WOW",
         	gearsPos:         	  "gear/gear/position-norm",
+        	latitude:             "position/latitude-deg",
+        	longitude:            "position/longitude-deg",
+        	terrainOn:            "ja37/sound/terrain-on",
+			terrainWarn:          "instrumentation/terrain-warning",
+			inputFlight:          "ja37/systems/input-controls-flight",
+			elevCmd:              "fdm/jsbsim/fcs/elevator-cmd-norm",
+			ailCmd:               "fdm/jsbsim/fcs/aileron-cmd-norm",
+			trigger:              "controls/armament/trigger",
+			instrNorm:            "controls/lighting/instruments-norm",
       	};
    
       	foreach(var name; keys(ti.input)) {
@@ -1587,8 +1597,8 @@ var TI = {
       	ti.setupMap();
 
       	#map
-      	ti.lat = getprop('/position/latitude-deg');
-		ti.lon = getprop('/position/longitude-deg');
+      	ti.lat = ti.input.latitude.getValue();
+		ti.lon = ti.input.longitude.getValue();
       	ti.mapSelfCentered = TRUE;
 
       	ti.lastRRT = 0;
@@ -1743,7 +1753,7 @@ var TI = {
 		me.whereIsMap();#must be before mapUpdate
 		me.updateMap();
 		me.showMapScale();
-		M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
+		M2TEX = 1/(meterPerPixel[zoom]*math.cos(me.input.latitude.getValue()*D2R));
 		me.updateSVY();# must be before displayRadarTracks and showselfvector
 		me.showSelfVector();
 		me.defineEnemies();# must be before displayRadarTracks
@@ -2562,8 +2572,8 @@ var TI = {
 				getprop("velocities/mach"),
 				me.input.headMagn.getValue(),
 				me.input.alt_ft.getValue(),
-				ja37.convertDegreeToStringLon(getprop("position/longitude-deg")),
-				ja37.convertDegreeToStringLat(getprop("position/latitude-deg")),
+				ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
+				ja37.convertDegreeToStringLat(me.input.latitude.getValue()),
 				me.tgtC,
 				me.tgtS,
 				me.tgtA,
@@ -2575,8 +2585,8 @@ var TI = {
 				getprop("velocities/mach"),
 				me.input.headMagn.getValue(),
 				me.input.alt_ft.getValue(),
-				ja37.convertDegreeToStringLon(getprop("position/longitude-deg")),
-				ja37.convertDegreeToStringLat(getprop("position/latitude-deg"))				
+				ja37.convertDegreeToStringLon(me.input.longitude.getValue()),
+				ja37.convertDegreeToStringLat(me.input.latitude.getValue())				
 				);
 		}
 		me.logEvents.push(me.message);
@@ -2592,7 +2602,7 @@ var TI = {
 	########################################################################################################
 
 	edgeButtons: func {
-		me.lightNorm = getprop("controls/lighting/instruments-norm");
+		me.lightNorm = me.input.instrNorm.getValue();
 		me.elapsedTime = me.input.timeElapsed.getValue();
 		for (me.i = 0; me.i <22;me.i+=1) {
 			if (me.elapsedTime-edgeButtonsStruct[me.i]<0.30) {
@@ -2633,9 +2643,9 @@ var TI = {
 
 	showCursor: func {
 		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
-			if(!getprop("/ja37/systems/input-controls-flight")) {
-				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/elevator-cmd-norm");
-				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/aileron-cmd-norm");
+			if(!me.input.inputFlight.getValue()) {
+				me.cursorSpeedY = me.input.elevCmd.getValue();
+				me.cursorSpeedX = me.input.ailCmd.getValue();
 				me.cursorMoveY  = 150 * 0.05 * me.cursorSpeedY;
 				me.cursorMoveX  = 150 * 0.05 * me.cursorSpeedX;
 				me.cursorPosX  += me.cursorMoveX;
@@ -2649,7 +2659,7 @@ var TI = {
 				#me.cursorRPosX = me.cursorPosX + me.rootCenterTranslation[0];
 				#me.cursorRPosY = me.cursorPosY + me.rootCenterTranslation[1];# relative to own position
 				me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
-				me.cursorTrigger = getprop("controls/armament/trigger");
+				me.cursorTrigger = me.input.trigger.getValue();
 				#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
 				if (route.Polygon.editBullsEye) {
 					if(me.cursorTrigger and !me.cursorTriggerPrev) {
@@ -3224,7 +3234,7 @@ var TI = {
 					      			me.baseSmall[me.numS].setTranslation(me.pixelX, me.pixelY);
 					      			me.baseSmallText[me.numS].setTranslation(me.pixelX, me.pixelY);
 					      			me.baseSmallText[me.numS].setText(me.baseIcao);
-					      			me.baseSmallText[me.numS].setRotation(-getprop("orientation/heading-deg")*D2R);
+					      			me.baseSmallText[me.numS].setRotation(-me.input.heading.getValue()*D2R);
 					      			me.baseSmall[me.numS].show();
 					      			me.baseSmallText[me.numS].show();
 					      			me.numS += 1;
@@ -3235,7 +3245,7 @@ var TI = {
 					      			me.baseLargeText[me.numL].setTranslation(me.pixelX, me.pixelY);
 					      			me.baseLargeText[me.numL].setText(me.baseIcao);
 					      			me.baseLargeText[me.numL].show();
-					      			me.baseLargeText[me.numL].setRotation(-getprop("orientation/heading-deg")*D2R);
+					      			me.baseLargeText[me.numL].setRotation(-me.input.heading.getValue()*D2R);
 					      			me.baseLarge[me.numL].show();
 					      			me.numL += 1;
 					      		}
@@ -3413,10 +3423,10 @@ var TI = {
 			me.wpText5.show();
 
 			me.wpText2Desc.setText("LON");
-			me.wpText2.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLon(getprop("position/longitude-deg")):"000 00 00");
+			me.wpText2.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLon(me.input.longitude.getValue()):"000 00 00");
 
 			me.wpText3Desc.setText("LAT");
-			me.wpText3.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLat(getprop("position/latitude-deg")):"00 00 00");
+			me.wpText3.setText(getprop("ja37/avionics/gps-nav")?ja37.convertDegreeToStringLat(me.input.latitude.getValue()):"00 00 00");
 
 			me.wpText2.setFontSize(13, 1.0);
 			me.wpText3.setFontSize(13, 1.0);
@@ -3670,7 +3680,7 @@ var TI = {
 		# steerpoints on map
 		me.rrSymbolS.hide();
 		me.all_plans = [];# 0: plan  1: editing  2: MSDA menu
-		me.steerRot = -getprop("orientation/heading-deg")*D2R;
+		me.steerRot = -me.input.heading.getValue()*D2R;
 		if (me.menuMain == MAIN_MISSION_DATA) {
 			if (route.Polygon.primary.type == route.TYPE_MIX) {
 				append(me.all_plans, [route.Polygon.primary, route.Polygon.primary == route.Polygon.editing, TRUE]);
@@ -3911,7 +3921,7 @@ var TI = {
   		}
   		#printf("%d degs %0.1f NM", me.texAngle*R2D, me.mDist*M2NM);
   		me.texAngle  = -me.texAngle*R2D+90;#convert from unit circle to heading circle, 0=up on display
-  		me.headAngle = getprop("orientation/heading-deg")+me.texAngle;#bearing
+  		me.headAngle = me.input.heading.getValue()+me.texAngle;#bearing
   		#printf("%d bearing   %d rel bearing", me.headAngle, me.texAngle);
   		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
   		me.coordSelf.set_latlon(me.lat, me.lon);
@@ -3925,7 +3935,7 @@ var TI = {
   			me.beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
   			me.bePos = me.laloToTexel(me.beLaLo[0], me.beLaLo[1]);
   			me.bullsEye.setTranslation(me.bePos[0], me.bePos[1]);
-  			me.bullsEye.setRotation(-getprop("orientation/heading-deg")*D2R);
+  			me.bullsEye.setRotation(-me.input.heading.getValue()*D2R);
   			if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
   				# bearing and distance from Bulls-Eye to cursor
 				#
@@ -4000,13 +4010,13 @@ var TI = {
   						.vert(-me.ppRad*2)
   						.horiz(me.ppRad*2)
   						.vert(me.ppRad*2)
-  						.setRotation(-getprop("orientation/heading-deg")*D2R)
+  						.setRotation(-me.input.heading.getValue()*D2R)
   						.setColor(me.ppCol)
   						.setStrokeLineWidth(w);
   				if (me.menuMain==MAIN_MISSION_DATA or dap.settingKnob == dap.KNOB_TI) {
   					me.ppGrp.createChild("group")
   						.setTranslation(me.ppXY[0], me.ppXY[1])
-  						.setRotation(-getprop("orientation/heading-deg")*D2R)
+  						.setRotation(-me.input.heading.getValue()*D2R)
   				        .createChild("text")
   						.setText(me.ppNum)
   						.setColor(me.ppCol)
@@ -4028,7 +4038,7 @@ var TI = {
   						.setColor(me.ppCol)
     					.setAlignment("center-center")
     					.setTranslation(me.ppXY[0], me.ppXY[1])
-    					.setRotation(-getprop("orientation/heading-deg")*D2R)
+    					.setRotation(-me.input.heading.getValue()*D2R)
     					.setFontSize(15, 1);
   				}
 			}
@@ -4105,11 +4115,11 @@ var TI = {
 
 	updateFlightData: func {
 		me.fData = FALSE;
-		if (getprop("ja37/sound/terrain-on") == TRUE or getprop("instrumentation/terrain-warning") == TRUE) {
+		if (me.input.terrainOn.getValue() == TRUE or me.input.terrainWarn.getValue() == TRUE) {
 			me.fData = TRUE;
 		} elsif (me.displayFlight == FLIGHTDATA_ON) {
 			me.fData = TRUE;
-		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.rad_alt.getValue()*FT2M < 1000 or math.abs(getprop("orientation/pitch-deg")) > 10 or math.abs(getprop("orientation/roll-deg")) > 45)) {
+		} elsif (me.displayFlight == FLIGHTDATA_CLR and (me.input.rad_alt.getValue()*FT2M < 1000 or math.abs(me.input.pitch.getValue()) > 10 or math.abs(me.input.roll.getValue()) > 45)) {
 			me.fData = TRUE;
 		}
 		if (me.fData == TRUE) {
@@ -4139,10 +4149,10 @@ var TI = {
 	},
 
 	displayHorizon: func {
-		me.rot = -getprop("orientation/roll-deg") * D2R;
+		me.rot = -me.input.roll.getValue() * D2R;
 		me.horizon_group.setTranslation(-me.fpi_x, -me.fpi_y);
 		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
+		me.horizon_group2.setTranslation(0, texel_per_degree * me.input.pitch.getValue());
 
 		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
 		if (me.alt != nil) {
@@ -4169,7 +4179,7 @@ var TI = {
 
 	displayGroundCollisionArrow: func () {
 	    if (getprop("/instrumentation/terrain-warning") == TRUE) {
-	      me.arrow_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+	      me.arrow_trans.setRotation(-me.input.roll.getValue() * D2R);
 	      me.arrow.show();
 	    } else {
 	      me.arrow.hide();
@@ -4182,7 +4192,7 @@ var TI = {
 			me.timeC = clamp(me.time - 10,0,30);
 			me.dist = (me.timeC/30) * (height/2);
 			me.ground_grp.setTranslation(0, 0);
-			me.ground_grp_trans.setRotation(-getprop("orientation/roll-deg") * D2R);
+			me.ground_grp_trans.setRotation(-me.input.roll.getValue() * D2R);
 			me.groundCurve.setTranslation(0, me.dist);
 			if (me.time < 10 and me.time != 0) {
 				me.groundCurve.setColor(rRed,gRed,bRed, a);
@@ -4396,6 +4406,7 @@ var TI = {
 		    me.runway_name.setRotation(-(180+land.head)*D2R);
 		    me.runway_name.show();
 		    me.approach_line.show();
+		    me.approach_line.update();
 		    if (land.runway_rw != nil and land.runway_rw.length > 0) {
 		    	me.scale = land.runway_rw.length*M2TEX;
 	    	} else {
@@ -4403,6 +4414,7 @@ var TI = {
 	    	}
 	    	me.runway_line.setScale(1, me.scale);
 		    me.runway_line.show();
+		    me.runway_line.update();
 		    if (land.show_approach_circle == TRUE) {
 		      me.scale = 4100*M2TEX/100;
 		      me.approach_circle.setStrokeLineWidth(w/me.scale);
@@ -4415,8 +4427,8 @@ var TI = {
 		      me.pixelX =  me.pixelDistance * math.cos(me.xa_rad + math.pi/2);
 		      me.pixelY =  me.pixelDistance * math.sin(me.xa_rad + math.pi/2);
 		      me.approach_circle.setTranslation(me.pixelX, me.pixelY);
-		      me.approach_circle.update();#needed
 		      me.approach_circle.show();
+		      me.approach_circle.update();#needed
 		    } else {
 		      me.approach_circle.hide();#pitch.......1x.......................................................
 		    }            
@@ -4427,6 +4439,7 @@ var TI = {
 		    me.runway_name.hide();
 		  }
 		  me.dest.show();
+		  me.dest.update();
 		} else {
 			me.dest_circle.hide();
 			me.approach_line.hide();
@@ -5575,8 +5588,8 @@ var TI = {
 
 	whereIsMap: func {
 		# update the map position
-		me.lat_own = getprop('/position/latitude-deg');
-		me.lon_own = getprop('/position/longitude-deg');
+		me.lat_own = me.input.latitude.getValue();
+		me.lon_own = me.input.longitude.getValue();
 		if (me.menuMain != MAIN_MISSION_DATA or me.mapSelfCentered) {
 			# get current position
 			me.lat = me.lat_own;
@@ -5591,8 +5604,8 @@ var TI = {
 		}
 		me.rootCenterY = height*0.875-(height*0.875)*me.ownPosition;
 		if (!me.mapSelfCentered) {
-			me.lat_wp   = getprop('/position/latitude-deg');
-			me.lon_wp   = getprop('/position/longitude-deg');
+			me.lat_wp   = me.input.latitude.getValue();
+			me.lon_wp   = me.input.longitude.getValue();
 			me.tempReal = me.laloToTexel(me.lat,me.lon);#delicate
 			me.rootCenter.setTranslation(width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]);
 			#me.rootCenterTranslation = [width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]];
@@ -5691,7 +5704,9 @@ var TI = {
 		lastDay = me.day;
 		}
 
-		me.mapRot.setRotation(-getprop("orientation/heading-deg")*D2R);
+		#me.mapRot.setRotation(-me.input.heading.getValue()*D2R);
+		me.mapCenter.setRotation(-me.input.heading.getValue()*D2R);#switched to direct rotation to try and solve issue with approach line not updating fast.
+		me.mapCenter.update();
 	},
 };
 

@@ -3466,4 +3466,5 @@ TI: Fixed inputing lon/lat of map-area points with DAP would blink the wrong fie
 Arms: Fixed regression that jettisoning all stores gives collision with the RB-99.
 TI: Heading bug no longer shows if only doing radio navigation, use artificial horizon lines.
 HUD: Heading bug no longer shows if only doing radio navigation, use artificial horizon lines.
-TI: Fixed ECM would see aircraft even if they had transponder off.
+TI: Fixed passive radar would see aircraft even if they had transponder and radar off.
+TI: Replaced some getprops.
