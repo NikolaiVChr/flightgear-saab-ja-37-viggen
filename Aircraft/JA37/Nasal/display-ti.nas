@@ -3972,7 +3972,7 @@ var TI = {
   				} elsif (me.beDist > 1000) {
   					me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
   				}
-  				me.beText.setText(sprintf("%03d %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
+  				me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
   				me.beTextField.show();
   			} else {
   				me.beTextField.hide();

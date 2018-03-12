@@ -1952,7 +1952,7 @@ var selectNextWaypoint = func () {
     var name = active_node.getNode("id");
 
     var coord = geo.Coord.new();
-    coord.set_latlon(lat.getValue(), lon.getValue(), alt);
+    coord.set_latlon(lat.getValue(), lon.getValue(), alt+1);#plus 1 to raise it a little above ground if its on ground, so LOS can still have view of it.
 
     var contact = radar_logic.ContactGPS.new(name.getValue(), coord);
 

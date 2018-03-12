@@ -891,7 +891,7 @@
                     <drag-coeff type="double">0.06</drag-coeff>                   
                     <cross-section-sqft type="double">3.04</cross-section-sqft>                             <!-- source -->
                     <arming-time-sec type="double">4.5</arming-time-sec>                  <!-- manual -->
-                    <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach>
+                    <min-speed-for-guiding-mach type="double">0.5</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">24</self-destruct-time-sec>     <!-- manual -->
                     <loft-altitude type="int">0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
@@ -909,13 +909,13 @@
                     <vol-track type="double">0.15</vol-track>
                     <vol-track-weak type="double">0.1</vol-track-weak>
                     <guidance type="string">vision</guidance>
-                    <navigation type="string">APN</navigation>                           
+                    <navigation type="string">direct</navigation>                           
                     <all-aspect type="bool">true</all-aspect>
                     <max-fire-range-nm type="double">12</max-fire-range-nm>              <!-- source -->
                     <FCS-field-deg type="int">25</FCS-field-deg>            
                     <seeker-field-deg type="int">180</seeker-field-deg>     
                     <seeker-angular-speed-dps type="double">30</seeker-angular-speed-dps><!-- deg/sec guess-->
-                    <max-g type="int">25</max-g>                   
+                    <max-g type="int">25</max-g>
                     <max-launch-g type="int">7</max-launch-g>               
                     <thrust-lbf-stage-1 type="double">1200</thrust-lbf-stage-1>
                     <thrust-lbf-stage-2 type="double">0.0</thrust-lbf-stage-2>
@@ -923,10 +923,10 @@
                     <stage-2-duration-sec type="double">0.0</stage-2-duration-sec>
                     <weight-launch-lbs type="double">462</weight-launch-lbs>              <!-- source -->
                     <weight-warhead-lbs type="double">126</weight-warhead-lbs>            <!-- source -->
-                    <drag-coeff type="double">0.06</drag-coeff>                   
+                    <drag-coeff type="double">0.06</drag-coeff>
                     <cross-section-sqft type="double">3.14</cross-section-sqft>                             <!-- source -->
                     <arming-time-sec type="double">1.0</arming-time-sec>          
-                    <min-speed-for-guiding-mach type="double">0.7</min-speed-for-guiding-mach>
+                    <min-speed-for-guiding-mach type="double">0.5</min-speed-for-guiding-mach>
                     <self-destruct-time-sec type="double">55</self-destruct-time-sec>  
                     <loft-altitude type="int">0</loft-altitude>
                     <min-fire-range-nm type="double">0.2</min-fire-range-nm>
