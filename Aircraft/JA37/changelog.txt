@@ -3468,3 +3468,9 @@ TI: Heading bug no longer shows if only doing radio navigation, use artificial h
 HUD: Heading bug no longer shows if only doing radio navigation, use artificial horizon lines.
 TI: Fixed passive radar would see aircraft even if they had transponder and radar off.
 TI: Replaced some getprops.
+Radar: No longer supply selection to arms if radar is silent.
+Arms: RB75 and RB05 now need less speed to steer.
+Arms: RB75 is again set to pure pursuit guidance law.
+Radar: Made check for LOS a bit more solid.
+HUD: Fixed blinking selected when outside HUD view no longer work in tactical mode.
+TI: Fixed bulls-eye infobox missing the degree symbol when showing direction to radar selection.
