@@ -2697,8 +2697,11 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
           me.lock_ir_last = FALSE;
       } else {
           if (me.missileCurr.status != armament.MISSILE_LOCK) {
-            me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
-            me.diamond_small.show();
+            if ((me.missileCurr.isBore() and me.missileCurr.isCaged()) or (!me.missileCurr.isSlave() and !me.missileCurr.isBore() and !me.missileCurr.isCaged()) or (me.missileCurr.isCaged() and me.missileCurr.isSlave() and !me.missileCurr.command_tgt)) {
+              # small seeker diamond should show. TODO: refine this if statement
+              me.diamond_small.setTranslation(me.ds[0]*pixelPerDegreeX, -me.ds[1]*pixelPerDegreeY+centerOffset);
+              me.diamond_small.show();
+            }
             me.lock_ir_last = FALSE;
           } else {
             if (me.lock_ir_last == FALSE) {

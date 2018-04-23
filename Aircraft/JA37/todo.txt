@@ -183,12 +183,12 @@ TI: Prioritize showing only 10 FF/LV points.
 Effect: Fix that with engine off, the wind can drive the fan which will produce smoke.
 TI: Be able to set steerorder to LV or FF points.
 TI: Cursor should be able to select and then relocate a FF or LV point in MSDA menu.
-Radar: RCS takes a moment to kick in apparently. Might be fixed.
+Radar: RCS takes a moment to kick in apparently. Might be fixed. No its not, just saw it.
 Radar: No voice warning of incoming missiles. (reported by pinto, not reproducable)
 Sim: At relocation: ja37.nas line 813 Nasal runtime error: setprop() passed a NaN: setprop("/environment/aircraft-effects/fog-inside", me.fogNormInside);
 TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
 TI: Has almost 100 getprop calls, convert to getValue.
-
+Sim: Pilot sometimes complains of lack of oxygen after relocation.
 
 
 

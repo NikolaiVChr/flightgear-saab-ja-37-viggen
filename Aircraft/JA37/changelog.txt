@@ -3474,3 +3474,8 @@ Arms: RB75 is again set to pure pursuit guidance law.
 Radar: Made check for LOS a bit more solid.
 HUD: Fixed blinking selected when outside HUD view no longer work in tactical mode.
 TI: Fixed bulls-eye infobox missing the degree symbol when showing direction to radar selection.
+Arms: Missiles and bombs now are updated when flying in their own thread.
+Arms: Weapons now avoid steering so that lock will be lost if can be avoided.
+Arms: Dropped weapons are now released into the airstream instead of aircraft heading.
+Arms: Made check for LOS a bit more solid.
+HUD: Heatseeker icon now only shows in bore, uncaged scan or cursor commanded modes.

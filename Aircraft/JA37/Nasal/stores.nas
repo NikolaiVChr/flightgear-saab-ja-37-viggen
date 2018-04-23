@@ -564,7 +564,7 @@ var loop_stores = func {
     var wtv = getprop("fdm/jsbsim/effects/wingtip-vapour");
     input.MPint19.setIntValue(ja37.encode3bits(leftRb2474, rightRb2474, wtv));
 
-  # Flare release
+  # Flare/chaff release
   if (getprop("ai/submodels/submodel[0]/flare-release-snd") == nil) {
     setprop("ai/submodels/submodel[0]/flare-release-snd", FALSE);
     setprop("ai/submodels/submodel[0]/flare-release-out-snd", FALSE);
