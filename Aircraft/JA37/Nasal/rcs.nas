@@ -23,6 +23,7 @@ var rcs_database = {
     "f-14b-bs":                 0.001,   # low so it dont show up on radar
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
+    "F-16":                     2,      #guess
     "f15-bs":                   0.001,   # low so it dont show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
