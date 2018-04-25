@@ -392,7 +392,7 @@
                 <int n="7" alias="/damage/sounds/explode-on"/>                <!-- to show explosion plus its sound -->
                 <!-- Animation control surfaces -->
                 <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>                <!-- to show detachment of canopy -->
-                <int n="2" alias="/ja37/radar/active"/>
+                <int n="2" type="int">0</int> 
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>                <!-- used for animation -->
                 <!--<float n="3" alias="/fdm/jsbsim/propulsion/engine/aug-flame"/> is now done in jsbsim -->                <!-- to animate afterburnerflame -->
@@ -1551,6 +1551,10 @@
         <testing>
             <file>Aircraft/JA37/Nasal/test.nas</file>
         </testing>
+        
+        <!--<proto>
+            <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>
+        </proto>-->
         
         <!-- Uncomment below to enable FGplot -->
         <!--

@@ -110,6 +110,7 @@ var RadarLogic = {
     },
 
     loop: func () {
+      setprop("sim/multiplay/generic/int[2]", !getprop("ja37/radar/active"));
       me.findRadarTracks();
       #settimer(func me.loop(), 0.25);
     },
@@ -435,7 +436,7 @@ var RadarLogic = {
                   var deviation = inv_bearing - heading;
                   #print("dev "~deviation);
                   var rdrAct = node.getNode("sim/multiplay/generic/int[2]");
-                  if (((rdrAct != nil and rdrAct.getValue()!=0) or rdrAct == nil) and math.abs(geo.normdeg180(deviation)) < 60) {
+                  if (((rdrAct != nil and rdrAct.getValue()!=1) or rdrAct == nil) and math.abs(geo.normdeg180(deviation)) < 60) {
                       # we detect its radar is pointed at us and active
                       var clock = getClock(bearing-myHeading);
                       rwr[clock-1] = TRUE;
@@ -980,10 +981,10 @@ var Contact = {
     },
 
     isRadarActive: func {
-      if (me.rdrAct == nil or me.rdrAct.getValue() < 0 or me.rdrAct.getValue() > 1) {
+      if (me.rdrAct == nil or me.rdrAct.getValue() != 1) {
         return TRUE;
       }
-      return me.rdrAct.getValue();
+      return FALSE;
     },
 
     isPainted: func () {

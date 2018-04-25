@@ -602,7 +602,7 @@ var loop_stores = func {
   }
 
   # conditionals for dropping M70/droptank
-  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[11]") == 794) {
+  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[11]") == 794) {#TODO: figure out how I used int[2] here, its now used for radar.
     #left wing rocket pod mounted
     setprop("ja37/effect/pod0", FALSE);
     setprop("ai/submodels/submodel[17]/count", 1);
@@ -616,7 +616,7 @@ var loop_stores = func {
   } else {
     setprop("ja37/effect/pod1", TRUE);
   }
-  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[13]") == 794) {
+  if (getprop("sim/multiplay/generic/int[2]") == TRUE and getprop("sim/multiplay/generic/float[13]") == 794) {#TODO: figure out how I used int[2] here, its now used for radar.
     #left wing rocket pod mounted
     setprop("ja37/effect/pod2", FALSE);
     setprop("ai/submodels/submodel[19]/count", 1);
