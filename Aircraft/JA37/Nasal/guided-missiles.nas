@@ -298,6 +298,7 @@ var AIM = {
 		m.ref_area_sqft         = getprop(m.nodeString~"cross-section-sqft");         # normally is crosssection area of munition (without fins)
 		m.max_g                 = getprop(m.nodeString~"max-g");                      # max G-force the missile can pull at sealevel
 		m.min_speed_for_guiding = getprop(m.nodeString~"min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly ballistic.
+		m.intoBore              = getprop(m.nodeString~"ignore-wind-at-release");     # Boolean. If true dropped weapons will ignore sideslip and AOA and start flying in aircraft bore direction.
 		# detonation
 		m.weight_whead_lbm      = getprop(m.nodeString~"weight-warhead-lbs");         # warhead weight
 		m.arming_time           = getprop(m.nodeString~"arming-time-sec");            # time for weapon to arm
@@ -366,6 +367,9 @@ var AIM = {
         }
         if (m.coolable == nil) {
         	m.coolable = FALSE;
+        }
+        if (m.intoBore == nil) {
+        	m.intoBore = FALSE;
         }
         
         # three variables used for trigonometry hit calc:
@@ -905,7 +909,7 @@ var AIM = {
 				# rail is pointing forward
 				me.rail_speed_into_wind = getprop("velocities/uBody-fps");# wind from nose
 			}
-		} else {
+		} elsif (me.intoBore == FALSE) {
 			# to prevent the missile from falling up, we need to sometimes pitch it into wind:
 			var h_spd = math.sqrt(me.speed_east_fps*me.speed_east_fps + me.speed_north_fps*me.speed_north_fps);
 			#var t_spd = math.sqrt(me.speed_down_fps*me.speed_down_fps + h_spd*h_spd);
@@ -1047,7 +1051,17 @@ var AIM = {
 			me.SwSoundFireOnOff.setBoolValue(TRUE);
 		}
 		if(me.mfFunction != nil) {
-			me.settings = me.mfFunction({time_s: me.life_time, dist_m: me.dist_curr_direct, mach: me.speed_m, weapon_position: me.coord});
+			#me.settings = me.mfFunction({time_s: me.life_time, dist_m: me.dist_curr_direct, mach: me.speed_m, weapon_position: me.coord});
+			me.settings = me.mfFunction({   time_s:                 me.life_time, 
+                                            dist_m:                 me.dist_curr_direct, 
+                                            mach:                     me.speed_m, 
+                                            weapon_position:         me.coord, 
+                                            guidance:                 me.guidance, 
+                                            seeker_detect_range:     me.detect_range_curr_nm, 
+                                            seeker_fov:             me.max_seeker_dev, 
+                                            weapon_pitch:             me.pitch, 
+                                            weapon_heading:         me.hdg,
+                                        });
 			if (me.settings["guidance"] != nil) {
 				me.guidance = me.settings.guidance;
 				#me.printGuide("Guidance switched to "~me.guidance);
