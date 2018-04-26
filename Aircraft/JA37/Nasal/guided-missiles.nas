@@ -276,7 +276,7 @@ var AIM = {
         m.ready_time            = getprop(m.nodeString~"ready-time");                 # time to get ready after standby mode.
 		# navigation, guiding and seekerhead
 		m.max_seeker_dev        = getprop(m.nodeString~"seeker-field-deg") / 2;       # missiles own seekers total FOV diameter.
-		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/pitch/gyro-pitch/radiation/inertial
+		m.guidance              = getprop(m.nodeString~"guidance");                   # heat/radar/semi-radar/laser/gps/vision/unguided/level/gyro-pitch/radiation/inertial
 		m.guidanceLaw           = getprop(m.nodeString~"navigation");                 # guidance-law: direct/PN/APN/PNxxyy/APNxxyy (use direct for gravity bombs, use PN for very old missiles, use APN for modern missiles, use PNxxyy/APNxxyy for surface to air where xx is degrees to aim above target, yy is seconds it will do that)
 		m.pro_constant          = getprop(m.nodeString~"proportionality-constant");   # Constant for how sensitive proportional navigation is to target speed/acc. Normally between 3-6. [optional]
 		m.all_aspect            = getprop(m.nodeString~"all-aspect");                 # bool. set to false if missile only locks on reliably to rear of target aircraft
@@ -1190,10 +1190,10 @@ var AIM = {
 				#
 				# Here we figure out how to guide, navigate and steer.
 				#
-				if (me.guidance == "pitch") {
+				if (me.guidance == "level") {
 					me.level();
 				} elsif (me.guidance == "gyro-pitch") {
-					me.levelGyro();
+					me.pitchGyro();
 				} else {
 					me.guide();
 				}
@@ -1227,7 +1227,7 @@ var AIM = {
 		if (me.rail == TRUE and me.rail_passed == FALSE) {
 			# missile still on rail, lets calculate its speed relative to the wind coming in from the aircraft nose.
 			me.rail_speed_into_wind = me.rail_speed_into_wind + me.speed_change_fps;
-		} else {
+		} elsif (me.guidance != "gyro-pitch") {
 			# gravity acc makes the weapon pitch down			
 			me.pitch = math.atan2(-me.speed_down_fps, me.speed_horizontal_fps ) * R2D;
 		}
@@ -1268,7 +1268,9 @@ var AIM = {
 
 		if (me.rail == FALSE or me.rail_passed == TRUE) {
 			# misssile not on rail, lets move it to next waypoint
-			me.alt_ft = me.alt_ft - (me.speed_down_fps * me.dt);
+			if (me.guidance != "level") {
+				me.alt_ft = me.alt_ft - (me.speed_down_fps * me.dt);
+			}
 			me.dist_h_m = me.speed_horizontal_fps * me.dt * FT2M;
 			me.coord.apply_course_distance(me.hdg, me.dist_h_m);
 			me.coord.set_alt(me.alt_ft * FT2M);
@@ -2189,7 +2191,7 @@ var AIM = {
         me.printGuide(sprintf("Trying to keep current %04.1f deg pitch.", me.pitch));
 	},
 
-	levelGyro: func () {
+	pitchGyro: func () {
         me.track_signal_e = (me.keepPitch-me.pitch) * !me.free;
         me.track_signal_h = 0;
         me.printGuide(sprintf("Gyro keeping %04.1f deg pitch. Current is %04.1f deg.", me.keepPitch, me.pitch));
