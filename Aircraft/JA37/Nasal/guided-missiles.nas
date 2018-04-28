@@ -1072,6 +1072,7 @@ var AIM = {
 			}
 			if (me.settings["target"] != nil) {
 				me.Tgt = me.settings.target;
+				me.callsign = me.Tgt.get_Callsign();
 				#me.printGuide("Target switched");
 			}
 		}
