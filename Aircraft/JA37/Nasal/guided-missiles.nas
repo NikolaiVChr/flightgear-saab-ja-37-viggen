@@ -241,6 +241,10 @@ var AIM = {
         	m.SwSoundVol.setDoubleValue(0);
         }
         m.useHitInterpolation   = getprop("payload/armament/hit-interpolation");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
+        m.useSingleFile   = getprop("payload/armament/one-xml-per-type");#false to use 5H1N0B1 trigonometry, true to use Leto interpolation.
+        if (m.useSingleFile == nil) {
+        	m.useSingleFile = FALSE;
+        }
 		m.PylonIndex        = m.prop.getNode("pylon-index", 1).setValue(p);
 		m.ID                = p;
 		m.stationName       = AcModel.getNode("armament/station-name").getValue();
@@ -443,6 +447,7 @@ var AIM = {
     		}
         }
 		m.weapon_model          = getprop("payload/armament/models")~m.weapon_model_type~"/"~m.type_lc~"-";
+		m.weapon_model2          = getprop("payload/armament/models")~m.weapon_model_type~"/"~m.type_lc;
 
 		m.mpLat          = getprop("payload/armament/MP-lat");# properties to be used for showing missile over MP.
 		m.mpLon          = getprop("payload/armament/MP-lon");
@@ -493,8 +498,14 @@ var AIM = {
 		m.ai.getNode("missile", 1).setBoolValue(1);
 		#m.model.getNode("collision", 1).setBoolValue(0);
 		#m.model.getNode("impact", 1).setBoolValue(0);
-		var id_model = m.weapon_model ~ m.ID ~ ".xml";
-		m.model.getNode("path", 1).setValue(id_model);
+		if (m.useSingleFile == FALSE) {
+			var id_model = m.weapon_model ~ m.ID ~ ".xml";
+			m.model.getNode("path", 1).setValue(id_model);
+		} else {
+			var id_model = m.weapon_model2~".xml";
+			m.model.getNode("path", 1).setValue(id_model);
+			print("Attempting to load "~id_model);
+		}
 		m.life_time = 0;
 
 		# Create the AI position and orientation properties.
