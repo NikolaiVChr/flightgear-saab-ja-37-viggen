@@ -8,7 +8,7 @@ var (width,height) = (512,512);#341
 #  print("Cleaning up window:","MI","\n");
   #update_timer.stop();
 #  gone = TRUE;
-# 
+#
 #  call(canvas.Window.del, [], me);
 #};
 #var root = window.getCanvas(1).createGroup();
@@ -19,11 +19,11 @@ var mycanvas = nil;
 var root = nil;
 var setupCanvas = func {
 	mycanvas = canvas.new({
-	  "name": "MI",  
-	  "size": [width, height], 
-	  "view": [width, height],  
-	                        
-	  "mipmapping": 1       
+	  "name": "MI",
+	  "size": [width, height],
+	  "view": [width, height],
+
+	  "mipmapping": 1
 	});
 	root = mycanvas.createGroup();
 	mycanvas.setColorBackground(0, 0, 0, 1.0);
@@ -167,7 +167,7 @@ var MI = {
 	        mach:             "instrumentation/airspeed-indicator/indicated-mach",
 	        acInstrVolt:      "systems/electrical/outputs/ac-instr-voltage",
       	};
-   
+
       	foreach(var name; keys(mi.input)) {
         	mi.input[name] = props.globals.getNode(mi.input[name], 1);
       	}
@@ -238,7 +238,7 @@ var MI = {
 		      .setStrokeLineWidth(w)
 		      .setColor(r,g,b, a);
 
-		
+
 		me.horizon_group = me.rootCenter.createChild("group");
 		me.horizon_group2 = me.horizon_group.createChild("group");
 		me.horz_rot = me.horizon_group.createTransform();
@@ -259,13 +259,13 @@ var MI = {
 		for(var i = 0; i <= 20; i += 1) # alt scale (right side)
 		      me.rootCenter.createChild("path")
 		         .moveTo(sidePositionOfSideScales, -i * halfHeightOfSideScales / 10 + halfHeightOfSideScales)
-		         .horiz(ticksMed)         
+		         .horiz(ticksMed)
 		         .setStrokeLineWidth(w)
 		         .setColor(r,g,b, a);
 		for(var i = 0; i <= 4; i += 1) # alt scale large ticks (right side)
 		      me.rootCenter.createChild("path")
 		         .moveTo(sidePositionOfSideScales, -i * halfHeightOfSideScales / 2 + halfHeightOfSideScales)
-		         .horiz(ticksLong)         
+		         .horiz(ticksLong)
 		         .setStrokeLineWidth(w)
 		         .setColor(r,g,b, a);
 		me.altScaleTexts = [];
@@ -318,7 +318,7 @@ var MI = {
 
 		me.cursor_grp = me.rootCenter.createChild("group");
 		me.cursor_grp_trans = me.cursor_grp.createTransform();
-		me.cursor_grp2 = me.cursor_grp.createChild("group");		
+		me.cursor_grp2 = me.cursor_grp.createChild("group");
 		me.cursor_lock = me.cursor_grp2.createChild("path")
 				.moveTo(-ticksShort, 0)
 	            .arcSmallCW(ticksShort, ticksShort, 0,  ticksShort*2, 0)
@@ -373,7 +373,7 @@ var MI = {
 		me.arr_90 = 9;
 		me.arr_120 = 12;
 
-		me.arrow_group = me.rootCenter.createChild("group");  
+		me.arrow_group = me.rootCenter.createChild("group");
 		me.arrow_trans = me.arrow_group.createTransform();
 		me.arrow =
 		      me.arrow_group.createChild("path")
@@ -529,7 +529,7 @@ var MI = {
 	    me.echoes  = [];
 	    me.echo_group = me.radar_group.createChild("group");
 	    me.echo_group_trans = me.radar_group.createTransform();
-	    for(var i = 0; i < maxTracks; i += 1) {      
+	    for(var i = 0; i < maxTracks; i += 1) {
 	      me.target_echoes = me.echo_group.createChild("path")
 	                           .moveTo(-texel_per_degree*1, 0)
 	                           .arcLargeCW(texel_per_degree*1, texel_per_degree*1, 0,  texel_per_degree*2, 0)
@@ -544,13 +544,13 @@ var MI = {
 	    # tgt scale (left side)
       	me.rootCenter.createChild("path")
 			.moveTo(-sidePositionOfSideScales, halfHeightOfSideScales)
-			.vert(-2*halfHeightOfSideScales)         
+			.vert(-2*halfHeightOfSideScales)
 			.setStrokeLineWidth(w)
 			.setColor(r,g,b, a);
 		for(var i = 0; i <= 6; i += 1) # tgt scale ticks (left side)
 		      me.rootCenter.createChild("path")
 		         .moveTo(-sidePositionOfSideScales, -i * halfHeightOfSideScales / 3 + halfHeightOfSideScales)
-		         .horiz(-ticksLong)         
+		         .horiz(-ticksLong)
 		         .setStrokeLineWidth(w)
 		         .setColor(r,g,b, a);
 		me.tgtTexts = [];
@@ -645,8 +645,8 @@ var MI = {
 				me.brightness = 1;
 			}
 		}
-		
-		
+
+
 		if (cursorOn == FALSE) {
 			radar_logic.setSelection(nil);
 		}
@@ -662,7 +662,7 @@ var MI = {
 		}
 
 		me.interoperability = me.input.units.getValue();
-		
+
 		me.displayFPI();
 		me.displayHorizon();#must be after displayFPI
 		me.displayGround();
@@ -702,7 +702,7 @@ var MI = {
 		me.rot = -getprop("orientation/roll-deg") * D2R;
 		me.horizon_group.setTranslation(-me.fpi_x, -me.fpi_y);
 		me.horz_rot.setRotation(me.rot);
-		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));		
+		me.horizon_group2.setTranslation(0, texel_per_degree * getprop("orientation/pitch-deg"));
 	},
 
 	displayGroundCollisionArrow: func () {
@@ -843,7 +843,7 @@ var MI = {
       				}
       				return;
       			}
-			}			
+			}
       	}
       	me.a2a_circle.hide();
       	me.a2a_circle_arc.hide();
@@ -906,70 +906,59 @@ var MI = {
 
 	showCursor: func {
 		if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
+    		me.cursorTrigger = getprop("fdm/jsbsim/fcs/cursor/cursor-select");
 
-        	if(!getprop("/ja37/systems/input-controls-flight")) {
-        		me.cursorTrigger = getprop("controls/armament/trigger");
+    		if (me.selection_updated == FALSE) {
+    			# we are free to move cursor
+				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/cursor/cursor-control-Y");
+				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/cursor/cursor-control-X");
+				me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
+				me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
+				me.cursorPosX  += me.cursorMoveX;
+				me.cursorPosY  += me.cursorMoveY;
+				me.cursorPosX   = clamp(me.cursorPosX, -60*texel_per_degree,  60*texel_per_degree);
+				me.cursorPosY   = clamp(me.cursorPosY, -60*texel_per_degree,  60*texel_per_degree);
+				me.cursor.setTranslation(me.cursorPosX, me.cursorPosY);
+				#me.cursorTPosY  = me.cursorPosY - texel_per_degree * getprop("orientation/pitch-deg");
+				#me.rot = getprop("orientation/roll-deg") * D2R;
+				#rotate me.cursorOPos with me.rot
+				#me.sin = -math.sin(-me.rot);
+				#me.cos = math.cos(-me.rot);
 
-        		if (me.selection_updated == FALSE) {
-        			# we are free to move cursor
-					me.cursorSpeedY = getprop("fdm/jsbsim/fcs/elevator-cmd-norm");
-					me.cursorSpeedX = getprop("fdm/jsbsim/fcs/aileron-cmd-norm");
-					me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
-					me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
-					me.cursorPosX  += me.cursorMoveX;
-					me.cursorPosY  += me.cursorMoveY;
-					me.cursorPosX   = clamp(me.cursorPosX, -60*texel_per_degree,  60*texel_per_degree);
-					me.cursorPosY   = clamp(me.cursorPosY, -60*texel_per_degree,  60*texel_per_degree);
-					me.cursor.setTranslation(me.cursorPosX, me.cursorPosY);
-					#me.cursorTPosY  = me.cursorPosY - texel_per_degree * getprop("orientation/pitch-deg");
-					#me.rot = getprop("orientation/roll-deg") * D2R;
-					#rotate me.cursorOPos with me.rot
-					#me.sin = -math.sin(-me.rot);
-					#me.cos = math.cos(-me.rot);
+				var rot = me.rotate(-getprop("orientation/roll-deg"), me.cursorPosX + me.fpi_x, me.cursorPosY + me.fpi_y);
 
-					var rot = me.rotate(-getprop("orientation/roll-deg"), me.cursorPosX + me.fpi_x, me.cursorPosY + me.fpi_y);
+				me.cursorOPosX = rot[0];
+				me.cursorOPosY = rot[1] - texel_per_degree * getprop("orientation/pitch-deg");
 
-					me.cursorOPosX = rot[0];
-					me.cursorOPosY = rot[1] - texel_per_degree * getprop("orientation/pitch-deg");
+				#printf("(%d,%d) %d", me.fpi_x, me.fpi_y, texel_per_degree * getprop("orientation/pitch-deg"));
 
-					#printf("(%d,%d) %d", me.fpi_x, me.fpi_y, texel_per_degree * getprop("orientation/pitch-deg"));
+				#me.echoes[maxTracks-1].setColor(1,0,0);
+				#me.echoes[maxTracks-1].setTranslation(me.cursorOPosX,me.cursorOPosY);
+				#me.echoes[maxTracks-1].show();
+				#me.echoes[maxTracks-1].update();
 
-					#me.echoes[maxTracks-1].setColor(1,0,0);
-					#me.echoes[maxTracks-1].setTranslation(me.cursorOPosX,me.cursorOPosY);
-					#me.echoes[maxTracks-1].show();
-					#me.echoes[maxTracks-1].update();
-
-					me.aim9 = displays.common.armActive();
-					if (me.aim9 != nil and me.aim9.isSlave() and me.aim9.status != armament.MISSILE_LOCK) {
-						me.aim9.commandDir(me.cursorPosX/texel_per_degree, -me.cursorPosY/texel_per_degree);
-					} elsif (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
-						me.aim9.commandRadar();
-					}
-					me.cursor.show();
-				} else {
-					me.cursor.hide();# the lock cursor is shown instead
-					me.preventRelock = TRUE;
-					if (me.cursorTrigger and !me.cursorManuallyLocked) {
-						# cursor click but did not select anything, so we deselect
-						#if (radar_logic.selection != nil) print("deselect");#TODO: Should cursor move to where the lock cursor was?
-						radar_logic.setSelection(nil);
-					}
+				me.aim9 = displays.common.armActive();
+				if (me.aim9 != nil and me.aim9.isSlave() and me.aim9.status != armament.MISSILE_LOCK) {
+					me.aim9.commandDir(me.cursorPosX/texel_per_degree, -me.cursorPosY/texel_per_degree);
+				} elsif (me.aim9 != nil and me.aim9.status != armament.MISSILE_LOCK) {
+					me.aim9.commandRadar();
 				}
-				
-				#printf(" %d %d !%d", me.cursorTrigger, me.cursorTriggerPrev, me.cursorManuallyLocked);
-				if (!me.cursorTrigger and !me.cursorTriggerPrev) {
-					#print("stop cursorManuallyLocked");
-					me.cursorManuallyLocked = FALSE;
-					me.preventRelock = FALSE;
-				}
+				me.cursor.show();
 			} else {
-				if (me.selection_updated == FALSE) {
-					me.cursor.show();
-				} else {
-					me.cursor.hide();# the lock cursor is shown instead
+				me.cursor.hide();# the lock cursor is shown instead
+				me.preventRelock = TRUE;
+				if (me.cursorTrigger and !me.cursorManuallyLocked) {
+					# cursor click but did not select anything, so we deselect
+					#if (radar_logic.selection != nil) print("deselect");#TODO: Should cursor move to where the lock cursor was?
+					radar_logic.setSelection(nil);
 				}
+			}
+
+			#printf(" %d %d !%d", me.cursorTrigger, me.cursorTriggerPrev, me.cursorManuallyLocked);
+			if (!me.cursorTrigger and !me.cursorTriggerPrev) {
+				#print("stop cursorManuallyLocked");
 				me.cursorManuallyLocked = FALSE;
-				me.cursorTrigger = FALSE;
+				me.preventRelock = FALSE;
 			}
         } else {
         	me.cursorManuallyLocked = FALSE;
@@ -1023,7 +1012,7 @@ var MI = {
 				me.aim9.commandRadar();
 			}
           }
-	      
+
 	      # draw selection
 	      if(me.selection != nil and me.selection.isValid() == TRUE and me.selection_updated == TRUE) {
 	        # selection is currently in forward looking radar view
@@ -1140,7 +1129,7 @@ var MI = {
 
     showTopInfo: func {
     	# this is info about the target.
-    	
+
   		if (me.tgt_dist != nil) {
   			# distance
   			if (me.interoperability == displays.METRIC) {
@@ -1161,7 +1150,7 @@ var MI = {
   			me.distT2.setText("");
   			me.tgt_dist_last = nil;
   		}
-  		
+
   		if (me.tgt_alt != nil) {
   			# altitude
   			me.alt = me.tgt_alt*M2FT;

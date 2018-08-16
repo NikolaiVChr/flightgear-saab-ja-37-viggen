@@ -4,7 +4,7 @@
                         Common file for Saab 37 Flightgear aircraft
 
 
-*************************************************************************-->   
+*************************************************************************-->
 
 <PropertyList><!-- include="Systems/ja37-engines-off.xml">-->    <!-- change this to 'on' for fast testing/debugging -->
     <sim>
@@ -151,7 +151,7 @@
             <config>
                 <default-field-of-view-deg type="double">95</default-field-of-view-deg>
             </config>
-            
+
             <x-offset-m type="double">0</x-offset-m>
             <y-offset-m type="double">0.71</y-offset-m>
             <z-offset-m type="double">-3.6</z-offset-m>
@@ -161,7 +161,7 @@
             <z-offset-dec-step type="double">0.0</z-offset-dec-step>
             <z-offset-inc-step type="double">0.0</z-offset-inc-step>
             <can-change-z-offset type="bool">false</can-change-z-offset>
-            
+
             <z-offset-default type="float">25.0</z-offset-default>
             <z-offset-min-m type="float">10.0</z-offset-min-m>
             <z-offset-max-m type="float">200.0</z-offset-max-m>
@@ -305,7 +305,7 @@
             </config>
         </view>
         <!-- 13 in hud.nas -->
-        <!--<view n="120">            
+        <!--<view n="120">
             <name>HUD view</name>
             <type>lookfrom</type>
             <internal>true</internal>
@@ -353,7 +353,7 @@
                 </parameters>
             </redout>
         </rendering>
-    
+
 
         <!--**********************************************************************
 
@@ -363,7 +363,7 @@
 *************************************************************************-->
         <multiplay>
             <!-- int 9, int 17, int 18, int 19, float 2, float 3 and float 9 is controlled from nasal or JSB
-                 free: float 6         
+                 free: float 6
 
                 float[2] = translucency of afterburner flame
                 float[3] = afterburner flame size
@@ -375,13 +375,13 @@
 
 
                 Also used:
-                sim/hitches/aerotow/is-slave       = wings on/off  
+                sim/hitches/aerotow/is-slave       = wings on/off
                 sim/hitches/aerotow/open           = ecm jammer on (nil/0 = off, 1 = on)
                 rotors/main/blade[0]/position-deg  = wheel spin
                 rotors/main/blade[1]/position-deg  = wheel spin
                 rotors/main/blade[2]/position-deg  = wheel spin
                 rotors/main/blade[3]/position-deg  = chaff
-                rotors/main/blade[0]/flap-deg      = MP missiles lat 
+                rotors/main/blade[0]/flap-deg      = MP missiles lat
                 rotors/main/blade[1]/flap-deg      = MP missiles lon
                 rotors/main/blade[2]/flap-deg      = MP missiles alt
                 rotors/main/blade[3]/flap-deg      = flares
@@ -393,7 +393,7 @@
                 <int n="7" alias="/damage/sounds/explode-on"/>                <!-- to show explosion plus its sound -->
                 <!-- Animation control surfaces -->
                 <int n="1" alias="/fdm/jsbsim/fcs/canopy/hinges/serviceable"/>                <!-- to show detachment of canopy -->
-                <int n="2" type="int">0</int> 
+                <int n="2" type="int">0</int>
                 <!-- Animating engine -->
                 <float n="19" alias="/engines/engine/reverser-position"/>                <!-- used for animation -->
                 <!--<float n="3" alias="/fdm/jsbsim/propulsion/engine/aug-flame"/> is now done in jsbsim -->                <!-- to animate afterburnerflame -->
@@ -483,7 +483,7 @@
 
 
 *************************************************************************-->
-        
+
         <replay>
             <buffer>
                 <high-res-time type="double">60</high-res-time>                 <!-- default:   60 -->
@@ -695,6 +695,9 @@
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
             <oxygen-manometer type="double">0.0</oxygen-manometer>
             <tertiary-opening type="double">1.0</tertiary-opening>
+            <cursor-control-X type="double">0.0</cursor-control-X>
+            <cursor-control-Y type="double">0.0</cursor-control-Y>
+            <cursor-select type="bool">false</cursor-select>
             <input-controls-flight type="bool">true</input-controls-flight>
             <fuel-warning-extra-percent type="int">-1</fuel-warning-extra-percent>
             <state type="string">parked</state>
@@ -858,6 +861,11 @@
                     <serviceable alias="/sim/failure-manager/controls/flight/flaps/serviceable"/>
                 </flaps>
                 <mouse-optimized type="bool">false</mouse-optimized>
+                <cursor>
+                  <cursor-control-X type="double">0.0</cursor-control-X>
+                  <cursor-control-Y type="double">0.0</cursor-control-Y>
+                  <cursor-select type="bool">false</cursor-select>
+                </cursor>
             </fcs>
             <gear>
                 <serviceable alias="/gear/serviceable"/>
@@ -1552,11 +1560,11 @@
         <testing>
             <file>Aircraft/JA37/Nasal/test.nas</file>
         </testing>
-        
+
         <!--<proto>
             <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>
         </proto>-->
-        
+
         <!-- Uncomment below to enable FGplot -->
         <!--
         <plot>
