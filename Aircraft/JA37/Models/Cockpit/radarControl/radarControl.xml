@@ -39,49 +39,39 @@
     </animation>
 
     <animation>
-        <type>rotate</type>
-        <object-name>Bone</object-name>
-        <object-name>Handle</object-name>
-        <object-name>Wheel_KnurledFaces</object-name>
-		<object-name>Wheel_SmoothFaces</object-name>
-		<condition>
-			<not>
-				<property>/ja37/systems/input-controls-flight</property>
-			</not>
-		</condition>
-        <property>fdm/jsbsim/fcs/aileron-cmd-norm</property>
-        <factor>25</factor>
-        <center>
-        	<x-m>0</x-m>
-        	<y-m>0</y-m>
-            <z-m>0</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-        </axis>
+      <type>rotate</type>
+      <object-name>Bone</object-name>
+      <object-name>Handle</object-name>
+      <object-name>Wheel_KnurledFaces</object-name>
+  		<object-name>Wheel_SmoothFaces</object-name>
+      <property>ja37/systems/cursor-control-X</property>
+      <factor>25</factor>
+      <center>
+      	<x-m>0</x-m>
+      	<y-m>0</y-m>
+          <z-m>0</z-m>
+      </center>
+      <axis>
+          <x>-1</x>
+      </axis>
     </animation>
 
     <animation>
-        <type>rotate</type>
-        <object-name>Bone</object-name>
-        <object-name>Handle</object-name>
-        <object-name>Wheel_KnurledFaces</object-name>
-		<object-name>Wheel_SmoothFaces</object-name>
-		<condition>
-			<not>
-				<property>/ja37/systems/input-controls-flight</property>
-			</not>
-		</condition>
-        <property>fdm/jsbsim/fcs/elevator-cmd-norm</property>
-        <factor>25</factor>
-        <center>
-        	<x-m>0</x-m>
-        	<y-m>0</y-m>
-            <z-m>0</z-m>
-        </center>
-        <axis>
-            <y>-1</y>
-        </axis>
+      <type>rotate</type>
+      <object-name>Bone</object-name>
+      <object-name>Handle</object-name>
+      <object-name>Wheel_KnurledFaces</object-name>
+      <object-name>Wheel_SmoothFaces</object-name>
+      <property>ja37/systems/cursor-control-Y</property>
+      <factor>25</factor>
+      <center>
+      	<x-m>0</x-m>
+      	<y-m>0</y-m>
+          <z-m>0</z-m>
+      </center>
+      <axis>
+          <y>-1</y>
+      </axis>
     </animation>
 
 </PropertyList>
