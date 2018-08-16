@@ -158,12 +158,13 @@
         </current-view>-->
 
         <current-view>
-            <!-- Settings for mouse scroll wheel -->
             <z-offset-dec-step type="double">0.0</z-offset-dec-step>
             <z-offset-inc-step type="double">0.0</z-offset-inc-step>
             <can-change-z-offset type="bool">false</can-change-z-offset>
-            <z-offset-min-m type="float">25.0</z-offset-min-m>
-            <z-offset-max-m type="float">300.0</z-offset-max-m>
+            
+            <z-offset-default type="float">25.0</z-offset-default>
+            <z-offset-min-m type="float">10.0</z-offset-min-m>
+            <z-offset-max-m type="float">200.0</z-offset-max-m>
         </current-view>
 
         <view n="0">
@@ -472,7 +473,7 @@
               <path>Aircraft/JA37/Systems/rules-misc.xml</path>
             </property-rule>
             <property-rule n="102">
-                <path>Aircraft/JA37/Systems/mice-views.xml</path>
+                <path>Aircraft/JA37/Systems/zoom-views.xml</path>
             </property-rule>
         </systems>
 
