@@ -906,12 +906,12 @@ var MI = {
 
 	showCursor: func {
 		if (cursorOn == TRUE and displays.common.cursor == displays.MI) {
-    		me.cursorTrigger = getprop("ja37/systems/cursor-select");
+    		me.cursorTrigger = getprop("fdm/jsbsim/fcs/cursor/cursor-select");
 
     		if (me.selection_updated == FALSE) {
     			# we are free to move cursor
-				me.cursorSpeedY = getprop("ja37/systems/cursor-control-Y");
-				me.cursorSpeedX = getprop("ja37/systems/cursor-control-X");
+				me.cursorSpeedY = getprop("fdm/jsbsim/fcs/cursor/cursor-control-Y");
+				me.cursorSpeedX = getprop("fdm/jsbsim/fcs/cursor/cursor-control-X");
 				me.cursorMoveY  = 100 * 0.15 * me.cursorSpeedY;
 				me.cursorMoveX  = 100 * 0.15 * me.cursorSpeedX;#0.15 is the update speed set in ja37
 				me.cursorPosX  += me.cursorMoveX;

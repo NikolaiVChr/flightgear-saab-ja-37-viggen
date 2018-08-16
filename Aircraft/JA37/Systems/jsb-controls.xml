@@ -39,7 +39,7 @@
     </channel>
 
     <!--
-                   Elevator -25 to +20  (page 131, figure 108b) 
+                   Elevator -25 to +20  (page 131, figure 108b)
                    Elevator -25 to +20  (page 133, figure 110a)
                    Elevator -25 to +20  (page  79, figure  62a)
                    Pretty sure I saw something about max +10 for elevator, but no longer know where.
@@ -51,7 +51,7 @@
                    Flaps           +30  (page  87)
                    Flaps     -4 to +30  (page  78,  figure 60 )
                    Flaps     -7 to +30  (page  76) -7 can be selected by pilot in AJ-37 not JA-37, -4 default
-                   Flaps     -7 to +30  (page  46) 
+                   Flaps     -7 to +30  (page  46)
 
 -->
 
@@ -455,13 +455,13 @@
                         <independentVar lookup="column">atmosphere/density-altitude</independentVar>
                         <tableData>
                                    0.0  6562  13123 19685 26247 29527 36089
-                            0.32  -22    -22   -22    -22   -22  -22    -22  
-                            0.70  -8.7   -10   -13    -16   -18.5 -20   -22   
-                            0.95  -8.7   -8.7  -10    -15   -20   -20   -22      
-                            1.05  -11.8  -11.8 -13.5  -16.5 -21  -22    -22      
-                            1.20  -11.8  -11.8 -15    -18.5 -22  -22    -22      
+                            0.32  -22    -22   -22    -22   -22  -22    -22
+                            0.70  -8.7   -10   -13    -16   -18.5 -20   -22
+                            0.95  -8.7   -8.7  -10    -15   -20   -20   -22
+                            1.05  -11.8  -11.8 -13.5  -16.5 -21  -22    -22
+                            1.20  -11.8  -11.8 -15    -18.5 -22  -22    -22
                             1.40  -11.8  -14   -16    -20   -22  -22    -22
-                            1.50  -11.8  -15   -17    -21   -22  -22    -22      
+                            1.50  -11.8  -15   -17    -21   -22  -22    -22
                         </tableData>
                     </table>
                     <v>-1</v>
@@ -477,7 +477,7 @@
                 <max>  22.0 </max>
             </domain>
             <range>
-                <min>-1</min>                
+                <min>-1</min>
                 <max>1</max>
             </range>
         </aerosurface_scale>
@@ -512,7 +512,7 @@
                 <max>  22.0 </max>
             </domain>
             <range>
-                <min>-1</min>                
+                <min>-1</min>
                 <max>1</max>
             </range>
         </aerosurface_scale>
@@ -821,7 +821,7 @@
                 <tableData>
                                   0.0         60000.0
                       0.0         1.00           1.0
-                      0.1         0.45           1.0   
+                      0.1         0.45           1.0
                       0.5         0.35           0.75  <!-- roll rate 125 - 150 degrees/sec with roll damper on -->
                       0.75        0.65           0.60
                       1.0         0.30           0.45  <!-- roll rate 200 - 225 degrees/sec with roll damper on -->
@@ -906,7 +906,7 @@
             <output>fcs/left-aileron-pos-deg</output>
         </pure_gain>
 
-    </channel>    
+    </channel>
 
 
 
@@ -1129,7 +1129,7 @@
               0.1         0.65           1.00
               0.5         0.25           0.50
               1.0         0.17           0.30
-              2.2         0.05           0.10              
+              2.2         0.05           0.10
           </tableData>
             </table>
             <output>fcs/rudder/cmd-sum-geared</output>
@@ -1757,5 +1757,56 @@
             </range>
             <output>structural/wings/normal-factor</output>
         </aerosurface_scale>
+    </channel>
+
+    <channel execrate="4" name="Cursor">
+      <switch name="fcs/cursor/cursor-X-from-flight-controls">
+        <description>Cursor control component from flight controls</description>
+        <default value="0"/>
+        <test value="fcs/aileron-cmd-norm">
+            /ja37/systems/input-controls-flight == 0
+        </test>
+      </switch>
+      <switch name="fcs/cursor/cursor-Y-from-flight-controls">
+        <description>Cursor control component from flight controls</description>
+        <default value="0"/>
+        <test value="fcs/elevator-cmd-norm">
+            /ja37/systems/input-controls-flight == 0
+        </test>
+      </switch>
+      <switch name="fcs/cursor/cursor-trigger-from-flight-controls">
+        <description>Cursor control component from flight controls</description>
+        <default value="0"/>
+        <test value="/controls/armament/trigger">
+            /ja37/systems/input-controls-flight == 0
+        </test>
+      </switch>
+
+      <summer name="fcs/cursor/cursor-control-X">
+        <description>Combined cursor control</description>
+        <input>fcs/cursor/cursor-X-from-flight-controls</input>
+        <input>/ja37/systems/cursor-control-X</input>
+        <clipto>
+          <min>-1.0</min>
+          <max>1.0</max>
+        </clipto>
+      </summer>
+      <summer name="fcs/cursor/cursor-control-Y">
+        <description>Combined cursor control</description>
+        <input>fcs/cursor/cursor-Y-from-flight-controls</input>
+        <input>/ja37/systems/cursor-control-Y</input>
+        <clipto>
+          <min>-1.0</min>
+          <max>1.0</max>
+        </clipto>
+      </summer>
+      <switch name="fcs/cursor/cursor-select">
+        <description>Combined cursor control</description>
+        <default value="0"/>
+        <test logic="OR" value="1">
+          fcs/cursor/cursor-trigger-from-flight-controls == 1
+          /ja37/systems/cursor-select == 1
+        </test>
+      </switch>
     </channel>
 </flight_control>
