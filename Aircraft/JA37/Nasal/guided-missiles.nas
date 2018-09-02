@@ -294,8 +294,10 @@ var AIM = {
 # 1..240 are available for other items that collide.
 		m.ID                = p;
         if (contains(missile_ids, type)) {
-            m.ID = missile_ids[type];
+            m.IDe = missile_ids[type];
 print("Lookup missile ",type," ID=",m.ID);
+        } else {
+        	m.IDe = p;
         }
 
 		m.stationName       = AcModel.getNode("armament/station-name").getValue();
@@ -1447,7 +1449,7 @@ print("Lookup missile ",type," ID=",m.ID);
 		if (me.status == MISSILE_FLYING) {
 			# emesaryDiff
             # notify in flight using Emesary.
-            var msg = notifications.GeoEventNotification.new("mis", me.type, 2, 20+me.ID);
+            var msg = notifications.GeoEventNotification.new("mis", me.type, 2, 20+me.IDe);
             msg.Position.set_latlon(me.latN.getValue(), me.lonN.getValue(), me.altN.getValue());
             if (me.guidance=="radar")
               msg.Flags = 1;
@@ -2554,7 +2556,7 @@ print("Lookup missile ",type," ID=",m.ID);
 				if (me.flareLock == FALSE and me.chaffLock == FALSE) {
 					# emesaryDiff
                     if(getprop("payload/armament/msg")){
-                        var msg = notifications.ArmamentNotification.new("mis", 4, 20+me.ID);
+                        var msg = notifications.ArmamentNotification.new("mis", 4, 20+me.IDe);
                         msg.RelativeAltitude = explosion_coord.alt() - t_coord.alt();
                         msg.Bearing = explosion_coord.course_to(t_coord);
                         msg.Distance = min_distance;
@@ -2611,7 +2613,7 @@ print("Lookup missile ",type," ID=",m.ID);
 			if (me.flareLock == FALSE and me.chaffLock == FALSE){
 				# emesaryDiff
                 if(getprop("payload/armament/msg")){
-                    var msg = notifications.ArmamentNotification.new("mis", 4, 20+me.ID);
+                    var msg = notifications.ArmamentNotification.new("mis", 4, 20+me.IDe);
                     msg.RelativeAltitude = explosion_coord.alt() - me.t_coord.alt();
                     msg.Bearing = explosion_coord.course_to(me.t_coord);
                     msg.Distance = direct_dist_m;
