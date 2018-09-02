@@ -23,6 +23,7 @@ var rcs_database = {
     "f-14b-bs":                 0.001,   # low so it dont show up on radar
     "F-15C":                    10,     #low end of sources
     "F-15D":                    11,     #low end of sources
+    "F-16":                     2,      #guess
     "f15-bs":                   0.001,   # low so it dont show up on radar
     "JA37-Viggen":              3,      #guess
     "AJ37-Viggen":              3,      #guess
@@ -81,10 +82,14 @@ var wasInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
 
 var isInRadarRange = func (contact, myRadarDistance_nm, myRadarStrength_rcs) {
     if (contact != nil and contact.get_Coord() != nil) {
-        var value = call(func targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs),nil, var err = []);
+        var value = 1;
+        call(func {value = targetRCSSignal(contact.get_Coord(), contact.get_model(), contact.get_heading(), contact.get_Pitch(), contact.get_Roll(), geo.aircraft_position(), myRadarDistance_nm*NM2M, myRadarStrength_rcs)},nil, var err = []);
         if (size(err)) {
+            foreach(line;err) {
+                print(line);
+            }
             # open radar for one will make this happen.
-            return 1;
+            return value;
         }
         prevVisible[contact.get_Callsign()] = value;
         return value;
