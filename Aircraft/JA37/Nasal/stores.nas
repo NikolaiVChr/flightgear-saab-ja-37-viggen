@@ -715,6 +715,9 @@ var trigger_listener = func {
   if(armSelect != 0 and getprop("/controls/armament/station["~armSelect~"]/trigger") == TRUE) {
     if(getprop("payload/weight["~(armSelect-1)~"]/selected") != "none") { 
       # trigger is pulled, a pylon is selected, the pylon has a missile that is locked on. The gear check is prevent missiles from firing when changing airport location.
+      #if (armament.AIM.active[armSelect-1] != nil) {
+      #  print("trigger: status of "~armament.AIM.active[armSelect-1].type~armament.AIM.active[armSelect-1].status);
+      #}
       if (armament.AIM.active[armSelect-1] != nil and armament.AIM.active[armSelect-1].status == MISSILE_LOCK and (input.gearsPos.getValue() != 1 or input.dev.getValue()==TRUE)) {
         #missile locked, fire it.
 
@@ -899,10 +902,14 @@ var warhead_lbs = {
     "SCALP":               992.00,
     "KN-06":               315.00,
     "GBU12":               190.00,
+    "GBU-12":              190.00,
     "GBU16":               450.00,
     "Sea Eagle":           505.00,
     "SeaEagle":            505.00,
     "AGM65":               200.00,
+    "AGM-65":              126.00,
+    "AGM-84":              488.00,
+    "AGM-88":              146.00,
     "RB-04E":              661.00,
     "RB-05A":              353.00,
     "RB-75":               126.00,
@@ -910,6 +917,8 @@ var warhead_lbs = {
     "M71":                 200.00,
     "M71R":                200.00,
     "MK-82":               192.00,
+    "MK-83":               445.00,
+    "MK-84":               945.00,
     "LAU-68":               10.00,
     "M317":                145.00,
     "GBU-31":              945.00,
@@ -1578,7 +1587,7 @@ var cycle_weapons = func {
       }
     }
   }
-
+  #print("newtype: "~newType);
   ja37.click();
   setprop("controls/armament/station-select", sel)
 }
