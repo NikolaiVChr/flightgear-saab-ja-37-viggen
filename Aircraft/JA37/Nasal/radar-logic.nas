@@ -955,6 +955,10 @@ var Contact = {
         return obj;
     },
 
+    isVirtual: func () {
+      return FALSE;
+    },
+
     getETA: func {
       if (me.eta != nil) {
         return me.eta.getValue();
@@ -1323,6 +1327,10 @@ var ContactGPS = {
 
   isValid: func () {
     return TRUE;
+  },
+
+  isVirtual: func () {
+    return FALSE;
   },
 
   isRadarActive: func {
@@ -1730,6 +1738,10 @@ var ContactGhost = {
           myDistance = MyAircraftCoord.direct_distance_to(me.get_Coord()) * M2NM;
       }
       return myDistance;
+  },
+
+  isVirtual: func () {
+    return FALSE;
   },
 
   get_type: func () {
