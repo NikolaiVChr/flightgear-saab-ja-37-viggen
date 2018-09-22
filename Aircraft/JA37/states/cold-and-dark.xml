@@ -2,12 +2,12 @@
 
 <PropertyList>
 
-    <name type="string" n="0">parked (Swedish/Metric)</name>
+    <name type="string" n="0">parked</name>
 
     <overlay>
         <ja37>
             <hud>
-                <units-metric type="bool">true</units-metric>
+                <units-metric type="bool">false</units-metric>
             </hud>
         </ja37>
     </overlay>

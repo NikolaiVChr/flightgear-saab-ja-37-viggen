@@ -2,15 +2,15 @@
 
 <PropertyList>
 
-    <name type="string" n="0">Cruising at 20000 ft, autopilot engaged. Throttle idle. Parking brakes on.</name>
+    <name type="string" n="0">cruise</name>
 
     <overlay>
-        <position>
+        <!--<position>
             <altitude-ft type="double">20000</altitude-ft>
-        </position>
-        <velocities>
+        </position>-->
+        <!--<velocities>
             <mach type="double">0.75</mach>
-        </velocities>
+        </velocities>-->
         <fdm>
             <jsbsim>
                 <names>

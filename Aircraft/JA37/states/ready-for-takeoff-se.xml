@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <name type="string" n="0">Engine running, ready for takeoff. Parking brakes on. (Swedish/Metric)</name>
+    <name type="string" n="0">take-off (Swedish/Metric)</name>
 
     <overlay>
         <fdm>

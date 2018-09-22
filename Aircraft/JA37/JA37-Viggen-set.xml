@@ -60,6 +60,7 @@
         <state include="states/ready-for-takeoff-se.xml" n="2"/>
         <state include="states/ready-for-long-range-combat-se.xml" n="3"/>        
         <state include="states/ready-for-long-range-combat.xml" n="4"/>
+        <state include="states/cold-and-dark.xml" n="5"/>
         <!--<state include="states/cruise.xml" n="5"/>-->
 
         <previews>

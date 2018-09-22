@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <name type="string" n="0">Engine running, ready for long range air-to-air engagements. Parking brakes on. (Swedish/Metric)</name>
+    <name type="string" n="0">take-off. Ready for long range air-to-air engagements. (Swedish/Metric)</name>
 
     <overlay>
         <payload>
