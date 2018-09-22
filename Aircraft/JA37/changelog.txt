@@ -3461,7 +3461,7 @@ TI: Manual event now shows human readable lat/lon instead of doubles. Also made 
 TI: Fixed that if bulls-eye is loaded before cursor is on TI, putting the cursor on TI would produce an error.
 TI: Fixed inputing lon/lat of map-area points with DAP would blink the wrong field.
 
-4.311
+4.311 - 2018 September 21
 =====
 Arms: Fixed regression that jettisoning all stores gives collision with the RB-99.
 TI: Heading bug no longer shows if only doing radio navigation, use artificial horizon lines.
@@ -3479,3 +3479,30 @@ Arms: Weapons now avoid steering so that lock will be lost if can be avoided.
 Arms: Dropped weapons are now released into the airstream instead of aircraft heading.
 Arms: Made check for LOS a bit more solid.
 HUD: Heatseeker icon now only shows in bore, uncaged scan or cursor commanded modes.
+Radar: Added F16 to rcs. Guess of 2.
+HUD: Heatseeker icon now only shows in bore, uncaged scan or cursor commanded modes.
+Radar: Fixed the MP radar property was used inverted.
+Arms: {Pinto} Added more parameters to in-flight function.
+Arms: Added option to not release into wind.
+Arms: Renamed pitch guidance to level.
+Arms: "level" and "gyro-pitch" now more well behaved.
+Arms: LOAL fix.
+Arms: print statements optimization.
+Arms: Fixed callsign for LOAL missiles.
+Sim: Damage update.
+Arms: attempt to load only single xml when firing, didnt work with smoke/explosion though.
+Sim: {it0uchpods} Add modified distance zooming for exterior views.
+Control: {Colin Geniet} Adds properties for cursor controls.
+Control: {Colin Geniet} Adds new properties for cursor movements and trigger.
+Control: {Colin Geniet} Read input from those properties instead of flight controls.
+Control: {Colin Geniet} Cursor controls via flight controls does NOT work.
+Control: {Colin Geniet} Fix cursor control handle animation.
+Control: {Colin Geniet} Binds cursor control handle rotation to the correct properties.
+Control: {Colin Geniet} Readds cursor control via flight controls.
+Control: {Colin Geniet} Separates input and actual properties for cursor controls.
+Control: {Colin Geniet} If cursor control via flight controls is enable, input properties are combined with flight controls input to calculate actual controls.
+Radar: Added f16 to RCS and made it more error resistant.
+Stores: Updated damage from bombs.
+Arms: Updated to latest ordnance code.
+Sim: Made state system compatible with auto state in Fg 2018.2
+Docs: Updated authors and changelog.
