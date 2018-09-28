@@ -3510,3 +3510,4 @@ Docs: Updated authors and changelog.
 4.312
 =====
 Sim: Updated damage from Mirage2000.
+Sim: MP discharge option now moved into its own dialog.
