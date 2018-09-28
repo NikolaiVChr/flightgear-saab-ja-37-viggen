@@ -1957,7 +1957,7 @@ var ctOld = func (type) {
 var lf = 0;
 var ll = 0;
 
-var code_ct = func () {
+var code_ctOld = func () {
   var cu = getprop("sim/ct/c-u");
   if (cu == nil or cu != 1) {
     cu = 0;
@@ -2026,7 +2026,7 @@ var code_ct = func () {
   setprop("sim/multiplay/generic/string[15]", final);
 }
 
-var not = func {
+var notOld = func {
   if (getprop("payload/armament/msg") == TRUE and input.wow0.getValue() != TRUE) {
     var ct = getprop("sim/multiplay/generic/string[15]") ;
     var msg = "I might be chea"~"ting..";
