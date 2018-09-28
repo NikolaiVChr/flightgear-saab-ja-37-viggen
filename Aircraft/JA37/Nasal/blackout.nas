@@ -93,7 +93,11 @@ var changeSuit = func {
 	init_suit();
 }
 
-var redout_loop = func {
+var redout_loop = func { 
+	if (getprop("payload/armament/msg") == 0) {
+		settimer(redout_loop, 0.5);
+		return;
+	}
 	setprop("sim/rendering/redout/enabled", 1);# enable the Fg default redout/blackout system.
 
 	if (suit != getprop("ja37/effect/g-suit")) {

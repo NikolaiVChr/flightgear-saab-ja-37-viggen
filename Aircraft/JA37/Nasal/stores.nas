@@ -1066,7 +1066,7 @@ var incoming_listener = func {
             }
           }
         }
-      } elsif (getprop("ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/damage") == 1) {
+      } elsif (getprop("ja37/supported/old-custom-fails") > 0 and getprop("payload/armament/msg")) {
         # latest or second latest version of failure manager and taking damage enabled
         #print("damage enabled");
         var last1 = split(" ", last_vector[1]);
@@ -1595,6 +1595,7 @@ var cycle_weapons = func {
 ############ reload #####################
 
 reloadJAAir2Air1979 = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 6 of them.
 
   # Sidewinder
@@ -1617,9 +1618,12 @@ reloadJAAir2Air1979 = func {
   # Reload cannon - 146 of them.
   reloadGuns();
   
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadJAAir2Air1987 = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 6 of them.
 
   # Sidewinder
@@ -1642,9 +1646,12 @@ reloadJAAir2Air1987 = func {
   # Reload cannon - 146 of them.
   reloadGuns();
   
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadJAAir2Air1997 = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 6 of them.
 
   # Amraam
@@ -1667,9 +1674,12 @@ reloadJAAir2Air1997 = func {
   # Reload cannon - 146 of them.
   reloadGuns();
   
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadJAAir2Ground = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M70 ARAK");
   setprop("payload/weight[1]/selected", "M70 ARAK");
@@ -1692,9 +1702,12 @@ reloadJAAir2Ground = func {
   # Reload cannon - 146 of them.
   reloadGuns();
   
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJAir2Tank = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M70 ARAK");
   setprop("payload/weight[1]/selected", "RB 24J Sidewinder");
@@ -1715,9 +1728,12 @@ reloadAJAir2Tank = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJAir2Ship = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 04E Attackrobot");
   setprop("payload/weight[1]/selected", "RB 05A Attackrobot");
@@ -1736,9 +1752,12 @@ reloadAJAir2Ship = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJAir2Personel = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
@@ -1760,9 +1779,12 @@ reloadAJAir2Personel = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJAir2Air = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
@@ -1782,9 +1804,12 @@ reloadAJAir2Air = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJSAir2Tank = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 75 Maverick");
   setprop("payload/weight[1]/selected", "M70 ARAK");
@@ -1805,9 +1830,12 @@ reloadAJSAir2Tank = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJSAir2Ship = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "RB 15F Attackrobot");
   setprop("payload/weight[1]/selected", "RB 05A Attackrobot");
@@ -1827,9 +1855,12 @@ reloadAJSAir2Ship = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJSAir2Personel = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
@@ -1852,9 +1883,12 @@ reloadAJSAir2Personel = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
-}
+} else {
+      screen.log.write(ja37.msgB);
+    }}
 
 reloadAJSAir2Air = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload missiles - 4 of them.
   setprop("payload/weight[0]/selected", "M55 AKAN");
   setprop("ai/submodels/submodel[10]/count", 150);
@@ -1875,9 +1909,13 @@ reloadAJSAir2Air = func {
 
   # Reload cannon - 146 of them.
   reloadGuns();
+  } else {
+      screen.log.write(ja37.msgB);
+    }
 }
 
 reloadGuns = func {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   # Reload cannon - 146 of them.
   #setprop("ai/submodels/submodel[2]/count", 29);
   if(getprop("ja37/systems/variant") == 0) {
@@ -1886,7 +1924,10 @@ reloadGuns = func {
     screen.log.write("146 cannon rounds loaded", 0.0, 1.0, 0.0);
   }
 
-  ja37.ct("rl");
+  #ja37.ct("rl");
+  } else {
+      screen.log.write(ja37.msgB);
+    }
 }
 
 ############ droptank #####################

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<PropertyList>
+  
+  <name>j37config</name>
+  <modal type="bool">false</modal>
+  <layout>vbox</layout>
+  
+  <group>
+    <layout>hbox</layout>
+    
+    <text>
+      <label>MP Configuration</label>
+      <format>%s Configuration</format>
+      <property>sim/description</property>
+    </text>
+    
+    <empty>
+      <stretch>1</stretch>
+    </empty>
+    
+    <button>
+      <pref-width>16</pref-width>
+      <pref-height>16</pref-height>
+      <legend></legend>
+      
+      <default>1</default>
+      <keynum>27</keynum>
+      <border>2</border>
+      <binding>
+        <command>dialog-close</command>
+      </binding>
+      <binding>
+        <command>dialog-apply</command>
+      </binding>
+    </button>
+  </group>
+
+  <hrule/>
+
+  <group>
+    <layout>hbox</layout>
+    <text><label>MP discharge messages</label></text>
+    <checkbox>
+      <property>payload/armament/msg</property>
+      <live>true</live>
+      <binding>
+          <command>nasal</command>
+          <script>
+            if(getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+              setprop("payload/armament/msg", !getprop("payload/armament/msg"));
+            }
+          </script>
+      </binding>
+    </checkbox>
+  </group>
+  <text><label>Enable this to let your missile and</label></text>
+  <text><label>cannon fire messages be visible over MP.</label></text>
+  <text><label>Warning this will also allow others to damage you.</label></text>
+  <text><label>Note this will force blackout to be enabled.</label></text>
+  <text><label>Simulation speed will be set to normal.</label></text>
+  <text><label>It will also remove the payload window in air and MP pilot-list.</label></text>
+  <text><label>Cannot be toggled in-air.</label></text>
+
+</PropertyList>

@@ -273,6 +273,14 @@
                             </script>
                         </binding>
                     </item>
+                    <item>
+                        <label>MP Options</label>
+                        <name>j37config</name>
+                        <binding>
+                          <command>dialog-show</command>
+                          <dialog-name>j37config</dialog-name>
+                        </binding>
+                    </item>
                 </menu>
             </default>
         </menubar>

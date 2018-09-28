@@ -678,23 +678,48 @@
         </key>
 
         <key n="21">
-          <name>Ctrl-U</name>
-          <desc>[Cheat] Add 1000ft of emergency altitude</desc>
-          <binding>
-           <command>property-adjust</command>
-           <property>/position/altitude-ft</property>
-           <step type="double">1000.0</step>
-          </binding>
-          <binding>
-           <command>property-assign</command>
-           <property>/sim/startup/onground</property>
-           <value type="bool">false</value>
-          </binding>
-          <binding>
-           <command>nasal</command>
-           <script>ja37.ct("c-u")</script>
-          </binding>
-         </key>
+              <name>Ctrl-U</name>
+              <desc>[Cheat] Add 1000ft of emergency altitude</desc>
+              <binding>
+                    <command>nasal</command>
+                    <script>
+                        if (getprop("payload/armament/msg")==1) {
+                            screen.log.write("CTRL-U disabled at the moment.");
+                        } else {
+                            setprop("position/altitude-ft", getprop("position/altitude-ft")+1000);
+                            setprop("sim/startup/onground", 0);
+                        }
+                    </script>
+                </binding>
+             </key>
+             <key n="97">
+              <name>a</name>
+              <desc>Increase speed-up</desc>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        if (getprop("payload/armament/msg")==1) {
+                            screen.log.write("Speed-up disabled at the moment.");
+                        } else {
+                            controls.speedup(1);
+                        }
+                    </script>
+                </binding>
+             </key>
+              <key n="65">
+              <name>A</name>
+              <desc>Decrease speed-up</desc>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        if (getprop("payload/armament/msg")==1) {
+                            screen.log.write("Speed-down disabled at the moment.");
+                        } else {
+                            controls.speedup(-1);
+                        }
+                    </script>
+                </binding>
+             </key>
 
          <key n="25">
             <name>CTRL-Y</name>
@@ -706,32 +731,6 @@
             </binding>
         </key>
 
-         <key n="97">
-          <name>a</name>
-          <desc>Increase speed-up</desc>
-            <binding>
-                <command>nasal</command>
-                <script>controls.speedup(1);</script>
-            </binding>
-            <binding>
-           <command>nasal</command>
-           <script>ja37.ct("a")</script>
-          </binding>
-         </key>
-
-         <key n="65">
-          <name>A</name>
-          <desc>Decrease speed-up</desc>
-          <binding>
-            <command>nasal</command>
-            <script>controls.speedup(-1);</script>
-          </binding>
-          <binding>
-           <command>nasal</command>
-           <script>ja37.ct("a")</script>
-          </binding>
-         </key>
-        
         <!-- custom keyboard bindings -->
         
         <key n="125">

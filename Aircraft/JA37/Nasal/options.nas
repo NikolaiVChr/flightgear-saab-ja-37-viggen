@@ -1,6 +1,6 @@
 var optionDLG_RUNNING = 0;
 var DIALOG_WIDTH = 580;
-var DIALOG_HEIGHT = 750;
+var DIALOG_HEIGHT = 700;
 var TOPLOGO_HEIGHT = 0;#logo don't work atm
 var SIDELOGO_WIDTH = 100;
 
@@ -129,20 +129,20 @@ var Dialog = {
           #topRow.addChild("empty").set("stretch", 1);
           
           ######   break button   #####
-          var breakRow = topRow.addChild("group");
-          breakRow.set("layout", "hbox");
-          breakRow.set("pref-height", 25);
-          breakRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+#          var breakRow = topRow.addChild("group");
+#          breakRow.set("layout", "hbox");
+#          breakRow.set("pref-height", 25);
+#          breakRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #breakRow.set("valign", "center");
           
-          breakRow.addChild("text")
-          .set("label", "Crash and stress damage system:");
-          breakRow.addChild("empty").set("stretch", 1);
-          me.dialog.breakButton = breakRow.addChild("button");
-          me.dialog.breakButton.set("halign", "right");
-          me.dialog.breakButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
-          #topRow.addChild("empty").set("stretch", 1);
-          me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
+#          breakRow.addChild("text")
+#          .set("label", "Crash and stress damage system:");
+#          breakRow.addChild("empty").set("stretch", 1);
+#          me.dialog.breakButton = breakRow.addChild("button");
+#          me.dialog.breakButton.set("halign", "right");
+#          me.dialog.breakButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+#          #topRow.addChild("empty").set("stretch", 1);
+#          me.dialog.breakButton.setBinding("nasal", "ja37.Dialog.breakToggle()");
 
           ######   reverse button   #####
           #var reverseRow = topRow.addChild("group");
@@ -469,32 +469,32 @@ var Dialog = {
           #me.dialog.dopplerButton.setBinding("nasal", "ja37.Dialog.dopplerToggle()");
 
           ######   missile msg button   #####
-          var rb24msgRow = topRow.addChild("group");
-          rb24msgRow.set("layout", "hbox");
-          rb24msgRow.set("pref-height", 25);
-          rb24msgRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+#          var rb24msgRow = topRow.addChild("group");
+#          rb24msgRow.set("layout", "hbox");
+#          rb24msgRow.set("pref-height", 25);
+#          rb24msgRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #rb24msgRow.set("valign", "center");
           
-          var rb24msgText = rb24msgRow.addChild("text").set("label", "Show MP msg. at weapon hit: (plus anti-cheat)");
-          rb24msgRow.addChild("empty").set("stretch", 1);
-          me.dialog.rb24msgButton = rb24msgRow.addChild("button");
-          me.dialog.rb24msgButton.set("halign", "right");
-          me.dialog.rb24msgButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
-          me.dialog.rb24msgButton.setBinding("nasal", "ja37.Dialog.rb24msgToggle()");
+#          var rb24msgText = rb24msgRow.addChild("text").set("label", "Show MP msg. at weapon hit: (plus anti-cheat)");
+#          rb24msgRow.addChild("empty").set("stretch", 1);
+#          me.dialog.rb24msgButton = rb24msgRow.addChild("button");
+#          me.dialog.rb24msgButton.set("halign", "right");
+#          me.dialog.rb24msgButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+#          me.dialog.rb24msgButton.setBinding("nasal", "ja37.Dialog.rb24msgToggle()");
 
           ######   missile damage button   #####
-          var hitRow = topRow.addChild("group");
-          hitRow.set("layout", "hbox");
-          hitRow.set("pref-height", 25);
-          hitRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
+#          var hitRow = topRow.addChild("group");
+#          hitRow.set("layout", "hbox");
+#          hitRow.set("pref-height", 25);
+#          hitRow.set("pref-width", DIALOG_WIDTH - SIDELOGO_WIDTH - 12);
           #hitRow.set("valign", "center");
           
-          var hitText = hitRow.addChild("text").set("label", "Take damage from getting hit:");
-          hitRow.addChild("empty").set("stretch", 1);
-          me.dialog.hitButton = hitRow.addChild("button");
-          me.dialog.hitButton.set("halign", "right");
-          me.dialog.hitButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
-          me.dialog.hitButton.setBinding("nasal", "ja37.Dialog.hitToggle()");
+#          var hitText = hitRow.addChild("text").set("label", "Take damage from getting hit:");
+#          hitRow.addChild("empty").set("stretch", 1);
+#          me.dialog.hitButton = hitRow.addChild("button");
+#          me.dialog.hitButton.set("halign", "right");
+#          me.dialog.hitButton.node.setValues({ "pref-width": 75, "pref-height": 25, legend: " x ", default: 0 });
+#          me.dialog.hitButton.setBinding("nasal", "ja37.Dialog.hitToggle()");
 
           #HUD line thickness
           var lineRow = workArea.addChild("group");
@@ -803,14 +803,14 @@ var Dialog = {
     refreshButtons: func {
       # update break button
       var version = getprop("ja37/supported/crash-system");
-      var enabled = version==0?getprop("ja37/damage/enabled"):crash1.crashCode.isStarted();
-      var legend = "";
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.breakButton.node.setValues({"legend": legend});
+#      var enabled = version==0?getprop("ja37/damage/enabled"):crash1.crashCode.isStarted();
+#      var legend = "";
+#      if(enabled == 1) {
+#        legend = "Enabled";
+#      } else {
+#        legend = "Disabled";
+#      }
+#      me.dialog.breakButton.node.setValues({"legend": legend});
 
       #enabled = getprop("ja37/autoReverseThrust");
       #if(enabled == 1) {
@@ -964,21 +964,21 @@ var Dialog = {
       #}
       #me.dialog.dopplerButton.node.setValues({"legend": legend});      
 
-      enabled = getprop("payload/armament/msg");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.rb24msgButton.node.setValues({"legend": legend});
+#      enabled = getprop("payload/armament/msg");
+#      if(enabled == 1) {
+#        legend = "Enabled";
+#      } else {
+#        legend = "Disabled";
+#      }
+#      me.dialog.rb24msgButton.node.setValues({"legend": legend});
       
-      enabled = getprop("payload/armament/damage");
-      if(enabled == 1) {
-        legend = "Enabled";
-      } else {
-        legend = "Disabled";
-      }
-      me.dialog.hitButton.node.setValues({"legend": legend});
+#      enabled = getprop("payload/armament/damage");
+#      if(enabled == 1) {
+#        legend = "Enabled";
+#      } else {
+#        legend = "Disabled";
+#      }
+#      me.dialog.hitButton.node.setValues({"legend": legend});
 
       enabled = getprop("ja37/effect/g-suit");
       if(enabled == 1) {

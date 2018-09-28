@@ -182,8 +182,8 @@ input = {
   wow2:             "fdm/jsbsim/gear/unit[2]/WOW",
   zAccPilot:        "accelerations/pilot/z-accel-fps_sec",
 };
-
-
+var msgA = "If you need to repair now, then use Menu-Location-SelectAirport instead.";
+var msgB = "Please land before changing payload or refuel.";
 var Saab37 = {
   new: func {
     var saab37 = {parents: [Saab37]};
@@ -430,7 +430,19 @@ var Saab37 = {
       setprop("controls/gear/gear-down", FALSE);
       notice("The gear lever wont budge.");
     }
-
+    if (getprop("payload/armament/msg") == TRUE) {
+      
+      #call(func{fgcommand('dialog-close', multiplayer.dialog.dialog.prop())},nil,var err= []);# props.Node.new({"dialog-name": "location-in-air"}));
+      call(func{multiplayer.dialog.del();},nil,var err= []);
+      if (!getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+        call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "WeightAndFuel"}))},nil,var err2 = []);        
+        call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "system-failures"}))},nil,var err2 = []);
+        call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "instrument-failures"}))},nil,var err2 = []);  
+      }      
+      setprop("sim/freeze/fuel",0);
+      setprop("/sim/speed-up", 1);
+      setprop("/sim/rendering/als-filters/use-filtering", 1);
+    }
     #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
   },
 
@@ -867,8 +879,8 @@ var Saab37 = {
     me.loop_slow     = maketimer(1.50, me, func me.slow_loop());
     me.loop_fast     = maketimer(0.06, me, func me.speed_loop());
     me.loop_saab37   = maketimer(0.25, me, func me.update_loop());
-    me.loop_ct       = maketimer(2, me, func code_ct());
-    me.loop_not      = maketimer(60, me, func not());
+    #me.loop_ct       = maketimer(2, me, func code_ct());
+    #me.loop_not      = maketimer(60, me, func not());
     
     # displays commons
     displays.common.loop();
@@ -894,8 +906,8 @@ var Saab37 = {
     me.loop_fast.start();
     me.loop_slow.start();
     me.loop_beacon.start();
-    me.loop_ct.start();
-    me.loop_not.start();
+    #me.loop_ct.start();
+    #me.loop_not.start();
     me.loop_ap.start();
     me.loop_hydrLost.start();    
     me.loop_chrono.start();
@@ -1840,6 +1852,9 @@ var _popupTip = func(label, y, delay) {
 }
 
 var repair = func (c = 1) {
+  if (getprop("payload/armament/msg")==1 and !getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+    screen.log.write(msgA);
+  } else {
   var ver = getprop("ja37/supported/crash-system");
   if (ver == 0) {
     crash0.repair();
@@ -1848,12 +1863,14 @@ var repair = func (c = 1) {
     failureSys.armAllTriggers();
   }
   setprop("environment/damage", FALSE);
+}
   if (c == TRUE) {
-    ct("rp");
+    #ct("rp");
   }
 }
 setprop("sim/mul"~"tiplay/gen"~"eric/strin"~"g[14]", "o"~""~"7");
 var refuelTest = func () {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   setprop("consumables/fuel/tank[0]/level-norm", 0.8);
   setprop("consumables/fuel/tank[1]/level-norm", 0.8);
   setprop("consumables/fuel/tank[2]/level-norm", 0.8);
@@ -1865,9 +1882,13 @@ var refuelTest = func () {
   setprop("consumables/fuel/tank[8]/level-norm", 0.0);
 
   screen.log.write("Fuel configured for flight testing.", 1.0, 0.0, 0.0);
+  } else {
+      screen.log.write(ja37.msgB);
+    }
 }
 
 var refuelNorm = func () {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   setprop("consumables/fuel/tank[0]/level-norm", 1.0);
   setprop("consumables/fuel/tank[1]/level-norm", 1.0);
   setprop("consumables/fuel/tank[2]/level-norm", 1.0);
@@ -1879,9 +1900,13 @@ var refuelNorm = func () {
   setprop("consumables/fuel/tank[8]/level-norm", 0.0);
 
   screen.log.write("Fuel configured for standard flight.", 0.0, 1.0, 0.0);
+  } else {
+      screen.log.write(ja37.msgB);
+    }
 }
 
 var refuelRange = func () {
+  if(getprop("payload/armament/msg") == FALSE or getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
   setprop("consumables/fuel/tank[0]/level-norm", 1.0);
   setprop("consumables/fuel/tank[1]/level-norm", 1.0);
   setprop("consumables/fuel/tank[2]/level-norm", 1.0);
@@ -1898,9 +1923,12 @@ var refuelRange = func () {
   setprop("consumables/fuel/tank[8]/level-norm", 1.0);
 
   screen.log.write("Fuel configured for long range flight.", 0.0, 1.0, 0.0);
+  } else {
+      screen.log.write(ja37.msgB);
+    }
 }
 
-var ct = func (type) {
+var ctOld = func (type) {
   if (type == "c-u") {
     setprop("sim/ct/c-u", 1);
   }
@@ -2091,15 +2119,18 @@ var changeGuiLoad = func()
 }
 
 var loadMPList = func () {
-  ct("lst");multiplayer.dialog.show();
+  #ct("lst");
+  multiplayer.dialog.show();
 }
 
 var loadSysFail = func () {
-  ct("sf");fgcommand("dialog-show", props.Node.new({"dialog-name":"system-failures"}));
+  #ct("sf");
+  fgcommand("dialog-show", props.Node.new({"dialog-name":"system-failures"}));
 }
 
 var loadIFail = func () {
-  ct("ifa");fgcommand("dialog-show", props.Node.new({"dialog-name":"instrument-failures"}));
+  #ct("ifa");
+  fgcommand("dialog-show", props.Node.new({"dialog-name":"instrument-failures"}));
 }
 
 var resetView = func () {
