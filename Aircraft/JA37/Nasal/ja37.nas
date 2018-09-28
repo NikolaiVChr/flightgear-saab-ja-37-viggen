@@ -441,6 +441,8 @@ var Saab37 = {
       }      
       setprop("sim/freeze/fuel",0);
       setprop("/sim/speed-up", 1);
+      setprop("/gui/map/draw-traffic", 0);
+      setprop("/sim/gui/dialogs/map-canvas/draw-TFC", 0);
       setprop("/sim/rendering/als-filters/use-filtering", 1);
     }
     #settimer(func me.update_loop(), LOOP_STANDARD_RATE);
