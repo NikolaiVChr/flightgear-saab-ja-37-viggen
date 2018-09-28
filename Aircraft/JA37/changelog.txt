@@ -3506,3 +3506,7 @@ Stores: Updated damage from bombs.
 Arms: Updated to latest ordnance code.
 Sim: Made state system compatible with auto state in Fg 2018.2
 Docs: Updated authors and changelog.
+
+4.312
+=====
+Sim: Updated damage from Mirage2000.
