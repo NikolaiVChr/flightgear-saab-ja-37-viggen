@@ -53,7 +53,7 @@ Sim: Make replay show the guided missiles flying.
 Sim: Improve terrain warning system.
 Sim: Replace all generic setValue in nasal with specific types.
 Sim: Make droptank do collision detection. (use retractable)
-Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15)
+Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15, mig21)
 Sim: Complete hydraulic dependencies: Brakes.
 Sim: Hydraulic drain.
 Sim: Electric drain.
@@ -72,21 +72,18 @@ Sim: Make schedule for max climb rate with A/P at slow speed different when gear
 Sim: Review all replay signals.
 Sim: Only send properties over MP when they change, will save up property space.
 Sim: Make nav panel functional.
-Sim: After exiting transonic the altitude hold is recomputed. 
+Sim: After exiting transonic the altitude hold should be recomputed. 
 Sim: To disengage A/P to mode 0 press switch on stick or pull fuse (will also disengage A/T).
 Sim: OPT FIX button pressed will make the current destination selected moved to right under the aircraft at push time. (datapanel rensa will set it back to what was programmed)
 Sim: Pitot depend on AC power.
 Sim: Some systems should get DC power directly from batt., some only when main power switch is on. Check diagram.
-Sim: The A/P for glideslope is not very reliable, fix.
 Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup.
 Sim: Make so that flares cannot be used after aircraft has crashed.
 Sim: Check terrain warning for when gears is down/landing mode in manual. (its now set to gears down detect)
-Sim: Using data panel an extra bingo fuel warning can be added. % above standard warning is entered. Landing clears it, so does pressing master warning silence. (think its made, dont remember)
 Sim: Inertial navigation system.
 Arms: Make the weapon mode dial operational: simulated mode, operational mode and reduced mode. In DAP, burst number for OP can be entered.
 Arms: RB99 will be rail launched if sitting on a rail instead of always dropped.
 Arms: Be able to notch the rb71 again.
-Arms: Make weapons hit all nearby targets.
 Arms: Make m71 bombs not require a target.
 Arms: Set 4 M71 to fire in ripple at each trigger press.
 Arms: Home on jam for missiles.
@@ -94,7 +91,6 @@ Effect: Rembrandt landing lightcone.
 Effect: Make pilot G-loc/die due to G-forces.
 Effect: Make tires burst if too high speed with parking brakes.
 Effect: Replace beacon, landing and strobe lights with procedural lights in ALS.
-Effect: Afterburner should be more white at night.
 Sound: More annunciater warnings and other sounds. (transonic/Vne is same signal)
 Sound: Adjust the volume of the explosion of nearby missile, depending on distance.
 Sound: Rework how missile buzz and growl works.
@@ -108,7 +104,6 @@ HUD: When DME are enabled at the same time as ILS with glideslope, the distance 
 HUD: Make crossing out of hud when armament not ready to fire and trigger is pressed.
 HUD: Slave-SI centers the landing guide. And hides the attitude ind. ILS needles. (only AJ variants)
 HUD: Altitude scale should only be shown when engine is running due to it need AC power. (pitot-static needs AC?)
-HUD: Make option: realistic or easy-readable alt scale (as before).
 HUD: Radar alt in alt scale, can move outside clip bounds. fix?
 HUD: When should distance scale line not be shown, but distance still?
 HUD: In OPT mode, the sink rate is only at low altitudes, before that its 1:20.
@@ -154,7 +149,6 @@ Model: The frontpanel tap is misaligned.
 Model: The A/P pushbuttons can still be hard to see.
 Animation: The bypass handle should not stay up for long.
 Model: The JA has a chronometer right of fuel gauge.
-Sim: Make sure ram air only supplies when AC supply is set to generator
 Test: Engine starter should be hold in for 30 secs before quiting test, not instantly.
 Test: Testing from TI.
 Test: Shut down also some indicators during testing.
@@ -168,7 +162,7 @@ Model: Oxygen switch was special.
 Model: In JA the 2 gauges on right panel sat in a panel.
 Arms: When electrical power is off, the RB24J should not be able to cool.
 Arms: Pickle delay.
-Arms: Auto LOAL. Lock on after launch.
+Arms: Auto LOAL RB99. Lock on after launch.
 Arms: IR lock before launch should also check terrain occlusion.
 Arms: The auto pattern scan should not jump from bottom to top.
 Radar: Openradar has no roll and heading. Fix radar to handle that.
@@ -185,12 +179,9 @@ TI: Be able to set steerorder to LV or FF points.
 TI: Cursor should be able to select and then relocate a FF or LV point in MSDA menu.
 Radar: RCS takes a moment to kick in apparently. Might be fixed. No its not, just saw it.
 Radar: No voice warning of incoming missiles. (reported by pinto, not reproducable)
-Sim: At relocation: ja37.nas line 813 Nasal runtime error: setprop() passed a NaN: setprop("/environment/aircraft-effects/fog-inside", me.fogNormInside);
 TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
 TI: Has almost 100 getprop calls, convert to getValue.
 Sim: Pilot sometimes complains of lack of oxygen after relocation.
-
-
 
 
 

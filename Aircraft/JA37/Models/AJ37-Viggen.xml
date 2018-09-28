@@ -1874,6 +1874,14 @@
             }
           }
 
+          var red = getprop("/rendering/scene/diffuse/red");
+          setprop("sim/model/j37/effect/flame-low-color-r",  0.863+(1-red));
+          setprop("sim/model/j37/effect/flame-low-color-g",  0.347+(1-red));
+          setprop("sim/model/j37/effect/flame-low-color-b",  0.238+(1-red));
+          setprop("sim/model/j37/effect/flame-high-color-r", 0.863+(1-red));
+          setprop("sim/model/j37/effect/flame-high-color-g", 0.238+(1-red));
+          setprop("sim/model/j37/effect/flame-high-color-b", 0.347+(1-red));
+
           if (self.getNode("valid") == 0 or self.getNode("valid") == nil) {
             return;
           }

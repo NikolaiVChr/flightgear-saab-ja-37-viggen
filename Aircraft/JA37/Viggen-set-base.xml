@@ -510,6 +510,18 @@
                 </flight>
             </controls>
         </failure-manager>
+        <model>
+            <j37><!-- This will be written into the property tree of all that see this model, but it should not interfere with anything -->
+                <effect>
+                    <flame-low-color-r type="double">0</flame-low-color-r>
+                    <flame-low-color-g type="double">0</flame-low-color-g>
+                    <flame-low-color-b type="double">0</flame-low-color-b>
+                    <flame-high-color-r type="double">0</flame-high-color-r>
+                    <flame-high-color-g type="double">0</flame-high-color-g>
+                    <flame-high-color-b type="double">0</flame-high-color-b>
+                </effect>
+            </j37>
+        </model>
     </sim>
     <ja37>
         <accelerations>

@@ -211,12 +211,12 @@ var Saab37 = {
     input.MPfloat9.setDoubleValue(me.red2);
 
     # set afterburner white at night:
-    #setprop("ja37/effect/flame-low-color-r",  0.863+(1-red));
-    #setprop("ja37/effect/flame-low-color-g",  0.347+(1-red));
-    #setprop("ja37/effect/flame-low-color-b",  0.238+(1-red));
-    #setprop("ja37/effect/flame-high-color-r", 0.863+(1-red));
-    #setprop("ja37/effect/flame-high-color-g", 0.238+(1-red));
-    #setprop("ja37/effect/flame-high-color-b", 0.347+(1-red));
+    setprop("sim/model/j37/effect/flame-low-color-r",  0.863+(1-me.red));
+    setprop("sim/model/j37/effect/flame-low-color-g",  0.347+(1-me.red));
+    setprop("sim/model/j37/effect/flame-low-color-b",  0.238+(1-me.red));
+    setprop("sim/model/j37/effect/flame-high-color-r", 0.863+(1-me.red));
+    setprop("sim/model/j37/effect/flame-high-color-g", 0.238+(1-me.red));
+    setprop("sim/model/j37/effect/flame-high-color-b", 0.347+(1-me.red));
 
     # End stuff
 
@@ -779,7 +779,11 @@ var Saab37 = {
         # calculate dew point for inside air. When full airconditioning is achieved at tempAC dewpoint will be tempACdew.
         # slope = (outsideDew - desiredInsideDew)/(outside-desiredInside)
         # insideDew = slope*(inside-desiredInside)+desiredInsideDew
-        me.slope = (me.tempOutsideDew - me.tempACDew)/(me.tempOutside-me.tempAC);
+        if ((me.tempOutside-me.tempAC) == 0) {
+          me.slope = 1; # divide by zero prevention
+        } else {
+          me.slope = (me.tempOutsideDew - me.tempACDew)/(me.tempOutside-me.tempAC);
+        }
         me.tempInsideDewTarget = me.slope*(me.tempInside-me.tempAC)+me.tempACDew;
       } else {
         me.tempInsideDewTarget = me.tempOutsideDew;

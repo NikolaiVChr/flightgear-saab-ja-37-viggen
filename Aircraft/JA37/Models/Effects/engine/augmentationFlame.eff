@@ -12,20 +12,18 @@
     <shock_frequency type="float">0.5</shock_frequency>
     <noise_strength type="float">0.5</noise_strength>
     <noise_scale type="float">0.2</noise_scale>
-    <flame_color_low_r type="float">0.863</flame_color_low_r>
+    <!--<flame_color_low_r type="float">0.863</flame_color_low_r>
     <flame_color_low_g type="float">0.347</flame_color_low_g>
     <flame_color_low_b type="float">0.238</flame_color_low_b>
     <flame_color_high_r type="float">0.863</flame_color_high_r>
     <flame_color_high_g type="float">0.238</flame_color_high_g>
-    <flame_color_high_b type="float">0.347</flame_color_high_b>
-    <!--
-    <flame_color_low_r type="float"><use>ja37/effect/flame-low-color-r</use></flame_color_low_r>
-    <flame_color_low_g type="float"><use>ja37/effect/flame-low-color-g</use></flame_color_low_g>
-    <flame_color_low_b type="float"><use>ja37/effect/flame-low-color-b</use></flame_color_low_b>
-    <flame_color_high_r type="float"><use>ja37/effect/flame-high-color-r</use></flame_color_high_r>
-    <flame_color_high_g type="float"><use>ja37/effect/flame-high-color-g</use></flame_color_high_g>
-    <flame_color_high_b type="float"><use>ja37/effect/flame-high-color-b</use></flame_color_high_b>
-    -->
+    <flame_color_high_b type="float">0.347</flame_color_high_b>-->
+    <flame_color_low_r type="float"><use>sim/model/j37/effect/flame-low-color-r</use></flame_color_low_r>
+    <flame_color_low_g type="float"><use>sim/model/j37/effect/flame-low-color-g</use></flame_color_low_g>
+    <flame_color_low_b type="float"><use>sim/model/j37/effect/flame-low-color-b</use></flame_color_low_b>
+    <flame_color_high_r type="float"><use>sim/model/j37/effect/flame-high-color-r</use></flame_color_high_r>
+    <flame_color_high_g type="float"><use>sim/model/j37/effect/flame-high-color-g</use></flame_color_high_g>
+    <flame_color_high_b type="float"><use>sim/model/j37/effect/flame-high-color-b</use></flame_color_high_b>
     <base_flame_r type="float">0.863</base_flame_r>
     <base_flame_g type="float">0.347</base_flame_g>
     <base_flame_b type="float">0.238</base_flame_b>
