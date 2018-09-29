@@ -3513,3 +3513,4 @@ Sim: Updated damage from Mirage2000.
 Sim: MP discharge option now moved into its own dialog.
 Sim: Fixed at relocation: ja37.nas line 813 Nasal runtime error: setprop() passed a NaN.
 Effect: Afterburner is now more white at night.
+GUI: Added banner to MP options.

@@ -11,7 +11,7 @@
     
     <text>
       <label>MP Configuration</label>
-      <format>%s Configuration</format>
+      <format>%s MP Configuration</format>
       <property>sim/description</property>
     </text>
     
@@ -37,6 +37,42 @@
   </group>
 
   <hrule/>
+
+  <canvas>
+    <name>bannerum</name>
+    <valign>fill</valign>
+    <halign>fill</halign>
+    <stretch>false</stretch>
+    <pref-width>512</pref-width>
+    <pref-height>128</pref-height>
+    <nasal>
+      <load>
+        <![CDATA[       
+                 # you can add your canvas-specific code here
+                 var my_canvas = canvas.get( cmdarg() );
+                 #my_canvas.set("size", [512,128]);
+                 #my_canvas.set("view", [512,128]);
+                 #my_canvas.set("update", 1);
+                 var root = my_canvas.createGroup();
+                 root.setScale(1.01,2.5);
+                 my_canvas.setColorBackground(0, 0, 1, 1.0);
+                 root.createChild("image")
+                                    .set("src", "Aircraft/JA37/viggen-logo.png");
+                                    #.set("x", 512)
+                                    #.set("y", 128);
+                                    #.setSize(512,128)
+                                    #.setTranslation(0,0);
+        ]]>
+      </load>
+      <load>
+        <![CDATA[       
+                 my_canvas.del();
+                 my_canvas = nil;
+                 root = nil;
+        ]]>
+      </load>
+    </nasal>
+  </canvas>
 
   <group>
     <layout>hbox</layout>
