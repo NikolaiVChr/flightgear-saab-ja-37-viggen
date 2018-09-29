@@ -4,7 +4,7 @@ TODO for Flightgear Saab 37 Viggen
 
 Features and improvements:
 --------------------------
-GUI: Improve Checklists.
+GUI: Improve Checklists. Use <group> for grouping them.
 GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 Aero: Make recoil not assume that FDM rate is 120 Hz.
 Aero: Tune speedbrake better.
