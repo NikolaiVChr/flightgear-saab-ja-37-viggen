@@ -64,13 +64,13 @@
                                     #.setTranslation(0,0);
         ]]>
       </load>
-      <load>
+      <unload>
         <![CDATA[       
                  my_canvas.del();
                  my_canvas = nil;
                  root = nil;
         ]]>
-      </load>
+      </unload>
     </nasal>
   </canvas>
 
