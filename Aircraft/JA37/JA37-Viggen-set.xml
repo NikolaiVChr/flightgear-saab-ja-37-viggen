@@ -849,7 +849,7 @@
                     <class type="string">A</class>
                     <fire-msg>FOX3</fire-msg>
                 </test>-->
-                <es>                    <!-- Project Gamma -->
+                <es>                    <!-- Ejection seat -->
                     <vol-search type="double">0.075</vol-search>
                     <vol-track type="double">0.25</vol-track>
                     <vol-track-weak type="double">0.175</vol-track-weak>

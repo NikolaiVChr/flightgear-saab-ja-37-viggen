@@ -946,7 +946,7 @@
                     <class type="string">GM</class>
                     <fire-msg type="string">Rifle</fire-msg>
                 </rb-75>
-                <es>                    <!-- Project Gamma -->
+                <es>                    <!-- Ejection seat -->
                     <vol-search type="double">0.075</vol-search>
                     <vol-track type="double">0.25</vol-track>
                     <vol-track-weak type="double">0.175</vol-track-weak>
