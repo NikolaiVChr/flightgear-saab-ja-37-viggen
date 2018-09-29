@@ -280,6 +280,7 @@
         </limits>-->
             </config>
         </view>
+        
         <view n="110">
             <name>Selection view</name>
             <type>lookfrom</type>
@@ -305,6 +306,13 @@
             </config>
         </view>
         <!-- 13 in hud.nas -->
+        <view n="111">
+          <name>The Sad View</name>
+            <type>lookat</type>
+            <enabled type="bool">false</enabled>
+            <heading-offset-deg>180</heading-offset-deg>
+            <pitch-offset-deg>10</pitch-offset-deg>
+          </view>
         <!--<view n="120">
             <name>HUD view</name>
             <type>lookfrom</type>
@@ -785,6 +793,7 @@
             <fel-steady type="bool">false</fel-steady>
             <fel-flash type="bool">false</fel-flash>
         </test>
+        <done type="bool">false</done>
     </ja37>
     <ai>
         <submodels>
@@ -1091,6 +1100,13 @@
             </station>
             <station n="10"><!-- M55 -->
                 <trigger type="bool">false</trigger>
+            </station>
+            <station n="11"><!-- gamma -->
+                <offsets>
+                    <x-m type="double">-3.650</x-m>
+                    <y-m type="double"> 0.000</y-m>
+                    <z-m type="double"> 0.700</z-m>
+                </offsets>
             </station>
         </armament>
         <engines>
@@ -1572,6 +1588,12 @@
         <testing>
             <file>Aircraft/JA37/Nasal/test.nas</file>
         </testing>
+        <ai>
+          <file>Aircraft/JA37/Nasal/AI_list.nas</file>
+        </ai>
+        <view>
+          <file>Aircraft/JA37/Nasal/gamma.nas</file>
+        </view>
 
         <!--<proto>
             <file>Aircraft/JA37/Nasal/radar-prototype.nas</file>

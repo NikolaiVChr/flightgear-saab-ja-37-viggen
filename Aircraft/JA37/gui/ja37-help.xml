@@ -165,6 +165,10 @@
         <name>Shift-PageDown</name>
         <desc>Adjust seat down</desc>
     </key>
+    <key>
+        <name>F6</name>
+        <desc>Eject</desc>
+    </key>
     <!--<key>  as the real Viggen does not have carrier capacity, these functions are not officially documented. It works though.
       <name>L</name>
       <desc>Carrier launch-bar engage (hold for 10 seconds)</desc>
