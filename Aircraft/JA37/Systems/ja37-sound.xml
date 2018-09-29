@@ -2938,6 +2938,8 @@
             </position>
             <pitch>
                 <factor>1.5</factor>
+                <offset>0</offset>
+                <min>0</min>
                 <max>2</max>
             </pitch>
             <volume>
