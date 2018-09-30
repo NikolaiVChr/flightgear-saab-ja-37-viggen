@@ -1475,6 +1475,8 @@ var re_init = func {
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
   setprop("ja37/done",0);
+  setprop("sim/view[0]/enabled",1);
+  setprop("/sim/current-view/view-number", 0);
   #test_support();
 }
 
@@ -1875,6 +1877,9 @@ var repair = func (c = 1) {
     failureSys.armAllTriggers();
   }
   setprop("environment/damage", FALSE);
+  setprop("ja37/done",0);
+  setprop("sim/view[0]/enabled",1);
+  setprop("/sim/current-view/view-number", 0);
 }
   if (c == TRUE) {
     #ct("rp");
