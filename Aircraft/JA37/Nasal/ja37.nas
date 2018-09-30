@@ -524,6 +524,12 @@ var Saab37 = {
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
 
+    if (getprop("payload/armament/es/flags/deploy-id-10")!= nil) {
+      setprop("ja37/force", 7-5*getprop("payload/armament/es/flags/deploy-id-10"));
+      } else {
+        setprop("ja37/force", 7);
+      }
+
     #settimer(func me.speed_loop(), LOOP_FAST_RATE);
   },
 
