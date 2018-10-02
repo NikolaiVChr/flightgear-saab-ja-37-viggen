@@ -3507,7 +3507,7 @@ Arms: Updated to latest ordnance code.
 Sim: Made state system compatible with auto state in Fg 2018.2
 Docs: Updated authors and changelog.
 
-4.312
+4.312 - 2018 October 1 (2018.3 release)
 =====
 Sim: Updated damage from Mirage2000.
 Sim: MP discharge option now moved into its own dialog.
