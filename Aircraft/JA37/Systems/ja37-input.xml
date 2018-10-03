@@ -1386,7 +1386,7 @@
             setprop("fdm/jsbsim/fcs/canopy/hinges/serviceable",0);
             es.releaseAtNothing();
             view.view_firing_missile(es);
-            setprop("sim/view[0]/enabled",0);
+            #setprop("sim/view[0]/enabled",0);
             settimer(func {crash1.exp();},3.5);
            </script>
           </binding>
