@@ -6,8 +6,8 @@ var distance = 0;
 var min_dist = 0;
 var max_dist = 0;
 var canChangeZOffset = 0;
-var decStep = -5;
-var incStep = 5;
+var decStep = -2.5;
+var incStep = 2.5;
 var viewName = "XX";
 
 var fovZoom = func(d) {
@@ -15,15 +15,15 @@ var fovZoom = func(d) {
 	canChangeZOffset = getprop("/sim/current-view/type") == "lookat" and (viewName != "Tower View" or viewName != "Fly-By View" or viewName != "Chase View" or viewName != "Chase View Without Yaw" or viewName != "Walk View");
 	
 	if (getprop("/sim/current-view/z-offset-m") <= -50) {
-		decStep = -10;
-	} else {
 		decStep = -5;
+	} else {
+		decStep = -2.5;
 	}
 	
 	if (getprop("/sim/current-view/z-offset-m") < -50) { # Not a typo, the conditions are different
-		incStep = 10;
-	} else {
 		incStep = 5;
+	} else {
+		incStep = 2.5;
 	}
 	
 	if (d == -1) {
