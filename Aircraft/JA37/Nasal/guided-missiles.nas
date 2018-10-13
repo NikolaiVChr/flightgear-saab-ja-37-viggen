@@ -306,6 +306,7 @@ var AIM = {
 		# aerodynamic
 		m.weight_launch_lbm     = getprop(m.nodeString~"weight-launch-lbs");          # total weight of armament, including fuel and warhead.
 		m.Cd_base               = getprop(m.nodeString~"drag-coeff");                 # drag coefficient
+		m.Cd_delta              = getprop(m.nodeString~"delta-drag-coeff-deploy");    # drag coefficient added by deployment
 		m.ref_area_sqft         = getprop(m.nodeString~"cross-section-sqft");         # normally is crosssection area of munition (without fins)
 		m.max_g                 = getprop(m.nodeString~"max-g");                      # max G-force the missile can pull at sealevel
 		m.min_speed_for_guiding = getprop(m.nodeString~"min-speed-for-guiding-mach"); # minimum speed before the missile steers, before it reaches this speed it will fly ballistic.
@@ -331,6 +332,7 @@ var AIM = {
         m.rail_pitch_deg        = getprop(m.nodeString~"rail-pitch-deg");             # Only used when rail is not forward. 90 for vertical tube.
         m.drop_time             = getprop(m.nodeString~"drop-time");                  # Time to fall before stage 1 thrust starts.
         m.deploy_time           = getprop(m.nodeString~"deploy-time");                # Time to deploy wings etc. Time starts when drop ends or rail passed.
+        m.no_pitch              = getprop(m.nodeString~"pitch-animation-disabled");   # bool
         # counter-measures
         m.chaffResistance       = getprop(m.nodeString~"chaff-resistance");           # Float 0-1. Amount of resistance to chaff. Default 0.950. [optional]
         m.flareResistance       = getprop(m.nodeString~"flare-resistance");           # Float 0-1. Amount of resistance to flare. Default 0.950. [optional]
@@ -405,6 +407,10 @@ var AIM = {
 
         if(m.loal == nil) {
         	m.loal = FALSE;
+        }
+
+        if(m.Cd_delta == nil) {
+        	m.Cd_delta = 0;
         }
 
         if(m.canSwitch == nil) {
@@ -488,6 +494,9 @@ var AIM = {
 		if(m.guidanceEnabled == nil) {
 			m.guidanceEnabled = TRUE;
 		}
+		if (m.no_pitch == nil) {
+        	m.no_pitch = 0;
+        }
 
         m.useModelCase          = getprop("payload/armament/modelsUseCase");
         m.useModelUpperCase     = getprop("payload/armament/modelsUpperCase");
@@ -644,6 +653,7 @@ var AIM = {
 		m.rail_pos = 0;
 		m.rail_speed_into_wind = 0;
 		m.rail_passed_time = nil;
+		m.deploy = 0;
 
 		# stats
 		m.maxFPS       = 0;
@@ -1033,13 +1043,18 @@ var AIM = {
 		}
 		var init_coord = nil;
 		if (me.rail == TRUE) {
-			if (me.rail_forward == FALSE) {
+			if (me.rail_forward == FALSE and me.rail_pitch_deg != 90) {
 				# polar pylon coords:
 				me.rail_dist_origin = math.sqrt(me.x*me.x+me.z*me.z);
-				me.rail_origin_angle_rad = math.acos(me.clamp(me.x/me.rail_dist_origin,-1,1))*(me.z<0?-1:1);
-				# since we cheat by rotating entire launcher, we must calculate new pylon positions after the rotation:
-				me.x = me.rail_dist_origin*math.cos(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
-				me.z = me.rail_dist_origin*math.sin(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+				if(me.rail_dist_origin==0){
+					me.x = 0.0;
+					me.z = 0.0;
+				} else {
+					me.rail_origin_angle_rad = math.acos(me.clamp(me.x/me.rail_dist_origin,-1,1))*(me.z<0?-1:1);
+					# since we cheat by rotating entire launcher, we must calculate new pylon positions after the rotation:
+					me.x = me.rail_dist_origin*math.cos(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+					me.z = me.rail_dist_origin*math.sin(me.rail_origin_angle_rad+me.rail_pitch_deg*D2R);
+				}
 			}
 		}
 		if (offsetMethod == TRUE and (me.rail == FALSE or me.rail_forward == TRUE)) {
@@ -1592,10 +1607,13 @@ var AIM = {
 
 		if (me.rail == FALSE) {
 			me.deploy_prop.setValue(me.clamp(me.extrapolate(me.life_time, me.drop_time, me.drop_time+me.deploy_time,0,1),0,1));
+			me.deploy = me.deploy_prop.getValue();
 		} elsif (me.rail_passed_time == nil and me.rail_passed == TRUE) {
 			me.rail_passed_time = me.life_time;
+			me.deploy_prop.setValue(0);
 		} elsif (me.rail_passed_time != nil) {
 			me.deploy_prop.setValue(me.clamp(me.extrapolate(me.life_time, me.rail_passed_time, me.rail_passed_time+me.deploy_time,0,1),0,1));
+			me.deploy = me.deploy_prop.getValue();
 		}
 		#if(me.life_time > 8) {# todo: make this duration configurable
 			#me.SwSoundFireOnOff.setBoolValue(FALSE);
@@ -1748,7 +1766,11 @@ var AIM = {
 					# no incoming airstream if not vertical tube
 					me.opposing_wind = 0;
 				}
-				me.hdg = me.Tgt.get_bearing();
+				if (me.Tgt != nil) {
+					me.hdg = me.Tgt.get_bearing();
+				} else {
+					me.hdg = OurHdg.getValue();
+				}
 			}			
 
 			me.speed_on_rail = me.clamp(me.rail_speed_into_wind - me.opposing_wind, 0, 1000000);
@@ -1783,7 +1805,7 @@ var AIM = {
 					me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue());
 				}				
 			} else {
-				# kind of a hack, but work
+				# kind of a hack, but work for static launcher
 				me.coord = me.getGPS(me.x, me.y, me.z, OurPitch.getValue()+me.rail_pitch_deg);
 			}
 			me.alt_ft = me.coord.alt() * M2FT;
@@ -1797,9 +1819,13 @@ var AIM = {
 			me.maxAlt = me.alt_ft;
 		}
 		# Get target position.
-		if (me.Tgt != nil) {
+		if (me.Tgt != nil and me.t_coord != nil) {
 			if (me.flareLock == FALSE and me.chaffLock == FALSE) {
 				me.t_coord = me.Tgt.get_Coord();
+				if (me.t_coord == nil) {
+					# just to protect the multithreaded code for invalid pos.
+					me.Tgt = nil;
+				}
 			} else {
 				# we are chasing a flare, lets update the flares position.
 				if (me.flareLock == TRUE) {
@@ -1842,7 +1868,19 @@ var AIM = {
 		me.latN.setDoubleValue(me.coord.lat());
 		me.lonN.setDoubleValue(me.coord.lon());
 		me.altN.setDoubleValue(me.alt_ft);
-		me.pitchN.setDoubleValue(me.pitch);
+		if (!no_pitch or (me.rail == TRUE and me.rail_passed == FALSE)) {
+			me.pitchN.setDoubleValue(me.pitch);
+		} else {
+			me.uprighter = me.pitchN.getValue();
+			if (me.uprighter<89.92) {
+				me.uprighter += (90-me.uprighter)*me.dt*0.1;
+			} elsif (me.uprighter>90.08) {
+				me.uprighter -= (me.uprighter-90)*me.dt*0.1;
+			} else {
+				me.uprighter = 90.0;
+			}
+			me.pitchN.setDoubleValue(me.uprighter);
+		}
 		me.hdgN.setDoubleValue(me.hdg);
 		me.rollN.setDoubleValue(me.rollN.getValue()+me.lateralSpeed*me.dt);
 
@@ -1899,10 +1937,37 @@ var AIM = {
 			me.g = 0;
 		}
 
+		if (me.Tgt == nil and me.rail == TRUE and me.rail_pitch_deg==90 and me.rail_passed == FALSE) {
+			#for ejection seat to be oriented correct, wont be ran for missiles with target such as the frigate.
+			var a = me.myMath.eulerToCartesian3Z(-OurHdg.getValue(), OurPitch.getValue(), OurRoll.getValue());
+			#printf("%0.4f %0.4f %0.4f",OurHdg.getValue(),OurPitch.getValue(),OurRoll.getValue());
+			#printf("%0.4f %0.4f %0.4f",a[0],a[1],a[2]);
+			var euler = me.myMath.cartesianToEuler(a);
+			
+			me.pitch = euler[1];
+			me.pitchN.setDoubleValue(me.pitch);
+			if (euler[0]!=nil) {
+				me.hdg = euler[0];
+			} else {
+				me.hdg = OurHdg.getValue();
+			}
+			me.hdgN.setDoubleValue(me.hdg);
+			var nose = me.myMath.eulerToCartesian3X(-OurHdg.getValue(), OurPitch.getValue(), OurRoll.getValue());
+			var face = me.myMath.eulerToCartesian3Z(-me.hdg, me.pitch, 0);
+			face = me.myMath.product(-1,face);
+			var turnFace = me.myMath.angleBetweenVectors(face,nose);
+			if (me.myMath.angleBetweenVectors(nose,me.myMath.product(-1,me.myMath.eulerToCartesian3Z(-me.hdg, me.pitch, turnFace)))>turnFace) {
+				turnFace *= -1;
+			}
+			me.rollN.setDoubleValue(turnFace);
+
+			#printf("seat now at P:%d H:%d R:%d",me.pitch,me.hdg,me.rollN.getValue());
+		}
 		if (me.rail_passed == FALSE and (me.rail == FALSE or me.rail_pos > me.rail_dist_m * M2FT)) {
 			me.rail_passed = TRUE;
 			me.printFlight("rail passed");
 		}
+
 
 		# consume fuel
 		if (me.life_time > (me.drop_time + me.stage_1_duration + me.stage_2_duration)) {
@@ -1962,7 +2027,7 @@ var AIM = {
 		}
 	},
 
-	getGPS: func(x, y, z, pitch) {
+	getGPS: func(x, y, z, pitch, head=nil, roll=nil) {
 		#
 		# get Coord from body position. x,y,z must be in meters.
 		# derived from Vivian's code in AIModel/submodel.cxx.
@@ -1972,10 +2037,18 @@ var AIM = {
 		if(x == 0 and y==0 and z==0) {
 			return geo.Coord.new(me.ac);
 		}
-
-		me.ac_roll = OurRoll.getValue();
+		if (roll == nil) {
+			me.ac_roll = OurRoll.getValue();
+		} else {
+			me.ac_roll = roll;
+		}
 		me.ac_pitch = pitch;
-		me.ac_hdg   = OurHdg.getValue();
+		
+		if (head == nil) {
+			me.ac_hdg   = OurHdg.getValue();
+		} else {
+			me.ac_hdg = head;
+		}
 
 		me.in    = [0,0,0];
 		me.trans = [[0,0,0],[0,0,0],[0,0,0]];
@@ -2027,11 +2100,11 @@ var AIM = {
 		# and derived from Davic Culps code in AIBallistic.
 		me.Cd = 0;
 		if (mach < 0.7) {
-			me.Cd = (0.0125 * mach + 0.20) * 5 * me.Cd_base;
+			me.Cd = (0.0125 * mach + 0.20) * 5 * (me.Cd_base+me.Cd_delta*me.deploy);
 		} elsif (mach < 1.2 ) {
-			me.Cd = (0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + 0.2 ) * 5 * me.Cd_base;
+			me.Cd = (0.3742 * math.pow(mach, 2) - 0.252 * mach + 0.0021 + 0.2 ) * 5 * (me.Cd_base+me.Cd_delta*me.deploy);
 		} else {
-			me.Cd = (0.2965 * math.pow(mach, -1.1506) + 0.2) * 5 * me.Cd_base;
+			me.Cd = (0.2965 * math.pow(mach, -1.1506) + 0.2) * 5 * (me.Cd_base+me.Cd_delta*me.deploy);
 		}
 
 		return me.Cd;
@@ -3209,7 +3282,7 @@ var AIM = {
 			} else {
 				me.sendMessage(me.type~" missed "~me.callsign~": "~reason);
 			}
-		} elsif(!me.inert and !me.Tgt.isVirtual()) {
+		} elsif(!me.inert and me.Tgt == nil) {
 			var phrase = sprintf(me.type~" "~event);
 			me.printStats("%s  Reason: %s time %.1f", phrase, reason, me.life_time);
 			me.sendMessage(phrase);

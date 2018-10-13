@@ -100,5 +100,6 @@ Pond-racer: speedbrake wind sound.
 A32xx: Throttle detent sound.
 PC-9: Throttle idle sound.
 CRJ700: gear lever sound.
+SR-71 (Gerard Robin): parachute for ejecting
 
 Might have forgotten some.

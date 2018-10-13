@@ -524,6 +524,12 @@ var Saab37 = {
       notice("Terrain warning made you grab the flight controls! Cursor inactive.");
     }
 
+    if (getprop("payload/armament/es/flags/deploy-id-10")!= nil) {
+      setprop("ja37/force", 7-5*getprop("payload/armament/es/flags/deploy-id-10"));
+      } else {
+        setprop("ja37/force", 7);
+      }
+
     #settimer(func me.speed_loop(), LOOP_FAST_RATE);
   },
 
@@ -1468,7 +1474,9 @@ var re_init = func {
   auto.stopAP();
   setprop("/controls/gear/gear-down", 1);
   setprop("/controls/gear/brake-parking", 1);
-
+  setprop("ja37/done",0);
+  setprop("sim/view[0]/enabled",1);
+  setprop("/sim/current-view/view-number", 0);
   #test_support();
 }
 
@@ -1869,6 +1877,9 @@ var repair = func (c = 1) {
     failureSys.armAllTriggers();
   }
   setprop("environment/damage", FALSE);
+  setprop("ja37/done",0);
+  setprop("sim/view[0]/enabled",1);
+  setprop("/sim/current-view/view-number", 0);
 }
   if (c == TRUE) {
     #ct("rp");

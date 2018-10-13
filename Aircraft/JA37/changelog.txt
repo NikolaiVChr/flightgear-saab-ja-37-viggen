@@ -3507,10 +3507,11 @@ Arms: Updated to latest ordnance code.
 Sim: Made state system compatible with auto state in Fg 2018.2
 Docs: Updated authors and changelog.
 
-4.312
+4.312 - 2018 October 1 (2018.3 release)
 =====
 Sim: Updated damage from Mirage2000.
 Sim: MP discharge option now moved into its own dialog.
 Sim: Fixed at relocation: ja37.nas line 813 Nasal runtime error: setprop() passed a NaN.
 Effect: Afterburner is now more white at night.
 GUI: Added banner to MP options.
+Animation: Key 'F6' now ejects the pilot.

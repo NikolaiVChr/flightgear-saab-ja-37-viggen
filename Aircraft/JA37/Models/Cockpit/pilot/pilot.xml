@@ -15,6 +15,12 @@
                     <value>1</value>
                 </equals>
             </not>
+            <not>
+                <equals>
+                    <property>ja37/done</property>
+                    <value>1</value>
+                </equals>
+            </not>
         </condition>
     </animation>
 </PropertyList>

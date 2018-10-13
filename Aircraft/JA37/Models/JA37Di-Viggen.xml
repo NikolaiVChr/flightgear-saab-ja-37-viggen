@@ -3530,6 +3530,36 @@
  </offsets>
 </model>
 
+<model>
+  <path>Aircraft/Generic/Effects/rain-nose.xml</path>
+  <name>tyre-rain-nose</name>
+  <offsets>
+    <x-m> -3.65342 </x-m>
+    <y-m> 0 </y-m>
+    <z-m> -2.1 </z-m>
+  </offsets>
+</model>
+
+<model>
+ <path>Aircraft/Generic/Effects/rain-port.xml</path>
+ <name>tyre-rain-left</name>
+ <offsets>
+  <x-m> 2.64670 </x-m>
+  <y-m> -2.15204 </y-m>
+  <z-m> -2.1 </z-m>
+ </offsets>
+</model>
+
+<model>
+ <path>Aircraft/Generic/Effects/rain-stbd.xml</path>
+ <name>tyre-rain-right</name>
+ <offsets>
+   <x-m> 2.64670 </x-m>
+   <y-m> 2.15204 </y-m>
+   <z-m> -2.1 </z-m>
+ </offsets>
+</model>
+
  <!-- end effects -->
 
 
