@@ -512,6 +512,7 @@
             </controls>
         </failure-manager>
         <model>
+            <fallback-model-index type="int">222</fallback-model-index>
             <j37><!-- This will be written into the property tree of all that see this model, but it should not interfere with anything -->
                 <effect>
                     <flame-low-color-r type="double">0</flame-low-color-r>
