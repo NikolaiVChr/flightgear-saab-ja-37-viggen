@@ -569,7 +569,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
   
     # pitch lines
     var distance = pixelPerDegreeY * 5;
-    me.negative_horizon_lines = 
+    #me.negative_horizon_lines = 
     for(var i = -18; i <= -1; i += 1) { # stipled lines
       append(artifacts1, me.horizon_group4.createChild("path")
                      .moveTo(2*pixelPerDegreeX, -i * distance)

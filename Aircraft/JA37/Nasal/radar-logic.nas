@@ -699,7 +699,7 @@ var RadarLogic = {
           own_alt = 0;
       }
       # Return the Horizon in NM
-      return (2.2 * ( math.sqrt(own_alt * FT2M) + math.sqrt(me.tgt_alt * FT2M)));# don't understand the 2.2 conversion to NM here..
+      return (2.2 * ( math.sqrt(own_alt * FT2M) + math.sqrt(me.tgt_alt * FT2M)));
   },
 
   get_closure_rate_from_Coord: func(t_coord, t_node) {
