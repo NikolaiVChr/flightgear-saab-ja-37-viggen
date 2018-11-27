@@ -4684,7 +4684,7 @@ var TI = {
 			}
 			if (((me.showHostileZones == TRUE and me.boogie < 1) or (me.showFriendlyZones == TRUE and me.boogie == 1)) and me.threatIndex < maxThreats-1) {
 				me.threatRadiusNM = -1;
-				if (contact.get_model()      == "missile_frigate") {
+				if (contact.get_model()      == "missile_frigate" or contact.get_model()      == "fleet") {
 					me.threatRadiusNM = 80;
 				} elsif (contact.get_model() == "buk-m2") {
 					me.threatRadiusNM = 30;
