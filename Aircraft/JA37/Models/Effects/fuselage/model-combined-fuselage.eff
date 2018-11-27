@@ -15,7 +15,7 @@ Modifications author: Nikolai V. Chr.
 
 		0 - livery (rgba)
 		1 - autogen. 3D noise
-		2 - normal (rgb) & shininess (a)
+		2 - normal (rgb) & shininess (a) [Note: shininess is ignored if dds bc3n compression is used]
 		3 - light (rgba)
 		4 - reflect map (a) & dirt (rgb)
 		5 - reflect cube map (rgb)

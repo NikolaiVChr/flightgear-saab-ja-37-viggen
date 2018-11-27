@@ -3520,6 +3520,6 @@ Animation: Key 'F6' now ejects the pilot.
 =====
 Effect: Heavy rain now also do spray.
 GUI: {it0uchpods} View system overhaul.
-Model: {Richard} Added fallback model index.
+Model: {Richard} Added fallback model index. Also added a Viggen fallback model to 2018.3.1 $FGDATA.
 Arms: Updated missile code.
 Effect: Normal map is now DDS format.

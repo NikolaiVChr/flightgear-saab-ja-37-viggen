@@ -130,6 +130,7 @@ void main (void)
 	///BEGIN bump //////////////////////////////////////////////////////////////////
  	if (nmap_enabled > 0 ){
  		if (bc3n > 0) {
+ 			//  de-swizzling:
  			nmap.xyz = vec3(nmap.a,nmap.g,sqrt(1 - (nmap.a * nmap.a + nmap.g * nmap.g)));
  			nmap.a = 1.0;
  		}
