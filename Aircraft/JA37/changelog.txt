@@ -3515,3 +3515,11 @@ Sim: Fixed at relocation: ja37.nas line 813 Nasal runtime error: setprop() passe
 Effect: Afterburner is now more white at night.
 GUI: Added banner to MP options.
 Animation: Key 'F6' now ejects the pilot.
+
+4.313
+=====
+Effect: Heavy rain now also do spray.
+GUI: {it0uchpods} View system overhaul.
+Model: {Richard} Added fallback model index.
+Arms: Updated missile code.
+Effect: Normal map is now DDS format.

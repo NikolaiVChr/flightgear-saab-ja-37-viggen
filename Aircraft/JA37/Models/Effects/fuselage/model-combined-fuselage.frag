@@ -29,6 +29,7 @@ uniform int		dirt_multi;
 uniform int		lightmap_enabled;
 uniform int		lightmap_multi;
 uniform int		nmap_dds;
+uniform int		bc3n;
 uniform int		nmap_enabled;
 uniform int		refl_enabled;
 uniform	int		refl_dynamic;
@@ -112,7 +113,11 @@ void main (void)
     vec3 gammaInv   = vec3(2.2);
 	vec4 texel      = texture2D(BaseTex, gl_TexCoord[0].st);
 	texel.rgb = pow(texel.rgb, gammaInv);
-	vec4 nmap       = texture2D(NormalTex, gl_TexCoord[0].st * nmap_tile);
+	vec4 nmap;
+	if (nmap_dds > 0)
+ 		nmap       = texture2D(NormalTex, vec2(gl_TexCoord[0].s,1.0-gl_TexCoord[0].t));
+	else
+		nmap       = texture2D(NormalTex, gl_TexCoord[0].st * nmap_tile);
 	vec4 reflmap    = texture2D(ReflMapTex, gl_TexCoord[0].st);
 	vec4 noisevec   = texture3D(ReflNoiseTex, rawpos.xyz);
 	vec4 lightmapTexel = texture2D(LightMapTex, gl_TexCoord[0].st);
@@ -124,10 +129,14 @@ void main (void)
 
 	///BEGIN bump //////////////////////////////////////////////////////////////////
  	if (nmap_enabled > 0 ){
-		N = nmap.rgb * 2.0 - 1.0;
+ 		if (bc3n > 0) {
+ 			nmap.xyz = vec3(nmap.a,nmap.g,sqrt(1 - (nmap.a * nmap.a + nmap.g * nmap.g)));
+ 			nmap.a = 1.0;
+ 		}
+		N = nmap.xyz * 2.0 - 1.0;
 		N = normalize(N.x * VTangent + N.y * VBinormal + N.z * VNormal);
-		if (nmap_dds > 0)
-			N = -N;
+		//if (nmap_dds > 0)
+		//	N = -N;
  	} else {
  		N = normalize(VNormal);
  	}

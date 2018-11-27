@@ -10,8 +10,11 @@
 
           <rain-enabled type="int">2</rain-enabled>
           <ambient-correction type="float">0.00</ambient-correction>
+          
           <normalmap-enabled type="int">1</normalmap-enabled>
-
+          <normalmap-dds>1</normalmap-dds>
+          <normalmap-dds-compression-bc3n>1</normalmap-dds-compression-bc3n>
+          
           <lightmap-enabled type="int">1</lightmap-enabled>
           <lightmap-multi type="int">1</lightmap-multi>
           <lightmap-factor type="float" n="0"><use>sim/multiplay/generic/float[3]</use></lightmap-factor>
@@ -39,7 +42,7 @@
             <dirt-color type="vec3d">0.0 0.0 0.0</dirt-color>
 
             <texture n="2">
-              <image>Aircraft/JA37/Models/Effects/j37_bump.png</image>
+              <image>Aircraft/JA37/Models/Effects/fuselage/j37_normal.dds</image>
               <filter>linear</filter><!-- trilinear linear linear-mipmap-linear linear-mipmap-nearest -->
               <wrap-s>repeat</wrap-s>
               <wrap-t>repeat</wrap-t>

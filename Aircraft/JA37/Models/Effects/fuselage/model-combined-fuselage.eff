@@ -8,6 +8,7 @@ Modifications author: Nikolai V. Chr.
 	<parameters>
 		<metallic type="float">0.75</metallic><!-- 0-1 -->
 		<ambient-factor type="float">0.75</ambient-factor><!-- 0-1 -->
+		<normalmap-dds-compression-bc3n>0</normalmap-dds-compression-bc3n>
 	</parameters>
 	<!--
 		Textures:
@@ -336,6 +337,14 @@ Modifications author: Nikolai V. Chr.
 				   <type>int</type>
 				   <value>
 					   <use>normalmap-dds</use>
+				   </value>
+			   </uniform>
+			   
+			   <uniform>
+				   <name>bc3n</name>
+				   <type>int</type>
+				   <value>
+					   <use>normalmap-dds-compression-bc3n</use>
 				   </value>
 			   </uniform>
 			   
@@ -1394,6 +1403,14 @@ Modifications author: Nikolai V. Chr.
 			  <use>normalmap-dds</use>
 			</value>
 		  </uniform>
+		  
+		  <uniform>
+			   <name>bc3n</name>
+			   <type>int</type>
+			   <value>
+				   <use>normalmap-dds-compression-bc3n</use>
+			   </value>
+		   </uniform>
 
 		  <uniform>
 			<name>nmap_tile</name>
