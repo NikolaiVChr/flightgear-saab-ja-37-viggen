@@ -1410,12 +1410,10 @@
         <fcs_function name="systems/indicators/inertia-navigation">
             <function>
                 <or>
-                    <and>
                         <eq>
                             <property>/ja37/avionics/ins</property><!-- involves timer when starting engine -->
                             <value>0</value>
                         </eq>
-                    </and>
                     <property>/controls/lighting/test-indicator-panels</property>
                 </or>
             </function>
