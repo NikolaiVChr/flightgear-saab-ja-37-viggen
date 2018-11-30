@@ -2004,12 +2004,10 @@
                         <property>/ja37/avionics/autopilot</property>
                         <value>1</value>
                     </eq>
-                    <or>
                         <eq>
                             <property>/ja37/avionics/auto-throttle-on</property>
                             <value>1</value>
                         </eq>
-                    </or>
                 </and>
             </function>
         </fcs_function>
