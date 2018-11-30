@@ -102,7 +102,6 @@
 
             http://www.dtic.mil/dtic/tr/fulltext/u2/b184826.pdf
         </description>
-        <product>
               <table>
                   <independentVar lookup="row">velocities/mach</independentVar>
                   <tableData>
@@ -113,7 +112,6 @@
                       1.0 1.25
                   </tableData>
               </table>
-        </product>
     </function>
 
         <!-- estimate -->
@@ -386,16 +384,12 @@
             <description>
                 Normal force due to gear
             </description>
-            <product>
-                <sum>
                     <product>
                         <property>aero/function/Cdgear</property>
                         <sin>
                             <property>aero/alpha-rad</property>
                         </sin>
                     </product>
-                </sum>
-            </product>
         </function>
 
     </axis>
@@ -411,7 +405,6 @@
     <!-- from DATCOM+ -->
     <function name="aero/function/ground-effect-factor-axial">
         <description>Change in axial due to ground effect</description>
-        <product>
             <table>
                 <independentVar lookup="row">aero/h_b-mac-ft</independentVar>
                 <tableData>
@@ -430,12 +423,10 @@
                     1.1  1.000
                 </tableData>
             </table>
-        </product>
     </function>
 
     <function name="aero/function/stores-wave-drag-factor">
         <description>Change in stores drag due to mach</description>
-        <product>
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <tableData>
@@ -453,7 +444,6 @@
                     2.2  1.598
                 </tableData>
             </table>
-        </product>
     </function>    
 
 
@@ -546,10 +536,11 @@
 
     <function name="aero/function/Afactors">
         <description>Change in axial due to mach and ground effect</description>
-        <product>
+        <property>aero/function/ground-effect-factor-axial</property>
+        <!--<product>
             <property>aero/function/ground-effect-factor-axial</property>
-            <!--<property>aero/function/mach-effect-prefactor</property>-->
-        </product>
+            --><!--<property>aero/function/mach-effect-prefactor</property>--><!--
+        </product>-->
     </function>
 
     <function name="aero/function/left-elevon-pos-rad-squared">
