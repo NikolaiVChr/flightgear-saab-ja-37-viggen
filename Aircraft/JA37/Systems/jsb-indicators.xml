@@ -184,23 +184,19 @@
 
         <fcs_function name="systems/indicators/fuel-pump-secondary">
             <function>
-                <or>
                     <eq>
                         <property>systems/indicators/electrical-primary</property>
                         <value>1</value>
                     </eq>
-                </or>
             </function>
         </fcs_function>
 
         <fcs_function name="systems/indicators/fuel-pump-primary">
             <function>
-                <or>
                     <eq>
                         <property>systems/fuel/fuel-pumps/serviceable</property>
                         <value>0</value>
                     </eq>
-                </or>
             </function>
         </fcs_function>
 
