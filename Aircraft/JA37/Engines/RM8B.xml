@@ -86,7 +86,6 @@
     </function>
 
     <function name="MilThrust">
-        <product>
             <table>
                 <independentVar lookup="row">velocities/mach</independentVar>
                 <independentVar lookup="column">atmosphere/density-altitude</independentVar>
@@ -103,7 +102,6 @@
                       1.4  1.3560  1.1398  0.9238  0.7188  0.5342  0.3607  0.2237  0.0000
                 </tableData>
             </table>
-        </product>
     </function>
 
     <function name="AugThrust">
