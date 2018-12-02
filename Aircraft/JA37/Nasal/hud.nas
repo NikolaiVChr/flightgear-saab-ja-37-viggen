@@ -17,7 +17,9 @@ var roundabout = func(x) {
 var extrapolate = func (x, x1, x2, y1, y2) {
     return y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
 };
-var kts2kmh = 1.852;
+
+var KT2KMH = NM2M*0.001;
+var NM2KM = KT2KMH;
 
 var alt_scale_mode = -1; # the alt scale is not linear, this indicates which part is showed
 
@@ -1105,7 +1107,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       #############             main loop                         ################
       ############################################################################
   update: func() {
-    #setprop("instrumentation/airspeed-indicator/indicated-speed-kmh", getprop("instrumentation/airspeed-indicator/indicated-speed-kt")*kts2kmh);
+    #setprop("instrumentation/airspeed-indicator/indicated-speed-kmh", getprop("instrumentation/airspeed-indicator/indicated-speed-kt")*KT2KMH);
     me.has_power = TRUE;
     if (me.input.elecAC.getValue() < 100) {
       # primary power is off
@@ -1843,15 +1845,15 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       # metric
       me.airspeedInt.hide();
       if (me.mach >= 0.5 and mode != LANDING and mode != TAKEOFF) {
-        me.speed = me.displayGS == TRUE?me.input.gs.getValue():me.input.ias.getValue();
+        me.speed = me.displayGS == TRUE?me.input.gs.getValue()*KT2KMH:me.input.ias.getValue()*KT2KMH;
         me.type  = me.displayGS == TRUE?"GS":"";
         me.airspeedInt.setText(sprintf(me.type~"%03d", me.speed));
         me.airspeedInt.show();
         me.airspeed.setText(sprintf("%.2f", me.mach));
       } else {
-        me.speed = me.displayGS == TRUE?me.input.gs.getValue()*kts2kmh:me.input.ias.getValue() * kts2kmh;
+        me.speed = me.displayGS == TRUE?me.input.gs.getValue()*KT2KMH:me.input.ias.getValue() * KT2KMH;
         me.type  = me.displayGS == TRUE?"GS":"";
-        if (me.input.ias.getValue() * kts2kmh > 75) {
+        if (me.input.ias.getValue() * KT2KMH > 75) {
           me.airspeed.setText(sprintf("%s%03d", me.type, me.speed));
         } else {
           me.airspeed.setText("");
@@ -1860,7 +1862,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
     } elsif (mode == LANDING or mode == TAKEOFF or me.mach < 0.5) {
       # interoperability without mach
       me.airspeedInt.hide();
-      if (me.input.ias.getValue() * kts2kmh > 75) {
+      if (me.input.ias.getValue() * KT2KMH > 75) {
         me.speed = me.displayGS == TRUE?me.input.gs.getValue():me.input.ias.getValue();
         me.type  = me.displayGS == TRUE?"GS":"KT";
         me.airspeed.setText(sprintf(me.type~"%03d", me.speed));
@@ -2312,10 +2314,10 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         me.rotationSpeed = ja37.clamp(me.rotationSpeed, 250, 1000);
         #rotationSpeed = getprop("fdm/jsbsim/systems/flight/rotation-speed");
         me.pixelPerKmh = (2/3*me.line)/me.rotationSpeed;
-        if(me.input.ias.getValue() < 75/kts2kmh) {
+        if(me.input.ias.getValue() < 75/KT2KMH) {
           me.mySpeed.setTranslation(me.pixelPerKmh*75, 0);
         } else {
-          me.pos = me.pixelPerKmh*me.input.ias.getValue()*kts2kmh;
+          me.pos = me.pixelPerKmh*me.input.ias.getValue()*KT2KMH;
           if(me.pos > me.line) {
             me.pos = me.line;
           }
@@ -2478,7 +2480,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.mySpeed.show();
 
       me.targetDistance1.setTranslation(0, 0);
-      me.distanceText.setText(sprintf("%.1f", me.input.units.getValue() == 1  ? me.distance*kts2kmh : me.distance));
+      me.distanceText.setText(sprintf("%.1f", me.input.units.getValue() == 1  ? me.distance*NM2KM : me.distance));
 
       me.targetSpeed.hide();
       me.targetDistance1.show();
@@ -2496,7 +2498,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
       me.mySpeed.show();
 
       me.targetDistance1.setTranslation(0, 0);
-      me.distanceText.setText(sprintf("%.1f", me.input.units.getValue() == 1  ? me.distance*kts2kmh : me.distance));
+      me.distanceText.setText(sprintf("%.1f", me.input.units.getValue() == 1  ? me.distance*KT2KMH : me.distance));
 
       me.targetSpeed.hide();
       me.targetDistance1.hide();
@@ -2541,7 +2543,7 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
 
         if(me.showme == TRUE) {
           me.tower_symbol.setTranslation(me.pos_x, me.pos_y);
-          me.tower_dist = me.input.units.getValue() ==1  ? me.distance : me.distance/kts2kmh;
+          me.tower_dist = me.input.units.getValue() ==1  ? me.distance : me.distance/NM2KM;
           if(me.tower_dist < 10000) {
             me.tower_symbol_dist.setText(sprintf("%.1f", me.tower_dist/1000));
           } else {
