@@ -3523,3 +3523,5 @@ GUI: {it0uchpods} View system overhaul.
 Model: {Richard} Added fallback model index. Also added a Viggen fallback model to 2018.3.1 $FGDATA.
 Arms: Updated missile code.
 Effect: Normal map is now DDS format.
+Aero: {Richard} Fixed some ambiguious JSB calcs.
+HUD: Fixed that at higher speeds, the digital readout would show in KT for metric mode.
