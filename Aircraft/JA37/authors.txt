@@ -45,9 +45,15 @@ Misc. model improvements. (optimizations, adjustments, UV mappings plus much mor
 Grey/black camo livery.
 Plus many other changes.
 
+Onox - Forum name: onox
+====
+View system
+Misc. small improvements
+
 Joshua Davidson - Forum name: it0uchpods
 ========================================
 Autopilot control and tuning.
+Modified the view system.
 
 Steve Brown - Forum name: swampthing - Callsign: swamp
 ======================
@@ -57,6 +63,10 @@ KSUU Crew 1 livery.
 Enrico Castaldi - Forum name: Spectre
 ===================
 Many of the liveries.
+
+Richard Harrison - Forum name: Richard
+================
+Misc fixes and improvements.
 
 Colin Geniet
 ============

@@ -3507,7 +3507,7 @@ Arms: Updated to latest ordnance code.
 Sim: Made state system compatible with auto state in Fg 2018.2
 Docs: Updated authors and changelog.
 
-4.312 - 2018 October 1 (2018.3 release)
+4.312 - 2018 October 1
 =====
 Sim: Updated damage from Mirage2000.
 Sim: MP discharge option now moved into its own dialog.
@@ -3516,12 +3516,12 @@ Effect: Afterburner is now more white at night.
 GUI: Added banner to MP options.
 Animation: Key 'F6' now ejects the pilot.
 
-4.313
+4.313 - 2018 December 7 (2018.3 release)
 =====
 Effect: Heavy rain now also do spray.
 GUI: {it0uchpods} View system overhaul.
 Model: {Richard} Added fallback model index. Also added a Viggen fallback model to 2018.3.1 $FGDATA.
 Arms: Updated missile code.
 Effect: Normal map is now DDS format.
-Aero: {Richard} Fixed some ambiguious JSB calcs.
+Aero: {Richard} Fixed some ambiguous JSB calcs.
 HUD: Fixed that at higher speeds, the digital readout would show in KT for metric mode.
