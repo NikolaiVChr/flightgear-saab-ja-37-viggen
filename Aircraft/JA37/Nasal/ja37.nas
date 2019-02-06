@@ -199,6 +199,7 @@ var Saab37 = {
 
     #augmented flame translucency
     me.red = input.sceneRed.getValue();
+    setprop("rendering/scene/diffuse/red-unbound", me.red);
     # normal effect
     #var angle = input.sunAngle.getValue();# 1.25 - 2.45
     #var newAngle = (1.2 -(angle-1.25))*0.8333;

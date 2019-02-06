@@ -3488,11 +3488,11 @@
   </offsets>
  </model> -->
 
-<model>
-    <path>Aircraft/JA37/Models/Effects/vaporCone.xml</path>
-    <name>VaporCone</name>
+  <model>
+    <path>Aircraft/JA37/Models/Effects/mach-cone.xml</path>
+    <name>MachCone</name>
     <offsets>
-      <x-m>0</x-m>
+      <x-m>0.3</x-m>
       <y-m>0.0</y-m>
       <z-m>0</z-m>
     </offsets>
