@@ -44,7 +44,7 @@
  <animation>
   <type>select</type>
   <condition>
-   <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+   <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
   </condition>
   <object-name>glare</object-name>
  </animation>

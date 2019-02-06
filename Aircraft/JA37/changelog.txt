@@ -3525,3 +3525,9 @@ Arms: Updated missile code.
 Effect: Normal map is now DDS format.
 Aero: {Richard} Fixed some ambiguous JSB calcs.
 HUD: Fixed that at higher speeds, the digital readout would show in KT for metric mode.
+
+4.314
+=====
+Effect: Make wingtip and high-G vapor not be bright at evening. (thanks Richard and Legoboy)
+Effect: Mach vapor cone is now shader based.
+Effect: Fixed that landing/nav light glare was missing due to MP property change.

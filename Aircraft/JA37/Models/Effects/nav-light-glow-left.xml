@@ -77,7 +77,7 @@
           <value>7</value>
         </equals>       
       </or>
-      <property>sim/multiplay/generic/int[2]</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
+      <property>sim/hitches/aerotow/is-slave</property><!-- fdm/jsbsim/fcs/wings/serviceable -->
     </condition>
   </animation>
 
