@@ -8,8 +8,8 @@ var COLOR_GREY_LIGHT = [0.70,0.70,0.70];
 var TRUE  = 1;
 var FALSE = 0;
 
-var maxLV = 8;
-var maxSteers = 48;
+var maxLV = 8;# max number of LV areas
+var maxSteers = 48;# max number of steers in each plan
 
 var debugAll = FALSE;
 
@@ -25,8 +25,8 @@ var Polygon = {
 	editing: nil,#its set for being edited
 	editRTB: nil,
 	editMiss: nil,
-	polys: {},
-	_activating: FALSE,
+	polys: {},# contains the plans
+	_activating: FALSE,# in progress of a plan being set into route-manager
 	flyRTB: nil,
 	flyMiss: nil,
 	editSteer: FALSE,  # selectSteer set for being moved
@@ -37,10 +37,13 @@ var Polygon = {
 	editDetail: FALSE,# selectSteer ready for having an attribute edited
 	_apply: FALSE,
 	jumpToSteer: nil,
-	editBullsEye: FALSE,
+	editBullsEye: FALSE,# bullseye being being edited
 	#polyEdit: FALSE,
 
 	setupJAPolygons: func {
+		#class:
+		# setup 4 mission and 2 RTB plans. Plus 6 LV areas.
+		#
 		Polygon._setupListeners();
 		me.multi = getprop("ja37/supported/multiple-flightplans");
 		if (me.multi == TRUE) {
@@ -79,6 +82,9 @@ var Polygon = {
 	},
 
 	setupAJPolygons: func {
+		#class:
+		# setup 1 plan.
+		#
 		Polygon._setupListeners();
 		var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
 		Polygon.primary      = poly1;
@@ -90,7 +96,9 @@ var Polygon = {
 	},
 
 	saveAll: func {
-		#dont use, is only for testing
+		#class:
+		# dont use, is only for testing
+		#
 		var key = keys(Polygon.polys);
 		foreach (k; key) {
 			var poly = Polygon.polys[k];
@@ -99,7 +107,9 @@ var Polygon = {
 	},
 
 	deletePlan: func {
-		# Called from dap.
+		#class:
+		# Called from dap. Clear a plan. Will only happen if the plan is being set for edit.
+		#
 		if (Polygon.editing != nil) {
 			printDA("deleting plan");
 			Polygon.selectSteer = nil;
@@ -120,6 +130,9 @@ var Polygon = {
 	},
 
 	selectSteerpoint: func (planName, leg, index) {
+		#class:
+		# Set a steerpoint as selected.
+		#
 		#me.editIndex = Polygon.editing.plan.indexOfWP(leg); TODO: in 2 years time from now, start using this, as noone will be using old FG 2017.2.1 anymore.
 		#printf("%s %s %d",planName, leg.id, me.editIndex);
 		if (planName == Polygon.editing.getName()) {#} and me.editIndex != nil and me.editIndex != -1) {
@@ -133,10 +146,16 @@ var Polygon = {
 	},
 
 	jumpTo: func (leg, index) {
+		#class:
+		# prepare to select another steerpoint
+		#
 		Polygon.jumpToSteer = [leg, index];
 	},
 	
 	jumpExecute: func {
+		#class:
+		# Execute the selection, will only succeed on a non-active plan.
+		#
 		if (Polygon.jumpToSteer != nil) {
 			if (Polygon.primary != nil and Polygon.primary.getSize() > Polygon.jumpToSteer[1]) {
 				Polygon.primary.plan.current = Polygon.jumpToSteer[1];
@@ -148,6 +167,9 @@ var Polygon = {
 	},
 
 	editSteerpoint: func () {
+		#class:
+		# Set the selected steeproint for editing.
+		#
 		if (Polygon.selectSteer != nil) {
 			Polygon.editDetail = FALSE;
 			Polygon.appendSteer = FALSE;
@@ -159,6 +181,9 @@ var Polygon = {
 	},
 
 	editApply: func (lati, long) {
+		#class:
+		# Apply the new coord to the steerpoint being edited.
+		#
 		if (Polygon.editSteer) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
@@ -192,6 +217,9 @@ var Polygon = {
 	},
 
 	editDetailMethod: func (value) {
+		#class:
+		# Set if it should be allowed to edit a detail on selected steerpoint.
+		#
 		if (Polygon.selectSteer != nil) {
 			Polygon.editDetail  = value;
 			Polygon.appendSteer = FALSE;
@@ -203,12 +231,18 @@ var Polygon = {
 	},
 
 	setType: func (value) {
+		#class:
+		# NOP
+		#
 		if (Polygon.selectSteer != nil) {
 #			Polygon.selectSteer[0].fly_type = value==1?"Target":Polygon.selectSteer[0].fly_type=="Target"?"flyOver":Polygon.selectSteer[0].fly_type;
 		}
 	},
 
 	setLon: func (long) {
+		#class:
+		# Execute editing of detail: longitude.
+		#
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
@@ -242,6 +276,9 @@ var Polygon = {
 	},
 
 	setLat: func (lati) {
+		#class:
+		# Execute editing of detail: latitude.
+		#
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
@@ -275,6 +312,9 @@ var Polygon = {
 	},
 
 	setMach: func (mach) {
+		#class:
+		# Execute editing of detail: mach.
+		#
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			#Polygon.selectSteer[0].speed_cstr_type = "mach";
 			#Polygon.selectSteer[0].speed_cstr      = mach;			
@@ -286,6 +326,9 @@ var Polygon = {
 	},
 
 	setAlt: func (alt) {
+		#class:
+		# Execute editing of detail: altitude.
+		#
 		if (Polygon.selectSteer != nil and Polygon.editDetail) {
 			#Polygon.selectSteer[0].alt_cstr      = alt;
 			#Polygon.selectSteer[0].alt_cstr_type = "at";
@@ -297,6 +340,9 @@ var Polygon = {
 	},
 
 	deleteSteerpoint: func {
+		#class:
+		# Delete the selected steerpoint. Can be done even if its not in edit mode.
+		#
 		if (Polygon.selectSteer != nil and Polygon.editDetail == FALSE) {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
@@ -319,6 +365,9 @@ var Polygon = {
 	},
 
 	insertSteerpoint: func () {
+		#class:
+		# Prepare to insert a steerpoint before the selected steerpoint.
+		#
 		if (Polygon.selectSteer != nil and !Polygon.editing.isFull() and Polygon.editDetail == FALSE) {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = !Polygon.insertSteer;
@@ -329,6 +378,9 @@ var Polygon = {
 	},
 
 	insertApply: func (lati, long) {
+		#class:
+		# Execute the insert.
+		#
 		if (Polygon.insertSteer and !Polygon.editing.isFull()) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
@@ -355,6 +407,9 @@ var Polygon = {
 	},
 
 	appendSteerpoint: func () {
+		#class:
+		# Prepare to append a steerpoint to the plan being edited.
+		#
 		if (Polygon.editing != nil and !Polygon.editing.isFull() and Polygon.editDetail == FALSE) {
 			Polygon.insertSteer = FALSE;
 			Polygon.appendSteer = !Polygon.appendSteer;
@@ -365,6 +420,9 @@ var Polygon = {
 	},
 
 	appendApply: func (lati, long) {
+		#class:
+		# Execute the append.
+		#
 		if (Polygon.appendSteer and !Polygon.editing.isFull()) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
@@ -388,6 +446,9 @@ var Polygon = {
 	},
 
 	editSteerpointStop: func () {
+		#class:
+		# Cancel editing of steerpoint.
+		#
 		Polygon.editSteer = FALSE;
 		Polygon.appendSteer = FALSE;
 		Polygon.insertSteer = FALSE;
@@ -395,6 +456,9 @@ var Polygon = {
 	},
 
 	setToggleAreaEdit: func {
+		#class:
+		# Toggle setting LV area 1 to be editable. Not sure this method is used, it dont seem generic.
+		#
 		printDA("area edit");
 		var poly = Polygon.polys["OP1"]; #TODO: temp stuff
 		if (poly != Polygon.editing) {
@@ -411,6 +475,9 @@ var Polygon = {
 	},
 
 	setToggleBEEdit: func {
+		#class:
+		# Set bullseye to be editable.
+		#
 		printDA("bulls-eye edit");
 		Polygon.editing = nil;
 		Polygon.editSteer = FALSE;
@@ -422,6 +489,9 @@ var Polygon = {
 	},
 
 	editPlan: func (poly) {
+		#class:
+		# Set a certain plan to be editable.
+		#
 		if (poly != Polygon.editing) {
 			Polygon.editSteer = FALSE;
 			Polygon.appendSteer = FALSE;
@@ -438,6 +508,9 @@ var Polygon = {
 	},
 
 	_planEdited: func {
+		#class:
+		# Called from route-manager. Cancels all editing of a plan, since it was external edited.
+		#
 		if (Polygon._apply == FALSE) {
 			removelistener(me.selectL);
 			me.selectL = nil;
@@ -454,20 +527,32 @@ var Polygon = {
 	},
 
 	getLandingBase: func {
+		#class:
+		# Get the destination of current RTB plan.
+		#
 		return Polygon.flyRTB.getBase();
 	},
 
 	isLandingBaseRunwayActive: func {
+		#class:
+		# Return true if current steerpoint is the current RTB destination
+		#
 		if (Polygon.flyRTB == Polygon.primary and Polygon.isPrimaryActive() == TRUE and Polygon.primary.plan.destination_runway != nil and Polygon.primary.getSize()-1==Polygon.primary.plan.current) {
 			return TRUE;
 		}
 	},
 
 	startPrimary: func {
+		#class:
+		# Wakes up the primary plan in route-manager.
+		#
 		fgcommand("activate-flightplan", props.Node.new({"activate": 1}));
 	},
 
 	activateLandingBase: func {
+		#class:
+		# Set current RTB plan as active, and select the destination and a runway.
+		#
 		me.base = Polygon.getLandingBase();
 		Polygon.flyRTB.setAsPrimary();
 		if (me.base != nil) {
@@ -488,18 +573,30 @@ var Polygon = {
 	},
 
 	stopPrimary: func {
+		#class:
+		# Set primary plan to sleep.
+		#
 		fgcommand("activate-flightplan", props.Node.new({"activate": 0}));
 	},
 
 	isPrimaryActive: func {
+		#class:
+		# Return true if primary plan is awake.
+		#
 		return getprop("autopilot/route-manager/active");
 	},
 
 	_setupListeners: func {
+		#class:
+		# Setup listener for if route-manager loads a plan from disc.
+		#
 		setlistener("autopilot/route-manager/signals/flightplan-changed", func {Polygon._planExchange()});
 	},
 
 	_planExchange: func {
+		#class:
+		# Rooute-manager loaded a plan from disc.
+		#
 		printDA("plan exhanged");
 		if (Polygon._activating == TRUE) {
 			printDA("..it was planned");
@@ -523,6 +620,9 @@ var Polygon = {
 	},
 
 	_setDestDep: func (poly) {
+		#class:
+		# Checks the first and last steerpoints of the plan and sets dest/dep if it is airports.
+		#
 		if (poly.type == TYPE_RTB or poly.type == TYPE_MIX) {
 			# prioritize setting dest on rtb/mix
 			if (poly.plan.destination == nil and poly.getSize()>0) {
@@ -572,7 +672,11 @@ var Polygon = {
 	},
 
 	_finishedPrimary: func (pln) {
-		#called from RouteManagerDelegate
+		#class:
+		# Called from RouteManagerDelegate when a plan has been flown to finish.
+		# If the plan was a mission route then the current RTB route will be started.
+		# If the plan was a RTB, it will be restarted with last steerpoint as current.
+		#
 		var plns="";
 		if (pln.id != nil) {
 			plns = pln.id;
@@ -595,6 +699,9 @@ var Polygon = {
 	},
 
 	selectDestinationOnPrimary: func {
+		#class:
+		# Set current steerpoint to last steerpoint on primary plan.
+		#
 		Polygon.primary.plan.current = Polygon.primary.plan.getPlanSize()-1;
 		return Polygon.primary.plan.getPlanSize() != 0;
 	},
@@ -603,6 +710,9 @@ var Polygon = {
 	# Instance methods and variables
 	#
 	new: func (nameNum, nameVari, type, xml, default = 0) {
+		#instance:
+		# Create a new polygon instance (plan). Content is loaded from disc if commanded.
+		#
 		var newPoly = { parents : [Polygon]};
 		if (default == 1) {
 			newPoly.plan = flightplan();
@@ -629,22 +739,37 @@ var Polygon = {
 	},
 
 	isFull: func {
+		#instance:
+		# Return true if plan is at max capacity.
+		#
 		return (me.type == TYPE_AREA and me.getSize()>=maxLV) or (me.type != TYPE_AREA and me.getSize()>=maxSteers);
 	},
 
 	getName: func {
+		#instance:
+		# Return name of plan. For example "4A".
+		#
 		return me.name;
 	},
 
 	getNameNumber: func {
+		#instance:
+		# Return the number part of the name. For example "4".
+		#
 		return me.nameNum;
 	},
 
 	getNameVariant: func {
+		#instance:
+		# Return the letter part of the name.
+		#
 		return me.nameVari;
 	},
 
 	getPolygon: func {
+		#instance:
+		# Return a vector with all the legs.
+		#
 		me.numbers = me.plan.getPlanSize();
 		me.polygon = [];
 		for (var i = 0; i < me.numbers; i+=1) {
@@ -654,6 +779,9 @@ var Polygon = {
 	},
 
 	getSteerpoint: func {
+		#instance:
+		# Return a vector with curent steerpoint. If runway [runway, airport]. If airport [airport]. Else [leg].
+		#
 		if (me.plan.current == me.getSize()-1 and me.plan.destination_runway != nil and me.plan.destination != nil) {
 			return [me.plan.destination_runway, me.plan.destination];
 		}
@@ -670,14 +798,23 @@ var Polygon = {
 	},
 
 	getIndex: func {
+		#instance:
+		# Return index of current steerpoint.
+		#
 		return me.plan.current;
 	},
 
 	getLeg: func {
+		#instance:
+		# Returns current leg.
+		#
 		return me.plan.currentWP();
 	},
 
 	setAsPrimary: func {
+		#instance:
+		# Put this polygon into route-manager as active, but do not awake it.
+		#
 		if (!me.isPrimary() and me.type != TYPE_AREA) {
 			printDA("Polygon._activating = TRUE;");
 			Polygon._activating = TRUE;
@@ -690,15 +827,23 @@ var Polygon = {
 	},
 
 	isPrimary: func {
+		#instance:
+		# Returns if this is the plan in the route-manager.
+		#
 		return Polygon.primary == me;
 	},
 
 	getSize: func {
+		#instance:
+		# Returns number oof steerpoints in this polygon.
+		#
 		return me.plan.getPlanSize();
 	},
 
 	cycle: func {
-		# Cycle waypoints
+		#instance:
+		# Set next steerpoint as current.
+		#
 		if (me.plan.current == me.getSize()-1) {
 			me.plan.current = 0;
 		} else {
@@ -707,7 +852,9 @@ var Polygon = {
 	},
 
 	getBase: func {
+		#instance:
 		# Will return destination or last waypoint (if its a airport).
+		#
 		if (me.getSize() > 0) {
 			if(me.plan.destination != nil) {
 				printDA("getBase returning dest which is airport "~me.plan.destination.id);
@@ -726,7 +873,9 @@ var Polygon = {
 	},
 
 	forceRunway: func {
-		# will only force a runway onto a destination.
+		#instance:
+		# Sets a random runway as destination if the destination_runway is not set and the last steerpoint is an airport.
+		#
 		me.base = me.plan.destination;
 		me.baseRwy = me.plan.destination_runway;
 		if (me.baseRwy == nil and me.base != nil) {
@@ -746,6 +895,7 @@ var Polygon = {
 	},
 
 	cycleDestinationRunway: func {
+		#instance:
 		# cycle through destination runways.
 		me.base = me.plan.destination;
 		me.baseRwy = me.plan.destination_runway;
@@ -784,6 +934,9 @@ var Polygon = {
 	},
 
 	loop: func {
+		#class:
+		# A loop that set the DAP display info on next steerpoint, will only be shown in DAP POS/OUT mode.
+		#
 		dap.posOutDisplay = "       ";
 		if (Polygon.isPrimaryActive()) {
 			me.steer = Polygon.primary.getSteerpoint();
@@ -804,6 +957,9 @@ var Polygon = {
 };
 
 var poly_start = func {
+	#
+	# Setup the polygon system for the aircraft.
+	#
 	#removelistener(lsnr);
 	if (getprop("ja37/systems/variant") == 0) {
 		Polygon.setupJAPolygons();
