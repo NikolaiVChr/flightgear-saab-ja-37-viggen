@@ -119,7 +119,7 @@ TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not s
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
 TI: Routes can have target steerpoints (Mxx/Txx).
-TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add.
+TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add. (no, use the new route-manager in JA for that).
 TI: Edit polygon and MMAN should auto move cursor to TI.
 TI: MSDA map should be north oriented (at least when MMAN is on).
 TI: Slew cursor using a dialog touchpad.
@@ -131,7 +131,7 @@ MI: Make TNF to stop/start inertial nav.
 MI: DLZ indicator.
 CI: Memory button, for freezing image.
 CI: Slew cursor.
-Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2019.
+Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2020.
 Control: overhaul rudder trim.
 DAP: Input TACAN with REG/STR.
 DAP: Edit steerpoint type to target.
@@ -139,7 +139,7 @@ TI: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 DAP: Show sign of input at leftmost char always.
-TI: Run different through plans when drawing them on canvas.
+TI: Run different through plans when drawing them on canvas. (what did I mean by this?)
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
@@ -182,8 +182,7 @@ Radar: No voice warning of incoming missiles. (reported by pinto, not reproducab
 TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
 TI: Has almost 100 getprop calls, convert to getValue.
 Sim: Pilot sometimes complains of lack of oxygen after relocation.
-
-
+TI: Make long route legs be curved.
 
 
 

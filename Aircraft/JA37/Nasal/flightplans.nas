@@ -417,10 +417,10 @@ var Polygon = {
 
 	setType: func (value) {
 		#class:
-		# NOP
+		# Called from TI/DAP
 		#
 		if (Polygon.selectSteer != nil) {
-#			Polygon.selectSteer[0].fly_type = value==1?"Target":Polygon.selectSteer[0].fly_type=="Target"?"flyOver":Polygon.selectSteer[0].fly_type;
+			Polygon.selectSteer[0].fly_type = value==1?"flyOver":"flyBy";
 		}
 	},
 
@@ -577,6 +577,7 @@ var Polygon = {
 				printDA("insert: clear dep");
 				me.firstWP = Polygon.editing.plan.getWP(0);
 				me.firstWP = createWP({lat: me.firstWP.lat, lon: me.firstWP.lon}, me.firstWP.id, "pseudo");
+				me.firstWP.fly_type = "flyBy";
 				Polygon.editing.plan.departure = nil;
 				printDA("inserting old dep as navaid");
 				#me.lastWP.wp_type = "navaid";#will prevent it from being cleared as a star/approach in future.
@@ -618,6 +619,7 @@ var Polygon = {
 				me.lastWP = Polygon.editing.plan.getWP(Polygon.editing.getSize()-1);
 				printDA("append: dest != nil and last "~(me.lastWP!= nil));
 				me.lastWP = createWP({lat: me.lastWP.lat, lon: me.lastWP.lon}, me.lastWP.id, "pseudo");
+				me.lastWP.fly_type = "flyBy";
 				Polygon.editing.plan.destination = nil;# this will make the delegate clear wp from list.
 				Polygon.editing.plan.appendWP(me.lastWP);
 			}

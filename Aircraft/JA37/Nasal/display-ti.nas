@@ -3522,7 +3522,8 @@ var TI = {
 				#me.wpText6.setText((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize());
 
 				me.wpText6Desc.setText("TYP");
-				me.wpText6.setText(route.Polygon.selectSteer[0].fly_type);
+				# Hold = target
+				me.wpText6.setText(route.Polygon.selectSteer[0].fly_type=="flyOver"?(me.interoperability==displays.METRIC?"M\xC3\x85L":"TARGET"):(me.interoperability==displays.METRIC?"BRYT":"STEER"));
 				if (me.blinkBox6 == FALSE or me.twoHz) {
 					me.wpText6.show();
 				} else {
@@ -3784,6 +3785,7 @@ var TI = {
 	  				}
 					me.lat_wp = me.node.wp_lat;
 	  				me.lon_wp = me.node.wp_lon;
+	  				me.target_wp = me.node.fly_type=="flyOver";
 	  				#me.alt = node.getNode("altitude-m").getValue();
 					me.name = me.node.id;
 					me.texCoord = me.laloToTexel(me.lat_wp, me.lon_wp);
@@ -3873,7 +3875,7 @@ var TI = {
 					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
 					if (me.curr_plan[1] or (!me.curr_plan[1] and !me.curr_plan[2])) {
 						# plan is being edited or we are not in MSDA page:
-						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA?"":(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA));
+						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA?"":(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA)));
 						me.steerpointText[me.wpIndex].setText(me.wp_pre~(wp+1));
 					} else {
 						me.steerpointText[me.wpIndex].setText("");
