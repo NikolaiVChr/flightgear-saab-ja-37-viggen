@@ -29,6 +29,14 @@
         <object-name>foot1</object-name>
         <object-name>foot2</object-name>
     </effect>
+    
+    <animation>
+        <type>material</type>
+        <object-name>panel</object-name>
+        <property-base>ja37/language</property-base>
+        <texture-prop>textureRadarPanel</texture-prop>
+        <texture>radar-panel.png</texture>
+    </animation>
 
     <animation>
         <type>pick</type>

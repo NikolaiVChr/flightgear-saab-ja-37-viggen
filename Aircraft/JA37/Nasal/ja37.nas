@@ -187,19 +187,22 @@ var msgB = "Please land before changing payload or refuel.";
 var Saab37 = {
   new: func {
     var saab37 = {parents: [Saab37]};
+    saab37.oldUnit = -1;
     return saab37;
   },
 
   update_loop: func {
 
     # Stuff that will run even in replay:
-    
-    if (getprop("ja37/hud/units-metric")) {
-        setprop("ja37/language/texture", "-se.png");
-    } else {
-        setprop("ja37/language/texture", ".png");
-    }    
-
+    me.currentUnit = getprop("ja37/hud/units-metric");
+    if (me.currentUnit != me.oldUnit) {#since there can be many texture replacements we dont wanna do this every loop:
+      if (me.currentUnit) {
+          setprop("ja37/language/textureRadarPanel", "radar-panel-se.png");
+      } else {
+          setprop("ja37/language/textureRadarPanel", "radar-panel.png");
+      }    
+    }
+    me.oldUnit = me.currentUnit;
     # breath sound volume
     input.breathVol.setDoubleValue(input.viewInternal.getValue() and input.fullInit.getValue());
 
