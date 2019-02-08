@@ -36,15 +36,18 @@ var Polygon = {
 	selectL: nil,# when selectSteer is non nil, this will be listener for route-manager edit of plan. Such edit will cancel all editing. Hackish.
 	editDetail: FALSE,# selectSteer ready for having an attribute edited
 	_apply: FALSE,
+	_doingBases: FALSE,# currently setting properties for dest/dep.
 	jumpToSteer: nil,
 	editBullsEye: FALSE,# bullseye being being edited
+	takeoffBase: nil,# ghost-airport
+	landBaseA: nil,# ghost-airport
+	landBaseB: nil,# ghost-airport
 	#polyEdit: FALSE,
 
 	setupJAPolygons: func {
 		#class:
 		# setup 4 mission and 2 RTB plans. Plus 6 LV areas.
 		#
-		Polygon._setupListeners();
 		me.multi = getprop("ja37/supported/multiple-flightplans");
 		if (me.multi == TRUE) {
 			var poly1 = Polygon.new("1", "", TYPE_MISS, getprop("xmlPlans/mission1"), FALSE);
@@ -70,6 +73,13 @@ var Polygon = {
 			Polygon.flyRTB       = polyA;
 			Polygon.flyMiss      = poly1;
 			poly1.setAsPrimary();
+			
+			#now set current pos as start base:
+            var apts = findAirportsWithinRange(25.0);
+            if (size(apts)) {
+            	Polygon.takeoffBase = apts[0];
+               	Polygon.setTakeoff();
+            }
 		} else {
 			var poly1 = Polygon.new("1", "", TYPE_MIX, nil, TRUE);
 			Polygon.primary      = poly1;
@@ -78,7 +88,184 @@ var Polygon = {
 			Polygon.editRTB      = poly1;
 			Polygon.editMiss     = poly1;
 		}
+		Polygon._setupListeners();
+		var dlg = gui.Dialog.new("/sim/gui/dialogs/route-manager/dialog", "Aircraft/JA37/gui/dialogs/route-manager.xml", "route-manager");
 		printDA("JA: finished plan Init");
+	},
+	
+	setTakeoff: func () {
+		#class:
+		# Set destination on mission plans
+		#
+		Polygon._doingBases = TRUE;
+		var base = Polygon.takeoffBase;
+		var icao = (base==nil)?"":base.id;
+		
+		setprop("autopilot/plan-manager/departure/airport", icao);
+		
+		if (Polygon.polys["1"].plan.departure == nil or Polygon.polys["1"].plan.departure.id != icao) {
+			Polygon.polys["1"].plan.departure = base;
+		}
+		if (Polygon.polys["2"].plan.departure == nil or Polygon.polys["2"].plan.departure.id != icao) {
+			Polygon.polys["2"].plan.departure = base;
+		}
+		if (Polygon.polys["3"].plan.departure == nil or Polygon.polys["3"].plan.departure.id != icao) {
+			Polygon.polys["3"].plan.departure = base;
+		}
+		if (Polygon.polys["4"].plan.departure == nil or Polygon.polys["4"].plan.departure.id != icao) {
+			Polygon.polys["4"].plan.departure = base;
+		}
+		Polygon._doingBases = FALSE;
+	},
+	
+	setLandA: func () {
+		#class:
+		# Set destination on plan A
+		#
+		Polygon._doingBases = TRUE;
+		var base = Polygon.landBaseA;
+		var icao = (base==nil)?"":base.id;
+		print("attempting to set "~icao~" as A..");
+		setprop("autopilot/plan-manager/destination/airport-a", icao);
+		
+		if (Polygon.polys["1A"].plan.destination == nil or Polygon.polys["1A"].plan.destination.id != icao) {
+			Polygon.polys["1A"].plan.destination = base;
+			print("done.");
+		} else {
+			print("not needed.");
+		}
+		Polygon._doingBases = FALSE;
+	},
+	
+	setLandB: func () {
+		#class:
+		# Set destination on plan B
+		#
+		Polygon._doingBases = TRUE;
+		var base = Polygon.landBaseB;
+		var icao = (base==nil)?"":base.id;
+		
+		setprop("autopilot/plan-manager/destination/airport-b", icao);
+		
+		if (Polygon.polys["1B"].plan.destination == nil or Polygon.polys["1B"].plan.destination.id != icao) {
+			Polygon.polys["1B"].plan.destination = base;
+		}
+		Polygon._doingBases = FALSE;
+	},
+	
+	_takeoffTest: func {
+		#class:
+		# Start base was requested from dialog.
+		#
+		if (!Polygon._doingBases) {
+			var icao = getprop("autopilot/plan-manager/departure/airport");
+			if (icao != nil and size(icao)>1) {
+				var result = findAirportsByICAO(icao,"airport");
+			} else {
+				var result = [];
+			}
+			if (size(result)) {
+				print(icao~" approved as start base.");
+				Polygon.takeoffBase = result[0];
+			} else {
+				print(icao~" for start base not found.");				
+				Polygon.takeoffBase = nil;
+			}
+			Polygon.setTakeoff();
+		}
+	},
+	
+	_aTest: func {
+		#class:
+		# Landing base was requested from dialog.
+		#
+		if (!Polygon._doingBases) {
+			var icao = getprop("autopilot/plan-manager/destination/airport-a");
+			if (icao != nil and size(icao)>1) {
+				var result = findAirportsByICAO(icao,"airport");
+			} else {
+				var result = [];
+			}
+			if (size(result)) {
+				print(icao~" approved as A base.");
+				Polygon.landBaseA = result[0];
+			} else {
+				print(icao~" for A base not found.");
+				Polygon.landBaseA = nil;
+			}
+			Polygon.setLandA();
+		} else {
+			print("Skipping A");
+		}
+	},
+	
+	_bTest: func {
+		#class:
+		# Landing base was requested from dialog.
+		#
+		if (!Polygon._doingBases) {
+			var icao = getprop("autopilot/plan-manager/destination/airport-b");
+			if (icao != nil and size(icao)>1) {
+				var result = findAirportsByICAO(icao,"airport");
+			} else {
+				var result = [];
+			}
+			if (size(result)) {
+				print(icao~" approved as B base.");
+				Polygon.landBaseB = result[0];
+			} else {
+				print(icao~" for B base not found.");
+				Polygon.landBaseB = nil;
+			}
+			Polygon.setLandB();
+		}
+	},
+	
+	save: func (pln, file) {
+		#class:
+		# Save a plan to disc.
+		#
+		var success = Polygon.polys[pln].plan.save(file);
+		if (!success) {
+			print("saving failed.");
+		}
+	},
+	
+	load: func (pln, file) {
+		#class:
+		# Load a plan from disc.
+		#
+		var newPlan = nil;
+		call(func {newPlan = createFlightplan(file);}, nil, var err = []);
+		if (size(err)) {
+			print(err[0]);
+			print("Load failed.");
+		} else {
+			Polygon.editSteer = FALSE;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editDetail = FALSE;
+			Polygon.selectSteer = nil;
+			Polygon.editing = nil;
+			Polygon.polys[pln].plan = newPlan;
+			Polygon.setTakeoff();
+			if (Polygon.polys[pln].isPrimary()) {
+				Polygon._activating = TRUE;
+				Polygon.polys[pln].plan.activate();
+				Polygon._activating = FALSE;
+			}
+			if (pln=="1A") {
+				if (Polygon.polys[pln].plan.destination != nil) {
+					Polygon.landBaseA = Polygon.polys[pln].plan.destination;
+				}
+				Polygon.setLandA();
+			} elsif (pln=="1B") {
+				if (Polygon.polys[pln].plan.destination != nil) {
+					Polygon.landBaseB = Polygon.polys[pln].plan.destination;
+				}
+				Polygon.setLandB();
+			}
+		}
 	},
 
 	setupAJPolygons: func {
@@ -591,6 +778,9 @@ var Polygon = {
 		# Setup listener for if route-manager loads a plan from disc.
 		#
 		setlistener("autopilot/route-manager/signals/flightplan-changed", func {Polygon._planExchange()});
+		setlistener("autopilot/plan-manager/departure/airport", func {Polygon._takeoffTest()});
+		setlistener("autopilot/plan-manager/destination/airport-a", func {Polygon._aTest()});
+		setlistener("autopilot/plan-manager/destination/airport-b", func {Polygon._bTest()});
 	},
 
 	_planExchange: func {
@@ -936,6 +1126,7 @@ var Polygon = {
 	loop: func {
 		#class:
 		# A loop that set the DAP display info on next steerpoint, will only be shown in DAP POS/OUT mode.
+		# It also enables the save buttons in the dialog.
 		#
 		dap.posOutDisplay = "       ";
 		if (Polygon.isPrimaryActive()) {
@@ -953,6 +1144,21 @@ var Polygon = {
 				}
 			}
 		}
+		#TODO: check for multi enabled:
+		setprop("autopilot/plan-manager/save-1", Polygon.polys["1"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-2", Polygon.polys["2"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-3", Polygon.polys["3"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-4", Polygon.polys["4"].plan.getPlanSize() > 1);
+		
+		setprop("autopilot/plan-manager/save-a", Polygon.polys["1A"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-b", Polygon.polys["1B"].plan.getPlanSize() > 1);
+		
+		setprop("autopilot/plan-manager/save-p1", Polygon.polys["OP1"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-p2", Polygon.polys["OP2"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-p3", Polygon.polys["OP3"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-p4", Polygon.polys["OP4"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-p5", Polygon.polys["OP5"].plan.getPlanSize() > 1);
+		setprop("autopilot/plan-manager/save-p6", Polygon.polys["OP6"].plan.getPlanSize() > 1);
 	},
 };
 
