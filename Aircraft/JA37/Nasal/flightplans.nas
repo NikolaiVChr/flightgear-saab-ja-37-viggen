@@ -109,7 +109,12 @@ var Polygon = {
 			setprop("autopilot/plan-manager/departure/r",0.5);
 			setprop("autopilot/plan-manager/departure/g",1);
 		}
-		
+		Polygon.editSteer = FALSE;
+		Polygon.appendSteer = FALSE;
+		Polygon.insertSteer = FALSE;
+		Polygon.editDetail = FALSE;
+		Polygon.selectSteer = nil;
+		Polygon.editing = nil;
 		if (Polygon.polys["1"].plan.departure == nil or Polygon.polys["1"].plan.departure.id != icao) {
 			Polygon.polys["1"].plan.departure = base;
 		}
@@ -136,6 +141,12 @@ var Polygon = {
 		setprop("autopilot/plan-manager/destination/airport-a", icao);
 		
 		if (Polygon.polys["1A"].plan.destination == nil or Polygon.polys["1A"].plan.destination.id != icao) {
+			Polygon.editSteer = FALSE;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editDetail = FALSE;
+			Polygon.selectSteer = nil;
+			Polygon.editing = nil;
 			Polygon.polys["1A"].plan.destination = base;
 		}
 		Polygon._doingBases = FALSE;
@@ -152,6 +163,12 @@ var Polygon = {
 		setprop("autopilot/plan-manager/destination/airport-b", icao);
 		
 		if (Polygon.polys["1B"].plan.destination == nil or Polygon.polys["1B"].plan.destination.id != icao) {
+			Polygon.editSteer = FALSE;
+			Polygon.appendSteer = FALSE;
+			Polygon.insertSteer = FALSE;
+			Polygon.editDetail = FALSE;
+			Polygon.selectSteer = nil;
+			Polygon.editing = nil;
 			Polygon.polys["1B"].plan.destination = base;
 		}
 		Polygon._doingBases = FALSE;
@@ -596,7 +613,7 @@ var Polygon = {
 		#class:
 		# Prepare to append a steerpoint to the plan being edited.
 		#
-		if (Polygon.editing != nil and !Polygon.editing.isFull() and Polygon.editDetail == FALSE) {
+		if (Polygon.editing != nil and !Polygon.editing.isFull() and Polygon.editDetail == FALSE and Polygon.editing.canAdd()) {
 			Polygon.insertSteer = FALSE;
 			Polygon.appendSteer = !Polygon.appendSteer;
 			Polygon.editSteer = FALSE;
@@ -626,7 +643,6 @@ var Polygon = {
 			Polygon.editing.plan.appendWP(me.newSteerpoint);
 			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.editing.getSize()-1), Polygon.editing.getSize()-1];
 			Polygon._apply = FALSE;
-
 		} else {
 			Polygon.appendSteer = FALSE;
 		}
@@ -933,6 +949,16 @@ var Polygon = {
 		# Return true if plan is at max capacity.
 		#
 		return (me.type == TYPE_AREA and me.getSize()>=maxLV) or (me.type != TYPE_AREA and me.getSize()>=maxSteers);
+	},
+	
+	canAdd: func {
+		if (me.type == TYPE_MISS or me.type == TYPE_AREA) {
+			return TRUE;
+		}
+		if (me.plan.destination != nil) {
+			return FALSE;
+		}
+		return TRUE;
 	},
 
 	getName: func {
