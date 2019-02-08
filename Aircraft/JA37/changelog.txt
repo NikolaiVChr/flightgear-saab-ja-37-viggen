@@ -3531,3 +3531,6 @@ HUD: Fixed that at higher speeds, the digital readout would show in KT for metri
 Effect: Make wingtip and high-G vapor not be bright at evening. (thanks Richard and Legoboy)
 Effect: Mach vapor cone is now shader based.
 Effect: Fixed that landing/nav light glare was missing due to MP property change.
+GUI: Replaced route-manager in JA-37.
+Model: Groundwork for replacing cockpit textures with Swedish ones.
+Sim: Now requires FG 2018.2.1 so it can make use of MP booleans.

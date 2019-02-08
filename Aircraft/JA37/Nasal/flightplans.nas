@@ -293,7 +293,7 @@ var Polygon = {
 
 	deletePlan: func {
 		#class:
-		# Called from dap. Clear a plan. Will only happen if the plan is being set for edit.
+		# Called from DAP. Clear a plan. Will only happen if the plan is being set for edit.
 		#
 		if (Polygon.editing != nil) {
 			printDA("deleting plan");
