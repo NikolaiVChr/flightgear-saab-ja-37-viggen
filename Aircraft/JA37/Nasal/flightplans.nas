@@ -125,14 +125,11 @@ var Polygon = {
 		Polygon._doingBases = TRUE;
 		var base = Polygon.landBaseA;
 		var icao = (base==nil)?"":base.id;
-		print("attempting to set "~icao~" as A..");
+		
 		setprop("autopilot/plan-manager/destination/airport-a", icao);
 		
 		if (Polygon.polys["1A"].plan.destination == nil or Polygon.polys["1A"].plan.destination.id != icao) {
 			Polygon.polys["1A"].plan.destination = base;
-			print("done.");
-		} else {
-			print("not needed.");
 		}
 		Polygon._doingBases = FALSE;
 	},
@@ -160,15 +157,13 @@ var Polygon = {
 		if (!Polygon._doingBases) {
 			var icao = getprop("autopilot/plan-manager/departure/airport");
 			if (icao != nil and size(icao)>1) {
-				var result = findAirportsByICAO(icao,"airport");
+				var result = airportinfo(icao);
 			} else {
-				var result = [];
+				var result = nil;
 			}
-			if (size(result)) {
-				print(icao~" approved as start base.");
+			if (result!=nil) {
 				Polygon.takeoffBase = result[0];
 			} else {
-				print(icao~" for start base not found.");				
 				Polygon.takeoffBase = nil;
 			}
 			Polygon.setTakeoff();
@@ -182,20 +177,15 @@ var Polygon = {
 		if (!Polygon._doingBases) {
 			var icao = getprop("autopilot/plan-manager/destination/airport-a");
 			if (icao != nil and size(icao)>1) {
-				var result = findAirportsByICAO(icao,"airport");
+				var result = airportinfo(icao);
 			} else {
-				var result = [];
+				var result = nil;
 			}
-			if (size(result)) {
-				print(icao~" approved as A base.");
+			if (result!=nil) {
 				Polygon.landBaseA = result[0];
-			} else {
-				print(icao~" for A base not found.");
-				Polygon.landBaseA = nil;
+			} else {				Polygon.landBaseA = nil;
 			}
 			Polygon.setLandA();
-		} else {
-			print("Skipping A");
 		}
 	},
 	
@@ -206,15 +196,13 @@ var Polygon = {
 		if (!Polygon._doingBases) {
 			var icao = getprop("autopilot/plan-manager/destination/airport-b");
 			if (icao != nil and size(icao)>1) {
-				var result = findAirportsByICAO(icao,"airport");
+				var result = airportinfo(icao);
 			} else {
-				var result = [];
+				var result = nil;
 			}
-			if (size(result)) {
-				print(icao~" approved as B base.");
+			if (result!=nil) {
 				Polygon.landBaseB = result[0];
 			} else {
-				print(icao~" for B base not found.");
 				Polygon.landBaseB = nil;
 			}
 			Polygon.setLandB();
@@ -227,7 +215,7 @@ var Polygon = {
 		#
 		var success = Polygon.polys[pln].plan.save(file);
 		if (!success) {
-			print("saving failed.");
+			print("saving failed.");#TODO: popup a dialog that hint that FG do not have write permit to this folder.
 		}
 	},
 	
