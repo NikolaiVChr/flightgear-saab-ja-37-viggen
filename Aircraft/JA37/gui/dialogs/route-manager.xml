@@ -262,6 +262,14 @@
                 
                 <property>/autopilot/plan-manager/departure/airport</property>
             </binding>-->
+            <!--<color>
+                <red><expression><product><value>1.0</value><property>/autopilot/plan-manager/departure/r</property></product></expression></red>
+                
+                <green><expression><product><value>1.0</value><property>/autopilot/plan-manager/departure/g</property></product></expression></green>-->
+                <!--<red><property>/autopilot/plan-manager/departure/r</property></red>-->
+                <!--<green><property>/autopilot/plan-manager/departure/g</property></green>-->
+                <!--<blue>0.5</blue>
+            </color>-->
         </input>
         
         <group>

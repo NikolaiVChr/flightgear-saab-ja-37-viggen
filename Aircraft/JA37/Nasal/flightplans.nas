@@ -102,6 +102,13 @@ var Polygon = {
 		var icao = (base==nil)?"":base.id;
 		
 		setprop("autopilot/plan-manager/departure/airport", icao);
+		if (base==nil) {
+			setprop("autopilot/plan-manager/departure/r",1);
+			setprop("autopilot/plan-manager/departure/g",0.5);
+		} else {
+			setprop("autopilot/plan-manager/departure/r",0.5);
+			setprop("autopilot/plan-manager/departure/g",1);
+		}
 		
 		if (Polygon.polys["1"].plan.departure == nil or Polygon.polys["1"].plan.departure.id != icao) {
 			Polygon.polys["1"].plan.departure = base;
@@ -162,7 +169,7 @@ var Polygon = {
 				var result = nil;
 			}
 			if (result!=nil) {
-				Polygon.takeoffBase = result[0];
+				Polygon.takeoffBase = result;
 			} else {
 				Polygon.takeoffBase = nil;
 			}
@@ -182,8 +189,9 @@ var Polygon = {
 				var result = nil;
 			}
 			if (result!=nil) {
-				Polygon.landBaseA = result[0];
-			} else {				Polygon.landBaseA = nil;
+				Polygon.landBaseA = result;
+			} else {
+				Polygon.landBaseA = nil;
 			}
 			Polygon.setLandA();
 		}
@@ -201,7 +209,7 @@ var Polygon = {
 				var result = nil;
 			}
 			if (result!=nil) {
-				Polygon.landBaseB = result[0];
+				Polygon.landBaseB = result;
 			} else {
 				Polygon.landBaseB = nil;
 			}
@@ -277,7 +285,7 @@ var Polygon = {
 		var key = keys(Polygon.polys);
 		foreach (k; key) {
 			var poly = Polygon.polys[k];
-			poly.plan.save("C:/Users/Nikolai/AppData/Roaming/flightgear.org/Export/Viggen-autosave-"~poly.name);
+			poly.plan.save(getprop("sim/fg-home")~"/Export/ja37-autosave-"~poly.name~".fgfp");
 		}
 	},
 
