@@ -193,6 +193,12 @@ var Saab37 = {
   update_loop: func {
 
     # Stuff that will run even in replay:
+    
+    if (getprop("ja37/hud/units-metric")) {
+        setprop("ja37/language/texture", "-se.png");
+    } else {
+        setprop("ja37/language/texture", ".png");
+    }    
 
     # breath sound volume
     input.breathVol.setDoubleValue(input.viewInternal.getValue() and input.fullInit.getValue());
