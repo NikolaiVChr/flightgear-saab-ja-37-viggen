@@ -221,9 +221,11 @@ var Polygon = {
 		#class:
 		# Save a plan to disc.
 		#
-		var success = Polygon.polys[pln].plan.save(file);
-		if (!success) {
-			print("saving failed.");#TODO: popup a dialog that hint that FG do not have write permit to this folder.
+		call(func {var success = Polygon.polys[pln].plan.save(file);}, nil, var err = []);
+		if (size(err) or !success) {
+			print("saving failed.");
+			setprop("sim/fg-home-export", getprop("sim/fg-home")~"/export");
+			gui.showDialog("savefail");
 		}
 	},
 	
