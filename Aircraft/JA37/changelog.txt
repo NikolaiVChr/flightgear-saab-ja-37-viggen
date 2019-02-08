@@ -3534,3 +3534,6 @@ Effect: Fixed that landing/nav light glare was missing due to MP property change
 GUI: Replaced route-manager in JA-37.
 Model: Groundwork for replacing cockpit textures with Swedish ones.
 Sim: Now requires FG 2018.2.1 so it can make use of MP booleans.
+TI: DAP can assign steerpoints as target now. Use 1 for target, use 0 for non-target.
+TI: Can no longer append steer to route that has a destination.
+TI: When setting start/land base TI will go out of edit mode.
