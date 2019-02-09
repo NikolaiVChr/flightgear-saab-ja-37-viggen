@@ -238,7 +238,7 @@ var Polygon = {
 		#
 		var newPlan = nil;
 		call(func {newPlan = createFlightplan(file);}, nil, var err = []);
-		if (size(err)) {
+		if (size(err) or newPlan == nil) {
 			print(err[0]);
 			print("Load failed.");
 			if(clear) {

@@ -16,10 +16,10 @@
                 route.Polygon.save("1",path.getValue());
             }
             var load_route2 = func(path) {
-                route.Polygon.load("2".getValue());
+                route.Polygon.load("2",path.getValue());
             }
             var save_route2 = func(path) {
-                route.Polygon.save("2".getValue());
+                route.Polygon.save("2",path.getValue());
             }
             var load_route3 = func(path) {
                 route.Polygon.load("3",path.getValue());
