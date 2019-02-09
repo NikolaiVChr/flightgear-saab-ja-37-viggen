@@ -260,6 +260,10 @@ var main = func {
                 radius = 15;
               } elsif (address >= 180 and address <= 189) {
                 radius = 40;
+              } elsif (address == 179) {
+                ptype = 3;
+                pcolor = 2;
+                radius = -1;
               }
               if (l == HOLD and !(address >= 100 and address <= 109)) {
                 pcolor = 1;#yellow
@@ -297,6 +301,7 @@ var main = func {
                 delete(lv,key);
               }
             }
+            checkLVSave();
           } else {
             error = TRUE;
             digit = 0;
@@ -335,11 +340,13 @@ var main = func {
                 setprop("ja37/navigation/bulls-eye-lat", deg);
                 setprop("ja37/navigation/bulls-eye-defined", TRUE);
                 printDA("DAP TI bulls-eye latitude edited. Bulls-eye enabled.");
+                checkLVSave();
               } else {
                 lv_temp.lat = deg;
                 lv["p"~sprintf("%03d", lv_temp.address)] = lv_temp;
                 printDA("DAP TI point latitude edited. "~(lv_temp.color==0?"Red":(lv_temp.color==1?"Yellow":(lv_temp.color==2?"Tyrk":"Green")))~" point "~sprintf("%03d",lv_temp.address)~" activated at "~ja37.convertDegreeToStringLat(lv_temp.lat)~" "~ja37.convertDegreeToStringLon(lv_temp.lon));
                 #debug.dump(lv);
+                checkLVSave();
               }
               cycleDisp();
               input = inputDefault;
@@ -698,7 +705,7 @@ var disp = func {
             display = "179"
           } elsif (cycle == 1) {
             var lo = getprop("ja37/navigation/bulls-eye-lon");
-            var lon = ja37.convertDegreeToDispStringLon(lo);#not sure what to do when deg has 3 digit and a minus sign. No room on display.
+            var lon = ja37.convertDegreeToDispStringLon(lo);
             display = sprintf("%s",lon);
           } else {
             var la = getprop("ja37/navigation/bulls-eye-lat");
@@ -897,6 +904,7 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # 40-99    8km  ryg LV
 # 100-109 3.5mm  t  FF 
 # 110-178 15km  ryg LV
+# 179            t  BE
 # 180-189 40km  ryg LV
 # 190-199 15km   r STRIL LV number always on
 # 
@@ -907,13 +915,84 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # G=green L=yellow OK=red at address input
 
 var lv = {
-  # address, color (0=red 1=yellow 2=tyrk 3=green), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL), lon, lat
+  # address, color (0=red 1=yellow 2=tyrk 3=green), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL, 3=bullseye), lon, lat
   # note address 179 is stores as properties, not in this struct.
   #p20: {address: 020, color: 1, radius: 5, type: 0, lon: -115.784, lat: 37.218},#example
   #p105: {address: 105, color: 2, radius: -1, type: 1, lon: -115.784, lat: 37.218},#example
+  #p3: {address: 3, color: 3, radius: 8, type: 0, lon: -115.41, lat: 36.35},
 };
 
 var lv_temp = nil;# temp storage of LV point when its being edited.
+
+var savePoints = func (path) {
+    var text = serialize(lv);
+    var opn = nil;
+    call(func{opn = io.open(path,"w");},nil, var err = []);
+    if (size(err) or opn == nil) {
+      print("error open file for writing points");
+      gui.showDialog("savefail");
+      return;
+    }
+    call(func{var text = io.write(opn,text);},nil, var err = []);
+    if (size(err)) {
+      print("error write file with points");
+      gui.showDialog("savefail");
+    } else {
+      lv = unserialize(text);
+    }
+    io.close(opn);
+}
+
+var loadPoints = func (path) {
+    var text = nil;
+    call(func{text=io.readfile(path);},nil, var err = []);
+    if (size(err)) {
+      print("Loading LV/FF/BE failed.")
+    } elsif (text != nil) {
+      lv = unserialize(text);
+    }
+}
+
+var checkLVSave = func {
+  if (size(keys(lv)) or getprop("ja37/navigation/bulls-eye-defined")) {
+    setprop("autopilot/plan-manager/points/save",1);
+  } else {
+    setprop("autopilot/plan-manager/points/save",0);
+  }
+}
+
+checkLVSave();
+
+var serialize = func(m) {
+  var ret = "";
+  foreach(key;keys(m)) {
+    ret = ret~sprintf("%s,%d,%d,%d,%d,%.6f,%.6f|",key,m[key].address,m[key].color,m[key].radius,m[key].type,m[key].lon,m[key].lat);
+  }
+  if (getprop("ja37/navigation/bulls-eye-defined")) {
+    var beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
+    ret = ret~sprintf("p179,179,2,-1,3,%.6f,%.6f|",beLaLo[1],beLaLo[0]);
+  }
+  return ret;
+}
+
+var unserialize = func(m) {
+  var ret = {};
+  var points = split("|",m);
+  foreach(point;points) {
+    if (size(point)>4) {
+      var items = split(",", point);
+      var key = items[0];
+      if (key != "p179") {
+        ret[key] = {address: num(items[1]),color: num(items[2]),radius: num(items[3]),type: num(items[4]),lon: num(items[5]),lat: num(items[6])};
+      } else {
+        setprop("ja37/navigation/bulls-eye-defined",1);
+        setprop("ja37/navigation/bulls-eye-lat",num(items[6]));
+        setprop("ja37/navigation/bulls-eye-lon",num(items[5]));
+      }
+    }
+  }
+  return ret;
+}
 
 # normal mode POS UT
 #

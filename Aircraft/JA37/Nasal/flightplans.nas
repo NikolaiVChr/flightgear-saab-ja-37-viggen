@@ -13,6 +13,8 @@ var maxSteers = 48;# max number of steers in each plan
 
 var debugAll = FALSE;
 
+setprop("sim/fg-home-export", getprop("sim/fg-home")~"/export");
+
 var printDA = func (str) {
     if (debugAll) print (str);
 }
@@ -226,7 +228,6 @@ var Polygon = {
 		call(func {var success = Polygon.polys[pln].plan.save(file);}, nil, var err = []);
 		if (size(err) or !success) {
 			print("saving failed.");
-			setprop("sim/fg-home-export", getprop("sim/fg-home")~"/export");
 			gui.showDialog("savefail");
 		}
 	},

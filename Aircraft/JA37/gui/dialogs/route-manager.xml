@@ -83,6 +83,13 @@
             var save_route66 = func(path) {
                 route.Polygon.save("OP6",path.getValue());
             }
+            
+            var load_routeff = func(path) {
+                dap.loadPoints(path.getValue());
+            }
+            var save_routeff = func(path) {
+                dap.savePoints(path.getValue());
+            }
 
             var defaultDirInFileSelector = getprop("/sim/fg-home") ~ "/Export";
 
@@ -129,46 +136,53 @@
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-route-b.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p1 = gui.FileSelector.new(
-              callback: load_route11, title: "Load flight-plan", button: "Load",
+              callback: load_route11, title: "Load area", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p1 = gui.FileSelector.new(
-              callback: save_route11, title: "Save flight-plan", button: "Save",
+              callback: save_route11, title: "Save area", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-1.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p2 = gui.FileSelector.new(
-              callback: load_route22, title: "Load flight-plan", button: "Load",
+              callback: load_route22, title: "Load area", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p2 = gui.FileSelector.new(
-              callback: save_route22, title: "Save flight-plan", button: "Save",
+              callback: save_route22, title: "Save area", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-2.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p3 = gui.FileSelector.new(
-              callback: load_route33, title: "Load flight-plan", button: "Load",
+              callback: load_route33, title: "Load area", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p3 = gui.FileSelector.new(
-              callback: save_route33, title: "Save flight-plan", button: "Save",
+              callback: save_route33, title: "Save area", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-3.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p4 = gui.FileSelector.new(
-              callback: load_route44, title: "Load flight-plan", button: "Load",
+              callback: load_route44, title: "Load area", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p4 = gui.FileSelector.new(
-              callback: save_route44, title: "Save flight-plan", button: "Save",
+              callback: save_route44, title: "Save area", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-4.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p5 = gui.FileSelector.new(
-              callback: load_route55, title: "Load flight-plan", button: "Load",
+              callback: load_route55, title: "Load area", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p5 = gui.FileSelector.new(
-              callback: save_route55, title: "Save flight-plan", button: "Save",
+              callback: save_route55, title: "Save area", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-5.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_p6 = gui.FileSelector.new(
-              callback: load_route66, title: "Load flight-plan", button: "Load",
+              callback: load_route66, title: "Load area", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_p6 = gui.FileSelector.new(
-              callback: save_route66, title: "Save flight-plan", button: "Save",
+              callback: save_route66, title: "Save area", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-6.fgfp", pattern: ["*.fgfp"]);
+              
+            var file_selector_ff = gui.FileSelector.new(
+              callback: load_routeff, title: "Load points", button: "Load",
+              dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.ja37ff"]);
+            var save_selector_ff = gui.FileSelector.new(
+              callback: save_routeff, title: "Save points", button: "Save",
+              dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-points.ja37ff", pattern: ["*.ja37ff"]);
 
         ]]></open>
 
@@ -199,6 +213,9 @@
             save_selector_p5.del();
             file_selector_p6.del();
             save_selector_p6.del();
+            
+            file_selector_ff.del();
+            save_selector_ff.del();
         </close>
     </nasal>
 
@@ -704,6 +721,36 @@
             <halign>left</halign>
             <label>The Polygon areas must max have 8 waypoints in each.</label>
         </text>
+    </group>
+    
+    <hrule/>
+    
+    <group>
+        <layout>hbox</layout>
+        <button>
+            <legend>Load Points...</legend>
+            <equal>true</equal>
+            <binding>
+                <command>nasal</command>
+                <script>file_selector_ff.open()</script>
+            </binding>
+        </button>
+        <button>
+            <legend>Save Points...</legend>
+            <equal>true</equal>
+            <enable>
+                <property>autopilot/plan-manager/points/save</property>
+            </enable>
+            <binding>
+                <command>nasal</command>
+                <script>save_selector_ff.open();</script>
+            </binding>
+        </button>
+        <text>
+            <halign>left</halign>
+            <label>Pilot-points (FF), bulls-eye and anti-aircraft (LV) areas.</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
     </group>
 
 </PropertyList>

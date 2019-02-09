@@ -2669,6 +2669,7 @@ var TI = {
 					setprop("ja37/navigation/bulls-eye-defined", TRUE);
 					setprop("ja37/navigation/bulls-eye-lat", me.newSteerPos[0]);
 					setprop("ja37/navigation/bulls-eye-lon", me.newSteerPos[1]);
+					dap.checkLVSave();
 				}
 			} elsif (route.Polygon.editSteer) {
 				#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
