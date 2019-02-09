@@ -1794,13 +1794,14 @@
           <max>1.0</max>
         </clipto>
       </summer>
-      <switch name="fcs/cursor/cursor-select">
+      <switch name="names/fcs/cursor/cursor-select">
         <description>Combined cursor control</description>
         <default value="0"/>
         <test logic="OR" value="1">
           fcs/cursor/cursor-trigger-from-flight-controls == 1
           /ja37/systems/cursor-select == 1
         </test>
+        <output>fcs/cursor/cursor-select</output><!-- to prevent property from becoming double -->
       </switch>
     </channel>
 </flight_control>

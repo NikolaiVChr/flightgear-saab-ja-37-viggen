@@ -1683,6 +1683,8 @@ var TI = {
 		ti.blinkBox4 = FALSE;
 		ti.blinkBox5 = FALSE;
 		ti.blinkBox6 = FALSE;
+		ti.cursorDidSomething = FALSE;
+		ti.lvffDrag = nil;
 
 		# steerpoints
 		ti.newSteerPos = nil;
@@ -2662,6 +2664,11 @@ var TI = {
 			#me.cursorRPosY = me.cursorPosY + me.rootCenterTranslation[1];# relative to own position
 			me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
 			me.cursorTrigger = me.input.cursorSelect.getValue();
+			if (me.lvffDrag == nil) {
+				me.cursorDidSomething = FALSE;
+			} else {
+				me.cursorDidSomething = TRUE;
+			}
 			#printf("(%d,%d) %d",me.cursorPosX,me.cursorPosY, me.cursorTrigger);
 			if (route.Polygon.editBullsEye) {
 				if(me.cursorTrigger and !me.cursorTriggerPrev) {
@@ -2670,23 +2677,27 @@ var TI = {
 					setprop("ja37/navigation/bulls-eye-lat", me.newSteerPos[0]);
 					setprop("ja37/navigation/bulls-eye-lon", me.newSteerPos[1]);
 					dap.checkLVSave();
+					me.cursorDidSomething = TRUE;
 				}
 			} elsif (route.Polygon.editSteer) {
 				#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
 				if(me.cursorTrigger and !me.cursorTriggerPrev) {
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 					route.Polygon.editApply(me.newSteerPos[0],me.newSteerPos[1]);
+					me.cursorDidSomething = TRUE;
 				}
 			} elsif (route.Polygon.insertSteer) {
 				if(me.cursorTrigger and !me.cursorTriggerPrev) {
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 					route.Polygon.insertApply(me.newSteerPos[0],me.newSteerPos[1]);
+					me.cursorDidSomething = TRUE;
 				}
 				#me.newSteerPos = nil;
 			} elsif (route.Polygon.appendSteer) {
 				if(me.cursorTrigger and !me.cursorTriggerPrev) {#if this is nested condition then only this can be done. Is this what we want?
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 					route.Polygon.appendApply(me.newSteerPos[0],me.newSteerPos[1]);
+					me.cursorDidSomething = TRUE;
 				}
 				#me.newSteerPos = nil;
 #				if (menuMain != MAIN_MISSION_DATA and me.cursorTrigger and !me.cursorTriggerPrev) {
@@ -2704,11 +2715,13 @@ var TI = {
 				me.bMethod = me.getButtonMethod();
 				if (me.bMethod != nil) {
 					me.bMethod();
+					me.cursorDidSomething = TRUE;
 				} elsif (me.dragMapEnabled) {
 					me.newMapPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 					me.lat = me.newMapPos[0];
 					me.lon = me.newMapPos[1];
 					me.mapSelfCentered = FALSE;
+					me.cursorDidSomething = TRUE;
 				}
 			}
 			me.cursor.show();
@@ -3852,7 +3865,7 @@ var TI = {
 						me.rrSymbolS.setTranslation(me.texCoord[0], me.texCoord[1]);
 						me.rrSymbolS.show();
 					}
-					if (me.isSelectable and me.cursorTrigger) {
+					if (me.isSelectable and me.cursorTrigger and !me.cursorDidSomething) {
 						# not in MSDA so check if cursor is clicking on the steerpoint
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
@@ -3860,9 +3873,10 @@ var TI = {
 						if (me.cursorDist < 12) {
 							route.Polygon.jumpTo(me.node, wp);
 							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a steerpoint gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+							me.cursorDidSomething = TRUE;
 						}
 					}
-					if (me.curr_plan[1] and me.cursorTrigger and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer and !me.isDAPActive()) {
+					if (me.curr_plan[1] and me.cursorTrigger and !me.cursorDidSomething and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer and !me.isDAPActive()) {
 						# I think this is where cursor select a steer when a plan is in edit mode..
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
@@ -3871,6 +3885,7 @@ var TI = {
 							route.Polygon.selectSteerpoint(me.curr_plan[0].getName(), me.node, wp);# dangerous!!! what if somebody is editing plan in routemanager?
 							me.steerpoint[me.wpIndex].setColor(COLOR_WHITE);
 							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a steerpoint gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+							me.cursorDidSomething = TRUE;
 						}
 					}
 					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
@@ -3989,7 +4004,9 @@ var TI = {
   		# LV and FF points
   		#
   		# address, color (0=red 1=yellow 2=tyrk), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL), lon, lat
-
+  		if (!me.cursorTrigger or me.menuMain != MAIN_MISSION_DATA) {
+  			me.lvffDrag = nil;
+  		}
   		me.lv = dap.lv;
   		me.ppGrp.removeAllChildren();
   		foreach(me.lvp;keys(me.lv)) {
@@ -3999,8 +4016,15 @@ var TI = {
   			me.ppCol = me.pp.color==0?COLOR_RED:(me.pp.color==1?COLOR_YELLOW:(me.pp.color==2?COLOR_TYRK:COLOR_GREEN));
   			me.ppRad = me.pp.radius==-1?15:M2TEX*me.pp.radius*1000;
   			me.ppNum = sprintf("%03d",me.pp.address);
-  			me.ppXY  = me.laloToTexel(me.pp.lat, me.pp.lon);
-
+  			if (me.lvffDrag == me.pp.address) {
+  				me.laloDap  = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+  				dap.lv[me.lvp].lat = me.laloDap[0];
+  				dap.lv[me.lvp].lon = me.laloDap[1];
+  				me.ppXY = [me.cursorOPosX, me.cursorOPosY];
+  			} else {
+  				me.ppXY  = me.laloToTexel(me.pp.lat, me.pp.lon);
+  			}
+  			
   			if (me.pp.type==1) {
   				# FF
   				me.ppGrp.createChild("group")
@@ -4044,6 +4068,16 @@ var TI = {
     					.setRotation(-me.input.heading.getValue()*D2R)
     					.setFontSize(15, 1);
   				}
+			}
+			#printf("%d %d %d %d %d ",me.menuMain == MAIN_MISSION_DATA,me.cursorTrigger,!me.cursorDidSomething,route.Polygon.editing == nil,me.lvffDrag == nil);
+			if (me.menuMain == MAIN_MISSION_DATA and me.cursorTrigger and !me.cursorDidSomething and route.Polygon.editing == nil and me.lvffDrag == nil) {
+				me.cursorDistX = me.cursorOPosX-me.ppXY[0];
+				me.cursorDistY = me.cursorOPosY-me.ppXY[1];
+				me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
+				if (me.cursorDist < 12) {
+					me.lvffDrag = me.pp.address;
+					me.cursorDidSomething = TRUE;
+				}
 			}
   		}
   		me.ppGrp.update();
@@ -4566,7 +4600,7 @@ var TI = {
 		    } elsif (me.ordn == FALSE) {
 		    	me.echoesAircraft[me.currentIndexT].setTranslation(me.pos_xx, me.pos_yy);
 
-		    	if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnMap()) {
+		    	if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnMap() and !me.cursorDidSomething) {
 					# not in MSDA so check if cursor is clicking on the aircraft
 					me.cursorDistX = me.cursorOPosX-me.pos_xx;
 					me.cursorDistY = me.cursorOPosY-me.pos_yy;
@@ -4575,6 +4609,7 @@ var TI = {
 					if (me.cursorDist < 12) {
 						radar_logic.jumpTo(contact);
 						me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+						me.cursorDidSomething = TRUE;
 					}
 				}
 
@@ -4617,7 +4652,7 @@ var TI = {
 					me.pos_yyy = me.SVYoriginY-me.SVYheight*me.altsvy/me.SVYalt;
 					me.echoesAircraftSvy[me.currentIndexT].setTranslation(me.pos_xxx, me.pos_yyy);
 
-					if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnSVY()) {
+					if (me.menuMain != MAIN_MISSION_DATA and me.currentIndexT != 0 and me.cursorTrigger and me.isCursorOnSVY() and !me.cursorDidSomething) {
 						# not in MSDA so check if cursor is clicking on the aircraft
 						me.cursorDistX = me.cursorGPosX-me.pos_xxx;
 						me.cursorDistY = me.cursorGPosY-me.pos_yyy;
@@ -4626,6 +4661,7 @@ var TI = {
 						if (me.cursorDist < 12) {
 							radar_logic.jumpTo(contact);
 							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a contact gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
+							me.cursorDidSomething = TRUE;
 						}
 					}
 
