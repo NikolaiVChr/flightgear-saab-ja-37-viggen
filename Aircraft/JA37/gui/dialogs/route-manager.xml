@@ -715,7 +715,7 @@
             <row>3</row>
             <col>6</col>
             <halign>left</halign>
-            <label>Only Flightgear fgfp xml or GPX files is supported for loading.</label>
+            <label>Only Flightgear .fgfp, .ck37 or .gpx files is supported.</label>
         </text>
         
         <text>
