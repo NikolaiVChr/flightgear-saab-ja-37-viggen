@@ -715,7 +715,7 @@
             <row>3</row>
             <col>6</col>
             <halign>left</halign>
-            <label>Only Flightgear .fgfp, .ck37 or .gpx files is supported.</label>
+            <label>Only .fgfp (Flightgear xml routes), .ck37 or .gpx files is supported.</label>
         </text>
         
         <text>
