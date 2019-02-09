@@ -23,21 +23,21 @@ var Polygon = {
 	#
 	primary: nil,#its used in routemanager
 	editing: nil,#its set for being edited
-	editRTB: nil,
-	editMiss: nil,
+	editRTB: nil,#when edit RTB is triggered this is the plan to be edited
+	editMiss: nil,#when edit mission is triggered this is the plan to be edited
 	polys: {},# contains the plans
 	_activating: FALSE,# in progress of a plan being set into route-manager
-	flyRTB: nil,
-	flyMiss: nil,
+	flyRTB: nil,#when fly RTB is triggered this is the plan to be flown
+	flyMiss: nil,#when fly RTB is triggered this is the plan to be flown
 	editSteer: FALSE,  # selectSteer set for being moved
 	appendSteer: FALSE,# set for append
 	insertSteer: FALSE,# selectSteer set for having something inserted
 	selectSteer: nil,# content: [leg ghost, index]
 	selectL: nil,# when selectSteer is non nil, this will be listener for route-manager edit of plan. Such edit will cancel all editing. Hackish.
 	editDetail: FALSE,# selectSteer ready for having an attribute edited
-	_apply: FALSE,
+	_apply: FALSE,# when an edit is being applied this is set to true. When route-manager edit something editing will stop unless its in apply phase.
 	_doingBases: FALSE,# currently setting properties for dest/dep.
-	jumpToSteer: nil,
+	jumpToSteer: nil,#used by TI for selecting steerpoint in active plan.
 	editBullsEye: FALSE,# bullseye being being edited
 	takeoffBase: nil,# ghost-airport
 	landBaseA: nil,# ghost-airport
@@ -109,12 +109,7 @@ var Polygon = {
 			setprop("autopilot/plan-manager/departure/r",0.5);
 			setprop("autopilot/plan-manager/departure/g",1);
 		}
-		Polygon.editSteer = FALSE;
-		Polygon.appendSteer = FALSE;
-		Polygon.insertSteer = FALSE;
-		Polygon.editDetail = FALSE;
-		Polygon.selectSteer = nil;
-		Polygon.editing = nil;
+		Polygon.editStop();
 		if (Polygon.polys["1"].plan.departure == nil or Polygon.polys["1"].plan.departure.id != icao) {
 			Polygon.polys["1"].plan.departure = base;
 		}
@@ -141,12 +136,7 @@ var Polygon = {
 		setprop("autopilot/plan-manager/destination/airport-a", icao);
 		
 		if (Polygon.polys["1A"].plan.destination == nil or Polygon.polys["1A"].plan.destination.id != icao) {
-			Polygon.editSteer = FALSE;
-			Polygon.appendSteer = FALSE;
-			Polygon.insertSteer = FALSE;
-			Polygon.editDetail = FALSE;
-			Polygon.selectSteer = nil;
-			Polygon.editing = nil;
+			Polygon.editStop();
 			Polygon.polys["1A"].plan.destination = base;
 		}
 		Polygon._doingBases = FALSE;
@@ -163,12 +153,7 @@ var Polygon = {
 		setprop("autopilot/plan-manager/destination/airport-b", icao);
 		
 		if (Polygon.polys["1B"].plan.destination == nil or Polygon.polys["1B"].plan.destination.id != icao) {
-			Polygon.editSteer = FALSE;
-			Polygon.appendSteer = FALSE;
-			Polygon.insertSteer = FALSE;
-			Polygon.editDetail = FALSE;
-			Polygon.selectSteer = nil;
-			Polygon.editing = nil;
+			Polygon.editStop();
 			Polygon.polys["1B"].plan.destination = base;
 		}
 		Polygon._doingBases = FALSE;
@@ -256,12 +241,7 @@ var Polygon = {
 			print(err[0]);
 			print("Load failed.");
 		} else {
-			Polygon.editSteer = FALSE;
-			Polygon.appendSteer = FALSE;
-			Polygon.insertSteer = FALSE;
-			Polygon.editDetail = FALSE;
-			Polygon.selectSteer = nil;
-			Polygon.editing = nil;
+			Polygon.editStop();
 			Polygon.polys[pln].plan = newPlan;
 			Polygon.setTakeoff();
 			if (Polygon.polys[pln].isPrimary()) {
@@ -349,14 +329,14 @@ var Polygon = {
 
 	jumpTo: func (leg, index) {
 		#class:
-		# prepare to select another steerpoint
+		# prepare to select another steerpoint in primary plan
 		#
 		Polygon.jumpToSteer = [leg, index];
 	},
 	
 	jumpExecute: func {
 		#class:
-		# Execute the selection, will only succeed on a non-active plan.
+		# Execute the jump.
 		#
 		if (Polygon.jumpToSteer != nil) {
 			if (Polygon.primary != nil and Polygon.primary.getSize() > Polygon.jumpToSteer[1]) {
@@ -423,6 +403,7 @@ var Polygon = {
 		# Set if it should be allowed to edit a detail on selected steerpoint.
 		#
 		if (Polygon.selectSteer != nil) {
+			# do not call editSteerpointStop() here as that can lead to endless loop from TI.
 			Polygon.editDetail  = value;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
@@ -656,6 +637,15 @@ var Polygon = {
 		Polygon.appendSteer = FALSE;
 		Polygon.insertSteer = FALSE;
 		Polygon.editDetail = FALSE;
+		if (getprop("ja37/systems/variant") == 0 and TI.ti != nil) {
+			TI.ti.stopDAP();
+		}
+	},
+	
+	editStop: func {
+		Polygon.editSteerpointStop();
+		Polygon.selectSteer = nil;
+		Polygon.editing = nil;
 	},
 
 	setToggleAreaEdit: func {
@@ -682,12 +672,7 @@ var Polygon = {
 		# Set bullseye to be editable.
 		#
 		printDA("bulls-eye edit");
-		Polygon.editing = nil;
-		Polygon.editSteer = FALSE;
-		Polygon.appendSteer = FALSE;
-		Polygon.insertSteer = FALSE;
-		Polygon.editDetail = FALSE;
-		Polygon.selectSteer = nil;
+		Polygon.editStop();
 		Polygon.editBullsEye = !Polygon.editBullsEye;
 	},
 
@@ -696,10 +681,7 @@ var Polygon = {
 		# Set a certain plan to be editable.
 		#
 		if (poly != Polygon.editing) {
-			Polygon.editSteer = FALSE;
-			Polygon.appendSteer = FALSE;
-			Polygon.insertSteer = FALSE;
-			Polygon.editDetail = FALSE;
+			Polygon.editSteerpointStop();
 			#if (Polygon.polyEdit) {
 			#	dap.set237(FALSE);
 			#}
@@ -718,12 +700,8 @@ var Polygon = {
 			removelistener(me.selectL);
 			me.selectL = nil;
 			printDA("plan edited, edit cancelled.");
-			Polygon.editSteer = FALSE;
-			Polygon.appendSteer = FALSE;
-			Polygon.editDetail = FALSE;
-			Polygon.insertSteer = FALSE;
+			Polygon.editStop();
 			#Polygon.polyEdit    = FALSE;
-			Polygon.selectSteer = nil;
 			return;
 		}
 		#printDA("plan not edited!!!");
@@ -818,9 +796,7 @@ var Polygon = {
 			printDA("..it was unexpected");
 		}
 		if (Polygon.primary == Polygon.editing) {
-			Polygon.editSteer = FALSE;
-			Polygon.appendSteer = FALSE;
-			Polygon.insertSteer = FALSE;
+			Polygon.editSteerpointStop();
 			Polygon.selectSteer = nil;
 		}
 	},
