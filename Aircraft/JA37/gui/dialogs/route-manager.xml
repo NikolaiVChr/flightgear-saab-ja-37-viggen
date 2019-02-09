@@ -774,6 +774,11 @@
     
     <group>
         <layout>hbox</layout>
+        <empty><stretch>1</stretch></empty>
+        <text>
+            <halign>right</halign>
+            <label>Save/load everything to a folder. Recommend saving all only to a empty folder. Loading all will clear all old data.</label>
+        </text>
         <button>
             <legend>Load All...</legend>
             <equal>true</equal>
@@ -790,11 +795,6 @@
                 <script>save_selector_all.open();</script>
             </binding>
         </button>
-        <text>
-            <halign>left</halign>
-            <label>Save/load everything to a folder. Recommend saving to a empty folder.</label>
-        </text>
-        <empty><stretch>1</stretch></empty>
     </group>
 
 </PropertyList>

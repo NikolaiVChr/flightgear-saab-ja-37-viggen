@@ -946,11 +946,15 @@ var savePoints = func (path) {
     }
 }
 
-var loadPoints = func (path) {
+var loadPoints = func (path,clear) {
     var text = nil;
     call(func{text=io.readfile(path);},nil, var err = []);
     if (size(err)) {
-      print("Loading LV/FF/BE failed.")
+      print("Loading LV/FF/BE failed.");
+      if (clear) {
+        lv = {};
+        setprop("ja37/navigation/bulls-eye-defined",0);
+      }
     } elsif (text != nil) {
       lv = unserialize(text);
     }

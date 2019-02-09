@@ -232,7 +232,7 @@ var Polygon = {
 		}
 	},
 	
-	load: func (pln, file) {
+	load: func (pln, file, clear=0) {
 		#class:
 		# Load a plan from disc.
 		#
@@ -241,6 +241,17 @@ var Polygon = {
 		if (size(err)) {
 			print(err[0]);
 			print("Load failed.");
+			if(clear) {
+				# loading failed, we clear the plan.
+				Polygon.editStop();
+				Polygon.polys[pln].plan = createFlightplan();
+				Polygon.setTakeoff();
+				if (Polygon.polys[pln].isPrimary()) {
+					Polygon._activating = TRUE;
+					Polygon.polys[pln].plan.activate();
+					Polygon._activating = FALSE;
+				}
+			}
 		} else {
 			Polygon.editStop();
 			Polygon.polys[pln].plan = newPlan;
@@ -280,19 +291,19 @@ var Polygon = {
 
 	loadAll: func (path) {
 		#class:
-		# save all data in a folder
+		# load all data in a folder
 		#
-		#var path = os.path.new(path);
-		#call(func{path.create_dir();},nil,var err=[]);
-		#if (size(err)) {
-		#	print("saving all failed.");
-		#	gui.showDialog("savefail");
-		#}
+		Polygon.landBaseA = nil;
+		Polygon.landBaseB = nil;
+		Polygon.setLandA();
+		Polygon.setLandB();
+		# no need to clear the starting base
+		
 		var key = keys(Polygon.polys);
 		foreach (k; key) {
-			call(func{Polygon.load(k,path~"/ja37-data-"~k~".fgfp");},nil,var err=[]);
+			call(func{Polygon.load(k,path~"/ja37-data-"~k~".fgfp",1);},nil,var err=[]);
 		}
-		dap.loadPoints(path~"/ja37-data.ck37");
+		dap.loadPoints(path~"/ja37-data.ck37",1);
 	},
 	
 	saveAll: func (path) {

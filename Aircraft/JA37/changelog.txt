@@ -3546,3 +3546,4 @@ DAP: Fixed when inputing, it remembered the last sign used. Now it defaults to p
 GUI: Can now from JA route-manager save FF,LV,BE points.
 GUI: Added option to save/load everything to a folder.
 GUI: Renamed point file extension to ck37.
+GUI: When loading all even if it fails, it will now clear all old data.
