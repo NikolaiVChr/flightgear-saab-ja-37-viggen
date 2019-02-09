@@ -148,6 +148,7 @@ var main = func {
   printDA(" error    "~error);
 
   if (error == TRUE) {
+    resetSign();
     if (isStateChanged()) {
       error = FALSE;
     } else {
@@ -156,7 +157,7 @@ var main = func {
   }
   TI.ti.displayFTime = FALSE;
   if (settingKnob != settingPrevKnob) {
-
+    resetSign();
   }
 
   if (state == 237) {
@@ -167,16 +168,19 @@ var main = func {
         ti237_callback(nil, settingSign, TI.ti);
         input = inputDefault;
         digit = 0;
+        resetSign();
     } elsif (ok==HOLD and digit == ti237_max) {
         # set TI value
         printDA("set 237: "~input);
         ti237_callback(input, settingSign, TI.ti);
         input = inputDefault;
         digit = 0;
+        resetSign();
     } elsif (keyPressed == -1) {
       # reset
         input = manyChar(charDefault, ti237_max);
         digit = 0;
+        resetSign();
     } else {
       # TI input
       inputKey(ti237_max);
@@ -188,7 +192,7 @@ var main = func {
         # delete route plan
         route.Polygon.deletePlan();
       }
-
+      
   } elsif (settingDir == OUT) {
     # MSDA/OUT
     if (ok==HOLD and cycle != -1) {
@@ -222,6 +226,7 @@ var main = func {
         digit = 0;
         input = inputDefault;
         LV_lock = TRUE;
+        resetSign();
         printDA("DAP TI addresses locked.");
       } else {
         if (keyPressed == -1 and digit == 6) {
@@ -232,6 +237,7 @@ var main = func {
           }
           input = inputDefault;
           digit = 0;
+          resetSign();
         } elsif ((ok==HOLD or l==HOLD or g==HOLD) and digit == 3 and cycle == 0) {
           var address = num(left(input,3));
           if (address != nil and address >= 1 and address < 190 and settingSign == 1) {
@@ -273,6 +279,7 @@ var main = func {
             digit = 0;
             input = inputDefault;
           }
+          resetSign();
         } elsif (ok==HOLD and digit == 6 and cycle == 0) {
           var low = num(substr(input,0,3));
           var high = num(substr(input,3,3));
@@ -295,6 +302,7 @@ var main = func {
             digit = 0;
             input = inputDefault;
           }
+          resetSign();
         } elsif (ok==HOLD and digit == 7 and cycle == 1) {
             # set lon
             var sign = settingSign<0?"-":"";
@@ -316,6 +324,7 @@ var main = func {
               digit = 0;
               input = inputDefault;
             }
+            resetSign();
         } elsif (ok==HOLD and digit == 6 and cycle == 2) {
             # set lat
             var sign = settingSign<0?"-":"";
@@ -340,10 +349,12 @@ var main = func {
               digit = 0;
               input = inputDefault;
             }
+            resetSign();
         } elsif (keyPressed == -1) {
           # reset
           input = cycle==1?manyChar(charDefault, 7):inputDefault;
           digit = 0;
+          resetSign();
         } elsif (cycle == 0) {
           # punkt no. input
           inputKey(6);
@@ -405,12 +416,14 @@ var main = func {
           inputKey(6);
         }
       }
+      resetSign();
     } elsif (settingKnob == KNOB_FUEL) {
       if (isStateChanged()) {
           cycle = -1;
           cycleMax = -1;
           digit = 0;
           input = input2Default;
+          resetSign();
       } else {
         if (ok==HOLD and digit == 2) {
             # set fuel warn
@@ -418,10 +431,12 @@ var main = func {
             setprop("ja37/systems/fuel-warning-extra-percent", num(input));
             input = input2Default;
             digit = 0;
+            resetSign();
         } elsif (keyPressed == -1) {
           # reset
             input = input2Default;
             digit = 0;
+            resetSign();
         } else {
           # fuel input
           inputKey(2);
@@ -433,6 +448,7 @@ var main = func {
           cycleMax = -1;
           digit = 0;
           input = inputDefault;
+          resetSign();
       } else {
         var address = num(left(input,2));
         if (ok==HOLD and digit == 6 and address != nil and address==15) {
@@ -446,6 +462,7 @@ var main = func {
             }
             input = inputDefault;
             digit = 0;
+            resetSign();
         } elsif (ok==HOLD and digit == 6 and address != nil and address==30) {
             # set GPS Installed
             var io = num(substr(input,2,1));
@@ -461,14 +478,17 @@ var main = func {
             }
             input = inputDefault;
             digit = 0;
+            resetSign();
         } elsif (ok==HOLD and digit == 6) {
             printDA("set unknown address "~input);
             input = inputDefault;
             digit = 0;
+            resetSign();
         } elsif (keyPressed == -1) {
           # reset
             input = inputDefault;
             digit = 0;
+            resetSign();
         } else {
           # input
           inputKey(6);
@@ -480,6 +500,7 @@ var main = func {
           cycleMax = -1;
           digit = 0;
           input = inputDefault;
+          resetSign();
       } else {
         if (ok==HOLD and digit == 6 and num(left(input,2))==0) {
             # set max alpha
@@ -491,6 +512,7 @@ var main = func {
             setprop("fdm/jsbsim/fcs/max-alpha-deg", alpha);
             input = inputDefault;
             digit = 0;
+            resetSign();
         } elsif (ok==HOLD and digit == 6 and num(left(input,2))==19) {
             # set floor warn
             var floor = metric?num(right(input,4))*M2FT:num(right(input,4));
@@ -501,16 +523,19 @@ var main = func {
             setprop("ja37/sound/floor-ft", floor);
             input = inputDefault;
             digit = 0;
+            resetSign();
         } elsif (ok==HOLD and digit == 6) {
             printDA("set unknown address "~input);
             input = inputDefault;
             digit = 0;
+            resetSign();
         } elsif (keyPressed == -1) {
           # reset
             input = inputDefault;
             digit = 0;
+            resetSign();
         } else {
-          # floor input
+          # floor/alpha input
           inputKey(6);
         }
       }
@@ -920,7 +945,10 @@ var settingPrevSign = getprop("ja37/navigation/ispos")==MINUS?-1:1;
 var settingPrevDir  = getprop("ja37/navigation/inout");
 var settingPrevPos  = POS;
 
-
+var resetSign = func {
+  settingSign = 1;
+  setprop("ja37/navigation/ispos", settingSign>0?PLUS:MINUS);
+}
 
 var toggleInOut = func {
   if (getprop("ja37/systems/variant") != 0) return;

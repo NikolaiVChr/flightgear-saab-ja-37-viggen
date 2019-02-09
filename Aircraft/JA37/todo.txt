@@ -61,7 +61,6 @@ CI: Slew cursor.
 DAP: Input TACAN with REG/STR.
 DAP: Minneslista JA37 has some DAP addresses. Make.
 DAP: Show sign of input at leftmost char always.
-DAP: When inputing to TI, it remembers the last sign used. Not sure if should fix or not.
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2020.
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
 Effect: Fix that with engine off, the wind can drive the fan which will produce smoke.
