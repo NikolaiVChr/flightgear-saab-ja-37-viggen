@@ -1,14 +1,14 @@
 var TYPE_MIX  = 0;# plan has both mission and RTB
 var TYPE_RTB  = 1;# return to base plan
 var TYPE_MISS = 2;# mission plan
-var TYPE_AREA = 3;# map area (LV)
+var TYPE_AREA = 3;# polygon area
 
 var COLOR_GREY_LIGHT = [0.70,0.70,0.70];
 
 var TRUE  = 1;
 var FALSE = 0;
 
-var maxLV = 8;# max number of LV areas
+var maxArea = 8;# max number of polygon areas
 var maxSteers = 48;# max number of steers in each plan
 
 var debugAll = FALSE;
@@ -46,7 +46,7 @@ var Polygon = {
 
 	setupJAPolygons: func {
 		#class:
-		# setup 4 mission and 2 RTB plans. Plus 6 LV areas.
+		# setup 4 mission and 2 RTB plans. Plus 6 polygon areas.
 		#
 		me.multi = getprop("ja37/supported/multiple-flightplans");
 		if (me.multi == TRUE) {
@@ -650,7 +650,7 @@ var Polygon = {
 
 	setToggleAreaEdit: func {
 		#class:
-		# Toggle setting LV area 1 to be editable. Not sure this method is used, it dont seem generic.
+		# Toggle setting polygon area 1 to be editable. Not sure this method is used, it dont seem generic.
 		#
 		printDA("area edit");
 		var poly = Polygon.polys["OP1"]; #TODO: temp stuff
@@ -924,7 +924,7 @@ var Polygon = {
 		#instance:
 		# Return true if plan is at max capacity.
 		#
-		return (me.type == TYPE_AREA and me.getSize()>=maxLV) or (me.type != TYPE_AREA and me.getSize()>=maxSteers);
+		return (me.type == TYPE_AREA and me.getSize()>=maxArea) or (me.type != TYPE_AREA and me.getSize()>=maxSteers);
 	},
 	
 	canAdd: func {

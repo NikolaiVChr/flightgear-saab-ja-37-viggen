@@ -497,7 +497,7 @@
             <row>0</row>
             <col>4</col>
             <halign>center</halign>
-            <label>LV POLYGON AREAS</label>
+            <label>POLYGON AREAS</label>
         </text>
         
         <group>
@@ -505,7 +505,7 @@
             <col>4</col>
             <layout>hbox</layout>
             <button>
-                <legend>Load LV1...</legend>
+                <legend>Load Area1...</legend>
                 <equal>true</equal>
                 <binding>
                     <command>nasal</command>
@@ -513,7 +513,7 @@
                 </binding>
             </button>
             <button>
-                <legend>Save LV1...</legend>
+                <legend>Save Area1...</legend>
                 <equal>true</equal>
                 <enable>
                 <property>/autopilot/plan-manager/save-p1</property>
@@ -530,7 +530,7 @@
             <col>4</col>
             <layout>hbox</layout>
             <button>
-                <legend>Load LV2...</legend>
+                <legend>Load Area2...</legend>
                 <equal>true</equal>
                 <binding>
                     <command>nasal</command>
@@ -538,7 +538,7 @@
                 </binding>
             </button>
             <button>
-                <legend>Save LV2...</legend>
+                <legend>Save Area2...</legend>
                 <equal>true</equal>
                 <enable>
                 <property>/autopilot/plan-manager/save-p2</property>
@@ -555,7 +555,7 @@
             <col>4</col>
             <layout>hbox</layout>
             <button>
-                <legend>Load LV3...</legend>
+                <legend>Load Area3...</legend>
                 <equal>true</equal>
                 <binding>
                     <command>nasal</command>
@@ -563,7 +563,7 @@
                 </binding>
             </button>
             <button>
-                <legend>Save LV3...</legend>
+                <legend>Save Area3...</legend>
                 <equal>true</equal>
                 <enable>
                 <property>/autopilot/plan-manager/save-p3</property>
@@ -580,7 +580,7 @@
             <col>4</col>
             <layout>hbox</layout>
             <button>
-                <legend>Load LV4...</legend>
+                <legend>Load Area4...</legend>
                 <equal>true</equal>
                 <binding>
                     <command>nasal</command>
@@ -588,7 +588,7 @@
                 </binding>
             </button>
             <button>
-                <legend>Save LV4...</legend>
+                <legend>Save Area4...</legend>
                 <equal>true</equal>
                 <enable>
                 <property>/autopilot/plan-manager/save-p4</property>
@@ -605,7 +605,7 @@
             <col>4</col>
             <layout>hbox</layout>
             <button>
-                <legend>Load LV5...</legend>
+                <legend>Load Area5...</legend>
                 <equal>true</equal>
                 <binding>
                     <command>nasal</command>
@@ -613,7 +613,7 @@
                 </binding>
             </button>
             <button>
-                <legend>Save LV5...</legend>
+                <legend>Save Area5...</legend>
                 <equal>true</equal>
                 <enable>
                 <property>/autopilot/plan-manager/save-p5</property>
@@ -630,7 +630,7 @@
             <col>4</col>
             <layout>hbox</layout>
             <button>
-                <legend>Load LV6...</legend>
+                <legend>Load Area6...</legend>
                 <equal>true</equal>
                 <binding>
                     <command>nasal</command>
@@ -638,7 +638,7 @@
                 </binding>
             </button>
             <button>
-                <legend>Save LV7...</legend>
+                <legend>Save Area7...</legend>
                 <equal>true</equal>
                 <enable>
                 <property>/autopilot/plan-manager/save-p6</property>
@@ -702,7 +702,7 @@
             <row>6</row>
             <col>6</col>
             <halign>left</halign>
-            <label>The LV areas must max have 8 waypoints in each.</label>
+            <label>The Polygon areas must max have 8 waypoints in each.</label>
         </text>
     </group>
 

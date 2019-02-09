@@ -9,7 +9,7 @@ var FALSE = 0;
 #    }
 #});
 
-var debugAll = FALSE;
+var debugAll = 1;
 
 var printDA = func (str) {
     if (debugAll) print (str);
@@ -232,7 +232,7 @@ var main = func {
           }
           input = inputDefault;
           digit = 0;
-        } elsif ((ok==HOLD or l==HOLD) and digit == 3 and cycle == 0) {
+        } elsif ((ok==HOLD or l==HOLD or g==HOLD) and digit == 3 and cycle == 0) {
           var address = num(left(input,3));
           if (address != nil and address >= 1 and address < 190 and settingSign == 1) {
             digit = 0;
@@ -257,6 +257,8 @@ var main = func {
               }
               if (l == HOLD and !(address >= 100 and address <= 109)) {
                 pcolor = 1;#yellow
+              } elsif (g == HOLD and !(address >= 100 and address <= 109)) {
+                pcolor = 3;#green
               }
               lv_temp = {address: address, color: pcolor, radius: radius, type: ptype};
             }
@@ -296,7 +298,7 @@ var main = func {
         } elsif (ok==HOLD and digit == 7 and cycle == 1) {
             # set lon
             var sign = settingSign<0?"-":"";
-            printDA("set B_E lon "~sign~input);
+            printDA("set B_E/LV/FF lon "~sign~input);
             var deg = ja37.stringToLon(sign~input);
             if (deg != nil) {
               if (lv_temp.address == 179) {
@@ -317,7 +319,7 @@ var main = func {
         } elsif (ok==HOLD and digit == 6 and cycle == 2) {
             # set lat
             var sign = settingSign<0?"-":"";
-            printDA("set B_E lat "~sign~input);
+            printDA("set B_E/FF/LV lat "~sign~input);
             var deg = ja37.stringToLat(sign~input);
             if (deg != nil) {
               if (lv_temp.address == 179) {
@@ -327,7 +329,7 @@ var main = func {
               } else {
                 lv_temp.lat = deg;
                 lv["p"~sprintf("%03d", lv_temp.address)] = lv_temp;
-                printDA("DAP TI point longitude edited. Point activated.");
+                printDA("DAP TI point latitude edited. "~(lv_temp.color==0?"Red":(lv_temp.color==1?"Yellow":(lv_temp.color==2?"Tyrk":"Green")))~" point "~sprintf("%03d",lv_temp.address)~" activated at "~ja37.convertDegreeToStringLat(lv_temp.lat)~" "~ja37.convertDegreeToStringLon(lv_temp.lon));
                 #debug.dump(lv);
               }
               cycleDisp();
@@ -865,22 +867,22 @@ var monthmax = [31,28,31,30,31,30,31,31,30,31,30,31];
 # P/LO/LA
 # for LV points 1 yellow, 8 red then black, then P
 # 
-# address  rad col typ
-# 1-39     5km  ry LV
-# 40-99    8km  ry LV
-# 100-109 3.5mm  t FF 
-# 110-178 15km  ry LV
-# 180-189 40km  ry LV
+# address  rad  col typ
+# 1-39     5km  ryg LV
+# 40-99    8km  ryg LV
+# 100-109 3.5mm  t  FF 
+# 110-178 15km  ryg LV
+# 180-189 40km  ryg LV
 # 190-199 15km   r STRIL LV number always on
 # 
 # TI/MSDA=number
 # FF number is right and north
 # LV number is middle and north
 # max 10 LV shown at once, closest to point 22km in front of plane
-# L=yellow OK=red at address input
+# G=green L=yellow OK=red at address input
 
 var lv = {
-  # address, color (0=red 1=yellow 2=tyrk), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL), lon, lat
+  # address, color (0=red 1=yellow 2=tyrk 3=green), radius(KM) (-1= 3.5mm), type (0=LV, 1=FF, 2=STRIL), lon, lat
   # note address 179 is stores as properties, not in this struct.
   #p20: {address: 020, color: 1, radius: 5, type: 0, lon: -115.784, lat: 37.218},#example
   #p105: {address: 105, color: 2, radius: -1, type: 1, lon: -115.784, lat: 37.218},#example
@@ -906,6 +908,7 @@ var lv_temp = nil;# temp storage of LV point when its being edited.
 
 var ok          = RELEASE;
 var l           = RELEASE;
+var g           = RELEASE;
 var x           = RELEASE;
 var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
@@ -1037,6 +1040,26 @@ var lRelease = func {
     return;
   }
   l = RELEASE;
+  main();
+}
+
+var gPress = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  g = HOLD;
+  main();
+}
+
+var gRelease = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  g = RELEASE;
   main();
 }
 

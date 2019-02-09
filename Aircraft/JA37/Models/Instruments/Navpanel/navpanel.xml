@@ -44,19 +44,6 @@
 	
 	<animation>
 		<type>pick</type>
-		<object-name>breakpoint1</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>nasal</command>
-				<script>navigation.nav_button(1);</script>
-			</binding>
-		</action>
-	</animation>
-	
-	<animation>
-		<type>pick</type>
 		<object-name>breakpoint2</object-name>
 		<action>
 			<button>0</button>
@@ -234,7 +221,34 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>OK</tooltip-id>
-                <label>Use this button for L in the JA-37Di. (yellow LV/FF points input)</label>
+                <label>Use this button for L in the JA-37Di. (yellow airdefense (LV) points input)</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>breakpoint1</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.gPress();</script>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.gRelease();</script>
+				</binding>
+			</mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>OK3</tooltip-id>
+                <label>Use this button for in the JA-37Di. (green airdefense (LV) points input)</label>
                 <property></property>
             </binding>
         </hovered>

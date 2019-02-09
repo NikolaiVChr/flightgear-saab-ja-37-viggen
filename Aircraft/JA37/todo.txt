@@ -165,7 +165,7 @@ TI: Has almost 100 getprop calls, convert to getValue.
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.
 TI: Make long route legs be curved.
-TI: Convert moving map to MapStructure. Slippy, airports, grid, traffic, FF, LV, routes, runway, landingCircle/Line, missiles, bullseye, AAA.
+TI: Convert moving map to MapStructure. Slippy, airports, grid, traffic, FF, LV, routes, areas, runway, landingCircle/Line, missiles, bullseye, AAA.
 TI: Make radar limit on SVY. (first radar should be changed to scan and beam be more vertically narrow)
 TI: Make route info with overall ETA.
 TI: Menu CONF-READDATA should show a static page.

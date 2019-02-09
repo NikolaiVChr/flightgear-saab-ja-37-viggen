@@ -109,7 +109,7 @@ DISP
 ----
 EMAP - Electronic map. NORM/MAX toggles if map places on map. AIRP toggles airports on map (might give some stutter).
 SCAL - Map scale.
-AAA  - Anti aircraft fire zones. FRND/HSTL show friendly/hostile zones.
+AAA  - Anti aircraft fire zones (LV). FRND/HSTL show friendly/hostile zones. Green is friendly, red is hostile, yellow is unknown/hostile.
 TIME - Show ZULU time.
 HORI - Show FPI, artificial horizon and ground symbol. CLR = certain conditions. ON = always. OFF = only at terrain impact warning.
 CURS - Toggle if cursor is on MI or TI. (PEK on MI must be enabled to see/use cursor)
@@ -239,7 +239,7 @@ REG/STR:
 TI
 note1: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address number will also be shown.
 note2: LV stands for airdefense area, and FF for pilot point.
-- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
+- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow), B1 (for green) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
             To unlock for deletion type the unlock code followed by CLEAR.
             If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
 - OUT/MSDA: If 3 first digits for address entered will show lon/lat of address, click OK to toggle between them. Hold OK down to see description before the value is shown.

@@ -3995,7 +3995,7 @@ var TI = {
   			# for now just paint all of them and hope the pilot do not input tons at the same time
   			me.pp = me.lv[me.lvp];
 
-  			me.ppCol = me.pp.color==0?COLOR_RED:(me.pp.color==1?COLOR_YELLOW:COLOR_TYRK);
+  			me.ppCol = me.pp.color==0?COLOR_RED:(me.pp.color==1?COLOR_YELLOW:(me.pp.color==2?COLOR_TYRK:COLOR_GREEN));
   			me.ppRad = me.pp.radius==-1?15:M2TEX*me.pp.radius*1000;
   			me.ppNum = sprintf("%03d",me.pp.address);
   			me.ppXY  = me.laloToTexel(me.pp.lat, me.pp.lon);
@@ -4026,13 +4026,15 @@ var TI = {
   				}
 			} else {
 				# LV
-				me.ppGrp.createChild("path")
-  						.moveTo(me.ppXY[0]-me.ppRad, me.ppXY[1])
-  						.arcSmallCW(me.ppRad, me.ppRad, 0, me.ppRad*2, 0)
-           				.arcSmallCW(me.ppRad, me.ppRad, 0, -me.ppRad*2, 0)
-  						.setColor(me.ppCol)
-  						.setStrokeLineWidth(w);
-				if (me.menuMain==MAIN_MISSION_DATA or dap.settingKnob == dap.KNOB_TI) {
+				if (me.menuMain==MAIN_MISSION_DATA or ((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)) {
+					me.ppGrp.createChild("path")
+	  						.moveTo(me.ppXY[0]-me.ppRad, me.ppXY[1])
+	  						.arcSmallCW(me.ppRad, me.ppRad, 0, me.ppRad*2, 0)
+	           				.arcSmallCW(me.ppRad, me.ppRad, 0, -me.ppRad*2, 0)
+	  						.setColor(me.ppCol)
+	  						.setStrokeLineWidth(w);
+  				}
+				if (me.menuMain==MAIN_MISSION_DATA or (dap.settingKnob == dap.KNOB_TI and (((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)))) {
   					me.ppGrp.createChild("text")
   						.setText(me.ppNum)
   						.setColor(me.ppCol)
@@ -4684,7 +4686,7 @@ var TI = {
 					me.track_index = -1;
 				}
 			}
-			if (((me.showHostileZones == TRUE and me.boogie < 1) or (me.showFriendlyZones == TRUE and me.boogie == 1)) and me.threatIndex < maxThreats-1) {
+			if (1==0 or ((me.showHostileZones == TRUE and me.boogie < 1) or (me.showFriendlyZones == TRUE and me.boogie == 1)) and me.threatIndex < maxThreats-1) {
 				me.threatRadiusNM = -1;
 				if (contact.get_model()      == "missile_frigate" or contact.get_model()      == "fleet") {
 					me.threatRadiusNM = 80;
