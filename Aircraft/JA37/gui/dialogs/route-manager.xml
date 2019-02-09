@@ -90,6 +90,13 @@
             var save_routeff = func(path) {
                 dap.savePoints(path.getValue());
             }
+            
+            var load_route_all = func(path) {
+                route.Polygon.loadAll(path.getValue());
+            }
+            var save_route_all = func(path) {
+                route.Polygon.saveAll(path.getValue());
+            }
 
             var defaultDirInFileSelector = getprop("/sim/fg-home") ~ "/Export";
 
@@ -179,10 +186,17 @@
               
             var file_selector_ff = gui.FileSelector.new(
               callback: load_routeff, title: "Load points", button: "Load",
-              dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.ja37ff"]);
+              dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.ck37"]);
             var save_selector_ff = gui.FileSelector.new(
               callback: save_routeff, title: "Save points", button: "Save",
-              dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-points.ja37ff", pattern: ["*.ja37ff"]);
+              dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-points.ck37", pattern: ["*.ck37"]);
+              
+            var file_selector_all = gui.FileSelector.new(
+              callback: load_route_all, title: "Load all", button: "Load", show_files: 0,
+              dir: defaultDirInFileSelector, dotfiles: 1);
+            var save_selector_all = gui.FileSelector.new(
+              callback: save_route_all, title: "Save all", button: "Save", show_files: 0,
+              dir: defaultDirInFileSelector, dotfiles: 1);
 
         ]]></open>
 
@@ -216,6 +230,9 @@
             
             file_selector_ff.del();
             save_selector_ff.del();
+            
+            file_selector_all.del();
+            save_selector_all.del();
         </close>
     </nasal>
 
@@ -749,6 +766,33 @@
         <text>
             <halign>left</halign>
             <label>Pilot-points (FF), bulls-eye and anti-aircraft (LV) areas.</label>
+        </text>
+        <empty><stretch>1</stretch></empty>
+    </group>
+    
+    <hrule/>
+    
+    <group>
+        <layout>hbox</layout>
+        <button>
+            <legend>Load All...</legend>
+            <equal>true</equal>
+            <binding>
+                <command>nasal</command>
+                <script>file_selector_all.open()</script>
+            </binding>
+        </button>
+        <button>
+            <legend>Save All...</legend>
+            <equal>true</equal>
+            <binding>
+                <command>nasal</command>
+                <script>save_selector_all.open();</script>
+            </binding>
+        </button>
+        <text>
+            <halign>left</halign>
+            <label>Save/load everything to a folder. Recommend saving to a empty folder.</label>
         </text>
         <empty><stretch>1</stretch></empty>
     </group>

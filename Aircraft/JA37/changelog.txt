@@ -3543,3 +3543,6 @@ TI: hostile antiaircraft circles (LV) are no longer showed automatically.
 DAP: Green antiaircraft circles (LV) can now be entered using button B1.
 GUI: JA route-manager 'LV' words deleted, it was wrong.
 DAP: Fixed when inputing, it remembered the last sign used. Now it defaults to plus.
+GUI: Can now from JA route-manager save FF,LV,BE points.
+GUI: Added option to save/load everything to a folder.
+GUI: Renamed point file extension to ck37.

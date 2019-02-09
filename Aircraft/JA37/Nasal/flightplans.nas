@@ -278,14 +278,40 @@ var Polygon = {
 		printDA("AJ: finished plan Init");
 	},
 
-	saveAll: func {
+	loadAll: func (path) {
 		#class:
-		# dont use, is only for testing
+		# save all data in a folder
 		#
+		#var path = os.path.new(path);
+		#call(func{path.create_dir();},nil,var err=[]);
+		#if (size(err)) {
+		#	print("saving all failed.");
+		#	gui.showDialog("savefail");
+		#}
 		var key = keys(Polygon.polys);
 		foreach (k; key) {
-			var poly = Polygon.polys[k];
-			poly.plan.save(getprop("sim/fg-home")~"/Export/ja37-autosave-"~poly.name~".fgfp");
+			call(func{Polygon.load(k,path~"/ja37-data-"~k~".fgfp");},nil,var err=[]);
+		}
+		dap.loadPoints(path~"/ja37-data.ck37");
+	},
+	
+	saveAll: func (path) {
+		#class:
+		# save all data in a folder
+		#
+		#var path = os.path.new(path);
+		#call(func{path.create_dir();},nil,var err=[]);
+		#if (size(err)) {
+		#	print("saving all failed.");
+		#	gui.showDialog("savefail");
+		#}
+		var key = keys(Polygon.polys);
+		var s = dap.savePoints(path~"/ja37-data.ck37");
+		if (s) {
+			foreach (k; key) {
+				var poly = Polygon.polys[k];
+				call(func{poly.plan.save(path~"/ja37-data-"~k~".fgfp");},nil,var err=[]);
+			}
 		}
 	},
 

@@ -931,16 +931,19 @@ var savePoints = func (path) {
     if (size(err) or opn == nil) {
       print("error open file for writing points");
       gui.showDialog("savefail");
-      return;
+      return 0;
     }
     call(func{var text = io.write(opn,text);},nil, var err = []);
     if (size(err)) {
       print("error write file with points");
       gui.showDialog("savefail");
+      io.close(opn);
+      return 0;
     } else {
       lv = unserialize(text);
+      io.close(opn);
+      return 1;
     }
-    io.close(opn);
 }
 
 var loadPoints = func (path) {
@@ -951,6 +954,7 @@ var loadPoints = func (path) {
     } elsif (text != nil) {
       lv = unserialize(text);
     }
+    checkLVSave();
 }
 
 var checkLVSave = func {
