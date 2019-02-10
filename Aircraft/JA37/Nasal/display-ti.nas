@@ -1765,11 +1765,11 @@ var TI = {
 		me.displayRadarTracks();
 		me.showRunway();
 		me.showRadarLimit();
-		me.showBottomText();# must be after displayRadarTracks
 		me.menuUpdate();
 		me.showTime();
 		me.showFlightTime();
 		me.showSteerPoints();
+		me.showBottomText();# must be after displayRadarTracks and showsteerpoints
 		me.showSteerPointInfo();
 		me.showPoly();#must be under showSteerPoints
 		me.showLVFF();
@@ -4293,12 +4293,15 @@ var TI = {
 		} elsif (land.mode_L_active == TRUE) {
 			me.mode = "L ";# steering to landing base
 			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
-		} elsif (land.mode_B_active == TRUE) {
-			me.mode = me.interoperability == displays.METRIC?"B ":"S";# following steerpoint route
-			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
 		} elsif (land.mode_OPT_active == TRUE) {
 			me.mode = "OP";# visual landing phase
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
+		} elsif ((land.mode_B_active == TRUE or land.mode_LA_active == TRUE) and route.Polygon.primary != nil) {
+			me.target_wp = route.Polygon.primary.isTarget(route.Polygon.primary.getIndex());
+			me.wp_pre = route.Polygon.primary.type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA));
+			me.wp_post = route.Polygon.primary.getIndex()+1;
+			me.mode = me.wp_pre~me.wp_post;
+			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
 		} else {
 			me.mode = "  ";# VFR
 			me.textBMode.setColor(rWhite,gWhite,bWhite);

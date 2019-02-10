@@ -1033,6 +1033,13 @@ var Polygon = {
 		#
 		return me.plan.current;
 	},
+	
+	isTarget: func (index) {
+		#instance:
+		#
+		#
+		return me.plan.getWP(index).fly_type == "flyOver";
+	},
 
 	getLeg: func {
 		#instance:
