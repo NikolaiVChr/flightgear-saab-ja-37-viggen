@@ -3549,3 +3549,4 @@ GUI: Renamed point file extension to ck37.
 GUI: When loading all even if it fails, it will now clear all old data.
 TI: Prevented cursor from grabbing double stuff.
 TI: Cursor can now in MSDA/UDAT menu drag FF/LV points when nothing else is being edited. These are for now the only stuff that can use dragging, the rest still use clicking.
+TI: Can now cursor-click through infobox if the textfield is not used.

@@ -2802,21 +2802,17 @@ var TI = {
 			if (me.cursorGPosY > height*0.09+(7-1)*height*0.11-6.25*4 and me.cursorGPosY < height*0.09+(7-1)*height*0.11-6.25*4+8*6.25) {
 				return me.b14;
 			}
-		} elsif (me.cursorGPosY > me.wpStarty-me.wpH*height and me.cursorGPosY < me.wpStarty and me.cursorGPosX < me.wpStartx+me.wpW*width and me.cursorGPosX > me.wpStartx) {
+		} elsif (me.wpTextField.getVisible() and me.cursorGPosY > me.wpStarty-me.wpH*height and me.cursorGPosY < me.wpStarty and me.cursorGPosX < me.wpStartx+me.wpW*width and me.cursorGPosX > me.wpStartx) {
 			# possible infoBox click
-			if (me.cursorGPosY < me.wpStarty-0.8*me.wpH*height) {
+			if      (me.cursorGPosY < me.wpStarty-0.8*me.wpH*height and (me.wpText2.getVisible() or me.blinkBox2)) {
 				return me.box2;
-			}
-			if (me.cursorGPosY < me.wpStarty-0.6*me.wpH*height) {
+			} elsif (me.cursorGPosY < me.wpStarty-0.6*me.wpH*height and (me.wpText3.getVisible() or me.blinkBox3)) {
 				return me.box3;
-			}
-			if (me.cursorGPosY < me.wpStarty-0.4*me.wpH*height) {
+			} elsif (me.cursorGPosY < me.wpStarty-0.4*me.wpH*height and (me.wpText4.getVisible() or me.blinkBox4)) {
 				return me.box4;
-			}
-			if (me.cursorGPosY < me.wpStarty-0.2*me.wpH*height) {
+			} elsif (me.cursorGPosY < me.wpStarty-0.2*me.wpH*height and (me.wpText5.getVisible() or me.blinkBox5)) {
 				return me.box5;
-			}
-			if (me.cursorGPosY < me.wpStarty-0.0*me.wpH*height) {
+			} elsif (me.cursorGPosY < me.wpStarty-0.0*me.wpH*height and (me.wpText6.getVisible() or me.blinkBox6)) {#  wont work if blinking
 				return me.box6;
 			}
 		}
