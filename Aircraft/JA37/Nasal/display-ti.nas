@@ -1067,7 +1067,7 @@ var TI = {
     		.setFontSize(10, 1);
     	me.textBlink = me.bottom_text_grp.createChild("text")
     		.setText("DL")
-    		.setColor(rGrey,gGrey,bGrey, a)
+    		.setColor(COLOR_GREY)
     		.setAlignment("center-top")
     		.setTranslation(72, height-height*0.08)
     		.set("z-index", 10)
@@ -1092,7 +1092,7 @@ var TI = {
 		    .setStrokeLineWidth(w);
 		me.textBerror = me.bottom_text_grp.createChild("text")
     		.setText("F")
-    		.setColor(rGrey,gGrey,bGrey, a)
+    		.setColor(COLOR_GREY)
     		.setAlignment("center-top")
     		.setTranslation(89, height-height*0.08)
     		.set("z-index", 10)
@@ -1241,7 +1241,7 @@ var TI = {
 				me.menuFastRoot.createChild("text")
     				.setText("M\nE\nN\nY")
     				.setColor(rWhite,gWhite,bWhite, a)
-    				.setColorFill(rGrey,gGrey,bGrey, a)
+    				.setColorFill(COLOR_GREY)
     				.setAlignment("left-center")
     				.setTranslation(width*0.060, height*0.09+(i-1)*height*0.11)
     				.setFontSize(12.5, 1));
@@ -1254,7 +1254,7 @@ var TI = {
 				me.menuFastRoot.createChild("text")
     				.setText("M\nE\nN\nY")
     				.setColor(rWhite,gWhite,bWhite, a)
-    				.setColorFill(rGrey,gGrey,bGrey, a)
+    				.setColorFill(COLOR_GREY)
     				.setAlignment("right-center")
     				.setTranslation(width*0.940, height*0.09+(6-(i-14))*height*0.11)
     				.setFontSize(12.5, 1));
@@ -4021,7 +4021,7 @@ var TI = {
   			me.ppRad = me.pp.radius==-1?15:M2TEX*me.pp.radius*1000;
   			me.ppNum = sprintf("%03d",me.pp.address);
   			if (me.lvffDrag == me.pp.address) {
-  				me.laloDap  = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
+  				me.laloDap = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
   				dap.lv[me.lvp].lat = me.laloDap[0];
   				dap.lv[me.lvp].lon = me.laloDap[1];
   				me.ppXY = [me.cursorOPosX, me.cursorOPosY];
@@ -4378,7 +4378,7 @@ var TI = {
 		#	me.textBAlpha.setText("");
 		#}
 		if (displays.common.error == FALSE) {
-			me.textBerror.setColor(rGrey, gGrey, bGrey, a);
+			me.textBerror.setColor(COLOR_GREY);
 			me.textBerrorFrame2.hide();
 			me.textBerrorFrame1.show();
 		} else {
@@ -4387,7 +4387,7 @@ var TI = {
 			me.textBerrorFrame2.show();
 		}
 		if (me.dataLink == FALSE) {
-			me.textBlink.setColor(rGrey, gGrey, bGrey, a);
+			me.textBlink.setColor(COLOR_GREY);
 			me.textBLinkFrame2.hide();
 			me.textBLinkFrame1.show();
 		} else {

@@ -703,7 +703,7 @@
         <displays>
             <show-full-menus type="bool">true</show-full-menus>
             <live-map userarchive="y" type="bool">true</live-map>
-            <ti-contrast type="double">1.0</ti-contrast>
+            <ti-contrast type="double">1.25</ti-contrast>
         </displays>
         <systems>
             <oxygen-bottle-pressure type="double">0.0</oxygen-bottle-pressure>
