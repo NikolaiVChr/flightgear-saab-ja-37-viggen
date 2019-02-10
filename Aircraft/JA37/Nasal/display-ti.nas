@@ -2646,6 +2646,12 @@ var TI = {
 		}
 		return FALSE;
 	},
+	
+	setupMMAP: func {
+		# center cursor in display
+		me.cursorPosX = 0;
+		me.cursorPosY = (-me.rootCenterY+height-me.rootCenterY)*0.5;
+	},
 
 	showCursor: func {
 		if (displays.common.cursor == displays.TI and MI.cursorOn == TRUE) {
@@ -2653,8 +2659,14 @@ var TI = {
 			me.cursorSpeedX = me.input.cursorControlX.getValue();
 			me.cursorMoveY  = 150 * 0.05 * me.cursorSpeedY;
 			me.cursorMoveX  = 150 * 0.05 * me.cursorSpeedX;
-			me.cursorPosX  += me.cursorMoveX;
-			me.cursorPosY  += me.cursorMoveY;
+			if (me.dragMapEnabled) {
+				me.newMapPos = me.TexelToLaLoMap(me.cursorMoveX, me.cursorMoveY);
+				me.lat = me.newMapPos[0];
+				me.lon = me.newMapPos[1];
+			} else {
+				me.cursorPosX  += me.cursorMoveX;
+				me.cursorPosY  += me.cursorMoveY;
+			}
 			me.cursorPosX   = clamp(me.cursorPosX, -width*0.5,  width*0.5);
 			me.cursorPosY   = clamp(me.cursorPosY, -me.rootCenterY, height-me.rootCenterY);#relative to map center
 			me.cursorGPosX = me.cursorPosX + width*0.5;
@@ -2716,12 +2728,6 @@ var TI = {
 				me.bMethod = me.getButtonMethod();
 				if (me.bMethod != nil) {
 					me.bMethod();
-					me.cursorDidSomething = TRUE;
-				} elsif (me.dragMapEnabled) {
-					me.newMapPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
-					me.lat = me.newMapPos[0];
-					me.lon = me.newMapPos[1];
-					me.mapSelfCentered = FALSE;
 					me.cursorDidSomething = TRUE;
 				}
 			}
@@ -5586,6 +5592,7 @@ var TI = {
 				if (!me.mapSelfCentered) {
 					me.lat = me.lat_own;
 					me.lon = me.lon_own;
+					me.setupMMAP();
 				}
 			}
 			if(me.menuMain == MAIN_FAILURES) {
@@ -5645,7 +5652,7 @@ var TI = {
 		if (!me.mapSelfCentered) {
 			me.lat_wp   = me.input.latitude.getValue();
 			me.lon_wp   = me.input.longitude.getValue();
-			me.tempReal = me.laloToTexel(me.lat,me.lon);#delicate
+			me.tempReal = me.laloToTexel(me.lat,me.lon);
 			me.rootCenter.setTranslation(width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]);
 			#me.rootCenterTranslation = [width/2-me.tempReal[0], me.rootCenterY-me.tempReal[1]];
 		} else {
