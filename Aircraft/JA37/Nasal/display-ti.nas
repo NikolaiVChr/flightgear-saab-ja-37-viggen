@@ -2651,6 +2651,7 @@ var TI = {
 		# center cursor in display
 		me.cursorPosX = 0;
 		me.cursorPosY = (-me.rootCenterY+height-me.rootCenterY)*0.5;
+		displays.common.cursor = displays.TI;
 	},
 
 	showCursor: func {
@@ -5114,6 +5115,9 @@ var TI = {
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				route.Polygon.setToggleAreaEdit();
+				if (route.Polygon.editing != nil) {
+					displays.common.cursor = displays.TI;
+				}
 			}
 			if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 				me.fr28Top = !me.fr28Top;
@@ -5322,6 +5326,7 @@ var TI = {
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editRTB) {
 					route.Polygon.editPlan(route.Polygon.editRTB);
+					displays.common.cursor = displays.TI;
 				} else {
 					route.Polygon.editPlan(nil);
 				}
@@ -5422,6 +5427,7 @@ var TI = {
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editMiss) {
 					route.Polygon.editPlan(route.Polygon.editMiss);
+					displays.common.cursor = displays.TI;
 				} else {
 					route.Polygon.editPlan(nil);
 				}
