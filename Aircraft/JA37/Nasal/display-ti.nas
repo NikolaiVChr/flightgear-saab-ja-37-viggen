@@ -1733,6 +1733,7 @@ var TI = {
 		#	return;
 		#}
 		me.interoperability = me.input.units.getValue();
+		me.swedishMode = me.interoperability == displays.METRIC;
 
 		if (me.brightness < 0.25) {
 			me.brightness = 0.25;
@@ -2088,7 +2089,7 @@ var TI = {
 
 	compileMainMenu: func (button) {
 		me.str = nil;
-		if (me.interoperability == displays.METRIC) {
+		if (me.swedishMode) {
 			me.str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
 		} else {
 			me.str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":''~math.abs(me.menuMain)))];
@@ -2208,7 +2209,7 @@ var TI = {
 
 	compileFastMenu: func (button) {
 		me.str = nil;
-		if (me.interoperability == displays.METRIC) {
+		if (me.swedishMode) {
 			me.str = dictSE[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":''~math.abs(me.menuMain)))];
 		} else {
 			me.str = dictEN[me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":''~math.abs(me.menuMain)))];
@@ -2252,7 +2253,7 @@ var TI = {
 		me.menuButtonSub[7].show();
 		me.menuButtonSubBox[7].show();
 		me.seven = nil;
-		if (me.interoperability == displays.METRIC) {
+		if (me.swedishMode) {
 			me.seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SVY":(dictSE['0'][''~math.abs(me.menuMain)][1])));
 		} else {
 			me.seven = me.menuGPS==TRUE?"GPS":(me.menuTrap==TRUE?"TRAP":(me.menuSvy==TRUE?"SIDV":(dictEN['0'][''~math.abs(me.menuMain)][1])));
@@ -2311,7 +2312,7 @@ var TI = {
 			me.menuButtonSub[17].show();
 			me.menuButtonSubBox[17].show();
 			me.seventeen = nil;
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				me.seventeen = dictSE['HORI'][''~me.displayFlight][1];
 			} else {
 				me.seventeen = dictEN['HORI'][''~me.displayFlight][1];
@@ -2325,7 +2326,7 @@ var TI = {
 			me.menuButtonSub[6].setText(me.vertStr(me.six));
 
 			# day/night map
-			me.menuButtonSub[19].setText(me.vertStr(me.interoperability == displays.METRIC?"NATT":"NGHT"));
+			me.menuButtonSub[19].setText(me.vertStr(me.swedishMode?"NATT":"NGHT"));
 			me.menuButtonSub[19].show();
 			if (me.day == FALSE) {
 				me.menuButtonSubBox[19].show();
@@ -2339,21 +2340,21 @@ var TI = {
 			#}
 
 			# airports overlay
-			me.menuButtonSub[4].setText(me.vertStr(me.interoperability == displays.METRIC?"TMAD":"AIRP"));
+			me.menuButtonSub[4].setText(me.vertStr(me.swedishMode?"TMAD":"AIRP"));
 			me.menuButtonSub[4].show();
 			if (me.basesEnabled == TRUE) {
 				me.menuButtonSubBox[4].show();
 			}
 
 			# threat overlay
-			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"FI":"HSTL"));
+			me.menuButtonSub[14].setText(me.vertStr(me.swedishMode?"FI":"HSTL"));
 			me.menuButtonSub[14].show();
 			if (me.showHostileZones == TRUE) {
 				me.menuButtonSubBox[14].show();
 			}
 
 			# friendly AAA
-			me.menuButtonSub[15].setText(me.vertStr(me.interoperability == displays.METRIC?"EGET":"FRND"));
+			me.menuButtonSub[15].setText(me.vertStr(me.swedishMode?"EGET":"FRND"));
 			me.menuButtonSub[15].show();
 			if (me.showFriendlyZones == TRUE) {
 				me.menuButtonSubBox[15].show();
@@ -2391,17 +2392,17 @@ var TI = {
 
 			me.isP = route.Polygon.editing != nil and route.Polygon.editing.type == route.TYPE_AREA;
 			#hack:
-			me.menuButtonSub[2].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
+			me.menuButtonSub[2].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
 			me.menuButtonSub[2].show();
 			if (route.Polygon.insertSteer) {
 				me.menuButtonSubBox[2].show();
 			}
-			me.menuButtonSub[3].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
+			me.menuButtonSub[3].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
 			me.menuButtonSub[3].show();
 			if (route.Polygon.appendSteer) {
 				me.menuButtonSubBox[3].show();
 			}
-			me.menuButtonSub[5].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
+			me.menuButtonSub[5].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
 			me.menuButtonSub[5].show();
 
 			me.menuButtonSub[6].setText(me.vertStr("POLY"));
@@ -2419,13 +2420,13 @@ var TI = {
 				me.menuButtonSub[19].show();
 				me.menuButtonSubBox[19].show();
 			}
-			me.menuButtonSub[18].setText(me.vertStr(me.isP?"P":(me.interoperability == displays.METRIC?"B":"S")));
+			me.menuButtonSub[18].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
 			me.menuButtonSub[18].show();
 			if (route.Polygon.editSteer) {
 				me.menuButtonSubBox[18].show();
 			}
-			me.menuButtonSub[14].setText(me.vertStr(me.interoperability == displays.METRIC?"\xC3\x85POL":"RPOL"));
-			me.menuButtonSub[16].setText(me.vertStr(me.interoperability == displays.METRIC?"UPOL":"MPOL"));
+			me.menuButtonSub[14].setText(me.vertStr(me.swedishMode?"\xC3\x85POL":"RPOL"));
+			me.menuButtonSub[16].setText(me.vertStr(me.swedishMode?"UPOL":"MPOL"));
 			me.menuButtonSub[15].setText(me.vertStr(route.Polygon.editRTB.getNameVariant()));
 			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.getNameNumber()));
 			me.menuButtonSub[17].show();
@@ -2442,7 +2443,7 @@ var TI = {
 		if (me.menuMain == MAIN_CONFIGURATION and me.menuGPS == FALSE and me.menuSvy == FALSE) {
 			# use top or belly antaenna
 			me.ant = nil;
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				me.ant = me.fr28Top==TRUE?"RYG":"BUK";
 			} else {
 				me.ant = me.fr28Top==TRUE?"OVER":"UNDR";
@@ -2459,17 +2460,17 @@ var TI = {
 			me.menuButtonSub[5].show();
 			me.menuButtonSubBox[5].show();
 			if (me.SVYinclude == SVY_ALL) {
-				me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"ALLT":"ALL"));
+				me.menuButtonSub[6].setText(me.vertStr(me.swedishMode?"ALLT":"ALL"));
 			} elsif (me.SVYinclude == SVY_120) {
 				me.menuButtonSub[6].setText(me.vertStr("120"));
 			} else {
-				me.menuButtonSub[6].setText(me.vertStr(me.interoperability == displays.METRIC?"RR":"RR"));
+				me.menuButtonSub[6].setText(me.vertStr(me.swedishMode?"RR":"RR"));
 			}
 			me.menuButtonSub[6].show();
 			me.menuButtonSubBox[6].show();
 
 			me.skal = nil;
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				me.skal = me.SVYscale==SVY_ELKA?"ELKA":(me.SVYscale==SVY_MI?"MI":"RMAX");
 			} else {
 				me.skal = me.SVYscale==SVY_ELKA?"EMAP":(me.SVYscale==SVY_MI?"MI":"RMAX");
@@ -3020,7 +3021,7 @@ var TI = {
 			if (input != nil) {
 				var alt = num(input);
 				print("TI recieved alt from DAP: "~alt);
-				route.Polygon.setAlt(myself.interoperability == displays.METRIC?alt*M2FT:alt);#important!!! running in metric will input metric also!
+				route.Polygon.setAlt(myself.swedishMode?alt*M2FT:alt);#important!!! running in metric will input metric also!
 			} else {
 				print("TI recieved no alt from DAP");
 				route.Polygon.setAlt(nil);#important!!! running in metric will input metric also!
@@ -3176,7 +3177,7 @@ var TI = {
 			me.textX = "";
 			me.textY = "";
 
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				me.textX = sprintf("%d KM" ,me.SVYrange*0.001);
 				me.textY = sprintf("%d KM" ,me.SVYhmax);
 			} else {
@@ -3281,7 +3282,7 @@ var TI = {
 			var tick1 = 0;
 			var tick2 = 0;
 			var tick3 = 0;
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				if (zoom == 4) {
 					tick1 = 1000;
 				} elsif (zoom == 7) {
@@ -3358,7 +3359,7 @@ var TI = {
 
 	  		if (me.tgt_dist != nil) {
 	  			# distance
-	  			if (me.interoperability == displays.METRIC) {
+	  			if (me.swedishMode) {
 	  	  			me.tgtTextDistDesc.setText("A");
 					if (me.tgt_dist < 10000) {
 						me.distText = sprintf("%d", me.tgt_dist/1000);
@@ -3383,7 +3384,7 @@ var TI = {
 	  			# altitude
 	  			me.alt = me.tgt_alt;
 	  			me.text = "";
-				if (me.interoperability == displays.METRIC) {
+				if (me.swedishMode) {
 					me.tgtTextHeiDesc.setText("H");
 					if(me.alt < 1000) {
 						me.text = ""~int(roundabout(me.alt/10)*10);
@@ -3455,7 +3456,7 @@ var TI = {
 			}
 			me.wpText5.setText(me.gps5);
 
-			me.wpText6Desc.setText(me.interoperability==displays.METRIC?"FEL":"ERR");# error
+			me.wpText6Desc.setText(me.swedishMode?"FEL":"ERR");# error
 			me.wpText6.setText(getprop("ja37/navigation/gps-installed")?(getprop("fdm/jsbsim/systems/electrical/battery-charge-norm")<0.1?"BATT":""):"FPLDATA");#TODO: Don't know what the real error would look like in FPLDATA case.
 
 			me.wpText2.update();
@@ -3503,9 +3504,9 @@ var TI = {
 
 				me.constraint_alt = "-----";
 				if (route.Polygon.selectSteer[0].alt_cstr != nil and route.Polygon.selectSteer[0].alt_cstr_type == "at" and route.Polygon.selectSteer[0].alt_cstr>-5000) {#Fg has habit of defaulting it to -9999
-					me.constraint_alt = sprintf("%5d",me.interoperability==displays.METRIC?FT2M*route.Polygon.selectSteer[0].alt_cstr:route.Polygon.selectSteer[0].alt_cstr);
+					me.constraint_alt = sprintf("%5d",me.swedishMode?FT2M*route.Polygon.selectSteer[0].alt_cstr:route.Polygon.selectSteer[0].alt_cstr);
 				}
-				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
+				me.wpText4Desc.setText(me.swedishMode?"H":"A");
 				me.wpText4.setText(me.constraint_alt);
 				if (me.blinkBox4 == FALSE or me.twoHz) {
 					me.wpText4.show();
@@ -3518,7 +3519,7 @@ var TI = {
 				if (route.Polygon.selectSteer[0].speed_cstr != nil and (route.Polygon.selectSteer[0].speed_cstr_type == "mach" or route.Polygon.selectSteer[0].speed_cstr_type == "computed-mach")) {
 					me.constraint_speed = sprintf("%0.2f",route.Polygon.selectSteer[0].speed_cstr);
 				}
-				me.wpText5Desc.setText(me.interoperability==displays.METRIC?"M":"M");
+				me.wpText5Desc.setText(me.swedishMode?"M":"M");
 				me.wpText5.setText(me.constraint_speed);
 				if (me.blinkBox5 == FALSE or me.twoHz) {
 					me.wpText5.show();
@@ -3527,13 +3528,13 @@ var TI = {
 				}
 				me.wpText5.update();
 
-				#me.of = me.interoperability==displays.METRIC?" AV ":" OF ";
-				#me.wpText6Desc.setText(me.interoperability==displays.METRIC?"B":"S");
+				#me.of = me.swedishMode?" AV ":" OF ";
+				#me.wpText6Desc.setText(me.swedishMode?"B":"S");
 				#me.wpText6.setText((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize());
 
 				me.wpText6Desc.setText("TYP");
 				# Hold = target
-				me.wpText6.setText(route.Polygon.selectSteer[0].fly_type=="flyOver"?(me.interoperability==displays.METRIC?"M\xC3\x85L":"TARGET"):(me.interoperability==displays.METRIC?"BRYT":"STEER"));
+				me.wpText6.setText(route.Polygon.selectSteer[0].fly_type=="flyOver"?(me.swedishMode?"M\xC3\x85L":"TARGET"):(me.swedishMode?"BRYT":"STEER"));
 				if (me.blinkBox6 == FALSE or me.twoHz) {
 					me.wpText6.show();
 				} else {
@@ -3557,8 +3558,8 @@ var TI = {
 					me.wpText2.hide();
 				}
 
-				me.of = me.interoperability==displays.METRIC?" AV ":" OF ";
-				me.wpText3Desc.setText(route.Polygon.selectSteer != nil?(me.interoperability==displays.METRIC?"PKT":"PNT"):"");
+				me.of = me.swedishMode?" AV ":" OF ";
+				me.wpText3Desc.setText(route.Polygon.selectSteer != nil?(me.swedishMode?"PKT":"PNT"):"");
 				me.wpText3.setText(route.Polygon.selectSteer != nil?((1+route.Polygon.selectSteer[1])~me.of~route.Polygon.editing.getSize()):"");
 
 				me.wpText4Desc.setText(route.Polygon.selectSteer != nil?"LON":"");
@@ -3621,7 +3622,7 @@ var TI = {
 				me.wpNum  = me.wp+1;
 
 				me.legs   = me.points-1;
-				me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.interoperability==displays.METRIC?" AV ":" OF ")~me.legs;
+				me.legText = (me.legs==0 or me.wpNum == 1)?"":(me.wpNum-1)~(me.swedishMode?" AV ":" OF ")~me.legs;
 
 				me.wpAlt  = me.node.getNode("altitude-ft");
 				if (me.wpAlt != nil) {
@@ -3634,7 +3635,7 @@ var TI = {
 					me.wpAlt = "-----";
 				} else {
 					# bad coding, shame on me..
-					me.wpAlt  = me.interoperability==displays.METRIC?me.wpAlt*FT2M:me.wpAlt;
+					me.wpAlt  = me.swedishMode?me.wpAlt*FT2M:me.wpAlt;
 					me.wpAlt = sprintf("%d", me.wpAlt);
 				}
 
@@ -3654,14 +3655,14 @@ var TI = {
 				me.wpETA  = int(getprop("autopilot/route-manager/ete")/60);#mins
 				me.wpETAText = sprintf("%d", me.wpETA);
 				if (me.wpETA > 500) {
-					me.wpETAText = "---";
+					me.wpETAText = "---";#todo should be time predicted when steerpoint is passed like 12:40:31. Also There should be a T field above it same formating, no clue what for.
 				}
 
-				me.wpText2Desc.setText(me.interoperability==displays.METRIC?"BEN":"LEG");
+				me.wpText2Desc.setText(me.swedishMode?"BEN":"LEG");
 				me.wpText2.setText(me.legText);
-				me.wpText3Desc.setText(me.interoperability==displays.METRIC?"B":"S");
+				me.wpText3Desc.setText(me.swedishMode?"B":"S");
 				me.wpText3.setText((me.wpNum-1)~" -> "~me.wpNum);
-				me.wpText4Desc.setText(me.interoperability==displays.METRIC?"H":"A");
+				me.wpText4Desc.setText(me.swedishMode?"H":"A");
 				me.wpText4.setText(me.wpAlt);
 				me.wpText5Desc.setText("M");
 				me.wpText5.setText(me.wpSpeed);
@@ -3754,10 +3755,10 @@ var TI = {
 		}
 
 		me.poly = [];#0: lat  1: lon  2: draw leg 3: color 4: z-index 5: -1 = first, +1 = last, 0 = not area
-		me.steerSE = me.interoperability == displays.METRIC;
-		me.steerB = me.steerSE?"B":"S";
-		me.steerA = me.steerSE?"\xC3\x85":"R";
-		me.steerM = me.steerSE?"M":"T";
+
+		me.steerB = me.swedishMode?"B":"S";
+		me.steerA = me.swedishMode?"\xC3\x85":"R";
+		me.steerM = me.swedishMode?"M":"T";
 
 		for(me.steerCounter = 0;me.steerCounter < 12; me.steerCounter += 1) {
 			me.curr_plan = me.all_plans[me.steerCounter];
@@ -3956,7 +3957,7 @@ var TI = {
   				me.cs.set_latlon(me.cursorLaLo[0], me.cursorLaLo[1],0);
   				me.bear = geo.normdeg(me.be.course_to(me.cs));
   				me.beDist = me.be.distance_to(me.cs);
-  				me.beDist = me.interoperability==displays.METRIC?0.001*me.beDist:M2NM*me.beDist;
+  				me.beDist = me.swedishMode?0.001*me.beDist:M2NM*me.beDist;
   				me.beDistTxt = sprintf("%d",me.beDist);
   				if (me.beDist > 10000) {
   					me.beDistTxt = sprintf("%dK",me.beDist*0.001);
@@ -3966,7 +3967,7 @@ var TI = {
   				if (!me.isCursorOnMap()) {
   					me.beText.setText("");
   				} else {
-  					me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
+  					me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
   				}
   				me.beTextField.show();
   			} elsif (radar_logic.selection != nil) {
@@ -3977,14 +3978,14 @@ var TI = {
   				me.cs.set_latlon(me.lck.lat(), me.lck.lon(),0);
   				me.bear = geo.normdeg(me.be.course_to(me.cs));
   				me.beDist = me.be.distance_to(me.cs);
-  				me.beDist = me.interoperability==displays.METRIC?0.001*me.beDist:M2NM*me.beDist;
+  				me.beDist = me.swedishMode?0.001*me.beDist:M2NM*me.beDist;
   				me.beDistTxt = sprintf("%d",me.beDist);
   				if (me.beDist > 10000) {
   					me.beDistTxt = sprintf("%dK",me.beDist*0.001);
   				} elsif (me.beDist > 1000) {
   					me.beDistTxt = sprintf("%.1fK",me.beDist*0.001);
   				}
-  				me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.interoperability==displays.METRIC?" A":"NM",me.beDistTxt));
+  				me.beText.setText(sprintf("%03d\xc2\xb0 %s%s",me.bear,me.swedishMode?" A":"NM",me.beDistTxt));
   				me.beTextField.show();
   			} else {
   				me.beTextField.hide();
@@ -4190,7 +4191,7 @@ var TI = {
 		me.alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
 		if (me.alt != nil) {
 			me.text = "";
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				if(me.alt*FT2M < 1000) {
 					me.text = ""~roundabout(me.alt*FT2M/10)*10;
 				} else {
@@ -4254,7 +4255,7 @@ var TI = {
 	    	me.ammoT = me.ammo~"";
 	    }
 		me.textBArmAmmo.setText(me.ammoT);
-		if (me.interoperability == displays.METRIC) {
+		if (me.swedishMode) {
 			if (me.ModeAttack == TRUE) {
 				me.textBTactType1.setText("A");
 				me.textBTactType2.setText("T");
@@ -4285,10 +4286,10 @@ var TI = {
 			me.mode = "RR";# landing steerpoint
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		} elsif (land.mode_LB_active == TRUE) {
-			me.mode = me.interoperability == displays.METRIC?"LB":"LS";# landing steerpoint
+			me.mode = me.swedishMode?"LB":"LS";# landing steerpoint
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		} elsif (land.mode_LF_active == TRUE) {
-			me.mode = me.interoperability == displays.METRIC?"LF":"LT";# landing touchdown point
+			me.mode = me.swedishMode?"LF":"LT";# landing touchdown point
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
 		} elsif (land.mode_L_active == TRUE) {
 			me.mode = "L ";# steering to landing base
@@ -4309,7 +4310,7 @@ var TI = {
 		me.textBMode.setText(me.mode);
 
 		if (displays.common.distance_m != -1) {
-			if (me.interoperability == displays.METRIC) {
+			if (me.swedishMode) {
 				me.distance_un = displays.common.distance_m/1000;
 				me.textBDistN.setText("A");
 			} else {
@@ -4326,9 +4327,9 @@ var TI = {
 			me.textBDistN.setText(" ");
 		}
 		if (me.input.currentMode.getValue() == displays.LANDING and me.input.gearsPos.getValue() == 1) {
-			me.alphaT  = me.interoperability == displays.METRIC?"ALFA":"ALPH";
-			me.weightT = me.interoperability == displays.METRIC?"VIKT":"WEIG";
-			if (me.interoperability == displays.METRIC) {
+			me.alphaT  = me.swedishMode?"ALFA":"ALPH";
+			me.weightT = me.swedishMode?"VIKT":"WEIG";
+			if (me.swedishMode) {
 				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*LB2KG*0.001;
 			} else {
 				me.weight = getprop("fdm/jsbsim/inertia/weight-lbs")*0.001;
