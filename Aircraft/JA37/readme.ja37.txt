@@ -124,7 +124,7 @@ EDIT
   POLY  - Edit area polygons. Click with cursor on top field in infobox to control from DAP which area is edited.
   RPOL  - Edit a RTB polygon.
   MPOL  - Edit a mission polygon.
-  S/P   - Move selected point/steerpoint in current edited polygon. Then use cursor.
+  S/P   - Enable dragging of point/steerpoint in current edited polygon.
 INS S/P - Insert selected point/steerpoint in current edited polygon. Then use cursor.
 ADD S/P - Append point/steerpoint to current edited polygon (if it has room for more). Then use cursor.
 DEL S/P - Delete selected point/steerpoint in current edited polygon.
@@ -169,9 +169,15 @@ Per default the cursor is located on the MI display. See the DISP menu on the TI
 Use trigger to click on something (the click will have to last up till half a second on the TI sometimes).
 On the TI you can click on all side and bottom buttons, except when EDIT, ADD or INS steerpoint/map-area-point. Also when not in any menu.
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
-When MMAN is enabled, manual map centering can be done by clicking on the map. Notice this can be confusing if MYPS is not set to 3.
+When MMAN is enabled, map will be moved instead of cursor.
 When clicking on a radar echo in MI, it get selected/locked. Same for TI, but on the TI it will also set steer order on that echo.
+In MSDA/UDAT menu LV/FF points can be dragged when no polygon is being edited. To grba them hold trigger on center of symbol.
 
+To control cursor directly while flying, bind these properties to your stick/hotas:
+
+ja37/systems/cursor-control-X
+ja37/systems/cursor-control-Y
+ja37/systems/cursor-select
 
 
 
