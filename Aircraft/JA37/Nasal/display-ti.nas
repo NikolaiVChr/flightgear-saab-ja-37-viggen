@@ -782,20 +782,21 @@ var TI = {
 
 		me.radar_limit_grp = me.radar_group.createChild("group");
 
+		var csize = 24;
 		me.cursor = root.createChild("path")# is off set 1 pixel to right
-				.moveTo(-24*MM2TEX,0)
-				.horiz(20*MM2TEX)
+				.moveTo(-csize*MM2TEX,0)
+				.horiz((csize-4)*MM2TEX)
 				.moveTo(0,0)
 				.horiz(1*MM2TEX)
 				.moveTo(6*MM2TEX,0)
-				.horiz(20*MM2TEX)
-				.moveTo(1*MM2TEX,-25*MM2TEX)
-				.vert(20*MM2TEX)
+				.horiz((csize-4)*MM2TEX)
+				.moveTo(1*MM2TEX,-(csize+1)*MM2TEX)
+				.vert((csize-4)*MM2TEX)
 				.moveTo(1*MM2TEX,5*MM2TEX)
-				.vert(20*MM2TEX)
-				.setStrokeLineWidth(w*3)
+				.vert((csize-4)*MM2TEX)
+				.setStrokeLineWidth(w*2)
 				.setTranslation(50*MM2TEX, height*0.5)
-				.setStrokeLineCap("round")
+				.setStrokeLineCap("butt")
 				.set("z-index", 25)#max
 		        .setColor(rWhite,gWhite,bWhite, a);
 
