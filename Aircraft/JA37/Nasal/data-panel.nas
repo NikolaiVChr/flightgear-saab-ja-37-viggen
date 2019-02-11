@@ -946,7 +946,7 @@ var savePoints = func (path) {
     }
 }
 
-var loadPoints = func (path,clear) {
+var loadPoints = func (path,clear=0) {
     var text = nil;
     call(func{text=io.readfile(path);},nil, var err = []);
     if (size(err)) {

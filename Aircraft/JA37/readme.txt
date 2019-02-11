@@ -34,10 +34,10 @@ The aircraft is sorta Rembrandt ready, no glaring issues. ALS is recommended tho
 Be mindful of failure messages in the TI display FAIL menu, if a gear locking mechanism fails due to being deployed at too high speed, that gear will not be able to support the weight of the aircraft till you repair it from the menu.
 
 
-Homepage:  (check here to download the newest version)
+Homepages:
 ------------------
-Hangar: https://sites.google.com/site/fghangar
-Wiki: http://wiki.flightgear.org/Saab_JA-37_Viggen
+Hangar: https://sites.google.com/site/fghangar  (not up-to date)
+Wiki: http://wiki.flightgear.org/Saab_JA-37_Viggen  (not up-to date)
 Issues: https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen/issues
 Git: https://github.com/NikolaiVChr/flightgear-saab-ja-37-viggen/tree/master/Aircraft/JA37
 
