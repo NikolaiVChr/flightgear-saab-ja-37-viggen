@@ -31,7 +31,8 @@ var Polygon = {
 	_activating: FALSE,# in progress of a plan being set into route-manager
 	flyRTB: nil,#when fly RTB is triggered this is the plan to be flown
 	flyMiss: nil,#when fly RTB is triggered this is the plan to be flown
-	editSteer: FALSE,  # selectSteer set for being moved
+	editSteer: FALSE,  # selectSteer is currently being dragged
+	dragSteer: FALSE,  # TI237 is in drag steer mode
 	appendSteer: FALSE,# set for append
 	insertSteer: FALSE,# selectSteer set for having something inserted
 	selectSteer: nil,# content: [leg ghost, index]
@@ -337,6 +338,7 @@ var Polygon = {
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer   = FALSE;
 			Polygon.editDetail  = FALSE;
+			Polygon.dragSteer = FALSE;
 			Polygon.editing.plan = createFlightplan();
 			Polygon.editing.plan.id = Polygon.editing.getName();
 			if(Polygon.editing.isPrimary()) {
@@ -356,7 +358,7 @@ var Polygon = {
 		#me.editIndex = Polygon.editing.plan.indexOfWP(leg); TODO: in 2 years time from now, start using this, as noone will be using old FG 2017.2.1 anymore.
 		#printf("%s %s %d",planName, leg.id, me.editIndex);
 		if (planName == Polygon.editing.getName()) {#} and me.editIndex != nil and me.editIndex != -1) {
-			Polygon.selectSteer = [leg, index];
+			Polygon.selectSteer = [leg, index, Polygon.isDraggable(leg, Polygon.editing)];
 			printDA("select");
 			if (me.selectL != nil) {
 				removelistener(me.selectL);
@@ -388,23 +390,55 @@ var Polygon = {
 
 	editSteerpoint: func () {
 		#class:
-		# Set the selected steeproint for editing.
+		# Toggle dragging.
 		#
-		if (Polygon.selectSteer != nil) {
+		if (Polygon.editing != nil and !Polygon.dragSteer) {
+			Polygon.dragSteer = TRUE;#we go into draggable mode TODO: put this all over
 			Polygon.editDetail = FALSE;
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
-			Polygon.editSteer = !Polygon.editSteer;
 			printDA("toggle edit: "~Polygon.editSteer);
+		} else {
+			Polygon.dragSteer = FALSE;
 		}
-		return Polygon.editSteer;
+		Polygon.editSteer = FALSE;# not currently dragging anything
+		return Polygon.dragSteer;
+	},
+	
+	startDragging: func {
+		#class:
+		# The selected steer is now being dragged if return true.
+		if (Polygon.dragSteer and Polygon.editing != nil and Polygon.selectSteer != nil) {
+			if (Polygon.selectSteer[2]) {
+				Polygon.editSteer = TRUE;
+				return 1;
+			}
+		}
+		return 0;
+	},
+	
+	isDraggable: func (leg, poly) {
+		#class:
+		# test is a steerpoint is draggable
+		if ((poly.type != TYPE_MISS or (poly.plan.departure == nil or leg.id != poly.plan.departure.id)) and (poly.type != TYPE_RTB or (poly.plan.destination == nil or leg.id != poly.plan.destination.id))) {
+			return TRUE;
+		}
+		return FALSE;
+	},
+	
+	editFinish: func {
+		#class:
+		# Finished dragging a steer.
+		#
+		Polygon.editSteer = FALSE;
 	},
 
 	editApply: func (lati, long) {
 		#class:
-		# Apply the new coord to the steerpoint being edited.
+		# Apply the new coord to the steerpoint being dragged.
+		# Is not able to drag destination or departure.
 		#
-		if (Polygon.editSteer) {
+		if (Polygon.editSteer and Polygon.dragSteer and Polygon.editing != nil) {
 			Polygon._apply = TRUE;
 			# TODO: what about name??!
 			me.tempSpeed  = Polygon.selectSteer[0].speed_cstr;
@@ -425,7 +459,7 @@ var Polygon = {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
-			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1]];
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1],Polygon.selectSteer[2]];
 			if (me.tempAlt != nil and me.tempAltT != nil) {
 				Polygon.selectSteer[0].setAltitude(me.tempAlt, me.tempAltT);
 			}
@@ -446,6 +480,7 @@ var Polygon = {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer   = FALSE;
+			Polygon.dragSteer   = FALSE;
 		} else {
 			Polygon.editDetail = FALSE;
 		}
@@ -481,7 +516,7 @@ var Polygon = {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
-			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1]];
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1],Polygon.selectSteer[2]];
 			#Polygon.selectSteer[0].speed_cstr      = me.tempSpeed;
 			#Polygon.selectSteer[0].speed_cstr_type = me.tempSpeedT;
 			#Polygon.selectSteer[0].alt_cstr        = me.tempAlt;
@@ -517,7 +552,7 @@ var Polygon = {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
 			Polygon.editing.plan.insertWP(me.newSteerpoint, Polygon.selectSteer[1]);
-			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1]];
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.selectSteer[1]), Polygon.selectSteer[1],Polygon.selectSteer[2]];
 			#Polygon.selectSteer[0].speed_cstr      = me.tempSpeed;
 			#Polygon.selectSteer[0].speed_cstr_type = me.tempSpeedT;
 			#Polygon.selectSteer[0].alt_cstr        = me.tempAlt;
@@ -593,6 +628,7 @@ var Polygon = {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = !Polygon.insertSteer;
 			Polygon.editSteer = FALSE;
+			Polygon.dragSteer   = FALSE;
 			printDA("toggle insert: "~Polygon.insertSteer);
 		}
 		return Polygon.insertSteer;
@@ -636,6 +672,7 @@ var Polygon = {
 			Polygon.insertSteer = FALSE;
 			Polygon.appendSteer = !Polygon.appendSteer;
 			Polygon.editSteer = FALSE;
+			Polygon.dragSteer   = FALSE;
 			printDA("toggle append: "~Polygon.appendSteer);
 		}
 		return Polygon.appendSteer;
@@ -660,7 +697,7 @@ var Polygon = {
 				Polygon.editing.plan.appendWP(me.lastWP);
 			}
 			Polygon.editing.plan.appendWP(me.newSteerpoint);
-			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.editing.getSize()-1), Polygon.editing.getSize()-1];
+			Polygon.selectSteer = [Polygon.editing.plan.getWP(Polygon.editing.getSize()-1), Polygon.editing.getSize()-1,1];
 			Polygon._apply = FALSE;
 		} else {
 			Polygon.appendSteer = FALSE;
@@ -671,10 +708,11 @@ var Polygon = {
 		#class:
 		# Cancel editing of steerpoint.
 		#
-		Polygon.editSteer = FALSE;
+		Polygon.editSteer   = FALSE;
 		Polygon.appendSteer = FALSE;
 		Polygon.insertSteer = FALSE;
-		Polygon.editDetail = FALSE;
+		Polygon.editDetail  = FALSE;
+		Polygon.dragSteer   = FALSE;
 		if (getprop("ja37/systems/variant") == 0 and TI.ti != nil) {
 			TI.ti.stopDAP();
 		}
@@ -697,10 +735,7 @@ var Polygon = {
 		} else {
 			Polygon.editing = nil;
 		}
-		Polygon.editSteer = FALSE;
-		Polygon.appendSteer = FALSE;
-		Polygon.insertSteer = FALSE;
-		Polygon.editDetail = FALSE;
+		Polygon.editSteerpointStop;
 		Polygon.selectSteer = nil;
 		Polygon.editBullsEye = FALSE;
 	},

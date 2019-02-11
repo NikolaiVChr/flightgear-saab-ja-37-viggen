@@ -169,7 +169,7 @@ TI: MSDA map should be north oriented (at least when MMAN is on).
 TI: Prioritize showing only 10 FF/LV points.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 TI: Run different through plans when drawing them on canvas. (what did I mean by this?)
-TI: Select self.
+TI: Select self and then show in lower right corner infobox on own flight.
 TI: Show lat/lon grid in menu UDAT.
 TI: Slew cursor using a dialog touchpad.
 TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
@@ -177,6 +177,7 @@ TI: Waypoint info should show ETA to next waypoint. And seperate infobox for ful
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 TI: When inertial navigation is not ready and GPS is off, don't show moving map.
+TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach.
 
 
 

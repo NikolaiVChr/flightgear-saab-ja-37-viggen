@@ -1688,6 +1688,7 @@ var TI = {
 		ti.blinkBox6 = FALSE;
 		ti.cursorDidSomething = FALSE;
 		ti.lvffDrag = nil;
+		ti.sDrag = nil;
 
 		# steerpoints
 		ti.newSteerPos = nil;
@@ -2425,7 +2426,7 @@ var TI = {
 			}
 			me.menuButtonSub[18].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
 			me.menuButtonSub[18].show();
-			if (route.Polygon.editSteer) {
+			if (route.Polygon.dragSteer) {
 				me.menuButtonSubBox[18].show();
 			}
 			me.menuButtonSub[14].setText(me.vertStr(me.swedishMode?"\xC3\x85POL":"RPOL"));
@@ -2681,7 +2682,7 @@ var TI = {
 			#me.cursorRPosY = me.cursorPosY + me.rootCenterTranslation[1];# relative to own position
 			me.cursor.setTranslation(me.cursorGPosX,me.cursorGPosY);# is off set 1 pixel to right
 			me.cursorTrigger = me.input.cursorSelect.getValue();
-			if (me.lvffDrag == nil) {
+			if (me.lvffDrag == nil and me.sDrag == nil) {
 				me.cursorDidSomething = FALSE;
 			} else {
 				me.cursorDidSomething = TRUE;
@@ -2696,11 +2697,17 @@ var TI = {
 					dap.checkLVSave();
 					me.cursorDidSomething = TRUE;
 				}
-			} elsif (route.Polygon.editSteer) {
+			} elsif (me.sDrag != nil) {
 				#print("dragging steerpoint: "~geo.format(me.newSteerPos[0],me.newSteerPos[1]));
-				if(me.cursorTrigger and !me.cursorTriggerPrev) {
+				if(me.cursorTrigger) {
+					# drag the steer to new place
 					me.newSteerPos = me.TexelToLaLoMap(me.cursorPosX, me.cursorPosY);
 					route.Polygon.editApply(me.newSteerPos[0],me.newSteerPos[1]);
+					me.cursorDidSomething = TRUE;
+				} elsif (!me.cursorTrigger and me.cursorTriggerPrev) {
+					# finished dragging a steer
+					route.Polygon.editFinish();
+					me.sDrag = nil;
 					me.cursorDidSomething = TRUE;
 				}
 			} elsif (route.Polygon.insertSteer) {
@@ -3885,15 +3892,23 @@ var TI = {
 						}
 					}
 					if (me.curr_plan[1] and me.cursorTrigger and !me.cursorDidSomething and !route.Polygon.editSteer and !route.Polygon.insertSteer and !route.Polygon.appendSteer and !me.isDAPActive()) {
-						# I think this is where cursor select a steer when a plan is in edit mode..
+						# This is where cursor select a steer when a plan is in edit mode..
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
 						if (me.cursorDist < 12) {
+							# select the steerpoint
 							route.Polygon.selectSteerpoint(me.curr_plan[0].getName(), me.node, wp);# dangerous!!! what if somebody is editing plan in routemanager?
 							me.steerpoint[me.wpIndex].setColor(COLOR_WHITE);
 							me.cursorTriggerPrev = TRUE;#a hack. It CAN happen that a steerpoint gets selected through infobox, in that case lets make sure infobox is not activated. bad UI fix. :(
 							me.cursorDidSomething = TRUE;
+							if (route.Polygon.dragSteer and me.sDrag == nil) {
+								me.dragOk = route.Polygon.startDragging();
+								if (me.dragOk) {
+									# start dragging
+									me.sDrag = me.node;
+								}
+							}
 						}
 					}
 					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
@@ -4137,7 +4152,7 @@ var TI = {
   	},
 
   	showTime: func {
-		if (me.displayTime == TRUE) {
+		if (me.displayTime == TRUE or (route.Polygon.editing != nil and route.Polygon.editing.type != route.TYPE_AREA)) {
 			me.textTime.setText(getprop("sim/time/gmt-string")~" Z  ");# should really be local time
 			me.textTime.show();
 		} elsif (getprop("/ja37/avionics/ins-init") > 0) {
@@ -4314,7 +4329,11 @@ var TI = {
 			me.wp_pre = route.Polygon.primary.type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(route.Polygon.primary.type == route.TYPE_MISS?me.steerB:me.steerA));
 			me.wp_post = route.Polygon.primary.getIndex()+1;
 			me.mode = me.wp_pre~me.wp_post;
-			me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
+			if (route.Polygon.primary.type == route.TYPE_MIX or !me.target_wp) {
+				me.textBMode.setColor(rTyrk,gTyrk,bTyrk);
+			} else {
+				me.textBMode.setColor(rWhite,gWhite,bWhite);
+			}
 		} else {
 			me.mode = "  ";# VFR
 			me.textBMode.setColor(rWhite,gWhite,bWhite);
@@ -5510,7 +5529,7 @@ var TI = {
 				land.LF();
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
-				route.Polygon.editSteerpoint();
+				route.Polygon.editSteerpoint();#toogle draggable steerpoints
 			}
 			if(me.menuMain == MAIN_WEAPONS) {
 				me.aim9 = displays.common.armActive();

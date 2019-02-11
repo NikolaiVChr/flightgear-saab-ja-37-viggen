@@ -3555,3 +3555,6 @@ TI: MMAP now holds cursor steady and map moves instead.
 TI: MMAP and edit RTB or mission routes will now auto move cursor to TI.
 TI: Made default contrast a bit higher.
 TI: When destination in RTB route gets current, auto switch to mode 'L'.
+TI: Time is now always shown when editing RTB or MISS route.
+TI: Targets is now shown in bottom text field as white.
+TI: When EDIT-S/B any steerpoint in the route is draggable. Clicking is no longer available.
