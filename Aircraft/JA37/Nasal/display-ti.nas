@@ -3811,7 +3811,7 @@ var TI = {
 					me.name = me.node.id;
 					me.texCoord = me.laloToTexel(me.lat_wp, me.lon_wp);
 					if (me.isArea) {
-						# point is part of area
+						# this point is part of area
 						#printf("doing for %d", me.wpSelect);
 						me.steerpoint[me.wpIndex].setColor(me.wpSelect == wp?COLOR_WHITE:me.curr_plan[0].color);
 						me.steerpointSymbol[me.wpIndex].setScale(0.25);
@@ -3820,7 +3820,7 @@ var TI = {
 						me.areaEnd = wp==0?-1:(me.points == wp+1 and wp>1?1:0);
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, me.curr_plan[1] == TRUE?COLOR_WHITE:me.curr_plan[0].color, me.curr_plan ==route.Polygon.editing?2:1, me.areaEnd]);
 					} elsif (me.wpSelect == wp) {
-						# waypoint is selected in MSDA
+						# this waypoint is selected in MSDA
 						#printf("doing for %d", me.wpSelect);
 						me.steerpoint[me.wpIndex].setColor(COLOR_WHITE);
 						me.steerpointSymbol[me.wpIndex].setScale(1);
@@ -3829,7 +3829,7 @@ var TI = {
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
 					} elsif ((land.showActiveSteer == FALSE and me.curr_plan[2] == FALSE) and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
-						# we are not in MSDA and waypoint is hidden
+						# The route is being flown. We are not in MSDA and waypoint is current but should not be shown.
 						me.steerpoint[me.wpIndex].hide();
 						if (wp != me.points-1) {
 							# airport is not last steerpoint, we make a leg to/from that also
@@ -3838,7 +3838,7 @@ var TI = {
 						me.nextActive = me.nextDist*NM2M<20000;
 	    				continue;
 					} elsif (me.curr_plan[2] == FALSE and me.curr_plan[0].isPrimary() == TRUE and me.curr_plan[0].isPrimaryActive() == TRUE and me.curr_plan[0].getLeg() != nil and me.curr_plan[0].getLeg().id == me.node.id) {
-						# waypoint is the active and we not in MSDA menu
+						# Route is being flown, waypoint is current and we not in MSDA menu.
 						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK);
 						me.steerpoint[me.wpIndex].set("z-index", 10);
 						me.steerpointSymbol[me.wpIndex].setScale(1);
@@ -3848,7 +3848,7 @@ var TI = {
 						append(me.poly, [me.texCoord[0], me.texCoord[1], TRUE, COLOR_TYRK_DARK, 1, 0]);
 						me.nextActive = me.nextDist*NM2M<20000;
 					} elsif (me.curr_plan[1] == TRUE) {
-						# waypoint is in the polygon selected for editing
+						# We are in MSDA, waypoint is in the polygon selected for editing.
 						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK);
 						me.steerpoint[me.wpIndex].set("z-index", 10);
 						me.steerpointSymbol[me.wpIndex].setScale(1);
@@ -3856,7 +3856,7 @@ var TI = {
 						append(me.poly, [me.texCoord[0], me.texCoord[1], wp != 0, COLOR_TYRK, 2, 0]);
 						me.nextActive = FALSE;
 					} else {
-						# ordinary waypoint (might be in MSDA)
+						# ordinary waypoint (MSDA or not)
 						me.steerpoint[me.wpIndex].set("z-index", 5);
 						me.steerpoint[me.wpIndex].setColor(COLOR_TYRK_DARK);
 						me.steerpointSymbol[me.wpIndex].setScale(1);
@@ -3869,11 +3869,12 @@ var TI = {
 					}
 					me.steerpoint[me.wpIndex].setTranslation(me.texCoord[0], me.texCoord[1]);
 					if (me.doRR) {
+						#draw steerorder symbol around steerpoint.
 						me.rrSymbolS.setTranslation(me.texCoord[0], me.texCoord[1]);
 						me.rrSymbolS.show();
 					}
 					if (me.isSelectable and me.cursorTrigger and !me.cursorDidSomething) {
-						# not in MSDA so check if cursor is clicking on the steerpoint
+						# not in MSDA so check if cursor is clicking on the steerpoint and if so, set it current.
 						me.cursorDistX = me.cursorOPosX-me.texCoord[0];
 						me.cursorDistY = me.cursorOPosY-me.texCoord[1];
 						me.cursorDist = math.sqrt(me.cursorDistX*me.cursorDistX+me.cursorDistY*me.cursorDistY);
@@ -3897,11 +3898,12 @@ var TI = {
 					}
 					me.steerpoint[me.wpIndex].setRotation(me.steerRot);
 					if (me.curr_plan[1] or (!me.curr_plan[1] and !me.curr_plan[2])) {
-						# plan is being edited or we are not in MSDA page:
+						# plan is being edited or we are not in MSDA page so set text name by it.
 						me.wp_pre = me.curr_plan[0].type == route.TYPE_AREA?"":(me.curr_plan[0].type == route.TYPE_MIX?me.steerB:(me.target_wp?me.steerM:(me.curr_plan[0].type == route.TYPE_MISS?me.steerB:me.steerA)));
 						me.steerpointText[me.wpIndex].setText(me.wp_pre~(wp+1));
+						me.steerpointText[me.wpIndex].show();
 					} else {
-						me.steerpointText[me.wpIndex].setText("");
+						me.steerpointText[me.wpIndex].hide();
 					}
 					if (!me.isArea or (me.curr_plan[2] and me.curr_plan[1])) {
 						# its either part of a plan or we in MSDA menu and its being edited
