@@ -154,12 +154,9 @@ Test: Shut down also some indicators during testing.
 Test: Testing from TI.
 TI: Add missiles to SVY.
 TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not sure what how they work.
-TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing. From last in mission it will switch to first in RTB. From last in RTB it will switch to base and select 'L'.
-TI: Be able to set steerorder to LV or FF points.
+TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing.
+TI: Be able to set steerorder to LV or FF points. (I cannot see in manual where that should be possible, so is on hold)
 TI: Clear pylon selection.
-TI: Cursor should be able to select and then relocate a FF or LV point in MSDA menu.
-TI: Edit polygon and MMAN should auto move cursor to TI.
-TI: Edit, append or insert steerpoint could maybe test if click on airport, if so then add. (no, use the new route-manager in JA for that).
 TI: Has almost 100 getprop calls, convert to getValue.
 TI: In menu SYST, button 'LB'/'LS'. Steer order first to tangent point.
 TI: In menu WEAP between the two middle edge buttons at bottom, its should say AK 120. For 120 ammo left.
@@ -169,7 +166,6 @@ TI: Make radar limit on SVY. (first radar should be changed to scan and beam be 
 TI: Make route info with overall ETA.
 TI: Menu CONF-READDATA should show a static page.
 TI: MSDA map should be north oriented (at least when MMAN is on).
-TI: Prevent steerpoint selection through infobox, its a confusing UI elsewise.
 TI: Prioritize showing only 10 FF/LV points.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 TI: Run different through plans when drawing them on canvas. (what did I mean by this?)

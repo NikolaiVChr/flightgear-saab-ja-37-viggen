@@ -220,6 +220,9 @@ var gGB = 0.5;
 var bGB = 0.75;
 var COLOR_GB = [0.5,0.5,0.75];
 
+var COLOR_DAY   = "rgb(128,128,128)";# color fill behind map which will modulate to make it darker.
+var COLOR_NIGHT = "rgb( 64, 64, 64)";
+
 var a = 1.0;#alpha
 var w = 1.0;#stroke width
 
@@ -5630,9 +5633,9 @@ var TI = {
 		  	for(var y = 0; y < num_tiles[1]; y += 1) {
 		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile");
 		    	if (me.day == TRUE) {
-		    		tiles[x][y].set("fill", "rgb(128,128,128)");
+		    		tiles[x][y].set("fill", COLOR_DAY);
 	    		} else {
-	    			tiles[x][y].set("fill", "rgb(64,64,64)");
+	    			tiles[x][y].set("fill", COLOR_NIGHT);
 	    		}
 	    	}
 		}
@@ -5777,3 +5780,32 @@ var init = func {
 }
 
 #idl = setlistener("ja37/supported/initialized", init, 0, 0);
+
+var MapStructure_selfTest = func() {
+	var temp = {};
+	temp.dlg = canvas.Window.new([600,400],"dialog");
+	temp.canvas = temp.dlg.createCanvas().setColorBackground(1,1,1,1);
+	temp.root = temp.canvas.createGroup();
+	var TestMap = temp.root.createChild("map");
+	TestMap.setController("Aircraft position");
+	TestMap.setRange(50); # TODO: implement zooming/panning via mouse/wheel here, for lack of buttons :-/
+	TestMap.setTranslation(
+		temp.canvas.get("view[0]")/2,
+		temp.canvas.get("view[1]")/2
+	);
+	var r = func(name,vis=1,zindex=nil) return caller(0)[0];
+	# TODO: we'll need some z-indexing here, right now it's just random
+	# TODO: use foreach/keys to show all layers in this case by traversing SymbolLayer.registry direclty ?
+	# maybe encode implicit z-indexing for each lcontroller ctor call ? - i.e. preferred above/below order ?
+#	foreach(var type; [r('TFC',0),r('APT'),r('DME'),r('VOR'),r('NDB'),r('FIX',0),r('RTE'),r('WPT'),r('FLT'),r('WXR'),r('APS'), ] )
+#		TestMap.addLayer(factory: canvas.SymbolLayer, type_arg: type.name,
+#					visible: type.vis, priority: type.zindex,
+#		);
+	foreach(var type; [ r('SLIPPY')]) {
+			TestMap.addLayer(factory: canvas.OverlayLayer, type_arg: type.name,
+											 visible: type.vis, priority: type.zindex
+											  );
+	}
+};
+
+#MapStructure_selfTest();

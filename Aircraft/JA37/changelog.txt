@@ -3554,3 +3554,4 @@ TI: Bottom text field will now also show name of steerpoint.
 TI: MMAP now holds cursor steady and map moves instead.
 TI: MMAP and edit RTB or mission routes will now auto move cursor to TI.
 TI: Made default contrast a bit higher.
+TI: When destination in RTB route gets current, auto switch to mode 'L'.

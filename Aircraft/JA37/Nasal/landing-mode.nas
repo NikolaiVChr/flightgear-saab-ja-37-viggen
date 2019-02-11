@@ -165,7 +165,7 @@ var LA = func {
     } elsif (mode_LA_active == TRUE) {
         printDA("LA: cycle");
         # next steerpoint
-        route.Polygon.primary.cycle();
+        
         mode_LA_active = TRUE;
         mode_B_active = FALSE;
         mode_L_active = FALSE;
@@ -174,6 +174,7 @@ var LA = func {
         mode_OPT_active = FALSE;
         showActiveSteer = TRUE;
         mode = 0;
+        route.Polygon.primary.cycle();#delicate: this call might trigger a listener which will switch to L, so we do this last.
     } else {
         printDA("LA: already activated, setting LA");
         mode_LA_active = TRUE;

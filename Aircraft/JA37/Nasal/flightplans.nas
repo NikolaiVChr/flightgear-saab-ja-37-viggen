@@ -804,11 +804,24 @@ var Polygon = {
 		#
 		return getprop("autopilot/route-manager/active");
 	},
+	
+	_wpChanged: func {
+		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and !land.mode_L_active) {
+			var ind = Polygon.primary.getIndex();
+			var max = Polygon.primary.plan.getPlanSize()-1;
+			if (ind == max) {
+				dap.syst();# TI will do this when clicking 'L', but should we do it here also?
+				land.L();
+				# this listener can trigger delicate order of execution in landing-mode.nas
+			}
+		}
+	},
 
 	_setupListeners: func {
 		#class:
 		# Setup listener for if route-manager loads a plan from disc.
 		#
+		setlistener("autopilot/route-manager/current-wp", func {Polygon._wpChanged()});
 		setlistener("autopilot/route-manager/signals/flightplan-changed", func {Polygon._planExchange()});
 		setlistener("autopilot/plan-manager/departure/airport", func {Polygon._takeoffTest()});
 		setlistener("autopilot/plan-manager/destination/airport-a", func {Polygon._aTest()});
