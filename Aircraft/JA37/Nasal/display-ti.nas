@@ -44,18 +44,33 @@ var KT2KMH = 1.85184;
 # map setup
 
 var tile_size = 256;
-var zoom = 9;
+
 var type = "light_nolabels";
 
 # index   = zoom level
 # content = meter per pixel of tiles
 #                   0                             5                               10                               15                      19
-meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];# at equator
-zooms      = [4, 7, 9, 11, 13];
-zoomLevels = [3.2, 1.6, 800, 400, 200];
-zoom_curr  = 2;
+var meterPerPixel = [156412,78206,39103,19551,9776,4888,2444,1222,610.984,305.492,152.746,76.373,38.187,19.093,9.547,4.773,2.387,1.193,0.596,0.298];# at equator
+#zooms      = [4, 7, 9, 11, 13];#old
+var zooms      = [5, 6, 7, 8, 9];
+var zoomLevels = [3.2, 1.6, 800, 400, 200];
+var zoom_curr  = 2;
+var zoom = zooms[zoom_curr];
+# display width = 0.3 meter
+# 381 pixels = 0.300 meter   1270 pixels/meter = 1:1
+# so at setting 800:1   1 meter = 800 meter    meter/pixel= 1270/800 = 1.58
+#cos = 0.63
+#print("200   = "~200000/1270);
+#print("400   = "~400000/1270);
+#print("800   = "~800000/1270);
+#print("1.6   = "~1600000/1270);
+#print("3.2   = "~3200000/1270);
+#print("");
+#for(i=0;i<20;i+=1) {
+#	print(i~"  ="~meterPerPixel[i]*math.cos(65*D2R)~" m/px");
+#}
 
-var M2TEX = 1/meterPerPixel[zoom];
+var M2TEX = 1/(meterPerPixel[zoom]*math.cos(getprop('/position/latitude-deg')*D2R));
 
 var zoomIn = func() {
 	if (ti.active == FALSE) return;
@@ -192,6 +207,8 @@ var rGreen = 0.0; # own side
 var gGreen = 1.0;
 var bGreen = 0.0;
 var COLOR_GREEN = [0,1,0];
+
+var COLOR_BLUE_LIGHT = [0.65,0.65,1];
 
 var rDTyrk = 0.20; # route polygon
 var gDTyrk = 0.75;
@@ -374,6 +391,11 @@ var TI = {
 		me.rootRealCenter = root.createChild("group")
 			.setTranslation(width/2,height/2)
 			.set("z-index", 10);
+			
+		me.gridGroup = me.mapCenter.createChild("group")
+			.set("z-index", 24);
+		me.gridGroupText = me.mapCenter.createChild("group")
+			.set("z-index", 25);
 
 		# map scale
 		me.mapScaleTickPosX = width*0.975/2;
@@ -1611,7 +1633,16 @@ var TI = {
       	ti.lastRRT = 0;
 		ti.lastRR  = 0;
 		ti.lastZ   = 0;
-
+		
+		#grid
+		ti.last_lat = 0;
+		ti.last_lon = 0;
+		ti.last_range = 0;
+		ti.last_result = 0;
+		ti.gridTextO = [];
+		ti.gridTextA = [];
+		ti.gridTextMaxA = -1;
+		ti.gridTextMaxO = -1;
 
 		ti.brightness = 1;
 
@@ -1764,7 +1795,6 @@ var TI = {
 		me.whereIsMap();#must be before mapUpdate
 		me.updateMap();
 		me.showMapScale();
-		M2TEX = 1/(meterPerPixel[zoom]*math.cos(me.input.latitude.getValue()*D2R));
 		me.updateSVY();# must be before displayRadarTracks and showselfvector
 		me.showSelfVector();
 		me.defineEnemies();# must be before displayRadarTracks
@@ -1783,6 +1813,7 @@ var TI = {
 		me.updateMapNames();
 		me.showBasesNear();
 		me.ecmOverlay();
+		me.gridOverlay();
 		me.showBullsEye();
 		#settimer(func me.loop(), 0.5);
 		#me.cursorIsClicking = FALSE;# TODO: test that this works proper
@@ -2632,6 +2663,225 @@ var TI = {
 	#
 	########################################################################################################
 	########################################################################################################
+	
+	
+	gridOverlay: func {
+		#line finding algorithm taken from $fgdata mapstructure:
+		var lines = [];
+		if (me.menuMain != MAIN_MISSION_DATA) {
+			me.gridGroup.hide();
+			me.gridGroupText.hide();
+			return;
+		}
+		if (zoomLevels[zoom_curr] == 3.2) {
+			me.gridGroup.hide();
+			me.gridGroupText.hide();
+			return;
+		} elsif (zoomLevels[zoom_curr] == 1.6) {
+			me.granularity_lon = 2;
+			me.granularity_lat = 2;
+			me.dLon = 0;
+		} elsif (zoomLevels[zoom_curr] == 800) {
+			me.granularity_lon = 1;
+			me.granularity_lat = 1;
+			me.dLon = 0;
+		} elsif (zoomLevels[zoom_curr] == 400) {
+			me.granularity_lon = 0.5;
+			me.granularity_lat = 0.5;
+			me.dLon = 30;
+		} elsif (zoomLevels[zoom_curr] == 200) {
+			me.granularity_lon = 0.25;
+			me.granularity_lat = 0.25;
+			me.dLon = 15;
+		}
+		
+		var delta_lon = me.granularity_lon;
+		var delta_lat = me.granularity_lat;
+
+		# Find the nearest lat/lon line to the map position.  If we were just displaying
+		# integer lat/lon lines, this would just be rounding.
+		
+		var lat = delta_lat * math.round(me.lat / delta_lat);
+	  	var lon = delta_lon * math.round(me.lon / delta_lon);
+	  	
+		var range = 0.75*height*M2NM/M2TEX;#simplified
+		#printf("grid range=%d %.3f %.3f",range,me.lat,me.lon);
+
+		# Return early if no significant change in lat/lon/range - implies no additional
+		# grid lines required
+		if ((lat == me.last_lat) and (lon == me.last_lon) and (range == me.last_range)) {
+			lines = me.last_result;
+		} else {
+
+			# Determine number of degrees of lat/lon we need to display based on range
+			# 60nm = 1 degree latitude, degree range for longitude is dependent on latitude.
+			var lon_range = math.ceil(geo.Coord.new().set_latlon(lat,lon).apply_course_distance(90.0, range*NM2M).lon() - lon);
+			var lat_range = math.ceil(range/60.0);
+			var ddLon = 0;
+			var xx = (lon - lon_range)-int(lon - lon_range);
+			if (xx==0.5) {
+				ddLon = 30;
+			} elsif (xx==0.25) {
+				ddLon = 15;
+			} elsif (xx==0.75) {
+				ddLon = 45;
+			}
+			for (var x = (lon - lon_range); x <= (lon + lon_range); x += delta_lon) {
+				var coords = [];
+				if (x == int(x)) {
+					ddLon = 0;#hack!
+				}
+				# We could do a simple line from start to finish, but depending on projection,
+				# the line may not be straight.
+				for (var y = (lat - lat_range); y <= (lat + lat_range); y +=  delta_lat) {
+					append(coords, {lon:x, lat:y});
+				}
+#				print(ddLon ~"  "~ x);
+				append(lines, {
+					id: x,
+					type: "lon",
+					text1: sprintf("%4d",int(x)),
+					text2: ddLon==0?"":ddLon~"",
+					path: coords,
+					equals: func(o){
+						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
+					}
+				});
+				
+				ddLon += me.dLon;
+				if (ddLon >= 60) {
+					ddLon = 0;
+				}
+			}
+			
+			# Lines of latitude
+			var yy = (lat - lat_range)-int(lat - lat_range);
+			ddLon = 0;
+			if (yy==0.5) {
+				ddLon = 30;
+			} elsif (yy==0.25) {
+				ddLon = 15;
+			} elsif (yy==0.75) {
+				ddLon = 45;
+			}
+			for (var y = (lat - lat_range); y <= (lat + lat_range); y += delta_lat) {
+				var coords = [];
+
+				# We could do a simple line from start to finish, but depending on projection,
+				# the line may not be straight.
+				for (var x = (lon - lon_range); x <= (lon + lon_range); x += delta_lon) {
+					append(coords, {lon:x, lat:y});
+				}
+
+				append(lines, {
+					id: y,
+					type: "lat",
+					text: ""~int(y)~(ddLon==0?"   ":" "~ddLon),
+					path: coords,
+					equals: func(o){
+						return (me.id == o.id and me.type == o.type); # We only display one line of each lat/lon
+					}
+				});
+				
+				ddLon += me.dLon;
+				if (ddLon >= 60) {
+					ddLon = 0;
+				}
+			}
+#printf("range %d  lines %d",range, size(lines));
+		}
+		me.last_result = lines;
+		me.last_lat = lat;
+		me.last_lon = lon;
+		me.last_range = range;
+		
+		
+		me.gridGroup.removeAllChildren();
+		#me.gridGroupText.removeAllChildren();
+		me.gridTextNoA = 0;
+		me.gridTextNoO = 0;
+		me.gridH = height*0.70;
+		foreach (var line;lines) {
+			var skip = 1;
+			me.posi1 = [];
+			foreach (var coord;line.path) {
+				if (!skip) {
+					me.posi2 = me.laloToTexelMap(coord.lat,coord.lon);
+					me.aline.lineTo(me.posi2);
+					if (line.type=="lon") {
+						var arrow = [(me.posi1[0]*4+me.posi2[0])/5,(me.posi1[1]*4+me.posi2[1])/5];
+						me.aline.moveTo(arrow);
+						me.aline.lineTo(arrow[0]-7,arrow[1]+10);
+						me.aline.moveTo(arrow);
+						me.aline.lineTo(arrow[0]+7,arrow[1]+10);
+						me.aline.moveTo(me.posi2);
+						if (me.posi2[0]<me.gridH and me.posi2[0]>-me.gridH and me.posi2[1]<me.gridH and me.posi2[1]>-me.gridH) {
+							# sadly when zoomed in alot it draws too many crossings, this condition should help
+							me.setGridTextO(line.text1,[me.posi2[0]-20,me.posi2[1]+5]);
+					    	if (line.text2 != "") {
+					    		me.setGridTextO(line.text2,[me.posi2[0]+12,me.posi2[1]+5]);
+						    }
+						}
+					} else {
+						me.posi3 = [(me.posi1[0]+me.posi2[0])*0.5, (me.posi1[1]+me.posi2[1])*0.5-5];
+						if (me.posi3[0]<me.gridH and me.posi3[0]>-me.gridH and me.posi3[1]<me.gridH and me.posi3[1]>-me.gridH) {
+							# sadly when zoomed in alot it draws too many crossings, this condition should help
+							me.setGridTextA(line.text,me.posi3);
+						}
+					}
+					me.posi1=me.posi2;
+				} else {
+					me.posi1 = me.laloToTexelMap(coord.lat,coord.lon);
+					me.aline = me.gridGroup.createChild("path")
+						.moveTo(me.posi1)
+						.setStrokeLineWidth(w)
+						.setColor(COLOR_BLUE_LIGHT);
+				}
+				skip = 0;
+			}
+		}
+		for (me.jjjj = me.gridTextNoO;me.jjjj<=me.gridTextMaxO;me.jjjj+=1) {
+			me.gridTextO[me.jjjj].hide();
+		}
+		for (me.kkkk = me.gridTextNoA;me.kkkk<=me.gridTextMaxA;me.kkkk+=1) {
+			me.gridTextA[me.kkkk].hide();
+		}
+		me.gridGroupText.update();
+		me.gridGroupText.show();
+		me.gridGroup.show();
+	},
+	
+	setGridTextO: func (text, pos) {
+		if (me.gridTextNoO > me.gridTextMaxO) {
+				append(me.gridTextO,me.gridGroupText.createChild("text")
+    					.setText(text)
+			    		.setColor(COLOR_BLUE_LIGHT)
+			    		.setAlignment("center-top")
+			    		.setTranslation(pos)
+			    		.setFontSize(14, 1));
+			me.gridTextMaxO += 1;	
+		} else {
+			me.gridTextO[me.gridTextNoO].setText(text).setTranslation(pos);
+		}
+		me.gridTextO[me.gridTextNoO].show();
+		me.gridTextNoO += 1;
+	},
+	
+	setGridTextA: func (text, pos) {
+		if (me.gridTextNoA > me.gridTextMaxA) {
+				append(me.gridTextA,me.gridGroupText.createChild("text")
+    					.setText(text)
+			    		.setColor(COLOR_BLUE_LIGHT)
+			    		.setAlignment("center-bottom")
+			    		.setTranslation(pos)
+			    		.setFontSize(14, 1));
+			me.gridTextMaxA += 1;	
+		} else {
+			me.gridTextA[me.gridTextNoA].setText(text).setTranslation(pos);
+		}
+		me.gridTextA[me.gridTextNoA].show();
+		me.gridTextNoA += 1;
+	},
 
 	isCursorOnMap: func {
 		if (me.cursorGPosY < height*0.9-height*0.025*me.upText) {
@@ -3303,8 +3553,14 @@ var TI = {
 			if (me.swedishMode) {
 				if (zoom == 4) {
 					tick1 = 1000;
+				} elsif (zoom == 5) {
+					tick1 = 500;
+				} elsif (zoom == 6) {
+					tick1 = 250;
 				} elsif (zoom == 7) {
 					tick1 = 150;
+				} elsif (zoom == 8) {
+					tick1 = 75;
 				} elsif (zoom == 9) {
 					tick1 = 35;
 				} elsif (zoom == 11) {
@@ -3335,8 +3591,14 @@ var TI = {
 			} else {
 				if (zoom == 4) {
 					tick1 = 500;
+				} elsif (zoom == 5) {
+					tick1 =  250;
+				} elsif (zoom == 6) {
+					tick1 =  150;
 				} elsif (zoom == 7) {
 					tick1 =  75;
+				} elsif (zoom == 8) {
+					tick1 =  40;
 				} elsif (zoom == 9) {
 					tick1 =  20;
 				} elsif (zoom == 11) {
@@ -3945,6 +4207,17 @@ var TI = {
 		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
 		me.pos_yy		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.sin(me.angle + math.pi/2);
   		return [me.pos_xx, me.pos_yy];#relative to rootCenter
+  	},
+  	
+  	laloToTexelMap: func (la, lo) {
+		me.coord = geo.Coord.new();
+  		me.coord.set_latlon(la, lo);
+  		me.coordSelf = geo.Coord.new();#TODO: dont create this every time method is called
+  		me.coordSelf.set_latlon(me.lat, me.lon);
+  		me.angle = (me.coordSelf.course_to(me.coord))*D2R;
+		me.pos_xx		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.cos(me.angle + math.pi/2);
+		me.pos_yy		 = -me.coordSelf.distance_to(me.coord)*M2TEX * math.sin(me.angle + math.pi/2);
+  		return [me.pos_xx, me.pos_yy];#relative to mapCenter
   	},
 
   	TexelToLaLoMap: func (x,y) {#relative to map center
@@ -5653,7 +5926,7 @@ var TI = {
 		for(var x = 0; x < num_tiles[0]; x += 1) {
 		  	tiles[x] = setsize([], num_tiles[1]);
 		  	for(var y = 0; y < num_tiles[1]; y += 1) {
-		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile");
+		    	tiles[x][y] = me.mapFinal.createChild("image", "map-tile").set("z-index", 15);
 		    	if (me.day == TRUE) {
 		    		tiles[x][y].set("fill", COLOR_DAY);
 	    		} else {
@@ -5671,7 +5944,8 @@ var TI = {
 			# get current position
 			me.lat = me.lat_own;
 			me.lon = me.lon_own;# TODO: USE GPS/INS here.
-		}
+		}		
+		M2TEX = 1/(meterPerPixel[zoom]*math.cos(me.lat*D2R));
 	},
 
 	updateMap: func {
@@ -5723,7 +5997,8 @@ var TI = {
 		}
 
 		me.liveMap = getprop("ja37/displays/live-map");
-		if(me.center_tile_int[0] != last_tile[0] or me.center_tile_int[1] != last_tile[1] or type != last_type or zoom != last_zoom or me.liveMap != lastLiveMap or lastDay != me.day)  {
+		me.zoomed = zoom != last_zoom;
+		if(me.center_tile_int[0] != last_tile[0] or me.center_tile_int[1] != last_tile[1] or type != last_type or me.zoomed or me.liveMap != lastLiveMap or lastDay != me.day)  {
 			for(var x = 0; x < num_tiles[0]; x += 1) {
 		  		for(var y = 0; y < num_tiles[1]; y += 1) {
 		  			# inside here we use 'var' instead of 'me.' due to generator function, should be able to remember it.

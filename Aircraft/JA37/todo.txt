@@ -170,7 +170,6 @@ TI: Prioritize showing only 10 FF/LV points.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 TI: Run different through plans when drawing them on canvas. (what did I mean by this?)
 TI: Select self and then show in lower right corner infobox on own flight.
-TI: Show lat/lon grid in menu UDAT.
 TI: Slew cursor using a dialog touchpad.
 TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
@@ -178,6 +177,40 @@ TI: When cursor not active on TI, a shadow cursor is shown following the target 
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 TI: When inertial navigation is not ready and GPS is off, don't show moving map.
 TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach.
+TI: Gridlines should have numbers.
+TI: Longitudes should have arrows.
+
+
+Map accuracy zoom level:
+========================
+real scale | m/px | choosen | approx ideal (display assumed to be 30cm wide)
+200   = 157.4803149606299 >  9    8.50
+400   = 314.9606299212599 >  8    7.75
+800   = 629.9212598425197 >  7    6.75
+1.6   = 1259.842519685039 >  6    5.80
+3.2   = 2519.685039370079 >  5    4.80
+
+slippy lvl for sweden (lat=65)
+0  =66102.56755538628 m/px
+1  =33051.28377769314 m/px
+2  =16525.64188884657 m/px
+3  =8262.609635292414 m/px
+4  =4131.516126777078 m/px
+5  =2065.758063388539 m/px
+6  =1032.879031694269 m/px
+7  =516.4395158471348 m/px
+8  =258.2129960313795 m/px
+9  =129.1064980156898 m/px
+10  =64.55324900784488 m/px
+11  =32.27662450392244 m/px
+12  =16.13852356109209 m/px
+13  =8.069050471415174 m/px
+14  =4.034736544838458 m/px
+15  =2.017156963288358 m/px
+16  =1.008789790775049 m/px
+17  =0.5041835862566544 m/px
+18  =0.2518804839974569 m/px
+19  =0.1259402419987284 m/px
 
 
 
