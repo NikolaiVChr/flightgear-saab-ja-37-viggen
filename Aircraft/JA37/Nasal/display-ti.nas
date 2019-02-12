@@ -2715,8 +2715,17 @@ var TI = {
 
 			# Determine number of degrees of lat/lon we need to display based on range
 			# 60nm = 1 degree latitude, degree range for longitude is dependent on latitude.
-			var lon_range = math.ceil(geo.Coord.new().set_latlon(lat,lon).apply_course_distance(90.0, range*NM2M).lon() - lon);
-			var lat_range = math.ceil(range/60.0);
+			var lon_range = 1;
+			call(func{lon_range = math.ceil(geo.Coord.new().set_latlon(lat,lon,me.input.alt_ft.getValue()*FT2M).apply_course_distance(90.0, range*NM2M).lon() - lon);},nil, var err=[]);
+			#courseAndDistance
+			if (size(err)) {
+				#printf("fail lon %.7f  lat %.7f  ft %.2f  ft %.2f",lon,lat,me.input.alt_ft.getValue(),range*NM2M);
+				# typically this fail close to poles. Floating point exception in geo asin.
+			}
+			lon_range = clamp(lon_range,delta_lon,250);
+			var lat_range = clamp(math.ceil(range/60.0),delta_lat,250);
+			
+			#printf("range lon %d  lat %d",lon_range,lat_range);
 			var ddLon = 0;
 			var xx = (lon - lon_range)-int(lon - lon_range);
 			if (xx==0.5) {
@@ -2728,8 +2737,12 @@ var TI = {
 			}
 			for (var x = (lon - lon_range); x <= (lon + lon_range); x += delta_lon) {
 				var coords = [];
-				if (x == int(x)) {
-					ddLon = 0;#hack!
+				if (x>180) {
+				#	x-=360;
+					continue;
+				} elsif (x<-180) {
+				#	x+=360;
+					continue;
 				}
 				# We could do a simple line from start to finish, but depending on projection,
 				# the line may not be straight.
@@ -2766,7 +2779,7 @@ var TI = {
 			}
 			for (var y = (lat - lat_range); y <= (lat + lat_range); y += delta_lat) {
 				var coords = [];
-
+				if (y>90 or y<-90) continue;
 				# We could do a simple line from start to finish, but depending on projection,
 				# the line may not be straight.
 				for (var x = (lon - lon_range); x <= (lon + lon_range); x += delta_lon) {
@@ -2800,7 +2813,7 @@ var TI = {
 		#me.gridGroupText.removeAllChildren();
 		me.gridTextNoA = 0;
 		me.gridTextNoO = 0;
-		me.gridH = height*0.70;
+		me.gridH = height*0.80;
 		foreach (var line;lines) {
 			var skip = 1;
 			me.posi1 = [];

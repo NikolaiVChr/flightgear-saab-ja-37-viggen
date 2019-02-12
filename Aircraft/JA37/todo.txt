@@ -177,8 +177,6 @@ TI: When cursor not active on TI, a shadow cursor is shown following the target 
 TI: When display is not showing image, backup menu is in effect, which hard-coded functions for the buttons.
 TI: When inertial navigation is not ready and GPS is off, don't show moving map.
 TI: When flying RTB or MISS routes and small field in lower right corner should show deltatime, altitude and recommended mach.
-TI: Gridlines should have numbers.
-TI: Longitudes should have arrows.
 
 
 Map accuracy zoom level:
