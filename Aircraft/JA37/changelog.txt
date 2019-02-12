@@ -3561,3 +3561,4 @@ TI: When EDIT-S/B any steerpoint in the route is draggable. Clicking is no longe
 TI: Cursor is now smaller.
 TI: Changed zoom levels to more closely resemble real Viggen.
 TI: Gridlines in MSDA menu.
+TI: Made runways be minimum 10mm long.

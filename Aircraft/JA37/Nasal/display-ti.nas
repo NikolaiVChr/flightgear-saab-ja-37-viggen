@@ -4753,7 +4753,7 @@ var TI = {
 
 		  if (land.show_runway_line == TRUE) {
 		    me.runway_l = land.line*1000;
-		    me.scale = me.runway_l*M2TEX;
+		    me.scale = clamp(me.runway_l*M2TEX,10*MM2TEX,1000);#in the real they are always 10mm, cheated abit.
 		    me.approach_line.setScale(1, me.scale);
 		    me.heading = me.input.heading.getValue();#true
 		    me.dest.setRotation((180+land.head-me.heading)*D2R);
