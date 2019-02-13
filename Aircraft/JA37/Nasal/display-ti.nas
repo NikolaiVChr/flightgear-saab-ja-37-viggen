@@ -4373,17 +4373,17 @@ var TI = {
 				if (me.menuMain==MAIN_MISSION_DATA or (dap.settingKnob == dap.KNOB_TI and (((me.pp.color == 0 or me.pp.color == 1) and me.showHostileZones) or (me.pp.color == 3 and me.showFriendlyZones)))) {
 					me.lvPadX = 0;
 					me.lvPadY = 0;
-					me.lvAli = "center-center";
+					me.lvAlign = "center-center";
   					if (me.ppRad < 20) {
   						# the circle is so small that the text wont fit inside it.
   						me.lvPadX = (me.ppRad+5)*math.cos(-me.input.heading.getValue()*D2R);
   						me.lvPadY = (me.ppRad+5)*math.sin(-me.input.heading.getValue()*D2R);
-						me.lvAli = "left-center";
+						me.lvAlign = "left-center";
   					}
-  					me.ppGrp.createChild("text")
+  					me.ppGrp.createChild("text")#TODO: Make this and FF texts be reused. (like gridlines text do) As text is very heavy to create.
   						.setText(me.ppNum)
   						.setColor(me.ppCol)
-    					.setAlignment(me.lvAli)
+    					.setAlignment(me.lvAlign)
     					.setTranslation(me.ppXY[0]+me.lvPadX, me.ppXY[1]+me.lvPadY)
     					.setRotation(-me.input.heading.getValue()*D2R)
     					.setFontSize(15, 1);

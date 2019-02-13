@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>oxygenControl.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+        <object-name>mount</object-name>
+        <object-name>switch</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>switch</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/oxygen</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>switch-lights-flash</tooltip-id>
+                <label>Mask oxygen system</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    
+    
+    <animation>
+        <type>rotate</type>
+        <object-name>switch</object-name>
+        <object-name>mount</object-name>
+        <offset-deg>-22.5</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+            <z-m>  0.00 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y> 0.0 </y>
+            <z> 1.0 </z>
+        </axis>
+    </animation>
+    
+    <animation>
+        <type>rotate</type>
+        <object-name>switch</object-name>
+        <property>controls/oxygen</property>
+        <factor>130</factor>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>  0.00 </x-m>
+            <y-m>  0.00 </y-m>
+            <z-m>  0.00846735 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y>-1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+
+</PropertyList>

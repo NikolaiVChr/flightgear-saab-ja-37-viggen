@@ -141,7 +141,7 @@
   </animation>
 
   <model>
-    <path>Aircraft/JA37/Models/Cockpit/switch-a/oxygen.xml</path>
+    <path>Aircraft/JA37/Models/Cockpit/oxygenControl.xml</path>
     <name>switch-oxygen</name>
     <offsets>
       <x-m>  0.185</x-m>
