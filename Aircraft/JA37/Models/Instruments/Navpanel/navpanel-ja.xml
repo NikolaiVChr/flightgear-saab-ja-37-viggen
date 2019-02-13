@@ -35,12 +35,127 @@
             </binding>
         </hovered>
     </animation>
+    
+    <!--
+	**********************************
+	Switches
+	**********************************
+	-->
+    
+    <animation>
+        <type>pick</type>
+        <object-name>rhm</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/altimeter-radar</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>rhm</tooltip-id>
+                <label>Radar altimeter</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>rhm</object-name>
+        <property>controls/altimeter-radar</property>
+        <factor>40</factor>
+        <offset-deg>-20</offset-deg>
+        <center>
+            <x-m>  0.070395 </x-m>
+            <y-m>  0.004681 </y-m>
+            <z-m>  0.005731 </z-m>
+        </center>
+        <axis>
+            <x> 0.0 </x>
+            <y>-1.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
+    
+    <animation>
+        <type>pick</type>
+        <object-name>altw</object-name>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>sound/altitude-warning</property><!-- not implemented yet -->
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>ja37.click();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>altw</tooltip-id>
+                <label>Altitude warning</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>altw</object-name>
+        <property>sound/altitude-warning</property>
+        <factor>40</factor>
+        <offset-deg>-20</offset-deg>
+        <center>
+            <x-m> 0.100703  </x-m>
+            <y-m>-0.009177 </y-m>
+            <z-m> 0.005731 </z-m>
+        </center>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+    </animation>
 
 	<!--
 	**********************************
 	Buttons
 	**********************************
 	-->
+	
+	<animation>
+		<type>pick</type>
+		<object-name>ok</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.basePress();</script>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.baseRelease();</script>
+				</binding>
+			</mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>lBase</tooltip-id>
+                <label>LANDING BASE</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
 	
 	<animation>
 		<type>pick</type>
@@ -63,6 +178,27 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>OK</tooltip-id>
+                <label>OK</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>backspace</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.backPress();</script>
+			</binding>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>BACKSPACE</tooltip-id>
                 <label>OK</label>
                 <property></property>
             </binding>

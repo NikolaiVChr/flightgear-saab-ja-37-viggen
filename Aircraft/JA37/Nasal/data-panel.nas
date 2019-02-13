@@ -181,6 +181,9 @@ var main = func {
         input = manyChar(charDefault, ti237_max);
         digit = 0;
         resetSign();
+    } elsif (back == HOLD) {
+      # reset
+        inputBackKey(ti237_max);
     } else {
       # TI input
       inputKey(ti237_max);
@@ -364,13 +367,25 @@ var main = func {
           resetSign();
         } elsif (cycle == 0) {
           # punkt no. input
-          inputKey(6);
+          if (back == HOLD) {
+            inputBackKey(6);
+          } else {
+            inputKey(6);
+          }
         } elsif (cycle == 1) {
           # lon input
-          inputKey(7);
+          if (back == HOLD) {
+            inputBackKey(7);
+          } else {
+            inputKey(7);
+          }
         } elsif (cycle == 2) {
           # lat input
-          inputKey(6);
+          if (back == HOLD) {
+            inputBackKey(6);
+          } else {
+            inputKey(6);
+          }
         }
       }
     } elsif (settingKnob == KNOB_DATE) {
@@ -417,10 +432,18 @@ var main = func {
             digit = 0;
         } elsif (cycle == 0) {
           # date input
-          inputKey(6);
+          if (back == HOLD) {
+            inputBackKey(6);
+          } else {
+            inputKey(6);
+          }
         } elsif (cycle == 1) {
           # date input
-          inputKey(6);
+          if (back == HOLD) {
+            inputBackKey(6);
+          } else {
+            inputKey(6);
+          }
         }
       }
       resetSign();
@@ -446,7 +469,11 @@ var main = func {
             resetSign();
         } else {
           # fuel input
-          inputKey(2);
+          if (back == HOLD) {
+            inputBackKey(2);
+          } else {
+            inputKey(2);
+          }
         }
       }
     } elsif (settingKnob == KNOB_DATA) {
@@ -498,7 +525,11 @@ var main = func {
             resetSign();
         } else {
           # input
-          inputKey(6);
+          if (back == HOLD) {
+            inputBackKey(6);
+          } else {
+            inputKey(6);
+          }
         }
       }
     } elsif (settingKnob == KNOB_REG) {
@@ -543,7 +574,11 @@ var main = func {
             resetSign();
         } else {
           # floor/alpha input
-          inputKey(6);
+          if (back == HOLD) {
+            inputBackKey(6);
+          } else {
+            inputKey(6);
+          }
         }
       }
     }
@@ -555,6 +590,7 @@ var main = func {
   settingPrevSign = settingSign;
   settingPrevDir  = settingDir;
   settingPrevPos  = settingPos;
+  back = RELEASE;
 };
 
 var cycleDisp = func {
@@ -611,6 +647,14 @@ var inputKey = func (digs) {
   if (keyPressed != nil and digit < digs) {
     input = substr(input, 0,digit)~keyPressed~manyChar(charDefault,digs-(digit+1));
     digit += 1;
+  }
+}
+
+var inputBackKey = func (digs) {
+  digit -= 1;
+  input = substr(input, 0,digit)~manyChar(charDefault,digs-digit);
+  if (digit == -1) {
+    digit = 0;
   }
 }
 
@@ -1022,6 +1066,7 @@ var ok          = RELEASE;
 var l           = RELEASE;
 var g           = RELEASE;
 var x           = RELEASE;
+var back        = RELEASE;
 var keyPressed  = nil;
 var settingKnob = getprop("ja37/navigation/dp-mode");
 var settingSign = getprop("ja37/navigation/ispos")==MINUS?-1:1;
@@ -1195,6 +1240,16 @@ var xRelease = func {
     return;
   }
   x = RELEASE;
+  main();
+}
+
+var backPress = func {
+  if (getprop("ja37/systems/variant") != 0) return;
+  if (getprop("systems/electrical/outputs/dc-voltage") < 23){
+    printDA("NAV: offline");
+    return;
+  }
+  back = HOLD;
   main();
 }
 
