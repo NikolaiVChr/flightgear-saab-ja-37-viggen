@@ -113,6 +113,7 @@ var Polygon = {
 			setprop("autopilot/plan-manager/departure/g",1);
 		}
 		Polygon.editStop();
+		Polygon._apply = TRUE;
 		if (Polygon.polys["1"].plan.departure == nil or Polygon.polys["1"].plan.departure.id != icao) {
 			Polygon.polys["1"].plan.departure = base;
 		}
@@ -125,6 +126,7 @@ var Polygon = {
 		if (Polygon.polys["4"].plan.departure == nil or Polygon.polys["4"].plan.departure.id != icao) {
 			Polygon.polys["4"].plan.departure = base;
 		}
+		Polygon._apply = FALSE;
 		Polygon._doingBases = FALSE;
 	},
 	
@@ -140,7 +142,9 @@ var Polygon = {
 		
 		if (Polygon.polys["1A"].plan.destination == nil or Polygon.polys["1A"].plan.destination.id != icao) {
 			Polygon.editStop();
+			Polygon._apply = TRUE;
 			Polygon.polys["1A"].plan.destination = base;
+			Polygon._apply = FALSE;
 		}
 		Polygon._doingBases = FALSE;
 	},
@@ -157,7 +161,9 @@ var Polygon = {
 		
 		if (Polygon.polys["1B"].plan.destination == nil or Polygon.polys["1B"].plan.destination.id != icao) {
 			Polygon.editStop();
+			Polygon._apply = TRUE;
 			Polygon.polys["1B"].plan.destination = base;
+			Polygon._apply = FALSE;
 		}
 		Polygon._doingBases = FALSE;
 	},
@@ -257,6 +263,7 @@ var Polygon = {
 			Polygon.editStop();
 			Polygon.polys[pln].plan = newPlan;
 			Polygon.setTakeoff();
+			Polygon._setDestDep(Polygon.polys[pln]);# gpx does not have destination support, so we check if its likely to be an airport and set it
 			if (Polygon.polys[pln].isPrimary()) {
 				Polygon._activating = TRUE;
 				Polygon.polys[pln].plan.activate();
@@ -598,11 +605,13 @@ var Polygon = {
 	deleteSteerpoint: func {
 		#class:
 		# Delete the selected steerpoint. Can be done even if its not in edit mode.
+		# Cannot delete dest(rtb) or dep(miss).
 		#
-		if (Polygon.selectSteer != nil and Polygon.editDetail == FALSE) {
+		if (Polygon.selectSteer != nil and Polygon.editDetail == FALSE and !(Polygon.editing.type==TYPE_RTB and Polygon.selectSteer[1] == Polygon.editing.getSize()-1 and Polygon.editing.plan.destination != nil) and !(Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil and Polygon.editing.type==TYPE_MISS)) {
 			Polygon.appendSteer = FALSE;
 			Polygon.insertSteer = FALSE;
 			Polygon.editSteer   = FALSE;
+			Polygon.dragSteer   = FALSE;
 			Polygon._apply = TRUE;
 			if (Polygon.selectSteer[1] == 0 and Polygon.editing.plan.departure != nil) {
 				Polygon.editing.plan.departure = nil;
@@ -611,7 +620,7 @@ var Polygon = {
 			} else {
 				Polygon.editing.plan.deleteWP(Polygon.selectSteer[1]);
 			}
-			Polygon._setDestDep(Polygon.editing);
+			#Polygon._setDestDep(Polygon.editing);
 			Polygon.selectSteer = nil;
 			Polygon._apply = FALSE;
 			printDA("toggle delete. ");
@@ -841,6 +850,8 @@ var Polygon = {
 	},
 	
 	_wpChanged: func {
+		#class:
+		# Current steerpoint changed. Check if it was to last in RTB plan, if so activate L.
 		if (Polygon.primary != nil and Polygon.primary == Polygon.flyRTB and Polygon.primary.plan.destination != nil and !land.mode_L_active) {
 			var ind = Polygon.primary.getIndex();
 			var max = Polygon.primary.plan.getPlanSize()-1;
@@ -865,7 +876,7 @@ var Polygon = {
 
 	_planExchange: func {
 		#class:
-		# Rooute-manager loaded a plan from disc.
+		# Route-manager loaded a plan from disc.
 		#
 		printDA("plan exhanged");
 		if (Polygon._activating == TRUE) {
@@ -890,6 +901,7 @@ var Polygon = {
 	_setDestDep: func (poly) {
 		#class:
 		# Checks the first and last steerpoints of the plan and sets dest/dep if it is airports.
+		# Must only be called inside _apply or on non-active plan
 		#
 		if (poly.type == TYPE_RTB or poly.type == TYPE_MIX) {
 			# prioritize setting dest on rtb/mix
@@ -903,7 +915,7 @@ var Polygon = {
 					}
 				}
 			}
-			if (poly.plan.departure == nil and poly.getSize()>1) {
+			if (poly.type == TYPE_MIX and poly.plan.departure == nil and poly.getSize()>1) {
 				me.lookupID = poly.plan.getWP(0).id;
 				if (me.lookupID != nil) {
 					me.airport = airportinfo(me.lookupID);
@@ -926,6 +938,7 @@ var Polygon = {
 					}
 				}
 			}
+			return;
 			if (poly.plan.destination == nil and poly.getSize()>1) {
 				me.lookupID = poly.plan.getWP(poly.getSize()-1).id;
 				if (me.lookupID != nil) {
@@ -1014,6 +1027,8 @@ var Polygon = {
 	},
 	
 	canAdd: func {
+		#instance:
+		# Return false if plan is RTB and has a destination
 		if (me.type == TYPE_MISS or me.type == TYPE_AREA) {
 			return TRUE;
 		}
@@ -1160,7 +1175,7 @@ var Polygon = {
 	forceRunway: func {
 		#instance:
 		# Sets a random runway as destination if the destination_runway is not set and the last steerpoint is an airport.
-		#
+		#TODO: should setting runway be _apply protected?
 		me.base = me.plan.destination;
 		me.baseRwy = me.plan.destination_runway;
 		if (me.baseRwy == nil and me.base != nil) {
