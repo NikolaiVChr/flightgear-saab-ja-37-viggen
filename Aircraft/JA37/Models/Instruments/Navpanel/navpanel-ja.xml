@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>navpanel-ja.ac</path>
+
+    <effect>
+        <inherits-from>Aircraft/JA37/Models/Effects/ja37-cockpit-shader</inherits-from>
+		<object-name>divider</object-name>
+		<object-name>knobDisc</object-name>
+		<object-name>knobScrew</object-name>
+		<object-name>knobHandle</object-name>
+		<object-name>altw</object-name>
+		<object-name>rhm</object-name>
+		<object-name>land</object-name>
+		<object-name>BX</object-name>
+		<object-name>LB</object-name>
+		<object-name>LF</object-name>
+		<object-name>L</object-name>
+		<object-name>backspace</object-name>
+		<object-name>clear</object-name>
+		<object-name>enter</object-name>
+		<object-name>ok</object-name>
+		<object-name>mount</object-name>
+    </effect>
+
+    <animation>
+        <type>pick</type>
+        <object-name>mount</object-name>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>np</tooltip-id>
+                <label>Nav panel</label>
+            </binding>
+        </hovered>
+    </animation>
+
+	<!--
+	**********************************
+	Buttons
+	**********************************
+	-->
+	
+	<animation>
+		<type>pick</type>
+		<object-name>ok</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.okPress();</script>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.okRelease();</script>
+				</binding>
+			</mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>OK</tooltip-id>
+                <label>OK</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
+
+	<animation>
+		<type>pick</type>
+		<object-name>clear</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.xPress();</script>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.xRelease();</script>
+				</binding>
+			</mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>X</tooltip-id>
+                <label>DELETE</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>L</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.lPress();</script>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.lRelease();</script>
+				</binding>
+			</mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>OK2</tooltip-id>
+                <label>L (yellow airdefense (LV) points input)</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>LB</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>nasal</command>
+				<script>dap.gPress();</script>
+			</binding>
+			<mod-up>
+				<binding>
+					<command>nasal</command>
+					<script>dap.gRelease();</script>
+				</binding>
+			</mod-up>
+		</action>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>OK3</tooltip-id>
+                <label>LB (green airdefense (LV) points input)</label>
+                <property></property>
+            </binding>
+        </hovered>
+	</animation>
+	
+	<!--
+	**********************************
+	TILS Knob
+	**********************************
+	-->
+
+	<animation>
+        <type>knob</type>
+        <object-name>knobDisc</object-name>
+		<object-name>knobHandle</object-name>
+		<object-name>knobScrew</object-name>
+		<property>/sim/ja37/navigation/tils-knob</property>
+		<factor>30</factor>
+		<center>
+			<x-m>  0.024369 </x-m>
+			<y-m>  -0.016342 </y-m>
+			<z-m>  0.010179 </z-m>
+		</center>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>-1</z>
+		</axis>
+        <increase>
+            <binding>
+                <command>property-adjust</command>
+                <property>/sim/ja37/navigation/tils-knob</property>
+				<step>1</step>
+				<min>0</min>
+				<max>10</max>        
+                <wrap>false</wrap>
+           </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>property-adjust</command>
+                <property>/sim/ja37/navigation/tils-knob</property>
+				<step>-1</step>
+				<min>0</min>
+				<max>10</max>
+                <wrap>false</wrap>
+            </binding>
+        </decrease>
+    </animation>
+	
+</PropertyList>
