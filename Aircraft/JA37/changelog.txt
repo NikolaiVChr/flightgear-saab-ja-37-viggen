@@ -3563,6 +3563,7 @@ TI: Changed zoom levels to more closely resemble real Viggen.
 TI: Gridlines in MSDA menu.
 TI: Made runways be minimum 10mm long.
 TI: LV circles text now gets displayed beside the circle if the circle is too small to hold the text.
+Model: Replaced oxygen switch with lever.
 Model: In JA replaced nav panel with proper JA version.
 TI: Removed delete steerpoint button in MSDA menu. Its now solely done via nav panel |X| button.
 Docs: Updated readme for JA.
