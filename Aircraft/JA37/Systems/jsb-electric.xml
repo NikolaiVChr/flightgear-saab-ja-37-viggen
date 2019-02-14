@@ -307,6 +307,9 @@
                       Battery drain commanded, normalized inverted
             </description>
             <default value="systems/electrical/battery-charge-norm"/>
+            <test logic="AND" value="1">
+                /ja37/systems/battery-reinit == 1
+            </test>
             <test logic="AND" value="0">
                 systems/electrical/battery-active == 1
             </test>
@@ -334,7 +337,7 @@
             </function>
         </fcs_function>
 
-        <kinematic name="systems/electrical/battery-drain-norm">
+        <actuator name="systems/electrical/battery-drain-norm">
             <description>
                       Battery drain, normalized
 
@@ -344,17 +347,17 @@
                       0 = 100% charge
             </description>
             <input>systems/electrical/battery-drain-cmd</input>
-            <traverse>
-                <setting>
-                    <position>  0.0 </position>
-                    <time>      0.0 </time>
-                </setting>
-                <setting>
-                    <position>  1.0 </position>
-                    <time>    600.0 </time>
-                </setting>
-            </traverse>
-        </kinematic>
+            <lag> 30 </lag>
+            <rate_limit sense="incr"> /ja37/systems/battery-discharge-rate </rate_limit>
+            <rate_limit sense="decr"> /ja37/systems/battery-recharge-rate </rate_limit>
+            <bias> 0 </bias>
+            <deadband_width> 0 </deadband_width>
+            <hysteresis_width> 0 </hysteresis_width>
+            <clipto>
+                <min> 0 </min>
+                <max> 1 </max>
+            </clipto>
+        </actuator>
 
         <fcs_function name="systems/electrical/battery-charge-norm">
             <description>

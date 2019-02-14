@@ -716,6 +716,9 @@
             <input-controls-flight type="bool">true</input-controls-flight>
             <fuel-warning-extra-percent type="int">-1</fuel-warning-extra-percent>
             <state type="string">parked</state>
+            <battery-discharge-rate type="double">0.001666</battery-discharge-rate><!-- 0.001666 = 10 mins -->
+            <battery-recharge-rate type="double">0.001666</battery-recharge-rate>
+            <battery-reinit type="bool">false</battery-reinit>
         </systems>
         <radio>
             <kv1>

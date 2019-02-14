@@ -1463,6 +1463,7 @@ var main_init = func {
       auto.mode3();
       settimer(cruise, 1.5);
   }
+  recharge_battery();
 }
 
 var cruise = func {
@@ -1471,13 +1472,14 @@ var cruise = func {
 
 # re init
 var re_init = func {
+  if (getprop("/sim/signals/reinit")==0) return;
   print("Re-initializing Saab 37 Viggen systems");
   
   setprop("sim/time/elapsed-at-init-sec", getprop("sim/time/elapsed-sec"));
 
   # init oxygen bottle pressure
   setprop("ja37/systems/oxygen-bottle-pressure", 127);# 127 kp/cm2 as per manual
-
+  print("Reinit: Oxygen replenished.");
   # asymmetric vortex detachment
   asymVortex();
   repair(FALSE);
@@ -1488,6 +1490,19 @@ var re_init = func {
   setprop("sim/view[0]/enabled",1);
   setprop("/sim/current-view/view-number", 0);
   #test_support();
+  recharge_battery();
+}
+
+var recharge_battery = func {
+  setprop("ja37/systems/battery-reinit",1);
+  setprop("ja37/systems/battery-recharge-rate",10);
+  settimer(recharge_battery2, 2);
+}
+
+var recharge_battery2 = func {
+  setprop("ja37/systems/battery-reinit",0);
+  setprop("ja37/systems/battery-recharge-rate",0.001666);
+  print("Init: Battery fully recharged.");
 }
 
 var asymVortex = func () {

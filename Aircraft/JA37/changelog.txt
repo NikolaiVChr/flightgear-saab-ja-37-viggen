@@ -3575,3 +3575,5 @@ TI: Geo location numbers now show swedish Ö and V instead of E and W.
 GUI: Route-manager redesigned to fit the new RTB routes.
 DAP: '<-' button on nav-panel now works properly as backspace.
 Sim: Button Snabbresn (quick ins init) now appear to do something.
+Sim: Battery now should get fully recharged when doing a reinit.
+Sim: Battery now should always be fully charged when starting sim.
