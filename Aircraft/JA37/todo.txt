@@ -6,7 +6,7 @@ Features and improvements:
 --------------------------
 Aero: Make recoil not assume that FDM rate is 120 Hz.
 Aero: Tune speedbrake better.
-Aero: Remove speedbrake in JA and AJS. Only AJ should have it.
+Aero: Remove speedbrake in JA and AJS. Only AJ should have it. Welded shut in the others.
 Aero: Make cannon ammo have pointweight.
 Aero: Adjust wave drag so max speed is M1.85 in ISA atmosphere and M2.03 in ISA-15.
 Control: Disable failure system from freezing surfaces (remove failure mode bug in 3.2- prevents)
@@ -18,13 +18,12 @@ Model: Make stick from throttle to gears handle housing. The throttle is too wid
 Model: Improve texturing of gears handle housing, it had some details on it.
 Model: JA version of radar control stick.
 Model: Airspeed indicator should have mach number also.
-Model: The KURS gauge in the JA was more complex.
+Model: The KURS gauge in the JA was more complex. (some kind of ADI)
 Model: The reserve generator. (ram air turbine)
 Model: Model speedbrakes.
 Model: Chair specific to Viggen.
 Model: Side position lights.
 Model: Flightstick specific to Viggen.
-Model: Make minimal polygon model for multiplayer LOD.
 Model: Make liveries that is not 59, able to not have to use base texture.
 Model: Ext. power truck more mil style textures.
 Model: Put in more working instruments and controls.
@@ -37,6 +36,11 @@ Model: Fix z-fighting on HUD brightness-knob, datapanel knob, M71-rail and M90. 
 Model: A/P control in cockpit: A/T on throttle, A/P disengage on stick.
 Model: Stores jettisoned indicator on top right of front panel. (AJ)
 Model: Switch ALT CISI, altitude source. (Only in AJ variants)
+Model: In JA the 2 gauges on right panel sat in a panel.
+Model: The A/P pushbuttons light can still be hard to see.
+Model: The frontpanel tap is misaligned.
+Model: The JA has a chronometer right of fuel gauge.
+Model: The nosegear well, has gap between it and fuselage.
 Animation: Make jettison drop-tank actually fall down like other stores do.
 Animation: Make more use of knob animation: Radio, HUD brightness, Altimeters, MI brightness.
 Animation: Make rear boogie rotate at takeoff/landing rotation.
@@ -72,7 +76,6 @@ Engine: Model compressor surge/stall including bang sound.
 Engine: Switch aug. type in engine?
 GUI: Conditions on tooltips stopped working in 2018.1.1, if it does not get fixed, remove em all.
 GUI: Improve Checklists. Use <group> for grouping them.
-GUI: Option to switch off hitting stuff above ground. (switched off now, might confuse users)
 HUD: All track semi circles and semi box should have a line in them. (might degrade performance)
 HUD: Altitude scale should only be shown when engine is running due to it need AC power. (pitot-static needs AC?)
 HUD: Do not show rb99 seeker diamond. (not sure if I haven't fixed)
@@ -88,11 +91,6 @@ MI: Implement radar sweep.
 MI: Improve BIT test. [X1]
 MI: Improve mark event [X3]
 MI: Make TNF to stop/start inertial nav.
-Model: In JA the 2 gauges on right panel sat in a panel.
-Model: The A/P pushbuttons can still be hard to see.
-Model: The frontpanel tap is misaligned.
-Model: The JA has a chronometer right of fuel gauge.
-Model: The nosegear well, has gap between it and fuselage.
 Radar: Fix carrier in HUD/CI/TI/MI proper due to changes in radar getPolar etc. (PRIORITY!!)
 Radar: Make ECM jamming.
 Radar: Make other planes notice when radar is off. (semi done, think F15, mig21 and mirage does it)
@@ -108,7 +106,7 @@ Sim: Complete hydraulic dependencies: Brakes.
 Sim: Electric drain.
 Sim: Engine fire improvement: reduced thrust, stuck throttle.
 Sim: Find the exact spot the center M70 fires from (submodels).
-Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup.
+Sim: Fix that when changing airport location, battery gets drained, and therefore gives master warning for a while after startup. Fix: use actuator, set the rate real fast for some seconds at reinit.
 Sim: Hydraulic drain.
 Sim: Implement ejection seat. (with parachute?)
 Sim: Implement maximum speed reactions - Vne.
@@ -151,7 +149,7 @@ Test: Individual tests with test knob.
 Test: Shut down also some indicators during testing.
 Test: Testing from TI.
 TI: Add missiles to SVY.
-TI: Another navigation mode is RR (steer order from radar) or DL (STRILL). Not sure what how they work.
+TI: Navigation mode RR probably was intercept vector.
 TI: Auto switching to next steerpoint happens when less than 3Km from current, and distance increasing.
 TI: Be able to set steerorder to LV or FF points. (I cannot see in manual where that should be possible, so is on hold)
 TI: Clear pylon selection.
@@ -168,7 +166,6 @@ TI: Prioritize showing only 10 FF/LV points.
 TI: RB99 telemetry should show IDLE, SCAN or LOCK when not fired.
 TI: Run different through plans when drawing them on canvas. (what did I mean by this?)
 TI: Select self and then show in lower right corner infobox on own flight.
-TI: Slew cursor using a dialog touchpad.
 TI: The runway approach line, for some reason do not get updated fast, so when turning sharply, it disconnects from approach circle.
 TI: Waypoint info should show ETA to next waypoint. And seperate infobox for full ETA.
 TI: When cursor not active on TI, a shadow cursor is shown following the target cursor.

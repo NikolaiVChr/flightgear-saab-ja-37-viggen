@@ -17,6 +17,11 @@
             <button>0</button>
             <binding>
                 <command>property-assign</command>
+                <property>ja37/avionics/init-done</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
                 <property>ja37/avionics/button-snabbresn</property>
                 <value>1</value>
             </binding>
@@ -32,8 +37,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>snabbresn</tooltip-id>
-                <label>Quick INS reset</label>
-                <property>/instrumentation/transonic-indicator</property>
+                <label>Quick INS Reinit</label>
             </binding>
         </hovered>
     </animation>

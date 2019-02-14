@@ -659,6 +659,7 @@
             <ins-cmd type="bool">true</ins-cmd>
             <ins-init type="bool">false</ins-init>
             <ins type="bool">false</ins>
+            <button-snabbresn type="bool">false</button-snabbresn>
             <record-on type="bool">false</record-on>
             <vid type="bool">false</vid>
             <gps-cmd type="bool">false</gps-cmd>

@@ -3574,3 +3574,4 @@ Sim: JA plan-manager now has 8 RTB routes instead of 2. For each landing base th
 TI: Geo location numbers now show swedish Ö and V instead of E and W.
 GUI: Route-manager redesigned to fit the new RTB routes.
 DAP: '<-' button on nav-panel now works properly as backspace.
+Sim: Button Snabbresn (quick ins init) now appear to do something.

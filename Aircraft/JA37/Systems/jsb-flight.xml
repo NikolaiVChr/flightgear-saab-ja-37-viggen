@@ -597,6 +597,9 @@
 
         <switch name="systems/ins/time-steady">
             <default value="sim-time-sec"/>
+            <test logic="AND" value="sim-time-sec">
+                /ja37/avionics/button-snabbresn == 1
+            </test>
             <test logic="AND" value="systems/ins/time-steady">
                 /systems/electrical/outputs/dc-voltage gt 20
                 /ja37/avionics/ins-cmd == 1
@@ -615,7 +618,7 @@
                 </sum>
             </function>
         </fcs_function>
-
+        
         <switch name="systems/ins/init">
             <default value="0"/>
             <test logic="AND" value="1">
