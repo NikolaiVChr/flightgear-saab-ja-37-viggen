@@ -90,7 +90,7 @@
             <button>0</button>
             <binding>
                 <command>property-toggle</command>
-                <property>sound/altitude-warning</property><!-- not implemented yet -->
+                <property>sound/altitude-warning</property><!-- ground collision warning switch. not implemented yet. maybe only for audio? -->
             </binding>
             <binding>
                 <command>nasal</command>
@@ -132,20 +132,20 @@
 	
 	<animation>
 		<type>pick</type>
-		<object-name>ok</object-name>
+		<object-name>land</object-name>
 		<action>
 			<button>0</button>
 			<repeatable>false</repeatable>
 			<binding>
 				<command>nasal</command>
-				<script>dap.basePress();</script>
+				<script>route.Polygon.basePress();</script>
 			</binding>
-			<mod-up>
+			<!--<mod-up>
 				<binding>
 					<command>nasal</command>
 					<script>dap.baseRelease();</script>
 				</binding>
-			</mod-up>
+			</mod-up>-->
 		</action>
 		<hovered>
             <binding>
@@ -199,7 +199,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>BACKSPACE</tooltip-id>
-                <label>OK</label>
+                <label>BACKSPACE</label>
                 <property></property>
             </binding>
         </hovered>
@@ -226,7 +226,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>X</tooltip-id>
-                <label>DELETE</label>
+                <label>CLEAR FIELD</label>
                 <property></property>
             </binding>
         </hovered>
@@ -288,7 +288,7 @@
 	
 	<!--
 	**********************************
-	TILS Knob
+	Knob
 	**********************************
 	-->
 
@@ -297,8 +297,9 @@
         <object-name>knobDisc</object-name>
 		<object-name>knobHandle</object-name>
 		<object-name>knobScrew</object-name>
-		<property>/sim/ja37/navigation/tils-knob</property>
-		<factor>30</factor>
+		<property>autopilot/plan-manager/landing-base</property>
+		<factor>-30</factor>
+		<offset-deg>30</offset-deg>
 		<center>
 			<x-m>  0.024369 </x-m>
 			<y-m>  -0.016342 </y-m>
@@ -312,23 +313,44 @@
         <increase>
             <binding>
                 <command>property-adjust</command>
-                <property>/sim/ja37/navigation/tils-knob</property>
+                <property>autopilot/plan-manager/landing-base</property>
 				<step>1</step>
-				<min>0</min>
-				<max>10</max>        
+				<min>1</min>
+				<max>4</max>        
                 <wrap>false</wrap>
            </binding>
         </increase>
         <decrease>
             <binding>
                 <command>property-adjust</command>
-                <property>/sim/ja37/navigation/tils-knob</property>
+                <property>autopilot/plan-manager/landing-base</property>
 				<step>-1</step>
-				<min>0</min>
-				<max>10</max>
+				<min>1</min>
+				<max>4</max>
                 <wrap>false</wrap>
             </binding>
         </decrease>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>basesel</tooltip-id>
+                <label>LANDING BASE SELECTOR</label>
+            </binding>
+        </hovered>
     </animation>
+    
+    <animation>
+		<type>pick</type>
+		<object-name>knobDisc</object-name>
+		<object-name>knobHandle</object-name>
+		<object-name>knobScrew</object-name>
+		<hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>basesel</tooltip-id>
+                <label>LANDING BASE SELECTOR</label>
+            </binding>
+        </hovered>
+	</animation>
 	
 </PropertyList>

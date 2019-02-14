@@ -16,8 +16,7 @@ Some of these features that has to do with multiple flightplans or map-areas, wo
 
 Flightplans
 ===========
-The aircraft has 6 plans. 4 mission (1-4) and 2 return to base plans (A & B). Additionally it can have 6 map-areas defined.
-When you switch to another plan, entire plan in route manager will be replaced. So don't panic if route-manager clears.
+The aircraft has 12 plans. 4 mission (1-4) and 8 return to base plans (A & B for each landing base). Additionally it can have 6 map-areas defined.
 See also last section in this document: pre-loading plans.
 If your FG is older than 2017.3.1 you will only have 1 plan, that is used for both mission and RTB.
 Notice since clicking key 'Y' is the same as LS on TI display, this will also switch plan if you are already on a mission plan.
@@ -127,8 +126,7 @@ EDIT
   S/P   - Enable dragging of point/steerpoint in current edited polygon.
 INS S/P - Insert selected point/steerpoint in current edited polygon. Then use cursor.
 ADD S/P - Append point/steerpoint to current edited polygon (if it has room for more). Then use cursor.
-DEL S/P - Delete selected point/steerpoint in current edited polygon.
-RPOL    - If RPOL being edited, this is which one.
+RPOL    - If RPOL being edited, this is which one. To select one from another landing base, use the landing base selector on nav-panel and press 'L' button.
 MPOL    - If MPOL being edited, this is which one.
 MYPS    - Move own position in chunks up/down the display.
 MMAN    - MapManual movement, and map no longer follows own position. See cursor for more details.
@@ -206,8 +204,10 @@ B - Zoom in on TI
 Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
 ===================================
 
-OK button is on nav panel, called BX. (due to the nav. panel is really from the AJ)
-Another buttons used on the nav. panel is L/WP and LS/SKU (for |X|).
+OK button is on nav panel.
+<- (BACKSPACE) on navpanel will go one digit back when inputting.
+|X| (CLEAR FIELD) on navpanel will clear current digits entered in input mode. Or in 237 mode it will clear the value altogether. If on TI a steerpoint is selected in a route being edited, this button will delete the steerpoint.
+Other buttons used on the nav. panel is L and LB for yellow/green antiaircraft areas (LV).
 Nav. panel is located just next to data-panel.
 Notice the two lights with IN/OUT and POS/MSDA, those are buttons also.
 
@@ -245,7 +245,7 @@ REG/STR:
 TI
 note1: the LV, FF and bulls-eye will be shown on TI display. If DAP knob is on TI or TI menu MSDA is active, the address number will also be shown.
 note2: LV stands for airdefense area, and FF for pilot point.
-- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow), B1 (for green) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
+- IN/MSDA:  Input 3 digits for address, then either switch to out or click OK (for red), L (for yellow), LB (for green) and continue inputting longitude, then latitude. (bulls-eye and FF is always tyrkouise)
             To unlock for deletion type the unlock code followed by CLEAR.
             If unlocked can enter a address range like 024123 (24 to 123) to delete a range of addresses.
 - OUT/MSDA: If 3 first digits for address entered will show lon/lat of address, click OK to toggle between them. Hold OK down to see description before the value is shown.
@@ -283,6 +283,12 @@ Use these command lines to pass a plan/area in launcher: (they must be in GPX or
 --prop:string:/xmlPlans/mission1=
 --prop:string:/xmlPlans/rtb1A=
 --prop:string:/xmlPlans/rtb1B=
+--prop:string:/xmlPlans/rtb2A=
+--prop:string:/xmlPlans/rtb2B=
+--prop:string:/xmlPlans/rtb3A=
+--prop:string:/xmlPlans/rtb3B=
+--prop:string:/xmlPlans/rtb4A=
+--prop:string:/xmlPlans/rtb4B=
 --prop:string:/xmlPlans/area1=
 --prop:string:/xmlPlans/area1=
 --prop:string:/xmlPlans/area1=

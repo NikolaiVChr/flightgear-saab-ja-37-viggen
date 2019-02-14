@@ -163,14 +163,6 @@
 				</binding>
 			</mod-up>
 		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>OK</tooltip-id>
-                <label>Use this button for OK in the JA-37Di.</label>
-                <property></property>
-            </binding>
-        </hovered>
 	</animation>
 
 	<animation>
@@ -190,14 +182,6 @@
 				</binding>
 			</mod-up>
 		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>X</tooltip-id>
-                <label>Use this button for delete |X| in the JA-37Di. (for sending delete input to TI)</label>
-                <property></property>
-            </binding>
-        </hovered>
 	</animation>
 	
 	<animation>
@@ -217,14 +201,6 @@
 				</binding>
 			</mod-up>
 		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>OK</tooltip-id>
-                <label>Use this button for L in the JA-37Di. (yellow airdefense (LV) points input)</label>
-                <property></property>
-            </binding>
-        </hovered>
 	</animation>
 	
 	<animation>
@@ -244,14 +220,6 @@
 				</binding>
 			</mod-up>
 		</action>
-		<hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>OK3</tooltip-id>
-                <label>Use this button for in the JA-37Di. (green airdefense (LV) points input)</label>
-                <property></property>
-            </binding>
-        </hovered>
 	</animation>
 	
 	<!--

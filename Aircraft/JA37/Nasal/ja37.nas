@@ -2236,9 +2236,9 @@ var convertDegreeToStringLat = func (lat) {
 }
 var convertDegreeToStringLon = func (lon) {
   lon = convertDoubleToDegree(lon);
-  var s = "E";
+  var s = getprop("ja37/hud/units-metric")?"\xC3\x96":"E";
   if (lon[0]<0) {
-    s = "W";
+    s = getprop("ja37/hud/units-metric")?"V":"W";
   }
   return sprintf("%03d %02d %02d%s",math.abs(lon[0]),lon[1],lon[2],s);
 }

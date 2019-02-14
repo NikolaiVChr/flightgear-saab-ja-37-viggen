@@ -3563,3 +3563,13 @@ TI: Changed zoom levels to more closely resemble real Viggen.
 TI: Gridlines in MSDA menu.
 TI: Made runways be minimum 10mm long.
 TI: LV circles text now gets displayed beside the circle if the circle is too small to hold the text.
+Model: In JA replaced nav panel with proper JA version.
+TI: Removed delete steerpoint button in MSDA menu. Its now solely done via nav panel |X| button.
+Docs: Updated readme for JA.
+DAP: .ck37 files now also hold landing base ICAOs.
+TI: Steerpoint symbols now only get allocated when needed.
+TI: Moved some plan logic to plan-manager.
+Sim: JA plan-manager now has 8 RTB routes instead of 2. For each landing base there is A and B.
+TI: Geo location numbers now show swedish Ö and V instead of E and W.
+GUI: Route-manager redesigned to fit the new RTB routes.
+DAP: '<-' button on nav-panel now works properly as backspace.

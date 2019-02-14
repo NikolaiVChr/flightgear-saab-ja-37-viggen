@@ -203,7 +203,7 @@
       <z-m>  0.00</z-m>
     </offsets>
   </model>-->
-
+<!--
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-d/smoke.xml</path>
     <name>follow</name>
@@ -212,7 +212,7 @@
       <y-m>  0.05</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>
+  </model>-->
 
   <model>
     <path>Aircraft/JA37/Models/Cockpit/switch-a/warning-stall.xml</path>
@@ -359,7 +359,7 @@
      </offsets>
    </model>
    
-   <!--   <model>
+   <model>
      <path>Aircraft/JA37/Models/Instruments/Navpanel/navpanel-ja.xml</path>
      <name>NavpanelJA</name>
      <offsets>
@@ -399,9 +399,9 @@
     <name>smokie</name>
     <offsets>
       <x-m>  0.510</x-m>
-      <y-m>  0.045</y-m>
+      <y-m>  0.025</y-m>
       <z-m>  0.00</z-m>
     </offsets>
-  </model>-->
+  </model>
 
 </PropertyList>

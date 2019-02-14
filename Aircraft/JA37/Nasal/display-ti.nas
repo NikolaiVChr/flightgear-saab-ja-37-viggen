@@ -300,7 +300,7 @@ var dictSE = {
 	'10':  {'8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'3': [TRUE, "ELKA"], '4': [TRUE, "ELKA"], '6': [TRUE, "SKAL"], '7': [TRUE, "MENY"], '14': [TRUE, "EOMR"], '15': [FALSE, "EOMR"], '16': [TRUE, "TID"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "HKM"], '19': [TRUE, "DAG"]},
-	'11':  {'2': [TRUE, "INFG"], '3': [TRUE, "NY"], '5': [TRUE, "RADR"], # hack
+	'11':  {'2': [TRUE, "INFG"], '3': [TRUE, "NY"], #'5': [TRUE, "RADR"], # hack
 	        '8': [TRUE, "VAP"], '9': [TRUE, "SYST"], '10': [TRUE, "PMGD"], '11': [TRUE, "UDAT"], '12': [TRUE, "F\xC3\x96"], '13': [TRUE, "KONF"],
 			'4': [TRUE, "EDIT"], '6': [TRUE, "EDIT"], '7': [TRUE, "MENY"], '14': [TRUE, "EDIT"], '15': [TRUE, "\xC3\x85POL"], '16': [TRUE, "EDIT"],
 			'17': [TRUE, "UPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "EGLA"], '20': [TRUE, "KMAN"]},
@@ -331,7 +331,7 @@ var dictEN = {
 	'10':  {'8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'3': [TRUE, "EMAP"], '4': [TRUE, "EMAP"], '6': [TRUE, "SCAL"], '7': [TRUE, "MENU"], '14': [TRUE, "AAA"], '15': [TRUE, "AAA"], '16': [TRUE, "TIME"],
 			'17': [TRUE, "HORI"], '18': [TRUE, "CURS"], '19': [TRUE, "DAY"]},
-	'11':  {'2': [TRUE, "INS"], '3': [TRUE, "ADD"], '5': [TRUE, "DEL"], # unauthentic as this
+	'11':  {'2': [TRUE, "INS"], '3': [TRUE, "ADD"],# '5': [TRUE, "DEL"], # unauthentic as this
 		    '8': [TRUE, "WEAP"], '9': [TRUE, "SYST"], '10': [TRUE, "DISP"], '11': [TRUE, "MSDA"], '12': [TRUE, "FAIL"], '13': [TRUE, "CONF"],
 			'4': [TRUE, "EDIT"], '6': [TRUE, "EDIT"], '7': [TRUE, "MENU"], '14': [TRUE, "EDIT"], '15': [TRUE, "RPOL"], '16': [TRUE, "EDIT"],
 			'17': [TRUE, "MPOL"], '18': [TRUE, "EDIT"], '19': [TRUE, "MYPS"], '20': [TRUE, "MMAN"]},
@@ -736,26 +736,8 @@ var TI = {
 	    me.steerpoint = [];
 	    me.steerpointText = [];
 	    me.steerpointSymbol = [];
-	    for (var i = 0; i < maxSteers*7; i += 1) {#6 for routes, 1 for areas = 7 multiplier, maxSteers = 48
-       		var stGrp = me.rootCenter.createChild("group");
-       		append(me.steerpointText, stGrp.createChild("text")
-	    		.setText("B2")
-	    		.setColor(rWhite,gWhite,bWhite, a)
-	    		.setAlignment("right-center")
-	    		.setTranslation(-15*MM2TEX, 0)
-	    		.set("z-index", 6)
-	    		.setFontSize(13, 1));
-    		append(me.steerpointSymbol, stGrp.createChild("path")
-    		   .set("z-index", 6)
-               .moveTo(-10*MM2TEX, 0)
-               .lineTo(0, -15*MM2TEX)
-               .lineTo(10*MM2TEX, 0)
-               .lineTo(0, 15*MM2TEX)
-               .lineTo(-10*MM2TEX, 0)
-               .setStrokeLineWidth(w)
-               .setColor(rDTyrk,gDTyrk,bDTyrk, a));
-			append(me.steerpoint, stGrp);
-	    }
+	    me.steerPointMax = -1;
+	    
 	    me.rrSymbolS = me.rootCenter.createChild("path")
 	       .moveTo(-15, 0)
            .arcSmallCW(15, 15, 0, 30, 0)
@@ -2413,7 +2395,7 @@ var TI = {
 				me.menuButtonSubBox[5].show();
 			}
 
-			me.menuButtonSub[16].setText(me.vertStr(route.Polygon.flyRTB.getNameVariant()));
+			me.menuButtonSub[16].setText(me.vertStr(route.Polygon.flyRTB.getName()));
 			me.menuButtonSub[16].show();
 			if (route.Polygon.flyRTB == route.Polygon.primary) {
 				me.menuButtonSubBox[16].show();
@@ -2438,8 +2420,8 @@ var TI = {
 			if (route.Polygon.appendSteer) {
 				me.menuButtonSubBox[3].show();
 			}
-			me.menuButtonSub[5].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
-			me.menuButtonSub[5].show();
+			#me.menuButtonSub[5].setText(me.vertStr(me.isP?"P":(me.swedishMode?"B":"S")));
+			#me.menuButtonSub[5].show();
 
 			me.menuButtonSub[6].setText(me.vertStr("POLY"));
 			me.menuButtonSub[6].show();
@@ -2463,7 +2445,7 @@ var TI = {
 			}
 			me.menuButtonSub[14].setText(me.vertStr(me.swedishMode?"\xC3\x85POL":"RPOL"));
 			me.menuButtonSub[16].setText(me.vertStr(me.swedishMode?"UPOL":"MPOL"));
-			me.menuButtonSub[15].setText(me.vertStr(route.Polygon.editRTB.getNameVariant()));
+			me.menuButtonSub[15].setText(me.vertStr(route.Polygon.editRTB.getName()));
 			me.menuButtonSub[17].setText(me.vertStr(route.Polygon.editMiss.getNameNumber()));
 			me.menuButtonSub[17].show();
 			me.menuButtonSub[15].show();
@@ -2860,6 +2842,7 @@ var TI = {
 			me.gridTextA[me.kkkk].hide();
 		}
 		me.gridGroupText.update();
+		me.gridGroup.update();
 		me.gridGroupText.show();
 		me.gridGroup.show();
 	},
@@ -3978,6 +3961,32 @@ var TI = {
 			}
 		}
 	},
+	
+	createSteerpoint: func (wp) {
+		#TODO: double check that it can only increase by 1 from max
+		if (wp > me.steerPointMax) {
+	   		var stGrp = me.rootCenter.createChild("group").setTranslation(2000, 2000);
+	   		append(me.steerpointText, stGrp.createChild("text")
+	    		.setText("B2")
+	    		.setColor(rWhite,gWhite,bWhite, a)
+	    		.setAlignment("right-center")
+	    		.setTranslation(-15*MM2TEX, 0)
+	    		.set("z-index", 6)
+	    		.setFontSize(13, 1));
+			append(me.steerpointSymbol, stGrp.createChild("path")
+			   .set("z-index", 6)
+	           .moveTo(-10*MM2TEX, 0)
+	           .lineTo(0, -15*MM2TEX)
+	           .lineTo(10*MM2TEX, 0)
+	           .lineTo(0, 15*MM2TEX)
+	           .lineTo(-10*MM2TEX, 0)
+	           .setStrokeLineWidth(w)
+	           .setColor(rDTyrk,gDTyrk,bDTyrk, a));
+			append(me.steerpoint, stGrp);
+			me.steerPointMax += 1;
+		}
+		if (wp>me.steerPointMax) print (wp~" - "~me.steerPointMax);
+	},
 
 	showSteerPoints: func {
 		# steerpoints on map
@@ -3998,6 +4007,12 @@ var TI = {
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
 			} else {
 				append(me.all_plans, [route.Polygon.polys["1"], route.Polygon.polys["1"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["2"], route.Polygon.polys["2"] == route.Polygon.editing, TRUE]);
@@ -4005,6 +4020,12 @@ var TI = {
 				append(me.all_plans, [route.Polygon.polys["4"], route.Polygon.polys["4"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["1A"], route.Polygon.polys["1A"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["1B"], route.Polygon.polys["1B"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["2A"], route.Polygon.polys["2A"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["2B"], route.Polygon.polys["2B"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["3A"], route.Polygon.polys["3A"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["3B"], route.Polygon.polys["3B"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["4A"], route.Polygon.polys["4A"] == route.Polygon.editing, TRUE]);
+				append(me.all_plans, [route.Polygon.polys["4B"], route.Polygon.polys["4B"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["OP1"], route.Polygon.polys["OP1"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["OP2"], route.Polygon.polys["OP2"] == route.Polygon.editing, TRUE]);
 				append(me.all_plans, [route.Polygon.polys["OP3"], route.Polygon.polys["OP3"] == route.Polygon.editing, TRUE]);
@@ -4015,6 +4036,12 @@ var TI = {
 		} else {
 			if (route.Polygon.primary.type != route.TYPE_MIX) {
 				append(me.all_plans, [route.Polygon.primary, FALSE, FALSE]);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
@@ -4039,6 +4066,12 @@ var TI = {
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
 				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
+				append(me.all_plans, nil);
 			}
 		}
 
@@ -4052,8 +4085,8 @@ var TI = {
 		me.steerB = me.swedishMode?"B":"S";
 		me.steerA = me.swedishMode?"\xC3\x85":"R";
 		me.steerM = me.swedishMode?"M":"T";
-
-		for(me.steerCounter = 0;me.steerCounter < 12; me.steerCounter += 1) {
+		me.wpIndex = -1;
+		for(me.steerCounter = 0;me.steerCounter < 18; me.steerCounter += 1) {
 			me.curr_plan = me.all_plans[me.steerCounter];
 			if (me.curr_plan != nil and me.curr_plan[0].type == route.TYPE_AREA) {#maybe more solid to check steercounter
 				me.isArea = TRUE;
@@ -4072,21 +4105,21 @@ var TI = {
 					me.wpSelect = nil;
 				}
 			}
-			for (var wp = 0; wp < (me.steerCounter>5?8:maxSteers); wp += 1) {
+			for (var wp = 0; wp < me.points; wp += 1) {
 				# wp      = local index inside a polygon
-				# wpindex = global index for use with canvas elements
-				me.wpIndex = wp+48*me.steerCounter;
-				if (me.steerCounter>5) {
-					me.wpIndex = wp+48*6+8*(me.steerCounter-6);
-				}
+				# wpIndex = global index for use with canvas elements
+				
+				
 				me.isSelectable = FALSE;
 				me.doRR = FALSE;
 				if (me.curr_plan != nil and me.points > wp and ((me.isArea or (route.Polygon.isPrimaryActive() == TRUE and me.curr_plan[0].isPrimary())) or me.menuMain == MAIN_MISSION_DATA)) {
 					me.node = me.polygon[wp];
 	  				if (me.node == nil or me.showSteers == FALSE) {
-	  					me.steerpoint[me.wpIndex].hide();
+	  					#me.steerpoint[me.wpIndex].hide();
 	    				continue;
 	  				}
+	  				me.wpIndex += 1;
+	  				me.createSteerpoint(me.wpIndex);
 					me.lat_wp = me.node.wp_lat;
 	  				me.lon_wp = me.node.wp_lon;
 	  				me.target_wp = me.node.fly_type=="flyOver";
@@ -4204,9 +4237,13 @@ var TI = {
   						me.steerpoint[me.wpIndex].hide();
   					}
 				} else {
-					me.steerpoint[me.wpIndex].hide();
+					#me.steerpoint[me.wpIndex].hide();
 				}
 	  		}
+	  	}
+	  	me.wpIndex = me.wpIndex==-1?0:me.wpIndex;
+	  	for (me.j = me.wpIndex;me.j<=me.steerPointMax;me.j+=1) {
+	  		me.steerpoint[me.j].hide();
 	  	}
 	  	route.Polygon.jumpExecute();
   	},
@@ -5403,7 +5440,7 @@ var TI = {
 				}
 			}
 			if(me.menuMain == MAIN_MISSION_DATA) {
-				route.Polygon.deleteSteerpoint();
+			#	route.Polygon.deleteSteerpoint();
 			}
 		}
 	},
@@ -5685,15 +5722,7 @@ var TI = {
 				me.showFriendlyZones = !me.showFriendlyZones;
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
-				me.replaceEdit = route.Polygon.editRTB == route.Polygon.editing;
-				if (route.Polygon.editRTB == route.Polygon.polys["1A"]) {
-					route.Polygon.editRTB = route.Polygon.polys["1B"];
-				} elsif (route.Polygon.editRTB == route.Polygon.polys["1B"]) {
-					route.Polygon.editRTB = route.Polygon.polys["1A"];
-				}
-				if (me.replaceEdit == TRUE) {
-					route.Polygon.editPlan(route.Polygon.editRTB);
-				}
+				route.Polygon.toggleEditRTB();
 			}
 		}
 	},
@@ -5724,25 +5753,7 @@ var TI = {
 			}
 			if (math.abs(me.menuMain) == MAIN_SYSTEMS and me.menuTrap == FALSE) {
 				dap.syst();
-				me.activateAlso = FALSE;
-				me.startAlso = FALSE;
-				if (route.Polygon.flyRTB.isPrimary() == TRUE) {
-					me.activateAlso = TRUE;
-					if (route.Polygon.isPrimaryActive() == TRUE) {
-						me.startAlso = TRUE;
-					}
-				}
-				if (route.Polygon.flyRTB == route.Polygon.polys["1A"]) {
-					route.Polygon.flyRTB = route.Polygon.polys["1B"];
-				} elsif (route.Polygon.flyRTB == route.Polygon.polys["1B"]) {
-					route.Polygon.flyRTB = route.Polygon.polys["1A"];
-				}
-				if (me.activateAlso == TRUE) {
-					route.Polygon.flyRTB.setAsPrimary();
-					if (me.startAlso == TRUE) {
-						route.Polygon.startPrimary();
-					}
-				}
+				route.Polygon.toggleFlyRTB();
 			}
 			if (me.menuMain == MAIN_MISSION_DATA) {
 				if (route.Polygon.editing != route.Polygon.editMiss) {

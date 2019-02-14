@@ -1233,6 +1233,18 @@
         <internal>
             <target-roll-deg type="double">0</target-roll-deg>
         </internal>
+        <plan-manager>
+            <landing-base type="int">1</landing-base>
+            <destination>
+                <airport-1 type="string"></airport-1>
+                <airport-2 type="string"></airport-2>
+                <airport-3 type="string"></airport-3>
+                <airport-4 type="string"></airport-4>
+            </destination>
+            <departure>
+                <airport type="string"></airport>
+            </departure>
+        </plan-manager>
     </autopilot>
     <systems>
         <path>Aircraft/JA37/Systems/systems.xml</path>

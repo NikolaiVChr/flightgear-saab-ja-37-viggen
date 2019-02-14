@@ -13,7 +13,6 @@ Control: Disable failure system from freezing surfaces (remove failure mode bug 
 Control: Make bigger factor in pitch normal comparison. (beware of oscillations)
 Control: Limit elevator deflection due to servo-moment being smaller than moment of air-pressure. Page 19-20 in AK III.
 Control: overhaul rudder trim.
-Model: JA version of nav. panel.
 Model: Transponder panel more like the real, right panel.
 Model: Make stick from throttle to gears handle housing. The throttle is too wide and the sidepanel is not aligned with X axis, that prevents it.
 Model: Improve texturing of gears handle housing, it had some details on it.
@@ -61,6 +60,7 @@ CI: Slew cursor.
 DAP: Input TACAN with REG/STR.
 DAP: Minneslista JA37 has some DAP addresses. Make.
 DAP: Show sign of input at leftmost char always.
+DAP: When saving FF,LV,BE and L. Maybe consider saving alot of other addresses/settings also?
 Doc: Thorsten Renk suggested to make a PDF manual. ETA. before 2020.
 Effect: Ambient occlusion map need to be baked again, many parts are too occluded.
 Effect: Fix that with engine off, the wind can drive the fan which will produce smoke.
@@ -89,8 +89,6 @@ MI: Improve BIT test. [X1]
 MI: Improve mark event [X3]
 MI: Make TNF to stop/start inertial nav.
 Model: In JA the 2 gauges on right panel sat in a panel.
-Model: Nav panel should be scaled to be just as wide as test panel.
-Model: Oxygen switch was special.
 Model: The A/P pushbuttons can still be hard to see.
 Model: The frontpanel tap is misaligned.
 Model: The JA has a chronometer right of fuel gauge.
@@ -121,7 +119,7 @@ Sim: Lock warning when another plane get radar lock. (ja37, m2000-5, f-14b, f-15
 Sim: Make autopilot depend fully on instrument properties not true properties. (95% done)
 Sim: Make data-link between Viggens.
 Sim: Make droptank do collision detection. (use retractable)
-Sim: Make nav panel functional.
+Sim: Make AJ nav panel functional.
 Sim: Make replay show the guided missiles flying.
 Sim: Make schedule for max climb rate with A/P at slow speed different when gears is down (or A/T AoA hold).
 Sim: Make so that flares cannot be used after aircraft has crashed.
@@ -225,7 +223,7 @@ Carrier operations. Use keys Shift-L (hold for 10 seconds), Shift-C and L. Only 
 Aerobatic smoke, the real probably didn't have.
 TI: Delete, append or insert steerpoint should really be controlled from radar stick, not be part of TI menu.
 TI: OPT should really be a button on the flightstick, not be part of TI menu.
-In the real nav. panel you could select between 4 bases plus STRIL supplied base. Each could have A & B return-to-base plans. So that makes up to 10 RTB plans, instead of the current 2.
+In the real nav. panel you could select STRIL supplied base.
 The real Viggen displays had 2 cursors; lock-cursor and TIM-cursor. The flightgear Viggen has combined it into 1 cursor.
 
 

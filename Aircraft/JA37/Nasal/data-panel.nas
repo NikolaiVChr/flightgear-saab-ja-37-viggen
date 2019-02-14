@@ -9,7 +9,7 @@ var FALSE = 0;
 #    }
 #});
 
-var debugAll = 1;
+var debugAll = 0;
 
 var printDA = func (str) {
     if (debugAll) print (str);
@@ -177,10 +177,7 @@ var main = func {
         digit = 0;
         resetSign();
     } elsif (keyPressed == -1) {
-      # reset
-        input = manyChar(charDefault, ti237_max);
-        digit = 0;
-        resetSign();
+      # TODO: not sure
     } elsif (back == HOLD) {
       # reset
         inputBackKey(ti237_max);
@@ -361,7 +358,9 @@ var main = func {
             }
             resetSign();
         } elsif (keyPressed == -1) {
-          # reset
+          # TODO: not sure
+        } elsif (x == HOLD) {
+          # clear field
           input = cycle==1?manyChar(charDefault, 7):inputDefault;
           digit = 0;
           resetSign();
@@ -427,7 +426,9 @@ var main = func {
             }
           }
         } elsif (keyPressed == -1) {
-          # reset
+          # TODO: not sure
+        } elsif (x == HOLD) {
+          # clear field
             input = "";
             digit = 0;
         } elsif (cycle == 0) {
@@ -463,7 +464,9 @@ var main = func {
             digit = 0;
             resetSign();
         } elsif (keyPressed == -1) {
-          # reset
+          # TODO: not sure
+        } elsif (x == HOLD) {
+          # clear field
             input = input2Default;
             digit = 0;
             resetSign();
@@ -519,7 +522,9 @@ var main = func {
             digit = 0;
             resetSign();
         } elsif (keyPressed == -1) {
-          # reset
+          # TODO: not sure
+        } elsif (x == HOLD) {
+          # clear field
             input = inputDefault;
             digit = 0;
             resetSign();
@@ -568,7 +573,9 @@ var main = func {
             digit = 0;
             resetSign();
         } elsif (keyPressed == -1) {
-          # reset
+          # TODO: not sure
+        } elsif (x == HOLD) {
+          # clear field
             input = inputDefault;
             digit = 0;
             resetSign();
@@ -591,6 +598,7 @@ var main = func {
   settingPrevDir  = settingDir;
   settingPrevPos  = settingPos;
   back = RELEASE;
+  x    = RELEASE;
 };
 
 var cycleDisp = func {
@@ -1006,7 +1014,7 @@ var loadPoints = func (path,clear=0) {
 }
 
 var checkLVSave = func {
-  if (size(keys(lv)) or getprop("ja37/navigation/bulls-eye-defined")) {
+  if (size(keys(lv)) or getprop("ja37/navigation/bulls-eye-defined") or getprop("autopilot/plan-manager/destination/airport-1")!="" or getprop("autopilot/plan-manager/destination/airport-2")!="" or getprop("autopilot/plan-manager/destination/airport-3")!="" or getprop("autopilot/plan-manager/destination/airport-4")!="") {
     setprop("autopilot/plan-manager/points/save",1);
   } else {
     setprop("autopilot/plan-manager/points/save",0);
@@ -1024,6 +1032,9 @@ var serialize = func(m) {
     var beLaLo = [getprop("ja37/navigation/bulls-eye-lat"), getprop("ja37/navigation/bulls-eye-lon")];
     ret = ret~sprintf("p179,179,2,-1,3,%.6f,%.6f|",beLaLo[1],beLaLo[0]);
   }
+  if (getprop("autopilot/plan-manager/destination/airport-1")!="") {
+    ret = ret~sprintf("L,%s,%s,%s,%s|",getprop("autopilot/plan-manager/destination/airport-1"),getprop("autopilot/plan-manager/destination/airport-2"),getprop("autopilot/plan-manager/destination/airport-3"),getprop("autopilot/plan-manager/destination/airport-4"));
+  }
   return ret;
 }
 
@@ -1034,12 +1045,17 @@ var unserialize = func(m) {
     if (size(point)>4) {
       var items = split(",", point);
       var key = items[0];
-      if (key != "p179") {
-        ret[key] = {address: num(items[1]),color: num(items[2]),radius: num(items[3]),type: num(items[4]),lon: num(items[5]),lat: num(items[6])};
-      } else {
+      if (key == "L") {
+        setprop("autopilot/plan-manager/destination/airport-1", items[1]);
+        setprop("autopilot/plan-manager/destination/airport-2", items[2]);
+        setprop("autopilot/plan-manager/destination/airport-3", items[3]);
+        setprop("autopilot/plan-manager/destination/airport-4", items[4]);
+      } elsif (key == "p179") {
         setprop("ja37/navigation/bulls-eye-defined",1);
         setprop("ja37/navigation/bulls-eye-lat",num(items[6]));
         setprop("ja37/navigation/bulls-eye-lon",num(items[5]));
+      } else {
+        ret[key] = {address: num(items[1]),color: num(items[2]),radius: num(items[3]),type: num(items[4]),lon: num(items[5]),lat: num(items[6])};
       }
     }
   }
@@ -1230,7 +1246,11 @@ var xPress = func {
     return;
   }
   x = HOLD;
-  main();
+  if (!route.Polygon.deleteSteerpoint()) {
+    main();
+  } else {
+    x = RELEASE;
+  }
 }
 
 var xRelease = func {
