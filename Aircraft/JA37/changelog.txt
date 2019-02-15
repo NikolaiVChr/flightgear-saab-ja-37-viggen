@@ -3579,3 +3579,5 @@ Sim: Battery now should get fully recharged when doing a reinit.
 Sim: Battery now should always be fully charged when starting sim.
 Radar: Steerorder (styrledning) from radar now gives proper intercept course.
 TI: Fixed a timing issue where a variable would not be init before used.
+Radar: Fixed that at first contact an echo would show even when its radar cross-section would make it invisible.
+Model: Made some JA indicators more dull when not lit. (master-warning, autopilot pushbuttons, test-panel, reserve-course)

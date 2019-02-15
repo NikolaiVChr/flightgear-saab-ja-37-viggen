@@ -9,9 +9,9 @@
         <object-name>btAtt</object-name>
         <object-name>btAlt</object-name>
         <object-name>btStick</object-name>
-        <object-name>att</object-name>
+        <!--<object-name>att</object-name>
         <object-name>alt</object-name>
-        <object-name>stick</object-name>
+        <object-name>stick</object-name>-->
     </effect>
 
     <animation>

@@ -19,7 +19,7 @@ Model: Improve texturing of gears handle housing, it had some details on it.
 Model: JA version of radar control stick.
 Model: Airspeed indicator should have mach number also.
 Model: The KURS gauge in the JA was more complex. (some kind of ADI)
-Model: The reserve generator. (ram air turbine)
+Model: The reserve generator. (ram air turbine on left side just behind and under canard)
 Model: Model speedbrakes.
 Model: Chair specific to Viggen.
 Model: Side position lights.

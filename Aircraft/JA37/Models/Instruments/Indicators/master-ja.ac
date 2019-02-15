@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "metalMat" rgb 0.401 0.420 0.378  amb 0.401 0.420 0.378  emis 0.000 0.000 0.000  spec 0.214 0.214 0.214  shi 50 trans 0.000
 MATERIAL "blackMat" rgb 0.026 0.027 0.025  amb 0.026 0.027 0.025  emis 0.000 0.000 0.000  spec 0.184 0.184 0.184  shi 50 trans 0.000
-MATERIAL "redMat" rgb 0.730 0.000 0.005  amb 0.730 0.000 0.005  emis 0.000 0.000 0.000  spec 0.208 0.208 0.208  shi 50 trans 0.250
+MATERIAL "redMat" rgb 0.20 0.000 0.005  amb 0.40 0.000 0.005  emis 0.000 0.000 0.000  spec 0.208 0.208 0.208  shi 50 trans 0.250
 OBJECT world
 name "Blender_exporter_v2.21__master-ja.ac"
 kids 6
