@@ -1703,6 +1703,8 @@ var TI = {
 		ti.cursorDidSomething = FALSE;
 		ti.lvffDrag = nil;
 		ti.sDrag = nil;
+		ti.cursorTrigger = FALSE;
+		ti.cursorTriggerPrev = FALSE;
 
 		# steerpoints
 		ti.newSteerPos = nil;

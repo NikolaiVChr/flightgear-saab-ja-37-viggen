@@ -3578,3 +3578,4 @@ Sim: Button Snabbresn (quick ins init) now appear to do something.
 Sim: Battery now should get fully recharged when doing a reinit.
 Sim: Battery now should always be fully charged when starting sim.
 Radar: Steerorder (styrledning) from radar now gives proper intercept course.
+TI: Fixed a timing issue where a variable would not be init before used.
