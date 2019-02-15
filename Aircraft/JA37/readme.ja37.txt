@@ -8,17 +8,13 @@
 
 
 This manual describes systems when aircraft is in English/imperial mode.
-The menu items etc. is different in Swedish/metric mode, maybe in future will make manual for that also.
+The menu item names and units etc. is different in Swedish/metric mode, maybe in future will make manual for that also.
 
-
-Some of these features that has to do with multiple flightplans or map-areas, wont work in older than FG 2017.3.1.
 
 
 Flightplans
 ===========
 The aircraft has 12 plans. 4 mission (1-4) and 8 return to base plans (A & B for each landing base). Additionally it can have 6 map-areas defined.
-See also last section in this document: pre-loading plans.
-If your FG is older than 2017.3.1 you will only have 1 plan, that is used for both mission and RTB.
 Notice since clicking key 'Y' is the same as LS on TI display, this will also switch plan if you are already on a mission plan.
 
 
@@ -54,7 +50,7 @@ STA
   STBY - Standby status for missiles. Does not show for cannon.
   RDY  - Ready to be fired status. From the signal is sent to get ready when its selected and master-arm is ON, a small duration will pass before its ready.
 
-The following menu items only show when a sidewinder is selected:
+The following menu items only show when a sidewinder (RB74/RB24) is selected:
 
 CAGE
   AUTO - Automatic uncage of heatseeker head when lock is achieved.
@@ -77,20 +73,21 @@ MODE
 
 SYST
 ----
-S - Mission steerpoint nav. or switch to next. Will also switch of landing mode and switch to mission plan.
-L - Navigate direct for landing base or switch runway. Will switch to RTB plan destination.
-LT - Nav. for touchdown point or short approach. Will switch to RTB plan destination. Notice if this is done on runway, OPT will engage.
-LS - Nav. for approach circle (long approach). Will switch to RTB plan destination. Notice if this is done on runway, OPT will engage.
-OPT - Optical landing mode. Can only be engaged with gears down or in landing mode (LS or LT). Will auto engage at low alt in those modes.
-DL - STRIL data-link  (not implemented)
-LR - Return to base polygon navigation. Or switch to next steerpoint in that.
-MPOL - Mission polygon
-RPOL - RTB polygon
-CC - Steer order from radar on selected radar echo. Only work in air. ('f' key does the same)
-OFF/EP - Turn off EP12 Electronic presentations (MI+TI displays). Only work on ground.
-ACRV - Attack curve (not implemented)
-FGHT - Fighter mode. HUD shows IAS
-ATCK - Attack mode. HUD shows groundspeed (at low alt)
+S      - Mission steerpoint nav. or switch to next. Will also switch of landing mode and switch to mission plan.
+L      - Navigate direct for landing base or switch runway. Will switch to RTB plan landing base.
+LT     - Nav. for touchdown point or short approach. Will switch to RTB plan landing base. Notice if this is done on runway, OPT will engage.
+LS     - Nav. for approach circle (long approach). Will switch to RTB plan landing base. Notice if this is done on runway, OPT will engage.
+OPT    - Optical landing mode. Can only be engaged with gears down or in landing mode (LS or LT). Will auto engage at low alt in those modes.
+DL     - STRIL data-link  (not implemented)
+LR     - Return to base polygon navigation. Or switch to next steerpoint in that.
+MPOL   - Select which mission polygon.
+RPOL   - Select which RTB polygon.
+RR     - Only shown when airborne. Steer order from radar on selected radar echo. This gives intercept vector to selected target. ('f' key does the same)
+         If an intercept course at present speed cannot be computed it will show pure pursuit vector.
+OFF/EP - Option only shown on ground. Turn off EP12 Electronic presentations (MI+TI displays).
+ACRV   - Attack curve (not implemented)
+FGHT   - Fighter mode. HUD shows IAS
+ATCK   - Attack mode. HUD shows groundspeed (at low alt)
 
 TRAP
 ----
@@ -109,7 +106,7 @@ DISP
 EMAP - Electronic map. NORM/MAX toggles if map places on map. AIRP toggles airports on map (might give some stutter).
 SCAL - Map scale.
 AAA  - Anti aircraft fire zones (LV). FRND/HSTL show friendly/hostile zones. Green is friendly, red is hostile, yellow is unknown/hostile.
-TIME - Show ZULU time.
+TIME - Show ZULU time at top of display. (when editing MPOL or RPOL in MSDA menu, time is also shown)
 HORI - Show FPI, artificial horizon and ground symbol. CLR = certain conditions. ON = always. OFF = only at terrain impact warning.
 CURS - Toggle if cursor is on MI or TI. (PEK on MI must be enabled to see/use cursor)
 DAY  - Map contrast for daytime or NGHT for night time.
@@ -126,6 +123,7 @@ EDIT
   S/P   - Enable dragging of point/steerpoint in current edited polygon.
 INS S/P - Insert selected point/steerpoint in current edited polygon. Then use cursor.
 ADD S/P - Append point/steerpoint to current edited polygon (if it has room for more). Then use cursor.
+          Notice if adding to a RTB plan when its landing base has been defined in route-manager is not possible.
 RPOL    - If RPOL being edited, this is which one. To select one from another landing base, use the landing base selector on nav-panel and press 'L' button.
 MPOL    - If MPOL being edited, this is which one.
 MYPS    - Move own position in chunks up/down the display.
@@ -137,10 +135,10 @@ Is just a log page. FAIL will blink at new unseen failures, when main manu is sh
 
 CONF
 ----
-SIDV     - Sideview menu. See Mi on hwo to activate sideview.
+SIDV     - Sideview menu. See MI section on how to activate sideview.
 GPS      - Activate GPS menu.
-FR28     - Use top or belly radio antennae. Effect not implemented.
-READDATA - Technician data readout. Not implemented.
+FR28     - Use top or belly radio antennae. (Effect not implemented.)
+READDATA - Technician data readout. (Not implemented.)
 
 GPS
 ---
@@ -169,7 +167,8 @@ On the TI you can click on all side and bottom buttons, except when EDIT, ADD or
 Sometimes in menu MSDA a white info box is shown. Some fields can be clicked, and then input on the data-panel. Field will blink when input active.
 When MMAN is enabled, map will be moved instead of cursor.
 When clicking on a radar echo in MI, it get selected/locked. Same for TI, but on the TI it will also set steer order on that echo.
-In MSDA/UDAT menu LV/FF points can be dragged when no polygon is being edited. To grba them hold trigger on center of symbol.
+In MSDA/UDAT menu LV/FF points can be dragged when no polygon is being edited. To grab them hold trigger on center of symbol.
+When a polygon is being edited and a steerpoint/aera-point has been selected, pressing |X| button on nav panel will delete it. (cannot delete landing bases or take-off base, use route-manager for that)
 
 To control cursor directly while flying, bind these properties to your stick/hotas:
 
@@ -201,8 +200,10 @@ B - Zoom in on TI
 
 
 
-Concise overview of Datapanel (DAP) (on right panel, has keypad and display)
-===================================
+Concise overview of Datapanel (DAP) and Navpanel 
+================================================
+
+DAP is located on right panel, has keypad and display, Navpanel is next to it
 
 OK button is on nav panel.
 <- (BACKSPACE) on navpanel will go one digit back when inputting.
