@@ -1988,7 +1988,12 @@ me.clipAltScale = me.alt_scale_clip_grp.createChild("image")
         } else {
           me.qfe.setText("TILS");
         }
-        me.qfe.show();
+        if (getprop("instrumentation/TLS-light")) {
+          me.qfe.show();
+        } else {
+          # blinking
+          me.qfe.hide();
+        }
       } elsif (land.has_waypoint < 1) {
         if (me.DME == TRUE) {
           me.qfe.setText("ILS/DME");

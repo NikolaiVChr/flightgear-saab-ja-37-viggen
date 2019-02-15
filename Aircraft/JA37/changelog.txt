@@ -3584,3 +3584,5 @@ Model: Made some JA indicators more dull when not lit. (master-warning, autopilo
 Sim: Removed all remnants of carrier launch and landing code.
 Sim: Ground collision warnings can now be toggled on JA nav-panel.
 Sim: Ground collision warnings is now always off when Main power switch is off, so on batt alone it wont work.
+MI: TLS now blink when TILS locked to ILS only, steady when glideslope is also locked. Hysteris 7s for off.
+HUD: TLS now blink when TILS locked to ILS only, steady when glideslope is also locked. Hysteris 7s for off.

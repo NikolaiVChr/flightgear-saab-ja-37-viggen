@@ -196,7 +196,10 @@ PEK - Cursor toggle. If off then radar cannot lock anything, nor can cursor be s
 A - Zoom out on TI
 B - Zoom in on TI
 
-
+right indicators
+----------------
+TLS - Tactical Instrument Landing System active. Steady=vertical guidance also available. Blink=only lateral guidance.
+TNF - Inertial navigation. Blink=init. Steady=on.
 
 
 

@@ -2168,8 +2168,59 @@
             <test logic="OR" value="/systems/electrical/dc-light">
                 /instrumentation/terrain-warning-secondary == 1
             </test>
-        </switch>        
+        </switch>
+        
+        <switch name="/instrumentation/TLS-light-steady-time">
+            <default value="sim-time-sec"/>
+            <test logic="AND" value="/instrumentation/TLS-light-steady-time">
+                /ja37/hud/TILS-on == 0
+                /instrumentation/nav[0]/has-gs == 1
+            </test>
+        </switch>
 
+        <fcs_function name="/instrumentation/TLS-light-steady-hyst">
+            <function>
+                <sum>
+                    <p>/instrumentation/TLS-light-steady-time</p>
+                    <v>7</v>
+                </sum>
+            </function>
+        </fcs_function>
+        
+        <switch name="/instrumentation/TLS-light-blink-time">
+            <default value="sim-time-sec"/>
+            <test logic="OR" value="/instrumentation/TLS-light-blink-time">
+                /ja37/hud/TILS-on == 0
+            </test>
+        </switch>
+
+        <fcs_function name="/instrumentation/TLS-light-blink-hyst">
+            <function>
+                <sum>
+                    <p>/instrumentation/TLS-light-blink-time</p>
+                    <v>7</v>
+                </sum>
+            </function>
+        </fcs_function>
+        
+        <switch name="/instrumentation/TLS-light">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /ja37/hud/TILS-on == 1
+                /instrumentation/nav[0]/gs-in-range == 1
+                /instrumentation/nav[0]/has-gs == 1
+            </test>
+            <test logic="OR" value="/ja37/blink/four-Hz/state">
+                /ja37/hud/TILS-on == 1
+            </test>
+            <test logic="AND" value="1">
+                /instrumentation/TLS-light-steady-hyst gt sim-time-sec
+            </test>
+            <test logic="AND" value="/ja37/blink/four-Hz/state">
+                /instrumentation/TLS-light-blink-hyst gt sim-time-sec
+            </test>
+        </switch>
+        
     </channel>    
 
 

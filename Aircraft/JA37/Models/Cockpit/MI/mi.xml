@@ -184,7 +184,7 @@
 	    <object-name>indicator_tls</object-name>
 	    <condition>
 	    	<or>
-	            <property>ja37/hud/TILS-on</property>
+	            <property>/instrumentation/TLS-light</property>
 	            <property>/controls/lighting/test-indicator-panels</property>
 	        </or>
         </condition>

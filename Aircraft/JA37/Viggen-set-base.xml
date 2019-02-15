@@ -608,6 +608,7 @@
             <callsign type="bool">true</callsign>
             <stroke-linewidth userarchive="y" type="double">4.0</stroke-linewidth>
             <TILS type="bool">true</TILS>
+            <TILS-on type="bool">false</TILS-on>
             <landing-mode type="bool">false</landing-mode>
             <brightness type="double">1.0</brightness>
             <overlay type="bool">true</overlay>
@@ -1400,6 +1401,10 @@
             <power-good type="bool">false</power-good>
 			<volume type="double">0</volume>
         </comm>
+        <nav n="0">
+            <has-gs type="bool">false</has-gs>
+            <gs-in-range type="bool">false</gs-in-range>
+        </nav>
 		<nav n="1">
 			<volume type="double">0</volume>
 		</nav>
