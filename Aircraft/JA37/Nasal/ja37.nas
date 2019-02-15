@@ -392,7 +392,8 @@ var Saab37 = {
     if (getprop("ja37/supported/picking") == TRUE) {
       setprop("ja37/radar/look-through-terrain", FALSE);
     }
-    if (getprop("ja37/avionics/collision-warning") and getprop("ja37/supported/picking") == TRUE and (getprop("velocities/speed-east-fps") != 0 or getprop("velocities/speed-north-fps") != 0)) {
+    if (getprop("controls/electric/main") and getprop("ja37/avionics/collision-warning") and getprop("ja37/supported/picking") == TRUE and (getprop("velocities/speed-east-fps") != 0 or getprop("velocities/speed-north-fps") != 0)) {
+      # main elec switch must be on to enable this system, dont run on batt
       me.start = geo.aircraft_position();
 
       me.speed_down_fps  = getprop("velocities/speed-down-fps");
