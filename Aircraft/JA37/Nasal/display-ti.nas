@@ -3550,21 +3550,21 @@ var TI = {
 			var tick3 = 0;
 			if (me.swedishMode) {
 				if (zoom == 4) {
-					tick1 = 1000;
+					tick1 = 800;
 				} elsif (zoom == 5) {
-					tick1 = 500;
+					tick1 = 400;
 				} elsif (zoom == 6) {
-					tick1 = 250;
+					tick1 = 200;
 				} elsif (zoom == 7) {
-					tick1 = 150;
+					tick1 = 100;
 				} elsif (zoom == 8) {
-					tick1 = 75;
+					tick1 = 50;
 				} elsif (zoom == 9) {
-					tick1 = 35;
+					tick1 = 25;
 				} elsif (zoom == 11) {
-					tick1 = 10;
+					tick1 = 6;
 				} elsif (zoom == 13) {
-					tick1 = 2;
+					tick1 = 1;
 				}
 				tick2 = tick1*2;
 				tick3 = tick1*3;
@@ -3588,17 +3588,17 @@ var TI = {
 				me.mapScaleTickM3Txt.setText("-"~tick3);
 			} else {
 				if (zoom == 4) {
-					tick1 = 500;
-				} elsif (zoom == 5) {
-					tick1 =  250;
+					tick1 = 400;
+				} elsif (zoom == 5) {#using 5-9
+					tick1 =  200;
 				} elsif (zoom == 6) {
-					tick1 =  150;
+					tick1 =  100;
 				} elsif (zoom == 7) {
-					tick1 =  75;
+					tick1 =  50;
 				} elsif (zoom == 8) {
-					tick1 =  40;
+					tick1 =  25;
 				} elsif (zoom == 9) {
-					tick1 =  20;
+					tick1 =  15;
 				} elsif (zoom == 11) {
 					tick1 =   4;
 				} elsif (zoom == 13) {
