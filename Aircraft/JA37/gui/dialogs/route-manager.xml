@@ -268,10 +268,10 @@
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-area-6.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_ff = gui.FileSelector.new(
-              callback: load_routeff, title: "Load points", button: "Load",
+              callback: load_routeff, title: "Load data", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.ck37"]);
             var save_selector_ff = gui.FileSelector.new(
-              callback: save_routeff, title: "Save points", button: "Save",
+              callback: save_routeff, title: "Save data", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-points.ck37", pattern: ["*.ck37"]);
               
             var file_selector_all = gui.FileSelector.new(
@@ -370,7 +370,7 @@
             <label>MISSION ROUTES</label>
         </text>
         
-        <text>
+        <!--<text>
             <row>1</row>
             <col>0</col>
             <halign>left</halign>
@@ -388,21 +388,7 @@
                 <command>dialog-apply</command>
                 <object-name>departure-airport</object-name>
             </binding>
-
-            <!--<binding>
-                <command>property-apply</command>
-                
-                <property>/autopilot/plan-manager/departure/airport</property>
-            </binding>-->
-            <!--<color>
-                <red><expression><product><value>1.0</value><property>/autopilot/plan-manager/departure/r</property></product></expression></red>
-                
-                <green><expression><product><value>1.0</value><property>/autopilot/plan-manager/departure/g</property></product></expression></green>-->
-                <!--<red><property>/autopilot/plan-manager/departure/r</property></red>-->
-                <!--<green><property>/autopilot/plan-manager/departure/g</property></green>-->
-                <!--<blue>0.5</blue>
-            </color>-->
-        </input>
+        </input>-->
         
         <group>
             <row>3</row>
@@ -514,7 +500,7 @@
             <row>0</row>
             <col>2</col>
             <halign>center</halign>
-            <label>LANDING BASES</label>
+            <label>LANDING BASES (ICAO)</label>
         </text>
         <group>
             <row>2</row>
@@ -524,7 +510,7 @@
                 <row>2</row>
                 <col>2</col>
                 <halign>left</halign>
-                <label>1</label>
+                <label>L1</label>
             </text>
             <input>
                 <row>2</row>
@@ -550,7 +536,7 @@
                 <row>3</row>
                 <col>2</col>
                 <halign>left</halign>
-                <label>2</label>
+                <label>L2</label>
             </text>
             <input>
                 <row>3</row>
@@ -576,7 +562,7 @@
                 <row>4</row>
                 <col>2</col>
                 <halign>left</halign>
-                <label>3</label>
+                <label>L3</label>
             </text>
             <input>
                 <row>4</row>
@@ -602,7 +588,7 @@
                 <row>5</row>
                 <col>2</col>
                 <halign>left</halign>
-                <label>4</label>
+                <label>L4</label>
             </text>
             <input>
                 <row>5</row>
@@ -799,7 +785,7 @@
             <row>1</row>
             <col>6</col>
             <halign>left</halign>
-            <label>Take-off base is shared for all Mission routes.</label>
+            <label>L1 is usually also the take-off base.</label>
         </text>
         
         <text>
@@ -820,7 +806,7 @@
             <row>4</row>
             <col>6</col>
             <halign>left</halign>
-            <label>Airports from loaded plans, will get replaced by the base settings.</label>
+            <label>Destinations from loaded RTBs, gets replaced by the base settings.</label>
         </text>
         
         <text>
@@ -1026,7 +1012,7 @@
     <group>
         <layout>hbox</layout>
         <button>
-            <legend>Load Points...</legend>
+            <legend>Load Data...</legend>
             <equal>true</equal>
             <binding>
                 <command>nasal</command>
@@ -1034,7 +1020,7 @@
             </binding>
         </button>
         <button>
-            <legend>Save Points...</legend>
+            <legend>Save Data...</legend>
             <equal>true</equal>
             <enable>
                 <property>autopilot/plan-manager/points/save</property>

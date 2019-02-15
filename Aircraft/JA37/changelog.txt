@@ -3588,3 +3588,4 @@ MI: TLS now blink when TILS locked to ILS only, steady when glideslope is also l
 HUD: TILS now blink when TILS locked to ILS only, steady when glideslope is also locked. Hysteris 7s for off.
 GUI: Fixed parse error in route-manager.
 GUI: Added custom cursor bindings in joystick dialog.
+Sim: Removed support for seperate departure. It should be one of the landing bases.

@@ -1229,9 +1229,9 @@
                 <airport-3 type="string"></airport-3>
                 <airport-4 type="string"></airport-4>
             </destination>
-            <departure>
+            <!--<departure>
                 <airport type="string"></airport>
-            </departure>
+            </departure>-->
         </plan-manager>
     </autopilot>
     <systems>

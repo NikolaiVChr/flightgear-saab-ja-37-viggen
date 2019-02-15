@@ -174,13 +174,12 @@ TI: MSDA menu should only show polygon legs for the primary plan. (but still ste
 TI: MPOL should only be able to hold 24 legs, and RPOL only 8. 48 + B0 + BDL in total.
 DAP: Possible to enter date and revision number of LV/FF 001-189. But how?
 DAP: IN pos/out showing info on next steerpoint, for steerpoints greater than 09, show hex. 11-15 = landing bases.
-DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm?
-TI: Steerpoint B0 is start pos. Its shown as destination till take-off. Cofusing, must know more.
 TI: In menu SYST place cursor over steerpoint to see ETA (passagetid?). Most likely time planned to pass.
 TI: Some steerpoint can be forceringsbrytpunkt. Whatever that means.
 HUD/TI: FPI fin touches circle when estimated that will arrive at steerpoint in correct time.
 DAP: Can enter K time for steerpoints. What is that? When that is done it also becomes target steerpoint?
-
+DAP: With L selector in LDL (auto-mode) L1 is asumed to be start base and L2 landing base. Hmm, need to know more..
+TI: Steerpoint B0 is start pos. Its shown as destination till take-off. When route is started being flown it is set at current position. Should not be saved with plans. Confusing, must know more.
 
 
 

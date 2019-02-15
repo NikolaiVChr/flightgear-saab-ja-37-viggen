@@ -346,21 +346,23 @@ var Landing = {
                 me.wp = route.Polygon.primary.getSteerpoint();
                 #print("current: "~ghosttype(wp[0]));
               	me.name = me.wp[0].id;
-                if (ghosttype(me.wp[0]) == "airport") {
-                    ils = 0;
-                    icao   = me.wp[0].id;
-                    #has_waypoint = 1;
-                }
-                if (ghosttype(me.wp[0]) == "runway") {
-                    ils = 0;
-                    icao   = me.wp[1].id;
-                    runway = me.wp[0].id;
-                    runway_rw = me.wp[0];
-                    if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
-                        ils = runway_rw.ils.frequency/100;
+                if (route.Polygon.primary.type == route.TYPE_RTB or route.Polygon.primary.type == route.TYPE_MIX) {
+                    if (ghosttype(me.wp[0]) == "airport") {
+                        ils = 0;
+                        icao   = me.wp[0].id;
+                        #has_waypoint = 1;
                     }
-                    head = me.wp[0].heading;
-                    has_waypoint = 2;
+                    if (ghosttype(me.wp[0]) == "runway") {
+                        ils = 0;
+                        icao   = me.wp[1].id;
+                        runway = me.wp[0].id;
+                        runway_rw = me.wp[0];
+                        if (getprop("ja37/hud/TILS") == TRUE and getprop("ja37/hud/landing-mode")==TRUE and runway_rw.ils != nil) {
+                            ils = runway_rw.ils.frequency/100;
+                        }
+                        head = me.wp[0].heading;
+                        has_waypoint = 2;
+                    }
                 }
             } elsif (runway_dist != nil and me.bearing != nil and me.heading != nil) {
                 #print("failed ghost: "~ghosttype(route.Polygon.primary.getSteerpoint()[0]));
