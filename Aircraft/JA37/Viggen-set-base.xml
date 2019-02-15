@@ -700,6 +700,7 @@
             </annunciator>
             <reservkurs type="bool">false</reservkurs>
             <init-done type="bool">false</init-done>
+            <collision-warning type="bool">true</collision-warning>
         </avionics>
         <displays>
             <show-full-menus type="bool">true</show-full-menus>

@@ -69,8 +69,8 @@
         <type>rotate</type>
         <object-name>rhm</object-name>
         <property>controls/altimeter-radar</property>
-        <factor>40</factor>
-        <offset-deg>-20</offset-deg>
+        <factor>50</factor>
+        <offset-deg>-25</offset-deg>
         <center>
             <x-m>  0.070395 </x-m>
             <y-m>  0.004681 </y-m>
@@ -90,7 +90,7 @@
             <button>0</button>
             <binding>
                 <command>property-toggle</command>
-                <property>sound/altitude-warning</property><!-- ground collision warning switch. not implemented yet. maybe only for audio? -->
+                <property>ja37/avionics/collision-warning</property><!-- ground collision warning switch. not implemented yet. maybe only for audio? -->
             </binding>
             <binding>
                 <command>nasal</command>
@@ -101,7 +101,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>altw</tooltip-id>
-                <label>Altitude warning</label>
+                <label>Ground collision warning</label>
             </binding>
         </hovered>
     </animation>
@@ -109,16 +109,16 @@
     <animation>
         <type>rotate</type>
         <object-name>altw</object-name>
-        <property>sound/altitude-warning</property>
-        <factor>40</factor>
-        <offset-deg>-20</offset-deg>
+        <property>ja37/avionics/collision-warning</property>
+        <factor>50</factor>
+        <offset-deg>-25</offset-deg>
         <center>
             <x-m> 0.100703  </x-m>
             <y-m>-0.009177 </y-m>
             <z-m> 0.003231 </z-m>
         </center>
         <axis>
-            <x> 1.0 </x>
+            <x>-1.0 </x>
             <y> 0.0 </y>
             <z> 0.0 </z>
         </axis>
