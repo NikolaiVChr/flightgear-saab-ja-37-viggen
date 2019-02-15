@@ -231,7 +231,6 @@ var RadarLogic = {
             me.pathNode = track.getNode("sim/model/path");
             if (me.pathNode != nil) {
               me.path = me.pathNode.getValue();
-
               me.model = split(".", split("/", me.path)[-1])[0];
 
               if (me.distance < 1000 and (me.model == "mp-clemenceau" or me.model == "mp-eisenhower" or me.model == "mp-nimitz" or me.model == "mp-vinson")) {
@@ -290,8 +289,9 @@ var RadarLogic = {
             me.unique = track.addChild("unique");
             me.unique.setDoubleValue(rand());
           }
-
-          append(tracks, me.trackInfo);
+          if (track.getName() == "rb-99" or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
+            append(tracks, me.trackInfo);
+          }
 
           if(1==0 and selection == nil and getprop("ja37/avionics/cursor-on") != FALSE) {
             #this is first tracks in radar field, so will be default selection
@@ -509,12 +509,8 @@ var RadarLogic = {
 
         me.contact = Contact.new(node, type);
 
-        if (node.getName() == "rb-99" or rcs.inRadarRange(me.contact, 40, 3.2) == TRUE) {
-          return me.contact;
-        } else {
-          return nil;
-        }        
-
+        return me.contact;
+        
       } elsif (carrier == TRUE) {
         # need to return carrier even if out of radar cone, due to carrierNear calc
         me.contact = Contact.new(node, type);
