@@ -186,7 +186,7 @@
               callback: load_route2a, title: "Load flight-plan 2A", button: "Load",
               dir: defaultDirInFileSelector, dotfiles: 1, pattern: ["*.xml","*.gpx","*.fgfp"]);
             var save_selector_2a = gui.FileSelector.new(
-              callback: save_route2a, title: "Save flight-plan 2A, button: "Save",
+              callback: save_route2a, title: "Save flight-plan 2A", button: "Save",
               dir: defaultDirInFileSelector, dotfiles: 1, file: "ja37-route-2a.fgfp", pattern: ["*.fgfp"]);
               
             var file_selector_2b = gui.FileSelector.new(
@@ -283,7 +283,7 @@
 
         ]]></open>
 
-        <close>
+        <close><![CDATA[
             file_selector_1.del();
             save_selector_1.del();
             file_selector_2.del();
@@ -331,7 +331,7 @@
             
             file_selector_all.del();
             save_selector_all.del();
-        </close>
+        ]]></close>
     </nasal>
 
     <group>
